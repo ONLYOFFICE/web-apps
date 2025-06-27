@@ -3016,35 +3016,10 @@ define([
                 var borders = new Asc.asc_CParagraphBorders(props.get_Borders());
                 var borderStyle = new Asc.asc_CTextBorder();        
                 var currentBorder = {};
+                var tableProps = new Asc.CTableProp();
 
-                borderStyle.asc_putColor(bordersColor);
-                borderStyle.asc_putSize(bordersWidth * 25.4 / 72);
-
-                ['Left', 'Top', 'Right', 'Bottom', 'Between'].forEach(side => {
-                    var border = borders[`get_${side}`]();
-                    if (border) {
-                        var currentSize = (border.asc_getValue() === -1) ? 0 : border.asc_getSize();
-                        var sizePts = currentSize * 72 / 25.4;
-                        currentBorder[side] = {
-                            width: sizePts, 
-                            color: border.asc_getColor(),
-                            value: border.asc_getValue()
-                        };
-                    } else {
-                        currentBorder[side] = { width: 0, color: new Asc.asc_CColor(), value: 0 };
-                    }
-                });
-        
-                var borderSide = {
-                    left: ['Left'],
-                    top: ['Top'],
-                    right: ['Right'],
-                    bottom: ['Bottom'],
-                    all: ['Left', 'Top', 'Right', 'Bottom', 'Between'],
-                    outer: ['Left', 'Top', 'Right', 'Bottom'],
-                    inner: ['Between'],
-                    none: ['Left', 'Top', 'Right', 'Bottom', 'Between']
-                };
+                const firstElement = selectedElements[0];
+                const objectType = firstElement.get_ObjectType();
 
                 function toleranceError(a, b, t) {
                     t = 0.01;
@@ -3057,62 +3032,179 @@ define([
                            colorA.get_g() === colorB.get_g() &&
                            colorA.get_b() === colorB.get_b();
                 }
-        
-                var targetBorder = borderSide[item.options.borderId],
-                    brd = new Asc.asc_CTextBorder();
 
-                if (item.options.borderId === 'none') {
-                    targetBorder.forEach(side => {
-                        brd.put_Color(new Asc.asc_CColor());
-                        brd.put_Value(0); 
-                        borders[`put_${side}`](brd);
+
+                borderStyle.asc_putColor(bordersColor);
+                borderStyle.asc_putSize(bordersWidth * 25.4 / 72);
+
+                if (objectType === Asc.c_oAscTypeSelectElement.Table) {
+                    const cell = firstElement?.get_ObjectValue?.();
+                    const currentBorders = cell?.get_CellBorders?.();
+                    const CellBorders = new Asc.CBorders();
+
+                    var borderSide = {
+                        left: ['Left'],
+                        top: ['Top'],
+                        right: ['Right'],
+                        bottom: ['Bottom'],
+                        all: ['Left', 'Top', 'Right', 'Bottom', 'InsideV', 'InsideH'],
+                        outer: ['Left', 'Top', 'Right', 'Bottom'],
+                        inner: ['InsideV', 'InsideH'],
+                        none: ['Left', 'Top', 'Right', 'Bottom', 'InsideV', 'InsideH']
+                    };
+
+                    ['Left', 'Top', 'Right', 'Bottom', 'InsideV', 'InsideH'].forEach(side => {
+                        var border = currentBorders?.[`get_${side}`]?.();
+                        if (border) {
+                            var currentSize = (border.asc_getValue?.() === -1) ? 0 : border.asc_getSize?.() || 0;
+                            var sizePts = currentSize * 72 / 25.4;
+                            currentBorder[side] = {
+                                width: sizePts,
+                                color: border.asc_getColor?.(),
+                                value: border.asc_getValue?.()
+                            };
+                        } else {
+                            currentBorder[side] = {width: 0, color: new Asc.asc_CColor(), value: 0};
+                        }
                     });
-                } else if (item.options.borderId === 'all') {
-                    targetBorder.forEach(side => {
-                        brd.put_Color(bordersColor);
-                        brd.put_Size(bordersWidth * 25.4 / 72);
-                        brd.put_Value(1); 
-                        borders[`put_${side}`](brd);
+
+                    var targetBorder = borderSide[item.options.borderId],
+                        brd = new Asc.asc_CTextBorder();
+
+                    if (item.options.borderId === 'none') {
+                        targetBorder.forEach(side => {
+                            brd.put_Color(new Asc.asc_CColor());
+                            brd.put_Value(0);
+                            CellBorders[`put_${side}`](brd);
+                        });
+                    } else if (item.options.borderId === 'all') {
+                        targetBorder.forEach(side => {
+                            brd.put_Color(bordersColor);
+                            brd.put_Size(bordersWidth * 25.4 / 72);
+                            brd.put_Value(1);
+                            CellBorders[`put_${side}`](brd);
+                        });
+                    } else if (item.options.borderId === 'outer') {
+                        const outerSame = targetBorder.every(side =>
+                            toleranceError(currentBorder[side].width, bordersWidth) &&
+                            compareColors(currentBorder[side].color, bordersColor) &&
+                            currentBorder[side].value === borderStyle.asc_getValue()
+                        );
+                        targetBorder.forEach(side => {
+                            if (outerSame) {
+                                brd.put_Color(new Asc.asc_CColor());
+                                brd.put_Value(0);
+                            } else {
+                                brd.put_Color(bordersColor);
+                                brd.put_Size(bordersWidth * 25.4 / 72);
+                                brd.put_Value(1);
+                            }
+                            CellBorders[`put_${side}`](brd);
+                        });
+                    } else {
+                        targetBorder.forEach(side => {
+                            const same = toleranceError(currentBorder[side].width, bordersWidth) &&
+                                compareColors(currentBorder[side].color, bordersColor) &&
+                                currentBorder[side].value === borderStyle.asc_getValue();
+                            if (same) {
+                                brd.put_Color(new Asc.asc_CColor());
+                                brd.put_Value(0);
+                            } else {
+                                brd.put_Color(bordersColor);
+                                brd.put_Size(bordersWidth * 25.4 / 72);
+                                brd.put_Value(1);
+                            }
+                            CellBorders[`put_${side}`](brd);
+                        });
+                    }
+
+                    tableProps.put_CellBorders(CellBorders);
+                    tableProps.put_CellSelect(true);
+                    me.api.tblApply(tableProps);
+                } else if (objectType === Asc.c_oAscTypeSelectElement.Paragraph) { 
+
+                    ['Left', 'Top', 'Right', 'Bottom', 'Between'].forEach(side => {
+                        var border = borders[`get_${side}`]();
+                        if (border) {
+                            var currentSize = (border.asc_getValue() === -1) ? 0 : border.asc_getSize();
+                            var sizePts = currentSize * 72 / 25.4;
+                            currentBorder[side] = {
+                                width: sizePts, 
+                                color: border.asc_getColor(),
+                                value: border.asc_getValue()
+                            };
+                        } else {
+                            currentBorder[side] = { width: 0, color: new Asc.asc_CColor(), value: 0 };
+                        }
                     });
-                } else if (item.options.borderId === 'outer') {
-                    var outerSame = targetBorder.every(side => 
-                        toleranceError(currentBorder[side].width, bordersWidth) &&
-                        compareColors(currentBorder[side].color, bordersColor) && currentBorder[side].value === borderStyle.asc_getValue());
-                    if (outerSame) {
+            
+                    var borderSide = {
+                        left: ['Left'],
+                        top: ['Top'],
+                        right: ['Right'],
+                        bottom: ['Bottom'],
+                        all: ['Left', 'Top', 'Right', 'Bottom', 'Between'],
+                        outer: ['Left', 'Top', 'Right', 'Bottom'],
+                        inner: ['Between'],
+                        none: ['Left', 'Top', 'Right', 'Bottom', 'Between']
+                    };
+            
+                    var targetBorder = borderSide[item.options.borderId],
+                        brd = new Asc.asc_CTextBorder();
+
+                    if (item.options.borderId === 'none') {
                         targetBorder.forEach(side => {
                             brd.put_Color(new Asc.asc_CColor());
                             brd.put_Value(0); 
-                            borders[`put_${side}`](brd);  
+                            borders[`put_${side}`](brd);
                         });
-                    } else {
+                    } else if (item.options.borderId === 'all') {
                         targetBorder.forEach(side => {
                             brd.put_Color(bordersColor);
                             brd.put_Size(bordersWidth * 25.4 / 72);
                             brd.put_Value(1); 
                             borders[`put_${side}`](brd);
                         });
-                    }
-                } else {
-                    targetBorder.forEach(side => {
-                        var same = toleranceError(currentBorder[side].width, bordersWidth) &&
-                                   compareColors(currentBorder[side].color, bordersColor) && currentBorder[side].value === borderStyle.asc_getValue()                                 
-                        if (same) {
-                            brd.put_Color(new Asc.asc_CColor());
-                            brd.put_Value(0); 
-                            borders[`put_${side}`](brd);               
+                    } else if (item.options.borderId === 'outer') {
+                        var outerSame = targetBorder.every(side => 
+                            toleranceError(currentBorder[side].width, bordersWidth) &&
+                            compareColors(currentBorder[side].color, bordersColor) && currentBorder[side].value === borderStyle.asc_getValue());
+                        if (outerSame) {
+                            targetBorder.forEach(side => {
+                                brd.put_Color(new Asc.asc_CColor());
+                                brd.put_Value(0); 
+                                borders[`put_${side}`](brd);  
+                            });
                         } else {
-                            brd.put_Color(bordersColor);
-                            brd.put_Size(bordersWidth * 25.4 / 72);
-                            brd.put_Value(1); 
-                            borders[`put_${side}`](brd);        
+                            targetBorder.forEach(side => {
+                                brd.put_Color(bordersColor);
+                                brd.put_Size(bordersWidth * 25.4 / 72);
+                                brd.put_Value(1); 
+                                borders[`put_${side}`](brd);
+                            });
                         }
-                    });
-                }
-                   
-                paragraphProps.put_Borders(borders);
-               
-                if (me.api) {
-                    me.api.paraApply(paragraphProps);
+                    } else {
+                        targetBorder.forEach(side => {
+                            var same = toleranceError(currentBorder[side].width, bordersWidth) &&
+                                    compareColors(currentBorder[side].color, bordersColor) && currentBorder[side].value === borderStyle.asc_getValue()                                 
+                            if (same) {
+                                brd.put_Color(new Asc.asc_CColor());
+                                brd.put_Value(0); 
+                                borders[`put_${side}`](brd);               
+                            } else {
+                                brd.put_Color(bordersColor);
+                                brd.put_Size(bordersWidth * 25.4 / 72);
+                                brd.put_Value(1); 
+                                borders[`put_${side}`](brd);        
+                            }
+                        });
+                    }
+                    
+                    paragraphProps.put_Borders(borders);
+                
+                    if (me.api) {
+                        me.api.paraApply(paragraphProps);
+                    }
                 }
 
                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
