@@ -360,6 +360,22 @@ define([
             return out_object;
         }
 
+        const validate_vars = function (obj) {
+            if ( obj ) {
+                let i = 0, count = 5;
+                for (const value of Object.values(obj)) {
+                    if (value != "") {
+                        return true;
+                    }
+
+                    if ( ++i < count )
+                        break;
+                }
+            }
+
+            return false;
+        }
+
         var create_colors_css = function (id, colors) {
             if ( !!colors && !!id ) {
                 var _css_array = [':root .', id, '{'];
@@ -563,27 +579,33 @@ define([
                 }
 
             const colors_obj = get_current_theme_colors();
-            colors_obj.type = themes_map[theme_id].type;
-            colors_obj.name = theme_id;
-            this.api.asc_setSkin(colors_obj);
+            if ( validate_vars(colors_obj) ) {
+                colors_obj.type = themes_map[theme_id].type;
+                colors_obj.name = theme_id;
+                this.api.asc_setSkin(colors_obj);
 
-            if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) ) {
-                // if ( themes_map[id].source != 'static' ) { // TODO: check writing styles
-                    const theme_obj = Object.assign({
-                                        id:id,
-                                        colors: colors_obj},
-                                    themes_map[id]);
-                    delete theme_obj.source;
+                console.log('new theme apply', window.SSE ? 'sse' : 'de', JSON.stringify(colors_obj));
 
-                    // const theme_obj = {
-                    //     id: id,
-                    //     type: themes_map[id].type,
-                    //     text: themes_map[id].text,
-                    //     colors: colors_obj,
-                    // };
+                if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) ) {
+                    const theme_str = Common.localStorage.getItem("ui-theme");
+                    let theme_id;
+                    if ( theme_str ) {
+                        const reid = /id":\s?"([\w-]+)/.exec(theme_str);
+                        if ( reid[1] ) {
+                            theme_id = reid[1];
+                        }
+                    }
 
-                    Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
-                // }
+                    if ( theme_id !== id ) {
+
+                    // if ( themes_map[id].source != 'static' ) { // TODO: check writing styles
+                        const theme_obj = Object.assign({id:id, colors: colors_obj},
+                                                            themes_map[id]);
+                        delete theme_obj.source;
+
+                        Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
+                    }
+                }
             }
             theme_props = {};
         }
