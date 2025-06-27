@@ -2189,6 +2189,7 @@ define([], function () {
             ];
 
             this._initSettings = true;
+            this._originalPageSize = undefined;
         },
 
         render: function(node) {
@@ -2328,16 +2329,21 @@ define([], function () {
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big',
-                updateFormControl: function (record){
+                updateFormControl: function (record, customValue){
                     var formcontrol = $(this.el).find('.form-control');
-                    if (record) {
-                        if (!Common.UI.isRTL()) {
-                            formcontrol[0].innerHTML = record.get('displayValue')[0] + ' (' + record.get('displayValue')[1] + ' ' + record.get('displayValue')[3] + ' x ' +
-                                record.get('displayValue')[2] + ' ' + record.get('displayValue')[3] + ')';
+                    if (record || customValue) {
+                        var displayValue = customValue ? customValue : record.get('displayValue');
+                        if (typeof displayValue === 'string') {
+                            formcontrol[0].innerHTML = displayValue;
                         } else {
-                            formcontrol[0].innerHTML = '<span dir="ltr">(<span dir="rtl">' + record.get("displayValue")[2] + ' ' + record.get('displayValue')[3] + '</span>' +
-                                '<span> x </span>' + '<span dir="rtl">' + record.get('displayValue')[1] + ' ' + record.get('displayValue')[3] + '</span>)' +
-                                '<span> ' + record.get('displayValue')[0] + '</span></span>';
+                            if (!Common.UI.isRTL()) {
+                                formcontrol[0].innerHTML = displayValue[0] + ' (' + displayValue[1] + ' ' + displayValue[3] + ' x ' +
+                                    displayValue[2] + ' ' + displayValue[3] + ')';
+                            } else {
+                                formcontrol[0].innerHTML = '<span dir="ltr">(<span dir="rtl">' + displayValue[2] + ' ' + displayValue[3] + '</span>' +
+                                    '<span> x </span>' + '<span dir="rtl">' + displayValue[1] + ' ' + displayValue[3] + '</span>)' +
+                                    '<span> ' + displayValue[0] + '</span></span>';
+                            }
                         }
                     } else
                         formcontrol[0].innerHTML = '';
@@ -2515,21 +2521,51 @@ define([], function () {
                 );
             }
 
-            // If no matching option is found, look for the default size 210x297 (A4)
             if (!newSelectedOption) {
-                newSelectedOption = findOptionBySize(resultList, 210, 297);
+                if(prevSelectedOption) {
+                    newSelectedOption = {
+                        custom: true,
+                        value: [
+                            this.txtCustom,
+                            parseFloat(Common.Utils.Metric.fnRecalcFromMM(prevSelectedOption.get('size')[0]).toFixed(2)),
+                            parseFloat(Common.Utils.Metric.fnRecalcFromMM(prevSelectedOption.get('size')[1]).toFixed(2)),
+                            Common.Utils.Metric.getCurrentMetricName()
+                        ]
+                    }
+                } else {
+                    const _w = this._originalPageSize ? this._originalPageSize.w : 210,
+                        _h = this._originalPageSize ? this._originalPageSize.h : 297;
+                    // If no matching option is found, look for the default size 210x297 (A4)
+                    if (!newSelectedOption) {
+                        newSelectedOption = findOptionBySize(resultList, _w, _h);
+                    }
+
+                    if (!newSelectedOption) {
+                        newSelectedOption = {
+                            custom: true,
+                            value: [
+                                this.txtCustom,
+                                parseFloat(Common.Utils.Metric.fnRecalcFromMM(_w).toFixed(2)),
+                                parseFloat(Common.Utils.Metric.fnRecalcFromMM(_h).toFixed(2)),
+                                Common.Utils.Metric.getCurrentMetricName()
+                            ]
+                        };
+                    }
+
+                    if (!newSelectedOption && resultList[0]) {
+                        newSelectedOption = resultList[0];
+                    } 
+                }
             }
-            if (!newSelectedOption && resultList[0]) {
-                newSelectedOption = resultList[0];
-            } 
             
             this.cmbPaperSize.setData(resultList);
             this.updatePaperSizeMetricUnit();
             if (!newSelectedOption) {
                 this.cmbPaperSize.setValue(null);
+            } else if (newSelectedOption.custom) {
+                this.cmbPaperSize.setValue(undefined, newSelectedOption.value);
             } else {
                 this.cmbPaperSize.setValue(newSelectedOption.value);
-                this.cmbPaperSize.trigger('selected', this, this.cmbPaperSize.getSelectedRecord());
             }
         },
 
@@ -2611,6 +2647,11 @@ define([], function () {
             this.fireEvent('openheader', this);
         },
 
+
+        setOriginalPageSize: function (w, h) {
+            this._originalPageSize = {w: w, h: h};
+        },
+
         txtPrint: 'Print',
         txtPrintPdf: 'Print to PDF',
         txtPrinter: 'Printer',
@@ -2620,6 +2661,7 @@ define([], function () {
         txtPrintRange: 'Print range',
         txtCurrentPage: 'Current slide',
         txtAllPages: 'All slides',
+        txtCustom: 'Custom',
         txtCustomPages: 'Custom print',
         txtPage: 'Slide',
         txtOf: 'of {0}',

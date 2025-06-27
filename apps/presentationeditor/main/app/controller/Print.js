@@ -332,13 +332,14 @@ define([
 
             var rec = this.printSettings.cmbPaperSize.getSelectedRecord();
             var printerOption = this.printSettings.cmbPrinter.getSelectedRecord();
+            var size = rec ? rec.size : this._paperSize; 
             this.adjPrintParams.asc_setNativeOptions({
                 usesystemdialog: useSystemDialog,
                 printer: printerOption ? printerOption.value : null,
                 pages: this.printSettings.cmbRange.getValue()===-1 ? this.printSettings.inputPages.getValue() : this.printSettings.cmbRange.getValue(),
                 paperSize: {
-                    w: rec ? rec.size[0] : undefined,
-                    h: rec ? rec.size[1] : undefined,
+                    w: size ? size[0] : undefined,
+                    h: size ? size[1] : undefined,
                     preset: rec ? rec.caption : undefined
                 },
                 copies: this.printSettings.spnCopies.getNumberValue() || 1,
@@ -370,6 +371,7 @@ define([
         onPaperSizeSelect: function(combo, record) {
             if (record) {
                 this._paperSize = record.size;
+                this.printSettings.setOriginalPageSize(record.size[0], record.size[1]);
                 this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._paperSize);
             }
         },
