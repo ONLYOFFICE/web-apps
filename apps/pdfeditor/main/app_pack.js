@@ -20,6 +20,7 @@ require([
     'common/main/lib/view/ListSettingsDialog',
     'common/main/lib/view/CustomizeQuickAccessDialog',
     'common/main/lib/view/PasswordDialog',
+    'common/main/lib/component/TextareaField',
 
     'pdfeditor/main/app/controller/DocumentHolderExt',
     'pdfeditor/main/app/view/FileMenuPanels',

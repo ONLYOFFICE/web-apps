@@ -241,6 +241,18 @@ define([
                 setTimeout(function(){me.txtPlaceholder._input && me.txtPlaceholder._input.select();}, 1);
             });
 
+            this.textareaTip = new Common.UI.TextareaField({
+                el          : $markup.findById('#form-txt-tip'),
+                style       : 'width: 100%; height: 36px;',
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.lockedControls.push(this.textareaTip);
+            this.textareaTip.on('changed:after', this.onTipChanged.bind(this));
+            this.textareaTip.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+
             this.chAutofit = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-autofit'),
                 labelText: this.textAutofit,
@@ -888,6 +900,14 @@ define([
             }
         },
 
+        onTipChanged: function(input, newValue, oldValue, e) {
+            if (this.api && !this._noApply && (newValue!==oldValue)) {
+                this.api.SetFieldTooltip(newValue);
+                if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
+                    this.fireEvent('editcomplete', this);
+            }
+        },
+
         onLineWidthChanged: function(combo, record) {
             if (this.api && !this._noApply) {
                 this._state.StrokeWidth = undefined;
@@ -1312,6 +1332,12 @@ define([
                 if (this._state.Name!==val) {
                     this.cmbName.setValue(val ? val : '');
                     this._state.Name=val;
+                }
+
+                val = props.asc_getTooltip();
+                if (this._state.tip!==val) {
+                    this.textareaTip.setValue(val ? val : '');
+                    this._state.tip=val;
                 }
 
                 val = props.asc_getRequired();
