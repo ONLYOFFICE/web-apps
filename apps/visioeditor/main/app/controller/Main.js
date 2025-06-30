@@ -1705,7 +1705,7 @@ define([
             },
 
             onUpdateVersion: function(callback) {
-                console.log("Obsolete: The 'onOutdatedVersion' event is deprecated. Please use 'onRequestRefreshFile' event and 'refreshFile' method instead.");
+                this.editorConfig && this.editorConfig.canUpdateVersion && console.log("Obsolete: The 'onOutdatedVersion' event is deprecated. Please use 'onRequestRefreshFile' event and 'refreshFile' method instead.");
 
                 var me = this;
                 me.needToUpdateVersion = true;
