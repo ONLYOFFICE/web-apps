@@ -31,11 +31,11 @@ export const ThemesProvider = props => {
     }
 
     const initTheme = () => {
-        const clientTheme = LocalStorage.getItem("ui-theme");
-        const editorConfig = window.native?.editorConfig;
+        const clientTheme = LocalStorage.getItem("ui-theme-client");
+        const theme = LocalStorage.getItem("ui-theme")
 
-        storeThemes.setConfigSelectTheme(editorConfig?.theme?.select != false);
-        setUITheme(clientTheme ? JSON.parse(clientTheme).type : editorConfig?.theme?.type);
+        storeThemes.setConfigSelectTheme(!clientTheme);
+        setUITheme(clientTheme ? JSON.parse(clientTheme).type : JSON.parse(theme).type);
 
         applyTheme();
     }
@@ -75,7 +75,8 @@ export const ThemesProvider = props => {
         const theme = themes[key];
         const type = theme.type;
 
-        LocalStorage.setItem("ui-theme", JSON.stringify(theme));
+        LocalStorage.setItem("ui-theme-client", JSON.stringify(theme));
+        LocalStorage.setItem("ui-theme", JSON.stringify(theme))
         storeThemes.setColorTheme(theme);
 
         if(type !== "system") {
