@@ -169,14 +169,14 @@
         <td>
             <table cols="2" style="width: 100%;" role="presentation">
                 <tr>
-                    <td class="padding-small" width="50%">
+                    <td class="padding-small">
                         <label class="input-label"><%= scope.textRotate90 %></label>
                         <div>
                             <div id="shape-button-270" class="margin-right-4"></div>
                             <div id="shape-button-90"></div>
                         </div>
                     </td>
-                    <td class="padding-small" width="50%">
+                    <td class="padding-small padding-left-4">
                         <label class="input-label"><%= scope.textFlip %></label>
                         <div>
                             <div id="shape-button-fliph" class="margin-right-4"></div>
