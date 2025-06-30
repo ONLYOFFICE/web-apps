@@ -126,7 +126,7 @@ define([
             this.viewValidList.on('item:contextmenu', _.bind(this.onItemContextMenu, this));
             this.viewInvalidList.on('item:contextmenu', _.bind(this.onItemContextMenu, this));
 
-            this.parentPanel = this.viewInvalidList.cmpEl.closest('.content-box');
+            this.parentPanel = this.viewValidList.cmpEl.closest('.content-box');
             this.onThemeChanged();
 
             this.signatureMenu = new Common.UI.Menu({
