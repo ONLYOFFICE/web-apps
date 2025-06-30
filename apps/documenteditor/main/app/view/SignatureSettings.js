@@ -100,7 +100,7 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="signature-item">',
-                        '<div class="caret-button <% if (name == "" || date == "") { %>' + 'nomargin' + '<% } %>"><div class="caret"></div></div>',
+                        '<div class="caret-button <% if (name == "" || date == "") { %>' + 'nomargin' + '<% } %> <% if (isForm) { %>' + 'hidden' + '<% } %>"><div class="caret"></div></div>',
                         '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
                         '<div class="date"><%= Common.Utils.String.htmlEncode(date) %></div>',
                     '</div>'
@@ -186,10 +186,11 @@ define([
                 requestedSignatures.push({name: (name !== "") ? name : (me.strSigner + " " + name_index++) , guid: item.asc_getGuid(), requested: true});
             });
             _.each(valid, function(item, index){
-                var item_date = item.asc_getDate();
-                var sign = {name: item.asc_getSigner1(), certificateId: item.asc_getId(), guid: item.asc_getGuid(), date: (!_.isEmpty(item_date)) ? new Date(item_date).toLocaleString() : '', invisible: !item.asc_getVisible(), isForm: item.asc_getIsForm()};
+                var item_date = item.asc_getDate(),
+                    isForm = item.asc_getIsForm();
+                var sign = {name: item.asc_getSigner1(), certificateId: item.asc_getId(), guid: item.asc_getGuid(), date: (!_.isEmpty(item_date)) ? new Date(item_date).toLocaleString() : '', invisible: !item.asc_getVisible(), isForm: isForm};
                 (item.asc_getValid()==0) ? validSignatures.push(sign) : invalidSignatures.push(sign);
-                item.asc_getIsForm() ? (hasForm = true) : (hasValidNotForm = true);
+                isForm ? (hasForm = true) : (hasValidNotForm = true);
             });
 
             // requestedSignatures = [{name: 'Hammish Mitchell', guid: '123', requested: true}, {name: 'Someone Somewhere', guid: '123', requested: true}, {name: 'Mary White', guid: '123', requested: true}, {name: 'John Black', guid: '123', requested: true}];
@@ -218,6 +219,7 @@ define([
             if (menu.isVisible()) {
                 menu.hide();
             }
+            if (record.get('isForm')) return;
 
             var offsetParent = Common.Utils.getOffset($(this.el)),
                 showPoint = [e.clientX*Common.Utils.zoom() - offsetParent.left + 5, e.clientY*Common.Utils.zoom() - offsetParent.top + 5];
