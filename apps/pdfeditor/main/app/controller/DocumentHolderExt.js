@@ -1189,6 +1189,16 @@ define([], function () {
                             me.eyedropperTip.toolTip.hide();
                         }
 
+                        if (!me.eyedropperTip.toolTip) {
+                            var tipEl = $('<div id="tip-container-eyedroppertip" style="position: absolute; z-index: 10000;"></div>');
+                            me.documentHolder.cmpEl.append(tipEl);
+                            me.eyedropperTip.toolTip = new Common.UI.Tooltip({
+                                owner: tipEl,
+                                html: true,
+                                cls: 'eyedropper-tooltip'
+                            });
+                        }
+
                         var color = moveData.get_EyedropperColor().asc_getColor(),
                             r = color.get_r(),
                             g = color.get_g(),
@@ -1214,7 +1224,7 @@ define([], function () {
                         me.eyedropperTip.tipInterval = setInterval(function () {
                             clearInterval(me.eyedropperTip.tipInterval);
                             if (me.eyedropperTip.isVisible) {
-                                ToolTip = '<div>RGB(' + r + ',' + g + ',' + b + ')</div>' +
+                                ToolTip = '<div>RGB (' + r + ',' + g + ',' + b + ')</div>' +
                                     '<div>' + moveData.get_EyedropperColor().asc_getName() + '</div>';
                                 me.eyedropperTip.toolTip.setTitle(ToolTip);
                                 me.eyedropperTip.isTipVisible = true;

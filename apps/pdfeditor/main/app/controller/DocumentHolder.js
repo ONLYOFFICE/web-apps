@@ -103,11 +103,6 @@ define([
                 isVisible: false
             };
             me.eyedropperTip = {
-                toolTip: new Common.UI.Tooltip({
-                    owner: this,
-                    html: true,
-                    cls: 'eyedropper-tooltip'
-                }),
                 isHidden: true,
                 isVisible: false,
                 eyedropperColor: null,
