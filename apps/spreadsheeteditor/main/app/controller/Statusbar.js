@@ -564,8 +564,8 @@ define([
         finishRename({ save, $input, $tabEl, tab, otherNames }) {
             const me = this;
             let newName = $input.val();
+            const currentName = tab.label;
             if (save) {
-                const currentName = tab.label
                 if (newName === '' || !me.isValidWorksheetName(newName)) {
                     if (me.isRenameErrorShown) return false;
                     me.isRenameErrorShown = true;
@@ -632,6 +632,7 @@ define([
 
             $input.on('blur', function(e) {
                 if (!me.isRenameErrorShown) {
+                    me.renamingWorksheet = null;
                     me.finishRename({ save: true, $input, $tabEl, tab, otherNames });
                 }
                 e.stopPropagation();
@@ -639,8 +640,10 @@ define([
 
             $input.on('keydown', function(e) {
                 if (e.key === 'Enter') {
+                    me.renamingWorksheet = null;
                     me.finishRename({ save: true, $input, $tabEl, tab, otherNames });
                 } else if (e.key === 'Escape') {
+                    me.renamingWorksheet = null;
                     me.finishRename({ save: false, $input, $tabEl, tab, otherNames });
                     $tabEl.width(originalWidth);
                     $input.remove();
