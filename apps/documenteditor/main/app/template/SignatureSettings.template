@@ -21,7 +21,7 @@
     </tr>
     <tr class="valid">
         <td class="padding-small">
-            <label class="header"><%= scope.strValid %></label>
+            <label id="signature-valid-header" class="header"><%= scope.strValid %></label>
         </td>
     </tr>
     <tr class="valid">

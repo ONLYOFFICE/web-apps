@@ -66,6 +66,7 @@ define([
                 hasValid: false,
                 hasInvalid: false,
                 hasRequested: false,
+                hasForm: false,
                 tip: undefined
             };
             this._locked = false;
@@ -176,7 +177,9 @@ define([
                 requestedSignatures = [],
                 validSignatures = [],
                 invalidSignatures = [],
-                name_index = 1;
+                name_index = 1,
+                hasForm = false,
+                hasValidNotForm = false;
 
             _.each(requested, function(item, index){
                 var name = item.asc_getSigner1();
@@ -184,8 +187,9 @@ define([
             });
             _.each(valid, function(item, index){
                 var item_date = item.asc_getDate();
-                var sign = {name: item.asc_getSigner1(), certificateId: item.asc_getId(), guid: item.asc_getGuid(), date: (!_.isEmpty(item_date)) ? new Date(item_date).toLocaleString() : '', invisible: !item.asc_getVisible()};
+                var sign = {name: item.asc_getSigner1(), certificateId: item.asc_getId(), guid: item.asc_getGuid(), date: (!_.isEmpty(item_date)) ? new Date(item_date).toLocaleString() : '', invisible: !item.asc_getVisible(), isForm: item.asc_getIsForm()};
                 (item.asc_getValid()==0) ? validSignatures.push(sign) : invalidSignatures.push(sign);
+                item.asc_getIsForm() ? (hasForm = true) : (hasValidNotForm = true);
             });
 
             // requestedSignatures = [{name: 'Hammish Mitchell', guid: '123', requested: true}, {name: 'Someone Somewhere', guid: '123', requested: true}, {name: 'Mary White', guid: '123', requested: true}, {name: 'John Black', guid: '123', requested: true}];
@@ -195,6 +199,7 @@ define([
             me._state.hasValid = validSignatures.length>0;
             me._state.hasInvalid = invalidSignatures.length>0;
             me._state.hasRequested = requestedSignatures.length>0;
+            me._state.hasForm = hasForm;
 
             this.viewRequestedList.store.reset(requestedSignatures);
             this.viewValidList.store.reset(validSignatures);
@@ -202,6 +207,7 @@ define([
 
             this.$el.find('.requested').toggleClass('hidden', !me._state.hasRequested);
             this.$el.find('.valid').toggleClass('hidden', !me._state.hasValid);
+            this.$el.find('#signature-valid-header').closest('.valid').toggleClass('hidden', !me._state.hasValid || !hasValidNotForm); // hide header if document has only form signature or has not valid signatures
             this.$el.find('.invalid').toggleClass('hidden', !me._state.hasInvalid);
 
             me.disableEditing(me._state.hasValid || me._state.hasInvalid);
@@ -285,10 +291,11 @@ define([
             }
             var requested = record.get('requested'),
                 signed = (this._state.hasValid || this._state.hasInvalid),
-                signSupport = this.mode.isSignatureSupport;
-            menu.items[0].setVisible(requested && signSupport);
-            menu.items[1].setVisible(!requested && signSupport);
-            menu.items[2].setVisible((requested || !record.get('invisible')) && signSupport);
+                signSupport = this.mode.isSignatureSupport,
+                isForm = record.get('isForm');
+            menu.items[0].setVisible(requested && signSupport && !isForm);
+            menu.items[1].setVisible(!requested && signSupport && !isForm);
+            menu.items[2].setVisible((requested || !record.get('invisible')) && signSupport && !isForm);
             menu.items[3].setVisible(!requested);
 
             menu.items[0].setDisabled(this._locked);
@@ -339,7 +346,8 @@ define([
 
         showSignatureTooltip: function(hasValid, hasInvalid, hasRequested) {
             var me = this,
-                tip = me._state.tip;
+                tip = me._state.tip,
+                hasForm = me._state.hasForm;
 
             if (!hasValid && !hasInvalid && !hasRequested) {
                 if (tip && tip.isVisible()) {
@@ -349,11 +357,15 @@ define([
                 return;
             }
 
-            var showLink = hasValid || hasInvalid,
-                tipText = (hasInvalid) ? me.txtSignedInvalid : (hasValid ? me.txtSigned : "");
-            if (hasRequested)
-                tipText = me.txtRequestedSignatures + "<br><br>" + tipText;
-
+            var showLink = (hasValid || hasInvalid) && !hasForm,
+                tipText = '';
+            if (hasForm) {
+                tipText = me.txtSignedForm;
+            } else {
+                tipText = (hasInvalid) ? me.txtSignedInvalid : (hasValid ? me.txtSigned : "")
+                if (hasRequested)
+                    tipText = me.txtRequestedSignatures + "<br><br>" + tipText;
+            }
             if (tip && tip.isVisible() && (tipText !== tip.text || showLink !== tip.showLink)) {
                 tip.close();
                 me._state.tip = undefined;
@@ -447,7 +459,8 @@ define([
         txtEditWarning: 'Editing will remove the signatures from the document.<br>Are you sure you want to continue?',
         strDelete: 'Remove Signature',
         strSigner: 'Signer',
-        txtRemoveWarning: 'Are you sure you want to remove this signature?<br>This action cannot be undone.'
+        txtRemoveWarning: 'Are you sure you want to remove this signature?<br>This action cannot be undone.',
+        txtSignedForm: 'This document has been signed and can not be edited.'
 
     }, DE.Views.SignatureSettings || {}));
 });
