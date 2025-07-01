@@ -1531,7 +1531,6 @@ define([
                 me.btnCurrencyStyle = new Common.UI.Button({
                     id          : 'id-toolbar-btn-accounting-style',
                     cls         : 'btn-toolbar',
-                    style       : 'width: 31px',
                     iconCls     : 'toolbar__icon btn-currency-style',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
                     styleName    : 'Currency',
