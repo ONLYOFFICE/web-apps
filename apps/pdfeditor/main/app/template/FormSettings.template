@@ -16,6 +16,12 @@
             <div id="form-txt-pholder"></div>
         </td>
     </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textTip %></label>
+            <div id="form-txt-tip"></div>
+        </td>
+    </tr>
     <tr class="form-text-combo">
         <td class="padding-small">
             <label class="input-label"><%= scope.textFormat %></label>
