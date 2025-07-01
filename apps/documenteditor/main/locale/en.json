@@ -3174,6 +3174,7 @@
   "DE.Views.SignatureSettings.txtRequestedSignatures": "This document needs to be signed.",
   "DE.Views.SignatureSettings.txtSigned": "Valid signatures have been added to the document. The document is protected from editing.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Some of the digital signatures in the document are invalid or could not be verified. The document is protected from editing.",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and can not be edited.",
   "DE.Views.Statusbar.goToPageText": "Go to Page",
   "DE.Views.Statusbar.pageIndexText": "Page {0} of {1}",
   "DE.Views.Statusbar.tipFitPage": "Fit to page",
