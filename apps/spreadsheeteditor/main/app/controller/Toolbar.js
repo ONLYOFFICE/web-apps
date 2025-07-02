@@ -2860,11 +2860,11 @@ define([
 
         onApiTextDirection: function (info) {
             const toolbar = this.toolbar;
-            const readingOrder = info.xfs.align?.readingOrder;
+            const readingOrder = info.asc_getXfs().asc_getReadingOrder();
             const iconMap = {
-                0: 'btn-context',
-                1: 'btn-ltr',
-                2: 'btn-rtl'
+                [Asc.c_oReadingOrderTypes.Context]: 'btn-context',
+                [Asc.c_oReadingOrderTypes.LTR]: 'btn-ltr',
+                [Asc.c_oReadingOrderTypes.RTL]: 'btn-rtl'
             };
 
             const iconClass = iconMap[readingOrder] || 'btn-ltr';
@@ -2877,7 +2877,7 @@ define([
                 });
                 toolbar.btnTextDir.options.icls = iconClass;
             }
-            info.selectionType === 7 ? toolbar.btnTextDir.menu.items[2].setDisabled(true) : toolbar.btnTextDir.menu.items[2].setDisabled(false)
+             toolbar.btnTextDir.menu.items[2].setDisabled(info.asc_getSelectionType() === Asc.c_oAscSelectionType.RangeShape)
         },
 
         onApiSelectionChanged: function(info) {
