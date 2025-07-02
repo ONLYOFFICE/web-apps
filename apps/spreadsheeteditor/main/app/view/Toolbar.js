@@ -451,6 +451,7 @@ define([
                         iconCls     : 'toolbar__icon btn-merge-and-center',
                         enableToggle: true,
                         allowDepress: true,
+                        split       : true,
                         lock        : [_set.editCell, _set.selShape, _set.selShapeText, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleMerge, _set.editPivot, _set.wsLock, _set.editVisibleArea],
                         menu        : new Common.UI.Menu({
                             items: [

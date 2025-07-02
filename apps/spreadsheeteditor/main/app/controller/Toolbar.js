@@ -2858,7 +2858,7 @@ define([
 
         },
 
-        onApiTextDirection: function (selectionType, info) {
+        onApiTextDirection: function (info) {
             const toolbar = this.toolbar;
             const readingOrder = info.xfs.align?.readingOrder;
             const iconMap = {
@@ -2897,7 +2897,7 @@ define([
                 toolbar = this.toolbar,
                 xfs = info.asc_getXfs(),
                 val, need_disable = false;
-            this.onApiTextDirection(selectionType, info)
+            this.onApiTextDirection(info)
             /* read font name */
             Common.NotificationCenter.trigger('fonts:change', xfs);
 
