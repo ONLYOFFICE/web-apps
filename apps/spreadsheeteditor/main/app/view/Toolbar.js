@@ -760,7 +760,7 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-ltr',
                     action: 'text-direction',
-                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.editVisibleArea],
+                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.editVisibleArea],
                     menu: new Common.UI.Menu({
                         items: [
                             {caption: this.textDirLtr, value: Asc.c_oReadingOrderTypes.LTR, iconCls: 'menu__icon btn-ltr'},

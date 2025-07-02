@@ -987,7 +987,6 @@ define([
         onTextDirClick: function(menu, item) {
             this.api && this.api.asc_setCellReadingOrder(item.value);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            console.log(item.value)
         },
 
         onWrap: function(btn, e) {
@@ -2878,6 +2877,7 @@ define([
                 });
                 toolbar.btnTextDir.options.icls = iconClass;
             }
+            info.selectionType === 7 ? toolbar.btnTextDir.menu.items[2].setDisabled(true) : toolbar.btnTextDir.menu.items[2].setDisabled(false)
         },
 
         onApiSelectionChanged: function(info) {
