@@ -2877,7 +2877,9 @@ define([
                 });
                 toolbar.btnTextDir.options.icls = iconClass;
             }
-             toolbar.btnTextDir.menu.items[2].setDisabled(info.asc_getSelectionType() === Asc.c_oAscSelectionType.RangeShape)
+             toolbar.btnTextDir.menu.items[2].setDisabled(info.asc_getSelectionType() === Asc.c_oAscSelectionType.RangeShape || info.asc_getSelectionType() === Asc.c_oAscSelectionType.RangeShapeText
+                || info.asc_getSelectionType() === Asc.c_oAscSelectionType.RangeChartText || info.asc_getSelectionType() === Asc.c_oAscSelectionType.RangeChart
+            )
         },
 
         onApiSelectionChanged: function(info) {
