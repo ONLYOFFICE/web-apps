@@ -1404,7 +1404,7 @@
   "PE.Controllers.Search.textReplaceSuccess": "搜索已完成。已替换｛0｝处",
   "PE.Controllers.Search.warnReplaceString": "｛0｝不是“替换为”框的有效特殊字符。",
   "PE.Controllers.Statusbar.textDisconnect": "<b>连接丢失</b><br>正在尝试连接。请检查连接设置。",
-  "PE.Controllers.Statusbar.zoomText": "缩放％{0}",
+  "PE.Controllers.Statusbar.zoomText": "缩放{0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "您想要保存的字体在当前设备上不可用。<br>文本的样式将使用系统字体中的一种进行显示，保存的字体将在可用时被调用。<br>您想要继续吗？",
   "PE.Controllers.Toolbar.helpAnimText": "您现在可直接在演示文稿编辑器中查看文本动画。",
   "PE.Controllers.Toolbar.helpAnimTextHeader": "带文本的动画预览",
