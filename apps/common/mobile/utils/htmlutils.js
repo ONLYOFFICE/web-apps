@@ -54,21 +54,23 @@ const supportedThemes = {
     'default-dark': 'dark'
 };
 
-if (uithemeParam && supportedThemes[uithemeParam]) {
-    obj = {
-        id: uithemeParam,
-        type: supportedThemes[uithemeParam]
-    };
-    const clientTheme = localStorage.getItem('mobile-ui-theme-client')
-    if (isLocalStorageAvailable()) clientTheme ? localStorage.setItem("mobile-ui-theme", clientTheme) : localStorage.setItem("mobile-ui-theme", JSON.stringify(obj))
-} else {
-    let theme_type = window.native?.editorConfig?.theme?.type;
-    if (!theme_type && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme_type = 'dark';
+let obj = !isLocalStorageAvailable() ? {id: 'theme-light', type: 'light'} : JSON.parse(localStorage.getItem("mobile-ui-theme-client"));
 
-    const id = theme_type === 'dark' ? 'theme-dark' : 'theme_light';
-    obj = {
-        id,
-        type: supportedThemes[id]
+if (!obj) {
+    if (uithemeParam && supportedThemes[uithemeParam]) {
+        obj = {
+            id: uithemeParam,
+            type: supportedThemes[uithemeParam]
+        };
+    } else {
+        let theme_type = window.native?.editorConfig?.theme?.type;
+        if (!theme_type && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme_type = 'dark';
+
+        const id = theme_type === 'dark' ? 'theme-dark' : 'theme_light';
+        obj = {
+            id,
+            type: supportedThemes[id]
+        }
     }
     localStorage.setItem("mobile-ui-theme", JSON.stringify(obj));
 }
