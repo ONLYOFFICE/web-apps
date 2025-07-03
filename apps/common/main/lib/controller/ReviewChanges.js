@@ -926,7 +926,7 @@ define([
                 toolbar: true,
                 plugins: true,
                 protect: true,
-                header: {docmode: true, search: false},
+                header: {docmode: true, search: false, startfill: false},
                 shortcuts: false
             }, 'review');
         },

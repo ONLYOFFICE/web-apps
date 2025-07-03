@@ -853,7 +853,7 @@ define([
                 toolbar: true,
                 plugins: false,
                 protect: false,
-                header: {docmode: true, search: false},
+                header: {docmode: true, search: false, startfill: false},
                 shortcuts: false
             }, 'mailmerge');
 
