@@ -368,6 +368,7 @@
   "Common.UI.SearchDialog.txtBtnReplaceAll": "تمام بدل دیں",
   "Common.UI.SynchronizeTip.textDontShow": "اس پیغام کو دوبارہ مت دکھائیں۔",
   "Common.UI.SynchronizeTip.textGotIt": "سمجھ گیا",
+  "Common.UI.SynchronizeTip.textNew": "نیا",
   "Common.UI.SynchronizeTip.textSynchronize": "دستاویز کو دوسرے صارف نے تبدیل کر دیا ہے۔<br>اپنی تبدیلیاں محفوظ کرنے اور اپ ڈیٹس کو دوبارہ لوڈ کرنے کے لیے براہ کرم کلک کریں۔",
   "Common.UI.ThemeColorPalette.textRecentColors": "حالیہ رنگ",
   "Common.UI.ThemeColorPalette.textStandartColors": "معیاری رنگ",
@@ -1366,6 +1367,9 @@
   "DE.Controllers.Toolbar.dataUrl": "ڈیٹا URL چسپاں کریں۔",
   "DE.Controllers.Toolbar.errorAccessDeny": "آپ ایک ایسی کارروائی کرنے کی کوشش کر رہے ہیں جس کا آپ کو حق نہیں ہے۔ براہ کرم اپنے دستاویز سرور کے منتظم سے رابطہ کریں۔",
   "DE.Controllers.Toolbar.fileUrl": "فائل کا URL چسپاں کریں۔",
+  "DE.Controllers.Toolbar.helpModernTheme": "ایک نیا بصری تھیم شامل کیا گیا ہے۔ آپ انٹرفیس کی ظاہری شکل کو اپ ڈیٹ کرنے کے لیے ویو سیٹنگز میں اسے فعال کر سکتے ہیں۔",
+  "DE.Controllers.Toolbar.helpModernThemeHeader": "انٹرفیس تھیم",
+  "DE.Controllers.Toolbar.helpOldTheme": "آپ ترتیبات میں کسی بھی وقت سابقہ ​​تھیم پر واپس جا سکتے ہیں۔",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "انتباہ",
   "DE.Controllers.Toolbar.textAccent": "لہجے",
   "DE.Controllers.Toolbar.textBracket": "بریکٹ",
@@ -3760,8 +3764,5 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "لکیر",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "فونٹ کا نام",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "فونٹ کا سائز",
-  "Common.UI.SynchronizeTip.textNew": "New",
-  "DE.Controllers.Toolbar.helpModernTheme": "A new visual theme has been added. You can enable it in the view settings to update the appearance of the interface.",
-  "DE.Controllers.Toolbar.helpModernThemeHeader": "Interface theme",
-  "DE.Controllers.Toolbar.helpOldTheme": "You can switch back to the previous theme at any time in the settings."
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited."
 }

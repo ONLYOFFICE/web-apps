@@ -168,6 +168,7 @@
   "DE.Controllers.ApplicationController.warnLicenseUsersExceeded": "Došlo dosažení limitu %1 editorů v režimu spolupráce na úpravách. Ohledně podrobností se obraťte na svého správce.",
   "DE.Controllers.ApplicationController.warnNoLicense": "Došlo dosažení limitu souběžných připojení %1 editorů. Dokument bude otevřen pouze pro náhled.<br>Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "Došlo k dosažení limitu %1 editorů. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
+  "DE.Controllers.ApplicationController.warnStartFilling": "Vyplňování formuláře probíhá.<br>Možnost úpravy souboru je dočasně nedostupná.",
   "DE.Views.ApplicationView.textClear": "Vyčistit všechna pole",
   "DE.Views.ApplicationView.textClearField": "Vyčistit pole",
   "DE.Views.ApplicationView.textClose": "Zavřít soubor",

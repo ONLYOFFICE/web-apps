@@ -309,6 +309,7 @@
   "Common.UI.SearchDialog.txtBtnReplaceAll": "Αντικατάσταση όλων",
   "Common.UI.SynchronizeTip.textDontShow": "Να μην εμφανίζεται αυτό το μήνυμα ξανά",
   "Common.UI.SynchronizeTip.textGotIt": "Εντάξει",
+  "Common.UI.SynchronizeTip.textNew": "Νέο",
   "Common.UI.SynchronizeTip.textSynchronize": "Το έγγραφο έχει αλλάξει από άλλο χρήστη.<br>Παρακαλούμε κάντε κλικ για να αποθηκεύσετε τις αλλαγές σας και να φορτώσετε ξανά τις ενημερώσεις.",
   "Common.UI.ThemeColorPalette.textRecentColors": "Πρόσφατα Χρώματα",
   "Common.UI.ThemeColorPalette.textStandartColors": "Τυπικά χρώματα",
@@ -1558,6 +1559,11 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Ο μέγιστος αριθμός σημείων σε σειρά ανά γράφημα είναι 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "ΣΦΑΛΜΑ! Ο μέγιστος αριθμός σειρών δεδομένων ανά γράφημα είναι 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Λανθασμένη διάταξη γραμμών. Για να δημιουργήσετε ένα γράφημα μετοχών τοποθετήστε τα δεδομένα στο φύλλο με την ακόλουθη σειρά:<br>τιμή ανοίγματος, μέγιστη τιμή, ελάχιστη τιμή, τιμή κλεισίματος.",
+  "SSE.Controllers.Toolbar.helpAsyncFunc": "Μπορείτε πλέον να χρησιμοποιήσετε ασύγχρονη λογική στην προσαρμοσμένη συνάρτησή σας.",
+  "SSE.Controllers.Toolbar.helpAsyncFuncHeader": "Ασύγχρονη συνάρτηση",
+  "SSE.Controllers.Toolbar.helpModernTheme": "Έχει προστεθεί ένα νέο οπτικό θέμα. Μπορείτε να το ενεργοποιήσετε στις ρυθμίσεις προβολής για να ενημερώσετε την εμφάνιση της διεπαφής.",
+  "SSE.Controllers.Toolbar.helpModernThemeHeader": "Θέμα διεπαφής",
+  "SSE.Controllers.Toolbar.helpOldTheme": "Μπορείτε να επιστρέψετε στο προηγούμενο θέμα ανά πάσα στιγμή στις ρυθμίσεις.",
   "SSE.Controllers.Toolbar.textAccent": "Τόνοι/Πνεύματα",
   "SSE.Controllers.Toolbar.textBracket": "Αγκύλες",
   "SSE.Controllers.Toolbar.textDirectional": "Κατευθυντικό",
@@ -4609,11 +4615,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "Προστασία βιβλίου εργασίας",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Εισάγετε συνθηματικό για άρση προστασίας φύλλου",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Άρση προστασίας φύλλου",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Εισάγετε συνθηματικό για άρση προστασίας βιβλίου εργασίας",
-  "Common.UI.SynchronizeTip.textNew": "New",
-  "SSE.Controllers.Toolbar.helpAsyncFunc": "You can now use asynchronous logic in your custom function.",
-  "SSE.Controllers.Toolbar.helpAsyncFuncHeader": "Async function",
-  "SSE.Controllers.Toolbar.helpModernTheme": "A new visual theme has been added. You can enable it in the view settings to update the appearance of the interface.",
-  "SSE.Controllers.Toolbar.helpModernThemeHeader": "Interface theme",
-  "SSE.Controllers.Toolbar.helpOldTheme": "You can switch back to the previous theme at any time in the settings."
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Εισάγετε συνθηματικό για άρση προστασίας βιβλίου εργασίας"
 }

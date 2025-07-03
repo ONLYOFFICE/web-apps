@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Möchten Sie diese Signatur wirklich entfernen?<br>Dies kann nicht rückgängig gemacht werden.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Dieses Dokument muss signiert werden.",
   "DE.Views.SignatureSettings.txtSigned": "Gültige Signaturen wurden dem Dokument hinzugefügt. Das Dokument ist vor der Bearbeitung geschützt.",
+  "DE.Views.SignatureSettings.txtSignedForm": "Dieses Dokument wurde signiert und kann nicht bearbeitet werden.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Einige der digitalen Signaturen im Dokument sind ungültig oder konnten nicht verifiziert werden. Das Dokument ist vor der Bearbeitung geschützt.",
   "DE.Views.Statusbar.goToPageText": "Auf die Seite übergehen",
   "DE.Views.Statusbar.pageIndexText": "Seite {0} von {1}",

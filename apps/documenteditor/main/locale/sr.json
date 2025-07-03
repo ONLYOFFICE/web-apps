@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Da li želiš da odstraniš ovaj potpis?<br>Ne može se poništiti.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Ovaj dokument mora da se potpiše.",
   "DE.Views.SignatureSettings.txtSigned": "Validni potpisi su dodati u dokument. Dokument je zaštićen od uređivanja.",
+  "DE.Views.SignatureSettings.txtSignedForm": "Ovaj dokument je potpisan i ne može biti izmenjen.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Neki od digitalnih potpisa u dokumentu su nevažeći ili ne mogu biti verifikovani. Dokument je zaštićen od uređivanja.",
   "DE.Views.Statusbar.goToPageText": "Idi na Stranicu",
   "DE.Views.Statusbar.pageIndexText": "Stranica {0} od {1}",

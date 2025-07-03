@@ -27,6 +27,7 @@
     "textCurrentPosition": "Ընթացիկ դիրք",
     "textDisplay": "Ցուցադրել",
     "textDone": "Պատրաստ է",
+    "textDrawing": "Նկարչություն",
     "textEmptyImgUrl": "Պետք է նշել նկարի URL-ը։",
     "textEvenPage": "Զույգ էջ",
     "textFootnote": "Ծանոթագրություն",
@@ -65,8 +66,7 @@
     "textTableSize": "Աղյուսակի չափ",
     "textWithBlueLinks": "Կապույտ հղումներով",
     "textWithPageNumbers": "Էջի համարներով",
-    "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
-    "textDrawing": "Drawing"
+    "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ "
   },
   "Common": {
     "Collaboration": {
@@ -231,9 +231,9 @@
   },
   "Draw": {
     "textColor": "Գույն",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
+    "textCustomColor": "Հատուկ գույն",
+    "textLineSize": "Տողի չափ",
+    "textOpacity": "Անթափանցելիություն"
   },
   "Edit": {
     "notcriticalErrorTitle": "Զգուշացում",
@@ -420,6 +420,7 @@
   "Error": {
     "convertationTimeoutText": "Փոխարկման սպասման ժամանակը սպառվել է։",
     "criticalErrorExtText": "Սեղմեք «Լավ»՝ փաստաթղթերի ցանկին վերադառնալու համար:",
+    "criticalErrorExtTextClose": "Սեղմեք «Լավ»՝ խմբագիրը փակելու համար։",
     "criticalErrorTitle": "Սխալ",
     "downloadErrorText": "Ներբեռնումը ձախողվեց։",
     "errorAccessDeny": "Դուք փորձում եք կատարել գործողություն, որի համար իրավունք չունեք:<br>Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ:",
@@ -433,6 +434,7 @@
     "errorDefaultMessage": "Սխալի կոդ՝ %1",
     "errorDirectUrl": "Խնդրում ենք ստուգել փաստաթղթի հղումը:<br> Այս հղումը պետք է լինի ուղիղ հղում դեպի ներբեռնելու ֆայլը:",
     "errorEditingDownloadas": "Փաստաթղթի հետ աշխատանքի ընթացքում սխալ է տեղի ունեցել:<br>Ներբեռնեք փաստաթուղթը՝ ֆայլի կրկնօրինակը տեղում պահելու համար:",
+    "errorEditProtectedRange": "Դուք չունեք այս ընտրությունը խմբագրելու թույլտվություն, քանի որ այն պաշտպանված է։",
     "errorEmptyTOC": "Սկսել ստեղծել բովանդակության աղյուսակ՝ կիրառելով վերնագրի ոճը ոճերի սրահից ընտրված տեքստում:",
     "errorFilePassProtect": "Ֆայլը պաշտպանված է գաղտնաբառով և հնարավոր չէ բացել:",
     "errorFileSizeExceed": "Ֆայլի չափը գերազանցում է ձեր սերվերի սահմանաչափը:Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ:",
@@ -478,9 +480,7 @@
     "uploadDocSizeMessage": "Փաստաթղթի չափի առավելագույն սահմանաչափը գերազանցվել է:",
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
-    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
+    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:"
   },
   "LongActions": {
     "applyChangesTextText": "Տվյալների բեռնում...",
@@ -714,6 +714,7 @@
     "textDownloadAs": "Ներբեռնել հետևյալ ձևաչափով՝",
     "textDownloadRtf": "Եթե ​​շարունակեք պահպանել այս ձևաչափով, որոշ ձևաչափեր կարող են կորչել:Վստա՞հ եք, որ ցանկանում եք շարունակել:",
     "textDownloadTxt": "Եթե ​​շարունակեք պահպանել այս ձևաչափով, բոլոր յուրահատկությունները, բացի տեքստից, կկորչեն:Վստա՞հ եք, որ ցանկանում եք շարունակել:",
+    "textDrawing": "Նկարչություն",
     "textEmptyHeading": "Դատարկ վերնագիր",
     "textEmptyScreens": "Փաստաթղթում վերնագրեր չկան:Տեքստի վրա կիրառեք վերնագրերի ոճ, որպեսզի այն հայտնվի բովանդակության աղյուսակում:",
     "textEnableAll": "Միացնել բոլորը",
@@ -808,10 +809,10 @@
     "txtDownloadTxt": "Ներբեռնել TXT ձևաչափով",
     "txtIncorrectPwd": "Գաղտնաբառը սխալ է",
     "txtOk": "Լավ",
-    "txtProtected": "Գաղտնաբառը մուտքագրելուց և ֆայլը բացելուց հետո ընթացիկ գաղտնաբառը կզրոյացվի",
-    "textDrawing": "Drawing"
+    "txtProtected": "Գաղտնաբառը մուտքագրելուց և ֆայլը բացելուց հետո ընթացիկ գաղտնաբառը կզրոյացվի"
   },
   "Toolbar": {
+    "btnRestartNow": "Վերագործարկել հիմա",
     "btnSend": "ՈՒղարկել",
     "dlgLeaveMsgText": "Դուք չպահված փոփոխություններ ունեք:Սեղմեք «Մնա այս էջում»՝ սպասելու ավտոմատ պահպանմանը:Սեղմեք «Լքել այս էջը»՝ չպահված բոլոր փոփոխությունները մերժելու համար:",
     "dlgLeaveTitleText": "Ծրագրից դուրս եք գալիս",
@@ -823,8 +824,7 @@
     "textRenameFile": "Վերանվանել ֆայլը",
     "textSwitchedMobileView": " Փոխարկվել է բջջային տեսքի",
     "textSwitchedStandardView": " Փոխարկվել է ստանդարտ տեսքի",
-    "warnEmptyRequiredField": "Լրացրել բոլոր անհրաժեշտ դաշտերը՝ ձևն ուղարկելու համար:",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Անցնել Համակարգչային տարբերակին",
+    "warnEmptyRequiredField": "Լրացրել բոլոր անհրաժեշտ դաշտերը՝ ձևն ուղարկելու համար:"
   }
 }

@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Voulez vous supprimer cette signature ? <br> Cela ne peut pas être rétabli.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Ce document doit être signé.",
   "DE.Views.SignatureSettings.txtSigned": "Des signatures valables ont été ajoutées au document. Le document est protégé contre l'édition.",
+  "DE.Views.SignatureSettings.txtSignedForm": "Ce document a été signé et ne peut être modifié.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Certaines signatures numériques dans le document sont invalides ou n'ont pas pu être vérifiées. Le document est protégé contre l'édition.",
   "DE.Views.Statusbar.goToPageText": "Aller à la page",
   "DE.Views.Statusbar.pageIndexText": "Page {0} de {1}",
