@@ -444,26 +444,28 @@ define([
 
             update: function() {
                 var me = this;
-
+                var renamingWorksheet = this.controller && this.controller.renamingWorksheet;
                 this.tabbar.empty(true);
                 this.tabMenu.items[5].menu.removeAll();
                 this.tabMenu.items[5].hide();
                 this.btnAddWorksheet.setDisabled(true);
                 this.sheetListMenu.removeAll();
-
                 if (this.api) {
                     var wc = this.api.asc_getWorksheetsCount(), i = -1;
                     var hidentems = [], items = [], allItems = [], tab, locked, name;
                     var sindex = this.api.asc_getActiveWorksheetIndex();
                     var wbprotected = this.api.asc_isProtectedWorkbook();
+                    var sid = me.api.asc_getActiveWorksheetId();
 
                     while (++i < wc) {
                         locked = me.api.asc_isWorksheetLockedOrDeleted(i);
                         name = me.api.asc_getActiveNamedSheetView ? me.api.asc_getActiveNamedSheetView(i) || '' : '';
+                        var sheetid = me.api.asc_getWorksheetId(i)
                         tab = {
                             sheetindex    : i,
+                            sheetid       : sheetid,
                             index         : items.length,
-                            active        : sindex == i,
+                            active        : renamingWorksheet ? renamingWorksheet === sheetid : sid === sheetid,
                             label         : me.api.asc_getWorksheetName(i),
 //                          reorderable   : !locked,
                             cls           : locked ? 'coauth-locked':'',
@@ -475,7 +477,6 @@ define([
                         this.api.asc_isWorksheetHidden(i)? hidentems.push(tab) : items.push(tab);
                         allItems.push(tab);
                     }
-
                     if (hidentems.length) {
                         hidentems.forEach(function(item){
                             me.tabMenu.items[5].menu.addItem(new Common.UI.MenuItem({
@@ -489,12 +490,27 @@ define([
 
                     this.tabbar.add(items);
 
+                    if (renamingWorksheet) {
+                        const tab = _.findWhere(this.tabbar.tabs, { sheetid: renamingWorksheet });
+                        if (tab) {
+                            setTimeout(() => {
+                                me.onSheetChanged(0, tab.sheetindex, tab);
+                                this.controller.renameWorksheet(renamingWorksheet, true);
+                            }, 50);
+                        } else {
+                            setTimeout(() => {
+                                this.tabbar.setActive(sindex)
+                            }, 50)
+                        }
+                    }
+
                     allItems.forEach(function(item){
                         var hidden = me.api.asc_isWorksheetHidden(item.sheetindex);
                         me.sheetListMenu.addItem(new Common.UI.MenuItem({
                             style: 'white-space: pre',
                             caption: Common.Utils.String.htmlEncode(item.label),
                             value: item.sheetindex,
+                            sheetid: item.sheetid,
                             checkable: true,
                             checked: item.active,
                             hidden: hidden,
