@@ -87,7 +87,6 @@ define([
                 me.borderColorHighlighted = Common.Utils.isIE ?'#bababa' :Common.UI.Themes.currentThemeColor('--border-preview-hover');
                 me.fillColorHighlighted = Common.Utils.isIE ?'#446995' :Common.UI.Themes.currentThemeColor('--background-accent-button');
 
-
                 me.itemSize    = me.options.itemSize;
                 me.minRows     = me.options.minRows;
                 me.minColumns  = me.options.minColumns;
@@ -163,10 +162,10 @@ define([
 
 
             changeColors: function (){
-                this.borderColor = Common.UI.Themes.currentThemeColor('--border-preview-select');
+                this.borderColor = Common.UI.Themes.currentThemeColor('--border-regular-control');
                 this.fillColor = Common.UI.Themes.currentThemeColor('--background-normal');
-                this.borderColorHighlighted = Common.UI.Themes.currentThemeColor('--border-control-focus');
-                this.fillColorHighlighted = Common.UI.Themes.currentThemeColor('--highlight-button-pressed');
+                this.borderColorHighlighted = Common.UI.Themes.currentThemeColor('--border-preview-hover');
+                this.fillColorHighlighted = Common.UI.Themes.currentThemeColor('--background-accent-button');
 
                 this.context.clearRect(0,0, this.width*this.scale, this.height*this.scale);
                 this.drawTable(this.minColumns,this.minRows,this.fillColor,this.borderColor);
