@@ -2858,9 +2858,9 @@ define([
 
         },
 
-        onApiTextDirection: function (info) {
+        onApiTextDirection: function (xfs, selectionType) {
             const toolbar = this.toolbar;
-            const readingOrder = info.asc_getXfs().asc_getReadingOrder();
+            const readingOrder = xfs.asc_getReadingOrder();
             const iconMap = {
                 [Asc.c_oReadingOrderTypes.Context]: 'btn-context',
                 [Asc.c_oReadingOrderTypes.LTR]: 'btn-ltr',
@@ -2877,8 +2877,8 @@ define([
                 });
                 toolbar.btnTextDir.options.icls = iconClass;
             }
-             toolbar.btnTextDir.menu.items[2].setDisabled(info.asc_getSelectionType() === Asc.c_oAscSelectionType.RangeShape || info.asc_getSelectionType() === Asc.c_oAscSelectionType.RangeShapeText
-                || info.asc_getSelectionType() === Asc.c_oAscSelectionType.RangeChartText || info.asc_getSelectionType() === Asc.c_oAscSelectionType.RangeChart
+             toolbar.btnTextDir.menu.items[2].setDisabled(selectionType === Asc.c_oAscSelectionType.RangeShape || selectionType === Asc.c_oAscSelectionType.RangeShapeText
+                || selectionType === Asc.c_oAscSelectionType.RangeChartText || selectionType === Asc.c_oAscSelectionType.RangeChart
             )
         },
 
@@ -2899,7 +2899,7 @@ define([
                 toolbar = this.toolbar,
                 xfs = info.asc_getXfs(),
                 val, need_disable = false;
-            this.onApiTextDirection(info)
+            this.onApiTextDirection(xfs, selectionType)
             /* read font name */
             Common.NotificationCenter.trigger('fonts:change', xfs);
 
