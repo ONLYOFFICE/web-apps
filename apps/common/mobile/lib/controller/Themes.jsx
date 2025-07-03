@@ -35,7 +35,7 @@ export const ThemesProvider = props => {
         const editorConfig = window.native?.editorConfig;
 
         storeThemes.setConfigSelectTheme(editorConfig?.theme?.select != false);
-        setUITheme(JSON.parse(theme).type);
+        setUITheme(theme ? JSON.parse(theme).type : editorConfig?.theme?.type);
 
         applyTheme();
     }
