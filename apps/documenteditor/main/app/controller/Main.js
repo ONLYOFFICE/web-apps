@@ -888,7 +888,7 @@ define([
                     toolbar: true,
                     plugins: false,
                     protect: false,
-                    header: {docmode: true, search: type==='not-loaded'},
+                    header: {docmode: true, search: type==='not-loaded', startfill: false},
                     shortcuts: type==='not-loaded'
                 }, type || 'disconnect');
             },
@@ -957,6 +957,8 @@ define([
                         app.getController('Toolbar').getView('Toolbar').fireEvent('docmode:disabled', [disable]);
                     if (options.header.search)
                         appHeader && appHeader.lockHeaderBtns('search', disable);
+                    if (options.header.startfill)
+                        appHeader && appHeader.lockHeaderBtns('startfill', disable);
                     appHeader && appHeader.lockHeaderBtns('undo', options.viewMode, Common.enumLock.lostConnect);
                     appHeader && appHeader.lockHeaderBtns('redo', options.viewMode, Common.enumLock.lostConnect);
                 }
@@ -1942,7 +1944,7 @@ define([
                         toolbar: true,
                         plugins: true,
                         protect: true,
-                        header: {docmode: !!disableModeButton, search: false},
+                        header: {docmode: !!disableModeButton, search: false, startfill: false},
                         shortcuts: false
                     }, 'view');
 

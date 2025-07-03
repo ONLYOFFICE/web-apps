@@ -451,7 +451,7 @@ define([
                     toolbar: true,
                     plugins: true,
                     protect: true,
-                    header: {docmode: false, search: false},
+                    header: {docmode: false, search: false, startfill: false},
                     shortcuts: false
                 }, 'forms');
                 // if (this.view)
