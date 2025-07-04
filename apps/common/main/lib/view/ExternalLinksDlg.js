@@ -217,7 +217,10 @@ define([
 
         _setDefaults: function (props) {
             this.refreshList();
-            this.api && this.chUpdate.setValue(this.api.asc_getUpdateLinks(), true);
+            if (!window.SSE)
+                this.chUpdate.setVisible(false);
+            else if (this.api)
+                this.chUpdate.setValue(this.api.asc_getUpdateLinks(), true);
         },
 
         refreshList: function() {

@@ -574,6 +574,7 @@
   "Common.Views.ExternalLinksDlg.textUpdateAll": "Update all",
   "Common.Views.ExternalLinksDlg.textUpdating": "Updating...",
   "Common.Views.ExternalLinksDlg.txtTitle": "External links",
+  "Common.Views.ExternalLinksDlg.textAutoUpdate": "Automatically update data from the linked sources",
   "Common.Views.ExternalMergeEditor.textTitle": "Mail merge recipients",
   "Common.Views.ExternalOleEditor.textTitle": "Spreadsheet Editor",
   "Common.Views.FormatSettingsDialog.textCategory": "Category",
