@@ -267,7 +267,7 @@ define([], function () {
                     oleEditor.on('hide', _.bind(function(cmp, message) {
                         if (me.api) {
                             me.api.asc_enableKeyEvents(true);
-                            me.api.asc_onCloseChartFrame();
+                            me.api.asc_onCloseFrameEditor();
                         }
                         setTimeout(function(){
                             me.documentHolder.fireEvent('editcomplete', me.documentHolder);

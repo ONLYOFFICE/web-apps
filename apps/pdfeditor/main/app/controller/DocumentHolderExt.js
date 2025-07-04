@@ -129,7 +129,7 @@ define([], function () {
                  }, this));
                  diagramEditor.on('hide', _.bind(function(cmp, message) {
                  if (this.api) {
-                 this.api.asc_onCloseChartFrame();
+                 this.api.asc_onCloseFrameEditor();
                  this.api.asc_enableKeyEvents(true);
                  }
                  var me = this;
@@ -153,7 +153,7 @@ define([], function () {
                  oleEditor.on('hide', _.bind(function(cmp, message) {
                  if (this.api) {
                  this.api.asc_enableKeyEvents(true);
-                 this.api.asc_onCloseChartFrame();
+                 this.api.asc_onCloseFrameEditor();
                  }
                  var me = this;
                  setTimeout(function(){
