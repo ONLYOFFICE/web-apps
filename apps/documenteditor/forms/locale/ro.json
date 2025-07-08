@@ -173,6 +173,7 @@
   "DE.Controllers.ApplicationController.warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori care este prevăzut pentru editoare %1. Pentru detalii, contactați administratorul dvs.",
   "DE.Controllers.ApplicationController.warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare.<br>Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de licențiere.",
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori pentru editoare %1. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
+  "DE.Controllers.ApplicationController.warnStartFilling": "Completarea formularului în desfășurare.<br>Editarea fișierului nu este posibilă în acest moment.",
   "DE.Views.ApplicationView.textClear": "Goleşte toate câmpurile",
   "DE.Views.ApplicationView.textClearField": "Golire câmp",
   "DE.Views.ApplicationView.textClose": "Închidere fișier",

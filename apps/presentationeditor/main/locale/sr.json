@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "Obrni stranice na kratku ivicu",
   "PE.Views.PrintWithPreview.txtCopies": "Kopije",
   "PE.Views.PrintWithPreview.txtCurrentPage": "Trenutni slajd",
+  "PE.Views.PrintWithPreview.txtCustom": "Prilagođeno",
   "PE.Views.PrintWithPreview.txtCustomPages": "Prilagođena štampa",
   "PE.Views.PrintWithPreview.txtEmptyTable": "Nema ništa za štampanje zato što je prezentacija prazna",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "Zaglavlje/podnožje podešavanja",

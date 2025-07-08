@@ -3763,5 +3763,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Subrayado",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nombre de la fuente",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño de la fuente"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño de la fuente",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited."
 }

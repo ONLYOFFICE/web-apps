@@ -173,6 +173,7 @@
   "DE.Controllers.ApplicationController.warnLicenseUsersExceeded": "Usted ha alcanzado el límite de usuarios para los editores de %1. Por favor, contacte con su administrador para recibir más información.",
   "DE.Controllers.ApplicationController.warnNoLicense": "Usted ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización.<br>Contacte con el equipo de ventas de %1 para conocer los términos de actualización personal.",
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "Usted ha alcanzado el límite de usuarios para los editores de %1.<br>Contacte con el equipo de ventas de %1 para conocer los términos de actualización personal.",
+  "DE.Controllers.ApplicationController.warnStartFilling": "El rellenado de formularios está en curso.<br>La edición de archivos no está disponible actualmente.",
   "DE.Views.ApplicationView.textClear": "Borrar todos los campos",
   "DE.Views.ApplicationView.textClearField": "Borrar campo",
   "DE.Views.ApplicationView.textClose": "Cerrar archivo",

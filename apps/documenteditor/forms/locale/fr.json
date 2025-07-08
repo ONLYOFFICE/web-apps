@@ -173,6 +173,7 @@
   "DE.Controllers.ApplicationController.warnLicenseUsersExceeded": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Veuillez contacter votre administrateur pour en savoir davantage.",
   "DE.Controllers.ApplicationController.warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule.<br>Veuillez contacter le service des ventes %1 pour connaître les conditions de mise à niveau personnelle.",
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Veuillez contacter l’équipe des ventes %1 pour connaître les conditions de mise à niveau personnelle.",
+  "DE.Controllers.ApplicationController.warnStartFilling": "Le remplissage du formulaire est en cours.<br>L'édition de fichiers n'est pas disponible actuellement.",
   "DE.Views.ApplicationView.textClear": "Effacer tous les champs",
   "DE.Views.ApplicationView.textClearField": "Effacer le champ",
   "DE.Views.ApplicationView.textClose": "Fermer le fichier",

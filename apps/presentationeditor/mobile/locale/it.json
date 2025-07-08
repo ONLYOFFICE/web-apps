@@ -192,6 +192,7 @@
   "Error": {
     "convertationTimeoutText": "È stato superato il tempo massimo di conversione.",
     "criticalErrorExtText": "Premi 'OK' per tornare all'elenco documenti.",
+    "criticalErrorExtTextClose": "Clicca \"OK\" per chiudere l'editor.",
     "criticalErrorTitle": "Errore",
     "downloadErrorText": "Scaricamento fallito.",
     "errorAccessDeny": "Stai tentando di eseguire un'azione per la quale non hai diritti.<br>Ti preghiamo di contattare il tuo amministratore.",
@@ -239,8 +240,7 @@
     "unknownErrorText": "Errore sconosciuto.",
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
-    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Caricamento dati in corso...",

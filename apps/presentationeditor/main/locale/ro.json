@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "Paginile se întorc pe latura scurtă",
   "PE.Views.PrintWithPreview.txtCopies": "Copii",
   "PE.Views.PrintWithPreview.txtCurrentPage": "Diapozitiv curent",
+  "PE.Views.PrintWithPreview.txtCustom": "Particularizare",
   "PE.Views.PrintWithPreview.txtCustomPages": "Imprimare particularizată",
   "PE.Views.PrintWithPreview.txtEmptyTable": "Nu e nimic de topărit deoarece prezentarea este necompletată",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "Setări antet/subsol",

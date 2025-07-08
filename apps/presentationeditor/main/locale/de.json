@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "Seiten an der kurzen Seite umblättern",
   "PE.Views.PrintWithPreview.txtCopies": "Kopien",
   "PE.Views.PrintWithPreview.txtCurrentPage": "Aktuelle Folie",
+  "PE.Views.PrintWithPreview.txtCustom": "Benutzerdefiniert",
   "PE.Views.PrintWithPreview.txtCustomPages": "Benutzerdefinierter Druck",
   "PE.Views.PrintWithPreview.txtEmptyTable": "Es gibt nichts zu drucken, weil die Präsentation leer ist",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "Kopf- und Fußzeileneinstellungen",

@@ -173,6 +173,7 @@
   "DE.Controllers.ApplicationController.warnLicenseUsersExceeded": "Dostigli ste korisnički limit za %1 urednike. Kontaktirajte svog administratora da saznate više.",
   "DE.Controllers.ApplicationController.warnNoLicense": "Dostigli ste limit za istovremene konekcije za %1 urednike. Ovaj dokument će biti otvoren samo za prikaz.<br>Kontaktirajte %1 tim za prodaju za lične uslove nadogradnje.",
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "Dostigli ste korisnički limit za %1 urednike. Kontaktirajte %1 tim za prodaju za lične uslove nadogradnje.",
+  "DE.Controllers.ApplicationController.warnStartFilling": "Popunjavanje obrasca je u toku.<br>Izmena fajla trenutno nije dostupna.",
   "DE.Views.ApplicationView.textClear": "Ukloni sva polja",
   "DE.Views.ApplicationView.textClearField": "Ukloni polje",
   "DE.Views.ApplicationView.textClose": "Zatvori fajl",

@@ -33,6 +33,7 @@
   "Common.UI.SearchDialog.txtBtnReplaceAll": "全てを置換する",
   "Common.UI.SynchronizeTip.textDontShow": "今後このメッセージを表示しない",
   "Common.UI.SynchronizeTip.textGotIt": "OK",
+  "Common.UI.SynchronizeTip.textNew": "新規",
   "Common.UI.SynchronizeTip.textSynchronize": "ドキュメントは他のユーザーによって変更されました。<br>変更を保存するためにここでクリックし、アップデートを再ロードしてください。",
   "Common.UI.Themes.txtThemeClassicLight": "明るい(クラシック)",
   "Common.UI.Themes.txtThemeContrastDark": "ダークコントラスト",
@@ -173,6 +174,7 @@
   "VE.Controllers.Main.applyChangesTitleText": "変更の読み込み中",
   "VE.Controllers.Main.convertationTimeoutText": "変換のタイムアウトを超過しました。",
   "VE.Controllers.Main.criticalErrorExtText": "OKボタンを押すと文書リストに戻ります",
+  "VE.Controllers.Main.criticalErrorExtTextClose": "［OK］を押してエディターを閉じます。",
   "VE.Controllers.Main.criticalErrorTitle": "エラー",
   "VE.Controllers.Main.downloadErrorText": "ダウンロードに失敗しました。",
   "VE.Controllers.Main.downloadMergeText": "ダウンロード中...",
@@ -423,7 +425,5 @@
   "VE.Views.ViewTab.textZoom": "拡大図",
   "VE.Views.ViewTab.tipFitPage": "ページに合わせる",
   "VE.Views.ViewTab.tipFitWidth": "幅に合わせる",
-  "VE.Views.ViewTab.tipInterfaceTheme": "インターフェースのテーマ",
-  "Common.UI.SynchronizeTip.textNew": "New",
-  "VE.Controllers.Main.criticalErrorExtTextClose": "Press \"OK\" to close the editor."
+  "VE.Views.ViewTab.tipInterfaceTheme": "インターフェースのテーマ"
 }

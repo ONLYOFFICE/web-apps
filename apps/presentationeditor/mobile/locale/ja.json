@@ -192,6 +192,7 @@
   "Error": {
     "convertationTimeoutText": "変換のタイムアウトを超過しました。",
     "criticalErrorExtText": "文書のリストに帰るために「OK」ボタンをクリックしてください。",
+    "criticalErrorExtTextClose": "［OK］を押してエディターを閉じます。",
     "criticalErrorTitle": "エラー",
     "downloadErrorText": "ダウンロードが失敗",
     "errorAccessDeny": "許可されていないアクションを実行しています。アドミニストレータを連絡してください。",
@@ -239,8 +240,7 @@
     "unknownErrorText": "不明なエラー",
     "uploadImageExtMessage": "不明なイメージの形式",
     "uploadImageFileCountMessage": "アップロードしたイメージがない",
-    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。"
   },
   "LongActions": {
     "applyChangesTextText": "データの読み込み中...",
