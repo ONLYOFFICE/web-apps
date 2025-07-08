@@ -83,7 +83,7 @@ define([
                 weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
             });
 
-            this._state = {isDisconnected: false, licenseType: false, isDocModified: false};
+            this._state = {isDisconnected: false, licenseType: false, isDocModified: false, isFormDisconnected: false};
 
             this.view = this.createView('ApplicationView').render();
 
@@ -142,6 +142,7 @@ define([
                 this.api.asc_registerCallback('asc_onCurrentPage',           this.onCurrentPage.bind(this));
                 this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
                 this.api.asc_registerCallback('asc_onZoomChange',           this.onApiZoomChange.bind(this));
+                this.api.asc_registerCallback('asc_onDisconnectEveryone',    _.bind(this.onDisconnectEveryone, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiServerDisconnect, this));
 
@@ -662,7 +663,8 @@ define([
 
             var type = /^(?:(pdf))$/.exec(this.document.fileType); // can fill forms only in pdf format
             this.appOptions.isOFORM = !!(type && typeof type[1] === 'string');
-            this.appOptions.canFillForms   = this.appOptions.canLicense && this.appOptions.isOFORM && ((this.permissions.fillForms===undefined) ? (this.permissions.edit !== false) : this.permissions.fillForms) && (this.editorConfig.mode !== 'view');
+            this.appOptions.canFillForms = this.appOptions.canLicense && this.appOptions.isOFORM && ((this.permissions.fillForms===undefined) ? (this.permissions.edit !== false) : this.permissions.fillForms) &&
+                                           (this.editorConfig.mode !== 'view') && !this._state.isFormDisconnected;
             this.api.asc_setViewMode(!this.appOptions.canFillForms);
 
             this.appOptions.canBranding  = params.asc_getCustomization();
@@ -2233,6 +2235,16 @@ define([
                 }
                 this.api.asc_refreshFile(docInfo);
             }
+        },
+
+        onDisconnectEveryone: function() {
+            this._state.isFormDisconnected = true;
+            if (this.appOptions) this.appOptions.canFillForms = false;
+            this.showFillingForms(false); // hide filling forms
+            Common.UI.warning({
+                msg  : this.warnStartFilling,
+                buttons: ['ok']
+            });
         },
 
         onEditComplete: function() {

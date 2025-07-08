@@ -1360,6 +1360,8 @@ define([
                     if (me.btnSearch) {
                         me.btnSearch.setDisabled(lock);
                     }
+                } else if ( alias == 'startfill' ) {
+                    me.btnStartFill && me.btnStartFill.setDisabled(lock);
                 } else {
                     var _lockButton = function (btn) {
                         btn && Common.Utils.lockControls(cause, lock, {array: [btn]});

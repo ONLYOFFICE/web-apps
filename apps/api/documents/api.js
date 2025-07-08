@@ -1070,8 +1070,7 @@
 
     function isLocalStorageAvailable() {
         try {
-            const storage = window['localStorage'];
-            return true;
+            return !!window['localStorage'];
         }
         catch(e) {
             return false;
