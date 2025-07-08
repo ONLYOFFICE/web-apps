@@ -363,6 +363,15 @@ define([
             this.cmbTimeFormat.on('hide:after', this.onHideMenus.bind(this));
 
             // text field
+            this.chPwd = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-pwd'),
+                labelText: this.textPassword,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chPwd.on('change', this.onChPwd.bind(this));
+
             this.chMulti = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-multiline'),
                 labelText: this.textMulti,
@@ -974,6 +983,14 @@ define([
             }
         },
 
+        onChPwd: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                this._state.Pwd = undefined;
+                this.api.SetTextFieldPassword(field.getValue()=='checked');
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
         onChMulti: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply) {
                 this._state.Multi = undefined;
@@ -1397,6 +1414,7 @@ define([
 
                     var isComb = specProps.asc_getComb(),
                         isMulti = specProps.asc_getMultiline(),
+                        isPwd = specProps.asc_getPassword(),
                         isScroll = specProps.asc_getScrollLongText();
                     var combChanged = false;
                     if ( this._state.Comb!==isComb ) {
@@ -1413,7 +1431,7 @@ define([
                         this.spnMaxChars.setValue(isCharLimits ? val : '', true)
                         this._state.MaxChars=val;
                     }
-                    this.chComb.setDisabled(isMulti || isScroll || isCharLimits || this._state.DisabledControls);
+                    this.chComb.setDisabled(isMulti || isScroll || isCharLimits || isPwd || this._state.DisabledControls);
                     this.spnCombChars.setDisabled(!isComb || this._state.DisabledControls);
                     this.chMaxChars.setDisabled(isComb || this._state.DisabledControls);
                     this.spnMaxChars.setDisabled(!isCharLimits || this._state.DisabledControls);
@@ -1422,7 +1440,13 @@ define([
                         this.chMulti.setValue(!!isMulti, true);
                         this._state.Multi=isMulti;
                     }
-                    this.chMulti.setDisabled(isComb || this._state.DisabledControls);
+                    this.chMulti.setDisabled(isComb || isPwd || this._state.DisabledControls);
+
+                    if ( this._state.Pwd!==isPwd ) {
+                        this.chPwd.setValue(!!isPwd, true);
+                        this._state.Pwd=isPwd;
+                    }
+                    this.chPwd.setDisabled(isComb || isMulti || this._state.DisabledControls);
 
                     if ( this._state.Scroll!==isScroll ) {
                         this.chScroll.setValue(!!isScroll, true);
@@ -1776,12 +1800,14 @@ define([
             this.btnListAdd.setDisabled(this.txtNewValue.length<1 || this._state.DisabledControls);
             var isComb = this._state.Comb,
                 isMulti = this._state.Multi,
+                isPwd = this._state.Pwd,
                 isScroll = this._state.Scroll;
             this.chAutofit.setDisabled(isComb || this._state.DisabledControls);
-            this.chMulti.setDisabled(isComb || this._state.DisabledControls);
+            this.chMulti.setDisabled(isComb || isPwd || this._state.DisabledControls);
             this.chScroll.setDisabled(isComb || this._state.DisabledControls);
+            this.chPwd.setDisabled(isComb || isMulti || this._state.DisabledControls);
 
-            this.chComb.setDisabled(isMulti || isScroll || this.chMaxChars.getValue()!=='checked' || this._state.DisabledControls);
+            this.chComb.setDisabled(isMulti || isScroll || isPwd || this.chMaxChars.getValue()!=='checked' || this._state.DisabledControls);
             this.spnCombChars.setDisabled(!isComb || this._state.DisabledControls);
             this.chMaxChars.setDisabled(isComb || this._state.DisabledControls);
             this.spnMaxChars.setDisabled(isComb || this.chMaxChars.getValue()!=='checked' || this._state.DisabledControls);
