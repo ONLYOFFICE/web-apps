@@ -185,6 +185,31 @@ define([
                                 '<% } %>' +
                             '</div>' +
                         '</div>';
+        
+        var templateTransparent = '<div class="asc-window<%= modal?" modal":"" %><%= cls?" "+cls:"" %>" id="<%= id %>" style="background:transparent;width:<%= width %>px;" role="<%= role %>" aria-modal="<%= modal %>">' +
+                            '<% if (header==true) { %>' +
+                                '<div class="header">' +
+                                    '<div class="tools">' +
+                                    '<% if (closable!==false) %>' +
+                                        '<div class="tool close"></div>' +
+                                    '<% %>' +
+                                    '<% if (help===true) %>' +
+                                        '<div class="tool help">?</div>' +
+                                    '<% %>' +
+                                    '</div>' +
+                                    '<div class="title"><%= title %></div> ' +
+                                '</div>' +
+                            '<% } %>' +
+                            '<div class="body" style="background:transparent;"><%= tpl %>' +
+                                '<% if (typeof (buttonsParsed) !== "undefined" && _.size(buttonsParsed) > 0) { %>' +
+                                '<div class="footer">' +
+                                    '<% _.each(buttonsParsed, function (item) { %>' +
+                                        '<button class="btn normal dlg-btn <%= item.cls %>" result="<%= item.value %>" <% if (item.id) { %>id="<%=item.id%>" <% } %> ><%= item.text %></button>'+
+                                    '<% }); %>' +
+                                '</div>' +
+                                '<% } %>' +
+                            '</div>' +
+                        '</div>';
 
         function _getMask() {
             var mask = $('.modals-mask');
@@ -677,8 +702,9 @@ define([
 
             render: function() {
                 var renderto = this.initConfig.renderTo || document.body;
+
                 $(renderto).append(
-                    _.template(template)(this.initConfig)
+                    _.template(this.initConfig.transparent ? templateTransparent : template)(this.initConfig)
                 );
 
                 this.$window = $('#' + this.initConfig.id);

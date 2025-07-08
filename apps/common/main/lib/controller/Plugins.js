@@ -1200,7 +1200,8 @@ define([
                 },
                 help: !!help,
                 isCanDocked: variation.isCanDocked,
-                modal: isModal!==undefined ? isModal : true
+                modal: isModal!==undefined ? isModal : true,
+                transparent: variation.transparent || false
             });
             me.customPluginsDlg[frameId].on({
                 'render:after': function(obj){
@@ -1236,7 +1237,7 @@ define([
                 }
             });
 
-            me.customPluginsDlg[frameId].show();
+            me.customPluginsDlg[frameId].show(variation.positionX, variation.positionY);
         },
 
         onApiPluginWindowShow: function(frameId, variation) {
