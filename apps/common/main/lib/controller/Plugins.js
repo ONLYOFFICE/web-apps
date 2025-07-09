@@ -1187,7 +1187,7 @@ define([
 
             var help = variation.help;
             me.customPluginsDlg[frameId] = new Common.Views.PluginDlg({
-                cls: isCustomWindow ? 'plain' : '',
+                cls: (isCustomWindow ? 'plain' : '') + (variation.transparent ? ' ' + 'no-background' : ''),
                 header: !isCustomWindow,
                 title: description,
                 width: size[0], // inner width
@@ -1200,8 +1200,7 @@ define([
                 },
                 help: !!help,
                 isCanDocked: variation.isCanDocked,
-                modal: isModal!==undefined ? isModal : true,
-                transparent: variation.transparent || false
+                modal: isModal!==undefined ? isModal : true
             });
             me.customPluginsDlg[frameId].on({
                 'render:after': function(obj){

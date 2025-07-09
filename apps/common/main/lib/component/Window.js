@@ -704,7 +704,7 @@ define([
                 var renderto = this.initConfig.renderTo || document.body;
 
                 $(renderto).append(
-                    _.template(this.initConfig.transparent ? templateTransparent : template)(this.initConfig)
+                    _.template(template)(this.initConfig)
                 );
 
                 this.$window = $('#' + this.initConfig.id);
