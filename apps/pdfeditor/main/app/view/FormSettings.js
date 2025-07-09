@@ -1415,7 +1415,9 @@ define([
                     var isComb = specProps.asc_getComb(),
                         isMulti = specProps.asc_getMultiline(),
                         isPwd = specProps.asc_getPassword(),
-                        isScroll = specProps.asc_getScrollLongText();
+                        isScroll = specProps.asc_getScrollLongText(),
+                        isFormatSelected = specProps.asc_getFormat() && specProps.asc_getFormat().asc_getType() !== AscPDF.FormatType.NONE;
+
                     var combChanged = false;
                     if ( this._state.Comb!==isComb ) {
                         this.chComb.setValue(!!isComb, true);
@@ -1440,7 +1442,7 @@ define([
                         this.chMulti.setValue(!!isMulti, true);
                         this._state.Multi=isMulti;
                     }
-                    this.chMulti.setDisabled(isComb || isPwd || this._state.DisabledControls);
+                    this.chMulti.setDisabled(isComb || isPwd || isFormatSelected || this._state.DisabledControls);
 
                     if ( this._state.Pwd!==isPwd ) {
                         this.chPwd.setValue(!!isPwd, true);
@@ -1512,6 +1514,7 @@ define([
                             this._state.MaskStr = val;
                         }
                     }
+                    this.cmbFormat.setDisabled(type===AscPDF.FIELD_TYPES.text && this._state.Multi || this._state.DisabledControls);
                 }
 
                 if (type == AscPDF.FIELD_TYPES.combobox && specProps) {
@@ -1803,9 +1806,10 @@ define([
                 isPwd = this._state.Pwd,
                 isScroll = this._state.Scroll;
             this.chAutofit.setDisabled(isComb || this._state.DisabledControls);
-            this.chMulti.setDisabled(isComb || isPwd || this._state.DisabledControls);
+            this.chMulti.setDisabled(isComb || isPwd || this.type===AscPDF.FIELD_TYPES.text && this._state.FormatType!== AscPDF.FormatType.NONE || this._state.DisabledControls);
             this.chScroll.setDisabled(isComb || this._state.DisabledControls);
             this.chPwd.setDisabled(isComb || isMulti || this._state.DisabledControls);
+            this.cmbFormat.setDisabled(this.type===AscPDF.FIELD_TYPES.text && isMulti || this._state.DisabledControls);
 
             this.chComb.setDisabled(isMulti || isScroll || isPwd || this.chMaxChars.getValue()!=='checked' || this._state.DisabledControls);
             this.spnCombChars.setDisabled(!isComb || this._state.DisabledControls);
