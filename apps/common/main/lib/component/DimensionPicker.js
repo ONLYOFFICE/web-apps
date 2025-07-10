@@ -82,7 +82,7 @@ define([
                 me.options.height = me.options.itemSize* this.options.minRows;
                 var rootEl = this.cmpEl;
 
-                me.borderColor = Common.Utils.isIE ?'#c0c0c0' :Common.UI.Themes.currentThemeColor('--border-regular-control');
+                me.borderColor = '#aaaaaa';
                 me.fillColor = Common.Utils.isIE ?'#fff' :Common.UI.Themes.currentThemeColor('--background-normal');
                 me.borderColorHighlighted = Common.Utils.isIE ?'#bababa' :Common.UI.Themes.currentThemeColor('--border-preview-hover');
                 me.fillColorHighlighted = Common.Utils.isIE ?'#446995' :Common.UI.Themes.currentThemeColor('--background-accent-button');
@@ -162,7 +162,6 @@ define([
 
 
             changeColors: function (){
-                this.borderColor = Common.UI.Themes.currentThemeColor('--border-regular-control');
                 this.fillColor = Common.UI.Themes.currentThemeColor('--background-normal');
                 this.borderColorHighlighted = Common.UI.Themes.currentThemeColor('--border-preview-hover');
                 this.fillColorHighlighted = Common.UI.Themes.currentThemeColor('--background-accent-button');
