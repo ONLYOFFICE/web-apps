@@ -756,6 +756,24 @@ define([
                     ]}
                 );
 
+                me.btnTextDir = new Common.UI.Button({
+                    id: 'id-toolbar-btn-direction',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-ltr',
+                    action: 'text-direction',
+                    lock: [_set.editCell, _set.selChart, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat, _set.userProtected],
+                    menu: new Common.UI.Menu({
+                        items: [
+                            {caption: this.textDirLtr, value: Asc.c_oReadingOrderTypes.LTR, iconCls: 'menu__icon btn-ltr'},
+                            {caption: this.textDirRtl, value: Asc.c_oReadingOrderTypes.RTL, iconCls: 'menu__icon btn-rtl'},
+                            {caption: this.textDirContext, value: Asc.c_oReadingOrderTypes.Context, iconCls: 'menu__icon btn-context'},
+                        ]
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'top',
+                    dataHintOffset: '0, -6'
+                });
+
                 me.btnCut = new Common.UI.Button({
                     id: 'id-toolbar-btn-cut',
                     cls: 'btn-toolbar',
@@ -2263,7 +2281,7 @@ define([
                     me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnAlignLeft,
                     me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnAlignTop,
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
-                    me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnFillNumbers, me.btnIncDecimal, me.btnInsertShape, me.btnInsertSmartArt, me.btnInsertEquation, me.btnInsertSymbol, me.btnInsertSlicer,
+                    me.btnMerge, me.btnTextDir, me.btnInsertFormula, me.btnNamedRange, me.btnFillNumbers, me.btnIncDecimal, me.btnInsertShape, me.btnInsertSmartArt, me.btnInsertEquation, me.btnInsertSymbol, me.btnInsertSlicer,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
                     me.btnTableTemplate, me.btnCellStyle, me.btnPercentStyle, me.btnCommaStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
@@ -2424,6 +2442,7 @@ define([
             _injectComponent('#slot-btn-align-right',    this.btnAlignRight);
             _injectComponent('#slot-btn-align-just',     this.btnAlignJust);
             _injectComponent('#slot-btn-merge',          this.btnMerge);
+            _injectComponent('#slot-btn-direction',      this.btnTextDir);
             _injectComponent('#slot-btn-top',            this.btnAlignTop);
             _injectComponent('#slot-btn-middle',         this.btnAlignMiddle);
             _injectComponent('#slot-btn-bottom',         this.btnAlignBottom);
@@ -2529,6 +2548,7 @@ define([
             _updateHint(this.btnAlignRight, this.tipAlignRight);
             _updateHint(this.btnAlignJust, this.tipAlignJust);
             _updateHint(this.btnMerge, this.tipMerge);
+            _updateHint(this.btnTextDir, this.tipTextDirection);
             _updateHint(this.btnAlignTop, this.tipAlignTop);
             _updateHint(this.btnAlignMiddle, this.tipAlignMiddle);
             _updateHint(this.btnAlignBottom, this.tipAlignBottom);
@@ -3543,6 +3563,11 @@ define([
             if (this.synchTooltip && this.synchTooltip.isVisible()) {
                 this.synchTooltip.show(); // change position for visible tip
             }
-        }
+        },
+
+        tipTextDirection: 'Text direction',
+        textDirRtl: 'Right-to-Left',
+        textDirLtr: 'Left-to-Right',
+        textDirContext: 'Context'
     }, SSE.Views.Toolbar || {}));
 });

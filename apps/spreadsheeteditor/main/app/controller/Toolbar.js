@@ -432,6 +432,7 @@ define([
                 toolbar.btnAlignRight.on('click',                           _.bind(this.onHorizontalAlign, this, AscCommon.align_Right));
                 toolbar.btnAlignJust.on('click',                            _.bind(this.onHorizontalAlign, this, AscCommon.align_Justify));
                 toolbar.btnMerge.on('click',                                _.bind(this.onMergeCellsMenu, this, toolbar.btnMerge.menu, toolbar.btnMerge.menu.items[0]));
+                toolbar.btnTextDir.menu.on('item:click',                    _.bind(this.onTextDirClick, this));
                 toolbar.btnMerge.menu.on('item:click',                      _.bind(this.onMergeCellsMenu, this));
                 toolbar.btnAlignTop.on('click',                             _.bind(this.onVerticalAlign, this, Asc.c_oAscVAlign.Top));
                 toolbar.btnAlignMiddle.on('click',                          _.bind(this.onVerticalAlign, this, Asc.c_oAscVAlign.Center));
@@ -981,6 +982,11 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Merge cells');
+        },
+
+        onTextDirClick: function(menu, item) {
+            this.api && this.api.asc_setCellReadingOrder(item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onWrap: function(btn, e) {
@@ -2852,7 +2858,32 @@ define([
 
         },
 
+        onApiTextDirection: function (xfs, selectionType) {
+            const toolbar = this.toolbar;
+            const readingOrder = xfs.asc_getReadingOrder();
+            const iconMap = {
+                [Asc.c_oReadingOrderTypes.Context]: 'btn-context',
+                [Asc.c_oReadingOrderTypes.LTR]: 'btn-ltr',
+                [Asc.c_oReadingOrderTypes.RTL]: 'btn-rtl'
+            };
+
+            const iconClass = iconMap[readingOrder] || 'btn-ltr';
+            const prevIconClass = toolbar.btnTextDir.options.icls;
+
+            if (prevIconClass !== iconClass) {
+                toolbar.btnTextDir.changeIcon({
+                    next: iconClass,
+                    curr: prevIconClass
+                });
+                toolbar.btnTextDir.options.icls = iconClass;
+            }
+             toolbar.btnTextDir.menu.items[2].setDisabled(selectionType === Asc.c_oAscSelectionType.RangeShape || selectionType === Asc.c_oAscSelectionType.RangeShapeText
+                || selectionType === Asc.c_oAscSelectionType.RangeChartText || selectionType === Asc.c_oAscSelectionType.RangeChart
+            )
+        },
+
         onApiSelectionChanged: function(info) {
+            var toolbar = this.toolbar
             if (!this.editMode || $('.asc-window.enable-key-events:visible').length>0 || !info) return;
             if ( this.toolbar.mode.isEditDiagram )
                 return this.onApiSelectionChanged_DiagramEditor(info); else
@@ -2868,7 +2899,7 @@ define([
                 toolbar = this.toolbar,
                 xfs = info.asc_getXfs(),
                 val, need_disable = false;
-
+            this.onApiTextDirection(xfs, selectionType)
             /* read font name */
             Common.NotificationCenter.trigger('fonts:change', xfs);
 
