@@ -313,10 +313,13 @@ div {
 			fileType = fileInfo.FileExtension ? fileInfo.FileExtension.substr(1) : fileType;
 			fileType = fileType.toLowerCase();
 			let customizationClose = !!(fileInfo.ClosePostMessage || fileInfo.CloseUrl);
+			const canEdit = (fileInfo.UserCanOnlyComment || fileInfo.UserCanWrite || fileInfo.UserCanReview);
 			//connector Nextcloud Office 8.4.5 (SupportsUpdate=undefined, UserCanWrite=true, UserCanNotWriteRelative=false)
-			let customizationSaveAs = (fileInfo.SupportsUpdate || fileInfo.UserCanWrite) && !fileInfo.UserCanNotWriteRelative;
+			let customizationSaveAs = (fileInfo.SupportsUpdate || canEdit) && !fileInfo.UserCanNotWriteRelative;
 			let customizationFormSubmit = queryParams.formsubmit === "1";
-			let permissionsEdit = !fileInfo.ReadOnly && fileInfo.UserCanWrite && !customizationFormSubmit;
+			let permissionsEdit = !fileInfo.ReadOnly && (!fileInfo.UserCanOnlyComment && fileInfo.UserCanWrite) && !customizationFormSubmit;
+			const permissionsReview = (fileInfo.UserCanOnlyComment || fileInfo.SupportsReviewing===false) ? false : (fileInfo.UserCanReview===false ? false : fileInfo.UserCanReview);
+			const permissionsComment = permissionsEdit || !!fileInfo.UserCanOnlyComment;
 			let permissionsFillForm = permissionsEdit || customizationFormSubmit;
 			sessionId = userAuth.userSessionId;
 			var config = {
@@ -346,7 +349,8 @@ div {
                     },
 					"permissions": {
                         "edit": permissionsEdit,
-                        "review": (fileInfo.SupportsReviewing===false) ? false : (fileInfo.UserCanReview===false ? false : fileInfo.UserCanReview),
+                        "review": permissionsReview,
+                        "comment": permissionsComment,
                         "copy": fileInfo.CopyPasteRestrictions!=="CurrentDocumentOnly" && fileInfo.CopyPasteRestrictions!=="BlockAll",
                         "print": !fileInfo.DisablePrint && !fileInfo.HidePrintOption,
                         "chat": queryParams.dchat!=="1",
