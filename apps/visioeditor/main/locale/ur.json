@@ -33,6 +33,7 @@
   "Common.UI.SearchDialog.txtBtnReplaceAll": "تمام بدل دیں",
   "Common.UI.SynchronizeTip.textDontShow": "اس پیغام کو دوبارہ مت دکھائیں۔",
   "Common.UI.SynchronizeTip.textGotIt": "سمجھ گیا",
+  "Common.UI.SynchronizeTip.textNew": "نیا",
   "Common.UI.SynchronizeTip.textSynchronize": "دستاویز کو دوسرے صارف نے تبدیل کر دیا ہے۔<br>اپنی تبدیلیاں محفوظ کرنے اور اپ ڈیٹس کو دوبارہ لوڈ کرنے کے لیے براہ کرم کلک کریں۔",
   "Common.UI.Themes.txtThemeClassicLight": "کلاسیکی روشنی",
   "Common.UI.Themes.txtThemeContrastDark": "متضاد تاریک",
@@ -424,6 +425,5 @@
   "VE.Views.ViewTab.textZoom": "زوم",
   "VE.Views.ViewTab.tipFitPage": "صفحہ پر فٹ",
   "VE.Views.ViewTab.tipFitWidth": "چوڑائی کے مطابق",
-  "VE.Views.ViewTab.tipInterfaceTheme": "انٹرفیس تھیم",
-  "Common.UI.SynchronizeTip.textNew": "New"
+  "VE.Views.ViewTab.tipInterfaceTheme": "انٹرفیس تھیم"
 }

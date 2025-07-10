@@ -33,6 +33,7 @@
   "Common.UI.SearchDialog.txtBtnReplaceAll": "Substituir tudo",
   "Common.UI.SynchronizeTip.textDontShow": "Não exibir esta mensagem novamente",
   "Common.UI.SynchronizeTip.textGotIt": "Entendi",
+  "Common.UI.SynchronizeTip.textNew": "Novo",
   "Common.UI.SynchronizeTip.textSynchronize": "O documento foi alterado por outro usuário.<br>Clique para salvar suas alterações e recarregar as atualizações.",
   "Common.UI.Themes.txtThemeClassicLight": "Clássico claro",
   "Common.UI.Themes.txtThemeContrastDark": "Contraste escuro",
@@ -424,6 +425,5 @@
   "VE.Views.ViewTab.textZoom": "Zoom",
   "VE.Views.ViewTab.tipFitPage": "Ajustar a página",
   "VE.Views.ViewTab.tipFitWidth": "Ajustar à largura",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Tema de interface",
-  "Common.UI.SynchronizeTip.textNew": "New"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Tema de interface"
 }

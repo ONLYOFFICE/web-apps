@@ -242,7 +242,7 @@
   "Common.define.effectData.textToTopRight": "Hacia arriba a la derecha",
   "Common.define.effectData.textTransparency": "Transparencia",
   "Common.define.effectData.textTrapezoid": "Trapecio",
-  "Common.define.effectData.textTurnDown": "Giro hacia abajo",
+  "Common.define.effectData.textTurnDown": "Girar hacia abajo",
   "Common.define.effectData.textTurnDownRight": "Girar hacia abajo y a la derecha",
   "Common.define.effectData.textTurns": "Giros",
   "Common.define.effectData.textTurnUp": "Girar hacia arriba",
@@ -3036,5 +3036,6 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Herramienta de selección",
-  "PE.Views.ViewTab.tipSlideMaster": "Patrón de diapositivas"
+  "PE.Views.ViewTab.tipSlideMaster": "Patrón de diapositivas",
+  "PE.Views.PrintWithPreview.txtCustom": "Custom"
 }

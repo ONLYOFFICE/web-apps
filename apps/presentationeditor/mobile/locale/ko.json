@@ -99,7 +99,11 @@
       "leavePageText": "이 문서에 저장되지 않은 변경 사항이 있습니다. 자동 저장을 활성화하려면 \"이 페이지에서 나가기\"를 클릭하십시오. \"이 페이지에서 나가기\"를 클릭하면 저장되지 않은 모든 편집 내용이 삭제됩니다.",
       "notcriticalErrorTitle": "경고",
       "SDK": {
+        "Aspect": "종횡비",
         "Blue": "파랑",
+        "Blue Green": "청록",
+        "Blue II": "파랑 II",
+        "Blue Warm": "따뜻한 파랑",
         "Chart": "차트",
         "Click to add first slide": "첫 슬라이드 추가 클릭",
         "Click to add notes": "노트를 추가하려면 클릭",
@@ -108,44 +112,40 @@
         "Diagram": "다이어그램",
         "Diagram Title": "차트 제목",
         "Footer": "꼬리말",
+        "Grayscale": "그레이스케일",
         "Green": "녹색",
+        "Green Yellow": "연두",
         "Header": "머리글",
         "Image": "이미지",
         "Loading": "로드 중",
+        "Marquee": "선택 윤곽선",
         "Media": "미디어",
         "Median": "중앙값",
         "None": "없음",
+        "Office": "오피스",
+        "Office 2007 - 2010": "Office 2007 - 2010",
+        "Office 2013 - 2022": "Office 2013 - 2022",
         "Orange": "주황",
+        "Orange Red": "주홍",
+        "Paper": "용지",
         "Picture": "그림",
         "Red": "빨강",
+        "Red Orange": "적주황",
+        "Red Violet": "자홍",
         "Series": "시리즈",
         "Slide number": "슬라이드 번호",
         "Slide subtitle": "슬라이드 부제목",
         "Slide text": "슬라이드 텍스트",
         "Slide title": "슬라이드 제목",
+        "Slipstream": "슬립스트림",
         "Table": "표",
         "Violet": "바이올렛",
+        "Violet II": "보라 II",
         "X Axis": "X 축 XAS",
         "Y Axis": "Y 축",
         "Yellow": "노랑",
-        "Your text here": "여기에 귀하의 텍스트를 입력하여 주십시오",
-        "Aspect": "Aspect",
-        "Blue Green": "Blue Green",
-        "Blue II": "Blue II",
-        "Blue Warm": "Blue Warm",
-        "Grayscale": "Grayscale",
-        "Green Yellow": "Green Yellow",
-        "Marquee": "Marquee",
-        "Office": "Office",
-        "Office 2007 - 2010": "Office 2007 - 2010",
-        "Office 2013 - 2022": "Office 2013 - 2022",
-        "Orange Red": "Orange Red",
-        "Paper": "Paper",
-        "Red Orange": "Red Orange",
-        "Red Violet": "Red Violet",
-        "Slipstream": "Slipstream",
-        "Violet II": "Violet II",
-        "Yellow Orange": "Yellow Orange"
+        "Yellow Orange": "황주황",
+        "Your text here": "여기에 귀하의 텍스트를 입력하여 주십시오"
       },
       "textAnonymous": "익명",
       "textBuyNow": "웹 사이트 방문",
@@ -157,6 +157,7 @@
       "textNo": "아니오",
       "textNoLicenseTitle": "라이센스 수를 제한했습니다.",
       "textNoMatches": "일치 하는 항목 없음",
+      "textOk": "확인",
       "textOpenFile": "파일을 열려면 암호를 입력하십시오.",
       "textPaidFeature": "유료기능",
       "textRemember": "선택사항을 저장",
@@ -179,19 +180,19 @@
       "warnLicenseUsersExceeded": "편집자 사용자 한도인 %1명에 도달했습니다. 자세한 내용은 관리자에게 문의하십시오.",
       "warnNoLicense": "% 1 편집 연결 수 제한에 도달했습니다. 이 문서는 보기 모드로 열립니다. 개인적인 업그레이드 사항은 % 1 영업팀에 연락하십시오.",
       "warnNoLicenseUsers": "ONLYOFFICE 편집자의이 버전은 동시 사용자에게 일정한 제한이 있습니다. <br> 더 필요한 것이 있으면 현재 라이센스를 업그레이드하거나 상용 라이센스를 구입하십시오.",
-      "warnProcessRightsChange": "파일을 수정할 수 있는 권한이 없습니다.",
-      "textOk": "Ok"
+      "warnProcessRightsChange": "파일을 수정할 수 있는 권한이 없습니다."
     }
   },
   "Draw": {
     "textColor": "색상",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
+    "textCustomColor": "사용자 지정 색상",
+    "textLineSize": "선 굵기",
+    "textOpacity": "불투명도"
   },
   "Error": {
     "convertationTimeoutText": "변환 시간을 초과했습니다.",
     "criticalErrorExtText": "문서 목록으로 돌아가려면 \"확인\" 버튼을 누르십시오.",
+    "criticalErrorExtTextClose": "편집기를 닫으려면 '확인'을 누르세요.",
     "criticalErrorTitle": "오류",
     "downloadErrorText": "다운로드 실패",
     "errorAccessDeny": "권한이 없는 작업을 수행하려고 합니다. <br>관리자에게 문의하십시오.",
@@ -216,6 +217,7 @@
     "errorKeyEncrypt": "알 수없는 키 설명자",
     "errorKeyExpire": "키가 만료됨",
     "errorLoadingFont": "글꼴 불러오기에 실패하였습니다.<br>문서 시스템 관리자에게 문의하세요.",
+    "errorSaveWatermark": "이 파일에는 다른 도메인에 연결된 워터마크 이미지가 포함되어 있습니다.<br>PDF에서 보이도록 하려면 문서와 동일한 도메인에서 이미지를 링크하거나 컴퓨터에서 직접 업로드하세요.",
     "errorSessionAbsolute": "파일 편집 창이 만료되었습니다. 페이지를 새로고침하세요.",
     "errorSessionIdle": "이 문서는 한동안 수정되지 않았습니다. 페이지를 새로고침하세요.",
     "errorSessionToken": "서버에 대한 링크가 중단되었습니다. 페이지를 새로고침하세요.",
@@ -234,13 +236,11 @@
     "splitDividerErrorText": "행 수는 % 1의 약수이어야합니다",
     "splitMaxColsErrorText": "열 수가 % 1보다 작아야합니다",
     "splitMaxRowsErrorText": "행 수가 % 1보다 작아야합니다",
+    "textOk": "확인",
     "unknownErrorText": "알 수 없는 오류.",
     "uploadImageExtMessage": "알 수없는 이미지 형식입니다.",
     "uploadImageFileCountMessage": "이미지가 업로드되지 않았습니다.",
-    "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다."
   },
   "LongActions": {
     "applyChangesTextText": "데이터로드 중 ...",
@@ -277,16 +277,16 @@
     "waitText": "잠시만 기다려주세요..."
   },
   "Toolbar": {
+    "btnRestartNow": "지금 다시 시작",
     "dlgLeaveMsgText": "이 문서에 저장되지 않은 변경 사항이 있습니다. 자동 저장을 활성화하려면 \"이 페이지에서 나가기\"를 클릭하십시오. \"이 페이지에서 나가기\"를 클릭하면 저장되지 않은 모든 편집 내용이 삭제됩니다.",
     "dlgLeaveTitleText": "응용 프로그램을 종료합니다",
     "leaveButtonText": "이 페이지에서 나가기",
     "stayButtonText": "이 페이지에 보관",
     "textCloseHistory": "닫기 역사",
     "textEnterNewFileName": "새 파일 이름을 입력하세요.",
+    "textOk": "확인",
     "textRenameFile": "파일 이름 변경",
-    "btnRestartNow": "Restart now",
-    "textOk": "OK",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "데스크톱 보기로 전환"
   },
   "View": {
     "Add": {
@@ -300,6 +300,7 @@
       "textDefault": "선택한 텍스트",
       "textDisplay": "표시",
       "textDone": "완료",
+      "textDrawing": "그리기",
       "textEmptyImgUrl": "이미지의 URL을 지정해야 합니다.",
       "textExternalLink": "외부 링크",
       "textFirstSlide": "첫 번째 슬라이드",
@@ -329,8 +330,7 @@
       "textSlideNumber": "슬라이드 번호",
       "textTable": "표",
       "textTableSize": "표 크기",
-      "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다.",
-      "textDrawing": "Drawing"
+      "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다."
     },
     "Edit": {
       "notcriticalErrorTitle": "경고",
@@ -509,6 +509,7 @@
       "textBack": "뒤로",
       "textCaseSensitive": "대소문자 구별",
       "textCentimeter": "센티미터",
+      "textClose": "닫기",
       "textCollaboration": "협업",
       "textColorSchemes": "색 구성표",
       "textComment": "코멘트",
@@ -562,8 +563,7 @@
       "textUnitOfMeasurement": "측정 단위",
       "textUploaded": "업로드 되었습니다",
       "textVersion": "버전",
-      "textVersionHistory": "버전 기록",
-      "textClose": "Close"
+      "textVersionHistory": "버전 기록"
     }
   }
 }

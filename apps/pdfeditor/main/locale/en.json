@@ -1518,6 +1518,7 @@
   "PDFE.Views.FormSettings.textValue": "Value options",
   "PDFE.Views.FormSettings.textZipCode": "ZIP Code",
   "PDFE.Views.FormSettings.textZipCode4": "ZIP Code + 4",
+  "PDFE.Views.FormSettings.textPassword": "Password",
   "PDFE.Views.FormSettings.txtCustom": "Custom",
   "PDFE.Views.FormSettings.textTip": "Tip",
   "PDFE.Views.FormsTab.capBtnCheckBox": "Checkbox",

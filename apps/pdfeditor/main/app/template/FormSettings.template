@@ -112,6 +112,11 @@
             <div class="separator horizontal"></div>
         </td>
     </tr>
+    <tr class="form-text">
+        <td class="padding-small">
+            <div id="form-chb-pwd"></div>
+        </td>
+    </tr>
     <tr class="form-text-combo">
         <td class="padding-small">
             <div id="form-chb-autofit"></div>

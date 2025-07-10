@@ -221,7 +221,7 @@ define([
                 this.mergeSettings = new DE.Views.MailMergeSettings();
             }
 
-            if (mode && mode.isSignatureSupport) {
+            if (mode && (mode.isSignatureSupport || mode.isPDFSignatureSupport)) {
                 this.btnSignature = new Common.UI.Button({
                     hint: this.txtSignatureSettings,
                     asctype: Common.Utils.documentSettingsType.Signature,
@@ -299,6 +299,7 @@ define([
             this.formSettings && this.formSettings.setMode(mode);
             this.chartSettings && this.chartSettings.setMode(mode);
             this.headerSettings && this.headerSettings.setMode(mode);
+            this.signatureSettings && this.signatureSettings.setMode(mode);
         },
 
         onBtnMenuClick: function(btn, e) {

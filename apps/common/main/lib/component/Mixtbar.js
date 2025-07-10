@@ -745,7 +745,7 @@ define([
                     _maxright = box_controls_width;
                 if (!_staticPanelWidth) _staticPanelWidth = 0;
                 var _rightedge = $active.outerWidth() + _staticPanelWidth,
-                    delta = (this._prevBoxWidth) ? (_maxright - this._prevBoxWidth) : -1,
+                    delta = (this._prevBoxWidth!==undefined) ? (_maxright - this._prevBoxWidth) : -1,
                     hideAllMenus = false;
                 this._prevBoxWidth = _maxright;
                 more_section.is(':visible') && (_maxright -= more_section_width);

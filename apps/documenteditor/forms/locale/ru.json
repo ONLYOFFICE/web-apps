@@ -173,6 +173,7 @@
   "DE.Controllers.ApplicationController.warnLicenseUsersExceeded": "Вы достигли лимита на количество пользователей редакторов %1. Свяжитесь с администратором, чтобы узнать больше.",
   "DE.Controllers.ApplicationController.warnNoLicense": "Вы достигли лимита на одновременные подключения к редакторам %1. Этот документ будет открыт на просмотр.<br>Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия лицензирования.",
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "Вы достигли лимита на количество пользователей редакторов %1. Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия обновления.",
+  "DE.Controllers.ApplicationController.warnStartFilling": "Идет заполнение формы.<br>Редактирование файла в настоящее время недоступно.",
   "DE.Views.ApplicationView.textClear": "Очистить все поля",
   "DE.Views.ApplicationView.textClearField": "Очистить поле",
   "DE.Views.ApplicationView.textClose": "Закрыть файл",

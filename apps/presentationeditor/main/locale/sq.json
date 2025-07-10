@@ -3036,5 +3036,6 @@
   "PE.Views.ViewTab.tipMacros": "Makrot",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Selektoni mjetin",
-  "PE.Views.ViewTab.tipSlideMaster": "Slajdi master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slajdi master",
+  "PE.Views.PrintWithPreview.txtCustom": "Custom"
 }
