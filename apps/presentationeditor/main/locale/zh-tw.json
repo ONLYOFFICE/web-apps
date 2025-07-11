@@ -1120,7 +1120,7 @@
   "PE.Controllers.Main.txtPrevSlide": "上一張投影片",
   "PE.Controllers.Main.txtRectangles": "長方形",
   "PE.Controllers.Main.txtSaveCopyAsComplete": "檔案副本已成功儲存",
-  "PE.Controllers.Main.txtScheme_Aspect": "外觀比例",
+  "PE.Controllers.Main.txtScheme_Aspect": "縱橫比",
   "PE.Controllers.Main.txtScheme_Blue": "藍色",
   "PE.Controllers.Main.txtScheme_Blue_Green": "藍綠色",
   "PE.Controllers.Main.txtScheme_Blue_II": "藍色 II",
@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "沿短邊翻轉頁面",
   "PE.Views.PrintWithPreview.txtCopies": "副本",
   "PE.Views.PrintWithPreview.txtCurrentPage": "目前投影片",
+  "PE.Views.PrintWithPreview.txtCustom": "Custom",
   "PE.Views.PrintWithPreview.txtCustomPages": "自訂列印",
   "PE.Views.PrintWithPreview.txtEmptyTable": "因為簡報是空的，所以沒有內容可供列印",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "頁首/頁尾設定",
@@ -3036,6 +3037,5 @@
   "PE.Views.ViewTab.tipMacros": "巨集",
   "PE.Views.ViewTab.tipNormal": "標準模式",
   "PE.Views.ViewTab.tipSelectTool": "選取工具",
-  "PE.Views.ViewTab.tipSlideMaster": "大綱模式",
-  "PE.Views.PrintWithPreview.txtCustom": "Custom"
+  "PE.Views.ViewTab.tipSlideMaster": "大綱模式"
 }

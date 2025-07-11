@@ -173,6 +173,7 @@
   "DE.Controllers.ApplicationController.warnLicenseUsersExceeded": "Դուք հասել եք %1 խմբագրիչներին միաժամանակ միանալու սահմանափակմանը։Կապվեք Ձեր ադմինիստրատորի հետ՝ ավելին իմանալու համար:",
   "DE.Controllers.ApplicationController.warnNoLicense": "Դուք հասել եք %1 խմբագրիչներին միաժամանակ միանալու սահմանափակմանը։ Այս փաստաթուղթը կբացվի միայն ընթերցման համար։<br>Ծրագրի նորացման անհատական պայմանները քննարկելու համար գրեք վաճառքի %1 բաժին։",
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "Դուք հասել եք %1 խմբագրիչներին միաժամանակ միանալու սահմանափակմանը։ Ծրագրի նորացման անհատական պայմանները քննարկելու համար գրեք վաճառքի %1 բաժին։",
+  "DE.Controllers.ApplicationController.warnStartFilling": "Ձևաթղթի լրացումը ընթացքի մեջ է։<br>Ֆայլի խմբագրումը ներկայումս հասանելի չէ։",
   "DE.Views.ApplicationView.textClear": "Մաքրել բոլոր դաշտերը",
   "DE.Views.ApplicationView.textClearField": "Մաքուր դաշտ",
   "DE.Views.ApplicationView.textClose": "Փակել ֆայլը",

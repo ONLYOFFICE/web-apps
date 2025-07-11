@@ -4615,5 +4615,6 @@
   "SSE.Views.WBProtection.txtProtectWB": "Babestu laneko liburua",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Idatzi pasahitza orriari babesa kentzeko",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Kendu babesa orriari",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Idatzi pasahitza laneko liburuari babesa kentzeko"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Idatzi pasahitza laneko liburuari babesa kentzeko",
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Kendu babesa laneko liburuari"
 }

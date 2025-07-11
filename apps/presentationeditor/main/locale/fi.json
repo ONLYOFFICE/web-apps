@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "Käännä lyhyen sivun ympäri",
   "PE.Views.PrintWithPreview.txtCopies": "Kopiot",
   "PE.Views.PrintWithPreview.txtCurrentPage": "Current slide",
+  "PE.Views.PrintWithPreview.txtCustom": "Custom",
   "PE.Views.PrintWithPreview.txtCustomPages": "Mukautettu tulostus",
   "PE.Views.PrintWithPreview.txtEmptyTable": "There is nothing to print because the presentation is empty",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "Header/footer settings",
@@ -3036,6 +3037,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normaali",
   "PE.Views.ViewTab.tipSelectTool": "Valitse työkalu",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.PrintWithPreview.txtCustom": "Custom"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

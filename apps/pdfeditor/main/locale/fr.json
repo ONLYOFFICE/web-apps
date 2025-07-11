@@ -1476,6 +1476,7 @@
   "PDFE.Views.FormSettings.textOrientation": "Orientation",
   "PDFE.Views.FormSettings.textOutline": "Contour",
   "PDFE.Views.FormSettings.textOverlay": "Étiquette sur l'icône",
+  "PDFE.Views.FormSettings.textPassword": "Mot de passe",
   "PDFE.Views.FormSettings.textPercent": "Pourcentage",
   "PDFE.Views.FormSettings.textPhone": "Numéro de téléphone",
   "PDFE.Views.FormSettings.textPlaceholder": "Espace réservé",

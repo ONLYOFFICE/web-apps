@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Chcete odstrániť tento podpis?<br>Nie je možné to vrátiť späť.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Tento dokument je potrebné podpísať.",
   "DE.Views.SignatureSettings.txtSigned": "Do dokumentu boli pridané platné podpisy. Je zabezpečený proti úpravám. ",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Niektoré digitálne podpisy v dokumente nie sú platné alebo nemohli byť overené. Dokument nie je možné upravovať.",
   "DE.Views.Statusbar.goToPageText": "Ísť na stranu",
   "DE.Views.Statusbar.pageIndexText": "Strana {0} z {1}",
@@ -3763,6 +3764,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Polopriehľadný",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podčiarknutie",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Názov písma",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veľkosť písma",
-  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veľkosť písma"
 }

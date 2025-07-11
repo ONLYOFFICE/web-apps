@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Θέλετε να αφαιρέσετε αυτή την υπογραφή;<br>Δεν μπορεί να αναιρεθεί.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Αυτό το έγγραφο πρέπει να υπογραφεί.",
   "DE.Views.SignatureSettings.txtSigned": "Προστέθηκαν έγκυρες υπογραφές  στο έγγραφο. Το έγγραφο έχει προστασία επεξεργασίας.",
+  "DE.Views.SignatureSettings.txtSignedForm": "Αυτό το έγγραφο έχει υπογραφεί και δεν μπορεί να επεξεργαστεί.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Κάποιες από τις ψηφιακές υπογραφές του εγγράφου είναι άκυρες ή δεν επιβεβαιώθηκαν. Αποτρέπεται η επεξεργασία του.",
   "DE.Views.Statusbar.goToPageText": "Μετάβαση στη σελίδα",
   "DE.Views.Statusbar.pageIndexText": "Σελίδα {0} από {1}",
@@ -3763,6 +3764,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Ημιδιαφανές",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Υπογράμμιση",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Όνομα γραμματοσειράς",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς",
-  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς"
 }

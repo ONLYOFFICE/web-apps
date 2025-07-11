@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Do you want to remove this signature?<br>It can't be undone.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "This document needs to be signed.",
   "DE.Views.SignatureSettings.txtSigned": "Chữ ký hợp lệ đã được thêm vào tài liệu. Tài liệu được bảo vệ khỏi việc bị chỉnh sửa",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Some of the digital signatures in the document are invalid or could not be verified. The document is protected from editing.",
   "DE.Views.Statusbar.goToPageText": "Tới Trang",
   "DE.Views.Statusbar.pageIndexText": "Trang {0} trên {1}",
@@ -3763,6 +3764,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Underline",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Font name",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font size",
-  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font size"
 }

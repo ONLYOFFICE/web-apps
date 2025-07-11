@@ -173,6 +173,7 @@
   "DE.Controllers.ApplicationController.warnLicenseUsersExceeded": "Keni arritur kufirin e përdoruesit për redaktuesit %1. Kontaktoni administratorin tuaj për të mësuar më shumë.",
   "DE.Controllers.ApplicationController.warnNoLicense": "Keni arritur kufirin për lidhje të njëkohshme me redaktuesit %1. Ky dokument do të hapet vetëm për shikim.<br>Kontakto %1 ekipin e shitjeve për kushtet e përmirësimit personal.",
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "Keni arritur kufirin e përdoruesit për redaktuesit %1. Kontakto ekipin e shitjeve %1 për kushtet e përmirësimit personal.",
+  "DE.Controllers.ApplicationController.warnStartFilling": "Plotësimi i formularit është në proces.<br>Redaktimi i skedarit nuk është i disponueshëm për momentin..",
   "DE.Views.ApplicationView.textClear": "Pastroni të gjithë fushat",
   "DE.Views.ApplicationView.textClearField": "Pastro fushën",
   "DE.Views.ApplicationView.textClose": "Mbyll skedarin",

@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "Обрни стране на кратку ивицу",
   "PE.Views.PrintWithPreview.txtCopies": "Копије",
   "PE.Views.PrintWithPreview.txtCurrentPage": "Тренутни слајд",
+  "PE.Views.PrintWithPreview.txtCustom": "Custom",
   "PE.Views.PrintWithPreview.txtCustomPages": "Прилагођена штампа",
   "PE.Views.PrintWithPreview.txtEmptyTable": "Нема ништа за штампање зато што је презентација празна",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "Заглавље /подножје подешавања",
@@ -3036,6 +3037,5 @@
   "PE.Views.ViewTab.tipMacros": "Макрои",
   "PE.Views.ViewTab.tipNormal": "Нормалан",
   "PE.Views.ViewTab.tipSelectTool": "Одабери алатку",
-  "PE.Views.ViewTab.tipSlideMaster": "Главни управљаш слајдова",
-  "PE.Views.PrintWithPreview.txtCustom": "Custom"
+  "PE.Views.ViewTab.tipSlideMaster": "Главни управљаш слајдова"
 }

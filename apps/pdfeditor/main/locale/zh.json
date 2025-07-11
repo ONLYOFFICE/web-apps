@@ -2236,5 +2236,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "适合页面",
   "PDFE.Views.ViewTab.tipFitToWidth": "适应宽度",
   "PDFE.Views.ViewTab.tipHeadings": "标题",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "界面主题"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "界面主题",
+  "PDFE.Views.FormSettings.textPassword": "Password"
 }

@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Czy chcesz usunąć ten podpis? <br> Nie można tego cofnąć.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Ten dokument musi zostać podpisany.",
   "DE.Views.SignatureSettings.txtSigned": "Do dokumentu dodano prawidłowe podpisy. Dokument jest chroniony przed edycją.",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Niektóre podpisy cyfrowe w dokumencie są nieprawidłowe lub nie można ich zweryfikować. Dokument jest chroniony przed edycją.",
   "DE.Views.Statusbar.goToPageText": "Idź do strony",
   "DE.Views.Statusbar.pageIndexText": "Strona {0} z {1}",
@@ -3763,6 +3764,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Półprzezroczysty",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podkreślenie",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nazwa czcionki",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Rozmiar czcionki",
-  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Rozmiar czcionki"
 }

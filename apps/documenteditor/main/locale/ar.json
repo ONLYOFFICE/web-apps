@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "هل تريد حذف هذا التوقيع؟<br>لا يمكن التراجع عنه.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "هذا المستند بحاجة للتوقيع",
   "DE.Views.SignatureSettings.txtSigned": "تمت إضافة التوقيعات الصالحة إلى المستند. المستند محمي من التعديل.",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "بعض التوقيعات الرقمية في هذا المستند غير صالحة أو لا يمكن التحقق منها. هذا المستند محمي من التعديل.",
   "DE.Views.Statusbar.goToPageText": "الذهاب إلى الصفحة",
   "DE.Views.Statusbar.pageIndexText": "الصفحة {0} من {1}",
@@ -3763,6 +3764,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "شبه شفاف",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "تحته خط",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "اسم الخط",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط",
-  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط"
 }

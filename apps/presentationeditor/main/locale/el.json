@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "Αναστροφή σελίδων στη μικρή άκρη",
   "PE.Views.PrintWithPreview.txtCopies": "Αντίγραφα",
   "PE.Views.PrintWithPreview.txtCurrentPage": "Τρέχουσα διαφάνεια",
+  "PE.Views.PrintWithPreview.txtCustom": "Προσαρμογή",
   "PE.Views.PrintWithPreview.txtCustomPages": "Προσαρμοσμένη εκτύπωση",
   "PE.Views.PrintWithPreview.txtEmptyTable": "Δεν υπάρχει τίποτα για εκτύπωση, επειδή η παρουσίαση είναι κενή",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "Ρυθμίσεις κεφαλίδας/υποσέλιδου",
@@ -3036,6 +3037,5 @@
   "PE.Views.ViewTab.tipMacros": "Μακροεντολές",
   "PE.Views.ViewTab.tipNormal": "Κανονικό",
   "PE.Views.ViewTab.tipSelectTool": "Εργαλείο επιλογής",
-  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών",
-  "PE.Views.PrintWithPreview.txtCustom": "Custom"
+  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών"
 }

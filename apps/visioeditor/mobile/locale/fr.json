@@ -3,7 +3,7 @@
     "textAbout": "À propos",
     "textAddress": "Adresse",
     "textBack": "Retour",
-    "textEditor": "Éditeur Visio",
+    "textEditor": "Visionneuse de diagrammes ",
     "textEmail": "E-mail",
     "textPoweredBy": "Développé par",
     "textTel": "Tél.",
@@ -210,8 +210,8 @@
       "textUploaded": "Téléchargé",
       "textVersion": "Version",
       "textVisioInfo": "Infos sur Visionneuse de diagramme",
-      "textVisioSettings": "Paramètres de Visio",
-      "textVisioTitle": "Titre du visualiseur de diagramme"
+      "textVisioSettings": "Paramètres de Visionneuse de diagrammes",
+      "textVisioTitle": "Titre de la Visionneuse de diagrammes"
     }
   }
 }
