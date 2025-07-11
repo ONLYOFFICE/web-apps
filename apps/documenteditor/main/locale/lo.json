@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "ທ່ານຕ້ອງການຕັດລາຍເຊັນນີ້ອອກບໍ່?<br>ຈະບໍ່ສາມາດກູ້ຄືນໄດ້",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "ເອກະສານນີ້ຕ້ອງໄດ້ເຊັນ.",
   "DE.Views.SignatureSettings.txtSigned": "ລາຍເຊັນຖືກຕ້ອງໄດ້ຖືກເພີ່ມເຂົ້າໃນເອກະສານດັ່ງກ່າວ. ເອກະສານດັ່ງກ່າວແມ່ນປ້ອງກັນຈາກການດັດແກ້.",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "ບາງລາຍເຊັນດິຈິຕອນໃນເອກະສານແມ່ນບໍ່ຖືກຕ້ອງຫລືບໍ່ສາມາດຢືນຢັນໄດ້. ເອກະສານດັ່ງກ່າວແມ່ນປ້ອງກັນຈາກການດັດແກ້.",
   "DE.Views.Statusbar.goToPageText": "ໄປຍັງໜ້າ",
   "DE.Views.Statusbar.pageIndexText": "ໜ້າ {0} ຂອງ {1}",
@@ -3763,6 +3764,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "ຂີ້ດກ້ອງ",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "ຊື່ຕົວອັກສອນ",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "ຂະໜາດຕົວອັກສອນ",
-  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "ຂະໜາດຕົວອັກສອນ"
 }

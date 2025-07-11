@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Да ли желите да одстраните овај потпис?<br>Не може се поништити.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Овај документ мора да се потпише.",
   "DE.Views.SignatureSettings.txtSigned": "Валидни потписи су додати у документ. Документ је заштићен од уређивања.",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Неки од дигиталних потписа у документу су неважећи или не могу бити верификовани. Документ је заштићен од уређивања.",
   "DE.Views.Statusbar.goToPageText": "Иди на Страницу",
   "DE.Views.Statusbar.pageIndexText": "Страница {0} од {1}",
@@ -3763,6 +3764,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Полупровидно",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Подвуци",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Назив фонта",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Величина фонта",
-  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Величина фонта"
 }

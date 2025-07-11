@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "قلب الصفحات على الحافة القصيرة",
   "PE.Views.PrintWithPreview.txtCopies": "النسخ",
   "PE.Views.PrintWithPreview.txtCurrentPage": "الشريحة الحالية",
+  "PE.Views.PrintWithPreview.txtCustom": "Custom",
   "PE.Views.PrintWithPreview.txtCustomPages": "طباعة مخصصة",
   "PE.Views.PrintWithPreview.txtEmptyTable": "لا يوجد شيء للطباعة بسبب أن العرض التقديمي فارغ",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "إعدادات الترويسة\\التذييل",
@@ -3036,6 +3037,5 @@
   "PE.Views.ViewTab.tipMacros": "وحدات الماكرو",
   "PE.Views.ViewTab.tipNormal": "عادي",
   "PE.Views.ViewTab.tipSelectTool": "حدد الأداة",
-  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية",
-  "PE.Views.PrintWithPreview.txtCustom": "Custom"
+  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية"
 }

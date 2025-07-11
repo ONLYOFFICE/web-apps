@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "Irauli orriak ertz laburretik",
   "PE.Views.PrintWithPreview.txtCopies": "Kopiak",
   "PE.Views.PrintWithPreview.txtCurrentPage": "Uneko diapositiba",
+  "PE.Views.PrintWithPreview.txtCustom": "Custom",
   "PE.Views.PrintWithPreview.txtCustomPages": "Inprimatze pertsonalizatua",
   "PE.Views.PrintWithPreview.txtEmptyTable": "Ez dago zer inprimatu, aurkezpena hutsik dagoelako",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "Goiburu eta orri-oinen ezarpenak",
@@ -3036,6 +3037,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.PrintWithPreview.txtCustom": "Custom"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

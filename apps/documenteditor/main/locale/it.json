@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Vuoi rimuovere questa firma?<br>Non si può annullare.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Questo documento necessita di essere firmato",
   "DE.Views.SignatureSettings.txtSigned": "Al documento sono state aggiunte firme valide. Il documento è protetto dalla modifica.",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Alcune delle firme digitali preseti nel documento non sono valide o non possono essere verificate. Il documento è protetto dalla modifica.",
   "DE.Views.Statusbar.goToPageText": "Vai alla pagina",
   "DE.Views.Statusbar.pageIndexText": "Pagina {0} di {1}",
@@ -3763,6 +3764,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitrasparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Sottolineato",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nome carattere",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Dimensione carattere",
-  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Dimensione carattere"
 }

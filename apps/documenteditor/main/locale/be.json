@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Хочаце выдаліць гэты подпіс?<br>Гэтае дзеянне нельга скасаваць.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Гэты дакумент неабходна падпісаць.",
   "DE.Views.SignatureSettings.txtSigned": "У дакумент дададзеныя дзейныя подпісы. Дакумент абаронены ад рэдагавання.",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Некаторыя з лічбавых подпісаў у дакуменце хібныя альбо іх немагчыма праверыць. Дакумент абаронены ад рэдагавання.",
   "DE.Views.Statusbar.goToPageText": "Перайсці да старонкі",
   "DE.Views.Statusbar.pageIndexText": "Старонка {0} з {1}",
@@ -3763,6 +3764,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Паўпразрысты",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Падкрэслены",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Назва шрыфту",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Памер шрыфту",
-  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Памер шрыфту"
 }

@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Eltávolítsuk ezt az aláírást?<br>Nem lehet visszavonni.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Ezt a dokumentumot alá kell írni.",
   "DE.Views.SignatureSettings.txtSigned": "Érvényes aláírásokat adtak a dokumentumhoz. A dokumentum nem szerkeszthető.",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "A dokumentumban szereplő digitális aláírások némelyike érvénytelen vagy nem ellenőrizhető. A dokumentum nem szerkeszthető.",
   "DE.Views.Statusbar.goToPageText": "Oldalra ugrás",
   "DE.Views.Statusbar.pageIndexText": "{0}. / {1} oldal",
@@ -3763,6 +3764,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Féligáttetsző",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Aláhúzott",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Betűtípus neve",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Betűméret",
-  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Betűméret"
 }

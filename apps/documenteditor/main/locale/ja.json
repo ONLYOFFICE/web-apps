@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "この署名を削除しますか？<br>この操作は元に戻せません。",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "この文書には署名が必要です。",
   "DE.Views.SignatureSettings.txtSigned": "有効な署名がドキュメントに追加されました。 ドキュメントは編集されないように保護されています。",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "文書のデジタル署名の一部が無効であるか、検証できませんでした。 文書は編集できないように保護されています。",
   "DE.Views.Statusbar.goToPageText": "ページに移動",
   "DE.Views.Statusbar.pageIndexText": "{0}/{1} ページ",
@@ -3763,6 +3764,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "半透明",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "アンダーライン",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "フォント名",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "フォントのサイズ",
-  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "フォントのサイズ"
 }

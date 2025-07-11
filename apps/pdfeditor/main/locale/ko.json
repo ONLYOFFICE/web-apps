@@ -2236,5 +2236,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "페이지에 맞춤",
   "PDFE.Views.ViewTab.tipFitToWidth": "너비에 맞춤",
   "PDFE.Views.ViewTab.tipHeadings": "제목",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마",
+  "PDFE.Views.FormSettings.textPassword": "Password"
 }

@@ -420,6 +420,7 @@
   "Error": {
     "convertationTimeoutText": "ההמרה חרגה מהזמן הקצוב.",
     "criticalErrorExtText": "נא ללחוץ על 'אישור' לחזרה לרשימת המסמכים.",
+    "criticalErrorExtTextClose": "יש ללחוץ 'אישור' לסגירת העורך.",
     "criticalErrorTitle": "שגיאה",
     "downloadErrorText": "ההורדה נכשלה.",
     "errorAccessDeny": "אין לך הרשאה לביצוע הפעולה שנסית לבצע.<br> נא ליצור קשר עם מנהל המערכת שלך.",
@@ -479,8 +480,7 @@
     "uploadDocSizeMessage": "חריגה ממגבלת הגודל המירבי של מסמך.",
     "uploadImageExtMessage": "פורמט תמונה לא ידוע.",
     "uploadImageFileCountMessage": "לא הועלו תמונות.",
-    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט."
   },
   "LongActions": {
     "applyChangesTextText": "טעינת נתונים...",
@@ -714,6 +714,7 @@
     "textDownloadAs": "הורדה כ",
     "textDownloadRtf": "המשך השמירה בפורמט זה עלול להביא לכך שחלק מהעיצוב לא יישמר. האם ברצונך להמשיך?",
     "textDownloadTxt": "המשך השמירה בפורמט זה יביא להסרת כל התכונות מלבד המלל ללא העיצוב. האם ברצונך להמשיך?",
+    "textDrawing": "ציור",
     "textEmptyHeading": "כותרת ריקה",
     "textEmptyScreens": "אין כותרות במסמך. נדרש להחיל סגנון כותרות על המלל כדי שיוצג בתוכן העניינים.",
     "textEnableAll": "התרת הכל",
@@ -808,8 +809,7 @@
     "txtDownloadTxt": "הורדת TXT",
     "txtIncorrectPwd": "הסיסמה שגויה",
     "txtOk": "אישור",
-    "txtProtected": "לאחר הזנת הסיסמה ופתיחת הקובץ, הסיסמה הנוכחית תאופס",
-    "textDrawing": "Drawing"
+    "txtProtected": "לאחר הזנת הסיסמה ופתיחת הקובץ, הסיסמה הנוכחית תאופס"
   },
   "Toolbar": {
     "btnRestartNow": "הפעל מחדש עכשיו",

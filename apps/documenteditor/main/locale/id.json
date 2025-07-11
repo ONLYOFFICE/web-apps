@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Apakah Anda ingin menghilangkan tandatangan ini?<br>Proses tidak bisa dikembalikan.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Dokumen ini perlu ditandatangani.",
   "DE.Views.SignatureSettings.txtSigned": "Tandatangan valid sudah ditambahkan ke dokumen. Dokumen dilindungi dari penyuntingan.",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Beberapa tanda tangan digital di dokumen tidak valid atau tidak bisa diverifikasi. Dokumen dilindungi dari penyuntingan.",
   "DE.Views.Statusbar.goToPageText": "Buka Halaman",
   "DE.Views.Statusbar.pageIndexText": "Halaman {0} dari {1}",
@@ -3763,6 +3764,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semi Transparan",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Garis bawah",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nama font",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Ukuran font",
-  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Ukuran font"
 }

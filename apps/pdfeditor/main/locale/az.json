@@ -2236,5 +2236,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Səhifəyə uyğun tənzimlə",
   "PDFE.Views.ViewTab.tipFitToWidth": "Enə uyğun tənzimlə",
   "PDFE.Views.ViewTab.tipHeadings": "Başlıqlar",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "İnterfeys mövzusu"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "İnterfeys mövzusu",
+  "PDFE.Views.FormSettings.textPassword": "Password"
 }

@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "Capovolgi le pagine sul lato corto",
   "PE.Views.PrintWithPreview.txtCopies": "Copie",
   "PE.Views.PrintWithPreview.txtCurrentPage": "Slide corrente",
+  "PE.Views.PrintWithPreview.txtCustom": "Custom",
   "PE.Views.PrintWithPreview.txtCustomPages": "Stampa personalizzata",
   "PE.Views.PrintWithPreview.txtEmptyTable": "Non c'è nulla da stampare perché la presentazione è vuota",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "Impostazioni intestazione/piè di pagina",
@@ -3036,6 +3037,5 @@
   "PE.Views.ViewTab.tipMacros": "Macro",
   "PE.Views.ViewTab.tipNormal": "Normale",
   "PE.Views.ViewTab.tipSelectTool": "Seleziona strumento",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.PrintWithPreview.txtCustom": "Custom"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

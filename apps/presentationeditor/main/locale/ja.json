@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "短辺を綴じる",
   "PE.Views.PrintWithPreview.txtCopies": "コピー",
   "PE.Views.PrintWithPreview.txtCurrentPage": "現在のスライド",
+  "PE.Views.PrintWithPreview.txtCustom": "Custom",
   "PE.Views.PrintWithPreview.txtCustomPages": "カスタム印刷",
   "PE.Views.PrintWithPreview.txtEmptyTable": "プレゼンテーションが空白のため、印刷できるスライドがありません。",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "ヘッダー/フッター設定",
@@ -3036,6 +3037,5 @@
   "PE.Views.ViewTab.tipMacros": "マクロ",
   "PE.Views.ViewTab.tipNormal": "標準",
   "PE.Views.ViewTab.tipSelectTool": "選択ツール",
-  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター",
-  "PE.Views.PrintWithPreview.txtCustom": "Custom"
+  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター"
 }
