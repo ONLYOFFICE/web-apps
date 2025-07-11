@@ -2150,6 +2150,7 @@
   "DE.Views.DocumentHolder.textHorAxisSec": "Secondary horizontal axis",
   "DE.Views.DocumentHolder.textVertAxis": "Vertical axis",
   "DE.Views.DocumentHolder.textVertAxisSec": "Secondary vertical axis",
+  "DE.Views.DocumentHolder.textNone": "None",
   "DE.Views.DocumentHolder.textNoOverlay": "No overlay",
   "DE.Views.DocumentHolder.textOverlay": "Overlay",
   "DE.Views.DocumentHolder.textDataLabels": "Data labels",

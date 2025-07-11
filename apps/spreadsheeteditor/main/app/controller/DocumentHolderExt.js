@@ -1114,424 +1114,6 @@ define([], function () {
             }
         };
 
-        const chartElementMap = {
-            0: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            1: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
-            2: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
-            3: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'], 
-            4: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'], 
-            5: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'], 
-            6: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'], 
-            7: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'], 
-            8: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'upDownBars'], 
-            9: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'], 
-            10: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'], 
-            11: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'upDownBars'], 
-            12: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'upDownBars'], 
-            13: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'], 
-            14: ['chartTitle', 'dataLabels', 'legend'], 
-            15: ['chartTitle', 'dataLabels', 'legend'], 
-            16: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            17: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
-            18: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
-            19: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'],
-            20: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'], 
-            21: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'], 
-            22: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
-            23: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
-            24: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
-            25: ['chartTitle', 'dataLabels', 'legend'], 
-            26: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'], 
-            27: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            28: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            29: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            30: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            31: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            32: ['axes', 'axisTitles', 'chartTitle', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            33: ['axes', 'axisTitles', 'chartTitle', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            34: ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'], 
-            35: ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
-            36: ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'], 
-            37: ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'], 
-            38: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            39: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            40: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            41: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
-            42: ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'], 
-            43: ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'], 
-            44: ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'], 
-            45: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'] 
-        };
-
-        window.highlightedGroups = {};
-
-        function highlightSubmenuItem(item, highlight, group) {
-            if (!item || !item.el || !item.el.classList) return;
-        
-            if (highlight) {
-                item.el.classList.add('over');
-        
-                if (window.highlightedGroups[group] && window.highlightedGroups[group] !== item) {
-                    window.highlightedGroups[group].el.classList.remove('over');
-                }
-        
-                window.highlightedGroups[group] = item;
-            } else {
-                item.el.classList.remove('over');
-        
-                if (window.highlightedGroups[group] === item) {
-                    window.highlightedGroups[group] = null;
-                }
-            }
-        }
-
-        dh.onChartElement = function(menu, item) {
-            var chartProps = this.chartProps,
-                HorAxis = chartProps.getHorAxesProps()?.[0],
-                SecHorAxis = chartProps.getHorAxesProps()?.[1],
-                VertAxis = chartProps.getVertAxesProps()?.[0],
-                SecVertAxis = chartProps.getVertAxesProps()?.[1],
-                DepthAxis = chartProps.getDepthAxesProps()?.[0],
-                HorMajorGridlines = HorAxis?.getGridlines() === 1 || HorAxis?.getGridlines() === 3,
-                HorMinorGridlines = HorAxis?.getGridlines() === 2 || HorAxis?.getGridlines() === 3,
-                VertMajorGridlines = VertAxis?.getGridlines() === 1 || VertAxis?.getGridlines() === 3,
-                VertMinorGridlines = VertAxis?.getGridlines() === 2 || VertAxis?.getGridlines() === 3;
-                
-            const value = item.value,
-                  type = chartProps.getType(),
-                  RadarChart = [42, 43, 44].includes(type),
-                  hBarChart = [16,17,18,19,20,21].includes(type),
-                  scatterChart = [27,28,29,30,31,32,33,34].includes(type);
-            
-            switch (value) {
-                case 'bShowHorAxis':
-                    if (hBarChart) {
-                        chartProps.setDisplayAxes(VertAxis?.getShow(), SecVertAxis?.getShow(), item.checked, SecHorAxis?.getShow(), DepthAxis?.getShow());
-                    } else if (scatterChart) {
-                        chartProps.setDisplayAxes(SecVertAxis?.getShow(), SecHorAxis?.getShow(), item.checked, VertAxis?.getShow(), DepthAxis?.getShow());
-                    } else if (type === 38) {
-                        chartProps.setDisplayAxes(item.checked, SecVertAxis?.getShow(), VertAxis?.getShow(), SecHorAxis?.getShow(), DepthAxis?.getShow());
-                    } else {
-                        chartProps.setDisplayAxes(item.checked, SecHorAxis?.getShow(), VertAxis?.getShow(), SecVertAxis?.getShow(), DepthAxis?.getShow());
-                    }
-                    break;                
-                case 'bShowVertAxis':
-                    if (hBarChart) {
-                        chartProps.setDisplayAxes(item.checked, SecVertAxis?.getShow(), HorAxis?.getShow(), SecHorAxis?.getShow(), DepthAxis?.getShow());
-                    } else if (scatterChart) {
-                        chartProps.setDisplayAxes(SecVertAxis?.getShow(), SecHorAxis?.getShow(), HorAxis?.getShow(), item.checked, DepthAxis?.getShow());
-                    } else if (type === 38) {
-                        chartProps.setDisplayAxes(HorAxis?.getShow(), SecVertAxis?.getShow(), item.checked, SecHorAxis?.getShow(), DepthAxis?.getShow());
-                    } else {
-                        chartProps.setDisplayAxes(HorAxis?.getShow(), SecHorAxis?.getShow(), item.checked, SecVertAxis?.getShow(), DepthAxis?.getShow());
-                    }
-                    break;
-                case 'bShowHorAxSec':
-                    if (type === 38) {
-                        chartProps.setDisplayAxes(HorAxis?.getShow(), SecVertAxis?.getShow(), VertAxis?.getShow(), item.checked, DepthAxis?.getShow());
-                    } else {
-                        chartProps.setDisplayAxes(HorAxis?.getShow(), item.checked, VertAxis?.getShow(), SecVertAxis?.getShow(), DepthAxis?.getShow());
-                    }
-                    break;          
-                case 'bShowVertAxSec':
-                    if (type === 38) {
-                        chartProps.setDisplayAxes(HorAxis?.getShow(), item.checked, VertAxis?.getShow(), SecHorAxis?.getShow(), DepthAxis?.getShow());
-                    } else {
-                        chartProps.setDisplayAxes(HorAxis?.getShow(), SecHorAxis?.getShow(), VertAxis?.getShow(), item.checked, DepthAxis?.getShow());
-                    }
-                    break; 
-                case 'bShowDepthAxes':
-                    chartProps.setDisplayAxes(HorAxis?.getShow(), SecHorAxis?.getShow(), VertAxis?.getShow(), SecVertAxis?.getShow(), item.checked);
-                    break;
-                case 'bShowHorAxTitle':
-                    if (hBarChart) {
-                        chartProps.setDisplayAxisTitles(VertAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, item.checked,  SecHorAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
-                    } else if (scatterChart) {
-                        chartProps.setDisplayAxisTitles(SecHorAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, item.checked, VertAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
-                    } else if (type === 38) {
-                        chartProps.setDisplayAxisTitles(item.checked, SecVertAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
-                    } else {
-                        chartProps.setDisplayAxisTitles(item.checked, SecHorAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
-                    }
-                    break;
-                case 'bShowVertAxTitle':
-                    if (hBarChart) {
-                        chartProps.setDisplayAxisTitles(item.checked, SecVertAxis?.getLabel() === 1, HorAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
-                    } else if (scatterChart) {
-                        chartProps.setDisplayAxisTitles(SecHorAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, HorAxis?.getLabel() === 1, item.checked, DepthAxis?.getLabel() === 1);
-                    } else if (type === 38) {
-                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, item.checked, SecHorAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
-                    } else {
-                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, item.checked, SecVertAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
-                    }
-                    break;
-                case 'bShowHorAxTitleSec':
-                    if (type === 38) {
-                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, item.checked, DepthAxis?.getLabel() === 1);
-                    } else {
-                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, item.checked, VertAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
-                    }
-                    break;
-                case 'bShowVertAxisTitleSec':
-                    if (type === 38) {
-                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, item.checked, VertAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
-                    } else { 
-                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, item.checked, DepthAxis?.getLabel() === 1);
-                    }
-                case 'bShowDepthAxisTitle':
-                    chartProps.setDisplayAxes(HorAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, item.checked);
-                    break;
-                case 'bShowChartTitleNone':
-                    chartProps.setDisplayChartTitle(false, false); 
-                    break;
-                case 'bShowChartTitle':
-                    chartProps.setDisplayChartTitle(true, false); 
-                    break;
-                case 'bOverlayTitle':
-                    chartProps.setDisplayChartTitle(true, true); 
-                    break;    
-                case 'CenterData':
-                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.ctr); 
-                    break;
-                case 'InnerBottomData':
-                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.inBase); 
-                    break;
-                case 'InnerTopData':
-                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.inEnd); 
-                    break;            
-                case 'OuterTopData':
-                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.outEnd); 
-                    break;
-                case 'TopData':
-                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.t); 
-                    break;
-                case 'LeftData':
-                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.l); 
-                    break;
-                case 'RightData':
-                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.r); 
-                    break;
-                case 'BottomData':
-                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.b); 
-                    break; 
-                case 'FitWidthData':
-                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.bestFit); 
-                    break;        
-                case 'bShowDataLabels':
-                    chartProps.setDisplayDataLabels(false, false);
-                    break;
-                // case 'bShowDataNone':
-                //     chartProps.setDisplayDataTable(false, false);
-                //     break;
-                // case 'bShowDataTable':
-                //     chartProps.setDisplayDataTable(true, false);
-                //     break;
-                // case 'bShowLegendKeys':
-                //     chartProps.setDisplayDataTable(true, true);
-                //     break;
-                case 'standardError':
-                    chartProps.setDisplayErrorBars(true, 4);
-                    break;
-                case 'percentage':
-                    chartProps.setDisplayErrorBars(true, 2);
-                    break;
-                case 'standardDeviation':
-                    chartProps.setDisplayErrorBars(true, 3);
-                    break;       
-               case 'bShowHorMajor':
-                    if (hBarChart) {
-                        chartProps.setDisplayGridlines(HorMajorGridlines, item.checked, HorMinorGridlines, VertMinorGridlines);
-                    } else 
-                       chartProps.setDisplayGridlines(item.checked, HorMajorGridlines, VertMinorGridlines, HorMinorGridlines);
-                    break;
-                case 'bShowVerMajor':
-                    if (hBarChart || RadarChart) {
-                        chartProps.setDisplayGridlines(item.checked, VertMajorGridlines, HorMinorGridlines, VertMinorGridlines);
-                    } else 
-                        chartProps.setDisplayGridlines(VertMajorGridlines, item.checked, VertMinorGridlines, HorMinorGridlines);
-                    break;
-                case 'bShowHorMinor':
-                    if (hBarChart) {
-                        chartProps.setDisplayGridlines(HorMajorGridlines, VertMajorGridlines, HorMinorGridlines, item.checked);
-                    } else 
-                        chartProps.setDisplayGridlines(VertMajorGridlines, HorMajorGridlines, item.checked, HorMinorGridlines);
-                    break; 
-                case 'bShowVerMinor':
-                    if (hBarChart || RadarChart) {
-                        chartProps.setDisplayGridlines(HorMajorGridlines, VertMajorGridlines, item.checked, VertMinorGridlines);
-                    }else 
-                        chartProps.setDisplayGridlines(VertMajorGridlines, HorMajorGridlines, VertMinorGridlines, item.checked);
-                    break;
-                case 'LeftLegend':
-                    if (chartProps.getLegendPos() === 1) {
-                        chartProps.setDisplayLegend(false, 0);
-                    } else {
-                        chartProps.setDisplayLegend(true, 1);
-                    }
-                    break;
-                case 'TopLegend':
-                    if (chartProps.getLegendPos() === 2) {
-                        chartProps.setDisplayLegend(false, 0);
-                    } else {
-                        chartProps.setDisplayLegend(true, 2);
-                    }
-                    break;
-                case 'RightLegend':
-                    if (chartProps.getLegendPos() === 3) {
-                        chartProps.setDisplayLegend(false, 0);
-                    } else {
-                        chartProps.setDisplayLegend(true, 3);
-                    }
-                    break;
-                case 'BottomLegend':
-                    if (chartProps.getLegendPos() === 4) {
-                        chartProps.setDisplayLegend(false, 0);
-                    } else {
-                        chartProps.setDisplayLegend(true, 4);
-                    }
-                    break;
-                case 'trendLineNone':
-                    chartProps.setDisplayTrendlines(false, false, 0, 0);
-                    break;
-                case 'trendLineLinear':
-                    chartProps.setDisplayTrendlines(true, 1, 0, 0);
-                    break;
-                case 'trendLineExponential':
-                    chartProps.setDisplayTrendlines(true, 0, 0, 0);
-                    break;
-                case 'trendLineForecast':
-                    chartProps.setDisplayTrendlines(true, 1, 2, 0);
-                    break;
-                case 'trendLineMovingAverage':
-                    chartProps.setDisplayTrendlines(true, 3, 0, 0);
-                    break;
-                case 'bShowUpDownBars':
-                    chartProps.setDisplayUpDownBars(true);
-                    break;
-                case 'bShowUpDownNone':
-                    chartProps.setDisplayUpDownBars(false);
-                    break;
-            }
-        };
-
-        dh.updateChartElementMenu = function(menu, chartProps) {
-            const type = chartProps.getType(),
-                ComboChart = [38, 39, 40, 41].includes(type),
-                RadarChart = [42, 43, 44].includes(type);
-            let LabelGroup1 = [0, 1, 2, 16, 17, 18].includes(type),
-                LabelGroup2 = [0, 1, 2, 14, 15, 16, 17, 18].includes(type),
-                LabelGroup3 = [0, 14, 15, 16].includes(type),
-                LabelGroup4 = [7, 8, 9, 10, 11, 12, 26, 27, 28, 29, 32, 33].includes(type),
-                LabelGroup5 = [14, 15].includes(type);
-
-                if (ComboChart) {
-                    const comboType = chartProps.getSeries()?.[0]?.asc_getChartType(),
-                        isInGroup1 = [0, 1, 2, 16, 17, 18].includes(comboType),
-                        isInGroup2 = [0, 1, 2, 14, 15, 16, 17, 18].includes(comboType),
-                        isInGroup3 = [0, 14, 15, 16].includes(comboType),
-                        isInGroup4 = [7, 8, 9, 10, 11, 12, 26, 27, 28, 29, 32, 33].includes(comboType),
-                        isInGroup5 = [14, 15].includes(comboType);
-            
-                    LabelGroup1 = isInGroup1;
-                    LabelGroup2 = isInGroup2;
-                    LabelGroup3 = isInGroup3;
-                    LabelGroup4 = isInGroup4;
-                    LabelGroup5 = isInGroup5;
-                }
-
-            const axesMenu = menu.items[0].menu;
-            axesMenu.items[0].setVisible(!RadarChart);
-            axesMenu.items[0].setChecked(!RadarChart && chartProps.getHorAxesProps()?.[0]?.getShow());
-            axesMenu.items[1].setChecked(chartProps.getVertAxesProps()?.[0]?.getShow());
-            axesMenu.items[4].setVisible(chartProps.getDepthAxesProps()?.[0]);
-            axesMenu.items[4].setChecked(chartProps.getDepthAxesProps()?.[0]?.getShow());
-            if (ComboChart) {
-                axesMenu.items[2].setVisible(chartProps.getHorAxesProps()?.[1]);
-                axesMenu.items[2].setChecked(chartProps.getHorAxesProps()?.[1]?.getShow());
-                axesMenu.items[3].setVisible(chartProps.getVertAxesProps()?.[1]);
-                axesMenu.items[3].setChecked(chartProps.getVertAxesProps()?.[1]?.getShow());
-            } else {
-                axesMenu.items[2].setVisible(false);
-                axesMenu.items[3].setVisible(false);
-            }
-
-            const titlesMenu = menu.items[1].menu;
-            titlesMenu.items[0].setChecked(chartProps.getHorAxesProps()?.[0]?.getLabel() === 1); 
-            titlesMenu.items[1].setChecked(chartProps.getVertAxesProps()?.[0]?.getLabel() === 1);
-            titlesMenu.items[4].setVisible(chartProps.getDepthAxesProps()?.[0]);
-            titlesMenu.items[4].setChecked(chartProps.getDepthAxesProps()?.[0]?.getLabel() === 1);
-            if (ComboChart) {
-                titlesMenu.items[2].setVisible(chartProps.getHorAxesProps()?.[1]);
-                titlesMenu.items[2].setChecked(chartProps.getHorAxesProps()?.[1]?.getLabel() === 1);
-                titlesMenu.items[3].setVisible(chartProps.getVertAxesProps()?.[1]);
-                titlesMenu.items[3].setChecked(chartProps.getVertAxesProps()?.[1]?.getLabel() === 1);
-            } else {
-                titlesMenu.items[2].setVisible(false);
-                titlesMenu.items[3].setVisible(false);
-            }
-            
-            const titleMenu = menu.items[2].menu;
-            highlightSubmenuItem(titleMenu.items[0], chartProps.getTitle() === 0, 'chartTitle');
-            highlightSubmenuItem(titleMenu.items[1], chartProps.getTitle() === 2, 'chartTitle');
-            highlightSubmenuItem(titleMenu.items[2], chartProps.getTitle() === 1, 'chartTitle');
-            
-            const labelsMenu = menu.items[3].menu;
-            highlightSubmenuItem(labelsMenu.items[0], chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.none, 'labels');
-            highlightSubmenuItem(labelsMenu.items[1], chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.ctr, 'labels');
-            highlightSubmenuItem(labelsMenu.items[2], LabelGroup1 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.inBase, 'labels');
-            highlightSubmenuItem(labelsMenu.items[3], LabelGroup2 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.inEnd, 'labels');
-            highlightSubmenuItem(labelsMenu.items[4], LabelGroup3 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.outEnd, 'labels');
-            highlightSubmenuItem(labelsMenu.items[5], LabelGroup4 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.t, 'labels');
-            highlightSubmenuItem(labelsMenu.items[6], LabelGroup4 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.l, 'labels');
-            highlightSubmenuItem(labelsMenu.items[7], LabelGroup4 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.r, 'labels');
-            highlightSubmenuItem(labelsMenu.items[8], LabelGroup4 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.b, 'labels');
-            highlightSubmenuItem(labelsMenu.items[9], LabelGroup5 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.bestFit, 'labels');
-            if (chartProps.getDataLabelsPos() !== undefined) {
-                labelsMenu.items[2].setVisible(LabelGroup1);
-                labelsMenu.items[3].setVisible(LabelGroup2);
-                labelsMenu.items[4].setVisible(LabelGroup3);
-                labelsMenu.items[5].setVisible(LabelGroup4);
-                labelsMenu.items[6].setVisible(LabelGroup4);
-                labelsMenu.items[7].setVisible(LabelGroup4);
-                labelsMenu.items[8].setVisible(LabelGroup4);
-                labelsMenu.items[9].setVisible(LabelGroup5);
-            }
-            
-            // const tableMenu = menu.items[4].menu;
-            // highlightSubmenuItem(tableMenu.items[0], false, 'table');
-            // highlightSubmenuItem(tableMenu.items[1], false, 'table');
-            // highlightSubmenuItem(tableMenu.items[2], false,'table');
-
-            const gridMenu = menu.items[5].menu;
-            gridMenu.items[0].setVisible(true);
-            gridMenu.items[2].setVisible(true);
-            if (RadarChart) {
-                gridMenu.items[0].setVisible(false);
-                gridMenu.items[0].setChecked(false);
-                gridMenu.items[1].setChecked(chartProps.getVertAxesProps()?.[0]?.getGridlines() === 1 || chartProps.getVertAxesProps()?.[0]?.getGridlines() === 3); 
-                gridMenu.items[2].setChecked(false);
-                gridMenu.items[2].setVisible(false);
-                gridMenu.items[3].setChecked(chartProps.getVertAxesProps()?.[0]?.getGridlines() === 2 || chartProps.getVertAxesProps()?.[0]?.getGridlines() === 3); 
-            } else if (type !== 14 && type !== 15) {
-                gridMenu.items[0].setChecked(chartProps.getVertAxesProps()?.[0]?.getGridlines() === 1 || chartProps.getVertAxesProps()?.[0]?.getGridlines() === 3); 
-                gridMenu.items[1].setChecked(chartProps.getHorAxesProps()?.[0]?.getGridlines() === 1 || chartProps.getHorAxesProps()?.[0]?.getGridlines() === 3); 
-                gridMenu.items[2].setChecked(chartProps.getVertAxesProps()?.[0]?.getGridlines() === 2 || chartProps.getVertAxesProps()?.[0]?.getGridlines() === 3); 
-                gridMenu.items[3].setChecked(chartProps.getHorAxesProps()?.[0]?.getGridlines() === 2 || chartProps.getHorAxesProps()?.[0]?.getGridlines() === 3); 
-            }
-            
-            const legendMenu = menu.items[6].menu;
-            highlightSubmenuItem(legendMenu.items[0],chartProps.getLegendPos() === 2, 'legend');
-            highlightSubmenuItem(legendMenu.items[1],chartProps.getLegendPos() === 1, 'legend');
-            highlightSubmenuItem(legendMenu.items[2],chartProps.getLegendPos() === 3, 'legend');
-            highlightSubmenuItem(legendMenu.items[3],chartProps.getLegendPos() === 4, 'legend');
-            
-            const supportedElements = chartElementMap[type] || chartElementMap[45] || [];
-            
-            menu.items.forEach(function(item) {
-                item.setDisabled(supportedElements.indexOf(item.value) === -1);
-            });
-        };
-
         dh.onParagraphVAlign = function(menu, item) {
             if (this.api) {
                 var properties = new Asc.asc_CImgProperty();
@@ -3713,6 +3295,424 @@ define([], function () {
             }
         };
 
+        const chartElementMap = {
+            0: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
+            1: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
+            2: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
+            3: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'], 
+            4: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'], 
+            5: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'], 
+            6: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'], 
+            7: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'], 
+            8: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'upDownBars'], 
+            9: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'], 
+            10: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'], 
+            11: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'upDownBars'], 
+            12: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'upDownBars'], 
+            13: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'], 
+            14: ['chartTitle', 'dataLabels', 'legend'], 
+            15: ['chartTitle', 'dataLabels', 'legend'], 
+            16: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
+            17: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
+            18: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
+            19: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'],
+            20: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'], 
+            21: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'], 
+            22: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
+            23: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
+            24: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
+            25: ['chartTitle', 'dataLabels', 'legend'], 
+            26: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'], 
+            27: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
+            28: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
+            29: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
+            30: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
+            31: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
+            32: ['axes', 'axisTitles', 'chartTitle', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
+            33: ['axes', 'axisTitles', 'chartTitle', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
+            34: ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'], 
+            35: ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
+            36: ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'], 
+            37: ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'], 
+            38: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
+            39: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
+            40: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
+            41: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
+            42: ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'], 
+            43: ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'], 
+            44: ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'], 
+            45: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'] 
+        };
+
+        window.highlightedGroups = {};
+
+        function highlightSubmenuItem(item, highlight, group) {
+            if (!item || !item.el || !item.el.classList) return;
+        
+            if (highlight) {
+                item.el.classList.add('over');
+        
+                if (window.highlightedGroups[group] && window.highlightedGroups[group] !== item) {
+                    window.highlightedGroups[group].el.classList.remove('over');
+                }
+        
+                window.highlightedGroups[group] = item;
+            } else {
+                item.el.classList.remove('over');
+        
+                if (window.highlightedGroups[group] === item) {
+                    window.highlightedGroups[group] = null;
+                }
+            }
+        }
+
+        dh.onChartElement = function(menu, item) {
+            var chartProps = this.chartProps,
+                HorAxis = chartProps.getHorAxesProps()?.[0],
+                SecHorAxis = chartProps.getHorAxesProps()?.[1],
+                VertAxis = chartProps.getVertAxesProps()?.[0],
+                SecVertAxis = chartProps.getVertAxesProps()?.[1],
+                DepthAxis = chartProps.getDepthAxesProps()?.[0],
+                HorMajorGridlines = HorAxis?.getGridlines() === 1 || HorAxis?.getGridlines() === 3,
+                HorMinorGridlines = HorAxis?.getGridlines() === 2 || HorAxis?.getGridlines() === 3,
+                VertMajorGridlines = VertAxis?.getGridlines() === 1 || VertAxis?.getGridlines() === 3,
+                VertMinorGridlines = VertAxis?.getGridlines() === 2 || VertAxis?.getGridlines() === 3;
+                
+            const value = item.value,
+                  type = chartProps.getType(),
+                  RadarChart = [42, 43, 44].includes(type),
+                  hBarChart = [16,17,18,19,20,21].includes(type),
+                  scatterChart = [27,28,29,30,31,32,33,34].includes(type);
+            
+            switch (value) {
+                case 'bShowHorAxis':
+                    if (hBarChart) {
+                        chartProps.setDisplayAxes(VertAxis?.getShow(), SecVertAxis?.getShow(), item.checked, SecHorAxis?.getShow(), DepthAxis?.getShow());
+                    } else if (scatterChart) {
+                        chartProps.setDisplayAxes(SecVertAxis?.getShow(), SecHorAxis?.getShow(), item.checked, VertAxis?.getShow(), DepthAxis?.getShow());
+                    } else if (type === 38) {
+                        chartProps.setDisplayAxes(item.checked, SecVertAxis?.getShow(), VertAxis?.getShow(), SecHorAxis?.getShow(), DepthAxis?.getShow());
+                    } else {
+                        chartProps.setDisplayAxes(item.checked, SecHorAxis?.getShow(), VertAxis?.getShow(), SecVertAxis?.getShow(), DepthAxis?.getShow());
+                    }
+                    break;                
+                case 'bShowVertAxis':
+                    if (hBarChart) {
+                        chartProps.setDisplayAxes(item.checked, SecVertAxis?.getShow(), HorAxis?.getShow(), SecHorAxis?.getShow(), DepthAxis?.getShow());
+                    } else if (scatterChart) {
+                        chartProps.setDisplayAxes(SecVertAxis?.getShow(), SecHorAxis?.getShow(), HorAxis?.getShow(), item.checked, DepthAxis?.getShow());
+                    } else if (type === 38) {
+                        chartProps.setDisplayAxes(HorAxis?.getShow(), SecVertAxis?.getShow(), item.checked, SecHorAxis?.getShow(), DepthAxis?.getShow());
+                    } else {
+                        chartProps.setDisplayAxes(HorAxis?.getShow(), SecHorAxis?.getShow(), item.checked, SecVertAxis?.getShow(), DepthAxis?.getShow());
+                    }
+                    break;
+                case 'bShowHorAxSec':
+                    if (type === 38) {
+                        chartProps.setDisplayAxes(HorAxis?.getShow(), SecVertAxis?.getShow(), VertAxis?.getShow(), item.checked, DepthAxis?.getShow());
+                    } else {
+                        chartProps.setDisplayAxes(HorAxis?.getShow(), item.checked, VertAxis?.getShow(), SecVertAxis?.getShow(), DepthAxis?.getShow());
+                    }
+                    break;          
+                case 'bShowVertAxSec':
+                    if (type === 38) {
+                        chartProps.setDisplayAxes(HorAxis?.getShow(), item.checked, VertAxis?.getShow(), SecHorAxis?.getShow(), DepthAxis?.getShow());
+                    } else {
+                        chartProps.setDisplayAxes(HorAxis?.getShow(), SecHorAxis?.getShow(), VertAxis?.getShow(), item.checked, DepthAxis?.getShow());
+                    }
+                    break; 
+                case 'bShowDepthAxes':
+                    chartProps.setDisplayAxes(HorAxis?.getShow(), SecHorAxis?.getShow(), VertAxis?.getShow(), SecVertAxis?.getShow(), item.checked);
+                    break;
+                case 'bShowHorAxTitle':
+                    if (hBarChart) {
+                        chartProps.setDisplayAxisTitles(VertAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, item.checked,  SecHorAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
+                    } else if (scatterChart) {
+                        chartProps.setDisplayAxisTitles(SecHorAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, item.checked, VertAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
+                    } else if (type === 38) {
+                        chartProps.setDisplayAxisTitles(item.checked, SecVertAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
+                    } else {
+                        chartProps.setDisplayAxisTitles(item.checked, SecHorAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
+                    }
+                    break;
+                case 'bShowVertAxTitle':
+                    if (hBarChart) {
+                        chartProps.setDisplayAxisTitles(item.checked, SecVertAxis?.getLabel() === 1, HorAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
+                    } else if (scatterChart) {
+                        chartProps.setDisplayAxisTitles(SecHorAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, HorAxis?.getLabel() === 1, item.checked, DepthAxis?.getLabel() === 1);
+                    } else if (type === 38) {
+                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, item.checked, SecHorAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
+                    } else {
+                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, item.checked, SecVertAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
+                    }
+                    break;
+                case 'bShowHorAxTitleSec':
+                    if (type === 38) {
+                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, item.checked, DepthAxis?.getLabel() === 1);
+                    } else {
+                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, item.checked, VertAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
+                    }
+                    break;
+                case 'bShowVertAxisTitleSec':
+                    if (type === 38) {
+                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, item.checked, VertAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
+                    } else { 
+                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, item.checked, DepthAxis?.getLabel() === 1);
+                    }
+                case 'bShowDepthAxisTitle':
+                    chartProps.setDisplayAxes(HorAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, item.checked);
+                    break;
+                case 'bShowChartTitleNone':
+                    chartProps.setDisplayChartTitle(false, false); 
+                    break;
+                case 'bShowChartTitle':
+                    chartProps.setDisplayChartTitle(true, false); 
+                    break;
+                case 'bOverlayTitle':
+                    chartProps.setDisplayChartTitle(true, true); 
+                    break;    
+                case 'CenterData':
+                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.ctr); 
+                    break;
+                case 'InnerBottomData':
+                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.inBase); 
+                    break;
+                case 'InnerTopData':
+                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.inEnd); 
+                    break;            
+                case 'OuterTopData':
+                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.outEnd); 
+                    break;
+                case 'TopData':
+                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.t); 
+                    break;
+                case 'LeftData':
+                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.l); 
+                    break;
+                case 'RightData':
+                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.r); 
+                    break;
+                case 'BottomData':
+                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.b); 
+                    break; 
+                case 'FitWidthData':
+                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.bestFit); 
+                    break;        
+                case 'bShowDataLabels':
+                    chartProps.setDisplayDataLabels(false, false);
+                    break;
+                // case 'bShowDataNone':
+                //     chartProps.setDisplayDataTable(false, false);
+                //     break;
+                // case 'bShowDataTable':
+                //     chartProps.setDisplayDataTable(true, false);
+                //     break;
+                // case 'bShowLegendKeys':
+                //     chartProps.setDisplayDataTable(true, true);
+                //     break;
+                case 'standardError':
+                    chartProps.setDisplayErrorBars(true, 4);
+                    break;
+                case 'percentage':
+                    chartProps.setDisplayErrorBars(true, 2);
+                    break;
+                case 'standardDeviation':
+                    chartProps.setDisplayErrorBars(true, 3);
+                    break;       
+               case 'bShowHorMajor':
+                    if (hBarChart) {
+                        chartProps.setDisplayGridlines(HorMajorGridlines, item.checked, HorMinorGridlines, VertMinorGridlines);
+                    } else 
+                       chartProps.setDisplayGridlines(item.checked, HorMajorGridlines, VertMinorGridlines, HorMinorGridlines);
+                    break;
+                case 'bShowVerMajor':
+                    if (hBarChart || RadarChart) {
+                        chartProps.setDisplayGridlines(item.checked, VertMajorGridlines, HorMinorGridlines, VertMinorGridlines);
+                    } else 
+                        chartProps.setDisplayGridlines(VertMajorGridlines, item.checked, VertMinorGridlines, HorMinorGridlines);
+                    break;
+                case 'bShowHorMinor':
+                    if (hBarChart) {
+                        chartProps.setDisplayGridlines(HorMajorGridlines, VertMajorGridlines, HorMinorGridlines, item.checked);
+                    } else 
+                        chartProps.setDisplayGridlines(VertMajorGridlines, HorMajorGridlines, item.checked, HorMinorGridlines);
+                    break; 
+                case 'bShowVerMinor':
+                    if (hBarChart || RadarChart) {
+                        chartProps.setDisplayGridlines(HorMajorGridlines, VertMajorGridlines, item.checked, VertMinorGridlines);
+                    }else 
+                        chartProps.setDisplayGridlines(VertMajorGridlines, HorMajorGridlines, VertMinorGridlines, item.checked);
+                    break;
+                case 'LeftLegend':
+                    if (chartProps.getLegendPos() === 1) {
+                        chartProps.setDisplayLegend(false, 0);
+                    } else {
+                        chartProps.setDisplayLegend(true, 1);
+                    }
+                    break;
+                case 'TopLegend':
+                    if (chartProps.getLegendPos() === 2) {
+                        chartProps.setDisplayLegend(false, 0);
+                    } else {
+                        chartProps.setDisplayLegend(true, 2);
+                    }
+                    break;
+                case 'RightLegend':
+                    if (chartProps.getLegendPos() === 3) {
+                        chartProps.setDisplayLegend(false, 0);
+                    } else {
+                        chartProps.setDisplayLegend(true, 3);
+                    }
+                    break;
+                case 'BottomLegend':
+                    if (chartProps.getLegendPos() === 4) {
+                        chartProps.setDisplayLegend(false, 0);
+                    } else {
+                        chartProps.setDisplayLegend(true, 4);
+                    }
+                    break;
+                case 'trendLineNone':
+                    chartProps.setDisplayTrendlines(false, false, 0, 0);
+                    break;
+                case 'trendLineLinear':
+                    chartProps.setDisplayTrendlines(true, 1, 0, 0);
+                    break;
+                case 'trendLineExponential':
+                    chartProps.setDisplayTrendlines(true, 0, 0, 0);
+                    break;
+                case 'trendLineForecast':
+                    chartProps.setDisplayTrendlines(true, 1, 2, 0);
+                    break;
+                case 'trendLineMovingAverage':
+                    chartProps.setDisplayTrendlines(true, 3, 0, 0);
+                    break;
+                case 'bShowUpDownBars':
+                    chartProps.setDisplayUpDownBars(true);
+                    break;
+                case 'bShowUpDownNone':
+                    chartProps.setDisplayUpDownBars(false);
+                    break;
+            }
+        };
+
+        dh.updateChartElementMenu = function(menu, chartProps) {
+            const type = chartProps.getType(),
+                ComboChart = [38, 39, 40, 41].includes(type),
+                RadarChart = [42, 43, 44].includes(type);
+            let LabelGroup1 = [0, 1, 2, 16, 17, 18].includes(type),
+                LabelGroup2 = [0, 1, 2, 14, 15, 16, 17, 18].includes(type),
+                LabelGroup3 = [0, 14, 15, 16].includes(type),
+                LabelGroup4 = [7, 8, 9, 10, 11, 12, 26, 27, 28, 29, 32, 33].includes(type),
+                LabelGroup5 = [14, 15].includes(type);
+
+                if (ComboChart) {
+                    const comboType = chartProps.getSeries()?.[0]?.asc_getChartType(),
+                        isInGroup1 = [0, 1, 2, 16, 17, 18].includes(comboType),
+                        isInGroup2 = [0, 1, 2, 14, 15, 16, 17, 18].includes(comboType),
+                        isInGroup3 = [0, 14, 15, 16].includes(comboType),
+                        isInGroup4 = [7, 8, 9, 10, 11, 12, 26, 27, 28, 29, 32, 33].includes(comboType),
+                        isInGroup5 = [14, 15].includes(comboType);
+            
+                    LabelGroup1 = isInGroup1;
+                    LabelGroup2 = isInGroup2;
+                    LabelGroup3 = isInGroup3;
+                    LabelGroup4 = isInGroup4;
+                    LabelGroup5 = isInGroup5;
+                }
+
+            const axesMenu = menu.items[0].menu;
+            axesMenu.items[0].setVisible(!RadarChart);
+            axesMenu.items[0].setChecked(!RadarChart && chartProps.getHorAxesProps()?.[0]?.getShow());
+            axesMenu.items[1].setChecked(chartProps.getVertAxesProps()?.[0]?.getShow());
+            axesMenu.items[4].setVisible(chartProps.getDepthAxesProps()?.[0]);
+            axesMenu.items[4].setChecked(chartProps.getDepthAxesProps()?.[0]?.getShow());
+            if (ComboChart) {
+                axesMenu.items[2].setVisible(chartProps.getHorAxesProps()?.[1]);
+                axesMenu.items[2].setChecked(chartProps.getHorAxesProps()?.[1]?.getShow());
+                axesMenu.items[3].setVisible(chartProps.getVertAxesProps()?.[1]);
+                axesMenu.items[3].setChecked(chartProps.getVertAxesProps()?.[1]?.getShow());
+            } else {
+                axesMenu.items[2].setVisible(false);
+                axesMenu.items[3].setVisible(false);
+            }
+
+            const titlesMenu = menu.items[1].menu;
+            titlesMenu.items[0].setChecked(chartProps.getHorAxesProps()?.[0]?.getLabel() === 1); 
+            titlesMenu.items[1].setChecked(chartProps.getVertAxesProps()?.[0]?.getLabel() === 1);
+            titlesMenu.items[4].setVisible(chartProps.getDepthAxesProps()?.[0]);
+            titlesMenu.items[4].setChecked(chartProps.getDepthAxesProps()?.[0]?.getLabel() === 1);
+            if (ComboChart) {
+                titlesMenu.items[2].setVisible(chartProps.getHorAxesProps()?.[1]);
+                titlesMenu.items[2].setChecked(chartProps.getHorAxesProps()?.[1]?.getLabel() === 1);
+                titlesMenu.items[3].setVisible(chartProps.getVertAxesProps()?.[1]);
+                titlesMenu.items[3].setChecked(chartProps.getVertAxesProps()?.[1]?.getLabel() === 1);
+            } else {
+                titlesMenu.items[2].setVisible(false);
+                titlesMenu.items[3].setVisible(false);
+            }
+            
+            const titleMenu = menu.items[2].menu;
+            highlightSubmenuItem(titleMenu.items[0], chartProps.getTitle() === 0, 'chartTitle');
+            highlightSubmenuItem(titleMenu.items[1], chartProps.getTitle() === 2, 'chartTitle');
+            highlightSubmenuItem(titleMenu.items[2], chartProps.getTitle() === 1, 'chartTitle');
+            
+            const labelsMenu = menu.items[3].menu;
+            highlightSubmenuItem(labelsMenu.items[0], chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.none, 'labels');
+            highlightSubmenuItem(labelsMenu.items[1], chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.ctr, 'labels');
+            highlightSubmenuItem(labelsMenu.items[2], LabelGroup1 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.inBase, 'labels');
+            highlightSubmenuItem(labelsMenu.items[3], LabelGroup2 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.inEnd, 'labels');
+            highlightSubmenuItem(labelsMenu.items[4], LabelGroup3 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.outEnd, 'labels');
+            highlightSubmenuItem(labelsMenu.items[5], LabelGroup4 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.t, 'labels');
+            highlightSubmenuItem(labelsMenu.items[6], LabelGroup4 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.l, 'labels');
+            highlightSubmenuItem(labelsMenu.items[7], LabelGroup4 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.r, 'labels');
+            highlightSubmenuItem(labelsMenu.items[8], LabelGroup4 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.b, 'labels');
+            highlightSubmenuItem(labelsMenu.items[9], LabelGroup5 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.bestFit, 'labels');
+            if (chartProps.getDataLabelsPos() !== undefined) {
+                labelsMenu.items[2].setVisible(LabelGroup1);
+                labelsMenu.items[3].setVisible(LabelGroup2);
+                labelsMenu.items[4].setVisible(LabelGroup3);
+                labelsMenu.items[5].setVisible(LabelGroup4);
+                labelsMenu.items[6].setVisible(LabelGroup4);
+                labelsMenu.items[7].setVisible(LabelGroup4);
+                labelsMenu.items[8].setVisible(LabelGroup4);
+                labelsMenu.items[9].setVisible(LabelGroup5);
+            }
+            
+            // const tableMenu = menu.items[4].menu;
+            // highlightSubmenuItem(tableMenu.items[0], false, 'table');
+            // highlightSubmenuItem(tableMenu.items[1], false, 'table');
+            // highlightSubmenuItem(tableMenu.items[2], false,'table');
+
+            const gridMenu = menu.items[5].menu;
+            gridMenu.items[0].setVisible(true);
+            gridMenu.items[2].setVisible(true);
+            if (RadarChart) {
+                gridMenu.items[0].setVisible(false);
+                gridMenu.items[0].setChecked(false);
+                gridMenu.items[1].setChecked(chartProps.getVertAxesProps()?.[0]?.getGridlines() === 1 || chartProps.getVertAxesProps()?.[0]?.getGridlines() === 3); 
+                gridMenu.items[2].setChecked(false);
+                gridMenu.items[2].setVisible(false);
+                gridMenu.items[3].setChecked(chartProps.getVertAxesProps()?.[0]?.getGridlines() === 2 || chartProps.getVertAxesProps()?.[0]?.getGridlines() === 3); 
+            } else if (type !== 14 && type !== 15) {
+                gridMenu.items[0].setChecked(chartProps.getVertAxesProps()?.[0]?.getGridlines() === 1 || chartProps.getVertAxesProps()?.[0]?.getGridlines() === 3); 
+                gridMenu.items[1].setChecked(chartProps.getHorAxesProps()?.[0]?.getGridlines() === 1 || chartProps.getHorAxesProps()?.[0]?.getGridlines() === 3); 
+                gridMenu.items[2].setChecked(chartProps.getVertAxesProps()?.[0]?.getGridlines() === 2 || chartProps.getVertAxesProps()?.[0]?.getGridlines() === 3); 
+                gridMenu.items[3].setChecked(chartProps.getHorAxesProps()?.[0]?.getGridlines() === 2 || chartProps.getHorAxesProps()?.[0]?.getGridlines() === 3); 
+            }
+            
+            const legendMenu = menu.items[6].menu;
+            highlightSubmenuItem(legendMenu.items[0],chartProps.getLegendPos() === 2, 'legend');
+            highlightSubmenuItem(legendMenu.items[1],chartProps.getLegendPos() === 1, 'legend');
+            highlightSubmenuItem(legendMenu.items[2],chartProps.getLegendPos() === 3, 'legend');
+            highlightSubmenuItem(legendMenu.items[3],chartProps.getLegendPos() === 4, 'legend');
+            
+            const supportedElements = chartElementMap[type] || chartElementMap[45] || [];
+            
+            menu.items.forEach(function(item) {
+                item.setDisabled(supportedElements.indexOf(item.value) === -1);
+            });
+        };
+
         dh.onSingleChartSelectionChanged = function(asc_CRect) {
             var me = this,
                 documentHolderView = me.documentHolder,
@@ -3737,37 +3737,34 @@ define([], function () {
                 chartContainer = $('<div id="chart-element-container" style="position: absolute; z-index: 1000;"><div id="id-document-holder-btn-chart-element"></div></div>');
                 documentHolderView.cmpEl.find('#ws-canvas-outer').append(chartContainer);
             }
-            this.isRtlSheet = this.api ? !!this.api.asc_getSheetViewSettings().asc_getRightToLeft() : false;
+
+            me.isRtl = me.api ? Common.UI.isRTL() : false;
+            me.isRtlSheet = me.api.asc_getSheetViewSettings().asc_getRightToLeft();
 
             if (me.chartProps) {
                 var x = asc_CRect.asc_getX(),
                     y = asc_CRect.asc_getY(),
                     width = asc_CRect.asc_getWidth(),
-                    sheetWidth = me.tooltips.coauth.bodyWidth - me.tooltips.coauth.XY[0] - me.tooltips.coauth.rightMenuWidth - 15,
-                    sheetHeight = me.tooltips.coauth.apiHeight - 15,
-                    btnLeft = this.isRtlSheet ? x - 95 : x + width + 10,
-                    btnTop = y;
+                    btnLeft,
+                    btnTop = y,
+                    windowWidth = me._Width || documentHolderView.cmpEl.width(),
+                    windowHeight = me._Height || documentHolderView.cmpEl.height();
 
-                if (btnLeft + 50 > sheetWidth) {
+                if (me.isRtlSheet) {
+                    btnLeft = x + width - 45;
+                } else if (me.isRtl) {
                     btnLeft = x - 40;
+                } else {
+                    btnLeft = x + width + 7;
                 }
 
-                if (btnLeft < 25) {
-                    if (this.isRtlSheet){
-                        btnLeft = x + width - 40; 
-                    } else {
-                        chartContainer.hide();
-                        return;
-                    }
-                }
-
-                if (btnTop + 30 > sheetHeight) {
+                if (btnLeft < 25 || btnLeft + 50 > windowWidth || btnTop + 30 > windowHeight) {
                     chartContainer.hide();
                     return;
                 }
 
                 if (btnTop < 20) {
-                    btnTop = 20;
+                    btnTop = 20
                 }
 
                 chartContainer.css({

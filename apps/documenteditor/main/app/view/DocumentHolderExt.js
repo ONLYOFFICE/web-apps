@@ -231,12 +231,11 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textNone, 
-                                        value: 'bShowChartTitleNone', 
-                                        disabled: false
+                                        value: 'bShowChartTitleNone'
                                     },
                                     { 
                                         caption: me.textNoOverlay, 
-                                        value: 'bShowChartTitle', 
+                                        value: 'bShowChartTitle'
                                     },
                                     { 
                                         caption: me.textOverlay, 

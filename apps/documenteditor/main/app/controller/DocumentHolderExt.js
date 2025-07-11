@@ -1229,40 +1229,28 @@ define([], function () {
                 chartContainer = $('<div id="chart-element-container" style="position: absolute; z-index: 1000;"><div id="id-document-holder-btn-chart-element"></div></div>');
                 documentHolderView.cmpEl.find('#id_main_view').append(chartContainer);
             }
-            this.isRtlSheet = this.api ? Common.UI.isRTL() : false;
+            
+            me.isRtlSheet = me.api ? Common.UI.isRTL() : false;
 
             if (me.chartProps) {
                 var x = asc_CRect.asc_getX(),
                     y = asc_CRect.asc_getY(),
                     width = asc_CRect.asc_getWidth(),
-                    btnLeft = this.isRtlSheet ? x - 95 : x + width + 10,
-                    btnTop = y;
+                    btnLeft = me.isRtlSheet ? x - 55 : x + width - 10,
+                    btnTop = y - 28;
 
-                if (btnLeft + 50 > me._Width) {
-                    btnLeft = x - 40;
-                }
-
-                if (btnLeft < 25) {
-                    if (this.isRtlSheet){
-                        btnLeft = x + width - 40; 
-                    } else {
-                        chartContainer.hide();
-                        return;
-                    }
-                }
-
-                if (btnTop + 30 > me._Height) {
+                if (btnLeft < 25 || btnLeft + 50 > me._Width || btnTop + 30 > me._Height) {
                     chartContainer.hide();
                     return;
                 }
 
-                if (btnTop < 20) {
-                    btnTop = 20;
+                if (btnTop < 0) {
+                    btnTop = 0
                 }
 
                 chartContainer.css({
                     left: btnLeft + 'px',
-                    top: btnTop - 30 + 'px'
+                    top: btnTop + 'px'
                 }).show();
         
                 if (!me.btnChartElement) {

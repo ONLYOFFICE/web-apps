@@ -1190,12 +1190,11 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textNone, 
-                                        value: 'bShowChartTitleNone', 
-                                        disabled: false
+                                        value: 'bShowChartTitleNone'
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textNoOverlay, 
-                                        value: 'bShowChartTitle', 
+                                        value: 'bShowChartTitle' 
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textOverlay, 

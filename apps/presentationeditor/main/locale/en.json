@@ -2051,6 +2051,7 @@
   "PE.Views.DocumentHolder.textHorAxisSec": "Secondary horizontal axis",
   "PE.Views.DocumentHolder.textVertAxis": "Vertical axis",
   "PE.Views.DocumentHolder.textVertAxisSec": "Secondary vertical axis",
+  "PE.Views.DocumentHolder.textNone": "None",
   "PE.Views.DocumentHolder.textNoOverlay": "No overlay",
   "PE.Views.DocumentHolder.textOverlay": "Overlay",
   "PE.Views.DocumentHolder.textDataLabels": "Data labels",
