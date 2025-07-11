@@ -37,11 +37,14 @@
 @background-contrast-popover-ie: #fff;
 @shadow-contrast-popover-ie: rgba(0, 0, 0, 0.3);
 @background-fill-button-ie: #ffd112;
+@background-pane-ie: #f1f1f1;
+@background-pane-additional-ie: #f1f1f1;
 
 @highlight-button-hover-ie: #d8dadc;
 @highlight-button-pressed-ie: #7d858c;
 @highlight-button-pressed-hover-ie: #7d858c;
 @highlight-primary-dialog-button-hover-ie: #666d73;
+@highlight-primary-dialog-button-pressed-ie: #666d73;
 @highlight-header-button-hover-ie: fade(#000, 15%);
 @highlight-header-button-pressed-ie: fade(#000, 25%);
 @highlight-text-select-ie: #3494fb;
@@ -89,6 +92,158 @@
 @scaled-one-px-value-ie: 1px;
 
 @component-disabled-opacity-ie: .4;
+
+// new
+@border-sidemenu-ie: @scaled-one-px-value-ie solid @border-toolbar-ie;
+@background-statusbar-ie: #f1f1f1;
+@shadow-toolbar-ie: 0px 1px 0 0 @border-toolbar-ie;
+@shadow-toolbar-style-off-ie: 0px 1px 0 0 @border-toolbar-ie;
+@shadow-side-panel-ie: none;
+@border-radius-toolbar-ie: 0;
+@toolbar-tab-radius-ie: 0;
+@toolbar-tab-line-radius-ie: 2px;
+@toolbar-tab-line-height-ie: 2px;
+@toolbar-tab-line-bottom-ie: 4px;
+@toolbar-tab-text-margin-ie: 2px;
+@layout-padding-toolbar-ie: 0;
+@layout-padding-x-side-panel-ie: 0;
+@layout-padding-y-side-panel-ie: 2px;
+@layout-padding-right-panel-content-ie: 7px 10px 0 15px;
+@layout-padding-right-panel-content-rtl-ie: 7px 15px 0 10px;
+@layout-padding-right-panel-ie: 0;
+@layout-padding-right-panel-rtl-ie: 0;
+@layout-padding-left-panel-ie: 0 0 0 40px;
+@layout-padding-left-panel-rtl-ie: 0 40px 0 0;
+
+// cell editor SSE
+@celleditor-height-ie: 20px;
+@celleditor-line-height-ie: 18px;
+@celleditor-border-width-ie: 1px;
+@celleditor-input-border-ie: 0 none;
+@celleditor-input-border-radius-ie: 0x;
+@celleditor-cell-name-height-ie: 20px;
+@celleditor-cell-name-border-right-ie: 1px solid @border-toolbar-ie;
+@celleditor-func-label-margin-left-ie: -3px;
+
+@x-small-btn-size-ie: 20px;
+@x-small-btn-icon-size-ie: 20px;
+@x-huge-btn-height-ie: 52px;
+@x-huge-btn-icon-size-ie: 28px;
+@form-control-size-ie: 22px;
+@x-category-btn-size-ie: 30px;
+@category-btn-y-margin-small-ie: 0;
+@category-btn-y-margin-large-ie: 8px;
+@large-btn-dataview-y-margin-ie: 2px;
+
+@toolbar-small-btn-margin-top-ie: 8px;
+@toolbar-height-controls-ie: 66px;
+@statusbar-height-ie: 25px;
+@toolbar-group-height-ie: 52px;
+@toolbar-v-paddings-ie: 7px;
+
+@border-radius-form-control-ie: 2px;
+@border-radius-checkbox-ie: 2px;
+@border-radius-button-base-ie: 1px;
+@border-radius-button-toolbar-ie: 1px;
+@border-radius-button-normal-ie: 2px;
+@border-radius-button-category-ie: 0;
+@border-radius-window-ie: 5px;
+@border-radius-dropdown-menu-ie: 4px;
+@border-radius-dataview-item-ie: 0;
+
+@input-height-base-ie: 22px;
+@line-height-base-ie: 1.5;
+
+@background-fill-input-ie: @background-normal-ie;
+@background-fill-input-disabled-ie: @background-normal-ie;
+@background-fill-input-readonly-ie: @background-normal-ie;
+
+@highlight-category-button-hover-ie: @highlight-button-hover-ie;
+@highlight-category-button-pressed-ie: @highlight-button-pressed-ie;
+@highlight-header-input-hover-ie: @highlight-header-button-hover-ie;
+@highlight-header-input-pressed-ie: @highlight-header-button-pressed-ie;
+
+@border-fill-input-ie: @border-regular-control-ie;
+@border-fill-input-focused-ie: @border-control-focus-ie;
+@border-fill-input-disabled-ie: @border-regular-control-ie;
+@border-fill-input-readonly-ie: @border-regular-control-ie;
+
+@text-fill-input-ie: @text-normal-ie;
+@text-fill-input-disabled-ie: @text-normal-ie;
+@text-fill-input-readonly-ie: @text-normal-ie;
+
+@shadow-fill-input-ie: none;
+@shadow-control-focus-ie: inset 0 0 0 1px @border-control-focus-ie;
+@shadow-control-pressed-focus-ie: inset 0 0 0 1px @background-normal-ie, 0 0 0 1px @border-button-pressed-focus-ie;
+@shadow-control-primary-pressed-focus-ie: inset 0 0 0 1px @background-normal-ie;
+
+// dropdown button
+@dd-button-size-ie: 12px;
+@dd-button-x-padding-ie: 4px;
+
+// checkbox
+@chb-size-ie: 14px;
+@chb-v-margin-ie: 0;
+@chb-border-radius-ie: @border-radius-checkbox-ie;
+@chb-check-mark-background-ie: @text-normal-ie;
+@chb-background-normal-ie: @background-normal-ie;
+@chb-background-normal-hover-ie: @background-normal-ie;
+@chb-background-checked-ie: @background-normal-ie;
+@chb-background-checked-hover-ie: @background-normal-ie;
+@chb-border-normal-ie: @border-regular-control-ie;
+@chb-border-normal-hover-ie: @border-regular-control-ie;
+@chb-border-normal-focus-ie: @border-control-focus-ie;
+@chb-border-checked-ie: @border-regular-control-ie;
+@chb-border-checked-hover-ie: @border-regular-control-ie;
+@chb-border-checked-focus-ie: @border-control-focus-ie;
+
+// slider
+@slider-height-ie: 18px;
+@slider-track-height-ie: 4px;
+@slider-border-radius-ie: 2px;
+@slider-track-background-normal-ie: @border-regular-control-ie;
+@slider-track-background-filled-ie: @border-regular-control-ie;
+@slider-thumb-size-ie: 12px;
+@slider-thumb-border-size-ie: 1px;
+@slider-thumb-border-radius-ie: 6px;
+@slider-thumb-background-normal-ie: @background-normal-ie;
+@slider-thumb-border-normal-ie: @icon-normal-ie;
+@slider-thumb-background-hover-ie: @background-normal-ie;
+@slider-thumb-background-active-ie: @background-normal-ie;
+@slider-thumb-shadow-ie: 0;
+
+// radio
+@rb-background-normal-ie: @background-normal-ie;
+@rb-border-normal-ie: @border-regular-control-ie;
+@rb-background-normal-hover-ie: @background-normal-ie;
+@rb-border-normal-hover-ie: @border-regular-control-ie;
+@rb-border-normal-focus-ie: @border-control-focus-ie;
+@rb-background-checked-ie: @background-normal-ie;
+@rb-border-checked-ie: @border-regular-control-ie;
+@rb-background-checked-hover-ie: @background-normal-ie;
+@rb-border-checked-hover-ie: @border-regular-control-ie;
+@rb-border-checked-focus-ie: @border-control-focus-ie;
+@rb-check-mark-size-ie: 4px;
+@rb-check-mark-background-ie: @text-normal-ie;
+
+// header input
+@header-input-height-ie: 100%;
+@header-input-line-height-ie: 24px;
+@border-header-input-focused-ie: transparent;
+
+// header button
+@header-component-height-ie: 100%;
+@header-component-width-ie: 40px;
+@header-component-line-height-ie: 1.5;
+@header-component-padding-ie: 1px 3px;
+@header-component-margin-ie: 0;
+@header-component-align-ie: stretch;
+
+@toolbar-simple-border-bottom-ie: 1px solid @border-toolbar-ie;
+@toolbar-simple-shadow-ie: 0 none;
+@border-editor-sdk-ie: 1px solid @border-toolbar-ie;
+
+@button-small-active-icon-offset-x-ie: -20px;
 
 .ie {
     .toolbar__icon.toolbar__icon-big {

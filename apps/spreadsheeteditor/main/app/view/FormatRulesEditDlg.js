@@ -57,7 +57,7 @@ define([
             
             _.extend(this.options, {
                 title: this.txtTitleNew,
-                contentStyle: 'padding: 0;',
+                contentStyle: 'padding: 5px 0 0;',
                 contentTemplate: _.template(contentTemplate)({scope: this})
             }, options);
 
@@ -1486,7 +1486,7 @@ define([
                 (cmbData.length>0) && this.cmbRule.setValue((ruleType!==undefined) ? ruleType : cmbData[0].value);
             }
             this.setControls(index, this.cmbRule.getValue());
-            this.setInnerHeight(index==9 ? 360 : 280);
+            this.setInnerHeight(index==9 ? 370 : 280);
 
             if (rec) {
                 var type = rec.get('type');

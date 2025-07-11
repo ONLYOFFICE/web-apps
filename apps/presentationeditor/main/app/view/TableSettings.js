@@ -812,7 +812,6 @@ define([
                         store: new Common.UI.DataViewStore(),
                         itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="52" width="72"></div>'),
                         style: 'max-height: 350px;',
-                        cls: 'classic',
                         delayRenderTips: true
                     });
                 });

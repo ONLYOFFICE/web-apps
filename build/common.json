@@ -124,7 +124,7 @@
                     "cwd": "../apps/common/main/resources/img/",
                     "src": [
                         "**/*.{png,jpg,gif}",
-                        "!toolbar/*x/**/*"
+                        "!toolbar/**/*x/**/*"
                     ],
                     "dest": "../deploy/web-apps/apps/common/main/resources/img/"
                 }
@@ -135,7 +135,10 @@
                 {
                     "expand": true,
                     "cwd": "../apps/common/main/resources/img",
-                    "src": "**/*.svg",
+                    "src": [
+                        "**/*.svg",
+                        "!toolbar/**/*x/**/*"
+                    ],
                     "dest": "../deploy/web-apps/apps/common/main/resources/img"
                 }
             ]
@@ -257,16 +260,16 @@
             }
         }
     },
-    "ace": {
+    "monaco": {
         "clean": [
-            "../deploy/web-apps/vendor/ace"
+            "../deploy/web-apps/vendor/monaco"
         ],
         "copy": {
             "script": {
                 "expand": true,
-                "cwd": "../vendor/ace",
+                "cwd": "../vendor/monaco",
                 "src": "**",
-                "dest": "../deploy/web-apps/vendor/ace"
+                "dest": "../deploy/web-apps/vendor/monaco"
             }
         }
     },
@@ -286,7 +289,7 @@
             "deploy-fetch",
             "deploy-es6-promise",
             "deploy-common-embed",
-            "deploy-ace"
+            "deploy-monaco"
         ]
     }
 }

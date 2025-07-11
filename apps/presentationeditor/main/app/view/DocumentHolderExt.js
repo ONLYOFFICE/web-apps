@@ -476,6 +476,12 @@ define([], function () {
                 value : 'duplicate-master'
             });
 
+            me.mnuPreserveMaster = new Common.UI.MenuItem({
+                caption : me.textPreserveSlideMaster,
+                value : 'preserve-master',
+                checkable: true,
+            });
+
             me.mnuDeleteMaster = new Common.UI.MenuItem({
                 caption : me.textDeleteMaster,
                 value : 'delete-master'
@@ -523,6 +529,8 @@ define([], function () {
                     me.mnuRenameLayout.setDisabled(currentName === undefined);
 
                     me.mnuDuplicateMaster.setVisible(isMaster);
+                    me.mnuPreserveMaster.setVisible(isMaster);
+                    me.mnuPreserveMaster.setChecked(value.isPreserve, true);
                     me.mnuDeleteMaster.setVisible(isMaster);
                     me.mnuRenameMaster.setVisible(isMaster);
                     me.mnuDuplicateLayout.setVisible(!isMaster);
@@ -536,6 +544,7 @@ define([], function () {
                     me.mnuInsertMaster,
                     me.mnuInsertLayout,
                     me.mnuDuplicateMaster,
+                    me.mnuPreserveMaster,
                     me.mnuDuplicateLayout,
                     {caption: '--'},
                     me.mnuDeleteMaster,
@@ -603,6 +612,44 @@ define([], function () {
 
             me.menuTableDistCols = new Common.UI.MenuItem({
                 caption : me.textDistributeCols
+            });
+
+            me.menuTableDirection = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-text-orient-hor',
+                caption     : me.directionText,
+                menu        : new Common.UI.Menu({
+                    cls: 'ppm-toolbar shifted-right',
+                    menuAlign: 'tl-tr',
+                    items   : [
+                        me.menuTableDirectH = new Common.UI.MenuItem({
+                            caption     : me.directHText,
+                            iconCls     : 'menu__icon btn-text-orient-hor',
+                            checkable   : true,
+                            checkmark   : false,
+                            checked     : false,
+                            toggleGroup : 'popuptabledirect',
+                            direction      : Asc.c_oAscCellTextDirection.LRTB
+                        }),
+                        me.menuTableDirect90 = new Common.UI.MenuItem({
+                            caption     : me.direct90Text,
+                            iconCls     : 'menu__icon btn-text-orient-rdown',
+                            checkable   : true,
+                            checkmark   : false,
+                            checked     : false,
+                            toggleGroup : 'popuptabledirect',
+                            direction      : Asc.c_oAscCellTextDirection.TBRL
+                        }),
+                        me.menuTableDirect270 = new Common.UI.MenuItem({
+                            caption     : me.direct270Text,
+                            iconCls     : 'menu__icon btn-text-orient-rup',
+                            checkable   : true,
+                            checkmark   : false,
+                            checked     : false,
+                            toggleGroup : 'popuptabledirect',
+                            direction      : Asc.c_oAscCellTextDirection.BTLR
+                        })
+                    ]
+                })
             });
 
             me.menuTableSelectText = new Common.UI.MenuItem({
@@ -1811,7 +1858,7 @@ define([], function () {
                         return;
 
                     var isEquation= (value.mathProps && value.mathProps.value);
-                    for (var i = 6; i < 18; i++) {
+                    for (var i = 6; i < 19; i++) {
                         me.tableMenu.items[i].setVisible(!isEquation);
                     }
 
@@ -1835,15 +1882,35 @@ define([], function () {
                     me.menuTableCellCenter.setChecked(align == Asc.c_oAscVertAlignJc.Center);
                     me.menuTableCellBottom.setChecked(align == Asc.c_oAscVertAlignJc.Bottom);
 
+                    var dir = value.tableProps.value.get_CellsTextDirection();
+                    cls = '';
+                    switch (dir) {
+                        case Asc.c_oAscCellTextDirection.LRTB:
+                            cls = 'menu__icon btn-text-orient-hor';
+                            break;
+                        case Asc.c_oAscCellTextDirection.TBRL:
+                            cls = 'menu__icon btn-text-orient-rdown';
+                            break;
+                        case Asc.c_oAscCellTextDirection.BTLR:
+                            cls = 'menu__icon btn-text-orient-rup';
+                            break;
+                    }
+                    me.menuTableDirection.setIconCls(cls);
+                    me.menuTableDirectH.setChecked(dir == Asc.c_oAscCellTextDirection.LRTB);
+                    me.menuTableDirect90.setChecked(dir == Asc.c_oAscCellTextDirection.TBRL);
+                    me.menuTableDirect270.setChecked(dir == Asc.c_oAscCellTextDirection.BTLR);
+
                     if (me.api) {
                         me.mnuTableMerge.setDisabled(value.tableProps.locked || disabled || !me.api.CheckBeforeMergeCells());
                         me.mnuTableSplit.setDisabled(value.tableProps.locked || disabled || !me.api.CheckBeforeSplitCells());
                     }
+                    
                     me.menuTableDistRows.setDisabled(value.tableProps.locked || disabled);
                     me.menuTableDistCols.setDisabled(value.tableProps.locked || disabled);
 
-                    me.tableMenu.items[7].setDisabled(value.tableProps.locked || disabled);
-                    me.tableMenu.items[8].setDisabled(value.tableProps.locked || disabled);
+                    me.menuTableInsertText.setDisabled(value.tableProps.locked || disabled);
+                    me.menuTableDeleteText.setDisabled(value.tableProps.locked || disabled);
+                    me.menuTableDirection.setDisabled(value.tableProps.locked || disabled);
 
                     me.menuTableCellAlign.setDisabled(value.tableProps.locked || disabled);
 
@@ -1944,19 +2011,20 @@ define([], function () {
                     me.menuTableDistCols,           //14
                     { caption: '--' },              //15
                     me.menuTableCellAlign,          //16
-                    { caption: '--'},               //17
-                    menuTableEquationSeparator,     //18
-                    me.menuTableSaveAsPicture,      //19
-                    menuTableSaveAsPictureSeparator,//20
-                    me.menuTableAdvanced,           //21
-                    menuTableSettingsSeparator,     //22
-                    me.menuTableEquationSettings,           //23
-                    menuTableEquationSettingsSeparator,     //24
+                    me.menuTableDirection,          //17
+                    { caption: '--'},               //18
+                    menuTableEquationSeparator,     //19
+                    me.menuTableSaveAsPicture,      //20
+                    menuTableSaveAsPictureSeparator,//21
+                    me.menuTableAdvanced,           //22
+                    menuTableSettingsSeparator,     //23
+                    me.menuTableEquationSettings,           //24
+                    menuTableEquationSettingsSeparator,     //25
                     /** coauthoring begin **/
-                    me.menuAddCommentTable,         //25
+                    me.menuAddCommentTable,         //26
                     /** coauthoring end **/
-                    me.menuAddHyperlinkTable,       //26
-                    menuHyperlinkTable             //27
+                    me.menuAddHyperlinkTable,       //27
+                    menuHyperlinkTable             //28
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
                 me.clearCustomItems(menu);

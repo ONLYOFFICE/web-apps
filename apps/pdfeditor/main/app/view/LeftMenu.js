@@ -204,6 +204,7 @@ define([
 
             this.onCoauthOptions();
             btn.pressed && btn.options.action == 'advancedsearch' && this.fireEvent('search:aftershow', this);
+            btn.options.type !== 'plugin' && $('.left-panel .plugin-panel').toggleClass('active', false);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 

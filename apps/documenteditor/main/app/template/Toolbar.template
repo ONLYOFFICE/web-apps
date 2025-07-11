@@ -38,7 +38,7 @@
         <section class="box-panels">
             <section class="panel" data-tab="home" role="tabpanel" aria-labelledby="home">
                 <div class="group small">
-                    <div class="elset" style="width:230px;">
+                    <div class="elset font-attr display-flex-row-center">
                         <span class="btn-slot float-left" id="slot-field-fontname"></span>
                         <span class="btn-slot margin-left-2 float-left" id="slot-field-fontsize"></span>
                         <span class="btn-slot margin-left-2" id="slot-btn-incfont"></span>
@@ -120,8 +120,8 @@
                     <span class="btn-slot text x-huge" id="slot-btn-instextart"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-dropcap"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-datetime"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-text-from-file"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-insfield"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-text-from-file" data-layout-name="toolbar-insert-file"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-insfield" data-layout-name="toolbar-insert-field"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
@@ -176,7 +176,7 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-watermark"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-pagecolor"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-pagecolor" data-layout-name="toolbar-layout-pagecolor"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">

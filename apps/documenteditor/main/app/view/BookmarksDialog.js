@@ -68,7 +68,7 @@ define([
                         return isExit;
                     }
                 },
-                contentStyle: 'padding: 0 5px;',
+                contentStyle: 'padding: 5px 5px 0;',
                 contentTemplate: _.template([
                     '<div class="settings-panel active">',
                         '<div class="inner-content">',
@@ -79,10 +79,10 @@ define([
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
-                                        '<td class="padding-large">',
-                                            '<div id="bookmarks-txt-name" class="margin-right-10" style="display:inline-block;vertical-align: top;"></div>',
+                                        '<td class="padding-large" style="display: flex;">',
+                                            '<div id="bookmarks-txt-name" class="margin-right-10" style="display:inline-block;vertical-align: top;flex-grow:1;"></div>',
                                             '<div id="bookmarks-btn-add" style="display: inline-block; position: relative;"></div>',
-                                            '<div id="bookmarks-btn-add-copy-dropdown" style="display: inline-block; position: relative; vertical-align: top; height: 22px; width: 0px">',
+                                            '<div id="bookmarks-btn-add-copy-dropdown" class="form-control-size" style="display: inline-block; position: relative; vertical-align: top; width: 0px">',
                                                 //Invisible button, needed for boostrap dropdown logic to work    
                                                 '<button type="button" class="dropdown-toggle" data-toggle="dropdown" style="display: none"></button>',
                                             '</div>',
@@ -136,7 +136,6 @@ define([
                 allowBlank  : true,
                 validateOnChange: true,
                 validateOnBlur: true,
-                style       : this.appOptions.canMakeActionLink ? 'width: 202px;' : 'width: 215px;',
                 value       : '',
                 maxLength: 40,
                 validation  : function(value) {
@@ -325,8 +324,8 @@ define([
 
             var copyBox = $(
                 '<div class="bookmark-copy-dropdown dropdown-menu" style="width: 291px; ' + cssOffset + ' padding: 10px;">' +
-                    '<div class="bookmark-copy-dropdown-input"></div>' +
-                    '<button class="bookmark-copy-dropdown-btn btn btn-text-default margin-left-5" style="width: 86px;">' + me.textCopy + '</button>' +
+                    '<div class="bookmark-copy-dropdown-input display-inline-block-middle"></div>' +
+                    '<button class="bookmark-copy-dropdown-btn btn btn-text-default margin-left-5 display-inline-block-middle" style="width: 86px;">' + me.textCopy + '</button>' +
                 '</div>'
             );
             parentEl.append(copyBox);

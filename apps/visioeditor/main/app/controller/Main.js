@@ -1520,7 +1520,15 @@ define([
                     config.iconCls = 'error';
                     config.closable = false;
 
-                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string') {
+                    if (this.appOptions.canRequestClose) {
+                        config.msg += '<br><br>' + this.criticalErrorExtTextClose;
+                        config.callback = function(btn) {
+                            if (btn == 'ok') {
+                                Common.Gateway.requestClose();
+                                Common.Controllers.Desktop.requestClose();
+                            }
+                        }
+                    } else if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string' && this.appOptions.customization.goback.url && this.appOptions.customization.goback.blank===false) {
                         config.msg += '<br><br>' + this.criticalErrorExtText;
                         config.callback = function(btn) {
                             if (btn == 'ok')
@@ -1697,7 +1705,7 @@ define([
             },
 
             onUpdateVersion: function(callback) {
-                console.log("Obsolete: The 'onOutdatedVersion' event is deprecated. Please use 'onRequestRefreshFile' event and 'refreshFile' method instead.");
+                this.editorConfig && this.editorConfig.canUpdateVersion && console.log("Obsolete: The 'onOutdatedVersion' event is deprecated. Please use 'onRequestRefreshFile' event and 'refreshFile' method instead.");
 
                 var me = this;
                 me.needToUpdateVersion = true;
@@ -1921,6 +1929,9 @@ define([
                     check: Common.Utils.InternalSettings.get("save-guest-username") || false,
                     validation: function(value) {
                         return value.length<128 ? true : me.textLongName;
+                    },
+                    repaintcallback: function() {
+                        this.setPosition(Common.Utils.innerWidth() - this.options.width - 15, 30);
                     },
                     handler: function(result, settings) {
                         if (result == 'ok') {

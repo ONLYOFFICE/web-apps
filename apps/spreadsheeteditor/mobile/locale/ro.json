@@ -1,6 +1,6 @@
 {
   "About": {
-    "textAbout": "Despre",
+    "textAbout": "Informații",
     "textAddress": "Adresă",
     "textBack": "Înapoi",
     "textEditor": "Editor de foi de calcul",
@@ -257,6 +257,7 @@
   "Error": {
     "convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",
     "criticalErrorExtText": "Faceți clic pe OK pentru a reveni la lista de documente.",
+    "criticalErrorExtTextClose": "Apăsați pe OK pentru a închide editorul. ",
     "criticalErrorTitle": "Eroare",
     "downloadErrorText": "Descărcare eșuată.",
     "errNoDuplicates": "Valorile dublate nu au fost găsite.",
@@ -728,7 +729,7 @@
       "notcriticalErrorTitle": "Avertisment",
       "strFuncLocale": "Limba formulă",
       "strFuncLocaleEx": "Exemplu: Sumă; Min; Max; Calcul",
-      "textAbout": "Despre",
+      "textAbout": "Informații",
       "textAddress": "Adresă",
       "textApplication": "Aplicația",
       "textApplicationSettings": "Setări Aplicație",

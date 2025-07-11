@@ -48,18 +48,21 @@ Common.UI.ExternalUsers = new( function() {
         externalUsersInfo = [],
         isUsersInfoLoading = false,
         stackUsersInfoResponse = [],
+        requestedUsersInfo = [],
         api,
         userColors = [];
 
-    var _get = function(type, ids) {
+    var _get = function(type, ids, from, count, search) {
         if (type==='info') {
             (typeof ids !== 'object') && (ids = [ids]);
             ids && (ids = _.uniq(ids));
+            ids = _.difference(ids, requestedUsersInfo);
+            requestedUsersInfo = requestedUsersInfo.concat(ids);
             if (ids.length>100) {
                 while (ids.length>0) {
                     Common.Gateway.requestUsers('info', ids.splice(0, 100));
                 }
-            } else
+            } else if (ids.length>0)
                 Common.Gateway.requestUsers('info', ids);
         } else {
             if (isUsersLoading) return;
@@ -67,7 +70,7 @@ Common.UI.ExternalUsers = new( function() {
             type = type || 'mention';
             if (externalUsers[type]===undefined) {
                 isUsersLoading = true;
-                Common.Gateway.requestUsers(type || 'mention');
+                Common.Gateway.requestUsers(type || 'mention', undefined, from || 0, count || 100, search || '');
             } else {
                 Common.NotificationCenter.trigger('mentions:setusers', type, externalUsers[type]);
             }
@@ -125,10 +128,12 @@ Common.UI.ExternalUsers = new( function() {
                 externalUsers = [];
                 return;
             }
-            var type = data.c || 'mention';
-            externalUsers[type] = data.users || [];
+            var type = data.c || 'mention',
+                users = data.users || [];
+            if (data.isPaginated===undefined) // use old scheme
+                externalUsers[type] = users;
             isUsersLoading = false;
-            Common.NotificationCenter.trigger('mentions:setusers', type, externalUsers[type]);
+            Common.NotificationCenter.trigger('mentions:setusers', type, users, data.isPaginated);
         });
 
         Common.NotificationCenter.on('mentions:clearusers',   function(type) {

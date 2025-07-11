@@ -107,7 +107,7 @@ define([], function () {
                 }, this));
                 diagramEditor.on('hide', _.bind(function(cmp, message) {
                     if (this.api) {
-                        this.api.asc_onCloseChartFrame();
+                        this.api.asc_onCloseFrameEditor();
                         this.api.asc_enableKeyEvents(true);
                     }
                     setTimeout(function(){
@@ -148,7 +148,7 @@ define([], function () {
                 oleEditor.on('hide', _.bind(function(cmp, message) {
                     if (this.api) {
                         this.api.asc_enableKeyEvents(true);
-                        this.api.asc_onCloseChartFrame();
+                        this.api.asc_onCloseFrameEditor();
                     }
                     setTimeout(function(){
                         me.editComplete();
@@ -1291,6 +1291,10 @@ define([], function () {
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = documentHolder.txtKeepTextOnly;
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.insertAsNestedTable] = documentHolder.textNest;
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.overwriteCells] = documentHolder.txtOverwriteCells;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceFormattingEmbedding] = documentHolder.txtSourceEmbed;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormattingEmbedding] = documentHolder.txtDestEmbed;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceFormattingLink] = documentHolder.txtSourceLink;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormattingLink] = documentHolder.txtDestLink;
 
                 pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
                 documentHolder.cmpEl.find('#id_main_view').append(pasteContainer);
@@ -1375,6 +1379,10 @@ define([], function () {
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = 'T';
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.insertAsNestedTable] = 'N';
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.overwriteCells] = 'O';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceFormattingEmbedding] = 'K';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormattingEmbedding] = 'H';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceFormattingLink] = 'F';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormattingLink] = 'L';
             for(var key in me.hkSpecPaste){
                 if(me.hkSpecPaste.hasOwnProperty(key)){
                     var keymap = {};
@@ -1399,14 +1407,9 @@ define([], function () {
             if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
 
             if (this.api) {
-                var oleobj = this.api.asc_canEditTableOleObject(true);
+                var oleobj = this.api.asc_canEditTableOleObject();
                 if (oleobj) {
-                    var oleEditor = DE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-                    if (oleEditor) {
-                        oleEditor.setEditMode(true);
-                        oleEditor.show();
-                        oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
-                    }
+                    this.api.asc_editOleTableInFrameEditor();
                 } else {
                     this.api.asc_startEditCurrentOleObject();
                 }
@@ -1422,21 +1425,21 @@ define([], function () {
                 if (diagramEditor && chart) {
                     diagramEditor.setEditMode(true);
                     diagramEditor.show();
-                    diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
+                    diagramEditor.setChartData(chart);
                 }
             }
         };
 
-        dh.onDoubleClickOnTableOleObject = function(chart) {
+        dh.onDoubleClickOnTableOleObject = function(frameBinary) {
             if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
 
             var docProtection = this.documentHolder._docProtection;
             if (this.mode.isEdit && !(this._isDisabled || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly)) {
                 var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-                if (oleEditor && chart) {
+                if (oleEditor && frameBinary) {
                     oleEditor.setEditMode(true);
                     oleEditor.show();
-                    oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(chart));
+                    oleEditor.setOleData(frameBinary);
                 }
             }
         };
@@ -1520,6 +1523,7 @@ define([], function () {
 
         dh.onHideContentControlsActions = function() {
             this.listControlMenu && this.listControlMenu.isVisible() && this.listControlMenu.hide();
+            this.imageControlMenu && this.imageControlMenu.isVisible() && this.imageControlMenu.hide();
             var controlsContainer = this.documentHolder.cmpEl.find('#calendar-control-container');
             if (controlsContainer.is(':visible'))
                 controlsContainer.hide();
@@ -1601,7 +1605,7 @@ define([], function () {
             var type = obj.type,
                 props = obj.pr,
                 specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr(),
-                isForm = !!props.get_FormPr(),
+                formProps = props.get_FormPr(),
                 cmpEl = this.documentHolder.cmpEl,
                 menu = this.listControlMenu,
                 menuContainer = menu ? cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
@@ -1639,21 +1643,23 @@ define([], function () {
                 });
             }
             if (specProps) {
-                if (isForm){ // for dropdown and combobox form control always add placeholder item
-                    var text = props.get_PlaceholderText();
-                    menu.addItem(new Common.UI.MenuItem({
-                        caption     : (text.trim()!=='') ? text : this.documentHolder.txtEmpty,
-                        value       : '',
-                        template    : _.template([
-                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="<% if (options.value=="") { %> opacity: 0.6 <% } %>">',
-                            '<%= Common.Utils.String.htmlEncode(caption) %>',
-                            '</a>'
-                        ].join(''))
-                    }));
-                }
                 var count = specProps.get_ItemsCount();
+                if (formProps){
+                    if (!formProps.get_Required() || count<1) {// for required or empty dropdown/combobox form control always add placeholder item
+                        var text = props.get_PlaceholderText();
+                        menu.addItem(new Common.UI.MenuItem({
+                            caption     : (text.trim()!=='') ? text : this.documentHolder.txtEmpty,
+                            value       : '',
+                            template    : _.template([
+                                '<a id="<%= id %>" tabindex="-1" type="menuitem" style="<% if (options.value=="") { %> opacity: 0.6 <% } %>">',
+                                '<%= Common.Utils.String.htmlEncode(caption) %>',
+                                '</a>'
+                            ].join(''))
+                        }));
+                    }
+                }
                 for (var i=0; i<count; i++) {
-                    (specProps.get_ItemValue(i)!=='' || !isForm) && menu.addItem(new Common.UI.MenuItem({
+                    (specProps.get_ItemValue(i)!=='' || !formProps) && menu.addItem(new Common.UI.MenuItem({
                         caption     : specProps.get_ItemDisplayText(i),
                         value       : specProps.get_ItemValue(i),
                         template    : _.template([
@@ -1663,7 +1669,7 @@ define([], function () {
                         ].join(''))
                     }));
                 }
-                if (!isForm && menu.items.length<1) {
+                if (!formProps && menu.items.length<1) {
                     menu.addItem(new Common.UI.MenuItem({
                         caption     : this.documentHolder.txtEmpty,
                         value       : -1
@@ -1697,7 +1703,23 @@ define([], function () {
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    if (obj.pr && obj.pr.is_Signature() && false) {
+                    if (!me.mode.canSaveToFile) { // select picture in viewer only from local file
+                        this.api.asc_addImage(obj.pr);
+                        setTimeout(function(){
+                            me.api.asc_UncheckContentControlButtons();
+                        }, 500);
+                    } else
+                        setTimeout(function() {
+                            me.onShowImageActions(obj, x, y);
+                        }, 1);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.Signature:
+                    if (obj.pr && obj.pr.get_Lock) {
+                        var lock = obj.pr.get_Lock();
+                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
+                            return;
+                    }
+                    if (false) {
                         if (_.isUndefined(me.fontStore)) {
                             me.fontStore = new Common.Collections.Fonts();
                             var fonts = me.getApplication().getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
@@ -1722,15 +1744,12 @@ define([], function () {
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             }
                         })).show();
-                    } else if (obj.pr && obj.pr.is_Signature() || !me.mode.canSaveToFile) { // select picture for signature or in viewer only from local file
+                    } else {
                         this.api.asc_addImage(obj.pr);
                         setTimeout(function(){
                             me.api.asc_UncheckContentControlButtons();
                         }, 500);
-                    } else
-                        setTimeout(function() {
-                            me.onShowImageActions(obj, x, y);
-                        }, 1);
+                    }
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
@@ -1907,17 +1926,7 @@ define([], function () {
 
         dh.editChartClick = function(){
             if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
-
-            var diagramEditor = DE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-            if (diagramEditor) {
-                diagramEditor.setEditMode(true);
-                diagramEditor.show();
-
-                var chart = this.api.asc_getChartObject();
-                if (chart) {
-                    diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
-                }
-            }
+            this.api.asc_editChartInFrameEditor();
         };
 
         dh.advancedParagraphClick = function(item, e, eOpt){
@@ -2678,7 +2687,6 @@ define([], function () {
                         iconCls     : 'svgicon ' + equationGroup.get('groupIcon'),
                         hint        : equationGroup.get('groupName'),
                         menu        : new Common.UI.Menu({
-                            cls: 'menu-shapes',
                             value: i,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +

@@ -94,6 +94,12 @@ define([
             this._isAddingShape = false;
             this.editMode = true;
             this.binding = {};
+            this.externalData = {
+                stackRequests: [],
+                stackResponse: [],
+                callback: undefined,
+                linkStatus: {}
+            };
 
             this.addListeners({
                 'Toolbar': {
@@ -261,9 +267,19 @@ define([
             var _main = this.getApplication().getController('Main');
             this.mode = mode;
             this.toolbar.applyLayout(mode);
-            Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'rtlDirection' : {name: 'help-tip-rtl-dir', placement: 'bottom-left', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', automove: true},
-                'mergeShapes' : {name: 'help-tip-merge-shapes', placement: 'bottom-left', text: this.helpMergeShapes, header: this.helpMergeShapesHeader, target: '#slot-shapes-merge', closable: false}
+            var themeid = Common.UI.Themes.currentThemeId(),
+                isNew = themeid==='theme-system' || themeid==='theme-white' || themeid==='theme-night',
+                lang = (mode.lang || 'en').toLowerCase().split(/[\-_]/)[0],
+                langmap = { 'es': 'https://www.onlyoffice.com/blog/es/2025/06/disponible-onlyoffice-docs-9-0',
+                            'pt': 'https://www.onlyoffice.com/blog/pt-br/2025/06/disponivel-onlyoffice-docs-9-0',
+                            'zh': 'https://www.onlyoffice.com/blog/zh-hans/2025/06/onlyoffice-docs-9-0-released',
+                            'fr': 'https://www.onlyoffice.com/blog/fr/2025/06/onlyoffice-docs-9-0-disponible',
+                            'de': 'https://www.onlyoffice.com/blog/de/2025/06/onlyoffice-docs-9-0-veroeffentlicht',
+                            'it': 'https://www.onlyoffice.com/blog/it/2025/06/disponibile-onlyoffice-docs-9-0',
+                            'ja': 'https://www.onlyoffice.com/blog/ja/2025/06/onlyoffice-docs-9-0-released'};
+            !Common.Utils.isIE && !Common.Controllers.Desktop.isWinXp() && !this.mode.isPDFForm && Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
+                'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom', offset: {x: 10, y: 0}, text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader, target: 'li.ribtab #view',
+                                 automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: langmap[lang] || 'https://www.onlyoffice.com/blog/2025/06/onlyoffice-docs-9-0-released'}}
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -294,6 +310,7 @@ define([
             Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
+            this.onBtnChangeState('save:disabled', toolbar.btnSave, toolbar.btnSave.isDisabled());
             Common.Gateway.on('insertimage',                      _.bind(this.insertImage, this));
         },
 
@@ -386,7 +403,6 @@ define([
             toolbar.mnuLineSpace.on('item:click',                       _.bind(this.onLineSpaceClick, this));
             toolbar.mnuLineSpace.on('show:after',                       _.bind(this.onLineSpaceShow, this));
             toolbar.btnTextDir.menu.on('item:click',                    _.bind(this.onTextDirClick, this));
-            toolbar.btnTextDir.menu.on('show:after',                    _.bind(this.onTextDirShowAfter, this));
             toolbar.mnuNonPrinting.on('item:toggle',                    _.bind(this.onMenuNonPrintingToggle, this));
             toolbar.btnShowHidenChars.on('toggle',                      _.bind(this.onNonPrintingToggle, this));
             toolbar.mnuTablePicker.on('select',                         _.bind(this.onTablePickerSelect, this));
@@ -442,7 +458,8 @@ define([
             Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
             this.onSetupCopyStyleButton();
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
-            this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());            
+            this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
+            this.onBtnChangeState('save:disabled', toolbar.btnSave, toolbar.btnSave.isDisabled());
         },
 
         setApi: function(api) {
@@ -514,6 +531,7 @@ define([
             }
             this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
             this.api.asc_registerCallback('onPluginToolbarCustomMenuItems', _.bind(this.onPluginToolbarCustomMenuItems, this));
+            this.api.asc_registerCallback('onPluginUpdateToolbarMenu', _.bind(this.onPluginUpdateToolbarMenu, this));
             this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
@@ -759,7 +777,7 @@ define([
                 if (this.api.asc_IsContentControl()) {
                     var control_props = this.api.asc_GetContentControlProperties(),
                         spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
-                    this.toolbar.lockToolbar(Common.enumLock.inSpecificForm, spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
+                    this.toolbar.lockToolbar(Common.enumLock.inSpecificForm, spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture || spectype==Asc.c_oAscContentControlSpecificType.Signature ||
                         spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime,   {array: this.btnsComment});
                 } else
                     this.toolbar.lockToolbar(Common.enumLock.inSpecificForm, false, {array: this.btnsComment});
@@ -948,7 +966,7 @@ define([
                 this.mode.compatibleFeatures && this.toolbar.lockToolbar(Common.enumLock.inImage, in_image,      {array: this.btnsComment});
                 if (control_props) {
                     var spectype = control_props.get_SpecificType();
-                    this.toolbar.lockToolbar(Common.enumLock.inSpecificForm, spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
+                    this.toolbar.lockToolbar(Common.enumLock.inSpecificForm, spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture || spectype==Asc.c_oAscContentControlSpecificType.Signature ||
                         spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime,
                         {array: this.btnsComment});
                 } else
@@ -1214,7 +1232,7 @@ define([
                 this.api.asc_Save();
             }
 
-            toolbar.btnSave.setDisabled(!mode.forcesave && !mode.canSaveDocumentToBinary && mode.canSaveToFile || !mode.showSaveButton);
+            toolbar.btnSave && toolbar.lockToolbar(Common.enumLock.cantSave, !mode.forcesave && !mode.canSaveDocumentToBinary && mode.canSaveToFile || !mode.showSaveButton, {array: [toolbar.btnSave]});
 
             Common.NotificationCenter.trigger('edit:complete', toolbar);
 
@@ -1798,10 +1816,6 @@ define([
         onTextDirClick: function(menu, item) {
             this.api && this.api.asc_setRtlTextDirection(!!item.value);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onTextDirShowAfter: function(menu, item) {
-            Common.UI.TooltipManager.closeTip('rtlDirection');
         },
 
         onApiTextDirection: function (isRtl){
@@ -2596,19 +2610,9 @@ define([
                     chart.changeType(type);
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else {
-                if (!this.diagramEditor)
-                    this.diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-
-                if (this.diagramEditor && me.api) {
-                    this.diagramEditor.setEditMode(false);
-                    this.diagramEditor.show();
-
-                    chart = me.api.asc_getChartObject(type);
-                    if (chart) {
-                        this.diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
-                    }
-                    me.toolbar.fireEvent('insertchart', me.toolbar);
-                }
+                me.api.asc_addChartDrawingObject(type);
+                me.api.asc_editChartInFrameEditor();
+                me.toolbar.fireEvent('insertchart', me.toolbar);
             }
         },
 
@@ -3730,8 +3734,6 @@ define([
 
             toolbar._state.previewmode = (reviewmode || viewDocMode) && disable;
             if (reviewmode || viewDocMode) {
-                toolbar._state.previewmode && toolbar.btnSave && toolbar.btnSave.setDisabled(true);
-
                 if (toolbar.needShowSynchTip) {
                     toolbar.needShowSynchTip = false;
                     toolbar.onCollaborativeChanges();
@@ -3906,6 +3908,7 @@ define([
                 links.setApi(me.api).setConfig({toolbar: me});
                 Array.prototype.push.apply(me.toolbar.lockControls, links.getView('Links').getButtons());
 
+                me.getApplication().getController('Common.Controllers.ExternalLinks').setConfig({toolbar: me}).setApi(me.api);
                 me.toolbar.lockControls.push(application.getController('Viewport').getView('Common.Views.Header').getButton('mode'));
             } else if (config.isRestrictedEdit && config.canFillForms && config.isPDFForm) {
                 me.toolbar.setMode(config);
@@ -4011,12 +4014,12 @@ define([
                         .setApi(me.api)
                         .onAppReady(config);
 
-                    !config.isPDFForm && Common.UI.TooltipManager.showTip('rtlDirection');
                 } else if (config.isRestrictedEdit && config.canFillForms && config.isPDFForm) {
                     if (me.toolbar.btnHandTool) {
                         me.api.asc_setViewerTargetType('hand');
                     }
                 }
+                Common.UI.TooltipManager.showTip('modernTheme');
 
                 config.isOForm && config.canDownload && Common.UI.warning({
                     msg  : config.canRequestSaveAs || !!config.saveAsUrl || config.isOffline ? me.textConvertFormSave : me.textConvertFormDownload,
@@ -4198,7 +4201,12 @@ define([
                 this.toolbar.lockToolbar(Common.enumLock.docLockReview, props.isReviewOnly);
                 this.toolbar.lockToolbar(Common.enumLock.docLockComments, props.isCommentsOnly);
                 Common.NotificationCenter.trigger('doc:mode-changed', undefined, props.isReviewOnly);
-                this.api && this.onApiFocusObject(this.api.getSelectedElements());
+                if (this.api && this.mode) {
+                    if (this.mode.isEdit)
+                        this.onApiFocusObject(this.api.getSelectedElements());
+                    else if (this.mode.isRestrictedEdit)
+                        this.onApiFocusObjectRestrictedEdit(this.api.getSelectedElements());
+                }
             }
         },
 
@@ -4246,6 +4254,13 @@ define([
             });
         },
 
+        onPluginUpdateToolbarMenu: function(data) {
+            var api = this.api;
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
+                api && api.onPluginToolbarMenuItemClick(guid, value, pressed);
+            }, true));
+        },
+
         onDocumentReady: function() {
             this._isDocReady = true;
             var me = this;
@@ -4256,17 +4271,10 @@ define([
         },
 
         onActiveTab: function(tab) {
-            this.mode && this.mode.isPDFForm && (tab === 'home') && Common.UI.TooltipManager.showTip('rtlDirection');
-            (tab !== 'home') && Common.UI.TooltipManager.closeTip('rtlDirection');
-            if (tab !== 'layout')
-                Common.UI.TooltipManager.closeTip('mergeShapes');
-            else if (this.toolbar && this.toolbar.btnShapesMerge && !this.toolbar.btnShapesMerge.isDisabled())
-                Common.UI.TooltipManager.showTip('mergeShapes');
+            (tab === 'view') && Common.UI.TooltipManager.closeTip('modernTheme');
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('rtlDirection');
-            Common.UI.TooltipManager.closeTip('mergeShapes');
         }
 
     }, DE.Controllers.Toolbar || {}));

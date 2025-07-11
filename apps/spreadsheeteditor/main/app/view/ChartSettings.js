@@ -138,7 +138,7 @@ define([
             }
 
             var isChart = !!(props && props.asc_getChartProperties && props.asc_getChartProperties()),
-                chartSettings = isChart ? this.api.asc_getChartObject(true) : null, // don't lock chart object
+                chartSettings = isChart ? this.api.asc_getChartSettings(true) : null, // don't lock chart object
                 props3d = chartSettings ? chartSettings.getView3d() : null;
 
             if ( this.isChart!==isChart || this._state.is3D!==!!props3d ) {
@@ -870,7 +870,7 @@ define([
             this.lockedControls.push(this.chRightAngle);
             this.chRightAngle.on('change', _.bind(function(field, newValue, oldValue, eOpts) {
                 if (this.api){
-                    var props = this.api.asc_getChartObject(true);
+                    var props = this.api.asc_getChartSettings(true);
                     if (props) {
                         var oView3D = props.getView3d();
                         if (oView3D) {
@@ -890,7 +890,7 @@ define([
             this.lockedControls.push(this.chAutoscale);
             this.chAutoscale.on('change', _.bind(function(field, newValue, oldValue, eOpts) {
                 if (this.api){
-                    var props = this.api.asc_getChartObject(true);
+                    var props = this.api.asc_getChartSettings(true);
                     if (props) {
                         var oView3D = props.getView3d();
                         if (oView3D) {
@@ -1035,7 +1035,7 @@ define([
             var me = this;
             var win, props;
             if (me.api){
-                props = (me.isChart) ? me.api.asc_getChartObject() : me._originalProps;
+                props = (me.isChart) ? me.api.asc_getChartSettings() : me._originalProps;
                 if (props) {
                     (new SSE.Views.ChartSettingsDlg(
                         {
@@ -1048,9 +1048,11 @@ define([
                                 if (result == 'ok') {
                                     if (me.api) {
                                         if (me.isChart) {
-                                            me.api.asc_editChartDrawingObject(value.chartSettings);
-                                            if (value.imageSettings)
+                                            if (value.imageSettings) {
+                                                value.imageSettings.asc_putChartProperties(value.chartSettings);
                                                 me.api.asc_setGraphicObjectProps(value.imageSettings);
+                                            } else
+                                                me.api.asc_applyChartSettings(value.chartSettings);
                                         } else
                                             me.api.asc_setSparklineGroup(me._state.SparkId, value.chartSettings);
                                     }
@@ -1065,12 +1067,12 @@ define([
         onSelectData_simple: function() {
             var me = this;
             if (me.api) {
-                var props = me.api.asc_getChartObject(),
+                var props = me.api.asc_getChartSettings(),
                     handlerDlg = function(dlg, result) {
                         if (result == 'ok') {
                             props.putRange(dlg.getSettings());
                             me.api.asc_setSelectionDialogMode(Asc.c_oAscSelectionDialogType.None);
-                            me.api.asc_editChartDrawingObject(props);
+                            me.api.asc_applyChartSettings(props);
                         }
 
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -1094,7 +1096,7 @@ define([
                 var win = new SSE.Views.CellRangeDialog({
                     handler: handlerDlg
                 }).on('close', function() {
-                    me.api.asc_onCloseChartFrame();
+                    me.api.asc_onCloseFrameEditor();
                 });
 
                 win.show();
@@ -1115,7 +1117,7 @@ define([
             var me = this;
             var props;
             if (me.api){
-                props = me.api.asc_getChartObject();
+                props = me.api.asc_getChartSettings();
                 if (props) {
                     me._isEditRanges = true;
                     props.startEdit();
@@ -1141,18 +1143,23 @@ define([
         onChangeType: function() {
             var me = this;
             if (me.api){
-                (new SSE.Views.ChartWizardDialog({
+                me._isEditType = true;
+                var win = new SSE.Views.ChartWizardDialog({
                     api: me.api,
                     props: {recommended: me.api.asc_getRecommendedChartData()},
                     type: me._state.ChartType,
                     isEdit: true,
                     handler: function(result, value) {
                         if (result == 'ok') {
+                            me._isEditType = false;
                             me.api && me.api.asc_addChartSpace(value);
                         }
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     }
-                })).show();
+                }).on('close', function() {
+                    me._isEditType = false;
+                });
+                win.show();
             }
         },
         
@@ -1236,10 +1243,6 @@ define([
                     fillOnChangeVisibility: true
                 });
                 this.cmbChartStyle.render($('#chart-combo-style'));
-                this.cmbChartStyle.openButton.menu.cmpEl.css({
-                    'min-width': 178,
-                    'max-width': 178
-                });
                 this.cmbChartStyle.on('click', _.bind(this.onSelectStyle, this));
                 this.cmbChartStyle.openButton.menu.on('show:after', function () {
                     me.cmbChartStyle.menuPicker.scroller.update({alwaysVisibleY: true});
@@ -1281,10 +1284,6 @@ define([
                     fillOnChangeVisibility: true
                 });
                 this.cmbSparkStyle.render($('#spark-combo-style'));
-                this.cmbSparkStyle.openButton.menu.cmpEl.css({
-                    'min-width': 178,
-                    'max-width': 178
-                });
                 this.cmbSparkStyle.on('click', _.bind(this.onSelectSparkStyle, this));
                 this.cmbSparkStyle.openButton.menu.on('show:after', function () {
                     me.cmbSparkStyle.menuPicker.scroller.update({alwaysVisibleY: true});
@@ -1472,7 +1471,7 @@ define([
 
         onSwitch:   function() {
             if (this.api){
-                var props = this.api.asc_getChartObject(true);
+                var props = this.api.asc_getChartSettings(true);
                 if (props) {
                     props.startEdit();
                     var res = props.switchRowCol();
@@ -1487,7 +1486,7 @@ define([
 
         onXRotation: function(field, newValue, oldValue, eOpts){
             if (this.api){
-                var props = this.api.asc_getChartObject(true);
+                var props = this.api.asc_getChartSettings(true);
                 if (props) {
                     var oView3D = props.getView3d();
                     if (oView3D) {
@@ -1502,7 +1501,7 @@ define([
 
         onYRotation: function(field, newValue, oldValue, eOpts){
             if (this.api){
-                var props = this.api.asc_getChartObject(true);
+                var props = this.api.asc_getChartSettings(true);
                 if (props) {
                     var oView3D = props.getView3d();
                     if (oView3D) {
@@ -1517,7 +1516,7 @@ define([
 
         onPerspective: function(field, newValue, oldValue, eOpts){
             if (this.api){
-                var props = this.api.asc_getChartObject(true);
+                var props = this.api.asc_getChartSettings(true);
                 if (props) {
                     var oView3D = props.getView3d();
                     if (oView3D) {
@@ -1532,7 +1531,7 @@ define([
 
         on3DDepth: function(field, newValue, oldValue, eOpts){
             if (this.api){
-                var props = this.api.asc_getChartObject(true);
+                var props = this.api.asc_getChartSettings(true);
                 if (props) {
                     var oView3D = props.getView3d();
                     if (oView3D) {
@@ -1547,7 +1546,7 @@ define([
 
         on3DHeight: function(field, newValue, oldValue, eOpts){
             if (this.api){
-                var props = this.api.asc_getChartObject(true);
+                var props = this.api.asc_getChartSettings(true);
                 if (props) {
                     var oView3D = props.getView3d();
                     if (oView3D) {
@@ -1562,7 +1561,7 @@ define([
 
         onDefRotation: function() {
             if (this.api){
-                var props = this.api.asc_getChartObject(true);
+                var props = this.api.asc_getChartSettings(true);
                 if (props) {
                     var oView3D = props.getView3d();
                     if (oView3D) {

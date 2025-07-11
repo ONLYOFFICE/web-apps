@@ -186,8 +186,8 @@
   "Draw": {
     "textColor": "اللون",
     "textCustomColor": "لون مخصص",
-    "textOpacity": "معدل الشفافية",
-    "textLineSize": "Line size"
+    "textLineSize": "حجم الخط",
+    "textOpacity": "معدل الشفافية"
   },
   "Error": {
     "convertationTimeoutText": "تم تجاوز مهلة التحويل.",
@@ -239,7 +239,8 @@
     "unknownErrorText": "خطأ غير معروف.",
     "uploadImageExtMessage": "امتداد صورة غير معروف",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
-    "uploadImageSizeMessage": "الصورة كبيرة جدًا. الحد الأقصى للحجم هو 25 ميغابايت."
+    "uploadImageSizeMessage": "الصورة كبيرة جدًا. الحد الأقصى للحجم هو 25 ميغابايت.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "جار تحميل البيانات...",
@@ -276,6 +277,7 @@
     "waitText": "الرجاء الانتظار..."
   },
   "Toolbar": {
+    "btnRestartNow": "إعادة التشغيل الآن",
     "dlgLeaveMsgText": "لديك تغييرات غير محفوظة. اضغط على 'البقاء في هذه الصفحة' لانتظار الحفظ التلقائي. اضغط على 'مغادرة هذه الصفحة' للتخلي عن كل التغييرات غير المحفوظة.",
     "dlgLeaveTitleText": "انت تغادر التطبيق",
     "leaveButtonText": "مغادرة هذه الصفحة",
@@ -284,8 +286,7 @@
     "textEnterNewFileName": "ادخل اسم جديد للملف",
     "textOk": "موافق",
     "textRenameFile": "إعادة تسمية الملف",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "التحويل إلى وضع سطح المكتب"
   },
   "View": {
     "Add": {
@@ -299,6 +300,7 @@
       "textDefault": "النص المحدد",
       "textDisplay": "عرض",
       "textDone": "تم",
+      "textDrawing": "الرسم",
       "textEmptyImgUrl": "يجب تحديد رابط الصورة",
       "textExternalLink": "رابط خارجي",
       "textFirstSlide": "الشريحة الأولى",
@@ -328,8 +330,7 @@
       "textSlideNumber": "رقم الشريحة",
       "textTable": "جدول",
       "textTableSize": "حجم الجدول",
-      "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  ",
-      "textDrawing": "Drawing"
+      "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  "
     },
     "Edit": {
       "notcriticalErrorTitle": "تحذير",

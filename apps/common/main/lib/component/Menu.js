@@ -411,15 +411,10 @@ define([
             onAfterShowMenu: function(e) {
                 this.trigger('show:after', this, e);
                 if (this.scroller && e && e.target===e.currentTarget) {
-                    var menuRoot = this.menuRoot;
-                    if (this.wheelSpeed===undefined) {
-                        var item = menuRoot.find('> li:first'),
-                            itemHeight = (item.length) ? item.outerHeight() : 1;
-                        this.wheelSpeed = Math.min((Math.floor(menuRoot.height()/itemHeight) * itemHeight)/10, 20);
-                    }
-                    this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible, wheelSpeed: this.wheelSpeed});
+                    this.updateScroller();
 
-                    var $selected = menuRoot.find('> li .checked');
+                    var menuRoot = this.menuRoot,
+                        $selected = menuRoot.find('> li .checked');
                     if ($selected.length) {
                         var itemTop = Common.Utils.getPosition($selected).top,
                             itemHeight = $selected.outerHeight(),
@@ -433,6 +428,18 @@ define([
                     }
                 }
                 this._search = {};
+            },
+
+            updateScroller: function() {
+                if (this.scroller && this.menuRoot) {
+                    var menuRoot = this.menuRoot;
+                    if (this.wheelSpeed===undefined || this.wheelSpeed===0) {
+                        var item = menuRoot.find('> li:first'),
+                            itemHeight = (item.length) ? item.outerHeight() : 1;
+                        this.wheelSpeed = Math.min((Math.floor(menuRoot.height()/itemHeight) * itemHeight)/10, 20);
+                    }
+                    this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible, wheelSpeed: this.wheelSpeed});
+                }
             },
 
             onBeforeHideMenu: function(e) {
@@ -841,6 +848,8 @@ define([
             this.scrollAlwaysVisible = this.options.scrollAlwaysVisible;
             this.search = this.options.search;
 
+            this.setRecent(options.recent);
+
             if (Common.UI.isRTL()) {
                 if (this.menuAlign === 'tl-tr') {
                     this.menuAlign = 'tr-tl';
@@ -935,6 +944,9 @@ define([
 
             this.trigger('render:after', this);
 
+            this.recent && this.menuRoot.find('> li:first').addClass('border-top');
+            this.loadRecent();
+
             return this;
         },
 
@@ -953,6 +965,8 @@ define([
                 itemTemplate: this.itemTemplate,
                 options : this.options
             }));
+            this.recent && this.menuRoot && this.menuRoot.find('> li:first').addClass('border-top');
+            this.loadRecent();
         },
 
         isVisible: function() {
@@ -997,6 +1011,7 @@ define([
                 }, 10);
                 return;
             }
+            this.addItemToRecent(item);
             this.trigger('item:click', this, item, e);
         },
 
@@ -1050,6 +1065,7 @@ define([
         },
 
         onBeforeShowMenu: function(e) {
+            this.loadRecent();
             Common.NotificationCenter.trigger('menu:show');
             this.trigger('show:before', this, e);
             (e && e.target===e.currentTarget) && this.alignPosition();
@@ -1059,18 +1075,22 @@ define([
             this.trigger('show:after', this, e);
             if (this.scroller && e && e.target===e.currentTarget) {
                 this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
-                var menuRoot = this.menuRoot,
-                    $selected = menuRoot.find('> li .checked');
-                if ($selected.length) {
-                    var itemTop = Common.Utils.getPosition($selected).top,
-                        itemHeight = $selected.outerHeight(),
-                        listHeight = menuRoot.outerHeight();
-                    if (!!this.options.scrollToCheckedItem && (itemTop < 0 || itemTop + itemHeight > listHeight)) {
-                        var height = menuRoot.scrollTop() + itemTop + (itemHeight - listHeight)/2;
-                        height = (Math.floor(height/itemHeight) * itemHeight);
-                        menuRoot.scrollTop(height);
+                var menuRoot = this.menuRoot;
+                if (this.recent && this.recentArr && this.recentArr.length) {
+                    menuRoot.scrollTop(0);
+                } else {
+                    var $selected = menuRoot.find('> li .checked');
+                    if ($selected.length) {
+                        var itemTop = Common.Utils.getPosition($selected).top,
+                            itemHeight = $selected.outerHeight(),
+                            listHeight = menuRoot.outerHeight();
+                        if (!!this.options.scrollToCheckedItem && (itemTop < 0 || itemTop + itemHeight > listHeight)) {
+                            var height = menuRoot.scrollTop() + itemTop + (itemHeight - listHeight)/2;
+                            height = (Math.floor(height/itemHeight) * itemHeight);
+                            menuRoot.scrollTop(height);
+                        }
+                        !!this.options.focusToCheckedItem && setTimeout(function(){$selected.focus();}, 1);
                     }
-                    !!this.options.focusToCheckedItem && setTimeout(function(){$selected.focus();}, 1);
                 }
             }
             this._search = {};
@@ -1269,6 +1289,112 @@ define([
             _.each(this.items, function(item){
                 item.checked = false;
             });
+        },
+
+        setRecent: function(recent) {
+            var filter = Common.localStorage.getKeysFilter();
+            this.recent = !recent ? false : {
+                count: recent.count || 5,
+                key: recent.key || (filter && filter.length ? filter.split(',')[0] : '') + this.id,
+                offset: recent.offset || 0,
+                valueField: recent.valueField || 'caption'
+            };
+        },
+
+        loadRecent: function() {
+            if (this.recent && this.rendered) {
+                if (!this.recentArr) {
+                    this.recentArr = [];
+                }
+                var checkedItem = _.findWhere(this.items, {checked: true});
+
+                this.clearRecent();
+
+                var me = this,
+                    arr = Common.localStorage.getItem(this.recent.key);
+                arr = arr ? arr.split(';') : [];
+                arr.reverse().forEach(function(recent) {
+                    let mnu = _.find(me.items, function(item) {
+                        return item[me.recent.valueField] === recent;
+                    });
+
+                    mnu && me.addItemToRecent(mnu, true, 0);
+                });
+                this.recentArr = arr;
+
+                if (checkedItem) {
+                    let obj,
+                        index = _.findIndex(me.items, (obj={}, obj[me.recent.valueField]=checkedItem[me.recent.valueField], obj));
+                    (index>-1) && me.setChecked(index, true, true);
+                }
+            }
+        },
+
+        clearRecent: function() {
+            for (let i=0; i<this.items.length; i++) {
+                if (!this.items[i].isRecent) break;
+                this.onRemoveRecentItem(this.items[i]);
+                this.items.splice(i, 1);
+                i--;
+            }
+        },
+
+        addItemToRecent: function(mnu, silent, index) {
+            if (!mnu || !this.recent) return;
+
+            for (let i=0; i<this.items.length; i++) {
+                if (!this.items[i].isRecent) break;
+                if (this.items[i][this.recent.valueField] === mnu[this.recent.valueField]) {
+                    if (i<this.recent.offset) return;
+
+                    this.onRemoveRecentItem(this.items[i]);
+                    this.items.splice(i, 1);
+                    break;
+                }
+            }
+
+            let recentLen = 0;
+            for (let i=0; i<this.items.length; i++) {
+                if (!this.items[i].isRecent) break;
+                recentLen++;
+            }
+
+            if (!(recentLen<this.recent.count)) {
+                this.onRemoveRecentItem(this.items[this.recent.count - 1]);
+                this.items.splice(this.recent.count - 1, 1);
+            }
+
+            var new_record = Object.assign({}, mnu);
+            new_record.isRecent = true;
+            new_record.id = Common.UI.getId();
+            new_record.checked = false;
+            this.items.splice(index!==undefined ? index : this.recent.offset, 0, new_record);
+            this.onInsertRecentItem(new_record, index!==undefined ? index : this.recent.offset);
+
+            if (!silent) {
+                var arr = [];
+                for (let i=0; i<this.items.length; i++) {
+                    if (!this.items[i].isRecent) break;
+                    arr.push(this.items[i][this.recent.valueField]);
+                }
+                this.recentArr = arr;
+                Common.localStorage.setItem(this.recent.key, arr.join(';'));
+            }
+            this.$items = null;
+        },
+
+        onInsertRecentItem: function(item, index) {
+            if (!this.cmpEl) return;
+            var el = $(_.template('<li><%= itemTemplate(item) %></li>')({
+                itemTemplate: this.itemTemplate,
+                item: item
+            }));
+            this.cmpEl.find('> li').eq(index || 0).before(el);
+            el && (item.el = el.find('> a'));
+        },
+
+        onRemoveRecentItem: function(item) {
+            this.cmpEl && this.cmpEl.find('> li a#'+item.id).closest('li').remove();
         }
     });
 

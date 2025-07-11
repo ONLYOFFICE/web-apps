@@ -27,7 +27,7 @@ export const DrawController = inject('storeAppOptions')(observer(({ storeAppOpti
   const [enableErasing, setEnableErasing] = useState(true);
 
   const onApiFocusObject = () => {
-    if (storeAppOptions.isDrawMode) {
+    if (storeAppOptions.isDrawMode && currentTool !== 'scroll') {
       const api = Common.EditorApi.get();
       setEnableErasing(api.asc_HaveInks());
     }

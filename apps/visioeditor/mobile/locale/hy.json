@@ -77,6 +77,7 @@
   "Error": {
     "convertationTimeoutText": "Փոխակերպման ժամկետը գերազանցվել է:",
     "criticalErrorExtText": "Սեղմեք «Լավ»՝ փաստաթղթերի ցանկին վերադառնալու համար:",
+    "criticalErrorExtTextClose": "Սեղմեք «Լավ»՝ խմբագիրը փակելու համար։",
     "criticalErrorTitle": "Սխալ",
     "downloadErrorText": "Ներբեռնումը ձախողվեց։",
     "errorAccessDeny": "Դուք փորձում եք կատարել գործողություն, որի համար իրավունք չունեք:Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ:",
@@ -153,14 +154,14 @@
     "waitText": "Խնդրում ենք սպասել..."
   },
   "Toolbar": {
+    "btnRestartNow": "Վերագործարկել հիմա",
     "dlgLeaveMsgText": "Դուք այս փաստաթղթում չպահված փոփոխություններ ունեք:Սեղմեք «Մնալ այս էջում»՝ սպասելու ավտոմատ պահպանմանը:Սեղմեք «Լքել այս էջը»՝ չպահված բոլոր փոփոխությունները մերժելու համար:",
     "dlgLeaveTitleText": "Ծրագրից դուրս եք գալիս",
     "leaveButtonText": "Լքել այս էջը",
     "stayButtonText": "Մնալ այս էջում",
     "textEnterNewFileName": "Մուտքագրել նոր ֆայլի անուն ",
     "textRenameFile": "Վերանվանել ֆայլը",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Անցնել Համակարգչային տարբերակին"
   },
   "View": {
     "Edit": {
@@ -198,6 +199,7 @@
       "textOwner": "Սեփականատեր",
       "textPoweredBy": "Մշակող՝",
       "textPrint": "Տպել",
+      "textRestartApplication": "Խնդրում ենք վերագործարկել հավելվածը, որպեսզի փոփոխություններն ուժի մեջ մտնեն",
       "textSameAsSystem": "Նույնը, ինչ համակարգը",
       "textSearch": "Գտնել",
       "textSettings": "Կարգավորումներ",
@@ -209,8 +211,7 @@
       "textVersion": "Տարբերակ",
       "textVisioInfo": "Դիագրամի Դիտողի Ինֆո․",
       "textVisioSettings": "Դիագրամի Դիտողի Կարգավորումներ",
-      "textVisioTitle": "Դիագրամի Դիտողի Վերնագիր",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textVisioTitle": "Դիագրամի Դիտողի Վերնագիր"
     }
   }
 }

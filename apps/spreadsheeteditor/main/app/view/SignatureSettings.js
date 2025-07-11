@@ -69,6 +69,7 @@ define([
                 tip: undefined
             };
             this._locked = false;
+            this._themeChanged = false;
 
             this.render();
         },
@@ -87,7 +88,7 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="signature-item requested">',
-                        '<div class="caret img-commonctrl nomargin"></div>',
+                    '<div class="caret-button nomargin"><div class="caret"></div></div>',
                         '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
                     '</div>'
                 ].join(''))
@@ -98,7 +99,7 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="signature-item">',
-                        '<div class="caret img-commonctrl img-colored <% if (name == "" || date == "") { %>' + 'nomargin' + '<% } %>"></div>',
+                        '<div class="caret-button <% if (name == "" || date == "") { %>' + 'nomargin' + '<% } %>"><div class="caret"></div></div>',
                         '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
                         '<div class="date"><%= Common.Utils.String.htmlEncode(date) %></div>',
                     '</div>'
@@ -110,7 +111,7 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="signature-item">',
-                        '<div class="caret img-commonctrl <% if (name == "" || date == "") { %>' + 'nomargin' + '<% } %>"></div>',
+                        '<div class="caret-button <% if (name == "" || date == "") { %>' + 'nomargin' + '<% } %>"><div class="caret"></div></div>',
                         '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
                         '<div class="date"><%= Common.Utils.String.htmlEncode(date) %></div>',
                     '</div>'
@@ -123,6 +124,9 @@ define([
             this.viewRequestedList.on('item:contextmenu', _.bind(this.onItemContextMenu, this));
             this.viewValidList.on('item:contextmenu', _.bind(this.onItemContextMenu, this));
             this.viewInvalidList.on('item:contextmenu', _.bind(this.onItemContextMenu, this));
+
+            this.parentPanel = this.viewValidList.cmpEl.closest('.content-box');
+            this.onThemeChanged();
 
             this.signatureMenu = new Common.UI.Menu({
                 menuAlign   : 'tr-br',
@@ -142,10 +146,13 @@ define([
                 this.api.asc_registerCallback('asc_onUpdateSignatures',    _.bind(this.onApiUpdateSignatures, this));
             }
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
+            Common.NotificationCenter.on('uitheme:changed', _.bind(this.onThemeChanged, this));
             return this;
         },
 
         ChangeSettings: function(props) {
+            if (this._themeChanged)
+                this.onThemeChanged();
             if (!this._state.hasRequested && !this._state.hasValid && !this._state.hasInvalid)
                 this.updateSignatures(this.api.asc_getSignatures(), this.api.asc_getRequestSignatures());
         },
@@ -224,8 +231,7 @@ define([
         onSelectSignature: function(picker, item, record, e){
             if (!record) return;
 
-            var btn = $(e.target);
-            if (btn && btn.hasClass('caret')) {
+            if ($(e.target).closest('.caret-button').length) {
                 var menu = this.signatureMenu;
                 if (menu.isVisible()) {
                     menu.hide();
@@ -417,6 +423,21 @@ define([
                     header: {search: false},
                     shortcuts: false
                 }, 'signature');
+            }
+        },
+
+        onThemeChanged: function() {
+            var el = this.$el || $(this.el);
+            this._themeChanged = !el.is(':visible');
+            if (!this._themeChanged) {
+                var marginLeft = '-' + this.parentPanel.css('padding-left'),
+                    marginRight = '-' + this.parentPanel.css('padding-right');
+                this.viewRequestedList.cmpEl.css('margin-left', marginLeft);
+                this.viewRequestedList.cmpEl.css('margin-right', marginRight);
+                this.viewValidList.cmpEl.css('margin-left', marginLeft);
+                this.viewValidList.cmpEl.css('margin-right', marginRight);
+                this.viewInvalidList.cmpEl.css('margin-left', marginLeft);
+                this.viewInvalidList.cmpEl.css('margin-right', marginRight);
             }
         },
 

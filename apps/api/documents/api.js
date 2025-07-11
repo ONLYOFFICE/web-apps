@@ -168,7 +168,13 @@
                             home:  {
                                 mailmerge: false/true // mail merge button // deprecated, button is moved to collaboration tab. use toolbar->collaboration->mailmerge instead
                             },
-                            layout:  false / true, // layout tab
+                            insert: {
+                                file: false/true // text from file button in de
+                                field: false/true // field button in de
+                            }, false / true, // insert tab
+                            layout: {
+                                pagecolor: false/true // page color button in de
+                            }, false / true, // layout tab
                             references:  false / true, // de references tab
                             collaboration:  {
                                 mailmerge: false/true // mail merge button in de
@@ -506,7 +512,7 @@
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
-                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett|numbers)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt|key)|(pdf|djvu|xps|oxps)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt|pages|hwp|hwpx)|(vsdx|vssx|vstx|vsdm|vssm|vstm))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett|numbers)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt|key|odg)|(pdf|djvu|xps|oxps)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt|pages|hwp|hwpx|md)|(vsdx|vssx|vstx|vsdm|vssm|vstm))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
@@ -949,6 +955,22 @@
         return '{{PRODUCT_VERSION}}';
     };
 
+    DocsAPI.DocEditor.warmUp = function(id) {
+        var target = document.getElementById(id);
+        if ( target ) {
+            var path = extendAppPath({}, getBasePath());
+            path += 'api/documents/preload.html';
+
+            var iframe = document.createElement("iframe");
+            iframe.width = 0;
+            iframe.height = 0;
+            iframe.style = 'border:0 none;';
+            iframe.src = path;
+
+            target.parentNode && target.parentNode.replaceChild(iframe, target);
+        }
+    }
+
     MessageDispatcher = function(fn, scope) {
         var _fn     = fn,
             _scope  = scope || window,
@@ -1048,8 +1070,7 @@
 
     function isLocalStorageAvailable() {
         try {
-            const storage = window['localStorage'];
-            return true;
+            return !!window['localStorage'];
         }
         catch(e) {
             return false;
@@ -1095,7 +1116,7 @@
             isForm = false;
         if (config.document) {
             if (typeof config.document.fileType === 'string')
-                type = /^(?:(pdf)|(djvu|xps|oxps)|(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|numbers)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|key)|(oform|docxf)|(vsdx|vssx|vstx|vsdm|vssm|vstm))$/
+                type = /^(?:(pdf)|(djvu|xps|oxps)|(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|numbers)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|key|odg)|(oform|docxf)|(vsdx|vssx|vstx|vsdm|vssm|vstm))$/
                     .exec(config.document.fileType);
 
             if (config.document.permissions)
@@ -1294,6 +1315,16 @@
         }
         return path;
     }
+
+    (function() {
+        if (document.currentScript) {
+            var scriptDirectory = document.currentScript.src;
+            var cacheWarmupId = /[?&]placeholder=([^&#]*)?/.exec(scriptDirectory);
+            if (cacheWarmupId && cacheWarmupId.length ) {
+                DocsAPI.DocEditor.warmUp.call(this, decodeURIComponent(cacheWarmupId[1]));
+            }
+        }
+    })();
 
 })(window.DocsAPI = window.DocsAPI || {}, window, document);
 

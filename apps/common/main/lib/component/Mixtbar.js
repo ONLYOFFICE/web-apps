@@ -154,6 +154,13 @@ define([
                     this.setVisible(action, visible);
                 }, this));
                 Common.NotificationCenter.on('tab:resize', _.bind(this.onResizeTabs, this));
+                Common.NotificationCenter.on('app:repaint', _.bind(function() {
+                    this.repaintMoreBtns();
+                }, this));
+                Common.NotificationCenter.on('uitheme:changed', _.bind(function() {
+                    this.clearActiveData();
+                    this.processPanelVisible();
+                }, this));
             },
 
             afterRender: function() {
@@ -330,6 +337,8 @@ define([
                 }
 
                 if ( tab ) {
+                    this.fireEvent('tab:active:before', [tab]);
+
                     me.$tabs.removeClass('active');
                     me.$panels.removeClass('active');
                     me.hideMoreBtns();
@@ -613,6 +622,15 @@ define([
                 this.$moreBar = btnsMore[tab].panel;
             },
 
+            repaintMoreBtns: function() {
+                for (var btn in btnsMore) {
+                    if (btnsMore[btn] && btnsMore[btn].cmpEl) {
+                        var box = btnsMore[btn].cmpEl.closest('.more-box');
+                        box.css('top', Common.Utils.getPosition(box.parent()).top);
+                    }
+                }
+            },
+
             clearMoreButton: function(tab) {
                 var panel = this.$panels.filter('[data-tab=' + tab + ']');
                 if ( panel.length ) {
@@ -727,7 +745,7 @@ define([
                     _maxright = box_controls_width;
                 if (!_staticPanelWidth) _staticPanelWidth = 0;
                 var _rightedge = $active.outerWidth() + _staticPanelWidth,
-                    delta = (this._prevBoxWidth) ? (_maxright - this._prevBoxWidth) : -1,
+                    delta = (this._prevBoxWidth!==undefined) ? (_maxright - this._prevBoxWidth) : -1,
                     hideAllMenus = false;
                 this._prevBoxWidth = _maxright;
                 more_section.is(':visible') && (_maxright -= more_section_width);

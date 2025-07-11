@@ -25,11 +25,14 @@
         --background-loader: fade(#000, 65%);
         --background-contrast-popover: #fff;
         --background-fill-button: #ffd112;
+        --background-pane: var(--background-toolbar);
+        --background-pane-additional: var(--background-pane);
 
         --highlight-button-hover: #d8dadc;
         --highlight-button-pressed: #7d858c;
         --highlight-button-pressed-hover: #7d858c;
         --highlight-primary-dialog-button-hover: #666d73;
+        --highlight-primary-dialog-button-pressed: var(--highlight-primary-dialog-button-hover);
         --highlight-accent-button-hover: #375478;
         --highlight-accent-button-pressed: #293f59;
         --highlight-header-button-hover: fade(#000, 15%);
@@ -51,6 +54,8 @@
         --highlight-toolbar-tab-underline-visio: #444796;
 
         --border-toolbar: #cbcbcb;
+        --border-toolbar-active-panel-top: var(--background-toolbar);
+        --border-toolbar-active-tab: var(--background-toolbar);
         --border-divider: #cbcbcb;
         --border-regular-control: #cfcfcf;
         --border-toolbar-button-hover: #d8dadc;
@@ -193,6 +198,54 @@
         --header-component-active-hover-icon-opacity: 1;
 
         --menu-icon-item-checked-offset-x: -20px;
+
+        --border-sidemenu: var(--scaled-one-pixel, 1px) solid var(--border-toolbar);
+        --background-statusbar: var(--background-pane);
+        --border-toolbar-z-clear: var(--border-toolbar);
+        --shadow-toolbar: 0px 1px 0 0 var(--border-toolbar);
+        --shadow-toolbar-style-off: var(--shadow-toolbar);
+
+        --celleditor-cell-name-border-right: var(--scaled-one-pixel, 1px) solid var(--border-toolbar);
+
+        --background-fill-input: var(--background-normal);
+        --background-fill-input-disabled: var(--background-normal);
+        --background-fill-input-readonly: var(--background-normal);
+
+        --highlight-category-button-hover: var(--highlight-button-hover);
+        --highlight-category-button-pressed: var(--highlight-button-pressed);
+        --highlight-header-input-hover: var(--highlight-header-button-hover);
+        --highlight-header-input-pressed: var(--highlight-header-button-pressed);
+
+        --border-fill-input: var(--border-regular-control);
+        --border-fill-input-focused: var(--border-control-focus);
+        --border-fill-input-disabled: var(--border-regular-control);
+        --border-fill-input-readonly: var(--border-regular-control);
+
+        --text-fill-input: var(--text-normal);
+        --text-fill-input-disabled: var(--text-normal);
+        --text-fill-input-readonly: var(--text-normal);
+
+        --shadow-fill-input: none;
+        --shadow-control-focus: inset 0 0 0 1px var(--border-control-focus);
+        --shadow-control-pressed-focus: inset 0 0 0 1px var(--background-normal), 0 0 0 1px var(--border-button-pressed-focus);
+        --shadow-control-primary-pressed-focus: inset 0 0 0 1px var(--background-normal);
+
+        --toolbar-simple-border-bottom: var(--scaled-one-pixel, 1px) solid var(--border-toolbar);
+        --toolbar-preferred-tab-style: fill;
+        --border-editor-sdk: var(--scaled-one-pixel, 1px) solid var(--border-toolbar);
+
+        //--rb-background-normal: var(--background-normal);
+        //--rb-background-normal-hover: var(--background-normal);
+        //--rb-background-checked: var(--background-normal);
+        //--rb-background-checked-hover: var(--background-normal);
+        //--rb-border-normal: var(--border-regular-control);
+        //--rb-border-normal-hover: var(--border-regular-control);
+        //--rb-border-normal-focus: var(--border-control-focus);
+        //--rb-border-checked: var(--border-regular-control);
+        //--rb-border-checked-hover: var(--border-regular-control);
+        //--rb-border-checked-focus: var(--border-control-focus);
+        //--rb-check-mark-size: 4px;
+        //--rb-check-mark-background: var(--text-normal);
     }
 }
 

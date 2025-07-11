@@ -250,13 +250,14 @@
   },
   "Draw": {
     "textColor": "Գույն",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
+    "textCustomColor": "Հատուկ գույն",
+    "textLineSize": "Տողի չափ",
+    "textOpacity": "Անթափանցելիություն"
   },
   "Error": {
     "convertationTimeoutText": "Փոխակերպման ժամկետը գերազանցվել է:",
     "criticalErrorExtText": "Սեղմեք «Լավ»՝ փաստաթղթերի ցանկին վերադառնալու համար:",
+    "criticalErrorExtTextClose": "Սեղմեք «Լավ»՝ խմբագիրը փակելու համար։",
     "criticalErrorTitle": "Սխալ",
     "downloadErrorText": "Ներբեռնումը ձախողվեց։",
     "errNoDuplicates": "Կրկնվող արժեքներ չեն գտնվել:",
@@ -449,16 +450,16 @@
     "textWarnDeleteSheet": "Աշխատաթերթը գուցե տվյալներ ունի:Շարունակե՞լ գործողությունը:"
   },
   "Toolbar": {
+    "btnRestartNow": "Վերագործարկել հիմա",
     "dlgLeaveMsgText": "Դուք այս փաստաթղթում չպահված փոփոխություններ ունեք:Սեղմեք «Մնալ այս էջում»՝ սպասելու ավտոմատ պահպանմանը:Սեղմեք «Լքել այս էջը»՝ չպահված բոլոր փոփոխությունները մերժելու համար:",
     "dlgLeaveTitleText": "Ծրագրից դուրս եք գալիս",
     "leaveButtonText": "Լքել այս էջը",
     "stayButtonText": "Մնալ այս էջում",
     "textCloseHistory": "Փակել պատմությունը",
     "textEnterNewFileName": "Մուտքագրել նոր ֆայլի անուն ",
+    "textOk": "Լավ",
     "textRenameFile": "Վերանվանել ֆայլը",
-    "btnRestartNow": "Restart now",
-    "textOk": "OK",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Անցնել Համակարգչային տարբերակին"
   },
   "View": {
     "Add": {
@@ -486,6 +487,7 @@
       "textDataTableHint": "Վերադարձնում էաղյուսակի կամ աղյուսակի հատկորոշված սյունակների տվյալների բջիջները",
       "textDisplay": "Ցուցադրել",
       "textDone": "Պատրաստ է",
+      "textDrawing": "Նկարչություն",
       "textEmptyImgUrl": "Դուք պետք է նշեք պատկերի URL-ը:",
       "textExternalLink": "Արտաքին հղում",
       "textFilter": "Զտիչ",
@@ -523,8 +525,7 @@
       "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
       "txtSorting": "Տեսակավորում",
       "txtSortSelected": "Ընտրված տեսակավորում",
-      "txtYes": "Այո",
-      "textDrawing": "Drawing"
+      "txtYes": "Այո"
     },
     "Edit": {
       "notcriticalErrorTitle": "Զգուշացում",

@@ -521,6 +521,8 @@ PE.ApplicationController = new(function(){
 
         $('#editor_sdk').on('click', function(e) {
             if ( e.target.localName == 'canvas' ) {
+                if (e.target.getAttribute && e.target.getAttribute("oo_no_focused"))
+                    return;
                 e.currentTarget.focus();
             }
         });

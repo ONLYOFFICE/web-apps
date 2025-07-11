@@ -27,6 +27,7 @@
     "textCurrentPosition": "Mevcut Pozisyon",
     "textDisplay": "Görünüm",
     "textDone": "Tamamlandı",
+    "textDrawing": "Çizim",
     "textEmptyImgUrl": "Resim URL'si belirtmelisiniz.",
     "textEvenPage": "Çift Sayfa",
     "textFootnote": "Dipnot",
@@ -65,8 +66,7 @@
     "textTableSize": "Tablo Boyutu",
     "textWithBlueLinks": "Mavi Bağlantılar Yardımıyla ",
     "textWithPageNumbers": "Sayfa Numaralarıyla",
-    "txtNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır",
-    "textDrawing": "Drawing"
+    "txtNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır"
   },
   "Common": {
     "Collaboration": {
@@ -228,6 +228,12 @@
     "textRefreshPageNumbersOnly": "Yalnızca sayfa numaralarını yenile",
     "textRows": "Satırlar",
     "txtWarnUrl": "Bu bağlantıyı tıklamak cihazınıza ve verilerinize zarar verebilir.<br>Devam etmek istediğinizden emin misiniz?"
+  },
+  "Draw": {
+    "textColor": "Renk",
+    "textCustomColor": "Özel Renk",
+    "textLineSize": "Çizgi boyutu",
+    "textOpacity": "Opaklık"
   },
   "Edit": {
     "notcriticalErrorTitle": "Dikkat",
@@ -427,6 +433,7 @@
     "errorDefaultMessage": "Hata kodu: %1",
     "errorDirectUrl": "Lütfen belgenin bağlantısını doğrulayın.<br>Bu bağlantı, indirilecek dosyaya doğrudan bir bağlantı olmalıdır.",
     "errorEditingDownloadas": "Dokümanla çalışma sırasında hata oluştu.<br> Lokal olarak dosyayı kaydetmek için dokümanı indirin.",
+    "errorEditProtectedRange": "Bu seçimi düzenleme izniniz yok çünkü korunuyor.",
     "errorEmptyTOC": "Seçilen metne Stiller galerisinden bir başlık stili uygulayarak içindekiler tablosu oluşturmaya başlayın.",
     "errorFilePassProtect": "Dosya parola korumalı ve açılamadı.",
     "errorFileSizeExceed": "Dosya boyutu sunucu sınırınızı aşıyor.<br>Lütfen yöneticinizle iletişime geçin.",
@@ -443,6 +450,8 @@
     "errorMailMergeSaveFile": "Birleştirme başarısız.",
     "errorNoTOC": "Güncellenecek içindekiler tablosu yok.  Referanslar sekmesinden bir tane ekleyebilirsiniz.",
     "errorPasswordIsNotCorrect": "Sağladığınız şifre doğru değil.  BÜYÜK HARF tuşunun kapalı olduğunu doğrulayın ve doğru büyük harf kullandığınızdan emin olun.",
+    "errorPDFFormsLocked": "İşlem, kilitli formlarda değişikliklere neden olduğu için gerçekleştirilemiyor.",
+    "errorSaveWatermark": "Bu dosya başka bir etki alanına bağlı bir filigran resmi içeriyor.<br>PDF'de görünür hale getirmek için, filigran resmini belgenizle aynı etki alanından bağlanacak şekilde güncelleyin veya bilgisayarınızdan yükleyin.",
     "errorSessionAbsolute": "Belge düzenleme oturumunun süresi doldu. Lütfen sayfayı yenileyin.",
     "errorSessionIdle": "Belge uzun süredir düzenlenmemiştir. Lütfen sayfayı yenileyin.",
     "errorSessionToken": "Sunucuyla bağlantı kesildi. Lütfen sayfayı yenileyin.",
@@ -471,9 +480,7 @@
     "uploadImageExtMessage": "Bilinmeyen resim formatı.",
     "uploadImageFileCountMessage": "Resim yüklenmedi.",
     "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir.",
-    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
-    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "Veri yükleniyor...",
@@ -503,6 +510,7 @@
     "savePreparingTitle": "Kaydetmeye hazırlanıyor. Lütfen bekleyin...",
     "saveTextText": "Belge kaydediliyor...",
     "saveTitleText": "Belge Kaydediliyor",
+    "savingText": "Kaydediliyor",
     "sendMergeText": "Birleştirme Gönderiliyor...",
     "sendMergeTitle": "Birleştirme Gönderiliyor",
     "textContinue": "Devam",
@@ -511,8 +519,7 @@
     "txtEditingMode": "Düzenleme modunu belirle...",
     "uploadImageTextText": "Resim yükleniyor...",
     "uploadImageTitleText": "Resim Yükleniyor",
-    "waitText": "Lütfen bekleyin...",
-    "savingText": "Saving"
+    "waitText": "Lütfen bekleyin..."
   },
   "Main": {
     "criticalErrorTitle": "Hata",
@@ -801,9 +808,12 @@
     "txtDownloadTxt": "TXT olarak indir",
     "txtIncorrectPwd": "Şifre yanlış",
     "txtOk": "Tamam",
-    "txtProtected": "Şifreyi girip dosyayı açtığınızda, mevcut şifre sıfırlanacaktır."
+    "txtProtected": "Şifreyi girip dosyayı açtığınızda, mevcut şifre sıfırlanacaktır.",
+    "textDrawing": "Drawing"
   },
   "Toolbar": {
+    "btnRestartNow": "Şimdi Yeniden Başlat",
+    "btnSend": "Gönder",
     "dlgLeaveMsgText": "Kaydedilmemiş değişiklikleriniz mevcut. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",
     "dlgLeaveTitleText": "Uygulamadan çıktınız",
     "leaveButtonText": "Bu Sayfadan Ayrıl",
@@ -814,15 +824,7 @@
     "textRenameFile": "Dosyayı yeniden adlandır.",
     "textSwitchedMobileView": "Mobil görünüme geçildi",
     "textSwitchedStandardView": "Standart görünüme geçildi",
-    "warnEmptyRequiredField": "Formu gönderebilmek için gerekli tüm alanları doldurun.",
-    "btnRestartNow": "Restart now",
-    "btnSend": "Send",
-    "textSwitchToDesktop": "Switch to Desktop"
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
+    "textSwitchToDesktop": "Masaüstüne Geç",
+    "warnEmptyRequiredField": "Formu gönderebilmek için gerekli tüm alanları doldurun."
   }
 }

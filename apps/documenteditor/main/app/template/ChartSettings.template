@@ -1,60 +1,87 @@
-<table cols="2" role="presentation">
+<table cols="3" role="presentation">
     <tr>
-        <td colspan=2>
+        <td colspan=3>
             <label class="header"><%= scope.textSize %></label>
         </td>
     </tr>
     <tr>
-        <td class="padding-small" width="50%">
-            <label id="chart-label-width" class="input-label"><%= scope.textWidth %></label>
+        <td class="padding-small" width="88px">
+            <label class="input-label"><%= scope.textWidth %></label>
+            <div id="chart-spin-width"></div>
         </td>
-        <td class="padding-small" width="50%">
-            <label id="chart-label-height" class="input-label"><%= scope.textHeight %></label>
+        <td class="padding-small" width="28px" style="vertical-align: bottom;">
+            <div id="chart-button-ratio"></div>
+        </td>
+        <td class="padding-small" width="88px">
+            <label class="input-label"><%= scope.textHeight %></label>
+            <div id="chart-spin-height"></div>
         </td>
     </tr>
+</table>
+<table cols="1">
     <tr>
-        <td class="padding-small" colspan=2>
+        <td class="padding-small">
             <div class="separator horizontal"></div>
         </td>
     </tr>
     <tr>
-        <td colspan=2 class="padding-small">
+        <td class="padding-small">
             <label class="header"><%= scope.textWrap %></label>
         </td>
     </tr>
     <tr>
-        <td class="padding-small" colspan=2>
+        <td class="padding-small">
             <div id="chart-combo-wrap" style="width: 100%;"></div>
         </td>
     </tr>
     <tr>
-        <td class="padding-small" colspan=2>
+        <td class="padding-small">
             <div class="separator horizontal"></div>
         </td>
     </tr>
     <tr>
-        <td colspan=2>
+        <td>
             <label class="header"><%= scope.textChartType %></label>
         </td>
     </tr>
     <tr>
-        <td class="padding-small" colspan=2>
+        <td class="padding-small">
             <div id="chart-button-type" style=""></div>
         </td>
     </tr>
     <tr class="not-combined">
-        <td class="padding-small" colspan=2>
+        <td class="padding-small">
             <div class="" id="chart-combo-style" style="width: 100%;"></div>
         </td>
     </tr>
     <tr>
-        <td class="padding-small" colspan=2>
+        <td class="padding-small">
             <div class="separator horizontal"></div>
         </td>
     </tr>
     <tr>
-        <td class="padding-small" colspan=2>
-            <button type="button" class="btn btn-text-default auto" id="chart-button-edit-data" style="min-width:115px;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textEditData %></button>
+        <td class="padding-small">
+            <label class="header" id="chart-data-lbl"><%= scope.textData %></label>
+        </td>
+    </tr>
+    <tr class="open-link">
+        <td class="padding-small">
+            <label class="link" id="chart-open-external-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium" style="max-width:190px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="chart-button-edit-data" style="width:100%;"></div>
+        </td>
+    </tr>
+    <tr class="external-only">
+        <td class="padding-small">
+            <div id="chart-button-update-data" style="width:100%;"></div>
+        </td>
+    </tr>
+    <tr class="external-only">
+        <td class="padding-small">
+            <div id="chart-button-edit-links" style="width:100%;"></div>
         </td>
     </tr>
 </table>

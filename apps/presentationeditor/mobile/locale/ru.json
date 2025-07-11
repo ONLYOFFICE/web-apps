@@ -77,7 +77,7 @@
     "menuMore": "Ещё",
     "menuOpenLink": "Перейти по ссылке",
     "menuSplit": "Разделить",
-    "menuViewComment": "Просмотреть комментарий",
+    "menuViewComment": "Посмотреть комментарий",
     "textColumns": "Столбцы",
     "textCopyCutPasteActions": "Операции копирования, вырезания и вставки",
     "textDoNotShowAgain": "Больше не показывать",
@@ -192,6 +192,7 @@
   "Error": {
     "convertationTimeoutText": "Превышено время ожидания конвертации.",
     "criticalErrorExtText": "Нажмите 'OK' для возврата к списку документов.",
+    "criticalErrorExtTextClose": "Нажмите 'OK', чтобы закрыть редактор.",
     "criticalErrorTitle": "Ошибка",
     "downloadErrorText": "Загрузка не удалась.",
     "errorAccessDeny": "Вы пытаетесь выполнить действие, на которое у вас нет прав.<br>Пожалуйста, обратитесь к администратору.",

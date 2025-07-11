@@ -27,6 +27,7 @@
     "textCurrentPosition": "الموضع الحالي",
     "textDisplay": "عرض",
     "textDone": "تم",
+    "textDrawing": "الرسم",
     "textEmptyImgUrl": "تحتاج إلى تحديد عنوان\nللصورة URL\n ",
     "textEvenPage": "صفحة زوجية",
     "textFootnote": "حاشية",
@@ -65,8 +66,7 @@
     "textTableSize": "حجم الجدول",
     "textWithBlueLinks": "بروابط زرقاء",
     "textWithPageNumbers": "مع أرقام الصفحات",
-    "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  ",
-    "textDrawing": "Drawing"
+    "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  "
   },
   "Common": {
     "Collaboration": {
@@ -232,8 +232,8 @@
   "Draw": {
     "textColor": "اللون",
     "textCustomColor": "لون مخصص",
-    "textOpacity": "معدل الشفافية",
-    "textLineSize": "Line size"
+    "textLineSize": "حجم الخط",
+    "textOpacity": "معدل الشفافية"
   },
   "Edit": {
     "notcriticalErrorTitle": "تحذير",
@@ -433,6 +433,7 @@
     "errorDefaultMessage": "رمز الخطأ:%1",
     "errorDirectUrl": "     <br>  برجاء التحقق من الرابط إلى المستند.\n يجب أن يكون هذا الرابط مباشرا إلى الملف المراد تحميله",
     "errorEditingDownloadas": "حدث خطأ اثناء العمل على المستند.<br> قم بتحميل المستند لحفظ نسخة احتياطية على جهازك",
+    "errorEditProtectedRange": "لا يمكنكم تعديل هذا التحديد لأنه محمي",
     "errorEmptyTOC": "ابدأ بإنشاء جدول محتويات من خلال تطبيق نمط رأس من معرض الأنماط للنص المحدد",
     "errorFilePassProtect": "هذا المستند محمي بكلمة سر و لا يمكن فتحه",
     "errorFileSizeExceed": "يتجاوز حجم الملف الحد المحدد للخادم. <br> الرجاء الاتصال بمسؤولك",
@@ -479,7 +480,7 @@
     "uploadImageExtMessage": "امتداد صورة غير معروف",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
     "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت",
-    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "جار تحميل البيانات...",
@@ -807,9 +808,11 @@
     "txtDownloadTxt": "تحميل النص",
     "txtIncorrectPwd": "كلمة السر غير صحيحة",
     "txtOk": "موافق",
-    "txtProtected": "بمجرد ادخالك كلمة المرور و فتح الملف ,سيتم اعادة انشاء كلمة المرور للملف"
+    "txtProtected": "بمجرد ادخالك كلمة المرور و فتح الملف ,سيتم اعادة انشاء كلمة المرور للملف",
+    "textDrawing": "Drawing"
   },
   "Toolbar": {
+    "btnRestartNow": "إعادة التشغيل الآن",
     "btnSend": "إرسال",
     "dlgLeaveMsgText": "لديك تغييرات غير محفوظة. اضغط على 'البقاء في هذه الصفحة' لانتظار الحفظ التلقائي. اضغط على 'غادر هذه الصفحة' للتخلي عن كل التغييرات الغير محفوظة.",
     "dlgLeaveTitleText": "انت تغادر التطبيق",
@@ -821,8 +824,7 @@
     "textRenameFile": "إعادة تسمية الملف",
     "textSwitchedMobileView": "تم التبديل إلى عرض المحمول",
     "textSwitchedStandardView": "تم التبديل إلى العرض القياسي",
-    "warnEmptyRequiredField": "قم بملء كل الحقول المطلوبة لارسال  الاستمارة.",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "التحويل إلى وضع سطح المكتب",
+    "warnEmptyRequiredField": "قم بملء كل الحقول المطلوبة لارسال  الاستمارة."
   }
 }

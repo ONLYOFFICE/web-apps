@@ -1,59 +1,104 @@
 .slider {
     position: relative;
-    height: 18px;
+    height: @slider-height-ie;
+    height: @slider-height;
 
     &.single-slider {
         padding-top: 7px;
 
         .track {
-            @track-height: 4px;
-            height: @track-height;
-            border: (@track-height / 2) solid @border-regular-control-ie;
-            border: (@track-height / 2) solid @border-regular-control;
-            border-radius: (@track-height / 2);
-            background-color: @border-regular-control-ie;
-            background-color: @border-regular-control;
-            width: calc(100% + @track-height);
-            margin-left: (-@track-height / 2);
+            position: relative;
+            height: @slider-track-height-ie;
+            height: @slider-track-height;
+            background-color: @slider-track-background-normal-ie;
+            background-color: @slider-track-background-normal;
+            border-radius: @slider-border-radius-ie;
+            border-radius: @slider-border-radius;
+            width: 100%;
+
+            //&:before {
+            //    content: '';
+            //    position: absolute;
+            //    inset: 0;
+            //    transform: translateY(-50%);
+            //    width: 100%;
+            //    height: @slider-height;
+            //}
+
+            &:after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                height: 100%;
+                width: 100%;
+                background-color: @slider-track-background-filled-ie;
+                background-color: @slider-track-background-filled;
+                border-radius: inherit;
+                clip-path: inset(0px var(--slider-unfill-percent, 0%) 0px 0px);
+            }
         }
 
         .thumb {
-            @thumb-width: 12px;
-            width: @thumb-width;
-            height: @thumb-width;
+            top: calc((@slider-height-ie - @slider-thumb-size-ie) / 2); // implement fallback for ie: 3px
+            top: calc((@slider-height - @slider-thumb-size) / 2); // implement fallback for ie: 3px
+            bottom: 0;
+            transform: translateX(-50%);
+            margin-left: 0;
+            height: @slider-thumb-size-ie;
+            height: @slider-thumb-size;
+            width: @slider-thumb-size-ie;
+            width: @slider-thumb-size;
+            border: @slider-thumb-border-size-ie solid @slider-thumb-border-normal-ie;
+            border: @slider-thumb-border-size solid @slider-thumb-border-normal;
+            background-color: @slider-thumb-background-normal-ie;
+            background-color: @slider-thumb-background-normal;
+            border-radius: @slider-thumb-border-radius-ie;
+            border-radius: @slider-thumb-border-radius;
+            box-shadow: @slider-thumb-shadow-ie;
+            box-shadow: @slider-thumb-shadow;
+            will-change: left;
 
-            border: @scaled-one-px-value-ie solid @icon-normal-ie;
-            border: @scaled-one-px-value solid @icon-normal;
-            background-color: @background-normal-ie;
-            background-color: @background-normal;
-            border-radius: (@thumb-width / 2);
-
-            top: 3px;
-            margin-left: (@thumb-width / -2);
+            &:hover {
+                background-color: @slider-thumb-background-hover-ie;
+                background-color: @slider-thumb-background-hover;
+            }
 
             &.active {
+                background-color: @slider-thumb-background-active-ie;
+                background-color: @slider-thumb-background-active;
             }
         }
 
         &.vertical {
-            height: auto;
-            width: 18px;
+            height: 100%;
+            width: @slider-height-ie;
+            width: @slider-height;
             padding-top: 0;
             .padding-left(7px);
+
             .track {
                 position: absolute;
-                @track-height: 4px;
-                height: calc(100% + @track-height);
-                width: @track-height;
-                margin-left: 0;
-                margin-top: (-@track-height / 2);
+                height: 100%;
+                width: @slider-track-height-ie;
+                width: @slider-track-height;
+
+                //&:before {
+                //    transform: translateX(-50%);
+                //    width: @slider-height;
+                //    height: 100%;
+                //}
+
+                &:after {
+                    clip-path: inset(0px 0px var(--slider-unfill-percent, 0%) 0px);
+                }
             }
+
             .thumb {
-                @thumb-width: 12px;
                 top: auto;
-                left: 3px;
-                margin-left: 0;
-                margin-top: (@thumb-width / -2);
+                left: calc((@slider-height-ie - @slider-thumb-size-ie) / 2);
+                left: calc((@slider-height - @slider-thumb-size) / 2);
+                transform: translateY(-50%);
+                will-change: top;
             }
         }
     }

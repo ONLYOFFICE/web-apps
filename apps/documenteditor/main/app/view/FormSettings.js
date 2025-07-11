@@ -64,6 +64,7 @@ define([
 
         initialize: function () {
             this._initSettings = true;
+            this._themeChanged = false;
 
             this._state = {
                 DisabledControls: undefined,
@@ -640,7 +641,7 @@ define([
                 menuStyle: 'min-width: 194px; max-height: 190px;max-width: 400px;',
                 menuAlignEl: $(this.el).parent(),
                 restoreMenuHeightAndTop: 85,
-                style: 'width: 194px;',
+                style: 'width: ' + $markup.width() + 'px;',
                 editable: false,
                 template    : _.template(template.join('')),
                 itemsTemplate: _.template(itemsTemplate.join('')),
@@ -778,16 +779,6 @@ define([
                 setTimeout(function(){me.cmbDateFormat._input && me.cmbDateFormat._input.select();}, 1);
             });
 
-            var data = [{ value: 0x0401 }, { value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0406 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x3809 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
-                { value: 0x040B }, { value: 0x040C }, { value: 0x100C }, { value: 0x0421 }, { value: 0x0410 }, { value: 0x0810 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
-                { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x281A }, { value: 0x241A }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }];
-            data.forEach(function(item) {
-                var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
-                var displayName = Common.util.LanguageInfo.getLocalLanguageDisplayName(item.value);
-                item.displayValue = displayName.native;
-                item.displayValueEn = displayName.english;
-                item.langName = langinfo[0];
-            });
             this.cmbLang = new Common.UI.ComboBox({
                 el: $markup.findById('#form-cmb-date-lang'),
                 cls: 'input-group-nr',
@@ -796,6 +787,7 @@ define([
                 menuAlignEl: $(this.el).parent(),
                 restoreMenuHeightAndTop: 85,
                 editable: false,
+                data: Common.util.LanguageInfo.getRegionalData(),
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= item.value %>">',
@@ -806,9 +798,8 @@ define([
                                 '<label style="opacity: 0.6"><%= item.displayValueEn %></label>',
                             '</a>',
                         '</li>',
-                    '<% }); %>',
+                    '<% }); %>'
                 ].join('')),
-                data: data,
                 search: true,
                 searchFields: ['displayValue', 'displayValueEn'],
                 dataHint: '1',
@@ -831,6 +822,7 @@ define([
                 // this.api.asc_registerCallback('asc_onParaSpacingLine', _.bind(this._onLineSpacing, this));
                 this.api.asc_registerCallback('asc_onUpdateOFormRoles', _.bind(this.onRefreshRolesList, this));
             }
+            Common.NotificationCenter.on('uitheme:changed', _.bind(this.onThemeChanged, this));
             return this;
         },
 
@@ -1285,6 +1277,9 @@ define([
             if (this._initSettings)
                 this.createDelayedElements();
 
+            if (this._themeChanged)
+                this.onThemeChanged();
+
             if (props) {
                 this._originalProps = props;
 
@@ -1375,7 +1370,9 @@ define([
                     this._originalFormProps = formPr;
 
                     if (type == Asc.c_oAscContentControlSpecificType.Picture)
-                        this.labelFormName.text(props.is_Signature() ? this.textSignature : this.textImage);
+                        this.labelFormName.text(this.textImage);
+                    if (type == Asc.c_oAscContentControlSpecificType.Signature)
+                        this.labelFormName.text(this.textSignature);
 
                     var data = this.api.asc_GetFormKeysByType(type);
                     if (!this._state.arrKey || this._state.arrKey.length!==data.length || _.difference(this._state.arrKey, data).length>0) {
@@ -1462,7 +1459,7 @@ define([
                         }
                     }
 
-                    if (type !== Asc.c_oAscContentControlSpecificType.Picture) {
+                    if (type !== Asc.c_oAscContentControlSpecificType.Picture && type !== Asc.c_oAscContentControlSpecificType.Signature) {
                         val = formPr.get_Fixed();
                         if ( this._state.Fixed!==val ) {
                             this.chFixed.setValue(!!val, true);
@@ -1527,10 +1524,9 @@ define([
                 }
 
                 var pictPr = props.get_PictureFormPr(),
-                    isSignature = false;
+                    isSignature = type === Asc.c_oAscContentControlSpecificType.Signature;
                 if (pictPr) {
                     this._originalPictProps = pictPr;
-                    isSignature = props.is_Signature();
                     val = pictPr.get_ConstantProportions();
                     if ( this._state.Aspect!==val ) {
                         this.chAspect.setValue(!!val, true);
@@ -1809,7 +1805,7 @@ define([
                     checkboxOnly = (typeof specProps.get_GroupKey() !== 'string');
                     radioboxOnly = !checkboxOnly;
                 }
-            } else if (type == Asc.c_oAscContentControlSpecificType.Picture) {
+            } else if (type == Asc.c_oAscContentControlSpecificType.Picture || type == Asc.c_oAscContentControlSpecificType.Signature) {
                 imageOnly = true;
             }  else if (type == Asc.c_oAscContentControlSpecificType.DateTime) {
                 dateOnly = true;
@@ -1984,6 +1980,12 @@ define([
                 this.cmbDateFormat.setValue(this._state.DateFormat ? this._state.DateFormat : '');
                 this.fireEvent('editcomplete', this);
             }
+        },
+
+        onThemeChanged: function() {
+            var el = this.$el || $(this.el);
+            this._themeChanged = !el.is(':visible');
+            !this._themeChanged && this.cmbRoles && this.cmbRoles.setWidth(el.width());
         }
 
     }, DE.Views.FormSettings || {}));

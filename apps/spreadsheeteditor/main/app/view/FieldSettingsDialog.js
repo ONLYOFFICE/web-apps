@@ -39,7 +39,7 @@
 
 define([
     'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.template',
-    'common/main/lib/view/AdvancedSettingsWindow',
+    'common/main/lib/view/AdvancedSettingsWindow'
 ], function (contentTemplate) { 'use strict';
 
     SSE.Views.FieldSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
@@ -394,7 +394,7 @@ define([
                 lang = Common.Utils.InternalSettings.get("sse-config-lang");
             (!value) && (value = (lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(lang)) : 0x0409));
 
-            var win = (new SSE.Views.FormatSettingsDialog({
+            var win = (new Common.Views.FormatSettingsDialog({
                 api: me.api,
                 handler: function(result, settings) {
                     if (result=='ok' && settings) {

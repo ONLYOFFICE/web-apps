@@ -96,6 +96,7 @@
         flex-grow: 1;
         display: flex;
         justify-content: center;
+        align-items: center;
         padding: 0px 2px;
         overflow: hidden;
         flex-shrink: 0;
@@ -111,19 +112,28 @@
         color: @text-toolbar-header;
         background-color: transparent;
         border: 0 none;
-        border-radius: 1px;
+        border-radius: @border-radius-button-base-ie;
+        border-radius: @border-radius-button-base;
+        height: @header-input-height-ie;
+        height: @header-input-height;
+        line-height: @header-input-line-height-ie;
+        line-height: @header-input-line-height;
+        align-items: center;
         padding: 1px 8px;
         cursor: default;
-        line-height: 24px;
 
         &:hover:not(:disabled):not(:focus){
-            background-color: @highlight-header-button-hover-ie;
-            background-color: @highlight-header-button-hover;
+            background-color: @highlight-header-input-hover-ie;
+            background-color: @highlight-header-input-hover;
             cursor: text;
         }
         &:focus{
-            background-color: @highlight-header-button-pressed-ie;
-            background-color: @highlight-header-button-pressed;
+            background-color: @highlight-header-input-pressed-ie;
+            background-color: @highlight-header-input-pressed;
+            border: @scaled-one-px-value-ie solid @border-header-input-focused-ie;
+            border: @scaled-one-px-value solid @border-header-input-focused;
+            .box-shadow(@shadow-fill-input-ie);
+            .box-shadow(@shadow-fill-input);
             cursor: text;
         }
         .rtl & {
@@ -140,8 +150,8 @@
         white-space: nowrap;
         &.locked {
             text-decoration: none;
-            color: @border-preview-select-ie;
-            color: @border-preview-select;
+            color: @text-secondary-ie;
+            color: @text-secondary;
             cursor: default;
         }
 
@@ -200,21 +210,39 @@
 .hedset {
     font-size: 0;
     display: flex;
+    align-items: @header-component-align-ie;
+    align-items: @header-component-align;
 
     .btn-group {
-        height: 100%;
+        height: @header-component-height-ie;
+        height: @header-component-height;
     }
-
+    .btn-slot {
+        & > .btn-group,
+        & > .btn-header {
+            margin: @header-component-margin-ie;
+            margin: @header-component-margin;
+        }
+    }
 }
 
 .btn-header {
-    height: 100%;
+    height: @header-component-height-ie;
+    height: @header-component-height;
     background-color: transparent;
-    width: 40px;
+    width: @header-component-width-ie;
+    width: @header-component-width;
+    border: 0;
+    padding: @header-component-padding-ie;
+    padding: @header-component-padding;
 
     .icon {
-        width: 20px;
-        height: 20px;
+        width: @x-small-btn-icon-size-ie;
+        width: @x-small-btn-icon-size;
+        height: @x-small-btn-icon-size-ie;
+        height: @x-small-btn-icon-size;
+        line-height: @header-component-line-height-ie;
+        line-height: @header-component-line-height;
         display: inline-block;
         position: relative;
 
@@ -310,7 +338,10 @@
     align-items: center;
     cursor: pointer;
     padding: 0 8px 0 6px;
-    height: 100%;
+    height: @header-component-height-ie;
+    height: @header-component-height;
+    border-radius: @border-radius-button-base-ie;
+    border-radius: @border-radius-button-base;
 
     .inner-box-icon {
         width: 28px;
@@ -319,9 +350,11 @@
         > svg {
             position: absolute;
             width: 28px;
-            height: 20px;
+            height: @x-small-btn-icon-size-ie;
+            height: @x-small-btn-icon-size;
             top: 50%;
             margin-top: -10px;
+            margin-top: calc(-1 * @font-size-base-app + 1px);
             fill: @icon-toolbar-header-ie;
             fill: @icon-toolbar-header;
         }
@@ -331,6 +364,8 @@
         cursor: pointer;
         .font-size-tiny();
         margin-left: -18px;
+        margin-top: @scaled-one-px-value-ie;
+        margin-top: @scaled-one-px-value;
         width: 16px;
         text-align: center;
         overflow: hidden;
@@ -408,7 +443,8 @@
     height: 100%;
     width: 40px;
     padding: 1px 3px;
-    border: var(--scaled-one-pixel, 1px) solid transparent;
+    border: @scaled-one-px-value-ie solid transparent;
+    border: @scaled-one-px-value solid transparent;
 }
 
 .btn-current-user, .btn-header {
@@ -450,7 +486,7 @@
 
 .cousers-menu {
     position: fixed;
-    top: @height-tabs - 8px;
+    top: calc(@toolbar-height-tabs - 8px);
     left: 100%;
     margin-left: -285px;
 
@@ -461,7 +497,7 @@
     z-index: 1042;
 
     .top-title & {
-        top: @height-title + @height-tabs - 8px;
+        top: calc(@toolbar-height-tabs-top-title + @document-title-height - 8px);
     }
 
     > label {
@@ -589,6 +625,7 @@
     #id-box-doc-name {
         display: flex;
         justify-content: center;
+        align-items: center;
         overflow: hidden;
         padding: 0px 2px;
     }
@@ -599,23 +636,33 @@
         overflow: hidden;
         text-align: center;
         .font-size-medium();
-        line-height: 24px;
+        height: @header-input-height-ie;
+        height: @header-input-height;
+        line-height: @header-input-line-height-ie;
+        line-height: @header-input-line-height;
         padding: 1px 8px;
+        align-items: center;
         background-color: transparent;
         border: 0 none;
         cursor: default;
         .user-select(text);
 
         &:hover:not(:disabled):not(:focus){
-            background-color: @highlight-header-button-hover-ie;
-            background-color: @highlight-header-button-hover;
-            border-radius: 1px;
+            background-color: @highlight-header-input-hover-ie;
+            background-color: @highlight-header-input-hover;
+            border-radius: @border-radius-button-base-ie;
+            border-radius: @border-radius-button-base;
             cursor: text;
         }
         &:focus{
-            background-color: @highlight-header-button-pressed-ie;
-            background-color: @highlight-header-button-pressed;
-            border-radius: 1px;
+            background-color: @highlight-header-input-pressed-ie;
+            background-color: @highlight-header-input-pressed;
+            border: @scaled-one-px-value-ie solid @border-header-input-focused-ie;
+            border: @scaled-one-px-value solid @border-header-input-focused;
+            border-radius: @border-radius-button-base-ie;
+            border-radius: @border-radius-button-base;
+            .box-shadow(@shadow-fill-input-ie);
+            .box-shadow(@shadow-fill-input);
             cursor: text;
         }
         .rtl & {

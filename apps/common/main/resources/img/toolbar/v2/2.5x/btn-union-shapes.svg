@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M9.5 4.5a5 5 0 0 1 5 5 5 5 0 1 1-5 5 5 5 0 0 1 0-10Z" class="icon-fill-gray-secondary" opacity=".5" fill="currentColor" stroke="none"/>
+    <path d="M4.5 9.5a5 5 0 0 0 5 5 5 5 0 1 0 5-5 5 5 0 0 0-10 0Z" class="icon-stroke-gray-primary"/>
+</svg>

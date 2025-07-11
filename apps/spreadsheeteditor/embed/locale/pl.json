@@ -15,6 +15,7 @@
   "SSE.ApplicationController.downloadTextText": "Pobieranie arkusza kalkulacyjnego...",
   "SSE.ApplicationController.errorAccessDeny": "Próbujesz wykonać działanie, do którego nie masz uprawnień.<br>Proszę skontaktować się z administratorem serwera dokumentów.",
   "SSE.ApplicationController.errorDefaultMessage": "Kod błędu: %1",
+  "SSE.ApplicationController.errorEditingDownloadas": "Wystąpił błąd podczas pracy z dokumentem.<br>Użyj opcji \"Pobierz jako\", aby zapisać kopię zapasową pliku na dysku.",
   "SSE.ApplicationController.errorFilePassProtect": "Dokument jest chroniony hasłem i nie może być otwarty.",
   "SSE.ApplicationController.errorFileSizeExceed": "Rozmiar pliku przekracza dopuszczone limit dla twojego serwera.<br>Prosimy o kontakt z administratorem twojego serwera w celu uzyskania szczegółowych informacji.",
   "SSE.ApplicationController.errorForceSave": "Wystąpił błąd podczas zapisywania pliku. Użyj opcji \"Pobierz jako\", aby zapisać plik na dysku twardym komputera lub spróbuj poźniej zapisać plik ponownie.",

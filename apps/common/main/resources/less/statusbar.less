@@ -1,0 +1,26 @@
+.cnt-flex-center {
+    display: flex;
+    align-items: center;
+}
+
+.statusbar {
+    height: 25px;
+    height: @statusbar-height-ie;
+    height: @statusbar-height;
+    background-color: @background-statusbar-ie;
+    background-color: @background-statusbar;
+    .box-inner-shadow(0 @scaled-one-px-value-ie 0 @border-toolbar-ie);
+    .box-inner-shadow(0 @scaled-one-px-value 0 @border-toolbar);
+
+    .status-label {
+        color: @text-normal-ie;
+        color: @text-normal;
+        white-space: nowrap;
+    }
+
+    display: flex;
+    align-items: center;
+    .font-size-normal();
+
+    .status-group {}
+}

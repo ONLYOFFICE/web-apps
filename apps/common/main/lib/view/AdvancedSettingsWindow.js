@@ -105,10 +105,10 @@ define([], function () { 'use strict';
                 btn.on('click', _.bind(me.onCategoryClick, me, btn, index));
                 me.btnsCategory.push(btn);
             });
-            var cnt_panel = $window.find('.content-panel'),
-                menu_panel = $window.find('.menu-panel');
-            cnt_panel.width(this.contentWidth);
-            $window.width(((menu_panel.length>0) ? menu_panel.width() : 0) + cnt_panel.outerWidth() + 2);
+            let menu_panel = $window.find('.menu-panel');
+            this.content_panel = $window.find('.content-panel');
+            this.content_panel.width(this.contentWidth);
+            $window.width(((menu_panel.length>0) ? menu_panel.outerWidth() : 0) + this.content_panel.outerWidth() + 2);
 
             if (this.options.contentHeight) {
                 $window.find('.body > .box').css('height', this.options.contentHeight);
@@ -124,7 +124,7 @@ define([], function () { 'use strict';
                 this.btnsCategory[0].toggle(true, true);
 
             var onMainWindowResize = function(){
-                $window.width(((menu_panel.length>0) ? menu_panel.width() : 0) + cnt_panel.outerWidth() + 2);
+                $window.width(((menu_panel.length>0) ? menu_panel.outerWidth() : 0) + me.content_panel.outerWidth() + 2);
             };
             $(window).on('resize', onMainWindowResize);
             this.on('close', function() {
@@ -152,6 +152,11 @@ define([], function () { 'use strict';
             $window.find('.body > .box').css('height', height);
         },
 
+        fixHeight: function() { // check height of the content
+            let diff = this.content_panels.filter('.active').height() - this.content_panel.height();
+            (diff>0) && this.setInnerHeight(parseInt(this.$window.find('.body > .box').css('height')) + diff);
+        },
+
         onDlgBtnClick: function(event) {
             var state = event.currentTarget.attributes['result'].value;
             if ( this.handler && this.handler.call(this, state, (state == 'ok') ? this.getSettings() : undefined) )
@@ -162,6 +167,7 @@ define([], function () { 'use strict';
         onCategoryClick: function(btn, index) {
             this.content_panels.filter('.active').removeClass('active');
             $("#" + btn.options.contentTarget).addClass("active");
+            this.fixHeight();
         },
 
         getSettings: function() {
@@ -207,6 +213,13 @@ define([], function () { 'use strict';
             if (this.storageName)
                 Common.localStorage.setItem(this.storageName, this.getActiveCategory());
             Common.UI.Window.prototype.close.call(this, suppressevent);
+        },
+
+        onThemeChanged: function() {
+            if (!this.$window || !this.isVisible()) return;
+
+            Common.UI.Window.prototype.onThemeChanged.call(this);
+            this.fixHeight();
         },
 
         onAnimateAfter: function() {

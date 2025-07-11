@@ -71,7 +71,7 @@ define([], function () {
 
                 if (me.mode.isEdit===true) {
                     me.api.asc_registerCallback('asc_onDialogAddHyperlink', _.bind(me.onDialogAddHyperlink, me));
-                    me.api.asc_registerCallback('asc_doubleClickOnChart', _.bind(me.editChartClick, me));
+                    me.api.asc_registerCallback('asc_doubleClickOnChart', _.bind(me.onDoubleClickOnChart, me));
                     me.api.asc_registerCallback('asc_doubleClickOnTableOleObject', _.bind(me.onDoubleClickOnTableOleObject, me));
                     me.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(me.onSpellCheckVariantsFound, me));
                     me.api.asc_registerCallback('asc_onShowSpecialPasteOptions',  _.bind(me.onShowSpecialPasteOptions, me));
@@ -92,6 +92,7 @@ define([], function () {
                     me.api.asc_registerCallback('asc_onUnLockViewProps',        _.bind(me.onLockViewProps, me, false));
                     me.api.asc_registerCallback('asc_onHideEyedropper',         _.bind(me.hideEyedropper, me));
                     me.api.asc_SetMathInputType(Common.localStorage.getBool("pe-equation-input-latex") ? Asc.c_oAscMathInputType.LaTeX : Asc.c_oAscMathInputType.Unicode);
+                    me.api.asc_registerCallback('asc_onRemoveUnpreserveMasters', _.bind(me.onRemoveUnpreserveMasters, me));
                 }
                 me.api.asc_registerCallback('asc_onShowForeignCursorLabel', _.bind(me.onShowForeignCursorLabel, me));
                 me.api.asc_registerCallback('asc_onHideForeignCursorLabel', _.bind(me.onHideForeignCursorLabel, me));
@@ -115,7 +116,7 @@ define([], function () {
                 }, this));
                 diagramEditor.on('hide', _.bind(function(cmp, message) {
                     if (this.api) {
-                        this.api.asc_onCloseChartFrame();
+                        this.api.asc_onCloseFrameEditor();
                         this.api.asc_enableKeyEvents(true);
                     }
                     setTimeout(function(){
@@ -138,7 +139,7 @@ define([], function () {
                 oleEditor.on('hide', _.bind(function(cmp, message) {
                     if (this.api) {
                         this.api.asc_enableKeyEvents(true);
-                        this.api.asc_onCloseChartFrame();
+                        this.api.asc_onCloseFrameEditor();
                     }
                     setTimeout(function(){
                         me.editComplete();
@@ -202,6 +203,7 @@ define([], function () {
             view.menuTableCellAlign.menu.on('item:click', _.bind(me.tableCellsVAlign, me));
             view.menuTableDistRows.on('click', _.bind(me.onTableDistRows, me));
             view.menuTableDistCols.on('click', _.bind(me.onTableDistCols, me));
+            view.menuTableDirection.menu.on('item:click', _.bind(me.tableDirection, me));
             view.menuIgnoreSpellTable.on('click', _.bind(me.onIgnoreSpell, me));
             view.menuIgnoreSpellPara.on('click', _.bind(me.onIgnoreSpell, me));
             view.menuIgnoreAllSpellTable.on('click', _.bind(me.onIgnoreSpell, me));
@@ -243,6 +245,7 @@ define([], function () {
             view.mnuInsertMaster.on('click', _.bind(me.onInsertMaster, me));
             view.mnuInsertLayout.on('click', _.bind(me.onInsertLayout, me));
             view.mnuDuplicateMaster.on('click', _.bind(me.onDuplicateMaster, me));
+            view.mnuPreserveMaster.on('toggle', _.bind(me.onPreserveMaster, me));
             view.mnuDuplicateLayout.on('click', _.bind(me.onDuplicateLayout, me));
             view.mnuDeleteMaster.on('click', _.bind(me.onDeleteMaster, me));
             view.mnuDeleteLayout.on('click', _.bind(me.onDeleteLayout, me));
@@ -1254,7 +1257,10 @@ define([], function () {
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = documentHolder.txtPastePicture;
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = documentHolder.txtPasteSourceFormat;
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = documentHolder.txtPasteDestFormat;
-
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceFormattingEmbedding] = documentHolder.txtSourceEmbed;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormattingEmbedding] = documentHolder.txtDestEmbed;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceFormattingLink] = documentHolder.txtSourceLink;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormattingLink] = documentHolder.txtDestLink;
 
                 pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
                 documentHolder.cmpEl.append(pasteContainer);
@@ -1344,6 +1350,11 @@ define([], function () {
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.picture] = 'U';
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceformatting] = 'K';
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = 'H';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceFormattingEmbedding] = 'K';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormattingEmbedding] = 'H';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceFormattingLink] = 'F';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormattingLink] = 'L';
+
             for(var key in me.hkSpecPaste){
                 if(me.hkSpecPaste.hasOwnProperty(key)){
                     var keymap = {};
@@ -1368,14 +1379,14 @@ define([], function () {
             this.documentHolder.menuImgCrop && this.documentHolder.menuImgCrop.menu.items[0].setChecked(state, true);
         };
 
-        dh.onDoubleClickOnTableOleObject = function(chart) {
+        dh.onDoubleClickOnTableOleObject = function(frameBinary) {
             if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             if (this.mode.isEdit && !this._isDisabled) {
                 var oleEditor = PE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-                if (oleEditor && chart) {
+                if (oleEditor && frameBinary) {
                     oleEditor.setEditMode(true);
                     oleEditor.show();
-                    oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(chart));
+                    oleEditor.setOleData(frameBinary);
                 }
             }
         };
@@ -1454,16 +1465,18 @@ define([], function () {
 
         dh.editChartClick = function(chart, placeholder){
             if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
-            if (this.mode.isEdit && !this._isDisabled) {
-                var diagramEditor = PE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+            this.api.asc_editChartInFrameEditor();
+        };
 
-                if (diagramEditor) {
-                    diagramEditor.setEditMode(chart===undefined || typeof chart == 'object'); //edit from doubleclick or context menu
+        dh.onDoubleClickOnChart = function(chart) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+
+            if (this.mode.isEdit && !this._isDisabled) {
+                var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+                if (diagramEditor && chart) {
+                    diagramEditor.setEditMode(true);
                     diagramEditor.show();
-                    if (typeof chart !== 'object')
-                        chart = this.api.asc_getChartObject(chart, placeholder);
-                    diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
-                    diagramEditor.setPlaceholder(placeholder);
+                    diagramEditor.setChartData(chart);
                 }
             }
         };
@@ -1471,14 +1484,9 @@ define([], function () {
         dh.onEditObject = function() {
             if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             if (this.api) {
-                var oleobj = this.api.asc_canEditTableOleObject(true);
+                var oleobj = this.api.asc_canEditTableOleObject();
                 if (oleobj) {
-                    var oleEditor = PE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-                    if (oleEditor) {
-                        oleEditor.setEditMode(true);
-                        oleEditor.show();
-                        oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
-                    }
+                    this.api.asc_editOleTableInFrameEditor();
                 } else {
                     this.api.asc_startEditCurrentOleObject();
                 }
@@ -1579,7 +1587,7 @@ define([], function () {
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                 });
                 picker.on('item:click', function (picker, item, record, e) {
-                    me.editChartClick(record.get('type'), me._state.placeholderObj);
+                    me.api.asc_addChartDrawingObject(record.get('type'), me._state.placeholderObj);
                 });
             }
             menuContainer.css({left: x, top : y});
@@ -1629,11 +1637,15 @@ define([], function () {
                     minRows: 8,
                     minColumns: 10,
                     maxRows: 8,
-                    maxColumns: 10
+                    maxColumns: 10,
+                    customClear: true,          // because bug 74394
                 });
                 picker.on('select', function(picker, columns, rows){
                     me.api.put_Table(columns, rows, me._state.placeholderObj);
                     me.editComplete();
+                });
+                menu.on('hide:before', function(menu, e){
+                    picker.setTableSize(0,0);
                 });
                 menu.on('item:click', function(menu, item, e){
                     if (item.value === 'custom') {
@@ -1966,6 +1978,15 @@ define([], function () {
         dh.onTableDistCols = function () {
             this.api && this.api.asc_DistributeTableCells(true);
             this.editComplete();
+        };
+
+        dh.tableDirection = function(menu, item, e) {
+            var me = this;
+            if (me.api) {
+                var properties = new Asc.CTableProp();
+                properties.put_CellsTextDirection(item.options.direction);
+                me.api.tblApply(properties);
+            }
         };
 
         dh.onIgnoreSpell = function(item, e){
@@ -2525,7 +2546,6 @@ define([], function () {
                         iconCls     : 'svgicon ' + equationGroup.get('groupIcon'),
                         hint        : equationGroup.get('groupName'),
                         menu        : new Common.UI.Menu({
-                            cls: 'menu-shapes',
                             value: i,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +
@@ -2689,6 +2709,22 @@ define([], function () {
 
         dh.onDuplicateMaster = function () {
             this.api.asc_DuplicateMaster();
+        };
+
+        dh.onPreserveMaster = function(item) {
+            this.api.asc_setPreserveSlideMaster(item.checked);
+        };
+
+        dh.onRemoveUnpreserveMasters = function(deleteMasterCallback) {
+            const me = this;
+            Common.UI.warning({
+                msg: me.documentHolder.textRemoveUnpreserveMasters,
+                buttons: ['yes', 'no'],
+                primary: 'yes',
+                callback: function(btn){
+                    deleteMasterCallback(btn === 'yes');
+                }
+            });
         };
 
         dh.onDuplicateLayout = function () {

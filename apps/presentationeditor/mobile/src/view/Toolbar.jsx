@@ -58,7 +58,7 @@ const ToolbarView = props => {
                     onRedoClick: props.onRedo
                 })}
             </NavLeft>
-            {(!Device.phone && !isVersionHistoryMode) && 
+            {(!Device.phone && !isVersionHistoryMode && !props.isHiddenFileName) && 
                 <div className='title' onClick={() => props.changeTitleHandler()} style={{width: '71%'}}>
                     {docTitle}
                 </div>

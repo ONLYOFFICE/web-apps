@@ -72,11 +72,11 @@ define([
 
             this.template = [
                 '<div id="presentation-preview" style="width:100%; height:100%"></div>',
-                '<div id="preview-controls-panel" class="preview-controls"">',
+                '<div id="preview-controls-panel" class="preview-controls">',
                     '<div class="preview-group" style="">',
-                        !Common.UI.isRTL() ? '<button id="btn-preview-prev" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-previtem">&nbsp;</i></button>' : '<button id="btn-preview-next" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-nextitem">&nbsp;</span></button>',
+                        '<button id="btn-preview-prev" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-previtem icon-rtl">&nbsp;</i></button>',
                         '<button id="btn-preview-play" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-play">&nbsp;</i></button>',
-                        !Common.UI.isRTL() ? '<button id="btn-preview-next" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-nextitem">&nbsp;</i></button>' : '<button id="btn-preview-prev" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-previtem">&nbsp;</span></button>',
+                        '<button id="btn-preview-next" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-nextitem icon-rtl">&nbsp;</i></button>',
                         '<div class="separator"></div>',
                     '</div>',
                     '<div class="preview-group dropup">',
