@@ -4615,5 +4615,6 @@
   "SSE.Views.WBProtection.txtProtectWB": "ورک بک کی حفاظت کریں۔",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "شیٹ کو غیر محفوظ کرنے کے لیے پاس ورڈ درج کریں۔",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "غیر محفوظ شدہ شیٹ",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "ورک بک کو غیر محفوظ کرنے کے لیے پاس ورڈ درج کریں۔"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "ورک بک کو غیر محفوظ کرنے کے لیے پاس ورڈ درج کریں۔",
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "ورک بک کو غیر محفوظ کریں۔"
 }

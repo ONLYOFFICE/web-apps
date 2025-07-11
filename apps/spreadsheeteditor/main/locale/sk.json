@@ -4615,5 +4615,6 @@
   "SSE.Views.WBProtection.txtProtectWB": "Zabezpečiť zošit",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Zadajte heslo pre deaktiváciu zabezpečenia listu",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Zrušte ochranu listu",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Vložte heslo pre vstup k zošitu"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Vložte heslo pre vstup k zošitu",
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Zrušte ochranu zošita"
 }
