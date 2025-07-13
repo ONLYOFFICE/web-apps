@@ -204,7 +204,8 @@ define([
                 is_lockText: false,
                 is_lockShape: false,
                 isUserProtected: false,
-                showPivotTab: false
+                showPivotTab: false,
+                showTableDesignTab: false
             };
             this.binding = {};
 
@@ -3164,6 +3165,16 @@ define([
                 this._state.multiselect = info.asc_getMultiselect();
                 toolbar.lockToolbar(Common.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink, toolbar.btnInsertTable]});
 
+                var intabledesign = info.asc_getFormatTableInfo();
+                if (this._state.intabledesign !== intabledesign) {
+                    if ( !intabledesign && this.toolbar.isTabActive('tabledesign') )
+                        this.toolbar.setTab('home');
+                    this.toolbar.setVisible('tabledesign', !!intabledesign);
+                    if (intabledesign && this._state.showTableDesignTab)
+                        this.toolbar.setTab('tabledesign');
+                    this._state.intabledesign = intabledesign;
+                }
+
                 var inpivot = !!info.asc_getPivotTableInfo();
                 if (this._state.inpivot !== inpivot) {
                     if ( !inpivot && this.toolbar.isTabActive('pivot') )
@@ -4534,6 +4545,20 @@ define([
                             me._state.inpivot && me.toolbar.setVisible('pivot', true);
                             Array.prototype.push.apply(me.toolbar.lockControls, pivottab.getView('PivotTable').getButtons());
                         }
+                    }
+
+                    if ( config.canFeatureTable ) {
+                        tab = {caption: 'Table Design', action: 'tabledesign', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-tabledesign', dataHintTitle: 'V'};
+                        var tabledesigntab = me.getApplication().getController('TableDesignTab');
+                        tabledesigntab.setApi(me.api).setConfig({toolbar: me, mode: config});
+                        var $panel = tabledesigntab.createToolbarPanel();
+                        if ($panel) {
+                            var visible = Common.UI.LayoutManager.isElementVisible('toolbar-tabledesign');
+                            me.toolbar.addTab(tab, $panel, 8);
+                            me._state.intabledesign && me.toolbar.setVisible('tabledesign', visible);
+                            !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'tabledesign'); // need to activate later
+                        }
+                        config.isEdit && Array.prototype.push.apply(me.toolbar.lockControls, tabledesigntab.getView('TableDesignTab').getButtons());
                     }
 
                     if (!config.compactHeader) {

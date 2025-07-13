@@ -473,6 +473,7 @@ define([
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
                 this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
                 this.appOptions.canFeaturePivot = true;
+                this.appOptions.canFeatureTable = true;
                 this.appOptions.canFeatureViews = true;
                 this.appOptions.canRequestReferenceData = this.editorConfig.canRequestReferenceData;
                 this.appOptions.canRequestOpen = this.editorConfig.canRequestOpen;
@@ -1042,6 +1043,7 @@ define([
                     documentHolderController    = application.getController('DocumentHolder'),
 //                  fontsController             = application.getController('Common.Controllers.Fonts'),
                     rightmenuController         = application.getController('RightMenu'),
+                    tableDesignController       = application.getController('TableDesignTab'),
                     leftmenuController          = application.getController('LeftMenu'),
                     celleditorController        = application.getController('CellEditor'),
                     statusbarView               = statusbarController.getView('Statusbar'),
@@ -1050,7 +1052,8 @@ define([
                     chatController              = application.getController('Common.Controllers.Chat'),
                     pluginsController           = application.getController('Common.Controllers.Plugins'),
                     spellcheckController        = application.getController('Spellcheck');
-
+                tableDesignController.setMode(me.appOptions)
+                tableDesignController.getView('TableDesignTab').setApi(me.api)
                 leftMenuView.getMenu('file').loadDocument({doc:me.appOptions.spreadsheet});
                 leftmenuController.setMode(me.appOptions).createDelayedElements().setApi(me.api);
 
@@ -1715,6 +1718,9 @@ define([
 
                     if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram && !me.appOptions.isEditOle && me.appOptions.canFeaturePivot)
                         application.getController('PivotTable').setMode(me.appOptions);
+
+                    if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram && !me.appOptions.isEditOle && me.appOptions.canFeatureTable)
+                        application.getController('TableDesignTab').setMode(me.appOptions);
 
                     var viewport = this.getApplication().getController('Viewport').getView('Viewport');
                     viewport.applyEditorMode();
