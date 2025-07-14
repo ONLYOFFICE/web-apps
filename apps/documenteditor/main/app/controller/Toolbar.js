@@ -2984,8 +2984,10 @@ define([
         },
 
         onBordersMenu: function(menu, item) {
+            if (!this.api) return;
+
             var me = this;
-            if (me.api && !_.isUndefined(item.options.borderId)) {
+            if (!_.isUndefined(item.options.borderId)) {
                 var btnBorders = me.toolbar.btnBorders,
                     bordersWidth = btnBorders.options.borderswidth || 0.5,
                     bordersColor = btnBorders.options.borderscolor;
@@ -2997,29 +2999,30 @@ define([
 
                 btnBorders.options.borderId = item.options.borderId;
 
-                var props;
-                if (me.api){
-                    var selectedElements = me.api.getSelectedElements(),
-                        selectedElementsLenght = selectedElements.length;
-    
-                    if (selectedElements && _.isArray(selectedElements)){
-                        for (var i = 0; i < selectedElementsLenght; i++) {
-                            if (selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
-                                props = selectedElements[i].get_ObjectValue();
-                                break;
-                            }
+                var paraProps,
+                    tableProps,
+                    inTable = false;
+                var selectedElements = me.api.getSelectedElements(),
+                    selectedElementsLenght = selectedElements.length;
+
+                if (selectedElements && _.isArray(selectedElements)){
+                    for (var i = 0; i < selectedElementsLenght; i++) {
+                        if (selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
+                            paraProps = selectedElements[i].get_ObjectValue();
+                        } else if (selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Table) {
+                            tableProps = selectedElements[i].get_ObjectValue();
+                            inTable = true;
                         }
                     }
                 }
-                
-                var paragraphProps = new Asc.asc_CParagraphProperty();
-                var borders = new Asc.asc_CParagraphBorders(props.get_Borders());
-                var borderStyle = new Asc.asc_CTextBorder();        
-                var currentBorder = {};
-                var tableProps = new Asc.CTableProp();
 
-                const firstElement = selectedElements[0];
-                const objectType = firstElement.get_ObjectType();
+                var props = inTable ? tableProps : paraProps,
+                    borderStyle = new Asc.asc_CTextBorder(),
+                    currentBorder = {};
+                borderStyle.asc_putColor(bordersColor);
+                borderStyle.asc_putSize(bordersWidth * 25.4 / 72);
+
+                if (!props) return;
 
                 function toleranceError(a, b, t) {
                     t = 0.01;
@@ -3033,13 +3036,8 @@ define([
                            colorA.get_b() === colorB.get_b();
                 }
 
-
-                borderStyle.asc_putColor(bordersColor);
-                borderStyle.asc_putSize(bordersWidth * 25.4 / 72);
-
-                if (objectType === Asc.c_oAscTypeSelectElement.Table) {
-                    const cell = firstElement?.get_ObjectValue?.();
-                    const currentBorders = cell?.get_CellBorders?.();
+                if (inTable) {
+                    var borders = props?.get_CellBorders?.();
                     const CellBorders = new Asc.CBorders();
 
                     var borderSide = {
@@ -3054,7 +3052,7 @@ define([
                     };
 
                     ['Left', 'Top', 'Right', 'Bottom', 'InsideV', 'InsideH'].forEach(side => {
-                        var border = currentBorders?.[`get_${side}`]?.();
+                        var border = borders?.[`get_${side}`]?.();
                         if (border) {
                             var currentSize = (border.asc_getValue?.() === -1) ? 0 : border.asc_getSize?.() || 0;
                             var sizePts = currentSize * 72 / 25.4;
@@ -3118,10 +3116,12 @@ define([
                         });
                     }
 
-                    tableProps.put_CellBorders(CellBorders);
-                    tableProps.put_CellSelect(true);
-                    me.api.tblApply(tableProps);
-                } else if (objectType === Asc.c_oAscTypeSelectElement.Paragraph) { 
+                    var properties = new Asc.CTableProp();
+                    properties.put_CellBorders(CellBorders);
+                    properties.put_CellSelect(true);
+                    me.api.tblApply(properties);
+                } else {
+                    var borders = new Asc.asc_CParagraphBorders(props.get_Borders());
 
                     ['Left', 'Top', 'Right', 'Bottom', 'Between'].forEach(side => {
                         var border = borders[`get_${side}`]();
@@ -3148,7 +3148,7 @@ define([
                         inner: ['Between'],
                         none: ['Left', 'Top', 'Right', 'Bottom', 'Between']
                     };
-            
+
                     var targetBorder = borderSide[item.options.borderId],
                         brd = new Asc.asc_CTextBorder();
 
@@ -3199,12 +3199,11 @@ define([
                             }
                         });
                     }
-                    
-                    paragraphProps.put_Borders(borders);
-                
-                    if (me.api) {
-                        me.api.paraApply(paragraphProps);
-                    }
+
+
+                    var properties = new Asc.asc_CParagraphProperty();
+                    properties.put_Borders(borders);
+                    me.api.paraApply(properties);
                 }
 
                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
