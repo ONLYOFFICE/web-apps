@@ -78,21 +78,13 @@ define([
 
             this.addListeners({
                 'TableDesignTab': {
-                    'pivottable:create':        _.bind(this.onCreateClick, this),
-                    'tabledesigntab:advanced':        _.bind(this.openAdvancedSettings, this),
-                    'tabledesigntab:style':        _.bind(this.onTableStyleSelect, this),
+                    'tabledesigntab:insertslicer':       _.bind(this.onInsertSlicer, this),
+                    'tabledesigntab:advanced':           _.bind(this.openAdvancedSettings, this),
+                    'tabledesigntab:style':              _.bind(this.onTableStyleSelect, this),
+                    'tabledesigntab:selectdata':         _.bind(this.onSelectData, this),
+                    'tabledesign:namechanged':           _.bind(this.onTableNameChanged, this)
                 },
-                'TableSettings': {
-                    'pivottable:create':        _.bind(this.onCreateClick, this)
-                },
-                'Toolbar': {
-                    'tab:active':               _.bind(this.onActiveTab, this)
-                }
             });
-        },
-
-        onLaunch: function () {
-
         },
 
         onSelectData: function() {
@@ -129,6 +121,51 @@ define([
                     api     : me.api,
                     range   : me._state.Range,
                     title: me.textResize
+                });
+            }
+        },
+
+        onTableNameChanged: function(input, newValue, oldValue) {
+            var oldName = this._state.TableName;
+            this._state.TableName = '';
+
+            if (oldName.toLowerCase() == newValue.toLowerCase()) {
+                Common.NotificationCenter.trigger('edit:complete', this);
+                return;
+            }
+
+            var me = this,
+                isvalid = this.api.asc_checkDefinedName(newValue, null);
+            if (isvalid.asc_getStatus() === true) isvalid = true;
+            else {
+                switch (isvalid.asc_getReason()) {
+                    case Asc.c_oAscDefinedNameReason.IsLocked:
+                        isvalid = this.textIsLocked;
+                    break;
+                    case Asc.c_oAscDefinedNameReason.Existed:
+                        isvalid = this.textExistName;
+                    break;
+                    case Asc.c_oAscDefinedNameReason.NameReserved:
+                        isvalid = this.textReservedName;
+                    break;
+                    default:
+                        isvalid = this.textInvalidName;
+                }
+            }
+            if (isvalid === true) {
+                this.api.asc_changeDisplayNameTable(oldName, newValue);
+                Common.NotificationCenter.trigger('edit:complete', this);
+            } else if (!this._state.TableNameError) {
+                this._state.TableNameError = true;
+                Common.UI.alert({
+                    msg: isvalid,
+                    title: this.notcriticalErrorTitle,
+                    iconCls: 'warn',
+                    buttons: ['ok'],
+                    callback: function(btn){
+                        Common.NotificationCenter.trigger('edit:complete', this);
+                        me._state.TableNameError = false;
+                    }
                 });
             }
         },
@@ -354,9 +391,6 @@ define([
             return this;
         },
 
-        onActiveTab: function(tab) {
-        },
-
         openAdvancedSettings: function(e) {
             var me = this;
             var win;
@@ -384,52 +418,30 @@ define([
                 mode: mode,
                 compactToolbar: this.toolbar.toolbar.isCompactView
             });
-            this.addListeners({
-                'TableDesignTab': {
-                    'zoom:selected': _.bind(this.onSelectedZoomValue, this),
-                    'viewtab:createview': this.onCreateView,
-                    'viewtab:manager': this.onOpenManager,
-                    'viewtab:viewmode': this.onPreviewMode,
-                    'macros:click':  this.onClickMacros,
-                    'tabledesigntab:selectdata': this.onSelectData
-                },
-                'Statusbar': {
-                    'sheet:changed': this.onApiSheetChanged.bind(this),
-                    'view:compact': _.bind(function (statusbar, state) {
-                        this.view.chStatusbar.setValue(state, true);
-                    }, this)
-                }
-            });
-            Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));
         },
 
         SetDisabled: function(state) {
             this.view && this.view.SetDisabled(state);
         },
 
-        onCreateClick: function(btn, opts){
-            if (this.api) {
-				var options = this.api.asc_getAddPivotTableOptions();
-				if (options) {
-				    var me = this;
-                    (new SSE.Views.CreatePivotDialog(
-                        {
-                            props: options,
-                            api: me.api,
-                            handler: function(result, settings) {
-                                if (result == 'ok' && settings) {
-                                    me.view && me.view.fireEvent('insertpivot', me.view);
-                                    if (settings.destination)
-                                        me.api.asc_insertPivotExistingWorksheet(settings.source, settings.destination);
-                                    else
-                                        me.api.asc_insertPivotNewWorksheet(settings.source, me.createSheetName());
-                                }
-                                Common.NotificationCenter.trigger('edit:complete', me);
-                            }
-                        })).show();
-				}
+        onInsertPivot: function(btn, opts){
+            this.fireEvent('pivottable:create');
+        },
+
+        onInsertSlicer: function() {
+            var me = this,
+                props = me.api.asc_beforeInsertSlicer();
+            if (props) {
+                (new SSE.Views.SlicerAddDialog({
+                    props: props,
+                    handler: function (result, settings) {
+                        if (me && me.api && result == 'ok') {
+                            me.api.asc_insertSlicer(settings);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me);
+                    }
+                })).show();
             }
-            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         createToolbarPanel: function() {
@@ -445,19 +457,6 @@ define([
             this.SetDisabled(true);
         },
 
-        onApiSheetChanged: function() {
-            if (!this.toolbar.mode || !this.toolbar.mode.isEdit || this.toolbar.mode.isEditDiagram || this.toolbar.mode.isEditMailMerge || this.toolbar.mode.isEditOle) return;
-
-            var params  = this.api.asc_getSheetViewSettings();
-
-            var currentSheet = this.api.asc_getActiveWorksheetIndex();
-            this.onWorksheetLocked(currentSheet, this.api.asc_isWorksheetLockedOrDeleted(currentSheet));
-        },
-
-        onLayoutChanged: function(area) {
-
-        },
-
         onSelectionChanged: function(info) {
             if (this.rangeSelectionMode || !this.appConfig.isEdit || !this.view) return;
             var tableInfo = info.asc_getFormatTableInfo();
@@ -467,86 +466,6 @@ define([
 
         onCellsRange: function(status) {
             this.rangeSelectionMode = (status != Asc.c_oAscSelectionDialogType.None);
-        },
-
-        onFreeze: function(type) {
-            if (this.api) {
-                this.api.asc_freezePane(type);
-            }
-            Common.NotificationCenter.trigger('edit:complete', this.view);
-        },
-
-        onFreezeShadow: function (checked) {
-            this.api.asc_setFrozenPaneBorderType(checked ? Asc.c_oAscFrozenPaneBorderType.shadow : Asc.c_oAscFrozenPaneBorderType.line);
-            Common.localStorage.setBool('sse-freeze-shadow', checked);
-            Common.NotificationCenter.trigger('edit:complete', this.view);
-        },
-
-        applyZoom: function (value) {
-            var val = Math.max(10, Math.min(500, value));
-            if (this._state.zoomValue === val)
-                this.view.cmbZoom.setValue(this._state.zoomValue, this._state.zoomValue + '%');
-            this.api.asc_setZoom(val/100);
-            Common.NotificationCenter.trigger('edit:complete', this.view);
-        },
-
-        onSelectedZoomValue: function (combo, record) {
-            this.applyZoom(record.value);
-        },
-
-        onViewSettings: function(type, value){
-            if (this.api) {
-                switch (type) {
-                    case 1: this.api.asc_setDisplayHeadings(value); break;
-                    case 2: this.api.asc_setDisplayGridlines(value); break;
-                    case 3: this.api.asc_setShowZeros(value); break;
-                }
-            }
-            Common.NotificationCenter.trigger('edit:complete', this.view);
-        },
-
-        onOpenView: function(item) {
-            this.api && this.api.asc_setActiveNamedSheetView((item.value == 'default') ? null : item.name);
-        },
-
-        onCreateView: function(item) {
-            this.api && this.api.asc_addNamedSheetView(null, true);
-        },
-
-        onOpenManager: function(item) {
-            var me = this;
-            (new SSE.Views.ViewManagerDlg({
-                api: this.api,
-                handler: function(result, value) {
-                    if (result == 'ok' && value) {
-                        if (me.api) {
-                            me.api.asc_setActiveNamedSheetView(value);
-                        }
-                    }
-                    Common.NotificationCenter.trigger('edit:complete', me.view);
-                },
-                views: this.api.asc_getNamedSheetViews()
-            })).on('close', function(win){
-            }).show();
-        },
-
-        onWorksheetLocked: function(index,locked) {
-            if (index == this.api.asc_getActiveWorksheetIndex()) {
-                Common.Utils.lockControls(Common.enumLock.sheetLock, locked, {array: [this.view.chHeadings, this.view.chGridlines, this.view.btnFreezePanes, this.view.chZeros,
-                                                                                            this.view.btnViewNormal, this.view.btnViewPageBreak]});
-            }
-        },
-
-        onPreviewMode: function(value) {
-            this.api && this.api.asc_SetSheetViewType(value);
-        },
-
-        onClickMacros: function() {
-            Common.UI.TooltipManager.closeTip('asyncFunction');
-            var macrosWindow = new Common.Views.MacrosDialog({
-                api: this.api,
-            });
-            macrosWindow.show();
         },
 
     }, SSE.Controllers.TableDesignTab || {}));

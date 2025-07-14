@@ -115,11 +115,20 @@ define([
                 me.fireEvent('tabledesigntab:selectdata');
             });
             me.btnAltText.on('click', function (btn, e) {
-                me.fireEvent('tabledesigntab:advanced')
+                me.fireEvent('tabledesigntab:advanced');
             });
             this.tableStyles.on('click', function (combo, record) {
                 me.fireEvent('tabledesigntab:style', [record]);
             });
+            this.btnInsertPivot.on('click', function (btn,e) {
+                me.fireEvent('tabledesigntab:insertpivot');
+            });
+            this.btnInsertSlicer.on('click', function (btn, e) {
+                me.fireEvent('tabledesigntab:insertslicer');
+            });
+            this.txtTableName.on('click', function (btn, e) {
+                me.fireEvent('tabledesign:namechanged');
+            })
             this.tableStyles.openButton.menu.on('show:after', function () {
                 me.tableStyles.menuPicker.scroller.update({alwaysVisibleY: true});
             });
@@ -151,41 +160,42 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-resize-table',
                         lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
-                        caption: 'Resize table',
+                        caption: this.txtResize,
                         dataHint: '1',
                         dataHintDirection: 'left',
                         dataHintOffset: 'medium'
                     });
-                    // this.btnResizeTable.on('click', _.bind(this.onSelectData, this));
                     this.lockedControls.push(this.btnResizeTable);
 
                     this.btnEdit = new Common.UI.Button({
                         cls         : 'btn-toolbar align-left',
                         iconCls     : 'toolbar__icon btn-rows-and-columns',
-                        caption     : 'Rows & Columns',
+                        caption     : this.txtRowsCols,
+                        lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
                         style       : 'width: 100%;',
                         menu: new Common.UI.Menu({
                             menuAlign: 'tr-br',
                             items: [
-                                { caption: 'Select row',      value:  Asc.c_oAscChangeSelectionFormatTable.row,   idx: 0 },
-                                { caption: 'Select entire column',   value: Asc.c_oAscChangeSelectionFormatTable.column, idx: 1 },
-                                { caption: 'Select column data',     value: Asc.c_oAscChangeSelectionFormatTable.data,   idx: 2 },
-                                { caption: 'Select table',    value: Asc.c_oAscChangeSelectionFormatTable.all,    idx: 3 },
+                                { caption: this.selectRowText,      value:  Asc.c_oAscChangeSelectionFormatTable.row,   idx: 0 },
+                                { caption: this.selectColumnText,   value: Asc.c_oAscChangeSelectionFormatTable.column, idx: 1 },
+                                { caption: this.selectColumnData,     value: Asc.c_oAscChangeSelectionFormatTable.data,   idx: 2 },
+                                { caption: this.selectTableText,    value: Asc.c_oAscChangeSelectionFormatTable.all,    idx: 3 },
                                 { caption: '--' },
-                                { caption: 'Insert row above', value: Asc.c_oAscInsertOptions.InsertTableRowAbove,     idx: 4 },
-                                { caption: 'Insert row below', value: Asc.c_oAscInsertOptions.InsertTableRowBelow,     idx: 5 },
-                                { caption: 'Insert column left',  value: Asc.c_oAscInsertOptions.InsertTableColLeft,   idx: 6 },
-                                { caption: 'Insert column right', value: Asc.c_oAscInsertOptions.InsertTableColRight,  idx: 7 },
+                                { caption: this.insertRowAboveText, value: Asc.c_oAscInsertOptions.InsertTableRowAbove,     idx: 4 },
+                                { caption: this.insertRowBelowText, value: Asc.c_oAscInsertOptions.InsertTableRowBelow,     idx: 5 },
+                                { caption: this.insertColumnLeftText,  value: Asc.c_oAscInsertOptions.InsertTableColLeft,   idx: 6 },
+                                { caption: this.insertColumnRightText, value: Asc.c_oAscInsertOptions.InsertTableColRight,  idx: 7 },
                                 { caption: '--' },
-                                { caption: 'Delete row',      value: Asc.c_oAscDeleteOptions.DeleteRows,      idx: 8 },
-                                { caption: 'Delete column',   value: Asc.c_oAscDeleteOptions.DeleteColumns,   idx: 9 },
-                                { caption: 'Delete table',    value: Asc.c_oAscDeleteOptions.DeleteTable,     idx: 10 }
+                                { caption: this.deleteRowText,      value: Asc.c_oAscDeleteOptions.DeleteRows,      idx: 8 },
+                                { caption: this.deleteColumnText,   value: Asc.c_oAscDeleteOptions.DeleteColumns,   idx: 9 },
+                                { caption: this.deleteTableText,    value: Asc.c_oAscDeleteOptions.DeleteTable,     idx: 10 }
                             ]
                         }),
                         dataHint    : '1',
                         dataHintDirection: 'left',
                         dataHintOffset: 'small'
                     });
+                    this.lockedControls.push(this.btnEdit);
 
                     this.btnEdit.menu.on('show:after', _.bind( function(menu){
                         if (this.api) {
@@ -205,7 +215,8 @@ define([
                     this.btnRemDuplicates = new Common.UI.Button({
                         cls         : 'btn-toolbar align-left',
                         iconCls     : 'toolbar__icon btn-remove-duplicates',
-                        caption     : 'Remove duplicates',
+                        caption     : this.txtRemDuplicates,
+                        lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
                         style       : 'width: 100%;',
                         dataHint    : '1',
                         dataHintDirection: 'left',
@@ -219,7 +230,8 @@ define([
                     this.btnConvertRange = new Common.UI.Button({
                         cls         : 'btn-toolbar align-left',
                         iconCls     : 'toolbar__icon btn-convert-to-range',
-                        caption     : 'Convert to range',
+                        caption     : this.txtConvertToRange,
+                        lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
                         style       : 'width: 100%;',
                         dataHint    : '1',
                         dataHintDirection: 'left',
@@ -235,29 +247,30 @@ define([
                     this.btnInsertSlicer = new Common.UI.Button({
                         cls         : 'btn-toolbar x-huge icon-top',
                         iconCls     : 'toolbar__icon btn-big-slicer',
-                        caption     : 'Slicer',
+                        caption     : this.txtSlicer,
+                        lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
                         style       : 'width: 100%;',
                         dataHint    : '1',
                         dataHintDirection: 'left',
                         dataHintOffset: 'small'
                     });
-                    this.btnInsertSlicer.on('click', _.bind(this.onInsertSlicerClick, this));
                     this.lockedControls.push(this.btnInsertSlicer);
 
                     this.btnInsertPivot = new Common.UI.Button({
                         cls         : 'btn-toolbar x-huge icon-top',
                         iconCls     : 'toolbar__icon btn-big-pivot-sum',
-                        caption     : 'Pivot',
+                        caption     : this.txtPivot,
+                        lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
                         style       : 'width: 100%;',
                         dataHint    : '1',
                         dataHintDirection: 'left',
                         dataHintOffset: 'small'
                     });
-                    this.btnInsertPivot.on('click', _.bind(this.onInsertPivotClick, this));
+                    this.btnInsertPivot.on('click', _.bind(this.onInsertPiv, this))
                     this.lockedControls.push(this.btnInsertPivot);
 
                     this.chHeaderRow = new Common.UI.CheckBox({
-                        labelText: 'Header row',
+                        labelText: this.txtHeaderRow,
                         lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
                         dataHint    : '1',
                         dataHintDirection: 'left',
@@ -266,7 +279,7 @@ define([
                     this.lockedControls.push(this.chHeaderRow);
 
                     this.chTotalRow = new Common.UI.CheckBox({
-                        labelText: 'Total row',
+                        labelText: this.txtTotalRow,
                         lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
                         dataHint    : '1',
                         dataHintDirection: 'left',
@@ -275,7 +288,7 @@ define([
                     this.lockedControls.push(this.chTotalRow);
 
                     this.chFirstColumn = new Common.UI.CheckBox({
-                        labelText: 'First column',
+                        labelText: this.txtFirstColumn,
                         lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
                         dataHint    : '1',
                         dataHintDirection: 'left',
@@ -284,7 +297,7 @@ define([
                     this.lockedControls.push(this.chFirstColumn);
 
                     this.chLastColumn = new Common.UI.CheckBox({
-                        labelText: 'Last column',
+                        labelText: this.txtLastColumn,
                         lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
                         dataHint    : '1',
                         dataHintDirection: 'left',
@@ -293,7 +306,7 @@ define([
                     this.lockedControls.push(this.chLastColumn);
 
                     this.chBandedRows = new Common.UI.CheckBox({
-                        labelText: 'Banded rows',
+                        labelText: this.txtBandedRows,
                         lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
                         dataHint    : '1',
                         dataHintDirection: 'left',
@@ -302,7 +315,7 @@ define([
                     this.lockedControls.push(this.chBandedRows);
 
                     this.chBandedColumns = new Common.UI.CheckBox({
-                        labelText: 'Banded columns',
+                        labelText: this.txtBandedColumns,
                         lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
                         dataHint    : '1',
                         dataHintDirection: 'left',
@@ -311,7 +324,7 @@ define([
                     this.lockedControls.push(this.chBandedColumns);
 
                     this.chFilterButton = new Common.UI.CheckBox({
-                        labelText: 'Filter button',
+                        labelText: this.txtFilterButton,
                         lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
                         dataHint    : '1',
                         dataHintDirection: 'left',
@@ -322,7 +335,8 @@ define([
                     this.btnAltText = new Common.UI.Button({
                         cls         : 'btn-toolbar x-huge icon-top',
                         iconCls     : 'toolbar__icon btn-big-pivot-sum',
-                        caption     : 'Alt text',
+                        caption     : this.txtAltText,
+                        lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
                         style       : 'width: 100%;',
                         dataHint    : '1',
                         dataHintDirection: 'left',
@@ -336,7 +350,6 @@ define([
                         style       : 'width: 100%;',
                         validateOnBlur: false
                     });
-                    this.txtTableName.on('changed:after', _.bind(this.onTableNameChanged, this));
                     this.lockedControls.push(this.txtTableName);
 
                     this.tableStyles = new Common.UI.ComboDataView({
@@ -348,7 +361,7 @@ define([
                         menuMaxHeight   : 300,
                         groups          : new Common.UI.DataViewGroupStore(),
                         autoWidth       : true,
-                        lock        : [_set.lostConnect, _set.coAuth, _set.selRangeEdit, _set['FormatCells']],
+                        lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
                         beforeOpenHandler: function(e) {
                             var cmp = this,
                                 menu = cmp.openButton.menu,
@@ -389,18 +402,23 @@ define([
                 if (me.appConfig.isEdit) {
 
                 }
-                this.chHeaderRow.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.rowHeader, 'CheckHeader'));
-                this.chTotalRow.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.rowTotal, 'CheckTotal'));
-                this.chBandedRows.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.rowBanded, 'CheckBanded'));
-                this.chFirstColumn.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.columnFirst, 'CheckFirst'));
-                this.chLastColumn.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.columnLast, 'CheckLast'));
-                this.chBandedColumns.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.columnBanded, 'CheckColBanded'));
-                this.chFilterButton.on('change', _.bind(this.onCheckTemplateChange, this, Asc.c_oAscChangeTableStyleInfo.filterButton, 'CheckFilter'));
+                this.chHeaderRow.on('change', _.bind(this.onCheckStyleChange, this, Asc.c_oAscChangeTableStyleInfo.rowHeader, 'CheckHeader'));
+                this.chTotalRow.on('change', _.bind(this.onCheckStyleChange, this, Asc.c_oAscChangeTableStyleInfo.rowTotal, 'CheckTotal'));
+                this.chBandedRows.on('change', _.bind(this.onCheckStyleChange, this, Asc.c_oAscChangeTableStyleInfo.rowBanded, 'CheckBanded'));
+                this.chFirstColumn.on('change', _.bind(this.onCheckStyleChange, this, Asc.c_oAscChangeTableStyleInfo.columnFirst, 'CheckFirst'));
+                this.chLastColumn.on('change', _.bind(this.onCheckStyleChange, this, Asc.c_oAscChangeTableStyleInfo.columnLast, 'CheckLast'));
+                this.chBandedColumns.on('change', _.bind(this.onCheckStyleChange, this, Asc.c_oAscChangeTableStyleInfo.columnBanded, 'CheckColBanded'));
+                this.chFilterButton.on('change', _.bind(this.onCheckStyleChange, this, Asc.c_oAscChangeTableStyleInfo.filterButton, 'CheckFilter'));
                 Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
-            onCheckTemplateChange: function(type, stateName, field, newValue, oldValue, eOpts) {
+            onInsertPiv: function() {
+                var me = this;
+                me.fireEvent('pivottable:create');
+            },
+
+            onCheckStyleChange: function(type, stateName, field, newValue, oldValue, eOpts) {
                 this._state[stateName] = undefined;
                 if (this.api)
                     this.api.asc_changeFormatTableInfo(this._state.TableName, type, newValue=='checked');
@@ -414,9 +432,9 @@ define([
                 return this;
             },
 
-            setApi: function(o) {
-                this.api = o;
-                if (o) {
+            setApi: function(api) {
+                if (api) {
+                    this.api = api;
                 }
                 return this;
             },
@@ -432,71 +450,6 @@ define([
                     }
                 }
                 Common.NotificationCenter.trigger('edit:complete', this);
-            },
-
-            onTableNameChanged: function(input, newValue, oldValue) {
-                var oldName = this._state.TableName;
-                this._state.TableName = '';
-
-                if (oldName.toLowerCase() == newValue.toLowerCase()) {
-                    Common.NotificationCenter.trigger('edit:complete', this);
-                    return;
-                }
-
-                var me = this,
-                    isvalid = this.api.asc_checkDefinedName(newValue, null);
-                if (isvalid.asc_getStatus() === true) isvalid = true;
-                else {
-                    switch (isvalid.asc_getReason()) {
-                        case Asc.c_oAscDefinedNameReason.IsLocked:
-                            isvalid = this.textIsLocked;
-                        break;
-                        case Asc.c_oAscDefinedNameReason.Existed:
-                            isvalid = this.textExistName;
-                        break;
-                        case Asc.c_oAscDefinedNameReason.NameReserved:
-                            isvalid = this.textReservedName;
-                        break;
-                        default:
-                            isvalid = this.textInvalidName;
-                    }
-                }
-                if (isvalid === true) {
-                    this.api.asc_changeDisplayNameTable(oldName, newValue);
-                    Common.NotificationCenter.trigger('edit:complete', this);
-                } else if (!this._state.TableNameError) {
-                    this._state.TableNameError = true;
-                    Common.UI.alert({
-                        msg: isvalid,
-                        title: this.notcriticalErrorTitle,
-                        iconCls: 'warn',
-                        buttons: ['ok'],
-                        callback: function(btn){
-                            Common.NotificationCenter.trigger('edit:complete', this);
-                            me._state.TableNameError = false;
-                        }
-                    });
-                }
-            },
-
-            onInsertSlicerClick: function() {
-                var me = this,
-                    props = me.api.asc_beforeInsertSlicer();
-                if (props) {
-                    (new SSE.Views.SlicerAddDialog({
-                        props: props,
-                        handler: function (result, settings) {
-                            if (me && me.api && result == 'ok') {
-                                me.api.asc_insertSlicer(settings);
-                            }
-                            Common.NotificationCenter.trigger('edit:complete', me);
-                        }
-                    })).show();
-                }
-            },
-
-            onInsertPivotClick: function() {
-                this.fireEvent('pivottable:create');
             },
 
             getPanel: function () {
@@ -526,31 +479,14 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    if (!(config.canFeatureViews && me.appConfig.isEdit)) {
-                        me.toolbar && me.toolbar.$el.find('.group.sheet-views').hide();
-                        me.toolbar && me.toolbar.$el.find('.separator.sheet-views').hide();
-                    }
-
-                    if (config.isEdit) {
-                    } else {
-                        me.toolbar && me.toolbar.$el.find('.group.doc-preview').hide();
-                        me.toolbar && me.toolbar.$el.find('.separator.doc-preview').hide();
-                        me.toolbar && me.toolbar.$el.find('.group.sheet-freeze').hide();
-                        me.toolbar && me.toolbar.$el.find('.separator.sheet-freeze').hide();
-                        me.toolbar && me.toolbar.$el.find('.group.sheet-gridlines').hide();
-                        me.toolbar.$el.find('#slot-btn-macros').closest('.group').prev().addBack().remove();
-                    }
-
-                    var emptyGroup = [];
-
-                    if (emptyGroup.length>1) { // remove empty group
-                        emptyGroup[emptyGroup.length-1].closest('.group').remove();
-                    }
-
+                    me.btnResizeTable.updateHint(me.tipResize);
+                    me.btnEdit.updateHint(me.tipRowsCols);
+                    me.btnConvertRange.updateHint(me.tipConvertRange);
+                    me.btnInsertSlicer.updateHint(me.tipInsertSlicer);
+                    me.btnInsertPivot.updateHint(me.tipInsertPivot);
+                    me.btnAltText.updateHint(me.tipAltText);
+                    me.btnRemDuplicates.updateHint(me.tipRemDuplicates);
                     setEvents.call(me);
-
-                    if (Common.Utils.InternalSettings.get('toolbar-active-tab')==='view')
-                        Common.NotificationCenter.trigger('tab:set-active', 'view');
                 });
             },
 
@@ -573,44 +509,43 @@ define([
                 }, this);
             },
 
-            capBtnSheetView: 'Sheet View',
-            capBtnFreeze: 'Freeze Panes',
-            textZoom: 'Zoom',
-            tipSheetView: 'Sheet view',
-            textDefault: 'Default',
-            textManager: 'View manager',
-            tipFreeze: 'Freeze panes',
-            tipCreate: 'Create sheet view',
-            tipClose: 'Close sheet view',
-            textCreate: 'New',
-            textClose: 'Close',
-            textFormula: 'Formula bar',
-            textHeadings: 'Headings',
-            textGridlines: 'Gridlines',
-            textFreezeRow: 'Freeze Top Row',
-            textFreezeCol: 'Freeze First Column',
-            textUnFreeze: 'Unfreeze Panes',
-            textZeros: 'Show zeros',
-            textCombineSheetAndStatusBars: 'Combine sheet and status bars',
-            textAlwaysShowToolbar: 'Always show toolbar',
-            textInterfaceTheme: 'Interface theme',
-            textShowFrozenPanesShadow: 'Show frozen panes shadow',
-            tipInterfaceTheme: 'Interface theme',
-            textLeftMenu: 'Left panel',
-            textRightMenu: 'Right panel',
-            txtViewNormal: 'Normal',
-            txtViewPageBreak: 'Page Break Preview',
-            tipViewNormal: 'See your document in Normal view',
-            tipViewPageBreak: 'See where the page breaks will appear when your document is printed',
-            textTabStyle: 'Tab style',
-            textFill: 'Fill',
-            textLine: 'Line',
-            textMacros: 'Macros',
-            tipMacros: 'Macros',
+            txtResize: 'Resize table',
+            txtRowsCols: 'Rows & Columns',
+            tipRowsCols: 'Rows & Columns',
             txtGroupPivot_Custom: 'Custom',
             txtGroupPivot_Light: 'Light',
             txtGroupPivot_Medium: 'Medium',
-            txtGroupPivot_Dark: 'Dark'
+            txtGroupPivot_Dark: 'Dark',
+            tipResize: 'Change the size of this table by adding or removing rows and columns.',
+            tipRemDuplicates: 'Removing duplicate lines from a sheet.',
+            tipConvertRange: 'Convert this table to a regular range of cells.',
+            tipInsertSlicer: 'Insert slicer',
+            tipInsertPivot: 'Insert Pivot Table',
+            tipHeaderRow: 'Show or hide the header row in a table.',
+            tipAltText: 'Set alternative title and description for a table.',
+            selectRowText: 'Select row',
+            selectColumnText: 'Select entire column',
+            selectColumnData: 'Select column data',
+            selectTableText: 'Select table',
+            insertRowAboveText: 'Insert row above',
+            insertRowBelowText: 'Insert row below',
+            insertColumnLeftText: 'Insert column left',
+            insertColumnRightText: 'Insert column right',
+            deleteRowText: 'Delete row',
+            deleteColumnText: 'Delete column',
+            deleteTableText: 'Delete table',
+            txtRemDuplicates: 'Remove duplicates',
+            txtConvertToRange: 'Convert to range',
+            txtSlicer: 'Slicer',
+            txtPivot: 'Pivot',
+            txtHeaderRow: 'Header row',
+            txtTotalRow: 'Total row',
+            txtFirstColumn: 'First column',
+            txtLastColumn: 'Last column',
+            txtBandedRows: 'Banded rows',
+            txtBandedColumns: 'Banded columns',
+            txtFilterButton: 'Filter button',
+            txtAltText: 'Alt text'
         }
     }()), SSE.Views.TableDesignTab || {}));
 });
