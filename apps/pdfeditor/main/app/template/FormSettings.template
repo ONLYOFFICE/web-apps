@@ -1,10 +1,10 @@
 <table cols="1" role="presentation">
-    <tr>
+    <tr class="form-name">
         <td>
             <label class="header padding-small" id="form-settings-name"><%= scope.textField %></label>
         </td>
     </tr>
-    <tr>
+    <tr class="form-name">
         <td class="padding-small">
             <label class="input-label"><%= scope.textName %></label>
             <div id="form-combo-name" style="width: 100%;"></div>

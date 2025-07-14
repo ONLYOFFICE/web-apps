@@ -93,6 +93,7 @@ define([
             this.TimeSettings = el.find('.form-time');
             this.linkAdvanced = el.find('#form-advanced-link');
             this.RequiredSettings = el.find('#form-chb-required').closest('tr');
+            this.NameSettings = el.find('.form-name');
         },
 
         createDelayedElements: function() {
@@ -1359,19 +1360,19 @@ define([
 
                 val = props.asc_getRequired();
                 if ( this._state.Required!==val ) {
-                    this.chRequired.setValue(!!val, true);
+                    this.chRequired.setValue(val!==null && val!==undefined ? !!val : 'indeterminate', true);
                     this._state.Required=val;
                 }
 
                 val = props.asc_getReadOnly();
                 if ( this._state.Readonly!==val ) {
-                    this.chReadonly.setValue(!!val, true);
+                    this.chReadonly.setValue(val!==null && val!==undefined ? !!val : 'indeterminate', true);
                     this._state.Readonly=val;
                 }
 
                 val = props.asc_getRot();
                 if ( this._state.Orient!==val ) {
-                    this.cmbOrient.setValue(val!==undefined ? val : 0);
+                    this.cmbOrient.setValue(val!==null && val!==undefined ? val : '');
                     this._state.Orient=val;
                 }
 
@@ -1446,7 +1447,7 @@ define([
 
                     var combChanged = false;
                     if ( this._state.Comb!==isComb ) {
-                        this.chComb.setValue(!!isComb, true);
+                        this.chComb.setValue(isComb!==null && isComb!==undefined ? !!isComb : 'indeterminate', true);
                         this._state.Comb=isComb;
                         combChanged = true;
                     }
@@ -1465,7 +1466,7 @@ define([
                     this.spnMaxChars.setDisabled(!isCharLimits || this._state.DisabledControls);
 
                     if ( this._state.Multi!==isMulti ) {
-                        this.chMulti.setValue(!!isMulti, true);
+                        this.chMulti.setValue(isMulti!==null && isMulti!==undefined ? !!isMulti : 'indeterminate', true);
                         this._state.Multi=isMulti;
                     }
                     this.chMulti.setDisabled(isComb || isPwd || isFormatSelected || this._state.DisabledControls);
@@ -1477,7 +1478,7 @@ define([
                     this.chPwd.setDisabled(isComb || isMulti || this._state.DisabledControls);
 
                     if ( this._state.Scroll!==isScroll ) {
-                        this.chScroll.setValue(!!isScroll, true);
+                        this.chScroll.setValue(isScroll!==null && isScroll!==undefined ? !!isScroll : 'indeterminate', true);
                         this._state.Scroll=isScroll;
                     }
                     this.chScroll.setDisabled(isComb || this._state.DisabledControls);
@@ -1493,15 +1494,15 @@ define([
 
                         val = specProps.asc_getAutoFit();
                         if ( this._state.AutoFit!==val ) {
-                            this.chAutofit.setValue(!!val, true);
+                            this.chAutofit.setValue(val!==null && val!==undefined ? !!val : 'indeterminate', true);
                             this._state.AutoFit=val;
                         }
                         this.chAutofit.setDisabled(isComb || this._state.DisabledControls);
 
                         let format = specProps.asc_getFormat();
-                        val = format ? format.asc_getType() : AscPDF.FormatType.NONE;
+                        val = format===undefined ? AscPDF.FormatType.NONE : format===null ? null : format.asc_getType(); // undefined - none, null - different types
                         if ( this._state.FormatType!==val ) {
-                            this.cmbFormat.setValue((val !== null && val !== undefined) ? val : AscPDF.FormatType.NONE, '');
+                            this.cmbFormat.setValue((val !== null && val !== undefined) ? val : '', '');
                             this._state.FormatType=val;
                             forceShowHide = true;
                         }
@@ -1546,7 +1547,7 @@ define([
                 if (type == AscPDF.FIELD_TYPES.combobox && specProps) {
                     val = specProps.asc_getEditable();
                     if ( this._state.CustomText!==val ) {
-                        this.chCustomText.setValue(!!val, true);
+                        this.chCustomText.setValue(val!==null && val!==undefined ? !!val : 'indeterminate', true);
                         this._state.CustomText=val;
                     }
                 }
@@ -1554,7 +1555,7 @@ define([
                 if (type == AscPDF.FIELD_TYPES.listbox && specProps) {
                     val = specProps.asc_getMultipleSelection();
                     if ( this._state.Multisel!==val ) {
-                        this.chMultisel.setValue(!!val, true);
+                        this.chMultisel.setValue(val!==null && val!==undefined ? !!val : 'indeterminate', true);
                         this._state.Multisel=val;
                     }
                 }
@@ -1593,7 +1594,7 @@ define([
 
                         val = specProps.asc_getCommitOnSelChange();
                         if ( this._state.Commit!==val ) {
-                            this.chCommit.setValue(!!val, true);
+                            this.chCommit.setValue(val!==null && val!==undefined ? !!val : 'indeterminate', true);
                             this._state.Commit=val;
                         }
                     }
@@ -1676,7 +1677,7 @@ define([
 
                             val = specProps.asc_getFitBounds();
                             if ( this._state.Fit!==val ) {
-                                this.chFit.setValue(!!val, true);
+                                this.chFit.setValue(val!==null && val!==undefined ? !!val : 'indeterminate', true);
                                 this._state.Fit=val;
                             }
                             this.cmbHowScale.setDisabled(this._state.Scale === AscPDF.Api.Types.scaleWhen.never || this._state.DisabledControls);
@@ -1705,14 +1706,14 @@ define([
                         this.chDefValue.setCaption(isCheckbox ? this.textCheckDefault : this.textRadioDefault);
                         val = specProps.asc_getDefaultChecked();
                         if ( this._state.DefValue!==val ) {
-                            this.chDefValue.setValue(!!val, true);
+                            this.chDefValue.setValue(val!==null && val!==undefined ? !!val : 'indeterminate', true);
                             this._state.DefValue=val;
                         }
 
                         if (type == AscPDF.FIELD_TYPES.radiobutton) {
                             val = specProps.asc_getRadiosInUnison();
                             if ( this._state.Unison!==val ) {
-                                this.chUnison.setValue(!!val, true);
+                                this.chUnison.setValue(val!==null && val!==undefined ? !!val : 'indeterminate', true);
                                 this._state.Unison=val;
                             }
                         }
@@ -1856,6 +1857,7 @@ define([
                 isButton = type === AscPDF.FIELD_TYPES.button,
                 isImage = isButton && (specProps.asc_getLayout()!==AscPDF.Api.Types.position.textOnly),
                 isButtonText = isButton && (specProps.asc_getLayout()!==AscPDF.Api.Types.position.iconOnly);
+            this.NameSettings.toggleClass('hidden', type===null);
             this.TextComboSettings.toggleClass('hidden', !(isCombobox || isText));
             this.ListSettings.toggleClass('hidden', !(isCombobox || isListbox));
             this.TextSettings.toggleClass('hidden', !isText);
