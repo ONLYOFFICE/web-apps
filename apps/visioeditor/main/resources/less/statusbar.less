@@ -43,24 +43,25 @@
 
     #status-tabs-scroll {
         width: 66px;
-        padding: 3px 12px 0 10px;
-        height: 25px;
+        padding: 0 12px 0 10px;
+        height: @statusbar-height-ie;
+        height: @statusbar-height;
         float: left;
 
         .rtl-sheet& {
-            padding: 3px 10px 0 12px;
+            padding: 0 10px 0 12px;
             float: right;
         }
     }
 
     #status-zoom-box {
-        padding-top: 3px;
-
         position: absolute;
-        height: 25px;
+        height: @statusbar-height-ie;
+        height: @statusbar-height;
 
         .separator {
-            margin-top: -3px;
+            margin-top: calc(-1*(@statusbar-height-ie - @x-small-btn-size-ie));
+            margin-top: calc(-1*(@statusbar-height - @x-small-btn-size));
         }
 
         #status-label-zoom {
@@ -121,12 +122,13 @@
     }
 
     #status-addtabs-box {
-        padding: 3px 8px 0;
+        padding: 0 8px;
         border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-left: @scaled-one-px-value solid @border-toolbar;
         border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-right: @scaled-one-px-value solid @border-toolbar;
-        height: 25px;
+        height: @statusbar-height-ie;
+        height: @statusbar-height;
         float: left;
         .rtl-sheet& {
             float: right;
@@ -136,10 +138,12 @@
     #status-sheets-bar-box {
         position: absolute;
         overflow: hidden;
-        height: 25px;
+        height: @statusbar-height-ie;
+        height: @statusbar-height;
         left: 66px;
         right: 160px;
-
+        top: 0;
+        
         .rtl-sheet& {
             left: 160px;
             right: 66px;
@@ -159,8 +163,8 @@
             display: flex;
 
             > li {
-                background-color: @background-toolbar-ie;
-                background-color: @background-toolbar;
+                background-color: @background-pane-ie;
+                background-color: @background-pane;
 
                 &:first-of-type {
                     span {
@@ -191,9 +195,10 @@
                     display: inline-block;
                     .border-radius(0);
                     padding: 0 10px 0;
-                    line-height: 24px;
-                    background-color: @background-toolbar-additional-ie;
-                    background-color: @background-toolbar-additional;
+                    line-height: @statusbar-height-ie;
+                    line-height: @statusbar-height;
+                    background-color: @background-pane-additional-ie;
+                    background-color: @background-pane-additional;
                     outline: none;
                     border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
                     border-left: @scaled-one-px-value solid @border-toolbar;
@@ -214,10 +219,10 @@
 
                 &.active {
                     > span {
-                        border-bottom-color: @background-toolbar-ie;
-                        border-bottom-color: @background-toolbar;
-                        background-color: @background-toolbar-ie;
-                        background-color: @background-toolbar;
+                        border-bottom-color: @background-pane-ie;
+                        border-bottom-color: @background-pane;
+                        background-color: @background-pane-ie;
+                        background-color: @background-pane;
                         outline: none;
 
                         box-shadow: 0px 4px 0 #444796 inset;
@@ -272,14 +277,14 @@
 
     #status-number-of-sheet , #status-action {
         position: absolute;
-        height: 25px;
+        height: @statusbar-height-ie;
+        height: @statusbar-height;
         bottom: 0;
         display: flex;
         justify-content: flex-start;
         .status-label {
             .font-weight-bold();
             color: @text-normal;
-            margin-top: 6px;
             width: 100%;
             text-align: center;
         }
@@ -296,7 +301,8 @@
 
     &.no-compact {
         #status-tabs-scroll, #status-sheets-bar-box, #status-addtabs-box {
-            height: 26px;
+            height: @statusbar-height-ie;
+            height: @statusbar-height;
             border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
             border-bottom: @scaled-one-px-value solid @border-toolbar;
         }
@@ -346,7 +352,6 @@
     .cnt-zoom {
         display: inline-block;
         position: relative;
-        top: 1px;
 
         .dropdown-menu {
             min-width: 80px;
@@ -370,7 +375,8 @@
 
     .separator {
         &.short {
-            height: 25px;
+            height: @statusbar-height-ie;
+            height: @statusbar-height;
         }
     }
 
@@ -383,6 +389,6 @@
     padding-right: 0;
 }
 #statusbar {
-    background-color: @background-toolbar-ie;
-    background-color: @background-toolbar;
+    background-color: @background-statusbar-ie;
+    background-color: @background-statusbar;
 }

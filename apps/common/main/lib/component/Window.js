@@ -158,6 +158,7 @@ define([
                 minheight: 0,
                 enableKeyEvents: true,
                 automove: true,
+                transparentMask: false,
                 role: 'dialog'
         };
 
@@ -493,7 +494,11 @@ define([
                 getFocusedComponents: getFocusedComponents,
                 getDefaultFocusableComponent: getDefaultFocusableComponent,
                 tpl: _.template(template)(options),
-                role: 'alertdialog'
+                role: 'alertdialog',
+                repaintcallback: function() {
+                    autoSize.call(this, this);
+                    _centre.call(this);
+                }
             });
 
             var win = new Common.UI.Window(options),
@@ -538,7 +543,7 @@ define([
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
                     window.setHeight(parseInt(body.css('height')) + parseInt(header.css('height')));
                 }
-                if (text.height() < icon_height/2)
+                if (text.height()>0 && text.height() < icon_height/2)
                     text.css({'vertical-align': 'baseline', 'line-height': icon_height+'px'});
             }
 
@@ -708,11 +713,12 @@ define([
                         Common.Gateway.on('processmouse', _.bind(_onProcessMouse, this));
                     var tools = this.$window.find('.tools .tool').length;
                     (tools>0) && this.$window.find('> .header > .title').css({'padding-right': tools * 20 + 'px', 'padding-left': tools * 20 + 'px'});
-                } else {
                     this.$window.find('.body').css({
-                        top:0,
-                        'border-radius': '5px'
+                        'border-top-left-radius': '0px',
+                        'border-top-right-radius': '0px'
                     });
+                } else {
+                    this.$window.find('.body').css({top:0});
                 }
 
                 if (this.initConfig.height !== 'auto') {
@@ -726,7 +732,11 @@ define([
                 this.binding.winclose = function(obj) {
                     if (me.$window && me.isVisible() && me.$window == obj.$window) me.close();
                 };
+                this.binding.onAppRepaint = _.bind(this.onAppRepaint, this);
+                this.binding.onThemeChanged = _.bind(this.onThemeChanged, this);
                 Common.NotificationCenter.on('window:close', this.binding.winclose);
+                Common.NotificationCenter.on('app:repaint', this.binding.onAppRepaint);
+                Common.NotificationCenter.on('uitheme:changed', this.binding.onThemeChanged);
 
                 this.initConfig.footerCls && this.$window.find('.footer').addClass(this.initConfig.footerCls);
 
@@ -757,7 +767,7 @@ define([
                         mask.attr('counter', parseInt(mask.attr('counter'))+1);
                         mask.show();
                     } else {
-                        var maskOpacity = $(':root').css('--modal-window-mask-opacity');
+                        var maskOpacity = this.initConfig.transparentMask ? 0 : $(':root').css('--modal-window-mask-opacity');
 
                         mask.css('opacity', 0);
                         mask.attr('counter', parseInt(mask.attr('counter'))+1);
@@ -849,6 +859,8 @@ define([
                     this.$window.find('.header').off('mousedown', this.binding.dragStart);
                 }
                 Common.NotificationCenter.off({'window:close': this.binding.winclose});
+                Common.NotificationCenter.off('app:repaint', this.binding.onAppRepaint);
+                Common.NotificationCenter.off('uitheme:changed', this.binding.onThemeChanged);
 
                 if (this.initConfig.modal) {
                     var mask = _getMask(),
@@ -862,7 +874,7 @@ define([
 
                     if ( hide_mask ) {
                         if (this.options.animate !== false) {
-                            var maskOpacity = $(':root').css('--modal-window-mask-opacity');
+                            var maskOpacity = this.initConfig.transparentMask ? 0 : $(':root').css('--modal-window-mask-opacity');
                             mask.css(_getTransformation(0));
 
                             setTimeout(function () {
@@ -904,7 +916,7 @@ define([
 
                         if ( hide_mask ) {
                             if (this.options.animate !== false) {
-                                var maskOpacity = $(':root').css('--modal-window-mask-opacity');
+                                var maskOpacity = this.initConfig.transparentMask ? 0 : $(':root').css('--modal-window-mask-opacity');
                                 mask.css(_getTransformation(0));
 
                                 setTimeout(function () {
@@ -994,6 +1006,16 @@ define([
                 return parseInt(this.$window.css('top'));
             },
 
+            setPosition: function(x, y) {
+                if (this.$window) {
+                    if (_.isNumber(x) && _.isNumber(y)) {
+                        this.$window.css('left',Math.floor(x));
+                        this.$window.css('top',Math.floor(y));
+                    } else
+                        _centre.call(this);
+                }
+            },
+
             isVisible: function() {
                 return this.$window && this.$window.is(':visible');
             },
@@ -1037,6 +1059,24 @@ define([
                         (maxSize && maxSize.length>1) && (this.initConfig.maxheight = maxSize[1]);
                     }
                 }
+            },
+
+            onAppRepaint: function() {
+                if (!this.$window || !this.isVisible()) return;
+
+                _autoSize.call(this);
+
+                if (this.initConfig.repaintcallback)
+                    this.initConfig.repaintcallback.call(this)
+                else if (this.initConfig.repaintcallback!==false) {
+                    _centre.call(this);
+                }
+            },
+
+            onThemeChanged: function() {
+                if (!this.$window || !this.isVisible()) return;
+
+                _autoSize.call(this);
             },
 
             suspendKeyEvents: function () {

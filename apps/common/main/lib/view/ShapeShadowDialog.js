@@ -43,8 +43,8 @@ define([
     Common.Views.ShapeShadowDialog =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'ShapeShadowDialog',
-            contentWidth: 208,
-            height: 252,
+            contentWidth: 230,
+            separator: false
         },
 
         initialize: function (options) {
@@ -52,9 +52,10 @@ define([
 
             _.extend(this.options, {
                 title: this.txtTitle,
-                template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                        '<div class="content-panel" style="padding: 16px 16px 0 16px;">',
+                contentStyle: 'padding: 5px;',
+                contentTemplate: [
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
                             '<table cols="1" style="width: 100%;">',
                                 '<tr>',
                                     '<td>',

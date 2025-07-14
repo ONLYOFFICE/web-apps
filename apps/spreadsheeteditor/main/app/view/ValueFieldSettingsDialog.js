@@ -38,7 +38,7 @@
  */
 
 define([
-    'common/main/lib/view/AdvancedSettingsWindow',
+    'common/main/lib/view/AdvancedSettingsWindow'
 ], function () { 'use strict';
 
     SSE.Views.ValueFieldSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
@@ -52,14 +52,14 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                contentStyle: 'padding: 0 10px;',
+                contentStyle: 'padding: 5px 5px 0;',
                 contentTemplate: _.template([
                     '<div class="settings-panel active">',
                     '<div class="inner-content">',
                         '<table cols="2" style="width: 100%;">',
                         '<tr>',
                             '<td colspan="2" class="padding-small" style="white-space: nowrap;">',
-                                '<label class="header" class="margin-right-4" style="vertical-align: middle;">' + me.txtSourceName + '</label>',
+                                '<label class="header margin-right-2" class="margin-right-4" style="vertical-align: middle;">' + me.txtSourceName + '</label>',
                                 '<label id="value-field-settings-source" style="vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis;"></label>',
                             '</td>',
                         '</tr>',
@@ -373,7 +373,7 @@ define([
                 lang = Common.Utils.InternalSettings.get("sse-config-lang");
             (!value) && (value = (lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(lang)) : 0x0409));
 
-            var win = (new SSE.Views.FormatSettingsDialog({
+            var win = (new Common.Views.FormatSettingsDialog({
                 api: me.api,
                 handler: function(result, settings) {
                     if (result=='ok' && settings) {

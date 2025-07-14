@@ -99,7 +99,8 @@ define([
                     stretch: true
                 }, {
                     el: items[3],
-                    height: 25
+                    alias: 'statusbar',
+                    height: parseInt(window.getComputedStyle(document.body).getPropertyValue('--statusbar-height') || 25)
                 }]
             });
 

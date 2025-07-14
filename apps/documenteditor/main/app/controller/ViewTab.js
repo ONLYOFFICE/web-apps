@@ -173,6 +173,9 @@ define([
                         me.view.chRulers.$el.closest('.group').remove();
                         me.view.chRulers.$el.remove();
                         me.view.$el.find('.separator-rulers').remove();
+                    }
+
+                    if (!config.isEdit || config.customization && config.customization.macros===false) {
                         me.view.$el.find('#slot-btn-macros').closest('.group').prev().addBack().remove();
                     }
 
@@ -362,7 +365,7 @@ define([
         },
 
         onThemeChanged: function () {
-            if (this.view && Common.UI.Themes.available()) {
+            if (this.view && Common.UI.Themes.available() && this.view.btnInterfaceTheme.menu && (typeof (this.view.btnInterfaceTheme.menu) === 'object')) {
                 var current_theme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId(),
                     menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.getItems(true), {value: current_theme});
                 if ( menu_item ) {

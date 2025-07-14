@@ -20,6 +20,7 @@ const AddOther = inject("storeFocusObjects", "storeAppOptions")(observer(props =
     const storeFocusObjects = props.storeFocusObjects;
     const storeAppOptions = props.storeAppOptions;
     const canModifyFilter = storeAppOptions.canModifyFilter;
+    const canComments = storeAppOptions.canComments;
     const isHyperLink = storeFocusObjects.selections.indexOf('hyperlink') > -1;
     const hideAddComment = props.hideAddComment();
     const mainContext = useContext(MainContext);
@@ -33,7 +34,7 @@ const AddOther = inject("storeFocusObjects", "storeAppOptions")(observer(props =
                     <SvgIcon slot="media" symbolId={IconInsimageAndroid.id} className={'icon icon-svg'} />
                 }
             </ListItem>
-            {(!hideAddComment && !wsProps.Objects) && <ListItem title={_t.textComment} onClick={() => {
+            {(!hideAddComment && canComments && !wsProps.Objects) && <ListItem title={_t.textComment} onClick={() => {
                 props.closeModal();
                 Common.Notifications.trigger('addcomment');
             }}>

@@ -373,8 +373,8 @@
 
     &:hover,
     &.over {
-      background-color: @background-toolbar-ie;
-      background-color: @background-toolbar;
+      background-color: @background-pane-ie;
+      background-color: @background-pane;
     }
 
     .recent-icon {
@@ -388,7 +388,7 @@
         height: 100%;
         div{
           background: ~"url(@{common-image-const-path}/doc-formats/formats.png)";
-          background-size: 1176px 30px;
+          background-size: 1200px 30px;
           &:not(.svg-file-recent) {
             .pixel-ratio__1_25 & {
               background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.25x.png)";
@@ -475,8 +475,8 @@
       &:not(.header-name) {
         &:hover,
         &.over {
-          background-color: @background-toolbar-ie;
-          background-color: @background-toolbar;
+          background-color: @background-pane-ie;
+          background-color: @background-pane;
         }
 
         &.selected {
@@ -829,6 +829,19 @@
         #print-combo-sides {
           .dropdown-menu li > a {
             .padding-x(20px, 5px);
+          }
+        }
+        #print-combo-printer,
+        #print-combo-pages {
+          .form-control {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block;
+          }
+          .dropdown-menu li > a {
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
         }
       }

@@ -363,20 +363,22 @@ define([
             var me = this,
                 defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
             !defFileName && (defFileName = me.txtUntitled);
-            var idx = defFileName.lastIndexOf('.');
+            var idx = defFileName.lastIndexOf('.'),
+                fileExt = format===undefined && ext==="true" ? (idx>0 ? defFileName.substring(idx) : '') : ext;
             if (idx>0)
                 defFileName = defFileName.substring(0, idx);
+
             (new Common.Views.TextInputDialog({
                 label: me.textSelectPath,
                 value: defFileName || '',
-                inputFixedConfig: {fixedValue: ext, fixedWidth: 40},
+                inputFixedConfig: {fixedValue: fileExt, fixedWidth: 40},
                 inputConfig: {
                     maxLength: me.mode.wopi.FileNameMaxLength
                 },
                 handler: function(result, value) {
                     if (result == 'ok') {
-                        if (typeof ext === 'string')
-                            value = value + ext;
+                        if (typeof fileExt === 'string')
+                            value = value + fileExt;
                         me.clickSaveAsFormat(menu, format, ext, value);
                     }
                 }

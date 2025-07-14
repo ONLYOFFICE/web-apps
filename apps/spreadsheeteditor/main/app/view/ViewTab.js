@@ -300,16 +300,18 @@ define([
                     });
                     this.lockedControls.push(this.btnViewPageBreak);
 
-                    this.btnMacros = new Common.UI.Button({
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-macros',
-                        lock: [_set.selRangeEdit, _set.editFormula, _set.lostConnect, _set.disableOnStart],
-                        caption: this.textMacros,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    this.lockedControls.push(this.btnMacros);
+                    if (!(this.appConfig.customization && this.appConfig.customization.macros===false)) {
+                        this.btnMacros = new Common.UI.Button({
+                            cls: 'btn-toolbar x-huge icon-top',
+                            iconCls: 'toolbar__icon btn-macros',
+                            lock: [_set.selRangeEdit, _set.editFormula, _set.lostConnect, _set.disableOnStart],
+                            caption: this.textMacros,
+                            dataHint: '1',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'small'
+                        });
+                        this.lockedControls.push(this.btnMacros);
+                    }
                 }
 
                 this.cmbZoom = new Common.UI.ComboBox({
@@ -483,6 +485,8 @@ define([
                         me.toolbar && me.toolbar.$el.find('.group.sheet-freeze').hide();
                         me.toolbar && me.toolbar.$el.find('.separator.sheet-freeze').hide();
                         me.toolbar && me.toolbar.$el.find('.group.sheet-gridlines').hide();
+                    }
+                    if (!config.isEdit || config.customization && config.customization.macros===false) {
                         me.toolbar.$el.find('#slot-btn-macros').closest('.group').prev().addBack().remove();
                     }
 

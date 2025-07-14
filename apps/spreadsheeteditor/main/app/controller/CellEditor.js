@@ -73,6 +73,8 @@ define([
                     }.bind(this)
                 }
             });
+            Common.NotificationCenter.on('external:reshow', this.onExternalReshow.bind(this));
+            Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
         },
 
         setApi: function(api) {
@@ -241,9 +243,11 @@ define([
         },
 
         expandEditorField: function() {
-            if ( Math.floor(this.editor.$el.height()) > 19) {
+            var editorMinHeight = parseFloat(this.editor.$el.css('min-height')) || 20;
+            editorMinHeight -= (parseFloat(this.editor.$el.css('border-bottom-width')) || 0);
+            if ( Math.floor(this.editor.$el.height()) > editorMinHeight) {
                 this.editor.keep_height = this.editor.$el.height();
-                this.editor.$el.height(19);
+                this.editor.$el.height(editorMinHeight);
                 this.editor.$el.removeClass('expanded');
                 this.editor.$btnexpand['removeClass']('btn-collapse');
                 Common.localStorage.setBool('sse-celleditor-expand', false);
@@ -256,6 +260,23 @@ define([
             this.onCellEditorTextChange();
             Common.NotificationCenter.trigger('layout:changed', 'celleditor');
             Common.NotificationCenter.trigger('edit:complete', this.editor, {restorefocus:true});
+        },
+
+        onExternalReshow: function () {
+            this.changeCellEditorHeight();
+        },
+
+        onThemeChanged: function () {
+            this.changeCellEditorHeight();
+        },
+
+        changeCellEditorHeight: function() {
+            if (!Common.localStorage.getBool('sse-celleditor-expand')) {
+                var editorMinHeight = parseFloat(this.editor.$el.css('min-height')) || 20;
+                editorMinHeight -= (parseFloat(this.editor.$el.css('border-bottom-width')) || 0);
+                this.editor.$el.height(editorMinHeight);
+                Common.NotificationCenter.trigger('layout:changed', 'celleditor');
+            }
         },
 
         onInsertFunction: function() {

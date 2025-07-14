@@ -43,7 +43,11 @@ define([
             this.adjPrintParams = new Asc.asc_CAdjustPrint();
 
             this._state = {
-                isLockedSlideHeaderAppyToAll: false
+                isLockedSlideHeaderAppyToAll: false,
+                isPrintPreviewOpenedOnce: false,
+                isPrinterInfoLoad: false,
+                currentPrinter: null,
+                printersList: []
             };
             this._paperSize = undefined;
             this._navigationPreview = {
@@ -76,8 +80,9 @@ define([
         onAfterRender: function(view) {
             var me = this;
             this.printSettings.menu.on('menu:hide', _.bind(this.onHidePrintMenu, this));
-            this.printSettings.btnPrint.on('click', _.bind(this.onBtnPrint, this, true));
-            this.printSettings.btnPrintPdf.on('click', _.bind(this.onBtnPrint, this, false));
+            this.printSettings.btnPrintSystemDialog.on('click', _.bind(this.onBtnPrint, this, true, true));
+            this.printSettings.btnPrint.on('click', _.bind(this.onBtnPrint, this, true, false));
+            this.printSettings.btnPrintPdf.on('click', _.bind(this.onBtnPrint, this, false, false));
             this.printSettings.btnPrevPage.on('click', _.bind(this.onChangePreviewPage, this, false));
             this.printSettings.btnNextPage.on('click', _.bind(this.onChangePreviewPage, this, true));
             this.printSettings.txtNumberPage.on({
@@ -125,6 +130,7 @@ define([
 
                 return me.txtPrintRangeInvalid;
             };
+
             this.printSettings.cmbPaperSize.on('selected', _.bind(this.onPaperSizeSelect, this));
             this._paperSize = this.printSettings.cmbPaperSize.getSelectedRecord().size;
 
@@ -211,6 +217,11 @@ define([
                 this.SetDisabled();
             }
             this._isPreviewVisible = true;
+
+            if(this._state.isPrinterInfoLoad && !this._state.isPrintPreviewOpenedOnce) {
+                this._state.isPrintPreviewOpenedOnce = true;
+                this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList);      
+            }
         },
 
         getPrintParams: function() {
@@ -279,6 +290,16 @@ define([
             this.onChangePreviewPage(forward);
         },
 
+        setPrinterInfo: function(currentPrinter, list) {
+            this._state.isPrinterInfoLoad = true;
+            this._state.currentPrinter = currentPrinter;
+            this._state.printersList = list;
+            if(this.printSettings && this.printSettings.isVisible() && !this._state.isPrintPreviewOpenedOnce) {
+                this._state.isPrintPreviewOpenedOnce = true;
+                this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList);
+            }
+        },
+
         updateNavigationButtons: function (page, count) {
             this._navigationPreview.currentPage = page;
             this.printSettings.updateCurrentPage(page);
@@ -299,7 +320,7 @@ define([
             this.printSettings.btnNextPage.setDisabled(curPage > pageCount - 2);
         },
 
-        onBtnPrint: function(print) {
+        onBtnPrint: function(print, useSystemDialog) {
             this._isPrint = print;
             if (this.printSettings.cmbRange.getValue()===-1 && this.printSettings.inputPages.checkValidate() !== true)  {
                 this.printSettings.inputPages.focus();
@@ -310,11 +331,15 @@ define([
                 return;
 
             var rec = this.printSettings.cmbPaperSize.getSelectedRecord();
+            var printerOption = this.printSettings.cmbPrinter.getSelectedRecord();
+            var size = rec ? rec.size : this._paperSize; 
             this.adjPrintParams.asc_setNativeOptions({
+                usesystemdialog: useSystemDialog,
+                printer: printerOption ? printerOption.value : null,
                 pages: this.printSettings.cmbRange.getValue()===-1 ? this.printSettings.inputPages.getValue() : this.printSettings.cmbRange.getValue(),
                 paperSize: {
-                    w: rec ? rec.size[0] : undefined,
-                    h: rec ? rec.size[1] : undefined,
+                    w: size ? size[0] : undefined,
+                    h: size ? size[1] : undefined,
                     preset: rec ? rec.caption : undefined
                 },
                 copies: this.printSettings.spnCopies.getNumberValue() || 1,
@@ -346,6 +371,7 @@ define([
         onPaperSizeSelect: function(combo, record) {
             if (record) {
                 this._paperSize = record.size;
+                this.printSettings.setOriginalPageSize(record.size[0], record.size[1]);
                 this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._paperSize);
             }
         },

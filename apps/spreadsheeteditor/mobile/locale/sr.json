@@ -257,6 +257,7 @@
   "Error": {
     "convertationTimeoutText": "Vremensko ograničenje preobraćanja prekoračeno.",
     "criticalErrorExtText": "Pritisnite 'OK' da se vratite na listu dokumenata.",
+    "criticalErrorExtTextClose": "Kliknite \"OK\" da zatvorite uređivač.",
     "criticalErrorTitle": "Greška",
     "downloadErrorText": "Preuzimanje neuspešno.",
     "errNoDuplicates": "Nijedna duplikat vrednost nije pronađena.",

@@ -156,7 +156,7 @@ define([
                                 '</div>' +
                                 '<div class="lr-separator" id="id-box-doc-name">' +
                                     // '<label id="title-doc-name" /></label>' +
-                                    '<input id="title-doc-name" autofill="off" autocomplete="off"/></input>' +
+                                    '<input id="title-doc-name" autofill="off" autocomplete="off" spellcheck="false"/></input>' +
                                 '</div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" data-layout-name="header-user">' +
@@ -497,7 +497,7 @@ define([
             if (me.btnQuickAccess) {
                 me.btnQuickAccess.updateHint(me.tipCustomizeQuickAccessToolbar);
                 var arr = [];
-                if (me.btnSave) {
+                if (me.btnSave && Common.UI.LayoutManager.isElementVisible('header-save')) {
                     arr.push({
                         caption: appConfig.canSaveToFile || appConfig.isDesktopApp && appConfig.isOffline ? me.tipSave : me.textDownload,
                         value: 'save',
@@ -836,11 +836,10 @@ define([
                     'tab:visible': function() {Common.Utils.asyncCall(updateDocNamePosition, me);},
                     'collaboration:sharingdeny': function(mode) {Common.Utils.asyncCall(onLostEditRights, me, mode);}
                 });
-                Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
+                Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
                 Common.NotificationCenter.on('mentions:setusers', this.avatarsUpdate.bind(this));
                 Common.NotificationCenter.on('tabstyle:changed', this.changeLogo.bind(this));
                 Common.NotificationCenter.on('tabbackground:changed', this.changeLogo.bind(this));
-
             },
 
             render: function (el, role) {
@@ -1262,6 +1261,7 @@ define([
             },
 
             setDocTitle: function(name){
+                if (!$labelDocName) return;
                 var width = this.getTextWidth(name || $labelDocName.val());
                 (width>=0) && $labelDocName.width(width);
                 name && (width>=0) && $labelDocName.val(name);
@@ -1315,7 +1315,10 @@ define([
 
             updateAvatarEl: function(){
                 if(this.options.userAvatar){
-                    $btnUserName.css({'background-image': 'url('+ this.options.userAvatar +')'});
+                    $btnUserName.css({
+                        'background-image': 'url('+ this.options.userAvatar +')',
+                        'background-color': 'transparent'
+                    });
                     $btnUserName.text('');
                 } else {
                     $btnUserName.text(Common.Utils.getUserInitials(this.options.userName));
@@ -1357,6 +1360,8 @@ define([
                     if (me.btnSearch) {
                         me.btnSearch.setDisabled(lock);
                     }
+                } else if ( alias == 'startfill' ) {
+                    me.btnStartFill && me.btnStartFill.setDisabled(lock);
                 } else {
                     var _lockButton = function (btn) {
                         btn && Common.Utils.lockControls(cause, lock, {array: [btn]});
@@ -1378,6 +1383,13 @@ define([
             onStartFilling: function() {
                 this.btnStartFill && this.btnStartFill.setVisible(false);
                 updateDocNamePosition();
+            },
+
+            onThemeChanged: function() {
+                this.changeLogo();
+                if (this._testCanvas)
+                    this._testCanvas = undefined;
+                this.setDocTitle();
             },
 
             textBack: 'Go to Documents',

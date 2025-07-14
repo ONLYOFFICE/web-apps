@@ -257,6 +257,7 @@
   "Error": {
     "convertationTimeoutText": "Délai de conversion expiré.",
     "criticalErrorExtText": "Appuyez sur OK pour revenir à la liste de documents",
+    "criticalErrorExtTextClose": "Cliquez « OK » pour fermer l'éditeur.",
     "criticalErrorTitle": "Erreur",
     "downloadErrorText": "Échec du téléchargement.",
     "errNoDuplicates": "Aucune valeur en double n'est trouvée",

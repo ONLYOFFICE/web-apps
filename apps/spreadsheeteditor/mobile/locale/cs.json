@@ -250,9 +250,9 @@
   },
   "Draw": {
     "textColor": "Barva",
-    "textOpacity": "Průhlednost",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size"
+    "textCustomColor": "Vlastní barva",
+    "textLineSize": "Velikost čáry",
+    "textOpacity": "Průhlednost"
   },
   "Error": {
     "convertationTimeoutText": "Překročen časový limit pro provedení převodu.",
@@ -297,6 +297,7 @@
     "errorFileVKey": "Externí chyba.<br>Neplatný bezpečnostní klíč. Prosím kontaktujte podporu.",
     "errorFillRange": "Nelze vyplnit vybranou oblast buněk.<br>Všechny sloučené buňky musí být stejně velké.",
     "errorForceSave": "Při ukládání souboru došlo k chybě. Prosím použijte „Stáhnout jako“ a uložte si soubor k sobě na počítač nebo původní volbu zkuste znovu později.",
+    "errorFormulaInPivotFieldName": "Nelze zadat vzorec pro položku, či název pole pro výkaz kontingenční tabulky.",
     "errorFormulaName": "Chyba ve vzorci.<br>Neplatný název vzorce.",
     "errorFormulaParsing": "Interní chyba při analýze vzorce.",
     "errorFrmlMaxLength": "Nelze přidat vzorec, délka vzorce je delší než povolený maximální počet znaků.<br>Prosím upravte vzorec a akci opakujte.",
@@ -313,7 +314,7 @@
     "errorInvalidRef": "Zadejte správný název pro výběr nebo platnou referenci.",
     "errorKeyEncrypt": "Neznámý popisovač klíče",
     "errorKeyExpire": "Platnost popisovače klíče skončila",
-    "errorLabledColumnsPivot": "Chcete-li vytvořit výstup z kontingenční tabulky, musíte použít data uspořádaná jako seznam s označenými sloupci.",
+    "errorLabledColumnsPivot": "Chcete-li vytvořit výkaz kontingenční tabulky, musíte použít data uspořádaná jako seznam s označenými sloupci.",
     "errorLoadingFont": "Písma nejsou načtená.<br>Obraťte se na správce vámi využívaného dokumentového serveru.",
     "errorLocationOrDataRangeError": "Odkaz na umístnění nebo rozsah dat je neplatný. ",
     "errorLockedAll": "Operace nemůže být provedena, protože list byl uzamčen jiným uživatelem.",
@@ -327,15 +328,18 @@
     "errorNoDataToParse": "Nebyla vybrána žádná data pro zpracování.",
     "errorOpenWarning": "Jeden ze vzorců překročil maximální délka<br> povolených znaků a byl odstraněn.",
     "errorOperandExpected": "Chybně zadaná syntax funkce. Zkontrolujte prosím, zda jste nevynechali jednu ze závorek - '(' nebo ')'.",
+    "errorPasteInPivot": "Změnu pro vybrané buňky nelze provést, protože by ovlivnila kontingenční tabulku.<br>Pro změnu výstupu použijte seznam polí.",
     "errorPasteMaxRange": "Oblast kopírování neodpovídá oblasti vložení. Prosím, vyberte oblast stejné velikosti, nebo kliknete na první buňku v řádku a vložte zkopírované buňky. ",
     "errorPasteMultiSelect": "Tuto akci nelze provést v případě výběru více rozsahů.<br>Vyberte jeden rozsah a akci opakujte.",
     "errorPasteSlicerError": "Průřezy tabulky nemůžou být zkopírovány z jednoho sešitu do druhého.",
+    "errorPivotFieldNameExists": "Název kontingenční tabulky již existuje.",
     "errorPivotGroup": "Vybrané objekty nelze seskupit.",
-    "errorPivotOverlap": "Výstup z kontingenční tabulky nesmí překrývat tabulku.",
-    "errorPivotWithoutUnderlying": "Výkaz z kontingenční tabulky byl uložen bez podkladových dat.<br>Pro aktualizaci klikněte na tlačítko \"Aktualizovat\".",
+    "errorPivotOverlap": "Výkaz kontingenční tabulky nesmí překrývat tabulku.",
+    "errorPivotWithoutUnderlying": "Výkaz kontingenční tabulky byl uložen bez podkladových dat.<br>Pro aktualizaci klikněte na tlačítko \"Aktualizovat\".",
     "errorPrecedentsNoValidRef": "Příkaz vyhledat předchůdce vyžaduje, aby buňka obsahovala vzorec zahrnující platné vazby. ",
     "errorPrintMaxPagesCount": "Bohužel v současné verzi programu není možné vytisknout více než 1500 stránek najednou.<br>Tato omezení budou zrušena v následující verzi.",
     "errorProtectedRange": "V této oblasti není editace povolena.",
+    "errorSaveWatermark": "Tento soubor obsahuje vodoznak nad obrázkem odkazující na jinou doménou.<br>Chcete-li, aby byl vodoznak nad obrázkem v PDF viditelný, aktualizujte odkaz tak, aby odkazoval na stejnou doménu jako váš dokument, nebo jej nahrajte ze svého počítače.",
     "errorSessionAbsolute": "Platnost relace upravování dokumentu skončila. Načtete stránku znovu.",
     "errorSessionIdle": "Poslední úprava dokumentu proběhla před dlouhou dobou. Prosím obnovte stránku.",
     "errorSessionToken": "Připojení k serveru bylo přerušeno. Načtěte prosím stránku znovu.",
@@ -374,10 +378,7 @@
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Nenahrány žádné obrázky.",
     "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
-    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "advDRMPassword": "Heslo",
@@ -449,16 +450,16 @@
     "textWarnDeleteSheet": "List může obsahovat data. Pokračovat v operaci? "
   },
   "Toolbar": {
+    "btnRestartNow": "Restartovat nyní",
     "dlgLeaveMsgText": "V tomto dokumentu máte neuložené změny. Klikněte na 'Zůstat na této stránce' a počkejte dokud nedojde k automatickému uložení. Klikněte na 'Opustit tuto stránku' pro zahození neuložených změn.",
     "dlgLeaveTitleText": "Opouštíte aplikaci",
     "leaveButtonText": "Opustit tuto stránku",
     "stayButtonText": "Zůstat na této stránce",
     "textCloseHistory": "Zavřít historii",
     "textEnterNewFileName": "Zadejte nový název souboru",
-    "textRenameFile": "Přejmenovat soubor",
-    "btnRestartNow": "Restart now",
     "textOk": "OK",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textRenameFile": "Přejmenovat soubor",
+    "textSwitchToDesktop": "Přepnout na desktopový režim"
   },
   "View": {
     "Add": {
@@ -486,6 +487,7 @@
       "textDataTableHint": "Získá hodnotu buněk tabulky, nebo definovaných sloupců tabulky",
       "textDisplay": "Zobrazit",
       "textDone": "Hotovo",
+      "textDrawing": "Kreslení",
       "textEmptyImgUrl": "Je třeba zadat URL adresu obrázku.",
       "textExternalLink": "Externí odkaz",
       "textFilter": "Filtrovat",
@@ -523,8 +525,7 @@
       "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
       "txtSorting": "Řazení",
       "txtSortSelected": "Seřadit vybrané",
-      "txtYes": "Ano",
-      "textDrawing": "Drawing"
+      "txtYes": "Ano"
     },
     "Edit": {
       "notcriticalErrorTitle": "Varování",

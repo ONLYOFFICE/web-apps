@@ -286,6 +286,24 @@ module.exports = function(grunt) {
             }
         }
     });
+
+    const svgmin_opts = {
+            plugins: [{
+                name: 'preset-default',
+                params: {
+                    overrides: {
+                        cleanupIds: false,
+                        removeHiddenElems: false,   // plugin ver 3.2.0 deletes <symbol> as non rendering element
+                    }
+                },
+            }, {
+                name: 'convertPathData',
+                params: {
+                    floatPrecision: 4
+                }
+            }]
+    };
+
     doRegisterTask('apps-common', (defaultConfig, packageFile) => {
         return {
             imagemin: {
@@ -297,23 +315,7 @@ module.exports = function(grunt) {
                 }
             },
             svgmin: {
-                options: {
-                    plugins: [{
-                        name: 'preset-default',
-                        params: {
-                            overrides: {
-                                cleanupIds: false,
-                                removeHiddenElems: false,   // plugin ver 3.2.0 deletes <symbol> as non rendering element
-                            }
-                        },
-                    },
-                    {
-                        name: 'convertPathData',
-                        params: {
-                            floatPrecision: 4
-                        }
-                    }]
-                },
+                options: {...svgmin_opts},
                 dist: {
                     files: packageFile['apps-common'].svgicons.common
                 }
@@ -321,7 +323,10 @@ module.exports = function(grunt) {
             inline: {
                 dist: {
                     src: packageFile['apps-common'].copy.indexhtml.dest + '/*.html'
-                }
+                },
+                cachescripts: {
+                    src: packageFile['api'].copy.script.dest + 'documents/*.html',
+                },
             }
         }
     });
@@ -336,7 +341,7 @@ module.exports = function(grunt) {
     doRegisterTask('fetch');
     doRegisterTask('es6-promise');
     doRegisterTask('common-embed');
-    doRegisterTask('ace');
+    doRegisterTask('monaco');
     doRegisterTask('requirejs', function(defaultConfig, packageFile) {
         return {
             terser: {
@@ -473,23 +478,7 @@ module.exports = function(grunt) {
             },
 
             svgmin: {
-                options: {
-                    plugins: [{
-                        name: 'preset-default',
-                        params: {
-                            overrides: {
-                                cleanupIds: false,
-                                removeHiddenElems: false,   // plugin ver 3.2.0 deletes <symbol> as non rendering element
-                            }
-                        },
-                    },
-                    {
-                        name: 'convertPathData',
-                        params: {
-                            floatPrecision: 4
-                        }
-                    }]
-                },
+                options: {...svgmin_opts},
                 dist: {
                     files: packageFile.main.svgicons.common
                 }
@@ -830,7 +819,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-bootstrap',              ['bootstrap-init', 'clean', 'copy']);
     grunt.registerTask('deploy-requirejs',              ['requirejs-init', 'clean', 'terser']);
     grunt.registerTask('deploy-es6-promise',            ['es6-promise-init', 'clean', 'copy']);
-    grunt.registerTask('deploy-ace',                    ['ace-init', 'clean', 'copy']);
+    grunt.registerTask('deploy-monaco',                 ['monaco-init', 'clean', 'copy']);
     grunt.registerTask('deploy-common-embed',           ['common-embed-init', 'clean', 'copy']);
 
     grunt.registerTask('deploy-app-main',               ['prebuild-icons-sprite', 'main-app-init', 'clean:prebuild', 'imagemin', 'less',

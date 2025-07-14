@@ -83,7 +83,7 @@ define([
                 weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
             });
 
-            this._state = {isDisconnected: false, licenseType: false, isDocModified: false};
+            this._state = {isDisconnected: false, licenseType: false, isDocModified: false, isFormDisconnected: false};
 
             this.view = this.createView('ApplicationView').render();
 
@@ -114,8 +114,11 @@ define([
                 if (e.target.localName == 'canvas') {
                     if (me._preventClick)
                         me._preventClick = false;
-                    else
+                    else {
+                        if (e.target.getAttribute && e.target.getAttribute("oo_no_focused"))
+                            return;
                         me.boxSdk.focus();
+                    }
                 }
             });
             this.boxSdk.on('mousedown', function(e){
@@ -139,6 +142,7 @@ define([
                 this.api.asc_registerCallback('asc_onCurrentPage',           this.onCurrentPage.bind(this));
                 this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
                 this.api.asc_registerCallback('asc_onZoomChange',           this.onApiZoomChange.bind(this));
+                this.api.asc_registerCallback('asc_onDisconnectEveryone',    _.bind(this.onDisconnectEveryone, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiServerDisconnect, this));
 
@@ -363,10 +367,24 @@ define([
                 config.title = this.criticalErrorTitle;
                 config.iconCls = 'error';
                 config.closable = false;
-                config.callback = _.bind(function(btn){
-                    window.location.reload();
-                }, this);
-
+                if (this.appOptions.canRequestClose) {
+                    config.msg += '<br><br>' + this.criticalErrorExtTextClose;
+                    config.callback = function(btn) {
+                        if (btn == 'ok') {
+                            Common.Gateway.requestClose();
+                            Common.Controllers.Desktop.requestClose();
+                        }
+                    }
+                } else if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string' && this.appOptions.customization.goback.url && this.appOptions.customization.goback.blank===false) {
+                    var me = this;
+                    config.msg += '<br><br>' + this.criticalErrorExtText;
+                    config.callback = function(btn) {
+                        if (btn == 'ok') {
+                            if ( !Common.Controllers.Desktop.process('goback') )
+                                parent.location.href = me.appOptions.customization.goback.url;
+                        }
+                    }
+                }
                 if (id == Asc.c_oAscError.ID.DataEncrypted) {
                     this.api.asc_coAuthoringDisconnect();
                     Common.NotificationCenter.trigger('api:disconnect');
@@ -645,7 +663,8 @@ define([
 
             var type = /^(?:(pdf))$/.exec(this.document.fileType); // can fill forms only in pdf format
             this.appOptions.isOFORM = !!(type && typeof type[1] === 'string');
-            this.appOptions.canFillForms   = this.appOptions.canLicense && this.appOptions.isOFORM && ((this.permissions.fillForms===undefined) ? (this.permissions.edit !== false) : this.permissions.fillForms) && (this.editorConfig.mode !== 'view');
+            this.appOptions.canFillForms = this.appOptions.canLicense && this.appOptions.isOFORM && ((this.permissions.fillForms===undefined) ? (this.permissions.edit !== false) : this.permissions.fillForms) &&
+                                           (this.editorConfig.mode !== 'view') && !this._state.isFormDisconnected;
             this.api.asc_setViewMode(!this.appOptions.canFillForms);
 
             this.appOptions.canBranding  = params.asc_getCustomization();
@@ -783,7 +802,7 @@ define([
         },
 
         onUpdateVersion: function(callback) {
-            console.log("Obsolete: The 'onOutdatedVersion' event is deprecated. Please use 'onRequestRefreshFile' event and 'refreshFile' method instead.");
+            this.editorConfig && this.editorConfig.canUpdateVersion && console.log("Obsolete: The 'onOutdatedVersion' event is deprecated. Please use 'onRequestRefreshFile' event and 'refreshFile' method instead.");
 
             var me = this;
             me.needToUpdateVersion = true;
@@ -1220,15 +1239,20 @@ define([
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    if (obj.pr && obj.pr.is_Signature()) { // select signature picture only from local file
-                        me.api.asc_addImage(obj.pr);
-                        setTimeout(function(){
-                            me.api.asc_UncheckContentControlButtons();
-                        }, 500);
-                    } else
-                        setTimeout(function() {
-                            me.onShowImageActions(obj, x, y);
-                        }, 1);
+                    setTimeout(function() {
+                        me.onShowImageActions(obj, x, y);
+                    }, 1);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.Signature:
+                    if (obj.pr && obj.pr.get_Lock) {
+                        var lock = obj.pr.get_Lock();
+                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
+                            return;
+                    }
+                    me.api.asc_addImage(obj.pr);
+                    setTimeout(function(){
+                        me.api.asc_UncheckContentControlButtons();
+                    }, 500);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
@@ -1241,6 +1265,7 @@ define([
 
         onHideContentControlsActions: function() {
             this.listControlMenu && this.listControlMenu.isVisible() && this.listControlMenu.hide();
+            this.imageControlMenu && this.imageControlMenu.isVisible() && this.imageControlMenu.hide();
             var controlsContainer = this.boxSdk.find('#calendar-control-container');
             if (controlsContainer.is(':visible'))
                 controlsContainer.hide();
@@ -1369,7 +1394,7 @@ define([
             var type = obj.type,
                 props = obj.pr,
                 specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr(),
-                isForm = !!props.get_FormPr(),
+                formProps = props.get_FormPr(),
                 menu = this.listControlMenu,
                 menuContainer = menu ? this.boxSdk.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
                 me = this;
@@ -1406,21 +1431,23 @@ define([
                 });
             }
             if (specProps) {
-                if (isForm){ // for dropdown and combobox form control always add placeholder item
-                    var text = props.get_PlaceholderText();
-                    menu.addItem(new Common.UI.MenuItem({
-                        caption     : (text.trim()!=='') ? text : this.txtEmpty,
-                        value       : '',
-                        template    : _.template([
-                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="<% if (options.value=="") { %> opacity: 0.6 <% } %>">',
-                            '<%= Common.Utils.String.htmlEncode(caption) %>',
-                            '</a>'
-                        ].join(''))
-                    }));
-                }
                 var count = specProps.get_ItemsCount();
+                if (formProps){
+                    if (!formProps.get_Required() || count<1) { // for required or empty dropdown/combobox form control always add placeholder item
+                        var text = props.get_PlaceholderText();
+                        menu.addItem(new Common.UI.MenuItem({
+                            caption     : (text.trim()!=='') ? text : this.txtEmpty,
+                            value       : '',
+                            template    : _.template([
+                                '<a id="<%= id %>" tabindex="-1" type="menuitem" style="<% if (options.value=="") { %> opacity: 0.6 <% } %>">',
+                                '<%= Common.Utils.String.htmlEncode(caption) %>',
+                                '</a>'
+                            ].join(''))
+                        }));
+                    }
+                }
                 for (var i=0; i<count; i++) {
-                    (specProps.get_ItemValue(i)!=='' || !isForm) && menu.addItem(new Common.UI.MenuItem({
+                    (specProps.get_ItemValue(i)!=='' || !formProps) && menu.addItem(new Common.UI.MenuItem({
                         caption     : specProps.get_ItemDisplayText(i),
                         value       : specProps.get_ItemValue(i),
                         template    : _.template([
@@ -1430,7 +1457,7 @@ define([
                         ].join(''))
                     }));
                 }
-                if (!isForm && menu.items.length<1) {
+                if (!formProps && menu.items.length<1) {
                     menu.addItem(new Common.UI.MenuItem({
                         caption     : this.txtEmpty,
                         value       : -1
@@ -2208,6 +2235,16 @@ define([
                 }
                 this.api.asc_refreshFile(docInfo);
             }
+        },
+
+        onDisconnectEveryone: function() {
+            this._state.isFormDisconnected = true;
+            if (this.appOptions) this.appOptions.canFillForms = false;
+            this.showFillingForms(false); // hide filling forms
+            Common.UI.warning({
+                msg  : this.warnStartFilling,
+                buttons: ['ok']
+            });
         },
 
         onEditComplete: function() {

@@ -74,7 +74,7 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                contentStyle: 'padding: 0 10px;',
+                contentStyle: 'padding: 5px 5px 0;',
                 contentTemplate: _.template([
                     '<div class="settings-panel active">',
                         '<div class="inner-content">',
@@ -227,7 +227,7 @@ define([
         },
 
         close: function () {
-            this.api.asc_onCloseChartFrame();
+            this.api.asc_onCloseFrameEditor();
             this.api.asc_unregisterCallback('asc_onAddChartStylesPreview', this.wrapEvents.onAddChartStylesPreview);
             Common.Views.AdvancedSettingsWindow.prototype.close.apply(this, arguments);
         },

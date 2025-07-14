@@ -296,7 +296,7 @@ define([], function () {
                     '<td colspan="2"><div id="fms-chb-resolved-comment"></div></td>',
                 '</tr>',
                 '<tr class ="collaboration divider-group"></tr>',
-                '<tr>',
+                '<tr class="appearance">',
                     '<td colspan="2" class="group-name"><label><%= scope.txtAppearance %></label></td>',
                 '</tr>',
                 '<tr class="themes">',
@@ -594,7 +594,7 @@ define([], function () {
             var itemsTemplate =
                 _.template([
                     '<% _.each(items, function(item) { %>',
-                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "custom") { %> class="border-top" style="margin-top: 5px;padding-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "custom") { %> class="border-top" <% } %> ><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
                     '<% }); %>'
                 ].join(''));
             this.cmbFontRender = new Common.UI.ComboBox({
@@ -681,17 +681,6 @@ define([], function () {
                 me.updateFuncExample(record.exampleValue);
             });
 
-            var regdata = [{ value: 0x0401 }, { value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0406 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x3809 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
-                            { value: 0x040B }, { value: 0x040C }, { value: 0x100C }, { value: 0x0421 }, { value: 0x0410 }, { value: 0x0810 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
-                            { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x281A }, { value: 0x241A }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }, { value: 0x0404 }];
-            regdata.forEach(function(item) {
-                var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
-                var displayName = Common.util.LanguageInfo.getLocalLanguageDisplayName(item.value);
-                item.displayValue = displayName.native;
-                item.displayValueEn = displayName.english;
-                item.langName = langinfo[0];
-            });
-
             this.cmbRegSettings = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-reg-settings'),
                 style       : 'width: 200px;',
@@ -699,6 +688,7 @@ define([], function () {
                 restoreMenuHeightAndTop: 110,
                 editable    : false,
                 cls         : 'input-group-nr',
+                data        : Common.util.LanguageInfo.getRegionalData(),
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= item.value %>">',
@@ -709,11 +699,10 @@ define([], function () {
                                 '<label style="opacity: 0.6"><%= item.displayValueEn %></label>',
                             '</a>',
                         '</li>',
-                    '<% }); %>',
+                    '<% }); %>'
                 ].join('')),
                 search: true,
                 searchFields: ['displayValue', 'displayValueEn'],
-                data        : regdata,
                 dataHint    : '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -854,29 +843,36 @@ define([], function () {
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
+            }).on('selected', function(combo, record) {
+                me._isTabStyleChanged = true;
             });
 
-            this.cmbDictionaryLanguage = new Common.UI.ComboBox({
+            var lckey = "app-settings-recent-langs";
+            this.cmbDictionaryLanguage = new Common.UI.ComboBoxRecent({
                 el:  $markup.findById('#fms-cmb-dictionary-language'),
                 cls: 'input-group-nr',
                 style: 'width: 200px;',
                 editable: false,
                 restoreMenuHeightAndTop: 110,
                 menuStyle: 'min-width: 100%; max-height: 209px;',
-                itemsTemplate: _.template([
-                    '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                itemTemplate: _.template([
+                        '<li id="<%= id %>" data-value="<%= value %>">',
                             '<a tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false">',
                                 '<div>',
-                                    '<%= item.displayValue %>',
+                                    '<%= displayValue %>',
                                 '</div>',
-                                '<label style="opacity: 0.6"><%= item.displayValueEn %></label>',
+                                '<label style="opacity: 0.6"><%= displayValueEn %></label>',
                             '</a>',
                         '</li>',
-                    '<% }); %>',
                 ].join('')),
                 search: true,
                 searchFields: ['displayValue', 'displayValueEn'],
+                recent: {
+                    count: Common.Utils.InternalSettings.get(lckey + "-count") || 5,
+                    offset: Common.Utils.InternalSettings.get(lckey + "-offset") || 0,
+                    key: lckey,
+                    valueField: 'shortName'
+                },
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -1065,10 +1061,11 @@ define([], function () {
             $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
             $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.compactHeader && mode.isEdit) ? 'show' : 'hide']();
             $('tr.tab-background', this.el)[!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true) ? 'show' : 'hide']();
-            $('tr.tab-style', this.el)[Common.UI.FeaturesManager.canChange('tabStyle', true) ? 'show' : 'hide']();
+            $('tr.tab-style', this.el)[!Common.Utils.isIE && !Common.Controllers.Desktop.isWinXp() && Common.UI.FeaturesManager.canChange('tabStyle', true) ? 'show' : 'hide']();
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
+            $('tr.appearance', this.el)[!Common.Utils.isIE ? 'show' : 'hide']();
             $('tr.spellcheck', this.el)[Common.UI.FeaturesManager.canChange('spellcheck') && mode.isEdit ? 'show' : 'hide']();
             if (mode.compactHeader) {
                 $('tr.quick-access', this.el).hide();
@@ -1314,8 +1311,10 @@ define([], function () {
             if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
                 Common.UI.TabStyler.setBackground(this.chTabBack.isChecked() ? 'toolbar' : 'header');
             }
-            if (Common.UI.FeaturesManager.canChange('tabStyle', true)) {
+            if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabStyle', true) && this._isTabStyleChanged) {
                 Common.UI.TabStyler.setStyle(this.cmbTabStyle.getValue());
+                Common.localStorage.setBool("settings-tab-style-newtheme", true); // use tab style from lc for all themes
+                this._isTabStyleChanged = false;
             }
             Common.localStorage.save();
             if (this.menu) {
@@ -1413,7 +1412,7 @@ define([], function () {
         customizeQuickAccess: function () {
             if (this.dlgQuickAccess && this.dlgQuickAccess.isVisible()) return;
             this.dlgQuickAccess = new Common.Views.CustomizeQuickAccessDialog({
-                showSave: this.mode.showSaveButton,
+                showSave: this.mode.showSaveButton && Common.UI.LayoutManager.isElementVisible('header-save'),
                 showPrint: this.mode.canPrint && this.mode.twoLevelHeader,
                 showQuickPrint: this.mode.canQuickPrint && this.mode.twoLevelHeader,
                 mode: this.mode,
@@ -2702,6 +2701,8 @@ define([], function () {
                             '<div class="main-header"><%= scope.txtPrint %></div>',
                             '<table style="width: 100%;">',
                                 '<tbody>',
+                                    '<tr class="hidden-for-webapp"><td><label class="font-weight-bold"><%= scope.txtPrinter %></label></td></tr>',
+                                    '<tr class="hidden-for-webapp"><td class="padding-large"><div id="print-combo-printer" style="width: 248px;"></div></td></tr>',
                                     '<tr><td><label class="font-weight-bold"><%= scope.txtPrintRange %></label></td></tr>',
                                     '<tr><td class="padding-small"><div id="print-combo-range" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-chb-ignore" style="width: 248px;"></div></td></tr>',
@@ -2762,6 +2763,7 @@ define([], function () {
                                         '<label><%= scope.txtFirstPageNumber %></label>',
                                         '<div id="print-spin-first-page"></div>',
                                     '</td></tr>',
+                                    '<tr class="header-settings hidden-for-webapp"><td class="padding-large"><label class="link" id="print-btn-system-dialog" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtPrintUsingSystemDialog %></label></td></tr>',
                                     //'<tr><td class="padding-large"><button type="button" class="btn btn-text-default" id="print-apply-all" style="width: 118px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtApplyToAllSheets %></button></td></tr>',
                                     '<tr class="fms-btn-apply"><td>',
                                         '<div class="footer justify">',
@@ -2811,8 +2813,25 @@ define([], function () {
             Common.UI.BaseView.prototype.initialize.call(this,arguments);
 
             this.menu = options.menu;
+            
+            this._defaultPaperSizeList = [
+                {value:'215.9|279.4',    displayValue:['US Letter', '21,59', '27,94', 'cm'], caption: 'US Letter', size: [215.9, 279.4]},
+                {value:'215.9|355.6',    displayValue:['US Legal', '21,59', '35,56', 'cm'], caption: 'US Legal', size: [215.9, 355.6]},
+                {value:'210|297',        displayValue:['A4', '21', '29,7', 'cm'], caption: 'A4', size: [210, 297]},
+                {value:'148|210',        displayValue:['A5', '14,8', '21', 'cm'], caption: 'A5', size: [148, 210]},
+                {value:'176|250',        displayValue:['B5', '17,6', '25', 'cm'], caption: 'B5', size: [176, 250]},
+                {value:'104.8|241.3',    displayValue:['Envelope #10', '10,48', '24,13', 'cm'], caption: 'Envelope #10', size: [104.8, 241.3]},
+                {value:'110|220',        displayValue:['Envelope DL', '11', '22', 'cm'], caption: 'Envelope DL', size: [110, 220]},
+                {value:'279.4|431.8',    displayValue:['Tabloid', '27,94', '43,18', 'cm'], caption: 'Tabloid', size: [279.4, 431.8]},
+                {value:'297|420',        displayValue:['A3', '29,7', '42', 'cm'], caption: 'A3', size: [297, 420]},
+                {value:'296.9|457.2',    displayValue:['Tabloid Oversize', '29,69', '45,72', 'cm'], caption: 'Tabloid Oversize', size: [296.9, 457.2]},
+                {value:'196.8|273',      displayValue:['ROC 16K', '19,68', '27,3', 'cm'], caption: 'ROC 16K', size: [196.8, 273]},
+                {value:'120|235',        displayValue:['Envelope Choukei 3', '12', '23,5', 'cm'], caption: 'Envelope Choukei 3', size: [120, 235]},
+                {value:'305|487',        displayValue:['Super B/A3', '30,5', '48,7', 'cm'], caption: 'Super B/A3', size: [305, 487]}
+            ];
 
             this._initSettings = true;
+            this._originalPageSize = undefined;
             this.extendedPrintTitles = Common.localStorage.getBool('sse-print-titles-extended', true);
         },
 
@@ -2820,6 +2839,31 @@ define([], function () {
             var me = this;
 
             var $markup = $(this.template({scope: this, isRTL: Common.UI.isRTL()}));
+
+            if(this.mode.isDesktopApp) {
+                this.cmbPrinter = new Common.UI.ComboBox({
+                    el: $markup.findById('#print-combo-printer'),
+                    menuStyle: 'width: 248px; max-height: 280px;',
+                    editable: false,
+                    takeFocusOnClose: true,
+                    cls: 'input-group-nr',
+                    placeHolder: this.txtPrinterNotSelected,
+                    itemsTemplate:  _.template([
+                        '<% if (items.length > 0) { %>',
+                            '<% _.each(items, function(item) { %>',
+                                '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
+                            '<% }); %>',
+                        '<% } else { %>',
+                            '<li><a style="background:none; cursor: default;" onclick="event.stopPropagation();">' + this.txtPrintersNotFound + '</a></li>',
+                        '<% } %>'
+                    ].join('')),
+                    data: [],
+                    dataHint: '2',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
+                });
+                this.cmbPrinter.on('selected', _.bind(this.onPrinterSelected, this));
+            }
 
             this.cmbRange = new Common.UI.ComboBox({
                 el: $markup.findById('#print-combo-range'),
@@ -2962,39 +3006,30 @@ define([], function () {
 
             this.cmbPaperSize = new Common.UI.ComboBoxCustom({
                 el: $markup.findById('#print-combo-pages'),
-                menuStyle: 'max-height: 280px; min-width: 248px;',
+                menuStyle: 'max-height: 280px; width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
                 template: paperSizeTemplate,
                 itemsTemplate: paperSizeItemsTemplate,
-                data: [
-                    {value:'215.9|279.4',    displayValue:['US Letter', '21,59', '27,94', 'cm'], caption: 'US Letter'},
-                    {value:'215.9|355.6',    displayValue:['US Legal', '21,59', '35,56', 'cm'], caption: 'US Legal'},
-                    {value:'210|297',        displayValue:['A4', '21', '29,7', 'cm'], caption: 'A4'},
-                    {value:'148|210',        displayValue:['A5', '14,8', '21', 'cm'], caption: 'A5'},
-                    {value:'176|250',        displayValue:['B5', '17,6', '25', 'cm'], caption: 'B5'},
-                    {value:'104.8|241.3',    displayValue:['Envelope #10', '10,48', '24,13', 'cm'], caption: 'Envelope #10'},
-                    {value:'110|220',        displayValue:['Envelope DL', '11', '22', 'cm'], caption: 'Envelope DL'},
-                    {value:'279.4|431.8',    displayValue:['Tabloid', '27,94', '43,18', 'cm'], caption: 'Tabloid'},
-                    {value:'297|420',        displayValue:['A3', '29,7', '42', 'cm'], caption: 'A3'},
-                    {value:'296.9|457.2',    displayValue:['Tabloid Oversize', '29,69', '45,72', 'cm'], caption: 'Tabloid Oversize'},
-                    {value:'196.8|273',      displayValue:['ROC 16K', '19,68', '27,3', 'cm'], caption: 'ROC 16K'},
-                    {value:'120|235',        displayValue:['Envelope Choukei 3', '12', '23,5', 'cm'], caption: 'Envelope Choukei 3'},
-                    {value:'305|487',        displayValue:['Super B/A3', '30,5', '48,7', 'cm'], caption: 'Super B/A3'}
-                ],
+                data: [].concat(this._defaultPaperSizeList),
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big',
-                updateFormControl: function (record){
+                updateFormControl: function (record, customValue){
                     var formcontrol = $(this.el).find('.form-control');
-                    if (record) {
-                        if (!Common.UI.isRTL()) {
-                            formcontrol[0].innerHTML = record.get('displayValue')[0] + ' (' + record.get('displayValue')[1] + ' ' + record.get('displayValue')[3] + ' x ' +
-                                record.get('displayValue')[2] + ' ' + record.get('displayValue')[3] + ')';
+                    if (record || customValue) {
+                        var displayValue = customValue ? customValue : record.get('displayValue');
+                        if (typeof displayValue === 'string') {
+                            formcontrol[0].innerHTML = displayValue;
                         } else {
-                            formcontrol[0].innerHTML = '<span dir="ltr">(<span dir="rtl">' + record.get("displayValue")[2] + ' ' + record.get('displayValue')[3] + '</span>' +
-                                '<span> x </span>' + '<span dir="rtl">' + record.get('displayValue')[1] + ' ' + record.get('displayValue')[3] + '</span>)' +
-                                '<span> ' + record.get('displayValue')[0] + '</span></span>';
+                            if (!Common.UI.isRTL()) {
+                                formcontrol[0].innerHTML = displayValue[0] + ' (' + displayValue[1] + ' ' + displayValue[3] + ' x ' +
+                                    displayValue[2] + ' ' + displayValue[3] + ')';
+                            } else {
+                                formcontrol[0].innerHTML = '<span dir="ltr">(<span dir="rtl">' + displayValue[2] + ' ' + displayValue[3] + '</span>' +
+                                    '<span> x </span>' + '<span dir="rtl">' + displayValue[1] + ' ' + displayValue[3] + '</span>)' +
+                                    '<span> ' + displayValue[0] + '</span></span>';
+                            }
                         }
                     } else
                         formcontrol[0].innerHTML = '';
@@ -3019,7 +3054,7 @@ define([], function () {
             var itemsTemplate =
                 _.template([
                     '<% _.each(items, function(item) { %>',
-                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "customoptions") { %> class="border-top" style="margin-top: 5px;padding-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem">',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "customoptions") { %> class="border-top" <% } %> ><a tabindex="-1" type="menuitem">',
                     '<%= scope.getDisplayValue(item) %>',
                     '</a></li>',
                     '<% }); %>'
@@ -3162,6 +3197,9 @@ define([], function () {
             this.pnlTable = $(this.pnlSettings.find('table')[0]);
             this.trApply = $markup.find('.fms-btn-apply');
 
+
+            this.btnPrintSystemDialog = $markup.findById('#print-btn-system-dialog');
+            
             this.btnsSave = [];
             this.btnsPrint = [];
             if (this.mode.isDesktopApp) {
@@ -3189,9 +3227,12 @@ define([], function () {
                     el: $markup.findById('#print-btn-save-'+i)
                 }));
                 this.btnsPrint.push(new Common.UI.Button({
-                    el: $markup.findById('#print-btn-print-'+i)
+                    el: $markup.findById('#print-btn-print-'+i),
+                    disabled: this.mode.isDesktopApp
                 }));
             }
+
+            $markup.find('.hidden-for-webapp').toggleClass('hidden', !this.mode.isDesktopApp);
 
             this.btnPrevPage = new Common.UI.Button({
                 parentEl: $markup.findById('#print-prev-page'),
@@ -3293,6 +3334,133 @@ define([], function () {
             this.fireEvent('show', this);
         },
 
+        updateCmbPrinter: function(currentPrinter, printers) {
+            var cmbPrinterOptions = [];
+
+            printers = printers || [];
+
+            //If the current printer is not in the list of printers, add it
+            if(currentPrinter && !_.some(printers, function(printer) { return printer.name == currentPrinter })) {
+                printers.push({
+                    name: currentPrinter,
+                    duplex_supported: true,
+                    paperSupported: this._defaultPaperSizeList
+                });
+            }
+
+            cmbPrinterOptions = printers.map(function(printer) {
+                return {
+                    value: printer.name,
+                    displayValue: printer.name,
+                    paperSupported: printer.paper_supported,
+                    isDuplexSupported: printer.duplex_supported
+                }
+            });
+
+            this.cmbPrinter.setData(cmbPrinterOptions);
+            this.cmbPrinter.setValue(currentPrinter);
+            this.cmbPrinter.trigger('selected', this, this.cmbPrinter.getSelectedRecord());
+        },
+
+        setCmbSidesOptions: function(isDuplexSupported) {
+            var cmbValue = this.cmbSides.getValue();
+            var list = [{ value: 'one', displayValue: this.txtOneSide, descValue: this.txtOneSideDesc }];
+            if(isDuplexSupported) {
+                list.push(
+                    { value: 'both-long', displayValue: this.txtBothSides, descValue: this.txtBothSidesLongDesc },
+                    { value: 'both-short', displayValue: this.txtBothSides, descValue: this.txtBothSidesShortDesc }
+                );
+            } else if(cmbValue != 'one') {
+                cmbValue = 'one';
+            }
+            this.cmbSides.setData(list);
+            this.cmbSides.setValue(cmbValue);
+        },
+
+        setCmbPaperSizeOptions: function(paperSizeList) {
+            var resultList = [];
+
+            if(paperSizeList && paperSizeList.length > 0) {
+                resultList = paperSizeList.map(function(item, index) {
+                    return {
+                        value: index, 
+                        displayValue: [item.name, item.width / 10, item.height / 10, 'cm'], 
+                        caption: item.name, 
+                        size: [item.width, item.height]
+                    }
+                });
+            } else {
+                resultList = [].concat(this._defaultPaperSizeList);
+            }
+
+            var prevSelectedOption = this.cmbPaperSize.store.findWhere({ 
+                value: this.cmbPaperSize.getValue()
+            });
+            var newSelectedOption = null;
+
+            function findOptionBySize(list, width, height) {
+                return _.find(list, function(option) {
+                    return Math.abs(option.size[0] - width) < 0.1 && Math.abs(option.size[1] - height) < 0.1;
+                });
+            }
+
+            // If a previously selected option exists, search for a matching one in resultList
+            if (prevSelectedOption) {
+                newSelectedOption = findOptionBySize(
+                    resultList, 
+                    Math.round(prevSelectedOption.get('size')[0]), 
+                    Math.round(prevSelectedOption.get('size')[1])
+                );
+            }
+
+            if (!newSelectedOption) {
+                if(prevSelectedOption) {
+                    newSelectedOption = {
+                        custom: true,
+                        value: [
+                            this.txtCustom,
+                            parseFloat(Common.Utils.Metric.fnRecalcFromMM(prevSelectedOption.get('size')[0]).toFixed(2)),
+                            parseFloat(Common.Utils.Metric.fnRecalcFromMM(prevSelectedOption.get('size')[1]).toFixed(2)),
+                            Common.Utils.Metric.getCurrentMetricName()
+                        ]
+                    }
+                } else {
+                    const _w = this._originalPageSize ? this._originalPageSize.w : 210,
+                        _h = this._originalPageSize ? this._originalPageSize.h : 297;
+                    // If no matching option is found, look for the default size 210x297 (A4)
+                    if (!newSelectedOption) {
+                        newSelectedOption = findOptionBySize(resultList, _w, _h);
+                    }
+
+                    if (!newSelectedOption) {
+                        newSelectedOption = {
+                            custom: true,
+                            value: [
+                                this.txtCustom,
+                                parseFloat(Common.Utils.Metric.fnRecalcFromMM(_w).toFixed(2)),
+                                parseFloat(Common.Utils.Metric.fnRecalcFromMM(_h).toFixed(2)),
+                                Common.Utils.Metric.getCurrentMetricName()
+                            ]
+                        };
+                    }
+
+                    if (!newSelectedOption && resultList[0]) {
+                        newSelectedOption = resultList[0];
+                    } 
+                }
+            }
+            
+            this.cmbPaperSize.setData(resultList);
+            this.updatePaperSizeMetricUnit();
+            if (!newSelectedOption) {
+                this.cmbPaperSize.setValue(null);
+            } else if (newSelectedOption.custom) {
+                this.cmbPaperSize.setValue(undefined, newSelectedOption.value);
+            } else {
+                this.cmbPaperSize.setValue(newSelectedOption.value);
+            }
+        },
+
         updateScroller: function() {
             if (this.scroller) {
                 Common.UI.Menu.Manager.hideAll();
@@ -3324,13 +3492,27 @@ define([], function () {
 
         },
 
+        onPrinterSelected: function(combo, record) {
+            this.setCmbSidesOptions(record ? record.isDuplexSupported : true);
+            this.setCmbPaperSizeOptions(record ? record.paperSupported : null);
+            this.btnsPrint.forEach(function(btn) {
+                btn.setDisabled(!record);
+            });
+        },
+
         updateMetricUnit: function() {
+            this.updatePaperSizeMetricUnit();
+            this.cmbPaperMargins.onResetItems();
+        },
+
+        updatePaperSizeMetricUnit: function() {
+            if (!this.cmbPaperSize) return;
             var store = this.cmbPaperSize.store;
             for (var i=0; i<store.length; i++) {
                 var item = store.at(i),
-                    value = item.get('value'),
-                    pagewidth = /^\d{3}\.?\d*/.exec(value),
-                    pageheight = /\d{3}\.?\d*$/.exec(value);
+                    size = item.get('size'),
+                    pagewidth = size[0],
+                    pageheight = size[1];
 
                 item.set('displayValue', [item.get('caption'),
                     parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)),
@@ -3338,7 +3520,6 @@ define([], function () {
                     Common.Utils.Metric.getCurrentMetricName()]);
             }
             this.cmbPaperSize.onResetItems();
-            this.cmbPaperMargins.onResetItems();
         },
 
         addCustomScale: function (add) {
@@ -3422,6 +3603,10 @@ define([], function () {
             this.txtNumberPage.setValue(index + 1);
         },
 
+        setOriginalPageSize: function (w, h) {
+            this._originalPageSize = {w: w, h: h};
+        },
+
         expandPrintTitles: function () {
             this.extendedPrintTitles = !this.extendedPrintTitles;
             this.$printTitlesBlock[this.extendedPrintTitles ? 'removeClass' : 'addClass']('no-expand');
@@ -3431,6 +3616,10 @@ define([], function () {
         txtPrint: 'Print',
         txtSave: 'Save',
         txtPrintToPDF: 'Print to PDF',
+        txtPrinter: 'Printer',
+        txtPrinterNotSelected: 'Printer not selected',
+        txtPrintersNotFound: 'Printers not found',
+        txtPrintUsingSystemDialog: 'Print using the system dialog',
         txtPrintRange: 'Print range',
         txtCurrentSheet: 'Current sheet',
         txtActiveSheets: 'Active sheets',

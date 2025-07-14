@@ -285,7 +285,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             ],
             on: {
                 opened: () => {
-                    const nameDoc = docTitle.split('.')[0];
+                    const nameDoc = docTitle.slice(0, docTitle.lastIndexOf("."));
                     const titleField = document.querySelector('#modal-title');
                     const btnChangeTitle = document.querySelector('.btn-change-title');
 
@@ -441,6 +441,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             canFillForms={appOptions.canFillForms}
             canSubmitForms={appOptions.canSubmitForms}
             forceDesktopMode={forceDesktopMode}
+            isHiddenFileName={appOptions.config?.customization?.toolbarHideFileName ?? false}
         />
     )
 }));

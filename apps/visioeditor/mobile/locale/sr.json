@@ -77,6 +77,7 @@
   "Error": {
     "convertationTimeoutText": "Vreme za konverziju je isteklo.",
     "criticalErrorExtText": "Pritisnite 'U redu' da se vratite na listu dokumenata.",
+    "criticalErrorExtTextClose": "Kliknite \"OK\" da zatvorite uređivač.",
     "criticalErrorTitle": "Greška",
     "downloadErrorText": "Preuzimanje neuspešno.",
     "errorAccessDeny": "Pokušavate da izvršite radnju za koju nemate prava.<br>Molimo kontaktirajte svog administratora.",

@@ -27,6 +27,7 @@
     "textCurrentPosition": "Aktuální pozice",
     "textDisplay": "Zobrazit",
     "textDone": "Hotovo",
+    "textDrawing": "Kreslení",
     "textEmptyImgUrl": "Musíte upřesnit URL obrázku.",
     "textEvenPage": "Sudá stránka",
     "textFootnote": "Poznámka pod čarou",
@@ -65,8 +66,7 @@
     "textTableSize": "Velikost tabulky",
     "textWithBlueLinks": "s modrými odkazy",
     "textWithPageNumbers": "s číslováním stránek",
-    "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
-    "textDrawing": "Drawing"
+    "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\""
   },
   "Common": {
     "Collaboration": {
@@ -231,9 +231,9 @@
   },
   "Draw": {
     "textColor": "Barva",
-    "textOpacity": "Průhlednost",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size"
+    "textCustomColor": "Vlastní barva",
+    "textLineSize": "Velikost čáry",
+    "textOpacity": "Průhlednost"
   },
   "Edit": {
     "notcriticalErrorTitle": "Varování",
@@ -418,7 +418,7 @@
     "textYourOption": "Váš výběr"
   },
   "Error": {
-    "convertationTimeoutText": "Vypršel čas konverze.",
+    "convertationTimeoutText": "Překročen časový limit pro provedení převodu.",
     "criticalErrorExtText": "Pro návrat na seznam dokumentů klikněte na 'OK'.",
     "criticalErrorTitle": "Chyba",
     "downloadErrorText": "Stahování se nezdařilo.",
@@ -433,6 +433,7 @@
     "errorDefaultMessage": "Kód chyby: %1",
     "errorDirectUrl": "Ověřte správnost odkazu na dokument.<br>Musí jít o přímý odkaz pro stažení souboru.",
     "errorEditingDownloadas": "Při práci s dokumentem došlo k chybě.<br>Stáhněte dokument pro vytvoření lokální zálohy souboru.",
+    "errorEditProtectedRange": "Tento výběr nemůžete upravovat, protože je zabezpečen.",
     "errorEmptyTOC": "Začít vytvářet obsah aplikováním stylů pro nadpisy na vybraný text. ",
     "errorFilePassProtect": "Soubor je zabezpečen heslem a nemůže být otevřen.",
     "errorFileSizeExceed": "Velikost souboru je větší než limit serveru.<br>Prosím kontaktujte Vašeho správce.",
@@ -449,6 +450,8 @@
     "errorMailMergeSaveFile": "Sloučení se nezdařilo.",
     "errorNoTOC": "Chybí obsah k aktualizaci. Obsah můžete vložit pomocí záložky Odkazy.",
     "errorPasswordIsNotCorrect": "Zadané heslo je neplatné. Zkontrolujte, že máte vypnutou klávesu CAPS LOCK a používáte správnou velikost písmen. ",
+    "errorPDFFormsLocked": "Akci nelze provést, protože způsobuje změny v uzamčených formulářích.",
+    "errorSaveWatermark": "Tento soubor obsahuje vodoznak nad obrázkem odkazující na jinou doménou.<br>Chcete-li, aby byl vodoznak nad obrázkem v PDF viditelný, aktualizujte odkaz tak, aby odkazoval na stejnou doménu jako váš dokument, nebo jej nahrajte ze svého počítače.",
     "errorSessionAbsolute": "Platnost relace upravování dokumentu skončila. Načtete stránku znovu.",
     "errorSessionIdle": "Poslední úprava dokumentu proběhla před dlouhou dobou. Prosím obnovte stránku.",
     "errorSessionToken": "Připojení k serveru bylo přerušeno. Načtěte prosím stránku znovu.",
@@ -469,6 +472,7 @@
     "splitDividerErrorText": "Počet řádků musí být dělitelný %1",
     "splitMaxColsErrorText": "Počet sloupců musí být menší než 1%",
     "splitMaxRowsErrorText": "Počet řádků musí být menší než 1%",
+    "textOk": "OK",
     "unknownErrorText": "Neznámá chyba.",
     "uploadDocExtMessage": "Neznámý formát dokumentu.",
     "uploadDocFileCountMessage": "Nenahrán žádný dokument.",
@@ -476,10 +480,7 @@
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Nenahrány žádné obrázky.",
     "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
-    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
-    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "textOk": "OK"
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "Načítání dat...",
@@ -509,6 +510,7 @@
     "savePreparingTitle": "Příprava ukládání. Prosím čekejte...",
     "saveTextText": "Ukládání dokumentu...",
     "saveTitleText": "Ukládání dokumentu",
+    "savingText": "Ukládání",
     "sendMergeText": "Odesílaní hromadné korespondence...",
     "sendMergeTitle": "Odesílaní hromadné korespondence",
     "textContinue": "Pokračovat",
@@ -517,8 +519,7 @@
     "txtEditingMode": "Nastavit režim úprav…",
     "uploadImageTextText": "Nahrávání obrázku...",
     "uploadImageTitleText": "Nahrávání obrázku",
-    "waitText": "Čekejte prosím...",
-    "savingText": "Saving"
+    "waitText": "Čekejte prosím..."
   },
   "Main": {
     "criticalErrorTitle": "Chyba",
@@ -807,9 +808,12 @@
     "txtDownloadTxt": "Stáhnout TXT",
     "txtIncorrectPwd": "Heslo je chybné",
     "txtOk": "OK",
-    "txtProtected": "Jakmile zadáte heslo a otevřete soubor, aktuální heslo bude obnoveno"
+    "txtProtected": "Jakmile zadáte heslo a otevřete soubor, aktuální heslo bude obnoveno",
+    "textDrawing": "Drawing"
   },
   "Toolbar": {
+    "btnRestartNow": "Restartovat nyní",
+    "btnSend": "Odeslat",
     "dlgLeaveMsgText": "V tomto dokumentu máte neuložené změny. Klikněte na 'Zůstat na této stránce'. Klikněte na 'Opustit tuto stránku' pro zahození neuložených změn.",
     "dlgLeaveTitleText": "Opouštíte aplikaci",
     "leaveButtonText": "Opustit tuto stránku",
@@ -820,9 +824,7 @@
     "textRenameFile": "Přejmenovat soubor",
     "textSwitchedMobileView": "Přepnout na mobilní zobrazení",
     "textSwitchedStandardView": "Přepnout na standartní zobrazení",
-    "warnEmptyRequiredField": "Pro odeslání formuláře vyplňte všechna požadovaná pole.",
-    "btnRestartNow": "Restart now",
-    "btnSend": "Send",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Přepnout na desktopový režim",
+    "warnEmptyRequiredField": "Pro odeslání formuláře vyplňte všechna požadovaná pole."
   }
 }

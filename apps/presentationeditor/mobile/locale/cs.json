@@ -157,6 +157,7 @@
       "textNo": "Ne",
       "textNoLicenseTitle": "Došlo k dosažení limitu licence",
       "textNoMatches": "Shoda nebyla nalezena",
+      "textOk": "OK",
       "textOpenFile": "Zadejte heslo pro otevření souboru",
       "textPaidFeature": "Placená funkce",
       "textRemember": "Zapamatovat moji volbu",
@@ -179,15 +180,14 @@
       "warnLicenseUsersExceeded": "Došlo dosažení limitu %1 editorů v režimu spolupráce na úpravách. Ohledně podrobností se obraťte na svého správce.",
       "warnNoLicense": "Došlo k dosažení limitu souběžného připojení %1 editorů. Tento dokument bude otevřen pouze pro náhled. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
       "warnNoLicenseUsers": "Došlo k dosažení limitu %1 editorů. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
-      "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu.",
-      "textOk": "Ok"
+      "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu."
     }
   },
   "Draw": {
     "textColor": "Barva",
-    "textOpacity": "Průhlednost",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size"
+    "textCustomColor": "Vlastní barva",
+    "textLineSize": "Velikost čáry",
+    "textOpacity": "Průhlednost"
   },
   "Error": {
     "convertationTimeoutText": "Překročen časový limit pro provedení převodu.",
@@ -216,6 +216,7 @@
     "errorKeyEncrypt": "Neznámý popisovač klíče",
     "errorKeyExpire": "Platnost popisovače klíče skončila",
     "errorLoadingFont": "Písma nejsou načtená.<br>Obraťte se na správce vámi využívaného dokumentového serveru.",
+    "errorSaveWatermark": "Tento soubor obsahuje vodoznak nad obrázkem odkazující na jinou doménou.<br>Chcete-li, aby byl vodoznak nad obrázkem v PDF viditelný, aktualizujte odkaz tak, aby odkazoval na stejnou doménu jako váš dokument, nebo jej nahrajte ze svého počítače.",
     "errorSessionAbsolute": "Platnost relace upravování dokumentu skončila. Načtěte stránku znovu.",
     "errorSessionIdle": "Poslední úprava dokumentu proběhla před dlouhou dobou. Prosím obnovte stránku.",
     "errorSessionToken": "Připojení k serveru bylo přerušeno. Načtěte prosím stránku znovu.",
@@ -234,12 +235,12 @@
     "splitDividerErrorText": "Počet řádků musí být dělitelný %1",
     "splitMaxColsErrorText": "Počet sloupců musí být menší než 1%",
     "splitMaxRowsErrorText": "Počet řádků musí být menší než 1%",
+    "textOk": "OK",
     "unknownErrorText": "Neznámá chyba.",
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Žádné obrázky nenahrány.",
     "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "textOk": "OK"
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "Načítání dat...",
@@ -276,16 +277,16 @@
     "waitText": "Čekejte prosím..."
   },
   "Toolbar": {
+    "btnRestartNow": "Restartovat nyní",
     "dlgLeaveMsgText": "V tomto dokumentu máte neuložené změny. Klikněte na 'Zůstat na této stránce' a počkejte dokud nedojde k automatickému uložení. Klikněte na 'Opustit tuto stránku' pro zahození neuložených změn.",
     "dlgLeaveTitleText": "Opouštíte aplikaci",
     "leaveButtonText": "Opustit tuto stránku",
     "stayButtonText": "Zůstat na této stránce",
     "textCloseHistory": "Zavřít historii",
     "textEnterNewFileName": "Zadejte nový název souboru",
-    "textRenameFile": "Přejmenovat soubor",
-    "btnRestartNow": "Restart now",
     "textOk": "OK",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textRenameFile": "Přejmenovat soubor",
+    "textSwitchToDesktop": "Přepnout na desktopový režim"
   },
   "View": {
     "Add": {
@@ -299,6 +300,7 @@
       "textDefault": "Vybraný text",
       "textDisplay": "Zobrazit",
       "textDone": "Hotovo",
+      "textDrawing": "Kreslení",
       "textEmptyImgUrl": "Je třeba zadat URL adresu obrázku.",
       "textExternalLink": "Externí odkaz",
       "textFirstSlide": "První snímek",
@@ -328,8 +330,7 @@
       "textSlideNumber": "Číslo snímku",
       "textTable": "Tabulka",
       "textTableSize": "Velikost tabulky",
-      "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
-      "textDrawing": "Drawing"
+      "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "Varování",

@@ -100,6 +100,7 @@ define([], function () {
                 view = me.documentHolder;
 
             if (type==='pdf') {
+                view.menuViewCopyPage.on('click', _.bind(me.onCutCopyPaste, me));
                 view.menuPDFViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
                 view.menuAddComment.on('click', _.bind(me.addComment, me));
                 view.menuRemoveComment.on('click', _.bind(me.removeComment, me));
@@ -128,7 +129,7 @@ define([], function () {
                  }, this));
                  diagramEditor.on('hide', _.bind(function(cmp, message) {
                  if (this.api) {
-                 this.api.asc_onCloseChartFrame();
+                 this.api.asc_onCloseFrameEditor();
                  this.api.asc_enableKeyEvents(true);
                  }
                  var me = this;
@@ -152,7 +153,7 @@ define([], function () {
                  oleEditor.on('hide', _.bind(function(cmp, message) {
                  if (this.api) {
                  this.api.asc_enableKeyEvents(true);
-                 this.api.asc_onCloseChartFrame();
+                 this.api.asc_onCloseFrameEditor();
                  }
                  var me = this;
                  setTimeout(function(){
@@ -220,6 +221,11 @@ define([], function () {
                 view.mnuDeletePage.on('click', _.bind(me.onDeletePage, me));
                 view.mnuRotatePageRight.on('click', _.bind(me.onRotatePage, me, 90));
                 view.mnuRotatePageLeft.on('click', _.bind(me.onRotatePage, me, -90));
+                view.mnuCopyPage.on('click', _.bind(me.onCutCopyPaste, me));
+                view.mnuCutPage.on('click', _.bind(me.onCutCopyPaste, me));
+                view.mnuPastePageBefore.on('click', _.bind(me.onCutCopyPaste, me));
+                view.mnuPastePageAfter.on('click', _.bind(me.onCutCopyPaste, me));
+
                 view.menuImgReplace.menu.on('item:click', _.bind(me.onImgReplace, me));
             }
         };
@@ -1024,7 +1030,6 @@ define([], function () {
                         iconCls     : 'svgicon ' + equationGroup.get('groupIcon'),
                         hint        : equationGroup.get('groupName'),
                         menu        : new Common.UI.Menu({
-                            cls: 'menu-shapes',
                             value: i,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +
@@ -1184,6 +1189,16 @@ define([], function () {
                             me.eyedropperTip.toolTip.hide();
                         }
 
+                        if (!me.eyedropperTip.toolTip) {
+                            var tipEl = $('<div id="tip-container-eyedroppertip" style="position: absolute; z-index: 10000;"></div>');
+                            me.documentHolder.cmpEl.append(tipEl);
+                            me.eyedropperTip.toolTip = new Common.UI.Tooltip({
+                                owner: tipEl,
+                                html: true,
+                                cls: 'eyedropper-tooltip'
+                            });
+                        }
+
                         var color = moveData.get_EyedropperColor().asc_getColor(),
                             r = color.get_r(),
                             g = color.get_g(),
@@ -1209,7 +1224,7 @@ define([], function () {
                         me.eyedropperTip.tipInterval = setInterval(function () {
                             clearInterval(me.eyedropperTip.tipInterval);
                             if (me.eyedropperTip.isVisible) {
-                                ToolTip = '<div>RGB(' + r + ',' + g + ',' + b + ')</div>' +
+                                ToolTip = '<div>RGB (' + r + ',' + g + ',' + b + ')</div>' +
                                     '<div>' + moveData.get_EyedropperColor().asc_getName() + '</div>';
                                 me.eyedropperTip.toolTip.setTitle(ToolTip);
                                 me.eyedropperTip.isTipVisible = true;
@@ -1309,7 +1324,7 @@ define([], function () {
         dh.onCutCopyPaste = function(item, e) {
             var me = this;
             if (me.api) {
-                var res =  (item.value == 'cut') ? me.api.Cut() : ((item.value == 'copy') ? me.api.Copy() : me.api.Paste());
+                var res =  (item.value == 'cut') ? me.api.Cut() : ((item.value == 'copy') ? me.api.Copy() : me.api.Paste(item.value == 'paste-before'));
                 if (!res) {
                     if (!Common.localStorage.getBool("pdfe-hide-copywarning")) {
                         (new Common.Views.CopyWarningDialog({
@@ -1720,7 +1735,7 @@ define([], function () {
             var type = obj.type,
                 props = obj.pr,
                 specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr(),
-                isForm = !!props.get_FormPr(),
+                formProps = props.get_FormPr(),
                 cmpEl = this.documentHolder.cmpEl,
                 menu = this.listControlMenu,
                 menuContainer = menu ? cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
@@ -1758,21 +1773,23 @@ define([], function () {
                 });
             }
             if (specProps) {
-                if (isForm){ // for dropdown and combobox form control always add placeholder item
-                    var text = props.get_PlaceholderText();
-                    menu.addItem(new Common.UI.MenuItem({
-                        caption     : (text.trim()!=='') ? text : this.documentHolder.txtEmpty,
-                        value       : '',
-                        template    : _.template([
-                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="<% if (options.value=="") { %> opacity: 0.6 <% } %>">',
-                            '<%= Common.Utils.String.htmlEncode(caption) %>',
-                            '</a>'
-                        ].join(''))
-                    }));
-                }
                 var count = specProps.get_ItemsCount();
+                if (formProps){
+                    if (!formProps.get_Required() || count<1) {// for required or empty dropdown/combobox form control always add placeholder item
+                        var text = props.get_PlaceholderText();
+                        menu.addItem(new Common.UI.MenuItem({
+                            caption     : (text.trim()!=='') ? text : this.documentHolder.txtEmpty,
+                            value       : '',
+                            template    : _.template([
+                                '<a id="<%= id %>" tabindex="-1" type="menuitem" style="<% if (options.value=="") { %> opacity: 0.6 <% } %>">',
+                                '<%= Common.Utils.String.htmlEncode(caption) %>',
+                                '</a>'
+                            ].join(''))
+                        }));
+                    }
+                }
                 for (var i=0; i<count; i++) {
-                    (specProps.get_ItemValue(i)!=='' || !isForm) && menu.addItem(new Common.UI.MenuItem({
+                    (specProps.get_ItemValue(i)!=='' || !formProps) && menu.addItem(new Common.UI.MenuItem({
                         caption     : specProps.get_ItemDisplayText(i),
                         value       : specProps.get_ItemValue(i),
                         template    : _.template([
@@ -1782,7 +1799,7 @@ define([], function () {
                         ].join(''))
                     }));
                 }
-                if (!isForm && menu.items.length<1) {
+                if (!formProps && menu.items.length<1) {
                     menu.addItem(new Common.UI.MenuItem({
                         caption     : this.documentHolder.txtEmpty,
                         value       : -1
@@ -2355,7 +2372,7 @@ define([], function () {
         };
 
         dh.onNewPage = function(item) {
-            this.api && this.api.asc_AddPage(item.value);
+            this.api && this.api.asc_AddPage(item.value ? Math.min.apply(null, this.api.getSelectedPages()) : Math.max.apply(null, this.api.getSelectedPages())+1);
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         };

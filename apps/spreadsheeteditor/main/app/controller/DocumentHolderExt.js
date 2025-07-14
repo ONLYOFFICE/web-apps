@@ -233,8 +233,11 @@ define([], function () {
                             if (e.target.localName == 'canvas' && (!me.isEditFormula || me.rangeSelectionMode)) {
                                 if (me._preventClick)
                                     me._preventClick = false;
-                                else
+                                else {
+                                    if (e.target.getAttribute && e.target.getAttribute("oo_no_focused"))
+                                        return;
                                     documentHolderEl.focus();
+                                }
                             }
                         }
                     },
@@ -271,7 +274,7 @@ define([], function () {
                     oleEditor.on('hide', _.bind(function(cmp, message) {
                         if (me.api) {
                             me.api.asc_enableKeyEvents(true);
-                            me.api.asc_onCloseChartFrame();
+                            me.api.asc_onCloseFrameEditor();
                         }
                         setTimeout(function(){
                             me.documentHolder.fireEvent('editcomplete', me.documentHolder);
@@ -284,14 +287,9 @@ define([], function () {
         dh.onEditObject = function() {
             if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             if (this.api) {
-                var oleobj = this.api.asc_canEditTableOleObject(true);
+                var oleobj = this.api.asc_canEditTableOleObject();
                 if (oleobj) {
-                    var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-                    if (oleEditor) {
-                        oleEditor.setEditMode(true);
-                        oleEditor.show();
-                        oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
-                    }
+                    this.api.asc_editOleTableInFrameEditor();
                 } else {
                     this.api.asc_startEditCurrentOleObject();
                 }
@@ -1297,7 +1295,7 @@ define([], function () {
             var me = this;
             var win, props;
             if (me.api){
-                props = me.api.asc_getChartObject();
+                props = me.api.asc_getChartSettings();
                 if (props) {
                     (new SSE.Views.ChartSettingsDlg(
                         {
@@ -1308,9 +1306,11 @@ define([], function () {
                             handler: function(result, value) {
                                 if (result == 'ok') {
                                     if (me.api) {
-                                        me.api.asc_editChartDrawingObject(value.chartSettings);
-                                        if (value.imageSettings)
+                                        if (value.imageSettings) {
+                                            value.imageSettings.asc_putChartProperties(value.chartSettings);
                                             me.api.asc_setGraphicObjectProps(value.imageSettings);
+                                        } else
+                                            me.api.asc_applyChartSettings(value.chartSettings);
                                     }
                                 }
                                 Common.NotificationCenter.trigger('edit:complete', me);
@@ -1328,7 +1328,7 @@ define([], function () {
             var me = this;
             var props;
             if (me.api){
-                props = me.api.asc_getChartObject();
+                props = me.api.asc_getChartSettings();
                 if (props) {
                     me._isEditRanges = true;
                     props.startEdit();
@@ -1355,7 +1355,7 @@ define([], function () {
             var me = this;
             var props;
             if (me.api){
-                props = me.api.asc_getChartObject();
+                props = me.api.asc_getChartSettings();
                 if (props) {
                     me._isEditType = true;
                     props.startEdit();
@@ -4463,14 +4463,14 @@ define([], function () {
             }
         };
 
-        dh.onDoubleClickOnTableOleObject = function(obj) {
+        dh.onDoubleClickOnTableOleObject = function(frameBinary) {
             if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             if (this.permissions.isEdit && !this._isDisabled) {
                 var oleEditor = SSE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-                if (oleEditor && obj) {
+                if (oleEditor && frameBinary) {
                     oleEditor.setEditMode(true);
                     oleEditor.show();
-                    oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(obj));
+                    oleEditor.setOleData(frameBinary);
                 }
             }
         };
@@ -4545,7 +4545,6 @@ define([], function () {
                         iconCls     : 'svgicon ' + equationGroup.get('groupIcon'),
                         hint        : equationGroup.get('groupName'),
                         menu        : new Common.UI.Menu({
-                            cls: 'menu-shapes',
                             value: i,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +
