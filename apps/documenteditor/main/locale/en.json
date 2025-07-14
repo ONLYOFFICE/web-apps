@@ -2165,6 +2165,8 @@
   "DE.Views.DocumentHolder.textFit": "Fit to width",
   "DE.Views.DocumentHolder.textGridLines": "Gridlines",
   "DE.Views.DocumentHolder.textLegendPos": "Legend",
+  "DE.Views.DocumentHolder.textRightOverlay": "Right overlay",
+  "DE.Views.ChartSettingsDlg.textLeftOverlay": "Left overlay",
   "DE.Views.DropcapSettingsAdvanced.strBorders": "Borders & Fill",
   "DE.Views.DropcapSettingsAdvanced.strDropcap": "Drop cap",
   "DE.Views.DropcapSettingsAdvanced.strMargins": "Margins",

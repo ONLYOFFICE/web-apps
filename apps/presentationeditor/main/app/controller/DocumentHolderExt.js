@@ -747,76 +747,54 @@ define([], function () {
             me._isFromSlideMenu = number;
         };
 
-         const chartElementMap = {
-            0: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            1: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
-            2: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
-            3: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'], 
-            4: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'], 
-            5: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'], 
-            6: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'], 
-            7: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'], 
-            8: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'upDownBars'], 
-            9: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'], 
-            10: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'], 
-            11: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'upDownBars'], 
-            12: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'upDownBars'], 
-            13: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'], 
-            14: ['chartTitle', 'dataLabels', 'legend'], 
-            15: ['chartTitle', 'dataLabels', 'legend'], 
-            16: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            17: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
-            18: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
-            19: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'],
-            20: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'], 
-            21: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'], 
-            22: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
-            23: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
-            24: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
-            25: ['chartTitle', 'dataLabels', 'legend'], 
-            26: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'], 
-            27: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            28: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            29: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            30: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            31: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            32: ['axes', 'axisTitles', 'chartTitle', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            33: ['axes', 'axisTitles', 'chartTitle', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            34: ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'], 
-            35: ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
-            36: ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'], 
-            37: ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'], 
-            38: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            39: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            40: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'], 
-            41: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'], 
-            42: ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'], 
-            43: ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'], 
-            44: ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'], 
-            45: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'] 
+        const chartElementMap = {
+            [Asc.c_oAscChartTypeSettings.barNormal]:              ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+            [Asc.c_oAscChartTypeSettings.barStacked]:             ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.barStackedPer]:          ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.barNormal3d]:            ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.barStacked3d]:           ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.barStackedPer3d]:        ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.barNormal3dPerspective]: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.lineNormal]:             ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'],
+            [Asc.c_oAscChartTypeSettings.lineStacked]:            ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'upDownBars'],
+            [Asc.c_oAscChartTypeSettings.lineStackedPer]:         ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'],
+            [Asc.c_oAscChartTypeSettings.lineNormalMarker]:       ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'],
+            [Asc.c_oAscChartTypeSettings.lineStackedMarker]:      ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'upDownBars'],
+            [Asc.c_oAscChartTypeSettings.lineStackedPerMarker]:   ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'upDownBars'],
+            [Asc.c_oAscChartTypeSettings.line3d]:                 ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.pie]:                    ['chartTitle', 'dataLabels', 'legend'],
+            [Asc.c_oAscChartTypeSettings.pie3d]:                  ['chartTitle', 'dataLabels', 'legend'],
+            [Asc.c_oAscChartTypeSettings.hBarNormal]:             ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+            [Asc.c_oAscChartTypeSettings.hBarStacked]:            ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.hBarStackedPer]:         ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.hBarNormal3d]:           ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.hBarStacked3d]:          ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.hBarStackedPer3d]:       ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.areaNormal]:             ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.areaStacked]:            ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.areaStackedPer]:         ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.doughnut]:               ['chartTitle', 'dataLabels', 'legend'],
+            [Asc.c_oAscChartTypeSettings.stock]:                  ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'],
+            [Asc.c_oAscChartTypeSettings.scatter]:                ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+            [Asc.c_oAscChartTypeSettings.scatterLine]:            ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+            [Asc.c_oAscChartTypeSettings.scatterLineMarker]:      ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+            [Asc.c_oAscChartTypeSettings.scatterMarker]:          ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+            [Asc.c_oAscChartTypeSettings.scatterNone]:            ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+            [Asc.c_oAscChartTypeSettings.scatterSmooth]:          ['axes', 'axisTitles', 'chartTitle', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+            [Asc.c_oAscChartTypeSettings.scatterSmoothMarker]:    ['axes', 'axisTitles', 'chartTitle', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+            [Asc.c_oAscChartTypeSettings.surfaceNormal]:          ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.surfaceWireframe]:       ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.contourNormal]:          ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.contourWireframe]:       ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.comboCustom]:            ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+            [Asc.c_oAscChartTypeSettings.comboBarLine]:           ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+            [Asc.c_oAscChartTypeSettings.comboBarLineSecondary]:  ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+            [Asc.c_oAscChartTypeSettings.comboAreaBar]:           ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.radar]:                  ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.radarMarker]:            ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.radarFilled]:            ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
+            [Asc.c_oAscChartTypeSettings.unknown]:                ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars']
         };
-
-        window.highlightedGroups = {};
-
-        function highlightSubmenuItem(item, highlight, group) {
-            if (!item || !item.el || !item.el.classList) return;
-        
-            if (highlight) {
-                item.el.classList.add('over');
-        
-                if (window.highlightedGroups[group] && window.highlightedGroups[group] !== item) {
-                    window.highlightedGroups[group].el.classList.remove('over');
-                }
-        
-                window.highlightedGroups[group] = item;
-            } else {
-                item.el.classList.remove('over');
-        
-                if (window.highlightedGroups[group] === item) {
-                    window.highlightedGroups[group] = null;
-                }
-            }
-        }
 
          dh.onChartElement = function(menu, item) {
             var chartProps = this.chartProps,
@@ -911,6 +889,7 @@ define([], function () {
                     } else { 
                         chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, item.checked, DepthAxis?.getLabel() === 1);
                     }
+                    break;
                 case 'bShowDepthAxisTitle':
                     chartProps.setDisplayAxes(HorAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, item.checked);
                     break;
@@ -1023,6 +1002,20 @@ define([], function () {
                         chartProps.setDisplayLegend(true, 4);
                     }
                     break;
+                case 'LeftOverlay':
+                    if (chartProps.getLegendPos() === 5) {
+                        chartProps.setDisplayLegend(false, 0);
+                    } else {
+                        chartProps.setDisplayLegend(true,5);
+                    }
+                    break;
+                case 'RightOverlay':
+                    if (chartProps.getLegendPos() === 6) {
+                        chartProps.setDisplayLegend(false, 0);
+                    } else {
+                        chartProps.setDisplayLegend(true, 6);
+                    }
+                    break;
                 case 'trendLineNone':
                     chartProps.setDisplayTrendlines(false, false, 0, 0);
                     break;
@@ -1049,77 +1042,123 @@ define([], function () {
 
         dh.updateChartElementMenu = function(menu, chartProps) {
             const type = chartProps.getType(),
-                ComboChart = [38, 39, 40, 41].includes(type),
-                RadarChart = [42, 43, 44].includes(type);
-            let LabelGroup1 = [0, 1, 2, 16, 17, 18].includes(type),
-                LabelGroup2 = [0, 1, 2, 14, 15, 16, 17, 18].includes(type),
-                LabelGroup3 = [0, 14, 15, 16].includes(type),
-                LabelGroup4 = [7, 8, 9, 10, 11, 12, 26, 27, 28, 29, 32, 33].includes(type),
-                LabelGroup5 = [14, 15].includes(type);
-
-                if (ComboChart) {
-                    const comboType = chartProps.getSeries()?.[0]?.asc_getChartType(),
-                        isInGroup1 = [0, 1, 2, 16, 17, 18].includes(comboType),
-                        isInGroup2 = [0, 1, 2, 14, 15, 16, 17, 18].includes(comboType),
-                        isInGroup3 = [0, 14, 15, 16].includes(comboType),
-                        isInGroup4 = [7, 8, 9, 10, 11, 12, 26, 27, 28, 29, 32, 33].includes(comboType),
-                        isInGroup5 = [14, 15].includes(comboType);
-            
-                    LabelGroup1 = isInGroup1;
-                    LabelGroup2 = isInGroup2;
-                    LabelGroup3 = isInGroup3;
-                    LabelGroup4 = isInGroup4;
-                    LabelGroup5 = isInGroup5;
-                }
+                horAxes = chartProps.getHorAxesProps?.(),
+                vertAxes = chartProps.getVertAxesProps?.(),
+                depthAxes = chartProps.getDepthAxesProps?.(),
+                dataLabelsPos = chartProps.getDataLabelsPos?.(),
+                title = chartProps.getTitle?.(),
+                legendPos = chartProps.getLegendPos?.(),
+                GridMajor = Asc.c_oAscGridLinesSettings.major,
+                GridMinor = Asc.c_oAscGridLinesSettings.minor,
+                GridMajorMinor = Asc.c_oAscGridLinesSettings.majorMinor,
+                ComboChart = [
+                    Asc.c_oAscChartTypeSettings.comboCustom,
+                    Asc.c_oAscChartTypeSettings.comboBarLine,
+                    Asc.c_oAscChartTypeSettings.comboBarLineSecondary,
+                    Asc.c_oAscChartTypeSettings.comboAreaBar
+                ].includes(type),
+                RadarChart = [
+                    Asc.c_oAscChartTypeSettings.radar,
+                    Asc.c_oAscChartTypeSettings.radarMarker,
+                    Asc.c_oAscChartTypeSettings.radarFilled
+                ].includes(type);
+                let LabelGroup1Types = [
+                    Asc.c_oAscChartTypeSettings.barNormal,
+                    Asc.c_oAscChartTypeSettings.barStacked,
+                    Asc.c_oAscChartTypeSettings.barStackedPer,
+                    Asc.c_oAscChartTypeSettings.hBarNormal,
+                    Asc.c_oAscChartTypeSettings.hBarStacked,
+                    Asc.c_oAscChartTypeSettings.hBarStackedPer
+                ],
+                LabelGroup2Types = [
+                    Asc.c_oAscChartTypeSettings.barNormal,
+                    Asc.c_oAscChartTypeSettings.barStacked,
+                    Asc.c_oAscChartTypeSettings.barStackedPer,
+                    Asc.c_oAscChartTypeSettings.pie,
+                    Asc.c_oAscChartTypeSettings.pie3d,
+                    Asc.c_oAscChartTypeSettings.hBarNormal,
+                    Asc.c_oAscChartTypeSettings.hBarStacked,
+                    Asc.c_oAscChartTypeSettings.hBarStackedPer
+                ],
+                LabelGroup3Types = [
+                    Asc.c_oAscChartTypeSettings.barNormal,
+                    Asc.c_oAscChartTypeSettings.pie,
+                    Asc.c_oAscChartTypeSettings.pie3d,
+                    Asc.c_oAscChartTypeSettings.hBarNormal
+                ],
+                LabelGroup4Types = [
+                    Asc.c_oAscChartTypeSettings.lineNormal,
+                    Asc.c_oAscChartTypeSettings.lineStacked,
+                    Asc.c_oAscChartTypeSettings.lineStackedPer,
+                    Asc.c_oAscChartTypeSettings.lineNormalMarker,
+                    Asc.c_oAscChartTypeSettings.lineStackedMarker,
+                    Asc.c_oAscChartTypeSettings.lineStackedPerMarker,
+                    Asc.c_oAscChartTypeSettings.stock,
+                    Asc.c_oAscChartTypeSettings.scatter,
+                    Asc.c_oAscChartTypeSettings.scatterLine,
+                    Asc.c_oAscChartTypeSettings.scatterLineMarker,
+                    Asc.c_oAscChartTypeSettings.scatterSmooth,
+                    Asc.c_oAscChartTypeSettings.scatterSmoothMarker
+                ],
+                LabelGroup5Types = [
+                    Asc.c_oAscChartTypeSettings.pie,
+                    Asc.c_oAscChartTypeSettings.pie3d
+                ],            
+                comboType = ComboChart ? chartProps.getSeries()?.[0]?.asc_getChartType() : type,
+                LabelGroup1 = LabelGroup1Types.includes(comboType),
+                LabelGroup2 = LabelGroup2Types.includes(comboType),
+                LabelGroup3 = LabelGroup3Types.includes(comboType),
+                LabelGroup4 = LabelGroup4Types.includes(comboType),
+                LabelGroup5 = LabelGroup5Types.includes(comboType);
 
             const axesMenu = menu.items[0].menu;
             axesMenu.items[0].setVisible(!RadarChart);
-            axesMenu.items[0].setChecked(!RadarChart && chartProps.getHorAxesProps()?.[0]?.getShow());
-            axesMenu.items[1].setChecked(chartProps.getVertAxesProps()?.[0]?.getShow());
-            axesMenu.items[4].setVisible(chartProps.getDepthAxesProps()?.[0]);
-            axesMenu.items[4].setChecked(chartProps.getDepthAxesProps()?.[0]?.getShow());
+            axesMenu.items[0].setChecked(!RadarChart && horAxes?.[0]?.getShow());
+            axesMenu.items[1].setChecked(vertAxes?.[0]?.getShow());
+            axesMenu.items[4].setVisible(depthAxes?.[0]);
+            axesMenu.items[4].setChecked(depthAxes?.[0]?.getShow());
             if (ComboChart) {
-                axesMenu.items[2].setVisible(chartProps.getHorAxesProps()?.[1]);
-                axesMenu.items[2].setChecked(chartProps.getHorAxesProps()?.[1]?.getShow());
-                axesMenu.items[3].setVisible(chartProps.getVertAxesProps()?.[1]);
-                axesMenu.items[3].setChecked(chartProps.getVertAxesProps()?.[1]?.getShow());
+                axesMenu.items[2].setVisible(horAxes?.[1]);
+                axesMenu.items[2].setChecked(horAxes?.[1]?.getShow());
+                axesMenu.items[3].setVisible(vertAxes?.[1]);
+                axesMenu.items[3].setChecked(vertAxes?.[1]?.getShow());
             } else {
                 axesMenu.items[2].setVisible(false);
                 axesMenu.items[3].setVisible(false);
             }
 
             const titlesMenu = menu.items[1].menu;
-            titlesMenu.items[0].setChecked(chartProps.getHorAxesProps()?.[0]?.getLabel() === 1); 
-            titlesMenu.items[1].setChecked(chartProps.getVertAxesProps()?.[0]?.getLabel() === 1);
-            titlesMenu.items[4].setVisible(chartProps.getDepthAxesProps()?.[0]);
-            titlesMenu.items[4].setChecked(chartProps.getDepthAxesProps()?.[0]?.getLabel() === 1);
+            titlesMenu.items[0].setChecked(horAxes?.[0]?.getLabel() === Asc.c_oAscChartHorAxisLabelShowSettings.noOverlay);
+            titlesMenu.items[1].setChecked(vertAxes?.[0]?.getLabel() === Asc.c_oAscChartVertAxisLabelShowSettings.rotated);
+            titlesMenu.items[4].setVisible(depthAxes?.[0]);
+            titlesMenu.items[4].setChecked(depthAxes?.[0]?.getLabel() === Asc.c_oAscChartVertAxisLabelShowSettings.rotated);
             if (ComboChart) {
-                titlesMenu.items[2].setVisible(chartProps.getHorAxesProps()?.[1]);
-                titlesMenu.items[2].setChecked(chartProps.getHorAxesProps()?.[1]?.getLabel() === 1);
-                titlesMenu.items[3].setVisible(chartProps.getVertAxesProps()?.[1]);
-                titlesMenu.items[3].setChecked(chartProps.getVertAxesProps()?.[1]?.getLabel() === 1);
+                titlesMenu.items[2].setVisible(horAxes?.[1]);
+                titlesMenu.items[2].setChecked(horAxes?.[1]?.getLabel() === Asc.c_oAscChartHorAxisLabelShowSettings.noOverlay);
+                titlesMenu.items[3].setVisible(vertAxes?.[1]);
+                titlesMenu.items[3].setChecked(vertAxes?.[1]?.getLabel() === Asc.c_oAscChartVertAxisLabelShowSettings.rotated);
             } else {
                 titlesMenu.items[2].setVisible(false);
                 titlesMenu.items[3].setVisible(false);
             }
             
             const titleMenu = menu.items[2].menu;
-            highlightSubmenuItem(titleMenu.items[0], chartProps.getTitle() === 0, 'chartTitle');
-            highlightSubmenuItem(titleMenu.items[1], chartProps.getTitle() === 2, 'chartTitle');
-            highlightSubmenuItem(titleMenu.items[2], chartProps.getTitle() === 1, 'chartTitle');
-            
+            titleMenu.items[0].setChecked(title === Asc.c_oAscChartTitleShowSettings.none);
+            titleMenu.items[1].setChecked(title === Asc.c_oAscChartTitleShowSettings.noOverlay);
+            titleMenu.items[2].setChecked(title === Asc.c_oAscChartTitleShowSettings.overlay);
+
             const labelsMenu = menu.items[3].menu;
-            highlightSubmenuItem(labelsMenu.items[0], chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.none, 'labels');
-            highlightSubmenuItem(labelsMenu.items[1], chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.ctr, 'labels');
-            highlightSubmenuItem(labelsMenu.items[2], LabelGroup1 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.inBase, 'labels');
-            highlightSubmenuItem(labelsMenu.items[3], LabelGroup2 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.inEnd, 'labels');
-            highlightSubmenuItem(labelsMenu.items[4], LabelGroup3 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.outEnd, 'labels');
-            highlightSubmenuItem(labelsMenu.items[5], LabelGroup4 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.t, 'labels');
-            highlightSubmenuItem(labelsMenu.items[6], LabelGroup4 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.l, 'labels');
-            highlightSubmenuItem(labelsMenu.items[7], LabelGroup4 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.r, 'labels');
-            highlightSubmenuItem(labelsMenu.items[8], LabelGroup4 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.b, 'labels');
-            highlightSubmenuItem(labelsMenu.items[9], LabelGroup5 && chartProps.getDataLabelsPos() === Asc.c_oAscChartDataLabelsPos.bestFit, 'labels');
-            if (chartProps.getDataLabelsPos() !== undefined) {
+            labelsMenu.items[0].setChecked(dataLabelsPos === Asc.c_oAscChartDataLabelsPos.none);
+            labelsMenu.items[1].setChecked(dataLabelsPos === Asc.c_oAscChartDataLabelsPos.ctr);
+            labelsMenu.items[2].setChecked(LabelGroup1 && dataLabelsPos === Asc.c_oAscChartDataLabelsPos.inBase);
+            labelsMenu.items[3].setChecked(LabelGroup2 && dataLabelsPos === Asc.c_oAscChartDataLabelsPos.inEnd);
+            labelsMenu.items[4].setChecked(LabelGroup3 && dataLabelsPos === Asc.c_oAscChartDataLabelsPos.outEnd);
+            labelsMenu.items[5].setChecked(LabelGroup4 && dataLabelsPos === Asc.c_oAscChartDataLabelsPos.t);
+            labelsMenu.items[6].setChecked(LabelGroup4 && dataLabelsPos === Asc.c_oAscChartDataLabelsPos.l);
+            labelsMenu.items[7].setChecked(LabelGroup4 && dataLabelsPos === Asc.c_oAscChartDataLabelsPos.r);
+            labelsMenu.items[8].setChecked(LabelGroup4 && dataLabelsPos === Asc.c_oAscChartDataLabelsPos.b);
+            labelsMenu.items[9].setChecked(LabelGroup5 && dataLabelsPos === Asc.c_oAscChartDataLabelsPos.bestFit);
+            if (dataLabelsPos !== undefined) {
                 labelsMenu.items[2].setVisible(LabelGroup1);
                 labelsMenu.items[3].setVisible(LabelGroup2);
                 labelsMenu.items[4].setVisible(LabelGroup3);
@@ -1141,23 +1180,25 @@ define([], function () {
             if (RadarChart) {
                 gridMenu.items[0].setVisible(false);
                 gridMenu.items[0].setChecked(false);
-                gridMenu.items[1].setChecked(chartProps.getVertAxesProps()?.[0]?.getGridlines() === 1 || chartProps.getVertAxesProps()?.[0]?.getGridlines() === 3); 
+                gridMenu.items[1].setChecked(vertAxes?.[0]?.getGridlines() === GridMajor || vertAxes?.[0]?.getGridlines() === GridMajorMinor);
                 gridMenu.items[2].setChecked(false);
                 gridMenu.items[2].setVisible(false);
-                gridMenu.items[3].setChecked(chartProps.getVertAxesProps()?.[0]?.getGridlines() === 2 || chartProps.getVertAxesProps()?.[0]?.getGridlines() === 3); 
-            } else if (type !== 14 && type !== 15) {
-                gridMenu.items[0].setChecked(chartProps.getVertAxesProps()?.[0]?.getGridlines() === 1 || chartProps.getVertAxesProps()?.[0]?.getGridlines() === 3); 
-                gridMenu.items[1].setChecked(chartProps.getHorAxesProps()?.[0]?.getGridlines() === 1 || chartProps.getHorAxesProps()?.[0]?.getGridlines() === 3); 
-                gridMenu.items[2].setChecked(chartProps.getVertAxesProps()?.[0]?.getGridlines() === 2 || chartProps.getVertAxesProps()?.[0]?.getGridlines() === 3); 
-                gridMenu.items[3].setChecked(chartProps.getHorAxesProps()?.[0]?.getGridlines() === 2 || chartProps.getHorAxesProps()?.[0]?.getGridlines() === 3); 
+                gridMenu.items[3].setChecked(vertAxes?.[0]?.getGridlines() === GridMinor || vertAxes?.[0]?.getGridlines() === GridMajorMinor);
+            } else if (type !== Asc.c_oAscChartTypeSettings.pie && type !== Asc.c_oAscChartTypeSettings.pie3d) {
+                gridMenu.items[0].setChecked(vertAxes?.[0]?.getGridlines() === GridMajor || vertAxes?.[0]?.getGridlines() === GridMajorMinor);
+                gridMenu.items[1].setChecked(horAxes?.[0]?.getGridlines() === GridMajor || horAxes?.[0]?.getGridlines() === GridMajorMinor);
+                gridMenu.items[2].setChecked(vertAxes?.[0]?.getGridlines() === GridMinor || vertAxes?.[0]?.getGridlines() === GridMajorMinor);
+                gridMenu.items[3].setChecked(horAxes?.[0]?.getGridlines() === GridMinor || horAxes?.[0]?.getGridlines() === GridMajorMinor);
             }
             
             const legendMenu = menu.items[6].menu;
-            highlightSubmenuItem(legendMenu.items[0],chartProps.getLegendPos() === 2, 'legend');
-            highlightSubmenuItem(legendMenu.items[1],chartProps.getLegendPos() === 1, 'legend');
-            highlightSubmenuItem(legendMenu.items[2],chartProps.getLegendPos() === 3, 'legend');
-            highlightSubmenuItem(legendMenu.items[3],chartProps.getLegendPos() === 4, 'legend');
-            
+            legendMenu.items[0].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.top);
+            legendMenu.items[1].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.left);
+            legendMenu.items[2].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.right);
+            legendMenu.items[3].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.bottom);
+            legendMenu.items[4].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.leftOverlay);
+            legendMenu.items[5].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.rightOverlay);
+
             const supportedElements = chartElementMap[type] || chartElementMap[45] || [];
             
             menu.items.forEach(function(item) {
@@ -1165,7 +1206,7 @@ define([], function () {
             });
         };
 
-         dh.onSingleChartSelectionChanged = function(asc_CRect) {
+        dh.onSingleChartSelectionChanged = function(asc_CRect) {
             var me = this,
                 documentHolderView = me.documentHolder,
                 chartContainer = documentHolderView.cmpEl.find('#chart-element-container');

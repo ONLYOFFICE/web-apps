@@ -1126,15 +1126,18 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textNone, 
-                                        value: 'bShowChartTitleNone',
+                                        value: 'bShowChartTitleNone', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: me.textNoOverlay, 
-                                        value: 'bShowChartTitle' 
+                                        value: 'bShowChartTitle', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: me.textOverlay, 
-                                        value: 'bOverlayTitle'
+                                        value: 'bOverlayTitle', 
+                                        checkable: true
                                     }
                                 ]
                             })
@@ -1149,44 +1152,54 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textNone, 
-                                        value: 'bShowDataLabels'
+                                        value: 'bShowDataLabels', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: me.textCenter, 
-                                        value: 'CenterData'
+                                        value: 'CenterData', 
+                                        checkable: true
                                     },
                                     {   
                                         caption: me.textInnerBottom, 
-                                        value: 'InnerBottomData'
+                                        value: 'InnerBottomData', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: me.textInnerTop, 
-                                        value: 'InnerTopData'
+                                        value: 'InnerTopData', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: me.textOuterTop, 
-                                        value: 'OuterTopData'
+                                        value: 'OuterTopData', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: me.textTop, 
-                                        value: 'TopData'
+                                        value: 'TopData', 
+                                        checkable: true
                                     },
                                     { 
-                                        caption: me.textLeftData, 
-                                        value: 'LeftData'
+                                        caption: me.textLeft, 
+                                        value: 'LeftData', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: me.textRight, 
-                                        value: 'RightData'
+                                        value: 'RightData', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: me.textBottom, 
-                                        value: 'BottomData'
+                                        value: 'BottomData', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: me.textFit, 
-                                        value: 'FitWidthData'
-                                    }                 
+                                        value: 'FitWidthData', 
+                                        checkable: true
+                                    }                   
                                 ]
                             })
                         },
@@ -1280,19 +1293,33 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textTop, 
-                                        value: 'TopLegend'
+                                        value: 'TopLegend', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: me.textLeft, 
-                                        value: 'LeftLegend'
+                                        value: 'LeftLegend', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: me.textRight, 
-                                        value: 'RightLegend'
+                                        value: 'RightLegend', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: me.textBottom, 
-                                        value: 'BottomLegend'
+                                        value: 'BottomLegend', 
+                                        checkable: true
+                                    },   
+                                    { 
+                                        caption: me.textLeftOverlay, 
+                                        value: 'LeftOverlay', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textRightOverlay, 
+                                        value: 'RightOverlay', 
+                                        checkable: true
                                     }
                                 ]
                             })

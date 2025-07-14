@@ -2066,6 +2066,8 @@
   "PE.Views.DocumentHolder.textFit": "Fit to width",
   "PE.Views.DocumentHolder.textGridLines": "Gridlines",
   "PE.Views.DocumentHolder.textLegendPos": "Legend",
+  "PE.Views.DocumentHolder.textRightOverlay": "Right overlay",
+  "PE.Views.ChartSettingsDlg.textLeftOverlay": "Left overlay",
   "PE.Views.DocumentPreview.goToSlideText": "Go to slide",
   "PE.Views.DocumentPreview.slideIndexText": "Slide {0} of {1}",
   "PE.Views.DocumentPreview.txtClose": "Close slideshow",

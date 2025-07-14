@@ -1190,15 +1190,18 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textNone, 
-                                        value: 'bShowChartTitleNone'
+                                        value: 'bShowChartTitleNone', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textNoOverlay, 
-                                        value: 'bShowChartTitle' 
+                                        value: 'bShowChartTitle', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textOverlay, 
-                                        value: 'bOverlayTitle'
+                                        value: 'bOverlayTitle', 
+                                        checkable: true
                                     }
                                 ]
                             })
@@ -1213,43 +1216,53 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textNone, 
-                                        value: 'bShowDataLabels'
+                                        value: 'bShowDataLabels', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textCenter, 
-                                        value: 'CenterData'
+                                        value: 'CenterData', 
+                                        checkable: true
                                     },
                                     {   
                                         caption: _СhartSettingsDlg_view.textInnerBottom, 
-                                        value: 'InnerBottomData'
+                                        value: 'InnerBottomData', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textInnerTop, 
-                                        value: 'InnerTopData'
+                                        value: 'InnerTopData', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textOuterTop, 
-                                        value: 'OuterTopData'
+                                        value: 'OuterTopData', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textTop, 
-                                        value: 'TopData'
+                                        value: 'TopData', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textLeft, 
-                                        value: 'LeftData'
+                                        value: 'LeftData', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textRight, 
-                                        value: 'RightData'
+                                        value: 'RightData', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textBottom, 
-                                        value: 'BottomData'
+                                        value: 'BottomData', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textFit, 
-                                        value: 'FitWidthData'
+                                        value: 'FitWidthData', 
+                                        checkable: true
                                     }                 
                                 ]
                             })
@@ -1344,19 +1357,33 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: _СhartSettingsDlg_view.textTop, 
-                                        value: 'TopLegend'
+                                        value: 'TopLegend', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textLeft, 
-                                        value: 'LeftLegend'
+                                        value: 'LeftLegend', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textRight, 
-                                        value: 'RightLegend'
+                                        value: 'RightLegend', 
+                                        checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textBottom, 
-                                        value: 'BottomLegend'
+                                        value: 'BottomLegend', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textLeftOverlay, 
+                                        value: 'LeftOverlay', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textRightOverlay, 
+                                        value: 'RightOverlay', 
+                                        checkable: true
                                     }
                                 ]
                             })
