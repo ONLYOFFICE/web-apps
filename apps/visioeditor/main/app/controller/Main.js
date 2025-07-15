@@ -2014,6 +2014,7 @@ define([
 
             onRequestRefreshFile: function() {
                 Common.Gateway.requestRefreshFile();
+                console.log('Trying to refresh file');
             },
 
             onRefreshFile: function(data) {
