@@ -3422,20 +3422,17 @@ define([], function () {
                 }
             }
 
-            if ( coord[0].asc_getX()<0 || coord[0].asc_getY()<0) {
-                if (pasteContainer.is(':visible')) pasteContainer.hide();
-                $(document).off('keyup', this.wrapEvents.onKeyUp);
-                return;
-            }
+            // if ( coord[0].asc_getX()<0 || coord[0].asc_getY()<0) {
+            //     if (pasteContainer.is(':visible')) pasteContainer.hide();
+            //     $(document).off('keyup', this.wrapEvents.onKeyUp);
+            //     return;
+            // }
 
             var rightBottom = coord[0],
                 leftTop = coord[1],
                 width = me.tooltips.coauth.bodyWidth - me.tooltips.coauth.XY[0] - me.tooltips.coauth.rightMenuWidth - 15,
                 height = me.tooltips.coauth.apiHeight - 15, // height - scrollbar height
                 showPoint = [],
-                btnSize = [31, 20],
-                right = rightBottom.asc_getX() + rightBottom.asc_getWidth() + 3 + btnSize[0],
-                bottom = rightBottom.asc_getY() + rightBottom.asc_getHeight() + 3 + btnSize[1],
                 showAtBottom = false;
 
             var controller = this.getApplication().getController('Common.Controllers.Comments');
@@ -3444,18 +3441,36 @@ define([], function () {
                 showAtBottom = comments && comments.length>0 && controller.getPopover().isVisible() && controller.findPopupComment(controller.findComment(comments[0].asc_getId()).get('id'));
             }
 
-            if (right > width || showAtBottom) {
-                showPoint[0] = (leftTop!==undefined) ? leftTop.asc_getX() : (width-btnSize[0]-3); // leftTop is undefined when paste to text box
-                if (bottom > height)
-                    showPoint[0] -= (btnSize[0]+3);
-                if (showPoint[0]<0) showPoint[0] = width - 3 - btnSize[0];
-            } else
-                showPoint[0] = right - btnSize[0];
+            pasteContainer.css({left: -10000, top : -10000});
+            pasteContainer.show();
+
+            var isRtlSheet = !!this.api.asc_getSheetViewSettings().asc_getRightToLeft(),
+                btnSize = me.btnSpecialPaste.cmpEl ? [me.btnSpecialPaste.cmpEl.width(), me.btnSpecialPaste.cmpEl.height()] : [70, 20],
+                bottom = rightBottom.asc_getY() + rightBottom.asc_getHeight() + 3 + btnSize[1];
+
+            if (isRtlSheet) {
+                var left = rightBottom.asc_getX() - 3 - btnSize[0];
+                if (left<0 || showAtBottom) {
+                    showPoint[0] = (leftTop!==undefined) ? leftTop.asc_getX() + leftTop.asc_getWidth() - btnSize[0] : 0;
+                    if (bottom > height)
+                        showPoint[0] += (btnSize[0]+3);
+                    if (showPoint[0]<0 || showPoint[0] + btnSize[0] > width) showPoint[0] = 0;
+                } else
+                    showPoint[0] = left;
+            } else {
+                var right = rightBottom.asc_getX() + rightBottom.asc_getWidth() + 3 + btnSize[0];
+                if (right > width || showAtBottom) {
+                    showPoint[0] = (leftTop!==undefined) ? leftTop.asc_getX() : (width - btnSize[0] - 3); // leftTop is undefined when paste to text box
+                    if (bottom > height)
+                        showPoint[0] -= (btnSize[0]+3);
+                    if (showPoint[0]<0 || showPoint[0] + btnSize[0] > width) showPoint[0] = width - 3 - btnSize[0];
+                } else
+                    showPoint[0] = right - btnSize[0];
+            }
 
             showPoint[1] = (bottom > height) ? height - 3 - btnSize[1] : bottom - btnSize[1];
 
             pasteContainer.css({left: showPoint[0], top : showPoint[1]});
-            pasteContainer.show();
             setTimeout(function() {
                 $(document).on('keyup', me.wrapEvents.onKeyUp);
             }, 10);

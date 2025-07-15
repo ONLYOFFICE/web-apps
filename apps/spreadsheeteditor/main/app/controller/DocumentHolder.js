@@ -326,8 +326,8 @@ define([
                 me.tooltips.coauth.apiWidth = me.documentHolder.cmpEl.width();
                 var rightMenu = $('#right-menu');
                 me.tooltips.coauth.rightMenuWidth = rightMenu.is(':visible') ? rightMenu.width() : 0;
-                me.tooltips.coauth.bodyWidth = $(window).width();
-                me.tooltips.coauth.bodyHeight = $(window).height();
+                me.tooltips.coauth.bodyWidth = Common.Utils.innerWidth();
+                me.tooltips.coauth.bodyHeight = Common.Utils.innerHeight();
             }
         },
 
