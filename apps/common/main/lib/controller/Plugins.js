@@ -1187,7 +1187,7 @@ define([
 
             var help = variation.help;
             me.customPluginsDlg[frameId] = new Common.Views.PluginDlg({
-                cls: isCustomWindow ? 'plain' : '',
+                cls: (isCustomWindow ? 'plain' : '') + (variation.transparent ? ' ' + 'no-background' : ''),
                 header: !isCustomWindow,
                 title: description,
                 width: size[0], // inner width
@@ -1236,7 +1236,7 @@ define([
                 }
             });
 
-            me.customPluginsDlg[frameId].show();
+            me.customPluginsDlg[frameId].show(variation.positionX, variation.positionY);
         },
 
         onApiPluginWindowShow: function(frameId, variation) {
