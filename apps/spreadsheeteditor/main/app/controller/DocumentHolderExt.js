@@ -1697,6 +1697,7 @@ define([], function () {
                             src.addClass('username-tip');
                             src.css({
                                 height      : coAuthTip.ttHeight + 'px',
+                                'line-height':coAuthTip.ttHeight + 'px',
                                 position    : 'absolute',
                                 zIndex      : '900',
                                 visibility  : 'visible'
@@ -1800,6 +1801,7 @@ define([], function () {
                         src.addClass('username-tip');
                         src.css({
                             height      : foreignSelect.ttHeight + 'px',
+                            'line-height':foreignSelect.ttHeight + 'px',
                             position    : 'absolute',
                             zIndex      : '900',
                             visibility  : 'visible',
@@ -3906,7 +3908,7 @@ define([], function () {
                 src = $(document.createElement("div"));
                 src.addClass('username-tip');
                 src.attr('userid', UserId);
-                src.css({height: me._TtHeight + 'px', position: 'absolute', zIndex: '900', display: 'none', 'pointer-events': 'none',
+                src.css({height: me._TtHeight + 'px', 'line-height': me._TtHeight + 'px', position: 'absolute', zIndex: '900', display: 'none', 'pointer-events': 'none',
                     'background-color': '#'+Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())});
                 src.text(me.getUserName(UserId));
 

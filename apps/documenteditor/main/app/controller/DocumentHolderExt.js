@@ -542,7 +542,7 @@ define([], function () {
                 src = $(document.createElement("div"));
                 src.addClass('username-tip');
                 src.attr('userid', UserId);
-                src.css({height: me._TtHeight + 'px', position: 'absolute', zIndex: '900', display: 'none', 'pointer-events': 'none',
+                src.css({height: me._TtHeight + 'px', 'line-height': me._TtHeight + 'px', position: 'absolute', zIndex: '900', display: 'none', 'pointer-events': 'none',
                     'background-color': '#'+Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())});
                 src.text(me.getUserName(UserId));
                 $('#id_main_view').append(src);
@@ -750,7 +750,7 @@ define([], function () {
                     if (me.usertipcount >= me.usertips.length) {
                         src = $(document.createElement("div"));
                         src.addClass('username-tip');
-                        src.css({height: me._TtHeight + 'px', position: 'absolute', zIndex: '900', visibility: 'visible'});
+                        src.css({height: me._TtHeight + 'px', 'line-height': me._TtHeight + 'px', position: 'absolute', zIndex: '900', visibility: 'visible'});
                         $(document.body).append(src);
                         if (me.userTooltip) {
                             src.on('mouseover', me.wrapEvents.userTipMousover);
