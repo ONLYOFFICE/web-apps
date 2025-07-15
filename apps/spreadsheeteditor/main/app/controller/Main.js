@@ -1043,7 +1043,6 @@ define([
                     documentHolderController    = application.getController('DocumentHolder'),
 //                  fontsController             = application.getController('Common.Controllers.Fonts'),
                     rightmenuController         = application.getController('RightMenu'),
-                    tableDesignController       = application.getController('TableDesignTab'),
                     leftmenuController          = application.getController('LeftMenu'),
                     celleditorController        = application.getController('CellEditor'),
                     statusbarView               = statusbarController.getView('Statusbar'),
@@ -1052,8 +1051,6 @@ define([
                     chatController              = application.getController('Common.Controllers.Chat'),
                     pluginsController           = application.getController('Common.Controllers.Plugins'),
                     spellcheckController        = application.getController('Spellcheck');
-                tableDesignController.setMode(me.appOptions)
-                tableDesignController.getView('TableDesignTab').setApi(me.api)
                 leftMenuView.getMenu('file').loadDocument({doc:me.appOptions.spreadsheet});
                 leftmenuController.setMode(me.appOptions).createDelayedElements().setApi(me.api);
 

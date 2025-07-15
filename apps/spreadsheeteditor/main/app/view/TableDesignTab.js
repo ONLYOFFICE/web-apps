@@ -64,12 +64,12 @@ define([
                 '</div>' +
             '</div>' +
             '<div class="separator long"></div>' +
-            '<div class="group doc-preview">' +
+            '<div class="group">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-insert-slicer"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-insert-pivot"></span>' +
             '</div>' +
             '<div class="separator long"></div>' +
-            '<div class="group small sheet-formula">' +
+            '<div class="group small">' +
                 '<div class="elset">' +
                     '<span class="btn-slot text" id="slot-chk-header-row"></span>' +
                 '</div>' +
@@ -77,7 +77,7 @@ define([
                     '<span class="btn-slot text" id="slot-chk-total-row"></span>' +
                 '</div>' +
             '</div>' +
-            '<div class="group small sheet-gridlines">' +
+            '<div class="group small">' +
                 '<div class="elset">' +
                     '<span class="btn-slot text" id="slot-chk-first-column"></span>' +
                 '</div>' +
@@ -85,7 +85,7 @@ define([
                     '<span class="btn-slot text" id="slot-chk-last-column"></span>' +
                 '</div>' +
             '</div>' +
-            '<div class="group small sheet-gridlines">' +
+            '<div class="group small">' +
                 '<div class="elset">' +
                     '<span class="btn-slot text" id="slot-chk-banded-rows"></span>' +
                 '</div>' +
@@ -100,10 +100,10 @@ define([
                 '<div class="elset"></div>' +
             '</div>' +
             '<div class="separator long"></div>' +
-            '<div class="group doc-preview">' +
+            '<div class="group">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-alt-text"></span>' +
             '</div>' +
-            '<div class="separator long invisible"></div>' +
+            '<div class="separator long"></div>' +
             '<div class="group flex small" id="slot-field-table-styles" style="width: 100%; min-width: 105px;" data-group-width="100%">' +
             '</div>' +
         '</section>';
@@ -155,253 +155,248 @@ define([
                 var me = this,
                     _set = Common.enumLock;
 
-                if ( me.appConfig.canFeatureViews && me.appConfig.isEdit ) {
-                    this.btnResizeTable = new Common.UI.Button({
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-resize-table',
-                        lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
-                        caption: this.txtResize,
-                        dataHint: '1',
-                        dataHintDirection: 'left',
-                        dataHintOffset: 'medium'
-                    });
-                    this.lockedControls.push(this.btnResizeTable);
+                this.btnResizeTable = new Common.UI.Button({
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-resize-table',
+                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    caption: this.txtResize,
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'medium'
+                });
+                this.lockedControls.push(this.btnResizeTable);
 
-                    this.btnEdit = new Common.UI.Button({
-                        cls         : 'btn-toolbar align-left',
-                        iconCls     : 'toolbar__icon btn-rows-and-columns',
-                        caption     : this.txtRowsCols,
-                        lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
-                        style       : 'width: 100%;',
-                        menu: new Common.UI.Menu({
-                            menuAlign: 'tr-br',
-                            items: [
-                                { caption: this.selectRowText,      value:  Asc.c_oAscChangeSelectionFormatTable.row,   idx: 0 },
-                                { caption: this.selectColumnText,   value: Asc.c_oAscChangeSelectionFormatTable.column, idx: 1 },
-                                { caption: this.selectColumnData,     value: Asc.c_oAscChangeSelectionFormatTable.data,   idx: 2 },
-                                { caption: this.selectTableText,    value: Asc.c_oAscChangeSelectionFormatTable.all,    idx: 3 },
-                                { caption: '--' },
-                                { caption: this.insertRowAboveText, value: Asc.c_oAscInsertOptions.InsertTableRowAbove,     idx: 4 },
-                                { caption: this.insertRowBelowText, value: Asc.c_oAscInsertOptions.InsertTableRowBelow,     idx: 5 },
-                                { caption: this.insertColumnLeftText,  value: Asc.c_oAscInsertOptions.InsertTableColLeft,   idx: 6 },
-                                { caption: this.insertColumnRightText, value: Asc.c_oAscInsertOptions.InsertTableColRight,  idx: 7 },
-                                { caption: '--' },
-                                { caption: this.deleteRowText,      value: Asc.c_oAscDeleteOptions.DeleteRows,      idx: 8 },
-                                { caption: this.deleteColumnText,   value: Asc.c_oAscDeleteOptions.DeleteColumns,   idx: 9 },
-                                { caption: this.deleteTableText,    value: Asc.c_oAscDeleteOptions.DeleteTable,     idx: 10 }
-                            ]
-                        }),
-                        dataHint    : '1',
-                        dataHintDirection: 'left',
-                        dataHintOffset: 'small'
-                    });
-                    this.lockedControls.push(this.btnEdit);
+                this.btnEdit = new Common.UI.Button({
+                    cls         : 'btn-toolbar align-left',
+                    iconCls     : 'toolbar__icon btn-rows-and-columns',
+                    caption     : this.txtRowsCols,
+                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    style       : 'width: 100%;',
+                    menu: new Common.UI.Menu({
+                        menuAlign: 'tr-br',
+                        items: [
+                            { caption: this.selectRowText,      value:  Asc.c_oAscChangeSelectionFormatTable.row,   idx: 0 },
+                            { caption: this.selectColumnText,   value: Asc.c_oAscChangeSelectionFormatTable.column, idx: 1 },
+                            { caption: this.selectColumnData,     value: Asc.c_oAscChangeSelectionFormatTable.data,   idx: 2 },
+                            { caption: this.selectTableText,    value: Asc.c_oAscChangeSelectionFormatTable.all,    idx: 3 },
+                            { caption: '--' },
+                            { caption: this.insertRowAboveText, value: Asc.c_oAscInsertOptions.InsertTableRowAbove,     idx: 4 },
+                            { caption: this.insertRowBelowText, value: Asc.c_oAscInsertOptions.InsertTableRowBelow,     idx: 5 },
+                            { caption: this.insertColumnLeftText,  value: Asc.c_oAscInsertOptions.InsertTableColLeft,   idx: 6 },
+                            { caption: this.insertColumnRightText, value: Asc.c_oAscInsertOptions.InsertTableColRight,  idx: 7 },
+                            { caption: '--' },
+                            { caption: this.deleteRowText,      value: Asc.c_oAscDeleteOptions.DeleteRows,      idx: 8 },
+                            { caption: this.deleteColumnText,   value: Asc.c_oAscDeleteOptions.DeleteColumns,   idx: 9 },
+                            { caption: this.deleteTableText,    value: Asc.c_oAscDeleteOptions.DeleteTable,     idx: 10 }
+                        ]
+                    }),
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnEdit);
 
-                    this.btnEdit.menu.on('show:after', _.bind( function(menu){
-                        if (this.api) {
-                            menu.items[5].setDisabled(!this._originalProps.asc_getIsInsertRowAbove());
-                            menu.items[6].setDisabled(!this._originalProps.asc_getIsInsertRowBelow());
-                            menu.items[7].setDisabled(!this._originalProps.asc_getIsInsertColumnLeft());
-                            menu.items[8].setDisabled(!this._originalProps.asc_getIsInsertColumnRight());
+                this.btnEdit.menu.on('show:after', _.bind( function(menu){
+                    if (this.api) {
+                        menu.items[5].setDisabled(!this._originalProps.asc_getIsInsertRowAbove());
+                        menu.items[6].setDisabled(!this._originalProps.asc_getIsInsertRowBelow());
+                        menu.items[7].setDisabled(!this._originalProps.asc_getIsInsertColumnLeft());
+                        menu.items[8].setDisabled(!this._originalProps.asc_getIsInsertColumnRight());
 
-                            menu.items[10].setDisabled(!this._originalProps.asc_getIsDeleteRow());
-                            menu.items[11].setDisabled(!this._originalProps.asc_getIsDeleteColumn());
-                            menu.items[12].setDisabled(!this._originalProps.asc_getIsDeleteTable());
-                        }
-                    }, this));
-                    this.btnEdit.menu.on('item:click', _.bind(this.onEditClick, this));
-                    this.lockedControls.push(this.btnEdit);
+                        menu.items[10].setDisabled(!this._originalProps.asc_getIsDeleteRow());
+                        menu.items[11].setDisabled(!this._originalProps.asc_getIsDeleteColumn());
+                        menu.items[12].setDisabled(!this._originalProps.asc_getIsDeleteTable());
+                    }
+                }, this));
+                this.btnEdit.menu.on('item:click', _.bind(this.onEditClick, this));
+                this.lockedControls.push(this.btnEdit);
 
-                    this.btnRemDuplicates = new Common.UI.Button({
-                        cls         : 'btn-toolbar align-left',
-                        iconCls     : 'toolbar__icon btn-remove-duplicates',
-                        caption     : this.txtRemDuplicates,
-                        lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
-                        style       : 'width: 100%;',
-                        dataHint    : '1',
-                        dataHintDirection: 'left',
-                        dataHintOffset: 'small'
-                    });
-                    this.btnRemDuplicates.on('click', _.bind(function(btn){
-                        Common.NotificationCenter.trigger('data:remduplicates', this);
-                    }, this));
-                    this.lockedControls.push(this.btnRemDuplicates);
+                this.btnRemDuplicates = new Common.UI.Button({
+                    cls         : 'btn-toolbar align-left',
+                    iconCls     : 'toolbar__icon btn-remove-duplicates',
+                    caption     : this.txtRemDuplicates,
+                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    style       : 'width: 100%;',
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.btnRemDuplicates.on('click', _.bind(function(btn){
+                    Common.NotificationCenter.trigger('data:remduplicates', this);
+                }, this));
+                this.lockedControls.push(this.btnRemDuplicates);
 
-                    this.btnConvertRange = new Common.UI.Button({
-                        cls         : 'btn-toolbar align-left',
-                        iconCls     : 'toolbar__icon btn-convert-to-range',
-                        caption     : this.txtConvertToRange,
-                        lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
-                        style       : 'width: 100%;',
-                        dataHint    : '1',
-                        dataHintDirection: 'left',
-                        dataHintOffset: 'small'
-                    });
+                this.btnConvertRange = new Common.UI.Button({
+                    cls         : 'btn-toolbar align-left',
+                    iconCls     : 'toolbar__icon btn-convert-to-range',
+                    caption     : this.txtConvertToRange,
+                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    style       : 'width: 100%;',
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
 
-                    this.btnConvertRange.on('click', _.bind(function(btn){
-                        if (this.api) this.api.asc_convertTableToRange(this._state.TableName);
-                        Common.NotificationCenter.trigger('edit:complete', this);
-                    }, this));
-                    this.lockedControls.push(this.btnConvertRange);
+                this.btnConvertRange.on('click', _.bind(function(btn){
+                    if (this.api) this.api.asc_convertTableToRange(this._state.TableName);
+                    Common.NotificationCenter.trigger('edit:complete', this);
+                }, this));
+                this.lockedControls.push(this.btnConvertRange);
 
-                    this.btnInsertSlicer = new Common.UI.Button({
-                        cls         : 'btn-toolbar x-huge icon-top',
-                        iconCls     : 'toolbar__icon btn-big-slicer',
-                        caption     : this.txtSlicer,
-                        lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
-                        style       : 'width: 100%;',
-                        dataHint    : '1',
-                        dataHintDirection: 'left',
-                        dataHintOffset: 'small'
-                    });
-                    this.lockedControls.push(this.btnInsertSlicer);
+                this.btnInsertSlicer = new Common.UI.Button({
+                    cls         : 'btn-toolbar x-huge icon-top',
+                    iconCls     : 'toolbar__icon btn-big-slicer',
+                    caption     : this.txtSlicer,
+                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    style       : 'width: 100%;',
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnInsertSlicer);
 
-                    this.btnInsertPivot = new Common.UI.Button({
-                        cls         : 'btn-toolbar x-huge icon-top',
-                        iconCls     : 'toolbar__icon btn-big-pivot-sum',
-                        caption     : this.txtPivot,
-                        lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
-                        style       : 'width: 100%;',
-                        dataHint    : '1',
-                        dataHintDirection: 'left',
-                        dataHintOffset: 'small'
-                    });
-                    this.btnInsertPivot.on('click', _.bind(this.onInsertPiv, this))
-                    this.lockedControls.push(this.btnInsertPivot);
+                this.btnInsertPivot = new Common.UI.Button({
+                    cls         : 'btn-toolbar x-huge icon-top',
+                    iconCls     : 'toolbar__icon btn-big-pivot-sum',
+                    caption     : this.txtPivot,
+                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    style       : 'width: 100%;',
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.btnInsertPivot.on('click', _.bind(this.onInsertPiv, this))
+                this.lockedControls.push(this.btnInsertPivot);
 
-                    this.chHeaderRow = new Common.UI.CheckBox({
-                        labelText: this.txtHeaderRow,
-                        lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
-                        dataHint    : '1',
-                        dataHintDirection: 'left',
-                        dataHintOffset: 'small'
-                    });
-                    this.lockedControls.push(this.chHeaderRow);
+                this.chHeaderRow = new Common.UI.CheckBox({
+                    labelText: this.txtHeaderRow,
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chHeaderRow);
 
-                    this.chTotalRow = new Common.UI.CheckBox({
-                        labelText: this.txtTotalRow,
-                        lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
-                        dataHint    : '1',
-                        dataHintDirection: 'left',
-                        dataHintOffset: 'small'
-                    });
-                    this.lockedControls.push(this.chTotalRow);
+                this.chTotalRow = new Common.UI.CheckBox({
+                    labelText: this.txtTotalRow,
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chTotalRow);
 
-                    this.chFirstColumn = new Common.UI.CheckBox({
-                        labelText: this.txtFirstColumn,
-                        lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
-                        dataHint    : '1',
-                        dataHintDirection: 'left',
-                        dataHintOffset: 'small'
-                    });
-                    this.lockedControls.push(this.chFirstColumn);
+                this.chFirstColumn = new Common.UI.CheckBox({
+                    labelText: this.txtFirstColumn,
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chFirstColumn);
 
-                    this.chLastColumn = new Common.UI.CheckBox({
-                        labelText: this.txtLastColumn,
-                        lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
-                        dataHint    : '1',
-                        dataHintDirection: 'left',
-                        dataHintOffset: 'small'
-                    });
-                    this.lockedControls.push(this.chLastColumn);
+                this.chLastColumn = new Common.UI.CheckBox({
+                    labelText: this.txtLastColumn,
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chLastColumn);
 
-                    this.chBandedRows = new Common.UI.CheckBox({
-                        labelText: this.txtBandedRows,
-                        lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
-                        dataHint    : '1',
-                        dataHintDirection: 'left',
-                        dataHintOffset: 'small'
-                    });
-                    this.lockedControls.push(this.chBandedRows);
+                this.chBandedRows = new Common.UI.CheckBox({
+                    labelText: this.txtBandedRows,
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chBandedRows);
 
-                    this.chBandedColumns = new Common.UI.CheckBox({
-                        labelText: this.txtBandedColumns,
-                        lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
-                        dataHint    : '1',
-                        dataHintDirection: 'left',
-                        dataHintOffset: 'small'
-                    });
-                    this.lockedControls.push(this.chBandedColumns);
+                this.chBandedColumns = new Common.UI.CheckBox({
+                    labelText: this.txtBandedColumns,
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chBandedColumns);
 
-                    this.chFilterButton = new Common.UI.CheckBox({
-                        labelText: this.txtFilterButton,
-                        lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
-                        dataHint    : '1',
-                        dataHintDirection: 'left',
-                        dataHintOffset: 'small'
-                    });
-                    this.lockedControls.push(this.chFilterButton);
+                this.chFilterButton = new Common.UI.CheckBox({
+                    labelText: this.txtFilterButton,
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chFilterButton);
 
-                    this.btnAltText = new Common.UI.Button({
-                        cls         : 'btn-toolbar x-huge icon-top',
-                        iconCls     : 'toolbar__icon btn-big-pivot-sum',
-                        caption     : this.txtAltText,
-                        lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
-                        style       : 'width: 100%;',
-                        dataHint    : '1',
-                        dataHintDirection: 'left',
-                        dataHintOffset: 'small'
-                    });
-                    this.lockedControls.push(this.btnAltText);
+                this.btnAltText = new Common.UI.Button({
+                    cls         : 'btn-toolbar x-huge icon-top',
+                    iconCls     : 'toolbar__icon btn-big-pivot-sum',
+                    caption     : this.txtAltText,
+                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    style       : 'width: 100%;',
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnAltText);
 
-                    this.txtTableName = new Common.UI.InputField({
-                        el          : $('#table-txt-name'),
-                        name        : 'tablename',
-                        style       : 'width: 100%;',
-                        validateOnBlur: false
-                    });
-                    this.lockedControls.push(this.txtTableName);
+                this.txtTableName = new Common.UI.InputField({
+                    el          : $('#table-txt-name'),
+                    name        : 'tablename',
+                    style       : 'width: 100%;',
+                    validateOnBlur: false
+                });
+                this.lockedControls.push(this.txtTableName);
 
-                    this.tableStyles = new Common.UI.ComboDataView({
-                        cls             : 'combo-pivot-template',
-                        style           : 'min-width: 103px; max-width: 517px;',
-                        enableKeyEvents : true,
-                        itemWidth       : 61,
-                        itemHeight      : 49,
-                        menuMaxHeight   : 300,
-                        groups          : new Common.UI.DataViewGroupStore(),
-                        autoWidth       : true,
-                        lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
-                        beforeOpenHandler: function(e) {
-                            var cmp = this,
-                                menu = cmp.openButton.menu,
-                                columnCount = 7;
+                this.tableStyles = new Common.UI.ComboDataView({
+                    cls             : 'combo-table-template',
+                    style           : 'min-width: 103px; max-width: 517px;',
+                    enableKeyEvents : true,
+                    itemWidth       : 61,
+                    itemHeight      : 45,
+                    menuMaxHeight   : 300,
+                    groups          : new Common.UI.DataViewGroupStore(),
+                    autoWidth       : true,
+                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    beforeOpenHandler: function(e) {
+                        var cmp = this,
+                            menu = cmp.openButton.menu,
+                            columnCount = 7;
 
-                            if (menu.cmpEl) {
-                                var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent();
-                                var itemMargin = 8;
-                                var itemWidth = itemEl.is(':visible') ? parseFloat(itemEl.css('width')) :
-                                    (cmp.itemWidth + parseFloat(itemEl.css('padding-left')) + parseFloat(itemEl.css('padding-right')) +
-                                    parseFloat(itemEl.css('border-left-width')) + parseFloat(itemEl.css('border-right-width')));
+                        if (menu.cmpEl) {
+                            var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent();
+                            var itemMargin = 8;
+                            var itemWidth = itemEl.is(':visible') ? parseFloat(itemEl.css('width')) :
+                                (cmp.itemWidth + parseFloat(itemEl.css('padding-left')) + parseFloat(itemEl.css('padding-right')) +
+                                parseFloat(itemEl.css('border-left-width')) + parseFloat(itemEl.css('border-right-width')));
 
-                                menu.menuAlignEl = cmp.cmpEl;
-                                menu.menuAlign = 'tl-tl';
-                                var menuWidth = columnCount * (itemMargin + itemWidth) + 17, // for scroller
-                                    buttonOffsetLeft = Common.Utils.getOffset(cmp.openButton.$el).left;
-                                if (menuWidth>Common.Utils.innerWidth())
-                                    menuWidth = Math.max(Math.floor((Common.Utils.innerWidth()-17)/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth) + 17;
-                                var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft) - 1;
-                                if (Common.UI.isRTL()) {
-                                    offset = cmp.openButton.$el.width() + parseFloat($(cmp.$el.find('.combo-dataview').get(0)).css('padding-left'));
-                                }
-                                menu.setOffset(Common.UI.isRTL() ? offset : Math.min(offset, 0));
-
-                                menu.cmpEl.css({
-                                    'width': menuWidth,
-                                    'min-height': cmp.cmpEl.height()
-                                });
+                            menu.menuAlignEl = cmp.cmpEl;
+                            menu.menuAlign = 'tl-tl';
+                            var menuWidth = columnCount * (itemMargin + itemWidth) + 17, // for scroller
+                                buttonOffsetLeft = Common.Utils.getOffset(cmp.openButton.$el).left;
+                            if (menuWidth>Common.Utils.innerWidth())
+                                menuWidth = Math.max(Math.floor((Common.Utils.innerWidth()-17)/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth) + 17;
+                            var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft) - 1;
+                            if (Common.UI.isRTL()) {
+                                offset = cmp.openButton.$el.width() + parseFloat($(cmp.$el.find('.combo-dataview').get(0)).css('padding-left'));
                             }
-                        },
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: '-16, 0'
-                    });
-                    this.lockedControls.push(this.tableStyles);
-                }
+                            menu.setOffset(Common.UI.isRTL() ? offset : Math.min(offset, 0));
 
-                if (me.appConfig.isEdit) {
+                            menu.cmpEl.css({
+                                'width': menuWidth,
+                                'min-height': cmp.cmpEl.height()
+                            });
+                        }
+                    },
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: '-16, 0'
+                });
+                this.lockedControls.push(this.tableStyles);
 
-                }
                 this.chHeaderRow.on('change', _.bind(this.onCheckStyleChange, this, Asc.c_oAscChangeTableStyleInfo.rowHeader, 'CheckHeader'));
                 this.chTotalRow.on('change', _.bind(this.onCheckStyleChange, this, Asc.c_oAscChangeTableStyleInfo.rowTotal, 'CheckTotal'));
                 this.chBandedRows.on('change', _.bind(this.onCheckStyleChange, this, Asc.c_oAscChangeTableStyleInfo.rowBanded, 'CheckBanded'));

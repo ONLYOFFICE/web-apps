@@ -4548,17 +4548,17 @@ define([
                     }
 
                     if ( config.canFeatureTable ) {
-                        tab = {caption: 'Table Design', action: 'tabledesign', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-tabledesign', dataHintTitle: 'V'};
+                        tab = {caption: 'Table Design', action: 'tabledesign', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-tabledesign', dataHintTitle: 'B'};
                         var tabledesigntab = me.getApplication().getController('TableDesignTab');
-                        tabledesigntab.setApi(me.api).setConfig({toolbar: me, mode: config});
+                        tabledesigntab.setApi(me.api).setConfig({toolbar: me});
+                        var view = tabledesigntab.getView('TableDesignTab');
+                        view.setApi(me.api);
                         var $panel = tabledesigntab.createToolbarPanel();
                         if ($panel) {
-                            var visible = Common.UI.LayoutManager.isElementVisible('toolbar-tabledesign');
-                            me.toolbar.addTab(tab, $panel, 8);
-                            me._state.intabledesign && me.toolbar.setVisible('tabledesign', visible);
-                            !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'tabledesign'); // need to activate later
+                            me.toolbar.addTab(tab, $panel, Common.UI.LayoutManager.lastTabIdx+1);
+                            me._state.intabledesign && me.toolbar.setVisible('tabledesign', true);
+                            Array.prototype.push.apply(me.toolbar.lockControls, view.getButtons());
                         }
-                        config.isEdit && Array.prototype.push.apply(me.toolbar.lockControls, tabledesigntab.getView('TableDesignTab').getButtons());
                     }
 
                     if (!config.compactHeader) {
