@@ -274,7 +274,8 @@
                     showHorizontalScroll: true/false, //  show/hide scroll in the spreadsheet editor by default
                     startFillingForm: {
                         text: 'Share & collect' // caption of the start filling button, used for pdf-forms
-                    }
+                    },
+                    suggestFeature: true/false
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor

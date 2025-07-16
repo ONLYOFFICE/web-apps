@@ -1260,6 +1260,7 @@
   "PDFE.Views.DocumentHolder.vertAlignText": "Vertical alignment",
   "PDFE.Views.FileMenu.ariaFileMenu": "File menu",
   "PDFE.Views.FileMenu.btnBackCaption": "Open File Location",
+  "PDFE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature",
   "PDFE.Views.FileMenu.btnCloseEditor": "Close File",
   "PDFE.Views.FileMenu.btnCloseMenuCaption": "Back",
   "PDFE.Views.FileMenu.btnCreateNewCaption": "Create New",
