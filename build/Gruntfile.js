@@ -112,7 +112,7 @@ module.exports = function(grunt) {
                     to: _encode(process.env.DEFAULT_LANG) || 'en'
                 }, {
                     from: /\{\{SUGGEST_URL\}\}/g,
-                    to: _encode(process.env.DEFAULT_LANG) || 'https://feedback.onlyoffice.com/forums/966080-your-voice-matters?category_id=519084'
+                    to: _encode(process.env.SUGGEST_URL) || 'https://feedback.onlyoffice.com/forums/966080-your-voice-matters?category_id=519084'
                 }];
 
     var helpreplacements = [
