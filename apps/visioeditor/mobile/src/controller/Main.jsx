@@ -11,6 +11,7 @@ import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage.mjs";
 import About from '../../../../common/mobile/lib/view/About';
 import { Device } from '../../../../common/mobile/utils/device';
 import { Themes } from '../../../../common/mobile/lib/controller/Themes.jsx';
+import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
 import { processArrayScripts } from '../../../../common/mobile/utils/processArrayScripts.js';
 import '../../../../common/main/lib/util/LanguageInfo.js'
 
@@ -127,9 +128,9 @@ class MainController extends Component {
                     var coEditMode = 'strict';
                     docInfo.put_CoEditingMode(coEditMode);
 
-                    let enable = false;//!this.editorConfig.customization || (this.editorConfig.customization.macros !== false);
+                    let enable = false; //!this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
-                    enable = false;//!this.editorConfig.customization || (this.editorConfig.customization.plugins !== false);
+                    enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
                     docInfo.asc_putIsEnabledPlugins(!!enable);
                 }
 
@@ -827,9 +828,9 @@ class MainController extends Component {
             docInfo.put_VKey(data.document && data.document.vkey ?  data.document.vkey : this.document.vkey);
             docInfo.put_EncryptedInfo(data.editorConfig && data.editorConfig.encryptionKeys ? data.editorConfig.encryptionKeys : this.editorConfig.encryptionKeys);
 
-            let enable = false;//!this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
+            let enable = false; //!this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
             docInfo.asc_putIsEnabledMacroses(!!enable);
-            enable = false;//!this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
+            enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
             docInfo.asc_putIsEnabledPlugins(!!enable);
 
             // let coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
@@ -847,6 +848,7 @@ class MainController extends Component {
                 <LongActionsController />
                 <ErrorController LoadingDocument={this.LoadingDocument}/>
                 <CollaborationController />
+                <PluginsController />
                 <Themes />
             </Fragment>
             )
