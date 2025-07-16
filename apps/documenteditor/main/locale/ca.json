@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Voleu eliminar aquesta signatura?<br>No es podrà desfer.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Aquest document s'ha de signar.",
   "DE.Views.SignatureSettings.txtSigned": "S'han afegit signatures vàlides al document. El document està protegit contra l'edició.",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Algunes de les signatures digitals del document no són vàlides o no s’han pogut verificar. El document està protegit contra l'edició.",
   "DE.Views.Statusbar.goToPageText": "Ves a la pàgina",
   "DE.Views.Statusbar.pageIndexText": "Pàgina {0} de {1}",

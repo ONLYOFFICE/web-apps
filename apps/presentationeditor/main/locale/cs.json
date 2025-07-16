@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "Překlápí stránky po kratší hraně",
   "PE.Views.PrintWithPreview.txtCopies": "Kopie",
   "PE.Views.PrintWithPreview.txtCurrentPage": "Aktuální snímek",
+  "PE.Views.PrintWithPreview.txtCustom": "Custom",
   "PE.Views.PrintWithPreview.txtCustomPages": "Vlastní tisk",
   "PE.Views.PrintWithPreview.txtEmptyTable": "Není co tisknout, protože prezentace je prázdná",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "Nastavení záhlaví/zápatí",

@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Chcete odstranit podpis?<br>Tento krok je nevratný. ",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Tento dokument je třeba podepsat.",
   "DE.Views.SignatureSettings.txtSigned": "Do dokumentu byly přidány platné podpisy. Je zabezpečen proti úpravám.",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Některé z digitálních podpisů v dokumentu nejsou platné nebo se je nepodařilo ověřit. Dokument je zabezpečen proti úpravám.",
   "DE.Views.Statusbar.goToPageText": "Jít na stránku",
   "DE.Views.Statusbar.pageIndexText": "Stránka {0} z {1}",

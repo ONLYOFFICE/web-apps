@@ -1378,7 +1378,7 @@
   "PDFE.Views.FileMenuPanels.Settings.txtScreenReader": "Turn on screen reader support",
   "PDFE.Views.FileMenuPanels.Settings.txtStrictTip": "使用儲存鍵來同步你和其他用戶的變更",
   "PDFE.Views.FileMenuPanels.Settings.txtTabBack": "Use toolbar color as tabs background",
-  "PDFE.Views.FileMenuPanels.Settings.txtUseAltKey": "使用Alt鍵來操控用戶介面",
+  "PDFE.Views.FileMenuPanels.Settings.txtUseAltKey": "點擊 Alt 鍵使用鍵盤快捷鍵功能",
   "PDFE.Views.FileMenuPanels.Settings.txtUseAnnotateBar": "Use the mini toolbar when selecting text",
   "PDFE.Views.FileMenuPanels.Settings.txtUseOptionKey": "使用Option鍵來操控用戶介面",
   "PDFE.Views.FileMenuPanels.Settings.txtWin": "作為Windows",
@@ -2236,5 +2236,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "調整至頁面",
   "PDFE.Views.ViewTab.tipFitToWidth": "調整至寬度",
   "PDFE.Views.ViewTab.tipHeadings": "頁首",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "介面主題"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "介面主題",
+  "PDFE.Views.FormSettings.textPassword": "Password"
 }

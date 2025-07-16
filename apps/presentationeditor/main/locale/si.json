@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "කෙටි දාරය මත පිටු පෙරළන්න",
   "PE.Views.PrintWithPreview.txtCopies": "පිටපත්",
   "PE.Views.PrintWithPreview.txtCurrentPage": "වත්මන් සර්පණය",
+  "PE.Views.PrintWithPreview.txtCustom": "Custom",
   "PE.Views.PrintWithPreview.txtCustomPages": "අභිරුචි මුද්‍රණය",
   "PE.Views.PrintWithPreview.txtEmptyTable": "සමර්පණය හිස් බැවින් මුද්‍රණයට කිසිවක් නැත",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "ශීර්ෂය/පාදතලය සැකසුම්",

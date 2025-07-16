@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "Flip pages on short edge",
   "PE.Views.PrintWithPreview.txtCopies": "Copies",
   "PE.Views.PrintWithPreview.txtCurrentPage": "Current slide",
+  "PE.Views.PrintWithPreview.txtCustom": "Custom",
   "PE.Views.PrintWithPreview.txtCustomPages": "Custom print",
   "PE.Views.PrintWithPreview.txtEmptyTable": "There is nothing to print because the presentation is empty",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "Header/footer settings",

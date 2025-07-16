@@ -2236,5 +2236,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajustar à página",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajustar à largura",
   "PDFE.Views.ViewTab.tipHeadings": "Títulos",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema da interface"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema da interface",
+  "PDFE.Views.FormSettings.textPassword": "Password"
 }

@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Bu imzayı kaldırmak istiyor musunuz?<br>Geri alınamaz.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Bu belgenin imzalanması gerekiyor.",
   "DE.Views.SignatureSettings.txtSigned": "Belgeye geçerli imzalar eklendi. Belge, düzenlemeye karşı korumalıdır.",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Belgedeki bazı dijital imzalar geçersiz veya doğrulanamadı. Belge, düzenlemeye karşı korumalıdır.",
   "DE.Views.Statusbar.goToPageText": "Sayfaya Git",
   "DE.Views.Statusbar.pageIndexText": "Sayfa {0}/{1}",

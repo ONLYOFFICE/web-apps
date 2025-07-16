@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "ඔබට මෙම අත්සන ඉවත් කිරීමට ඇවැසිද?<br>එය ආපසු කළ නොහැකිය.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "මෙම ලේඛනය අත්සන් කළ යුතුය.",
   "DE.Views.SignatureSettings.txtSigned": "ලේඛනයට වලංගු අත්සන් එකතු කර ඇත. ලේඛනය සංස්කරණය වීමෙන් ආරක්‍ෂිතයි.",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "ලේඛනයේ තිබෙන සමහර සංඛ්‍යාංක අත්සන් වලංගු නොවේ හෝ තහවුරු කිරීමට නොහැකිය. ලේඛනය සංස්කරණයෙන් ආරක්‍ෂා කර ඇත.",
   "DE.Views.Statusbar.goToPageText": "පිටුවට යන්න",
   "DE.Views.Statusbar.pageIndexText": "පිටුව {0} / {1}",

@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "Kısa kenardaki sayfaları çevir",
   "PE.Views.PrintWithPreview.txtCopies": "Kopyalar",
   "PE.Views.PrintWithPreview.txtCurrentPage": "Mevcut slayt",
+  "PE.Views.PrintWithPreview.txtCustom": "Custom",
   "PE.Views.PrintWithPreview.txtCustomPages": "Özel baskı",
   "PE.Views.PrintWithPreview.txtEmptyTable": "There is nothing to print because the presentation is empty",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "Üst/Alt Bilgi Ayarları",

@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "Balik halaman pada sisi pendek",
   "PE.Views.PrintWithPreview.txtCopies": "Salinan",
   "PE.Views.PrintWithPreview.txtCurrentPage": "Slide saat ini",
+  "PE.Views.PrintWithPreview.txtCustom": "Custom",
   "PE.Views.PrintWithPreview.txtCustomPages": "Cetak khusus",
   "PE.Views.PrintWithPreview.txtEmptyTable": "Tidak ada yang akan dicetak karena presentasi kosong",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "Pengaturan header/footer",

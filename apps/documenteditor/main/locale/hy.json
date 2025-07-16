@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Ցանկանու՞մ եք հեռացնել այս ստորագրությունը:<br>Այն հնարավոր չէ չեղարկել:",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Այս փաստաթուղթը պետք է ստորագրել։",
   "DE.Views.SignatureSettings.txtSigned": "Փաստաթղթում ավելացվել են վավեր ստորագրություններ։ Փաստաթուղթը պաշտպանված է խմբագրումից։",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Փաստաթղթի որոշ թվանշային ստորագրություններ անվավեր են կամ չեն կարող ստուգվել։ Փաստաթուղթը խմբագրումից պաշտպանված է։",
   "DE.Views.Statusbar.goToPageText": "Գնալ դեպի էջ",
   "DE.Views.Statusbar.pageIndexText": "Էջ {0} {1}-ից",

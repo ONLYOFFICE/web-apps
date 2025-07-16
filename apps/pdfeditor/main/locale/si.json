@@ -2236,5 +2236,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "පිටුවට ගළපන්න",
   "PDFE.Views.ViewTab.tipFitToWidth": "පළලට ගළපන්න",
   "PDFE.Views.ViewTab.tipHeadings": "ශ්‍රීර්ෂනාම",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව",
+  "PDFE.Views.FormSettings.textPassword": "Password"
 }

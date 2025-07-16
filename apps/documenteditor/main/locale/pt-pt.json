@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Quer remover esta assinatura?<br>Isto não pode ser anulado.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Este documento precisa de ser assinado.",
   "DE.Views.SignatureSettings.txtSigned": "Assinaturas adicionadas ao documento. Este documento não pode ser editado.",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Algumas das assinaturas digitais são inválidas ou não puderam ser verificadas. Este documento não pode ser editado.",
   "DE.Views.Statusbar.goToPageText": "Ir para a página",
   "DE.Views.Statusbar.pageIndexText": "Página {0} de {1}",

@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "Flip pages on short edge",
   "PE.Views.PrintWithPreview.txtCopies": "Kopēt",
   "PE.Views.PrintWithPreview.txtCurrentPage": "Pašreizējais slaids",
+  "PE.Views.PrintWithPreview.txtCustom": "Custom",
   "PE.Views.PrintWithPreview.txtCustomPages": "Pielāgota druka",
   "PE.Views.PrintWithPreview.txtEmptyTable": "Nav ko drukāt, jo prezentācija ir tukša",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "Galvenes/kājenes iestatījumi",

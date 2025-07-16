@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Sinadura hau kendu nahi duzu?<br>Ezin da desegin.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Dokumentu hau sinatu behar da.",
   "DE.Views.SignatureSettings.txtSigned": "Baliozko sinadurak gehitu dira dokumentura. Dokumentua ediziotik babestua dago.",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Dokumentuko sinadura digitaletako batzuk baliogabeak dira edo ezin izan dira egiaztatu. Dokumentua editatzetik babestua dago.",
   "DE.Views.Statusbar.goToPageText": "Joan orrira",
   "DE.Views.Statusbar.pageIndexText": "{0} / {1} orria",

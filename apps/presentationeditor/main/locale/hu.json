@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "Oldalak lapozása rövid széleken",
   "PE.Views.PrintWithPreview.txtCopies": "Másolatok",
   "PE.Views.PrintWithPreview.txtCurrentPage": "Aktuális dia",
+  "PE.Views.PrintWithPreview.txtCustom": "Custom",
   "PE.Views.PrintWithPreview.txtCustomPages": "Egyedi nyomtatás",
   "PE.Views.PrintWithPreview.txtEmptyTable": "There is nothing to print because the presentation is empty",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "Fejléc/lábléc beállítások",

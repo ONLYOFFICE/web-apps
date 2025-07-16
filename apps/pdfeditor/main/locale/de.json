@@ -1476,6 +1476,7 @@
   "PDFE.Views.FormSettings.textOrientation": "Orientierung",
   "PDFE.Views.FormSettings.textOutline": "Gliederung",
   "PDFE.Views.FormSettings.textOverlay": "Beschriftung über Symbol",
+  "PDFE.Views.FormSettings.textPassword": "Kennwort",
   "PDFE.Views.FormSettings.textPercent": "Prozentsatz",
   "PDFE.Views.FormSettings.textPhone": "Telefonnummer",
   "PDFE.Views.FormSettings.textPlaceholder": "Platzhalter",

@@ -2236,5 +2236,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "صفحہ پر فٹ",
   "PDFE.Views.ViewTab.tipFitToWidth": "چوڑائی کے مطابق",
   "PDFE.Views.ViewTab.tipHeadings": "عنوانات",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "انٹرفیس تھیم"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "انٹرفیس تھیم",
+  "PDFE.Views.FormSettings.textPassword": "Password"
 }

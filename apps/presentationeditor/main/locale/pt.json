@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "Vire as páginas na borda curta",
   "PE.Views.PrintWithPreview.txtCopies": "Cópias",
   "PE.Views.PrintWithPreview.txtCurrentPage": "Slide atual",
+  "PE.Views.PrintWithPreview.txtCustom": "Custom",
   "PE.Views.PrintWithPreview.txtCustomPages": "Impressão personalizada",
   "PE.Views.PrintWithPreview.txtEmptyTable": "Não há nada para imprimir porque a apresentação está vazia",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "Configurações de Cabeçalho/Rodapé",

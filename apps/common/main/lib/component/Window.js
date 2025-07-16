@@ -678,6 +678,7 @@ define([
 
             render: function() {
                 var renderto = this.initConfig.renderTo || document.body;
+
                 $(renderto).append(
                     _.template(template)(this.initConfig)
                 );

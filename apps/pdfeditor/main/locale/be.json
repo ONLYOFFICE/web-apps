@@ -2236,5 +2236,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Па памеры старонкі",
   "PDFE.Views.ViewTab.tipFitToWidth": "Па шырыні",
   "PDFE.Views.ViewTab.tipHeadings": "Загалоўкі",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу",
+  "PDFE.Views.FormSettings.textPassword": "Password"
 }

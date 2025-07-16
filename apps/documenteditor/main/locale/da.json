@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Ønsker du at fjerne denne signatur?<br>Din handling kan ikke omgøres.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Dette dokument skal underskrives",
   "DE.Views.SignatureSettings.txtSigned": "Gyldige underskrifter er blevet tilføjet til dokumentet. Dokumentet er beskyttet mod redigering. ",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Nogle af de digitale underskrifter i dokumentet er ugyldige eller kunne ikke verificeres. Dokumentet er beskyttet mod redigering. ",
   "DE.Views.Statusbar.goToPageText": "Go Gå til side",
   "DE.Views.Statusbar.pageIndexText": "Side {0} af {1}",

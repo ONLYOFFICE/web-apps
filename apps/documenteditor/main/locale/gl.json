@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Desexa eliminar esta sinatura?<br> Non se pode desfacer.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "O documento debe ser asinado.",
   "DE.Views.SignatureSettings.txtSigned": "Engadíronse sinaturas válidas ao documento. O documento está protexido contra a edición.",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Algunhas das sinaturas dixitais do documento non son válidas ou non se puideron verificar. O documento está protexido contra a edición.",
   "DE.Views.Statusbar.goToPageText": "Ir a Páxina",
   "DE.Views.Statusbar.pageIndexText": "Páxina {0} de {1}",

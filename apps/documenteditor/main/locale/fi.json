@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Haluatko poistaa tämän allekirjoituksen?<br>Toimintoa ei voi kumota.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Asiakirja täytyy allekirjoittaa.",
   "DE.Views.SignatureSettings.txtSigned": "Kelvolliset allekirjoitukset on lisätty asiakirjaan. Asiakirja on suojattu muokkauksilta.",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Kaikki asiakirjan digitaaliset allekirjoitukset eivät ole kelvollisia tai niitä ei voitu varmistaa. Asiakirja on suojattu muokkauksilta.",
   "DE.Views.Statusbar.goToPageText": "Siirry sivulle",
   "DE.Views.Statusbar.pageIndexText": "Sivu {0} / {1}",

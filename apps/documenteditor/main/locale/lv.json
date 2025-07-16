@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Vai vēlaties noņemt šo parakstu?<br>To nevar atsaukt.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Šis dokuments ir jāparaksta.",
   "DE.Views.SignatureSettings.txtSigned": "Dokumentam ir pievienoti derīgi paraksti. Dokumentu nevar rediģēt.",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Daži dokumenta digitālie paraksti ir nederīgi vai tos nevar apstiprināt. Dokumentu nevar rediģēt.",
   "DE.Views.Statusbar.goToPageText": "Pāriet uz lapu",
   "DE.Views.Statusbar.pageIndexText": "Lapa {0} no {1}",

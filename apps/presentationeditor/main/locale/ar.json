@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "قلب الصفحات على الحافة القصيرة",
   "PE.Views.PrintWithPreview.txtCopies": "النسخ",
   "PE.Views.PrintWithPreview.txtCurrentPage": "الشريحة الحالية",
+  "PE.Views.PrintWithPreview.txtCustom": "Custom",
   "PE.Views.PrintWithPreview.txtCustomPages": "طباعة مخصصة",
   "PE.Views.PrintWithPreview.txtEmptyTable": "لا يوجد شيء للطباعة بسبب أن العرض التقديمي فارغ",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "إعدادات الترويسة\\التذييل",

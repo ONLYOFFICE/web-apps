@@ -2236,5 +2236,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Muat kepada Halaman",
   "PDFE.Views.ViewTab.tipFitToWidth": "Muat kepada Kelebaran",
   "PDFE.Views.ViewTab.tipHeadings": "Pengepala",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antara muka"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antara muka",
+  "PDFE.Views.FormSettings.textPassword": "Password"
 }

@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "مختصر کنارے پر صفحات پلٹائیں",
   "PE.Views.PrintWithPreview.txtCopies": "کاپیاں",
   "PE.Views.PrintWithPreview.txtCurrentPage": "موجودہ سلائیڈ",
+  "PE.Views.PrintWithPreview.txtCustom": "Custom",
   "PE.Views.PrintWithPreview.txtCustomPages": "حسب ضرورت پرنٹ",
   "PE.Views.PrintWithPreview.txtEmptyTable": "پرنٹ کرنے کے لیے کچھ نہیں ہے کیونکہ پریزنٹیشن خالی ہے۔",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "ہیڈر/فوٹر کی ترتیبات",
@@ -3036,6 +3037,5 @@
   "PE.Views.ViewTab.tipMacros": "میکروس",
   "PE.Views.ViewTab.tipNormal": "عام",
   "PE.Views.ViewTab.tipSelectTool": "ٹول منتخب کریں۔",
-  "PE.Views.ViewTab.tipSlideMaster": "سلائیڈ ماسٹر",
-  "PE.Views.PrintWithPreview.txtCustom": "Custom"
+  "PE.Views.ViewTab.tipSlideMaster": "سلائیڈ ماسٹر"
 }

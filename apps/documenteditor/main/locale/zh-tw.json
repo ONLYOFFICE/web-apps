@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "您是否要刪除此簽名？<br>此操作無法撤消。",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "該文件需要簽名。",
   "DE.Views.SignatureSettings.txtSigned": "有效簽名已添加到文件中。文件已受到編輯保護。",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "文件中的一些數位簽章無效或無法驗證。該文件受到保護，無法編輯。",
   "DE.Views.Statusbar.goToPageText": "前往頁面",
   "DE.Views.Statusbar.pageIndexText": "第{0}頁，共{1}頁",

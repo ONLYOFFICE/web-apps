@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "Passa les pàgines per la vora curta",
   "PE.Views.PrintWithPreview.txtCopies": "Còpies",
   "PE.Views.PrintWithPreview.txtCurrentPage": "Diapositiva actual",
+  "PE.Views.PrintWithPreview.txtCustom": "Custom",
   "PE.Views.PrintWithPreview.txtCustomPages": "Impressió personalitzada",
   "PE.Views.PrintWithPreview.txtEmptyTable": "No hi ha res per imprimir perquè la presentació és buida.",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "Configuració de capçalera/peu de pàgina",

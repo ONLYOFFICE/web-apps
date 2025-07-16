@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Adakah anda mahu alih keluar tandatangan ini?<br>Ia tidak boleh dibuat asal.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Dokumen ini perlu untuk ditandatangani.",
   "DE.Views.SignatureSettings.txtSigned": "Tandatangan yang sah telah ditambah pada dokumen. Dokumen dilindungi daripada editing.",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Beberapa tandatangan digital dalam dokumen adalah tidak sah atau tidak dapat disahkan. Dokumen dilindungi daripada editing.",
   "DE.Views.Statusbar.goToPageText": "Pergi ke Halaman",
   "DE.Views.Statusbar.pageIndexText": "Halaman {0} of {1}",

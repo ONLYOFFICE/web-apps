@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Bu imzanı silmək istəyirsiniz?<br>Bunu geri qaytarmaq mümkün deyil.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Bu sənəd imzalanmalıdır.",
   "DE.Views.SignatureSettings.txtSigned": "Sənədə etibarlı imzalar əlavə edilib. Sənəd redaktədən qorunur.",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Sənəddəki bəzi rəqəmsal imzalar etibarsızdır və ya yoxlanıla bilməz. Sənəd redaktədən qorunur.",
   "DE.Views.Statusbar.goToPageText": "Səhifəyə keçin",
   "DE.Views.Statusbar.pageIndexText": "Səhifə {0} / {1}",

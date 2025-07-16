@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Wilt u deze handtekening verwijderen? <br> Het kan niet ongedaan worden gemaakt. ",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Dit document moet ondertekend worden",
   "DE.Views.SignatureSettings.txtSigned": "Geldige handtekeningen zijn toegevoegd aan dit document. Dit document is beveiligd tegen aanpassingen.",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Sommige digitale handtekeningen in dit document zijn niet geldig of konden niet worden geverifieerd. Dit document is beveiligd tegen aanpassingen.",
   "DE.Views.Statusbar.goToPageText": "Naar pagina",
   "DE.Views.Statusbar.pageIndexText": "Pagina {0} van {1}",

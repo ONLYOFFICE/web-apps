@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "הפיכת דפים לרוחב",
   "PE.Views.PrintWithPreview.txtCopies": "עותקים",
   "PE.Views.PrintWithPreview.txtCurrentPage": "שקופית נוכחית",
+  "PE.Views.PrintWithPreview.txtCustom": "Custom",
   "PE.Views.PrintWithPreview.txtCustomPages": "הדפסה מותאמת אישית",
   "PE.Views.PrintWithPreview.txtEmptyTable": "אין מה להדפיס כי המצגת ריקה",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "הגדרות כותרת עליונה / תחתונה",

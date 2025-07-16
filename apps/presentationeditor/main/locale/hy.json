@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "Շրջել էջերը կարճ եզրով",
   "PE.Views.PrintWithPreview.txtCopies": "Պատճեններ",
   "PE.Views.PrintWithPreview.txtCurrentPage": "Ընթացիկ սլայդ",
+  "PE.Views.PrintWithPreview.txtCustom": "Custom",
   "PE.Views.PrintWithPreview.txtCustomPages": "Հարմարեցված տպագրություն",
   "PE.Views.PrintWithPreview.txtEmptyTable": "Տպելու բան չկա, քանի որ ներկայացումը դատարկ է",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "Վերնագրի/ստորատակի կարգավորումներ",

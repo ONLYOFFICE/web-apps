@@ -1476,6 +1476,7 @@
   "PDFE.Views.FormSettings.textOrientation": "Ориентация",
   "PDFE.Views.FormSettings.textOutline": "Обрамление",
   "PDFE.Views.FormSettings.textOverlay": "Надпись поверх значка",
+  "PDFE.Views.FormSettings.textPassword": "Пароль",
   "PDFE.Views.FormSettings.textPercent": "Процентный",
   "PDFE.Views.FormSettings.textPhone": "Номер телефона",
   "PDFE.Views.FormSettings.textPlaceholder": "Заполнитель",

@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Ви хочете видалити цей підпис?<br>Цю дію не можна скасувати.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Цей документ необхідно підписати.",
   "DE.Views.SignatureSettings.txtSigned": "До документа додано дійсні підписи. Документ захищений від редагування.",
+  "DE.Views.SignatureSettings.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Деякі з цифрових підписів у документі є недійсними або їх не можна перевірити. Документ захищений від редагування.",
   "DE.Views.Statusbar.goToPageText": "Перейти до сторінки",
   "DE.Views.Statusbar.pageIndexText": "Сторінка {0} з {1}",

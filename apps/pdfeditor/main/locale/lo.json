@@ -2236,5 +2236,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "ພໍດີຂອບ",
   "PDFE.Views.ViewTab.tipFitToWidth": "ຄວາມກວ້າງພໍດີ",
   "PDFE.Views.ViewTab.tipHeadings": "ຫົວເລື່ອງ",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "ຮູບແບບການສະແດງຜົນ"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "ຮູບແບບການສະແດງຜົນ",
+  "PDFE.Views.FormSettings.textPassword": "Password"
 }
