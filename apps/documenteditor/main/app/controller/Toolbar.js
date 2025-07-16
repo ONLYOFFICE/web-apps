@@ -3048,13 +3048,15 @@ define([
                         all: ['Left', 'Top', 'Right', 'Bottom', 'InsideV', 'InsideH'],
                         outer: ['Left', 'Top', 'Right', 'Bottom'],
                         inner: ['InsideV', 'InsideH'],
+                        innerHor: ['InsideH'],
+                        innerVert: ['InsideV'],
                         none: ['Left', 'Top', 'Right', 'Bottom', 'InsideV', 'InsideH']
                     };
 
                     ['Left', 'Top', 'Right', 'Bottom', 'InsideV', 'InsideH'].forEach(side => {
                         var border = borders?.[`get_${side}`]?.();
                         if (border) {
-                            var currentSize = (border.asc_getValue?.() === -1) ? 0 : border.asc_getSize?.() || 0;
+                            var currentSize = (border.asc_getValue?.() === 1) ? border.asc_getSize?.() : 0;
                             var sizePts = currentSize * 72 / 25.4;
                             currentBorder[side] = {
                                 width: sizePts,
@@ -3126,7 +3128,7 @@ define([
                     ['Left', 'Top', 'Right', 'Bottom', 'Between'].forEach(side => {
                         var border = borders[`get_${side}`]();
                         if (border) {
-                            var currentSize = (border.asc_getValue() === -1) ? 0 : border.asc_getSize();
+                            var currentSize = (border.asc_getValue?.() === 1) ? border.asc_getSize?.() : 0;
                             var sizePts = currentSize * 72 / 25.4;
                             currentBorder[side] = {
                                 width: sizePts, 

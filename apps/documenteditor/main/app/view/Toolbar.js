@@ -2816,6 +2816,14 @@ define([
                     items: []
                 }));
 
+                this.bordersVert = new Common.UI.MenuItem({
+                    caption: this.textInsideVertBorders,
+                    disabled: true,
+                    iconCls: 'menu__icon btn-border-insidevert',
+                    icls: 'btn-border-insidevert',
+                    borderId: 'innerVert'
+                });
+
                 if (this.btnBorders && this.btnBorders.rendered) {
                     this.btnBorders.setMenu(new Common.UI.Menu({
                         cls: 'shifted-right',
@@ -2869,6 +2877,13 @@ define([
                                 icls: 'btn-border-inside',
                                 borderId: 'inner',
                             },
+                            {
+                                caption: this.textInsideHorBorders,
+                                iconCls: 'menu__icon btn-border-insidehor',
+                                icls: 'btn-border-insidehor',
+                                borderId: 'innerHor'
+                            },
+                            this.bordersVert,
                             { caption: '--' },
                             {
                                 id: 'id-toolbar-menu-item-border-width',
