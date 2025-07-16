@@ -187,6 +187,7 @@ define([
 
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
+                    Common.NotificationCenter.on('suggest',                         _.bind(this.onSuggest, this));
                     Common.NotificationCenter.on('close',                           _.bind(this.closeEditor, this));
                     Common.NotificationCenter.on('markfavorite',                    _.bind(this.markFavorite, this));
                     Common.NotificationCenter.on('download:advanced',               _.bind(this.onAdvancedOptions, this));
@@ -744,6 +745,10 @@ define([
                         }
                     }
                 }
+            },
+
+            onSuggest: function() {
+                window.open('{{SUGGEST_URL}}', "_blank");
             },
 
             closeEditor: function() {
@@ -1371,6 +1376,7 @@ define([
                 this.appOptions.canDownloadOrigin = false;
                 this.appOptions.canDownload       = this.permissions.download !== false;
                 this.appOptions.showSaveButton = this.appOptions.isEdit && !this.appOptions.isPDFFill && (this.appOptions.canSaveToFile || this.appOptions.canDownload);
+                this.appOptions.canSuggest     = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.suggestFeature===false);
 
                 this.appOptions.compactHeader = this.appOptions.customization && (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compactHeader;
                 this.appOptions.twoLevelHeader = this.appOptions.isEdit || this.appOptions.isRestrictedEdit; // when compactHeader=true some buttons move to toolbar

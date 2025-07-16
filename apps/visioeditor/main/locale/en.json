@@ -318,6 +318,7 @@
   "VE.Views.DocumentHolder.txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?",
   "VE.Views.FileMenu.ariaFileMenu": "File menu",
   "VE.Views.FileMenu.btnBackCaption": "Open File Location",
+  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature",
   "VE.Views.FileMenu.btnCloseEditor": "Close File",
   "VE.Views.FileMenu.btnCloseMenuCaption": "Back",
   "VE.Views.FileMenu.btnCreateNewCaption": "Create New",
