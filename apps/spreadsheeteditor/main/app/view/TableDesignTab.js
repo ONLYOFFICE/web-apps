@@ -120,35 +120,34 @@ define([
             this.tableStyles.on('click', function (combo, record) {
                 me.fireEvent('tabledesigntab:style', [record]);
             });
-            this.btnInsertPivot.on('click', function (btn,e) {
-                me.fireEvent('tabledesigntab:insertpivot');
-            });
             this.btnInsertSlicer.on('click', function (btn, e) {
                 me.fireEvent('tabledesigntab:insertslicer');
             });
             this.txtTableName.on('click', function (btn, e) {
                 me.fireEvent('tabledesign:namechanged');
-            })
+            });
+            this.btnConvertRange.on('click', function (btn, e) {
+                me.fireEvent('tabledesigntab:convertrange')
+            });
+            this.btnInsertPivot.on('click', function () {
+                me.fireEvent('pivottable:create');
+            });
+            this.btnRemDuplicates.on('click', function(btn){
+                Common.NotificationCenter.trigger('data:remduplicates', this);
+            });
+            this.btnEdit.menu.on('item:click', function(menu, item, e) {
+                me.fireEvent('tabledesigntab:edit', [item])
+            });
             this.tableStyles.openButton.menu.on('show:after', function () {
                 me.tableStyles.menuPicker.scroller.update({alwaysVisibleY: true});
             });
         }
 
         return {
-            options: {},
-
             initialize: function (options) {
-                this.lockedControls = [];
-                this._locked = false;
-                this.wsLock = false;
-                this.wsProps = [];
-                this.isEditCell = false;
                 var controller = SSE.getController('TableDesignTab');
                 this._state = controller._state
-                this._noApply = false;
                 Common.UI.BaseView.prototype.initialize.call(this);
-                this.toolbar = options.toolbar;
-                this.appConfig = options.mode;
 
                 this.lockedControls = [];
 
@@ -158,7 +157,7 @@ define([
                 this.btnResizeTable = new Common.UI.Button({
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-resize-table',
-                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    lock: [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock, _set.cantModifyFilter],
                     caption: this.txtResize,
                     dataHint: '1',
                     dataHintDirection: 'left',
@@ -170,7 +169,7 @@ define([
                     cls         : 'btn-toolbar align-left',
                     iconCls     : 'toolbar__icon btn-rows-and-columns',
                     caption     : this.txtRowsCols,
-                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    lock: [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock, , _set.cantModifyFilter],
                     style       : 'width: 100%;',
                     menu: new Common.UI.Menu({
                         menuAlign: 'tr-br',
@@ -197,57 +196,46 @@ define([
                 this.lockedControls.push(this.btnEdit);
 
                 this.btnEdit.menu.on('show:after', _.bind( function(menu){
-                    if (this.api) {
-                        menu.items[5].setDisabled(!this._originalProps.asc_getIsInsertRowAbove());
-                        menu.items[6].setDisabled(!this._originalProps.asc_getIsInsertRowBelow());
-                        menu.items[7].setDisabled(!this._originalProps.asc_getIsInsertColumnLeft());
-                        menu.items[8].setDisabled(!this._originalProps.asc_getIsInsertColumnRight());
+                    menu.items[5].setDisabled(!this._originalProps.asc_getIsInsertRowAbove());
+                    menu.items[6].setDisabled(!this._originalProps.asc_getIsInsertRowBelow());
+                    menu.items[7].setDisabled(!this._originalProps.asc_getIsInsertColumnLeft());
+                    menu.items[8].setDisabled(!this._originalProps.asc_getIsInsertColumnRight());
 
-                        menu.items[10].setDisabled(!this._originalProps.asc_getIsDeleteRow());
-                        menu.items[11].setDisabled(!this._originalProps.asc_getIsDeleteColumn());
-                        menu.items[12].setDisabled(!this._originalProps.asc_getIsDeleteTable());
-                    }
+                    menu.items[10].setDisabled(!this._originalProps.asc_getIsDeleteRow());
+                    menu.items[11].setDisabled(!this._originalProps.asc_getIsDeleteColumn());
+                    menu.items[12].setDisabled(!this._originalProps.asc_getIsDeleteTable());
                 }, this));
-                this.btnEdit.menu.on('item:click', _.bind(this.onEditClick, this));
                 this.lockedControls.push(this.btnEdit);
 
                 this.btnRemDuplicates = new Common.UI.Button({
                     cls         : 'btn-toolbar align-left',
                     iconCls     : 'toolbar__icon btn-remove-duplicates',
                     caption     : this.txtRemDuplicates,
-                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    lock: [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock, _set.cantModifyFilter],
                     style       : 'width: 100%;',
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
                 });
-                this.btnRemDuplicates.on('click', _.bind(function(btn){
-                    Common.NotificationCenter.trigger('data:remduplicates', this);
-                }, this));
                 this.lockedControls.push(this.btnRemDuplicates);
 
                 this.btnConvertRange = new Common.UI.Button({
                     cls         : 'btn-toolbar align-left',
                     iconCls     : 'toolbar__icon btn-convert-to-range',
                     caption     : this.txtConvertToRange,
-                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    lock: [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock, _set.cantModifyFilter],
                     style       : 'width: 100%;',
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
                 });
-
-                this.btnConvertRange.on('click', _.bind(function(btn){
-                    if (this.api) this.api.asc_convertTableToRange(this._state.TableName);
-                    Common.NotificationCenter.trigger('edit:complete', this);
-                }, this));
                 this.lockedControls.push(this.btnConvertRange);
 
                 this.btnInsertSlicer = new Common.UI.Button({
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'toolbar__icon btn-big-slicer',
                     caption     : this.txtSlicer,
-                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    lock: [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock, _set.cantModifyFilter],
                     style       : 'width: 100%;',
                     dataHint    : '1',
                     dataHintDirection: 'left',
@@ -259,18 +247,17 @@ define([
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'toolbar__icon btn-big-pivot-sum',
                     caption     : this.txtPivot,
-                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    lock: [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock, _set.cantModifyFilter],
                     style       : 'width: 100%;',
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
                 });
-                this.btnInsertPivot.on('click', _.bind(this.onInsertPiv, this))
                 this.lockedControls.push(this.btnInsertPivot);
 
                 this.chHeaderRow = new Common.UI.CheckBox({
                     labelText: this.txtHeaderRow,
-                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell, _set.wsLock, _set.cantModifyFilter],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -279,7 +266,7 @@ define([
 
                 this.chTotalRow = new Common.UI.CheckBox({
                     labelText: this.txtTotalRow,
-                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell, _set.wsLock, _set.cantModifyFilter],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -288,7 +275,7 @@ define([
 
                 this.chFirstColumn = new Common.UI.CheckBox({
                     labelText: this.txtFirstColumn,
-                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell, _set['FormatCells'], _set.cantModifyFilter],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -297,7 +284,7 @@ define([
 
                 this.chLastColumn = new Common.UI.CheckBox({
                     labelText: this.txtLastColumn,
-                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell, _set['FormatCells'], _set.cantModifyFilter],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -306,7 +293,7 @@ define([
 
                 this.chBandedRows = new Common.UI.CheckBox({
                     labelText: this.txtBandedRows,
-                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell, _set['FormatCells'], _set.cantModifyFilter],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -315,7 +302,7 @@ define([
 
                 this.chBandedColumns = new Common.UI.CheckBox({
                     labelText: this.txtBandedColumns,
-                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell, _set['FormatCells'], _set.cantModifyFilter],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -324,7 +311,7 @@ define([
 
                 this.chFilterButton = new Common.UI.CheckBox({
                     labelText: this.txtFilterButton,
-                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell, _set.wsLock, _set.cantModifyFilter],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -335,7 +322,7 @@ define([
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'toolbar__icon btn-big-pivot-sum',
                     caption     : this.txtAltText,
-                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    lock: [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock, _set.cantModifyFilter],
                     style       : 'width: 100%;',
                     dataHint    : '1',
                     dataHintDirection: 'left',
@@ -360,7 +347,7 @@ define([
                     menuMaxHeight   : 300,
                     groups          : new Common.UI.DataViewGroupStore(),
                     autoWidth       : true,
-                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    lock: [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock, _set.cantModifyFilter],
                     beforeOpenHandler: function(e) {
                         var cmp = this,
                             menu = cmp.openButton.menu,
@@ -408,16 +395,9 @@ define([
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
-            onInsertPiv: function() {
-                var me = this;
-                me.fireEvent('pivottable:create');
-            },
-
             onCheckStyleChange: function(type, stateName, field, newValue, oldValue, eOpts) {
-                this._state[stateName] = undefined;
-                if (this.api)
-                    this.api.asc_changeFormatTableInfo(this._state.TableName, type, newValue=='checked');
-                Common.NotificationCenter.trigger('edit:complete', this);
+                var me = this;
+                me.fireEvent('tabledesigntab:stylechange', [type, stateName, newValue]);
             },
 
             render: function (el) {
@@ -425,26 +405,6 @@ define([
                 if ( el ) el.html( this.getPanel() );
 
                 return this;
-            },
-
-            setApi: function(api) {
-                if (api) {
-                    this.api = api;
-                }
-                return this;
-            },
-
-            onEditClick: function(menu, item, e) {
-                if (this.api) {
-                    if (item.options.idx>=0 && item.options.idx<4)
-                        this.api.asc_changeSelectionFormatTable(this._state.TableName, item.value);
-                    else if (item.options.idx>=4 && item.options.idx<8) {
-                        this.api.asc_insertCellsInTable(this._state.TableName, item.value);
-                    } else {
-                        this.api.asc_deleteCellsInTable(this._state.TableName, item.value);
-                    }
-                }
-                Common.NotificationCenter.trigger('edit:complete', this);
             },
 
             getPanel: function () {
@@ -491,8 +451,11 @@ define([
             },
 
             getButtons: function(type) {
-                if (type===undefined)
+                if (type===undefined) {
                     return this.lockedControls;
+                } else if (type==='rem-duplicates') {
+                    return this.btnRemDuplicates
+                }
                 return [];
             },
 
@@ -507,10 +470,10 @@ define([
             txtResize: 'Resize table',
             txtRowsCols: 'Rows & Columns',
             tipRowsCols: 'Rows & Columns',
-            txtGroupPivot_Custom: 'Custom',
-            txtGroupPivot_Light: 'Light',
-            txtGroupPivot_Medium: 'Medium',
-            txtGroupPivot_Dark: 'Dark',
+            txtGroupTable_Custom: 'Custom',
+            txtGroupTable_Light: 'Light',
+            txtGroupTable_Medium: 'Medium',
+            txtGroupTable_Dark: 'Dark',
             tipResize: 'Change the size of this table by adding or removing rows and columns.',
             tipRemDuplicates: 'Removing duplicate lines from a sheet.',
             tipConvertRange: 'Convert this table to a regular range of cells.',

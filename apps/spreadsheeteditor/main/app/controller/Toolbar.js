@@ -3131,7 +3131,7 @@ define([
                 }
                 need_disable =  this._state.controlsdisabled.filters || (val===null);
                 toolbar.lockToolbar(Common.enumLock.ruleFilter, need_disable,
-                            { array: toolbar.btnsSetAutofilter.concat(toolbar.btnCustomSort, toolbar.btnTableTemplate, toolbar.btnInsertTable, toolbar.btnRemoveDuplicates, toolbar.btnDataValidation) });
+                            { array: toolbar.btnsSetAutofilter.concat(toolbar.btnCustomSort, toolbar.btnTableTemplate, toolbar.btnInsertTable, toolbar.btnDataValidation).concat(toolbar.btnsRemoveDuplicates)});
 
                 toolbar.lockToolbar(Common.enumLock.tableHasSlicer, filterInfo && filterInfo.asc_getIsSlicerAdded(), { array: toolbar.btnsSetAutofilter });
 
@@ -3184,13 +3184,12 @@ define([
                         this.toolbar.setTab('pivot');
                     this._state.inpivot = inpivot;
                 }
-                toolbar.lockToolbar(Common.enumLock.editPivot, this._state.inpivot, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnInsertTable, toolbar.btnRemoveDuplicates, toolbar.btnDataValidation)});
+                toolbar.lockToolbar(Common.enumLock.editPivot, this._state.inpivot, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnInsertTable, toolbar.btnDataValidation).concat(toolbar.btnsRemoveDuplicates)});
                 toolbar.lockToolbar(Common.enumLock.noSlicerSource, !(this._state.inpivot || formatTableInfo), { array: [toolbar.btnInsertSlicer]});
 
                 need_disable = !this.appConfig.canModifyFilter;
                 toolbar.lockToolbar(Common.enumLock.cantModifyFilter, need_disable, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnsSortDown, toolbar.btnsSortUp, toolbar.btnCustomSort, toolbar.btnTableTemplate,
-                                                                                          toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2], toolbar.btnInsertTable, toolbar.btnRemoveDuplicates, toolbar.btnDataValidation)});
-
+                                                                                          toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2], toolbar.btnInsertTable, toolbar.btnDataValidation).concat(toolbar.btnsRemoveDuplicates).concat(toolbar.btnsTableDesign)});
             }
 
             val = xfs.asc_getNumFormatInfo();
@@ -4524,7 +4523,7 @@ define([
                     me.toolbar.btnsSetAutofilter = datatab.getButtons('set-filter');
                     me.toolbar.btnsClearAutofilter = datatab.getButtons('clear-filter');
                     me.toolbar.btnCustomSort = datatab.getButtons('sort-custom');
-                    me.toolbar.btnRemoveDuplicates = datatab.getButtons('rem-duplicates');
+                    me.toolbar.btnsRemoveDuplicates = [datatab.getButtons('rem-duplicates')];
                     me.toolbar.btnDataValidation = datatab.getButtons('data-validation');
 
                     var formulatab = me.getApplication().getController('FormulaDialog');
@@ -4552,13 +4551,15 @@ define([
                         var tabledesigntab = me.getApplication().getController('TableDesignTab');
                         tabledesigntab.setApi(me.api).setConfig({toolbar: me});
                         var view = tabledesigntab.getView('TableDesignTab');
-                        view.setApi(me.api);
+                        var tabledesignbuttons = view.getButtons();
                         var $panel = tabledesigntab.createToolbarPanel();
                         if ($panel) {
                             me.toolbar.addTab(tab, $panel, Common.UI.LayoutManager.lastTabIdx+1);
                             me._state.intabledesign && me.toolbar.setVisible('tabledesign', true);
-                            Array.prototype.push.apply(me.toolbar.lockControls, view.getButtons());
+                            Array.prototype.push.apply(me.toolbar.lockControls, tabledesignbuttons);
                         }
+                        me.toolbar.btnsRemoveDuplicates.push(view.getButtons('rem-duplicates'));
+                        me.toolbar.btnsTableDesign = tabledesignbuttons;
                     }
 
                     if (!config.compactHeader) {

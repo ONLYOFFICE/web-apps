@@ -69,12 +69,9 @@ define([
             };
             this.lockedControls = [];
             this._locked = false;
-            this.wsLock = false;
-            this.wsProps = [];
-            this.isEditCell = false;
-
+            this.application = this.getApplication();
+            this.toolbar = this.application.getController('Toolbar');
             this._originalProps = null;
-            this._noApply = false;
 
             this.addListeners({
                 'TableDesignTab': {
@@ -82,7 +79,10 @@ define([
                     'tabledesigntab:advanced':           _.bind(this.openAdvancedSettings, this),
                     'tabledesigntab:style':              _.bind(this.onTableStyleSelect, this),
                     'tabledesigntab:selectdata':         _.bind(this.onSelectData, this),
-                    'tabledesign:namechanged':           _.bind(this.onTableNameChanged, this)
+                    'tabledesign:namechanged':           _.bind(this.onTableNameChanged, this),
+                    'tabledesigntab:convertrange':       _.bind(this.convertToRange, this),
+                    'tabledesigntab:edit':               _.bind(this.onEditClick, this),
+                    'tabledesigntab:stylechange':        _.bind(this.changeTableInfo, this)
                 },
             });
         },
@@ -170,9 +170,7 @@ define([
             }
         },
 
-        ChangeSettings: function(props, wsLock, wsProps) {
-            this.wsLock = wsLock;
-            this.wsProps = wsProps;
+        ChangeSettings: function(props) {
             if (props )//formatTableInfo
             {
                 this._originalProps = props;
@@ -235,7 +233,7 @@ define([
                     this._state.CheckFilter=value;
                 }
                 if (view.chFilterButton.isDisabled() !== (!this._state.CheckHeader || this._locked || value===null))
-                    view.chFilterButton.setDisabled(!this._state.CheckHeader || this._locked || value===null || this.wsLock);
+                    view.chFilterButton.setDisabled(!this._state.CheckHeader || this._locked || value===null);
 
                 if (needTablePictures)
                     this.onApiInitTableStyles(this.api.asc_getTablePictures(props));
@@ -263,8 +261,33 @@ define([
         },
 
         onTableStyleSelect: function(record){
-            if (this.api && !this._noApply) {
+            if (this.api) {
                 this.api.asc_changeAutoFilter(this._state.TableName, Asc.c_oAscChangeFilterOptions.style, record.get('name'));
+            }
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        convertToRange: function(btn) {
+            if (this.api) this.api.asc_convertTableToRange(this._state.TableName);
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        changeTableInfo: function(type, stateName, newValue) {
+            this._state[stateName] = undefined;
+            if (this.api)
+                this.api.asc_changeFormatTableInfo(this._state.TableName, type, newValue=='checked');
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onEditClick: function(item) {
+            if (this.api) {
+                if (item.options.idx>=0 && item.options.idx<4)
+                    this.api.asc_changeSelectionFormatTable(this._state.TableName, item.value);
+                else if (item.options.idx>=4 && item.options.idx<8) {
+                    this.api.asc_insertCellsInTable(this._state.TableName, item.value);
+                } else {
+                    this.api.asc_deleteCellsInTable(this._state.TableName, item.value);
+                }
             }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
@@ -315,10 +338,10 @@ define([
                 styles.menuPicker.store.reset([]);
                 var templates = [];
                 var groups = [
-                    {id: 'menu-table-group-custom',    caption: self.view.txtGroupPivot_Custom, templates: []},
-                    {id: 'menu-table-group-light',     caption: self.view.txtGroupPivot_Light,  templates: []},
-                    {id: 'menu-table-group-medium',    caption: self.view.txtGroupPivot_Medium, templates: []},
-                    {id: 'menu-table-group-dark',      caption: self.view.txtGroupPivot_Dark,   templates: []},
+                    {id: 'menu-table-group-custom',    caption: self.view.txtGroupTable_Custom, templates: []},
+                    {id: 'menu-table-group-light',     caption: self.view.txtGroupTable_Light,  templates: []},
+                    {id: 'menu-table-group-medium',    caption: self.view.txtGroupTable_Medium, templates: []},
+                    {id: 'menu-table-group-dark',      caption: self.view.txtGroupTable_Dark,   templates: []},
                     {id: 'menu-table-group-no-name',   caption: '&nbsp',                        templates: []},
                 ];
                 _.each(Templates, function(template, index){
@@ -411,21 +434,13 @@ define([
         },
 
         setConfig: function(config) {
-            this.toolbar = config.toolbar;
-            var mode = config.mode;
             this.view = this.createView('TableDesignTab', {
-                toolbar: this.toolbar.toolbar,
-                mode: mode,
-                compactToolbar: this.toolbar.toolbar.isCompactView
+                toolbar: config.toolbar.toolbar
             });
         },
 
         SetDisabled: function(state) {
             this.view && this.view.SetDisabled(state);
-        },
-
-        onInsertPivot: function(btn, opts){
-            this.fireEvent('pivottable:create');
         },
 
         onInsertSlicer: function() {
