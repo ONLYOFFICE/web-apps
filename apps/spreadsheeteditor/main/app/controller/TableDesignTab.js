@@ -69,8 +69,6 @@ define([
             };
             this.lockedControls = [];
             this._locked = false;
-            this.application = this.getApplication();
-            this.toolbar = this.application.getController('Toolbar');
             this._originalProps = null;
 
             this.addListeners({
