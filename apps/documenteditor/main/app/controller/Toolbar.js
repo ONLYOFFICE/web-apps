@@ -812,7 +812,8 @@ define([
                 docLockViewIns = protect ? protect.isReadOnly : false, // lock insert objects in protected (readonly) document
                 docLockCommentsText = protect ? protect.isCommentsOnly : false, // lock text props in protected (commenting) document
                 docLockCommentsPara = protect ? protect.isCommentsOnly : false, // lock para props in protected (commenting) document
-                docLockCommentsIns = protect ? protect.isCommentsOnly : false; // lock insert objects in protected (commenting) document
+                docLockCommentsIns = protect ? protect.isCommentsOnly : false, // lock insert objects in protected (commenting) document
+                inTable = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -852,11 +853,15 @@ define([
 
                 if (type === Asc.c_oAscTypeSelectElement.Table || type === Asc.c_oAscTypeSelectElement.Header || type === Asc.c_oAscTypeSelectElement.Image) {
                     enable_dropcap = false;
+                    if (type === Asc.c_oAscTypeSelectElement.Table) inTable = true;
                 }
 
                 if (enable_dropcap!==false && type == Asc.c_oAscTypeSelectElement.Paragraph)
                     enable_dropcap = true;
             }
+
+            toolbar.brdInnerVert?.setDisabled(!inTable);
+            toolbar.brdInner?.setDisabled(!inTable);
 
             if (sh)
                 this.onParagraphColor(sh);
@@ -3147,7 +3152,7 @@ define([
                         bottom: ['Bottom'],
                         all: ['Left', 'Top', 'Right', 'Bottom', 'Between'],
                         outer: ['Left', 'Top', 'Right', 'Bottom'],
-                        inner: ['Between'],
+                        innerHor: ['Between'],
                         none: ['Left', 'Top', 'Right', 'Bottom', 'Between']
                     };
 

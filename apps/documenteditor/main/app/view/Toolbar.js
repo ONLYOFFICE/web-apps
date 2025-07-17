@@ -2816,14 +2816,20 @@ define([
                     items: []
                 }));
 
-                this.bordersVert = new Common.UI.MenuItem({
+                this.brdInnerVert = new Common.UI.MenuItem({
                     caption: this.textInsideVertBorders,
-                    disabled: true,
                     iconCls: 'menu__icon btn-border-insidevert',
                     icls: 'btn-border-insidevert',
                     borderId: 'innerVert'
                 });
 
+                this.brdInner = new Common.UI.MenuItem({
+                    caption: this.textInsideBorders,
+                    iconCls: 'menu__icon btn-border-inside',
+                    icls: 'btn-border-inside',
+                    borderId: 'inner',
+                });
+                                           
                 if (this.btnBorders && this.btnBorders.rendered) {
                     this.btnBorders.setMenu(new Common.UI.Menu({
                         cls: 'shifted-right',
@@ -2871,19 +2877,14 @@ define([
                                 icls: 'btn-border-out',
                                 borderId: 'outer',
                             },
-                            {
-                                caption: this.textInsideBorders,
-                                iconCls: 'menu__icon btn-border-inside',
-                                icls: 'btn-border-inside',
-                                borderId: 'inner',
-                            },
+                            this.brdInner,
                             {
                                 caption: this.textInsideHorBorders,
                                 iconCls: 'menu__icon btn-border-insidehor',
                                 icls: 'btn-border-insidehor',
                                 borderId: 'innerHor'
                             },
-                            this.bordersVert,
+                            this.brdInnerVert,
                             { caption: '--' },
                             {
                                 id: 'id-toolbar-menu-item-border-width',
