@@ -185,7 +185,7 @@
                             view: {
                                 navigation: false/true // navigation button in de
                             } / false / true, // view tab
-                            save: false/true // save button on toolbar in 
+                            save: false/true // save button on toolbar in
                         } / false / true, // use instead of customization.toolbar,
                         header: {
                             users: false/true // users list button
@@ -549,7 +549,7 @@
 
                 _config.document.token = _config.token;
             }
-            
+
             return true;
         };
 
@@ -1071,7 +1071,9 @@
 
     function isLocalStorageAvailable() {
         try {
-            return !!window['localStorage'];
+            localStorage.setItem('test', 'test');
+            localStorage.removeItem('test');
+            return true;
         }
         catch(e) {
             return false;
