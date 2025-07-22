@@ -1,0 +1,109 @@
+#shortcuts-gialog {
+    #header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+
+        #search-input {
+            width: 160px;
+        }
+    }
+
+    #actions-list {
+        width: 100%;
+        height: 295px;
+
+        .item {
+            padding: 8px 16px;
+            
+            .list-item {
+                pointer-events: none;
+                width: 100%;
+                display: flex;
+                align-items: center;
+
+                .action-name {
+                    width: 250px;
+                    .margin-right(4px);
+                }
+
+                .action-keys {
+                    display: flex;
+                    .margin-right(4px);
+
+                    .action-keys-item {
+                        display: flex;
+                        
+                        .action-keys-item-plus {
+                            margin: 0 3px;
+                            display: flex;
+                            align-items: center;
+                        }
+                        .action-keys-item-key {
+                            padding: 2px 5px;
+                            border-radius: 4px;
+                            background-color: @background-toolbar-ie;
+                            background-color: @background-toolbar;
+                            border: 1px solid @border-divider-ie;
+                            border: 1px solid @border-divider;
+                            box-shadow: 0 1px 0 0 @border-divider-ie;
+                            box-shadow: 0 1px 0 0 @border-divider;
+                        }
+                    }
+                    .action-keys-comma {
+                        display: flex;
+                        align-items: flex-end;
+                        padding: 2px 4px 2px 2px;
+                        .rtl & {
+                            padding: 2px 2px 2px 4px;
+                        }
+                    }
+                }
+
+                .action-edit {
+                    pointer-events: auto;
+                    margin-left: auto;
+                    opacity: 0;
+                }
+            }
+
+            &:hover {
+                .action-edit {
+                    opacity: 1;
+                }
+            }
+        }        
+    }
+}
+
+#shortcut-edit-gialog {
+    #action-label {
+        margin-bottom: 12px;
+
+        #action-label-name {
+            .font-weight-bold();
+        }
+    }
+
+    #shortcuts-list {
+        margin-bottom: 12px;
+        
+        .item {
+            display: flex;
+
+            .keys-input {
+                flex: 1;
+                .margin-right(8px);
+            }
+        }
+        .item:not(:last-child) {
+            margin-bottom: 8px;
+        }
+    }
+
+    #buttons-row {
+        display: flex;
+        justify-content: space-between;
+    }
+}

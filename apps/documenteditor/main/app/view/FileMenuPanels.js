@@ -446,6 +446,10 @@ define([], function () {
                         '<div><div id="fms-cmb-macros"></div>',
                 '</tr>',
                 '<tr>',
+                    '<td><label><%= scope.strKeyboardShortcuts %></label></td>',
+                    '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-keyboard-shortcuts" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomize %></button></div></td>',
+                '</tr>',
+                '<tr>',
                     '<td><label><%= scope.strFontSizeType %></label></td>',
                     '<td><span id="fms-cmb-font-size-type"></span></td>',
                 '</tr>',
@@ -774,6 +778,11 @@ define([], function () {
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
+
+            this.btnKeyboardMacros = new Common.UI.Button({
+                el: $markup.findById('#fms-btn-keyboard-shortcuts')
+            });
+            this.btnKeyboardMacros.on('click', _.bind(this.onClickKeyboardShortcut, this));
 
             this.cmbFontSizeType = new Common.UI.ComboBox({
                 el          : $markup.find('#fms-cmb-font-size-type'),
@@ -1180,6 +1189,11 @@ define([], function () {
             this.dlgAutoCorrect.show();
         },
 
+        onClickKeyboardShortcut: function() {
+            const win = new Common.Views.ShortcutsDialog({});
+            win.show();
+        },
+
         customizeQuickAccess: function () {
             if (this.dlgQuickAccess && this.dlgQuickAccess.isVisible()) return;
             this.dlgQuickAccess = new Common.Views.CustomizeQuickAccessDialog({
@@ -1227,6 +1241,8 @@ define([], function () {
         textOldVersions: 'Make the files compatible with older MS Word versions when saved as DOCX, DOTX',
         txtCacheMode: 'Default cache mode',
         strMacrosSettings: 'Macros Settings',
+        strKeyboardShortcuts: 'Keyboard Shortcuts',
+        txtCustomize: 'Customize',
         txtWarnMacros: 'Show Notification',
         txtRunMacros: 'Enable All',
         txtStopMacros: 'Disable All',
