@@ -2706,6 +2706,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "Salva",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "Salva copia come",
   "SSE.Views.FileMenu.btnSettingsCaption": "Impostazioni avanzate",
+  "SSE.Views.FileMenu.btnSuggestCaption": "Suggerisci una funzione",
   "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Passa al cellulare",
   "SSE.Views.FileMenu.btnToEditCaption": "Modifica foglio di calcolo",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "Folio di calcolo vuoto",

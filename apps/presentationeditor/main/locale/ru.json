@@ -2095,6 +2095,7 @@
   "PE.Views.FileMenu.btnSaveCaption": "Сохранить",
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "Сохранить копию как",
   "PE.Views.FileMenu.btnSettingsCaption": "Дополнительные параметры",
+  "PE.Views.FileMenu.btnSuggestCaption": "Предложить функцию",
   "PE.Views.FileMenu.btnSwitchToMobileCaption": "Переключиться в мобильный режим",
   "PE.Views.FileMenu.btnToEditCaption": "Редактировать",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "Пустая презентация",

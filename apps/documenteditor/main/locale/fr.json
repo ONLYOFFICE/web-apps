@@ -2212,6 +2212,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "Enregistrer",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Enregistrer une copie sous",
   "DE.Views.FileMenu.btnSettingsCaption": "Paramètres avancés",
+  "DE.Views.FileMenu.btnSuggestCaption": "Proposer une fonctionnalité",
   "DE.Views.FileMenu.btnSwitchToMobileCaption": "Passer en mode mobile",
   "DE.Views.FileMenu.btnToEditCaption": "Modifier le document",
   "DE.Views.FileMenu.textDownload": "Télécharger",
