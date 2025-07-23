@@ -2706,6 +2706,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "Salvează",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "Salvare copie ca",
   "SSE.Views.FileMenu.btnSettingsCaption": "Setări avansate",
+  "SSE.Views.FileMenu.btnSuggestCaption": "Sugerează o funcție",
   "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Comutare la modul Mobil",
   "SSE.Views.FileMenu.btnToEditCaption": "Editare foaie de calcul",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "Foaie de calcul necompletată",

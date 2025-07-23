@@ -1278,6 +1278,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Сохранить",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Сохранить копию как",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Дополнительные параметры",
+  "PDFE.Views.FileMenu.btnSuggestCaption": "Предложить функцию",
   "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Переключиться в мобильный режим",
   "PDFE.Views.FileMenu.btnToEditCaption": "Редактировать документ",
   "PDFE.Views.FileMenu.textDownload": "Скачать",

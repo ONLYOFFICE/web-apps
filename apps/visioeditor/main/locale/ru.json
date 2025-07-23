@@ -334,6 +334,7 @@
   "VE.Views.FileMenu.btnSaveAsCaption": "Сохранить как",
   "VE.Views.FileMenu.btnSaveCopyAsCaption": "Сохранить копию как",
   "VE.Views.FileMenu.btnSettingsCaption": "Дополнительные параметры",
+  "VE.Views.FileMenu.btnSuggestCaption": "Предложить функцию",
   "VE.Views.FileMenu.btnSwitchToMobileCaption": "Переключиться в мобильный режим",
   "VE.Views.FileMenu.textDownload": "Скачать",
   "VE.Views.FileMenuPanels.CreateNew.txtBlank": "Пустой документ",
