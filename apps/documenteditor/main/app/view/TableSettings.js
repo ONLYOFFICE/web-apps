@@ -146,6 +146,15 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
+        onCheckAutofitChange: function(field, newValue, oldValue, eOpts) {
+            if (this.api) {
+                var properties = new Asc.CTableProp();
+                properties.put_TableLayout((field.getValue()=='checked') ? Asc.c_oAscTableLayout.AutoFit : Asc.c_oAscTableLayout. Fixed);
+                this.api.tblApply(properties);
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
         onColorsBackSelect: function(btn, color) {
             this.CellColor = {Value: 1, Color: color};
 
@@ -295,6 +304,16 @@ define([
                 dataHintOffset: 'small'
             });
             this.lockedControls.push(this.chColBanded);
+
+            this.chAutofit = new Common.UI.CheckBox({
+                el: $('#table-checkbox-autofit'),
+                labelText: this.textAutofit,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chAutofit.on('change', _.bind(this.onCheckAutofitChange, this));
+            this.lockedControls.push(this.chAutofit);
 
             this.chHeader.on('change', _.bind(this.onCheckTemplateChange, this, 0));
             this.chTotal.on('change', _.bind(this.onCheckTemplateChange, this, 1));
@@ -471,7 +490,13 @@ define([
             }, this));
 
             this.btnAddFormula = new Common.UI.Button({
-                el: $('#table-btn-add-formula')
+                parentEl: $('#table-btn-add-formula'),
+                cls: 'btn-toolbar align-left',
+                iconCls: 'toolbar__icon btn-table-to-text',
+                caption     : this.textAddFormula,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'medium'
             });
             this.lockedControls.push(this.btnAddFormula);
             this.btnAddFormula.on('click', _.bind(this.onAddFormula, this));
@@ -615,6 +640,9 @@ define([
                     this._state.RepeatRow=value;
                 }
                 this.chRepeatRow.setDisabled(this._state.RepeatRow === null || this._locked);
+                var autoFit = props.get_TableLayout();
+                this.chAutofit.setDisabled(autoFit===undefined);
+                this.chAutofit.setValue(autoFit===Asc.c_oAscTableLayout.AutoFit, true);
             }
         },
 
@@ -987,7 +1015,8 @@ define([
 
         onEyedropperEnd: function () {
             this.fireEvent('eyedropper', false);
-        }
+        },
 
+        textAutofit: 'Automaticaly resize to fit content'
     }, DE.Views.TableSettings || {}));
 });
