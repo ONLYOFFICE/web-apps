@@ -485,7 +485,7 @@ define([
                 }
 
                 if (this.$el.find('#fm-btn-exit').length<1) {
-                    $('<li class="devider" />' +
+                    $('<li class="divider" />' +
                         '<li id="fm-btn-exit" class="fm-btn"/>').insertAfter($('#fm-btn-back', this.$el));
                     this.items.push(
                         new Common.UI.MenuItem({
@@ -500,7 +500,7 @@ define([
                         }));
                 }
             } else if (this.mode.canCloseEditor && this.$el.find('#fm-btn-close').length<1) {
-                $('<li class="devider" />' +
+                $('<li class="divider" />' +
                     '<li id="fm-btn-close" class="fm-btn"/>').insertAfter($('#fm-btn-back', this.$el));
                 this.items.push(
                     new Common.UI.MenuItem({
@@ -543,7 +543,7 @@ define([
             if (!visibleIndices.length) {
                 items.forEach(el => {
                     const $el = $(el);
-                    if ($el.hasClass('devider')) {
+                    if ($el.hasClass('divider')) {
                         $el.css('display', 'none');
                     }
                 });
@@ -557,7 +557,7 @@ define([
             for (let i = items.length - 1; i >= 0; i--) {
                 const $el = $(items[i]);
 
-                if ($el.hasClass('devider')) {
+                if ($el.hasClass('divider')) {
                     const shouldShow = i > firstVisible && i < lastVisible;
 
                     if (shouldShow && !prevWasDivider) {
