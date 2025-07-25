@@ -19,9 +19,9 @@ const PreviewController = props => {
         ContextMenu.closeContextMenu();
 
         _view = $$('#pe-preview');
-        // _view.on('touchstart', onTouchStart);
-        // _view.on('touchmove', onTouchMove);
-        // _view.on('touchend', onTouchEnd);
+        _view.on('touchstart', onTouchStart);
+        _view.on('touchmove', onTouchMove);
+        _view.on('touchend', onTouchEnd);
 
         show();
         onDocumentReady();
@@ -31,9 +31,9 @@ const PreviewController = props => {
 
             api.asc_unregisterCallback('asc_onEndDemonstration', onEndDemonstration);
         
-            // _view.off('touchstart', onTouchStart);
-            // _view.off('touchmove', onTouchMove);
-            // _view.off('touchend', onTouchEnd);
+            _view.off('touchstart', onTouchStart);
+            _view.off('touchmove', onTouchMove);
+            _view.off('touchend', onTouchEnd);
         };
     }, []);
 
@@ -105,12 +105,12 @@ const PreviewController = props => {
     const onTouchEnd = e => {
         e.preventDefault();
 
-        const api = Common.EditorApi.get();
-
-        if (_touchEnd[0] - _touchStart[0] > 20)
-            api.DemonstrationPrevSlide();
-        else if (_touchStart[0] - _touchEnd[0] > 20 || (Math.abs(_touchEnd[0] - _touchStart[0]) < 1 && Math.abs(_touchEnd[1] - _touchStart[1]) < 1))
-            api.DemonstrationNextSlide();
+        // const api = Common.EditorApi.get();
+        //
+        // if (_touchEnd[0] - _touchStart[0] > 20)
+        //     api.DemonstrationPrevSlide();
+        // else if (_touchStart[0] - _touchEnd[0] > 20 || (Math.abs(_touchEnd[0] - _touchStart[0]) < 1 && Math.abs(_touchEnd[1] - _touchStart[1]) < 1))
+        //     api.DemonstrationNextSlide();
     };
 
     // API Handlers
