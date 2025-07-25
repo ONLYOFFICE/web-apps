@@ -3158,6 +3158,8 @@
   "DE.Views.PrintWithPreview.txtPrinter": "Printer",
   "DE.Views.PrintWithPreview.txtPrinterNotSelected": "Printer not selected",
   "DE.Views.PrintWithPreview.txtPrintersNotFound": "Printers not found",
+  "DE.Views.PrintWithPreview.txtColorPrinting": "Color printing",
+  "DE.Views.PrintWithPreview.txtBlackAndWhitePrinting": "Black and white printing",
   "DE.Views.PrintWithPreview.txtPrintPdf": "Print to PDF",
   "DE.Views.PrintWithPreview.txtPrintRange": "Print range",
   "DE.Views.PrintWithPreview.txtPrintSides": "Print sides",

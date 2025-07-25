@@ -1800,6 +1800,8 @@
   "PDFE.Views.PrintWithPreview.txtPrinter": "Printer",
   "PDFE.Views.PrintWithPreview.txtPrinterNotSelected": "Printer not selected",
   "PDFE.Views.PrintWithPreview.txtPrintersNotFound": "Printers not found",
+  "PDFE.Views.PrintWithPreview.txtColorPrinting": "Color printing",
+  "PDFE.Views.PrintWithPreview.txtBlackAndWhitePrinting": "Black and white printing",
   "PDFE.Views.PrintWithPreview.txtPrintPdf": "Print to PDF",
   "PDFE.Views.PrintWithPreview.txtPrintRange": "Print range",
   "PDFE.Views.PrintWithPreview.txtPrintSides": "Print sides",

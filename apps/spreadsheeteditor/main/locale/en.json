@@ -3672,6 +3672,8 @@
   "SSE.Views.PrintWithPreview.txtPrinter": "Printer",
   "SSE.Views.PrintWithPreview.txtPrinterNotSelected": "Printer not selected",
   "SSE.Views.PrintWithPreview.txtPrintersNotFound": "Printers not found",
+  "SSE.Views.PrintWithPreview.txtColorPrinting": "Color printing",
+  "SSE.Views.PrintWithPreview.txtBlackAndWhitePrinting": "Black and white printing",
   "SSE.Views.PrintWithPreview.txtPrintGrid": "Print gridlines",
   "SSE.Views.PrintWithPreview.txtPrintHeadings": "Print row and column headings",
   "SSE.Views.PrintWithPreview.txtPrintRange": "Print range",
