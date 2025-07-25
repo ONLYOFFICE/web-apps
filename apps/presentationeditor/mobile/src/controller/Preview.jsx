@@ -19,9 +19,9 @@ const PreviewController = props => {
         ContextMenu.closeContextMenu();
 
         _view = $$('#pe-preview');
-        _view.on('touchstart', onTouchStart);
-        _view.on('touchmove', onTouchMove);
-        _view.on('touchend', onTouchEnd);
+        // _view.on('touchstart', onTouchStart);
+        // _view.on('touchmove', onTouchMove);
+        // _view.on('touchend', onTouchEnd);
 
         show();
         onDocumentReady();
@@ -31,9 +31,9 @@ const PreviewController = props => {
 
             api.asc_unregisterCallback('asc_onEndDemonstration', onEndDemonstration);
         
-            _view.off('touchstart', onTouchStart);
-            _view.off('touchmove', onTouchMove);
-            _view.off('touchend', onTouchEnd);
+            // _view.off('touchstart', onTouchStart);
+            // _view.off('touchmove', onTouchMove);
+            // _view.off('touchend', onTouchEnd);
         };
     }, []);
 
