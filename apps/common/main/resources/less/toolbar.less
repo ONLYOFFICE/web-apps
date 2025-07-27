@@ -22,25 +22,26 @@
         background-color: @background-toolbar-ie;
         background-color: @background-toolbar;
 
-        &:not(.z-clear *) {
-            &:before {
-                content: '';
-                position: absolute;
-                box-shadow: @shadow-toolbar-ie;
-                box-shadow: @shadow-toolbar;
-                width: 100%;
-                height: @toolbar-height-controls-ie;
-                height: @toolbar-height-controls;
-                bottom: 0;
-                border-radius: @border-radius-toolbar-ie;
-                border-radius: @border-radius-toolbar;
+       &:before {
+            content: '';
+            position: absolute;
+            box-shadow: @shadow-toolbar-ie;
+            box-shadow: @shadow-toolbar;
+            width: 100%;
+            height: @toolbar-height-controls-ie;
+            height: @toolbar-height-controls;
+            bottom: 0;
+            border-radius: @border-radius-toolbar-ie;
+            border-radius: @border-radius-toolbar;
 
-                .style-off-tabs & {
-                    box-shadow: @shadow-toolbar-style-off-ie;
-                    box-shadow: @shadow-toolbar-style-off;
-                    border-radius: 0;
-                }
+            .style-off-tabs & {
+                box-shadow: @shadow-toolbar-style-off-ie;
+                box-shadow: @shadow-toolbar-style-off;
+                border-radius: 0;
             }
+        }
+        .z-clear &:before {
+            display: none;
         }
         .ie & {
             box-shadow: @shadow-toolbar-ie;
