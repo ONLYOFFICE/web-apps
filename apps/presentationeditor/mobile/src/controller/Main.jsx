@@ -615,7 +615,7 @@ class MainController extends Component {
     }
 
     onOrientationChange (event) {
-        const isPortrait = event.matches;
+        const isPortrait = screen.orientation?.type?.startsWith("portrait") || event.matches;
         let position = Common.Locale.isCurrentLangRtl ? AscCommon.thumbnailsPositionMap.right : AscCommon.thumbnailsPositionMap.left;
         if(isPortrait) {
             position = AscCommon.thumbnailsPositionMap.bottom;
