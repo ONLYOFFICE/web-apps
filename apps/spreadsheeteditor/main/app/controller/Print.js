@@ -50,8 +50,7 @@ define([
 
             this._state = {
                 firstPrintPage: 0,
-                isPrintPreviewOpenedOnce: false,
-                isPrinterInfoLoad: false,
+                shouldUpdateCmbPrinter: false, 
                 currentPrinter: null,
                 printersList: []
             };
@@ -422,9 +421,8 @@ define([
             this._isPreviewVisible = true;
             !!pageCount && this.updatePreview();
 
-            if(this._state.isPrinterInfoLoad && !this._state.isPrintPreviewOpenedOnce) {
-                this._state.isPrintPreviewOpenedOnce = true;
-                this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList);      
+            if(this._state.shouldUpdateCmbPrinter) {
+                this.updateCmbPrinter();      
             }
         },
 
@@ -731,14 +729,22 @@ define([
             }
         },
 
-        setPrinterInfo: function(currentPrinter, list) {
-            this._state.isPrinterInfoLoad = true;
-            this._state.currentPrinter = currentPrinter;
-            this._state.printersList = list;
-            if(this.printSettings && this.printSettings.isVisible() && !this._state.isPrintPreviewOpenedOnce) {
-                this._state.isPrintPreviewOpenedOnce = true;
-                this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList);
+        setPrintersInfo: function(currentPrinter, list, isWaitingForPrinters) {
+            this._state.currentPrinter = currentPrinter || this._state.currentPrinter;
+            this._state.printersList = _.uniq(_.union(this._state.printersList, list), function(option) {
+                return option.name;
+            });
+            this._state.isWaitingForPrinters = !!isWaitingForPrinters;
+            this._state.shouldUpdateCmbPrinter = true;
+
+            if(this.printSettings && this.printSettings.isVisible() && this._state.shouldUpdateCmbPrinter) {
+                this.updateCmbPrinter();
             }
+        },
+
+        updateCmbPrinter: function() {
+            this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList, this._state.isWaitingForPrinters);
+            this._state.shouldUpdateCmbPrinter = false;
         },
 
         fillComponents: function(panel, selectdata) {

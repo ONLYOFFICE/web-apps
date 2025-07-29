@@ -2418,10 +2418,14 @@ define([], function () {
                         '<% _.each(items, function(item) { %>',
                             '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
                         '<% }); %>',
-                    '<% } else { %>',
-                        '<li><a style="background:none; cursor: default;" onclick="event.stopPropagation();">' + this.txtPrintersNotFound + '</a></li>',
+                    '<% } %>',
+                    '<% if(scope.options.isWatingForPrinters) { %>',
+                        '<li><a id="print-waiting-for-printers" class="text-dropdown-item" onclick="event.stopPropagation();">' + this.txtWaitingForPrinters + '<div class="spiner-image"></div></a></li>',
+                    '<% } else if(items.length == 0) {%>',
+                        '<li><a class="text-dropdown-item" onclick="event.stopPropagation();">' + this.txtPrintersNotFound + '</a></li>',
                     '<% } %>'
                 ].join('')),
+                isWatingForPrinters: true,
                 data: [],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
@@ -2720,21 +2724,8 @@ define([], function () {
             this.fireEvent('show', this);
         },
 
-        updateCmbPrinter: function(currentPrinter, printers) {
-            var cmbPrinterOptions = [];
-
-            printers = printers || [];
-
-            //If the current printer is not in the list of printers, add it
-            if(currentPrinter && !_.some(printers, function(printer) { return printer.name == currentPrinter })) {
-                printers.push({
-                    name: currentPrinter,
-                    duplex_supported: true,
-                    paperSupported: this._defaultPaperSizeList
-                });
-            }
-
-            cmbPrinterOptions = printers.map(function(printer) {
+        updateCmbPrinter: function(currentPrinter, printers, isWaitingForPrinters) {
+            const cmbPrinterOptions = (printers || []).map(function(printer) {
                 return {
                     value: printer.name,
                     displayValue: printer.name,
@@ -2744,9 +2735,21 @@ define([], function () {
                 }
             });
 
+            this.cmbPrinter.options.isWatingForPrinters = isWaitingForPrinters;
             this.cmbPrinter.setData(cmbPrinterOptions);
-            this.cmbPrinter.setValue(currentPrinter);
-            this.cmbPrinter.trigger('selected', this, this.cmbPrinter.getSelectedRecord());
+
+            let selectedPrinter = this.cmbPrinter.getValue();
+            if(!selectedPrinter &&  _.some(cmbPrinterOptions, function(option) { return option.value == currentPrinter })) {
+                selectedPrinter = currentPrinter;
+            }
+
+            if(selectedPrinter) {
+                const isChanged = selectedPrinter != this.cmbPrinter.getValue();
+                this.cmbPrinter.setValue(selectedPrinter);
+                if(isChanged) {
+                    this.cmbPrinter.trigger('selected', this, this.cmbPrinter.getSelectedRecord());
+                }
+            }
         },
 
         setCmbColorPrintingDisabled: function(disabled) {
@@ -2940,6 +2943,7 @@ define([], function () {
         txtPrinter: 'Printer',
         txtPrinterNotSelected: 'Printer not selected',
         txtPrintersNotFound: 'Printers not found',
+        txtWaitingForPrinters: 'Waiting for printers',
         txtColorPrinting: 'Color printing',
         txtBlackAndWhitePrinting: 'Black and white printing',
         txtPrintUsingSystemDialog: 'Print using the system dialog',

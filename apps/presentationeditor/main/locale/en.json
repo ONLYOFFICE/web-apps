@@ -2521,6 +2521,7 @@
   "PE.Views.PrintWithPreview.txtPrinter": "Printer",
   "PE.Views.PrintWithPreview.txtPrinterNotSelected": "Printer not selected",
   "PE.Views.PrintWithPreview.txtPrintersNotFound": "Printers not found",
+  "PE.Views.PrintWithPreview.txtWaitingForPrinters": "Waiting for printers",
   "PE.Views.PrintWithPreview.txtColorPrinting": "Color printing",
   "PE.Views.PrintWithPreview.txtBlackAndWhitePrinting": "Black and white printing",
   "PE.Views.PrintWithPreview.txtPrintPdf": "Print to PDF",
