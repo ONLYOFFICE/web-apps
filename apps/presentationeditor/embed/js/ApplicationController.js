@@ -632,6 +632,9 @@ PE.ApplicationController = new(function(){
                         if (btn === me.txtYes) {
                             window.open(url);
                         }
+                    },
+                    closecallback: function() {
+                        WarningShown = false;
                     }
             }); 
         }    
@@ -644,6 +647,9 @@ PE.ApplicationController = new(function(){
                 message: me.scriptLoadError,
                 buttons: [me.txtClose],
                 callback: function(btn) {
+                    window.location.reload();
+                },
+                closecallback: function() {
                     window.location.reload();
                 }
             });
@@ -748,6 +754,11 @@ PE.ApplicationController = new(function(){
                 if (level == Asc.c_oAscError.Level.Critical) {
                     window.location.reload();
                 } 
+            },
+            closecallback: function() {
+                if (level == Asc.c_oAscError.Level.Critical) {
+                    window.location.reload();
+                }
             }
         });
 
