@@ -144,6 +144,344 @@ define([], function () {
                 })
             });
 
+            me.menuChartElement = new Common.UI.MenuItem({
+                menu: new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    items: [
+                        { 
+                            caption: me.textAxes, 
+                            value: 'axes',
+                            disabled: false,
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',  
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    { 
+                                        caption: me.textHorAxis, 
+                                        value: 'bShowHorAxis', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textVertAxis, 
+                                        value: 'bShowVertAxis', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textHorAxisSec, 
+                                        value: 'bShowHorAxSec', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textVertAxisSec, 
+                                        value: 'bShowVertAxSec', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.DepthAxis, 
+                                        value: 'bShowDepthAxes', 
+                                        checkable: true
+                                    }
+                                ]
+                            })
+                        },
+                        { 
+                            caption: me.textAxisTitles, 
+                            value: 'axisTitles', 
+                            disabled: false,
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',  
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    { 
+                                        caption: me.textHorAxis, 
+                                        value: 'bShowHorAxTitle', 
+                                        checkable: true                                   
+                                    },
+                                    { 
+                                        caption: me.textVertAxis, 
+                                        value: 'bShowVertAxTitle', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption:  me.textHorAxisSec, 
+                                        value: 'bShowHorAxTitleSec', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textVertAxisSec, 
+                                        value: 'bShowVertAxisTitleSec', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.DepthAxis, 
+                                        value: 'bShowDepthAxesTitle', 
+                                        checkable: true
+                                    }
+                                ]
+                            })
+                        },
+                        { 
+                            caption: me.textChartTitle, 
+                            value: 'chartTitle',
+                            disabled: false,
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',  
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    { 
+                                        caption: me.textNone, 
+                                        value: 'bShowChartTitleNone', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textNoOverlay, 
+                                        value: 'bShowChartTitle', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textOverlay, 
+                                        value: 'bOverlayTitle', 
+                                        checkable: true
+                                    }
+                                ]
+                            })
+                        },
+                        { 
+                            caption: me.textDataLabels, 
+                            value: 'dataLabels', 
+                            disabled: false,
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',  
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    { 
+                                        caption: me.textNone, 
+                                        value: 'bShowDataLabels', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textCenter, 
+                                        value: 'CenterData', 
+                                        checkable: true
+                                    },
+                                    {   
+                                        caption: me.textInnerBottom, 
+                                        value: 'InnerBottomData', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textInnerTop, 
+                                        value: 'InnerTopData', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textOuterTop, 
+                                        value: 'OuterTopData', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textTop, 
+                                        value: 'TopData', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textLeft, 
+                                        value: 'LeftData', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textRight, 
+                                        value: 'RightData', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textBottom, 
+                                        value: 'BottomData', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textFit, 
+                                        value: 'FitWidthData', 
+                                        checkable: true
+                                    }                   
+                                ]
+                            })
+                        },
+                        // { 
+                        //     caption: me.textDataTable, 
+                        //     value: 'dataTable', 
+                        //     disabled: false,
+                        //     menu: new Common.UI.Menu({
+                        //         cls: 'shifted-right',  
+                        //         menuAlign: 'tl-tr',
+                        //         items: [
+                        //             { 
+                        //                 caption: me.textNone, 
+                        //                 value: 'bShowDataNone'
+                        //             },
+                        //             { 
+                        //                 caption: me.textShowDataTable, 
+                        //                 value: 'bShowDataTable'
+                        //             },
+                        //             { 
+                        //                 caption: me.textShowLegendKeys, 
+                        //                 value: 'bShowLegendKeys' 
+                        //             }
+                        //         ]
+                        //     })
+                        // },
+                        {
+                            caption: me.textErrorBars,
+                            value: 'errorBars',
+                            disabled: false,
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',  
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    {
+                                        caption: me.textStandardError,
+                                        value: 'standardError',
+                                        disabled: false
+                                    },
+                                    {
+                                        caption: me.txtPercentage,
+                                        value: 'percentage',
+                                        disabled: false
+                                    },
+                                    {
+                                        caption: me.textStandardDeviation,
+                                        value: 'standardDeviation',
+                                        disabled: false
+                                    }
+                                ]
+                            })
+                        },
+                        { 
+                            caption: me.textGridLines, 
+                            value: 'gridLines', 
+                            disabled: false,
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',  
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    { 
+                                        caption: me.textHorizontalMajor, 
+                                        value: 'bShowHorMajor', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textVerticalMajor, 
+                                        value: 'bShowVerMajor', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textHorizontalMinor, 
+                                        value: 'bShowHorMinor', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textVerticalMinor, 
+                                        value: 'bShowVerMinor', 
+                                        checkable: true
+                                    }
+                                ]
+                            })
+                        },
+                        { 
+                            caption: me.textLegendPos, 
+                            value: 'legend', 
+                            disabled: false,
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',  
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    { 
+                                        caption: me.textTop, 
+                                        value: 'TopLegend', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textLeft, 
+                                        value: 'LeftLegend', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textRight, 
+                                        value: 'RightLegend', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textBottom, 
+                                        value: 'BottomLegend', 
+                                        checkable: true
+                                    },   
+                                    { 
+                                        caption: me.textLeftOverlay, 
+                                        value: 'LeftOverlay', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textRightOverlay, 
+                                        value: 'RightOverlay', 
+                                        checkable: true
+                                    }
+                                ]
+                            })
+                        },
+                        {
+                            caption: me.textTrendline,
+                            value: 'trendLines',
+                            disabled: false,
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',  
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    {
+                                        caption: me.textNone, 
+                                        value: 'trendLineNone'
+                                    },
+                                    {
+                                        caption: me.textLinear,
+                                        value: 'trendLineLinear'
+                                    },
+                                    {
+                                        caption: me.textExponential, 
+                                        value: 'trendLineExponential'
+                                    },
+                                    {
+                                        caption: me.textLinearForecast,
+                                        value: 'trendLineForecast'
+                                    },
+                                    {
+                                        caption: me.textMovingAverage, 
+                                        value: 'trendLineMovingAverage'
+                                    }
+                                ]
+                            })
+                        },
+                        { 
+                            caption: me.textUpDownBars, 
+                            value: 'upDownBars', 
+                            disabled: false,
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',  
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    { 
+                                        caption: me.textNone, 
+                                        value: 'bShowUpDownNone'
+                                    },
+                                    { 
+                                        caption: me.textShowUpDown, 
+                                        value: 'bShowUpDownBars'
+                                    }
+                                ]
+                            })
+                        }
+                    ]
+                })
+            });
 
 
             me.mnuGroup = new Common.UI.MenuItem({
