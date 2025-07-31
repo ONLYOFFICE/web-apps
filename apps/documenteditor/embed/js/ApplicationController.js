@@ -1188,6 +1188,8 @@ DE.ApplicationController = new(function(){
         txtYes:'Yes',
         txtNo: 'No',
         textOk: 'OK',
-        textCancel: 'Cancel'
+        textCancel: 'Cancel',
+        txtSecurityWarningLink: 'This document is trying to connect to %1.<br>If you trust this site, press \"OK\" while holding down the ctrl key.',
+        txtSecurityWarningOpenFile: 'This document is trying to open file dialog, press \"OK\" to open.',
     }
 })();
