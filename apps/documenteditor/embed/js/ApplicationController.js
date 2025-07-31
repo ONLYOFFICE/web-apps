@@ -1002,6 +1002,44 @@ DE.ApplicationController = new(function(){
             }
         }
     }
+
+    function onOpenLinkPdfForm(sURI, onAllow, onCancel) {
+        var re = new RegExp('ctrl|' + me.textCtrl, 'i'),
+            msg = common.utils.isMac ? me.txtSecurityWarningLink.replace(re, '⌘') : me.txtSecurityWarningLink;
+        common.controller.modals.showWarning({
+            title: me.notcriticalErrorTitle,
+            message: msg.replace('%1', sURI || ''),
+            buttons: [me.textOk, me.textCancel],
+            callback: function(btn) {
+                if (btn == me.textOk && window.event && (!common.utils.isMac && window.event.ctrlKey == true || common.utils.isMac && window.event.metaKey)) {
+                    onAllow();
+                }
+                else
+                    onCancel();
+            },
+            closecallback: function() {
+                onCancel();
+            }
+        });
+    }
+
+    function onOpenFilePdfForm(onAllow, onCancel) {
+        common.controller.modals.showWarning({
+            title: me.notcriticalErrorTitle,
+            message: me.txtSecurityWarningOpenFile,
+            buttons: [me.textOk, me.textCancel],
+            callback: function(btn) {
+                if (btn == me.textOk) {
+                    onAllow();
+                }
+                else
+                    onCancel();
+            },
+            closecallback: function() {
+                onCancel();
+            }
+        });
+    }
         // Helpers
     // -------------------------
 
@@ -1080,6 +1118,10 @@ DE.ApplicationController = new(function(){
 //            api.asc_registerCallback('OnCurrentVisiblePage',    onCurrentPage);
             api.asc_registerCallback('asc_onCurrentPage',           onCurrentPage);
 
+            if (isPDF) {
+                api.asc_registerCallback('asc_onOpenLinkPdfForm',          onOpenLinkPdfForm);
+                api.asc_registerCallback('asc_onOpenFilePdfForm',          onOpenFilePdfForm);
+            }
             // Initialize api gateway
             Common.Gateway.on('init',               loadConfig);
             Common.Gateway.on('opendocument',       loadDocument);
@@ -1144,6 +1186,8 @@ DE.ApplicationController = new(function(){
         errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
         txtOpenWarning: 'Clicking this link can be harmful to your device and data.<br> Are you sure you want to continue?',
         txtYes:'Yes',
-        txtNo: 'No'
+        txtNo: 'No',
+        textOk: 'OK',
+        textCancel: 'Cancel'
     }
 })();
