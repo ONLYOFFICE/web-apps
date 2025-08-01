@@ -20,192 +20,192 @@
 
 .big-image_form_inserted {
 	background-position: 0px -286px;
-	width: 235px;
-	height: 229px;
+	width: 204px;
+	height: 227px;
 }
 
 .big-reshaping {
-	background-position: -235px -286px;
+	background-position: -204px -286px;
 	width: 123px;
 	height: 147px;
 }
 
 .big-nestedfraction {
-	background-position: -358px -286px;
+	background-position: -327px -286px;
 	width: 146px;
 	height: 85px;
 }
 
+.big-signature_form_inserted {
+	background-position: -204px -433px;
+	width: 284px;
+	height: 78px;
+}
+
 .big-newslot {
-	background-position: -235px -433px;
+	background-position: -555px 0px;
 	width: 192px;
 	height: 77px;
 }
 
 .big-formatastext {
-	background-position: -555px 0px;
+	background-position: -555px -77px;
 	width: 162px;
 	height: 75px;
 }
 
 .big-resizetable {
-	background-position: 0px -515px;
+	background-position: 0px -513px;
 	width: 233px;
 	height: 65px;
 }
 
 .big-moveelement {
-	background-position: -358px -371px;
+	background-position: -555px -152px;
 	width: 188px;
 	height: 60px;
 }
 
 .big-resizeelement {
-	background-position: -233px -515px;
+	background-position: -555px -212px;
 	width: 188px;
 	height: 60px;
 }
 
-.big-signature_form_inserted {
-	background-position: -555px -75px;
-	width: 160px;
-	height: 60px;
-}
-
 .big-templateslist {
-	background-position: -555px -135px;
+	background-position: -555px -272px;
 	width: 83px;
 	height: 54px;
 }
 
 .big-nonetemplate {
-	background-position: -638px -135px;
+	background-position: -638px -272px;
 	width: 63px;
 	height: 48px;
 }
 
 .big-editedequation2 {
-	background-position: -555px -189px;
+	background-position: -555px -326px;
 	width: 97px;
 	height: 47px;
 }
 
-.big-email_address_inserted {
-	background-position: -421px -515px;
-	width: 211px;
-	height: 45px;
-}
-
-.big-checkbox_checked {
-	background-position: -555px -236px;
-	width: 127px;
-	height: 45px;
-}
-
-.big-phone_number_inserted {
-	background-position: -555px -281px;
-	width: 138px;
-	height: 44px;
-}
-
-.big-radio_button_checked {
-	background-position: -555px -325px;
-	width: 98px;
-	height: 41px;
-}
-
-.big-radio_button_inserted {
-	background-position: -555px -366px;
-	width: 114px;
-	height: 39px;
-}
-
-.big-checkbox_inserted {
-	background-position: -555px -405px;
-	width: 82px;
-	height: 38px;
-}
-
-.big-credit_card_inserted {
-	background-position: -555px -443px;
-	width: 159px;
-	height: 36px;
-}
-
 .big-datecontentcontrol {
-	background-position: -555px -479px;
+	background-position: -555px -373px;
 	width: 109px;
 	height: 33px;
 }
 
 .big-indents_ruler {
-	background-position: 0px -580px;
+	background-position: -233px -513px;
 	width: 469px;
 	height: 30px;
 }
 
 .big-tabstops_ruler {
-	background-position: 0px -610px;
+	background-position: -233px -543px;
 	width: 465px;
 	height: 30px;
 }
 
 .big-columnspacing {
-	background-position: 0px -640px;
+	background-position: 0px -578px;
 	width: 300px;
 	height: 30px;
 }
 
 .big-margins {
-	background-position: -469px -580px;
+	background-position: -327px -371px;
 	width: 227px;
 	height: 30px;
 }
 
 .big-select_text_languages {
-	background-position: -652px -189px;
+	background-position: -652px -326px;
 	width: 65px;
 	height: 28px;
 }
 
-.big-fontfamily {
+.big-checkbox_checked {
+	background-position: -717px -77px;
+	width: 29px;
+	height: 25px;
+}
+
+.big-checkbox_inserted {
+	background-position: -717px -102px;
+	width: 29px;
+	height: 25px;
+}
+
+.big-radio_button_checked {
+	background-position: -717px -127px;
+	width: 29px;
+	height: 25px;
+}
+
+.big-radio_button_inserted {
+	background-position: -701px -272px;
+	width: 29px;
+	height: 25px;
+}
+
+.big-email_address_inserted {
+	background-position: -555px -406px;
+	width: 171px;
+	height: 22px;
+}
+
+.big-credit_card_inserted {
+	background-position: -555px -428px;
+	width: 161px;
+	height: 22px;
+}
+
+.big-phone_number_inserted {
+	background-position: -555px -450px;
+	width: 112px;
+	height: 22px;
+}
+
+.big-date_time_inserted {
+	background-position: -555px -472px;
+	width: 111px;
+	height: 22px;
+}
+
+.big-zip_code_inserted {
 	background-position: -357px -238px;
+	width: 94px;
+	height: 22px;
+}
+
+.big-fontfamily {
+	background-position: -451px -238px;
 	width: 87px;
 	height: 22px;
 }
 
 .big-wrap_boundary {
-	background-position: -653px -325px;
+	background-position: -664px -373px;
 	width: 61px;
 	height: 22px;
 }
 
-.big-date_time_inserted {
-	background-position: -444px -238px;
-	width: 109px;
-	height: 21px;
-}
-
-.big-zip_code_inserted {
-	background-position: -357px -260px;
-	width: 92px;
-	height: 20px;
-}
-
 .big-pagebreak {
-	background-position: -421px -560px;
+	background-position: -555px -494px;
 	width: 185px;
 	height: 9px;
 }
 
 .big-columnbreak {
-	background-position: -465px -610px;
+	background-position: -327px -401px;
 	width: 200px;
 	height: 8px;
 }
 
 .big-sectionbreak {
-	background-position: -465px -618px;
+	background-position: -327px -409px;
 	width: 200px;
 	height: 8px;
 }
