@@ -629,7 +629,7 @@ define([
                     iconCls: 'toolbar__icon btn-ltr',
                     action: 'text-direction',
                     dirRtl: false,
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.disableOnStart, _set.inAnnotation],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inCheckForm, _set.disableOnStart, _set.inAnnotation],
                     menu: new Common.UI.Menu({
                         items: [
                             {caption: this.textDirLtr, value: false, iconCls: 'menu__icon btn-ltr'},
