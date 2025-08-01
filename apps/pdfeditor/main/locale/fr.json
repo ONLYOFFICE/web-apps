@@ -1278,6 +1278,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Enregistrer",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Enregistrer une copie sous",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Paramètres avancés",
+  "PDFE.Views.FileMenu.btnSuggestCaption": "Proposer une fonctionnalité",
   "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Passer en mode mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "Modifier le document",
   "PDFE.Views.FileMenu.textDownload": "Télécharger",

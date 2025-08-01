@@ -2301,6 +2301,7 @@
   "DE.Views.EditListItemDialog.textValueError": "An item with the same value already exists.",
   "DE.Views.FileMenu.ariaFileMenu": "File menu",
   "DE.Views.FileMenu.btnBackCaption": "Open File Location",
+  "DE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature",
   "DE.Views.FileMenu.btnCloseEditor": "Close File",
   "DE.Views.FileMenu.btnCloseMenuCaption": "Back",
   "DE.Views.FileMenu.btnCreateNewCaption": "Create New",

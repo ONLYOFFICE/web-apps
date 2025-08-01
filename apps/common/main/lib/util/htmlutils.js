@@ -32,7 +32,8 @@
 
 var checkLocalStorage = (function () {
     try {
-        var storage = window['localStorage'];
+        localStorage.setItem('test', 1);   // for WebView checking !!window.localStorage not enough
+        localStorage.removeItem('test');
         return true;
     }
     catch(e) {

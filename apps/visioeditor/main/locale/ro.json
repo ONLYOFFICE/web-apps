@@ -334,6 +334,7 @@
   "VE.Views.FileMenu.btnSaveAsCaption": "Salvare ca",
   "VE.Views.FileMenu.btnSaveCopyAsCaption": "Salvare copie ca",
   "VE.Views.FileMenu.btnSettingsCaption": "Setări avansate",
+  "VE.Views.FileMenu.btnSuggestCaption": "Sugerează o funcție",
   "VE.Views.FileMenu.btnSwitchToMobileCaption": "Comutare la modul Mobil",
   "VE.Views.FileMenu.textDownload": "Descărcare",
   "VE.Views.FileMenuPanels.CreateNew.txtBlank": "Document necompletat",

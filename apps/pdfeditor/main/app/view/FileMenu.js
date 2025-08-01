@@ -299,6 +299,17 @@ define([
                 iconCls: 'menu__icon btn-goback'
             });
 
+            this.miSuggest = new Common.UI.MenuItem({
+                el      : $markup.elementById('#fm-btn-suggest'),
+                action  : 'suggest',
+                caption : this.btnSuggestCaption,
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [-2, 22],
+                iconCls: 'menu__icon btn-suggest-feature'
+            });
+
             this.items = [];
             this.items.push(
                 this.miClose,
@@ -317,7 +328,8 @@ define([
                 this.miAccess,
                 this.miSettings,
                 this.miHelp,
-                this.miBack
+                this.miBack,
+                this.miSuggest
             );
 
             this.rendered = true;
@@ -420,6 +432,9 @@ define([
 
             isVisible = this.mode.canBack;
             this.miBack[isVisible ?'show':'hide']();
+
+            isVisible = this.mode.canSuggest;
+            this.miSuggest[isVisible ?'show':'hide']();
 
             if (!this.customizationDone) {
                 this.customizationDone = true;

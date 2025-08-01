@@ -2095,6 +2095,7 @@
   "PE.Views.FileMenu.btnSaveCaption": "Guardar",
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "Guardar copia como",
   "PE.Views.FileMenu.btnSettingsCaption": "Ajustes avanzados",
+  "PE.Views.FileMenu.btnSuggestCaption": "Sugerir una función",
   "PE.Views.FileMenu.btnSwitchToMobileCaption": "Cambiar a móvil",
   "PE.Views.FileMenu.btnToEditCaption": "Editar presentación",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "Presentación en blanco",

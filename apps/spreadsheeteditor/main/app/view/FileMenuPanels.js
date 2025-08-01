@@ -2043,6 +2043,8 @@ define([], function () {
                 value = value ? this.txtYes : this.txtNo;
             } else if (type === AscCommon.c_oVariantTypes.vtFiletime) {
                 value = this.dateToString(new Date(value), true);
+            } else {
+                value = Common.Utils.String.htmlEncode(value);
             }
 
             return '<tr data-custom-property>' +

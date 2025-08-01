@@ -2257,6 +2257,7 @@
   "PE.Views.FileMenu.ariaFileMenu": "File menu",
   "PE.Views.FileMenu.btnAboutCaption": "About",
   "PE.Views.FileMenu.btnBackCaption": "Open File Location",
+  "PE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature",
   "PE.Views.FileMenu.btnCloseEditor": "Close File",
   "PE.Views.FileMenu.btnCloseMenuCaption": "Back",
   "PE.Views.FileMenu.btnCreateNewCaption": "Create New",

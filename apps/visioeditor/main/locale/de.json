@@ -334,6 +334,7 @@
   "VE.Views.FileMenu.btnSaveAsCaption": "Speichern als",
   "VE.Views.FileMenu.btnSaveCopyAsCaption": "Kopie speichern als",
   "VE.Views.FileMenu.btnSettingsCaption": "Erweiterte Einstellungen",
+  "VE.Views.FileMenu.btnSuggestCaption": "Eine Funktion vorschlagen",
   "VE.Views.FileMenu.btnSwitchToMobileCaption": "In den Mobilmodus wechseln",
   "VE.Views.FileMenu.textDownload": "Herunterladen",
   "VE.Views.FileMenuPanels.CreateNew.txtBlank": "Leeres Dokument",
