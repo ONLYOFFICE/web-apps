@@ -425,5 +425,6 @@
   "VE.Views.ViewTab.textZoom": "확대 / 축소",
   "VE.Views.ViewTab.tipFitPage": "페이지에 맞춤",
   "VE.Views.ViewTab.tipFitWidth": "너비에 맞춤",
-  "VE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마"
+  "VE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마",
+  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature"
 }

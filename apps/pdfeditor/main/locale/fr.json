@@ -2238,5 +2238,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajuster à la page",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajuster à la largeur",
   "PDFE.Views.ViewTab.tipHeadings": "Titres",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Thème d’interface"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Thème d’interface",
+  "Common.Views.Comments.mniFilterComments": "Show comments",
+  "Common.Views.Comments.textOpen": "Open",
+  "PDFE.Views.FormSettings.textTip": "Tip"
 }

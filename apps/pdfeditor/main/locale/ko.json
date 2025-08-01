@@ -1476,6 +1476,7 @@
   "PDFE.Views.FormSettings.textOrientation": "방향",
   "PDFE.Views.FormSettings.textOutline": "개요",
   "PDFE.Views.FormSettings.textOverlay": "아이콘 위 레이블",
+  "PDFE.Views.FormSettings.textPassword": "Password",
   "PDFE.Views.FormSettings.textPercent": "백분율",
   "PDFE.Views.FormSettings.textPhone": "전화 번호",
   "PDFE.Views.FormSettings.textPlaceholder": "자리 표시자",
@@ -2237,5 +2238,8 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "너비에 맞춤",
   "PDFE.Views.ViewTab.tipHeadings": "제목",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마",
-  "PDFE.Views.FormSettings.textPassword": "Password"
+  "Common.Views.Comments.mniFilterComments": "Show comments",
+  "Common.Views.Comments.textOpen": "Open",
+  "PDFE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature",
+  "PDFE.Views.FormSettings.textTip": "Tip"
 }

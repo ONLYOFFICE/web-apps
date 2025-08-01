@@ -245,7 +245,7 @@
   "Common.Views.Header.tipGoEdit": "Modifica il file attuale",
   "Common.Views.Header.tipPrint": "Stampa file",
   "Common.Views.Header.tipPrintQuick": "Stampa rapida",
-  "Common.Views.Header.tipRedo": "Ripeti",
+  "Common.Views.Header.tipRedo": "Ripristina",
   "Common.Views.Header.tipSave": "Salva",
   "Common.Views.Header.tipSearch": "Ricerca",
   "Common.Views.Header.tipUndo": "Annulla",
@@ -2194,7 +2194,7 @@
   "PDFE.Views.Toolbar.tipPrint": "Stampa",
   "PDFE.Views.Toolbar.tipPrintQuick": "Stampa rapida",
   "PDFE.Views.Toolbar.tipRecognize": "Modifica Testo",
-  "PDFE.Views.Toolbar.tipRedo": "Ripeti",
+  "PDFE.Views.Toolbar.tipRedo": "Ripristina",
   "PDFE.Views.Toolbar.tipRotate": "Ruota le pagine",
   "PDFE.Views.Toolbar.tipSave": "Salva",
   "PDFE.Views.Toolbar.tipSaveCoauth": "Salva i tuoi cambiamenti per renderli disponibili agli altri utenti.",
@@ -2238,5 +2238,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Adatta alla pagina",
   "PDFE.Views.ViewTab.tipFitToWidth": "Adatta alla larghezza",
   "PDFE.Views.ViewTab.tipHeadings": "Intestazioni",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema dell'interfaccia"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema dell'interfaccia",
+  "Common.Views.Comments.mniFilterComments": "Show comments",
+  "Common.Views.Comments.textOpen": "Open",
+  "PDFE.Views.FormSettings.textTip": "Tip"
 }

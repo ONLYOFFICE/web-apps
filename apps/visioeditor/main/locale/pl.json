@@ -425,5 +425,6 @@
   "VE.Views.ViewTab.textZoom": "Powiększenie",
   "VE.Views.ViewTab.tipFitPage": "Dopasuj do strony",
   "VE.Views.ViewTab.tipFitWidth": "Dopasuj do szerokości",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Motyw interfejsu"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Motyw interfejsu",
+  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature"
 }

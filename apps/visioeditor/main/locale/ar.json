@@ -425,5 +425,6 @@
   "VE.Views.ViewTab.textZoom": "تكبير",
   "VE.Views.ViewTab.tipFitPage": "ملائم للصفحة",
   "VE.Views.ViewTab.tipFitWidth": "ملائم للعرض",
-  "VE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة"
+  "VE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
+  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature"
 }

@@ -426,8 +426,5 @@
   "VE.Views.ViewTab.textZoom": "Zoom",
   "VE.Views.ViewTab.tipFitPage": "Portivire la pagina",
   "VE.Views.ViewTab.tipFitWidth": "Potrivire lățime",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Tema de interfață",
-  "Common.Views.PluginDlg.textDock": "Pin plugin",
-  "Common.Views.PluginPanel.textUndock": "Unpin plugin",
-  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Tema de interfață"
 }

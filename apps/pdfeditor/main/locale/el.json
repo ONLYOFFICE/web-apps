@@ -1278,6 +1278,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Αποθήκευση",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Αποθήκευση αντιγράφου ως",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Προηγμένες ρυθμίσεις",
+  "PDFE.Views.FileMenu.btnSuggestCaption": "Προτείνετε ένα χαρακτηριστικό",
   "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Μετάβαση σε Κινητό",
   "PDFE.Views.FileMenu.btnToEditCaption": "Επεξεργασία εγγράφου",
   "PDFE.Views.FileMenu.textDownload": "Λήψη",
@@ -2237,5 +2238,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Προσαρμογή στη σελίδα",
   "PDFE.Views.ViewTab.tipFitToWidth": "Προσαρμογή στο πλάτος",
   "PDFE.Views.ViewTab.tipHeadings": "Κεφαλίδες",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής",
+  "Common.Views.Comments.mniFilterComments": "Show comments",
+  "Common.Views.Comments.textOpen": "Open",
+  "PDFE.Views.FormSettings.textTip": "Tip"
 }

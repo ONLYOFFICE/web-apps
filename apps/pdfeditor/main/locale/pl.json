@@ -1476,6 +1476,7 @@
   "PDFE.Views.FormSettings.textOrientation": "Orientation",
   "PDFE.Views.FormSettings.textOutline": "Outline",
   "PDFE.Views.FormSettings.textOverlay": "Label over icon",
+  "PDFE.Views.FormSettings.textPassword": "Password",
   "PDFE.Views.FormSettings.textPercent": "Percentage",
   "PDFE.Views.FormSettings.textPhone": "Numer telefonu",
   "PDFE.Views.FormSettings.textPlaceholder": "Symbol zastępczy",
@@ -2237,5 +2238,8 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Dopasuj do szerokości",
   "PDFE.Views.ViewTab.tipHeadings": "Nagłówki",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Motyw interfejsu",
-  "PDFE.Views.FormSettings.textPassword": "Password"
+  "Common.Views.Comments.mniFilterComments": "Show comments",
+  "Common.Views.Comments.textOpen": "Open",
+  "PDFE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature",
+  "PDFE.Views.FormSettings.textTip": "Tip"
 }

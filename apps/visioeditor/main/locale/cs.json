@@ -425,5 +425,6 @@
   "VE.Views.ViewTab.textZoom": "Zoom",
   "VE.Views.ViewTab.tipFitPage": "Přízpůsobit stránce",
   "VE.Views.ViewTab.tipFitWidth": "Přizpůsobit šířce",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Vzhled uživatelského rozhraní"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Vzhled uživatelského rozhraní",
+  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature"
 }

@@ -1476,6 +1476,7 @@
   "PDFE.Views.FormSettings.textOrientation": "Orientim",
   "PDFE.Views.FormSettings.textOutline": "Kontur",
   "PDFE.Views.FormSettings.textOverlay": "Etiketoni mbi ikonën",
+  "PDFE.Views.FormSettings.textPassword": "Password",
   "PDFE.Views.FormSettings.textPercent": "Përqindje",
   "PDFE.Views.FormSettings.textPhone": "Numri telefonit",
   "PDFE.Views.FormSettings.textPlaceholder": "Vendmbajtës",
@@ -2237,5 +2238,8 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Përshtatet me gjerësinë",
   "PDFE.Views.ViewTab.tipHeadings": "Tituj",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes",
-  "PDFE.Views.FormSettings.textPassword": "Password"
+  "Common.Views.Comments.mniFilterComments": "Show comments",
+  "Common.Views.Comments.textOpen": "Open",
+  "PDFE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature",
+  "PDFE.Views.FormSettings.textTip": "Tip"
 }

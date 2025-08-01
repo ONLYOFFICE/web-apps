@@ -2237,5 +2237,9 @@
   "PDFE.Views.ViewTab.tipFitToPage": "מתאים לדף",
   "PDFE.Views.ViewTab.tipFitToWidth": "מתאים לרוחב",
   "PDFE.Views.ViewTab.tipHeadings": "כותרות",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא",
+  "Common.Views.Comments.mniFilterComments": "Show comments",
+  "Common.Views.Comments.textOpen": "Open",
+  "PDFE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature",
+  "PDFE.Views.FormSettings.textTip": "Tip"
 }

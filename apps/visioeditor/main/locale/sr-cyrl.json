@@ -425,5 +425,6 @@
   "VE.Views.ViewTab.textZoom": "Зумирај",
   "VE.Views.ViewTab.tipFitPage": "Прилагоди страници",
   "VE.Views.ViewTab.tipFitWidth": "Прилагоди ширини",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса",
+  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature"
 }

@@ -425,5 +425,6 @@
   "VE.Views.ViewTab.textZoom": "زوم",
   "VE.Views.ViewTab.tipFitPage": "صفحہ پر فٹ",
   "VE.Views.ViewTab.tipFitWidth": "چوڑائی کے مطابق",
-  "VE.Views.ViewTab.tipInterfaceTheme": "انٹرفیس تھیم"
+  "VE.Views.ViewTab.tipInterfaceTheme": "انٹرفیس تھیم",
+  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature"
 }

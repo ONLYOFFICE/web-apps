@@ -2238,5 +2238,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Portivire la pagina",
   "PDFE.Views.ViewTab.tipFitToWidth": "Potrivire lățime",
   "PDFE.Views.ViewTab.tipHeadings": "Titluri",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de interfață"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de interfață",
+  "Common.Views.Comments.mniFilterComments": "Show comments",
+  "Common.Views.Comments.textOpen": "Open",
+  "PDFE.Views.FormSettings.textTip": "Tip"
 }

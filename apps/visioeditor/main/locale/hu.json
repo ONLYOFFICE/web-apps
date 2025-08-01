@@ -425,5 +425,6 @@
   "VE.Views.ViewTab.textZoom": "Nagyítás",
   "VE.Views.ViewTab.tipFitPage": "Igazítás az oldalhoz",
   "VE.Views.ViewTab.tipFitWidth": "Szélességhez igazítás",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája",
+  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature"
 }

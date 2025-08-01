@@ -2237,5 +2237,9 @@
   "PDFE.Views.ViewTab.tipFitToPage": "ページに合わせる",
   "PDFE.Views.ViewTab.tipFitToWidth": "幅に合わせる",
   "PDFE.Views.ViewTab.tipHeadings": "見出し",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "インターフェイスのテーマ"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "インターフェイスのテーマ",
+  "Common.Views.Comments.mniFilterComments": "Show comments",
+  "Common.Views.Comments.textOpen": "Open",
+  "PDFE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature",
+  "PDFE.Views.FormSettings.textTip": "Tip"
 }

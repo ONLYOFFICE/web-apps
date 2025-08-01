@@ -420,6 +420,7 @@
   "Error": {
     "convertationTimeoutText": "අනුවර්තන කාලය ඉක්මවා ඇත.",
     "criticalErrorExtText": "ලේඛන වට්ටෝරුවට ආපසු යාමට 'හරි' ඔබන්න.",
+    "criticalErrorExtTextClose": "සංස්කරකය වැසීමට 'හරි' ඔබන්න.",
     "criticalErrorTitle": "දෝෂයකි",
     "downloadErrorText": "බාගැනීමට අසමත් විය.",
     "errorAccessDeny": "ඔබට අයිතියක් නැති ක්‍රියාමාර්ගයක් ගැනීමට ඔබ උත්සාහ කරයි.<br>ඔබගේ පරිපාලක අමතන්න.",
@@ -479,8 +480,7 @@
     "uploadDocSizeMessage": "ලේඛනයක උපරිම ප්‍රමාණයේ සීමාව ඉක්මවිය.",
     "uploadImageExtMessage": "නොදන්නා රූප ආකෘතියකි.",
     "uploadImageFileCountMessage": "රූප කිසිවක් උඩුගත කර නැත.",
-    "uploadImageSizeMessage": "රූපය ඉතා විශාලයි. උපරිම ප්‍රමාණය මෙ.බ. 25 කි.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "uploadImageSizeMessage": "රූපය ඉතා විශාලයි. උපරිම ප්‍රමාණය මෙ.බ. 25 කි."
   },
   "LongActions": {
     "applyChangesTextText": "දත්ත පූරණය වෙමින්...",
@@ -714,6 +714,7 @@
     "textDownloadAs": "ලෙස බාගන්න",
     "textDownloadRtf": "ඔබ දිගටම මෙම ආකෘතියෙන් සුරැකුවොත් සමහර හැඩ ගැන්වීම් නැති වීමට හැකිය. ඔබට ඉදිරියට යාමට වුවමනා ද?",
     "textDownloadTxt": "ඔබ මෙම ආකෘතියෙන් දිගටම සුරැකුවොත් පාඨ හැර අනෙකුත් සියළුම විශේෂාංග නැති වී යනු ඇත. ඔබට දිගටම කරගෙන යාමට වුවමනාද?",
+    "textDrawing": "ඇඳීම",
     "textEmptyHeading": "හිස් ශ්‍රීර්ෂය",
     "textEmptyScreens": "ලේඛනයේ කිසිදු ශ්‍රීර්ෂයක් නැත. ශ්‍රීර්ෂ ශෛලියක් පෙළට දමන්න එවිට එය පටුනේ දිස් වේ.",
     "textEnableAll": "සියල්ල සබල කරන්න",
@@ -808,8 +809,7 @@
     "txtDownloadTxt": "TXT බාගන්න",
     "txtIncorrectPwd": "මුරපදය සාවද්‍යයි",
     "txtOk": "හරි",
-    "txtProtected": "ඔබ මුරපදය ඇතුල් කර ගොනුව විවෘත කළ පසු, වත්මන් මුරපදය යළි සැකසෙනු ඇත",
-    "textDrawing": "Drawing"
+    "txtProtected": "ඔබ මුරපදය ඇතුල් කර ගොනුව විවෘත කළ පසු, වත්මන් මුරපදය යළි සැකසෙනු ඇත"
   },
   "Toolbar": {
     "btnRestartNow": "යළි අරඹන්න",

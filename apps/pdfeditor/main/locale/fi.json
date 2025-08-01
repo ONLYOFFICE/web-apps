@@ -1476,6 +1476,7 @@
   "PDFE.Views.FormSettings.textOrientation": "Orientation",
   "PDFE.Views.FormSettings.textOutline": "Outline",
   "PDFE.Views.FormSettings.textOverlay": "Label over icon",
+  "PDFE.Views.FormSettings.textPassword": "Password",
   "PDFE.Views.FormSettings.textPercent": "Percentage",
   "PDFE.Views.FormSettings.textPhone": "Puhelinnumero",
   "PDFE.Views.FormSettings.textPlaceholder": "Paikanpitäjä",
@@ -2237,5 +2238,8 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Sovita leveyden mukaan",
   "PDFE.Views.ViewTab.tipHeadings": "Otsikot",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Käyttöliittymän teema",
-  "PDFE.Views.FormSettings.textPassword": "Password"
+  "Common.Views.Comments.mniFilterComments": "Show comments",
+  "Common.Views.Comments.textOpen": "Open",
+  "PDFE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature",
+  "PDFE.Views.FormSettings.textTip": "Tip"
 }

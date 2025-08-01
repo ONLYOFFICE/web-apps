@@ -108,7 +108,7 @@
   "Common.Utils.String.textAlt": "Alt",
   "Common.Utils.String.textComma": "，",
   "Common.Utils.String.textCtrl": "Ctrl",
-  "Common.Utils.String.textShift": "转移",
+  "Common.Utils.String.textShift": "Shift",
   "Common.Utils.ThemeColor.txtaccent": "重点色",
   "Common.Utils.ThemeColor.txtAqua": "湖绿色",
   "Common.Utils.ThemeColor.txtbackground": "背景",
@@ -1278,6 +1278,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "保存",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "另存副本为",
   "PDFE.Views.FileMenu.btnSettingsCaption": "高级设置",
+  "PDFE.Views.FileMenu.btnSuggestCaption": "提出功能建议",
   "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "切换到移动模式",
   "PDFE.Views.FileMenu.btnToEditCaption": "编辑文档",
   "PDFE.Views.FileMenu.textDownload": "下载",
@@ -1476,6 +1477,7 @@
   "PDFE.Views.FormSettings.textOrientation": "方向",
   "PDFE.Views.FormSettings.textOutline": "大纲",
   "PDFE.Views.FormSettings.textOverlay": "图标上方的标签",
+  "PDFE.Views.FormSettings.textPassword": "密码",
   "PDFE.Views.FormSettings.textPercent": "百分比",
   "PDFE.Views.FormSettings.textPhone": "电话号码",
   "PDFE.Views.FormSettings.textPlaceholder": "占位符",
@@ -2237,5 +2239,7 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "适应宽度",
   "PDFE.Views.ViewTab.tipHeadings": "标题",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "界面主题",
-  "PDFE.Views.FormSettings.textPassword": "Password"
+  "Common.Views.Comments.mniFilterComments": "Show comments",
+  "Common.Views.Comments.textOpen": "Open",
+  "PDFE.Views.FormSettings.textTip": "Tip"
 }

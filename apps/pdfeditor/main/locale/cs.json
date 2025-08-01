@@ -1476,6 +1476,7 @@
   "PDFE.Views.FormSettings.textOrientation": "Orientace",
   "PDFE.Views.FormSettings.textOutline": "Osnova",
   "PDFE.Views.FormSettings.textOverlay": "Popisek přes ikonu",
+  "PDFE.Views.FormSettings.textPassword": "Password",
   "PDFE.Views.FormSettings.textPercent": "Procento",
   "PDFE.Views.FormSettings.textPhone": "Telefonní číslo",
   "PDFE.Views.FormSettings.textPlaceholder": "Výplňový objekt",
@@ -2237,5 +2238,8 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Přizpůsobit šířce",
   "PDFE.Views.ViewTab.tipHeadings": "Nadpisy",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhled uživatelského rozhraní",
-  "PDFE.Views.FormSettings.textPassword": "Password"
+  "Common.Views.Comments.mniFilterComments": "Show comments",
+  "Common.Views.Comments.textOpen": "Open",
+  "PDFE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature",
+  "PDFE.Views.FormSettings.textTip": "Tip"
 }

@@ -1476,6 +1476,7 @@
   "PDFE.Views.FormSettings.textOrientation": "واقفیت",
   "PDFE.Views.FormSettings.textOutline": "خاکہ",
   "PDFE.Views.FormSettings.textOverlay": "آئیکن پر لیبل لگائیں۔",
+  "PDFE.Views.FormSettings.textPassword": "Password",
   "PDFE.Views.FormSettings.textPercent": "فیصد",
   "PDFE.Views.FormSettings.textPhone": "فون نمبر",
   "PDFE.Views.FormSettings.textPlaceholder": "پلیس ہولڈر",
@@ -2237,5 +2238,8 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "چوڑائی کے مطابق",
   "PDFE.Views.ViewTab.tipHeadings": "عنوانات",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "انٹرفیس تھیم",
-  "PDFE.Views.FormSettings.textPassword": "Password"
+  "Common.Views.Comments.mniFilterComments": "Show comments",
+  "Common.Views.Comments.textOpen": "Open",
+  "PDFE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature",
+  "PDFE.Views.FormSettings.textTip": "Tip"
 }

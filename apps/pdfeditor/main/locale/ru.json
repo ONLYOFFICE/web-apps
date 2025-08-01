@@ -2239,6 +2239,7 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "По ширине",
   "PDFE.Views.ViewTab.tipHeadings": "Заголовки",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса",
-  "PDFE.Views.DocumentHolder.txtCopyPage": "Copy page",
-  "PDFE.Views.DocumentHolder.txtPastePage": "Paste page"
+  "Common.Views.Comments.mniFilterComments": "Show comments",
+  "Common.Views.Comments.textOpen": "Open",
+  "PDFE.Views.FormSettings.textTip": "Tip"
 }

@@ -426,7 +426,5 @@
   "VE.Views.ViewTab.tipFitPage": "Prilagodi stranici",
   "VE.Views.ViewTab.tipFitWidth": "Prilagodi širini",
   "VE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa",
-  "Common.Views.PluginDlg.textDock": "Pin plugin",
-  "Common.Views.PluginPanel.textUndock": "Unpin plugin",
-  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin"
+  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature"
 }
