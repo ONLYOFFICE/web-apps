@@ -142,13 +142,15 @@ define([
                 e.preventDefault();
                 e.stopPropagation();
 
-                var pos = Math.max(0, Math.min(100, (Math.round((
-                    me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).top) : (e.pageX*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).left) - me._dragstart
-                ) / me.width * 100))));
-                me.setThumbPosition(pos);
+                if (me._wasDragged) {
+                    var pos = Math.max(0, Math.min(100, (Math.round((
+                        me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).top) : (e.pageX*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).left) - me._dragstart
+                    ) / me.width * 100))));
+                    me.setThumbPosition(pos);
 
-                me.lastValue = me.value;
-                me.value = pos/me.delta + me.minValue;
+                    me.lastValue = me.value;
+                    me.value = pos/me.delta + me.minValue;
+                }
 
                 me.thumb.removeClass('active');
                 $(document).off('mouseup',   onMouseUp);
@@ -165,6 +167,8 @@ define([
                 e.preventDefault();
                 e.stopPropagation();
 
+                me._wasDragged = true;
+
                 var pos = Math.max(0, Math.min(100, (Math.round((
                     me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).top) : (e.pageX*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).left) - me._dragstart
                 ) / me.width * 100))));
@@ -180,6 +184,7 @@ define([
             var onMouseDown = function (e) {
                 if ( me.disabled ) return;
                 me._dragstart = me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - Common.Utils.getOffset(me.thumb).top) : (e.pageX*Common.Utils.zoom() - Common.Utils.getOffset(me.thumb).left) - 6;
+                me._wasDragged = false;
 
                 me.thumb.addClass('active');
                 $(document).on('mouseup',   onMouseUp);
