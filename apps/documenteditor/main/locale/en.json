@@ -3481,6 +3481,7 @@
   "DE.Views.TableSettings.txtTable_ListTable": "List table",
   "DE.Views.TableSettings.txtTable_PlainTable": "Plain table",
   "DE.Views.TableSettings.txtTable_TableGrid": "Table grid",
+  "DE.Views.TableSettings.textAutofit": "Automaticaly resize to fit content",
   "DE.Views.TableSettingsAdvanced.textAlign": "Alignment",
   "DE.Views.TableSettingsAdvanced.textAlignment": "Alignment",
   "DE.Views.TableSettingsAdvanced.textAllowSpacing": "Spacing between cells",
