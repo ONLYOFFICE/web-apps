@@ -492,10 +492,10 @@ define([
             this.btnAddFormula = new Common.UI.Button({
                 parentEl: $('#table-btn-add-formula'),
                 cls: 'btn-toolbar align-left',
-                iconCls: 'toolbar__icon btn-table-to-text',
+                iconCls: 'toolbar__icon btn-function',
                 caption     : this.textAddFormula,
                 dataHint: '1',
-                dataHintDirection: 'bottom',
+                dataHintDirection: 'left',
                 dataHintOffset: 'medium'
             });
             this.lockedControls.push(this.btnAddFormula);
@@ -641,7 +641,7 @@ define([
                 }
                 this.chRepeatRow.setDisabled(this._state.RepeatRow === null || this._locked);
                 var autoFit = props.get_TableLayout();
-                this.chAutofit.setDisabled(autoFit===undefined);
+                this.chAutofit.setDisabled(autoFit === undefined || this._locked);
                 this.chAutofit.setValue(autoFit===Asc.c_oAscTableLayout.AutoFit, true);
             }
         },
@@ -1017,6 +1017,5 @@ define([
             this.fireEvent('eyedropper', false);
         },
 
-        textAutofit: 'Automaticaly resize to fit content'
     }, DE.Views.TableSettings || {}));
 });
