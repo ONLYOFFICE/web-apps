@@ -3716,6 +3716,8 @@
   "DE.Views.Toolbar.textInsertPageCount": "Insert number of pages",
   "DE.Views.Toolbar.textInsertPageNumber": "Insert page number",
   "DE.Views.Toolbar.textInsideBorders": "Inside borders",
+  "DE.Views.Toolbar.textInsideHorBorders": "Inside horizontal borders",
+  "DE.Views.Toolbar.textInsideVertBorders": "Inside vertical borders",
   "DE.Views.Toolbar.textInsPageBreak": "Insert page break",
   "DE.Views.Toolbar.textInsSectionBreak": "Insert section break",
   "DE.Views.Toolbar.textInText": "In text",

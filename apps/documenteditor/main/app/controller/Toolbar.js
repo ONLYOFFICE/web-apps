@@ -818,7 +818,8 @@ define([
                 docLockViewIns = protect ? protect.isReadOnly : false, // lock insert objects in protected (readonly) document
                 docLockCommentsText = protect ? protect.isCommentsOnly : false, // lock text props in protected (commenting) document
                 docLockCommentsPara = protect ? protect.isCommentsOnly : false, // lock para props in protected (commenting) document
-                docLockCommentsIns = protect ? protect.isCommentsOnly : false; // lock insert objects in protected (commenting) document
+                docLockCommentsIns = protect ? protect.isCommentsOnly : false, // lock insert objects in protected (commenting) document
+                inTable = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -858,11 +859,15 @@ define([
 
                 if (type === Asc.c_oAscTypeSelectElement.Table || type === Asc.c_oAscTypeSelectElement.Header || type === Asc.c_oAscTypeSelectElement.Image) {
                     enable_dropcap = false;
+                    if (type === Asc.c_oAscTypeSelectElement.Table) inTable = true;
                 }
 
                 if (enable_dropcap!==false && type == Asc.c_oAscTypeSelectElement.Paragraph)
                     enable_dropcap = true;
             }
+
+            toolbar.brdInnerVert?.setDisabled(!inTable);
+            toolbar.brdInner?.setDisabled(!inTable);
 
             if (sh)
                 this.onParagraphColor(sh);
@@ -2980,8 +2985,10 @@ define([
         },
 
         onBordersMenu: function(menu, item) {
+            if (!this.api) return;
+
             var me = this;
-            if (me.api && !_.isUndefined(item.options.borderId)) {
+            if (!_.isUndefined(item.options.borderId)) {
                 var btnBorders = me.toolbar.btnBorders,
                     bordersWidth = btnBorders.options.borderswidth || 0.5,
                     bordersColor = btnBorders.options.borderscolor;
@@ -2993,54 +3000,30 @@ define([
 
                 btnBorders.options.borderId = item.options.borderId;
 
-                var props;
-                if (me.api){
-                    var selectedElements = me.api.getSelectedElements(),
-                        selectedElementsLenght = selectedElements.length;
-    
-                    if (selectedElements && _.isArray(selectedElements)){
-                        for (var i = 0; i < selectedElementsLenght; i++) {
-                            if (selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
-                                props = selectedElements[i].get_ObjectValue();
-                                break;
-                            }
+                var paraProps,
+                    tableProps,
+                    inTable = false;
+                var selectedElements = me.api.getSelectedElements(),
+                    selectedElementsLenght = selectedElements.length;
+
+                if (selectedElements && _.isArray(selectedElements)){
+                    for (var i = 0; i < selectedElementsLenght; i++) {
+                        if (selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
+                            paraProps = selectedElements[i].get_ObjectValue();
+                        } else if (selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Table) {
+                            tableProps = selectedElements[i].get_ObjectValue();
+                            inTable = true;
                         }
                     }
                 }
-                
-                var paragraphProps = new Asc.asc_CParagraphProperty();
-                var borders = new Asc.asc_CParagraphBorders(props.get_Borders());
-                var borderStyle = new Asc.asc_CTextBorder();        
-                var currentBorder = {};
 
+                var props = inTable ? tableProps : paraProps,
+                    borderStyle = new Asc.asc_CTextBorder(),
+                    currentBorder = {};
                 borderStyle.asc_putColor(bordersColor);
                 borderStyle.asc_putSize(bordersWidth * 25.4 / 72);
 
-                ['Left', 'Top', 'Right', 'Bottom', 'Between'].forEach(side => {
-                    var border = borders[`get_${side}`]();
-                    if (border) {
-                        var currentSize = (border.asc_getValue() === -1) ? 0 : border.asc_getSize();
-                        var sizePts = currentSize * 72 / 25.4;
-                        currentBorder[side] = {
-                            width: sizePts, 
-                            color: border.asc_getColor(),
-                            value: border.asc_getValue()
-                        };
-                    } else {
-                        currentBorder[side] = { width: 0, color: new Asc.asc_CColor(), value: 0 };
-                    }
-                });
-        
-                var borderSide = {
-                    left: ['Left'],
-                    top: ['Top'],
-                    right: ['Right'],
-                    bottom: ['Bottom'],
-                    all: ['Left', 'Top', 'Right', 'Bottom', 'Between'],
-                    outer: ['Left', 'Top', 'Right', 'Bottom'],
-                    inner: ['Between'],
-                    none: ['Left', 'Top', 'Right', 'Bottom', 'Between']
-                };
+                if (!props) return;
 
                 function toleranceError(a, b, t) {
                     t = 0.01;
@@ -3053,62 +3036,177 @@ define([
                            colorA.get_g() === colorB.get_g() &&
                            colorA.get_b() === colorB.get_b();
                 }
-        
-                var targetBorder = borderSide[item.options.borderId],
-                    brd = new Asc.asc_CTextBorder();
 
-                if (item.options.borderId === 'none') {
-                    targetBorder.forEach(side => {
-                        brd.put_Color(new Asc.asc_CColor());
-                        brd.put_Value(0); 
-                        borders[`put_${side}`](brd);
+                if (inTable) {
+                    var borders = props?.get_CellBorders?.();
+                    const CellBorders = new Asc.CBorders();
+
+                    var borderSide = {
+                        left: ['Left'],
+                        top: ['Top'],
+                        right: ['Right'],
+                        bottom: ['Bottom'],
+                        all: ['Left', 'Top', 'Right', 'Bottom', 'InsideV', 'InsideH'],
+                        outer: ['Left', 'Top', 'Right', 'Bottom'],
+                        inner: ['InsideV', 'InsideH'],
+                        innerHor: ['InsideH'],
+                        innerVert: ['InsideV'],
+                        none: ['Left', 'Top', 'Right', 'Bottom', 'InsideV', 'InsideH']
+                    };
+
+                    ['Left', 'Top', 'Right', 'Bottom', 'InsideV', 'InsideH'].forEach(side => {
+                        var border = borders?.[`get_${side}`]?.();
+                        if (border) {
+                            var currentSize = (border.asc_getValue?.() === 1) ? border.asc_getSize?.() : 0;
+                            var sizePts = currentSize * 72 / 25.4;
+                            currentBorder[side] = {
+                                width: sizePts,
+                                color: border.asc_getColor?.(),
+                                value: border.asc_getValue?.()
+                            };
+                        } else {
+                            currentBorder[side] = {width: 0, color: new Asc.asc_CColor(), value: 0};
+                        }
                     });
-                } else if (item.options.borderId === 'all') {
-                    targetBorder.forEach(side => {
-                        brd.put_Color(bordersColor);
-                        brd.put_Size(bordersWidth * 25.4 / 72);
-                        brd.put_Value(1); 
-                        borders[`put_${side}`](brd);
+
+                    var targetBorder = borderSide[item.options.borderId],
+                        brd = new Asc.asc_CTextBorder();
+
+                    if (item.options.borderId === 'none') {
+                        targetBorder.forEach(side => {
+                            brd.put_Color(new Asc.asc_CColor());
+                            brd.put_Value(0);
+                            CellBorders[`put_${side}`](brd);
+                        });
+                    } else if (item.options.borderId === 'all') {
+                        targetBorder.forEach(side => {
+                            brd.put_Color(bordersColor);
+                            brd.put_Size(bordersWidth * 25.4 / 72);
+                            brd.put_Value(1);
+                            CellBorders[`put_${side}`](brd);
+                        });
+                    } else if (item.options.borderId === 'outer') {
+                        const outerSame = targetBorder.every(side =>
+                            toleranceError(currentBorder[side].width, bordersWidth) &&
+                            compareColors(currentBorder[side].color, bordersColor) &&
+                            currentBorder[side].value === borderStyle.asc_getValue()
+                        );
+                        targetBorder.forEach(side => {
+                            if (outerSame) {
+                                brd.put_Color(new Asc.asc_CColor());
+                                brd.put_Value(0);
+                            } else {
+                                brd.put_Color(bordersColor);
+                                brd.put_Size(bordersWidth * 25.4 / 72);
+                                brd.put_Value(1);
+                            }
+                            CellBorders[`put_${side}`](brd);
+                        });
+                    } else {
+                        targetBorder.forEach(side => {
+                            const same = toleranceError(currentBorder[side].width, bordersWidth) &&
+                                compareColors(currentBorder[side].color, bordersColor) &&
+                                currentBorder[side].value === borderStyle.asc_getValue();
+                            if (same) {
+                                brd.put_Color(new Asc.asc_CColor());
+                                brd.put_Value(0);
+                            } else {
+                                brd.put_Color(bordersColor);
+                                brd.put_Size(bordersWidth * 25.4 / 72);
+                                brd.put_Value(1);
+                            }
+                            CellBorders[`put_${side}`](brd);
+                        });
+                    }
+
+                    var properties = new Asc.CTableProp();
+                    properties.put_CellBorders(CellBorders);
+                    properties.put_CellSelect(true);
+                    me.api.tblApply(properties);
+                } else {
+                    var borders = new Asc.asc_CParagraphBorders(props.get_Borders());
+
+                    ['Left', 'Top', 'Right', 'Bottom', 'Between'].forEach(side => {
+                        var border = borders[`get_${side}`]();
+                        if (border) {
+                            var currentSize = (border.asc_getValue?.() === 1) ? border.asc_getSize?.() : 0;
+                            var sizePts = currentSize * 72 / 25.4;
+                            currentBorder[side] = {
+                                width: sizePts, 
+                                color: border.asc_getColor(),
+                                value: border.asc_getValue()
+                            };
+                        } else {
+                            currentBorder[side] = { width: 0, color: new Asc.asc_CColor(), value: 0 };
+                        }
                     });
-                } else if (item.options.borderId === 'outer') {
-                    var outerSame = targetBorder.every(side => 
-                        toleranceError(currentBorder[side].width, bordersWidth) &&
-                        compareColors(currentBorder[side].color, bordersColor) && currentBorder[side].value === borderStyle.asc_getValue());
-                    if (outerSame) {
+            
+                    var borderSide = {
+                        left: ['Left'],
+                        top: ['Top'],
+                        right: ['Right'],
+                        bottom: ['Bottom'],
+                        all: ['Left', 'Top', 'Right', 'Bottom', 'Between'],
+                        outer: ['Left', 'Top', 'Right', 'Bottom'],
+                        innerHor: ['Between'],
+                        none: ['Left', 'Top', 'Right', 'Bottom', 'Between']
+                    };
+
+                    var targetBorder = borderSide[item.options.borderId],
+                        brd = new Asc.asc_CTextBorder();
+
+                    if (item.options.borderId === 'none') {
                         targetBorder.forEach(side => {
                             brd.put_Color(new Asc.asc_CColor());
                             brd.put_Value(0); 
-                            borders[`put_${side}`](brd);  
+                            borders[`put_${side}`](brd);
                         });
-                    } else {
+                    } else if (item.options.borderId === 'all') {
                         targetBorder.forEach(side => {
                             brd.put_Color(bordersColor);
                             brd.put_Size(bordersWidth * 25.4 / 72);
                             brd.put_Value(1); 
                             borders[`put_${side}`](brd);
                         });
-                    }
-                } else {
-                    targetBorder.forEach(side => {
-                        var same = toleranceError(currentBorder[side].width, bordersWidth) &&
-                                   compareColors(currentBorder[side].color, bordersColor) && currentBorder[side].value === borderStyle.asc_getValue()                                 
-                        if (same) {
-                            brd.put_Color(new Asc.asc_CColor());
-                            brd.put_Value(0); 
-                            borders[`put_${side}`](brd);               
+                    } else if (item.options.borderId === 'outer') {
+                        var outerSame = targetBorder.every(side => 
+                            toleranceError(currentBorder[side].width, bordersWidth) &&
+                            compareColors(currentBorder[side].color, bordersColor) && currentBorder[side].value === borderStyle.asc_getValue());
+                        if (outerSame) {
+                            targetBorder.forEach(side => {
+                                brd.put_Color(new Asc.asc_CColor());
+                                brd.put_Value(0); 
+                                borders[`put_${side}`](brd);  
+                            });
                         } else {
-                            brd.put_Color(bordersColor);
-                            brd.put_Size(bordersWidth * 25.4 / 72);
-                            brd.put_Value(1); 
-                            borders[`put_${side}`](brd);        
+                            targetBorder.forEach(side => {
+                                brd.put_Color(bordersColor);
+                                brd.put_Size(bordersWidth * 25.4 / 72);
+                                brd.put_Value(1); 
+                                borders[`put_${side}`](brd);
+                            });
                         }
-                    });
-                }
-                   
-                paragraphProps.put_Borders(borders);
-               
-                if (me.api) {
-                    me.api.paraApply(paragraphProps);
+                    } else {
+                        targetBorder.forEach(side => {
+                            var same = toleranceError(currentBorder[side].width, bordersWidth) &&
+                                    compareColors(currentBorder[side].color, bordersColor) && currentBorder[side].value === borderStyle.asc_getValue()                                 
+                            if (same) {
+                                brd.put_Color(new Asc.asc_CColor());
+                                brd.put_Value(0); 
+                                borders[`put_${side}`](brd);               
+                            } else {
+                                brd.put_Color(bordersColor);
+                                brd.put_Size(bordersWidth * 25.4 / 72);
+                                brd.put_Value(1); 
+                                borders[`put_${side}`](brd);        
+                            }
+                        });
+                    }
+
+
+                    var properties = new Asc.asc_CParagraphProperty();
+                    properties.put_Borders(borders);
+                    me.api.paraApply(properties);
                 }
 
                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
