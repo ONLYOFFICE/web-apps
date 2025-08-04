@@ -6,7 +6,8 @@
 	{"src": "HelpfulHints/AdvancedSettings.htm", "name": "Advanced Settings of the Diagram Viewer"},
 	{"src": "HelpfulHints/Communicating.htm", "name": "Communicating in real time"},
 	{"src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Keyboard Shortcuts"},
-	{"src": "HelpfulHints/Navigation.htm", "name": "View Settings and Navigation Tools"},
+    { "src": "HelpfulHints/Navigation.htm", "name": "View Settings and Navigation Tools" },
+    {"src": "HelpfulHints/SupportedFormats.htm", "name": "Supported Formats of Electronic Diagrams"},
 	{"src": "UsageInstructions/SavePrintDownload.htm", "name": "Download and print your diagram", "headername": "Usage Instructions"},
 	{"src": "UsageInstructions/ViewDiagramViewerInfo.htm", "name": "View diagram information"}
 ]
