@@ -344,6 +344,7 @@ define([
                     textLink: props.link ? props.link.text : '',
                     closable: props.closable !== false, // true by default
                     showButton: props.showButton !== false, // true by default
+                    textButton: props.textButton, // button text, Got it by default
                     automove: !!props.automove
                 });
                 props.tip.on({

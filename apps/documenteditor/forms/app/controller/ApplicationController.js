@@ -197,8 +197,6 @@ define([
             this.warnNoLicense  = this.warnNoLicense.replace(/%1/g, '{{COMPANY_NAME}}');
             this.warnNoLicenseUsers = this.warnNoLicenseUsers.replace(/%1/g, '{{COMPANY_NAME}}');
             this.textNoLicenseTitle = this.textNoLicenseTitle.replace(/%1/g, '{{COMPANY_NAME}}');
-            this.warnLicenseExceeded = this.warnLicenseExceeded.replace(/%1/g, '{{COMPANY_NAME}}');
-            this.warnLicenseUsersExceeded = this.warnLicenseUsersExceeded.replace(/%1/g, '{{COMPANY_NAME}}');
         },
 
         onDocumentResize: function() {
@@ -843,17 +841,21 @@ define([
                 });
             } else if (this._state.licenseType) {
                 var license = this._state.licenseType,
+                    title = this.textNoLicenseTitle,
                     buttons = ['ok'],
-                    primary = 'ok';
+                    primary = 'ok',
+                    modal = false;
                 if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
                     (license===Asc.c_oLicenseResult.SuccessLimit || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
                     license = this.warnLicenseLimitedRenewed;
                 } else if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
-                    license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
+                    title = this.titleReadOnly;
+                    license = (license===Asc.c_oLicenseResult.Connections) ? this.tipLicenseExceeded : this.tipLicenseUsersExceeded;
                 } else {
                     license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
                     buttons = [{value: 'buynow', caption: this.textBuyNow}, {value: 'contact', caption: this.textContactUs}];
                     primary = 'buynow';
+                    modal = true;
                 }
 
                 if (this._state.licenseType!==Asc.c_oLicenseResult.SuccessLimit && this.appOptions.canFillForms) {
@@ -861,25 +863,21 @@ define([
                     Common.NotificationCenter.trigger('api:disconnect');
                 }
 
-                var value = Common.localStorage.getItem("de-license-warning");
-                value = (value!==null) ? parseInt(value) : 0;
-                var now = (new Date).getTime();
-                if (now - value > 86400000) {
-                    Common.UI.info({
-                        maxwidth: 500,
-                        title: this.textNoLicenseTitle,
-                        msg  : license,
-                        buttons: buttons,
-                        primary: primary,
-                        callback: function(btn) {
-                            Common.localStorage.setItem("de-license-warning", now);
-                            if (btn == 'buynow')
-                                window.open('{{PUBLISHER_URL}}', "_blank");
-                            else if (btn == 'contact')
-                                window.open('mailto:{{SALES_EMAIL}}', "_blank");
-                        }
-                    });
-                }
+                !modal ? Common.UI.TooltipManager.showTip({ step: 'licenseError', text: license, header: title, target: '#toolbar', maxwidth: 430,
+                        automove: true, noHighlight: true, textButton: this.textContinue}) :
+                Common.UI.info({
+                    maxwidth: 500,
+                    title: title,
+                    msg  : license,
+                    buttons: buttons,
+                    primary: primary,
+                    callback: function(btn) {
+                        if (btn == 'buynow')
+                            window.open('{{PUBLISHER_URL}}', "_blank");
+                        else if (btn == 'contact')
+                            window.open('mailto:{{SALES_EMAIL}}', "_blank");
+                    }
+                });
             }
         },
 
@@ -2289,8 +2287,6 @@ define([
         errorUpdateVersion: 'The file version has been changed. The page will be reloaded.',
         warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
         warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
-        warnLicenseExceeded: "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact your administrator to learn more.",
-        warnLicenseUsersExceeded: "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
         warnNoLicense: "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact %1 sales team for personal upgrade terms.",
         warnNoLicenseUsers: "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
         textBuyNow: 'Visit website',
@@ -2335,7 +2331,11 @@ define([
         warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
         textSubmitOk: 'Your PDF form has been saved in the Complete section. You can fill out this form again and send another result.',
         textFilled: 'Filled',
-        savingText: 'Saving'
+        savingText: 'Saving',
+        tipLicenseExceeded: 'The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.',
+        tipLicenseUsersExceeded: 'The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.',
+        titleReadOnly: 'Read-Only Mode',
+        textContinue: 'Continue'
 
     }, DE.Controllers.ApplicationController));
 });
