@@ -230,8 +230,7 @@ define([
                     view.chFilterButton.setValue(value, true);
                     this._state.CheckFilter=value;
                 }
-                if (view.chFilterButton.isDisabled() !== (!this._state.CheckHeader || this._locked || value===null))
-                    view.chFilterButton.setDisabled(!this._state.CheckHeader || this._locked || value===null);
+                Common.Utils.lockControls(Common.enumLock.isFilterAvailable, !this._state.CheckHeader || value===null, {array: [this.view.chFilterButton]});
 
                 if (needTablePictures)
                     this.onApiInitTableStyles(this.api.asc_getTablePictures(props));

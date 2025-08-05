@@ -49,7 +49,7 @@ define([
     'use strict';
 
     SSE.Views.TableSettings = Backbone.View.extend(_.extend({
-        el: '#id-table-settings',
+        // el: '#id-table-settings',
 
         // Compile our stats template
         template: _.template(menuTemplate),

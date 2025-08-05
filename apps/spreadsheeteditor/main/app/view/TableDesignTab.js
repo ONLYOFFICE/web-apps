@@ -169,7 +169,7 @@ define([
                     cls         : 'btn-toolbar align-left',
                     iconCls     : 'toolbar__icon btn-rows-and-columns',
                     caption     : this.txtRowsCols,
-                    lock: [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock, , _set.cantModifyFilter],
+                    lock: [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock,  _set.cantModifyFilter],
                     style       : 'width: 100%;',
                     menu: new Common.UI.Menu({
                         menuAlign: 'tr-br',
@@ -238,7 +238,7 @@ define([
                     lock: [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock, _set.cantModifyFilter],
                     style       : 'width: 100%;',
                     dataHint    : '1',
-                    dataHintDirection: 'left',
+                    dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnInsertSlicer);
@@ -250,7 +250,7 @@ define([
                     lock: [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock, _set.cantModifyFilter],
                     style       : 'width: 100%;',
                     dataHint    : '1',
-                    dataHintDirection: 'left',
+                    dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnInsertPivot);
@@ -311,7 +311,7 @@ define([
 
                 this.chFilterButton = new Common.UI.CheckBox({
                     labelText: this.txtFilterButton,
-                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell, _set.wsLock, _set.cantModifyFilter],
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell, _set.wsLock, _set.cantModifyFilter, _set.isFilterAvailable],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -325,7 +325,7 @@ define([
                     lock: [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock, _set.cantModifyFilter],
                     style       : 'width: 100%;',
                     dataHint    : '1',
-                    dataHintDirection: 'left',
+                    dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnAltText);
@@ -342,8 +342,8 @@ define([
                     cls             : 'combo-table-template',
                     style           : 'min-width: 103px; max-width: 517px;',
                     enableKeyEvents : true,
-                    itemWidth       : 61,
-                    itemHeight      : 45,
+                    itemWidth       : 60,
+                    itemHeight      : 44,
                     menuMaxHeight   : 300,
                     groups          : new Common.UI.DataViewGroupStore(),
                     autoWidth       : true,
@@ -401,7 +401,6 @@ define([
             },
 
             render: function (el) {
-                this.boxSdk = $('#editor_sdk');
                 if ( el ) el.html( this.getPanel() );
 
                 return this;
