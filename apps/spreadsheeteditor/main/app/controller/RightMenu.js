@@ -318,16 +318,16 @@ define([
                     var tableactive = Common.Utils.InternalSettings.get("sse-rightpanel-active-table"),
                         pivotactive = Common.Utils.InternalSettings.get("sse-rightpanel-active-pivot"),
                         sparkactive = Common.Utils.InternalSettings.get("sse-rightpanel-active-spark");
-                    if (!this._settings[Common.Utils.documentSettingsType.Table].hidden && !this._settings[Common.Utils.documentSettingsType.Chart].hidden) {
-                        if (tableactive == sparkactive)
-                            priorityactive = (tableactive===0) ? Common.Utils.documentSettingsType.Cell : Common.Utils.documentSettingsType.Chart;
-                        else
-                            priorityactive = (tableactive > sparkactive) ? Common.Utils.documentSettingsType.Table : Common.Utils.documentSettingsType.Chart;
-                    } 
+                    // if (!this._settings[Common.Utils.documentSettingsType.Table].hidden && !this._settings[Common.Utils.documentSettingsType.Chart].hidden) {
+                    //     if (tableactive == sparkactive)
+                    //         priorityactive = (tableactive===0) ? Common.Utils.documentSettingsType.Cell : Common.Utils.documentSettingsType.Chart;
+                    //     else
+                    //         priorityactive = (tableactive > sparkactive) ? Common.Utils.documentSettingsType.Table : Common.Utils.documentSettingsType.Chart;
+                    // }
                     // else if (!this._settings[Common.Utils.documentSettingsType.Table].hidden) {
                     //     priorityactive = (tableactive===0) ? Common.Utils.documentSettingsType.Cell : Common.Utils.documentSettingsType.Table;
                     // } 
-                    else if (!this._settings[Common.Utils.documentSettingsType.Chart].hidden) {
+                    if (!this._settings[Common.Utils.documentSettingsType.Chart].hidden) {
                         priorityactive = (sparkactive===0) ? Common.Utils.documentSettingsType.Cell : Common.Utils.documentSettingsType.Chart;
                     }
                     if (!this._settings[Common.Utils.documentSettingsType.Pivot].hidden)
