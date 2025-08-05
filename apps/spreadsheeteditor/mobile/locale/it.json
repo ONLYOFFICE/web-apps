@@ -257,6 +257,7 @@
   "Error": {
     "convertationTimeoutText": "È stato superato il tempo massimo di conversione.",
     "criticalErrorExtText": "Premi 'OK' per tornare all'elenco documenti.",
+    "criticalErrorExtTextClose": "Clicca \"OK\" per chiudere l'editor.",
     "criticalErrorTitle": "Errore",
     "downloadErrorText": "Scaricamento fallito",
     "errNoDuplicates": "Nessun valore duplicato trovato.",
@@ -377,8 +378,7 @@
     "uploadDocSizeMessage": "Il limite massimo delle dimensioni del documento è stato superato.",
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
-    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Password",

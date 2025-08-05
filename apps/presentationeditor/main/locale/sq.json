@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "Ktheni faqet në skajet e shkurtra",
   "PE.Views.PrintWithPreview.txtCopies": "Kopje",
   "PE.Views.PrintWithPreview.txtCurrentPage": "Slajdi aktual",
+  "PE.Views.PrintWithPreview.txtCustom": "Personalizuar",
   "PE.Views.PrintWithPreview.txtCustomPages": "Printim i personalizuar ",
   "PE.Views.PrintWithPreview.txtEmptyTable": "Nuk ka asgjë për të printuar sepse prezantimi është bosh",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "Cilësimet e kryefaqes/fundfaqes",

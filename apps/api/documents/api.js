@@ -185,7 +185,7 @@
                             view: {
                                 navigation: false/true // navigation button in de
                             } / false / true, // view tab
-                            save: false/true // save button on toolbar in 
+                            save: false/true // save button on toolbar in
                         } / false / true, // use instead of customization.toolbar,
                         header: {
                             users: false/true // users list button
@@ -274,7 +274,8 @@
                     showHorizontalScroll: true/false, //  show/hide scroll in the spreadsheet editor by default
                     startFillingForm: {
                         text: 'Share & collect' // caption of the start filling button, used for pdf-forms
-                    }
+                    },
+                    suggestFeature: true/false
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
@@ -548,7 +549,7 @@
 
                 _config.document.token = _config.token;
             }
-            
+
             return true;
         };
 
@@ -1070,7 +1071,9 @@
 
     function isLocalStorageAvailable() {
         try {
-            return !!window['localStorage'];
+            localStorage.setItem('test', 'test');
+            localStorage.removeItem('test');
+            return true;
         }
         catch(e) {
             return false;

@@ -173,6 +173,7 @@
   "DE.Controllers.ApplicationController.warnLicenseUsersExceeded": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte wenden Sie sich an Ihren Administrator, um weitere Informationen zu erhalten.",
   "DE.Controllers.ApplicationController.warnNoLicense": "Sie haben das Limit für gleichzeitige Verbindungen in %1-Editoren erreicht. Dieses Dokument wird nur zum Anzeigen geöffnet.<br>Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
+  "DE.Controllers.ApplicationController.warnStartFilling": "Das Formular wird ausgefüllt.<br>Die Dateibearbeitung ist derzeit nicht möglich.",
   "DE.Views.ApplicationView.textClear": "Alle Felder leeren",
   "DE.Views.ApplicationView.textClearField": "Feld leeren",
   "DE.Views.ApplicationView.textClose": "Datei schließen",

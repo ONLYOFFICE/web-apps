@@ -77,6 +77,7 @@
   "Error": {
     "convertationTimeoutText": "Փոխակերպման ժամկետը գերազանցվել է:",
     "criticalErrorExtText": "Սեղմեք «Լավ»՝ փաստաթղթերի ցանկին վերադառնալու համար:",
+    "criticalErrorExtTextClose": "Սեղմեք «Լավ»՝ խմբագիրը փակելու համար։",
     "criticalErrorTitle": "Սխալ",
     "downloadErrorText": "Ներբեռնումը ձախողվեց։",
     "errorAccessDeny": "Դուք փորձում եք կատարել գործողություն, որի համար իրավունք չունեք:Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ:",
@@ -119,8 +120,7 @@
     "unknownErrorText": "Անհայտ սխալ։",
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
-    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:"
   },
   "LongActions": {
     "applyChangesTextText": "Տվյալների բեռնում...",
@@ -154,14 +154,14 @@
     "waitText": "Խնդրում ենք սպասել..."
   },
   "Toolbar": {
+    "btnRestartNow": "Վերագործարկել հիմա",
     "dlgLeaveMsgText": "Դուք այս փաստաթղթում չպահված փոփոխություններ ունեք:Սեղմեք «Մնալ այս էջում»՝ սպասելու ավտոմատ պահպանմանը:Սեղմեք «Լքել այս էջը»՝ չպահված բոլոր փոփոխությունները մերժելու համար:",
     "dlgLeaveTitleText": "Ծրագրից դուրս եք գալիս",
     "leaveButtonText": "Լքել այս էջը",
     "stayButtonText": "Մնալ այս էջում",
     "textEnterNewFileName": "Մուտքագրել նոր ֆայլի անուն ",
     "textRenameFile": "Վերանվանել ֆայլը",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Անցնել Համակարգչային տարբերակին"
   },
   "View": {
     "Edit": {

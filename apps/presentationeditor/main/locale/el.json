@@ -2368,6 +2368,7 @@
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "Αναστροφή σελίδων στη μικρή άκρη",
   "PE.Views.PrintWithPreview.txtCopies": "Αντίγραφα",
   "PE.Views.PrintWithPreview.txtCurrentPage": "Τρέχουσα διαφάνεια",
+  "PE.Views.PrintWithPreview.txtCustom": "Προσαρμογή",
   "PE.Views.PrintWithPreview.txtCustomPages": "Προσαρμοσμένη εκτύπωση",
   "PE.Views.PrintWithPreview.txtEmptyTable": "Δεν υπάρχει τίποτα για εκτύπωση, επειδή η παρουσίαση είναι κενή",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "Ρυθμίσεις κεφαλίδας/υποσέλιδου",

@@ -2686,6 +2686,7 @@
   "SSE.Views.FieldSettingsDialog.txtVarp": "Varp",
   "SSE.Views.FileMenu.ariaFileMenu": "File menu",
   "SSE.Views.FileMenu.btnBackCaption": "Open File Location",
+  "SSE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature",
   "SSE.Views.FileMenu.btnCloseEditor": "Close File",
   "SSE.Views.FileMenu.btnCloseMenuCaption": "Back",
   "SSE.Views.FileMenu.btnCreateNewCaption": "Create New",
@@ -4615,5 +4616,6 @@
   "SSE.Views.WBProtection.txtProtectWB": "Protect workbook",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Enter a password to unprotect sheet",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Unprotect sheet",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Enter a password to unprotect workbook"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Enter a password to unprotect workbook",
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Unprotect workbook"
 }

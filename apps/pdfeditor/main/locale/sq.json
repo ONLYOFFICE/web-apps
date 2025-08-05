@@ -1048,6 +1048,7 @@
   "PDFE.Controllers.Toolbar.helpCopyPages": "Përdorni {0} dhe {1} për të kopjuar dhe ngjitur faqe midis skedarëve të ndryshëm PDF.",
   "PDFE.Controllers.Toolbar.helpCopyPagesHeader": "Kopjoni faqet midis skedarëve PDF",
   "PDFE.Controllers.Toolbar.helpFormEditor": "Tani mund te krijoni dhe modifikoni forma interaktive PDF direkt në redaktues.",
+  "PDFE.Controllers.Toolbar.helpFormEditorHeader": "Redaktues i formularëve PDF",
   "PDFE.Controllers.Toolbar.helpModernTheme": "Është shtuar nje temë e re vizuale. Mund ta aktivizoni në cilësimet e pamjes për të përditësuar pamjen e ndërfaqes.",
   "PDFE.Controllers.Toolbar.helpModernThemeHeader": "Temë e ndërfaqes",
   "PDFE.Controllers.Toolbar.helpOldTheme": "Mund të ktheheni në temën e mëparshme në çdo kohë te cilësimet.",
@@ -2236,5 +2237,5 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Përshtatet me gjerësinë",
   "PDFE.Views.ViewTab.tipHeadings": "Tituj",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes",
-  "PDFE.Controllers.Toolbar.helpFormEditorHeader": "PDF form editor"
+  "PDFE.Views.FormSettings.textPassword": "Password"
 }

@@ -309,6 +309,7 @@
   "Common.UI.SearchDialog.txtBtnReplaceAll": "تمام بدل دیں",
   "Common.UI.SynchronizeTip.textDontShow": "اس پیغام کو دوبارہ مت دکھائیں۔",
   "Common.UI.SynchronizeTip.textGotIt": "سمجھ گیا",
+  "Common.UI.SynchronizeTip.textNew": "نیا",
   "Common.UI.SynchronizeTip.textSynchronize": "دستاویز کو دوسرے صارف نے تبدیل کر دیا ہے۔<br>اپنی تبدیلیاں محفوظ کرنے اور اپ ڈیٹس کو دوبارہ لوڈ کرنے کے لیے براہ کرم کلک کریں۔",
   "Common.UI.ThemeColorPalette.textRecentColors": "حالیہ رنگ",
   "Common.UI.ThemeColorPalette.textStandartColors": "معیاری رنگ",
@@ -1558,6 +1559,11 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "چارٹ کے مطابق سیریز میں پوائنٹس کی زیادہ سے زیادہ تعداد ۴۰۹۶ ہے.",
   "SSE.Controllers.Toolbar.errorMaxRows": "غلطی! اس طرح کے عنوان کے ساتھ رینج پہلے سے موجود ہے۔",
   "SSE.Controllers.Toolbar.errorStockChart": "غلط صف آرڈر۔ اسٹاک چارٹ بنانے کے لئےڈیٹا کو درج ذیل ترتیب میں شیٹ پر رکھیں: قیمت ، زیادہ سے زیادہ قیمت ، کم سے کم قیمت ، اختتامی قیمت۔",
+  "SSE.Controllers.Toolbar.helpAsyncFunc": "اب آپ اپنے حسب ضرورت فنکشن میں غیر مطابقت پذیر منطق استعمال کر سکتے ہیں۔",
+  "SSE.Controllers.Toolbar.helpAsyncFuncHeader": "Async فنکشن",
+  "SSE.Controllers.Toolbar.helpModernTheme": "ایک نیا بصری تھیم شامل کیا گیا ہے۔ آپ انٹرفیس کی ظاہری شکل کو اپ ڈیٹ کرنے کے لیے ویو سیٹنگز میں اسے فعال کر سکتے ہیں۔",
+  "SSE.Controllers.Toolbar.helpModernThemeHeader": "انٹرفیس تھیم",
+  "SSE.Controllers.Toolbar.helpOldTheme": "آپ ترتیبات میں کسی بھی وقت سابقہ ​​تھیم پر واپس جا سکتے ہیں۔",
   "SSE.Controllers.Toolbar.textAccent": "لہجے",
   "SSE.Controllers.Toolbar.textBracket": "بریکٹ",
   "SSE.Controllers.Toolbar.textDirectional": "دشاتمک",
@@ -4610,10 +4616,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "شیٹ کو غیر محفوظ کرنے کے لیے پاس ورڈ درج کریں۔",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "غیر محفوظ شدہ شیٹ",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "ورک بک کو غیر محفوظ کرنے کے لیے پاس ورڈ درج کریں۔",
-  "Common.UI.SynchronizeTip.textNew": "New",
-  "SSE.Controllers.Toolbar.helpAsyncFunc": "You can now use asynchronous logic in your custom function.",
-  "SSE.Controllers.Toolbar.helpAsyncFuncHeader": "Async function",
-  "SSE.Controllers.Toolbar.helpModernTheme": "A new visual theme has been added. You can enable it in the view settings to update the appearance of the interface.",
-  "SSE.Controllers.Toolbar.helpModernThemeHeader": "Interface theme",
-  "SSE.Controllers.Toolbar.helpOldTheme": "You can switch back to the previous theme at any time in the settings."
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "ورک بک کو غیر محفوظ کریں۔"
 }

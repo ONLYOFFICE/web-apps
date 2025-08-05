@@ -309,6 +309,7 @@
   "Common.UI.SearchDialog.txtBtnReplaceAll": "Substituir tudo",
   "Common.UI.SynchronizeTip.textDontShow": "Não exibir esta mensagem novamente",
   "Common.UI.SynchronizeTip.textGotIt": "Entendi",
+  "Common.UI.SynchronizeTip.textNew": "Novo",
   "Common.UI.SynchronizeTip.textSynchronize": "O documento foi alterado por outro usuário.<br>Clique para salvar suas alterações e recarregar as atualizações.",
   "Common.UI.ThemeColorPalette.textRecentColors": "Cores recentes",
   "Common.UI.ThemeColorPalette.textStandartColors": "Cores padronizadas",
@@ -1558,6 +1559,11 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "O máximo número de pontos em séries por gráfico é 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "ERRO! O número máximo de séries de dado por gráfico é 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Ordem da linha incorreta. Para criar um gráfico de ações coloque os dados na planilha na seguinte ordem:<br> preço de abertura, preço máx., preço mín., preço de fechamento.",
+  "SSE.Controllers.Toolbar.helpAsyncFunc": "Agora você pode usar lógica assíncrona em sua função personalizada.",
+  "SSE.Controllers.Toolbar.helpAsyncFuncHeader": "Função async",
+  "SSE.Controllers.Toolbar.helpModernTheme": "Um novo tema visual foi adicionado. Você pode ativá-lo nas configurações de visualização para atualizar a aparência da interface.",
+  "SSE.Controllers.Toolbar.helpModernThemeHeader": "Tema de interface",
+  "SSE.Controllers.Toolbar.helpOldTheme": "Você pode retornar ao tema anterior a qualquer momento nas configurações.",
   "SSE.Controllers.Toolbar.textAccent": "Acentos",
   "SSE.Controllers.Toolbar.textBracket": "Parênteses",
   "SSE.Controllers.Toolbar.textDirectional": "Direcional",
@@ -4610,10 +4616,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Digite uma senha para desproteger a folha",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desproteger a folha",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Digite uma senha para desproteger a pasta de trabalho",
-  "Common.UI.SynchronizeTip.textNew": "New",
-  "SSE.Controllers.Toolbar.helpAsyncFunc": "You can now use asynchronous logic in your custom function.",
-  "SSE.Controllers.Toolbar.helpAsyncFuncHeader": "Async function",
-  "SSE.Controllers.Toolbar.helpModernTheme": "A new visual theme has been added. You can enable it in the view settings to update the appearance of the interface.",
-  "SSE.Controllers.Toolbar.helpModernThemeHeader": "Interface theme",
-  "SSE.Controllers.Toolbar.helpOldTheme": "You can switch back to the previous theme at any time in the settings."
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger pasta de trabalho"
 }

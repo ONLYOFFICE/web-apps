@@ -57,7 +57,7 @@ define([
                 warning         : options.warning,
                 codepages       : options.codepages,
                 warningMsg      : options.warningMsg,
-                width           : options.preview ? 414 : (options.type !== Common.Utils.importTextType.DRM) ? 340 : (options.warning ? 420 : 280),
+                width           : options.preview ? 414 : (options.type !== Common.Utils.importTextType.DRM) ? 340 : (options.warning ? 420 : 335),
                 header          : true,
                 cls             : 'modal-dlg open-dlg',
                 contentTemplate : '',

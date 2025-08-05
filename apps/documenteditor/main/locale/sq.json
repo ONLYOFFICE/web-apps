@@ -3173,6 +3173,7 @@
   "DE.Views.SignatureSettings.txtRemoveWarning": "Dëshironi të hiqni këtë firmë?<br>Nuk mund të zhbëhet.",
   "DE.Views.SignatureSettings.txtRequestedSignatures": "Ky dokument duhet të nënshkruhet.",
   "DE.Views.SignatureSettings.txtSigned": "Në dokument janë shtuar nënshkrime të vlefshme. Dokumenti është i mbrojtur nga redaktimi.",
+  "DE.Views.SignatureSettings.txtSignedForm": "Ky dokument është nënshkruar dhe nuk mund të modifikohet.",
   "DE.Views.SignatureSettings.txtSignedInvalid": "Disa nga nënshkrimet dixhitale në dokument janë të pavlefshme ose nuk mund të verifikohen. Dokumenti është i mbrojtur nga redaktimi.",
   "DE.Views.Statusbar.goToPageText": "Shko te faqja",
   "DE.Views.Statusbar.pageIndexText": "Faqe {0} nga {1}",

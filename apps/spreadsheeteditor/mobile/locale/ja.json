@@ -257,6 +257,7 @@
   "Error": {
     "convertationTimeoutText": "変換のタイムアウトを超過しました。",
     "criticalErrorExtText": "文書のリストに帰るために「OK」ボタンをクリックしてください。",
+    "criticalErrorExtTextClose": "［OK］を押すとエディターが閉じます。",
     "criticalErrorTitle": "エラー",
     "downloadErrorText": "ダウンロード失敗",
     "errNoDuplicates": "重複した値はありません",
@@ -377,8 +378,7 @@
     "uploadDocSizeMessage": "文書の最大サイズ制限を超えています。",
     "uploadImageExtMessage": "不明なイメージ形式",
     "uploadImageFileCountMessage": "アップロードしたイメージがない",
-    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。"
   },
   "LongActions": {
     "advDRMPassword": "パスワード",

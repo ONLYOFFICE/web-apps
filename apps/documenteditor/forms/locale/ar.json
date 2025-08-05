@@ -168,6 +168,7 @@
   "DE.Controllers.ApplicationController.warnLicenseUsersExceeded": "لقد وصلت إلى الحد الأقصى من عدد المستخدمين لـ %1محررات. تواصل مع مسئولك لمعرفة المزيد",
   "DE.Controllers.ApplicationController.warnNoLicense": "لقد وصلت إلى الحد الأقصى من الاتصالات المتزامنة لـ%1محررات.هذا المستند سيكون للقراءة فقط. <br>تواصل مع %1 فريق المبيعات لتطوير الشروط الشخصية",
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "لقد وصلت إلى الحد الأقصى من عدد المستخدمين لـ %1. تواصل مع فريق المبيعات لتطوير الشروط الشخصية",
+  "DE.Controllers.ApplicationController.warnStartFilling": "تعبئة النموذج قيد التنفيذ<br>.تحرير الملف غير متاح حاليًا.",
   "DE.Views.ApplicationView.textClear": "مسح كل  ما في الحقول",
   "DE.Views.ApplicationView.textClearField": "مسح ما في الحقل",
   "DE.Views.ApplicationView.textClose": "إغلاق الملف",

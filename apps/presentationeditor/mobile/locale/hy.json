@@ -185,13 +185,14 @@
   },
   "Draw": {
     "textColor": "Գույն",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
+    "textCustomColor": "Հատուկ գույն",
+    "textLineSize": "Տողի չափ",
+    "textOpacity": "Անթափանցելիություն"
   },
   "Error": {
     "convertationTimeoutText": "Փոխարկման սպասման ժամանակը սպառվել է։",
     "criticalErrorExtText": "Սեղմեք «Լավ»՝ փաստաթղթերի ցանկին վերադառնալու համար:",
+    "criticalErrorExtTextClose": "Սեղմեք «Լավ»՝ խմբագիրը փակելու համար։",
     "criticalErrorTitle": "Սխալ",
     "downloadErrorText": "Ներբեռնումը ձախողվեց։",
     "errorAccessDeny": "Դուք փորձում եք կատարել գործողություն, որի համար իրավունք չունեք:Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ:",
@@ -239,8 +240,7 @@
     "unknownErrorText": "Անհայտ սխալ։",
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
-    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:"
   },
   "LongActions": {
     "applyChangesTextText": "Տվյալների բեռնում...",
@@ -277,16 +277,16 @@
     "waitText": "Խնդրում ենք սպասել..."
   },
   "Toolbar": {
+    "btnRestartNow": "Վերագործարկել հիմա",
     "dlgLeaveMsgText": "Դուք այս փաստաթղթում չպահված փոփոխություններ ունեք:Սեղմեք «Մնալ այս էջում»՝ սպասելու ավտոմատ պահպանմանը:Սեղմեք «Լքել այս էջը»՝ չպահված բոլոր փոփոխությունները մերժելու համար:",
     "dlgLeaveTitleText": "Ծրագրից դուրս եք գալիս",
     "leaveButtonText": "Լքել այս էջը",
     "stayButtonText": "Մնալ այս էջում",
     "textCloseHistory": "Փակել պատմությունը",
     "textEnterNewFileName": "Մուտքագրել նոր ֆայլի անուն ",
+    "textOk": "Լավ",
     "textRenameFile": "Վերանվանել ֆայլը",
-    "btnRestartNow": "Restart now",
-    "textOk": "OK",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Անցնել Համակարգչային տարբերակին"
   },
   "View": {
     "Add": {
@@ -300,6 +300,7 @@
       "textDefault": "Ընտրված տեքստ",
       "textDisplay": "Ցուցադրել",
       "textDone": "Պատրաստ է",
+      "textDrawing": "Նկարչություն",
       "textEmptyImgUrl": "Դուք պետք է նշեք պատկերի URL-ը:",
       "textExternalLink": "Արտաքին հղում",
       "textFirstSlide": "Առաջին սահիկ",
@@ -329,8 +330,7 @@
       "textSlideNumber": "Սահիկի համարը",
       "textTable": "Աղյուսակ",
       "textTableSize": "Աղյուսակի չափ",
-      "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
-      "textDrawing": "Drawing"
+      "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ "
     },
     "Edit": {
       "notcriticalErrorTitle": "Զգուշացում",
