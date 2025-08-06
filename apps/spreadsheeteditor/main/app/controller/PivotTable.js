@@ -71,6 +71,9 @@ define([
                 'TableSettings': {
                     'pivottable:create':        _.bind(this.onCreateClick, this)
                 },
+                'TableDesignTab': {
+                    'pivottable:create':        _.bind(this.onCreateClick, this)
+                },
                 'Toolbar': {
                     'tab:active':               _.bind(this.onActiveTab, this)
                 }

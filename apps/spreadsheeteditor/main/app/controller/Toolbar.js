@@ -204,7 +204,8 @@ define([
                 is_lockText: false,
                 is_lockShape: false,
                 isUserProtected: false,
-                showPivotTab: false
+                showPivotTab: false,
+                showTableDesignTab: false
             };
             this.binding = {};
 
@@ -3161,7 +3162,7 @@ define([
                 }
                 need_disable =  this._state.controlsdisabled.filters || (val===null);
                 toolbar.lockToolbar(Common.enumLock.ruleFilter, need_disable,
-                            { array: toolbar.btnsSetAutofilter.concat(toolbar.btnCustomSort, toolbar.btnTableTemplate, toolbar.btnInsertTable, toolbar.btnRemoveDuplicates, toolbar.btnDataValidation) });
+                            { array: toolbar.btnsSetAutofilter.concat(toolbar.btnCustomSort, toolbar.btnTableTemplate, toolbar.btnInsertTable, toolbar.btnDataValidation).concat(toolbar.btnsRemoveDuplicates)});
 
                 toolbar.lockToolbar(Common.enumLock.tableHasSlicer, filterInfo && filterInfo.asc_getIsSlicerAdded(), { array: toolbar.btnsSetAutofilter });
 
@@ -3195,6 +3196,16 @@ define([
                 this._state.multiselect = info.asc_getMultiselect();
                 toolbar.lockToolbar(Common.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink, toolbar.btnInsertTable]});
 
+                var intabledesign = info.asc_getFormatTableInfo();
+                if (this._state.intabledesign !== intabledesign) {
+                    if ( !intabledesign && this.toolbar.isTabActive('tabledesign') )
+                        this.toolbar.setTab('home');
+                    this.toolbar.setVisible('tabledesign', !!intabledesign);
+                    if (intabledesign && this._state.showTableDesignTab)
+                        this.toolbar.setTab('tabledesign');
+                    this._state.intabledesign = intabledesign;
+                }
+
                 var inpivot = !!info.asc_getPivotTableInfo();
                 if (this._state.inpivot !== inpivot) {
                     if ( !inpivot && this.toolbar.isTabActive('pivot') )
@@ -3204,13 +3215,12 @@ define([
                         this.toolbar.setTab('pivot');
                     this._state.inpivot = inpivot;
                 }
-                toolbar.lockToolbar(Common.enumLock.editPivot, this._state.inpivot, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnInsertTable, toolbar.btnRemoveDuplicates, toolbar.btnDataValidation)});
+                toolbar.lockToolbar(Common.enumLock.editPivot, this._state.inpivot, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnInsertTable, toolbar.btnDataValidation).concat(toolbar.btnsRemoveDuplicates)});
                 toolbar.lockToolbar(Common.enumLock.noSlicerSource, !(this._state.inpivot || formatTableInfo), { array: [toolbar.btnInsertSlicer]});
 
                 need_disable = !this.appConfig.canModifyFilter;
                 toolbar.lockToolbar(Common.enumLock.cantModifyFilter, need_disable, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnsSortDown, toolbar.btnsSortUp, toolbar.btnCustomSort, toolbar.btnTableTemplate,
-                                                                                          toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2], toolbar.btnInsertTable, toolbar.btnRemoveDuplicates, toolbar.btnDataValidation)});
-
+                                                                                          toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2], toolbar.btnInsertTable, toolbar.btnDataValidation).concat(toolbar.btnsRemoveDuplicates).concat(toolbar.btnsTableDesign)});
             }
 
             val = xfs.asc_getNumFormatInfo();
@@ -4544,7 +4554,7 @@ define([
                     me.toolbar.btnsSetAutofilter = datatab.getButtons('set-filter');
                     me.toolbar.btnsClearAutofilter = datatab.getButtons('clear-filter');
                     me.toolbar.btnCustomSort = datatab.getButtons('sort-custom');
-                    me.toolbar.btnRemoveDuplicates = datatab.getButtons('rem-duplicates');
+                    me.toolbar.btnsRemoveDuplicates = [datatab.getButtons('rem-duplicates')];
                     me.toolbar.btnDataValidation = datatab.getButtons('data-validation');
 
                     var formulatab = me.getApplication().getController('FormulaDialog');
@@ -4565,6 +4575,22 @@ define([
                             me._state.inpivot && me.toolbar.setVisible('pivot', true);
                             Array.prototype.push.apply(me.toolbar.lockControls, pivottab.getView('PivotTable').getButtons());
                         }
+                    }
+
+                    if ( config.canFeatureTable ) {
+                        tab = {caption: 'Table Design', action: 'tabledesign', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-tabledesign', dataHintTitle: 'B'};
+                        var tabledesigntab = me.getApplication().getController('TableDesignTab');
+                        tabledesigntab.setApi(me.api).setConfig({toolbar: me});
+                        var view = tabledesigntab.getView('TableDesignTab');
+                        var tabledesignbuttons = view.getButtons();
+                        var $panel = tabledesigntab.createToolbarPanel();
+                        if ($panel) {
+                            me.toolbar.addTab(tab, $panel, Common.UI.LayoutManager.lastTabIdx+1);
+                            me._state.intabledesign && me.toolbar.setVisible('tabledesign', true);
+                            Array.prototype.push.apply(me.toolbar.lockControls, tabledesignbuttons);
+                        }
+                        me.toolbar.btnsRemoveDuplicates.push(view.getButtons('rem-duplicates'));
+                        me.toolbar.btnsTableDesign = tabledesignbuttons;
                     }
 
                     if (!config.compactHeader) {
