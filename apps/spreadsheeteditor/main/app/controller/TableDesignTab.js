@@ -303,7 +303,7 @@ define([
 
         onSendThemeColors: function() {
             if (this.view.tableStyles && this._originalProps) {
-                this.onApiInitTableStyles(this.api.asc_getTablePictures(this._originalProps, true));
+                this.onApiInitTableStyles(this.api.asc_getTablePictures(this._originalProps));
                 this.view.tableStyles.menuPicker.scroller.update({alwaysVisibleY: true});
             }
         },
