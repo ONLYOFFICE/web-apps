@@ -1036,7 +1036,7 @@ define([
                         this.getPopover().showComments(false, undefined, undefined, text);
                     }
 
-                    this.getPopover().setLeftTop(posX, posY, leftX, undefined, true);
+                    this.getPopover().setLeftTop(posX, posY, leftX, undefined);
 
 //                    if (this.isSelectedComment && (0 === _.difference(this.uids, uids).length)) {
                         //NOTE: click to sdk view ?

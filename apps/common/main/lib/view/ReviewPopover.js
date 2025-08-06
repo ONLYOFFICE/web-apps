@@ -768,6 +768,7 @@ define([
             if (commentsView && arrowView && editorView && editorView.get(0)) {
                 editorBounds = Common.Utils.getBoundingClientRect(editorView.get(0));
                 if (editorBounds) {
+                    editorBounds.height = Math.min(editorBounds.height, Math.max(300, editorBounds.height * 0.75));
                     sdkBoundsHeight = editorBounds.height - this.sdkBounds.padding * 2;
 
                     this.$window.css({maxHeight: sdkBoundsHeight + 'px'});
@@ -910,6 +911,7 @@ define([
                     if (editorView && editorView.get(0)) {
                         editorBounds = Common.Utils.getBoundingClientRect(editorView.get(0));
                         if (editorBounds) {
+                            editorBounds.height = Math.min(editorBounds.height, Math.max(300, editorBounds.height * 0.75));
                             sdkBoundsHeight = editorBounds.height - this.sdkBounds.padding * 2;
                             sdkBoundsTopPos = sdkBoundsTop;
                             windowHeight = this.$window.outerHeight();
