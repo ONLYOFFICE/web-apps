@@ -40,9 +40,6 @@
                 border-radius: 0;
             }
         }
-        .z-clear &:before {
-            display: none;
-        }
         .ie & {
             box-shadow: @shadow-toolbar-ie;
         }
@@ -61,6 +58,10 @@
         border-top-right-radius: @toolbar-tab-radius-ie;
         border-top-right-radius: @toolbar-tab-radius;
     }
+}
+
+.toolbar.z-clear .box-controls::before {
+  display: none;
 }
 
 .toolbar {
