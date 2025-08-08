@@ -4571,7 +4571,7 @@ define([
                         pivottab.setApi(me.api).setConfig({toolbar: me});
                         $panel = pivottab.createToolbarPanel();
                         if ($panel) {
-                            me.toolbar.addTab(tab, $panel, Common.UI.LayoutManager.lastTabIdx+1);
+                            me.toolbar.addTab(tab, $panel, 13);
                             me._state.inpivot && me.toolbar.setVisible('pivot', true);
                             Array.prototype.push.apply(me.toolbar.lockControls, pivottab.getView('PivotTable').getButtons());
                         }
@@ -4585,7 +4585,7 @@ define([
                         var tabledesignbuttons = view.getButtons();
                         var $panel = tabledesigntab.createToolbarPanel();
                         if ($panel) {
-                            me.toolbar.addTab(tab, $panel, Common.UI.LayoutManager.lastTabIdx+1);
+                            me.toolbar.addTab(tab, $panel, 14);
                             me._state.intabledesign && me.toolbar.setVisible('tabledesign', true);
                             Array.prototype.push.apply(me.toolbar.lockControls, tabledesignbuttons);
                         }

@@ -53,6 +53,7 @@ define([
         var optsFold = {timeout: 2000};
         var config = {};
         var btnsMore = [];
+        var tabsShift = 0;
 
         function setScrollButtonsDisabeled(){
             var scrollLeft = $boxTabs.scrollLeft();
@@ -378,7 +379,12 @@ define([
 
                 var _tabTemplate = _.template('<li class="ribtab" style="display: none;" <% if (typeof layoutname == "string") print(" data-layout-name=" + \' \' +  layoutname) + \' \' %>><a role="tab" id="<%= action %>" data-tab="<%= action %>" data-title="<%= caption %>" data-hint="0" data-hint-direction="bottom" data-hint-offset="small" <% if (typeof dataHintTitle !== "undefined") { %> data-hint-title="<%= dataHintTitle %>" <% } %> ><%= caption %></a></li>');
 
-                config.tabs[after + 1] = tab;
+                if (config.tabs[after + 1]) {
+                    config.tabs.splice(after + 1 + tabsShift, 0, tab);
+                    tabsShift += 1;
+                } else {
+                    config.tabs[after + 1 + tabsShift] = tab;
+                }
                 var _after_action = _get_tab_action(after);
 
                 var _elements = this.$tabs || this.$layout.find('.tabs');
@@ -657,6 +663,7 @@ define([
             addCustomControls: function(tab, added, removed) {
                 if (!tab.action) return;
 
+                config.tabs = config.tabs.filter(obj => obj.action !== tab.action);
                 var $panel = tab.action ? this.getTab(tab.action) || this.createTab(tab, true) || this.getTab('plugins') : null,
                     $morepanel = this.getMorePanel(tab.action),
                     $moresection = $panel ? $panel.find('.more-box') : null,
