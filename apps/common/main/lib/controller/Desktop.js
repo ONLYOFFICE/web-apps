@@ -550,9 +550,9 @@ define([
                             fileid: _f_.id,
                             type: _f_.type,
                             format: utils.parseFileFormat(_f_.type),
-                            title: name,
+                            title: $('<div>').html(name).text(),
                             url: _f_.path,
-                            folder: dir,
+                            folder: $('<div>').html(dir).text(),
                         });
                     }
                 }
