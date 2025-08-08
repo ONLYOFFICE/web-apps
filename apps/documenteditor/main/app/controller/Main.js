@@ -595,8 +595,41 @@ define([
                 this.api.asc_registerCallback('asc_onMacrosPermissionRequest', _.bind(this.onMacrosPermissionRequest, this));
                 this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
                 this.api.asc_setDocInfo(docInfo);
+                const licenseAndDocInfo = {
+                    standAloneApp: false,
+                    licenseInfo: {
+                        "type": 3,
+                        "light": false,
+                        "mode": 0,
+                        "rights": 1,
+                        "buildVersion": "4.1.2",
+                        "buildNumber": 37,
+                        "protectionSupport": true,
+                        "isAnonymousSupport": true,
+                        "liveViewerSupport": true,
+                        "branding": false,
+                        "customization": false,
+                        "advancedApi": false
+                    },
+                    docInfo: {
+                        "type": "documentOpen",
+                        "data": {
+                            "type": "open",
+                            "status": "ok",
+                            "data": {
+                            "Editor.bin": "http://localhost/cache/files/data/192.168.65.1new.docx51754480391289/Editor.bin/Editor.bin?md5=rhqX4BOoh1MSy5JdB5LhhA&expires=1757224379&shardkey=192.168.65.1new.docx51754480391289&filename=Editor.bin"
+                            },
+                            "openedAt": 1754407442353
+                        }
+                    }
+                };
+                if(licenseAndDocInfo.standAloneApp){
+                    this.api.asc_setLicenseoForStandalone(licenseAndDocInfo.licenseInfo);
+                }
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
-
+                if(licenseAndDocInfo.standAloneApp) {
+                    this.api.asc_openDocumentForStandalone(licenseAndDocInfo.docInfo);
+                }
                 if (data.doc) {
                     appHeader.setDocumentCaption(data.doc.title);
                 }
