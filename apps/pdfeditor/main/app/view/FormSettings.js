@@ -94,6 +94,7 @@ define([
             this.linkAdvanced = el.find('#form-advanced-link');
             this.RequiredSettings = el.find('#form-chb-required').closest('tr');
             this.NameSettings = el.find('.form-name');
+            this.NotCheckSettings = el.find('.form-not-check');
         },
 
         createDelayedElements: function() {
@@ -127,6 +128,24 @@ define([
             this.cmbName.on('selected', this.onNameChanged.bind(this));
             this.cmbName.on('changed:after', this.onNameChanged.bind(this));
             this.cmbName.on('hide:after', this.onHideMenus.bind(this));
+
+            this.cmbNumeral = new Common.UI.ComboBox({
+                el          : $markup.findById('#form-combo-numeral'),
+                editable    : false,
+                cls         : 'input-group-nr',
+                menuStyle   : 'min-width:100%;',
+                data        : [
+                    { value: Asc.c_oNumeralType.arabic, displayValue: this.textArabic },
+                    { value: Asc.c_oNumeralType.hindi, displayValue: this.textHindi }
+                    // { value: Asc.c_oNumeralType.context, displayValue: this.textContext }
+                ],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbNumeral.setValue(Asc.c_oNumeralType.arabic);
+            this.cmbNumeral.on('selected', this.onNumeralChanged.bind(this));
+            this.lockedControls.push(this.cmbNumeral);
 
             this.cmbOrient = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-orient'),
@@ -934,6 +953,14 @@ define([
             }
         },
 
+        onNumeralChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.Numeral = undefined;
+                this.api.SetFieldDigitsType(record.value);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
         onLineStyleChanged: function(combo, record) {
             if (this.api && !this._noApply) {
                 this._state.StrokeStyle = undefined;
@@ -1718,6 +1745,12 @@ define([
                             }
                         }
                     }
+                } else {
+                    val = props.asc_getDigitsType();
+                    if ( this._state.Numeral!==val ) {
+                        this.cmbNumeral.setValue(val!==null && val!==undefined ? val : '');
+                        this._state.Numeral=val;
+                    }
                 }
 
                 this._noApply = false;
@@ -1874,6 +1907,7 @@ define([
                                                                                  this._state.FormatType===AscPDF.FormatType.SPECIAL && this._state.SpecialType===-1));
             this.DateSettings.toggleClass('hidden', !(isCombobox || isText) || this._state.FormatType!==AscPDF.FormatType.DATE);
             this.TimeSettings.toggleClass('hidden', !(isCombobox || isText) || this._state.FormatType!==AscPDF.FormatType.TIME);
+            this.NotCheckSettings.toggleClass('hidden', isCheck || isRadio);
         }
 
     }, PDFE.Views.FormSettings || {}));
