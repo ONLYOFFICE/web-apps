@@ -866,8 +866,8 @@ define([
                     enable_dropcap = true;
             }
 
-            toolbar.brdInnerVert?.setDisabled(!inTable);
-            toolbar.brdInner?.setDisabled(!inTable);
+            toolbar.brdInnerVert && toolbar.brdInnerVert.setDisabled(!inTable);
+            toolbar.brdInner && toolbar.brdInner.setDisabled(!inTable);
 
             if (sh)
                 this.onParagraphColor(sh);
@@ -3038,7 +3038,7 @@ define([
                 }
 
                 if (inTable) {
-                    var borders = props?.get_CellBorders?.();
+                    var borders = props && props.get_CellBorders && props.get_CellBorders();
                     const CellBorders = new Asc.CBorders();
 
                     var borderSide = {
@@ -3055,14 +3055,14 @@ define([
                     };
 
                     ['Left', 'Top', 'Right', 'Bottom', 'InsideV', 'InsideH'].forEach(side => {
-                        var border = borders?.[`get_${side}`]?.();
+                        var border = borders && borders[`get_${side}`] && borders[`get_${side}`]();
                         if (border) {
-                            var currentSize = (border.asc_getValue?.() === 1) ? border.asc_getSize?.() : 0;
+                            var currentSize = (border.asc_getValue && border.asc_getValue() === 1) ? border.asc_getSize() : 0;
                             var sizePts = currentSize * 72 / 25.4;
                             currentBorder[side] = {
                                 width: sizePts,
-                                color: border.asc_getColor?.(),
-                                value: border.asc_getValue?.()
+                                color: border.asc_getColor && border.asc_getColor(),
+                                value: border.asc_getValue && border.asc_getValue()
                             };
                         } else {
                             currentBorder[side] = {width: 0, color: new Asc.asc_CColor(), value: 0};
@@ -3129,7 +3129,7 @@ define([
                     ['Left', 'Top', 'Right', 'Bottom', 'Between'].forEach(side => {
                         var border = borders[`get_${side}`]();
                         if (border) {
-                            var currentSize = (border.asc_getValue?.() === 1) ? border.asc_getSize?.() : 0;
+                            var currentSize = (border.asc_getValue && border.asc_getValue() === 1) ? border.asc_getSize() : 0;
                             var sizePts = currentSize * 72 / 25.4;
                             currentBorder[side] = {
                                 width: sizePts, 
