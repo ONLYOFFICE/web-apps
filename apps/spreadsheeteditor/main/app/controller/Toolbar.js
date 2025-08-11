@@ -4566,26 +4566,26 @@ define([
                     Array.prototype.push.apply(me.toolbar.lockControls, formulatab.getButtons());
 
                     if ( config.canFeaturePivot ) {
-                        tab = {action: 'pivot', caption: me.textPivot, dataHintTitle: 'B'};
+                        tab = {action: 'pivot', caption: me.textPivot, dataHintTitle: 'B', aux: true};
                         var pivottab = me.getApplication().getController('PivotTable');
                         pivottab.setApi(me.api).setConfig({toolbar: me});
                         $panel = pivottab.createToolbarPanel();
                         if ($panel) {
-                            me.toolbar.addTab(tab, $panel, 13);
+                            me.toolbar.addTab(tab, $panel);
                             me._state.inpivot && me.toolbar.setVisible('pivot', true);
                             Array.prototype.push.apply(me.toolbar.lockControls, pivottab.getView('PivotTable').getButtons());
                         }
                     }
 
                     if ( config.canFeatureTable ) {
-                        tab = {caption: 'Table Design', action: 'tabledesign', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-tabledesign', dataHintTitle: 'B'};
+                        tab = {caption: 'Table Design', action: 'tabledesign', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-tabledesign', dataHintTitle: 'B', aux: true};
                         var tabledesigntab = me.getApplication().getController('TableDesignTab');
                         tabledesigntab.setApi(me.api).setConfig({toolbar: me});
                         var view = tabledesigntab.getView('TableDesignTab');
                         var tabledesignbuttons = view.getButtons();
                         var $panel = tabledesigntab.createToolbarPanel();
                         if ($panel) {
-                            me.toolbar.addTab(tab, $panel, 14);
+                            me.toolbar.addTab(tab, $panel);
                             me._state.intabledesign && me.toolbar.setVisible('tabledesign', true);
                             Array.prototype.push.apply(me.toolbar.lockControls, tabledesignbuttons);
                         }
