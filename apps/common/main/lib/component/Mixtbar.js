@@ -53,7 +53,6 @@ define([
         var optsFold = {timeout: 2000};
         var config = {};
         var btnsMore = [];
-        var tabsShift = 0;
 
         function setScrollButtonsDisabeled(){
             var scrollLeft = $boxTabs.scrollLeft();
