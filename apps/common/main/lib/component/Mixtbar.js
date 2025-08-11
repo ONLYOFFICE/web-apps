@@ -378,7 +378,28 @@ define([
 
                 var _tabTemplate = _.template('<li class="ribtab" style="display: none;" <% if (typeof layoutname == "string") print(" data-layout-name=" + \' \' +  layoutname) + \' \' %>><a role="tab" id="<%= action %>" data-tab="<%= action %>" data-title="<%= caption %>" data-hint="0" data-hint-direction="bottom" data-hint-offset="small" <% if (typeof dataHintTitle !== "undefined") { %> data-hint-title="<%= dataHintTitle %>" <% } %> ><%= caption %></a></li>');
 
-                config.tabs[after + 1] = tab;
+                if (after===undefined || tab.aux)
+                    after = config.tabs.length-1;
+
+                if (tab.aux) { // alwayw show tab at the end of toolbar
+                    config.tabs.push(tab);
+                } else if (config.tabs[after + 1]) {
+                    var index = -1;
+                    for (let i=after + 2; i<config.tabs.length; i++) {
+                        if (config.tabs[i]===undefined) {
+                            index = i;
+                            break;
+                        }
+                    }
+                    if (index<0 || index>config.tabs.length-1)
+                        config.tabs.splice(after+1, 0, tab);
+                    else {
+                        config.tabs.splice(index, 1);
+                        config.tabs.splice(after+1, 0, tab);
+                    }
+                } else {
+                    config.tabs[after + 1] = tab;
+                }
                 var _after_action = _get_tab_action(after);
 
                 var _elements = this.$tabs || this.$layout.find('.tabs');
@@ -424,7 +445,8 @@ define([
             },
 
             getLastTabIdx: function() {
-                return config.tabs.length;
+                var index = _.findIndex(config.tabs, {aux: true});
+                return index<0 ? config.tabs.length-1 : index-1;
             },
 
             isCompact: function () {
