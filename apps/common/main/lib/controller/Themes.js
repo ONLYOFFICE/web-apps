@@ -800,6 +800,10 @@ define([
                     }
                 } else if (prop==='tab-style') {
                     return (Common.Utils.isIE || Common.Controllers.Desktop && Common.Controllers.Desktop.isWinXp()) ? 'fill' : window.getComputedStyle(document.body).getPropertyValue("--toolbar-preferred-tab-style") || 'line';
+                } else if (prop==='small-btn-size') {
+                    if (!theme_props[prop]) {
+                        theme_props[prop] = window.getComputedStyle(document.body).getPropertyValue("--x-small-btn-size") || '20px';
+                    }
                 }
                 return theme_props[prop];
             }

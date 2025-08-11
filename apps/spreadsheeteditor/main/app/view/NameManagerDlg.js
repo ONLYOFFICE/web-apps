@@ -174,6 +174,11 @@ define([
             this.refreshRangeList(this.ranges, 0);
             this.api.asc_registerCallback('asc_onLockDefNameManager', this.wrapEvents.onLockDefNameManager);
             this.api.asc_registerCallback('asc_onRefreshDefNameList', this.wrapEvents.onRefreshDefNameList);
+            this.initListHeaders();
+        },
+
+        initListHeaders: function() {
+            this.rangeList.setHeaderWidth(0, parseInt(Common.UI.Themes.getThemeProps('small-btn-size')) + 146/*first column*/ + 5/*padding*/);
         },
 
         onRefreshDefNameList: function() {
