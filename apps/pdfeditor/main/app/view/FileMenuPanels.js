@@ -1211,12 +1211,12 @@ define([], function () {
                             '<td class="right"><label id="id-info-page-size"></label></td>',
                         '</tr>',
                     '</tbody>',
-                    '<tbody>',
-                        '<tr>',
-                            '<td class="left"></td>',
-                            '<td class="right"><button id="fminfo-btn-apply" class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
-                        '</tr>',
-                    '</tbody>',
+                    // '<tbody>',
+                    //     '<tr>',
+                    //         '<td class="left"></td>',
+                    //         '<td class="right"><button id="fminfo-btn-apply" class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
+                    //     '</tr>',
+                    // '</tbody>',
                     // '<tr>',
                     //     '<td class="left"><label>' + this.txtEditTime + '</label></td>',
                     //     '<td class="right"><label id="id-info-edittime"></label></td>',
@@ -1363,10 +1363,10 @@ define([], function () {
             this.lblPdfProducer = $markup.findById('#id-info-pdf-produce');
             this.lblFastWV = $markup.findById('#id-info-fast-wv');
 
-            this.btnApply = new Common.UI.Button({
-                el: $markup.findById('#fminfo-btn-apply')
-            });
-            this.btnApply.on('click', _.bind(this.applySettings, this));
+            // this.btnApply = new Common.UI.Button({
+            //     el: $markup.findById('#fminfo-btn-apply')
+            // });
+            // this.btnApply.on('click', _.bind(this.applySettings, this));
 
             this.pnlApply = $markup.findById('#fms-flex-apply');
 
@@ -1742,7 +1742,7 @@ define([], function () {
             this.inputAuthor.setDisabled(disable);
             this.tblAuthor.find('.close').toggleClass('disabled', this._state._locked);
             this.tblAuthor.toggleClass('disabled', disable);
-            this.btnApply.setDisabled(this._state._locked);
+            // this.btnApply.setDisabled(this._state._locked);
         },
 
         applySettings: function() {
