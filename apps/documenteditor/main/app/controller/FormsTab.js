@@ -142,6 +142,7 @@ define([
                 }
             });
             this.appConfig.isRestrictedEdit && this.api && this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
+            this.appConfig.isPDFSignatureSupport && this.appConfig.isRestrictedEdit && this.api && this.api.asc_registerCallback('asc_onUpdateSignatures',    _.bind(this.onApiUpdateSignatures, this));
         },
 
         SetDisabled: function(state) {
@@ -751,6 +752,29 @@ define([
                 this._state.needToStartFilling = false;
                 this.requestStartFilling();
             }
+            this.appConfig.isPDFSignatureSupport && this.appConfig.isRestrictedEdit && this.api && this.showSignatureTooltip(this.api.asc_getSignatures());
+        },
+
+        onApiUpdateSignatures: function(valid, requested){
+            if (!this._isDocReady) return;
+
+            this.showSignatureTooltip(valid);
+        },
+
+        showSignatureTooltip: function(valid) {
+            if (!this.view) return;
+
+            var hasForm = false;
+            valid && _.each(valid, function(item, index){
+                item.asc_getIsForm() && (hasForm = true);
+            });
+
+            if (!hasForm)
+                Common.UI.TooltipManager.closeTip('formSigned');
+            else
+                Common.UI.TooltipManager.showTip({ step: 'formSigned', text: this.view.txtSignedForm, target: '#toolbar',
+                                                         maxwidth: 'none', closable: true, automove: true, noHighlight: true});
+            Common.Utils.lockControls(Common.enumLock.formSigned, hasForm, {array: [this.view.btnSubmit, this.view.btnClear]});
         }
 
     }, DE.Controllers.FormsTab || {}));

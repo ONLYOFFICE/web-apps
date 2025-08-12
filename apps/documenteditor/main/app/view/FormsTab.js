@@ -51,7 +51,8 @@ define([
         requiredNotFilled: 'required-not-filled',
         submit: 'submit',
         firstPage: 'first-page',
-        lastPage: 'last-page'
+        lastPage: 'last-page',
+        formSigned: 'form-signed'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -547,7 +548,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-clear-style',
                     caption: this.textClear,
-                    lock: [ _set.lostConnect, _set.viewMode, _set.disableOnStart],
+                    lock: [ _set.lostConnect, _set.viewMode, _set.disableOnStart, _set.formSigned],
                     visible: this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && this.appConfig.isPDFForm,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -586,7 +587,7 @@ define([
                         this.btnSubmit = new Common.UI.Button({
                             cls: 'btn-text-default auto back-color',
                             caption: this.capBtnSubmit,
-                            lock: [_set.lostConnect, _set.disableOnStart, _set.requiredNotFilled, _set.submit],
+                            lock: [_set.lostConnect, _set.disableOnStart, _set.requiredNotFilled, _set.submit, _set.formSigned],
                             dataHint: '0',
                             dataHintDirection: 'bottom',
                             dataHintOffset: 'big'
@@ -595,7 +596,7 @@ define([
                         this.btnSubmit = new Common.UI.Button({
                             cls: 'btn-toolbar x-huge icon-top',
                             iconCls: 'toolbar__icon btn-submit-form',
-                            lock: [_set.lostConnect, _set.disableOnStart, _set.requiredNotFilled, _set.submit],
+                            lock: [_set.lostConnect, _set.disableOnStart, _set.requiredNotFilled, _set.submit, _set.formSigned],
                             caption: this.capBtnSubmit,
                             // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
                             dataHint: '1',
