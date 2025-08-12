@@ -2843,12 +2843,14 @@ define([
                     me.toolbar.processPanelVisible(null, true);
                 }
 
-                if ( config.isDesktopApp ) {
+                if ( config.canProtect && config.isDesktopApp ) {
                     if (config.isSignatureSupport || config.isPasswordSupport) { // don't add protect panel to toolbar
                         tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
-                        if ($panel)
+                        if ($panel) {
                             me.toolbar.addTab(tab, $panel, 8);
+                            me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
+                        }
                     }
                 }
 
