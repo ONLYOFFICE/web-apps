@@ -51,7 +51,7 @@ define([
     var LoadingDocument = -256,
         maxPages = 0,
         labelDocName,
-        _submitFail,
+        _submitFail = true,
         screenTip,
         mouseMoveData = null,
         isTooltipHiding = false,
@@ -84,6 +84,7 @@ define([
             });
 
             this._state = {isDisconnected: false, licenseType: false, isDocModified: false, isFormDisconnected: false};
+            this._isDisabled = false;
 
             this.view = this.createView('ApplicationView').render();
 
@@ -771,6 +772,11 @@ define([
                     Common.Gateway.requestClose();
                 });
             }
+
+            if (this.appOptions.canFillForms) {
+                this.api.asc_registerCallback('asc_onUpdateSignatures', _.bind(this.onApiUpdateSignatures, this));
+            }
+
             this._isPermissionsInited = true;
             this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
             this.api.asc_LoadDocument();
@@ -922,7 +928,7 @@ define([
                     _submitFail = false;
                     text = this.savingText;
                     this.submitedTooltip && this.submitedTooltip.hide();
-                    this.view.btnSubmit.setDisabled(true);
+                    this.view.btnSubmit.setDisabled(!_submitFail || this._state.hasForm);
                     this.view.btnSubmit.cmpEl.css("pointer-events", "none");
                     this.disableFillingForms(true);
                     break;
@@ -955,7 +961,7 @@ define([
              action ? this.setLongActionView(action) : this.loadMask && this.loadMask.hide();
 
              if (id==Asc.c_oAscAsyncAction['Submit']) {
-                 this.view.btnSubmit.setDisabled(!_submitFail);
+                 this.view.btnSubmit.setDisabled(!_submitFail || this._state.hasForm);
                  this.view.btnSubmit.cmpEl.css("pointer-events", "auto");
                 if (!_submitFail) {
                     Common.Gateway.submitForm();
@@ -1599,6 +1605,8 @@ define([
                 Common.Gateway.on('insertimage',        _.bind(this.insertImage, this));
                 Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this)); // try to load image from storage
                 Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this)); // set loaded image to control
+
+                this.showSignatureTooltip(this.api.asc_getSignatures());
             }
             DE.getController('Plugins').setApi(this.api);
             DE.getController('SearchBar').setApi(this.api);
@@ -2104,7 +2112,7 @@ define([
 
         disableFillingForms: function(state) {
             this._isDisabled = state;
-            this.view && this.view.btnClear && this.view.btnClear.setDisabled(state);
+            this.view && this.view.btnClear && this.view.btnClear.setDisabled(state || this._state.hasForm);
             this.view && this.view.btnUndo && this.view.btnUndo.setDisabled(state || !this.api.asc_getCanUndo());
             this.view && this.view.btnRedo && this.view.btnRedo.setDisabled(state || !this.api.asc_getCanRedo());
             if (this.view && this.view.btnOptions && this.view.btnOptions.menu) {
@@ -2246,6 +2254,31 @@ define([
             });
         },
 
+        onApiUpdateSignatures: function(valid, requested){
+            if (!this._isDocReady) return;
+
+            this.showSignatureTooltip(valid);
+        },
+
+        showSignatureTooltip: function(valid) {
+            if (!this.view) return;
+
+            var hasForm = false;
+            valid && _.each(valid, function(item, index){
+                item.asc_getIsForm() && (hasForm = true);
+            });
+
+            if (!hasForm)
+                Common.UI.TooltipManager.closeTip('formSigned');
+            else
+                Common.UI.TooltipManager.showTip({ step: 'formSigned', text: this.txtSignedForm, target: '#toolbar', showButton: false,
+                                                        maxwidth: 'none', closable: true, automove: true, noHighlight: true});
+
+            this.view.btnClear && this.view.btnClear.setDisabled(this._isDisabled || hasForm);
+            this.view.btnSubmit && this.view.btnSubmit.setDisabled(!_submitFail || hasForm);
+            this._state.hasForm = hasForm;
+        },
+
         onEditComplete: function() {
             var me = this;
             me.boxSdk && _.defer(function(){  me.boxSdk.focus(); }, 50);
@@ -2335,7 +2368,8 @@ define([
         tipLicenseExceeded: 'The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.',
         tipLicenseUsersExceeded: 'The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.',
         titleReadOnly: 'Read-Only Mode',
-        textContinue: 'Continue'
+        textContinue: 'Continue',
+        txtSignedForm: 'This document has been signed and cannot be edited.',
 
     }, DE.Controllers.ApplicationController));
 });

@@ -178,6 +178,7 @@
   "DE.Controllers.ApplicationController.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
   "DE.Controllers.ApplicationController.titleReadOnly": "Read-Only Mode",
   "DE.Controllers.ApplicationController.textContinue": "Continue",
+  "DE.Controllers.ApplicationController.txtSignedForm": "This document has been signed and cannot be edited.",
   "DE.Views.ApplicationView.textClear": "Clear all fields",
   "DE.Views.ApplicationView.textClearField": "Clear field",
   "DE.Views.ApplicationView.textClose": "Close file",
