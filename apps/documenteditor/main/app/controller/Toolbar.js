@@ -3989,7 +3989,7 @@ define([
                     Array.prototype.push.apply(me.toolbar.paragraphControls, drawtab.getView().getButtons());
                 }
 
-                if ( config.canProtect ) {
+                if ( config.canProtect && !config.isPDFForm) {
                     tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
                     $panel = application.getController('Common.Controllers.Protection').createToolbarPanel();
                     if ($panel) {
