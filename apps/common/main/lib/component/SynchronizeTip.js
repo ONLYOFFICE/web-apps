@@ -139,6 +139,7 @@ define([
                 var target = this.target && this.target.length>0 ? this.target : $(document.body);
 
                 if (!target.is(':visible') && !repeatOnce) {
+                    var me = this;
                     setTimeout(function(){ me.applyPlacement(true); }, 100);
                     return;
                 }
