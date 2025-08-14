@@ -1118,7 +1118,7 @@ define([
                 props.put_background(fill);
                 this.api.SetSlideProps(props);
             }
-            $(this.btnTexture.el).find('.form-control').prop('innerHTML', record.get('name'));
+            // $(this.btnTexture.el).find('.form-control').prop('innerHTML', record.get('name'));
             this.fireEvent('editcomplete', this);
         },
 
