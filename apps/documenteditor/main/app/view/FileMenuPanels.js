@@ -1190,7 +1190,9 @@ define([], function () {
         },
 
         onClickKeyboardShortcut: function() {
-            const win = new Common.Views.ShortcutsDialog({});
+            const win = new Common.Views.ShortcutsDialog({
+                api: this.api
+            });
             win.show();
         },
 

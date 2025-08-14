@@ -1477,6 +1477,7 @@ define([
                         if (window.document_content_ready) {
                             clearInterval(timer_sl);
 
+                            me.applyShortcuts();
                             toolbarController.createDelayedElements();
                             documentHolderController.getView().createDelayedElements();
                             me.setLanguages();
@@ -2778,6 +2779,20 @@ define([
                 setTimeout(function(){
                     me.getApplication().getController('Toolbar').updateThemeColors();
                 }, 50);
+            },
+
+            applyShortcuts: function() {
+                const storage = JSON.parse(Common.localStorage.getItem("de-shortcuts") || "{}");
+                for (const actionType in storage) {
+                    storage[actionType] = storage[actionType].map(function(ascShortcutJson) {
+                        const ascShortcut = new Asc.CAscShortcut();
+                        ascShortcut.asc_FromJson(ascShortcutJson);
+                        return ascShortcut;
+                    });
+                }
+                if(storage.length) {
+                    this.api.asc_applyAscShortcuts(_.flatten(_.values(storage)));
+                }
             },
 
             onSendThemeColors: function(colors, standart_colors) {

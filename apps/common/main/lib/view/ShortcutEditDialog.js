@@ -42,7 +42,9 @@ define([
 
     Common.Views.ShortcutEditDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
+            height: 'auto',
             contentWidth: 268,
+            contentHeight: 'auto',
             separator: false
         },
 
@@ -52,19 +54,21 @@ define([
                 title: this.txtTitle,
                 contentStyle: 'padding: 16px 16px 0;',
                 contentTemplate: _.template([
-                    '<label id="action-label">',
-                        '<span><%= scope.txtAction %>: </span>',
-                        '<span id="action-label-name"><%= options.action.name %></span>',
-                    '</label>',
-                    '<div id="shortcuts-list"></div>',
-                    '<div id="buttons-row">',
-                        '<label id="new-shortcut-btn" class="link"><%= scope.txtNewShortcut %></label>',
-                        '<label id="restore-btn" class="link"><%= scope.txtRestoreToDefault %></label>',
+                    '<div class="settings-panel active">',
+                        '<label id="action-label">',
+                            '<span><%= scope.txtAction %>: </span>',
+                            '<span id="action-label-name"><%= options.action.name %></span>',
+                        '</label>',
+                        '<div id="shortcuts-list"></div>',
+                        '<div id="buttons-row">',
+                            '<label id="new-shortcut-btn" class="link"><%= scope.txtNewShortcut %></label>',
+                            '<label id="reset-btn" class="link"><%= scope.txtRestoreToDefault %></label>',
+                        '</div>',
                     '</div>'
                 ].join(''))({scope: this, options: options}),
             }, options);
 
-            this.handler    = options.handler;            
+            this.handler = options.handler;            
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
 
@@ -73,6 +77,9 @@ define([
 
             this.newShortcutsBtn = this.$window.find('#new-shortcut-btn');
             this.newShortcutsBtn.on('click', _.bind(this.onAddShortcut, this));
+
+            this.resetBtn = this.$window.find('#reset-btn');
+            this.resetBtn.on('click', _.bind(this.onReset, this));
 
             this._setDefaults();
         },
@@ -87,6 +94,9 @@ define([
             this.shortcutsCollection.on('add remove reset change:keys', this._renderShortcutsWarning, this);
 
             this.shortcutsCollection.reset(this.options.shortcuts);
+            if(this.shortcutsCollection.length == 0) {
+                this.onAddShortcut();
+            }
         },
 
         _renderShortcutsList: function(item) {
@@ -94,21 +104,27 @@ define([
 
             this.$window.find('#shortcuts-list').empty();
             this.shortcutsCollection.each(function(item) {
-                const shortcut = item.get('shortcut');
-                const isLocked = shortcut.asc_IsLocked();
+                const ascShortcut = item.get('ascShortcut');
+                const isLocked = ascShortcut.asc_IsLocked();
                 const keysStr = item.get('keys').join(' + ');
                 const $item = $(
-                    '<div class="item">' + 
+                    '<div class="item">' +
                         '<div class="keys-input"></div>' +
-                        (isLocked ? 
-                        '<button type="button" class="btn-toolbar"><i class="icon toolbar__icon btn-menu-about">&nbsp;</i></button>' : 
-                        '<button type="button" class="btn-toolbar remove-btn"><i class="icon toolbar__icon btn-cc-remove">&nbsp;</i></button>') +
+                        (isLocked
+                            ? '<button type="button" class="btn-toolbar">' +
+                                '<i class="icon toolbar__icon btn-menu-about">&nbsp;</i>' +
+                            '</button>'
+                            : '<button type="button" class="btn-toolbar remove-btn">' +
+                                '<i class="icon toolbar__icon btn-cc-remove">&nbsp;</i>' +
+                            '</button>'
+                        ) +
                     '</div>'
                 );
-                if(me.shortcutsCollection.length == 1) {
-                    $item.find('.remove-btn').attr('disabled', true).addClass('disabled');
-                }
-                me.$window.find('#shortcuts-list').append($item);                
+
+                // if(me.shortcutsCollection.length == 1) {
+                //     $item.find('.remove-btn').attr('disabled', true).addClass('disabled');
+                // }
+                me.$window.find('#shortcuts-list').append($item);   
 
                 const keysInput = new Common.UI.InputField({
                     el          : $item.find('.keys-input'),
@@ -119,7 +135,8 @@ define([
                 });
                 item.set({ keysInput: keysInput });
 
-                $item.find('.keys-input').on('keydown', function(e) {
+                const $keysInput = $item.find('.keys-input input'); 
+                $keysInput.on('keydown', function(e) {
                     e.stopPropagation();
                     e.preventDefault();
 
@@ -132,36 +149,98 @@ define([
 
                     if (!['Control', 'Shift', 'Alt', 'Meta'].includes(e.key)) {
                         keys.push(me.options.keyCodeToKeyName(e.keyCode));
-                        shortcut.asc_SetKeyCode(e.keyCode);
+                        ascShortcut.asc_SetKeyCode(e.keyCode);
                     } else {
-                        shortcut.asc_SetKeyCode(null);
+                        ascShortcut.asc_SetKeyCode(null);
                     }
 
-                    shortcut.asc_SetIsCtrl(!!e.ctrlKey);
-                    shortcut.asc_SetIsShift(!!e.shiftKey);
-                    shortcut.asc_SetIsAlt(!!e.altKey);
-                    shortcut.asc_SetIsCommand(!!e.metaKey);
+                    ascShortcut.asc_SetIsCtrl(!!e.ctrlKey);
+                    ascShortcut.asc_SetIsShift(!!e.shiftKey);
+                    ascShortcut.asc_SetIsAlt(!!e.altKey);
+                    ascShortcut.asc_SetIsCommand(!!e.metaKey);
 
                     item.set('keys', keys);
                     $item.find('input').val(keys.join(' + '));
                 });
 
+
+                const removeKeysIfOnlyModifiers = function(removedKey) {
+                    const modifierKeys = ['Ctrl', 'Shift', 'Alt', '⌘'];
+                    const keys = item.get('keys');
+                    const hasExtra = _.some(keys, function(k) {
+                        return !_.contains(modifierKeys, k);
+                    });
+
+                    if (!hasExtra && removedKey && removedKey.length) {
+                        const filteredKeys = keys.filter(function(k) {
+                            return !_.contains(removedKey, k);
+                        });
+
+                        item.set('keys', filteredKeys);
+                        $item.find('input').val(filteredKeys.join(' + '));
+                    }
+                };
+
+                $keysInput.on('keyup', function(e) {
+                    const keyMap = {
+                        Control: 'Ctrl',
+                        Alt: 'Alt',
+                        Shift: 'Shift',
+                        Meta: '⌘'
+                    };
+                    const mappedKey = keyMap[e.key];
+                    removeKeysIfOnlyModifiers(mappedKey ? [mappedKey] : []);
+                });
+
+                $keysInput.on('focusout', function() {
+                    removeKeysIfOnlyModifiers(item.get('keys', []));
+                });
+
                 $item.find('.remove-btn').on('click', function() {
                     me.shortcutsCollection.remove(item);
+                    if(me.shortcutsCollection.length == 0) {
+                        me.onAddShortcut();
+                    }
                 });
             });
+            this.fixHeight();
         },
         
         _renderShortcutsWarning: function() {
             const me = this;
+            let isButtonDisabled = false;
+
             this.shortcutsCollection.each(function(item) {
-                const shortcut = item.get('shortcut');
-                let assignedShortcut = me.options.findAssignedShortcut(shortcut, {
+                const ascShortcut = item.get('ascShortcut');
+                let assignedActionNames = [];
+                let assignedActions = me.options.findAssignedActions(ascShortcut, {
                     action: me.options.action,
                     shortcuts: me.shortcutsCollection.toJSON().slice(0, _.indexOf(me.shortcutsCollection.models, item))
                 });
-                item.get('keysInput').showWarning(assignedShortcut ? [me.txtInputWarn.replace('{0}', assignedShortcut.action.name)] : null);
+                let isDisabled = _.some(assignedActions, function(action) { return action.isLocked; });
+                
+                isButtonDisabled = isButtonDisabled || isDisabled;
+
+                for (let i = 0; i < assignedActions.length; i++) {
+                    const action = assignedActions[i];
+                    if(action.isLocked == isDisabled) {
+                        assignedActionNames.push('“' + action.name + '”');
+                    } 
+                }
+
+                let txtKey = null;
+                if (assignedActionNames.length === 1) {
+                    txtKey = isDisabled ? 'txtInputWarnOneLocked' : 'txtInputWarnOne';
+                } else if (assignedActionNames.length > 1) {
+                    txtKey = isDisabled ? 'txtInputWarnManyLocked' : 'txtInputWarnMany';
+                }
+                item.get('keysInput').showWarning(
+                    txtKey
+                        ? [me[txtKey].replace('%1', assignedActionNames.join(', '))]
+                        : null
+                );
             });
+            this.getFooterButtons()[0].setDisabled(isButtonDisabled);
         },
         
         onAddShortcut: function() {
@@ -169,16 +248,50 @@ define([
             if(!lastShortcutRecord || lastShortcutRecord.get('keys').length) {
                 this.shortcutsCollection.add({
                     keys: [],
-                    shortcut: new Asc.CAscShortcut(this.options.action.type)
+                    ascShortcut: new Asc.CAscShortcut(this.options.action.type)
                 });
             }
             this.$window.find('#shortcuts-list .item input').last().focus();
         },
 
+        onReset: function() {
+            const me = this;
+
+            Common.UI.warning({
+                title: this.txtRestoreToDefault,
+                msg: this.txtRestoreDescription.replace('%1', me.options.action.name) + '<br/>' +
+                    this.txtRestoreContinue,
+                buttons: ['ok', 'cancel'],
+                width: 400,
+                callback: function(btn) {
+                    if(btn == 'ok') {
+                        const shortcuts = me.options.getDefaultShortcuts();
+                        me.shortcutsCollection.reset(shortcuts);
+                    }
+                }
+            });
+        },
+
         onDlgBtnClick: function(event) {
-            var state = (typeof(event) == 'object') ? event.currentTarget.attributes['result'].value : event;
+            let state = (typeof(event) == 'object') ? event.currentTarget.attributes['result'].value : event;
             if (state == 'ok') {
-                this.handler && this.handler.call(this, state,  (state == 'ok') ? null : undefined);
+                const seen = {};
+                const filteredShortcuts = [];
+
+                (this.shortcutsCollection.toJSON() || []).forEach(function(item) {
+                    if (!item.keys.length) return;
+
+                    let idx = item.ascShortcut.asc_GetShortcutIndex();
+                    if (seen[idx]) return;
+
+                    seen[idx] = true;
+                    filteredShortcuts.push({
+                        keys: item.keys,
+                        ascShortcut: item.ascShortcut
+                    });
+                });
+
+                this.handler && this.handler.call(this, state, filteredShortcuts);
             }
 
             this.close();
@@ -192,12 +305,15 @@ define([
         txtTitle: 'Edit shortcut',
         txtAction: 'Action',
         txtInputPlaceholder: 'Type desired shortcut',
-        txtInputWarn: 'The shortcut used by action “{0}” and can’t be changed',
+        txtInputWarnOne: 'The shortcut used by action %1',
+        txtInputWarnOneLocked: 'The shortcut used by action %1 and can’t be changed',
+        txtInputWarnMany: 'The shortcut used by actions %1',
+        txtInputWarnManyLocked: 'The shortcut used by actions %1 and can’t be changed',
         txtNewShortcut: 'New shortcut',
         txtRestoreToDefault: 'Restore to default',
         txtTypeDesiredShortcut: 'Type desired shortcut',
-        txtShortcutUsedByAction: 'The shortcut used by action',
-        txtAndCantBeChanged: 'and can’t be changed'
+        txtRestoreDescription: 'All shortcuts for action “%1” will be restored to deafult.',
+        txtRestoreContinue: 'Do you want to continue?'
 
     },  Common.Views.ShortcutEditDialog || {}))
 });

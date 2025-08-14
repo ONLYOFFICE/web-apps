@@ -54,17 +54,26 @@ define([
                 contentTemplate: _.template([
                     '<div id="header-row">', 
                         '<input id="search-input" type="text" spellcheck="false" class="form-control" placeholder="<%= scope.txtSearch %>...">',
-                        '<label id="restore-all-btn" class="link"><%= scope.txtRestoreAll %></label>',
+                        '<label id="reset-all-btn" class="link"><%= scope.txtRestoreAll %></label>',
                     '</div>',
-                    '<div id="actions-list"></div>'
+                    '<div id="actions-list"></div>',
+                    '<div id="action-description">',
+                        '<b>Description: </b>',
+                        '<span id="action-description-text"></span>',
+                    '</div>'
                 ].join(''))({scope: this}),
                 buttons: []
             }, options);
 
             this.handler    = options.handler;
+            this.api = options.api;
+
             this._state     = {
-                actionsData: []
+                actionsMap: []
             };
+
+            let filter = Common.localStorage.getKeysFilter();
+            this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -80,7 +89,7 @@ define([
                     '<div id="<%= id %>" class="list-item">',
                         '<div class="action-name"><%= action.name %></div>',
                         '<div class="action-keys">',
-                            '<% _.each(shortcuts, function(shortcut, shortcutIndex) { %>',
+                            '<% _.each(_.filter(shortcuts, function(shortcut) { return !shortcut.ascShortcut.asc_IsHidden() }), function(shortcut, shortcutIndex) { %>',
                                 '<% if (shortcutIndex != 0) { %>',
                                     '<div class="action-keys-comma">,</div>',
                                 '<% } %>',
@@ -95,16 +104,22 @@ define([
                             '<% }); %>',
                         '</div>',
                         '<% if (!action.isLocked) { %>',
-                            '<button type="button" class="action-edit btn-toolbar"><i class="icon toolbar__icon btn-edit">&nbsp;</i></button>',
+                            '<button type="button" class="action-edit btn-toolbar">',
+                                '<i class="icon toolbar__icon btn-edit">&nbsp;</i>',
+                            '</button>',
                         '<% } %>',
                     '</div>'
                 ].join(''))
             });
+            this.actionsList.on('item:select', _.bind(this.onSelectActionItem, this));
             this.actionsList.on('item:click', _.bind(this.onClickActionItem, this));
             this.actionsList.on('item:dblclick', _.bind(this.onEditActionItem, this));
 
             this.searchInput = this.$window.find('#search-input');
             this.searchInput.on('input', _.bind(this.onInputSearch, this));
+
+            this.resetAllBtn = this.$window.find('#reset-all-btn');
+            this.resetAllBtn.on('click', _.bind(this.onResetAll, this));
 
             this._setDefaults();
         },
@@ -114,9 +129,10 @@ define([
         },
 
         _keyCodeToKeyName: function(code) {
-            const specialKeys = {
+             const specialKeys = {
                 8: 'Backspace',
                 9: 'Tab',
+                12: 'Clear',
                 13: 'Enter',
                 16: 'Shift',
                 17: 'Ctrl',
@@ -137,6 +153,8 @@ define([
                 46: 'Delete',
                 91: 'Meta',
                 93: 'ContextMenu',
+                107: 'Numpad+',
+                109: 'Numpad-',
                 112: 'F1',
                 113: 'F2',
                 114: 'F3',
@@ -149,6 +167,19 @@ define([
                 121: 'F10',
                 122: 'F11',
                 123: 'F12',
+                173: 'ff-',
+                61: 'ff=',
+                186: ';',
+                187: '=',
+                188: ',',
+                189: '-',
+                190: '.',
+                191: '/',
+                192: '`',
+                219: '[',
+                220: '\\',
+                221: ']',
+                222: '\'',
             };
 
             if (specialKeys[code]) {
@@ -157,14 +188,51 @@ define([
             return String.fromCharCode(code);
         },
 
+        _getAscShortcutKeys(ascShortcut) {
+            const keys = [];
+            ascShortcut.asc_IsCtrl() && keys.push('Ctrl');
+            ascShortcut.asc_IsShift() && keys.push('Shift');
+            ascShortcut.asc_IsAlt() && keys.push('Alt');
+            ascShortcut.asc_IsCommand() && keys.push('⌘');
+            keys.push(this._keyCodeToKeyName(ascShortcut.asc_GetKeyCode()));
+            return keys;
+        },
+
+        _getModifiedShortcuts: function() {
+            const storage = JSON.parse(Common.localStorage.getItem(this.appPrefix + "shortcuts") || "{}");
+            for (const actionType in storage) {
+                storage[actionType] = storage[actionType].map(function(ascShortcutJson) {
+                    const ascShortcut = new Asc.CAscShortcut();
+                    ascShortcut.asc_FromJson(ascShortcutJson);
+                    return ascShortcut;
+                });
+            }
+            return storage;
+        },
+
+        _saveModifiedShortcuts: function(actionsMap) {
+            const customShortcuts = _.extend({}, this._getModifiedShortcuts(), actionsMap || {});
+            for (const actionType in customShortcuts) {
+                customShortcuts[actionType] = customShortcuts[actionType].map(function(ascShortcut) {
+                    return ascShortcut.asc_ToJson();
+                });
+            }
+            Common.localStorage.setItem(this.appPrefix + "shortcuts", JSON.stringify(customShortcuts));
+        },
+
+        _removeModifiedShortcuts: function() {
+            Common.localStorage.setItem(this.appPrefix + "shortcuts", '');
+        },
+
         _setDefaults: function() {
             const me = this;
-            let actionsData = {};
-            for (var actionName in Asc.c_oAscDocumentShortcutType) {
+            let actionsMap = {};
+            for (let actionName in Asc.c_oAscDocumentShortcutType) {
                 const type = Asc.c_oAscDocumentShortcutType[actionName];
-                actionsData[type] = {
+                actionsMap[type] = {
                     action: {
-                        name: actionName,
+                        name: this['txtLabel' + actionName],
+                        description: this['txtDescription' + actionName],
                         type: type,
                         isLocked: !Asc.c_oAscUnlockedShortcutActionTypes[type]
                     },
@@ -172,28 +240,67 @@ define([
                 }
             }
 
-            _.values(Asc.c_oAscDefaultShortcuts).forEach(function(shortcuts) {
-                const actionType = shortcuts[0].asc_GetType();
-                
-                if(actionsData[actionType]) {
-                    actionsData[actionType].shortcuts = shortcuts.map(function(shortcut) {
-                        const keys = [];
-                        shortcut.asc_IsCtrl() && keys.push('Ctrl');
-                        shortcut.asc_IsShift() && keys.push('Shift');
-                        shortcut.asc_IsAlt() && keys.push('Alt');
-                        shortcut.asc_IsCommand() && keys.push('⌘');
-                        keys.push(me._keyCodeToKeyName(shortcut.asc_GetKeyCode()));
+            _.pairs(Asc.c_oAscDefaultShortcuts).forEach(function(item) {
+                const actionType = item[0];
+                const shortcuts = item[1];
+                const actionItem = actionsMap[actionType];
+
+                if(actionItem) {
+                    actionItem.shortcuts = shortcuts.map(function(ascShortcut) {
                         return {
-                            shortcut: shortcut,
-                            keys: keys 
+                            keys: me._getAscShortcutKeys(ascShortcut),
+                            isCustom: false,
+                            ascShortcut: ascShortcut,
                         }
                     });
                 }
             });
-            
-            actionsData = _.values(actionsData);
-            this._state.actionsData = actionsData;
-            this.actionsList.store.reset(actionsData)
+
+            _.pairs(this._getModifiedShortcuts()).forEach(function(item) {
+                const actionType = item[0];
+                const shortcuts = item[1];
+                const actionItem = actionsMap[actionType];
+                
+                if(actionItem) {
+                    shortcuts.forEach(function(ascShortcut) {
+                        const defaultShortcut = _.find(actionItem.shortcuts, function(shortcut) { 
+                            return shortcut.ascShortcut.asc_GetShortcutIndex() == ascShortcut.asc_GetShortcutIndex() 
+                        });
+
+                        if(defaultShortcut) {
+                            defaultShortcut.ascShortcut.asc_SetIsHidden(ascShortcut.asc_IsHidden());
+                        } else {
+                            actionItem.shortcuts.push({
+                                keys: me._getAscShortcutKeys(ascShortcut),
+                                isCustom: true,
+                                ascShortcut: ascShortcut,
+                            });
+                        }    
+                    });
+                }
+            })
+
+            this._state.actionsMap = actionsMap;
+            this.actionsList.store.reset(_.values(actionsMap))
+        },
+
+        _updateActionsList: function(list) {
+            const selectedActionIndex = this.actionsList.store.findIndex(function(item) { 
+                return item.get('selected');
+            });
+            const scrollPos = this.actionsList.scroller.getScrollTop();
+
+            this.actionsList.store.reset(_.values(list));
+
+            this.actionsList.scroller.scrollTop(scrollPos);
+            if(selectedActionIndex != -1) {
+                this.actionsList.selectByIndex(selectedActionIndex);
+            }
+        },
+
+        onSelectActionItem: function(list, item, record, event) {
+            const text = record ? record.get('action').description : '';
+            this.$window.find('#action-description-text').text(text);
         },
 
         onClickActionItem: function(list, item, record, event) {
@@ -206,40 +313,116 @@ define([
             if(record.get('action').isLocked) return;
             
             const me = this;
+            const actionType = record.get('action').type;
+
+            const unhiddenShortcuts = _.filter(record.get('shortcuts'), function(shortcut) {
+                return !shortcut.ascShortcut.asc_IsHidden();
+            });
             const win = new Common.Views.ShortcutEditDialog({
                 action: record.get('action'),
-                shortcuts: record.get('shortcuts').map(function(item) {
-                    const copyShortcutInstance = new Asc.CAscShortcut(
-                        item.shortcut.asc_GetType(),
-                        item.shortcut.asc_GetKeyCode(),
-                        item.shortcut.asc_IsCtrl(),
-                        item.shortcut.asc_IsShift(),
-                        item.shortcut.asc_IsAlt(),
-                        item.shortcut.asc_IsCommand(),
-                        item.shortcut.asc_IsLocked(),
-                        item.shortcut.asc_IsHidden()
-                    );
+                shortcuts: unhiddenShortcuts.map(function(shortcut) {
+                    const copyAscShortcut = new Asc.CAscShortcut();
+                    copyAscShortcut.asc_FromJson(shortcut.ascShortcut.asc_ToJson());
                     return {
-                        keys: item.keys,
-                        shortcut: copyShortcutInstance
-                    }
+                        keys: shortcut.keys,
+                        ascShortcut: copyAscShortcut
+                    };
                 }),
                 keyCodeToKeyName: this._keyCodeToKeyName,
-                findAssignedShortcut: function(shortcut, extraAction) {
-                    const shortcutIndex = shortcut.asc_GetShortcutIndex();
+                handler: function(result, updatedShortcuts) {
+                    if (result != 'ok') return;
 
-                    const foundAction = _.find(me._state.actionsData, function(item) {
-                        if (record.get('action').type === item.action.type) {
+                    const resultShortcuts = [];
+                    const originalShortcuts = record.get('shortcuts');
+
+                    originalShortcuts.forEach(function(item) {
+                        const existsInUpdated = _.some(updatedShortcuts, function(el) { 
+                            return el.ascShortcut.asc_GetShortcutIndex() === item.ascShortcut.asc_GetShortcutIndex();
+                        });
+                        item.ascShortcut.asc_SetIsHidden(!existsInUpdated);
+                        resultShortcuts.push(item);
+                    });
+
+                    updatedShortcuts.forEach(function(item) {
+                        const existsInOriginal = _.find(originalShortcuts, function(el) { 
+                            return el.ascShortcut.asc_GetShortcutIndex() === item.ascShortcut.asc_GetShortcutIndex();
+                        });
+                        if(!existsInOriginal) {
+                            item.isCustom = true;
+                            resultShortcuts.push(item);
+                        }  
+                    });
+
+                    const action = me._state.actionsMap[actionType];
+                    if(action) {
+                        action.shortcuts = resultShortcuts;
+                    }
+
+                    // Remove shortcuts for conflicting actions 
+                    const removableIndexes = updatedShortcuts.map(function(item) { 
+                        return item.ascShortcut.asc_GetShortcutIndex()
+                    });
+                    const removableItems = {};
+                    for (const type in me._state.actionsMap) {
+                        if(removableIndexes.length == 0) break;
+                        if(type == actionType) continue;
+
+                        const shortcuts = me._state.actionsMap[type].shortcuts;
+                        const foundShortcut = _.find(shortcuts, function(shortcut) {
+                            const foundIndex = _.indexOf(removableIndexes, shortcut.ascShortcut.asc_GetShortcutIndex());
+                            (foundIndex != -1) && removableIndexes.splice(foundIndex, 1);
+                            return foundIndex != -1;
+                        });
+                        if(foundShortcut) {
+                            foundShortcut.ascShortcut.asc_SetIsHidden(true);
+                            removableItems[type] = [foundShortcut];
+                        }
+                    }
+                    me._updateActionsList(me._state.actionsMap);
+
+                    const merged = _.extend({}, removableItems, { [actionType]: resultShortcuts });
+                    me.api.asc_applyAscShortcuts(_.flatten(_.values(merged)).map(function(shortcut) { 
+                        return shortcut.ascShortcut;
+                    }));
+
+                    //Filter for save in local storage
+                    merged[actionType] = _.filter(merged[actionType], function(item) { 
+                        return item.isCustom !== item.ascShortcut.asc_IsHidden();
+                    });
+                    for (const type in merged) {
+                        merged[type] = merged[type].map(function(shortcut) {
+                            return shortcut.ascShortcut;
+                        })
+                    }
+                    me._saveModifiedShortcuts(merged);
+                },
+                findAssignedActions: function(ascShortcut, extraAction) {
+                    const shortcutIndex = ascShortcut.asc_GetShortcutIndex();
+                    const foundItems = _.filter(_.values(me._state.actionsMap), function(item) {
+                        if (actionType === item.action.type && extraAction) {
                             item = extraAction;
                         }
 
-                        return item && _.find(item.shortcuts, function(s) {
-                            return s.shortcut.asc_GetShortcutIndex() === shortcutIndex;
+                        return item && _.some(item.shortcuts, function(shortcut) {
+                            return shortcut.ascShortcut.asc_GetShortcutIndex() === shortcutIndex && 
+                                !shortcut.ascShortcut.asc_IsHidden();
                         });
                     });
 
-                    return foundAction || null;
-                }  
+                    return foundItems.map(function(item) { return item.action; });
+                },
+                getDefaultShortcuts: function() {
+                    const ascShortcuts = Asc.c_oAscDefaultShortcuts[actionType];
+                    return ascShortcuts.map(function(ascShortcut) {
+                        const copyAscShortcut = new Asc.CAscShortcut();
+                        copyAscShortcut.asc_FromJson(ascShortcut.asc_ToJson());
+                        copyAscShortcut.asc_SetIsHidden(false);
+                        return {
+                            keys: me._getAscShortcutKeys(copyAscShortcut),
+                            ascShortcut: copyAscShortcut
+                        }
+                    });
+                } 
             });
             win.show();
         },
@@ -247,18 +430,50 @@ define([
         onInputSearch: function(event) {
             const value = $(event.target).val().toLowerCase().trim();
             let filteredData;
+            const actionsData = _.values(this._state.actionsMap);
             if(value) {
-                filteredData = this._state.actionsData.filter(function(item) {
+                filteredData = actionsData.filter(function(item) {
                     return item.action.name.toLowerCase().includes(value);
                 });
             } else {
-                filteredData = this._state.actionsData;
+                filteredData = actionsData;
             }
             this.actionsList.store.reset(filteredData);
+            this.onSelectActionItem(null, null, null);
+        },
+
+        onResetAll: function() {
+            const me = this;
+
+            Common.UI.warning({
+                title: this.txtRestoreToDefault,
+                msg: this.txtRestoreDescription + '<br/>' + this.txtRestoreContinue,
+                buttons: ['ok', 'cancel'],
+                width: 400,
+                callback: function(btn) {
+                    if(btn == 'ok') {
+                        // TODO: Не применяется для дефолтных в сдк 
+                        me.api.asc_resetAllShortcutTypes();
+                        for (const actionType in Asc.c_oAscDefaultShortcuts) {
+                            const actionItem = me._state.actionsMap[actionType];
+                            actionItem.shortcuts = Asc.c_oAscDefaultShortcuts[actionType].map(function(ascShortcut) {
+                                ascShortcut.asc_SetIsHidden(false);
+                                return {
+                                    keys: me._getAscShortcutKeys(ascShortcut),
+                                    isCustom: false,
+                                    ascShortcut: ascShortcut,
+                                }
+                            });
+                        }
+                        me._updateActionsList(me._state.actionsMap);
+                        me._removeModifiedShortcuts();
+                    }
+                }
+            });
         },
         
         onDlgBtnClick: function(event) {
-            var state = (typeof(event) == 'object') ? event.currentTarget.attributes['result'].value : event;
+            let state = (typeof(event) == 'object') ? event.currentTarget.attributes['result'].value : event;
             if (state == 'ok') {
                 this.handler && this.handler.call(this, state,  (state == 'ok') ? null : undefined);
             }
@@ -275,6 +490,305 @@ define([
         txtEmpty: 'No matches found. Adjust your search.',
         txtSearch: 'Search',
         txtRestoreAll: 'Restore All to Defaults',
+        txtRestoreToDefault: 'Restore to default',
+        txtRestoreDescription: 'All shortcuts settings will be restored to deafult.',
+        txtRestoreContinue: 'Do you want to continue?',
+
+
+        txtLabelOpenFilePanel: 'OpenFilePanel',
+        txtDescriptionOpenFilePanel: 'Description OpenFilePanel',
+        txtLabelOpenFindDialog: 'OpenFindDialog',
+        txtDescriptionOpenFindDialog: 'Description OpenFindDialog',
+        txtLabelOpenFindAndReplaceMenu: 'OpenFindAndReplaceMenu',
+        txtDescriptionOpenFindAndReplaceMenu: 'Description OpenFindAndReplaceMenu',
+        txtLabelOpenCommentsPanel: 'OpenCommentsPanel',
+        txtDescriptionOpenCommentsPanel: 'Description OpenCommentsPanel',
+        txtLabelOpenCommentField: 'OpenCommentField',
+        txtDescriptionOpenCommentField: 'Description OpenCommentField',
+        txtLabelOpenChatPanel: 'OpenChatPanel',
+        txtDescriptionOpenChatPanel: 'Description OpenChatPanel',
+        txtLabelSave: 'Save',
+        txtDescriptionSave: 'Description Save',
+        txtLabelPrintPreviewAndPrint: 'PrintPreviewAndPrint',
+        txtDescriptionPrintPreviewAndPrint: 'Description PrintPreviewAndPrint',
+        txtLabelSaveAs: 'SaveAs',
+        txtDescriptionSaveAs: 'Description SaveAs',
+        txtLabelOpenHelpMenu: 'OpenHelpMenu',
+        txtDescriptionOpenHelpMenu: 'Description OpenHelpMenu',
+        txtLabelOpenExistingFile: 'OpenExistingFile',
+        txtDescriptionOpenExistingFile: 'Description OpenExistingFile',
+        txtLabelNextFileTab: 'NextFileTab',
+        txtDescriptionNextFileTab: 'Description NextFileTab',
+        txtLabelPreviousFileTab: 'PreviousFileTab',
+        txtDescriptionPreviousFileTab: 'Description PreviousFileTab',
+        txtLabelCloseFile: 'CloseFile',
+        txtDescriptionCloseFile: 'Description CloseFile',
+        txtLabelOpenContextMenu: 'OpenContextMenu',
+        txtDescriptionOpenContextMenu: 'Description OpenContextMenu',
+        txtLabelCloseMenu: 'CloseMenu',
+        txtDescriptionCloseMenu: 'Description CloseMenu',
+        txtLabelZoom100: 'Zoom100',
+        txtDescriptionZoom100: 'Description Zoom100',
+        txtLabelUpdateFields: 'UpdateFields',
+        txtDescriptionUpdateFields: 'Description UpdateFields',
+        txtLabelMoveToStartLine: 'MoveToStartLine',
+        txtDescriptionMoveToStartLine: 'Description MoveToStartLine',
+        txtLabelMoveToStartDocument: 'MoveToStartDocument',
+        txtDescriptionMoveToStartDocument: 'Description MoveToStartDocument',
+        txtLabelMoveToEndLine: 'MoveToEndLine',
+        txtDescriptionMoveToEndLine: 'Description MoveToEndLine',
+        txtLabelMoveToEndDocument: 'MoveToEndDocument',
+        txtDescriptionMoveToEndDocument: 'Description MoveToEndDocument',
+        txtLabelMoveToStartPreviousPage: 'MoveToStartPreviousPage',
+        txtDescriptionMoveToStartPreviousPage: 'Description MoveToStartPreviousPage',
+        txtLabelMoveToStartNextPage: 'MoveToStartNextPage',
+        txtDescriptionMoveToStartNextPage: 'Description MoveToStartNextPage',
+        txtLabelMoveToNextPage: 'MoveToNextPage',
+        txtDescriptionMoveToNextPage: 'Description MoveToNextPage',
+        txtLabelMoveToPreviousPage: 'MoveToPreviousPage',
+        txtDescriptionMoveToPreviousPage: 'Description MoveToPreviousPage',
+        txtLabelScrollDown: 'ScrollDown',
+        txtDescriptionScrollDown: 'Description ScrollDown',
+        txtLabelScrollUp: 'ScrollUp',
+        txtDescriptionScrollUp: 'Description ScrollUp',
+        txtLabelZoomIn: 'ZoomIn',
+        txtDescriptionZoomIn: 'Description ZoomIn',
+        txtLabelZoomOut: 'ZoomOut',
+        txtDescriptionZoomOut: 'Description ZoomOut',
+        txtLabelMoveToRightChar: 'MoveToRightChar',
+        txtDescriptionMoveToRightChar: 'Description MoveToRightChar',
+        txtLabelMoveToLeftChar: 'MoveToLeftChar',
+        txtDescriptionMoveToLeftChar: 'Description MoveToLeftChar',
+        txtLabelMoveToUpLine: 'MoveToUpLine',
+        txtDescriptionMoveToUpLine: 'Description MoveToUpLine',
+        txtLabelMoveToDownLine: 'MoveToDownLine',
+        txtDescriptionMoveToDownLine: 'Description MoveToDownLine',
+        txtLabelMoveToStartWord: 'MoveToStartWord',
+        txtDescriptionMoveToStartWord: 'Description MoveToStartWord',
+        txtLabelMoveToEndWord: 'MoveToEndWord',
+        txtDescriptionMoveToEndWord: 'Description MoveToEndWord',
+        txtLabelNextModalControl: 'NextModalControl',
+        txtDescriptionNextModalControl: 'Description NextModalControl',
+        txtLabelPreviousModalControl: 'PreviousModalControl',
+        txtDescriptionPreviousModalControl: 'Description PreviousModalControl',
+        txtLabelMoveToLowerHeaderFooter: 'MoveToLowerHeaderFooter',
+        txtDescriptionMoveToLowerHeaderFooter: 'Description MoveToLowerHeaderFooter',
+        txtLabelMoveToUpperHeaderFooter: 'MoveToUpperHeaderFooter',
+        txtDescriptionMoveToUpperHeaderFooter: 'Description MoveToUpperHeaderFooter',
+        txtLabelMoveToLowerHeader: 'MoveToLowerHeader',
+        txtDescriptionMoveToLowerHeader: 'Description MoveToLowerHeader',
+        txtLabelMoveToUpperHeader: 'MoveToUpperHeader',
+        txtDescriptionMoveToUpperHeader: 'Description MoveToUpperHeader',
+        txtLabelEndParagraph: 'EndParagraph',
+        txtDescriptionEndParagraph: 'Description EndParagraph',
+        txtLabelInsertLineBreak: 'InsertLineBreak',
+        txtDescriptionInsertLineBreak: 'Description InsertLineBreak',
+        txtLabelInsertColumnBreak: 'InsertColumnBreak',
+        txtDescriptionInsertColumnBreak: 'Description InsertColumnBreak',
+        txtLabelEquationAddPlaceholder: 'EquationAddPlaceholder',
+        txtDescriptionEquationAddPlaceholder: 'Description EquationAddPlaceholder',
+        txtLabelEquationChangeAlignmentLeft: 'EquationChangeAlignmentLeft',
+        txtDescriptionEquationChangeAlignmentLeft: 'Description EquationChangeAlignmentLeft',
+        txtLabelEquationChangeAlignmentRight: 'EquationChangeAlignmentRight',
+        txtDescriptionEquationChangeAlignmentRight: 'Description EquationChangeAlignmentRight',
+        txtLabelDeleteLeftChar: 'DeleteLeftChar',
+        txtDescriptionDeleteLeftChar: 'Description DeleteLeftChar',
+        txtLabelDeleteRightChar: 'DeleteRightChar',
+        txtDescriptionDeleteRightChar: 'Description DeleteRightChar',
+        txtLabelDeleteLeftWord: 'DeleteLeftWord',
+        txtDescriptionDeleteLeftWord: 'Description DeleteLeftWord',
+        txtLabelDeleteRightWord: 'DeleteRightWord',
+        txtDescriptionDeleteRightWord: 'Description DeleteRightWord',
+        txtLabelNonBreakingSpace: 'NonBreakingSpace',
+        txtDescriptionNonBreakingSpace: 'Description NonBreakingSpace',
+        txtLabelNonBreakingHyphen: 'NonBreakingHyphen',
+        txtDescriptionNonBreakingHyphen: 'Description NonBreakingHyphen',
+        txtLabelEditUndo: 'EditUndo',
+        txtDescriptionEditUndo: 'Description EditUndo',
+        txtLabelEditRedo: 'EditRedo',
+        txtDescriptionEditRedo: 'Description EditRedo',
+        txtLabelCut: 'Cut',
+        txtDescriptionCut: 'Description Cut',
+        txtLabelCopy: 'Copy',
+        txtDescriptionCopy: 'Description Copy',
+        txtLabelPaste: 'Paste',
+        txtDescriptionPaste: 'Description Paste',
+        txtLabelPasteTextWithoutFormat: 'PasteTextWithoutFormat',
+        txtDescriptionPasteTextWithoutFormat: 'Description PasteTextWithoutFormat',
+        txtLabelCopyFormat: 'CopyFormat',
+        txtDescriptionCopyFormat: 'Description CopyFormat',
+        txtLabelPasteFormat: 'PasteFormat',
+        txtDescriptionPasteFormat: 'Description PasteFormat',
+        txtLabelSpecialOptionsKeepSourceFormat: 'SpecialOptionsKeepSourceFormat',
+        txtDescriptionSpecialOptionsKeepSourceFormat: 'Description SpecialOptionsKeepSourceFormat',
+        txtLabelSpecialOptionsKeepTextOnly: 'SpecialOptionsKeepTextOnly',
+        txtDescriptionSpecialOptionsKeepTextOnly: 'Description SpecialOptionsKeepTextOnly',
+        txtLabelSpecialOptionsOverwriteCells: 'SpecialOptionsOverwriteCells',
+        txtDescriptionSpecialOptionsOverwriteCells: 'Description SpecialOptionsOverwriteCells',
+        txtLabelSpecialOptionsNestTable: 'SpecialOptionsNestTable',
+        txtDescriptionSpecialOptionsNestTable: 'Description SpecialOptionsNestTable',
+        txtLabelInsertHyperlink: 'InsertHyperlink',
+        txtDescriptionInsertHyperlink: 'Description InsertHyperlink',
+        txtLabelVisitHyperlink: 'VisitHyperlink',
+        txtDescriptionVisitHyperlink: 'Description VisitHyperlink',
+        txtLabelEditSelectAll: 'EditSelectAll',
+        txtDescriptionEditSelectAll: 'Description EditSelectAll',
+        txtLabelSelectToStartLine: 'SelectToStartLine',
+        txtDescriptionSelectToStartLine: 'Description SelectToStartLine',
+        txtLabelSelectToEndLine: 'SelectToEndLine',
+        txtDescriptionSelectToEndLine: 'Description SelectToEndLine',
+        txtLabelSelectToStartDocument: 'SelectToStartDocument',
+        txtDescriptionSelectToStartDocument: 'Description SelectToStartDocument',
+        txtLabelSelectToEndDocument: 'SelectToEndDocument',
+        txtDescriptionSelectToEndDocument: 'Description SelectToEndDocument',
+        txtLabelSelectRightChar: 'SelectRightChar',
+        txtDescriptionSelectRightChar: 'Description SelectRightChar',
+        txtLabelSelectLeftChar: 'SelectLeftChar',
+        txtDescriptionSelectLeftChar: 'Description SelectLeftChar',
+        txtLabelSelectRightWord: 'SelectRightWord',
+        txtDescriptionSelectRightWord: 'Description SelectRightWord',
+        txtLabelSelectLeftWord: 'SelectLeftWord',
+        txtDescriptionSelectLeftWord: 'Description SelectLeftWord',
+        txtLabelSelectLineUp: 'SelectLineUp',
+        txtDescriptionSelectLineUp: 'Description SelectLineUp',
+        txtLabelSelectLineDown: 'SelectLineDown',
+        txtDescriptionSelectLineDown: 'Description SelectLineDown',
+        txtLabelSelectPageUp: 'SelectPageUp',
+        txtDescriptionSelectPageUp: 'Description SelectPageUp',
+        txtLabelSelectPageDown: 'SelectPageDown',
+        txtDescriptionSelectPageDown: 'Description SelectPageDown',
+        txtLabelSelectToBeginPreviousPage: 'SelectToBeginPreviousPage',
+        txtDescriptionSelectToBeginPreviousPage: 'Description SelectToBeginPreviousPage',
+        txtLabelSelectToBeginNextPage: 'SelectToBeginNextPage',
+        txtDescriptionSelectToBeginNextPage: 'Description SelectToBeginNextPage',
+        txtLabelBold: 'Bold',
+        txtDescriptionBold: 'Description Bold',
+        txtLabelItalic: 'Italic',
+        txtDescriptionItalic: 'Description Italic',
+        txtLabelUnderline: 'Underline',
+        txtDescriptionUnderline: 'Description Underline',
+        txtLabelStrikeout: 'Strikeout',
+        txtDescriptionStrikeout: 'Description Strikeout',
+        txtLabelSubscript: 'Subscript',
+        txtDescriptionSubscript: 'Description Subscript',
+        txtLabelSuperscript: 'Superscript',
+        txtDescriptionSuperscript: 'Description Superscript',
+        txtLabelApplyHeading1: 'ApplyHeading1',
+        txtDescriptionApplyHeading1: 'Description ApplyHeading1',
+        txtLabelApplyHeading2: 'ApplyHeading2',
+        txtDescriptionApplyHeading2: 'Description ApplyHeading2',
+        txtLabelApplyHeading3: 'ApplyHeading3',
+        txtDescriptionApplyHeading3: 'Description ApplyHeading3',
+        txtLabelApplyListBullet: 'ApplyListBullet',
+        txtDescriptionApplyListBullet: 'Description ApplyListBullet',
+        txtLabelResetChar: 'ResetChar',
+        txtDescriptionResetChar: 'Description ResetChar',
+        txtLabelIncreaseFontSize: 'IncreaseFontSize',
+        txtDescriptionIncreaseFontSize: 'Description IncreaseFontSize',
+        txtLabelDecreaseFontSize: 'DecreaseFontSize',
+        txtDescriptionDecreaseFontSize: 'Description DecreaseFontSize',
+        txtLabelCenterPara: 'CenterPara',
+        txtDescriptionCenterPara: 'Description CenterPara',
+        txtLabelJustifyPara: 'JustifyPara',
+        txtDescriptionJustifyPara: 'Description JustifyPara',
+        txtLabelRightPara: 'RightPara',
+        txtDescriptionRightPara: 'Description RightPara',
+        txtLabelLeftPara: 'LeftPara',
+        txtDescriptionLeftPara: 'Description LeftPara',
+        txtLabelInsertPageBreak: 'InsertPageBreak',
+        txtDescriptionInsertPageBreak: 'Description InsertPageBreak',
+        txtLabelIndent: 'Indent',
+        txtDescriptionIndent: 'Description Indent',
+        txtLabelUnIndent: 'UnIndent',
+        txtDescriptionUnIndent: 'Description UnIndent',
+        txtLabelInsertPageNumber: 'InsertPageNumber',
+        txtDescriptionInsertPageNumber: 'Description InsertPageNumber',
+        txtLabelShowAll: 'ShowAll',
+        txtDescriptionShowAll: 'Description ShowAll',
+        txtLabelStartIndent: 'StartIndent',
+        txtDescriptionStartIndent: 'Description StartIndent',
+        txtLabelStartUnIndent: 'StartUnIndent',
+        txtDescriptionStartUnIndent: 'Description StartUnIndent',
+        txtLabelInsertTab: 'InsertTab',
+        txtDescriptionInsertTab: 'Description InsertTab',
+        txtLabelMixedIndent: 'MixedIndent',
+        txtDescriptionMixedIndent: 'Description MixedIndent',
+        txtLabelMixedUnIndent: 'MixedUnIndent',
+        txtDescriptionMixedUnIndent: 'Description MixedUnIndent',
+        txtLabelEditShape: 'EditShape',
+        txtDescriptionEditShape: 'Description EditShape',
+        txtLabelEditChart: 'EditChart',
+        txtDescriptionEditChart: 'Description EditChart',
+        txtLabelLittleMoveObjectLeft: 'LittleMoveObjectLeft',
+        txtDescriptionLittleMoveObjectLeft: 'Description LittleMoveObjectLeft',
+        txtLabelLittleMoveObjectRight: 'LittleMoveObjectRight',
+        txtDescriptionLittleMoveObjectRight: 'Description LittleMoveObjectRight',
+        txtLabelLittleMoveObjectUp: 'LittleMoveObjectUp',
+        txtDescriptionLittleMoveObjectUp: 'Description LittleMoveObjectUp',
+        txtLabelLittleMoveObjectDown: 'LittleMoveObjectDown',
+        txtDescriptionLittleMoveObjectDown: 'Description LittleMoveObjectDown',
+        txtLabelBigMoveObjectLeft: 'BigMoveObjectLeft',
+        txtDescriptionBigMoveObjectLeft: 'Description BigMoveObjectLeft',
+        txtLabelBigMoveObjectRight: 'BigMoveObjectRight',
+        txtDescriptionBigMoveObjectRight: 'Description BigMoveObjectRight',
+        txtLabelBigMoveObjectUp: 'BigMoveObjectUp',
+        txtDescriptionBigMoveObjectUp: 'Description BigMoveObjectUp',
+        txtLabelBigMoveObjectDown: 'BigMoveObjectDown',
+        txtDescriptionBigMoveObjectDown: 'Description BigMoveObjectDown',
+        txtLabelMoveFocusToNextObject: 'MoveFocusToNextObject',
+        txtDescriptionMoveFocusToNextObject: 'Description MoveFocusToNextObject',
+        txtLabelMoveFocusToPreviousObject: 'MoveFocusToPreviousObject',
+        txtDescriptionMoveFocusToPreviousObject: 'Description MoveFocusToPreviousObject',
+        txtLabelInsertEndnoteNow: 'InsertEndnoteNow',
+        txtDescriptionInsertEndnoteNow: 'Description InsertEndnoteNow',
+        txtLabelInsertFootnoteNow: 'InsertFootnoteNow',
+        txtDescriptionInsertFootnoteNow: 'Description InsertFootnoteNow',
+        txtLabelMoveToNextCell: 'MoveToNextCell',
+        txtDescriptionMoveToNextCell: 'Description MoveToNextCell',
+        txtLabelMoveToPreviousCell: 'MoveToPreviousCell',
+        txtDescriptionMoveToPreviousCell: 'Description MoveToPreviousCell',
+        txtLabelMoveToNextRow: 'MoveToNextRow',
+        txtDescriptionMoveToNextRow: 'Description MoveToNextRow',
+        txtLabelMoveToPreviousRow: 'MoveToPreviousRow',
+        txtDescriptionMoveToPreviousRow: 'Description MoveToPreviousRow',
+        txtLabelEndParagraphCell: 'EndParagraphCell',
+        txtDescriptionEndParagraphCell: 'Description EndParagraphCell',
+        txtLabelAddNewRow: 'AddNewRow',
+        txtDescriptionAddNewRow: 'Description AddNewRow',
+        txtLabelInsertTableBreak: 'InsertTableBreak',
+        txtDescriptionInsertTableBreak: 'Description InsertTableBreak',
+        txtLabelMoveToNextForm: 'MoveToNextForm',
+        txtDescriptionMoveToNextForm: 'Description MoveToNextForm',
+        txtLabelMoveToPreviousForm: 'MoveToPreviousForm',
+        txtDescriptionMoveToPreviousForm: 'Description MoveToPreviousForm',
+        txtLabelChooseNextComboBoxOption: 'ChooseNextComboBoxOption',
+        txtDescriptionChooseNextComboBoxOption: 'Description ChooseNextComboBoxOption',
+        txtLabelChoosePreviousComboBoxOption: 'ChoosePreviousComboBoxOption',
+        txtDescriptionChoosePreviousComboBoxOption: 'Description ChoosePreviousComboBoxOption',
+        txtLabelInsertLineBreakMultilineForm: 'InsertLineBreakMultilineForm',
+        txtDescriptionInsertLineBreakMultilineForm: 'Description InsertLineBreakMultilineForm',
+        txtLabelInsertEquation: 'InsertEquation',
+        txtDescriptionInsertEquation: 'Description InsertEquation',
+        txtLabelEmDash: 'EmDash',
+        txtDescriptionEmDash: 'Description EmDash',
+        txtLabelEnDash: 'EnDash',
+        txtDescriptionEnDash: 'Description EnDash',
+        txtLabelCopyrightSign: 'CopyrightSign',
+        txtDescriptionCopyrightSign: 'Description CopyrightSign',
+        txtLabelEuroSign: 'EuroSign',
+        txtDescriptionEuroSign: 'Description EuroSign',
+        txtLabelRegisteredSign: 'RegisteredSign',
+        txtDescriptionRegisteredSign: 'Description RegisteredSign',
+        txtLabelTrademarkSign: 'TrademarkSign',
+        txtDescriptionTrademarkSign: 'Description TrademarkSign',
+        txtLabelHorizontalEllipsis: 'HorizontalEllipsis',
+        txtDescriptionHorizontalEllipsis: 'Description HorizontalEllipsis',
+        txtLabelReplaceUnicodeToSymbol: 'ReplaceUnicodeToSymbol',
+        txtDescriptionReplaceUnicodeToSymbol: 'Description ReplaceUnicodeToSymbol',
+        txtLabelSoftHyphen: 'SoftHyphen',
+        txtDescriptionSoftHyphen: 'Description SoftHyphen',
+        txtLabelSpeechWorker: 'SpeechWorker',
+        txtDescriptionSpeechWorker: 'Description SpeechWorker',
 
     },  Common.Views.ShortcutsDialog || {}))
 });
