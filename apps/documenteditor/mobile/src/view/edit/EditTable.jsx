@@ -1,6 +1,6 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
-import {Page, Navbar, NavRight, List, ListItem, ListButton, BlockTitle, SkeletonBlock, Range, Toggle, Icon, Link, Tabs, Tab} from 'framework7-react';
+import {Page, Navbar, NavRight, List, ListItem, ListButton, BlockTitle, SkeletonBlock, Range, Toggle, Icon, Link, Tabs, Tab, Segmented, Button} from 'framework7-react';
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
@@ -37,13 +37,17 @@ const PageTableOptions = props => {
     const metricText = Common.Utils.Metric.getCurrentMetricName();
     const storeFocusObjects = props.storeFocusObjects;
     const tableObject = storeFocusObjects.tableObject;
-    const storeTableSettings = props.storeTableSettings;
+    const storeTableSettings = props.storeTableSettings;   
 
-    let distance, isRepeat, isResize;
+    let distance, isRepeat, isResize, columnWidth, rowHeight, displayRowHeight, displayColumnWidth;
     if (tableObject) {
         distance = Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getCellMargins(tableObject));
         isRepeat = storeTableSettings.getRepeatOption(tableObject);
         isResize = storeTableSettings.getResizeOption(tableObject);
+        rowHeight = Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getRowHeight(tableObject));
+        columnWidth = Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getColumnWidth(tableObject));
+        displayRowHeight = Number(Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getRowHeight(tableObject)).toFixed(2));
+        displayColumnWidth = Number(Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getColumnWidth(tableObject)).toFixed(2));
     }
     const [stateDistance, setDistance] = useState(distance);
 
@@ -74,6 +78,46 @@ const PageTableOptions = props => {
                     <Toggle checked={isResize} onToggleChange={() => {props.onOptionResize(!isResize)}}/>
                 </ListItem>
             </List>
+            <BlockTitle>{_t.textCellSize}</BlockTitle>
+            <List>
+                <ListItem title={_t.txtHeight}>
+                    {!isAndroid && <div slot='after-start'>{displayRowHeight + ' ' + metricText}</div>}
+                    <div slot='after'>
+                        <Segmented>
+                            <Button outline className='decrement item-link' onClick={() => {props.onChangeRowHeight(rowHeight, true)}}>
+                                {isAndroid ? 
+                                    <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                : ' - '}
+                            </Button>
+                            {isAndroid && <label>{displayRowHeight + ' ' + metricText}</label>}
+                            <Button outline className='increment item-link' onClick={() => {props.onChangeRowHeight(rowHeight, false)}}>
+                                {isAndroid ? 
+                                    <SvgIcon symbolId={IconExpandUp.id} className={'icon icon-svg'} />
+                                : ' + '}
+                            </Button>
+                        </Segmented>
+                    </div>
+                </ListItem>
+                <ListItem title={_t.txtWidth}>
+                    {!isAndroid && <div slot='after-start'>{displayColumnWidth + ' ' + metricText}</div>}
+                    <div slot='after'>
+                        <Segmented>
+                            <Button outline className='decrement item-link' onClick={() => {props.onChangeColumnWidth(columnWidth, true)}}>
+                                {isAndroid ? 
+                                    <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                : ' - '}
+                            </Button>
+                            {isAndroid && <label>{displayColumnWidth + ' ' + metricText}</label>}
+                            <Button outline className='increment item-link' onClick={() => {props.onChangeColumnWidth(columnWidth, false)}}>
+                                {isAndroid ? 
+                                    <SvgIcon symbolId={IconExpandUp.id} className={'icon icon-svg'} />
+                                : ' + '}
+                            </Button>
+                        </Segmented>
+                    </div>
+                </ListItem>
+            </List>
+
             <BlockTitle>{_t.textCellMargins}</BlockTitle>
             <List>
                 <ListItem>
@@ -632,7 +676,9 @@ const EditTable = props => {
                 <ListItem title={_t.textTableOptions} link='/edit-table-options/' routeProps={{
                     onCellMargins: props.onCellMargins,
                     onOptionResize: props.onOptionResize,
-                    onOptionRepeat: props.onOptionRepeat
+                    onOptionRepeat: props.onOptionRepeat,
+                    onChangeRowHeight: props.onChangeRowHeight,
+                    onChangeColumnWidth: props.onChangeColumnWidth
                 }}></ListItem>
                 <ListItem title={_t.textStyle} link='/edit-table-style/' routeProps={{
                     onStyleClick: props.onStyleClick,

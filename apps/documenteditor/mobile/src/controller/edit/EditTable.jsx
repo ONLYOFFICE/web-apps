@@ -214,6 +214,44 @@ class EditTableController extends Component {
         api.tblApply(properties);
     }
 
+    onChangeRowHeight (height, isDecrement) {
+        const api = Common.EditorApi.get();
+        const properties = new Asc.CTableProp();
+        let step, newHeight;
+        const maxValue = Common.Utils.Metric.fnRecalcFromMM(55.88);
+        if (Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.pt) {
+            step = 1;
+        } else {
+            step = 0.1;
+        }
+        if (isDecrement) {
+            newHeight = Math.max(-1, height - step)
+        } else {
+            newHeight = Math.min(maxValue, height + step);
+        }
+        properties.put_RowHeight(Common.Utils.Metric.fnRecalcToMM(newHeight));
+        api.tblApply(properties);
+    }
+
+    onChangeColumnWidth (width, isDecrement) {
+        const api = Common.EditorApi.get();
+        const properties = new Asc.CTableProp();
+        let step, newWidth;
+        const maxValue = Common.Utils.Metric.fnRecalcFromMM(55.88);
+        if (Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.pt) {
+            step = 1;
+        } else {
+            step = 0.1;
+        }
+        if (isDecrement) {
+            newWidth = Math.max(-1, width - step)
+        } else {
+            newWidth = Math.min(maxValue, width + step);
+        }
+        properties.put_ColumnWidth(Common.Utils.Metric.fnRecalcToMM(newWidth));
+        api.tblApply(properties);
+    }
+
     render () {
         return (
             <EditTable onRemoveTable={this.onRemoveTable}
@@ -235,6 +273,8 @@ class EditTableController extends Component {
                        onFillColor={this.onFillColor}
                        onBorderTypeClick={this.onBorderTypeClick}
                        onGetTableStylesPreviews = {this.onGetTableStylesPreviews}
+                       onChangeRowHeight = {this.onChangeRowHeight}
+                       onChangeColumnWidth = {this.onChangeColumnWidth}
             />
         )
     }
