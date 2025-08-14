@@ -2036,7 +2036,7 @@ define([
                 this.imgprops.put_ShapeProperties(props);
                 this.api.ImgApply(this.imgprops);
             }
-            $(this.btnTexture.el).find('.form-control').prop('innerHTML', record.get('name'));
+            // $(this.btnTexture.el).find('.form-control').prop('innerHTML', record.get('name'));
             this.fireEvent('editcomplete', this);
         },
 

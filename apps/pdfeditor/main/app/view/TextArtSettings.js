@@ -1614,7 +1614,7 @@ define([
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.ShapeApply(this.shapeprops);
             }
-            $(this.btnTexture.el).find('.form-control').prop('innerHTML', record.get('name'));
+            // $(this.btnTexture.el).find('.form-control').prop('innerHTML', record.get('name'));
             this.fireEvent('editcomplete', this);
         },
 
