@@ -899,7 +899,7 @@ define([
                 if (value.logo.image || value.logo.imageDark || value.logo.imageLight) {
                     _logoImage = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image || value.logo.imageLight) :
                                                                  (value.logo.imageLight || value.logo.image || value.logo.imageDark);
-                    logo.html('<img src="' + _logoImage + '" style="max-width:100px; max-height:20px;"/>');
+                    logo.html('<img src="' + _logoImage + '" style="max-width:300px; max-height:20px;"/>');
                     logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
                 }
 

@@ -255,6 +255,7 @@ define([
                 validateOnChange : true,
                 validation       : function () { return true; }
             }).on ('changing', function (input, value) {
+                me._state.DateFormat = value;
                 me.lblExample.text(me.api.asc_getFieldDateTimeFormatExample(value));
             });
 
