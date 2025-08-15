@@ -238,14 +238,15 @@
       "titleUpdateVersion": "הגרסה השתנתה",
       "warnLicenseAnonymous": "הגישה נדחתה עבור משתמשים אנונימיים.<br>מסמך זה ייפתח לצפייה בלבד.",
       "warnLicenseBefore": "רישיון לא פעיל.<br>נא ליצור קשר עם מנהל המערכת שלך.",
-      "warnLicenseExceeded": "הגעת למגבלה של חיבורים סימולטניים לעורכי %1. מסמך זה ייפתח לצפייה בלבד. פנה למנהל המערכת שלך למידע נוסף.",
       "warnLicenseExp": "פג תוקפו של הרישיון שלך. אנא, עדכן את הרישיון שלך ורענן את הדף.",
       "warnLicenseLimitedNoAccess": "פג תוקפו של הרישיון. אין לך גישה לפונקציונליות של עריכת מסמכים. נא ליצור קשר עם מנהל המערכת שלך.",
       "warnLicenseLimitedRenewed": "יש לחדש את הרישיון. יש לך גישה מוגבלת לפונקציונליות של עריכת מסמכים.<br>נא ליצור קשר עם מנהל המערכת שלך כדי לקבל גישה מלאה",
-      "warnLicenseUsersExceeded": "הגעת למגבלת המשתמש עבור %1 עורכים. פנה למנהל המערכת שלך למידע נוסף.",
       "warnNoLicense": "הגעת למגבלה של חיבורים סימולטניים לעורכי %1. מסמך זה ייפתח לצפייה בלבד. נא ליצור קשר עם צוות המכירות %1 לקבלת תנאי שדרוג אישיים.",
       "warnNoLicenseUsers": "הגעת למגבלת המשתמש עבור %1 עורכים. נא ליצור קשר עם צוות המכירות %1 לקבלת תנאי שדרוג אישיים.",
-      "warnProcessRightsChange": "אין לך הרשאה לערוך את הקובץ."
+      "warnProcessRightsChange": "אין לך הרשאה לערוך את הקובץ.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Draw": {

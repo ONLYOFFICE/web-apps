@@ -656,19 +656,20 @@
     "titleDialogProtectedDocument": "Il documento è protetto.",
     "titleLicenseExp": "La licenza è scaduta",
     "titleLicenseNotActive": "Licenza non attiva",
+    "titleReadOnly": "Modalità di sola lettura",
     "titleServerVersion": "L'editor è stato aggiornato",
     "titleUpdateVersion": "La versione è stata cambiata",
     "warnDownloadAsPdf": "Il tuo {0} verrà convertito in un formato modificabile. Questo potrebbe richiedere del tempo. Il documento risultante sarà ottimizzato per consentirti di modificare il testo, quindi potrebbe non apparire esattamente come l'originale {0}, soprattutto se il file originale conteneva molti elementi grafici.",
     "warnLicenseAnonymous": "Accesso negato per utenti anonimi.<br>Questo documento verrà aperto solo per la visualizzazione.",
     "warnLicenseBefore": "Licenza non attiva.<br>Ti preghiamo di contattare l'Amministratore.",
-    "warnLicenseExceeded": "Hai raggiunto il limite delle connessioni simultanee a %1 editor. Questo documento sarà aperto solo in modalità visualizzazione. Ti preghiamo di contattare il tuo amministratore per maggiori informazioni.",
     "warnLicenseExp": "La tua licenza è scaduta. Ti preghiamo di aggiornarla e ricaricare la pagina.",
     "warnLicenseLimitedNoAccess": "La licenza è scaduta. Non hai più accesso alle funzionalità di modifica dei documenti. Ti preghiamo di contattare il tuo amministratore.",
     "warnLicenseLimitedRenewed": "La licenza deve essere rinnovata. Hai l'accesso limitato alle funzionalità di modifica dei documenti.<br>Ti preghiamo di contattare il tuo amministratore per ottenere l'accesso completo.",
-    "warnLicenseUsersExceeded": "Hai raggiunto il limite di utenti per %1 editor. Ti preghiamo di contattare il tuo amministratore per maggiori informazioni.",
     "warnNoLicense": "Hai raggiunto il limite delle connessioni simultanee a %1 editor. Questo documento sarà aperto solo in modalità visualizzazione. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
     "warnNoLicenseUsers": "Hai raggiunto il limite degli utenti per %1 editor. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
-    "warnProcessRightsChange": "Non hai il permesso di modificare questo file."
+    "warnProcessRightsChange": "Non hai il permesso di modificare questo file.",
+    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access."
   },
   "Settings": {
     "advDRMOptions": "File protetto",

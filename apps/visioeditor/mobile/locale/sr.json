@@ -64,14 +64,15 @@
       "txtIncorrectPwd": "Lozinka je netačna",
       "warnLicenseAnonymous": "Pristup odbijen za anonimne korisnike.<br>Ovaj dokument će biti otvoren samo za pregled.",
       "warnLicenseBefore": "Licenca nije aktivna.<br>Molimo kontaktirajte vašeg administratora.",
-      "warnLicenseExceeded": "Dostigli ste limit za istovremene veze sa %1 uređivačima. Ovaj dokument će biti otvoren samo za pregled. Kontaktirajte svog administratora da saznate više.",
       "warnLicenseExp": "Vaša licenca je istekla. Molimo, ažurirajte vašu licencu i osvežite stranicu.",
       "warnLicenseLimitedNoAccess": "Licenca je istekla. Nemate pristup funkcijama za uređivanje dokumenata. Molimo kontaktirajte svog administratora.",
       "warnLicenseLimitedRenewed": "Licenca mora biti obnovljena. Imate ograničen pristup funkcijama za uređivanje dokumenata.<br>Molimo kontaktirajte svog administratora da biste dobili puni pristup",
-      "warnLicenseUsersExceeded": "Dostigli ste korisnički limit za %1 urednike. Kontaktirajte svog administratora da saznate više.",
       "warnNoLicense": "Dostigli ste limit za istovremene veze sa %1 uređivačima. Ovaj dokument će biti otvoren samo za pregled. Kontaktirajte prodajni tim %1 za personalizovane uslove nadogradnje.",
       "warnNoLicenseUsers": "Dostigli ste limit korisnika za %1 uređivače. Kontaktirajte prodajni tim %1 za personalizovane uslove nadogradnje.",
-      "warnProcessRightsChange": "Nemate dozvolu za uređivanje datoteke."
+      "warnProcessRightsChange": "Nemate dozvolu za uređivanje datoteke.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Error": {

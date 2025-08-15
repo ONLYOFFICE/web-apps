@@ -661,14 +661,15 @@
     "warnDownloadAsPdf": "Vaš {0} će biti konvertovan u format za uređivanje. Ovo može potrajati. Rezultirajući dokument će biti optimizovan tako da vam omogući da uredite tekst, pa možda neće izgledati isto kao original {0}, pogotovo ako je originalni fajl sadržao puno grafika.",
     "warnLicenseAnonymous": "Pristup odbijen za anonimne korisnike.<br>Ovaj dokument će biti otvoren samo za prikaz.",
     "warnLicenseBefore": "Licenca nije aktivna.<br>Molimo kontaktirajte vašeg administratora.",
-    "warnLicenseExceeded": "Dostigli ste limit za istovremene veze sa %1 uređivačima. Ovaj dokument će biti otvoren samo za pregled. Kontaktirajte vašeg administratora da saznate više.",
     "warnLicenseExp": "Vaša licenca je istekla. Molimo, ažurirajte vašu licencu i osvežite stranicu.",
     "warnLicenseLimitedNoAccess": "Licenca istekla. Nemate pristup fukcionalnosti uređivanja dokumenta. Molimo, kontaktirajte vašeg admina.",
     "warnLicenseLimitedRenewed": "Licenca treba da bude obnovljena. Imate ograničen pristup funkcionalnosti uređivanja dokumenta.<br>Molimo kontaktirajte vašeg administratora da dobijete pun pristup",
-    "warnLicenseUsersExceeded": "Dostigli ste korisnički limit za %1 urednike. Kontaktirajte svog administratora da saznate više.",
     "warnNoLicense": "Dostigli ste limit za istovremene veze sa %1 uređivačima. Ovaj dokument će biti otvoren samo za pregled. Kontaktirajte tim za prodaju %1 za uslove lične nadogradnje.",
     "warnNoLicenseUsers": "Dostigli ste korisnički limit za %1 urednike. Kontaktirajte %1 tim za prodaju za lične uslove nadogradnje.",
-    "warnProcessRightsChange": "Nemate dozvolu da uredite ovaj fajl."
+    "warnProcessRightsChange": "Nemate dozvolu da uredite ovaj fajl.",
+    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "titleReadOnly": "Read-Only Mode"
   },
   "Settings": {
     "advDRMOptions": "Zaštićen Fajl",

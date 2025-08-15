@@ -294,11 +294,9 @@
   "VE.Controllers.Main.warnBrowserZoom": "הגדרת זום נוכחית של הדפדפן אינה נתמכת במלואה. נא לאפס את זום ברירת המחדל על ידי לחיצה על+0.",
   "VE.Controllers.Main.warnLicenseAnonymous": " הגישה למשתמשים בלתי מזוהים נדחתה.<br>המסמך ייפתח לצפייה בלבד.",
   "VE.Controllers.Main.warnLicenseBefore": "הרישיון לא פעיל.<br>נא ליצור קשר עם מנהל המערכת שלך.",
-  "VE.Controllers.Main.warnLicenseExceeded": "הגעת למגבלה של חיבורים סימולטניים לעורכי %1. מסמך זה ייפתח לצפייה בלבד. <br> נא לפנות למנהל המערכת שלך למידע נוסף.",
   "VE.Controllers.Main.warnLicenseExp": "פג תוקף הרישיון שלך.<br>עדכן את הרישיון שלך ורענן את הדף.",
   "VE.Controllers.Main.warnLicenseLimitedNoAccess": "פג תוקפו של הרישיון.<br>אין לך גישה לפונקציונליות של עריכת מסמכים.<br> נא ליצור קשר עם מנהל המערכת שלך.",
   "VE.Controllers.Main.warnLicenseLimitedRenewed": "נא לחדש את הרישיון. <br>יש לך גישה מוגבלת לפונקציונליות של עריכת מסמכים.<br> נא ליצור קשר עם מנהל המערכת שלך כדי לקבל גישה מלאה",
-  "VE.Controllers.Main.warnLicenseUsersExceeded": "הגעת למגבלת המשתמש עבור %1 עורכים. פנה למנהל המערכת שלך למידע נוסף.",
   "VE.Controllers.Main.warnNoLicense": "הגעת למגבלה של חיבורים סימולטניים לעורכי %1. מסמך זה ייפתח לצפייה בלבד. <br> נא ליצור קשר עם צוות המכירות %1 לקבלת תנאי שדרוג אישיים.",
   "VE.Controllers.Main.warnNoLicenseUsers": "הגעת למגבלת המשתמש עבור עורכים. נא ליצור קשר עם צוות המכירות %1 לקבלת תנאי שדרוג אישיים.",
   "VE.Controllers.Main.warnProcessRightsChange": "נשללה ממך הזכות לערוך את הקובץ.",
@@ -334,6 +332,7 @@
   "VE.Views.FileMenu.btnSaveAsCaption": "שמירה כ-",
   "VE.Views.FileMenu.btnSaveCopyAsCaption": "שמור עותק כ-",
   "VE.Views.FileMenu.btnSettingsCaption": "הגדרות מתקדמות",
+  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature",
   "VE.Views.FileMenu.btnSwitchToMobileCaption": "עבור לנייד",
   "VE.Views.FileMenu.textDownload": "הורדה",
   "VE.Views.FileMenuPanels.CreateNew.txtBlank": "מסמך ריק",
@@ -426,5 +425,7 @@
   "VE.Views.ViewTab.tipFitPage": "התאמה לדף",
   "VE.Views.ViewTab.tipFitWidth": "התאמה לרוחב",
   "VE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא של הממשק",
-  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature"
+  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode"
 }

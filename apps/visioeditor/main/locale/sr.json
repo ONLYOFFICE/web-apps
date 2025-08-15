@@ -294,11 +294,9 @@
   "VE.Controllers.Main.warnBrowserZoom": "Podešavanje trenutnog zumiranja u vašem pretraživaču nije u potpunosti podržano. Molimo resetujte zumiranje na podrazumevano pritiskom na Ctrl+0.",
   "VE.Controllers.Main.warnLicenseAnonymous": "Pristup odbijen za anonimne korisnike.<br>Ovaj dokument će biti otvoren samo za pregled.",
   "VE.Controllers.Main.warnLicenseBefore": "Licenca nije aktivna.<br>Molim vas kontaktirajte vašeg administratora.",
-  "VE.Controllers.Main.warnLicenseExceeded": "Dostigli ste ograničenje za simultane konekcije ka %1 uređivačima. Ovaj dokument će biti otvoren samo za pregledanje.<br>Kontaktirajte svog administratora za više informacija.",
   "VE.Controllers.Main.warnLicenseExp": "Vaša licenca je istekla.<br>Molim vas ažurirajte vašu licencu i osvežite stranicu.",
   "VE.Controllers.Main.warnLicenseLimitedNoAccess": "Licenca je istekla.<br>Nemate pristup funkcijama za uređivanje dokumenata.<br>Molim vas kontaktirajte svog administratora.",
   "VE.Controllers.Main.warnLicenseLimitedRenewed": "Licenca mora biti obnovljena.<br>Imate ograničen pristup funkcijama za uređivanje dokumenata.<br>Kontaktirajte svog administratora za potpuni pristup",
-  "VE.Controllers.Main.warnLicenseUsersExceeded": "Dostigli ste korisnički limit za %1 uređivače. Kontaktirajte svog administratora za više informacija.",
   "VE.Controllers.Main.warnNoLicense": "Dostigli ste ograničenje za simultane konekcije ka %1 uređivačima. Ovaj dokument će biti otvoren samo za pregledanje.<br>Kontaktirajte prodajni tim %1 za uslove personalnog unapređenja.",
   "VE.Controllers.Main.warnNoLicenseUsers": "Dostigli ste korisnički limit za %1 uređivače. Kontaktirajte prodajni tim %1 za uslove personalnog unapređenja.",
   "VE.Controllers.Main.warnProcessRightsChange": "Odbijen vam je pristup za uređivanje dokumenta.",
@@ -334,6 +332,7 @@
   "VE.Views.FileMenu.btnSaveAsCaption": "Sačuvaj kao",
   "VE.Views.FileMenu.btnSaveCopyAsCaption": "Sačuvaj kopiju kao",
   "VE.Views.FileMenu.btnSettingsCaption": "Napredna podešavanja ",
+  "VE.Views.FileMenu.btnSuggestCaption": "Predloži funkciju",
   "VE.Views.FileMenu.btnSwitchToMobileCaption": "Prebaci na mobilnu verziju",
   "VE.Views.FileMenu.textDownload": "Preuzmi",
   "VE.Views.FileMenuPanels.CreateNew.txtBlank": "Prazan dokument ",
@@ -426,5 +425,7 @@
   "VE.Views.ViewTab.tipFitPage": "Prilagodi stranici",
   "VE.Views.ViewTab.tipFitWidth": "Prilagodi širini",
   "VE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa",
-  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature"
+  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode"
 }

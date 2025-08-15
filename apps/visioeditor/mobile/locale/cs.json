@@ -64,14 +64,15 @@
       "txtIncorrectPwd": "Heslo je chybné",
       "warnLicenseAnonymous": "Přístup zamítnut pro anonymní uživatele.<br>Tento dokument bude zobrazen pouze jako náhled.",
       "warnLicenseBefore": "Licence není aktivní.<br>Prosím kontaktujte svého správce.",
-      "warnLicenseExceeded": "Došlo k dosažení limitu souběžného připojení %1 editorů. Tento dokument bude otevřen pouze pro náhled. Pro více informací kontaktujte Vašeho správce.",
       "warnLicenseExp": "Platnost vaší licence skončila.<br>Obnovte si svou licenci a načtěte stránku znovu.",
       "warnLicenseLimitedNoAccess": "Platnost licence vypršela. Nemáte přístup k úpravě dokumentů. Prosím, kontaktujte Vašeho správce.",
       "warnLicenseLimitedRenewed": "Licence musí být obnovena. Máte omezený přístup k možnostem editace dokumentů.<br>Prosím kontaktujte Vašeho správce pro získání plného přístupu.",
-      "warnLicenseUsersExceeded": "Počet souběžných uživatelů byl překročen a dokument bude otevřen pouze pro čtení.<br>Ohledně podrobností se obraťte na svého správce.",
       "warnNoLicense": "Došlo k dosažení limitu souběžného připojení %1 editorů. Tento dokument bude otevřen pouze pro náhled. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
       "warnNoLicenseUsers": "Tato verze editorů %1 má určitá omezení ohledně souběžně připojených uživatelů.<br>Pokud potřebujete více, zvažte zakoupení komerční licence.",
-      "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu."
+      "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Error": {

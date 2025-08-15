@@ -167,11 +167,9 @@
       "titleUpdateVersion": "Versie gewijzigd",
       "txtIncorrectPwd": "Wachtwoord is onjuist",
       "txtProtected": "Wanneer u het wachtwoord ingeeft en het bestand opent zal het huidige wachtwoord worden gereset.",
-      "warnLicenseExceeded": "U heeft de gebruikerslimiet voor %1 gelijktijdige gebruikers bereikt. Het document zal worden geopend in leesmodus. Neem contact op met uw beheerder voor meer informatie.",
       "warnLicenseExp": "Uw licentie is verlopen. Gelieve deze bij te werken en de pagina te vernieuwen.",
       "warnLicenseLimitedNoAccess": "Licentie verlopen. U hebt geen toegang tot de documentbewerking functionaliteit. Neem contact op met uw beheerder.",
       "warnLicenseLimitedRenewed": "De licentie moet worden vernieuwd. U heeft beperkte toegang tot de documentbewerking functionaliteit.<br>Neem contact op met uw administrator om volledige toegang te krijgen",
-      "warnLicenseUsersExceeded": "U heeft de gebruikerslimiet voor %1 gelijktijdige gebruikers bereikt. Neem contact op met uw beheerder voor meer informatie.",
       "warnNoLicense": "U hebt de limiet bereikt voor gelijktijdige verbindingen met %1 gelijktijdige gebruikers. Dit document wordt alleen geopend om te bekijken. Neem contact op met %1 verkoopteam voor persoonlijke upgradevoorwaarden.",
       "warnNoLicenseUsers": "U heeft de gebruikerslimiet voor %1 gelijktijdige gebruikers bereikt. Neem contact op met de verkoopafdeling voor persoonlijke upgradevoorwaarden.",
       "warnProcessRightsChange": "Je hebt geen toestemming om het bestand te bewerken.",
@@ -179,6 +177,9 @@
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode",
       "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }

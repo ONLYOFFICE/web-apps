@@ -173,14 +173,15 @@
       "txtProtected": "Jika Anda memasukkan password dan membuka file, password file saat ini akan di reset.",
       "warnLicenseAnonymous": "Akses ditolak untuk pengguna anonim.<br>Dokumen ini akan dibuka hanya untuk dilihat.",
       "warnLicenseBefore": "Lisensi tidak aktif.<br>Harap hubungi administrator Anda.",
-      "warnLicenseExceeded": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi admin Anda untuk mempelajari lebih lanjut.",
       "warnLicenseExp": "Lisensi Anda sudah kedaluwarsa. Silakan perbarui lisensi Anda dan muat ulang halaman.",
       "warnLicenseLimitedNoAccess": "Lisensi kadaluwarsa. Anda tidak memiliki akses untuk editing dokumen secara keseluruhan. Silakan hubungi admin Anda.",
       "warnLicenseLimitedRenewed": "Lisensi perlu diperbaharui. Anda memiliki akses terbatas untuk edit dokumen.<br>Silakan hubungi admin Anda untuk mendapatkan akses penuh",
-      "warnLicenseUsersExceeded": "Anda sudah mencapai batas user untuk %1 editor. Hubungi admin Anda untuk mempelajari lebih lanjut.",
       "warnNoLicense": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnNoLicenseUsers": "Anda sudah mencapai batas user untuk %1 editor. Hubungi %1 tim sales untuk syarat personal upgrade.",
-      "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini."
+      "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Draw": {

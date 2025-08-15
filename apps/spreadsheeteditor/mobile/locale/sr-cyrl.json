@@ -238,14 +238,15 @@
       "titleUpdateVersion": "Верзија промењена",
       "warnLicenseAnonymous": "Приступ одбијен за анонимне кориснике.<br>Овај документ ће бити отворен само за приказ.",
       "warnLicenseBefore": "Лиценца није активна.<br>Молимо контактирајте вашег администратора.",
-      "warnLicenseExceeded": "Достигли сте лимит за истовремене конекције за %1 уреднике. Овај документ ће бити отворен само за приказ. Контактирајте свог администратора да сазнате више.",
       "warnLicenseExp": "Ваша лиценца је истекла. Молимо ажурирајте своју лиценцу и освежите страницу.",
       "warnLicenseLimitedNoAccess": "Лиценца истекла. Немате приступ функционалности уређивања документа. Молимо контактирајте свог администратора.",
       "warnLicenseLimitedRenewed": "Лиценца треба да буде обновљена. Имате ограничен приступ функционалности уређивања документа.<br>Молимо контактирајте вашег администратора да добијете потпуни приступ",
-      "warnLicenseUsersExceeded": "Достигли сте кориснички лимит за %1 уреднике. Контактирајте свог администратора да сазнате више.",
       "warnNoLicense": "Достигли сте лимит за истовремене конекције за %1 уреднике. Овај документ ће бити отворен само за приказ. Контактирајте %1 тим за продају за личне услове надоградње.",
       "warnNoLicenseUsers": "Достигли сте кориснички лимит за %1 уреднике. Контактирајте %1 тим за продају за личне услове надоградње.",
-      "warnProcessRightsChange": "Немате дозволу да уређујете овај фајл."
+      "warnProcessRightsChange": "Немате дозволу да уређујете овај фајл.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Error": {

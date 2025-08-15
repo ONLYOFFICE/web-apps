@@ -661,14 +661,15 @@
     "warnDownloadAsPdf": "A(z) {0} szerkeszthető formátumra lesz konvertálva. Ez eltarthat egy ideig. Az eredményül kapott dokumentumot úgy optimalizáljuk, hogy lehetővé tegye a szöveg szerkesztését, így előfordulhat, hogy nem úgy néz ki, mint az eredeti {0}, különösen, ha az eredeti fájl sok grafikát tartalmazott.",
     "warnLicenseAnonymous": "Hozzáférés megtagadva az ismeretlen felhasználók számára.<br>Ez a dokumentum csak olvasásra nyílik meg.",
     "warnLicenseBefore": "A licenc nem aktív.<br>Kérjük, forduljon rendszergazdájához.",
-    "warnLicenseExceeded": "Ön elérte az egyidejű kapcsolódások számának határát a(z) %1 szerkesztőhöz. Ez a dokumentum csak megtekintésre lesz megnyitva. További információkért forduljon a rendszergazdához.",
     "warnLicenseExp": "Az Ön licence lejárt. Kérjük, frissítse licencét majd frissítse az oldalt.",
     "warnLicenseLimitedNoAccess": "Licenc lejárt. Nincs hozzáférése a dokumentumszerkesztési funkciókhoz. Kérjük, forduljon a rendszergazdához.",
     "warnLicenseLimitedRenewed": "A licencet meg kell újítani. Korlátozott hozzáféréssel rendelkezik a dokumentumszerkesztési funkciókhoz.<br>Kérjük, lépjen kapcsolatba a rendszergazdával a teljes hozzáférés megszerzéséhez",
-    "warnLicenseUsersExceeded": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználó számának korlátját. További információért forduljon rendszergazdájához.",
     "warnNoLicense": "Elérte a(z) %1 szerkesztővel való egyidejű kapcsolódási korlátot. Ez a dokumentum csak megtekintésre nyílik meg. Lépjen kapcsolatba a(z) %1 értékesítési csapatával a személyes bővíthető feltételekért.",
     "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
-    "warnProcessRightsChange": "Nincs jogosultsága a fájl szerkesztéséhez."
+    "warnProcessRightsChange": "Nincs jogosultsága a fájl szerkesztéséhez.",
+    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "titleReadOnly": "Read-Only Mode"
   },
   "Settings": {
     "advDRMOptions": "Védett fájl",
