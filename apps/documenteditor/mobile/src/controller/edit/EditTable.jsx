@@ -214,52 +214,30 @@ class EditTableController extends Component {
         api.tblApply(properties);
     }
 
-    onChangeRowHeight (height, isDecrement) {
+    onChangeTableDimension (type, value, isDecrement) {
         const api = Common.EditorApi.get();
         const properties = new Asc.CTableProp();
-        let step, newHeight;
         const maxValue = Common.Utils.Metric.fnRecalcFromMM(558.8);
-        if (Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.pt) {
-            step = 1;
-        } else {
-            step = 0.1;
+
+        const step = Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1;
+        const newValue = isDecrement
+            ? Math.max(0, value - step)
+            : Math.min(maxValue, value + step);
+
+        const convertedValue = Common.Utils.Metric.fnRecalcToMM(newValue);
+
+        if (type === 'row') {
+            properties.put_RowHeight(convertedValue);
+        } else if (type === 'column') {
+            properties.put_ColumnWidth(convertedValue);
         }
-        if (isDecrement) {
-            newHeight = Math.max(-1, height - step)
-        } else {
-            newHeight = Math.min(maxValue, height + step);
-        }
-        properties.put_RowHeight(Common.Utils.Metric.fnRecalcToMM(newHeight));
         api.tblApply(properties);
     }
 
-    onChangeColumnWidth (width, isDecrement) {
-        const api = Common.EditorApi.get();
-        const properties = new Asc.CTableProp();
-        let step, newWidth;
-        const maxValue = Common.Utils.Metric.fnRecalcFromMM(558.8);
-        if (Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.pt) {
-            step = 1;
-        } else {
-            step = 0.1;
-        }
-        if (isDecrement) {
-            newWidth = Math.max(-1, width - step)
-        } else {
-            newWidth = Math.min(maxValue, width + step);
-        }
-        properties.put_ColumnWidth(Common.Utils.Metric.fnRecalcToMM(newWidth));
-        api.tblApply(properties);
-    }
 
-    onDistributeColumns () {
+    onDistributeTable (isColumn) {
         const api = Common.EditorApi.get();
-        api.asc_DistributeTableCells(true)
-    }
-
-    onDistributeRows () {
-        const api = Common.EditorApi.get();
-        api.asc_DistributeTableCells(false)
+        api.asc_DistributeTableCells(isColumn)
     }
 
     render () {
@@ -283,10 +261,8 @@ class EditTableController extends Component {
                        onFillColor={this.onFillColor}
                        onBorderTypeClick={this.onBorderTypeClick}
                        onGetTableStylesPreviews = {this.onGetTableStylesPreviews}
-                       onChangeRowHeight = {this.onChangeRowHeight}
-                       onChangeColumnWidth = {this.onChangeColumnWidth}
-                       onDistributeColumns = {this.onDistributeColumns}
-                       onDistributeRows = {this.onDistributeRows}
+                       onDistributeTable = {this.onDistributeTable}
+                       onChangeTableDimension = {this.onChangeTableDimension}
             />
         )
     }

@@ -48,8 +48,8 @@ const PageTableOptions = props => {
         isResize = storeTableSettings.getResizeOption(tableObject);
         rowHeight = Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getRowHeight(tableObject));
         columnWidth = Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getColumnWidth(tableObject));
-        displayRowHeight = Number(Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getRowHeight(tableObject)).toFixed(2));
-        displayColumnWidth = Number(Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getColumnWidth(tableObject)).toFixed(2));
+        displayRowHeight = Number(rowHeight.toFixed(2));
+        displayColumnWidth = Number(columnWidth.toFixed(2));
     }
     const [stateDistance, setDistance] = useState(distance);
 
@@ -86,13 +86,13 @@ const PageTableOptions = props => {
                     {!isAndroid && <div slot='after-start'>{displayRowHeight + ' ' + metricText}</div>}
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='decrement item-link' onClick={() => {props.onChangeRowHeight(rowHeight, true)}}>
+                            <Button outline className='decrement item-link' onClick={() => {props.onChangeTableDimension('row', rowHeight, true)}}>
                                 {isAndroid ? 
                                     <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
                                 : ' - '}
                             </Button>
                             {isAndroid && <label>{displayRowHeight + ' ' + metricText}</label>}
-                            <Button outline className='increment item-link' onClick={() => {props.onChangeRowHeight(rowHeight, false)}}>
+                            <Button outline className='increment item-link' onClick={() => {props.onChangeTableDimension('row', rowHeight, false)}}>
                                 {isAndroid ? 
                                     <SvgIcon symbolId={IconExpandUp.id} className={'icon icon-svg'} />
                                 : ' + '}
@@ -104,13 +104,13 @@ const PageTableOptions = props => {
                     {!isAndroid && <div slot='after-start'>{displayColumnWidth + ' ' + metricText}</div>}
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='decrement item-link' onClick={() => {props.onChangeColumnWidth(columnWidth, true)}}>
+                            <Button outline className='decrement item-link' onClick={() => {props.onChangeTableDimension('column', columnWidth, true)}}>
                                 {isAndroid ? 
                                     <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
                                 : ' - '}
                             </Button>
                             {isAndroid && <label>{displayColumnWidth + ' ' + metricText}</label>}
-                            <Button outline className='increment item-link' onClick={() => {props.onChangeColumnWidth(columnWidth, false)}}>
+                            <Button outline className='increment item-link' onClick={() => {props.onChangeTableDimension('column', columnWidth, false)}}>
                                 {isAndroid ? 
                                     <SvgIcon symbolId={IconExpandUp.id} className={'icon icon-svg'} />
                                 : ' + '}
@@ -120,11 +120,11 @@ const PageTableOptions = props => {
                 </ListItem>
                 <ListItem className='buttons'>
                     <div className="row">
-                        <a className={'item-link button'} onClick={() => {props.onDistributeColumns()}}>
-                            <SvgIcon slot="media" symbolId={IconDistributeColumns.id} className={'icon icon-svg'} />
-                        </a>
-                        <a className={'item-link button'} onClick={() => {props.onDistributeRows()}}>
+                        <a className={'item-link button'} onClick={() => {props.onDistributeTable(false)}}>
                              <SvgIcon slot="media" symbolId={IconDistributeRows.id} className={'icon icon-svg'} />
+                        </a>
+                        <a className={'item-link button'} onClick={() => {props.onDistributeTable(true)}}>
+                            <SvgIcon slot="media" symbolId={IconDistributeColumns.id} className={'icon icon-svg'} />
                         </a>
                     </div>
                 </ListItem>
@@ -689,10 +689,8 @@ const EditTable = props => {
                     onCellMargins: props.onCellMargins,
                     onOptionResize: props.onOptionResize,
                     onOptionRepeat: props.onOptionRepeat,
-                    onChangeRowHeight: props.onChangeRowHeight,
-                    onChangeColumnWidth: props.onChangeColumnWidth,
-                    onDistributeColumns: props.onDistributeColumns,
-                    onDistributeRows: props.onDistributeRows
+                    onDistributeTable: props.onDistributeTable,
+                    onChangeTableDimension: props.onChangeTableDimension,
                 }}></ListItem>
                 <ListItem title={_t.textStyle} link='/edit-table-style/' routeProps={{
                     onStyleClick: props.onStyleClick,
