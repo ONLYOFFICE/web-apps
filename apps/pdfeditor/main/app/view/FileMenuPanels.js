@@ -2321,6 +2321,8 @@ define([], function () {
                             '<tbody>',
                                 '<tr><td><label class="font-weight-bold"><%= scope.txtPrinter %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-printer" style="width: 248px;"></div></td></tr>',
+                                '<tr><td><label class="font-weight-bold"><%= scope.txtColorPrinting %></label></td></tr>',
+                                '<tr><td class="padding-large"><div id="print-combo-color-printing" style="width: 248px;"></div></td></tr>',
                                 '<tr><td><label class="font-weight-bold"><%= scope.txtPrintRange %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-range" style="width: 248px;"></div></td></tr>',
                                 '<tr><td class="padding-large">',
@@ -2396,6 +2398,7 @@ define([], function () {
 
             this._initSettings = true;
             this._originalPageSize = undefined;
+            this._colorPrinting = '';
         },
 
         render: function(node) {
@@ -2415,16 +2418,41 @@ define([], function () {
                         '<% _.each(items, function(item) { %>',
                             '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
                         '<% }); %>',
-                    '<% } else { %>',
-                        '<li><a style="background:none; cursor: default;" onclick="event.stopPropagation();">' + this.txtPrintersNotFound + '</a></li>',
+                    '<% } %>',
+                    '<% if(scope.options.isWatingForPrinters) { %>',
+                        '<li><a id="print-waiting-for-printers" class="text-dropdown-item" onclick="event.stopPropagation();">' + this.txtWaitingForPrinters + '<div class="spiner-image"></div></a></li>',
+                    '<% } else if(items.length == 0) {%>',
+                        '<li><a class="text-dropdown-item" onclick="event.stopPropagation();">' + this.txtPrintersNotFound + '</a></li>',
                     '<% } %>'
                 ].join('')),
+                isWatingForPrinters: true,
                 data: [],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
             this.cmbPrinter.on('selected', _.bind(this.onPrinterSelected, this));
+
+            this.cmbColorPrinting = new Common.UI.ComboBox({
+                el: $markup.findById('#print-combo-color-printing'),
+                menuStyle: 'width: 248px; max-height: 280px;',
+                editable: false,
+                takeFocusOnClose: true,
+                cls: 'input-group-nr',
+                disabled: true,
+                data: [
+                    { value: 'color', displayValue: this.txtColorPrinting },
+                    { value: 'black-and-white', displayValue: this.txtBlackAndWhitePrinting }
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbColorPrinting.on('selected', _.bind(function(combo, record) { 
+                this._colorPrinting = record.value 
+            }, this));
+            this.cmbColorPrinting.setValue('black-and-white');
+            this._colorPrinting = 'black-and-white';
 
             this.cmbRange = new Common.UI.ComboBox({
                 el: $markup.findById('#print-combo-range'),
@@ -2696,32 +2724,41 @@ define([], function () {
             this.fireEvent('show', this);
         },
 
-        updateCmbPrinter: function(currentPrinter, printers) {
-            var cmbPrinterOptions = [];
-
-            printers = printers || [];
-
-            //If the current printer is not in the list of printers, add it
-            if(currentPrinter && !_.some(printers, function(printer) { return printer.name == currentPrinter })) {
-                printers.push({
-                    name: currentPrinter,
-                    duplex_supported: true,
-                    paperSupported: this._defaultPaperSizeList
-                });
-            }
-
-            cmbPrinterOptions = printers.map(function(printer) {
+        updateCmbPrinter: function(currentPrinter, printers, isWaitingForPrinters) {
+            const cmbPrinterOptions = (printers || []).map(function(printer) {
                 return {
                     value: printer.name,
                     displayValue: printer.name,
                     paperSupported: printer.paper_supported,
-                    isDuplexSupported: printer.duplex_supported
+                    isDuplexSupported: printer.duplex_supported,
+                    colorSupported: !!printer.color_supported
                 }
             });
 
+            this.cmbPrinter.options.isWatingForPrinters = isWaitingForPrinters;
             this.cmbPrinter.setData(cmbPrinterOptions);
-            this.cmbPrinter.setValue(currentPrinter);
-            this.cmbPrinter.trigger('selected', this, this.cmbPrinter.getSelectedRecord());
+
+            let selectedPrinter = this.cmbPrinter.getValue();
+            if(!selectedPrinter &&  _.some(cmbPrinterOptions, function(option) { return option.value == currentPrinter })) {
+                selectedPrinter = currentPrinter;
+            }
+
+            if(selectedPrinter) {
+                const isChanged = selectedPrinter != this.cmbPrinter.getValue();
+                this.cmbPrinter.setValue(selectedPrinter);
+                if(isChanged) {
+                    this.cmbPrinter.trigger('selected', this, this.cmbPrinter.getSelectedRecord());
+                }
+            }
+        },
+
+        setCmbColorPrintingDisabled: function(disabled) {
+            if(disabled) {
+                this.cmbColorPrinting.setValue('black-and-white');
+            } else {
+                this.cmbColorPrinting.setValue(this._colorPrinting);
+            }
+            this.cmbColorPrinting.setDisabled(disabled);
         },
 
         setCmbSidesOptions: function(isDuplexSupported) {
@@ -2848,6 +2885,7 @@ define([], function () {
         onPrinterSelected: function(combo, record) {
             this.setCmbSidesOptions(record ? record.isDuplexSupported : true);
             this.setCmbPaperSizeOptions(record ? record.paperSupported : null);
+            this.setCmbColorPrintingDisabled(record ? !record.colorSupported : true);
             this.btnPrint.setDisabled(!record);
         },
 
@@ -2905,6 +2943,9 @@ define([], function () {
         txtPrinter: 'Printer',
         txtPrinterNotSelected: 'Printer not selected',
         txtPrintersNotFound: 'Printers not found',
+        txtWaitingForPrinters: 'Waiting for printers',
+        txtColorPrinting: 'Color printing',
+        txtBlackAndWhitePrinting: 'Black and white printing',
         txtPrintUsingSystemDialog: 'Print using the system dialog',
         txtPrintRange: 'Print range',
         txtCurrentPage: 'Current page',

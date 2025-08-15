@@ -214,7 +214,7 @@ define([
                     }
                     const ctrl_print = webapp.getController('Print');
                     if ( ctrl_print )
-                        ctrl_print.setPrinterInfo(currentPrinter, printers);
+                        ctrl_print.setPrintersInfo(currentPrinter, printers);
                 } else
                 if (/file:saveas/.test(cmd)) {
                     webapp.getController('Main').api.asc_DownloadAs();
