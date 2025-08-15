@@ -83,7 +83,8 @@ define([
             fullInfoInHint      : false,
             dummy               : undefined,
             editable            : true,
-            removable           : true
+            removable           : true,
+            allowSelected       : true
         }
     });
     Common.Models.Reply = Backbone.Model.extend({

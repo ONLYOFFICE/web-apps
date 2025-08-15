@@ -73,7 +73,8 @@ define([
     var CommentsPanelDataView = Common.UI.DataView.extend((function() {
         return {
             options : {
-                handleSelect: false,
+                handleSelect: true,
+                showLast: true,
                 scrollable: true,
                 listenStoreEvents: false,
                 template: _.template('<div class="dataview-ct inner" role="list"></div>')

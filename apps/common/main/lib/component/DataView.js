@@ -142,7 +142,7 @@ define([
 
             el.html(this.template(this.model.toJSON()));
             el.addClass('item canfocused');
-            el.toggleClass('selected', this.model.get('selected') && this.model.get('allowSelected'));
+            el.toggleClass('selected', !!this.model.get('selected') && this.model.get('allowSelected'));
             el.attr('tabindex', this.options.tabindex || 0);
             el.attr('role', this.options.role ? this.options.role : 'listitem');
             
@@ -220,7 +220,7 @@ define([
             if (_.isUndefined(this.model.id))
                 return this;
             var el = this.$el || $(this.el);
-            el.toggleClass('selected', this.model.get('selected') && this.model.get('allowSelected'));
+            el.toggleClass('selected', !!this.model.get('selected') && this.model.get('allowSelected'));
             el.toggleClass('disabled', !!this.model.get('disabled'));
 
             this.trigger('change', this, this.model);

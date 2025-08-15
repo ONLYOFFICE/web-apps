@@ -121,8 +121,5 @@
             <div class="lock-area"></div>
             <div class="lock-author"><%=lockuserid%></div>
         <% } %>
-        <% if (!last) { %>
-            <div class="separator-cmt"></div>
-        <% } %>
     </div>
 <% } %>
