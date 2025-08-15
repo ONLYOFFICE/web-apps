@@ -131,6 +131,10 @@
             border-radius: 4px;
             .box-shadow(2px 3px 4px 0px transparent);
             padding: 0 10px 10px 10px;
+
+            &.last-item {
+                margin-bottom: 10px;
+            }
         }
 
         &:hover {
@@ -138,7 +142,7 @@
                 background-color: @highlight-button-hover;
             }
         }
-        &.selected {
+        &.active {
             .user-comment-item {
                 background-color: transparent;
                 border-color: @border-toolbar;
@@ -343,13 +347,13 @@
         position: absolute;
         right: 0;
         top: 0;
-        margin: 11px 21px 10px 10px;
+        margin: 11px 15px 10px 10px;
         height: 20px;
 
         .rtl & {
             right: unset;
             left: 0;
-            margin: 11px 10px 10px 21px;
+            margin: 11px 10px 10px 15px;
         }
     }
 

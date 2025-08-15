@@ -73,8 +73,7 @@ define([
     var CommentsPanelDataView = Common.UI.DataView.extend((function() {
         return {
             options : {
-                handleSelect: true,
-                showLast: true,
+                handleSelect: false,
                 scrollable: true,
                 listenStoreEvents: false,
                 template: _.template('<div class="dataview-ct inner" role="list"></div>')
@@ -177,6 +176,9 @@ define([
                         }
                     }
                 }
+            },
+            clearActive: function() {
+                this.cmpEl && this.cmpEl.find('.item.active').removeClass('active');
             }
         }
     })());
@@ -197,6 +199,9 @@ define([
             function readdresolves() {
                 me.update();
             }
+
+            picker.clearActive();
+            item.$el && item.$el.addClass('active');
 
             btn = $(e.target);
             if (btn) {
@@ -232,9 +237,11 @@ define([
                             me.hookTextBox();
                         }
                     }
+                    me.fireEvent('comment:show', [commentId, false]);
                 } else if (btn.hasClass('btn-delete')) {
                     if (!_.isUndefined(replyId)) {
                         me.fireEvent('comment:removeReply', [commentId, replyId]);
+                        me.fireEvent('comment:show', [commentId, false]);
                     } else {
                         me.fireEvent('comment:remove', [commentId]);
                         Common.NotificationCenter.trigger('edit:complete', me);
@@ -253,6 +260,7 @@ define([
 
                     picker.autoScrollToEditButtons();
                     picker.setFocusToTextBox();
+                    me.fireEvent('comment:show', [commentId, false]);
                 } else if (btn.hasClass('btn-reply', false)) {
                     if (showReplyBox) {
                         me.fireEvent('comment:addReply', [commentId, picker.getActiveTextBoxVal()]);
@@ -260,10 +268,11 @@ define([
 
                         readdresolves();
                     }
+                    me.fireEvent('comment:show', [commentId, false]);
                 } else if (btn.hasClass('btn-close', false)) {
 
                     me.fireEvent('comment:closeEditing', [commentId]);
-
+                    me.fireEvent('comment:show', [commentId, false]);
                 } else if (btn.hasClass('btn-inner-edit', false)) {
                     if (!_.isUndefined(me.commentsView.reply)) {
                         me.fireEvent('comment:changeReply', [commentId, me.commentsView.reply, picker.getActiveTextBoxVal()]);
@@ -275,13 +284,14 @@ define([
                     me.fireEvent('comment:closeEditing');
 
                     readdresolves();
-
+                    me.fireEvent('comment:show', [commentId, false]);
                 } else if (btn.hasClass('btn-inner-close', false)) {
                     me.fireEvent('comment:closeEditing');
 
                     me.commentsView.reply = undefined;
 
                     readdresolves();
+                    me.fireEvent('comment:show', [commentId, false]);
                 } else if (btn.hasClass('btn-resolve', false)) {
                     var tip = btn.data('bs.tooltip');
                     if (tip) tip.dontShow = true;
@@ -289,6 +299,7 @@ define([
                     me.fireEvent('comment:resolve', [commentId]);
 
                     readdresolves();
+                    me.fireEvent('comment:show', [commentId, false]);
                 } else if (!btn.hasClass('msg-reply') &&
                     !btn.hasClass('btn-resolve')) {
                     var isTextSelected = false;

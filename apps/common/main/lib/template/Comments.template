@@ -1,5 +1,5 @@
 <% if (!hide && !filtered) { %>
-    <div id="<%= id %>" class="user-comment-item">
+    <div id="<%= id %>" class="user-comment-item <% if (last) { %> last-item <% } %>">
 
         <!-- comment block -->
 

@@ -940,8 +940,10 @@ define([
                     this.uids = _.clone(uids);
 
                     comments.push(comment);
-                    if (!this._dontScrollToComment)
+                    if (!this._dontScrollToComment) {
+                        this.view.commentsView.clearActive();
                         this.view.commentsView.scrollToRecord(comment);
+                    }
                     this._dontScrollToComment = false;
                 }
 
@@ -961,6 +963,8 @@ define([
         },
         onApiHideComment: function (hint) {
             var t = this;
+
+            this.view && this.view.commentsView && this.view.commentsView.clearActive();
 
             if (this.getPopover()) {
                 if (this.isSelectedComment && hint) {
