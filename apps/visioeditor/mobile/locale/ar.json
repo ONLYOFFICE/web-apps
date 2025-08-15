@@ -64,14 +64,15 @@
       "txtIncorrectPwd": "كلمة المرور غير صحيحة",
       "warnLicenseAnonymous": "تم رفض الوصول للمستخدمين المجهولين.<br>سيتم فتح هذا المستند للعرض فقط.",
       "warnLicenseBefore": "الترخيص ليس مفعلا.<br>برجاء التواصل مع مسئولك",
-      "warnLicenseExceeded": "لقد وصلت إلى الحد الأقصى من الاتصالات المتزامنة لـ %1 محررات.هذا. هذا المستند سيكون للقراءة فقط برجاء التواصل مع المسؤول الخاص بك لمعرفة المزيد",
       "warnLicenseExp": "الترخيص منتهي الصلاحية.الرجاء تحديث الترخيص الخاص بك واعادة تحميل الصفحة",
       "warnLicenseLimitedNoAccess": "الترخيص منتهي الصلاحية.<br>ليس لديك صلاحية تعديل المستند. برجاء التواصل مع مسئولك",
       "warnLicenseLimitedRenewed": "يحتاج الترخيص إلى تجديد. لديك وصول محدود لخاصية تعديل المستند. <br> برجاء التواصل مع مسئولك للحصول على وصول كامل",
-      "warnLicenseUsersExceeded": "لقد وصلت إلى الحد الأقصى لعدد المستخدمين المسموح به لـ %1 من المحررين. اتصل بالمسؤول لمعرفة المزيد.",
       "warnNoLicense": "لقد وصلت إلى الحد الأقصى من الاتصالات المتزامنة لـ%1محررات.هذا المستند سيكون للقراءة فقط. تواصل مع %1 فريق المبيعات لتطوير الشروط الشخصية",
       "warnNoLicenseUsers": "لقد وصلت إلى الحد الأقصى لعدد المستخدمين المسموح به لـ %1 من المحررين. اتصل بفريق مبيعات %1 لمعرفة شروط الترقية الشخصية.",
-      "warnProcessRightsChange": "ليس لديك الإذن بتعديل هذا الملف."
+      "warnProcessRightsChange": "ليس لديك الإذن بتعديل هذا الملف.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Error": {

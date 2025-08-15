@@ -238,14 +238,15 @@
       "titleUpdateVersion": "版本已更改",
       "warnLicenseAnonymous": "匿名使用者無法存取。<br>此文件將僅供檢視。",
       "warnLicenseBefore": "授權未啟用。<br>請聯絡您的管理員。",
-      "warnLicenseExceeded": "您已達到同時連線 %1 編輯者的限制。此文件將僅以檢視模式開啟。",
       "warnLicenseExp": "您的授權已過期。請更新您的授權並重新整理頁面。",
       "warnLicenseLimitedNoAccess": "憑證已過期。您無法使用文件編輯功能。請聯絡您的帳號管理員",
       "warnLicenseLimitedRenewed": "憑證需要續約。您目前只有文件編輯的部份功能。<br>欲使用完整功能，請聯絡您的帳號管理員。",
-      "warnLicenseUsersExceeded": "您已達到 %1 編輯器的使用者限制。請聯繫您的管理員以了解詳情。",
       "warnNoLicense": "您已達到同時連線 %1 編輯者的限制。此文件將僅以檢視模式開啟。",
       "warnNoLicenseUsers": "您已達到編輯器的使用者限制。",
-      "warnProcessRightsChange": "您無權編輯此檔案。"
+      "warnProcessRightsChange": "您無權編輯此檔案。",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Error": {

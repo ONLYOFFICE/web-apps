@@ -173,14 +173,15 @@
       "txtProtected": "Assim que introduzir a palavra-passe e abrir o ficheiro, a palavra-passe atual será reposta",
       "warnLicenseAnonymous": "Acesso recusado para utilizadores anónimos.<br>O documento será aberto no modo de leitura.",
       "warnLicenseBefore": "Licença inativa.<br>Contacte o administrador de sistemas.",
-      "warnLicenseExceeded": "Atingiu o limite de ligações simultâneas aos editores %1. Este documento será aberto no modo de leitura.<br>Contacte o seu administrador para mais detalhes.",
       "warnLicenseExp": "A sua licença caducou. Renove a sua licença e recarregue a página.",
       "warnLicenseLimitedNoAccess": "A licença caducou. Não tem acesso à edição de documentos. Por favor contacte o seu administrador.",
       "warnLicenseLimitedRenewed": "Tem que renovar a sua licença. A edição de documentos está com funcionalidades limitadas.<br>Contacte o administrador para obter acesso total.",
-      "warnLicenseUsersExceeded": "Atingiu o limite de utilizadores para os editores %1. Contacte o seu administrador para obter detalhes.",
       "warnNoLicense": "Atingiu o limite de ligações simultâneas aos editores %1. Este documento será aberto no modo de leitura.<br>Contacte a equipa comercial %1 para saber mais sobre os termos de licenciamento.",
       "warnNoLicenseUsers": "Atingiu o limite de utilizadores para os editores %1. Contacte a equipa comercial %1 para obter mais informações.",
-      "warnProcessRightsChange": "Não tem permissões para editar este ficheiro."
+      "warnProcessRightsChange": "Não tem permissões para editar este ficheiro.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Error": {

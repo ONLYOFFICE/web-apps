@@ -294,11 +294,9 @@
   "VE.Controllers.Main.warnBrowserZoom": "Le impostazioni correnti dello zoom del tuo browser non sono completamente supportate. Ti preghiamo di ritornare a quello predefinito premendo Ctrl+0.",
   "VE.Controllers.Main.warnLicenseAnonymous": "Accesso negato per utenti anonimi.<br>Questo documento verrà aperto solo per la visualizzazione.",
   "VE.Controllers.Main.warnLicenseBefore": "Licenza non attiva.<br>Ti preghiamo di contattare il tuo amministratore.",
-  "VE.Controllers.Main.warnLicenseExceeded": "Hai raggiunto il limite di connessioni simultanee a %1 editor.. Questo documento verrà aperto solo per la visualizzazione.<br>Contatta il tuo amministratore per ulteriori informazioni.",
   "VE.Controllers.Main.warnLicenseExp": "La tua licenza è scaduta.<br>Ti preghiamo di aggiornarla e ricaricare la pagina.",
   "VE.Controllers.Main.warnLicenseLimitedNoAccess": "La licenza è scaduta.<br>Non hai accesso alle funzionalità di modifica dei documenti.<br>Ti preghiamo di contattare l'amministratore.",
   "VE.Controllers.Main.warnLicenseLimitedRenewed": "La licenza dev'essere rinnovata. <br>Hai un accesso limitato alle funzionalità di modifica dei documenti.<br>Ti preghiamo di contattare l'amministratore per ottenere l'accesso completo",
-  "VE.Controllers.Main.warnLicenseUsersExceeded": "Hai raggiunto il limite di utenti per %1 editor. Ti preghiamo di contattare il tuo amministratore per maggiori informazioni.",
   "VE.Controllers.Main.warnNoLicense": "Hai raggiunto il limite di connessioni simultanee a %1 editor. Questo documento verrà aperto solo per la visualizzazione.<br>Ti preghiamo di contattare il team di vendite %1 per i termini di aggiornamento personali.",
   "VE.Controllers.Main.warnNoLicenseUsers": "Hai raggiunto il limite di utenti per %1 editor. Ti preghiamo di contattare il team di vendite %1 per i termini di aggiornamento personali.",
   "VE.Controllers.Main.warnProcessRightsChange": "Ti è stato negato il diritto di accesso per modificare il file.",
@@ -426,5 +424,8 @@
   "VE.Views.ViewTab.textZoom": "Zoom",
   "VE.Views.ViewTab.tipFitPage": "Adatta alla pagina",
   "VE.Views.ViewTab.tipFitWidth": "Adatta alla larghezza",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Tema dell'interfaccia"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Tema dell'interfaccia",
+  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode"
 }

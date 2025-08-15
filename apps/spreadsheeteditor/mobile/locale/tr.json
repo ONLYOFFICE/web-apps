@@ -120,11 +120,9 @@
       "titleLicenseExp": "Lisans süresi doldu",
       "titleServerVersion": "Editör güncellendi",
       "titleUpdateVersion": "Sürüm değiştirildi",
-      "warnLicenseExceeded": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Daha fazla bilgi edinmek için yöneticinizle iletişime geçin.",
       "warnLicenseExp": "Lisansınızın süresi doldu. Lütfen lisansınızı güncelleyin ve sayfayı yenileyin.",
       "warnLicenseLimitedNoAccess": "Lisans süresi doldu. Doküman edit etme özelliğini kullanmaya izniniz bulunmamaktadır. Lütfen, yöneticinizle iletişime geçin.",
       "warnLicenseLimitedRenewed": "Lisansın yenilenmesi gerekiyor. Belge düzenleme işlevine sınırlı erişiminiz var.<br>Tam erişim için lütfen yöneticinizle iletişime geçin.",
-      "warnLicenseUsersExceeded": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Daha fazla bilgi edinmek için yöneticinizle iletişime geçin.",
       "warnNoLicense": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
       "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
       "warnProcessRightsChange": "Dosyayı düzenleme izniniz yok.",
@@ -243,7 +241,10 @@
       "textNoMatches": "No Matches",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
       "titleLicenseNotActive": "License not active",
+      "titleReadOnly": "Read-Only Mode",
       "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }

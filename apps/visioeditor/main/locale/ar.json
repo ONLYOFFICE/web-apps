@@ -294,11 +294,9 @@
   "VE.Controllers.Main.warnBrowserZoom": "إعداد التكبير الحالي للمتصفح غير مدعوم بالكامل. يرجى إعادة تعيين إلى التكبير الافتراضي عن طريق الضغط على Ctrl + 0.",
   "VE.Controllers.Main.warnLicenseAnonymous": "تم رفض الوصول للمستخدمين المجهولين.<br>سيتم فتح هذا المستند للعرض فقط.",
   "VE.Controllers.Main.warnLicenseBefore": "الترخيص غير نشط.<br>يُرجى الاتصال بالمسؤول.",
-  "VE.Controllers.Main.warnLicenseExceeded": "لقد وصلت إلى الحد الأقصى للاتصالات المتزامنة مع محرري٪ 1. سيتم فتح هذا المستند للعرض فقط. \n اتصل بالمسؤول لمعرفة المزيد.",
   "VE.Controllers.Main.warnLicenseExp": "انتهت صلاحية الترخيص الخاص بك. \n يرجى تحديث الترخيص الخاص بك وتحديث الصفحة",
   "VE.Controllers.Main.warnLicenseLimitedNoAccess": "انتهت صلاحية الترخيص.<br>ليس لديك إمكانية الوصول إلى وظيفة تحرير المستندات.<br>يُرجى الاتصال بالمسؤول.",
   "VE.Controllers.Main.warnLicenseLimitedRenewed": "يجب تجديد الترخيص.<br>لديك وصول محدود إلى وظيفة تحرير المستندات.<br>يُرجى الاتصال بالمسؤول للحصول على حق الوصول الكامل",
-  "VE.Controllers.Main.warnLicenseUsersExceeded": "لقد وصلت إلى حد المستخدم لمحرري٪ 1. اتصل بالمسؤول لمعرفة المزيد.",
   "VE.Controllers.Main.warnNoLicense": "لقد وصلت إلى الحد الأقصى للاتصالات المتزامنة مع محرري٪ 1. سيتم فتح هذا المستند للعرض فقط. \n اتصل بفريق مبيعات٪ 1 للحصول على شروط الترقية الشخصية.",
   "VE.Controllers.Main.warnNoLicenseUsers": "لقد وصلت إلى حد المستخدم لمحرري٪ 1. اتصل بفريق مبيعات٪ 1 للحصول على شروط الترقية الشخصية",
   "VE.Controllers.Main.warnProcessRightsChange": "لقد تم منعك من تعديل هذا الملف",
@@ -334,6 +332,7 @@
   "VE.Views.FileMenu.btnSaveAsCaption": "حفظ باسم",
   "VE.Views.FileMenu.btnSaveCopyAsCaption": "حفظ نسخة باسم",
   "VE.Views.FileMenu.btnSettingsCaption": "الإعدادات المتقدمة",
+  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature",
   "VE.Views.FileMenu.btnSwitchToMobileCaption": "التحويل إلى وضع الهاتف المحمول",
   "VE.Views.FileMenu.textDownload": "تحميل",
   "VE.Views.FileMenuPanels.CreateNew.txtBlank": "مستند فارغ",
@@ -426,5 +425,7 @@
   "VE.Views.ViewTab.tipFitPage": "ملائم للصفحة",
   "VE.Views.ViewTab.tipFitWidth": "ملائم للعرض",
   "VE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
-  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature"
+  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode"
 }

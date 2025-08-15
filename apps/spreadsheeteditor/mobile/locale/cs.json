@@ -238,14 +238,15 @@
       "titleUpdateVersion": "Verze změněna",
       "warnLicenseAnonymous": "Přístup zamítnut pro anonymní uživatele.<br>Tento dokument bude zobrazen pouze jako náhled.",
       "warnLicenseBefore": "Licence není aktivní.<br>Prosím kontaktujte svého správce.",
-      "warnLicenseExceeded": "Došlo k dosažení limitu souběžného připojení %1 editorů. Tento dokument bude otevřen pouze pro náhled. Pro více informací kontaktujte Vašeho správce.",
       "warnLicenseExp": "Platnost vaší licence skončila.<br>Obnovte si svou licenci a načtěte stránku znovu.",
       "warnLicenseLimitedNoAccess": "Platnost licence vypršela. Nemáte přístup k úpravě dokumentů. Prosím kontaktujete Vašeho správce.",
       "warnLicenseLimitedRenewed": "Licenci je nutné obnovit. Máte omezený přístup k možnostem editace.<br>Pro získání plného přístupu kontaktujte Vašeho správce.",
-      "warnLicenseUsersExceeded": "Došlo dosažení limitu %1 editorů v režimu spolupráce na úpravách. Ohledně podrobností se obraťte na svého správce.",
       "warnNoLicense": "Došlo k dosažení limitu souběžného připojení %1 editorů. Tento dokument bude otevřen pouze pro náhled. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
       "warnNoLicenseUsers": "Došlo k dosažení limitu %1 editorů. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
-      "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu."
+      "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Draw": {

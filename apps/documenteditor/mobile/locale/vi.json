@@ -668,7 +668,10 @@
     "textCancel": "Cancel",
     "textConvertForm": "Download file as PDF to save the form in the format ready for filling.",
     "textDownloadPdf": "Download PDF",
-    "textSaveAsPdf": "Save as PDF"
+    "textSaveAsPdf": "Save as PDF",
+    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "titleReadOnly": "Read-Only Mode"
   },
   "Settings": {
     "advDRMOptions": "Protected File",

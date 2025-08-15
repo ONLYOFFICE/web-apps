@@ -661,14 +661,15 @@
     "warnDownloadAsPdf": "Seu {0} será convertido em um formato editável. Isso pode demorar um pouco. O documento resultante será otimizado para permitir que você edite o texto, portanto, pode não parecer exatamente com o {0} original, especialmente se o arquivo original contiver muitos gráficos.",
     "warnLicenseAnonymous": "Acesso negado para usuários anônimos.<br>Este documento será aberto apenas para visualização.",
     "warnLicenseBefore": "Licença inativa.<br>Entre em contato com seu administrador.",
-    "warnLicenseExceeded": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate seu administrador para saber mais.",
     "warnLicenseExp": "Sua licença expirou. Por favor, atualize sua licença e atualize a página.",
     "warnLicenseLimitedNoAccess": "A licença expirou. Você não tem acesso à funcionalidade de edição de documentos. Por favor, entre em contato com seu administrador.",
     "warnLicenseLimitedRenewed": "A licença precisa ser renovada. Você tem acesso limitado à funcionalidade de edição de documentos. <br> Entre em contato com o administrador para obter acesso total",
-    "warnLicenseUsersExceeded": "Você atingiu o limite de usuários para editores %1. Entre em contato com seu administrador para saber mais.",
     "warnNoLicense": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate a equipe de vendas% 1 para termos de atualização pessoal.",
     "warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
-    "warnProcessRightsChange": "Você não tem permissão para editar este arquivo."
+    "warnProcessRightsChange": "Você não tem permissão para editar este arquivo.",
+    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "titleReadOnly": "Read-Only Mode"
   },
   "Settings": {
     "advDRMOptions": "Arquivo protegido",

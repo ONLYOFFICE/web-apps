@@ -294,11 +294,9 @@
   "VE.Controllers.Main.warnBrowserZoom": "A böngészője jelenlegi nagyítása nem teljesen támogatott. Állítsa vissza alapértelmezett értékre a Ctrl+0 megnyomásával.",
   "VE.Controllers.Main.warnLicenseAnonymous": "Hozzáférés megtagadva az ismeretlen felhasználók számára.<br>Ez a dokumentum csak olvasásra nyílik meg.",
   "VE.Controllers.Main.warnLicenseBefore": "A licenc nem aktív.<br>Vegye fel a kapcsolatot a rendszergazdával",
-  "VE.Controllers.Main.warnLicenseExceeded": "Elérte a(z) %1 szerkesztőhöz tartozó egyidejű kapcsolódási korlátját. Ez a dokumentum csak megtekintésre nyílik meg.<br>További információkért forduljon rendszergazdához.",
   "VE.Controllers.Main.warnLicenseExp": "A licence lejárt.<br>Frissítse a licencét, majd az oldalt.",
   "VE.Controllers.Main.warnLicenseLimitedNoAccess": "A licenc lejárt.<br>Nincs hozzáférése a dokumentumszerkesztési funkciókhoz.<br>Vegye fel a kapcsolatot a rendszergazdával.",
   "VE.Controllers.Main.warnLicenseLimitedRenewed": "A licencet meg kell újítani.<br>Korlátozott hozzáférése van a dokumentumszerkesztési funkciókhoz.<br>A teljes hozzáférésért vegye fel a kapcsolatot rendszergazdával",
-  "VE.Controllers.Main.warnLicenseUsersExceeded": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. További információkért forduljon rendszergazdához.",
   "VE.Controllers.Main.warnNoLicense": "Elérte a(z) %1 szerkesztőhöz tartozó egyidejű csatlakozás korlátját. Ez a dokumentum csak megtekintésre nyílik meg.<br>Vegye fel a kapcsolatot a(z) %1 értékesítési csapatával a személyes frissítési feltételekért.",
   "VE.Controllers.Main.warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználók számának korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
   "VE.Controllers.Main.warnProcessRightsChange": "Nincs joga szerkeszteni a fájlt.",
@@ -334,6 +332,7 @@
   "VE.Views.FileMenu.btnSaveAsCaption": "Menés másként",
   "VE.Views.FileMenu.btnSaveCopyAsCaption": "Másolat mentése mint",
   "VE.Views.FileMenu.btnSettingsCaption": "Speciális beállítások",
+  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature",
   "VE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "VE.Views.FileMenu.textDownload": "Letöltés",
   "VE.Views.FileMenuPanels.CreateNew.txtBlank": "Üres dokumentum",
@@ -426,5 +425,7 @@
   "VE.Views.ViewTab.tipFitPage": "Igazítás az oldalhoz",
   "VE.Views.ViewTab.tipFitWidth": "Szélességhez igazítás",
   "VE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája",
-  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature"
+  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode"
 }

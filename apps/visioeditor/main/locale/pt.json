@@ -294,11 +294,9 @@
   "VE.Controllers.Main.warnBrowserZoom": "A configuração de zoom atual de seu navegador não é completamente suportada. Redefina para o zoom padrão pressionando Ctrl+0.",
   "VE.Controllers.Main.warnLicenseAnonymous": "Acesso negado para usuários anônimos.<br>Este documento será aberto apenas para visualização.",
   "VE.Controllers.Main.warnLicenseBefore": "Licença inativa.<br>Entre em contato com seu administrador.",
-  "VE.Controllers.Main.warnLicenseExceeded": "Você atingiu o limite de conexões simultâneas para editores %1. Este documento será aberto apenas para visualização.<br>Entre em contato com seu administrador para saber mais.",
   "VE.Controllers.Main.warnLicenseExp": "Sua licença expirou.<br>Atualize sua licença e refresque a página.",
   "VE.Controllers.Main.warnLicenseLimitedNoAccess": "A licença expirou.<br>Você não tem acesso à funcionalidade de edição de documentos.<br>Por favor, contate seu administrador.",
   "VE.Controllers.Main.warnLicenseLimitedRenewed": "A licença precisa ser renovada. <br> Você tem acesso limitado à funcionalidade de edição de documentos. <br> Entre em contato com o administrador para obter acesso total.",
-  "VE.Controllers.Main.warnLicenseUsersExceeded": "Você atingiu o limite de usuários para editores %1. Entre em contato com seu administrador para saber mais.",
   "VE.Controllers.Main.warnNoLicense": "Você atingiu o limite de conexões simultâneas para editores %1. Este documento será aberto apenas para visualização.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
   "VE.Controllers.Main.warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
   "VE.Controllers.Main.warnProcessRightsChange": "Foi negado a você o direito de editar o arquivo.",
@@ -334,6 +332,7 @@
   "VE.Views.FileMenu.btnSaveAsCaption": "Salvar como",
   "VE.Views.FileMenu.btnSaveCopyAsCaption": "Salvar cópia como",
   "VE.Views.FileMenu.btnSettingsCaption": "Configurações avançadas",
+  "VE.Views.FileMenu.btnSuggestCaption": "Sugira um recurso",
   "VE.Views.FileMenu.btnSwitchToMobileCaption": "Mudar para o celular",
   "VE.Views.FileMenu.textDownload": "Baixar",
   "VE.Views.FileMenuPanels.CreateNew.txtBlank": "Documento em branco",
@@ -426,5 +425,7 @@
   "VE.Views.ViewTab.tipFitPage": "Ajustar a página",
   "VE.Views.ViewTab.tipFitWidth": "Ajustar à largura",
   "VE.Views.ViewTab.tipInterfaceTheme": "Tema de interface",
-  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature"
+  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode"
 }

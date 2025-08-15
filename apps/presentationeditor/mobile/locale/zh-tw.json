@@ -172,15 +172,16 @@
       "txtProtected": "一旦輸入密碼並開啟文件，目前的文件密碼將被重設",
       "warnLicenseAnonymous": "拒絕匿名使用者存取。此文件只能以檢視模式開啟。",
       "warnLicenseBefore": "授權證書未啟用。<br>請聯繫您的管理員。",
-      "warnLicenseExceeded": "您已達到同時連線 %1 編輯者的限制。此文件將僅以檢視模式開啟。",
       "warnLicenseExp": "您的授權已過期。請更新您的授權並重新整理頁面。",
       "warnLicenseLimitedNoAccess": "授權過期。 因此無法編輯文件。 請聯繫您的管理員。",
       "warnLicenseLimitedRenewed": "授權需更新。您只有限制的文件編輯功能。<br>請聯絡您的管理員以取得完整存取權限。",
-      "warnLicenseUsersExceeded": "您已達到 %1 編輯器的使用者限制。請聯繫您的管理員以了解詳情。",
       "warnNoLicense": "您已達到同時連線 %1 編輯者的限制。此文件將僅以檢視模式開啟。",
       "warnNoLicenseUsers": "您已達到％1個編輯器的用戶限制。與％1銷售團隊聯繫以了解個人升級條款。",
       "warnProcessRightsChange": "您無權編輯此檔案。",
-      "textOk": "Ok"
+      "textOk": "Ok",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Error": {
