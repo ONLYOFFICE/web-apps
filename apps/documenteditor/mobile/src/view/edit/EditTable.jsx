@@ -29,6 +29,8 @@ import IconTableAddRowAbove from '@common-icons/icon-table-add-row-above.svg';
 import IconTableAddRowBelow from '@common-icons/icon-table-add-row-below.svg';
 import IconTableRemoveColumn from '@common-icons/icon-table-remove-column.svg';
 import IconTableRemoveRow from '@common-icons/icon-table-remove-row.svg';
+import IconDistributeColumns from '@common-icons/icon-distribute-columns.svg';
+import IconDistributeRows from '@common-icons/icon-distribute-rows.svg';
 
 
 const PageTableOptions = props => {
@@ -114,6 +116,16 @@ const PageTableOptions = props => {
                                 : ' + '}
                             </Button>
                         </Segmented>
+                    </div>
+                </ListItem>
+                <ListItem className='buttons'>
+                    <div className="row">
+                        <a className={'item-link button'} onClick={() => {props.onDistributeColumns()}}>
+                            <SvgIcon slot="media" symbolId={IconDistributeColumns.id} className={'icon icon-svg'} />
+                        </a>
+                        <a className={'item-link button'} onClick={() => {props.onDistributeRows()}}>
+                             <SvgIcon slot="media" symbolId={IconDistributeRows.id} className={'icon icon-svg'} />
+                        </a>
                     </div>
                 </ListItem>
             </List>
@@ -678,7 +690,9 @@ const EditTable = props => {
                     onOptionResize: props.onOptionResize,
                     onOptionRepeat: props.onOptionRepeat,
                     onChangeRowHeight: props.onChangeRowHeight,
-                    onChangeColumnWidth: props.onChangeColumnWidth
+                    onChangeColumnWidth: props.onChangeColumnWidth,
+                    onDistributeColumns: props.onDistributeColumns,
+                    onDistributeRows: props.onDistributeRows
                 }}></ListItem>
                 <ListItem title={_t.textStyle} link='/edit-table-style/' routeProps={{
                     onStyleClick: props.onStyleClick,
