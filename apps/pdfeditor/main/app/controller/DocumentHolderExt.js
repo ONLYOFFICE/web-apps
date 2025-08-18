@@ -901,7 +901,7 @@ define([], function () {
             }
             documentHolder.btnStrokeHighlightColor.setVisible(annotType === AscPDF.ANNOTATIONS_TYPES.Highlight);
             documentHolder.btnStrokeColor.setVisible(annotType !== AscPDF.ANNOTATIONS_TYPES.Highlight);
-            var color = this.api.asc_GetStrokeColor(),
+            var color = this.api.GetAnnotStrokeColor(),
                 btn = annotType === AscPDF.ANNOTATIONS_TYPES.Highlight ? documentHolder.btnStrokeHighlightColor : documentHolder.btnStrokeColor;
             color = Common.Utils.ThemeColor.getHexColor(color['r'], color['g'], color['b']);
             btn.currentColor = color;
@@ -2534,8 +2534,8 @@ define([], function () {
             var r = color[0] + color[1],
                 g = color[2] + color[3],
                 b = color[4] + color[5];
-            if (!this.api.asc_SetStrokeColor(parseInt(r, 16), parseInt(g, 16), parseInt(b, 16))) {
-                color = this.api.asc_GetStrokeColor();
+            if (!this.api.SetAnnotStrokeColor(parseInt(r, 16), parseInt(g, 16), parseInt(b, 16))) {
+                color = this.api.GetAnnotStrokeColor();
                 color = Common.Utils.ThemeColor.getHexColor(color['r'], color['g'], color['b']);
             }
             btn.currentColor = color;
@@ -2544,7 +2544,7 @@ define([], function () {
         };
 
         dh.onSetStrokeOpacity = function(sizePicker, direction) {
-            var val = this.api.asc_GetOpacity(),
+            var val = this.api.GetAnnotOpacity(),
                 oldval = val;
             if (direction === 'up') {
                 if (val % 10 > 0.1) {
@@ -2561,7 +2561,7 @@ define([], function () {
                 }
                 val = Math.max(0, val);
             }
-            if (!this.api.asc_SetOpacity(val))
+            if (!this.api.SetAnnotOpacity(val))
                 val = oldval;
             sizePicker.setValue(val + '%');
         };
@@ -2575,7 +2575,7 @@ define([], function () {
                 });
                 menu.sizePicker.on('click', _.bind(this.onSetStrokeOpacity, this, menu.sizePicker));
             }
-            menu.sizePicker.setValue(this.api.asc_GetOpacity() + '%');
+            menu.sizePicker.setValue(this.api.GetAnnotOpacity() + '%');
         };
 
         dh.applySettings = function() {
