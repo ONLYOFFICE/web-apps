@@ -527,6 +527,88 @@ const PageAlign = props => {
     )
 };
 
+const PageSize = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const tableObject = props.storeFocusObjects.tableObject;
+    const storeTableSettings = props.storeTableSettings;
+    const metricText = Common.Utils.Metric.getCurrentMetricName();
+    const rowHeight = Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getRowHeight(tableObject));
+    const columnWidth = Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getColumnWidth(tableObject));
+    const displayRowHeight = Number(rowHeight.toFixed(2));
+    const displayColumnWidth = Number(columnWidth.toFixed(2));
+
+    if (!tableObject && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
+
+    return (
+        <Page>
+            <Navbar title={_t.textCellSize} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <List>
+                <ListItem title={_t.txtHeight}>
+                    {!isAndroid && <div slot='after-start'>{displayRowHeight + ' ' + metricText}</div>}
+                    <div slot='after'>
+                        <Segmented>
+                            <Button outline className='decrement item-link' onClick={() => {props.onChangeTableDimension('row', rowHeight, true)}}>
+                                {isAndroid ? 
+                                    <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                : ' - '}
+                            </Button>
+                            {isAndroid && <label>{displayRowHeight + ' ' + metricText}</label>}
+                            <Button outline className='increment item-link' onClick={() => {props.onChangeTableDimension('row', rowHeight, false)}}>
+                                {isAndroid ? 
+                                    <SvgIcon symbolId={IconExpandUp.id} className={'icon icon-svg'} />
+                                : ' + '}
+                            </Button>
+                        </Segmented>
+                    </div>
+                </ListItem>
+                <ListItem title={_t.txtWidth}>
+                    {!isAndroid && <div slot='after-start'>{displayColumnWidth + ' ' + metricText}</div>}
+                    <div slot='after'>
+                        <Segmented>
+                            <Button outline className='decrement item-link' onClick={() => {props.onChangeTableDimension('column', columnWidth, true)}}>
+                                {isAndroid ? 
+                                    <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                : ' - '}
+                            </Button>
+                            {isAndroid && <label>{displayColumnWidth + ' ' + metricText}</label>}
+                            <Button outline className='increment item-link' onClick={() => {props.onChangeTableDimension('column', columnWidth, false)}}>
+                                {isAndroid ? 
+                                    <SvgIcon symbolId={IconExpandUp.id} className={'icon icon-svg'} />
+                                : ' + '}
+                            </Button>
+                        </Segmented>
+                    </div>
+                </ListItem>
+                <ListItem className='buttons'>
+                    <div className="row">
+                        <a className={'item-link button'} onClick={() => {props.onDistributeTable(false)}}>
+                            <SvgIcon slot="media" symbolId={IconDistributeRows.id} className={'icon icon-svg'} />
+                        </a>
+                        <a className={'item-link button'} onClick={() => {props.onDistributeTable(true)}}>
+                            <SvgIcon slot="media" symbolId={IconDistributeColumns.id} className={'icon icon-svg'} />
+                        </a>
+                    </div>
+                </ListItem>
+            </List>
+        </Page>
+    )
+};
+
 const EditTable = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
@@ -536,10 +618,6 @@ const EditTable = props => {
     const storeTableSettings = props.storeTableSettings;
     const distance = Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getCellMargins(tableObject));
     const [stateDistance, setDistance] = useState(distance);
-    const rowHeight = Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getRowHeight(tableObject));
-    const columnWidth = Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getColumnWidth(tableObject));
-    const displayRowHeight = Number(rowHeight.toFixed(2));
-    const displayColumnWidth = Number(columnWidth.toFixed(2));
 
     return (
         <Fragment>
@@ -575,6 +653,10 @@ const EditTable = props => {
                 </List>
             </List>
             <List>
+                <ListItem title={_t.textCellSize} link='/edit-table-size/' routeProps={{
+                    onChangeTableDimension: props.onChangeTableDimension,
+                    onDistributeTable: props.onDistributeTable
+                }}></ListItem>
                 <ListItem title={_t.textStyle} link='/edit-table-style/' routeProps={{
                     onStyleClick: props.onStyleClick,
                     onCheckTemplateChange: props.onCheckTemplateChange,
@@ -589,55 +671,6 @@ const EditTable = props => {
                     onAlign: props.onAlign
                 }}></ListItem>
 
-                <BlockTitle>{_t.textCellSize}</BlockTitle>
-                <List>
-                    <ListItem title={_t.txtHeight}>
-                        {!isAndroid && <div slot='after-start'>{displayRowHeight + ' ' + metricText}</div>}
-                        <div slot='after'>
-                            <Segmented>
-                                <Button outline className='decrement item-link' onClick={() => {props.onChangeTableDimension('row', rowHeight, true)}}>
-                                    {isAndroid ? 
-                                        <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
-                                    : ' - '}
-                                </Button>
-                                {isAndroid && <label>{displayRowHeight + ' ' + metricText}</label>}
-                                <Button outline className='increment item-link' onClick={() => {props.onChangeTableDimension('row', rowHeight, false)}}>
-                                    {isAndroid ? 
-                                        <SvgIcon symbolId={IconExpandUp.id} className={'icon icon-svg'} />
-                                    : ' + '}
-                                </Button>
-                            </Segmented>
-                        </div>
-                    </ListItem>
-                    <ListItem title={_t.txtWidth}>
-                        {!isAndroid && <div slot='after-start'>{displayColumnWidth + ' ' + metricText}</div>}
-                        <div slot='after'>
-                            <Segmented>
-                                <Button outline className='decrement item-link' onClick={() => {props.onChangeTableDimension('column', columnWidth, true)}}>
-                                    {isAndroid ? 
-                                        <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
-                                    : ' - '}
-                                </Button>
-                                {isAndroid && <label>{displayColumnWidth + ' ' + metricText}</label>}
-                                <Button outline className='increment item-link' onClick={() => {props.onChangeTableDimension('column', columnWidth, false)}}>
-                                    {isAndroid ? 
-                                        <SvgIcon symbolId={IconExpandUp.id} className={'icon icon-svg'} />
-                                    : ' + '}
-                                </Button>
-                            </Segmented>
-                        </div>
-                    </ListItem>
-                    <ListItem className='buttons'>
-                        <div className="row">
-                            <a className={'item-link button'} onClick={() => {props.onDistributeTable(false)}}>
-                                <SvgIcon slot="media" symbolId={IconDistributeRows.id} className={'icon icon-svg'} />
-                            </a>
-                            <a className={'item-link button'} onClick={() => {props.onDistributeTable(true)}}>
-                                <SvgIcon slot="media" symbolId={IconDistributeColumns.id} className={'icon icon-svg'} />
-                            </a>
-                        </div>
-                    </ListItem>
-                </List>
                 <BlockTitle>{_t.textCellMargins}</BlockTitle>
                 <List>
                     <ListItem>
@@ -665,6 +698,7 @@ const PageTableBorderColor = inject("storeFocusObjects","storeTableSettings", "s
 const PageTableCustomBorderColor = inject("storeFocusObjects","storeTableSettings", "storePalette")(observer(PageCustomBorderColor));
 const PageTableReorder = inject("storeFocusObjects")(observer(PageReorder));
 const PageTableAlign = inject("storeFocusObjects")(observer(PageAlign));
+const PageTableSize = inject("storeFocusObjects", "storeTableSettings")(observer(PageSize));
 
 export {
     EditTableContainer as EditTable,
@@ -674,5 +708,6 @@ export {
     PageTableBorderColor,
     PageTableCustomBorderColor,
     PageTableReorder,
-    PageTableAlign
+    PageTableAlign,
+    PageTableSize
 }
