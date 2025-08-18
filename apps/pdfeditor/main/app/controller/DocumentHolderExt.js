@@ -2210,7 +2210,7 @@ define([], function () {
                             (new PDFE.Views.ChartSettingsAdvanced(
                                 {
                                     chartProps: elValue,
-                                    slideSize: PE.getController('Toolbar').currentPageSize,
+                                    slideSize: PDFE.getController('Toolbar').currentPageSize,
                                     handler: function(result, value) {
                                         if (result == 'ok') {
                                             if (me.api) {
