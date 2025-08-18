@@ -37,6 +37,7 @@ import IconTableRemoveColumn from '@common-icons/icon-table-remove-column.svg';
 import IconTableRemoveRow from '@common-icons/icon-table-remove-row.svg';
 import IconDistributeColumns from '@common-icons/icon-distribute-columns.svg';
 import IconDistributeRows from '@common-icons/icon-distribute-rows.svg';
+import IconExpandUp from '@common-android-icons/icon-expand-up.svg';
 // Style
 
 const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer(({onStyleClick,storeTableSettings,storeFocusObjects,onGetTableStylesPreviews}) => {
