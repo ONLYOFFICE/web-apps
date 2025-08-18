@@ -43,7 +43,7 @@ define([
     'backbone',
     'common/main/lib/component/Button',
     'common/main/lib/component/ComboDataView',
-    // 'pdfeditor/main/app/view/ChartSettingsAdvanced'
+    'pdfeditor/main/app/view/ChartSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 

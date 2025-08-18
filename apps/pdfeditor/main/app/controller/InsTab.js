@@ -662,7 +662,7 @@ define([
                 this.api.asc_createSmartArt(value);
             }
         },
-/*
+
         onSelectChart: function(type) {
             var me      = this,
                 chart = false;
@@ -692,16 +692,18 @@ define([
                 if (this.diagramEditor && me.api) {
                     this.diagramEditor.setEditMode(false);
                     this.diagramEditor.show();
-
+                    console.log(type)
                     chart = me.api.asc_getChartObject(type);
                     if (chart) {
                         this.diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
                     }
+                    // me.api.asc_addChartDrawingObject(type);
+                    // me.api.asc_editChartInFrameEditor();
                     me.view.fireEvent('insertchart', me.view);
                 }
             }
         },
-*/
+
         onTextLanguage: function(langId) {
             this._state.lang = langId;
         },
@@ -950,10 +952,10 @@ define([
                 }
             }
 
-            // if (in_chart !== this._state.in_chart) {
-            //     this.view.btnInsertChart.updateHint(in_chart ? this.view.tipChangeChart : this.view.tipInsertChart);
-            //     this._state.in_chart = in_chart;
-            // }
+            if (in_chart !== this._state.in_chart) {
+                this.view.btnInsertChart.updateHint(in_chart ? this.view.tipChangeChart : this.view.tipInsertChart);
+                this._state.in_chart = in_chart;
+            }
 
             if (this._state.prcontrolsdisable !== paragraph_locked) {
                 if (this._state.activated) this._state.prcontrolsdisable = paragraph_locked;

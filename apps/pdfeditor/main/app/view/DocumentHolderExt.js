@@ -816,7 +816,7 @@ define([], function () {
                     me.mnuArrangeForward.setDisabled(inSmartartInternal);
                     me.mnuArrangeBackward.setDisabled(inSmartartInternal);
 
-                    me.menuImgShapeRotate.setVisible(_.isUndefined(value.chartProps) && (pluginGuid===null || pluginGuid===undefined));
+                    me.menuImgShapeRotate.setVisible((_.isUndefined(value.chartProps) && !(value.shapeProps && value.shapeProps.isChart)) && (pluginGuid===null || pluginGuid===undefined));
                     if (me.menuImgShapeRotate.isVisible()) {
                         me.menuImgShapeRotate.setDisabled(disabled || (value.shapeProps && value.shapeProps.value.get_FromSmartArt()));
                         me.menuImgShapeRotate.menu.items[3].setDisabled(inSmartartInternal);
@@ -846,15 +846,15 @@ define([], function () {
                     canEditPoints && me.menuImgEditPoints.setDisabled(disabled);
 
                     me.menuImageAdvanced.setVisible(isimage);
-                    me.menuShapeAdvanced.setVisible(_.isUndefined(value.imgProps)   && _.isUndefined(value.chartProps));
-                    // me.menuChartEdit.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
-                    // me.menuChartAdvanced.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
-                    menuImgShapeSeparator.setVisible(me.menuImageAdvanced.isVisible() || me.menuShapeAdvanced.isVisible() /*|| me.menuChartEdit.isVisible() || me.menuChartAdvanced.isVisible()*/);
+                    me.menuShapeAdvanced.setVisible(_.isUndefined(value.imgProps) && (_.isUndefined(value.chartProps) && !(value.shapeProps && value.shapeProps.isChart)));
+                    me.menuChartEdit.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
+                    me.menuChartAdvanced.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
+                    menuImgShapeSeparator.setVisible(me.menuImageAdvanced.isVisible() || me.menuShapeAdvanced.isVisible() || me.menuChartEdit.isVisible() || me.menuChartAdvanced.isVisible());
                     menuAdvancedSettingsSeparator.setVisible(
                         me.menuImgCrop.isVisible() || me.menuImgOriginalSize.isVisible() ||
                         me.menuImgReplace.isVisible() || me.menuImageAdvanced.isVisible() ||
-                        me.menuImgEditPoints.isVisible() || me.menuShapeAdvanced.isVisible() /*||
-                        me.menuChartEdit.isVisible() || me.menuChartAdvanced.isVisible()*/
+                        me.menuImgEditPoints.isVisible() || me.menuShapeAdvanced.isVisible() ||
+                        me.menuChartEdit.isVisible() || me.menuChartAdvanced.isVisible()
                     );
                     menuAdvancedSettingsSeparator.isVisible() && (lastSeparator = menuAdvancedSettingsSeparator);
 
@@ -877,9 +877,9 @@ define([], function () {
                     } 
                     me.menuImageAdvanced.setDisabled(disabled);
                     me.menuShapeAdvanced.setDisabled(disabled);
-                    // me.menuChartAdvanced.setDisabled(disabled);
-                    // if (me.menuChartEdit.isVisible())
-                    //     me.menuChartEdit.setDisabled(disabled);
+                    me.menuChartAdvanced.setDisabled(disabled);
+                    if (me.menuChartEdit.isVisible())
+                        me.menuChartEdit.setDisabled(disabled);
 
                     var cancopy = me.api && me.api.can_CopyCut();
                     me.menuImgCopy.setDisabled(!cancopy);
@@ -906,8 +906,8 @@ define([], function () {
                     me.menuImageAdvanced,
                     me.menuImgEditPoints,
                     me.menuShapeAdvanced,
-                    // me.menuChartEdit,
-                    // me.menuChartAdvanced,
+                    me.menuChartEdit,
+                    me.menuChartAdvanced,
                     menuAdvancedSettingsSeparator,  //Separator
                     /** coauthoring begin **/
                     me.menuAddCommentImg
@@ -927,6 +927,11 @@ define([], function () {
             me.menuParagraphAdvanced = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-paragraph',
                 caption     : me.advancedParagraphText
+            });
+
+            me.menuChartAdvanced = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-menu-chart',
+                caption     : me.advancedChartText
             });
 
             var menuCommentParaSeparator = new Common.UI.MenuItem({
@@ -957,6 +962,10 @@ define([], function () {
                         me.menuRemoveHyperlinkPara
                     ]
                 })
+            });
+
+            me.menuChartEdit = new Common.UI.MenuItem({
+                caption     : me.editChartText
             });
 
             me.menuParagraphVAlign = new Common.UI.MenuItem({
@@ -1071,7 +1080,7 @@ define([], function () {
                 scrollToCheckedItem: false,
                 initMenu: function(value){
                     var isInShape = (value.shapeProps && !_.isNull(value.shapeProps.value));
-                    var isInChart = (value.chartProps && !_.isNull(value.chartProps.value));
+                    var isInChart = (value.chartProps && !_.isNull(value.chartProps.value)) || value.shapeProps && value.shapeProps.isChart;
                     var disabled = (value.paraProps!==undefined  && value.paraProps.locked) ||
                         (isInShape && value.shapeProps.locked);
                     var isEquation= (value.mathProps && value.mathProps.value);

@@ -101,15 +101,15 @@ define([
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
-            // this.btnChart = new Common.UI.Button({
-            //     hint: this.txtChartSettings,
-            //     asctype: Common.Utils.documentSettingsType.Chart,
-            //     enableToggle: true,
-            //     disabled: true,
-            //     iconCls: 'btn-menu-chart',
-            //     toggleGroup: 'tabpanelbtnsGroup',
-            //     allowMouseEventsOnDisabled: true
-            // });
+            this.btnChart = new Common.UI.Button({
+                hint: this.txtChartSettings,
+                asctype: Common.Utils.documentSettingsType.Chart,
+                enableToggle: true,
+                disabled: true,
+                iconCls: 'btn-menu-chart',
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
+            });
             this.btnShape = new Common.UI.Button({
                 hint: this.txtShapeSettings,
                 asctype: Common.Utils.documentSettingsType.Shape,
@@ -135,7 +135,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Table]       = {panel: "id-table-settings",      btn: this.btnTable};
             this._settings[Common.Utils.documentSettingsType.Image]       = {panel: "id-image-settings",      btn: this.btnImage};
             this._settings[Common.Utils.documentSettingsType.Shape]       = {panel: "id-shape-settings",      btn: this.btnShape};
-            // this._settings[Common.Utils.documentSettingsType.Chart]       = {panel: "id-chart-settings",      btn: this.btnChart};
+            this._settings[Common.Utils.documentSettingsType.Chart]       = {panel: "id-chart-settings",      btn: this.btnChart};
             this._settings[Common.Utils.documentSettingsType.TextArt]     = {panel: "id-textart-settings",    btn: this.btnTextArt};
 
             return this;
@@ -171,14 +171,14 @@ define([
             this.btnText.setElement($('#id-right-menu-text'), false);           this.btnText.render();
             this.btnTable.setElement($('#id-right-menu-table'), false);         this.btnTable.render();
             this.btnImage.setElement($('#id-right-menu-image'), false);         this.btnImage.render();
-            // this.btnChart.setElement($('#id-right-menu-chart'), false);         this.btnChart.render();
+            this.btnChart.setElement($('#id-right-menu-chart'), false);         this.btnChart.render();
             this.btnShape.setElement($('#id-right-menu-shape'), false);         this.btnShape.render();
             this.btnTextArt.setElement($('#id-right-menu-textart'), false);     this.btnTextArt.render();
 
             this.btnText.on('click',            _.bind(this.onBtnMenuClick, this));
             this.btnTable.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnImage.on('click',           _.bind(this.onBtnMenuClick, this));
-            // this.btnChart.on('click',           _.bind(this.onBtnMenuClick, this));
+            this.btnChart.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnShape.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnTextArt.on('click',         _.bind(this.onBtnMenuClick, this));
 
@@ -338,7 +338,7 @@ define([
         },
 
         setButtons: function () {
-            var allButtons = [this.btnShape, this.btnImage, this.btnText, this.btnTable, this.btnTextArt/*, this.btnChart, this.btnSignature*/, this.btnForm];
+            var allButtons = [this.btnShape, this.btnImage, this.btnText, this.btnTable, this.btnTextArt, this.btnChart/*, this.btnSignature*/, this.btnForm];
             Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 
