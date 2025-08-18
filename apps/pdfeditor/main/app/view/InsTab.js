@@ -453,9 +453,7 @@ define([
                     });
                     picker.on('item:click', function (picker, item, record, e) {
                         if (record)
-                            {me.fireEvent('insert:chart', [record.get('type')])
-                                console.log('chart')
-                            };
+                            me.fireEvent('insert:chart', [record.get('type')]);
                     });
                     menu.off('show:before', onShowBefore);
                     menu.setInnerMenu([{menu: picker, index: 0}]);

@@ -692,7 +692,6 @@ define([
                 if (this.diagramEditor && me.api) {
                     this.diagramEditor.setEditMode(false);
                     this.diagramEditor.show();
-                    console.log(type)
                     chart = me.api.asc_getChartObject(type);
                     if (chart) {
                         this.diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
