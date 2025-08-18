@@ -51,7 +51,7 @@ define([
     'common/main/lib/component/CheckBox',
     'pdfeditor/main/app/view/ParagraphSettings',
     'pdfeditor/main/app/view/ImageSettings',
-    // 'pdfeditor/main/app/view/ChartSettings',
+    'pdfeditor/main/app/view/ChartSettings',
     'pdfeditor/main/app/view/TableSettings',
     'pdfeditor/main/app/view/ShapeSettings',
     'pdfeditor/main/app/view/TextArtSettings',
@@ -184,7 +184,7 @@ define([
 
             this.paragraphSettings = new PDFE.Views.ParagraphSettings();
             this.imageSettings = new PDFE.Views.ImageSettings();
-            // this.chartSettings = new PDFE.Views.ChartSettings();
+            this.chartSettings = new PDFE.Views.ChartSettings();
             this.tableSettings = new PDFE.Views.TableSettings();
             this.shapeSettings = new PDFE.Views.ShapeSettings();
             this.textartSettings = new PDFE.Views.TextArtSettings();
@@ -243,7 +243,7 @@ define([
             var _updateScroller = function () {me.updateScroller();};
             this.paragraphSettings.setApi(api).on('editcomplete', _.bind( fire, this));
             this.imageSettings.setApi(api).on('editcomplete', _.bind( fire, this));
-            // this.chartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('updatescroller', _updateScroller);
+            this.chartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('updatescroller', _updateScroller);
             this.tableSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this));
             this.shapeSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
             this.textartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);

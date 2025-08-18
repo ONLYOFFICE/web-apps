@@ -2207,7 +2207,7 @@ define([], function () {
                         elValue = selectedElements[i].get_ObjectValue();
 
                         if (Asc.c_oAscTypeSelectElement.Chart == elType) {
-                            (new PE.Views.ChartSettingsAdvanced(
+                            (new PDFE.Views.ChartSettingsAdvanced(
                                 {
                                     chartProps: elValue,
                                     slideSize: PE.getController('Toolbar').currentPageSize,

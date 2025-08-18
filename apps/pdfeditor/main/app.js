@@ -181,6 +181,7 @@ require([
                 'pdfeditor/main/app/controller/Search',
                 'pdfeditor/main/app/controller/Print',
                 'pdfeditor/main/app/controller/FormsTab',
+                'pdfeditor/main/app/view/ChartSettings',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Fonts',
                 'common/main/lib/controller/Comments',
