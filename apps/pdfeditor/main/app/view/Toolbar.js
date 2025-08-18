@@ -909,6 +909,22 @@ define([
                     });
                     this.toolbarControls.push(this.btnTextComment);
 
+                    this.btnShapeComment = new Common.UI.Button({
+                        id: 'tlbtn-shapecomment',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-big-shape-comment',
+                        lock: [_set.pageDeleted, _set.disableOnStart],
+                        caption: this.capBtnRectComment,
+                        menu: true,
+                        split: true,
+                        enableToggle: true,
+                        action: 'insert-shape-comment',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.toolbarControls.push(this.btnShapeComment);
+
                     this.chShowComments = new Common.UI.CheckBox({
                         lock: [_set.disableOnStart],
                         labelText: this.capBtnShowComments,
@@ -1448,6 +1464,7 @@ define([
                 _injectComponent('#slot-btn-underline', this.btnUnderline);
                 _injectComponent('#slot-btn-highlight', this.btnHighlight);
                 _injectComponent('#slot-btn-text-comment', this.btnTextComment);
+                _injectComponent('#slot-btn-shape-comment', this.btnShapeComment);
                 _injectComponent('#slot-btn-stamp', this.btnStamp);
                 this.btnEditMode ? _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode) : $host.findById('#slot-btn-tb-edit-mode').parents('.group').hide().next('.separator').hide();
             },
@@ -1614,6 +1631,57 @@ define([
                             ]
                         }));
                     }
+                    if (me.btnShapeComment) {
+                        me.btnShapeComment.options.shapeType = AscPDF.ANNOTATIONS_TYPES.Square;
+                        me.btnShapeComment.setMenu(new Common.UI.Menu({
+                            items: [
+                                {
+                                    tipForMainBtn: me.tipInsertRectComment,
+                                    caption: me.txtRectComment,
+                                    checkable: true,
+                                    checkmark: false,
+                                    toggleGroup: 'shapecomment',
+                                    iconCls     : 'menu__icon btn-rect-comment',
+                                    value: AscPDF.ANNOTATIONS_TYPES.Square,
+                                    iconClsForMainBtn: 'btn-big-rect-comment',
+                                    captionForMainBtn: me.capBtnRectComment
+                                },
+                                {
+                                    tipForMainBtn: me.tipInsertCircleComment,
+                                    caption: me.txtCircleComment,
+                                    checkable: true,
+                                    checkmark: false,
+                                    toggleGroup: 'shapecomment',
+                                    iconCls     : 'menu__icon btn-circle-comment',
+                                    value: AscPDF.ANNOTATIONS_TYPES.Circle,
+                                    iconClsForMainBtn: 'btn-big-circle-comment',
+                                    captionForMainBtn: me.capBtnCircleComment
+                                },
+                                {
+                                    tipForMainBtn: me.tipInsertArrowComment,
+                                    caption: me.txtArrowComment,
+                                    checkable: true,
+                                    checkmark: false,
+                                    toggleGroup: 'shapecomment',
+                                    iconCls     : 'menu__icon btn-arrow-comment',
+                                    value: AscPDF.ANNOTATIONS_TYPES.Line,
+                                    iconClsForMainBtn: 'btn-big-arrow-comment',
+                                    captionForMainBtn: me.capBtnArrowComment
+                                },
+                                {
+                                    tipForMainBtn: me.tipInsertPolyLineComment,
+                                    caption: me.txtPolyLineComment,
+                                    checkable: true,
+                                    checkmark: false,
+                                    toggleGroup: 'shapecomment',
+                                    iconCls     : 'menu__icon btn-polyline-comment',
+                                    value: AscPDF.ANNOTATIONS_TYPES.PolyLine,
+                                    iconClsForMainBtn: 'btn-big-polyline-comment',
+                                    captionForMainBtn: me.capBtnPolyLineComment
+                                },
+                            ]
+                        }));
+                    }
                     if (me.btnStamp) {
                         me.btnStamp.setMenu(new Common.UI.Menu({
                             restoreHeight: 500
@@ -1668,6 +1736,7 @@ define([
                 this.btnHighlight.updateHint(this.textHighlight);
                 // this.btnTextComment.updateHint([this.tipInsertTextComment, this.tipInsertText]);
                 this.btnTextComment.updateHint(this.tipInsertTextComment);
+                this.btnShapeComment.updateHint(this.tipInsertRectComment);
                 this.btnStamp.updateHint(this.tipInsertStamp);
                 this.btnEditMode && this.btnEditMode.updateHint(this.tipEditMode);
             },

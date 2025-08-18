@@ -179,6 +179,7 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-stamp"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-shape-comment"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group small">

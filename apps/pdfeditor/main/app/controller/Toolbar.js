@@ -83,7 +83,9 @@ define([
                 initEditing: true
             };
             this.editMode = true;
-            this.binding = {};
+            this.binding = {
+                checkInsertShapeComment: _.bind(this.checkInsertShapeComment, this)
+            };
 
             this.addListeners({
                 'Toolbar': {
@@ -270,6 +272,8 @@ define([
             toolbar.chShowComments.on('change',                         _.bind(this.onShowCommentsChange, this));
             toolbar.btnTextComment.on('click',                          _.bind(this.onBtnTextCommentClick, this));
             toolbar.btnTextComment.menu.on('item:click',                _.bind(this.onMenuTextCommentClick, this));
+            toolbar.btnShapeComment.on('click',                          _.bind(this.onBtnShapeCommentClick, this));
+            toolbar.btnShapeComment.menu.on('item:click',                _.bind(this.onMenuShapeCommentClick, this));
             toolbar.btnStamp.on('click',                                _.bind(this.onBtnStampClick, this));
             toolbar.btnStamp.menu.on('item:click',                      _.bind(this.onMenuStampClick, this));
             toolbar.btnStamp.menu.on('show:after',                      _.bind(this.onStampShowAfter, this));
@@ -424,6 +428,7 @@ define([
             this.api.asc_registerCallback('asc_onStampsReady', _.bind(this.onApiStampsReady, this));
             this.getApplication().getController('Common.Controllers.Fonts').setApi(this.api);
             this.api.asc_registerCallback('asc_onCanPastePage',           _.bind(this.onApiCanPastePage, this));
+            this.api.asc_registerCallback('asc_onStartAddShapeChanged', _.bind(this.onStartAddShapeChanged, this)); //for shape comments
 
             if (this.mode.canPDFEdit) {
                 this.api.asc_registerCallback('asc_onMathTypes', _.bind(this.onApiMathTypes, this));
@@ -1233,6 +1238,70 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnTextComment);
             Common.component.Analytics.trackEvent('ToolBar', 'Add Text');
+        },
+
+        onBtnShapeCommentClick: function(btn, e) {
+            btn.menu.getItems(true).filter(function(item) {
+                return item.value == btn.options.shapeType
+            })[0].setChecked(true);
+            if(!btn.pressed) {
+                btn.menu.clearAll(true);
+            }
+            this.onInsertShapeComment(btn.options.shapeType, btn, e);
+        },
+
+        onMenuShapeCommentClick: function(menu, item, e) {
+            var oldType = this.toolbar.btnShapeComment.options.shapeType;
+            var newType = item.value;
+
+            this.toolbar.btnShapeComment.toggle(true);
+            if(newType !== oldType){
+                this.toolbar.btnShapeComment.changeIcon({
+                    next: item.options.iconClsForMainBtn,
+                    curr: this.toolbar.btnShapeComment.menu.getItems(true).filter(function(mnu){return mnu.value == oldType})[0].options.iconClsForMainBtn
+                });
+                this.toolbar.btnShapeComment.updateHint(item.options.tipForMainBtn);
+                this.toolbar.btnShapeComment.setCaption(item.options.captionForMainBtn);
+                this.toolbar.btnShapeComment.options.shapeType = newType;
+            }
+            this.onInsertShapeComment(newType, this.toolbar.btnShapeComment, item);
+        },
+
+        onInsertShapeComment: function(type, btn, item) {
+            if (btn.pressed) {
+                this.api.StartAddAnnot(type, true);
+                $(document.body).on('mouseup', this.binding.checkInsertShapeComment);
+            } else {
+                this.api.StartAddAnnot('', false);
+                $(document.body).off('mouseup', this.binding.checkInsertShapeComment);
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnShapeComment);
+            Common.component.Analytics.trackEvent('ToolBar', 'Add Shape Annotation');
+        },
+
+        onStartAddShapeChanged: function() {
+            if ( this.toolbar.btnShapeComment.pressed )
+                this.toolbar.btnShapeComment.toggle(false, true);
+
+            $(document.body).off('mouseup', this.binding.checkInsertShapeComment);
+        },
+
+        checkInsertShapeComment:  function(e) {
+            var cmp = $(e.target),
+                cmp_sdk = cmp.closest('#editor_sdk'),
+                btn_id = cmp.closest('button').attr('id');
+            if (btn_id===undefined)
+                btn_id = cmp.closest('.btn-group').attr('id');
+
+            if (cmp.attr('id') != 'editor_sdk' && cmp_sdk.length<=0) {
+                if ( this.toolbar.btnShapeComment.pressed && this.toolbar.btnShapeComment.id !== btn_id ) {
+                    this.api.StartAddAnnot('', false);
+                    $(document.body).off('mouseup', this.binding.checkInsertShapeComment);
+                    this.toolbar.btnShapeComment.toggle(false, true);
+                    Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                }
+            }
         },
 
         onBtnStampClick: function(btn, e) {
