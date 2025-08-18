@@ -69,7 +69,8 @@ define([
             this.api = options.api;
 
             this._state     = {
-                actionsMap: []
+                actionsMap: [],
+                searchValue: ''
             };
 
             let filter = Common.localStorage.getKeysFilter();
@@ -263,12 +264,12 @@ define([
                 
                 if(actionItem) {
                     shortcuts.forEach(function(ascShortcut) {
-                        const defaultShortcut = _.find(actionItem.shortcuts, function(shortcut) { 
+                        const defaultShortcutIndex = _.findIndex(actionItem.shortcuts, function(shortcut) { 
                             return shortcut.ascShortcut.asc_GetShortcutIndex() == ascShortcut.asc_GetShortcutIndex() 
                         });
 
-                        if(defaultShortcut) {
-                            defaultShortcut.ascShortcut.asc_SetIsHidden(ascShortcut.asc_IsHidden());
+                        if(defaultShortcutIndex != -1) {
+                            actionItem.shortcuts[defaultShortcutIndex].ascShortcut = ascShortcut;
                         } else {
                             actionItem.shortcuts.push({
                                 keys: me._getAscShortcutKeys(ascShortcut),
@@ -284,18 +285,36 @@ define([
             this.actionsList.store.reset(_.values(actionsMap))
         },
 
-        _updateActionsList: function(list) {
+        _updateActionsList: function() {
             const selectedActionIndex = this.actionsList.store.findIndex(function(item) { 
                 return item.get('selected');
             });
             const scrollPos = this.actionsList.scroller.getScrollTop();
 
-            this.actionsList.store.reset(_.values(list));
+            if(this._state.searchValue) {
+                this._filterActionsList();
+            } else {
+                this.actionsList.store.reset(_.values(this._state.actionsMap));
+            }
 
             this.actionsList.scroller.scrollTop(scrollPos);
             if(selectedActionIndex != -1) {
                 this.actionsList.selectByIndex(selectedActionIndex);
             }
+        },
+
+        _filterActionsList: function() {
+            let filteredData;
+            const me = this;
+            const actionsData = _.values(this._state.actionsMap);
+            if(me._state.searchValue) {
+                filteredData = actionsData.filter(function(item) {
+                    return item.action.name.toLowerCase().includes(me._state.searchValue);
+                });
+            } else {
+                filteredData = actionsData;
+            }
+            this.actionsList.store.reset(filteredData);
         },
 
         onSelectActionItem: function(list, item, record, event) {
@@ -339,12 +358,17 @@ define([
                         const existsInUpdated = _.some(updatedShortcuts, function(el) { 
                             return el.ascShortcut.asc_GetShortcutIndex() === item.ascShortcut.asc_GetShortcutIndex();
                         });
+                        if(!existsInUpdated && !item.ascShortcut.asc_IsHidden()) {
+                            const copyAscShortcut = new Asc.CAscShortcut();
+                            copyAscShortcut.asc_FromJson(item.ascShortcut.asc_ToJson());
+                            item.ascShortcut = copyAscShortcut;
+                        }
                         item.ascShortcut.asc_SetIsHidden(!existsInUpdated);
                         resultShortcuts.push(item);
                     });
 
                     updatedShortcuts.forEach(function(item) {
-                        const existsInOriginal = _.find(originalShortcuts, function(el) { 
+                        const existsInOriginal = _.some(originalShortcuts, function(el) { 
                             return el.ascShortcut.asc_GetShortcutIndex() === item.ascShortcut.asc_GetShortcutIndex();
                         });
                         if(!existsInOriginal) {
@@ -368,17 +392,20 @@ define([
                         if(type == actionType) continue;
 
                         const shortcuts = me._state.actionsMap[type].shortcuts;
-                        const foundShortcut = _.find(shortcuts, function(shortcut) {
+                        const foundShortcutIndex = _.findIndex(shortcuts, function(shortcut) {
                             const foundIndex = _.indexOf(removableIndexes, shortcut.ascShortcut.asc_GetShortcutIndex());
                             (foundIndex != -1) && removableIndexes.splice(foundIndex, 1);
                             return foundIndex != -1;
                         });
-                        if(foundShortcut) {
-                            foundShortcut.ascShortcut.asc_SetIsHidden(true);
-                            removableItems[type] = [foundShortcut];
+                        if(foundShortcutIndex != -1) {
+                            const copyAscShortcut = new Asc.CAscShortcut();
+                            copyAscShortcut.asc_FromJson(shortcuts[foundShortcutIndex].ascShortcut.asc_ToJson());
+                            copyAscShortcut.asc_SetIsHidden(true);
+                            shortcuts[foundShortcutIndex].ascShortcut = copyAscShortcut;
+                            removableItems[type] = [shortcuts[foundShortcutIndex]];
                         }
                     }
-                    me._updateActionsList(me._state.actionsMap);
+                    me._updateActionsList();
 
                     const merged = _.extend({}, removableItems, { [actionType]: resultShortcuts });
                     me.api.asc_applyAscShortcuts(_.flatten(_.values(merged)).map(function(shortcut) { 
@@ -397,19 +424,38 @@ define([
                     me._saveModifiedShortcuts(merged);
                 },
                 findAssignedActions: function(ascShortcut, extraAction) {
-                    const shortcutIndex = ascShortcut.asc_GetShortcutIndex();
-                    const foundItems = _.filter(_.values(me._state.actionsMap), function(item) {
-                        if (actionType === item.action.type && extraAction) {
-                            item = extraAction;
+                    var shortcutIndex = ascShortcut.asc_GetShortcutIndex();
+                    var foundItems = [];
+                    var values = _.values(me._state.actionsMap);
+
+                    for (var i = 0; i < values.length; i++) {
+                        var item = values[i];
+
+                        if (actionType === item.action.type) {
+                            var existsInDefaultHidden = _.some(item.shortcuts, function(shortcut) {
+                                return !shortcut.isCustom &&
+                                    shortcut.ascShortcut.asc_GetShortcutIndex() == shortcutIndex;
+                            });
+
+                            if (existsInDefaultHidden) {
+                                foundItems = [];
+                                break;
+                            } else if (extraAction) {
+                                item = extraAction;
+                            }
                         }
 
-                        return item && _.some(item.shortcuts, function(shortcut) {
-                            return shortcut.ascShortcut.asc_GetShortcutIndex() === shortcutIndex && 
+                        var existsVisible = _.some(item.shortcuts, function(shortcut) {
+                            return shortcut.ascShortcut.asc_GetShortcutIndex() == shortcutIndex &&
                                 !shortcut.ascShortcut.asc_IsHidden();
                         });
-                    });
 
-                    return foundItems.map(function(item) { return item.action; });
+                        if (existsVisible) {
+                            foundItems.push(item);
+                        }
+                    }
+
+                    return _.map(foundItems, function(item) { return item.action; });
                 },
                 getDefaultShortcuts: function() {
                     const ascShortcuts = Asc.c_oAscDefaultShortcuts[actionType];
@@ -428,17 +474,8 @@ define([
         },
 
         onInputSearch: function(event) {
-            const value = $(event.target).val().toLowerCase().trim();
-            let filteredData;
-            const actionsData = _.values(this._state.actionsMap);
-            if(value) {
-                filteredData = actionsData.filter(function(item) {
-                    return item.action.name.toLowerCase().includes(value);
-                });
-            } else {
-                filteredData = actionsData;
-            }
-            this.actionsList.store.reset(filteredData);
+            this._state.searchValue = $(event.target).val().toLowerCase().trim();
+            this._filterActionsList();
             this.onSelectActionItem(null, null, null);
         },
 
@@ -452,12 +489,10 @@ define([
                 width: 400,
                 callback: function(btn) {
                     if(btn == 'ok') {
-                        // TODO: Не применяется для дефолтных в сдк 
                         me.api.asc_resetAllShortcutTypes();
                         for (const actionType in Asc.c_oAscDefaultShortcuts) {
                             const actionItem = me._state.actionsMap[actionType];
                             actionItem.shortcuts = Asc.c_oAscDefaultShortcuts[actionType].map(function(ascShortcut) {
-                                ascShortcut.asc_SetIsHidden(false);
                                 return {
                                     keys: me._getAscShortcutKeys(ascShortcut),
                                     isCustom: false,
@@ -465,7 +500,7 @@ define([
                                 }
                             });
                         }
-                        me._updateActionsList(me._state.actionsMap);
+                        me._updateActionsList();
                         me._removeModifiedShortcuts();
                     }
                 }

@@ -2790,9 +2790,7 @@ define([
                         return ascShortcut;
                     });
                 }
-                if(storage.length) {
-                    this.api.asc_applyAscShortcuts(_.flatten(_.values(storage)));
-                }
+                this.api.asc_applyAscShortcuts(_.flatten(_.values(storage)));
             },
 
             onSendThemeColors: function(colors, standart_colors) {
