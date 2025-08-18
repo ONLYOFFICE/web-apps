@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,7 +32,7 @@
 /**
  *  ChartSettings.js
  *
- *  Created on 4/11/14
+ *  Created on 8/18/25
  *
  */
 
@@ -42,8 +42,7 @@ define([
     'underscore',
     'backbone',
     'common/main/lib/component/Button',
-    'common/main/lib/component/ComboDataView',
-    'pdfeditor/main/app/view/ChartSettingsAdvanced'
+    'common/main/lib/component/ComboDataView'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -89,6 +88,8 @@ define([
             el.html(this.template({
                 scope: this
             }));
+            this.ExternalOnlySettings = $('.external-only');
+            this.OpenLinkSettings = $('.open-link');
         },
 
         setApi: function(api) {
@@ -96,8 +97,13 @@ define([
             if (this.api) {
                 this.api.asc_registerCallback('asc_onUpdateChartStyles', _.bind(this._onUpdateChartStyles, this));
                 this.api.asc_registerCallback('asc_onAddChartStylesPreview', _.bind(this.onAddChartStylesPreview, this));
+                this.api.asc_registerCallback('asc_onStartUpdateExternalReference', _.bind(this.onStartUpdateExternalReference, this));
             }
             return this;
+        },
+
+        setMode: function(mode) {
+            this.mode = mode;
         },
 
         ChangeSettings: function(props) {
@@ -111,8 +117,18 @@ define([
                 this._noApply = true;
                 this.chartProps = props.get_ChartProperties();
 
+                var externalRef = this.chartProps.getExternalReference();
+                this.lblLinkData.text(externalRef ? this.textLinkedData : this.textData);
+                this.btnEditData.setCaption(externalRef ? this.textSelectData : this.textEditData);
+                this.ExternalOnlySettings.toggleClass('settings-hidden', !externalRef);
+                var text = externalRef ? (externalRef.asc_getSource() || '').replace(new RegExp("%20",'g')," ") : '';
+                this.linkExternalSrc.text(text);
+                this.OpenLinkSettings.toggleClass('settings-hidden', !text || !(this.mode.canRequestOpen || this.mode.isOffline));
+
                 var value = props.get_SeveralCharts() || this._locked;
-                this.btnEditData.setDisabled(value);
+                this.btnEditData.setDisabled(value || externalRef && this._state.isUpdatingReference);
+                this.btnUpdateData.setDisabled(value || this._state.isUpdatingReference);
+                this.btnEditLinks.setDisabled(this._locked);
                 this._state.SeveralCharts=value;
 
                 value = props.get_SeveralChartTypes();
@@ -122,8 +138,8 @@ define([
                 } else {
                     var type = props.getType();
                     if (this._state.ChartType !== type) {
-                        var record = this.mnuChartTypePicker.store.findWhere({type: type});
-                        this.mnuChartTypePicker.selectRecord(record, true);
+                        var record = this.mnuChartTypePicker ? this.mnuChartTypePicker.store.findWhere({type: type}) : null;
+                        this.mnuChartTypePicker && this.mnuChartTypePicker.selectRecord(record, true);
                         if (record) {
                             this.btnChartType.setIconCls('svgicon ' + 'chart-' + record.get('iconCls'));
                         } else
@@ -134,6 +150,7 @@ define([
                         this._state.ChartType = type;
                     }
                 }
+                this.btnChartType.setDisabled(!this.mnuChartTypePicker || this._locked);
 
                 if (!(type==Asc.c_oAscChartTypeSettings.comboBarLine || type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
                     type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom)) {
@@ -259,29 +276,51 @@ define([
                 }),
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textChartType
             });
-            this.btnChartType.on('render:after', function(btn) {
-                me.mnuChartTypePicker = new Common.UI.DataView({
-                    el: $('#id-chart-menu-type'),
-                    parentMenu: btn.menu,
-                    restoreHeight: 535,
-                    groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
-                    store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
-                    delayRenderTips: true,
-                    delaySelect: Common.Utils.isSafari
-                });
-            });
+            this.btnChartType.on('render:after', _.bind(this.createChartTypeMenu, this));
             this.btnChartType.render($('#chart-button-type'));
-            this.mnuChartTypePicker.on('item:click', _.bind(this.onSelectType, this, this.btnChartType));
             this.lockedControls.push(this.btnChartType);
 
             this.btnEditData = new Common.UI.Button({
-                el: $('#chart-button-edit-data')
+                parentEl: $('#chart-button-edit-data'),
+                cls         : 'btn-toolbar align-left',
+                iconCls     : 'toolbar__icon btn-select-range',
+                caption     : this.textEditData,
+                style       : 'width: 100%;',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
-            this.btnEditData.on('click', _.bind(this.setEditData, this));
             this.lockedControls.push(this.btnEditData);
+            this.btnEditData.on('click', _.bind(this.setEditData, this));
+
+            this.btnUpdateData = new Common.UI.Button({
+                parentEl: $('#chart-button-update-data'),
+                cls         : 'btn-toolbar align-left',
+                iconCls     : 'toolbar__icon btn-update',
+                caption     : this.textUpdateData,
+                style       : 'width: 100%;',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.lockedControls.push(this.btnUpdateData);
+            this.btnUpdateData.on('click', _.bind(this.onUpdateData, this));
+
+            this.btnEditLinks = new Common.UI.Button({
+                parentEl: $('#chart-button-edit-links'),
+                cls         : 'btn-toolbar align-left',
+                iconCls     : 'toolbar__icon btn-inserthyperlink',
+                caption     : this.textEditLinks,
+                style       : 'width: 100%;',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.lockedControls.push(this.btnEditLinks);
+            this.btnEditLinks.on('click', _.bind(this.onEditLinks, this));
 
             this.spnWidth = new Common.UI.MetricSpinner({
                 el: $('#chart-spin-width'),
@@ -293,7 +332,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textWidth
             });
             this.spinners.push(this.spnWidth);
             this.lockedControls.push(this.spnWidth);
@@ -308,7 +348,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textHeight
             });
             this.spinners.push(this.spnHeight);
             this.lockedControls.push(this.spnHeight);
@@ -351,7 +392,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textX
             });
             this.lockedControls.push(this.spnX);
             this.spnX.on('change', _.bind(this.onXRotation, this));
@@ -393,7 +435,8 @@ define([
                 minValue: -90,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textY
             });
             this.lockedControls.push(this.spnY);
             this.spnY.on('change', _.bind(this.onYRotation, this));
@@ -435,7 +478,8 @@ define([
                 minValue: 0.1,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textPerspective
             });
             this.lockedControls.push(this.spnPerspective);
             this.spnPerspective.on('change', _.bind(this.onPerspective, this));
@@ -519,7 +563,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.text3dDepth
             });
             this.lockedControls.push(this.spn3DDepth);
             this.spn3DDepth.on('change', _.bind(this.on3DDepth, this));
@@ -535,7 +580,8 @@ define([
                 minValue: 5,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.text3dHeight
             });
             this.lockedControls.push(this.spn3DHeight);
             this.spn3DHeight.on('change', _.bind(this.on3DHeight, this));
@@ -546,29 +592,57 @@ define([
 
             this.linkAdvanced = $('#chart-advanced-link');
             $(this.el).on('click', '#chart-advanced-link', _.bind(this.openAdvancedSettings, this));
+            this.linkExternalSrc = $('#chart-open-external-link');
+            $(this.el).on('click', '#chart-open-external-link', _.bind(this.openLink, this));
+            this.lblLinkData = $('#chart-data-lbl');
 
             this.NotCombinedSettings = $('.not-combined');
             this.Chart3DContainer = $('#chart-panel-3d-rotate');
         },
 
+        createChartTypeMenu: function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded() || this.mnuChartTypePicker) return;
+            this.mnuChartTypePicker = new Common.UI.DataView({
+                el: $('#id-chart-menu-type'),
+                parentMenu: this.btnChartType.menu,
+                restoreHeight: 535,
+                groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
+                store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
+                itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
+                delayRenderTips: true,
+                delaySelect: Common.Utils.isSafari
+            });
+            this.mnuChartTypePicker.on('item:click', _.bind(this.onSelectType, this, this.btnChartType));
+            var record = this.mnuChartTypePicker.store.findWhere({type: this._state.ChartType});
+            this.mnuChartTypePicker.selectRecord(record, true);
+            this.btnChartType.setIconCls(record ? 'svgicon ' + 'chart-' + record.get('iconCls') : 'svgicon');
+            this.btnChartType.setDisabled(this._locked);
+        },
+
         createDelayedElements: function() {
+            Common.NotificationCenter.on('script:loaded', _.bind(this.createPostLoadElements, this));
             this.createDelayedControls();
             this.updateMetricUnit();
             this._initSettings = false;
         },
 
+        createPostLoadElements: function() {
+            this.createChartTypeMenu();
+        },
+
         setEditData:   function() {
             if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
-            var diagramEditor = PE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-            if (diagramEditor) {
-                diagramEditor.setEditMode(true);
-                diagramEditor.show();
+            this.api.asc_editChartInFrameEditor();
+        },
 
-                var chart = this.api.asc_getChartObject();
-                if (chart) {
-                    diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
-                }
-            }
+        onUpdateData: function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+            Common.NotificationCenter.trigger('data:updatereferences', [this.chartProps.getExternalReference()]);
+        },
+
+        onEditLinks: function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+            Common.NotificationCenter.trigger('data:externallinks');
         },
 
         onSelectType: function(btn, picker, itemView, record) {
@@ -681,6 +755,7 @@ define([
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big',
                     delayRenderTips: true,
+                    ariaLabel: this.textChartType,
                     fillOnChangeVisibility: true
                 });
                 this.cmbChartStyle.render($('#chart-combo-style'));
@@ -766,7 +841,9 @@ define([
                             (new PDFE.Views.ChartSettingsAdvanced(
                                 {
                                     chartProps: elValue,
-                                    slideSize: {width: me.api.get_PageWidth(), height: me.api.get_PageHeight()},
+                                    slideSize: PDFE.getController('Toolbar').currentPageSize,
+                                    chartSettings: me.api.asc_getChartSettings(),
+                                    api : me.api,
                                     handler: function(result, value) {
                                         if (result == 'ok') {
                                             if (me.api) {
@@ -891,6 +968,21 @@ define([
             }
         },
 
+        openLink: function(e) {
+            if (this.linkExternalSrc.hasClass('disabled')) return;
+            Common.NotificationCenter.trigger('data:openlink', this.chartProps.getExternalReference());
+        },
+
+        onStartUpdateExternalReference: function(status) {
+            this._state.isUpdatingReference = status;
+            if (this._initSettings) return;
+
+            var externalRef = this.chartProps.getExternalReference();
+            this.btnEditData.setDisabled(this._locked || externalRef && this._state.isUpdatingReference);
+            this.btnUpdateData.setDisabled(this._locked || this._state.isUpdatingReference);
+            this.linkExternalSrc.toggleClass('disabled', this._locked || !!this._state.isUpdatingReference);
+        },
+
         setLocked: function (locked) {
             this._locked = locked;
         },
@@ -904,6 +996,7 @@ define([
                     item.setDisabled(disable);
                 });
                 this.linkAdvanced.toggleClass('disabled', disable);
+                this.linkExternalSrc.toggleClass('disabled', disable || !!this._state.isUpdatingReference);
             }
         },
 
@@ -929,6 +1022,11 @@ define([
         textWiden: 'Widen field of view',
         textRightAngle: 'Right Angle Axes',
         textAutoscale: 'Autoscale',
-        textDefault: 'Default Rotation'
+        textDefault: 'Default Rotation',
+        textUpdateData: 'Update Data',
+        textSelectData: 'Select Data',
+        textData: 'Data',
+        textEditLinks: 'Edit Links',
+        textLinkedData: 'Linked Data'
     }, PDFE.Views.ChartSettings || {}));
 });
