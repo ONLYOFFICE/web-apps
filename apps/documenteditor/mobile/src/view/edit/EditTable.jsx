@@ -42,16 +42,18 @@ const PageTableOptions = props => {
     const tableObject = storeFocusObjects.tableObject;
     const storeTableSettings = props.storeTableSettings;   
 
-    let distance, isRepeat, isResize, columnWidth, rowHeight, displayRowHeight, displayColumnWidth;
+    let distance, isRepeat, isResize, columnWidth, rowHeight, displayRowHeight, displayColumnWidth, isCellNoWrap;
     if (tableObject) {
         distance = Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getCellMargins(tableObject));
         isRepeat = storeTableSettings.getRepeatOption(tableObject);
         isResize = storeTableSettings.getResizeOption(tableObject);
+        isCellNoWrap = storeTableSettings.getCellWrapOption(tableObject);
         rowHeight = Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getRowHeight(tableObject));
         columnWidth = Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getColumnWidth(tableObject));
         displayRowHeight = Number(rowHeight.toFixed(2));
         displayColumnWidth = Number(columnWidth.toFixed(2));
     }
+    
     const [stateDistance, setDistance] = useState(distance);
 
     if (!tableObject && Device.phone) {
@@ -130,6 +132,14 @@ const PageTableOptions = props => {
                     </div>
                 </ListItem>
             </List>
+            
+            <BlockTitle>{_t.textCellOptions}</BlockTitle>
+            <List>
+                <ListItem title={_t.textWrap}>
+                    <Toggle checked={!isCellNoWrap} onToggleChange={()=> {props.onOptionCellWrap(!isCellNoWrap)}} />
+                </ListItem>
+            </List>
+
 
             <BlockTitle>{_t.textCellMargins}</BlockTitle>
             <List>
@@ -692,6 +702,7 @@ const EditTable = props => {
                     onOptionRepeat: props.onOptionRepeat,
                     onDistributeTable: props.onDistributeTable,
                     onChangeTableDimension: props.onChangeTableDimension,
+                    onOptionCellWrap: props.onOptionCellWrap
                 }}></ListItem>
                 <ListItem title={_t.textStyle} link='/edit-table-style/' routeProps={{
                     onStyleClick: props.onStyleClick,

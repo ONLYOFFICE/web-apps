@@ -74,10 +74,13 @@ export class storeTableSettings {
         return tableObject.get_TablePaddings().get_Top();
     }
     getRowHeight (tableObject) {
-        return tableObject.get_RowHeight()
+        return tableObject.get_RowHeight();
     }
     getColumnWidth (tableObject) {
-        return tableObject.get_ColumnWidth()
+        return tableObject.get_ColumnWidth();
+    }
+    getCellWrapOption (tableObject) {
+        return tableObject.get_CellsNoWrap();
     }
 
     // Fill color

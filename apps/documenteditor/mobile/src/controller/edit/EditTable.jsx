@@ -108,6 +108,14 @@ class EditTableController extends Component {
             api.tblApply(properties);
         }
     }
+    onOptionCellWrap (value) {
+        const api = Common.EditorApi.get();
+        if (api) {
+            const properties = new Asc.CTableProp();
+            properties.put_CellsNoWrap(value);
+            api.tblApply(properties);
+        }
+    }
     onWrapType (value) {
         const api = Common.EditorApi.get();
         if (api) {
@@ -263,6 +271,7 @@ class EditTableController extends Component {
                        onGetTableStylesPreviews = {this.onGetTableStylesPreviews}
                        onDistributeTable = {this.onDistributeTable}
                        onChangeTableDimension = {this.onChangeTableDimension}
+                       onOptionCellWrap = {this.onOptionCellWrap}
             />
         )
     }
