@@ -617,8 +617,8 @@ define([
             var itemsTemplate =
                 [
                     '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" data-value="<%= Common.Utils.String.htmlEncode(item.value) %>"><a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right: 10px;': 'padding-left: 10px;') + 'overflow: hidden; text-overflow: ellipsis;">',
-                            '<span class="color" style="background: <%= item.color %>;"></span>',
+                        '<li id="<%= item.id %>" data-value="<%= Common.Utils.String.htmlEncode(item.value) %>" <% if (item.value === "add_role") { %> class="border-top" <% } %>><a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right: 10px;': 'padding-left: 10px;') + 'overflow: hidden; text-overflow: ellipsis;">',
+                            '<% if (item.value !== "add_role") { %><span class="color" style="background: <%= item.color %>;"></span><% } %>',
                             '<%= Common.Utils.String.htmlEncode(item.displayValue) %>',
                         '</a></li>',
                     '<% }); %>'
@@ -652,7 +652,12 @@ define([
                 updateFormControl: function(record) {
                     var formcontrol = $(this.el).find('.form-control');
                     if (record) {
-                        formcontrol[0].innerHTML = '<span class="color" style="background:' + record.get('color') + ';"></span>' + Common.Utils.String.htmlEncode(record.get('displayValue'));
+                        if (record.get('value') === 'add_role') {
+                            formcontrol[0].innerHTML = Common.Utils.String.htmlEncode(record.get('displayValue'));
+                        } else {
+                            formcontrol[0].innerHTML = '<span class="color" style="background:' + record.get('color') + ';"></span>' + Common.Utils.String.htmlEncode(record.get('displayValue'));
+                        }
+
                     } else
                         formcontrol[0].innerHTML = '';
                 }
@@ -1930,6 +1935,9 @@ define([
                     color: color ? '#' + Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()) : 'transparent'
                 });
             });
+
+            arr.push({ displayValue: this.textAddRole, value: 'add_role' });
+
             this.cmbRoles.setData(arr);
             this.cmbRoles.setValue(lastrole);
         },
@@ -1937,13 +1945,43 @@ define([
         onRolesChanged: function(combo, record) {
             if (this.api && !this._noApply) {
                 this._state.Role = undefined;
-                var props   = this._originalProps || new AscCommon.CContentControlPr();
+
+                var me = this;
+                var props = this._originalProps || new AscCommon.CContentControlPr();
                 var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
-                formPr.put_Role(record.value);
-                props.put_FormPr(formPr);
-                this.api.asc_SetContentControlProperties(props, this.internalId);
-                Common.Utils.InternalSettings.set('de-last-form-role', record.value)
-                this.fireEvent('editcomplete', this);
+
+                if (record.value === 'add_role') {
+                    combo.setValue(formPr.get_Role());
+
+                    const formManager = this.api.asc_GetOForm();
+
+                    new DE.Views.RoleEditDlg({
+                        oformManager: formManager,
+                        colors: [],
+                        isEdit: false,
+                        handler: function (result, settings) {
+                            if (result === 'ok' && settings) {
+                                const role = new AscCommon.CRoleSettings();
+                                role.asc_putName(settings.name);
+                                role.asc_putColor(settings.color);
+                                this.oformManager.asc_addRole(role);
+
+                                formPr.put_Role(settings.name);
+                                props.put_FormPr(formPr);
+                                me.api.asc_SetContentControlProperties(props, me.internalId);
+                                Common.Utils.InternalSettings.set('de-last-form-role', settings.name);
+                            }
+                        }
+                    }).on('close', () => {
+                        me.fireEvent('editcomplete', this);
+                    }).show();
+                } else {
+                    formPr.put_Role(record.value);
+                    props.put_FormPr(formPr);
+                    this.api.asc_SetContentControlProperties(props, this.internalId);
+                    Common.Utils.InternalSettings.set('de-last-form-role', record.value)
+                    this.fireEvent('editcomplete', this);
+                }
             }
         },
 
