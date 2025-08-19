@@ -476,6 +476,8 @@
       "textSplit": "Split",
       "textStartOnClick": "Start on click",
       "textStrikethrough": "Strikethrough",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
       "textStyle": "Style",
       "textStyleOptions": "Style Options",
       "textSubscript": "Subscript",
