@@ -1280,7 +1280,7 @@ define([
                                     checkable: true,
                                     template: pageMarginsTemplate,
                                     toggleGroup: 'menuPageMargins',
-                                    value: (/^(ca|us)$/i.test(Common.Utils.InternalSettings.get("de-config-region"))) ? [25.4, 25.4, 25.4, 25.4] : [20, 30, 20, 15]
+                                    value: [25.4, 25.4, 25.4, 25.4]
                                 },
                                 {
                                     caption: this.textMarginsNarrow,
