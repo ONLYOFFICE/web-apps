@@ -2782,15 +2782,31 @@ define([
             },
 
             applyShortcuts: function() {
-                const storage = JSON.parse(Common.localStorage.getItem("de-shortcuts") || "{}");
-                for (const actionType in storage) {
-                    storage[actionType] = storage[actionType].map(function(ascShortcutJson) {
-                        const ascShortcut = new Asc.CAscShortcut();
-                        ascShortcut.asc_FromJson(ascShortcutJson);
-                        return ascShortcut;
-                    });
-                }
-                this.api.asc_applyAscShortcuts(_.flatten(_.values(storage)));
+                const applyMethod = function(storage) {
+                    storage = JSON.parse(storage || Common.localStorage.getItem("de-shortcuts") || "{}");
+                    for (const actionType in storage) {
+                        storage[actionType] = storage[actionType].map(function(ascShortcutJson) {
+                            const ascShortcut = new Asc.CAscShortcut();
+                            ascShortcut.asc_FromJson(ascShortcutJson);
+                            return ascShortcut;
+                        });
+                    }
+
+                    this.api.asc_resetAllShortcutTypes();
+                    
+                    const modifiedShortcuts = _.flatten(_.values(storage));
+                    if(modifiedShortcuts.length) {
+                        this.api.asc_applyAscShortcuts(modifiedShortcuts);
+                    }
+                }.bind(this);
+
+                $(window).on('storage', function (e) {
+                    if(e.key == 'de-shortcuts') {
+                        applyMethod(e.originalEvent.newValue);
+                    }
+                }.bind(this))
+
+                applyMethod();
             },
 
             onSendThemeColors: function(colors, standart_colors) {

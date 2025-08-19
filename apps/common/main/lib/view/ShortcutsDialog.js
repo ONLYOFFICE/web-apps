@@ -122,6 +122,12 @@ define([
             this.resetAllBtn = this.$window.find('#reset-all-btn');
             this.resetAllBtn.on('click', _.bind(this.onResetAll, this));
 
+
+            $(window).on('storage', function (e) {
+                if(e.key == 'de-shortcuts') {
+                    this._setDefaults();
+                }
+            }.bind(this))
             this._setDefaults();
         },
 
@@ -211,8 +217,20 @@ define([
             return storage;
         },
 
-        _saveModifiedShortcuts: function(actionsMap) {
-            const customShortcuts = _.extend({}, this._getModifiedShortcuts(), actionsMap || {});
+        _saveModifiedShortcuts: function(savedActionsMap, removedActionsMap) {
+            const customShortcuts = _.extend({}, this._getModifiedShortcuts(), savedActionsMap || {});
+
+            for (const actionType in removedActionsMap || {}) {
+                if (!customShortcuts[actionType]) continue;
+
+                const removed = removedActionsMap[actionType];
+                customShortcuts[actionType] = _.filter(customShortcuts[actionType], function(ascShortcut) {
+                    return !_.some(removed, function(r) {
+                        return ascShortcut.asc_GetShortcutIndex() === r.asc_GetShortcutIndex();
+                    });
+                });
+            }
+
             for (const actionType in customShortcuts) {
                 customShortcuts[actionType] = customShortcuts[actionType].map(function(ascShortcut) {
                     return ascShortcut.asc_ToJson();
@@ -221,7 +239,7 @@ define([
             Common.localStorage.setItem(this.appPrefix + "shortcuts", JSON.stringify(customShortcuts));
         },
 
-        _removeModifiedShortcuts: function() {
+        _removeAllModifiedShortcuts: function() {
             Common.localStorage.setItem(this.appPrefix + "shortcuts", '');
         },
 
@@ -351,7 +369,7 @@ define([
                 handler: function(result, updatedShortcuts) {
                     if (result != 'ok') return;
 
-                    const resultShortcuts = [];
+                    let resultShortcuts = [];
                     const originalShortcuts = record.get('shortcuts');
 
                     originalShortcuts.forEach(function(item) {
@@ -386,7 +404,7 @@ define([
                     const removableIndexes = updatedShortcuts.map(function(item) { 
                         return item.ascShortcut.asc_GetShortcutIndex()
                     });
-                    const removableItems = {};
+                    const removableFromStorage = {};
                     for (const type in me._state.actionsMap) {
                         if(removableIndexes.length == 0) break;
                         if(type == actionType) continue;
@@ -402,50 +420,46 @@ define([
                             copyAscShortcut.asc_FromJson(shortcuts[foundShortcutIndex].ascShortcut.asc_ToJson());
                             copyAscShortcut.asc_SetIsHidden(true);
                             shortcuts[foundShortcutIndex].ascShortcut = copyAscShortcut;
-                            removableItems[type] = [shortcuts[foundShortcutIndex]];
+
+                            !removableFromStorage[type] && (removableFromStorage[type] = []);
+                            removableFromStorage[type].push(shortcuts[foundShortcutIndex].ascShortcut);
                         }
                     }
                     me._updateActionsList();
 
-                    const merged = _.extend({}, removableItems, { [actionType]: resultShortcuts });
-                    me.api.asc_applyAscShortcuts(_.flatten(_.values(merged)).map(function(shortcut) { 
+                    me.api.asc_applyAscShortcuts(resultShortcuts.map(function(shortcut) { 
                         return shortcut.ascShortcut;
                     }));
 
                     //Filter for save in local storage
-                    merged[actionType] = _.filter(merged[actionType], function(item) { 
-                        return item.isCustom !== item.ascShortcut.asc_IsHidden();
-                    });
-                    for (const type in merged) {
-                        merged[type] = merged[type].map(function(shortcut) {
+                    const savedInStorage = {
+                        [actionType] : _.filter(resultShortcuts, function(item) { 
+                            return item.isCustom !== item.ascShortcut.asc_IsHidden();
+                        }).map(function(shortcut) {
                             return shortcut.ascShortcut;
                         })
-                    }
-                    me._saveModifiedShortcuts(merged);
+                    };
+                    me._saveModifiedShortcuts(savedInStorage, removableFromStorage);
+                },
+                isDefaultShortcut: function(ascShortcut) {
+                    const shortcutIndex = ascShortcut.asc_GetShortcutIndex();
+                    return _.some(Asc.c_oAscDefaultShortcuts[actionType], function(someAscShortcut) {
+                        return shortcutIndex == someAscShortcut.asc_GetShortcutIndex();
+                    });
                 },
                 findAssignedActions: function(ascShortcut, extraAction) {
-                    var shortcutIndex = ascShortcut.asc_GetShortcutIndex();
-                    var foundItems = [];
-                    var values = _.values(me._state.actionsMap);
+                    const shortcutIndex = ascShortcut.asc_GetShortcutIndex();
+                    const foundItems = [];
+                    const values = _.values(me._state.actionsMap);
 
-                    for (var i = 0; i < values.length; i++) {
-                        var item = values[i];
+                    for (let i = 0; i < values.length; i++) {
+                        let item = values[i];
 
-                        if (actionType === item.action.type) {
-                            var existsInDefaultHidden = _.some(item.shortcuts, function(shortcut) {
-                                return !shortcut.isCustom &&
-                                    shortcut.ascShortcut.asc_GetShortcutIndex() == shortcutIndex;
-                            });
-
-                            if (existsInDefaultHidden) {
-                                foundItems = [];
-                                break;
-                            } else if (extraAction) {
-                                item = extraAction;
-                            }
+                        if (actionType === item.action.type && extraAction) {
+                            item = extraAction;
                         }
 
-                        var existsVisible = _.some(item.shortcuts, function(shortcut) {
+                        const existsVisible = _.some(item.shortcuts, function(shortcut) {
                             return shortcut.ascShortcut.asc_GetShortcutIndex() == shortcutIndex &&
                                 !shortcut.ascShortcut.asc_IsHidden();
                         });
@@ -501,7 +515,7 @@ define([
                             });
                         }
                         me._updateActionsList();
-                        me._removeModifiedShortcuts();
+                        me._removeAllModifiedShortcuts();
                     }
                 }
             });

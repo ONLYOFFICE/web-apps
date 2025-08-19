@@ -212,12 +212,14 @@ define([
 
             this.shortcutsCollection.each(function(item) {
                 const ascShortcut = item.get('ascShortcut');
-                let assignedActionNames = [];
-                let assignedActions = me.options.findAssignedActions(ascShortcut, {
+                const assignedActionNames = [];
+                const assignedActions = me.options.findAssignedActions(ascShortcut, {
                     action: me.options.action,
                     shortcuts: me.shortcutsCollection.toJSON().slice(0, _.indexOf(me.shortcutsCollection.models, item))
                 });
-                let isDisabled = _.some(assignedActions, function(action) { return action.isLocked; });
+                const isDefaultShortcut = me.options.isDefaultShortcut(ascShortcut);
+                const isDisabled = !isDefaultShortcut && 
+                    _.some(assignedActions, function(action) { return action.isLocked; });
                 
                 isButtonDisabled = isButtonDisabled || isDisabled;
 
