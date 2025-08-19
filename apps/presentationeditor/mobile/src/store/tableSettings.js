@@ -55,11 +55,11 @@ export class storeTableSettings {
     }
 
     getRowHeight (tableObject) {
-        return tableObject.get_RowHeight()
+        return tableObject.get_RowHeight();
     }
     
     getColumnWidth (tableObject) {
-        return tableObject.get_ColumnWidth()
+        return tableObject.get_ColumnWidth();
     }
 
     // Fill color

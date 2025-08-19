@@ -531,18 +531,19 @@ const PageAlign = props => {
 const PageSize = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const tableObject = props.storeFocusObjects.tableObject;
     const storeTableSettings = props.storeTableSettings;
-    const metricText = Common.Utils.Metric.getCurrentMetricName();
-    const rowHeight = Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getRowHeight(tableObject));
-    const columnWidth = Common.Utils.Metric.fnRecalcFromMM(storeTableSettings.getColumnWidth(tableObject));
-    const displayRowHeight = Number(rowHeight.toFixed(2));
-    const displayColumnWidth = Number(columnWidth.toFixed(2));
-
+    const tableObject = props.storeFocusObjects.tableObject;
+    
     if (!tableObject && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
         return null;
     }
+
+    const metricText = Common.Utils.Metric.getCurrentMetricName();
+    const rowHeight = Common.Utils.Metric.fnRecalcFromMM(storeTableSettings?.getRowHeight(tableObject));
+    const columnWidth = Common.Utils.Metric.fnRecalcFromMM(storeTableSettings?.getColumnWidth(tableObject));
+    const displayRowHeight = Number(rowHeight.toFixed(2));
+    const displayColumnWidth = Number(columnWidth.toFixed(2));
 
     return (
         <Page>
