@@ -644,7 +644,7 @@ define([
                     in_equation = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Annot) {
                     in_annot = true;
-                    if (pr.asc_getCanEditText())
+                    if (pr.asc_getCanEditText && pr.asc_getCanEditText())
                         no_text = false;
                 } else if (type == Asc.c_oAscTypeSelectElement.PdfPage) {
                     page_deleted = pr.asc_getDeleteLock();
