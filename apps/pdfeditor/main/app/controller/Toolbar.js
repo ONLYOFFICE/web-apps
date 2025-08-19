@@ -607,6 +607,7 @@ define([
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
                 pr   = selectedObjects[i].get_ObjectValue();
+                if (!pr) continue;
 
                 if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
                     paragraph_locked = pr.get_Locked();
@@ -643,8 +644,9 @@ define([
                 } else if (type === Asc.c_oAscTypeSelectElement.Math) {
                     in_equation = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Annot) {
+                    var annotPr = pr.asc_getAnnotProps();
                     in_annot = true;
-                    if (pr.asc_getCanEditText && pr.asc_getCanEditText())
+                    if (annotPr && annotPr.asc_getCanEditText && annotPr.asc_getCanEditText())
                         no_text = false;
                 } else if (type == Asc.c_oAscTypeSelectElement.PdfPage) {
                     page_deleted = pr.asc_getDeleteLock();
@@ -1281,8 +1283,10 @@ define([
         },
 
         onStartAddShapeChanged: function() {
-            if ( this.toolbar.btnShapeComment.pressed )
+            if ( this.toolbar.btnShapeComment.pressed ) {
                 this.toolbar.btnShapeComment.toggle(false, true);
+                this.toolbar.btnShapeComment.menu.clearAll(true);
+            }
 
             $(document.body).off('mouseup', this.binding.checkInsertShapeComment);
         },
