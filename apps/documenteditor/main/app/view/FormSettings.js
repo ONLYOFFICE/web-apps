@@ -2023,7 +2023,12 @@ define([
         onThemeChanged: function() {
             var el = this.$el || $(this.el);
             this._themeChanged = !el.is(':visible');
-            !this._themeChanged && this.cmbRoles && this.cmbRoles.setWidth(el.width());
+            if (!this._themeChanged && this.cmbRoles) {
+                var width = el.width();
+                this.cmbRoles.setWidth(width);
+                this.cmbRoles.cmpEl && this.cmbRoles.cmpEl.find('.form-control').css('width', width + 'px');
+
+            }
         }
 
     }, DE.Views.FormSettings || {}));
