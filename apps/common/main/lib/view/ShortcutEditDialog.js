@@ -91,7 +91,7 @@ define([
         _setDefaults: function() {
             this.shortcutsCollection = new Backbone.Collection([]);
             this.shortcutsCollection.on('add remove reset', this._renderShortcutsList, this);
-            this.shortcutsCollection.on('add remove reset change:keys', this._renderShortcutsWarning, this);
+            this.shortcutsCollection.on('add remove reset change:keys', this.renderShortcutsWarning, this);
 
             this.shortcutsCollection.reset(this.options.shortcuts);
             if(this.shortcutsCollection.length == 0) {
@@ -206,7 +206,7 @@ define([
             this.fixHeight();
         },
         
-        _renderShortcutsWarning: function() {
+        renderShortcutsWarning: function() {
             const me = this;
             let isButtonDisabled = false;
 
@@ -214,7 +214,7 @@ define([
                 const ascShortcut = item.get('ascShortcut');
                 const assignedActionNames = [];
                 const assignedActions = me.options.findAssignedActions(ascShortcut, {
-                    action: me.options.action,
+                    actionType: me.options.action.type,
                     shortcuts: me.shortcutsCollection.toJSON().slice(0, _.indexOf(me.shortcutsCollection.models, item))
                 });
                 const isDefaultShortcut = me.options.isDefaultShortcut(ascShortcut);

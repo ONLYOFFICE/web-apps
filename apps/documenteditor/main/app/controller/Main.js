@@ -2783,7 +2783,7 @@ define([
 
             applyShortcuts: function() {
                 const applyMethod = function(storage) {
-                    storage = JSON.parse(storage || Common.localStorage.getItem("de-shortcuts") || "{}");
+                    storage = JSON.parse(storage || Common.localStorage.getItem("shortcuts") || "{}");
                     for (const actionType in storage) {
                         storage[actionType] = storage[actionType].map(function(ascShortcutJson) {
                             const ascShortcut = new Asc.CAscShortcut();
@@ -2801,7 +2801,7 @@ define([
                 }.bind(this);
 
                 $(window).on('storage', function (e) {
-                    if(e.key == 'de-shortcuts') {
+                    if(e.key == 'shortcuts') {
                         applyMethod(e.originalEvent.newValue);
                     }
                 }.bind(this))

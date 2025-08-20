@@ -73,9 +73,6 @@ define([
                 searchValue: ''
             };
 
-            let filter = Common.localStorage.getKeysFilter();
-            this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
-
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
 
@@ -124,8 +121,9 @@ define([
 
 
             $(window).on('storage', function (e) {
-                if(e.key == 'de-shortcuts') {
+                if(e.key == 'shortcuts') {
                     this._setDefaults();
+                    this.shortcutEditDialog && this.shortcutEditDialog.renderShortcutsWarning();
                 }
             }.bind(this))
             this._setDefaults();
@@ -205,8 +203,13 @@ define([
             return keys;
         },
 
+        /**
+         * Retrieves user-modified shortcuts from localStorage.
+         * @returns {Object<number, CAscShortcut[]>}
+         *  An object where keys are action types and values are arrays of ascShortcut instances.
+        */
         _getModifiedShortcuts: function() {
-            const storage = JSON.parse(Common.localStorage.getItem(this.appPrefix + "shortcuts") || "{}");
+            const storage = JSON.parse(Common.localStorage.getItem("shortcuts") || "{}");
             for (const actionType in storage) {
                 storage[actionType] = storage[actionType].map(function(ascShortcutJson) {
                     const ascShortcut = new Asc.CAscShortcut();
@@ -217,6 +220,22 @@ define([
             return storage;
         },
 
+        /**
+         * Saves modified shortcuts to localStorage by applying added and removed changes.
+         * @param {Object<number, CAscShortcut[]>} savedActionsMap
+         *   An object containing new or updated shortcuts, grouped by action type.
+         * @param {Object<number, CAscShortcut[]>} removedActionsMap
+         *   An object containing shortcuts to be removed, grouped by action type.
+         * @example
+         * this._saveModifiedShortcuts(
+         *   { "7": [ascShortcut1, ascShortcut2] },
+         *   { "52": [ascShortcut3] }
+         * );
+         * // Result:
+         * // - For action type "7", shortcuts are replaced with [ascShortcut1, ascShortcut2]
+         * // - For action type "52", ascShortcut3 is removed
+         * // - The final shortcuts are saved to localStorage
+        */
         _saveModifiedShortcuts: function(savedActionsMap, removedActionsMap) {
             const customShortcuts = _.extend({}, this._getModifiedShortcuts(), savedActionsMap || {});
 
@@ -236,18 +255,27 @@ define([
                     return ascShortcut.asc_ToJson();
                 });
             }
-            Common.localStorage.setItem(this.appPrefix + "shortcuts", JSON.stringify(customShortcuts));
+            Common.localStorage.setItem("shortcuts", JSON.stringify(customShortcuts));
         },
 
         _removeAllModifiedShortcuts: function() {
-            Common.localStorage.setItem(this.appPrefix + "shortcuts", '');
+            Common.localStorage.setItem("shortcuts", '');
+        },
+
+        _getDefaultShortcutType: function() {
+            if(window.DE) {
+                return Asc.c_oAscDocumentShortcutType;
+            } else if(window.PE) {
+                return Asc.c_oAscPresentationShortcutType;
+            }
         },
 
         _setDefaults: function() {
             const me = this;
             let actionsMap = {};
-            for (let actionName in Asc.c_oAscDocumentShortcutType) {
-                const type = Asc.c_oAscDocumentShortcutType[actionName];
+            const defaultShortcutType = this._getDefaultShortcutType();
+            for (let actionName in defaultShortcutType) {
+                const type = defaultShortcutType[actionName];
                 actionsMap[type] = {
                     action: {
                         name: this['txtLabel' + actionName],
@@ -300,7 +328,7 @@ define([
             })
 
             this._state.actionsMap = actionsMap;
-            this.actionsList.store.reset(_.values(actionsMap))
+            this._updateActionsList();
         },
 
         _updateActionsList: function() {
@@ -355,7 +383,7 @@ define([
             const unhiddenShortcuts = _.filter(record.get('shortcuts'), function(shortcut) {
                 return !shortcut.ascShortcut.asc_IsHidden();
             });
-            const win = new Common.Views.ShortcutEditDialog({
+            this.shortcutEditDialog = new Common.Views.ShortcutEditDialog({
                 action: record.get('action'),
                 shortcuts: unhiddenShortcuts.map(function(shortcut) {
                     const copyAscShortcut = new Asc.CAscShortcut();
@@ -372,6 +400,7 @@ define([
                     let resultShortcuts = [];
                     const originalShortcuts = record.get('shortcuts');
 
+                    // Update hidden status and create copies for those not in updatedShortcuts
                     originalShortcuts.forEach(function(item) {
                         const existsInUpdated = _.some(updatedShortcuts, function(el) { 
                             return el.ascShortcut.asc_GetShortcutIndex() === item.ascShortcut.asc_GetShortcutIndex();
@@ -385,6 +414,7 @@ define([
                         resultShortcuts.push(item);
                     });
 
+                    // Add new custom shortcuts that are not in originalShortcuts
                     updatedShortcuts.forEach(function(item) {
                         const existsInOriginal = _.some(originalShortcuts, function(el) { 
                             return el.ascShortcut.asc_GetShortcutIndex() === item.ascShortcut.asc_GetShortcutIndex();
@@ -396,11 +426,9 @@ define([
                     });
 
                     const action = me._state.actionsMap[actionType];
-                    if(action) {
-                        action.shortcuts = resultShortcuts;
-                    }
+                    action && (action.shortcuts = resultShortcuts);
 
-                    // Remove shortcuts for conflicting actions 
+                    // Remove shortcuts from other actions if they conflict with updated shortcuts
                     const removableIndexes = updatedShortcuts.map(function(item) { 
                         return item.ascShortcut.asc_GetShortcutIndex()
                     });
@@ -441,12 +469,27 @@ define([
                     };
                     me._saveModifiedShortcuts(savedInStorage, removableFromStorage);
                 },
+                // Is this shortcut default for this action?
                 isDefaultShortcut: function(ascShortcut) {
                     const shortcutIndex = ascShortcut.asc_GetShortcutIndex();
-                    return _.some(Asc.c_oAscDefaultShortcuts[actionType], function(someAscShortcut) {
+                    return _.some(Asc.c_oAscDefaultShortcuts[ascShortcut.asc_GetType()], function(someAscShortcut) {
                         return shortcutIndex == someAscShortcut.asc_GetShortcutIndex();
                     });
                 },
+
+                /**
+                 * Finds all actions that already have the given shortcut assigned.
+                 *
+                 * If `extraAction` is provided and its `extraAction.actionType` matches the current item,
+                 * the method will check `extraAction.shortcuts` instead of the original shortcuts.
+                 *
+                 * @param {CAscShortcut} ascShortcut The shortcut to search for.
+                 * 
+                 * @param {Object} [extraAction] Optional object that can replace the shortcuts of a matching action.
+                 * @param {number} extraAction.actionType The type of the action to match.
+                 * @param {CAscShortcut[]} extraAction.shortcuts Custom list of shortcuts to check for this action.
+                 * @returns {Object[]} Array of action objects that already use the given shortcut.
+                 */
                 findAssignedActions: function(ascShortcut, extraAction) {
                     const shortcutIndex = ascShortcut.asc_GetShortcutIndex();
                     const foundItems = [];
@@ -455,7 +498,7 @@ define([
                     for (let i = 0; i < values.length; i++) {
                         let item = values[i];
 
-                        if (actionType === item.action.type && extraAction) {
+                        if (extraAction && extraAction.actionType === item.action.type ) {
                             item = extraAction;
                         }
 
@@ -471,6 +514,14 @@ define([
 
                     return _.map(foundItems, function(item) { return item.action; });
                 },
+                
+                /**
+                 * Returns the default shortcuts for the current action type.
+                 *
+                 * @returns {Array<Object>} Array of shortcut objects.
+                 * @returns {string[]}   return[].keys - Array of key strings representing the shortcut (["Ctrl", "S"]).
+                 * @returns {ascShortcut} return[].ascShortcut - Instance of CAscShortcut.
+                */
                 getDefaultShortcuts: function() {
                     const ascShortcuts = Asc.c_oAscDefaultShortcuts[actionType];
                     return ascShortcuts.map(function(ascShortcut) {
@@ -484,7 +535,10 @@ define([
                     });
                 } 
             });
-            win.show();
+            this.shortcutEditDialog.show();
+            this.shortcutEditDialog.on('close', function() {
+                me.shortcutEditDialog = null;
+            });
         },
 
         onInputSearch: function(event) {
