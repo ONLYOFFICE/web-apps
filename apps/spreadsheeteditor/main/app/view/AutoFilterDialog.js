@@ -1430,13 +1430,13 @@ define([], function () {
                     this.miSortCellColor,
                     this.miSortFontColor,
                     {caption     : '--'},
-                    this.miLabelFilter,
-                    this.miValueFilter,
                     this.miNumFilter,
                     this.miTextFilter,
                     this.miDateFilter,
                     this.miFilterCellColor,
                     this.miFilterFontColor,
+                    this.miLabelFilter,
+                    this.miValueFilter,
                     this.miClear,
                     this.miReapplySeparator,
                     this.miReapply
@@ -2040,17 +2040,15 @@ define([], function () {
             var menuPanel = this.$window.find('.menu-panel');
             var pivotObj = this.configTo.asc_getPivotObj(),
                 isPivot = !!pivotObj,
-                isValueFilter = false;
-
-            this.miValueFilter.setVisible(isPivot);
-            this.miLabelFilter.setVisible(isPivot);
-            this.miSortOptions.setVisible(isPivot);
+                isValueFilter = false,
+                isPivotLabelVisible = false;
 
             if (isPivot) {
                 this.miReapplySeparator.setVisible(false);
                 this.miReapply.setVisible(false);
 
                 isValueFilter = (pivotObj.asc_getDataFieldIndexFilter()!==0);
+                isPivotLabelVisible = pivotObj.asc_getIsLabelFilter();
             }
 
             var filterObj = this.configTo.asc_getFilterObj(),
@@ -2066,9 +2064,15 @@ define([], function () {
 
             if (sortColor) sortColor = Common.Utils.ThemeColor.getHexColor(sortColor.get_r(), sortColor.get_g(), sortColor.get_b()).toLocaleUpperCase();
 
+            this.miValueFilter.setVisible(isPivot);
+            this.miLabelFilter.setVisible(isPivot && isPivotLabelVisible);
+            this.miSortOptions.setVisible(isPivot);
+
             this.miTextFilter.setVisible(!isPivot && isTextFilter);
-            this.miDateFilter.setVisible(!isPivot && isDateFilter);
             this.miNumFilter.setVisible(!isPivot && !isTextFilter && !isDateFilter);
+
+            this.miDateFilter.setVisible(!isPivot && isDateFilter || isPivot && !isPivotLabelVisible);
+
             this.miTextFilter.setChecked(isCustomFilter && isTextFilter, true);
             this.miNumFilter.setChecked((isCustomFilter || isDynamicFilter || isTop10) && !isTextFilter, true);
             this.miDateFilter.setChecked((isDynamicFilter || isCustomFilter) && isDateFilter, true);
@@ -2125,7 +2129,7 @@ define([], function () {
                     isAnd = (customFilter.asc_getAnd()),
                     cond1 = customFilters[0].asc_getOperator(),
                     cond2 = ((customFilters.length>1) ? (customFilters[1].asc_getOperator() || 0) : 0),
-                    items = isPivot ? (isValueFilter ? this.miValueFilter.menu.items : this.miLabelFilter.menu.items) :
+                    items = isPivot ? (isValueFilter ? this.miValueFilter.menu.items : (isDateFilter ? this.miDateFilter.menu.items : this.miLabelFilter.menu.items)) :
                         (isTextFilter ? this.miTextFilter.menu.items : (isDateFilter ? this.miDateFilter.menu.items : this.miNumFilter.menu.items)),
                     isCustomConditions = true;
 
@@ -2136,10 +2140,10 @@ define([], function () {
                         if (checked) isCustomConditions = false;
                     });
                 else if ((isPivot || !isTextFilter) && (cond1 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo)){
-                    items[isDateFilter ? 3 : (isPivot && !isValueFilter ? 13 : 6)].setChecked(true, true); // between filter
+                    items[isDateFilter ? 4 : (isPivot && !isValueFilter ? 15 : 7)].setChecked(true, true); // between filter
                     isCustomConditions = false;
                 } else if (isPivot && (cond1 == Asc.c_oAscCustomAutoFilter.isLessThan && cond2 == Asc.c_oAscCustomAutoFilter.isGreaterThan)) {
-                    items[!isValueFilter ? 14 : 7].setChecked(true, true); // not between filter
+                    items[!isValueFilter ? 16 : 8].setChecked(true, true); // not between filter
                     isCustomConditions = false;
                 }
                 if (isCustomConditions)
@@ -2158,7 +2162,7 @@ define([], function () {
                 }
             } else if (isDynamicFilter || isTop10) {
                 var dynType = (isDynamicFilter) ? filterObj.asc_getFilter().asc_getType() : null,
-                    items = isPivot ? this.miValueFilter.menu.items : (isDateFilter ? this.miDateFilter.menu.items : this.miNumFilter.menu.items);
+                    items = isDateFilter ? this.miDateFilter.menu.items : (isPivot ? this.miValueFilter.menu.items : this.miNumFilter.menu.items);
                 items.forEach(function(item){
                     item.setChecked(isDynamicFilter && (item.options.type == Asc.c_oAscAutoFilterTypes.DynamicFilter) && (item.value == dynType) ||
                                     isTop10 && (item.options.type == Asc.c_oAscAutoFilterTypes.Top10), true);
@@ -2175,7 +2179,7 @@ define([], function () {
                                 isChecked = true;
                             }
                         });
-                        isChecked && this.miDateFilter.menu.items[20].setChecked(isChecked, true);
+                        isChecked && this.miDatesInThePeriod.setChecked(isChecked, true);
                     }
                 }
             }
