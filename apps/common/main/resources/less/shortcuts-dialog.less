@@ -12,7 +12,7 @@
 
     #actions-list {
         width: 100%;
-        height: 277px;
+        height: 316px;
 
         .item {
             padding: 8px 16px;
@@ -24,17 +24,21 @@
                 align-items: center;
 
                 .action-name {
-                    width: 250px;
+                    min-width: 250px;
                     line-height: 21px;
                     .margin-right(4px);
+                    margin-top: 3px;
+                    margin-bottom: 3px;
                 }
 
                 .action-keys {
                     display: flex;
+                    flex-wrap: wrap;
                     .margin-right(4px);
 
                     .action-keys-item {
                         display: flex;
+                        margin: 3px 0px;
                         
                         .action-keys-item-plus {
                             margin: 0 3px;
@@ -56,6 +60,7 @@
                         display: flex;
                         align-items: flex-end;
                         padding: 2px 4px 2px 2px;
+                        margin: 3px 0px;
                         .rtl & {
                             padding: 2px 2px 2px 4px;
                         }
