@@ -599,7 +599,7 @@ define([], function () {
                                 '<div id="id-btn-date-picker-2" class="margin-left-5 display-inline-block-middle"></div>',
                             '<% } %>',
                         '</div>',
-                        '<% if (type !== "date") {%>',
+                        '<% if (type == "label") {%>',
                         '<div style="margin-top:10px;">',
                             '<label style="display:block;">' + t.textUse1 + '</label>',
                             '<label style="display:block;">' + t.textUse2 + '</label>',
@@ -652,15 +652,18 @@ define([], function () {
             this.cmbCondition1.setValue(Asc.c_oAscCustomAutoFilter.equals);
             this.cmbCondition1.on('selected', _.bind(function(combo, record) {
                 var isBetween = record.value == -2 || record.value == -3;
-                this.inputValue2.setVisible(isBetween);
+                this.cmbValue2 && this.cmbValue2.setVisible(isBetween);
+                this.cmbValue1 && this.cmbValue1.$el.width(isBetween ? 100 : (this.type==='date' ? 250 : 225));
+                this.inputValue2 && this.inputValue2.setVisible(isBetween);
+                this.inputValue && this.inputValue.$el.width(isBetween ? 100 : (this.type==='date' ? 250 : 225));
                 this.lblAnd.toggleClass('hidden', !isBetween);
-                this.inputValue.$el.width(isBetween ? 100 : (this.type==='date' ? 250 : 225));
                 this.btnDatePicker2 && this.btnDatePicker2.setVisible(isBetween);
                 var me = this;
                 setTimeout(function () {
-                    if (me.inputValue) {
+                    if (me.inputValue)
                         me.inputValue.focus();
-                    }
+                    else if (me.cmbValue1)
+                        me.cmbValue1.focus();
                 }, 10);
             }, this));
 
@@ -678,25 +681,58 @@ define([], function () {
             this.cmbFields.on('selected', _.bind(function(combo, record) {
                 var me = this;
                 setTimeout(function () {
-                    if (me.inputValue) {
+                    if (me.inputValue)
                         me.inputValue.focus();
-                    }
+                    else if (me.cmbValue1)
+                        me.cmbValue1.focus();
                 }, 10);
             }, this));
 
-            this.inputValue = new Common.UI.InputField({
-                el          : $('#id-input-digital-value1'),
-                allowBlank  : false,
-                style       : 'width: 100%;',
-                validateOnBlur: false
-            });
+            if (this.type==='value') {
+                this.inputValue = new Common.UI.InputField({
+                    el          : $('#id-input-digital-value1'),
+                    allowBlank  : false,
+                    style       : 'width: 100%;',
+                    validateOnBlur: false
+                });
 
-            this.inputValue2 = new Common.UI.InputField({
-                el          : $('#id-input-digital-value2'),
-                allowBlank  : false,
-                style       : 'width: 100%;',
-                validateOnBlur: false
-            });
+                this.inputValue2 = new Common.UI.InputField({
+                    el          : $('#id-input-digital-value2'),
+                    allowBlank  : false,
+                    style       : 'width: 100%;',
+                    validateOnBlur: false
+                });
+            } else {
+                this.cmbValue1 = new Common.UI.ComboBox({
+                    el          : $('#id-input-digital-value1', this.$window),
+                    cls         : 'input-group-nr',
+                    menuStyle   : 'min-width: 100%;max-height: 135px;',
+                    scrollAlwaysVisible: true,
+                    data        : [],
+                    takeFocusOnClose: true
+                });
+
+                this.cmbValue2 = new Common.UI.ComboBox({
+                    el          : $('#id-input-digital-value2', this.$window),
+                    cls         : 'input-group-nr',
+                    menuStyle   : 'min-width: 100%;max-height: 135px;',
+                    scrollAlwaysVisible: true,
+                    data        : [],
+                    takeFocusOnClose: true
+                });
+
+                var comparator = function(item1, item2) {
+                    var n1 = item1.get('intval'),
+                        n2 = item2.get('intval'),
+                        isN1 = n1!==undefined,
+                        isN2 = n2!==undefined;
+                    if (isN1 !== isN2) return (isN1) ? -1 : 1;
+                    !isN1 && (n1 = item1.get('value').toLowerCase()) && (n2 = item2.get('value').toLowerCase());
+                    if (n1===n2) return 0;
+                    return (n2==='' || n1!=='' && n1<n2) ? -1 : 1;
+                };
+                this.cmbValue1.store.comparator = this.cmbValue2.store.comparator = comparator;
+            }
 
             this.lblAnd = this.$window.find('#id-label-digital-and');
 
@@ -724,11 +760,11 @@ define([], function () {
         },
 
         getFocusedComponents: function() {
-            return [this.cmbFields, this.cmbCondition1, this.inputValue, this.inputValue2].concat(this.getFooterButtons());
+            return [this.cmbFields, this.cmbCondition1, this.inputValue, this.inputValue2, this.cmbValue1, this.cmbValue2].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
-            return this.inputValue;
+            return this.inputValue ? this.inputValue : this.cmbValue1;
         },
 
         close: function () {
@@ -753,7 +789,7 @@ define([], function () {
         },
 
         loadDefaults: function () {
-            if (this.properties && this.cmbCondition1 && this.cmbFields && this.inputValue) {
+            if (this.properties && this.cmbCondition1 && this.cmbFields && (this.cmbValue1 || this.inputValue)) {
 
                 var pivotObj = this.properties.asc_getPivotObj(),
                     idx = pivotObj.asc_getDataFieldIndexFilter(),
@@ -768,6 +804,17 @@ define([], function () {
                     });
                     this.cmbFields.setData(arr);
                     this.cmbFields.setValue((idx!==0) ? idx-1 : 0);
+                } else {
+                    var arr = [];
+                    this.properties.asc_getValues().forEach(function (item) {
+                        var value    = item.asc_getText();
+                        if (!_.isEmpty(value)) {
+                            arr.push({value: value, displayValue: value,
+                                intval: (!isNaN(parseFloat(value)) && isFinite(value)) ? parseFloat(value) : undefined});
+                        }
+                    });
+                    this.cmbValue1.setData(arr);
+                    this.cmbValue2.setData(arr);
                 }
 
                 var filterObj = this.properties.asc_getFilterObj();
@@ -787,18 +834,22 @@ define([], function () {
                             value = -3;
                     }
                     this.cmbCondition1.setValue(value || Asc.c_oAscCustomAutoFilter.equals);
-                    this.inputValue.setValue(null === customFilters[0].asc_getVal() ? '' : customFilters[0].asc_getVal());
-                    this.inputValue.$el.width((value==-2 || value==-3) ? 100 : (this.type==='date' ? 250 : 225));
+                    this.inputValue && this.inputValue.setValue(null === customFilters[0].asc_getVal() ? '' : customFilters[0].asc_getVal());
+                    this.inputValue && this.inputValue.$el.width((value==-2 || value==-3) ? 100 : (this.type==='date' ? 250 : 225));
+                    this.cmbValue1 && this.cmbValue1.setValue(null === customFilters[0].asc_getVal() ? '' : customFilters[0].asc_getVal());
+                    this.cmbValue1 && this.cmbValue1.$el.width((value==-2 || value==-3) ? 100 : (this.type==='date' ? 250 : 225));
 
                     this.lblAnd.toggleClass('hidden', !(value==-2 || value==-3));
-                    this.inputValue2.setVisible(value==-2 || value==-3);
-                    this.inputValue2.setValue((customFilters.length>1) ? (null === customFilters[1].asc_getVal() ? '' : customFilters[1].asc_getVal()) : '');
+                    this.inputValue2 && this.inputValue2.setVisible(value==-2 || value==-3);
+                    this.inputValue2 && this.inputValue2.setValue((customFilters.length>1) ? (null === customFilters[1].asc_getVal() ? '' : customFilters[1].asc_getVal()) : '');
+                    this.cmbValue2 && this.cmbValue2.setVisible(value==-2 || value==-3);
+                    this.cmbValue2 && this.cmbValue2.setValue((customFilters.length>1) ? (null === customFilters[1].asc_getVal() ? '' : customFilters[1].asc_getVal()) : '');
                     this.btnDatePicker2 && this.btnDatePicker2.setVisible(value==-2 || value==-3);
                 }
             }
         },
         save: function () {
-            if (this.api && this.properties && this.cmbCondition1 && this.cmbFields && this.inputValue) {
+            if (this.api && this.properties && this.cmbCondition1 && this.cmbFields && (this.cmbValue1 || this.inputValue)) {
 
                 var filterObj = this.properties.asc_getFilterObj();
                 filterObj.asc_setFilter(new Asc.CustomFilters());
@@ -811,23 +862,23 @@ define([], function () {
                     customFilter.asc_setAnd(true);
                     var customFilters = customFilter.asc_getCustomFilters();
                     customFilters[0].asc_setOperator(Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo);
-                    customFilters[0].asc_setVal(this.inputValue.getValue());
+                    customFilters[0].asc_setVal(this.inputValue ? this.inputValue.getValue() : this.cmbValue1.getValue());
                     customFilters[1].asc_setOperator(Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo);
-                    customFilters[1].asc_setVal(this.inputValue2.getValue());
+                    customFilters[1].asc_setVal(this.inputValue2 ? this.inputValue2.getValue() : this.cmbValue2.getValue());
                 } else if (type==-3) {
                     customFilter.asc_setCustomFilters([new Asc.CustomFilter(), new Asc.CustomFilter()]);
                     customFilter.asc_setAnd(false);
                     var customFilters = customFilter.asc_getCustomFilters();
                     customFilters[0].asc_setOperator(Asc.c_oAscCustomAutoFilter.isLessThan);
-                    customFilters[0].asc_setVal(this.inputValue.getValue());
+                    customFilters[0].asc_setVal(this.inputValue ? this.inputValue.getValue() : this.cmbValue1.getValue());
                     customFilters[1].asc_setOperator(Asc.c_oAscCustomAutoFilter.isGreaterThan);
-                    customFilters[1].asc_setVal(this.inputValue2.getValue());
+                    customFilters[1].asc_setVal(this.inputValue2 ? this.inputValue2.getValue() : this.cmbValue2.getValue());
                 } else {
                     customFilter.asc_setCustomFilters([new Asc.CustomFilter()]);
                     customFilter.asc_setAnd(true);
                     var customFilters = customFilter.asc_getCustomFilters();
                     customFilters[0].asc_setOperator(this.cmbCondition1.getValue());
-                    customFilters[0].asc_setVal(this.inputValue.getValue());
+                    customFilters[0].asc_setVal(this.inputValue ? this.inputValue.getValue() : this.cmbValue1.getValue());
                 }
                 var pivotObj = this.properties.asc_getPivotObj();
                 pivotObj.asc_setDataFieldIndexFilter((this.type == 'value') ? this.cmbFields.getValue()+1 : 0);
@@ -842,8 +893,7 @@ define([], function () {
             var id = btn.$el.attr('id'),
                 index = parseInt(id.slice(-1)),
                 $picker,
-                // cmb = index === 1 ? this.cmbValue1 : this.cmbValue2;
-                cmb = index === 1 ? this.inputValue : this.inputValue2;
+                cmb = index === 1 ? (this.inputValue ? this.inputValue : this.cmbValue1) : (this.inputValue2 ? this.inputValue2 : this.cmbValue2);
             if (!this.datePickers[index]) {
                 $picker = $('<div id="date-picker-' + index + '"><div id="date-picker-control' + index + '"></div></div>');
                 btn.$el.append($picker);
@@ -2150,7 +2200,7 @@ define([], function () {
 
             this.miTextFilter.setChecked(isCustomFilter && isTextFilter, true);
             this.miNumFilter.setChecked((isCustomFilter || isDynamicFilter || isTop10) && !isTextFilter, true);
-            this.miDateFilter.setChecked((isDynamicFilter || isCustomFilter) && isDateFilter, true);
+            this.miDateFilter.setChecked((isDynamicFilter || isCustomFilter) && isDateFilter && !isValueFilter, true);
 
             this.miValueFilter.setChecked(isPivot && isValueFilter, true);
             this.miLabelFilter.setChecked(isPivot && !isValueFilter && (isCustomFilter || isTop10), true);
