@@ -28,30 +28,31 @@ class EditTextController extends Component {
 
     onAdditionalStrikethrough(type, value) {
         const api = Common.EditorApi.get();
+        const properties = new Asc.asc_CParagraphProperty();
+        
         if (api) {          
             if ('strikeout' === type) {
-                api.asc_setCellStrikeout(value);
+                properties.put_Strikeout(value);
             } else {
-                api.asc_setCellStrikeout(value);
+                properties.put_DStrikeout(value);
             }
+            api.asc_setGraphicObjectProps(properties);
         }
     }
 
     onAdditionalCaps(type, value) {
         const api = Common.EditorApi.get();
         if (api) {
-            const paragraphProps = new Asc.asc_CParagraphProperty();
-            // const paragraphProps = new Asc.asc_CImgProperty();
-            // console.log(api.CreateParagraph());
+            const properties = new Asc.asc_CParagraphProperty();
             
             if ('small' === type) {
-                paragraphProps.put_AllCaps(false);
-                paragraphProps.put_SmallCaps(value);
+                properties.put_AllCaps(false);
+                properties.put_SmallCaps(value);
             } else {
-                paragraphProps.put_AllCaps(value);
-                paragraphProps.put_SmallCaps(false);
+                properties.put_AllCaps(value);
+                properties.put_SmallCaps(false);
             }
-            // api.asc_setDrawImagePlaceParagraph('paragraphadv-font-img', paragraphProps);
+            api.asc_setGraphicObjectProps(properties);
         }
     }
 
@@ -76,10 +77,8 @@ class EditTextController extends Component {
                 spacing = Math.min(100, ++spacing);
             }
             const properties = new Asc.asc_CParagraphProperty();
-            // console.log(properties);
             
             properties.put_TextSpacing(Common.Utils.Metric.fnRecalcToMM(spacing));
-            // api.paraApply(properties);
             api.asc_setGraphicObjectProps(properties);
         }
     }

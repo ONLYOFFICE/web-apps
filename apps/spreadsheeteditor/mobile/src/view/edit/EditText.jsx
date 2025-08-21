@@ -360,25 +360,19 @@ const PageAdditionalFormatting = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const storeTextSettings = props.storeTextSettings;
-    // const storeFocusObjects = props.storeFocusObjects;
-    // const paragraphObj = storeFocusObjects.paragraphObject;
-    // const shapeObj = storeFocusObjects.shapeObject;
+    const storeFocusObjects = props.storeFocusObjects;
+    const paragraphObj = storeFocusObjects.paragraphObject;
     const isSuperscript = storeTextSettings.isSuperscript;
     const isSubscript = storeTextSettings.isSubscript;
-    const isStrikeout = storeTextSettings.isStrikethrough;
-    const isSmallCaps = storeTextSettings.isSmallCaps;
-    const isAllCaps = storeTextSettings.isAllCaps;
-    
-    let isDStrikeout = false;
-    let letterSpacing = 0;
+    let isStrikeout, isDStrikeout, isSmallCaps, isAllCaps, letterSpacing;
 
-    // if(paragraphObj) {
-    //     isStrikeout = paragraphObj.get_Strikeout();
-    //     isDStrikeout = paragraphObj.get_DStrikeout();
-    //     isSmallCaps = paragraphObj.get_SmallCaps();
-    //     isAllCaps = paragraphObj.get_AllCaps();
-    //     letterSpacing = (paragraphObj.get_TextSpacing() === null || paragraphObj.get_TextSpacing() === undefined) ? paragraphObj.get_TextSpacing() : Common.Utils.Metric.fnRecalcFromMM(paragraphObj.get_TextSpacing());
-    // }
+    if(paragraphObj) {
+        isStrikeout = paragraphObj.get_Strikeout();
+        isDStrikeout = paragraphObj.asc_getDStrikeout();
+        isSmallCaps = paragraphObj.get_SmallCaps();
+        isAllCaps = paragraphObj.get_AllCaps();
+        letterSpacing = (paragraphObj.get_TextSpacing() === null || paragraphObj.get_TextSpacing() === undefined) ? paragraphObj.get_TextSpacing() : Common.Utils.Metric.fnRecalcFromMM(paragraphObj.get_TextSpacing());
+    }
 
     if (!storeTextSettings && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
@@ -401,7 +395,7 @@ const PageAdditionalFormatting = props => {
             </Navbar>
             <BlockTitle>{_t.textStrikethrough}</BlockTitle>
             <List title={_t.textStrikethrough}>
-                <ListItem title={_t.textStrikethrough} radio checked={isStrikeout} onClick={() => {props.onAdditionalStrikethrough('strikethrough', !isStrikeout)}}/>
+                <ListItem title={_t.textStrikethrough} radio checked={isStrikeout} onClick={() => {props.onAdditionalStrikethrough('strikeout', !isStrikeout)}}/>
                 <ListItem title={_t.textDoubleStrikethrough} radio checked={isDStrikeout} onClick={() => {props.onAdditionalStrikethrough('dbStrikethrough', !isDStrikeout)}}/>
             </List>
             <BlockTitle>{_t.textBaseline}</BlockTitle>
