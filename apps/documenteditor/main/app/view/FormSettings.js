@@ -614,19 +614,30 @@ define([
 
             // Roles
 
+            // add_role command = 0
+
             var itemsTemplate =
                 [
                     '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" data-value="<%= Common.Utils.String.htmlEncode(item.value) %>" <% if (item.value === "add_role") { %> class="border-top" <% } %>><a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right: 10px;': 'padding-left: 10px;') + 'overflow: hidden; text-overflow: ellipsis;">',
-                            '<% if (item.value !== "add_role") { %><span class="color" style="background: <%= item.color %>;"></span><% } %>',
-                            '<%= Common.Utils.String.htmlEncode(item.displayValue) %>',
-                        '</a></li>',
+                        '<li id="<%= item.id %>" data-value="<%= Common.Utils.String.htmlEncode(item.value) %>"<% if (item.value === 0) { %> class="border-top"<% } %>>',
+                            '<% if (item.value === 0) { %>',
+                                '<a tabindex="-1" type="menuitem" style="overflow: hidden; text-overflow: ellipsis; padding: ' + (Common.UI.isRTL() ? '5px 24px 5px 20px' : '5px 20px 5px 24px') + ';">',
+                                    '<span class="menu-item-icon menu__icon btn-zoomup"></span>',
+                                    '<%= Common.Utils.String.htmlEncode(item.displayValue) %>',
+                                '</a>',
+                            '<% } else { %>',
+                                '<a tabindex="-1" type="menuitem" style="overflow: hidden; text-overflow: ellipsis; padding-' + (Common.UI.isRTL() ? 'right' : 'left') + ': 10px;">',
+                                    '<span class="color" style="background: <%= item.color %>;"></span>',
+                                    '<%= Common.Utils.String.htmlEncode(item.displayValue) %>',
+                                '</a>',
+                            '<% } %>',
+                        '</li>',
                     '<% }); %>'
                 ];
 
             var template = [
                 '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                    '<div class="form-control" style="display: block; padding-top:3px; line-height: 14px; cursor: pointer; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;<%= style %>"></div>',
+                    '<div class="form-control" style="display: flex; align-items: center; line-height: 14px; cursor: pointer; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;<%= style %>"></div>',
                     '<div style="display: table-cell;"></div>',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">'].concat(itemsTemplate).concat([
@@ -652,12 +663,7 @@ define([
                 updateFormControl: function(record) {
                     var formcontrol = $(this.el).find('.form-control');
                     if (record) {
-                        if (record.get('value') === 'add_role') {
-                            formcontrol[0].innerHTML = Common.Utils.String.htmlEncode(record.get('displayValue'));
-                        } else {
-                            formcontrol[0].innerHTML = '<span class="color" style="background:' + record.get('color') + ';"></span>' + Common.Utils.String.htmlEncode(record.get('displayValue'));
-                        }
-
+                        formcontrol[0].innerHTML = '<span class="color" style="background:' + record.get('color') + ';"></span>' + Common.Utils.String.htmlEncode(record.get('displayValue'));
                     } else
                         formcontrol[0].innerHTML = '';
                 }
@@ -1936,7 +1942,7 @@ define([
                 });
             });
 
-            arr.push({ displayValue: this.textAddRole, value: 'add_role' });
+            arr.push({ displayValue: this.textAddRole, value: 0 });
 
             this.cmbRoles.setData(arr);
             this.cmbRoles.setValue(lastrole);
@@ -1950,7 +1956,7 @@ define([
                 var props = this._originalProps || new AscCommon.CContentControlPr();
                 var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
 
-                if (record.value === 'add_role') {
+                if (record.value === 0) {
                     combo.setValue(formPr.get_Role());
 
                     const formManager = this.api.asc_GetOForm();
