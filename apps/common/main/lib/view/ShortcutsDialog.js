@@ -327,6 +327,14 @@ define([
                 }
             })
 
+            // Delete actions if it has no shortcuts and the action is locked
+            for (const actionType in actionsMap) {
+                const item = actionsMap[actionType];
+                if(item.shortcuts.length == 0 && item.action.isLocked) {
+                    delete actionsMap[actionType];
+                }
+            }
+
             this._state.actionsMap = actionsMap;
             this._updateActionsList();
         },
