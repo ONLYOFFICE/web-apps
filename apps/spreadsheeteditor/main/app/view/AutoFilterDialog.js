@@ -568,12 +568,12 @@ define([], function () {
             var t = this, _options = {};
 
             _.extend(_options,  {
-                width           : 501,
+                width           : options.type === 'date' ? 530 : 502,
                 contentWidth    : 180,
                 header          : true,
-                cls             : 'filter-dlg modal-dlg',
+                cls             : 'filter-dlg modal-dlg' + (options.type === 'date' ? ' date-filter' : ''),
                 contentTemplate : '',
-                title           : (options.type=='label') ?  t.txtTitleLabel : t.txtTitleValue,
+                title           : (options.type=='label') ?  t.txtTitleLabel : (options.type=='date') ? t.txtTitleDate : t.txtTitleValue,
                 items           : [],
                 buttons: ['ok', 'cancel']
             }, options);
@@ -585,23 +585,35 @@ define([], function () {
             this.template   =   options.template || [
                     '<div class="box">',
                     '<div class="content-panel" >',
-                        '<label class="header">', ((t.type=='label') ? t.textShowLabel : t.textShowValue), '</label>',
+                        '<label class="header">', ((t.type=='label') ? t.textShowLabel : (options.type=='date') ? t.textShowDate : t.textShowValue), '</label>',
                         '<div style="margin-top:15px;">',
-                            '<div id="id-field-digital-combo" class="input-group-nr margin-right-10" style="vertical-align:middle;width:110px;display:inline-block;"></div>',
-                            '<div id="id-cond-digital-combo" class="input-group-nr margin-right-10" style="vertical-align:middle;width:' + ((t.type=='label') ? 225 : 110) + 'px;display:inline-block;"></div>',
-                            '<div id="id-input-digital-value1" class="" style="vertical-align: middle; width:225px;display:inline-block;"></div>',
+                            '<div id="id-field-digital-combo" class="input-group-nr margin-right-10 display-inline-block-middle" style="width:110px;"></div>',
+                            '<div id="id-cond-digital-combo" class="input-group-nr margin-right-10 display-inline-block-middle" style="width:' + ((t.type=='label') ? 225 : (t.type=='date') ? 200 : 110) + 'px;"></div>',
+                            '<div id="id-input-digital-value1" class="display-inline-block-middle" style="width:' + (t.type=='date' ? 250 : 225) + 'px;"></div>',
+                            '<% if (type === "date") {%>',
+                                '<div id="id-btn-date-picker-1" class="margin-left-5 display-inline-block-middle"></div>',
+                            '<% } %>',
                             '<label id="id-label-digital-and" class="margin-left-5" style="vertical-align: middle;">'+ this.txtAnd +'</label>',
-                            '<div id="id-input-digital-value2" class="margin-left-5" style="vertical-align: middle; width:100px;display:inline-block;"></div>',
+                            '<div id="id-input-digital-value2" class="margin-left-5 display-inline-block-middle" style="width:100px;"></div>',
+                            '<% if (type === "date") {%>',
+                                '<div id="id-btn-date-picker-2" class="margin-left-5 display-inline-block-middle"></div>',
+                            '<% } %>',
                         '</div>',
+                        '<% if (type !== "date") {%>',
                         '<div style="margin-top:10px;">',
                             '<label style="display:block;">' + t.textUse1 + '</label>',
                             '<label style="display:block;">' + t.textUse2 + '</label>',
                         '</div>',
+                        '<% } %>',
                     '</div>',
                     '</div>'
                 ].join('');
 
             _options.tpl    =   _.template(this.template)(_options);
+
+            if (this.type === 'date') {
+                this.datePickers = [];
+            }
 
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
@@ -611,10 +623,10 @@ define([], function () {
             this.conditions = [
                 {value: Asc.c_oAscCustomAutoFilter.equals,                   displayValue: this.capCondition1},
                 {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             displayValue: this.capCondition2},
-                {value: Asc.c_oAscCustomAutoFilter.isGreaterThan,            displayValue: this.capCondition3},
-                {value: Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   displayValue: this.capCondition4},
-                {value: Asc.c_oAscCustomAutoFilter.isLessThan,               displayValue: this.capCondition5},
-                {value: Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo,      displayValue: this.capCondition6},
+                {value: Asc.c_oAscCustomAutoFilter.isGreaterThan,            displayValue: this.type !== 'date' ? this.capCondition3 : this.capCondition30},
+                {value: Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   displayValue: this.type !== 'date' ? this.capCondition4 : this.capCondition40},
+                {value: Asc.c_oAscCustomAutoFilter.isLessThan,               displayValue: this.type !== 'date' ? this.capCondition5 : this.capCondition50},
+                {value: Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo,      displayValue: this.type !== 'date' ? this.capCondition6 : this.capCondition60},
                 {value: -2,                                                  displayValue: this.capCondition13},
                 {value: -3,                                                  displayValue: this.capCondition14}
             ];
@@ -642,7 +654,8 @@ define([], function () {
                 var isBetween = record.value == -2 || record.value == -3;
                 this.inputValue2.setVisible(isBetween);
                 this.lblAnd.toggleClass('hidden', !isBetween);
-                this.inputValue.$el.width(isBetween ? 100 : 225);
+                this.inputValue.$el.width(isBetween ? 100 : (this.type==='date' ? 250 : 225));
+                this.btnDatePicker2 && this.btnDatePicker2.setVisible(isBetween);
                 var me = this;
                 setTimeout(function () {
                     if (me.inputValue) {
@@ -686,6 +699,24 @@ define([], function () {
             });
 
             this.lblAnd = this.$window.find('#id-label-digital-and');
+
+            if (this.type === 'date') {
+                this.btnDatePicker1 = new Common.UI.Button({
+                    parentEl: $('#id-btn-date-picker-1', this.$window),
+                    cls: 'btn-toolbar bg-white',
+                    iconCls: 'toolbar__icon btn-date',
+                    hint: this.txtSelectDate
+                });
+                this.btnDatePicker1.on('click', _.bind(this.showDatePicker, this));
+
+                this.btnDatePicker2 = new Common.UI.Button({
+                    parentEl: $('#id-btn-date-picker-2', this.$window),
+                    cls: 'btn-toolbar bg-white',
+                    iconCls: 'toolbar__icon btn-date',
+                    hint: this.txtSelectDate
+                });
+                this.btnDatePicker2.on('click', _.bind(this.showDatePicker, this));
+            }
 
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
@@ -757,11 +788,12 @@ define([], function () {
                     }
                     this.cmbCondition1.setValue(value || Asc.c_oAscCustomAutoFilter.equals);
                     this.inputValue.setValue(null === customFilters[0].asc_getVal() ? '' : customFilters[0].asc_getVal());
-                    this.inputValue.$el.width((value==-2 || value==-3) ? 100 : 225);
+                    this.inputValue.$el.width((value==-2 || value==-3) ? 100 : (this.type==='date' ? 250 : 225));
 
                     this.lblAnd.toggleClass('hidden', !(value==-2 || value==-3));
                     this.inputValue2.setVisible(value==-2 || value==-3);
                     this.inputValue2.setValue((customFilters.length>1) ? (null === customFilters[1].asc_getVal() ? '' : customFilters[1].asc_getVal()) : '');
+                    this.btnDatePicker2 && this.btnDatePicker2.setVisible(value==-2 || value==-3);
                 }
             }
         },
@@ -804,6 +836,40 @@ define([], function () {
             }
         },
 
+        showDatePicker: function (btn) {
+            Common.UI.Menu.Manager.hideAll();
+
+            var id = btn.$el.attr('id'),
+                index = parseInt(id.slice(-1)),
+                $picker,
+                // cmb = index === 1 ? this.cmbValue1 : this.cmbValue2;
+                cmb = index === 1 ? this.inputValue : this.inputValue2;
+            if (!this.datePickers[index]) {
+                $picker = $('<div id="date-picker-' + index + '"><div id="date-picker-control' + index + '"></div></div>');
+                btn.$el.append($picker);
+
+                this.datePickers[index] = new Common.UI.Calendar({
+                    el: $picker.find('#date-picker-control' + index),
+                    enableKeyEvents: true,
+                    firstday: 1
+                });
+
+                this.datePickers[index].on('date:click', _.bind(function (cmp, date) {
+                    cmb.setValue(new Date(date).toLocaleString().split(',')[0].replace(/\./g,'/'));
+                    $picker.hide();
+                }, this));
+
+                $(document).on('mousedown', function(e) {
+                    if (e.target.localName !== 'canvas' && $picker.is(':visible') && $picker.find(e.target).length==0) {
+                        $picker.hide();
+                    }
+                });
+            } else {
+                $picker = btn.$el.find('#date-picker-' + index);
+            }
+            $picker.show();
+        },
+
         onPrimary: function() {
             this.save();
             this.close();
@@ -830,7 +896,13 @@ define([], function () {
         txtTitleLabel: 'Label Filter',
         capCondition13: 'between',
         capCondition14: 'not between',
-        txtAnd: 'and'
+        txtAnd: 'and',
+        txtTitleDate: 'Date Filter',
+        textShowDate       : "Show items for which the date:",
+        capCondition30: "is after",
+        capCondition40: "is after or equal to",
+        capCondition50: "is before",
+        capCondition60: "is before or equal to"
 
     }, SSE.Views.PivotDigitalFilterDialog || {}));
 
@@ -1731,7 +1803,8 @@ define([], function () {
         },
 
         onDataFilterMenuClick: function (item) {
-            var filterObj = this.configTo.asc_getFilterObj(),
+            var pivotObj = this.configTo.asc_getPivotObj(),
+                filterObj = this.configTo.asc_getFilterObj(),
                 value1 = '', value2 = '',
                 cond1 = Asc.c_oAscCustomAutoFilter.equals,
                 cond2 = 0, isAnd = true;
@@ -1770,7 +1843,11 @@ define([], function () {
             }
 
             var me = this,
-                dlgDigitalFilter = new SSE.Views.DigitalFilterDialog({api:this.api, type: 'date'}).on({
+                dlgDigitalFilter = !pivotObj ? new SSE.Views.DigitalFilterDialog({api:this.api, type: 'date'}).on({
+                    'close': function() {
+                        me.close();
+                    }
+                }) : new SSE.Views.PivotDigitalFilterDialog({api:this.api, type: 'date'}).on({
                     'close': function() {
                         me.close();
                     }
@@ -2040,15 +2117,13 @@ define([], function () {
             var menuPanel = this.$window.find('.menu-panel');
             var pivotObj = this.configTo.asc_getPivotObj(),
                 isPivot = !!pivotObj,
-                isValueFilter = false,
-                isPivotLabelVisible = false;
+                isValueFilter = false;
 
             if (isPivot) {
                 this.miReapplySeparator.setVisible(false);
                 this.miReapply.setVisible(false);
 
                 isValueFilter = (pivotObj.asc_getDataFieldIndexFilter()!==0);
-                isPivotLabelVisible = pivotObj.asc_getIsLabelFilter();
             }
 
             var filterObj = this.configTo.asc_getFilterObj(),
@@ -2065,13 +2140,13 @@ define([], function () {
             if (sortColor) sortColor = Common.Utils.ThemeColor.getHexColor(sortColor.get_r(), sortColor.get_g(), sortColor.get_b()).toLocaleUpperCase();
 
             this.miValueFilter.setVisible(isPivot);
-            this.miLabelFilter.setVisible(isPivot && isPivotLabelVisible);
+            this.miLabelFilter.setVisible(isPivot && isTextFilter);
             this.miSortOptions.setVisible(isPivot);
 
             this.miTextFilter.setVisible(!isPivot && isTextFilter);
             this.miNumFilter.setVisible(!isPivot && !isTextFilter && !isDateFilter);
 
-            this.miDateFilter.setVisible(!isPivot && isDateFilter || isPivot && !isPivotLabelVisible);
+            this.miDateFilter.setVisible(isDateFilter);
 
             this.miTextFilter.setChecked(isCustomFilter && isTextFilter, true);
             this.miNumFilter.setChecked((isCustomFilter || isDynamicFilter || isTop10) && !isTextFilter, true);
