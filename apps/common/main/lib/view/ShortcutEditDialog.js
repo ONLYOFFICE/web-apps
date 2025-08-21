@@ -203,7 +203,7 @@ define([
                     }
                 });
             });
-            this.fixHeight();
+            this.fixHeight(true);
         },
         
         renderShortcutsWarning: function() {

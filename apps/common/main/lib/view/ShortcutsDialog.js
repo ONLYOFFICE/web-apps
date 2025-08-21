@@ -303,6 +303,7 @@ define([
                 }
             });
 
+            let removableIndexes = {};
             _.pairs(this._getModifiedShortcuts()).forEach(function(item) {
                 const actionType = item[0];
                 const shortcuts = item[1];
@@ -310,13 +311,15 @@ define([
                 
                 if(actionItem) {
                     shortcuts.forEach(function(ascShortcut) {
+                        const ascShortcutIndex = ascShortcut.asc_GetShortcutIndex();
                         const defaultShortcutIndex = _.findIndex(actionItem.shortcuts, function(shortcut) { 
-                            return shortcut.ascShortcut.asc_GetShortcutIndex() == ascShortcut.asc_GetShortcutIndex() 
+                            return shortcut.ascShortcut.asc_GetShortcutIndex() == ascShortcutIndex;
                         });
 
                         if(defaultShortcutIndex != -1) {
                             actionItem.shortcuts[defaultShortcutIndex].ascShortcut = ascShortcut;
                         } else {
+                            removableIndexes[ascShortcutIndex] = actionType;
                             actionItem.shortcuts.push({
                                 keys: me._getAscShortcutKeys(ascShortcut),
                                 isCustom: true,
@@ -327,11 +330,28 @@ define([
                 }
             })
 
-            // Delete actions if it has no shortcuts and the action is locked
             for (const actionType in actionsMap) {
                 const item = actionsMap[actionType];
-                if(item.shortcuts.length == 0 && item.action.isLocked) {
+                const shortcuts = actionsMap[actionType].shortcuts;
+                if(shortcuts.length == 0 && item.action.isLocked) {
+                    // Delete actions if it has no shortcuts and the action is locked
                     delete actionsMap[actionType];
+                } else if(Object.keys(removableIndexes).length > 0) {
+                    // Remove shortcuts from other actions if they conflict with updated shortcuts
+                    const foundIndex = _.findIndex(shortcuts, function(shortcut) {
+                        const ascShortcutIndex = shortcut.ascShortcut.asc_GetShortcutIndex();
+                        if(removableIndexes[ascShortcutIndex] && removableIndexes[ascShortcutIndex] != actionType) {
+                            delete removableIndexes[ascShortcutIndex];
+                            return true;
+                        }
+                        return false;
+                    });
+                    if(foundIndex != -1) {
+                        const copyAscShortcut = new Asc.CAscShortcut();
+                        copyAscShortcut.asc_FromJson(shortcuts[foundIndex].ascShortcut.asc_ToJson());
+                        copyAscShortcut.asc_SetIsHidden(true);
+                        shortcuts[foundIndex].ascShortcut = copyAscShortcut;
+                    }
                 }
             }
 
@@ -446,19 +466,19 @@ define([
                         if(type == actionType) continue;
 
                         const shortcuts = me._state.actionsMap[type].shortcuts;
-                        const foundShortcutIndex = _.findIndex(shortcuts, function(shortcut) {
+                        const foundIndex = _.findIndex(shortcuts, function(shortcut) {
                             const foundIndex = _.indexOf(removableIndexes, shortcut.ascShortcut.asc_GetShortcutIndex());
                             (foundIndex != -1) && removableIndexes.splice(foundIndex, 1);
                             return foundIndex != -1;
                         });
-                        if(foundShortcutIndex != -1) {
+                        if(foundIndex != -1) {
                             const copyAscShortcut = new Asc.CAscShortcut();
-                            copyAscShortcut.asc_FromJson(shortcuts[foundShortcutIndex].ascShortcut.asc_ToJson());
+                            copyAscShortcut.asc_FromJson(shortcuts[foundIndex].ascShortcut.asc_ToJson());
                             copyAscShortcut.asc_SetIsHidden(true);
-                            shortcuts[foundShortcutIndex].ascShortcut = copyAscShortcut;
+                            shortcuts[foundIndex].ascShortcut = copyAscShortcut;
 
                             !removableFromStorage[type] && (removableFromStorage[type] = []);
-                            removableFromStorage[type].push(shortcuts[foundShortcutIndex].ascShortcut);
+                            removableFromStorage[type].push(shortcuts[foundIndex].ascShortcut);
                         }
                     }
                     me._updateActionsList();
@@ -507,7 +527,7 @@ define([
                         let item = values[i];
 
                         if (extraAction && extraAction.actionType === item.action.type ) {
-                            item = extraAction;
+                            item.shortcuts = extraAction.shortcuts;
                         }
 
                         const existsVisible = _.some(item.shortcuts, function(shortcut) {
