@@ -325,6 +325,10 @@
     "textLastColumn": "Last Column",
     "textLeader": "Leader",
     "textLetterSpacing": "Letter spacing",
+    "txtWidth": "Width",
+    "txtHeight": "Height",
+    "textCellSize": "Rows & columns size",
+    "textCellOptions": "Cell options",
     "textLevels": "Levels",
     "textLineSpacing": "Line spacing",
     "textLink": "Link",
@@ -414,6 +418,7 @@
     "textType": "Type",
     "textWe": "We",
     "textWrap": "Wrap",
+    "textWrapText": "Wrap Text",
     "textWrappingStyle": "Wrapping Style",
     "textYourOption": "Your option"
   },
