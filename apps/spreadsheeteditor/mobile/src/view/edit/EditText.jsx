@@ -367,7 +367,7 @@ const PageAdditionalFormatting = props => {
     let isStrikeout, isDStrikeout, isSmallCaps, isAllCaps, letterSpacing;
 
     if(paragraphObj) {
-        isStrikeout = paragraphObj.get_Strikeout();
+        isStrikeout = paragraphObj.asc_getStrikeout();
         isDStrikeout = paragraphObj.asc_getDStrikeout();
         isSmallCaps = paragraphObj.get_SmallCaps();
         isAllCaps = paragraphObj.get_AllCaps();
@@ -410,7 +410,7 @@ const PageAdditionalFormatting = props => {
             </List>
             <List>
                 <ListItem title={_t.textLetterSpacing}>
-                    {!isAndroid && <div slot='after-start'>{(Number.isInteger(letterSpacing) ? letterSpacing : letterSpacing.toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName()}</div>}
+                    {!isAndroid && <div slot='after-start'>{(Number.isInteger(letterSpacing) ? letterSpacing : letterSpacing?.toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName()}</div>}
                     <div slot='after'>
                         <Segmented>
                             <Button outline className='decrement item-link' onClick={() => {props.changeLetterSpacing(letterSpacing, true)}}>
@@ -418,7 +418,7 @@ const PageAdditionalFormatting = props => {
                                     <SvgIcon symbolId={IconExpandDownAndroid.id} className='icon icon-svg' />
                                 : ' - '}
                             </Button>
-                            {isAndroid && <label>{(Number.isInteger(letterSpacing) ? letterSpacing : letterSpacing.toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName()}</label>}
+                            {isAndroid && <label>{(Number.isInteger(letterSpacing) ? letterSpacing : letterSpacing?.toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName()}</label>}
                             <Button outline className='increment item-link' onClick={() => {props.changeLetterSpacing(letterSpacing, false)}}>
                                 {isAndroid ? 
                                     <SvgIcon symbolId={IconExpandUp.id} className='icon icon-svg' />
