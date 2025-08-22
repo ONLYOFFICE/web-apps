@@ -490,7 +490,12 @@
       "textZoom": "Zooma",
       "textZoomIn": "Handiagotu",
       "textZoomOut": "Txikiagotu",
-      "textZoomRotate": "Zoom eta biratu"
+      "textZoomRotate": "Zoom eta biratu",
+      "txtWidth": "Width",
+      "txtHeight": "Height",
+      "textCellSize": "Cell size",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization"
     },
     "Settings": {
       "mniSlideStandard": "Estandarra (4:3)",

@@ -496,7 +496,12 @@
       "textZoom": "زوم",
       "textZoomIn": "زوم ان",
       "textZoomOut": "زوم آوّٹ",
-      "textZoomRotate": "زوم اور گھمائیں"
+      "textZoomRotate": "زوم اور گھمائیں",
+      "txtWidth": "Width",
+      "txtHeight": "Height",
+      "textCellSize": "Cell size",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization"
     },
     "Settings": {
       "mniSlideStandard": "معیاری (۴: ۳)",

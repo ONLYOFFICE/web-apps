@@ -496,7 +496,12 @@
       "textZoom": "Խոշորացնել",
       "textZoomIn": "Մեծացնել",
       "textZoomOut": "Փոքրացնել",
-      "textZoomRotate": "Դիտափոխում և պտտում"
+      "textZoomRotate": "Դիտափոխում և պտտում",
+      "txtWidth": "Width",
+      "txtHeight": "Height",
+      "textCellSize": "Cell size",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization"
     },
     "Settings": {
       "mniSlideStandard": "Ստանդարտ (4:3)",

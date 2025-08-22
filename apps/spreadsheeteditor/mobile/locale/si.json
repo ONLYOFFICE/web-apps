@@ -719,7 +719,18 @@
       "textYen": "යෙන්",
       "txtNotUrl": "මෙම ක්‍ෂේත්‍රය \"http://උපවසම.උදාහරණය.ලංකා\" ආකෘතියේ ඒ.ස.නි. ක් විය යුතුය.",
       "txtSortHigh2Low": "වැඩිතමයේ සිට අඩුතමයට වර්ගනය",
-      "txtSortLow2High": "අඩුතමයේ සිට වැඩිතමයට වර්ගනය"
+      "txtSortLow2High": "අඩුතමයේ සිට වැඩිතමයට වර්ගනය",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textStrikethrough": "Strikethrough",
+      "textDoubleStrikethrough": "Double Strikethrough",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript",
+      "textSmallCaps": "Small Caps",
+      "textAllCaps": "All Caps",
+      "textLetterSpacing": "Letter spacing"
     },
     "Settings": {
       "advCSVOptions": "CSV විකල්ප තෝරන්න",

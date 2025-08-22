@@ -719,7 +719,18 @@
       "textYen": "Jen",
       "txtNotUrl": "Kjo fushë duhet të jetë në formatin URL \"http://www.example.com\"",
       "txtSortHigh2Low": "Rendit më të lartën në më të ultën",
-      "txtSortLow2High": "Rendit më të ultën në më të lartën"
+      "txtSortLow2High": "Rendit më të ultën në më të lartën",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textStrikethrough": "Strikethrough",
+      "textDoubleStrikethrough": "Double Strikethrough",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript",
+      "textSmallCaps": "Small Caps",
+      "textAllCaps": "All Caps",
+      "textLetterSpacing": "Letter spacing"
     },
     "Settings": {
       "advCSVOptions": "Zgjidh opsionin CSV ",

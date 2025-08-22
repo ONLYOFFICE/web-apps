@@ -713,7 +713,18 @@
       "textYen": "Iene",
       "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\"",
       "txtSortHigh2Low": "Ordenar do maior para o menor",
-      "txtSortLow2High": "Ordenar do menor para o maior"
+      "txtSortLow2High": "Ordenar do menor para o maior",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textStrikethrough": "Strikethrough",
+      "textDoubleStrikethrough": "Double Strikethrough",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript",
+      "textSmallCaps": "Small Caps",
+      "textAllCaps": "All Caps",
+      "textLetterSpacing": "Letter spacing"
     },
     "Settings": {
       "advCSVOptions": "Escolher opções CSV",

@@ -415,7 +415,14 @@
     "textWe": "Mi",
     "textWrap": "Umbrechen",
     "textWrappingStyle": "Textumbruch",
-    "textYourOption": "Ihre Option"
+    "textYourOption": "Ihre Option",
+    "txtWidth": "Width",
+    "txtHeight": "Height",
+    "textCellSize": "Rows & columns size",
+    "textCellOptions": "Cell options",
+    "textBaseline": "Baseline",
+    "textCapitalization": "Capitalization",
+    "textWrapText": "Wrap Text"
   },
   "Error": {
     "convertationTimeoutText": "Zeitüberschreitung bei der Konvertierung.",
@@ -653,9 +660,12 @@
     "textRequestMacros": "Ein Makro stellt eine Anfrage an die URL %1. Möchten Sie diese Anfrage zulassen?",
     "textSaveAsPdf": "Als PDF speichern",
     "textYes": "Ja",
+    "tipLicenseExceeded": "Das Dokument ist im schreibgeschützten Modus geöffnet, da die durch die Lizenz zulässige maximale Anzahl gleichzeitiger Verbindungen erreicht wurde.<br><br>Bitte versuchen Sie es später erneut oder wenden Sie sich an den Eigentümer des Dokuments, wenn Sie Bearbeitungszugriff benötigen.",
+    "tipLicenseUsersExceeded": "Das Dokument ist im schreibgeschützten Modus geöffnet, da die maximale Anzahl von Benutzern, die laut Lizenz Dokumente bearbeiten dürfen, erreicht wurde.<br><br>Bitte versuchen Sie es später erneut oder wenden Sie sich an den Dokumentbesitzer, wenn Sie Bearbeitungszugriff benötigen.",
     "titleDialogProtectedDocument": "Das Dokument ist geschützt",
     "titleLicenseExp": "Lizenz ist abgelaufen",
     "titleLicenseNotActive": "Lizenz nicht aktiv",
+    "titleReadOnly": "Schreibgeschützter Modus",
     "titleServerVersion": "Editor wurde aktualisiert",
     "titleUpdateVersion": "Version wurde geändert",
     "warnDownloadAsPdf": "{0} wird in ein bearbeitbares Format umgewandelt. Dies kann eine Weile dauern. Das Ausgabedokument wird so gestaltet, dass Sie den Text bearbeiten können. Es sieht also möglicherweise nicht genau so aus wie die ursprüngliche Datei {0}, besonders wenn sie viele Grafiken enthält.",
@@ -666,10 +676,7 @@
     "warnLicenseLimitedRenewed": "Die Lizenz soll erneuert werden. Die Bearbeitungsfunktionen wurden eingeschränkt.<br>Bitte wenden Sie sich an Administratoren für den vollen Zugriff",
     "warnNoLicense": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
     "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
-    "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
-    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-    "titleReadOnly": "Read-Only Mode"
+    "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."
   },
   "Settings": {
     "advDRMOptions": "Geschützte Datei",

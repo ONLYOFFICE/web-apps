@@ -719,7 +719,18 @@
       "textYen": "Γιέν",
       "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»",
       "txtSortHigh2Low": "Ταξινόμηση από το Υψηλότερο στο Χαμηλότερο",
-      "txtSortLow2High": "Ταξινόμηση από το Χαμηλότερο στο Υψηλότερο"
+      "txtSortLow2High": "Ταξινόμηση από το Χαμηλότερο στο Υψηλότερο",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textStrikethrough": "Strikethrough",
+      "textDoubleStrikethrough": "Double Strikethrough",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript",
+      "textSmallCaps": "Small Caps",
+      "textAllCaps": "All Caps",
+      "textLetterSpacing": "Letter spacing"
     },
     "Settings": {
       "advCSVOptions": "Επιλέξτε CSV επιλογές",

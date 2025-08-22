@@ -719,7 +719,18 @@
       "textYen": "Yen",
       "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
       "txtSortHigh2Low": "Sortare de la cea mai mare la cea mai mică valoare",
-      "txtSortLow2High": "Sortare de la cea mai mică la cea mai mare valoare"
+      "txtSortLow2High": "Sortare de la cea mai mică la cea mai mare valoare",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textStrikethrough": "Strikethrough",
+      "textDoubleStrikethrough": "Double Strikethrough",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript",
+      "textSmallCaps": "Small Caps",
+      "textAllCaps": "All Caps",
+      "textLetterSpacing": "Letter spacing"
     },
     "Settings": {
       "advCSVOptions": "Alegerea opțiunilor CSV",

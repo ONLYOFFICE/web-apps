@@ -719,7 +719,18 @@
       "textYen": "یین",
       "txtNotUrl": "یہ فیلڈ \"http://www.example.com\" شکل میں ایک URL ہونا چاہئے۔",
       "txtSortHigh2Low": "سب سے اونچی سے نچلی ترتیب دیں۔",
-      "txtSortLow2High": "سب سے کم سے بلند ترین ترتیب دیں۔"
+      "txtSortLow2High": "سب سے کم سے بلند ترین ترتیب دیں۔",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textStrikethrough": "Strikethrough",
+      "textDoubleStrikethrough": "Double Strikethrough",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript",
+      "textSmallCaps": "Small Caps",
+      "textAllCaps": "All Caps",
+      "textLetterSpacing": "Letter spacing"
     },
     "Settings": {
       "advCSVOptions": "CSV اختیارات کا انتخاب کریں",

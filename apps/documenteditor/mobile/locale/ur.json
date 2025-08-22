@@ -415,7 +415,14 @@
     "textWe": "ہم",
     "textWrap": "لپیٹنا",
     "textWrappingStyle": "لپیٹنے کا انداز",
-    "textYourOption": "آپ کا اختیار"
+    "textYourOption": "آپ کا اختیار",
+    "txtWidth": "Width",
+    "txtHeight": "Height",
+    "textCellSize": "Rows & columns size",
+    "textCellOptions": "Cell options",
+    "textBaseline": "Baseline",
+    "textCapitalization": "Capitalization",
+    "textWrapText": "Wrap Text"
   },
   "Error": {
     "convertationTimeoutText": "تبادلوں کا وقت ختم ہو گیا۔",

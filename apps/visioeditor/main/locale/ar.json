@@ -272,8 +272,11 @@
   "VE.Controllers.Main.textTryQuickPrint": "لقد اخترت طباعة سريعة: سيتم طباعة المستند بأكمله على آخر طابعة مختارة أو افتراضية. \n هل تريد المتابعة؟",
   "VE.Controllers.Main.textUpdateVersion": "الوثيقة غير قابلة للتعديل حاليًا <br>.يتم محاولة تحديث الملف، يرجى الانتظار...",
   "VE.Controllers.Main.textUpdating": "جارٍ التحديث",
+  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
   "VE.Controllers.Main.titleLicenseExp": "انتهت صلاحية الترخيص",
   "VE.Controllers.Main.titleLicenseNotActive": "الترخيص غير نشط",
+  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode",
   "VE.Controllers.Main.titleServerVersion": "تم تحديث المحرر",
   "VE.Controllers.Main.titleUpdateVersion": "تم تغيير الإصدار",
   "VE.Controllers.Main.txtSaveCopyAsComplete": "تم حفظ نسخة الملف بنجاح",
@@ -424,8 +427,5 @@
   "VE.Views.ViewTab.textZoom": "تكبير",
   "VE.Views.ViewTab.tipFitPage": "ملائم للصفحة",
   "VE.Views.ViewTab.tipFitWidth": "ملائم للعرض",
-  "VE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
-  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode"
+  "VE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة"
 }

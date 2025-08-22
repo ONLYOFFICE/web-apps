@@ -496,7 +496,12 @@
       "textZoom": "Zoom",
       "textZoomIn": "Acercar",
       "textZoomOut": "Alejar",
-      "textZoomRotate": "Zoom y giro"
+      "textZoomRotate": "Zoom y giro",
+      "txtWidth": "Width",
+      "txtHeight": "Height",
+      "textCellSize": "Cell size",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization"
     },
     "Settings": {
       "mniSlideStandard": "Estándar (4:3)",

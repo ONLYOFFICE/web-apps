@@ -713,7 +713,18 @@
       "textYen": "Yen",
       "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
       "txtSortHigh2Low": "Antolatu handienetik txikienera",
-      "txtSortLow2High": "Antolatu txikienetik handienera"
+      "txtSortLow2High": "Antolatu txikienetik handienera",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textStrikethrough": "Strikethrough",
+      "textDoubleStrikethrough": "Double Strikethrough",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript",
+      "textSmallCaps": "Small Caps",
+      "textAllCaps": "All Caps",
+      "textLetterSpacing": "Letter spacing"
     },
     "Settings": {
       "advCSVOptions": "Hautatu CSV aukerak",

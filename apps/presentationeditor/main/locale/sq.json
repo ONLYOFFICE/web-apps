@@ -2546,9 +2546,11 @@
   "PE.Views.ParagraphSettingsAdvanced.textTitle": "Paragraf- Cilësimet e avancuara",
   "PE.Views.ParagraphSettingsAdvanced.txtAutoText": "Auto",
   "PE.Views.PrintWithPreview.txtAllPages": "Të gjitha slajdet",
+  "PE.Views.PrintWithPreview.txtBlackAndWhitePrinting": "Printim bardh e zi",
   "PE.Views.PrintWithPreview.txtBothSides": "Printoni në të dy anët",
   "PE.Views.PrintWithPreview.txtBothSidesLongDesc": "Ktheni faqet në skajet e gjata",
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "Ktheni faqet në skajet e shkurtra",
+  "PE.Views.PrintWithPreview.txtColorPrinting": "Printim me ngjyra",
   "PE.Views.PrintWithPreview.txtCopies": "Kopje",
   "PE.Views.PrintWithPreview.txtCurrentPage": "Slajdi aktual",
   "PE.Views.PrintWithPreview.txtCustom": "Personalizuar",
@@ -2570,6 +2572,7 @@
   "PE.Views.PrintWithPreview.txtPrintRange": "Shtrirja e printimit",
   "PE.Views.PrintWithPreview.txtPrintSides": "Anët e printimit",
   "PE.Views.PrintWithPreview.txtPrintUsingSystemDialog": "Printoni duke përdorur dialogun e sistemit",
+  "PE.Views.PrintWithPreview.txtWaitingForPrinters": "Duke pritur për printerët",
   "PE.Views.RightMenu.ariaRightMenu": "Menuja e djathtë",
   "PE.Views.RightMenu.txtChartSettings": "Cilësimet e grafikut",
   "PE.Views.RightMenu.txtImageSettings": "Cilësimet e fotos",
@@ -3222,8 +3225,5 @@
   "PE.Views.ViewTab.tipMacros": "Makrot",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Selektoni mjetin",
-  "PE.Views.ViewTab.tipSlideMaster": "Slajdi master",
-  "PE.Views.PrintWithPreview.txtBlackAndWhitePrinting": "Black and white printing",
-  "PE.Views.PrintWithPreview.txtColorPrinting": "Color printing",
-  "PE.Views.PrintWithPreview.txtWaitingForPrinters": "Waiting for printers"
+  "PE.Views.ViewTab.tipSlideMaster": "Slajdi master"
 }

@@ -719,7 +719,18 @@
       "textYen": "Jen",
       "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”",
       "txtSortHigh2Low": "A legnagyobbtól a legkisebbig rendez",
-      "txtSortLow2High": "Legkisebbtől legnagyobbig rendez"
+      "txtSortLow2High": "Legkisebbtől legnagyobbig rendez",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textStrikethrough": "Strikethrough",
+      "textDoubleStrikethrough": "Double Strikethrough",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript",
+      "textSmallCaps": "Small Caps",
+      "textAllCaps": "All Caps",
+      "textLetterSpacing": "Letter spacing"
     },
     "Settings": {
       "advCSVOptions": "Válasszon a CSV beállítások közül",

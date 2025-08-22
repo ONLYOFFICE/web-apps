@@ -415,7 +415,14 @@
     "textWe": "Qua",
     "textWrap": "Encapsulamento",
     "textWrappingStyle": "Estilo da quebra",
-    "textYourOption": "Sua opção"
+    "textYourOption": "Sua opção",
+    "txtWidth": "Width",
+    "txtHeight": "Height",
+    "textCellSize": "Rows & columns size",
+    "textCellOptions": "Cell options",
+    "textBaseline": "Baseline",
+    "textCapitalization": "Capitalization",
+    "textWrapText": "Wrap Text"
   },
   "Error": {
     "convertationTimeoutText": "Tempo limite de conversão excedido.",

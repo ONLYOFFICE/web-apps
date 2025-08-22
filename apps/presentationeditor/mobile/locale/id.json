@@ -496,7 +496,12 @@
       "textZoom": "Pembesaran",
       "textZoomIn": "Perbesar",
       "textZoomOut": "Perkecil",
-      "textZoomRotate": "Zoom dan Rotasi"
+      "textZoomRotate": "Zoom dan Rotasi",
+      "txtWidth": "Width",
+      "txtHeight": "Height",
+      "textCellSize": "Cell size",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

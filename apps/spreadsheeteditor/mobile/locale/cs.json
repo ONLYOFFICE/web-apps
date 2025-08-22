@@ -719,7 +719,18 @@
       "textYen": "Jen",
       "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
       "txtSortHigh2Low": "Seřadit od nejvyššího po nejnižší",
-      "txtSortLow2High": "Seřadit od nejnižšího po nejvyšší"
+      "txtSortLow2High": "Seřadit od nejnižšího po nejvyšší",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textStrikethrough": "Strikethrough",
+      "textDoubleStrikethrough": "Double Strikethrough",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript",
+      "textSmallCaps": "Small Caps",
+      "textAllCaps": "All Caps",
+      "textLetterSpacing": "Letter spacing"
     },
     "Settings": {
       "advCSVOptions": "Vyberte možnosti CSV",

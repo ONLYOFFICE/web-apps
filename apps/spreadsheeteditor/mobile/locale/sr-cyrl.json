@@ -713,7 +713,18 @@
       "textYen": "Јен",
       "txtNotUrl": "Ово поље би требало да буде URL у \"http://www.example.com\" формату",
       "txtSortHigh2Low": "Сортирај највише ка најнижем",
-      "txtSortLow2High": "Сортирај најниже ка највишем"
+      "txtSortLow2High": "Сортирај најниже ка највишем",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textStrikethrough": "Strikethrough",
+      "textDoubleStrikethrough": "Double Strikethrough",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript",
+      "textSmallCaps": "Small Caps",
+      "textAllCaps": "All Caps",
+      "textLetterSpacing": "Letter spacing"
     },
     "Settings": {
       "advCSVOptions": "Изаберите опције за CSV",

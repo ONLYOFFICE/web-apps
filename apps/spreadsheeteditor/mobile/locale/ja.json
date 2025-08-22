@@ -719,7 +719,18 @@
       "textYen": "円",
       "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
       "txtSortHigh2Low": " 大きい順に並べ替えます",
-      "txtSortLow2High": "小さい順に並べ替えます。"
+      "txtSortLow2High": "小さい順に並べ替えます。",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textStrikethrough": "Strikethrough",
+      "textDoubleStrikethrough": "Double Strikethrough",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript",
+      "textSmallCaps": "Small Caps",
+      "textAllCaps": "All Caps",
+      "textLetterSpacing": "Letter spacing"
     },
     "Settings": {
       "advCSVOptions": "CSVオプションを選択する",

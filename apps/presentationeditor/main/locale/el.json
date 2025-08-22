@@ -2546,9 +2546,11 @@
   "PE.Views.ParagraphSettingsAdvanced.textTitle": "Παράγραφος - Προηγμένες ρυθμίσεις",
   "PE.Views.ParagraphSettingsAdvanced.txtAutoText": "Αυτόματα",
   "PE.Views.PrintWithPreview.txtAllPages": "Όλες οι διαφάνειες",
+  "PE.Views.PrintWithPreview.txtBlackAndWhitePrinting": "Ασπρόμαυρη εκτύπωση",
   "PE.Views.PrintWithPreview.txtBothSides": "Εκτύπωση και στις δύο πλευρές",
   "PE.Views.PrintWithPreview.txtBothSidesLongDesc": "Αναστροφή σελίδων στη μεγάλη άκρη",
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "Αναστροφή σελίδων στη μικρή άκρη",
+  "PE.Views.PrintWithPreview.txtColorPrinting": "Έγχρωμη εκτύπωση",
   "PE.Views.PrintWithPreview.txtCopies": "Αντίγραφα",
   "PE.Views.PrintWithPreview.txtCurrentPage": "Τρέχουσα διαφάνεια",
   "PE.Views.PrintWithPreview.txtCustom": "Προσαρμογή",
@@ -2570,6 +2572,7 @@
   "PE.Views.PrintWithPreview.txtPrintRange": "Εύρος εκτύπωσης",
   "PE.Views.PrintWithPreview.txtPrintSides": "Εκτύπωση πλευρών",
   "PE.Views.PrintWithPreview.txtPrintUsingSystemDialog": "Εκτύπωση με χρήση του διαλόγου συστήματος",
+  "PE.Views.PrintWithPreview.txtWaitingForPrinters": "Αναμονή για εκτυπωτές",
   "PE.Views.RightMenu.ariaRightMenu": "Δεξί μενού",
   "PE.Views.RightMenu.txtChartSettings": "Ρυθμίσεις γραφήματος",
   "PE.Views.RightMenu.txtImageSettings": "Ρυθμίσεις εικόνας",
@@ -3222,8 +3225,5 @@
   "PE.Views.ViewTab.tipMacros": "Μακροεντολές",
   "PE.Views.ViewTab.tipNormal": "Κανονικό",
   "PE.Views.ViewTab.tipSelectTool": "Εργαλείο επιλογής",
-  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών",
-  "PE.Views.PrintWithPreview.txtBlackAndWhitePrinting": "Black and white printing",
-  "PE.Views.PrintWithPreview.txtColorPrinting": "Color printing",
-  "PE.Views.PrintWithPreview.txtWaitingForPrinters": "Waiting for printers"
+  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών"
 }

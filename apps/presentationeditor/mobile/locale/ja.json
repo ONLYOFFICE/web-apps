@@ -236,7 +236,7 @@
     "scriptLoadError": "接続が遅すぎる、一部のコンポーネントが読み込みされません。ページを再びお読み込みしてください。",
     "splitDividerErrorText": "行の数は％1の約数である必要があります",
     "splitMaxColsErrorText": "列の数は％1未満である必要があります",
-    "splitMaxRowsErrorText": "行の数は％1未満である必要があります",
+    "splitMaxRowsErrorText": "行の数は%1未満である必要があります",
     "textOk": "OK",
     "unknownErrorText": "不明なエラー",
     "uploadImageExtMessage": "不明なイメージの形式",
@@ -496,7 +496,12 @@
       "textZoom": "ズーム",
       "textZoomIn": "拡大",
       "textZoomOut": "縮小",
-      "textZoomRotate": "ズームと回転"
+      "textZoomRotate": "ズームと回転",
+      "txtWidth": "Width",
+      "txtHeight": "Height",
+      "textCellSize": "Cell size",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization"
     },
     "Settings": {
       "mniSlideStandard": "標準(4:3)",

@@ -713,7 +713,18 @@
       "textYen": "Ien",
       "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "txtSortHigh2Low": "Ordenar de major a menor",
-      "txtSortLow2High": "Ordenar de menor a major"
+      "txtSortLow2High": "Ordenar de menor a major",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textStrikethrough": "Strikethrough",
+      "textDoubleStrikethrough": "Double Strikethrough",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript",
+      "textSmallCaps": "Small Caps",
+      "textAllCaps": "All Caps",
+      "textLetterSpacing": "Letter spacing"
     },
     "Settings": {
       "advCSVOptions": "Triar les opcions CSV",

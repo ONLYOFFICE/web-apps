@@ -272,8 +272,11 @@
   "VE.Controllers.Main.textTryQuickPrint": "ඔබ ඉක්මන් මුද්‍රණය තෝරාගෙන ඇත: අවසන් වරට තෝරාගත් හෝ පෙරනිමි මුද්‍රකයෙන් සමස්ත ලේඛනය මුද්‍රණය කෙරේ.<br>ඉදිරියට යාමට අවශ්‍යද?",
   "VE.Controllers.Main.textUpdateVersion": "ලේඛනය මේ මොහොතේ සංස්කරණයට නොහැකිය.<br>ගොනුව යාවත්කාලීනයට උත්සාහ කරමින්, කරුණාකර රැඳී සිටින්න...",
   "VE.Controllers.Main.textUpdating": "යාවත්කාල වෙමින්",
+  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
   "VE.Controllers.Main.titleLicenseExp": "බලපත්‍රය කල් ඉකුත්ය",
   "VE.Controllers.Main.titleLicenseNotActive": "බලපත්‍රය සක්‍රිය නැත",
+  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode",
   "VE.Controllers.Main.titleServerVersion": "සංස්කරකය යාවත්කාල විය",
   "VE.Controllers.Main.titleUpdateVersion": "අනුවාදය වෙනස් විය",
   "VE.Controllers.Main.txtSaveCopyAsComplete": "ගොනුවේ පිටපත සාර්ථකව සුරැකිණි",
@@ -424,8 +427,5 @@
   "VE.Views.ViewTab.textZoom": "විශාල කරන්න",
   "VE.Views.ViewTab.tipFitPage": "පිටුවට ගළපන්න",
   "VE.Views.ViewTab.tipFitWidth": "පළලට ගළපන්න",
-  "VE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව",
-  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode"
+  "VE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව"
 }

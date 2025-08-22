@@ -165,8 +165,11 @@
       "textReplaceSuccess": "La ricerca è stata effettuata. Ricorrenze sostituite: {0}",
       "textRequestMacros": "Una macro effettua una richiesta all'URL. Vuoi consentire la richiesta al %1?",
       "textYes": "Sì",
+      "tipLicenseExceeded": "Il documento è aperto in modalità di sola lettura poiché è stato raggiunto il numero massimo di connessioni simultanee consentito dalla licenza.<br><br>Riprova più tardi o contatta il proprietario del documento se hai bisogno dell'accesso di modifica.",
+      "tipLicenseUsersExceeded": "Il documento è aperto in modalità di sola lettura poiché è stato raggiunto il numero massimo di utenti autorizzati a modificare i documenti in base alla licenza.<br><br>Riprova più tardi o contatta il proprietario del documento se hai bisogno dell'accesso di modifica.",
       "titleLicenseExp": "La licenza è scaduta",
       "titleLicenseNotActive": "Licenza non attiva",
+      "titleReadOnly": "Modalità di sola lettura",
       "titleServerVersion": "L'editor è stato aggiornato",
       "titleUpdateVersion": "La versione è stata cambiata",
       "txtIncorrectPwd": "La password non è corretta",
@@ -178,10 +181,7 @@
       "warnLicenseLimitedRenewed": "La licenza dev'essere rinnovata. Hai accesso limitato alle funzionalità di modifiche di documenti.<br>Ti preghiamo di contattare il tuo amministratore per ottenere l'accesso completo.",
       "warnNoLicense": "Hai raggiunto il limite di connessioni simultanee a %1 editor. Questo documento sarà aperto solo in modalità visualizzazione.  Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
       "warnNoLicenseUsers": "Hai raggiunto il limite di utenti per %1 editor. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
-      "warnProcessRightsChange": "Non hai il permesso di modificare il file.",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "Non hai il permesso di modificare il file."
     }
   },
   "Draw": {
@@ -496,7 +496,12 @@
       "textZoom": "Zoom",
       "textZoomIn": "Ingrandisci",
       "textZoomOut": "Rimpicciolisci",
-      "textZoomRotate": "Ingrandisci e ruota"
+      "textZoomRotate": "Ingrandisci e ruota",
+      "txtWidth": "Width",
+      "txtHeight": "Height",
+      "textCellSize": "Cell size",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

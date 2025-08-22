@@ -496,7 +496,12 @@
       "textZoom": "تكبير/تصغير",
       "textZoomIn": "تكبير",
       "textZoomOut": "تصغير",
-      "textZoomRotate": "التكبير و التدوير"
+      "textZoomRotate": "التكبير و التدوير",
+      "txtWidth": "Width",
+      "txtHeight": "Height",
+      "textCellSize": "Cell size",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization"
     },
     "Settings": {
       "mniSlideStandard": "القياسي (4:3)",
