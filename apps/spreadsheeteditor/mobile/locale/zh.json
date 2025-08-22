@@ -238,14 +238,15 @@
       "titleUpdateVersion": "版本已更改",
       "warnLicenseAnonymous": "匿名用户的访问被拒绝<br>此文档将仅打开以供查看。",
       "warnLicenseBefore": "许可证未激活<br>请与管理员联系。",
-      "warnLicenseExceeded": "您已达到同时连接到%1编辑器的限制。此文档将仅打开以供查看。请与管理员联系以了解更多信息。",
       "warnLicenseExp": "您的许可证已过期。请更新您的许可证并刷新页面。",
       "warnLicenseLimitedNoAccess": "许可证已过期。您现在不能使用文档编辑功能。请联系您的管理员。",
       "warnLicenseLimitedRenewed": "许可证需要更新。您现在只能使用受限的文档编辑功能。<br>请联系您的管理员以获取完整权限",
-      "warnLicenseUsersExceeded": "您已达到%1编辑器的用户限制。请与管理员联系以了解更多信息。",
       "warnNoLicense": "您已达到同时连接到 %1 编辑器的限制。此文档将仅打开以供查看。有关个人升级条款，请与 %1 销售团队联系。",
       "warnNoLicenseUsers": "您已达到%1编辑器的用户限制。有关个人升级条款，请与%1销售团队联系。",
-      "warnProcessRightsChange": "你没有编辑文件的权限。"
+      "warnProcessRightsChange": "你没有编辑文件的权限。",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Draw": {

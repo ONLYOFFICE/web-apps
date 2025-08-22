@@ -2843,12 +2843,14 @@ define([
                     me.toolbar.processPanelVisible(null, true);
                 }
 
-                if ( config.isDesktopApp ) {
+                if ( config.canProtect && config.isDesktopApp ) {
                     if (config.isSignatureSupport || config.isPasswordSupport) { // don't add protect panel to toolbar
                         tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
-                        if ($panel)
-                            me.toolbar.addTab(tab, $panel, 6);
+                        if ($panel) {
+                            me.toolbar.addTab(tab, $panel, 8);
+                            me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
+                        }
                     }
                 }
 
@@ -2863,7 +2865,7 @@ define([
             $panel = viewtab.createToolbarPanel();
             if ($panel) {
                 var visible = Common.UI.LayoutManager.isElementVisible('toolbar-view');
-                me.toolbar.addTab(tab, $panel, 7);
+                me.toolbar.addTab(tab, $panel, 9);
                 me.toolbar.setVisible('view', visible);
                 !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
             }

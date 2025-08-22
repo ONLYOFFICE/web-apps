@@ -294,11 +294,9 @@
   "VE.Controllers.Main.warnBrowserZoom": "Aktualne ustawienie powiększenia w przeglądarce nie jest w pełni obsługiwane. Zresetuj domyślnne powiększenie, naciskając Ctrl+0.",
   "VE.Controllers.Main.warnLicenseAnonymous": "Odmowa dostępu dla użytkowników anonimowych.<br>Ten dokument zostanie otwarty tylko do podglądu.",
   "VE.Controllers.Main.warnLicenseBefore": "Licencja jest nieaktywna.<br>Prosimy o kontakt z administratorem.",
-  "VE.Controllers.Main.warnLicenseExceeded": "Osiągnięto limit jednoczesnych połączeń dla %1 edytorów. Ten dokument zostanie otwarty tylko do przeglądania.<br>Skontaktuj się z administratorem by dowiedzieć się więcej.",
   "VE.Controllers.Main.warnLicenseExp": "Twoja licencja wygasła.<br>Zaktualizuj licencję i odśwież stronę.",
   "VE.Controllers.Main.warnLicenseLimitedNoAccess": "Licencja wygasła.<br>Nie masz dostępu do edycji dokumentu.<br>Proszę skontaktować się ze swoim administratorem.",
   "VE.Controllers.Main.warnLicenseLimitedRenewed": "Licencja musi zostać odnowiona.<br>Masz ograniczony dostęp do edycji dokumentu.<br>Skontaktuj się ze swoim administratorem, aby uzyskać pełny dostęp.",
-  "VE.Controllers.Main.warnLicenseUsersExceeded": "Osiągnięto limit jednoczesnych połączeń dla %1 edytorów. Skontaktuj się z administratorem by dowiedzieć się więcej.",
   "VE.Controllers.Main.warnNoLicense": "Osiągnięto limit jednoczesnych połączeń dla %1 edytorów. Ten dokument zostanie otwarty tylko do przeglądania.<br>Skontaktuj się z zespołem sprzedaży %1 w celu uzyskania osobistych warunków uaktualnienia.",
   "VE.Controllers.Main.warnNoLicenseUsers": "Osiągnięto limit jednoczesnych połączeń dla %1 edytorów. Skontaktuj się z zespołem sprzedaży %1 w celu uzyskania osobistych warunków uaktualnienia.",
   "VE.Controllers.Main.warnProcessRightsChange": "Prawa do edycji pliku zostały ci odmówione.",
@@ -334,6 +332,7 @@
   "VE.Views.FileMenu.btnSaveAsCaption": "Zapisz jako",
   "VE.Views.FileMenu.btnSaveCopyAsCaption": "Zapisz Kopię Jako",
   "VE.Views.FileMenu.btnSettingsCaption": "Ustawienia Zaawansowane",
+  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature",
   "VE.Views.FileMenu.btnSwitchToMobileCaption": "Przełącz do wersji mobilnej",
   "VE.Views.FileMenu.textDownload": "Pobierz",
   "VE.Views.FileMenuPanels.CreateNew.txtBlank": "Pusty Dokument",
@@ -426,5 +425,7 @@
   "VE.Views.ViewTab.tipFitPage": "Dopasuj do strony",
   "VE.Views.ViewTab.tipFitWidth": "Dopasuj do szerokości",
   "VE.Views.ViewTab.tipInterfaceTheme": "Motyw interfejsu",
-  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature"
+  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode"
 }

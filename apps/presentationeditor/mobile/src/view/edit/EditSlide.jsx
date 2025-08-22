@@ -65,7 +65,7 @@ const PageTheme = props => {
                 }
             </Navbar>
             {arrayThemes.length && (
-                <List className="slide-theme__list">
+                <List className="multi-column slide-theme__list">
                     {arrayThemes.map(theme => {
                         return (
                             <ListItem key={theme.themeId} className={theme.themeId === slideThemeIndex ? "item-theme active" : "item-theme"} 
@@ -109,7 +109,7 @@ const PageLayout = props => {
             {arrayLayouts.length && 
                 arrayLayouts.map((layouts, index) => {
                     return (
-                        <List className="slide-layout__list" key={index}>
+                        <List className="multi-column slide-layout__list" key={index}>
                             {layouts.map(layout => {
                                 return (
                                     <ListItem key={layout.type} className={slideLayoutIndex === layout.type ? "active" : ""} 

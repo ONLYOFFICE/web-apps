@@ -294,11 +294,9 @@
   "VE.Controllers.Main.warnBrowserZoom": "현재 브라우저의 확대/축소 설정은 완전히 지원되지 않습니다. Ctrl+0을 눌러 기본 확대/축소로 초기화해 주세요.",
   "VE.Controllers.Main.warnLicenseAnonymous": "익명 사용자에 대한 접근이 거부되었습니다.<br>이 문서는 읽기 전용으로 열립니다.",
   "VE.Controllers.Main.warnLicenseBefore": "라이선스가 활성화되지 않았습니다.<br>관리자에게 문의하세요.",
-  "VE.Controllers.Main.warnLicenseExceeded": "동시 접속 가능한 편집기 수(%1명)를 초과했습니다. 이 문서는 읽기 전용으로 열립니다.<br>자세한 내용은 관리자에게 문의하십시오.",
   "VE.Controllers.Main.warnLicenseExp": "라이선스가 만료되었습니다.<br>라이선스를 갱신한 후 페이지를 새로 고치십시오.",
   "VE.Controllers.Main.warnLicenseLimitedNoAccess": "라이선스가 만료되었습니다.<br>문서 편집 기능을 사용할 수 없습니다.<br>관리자에게 문의하세요.",
   "VE.Controllers.Main.warnLicenseLimitedRenewed": "라이선스를 갱신해야 합니다.<br>문서 편집 기능의 사용이 제한되어 있습니다.<br>전체 기능을 사용하려면 관리자에게 문의하세요.",
-  "VE.Controllers.Main.warnLicenseUsersExceeded": "%1 편집기의 사용자 수 제한에 도달했습니다. 자세한 내용은 관리자에게 문의하십시오.",
   "VE.Controllers.Main.warnNoLicense": "동시 접속 가능한 %1명의 편집기 사용자 수를 초과했습니다. 이 문서는 읽기 전용으로 열립니다.<br>개별 업그레이드 조건에 대한 안내는 %1 영업팀에 문의하십시오.",
   "VE.Controllers.Main.warnNoLicenseUsers": "%1 편집기 사용자 수 제한에 도달했습니다. 개별 업그레이드 조건에 대해서는 %1 영업팀에 문의하십시오.",
   "VE.Controllers.Main.warnProcessRightsChange": "파일 편집 권한이 거부되었습니다.",
@@ -334,6 +332,7 @@
   "VE.Views.FileMenu.btnSaveAsCaption": "다른 이름으로 저장",
   "VE.Views.FileMenu.btnSaveCopyAsCaption": "다른 이름으로 저장",
   "VE.Views.FileMenu.btnSettingsCaption": "고급 설정",
+  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature",
   "VE.Views.FileMenu.btnSwitchToMobileCaption": "모바일 보기로 전환",
   "VE.Views.FileMenu.textDownload": "다운로드",
   "VE.Views.FileMenuPanels.CreateNew.txtBlank": "빈 문서",
@@ -426,5 +425,7 @@
   "VE.Views.ViewTab.tipFitPage": "페이지에 맞춤",
   "VE.Views.ViewTab.tipFitWidth": "너비에 맞춤",
   "VE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마",
-  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature"
+  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode"
 }

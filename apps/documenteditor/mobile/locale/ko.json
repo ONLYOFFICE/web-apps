@@ -661,14 +661,15 @@
     "warnDownloadAsPdf": "{0}(이)가 편집 가능한 형식으로 변환됩니다. 시간이 다소 소요될 수 있습니다. 완성된 문서는 텍스트를 편집할 수 있도록 최적화되므로 특히 원본 파일에 많은 그래픽이 포함된 경우 원본 {0}와/과 완전히 같지 않을 수 있습니다.",
     "warnLicenseAnonymous": "익명 사용자에 대한 접근이 거부되었습니다.<br>이 문서는 보기 전용으로 열립니다.",
     "warnLicenseBefore": "라이센스가 활성화되지 않았습니다.<br>관리자에게 문의하세요.",
-    "warnLicenseExceeded": "% 1 편집 연결 수 제한에 도달했습니다. 이 문서는 보기 모드에서 엽립니다. 자세한 내용은 관리자에게 연락하십시오.",
     "warnLicenseExp": "라이센스가 만료되었습니다. 라이선스를 업데이트하고 페이지를 새로고침하세요.",
     "warnLicenseLimitedNoAccess": "라이센스가 만료되었습니다. 문서 편집 기능을 사용할 수 없습니다. 관리자에게 문의하십시오.",
     "warnLicenseLimitedRenewed": "라이선스를 업데이트해야 합니다. 문서 편집 기능이 제한됩니다. <br>전체 액세스 권한을 얻으려면 관리자에게 문의하십시오.",
-    "warnLicenseUsersExceeded": "편집자 사용자 한도인 %1명에 도달했습니다. 자세한 내용은 관리자에게 문의하십시오.",
     "warnNoLicense": "% 1 편집 연결 수 제한에 도달했습니다. 이 문서는 보기 모드로 열립니다. 개인적인 업그레이드 사항은 % 1 영업팀에 연락하십시오.",
     "warnNoLicenseUsers": "ONLYOFFICE 편집자의이 버전은 동시 사용자에게 일정한 제한이 있습니다. <br> 더 필요한 것이 있으면 현재 라이센스를 업그레이드하거나 상용 라이센스를 구입하십시오.",
-    "warnProcessRightsChange": "파일을 편집 할 권한이 없습니다."
+    "warnProcessRightsChange": "파일을 편집 할 권한이 없습니다.",
+    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "titleReadOnly": "Read-Only Mode"
   },
   "Settings": {
     "advDRMOptions": "보호 된 파일",

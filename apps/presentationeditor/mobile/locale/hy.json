@@ -173,14 +173,15 @@
       "txtProtected": "Երբ գաղտնաբառը մուտքագրեք ու նիշքը բացեք, ընթացիկ գաղտնաբառը կվերակայվի",
       "warnLicenseAnonymous": "Մուտքն արգելված է անանուն օգտատերերի համար:<br>Այս փաստաթուղթը կբացվի միայն դիտելու համար:",
       "warnLicenseBefore": "Լիցենզիան ակտիվ չէ:<br> Խնդրում ենք կապվել ձեր ադմինիստրատորի հետ:",
-      "warnLicenseExceeded": "Դուք հասել եք %1 խմբագիրների հետ միաժամանակյա միացումների սահմանաչափին:Այս փաստաթուղթը կբացվի միայն դիտելու համար:Կապվեք Ձեր ադմինիստրատորի հետ՝ ավելին իմանալու համար:",
       "warnLicenseExp": "Ձեր լիցենզիայի ժամկետը լրացել է:Խնդրում ենք արդիացնել այն և թարմացնել էջը։",
       "warnLicenseLimitedNoAccess": "Լիցենզիայի ժամկետը լրացել է։Փաստաթղթերի խմբագրման գործառույթից օգտվելու հնարավորություն չունեք:Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ:",
       "warnLicenseLimitedRenewed": "Լիցենզիան պետք է երկարաձգվի։Փաստաթղթերի խմբագրման գործառույթի հասանելիությունը սահմանափակ է:Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ՝ լիարժեք մուտք ստանալու համար․",
-      "warnLicenseUsersExceeded": "Դուք հասել եք %1 խմբագրիչներին միաժամանակ միանալու սահմանափակմանը։Կապվեք Ձեր ադմինիստրատորի հետ՝ ավելին իմանալու համար:",
       "warnNoLicense": "Դուք հասել եք %1 խմբագիրների հետ միաժամանակյա միացումների սահմանաչափին:Այս փաստաթուղթը կբացվի միայն դիտելու համար:նձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
       "warnNoLicenseUsers": "Դուք հասել եք %1 խմբագիրների օգտվողի սահմանաչափին:Անձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
-      "warnProcessRightsChange": "Դուք ֆայլը խմբագրելու թույլտվություն չունեք:"
+      "warnProcessRightsChange": "Դուք ֆայլը խմբագրելու թույլտվություն չունեք:",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Draw": {

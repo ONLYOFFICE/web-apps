@@ -230,7 +230,7 @@
       "textReplaceSuccess": "සෙවුම සිදු කර ඇත. ප්‍රතිස්ථාපනය කළ සිදුවීම්: {0}",
       "textRequestMacros": "සාර්වයක් ඒ.ස.නි. ට ඉල්ලීමක් කරයි. %1 වෙත ඉල්ලීමට ඉඩ දීමට වුවමනාද?",
       "textUpdate": "යාවත්කාල",
-      "textWarnUpdateExternalData": "මෙම වැඩපොතෙහි අනාරක්‍ෂිත විය හැකි බාහිර මූලාශ්‍රයකට හෝ කිහිපයකට සබැඳි අඩංගු වේ. ඔබට එම සබැඳි විශ්වාස නම්, නවතම දත්ත ලබා ගැනීමට ඒවා යාවත්කාල කරන්න.",
+      "textWarnUpdateExternalData": "මෙම වැඩපොතේ අනාරක්‍ෂිත විය හැකි බාහිර මූලාශ්‍රයකට හෝ කිහිපයකට සබැඳි අඩංගු වේ. ඔබට එම සබැඳි විශ්වාස නම්, නවතම දත්ත ලබා ගැනීමට ඒවා යාවත්කාල කරන්න.",
       "textYes": "ඔව්",
       "titleLicenseExp": "බලපත්‍රය කල් ඉකුත්ය",
       "titleLicenseNotActive": "බලපත්‍රය සක්‍රිය නැත",
@@ -238,14 +238,15 @@
       "titleUpdateVersion": "අනුවාදය වෙනස් විය",
       "warnLicenseAnonymous": "නිර්නාමික පරිශ්‍රීලකයින් සඳහා ප්‍රවේශය ප්‍රතික්‍ෂේපිතයි.<br>මෙම ලේඛනය දැකීමට පමණක් විවෘත වනු ඇත.",
       "warnLicenseBefore": "බලපත්‍රය සක්‍රිය නැත.<br>කරුණාකර ඔබගේ පරිපාලක අමතන්න.",
-      "warnLicenseExceeded": "%1 සංස්කරක සමකාල සම්බන්ධතා සීමාවට ළඟා වී ඇත. මෙම ලේඛනය දැකීමට පමණක් විවෘත වේ. තව දැන ගැනීමට ඔබගේ පරිපාලක අමතන්න.",
       "warnLicenseExp": "ඔබගේ බලපත්‍රය කල් ඉකුත්ය. බලපත්‍රය යාවත්කාල කර පිටුව නැවුම් කරන්න.",
       "warnLicenseLimitedNoAccess": "බලපත්‍රය කල් ඉකුත්ය. ඔබට ලේඛන සංස්කරණය කිරීමට ප්‍රවේශයක් නැත. කරුණාකර, ඔබගේ පරිපාලක අමතන්න.",
       "warnLicenseLimitedRenewed": "බලපත්‍රය අළුත් කළ යුතුයි. ඔබට ලේඛන සංස්කරණයට සීමිත ප්‍රවේශයක් තිබේ.<br>පූර්ණ ප්‍රවේශය ලබා ගැනීමට ඔබගේ පරිපාලක අමතන්න",
-      "warnLicenseUsersExceeded": "ඔබ %1 සංස්කරක වල පරිශ්‍රීලක සීමාවට ළඟා වී ඇත. තව දැන ගැනීමට ඔබගේ පරිපාලක අමතන්න.",
       "warnNoLicense": "%1 සංස්කරක සමකාල සම්බන්ධතා සීමාවට ළඟා වී ඇත. මෙම ලේඛනය දැකීමට පමණක් විවෘත වේ. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
       "warnNoLicenseUsers": "ඔබ %1 සංස්කරක වල පරිශ්‍රීලක සීමාවට ළඟා වී ඇත. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
-      "warnProcessRightsChange": "ඔබට ගොනුව සංස්කරණයට අවසර නැත."
+      "warnProcessRightsChange": "ඔබට ගොනුව සංස්කරණයට අවසර නැත.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Draw": {

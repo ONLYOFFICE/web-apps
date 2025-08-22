@@ -40,6 +40,7 @@ const EditText = props => {
     const isBold = storeTextSettings.isBold;
     const isItalic = storeTextSettings.isItalic;
     const isUnderline = storeTextSettings.isUnderline;
+    const isStrikethrough = storeTextSettings.isStrikethrough;
     const paragraphAlign = storeTextSettings.paragraphAlign;
     const paragraphValign = storeTextSettings.paragraphValign;
 
@@ -59,6 +60,7 @@ const EditText = props => {
                         <a className={'button' + (isBold ? ' active' : '')} onClick={() => {props.toggleBold(!isBold)}}><b>B</b></a>
                         <a className={'button' + (isItalic ? ' active' : '')} onClick={() => {props.toggleItalic(!isItalic)}}><i>I</i></a>
                         <a className={'button' + (isUnderline ? ' active' : '')} onClick={() => {props.toggleUnderline(!isUnderline)}} style={{textDecoration: "underline"}}>U</a>
+                        <a className={'button' + (isStrikethrough ? ' active' : '')} onClick={() => {props.toggleStrikethrough(!isStrikethrough)}} style={{textDecoration: "line-through"}}>S</a>
                     </div>
                 </ListItem>
                 <ListItem title={_t.textTextColor} link="/edit-text-font-color/" routeProps={{

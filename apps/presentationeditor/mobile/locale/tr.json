@@ -173,14 +173,15 @@
       "txtProtected": "Şifreyi girip dosyayı açtığınızda, dosya şifresi sıfırlanacaktır.",
       "warnLicenseAnonymous": "Erişim anonim kullanıcılar için engellendi.<br>Bu doküman sadece görüntüleme için açılacaktır.",
       "warnLicenseBefore": "Lisans aktif değil. <br>Lütfen yöneticinizle görüşün.",
-      "warnLicenseExceeded": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Daha fazla bilgi edinmek için yöneticinizle iletişime geçin.",
       "warnLicenseExp": "Lisansınızın süresi doldu. Lütfen güncelleyiniz ve sayfayı yenileyiniz.",
       "warnLicenseLimitedNoAccess": "Lisans süresi doldu. Belge düzenleme işlevine erişiminiz yok. Lütfen yöneticinize başvurun.",
       "warnLicenseLimitedRenewed": "Lisansın yenilenmesi gerekiyor. Belge düzenleme işlevine sınırlı erişiminiz var.<br>Tam erişim için lütfen yöneticinizle iletişime geçin.",
-      "warnLicenseUsersExceeded": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Daha fazla bilgi edinmek için yöneticinizle iletişime geçin.",
       "warnNoLicense": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
       "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
-      "warnProcessRightsChange": "Dosyayı düzenleme izniniz yok."
+      "warnProcessRightsChange": "Dosyayı düzenleme izniniz yok.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Error": {

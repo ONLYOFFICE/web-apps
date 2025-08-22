@@ -661,14 +661,15 @@
     "warnDownloadAsPdf": "{0} düzenlenebilir bir biçime dönüştürülecek.  Bu biraz zaman alabilir.  Ortaya çıkan belge, metni düzenlemenize izin verecek şekilde optimize edilecektir, bu nedenle, özellikle orijinal dosya çok sayıda grafik içeriyorsa, dosya tam olarak orijinal {0} gibi görünmeyebilir.",
     "warnLicenseAnonymous": "Erişim anonim kullanıcılar için engellendi.<br>Bu doküman sadece görüntüleme için açılacaktır.",
     "warnLicenseBefore": "Lisans aktif değil. <br>Lütfen yöneticinizle görüşün.",
-    "warnLicenseExceeded": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Daha fazla bilgi edinmek için yöneticinizle iletişime geçin.",
     "warnLicenseExp": "Lisansınızın süresi doldu. Lütfen lisansınızı güncelleyin ve sayfayı yenileyin.",
     "warnLicenseLimitedNoAccess": "Lisans süresi doldu. Doküman edit etme özelliğini kullanmaya izniniz bulunmamaktadır. Lütfen, yöneticinizle iletişime geçin.",
     "warnLicenseLimitedRenewed": "Lisansın yenilenmesi gerekiyor. Belge düzenleme işlevine sınırlı erişiminiz var.<br>Tam erişim için lütfen yöneticinizle iletişime geçin.",
-    "warnLicenseUsersExceeded": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Daha fazla bilgi edinmek için yöneticinizle iletişime geçin.",
     "warnNoLicense": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
     "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
-    "warnProcessRightsChange": "Bu dosyayı düzenleme izniniz yok."
+    "warnProcessRightsChange": "Bu dosyayı düzenleme izniniz yok.",
+    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "titleReadOnly": "Read-Only Mode"
   },
   "Settings": {
     "advDRMOptions": "Korumalı dosya",

@@ -64,14 +64,15 @@
       "txtIncorrectPwd": "Mot de passe incorrect",
       "warnLicenseAnonymous": "Accès refusé aux utilisateurs anonymes.<br>Ce document sera accessible en lecture seule uniquement.",
       "warnLicenseBefore": "Licence non active.<br>Veuillez contacter votre administrateur.",
-      "warnLicenseExceeded": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Pour en savoir plus, contactez votre administrateur.",
       "warnLicenseExp": "Votre licence a expiré. Veuillez mettre à jour votre licence et actualisez la page.",
       "warnLicenseLimitedNoAccess": "La licence est expirée. Vous n'avez plus d'accès aux outils d'édition. Veuillez contacter votre administrateur.",
       "warnLicenseLimitedRenewed": "La licence doit être renouvelée. Vous avez un accès limité à la fonctionnalité d'édition de documents. Veuillez contacter votre administrateur pour obtenir un accès complet",
-      "warnLicenseUsersExceeded": "Vous avez atteint la limite d'utilisateurs pour %1 éditeurs. Veuillez contacter votre administrateur pour en savoir plus.",
       "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
       "warnNoLicenseUsers": "Vous avez atteint la limite d'utilisateurs pour %1 éditeurs. Contactez l'équipe de vente de %1 pour connaître les conditions de mise à niveau personnelle.",
-      "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
+      "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Error": {

@@ -24,6 +24,11 @@ class EditTextController extends Component {
         api.asc_setCellUnderline(value);
     };
 
+    toggleStrikethrough(value) {
+        const api = Common.EditorApi.get();
+        api.asc_setCellStrikeout(value);
+    }
+
     // Additional
 
     onAdditionalStrikethrough(type, value) {
@@ -162,6 +167,7 @@ class EditTextController extends Component {
                 toggleBold={this.toggleBold}
                 toggleItalic={this.toggleItalic}
                 toggleUnderline={this.toggleUnderline}
+                toggleStrikethrough={this.toggleStrikethrough}
                 onParagraphAlign={this.onParagraphAlign}
                 onParagraphValign={this.onParagraphValign}
                 changeFontSize={this.changeFontSize}

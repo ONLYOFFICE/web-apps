@@ -12,6 +12,7 @@ export class storeTextSettings {
             isBold: observable,
             isItalic: observable,
             isUnderline: observable,
+            isStrikethrough: observable,
             isSuperscript: observable,
             isSubscript: observable,
             textColor: observable,
@@ -55,6 +56,7 @@ export class storeTextSettings {
     isBold = false;
     isItalic = false;
     isUnderline = false;
+    isStrikethrough = false;
     isSuperscript = false;
     isSubscript = false;
     textColor = undefined;
@@ -83,10 +85,10 @@ export class storeTextSettings {
         this.isBold = xfs.asc_getFontBold();
         this.isItalic = xfs.asc_getFontItalic();
         this.isUnderline = xfs.asc_getFontUnderline();
+        this.isStrikethrough = xfs.asc_getFontStrikeout();
         this.isSuperscript = xfs.asc_getFontSuperscript();
         this.isSubscript = xfs.asc_getFontSubscript();
-        
-    
+
         let color = xfs.asc_getFontColor();
         // console.log(color);
         this.textColor = this.resetTextColor(color);

@@ -173,14 +173,15 @@
       "txtProtected": "Miután megadta a jelszót és megnyitotta a fájlt, annak jelenlegi jelszava visszaállítódik.",
       "warnLicenseAnonymous": "Hozzáférés megtagadva az ismeretlen felhasználók számára.<br>Ez a dokumentum csak olvasásra nyílik meg.",
       "warnLicenseBefore": "A licenc nem aktív.<br>Kérjük, forduljon rendszergazdájához.",
-      "warnLicenseExceeded": "Elérte a(z) %1 szerkesztővel való egyidejű kapcsolódási korlátot. Ez a dokumentum csak megtekintésre nyílik meg. További információért forduljon rendszergazdájához.",
       "warnLicenseExp": "Az Ön licence lejárt. Kérjük, frissítse licencét majd frissítse az oldalt.",
       "warnLicenseLimitedNoAccess": "Licensz lejárt. Nincs hozzáférése a dokumentumszerkesztési funkciókhoz. Kérjük, forduljon rendszergazdájához.",
       "warnLicenseLimitedRenewed": "A licencet meg kell újítani. Korlátozott hozzáférése van a dokumentumszerkesztési funkciókhoz.<br>A teljes hozzáférés érdekében forduljon rendszergazdájához",
-      "warnLicenseUsersExceeded": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználók számának korlátját. További információért forduljon rendszergazdájához.",
       "warnNoLicense": "Elérte a(z) %1 szerkesztővel való egyidejű kapcsolódási korlátot. Ez a dokumentum csak megtekintésre nyílik meg. Lépjen kapcsolatba a(z) %1 értékesítési csapatával a személyes bővíthető feltételekért.",
       "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználók számának korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
-      "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére."
+      "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Draw": {

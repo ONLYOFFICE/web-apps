@@ -294,11 +294,9 @@
   "VE.Controllers.Main.warnBrowserZoom": "Тренутна подешавања зумирања вашег прегледача нису потпуно подржана. Молимо вас ресетујте на подразумевано зумирање притиском Ctrl+0.",
   "VE.Controllers.Main.warnLicenseAnonymous": "Приступ одбијен за анонимне кориснике.<br>Овај документ ће бити отворен само за приказ.",
   "VE.Controllers.Main.warnLicenseBefore": "Лиценца није активна.<br>Молимо контактирајте вашег администратора.",
-  "VE.Controllers.Main.warnLicenseExceeded": "Достигли сте лимит за истовремене конекције за %1 уреднике. Овај документ ће бити отворен само за приказ.<br>Контактирајте вашег администратора да сазнате више.",
   "VE.Controllers.Main.warnLicenseExp": "Ваша лиценца је истекла.<br>Молимо ажурирајте вашу лиценцу и освежите страницу.",
   "VE.Controllers.Main.warnLicenseLimitedNoAccess": "Лиценца истекла.<br>Немате приступ функционалности уређивања документа.<br>Молимо контактирајте вашег администратора.",
   "VE.Controllers.Main.warnLicenseLimitedRenewed": "Лиценца треба да буде обновљена.<br>Имате ограничен приступ функционалности уређивања документа.<br>Молимо контактирајте вашег администратора да добијете потпуни приступ",
-  "VE.Controllers.Main.warnLicenseUsersExceeded": "Достигли сте кориснички лимит за %1 уреднике. Контактирајте свог администратора да сазнате више.",
   "VE.Controllers.Main.warnNoLicense": "Достигли сте лимит за истовремене конекције за %1 уреднике. Овај документ ће бити отворен само за приказ.<br>Контактирајте %1 тим за продају за личне услове надоградње.",
   "VE.Controllers.Main.warnNoLicenseUsers": "Достигли сте кориснички лимит за %1 уреднике. Контактирајте %1 тим за продају за личне услове надоградње.",
   "VE.Controllers.Main.warnProcessRightsChange": "Ускраћено вам је право да уредите овај фајл.",
@@ -334,6 +332,7 @@
   "VE.Views.FileMenu.btnSaveAsCaption": "Сачувај као",
   "VE.Views.FileMenu.btnSaveCopyAsCaption": "Сачувај копију као",
   "VE.Views.FileMenu.btnSettingsCaption": "Напредна подешавања",
+  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature",
   "VE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "VE.Views.FileMenu.textDownload": "Преузми",
   "VE.Views.FileMenuPanels.CreateNew.txtBlank": "Празан документ",
@@ -426,5 +425,7 @@
   "VE.Views.ViewTab.tipFitPage": "Прилагоди страници",
   "VE.Views.ViewTab.tipFitWidth": "Прилагоди ширини",
   "VE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса",
-  "VE.Views.FileMenu.btnSuggestCaption": "Suggest a Feature"
+  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode"
 }
