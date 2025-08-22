@@ -135,7 +135,7 @@ const PageTableOptions = props => {
             
             <BlockTitle>{_t.textCellOptions}</BlockTitle>
             <List>
-                <ListItem title={_t.textWrap}>
+                <ListItem title={_t.textWrapText}>
                     <Toggle checked={!isCellNoWrap} onToggleChange={()=> {props.onOptionCellWrap(!isCellNoWrap)}} />
                 </ListItem>
             </List>
