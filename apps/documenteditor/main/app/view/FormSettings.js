@@ -621,14 +621,14 @@ define([
                     '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= Common.Utils.String.htmlEncode(item.value) %>"<% if (item.value === 0) { %> class="border-top"<% } %>>',
                             '<% if (item.value === 0) { %>',
-                                '<a tabindex="-1" type="menuitem" style="overflow: hidden; text-overflow: ellipsis; padding: ' + (Common.UI.isRTL() ? '5px 24px 5px 20px' : '5px 20px 5px 24px') + ';">',
+                                '<a tabindex="-1" type="menuitem" style="display: block; padding: ' + (Common.UI.isRTL() ? '5px 24px 5px 20px' : '5px 20px 5px 24px') + ';">',
                                     '<span class="menu-item-icon menu__icon btn-zoomup"></span>',
                                     '<%= Common.Utils.String.htmlEncode(item.displayValue) %>',
                                 '</a>',
                             '<% } else { %>',
-                                '<a tabindex="-1" type="menuitem" style="overflow: hidden; text-overflow: ellipsis; padding-' + (Common.UI.isRTL() ? 'right' : 'left') + ': 10px;">',
+                                '<a tabindex="-1" type="menuitem" style="padding-' + (Common.UI.isRTL() ? 'right' : 'left') + ': 10px;">',
                                     '<span class="color" style="background: <%= item.color %>;"></span>',
-                                    '<%= Common.Utils.String.htmlEncode(item.displayValue) %>',
+                                    '<div style="overflow: hidden; text-overflow: ellipsis;"><%= Common.Utils.String.htmlEncode(item.displayValue) %></div>',
                                 '</a>',
                             '<% } %>',
                         '</li>',
@@ -663,7 +663,8 @@ define([
                 updateFormControl: function(record) {
                     var formcontrol = $(this.el).find('.form-control');
                     if (record) {
-                        formcontrol[0].innerHTML = '<span class="color" style="background:' + record.get('color') + ';"></span>' + Common.Utils.String.htmlEncode(record.get('displayValue'));
+                        formcontrol[0].innerHTML =
+                            `<span class="color" style="background: ${record.get('color')};"></span><div style="overflow: hidden; text-overflow: ellipsis;">${Common.Utils.String.htmlEncode(record.get('displayValue'))}</div>`;
                     } else
                         formcontrol[0].innerHTML = '';
                 }
