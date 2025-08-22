@@ -21,6 +21,7 @@ import IconTextOrientationAnglecount from '@common-icons/icon-text-orientation-a
 import IconTextOrientationRotateup from '@common-icons/icon-text-orientation-rotateup.svg';
 import IconTextOrientationRotatedown from '@common-icons/icon-text-orientation-rotatedown.svg';
 import IconTextColor from '@common-icons/icon-text-color.svg';
+import IconTextAdditionalIos from '@common-icons/icon-text-additional.svg';
 
 const EditText = props => {
     const isAndroid = Device.android;
@@ -68,6 +69,16 @@ const EditText = props => {
                     {!isAndroid ?
                         <SvgIcon slot="media" symbolId={IconTextColor.id} className={'icon icon-svg'} /> :
                         fontColorPreview
+                    }
+                </ListItem>
+                <ListItem title={_t.textAdditionalFormatting} link="/edit-text-add-formatting/" routeProps={{
+                    onAdditionalStrikethrough: props.onAdditionalStrikethrough,
+                    onAdditionalCaps: props.onAdditionalCaps,
+                    onAdditionalScript: props.onAdditionalScript,
+                    changeLetterSpacing: props.changeLetterSpacing
+                }}>
+                    {!isAndroid && 
+                        <SvgIcon slot="media" symbolId={IconTextAdditionalIos.id} className={'icon icon-svg'} />
                     }
                 </ListItem>
             </List>
@@ -346,6 +357,83 @@ const PageFontColor = props => {
     );
 };
 
+const PageAdditionalFormatting = props => {
+    const isAndroid = Device.android;
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const storeTextSettings = props.storeTextSettings;
+    const storeFocusObjects = props.storeFocusObjects;
+    const paragraphObj = storeFocusObjects.paragraphObject;
+    const isSuperscript = storeTextSettings.isSuperscript;
+    const isSubscript = storeTextSettings.isSubscript;
+    let isStrikeout, isDStrikeout, isSmallCaps, isAllCaps, letterSpacing;
+
+    if(paragraphObj) {
+        isStrikeout = paragraphObj.asc_getStrikeout();
+        isDStrikeout = paragraphObj.asc_getDStrikeout();
+        isSmallCaps = paragraphObj.get_SmallCaps();
+        isAllCaps = paragraphObj.get_AllCaps();
+        letterSpacing = (paragraphObj.get_TextSpacing() === null || paragraphObj.get_TextSpacing() === undefined) ? paragraphObj.get_TextSpacing() : Common.Utils.Metric.fnRecalcFromMM(paragraphObj.get_TextSpacing());
+    }
+
+    if (!storeTextSettings && Device.phone) {
+        $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
+        return null;
+    }
+
+    return (
+        <Page>
+            <Navbar title={_t.textAdditional} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <BlockTitle>{_t.textStrikethrough}</BlockTitle>
+            <List title={_t.textStrikethrough}>
+                <ListItem title={_t.textStrikethrough} radio checked={isStrikeout} onClick={() => {props.onAdditionalStrikethrough('strikeout', !isStrikeout)}}/>
+                <ListItem title={_t.textDoubleStrikethrough} radio checked={isDStrikeout} onClick={() => {props.onAdditionalStrikethrough('dbStrikethrough', !isDStrikeout)}}/>
+            </List>
+            <BlockTitle>{_t.textBaseline}</BlockTitle>
+            <List>
+                <ListItem title={_t.textSuperscript} radio checked={isSuperscript} onClick={() => {props.onAdditionalScript('superscript', !isSuperscript)}}/>
+                <ListItem title={_t.textSubscript} radio checked={isSubscript} onClick={() => {props.onAdditionalScript('subscript', !isSubscript)}}/>
+            </List>
+            <BlockTitle>{_t.textCapitalization}</BlockTitle>
+            <List>
+                <ListItem title={_t.textSmallCaps} radio checked={isSmallCaps} onClick={() => {props.onAdditionalCaps('small', !isSmallCaps)}}/>
+                <ListItem title={_t.textAllCaps} radio checked={isAllCaps} onClick={() => {props.onAdditionalCaps('all', !isAllCaps)}}/>
+            </List>
+            <List>
+                <ListItem title={_t.textLetterSpacing}>
+                    {!isAndroid && <div slot='after-start'>{(Number.isInteger(letterSpacing) ? letterSpacing : letterSpacing?.toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName()}</div>}
+                    <div slot='after'>
+                        <Segmented>
+                            <Button outline className='decrement item-link' onClick={() => {props.changeLetterSpacing(letterSpacing, true)}}>
+                                {isAndroid ? 
+                                    <SvgIcon symbolId={IconExpandDownAndroid.id} className='icon icon-svg' />
+                                : ' - '}
+                            </Button>
+                            {isAndroid && <label>{(Number.isInteger(letterSpacing) ? letterSpacing : letterSpacing?.toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName()}</label>}
+                            <Button outline className='increment item-link' onClick={() => {props.changeLetterSpacing(letterSpacing, false)}}>
+                                {isAndroid ? 
+                                    <SvgIcon symbolId={IconExpandUp.id} className='icon icon-svg' />
+                                : ' + '}
+                            </Button>
+                        </Segmented>
+                    </div>
+                </ListItem>
+            </List>
+        </Page>
+    )
+};
+
 const PageCustomFontColor = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
@@ -388,11 +476,13 @@ const EditTextContainer = inject("storeTextSettings", "storeFocusObjects")(obser
 const PageTextFonts = inject("storeTextSettings", "storeFocusObjects")(observer(PageFonts));
 const PageTextFontColor = inject("storeTextSettings", "storePalette")(observer(PageFontColor));
 const PageTextCustomFontColor = inject("storeTextSettings", "storePalette")(observer(PageCustomFontColor));
+const PageTextAdditionalFormatting = inject("storeTextSettings", "storeFocusObjects")(observer(PageAdditionalFormatting));
 
 export {
     EditTextContainer as EditText,
     PageTextFonts,
     PageTextFontColor,
     PageTextCustomFontColor,
-    PageOrientationTextShape
+    PageOrientationTextShape,
+    PageTextAdditionalFormatting
 };
