@@ -70,8 +70,8 @@ class EditTextController extends Component {
     changeLetterSpacing(curSpacing, isDecrement) {
         const api = Common.EditorApi.get();
         const step = Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01;
-        const maxValue = Common.Utils.Metric.fnRecalcFromMM(55.87);
-        const minValue = Common.Utils.Metric.fnRecalcFromMM(-55.87);
+        const maxValue = Common.Utils.Metric.fnRecalcFromMM(558.7);
+        const minValue = Common.Utils.Metric.fnRecalcFromMM(-558.7);
         const newValue = isDecrement
             ? Math.max(minValue, curSpacing - step)
             : Math.min(maxValue, curSpacing + step);
