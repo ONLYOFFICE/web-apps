@@ -1782,10 +1782,12 @@
   "PDFE.Views.PrintWithPreview.textMarginsNormal": "Normal",
   "PDFE.Views.PrintWithPreview.textMarginsWide": "Amplio",
   "PDFE.Views.PrintWithPreview.txtAllPages": "Todas las páginas",
+  "PDFE.Views.PrintWithPreview.txtBlackAndWhitePrinting": "Black and white printing",
   "PDFE.Views.PrintWithPreview.txtBothSides": "Imprimir por ambos lados",
   "PDFE.Views.PrintWithPreview.txtBothSidesLongDesc": "Girar páginas por borde largo",
   "PDFE.Views.PrintWithPreview.txtBothSidesShortDesc": "Girar páginas por borde corto",
   "PDFE.Views.PrintWithPreview.txtBottom": "Parte inferior",
+  "PDFE.Views.PrintWithPreview.txtColorPrinting": "Color printing",
   "PDFE.Views.PrintWithPreview.txtCopies": "Copias",
   "PDFE.Views.PrintWithPreview.txtCurrentPage": "Página actual",
   "PDFE.Views.PrintWithPreview.txtCustom": "Personalizado",
@@ -1813,6 +1815,7 @@
   "PDFE.Views.PrintWithPreview.txtRight": "A la derecha",
   "PDFE.Views.PrintWithPreview.txtSelection": "Selección ",
   "PDFE.Views.PrintWithPreview.txtTop": "Parte superior",
+  "PDFE.Views.PrintWithPreview.txtWaitingForPrinters": "Waiting for printers",
   "PDFE.Views.RightMenu.ariaRightMenu": "Menú de la derecha",
   "PDFE.Views.RightMenu.txtChartSettings": "Ajustes de gráfico",
   "PDFE.Views.RightMenu.txtFormSettings": "Ajustes de formulario",
@@ -2246,8 +2249,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajustar a la página",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajustar al ancho",
   "PDFE.Views.ViewTab.tipHeadings": "Encabezados",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfaz",
-  "PDFE.Views.PrintWithPreview.txtBlackAndWhitePrinting": "Black and white printing",
-  "PDFE.Views.PrintWithPreview.txtColorPrinting": "Color printing",
-  "PDFE.Views.PrintWithPreview.txtWaitingForPrinters": "Waiting for printers"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfaz"
 }

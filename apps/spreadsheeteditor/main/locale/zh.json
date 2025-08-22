@@ -3619,10 +3619,12 @@
   "SSE.Views.PrintWithPreview.txtActualSize": "实际大小",
   "SSE.Views.PrintWithPreview.txtAllSheets": "所有工作表",
   "SSE.Views.PrintWithPreview.txtApplyToAllSheets": "应用于所有工作表",
+  "SSE.Views.PrintWithPreview.txtBlackAndWhitePrinting": "黑白打印",
   "SSE.Views.PrintWithPreview.txtBothSides": "双面打印",
   "SSE.Views.PrintWithPreview.txtBothSidesLongDesc": "长边翻页",
   "SSE.Views.PrintWithPreview.txtBothSidesShortDesc": "短边翻页",
   "SSE.Views.PrintWithPreview.txtBottom": "下",
+  "SSE.Views.PrintWithPreview.txtColorPrinting": "彩色打印",
   "SSE.Views.PrintWithPreview.txtCopies": "副本",
   "SSE.Views.PrintWithPreview.txtCurrentSheet": "当前工作表",
   "SSE.Views.PrintWithPreview.txtCustom": "自定义",
@@ -3673,6 +3675,7 @@
   "SSE.Views.PrintWithPreview.txtSheet": "工作表：{0}",
   "SSE.Views.PrintWithPreview.txtTo": "到",
   "SSE.Views.PrintWithPreview.txtTop": "上",
+  "SSE.Views.PrintWithPreview.txtWaitingForPrinters": "正在等待打印机",
   "SSE.Views.ProtectDialog.textExistName": "错误！具有此类标题的范围已存在",
   "SSE.Views.ProtectDialog.textInvalidName": "范围标题必须以字母开头，并且只能包含字母、数字和空格。。",
   "SSE.Views.ProtectDialog.textInvalidRange": "错误！无效的单元格范围",
@@ -4700,8 +4703,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "输入密码以取消工作表保护",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "撤消工作表保护",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "输入密码以取消工作簿保护",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "撤消工作簿保护",
-  "SSE.Views.PrintWithPreview.txtBlackAndWhitePrinting": "Black and white printing",
-  "SSE.Views.PrintWithPreview.txtColorPrinting": "Color printing",
-  "SSE.Views.PrintWithPreview.txtWaitingForPrinters": "Waiting for printers"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "撤消工作簿保护"
 }

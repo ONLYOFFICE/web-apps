@@ -272,8 +272,11 @@
   "VE.Controllers.Main.textTryQuickPrint": "Sie haben Schnelldruck gewählt: Das gesamte Dokument wird auf dem zuletzt gewählten oder dem Standarddrucker gedruckt.<br>Sollen Sie fortfahren?",
   "VE.Controllers.Main.textUpdateVersion": "Das Dokument kann im Moment nicht bearbeitet werden.<br>Es wird versucht, die Datei zu aktualisieren, bitte warten …",
   "VE.Controllers.Main.textUpdating": "Aktualisierung",
+  "VE.Controllers.Main.tipLicenseExceeded": "Das Dokument ist im schreibgeschützten Modus geöffnet, da die durch die Lizenz zulässige maximale Anzahl gleichzeitiger Verbindungen erreicht wurde.<br><br>Bitte versuchen Sie es später erneut oder wenden Sie sich an den Eigentümer des Dokuments, wenn Sie Bearbeitungszugriff benötigen.",
+  "VE.Controllers.Main.tipLicenseUsersExceeded": "Das Dokument ist im schreibgeschützten Modus geöffnet, da die maximale Anzahl von Benutzern, die laut Lizenz Dokumente bearbeiten dürfen, erreicht wurde.<br><br>Bitte versuchen Sie es später erneut oder wenden Sie sich an den Dokumentbesitzer, wenn Sie Bearbeitungszugriff benötigen.",
   "VE.Controllers.Main.titleLicenseExp": "Lizenz ist abgelaufen",
   "VE.Controllers.Main.titleLicenseNotActive": "Lizenz nicht aktiv",
+  "VE.Controllers.Main.titleReadOnly": "Schreibgeschützter Modus",
   "VE.Controllers.Main.titleServerVersion": "Editor wurde aktualisiert",
   "VE.Controllers.Main.titleUpdateVersion": "Version wurde geändert",
   "VE.Controllers.Main.txtSaveCopyAsComplete": "Die Dateikopie wurde erfolgreich gespeichert",
@@ -424,8 +427,5 @@
   "VE.Views.ViewTab.textZoom": "Zoom",
   "VE.Views.ViewTab.tipFitPage": "Seite anpassen",
   "VE.Views.ViewTab.tipFitWidth": "Breite anpassen",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Thema der Benutzeroberfläche",
-  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Thema der Benutzeroberfläche"
 }

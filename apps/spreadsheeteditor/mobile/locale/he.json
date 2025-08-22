@@ -719,7 +719,18 @@
       "textYen": "ין",
       "txtNotUrl": "שדה זה אמור להיות כתובת אתר בפורמט \"http://www.example.com\"",
       "txtSortHigh2Low": "מיון הגבוה ביותר לנמוך ביותר",
-      "txtSortLow2High": "מיון מהנמוך לגבוה ביותר"
+      "txtSortLow2High": "מיון מהנמוך לגבוה ביותר",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textStrikethrough": "Strikethrough",
+      "textDoubleStrikethrough": "Double Strikethrough",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript",
+      "textSmallCaps": "Small Caps",
+      "textAllCaps": "All Caps",
+      "textLetterSpacing": "Letter spacing"
     },
     "Settings": {
       "advCSVOptions": "בחירת אפשרויות",

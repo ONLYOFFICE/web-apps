@@ -272,8 +272,11 @@
   "VE.Controllers.Main.textTryQuickPrint": "빠른 인쇄를 선택하셨습니다. 전체 문서가 마지막으로 선택한 프린터 또는 기본 프린터로 인쇄됩니다.<br>계속하시겠습니까?",
   "VE.Controllers.Main.textUpdateVersion": "현재 문서를 편집할 수 없습니다.<br>파일 업데이트 중입니다. 잠시만 기다려 주세요...",
   "VE.Controllers.Main.textUpdating": "업데이트 중",
+  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
   "VE.Controllers.Main.titleLicenseExp": "라이선스 만료",
   "VE.Controllers.Main.titleLicenseNotActive": "라이선스가 활성화되지 않음",
+  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode",
   "VE.Controllers.Main.titleServerVersion": "편집기가 업데이트되었습니다",
   "VE.Controllers.Main.titleUpdateVersion": "버전이 변경되었습니다",
   "VE.Controllers.Main.txtSaveCopyAsComplete": "파일 복사본이 성공적으로 저장되었습니다",
@@ -424,8 +427,5 @@
   "VE.Views.ViewTab.textZoom": "확대 / 축소",
   "VE.Views.ViewTab.tipFitPage": "페이지에 맞춤",
   "VE.Views.ViewTab.tipFitWidth": "너비에 맞춤",
-  "VE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마",
-  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode"
+  "VE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마"
 }

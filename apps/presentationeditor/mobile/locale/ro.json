@@ -496,7 +496,12 @@
       "textZoom": "Zoom",
       "textZoomIn": "Mărire",
       "textZoomOut": "Micșorare",
-      "textZoomRotate": "Zoom și rotire"
+      "textZoomRotate": "Zoom și rotire",
+      "txtWidth": "Width",
+      "txtHeight": "Height",
+      "textCellSize": "Cell size",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

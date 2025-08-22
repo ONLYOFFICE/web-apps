@@ -415,7 +415,14 @@
     "textWe": "수요일",
     "textWrap": "줄 바꾸기",
     "textWrappingStyle": "배치 스타일",
-    "textYourOption": "선택한 옵션"
+    "textYourOption": "선택한 옵션",
+    "txtWidth": "Width",
+    "txtHeight": "Height",
+    "textCellSize": "Rows & columns size",
+    "textCellOptions": "Cell options",
+    "textBaseline": "Baseline",
+    "textCapitalization": "Capitalization",
+    "textWrapText": "Wrap Text"
   },
   "Error": {
     "convertationTimeoutText": "변환 시간을 초과했습니다.",
@@ -472,7 +479,7 @@
     "scriptLoadError": "인터넷 속도가 너무 느려 이 페이지의 일부 요소가 로드되지 않습니다. 페이지를 새로고침하세요.",
     "splitDividerErrorText": "행 수는 % 1의 약수이어야합니다",
     "splitMaxColsErrorText": "열 수가 % 1보다 작아야합니다",
-    "splitMaxRowsErrorText": "행 수가 % 1보다 작아야 합니다",
+    "splitMaxRowsErrorText": "행 수가 %1 보다 작아야 합니다",
     "textOk": "확인",
     "unknownErrorText": "알 수 없는 오류.",
     "uploadDocExtMessage": "알 수 없는 파일 형식입니다.",

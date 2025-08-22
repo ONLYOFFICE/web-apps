@@ -496,7 +496,12 @@
       "textZoom": "Εστίαση",
       "textZoomIn": "Μεγέθυνση",
       "textZoomOut": "Σμίκρυνση",
-      "textZoomRotate": "Εστίαση και Περιστροφή"
+      "textZoomRotate": "Εστίαση και Περιστροφή",
+      "txtWidth": "Width",
+      "txtHeight": "Height",
+      "textCellSize": "Cell size",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization"
     },
     "Settings": {
       "mniSlideStandard": "Τυπικό (4:3)",

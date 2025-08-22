@@ -719,7 +719,18 @@
       "textYen": "엔",
       "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다.",
       "txtSortHigh2Low": "가장 높은 것부터 가장 낮은 것부터 정렬",
-      "txtSortLow2High": "오름차순 정렬"
+      "txtSortLow2High": "오름차순 정렬",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textStrikethrough": "Strikethrough",
+      "textDoubleStrikethrough": "Double Strikethrough",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript",
+      "textSmallCaps": "Small Caps",
+      "textAllCaps": "All Caps",
+      "textLetterSpacing": "Letter spacing"
     },
     "Settings": {
       "advCSVOptions": "CSV 옵션 선택",

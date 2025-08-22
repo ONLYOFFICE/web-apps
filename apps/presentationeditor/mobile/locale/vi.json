@@ -502,7 +502,12 @@
       "textHorizontalText": "Horizontal Text",
       "textRotateTextDown": "Rotate Text Down",
       "textRotateTextUp": "Rotate Text Up",
-      "textTextOrientation": "Text Orientation"
+      "textTextOrientation": "Text Orientation",
+      "txtWidth": "Width",
+      "txtHeight": "Height",
+      "textCellSize": "Cell size",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

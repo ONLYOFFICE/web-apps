@@ -162,6 +162,7 @@
   "DE.Controllers.ApplicationController.txtEmpty": "(Vide)",
   "DE.Controllers.ApplicationController.txtEnterDate": "Entrez une date",
   "DE.Controllers.ApplicationController.txtPressLink": "Appuyez sur Ctrl et cliquez sur le lien",
+  "DE.Controllers.ApplicationController.txtSignedForm": "Ce document a été signé et ne peut être modifié.",
   "DE.Controllers.ApplicationController.txtUntitled": "Sans titre",
   "DE.Controllers.ApplicationController.unknownErrorText": "Erreur inconnue.",
   "DE.Controllers.ApplicationController.unsupportedBrowserErrorText": "Votre navigateur n'est pas pris en charge.",

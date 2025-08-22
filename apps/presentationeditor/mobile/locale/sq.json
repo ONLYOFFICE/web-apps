@@ -496,7 +496,12 @@
       "textZoom": "Zmadhoj",
       "textZoomIn": "Zmadho brenda",
       "textZoomOut": "Zmadho jashtë",
-      "textZoomRotate": "Zmadho dhe Rrotullo"
+      "textZoomRotate": "Zmadho dhe Rrotullo",
+      "txtWidth": "Width",
+      "txtHeight": "Height",
+      "textCellSize": "Cell size",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization"
     },
     "Settings": {
       "mniSlideStandard": "Standardi (4:3)",

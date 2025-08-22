@@ -496,7 +496,12 @@
       "textZoom": "Масштабирование",
       "textZoomIn": "Увеличение",
       "textZoomOut": "Уменьшение",
-      "textZoomRotate": "Увеличение с поворотом"
+      "textZoomRotate": "Увеличение с поворотом",
+      "txtWidth": "Width",
+      "txtHeight": "Height",
+      "textCellSize": "Cell size",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization"
     },
     "Settings": {
       "mniSlideStandard": "Стандартный (4:3)",

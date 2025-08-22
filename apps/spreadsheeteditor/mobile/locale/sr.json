@@ -719,7 +719,18 @@
       "textYen": "Jen",
       "txtNotUrl": "Ovo polje treba da bude URL u formatu: \"http://www.example.com\"",
       "txtSortHigh2Low": "Sortiraj najviše ka najnižem ",
-      "txtSortLow2High": "Sortiraj najniže ka najvišem"
+      "txtSortLow2High": "Sortiraj najniže ka najvišem",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textStrikethrough": "Strikethrough",
+      "textDoubleStrikethrough": "Double Strikethrough",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript",
+      "textSmallCaps": "Small Caps",
+      "textAllCaps": "All Caps",
+      "textLetterSpacing": "Letter spacing"
     },
     "Settings": {
       "advCSVOptions": "Odaberi CSV opcije",

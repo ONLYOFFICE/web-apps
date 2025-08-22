@@ -487,9 +487,14 @@
       "textZoomRotate": "Palielināt un rotēt",
       "textHorizontalText": "Horizontal Text",
       "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "txtWidth": "Width",
+      "txtHeight": "Height",
+      "textCellSize": "Cell size",
       "textMorph": "Morph",
       "textRotateTextDown": "Rotate Text Down",
       "textRotateTextUp": "Rotate Text Up",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
       "textTextOrientation": "Text Orientation"
     },
     "Settings": {

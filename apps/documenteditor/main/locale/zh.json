@@ -3180,10 +3180,12 @@
   "DE.Views.PrintWithPreview.textMarginsNormal": "常规",
   "DE.Views.PrintWithPreview.textMarginsWide": "宽",
   "DE.Views.PrintWithPreview.txtAllPages": "所有页面",
+  "DE.Views.PrintWithPreview.txtBlackAndWhitePrinting": "黑白打印",
   "DE.Views.PrintWithPreview.txtBothSides": "双面打印",
   "DE.Views.PrintWithPreview.txtBothSidesLongDesc": "长边翻页",
   "DE.Views.PrintWithPreview.txtBothSidesShortDesc": "短边翻页",
   "DE.Views.PrintWithPreview.txtBottom": "下",
+  "DE.Views.PrintWithPreview.txtColorPrinting": "彩色打印",
   "DE.Views.PrintWithPreview.txtCopies": "副本",
   "DE.Views.PrintWithPreview.txtCurrentPage": "当前页面",
   "DE.Views.PrintWithPreview.txtCustom": "自定义",
@@ -3211,6 +3213,7 @@
   "DE.Views.PrintWithPreview.txtRight": "右",
   "DE.Views.PrintWithPreview.txtSelection": "选择",
   "DE.Views.PrintWithPreview.txtTop": "顶部",
+  "DE.Views.PrintWithPreview.txtWaitingForPrinters": "正在等待打印机",
   "DE.Views.ProtectDialog.textComments": "批注",
   "DE.Views.ProtectDialog.textForms": "填写表单",
   "DE.Views.ProtectDialog.textReview": "跟踪的更改",
@@ -3952,8 +3955,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "半透明",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "下划线",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "字体名称",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字体大小",
-  "DE.Views.PrintWithPreview.txtBlackAndWhitePrinting": "Black and white printing",
-  "DE.Views.PrintWithPreview.txtColorPrinting": "Color printing",
-  "DE.Views.PrintWithPreview.txtWaitingForPrinters": "Waiting for printers"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字体大小"
 }

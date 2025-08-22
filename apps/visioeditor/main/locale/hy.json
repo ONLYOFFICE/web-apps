@@ -272,8 +272,11 @@
   "VE.Controllers.Main.textTryQuickPrint": "Դուք ընտրել եք Արագ տպում` ամբողջ փաստաթուղթը կտպվի վերջին ընտրված կամ սկզբնադիր տպիչի վրա:<br> Ցանկանու՞մ եք շարունակել։",
   "VE.Controllers.Main.textUpdateVersion": "Փաստաթուղթն այժմ հնարավոր չէ խմբագրել:<br>Փորձում ենք թարմացնել ֆայլը, խնդրում ենք սպասել...",
   "VE.Controllers.Main.textUpdating": "Թարմացվում է",
+  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
   "VE.Controllers.Main.titleLicenseExp": "Լիցենզիայի ժամկետը լրացել է",
   "VE.Controllers.Main.titleLicenseNotActive": "Լիցենզիան ակտիվ չէ",
+  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode",
   "VE.Controllers.Main.titleServerVersion": "Խմբագիրը թարմացվել է",
   "VE.Controllers.Main.titleUpdateVersion": "Տարբերակը փոխվել է",
   "VE.Controllers.Main.txtSaveCopyAsComplete": "Ֆայլի պատճենը հաջողությամբ պահպանվեց",
@@ -424,8 +427,5 @@
   "VE.Views.ViewTab.textZoom": "Խոշորացնել",
   "VE.Views.ViewTab.tipFitPage": "Հարմարեցնել էջին",
   "VE.Views.ViewTab.tipFitWidth": "Հարմարեցնել լայնությանը",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի ոճ",
-  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի ոճ"
 }

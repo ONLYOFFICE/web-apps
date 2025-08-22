@@ -272,8 +272,11 @@
   "VE.Controllers.Main.textTryQuickPrint": "Ön a gyorsnyomtatást választotta: a teljes dokumentum az előzőleg kiválasztott vagy alapértelmezett nyomtatón kerül kinyomtatásra.<br>Szeretné folytatni?",
   "VE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
   "VE.Controllers.Main.textUpdating": "Frissítés",
+  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
   "VE.Controllers.Main.titleLicenseExp": "Lejárt licenc",
   "VE.Controllers.Main.titleLicenseNotActive": "A licenc nem aktív",
+  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode",
   "VE.Controllers.Main.titleServerVersion": "Szerkesztő frissítve",
   "VE.Controllers.Main.titleUpdateVersion": "A verzió megváltozott",
   "VE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
@@ -424,8 +427,5 @@
   "VE.Views.ViewTab.textZoom": "Nagyítás",
   "VE.Views.ViewTab.tipFitPage": "Igazítás az oldalhoz",
   "VE.Views.ViewTab.tipFitWidth": "Szélességhez igazítás",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája",
-  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája"
 }

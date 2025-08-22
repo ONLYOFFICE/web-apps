@@ -404,11 +404,18 @@
     "textDeleteLink": "Delete Link",
     "textEnterYourOption": "Enter your option",
     "textHorizontalText": "Horizontal Text",
+    "txtWidth": "Width",
+    "txtHeight": "Height",
+    "textCellSize": "Rows & columns size",
+    "textCellOptions": "Cell options",
     "textPlaceholder": "Placeholder",
     "textRotateTextDown": "Rotate Text Down",
     "textRotateTextUp": "Rotate Text Up",
     "textSave": "Save",
+    "textBaseline": "Baseline",
+    "textCapitalization": "Capitalization",
     "textTextOrientation": "Text Orientation",
+    "textWrapText": "Wrap Text",
     "textYourOption": "Your option"
   },
   "Error": {

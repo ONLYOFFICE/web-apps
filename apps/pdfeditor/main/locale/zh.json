@@ -1782,10 +1782,12 @@
   "PDFE.Views.PrintWithPreview.textMarginsNormal": "常规",
   "PDFE.Views.PrintWithPreview.textMarginsWide": "宽",
   "PDFE.Views.PrintWithPreview.txtAllPages": "所有页面",
+  "PDFE.Views.PrintWithPreview.txtBlackAndWhitePrinting": "黑白打印",
   "PDFE.Views.PrintWithPreview.txtBothSides": "双面打印",
   "PDFE.Views.PrintWithPreview.txtBothSidesLongDesc": "长边翻页",
   "PDFE.Views.PrintWithPreview.txtBothSidesShortDesc": "短边翻页",
   "PDFE.Views.PrintWithPreview.txtBottom": "下",
+  "PDFE.Views.PrintWithPreview.txtColorPrinting": "彩色打印",
   "PDFE.Views.PrintWithPreview.txtCopies": "副本",
   "PDFE.Views.PrintWithPreview.txtCurrentPage": "当前页面",
   "PDFE.Views.PrintWithPreview.txtCustom": "自定义",
@@ -1813,6 +1815,7 @@
   "PDFE.Views.PrintWithPreview.txtRight": "右",
   "PDFE.Views.PrintWithPreview.txtSelection": "选择",
   "PDFE.Views.PrintWithPreview.txtTop": "顶部",
+  "PDFE.Views.PrintWithPreview.txtWaitingForPrinters": "正在等待打印机",
   "PDFE.Views.RightMenu.ariaRightMenu": "右侧菜单",
   "PDFE.Views.RightMenu.txtChartSettings": "图表设置",
   "PDFE.Views.RightMenu.txtFormSettings": "表单设置",
@@ -2246,8 +2249,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "适合页面",
   "PDFE.Views.ViewTab.tipFitToWidth": "调整至合适宽度",
   "PDFE.Views.ViewTab.tipHeadings": "标题",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "界面主题",
-  "PDFE.Views.PrintWithPreview.txtBlackAndWhitePrinting": "Black and white printing",
-  "PDFE.Views.PrintWithPreview.txtColorPrinting": "Color printing",
-  "PDFE.Views.PrintWithPreview.txtWaitingForPrinters": "Waiting for printers"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "界面主题"
 }

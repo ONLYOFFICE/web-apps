@@ -415,7 +415,14 @@
     "textWe": "qua",
     "textWrap": "Moldar",
     "textWrappingStyle": "Estilo de moldagem",
-    "textYourOption": "A sua opção"
+    "textYourOption": "A sua opção",
+    "txtWidth": "Width",
+    "txtHeight": "Height",
+    "textCellSize": "Rows & columns size",
+    "textCellOptions": "Cell options",
+    "textBaseline": "Baseline",
+    "textCapitalization": "Capitalization",
+    "textWrapText": "Wrap Text"
   },
   "Error": {
     "convertationTimeoutText": "Excedeu o tempo limite de conversão.",

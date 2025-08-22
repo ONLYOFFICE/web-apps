@@ -496,7 +496,12 @@
       "textZoom": "זום",
       "textZoomIn": "התמקד פנימה",
       "textZoomOut": "התמקד החוצה",
-      "textZoomRotate": "התמקד וסובב"
+      "textZoomRotate": "התמקד וסובב",
+      "txtWidth": "Width",
+      "txtHeight": "Height",
+      "textCellSize": "Cell size",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization"
     },
     "Settings": {
       "mniSlideStandard": "סטנדרטי (4: 3)",

@@ -496,7 +496,12 @@
       "textZoom": "Zumiraj",
       "textZoomIn": "Zumiraj unutra",
       "textZoomOut": "Zumiraj Spolja",
-      "textZoomRotate": "Zumiraj i rotiraj"
+      "textZoomRotate": "Zumiraj i rotiraj",
+      "txtWidth": "Width",
+      "txtHeight": "Height",
+      "textCellSize": "Cell size",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization"
     },
     "Settings": {
       "mniSlideStandard": "Standardno (4:3)",

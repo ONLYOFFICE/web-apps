@@ -496,7 +496,12 @@
       "textZoom": "Zoom",
       "textZoomIn": "Nagyítás",
       "textZoomOut": "Kicsinyítés",
-      "textZoomRotate": "Zoom és elforgatás"
+      "textZoomRotate": "Zoom és elforgatás",
+      "txtWidth": "Width",
+      "txtHeight": "Height",
+      "textCellSize": "Cell size",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization"
     },
     "Settings": {
       "mniSlideStandard": "Sztenderd (4:3)",

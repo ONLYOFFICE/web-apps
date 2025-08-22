@@ -2546,9 +2546,11 @@
   "PE.Views.ParagraphSettingsAdvanced.textTitle": "段落 - 高级设置",
   "PE.Views.ParagraphSettingsAdvanced.txtAutoText": "自动",
   "PE.Views.PrintWithPreview.txtAllPages": "所有幻灯片",
+  "PE.Views.PrintWithPreview.txtBlackAndWhitePrinting": "黑白打印",
   "PE.Views.PrintWithPreview.txtBothSides": "双面打印",
   "PE.Views.PrintWithPreview.txtBothSidesLongDesc": "长边翻页",
   "PE.Views.PrintWithPreview.txtBothSidesShortDesc": "沿短边翻页",
+  "PE.Views.PrintWithPreview.txtColorPrinting": "彩色打印",
   "PE.Views.PrintWithPreview.txtCopies": "副本",
   "PE.Views.PrintWithPreview.txtCurrentPage": "目前投影片",
   "PE.Views.PrintWithPreview.txtCustom": "自定义",
@@ -2570,6 +2572,7 @@
   "PE.Views.PrintWithPreview.txtPrintRange": "打印范围",
   "PE.Views.PrintWithPreview.txtPrintSides": "打印面",
   "PE.Views.PrintWithPreview.txtPrintUsingSystemDialog": "使用系统对话框打印",
+  "PE.Views.PrintWithPreview.txtWaitingForPrinters": "正在等待打印机",
   "PE.Views.RightMenu.ariaRightMenu": "右侧菜单",
   "PE.Views.RightMenu.txtChartSettings": "图表设置",
   "PE.Views.RightMenu.txtImageSettings": "图像设置",
@@ -3222,8 +3225,5 @@
   "PE.Views.ViewTab.tipMacros": "宏",
   "PE.Views.ViewTab.tipNormal": "正常",
   "PE.Views.ViewTab.tipSelectTool": "选择工具",
-  "PE.Views.ViewTab.tipSlideMaster": "幻灯片母版",
-  "PE.Views.PrintWithPreview.txtBlackAndWhitePrinting": "Black and white printing",
-  "PE.Views.PrintWithPreview.txtColorPrinting": "Color printing",
-  "PE.Views.PrintWithPreview.txtWaitingForPrinters": "Waiting for printers"
+  "PE.Views.ViewTab.tipSlideMaster": "幻灯片母版"
 }

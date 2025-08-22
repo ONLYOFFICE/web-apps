@@ -496,7 +496,12 @@
       "textZoom": "Přiblížení",
       "textZoomIn": "Přiblížit",
       "textZoomOut": "Oddálit",
-      "textZoomRotate": "Přiblížit a otočit"
+      "textZoomRotate": "Přiblížit a otočit",
+      "txtWidth": "Width",
+      "txtHeight": "Height",
+      "textCellSize": "Cell size",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization"
     },
     "Settings": {
       "mniSlideStandard": "Standardní (4:3)",

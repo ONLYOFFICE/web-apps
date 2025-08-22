@@ -272,8 +272,11 @@
   "VE.Controllers.Main.textTryQuickPrint": "Изабрали сте Брзо штампање: цео документ ће бити одштампан на последње одабраном или подразумеваном штампачу.<br>Да ли желите да наставите?",
   "VE.Controllers.Main.textUpdateVersion": "Документ тренутно није могуће уређивати.<br>Покушавам да ажурирам",
   "VE.Controllers.Main.textUpdating": "Ажурирање",
+  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
   "VE.Controllers.Main.titleLicenseExp": "Лиценца истекла",
   "VE.Controllers.Main.titleLicenseNotActive": "Лиценца није активна",
+  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode",
   "VE.Controllers.Main.titleServerVersion": "Уређивач ажуриран",
   "VE.Controllers.Main.titleUpdateVersion": "Верзија промењена",
   "VE.Controllers.Main.txtSaveCopyAsComplete": "Копија датотеке је успешно сачуванадатотеку, молимо сачекајте...",
@@ -424,8 +427,5 @@
   "VE.Views.ViewTab.textZoom": "Зумирај",
   "VE.Views.ViewTab.tipFitPage": "Прилагоди страници",
   "VE.Views.ViewTab.tipFitWidth": "Прилагоди ширини",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса",
-  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса"
 }

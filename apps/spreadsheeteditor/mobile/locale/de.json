@@ -232,8 +232,11 @@
       "textUpdate": "Aktualisieren",
       "textWarnUpdateExternalData": "Diese Arbeitsmappe enthält Links zu einer oder mehreren externen Quellen, die unsicher sein könnten. Wenn Sie den Links vertrauen, aktualisieren Sie diese, um die neuesten Daten zu erhalten.",
       "textYes": "Ja",
+      "tipLicenseExceeded": "Das Dokument ist im schreibgeschützten Modus geöffnet, da die durch die Lizenz zulässige maximale Anzahl gleichzeitiger Verbindungen erreicht wurde.<br><br>Bitte versuchen Sie es später erneut oder wenden Sie sich an den Eigentümer des Dokuments, wenn Sie Bearbeitungszugriff benötigen.",
+      "tipLicenseUsersExceeded": "Das Dokument ist im schreibgeschützten Modus geöffnet, da die maximale Anzahl von Benutzern, die laut Lizenz Dokumente bearbeiten dürfen, erreicht wurde.<br><br>Bitte versuchen Sie es später erneut oder wenden Sie sich an den Dokumentbesitzer, wenn Sie Bearbeitungszugriff benötigen.",
       "titleLicenseExp": "Lizenz ist abgelaufen",
       "titleLicenseNotActive": "Lizenz nicht aktiv",
+      "titleReadOnly": "Schreibgeschützter Modus",
       "titleServerVersion": "Editor wurde aktualisiert",
       "titleUpdateVersion": "Version wurde geändert",
       "warnLicenseAnonymous": "Zugriff für anonyme Benutzer verweigert.<br>Dieses Dokument wird nur zur Ansicht geöffnet.",
@@ -243,10 +246,7 @@
       "warnLicenseLimitedRenewed": "Die Lizenz soll aktualisiert werden. Die Bearbeitungsfunktionen sind eingeschränkt.<br>Bitte wenden Sie sich an Ihrem Administrator für vollen Zugriff",
       "warnNoLicense": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
       "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
-      "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."
     }
   },
   "Draw": {
@@ -719,7 +719,18 @@
       "textYen": "Yen",
       "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
       "txtSortHigh2Low": "Absteigend sortieren",
-      "txtSortLow2High": "Aufsteigend sortieren"
+      "txtSortLow2High": "Aufsteigend sortieren",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textStrikethrough": "Strikethrough",
+      "textDoubleStrikethrough": "Double Strikethrough",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript",
+      "textSmallCaps": "Small Caps",
+      "textAllCaps": "All Caps",
+      "textLetterSpacing": "Letter spacing"
     },
     "Settings": {
       "advCSVOptions": "CSV-Optionen auswählen",

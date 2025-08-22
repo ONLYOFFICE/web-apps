@@ -1782,10 +1782,12 @@
   "PDFE.Views.PrintWithPreview.textMarginsNormal": "Κανονικό",
   "PDFE.Views.PrintWithPreview.textMarginsWide": "Πλατύ",
   "PDFE.Views.PrintWithPreview.txtAllPages": "Όλες οι σελίδες",
+  "PDFE.Views.PrintWithPreview.txtBlackAndWhitePrinting": "Ασπρόμαυρη εκτύπωση",
   "PDFE.Views.PrintWithPreview.txtBothSides": "Εκτύπωση και στις δύο πλευρές",
   "PDFE.Views.PrintWithPreview.txtBothSidesLongDesc": "Αναστροφή σελίδων στη μεγάλη άκρη",
   "PDFE.Views.PrintWithPreview.txtBothSidesShortDesc": "Αναστροφή σελίδων στη μικρή άκρη",
   "PDFE.Views.PrintWithPreview.txtBottom": "Κάτω μέρος",
+  "PDFE.Views.PrintWithPreview.txtColorPrinting": "Έγχρωμη εκτύπωση",
   "PDFE.Views.PrintWithPreview.txtCopies": "Αντίγραφα",
   "PDFE.Views.PrintWithPreview.txtCurrentPage": "Τρέχουσα σελίδα",
   "PDFE.Views.PrintWithPreview.txtCustom": "Προσαρμογή",
@@ -1813,6 +1815,7 @@
   "PDFE.Views.PrintWithPreview.txtRight": "Δεξιά",
   "PDFE.Views.PrintWithPreview.txtSelection": "Επιλογή",
   "PDFE.Views.PrintWithPreview.txtTop": "Επάνω",
+  "PDFE.Views.PrintWithPreview.txtWaitingForPrinters": "Αναμονή για εκτυπωτές",
   "PDFE.Views.RightMenu.ariaRightMenu": "Δεξί μενού",
   "PDFE.Views.RightMenu.txtChartSettings": "Ρυθμίσεις γραφήματος",
   "PDFE.Views.RightMenu.txtFormSettings": "Ρυθμίσεις φόρμας",
@@ -2246,8 +2249,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Προσαρμογή στη σελίδα",
   "PDFE.Views.ViewTab.tipFitToWidth": "Προσαρμογή στο πλάτος",
   "PDFE.Views.ViewTab.tipHeadings": "Κεφαλίδες",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής",
-  "PDFE.Views.PrintWithPreview.txtBlackAndWhitePrinting": "Black and white printing",
-  "PDFE.Views.PrintWithPreview.txtColorPrinting": "Color printing",
-  "PDFE.Views.PrintWithPreview.txtWaitingForPrinters": "Waiting for printers"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής"
 }

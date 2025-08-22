@@ -719,7 +719,18 @@
       "textYen": "ين",
       "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  ",
       "txtSortHigh2Low": "الترتيب من الأعلى إلى الأقل",
-      "txtSortLow2High": "الترتيب من الأقل إلى الأعلى"
+      "txtSortLow2High": "الترتيب من الأقل إلى الأعلى",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textStrikethrough": "Strikethrough",
+      "textDoubleStrikethrough": "Double Strikethrough",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript",
+      "textSmallCaps": "Small Caps",
+      "textAllCaps": "All Caps",
+      "textLetterSpacing": "Letter spacing"
     },
     "Settings": {
       "advCSVOptions": "اختر خيارات CSV",

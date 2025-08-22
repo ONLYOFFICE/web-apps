@@ -484,12 +484,17 @@
       "textZoomRotate": "縮放和旋轉",
       "textHorizontalText": "Horizontal Text",
       "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "txtWidth": "Width",
+      "txtHeight": "Height",
+      "textCellSize": "Cell size",
       "textMorph": "Morph",
       "textMorphLetters": "Letters",
       "textMorphObjects": "Objects",
       "textMorphWords": "Words",
       "textRotateTextDown": "Rotate Text Down",
       "textRotateTextUp": "Rotate Text Up",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
       "textTextOrientation": "Text Orientation"
     },
     "Settings": {

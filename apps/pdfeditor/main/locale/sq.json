@@ -1782,10 +1782,12 @@
   "PDFE.Views.PrintWithPreview.textMarginsNormal": "Normal",
   "PDFE.Views.PrintWithPreview.textMarginsWide": "I gjerë",
   "PDFE.Views.PrintWithPreview.txtAllPages": "Të gjitha faqet",
+  "PDFE.Views.PrintWithPreview.txtBlackAndWhitePrinting": "Printim bardh e zi",
   "PDFE.Views.PrintWithPreview.txtBothSides": "Printoni në të dy anët",
   "PDFE.Views.PrintWithPreview.txtBothSidesLongDesc": "Ktheni faqet në skajet e gjata",
   "PDFE.Views.PrintWithPreview.txtBothSidesShortDesc": "Ktheni faqet në skajet e shkurtra",
   "PDFE.Views.PrintWithPreview.txtBottom": "Fund",
+  "PDFE.Views.PrintWithPreview.txtColorPrinting": "Printim me ngjyra",
   "PDFE.Views.PrintWithPreview.txtCopies": "Kopje",
   "PDFE.Views.PrintWithPreview.txtCurrentPage": "Faqja aktuale",
   "PDFE.Views.PrintWithPreview.txtCustom": "E personalizuar",
@@ -1813,6 +1815,7 @@
   "PDFE.Views.PrintWithPreview.txtRight": "Djathtas",
   "PDFE.Views.PrintWithPreview.txtSelection": "Selektim",
   "PDFE.Views.PrintWithPreview.txtTop": "Sipër",
+  "PDFE.Views.PrintWithPreview.txtWaitingForPrinters": "Duke pritur për printerët",
   "PDFE.Views.RightMenu.ariaRightMenu": "Menuja e djathtë",
   "PDFE.Views.RightMenu.txtChartSettings": "Cilësimet e grafikut",
   "PDFE.Views.RightMenu.txtFormSettings": "Nga cilësimet",
@@ -2246,8 +2249,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Përshtatet me faqen",
   "PDFE.Views.ViewTab.tipFitToWidth": "Përshtatet me gjerësinë",
   "PDFE.Views.ViewTab.tipHeadings": "Tituj",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes",
-  "PDFE.Views.PrintWithPreview.txtBlackAndWhitePrinting": "Black and white printing",
-  "PDFE.Views.PrintWithPreview.txtColorPrinting": "Color printing",
-  "PDFE.Views.PrintWithPreview.txtWaitingForPrinters": "Waiting for printers"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes"
 }

@@ -415,7 +415,14 @@
     "textWe": "أر",
     "textWrap": "التفاف",
     "textWrappingStyle": "نمط الالتفاف",
-    "textYourOption": "خيارك"
+    "textYourOption": "خيارك",
+    "txtWidth": "Width",
+    "txtHeight": "Height",
+    "textCellSize": "Rows & columns size",
+    "textCellOptions": "Cell options",
+    "textBaseline": "Baseline",
+    "textCapitalization": "Capitalization",
+    "textWrapText": "Wrap Text"
   },
   "Error": {
     "convertationTimeoutText": "استغرق التحويل وقتا طويلا تم تجاوز المهلة",

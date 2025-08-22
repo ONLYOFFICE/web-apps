@@ -162,6 +162,7 @@
   "DE.Controllers.ApplicationController.txtEmpty": "(Bosh)",
   "DE.Controllers.ApplicationController.txtEnterDate": "Futni nje datë",
   "DE.Controllers.ApplicationController.txtPressLink": "Shtypni Ctrl dhe klikoni lidhjen",
+  "DE.Controllers.ApplicationController.txtSignedForm": "Ky dokument është nënshkruar dhe nuk mund të modifikohet.",
   "DE.Controllers.ApplicationController.txtUntitled": "Pa titull",
   "DE.Controllers.ApplicationController.unknownErrorText": "Gabim i panjohur",
   "DE.Controllers.ApplicationController.unsupportedBrowserErrorText": "Shfletuesi juaj nuk suportohet.",

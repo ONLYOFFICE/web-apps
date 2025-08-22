@@ -415,7 +415,14 @@
     "textWe": "水",
     "textWrap": "折り返す",
     "textWrappingStyle": "折り返しの種類",
-    "textYourOption": "ユーザーのオプション"
+    "textYourOption": "ユーザーのオプション",
+    "txtWidth": "Width",
+    "txtHeight": "Height",
+    "textCellSize": "Rows & columns size",
+    "textCellOptions": "Cell options",
+    "textBaseline": "Baseline",
+    "textCapitalization": "Capitalization",
+    "textWrapText": "Wrap Text"
   },
   "Error": {
     "convertationTimeoutText": "変換のタイムアウトを超過しました。",
@@ -472,7 +479,7 @@
     "scriptLoadError": "接続が遅すぎる、一部のコンポーネントが読み込みされません。ページを再びお読み込みしてください。",
     "splitDividerErrorText": "行の数は％1の約数である必要があります",
     "splitMaxColsErrorText": "列の数は％1未満である必要があります",
-    "splitMaxRowsErrorText": "行の数は％1未満である必要があります",
+    "splitMaxRowsErrorText": "行の数は%1未満である必要があります",
     "textOk": "OK",
     "unknownErrorText": "不明なエラー",
     "uploadDocExtMessage": "不明な文書形式",

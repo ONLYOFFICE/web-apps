@@ -272,8 +272,11 @@
   "VE.Controllers.Main.textTryQuickPrint": "בחירת הדפסה מהירה: המסמך כולו יודפס במדפסת האחרונה שנבחרה או ברירת המחדל. <br> האם להמשיך?",
   "VE.Controllers.Main.textUpdateVersion": "הקובץ אינו ניתן לעריכה כעת.<br>מבוצע נסיון לעדכן את הקובץ, נא להמתין...",
   "VE.Controllers.Main.textUpdating": "מתעדכן",
+  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
   "VE.Controllers.Main.titleLicenseExp": "פג תוקפו של הרישיון",
   "VE.Controllers.Main.titleLicenseNotActive": "רישיון לא פעיל",
+  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode",
   "VE.Controllers.Main.titleServerVersion": "העורך עודכן",
   "VE.Controllers.Main.titleUpdateVersion": "הגרסה השתנתה",
   "VE.Controllers.Main.txtSaveCopyAsComplete": "עותק הקובץ נשמר בהצלחה",
@@ -424,8 +427,5 @@
   "VE.Views.ViewTab.textZoom": "תקריב",
   "VE.Views.ViewTab.tipFitPage": "התאמה לדף",
   "VE.Views.ViewTab.tipFitWidth": "התאמה לרוחב",
-  "VE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא של הממשק",
-  "VE.Controllers.Main.tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-  "VE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-  "VE.Controllers.Main.titleReadOnly": "Read-Only Mode"
+  "VE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא של הממשק"
 }

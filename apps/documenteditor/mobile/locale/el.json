@@ -415,7 +415,14 @@
     "textWe": "Τε",
     "textWrap": "Αναδίπλωση",
     "textWrappingStyle": "Τεχνοτροπία αναδίπλωσης",
-    "textYourOption": "Η επιλογή σας"
+    "textYourOption": "Η επιλογή σας",
+    "txtWidth": "Width",
+    "txtHeight": "Height",
+    "textCellSize": "Rows & columns size",
+    "textCellOptions": "Cell options",
+    "textBaseline": "Baseline",
+    "textCapitalization": "Capitalization",
+    "textWrapText": "Wrap Text"
   },
   "Error": {
     "convertationTimeoutText": "Υπέρβαση χρονικού ορίου μετατροπής.",

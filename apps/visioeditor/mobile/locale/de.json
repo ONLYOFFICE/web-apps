@@ -57,8 +57,11 @@
       "textOpenFile": "Geben Sie ein Passwort ein, um die Datei zu öffnen",
       "textPaidFeature": "Kostenpflichtige Funktion",
       "textYes": "Ja",
+      "tipLicenseExceeded": "Das Dokument ist im schreibgeschützten Modus geöffnet, da die durch die Lizenz zulässige maximale Anzahl gleichzeitiger Verbindungen erreicht wurde.<br><br>Bitte versuchen Sie es später erneut oder wenden Sie sich an den Eigentümer des Dokuments, wenn Sie Bearbeitungszugriff benötigen.",
+      "tipLicenseUsersExceeded": "Das Dokument ist im schreibgeschützten Modus geöffnet, da die maximale Anzahl von Benutzern, die laut Lizenz Dokumente bearbeiten dürfen, erreicht wurde.<br><br>Bitte versuchen Sie es später erneut oder wenden Sie sich an den Dokumentbesitzer, wenn Sie Bearbeitungszugriff benötigen.",
       "titleLicenseExp": "Lizenz ist abgelaufen",
       "titleLicenseNotActive": "Lizenz nicht aktiv",
+      "titleReadOnly": "Schreibgeschützter Modus",
       "titleServerVersion": "Editor wurde aktualisiert",
       "titleUpdateVersion": "Version wurde geändert",
       "txtIncorrectPwd": "Passwort ist falsch",
@@ -69,10 +72,7 @@
       "warnLicenseLimitedRenewed": "Die Lizenz soll erneuert werden. Die Bearbeitungsfunktionen wurden eingeschränkt.<br>Bitte wenden Sie sich an Administrator für den vollen Zugriff",
       "warnNoLicense": "Sie haben das Limit für gleichzeitige Verbindungen zu %1 Editoren erreicht. Dieses Dokument wird nur zur Ansicht geöffnet. Kontaktieren Sie das %1-Verkaufsteam, um die Bedingungen für ein persönliches Upgrade zu erfahren.",
       "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1 Redakteure erreicht. Kontaktieren Sie das %1 Vertriebsteam, um die Bedingungen für ein persönliches Upgrade zu erfahren.",
-      "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."
     }
   },
   "Error": {
