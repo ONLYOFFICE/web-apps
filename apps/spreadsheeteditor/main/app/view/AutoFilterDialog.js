@@ -568,12 +568,12 @@ define([], function () {
             var t = this, _options = {};
 
             _.extend(_options,  {
-                width           : 501,
+                width           : options.type === 'date' ? 530 : 502,
                 contentWidth    : 180,
                 header          : true,
-                cls             : 'filter-dlg modal-dlg',
+                cls             : 'filter-dlg modal-dlg' + (options.type === 'date' ? ' date-filter' : ''),
                 contentTemplate : '',
-                title           : (options.type=='label') ?  t.txtTitleLabel : t.txtTitleValue,
+                title           : (options.type=='label') ?  t.txtTitleLabel : (options.type=='date') ? t.txtTitleDate : t.txtTitleValue,
                 items           : [],
                 buttons: ['ok', 'cancel']
             }, options);
@@ -585,23 +585,35 @@ define([], function () {
             this.template   =   options.template || [
                     '<div class="box">',
                     '<div class="content-panel" >',
-                        '<label class="header">', ((t.type=='label') ? t.textShowLabel : t.textShowValue), '</label>',
+                        '<label class="header">', ((t.type=='label') ? t.textShowLabel : (options.type=='date') ? t.textShowDate : t.textShowValue), '</label>',
                         '<div style="margin-top:15px;">',
-                            '<div id="id-field-digital-combo" class="input-group-nr margin-right-10" style="vertical-align:middle;width:110px;display:inline-block;"></div>',
-                            '<div id="id-cond-digital-combo" class="input-group-nr margin-right-10" style="vertical-align:middle;width:' + ((t.type=='label') ? 225 : 110) + 'px;display:inline-block;"></div>',
-                            '<div id="id-input-digital-value1" class="" style="vertical-align: middle; width:225px;display:inline-block;"></div>',
+                            '<div id="id-field-digital-combo" class="input-group-nr margin-right-10 display-inline-block-middle" style="width:110px;"></div>',
+                            '<div id="id-cond-digital-combo" class="input-group-nr margin-right-10 display-inline-block-middle" style="width:' + ((t.type=='label') ? 225 : (t.type=='date') ? 200 : 110) + 'px;"></div>',
+                            '<div id="id-input-digital-value1" class="display-inline-block-middle" style="width:' + (t.type=='date' ? 250 : 225) + 'px;"></div>',
+                            '<% if (type === "date") {%>',
+                                '<div id="id-btn-date-picker-1" class="margin-left-5 display-inline-block-middle"></div>',
+                            '<% } %>',
                             '<label id="id-label-digital-and" class="margin-left-5" style="vertical-align: middle;">'+ this.txtAnd +'</label>',
-                            '<div id="id-input-digital-value2" class="margin-left-5" style="vertical-align: middle; width:100px;display:inline-block;"></div>',
+                            '<div id="id-input-digital-value2" class="margin-left-5 display-inline-block-middle" style="width:100px;"></div>',
+                            '<% if (type === "date") {%>',
+                                '<div id="id-btn-date-picker-2" class="margin-left-5 display-inline-block-middle"></div>',
+                            '<% } %>',
                         '</div>',
+                        '<% if (type == "label") {%>',
                         '<div style="margin-top:10px;">',
                             '<label style="display:block;">' + t.textUse1 + '</label>',
                             '<label style="display:block;">' + t.textUse2 + '</label>',
                         '</div>',
+                        '<% } %>',
                     '</div>',
                     '</div>'
                 ].join('');
 
             _options.tpl    =   _.template(this.template)(_options);
+
+            if (this.type === 'date') {
+                this.datePickers = [];
+            }
 
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
@@ -611,10 +623,10 @@ define([], function () {
             this.conditions = [
                 {value: Asc.c_oAscCustomAutoFilter.equals,                   displayValue: this.capCondition1},
                 {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             displayValue: this.capCondition2},
-                {value: Asc.c_oAscCustomAutoFilter.isGreaterThan,            displayValue: this.capCondition3},
-                {value: Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   displayValue: this.capCondition4},
-                {value: Asc.c_oAscCustomAutoFilter.isLessThan,               displayValue: this.capCondition5},
-                {value: Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo,      displayValue: this.capCondition6},
+                {value: Asc.c_oAscCustomAutoFilter.isGreaterThan,            displayValue: this.type !== 'date' ? this.capCondition3 : this.capCondition30},
+                {value: Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   displayValue: this.type !== 'date' ? this.capCondition4 : this.capCondition40},
+                {value: Asc.c_oAscCustomAutoFilter.isLessThan,               displayValue: this.type !== 'date' ? this.capCondition5 : this.capCondition50},
+                {value: Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo,      displayValue: this.type !== 'date' ? this.capCondition6 : this.capCondition60},
                 {value: -2,                                                  displayValue: this.capCondition13},
                 {value: -3,                                                  displayValue: this.capCondition14}
             ];
@@ -640,14 +652,18 @@ define([], function () {
             this.cmbCondition1.setValue(Asc.c_oAscCustomAutoFilter.equals);
             this.cmbCondition1.on('selected', _.bind(function(combo, record) {
                 var isBetween = record.value == -2 || record.value == -3;
-                this.inputValue2.setVisible(isBetween);
+                this.cmbValue2 && this.cmbValue2.setVisible(isBetween);
+                this.cmbValue1 && this.cmbValue1.$el.width(isBetween ? 100 : (this.type==='date' ? 250 : 225));
+                this.inputValue2 && this.inputValue2.setVisible(isBetween);
+                this.inputValue && this.inputValue.$el.width(isBetween ? 100 : (this.type==='date' ? 250 : 225));
                 this.lblAnd.toggleClass('hidden', !isBetween);
-                this.inputValue.$el.width(isBetween ? 100 : 225);
+                this.btnDatePicker2 && this.btnDatePicker2.setVisible(isBetween);
                 var me = this;
                 setTimeout(function () {
-                    if (me.inputValue) {
+                    if (me.inputValue)
                         me.inputValue.focus();
-                    }
+                    else if (me.cmbValue1)
+                        me.cmbValue1.focus();
                 }, 10);
             }, this));
 
@@ -665,27 +681,78 @@ define([], function () {
             this.cmbFields.on('selected', _.bind(function(combo, record) {
                 var me = this;
                 setTimeout(function () {
-                    if (me.inputValue) {
+                    if (me.inputValue)
                         me.inputValue.focus();
-                    }
+                    else if (me.cmbValue1)
+                        me.cmbValue1.focus();
                 }, 10);
             }, this));
 
-            this.inputValue = new Common.UI.InputField({
-                el          : $('#id-input-digital-value1'),
-                allowBlank  : false,
-                style       : 'width: 100%;',
-                validateOnBlur: false
-            });
+            if (this.type==='value') {
+                this.inputValue = new Common.UI.InputField({
+                    el          : $('#id-input-digital-value1'),
+                    allowBlank  : false,
+                    style       : 'width: 100%;',
+                    validateOnBlur: false
+                });
 
-            this.inputValue2 = new Common.UI.InputField({
-                el          : $('#id-input-digital-value2'),
-                allowBlank  : false,
-                style       : 'width: 100%;',
-                validateOnBlur: false
-            });
+                this.inputValue2 = new Common.UI.InputField({
+                    el          : $('#id-input-digital-value2'),
+                    allowBlank  : false,
+                    style       : 'width: 100%;',
+                    validateOnBlur: false
+                });
+            } else {
+                this.cmbValue1 = new Common.UI.ComboBox({
+                    el          : $('#id-input-digital-value1', this.$window),
+                    cls         : 'input-group-nr',
+                    menuStyle   : 'min-width: 100%;max-height: 135px;',
+                    scrollAlwaysVisible: true,
+                    data        : [],
+                    takeFocusOnClose: true
+                });
+
+                this.cmbValue2 = new Common.UI.ComboBox({
+                    el          : $('#id-input-digital-value2', this.$window),
+                    cls         : 'input-group-nr',
+                    menuStyle   : 'min-width: 100%;max-height: 135px;',
+                    scrollAlwaysVisible: true,
+                    data        : [],
+                    takeFocusOnClose: true
+                });
+
+                var comparator = function(item1, item2) {
+                    var n1 = item1.get('intval'),
+                        n2 = item2.get('intval'),
+                        isN1 = n1!==undefined,
+                        isN2 = n2!==undefined;
+                    if (isN1 !== isN2) return (isN1) ? -1 : 1;
+                    !isN1 && (n1 = item1.get('value').toLowerCase()) && (n2 = item2.get('value').toLowerCase());
+                    if (n1===n2) return 0;
+                    return (n2==='' || n1!=='' && n1<n2) ? -1 : 1;
+                };
+                this.cmbValue1.store.comparator = this.cmbValue2.store.comparator = comparator;
+            }
 
             this.lblAnd = this.$window.find('#id-label-digital-and');
+
+            if (this.type === 'date') {
+                this.btnDatePicker1 = new Common.UI.Button({
+                    parentEl: $('#id-btn-date-picker-1', this.$window),
+                    cls: 'btn-toolbar bg-white',
+                    iconCls: 'toolbar__icon btn-date',
+                    hint: this.txtSelectDate
+                });
+                this.btnDatePicker1.on('click', _.bind(this.showDatePicker, this));
+
+                this.btnDatePicker2 = new Common.UI.Button({
+                    parentEl: $('#id-btn-date-picker-2', this.$window),
+                    cls: 'btn-toolbar bg-white',
+                    iconCls: 'toolbar__icon btn-date',
+                    hint: this.txtSelectDate
+                });
+                this.btnDatePicker2.on('click', _.bind(this.showDatePicker, this));
+            }
 
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
@@ -693,11 +760,11 @@ define([], function () {
         },
 
         getFocusedComponents: function() {
-            return [this.cmbFields, this.cmbCondition1, this.inputValue, this.inputValue2].concat(this.getFooterButtons());
+            return [this.cmbFields, this.cmbCondition1, this.inputValue, this.inputValue2, this.cmbValue1, this.cmbValue2].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
-            return this.inputValue;
+            return this.inputValue ? this.inputValue : this.cmbValue1;
         },
 
         close: function () {
@@ -722,7 +789,7 @@ define([], function () {
         },
 
         loadDefaults: function () {
-            if (this.properties && this.cmbCondition1 && this.cmbFields && this.inputValue) {
+            if (this.properties && this.cmbCondition1 && this.cmbFields && (this.cmbValue1 || this.inputValue)) {
 
                 var pivotObj = this.properties.asc_getPivotObj(),
                     idx = pivotObj.asc_getDataFieldIndexFilter(),
@@ -737,6 +804,17 @@ define([], function () {
                     });
                     this.cmbFields.setData(arr);
                     this.cmbFields.setValue((idx!==0) ? idx-1 : 0);
+                } else {
+                    var arr = [];
+                    this.properties.asc_getValues().forEach(function (item) {
+                        var value    = item.asc_getText();
+                        if (!_.isEmpty(value)) {
+                            arr.push({value: value, displayValue: value,
+                                intval: (!isNaN(parseFloat(value)) && isFinite(value)) ? parseFloat(value) : undefined});
+                        }
+                    });
+                    this.cmbValue1.setData(arr);
+                    this.cmbValue2.setData(arr);
                 }
 
                 var filterObj = this.properties.asc_getFilterObj();
@@ -756,17 +834,22 @@ define([], function () {
                             value = -3;
                     }
                     this.cmbCondition1.setValue(value || Asc.c_oAscCustomAutoFilter.equals);
-                    this.inputValue.setValue(null === customFilters[0].asc_getVal() ? '' : customFilters[0].asc_getVal());
-                    this.inputValue.$el.width((value==-2 || value==-3) ? 100 : 225);
+                    this.inputValue && this.inputValue.setValue(null === customFilters[0].asc_getVal() ? '' : customFilters[0].asc_getVal());
+                    this.inputValue && this.inputValue.$el.width((value==-2 || value==-3) ? 100 : (this.type==='date' ? 250 : 225));
+                    this.cmbValue1 && this.cmbValue1.setValue(null === customFilters[0].asc_getVal() ? '' : customFilters[0].asc_getVal());
+                    this.cmbValue1 && this.cmbValue1.$el.width((value==-2 || value==-3) ? 100 : (this.type==='date' ? 250 : 225));
 
                     this.lblAnd.toggleClass('hidden', !(value==-2 || value==-3));
-                    this.inputValue2.setVisible(value==-2 || value==-3);
-                    this.inputValue2.setValue((customFilters.length>1) ? (null === customFilters[1].asc_getVal() ? '' : customFilters[1].asc_getVal()) : '');
+                    this.inputValue2 && this.inputValue2.setVisible(value==-2 || value==-3);
+                    this.inputValue2 && this.inputValue2.setValue((customFilters.length>1) ? (null === customFilters[1].asc_getVal() ? '' : customFilters[1].asc_getVal()) : '');
+                    this.cmbValue2 && this.cmbValue2.setVisible(value==-2 || value==-3);
+                    this.cmbValue2 && this.cmbValue2.setValue((customFilters.length>1) ? (null === customFilters[1].asc_getVal() ? '' : customFilters[1].asc_getVal()) : '');
+                    this.btnDatePicker2 && this.btnDatePicker2.setVisible(value==-2 || value==-3);
                 }
             }
         },
         save: function () {
-            if (this.api && this.properties && this.cmbCondition1 && this.cmbFields && this.inputValue) {
+            if (this.api && this.properties && this.cmbCondition1 && this.cmbFields && (this.cmbValue1 || this.inputValue)) {
 
                 var filterObj = this.properties.asc_getFilterObj();
                 filterObj.asc_setFilter(new Asc.CustomFilters());
@@ -779,29 +862,62 @@ define([], function () {
                     customFilter.asc_setAnd(true);
                     var customFilters = customFilter.asc_getCustomFilters();
                     customFilters[0].asc_setOperator(Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo);
-                    customFilters[0].asc_setVal(this.inputValue.getValue());
+                    customFilters[0].asc_setVal(this.inputValue ? this.inputValue.getValue() : this.cmbValue1.getValue());
                     customFilters[1].asc_setOperator(Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo);
-                    customFilters[1].asc_setVal(this.inputValue2.getValue());
+                    customFilters[1].asc_setVal(this.inputValue2 ? this.inputValue2.getValue() : this.cmbValue2.getValue());
                 } else if (type==-3) {
                     customFilter.asc_setCustomFilters([new Asc.CustomFilter(), new Asc.CustomFilter()]);
                     customFilter.asc_setAnd(false);
                     var customFilters = customFilter.asc_getCustomFilters();
                     customFilters[0].asc_setOperator(Asc.c_oAscCustomAutoFilter.isLessThan);
-                    customFilters[0].asc_setVal(this.inputValue.getValue());
+                    customFilters[0].asc_setVal(this.inputValue ? this.inputValue.getValue() : this.cmbValue1.getValue());
                     customFilters[1].asc_setOperator(Asc.c_oAscCustomAutoFilter.isGreaterThan);
-                    customFilters[1].asc_setVal(this.inputValue2.getValue());
+                    customFilters[1].asc_setVal(this.inputValue2 ? this.inputValue2.getValue() : this.cmbValue2.getValue());
                 } else {
                     customFilter.asc_setCustomFilters([new Asc.CustomFilter()]);
                     customFilter.asc_setAnd(true);
                     var customFilters = customFilter.asc_getCustomFilters();
                     customFilters[0].asc_setOperator(this.cmbCondition1.getValue());
-                    customFilters[0].asc_setVal(this.inputValue.getValue());
+                    customFilters[0].asc_setVal(this.inputValue ? this.inputValue.getValue() : this.cmbValue1.getValue());
                 }
                 var pivotObj = this.properties.asc_getPivotObj();
                 pivotObj.asc_setDataFieldIndexFilter((this.type == 'value') ? this.cmbFields.getValue()+1 : 0);
 
                 this.api.asc_applyAutoFilter(this.properties);
             }
+        },
+
+        showDatePicker: function (btn) {
+            Common.UI.Menu.Manager.hideAll();
+
+            var id = btn.$el.attr('id'),
+                index = parseInt(id.slice(-1)),
+                $picker,
+                cmb = index === 1 ? (this.inputValue ? this.inputValue : this.cmbValue1) : (this.inputValue2 ? this.inputValue2 : this.cmbValue2);
+            if (!this.datePickers[index]) {
+                $picker = $('<div id="date-picker-' + index + '"><div id="date-picker-control' + index + '"></div></div>');
+                btn.$el.append($picker);
+
+                this.datePickers[index] = new Common.UI.Calendar({
+                    el: $picker.find('#date-picker-control' + index),
+                    enableKeyEvents: true,
+                    firstday: 1
+                });
+
+                this.datePickers[index].on('date:click', _.bind(function (cmp, date) {
+                    cmb.setValue(new Date(date).toLocaleString().split(',')[0].replace(/\./g,'/'));
+                    $picker.hide();
+                }, this));
+
+                $(document).on('mousedown', function(e) {
+                    if (e.target.localName !== 'canvas' && $picker.is(':visible') && $picker.find(e.target).length==0) {
+                        $picker.hide();
+                    }
+                });
+            } else {
+                $picker = btn.$el.find('#date-picker-' + index);
+            }
+            $picker.show();
         },
 
         onPrimary: function() {
@@ -830,7 +946,13 @@ define([], function () {
         txtTitleLabel: 'Label Filter',
         capCondition13: 'between',
         capCondition14: 'not between',
-        txtAnd: 'and'
+        txtAnd: 'and',
+        txtTitleDate: 'Date Filter',
+        textShowDate       : "Show items for which the date:",
+        capCondition30: "is after",
+        capCondition40: "is after or equal to",
+        capCondition50: "is before",
+        capCondition60: "is before or equal to"
 
     }, SSE.Views.PivotDigitalFilterDialog || {}));
 
@@ -1430,13 +1552,13 @@ define([], function () {
                     this.miSortCellColor,
                     this.miSortFontColor,
                     {caption     : '--'},
-                    this.miLabelFilter,
-                    this.miValueFilter,
                     this.miNumFilter,
                     this.miTextFilter,
                     this.miDateFilter,
                     this.miFilterCellColor,
                     this.miFilterFontColor,
+                    this.miLabelFilter,
+                    this.miValueFilter,
                     this.miClear,
                     this.miReapplySeparator,
                     this.miReapply
@@ -1731,7 +1853,8 @@ define([], function () {
         },
 
         onDataFilterMenuClick: function (item) {
-            var filterObj = this.configTo.asc_getFilterObj(),
+            var pivotObj = this.configTo.asc_getPivotObj(),
+                filterObj = this.configTo.asc_getFilterObj(),
                 value1 = '', value2 = '',
                 cond1 = Asc.c_oAscCustomAutoFilter.equals,
                 cond2 = 0, isAnd = true;
@@ -1770,7 +1893,11 @@ define([], function () {
             }
 
             var me = this,
-                dlgDigitalFilter = new SSE.Views.DigitalFilterDialog({api:this.api, type: 'date'}).on({
+                dlgDigitalFilter = !pivotObj ? new SSE.Views.DigitalFilterDialog({api:this.api, type: 'date'}).on({
+                    'close': function() {
+                        me.close();
+                    }
+                }) : new SSE.Views.PivotDigitalFilterDialog({api:this.api, type: 'date'}).on({
                     'close': function() {
                         me.close();
                     }
@@ -2042,10 +2169,6 @@ define([], function () {
                 isPivot = !!pivotObj,
                 isValueFilter = false;
 
-            this.miValueFilter.setVisible(isPivot);
-            this.miLabelFilter.setVisible(isPivot);
-            this.miSortOptions.setVisible(isPivot);
-
             if (isPivot) {
                 this.miReapplySeparator.setVisible(false);
                 this.miReapply.setVisible(false);
@@ -2066,12 +2189,18 @@ define([], function () {
 
             if (sortColor) sortColor = Common.Utils.ThemeColor.getHexColor(sortColor.get_r(), sortColor.get_g(), sortColor.get_b()).toLocaleUpperCase();
 
+            this.miValueFilter.setVisible(isPivot);
+            this.miLabelFilter.setVisible(isPivot && isTextFilter);
+            this.miSortOptions.setVisible(isPivot);
+
             this.miTextFilter.setVisible(!isPivot && isTextFilter);
-            this.miDateFilter.setVisible(!isPivot && isDateFilter);
             this.miNumFilter.setVisible(!isPivot && !isTextFilter && !isDateFilter);
+
+            this.miDateFilter.setVisible(isDateFilter);
+
             this.miTextFilter.setChecked(isCustomFilter && isTextFilter, true);
             this.miNumFilter.setChecked((isCustomFilter || isDynamicFilter || isTop10) && !isTextFilter, true);
-            this.miDateFilter.setChecked((isDynamicFilter || isCustomFilter) && isDateFilter, true);
+            this.miDateFilter.setChecked((isDynamicFilter || isCustomFilter) && isDateFilter && !isValueFilter, true);
 
             this.miValueFilter.setChecked(isPivot && isValueFilter, true);
             this.miLabelFilter.setChecked(isPivot && !isValueFilter && (isCustomFilter || isTop10), true);
@@ -2125,7 +2254,7 @@ define([], function () {
                     isAnd = (customFilter.asc_getAnd()),
                     cond1 = customFilters[0].asc_getOperator(),
                     cond2 = ((customFilters.length>1) ? (customFilters[1].asc_getOperator() || 0) : 0),
-                    items = isPivot ? (isValueFilter ? this.miValueFilter.menu.items : this.miLabelFilter.menu.items) :
+                    items = isPivot ? (isValueFilter ? this.miValueFilter.menu.items : (isDateFilter ? this.miDateFilter.menu.items : this.miLabelFilter.menu.items)) :
                         (isTextFilter ? this.miTextFilter.menu.items : (isDateFilter ? this.miDateFilter.menu.items : this.miNumFilter.menu.items)),
                     isCustomConditions = true;
 
@@ -2136,10 +2265,10 @@ define([], function () {
                         if (checked) isCustomConditions = false;
                     });
                 else if ((isPivot || !isTextFilter) && (cond1 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo)){
-                    items[isDateFilter ? 3 : (isPivot && !isValueFilter ? 13 : 6)].setChecked(true, true); // between filter
+                    items[isDateFilter ? 4 : (isPivot && !isValueFilter ? 15 : 7)].setChecked(true, true); // between filter
                     isCustomConditions = false;
                 } else if (isPivot && (cond1 == Asc.c_oAscCustomAutoFilter.isLessThan && cond2 == Asc.c_oAscCustomAutoFilter.isGreaterThan)) {
-                    items[!isValueFilter ? 14 : 7].setChecked(true, true); // not between filter
+                    items[!isValueFilter ? 16 : 8].setChecked(true, true); // not between filter
                     isCustomConditions = false;
                 }
                 if (isCustomConditions)
@@ -2158,7 +2287,7 @@ define([], function () {
                 }
             } else if (isDynamicFilter || isTop10) {
                 var dynType = (isDynamicFilter) ? filterObj.asc_getFilter().asc_getType() : null,
-                    items = isPivot ? this.miValueFilter.menu.items : (isDateFilter ? this.miDateFilter.menu.items : this.miNumFilter.menu.items);
+                    items = isDateFilter ? this.miDateFilter.menu.items : (isPivot ? this.miValueFilter.menu.items : this.miNumFilter.menu.items);
                 items.forEach(function(item){
                     item.setChecked(isDynamicFilter && (item.options.type == Asc.c_oAscAutoFilterTypes.DynamicFilter) && (item.value == dynType) ||
                                     isTop10 && (item.options.type == Asc.c_oAscAutoFilterTypes.Top10), true);
@@ -2175,7 +2304,7 @@ define([], function () {
                                 isChecked = true;
                             }
                         });
-                        isChecked && this.miDateFilter.menu.items[20].setChecked(isChecked, true);
+                        isChecked && this.miDatesInThePeriod.setChecked(isChecked, true);
                     }
                 }
             }
