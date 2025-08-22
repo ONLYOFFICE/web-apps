@@ -912,7 +912,7 @@ define([
                     this.btnShapeComment = new Common.UI.Button({
                         id: 'tlbtn-shapecomment',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-big-shape-comment',
+                        iconCls: 'toolbar__icon btn-big-annotation-rectangle',
                         lock: [_set.pageDeleted, _set.disableOnStart],
                         caption: this.capBtnRectComment,
                         menu: true,
@@ -1641,9 +1641,9 @@ define([
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'shapecomment',
-                                    iconCls     : 'menu__icon btn-rect-comment',
+                                    iconCls     : 'menu__icon btn-annotation-rectangle',
                                     value: AscPDF.ANNOTATIONS_TYPES.Square,
-                                    iconClsForMainBtn: 'btn-big-rect-comment',
+                                    iconClsForMainBtn: 'btn-big-annotation-rectangle',
                                     captionForMainBtn: me.capBtnRectComment
                                 },
                                 {
@@ -1652,9 +1652,9 @@ define([
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'shapecomment',
-                                    iconCls     : 'menu__icon btn-circle-comment',
+                                    iconCls     : 'menu__icon btn-annotation-circle',
                                     value: AscPDF.ANNOTATIONS_TYPES.Circle,
-                                    iconClsForMainBtn: 'btn-big-circle-comment',
+                                    iconClsForMainBtn: 'btn-big-annotation-circle',
                                     captionForMainBtn: me.capBtnCircleComment
                                 },
                                 {
@@ -1663,9 +1663,9 @@ define([
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'shapecomment',
-                                    iconCls     : 'menu__icon btn-arrow-comment',
+                                    iconCls     : 'menu__icon btn-annotation-arrow',
                                     value: AscPDF.ANNOTATIONS_TYPES.Line,
-                                    iconClsForMainBtn: 'btn-big-arrow-comment',
+                                    iconClsForMainBtn: 'btn-big-annotation-arrow',
                                     captionForMainBtn: me.capBtnArrowComment
                                 },
                                 {
@@ -1674,9 +1674,9 @@ define([
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'shapecomment',
-                                    iconCls     : 'menu__icon btn-polyline-comment',
+                                    iconCls     : 'menu__icon btn-annotation-connected-lines',
                                     value: AscPDF.ANNOTATIONS_TYPES.PolyLine,
-                                    iconClsForMainBtn: 'btn-big-polyline-comment',
+                                    iconClsForMainBtn: 'btn-big-annotation-connected-lines',
                                     captionForMainBtn: me.capBtnPolyLineComment
                                 },
                             ]
