@@ -598,17 +598,18 @@ const PageOrientationTextTable = props => {
   
     return (
         <Page>
-            <Navbar title={t('Edit.textTextOrientation')} backLink={_t.textBack} />
-            {Device.phone && (
-                <NavRight>
-                    <Link sheetClose="#edit-sheet">
-                        {Device.ios ? 
-                            <SvgIcon symbolId={IconExpandDownIos.id} className="icon icon-svg" /> :
-                            <SvgIcon symbolId={IconExpandDownAndroid.id} className="icon icon-svg white" />
-                        }
-                    </Link>
-                </NavRight>
-            )}
+            <Navbar title={t('Edit.textTextOrientation')} backLink={_t.textBack}>
+                {Device.phone && (
+                    <NavRight>
+                        <Link sheetClose="#edit-sheet">
+                            {Device.ios ?
+                                <SvgIcon symbolId={IconExpandDownIos.id} className="icon icon-svg" /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className="icon icon-svg white" />
+                            }
+                        </Link>
+                    </NavRight>
+                )}
+            </Navbar>
             <List>
                 <ListItem title={t('Edit.textHorizontalText')} radio
                     checked={directionTextTable === Asc.c_oAscCellTextDirection.LRTB}
