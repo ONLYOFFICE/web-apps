@@ -18,6 +18,7 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
     });
 
     let loadMask = null;
+    let showTimer = null;
 
     const closePreloader = () => {
         if (loadMask && loadMask.el) {
@@ -60,11 +61,21 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
     const onLongActionBegin = (type, id) => {
         const action = {id: id, type: type};
         stackLongActions.push(action);
-        setLongActionView(action);
+
+        showTimer = setTimeout(() => {
+            setLongActionView(action);
+            showTimer = null;
+        }, 10);
     };
 
     const onLongActionEnd = (type, id, forceClose) => {
-        if (!stackLongActions.exist({id: id, type: type})) return;
+
+        if (showTimer) {
+            clearTimeout(showTimer);
+            showTimer = null;
+        }
+
+        if (!stackLongActions.exist({ id: id, type: type })) return;
 
         let action = {id: id, type: type};
         stackLongActions.pop(action);
