@@ -175,7 +175,7 @@ class EditChartController extends Component {
 
     setLayoutProperty(propertyMethod, value) {
         const api = Common.EditorApi.get();
-        let chartObject = api.asc_getChartObject();
+        let chartObject = api.asc_getChartSettings();
 
         if (chartObject && value) {
 
@@ -185,13 +185,13 @@ class EditChartController extends Component {
                 chartObject["putShowVal"](true);
             }
 
-            api.asc_editChartDrawingObject(chartObject);
+            api.asc_applyChartSettings(chartObject);
         }
     }
 
     getVerticalAxisProp() {
         const api = Common.EditorApi.get();
-        let chartObject = api.asc_getChartObject(),
+        let chartObject = api.asc_getChartSettings(),
             verAxisProps = chartObject.getVertAxisProps();
 
         return (verAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? verAxisProps : chartObject.getHorAxisProps();
@@ -199,12 +199,12 @@ class EditChartController extends Component {
 
     setVerticalAxisProp(axisProps) {
         const api = Common.EditorApi.get();
-        let chartObject = api.asc_getChartObject(),
+        let chartObject = api.asc_getChartSettings(),
             verAxisProps = chartObject.getVertAxisProps();
 
         if (chartObject) {
             chartObject[(verAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? 'putVertAxisProps' : 'putHorAxisProps'](axisProps);
-            api.asc_editChartDrawingObject(chartObject);
+            api.asc_applyChartSettings(chartObject);
         }
     }
 
@@ -295,7 +295,7 @@ class EditChartController extends Component {
 
     getHorizontalAxisProp() {
         const api = Common.EditorApi.get();
-        let chartObject = api.asc_getChartObject(),
+        let chartObject = api.asc_getChartSettings(),
             verHorProps = chartObject.getHorAxisProps();
 
         return (verHorProps.getAxisType() == Asc.c_oAscAxisType.val) ? chartObject.getVertAxisProps() : verHorProps;
@@ -303,12 +303,12 @@ class EditChartController extends Component {
 
     setHorizontalAxisProp(axisProps) {
         const api = Common.EditorApi.get();
-        let chartObject = api.asc_getChartObject(),
+        let chartObject = api.asc_getChartSettings(),
             verAxisProps = chartObject.getHorAxisProps();
 
         if (chartObject) {
             chartObject[(verAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? 'putVertAxisProps' : 'putHorAxisProps'](axisProps);
-            api.asc_editChartDrawingObject(chartObject);
+            api.asc_applyChartSettings(chartObject);
         }
     }
 
