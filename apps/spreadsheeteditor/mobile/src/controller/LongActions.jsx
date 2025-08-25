@@ -62,10 +62,13 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
         const action = {id: id, type: type};
         stackLongActions.push(action);
 
-        showTimer = setTimeout(() => {
-            setLongActionView(action);
-            showTimer = null;
-        }, 10);
+        if (id===Asc.c_oAscAsyncAction['LoadDocumentFonts']) {
+            showTimer = setTimeout(() => {
+                setLongActionView(action);
+                showTimer = null;
+            }, 10);
+        } else setLongActionView(action);
+     
     };
 
     const onLongActionEnd = (type, id, forceClose) => {
