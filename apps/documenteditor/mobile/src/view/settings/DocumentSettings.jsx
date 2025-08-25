@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {Page, Navbar, List, ListItem, BlockTitle, Segmented, Button, Icon} from 'framework7-react';
+import {Page, Navbar, List, ListItem, BlockTitle, Segmented, Button, Icon, Toggle} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { f7 } from 'framework7-react';
@@ -223,6 +223,8 @@ const PageDocumentSettings = props => {
     const pageSizesIndex = storeSettings.pageSizesIndex;
     const widthDoc = storeSettings.widthDocument;
     const heightDoc = storeSettings.heightDocument;
+
+    let isHyphenation = storeSettings.getHyphenation();
     let textFormat;
     let sizeW;
     let sizeH;
@@ -256,6 +258,11 @@ const PageDocumentSettings = props => {
                     getMargins: props.getMargins,
                     applyMargins: props.applyMargins
                 }}></ListItem>
+            </List>
+            <List>
+                <ListItem title={_t.textHyphenation}>
+                    <Toggle checked={isHyphenation} onToggleChange={() => {props.onToggleHyphenation(!isHyphenation)}}/>
+                </ListItem>
             </List>
             <List>
                 <ListItem title={_t.textColorSchemes} link="/color-schemes/" routeProps={{

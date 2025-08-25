@@ -12,6 +12,7 @@ class DocumentSettingsController extends Component {
         this.applyMargins = this.applyMargins.bind(this);
         this.onFormatChange = this.onFormatChange.bind(this);
         this.onColorSchemeChange = this.onColorSchemeChange.bind(this);
+        this.onToggleHyphenation = this.onToggleHyphenation.bind(this);
     }
 
     onPageOrientation (value){
@@ -98,6 +99,16 @@ class DocumentSettingsController extends Component {
         }
     }
 
+    onToggleHyphenation(value) {
+        const api = Common.EditorApi.get();
+        const storeDocumentSettings = this.props.storeDocumentSettings;
+        
+        if (api) {
+            api.asc_setAutoHyphenation(value);
+            storeDocumentSettings.setHyphenation(value);
+    }
+}
+
     // Color Schemes
 
     initPageColorSchemes() {
@@ -119,6 +130,7 @@ class DocumentSettingsController extends Component {
                               applyMargins={this.applyMargins}
                               onColorSchemeChange={this.onColorSchemeChange}
                               initPageColorSchemes={this.initPageColorSchemes}
+                              onToggleHyphenation={this.onToggleHyphenation}
             />
         )
     }
