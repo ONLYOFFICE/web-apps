@@ -1060,6 +1060,7 @@ define([
                         paletteCls: colorsconfig.cls,
                         paletteWidth: colorsconfig.paletteWidth,
                         currentSize: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2},
+                        hidePaletteOnClick: false,
                         additionalItemsBefore: [
                             {
                                 cls: 'shifted-right',
