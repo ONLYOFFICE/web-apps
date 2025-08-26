@@ -749,6 +749,7 @@
     "textMargins": "Margins",
     "textMarginsH": "Top and bottom margins are too high for a given page height",
     "textMarginsW": "Left and right margins are too wide for a given page width",
+    "textHyphenation": "Hyphenation",
     "textMobileView": "Mobile View",
     "textNavigation": "Navigation",
     "textNo": "No",
