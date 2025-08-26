@@ -584,8 +584,6 @@ define([
                 colors_obj.name = theme_id;
                 this.api.asc_setSkin(colors_obj);
 
-                console.log('new theme apply', window.SSE ? 'sse' : 'de', JSON.stringify(colors_obj));
-
                 if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) ) {
                     const theme_str = Common.localStorage.getItem("ui-theme");
                     let theme_id;
