@@ -175,7 +175,8 @@
 
         #search-adv-results-number {
             padding-top: 2px;
-            width: calc(100% - 48px);
+            width: calc(100% - 44px);
+            width: calc(100% - @x-small-btn-size*2 - 4px);
             color: @text-secondary-ie;
             color: @text-secondary;
 
@@ -193,7 +194,7 @@
                 display: inline-block;
             }
             #search-adv-back {
-                margin-right: 4px;
+                .margin-right-4();
             }
         }
 
