@@ -12,7 +12,7 @@ export class storeDocumentSettings {
             changeDocSize: action,
             pageSizesIndex: computed,
             addSchemes: action,
-            setHyphenation: action
+            setHyphenation: action,
         });
     }
 
@@ -28,6 +28,7 @@ export class storeDocumentSettings {
     }
 
     getHyphenation () {
+        this.setHyphenation(Common.EditorApi.get().asc_isAutoHyphenation());
         return this.isHyphenation;
     }
 

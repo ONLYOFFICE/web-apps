@@ -223,8 +223,8 @@ const PageDocumentSettings = props => {
     const pageSizesIndex = storeSettings.pageSizesIndex;
     const widthDoc = storeSettings.widthDocument;
     const heightDoc = storeSettings.heightDocument;
-
-    let isHyphenation = storeSettings.getHyphenation();
+    const isHyphenation = storeSettings.getHyphenation();
+    
     let textFormat;
     let sizeW;
     let sizeH;
