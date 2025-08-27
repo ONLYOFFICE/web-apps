@@ -61,14 +61,7 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
     const onLongActionBegin = (type, id) => {
         const action = {id: id, type: type};
         stackLongActions.push(action);
-
-        if (id===Asc.c_oAscAsyncAction['LoadDocumentFonts']) {
-            showTimer = setTimeout(() => {
-                setLongActionView(action);
-                showTimer = null;
-            }, 10);
-        } else setLongActionView(action);
-     
+        setLongActionView(action);
     };
 
     const onLongActionEnd = (type, id, forceClose) => {
@@ -201,7 +194,9 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
             } else if ($$('.dialog-preloader').hasClass('modal-in')) {
                 $$('.dialog-preloader').find('dialog-title').text(title);
             } else {
-                loadMask = f7.dialog.preloader(title);
+                showTimer = setTimeout(() => {
+                    loadMask = f7.dialog.preloader(title);
+                }, 300);
             }
         }
 
