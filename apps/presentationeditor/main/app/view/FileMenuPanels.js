@@ -2135,8 +2135,8 @@ define([], function () {
                                     '<tr><td class="padding-large"><div id="print-combo-sides" style="width: 248px;"></div></td></tr>',
                                     '<tr><td><label class="font-weight-bold"><%= scope.txtPaperSize %></label></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-combo-pages" style="width: 248px;"></div></td></tr>',
-                                    '<tr class="header-settings"><td class="padding-large"><label class="link" id="print-header-footer-settings" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtHeaderFooterSettings %></label></td></tr>',
-                                    '<tr><td class="padding-large"><label class="link" id="print-btn-system-dialog" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtPrintUsingSystemDialog %></label></td></tr>',
+                                    '<tr class="header-settings"><td class="padding-large"><label id="print-header-footer-settings" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><span class="link"><%= scope.txtHeaderFooterSettings %></span></label></td></tr>',
+                                    '<tr><td class="padding-large"><label id="print-btn-system-dialog" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><span class="link"><%= scope.txtPrintUsingSystemDialog %></span></label></td></tr>',
                                     '<tr class="fms-btn-apply"><td>',
                                         '<div class="footer justify">',
                                             '<button id="print-btn-print" class="btn normal dlg-btn primary margin-right-8" result="print" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button>',
@@ -2389,7 +2389,7 @@ define([], function () {
             this.pnlTable = $(this.pnlSettings.find('table')[0]);
             this.trApply = $markup.find('.fms-btn-apply');
 
-            this.btnPrintSystemDialog = $markup.findById('#print-btn-system-dialog');
+            this.btnPrintSystemDialog = $markup.find('#print-btn-system-dialog > span');
             this.btnPrint = new Common.UI.Button({
                 el: $markup.findById('#print-btn-print'),
                 disabled: true
@@ -2439,7 +2439,7 @@ define([], function () {
             });
 
             this.$el = $(node).html($markup);
-            this.$el.on('click', '#print-header-footer-settings', _.bind(this.openHeaderSettings, this));
+            this.$el.on('click', '#print-header-footer-settings > span', _.bind(this.openHeaderSettings, this));
             this.$previewBox = $('#print-preview-box');
             this.$previewEmpty = $('#print-preview-empty');
 

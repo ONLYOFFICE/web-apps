@@ -2762,12 +2762,12 @@ define([], function () {
                                     '<tr><td class="padding-small"><label class="font-weight-bold"><%= scope.txtGridlinesAndHeadings %></label></td></tr>',
                                     '<tr><td class="padding-small"><div id="print-chb-grid" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-chb-rows" style="width: 248px;"></div></td></tr>',
-                                    '<tr class="header-settings"><td class="padding-large"><label class="link" id="print-header-footer-settings" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtHeaderFooterSettings %></label></td></tr>',
+                                    '<tr class="header-settings"><td class="padding-large"><label id="print-header-footer-settings" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><span class="link"><%= scope.txtHeaderFooterSettings %></span></label></td></tr>',
                                     '<tr><td class="padding-large first-page">',
                                         '<label><%= scope.txtFirstPageNumber %></label>',
                                         '<div id="print-spin-first-page"></div>',
                                     '</td></tr>',
-                                    '<tr class="header-settings hidden-for-webapp"><td class="padding-large"><label class="link" id="print-btn-system-dialog" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtPrintUsingSystemDialog %></label></td></tr>',
+                                    '<tr class="header-settings hidden-for-webapp"><td class="padding-large"><label id="print-btn-system-dialog" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><span class="link"><%= scope.txtPrintUsingSystemDialog %></span></label></td></tr>',
                                     //'<tr><td class="padding-large"><button type="button" class="btn btn-text-default" id="print-apply-all" style="width: 118px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtApplyToAllSheets %></button></td></tr>',
                                     '<tr class="fms-btn-apply"><td>',
                                         '<div class="footer justify">',
@@ -3228,7 +3228,7 @@ define([], function () {
             this.trApply = $markup.find('.fms-btn-apply');
 
 
-            this.btnPrintSystemDialog = $markup.findById('#print-btn-system-dialog');
+            this.btnPrintSystemDialog = $markup.find('#print-btn-system-dialog > span');
             
             this.btnsSave = [];
             this.btnsPrint = [];
@@ -3317,7 +3317,7 @@ define([], function () {
             this.txtActiveSheet = $markup.findById('#print-active-sheet');
 
             this.$el = $(node).html($markup);
-            this.$el.on('click', '#print-header-footer-settings', _.bind(this.openHeaderSettings, this));
+            this.$el.on('click', '#print-header-footer-settings > span', _.bind(this.openHeaderSettings, this));
             this.$previewBox = $('#print-preview-box');
             this.$previewEmpty = $('#print-preview-empty');
 
