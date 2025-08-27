@@ -140,6 +140,18 @@ class EditSlideController extends Component {
         this.closeModal();
     };
 
+    onResetBackground() {
+        const api = Common.EditorApi.get();
+        const props = new Asc.CAscSlideProps();                 
+        props.put_ResetBackground(true);
+        api.SetSlideProps(props);
+    }
+
+    isLockResetBackground() {
+        const api = Common.EditorApi.get();       
+        return api.getSelectedElements()[0].get_ObjectValue().lockResetBackground;
+    }
+
     render () {
         return (
             <EditSlide 
@@ -155,6 +167,8 @@ class EditSlideController extends Component {
                 onFillColor={this.onFillColor}
                 onDuplicateSlide={this.onDuplicateSlide}
                 onRemoveSlide={this.onRemoveSlide}
+                onResetBackground={this.onResetBackground}
+                isLockResetBackground={this.isLockResetBackground}
             />
         )
     }

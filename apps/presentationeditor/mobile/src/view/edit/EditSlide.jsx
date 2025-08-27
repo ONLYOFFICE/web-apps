@@ -11,7 +11,7 @@ import IconExpandUp from '@common-android-icons/icon-expand-up.svg';
 
 const EditSlide = props => {
     const { t } = useTranslation();
-    const _t = t('View.Edit', {returnObjects: true});
+    const _t = t('View.Edit', {returnObjects: true});    
 
     return (
         <Fragment>
@@ -31,9 +31,12 @@ const EditSlide = props => {
                     onDelay: props.onDelay,
                     onApplyAll: props.onApplyAll
                 }}></ListItem>
-                <ListItem title={_t.textStyle} link="/style/" routeProps={{
+            </List>
+            <List>
+                <ListItem title={_t.textBackground} link="/style/" routeProps={{
                     onFillColor: props.onFillColor
                 }}></ListItem>
+                <ListItem className={props.isLockResetBackground() ? 'disabled' : ''} title={_t.textResetBackground} onClick={()=>{props.onResetBackground()}}></ListItem>
             </List>
             <List className="buttons-list">
                 <ListButton className="button-fill button-raised" onClick={props.onDuplicateSlide}>{_t.textDuplicateSlide}</ListButton>
