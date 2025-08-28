@@ -140,6 +140,13 @@ class EditSlideController extends Component {
         this.closeModal();
     };
 
+    onResetBackground() {
+        const api = Common.EditorApi.get();
+        const props = new Asc.CAscSlideProps();                 
+        props.put_ResetBackground(true);
+        api.SetSlideProps(props);
+    }
+
     render () {
         return (
             <EditSlide 
@@ -155,6 +162,7 @@ class EditSlideController extends Component {
                 onFillColor={this.onFillColor}
                 onDuplicateSlide={this.onDuplicateSlide}
                 onRemoveSlide={this.onRemoveSlide}
+                onResetBackground={this.onResetBackground}
             />
         )
     }

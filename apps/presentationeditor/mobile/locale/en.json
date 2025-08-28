@@ -466,6 +466,8 @@
       "textSec": "s",
       "textSelectObjectToEdit": "Select object to edit",
       "textSendToBackground": "Send to Background",
+      "textBackground": "Background",
+      "textResetBackground": "Reset background",
       "textShape": "Shape",
       "textSize": "Size",
       "textSlide": "Slide",
