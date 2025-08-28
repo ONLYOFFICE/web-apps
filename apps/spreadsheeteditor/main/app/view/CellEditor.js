@@ -94,6 +94,11 @@ define([
             return this;
         },
 
+        setMode: function(mode) {
+            this.mode = mode;
+            this.mode.isEditDiagram && this.cellNameDisabled(true);
+        },
+
         updateCellInfo: function(info) {
             if (info) {
                 this.$cellname.val(typeof(info)=='string' ? info : info.asc_getName());
@@ -101,6 +106,7 @@ define([
         },
 
         cellNameDisabled: function(disabled){
+            if (this.mode && this.mode.isEditDiagram) disabled = true;
             (disabled) ? this.$cellname.attr('disabled', 'disabled') : this.$cellname.removeAttr('disabled');
             this.btnNamedRanges.setDisabled(disabled);
         },
