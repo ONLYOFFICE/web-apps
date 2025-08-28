@@ -44,6 +44,19 @@ define([], function () {
     if (window.PE && window.PE.Controllers && window.PE.Controllers.DocumentHolder) {
         let dh = window.PE.Controllers.DocumentHolder.prototype;
 
+        dh.checkEditorOffsets = function() {
+            if (_.isUndefined(this._XY)) {
+                let cmpEl = this.documentHolder.cmpEl;
+                this._XY = [
+                    Common.Utils.getOffset(cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(cmpEl).top - $(window).scrollTop()
+                ];
+                this._Width       = cmpEl.width();
+                this._Height      = cmpEl.height();
+                this._BodyWidth   = $('body').width();
+            }
+        };
+
         dh.setEvents = function() {
             var me = this;
             this.addListeners({
@@ -387,15 +400,8 @@ define([], function () {
             var me = this,
                 cmpEl = me.documentHolder.cmpEl,
                 screenTip = me.screenTip;
-            if (_.isUndefined(me._XY)) {
-                me._XY = [
-                    Common.Utils.getOffset(cmpEl).left - $(window).scrollLeft(),
-                    Common.Utils.getOffset(cmpEl).top - $(window).scrollTop()
-                ];
-                me._Width       = cmpEl.width();
-                me._Height      = cmpEl.height();
-                me._BodyWidth   = $('body').width();
-            }
+
+            this.checkEditorOffsets();
 
             if (moveData) {
                 var showPoint, ToolTip = '',
@@ -682,15 +688,7 @@ define([], function () {
 
         dh.onPaintSlideNum = function (slideNum) {
             var me = this;
-            if (_.isUndefined(me._XY)) {
-                me._XY = [
-                    Common.Utils.getOffset(me.documentHolder.cmpEl).left - $(window).scrollLeft(),
-                    Common.Utils.getOffset(me.documentHolder.cmpEl).top - $(window).scrollTop()
-                ];
-                me._Width       = me.documentHolder.cmpEl.width();
-                me._Height      = me.documentHolder.cmpEl.height();
-                me._BodyWidth   = $('body').width();
-            }
+            me.checkEditorOffsets();
 
             if (_.isUndefined(me.slideNumDiv)) {
                 me.slideNumDiv = $(document.createElement("div"));
@@ -1473,6 +1471,8 @@ define([], function () {
                 if (diagramEditor && chart) {
                     let x, y;
                     if (this._state.currentChartRect) {
+                        this.checkEditorOffsets();
+
                         diagramEditor.setSize(diagramEditor.initConfig.initwidth, diagramEditor.initConfig.initheight);
 
                         let dlgW = diagramEditor.getWidth() || diagramEditor.initConfig.initwidth,
@@ -2445,16 +2445,7 @@ define([], function () {
                     tip.isHidden = true;
                 }
             } else {
-                if (_.isUndefined(this._XY)) {
-                    this._XY = [
-                        Common.Utils.getOffset(this.documentHolder.cmpEl).left - $(window).scrollLeft(),
-                        Common.Utils.getOffset(this.documentHolder.cmpEl).top - $(window).scrollTop()
-                    ];
-                    this._Width       = this.documentHolder.cmpEl.width();
-                    this._Height      = this.documentHolder.cmpEl.height();
-                    this._BodyWidth   = $('body').width();
-                }
-
+                this.checkEditorOffsets();
                 if (!tip.parentEl) {
                     tip.parentEl = $('<div id="tip-container-guide" style="position: absolute; z-index: 10000;"></div>');
                     this.documentHolder.cmpEl.append(tip.parentEl);
@@ -2611,15 +2602,7 @@ define([], function () {
             showPoint[1] = Math.min(me._Height - eqContainer.outerHeight(), Math.max(0, showPoint[1]));
             eqContainer.css({left: showPoint[0], top : showPoint[1]});
 
-            if (_.isUndefined(me._XY)) {
-                me._XY = [
-                    Common.Utils.getOffset(documentHolder.cmpEl).left - $(window).scrollLeft(),
-                    Common.Utils.getOffset(documentHolder.cmpEl).top - $(window).scrollTop()
-                ];
-                me._Width       = documentHolder.cmpEl.width();
-                me._Height      = documentHolder.cmpEl.height();
-                me._BodyWidth   = $('body').width();
-            }
+            this.checkEditorOffsets();
 
             var diffDown = me._Height - showPoint[1] - eqContainer.outerHeight(),
                 diffUp = me._XY[1] + showPoint[1],
