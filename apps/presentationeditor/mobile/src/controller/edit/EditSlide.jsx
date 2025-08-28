@@ -147,11 +147,6 @@ class EditSlideController extends Component {
         api.SetSlideProps(props);
     }
 
-    isLockResetBackground() {
-        const api = Common.EditorApi.get();       
-        return api.getSelectedElements()[0].get_ObjectValue().lockResetBackground;
-    }
-
     render () {
         return (
             <EditSlide 
@@ -168,7 +163,6 @@ class EditSlideController extends Component {
                 onDuplicateSlide={this.onDuplicateSlide}
                 onRemoveSlide={this.onRemoveSlide}
                 onResetBackground={this.onResetBackground}
-                isLockResetBackground={this.isLockResetBackground}
             />
         )
     }
