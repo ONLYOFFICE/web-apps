@@ -795,8 +795,9 @@ define([
                 } else
                 if (!this.$window.is(':visible')) {
                     this.$window.css({opacity: 0});
+                    (_.isNumber(x) && _.isNumber(y)) && this.setPosition(x, y);
                     _setVisible.call(this);
-                    this.$window.show()
+                    this.$window.show();
                 }
 
                 $(document).on('keydown.' + this.cid, this.binding.keydown);
@@ -952,7 +953,7 @@ define([
             },
 
             setWidth: function(width) {
-                if (width >= 0) {
+                if (this.$window && width >= 0) {
                     var min = parseInt(this.$window.css('min-width'));
                     width < min && (width = min);
                     width -= (parseInt(this.$window.css('border-left-width')) + parseInt(this.$window.css('border-right-width')));
@@ -961,11 +962,11 @@ define([
             },
 
             getWidth: function() {
-                return parseInt(this.$window.css('width'));
+                return this.$window ? parseInt(this.$window.css('width')) : undefined;
             },
 
             setHeight: function(height) {
-                if (height >= 0) {
+                if (this.$window && height >= 0) {
                     var min = parseInt(this.$window.css('min-height'));
                     height < min && (height = min);
                     height -= (parseInt(this.$window.css('border-bottom-width')) + parseInt(this.$window.css('border-top-width')));
@@ -979,7 +980,7 @@ define([
             },
 
             getHeight: function() {
-                return parseInt(this.$window.css('height'));
+                return this.$window ? parseInt(this.$window.css('height')) : undefined;
             },
 
             setSize: function(w, h) {

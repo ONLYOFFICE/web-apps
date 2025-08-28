@@ -42,19 +42,23 @@ define([], function () {
         initialize : function(options) {
             var filter = Common.localStorage.getKeysFilter(),
                 appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
-            this.storageName = appPrefix + (options.storageName || 'external-editor');
+            this.storageName = options.storageName ? appPrefix + options.storageName : null;
 
             var _options = {},
                 width = options.initwidth || 900,
                 height = options.initheight || 700,
                 footer = options.footer !== undefined ? options.footer : true;
-            var value = Common.localStorage.getItem(this.storageName + '-width');
-            value && (width = parseFloat(value));
-            value = Common.localStorage.getItem(this.storageName + '-height');
-            value && (height = parseFloat(value));
+
+            if (this.storageName) {
+                var value = Common.localStorage.getItem(this.storageName + '-width');
+                value && (width = parseFloat(value));
+                value = Common.localStorage.getItem(this.storageName + '-height');
+                value && (height = parseFloat(value));
+            }
 
             _.extend(_options,  {
                 width: width,
+                height: height,
                 cls: 'advanced-settings-dlg',
                 header: true,
                 toolclose: 'hide',
@@ -64,10 +68,9 @@ define([], function () {
             }, options);
 
             !footer && (_options.cls += ' no-footer');
-            _options.contentHeight = height;
 
             this.template = [
-                '<div id="id-editor-container" class="box" style="height:' + _options.contentHeight + 'px; padding: 0 5px;">',
+                '<div id="id-editor-container" class="box" style="padding: 0 5px;">',
                     '<div id="' + (_options.sdkplaceholder || '') + '" style="width: 100%;height: 100%;"></div>',
                 '</div>',
                 '<% if (footer) { %>',
@@ -98,11 +101,7 @@ define([], function () {
             if (resizeborder.length>0)
                 this._headerFooterHeight += $(resizeborder[0]).height()-2;
 
-            var _inner_height = Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top');
-            if (_inner_height < this.initConfig.contentHeight + this._headerFooterHeight) {
-                this.initConfig.contentHeight = _inner_height - this._headerFooterHeight;
-                this.boxEl.css('height', this.initConfig.contentHeight);
-            }
+            this.boxEl.css('height', this.getHeight() - this._headerFooterHeight);
 
             this.btnSave = new Common.UI.Button({
                 el: this.$window.find('#id-btn-editor-apply'),
@@ -150,7 +149,7 @@ define([], function () {
         },
 
         setHeight: function(height) {
-            if (height >= 0) {
+            if (this.$window && height >= 0) {
                 var min = parseInt(this.$window.css('min-height'));
                 height < min && (height = min);
                 this.$window.height(height);
@@ -196,8 +195,10 @@ define([], function () {
         onWindowResize: function (args) {
             if (args && args[1]=='end') {
                 var value = this.getSize();
-                Common.localStorage.setItem(this.storageName + '-width', value[0]);
-                Common.localStorage.setItem(this.storageName + '-height', value[1]);
+                if (this.storageName) {
+                    Common.localStorage.setItem(this.storageName + '-width', value[0]);
+                    Common.localStorage.setItem(this.storageName + '-height', value[1]);
+                }
             }
         },
 
