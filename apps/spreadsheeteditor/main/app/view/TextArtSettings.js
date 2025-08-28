@@ -94,6 +94,7 @@ define([
                 DisabledControls: false,
                 applicationPixelRatio: Common.Utils.applicationPixelRatio(),
                 isFromSmartArtInternal: false,
+                isFromChart: false,
                 HideTransformSettings: false
             };
             this.lockedControls = [];
@@ -763,7 +764,8 @@ define([
                 this.createDelayedElements();
 
             this._state.isFromSmartArtInternal = props.asc_getShapeProperties() && props.asc_getShapeProperties().asc_getFromSmartArtInternal();
-            this.hideTransformSettings(this._state.isFromSmartArtInternal);
+            this._state.isFromChart = props.asc_getShapeProperties() && props.asc_getShapeProperties().get_FromChart();
+            this.hideTransformSettings(this._state.isFromSmartArtInternal || this._state.isFromChart);
 
             if (props && props.asc_getShapeProperties() && props.asc_getShapeProperties().get_TextArtProperties())
             {

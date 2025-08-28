@@ -93,6 +93,7 @@ define([
                 DisabledControls: false,
                 applicationPixelRatio: Common.Utils.applicationPixelRatio(),
                 isFromSmartArtInternal: false,
+                isFromChart: false,
                 HideTransformSettings: false
             };
             this.lockedControls = [];
@@ -769,7 +770,8 @@ define([
                 this.createDelayedElements();
 
             this._state.isFromSmartArtInternal = props.get_FromSmartArtInternal();
-            this.hideTransformSettings(this._state.isFromSmartArtInternal);
+            this._state.isFromChart = props.get_FromChart();
+            this.hideTransformSettings(this._state.isFromSmartArtInternal || this._state.isFromChart);
 
             if (props && props.get_TextArtProperties())
             {
