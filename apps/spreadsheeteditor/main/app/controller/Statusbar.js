@@ -785,9 +785,23 @@ define([
         onAddWorksheetClick: function(o, index, opts) {
             if (this.api) {
                 this.api.asc_closeCellEditor();
-                this.api.asc_addWorksheet(this.createSheetName());
 
-                Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + this.api.asc_getActiveWorksheetId()], false);  //  hide popover
+                if (this.statusbar.mode.spreadsheet.fileType.toLowerCase()==='csv') {
+                    Common.UI.warning({
+                        msg: this.warnAddSheetCsv,
+                        buttons: [{value: 'ok', caption: this.textContinue}, 'cancel'],
+                        maxwidth: 500,
+                        callback: _.bind(function (btn) {
+                            if (btn == 'ok') {
+                                this.api.asc_addWorksheet(this.createSheetName());
+                                Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + this.api.asc_getActiveWorksheetId()], false);  //  hide popover
+                            }
+                        }, this)
+                    });
+                } else {
+                    this.api.asc_addWorksheet(this.createSheetName());
+                    Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + this.api.asc_getActiveWorksheetId()], false);  //  hide popover
+                }
             }
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
