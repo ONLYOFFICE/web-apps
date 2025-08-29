@@ -29,7 +29,7 @@ class DownloadController extends Component {
             if (format == Asc.c_oAscFileType.CSV) {
                 f7.dialog.create({
                     title: _t.notcriticalErrorTitle,
-                    text: _t.warnDownloadAs,
+                    text: _t.warnDownloadCsv,
                     buttons: [
                         {
                             text: _t.textCancel
