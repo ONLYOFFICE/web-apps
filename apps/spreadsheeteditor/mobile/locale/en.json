@@ -448,7 +448,9 @@
     "textSheetName": "Sheet Name",
     "textTabColor": "Tab Color",
     "textUnhide": "Unhide",
-    "textWarnDeleteSheet": "The sheet maybe has data. Proceed operation?"
+    "textWarnDeleteSheet": "The sheet maybe has data. Proceed operation?",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "btnRestartNow": "Restart now",
@@ -884,7 +886,8 @@
       "txtUk": "Ukrainian",
       "txtVi": "Vietnamese",
       "txtZh": "Chinese",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   }
 }
