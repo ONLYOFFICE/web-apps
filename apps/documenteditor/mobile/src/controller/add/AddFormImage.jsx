@@ -14,14 +14,33 @@ class AddFormImageController extends Component {
         
         this.state = {
             isOpen: false,
+            vertPos: null
         };
 
-        Common.Notifications.on('openFormImageList', obj => {
-            this.openModal(obj);
+        Common.Notifications.on('openFormImageListPhone', obj => {
+            this.openModalPhone(obj);
+        });
+
+        Common.Notifications.on('openFormImageListTablet', (obj, x, y, boxHeight, formImageHeight) => {
+            this.openModalTablet(obj, x, y, boxHeight, formImageHeight);
         });
     }
 
-    openModal(obj) {
+    openModalTablet(obj, x, y, boxHeight, formImageHeight) {
+        let vertPos
+        if ((boxHeight - y > 0) && boxHeight - y >= formImageHeight) {
+            vertPos = 'bottom'
+        } else {
+            vertPos = 'top'
+        }
+
+        this.setState({
+            isOpen: true,
+            vertPos: vertPos
+        });
+    }
+
+    openModalPhone(obj) {
         this.setState({
             isOpen: true,
         });
@@ -87,6 +106,7 @@ class AddFormImageController extends Component {
                     addPictureFromLibrary={this.addPictureFromLibrary}
                     onInsertByUrl={this.onInsertByUrl}
                     deletePicture={this.deletePicture}
+                    vertPos={this.state.vertPos}
                 /> 
         );
     }

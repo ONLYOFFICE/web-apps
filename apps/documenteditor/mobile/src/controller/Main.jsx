@@ -1204,10 +1204,14 @@ class MainController extends Component {
                 dropdownListTarget = $$('<div id="dropdown-image-list-target" style="position: absolute;"></div>');
                 boxSdk.append(dropdownListTarget);
             }
-
+            if (y > boxSdk.height()) {
+                y -= y - boxSdk.height()
+            }
             dropdownListTarget.css({left: `${x}px`, top: `${y}px`});
+            Common.Notifications.trigger('openFormImageListTablet', obj, x, y, boxSdk.height(), 260);
+        } else {
+            Common.Notifications.trigger('openFormImageListPhone', obj)
         }
-        Common.Notifications.trigger('openFormImageList', obj);
 
         setTimeout(() => {
             this.api.asc_UncheckContentControlButtons();

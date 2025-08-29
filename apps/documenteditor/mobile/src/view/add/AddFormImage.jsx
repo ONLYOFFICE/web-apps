@@ -119,7 +119,7 @@ class SheetAddImageListView extends Component {
                     />
                 </Sheet>
             : 
-                <Popover id="dropdown-image-list-popover" className="popover__titled" closeByOutsideClick={true} onPopoverClosed={() => this.props.closeModal()}>
+                <Popover id="dropdown-image-list-popover" className="popover__titled" verticalPosition={this.props.vertPos} closeByOutsideClick={true} onPopoverClosed={() => this.props.closeModal()}>
                     <PageSheetAddImage
                         closeModal={this.props.closeModal}
                         addPictureFromLibrary={this.props.addPictureFromLibrary}
@@ -150,6 +150,7 @@ const FormImageList = props => {
             addPictureFromLibrary={props.addPictureFromLibrary}
             onInsertByUrl={props.onInsertByUrl}
             deletePicture={props.deletePicture}
+            vertPos={props.vertPos}
         />
     );
 };
