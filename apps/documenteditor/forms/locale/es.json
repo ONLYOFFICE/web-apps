@@ -162,6 +162,7 @@
   "DE.Controllers.ApplicationController.txtEmpty": "(Vacío)",
   "DE.Controllers.ApplicationController.txtEnterDate": "Introduzca una fecha",
   "DE.Controllers.ApplicationController.txtPressLink": "Pulse CTRL y haga clic en el enlace",
+  "DE.Controllers.ApplicationController.txtSignedForm": "Este documento se ha firmado y no se puede modificar.",
   "DE.Controllers.ApplicationController.txtUntitled": "Sin título",
   "DE.Controllers.ApplicationController.unknownErrorText": "Error desconocido.",
   "DE.Controllers.ApplicationController.unsupportedBrowserErrorText": "Su navegador no es compatible.",

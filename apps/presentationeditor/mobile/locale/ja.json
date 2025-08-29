@@ -497,11 +497,11 @@
       "textZoomIn": "拡大",
       "textZoomOut": "縮小",
       "textZoomRotate": "ズームと回転",
-      "txtWidth": "Width",
-      "txtHeight": "Height",
-      "textCellSize": "Cell size",
       "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization"
+      "textCapitalization": "Capitalization",
+      "textCellSize": "Cell size",
+      "txtHeight": "Height",
+      "txtWidth": "Width"
     },
     "Settings": {
       "mniSlideStandard": "標準(4:3)",

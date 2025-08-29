@@ -4703,5 +4703,11 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "أدخل كلمة السر لفك تشفير الصفحة",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "فك حماية الورقة",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "أدخل كلمة سر لفك تشفير المصنف",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "فك حماية المصنف"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "فك حماية المصنف",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition30": "is after",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition40": "is after or equal to",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition50": "is before",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition60": "is before or equal to",
+  "SSE.Views.PivotDigitalFilterDialog.textShowDate": "Show items for which the date:",
+  "SSE.Views.PivotDigitalFilterDialog.txtTitleDate": "Date Filter"
 }

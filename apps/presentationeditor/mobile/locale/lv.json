@@ -485,17 +485,17 @@
       "textZoomIn": "Palielināt",
       "textZoomOut": "Samazināt",
       "textZoomRotate": "Palielināt un rotēt",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textCellSize": "Cell size",
       "textHorizontalText": "Horizontal Text",
       "textInvalidName": "The file name cannot contain any of the following characters: ",
-      "txtWidth": "Width",
-      "txtHeight": "Height",
-      "textCellSize": "Cell size",
       "textMorph": "Morph",
       "textRotateTextDown": "Rotate Text Down",
       "textRotateTextUp": "Rotate Text Up",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textTextOrientation": "Text Orientation"
+      "textTextOrientation": "Text Orientation",
+      "txtHeight": "Height",
+      "txtWidth": "Width"
     },
     "Settings": {
       "mniSlideStandard": "Standarta (4:3)",

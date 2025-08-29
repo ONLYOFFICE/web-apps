@@ -1144,10 +1144,10 @@
   "SSE.Controllers.Main.errorFTChangeTableRangeError": "선택한 셀 범위에 대해 작업을 완료 할 수 없습니다. <br> 첫 번째 테이블 행이 같은 행에 있고 결과 테이블이 현재 테이블과 겹치도록 범위를 선택하십시오. . ",
   "SSE.Controllers.Main.errorFTRangeIncludedOtherTables": "선택한 셀 범위에 대해 작업을 완료 할 수 없습니다. <br> 다른 테이블을 포함하지 않는 범위를 선택하십시오.",
   "SSE.Controllers.Main.errorInconsistentExt": "파일을 여는 중 오류가 발생했습니다.<br>파일 내용이 파일 확장명과 일치하지 않습니다.",
-  "SSE.Controllers.Main.errorInconsistentExtDocx": "파일을 여는 동안 오류가 발생했습니다.<br>파일 내용이 텍스트 문서(예: docx)에 해당하지만 파일의 확장자가 일치하지 않습니다:1%.",
-  "SSE.Controllers.Main.errorInconsistentExtPdf": "파일을 여는 동안 오류가 발생했습니다.<br>파일의 내용은 pdf/djvu/xps/oxps 형식 중 하나와 일치하지만, 파일의 확장자가 일치하지 않습니다.:1%.",
-  "SSE.Controllers.Main.errorInconsistentExtPptx": "파일을 여는 동안 오류가 발생했습니다.<br>파일 내용이 프리젠테이션(예: pptx)에 해당하지만 파일의 확장자가 일치하지 않습니다:1%.",
-  "SSE.Controllers.Main.errorInconsistentExtXlsx": "파일을 여는 동안 오류가 발생했습니다.<br>파일 내용은 스프레드시트(예: xlsx)에 해당하지만 파일의 확장자가 일치하지 않습니다:1%.",
+  "SSE.Controllers.Main.errorInconsistentExtDocx": "파일을 여는 동안 오류가 발생했습니다.<br>파일 내용이 텍스트 문서(예: docx)에 해당하지만 파일의 확장자가 일치하지 않습니다:%1.",
+  "SSE.Controllers.Main.errorInconsistentExtPdf": "파일을 여는 동안 오류가 발생했습니다.<br>파일의 내용은 pdf/djvu/xps/oxps 형식 중 하나와 일치하지만, 파일의 확장자가 일치하지 않습니다:%1.",
+  "SSE.Controllers.Main.errorInconsistentExtPptx": "파일을 여는 동안 오류가 발생했습니다.<br>파일 내용이 프리젠테이션(예: pptx)에 해당하지만 파일의 확장자가 일치하지 않습니다:%1.",
+  "SSE.Controllers.Main.errorInconsistentExtXlsx": "파일을 여는 동안 오류가 발생했습니다.<br>파일 내용은 스프레드시트(예: xlsx)에 해당하지만 파일의 확장자가 일치하지 않습니다:%1.",
   "SSE.Controllers.Main.errorInvalidRef": "선택 항목의 정확한 이름을 입력하거나 이동할 참조를 입력하십시오.",
   "SSE.Controllers.Main.errorKeyEncrypt": "알 수없는 키 설명자",
   "SSE.Controllers.Main.errorKeyExpire": "키 설명자가 만료되었습니다",
@@ -4703,5 +4703,11 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "양식 보호를 해제하려면 비밀번호를 입력하세요.",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "시트 보호해제",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "통합 문서 보호를 해제하려면 비밀번호를 입력하세요.",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "통합 문서 보호 잠금 해제"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "통합 문서 보호 잠금 해제",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition30": "is after",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition40": "is after or equal to",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition50": "is before",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition60": "is before or equal to",
+  "SSE.Views.PivotDigitalFilterDialog.textShowDate": "Show items for which the date:",
+  "SSE.Views.PivotDigitalFilterDialog.txtTitleDate": "Date Filter"
 }

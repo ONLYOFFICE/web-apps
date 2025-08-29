@@ -4703,5 +4703,11 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Унесите лозинку да незаштитите лист",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Незаштити лист",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Унесите лозинку да незаштитите радну књигу",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Незаштити радну књигу"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Незаштити радну књигу",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition30": "is after",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition40": "is after or equal to",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition50": "is before",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition60": "is before or equal to",
+  "SSE.Views.PivotDigitalFilterDialog.textShowDate": "Show items for which the date:",
+  "SSE.Views.PivotDigitalFilterDialog.txtTitleDate": "Date Filter"
 }

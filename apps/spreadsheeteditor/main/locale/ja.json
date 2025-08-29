@@ -4703,5 +4703,11 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "シートを保護解除するようにパスワードを入力してください",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "シートを保護を解除する",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "ブックを保護解除するようにパスワードを入力してください",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "ブックを保護を解除する"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "ブックを保護を解除する",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition30": "is after",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition40": "is after or equal to",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition50": "is before",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition60": "is before or equal to",
+  "SSE.Views.PivotDigitalFilterDialog.textShowDate": "Show items for which the date:",
+  "SSE.Views.PivotDigitalFilterDialog.txtTitleDate": "Date Filter"
 }

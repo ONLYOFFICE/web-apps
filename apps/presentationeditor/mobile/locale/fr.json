@@ -356,6 +356,7 @@
       "textBack": "Retour",
       "textBandedColumn": "Colonne à couleur alternée",
       "textBandedRow": "Ligne à couleur alternée",
+      "textBaseline": "Ligne de base",
       "textBefore": "Avant",
       "textBlack": "A travers le noir",
       "textBorder": "Bordure",
@@ -366,8 +367,10 @@
       "textBullets": "Puces",
       "textBulletsAndNumbers": "Puces et numérotation",
       "textCancel": "Annuler",
+      "textCapitalization": "Casse",
       "textCaseSensitive": "Respecter la casse",
       "textCellMargins": "Marges de la cellule",
+      "textCellSize": "Taille de la cellule",
       "textChangeShape": "Modifier la forme",
       "textChart": "Graphique",
       "textClock": "Horloge",
@@ -497,11 +500,8 @@
       "textZoomIn": "Zoom avant",
       "textZoomOut": "Zoom arrière",
       "textZoomRotate": "Zoom et rotation",
-      "txtWidth": "Width",
-      "txtHeight": "Height",
-      "textCellSize": "Cell size",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization"
+      "txtHeight": "Hauteur",
+      "txtWidth": "Largeur"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

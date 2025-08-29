@@ -356,6 +356,7 @@
       "textBack": "پیچھے",
       "textBandedColumn": "بینڈڈ کالم",
       "textBandedRow": "بینڈڈ قتار",
+      "textBaseline": "بیس لائن",
       "textBefore": "پہلے",
       "textBlack": "بلیک کے ذریعے",
       "textBorder": "بارڈر",
@@ -366,8 +367,10 @@
       "textBullets": "شقیں",
       "textBulletsAndNumbers": "گولیاں اور نمبر",
       "textCancel": "منسوخ کریں",
+      "textCapitalization": "کیپٹلائزیشن",
       "textCaseSensitive": "حساس کیس",
       "textCellMargins": "سیل مارجن",
+      "textCellSize": "سیل کا سائز",
       "textChangeShape": "شکل بدلنا",
       "textChart": "چارٹ",
       "textClock": "گھڑی",
@@ -497,11 +500,8 @@
       "textZoomIn": "زوم ان",
       "textZoomOut": "زوم آوّٹ",
       "textZoomRotate": "زوم اور گھمائیں",
-      "txtWidth": "Width",
-      "txtHeight": "Height",
-      "textCellSize": "Cell size",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization"
+      "txtHeight": "اونچائی",
+      "txtWidth": "چوڑائی"
     },
     "Settings": {
       "mniSlideStandard": "معیاری (۴: ۳)",

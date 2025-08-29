@@ -4703,5 +4703,11 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Ievadiet paroli, lai noņemtu lapas aizsardzību",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Noņemt aizsargāto lapu",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Ievadiet paroli, lai noņemtu darbgrāmatas aizsardzību",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Noņemt darbgrāmatas aizsardzību"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Noņemt darbgrāmatas aizsardzību",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition30": "is after",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition40": "is after or equal to",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition50": "is before",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition60": "is before or equal to",
+  "SSE.Views.PivotDigitalFilterDialog.textShowDate": "Show items for which the date:",
+  "SSE.Views.PivotDigitalFilterDialog.txtTitleDate": "Date Filter"
 }

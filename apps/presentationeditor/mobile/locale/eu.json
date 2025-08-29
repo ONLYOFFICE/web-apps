@@ -491,11 +491,11 @@
       "textZoomIn": "Handiagotu",
       "textZoomOut": "Txikiagotu",
       "textZoomRotate": "Zoom eta biratu",
-      "txtWidth": "Width",
-      "txtHeight": "Height",
-      "textCellSize": "Cell size",
       "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization"
+      "textCapitalization": "Capitalization",
+      "textCellSize": "Cell size",
+      "txtHeight": "Height",
+      "txtWidth": "Width"
     },
     "Settings": {
       "mniSlideStandard": "Estandarra (4:3)",

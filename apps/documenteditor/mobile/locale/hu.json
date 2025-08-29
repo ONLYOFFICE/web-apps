@@ -416,13 +416,13 @@
     "textWrap": "Tördel",
     "textWrappingStyle": "Tördelés stílus",
     "textYourOption": "Az Ön opciója",
-    "txtWidth": "Width",
-    "txtHeight": "Height",
-    "textCellSize": "Rows & columns size",
-    "textCellOptions": "Cell options",
     "textBaseline": "Baseline",
     "textCapitalization": "Capitalization",
-    "textWrapText": "Wrap Text"
+    "textCellOptions": "Cell options",
+    "textCellSize": "Rows & columns size",
+    "textWrapText": "Wrap Text",
+    "txtHeight": "Height",
+    "txtWidth": "Width"
   },
   "Error": {
     "convertationTimeoutText": "A átalakítás időkorlátja lejárt.",

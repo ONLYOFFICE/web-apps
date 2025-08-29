@@ -2249,5 +2249,19 @@
   "PDFE.Views.ViewTab.tipFitToPage": "පිටුවට ගළපන්න",
   "PDFE.Views.ViewTab.tipFitToWidth": "පළලට ගළපන්න",
   "PDFE.Views.ViewTab.tipHeadings": "ශ්‍රීර්ෂනාම",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව",
+  "PDFE.Views.Toolbar.capBtnArrowComment": "Arrow",
+  "PDFE.Views.Toolbar.capBtnCircleComment": "Circle",
+  "PDFE.Views.Toolbar.capBtnPolyLineComment": "Connected Lines",
+  "PDFE.Views.Toolbar.capBtnRectComment": "Rectangle",
+  "PDFE.Views.Toolbar.tipInsertArrowComment": "Draw an arrow",
+  "PDFE.Views.Toolbar.tipInsertCircleComment": "Draw a circle or oval",
+  "PDFE.Views.Toolbar.tipInsertPolyLineComment": "Draw lines that connect to each other",
+  "PDFE.Views.Toolbar.tipInsertRectComment": "Draw a rectangle or square",
+  "PDFE.Views.Toolbar.txtArrowComment": "Arrow",
+  "PDFE.Views.Toolbar.txtCircleComment": "Circle",
+  "PDFE.Views.Toolbar.txtMM": "mm",
+  "PDFE.Views.Toolbar.txtPolyLineComment": "Connected lines",
+  "PDFE.Views.Toolbar.txtRectComment": "Rectangle",
+  "PDFE.Views.Toolbar.txtSize": "Size"
 }

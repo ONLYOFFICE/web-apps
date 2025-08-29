@@ -410,13 +410,13 @@
     "textWrap": "Doikuntza",
     "textWrappingStyle": "Egokitze-estiloa",
     "textYourOption": "Zure aukera",
-    "txtWidth": "Width",
-    "txtHeight": "Height",
-    "textCellSize": "Rows & columns size",
-    "textCellOptions": "Cell options",
     "textBaseline": "Baseline",
     "textCapitalization": "Capitalization",
-    "textWrapText": "Wrap Text"
+    "textCellOptions": "Cell options",
+    "textCellSize": "Rows & columns size",
+    "textWrapText": "Wrap Text",
+    "txtHeight": "Height",
+    "txtWidth": "Width"
   },
   "Error": {
     "convertationTimeoutText": "Bihurketaren denbora-muga gainditu da.",

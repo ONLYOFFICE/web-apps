@@ -491,11 +491,11 @@
       "textZoomIn": "Ampliar",
       "textZoomOut": "Reduzir",
       "textZoomRotate": "Ampliação e rotação",
-      "txtWidth": "Width",
-      "txtHeight": "Height",
-      "textCellSize": "Cell size",
       "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization"
+      "textCapitalization": "Capitalization",
+      "textCellSize": "Cell size",
+      "txtHeight": "Height",
+      "txtWidth": "Width"
     },
     "Settings": {
       "mniSlideStandard": "Padrão (4:3)",

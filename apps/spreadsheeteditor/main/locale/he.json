@@ -4703,5 +4703,11 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "הזנת סיסמה כדי להסיר הגנה גיליון",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "הסרת הגנה על גליון",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "הזנת סיסמה כדי לבטל את ההגנה חוברת עבודה",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "חוברת עבודה לא מוגנת"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "חוברת עבודה לא מוגנת",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition30": "is after",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition40": "is after or equal to",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition50": "is before",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition60": "is before or equal to",
+  "SSE.Views.PivotDigitalFilterDialog.textShowDate": "Show items for which the date:",
+  "SSE.Views.PivotDigitalFilterDialog.txtTitleDate": "Date Filter"
 }

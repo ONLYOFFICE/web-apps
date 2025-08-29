@@ -4703,5 +4703,11 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Wprowadź hasło, aby odblokować arkusz",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Usuń ochronę arkusza",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Wprowadź hasło, aby wyłączyć ochronę skoroszytu",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Usuń ochronę skoroszytu"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Usuń ochronę skoroszytu",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition30": "is after",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition40": "is after or equal to",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition50": "is before",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition60": "is before or equal to",
+  "SSE.Views.PivotDigitalFilterDialog.textShowDate": "Show items for which the date:",
+  "SSE.Views.PivotDigitalFilterDialog.txtTitleDate": "Date Filter"
 }

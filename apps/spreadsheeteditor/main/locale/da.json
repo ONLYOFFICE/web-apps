@@ -4703,5 +4703,11 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Indtast en adgangskode for at fjerne beskyttelsen af ​​arket",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Fjern beskyttelse af ark",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Indtast en adgangskode for at fjerne beskyttelsen af ​​projektmappen",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "ubeskyt projektmappe"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "ubeskyt projektmappe",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition30": "is after",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition40": "is after or equal to",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition50": "is before",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition60": "is before or equal to",
+  "SSE.Views.PivotDigitalFilterDialog.textShowDate": "Show items for which the date:",
+  "SSE.Views.PivotDigitalFilterDialog.txtTitleDate": "Date Filter"
 }

@@ -497,11 +497,11 @@
       "textZoomIn": "放大",
       "textZoomOut": "缩小",
       "textZoomRotate": "缩放并旋转",
-      "txtWidth": "Width",
-      "txtHeight": "Height",
-      "textCellSize": "Cell size",
       "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization"
+      "textCapitalization": "Capitalization",
+      "textCellSize": "Cell size",
+      "txtHeight": "Height",
+      "txtWidth": "Width"
     },
     "Settings": {
       "mniSlideStandard": "标准（4：3）",

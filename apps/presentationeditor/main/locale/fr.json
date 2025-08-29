@@ -1135,7 +1135,7 @@
   "PE.Controllers.Main.textUpdateVersion": "Le document ne peut pas être édité pour le moment.<br>Tentative de mise à jour du fichier, veuillez patienter...",
   "PE.Controllers.Main.textUpdating": "Mise à jour",
   "PE.Controllers.Main.tipLicenseExceeded": "Le document est ouvert en mode lecture seule, car le nombre maximal de connexions simultanées autorisées par la licence a été atteint.\n<br><br>Veuillez réessayer plus tard ou contacter le propriétaire du document si vous avez besoin d’un accès en modification.",
-  "PE.Controllers.Main.tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+  "PE.Controllers.Main.tipLicenseUsersExceeded": "Le document est ouvert en mode lecture seule, car le nombre maximal d’utilisateurs autorisés à modifier des documents selon la licence a été atteint.<br><br>Veuillez réessayer plus tard ou contacter le propriétaire du document si vous avez besoin d’un accès en modification.",
   "PE.Controllers.Main.titleLicenseExp": "Licence expirée",
   "PE.Controllers.Main.titleLicenseNotActive": "Licence non active",
   "PE.Controllers.Main.titleReadOnly": "Mode lecture seule",

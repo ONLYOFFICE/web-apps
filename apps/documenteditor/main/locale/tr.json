@@ -3955,5 +3955,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Yarı saydam",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Altı çizili",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Yazı Tipi",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Yazıtipi boyutu"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Yazıtipi boyutu",
+  "DE.Views.FormSettings.textAddRole": "Add recipient"
 }
