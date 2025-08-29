@@ -2464,6 +2464,7 @@
   "DE.Views.FileMenuPanels.Settings.txtWorkspace": "ワークスペース",
   "DE.Views.FileMenuPanels.ViewSaveAs.textDownloadAs": "名前を付けてダウンロード",
   "DE.Views.FileMenuPanels.ViewSaveCopy.textSaveCopyAs": "コピーを別名で保存する",
+  "DE.Views.FormSettings.textAddRole": "Add recipient",
   "DE.Views.FormSettings.textAlways": "常時",
   "DE.Views.FormSettings.textAnyone": "誰でも",
   "DE.Views.FormSettings.textAspect": "縦横比の固定",

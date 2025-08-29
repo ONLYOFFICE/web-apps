@@ -497,11 +497,11 @@
       "textZoomIn": "විශාලනය",
       "textZoomOut": "කුඩාලනය",
       "textZoomRotate": "විශාලනය හා කරකවන්න",
-      "txtWidth": "Width",
-      "txtHeight": "Height",
-      "textCellSize": "Cell size",
       "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization"
+      "textCapitalization": "Capitalization",
+      "textCellSize": "Cell size",
+      "txtHeight": "Height",
+      "txtWidth": "Width"
     },
     "Settings": {
       "mniSlideStandard": "සම්මත (4:3)",

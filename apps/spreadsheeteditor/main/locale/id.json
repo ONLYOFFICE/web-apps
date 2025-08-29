@@ -4703,5 +4703,11 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Masukkan password untuk membuka proteksi sheet",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Buka Proteksi Sheet",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Masukkan password untuk membuka proteksi workbook",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Buka Proteksi Workbook"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Buka Proteksi Workbook",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition30": "is after",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition40": "is after or equal to",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition50": "is before",
+  "SSE.Views.PivotDigitalFilterDialog.capCondition60": "is before or equal to",
+  "SSE.Views.PivotDigitalFilterDialog.textShowDate": "Show items for which the date:",
+  "SSE.Views.PivotDigitalFilterDialog.txtTitleDate": "Date Filter"
 }

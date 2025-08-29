@@ -3955,5 +3955,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Underline",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Ime pisave",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost pisave"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost pisave",
+  "DE.Views.FormSettings.textAddRole": "Add recipient"
 }

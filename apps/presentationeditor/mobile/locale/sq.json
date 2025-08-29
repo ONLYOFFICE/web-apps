@@ -356,6 +356,7 @@
       "textBack": "Mbrapa",
       "textBandedColumn": "Kolona me breza",
       "textBandedRow": "Rresht me breza.",
+      "textBaseline": "Vijëbazë",
       "textBefore": "Para",
       "textBlack": "Mes të zezës",
       "textBorder": "Kufi",
@@ -366,8 +367,10 @@
       "textBullets": "Pika",
       "textBulletsAndNumbers": "Pika & Numra",
       "textCancel": "Anulo",
+      "textCapitalization": "Kapitalizimi",
       "textCaseSensitive": "Rast i ndjeshëm",
       "textCellMargins": "Kufijtë e qelizave",
+      "textCellSize": "Madhësia e qelizës",
       "textChangeShape": "Ndrysho formën",
       "textChart": "Grafiku",
       "textClock": "Ora",
@@ -497,11 +500,8 @@
       "textZoomIn": "Zmadho brenda",
       "textZoomOut": "Zmadho jashtë",
       "textZoomRotate": "Zmadho dhe Rrotullo",
-      "txtWidth": "Width",
-      "txtHeight": "Height",
-      "textCellSize": "Cell size",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization"
+      "txtHeight": "Lartësi",
+      "txtWidth": "Gjerësia"
     },
     "Settings": {
       "mniSlideStandard": "Standardi (4:3)",

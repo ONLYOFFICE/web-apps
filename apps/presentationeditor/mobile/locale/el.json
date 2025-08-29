@@ -356,6 +356,7 @@
       "textBack": "Πίσω",
       "textBandedColumn": "Στήλη εναλλαγής σκίασης",
       "textBandedRow": "Γραμμή εναλλαγής σκίασης",
+      "textBaseline": "Γραμμή αναφοράς",
       "textBefore": "Πριν",
       "textBlack": "Μέσω του Μαύρου",
       "textBorder": "Περίγραμμα",
@@ -366,8 +367,10 @@
       "textBullets": "Κουκκίδες",
       "textBulletsAndNumbers": "Κουκκίδες & Αρίθμηση",
       "textCancel": "Άκυρο",
+      "textCapitalization": "Κεφαλοποίηση",
       "textCaseSensitive": "Διάκριση Πεζών-Κεφαλαίων",
       "textCellMargins": "Περιθώρια κελιού",
+      "textCellSize": "Μέγεθος κελιού",
       "textChangeShape": "Αλλαγή Σχήματος",
       "textChart": "Γράφημα",
       "textClock": "Ρολόι",
@@ -497,11 +500,8 @@
       "textZoomIn": "Μεγέθυνση",
       "textZoomOut": "Σμίκρυνση",
       "textZoomRotate": "Εστίαση και Περιστροφή",
-      "txtWidth": "Width",
-      "txtHeight": "Height",
-      "textCellSize": "Cell size",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization"
+      "txtHeight": "Ύψος",
+      "txtWidth": "Πλάτος"
     },
     "Settings": {
       "mniSlideStandard": "Τυπικό (4:3)",

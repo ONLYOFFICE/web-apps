@@ -57,8 +57,11 @@
       "textOpenFile": "Inserir a senha para abrir o arquivo",
       "textPaidFeature": "Recurso pago",
       "textYes": "Sim",
+      "tipLicenseExceeded": "O documento está aberto no modo somente leitura, pois o número máximo de conexões simultâneas permitidas pela licença foi atingido.<br><br>Tente novamente mais tarde ou entre em contato com o proprietário do documento se precisar de acesso de edição.",
+      "tipLicenseUsersExceeded": "O documento está aberto no modo somente leitura, pois o número máximo de usuários autorizados a editar documentos por licença foi atingido.<br><br>Tente novamente mais tarde ou entre em contato com o proprietário do documento se precisar de acesso de edição.",
       "titleLicenseExp": "A licença expirou",
       "titleLicenseNotActive": "Licença inativa",
+      "titleReadOnly": "Modo somente leitura",
       "titleServerVersion": "Editor atualizado",
       "titleUpdateVersion": "Versão alterada",
       "txtIncorrectPwd": "A senha está incorreta",
@@ -69,10 +72,7 @@
       "warnLicenseLimitedRenewed": "A licença precisa ser renovada. Você tem acesso limitado à funcionalidade de edição de documentos. <br> Entre em contato com o administrador para obter acesso total",
       "warnNoLicense": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate a equipe de vendas% 1 para termos de atualização pessoal.",
       "warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
-      "warnProcessRightsChange": "Você não tem permissão para editar o arquivo.",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "Você não tem permissão para editar o arquivo."
     }
   },
   "Error": {

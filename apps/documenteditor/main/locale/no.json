@@ -2464,6 +2464,7 @@
   "DE.Views.FileMenuPanels.Settings.txtWorkspace": "Workspace",
   "DE.Views.FileMenuPanels.ViewSaveAs.textDownloadAs": "Last ned som",
   "DE.Views.FileMenuPanels.ViewSaveCopy.textSaveCopyAs": "Save copy as",
+  "DE.Views.FormSettings.textAddRole": "Add recipient",
   "DE.Views.FormSettings.textAlways": "Alltid",
   "DE.Views.FormSettings.textAnyone": "Hvemsomhelst",
   "DE.Views.FormSettings.textAspect": "Lock aspect ratio",

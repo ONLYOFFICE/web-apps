@@ -3955,5 +3955,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "半透明",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "底線",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "字型名稱",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字型大小"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字型大小",
+  "DE.Views.FormSettings.textAddRole": "Add recipient"
 }

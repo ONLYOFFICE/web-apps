@@ -491,11 +491,11 @@
       "textZoomIn": "Зумирај унутра",
       "textZoomOut": "Зумирај споља",
       "textZoomRotate": "Зумирај и ротирај",
-      "txtWidth": "Width",
-      "txtHeight": "Height",
-      "textCellSize": "Cell size",
       "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization"
+      "textCapitalization": "Capitalization",
+      "textCellSize": "Cell size",
+      "txtHeight": "Height",
+      "txtWidth": "Width"
     },
     "Settings": {
       "mniSlideStandard": "Стандардно (4:3)",

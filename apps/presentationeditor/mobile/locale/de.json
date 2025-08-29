@@ -356,6 +356,7 @@
       "textBack": "Zurück",
       "textBandedColumn": "Gebänderte Spalte",
       "textBandedRow": "Gebänderte Zeile",
+      "textBaseline": "Grundlinie",
       "textBefore": "Vorher ",
       "textBlack": "Through Black",
       "textBorder": "Rahmen",
@@ -366,8 +367,10 @@
       "textBullets": "Aufzählungszeichen",
       "textBulletsAndNumbers": "Aufzählungszeichen und Nummern",
       "textCancel": "Abbrechen",
+      "textCapitalization": "Kapitalisierung",
       "textCaseSensitive": "Groß-/Kleinschreibung beachten",
       "textCellMargins": "Zellenränder",
+      "textCellSize": "Zellengröße",
       "textChangeShape": "Form ändern",
       "textChart": "Diagramm",
       "textClock": "Uhr",
@@ -497,11 +500,8 @@
       "textZoomIn": "Vergrößern",
       "textZoomOut": "Verkleinern",
       "textZoomRotate": "Vergrößern und drehen",
-      "txtWidth": "Width",
-      "txtHeight": "Height",
-      "textCellSize": "Cell size",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization"
+      "txtHeight": "Höhe",
+      "txtWidth": "Breite"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

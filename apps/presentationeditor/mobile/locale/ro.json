@@ -356,6 +356,7 @@
       "textBack": "Înapoi",
       "textBandedColumn": "Coloana alternantă",
       "textBandedRow": "Rând alternant",
+      "textBaseline": "Referință",
       "textBefore": "Înainte",
       "textBlack": "Prin negru",
       "textBorder": "Bordura",
@@ -366,8 +367,10 @@
       "textBullets": "Marcatori",
       "textBulletsAndNumbers": "Marcatori și numerotare",
       "textCancel": "Revocare",
+      "textCapitalization": "Majuscule",
       "textCaseSensitive": "Sensibil la litere mari și mici",
       "textCellMargins": "Margini de celulă",
+      "textCellSize": "Dimensiune celulă",
       "textChangeShape": "Modificare formă",
       "textChart": "Diagramă",
       "textClock": "Ceas",
@@ -497,11 +500,8 @@
       "textZoomIn": "Mărire",
       "textZoomOut": "Micșorare",
       "textZoomRotate": "Zoom și rotire",
-      "txtWidth": "Width",
-      "txtHeight": "Height",
-      "textCellSize": "Cell size",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization"
+      "txtHeight": "Înălțime",
+      "txtWidth": "Lățime"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

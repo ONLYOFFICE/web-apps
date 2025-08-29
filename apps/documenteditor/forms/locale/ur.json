@@ -162,6 +162,7 @@
   "DE.Controllers.ApplicationController.txtEmpty": "(خالی)",
   "DE.Controllers.ApplicationController.txtEnterDate": "ایک تاریخ درج کریں۔",
   "DE.Controllers.ApplicationController.txtPressLink": "Ctrl دبائیں اور لنک پر کلک کریں۔",
+  "DE.Controllers.ApplicationController.txtSignedForm": "اس دستاویز پر دستخط ہو چکے ہیں اور اس میں ترمیم نہیں کی جا سکتی۔",
   "DE.Controllers.ApplicationController.txtUntitled": "بلا عنوان",
   "DE.Controllers.ApplicationController.unknownErrorText": "نامعلوم خرابی",
   "DE.Controllers.ApplicationController.unsupportedBrowserErrorText": "آپ کا براؤزر تعاون یافتہ نہیں ہے۔",

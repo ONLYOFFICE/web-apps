@@ -356,6 +356,7 @@
       "textBack": "Назад",
       "textBandedColumn": "Чередовать столбцы",
       "textBandedRow": "Чередовать строки",
+      "textBaseline": "Базовая линия",
       "textBefore": "Перед",
       "textBlack": "Через черное",
       "textBorder": "Граница",
@@ -366,8 +367,10 @@
       "textBullets": "Маркеры",
       "textBulletsAndNumbers": "Маркеры и нумерация",
       "textCancel": "Отмена",
+      "textCapitalization": "Прописные буквы",
       "textCaseSensitive": "С учетом регистра",
       "textCellMargins": "Поля ячейки",
+      "textCellSize": "Размер ячейки",
       "textChangeShape": "Изменить фигуру",
       "textChart": "Диаграмма",
       "textClock": "Часы",
@@ -497,11 +500,8 @@
       "textZoomIn": "Увеличение",
       "textZoomOut": "Уменьшение",
       "textZoomRotate": "Увеличение с поворотом",
-      "txtWidth": "Width",
-      "txtHeight": "Height",
-      "textCellSize": "Cell size",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization"
+      "txtHeight": "Высота",
+      "txtWidth": "Ширина"
     },
     "Settings": {
       "mniSlideStandard": "Стандартный (4:3)",

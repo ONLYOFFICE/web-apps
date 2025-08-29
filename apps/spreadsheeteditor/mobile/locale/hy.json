@@ -722,15 +722,15 @@
       "txtSortLow2High": "Տեսակավորել ցածրից բարձր:",
       "textAdditional": "Additional",
       "textAdditionalFormatting": "Additional formatting",
-      "textStrikethrough": "Strikethrough",
-      "textDoubleStrikethrough": "Double Strikethrough",
+      "textAllCaps": "All Caps",
       "textBaseline": "Baseline",
       "textCapitalization": "Capitalization",
-      "textSubscript": "Subscript",
-      "textSuperscript": "Superscript",
+      "textDoubleStrikethrough": "Double Strikethrough",
+      "textLetterSpacing": "Letter spacing",
       "textSmallCaps": "Small Caps",
-      "textAllCaps": "All Caps",
-      "textLetterSpacing": "Letter spacing"
+      "textStrikethrough": "Strikethrough",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript"
     },
     "Settings": {
       "advCSVOptions": "Ընտրել CSV-ի հարաչափերը",

@@ -57,8 +57,11 @@
       "textOpenFile": "Unesite lozinku za otvaranje datoteke",
       "textPaidFeature": "Plaćena funkcija ",
       "textYes": "Da",
+      "tipLicenseExceeded": "Dokument je otvoren u režimu samo za čitanje jer je dostignut maksimalni broj istovremenih veza dozvoljenih licencom.<br><br>Molimo pokušajte ponovo kasnije ili kontaktirajte vlasnika dokumenta ako vam je potreban pristup za uređivanje.",
+      "tipLicenseUsersExceeded": "Dokument je otvoren u režimu samo za čitanje jer je dostignut maksimalni broj korisnika kojima je licenca dozvolila uređivanje dokumenata.<br><br>Molimo pokušajte ponovo kasnije ili kontaktirajte vlasnika dokumenta ako vam je potreban pristup za uređivanje.",
       "titleLicenseExp": "Licenca je istekla",
       "titleLicenseNotActive": "Licenca nije aktivna",
+      "titleReadOnly": "Režim samo za čitanje",
       "titleServerVersion": "Uređivač ažuriran",
       "titleUpdateVersion": "Verzija promenjena",
       "txtIncorrectPwd": "Lozinka je netačna",
@@ -69,10 +72,7 @@
       "warnLicenseLimitedRenewed": "Licenca mora biti obnovljena. Imate ograničen pristup funkcijama za uređivanje dokumenata.<br>Molimo kontaktirajte svog administratora da biste dobili puni pristup",
       "warnNoLicense": "Dostigli ste limit za istovremene veze sa %1 uređivačima. Ovaj dokument će biti otvoren samo za pregled. Kontaktirajte prodajni tim %1 za personalizovane uslove nadogradnje.",
       "warnNoLicenseUsers": "Dostigli ste limit korisnika za %1 uređivače. Kontaktirajte prodajni tim %1 za personalizovane uslove nadogradnje.",
-      "warnProcessRightsChange": "Nemate dozvolu za uređivanje datoteke.",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "Nemate dozvolu za uređivanje datoteke."
     }
   },
   "Error": {
