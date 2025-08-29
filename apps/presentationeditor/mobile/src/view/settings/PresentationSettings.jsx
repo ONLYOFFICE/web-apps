@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { observer, inject } from "mobx-react";
-import { Page, Navbar, List, ListItem, BlockTitle } from "framework7-react";
+import { Page, Navbar, List, ListItem, BlockTitle, Toggle } from "framework7-react";
 import { useTranslation } from "react-i18next";
 
 const PagePresentationSettings = props => {
@@ -9,7 +9,7 @@ const PagePresentationSettings = props => {
     const storePresentationSettings = props.storePresentationSettings;
     const slideSizeArr = storePresentationSettings.slideSizes;
     const slideSizeIndex = storePresentationSettings.slideSizeIndex;
-    // console.log(slideSizeIndex);
+    const isLoopSlideshow = storePresentationSettings.getLoopSlideshow();
 
     return (
         <Page>
@@ -26,6 +26,11 @@ const PagePresentationSettings = props => {
                     onColorSchemeChange: props.onColorSchemeChange,
                     initPageColorSchemes: props.initPageColorSchemes
                 }}></ListItem>
+            </List>
+            <List>
+                <ListItem title={_t.textLoopSlideshow}>
+                    <Toggle checked={isLoopSlideshow} onToggleChange={() => {props.onToggleLoopSlideshow(!isLoopSlideshow)}}/>
+                </ListItem>
             </List>
         </Page>
     )
