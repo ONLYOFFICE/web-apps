@@ -1579,6 +1579,7 @@
   "SSE.Controllers.Main.warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact %1 sales team for personal upgrade terms.",
   "SSE.Controllers.Main.warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
   "SSE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
+  "SSE.Controllers.Main.warnOpenCsv": "The CSV format does not support saving a multi-sheet file or any elements except text.<br>Only the active sheet will be saved.",
   "SSE.Controllers.PivotTable.strSheet": "Sheet",
   "SSE.Controllers.PivotTable.txtCalculatedItemInPageField": "The item cannot be added or modified. PivotTable report has this field in Filters.",
   "SSE.Controllers.PivotTable.txtCalculatedItemWarningDefault": "No actions with calculated items are allowed for this active cell.",
