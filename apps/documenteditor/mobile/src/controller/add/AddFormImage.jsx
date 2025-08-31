@@ -21,18 +21,13 @@ class AddFormImageController extends Component {
             this.openModalPhone(obj);
         });
 
-        Common.Notifications.on('openFormImageListTablet', (obj, x, y, boxHeight, formImageHeight) => {
-            this.openModalTablet(obj, x, y, boxHeight, formImageHeight);
+        Common.Notifications.on('openFormImageListTablet', (obj, x, y, boxHeight, popoverHeight) => {
+            this.openModalTablet(obj, x, y, boxHeight, popoverHeight);
         });
     }
 
-    openModalTablet(obj, x, y, boxHeight, formImageHeight) {
-        let vertPos
-        if ((boxHeight - y > 0) && boxHeight - y >= formImageHeight) {
-            vertPos = 'bottom'
-        } else {
-            vertPos = 'top'
-        }
+    openModalTablet(obj, x, y, boxHeight, popoverHeight) {
+        let vertPos = (boxHeight - y > 0) && (boxHeight - y >= popoverHeight) ? 'bottom' : 'top'
 
         this.setState({
             isOpen: true,

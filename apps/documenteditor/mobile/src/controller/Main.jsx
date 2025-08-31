@@ -1205,7 +1205,7 @@ class MainController extends Component {
                 boxSdk.append(dropdownListTarget);
             }
             if (y > boxSdk.height()) {
-                y -= y - boxSdk.height()
+                y = boxSdk.height();
             }
             dropdownListTarget.css({left: `${x}px`, top: `${y}px`});
             Common.Notifications.trigger('openFormImageListTablet', obj, x, y, boxSdk.height(), 260);
