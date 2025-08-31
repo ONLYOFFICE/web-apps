@@ -566,6 +566,7 @@ define([
         txtEraser: 'Eraser',
         txtEraseScreen: 'Erase screen',
         txtInkColor: 'Ink color',
+        txtPointer: 'Laser pointer',
         txtPrev: 'Previous Slide',
         txtNext: 'Next Slide',
         txtClose: 'Close Slideshow',
