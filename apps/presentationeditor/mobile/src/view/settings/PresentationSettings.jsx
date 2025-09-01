@@ -9,7 +9,7 @@ const PagePresentationSettings = props => {
     const storePresentationSettings = props.storePresentationSettings;
     const slideSizeArr = storePresentationSettings.slideSizes;
     const slideSizeIndex = storePresentationSettings.slideSizeIndex;
-    const isLoopSlideshow = storePresentationSettings.getLoopSlideshow();
+    const isLoopSlideshow = storePresentationSettings.isLoopSlideshow;
 
     return (
         <Page>
