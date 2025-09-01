@@ -8,6 +8,9 @@ class PresentationSettingsController extends Component {
         this.initSlideSize = this.initSlideSize.bind(this);
         this.onSlideSize = this.onSlideSize.bind(this);
         this.onColorSchemeChange = this.onColorSchemeChange.bind(this);
+        this.onToggleLoopSlideshow = this.onToggleLoopSlideshow.bind(this);
+        this.slideObject = this.props.storeFocusObjects.slideObject;
+        this.props.storePresentationSettings.getLoopSlideshow(this.slideObject);
         this.initSlideSize();
     }
 
@@ -51,6 +54,16 @@ class PresentationSettingsController extends Component {
         this.props.storeTableSettings.setStyles([], 'default');
     }
 
+    onToggleLoopSlideshow(loop) {
+        const api = Common.EditorApi.get();
+        const props = new Asc.CAscSlideProps();
+        const transition = new Asc.CAscSlideTransition();
+        transition.put_ShowLoop(loop);
+        props.put_transition(transition);
+        api.SetSlideProps(props);
+        this.props.storePresentationSettings.setLoopSlideshow(loop);
+    }
+
 
     render() {
         return (
@@ -59,9 +72,10 @@ class PresentationSettingsController extends Component {
                 onSlideSize={this.onSlideSize}
                 onColorSchemeChange={this.onColorSchemeChange}
                 initPageColorSchemes={this.initPageColorSchemes}
+                onToggleLoopSlideshow={this.onToggleLoopSlideshow}
             />
         )
     }
 }
 
-export default inject("storePresentationSettings", "storeTableSettings")(observer(PresentationSettingsController));
+export default inject("storePresentationSettings", "storeTableSettings", "storeFocusObjects")(observer(PresentationSettingsController));
