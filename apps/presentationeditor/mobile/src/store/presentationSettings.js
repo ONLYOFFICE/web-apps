@@ -39,18 +39,12 @@ export class storePresentationSettings {
         this.isLoopSlideshow = value;
     }
 
-    getLoopSlideshow() {
-        const api = Common.EditorApi.get();
+    getLoopSlideshow(slideObject) {
         let loop;
-        const selectedElements = api.getSelectedElements();
-
-        for (let i=0; i<selectedElements.length; i++) {
-            if (Asc.c_oAscTypeSelectElement.Slide == selectedElements[i].get_ObjectType()) {
-                loop = selectedElements[i].get_ObjectValue().get_transition().get_ShowLoop();
-            }   
+        if (slideObject) {
+            loop = slideObject.get_transition().get_ShowLoop();
+            this.setLoopSlideshow(loop);
         }
-        
-        this.setLoopSlideshow(loop)
         return this.isLoopSlideshow;
     }
 

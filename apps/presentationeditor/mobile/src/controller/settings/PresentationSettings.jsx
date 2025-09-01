@@ -9,6 +9,8 @@ class PresentationSettingsController extends Component {
         this.onSlideSize = this.onSlideSize.bind(this);
         this.onColorSchemeChange = this.onColorSchemeChange.bind(this);
         this.onToggleLoopSlideshow = this.onToggleLoopSlideshow.bind(this);
+        this.slideObject = this.props.storeFocusObjects.slideObject;
+        this.props.storePresentationSettings.getLoopSlideshow(this.slideObject);
         this.initSlideSize();
     }
 
@@ -76,4 +78,4 @@ class PresentationSettingsController extends Component {
     }
 }
 
-export default inject("storePresentationSettings", "storeTableSettings")(observer(PresentationSettingsController));
+export default inject("storePresentationSettings", "storeTableSettings", "storeFocusObjects")(observer(PresentationSettingsController));
