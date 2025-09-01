@@ -123,8 +123,7 @@ define([
                 {displayValue: this.textColor,          value: Asc.c_oAscFill.FILL_TYPE_SOLID},
                 {displayValue: this.textGradientFill,   value: Asc.c_oAscFill.FILL_TYPE_GRAD},
                 {displayValue: this.textImageTexture,   value: Asc.c_oAscFill.FILL_TYPE_BLIP},
-                {displayValue: this.textPatternFill,    value: Asc.c_oAscFill.FILL_TYPE_PATT},
-                {displayValue: this.textNoFill,         value: Asc.c_oAscFill.FILL_TYPE_NOFILL}
+                {displayValue: this.textPatternFill,    value: Asc.c_oAscFill.FILL_TYPE_PATT}
             ];
 
             this.cmbFillSrc = new Common.UI.ComboBox({
@@ -146,7 +145,7 @@ define([
             this.btnBackColor = new Common.UI.ColorButton({
                 parentEl: $('#slide-back-color-btn'),
                 disabled: true,
-                transparent: true,
+                transparent: false,
                 menu: true,
                 color: 'ffffff',
                 eyeDropper: true,
@@ -356,17 +355,6 @@ define([
                         this.api.SetSlideProps(props);
                     }
                     break;
-                case Asc.c_oAscFill.FILL_TYPE_NOFILL:
-                    this._state.FillType = Asc.c_oAscFill.FILL_TYPE_NOFILL;
-                    if (!this._noApply) {
-                        var props = new Asc.CAscSlideProps();
-                        var fill = new Asc.asc_CShapeFill();
-                        fill.put_type(Asc.c_oAscFill.FILL_TYPE_NOFILL);
-                        fill.put_fill(null);
-                        props.put_background(fill);
-                        this.api.SetSlideProps(props);
-                    }
-                    break;
             }
             this.fireEvent('editcomplete', this);
         },
@@ -377,16 +365,9 @@ define([
             if (this.api && !this._noApply) {
                 var props = new Asc.CAscSlideProps();
                 var fill = new Asc.asc_CShapeFill();
-
-                if (this.SlideColor.Color=='transparent') {
-                    fill.put_type(Asc.c_oAscFill.FILL_TYPE_NOFILL);
-                    fill.put_fill(null);
-                } else {
-                    fill.put_type(Asc.c_oAscFill.FILL_TYPE_SOLID);
-                    fill.put_fill( new Asc.asc_CFillSolid());
-                    fill.get_fill().put_color(Common.Utils.ThemeColor.getRgbColor(this.SlideColor.Color));
-                }
-
+                fill.put_type(Asc.c_oAscFill.FILL_TYPE_SOLID);
+                fill.put_fill( new Asc.asc_CFillSolid());
+                fill.get_fill().put_color(Common.Utils.ThemeColor.getRgbColor(this.SlideColor.Color));
                 props.put_background(fill);
                 this.api.SetSlideProps(props);
             }
@@ -1252,7 +1233,7 @@ define([
                 }
 
                 if (fill===null || fill_type===null || fill_type==Asc.c_oAscFill.FILL_TYPE_NOFILL) { // заливки нет или не совпадает у неск. фигур
-                    this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_NOFILL;
+                    this.OriginalFillType = null;
                 } else if (fill_type==Asc.c_oAscFill.FILL_TYPE_SOLID) {
                     fill = fill.get_fill();
                     color = fill.get_color();
