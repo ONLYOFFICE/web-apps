@@ -18,6 +18,7 @@ import LongActionsController from "./LongActions";
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
 import EncodingController from "./Encoding";
 import DropdownListController from "./DropdownList";
+import AddFormImageController from './add/AddFormImage.jsx';
 import { Device } from '../../../../common/mobile/utils/device';
 import { processArrayScripts } from '../../../../common/mobile/utils/processArrayScripts.js';
 import '../../../../common/main/lib/util/LanguageInfo.js'
@@ -869,15 +870,7 @@ class MainController extends Component {
                     break;
                 case Asc.c_oAscContentControlSpecificType.Picture:
                 case Asc.c_oAscContentControlSpecificType.Signature:
-                    if (obj.pr && obj.pr.get_Lock) {
-                        let lock = obj.pr.get_Lock();
-                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock == Asc.c_oAscSdtLockType.ContentLocked)
-                            return;
-                    }
-                    this.api.asc_addImage(obj);
-                    setTimeout(() => {
-                        this.api.asc_UncheckContentControlButtons();
-                    }, 500);
+                    this.onShowImageActions(obj, x, y);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
@@ -1200,6 +1193,29 @@ class MainController extends Component {
         setTimeout(() => {
             this.cmpCalendar.open();
         }, 100)
+    }
+
+    onShowImageActions(obj, x, y) {
+        if(!Device.isPhone) {
+            const boxSdk = $$('#editor_sdk');
+            let dropdownListTarget = boxSdk.find('#dropdown-image-list-target');
+
+            if (dropdownListTarget.length < 1) {
+                dropdownListTarget = $$('<div id="dropdown-image-list-target" style="position: absolute;"></div>');
+                boxSdk.append(dropdownListTarget);
+            }
+            if (y > boxSdk.height()) {
+                y = boxSdk.height();
+            }
+            dropdownListTarget.css({left: `${x}px`, top: `${y}px`});
+            Common.Notifications.trigger('openFormImageListTablet', obj, x, y, boxSdk.height(), 260);
+        } else {
+            Common.Notifications.trigger('openFormImageListPhone', obj)
+        }
+
+        setTimeout(() => {
+            this.api.asc_UncheckContentControlButtons();
+        }, 500);
     }
 
     onShowListActions(obj, x, y) {
@@ -1636,6 +1652,7 @@ class MainController extends Component {
                 <PluginsController />
                 <EncodingController />
                 <DropdownListController />
+                <AddFormImageController />
             </Fragment>
         )
     }
