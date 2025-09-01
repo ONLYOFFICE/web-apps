@@ -1404,9 +1404,9 @@ define([
                 if (data.keyCode==Common.UI.Keys.RETURN) {
                     if (this.selectedBeforeHideRec) // only for ComboDataView menuPicker
                         rec = this.selectedBeforeHideRec;
-                    if (this.canAddRecents) // only for DaraViewShape
+                    if (this.canAddRecents) // only for DataViewShape
                         this.addRecentItem(rec);
-                    this.trigger('item:click', this, this, rec, e);
+                    rec && this.trigger('item:click', this, this, rec, e);
                     if (this.parentMenu)
                         this.parentMenu.hide();
                 } else {
@@ -1880,6 +1880,8 @@ define([
             this.addRecentItem(record);
         },
         addRecentItem: function (rec) {
+            if (!rec) return;
+
             var me = this,
                 exist = false,
                 type = rec.get('data').shapeType,
