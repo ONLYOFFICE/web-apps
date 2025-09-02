@@ -696,8 +696,8 @@ define([
                     if (chart) {
                         this.diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
                     }
-                    // me.api.asc_addChartDrawingObject(type);
-                    // me.api.asc_editChartInFrameEditor();
+                    me.api.asc_addChartDrawingObject(type);
+                    me.api.asc_editChartInFrameEditor();
                     me.view.fireEvent('insertchart', me.view);
                 }
             }
