@@ -83,17 +83,14 @@ define([
                 initEditing: true
             };
             this.editMode = true;
-            this.binding = {
-                checkInsertShapeComment: _.bind(this.checkInsertShapeComment, this)
-            };
+            this.binding = {};
 
             this.addListeners({
                 'Toolbar': {
                     'change:compact'    : this.onClickChangeCompact,
                     'home:open'         : this.onHomeOpen,
                     'tab:active'        : this.onActiveTab,
-                    'tab:collapse'      : this.onTabCollapse,
-                    'shapeannot:size'   : this.onShapeCommentSizeClick
+                    'tab:collapse'      : this.onTabCollapse
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -273,9 +270,6 @@ define([
             toolbar.chShowComments.on('change',                         _.bind(this.onShowCommentsChange, this));
             toolbar.btnTextComment.on('click',                          _.bind(this.onBtnTextCommentClick, this));
             toolbar.btnTextComment.menu.on('item:click',                _.bind(this.onMenuTextCommentClick, this));
-            toolbar.btnShapeComment.on('click',                         _.bind(this.onBtnShapeCommentClick, this));
-            toolbar.btnShapeComment.menu.on('item:click',               _.bind(this.onMenuShapeCommentClick, this));
-            toolbar.btnShapeComment.on('color:select',                  _.bind(this.onSelectShapeCommentColor, this));
             toolbar.btnStamp.on('click',                                _.bind(this.onBtnStampClick, this));
             toolbar.btnStamp.menu.on('item:click',                      _.bind(this.onMenuStampClick, this));
             toolbar.btnStamp.menu.on('show:after',                      _.bind(this.onStampShowAfter, this));
@@ -430,7 +424,6 @@ define([
             this.api.asc_registerCallback('asc_onStampsReady', _.bind(this.onApiStampsReady, this));
             this.getApplication().getController('Common.Controllers.Fonts').setApi(this.api);
             this.api.asc_registerCallback('asc_onCanPastePage',           _.bind(this.onApiCanPastePage, this));
-            this.api.asc_registerCallback('asc_onStartAddShapeChanged', _.bind(this.onStartAddShapeChanged, this)); //for shape comments
 
             if (this.mode.canPDFEdit) {
                 this.api.asc_registerCallback('asc_onMathTypes', _.bind(this.onApiMathTypes, this));
@@ -609,7 +602,6 @@ define([
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
                 pr   = selectedObjects[i].get_ObjectValue();
-                if (!pr) continue;
 
                 if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
                     paragraph_locked = pr.get_Locked();
@@ -646,9 +638,8 @@ define([
                 } else if (type === Asc.c_oAscTypeSelectElement.Math) {
                     in_equation = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Annot) {
-                    var annotPr = pr.asc_getAnnotProps();
                     in_annot = true;
-                    if (annotPr && annotPr.asc_getCanEditText && annotPr.asc_getCanEditText())
+                    if (pr.asc_getCanEditText())
                         no_text = false;
                 } else if (type == Asc.c_oAscTypeSelectElement.PdfPage) {
                     page_deleted = pr.asc_getDeleteLock();
@@ -1244,101 +1235,6 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Add Text');
         },
 
-        onBtnShapeCommentClick: function(btn, e) {
-            btn.menu.getItems(true).filter(function(item) {
-                return item.value == btn.options.shapeType
-            })[0].setChecked(true);
-            if(!btn.pressed) {
-                btn.menu.clearAll(true);
-            }
-            this.onInsertShapeComment(btn, e);
-        },
-
-        onMenuShapeCommentClick: function(menu, item, e) {
-            var newType = item.value;
-            if (newType===null || newType===undefined) return;
-
-            this.toolbar.btnShapeComment.toggle(true);
-            var oldType = this.toolbar.btnShapeComment.options.shapeType;
-            if(newType !== oldType){
-                this.toolbar.btnShapeComment.changeIcon({
-                    next: item.options.iconClsForMainBtn,
-                    curr: this.toolbar.btnShapeComment.menu.getItems(true).filter(function(mnu){return mnu.value == oldType})[0].options.iconClsForMainBtn
-                });
-                this.toolbar.btnShapeComment.updateHint(item.options.tipForMainBtn);
-                // this.toolbar.btnShapeComment.setCaption(item.options.captionForMainBtn);
-                this.toolbar.btnShapeComment.options.shapeType = newType;
-            }
-            this.onInsertShapeComment(this.toolbar.btnShapeComment, item);
-        },
-
-        onShapeCommentSizeClick: function (direction) {
-            var btn = this.toolbar.btnShapeComment;
-            if (!btn.pressed) {
-                btn.toggle(true, true);
-            }
-
-            var size = btn.options.currentSize;
-            size.idx =  (direction==='up') ? Math.min(size.idx+1, size.arr.length-1) : Math.max(size.idx-1, 0);
-            btn.sizePicker.setValue(size.arr[size.idx] + ' ' + this.toolbar.txtMM);
-
-            this.onInsertShapeComment(btn);
-        },
-
-        onSelectShapeCommentColor: function(btn, color) {
-            if (!btn.pressed) {
-                btn.toggle(true, true);
-            }
-
-            btn.currentColor = color;
-            this.onInsertShapeComment(btn);
-        },
-
-        onInsertShapeComment: function(btn, item) {
-            if (btn.pressed) {
-                var stroke = new Asc.asc_CStroke();
-                stroke.put_type( Asc.c_oAscStrokeType.STROKE_COLOR);
-                stroke.put_color(Common.Utils.ThemeColor.getRgbColor(btn.currentColor));
-                stroke.asc_putPrstDash(Asc.c_oDashType.solid);
-                stroke.put_width(btn.options.currentSize.arr[btn.options.currentSize.idx]);
-                stroke.put_transparent(100 * 2.55);
-                this.api.StartAddAnnot(btn.options.shapeType, stroke, true);
-                $(document.body).on('mouseup', this.binding.checkInsertShapeComment);
-            } else {
-                this.api.StartAddAnnot('', undefined, false);
-                $(document.body).off('mouseup', this.binding.checkInsertShapeComment);
-            }
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnShapeComment);
-            Common.component.Analytics.trackEvent('ToolBar', 'Add Shape Annotation');
-        },
-
-        onStartAddShapeChanged: function() {
-            if ( this.toolbar.btnShapeComment.pressed ) {
-                this.toolbar.btnShapeComment.toggle(false, true);
-                this.toolbar.btnShapeComment.menu.clearAll(true);
-            }
-
-            $(document.body).off('mouseup', this.binding.checkInsertShapeComment);
-        },
-
-        checkInsertShapeComment:  function(e) {
-            var cmp = $(e.target),
-                cmp_sdk = cmp.closest('#editor_sdk'),
-                btn_id = cmp.closest('button').attr('id');
-            if (btn_id===undefined)
-                btn_id = cmp.closest('.btn-group').attr('id');
-
-            if (cmp.attr('id') != 'editor_sdk' && cmp_sdk.length<=0) {
-                if ( this.toolbar.btnShapeComment.pressed && this.toolbar.btnShapeComment.id !== btn_id ) {
-                    this.api.StartAddAnnot('', undefined, false);
-                    $(document.body).off('mouseup', this.binding.checkInsertShapeComment);
-                    this.toolbar.btnShapeComment.toggle(false, true);
-                    Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-                }
-            }
-        },
-
         onBtnStampClick: function(btn, e) {
             this.onInsertStamp(btn.options.stampType, btn, e);
         },
@@ -1613,13 +1509,23 @@ define([
                     me.api.UpdateInterfaceState();
                 }, 50);
 
-                var tab = {caption: toolbar.textTabInsert, action: 'ins', extcls: this.mode.isEdit ? 'canedit' : '', layoutname: 'toolbar-insert', dataHintTitle: 'I'};
-                var instab = this.getApplication().getController('InsTab');
-                instab.setApi(this.api).setConfig({toolbar: this, mode: this.mode});
-                toolbar.addTab(tab, instab.createToolbarPanel(), 1);
-                instab.onAppReady(this.mode);
+                // var tab = {caption: toolbar.textTabInsert, action: 'ins', extcls: this.mode.isEdit ? 'canedit' : '', layoutname: 'toolbar-insert', dataHintTitle: 'I'};
+                // var instab = this.getApplication().getController('InsTab');
+                // instab.setApi(this.api).setConfig({toolbar: this, mode: this.mode});
+                // toolbar.addTab(tab, instab.createToolbarPanel(), 1);
+                // instab.onAppReady(this.mode);
+                // setTimeout(function(){
+                //     instab.onDocumentReady();
+                // }, 50);
+
+                var tab = {caption: 'Redact', action: 'red', extcls: this.mode.isEdit ? 'canedit' : '', layoutname: 'toolbar-redact', dataHintTitle: 'X'};
+                var redacttab = this.getApplication().getController('RedactTab');
+                console.log(redacttab)
+                redacttab.setApi(this.api).setConfig({toolbar: this, mode: this.mode});
+                toolbar.addTab(tab, redacttab.createToolbarPanel(), 1);
+                redacttab.onAppReady(this.mode);
                 setTimeout(function(){
-                    instab.onDocumentReady();
+                    redacttab.onDocumentReady();
                 }, 50);
 
                 if (this.mode.canFeatureForms) {
