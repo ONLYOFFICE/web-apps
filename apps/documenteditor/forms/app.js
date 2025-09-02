@@ -154,7 +154,8 @@ require([
                 'common/main/lib/view/SearchBar',
                 'common/forms/lib/view/modals'
             ], function() {
-                app.postLaunchScripts = ['documenteditor/forms/code'];
+                const code_path = !window.isIEBrowser ? 'documenteditor/forms/code' : 'documenteditor/forms/ie/code';
+                app.postLaunchScripts = [code_path];
 
                 app.start();
             });
