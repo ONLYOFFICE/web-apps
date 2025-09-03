@@ -4578,7 +4578,7 @@ define([
                     }
 
                     if ( config.canFeatureTable ) {
-                        tab = {caption: 'Table Design', action: 'tabledesign', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-tabledesign', dataHintTitle: 'B', aux: true};
+                        tab = {caption: me.toolbar.textTabTableDesign, action: 'tabledesign', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-tabledesign', dataHintTitle: 'B', aux: true};
                         var tabledesigntab = me.getApplication().getController('TableDesignTab');
                         tabledesigntab.setApi(me.api).setConfig({toolbar: me});
                         var view = tabledesigntab.getView('TableDesignTab');
