@@ -655,7 +655,7 @@ define([
                     _.each(options.buttons, function(b){
                         if (typeof(b) == 'object') {
                             if (b.value !== undefined) {
-                                var item = {value: b.value, text: b.caption, cls: 'auto' + ((b.primary || options.primary==b.value) ? ' primary' : '')};
+                                var item = {value: b.value, text: b.caption, cls: 'auto' + ((b.primary || options.primary==b.value) ? ' primary' : '') + (b.cls ? ' ' + b.cls : '')};
                                 b.id && (item.id = b.id);
                                 newBtns.push(item);
                             }

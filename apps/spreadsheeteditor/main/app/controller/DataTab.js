@@ -92,7 +92,8 @@ define([
                     'data:remduplicates': this.onRemoveDuplicates,
                     'data:datavalidation': this.onDataValidation,
                     'data:fromtext': this.onDataFromText,
-                    'data:goalseek': this.onGoalSeek
+                    'data:goalseek': this.onGoalSeek,
+                    'data:solver': this.onSolver
                 },
                 'Statusbar': {
                     'sheet:changed': this.onApiSheetChanged
@@ -487,6 +488,21 @@ define([
                 handler: function(result, settings) {
                     if (result == 'ok' && settings) {
                         me.api.asc_StartGoalSeek(settings.formulaCell, settings.expectedValue, settings.changingCell);
+                    }
+                    Common.NotificationCenter.trigger('edit:complete');
+                }
+            })).show();
+        },
+
+        onSolver: function() {
+            var me = this;
+            (new SSE.Views.SolverDlg({
+                api: me.api,
+                lang: me.toolbar.mode.lang,
+                props: me.api.asc_GetSolverParams(),
+                handler: function(result, settings) {
+                    if (result == 'ok' && settings) {
+                        me.api.asc_StartSolver(settings);
                     }
                     Common.NotificationCenter.trigger('edit:complete');
                 }

@@ -89,7 +89,8 @@ require([
     'spreadsheeteditor/main/app/view/AutoFilterDialog',
     'spreadsheeteditor/main/app/view/PivotGroupDialog',
     'spreadsheeteditor/main/app/view/PivotCalculatedItemsDialog',
-    'spreadsheeteditor/main/app/view/PivotInsertCalculatedItemDialog'
+    'spreadsheeteditor/main/app/view/PivotInsertCalculatedItemDialog',
+    'spreadsheeteditor/main/app/view/SolverDlg'
 ], function () {
     Common.NotificationCenter.trigger('app-pack:loaded');
 });
