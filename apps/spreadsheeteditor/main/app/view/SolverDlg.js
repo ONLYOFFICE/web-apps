@@ -287,8 +287,8 @@ define([
 
         onDlgBtnClick: function(event) {
             var state = (typeof(event) == 'object') ? event.currentTarget.attributes['result'].value : event;
+            var me = this;
             if (state==='reset') {
-                var me = this;
                 Common.UI.warning({
                     msg: this.textConfirmReset,
                     maxwidth: 600,
@@ -305,10 +305,28 @@ define([
             }
             if (state == 'ok') {
                 if (!this.isRangeValid()) return;
-                this.handler && this.handler.call(this, state,  (state == 'ok') ? this.getSettings() : undefined);
-            }
 
-            this.close();
+                var method = this.props.getSolvingMethod();
+                if (this.originalMethod!==AscCommonExcel.c_oAscSolvingMethod.simplexLP && method===AscCommonExcel.c_oAscSolvingMethod.simplexLP) {
+                    // method is changed to simplex LP
+                    Common.UI.warning({
+                        msg: this.textConfirmChangeMethod.replace(/%1/g, method===AscCommonExcel.c_oAscSolvingMethod.grgNonlinear ? this.textNonlinear : this.textEvolutionary),
+                        maxwidth: 600,
+                        buttons: ['ok', 'cancel'],
+                        callback: function(btn){
+                            if (btn=='ok') {
+                                me.handler && me.handler.call(me, state, me.getSettings());
+                                me.close();
+                            } else
+                                me.btnOk.focus();
+                        }
+                    });
+                } else {
+                    this.handler && this.handler.call(this, state,  (state == 'ok') ? this.getSettings() : undefined);
+                    this.close();
+                }
+            } else
+                this.close();
         },
 
         _setDefaults: function () {
@@ -336,6 +354,8 @@ define([
                 this.chNonNegative.setValue(this.props.getVariablesNonNegative(), true);
 
                 value = this.props.getSolvingMethod();
+                if (this.originalMethod===undefined)
+                    this.originalMethod = value;
                 if (value !== AscCommonExcel.c_oAscSolvingMethod.simplexLP) {
                     this.cmbSolver.setData([
                         {value: AscCommonExcel.c_oAscSolvingMethod.simplexLP, displayValue: this.textSimplex},

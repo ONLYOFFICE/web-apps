@@ -4071,6 +4071,7 @@
   "SSE.Views.SolverDlg.txtEmpty": "This field is required",
   "SSE.Views.SolverDlg.txtErrorNumber": "Your entry cannot be used. An integer or decimal number may be required.",
   "SSE.Views.SolverDlg.textConfirmReset": "Reset all solver options and cell selections?",
+  "SSE.Views.SolverDlg.textConfirmChangeMethod": "You won't be able to return to %1 method if you run solver.",
   "SSE.Views.SortDialog.errorEmpty": "All sort criteria must have a column or row specified.",
   "SSE.Views.SortDialog.errorMoreOneCol": "More than one column is selected.",
   "SSE.Views.SortDialog.errorMoreOneRow": "More than one row is selected.",
