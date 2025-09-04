@@ -90,7 +90,7 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-extra-small">',
-                                            '<label class="header margin-right-10">', me.textSort,'</label>',
+                                            '<label class="header margin-right-10 vertical-align-middle">', me.textSort,'</label>',
                                             '<div id="bookmarks-radio-name" class="margin-right-10"></div>',
                                             '<div id="bookmarks-radio-location"></div>',
                                         '</td>',
