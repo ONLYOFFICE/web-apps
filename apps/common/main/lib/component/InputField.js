@@ -394,6 +394,7 @@ define([
                         title       : errors.join('\n'),
                         placement   : 'cursor'
                     });
+                    errorBadge.tooltip('show');
 
                     if (modalParents.length > 0) {
                         errorBadge.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);

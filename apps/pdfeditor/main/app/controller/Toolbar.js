@@ -1509,20 +1509,19 @@ define([
                     me.api.UpdateInterfaceState();
                 }, 50);
 
-                // var tab = {caption: toolbar.textTabInsert, action: 'ins', extcls: this.mode.isEdit ? 'canedit' : '', layoutname: 'toolbar-insert', dataHintTitle: 'I'};
-                // var instab = this.getApplication().getController('InsTab');
-                // instab.setApi(this.api).setConfig({toolbar: this, mode: this.mode});
-                // toolbar.addTab(tab, instab.createToolbarPanel(), 1);
-                // instab.onAppReady(this.mode);
-                // setTimeout(function(){
-                //     instab.onDocumentReady();
-                // }, 50);
+                var tab = {caption: toolbar.textTabInsert, action: 'ins', extcls: this.mode.isEdit ? 'canedit' : '', layoutname: 'toolbar-insert', dataHintTitle: 'I'};
+                var instab = this.getApplication().getController('InsTab');
+                instab.setApi(this.api).setConfig({toolbar: this, mode: this.mode});
+                toolbar.addTab(tab, instab.createToolbarPanel(), 1);
+                instab.onAppReady(this.mode);
+                setTimeout(function(){
+                    instab.onDocumentReady();
+                }, 50);
 
                 var tab = {caption: 'Redact', action: 'red', extcls: this.mode.isEdit ? 'canedit' : '', layoutname: 'toolbar-redact', dataHintTitle: 'X'};
                 var redacttab = this.getApplication().getController('RedactTab');
-                console.log(redacttab)
                 redacttab.setApi(this.api).setConfig({toolbar: this, mode: this.mode});
-                toolbar.addTab(tab, redacttab.createToolbarPanel(), 1);
+                toolbar.addTab(tab, redacttab.createToolbarPanel(), 2);
                 redacttab.onAppReady(this.mode);
                 setTimeout(function(){
                     redacttab.onDocumentReady();
@@ -1543,6 +1542,7 @@ define([
             if (this.mode.isPDFEdit || toolbar.isTabActive('ins') || toolbar.isTabActive('forms'))
                 toolbar.setTab('home');
             toolbar.setVisible('ins', this.mode.isPDFEdit);
+            toolbar.setVisible('red', this.mode.isPDFEdit);
             toolbar.setVisible('forms', this.mode.isPDFEdit && this.mode.canFeatureForms);
             $host.find('.annotate').toggleClass('hidden', this.mode.isPDFEdit);
             $host.find('.pdfedit').toggleClass('hidden', !this.mode.isPDFEdit);
