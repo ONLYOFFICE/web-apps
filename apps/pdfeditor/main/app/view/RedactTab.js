@@ -152,7 +152,9 @@ define([
                         ]
                     }).on('item:click', function (menu, item, e) {
                         if (item.value === 'current') {
-                            me.fireEvent('redact:page', [item.value]);
+                            me.fireEvent('redact:page');
+                        } else {
+                            me.fireEvent('redact:pages')
                         }
                     })
                 );

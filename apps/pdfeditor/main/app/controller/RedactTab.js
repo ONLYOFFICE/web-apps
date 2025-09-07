@@ -93,22 +93,119 @@ define([
                     'redact:start'   : this.onStartRedact.bind(this),
                     'redact:apply'   : this.onApplyRedact.bind(this),
                     'redact:page'    : this.onRedactCurrentPage.bind(this),
-                    // 'smartart:mouseenter': this.mouseenterSmartArt,
-                    // 'smartart:mouseleave': this.mouseleaveSmartArt,
+                    'redact:pages'   : this.onRedactPages.bind(this),
+                },
+                'Toolbar': {
+                    'tab:active': this.onActiveTab
                 }
             });
         },
 
         onApplyRedact: function() {
-            this.api.ApplyRedact();
+            Common.UI.warning({
+                width: 500,
+                msg: this.textApplyRedact,
+                buttons: ['yes', 'no'],
+                primary: 'yes',
+                callback: _.bind(function(btn) {
+                    if (btn == 'yes') {
+                        this.api.ApplyRedact();
+                    }
+                }, this)
+            });
         },
 
         onStartRedact: function(isMarkMode) {
-            this.api.SetRedactTool(isMarkMode)
+            this.api.SetRedactTool(isMarkMode);
         },
 
         onRedactCurrentPage: function() {
-            this.api.RedactPages([0]);
+            this.api.RedactPages([this.api.getCurrentPage()]);
+        },
+
+        onRedactPages: function() {
+            const self = this;
+            const countPages = this.api.getCountPages();
+
+            (new Common.Views.TextInputDialog({
+                title: this.textRedactPages,
+                label: this.textEnterPageRange,
+                value: `1-${countPages}`,
+                description: this.textEnterRangeDescription,
+                inputFixedConfig: {fixedWidth: 40},
+                inputConfig: {
+                    maxLength: 20,
+                    allowBlank: false,
+                    validation: function(value) {
+                        const singlePage = /^\d+$/;
+                        const range = /^(\d+)-(\d+)$/;
+
+                        if (singlePage.test(value)) {
+                            const page = parseInt(value, 10);
+                            if (page < 1 || page > countPages) return `Page must be between 1 and ${countPages}`;
+                            return true;
+                        }
+
+                        const match = value.match(range);
+                        if (match) {
+                            const start = parseInt(match[1], 10);
+                            const end = parseInt(match[2], 10);
+                            if (start < 1 || end < 1 || start > countPages || end > countPages) {
+                                return `Pages must be between 1 and ${countPages}`;
+                            }
+                            if (start > end) return 'Start page must be less than or equal to end page';
+                            return true;
+                        }
+
+                        return 'Invalid format. Use single number or range with dash, e.g., 2 or 2-6';
+                    }
+                },
+                handler: function(result, value) {
+                    if (result === 'ok') {
+                        let pages = [];
+
+                        if (value.includes('-')) {
+                            const [start, end] = value.split('-').map(p => parseInt(p, 10));
+                            for (let i = start; i <= end; i++) {
+                                pages.push(i - 1);
+                            }
+                        } else {
+                            pages.push(parseInt(value, 10));
+                        }
+
+                        self.api.RedactPages(pages);
+                    }
+                }
+            })).show();
+        },
+
+        onActiveTab: function(tab) {
+            Common.UI.TooltipManager.showTip('mark-for-redaction');
+            const isMarked = this.api.HasRedact();
+            if (isMarked) {
+                Common.UI.warning({
+                width: 500,
+                msg: this.textUnappliedRedactions,
+                buttons: ['apply', 'doNotApply', 'cancel'],
+                primary: 'apply',
+                callback: _.bind(function(btn) {
+                    if (btn == 'apply') {
+                        this.api.ApplyRedact();
+                        this.api.SetRedactTool(false);
+                        this.view.btnMarkForRedact.toggle(false);
+                    } else if (btn == 'doNotApply') {
+                        this.api.RemoveAllRedact();
+                        this.api.SetRedactTool(false);
+                        this.view.btnMarkForRedact.toggle(false);
+                    } else if (btn == 'cancel') {
+                        // Common.NotificationCenter.trigger('tab:set-active', 'red');
+                        this.toolbar.toolbar.setTab('red')
+                    }}, this)
+                });
+            } else {
+                this.view.btnMarkForRedact.toggle(false);
+                this.api.SetRedactTool(false);
+            }
         },
 
         SetDisabled: function(state) {
@@ -138,6 +235,12 @@ define([
                     me.view.setEvents();
                 });
             }
+            Common.UI.TooltipManager.addTips({
+                'mark-for-redaction' : {name: 'help-tip-mark-for-redaction', placement: 'bottom-right', offset: {x: 10, y: 0}, text: this.tipMarkForRedaction, header: this.tipMarkForRedactionHeader, target: '#slot-btn-markredact',
+                    automove: true, next: 'apply-redaction', maxwidth: 270, closable: false, isNewFeature: true},
+                'apply-redaction' : {name: 'help-tip-apply-redaction', placement: 'bottom-left', offset: {x: 10, y: 0}, text: this.tipApplyRedaction, header: this.tipApplyRedactionHeader, target: '#slot-btn-apply-redactions',
+                    automove: true, maxwidth: 270, closable: false, isNewFeature: true},
+            });
         },
 
         onDocumentReady: function() {
@@ -146,7 +249,6 @@ define([
 
                 // this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.mode, customization: this.mode.customization});
                 // this.getApplication().getController('Common.Controllers.ExternalOleEditor').setApi(this.api).loadConfig({config:this.mode, customization: this.mode.customization});
-
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, false, {array: this.view.lockedControls});
             }
         },
@@ -155,51 +257,6 @@ define([
         },
 
         onApiFocusObject: function(selectedObjects) {
-            var pr, i = -1, type,
-                paragraph_locked = false,
-                no_paragraph = true,
-                in_chart = false,
-                page_deleted = false;
-
-            while (++i < selectedObjects.length) {
-                type = selectedObjects[i].get_ObjectType();
-                pr = selectedObjects[i].get_ObjectValue();
-
-                if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
-                    paragraph_locked = pr.get_Locked();
-                    no_paragraph = false;
-                } else if (type == Asc.c_oAscTypeSelectElement.Image || type == Asc.c_oAscTypeSelectElement.Shape || type == Asc.c_oAscTypeSelectElement.Chart || type == Asc.c_oAscTypeSelectElement.Table) {
-                    if (type == Asc.c_oAscTypeSelectElement.Table ||
-                        type == Asc.c_oAscTypeSelectElement.Shape && !pr.get_FromImage() && !pr.get_FromChart()) {
-                        no_paragraph = false;
-                    }
-                    if (type == Asc.c_oAscTypeSelectElement.Chart) {
-                        in_chart = true;
-                    }
-                } else if (type == Asc.c_oAscTypeSelectElement.PdfPage) {
-                    page_deleted = pr.asc_getDeleteLock();
-                }
-            }
-
-            // if (in_chart !== this._state.in_chart) {
-            //     this.view.btnInsertChart.updateHint(in_chart ? this.view.tipChangeChart : this.view.tipInsertChart);
-            //     this._state.in_chart = in_chart;
-            // }
-
-            if (this._state.prcontrolsdisable !== paragraph_locked) {
-                if (this._state.activated) this._state.prcontrolsdisable = paragraph_locked;
-                Common.Utils.lockControls(Common.enumLock.paragraphLock, paragraph_locked===true, {array: this.view.lockedControls});
-            }
-
-            if (this._state.no_paragraph !== no_paragraph) {
-                if (this._state.activated) this._state.no_paragraph = no_paragraph;
-                Common.Utils.lockControls(Common.enumLock.noParagraphSelected, no_paragraph, {array: this.view.lockedControls});
-            }
-
-            if (page_deleted !== undefined && this._state.pagecontrolsdisable !== page_deleted) {
-                if (this._state.activated) this._state.pagecontrolsdisable = page_deleted;
-                Common.Utils.lockControls(Common.enumLock.pageDeleted, page_deleted, {array: this.view.lockedControls});
-            }
         },
 
     }, PDFE.Controllers.RedactTab || {}));

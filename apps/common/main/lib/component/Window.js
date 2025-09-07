@@ -646,7 +646,7 @@ define([
 
                 var arrBtns = {ok: this.okButtonText, cancel: this.cancelButtonText,
                     yes: this.yesButtonText, no: this.noButtonText,
-                    close: this.closeButtonText};
+                    close: this.closeButtonText, apply: this.applyButtonText, doNotApply: this.doNotApplyButtonText};
 
                 if (options.buttons && _.isArray(options.buttons)) {
                     if (options.primary==undefined)
