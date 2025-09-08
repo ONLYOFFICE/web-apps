@@ -2590,23 +2590,21 @@ define([], function () {
         };
 
         dh.initExternalEditors = function() {
-            var me = this,
-                decontroller = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor');
-            decontroller.setApi(this.api).loadConfig({config:this.mode, customization: this.mode.customization});
-            var diagramEditor = decontroller.getView('Common.Views.ExternalDiagramEditor');
+            var me = this;
+            var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
             if (diagramEditor) {
                 diagramEditor.on('internalmessage', _.bind(function(cmp, message) {
                     var command = message.data.command;
                     var data = message.data.data;
                     if (this.api) {
-                        (diagramEditor.isEditMode())
+                        ( diagramEditor.isEditMode() )
                             ? this.api.asc_editChartDrawingObject(data)
-                            : this.api.asc_addChartDrawingObject(data);
+                            : this.api.asc_addChartDrawingObject(data, diagramEditor.getPlaceholder());
                     }
                 }, this));
                 diagramEditor.on('hide', _.bind(function(cmp, message) {
                     if (this.api) {
-                        this.api.asc_onCloseChartFrame();
+                        this.api.asc_onCloseFrameEditor();
                         this.api.asc_enableKeyEvents(true);
                     }
                     setTimeout(function(){
@@ -2623,22 +2621,24 @@ define([], function () {
                 if (diagramEditor && chart) {
                     diagramEditor.setEditMode(true);
                     diagramEditor.show();
-                    diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
+                    diagramEditor.setChartData(chart);
                 }
             }
         };
 
         dh.editChartClick = function(){
+            // if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+            // var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+            // if (diagramEditor) {
+            //     diagramEditor.setEditMode(true);
+            //     diagramEditor.show();
+            //     var chart = this.api.asc_getChartSettings();
+            //     if (chart) {
+            //         diagramEditor.setChartData(chart);
+            //     }
+            // }
             if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
-            var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-            if (diagramEditor) {
-                diagramEditor.setEditMode(true);
-                diagramEditor.show();
-                var chart = this.api.asc_getChartObject();
-                if (chart) {
-                    diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
-                }
-            }
+            this.api.asc_editChartInFrameEditor();
         };
 
     }

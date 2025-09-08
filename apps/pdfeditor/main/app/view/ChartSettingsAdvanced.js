@@ -496,8 +496,9 @@ define([
 
         getSettings: function() {
             var Position = new Asc.CPosition();
-            if (this.isChartNameChanged)
+            if (this.isChartNameChanged) {
                 this._changedProps.asc_putName(this.inputChartName.getValue());
+            }
 
             if (this.spnX.getValue() !== '') {
                 var x = Common.Utils.Metric.fnRecalcToMM(this.spnX.getNumberValue());
@@ -549,7 +550,6 @@ define([
                     this.chartSettings.putSmooth(value==2);
             }
             this._changedProps.put_ChartProperties(this.chartSettings);
-
             return { chartProps: this._changedProps} ;
         },
 
