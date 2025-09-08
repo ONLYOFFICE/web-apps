@@ -232,6 +232,11 @@ class EditCellController extends Component {
         api.asc_setCellTextColor(color);
     }
 
+    setRtlTextdDirection(direction) {
+        const api = Common.EditorApi.get();        
+        api.asc_setCellReadingOrder(direction);
+    }
+
     render () {
         return (
             <EditCell 
@@ -254,6 +259,7 @@ class EditCellController extends Component {
                 timeFormats={this.timeFormats}
                 onTextColorAuto={this.onTextColorAuto}
                 setCustomFormat={this.setCustomFormat}
+                setRtlTextdDirection={this.setRtlTextdDirection}
             />
         )
     }

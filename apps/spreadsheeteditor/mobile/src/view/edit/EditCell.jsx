@@ -51,6 +51,9 @@ import IconFormatScientific from '@icons/icon-format-scientific.svg';
 import IconFormatText from '@icons/icon-format-text.svg';
 import IconFormatTime from '@icons/icon-format-time.svg';
 import IconFormatInteger from '@icons/icon-format-integer.svg';
+import IconTextDirectionContext from '@common-icons/icon-text-direction-context.svg';
+import IconTextDirectionRtl from '@common-icons/icon-text-direction-rtl.svg';
+import IconTextDirectionLtr from '@common-icons/icon-text-direction-ltr.svg';
 
 const EditCell = props => {
     const isAndroid = Device.android;
@@ -121,7 +124,8 @@ const EditCell = props => {
                             onHAlignChange: props.onHAlignChange,
                             onVAlignChange: props.onVAlignChange,
                             onWrapTextChange: props.onWrapTextChange,
-                            onTextOrientationChange: props.onTextOrientationChange
+                            onTextOrientationChange: props.onTextOrientationChange,
+                            setRtlTextdDirection: props.setRtlTextdDirection
                         }}>
                             {!isAndroid ?
                                 <SvgIcon slot="media" symbolId={IconTextAlignLeft.id} className='icon icon-svg' /> : null
@@ -606,6 +610,13 @@ const PageTextFormatCell = props => {
                 }}>
                     {!isAndroid ?
                         <SvgIcon slot="media" symbolId={IconTextOrientationHorizontal.id} className='icon icon-svg' /> : null
+                    }
+                </ListItem>
+                <ListItem title={_t.textTextDirection} link='/edit-text-direction/' routeProps={{
+                    setRtlTextdDirection: props.setRtlTextdDirection
+                }}>
+                    {!isAndroid && 
+                        <SvgIcon slot="media" symbolId={IconTextDirectionContext.id} className='icon icon-svg' />
                     }
                 </ListItem>
                 <ListItem title={_t.textWrapText}>
@@ -1275,6 +1286,56 @@ const PageTimeFormatCell = props => {
     )
 }
 
+const PageDirection = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const storeCellSettings = props.storeCellSettings;
+    const textDirection = storeCellSettings.textDirection;    
+
+    return (
+        <Page>
+            <Navbar title={_t.textTextDirection} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <List>
+                <ListItem title={_t.textLtrTextDirection} radio
+                    checked={textDirection === 1}
+                    radioIcon="end"
+                    onChange={() => {
+                        props.setRtlTextdDirection(1);
+                    }}>
+                    <SvgIcon slot="media" symbolId={IconTextDirectionLtr.id} className="icon icon-svg" />
+                </ListItem>
+                <ListItem title={_t.textRtlTextDirection} radio
+                    checked={textDirection === 2}
+                    radioIcon="end"
+                    onChange={() => {
+                        props.setRtlTextdDirection(2);
+                    }}>
+                    <SvgIcon slot="media" symbolId={IconTextDirectionRtl.id} className="icon icon-svg" />
+                </ListItem>
+                <ListItem title={_t.textContextTextDirection} radio
+                    checked={textDirection === 0}
+                    radioIcon="end"
+                    onChange={() => {
+                        props.setRtlTextdDirection(0);
+                    }}>
+                    <SvgIcon slot="media" symbolId={IconTextDirectionContext.id} className="icon icon-svg" />
+                </ListItem>
+            </List>
+        </Page>
+    )
+}
+
 
 const PageEditCell = inject("storeCellSettings", "storeWorksheets")(observer(EditCell));
 const TextColorCell = inject("storeCellSettings", "storePalette", "storeFocusObjects")(observer(PageTextColorCell));
@@ -1290,6 +1351,7 @@ const CustomBorderColorCell = inject("storeCellSettings", "storePalette")(observ
 const BorderSizeCell = inject("storeCellSettings")(observer(PageBorderSizeCell));
 const CellStyle = inject("storeCellSettings")(observer(PageCellStyle));
 const CustomFormats = inject("storeCellSettings")(observer(PageCustomFormats));
+const PageTextDirection = inject("storeCellSettings")(observer(PageDirection));
 
 export {
     PageEditCell as EditCell,
@@ -1311,5 +1373,6 @@ export {
     PageTimeFormatCell,
     CellStyle,
     CustomFormats,
-    PageCreationCustomFormat
+    PageCreationCustomFormat,
+    PageTextDirection
 };
