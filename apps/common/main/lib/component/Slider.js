@@ -132,25 +132,25 @@ define([
                 this.cmpEl = me.$el;
             }
 
-            this.cmpEl.find('.track-center').width(me.options.width - 14);
-            this.cmpEl[me.direction === 'vertical' ? 'height' : 'width'](me.options.width);
-
             this.track = this.cmpEl.find('.track');
             this.thumb = this.cmpEl.find('.thumb');
+
+            const halfThumbSize = this.thumb.outerWidth() / 2;
+
+            this.cmpEl.find('.track-center').width(me.options.width - 14);
+            this.cmpEl[me.direction === 'vertical' ? 'height' : 'width'](me.options.width - halfThumbSize);
 
             var onMouseUp = function (e) {
                 e.preventDefault();
                 e.stopPropagation();
 
-                if (me._wasDragged) {
-                    var pos = Math.max(0, Math.min(100, (Math.round((
-                        me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).top) : (e.pageX*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).left) - me._dragstart
-                    ) / me.width * 100))));
-                    me.setThumbPosition(pos);
+                var pos = Math.max(0, Math.min(100, (Math.round((
+                    me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).top) : (e.pageX*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).left) - me._dragstart
+                ) / me.width * 100))));
+                me.setThumbPosition(pos);
 
-                    me.lastValue = me.value;
-                    me.value = pos/me.delta + me.minValue;
-                }
+                me.lastValue = me.value;
+                me.value = pos/me.delta + me.minValue;
 
                 me.thumb.removeClass('active');
                 $(document).off('mouseup',   onMouseUp);
@@ -167,8 +167,6 @@ define([
                 e.preventDefault();
                 e.stopPropagation();
 
-                me._wasDragged = true;
-
                 var pos = Math.max(0, Math.min(100, (Math.round((
                     me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).top) : (e.pageX*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).left) - me._dragstart
                 ) / me.width * 100))));
@@ -183,8 +181,7 @@ define([
 
             var onMouseDown = function (e) {
                 if ( me.disabled ) return;
-                me._dragstart = me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - Common.Utils.getOffset(me.thumb).top) : (e.pageX*Common.Utils.zoom() - Common.Utils.getOffset(me.thumb).left) - 6;
-                me._wasDragged = false;
+                me._dragstart = me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - Common.Utils.getOffset(me.thumb).top) : (e.pageX*Common.Utils.zoom() - Common.Utils.getOffset(me.thumb).left) - halfThumbSize;
 
                 me.thumb.addClass('active');
                 $(document).on('mouseup',   onMouseUp);
@@ -253,13 +250,6 @@ define([
                 }
             }
 
-            const thumbWidth = this.thumb.width() / 2;
-            const delta = -thumbWidth * 2;
-            this.thumbRange = new Float32Array(101);
-            for (let i = 0; i < 101; i++) {
-                this.thumbRange[i] = thumbWidth + delta * (i / 100);
-            }
-
             this.setThumbPosition(me.options.value);
 
             me.rendered = true;
@@ -272,10 +262,8 @@ define([
                 pos = 0;
             }
 
-            const offset = pos / 100 * this.width + this.thumbRange[pos];
-
             this.track.css('--slider-unfill-percent', 100 - pos + '%');
-            this.thumb.css(this.direction === 'vertical' ? 'top' : 'left', offset + 'px');
+            this.thumb.css(this.direction === 'vertical' ? 'top' : 'left', pos + '%');
         },
 
         setValue: function(value) {

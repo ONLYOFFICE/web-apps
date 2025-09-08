@@ -5,6 +5,8 @@
 
     &.single-slider {
         padding-top: 7px;
+        margin-inline: (@slider-thumb-size-ie / 2);
+        margin-inline: calc(@slider-thumb-size / 2);
 
         .track {
             position: relative;
@@ -14,7 +16,9 @@
             background-color: @slider-track-background-normal;
             border-radius: @slider-border-radius-ie;
             border-radius: @slider-border-radius;
-            width: 100%;
+            width: calc(100% + @slider-thumb-size);
+            margin-inline: (@slider-thumb-size-ie / -2);
+            margin-inline: calc(@slider-thumb-size / -2);
 
             //&:before {
             //    content: '';
