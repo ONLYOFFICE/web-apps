@@ -185,7 +185,7 @@ const EditText = props => {
                                 shapeObject
                             }}>
                                 {!isAndroid && 
-                                    <SvgIcon slot="media" symbolId={getShapeTextOrientationIcon(shapeObject.get_Vert())} className={'icon icon-svg ' + (isRtlTextDirection ? 'icon-svg-rtl' : '')} />
+                                    <SvgIcon slot="media" symbolId={getShapeTextOrientationIcon(shapeObject.get_Vert())} className='icon icon-svg '/>
                                 }
                             </ListItem>
                         }
