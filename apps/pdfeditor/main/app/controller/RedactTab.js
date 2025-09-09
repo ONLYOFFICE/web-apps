@@ -40,16 +40,12 @@
 define([
     'core',
     'pdfeditor/main/app/view/RedactTab',
-    'pdfeditor/main/app/collection/ShapeGroups',
-    'pdfeditor/main/app/collection/EquationGroups'
 ], function () {
     'use strict';
 
     PDFE.Controllers.RedactTab = Backbone.Controller.extend(_.extend({
         models : [],
         collections : [
-            'ShapeGroups',
-            'EquationGroups'
         ],
         views : [
             'RedactTab'
@@ -124,7 +120,7 @@ define([
         },
 
         onRedactPages: function() {
-            const self = this;
+            const me = this;
             const countPages = this.api.getCountPages();
 
             (new Common.Views.TextInputDialog({
@@ -132,7 +128,6 @@ define([
                 label: this.textEnterPageRange,
                 value: `1-${countPages}`,
                 description: this.textEnterRangeDescription,
-                inputFixedConfig: {fixedWidth: 40},
                 inputConfig: {
                     maxLength: 20,
                     allowBlank: false,
@@ -142,7 +137,7 @@ define([
 
                         if (singlePage.test(value)) {
                             const page = parseInt(value, 10);
-                            if (page < 1 || page > countPages) return `Page must be between 1 and ${countPages}`;
+                            if (page < 1 || page > countPages) return Common.Utils.String.format(me.txtInvalidRange, countPages);
                             return true;
                         }
 
@@ -151,13 +146,13 @@ define([
                             const start = parseInt(match[1], 10);
                             const end = parseInt(match[2], 10);
                             if (start < 1 || end < 1 || start > countPages || end > countPages) {
-                                return `Pages must be between 1 and ${countPages}`;
+                                return Common.Utils.String.format(me.txtInvalidRange, countPages);
                             }
-                            if (start > end) return 'Start page must be less than or equal to end page';
+                            if (start > end) return me.txtReversedRange;
                             return true;
                         }
 
-                        return 'Invalid format. Use single number or range with dash, e.g., 2 or 2-6';
+                        return me.txtInvalidFormat;
                     }
                 },
                 handler: function(result, value) {
@@ -173,38 +168,42 @@ define([
                             pages.push(parseInt(value, 10));
                         }
 
-                        self.api.RedactPages(pages);
+                        me.api.RedactPages(pages);
                     }
                 }
             })).show();
         },
 
         onActiveTab: function(tab) {
-            Common.UI.TooltipManager.showTip('mark-for-redaction');
-            const isMarked = this.api.HasRedact();
-            if (isMarked) {
-                Common.UI.warning({
-                width: 500,
-                msg: this.textUnappliedRedactions,
-                buttons: ['apply', 'doNotApply', 'cancel'],
-                primary: 'apply',
-                callback: _.bind(function(btn) {
-                    if (btn == 'apply') {
-                        this.api.ApplyRedact();
-                        this.api.SetRedactTool(false);
-                        this.view.btnMarkForRedact.toggle(false);
-                    } else if (btn == 'doNotApply') {
-                        this.api.RemoveAllRedact();
-                        this.api.SetRedactTool(false);
-                        this.view.btnMarkForRedact.toggle(false);
-                    } else if (btn == 'cancel') {
-                        // Common.NotificationCenter.trigger('tab:set-active', 'red');
-                        this.toolbar.toolbar.setTab('red')
-                    }}, this)
-                });
+            if (tab == 'red') {
+                Common.UI.TooltipManager.showTip('mark-for-redaction');
             } else {
-                this.view.btnMarkForRedact.toggle(false);
-                this.api.SetRedactTool(false);
+                // Common.UI.TooltipManager.closeTip('mark-for-redaction');
+                // Common.UI.TooltipManager.closeTip('apply-redaction');
+                const isMarked = this.api.HasRedact();
+                if (isMarked) {
+                    Common.UI.warning({
+                    width: 500,
+                    msg: this.textUnappliedRedactions,
+                    buttons: ['apply', 'doNotApply', 'cancel'],
+                    primary: 'apply',
+                    callback: _.bind(function(btn) {
+                        if (btn == 'apply') {
+                            this.api.ApplyRedact();
+                            this.api.SetRedactTool(false);
+                            this.view.btnMarkForRedact.toggle(false);
+                        } else if (btn == 'doNotApply') {
+                            this.api.RemoveAllRedact();
+                            this.api.SetRedactTool(false);
+                            this.view.btnMarkForRedact.toggle(false);
+                        } else if (btn == 'cancel') {
+                            this.toolbar.toolbar.setTab('red')
+                        }}, this)
+                    });
+                } else {
+                    this.view.btnMarkForRedact.toggle(false);
+                    this.api.SetRedactTool(false);
+                }
             }
         },
 

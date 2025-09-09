@@ -138,7 +138,6 @@ define([], function () { 'use strict';
                 if (state == 'ok') {
                     if (this.inputLabel.checkValidate() !== true)  {
                         this.inputLabel.cmpEl.find('input').focus();
-                        this.inputLabel.showError(this.inputLabel.checkValidate())
                         return;
                     }
                 }
