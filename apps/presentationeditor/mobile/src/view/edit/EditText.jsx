@@ -64,7 +64,7 @@ const EditText = props => {
     const canIncreaseIndent = storeTextSettings.canIncreaseIndent;
     const canDecreaseIndent = storeTextSettings.canDecreaseIndent;
     const paragraphObj = storeFocusObjects.paragraphObject;
-    const isRtlTextDirection = storeFocusObjects.isRtlTextDirection;
+    const isRtlTextDirection = storeTextSettings.isRtlTextDirection;
     let spaceBefore;
     let spaceAfter;
     let previewList;
@@ -216,7 +216,7 @@ const EditText = props => {
                             setRtlTextdDirection: props.setRtlTextdDirection
                         }}>
                             {!isAndroid && 
-                                <SvgIcon slot="media" symbolId={IconTextDirectionContext.id} className='icon icon-svg' />
+                                <SvgIcon slot="media" symbolId={isRtlTextDirection ? IconTextDirectionRtl.id : IconTextDirectionLtr.id} className='icon icon-svg' />
                             }
                         </ListItem>
                         <ListItem title={_t.textLineSpacing} link='/edit-text-line-spacing/' routeProps={{
@@ -918,7 +918,10 @@ const PageDirection = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const storeFocusObjects = props.storeFocusObjects;
-    const isRtlTextDirection = storeFocusObjects.isRtlTextDirection;
+    const storeTextSettings = props.storeTextSettings
+    const isRtlTextDirection = storeTextSettings.isRtlTextDirection;
+    console.log(isRtlTextDirection);
+    
 
     return (
         <Page>
@@ -1002,7 +1005,7 @@ const PageTextHighlightColor = inject("storeTextSettings")(observer(PageHighligh
 const PageTextCustomFontColor = inject("storeTextSettings", "storePalette")(observer(PageCustomFontColor));
 const PageTextAddFormatting = inject("storeTextSettings", "storeFocusObjects")(observer(PageAdditionalFormatting));
 const PageTextBulletsAndNumbers = inject("storeTextSettings", "storeFocusObjects")(observer(PageBulletsAndNumbers));
-const PageTextDirection = inject("storeFocusObjects")(observer(PageDirection));
+const PageTextDirection = inject("storeTextSettings", "storeFocusObjects")(observer(PageDirection));
 const PageTextLineSpacing = inject("storeTextSettings", "storeFocusObjects")(observer(PageLineSpacing));
 const PageTextBulletsLinkSettings = inject("storeTextSettings", "storeFocusObjects")(observer(PageBulletLinkSettings));
 

@@ -15,8 +15,7 @@ export class storeFocusObjects {
             isTableInStack: computed,
             chartObject: computed,
             linkObject: computed,
-            isEditLocked: computed,
-            isRtlTextDirection: computed
+            isEditLocked: computed
         });
     }
 
@@ -36,10 +35,6 @@ export class storeFocusObjects {
 
     get paragraphObject() {
         return !!this.intf ? this.intf.getParagraphObject() : null;
-    }
-
-    get isRtlTextDirection() {
-        return !!this.intf ? this.intf.getParagraphObject().asc_getRtlDirection() : null;
     }
 
     get paragraphLocked() {
