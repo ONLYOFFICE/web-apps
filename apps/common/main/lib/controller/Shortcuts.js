@@ -1,0 +1,1165 @@
+/*
+ * (c) Copyright Ascensio System SIA 2010-2024
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
+ * street, Riga, Latvia, EU, LV-1050.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ */
+
+/**
+ * Created on 1/9/2025.
+ */
+
+
+define([
+    'core'
+], function () {
+    'use strict';
+
+    Common.Controllers.Shortcuts = Backbone.Controller.extend(_.extend({
+        initialize: function() {
+            this._fillActionsMap();
+        },
+
+        setApi: function(api) {
+            this.api = api;
+
+            api && this._applyShortcutsInSDK();
+
+            return this;
+        },
+
+        keyCodeToKeyName: function(code) {
+            const specialKeys = {
+                8: 'Backspace',
+                9: 'Tab',
+                12: 'Clear',
+                13: 'Enter',
+                16: 'Shift',
+                17: 'Ctrl',
+                18: 'Alt',
+                19: 'Pause',
+                20: 'CapsLock',
+                27: 'Escape',
+                32: 'Space',
+                33: 'PageUp',
+                34: 'PageDown',
+                35: 'End',
+                36: 'Home',
+                37: 'ArrowLeft',
+                38: 'ArrowUp',
+                39: 'ArrowRight',
+                40: 'ArrowDown',
+                45: 'Insert',
+                46: 'Delete',
+                91: 'Meta',
+                93: 'ContextMenu',
+                107: 'Numpad+',
+                109: 'Numpad-',
+                112: 'F1',
+                113: 'F2',
+                114: 'F3',
+                115: 'F4',
+                116: 'F5',
+                117: 'F6',
+                118: 'F7',
+                119: 'F8',
+                120: 'F9',
+                121: 'F10',
+                122: 'F11',
+                123: 'F12',
+                173: 'ff-',
+                61: 'ff=',
+                186: ';',
+                187: '=',
+                188: ',',
+                189: '-',
+                190: '.',
+                191: '/',
+                192: '`',
+                219: '[',
+                220: '\\',
+                221: ']',
+                222: '\'',
+            };
+
+            if (specialKeys[code]) {
+                return specialKeys[code];
+            }
+            return String.fromCharCode(code);
+        },
+
+        resetAllShortcuts: function() {
+            const me = this;
+
+            this.api.asc_resetAllShortcutTypes();
+            for (const actionType in Asc.c_oAscDefaultShortcuts) {
+                const actionItem = this.getActionsMap()[actionType];
+                actionItem.shortcuts = Asc.c_oAscDefaultShortcuts[actionType].map(function(ascShortcut) {
+                    return {
+                        keys: me._getAscShortcutKeys(ascShortcut),
+                        isCustom: false,
+                        ascShortcut: ascShortcut,
+                    }
+                });
+            }
+            Common.localStorage.setItem("shortcuts", '');
+            Common.NotificationCenter.trigger('shortcuts:update');
+        },
+
+        updateShortcutsForAction: function(actionType, updatedShortcuts) {
+            let resultShortcuts = [];
+            const originalShortcuts = this.getActionsMap()[actionType].shortcuts;
+
+            // Update hidden status and create copies for those not in updatedShortcuts
+            originalShortcuts.forEach(function(item) {
+                const existsInUpdated = _.some(updatedShortcuts, function(el) { 
+                    return el.ascShortcut.asc_GetShortcutIndex() === item.ascShortcut.asc_GetShortcutIndex();
+                });
+                if(!existsInUpdated && !item.ascShortcut.asc_IsHidden()) {
+                    const copyAscShortcut = new Asc.CAscShortcut();
+                    copyAscShortcut.asc_FromJson(item.ascShortcut.asc_ToJson());
+                    item.ascShortcut = copyAscShortcut;
+                }
+                item.ascShortcut.asc_SetIsHidden(!existsInUpdated);
+                resultShortcuts.push(item);
+            });
+
+            // Add new custom shortcuts that are not in originalShortcuts
+            updatedShortcuts.forEach(function(item) {
+                const existsInOriginal = _.some(originalShortcuts, function(el) { 
+                    return el.ascShortcut.asc_GetShortcutIndex() === item.ascShortcut.asc_GetShortcutIndex();
+                });
+                if(!existsInOriginal) {
+                    item.isCustom = true;
+                    resultShortcuts.push(item);
+                }  
+            });
+
+            const action = this.getActionsMap()[actionType];
+            resultShortcuts = resultShortcuts.sort(this._sortComparator);
+            action && (action.shortcuts = resultShortcuts);
+
+            // Remove shortcuts from other actions if they conflict with updated shortcuts
+            const removableIndexes = updatedShortcuts.map(function(item) { 
+                return item.ascShortcut.asc_GetShortcutIndex()
+            });
+            const removableFromStorage = {};
+            for (const type in this.getActionsMap()) {
+                if(removableIndexes.length == 0) break;
+                if(type == actionType) continue;
+
+                const shortcuts = this.getActionsMap()[type].shortcuts;
+                const foundIndex = _.findIndex(shortcuts, function(shortcut) {
+                    const foundIndex = _.indexOf(removableIndexes, shortcut.ascShortcut.asc_GetShortcutIndex());
+                    (foundIndex != -1) && removableIndexes.splice(foundIndex, 1);
+                    return foundIndex != -1;
+                });
+                if(foundIndex != -1) {
+                    const copyAscShortcut = new Asc.CAscShortcut();
+                    copyAscShortcut.asc_FromJson(shortcuts[foundIndex].ascShortcut.asc_ToJson());
+                    copyAscShortcut.asc_SetIsHidden(true);
+                    shortcuts[foundIndex].ascShortcut = copyAscShortcut;
+
+                    !removableFromStorage[type] && (removableFromStorage[type] = []);
+                    removableFromStorage[type].push(shortcuts[foundIndex].ascShortcut);
+                }
+            }
+
+            this.api.asc_applyAscShortcuts(resultShortcuts.map(function(shortcut) { 
+                return shortcut.ascShortcut;
+            }));
+
+            //Filter for save in local storage
+            const savedInStorage = {
+                [actionType] : _.filter(resultShortcuts, function(item) { 
+                    return item.isCustom !== item.ascShortcut.asc_IsHidden();
+                }).map(function(shortcut) {
+                    return shortcut.ascShortcut;
+                })
+            };
+            this._saveModifiedShortcuts(savedInStorage, removableFromStorage);
+            Common.NotificationCenter.trigger('shortcuts:update');
+        },
+
+        getActionsMap: function() {
+            return this.actionsMap;
+        },
+
+        getDefaultShortcutActions: function() {
+            if(window.DE) {
+                return Asc.c_oAscDocumentShortcutType;
+            } else if(window.PE) {
+                return Asc.c_oAscPresentationShortcutType;
+            } else if(window.SSE) {
+                return Asc.c_oAscSpreadsheetShortcutType;
+            }
+            return {};
+        },
+
+        /**
+         * Returns a list of shortcuts for the given action type.
+         *
+         * @param {string|number} actionType
+         * The action type identifier. Can be:
+         * - `string` — action type name ('Save', 'Undo', 'Copy' and so on)
+         * - `number` — numeric action type id
+         *
+         * @returns {Array<{keys: string[], isCustom: boolean, ascShortcut: CAscShortcut}>|null}
+         * 
+         * @example
+         * getShortcutsByActionType('Save');
+         * getShortcutsByActionType(7);
+         */
+        getShortcutsByActionType: function(actionType) {
+            const actionTypeNumber = (typeof actionType === 'number')
+                ? actionType
+                : this.getDefaultShortcutActions()[actionType];
+            const actionItem = this.actionsMap[actionTypeNumber];
+            return actionItem ? actionItem.shortcuts : null;
+        },
+
+        /**
+         * Updates button hints
+         *
+         * @param {Object<string, {btn: Object, label: string}>} shortcutHints
+         * An object where the key is the action type (actionType),
+         * and the value is an object with:
+         * - `btn` {Object} — a button object that provides the `updateHint(string)` method
+         * - `label` {string} — the base label text for the hint
+         *
+         * The method finds the first visible shortcut for each action
+         * and appends its key combination to the label, then updates the hint on the button.
+         *
+         * @example
+         * updateShortcuntsHints({
+         *   EditUndo: {
+         *     btn: btnUndo,
+         *     label: 'Undo'
+         *   },
+         *   EditRedo: {
+         *     btn: btnRedo,
+         *     label: 'Redo'
+         *   }
+         * });
+         */
+        updateShortcuntsHints: function(shortcutHints) {
+            const defaultShortcutsActions = this.getDefaultShortcutActions();
+            for (const actionType in shortcutHints) {
+                const item = shortcutHints[actionType];
+                const type = defaultShortcutsActions[actionType];
+                const action = type ? this.actionsMap[type] : null;
+                if (action) {
+                    const firstShortcut = _.find(action.shortcuts, function(shortcut) {
+                        return !shortcut.ascShortcut.asc_IsHidden();
+                    });
+                    const hintText = item.label + (firstShortcut ? ' (' + firstShortcut.keys.join('+') + ')' : '');
+                    item.btn.updateHint(hintText);
+                }
+            }
+        },
+
+        _fillActionsMap: function() {
+            this.actionsMap = {};
+            
+            const me = this;
+            const shortcutActions = this.getDefaultShortcutActions();
+            for (let actionName in shortcutActions) {
+                const type = shortcutActions[actionName];
+                this.actionsMap[type] = {
+                    action: {
+                        name: this['txtLabel' + actionName],
+                        description: this['txtDescription' + actionName],
+                        type: type,
+                        isLocked: !Asc.c_oAscUnlockedShortcutActionTypes[type]
+                    },
+                    shortcuts: []
+                }
+            }
+
+            _.pairs(Asc.c_oAscDefaultShortcuts).forEach(function(item) {
+                const actionType = item[0];
+                const shortcuts = item[1];
+                const actionItem = me.actionsMap[actionType];
+
+                if(actionItem) {
+                    actionItem.shortcuts = shortcuts.map(function(ascShortcut) {
+                        return {
+                            keys: me._getAscShortcutKeys(ascShortcut),
+                            isCustom: false,
+                            ascShortcut: ascShortcut,
+                        }
+                    });
+                }
+            });
+
+            let removableIndexes = {};
+            _.pairs(me._getModifiedShortcuts()).forEach(function(item) {
+                const actionType = item[0];
+                const shortcuts = item[1];
+                const actionItem = me.actionsMap[actionType];
+                
+                if(actionItem) {
+                    shortcuts.forEach(function(ascShortcut) {
+                        const ascShortcutIndex = ascShortcut.asc_GetShortcutIndex();
+                        const defaultShortcutIndex = _.findIndex(actionItem.shortcuts, function(shortcut) { 
+                            return shortcut.ascShortcut.asc_GetShortcutIndex() == ascShortcutIndex;
+                        });
+
+                        if(defaultShortcutIndex != -1) {
+                            actionItem.shortcuts[defaultShortcutIndex].ascShortcut = ascShortcut;
+                        } else {
+                            removableIndexes[ascShortcutIndex] = actionType;
+                            actionItem.shortcuts.push({
+                                keys: me._getAscShortcutKeys(ascShortcut),
+                                isCustom: true,
+                                ascShortcut: ascShortcut,
+                            });
+                        }    
+                    });
+                }
+            })
+
+            for (const actionType in this.actionsMap) {
+                const item = this.actionsMap[actionType];
+                const shortcuts = this.actionsMap[actionType].shortcuts;
+                if(shortcuts.length == 0 && item.action.isLocked) {
+                    // Delete actions if it has no shortcuts and the action is locked
+                    delete this.actionsMap[actionType];
+                } else if(Object.keys(removableIndexes).length > 0) {
+                    // Remove shortcuts from other actions if they conflict with updated shortcuts
+                    const foundIndex = _.findIndex(shortcuts, function(shortcut) {
+                        const ascShortcutIndex = shortcut.ascShortcut.asc_GetShortcutIndex();
+                        if(removableIndexes[ascShortcutIndex] && removableIndexes[ascShortcutIndex] != actionType) {
+                            delete removableIndexes[ascShortcutIndex];
+                            return true;
+                        }
+                        return false;
+                    });
+                    if(foundIndex != -1) {
+                        const copyAscShortcut = new Asc.CAscShortcut();
+                        copyAscShortcut.asc_FromJson(shortcuts[foundIndex].ascShortcut.asc_ToJson());
+                        copyAscShortcut.asc_SetIsHidden(true);
+                        shortcuts[foundIndex].ascShortcut = copyAscShortcut;
+                    }
+                }
+            }
+        },
+
+        _applyShortcutsInSDK: function() {
+            const applyMethod = function(storage) {
+                storage = JSON.parse(storage || Common.localStorage.getItem("shortcuts") || "{}");
+                for (const actionType in storage) {
+                    storage[actionType] = storage[actionType].map(function(ascShortcutJson) {
+                        const ascShortcut = new Asc.CAscShortcut();
+                        ascShortcut.asc_FromJson(ascShortcutJson);
+                        return ascShortcut;
+                    });
+                }
+
+                this.api.asc_resetAllShortcutTypes();
+                
+                const modifiedShortcuts = _.flatten(_.values(storage));
+                if(modifiedShortcuts.length) {
+                    this.api.asc_applyAscShortcuts(modifiedShortcuts);
+                }
+            }.bind(this);
+
+            $(window).on('storage', function (e) {
+                if(e.key == 'shortcuts') {
+                    applyMethod(e.originalEvent.newValue);
+                    this._fillActionsMap();
+                    Common.NotificationCenter.trigger('shortcuts:update');
+                }
+            }.bind(this))
+
+            applyMethod();
+        },
+
+        /**
+         * Retrieves user-modified shortcuts from localStorage.
+         * @returns {Object<number, CAscShortcut[]>}
+         *  An object where keys are action types and values are arrays of ascShortcut instances.
+        */
+        _getModifiedShortcuts: function() {
+            const storage = JSON.parse(Common.localStorage.getItem("shortcuts") || "{}");
+            for (const actionType in storage) {
+                storage[actionType] = storage[actionType].map(function(ascShortcutJson) {
+                    const ascShortcut = new Asc.CAscShortcut();
+                    ascShortcut.asc_FromJson(ascShortcutJson);
+                    return ascShortcut;
+                });
+            }
+            return storage;
+        },
+
+        /**
+         * Saves modified shortcuts to localStorage by applying added and removed changes.
+         * @param {Object<number, CAscShortcut[]>} savedActionsMap
+         *   An object containing new or updated shortcuts, grouped by action type.
+         * @param {Object<number, CAscShortcut[]>} removedActionsMap
+         *   An object containing shortcuts to be removed, grouped by action type.
+         * @example
+         * this._saveModifiedShortcuts(
+         *   { "7": [ascShortcut1, ascShortcut2] },
+         *   { "52": [ascShortcut3] }
+         * );
+         * // Result:
+         * // - For action type "7", shortcuts are replaced with [ascShortcut1, ascShortcut2]
+         * // - For action type "52", ascShortcut3 is removed
+         * // - The final shortcuts are saved to localStorage
+        */
+        _saveModifiedShortcuts: function(savedActionsMap, removedActionsMap) {
+            const customShortcuts = _.extend({}, this._getModifiedShortcuts(), savedActionsMap || {});
+
+            for (const actionType in removedActionsMap || {}) {
+                if (!customShortcuts[actionType]) continue;
+
+                const removed = removedActionsMap[actionType];
+                customShortcuts[actionType] = _.filter(customShortcuts[actionType], function(ascShortcut) {
+                    return !_.some(removed, function(r) {
+                        return ascShortcut.asc_GetShortcutIndex() === r.asc_GetShortcutIndex();
+                    });
+                });
+            }
+
+            for (const actionType in customShortcuts) {
+                customShortcuts[actionType] = customShortcuts[actionType].map(function(ascShortcut) {
+                    return ascShortcut.asc_ToJson();
+                });
+            }
+            Common.localStorage.setItem("shortcuts", JSON.stringify(customShortcuts));
+        },
+        
+        _getAscShortcutKeys: function(ascShortcut) {
+            const keys = [];
+            ascShortcut.asc_IsCommand() && keys.push('⌘');
+            ascShortcut.asc_IsCtrl() && keys.push('Ctrl');
+            ascShortcut.asc_IsAlt() && keys.push('Alt');
+            ascShortcut.asc_IsShift() && keys.push('Shift');
+            keys.push(this.keyCodeToKeyName(ascShortcut.asc_GetKeyCode()));
+            return keys;
+        },
+
+        _sortComparator: function(first, second) {
+            const priorityModifierKeys = ['asc_IsCommand', 'asc_IsCtrl', 'asc_IsAlt', 'asc_IsShift'];
+            function getWeight(ascShortcut) {
+                // Search for the first modifier key
+                let keyIndex = priorityModifierKeys.length;
+                for (let i = 0; i < priorityModifierKeys.length; i++) {
+                    if (ascShortcut[priorityModifierKeys[i]]()) {
+                        keyIndex = i;
+                        break;
+                    }
+                }
+
+                if (keyIndex === priorityModifierKeys.length) return -1;
+
+                // Count extra modifier keys
+                let extras = 0;
+                for (let j = 0; j < priorityModifierKeys.length; j++) {
+                    if (j !== keyIndex && ascShortcut[priorityModifierKeys[j]]()) extras++;
+                }
+
+                // weight = range for main key + “cost” of extra keys
+                return keyIndex * 100 + extras;
+            }
+            let wFirst = getWeight(first.ascShortcut);
+            let wSecond = getWeight(second.ascShortcut);
+
+            if (wFirst !== wSecond) return wFirst - wSecond;
+
+            return first.ascShortcut.asc_GetKeyCode() - second.ascShortcut.asc_GetKeyCode();
+        },
+
+        txtLabelOpenFilePanel: "OpenFilePanel",
+        txtDescriptionOpenFilePanel: "DescriptionOpenFilePanel",
+        txtLabelOpenFindDialog: "OpenFindDialog",
+        txtDescriptionOpenFindDialog: "DescriptionOpenFindDialog",
+        txtLabelOpenFindAndReplaceMenu: "OpenFindAndReplaceMenu",
+        txtDescriptionOpenFindAndReplaceMenu: "Description OpenFindAndReplaceMenu",
+        txtLabelOpenCommentsPanel: "OpenCommentsPanel",
+        txtDescriptionOpenCommentsPanel: "DescriptionOpenCommentsPanel",
+        txtLabelOpenCommentField: "OpenCommentField",
+        txtDescriptionOpenCommentField: "DescriptionOpenCommentField",
+        txtLabelOpenChatPanel: "OpenChatPanel",
+        txtDescriptionOpenChatPanel: "DescriptionOpenChatPanel",
+        txtLabelSave: "Save",
+        txtDescriptionSave: "DescriptionSave",
+        txtLabelPrintPreviewAndPrint: "PrintPreviewAndPrint",
+        txtDescriptionPrintPreviewAndPrint: "Description PrintPreviewAndPrint",
+        txtLabelSaveAs: "SaveAs",
+        txtDescriptionSaveAs: "Description SaveAs",
+        txtLabelOpenHelpMenu: "OpenHelpMenu",
+        txtDescriptionOpenHelpMenu: "Description OpenHelpMenu",
+        txtLabelOpenExistingFile: "OpenExistingFile",
+        txtDescriptionOpenExistingFile: "DescriptionOpenExistingFile",
+        txtLabelNextFileTab: "NextFileTab",
+        txtDescriptionNextFileTab: "DescriptionNextFileTab",
+        txtLabelPreviousFileTab: "PreviousFileTab",
+        txtDescriptionPreviousFileTab: "DescriptionPreviousFileTab",
+        txtLabelCloseFile: "CloseFile",
+        txtDescriptionCloseFile: "DescriptionCloseFile",
+        txtLabelOpenContextMenu: "OpenContextMenu",
+        txtDescriptionOpenContextMenu: "Description OpenContextMenu",
+        txtLabelCloseMenu: "CloseMenu",
+        txtDescriptionCloseMenu: "Description CloseMenu",
+        txtLabelZoom100: "Zoom100",
+        txtDescriptionZoom100: "Description Zoom100",
+        txtLabelUpdateFields: "UpdateFields",
+        txtDescriptionUpdateFields: "Description UpdateFields",
+        txtLabelMoveToStartLine: "MoveToStartLine",
+        txtDescriptionMoveToStartLine: "Description MoveToStartLine",
+        txtLabelMoveToStartDocument: "MoveToStartDocument",
+        txtDescriptionMoveToStartDocument: "Description MoveToStartDocument",
+        txtLabelMoveToEndLine: "MoveToEndLine",
+        txtDescriptionMoveToEndLine: "Description MoveToEndLine",
+        txtLabelMoveToEndDocument: "MoveToEndDocument",
+        txtDescriptionMoveToEndDocument: "Description MoveToEndDocument",
+        txtLabelMoveToStartPreviousPage: "MoveToStartPreviousPage",
+        txtDescriptionMoveToStartPreviousPage: "Description MoveToStartPreviousPage",
+        txtLabelMoveToStartNextPage: "MoveToStartNextPage",
+        txtDescriptionMoveToStartNextPage: "Description MoveToStartNextPage",
+        txtLabelMoveToNextPage: "MoveToNextPage",
+        txtDescriptionMoveToNextPage: "Description MoveToNextPage",
+        txtLabelMoveToPreviousPage: "MoveToPreviousPage",
+        txtDescriptionMoveToPreviousPage: "Description MoveToPreviousPage",
+        txtLabelScrollDown: "ScrollDown",
+        txtDescriptionScrollDown: "Description ScrollDown",
+        txtLabelScrollUp: "ScrollUp",
+        txtDescriptionScrollUp: "Description ScrollUp",
+        txtLabelZoomIn: "ZoomIn",
+        txtDescriptionZoomIn: "DescriptionZoomIn",
+        txtLabelZoomOut: "ZoomOut",
+        txtDescriptionZoomOut: "DescriptionZoomOut",
+        txtLabelMoveToRightChar: "MoveToRightChar",
+        txtDescriptionMoveToRightChar: "Description MoveToRightChar",
+        txtLabelMoveToLeftChar: "MoveToLeftChar",
+        txtDescriptionMoveToLeftChar: "Description MoveToLeftChar",
+        txtLabelMoveToUpLine: "MoveToUpLine",
+        txtDescriptionMoveToUpLine: "Description MoveToUpLine",
+        txtLabelMoveToDownLine: "MoveToDownLine",
+        txtDescriptionMoveToDownLine: "Description MoveToDownLine",
+        txtLabelMoveToStartWord: "MoveToStartWord",
+        txtDescriptionMoveToStartWord: "Description MoveToStartWord",
+        txtLabelMoveToEndWord: "MoveToEndWord",
+        txtDescriptionMoveToEndWord: "Description MoveToEndWord",
+        txtLabelNextModalControl: "NextModalControl",
+        txtDescriptionNextModalControl: "Description NextModalControl",
+        txtLabelPreviousModalControl: "PreviousModalControl",
+        txtDescriptionPreviousModalControl: "Description PreviousModalControl",
+        txtLabelMoveToLowerHeaderFooter: "MoveToLowerHeaderFooter",
+        txtDescriptionMoveToLowerHeaderFooter: "Description MoveToLowerHeaderFooter",
+        txtLabelMoveToUpperHeaderFooter: "MoveToUpperHeaderFooter",
+        txtDescriptionMoveToUpperHeaderFooter: "Description MoveToUpperHeaderFooter",
+        txtLabelMoveToLowerHeader: "MoveToLowerHeader",
+        txtDescriptionMoveToLowerHeader: "Description MoveToLowerHeader",
+        txtLabelMoveToUpperHeader: "MoveToUpperHeader",
+        txtDescriptionMoveToUpperHeader: "Description MoveToUpperHeader",
+        txtLabelEndParagraph: "EndParagraph",
+        txtDescriptionEndParagraph: "DescriptionEndParagraph",
+        txtLabelInsertLineBreak: "InsertLineBreak",
+        txtDescriptionInsertLineBreak: "Description InsertLineBreak",
+        txtLabelInsertColumnBreak: "InsertColumnBreak",
+        txtDescriptionInsertColumnBreak: "Description InsertColumnBreak",
+        txtLabelEquationAddPlaceholder: "EquationAddPlaceholder",
+        txtDescriptionEquationAddPlaceholder: "Description EquationAddPlaceholder",
+        txtLabelEquationChangeAlignmentLeft: "EquationChangeAlignmentLeft",
+        txtDescriptionEquationChangeAlignmentLeft: "Description EquationChangeAlignmentLeft",
+        txtLabelEquationChangeAlignmentRight: "EquationChangeAlignmentRight",
+        txtDescriptionEquationChangeAlignmentRight: "Description EquationChangeAlignmentRight",
+        txtLabelDeleteLeftChar: "DeleteLeftChar",
+        txtDescriptionDeleteLeftChar: "Description DeleteLeftChar",
+        txtLabelDeleteRightChar: "DeleteRightChar",
+        txtDescriptionDeleteRightChar: "Description DeleteRightChar",
+        txtLabelDeleteLeftWord: "DeleteLeftWord",
+        txtDescriptionDeleteLeftWord: "Description DeleteLeftWord",
+        txtLabelDeleteRightWord: "DeleteRightWord",
+        txtDescriptionDeleteRightWord: "Description DeleteRightWord",
+        txtLabelNonBreakingSpace: "NonBreakingSpace",
+        txtDescriptionNonBreakingSpace: "Description NonBreakingSpace",
+        txtLabelNonBreakingHyphen: "NonBreakingHyphen",
+        txtDescriptionNonBreakingHyphen: "Description NonBreakingHyphen",
+        txtLabelEditUndo: "EditUndo",
+        txtDescriptionEditUndo: "DescriptionEditUndo",
+        txtLabelEditRedo: "EditRedo",
+        txtDescriptionEditRedo: "DescriptionEditRedo",
+        txtLabelCut: "Cut",
+        txtDescriptionCut: "DescriptionCut",
+        txtLabelCopy: "Copy",
+        txtDescriptionCopy: "DescriptionCopy",
+        txtLabelPaste: "Paste",
+        txtDescriptionPaste: "DescriptionPaste",
+        txtLabelPasteTextWithoutFormat: "PasteTextWithoutFormat",
+        txtDescriptionPasteTextWithoutFormat: "Description PasteTextWithoutFormat",
+        txtLabelCopyFormat: "CopyFormat",
+        txtDescriptionCopyFormat: "Description CopyFormat",
+        txtLabelPasteFormat: "PasteFormat",
+        txtDescriptionPasteFormat: "Description PasteFormat",
+        txtLabelSpecialOptionsKeepSourceFormat: "SpecialOptionsKeepSourceFormat",
+        txtDescriptionSpecialOptionsKeepSourceFormat: "Description SpecialOptionsKeepSourceFormat",
+        txtLabelSpecialOptionsKeepTextOnly: "SpecialOptionsKeepTextOnly",
+        txtDescriptionSpecialOptionsKeepTextOnly: "Description SpecialOptionsKeepTextOnly",
+        txtLabelSpecialOptionsOverwriteCells: "SpecialOptionsOverwriteCells",
+        txtDescriptionSpecialOptionsOverwriteCells: "Description SpecialOptionsOverwriteCells",
+        txtLabelSpecialOptionsNestTable: "SpecialOptionsNestTable",
+        txtDescriptionSpecialOptionsNestTable: "Description SpecialOptionsNestTable",
+        txtLabelInsertHyperlink: "InsertHyperlink",
+        txtDescriptionInsertHyperlink: "DescriptionInsertHyperlink",
+        txtLabelVisitHyperlink: "VisitHyperlink",
+        txtDescriptionVisitHyperlink: "DescriptionVisitHyperlink",
+        txtLabelEditSelectAll: "EditSelectAll",
+        txtDescriptionEditSelectAll: "DescriptionEditSelectAll",
+        txtLabelSelectToStartLine: "SelectToStartLine",
+        txtDescriptionSelectToStartLine: "Description SelectToStartLine",
+        txtLabelSelectToEndLine: "SelectToEndLine",
+        txtDescriptionSelectToEndLine: "Description SelectToEndLine",
+        txtLabelSelectToStartDocument: "SelectToStartDocument",
+        txtDescriptionSelectToStartDocument: "Description SelectToStartDocument",
+        txtLabelSelectToEndDocument: "SelectToEndDocument",
+        txtDescriptionSelectToEndDocument: "Description SelectToEndDocument",
+        txtLabelSelectRightChar: "SelectRightChar",
+        txtDescriptionSelectRightChar: "Description SelectRightChar",
+        txtLabelSelectLeftChar: "SelectLeftChar",
+        txtDescriptionSelectLeftChar: "Description SelectLeftChar",
+        txtLabelSelectRightWord: "SelectRightWord",
+        txtDescriptionSelectRightWord: "Description SelectRightWord",
+        txtLabelSelectLeftWord: "SelectLeftWord",
+        txtDescriptionSelectLeftWord: "Description SelectLeftWord",
+        txtLabelSelectLineUp: "SelectLineUp",
+        txtDescriptionSelectLineUp: "DescriptionSelectLineUp",
+        txtLabelSelectLineDown: "SelectLineDown",
+        txtDescriptionSelectLineDown: "DescriptionSelectLineDown",
+        txtLabelSelectPageUp: "SelectPageUp",
+        txtDescriptionSelectPageUp: "Description SelectPageUp",
+        txtLabelSelectPageDown: "SelectPageDown",
+        txtDescriptionSelectPageDown: "Description SelectPageDown",
+        txtLabelSelectToBeginPreviousPage: "SelectToBeginPreviousPage",
+        txtDescriptionSelectToBeginPreviousPage: "Description SelectToBeginPreviousPage",
+        txtLabelSelectToBeginNextPage: "SelectToBeginNextPage",
+        txtDescriptionSelectToBeginNextPage: "Description SelectToBeginNextPage",
+        txtLabelBold: "Bold",
+        txtDescriptionBold: "DescriptionBold",
+        txtLabelItalic: "Italic",
+        txtDescriptionItalic: "DescriptionItalic",
+        txtLabelUnderline: "Underline",
+        txtDescriptionUnderline: "DescriptionUnderline",
+        txtLabelStrikeout: "Strikeout",
+        txtDescriptionStrikeout: "DescriptionStrikeout",
+        txtLabelSubscript: "Subscript",
+        txtDescriptionSubscript: "Description Subscript",
+        txtLabelSuperscript: "Superscript",
+        txtDescriptionSuperscript: "Description Superscript",
+        txtLabelApplyHeading1: "ApplyHeading1",
+        txtDescriptionApplyHeading1: "Description ApplyHeading1",
+        txtLabelApplyHeading2: "ApplyHeading2",
+        txtDescriptionApplyHeading2: "Description ApplyHeading2",
+        txtLabelApplyHeading3: "ApplyHeading3",
+        txtDescriptionApplyHeading3: "Description ApplyHeading3",
+        txtLabelApplyListBullet: "ApplyListBullet",
+        txtDescriptionApplyListBullet: "Description ApplyListBullet",
+        txtLabelResetChar: "ResetChar",
+        txtDescriptionResetChar: "Description ResetChar",
+        txtLabelIncreaseFontSize: "IncreaseFontSize",
+        txtDescriptionIncreaseFontSize: "DescriptionIncreaseFontSize",
+        txtLabelDecreaseFontSize: "DecreaseFontSize",
+        txtDescriptionDecreaseFontSize: "DescriptionDecreaseFontSize",
+        txtLabelCenterPara: "CenterPara",
+        txtDescriptionCenterPara: "Description CenterPara",
+        txtLabelJustifyPara: "JustifyPara",
+        txtDescriptionJustifyPara: "Description JustifyPara",
+        txtLabelRightPara: "RightPara",
+        txtDescriptionRightPara: "Description RightPara",
+        txtLabelLeftPara: "LeftPara",
+        txtDescriptionLeftPara: "Description LeftPara",
+        txtLabelInsertPageBreak: "InsertPageBreak",
+        txtDescriptionInsertPageBreak: "Description InsertPageBreak",
+        txtLabelIndent: "Indent",
+        txtDescriptionIndent: "Description Indent",
+        txtLabelUnIndent: "UnIndent",
+        txtDescriptionUnIndent: "Description UnIndent",
+        txtLabelInsertPageNumber: "InsertPageNumber",
+        txtDescriptionInsertPageNumber: "Description InsertPageNumber",
+        txtLabelShowAll: "ShowAll",
+        txtDescriptionShowAll: "Description ShowAll",
+        txtLabelStartIndent: "StartIndent",
+        txtDescriptionStartIndent: "Description StartIndent",
+        txtLabelStartUnIndent: "StartUnIndent",
+        txtDescriptionStartUnIndent: "Description StartUnIndent",
+        txtLabelInsertTab: "InsertTab",
+        txtDescriptionInsertTab: "Description InsertTab",
+        txtLabelMixedIndent: "MixedIndent",
+        txtDescriptionMixedIndent: "Description MixedIndent",
+        txtLabelMixedUnIndent: "MixedUnIndent",
+        txtDescriptionMixedUnIndent: "Description MixedUnIndent",
+        txtLabelEditShape: "EditShape",
+        txtDescriptionEditShape: "DescriptionEditShape",
+        txtLabelEditChart: "EditChart",
+        txtDescriptionEditChart: "DescriptionEditChart",
+        txtLabelLittleMoveObjectLeft: "LittleMoveObjectLeft",
+        txtDescriptionLittleMoveObjectLeft: "Description LittleMoveObjectLeft",
+        txtLabelLittleMoveObjectRight: "LittleMoveObjectRight",
+        txtDescriptionLittleMoveObjectRight: "Description LittleMoveObjectRight",
+        txtLabelLittleMoveObjectUp: "LittleMoveObjectUp",
+        txtDescriptionLittleMoveObjectUp: "Description LittleMoveObjectUp",
+        txtLabelLittleMoveObjectDown: "LittleMoveObjectDown",
+        txtDescriptionLittleMoveObjectDown: "Description LittleMoveObjectDown",
+        txtLabelBigMoveObjectLeft: "BigMoveObjectLeft",
+        txtDescriptionBigMoveObjectLeft: "Description BigMoveObjectLeft",
+        txtLabelBigMoveObjectRight: "BigMoveObjectRight",
+        txtDescriptionBigMoveObjectRight: "Description BigMoveObjectRight",
+        txtLabelBigMoveObjectUp: "BigMoveObjectUp",
+        txtDescriptionBigMoveObjectUp: "Description BigMoveObjectUp",
+        txtLabelBigMoveObjectDown: "BigMoveObjectDown",
+        txtDescriptionBigMoveObjectDown: "Description BigMoveObjectDown",
+        txtLabelMoveFocusToNextObject: "MoveFocusToNextObject",
+        txtDescriptionMoveFocusToNextObject: "Description MoveFocusToNextObject",
+        txtLabelMoveFocusToPreviousObject: "MoveFocusToPreviousObject",
+        txtDescriptionMoveFocusToPreviousObject: "Description MoveFocusToPreviousObject",
+        txtLabelInsertEndnoteNow: "InsertEndnoteNow",
+        txtDescriptionInsertEndnoteNow: "Description InsertEndnoteNow",
+        txtLabelInsertFootnoteNow: "InsertFootnoteNow",
+        txtDescriptionInsertFootnoteNow: "Description InsertFootnoteNow",
+        txtLabelMoveToNextCell: "MoveToNextCell",
+        txtDescriptionMoveToNextCell: "Description MoveToNextCell",
+        txtLabelMoveToPreviousCell: "MoveToPreviousCell",
+        txtDescriptionMoveToPreviousCell: "Description MoveToPreviousCell",
+        txtLabelMoveToNextRow: "MoveToNextRow",
+        txtDescriptionMoveToNextRow: "Description MoveToNextRow",
+        txtLabelMoveToPreviousRow: "MoveToPreviousRow",
+        txtDescriptionMoveToPreviousRow: "Description MoveToPreviousRow",
+        txtLabelEndParagraphCell: "EndParagraphCell",
+        txtDescriptionEndParagraphCell: "Description EndParagraphCell",
+        txtLabelAddNewRow: "AddNewRow",
+        txtDescriptionAddNewRow: "Description AddNewRow",
+        txtLabelInsertTableBreak: "InsertTableBreak",
+        txtDescriptionInsertTableBreak: "Description InsertTableBreak",
+        txtLabelMoveToNextForm: "MoveToNextForm",
+        txtDescriptionMoveToNextForm: "Description MoveToNextForm",
+        txtLabelMoveToPreviousForm: "MoveToPreviousForm",
+        txtDescriptionMoveToPreviousForm: "Description MoveToPreviousForm",
+        txtLabelChooseNextComboBoxOption: "ChooseNextComboBoxOption",
+        txtDescriptionChooseNextComboBoxOption: "Description ChooseNextComboBoxOption",
+        txtLabelChoosePreviousComboBoxOption: "ChoosePreviousComboBoxOption",
+        txtDescriptionChoosePreviousComboBoxOption: "Description ChoosePreviousComboBoxOption",
+        txtLabelInsertLineBreakMultilineForm: "InsertLineBreakMultilineForm",
+        txtDescriptionInsertLineBreakMultilineForm: "Description InsertLineBreakMultilineForm",
+        txtLabelInsertEquation: "InsertEquation",
+        txtDescriptionInsertEquation: "Description InsertEquation",
+        txtLabelEmDash: "EmDash",
+        txtDescriptionEmDash: "Description EmDash",
+        txtLabelEnDash: "EnDash",
+        txtDescriptionEnDash: "Description EnDash",
+        txtLabelCopyrightSign: "CopyrightSign",
+        txtDescriptionCopyrightSign: "Description CopyrightSign",
+        txtLabelEuroSign: "EuroSign",
+        txtDescriptionEuroSign: "Description EuroSign",
+        txtLabelRegisteredSign: "RegisteredSign",
+        txtDescriptionRegisteredSign: "Description RegisteredSign",
+        txtLabelTrademarkSign: "TrademarkSign",
+        txtDescriptionTrademarkSign: "Description TrademarkSign",
+        txtLabelHorizontalEllipsis: "HorizontalEllipsis",
+        txtDescriptionHorizontalEllipsis: "Description HorizontalEllipsis",
+        txtLabelReplaceUnicodeToSymbol: "ReplaceUnicodeToSymbol",
+        txtDescriptionReplaceUnicodeToSymbol: "Description ReplaceUnicodeToSymbol",
+        txtLabelSoftHyphen: "SoftHyphen",
+        txtDescriptionSoftHyphen: "Description SoftHyphen",
+        txtLabelSpeechWorker: "SpeechWorker",
+        txtDescriptionSpeechWorker: "DescriptionSpeechWorker",
+        txtLabelPrint: "Print",
+        txtDescriptionPrint: "DescriptionPrint",
+        txtLabelShowContextMenu: "ShowContextMenu",
+        txtDescriptionShowContextMenu: "Description ShowContextMenu",
+        txtLabelGoToFirstSlide: "GoToFirstSlide",
+        txtDescriptionGoToFirstSlide: "Description GoToFirstSlide",
+        txtLabelGoToLastSlide: "GoToLastSlide",
+        txtDescriptionGoToLastSlide: "Description GoToLastSlide",
+        txtLabelGoToNextSlide: "GoToNextSlide",
+        txtDescriptionGoToNextSlide: "Description GoToNextSlide",
+        txtLabelGoToPreviousSlide: "GoToPreviousSlide",
+        txtDescriptionGoToPreviousSlide: "Description GoToPreviousSlide",
+        txtLabelNewSlide: "NewSlide",
+        txtDescriptionNewSlide: "Description NewSlide",
+        txtLabelRemoveSlide: "RemoveSlide",
+        txtDescriptionRemoveSlide: "Description RemoveSlide",
+        txtLabelDuplicate: "Duplicate",
+        txtDescriptionDuplicate: "Description Duplicate",
+        txtLabelMoveSlideUp: "MoveSlideUp",
+        txtDescriptionMoveSlideUp: "Description MoveSlideUp",
+        txtLabelMoveSlideDown: "MoveSlideDown",
+        txtDescriptionMoveSlideDown: "Description MoveSlideDown",
+        txtLabelMoveSlideToBegin: "MoveSlideToBegin",
+        txtDescriptionMoveSlideToBegin: "Description MoveSlideToBegin",
+        txtLabelMoveSlideToEnd: "MoveSlideToEnd",
+        txtDescriptionMoveSlideToEnd: "Description MoveSlideToEnd",
+        txtLabelGroup: "Group",
+        txtDescriptionGroup: "Description Group",
+        txtLabelUnGroup: "UnGroup",
+        txtDescriptionUnGroup: "Description UnGroup",
+        txtLabelDemonstrationStartPresentation: "DemonstrationStartPresentation",
+        txtDescriptionDemonstrationStartPresentation: "Description DemonstrationStartPresentation",
+        txtLabelDemonstrationGoToNextSlide: "DemonstrationGoToNextSlide",
+        txtDescriptionDemonstrationGoToNextSlide: "Description DemonstrationGoToNextSlide",
+        txtLabelDemonstrationGoToPreviousSlide: "DemonstrationGoToPreviousSlide",
+        txtDescriptionDemonstrationGoToPreviousSlide: "Description DemonstrationGoToPreviousSlide",
+        txtLabelDemonstrationGoToFirstSlide: "DemonstrationGoToFirstSlide",
+        txtDescriptionDemonstrationGoToFirstSlide: "Description DemonstrationGoToFirstSlide",
+        txtLabelDemonstrationGoToLastSlide: "DemonstrationGoToLastSlide",
+        txtDescriptionDemonstrationGoToLastSlide: "Description DemonstrationGoToLastSlide",
+        txtLabelDemonstrationClosePreview: "DemonstrationClosePreview",
+        txtDescriptionDemonstrationClosePreview: "Description DemonstrationClosePreview",
+        txtLabelUseDestinationTheme: "UseDestinationTheme",
+        txtDescriptionUseDestinationTheme: "Description UseDestinationTheme",
+        txtLabelKeepSourceFormat: "KeepSourceFormat",
+        txtDescriptionKeepSourceFormat: "Description KeepSourceFormat",
+        txtLabelPasteAsPicture: "PasteAsPicture",
+        txtDescriptionPasteAsPicture: "Description PasteAsPicture",
+        txtLabelKeepTextOnly: "KeepTextOnly",
+        txtDescriptionKeepTextOnly: "Description KeepTextOnly",
+        txtLabelAddHyperlink: "AddHyperlink",
+        txtDescriptionAddHyperlink: "Description AddHyperlink",
+        txtLabelSelectNextSlide: "SelectNextSlide",
+        txtDescriptionSelectNextSlide: "Description SelectNextSlide",
+        txtLabelSelectPreviousSlide: "SelectPreviousSlide",
+        txtDescriptionSelectPreviousSlide: "Description SelectPreviousSlide",
+        txtLabelSelectToFirstSlide: "SelectToFirstSlide",
+        txtDescriptionSelectToFirstSlide: "Description SelectToFirstSlide",
+        txtLabelSelectToLastSlide: "SelectToLastSlide",
+        txtDescriptionSelectToLastSlide: "Description SelectToLastSlide",
+        txtLabelEditDeselectAll: "EditDeselectAll",
+        txtDescriptionEditDeselectAll: "Description EditDeselectAll",
+        txtLabelShowParaMarks: "ShowParaMarks",
+        txtDescriptionShowParaMarks: "Description ShowParaMarks",
+        txtLabelStrikethrough: "Strikethrough",
+        txtDescriptionStrikethrough: "Description Strikethrough",
+        txtLabelBulletList: "BulletList",
+        txtDescriptionBulletList: "Description BulletList",
+        txtLabelIncreaseFont: "IncreaseFont",
+        txtDescriptionIncreaseFont: "Description IncreaseFont",
+        txtLabelDecreaseFont: "DecreaseFont",
+        txtDescriptionDecreaseFont: "Description DecreaseFont",
+        txtLabelCenterAlign: "CenterAlign",
+        txtDescriptionCenterAlign: "Description CenterAlign",
+        txtLabelJustifyAlign: "JustifyAlign",
+        txtDescriptionJustifyAlign: "Description JustifyAlign",
+        txtLabelRightAlign: "RightAlign",
+        txtDescriptionRightAlign: "Description RightAlign",
+        txtLabelLeftAlign: "LeftAlign",
+        txtDescriptionLeftAlign: "Description LeftAlign",
+        txtLabelGoToNextPlaceholder: "GoToNextPlaceholder",
+        txtDescriptionGoToNextPlaceholder: "Description GoToNextPlaceholder",
+        txtLabelMoveToStartContent: "MoveToStartContent",
+        txtDescriptionMoveToStartContent: "Description MoveToStartContent",
+        txtLabelMoveToEndContent: "MoveToEndContent",
+        txtDescriptionMoveToEndContent: "Description MoveToEndContent",
+        txtLabelOpenFindReplaceMenu: "OpenFindReplaceMenu",
+        txtDescriptionOpenFindReplaceMenu: "DescriptionOpenFindReplaceMenu",
+        txtLabelDownloadAs: "DownloadAs",
+        txtDescriptionDownloadAs: "DescriptionDownloadAs",
+        txtLabelHelpMenu: "HelpMenu",
+        txtDescriptionHelpMenu: "DescriptionHelpMenu",
+        txtLabelElementContextualMenu: "ElementContextualMenu",
+        txtDescriptionElementContextualMenu: "DescriptionElementContextualMenu",
+        txtLabelCloseMenuModal: "CloseMenuModal",
+        txtDescriptionCloseMenuModal: "DescriptionCloseMenuModal",
+        txtLabelResetZoom: "ResetZoom",
+        txtDescriptionResetZoom: "DescriptionResetZoom",
+        txtLabelCellMoveUp: "CellMoveUp",
+        txtDescriptionCellMoveUp: "DescriptionCellMoveUp",
+        txtLabelCellMoveDown: "CellMoveDown",
+        txtDescriptionCellMoveDown: "DescriptionCellMoveDown",
+        txtLabelCellMoveLeft: "CellMoveLeft",
+        txtDescriptionCellMoveLeft: "DescriptionCellMoveLeft",
+        txtLabelCellMoveRight: "CellMoveRight",
+        txtDescriptionCellMoveRight: "DescriptionCellMoveRight",
+        txtLabelCellMoveActiveCellDown: "CellMoveActiveCellDown",
+        txtDescriptionCellMoveActiveCellDown: "DescriptionCellMoveActiveCellDown",
+        txtLabelCellMoveActiveCellUp: "CellMoveActiveCellUp",
+        txtDescriptionCellMoveActiveCellUp: "DescriptionCellMoveActiveCellUp",
+        txtLabelCellMoveActiveCellRight: "CellMoveActiveCellRight",
+        txtDescriptionCellMoveActiveCellRight: "DescriptionCellMoveActiveCellRight",
+        txtLabelCellMoveActiveCellLeft: "CellMoveActiveCellLeft",
+        txtDescriptionCellMoveActiveCellLeft: "DescriptionCellMoveActiveCellLeft",
+        txtLabelCellMoveLeftNonBlank: "CellMoveLeftNonBlank",
+        txtDescriptionCellMoveLeftNonBlank: "DescriptionCellMoveLeftNonBlank",
+        txtLabelCellMoveFirstColumn: "CellMoveFirstColumn",
+        txtDescriptionCellMoveFirstColumn: "DescriptionCellMoveFirstColumn",
+        txtLabelCellMoveRightNonBlank: "CellMoveRightNonBlank",
+        txtDescriptionCellMoveRightNonBlank: "DescriptionCellMoveRightNonBlank",
+        txtLabelCellMoveBottomNonBlank: "CellMoveBottomNonBlank",
+        txtDescriptionCellMoveBottomNonBlank: "DescriptionCellMoveBottomNonBlank",
+        txtLabelCellMoveBottomEdge: "CellMoveBottomEdge",
+        txtDescriptionCellMoveBottomEdge: "DescriptionCellMoveBottomEdge",
+        txtLabelCellMoveTopNonBlank: "CellMoveTopNonBlank",
+        txtDescriptionCellMoveTopNonBlank: "DescriptionCellMoveTopNonBlank",
+        txtLabelCellMoveTopEdge: "CellMoveTopEdge",
+        txtDescriptionCellMoveTopEdge: "DescriptionCellMoveTopEdge",
+        txtLabelCellMoveFirstCell: "CellMoveFirstCell",
+        txtDescriptionCellMoveFirstCell: "DescriptionCellMoveFirstCell",
+        txtLabelCellMoveEndSpreadsheet: "CellMoveEndSpreadsheet",
+        txtDescriptionCellMoveEndSpreadsheet: "DescriptionCellMoveEndSpreadsheet",
+        txtLabelPreviousWorksheet: "PreviousWorksheet",
+        txtDescriptionPreviousWorksheet: "DescriptionPreviousWorksheet",
+        txtLabelNextWorksheet: "NextWorksheet",
+        txtDescriptionNextWorksheet: "DescriptionNextWorksheet",
+        txtLabelNavigatePreviousControl: "NavigatePreviousControl",
+        txtDescriptionNavigatePreviousControl: "DescriptionNavigatePreviousControl",
+        txtLabelNavigateNextControl: "NavigateNextControl",
+        txtDescriptionNavigateNextControl: "DescriptionNavigateNextControl",
+        txtLabelSelectColumn: "SelectColumn",
+        txtDescriptionSelectColumn: "DescriptionSelectColumn",
+        txtLabelSelectRow: "SelectRow",
+        txtDescriptionSelectRow: "DescriptionSelectRow",
+        txtLabelSelectOneCellRight: "SelectOneCellRight",
+        txtDescriptionSelectOneCellRight: "DescriptionSelectOneCellRight",
+        txtLabelSelectOneCellLeft: "SelectOneCellLeft",
+        txtDescriptionSelectOneCellLeft: "DescriptionSelectOneCellLeft",
+        txtLabelSelectOneCellUp: "SelectOneCellUp",
+        txtDescriptionSelectOneCellUp: "DescriptionSelectOneCellUp",
+        txtLabelSelectOneCellDown: "SelectOneCellDown",
+        txtDescriptionSelectOneCellDown: "DescriptionSelectOneCellDown",
+        txtLabelSelectCursorBeginningRow: "SelectCursorBeginningRow",
+        txtDescriptionSelectCursorBeginningRow: "DescriptionSelectCursorBeginningRow",
+        txtLabelSelectCursorEndRow: "SelectCursorEndRow",
+        txtDescriptionSelectCursorEndRow: "DescriptionSelectCursorEndRow",
+        txtLabelSelectNextNonblankRight: "SelectNextNonblankRight",
+        txtDescriptionSelectNextNonblankRight: "DescriptionSelectNextNonblankRight",
+        txtLabelSelectNextNonblankLeft: "SelectNextNonblankLeft",
+        txtDescriptionSelectNextNonblankLeft: "DescriptionSelectNextNonblankLeft",
+        txtLabelSelectNextNonblankUp: "SelectNextNonblankUp",
+        txtDescriptionSelectNextNonblankUp: "DescriptionSelectNextNonblankUp",
+        txtLabelSelectNextNonblankDown: "SelectNextNonblankDown",
+        txtDescriptionSelectNextNonblankDown: "DescriptionSelectNextNonblankDown",
+        txtLabelSelectBeginningWorksheet: "SelectBeginningWorksheet",
+        txtDescriptionSelectBeginningWorksheet: "DescriptionSelectBeginningWorksheet",
+        txtLabelSelectLastUsedCell: "SelectLastUsedCell",
+        txtDescriptionSelectLastUsedCell: "DescriptionSelectLastUsedCell",
+        txtLabelSelectNearestNonblankRight: "SelectNearestNonblankRight",
+        txtDescriptionSelectNearestNonblankRight: "DescriptionSelectNearestNonblankRight",
+        txtLabelSelectNonblankLeft: "SelectNonblankLeft",
+        txtDescriptionSelectNonblankLeft: "DescriptionSelectNonblankLeft",
+        txtLabelSelectFirstColumn: "SelectFirstColumn",
+        txtDescriptionSelectFirstColumn: "DescriptionSelectFirstColumn",
+        txtLabelSelectNearestNonblankDown: "SelectNearestNonblankDown",
+        txtDescriptionSelectNearestNonblankDown: "DescriptionSelectNearestNonblankDown",
+        txtLabelSelectNearestNonblankUp: "SelectNearestNonblankUp",
+        txtDescriptionSelectNearestNonblankUp: "DescriptionSelectNearestNonblankUp",
+        txtLabelSelectDownOneScreen: "SelectDownOneScreen",
+        txtDescriptionSelectDownOneScreen: "DescriptionSelectDownOneScreen",
+        txtLabelSelectUpOneScreen: "SelectUpOneScreen",
+        txtDescriptionSelectUpOneScreen: "DescriptionSelectUpOneScreen",
+        txtLabelPasteOnlyFormula: "PasteOnlyFormula",
+        txtDescriptionPasteOnlyFormula: "DescriptionPasteOnlyFormula",
+        txtLabelPasteFormulaNumberFormat: "PasteFormulaNumberFormat",
+        txtDescriptionPasteFormulaNumberFormat: "DescriptionPasteFormulaNumberFormat",
+        txtLabelPasteFormulaAllFormatting: "PasteFormulaAllFormatting",
+        txtDescriptionPasteFormulaAllFormatting: "DescriptionPasteFormulaAllFormatting",
+        txtLabelPasteFormulaNoBorders: "PasteFormulaNoBorders",
+        txtDescriptionPasteFormulaNoBorders: "DescriptionPasteFormulaNoBorders",
+        txtLabelPasteFormulaColumnWidth: "PasteFormulaColumnWidth",
+        txtDescriptionPasteFormulaColumnWidth: "DescriptionPasteFormulaColumnWidth",
+        txtLabelTranspose: "Transpose",
+        txtDescriptionTranspose: "DescriptionTranspose",
+        txtLabelPasteOnlyValue: "PasteOnlyValue",
+        txtDescriptionPasteOnlyValue: "DescriptionPasteOnlyValue",
+        txtLabelPasteValueNumberFormat: "PasteValueNumberFormat",
+        txtDescriptionPasteValueNumberFormat: "DescriptionPasteValueNumberFormat",
+        txtLabelPasteValueAllFormatting: "PasteValueAllFormatting",
+        txtDescriptionPasteValueAllFormatting: "DescriptionPasteValueAllFormatting",
+        txtLabelPasteOnlyFormatting: "PasteOnlyFormatting",
+        txtDescriptionPasteOnlyFormatting: "DescriptionPasteOnlyFormatting",
+        txtLabelPasteLink: "PasteLink",
+        txtDescriptionPasteLink: "DescriptionPasteLink",
+        txtLabelEditOpenCellEditor: "EditOpenCellEditor",
+        txtDescriptionEditOpenCellEditor: "DescriptionEditOpenCellEditor",
+        txtLabelToggleAutoFilter: "ToggleAutoFilter",
+        txtDescriptionToggleAutoFilter: "DescriptionToggleAutoFilter",
+        txtLabelOpenFilterWindow: "OpenFilterWindow",
+        txtDescriptionOpenFilterWindow: "DescriptionOpenFilterWindow",
+        txtLabelFormatAsTableTemplate: "FormatAsTableTemplate",
+        txtDescriptionFormatAsTableTemplate: "DescriptionFormatAsTableTemplate",
+        txtLabelCompleteCellEntryMoveDown: "CompleteCellEntryMoveDown",
+        txtDescriptionCompleteCellEntryMoveDown: "DescriptionCompleteCellEntryMoveDown",
+        txtLabelCompleteCellEntryMoveUp: "CompleteCellEntryMoveUp",
+        txtDescriptionCompleteCellEntryMoveUp: "DescriptionCompleteCellEntryMoveUp",
+        txtLabelCompleteCellEntryMoveRight: "CompleteCellEntryMoveRight",
+        txtDescriptionCompleteCellEntryMoveRight: "DescriptionCompleteCellEntryMoveRight",
+        txtLabelCompleteCellEntryMoveLeft: "CompleteCellEntryMoveLeft",
+        txtDescriptionCompleteCellEntryMoveLeft: "DescriptionCompleteCellEntryMoveLeft",
+        txtLabelCompleteCellEntryStay: "CompleteCellEntryStay",
+        txtDescriptionCompleteCellEntryStay: "DescriptionCompleteCellEntryStay",
+        txtLabelFillSelectedCellRange: "FillSelectedCellRange",
+        txtDescriptionFillSelectedCellRange: "DescriptionFillSelectedCellRange",
+        txtLabelCellStartNewLine: "CellStartNewLine",
+        txtDescriptionCellStartNewLine: "DescriptionCellStartNewLine",
+        txtLabelAddPlaceholderEquation: "AddPlaceholderEquation",
+        txtDescriptionAddPlaceholderEquation: "DescriptionAddPlaceholderEquation",
+        txtLabelCellEntryCancel: "CellEntryCancel",
+        txtDescriptionCellEntryCancel: "DescriptionCellEntryCancel",
+        txtLabelRemoveCharLeft: "RemoveCharLeft",
+        txtDescriptionRemoveCharLeft: "DescriptionRemoveCharLeft",
+        txtLabelRemoveCharRight: "RemoveCharRight",
+        txtDescriptionRemoveCharRight: "DescriptionRemoveCharRight",
+        txtLabelClearActiveCellContent: "ClearActiveCellContent",
+        txtDescriptionClearActiveCellContent: "DescriptionClearActiveCellContent",
+        txtLabelClearSelectedCellsContent: "ClearSelectedCellsContent",
+        txtDescriptionClearSelectedCellsContent: "DescriptionClearSelectedCellsContent",
+        txtLabelOpenInsertCellsWindow: "OpenInsertCellsWindow",
+        txtDescriptionOpenInsertCellsWindow: "DescriptionOpenInsertCellsWindow",
+        txtLabelOpenDeleteCellsWindow: "OpenDeleteCellsWindow",
+        txtDescriptionOpenDeleteCellsWindow: "DescriptionOpenDeleteCellsWindow",
+        txtLabelCellInsertDate: "CellInsertDate",
+        txtDescriptionCellInsertDate: "DescriptionCellInsertDate",
+        txtLabelCellInsertTime: "CellInsertTime",
+        txtDescriptionCellInsertTime: "DescriptionCellInsertTime",
+        txtLabelCellAddSeparator: "CellAddSeparator",
+        txtDescriptionCellAddSeparator: "DescriptionCellAddSeparator",
+        txtLabelAutoFill: "AutoFill",
+        txtDescriptionAutoFill: "DescriptionAutoFill",
+        txtLabelRemoveWordLeft: "RemoveWordLeft",
+        txtDescriptionRemoveWordLeft: "DescriptionRemoveWordLeft",
+        txtLabelRemoveWordRight: "RemoveWordRight",
+        txtDescriptionRemoveWordRight: "DescriptionRemoveWordRight",
+        txtLabelMoveCharacterLeft: "MoveCharacterLeft",
+        txtDescriptionMoveCharacterLeft: "DescriptionMoveCharacterLeft",
+        txtLabelMoveCharacterRight: "MoveCharacterRight",
+        txtDescriptionMoveCharacterRight: "DescriptionMoveCharacterRight",
+        txtLabelMoveCursorLineUp: "MoveCursorLineUp",
+        txtDescriptionMoveCursorLineUp: "DescriptionMoveCursorLineUp",
+        txtLabelMoveCursorLineDown: "MoveCursorLineDown",
+        txtDescriptionMoveCursorLineDown: "DescriptionMoveCursorLineDown",
+        txtLabelSelectCharacterRight: "SelectCharacterRight",
+        txtDescriptionSelectCharacterRight: "DescriptionSelectCharacterRight",
+        txtLabelSelectCharacterLeft: "SelectCharacterLeft",
+        txtDescriptionSelectCharacterLeft: "DescriptionSelectCharacterLeft",
+        txtLabelMoveWordLeft: "MoveWordLeft",
+        txtDescriptionMoveWordLeft: "DescriptionMoveWordLeft",
+        txtLabelMoveWordRight: "MoveWordRight",
+        txtDescriptionMoveWordRight: "DescriptionMoveWordRight",
+        txtLabelSelectWordLeft: "SelectWordLeft",
+        txtDescriptionSelectWordLeft: "DescriptionSelectWordLeft",
+        txtLabelSelectWordRight: "SelectWordRight",
+        txtDescriptionSelectWordRight: "DescriptionSelectWordRight",
+        txtLabelMoveBeginningText: "MoveBeginningText",
+        txtDescriptionMoveBeginningText: "DescriptionMoveBeginningText",
+        txtLabelMoveEndText: "MoveEndText",
+        txtDescriptionMoveEndText: "DescriptionMoveEndText",
+        txtLabelSelectBeginningText: "SelectBeginningText",
+        txtDescriptionSelectBeginningText: "DescriptionSelectBeginningText",
+        txtLabelSelectEndText: "SelectEndText",
+        txtDescriptionSelectEndText: "DescriptionSelectEndText",
+        txtLabelMoveBeginningLine: "MoveBeginningLine",
+        txtDescriptionMoveBeginningLine: "DescriptionMoveBeginningLine",
+        txtLabelMoveEndLine: "MoveEndLine",
+        txtDescriptionMoveEndLine: "DescriptionMoveEndLine",
+        txtLabelSelectBeginningLine: "SelectBeginningLine",
+        txtDescriptionSelectBeginningLine: "DescriptionSelectBeginningLine",
+        txtLabelSelectEndLine: "SelectEndLine",
+        txtDescriptionSelectEndLine: "DescriptionSelectEndLine",
+        txtLabelRefreshSelectedPivots: "RefreshSelectedPivots",
+        txtDescriptionRefreshSelectedPivots: "DescriptionRefreshSelectedPivots",
+        txtLabelRefreshAllPivots: "RefreshAllPivots",
+        txtDescriptionRefreshAllPivots: "DescriptionRefreshAllPivots",
+        txtLabelSlicerClearSelectedValues: "SlicerClearSelectedValues",
+        txtDescriptionSlicerClearSelectedValues: "DescriptionSlicerClearSelectedValues",
+        txtLabelSlicerSwitchMultiSelect: "SlicerSwitchMultiSelect",
+        txtDescriptionSlicerSwitchMultiSelect: "DescriptionSlicerSwitchMultiSelect",
+        txtLabelFormatTableAddSummaryRow: "FormatTableAddSummaryRow",
+        txtDescriptionFormatTableAddSummaryRow: "DescriptionFormatTableAddSummaryRow",
+        txtLabelOpenInsertFunctionDialog: "OpenInsertFunctionDialog",
+        txtDescriptionOpenInsertFunctionDialog: "DescriptionOpenInsertFunctionDialog",
+        txtLabelCellInsertSumFunction: "CellInsertSumFunction",
+        txtDescriptionCellInsertSumFunction: "DescriptionCellInsertSumFunction",
+        txtLabelRecalculateAll: "RecalculateAll",
+        txtDescriptionRecalculateAll: "DescriptionRecalculateAll",
+        txtLabelRecalculateActiveSheet: "RecalculateActiveSheet",
+        txtDescriptionRecalculateActiveSheet: "DescriptionRecalculateActiveSheet",
+        txtLabelShowFormulas: "ShowFormulas",
+        txtDescriptionShowFormulas: "DescriptionShowFormulas",
+        txtLabelCellEditorSwitchReference: "CellEditorSwitchReference",
+        txtDescriptionCellEditorSwitchReference: "DescriptionCellEditorSwitchReference",
+        txtLabelOpenNumberFormatDialog: "OpenNumberFormatDialog",
+        txtDescriptionOpenNumberFormatDialog: "DescriptionOpenNumberFormatDialog",
+        txtLabelCellGeneralFormat: "CellGeneralFormat",
+        txtDescriptionCellGeneralFormat: "DescriptionCellGeneralFormat",
+        txtLabelCellCurrencyFormat: "CellCurrencyFormat",
+        txtDescriptionCellCurrencyFormat: "DescriptionCellCurrencyFormat",
+        txtLabelCellPercentFormat: "CellPercentFormat",
+        txtDescriptionCellPercentFormat: "DescriptionCellPercentFormat",
+        txtLabelCellExponentialFormat: "CellExponentialFormat",
+        txtDescriptionCellExponentialFormat: "DescriptionCellExponentialFormat",
+        txtLabelCellDateFormat: "CellDateFormat",
+        txtDescriptionCellDateFormat: "DescriptionCellDateFormat",
+        txtLabelCellTimeFormat: "CellTimeFormat",
+        txtDescriptionCellTimeFormat: "DescriptionCellTimeFormat",
+        txtLabelCellNumberFormat: "CellNumberFormat",
+        txtDescriptionCellNumberFormat: "DescriptionCellNumberFormat",
+        txtLabelMoveShapeLittleStepRight: "MoveShapeLittleStepRight",
+        txtDescriptionMoveShapeLittleStepRight: "DescriptionMoveShapeLittleStepRight",
+        txtLabelMoveShapeLittleStepLeft: "MoveShapeLittleStepLeft",
+        txtDescriptionMoveShapeLittleStepLeft: "DescriptionMoveShapeLittleStepLeft",
+        txtLabelMoveShapeLittleStepUp: "MoveShapeLittleStepUp",
+        txtDescriptionMoveShapeLittleStepUp: "DescriptionMoveShapeLittleStepUp",
+        txtLabelMoveShapeLittleStepBottom: "MoveShapeLittleStepBottom",
+        txtDescriptionMoveShapeLittleStepBottom: "DescriptionMoveShapeLittleStepBottom",
+        txtLabelMoveShapeBigStepLeft: "MoveShapeBigStepLeft",
+        txtDescriptionMoveShapeBigStepLeft: "DescriptionMoveShapeBigStepLeft",
+        txtLabelMoveShapeBigStepRight: "MoveShapeBigStepRight",
+        txtDescriptionMoveShapeBigStepRight: "DescriptionMoveShapeBigStepRight",
+        txtLabelMoveShapeBigStepUp: "MoveShapeBigStepUp",
+        txtDescriptionMoveShapeBigStepUp: "DescriptionMoveShapeBigStepUp",
+        txtLabelMoveShapeBigStepBottom: "MoveShapeBigStepBottom",
+        txtDescriptionMoveShapeBigStepBottom: "DescriptionMoveShapeBigStepBottom",
+        txtLabelMoveFocusNextObject: "MoveFocusNextObject",
+        txtDescriptionMoveFocusNextObject: "DescriptionMoveFocusNextObject",
+        txtLabelMoveFocusPreviousObject: "MoveFocusPreviousObject",
+        txtDescriptionMoveFocusPreviousObject: "DescriptionMoveFocusPreviousObject",
+        txtLabelDrawingAddTab: "DrawingAddTab",
+        txtDescriptionDrawingAddTab: "DescriptionDrawingAddTab",
+        txtLabelDrawingSubscript: "DrawingSubscript",
+        txtDescriptionDrawingSubscript: "DescriptionDrawingSubscript",
+        txtLabelDrawingSuperscript: "DrawingSuperscript",
+        txtDescriptionDrawingSuperscript: "DescriptionDrawingSuperscript",
+        txtLabelDrawingCenterPara: "DrawingCenterPara",
+        txtDescriptionDrawingCenterPara: "DescriptionDrawingCenterPara",
+        txtLabelDrawingJustifyPara: "DrawingJustifyPara",
+        txtDescriptionDrawingJustifyPara: "DescriptionDrawingJustifyPara",
+        txtLabelDrawingRightPara: "DrawingRightPara",
+        txtDescriptionDrawingRightPara: "DescriptionDrawingRightPara",
+        txtLabelDrawingLeftPara: "DrawingLeftPara",
+        txtDescriptionDrawingLeftPara: "DescriptionDrawingLeftPara",
+        txtLabelAddLineBreak: "AddLineBreak",
+        txtDescriptionAddLineBreak: "DescriptionAddLineBreak",
+        txtLabelRemoveGraphicalObject: "RemoveGraphicalObject",
+        txtDescriptionRemoveGraphicalObject: "DescriptionRemoveGraphicalObject",
+        txtLabelExitAddingShapesMode: "ExitAddingShapesMode",
+        txtDescriptionExitAddingShapesMode: "DescriptionExitAddingShapesMode",
+        txtLabelDrawingEnDash: "DrawingEnDash",
+        txtDescriptionDrawingEnDash: "DescriptionDrawingEnDash"
+
+    }, Common.Controllers.Shortcuts || {}));
+});

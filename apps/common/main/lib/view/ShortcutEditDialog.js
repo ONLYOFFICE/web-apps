@@ -67,8 +67,10 @@ define([
                     '</div>'
                 ].join(''))({scope: this, options: options}),
             }, options);
+    
+            const app = (window.DE || window.PE || window.SSE || window.PDFE || window.VE);
+            this._shortcutsController = app.getController('Common.Controllers.Shortcuts'); 
 
-            this.handler = options.handler;            
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
 
@@ -80,6 +82,13 @@ define([
 
             this.resetBtn = this.$window.find('#reset-btn');
             this.resetBtn.on('click', _.bind(this.onReset, this));
+
+            this.scrollerOptions = {
+                el: this.$window.find('#shortcuts-list'),
+                wheelSpeed: 8,
+                alwaysVisibleY: true
+            };
+            this.scroller = new Common.UI.Scroller(this.scrollerOptions);
 
             this._setDefaults();
         },
@@ -93,22 +102,112 @@ define([
             this.shortcutsCollection.on('add remove reset', this._renderShortcutsList, this);
             this.shortcutsCollection.on('add remove reset change:keys', this.renderShortcutsWarning, this);
 
-            this.shortcutsCollection.reset(this.options.shortcuts);
+            //Get shortcuts for the current action and copy the instances so as not to modify the original instances
+            let shortcuts = _.filter(this._getOriginalShortcuts(), function(shortcut) {
+                return !shortcut.ascShortcut.asc_IsHidden();
+            });
+            shortcuts = shortcuts.map(function(shortcut) {
+                const copyAscShortcut = new Asc.CAscShortcut();
+                copyAscShortcut.asc_FromJson(shortcut.ascShortcut.asc_ToJson());
+                return {
+                    keys: shortcut.keys,
+                    ascShortcut: copyAscShortcut
+                };
+            });
+            this.shortcutsCollection.reset(shortcuts);
             if(this.shortcutsCollection.length == 0) {
                 this.onAddShortcut();
             }
+        },
+
+        _getActionsMap: function() {
+            return this._shortcutsController.getActionsMap();
+        },
+
+        _getOriginalShortcuts: function() {
+            return this._getActionsMap()[this.options.action.type].shortcuts;
+        },
+
+        // Is this shortcut default for this action?
+        _isDefaultShortcut: function(ascShortcut) {
+            const shortcutIndex = ascShortcut.asc_GetShortcutIndex();
+            return _.some(Asc.c_oAscDefaultShortcuts[ascShortcut.asc_GetType()], function(someAscShortcut) {
+                return shortcutIndex == someAscShortcut.asc_GetShortcutIndex();
+            });
+        },
+
+        /**
+         * Finds all actions that already have the given shortcut assigned.
+         *
+         * If `extraAction` is provided and its `extraAction.actionType` matches the current item,
+         * the method will check `extraAction.shortcuts` instead of the original shortcuts.
+         *
+         * @param {CAscShortcut} ascShortcut The shortcut to search for.
+         * 
+         * @param {Object} [extraAction] Optional object that can replace the shortcuts of a matching action.
+         * @param {number} extraAction.actionType The type of the action to match.
+         * @param {CAscShortcut[]} extraAction.shortcuts Custom list of shortcuts to check for this action.
+         * @returns {Object[]} Array of action objects that already use the given shortcut.
+         */
+        _findAssignedActions: function(ascShortcut, extraAction) {
+            const shortcutIndex = ascShortcut.asc_GetShortcutIndex();
+            const foundItems = [];
+            const values = _.values(this._getActionsMap());
+
+            for (let i = 0; i < values.length; i++) {
+                const item = {
+                    action: values[i].action,
+                    shortcuts: values[i].shortcuts
+                };
+
+                if (extraAction && extraAction.actionType === item.action.type ) {
+                    item.shortcuts = extraAction.shortcuts;
+                }
+
+                const existsVisible = _.some(item.shortcuts, function(shortcut) {
+                    return shortcut.ascShortcut.asc_GetShortcutIndex() == shortcutIndex &&
+                        !shortcut.ascShortcut.asc_IsHidden();
+                });
+
+                if (existsVisible) {
+                    foundItems.push(item);
+                }
+            }
+
+            return _.map(foundItems, function(item) { return item.action; });
+        },
+
+        /**
+         * Returns the default shortcuts for the current action type.
+         *
+         * @returns {Array<Object>} Array of shortcut objects.
+         * @returns {string[]}   return[].keys - Array of key strings representing the shortcut (["Ctrl", "S"]).
+         * @returns {ascShortcut} return[].ascShortcut - Instance of CAscShortcut.
+        */
+        _getDefaultShortcuts: function() {
+            const me = this;
+            const ascShortcuts = Asc.c_oAscDefaultShortcuts[this.options.action.type];
+            return ascShortcuts.map(function(ascShortcut) {
+                const copyAscShortcut = new Asc.CAscShortcut();
+                copyAscShortcut.asc_FromJson(ascShortcut.asc_ToJson());
+                copyAscShortcut.asc_SetIsHidden(false);
+                return {
+                    keys: me._shortcutsController._getAscShortcutKeys(copyAscShortcut),
+                    ascShortcut: copyAscShortcut
+                }
+            });
         },
 
         _renderShortcutsList: function(item) {
             const me = this;
 
             this.$window.find('#shortcuts-list').empty();
-            this.shortcutsCollection.each(function(item) {
+            this.shortcutsCollection.each(function(item, index) {
                 const ascShortcut = item.get('ascShortcut');
                 const isLocked = ascShortcut.asc_IsLocked();
                 const keysStr = item.get('keys').join(' + ');
                 const $item = $(
-                    '<div class="item">' +
+                    '<div class="item ' + (index == 0 ? 'first' : '') + '">' +
                         '<div class="keys-input"></div>' +
                         (isLocked
                             ? '<button type="button" class="btn-toolbar">' +
@@ -148,7 +247,7 @@ define([
                     if (e.metaKey) keys.push('⌘');
 
                     if (!['Control', 'Shift', 'Alt', 'Meta'].includes(e.key)) {
-                        keys.push(me.options.keyCodeToKeyName(e.keyCode));
+                        keys.push(DE.getController('Common.Controllers.Shortcuts').keyCodeToKeyName(e.keyCode));
                         ascShortcut.asc_SetKeyCode(e.keyCode);
                     } else {
                         ascShortcut.asc_SetKeyCode(null);
@@ -204,6 +303,7 @@ define([
                 });
             });
             this.fixHeight(true);
+            this.scroller.update(this.scrollerOptions);
         },
         
         renderShortcutsWarning: function() {
@@ -213,11 +313,11 @@ define([
             this.shortcutsCollection.each(function(item) {
                 const ascShortcut = item.get('ascShortcut');
                 const assignedActionNames = [];
-                const assignedActions = me.options.findAssignedActions(ascShortcut, {
+                const assignedActions = me._findAssignedActions(ascShortcut, {
                     actionType: me.options.action.type,
                     shortcuts: me.shortcutsCollection.toJSON().slice(0, _.indexOf(me.shortcutsCollection.models, item))
                 });
-                const isDefaultShortcut = me.options.isDefaultShortcut(ascShortcut);
+                const isDefaultShortcut = me._isDefaultShortcut(ascShortcut);
                 const isDisabled = !isDefaultShortcut && 
                     _.some(assignedActions, function(action) { return action.isLocked; });
                 
@@ -267,7 +367,7 @@ define([
                 width: 400,
                 callback: function(btn) {
                     if(btn == 'ok') {
-                        const shortcuts = me.options.getDefaultShortcuts();
+                        const shortcuts = me._getDefaultShortcuts();
                         me.shortcutsCollection.reset(shortcuts);
                     }
                 }
@@ -293,7 +393,7 @@ define([
                     });
                 });
 
-                this.handler && this.handler.call(this, state, filteredShortcuts);
+                this._shortcutsController.updateShortcutsForAction(this.options.action.type, filteredShortcuts);
             }
 
             this.close();
