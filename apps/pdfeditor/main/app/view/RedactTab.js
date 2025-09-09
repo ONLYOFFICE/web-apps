@@ -156,6 +156,10 @@ define([
                         }
                     })
                 );
+
+                this.btnMarkForRedact.updateHint(this.tipMarkForRedact);
+                this.btnRedactPages.updateHint(this.tipRedactPages);
+                this.btnApplyRedactions.updateHint(this.tipApplyRedactions);
             },
 
             show: function () {
