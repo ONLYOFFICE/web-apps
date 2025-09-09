@@ -98,6 +98,7 @@ define([
         },
 
         onApplyRedact: function() {
+            Common.UI.TooltipManager.closeTip('apply-redaction');
             Common.UI.warning({
                 width: 500,
                 msg: this.textApplyRedact,
@@ -112,6 +113,7 @@ define([
         },
 
         onStartRedact: function(isMarkMode) {
+            Common.UI.TooltipManager.closeTip('mark-for-redaction');
             this.api.SetRedactTool(isMarkMode);
         },
 
@@ -177,15 +179,22 @@ define([
         onActiveTab: function(tab) {
             if (tab == 'red') {
                 Common.UI.TooltipManager.showTip('mark-for-redaction');
+                Common.UI.TooltipManager.showTip('apply-redaction');
             } else {
-                // Common.UI.TooltipManager.closeTip('mark-for-redaction');
-                // Common.UI.TooltipManager.closeTip('apply-redaction');
+                Common.UI.TooltipManager.closeTip('mark-for-redaction');
+                Common.UI.TooltipManager.closeTip('apply-redaction');
                 const isMarked = this.api.HasRedact();
                 if (isMarked) {
                     Common.UI.warning({
                     width: 500,
                     msg: this.textUnappliedRedactions,
-                    buttons: ['apply', 'doNotApply', 'cancel'],
+                    buttons: [{
+                        value: 'apply',
+                        caption: this.applyButtonText
+                    }, {
+                        value: 'doNotApply',
+                        caption: this.doNotApplyButtonText
+                    }, 'cancel'],
                     primary: 'apply',
                     callback: _.bind(function(btn) {
                         if (btn == 'apply') {
@@ -235,19 +244,15 @@ define([
                 });
             }
             Common.UI.TooltipManager.addTips({
-                'mark-for-redaction' : {name: 'help-tip-mark-for-redaction', placement: 'bottom-right', offset: {x: 10, y: 0}, text: this.tipMarkForRedaction, header: this.tipMarkForRedactionHeader, target: '#slot-btn-markredact',
+                'mark-for-redaction' : {name: 'help-tip-mark-for-redaction21', placement: 'bottom-right', offset: {x: 10, y: 0}, text: this.tipMarkForRedaction, header: this.tipMarkForRedactionHeader, target: '#slot-btn-markredact',
                     automove: true, next: 'apply-redaction', maxwidth: 270, closable: false, isNewFeature: true},
-                'apply-redaction' : {name: 'help-tip-apply-redaction', placement: 'bottom-left', offset: {x: 10, y: 0}, text: this.tipApplyRedaction, header: this.tipApplyRedactionHeader, target: '#slot-btn-apply-redactions',
-                    automove: true, maxwidth: 270, closable: false, isNewFeature: true},
+                'apply-redaction' : {name: 'help-tip-apply-redaction21', placement: 'bottom-left', offset: {x: 10, y: 0}, text: this.tipApplyRedaction, header: this.tipApplyRedactionHeader, target: '#slot-btn-apply-redactions',
+                    automove: true, prev: 'mark-for-redaction', maxwidth: 270, closable: false, isNewFeature: true},
             });
         },
 
         onDocumentReady: function() {
             if (this.mode && this.mode.isPDFEdit) {
-                var shapes = this.api.asc_getPropertyEditorShapes();
-
-                // this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.mode, customization: this.mode.customization});
-                // this.getApplication().getController('Common.Controllers.ExternalOleEditor').setApi(this.api).loadConfig({config:this.mode, customization: this.mode.customization});
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, false, {array: this.view.lockedControls});
             }
         },
