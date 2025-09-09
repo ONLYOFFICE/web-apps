@@ -453,7 +453,8 @@ define([
                     plugins: true,
                     protect: true,
                     header: {docmode: false, search: false, startfill: false},
-                    shortcuts: false
+                    shortcuts: false,
+                    macros: true
                 }, 'forms');
                 // if (this.view)
                 //     this.view.$el.find('.no-group-mask.form-view').css('opacity', 1);

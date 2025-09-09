@@ -69,6 +69,8 @@ define([
                 this.api.asc_registerCallback('asc_onZoomChange', _.bind(this.onZoomChange, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
+                Common.NotificationCenter.on('doc:mode-changed', this.onChangeDocMode.bind(this));
+                Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             }
             return this;
         },
@@ -88,6 +90,8 @@ define([
                     'rulers:change': _.bind(this.onChangeRulers, this),
                     'darkmode:change': _.bind(this.onChangeDarkMode, this),
                     'macros:click':  _.bind(this.onClickMacros, this),
+                    'macros:record':  _.bind(this.onClickMacrosRec, this),
+                    'macros:pause':  _.bind(this.onClickMacrosPause, this),
                     'pointer:select': _.bind(this.onPointerType, this, 'select'),
                     'pointer:hand': _.bind(this.onPointerType, this, 'hand')
                 },
@@ -176,7 +180,8 @@ define([
                     }
 
                     if (!config.isEdit || config.customization && config.customization.macros===false) {
-                        me.view.$el.find('#slot-btn-macros').closest('.group').prev().addBack().remove();
+                        // me.view.$el.find('#slot-btn-macros').closest('.group').prev().addBack().remove();
+                        me.view.$el.find('.macro').remove();
                     }
 
                     me.view.cmbsZoom.forEach(function (cmb) {
@@ -349,6 +354,37 @@ define([
             macrosWindow.show();
         },
 
+        onClickMacrosRec: function() {
+            var recorder = this.api.getMacroRecorder();
+            recorder.isInProgress() ? recorder.stop() : recorder.start();
+            if (this.view) {
+                var inProgress = recorder.isInProgress();
+                this.view.btnRecMacro.changeIcon({
+                    next: inProgress ? 'btn-macros-stop' : 'btn-macros-record',
+                    curr: inProgress ? 'btn-macros-record' : 'btn-macros-stop'
+                });
+                this.view.btnRecMacro.setCaption(inProgress ? this.view.textStopMacro : this.view.textRecMacro);
+                this.view.btnRecMacro.updateHint(inProgress ? this.view.tipStopMacro : this.view.tipRecMacro);
+                Common.Utils.lockControls(Common.enumLock.macrosStopped, !inProgress, {array: [this.view.btnPauseMacro]});
+                if (!inProgress) {
+                    this.view.btnPauseMacro.setCaption(this.view.textPauseMacro);
+                    this.view.btnPauseMacro.updateHint(this.view.tipPauseMacro);
+                }
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onClickMacrosPause: function() {
+            var recorder = this.api.getMacroRecorder();
+            if (recorder.isInProgress()) {
+                recorder.isPaused() ? recorder.resume() : recorder.pause();
+                var paused = recorder.isPaused();
+                this.view.btnPauseMacro.setCaption(paused ? this.view.textResumeMacro : this.view.textPauseMacro);
+                this.view.btnPauseMacro.updateHint(paused ? this.view.tipResumeMacro : this.view.tipPauseMacro);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
         onChangeDarkMode: function (isdarkmode) {
             if (!this._darkModeTimer) {
                 var me = this;
@@ -394,6 +430,26 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this.view);
             }
         },
+
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
+            }
+            if (props && (props.isReadOnly || props.isFormsOnly || props.isCommentsOnly)) {
+                this.stopMacroRecording();
+            }
+        },
+
+        onChangeDocMode: function (type) {
+            if (type === 'view' || type === 'view-form') {
+                this.stopMacroRecording();
+            }
+        },
+
+        stopMacroRecording: function() {
+            this.api && this.api.getMacroRecorder().isInProgress() && this.onClickMacrosRec();
+        }
 
     }, DE.Controllers.ViewTab || {}));
 });

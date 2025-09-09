@@ -927,7 +927,8 @@ define([
                 plugins: true,
                 protect: true,
                 header: {docmode: true, search: false, startfill: false},
-                shortcuts: false
+                shortcuts: false,
+                macros: true
             }, 'review');
         },
 
