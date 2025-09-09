@@ -685,7 +685,7 @@ define([
         }
     })(), Common.UI.InputFieldBtnPassword || {}));
 
-    Common.UI.InputFieldBtnCalendar = Common.UI.InputFieldBtn.extend((function (){
+    Common.UI.InputFieldBtnCalendar = Common.UI.InputFieldBtn.extend(_.extend((function() {
         return {
             options: {
                 id: null,
@@ -767,7 +767,7 @@ define([
 
             textDate: 'Select date'
         }
-    })());
+    })(), Common.UI.InputFieldBtnCalendar || {}));
 
     Common.UI.InputFieldFixed = Common.UI.InputField.extend((function() {
         return {

@@ -205,8 +205,9 @@ require([
             ,'common/main/lib/controller/Protection'
             ,'common/main/lib/controller/Draw'
         ], function() {
+            const code_path = !window.isIEBrowser ? 'spreadsheeteditor/main/code' : 'spreadsheeteditor/main/ie/code';            
             app.postLaunchScripts = [
-                'spreadsheeteditor/main/code',
+                code_path,
             ];
 
             app.start();
