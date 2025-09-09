@@ -554,11 +554,19 @@ const PageTextFormatCell = props => {
     const hAlignStr = storeCellSettings.hAlignStr;
     const vAlignStr = storeCellSettings.vAlignStr;
     const isWrapText = storeCellSettings.isWrapText;
-
+    const textDirection = storeCellSettings.textDirection; 
+    
     const storeFocusObjects = props.storeFocusObjects;
     if ((storeFocusObjects.focusOn !== 'cell') && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
         return null;
+    }
+
+    const textDirectionIcon = {
+        [Asc.c_oReadingOrderTypes.Context]: IconTextDirectionContext.id,
+        [Asc.c_oReadingOrderTypes.LTR]: IconTextDirectionLtr.id,
+        [Asc.c_oReadingOrderTypes.RTL]: IconTextDirectionRtl.id,
+        default: IconTextDirectionLtr.id
     }
 
     return (
@@ -616,7 +624,7 @@ const PageTextFormatCell = props => {
                     setRtlTextdDirection: props.setRtlTextdDirection
                 }}>
                     {!isAndroid && 
-                        <SvgIcon slot="media" symbolId={IconTextDirectionContext.id} className='icon icon-svg' />
+                        <SvgIcon slot="media" symbolId={textDirectionIcon[textDirection] ?? textDirectionIcon.default} className='icon icon-svg' />
                     }
                 </ListItem>
                 <ListItem title={_t.textWrapText}>
