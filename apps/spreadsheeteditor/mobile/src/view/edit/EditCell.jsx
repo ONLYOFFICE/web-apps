@@ -620,7 +620,7 @@ const PageTextFormatCell = props => {
                         <SvgIcon slot="media" symbolId={IconTextOrientationHorizontal.id} className='icon icon-svg' /> : null
                     }
                 </ListItem>
-                <ListItem title={_t.textTextDirection} link='/edit-text-direction/' routeProps={{
+                <ListItem title={_t.textTextDirection} link='/edit-cell-text-direction/' routeProps={{
                     setRtlTextdDirection: props.setRtlTextdDirection
                 }}>
                     {!isAndroid && 
@@ -1294,11 +1294,11 @@ const PageTimeFormatCell = props => {
     )
 }
 
-const PageDirection = props => {
+const PageCellDirection = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const storeCellSettings = props.storeCellSettings;
-    const textDirection = storeCellSettings.textDirection;    
+    const textDirection = storeCellSettings.textDirection ?? 1; 
 
     return (
         <Page>
@@ -1359,7 +1359,7 @@ const CustomBorderColorCell = inject("storeCellSettings", "storePalette")(observ
 const BorderSizeCell = inject("storeCellSettings")(observer(PageBorderSizeCell));
 const CellStyle = inject("storeCellSettings")(observer(PageCellStyle));
 const CustomFormats = inject("storeCellSettings")(observer(PageCustomFormats));
-const PageTextDirection = inject("storeCellSettings")(observer(PageDirection));
+const PageCellTextDirection = inject("storeCellSettings")(observer(PageCellDirection));
 
 export {
     PageEditCell as EditCell,
@@ -1382,5 +1382,5 @@ export {
     CellStyle,
     CustomFormats,
     PageCreationCustomFormat,
-    PageTextDirection
+    PageCellTextDirection
 };

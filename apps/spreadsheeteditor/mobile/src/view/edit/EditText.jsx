@@ -21,6 +21,9 @@ import IconTextOrientationAnglecount from '@common-icons/icon-text-orientation-a
 import IconTextOrientationRotateup from '@common-icons/icon-text-orientation-rotateup.svg';
 import IconTextOrientationRotatedown from '@common-icons/icon-text-orientation-rotatedown.svg';
 import IconTextColor from '@common-icons/icon-text-color.svg';
+import IconTextDirectionContext from '@common-icons/icon-text-direction-context.svg';
+import IconTextDirectionRtl from '@common-icons/icon-text-direction-rtl.svg';
+import IconTextDirectionLtr from '@common-icons/icon-text-direction-ltr.svg';
 
 const EditText = props => {
     const isAndroid = Device.android;
@@ -29,7 +32,7 @@ const EditText = props => {
     const storeFocusObjects = props.storeFocusObjects;
     const shapeObject = storeFocusObjects.shapeObject;
     const storeTextSettings = props.storeTextSettings;
-    const textIn = storeTextSettings.textIn;
+    const textIn = storeTextSettings.textIn;   
 
     const fontName = storeTextSettings.fontName || _t.textFonts;
     const fontSize = storeTextSettings.fontSize;
@@ -41,10 +44,18 @@ const EditText = props => {
     const isUnderline = storeTextSettings.isUnderline;
     const paragraphAlign = storeTextSettings.paragraphAlign;
     const paragraphValign = storeTextSettings.paragraphValign;
+    const textDirection = storeTextSettings.textDirection;
 
     const fontColorPreview = fontColor !== 'auto' ?
         <span className="color-preview" style={{ background: `#${(typeof fontColor === "object" ? fontColor.color : fontColor)}`}}></span> :
         <span className="color-preview auto"></span>;
+
+    const textDirectionIcon = {
+        [Asc.c_oReadingOrderTypes.Context]: IconTextDirectionContext.id,
+        [Asc.c_oReadingOrderTypes.LTR]: IconTextDirectionLtr.id,
+        [Asc.c_oReadingOrderTypes.RTL]: IconTextDirectionRtl.id,
+        default: IconTextDirectionLtr.id
+    }
 
     return (
         <Fragment>
@@ -102,12 +113,21 @@ const EditText = props => {
                             </div>
                         </ListItem>
                         {shapeObject &&
+                        <>
                             <ListItem title={t('View.Edit.textTextOrientation')} link='/edit-text-shape-orientation/' routeProps={{
                                 setOrientationTextShape: props.setOrientationTextShape,
                                 shapeObject
                             }}>
                                 {!isAndroid && <SvgIcon slot="media" symbolId={IconTextOrientationAnglecount.id} className={'icon icon-svg'} />}
                             </ListItem>
+                            <ListItem title={_t.textTextDirection} link='/edit-text-direction/' routeProps={{
+                                setRtlTextdDirection: props.setRtlTextdDirection
+                            }}>
+                                {!isAndroid && 
+                                    <SvgIcon slot="media" symbolId={textDirectionIcon[textDirection] ?? textDirectionIcon.default} className='icon icon-svg' />
+                                }
+                            </ListItem>
+                        </>
                         }
                     </List>
                 </Fragment>
@@ -382,15 +402,67 @@ const PageCustomFontColor = props => {
     )
 };
 
+const PageDirection = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const storeTextSettings = props.storeTextSettings;
+    const textDirection = storeTextSettings.textDirection || 1;    
+
+    return (
+        <Page>
+            <Navbar title={_t.textTextDirection} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <List>
+                <ListItem title={_t.textLtrTextDirection} radio
+                    checked={textDirection === 1}
+                    radioIcon="end"
+                    onChange={() => {
+                        props.setRtlTextdDirection(1);
+                    }}>
+                    <SvgIcon slot="media" symbolId={IconTextDirectionLtr.id} className="icon icon-svg" />
+                </ListItem>
+                <ListItem title={_t.textRtlTextDirection} radio
+                    checked={textDirection === 2}
+                    radioIcon="end"
+                    onChange={() => {
+                        props.setRtlTextdDirection(2);
+                    }}>
+                    <SvgIcon slot="media" symbolId={IconTextDirectionRtl.id} className="icon icon-svg" />
+                </ListItem>
+                {/* <ListItem title={_t.textContextTextDirection} radio
+                    checked={textDirection === 0}
+                    radioIcon="end"
+                    onChange={() => {
+                        props.setRtlTextdDirection(0);
+                    }}>
+                    <SvgIcon slot="media" symbolId={IconTextDirectionContext.id} className="icon icon-svg" />
+                </ListItem> */}
+            </List>
+        </Page>
+    )
+}
+
 const EditTextContainer = inject("storeTextSettings", "storeFocusObjects")(observer(EditText));
 const PageTextFonts = inject("storeTextSettings", "storeFocusObjects")(observer(PageFonts));
 const PageTextFontColor = inject("storeTextSettings", "storePalette")(observer(PageFontColor));
 const PageTextCustomFontColor = inject("storeTextSettings", "storePalette")(observer(PageCustomFontColor));
+const PageTextDirection = inject("storeTextSettings")(observer(PageDirection));
 
 export {
     EditTextContainer as EditText,
     PageTextFonts,
     PageTextFontColor,
     PageTextCustomFontColor,
-    PageOrientationTextShape
+    PageOrientationTextShape,
+    PageTextDirection
 };

@@ -97,6 +97,11 @@ class EditTextController extends Component {
         api.asc_setGraphicObjectProps(properties);
     }
 
+    setRtlTextdDirection(direction) {
+        const api = Common.EditorApi.get();        
+        api.asc_setCellReadingOrder(direction);
+    }
+
     render () {
         return (
             <EditText 
@@ -109,6 +114,7 @@ class EditTextController extends Component {
                 changeFontFamily={this.changeFontFamily}
                 onTextColor={this.onTextColor}
                 setOrientationTextShape={this.setOrientationTextShape}
+                setRtlTextdDirection={this.setRtlTextdDirection}
             />
         )
     }
