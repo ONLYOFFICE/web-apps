@@ -244,9 +244,9 @@ define([
                 });
             }
             Common.UI.TooltipManager.addTips({
-                'mark-for-redaction' : {name: 'help-tip-mark-for-redaction21', placement: 'bottom-right', offset: {x: 10, y: 0}, text: this.tipMarkForRedaction, header: this.tipMarkForRedactionHeader, target: '#slot-btn-markredact',
+                'mark-for-redaction' : {name: 'help-tip-mark-for-redaction', placement: 'bottom-right', offset: {x: 10, y: 0}, text: this.tipMarkForRedaction, header: this.tipMarkForRedactionHeader, target: '#slot-btn-markredact',
                     automove: true, next: 'apply-redaction', maxwidth: 270, closable: false, isNewFeature: true},
-                'apply-redaction' : {name: 'help-tip-apply-redaction21', placement: 'bottom-left', offset: {x: 10, y: 0}, text: this.tipApplyRedaction, header: this.tipApplyRedactionHeader, target: '#slot-btn-apply-redactions',
+                'apply-redaction' : {name: 'help-tip-apply-redaction', placement: 'bottom-left', offset: {x: 10, y: 0}, text: this.tipApplyRedaction, header: this.tipApplyRedactionHeader, target: '#slot-btn-apply-redactions',
                     automove: true, prev: 'mark-for-redaction', maxwidth: 270, closable: false, isNewFeature: true},
             });
         },
