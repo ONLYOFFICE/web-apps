@@ -40,7 +40,6 @@ define([
     'common/main/lib/util/utils',
     'common/main/lib/component/BaseView',
     'common/main/lib/component/Layout',
-    'common/main/lib/component/DimensionPicker'
 ], function () {
     'use strict';
 
@@ -48,12 +47,12 @@ define([
         var template =
             '<section class="panel" data-tab="red" role="tabpanel">' +
                 '<div class="group">' +
-                    '<span class="btn-slot text x-huge slot-inspage" id="slot-btn-markredact"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-markredact"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-redactpages"></span>' +
                 '</div>' +
-                '<div class="separator long separator-theme"></div>' +
+                '<div class="separator long"></div>' +
                 '<div class="group">' +
-                    '<span class="btn-slot text x-huge slot-inspage" id="slot-btn-apply-redactions"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-apply-redactions"></span>' +
                 '</div>' +
             '</section>';
 
@@ -102,7 +101,6 @@ define([
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small',
-                    action: 'interface-theme'
                 });
                 me.lockedControls.push(this.btnRedactPages);
 
@@ -147,8 +145,8 @@ define([
                 me.btnRedactPages.setMenu(
                     new Common.UI.Menu({
                         items: [
-                            {caption: 'Mark current page', value: 'current'},
-                            {caption: 'Select range', value: 'range'},
+                            {caption: me.txtMarkCurrentPage, value: 'current'},
+                            {caption: me.txtSelectRange, value: 'range'},
                         ]
                     }).on('item:click', function (menu, item, e) {
                         if (item.value === 'current') {

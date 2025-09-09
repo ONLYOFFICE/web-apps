@@ -1474,6 +1474,17 @@ define([
                     me.toolbar.setVisible('ins', true);
                 }
 
+                tab = {caption: me.toolbar.textTabRedact, action: 'red', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-redact', dataHintTitle: 'X'};
+                var redacttab = me.getApplication().getController('RedactTab');
+                redacttab.setApi(me.api).setConfig({toolbar: me, mode: config});
+                redacttab.onAppReady(config);
+                $panel = redacttab.createToolbarPanel()
+                if ($panel) {
+                    me.toolbar.addTab(tab, $panel, 2);
+                    me.toolbar.setVisible('red', true);
+                    redacttab.onDocumentReady();
+                };
+
                 if (config.canFeatureForms) {
                     tab = {caption: me.textTabForms, action: 'forms', layoutname: 'toolbar-forms', dataHintTitle: 'M'};
                     var forms = me.getApplication().getController('FormsTab');
@@ -1518,7 +1529,7 @@ define([
                     instab.onDocumentReady();
                 }, 50);
 
-                var tab = {caption: 'Redact', action: 'red', extcls: this.mode.isEdit ? 'canedit' : '', layoutname: 'toolbar-redact', dataHintTitle: 'X'};
+                var tab = {caption: toolbar.textTabRedact, action: 'red', extcls: this.mode.isEdit ? 'canedit' : '', layoutname: 'toolbar-redact', dataHintTitle: 'X'};
                 var redacttab = this.getApplication().getController('RedactTab');
                 redacttab.setApi(this.api).setConfig({toolbar: this, mode: this.mode});
                 toolbar.addTab(tab, redacttab.createToolbarPanel(), 2);
