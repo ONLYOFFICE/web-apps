@@ -141,6 +141,21 @@ define([
             this.api = this.options.api;
             this.lang = this.options.lang;
             this.props = this.options.props;
+            this._constraintOperator = {};
+            let obj = AscCommonExcel.c_oAscOperator;
+            for (let key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    if (key==='integer')
+                        this._constraintOperator[obj[key]] = this.textInt;
+                    else if (key==='bin')
+                        this._constraintOperator[obj[key]] = this.textBin;
+                    else if (key==='diff')
+                        this._constraintOperator[obj[key]] = this.textDif;
+                    else
+                        this._constraintOperator[obj[key]] = key;
+                }
+            }
+
         },
 
         render: function() {
@@ -202,13 +217,14 @@ define([
                 hideErrorOnInput: true
             });
             this.txtValue.on('changed:after', _.bind(this.onValueChanged, this));
-
             this.constrainsList = new Common.UI.ListView({
                 el: $window.find('#solver-dlg-constraints'),
                 store: new Common.UI.DataViewStore(),
                 emptyText: this.textEmptyList,
                 scrollAlwaysVisible: true,
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="min-height: 15px;"><%= Common.Utils.String.htmlEncode(value) %></div>'),
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="min-height: 15px;">' +
+                                            '<%= Common.Utils.String.htmlEncode(cellRef) %> <%= operatorName %> <%= Common.Utils.String.htmlEncode(constraint) %>' +
+                                        '</div>'),
                 tabindex:1
             });
             this.constrainsList.onKeyDown = _.bind(this.onListKeyDown, this);
@@ -529,7 +545,8 @@ define([
         },
 
         updateConstrainsList: function(idx) {
-            var arr = [],
+            var me = this,
+                arr = [],
                 store = this.constrainsList.store,
                 constaints = this.props.getConstraints();
             constaints && constaints.forEach(function(item, index) {
@@ -537,7 +554,8 @@ define([
                     cellRef: item.cellRef,
                     index: index,
                     constraint: item.constraint,
-                    operator: item.operator
+                    operator: item.operator,
+                    operatorName: me._constraintOperator[item.operator]
                 });
             });
             store.reset(arr);
