@@ -917,10 +917,8 @@ const PageBulletsAndNumbers = props => {
 const PageDirection = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const storeFocusObjects = props.storeFocusObjects;
     const storeTextSettings = props.storeTextSettings
     const isRtlTextDirection = storeTextSettings.isRtlTextDirection;
-    console.log(isRtlTextDirection);
     
 
     return (

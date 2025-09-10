@@ -898,6 +898,9 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onPrAlign', (align) => {
             storeTextSettings.resetParagraphAlign(align);
         });
+        this.api.asc_registerCallback('asc_onTextDirection', (isRtl) => {
+            storeTextSettings.resetTextDirection(isRtl);
+        });
         this.api.asc_registerCallback('asc_onTextColor', (color) => {
             storeTextSettings.resetTextColor(color);
         });

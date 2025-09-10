@@ -282,6 +282,11 @@ class EditTextController extends Component {
         api.tblApply(properties);
     }
 
+    setRtlTextdDirection(direction) {
+        const api = Common.EditorApi.get();        
+        api.asc_setRtlTextDirection(direction);
+    }
+
     render() {
         return (
             <EditText 
@@ -309,6 +314,7 @@ class EditTextController extends Component {
                 onLineSpacing={this.onLineSpacing}
                 setOrientationTextShape={this.setOrientationTextShape}
                 setOrientationTextTable={this.setOrientationTextTable}
+                setRtlTextdDirection={this.setRtlTextdDirection}
             />
         )
     }

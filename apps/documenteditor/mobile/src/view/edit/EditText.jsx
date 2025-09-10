@@ -25,6 +25,8 @@ import IconLineSpacing from '@common-icons/icon-linespacing.svg';
 import IconExpandUp from '@common-android-icons/icon-expand-up.svg';
 import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
 import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
+import IconTextDirectionRtl from '@common-icons/icon-text-direction-rtl.svg';
+import IconTextDirectionLtr from '@common-icons/icon-text-direction-ltr.svg';
 
 const PageFonts = props => {
     const isAndroid = Device.android;
@@ -635,6 +637,49 @@ const PageOrientationTextTable = props => {
     );
 };
 
+const PageDirection = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    const storeTextSettings = props.storeTextSettings
+    const isRtlTextDirection = storeTextSettings.isRtlTextDirection;
+    
+
+    return (
+        <Page>
+            <Navbar title={t('Edit.textTextDirection')} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <List>
+                <ListItem title={t('Edit.textLtrTextDirection')} radio
+                    checked={!isRtlTextDirection}
+                    radioIcon="end"
+                    onChange={() => {
+                        props.setRtlTextdDirection(false);
+                    }}>
+                    <SvgIcon slot="media" symbolId={IconTextDirectionLtr.id} className="icon icon-svg" />
+                </ListItem>
+                <ListItem title={t('Edit.textRtlTextDirection')} radio
+                    checked={isRtlTextDirection}
+                    radioIcon="end"
+                    onChange={() => {
+                        props.setRtlTextdDirection(true);
+                    }}>
+                    <SvgIcon slot="media" symbolId={IconTextDirectionRtl.id} className="icon icon-svg" />
+                </ListItem>
+            </List>
+        </Page>
+    )
+}
+
 const EditText = props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
@@ -659,6 +704,7 @@ const EditText = props => {
     const isUnderline = storeTextSettings.isUnderline;
     const isStrikethrough = storeTextSettings.isStrikethrough;
     const paragraphAlign = storeTextSettings.paragraphAlign;
+    const isRtlTextDirection = storeTextSettings.isRtlTextDirection;
 
     useEffect(() => {
         props.updateListType();
@@ -746,16 +792,16 @@ const EditText = props => {
                 </ListItem>
                 {!inSmartArtInternal &&
                     <ListItem className='buttons'>
-                        <div className="row">
+                        <div dir={isRtlTextDirection ? 'rtl': ''} className="row">
                             <a className='button item-link' onClick={() => {
                                 props.onParagraphMove(true)
                             }}>
-                                <SvgIcon slot="media" symbolId={IconDeIndent.id} className={'icon icon-svg'} />
+                                <SvgIcon slot="media" symbolId={IconDeIndent.id} className={'icon icon-svg ' + (isRtlTextDirection ? 'icon-svg-rtl' : '')} />
                             </a>
                             <a className='button item-link' onClick={() => {
                                 props.onParagraphMove(false)
                             }}>
-                                <SvgIcon slot="media" symbolId={IconInIndent.id} className={'icon icon-svg'} />
+                                <SvgIcon slot="media" symbolId={IconInIndent.id} className={'icon icon-svg ' + (isRtlTextDirection ? 'icon-svg-rtl' : '')} />
                             </a>
                         </div>
                     </ListItem>
@@ -781,6 +827,7 @@ const EditText = props => {
                             </ListItem>
                         }
                 {!inSmartArt && !inSmartArtInternal &&
+                <>
                     <ListItem title={t('Edit.textBulletsAndNumbers')} link='/edit-bullets-and-numbers/' routeProps={{
                         onBullet: props.onBullet,
                         onNumber: props.onNumber,
@@ -790,9 +837,17 @@ const EditText = props => {
                     }}>
                         <div className="preview">{previewList}</div>
                         {!isAndroid && 
-                            <SvgIcon slot="media" symbolId={IconBullets.id} className={'icon icon-svg'} />
+                            <SvgIcon slot="media" symbolId={IconBullets.id} className={'icon icon-svg ' + (isRtlTextDirection ? 'icon-svg-rtl' : '')} />
                         }
                     </ListItem>
+                    <ListItem title={t('Edit.textTextDirection')} link='/edit-text-direction/' routeProps={{
+                        setRtlTextdDirection: props.setRtlTextdDirection
+                    }}>
+                        {!isAndroid && 
+                            <SvgIcon slot="media" symbolId={isRtlTextDirection ? IconTextDirectionRtl.id : IconTextDirectionLtr.id} className='icon icon-svg' />
+                        }
+                    </ListItem>
+                </>
                 }
                 <ListItem title={t("Edit.textLineSpacing")} link='/edit-text-line-spacing/' routeProps={{
                     onLineSpacing: props.onLineSpacing
@@ -814,6 +869,7 @@ const PageTextLineSpacing = inject("storeTextSettings")(observer(PageLineSpacing
 const PageTextFontColor = inject("storeTextSettings", "storePalette")(observer(PageFontColor));
 const PageTextCustomFontColor = inject("storeTextSettings", "storePalette")(observer(PageCustomFontColor));
 const PageTextHighlightColor = inject("storeTextSettings")(observer(PageHighlightColor));
+const PageTextDirection = inject("storeTextSettings")(observer(PageDirection));
 // const PageTextOrientation = observer(TextOrientation);
 
 export {
@@ -827,6 +883,7 @@ export {
     PageTextHighlightColor,
     // PageTextOrientation,
     PageOrientationTextShape,
-    PageOrientationTextTable
-    // PageTextCustomBackColor
+    PageOrientationTextTable,
+    // PageTextCustomBackColor,
+    PageTextDirection
 };
