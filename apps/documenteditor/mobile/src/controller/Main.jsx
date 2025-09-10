@@ -896,6 +896,9 @@ class MainController extends Component {
             storeTextSettings.resetTypeBaseline(typeBaseline);
         });
         this.api.asc_registerCallback('asc_onPrAlign', (align) => {
+            if (this.api.asc_isRtlTextDirection()) {
+                align = align === 0 ? 1 : align === 1 ? 0 : align;
+            }
             storeTextSettings.resetParagraphAlign(align);
         });
         this.api.asc_registerCallback('asc_onTextDirection', (isRtl) => {
