@@ -138,6 +138,7 @@ define([
                 validateOnBlur: true,
                 value       : '',
                 maxLength: 40,
+                dir: 'auto',
                 validation  : function(value) {
                     var check = me.props.asc_CheckNewBookmarkName(value),
                         exist = me.props.asc_HaveBookmark(value);

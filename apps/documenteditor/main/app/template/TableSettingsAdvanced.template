@@ -340,7 +340,7 @@
             <tr>
                 <td>
                     <label class="header"><%= scope.textAltDescription %></label>
-                    <textarea id="table-advanced-alt-description" class="form-control" style="width: 100%; height: 120px;"></textarea>
+                    <textarea id="table-advanced-alt-description" class="form-control" style="width: 100%; height: 120px;" dir="auto"></textarea>
                 </td>
             </tr>
             <tr>

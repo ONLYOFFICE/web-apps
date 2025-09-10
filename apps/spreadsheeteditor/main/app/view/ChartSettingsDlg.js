@@ -522,7 +522,8 @@ define([
                 el          : $('#chart-advanced-alt-title'),
                 allowBlank  : true,
                 validateOnBlur: false,
-                style       : 'width: 100%;'
+                style       : 'width: 100%;',
+                dir: 'auto'
             }).on('changed:after', function() {
                 me.isAltTitleChanged = true;
             });

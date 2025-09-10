@@ -81,7 +81,8 @@ define([
                 el          : $('#field-settings-custom'),
                 allowBlank  : true,
                 validateOnBlur: false,
-                style       : 'width: 100%;'
+                style       : 'width: 100%;',
+                dir: 'auto'
             });
 
             this.lblSourceName = this.$window.find('#field-settings-source');

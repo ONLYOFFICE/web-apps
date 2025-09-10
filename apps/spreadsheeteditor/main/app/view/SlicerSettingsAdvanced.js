@@ -94,7 +94,8 @@ define([
             this.inputHeader = new Common.UI.InputField({
                 el          : $('#sliceradv-text-header'),
                 allowBlank  : true,
-                style       : 'width: 178px;'
+                style       : 'width: 178px;',
+                dir: 'auto'
             }).on('changed:after', function() {
                 me.isCaptionChanged = true;
             });
@@ -326,7 +327,8 @@ define([
                 el          : $('#sliceradv-text-name'),
                 allowBlank  : false,
                 blankError  : me.txtEmpty,
-                style       : 'width: 178px;'
+                style       : 'width: 178px;',
+                dir: 'auto'
             }).on('changed:after', function() {
                 me.isNameChanged = true;
             });
@@ -365,7 +367,8 @@ define([
                 el          : $('#sliceradv-alt-title'),
                 allowBlank  : true,
                 validateOnBlur: false,
-                style       : 'width: 100%;'
+                style       : 'width: 100%;',
+                dir: 'auto'
             }).on('changed:after', function() {
                 me.isAltTitleChanged = true;
             });

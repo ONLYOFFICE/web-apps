@@ -88,7 +88,8 @@ define([
                 el          : $('#pivot-adv-name'),
                 allowBlank  : true,
                 validateOnBlur: false,
-                style       : 'width: 100%;'
+                style       : 'width: 100%;',
+                dir: 'auto'
             });
 
             this.radioDown = new Common.UI.RadioBox({
@@ -164,7 +165,8 @@ define([
                 el          : $('#pivot-advanced-alt-title'),
                 allowBlank  : true,
                 validateOnBlur: false,
-                style       : 'width: 100%;'
+                style       : 'width: 100%;',
+                dir: 'auto'
             }).on('changed:after', function() {
                 me.isAltTitleChanged = true;
             });

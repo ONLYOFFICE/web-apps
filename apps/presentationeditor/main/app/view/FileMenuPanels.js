@@ -1183,7 +1183,8 @@ define([], function () {
                 validateOnBlur: false,
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                dir: 'auto'
             }).on('keydown:before', keyDownBefore).on('changed:after', function(_, newValue) {
                 me.coreProps.asc_putTitle(newValue);
                 me.api.asc_setCoreProps(me.coreProps);
@@ -1196,7 +1197,8 @@ define([], function () {
                 validateOnBlur: false,
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                dir: 'auto'
             }).on('keydown:before', keyDownBefore).on('changed:after', function(_, newValue) {
                 me.coreProps.asc_putKeywords(newValue);
                 me.api.asc_setCoreProps(me.coreProps);
@@ -1209,7 +1211,8 @@ define([], function () {
                 validateOnBlur: false,
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                dir: 'auto'
             }).on('keydown:before', keyDownBefore).on('changed:after', function(_, newValue) {
                 me.coreProps.asc_putSubject(newValue);
                 me.api.asc_setCoreProps(me.coreProps);
@@ -1222,7 +1225,8 @@ define([], function () {
                 validateOnBlur: false,
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                dir: 'auto'
             }).on('keydown:before', keyDownBefore).on('changed:after', function(_, newValue) {
                 me.coreProps.asc_putDescription(newValue);
                 me.api.asc_setCoreProps(me.coreProps);
@@ -1237,7 +1241,7 @@ define([], function () {
             this.lblApplication = $markup.findById('#id-info-appname');
             this.tblAuthor = $markup.findById('#id-info-author table');
             this.trAuthor = $markup.findById('#id-info-add-author').closest('tr');
-            this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}" ></div><div class="tool close img-colored" data-hint="2" data-hint-direction="right" data-hint-offset="small"></div></td></tr>';
+            this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}"  dir="auto"></div><div class="tool close img-colored" data-hint="2" data-hint-direction="right" data-hint-offset="small"></div></td></tr>';
 
             this.tblAuthor.on('click', function(e) {
                 var btn = $markup.find(e.target);
@@ -1259,7 +1263,8 @@ define([], function () {
                 placeHolder: this.txtAddAuthor,
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                dir: 'auto'
             }).on('changed:after', function(input, newValue, oldValue, e) {
                 if (newValue == oldValue) return;
 
@@ -1433,7 +1438,7 @@ define([], function () {
             return '<tr data-custom-property>' +
                 '<td class="left"><label>' + Common.Utils.String.htmlEncode(name) + '</label></td>' +
                 '<td class="right"><div class="custom-property-wrapper">' +
-                '<input type="text" spellcheck="false" class="form-control" readonly style="width: 200px;" value="' + value +'">' +
+                '<input type="text" spellcheck="false" class="form-control" readonly style="width: 200px;" value="' + value +'" dir="auto">' +
                 '<div class="tool close img-colored" data-hint="2" data-hint-direction="right" data-hint-offset="small"></div>' +
                 '</div></td></tr>';
         },

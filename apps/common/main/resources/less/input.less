@@ -78,7 +78,13 @@
         position: relative;
     }
 
-    input {
+    input:not([dir=auto]) {
+        .rtl & {
+            direction: rtl;
+        }
+    }
+
+    input:placeholder-shown {
         .rtl & {
             direction: rtl;
         }

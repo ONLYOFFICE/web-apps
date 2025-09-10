@@ -74,7 +74,8 @@ define([
                 validateOnBlur: true,
                 disabled: false,
                 editable: true,
-                hideErrorOnInput: false
+                hideErrorOnInput: false,
+                dir: ''
             },
 
             template: _.template([
@@ -88,6 +89,9 @@ define([
                         'data-hint="<%= dataHint %>"',
                         'data-hint-direction="<%= dataHintDirection %>"',
                         'data-hint-offset="<%= dataHintOffset %>"',
+                        '<% if (dir) {%>',
+                        'dir="<%= dir %>" ',
+                        '<% } %>',
                     '>',
                     '<span class="input-error"></span>',
                 '</div>'
@@ -140,6 +144,7 @@ define([
                         dataHint    : this.options.dataHint,
                         dataHintDirection: this.options.dataHintDirection,
                         dataHintOffset: this.options.dataHintOffset,
+                        dir:        this.options.dir,
                         scope       : me
                     }));
 

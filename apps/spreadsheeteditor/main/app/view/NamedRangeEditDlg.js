@@ -117,6 +117,7 @@ define([
                 validateOnChange: false,
                 validateOnBlur: false,
                 style       : 'width: 100%;',
+                dir: 'auto',
                 validation  : function(value) {
                     var isvalid = me.api.asc_checkDefinedName(value, (me.cmbScope.getValue()==-255) ? null : me.cmbScope.getValue());
                     if (isvalid.asc_getStatus() === true) return true;

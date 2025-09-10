@@ -139,7 +139,8 @@ define([
                 allowBlank       : true,
                 validateOnChange : true,
                 maxLength        : 31,
-                validation       : function () { return true; }
+                validation       : function () { return true; },
+                dir: 'auto'
             }).on ('changing', function (input, value) {
                 var _selectedItem;
                 if (value.length) {
@@ -180,7 +181,8 @@ define([
                 allowBlank       : true,
                 validateOnChange : true,
                 maxLength        : 255,
-                validation       : function () { return true; }
+                validation       : function () { return true; },
+                dir: 'auto'
             }).on ('changing', function (input, value) {
                 me.updateControls();
             });
@@ -222,7 +224,8 @@ define([
                 allowBlank       : true,
                 validateOnChange : true,
                 maxLength        : 255,
-                validation       : function () { return true; }
+                validation       : function () { return true; },
+                dir: 'auto'
             }).on ('changing', function (input, value) {
                 var _selectedItem;
                 if (value.length) {
@@ -398,7 +401,8 @@ define([
                     allowBlank       : true,
                     validateOnChange : true,
                     maxLength        : 255,
-                    validation       : function () { return true; }
+                    validation       : function () { return true; },
+                    dir: 'auto'
                 }).on ('changing', _.bind(this.onChangeInputException, this));
     
                 this.exceptionsFindInput.cmpEl.find('input').on('keydown', function(event){

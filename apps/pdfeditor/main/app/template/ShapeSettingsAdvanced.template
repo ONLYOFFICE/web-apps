@@ -225,7 +225,7 @@
             <tr>
                 <td>
                     <label class="header"><%= scope.textAltDescription %></label>
-                    <textarea id="shape-advanced-alt-description" class="form-control" style="width: 100%; height: 70px;"></textarea>
+                    <textarea id="shape-advanced-alt-description" class="form-control" style="width: 100%; height: 70px;" dir="auto"></textarea>
                 </td>
             </tr>
             <tr>

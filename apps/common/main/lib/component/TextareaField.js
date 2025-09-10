@@ -69,6 +69,7 @@ define([], function () { 'use strict';
                     '<% if (dataHintOffset) {%>',
                     'data-hint-offset="<%= dataHintOffset %>" ',
                     '<% } %>',
+                    'dir="auto"',
                     '></textarea>',
                 '</div>'
             ].join('')),

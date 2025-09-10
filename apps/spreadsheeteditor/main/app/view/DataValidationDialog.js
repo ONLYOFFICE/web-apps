@@ -182,7 +182,8 @@ define([
                 allowBlank  : true,
                 validateOnBlur: false,
                 maxLength: 32,
-                style       : 'width: 100%;'
+                style       : 'width: 100%;',
+                dir: 'auto'
             }).on('changed:after', function() {
                 me.isInputTitleChanged = true;
             });
@@ -226,7 +227,8 @@ define([
                 allowBlank  : true,
                 validateOnBlur: false,
                 maxLength: 32,
-                style       : 'width: 140px;'
+                style       : 'width: 140px;',
+                dir: 'auto'
             }).on('changed:after', function() {
                 me.isErrorTitleChanged = true;
             });

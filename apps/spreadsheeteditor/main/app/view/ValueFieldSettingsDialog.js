@@ -114,7 +114,8 @@ define([
                 el          : $('#value-field-settings-custom'),
                 allowBlank  : true,
                 validateOnBlur: false,
-                style       : 'width: 100%;'
+                style       : 'width: 100%;',
+                dir: 'auto'
             });
 
             this.cmbSummarize = new Common.UI.ComboBox({
