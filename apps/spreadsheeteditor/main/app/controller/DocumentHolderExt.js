@@ -3270,7 +3270,8 @@ define([], function () {
                         owner   : inputtip.parentEl,
                         html    : true,
                         title   : hint,
-                        keepvisible: true
+                        keepvisible: true,
+                        dir: 'auto'
                     });
 
                     inputtip.ref.show([-10000, -10000]);
