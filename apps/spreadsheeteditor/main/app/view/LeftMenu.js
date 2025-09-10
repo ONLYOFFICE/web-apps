@@ -58,6 +58,8 @@ define([
         initialize: function () {
             this.minimizedMode = true;
             this._state = {disabled: false};
+
+            this.shortcutHints = {};
         },
 
         render: function () {
@@ -107,7 +109,7 @@ define([
             /** coauthoring begin **/
             this.btnComments = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-comments'),
-                hint: this.tipComments +  Common.Utils.String.platformKey('Ctrl+Shift+H'),
+                hint: this.tipComments,
                 enableToggle: true,
                 disabled: true,
                 iconCls: 'btn-menu-comments',
@@ -115,16 +117,24 @@ define([
             });
             this.btnComments.on('toggle',       this.onBtnCommentsToggle.bind(this));
             this.btnComments.on('click',        this.onBtnMenuClick.bind(this));
+            this.shortcutHints.OpenCommentsPanel = {
+                btn: this.btnComments,
+                label: this.tipComments
+            };
 
             this.btnChat = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-chat'),
-                hint: this.tipChat + Common.Utils.String.platformKey('Alt+Q', ' (' + (Common.Utils.isMac ? Common.Utils.String.textCtrl + '+' : '') + '{0})'),
+                hint: this.tipChat,
                 enableToggle: true,
                 disabled: true,
                 iconCls: 'btn-menu-chat',
                 toggleGroup: 'leftMenuGroup'
             });
             this.btnChat.on('click',            this.onBtnMenuClick.bind(this));
+            this.shortcutHints.OpenChatPanel = {
+                btn: this.btnChat,
+                label: this.tipChat
+            };
 
             this.btnComments.hide();
             this.btnChat.hide();
@@ -145,6 +155,13 @@ define([
             this.btnAbout.panel = (new Common.Views.About({el: '#about-menu-panel', appName: this.txtEditor}));
 
             this.$el.html($markup);
+
+            const updateShortcuntsHints = function() {
+                const app = (window.DE || window.PE || window.SSE || window.PDFE || window.VE);
+                app.getController('Common.Controllers.Shortcuts').updateShortcuntsHints(this.shortcutHints);
+            }.bind(this);
+            updateShortcuntsHints();
+            Common.NotificationCenter.on('shortcuts:update', _.bind(updateShortcuntsHints, this));
 
             return this;
         },
