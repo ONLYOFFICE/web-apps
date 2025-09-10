@@ -14,6 +14,7 @@ require([
     'common/main/lib/view/RenameDialog',
     'common/main/lib/view/ExternalEditor',
     'common/main/lib/view/ExternalDiagramEditor',
+    'common/main/lib/view/FormatSettingsDialog',
     'common/main/lib/view/PluginDlg',
     'common/main/lib/view/PluginPanel',
     'common/main/lib/view/ShapeShadowDialog',
