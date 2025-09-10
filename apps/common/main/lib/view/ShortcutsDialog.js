@@ -102,7 +102,7 @@ define([
                             '<% }); %>',
                         '</div>',
                         '<% if (action.isLocked) { %>',
-                            '<i class="icon toolbar__icon btn-favorite icon-lock">&nbsp;</i>',
+                            '<i class="icon toolbar__icon btn-lock icon-lock">&nbsp;</i>',
                         '<% } else { %>',
                             '<button type="button" class="action-edit btn-toolbar">',
                                 '<i class="icon toolbar__icon btn-edit">&nbsp;</i>',

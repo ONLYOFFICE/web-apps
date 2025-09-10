@@ -278,7 +278,12 @@ define([
                         return !shortcut.ascShortcut.asc_IsHidden();
                     });
                     const hintText = item.label + (firstShortcut ? ' (' + firstShortcut.keys.join('+') + ')' : '');
-                    item.btn.updateHint(hintText);
+                    
+                    if(item.applyCallback) {
+                        item.applyCallback(item, hintText);
+                    } else {
+                        item.btn.updateHint(hintText);
+                    }
                 }
             }
         },

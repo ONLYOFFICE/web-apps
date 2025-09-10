@@ -247,7 +247,8 @@ define([
                     if (e.metaKey) keys.push('⌘');
 
                     if (!['Control', 'Shift', 'Alt', 'Meta'].includes(e.key)) {
-                        keys.push(DE.getController('Common.Controllers.Shortcuts').keyCodeToKeyName(e.keyCode));
+                        const app = (window.DE || window.PE || window.SSE || window.PDFE || window.VE);
+                        keys.push(app.getController('Common.Controllers.Shortcuts').keyCodeToKeyName(e.keyCode));
                         ascShortcut.asc_SetKeyCode(e.keyCode);
                     } else {
                         ascShortcut.asc_SetKeyCode(null);
