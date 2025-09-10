@@ -841,7 +841,7 @@ define([
                             (new PDFE.Views.ChartSettingsAdvanced(
                                 {
                                     chartProps: elValue,
-                                    slideSize: PDFE.getController('Toolbar').currentPageSize,
+                                    slideSize: {width: me.api.get_PageWidth(), height: me.api.get_PageHeight()},
                                     chartSettings: me.api.asc_getChartSettings(),
                                     api : me.api,
                                     handler: function(result, value) {
