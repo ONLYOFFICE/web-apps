@@ -80,9 +80,9 @@ define([
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onEndAddShape', _.bind(this.onApiEndAddShape, this)); //for shapes
                 this.api.asc_registerCallback('asc_onTextLanguage',         _.bind(this.onTextLanguage, this));
-                // this.api.asc_registerCallback('asc_onBeginSmartArtPreview', _.bind(this.onApiBeginSmartArtPreview, this));
-                // this.api.asc_registerCallback('asc_onAddSmartArtPreview', _.bind(this.onApiAddSmartArtPreview, this));
-                // this.api.asc_registerCallback('asc_onEndSmartArtPreview', _.bind(this.onApiEndSmartArtPreview, this));
+                this.api.asc_registerCallback('asc_onBeginSmartArtPreview', _.bind(this.onApiBeginSmartArtPreview, this));
+                this.api.asc_registerCallback('asc_onAddSmartArtPreview', _.bind(this.onApiAddSmartArtPreview, this));
+                this.api.asc_registerCallback('asc_onEndSmartArtPreview', _.bind(this.onApiEndSmartArtPreview, this));
                 this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onApiFocusObject, this));
                 this.api.asc_registerCallback('asc_onCanAddHyperlink',      _.bind(this.onApiCanAddHyperlink, this));
                 Common.NotificationCenter.on('storage:image-load',          _.bind(this.openImageFromStorage, this));
@@ -114,9 +114,9 @@ define([
                     'insert:table'      : this.onInsertTableClick,
                     'insert:equation'   : this.onInsertEquationClick,
                     'insert:symbol'     : this.onInsertSymbolClick,
-                    // 'insert:smartart'   : this.onInsertSmartArt,
-                    // 'smartart:mouseenter': this.mouseenterSmartArt,
-                    // 'smartart:mouseleave': this.mouseleaveSmartArt,
+                    'insert:smartart'   : this.onInsertSmartArt,
+                    'smartart:mouseenter': this.mouseenterSmartArt,
+                    'smartart:mouseleave': this.mouseleaveSmartArt,
                 }
             });
         },
@@ -597,7 +597,7 @@ define([
         onAddPage: function(before) {
             this.api && this.api.asc_AddPage(this.api.getCurrentPage() + (before ? 0 : 1) );
         },
-/*
+
         mouseenterSmartArt: function (groupName, menu) {
             if (this.smartArtGenerating === undefined) {
                 this.generateSmartArt(groupName, menu);
@@ -662,7 +662,7 @@ define([
                 this.api.asc_createSmartArt(value);
             }
         },
-
+/*
         onSelectChart: function(type) {
             var me      = this,
                 chart = false;
