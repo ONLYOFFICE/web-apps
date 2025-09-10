@@ -132,6 +132,7 @@ define([
                 me.synchTooltip = undefined;
                 me.needShowSynchTip = false;
 
+                me.shortcutHints = {};
                 me._state = {
                     hasCollaborativeChanges: undefined
                 };
@@ -183,6 +184,10 @@ define([
                     });
                     me.slideOnlyControls.push(me.btnPrint);
                     me.nolockControls.push(me.btnPrint);
+                    me.shortcutHints.PrintPreviewAndPrint = {
+                        btn: me.btnPrint,
+                        label: me.tipPrint
+                    };
 
                     me.btnSave = new Common.UI.Button({
                         id: 'id-toolbar-btn-save',
@@ -209,6 +214,10 @@ define([
                     });
                     me.slideOnlyControls.push(me.btnUndo);
                     me.lockControls.push(me.btnUndo);
+                    me.shortcutHints.EditUndo = {
+                        btn: me.btnUndo,
+                        label: me.tipUndo
+                    };
 
                     me.btnRedo = new Common.UI.Button({
                         id: 'id-toolbar-btn-redo',
@@ -222,6 +231,10 @@ define([
                     });
                     me.slideOnlyControls.push(me.btnRedo);
                     me.lockControls.push(me.btnRedo);
+                    me.shortcutHints.EditRedo = {
+                        btn: me.btnRedo,
+                        label: me.tipRedo
+                    };
 
                     me.btnCopy = new Common.UI.Button({
                         id: 'id-toolbar-btn-copy',
@@ -234,6 +247,10 @@ define([
                     });
                     me.slideOnlyControls.push(me.btnCopy);
                     me.lockControls.push(me.btnCopy);
+                    me.shortcutHints.Copy = {
+                        btn: me.btnCopy,
+                        label: me.tipCopy
+                    };
 
                     me.btnPaste = new Common.UI.Button({
                         id: 'id-toolbar-btn-paste',
@@ -246,6 +263,10 @@ define([
                     });
                     me.paragraphControls.push(me.btnPaste);
                     me.lockControls.push(me.btnPaste);
+                    me.shortcutHints.Paste = {
+                        btn: me.btnPaste,
+                        label: me.tipPaste
+                    };
 
                     me.btnCut = new Common.UI.Button({
                         id: 'id-toolbar-btn-cut',
@@ -258,6 +279,10 @@ define([
                     });
                     me.paragraphControls.push(me.btnCut);
                     me.lockControls.push(me.btnCut);
+                    me.shortcutHints.Cut = {
+                        btn: me.btnCut,
+                        label: me.tipCut
+                    };
 
                     me.btnAddSlide = new Common.UI.Button({
                         id: 'id-toolbar-btn-add-slide',
@@ -277,6 +302,10 @@ define([
                     });
                     me.slideOnlyControls.push(me.btnAddSlide);
                     me.lockControls.push(me.btnAddSlide);
+                    me.shortcutHints.NewSlide = {
+                        btn: me.btnAddSlide,
+                        label: me.tipAddSlide
+                    };
 
                     me.btnChangeSlide = new Common.UI.Button({
                         id: 'id-toolbar-button-change-slide',
@@ -318,6 +347,10 @@ define([
                     });
                     me.slideOnlyControls.push(me.btnSelectAll);
                     me.lockControls.push(me.btnSelectAll);
+                    me.shortcutHints.EditSelectAll = {
+                        btn: me.btnSelectAll,
+                        label: me.tipSelectAll
+                    };
 
                     me.btnReplace = new Common.UI.Button({
                         id: 'id-toolbar-btn-replace',
@@ -329,6 +362,10 @@ define([
                     });
                     me.slideOnlyControls.push(me.btnReplace);
                     me.lockControls.push(me.btnReplace);
+                    me.shortcutHints.OpenFindAndReplaceMenu = {
+                        btn: me.btnReplace,
+                        label: me.tipReplace
+                    };
 
                     me.cmbFontName = new Common.UI.ComboBoxFonts({
                         cls: 'input-group-nr',
@@ -383,6 +420,10 @@ define([
                     });
                     me.paragraphControls.push(me.btnIncFontSize);
                     me.lockControls.push(me.btnIncFontSize);
+                    me.shortcutHints.IncreaseFontSize = {
+                        btn: me.btnIncFontSize,
+                        label: me.tipIncFont
+                    };
 
                     me.btnDecFontSize = new Common.UI.Button({
                         id: 'id-toolbar-btn-decfont',
@@ -394,6 +435,10 @@ define([
                     });
                     me.paragraphControls.push(me.btnDecFontSize);
                     me.lockControls.push(me.btnDecFontSize);
+                    me.shortcutHints.DecreaseFontSize = {
+                        btn: me.btnDecFontSize,
+                        label: me.tipDecFont
+                    };
 
                     me.btnBold = new Common.UI.Button({
                         id: 'id-toolbar-btn-bold',
@@ -406,6 +451,10 @@ define([
                     });
                     me.paragraphControls.push(me.btnBold);
                     me.lockControls.push(me.btnBold);
+                    me.shortcutHints.Bold = {
+                        btn: me.btnBold,
+                        label: me.textBold
+                    };
 
                     me.btnItalic = new Common.UI.Button({
                         id: 'id-toolbar-btn-italic',
@@ -418,6 +467,10 @@ define([
                     });
                     me.paragraphControls.push(me.btnItalic);
                     me.lockControls.push(me.btnItalic);
+                    me.shortcutHints.Italic = {
+                        btn: me.btnItalic,
+                        label: me.textItalic
+                    };
 
                     me.btnUnderline = new Common.UI.Button({
                         id: 'id-toolbar-btn-underline',
@@ -430,6 +483,10 @@ define([
                     });
                     me.paragraphControls.push(me.btnUnderline);
                     me.lockControls.push(me.btnUnderline);
+                    me.shortcutHints.Underline = {
+                        btn: me.btnUnderline,
+                        label: me.textUnderline
+                    };
 
                     me.btnStrikeout = new Common.UI.Button({
                         id: 'id-toolbar-btn-strikeout',
@@ -455,6 +512,10 @@ define([
                     });
                     me.paragraphControls.push(me.btnSuperscript);
                     me.lockControls.push(me.btnSuperscript);
+                    me.shortcutHints.Superscript = {
+                        btn: me.btnSuperscript,
+                        label: me.textSuperscript
+                    };
 
                     me.btnSubscript = new Common.UI.Button({
                         id: 'id-toolbar-btn-subscript',
@@ -468,6 +529,10 @@ define([
                     });
                     me.paragraphControls.push(me.btnSubscript);
                     me.lockControls.push(me.btnSubscript);
+                    me.shortcutHints.Subscript = {
+                        btn: me.btnSubscript,
+                        label: me.textSubscript
+                    };
 
                     me.btnHighlightColor = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-highlight',
@@ -555,6 +620,10 @@ define([
                     });
                     me.slideOnlyControls.push(me.btnCopyStyle);
                     me.lockControls.push(me.btnCopyStyle);
+                    me.shortcutHints.CopyFormat = {
+                        btn: me.btnCopyStyle,
+                        label: me.tipCopyStyle
+                    };
 
                     me.btnMarkers = new Common.UI.Button({
                         id: 'id-toolbar-btn-markers',
@@ -612,7 +681,7 @@ define([
                         menu: new Common.UI.Menu({
                             items: [
                                 {
-                                    caption: me.textAlignLeft + Common.Utils.String.platformKey('Ctrl+L'),
+                                    caption: me.textAlignLeft,
                                     iconCls: 'menu__icon btn-align-left',
                                     icls: 'btn-align-left',
                                     checkable: true,
@@ -622,7 +691,7 @@ define([
                                     value: 1
                                 },
                                 {
-                                    caption: me.textAlignCenter + Common.Utils.String.platformKey('Ctrl+E'),
+                                    caption: me.textAlignCenter,
                                     iconCls: 'menu__icon btn-align-center',
                                     icls: 'btn-align-center',
                                     checkable: true,
@@ -631,7 +700,7 @@ define([
                                     value: 2
                                 },
                                 {
-                                    caption: me.textAlignRight + Common.Utils.String.platformKey('Ctrl+R'),
+                                    caption: me.textAlignRight,
                                     iconCls: 'menu__icon btn-align-right',
                                     icls: 'btn-align-right',
                                     checkable: true,
@@ -640,7 +709,7 @@ define([
                                     value: 0
                                 },
                                 {
-                                    caption: me.textAlignJust + Common.Utils.String.platformKey('Ctrl+J'),
+                                    caption: me.textAlignJust,
                                     iconCls: 'menu__icon btn-align-just',
                                     icls: 'btn-align-just',
                                     checkable: true,
@@ -657,6 +726,34 @@ define([
                     });
                     me.paragraphControls.push(me.btnHorizontalAlign);
                     me.lockControls.push(me.btnHorizontalAlign);
+                    me.shortcutHints.LeftAlign = {
+                        btn: me.btnHorizontalAlign.menu.items[0],
+                        label: me.textAlignLeft,
+                        applyCallback: function(item, hintText) {
+                            item.btn.setCaption(hintText);
+                        }
+                    };
+                    me.shortcutHints.CenterAlign = {
+                        btn: me.btnHorizontalAlign.menu.items[1],
+                        label: me.textAlignCenter,
+                        applyCallback: function(item, hintText) {
+                            item.btn.setCaption(hintText);
+                        }
+                    };
+                    me.shortcutHints.RightAlign = {
+                        btn: me.btnHorizontalAlign.menu.items[2],
+                        label: me.textAlignRight,
+                        applyCallback: function(item, hintText) {
+                            item.btn.setCaption(hintText);
+                        }
+                    };
+                    me.shortcutHints.JustifyAlign = {
+                        btn: me.btnHorizontalAlign.menu.items[3],
+                        label: me.textAlignJust,
+                        applyCallback: function(item, hintText) {
+                            item.btn.setCaption(hintText);
+                        }
+                    };
 
                     me.btnVerticalAlign = new Common.UI.Button({
                         id: 'id-toolbar-btn-valign',
@@ -714,6 +811,10 @@ define([
                     });
                     me.paragraphControls.push(me.btnDecLeftOffset);
                     me.lockControls.push(me.btnDecLeftOffset);
+                    me.shortcutHints.UnIndent = {
+                        btn: me.btnDecLeftOffset,
+                        label: me.tipDecPrLeft
+                    };
 
                     me.btnIncLeftOffset = new Common.UI.Button({
                         id: 'id-toolbar-btn-incoffset',
@@ -725,6 +826,10 @@ define([
                     });
                     me.paragraphControls.push(me.btnIncLeftOffset);
                     me.lockControls.push(me.btnIncLeftOffset);
+                    me.shortcutHints.Indent = {
+                        btn: me.btnIncLeftOffset,
+                        label: me.tipIncPrLeft
+                    };
 
                     me.btnLineSpace = new Common.UI.Button({
                         id: 'id-toolbar-btn-linespace',
@@ -920,6 +1025,10 @@ define([
                     });
                     me.paragraphControls.push(me.btnInsertHyperlink);
                     me.lockControls.push(me.btnInsertHyperlink);
+                    me.shortcutHints.AddHyperlink = {
+                        btn: me.btnInsertHyperlink,
+                        label: me.tipInsertHyperlink
+                    };
 
                     me.btnInsertTextArt = new Common.UI.Button({
                         id: 'tlbtn-inserttextart',
@@ -1610,39 +1719,19 @@ define([
                 });
             },
 
-            createDelayedElements: function () {
-                // set hints
-                this.btnPrint.updateHint(this.tipPrint + Common.Utils.String.platformKey('Ctrl+P'));
+            updateHints: function() {
                 this.btnSave.updateHint(this.btnSaveTip);
-                this.btnUndo.updateHint(this.tipUndo + Common.Utils.String.platformKey('Ctrl+Z'));
-                this.btnRedo.updateHint(this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'));
-                this.btnCopy.updateHint(this.tipCopy + Common.Utils.String.platformKey('Ctrl+C'));
-                this.btnPaste.updateHint(this.tipPaste + Common.Utils.String.platformKey('Ctrl+V'));
-                this.btnCut.updateHint(this.tipCut + Common.Utils.String.platformKey('Ctrl+X'));
-                this.btnAddSlide.updateHint(this.tipAddSlide + Common.Utils.String.platformKey('Ctrl+M'));
                 this.btnChangeSlide.updateHint(this.tipChangeSlide);
                 this.btnPreview.updateHint(this.tipPreview);
-                this.btnSelectAll.updateHint(this.tipSelectAll + Common.Utils.String.platformKey('Ctrl+A'));
-                this.btnReplace.updateHint(this.tipReplace + ' (' + Common.Utils.String.textCtrl + '+H)');
-                this.btnIncFontSize.updateHint(this.tipIncFont + Common.Utils.String.platformKey('Ctrl+]'));
-                this.btnDecFontSize.updateHint(this.tipDecFont + Common.Utils.String.platformKey('Ctrl+['));
-                this.btnBold.updateHint(this.textBold + Common.Utils.String.platformKey('Ctrl+B'));
-                this.btnItalic.updateHint(this.textItalic + Common.Utils.String.platformKey('Ctrl+I'));
-                this.btnUnderline.updateHint(this.textUnderline + Common.Utils.String.platformKey('Ctrl+U'));
                 this.btnStrikeout.updateHint(this.textStrikeout);
-                this.btnSuperscript.updateHint(this.textSuperscript);
-                this.btnSubscript.updateHint(this.textSubscript);
                 this.btnFontColor.updateHint(this.tipFontColor);
                 this.btnHighlightColor.updateHint(this.tipHighlightColor);
                 this.btnChangeCase.updateHint(this.tipChangeCase);
                 this.btnClearStyle.updateHint(this.tipClearStyle);
-                this.btnCopyStyle.updateHint(this.tipCopyStyle + Common.Utils.String.platformKey('Alt+Ctrl+C'));
                 this.btnMarkers.updateHint(this.tipMarkers);
                 this.btnNumbers.updateHint(this.tipNumbers);
                 this.btnHorizontalAlign.updateHint(this.tipHAligh);
                 this.btnVerticalAlign.updateHint(this.tipVAligh);
-                this.btnDecLeftOffset.updateHint(this.tipDecPrLeft + Common.Utils.String.platformKey('Ctrl+Shift+M'));
-                this.btnIncLeftOffset.updateHint(this.tipIncPrLeft);
                 this.btnLineSpace.updateHint(this.tipLineSpace);
                 this.btnColumns.updateHint(this.tipColumns);
                 this.btnTextDir.updateHint(this.tipTextDir);
@@ -1651,7 +1740,6 @@ define([
                 this.btnInsertSmartArt.updateHint(this.tipInsertSmartArt);
                 this.btnInsertEquation.updateHint(this.tipInsertEquation);
                 this.btnInsertSymbol.updateHint(this.tipInsertSymbol);
-                this.btnInsertHyperlink.updateHint(this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
                 this.btnInsAudio && this.btnInsAudio.updateHint(this.tipInsertAudio);
                 this.btnInsVideo && this.btnInsVideo.updateHint(this.tipInsertVideo);
@@ -1664,8 +1752,18 @@ define([
                 this.btnInsDateTime.updateHint(this.tipDateTime);
                 this.btnInsSlideNum.updateHint(this.tipSlideNum);
 
-                // set menus
 
+                const updateShortcuntsHints = function() {
+                    PE.getController('Common.Controllers.Shortcuts').updateShortcuntsHints(this.shortcutHints);
+                }.bind(this);
+                updateShortcuntsHints();
+                Common.NotificationCenter.on('shortcuts:update', _.bind(updateShortcuntsHints, this));
+            },
+
+            createDelayedElements: function () {
+                this.updateHints();
+
+                // set menus
                 var me = this;
 
                 this.btnMarkers.setMenu(

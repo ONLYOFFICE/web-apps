@@ -1060,7 +1060,7 @@ define([
                         if (window.styles_loaded) {
                             clearInterval(timer_sl);
 
-                            me.applyShortcuts();
+                            PE.getController('Common.Controllers.Shortcuts').setApi(me.api);
                             toolbarController.createDelayedElements();
 
                             documentHolderController.getView().createDelayedElements();
@@ -2221,34 +2221,6 @@ define([
                 setTimeout(function(){
                     me.getApplication().getController('Animation').updateThemeColors();
                 }, 50);
-            },
-
-            applyShortcuts: function() {
-                const applyMethod = function(storage) {
-                    storage = JSON.parse(storage || Common.localStorage.getItem("shortcuts") || "{}");
-                    for (const actionType in storage) {
-                        storage[actionType] = storage[actionType].map(function(ascShortcutJson) {
-                            const ascShortcut = new Asc.CAscShortcut();
-                            ascShortcut.asc_FromJson(ascShortcutJson);
-                            return ascShortcut;
-                        });
-                    }
-
-                    this.api.asc_resetAllShortcutTypes();
-                    
-                    const modifiedShortcuts = _.flatten(_.values(storage));
-                    if(modifiedShortcuts.length) {
-                        this.api.asc_applyAscShortcuts(modifiedShortcuts);
-                    }
-                }.bind(this);
-
-                $(window).on('storage', function (e) {
-                    if(e.key == 'shortcuts') {
-                        applyMethod(e.originalEvent.newValue);
-                    }
-                }.bind(this))
-
-                applyMethod();
             },
 
             onSendThemeColors: function(colors, standart_colors) {
