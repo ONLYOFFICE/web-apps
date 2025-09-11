@@ -2766,6 +2766,7 @@
   "SSE.Views.DocumentHolder.txtWidth": "Width",
   "SSE.Views.DocumentHolder.unicodeText": "Unicode",
   "SSE.Views.DocumentHolder.vertAlignText": "Vertical alignment",
+  "SSE.Views.DocumentHolder.btnChart": "Add, remove or change chart elements such as the title, legend, gridlines, and data labels",
   "SSE.Views.FieldSettingsDialog.strLayout": "Layout",
   "SSE.Views.FieldSettingsDialog.strSubtotals": "Subtotals",
   "SSE.Views.FieldSettingsDialog.textNumFormat": "Number format",
