@@ -1086,10 +1086,8 @@ define([], function () {
                 })
             });
 
-             me.menuChartElement = new Common.UI.MenuItem({
+            me.menuChartElement = new Common.UI.MenuItem({
                 menu: new Common.UI.Menu({
-                    cls: 'shifted-right',
-                    menuAlign: 'tl-tr',
                     items: [
                         { 
                             caption: me.textAxes, 
@@ -1101,27 +1099,32 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textHorAxis, 
-                                        value: 'bShowHorAxis', 
+                                        value: 'bShowHorAxis',
+                                        stopPropagation: true, 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textVertAxis, 
-                                        value: 'bShowVertAxis', 
+                                        value: 'bShowVertAxis',
+                                        stopPropagation: true, 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textHorAxisSec, 
-                                        value: 'bShowHorAxSec', 
+                                        value: 'bShowHorAxSec',
+                                        stopPropagation: true, 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textVertAxisSec, 
-                                        value: 'bShowVertAxSec', 
+                                        value: 'bShowVertAxSec',
+                                        stopPropagation: true, 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.DepthAxis, 
-                                        value: 'bShowDepthAxes', 
+                                        value: 'bShowDepthAxes',
+                                        stopPropagation: true, 
                                         checkable: true
                                     }
                                 ]
@@ -1137,27 +1140,32 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textHorAxis, 
-                                        value: 'bShowHorAxTitle', 
+                                        value: 'bShowHorAxTitle',
+                                        stopPropagation: true, 
                                         checkable: true                                   
                                     },
                                     { 
                                         caption: me.textVertAxis, 
                                         value: 'bShowVertAxTitle', 
+                                        stopPropagation: true,
                                         checkable: true
                                     },
                                     { 
                                         caption:  me.textHorAxisSec, 
-                                        value: 'bShowHorAxTitleSec', 
+                                        value: 'bShowHorAxTitleSec',
+                                        stopPropagation: true, 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textVertAxisSec, 
-                                        value: 'bShowVertAxisTitleSec', 
+                                        value: 'bShowVertAxisTitleSec',
+                                        stopPropagation: true, 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.DepthAxis, 
-                                        value: 'bShowDepthAxesTitle', 
+                                        value: 'bShowDepthAxesTitle',
+                                        stopPropagation: true, 
                                         checkable: true
                                     }
                                 ]
@@ -1173,17 +1181,23 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textNone, 
-                                        value: 'bShowChartTitleNone', 
+                                        value: 'bShowChartTitleNone',
+                                        stopPropagation: true,
+                                        toggleGroup: 'chartTitle',  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textNoOverlay, 
-                                        value: 'bShowChartTitle', 
+                                        value: 'bShowChartTitle',
+                                        stopPropagation: true,
+                                        toggleGroup: 'chartTitle',  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textOverlay, 
-                                        value: 'bOverlayTitle', 
+                                        value: 'bOverlayTitle',
+                                        stopPropagation: true,
+                                        toggleGroup: 'chartTitle',  
                                         checkable: true
                                     }
                                 ]
@@ -1199,52 +1213,72 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textNone, 
-                                        value: 'bShowDataLabels', 
+                                        value: 'bShowDataLabels',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels',  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textCenter, 
                                         value: 'CenterData', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels', 
                                         checkable: true
                                     },
                                     {   
                                         caption: me.textInnerBottom, 
-                                        value: 'InnerBottomData', 
+                                        value: 'InnerBottomData',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels',  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textInnerTop, 
                                         value: 'InnerTopData', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels', 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textOuterTop, 
                                         value: 'OuterTopData', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels', 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textTop, 
                                         value: 'TopData', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels', 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textLeft, 
                                         value: 'LeftData', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels', 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textRight, 
                                         value: 'RightData', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels', 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textBottom, 
                                         value: 'BottomData', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels', 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textFit, 
                                         value: 'FitWidthData', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels', 
                                         checkable: true
                                     }                   
                                 ]
@@ -1284,16 +1318,19 @@ define([], function () {
                                     {
                                         caption: me.textStandardError,
                                         value: 'standardError',
+                                        stopPropagation: true, 
                                         disabled: false
                                     },
                                     {
                                         caption: me.txtPercentage,
                                         value: 'percentage',
+                                        stopPropagation: true, 
                                         disabled: false
                                     },
                                     {
                                         caption: me.textStandardDeviation,
                                         value: 'standardDeviation',
+                                        stopPropagation: true, 
                                         disabled: false
                                     }
                                 ]
@@ -1309,22 +1346,26 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textHorizontalMajor, 
-                                        value: 'bShowHorMajor', 
+                                        value: 'bShowHorMajor',
+                                        stopPropagation: true,  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textVerticalMajor, 
-                                        value: 'bShowVerMajor', 
+                                        value: 'bShowVerMajor',
+                                        stopPropagation: true,  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textHorizontalMinor, 
-                                        value: 'bShowHorMinor', 
+                                        value: 'bShowHorMinor',
+                                        stopPropagation: true,  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textVerticalMinor, 
                                         value: 'bShowVerMinor', 
+                                        stopPropagation: true, 
                                         checkable: true
                                     }
                                 ]
@@ -1340,32 +1381,44 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textTop, 
-                                        value: 'TopLegend', 
+                                        value: 'TopLegend',
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend',  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textLeft, 
                                         value: 'LeftLegend', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend', 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textRight, 
-                                        value: 'RightLegend', 
+                                        value: 'RightLegend',
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend',  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textBottom, 
                                         value: 'BottomLegend', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend', 
                                         checkable: true
                                     },   
                                     { 
                                         caption: me.textLeftOverlay, 
-                                        value: 'LeftOverlay', 
+                                        value: 'LeftOverlay',
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend',  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textRightOverlay, 
                                         value: 'RightOverlay', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend', 
                                         checkable: true
                                     }
                                 ]
@@ -1381,22 +1434,27 @@ define([], function () {
                                 items: [
                                     {
                                         caption: me.textNone, 
+                                        stopPropagation: true, 
                                         value: 'trendLineNone'
                                     },
                                     {
                                         caption: me.textLinear,
+                                        stopPropagation: true, 
                                         value: 'trendLineLinear'
                                     },
                                     {
                                         caption: me.textExponential, 
+                                        stopPropagation: true, 
                                         value: 'trendLineExponential'
                                     },
                                     {
                                         caption: me.textLinearForecast,
+                                        stopPropagation: true, 
                                         value: 'trendLineForecast'
                                     },
                                     {
                                         caption: me.textMovingAverage, 
+                                        stopPropagation: true, 
                                         value: 'trendLineMovingAverage'
                                     }
                                 ]
@@ -1412,10 +1470,12 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textNone, 
+                                        stopPropagation: true, 
                                         value: 'bShowUpDownNone'
                                     },
                                     { 
                                         caption: me.textShowUpDown, 
+                                        stopPropagation: true, 
                                         value: 'bShowUpDownBars'
                                     }
                                 ]

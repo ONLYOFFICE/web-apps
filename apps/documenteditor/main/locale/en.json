@@ -2256,6 +2256,7 @@
   "DE.Views.DocumentHolder.unicodeText": "Unicode",
   "DE.Views.DocumentHolder.updateStyleText": "Update %1 style",
   "DE.Views.DocumentHolder.vertAlignText": "Vertical alignment",
+  "DE.Views.DocumentHolder.btnChart": "Add, remove or change chart elements such as the title, legend, gridlines, and data labels",
   "DE.Views.DropcapSettingsAdvanced.strBorders": "Borders & Fill",
   "DE.Views.DropcapSettingsAdvanced.strDropcap": "Drop cap",
   "DE.Views.DropcapSettingsAdvanced.strMargins": "Margins",
