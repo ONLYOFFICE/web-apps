@@ -1195,7 +1195,6 @@ define([], function () {
                             menu: new Common.UI.Menu({
                                 cls: 'shifted-right',  
                                 menuAlign: 'tl-tr',
-                                stopPropagation: true, 
                                 items: [
                                     { 
                                         caption: me.textNone, 
