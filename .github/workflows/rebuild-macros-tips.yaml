@@ -43,7 +43,7 @@ jobs:
         with:
           repository: ONLYOFFICE/build_tools
           token: ${{ secrets.READ_PAT }}
-          ref: release/v9.0.0
+          ref: ${{ env.BRANCH }}
           path: build_tools
     
       - name: Checkout sdkjs repository
