@@ -72,6 +72,7 @@ define([
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onApiFocusObject, this));
+                this.api.asc_registerCallback('asc_onRedactState',          _.bind(this.onRedactionStateToggle, this));
             }
             return this;
         },
@@ -214,6 +215,10 @@ define([
                     this.api.SetRedactTool(false);
                 }
             }
+        },
+
+        onRedactionStateToggle: function(isRedaction) {
+            this.view.btnMarkForRedact.toggle(isRedaction);
         },
 
         SetDisabled: function(state) {
