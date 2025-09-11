@@ -60,7 +60,6 @@ define([], function () {
             Common.Gateway.on('setactionlink', _.bind(me.onSetActionLink, me));
 
             if (this.api) {
-                this.api.asc_registerCallback('asc_onSingleChartSelectionChanged', _.bind(this.onSingleChartSelectionChanged, this));
                 this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onApiContextMenu, this));
                 this.api.asc_registerCallback('asc_onMouseMove',            _.bind(this.onApiMouseMove, this));
                 /** coauthoring begin **/
@@ -91,6 +90,7 @@ define([], function () {
                         this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.ImageUrl, _.bind(this.onInsertImageUrl, this));
 
                     }
+                    if (!this.permissions.isEditDiagram) this.api.asc_registerCallback('asc_onSingleChartSelectionChanged', _.bind(this.onSingleChartSelectionChanged, this));
                     this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                     this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
                     this.api.asc_registerCallback('asc_onHideEyedropper',           _.bind(this.hideEyedropperTip, this));
