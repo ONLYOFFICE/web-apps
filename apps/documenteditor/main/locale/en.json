@@ -1005,7 +1005,7 @@
   "DE.Controllers.Main.errorMailMergeSaveFile": "Merge failed.",
   "DE.Controllers.Main.errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
-  "DE.Controllers.Main.errorProcessSaveResult": "Saving failed.",
+  "del_DE.Controllers.Main.errorProcessSaveResult": "Saving failed.",
   "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "The editor version has been updated. The page will be reloaded to apply the changes.",
   "DE.Controllers.Main.errorSessionAbsolute": "The document editing session has expired. Please reload the page.",

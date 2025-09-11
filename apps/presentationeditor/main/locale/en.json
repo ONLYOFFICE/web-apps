@@ -1087,7 +1087,7 @@
   "PE.Controllers.Main.errorKeyEncrypt": "Unknown key descriptor",
   "PE.Controllers.Main.errorKeyExpire": "Key descriptor expired",
   "PE.Controllers.Main.errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator.",
-  "PE.Controllers.Main.errorProcessSaveResult": "Saving failed.",
+  "del_PE.Controllers.Main.errorProcessSaveResult": "Saving failed.",
   "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PE.Controllers.Main.errorServerVersion": "The editor version has been updated. The page will be reloaded to apply the changes.",
   "PE.Controllers.Main.errorSessionAbsolute": "The document editing session has expired. Please reload the page.",

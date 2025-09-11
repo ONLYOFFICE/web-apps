@@ -402,7 +402,6 @@ class MainController extends Component {
                     Common.Notifications.trigger('api:disconnect');
                 }
 
-                Common.Gateway.on('processsaveresult', this.onProcessSaveResult.bind(this));
                 Common.Gateway.on('processrightschange', this.onProcessRightsChange.bind(this));
                 Common.Gateway.on('downloadas', this.onDownloadAs.bind(this));
                 Common.Gateway.on('requestclose', this.onRequestClose.bind(this));
@@ -1234,20 +1233,6 @@ class MainController extends Component {
         if ( !this.appOptions.isCorePDF )
             Common.Notifications.trigger('openDropdownList', obj);
         else Common.Notifications.trigger('openPdfDropdownList', obj);
-    }
-
-    onProcessSaveResult (data) {
-        this.api.asc_OnSaveEnd(data.result);
-
-        if (data && data.result === false) {
-            const { t } = this.props;
-            const _t = t('Main', {returnObjects:true});
-
-            f7.dialog.alert(
-                (!data.message) ? _t.errorProcessSaveResult : data.message,
-                _t.criticalErrorTitle
-            );
-        }
     }
 
     onProcessRightsChange (data) {
