@@ -316,7 +316,7 @@
   "VE.Views.DocumentHolder.guestText": "Guest",
   "VE.Views.DocumentHolder.textCopy": "Copy",
   "VE.Views.DocumentHolder.txtPressLink": "Press {0} and click link",
-  "VE.Views.DocumentHolder.txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?",
+  "VE.Views.DocumentHolder.txtWarnUrl": "Clicking this link can be harmful to your device and data.To protect you computer, click only those hyperlinks from trusted sources. This location may be unsafe:<br><br>{0}<br><br>Are you sure you want to continue?",
   "VE.Views.FileMenu.ariaFileMenu": "File menu",
   "VE.Views.FileMenu.btnBackCaption": "Open File Location",
   "VE.Views.FileMenu.btnCloseEditor": "Close File",

@@ -2267,7 +2267,7 @@
   "PE.Views.DocumentHolder.txtTop": "Top",
   "PE.Views.DocumentHolder.txtUnderbar": "Bar under text",
   "PE.Views.DocumentHolder.txtUngroup": "Ungroup",
-  "PE.Views.DocumentHolder.txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?",
+  "PE.Views.DocumentHolder.txtWarnUrl": "Clicking this link can be harmful to your device and data.To protect you computer, click only those hyperlinks from trusted sources. This location may be unsafe:<br><br>{0}<br><br>Are you sure you want to continue?",
   "PE.Views.DocumentHolder.unicodeText": "Unicode",
   "PE.Views.DocumentHolder.vertAlignText": "Vertical alignment",
   "PE.Views.DocumentPreview.goToSlideText": "Go to slide",

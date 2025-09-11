@@ -667,9 +667,9 @@ VE.ApplicationController = new(function(){
             WarningShown = true; 
             common.controller.modals.showWarning({
                     title: me.notcriticalErrorTitle,
-                    message: me.txtOpenWarning,
-                    buttons: [me.txtYes, me.txtNo], 
-                    primary: me.txtYes,
+                    message: me.txtOpenWarning.replace('%1', url || ''),
+                    buttons: [me.txtNo, me.txtYes],
+                    primary: me.txtNo,
                     callback: function (btn) {
                         WarningShown = false; 
                         if (btn === me.txtYes) {
@@ -973,7 +973,7 @@ VE.ApplicationController = new(function(){
         errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
         txtPressLink: 'Click the link to open it',
         txtPage: 'Page',
-        txtOpenWarning: "Clicking this link can be harmful to your device and data.<br> Are you sure you want to continue?",
+        txtOpenWarning: 'Clicking this link can be harmful to your device and data.To protect you computer, click only those hyperlinks from trusted sources. This location may be unsafe:<br>%1<br>Are you sure you want to continue?',
         txtYes:'Yes',
         txtNo: 'No'
     }

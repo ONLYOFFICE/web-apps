@@ -246,18 +246,18 @@ class ContextMenu extends ContextMenuController {
 
                 f7.dialog.create({
                     title: t('Settings', {returnObjects: true}).notcriticalErrorTitle,
-                    text  : _t.txtWarnUrl,
-                    buttons: [{
+                    text  : _t.txtWarnUrl.replaceAll('{0}', url),
+                    buttons: [
+                        { text: _t.menuCancel, bold: true },
+                        {
                         text: _t.textOk,
-                        bold: true,
                         onClick: () => {
                             const newDocumentPage = window.open(url, '_blank');
                             if (newDocumentPage) {
                                 newDocumentPage.focus();
                             }
                         }
-                    },
-                    { text: _t.menuCancel }]
+                    }]
                 }).open();
             }
         }
