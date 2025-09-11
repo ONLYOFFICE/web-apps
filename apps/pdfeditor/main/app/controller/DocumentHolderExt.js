@@ -59,9 +59,6 @@ define([], function () {
                 this.api.asc_registerCallback('asc_onContextMenu',                  _.bind(this.onContextMenu, this));
                 this.api.asc_registerCallback('asc_onMouseMoveStart',               _.bind(this.onMouseMoveStart, this));
                 this.api.asc_registerCallback('asc_onMouseMoveEnd',                 _.bind(this.onMouseMoveEnd, this));
-
-                //hyperlink
-                this.api.asc_registerCallback('asc_onHyperlinkClick',               _.bind(this.onHyperlinkClick, this));
                 this.api.asc_registerCallback('asc_onMouseMove',                    _.bind(this.onMouseMove, this));
 
                 if (this.mode.isEdit === true) {
@@ -2387,31 +2384,6 @@ define([], function () {
             this.api && this.api.asc_RotatePage(angle);
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-        };
-
-        dh.onHyperlinkClick = function(url) {
-            if (url) {
-                var type = this.api.asc_getUrlType(url);
-                if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email)
-                    window.open(url);
-                else {
-                    var me = this;
-                    setTimeout(function() {
-                        Common.UI.warning({
-                            msg: me.documentHolder.txtWarnUrl,
-                            buttons: ['yes', 'no'],
-                            primary: 'yes',
-                            callback: function(btn) {
-                                try {
-                                    (btn == 'yes') && window.open(url);
-                                } catch (err) {
-                                    err && console.log(err.stack);
-                                }
-                            }
-                        });
-                    }, 1);
-                }
-            }
         };
 
         dh.removeComment = function(item, e, eOpt){
