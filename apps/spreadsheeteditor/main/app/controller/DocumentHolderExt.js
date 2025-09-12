@@ -2003,9 +2003,10 @@ define([], function () {
                 window.open(url, '_blank');
             else
                 Common.UI.warning({
-                    msg: this.txtWarnUrl,
-                    buttons: ['yes', 'no'],
-                    primary: 'yes',
+                    maxwidth: 500,
+                    msg: Common.Utils.String.format(this.txtWarnUrl, url),
+                    buttons: ['no', 'yes'],
+                    primary: 'no',
                     callback: function(btn) {
                         try {
                             (btn == 'yes') && window.open(url, '_blank');

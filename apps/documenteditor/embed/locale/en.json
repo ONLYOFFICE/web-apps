@@ -53,7 +53,7 @@
   "DE.ApplicationController.txtClose": "Close",
   "DE.ApplicationController.txtEmpty": "(Empty)",
   "DE.ApplicationController.txtNo": "No",
-  "DE.ApplicationController.txtOpenWarning": "Clicking this link can be harmful to your device and data.<br> Are you sure you want to continue?",
+  "DE.ApplicationController.txtOpenWarning": "Clicking this link can be harmful to your device and data.To protect you computer, click only those hyperlinks from trusted sources. This location may be unsafe:<br>%1<br>Are you sure you want to continue?",
   "DE.ApplicationController.txtPressLink": "Press %1 and click link",
   "DE.ApplicationController.txtSecurityWarningLink": "This document is trying to connect to %1.<br>If you trust this site, press \"OK\" while holding down the Ctrl key.",
   "DE.ApplicationController.txtSecurityWarningOpenFile": "This document is trying to open file dialog, press \"OK\" to open.",

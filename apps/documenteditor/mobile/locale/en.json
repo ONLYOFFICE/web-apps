@@ -228,7 +228,7 @@
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
     "textRows": "Rows",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?"
   },
   "Draw": {
     "textColor": "Color",
@@ -533,7 +533,7 @@
     "criticalErrorTitle": "Error",
     "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please, contact your administrator.",
     "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
-    "errorProcessSaveResult": "Saving failed.",
+    "del_errorProcessSaveResult": "Saving failed.",
     "errorServerVersion": "The editor version has been updated. The page will be reloaded to apply the changes.",
     "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
     "leavePageText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",

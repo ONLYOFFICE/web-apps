@@ -177,6 +177,7 @@
   "DE.Controllers.ApplicationController.warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact %1 sales team for personal upgrade terms.",
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
   "DE.Controllers.ApplicationController.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
+  "DE.Controllers.ApplicationController.txtWarnUrl": "Clicking this link can be harmful to your device and data.To protect you computer, click only those hyperlinks from trusted sources. This location may be unsafe:<br><br>{0}<br><br>Are you sure you want to continue?",
   "DE.Views.ApplicationView.textClear": "Clear all fields",
   "DE.Views.ApplicationView.textClearField": "Clear field",
   "DE.Views.ApplicationView.textClose": "Close file",
