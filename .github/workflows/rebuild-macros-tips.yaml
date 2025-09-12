@@ -28,8 +28,6 @@ jobs:
       - name: Checkout web-apps repository
         uses: actions/checkout@v4
         with:
-          repository: ONLYOFFICE/web-apps
-          token: ${{ secrets.READ_PAT }}
           ref: ${{ env.BRANCH }}
           path: web-apps
 
