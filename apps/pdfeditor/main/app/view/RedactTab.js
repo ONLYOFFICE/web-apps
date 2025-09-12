@@ -49,6 +49,7 @@ define([
                 '<div class="group">' +
                     '<span class="btn-slot text x-huge" id="slot-btn-markredact"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-redactpages"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-findredact"></span>' +
                 '</div>' +
                 '<div class="separator long"></div>' +
                 '<div class="group">' +
@@ -104,6 +105,17 @@ define([
                 });
                 me.lockedControls.push(this.btnRedactPages);
 
+                this.btnFindRedact = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-dark-mode',
+                    lock: [_set.lostConnect, _set.disableOnStart],
+                    caption: me.capFindRedact,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small',
+                });
+                me.lockedControls.push(this.btnFindRedact);
+
                 this.btnApplyRedactions = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-edit-text',
@@ -135,6 +147,7 @@ define([
                 _injectComponent('#slot-btn-markredact', this.btnMarkForRedact);
                 _injectComponent('#slot-btn-redactpages', this.btnRedactPages);
                 _injectComponent('#slot-btn-apply-redactions', this.btnApplyRedactions);
+                _injectComponent('#slot-btn-findredact', this.btnFindRedact);
 
                 return this.$el;
             },
@@ -160,6 +173,7 @@ define([
                 this.btnMarkForRedact.updateHint(this.tipMarkForRedact);
                 this.btnRedactPages.updateHint(this.tipRedactPages);
                 this.btnApplyRedactions.updateHint(this.tipApplyRedactions);
+                this.btnFindRedact.updateHint(this.tipFindRedact);
             },
 
             show: function () {
