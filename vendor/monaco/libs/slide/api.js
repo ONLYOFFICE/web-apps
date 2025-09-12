@@ -39,8 +39,8 @@ function ApiDocumentContent(Document){}
  * Class representing a continuous region in a document. 
  * Each Range object is determined by the position of the start and end characters.
  * @param oElement - The document element that may be Document, Table, Paragraph, Run or Hyperlink.
- * @param {Number} Start - The start element of Range in the current Element.
- * @param {Number} End - The end element of Range in the current Element.
+ * @param {Number} [Start = undefined] - The start element of Range in the current Element. If omitted or undefined, the range begins at the beginning of the element.
+ * @param {Number} [End = undefined] - The end element of Range in the current Element. If omitted or undefined, the range begins at the end of the element.
  * @constructor
  */
 function ApiRange(oElement, Start, End){}
@@ -229,6 +229,24 @@ function ApiUnsupported(){}
 function ApiChart(Chart){}
 ApiChart.prototype = Object.create(ApiDrawing.prototype);
 ApiChart.prototype.constructor = ApiChart;
+
+/**
+ * Class representing shape geometry
+ * @constructor
+ */
+function ApiGeometry(geometry) {}
+
+/**
+ * Class representing a path command
+ * @constructor
+ */
+function ApiPathCommand(command) {}
+
+/**
+ * Class representing a path in geometry
+ * @constructor
+ */
+function ApiPath(path) {}
 
 /**
  * Class representing a chart series.
@@ -432,6 +450,11 @@ function ApiCustomProperties(oCustomProperties) {}
  */
 
 /**
+ * The types of elements that can be added to the paragraph structure.
+ * @typedef {("ltr" | "rtl")} ReadingOrder
+ */
+
+/**
  * The possible values for the base which the relative horizontal positioning of an object will be calculated from.
  * @typedef {("character" | "column" | "leftMargin" | "rightMargin" | "margin" | "page")} RelFromH
  */
@@ -462,18 +485,40 @@ function ApiCustomProperties(oCustomProperties) {}
  */
 
 /**
+ * This type specifies the formula type that will be used for a geometry guide.
+ * @typedef {("*\/" | "+-" | "+\/" | "?:" | "abs" | "at2" | "cat2" | "cos" | "max" | "min" | "mod" | "pin" | "sat2" | "sin" | "sqrt" | "tan" | "val")} GeometryFormulaType
+ */
+
+/**
  * This type specifies the available chart types which can be used to create a new chart.
- * @typedef {("bar" | "barStacked" | "barStackedPercent" | "bar3D" | "barStacked3D" | "barStackedPercent3D" |
- *     "barStackedPercent3DPerspective" | "horizontalBar" | "horizontalBarStacked" | "horizontalBarStackedPercent"
- *     | "horizontalBar3D" | "horizontalBarStacked3D" | "horizontalBarStackedPercent3D" | "lineNormal" |
- *     "lineStacked" | "lineStackedPercent" | "line3D" | "pie" | "pie3D" | "doughnut" | "scatter" | "stock" |
- *     "area" | "areaStacked" | "areaStackedPercent" | "comboBarLine" | "comboBarLineSecondary" | "comboCustom" | "unknown")} ChartType
+ * @typedef {(
+ *     "bar" | "barStacked" | "barStackedPercent" | "bar3D" | "barStacked3D" | "barStackedPercent3D" | "barStackedPercent3DPerspective" |
+ *     "horizontalBar" | "horizontalBarStacked" | "horizontalBarStackedPercent" | "horizontalBar3D" | "horizontalBarStacked3D" | "horizontalBarStackedPercent3D" |
+ *     "lineNormal" | "lineStacked" | "lineStackedPercent" | "lineNormalMarker" | "lineStackedMarker" | "lineStackedPerMarker" | "line3D" |
+ *     "pie" | "pie3D" | "doughnut" |
+ *     "scatter" | "scatterLine" | "scatterLineMarker" | "scatterSmooth" | "scatterSmoothMarker" |
+ *     "stock" |
+ *     "area" | "areaStacked" | "areaStackedPercent" |
+ *     "comboCustom" | "comboBarLine" | "comboBarLineSecondary" |
+ *     "radar" | "radarMarker" | "radarFilled" |
+ *     "unknown"
+ * )} ChartType
  */
 
 /**
  * This type specifies the type of drawing lock.
  * @typedef {("noGrp" | "noUngrp" | "noSelect" | "noRot" | "noChangeAspect" | "noMove" | "noResize" | "noEditPoints" | "noAdjustHandles"
  * | "noChangeArrowheads" | "noChangeShapeType" | "noDrilldown" | "noTextEdit" | "noCrop" | "txBox")} DrawingLockType
+ */
+
+/**
+ * Fill type for paths
+ * @typedef {("none" | "norm" | "lighten" | "lightenLess" | "darken" | "darkenLess")} PathFillType
+ */
+
+/**
+ * Path command types
+ * @typedef {("moveTo" | "lineTo" | "bezier3" | "bezier4" | "arcTo" | "close")} PathCommandType
  */
 
 /**
@@ -666,7 +711,7 @@ function ApiCustomProperties(oCustomProperties) {}
  * <b>"hyphen"</b> - the "-" punctuation mark.
  * <b>"period"</b> - the "." punctuation mark.
  * <b>"colon"</b> - the ":" punctuation mark.
- * <b>"longDash"</b> - the "вЂ”" punctuation mark.
+ * <b>"longDash"</b> - the "—" punctuation mark.
  * <b>"dash"</b> - the "-" punctuation mark.
  * @typedef {("hyphen" | "period" | "colon" | "longDash" | "dash")} CaptionSep
  */
@@ -774,6 +819,21 @@ function ApiCustomProperties(oCustomProperties) {}
  * @returns {ApiRun}
  */
 ApiInterface.prototype.CreateRun = function(){ return new ApiRun(); };
+
+/**
+ * Creates a new custom geometry
+ * @memberof ApiInterface
+ * @returns {ApiGeometry}
+ */
+ApiInterface.prototype.CreateCustomGeometry = function(){ return new ApiGeometry(); };
+
+/**
+ * Creates a preset geometry
+ * @memberof ApiInterface
+ * @param {ShapeType} sPreset - Preset name
+ * @returns {ApiGeometry | null}
+ */
+ApiInterface.prototype.CreatePresetGeometry = function(sPreset){ return new ApiGeometry(); };
 
 /**
  * Creates an RGB color setting the appropriate values for the red, green and blue color components.
@@ -891,8 +951,8 @@ ApiInterface.prototype.CreateNumbering = function(numType, startAt){ return new 
  * The checkbox content control properties
  * @typedef {Object} ContentControlCheckBoxPr
  * @property {boolean} [checked] Indicates whether the checkbox is checked by default.
- * @property {string} [checkedSymbol] A custom symbol to display when the checkbox is checked (e.g., "в�’").
- * @property {string} [uncheckedSymbol] A custom symbol to display when the checkbox is unchecked (e.g., "в�ђ").
+ * @property {string} [checkedSymbol] A custom symbol to display when the checkbox is checked (e.g., "☒").
+ * @property {string} [uncheckedSymbol] A custom symbol to display when the checkbox is unchecked (e.g., "☐").
  */
 
 /**
@@ -922,6 +982,14 @@ ApiUnsupported.prototype.GetClassType = function(){ return ""; };
  * @returns {"documentContent"}
  */
 ApiDocumentContent.prototype.GetClassType = function(){ return ""; };
+
+/**
+ * Returns an internal ID of the current document content.
+ * @memberof ApiDocumentContent
+ * @returns {string}
+ * @since 9.0.4
+ */
+ApiDocumentContent.prototype.GetInternalId = function(){ return ""; };
 
 /**
  * Returns a number of elements in the current document.
@@ -973,11 +1041,363 @@ ApiDocumentContent.prototype.RemoveAllElements = function(){ return true; };
 ApiDocumentContent.prototype.RemoveElement = function(nPos){ return true; };
 
 /**
+ * Class representing a custom XML manager, which provides methods to manage custom XML parts in the document.
+ * @param doc - The current document.
+ * @constructor
+ */
+function ApiCustomXmlParts(doc){}
+ApiCustomXmlParts.prototype = Object.create(ApiCustomXmlParts.prototype);
+ApiCustomXmlParts.prototype.constructor = ApiCustomXmlParts;
+
+/**
+ * Adds a new custom XML part to the XML manager.
+ * @memberof ApiCustomXmlParts
+ * @since 9.0.0
+ * @param {string} xml - The XML string to be added.
+ * @returns {ApiCustomXmlPart} The newly created ApiCustomXmlPart object.
+ */
+ApiCustomXmlParts.prototype.Add = function(xml){ return new ApiCustomXmlPart(); };
+
+/**
+ * Returns a type of the ApiCustomXmlParts class.
+ * @memberof ApiCustomXmlParts
+ * @returns {"customXmlParts"}
+ */
+ApiCustomXmlParts.prototype.GetClassType = function(){ return ""; };
+
+/**
+ * Returns a custom XML part by its ID from the XML manager.
+ * @memberof ApiCustomXmlParts
+ * @since 9.0.0
+ * @param {string} xmlPartId - The XML part ID.
+ * @returns {ApiCustomXmlPart|null} The corresponding ApiCustomXmlPart object if found, or null if no match is found.
+ */
+ApiCustomXmlParts.prototype.GetById = function(xmlPartId){ return new ApiCustomXmlPart(); };
+
+/**
+ * Returns custom XML parts by namespace from the XML manager.
+ * @memberof ApiCustomXmlParts
+ * @since 9.0.0
+ * @param {string} namespace - The namespace of the XML parts.
+ * @returns {ApiCustomXmlPart[]} An array of ApiCustomXmlPart objects or null if no matching XML parts are found.
+ */
+ApiCustomXmlParts.prototype.GetByNamespace = function(namespace){ return [new ApiCustomXmlPart()]; };
+
+/**
+ * Returns a number of custom XML parts in the XML manager.
+ * @memberof ApiCustomXmlParts
+ * @since 9.0.0
+ * @returns {number} The number of custom XML parts.
+ */
+ApiCustomXmlParts.prototype.GetCount = function(){ return 0; };
+
+/**
+ * Returns all custom XML parts from the XML manager.
+ * @memberof ApiCustomXmlParts
+ * @since 9.0.0
+ * @returns {ApiCustomXmlPart[]} An array of all custom XML parts.
+ */
+ApiCustomXmlParts.prototype.GetAll = function(){ return [new ApiCustomXmlPart()]; };
+
+/**
+ * Class representing a custom XML part.
+ * @constructor
+ * @since 9.0.0
+ * @param {Object} customXMl - The custom XML object.
+ * @param {Object} customXmlManager - The custom XML manager instance.
+ * @memberof ApiCustomXmlPart
+ */
+function ApiCustomXmlPart(customXMl, customXmlManager){}
+ApiCustomXmlPart.prototype = Object.create(ApiCustomXmlPart.prototype);
+ApiCustomXmlPart.prototype.constructor = ApiCustomXmlPart;
+
+/**
+ * Returns a type of the ApiCustomXmlPart class.
+ * @memberof ApiCustomXmlPart
+ * @returns {"customXmlPart"}
+ */
+ApiCustomXmlPart.prototype.GetClassType = function(){ return ""; };
+
+/**
+ * Returns the ID of the custom XML part.
+ * @memberof ApiCustomXmlPart
+ * @returns {string}
+ */
+ApiCustomXmlPart.prototype.GetId = function(){ return ""; };
+
+/**
+ * Retrieves nodes from custom XML based on the provided XPath.
+ * @memberof ApiCustomXmlPart
+ * @since 9.0.0
+ * @param {string} xPath - The XPath expression to search for nodes.
+ * @returns {ApiCustomXmlNode[]} An array of ApiCustomXmlNode objects corresponding to the found nodes.
+ */
+ApiCustomXmlPart.prototype.GetNodes = function(xPath){ return [new ApiCustomXmlNode()]; };
+
+/**
+ * Retrieves the XML string from the custom XML part.
+ * @memberof ApiCustomXmlPart
+ * @since 9.0.0
+ * @returns {string} The XML string.
+ */
+ApiCustomXmlPart.prototype.GetXml = function(){ return ""; };
+
+/**
+ * Deletes the XML from the custom XML manager.
+ * @memberof ApiCustomXmlPart
+ * @since 9.0.0
+ * @returns {boolean} True if the XML was successfully deleted.
+ */
+ApiCustomXmlPart.prototype.Delete = function(){ return true; };
+
+/**
+ * Deletes an attribute from the XML node at the specified XPath.
+ * @memberof ApiCustomXmlPart
+ * @since 9.0.0
+ * @param {string} xPath - The XPath of the node from which to delete the attribute.
+ * @param {string} name - The name of the attribute to delete.
+ * @returns {boolean} True if the attribute was successfully deleted.
+ */
+ApiCustomXmlPart.prototype.DeleteAttribute = function(xPath, name){ return true; };
+
+/**
+ * Inserts an attribute into the XML node at the specified XPath.
+ * @memberof ApiCustomXmlPart
+ * @since 9.0.0
+ * @param {string} xPath - The XPath of the node to insert the attribute into.
+ * @param {string} name - The name of the attribute to insert.
+ * @param {string} value - The value of the attribute to insert.
+ * @returns {boolean} True if the attribute was successfully inserted.
+ */
+ApiCustomXmlPart.prototype.InsertAttribute = function(xPath, name, value){ return true; };
+
+/**
+ * Returns an attribute from the XML node at the specified XPath.
+ * @memberof ApiCustomXmlPart
+ * @since 9.0.0
+ * @param {string} xPath - The XPath of the node from which to get the attribute.
+ * @param {string} name - The name of the attribute to find.
+ * @returns {string | null} The attribute value or null if no matching attributes are found.
+ */
+ApiCustomXmlPart.prototype.GetAttribute = function(xPath, name){ return ""; };
+
+/**
+ * Updates an attribute of the XML node at the specified XPath.
+ * @memberof ApiCustomXmlPart
+ * @since 9.0.0
+ * @param {string} xPath - The XPath of the node whose attribute should be updated.
+ * @param {string} name - The name of the attribute to update.
+ * @param {string} value - The new value for the attribute.
+ * @returns {boolean} True if the attribute was successfully updated.
+ */
+ApiCustomXmlPart.prototype.UpdateAttribute = function(xPath, name, value){ return true; };
+
+/**
+ * Deletes an XML element at the specified XPath.
+ * @memberof ApiCustomXmlPart
+ * @since 9.0.0
+ * @param {string} xPath - The XPath of the node to delete.
+ * @returns {boolean} True if the element was successfully deleted.
+ */
+ApiCustomXmlPart.prototype.DeleteElement = function(xPath){ return true; };
+
+/**
+ * Inserts an XML element at the specified XPath.
+ * @memberof ApiCustomXmlPart
+ * @since 9.0.0
+ * @param {string} xPath - The XPath of the parent node where the new element will be inserted.
+ * @param {string} xmlStr - The XML string to insert.
+ * @param {number} [index] - The position at which to insert the new XML element. If omitted, the element will be appended as the last child.
+ * @returns {boolean} True if the insertion was successful.
+ */
+ApiCustomXmlPart.prototype.InsertElement = function(xPath, xmlStr, index){ return true; };
+
+/**
+ * Updates an XML element at the specified XPath.
+ * @memberof ApiCustomXmlPart
+ * @since 9.0.0
+ * @param {string} xPath - The XPath of the node to update.
+ * @param {string} xmlStr - The XML string to replace the node content with.
+ * @returns {boolean} True if the update was successful.
+ */
+ApiCustomXmlPart.prototype.UpdateElement = function(xPath, xmlStr){ return true; };
+
+/**
+ * Class representing a custom XML node.
+ * @constructor
+ * @since 9.0.0
+ * @param xmlNode - The custom XML node.
+ * @param xmlPart - The custom XML part.
+ */
+function ApiCustomXmlNode(xmlNode, xmlPart){}
+ApiCustomXmlNode.prototype = Object.create(ApiCustomXmlNode.prototype);
+ApiCustomXmlNode.prototype.constructor = ApiCustomXmlNode;
+
+/**
+ * Returns a type of the ApiCustomXmlNode class.
+ * @memberof ApiCustomXmlNode
+ * @returns {"customXmlNode"}
+ */
+ApiCustomXmlNode.prototype.GetClassType = function(){ return ""; };
+
+/**
+ * Returns nodes from the custom XML node based on the given XPath.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @param {string} xPath - The XPath expression to match nodes.
+ * @returns {ApiCustomXmlNode[]} An array of nodes that match the given XPath.
+ */
+ApiCustomXmlNode.prototype.GetNodes = function(xPath){ return [new ApiCustomXmlNode()]; };
+
+/**
+ * Returns the absolute XPath of the current XML node.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @returns {string} The absolute XPath of the current node.
+ */
+ApiCustomXmlNode.prototype.GetXPath = function(){ return ""; };
+
+/**
+ * Returns the name of the current XML node.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @returns {string} The name of the current node.
+ */
+ApiCustomXmlNode.prototype.GetNodeName = function(){ return ""; };
+
+/**
+ * Returns the XML string representation of the current node content.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @returns {string} The XML string representation of the current node content.
+ */
+ApiCustomXmlNode.prototype.GetNodeValue = function(){ return ""; };
+
+/**
+ * Returns the XML string of the current node.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @returns {string} The XML string representation of the current node.
+ */
+ApiCustomXmlNode.prototype.GetXml = function(){ return ""; };
+
+/**
+ * Returns the inner text of the current node and its child nodes.
+ * For example: `<text>123<one>4</one></text>` returns `"1234"`.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @returns {string} The combined text content of the node and its descendants.
+ */
+ApiCustomXmlNode.prototype.GetText = function(){ return ""; };
+
+/**
+ * Sets the XML content for the current node.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @param {string} xml - The XML string to set as the content of the current node.
+ * @returns {boolean} Returns `true` if the XML was successfully set.
+ */
+ApiCustomXmlNode.prototype.SetNodeValue = function(xml){ return true; };
+
+/**
+ * Sets the text content of the current XML node.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @param {string} str - The text content to set for the node.
+ * @returns {boolean} Returns `true` if the text was successfully set.
+ */
+ApiCustomXmlNode.prototype.SetText = function(str){ return true; };
+
+/**
+ * Sets the XML content of the current XML node.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @param {string} strXml - The XML string to set as the node content.
+ * @returns {boolean} Returns `true` if the XML was successfully set.
+ */
+ApiCustomXmlNode.prototype.SetXml = function(strXml){ return true; };
+
+/**
+ * Deletes the current XML node.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @returns {boolean} Returns `true` if the node was successfully deleted.
+ */
+ApiCustomXmlNode.prototype.Delete = function(){ return true; };
+
+/**
+ * Returns the parent of the current XML node.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @returns {ApiCustomXmlNode | null} The parent node, or `null` if the current node has no parent.
+ */
+ApiCustomXmlNode.prototype.GetParent = function(){ return new ApiCustomXmlNode(); };
+
+/**
+ * Creates a child node for the current XML node.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @param {string} nodeName - The name of the new child node.
+ * @returns {ApiCustomXmlNode} The newly created child node.
+ */
+ApiCustomXmlNode.prototype.Add = function(nodeName){ return new ApiCustomXmlNode(); };
+
+/**
  * Represents an attribute of an XML node.
  * @typedef {Object} CustomXmlNodeAttribute
  * @property {string} name - The attribute name.
  * @property {string} value - The attribute value.
  */
+
+/**
+ * Returns a list of attributes of the current XML node.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @returns {CustomXmlNodeAttribute[]} An array of attribute objects.
+ */
+ApiCustomXmlNode.prototype.GetAttributes = function(){ return [new CustomXmlNodeAttribute()]; };
+
+/**
+ * Sets an attribute for the custom XML node.
+ * If the attribute already exists, it will not be modified.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @param {string} name - The name of the attribute to set.
+ * @param {string} value - The value to assign to the attribute.
+ * @returns {boolean} Returns `true` if the attribute was successfully set, `false` if the attribute already exists.
+ */
+ApiCustomXmlNode.prototype.SetAttribute = function(name, value){ return true; };
+
+/**
+ * Updates the value of an existing attribute in the custom XML node.
+ * If the attribute doesn't exist, the update will not occur.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @param {string} name - The name of the attribute to update.
+ * @param {string} value - The new value to assign to the attribute.
+ * @returns {boolean} Returns `true` if the attribute was successfully updated, `false` if the attribute doesn't exist.
+ */
+ApiCustomXmlNode.prototype.UpdateAttribute = function(name, value){ return true; };
+
+/**
+ * Deletes an attribute from the custom XML node.
+ * If the attribute exists, it will be removed.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @param {string} name - The name of the attribute to delete.
+ * @returns {boolean} Returns `true` if the attribute was successfully deleted, `false` if the attribute didn't exist.
+ */
+ApiCustomXmlNode.prototype.DeleteAttribute = function(name){ return true; };
+
+/**
+ * Retrieves the attribute value from the custom XML node.
+ * If the attribute doesn't exist, it returns `false`.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @param {string} name - The name of the attribute to retrieve.
+ * @returns {string |null} The value of the attribute if it exists, or `null` if the attribute is not found.
+ */
+ApiCustomXmlNode.prototype.GetAttribute = function(name){ return ""; };
 
 /**
  * Represents a single comment record.
@@ -1196,6 +1616,13 @@ ApiParagraph.prototype.AddTabStop = function(){ return new ApiRun(); };
  * @returns {ApiParagraph} this
  */
 ApiParagraph.prototype.SetHighlight = function(sColor){ return new ApiParagraph(); };
+
+/**
+ * Selects the current paragraph.
+ * @memberof ApiParagraph
+ * @returns {boolean}
+ */
+ApiParagraph.prototype.Select = function(){ return true; };
 
 /**
  * Returns a type of the ApiRun class.
@@ -1440,6 +1867,12 @@ ApiRun.prototype.SetVertAlign = function(sType){ return new ApiTextPr(); };
  * <b>Column</b> ("nextColumn") - starts a new section in the next column on the page.
  * @typedef {("nextPage" | "oddPage" | "evenPage" | "continuous" | "nextColumn")} SectionBreakType
 */
+
+/**
+ * Coordinate value for geometry paths.
+ * Can be a guide name from gdLst, a numeric value, or a string representation of a number.
+ * @typedef {string | number} GeometryCoordinate
+ */
 
 /**
  * Returns a type of the ApiTextPr class.
@@ -1854,6 +2287,329 @@ ApiParaPr.prototype.SetOutlineLvl = function(nLvl){ return true; };
  * @since 8.2.0
  */
 ApiParaPr.prototype.GetOutlineLvl = function(){ return 0; };
+
+/**
+ * Checks if this is a custom geometry
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.IsCustom = function(){ return true; };
+
+/**
+ * Gets the preset name if this is a preset geometry
+ * @returns {ShapeType | null}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.GetPreset = function(){ return new ShapeType(); };
+
+/**
+ * Gets the number of paths in the geometry
+ * @returns {number}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.GetPathCount = function(){ return 0; };
+
+/**
+ * Gets a path by index
+ * @param {number} nIndex - Path index
+ * @returns {ApiPath}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.GetPath = function(nIndex){ return new ApiPath(); };
+
+/**
+ * Gets all paths
+ * @returns {ApiPath[]}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.GetPaths = function(){ return [new ApiPath()]; };
+
+/**
+ * Adds a new path to the geometry
+ * @returns {ApiPath | null}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.AddPath = function(){ return new ApiPath(); };
+
+/**
+ * Gets adjustment value by name
+ * @param {string} sName - Adjustment name
+ * @returns {number | null}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.GetAdjValue = function(sName){ return 0; };
+
+/**
+ * Adds an adjustment value
+ * @param {string} sName - Adjustment name
+ * @param {number} nValue - Adjustment value
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.AddAdj = function(sName, nValue){ return true; };
+
+/**
+ * Sets an adjustment value
+ * @param {string} sName - Adjustment name
+ * @param {number} nValue - Adjustment value
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.SetAdjValue = function(sName, nValue){};
+
+/**
+ * Adds a guide (formula)
+ * @param {string} sName - Guide name
+ * @param {GeometryFormulaType} sFormula - Formula type
+ * @param {string} sX - X parameter
+ * @param {string} sY - Y parameter
+ * @param {string} sZ - Z parameter
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.AddGuide = function(sName, sFormula, sX, sY, sZ){ return true; };
+
+/**
+ * Sets the text rectangle
+ * @param {string} sLeft - Left guide name or value
+ * @param {string} sTop - Top guide name or value
+ * @param {string} sRight - Right guide name or value
+ * @param {string} sBottom - Bottom guide name or value
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.SetTextRect = function(sLeft, sTop, sRight, sBottom){ return true; };
+
+/**
+ * Adds a connection point
+ * @param {string} sAngle - Angle
+ * @param {string} sX - X position
+ * @param {string} sY - Y position
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.AddConnectionPoint = function(sAngle, sX, sY){};
+
+/**
+ * Gets the command type
+ * @returns {PathCommandType}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetType = function(){ return new PathCommandType(); };
+
+/**
+ * Gets the X coordinate for moveTo/lineTo commands
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetX = function(){ return ""; };
+
+/**
+ * Gets the Y coordinate for moveTo/lineTo commands
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetY = function(){ return ""; };
+
+/**
+ * Gets first control point X for bezier curves
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetX0 = function(){ return ""; };
+
+/**
+ * Gets first control point Y for bezier curves
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetY0 = function(){ return ""; };
+
+/**
+ * Gets second control point X for cubic bezier
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetX1 = function(){ return ""; };
+
+/**
+ * Gets second control point Y for cubic bezier
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetY1 = function(){ return ""; };
+
+/**
+ * Gets end point X for cubic bezier
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetX2 = function(){ return ""; };
+
+/**
+ * Gets end point Y for cubic bezier
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetY2 = function(){ return ""; };
+
+/**
+ * Gets width radius for arc
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetWR = function(){ return ""; };
+
+/**
+ * Gets height radius for arc
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetHR = function(){ return ""; };
+
+/**
+ * Gets start angle for arc
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetStartAngle = function(){ return ""; };
+
+/**
+ * Gets sweep angle for arc
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetSweepAngle = function(){ return ""; };
+
+/**
+ * Gets whether the path is stroked
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiPath.prototype.GetStroke = function(){ return true; };
+
+/**
+ * Sets whether the path should be stroked
+ * @param {boolean} bStroke - Whether to stroke the path
+ * @since 9.1.0
+ */
+ApiPath.prototype.SetStroke = function(bStroke){};
+
+/**
+ * Gets the fill type
+ * @returns {PathFillType}
+ * @since 9.1.0
+ */
+ApiPath.prototype.GetFill = function(){ return new PathFillType(); };
+
+/**
+ * Sets the fill type for the path
+ * @param {PathFillType} sFill - Fill type
+ * @since 9.1.0
+ */
+ApiPath.prototype.SetFill = function(sFill){};
+
+/**
+ * Gets the path width
+ * @returns {number}
+ * @since 9.1.0
+ */
+ApiPath.prototype.GetWidth = function(){ return 0; };
+
+/**
+ * Sets the path width
+ * @param {number} nWidth - Width in EMU
+ * @since 9.1.0
+ */
+ApiPath.prototype.SetWidth = function(nWidth){};
+
+/**
+ * Gets the path height
+ * @returns {number}
+ * @since 9.1.0
+ */
+ApiPath.prototype.GetHeight = function(){ return 0; };
+
+/**
+ * Sets the path height
+ * @param {number} nHeight - Height in EMU
+ * @since 9.1.0
+ */
+ApiPath.prototype.SetHeight = function(nHeight){};
+
+/**
+ * Gets all path commands
+ * @returns {ApiPathCommand[]}
+ * @since 9.1.0
+ */
+ApiPath.prototype.GetCommands = function(){ return [new ApiPathCommand()]; };
+
+/**
+ * Gets command count
+ * @returns {number}
+ * @since 9.1.0
+ */
+ApiPath.prototype.GetCommandCount = function(){ return 0; };
+
+/**
+ * Gets a specific command by index
+ * @param {number} nIndex - Command index
+ * @returns {ApiPathCommand | null}
+ * @since 9.1.0
+ */
+ApiPath.prototype.GetCommand = function(nIndex){ return new ApiPathCommand(); };
+
+/**
+ * Moves to a point
+ * @param {GeometryCoordinate} x - X coordinate
+ * @param {GeometryCoordinate} y - Y coordinate
+ * @since 9.1.0
+ */
+ApiPath.prototype.MoveTo = function(x, y){};
+
+/**
+ * Draws a line to a point
+ * @param {GeometryCoordinate} x - X coordinate
+ * @param {GeometryCoordinate} y - Y coordinate
+ * @since 9.1.0
+ */
+ApiPath.prototype.LineTo = function(x, y){};
+
+/**
+ * Draws a cubic bezier curve
+ * @param {GeometryCoordinate} x1 - First control point X
+ * @param {GeometryCoordinate} y1 - First control point Y
+ * @param {GeometryCoordinate} x2 - Second control point X
+ * @param {GeometryCoordinate} y2 - Second control point Y
+ * @param {GeometryCoordinate} x3 - End point X
+ * @param {GeometryCoordinate} y3 - End point Y
+ * @since 9.1.0
+ */
+ApiPath.prototype.CubicBezTo = function(x1, y1, x2, y2, x3, y3){};
+
+/**
+ * Draws a quadratic bezier curve
+ * @param {GeometryCoordinate} x1 - Control point X
+ * @param {GeometryCoordinate} y1 - Control point Y
+ * @param {GeometryCoordinate} x2 - End point X
+ * @param {GeometryCoordinate} y2 - End point Y
+ * @since 9.1.0
+ */
+ApiPath.prototype.QuadBezTo = function(x1, y1, x2, y2){};
+
+/**
+ * Draws an arc
+ * @param {GeometryCoordinate} wR - Width radius
+ * @param {GeometryCoordinate} hR - Height radius
+ * @param {GeometryCoordinate} stAng - Start angle
+ * @param {GeometryCoordinate} swAng - Sweep angle Y
+ * @since 9.1.0
+ */
+ApiPath.prototype.ArcTo = function(wR, hR, stAng, swAng){};
+
+/**
+ * Closes the current path
+ * @since 9.1.0
+ */
+ApiPath.prototype.Close = function(){};
 
 /**
  * Returns a type of the ApiChart class.
@@ -2350,6 +3106,150 @@ ApiInterface.prototype.GetFullName = function(){ return ""; };
  * @returns {string}
  */
 ApiInterface.prototype.FullName = ApiInterface.prototype.GetFullName ();
+
+/**
+ * Converts pixels to EMUs (English Metric Units).
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PixelsToEmus = function Px2Emu(px) { return 0; };
+
+/**
+ * Converts millimeters to pixels.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.MillimetersToPixels = function Mm2Px(mm) { return 0; };
+
+/**
+ * Converts points to centimeters.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToCentimeters = function PointsToCentimeters(pt) { return 0; };
+
+/**
+ * Converts points to EMUs (English Metric Units).
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToEmus = function PointsToEmus(pt) { return 0; };
+
+/**
+ * Converts points to inches.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToInches = function PointsToInches(pt) { return 0; };
+
+/**
+ * Converts points to lines (1 line = 12 points).
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToLines = function PointsToLines(pt) { return 0; };
+
+/**
+ * Converts points to millimeters.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToMillimeters = function PointsToMillimeters(pt) { return 0; };
+
+/**
+ * Converts points to picas (1 pica = 12 points).
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToPicas = function PointsToPicas(pt) { return 0; };
+
+/**
+ * Converts points to pixels.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToPixels = function PointsToPixels(pt) { return 0; };
+
+/**
+ * Converts points to twips.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToTwips = function PointsToTwips(pt) { return 0; };
+
+/**
+ * Converts centimeters to points.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.CentimetersToPoints = function CentimetersToPoints(cm) { return 0; };
+
+/**
+ * Converts EMUs (English Metric Units) to points.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.EmusToPoints = function EmusToPoints(emu) { return 0; };
+
+/**
+ * Converts inches to points.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.InchesToPoints = function InchesToPoints(inches) { return 0; };
+
+/**
+ * Converts lines to points (1 line = 12 points).
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.LinesToPoints = function LinesToPoints(lines) { return 0; };
+
+/**
+ * Converts millimeters to points.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.MillimetersToPoints = function MillimetersToPoints(mm) { return 0; };
+
+/**
+ * Converts picas to points.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PicasToPoints = function PicasToPoints(pc) { return 0; };
+
+/**
+ * Converts pixels to points.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PixelsToPoints = function PixelsToPoints(px) { return 0; };
+
+/**
+ * Converts twips to points.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.TwipsToPoints = function TwipsToPoints(twips) { return 0; };
 
 /**
  * Returns a type of the ApiComment class.
@@ -2871,19 +3771,19 @@ function ApiTheme(oThemeInfo){}
  * Class representing a theme color scheme.
  * @constructor
  */
-function ApiThemeColorScheme(oClrScheme){}
+function ApiThemeColorScheme(oClrScheme, theme){}
 
 /**
  * Class representing a theme format scheme.
  * @constructor
  */
-function ApiThemeFormatScheme(ofmtScheme){}
+function ApiThemeFormatScheme(ofmtScheme, theme){}
 
 /**
  * Class representing a theme font scheme.
  * @constructor
  */
-function ApiThemeFontScheme(ofontScheme){}
+function ApiThemeFontScheme(ofontScheme, theme){}
 
 /**
  * Class representing a slide.
@@ -3084,6 +3984,10 @@ function ApiTableCell(oCell){}
 
 /**
  * @typedef {("body" | "chart" | "clipArt" | "ctrTitle" | "diagram" | "date" | "footer" | "header" | "media" | "object" | "picture" | "sldImage" | "sldNumber" | "subTitle" | "table" | "title")} PlaceholderType - Available placeholder types.
+ */
+
+/**
+ * @typedef {("blank" | "chart" | "chartAndTx" | "clipArtAndTx" | "clipArtAndVertTx" | "cust" | "dgm" | "fourObj" | "mediaAndTx" | "obj" | "objAndTwoObj" | "objAndTx" | "objOnly" | "objOverTx" | "objTx" | "picTx" | "secHead" | "tbl" | "title" | "titleOnly" | "twoColTx" | "twoObj" | "twoObjAndObj" | "twoObjAndTx" | "twoObjOverTx" | "twoTxTwoObj" | "tx" | "txAndChart" | "txAndClipArt" | "txAndMedia" | "txAndObj" | "txAndTwoObj" | "txOverObj" | "vertTitleAndTx" | "vertTitleAndTxOverChart" | "vertTx")} LayoutType - Available layout types.
  */
 
 /**
@@ -3374,8 +4278,9 @@ ApiPresentation.prototype.GetCurrentVisibleSlide = function () { return new ApiS
  * Appends a new slide to the end of the presentation.
  * @memberof ApiPresentation
  * @param {ApiSlide} oSlide - The slide created using the {@link Api#CreateSlide} method.
+ * @param {?number} nIndex - Index of the slide to be added. If not specified, the slide will be added to the end of the presentation.
  */
-ApiPresentation.prototype.AddSlide = function(oSlide) {};
+ApiPresentation.prototype.AddSlide = function(oSlide, nIndex) {};
 
 /**
  * Sets the size to the current presentation.
@@ -3524,6 +4429,14 @@ ApiPresentation.prototype._collectAllObjects = function (getObjectsMethod) {};
 ApiPresentation.prototype.GetAllOleObjects = function () { return [new ApiOleObject()]; };
 
 /**
+ * Returns an array with all tables from the current presentation (including slide masters and slide layouts).
+ *
+ * @memberof ApiPresentation
+ * @returns {ApiTable[]}
+ */
+ApiPresentation.prototype.GetAllTables = function () { return [new ApiTable()]; };
+
+/**
  * Returns an array with all the chart objects from the current presentation.
  * @memberof ApiPresentation
  * @returns {ApiChart[]}
@@ -3594,11 +4507,20 @@ ApiPresentation.prototype.GetCustomProperties = function () { return new ApiCust
 * Adds a math equation to the current presentation.
 * @memberof ApiPresentation
 * @param {string} sText - The math equation text.
-* @param {string} sFormat - The math equation format. Possible values are "unicode" and "latex".
+* @param {string} sFormat - The math equation format. Possible values are "unicode", "latex" and "mathml".
 * @returns {boolean}
 * @since 9.0.0
 */
 ApiPresentation.prototype.AddMathEquation = function (sText, sFormat) { return true; };
+
+/**
+ * Retrieves the custom XML manager associated with the presentation.
+ * This manager allows manipulation and access to custom XML parts within the presentation.
+ * @memberof ApiPresentation
+ * @since 9.1.0
+ * @returns {ApiCustomXmlParts|null} Returns an instance of ApiCustomXmlParts if the custom XML manager exists, otherwise returns null.
+ */
+ApiPresentation.prototype.GetCustomXmlParts = function(){ return new ApiCustomXmlParts(); };
 
 /**
  * Returns the type of the ApiMaster class.
@@ -3619,6 +4541,13 @@ ApiMaster.prototype.GetAllLayouts = function () { return [new ApiLayout()]; };
  * @returns {ApiLayout | null} - returns null if position is invalid.
  */
 ApiMaster.prototype.GetLayout = function(nPos){ return new ApiLayout(); };
+
+/**
+ * Returns a layout of the specified slide master by its position.
+ * @param {LayoutType} sType - Layout position.
+ * @returns {ApiLayout | null} - returns null if position is invalid.
+ */
+ApiMaster.prototype.GetLayoutByType = function(sType){ return new ApiLayout(); };
 
 /**
  * Adds a layout to the specified slide master.
@@ -3739,6 +4668,13 @@ ApiMaster.prototype.GetAllCharts = function() { return [new ApiChart()]; };
 ApiMaster.prototype.GetAllOleObjects = function() { return [new ApiOleObject()]; };
 
 /**
+ * Returns an array with all tables from the slide master.
+ *
+ * @returns {ApiTable[]}
+ */
+ApiMaster.prototype.GetAllTables = function () { return [new ApiTable()]; };
+
+/**
  * Converts the ApiMaster object into the JSON object.
  * @memberof ApiMaster
  * @param {boolean} [bWriteTableStyles=false] - Specifies whether to write used table styles to the JSON object (true) or not (false).
@@ -3776,6 +4712,12 @@ ApiLayout.prototype.GetClassType = function(){ return ""; };
  * @returns {boolean}
  */
 ApiLayout.prototype.SetName = function(sName){ return true; };
+
+/**
+ * Returns a type if the current layout.
+ * @returns {boolean}
+ */
+ApiLayout.prototype.GetLayoutType = function(){ return true; };
 
 /**
  * Returns a name of the current layout.
@@ -3879,6 +4821,13 @@ ApiLayout.prototype.GetAllCharts = function() { return [new ApiChart()]; };
  * @returns {ApiOleObject[]}
  */
 ApiLayout.prototype.GetAllOleObjects = function(){ return [new ApiOleObject()]; };
+
+/**
+ * Returns an array with all tables from the current slide layout.
+ *
+ * @returns {ApiTable[]}
+ */
+ApiLayout.prototype.GetAllTables = function () { return [new ApiTable()]; };
 
 /**
  * Returns the parent slide master of the current layout.
@@ -4069,7 +5018,7 @@ ApiThemeFormatScheme.prototype.ChangeFillStyles = function(arrFill){};
 
 /**
  * Sets the background fill styles to the current theme format scheme.
- * @param {ApiFill[]} arrBgFill - The array of background fill styles must contains 3 elements - subtle, moderate and intense fills.
+ * @param {ApiFill[]} arrBgFill - The array of background fill styles must contain 3 elements - subtle, moderate and intense fills.
  * If an array is empty or NoFill elements are in the array, it will be filled with the Api.CreateNoFill() elements.
  */
 ApiThemeFormatScheme.prototype.ChangeBgFillStyles = function(arrBgFill){};
@@ -4328,6 +5277,13 @@ ApiSlide.prototype.GetAllCharts = function() { return [new ApiChart()]; };
 ApiSlide.prototype.GetAllOleObjects = function() { return [new ApiOleObject()]; };
 
 /**
+ * Returns an array with all tables from the current slide.
+ *
+ * @returns {ApiTable[]}
+ */
+ApiSlide.prototype.GetAllTables = function () { return [new ApiTable()]; };
+
+/**
  * Converts the ApiSlide object into the JSON object.
  * @memberof ApiSlide
  * @param {boolean} [bWriteLayout=false] - Specifies if the slide layout will be written to the JSON object or not.
@@ -4404,6 +5360,15 @@ ApiNotesPage.prototype.GetBodyShape = function () { return new ApiShape(); };
  * @since 9.0.0
  */
 ApiNotesPage.prototype.AddBodyShapeText = function (sText) { return true; };
+
+/**
+ * Gets the text from the body shape of the current notes page.
+ *
+ * @memberof ApiNotesPage
+ * @returns {string}
+ * @since 9.1.0
+ */
+ApiNotesPage.prototype.GetBodyShapeText = function (sText) { return ""; };
 
 /**
  * Returns the type of the ApiDrawing class.
@@ -4580,6 +5545,23 @@ ApiShape.prototype.GetContent = function(){ return new ApiDocumentContent(); };
  * @param {VerticalTextAlign} VerticalAlign - The type of the vertical alignment for the shape inner contents.
  */
 ApiShape.prototype.SetVerticalTextAlign = function(VerticalAlign){};
+
+/**
+ * Gets the geometry object from a shape
+ * @memberof ApiShape
+ * @returns {ApiGeometry}
+ * @since 9.1.0
+ */
+ApiShape.prototype.GetGeometry = function(){ return new ApiGeometry(); };
+
+/**
+ * Sets a custom geometry for the shape
+ * @memberof ApiShape
+ * @param {ApiGeometry} oGeometry - The geometry to set
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiShape.prototype.SetGeometry = function(oGeometry){ return true; };
 
 /**
  * Returns a type of the ApiOleObject class.
