@@ -326,6 +326,7 @@ define([
                         this.isDragDrop = true;
                     }
                     this.trigger('tab:drop', event.dataTransfer, 'last', (event.ctrlKey || Common.Utils.isMac && event.altKey));
+                    this.preventCutTab = true;
                 } else {
                     this.isDrop = undefined;
                 }
