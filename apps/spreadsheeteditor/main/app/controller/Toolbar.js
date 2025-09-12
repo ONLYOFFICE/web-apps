@@ -814,7 +814,6 @@ define([
         },
 
         onNewBorderColor: function(picker, color) {
-            this.toolbar.btnBorders.menu.hide();
             this.toolbar.btnBorders.toggle(false, true);
             this.toolbar.mnuBorderColorPicker.addNewColor();
         },

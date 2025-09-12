@@ -2734,8 +2734,7 @@ define([
                                     {caption: '--'},
                                     {
                                         id: "id-toolbar-menu-new-bordercolor",
-                                        template: _.template('<a tabindex="-1" type="menuitem">' + this.textNewColor + '</a>'),
-                                        stopPropagation: true
+                                        template: _.template('<a tabindex="-1" type="menuitem">' + this.textNewColor + '</a>')
                                     }
                                 ]
                             })

@@ -2270,6 +2270,7 @@
   "PE.Views.DocumentHolder.txtWarnUrl": "Clicking this link can be harmful to your device and data.To protect you computer, click only those hyperlinks from trusted sources. This location may be unsafe:<br><br>{0}<br><br>Are you sure you want to continue?",
   "PE.Views.DocumentHolder.unicodeText": "Unicode",
   "PE.Views.DocumentHolder.vertAlignText": "Vertical alignment",
+  "PE.Views.DocumentHolder.btnChart": "Add, remove or change chart elements such as the title, legend, gridlines, and data labels",
   "PE.Views.DocumentPreview.goToSlideText": "Go to slide",
   "PE.Views.DocumentPreview.slideIndexText": "Slide {0} of {1}",
   "PE.Views.DocumentPreview.txtClose": "Close slideshow",
