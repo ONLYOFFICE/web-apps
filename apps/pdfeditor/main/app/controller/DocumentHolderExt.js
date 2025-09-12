@@ -113,29 +113,6 @@ define([], function () {
                 view.menuEditAddComment.on('click', _.bind(me.addComment, me));
                 view.menuEditRemoveComment.on('click', _.bind(me.removeComment, me));
                 /*
-                 var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-                 if (diagramEditor) {
-                 diagramEditor.on('internalmessage', _.bind(function(cmp, message) {
-                 var command = message.data.command;
-                 var data = message.data.data;
-                 if (this.api) {
-                 ( diagramEditor.isEditMode() )
-                 ? this.api.asc_editChartDrawingObject(data)
-                 : this.api.asc_addChartDrawingObject(data, diagramEditor.getPlaceholder());
-                 }
-                 }, this));
-                 diagramEditor.on('hide', _.bind(function(cmp, message) {
-                 if (this.api) {
-                 this.api.asc_onCloseFrameEditor();
-                 this.api.asc_enableKeyEvents(true);
-                 }
-                 var me = this;
-                 setTimeout(function(){
-                 me.editComplete();
-                 }, 10);
-                 }, this));
-                 }
-
                  var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
                  if (oleEditor) {
                  oleEditor.on('internalmessage', _.bind(function(cmp, message) {
@@ -2627,16 +2604,6 @@ define([], function () {
         };
 
         dh.editChartClick = function(){
-            // if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
-            // var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-            // if (diagramEditor) {
-            //     diagramEditor.setEditMode(true);
-            //     diagramEditor.show();
-            //     var chart = this.api.asc_getChartSettings();
-            //     if (chart) {
-            //         diagramEditor.setChartData(chart);
-            //     }
-            // }
             if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             this.api.asc_editChartInFrameEditor();
         };
