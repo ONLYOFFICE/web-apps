@@ -18,11 +18,6 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
 
-      - name: Checkout web-apps repository
-        uses: actions/checkout@v4
-        with:
-          path: web-apps
-    
       - name: Check if branch exists and set checkout branch
         run: |
           BRANCH_EXISTS=$(git ls-remote --heads https://github.com/ONLYOFFICE/web-apps ${{ github.ref_name }} | wc -l)
@@ -33,11 +28,9 @@ jobs:
       - name: Checkout web-apps repository
         uses: actions/checkout@v4
         with:
-          repository: ONLYOFFICE/web-apps
-          token: ${{ secrets.READ_PAT }}
           ref: ${{ env.BRANCH }}
           path: web-apps
-      
+
       - name: Checkout build_tools repository
         uses: actions/checkout@v4
         with:
@@ -45,7 +38,7 @@ jobs:
           token: ${{ secrets.READ_PAT }}
           ref: ${{ env.BRANCH }}
           path: build_tools
-    
+
       - name: Checkout sdkjs repository
         uses: actions/checkout@v4
         with:
@@ -61,23 +54,24 @@ jobs:
           token: ${{ secrets.READ_PAT }}
           ref: ${{ env.BRANCH }}
           path: sdkjs-forms
-      
+
+      - name: Build macros tips
+        run: |
+          cd build_tools/scripts/sdkjs_common
+          python generate_builder_intarface.py
+
       - name: Set up Git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-      
-      - name: Build marcos tips
+          
+      - name: Commit & push changes
+        working-directory: web-apps
         run: |
-          cd build_tools/scripts/sdkjs_common
-          npm install
-          python generate_builder_intarface.py
-          cd ../../../../web-apps
-
           if ! git diff --exit-code; then
-              git add .
-              git commit -m "Update plugin Macros tips from GitHub Actions"
-              git push origin ${{ github.ref_name }}
-            else
-              echo "Nothing to commit"
-            fi
+            git add .
+            git commit -m "Update plugin Macros tips from GitHub Actions"
+            git push origin ${{ github.ref_name }}
+          else
+            echo "Nothing to commit"
+          fi

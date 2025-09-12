@@ -39,8 +39,8 @@ function ApiDocumentContent(Document){}
  * Class representing a continuous region in a document. 
  * Each Range object is determined by the position of the start and end characters.
  * @param oElement - The document element that may be Document, Table, Paragraph, Run or Hyperlink.
- * @param {Number} Start - The start element of Range in the current Element.
- * @param {Number} End - The end element of Range in the current Element.
+ * @param {Number} [Start = undefined] - The start element of Range in the current Element. If omitted or undefined, the range begins at the beginning of the element.
+ * @param {Number} [End = undefined] - The end element of Range in the current Element. If omitted or undefined, the range begins at the end of the element.
  * @constructor
  */
 function ApiRange(oElement, Start, End){}
@@ -744,6 +744,24 @@ ApiGroup.prototype = Object.create(ApiDrawing.prototype);
 ApiGroup.prototype.constructor = ApiGroup;
 
 /**
+ * Class representing shape geometry
+ * @constructor
+ */
+function ApiGeometry(geometry) {}
+
+/**
+ * Class representing a path command
+ * @constructor
+ */
+function ApiPathCommand(command) {}
+
+/**
+ * Class representing a path in geometry
+ * @constructor
+ */
+function ApiPath(path) {}
+
+/**
  * Class representing a chart series.
  * @constructor
  *
@@ -945,6 +963,11 @@ function ApiCustomProperties(oCustomProperties) {}
  */
 
 /**
+ * The types of elements that can be added to the paragraph structure.
+ * @typedef {("ltr" | "rtl")} ReadingOrder
+ */
+
+/**
  * The possible values for the base which the relative horizontal positioning of an object will be calculated from.
  * @typedef {("character" | "column" | "leftMargin" | "rightMargin" | "margin" | "page")} RelFromH
  */
@@ -975,18 +998,40 @@ function ApiCustomProperties(oCustomProperties) {}
  */
 
 /**
+ * This type specifies the formula type that will be used for a geometry guide.
+ * @typedef {("*\/" | "+-" | "+\/" | "?:" | "abs" | "at2" | "cat2" | "cos" | "max" | "min" | "mod" | "pin" | "sat2" | "sin" | "sqrt" | "tan" | "val")} GeometryFormulaType
+ */
+
+/**
  * This type specifies the available chart types which can be used to create a new chart.
- * @typedef {("bar" | "barStacked" | "barStackedPercent" | "bar3D" | "barStacked3D" | "barStackedPercent3D" |
- *     "barStackedPercent3DPerspective" | "horizontalBar" | "horizontalBarStacked" | "horizontalBarStackedPercent"
- *     | "horizontalBar3D" | "horizontalBarStacked3D" | "horizontalBarStackedPercent3D" | "lineNormal" |
- *     "lineStacked" | "lineStackedPercent" | "line3D" | "pie" | "pie3D" | "doughnut" | "scatter" | "stock" |
- *     "area" | "areaStacked" | "areaStackedPercent" | "comboBarLine" | "comboBarLineSecondary" | "comboCustom" | "unknown")} ChartType
+ * @typedef {(
+ *     "bar" | "barStacked" | "barStackedPercent" | "bar3D" | "barStacked3D" | "barStackedPercent3D" | "barStackedPercent3DPerspective" |
+ *     "horizontalBar" | "horizontalBarStacked" | "horizontalBarStackedPercent" | "horizontalBar3D" | "horizontalBarStacked3D" | "horizontalBarStackedPercent3D" |
+ *     "lineNormal" | "lineStacked" | "lineStackedPercent" | "lineNormalMarker" | "lineStackedMarker" | "lineStackedPerMarker" | "line3D" |
+ *     "pie" | "pie3D" | "doughnut" |
+ *     "scatter" | "scatterLine" | "scatterLineMarker" | "scatterSmooth" | "scatterSmoothMarker" |
+ *     "stock" |
+ *     "area" | "areaStacked" | "areaStackedPercent" |
+ *     "comboCustom" | "comboBarLine" | "comboBarLineSecondary" |
+ *     "radar" | "radarMarker" | "radarFilled" |
+ *     "unknown"
+ * )} ChartType
  */
 
 /**
  * This type specifies the type of drawing lock.
  * @typedef {("noGrp" | "noUngrp" | "noSelect" | "noRot" | "noChangeAspect" | "noMove" | "noResize" | "noEditPoints" | "noAdjustHandles"
  * | "noChangeArrowheads" | "noChangeShapeType" | "noDrilldown" | "noTextEdit" | "noCrop" | "txBox")} DrawingLockType
+ */
+
+/**
+ * Fill type for paths
+ * @typedef {("none" | "norm" | "lighten" | "lightenLess" | "darken" | "darkenLess")} PathFillType
+ */
+
+/**
+ * Path command types
+ * @typedef {("moveTo" | "lineTo" | "bezier3" | "bezier4" | "arcTo" | "close")} PathCommandType
  */
 
 /**
@@ -1179,7 +1224,7 @@ function ApiCustomProperties(oCustomProperties) {}
  * <b>"hyphen"</b> - the "-" punctuation mark.
  * <b>"period"</b> - the "." punctuation mark.
  * <b>"colon"</b> - the ":" punctuation mark.
- * <b>"longDash"</b> - the "вЂ”" punctuation mark.
+ * <b>"longDash"</b> - the "—" punctuation mark.
  * <b>"dash"</b> - the "-" punctuation mark.
  * @typedef {("hyphen" | "period" | "colon" | "longDash" | "dash")} CaptionSep
  */
@@ -1289,6 +1334,15 @@ function ApiCustomProperties(oCustomProperties) {}
 ApiInterface.prototype.GetDocument = function(){ return new ApiDocument(); };
 
 /**
+ * Returns the object by it's internal ID.
+ * @memberof ApiInterface
+ * @param id {string} ID of the object.
+ * @returns {object}
+ * @since 9.0.4
+ */
+ApiInterface.prototype.GetByInternalId = function(id){ return new object(); };
+
+/**
  * Creates a new paragraph.
  * @memberof ApiInterface
  * @returns {ApiParagraph}
@@ -1390,6 +1444,21 @@ ApiInterface.prototype.CreateChart = function(chartType, series, seriesNames, ca
  * @returns {ApiOleObject}
  */
 ApiInterface.prototype.CreateOleObject = function(imageSrc, width, height, data, appId){ return new ApiOleObject(); };
+
+/**
+ * Creates a new custom geometry
+ * @memberof ApiInterface
+ * @returns {ApiGeometry}
+ */
+ApiInterface.prototype.CreateCustomGeometry = function(){ return new ApiGeometry(); };
+
+/**
+ * Creates a preset geometry
+ * @memberof ApiInterface
+ * @param {ShapeType} sPreset - Preset name
+ * @returns {ApiGeometry | null}
+ */
+ApiInterface.prototype.CreatePresetGeometry = function(sPreset){ return new ApiGeometry(); };
 
 /**
  * Creates an RGB color setting the appropriate values for the red, green and blue color components.
@@ -1497,8 +1566,8 @@ ApiInterface.prototype.CreateInlineLvlSdt = function(){ return new ApiInlineLvlS
  * The checkbox content control properties
  * @typedef {Object} ContentControlCheckBoxPr
  * @property {boolean} [checked] Indicates whether the checkbox is checked by default.
- * @property {string} [checkedSymbol] A custom symbol to display when the checkbox is checked (e.g., "в�’").
- * @property {string} [uncheckedSymbol] A custom symbol to display when the checkbox is unchecked (e.g., "в�ђ").
+ * @property {string} [checkedSymbol] A custom symbol to display when the checkbox is checked (e.g., "☒").
+ * @property {string} [uncheckedSymbol] A custom symbol to display when the checkbox is unchecked (e.g., "☐").
  */
 
 /**
@@ -1668,6 +1737,14 @@ ApiInterface.prototype["detachEvent"] = ApiInterface.prototype.detachEvent;{ ret
  * @returns {"documentContent"}
  */
 ApiDocumentContent.prototype.GetClassType = function(){ return ""; };
+
+/**
+ * Returns an internal ID of the current document content.
+ * @memberof ApiDocumentContent
+ * @returns {string}
+ * @since 9.0.4
+ */
+ApiDocumentContent.prototype.GetInternalId = function(){ return ""; };
 
 /**
  * Returns a number of elements in the current document.
@@ -2515,6 +2592,15 @@ ApiDocument.prototype.SetFormsData = function(arrData){ return true; };
 ApiDocument.prototype.SetTrackRevisions = function(isTrack){ return true; };
 
 /**
+ * Special method for AI track revisions.
+ * @memberof ApiDocument
+ * @param isTrack {boolean} - Specifies if the change tracking mode is set or not.
+ * @param assistantName {string} - Specifies if the change tracking mode is set or not.
+ * @returns {boolean}
+ */
+ApiDocument.prototype.SetAssistantTrackRevisions = function(isTrack, assistantName){ return true; };
+
+/**
  * Checks if change tracking mode is enabled or not.
  * @memberof ApiDocument
  * @returns {boolean}
@@ -2738,6 +2824,15 @@ ApiDocument.prototype.GetAllComments = function(){ return [new ApiComment()]; };
  * @returns {ApiComment}
  */
 ApiDocument.prototype.GetCommentById = function(sId){ return new ApiComment(); };
+
+/**
+ * Show a comment by its ID.
+ * @memberof ApiDocument
+ * @param {string | Array.string} commentId - The comment ID.
+ * @returns {boolean}
+ * @since 9.0.4
+ */
+ApiDocument.prototype.ShowComment = function(commentId){ return true; };
 
 /**
  * Returns all numbered paragraphs from the current document.
@@ -2998,7 +3093,7 @@ ApiDocument.prototype.ReplaceCurrentSentence = function(sReplace, sPart){ return
 /**
  * Adds a math equation to the current document.
  * @param sText {string} - An equation written as a linear text string.
- * @param {"unicode" | "latex"} [sFormat="unicode"] - The format of the specified linear representation.
+ * @param {"unicode" | "latex" | "mathml"} [sFormat="unicode"] - The format of the specified linear representation.
  * @memberof ApiDocument
  * @returns {boolean}
  * @since 8.2.0
@@ -3097,6 +3192,39 @@ ApiDocument.prototype.GetCore = function () { return new ApiCore(); };
  * @since 9.0.0
  */
 ApiDocument.prototype.GetCustomProperties = function () { return new ApiCustomProperties(); };
+
+/**
+ * Insert blank page to the current location.
+ * @memberof ApiDocument
+ * @returns {boolean}
+ * @since 9.0.4
+ */
+ApiDocument.prototype.InsertBlankPage = function(){ return true; };
+
+/**
+ * Moves cursor to the start of the document.
+ * @memberof ApiDocument
+ * @returns {boolean}
+ * @since 9.0.4
+ */
+ApiDocument.prototype.MoveCursorToStart = function(){ return true; };
+
+/**
+ * Moves cursor to the end of the document.
+ * @memberof ApiDocument
+ * @returns {boolean}
+ * @since 9.0.4
+ */
+ApiDocument.prototype.MoveCursorToEnd = function(){ return true; };
+
+/**
+ * Moves cursor to the start of the specified page in document.
+ * @memberof ApiDocument
+ * @param {number} index - index of page to go
+ * @returns {boolean}
+ * @since 9.1
+ */
+ApiDocument.prototype.GoToPage = function(index){ return true; };
 
 /**
  * Returns a type of the ApiParagraph class.
@@ -3450,6 +3578,17 @@ ApiParagraph.prototype.SetUnderline = function(isUnderline){ return new ApiParag
  * @returns {ApiParagraph | null} - returns null is sType is invalid.
  */
 ApiParagraph.prototype.SetVertAlign = function(sType){ return new ApiParagraph(); };
+
+/**
+ * Specifies the reading order for the paragraph. Possible values are:
+ * <b>null</b> - Use standart direction parameter.
+ * <b>"ltr"</b> - Left-to-Right text direction.
+ * <b>"rtl"</b> - Right-to-Left text direction.
+ * @memberof ApiParagraph
+ * @param {?ReadingOrder} [readingOrder = undefined]
+ * @returns {ApiParagraph} - Returns paragraph itself (ApiParagraph)
+ */
+ApiParagraph.prototype.SetReadingOrder = function (readingOrder) { return new ApiParagraph(); };
 
 /**
  * Returns the last element of the paragraph which is not empty.
@@ -4094,6 +4233,12 @@ ApiSection.prototype.GetClassType = function(){ return ""; };
 */
 
 /**
+ * Coordinate value for geometry paths.
+ * Can be a guide name from gdLst, a numeric value, or a string representation of a number.
+ * @typedef {string | number} GeometryCoordinate
+ */
+
+/**
  * Specifies a type of the current section. The section type defines how the contents of the current 
  * section are placed relative to the previous section.
  * @memberof ApiSection
@@ -4165,12 +4310,47 @@ ApiSection.prototype.GetPageWidth = function(){ return new twips(); };
 ApiSection.prototype.SetPageMargins = function(nLeft, nTop, nRight, nBottom){ return true; };
 
 /**
+ * Gets the left page margin for all pages in this section.
+ * @memberof ApiSection
+ * @returns {twips}
+ */
+ApiSection.prototype.GetPageMarginLeft = function(){ return new twips(); };
+
+/**
+ * Gets the top page margin for all pages in this section.
+ * @memberof ApiSection
+ * @returns {twips}
+ */
+ApiSection.prototype.GetPageMarginTop = function(){ return new twips(); };
+
+/**
+ * Gets the right page margin for all pages in this section.
+ * @memberof ApiSection
+ * @returns {twips}
+ */
+ApiSection.prototype.GetPageMarginRight = function(){ return new twips(); };
+
+/**
+ * Gets the bottom page margin for all pages in this section.
+ * @memberof ApiSection
+ * @returns {twips}
+ */
+ApiSection.prototype.GetPageMarginBottom = function(){ return new twips(); };
+
+/**
  * Specifies the distance from the top edge of the page to the top edge of the header.
  * @memberof ApiSection
  * @param {twips} nDistance - The distance from the top edge of the page to the top edge of the header measured in twentieths of a point (1/1440 of an inch).
  * @returns {boolean}
  */
 ApiSection.prototype.SetHeaderDistance = function(nDistance){ return true; };
+
+/**
+ * Specifies the distance from the top edge of the page to the top edge of the header.
+ * @memberof ApiSection
+ * @returns {twips}
+ */
+ApiSection.prototype.GetHeaderDistance = function(){ return new twips(); };
 
 /**
  * Specifies the distance from the bottom edge of the page to the bottom edge of the footer.
@@ -4180,6 +4360,13 @@ ApiSection.prototype.SetHeaderDistance = function(nDistance){ return true; };
  * @returns {boolean}
  */
 ApiSection.prototype.SetFooterDistance = function(nDistance){ return true; };
+
+/**
+ * Gets the distance from the bottom edge of the page to the bottom edge of the footer.
+ * @memberof ApiSection
+ * @returns {twips}
+ */
+ApiSection.prototype.GetFooterDistance = function(){ return new twips(); };
 
 /**
  * Returns the content for the specified header type.
@@ -4907,11 +5094,27 @@ ApiStyle.prototype.GetType = function(){ return new StyleType(); };
 ApiStyle.prototype.GetTextPr = function(){ return new ApiTextPr(); };
 
 /**
+ * Sets the text properties to the current style.
+ * @memberof ApiStyle
+ * @param {ApiTextPr} oTextPr - The properties that will be set.
+ * @returns {ApiStyle} - this
+ */
+ApiStyle.prototype.SetTextPr = function(oTextPr){ return new ApiStyle(); };
+
+/**
  * Returns the paragraph properties of the current style.
  * @memberof ApiStyle
  * @returns {ApiParaPr}
  */
 ApiStyle.prototype.GetParaPr = function(){ return new ApiParaPr(); };
+
+/**
+ * Sets the paragraph properties to the current style.
+ * @memberof ApiStyle
+ * @param {ApiParaPr} oParaPr - The properties that will be set.
+ * @returns {ApiStyle} - this
+ */
+ApiStyle.prototype.SetParaPr = function(oParaPr){ return new ApiStyle(); };
 
 /**
  * Returns the table properties of the current style.
@@ -4922,6 +5125,14 @@ ApiStyle.prototype.GetParaPr = function(){ return new ApiParaPr(); };
 ApiStyle.prototype.GetTablePr = function(){ return new ApiTablePr(); };
 
 /**
+ * Sets the table properties to the current style.
+ * @memberof ApiStyle
+ * @param {ApiTablePr} oTablePr - The properties that will be set.
+ * @returns {ApiStyle} - this
+ */
+ApiStyle.prototype.SetTablePr = function(oTablePr){ return new ApiStyle(); };
+
+/**
  * Returns the table row properties of the current style.
  * @memberof ApiStyle
  * @returns {ApiTableRowPr} If the type of this style is not a <code>"table"</code> then it will return
@@ -4930,11 +5141,27 @@ ApiStyle.prototype.GetTablePr = function(){ return new ApiTablePr(); };
 ApiStyle.prototype.GetTableRowPr = function(){ return new ApiTableRowPr(); };
 
 /**
+ * Sets the table row properties to the current style.
+ * @memberof ApiStyle
+ * @param {ApiTableRowPr} oTableRowPr - The properties that will be set.
+ * @returns {ApiStyle} - this
+ */
+ApiStyle.prototype.SetTableRowPr = function(oTableRowPr){ return new ApiStyle(); };
+
+/**
  * Returns the table cell properties of the current style.
  * @memberof ApiStyle
  * @returns {ApiTableCellPr}
  */
 ApiStyle.prototype.GetTableCellPr = function(){ return new ApiTableCellPr(); };
+
+/**
+ * Sets the table cell properties to the current style.
+ * @memberof ApiStyle
+ * @param {ApiTableCellPr} oTableCellPr - The properties that will be set.
+ * @returns {ApiStyle} - this
+ */
+ApiStyle.prototype.SetTableCellPr = function(oTableCellPr){ return new ApiStyle(); };
 
 /**
  * Specifies the reference to the parent style which this style inherits from in the style hierarchy.
@@ -4952,6 +5179,14 @@ ApiStyle.prototype.SetBasedOn = function(oStyle){ return true; };
  * @returns {ApiTableStylePr}
  */
 ApiStyle.prototype.GetConditionalTableStyle = function(sType){ return new ApiTableStylePr(); };
+
+/**
+ * Specifies formatting properties that will be conditionally applied to parts of the table that match the oTableStylePr type. 
+ * @memberof ApiStyle
+ * @param {ApiTableStylePr} oTableStylePr - The table style properties.
+ * @returns {ApiStyle} - this
+ */
+ApiStyle.prototype.SetConditionalTableStyle = function(oTableStylePr){ return new ApiStyle(); };
 
 /**
  * Converts the ApiStyle object into the JSON object.
@@ -6198,11 +6433,27 @@ ApiTableStylePr.prototype.GetType = function(){ return new TableStyleOverrideTyp
 ApiTableStylePr.prototype.GetTextPr = function(){ return new ApiTextPr(); };
 
 /**
+ * Sets the text properties to the current table style properties.
+ * @memberof ApiTableStylePr
+ * @param {ApiTextPr} oTextPr - The properties that will be set.
+ * @returns {ApiTableStylePr} - this
+ */
+ApiTableStylePr.prototype.SetTextPr = function(oTextPr){ return new ApiTableStylePr(); };
+
+/**
  * Returns a set of the paragraph properties which will be applied to all the paragraphs within a table which match the conditional formatting type.
  * @memberof ApiTableStylePr
  * @returns {ApiParaPr}
  */
 ApiTableStylePr.prototype.GetParaPr = function(){ return new ApiParaPr(); };
+
+/**
+ * Sets the paragraph properties to the current table style properties.
+ * @memberof ApiTableStylePr
+ * @param {ApiParaPr} oParaPr - The properties that will be set.
+ * @returns {ApiTableStylePr} - this
+ */
+ApiTableStylePr.prototype.SetParaPr = function(oParaPr){ return new ApiTableStylePr(); };
 
 /**
  * Returns a set of the table properties which will be applied to all the regions within a table which match the conditional formatting type.
@@ -6212,6 +6463,14 @@ ApiTableStylePr.prototype.GetParaPr = function(){ return new ApiParaPr(); };
 ApiTableStylePr.prototype.GetTablePr = function(){ return new ApiTablePr(); };
 
 /**
+ * Sets the table properties to the current table style properties.
+ * @memberof ApiTableStylePr
+ * @param {ApiTablePr} oTablePr - The properties that will be set.
+ * @returns {ApiTableStylePr} - this
+ */
+ApiTableStylePr.prototype.SetTablePr = function(oTablePr){ return new ApiTableStylePr(); };
+
+/**
  * Returns a set of the table row properties which will be applied to all the rows within a table which match the conditional formatting type.
  * @memberof ApiTableStylePr
  * @returns {ApiTableRowPr}
@@ -6219,11 +6478,27 @@ ApiTableStylePr.prototype.GetTablePr = function(){ return new ApiTablePr(); };
 ApiTableStylePr.prototype.GetTableRowPr = function(){ return new ApiTableRowPr(); };
 
 /**
+ * Sets the table row properties to the current table style properties.
+ * @memberof ApiTableStylePr
+ * @param {ApiTableRowPr} oTableRowPr - The properties that will be set.
+ * @returns {ApiTableStylePr} - this
+ */
+ApiTableStylePr.prototype.SetTableRowPr = function(oTableRowPr){ return new ApiTableStylePr(); };
+
+/**
  * Returns a set of the table cell properties which will be applied to all the cells within a table which match the conditional formatting type.
  * @memberof ApiTableStylePr
  * @returns {ApiTableCellPr}
  */
 ApiTableStylePr.prototype.GetTableCellPr = function(){ return new ApiTableCellPr(); };
+
+/**
+ * Sets the table cell properties to the current table style properties.
+ * @memberof ApiTableStylePr
+ * @param {ApiTableCellPr} oTableCellPr - The properties that will be set.
+ * @returns {ApiTableStylePr} - this
+ */
+ApiTableStylePr.prototype.SetTableCellPr = function(oTableCellPr){ return new ApiTableStylePr(); };
 
 /**
  * Converts the ApiTableStylePr object into the JSON object.
@@ -6623,6 +6898,346 @@ ApiShape.prototype.GetNextShape = function(){ return new ApiShape(); };
  * @returns {ApiShape | null} - returns null is shape is first.
  */
 ApiShape.prototype.GetPrevShape= function(){ return new ApiShape(); };
+
+/**
+ * Gets the geometry object from a shape
+ * @memberof ApiShape
+ * @returns {ApiGeometry}
+ * @since 9.1.0
+ */
+ApiShape.prototype.GetGeometry = function(){ return new ApiGeometry(); };
+
+/**
+ * Sets a custom geometry for the shape
+ * @memberof ApiShape
+ * @param {ApiGeometry} oGeometry - The geometry to set
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiShape.prototype.SetGeometry = function(oGeometry){ return true; };
+
+/**
+ * Checks if this is a custom geometry
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.IsCustom = function(){ return true; };
+
+/**
+ * Gets the preset name if this is a preset geometry
+ * @returns {ShapeType | null}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.GetPreset = function(){ return new ShapeType(); };
+
+/**
+ * Gets the number of paths in the geometry
+ * @returns {number}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.GetPathCount = function(){ return 0; };
+
+/**
+ * Gets a path by index
+ * @param {number} nIndex - Path index
+ * @returns {ApiPath}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.GetPath = function(nIndex){ return new ApiPath(); };
+
+/**
+ * Gets all paths
+ * @returns {ApiPath[]}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.GetPaths = function(){ return [new ApiPath()]; };
+
+/**
+ * Adds a new path to the geometry
+ * @returns {ApiPath | null}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.AddPath = function(){ return new ApiPath(); };
+
+/**
+ * Gets adjustment value by name
+ * @param {string} sName - Adjustment name
+ * @returns {number | null}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.GetAdjValue = function(sName){ return 0; };
+
+/**
+ * Adds an adjustment value
+ * @param {string} sName - Adjustment name
+ * @param {number} nValue - Adjustment value
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.AddAdj = function(sName, nValue){ return true; };
+
+/**
+ * Sets an adjustment value
+ * @param {string} sName - Adjustment name
+ * @param {number} nValue - Adjustment value
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.SetAdjValue = function(sName, nValue){};
+
+/**
+ * Adds a guide (formula)
+ * @param {string} sName - Guide name
+ * @param {GeometryFormulaType} sFormula - Formula type
+ * @param {string} sX - X parameter
+ * @param {string} sY - Y parameter
+ * @param {string} sZ - Z parameter
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.AddGuide = function(sName, sFormula, sX, sY, sZ){ return true; };
+
+/**
+ * Sets the text rectangle
+ * @param {string} sLeft - Left guide name or value
+ * @param {string} sTop - Top guide name or value
+ * @param {string} sRight - Right guide name or value
+ * @param {string} sBottom - Bottom guide name or value
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.SetTextRect = function(sLeft, sTop, sRight, sBottom){ return true; };
+
+/**
+ * Adds a connection point
+ * @param {string} sAngle - Angle
+ * @param {string} sX - X position
+ * @param {string} sY - Y position
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.AddConnectionPoint = function(sAngle, sX, sY){};
+
+/**
+ * Gets the command type
+ * @returns {PathCommandType}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetType = function(){ return new PathCommandType(); };
+
+/**
+ * Gets the X coordinate for moveTo/lineTo commands
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetX = function(){ return ""; };
+
+/**
+ * Gets the Y coordinate for moveTo/lineTo commands
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetY = function(){ return ""; };
+
+/**
+ * Gets first control point X for bezier curves
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetX0 = function(){ return ""; };
+
+/**
+ * Gets first control point Y for bezier curves
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetY0 = function(){ return ""; };
+
+/**
+ * Gets second control point X for cubic bezier
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetX1 = function(){ return ""; };
+
+/**
+ * Gets second control point Y for cubic bezier
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetY1 = function(){ return ""; };
+
+/**
+ * Gets end point X for cubic bezier
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetX2 = function(){ return ""; };
+
+/**
+ * Gets end point Y for cubic bezier
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetY2 = function(){ return ""; };
+
+/**
+ * Gets width radius for arc
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetWR = function(){ return ""; };
+
+/**
+ * Gets height radius for arc
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetHR = function(){ return ""; };
+
+/**
+ * Gets start angle for arc
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetStartAngle = function(){ return ""; };
+
+/**
+ * Gets sweep angle for arc
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetSweepAngle = function(){ return ""; };
+
+/**
+ * Gets whether the path is stroked
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiPath.prototype.GetStroke = function(){ return true; };
+
+/**
+ * Sets whether the path should be stroked
+ * @param {boolean} bStroke - Whether to stroke the path
+ * @since 9.1.0
+ */
+ApiPath.prototype.SetStroke = function(bStroke){};
+
+/**
+ * Gets the fill type
+ * @returns {PathFillType}
+ * @since 9.1.0
+ */
+ApiPath.prototype.GetFill = function(){ return new PathFillType(); };
+
+/**
+ * Sets the fill type for the path
+ * @param {PathFillType} sFill - Fill type
+ * @since 9.1.0
+ */
+ApiPath.prototype.SetFill = function(sFill){};
+
+/**
+ * Gets the path width
+ * @returns {number}
+ * @since 9.1.0
+ */
+ApiPath.prototype.GetWidth = function(){ return 0; };
+
+/**
+ * Sets the path width
+ * @param {number} nWidth - Width in EMU
+ * @since 9.1.0
+ */
+ApiPath.prototype.SetWidth = function(nWidth){};
+
+/**
+ * Gets the path height
+ * @returns {number}
+ * @since 9.1.0
+ */
+ApiPath.prototype.GetHeight = function(){ return 0; };
+
+/**
+ * Sets the path height
+ * @param {number} nHeight - Height in EMU
+ * @since 9.1.0
+ */
+ApiPath.prototype.SetHeight = function(nHeight){};
+
+/**
+ * Gets all path commands
+ * @returns {ApiPathCommand[]}
+ * @since 9.1.0
+ */
+ApiPath.prototype.GetCommands = function(){ return [new ApiPathCommand()]; };
+
+/**
+ * Gets command count
+ * @returns {number}
+ * @since 9.1.0
+ */
+ApiPath.prototype.GetCommandCount = function(){ return 0; };
+
+/**
+ * Gets a specific command by index
+ * @param {number} nIndex - Command index
+ * @returns {ApiPathCommand | null}
+ * @since 9.1.0
+ */
+ApiPath.prototype.GetCommand = function(nIndex){ return new ApiPathCommand(); };
+
+/**
+ * Moves to a point
+ * @param {GeometryCoordinate} x - X coordinate
+ * @param {GeometryCoordinate} y - Y coordinate
+ * @since 9.1.0
+ */
+ApiPath.prototype.MoveTo = function(x, y){};
+
+/**
+ * Draws a line to a point
+ * @param {GeometryCoordinate} x - X coordinate
+ * @param {GeometryCoordinate} y - Y coordinate
+ * @since 9.1.0
+ */
+ApiPath.prototype.LineTo = function(x, y){};
+
+/**
+ * Draws a cubic bezier curve
+ * @param {GeometryCoordinate} x1 - First control point X
+ * @param {GeometryCoordinate} y1 - First control point Y
+ * @param {GeometryCoordinate} x2 - Second control point X
+ * @param {GeometryCoordinate} y2 - Second control point Y
+ * @param {GeometryCoordinate} x3 - End point X
+ * @param {GeometryCoordinate} y3 - End point Y
+ * @since 9.1.0
+ */
+ApiPath.prototype.CubicBezTo = function(x1, y1, x2, y2, x3, y3){};
+
+/**
+ * Draws a quadratic bezier curve
+ * @param {GeometryCoordinate} x1 - Control point X
+ * @param {GeometryCoordinate} y1 - Control point Y
+ * @param {GeometryCoordinate} x2 - End point X
+ * @param {GeometryCoordinate} y2 - End point Y
+ * @since 9.1.0
+ */
+ApiPath.prototype.QuadBezTo = function(x1, y1, x2, y2){};
+
+/**
+ * Draws an arc
+ * @param {GeometryCoordinate} wR - Width radius
+ * @param {GeometryCoordinate} hR - Height radius
+ * @param {GeometryCoordinate} stAng - Start angle
+ * @param {GeometryCoordinate} swAng - Sweep angle Y
+ * @since 9.1.0
+ */
+ApiPath.prototype.ArcTo = function(wR, hR, stAng, swAng){};
+
+/**
+ * Closes the current path
+ * @since 9.1.0
+ */
+ApiPath.prototype.Close = function(){};
 
 /**
  * Returns a type of the ApiChart class.
@@ -7413,7 +8028,7 @@ ApiInlineLvlSdt.prototype.GetPlaceholderText = function(){ return ""; };
 
 /**
  * Sets the placeholder text to the current inline content control.
- *Can't be set to checkbox or radio button*
+ * *Can't be set to checkbox or radio button*
  * @memberof ApiInlineLvlSdt
  * @param {string} sText - The text that will be set to the current inline content control.
  * @returns {boolean}
@@ -7664,9 +8279,9 @@ ApiInlineLvlSdt.prototype.SetDate = function(date){ return true; };
  *
  * @memberof ApiInlineLvlSdt
  * @since 9.0.0
- * @returns {Date} Date object representing the selected date in the date picker control.
+ * @returns {undefined | Date} Date object representing the selected date in the date picker control, or undefined if the form is a placeholder.
  */
-ApiInlineLvlSdt.prototype.GetDate = function(){ return new Date(); };
+ApiInlineLvlSdt.prototype.GetDate = function(){ return undefined; };
 
 /**
  * Sets the date format for the datepicker content control.
@@ -8349,7 +8964,7 @@ ApiFormBase.prototype.ToFixed = function(width, height, keepPosition){ return tr
 
 /**
  * Converts the current form to an inline form.
- *Picture form can't be converted to an inline form, it's always a fixed size object.*
+ * *Picture form can't be converted to an inline form, it's always a fixed size object.*
  * @memberof ApiFormBase
  * @returns {boolean}
  */
@@ -8401,7 +9016,7 @@ ApiFormBase.prototype.GetWrapperShape = function(){ return new ApiShape(); };
 
 /**
  * Sets the placeholder text to the current form.
- *Can't be set to checkbox or radio button.*
+ * *Can't be set to checkbox or radio button.*
  * @memberof ApiFormBase
  * @param {string} sText - The text that will be set to the current form.
  * @returns {boolean}
@@ -8410,7 +9025,7 @@ ApiFormBase.prototype.SetPlaceholderText = function(sText){ return true; };
 
 /**
  * Sets the text properties to the current form.
- *Used if possible for this type of form*
+ * *Used if possible for this type of form*
  * @memberof ApiFormBase
  * @param {ApiTextPr} textPr - The text properties that will be set to the current form.
  * @returns {boolean}  
@@ -8419,7 +9034,7 @@ ApiFormBase.prototype.SetTextPr = function(textPr){ return true; };
 
 /**
  * Returns the text properties from the current form.
- *Used if possible for this type of form*
+ * *Used if possible for this type of form*
  * @memberof ApiFormBase
  * @returns {ApiTextPr}  
  */
@@ -8474,6 +9089,14 @@ ApiFormBase.prototype.GetRole = function(){ return ""; };
  * @returns {boolean}
  */
 ApiFormBase.prototype.SetRole = function(role){ return true; };
+
+/**
+ * Returns a type of the ApiTextForm class.
+ * @memberof ApiTextForm
+ * @since 9.0.4
+ * @returns {"textForm"}
+ */
+ApiTextForm.prototype.GetClassType = function(){ return ""; };
 
 /**
  * Checks if the text field content is autofit, i.e. whether the font size adjusts to the size of the fixed size form.
@@ -8554,6 +9177,14 @@ ApiTextForm.prototype.SetCellWidth = function(nCellWidth){ return true; };
  * @returns {boolean}
  */
 ApiTextForm.prototype.SetText = function(sText){ return true; };
+
+/**
+ * Returns a type of the ApiPictureForm class.
+ * @memberof ApiPictureForm
+ * @returns {"pictureForm"}
+ * @since 9.0.4
+ */
+ApiPictureForm.prototype.GetClassType = function(){ return ""; };
 
 /**
  * Returns the current scaling condition of the picture form.
@@ -8637,6 +9268,14 @@ ApiPictureForm.prototype.GetImage = function(){ return base64img; };
 ApiPictureForm.prototype.SetImage = function(sImageSrc, nWidth, nHeight){ return true; };
 
 /**
+ * Returns a type of the ApiComboBoxForm class.
+ * @memberof ApiComboBoxForm
+ * @returns {"comboBoxForm"}
+ * @since 9.0.4
+ */
+ApiComboBoxForm.prototype.GetClassType = function(){ return ""; };
+
+/**
  * Returns the list values from the current combo box.
  * @memberof ApiComboBoxForm
  * @returns {string[]}
@@ -8661,7 +9300,7 @@ ApiComboBoxForm.prototype.SelectListValue = function(sValue){ return true; };
 
 /**
  * Sets the text to the current combo box.
- *Available only for editable combo box forms.*
+ * *Available only for editable combo box forms.*
  * @memberof ApiComboBoxForm
  * @param {string} sText - The combo box text.
  * @returns {boolean}
@@ -8674,6 +9313,14 @@ ApiComboBoxForm.prototype.SetText = function(sText){ return true; };
  * @returns {boolean}
  */
 ApiComboBoxForm.prototype.IsEditable = function(){ return true; };
+
+/**
+ * Returns a type of the ApiCheckBoxForm class.
+ * @memberof ApiCheckBoxForm
+ * @returns {"checkBoxForm"}
+ * @since 9.0.4
+ */
+ApiCheckBoxForm.prototype.GetClassType = function(){ return ""; };
 
 /**
  * Checks the current checkbox.
@@ -8730,6 +9377,14 @@ ApiCheckBoxForm.prototype.GetChoiceName = function(){ return ""; };
 ApiCheckBoxForm.prototype.SetChoiceName = function(choiceName){ return true; };
 
 /**
+ * Returns a type of the ApiDateForm class.
+ * @memberof ApiDateForm
+ * @returns {"dateForm"}
+ * @since 9.0.4
+ */
+ApiDateForm.prototype.GetClassType = function(){ return ""; };
+
+/**
  * Gets the date format of the current form.
  * @memberof ApiDateForm
  * @returns {string}
@@ -8767,10 +9422,10 @@ ApiDateForm.prototype.SetLanguage = function(sLangId){ return true; };
 /**
  * Returns the timestamp of the current form.
  * @memberof ApiDateForm
- * @returns {number}
+ * @returns {undefined | number} The Unix timestamp in milliseconds, or undefined if the form is a placeholder.
  * @since 8.1.0
  */
-ApiDateForm.prototype.GetTime = function(){ return 0; };
+ApiDateForm.prototype.GetTime = function(){ return undefined; };
 
 /**
  * Sets the timestamp to the current form.
@@ -8793,10 +9448,18 @@ ApiDateForm.prototype.SetDate = function(date){ return true; };
 /**
  * Returns the date of the current form.
  * @memberof ApiDateForm
- * @returns {Date} - The date object.
+ * @returns {undefined | Date} - The date object, or undefined if the form is a placeholder.
  * @since 9.0.0
  */
-ApiDateForm.prototype.GetDate = function(){ return new Date(); };
+ApiDateForm.prototype.GetDate = function(){ return undefined; };
+
+/**
+ * Returns a type of the ApiComplexForm class.
+ * @memberof ApiComplexForm
+ * @returns {"form"}
+ * @since 9.0.4
+ */
+ApiComplexForm.prototype.GetClassType = function(){ return ""; };
 
 /**
  * Appends the text content of the given form to the end of the current complex form.
@@ -8863,6 +9526,42 @@ ApiInterface.prototype.ConvertDocument = function(convertType, htmlHeadings, bas
 ApiInterface.prototype.CreateTextPr = function(){ return new ApiTextPr(); };
 
 /**
+ * Creates the empty paragraph properties.
+ * @memberof ApiInterface
+ * @returns {ApiTextPr}
+ */
+ApiInterface.prototype.CreateParaPr = function(){ return new ApiTextPr(); };
+
+/**
+ * Creates the empty table properties.
+ * @memberof ApiInterface
+ * @returns {ApiTextPr}
+ */
+ApiInterface.prototype.CreateTablePr = function(){ return new ApiTextPr(); };
+
+/**
+ * Creates the empty table row properties.
+ * @memberof ApiInterface
+ * @returns {ApiTextPr}
+ */
+ApiInterface.prototype.CreateTableRowPr = function(){ return new ApiTextPr(); };
+
+/**
+ * Creates the empty table cell properties.
+ * @memberof ApiInterface
+ * @returns {ApiTextPr}
+ */
+ApiInterface.prototype.CreateTableCellPr = function(){ return new ApiTextPr(); };
+
+/**
+ * Creates the empty table cell properties.
+ * @memberof ApiInterface
+ * @param {TableStyleOverrideType} sType - The table part.
+ * @returns {ApiTextPr}
+ */
+ApiInterface.prototype.CreateTableStylePr = function(sType){ return new ApiTextPr(); };
+
+/**
  * Creates a Text Art object with the parameters specified.
  * @memberof ApiInterface
  * @param {ApiTextPr} [textPr=Api.CreateTextPr()] - The text properties.
@@ -8890,6 +9589,150 @@ ApiInterface.prototype.GetFullName = function(){ return ""; };
  * @returns {string}
  */
 ApiInterface.prototype.FullName = ApiInterface.prototype.GetFullName ();
+
+/**
+ * Converts pixels to EMUs (English Metric Units).
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PixelsToEmus = function Px2Emu(px) { return 0; };
+
+/**
+ * Converts millimeters to pixels.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.MillimetersToPixels = function Mm2Px(mm) { return 0; };
+
+/**
+ * Converts points to centimeters.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToCentimeters = function PointsToCentimeters(pt) { return 0; };
+
+/**
+ * Converts points to EMUs (English Metric Units).
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToEmus = function PointsToEmus(pt) { return 0; };
+
+/**
+ * Converts points to inches.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToInches = function PointsToInches(pt) { return 0; };
+
+/**
+ * Converts points to lines (1 line = 12 points).
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToLines = function PointsToLines(pt) { return 0; };
+
+/**
+ * Converts points to millimeters.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToMillimeters = function PointsToMillimeters(pt) { return 0; };
+
+/**
+ * Converts points to picas (1 pica = 12 points).
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToPicas = function PointsToPicas(pt) { return 0; };
+
+/**
+ * Converts points to pixels.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToPixels = function PointsToPixels(pt) { return 0; };
+
+/**
+ * Converts points to twips.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToTwips = function PointsToTwips(pt) { return 0; };
+
+/**
+ * Converts centimeters to points.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.CentimetersToPoints = function CentimetersToPoints(cm) { return 0; };
+
+/**
+ * Converts EMUs (English Metric Units) to points.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.EmusToPoints = function EmusToPoints(emu) { return 0; };
+
+/**
+ * Converts inches to points.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.InchesToPoints = function InchesToPoints(inches) { return 0; };
+
+/**
+ * Converts lines to points (1 line = 12 points).
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.LinesToPoints = function LinesToPoints(lines) { return 0; };
+
+/**
+ * Converts millimeters to points.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.MillimetersToPoints = function MillimetersToPoints(mm) { return 0; };
+
+/**
+ * Converts picas to points.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PicasToPoints = function PicasToPoints(pc) { return 0; };
+
+/**
+ * Converts pixels to points.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PixelsToPoints = function PixelsToPoints(px) { return 0; };
+
+/**
+ * Converts twips to points.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.TwipsToPoints = function TwipsToPoints(twips) { return 0; };
 
 /**
  * Returns a type of the ApiComment class.
@@ -9579,11 +10422,12 @@ ApiRangeTextPr.prototype.constructor = ApiRangeTextPr;
 /**
  * Common form properties.
  * @typedef {Object} FormPrBase
- * @property {string} key - Form key.
- * @property {string} tip - Form tip text.
- * @property {string} tag - Form tag.
+ * @property {string} key - The form key.
+ * @property {string} tip - The form tip text.
+ * @property {string} tag - The form tag.
+ * @property {string} role - The role to fill out form.
  * @property {boolean} required - Specifies if the form is required or not.
- * @property {string} placeholder - Form placeholder text.
+ * @property {string} placeholder - The form placeholder text.
  */
 
 /**
@@ -9630,9 +10474,9 @@ ApiRangeTextPr.prototype.constructor = ApiRangeTextPr;
  * @property {boolean} editable - Specifies if the combo box text can be edited.
  * @property {boolean} autoFit - Specifies if the combo box form content should be autofit, i.e. whether the font size adjusts to the size of the fixed size form.
  * @property {Array.<string | Array.<string>>} items - The combo box items.
-В  В  В * This array consists of strings or arrays of two strings where the first string is the displayed value and the second one is its meaning.
-В  В  В * If the array consists of single strings, then the displayed value and its meaning are the same.
-В  В  В * Example: ["First", ["Second", "2"], ["Third", "3"], "Fourth"].
+     * This array consists of strings or arrays of two strings where the first string is the displayed value and the second one is its meaning.
+     * If the array consists of single strings, then the displayed value and its meaning are the same.
+     * Example: ["First", ["Second", "2"], ["Third", "3"], "Fourth"].
 
  */
 
@@ -9688,41 +10532,155 @@ ApiRangeTextPr.prototype.constructor = ApiRangeTextPr;
 /**
  * Creates a text field with the specified text field properties.
  * @memberof ApiInterface
- * @param {TextFormPr} oFormPr - Text field properties.
+ * @param {TextFormPr} formPr - Text field properties.
  * @returns {ApiTextForm}
  */
-ApiInterface.prototype.CreateTextForm = function(oFormPr){ return new ApiTextForm(); };
+ApiInterface.prototype.CreateTextForm = function(formPr){ return new ApiTextForm(); };
 
 /**
  * Creates a checkbox / radio button with the specified checkbox / radio button properties.
  * @memberof ApiInterface
- * @param {CheckBoxFormPr} oFormPr - Checkbox / radio button properties.
+ * @param {CheckBoxFormPr} formPr - Checkbox / radio button properties.
  * @returns {ApiCheckBoxForm}
  */
-ApiInterface.prototype.CreateCheckBoxForm = function(oFormPr){ return new ApiCheckBoxForm(); };
+ApiInterface.prototype.CreateCheckBoxForm = function(formPr){ return new ApiCheckBoxForm(); };
 
 /**
  * Creates a combo box / dropdown list with the specified combo box / dropdown list properties.
  * @memberof ApiInterface
- * @param {ComboBoxFormPr} oFormPr - Combo box / dropdown list properties.
+ * @param {ComboBoxFormPr} formPr - Combo box / dropdown list properties.
  * @returns {ApiComboBoxForm}
  */
-ApiInterface.prototype.CreateComboBoxForm = function(oFormPr){ return new ApiComboBoxForm(); };
+ApiInterface.prototype.CreateComboBoxForm = function(formPr){ return new ApiComboBoxForm(); };
 
 /**
  * Creates a picture form with the specified picture form properties.
  * @memberof ApiInterface
- * @param {PictureFormPr} oFormPr - Picture form properties.
+ * @param {PictureFormPr} formPr - Picture form properties.
  * @returns {ApiPictureForm}
  */
-ApiInterface.prototype.CreatePictureForm = function(oFormPr){ return new ApiPictureForm(); };
+ApiInterface.prototype.CreatePictureForm = function(formPr){ return new ApiPictureForm(); };
 
 /**
  * Creates a date form with the specified date form properties.
  * @memberof ApiInterface
- * @param {DateFormPr} oFormPr - Date form properties.
+ * @param {DateFormPr} formPr - Date form properties.
  * @returns {ApiDateForm}
  */
-ApiInterface.prototype.CreateDateForm = function(oFormPr){ return new ApiDateForm(); };
+ApiInterface.prototype.CreateDateForm = function(formPr){ return new ApiDateForm(); };
+
+/**
+ * Creates a complex form with the specified complex form properties.
+ * @memberof ApiInterface
+ * @param {FormPrBase} formPr - Complex form properties.
+ * @returns {ApiComplexForm}
+ */
+ApiInterface.prototype.CreateComplexForm = function(formPr){ return new ApiComplexForm(); };
+
+/**
+ * Inserts a text box with the specified text box properties over the selected text.
+ * @memberof ApiDocument
+ * @param {TextFormInsertPr} formPr - Properties for inserting a text field.
+ * @returns {ApiTextForm}
+ */
+ApiDocument.prototype.InsertTextForm = function(formPr){ return new ApiTextForm(); };
+
+/**
+ * Class representing a collection of form roles.
+ * @constructor
+ * @since 9.0.0
+ */
+function ApiFormRoles(oform){}
+
+/**
+ * The date form properties.
+ * @typedef {FormPrBase | DateFormPrBase} DateFormPr
+ */
+
+/**
+ * The role properties.
+ * @typedef {Object} RoleProperties
+ * @property {string} color - The role color.
+ */
+
+/**
+ * Returns a collection of form roles.
+ * @since 9.0.0
+ * @returns {ApiFormRoles}
+ */
+ApiDocument.prototype.GetFormRoles = function(){ return new ApiFormRoles(); };
+
+/**
+ * Adds a new form role.
+ * @memberof ApiFormRoles
+ * @since 9.0.0
+ * @param {string} name - The name of role being added.
+ * @param {RoleProperties} props - The role properties.
+ * @returns {boolean}
+ */
+ApiFormRoles.prototype.Add = function(name, props){ return true; };
+
+/**
+ * Removes a role with the specified name.
+ * @memberof ApiFormRoles
+ * @since 9.0.0
+ * @param {string} name - The name of role to be removed.
+ * @param {string} [delegateRole] - The name of the role to which all forms bound to this role will be delegated.
+ * @returns {boolean}
+ */
+ApiFormRoles.prototype.Remove = function(name, delegateRole){ return true; };
+
+/**
+ * Returns a number of form roles.
+ * @memberof ApiFormRoles
+ * @since 9.0.0
+ * @returns {number}
+ */
+ApiFormRoles.prototype.GetCount = function(){ return 0; };
+
+/**
+ * Lists all available roles.
+ * @memberof ApiFormRoles
+ * @since 9.0.0
+ * @returns {string[]}
+ */
+ApiFormRoles.prototype.GetAllRoles = function(){ return [""]; };
+
+/**
+ * Checks if a role with the specified name exists.
+ * @memberof ApiFormRoles
+ * @since 9.0.0
+ * @param {string} name - The role name.
+ * @returns {boolean}
+ */
+ApiFormRoles.prototype.HaveRole = function(name){ return true; };
+
+/**
+ * Returns the RGB color of the specified role.
+ * @memberof ApiFormRoles
+ * @since 9.0.0
+ * @param {string} name - The role name.
+ * @returns {null | {r:byte, g:byte, b:byte}}
+ */
+ApiFormRoles.prototype.GetRoleColor = function(name){ return null; };
+
+/**
+ * Sets the color for the specified role.
+ * @memberof ApiFormRoles
+ * @since 9.0.0
+ * @param {string} name - The role name.
+ * @param {string} color - The role color.
+ * @returns {boolean}
+ */
+ApiFormRoles.prototype.SetRoleColor = function(name, color){ return true; };
+
+/**
+ * Moves a role up in filling order.
+ * @memberof ApiFormRoles
+ * @since 9.0.0
+ * @param {string} name - The role name.
+ * @returns {boolean}
+ */
+ApiFormRoles.prototype.MoveUp = function(name){ return true; };
 
 
