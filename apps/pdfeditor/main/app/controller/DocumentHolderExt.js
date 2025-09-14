@@ -2188,6 +2188,7 @@ define([], function () {
                                 {
                                     chartProps: elValue,
                                     slideSize: PDFE.getController('Toolbar').currentPageSize,
+                                    chartSettings: me.api.asc_getChartSettings(),
                                     handler: function(result, value) {
                                         if (result == 'ok') {
                                             if (me.api) {
