@@ -1222,8 +1222,28 @@ define([
         },
 
         onHyperlinkClick: function(url) {
-            if (url /*&& me.api.asc_getUrlType(url)>0*/) {
-                window.open(url);
+            if (url) {
+                var type = this.api.asc_getUrlType(url);
+                if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email)
+                    window.open(url);
+                else {
+                    var me = this;
+                    setTimeout(function() {
+                        Common.UI.warning({
+                            maxwidth: 500,
+                            msg: Common.Utils.String.format(me.txtWarnUrl, url),
+                            buttons: ['no', 'yes'],
+                            primary: 'no',
+                            callback: function(btn) {
+                                try {
+                                    (btn == 'yes') && window.open(url);
+                                } catch (err) {
+                                    err && console.log(err.stack);
+                                }
+                            }
+                        });
+                    }, 1);
+                }
             }
         },
 

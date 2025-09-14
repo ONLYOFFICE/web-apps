@@ -59,10 +59,6 @@ if (window.Common === undefined) {
                 $me.trigger('applyeditrights', data);
             },
 
-            'processSaveResult': function(data) {
-                $me.trigger('processsaveresult', data);
-            },
-
             'processRightsChange': function(data) {
                 $me.trigger('processrightschange', data);
             },

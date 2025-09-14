@@ -449,7 +449,7 @@ const PageFillColor = props => {
                     </NavRight>
                 }
             </Navbar>
-            <ThemeColorPalette changeColor={changeColor} curColor={fillColor} customColors={customColors} transparent={true} />
+            <ThemeColorPalette changeColor={changeColor} curColor={fillColor} customColors={customColors} transparent={false} />
             <List>
                 <ListItem title={_t.textAddCustomColor} link={'/edit-custom-color/'} routeProps={{
                     onFillColor: props.onFillColor

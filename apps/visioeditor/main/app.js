@@ -167,8 +167,9 @@ require([
                 'common/main/lib/controller/Chat',
                 'common/main/lib/controller/Plugins'
             ], function() {
+                const code_path = !window.isIEBrowser ? 'visioeditor/main/code' : 'visioeditor/main/ie/code';            
                 app.postLaunchScripts = [
-                    'visioeditor/main/code'
+                    code_path,
                 ];
 
                 app.start();

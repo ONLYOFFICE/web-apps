@@ -61,7 +61,7 @@ define([
                     '<span class="btn-slot text x-huge" id="slot-btn-instextart"></span>' +
                     '<span class="btn-slot text x-huge slot-insertimg"></span>' +
                     // '<span class="btn-slot text x-huge" id="slot-btn-insertchart"></span>' +
-                    // '<span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>' +
                 '</div>' +
                 '<div class="separator long invisible"></div>' +
                 '<div class="group small" id="slot-combo-insertshape"></div>' +
@@ -160,7 +160,7 @@ define([
                     dataHintOffset: 'small'
                 });
                 me.lockedControls.push(me.btnInsertChart);
-
+*/
                 this.btnInsertSmartArt = new Common.UI.Button({
                     id: 'tlbtn-insertsmartart',
                     cls: 'btn-toolbar x-huge icon-top',
@@ -174,7 +174,7 @@ define([
                     dataHintOffset: 'small'
                 });
                 me.lockedControls.push(this.btnInsertSmartArt);
-*/
+
                 me.btnInsertEquation = new Common.UI.Button({
                     id: 'tlbtn-insertequation',
                     cls: 'btn-toolbar x-huge icon-top',
@@ -310,7 +310,7 @@ define([
                 var _injectComponent = function (id, cmp) {
                     Common.Utils.injectComponent($host.find(id), cmp);
                 };
-                // _injectComponent('#slot-btn-inssmartart', this.btnInsertSmartArt);
+                _injectComponent('#slot-btn-inssmartart', this.btnInsertSmartArt);
                 _injectComponent('#slot-btn-insertequation', this.btnInsertEquation);
                 _injectComponent('#slot-btn-inssymbol', this.btnInsertSymbol);
                 _injectComponent('#slot-btn-insertlink', this.btnInsertHyperlink);
@@ -425,7 +425,7 @@ define([
 
                 this.btnInsertTable.updateHint(this.tipInsertTable);
                 // this.btnInsertChart.updateHint(this.tipInsertChart);
-                // this.btnInsertSmartArt.updateHint(this.tipInsertSmartArt);
+                this.btnInsertSmartArt.updateHint(this.tipInsertSmartArt);
                 this.btnInsertEquation.updateHint(this.tipInsertEquation);
                 this.btnInsertSymbol.updateHint(this.tipInsertSymbol);
                 this.btnInsertHyperlink.updateHint(this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
@@ -460,7 +460,7 @@ define([
                     menu.setInnerMenu([{menu: picker, index: 0}]);
                 };
                 this.btnInsertChart.menu.on('show:before', onShowBefore);
-
+*/
                 this.btnInsertSmartArt.setMenu(new Common.UI.Menu({
                     cls: 'shifted-right',
                     items: []
@@ -533,7 +533,7 @@ define([
                     menu.off('show:before', onShowBeforeSmartArt);
                 };
                 this.btnInsertSmartArt.menu.on('show:before', onShowBeforeSmartArt);
-*/
+
                 var onShowBeforeTextArt = function (menu) {
                     var collection = PDFE.getCollection('Common.Collections.TextArt');
                     if (collection.length<1)

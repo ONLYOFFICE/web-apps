@@ -101,7 +101,7 @@ def export_and_save_images(file_key, nodes, names_map, outputdir, scale=2):
         base_name = names_map.get(node_id, "icon")
         # filename = os.path.join(outputdir, f"{base_name}_{variant_name}@{scale}x.svg")
         if 'rtl' in variant_name:
-            base_name = base_name + '_rtl'
+            base_name = base_name + '-rtl'
         filename = os.path.join(outputdir, f"{base_name}.{ICON_FORMAT}") if scale < 2 else os.path.join(outputdir, f"{base_name}@{scale}x.{ICON_FORMAT}")
 
         try:

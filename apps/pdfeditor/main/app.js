@@ -192,8 +192,9 @@ require([
                 'common/main/lib/controller/Draw',
                 'common/main/lib/controller/Protection'
             ], function() {
+                const code_path = !window.isIEBrowser ? 'pdfeditor/main/code' : 'pdfeditor/main/ie/code';
                 app.postLaunchScripts = [
-                    'pdfeditor/main/code',
+                    code_path,
                 ];
 
                 app.start();
