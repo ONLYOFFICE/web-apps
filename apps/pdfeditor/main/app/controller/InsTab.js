@@ -155,10 +155,6 @@ define([
             if (this.mode && this.mode.isPDFEdit) {
                 var shapes = this.api.asc_getPropertyEditorShapes();
                 shapes && this.fillAutoShapes(shapes[0], shapes[1]);
-
-                // this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.mode, customization: this.mode.customization});
-                // this.getApplication().getController('Common.Controllers.ExternalOleEditor').setApi(this.api).loadConfig({config:this.mode, customization: this.mode.customization});
-
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, false, {array: this.view.lockedControls});
             }
         },

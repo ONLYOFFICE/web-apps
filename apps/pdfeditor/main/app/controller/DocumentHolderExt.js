@@ -282,12 +282,12 @@ define([], function () {
                     else
                         menu_to_show = documentHolder.pictureMenu;
                 }
-                // else if (Asc.c_oAscTypeSelectElement.Chart == elType) {
-                //     menu_to_show = documentHolder.pictureMenu;
-                //     menu_props.chartProps = {};
-                //     menu_props.chartProps.value = elValue;
-                //     menu_props.chartProps.locked = (elValue) ? elValue.get_Locked() : false;
-                // }
+                else if (Asc.c_oAscTypeSelectElement.Chart == elType) {
+                    menu_to_show = documentHolder.pictureMenu;
+                    menu_props.chartProps = {};
+                    menu_props.chartProps.value = elValue;
+                    menu_props.chartProps.locked = (elValue) ? elValue.get_Locked() : false;
+                }
                 else if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
                     menu_props.paraProps = {};
                     menu_props.paraProps.value = elValue;

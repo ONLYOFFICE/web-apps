@@ -792,6 +792,15 @@ define([], function () {
                 caption: me.textEditPoints
             });
 
+            me.menuChartEdit = new Common.UI.MenuItem({
+                caption     : me.editChartText
+            });
+
+            me.menuChartAdvanced = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-menu-chart',
+                caption     : me.advancedChartText
+            });
+
             me.pictureMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
@@ -929,11 +938,6 @@ define([], function () {
                 caption     : me.advancedParagraphText
             });
 
-            me.menuChartAdvanced = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-chart',
-                caption     : me.advancedChartText
-            });
-
             var menuCommentParaSeparator = new Common.UI.MenuItem({
                 caption : '--'
             });
@@ -962,10 +966,6 @@ define([], function () {
                         me.menuRemoveHyperlinkPara
                     ]
                 })
-            });
-
-            me.menuChartEdit = new Common.UI.MenuItem({
-                caption     : me.editChartText
             });
 
             me.menuParagraphVAlign = new Common.UI.MenuItem({
