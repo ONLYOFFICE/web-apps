@@ -136,9 +136,10 @@ define([
             this.thumb = this.cmpEl.find('.thumb');
 
             const halfThumbSize = this.thumb.outerWidth() / 2;
+            this.width = this.options.width - halfThumbSize;
 
             this.cmpEl.find('.track-center').width(me.options.width - 14);
-            this.cmpEl[me.direction === 'vertical' ? 'height' : 'width'](me.options.width - halfThumbSize);
+            this.cmpEl[me.direction === 'vertical' ? 'height' : 'width'](this.width);
 
             var onMouseUp = function (e) {
                 e.preventDefault();
