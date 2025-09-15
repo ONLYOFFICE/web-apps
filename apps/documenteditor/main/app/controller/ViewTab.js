@@ -182,7 +182,6 @@ define([
                     }
 
                     if (!config.isEdit || config.customization && config.customization.macros===false) {
-                        // me.view.$el.find('#slot-btn-macros').closest('.group').prev().addBack().remove();
                         me.view.$el.find('.macro').remove();
                     }
 
