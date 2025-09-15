@@ -892,8 +892,7 @@ define([
                     plugins: false,
                     protect: false,
                     header: {docmode: true, search: type==='not-loaded', startfill: false},
-                    shortcuts: type==='not-loaded',
-                    macros: true
+                    shortcuts: type==='not-loaded'
                 }, type || 'disconnect');
             },
 
@@ -950,9 +949,6 @@ define([
                 }
                 if (options.protect) {
                     app.getController('Common.Controllers.Protection').SetDisabled(disable, false);
-                }
-                if (options.macros && disable) {
-                    app.getController('ViewTab').stopMacroRecording();
                 }
 
                 if (options.shortcuts) {
@@ -1964,8 +1960,7 @@ define([
                         plugins: true,
                         protect: true,
                         header: {docmode: !!disableModeButton, search: false, startfill: false},
-                        shortcuts: false,
-                        macros: false
+                        shortcuts: false
                     }, 'view');
 
                     if (mode==='view-form' || !!this.stackDisableActions.get({type: 'forms'})) {

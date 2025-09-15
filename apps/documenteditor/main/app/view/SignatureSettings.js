@@ -448,8 +448,7 @@ define([
                     plugins: false,
                     protect: false,
                     header: {docmode: true, search: false, startfill: true},
-                    shortcuts: false,
-                    macros: true
+                    shortcuts: false
                 }, 'signature');
             }
         },

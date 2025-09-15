@@ -67,10 +67,12 @@ define([
             if (api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onZoomChange', _.bind(this.onZoomChange, this));
+                this.api.asc_registerCallback('asc_onMacroRecordingStart', _.bind(this.updateMacroState, this, true, false));
+                this.api.asc_registerCallback('asc_onMacroRecordingStop', _.bind(this.updateMacroState, this, false));
+                this.api.asc_registerCallback('asc_onMacroRecordingPause', _.bind(this.updateMacroState, this, true, true));
+                this.api.asc_registerCallback('asc_onMacroRecordingResume', _.bind(this.updateMacroState, this, true, false));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
-                Common.NotificationCenter.on('doc:mode-changed', this.onChangeDocMode.bind(this));
-                Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             }
             return this;
         },
@@ -357,8 +359,19 @@ define([
         onClickMacrosRec: function() {
             var recorder = this.api.getMacroRecorder();
             recorder.isInProgress() ? recorder.stop() : recorder.start();
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onClickMacrosPause: function() {
+            var recorder = this.api.getMacroRecorder();
+            if (recorder.isInProgress()) {
+                recorder.isPaused() ? recorder.resume() : recorder.pause();
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        updateMacroState: function(inProgress, paused) {
             if (this.view) {
-                var inProgress = recorder.isInProgress();
                 this.view.btnRecMacro.changeIcon({
                     next: inProgress ? 'btn-macros-stop' : 'btn-macros-record',
                     curr: inProgress ? 'btn-macros-record' : 'btn-macros-stop'
@@ -369,20 +382,11 @@ define([
                 if (!inProgress) {
                     this.view.btnPauseMacro.setCaption(this.view.textPauseMacro);
                     this.view.btnPauseMacro.updateHint(this.view.tipPauseMacro);
+                } else {
+                    this.view.btnPauseMacro.setCaption(paused ? this.view.textResumeMacro : this.view.textPauseMacro);
+                    this.view.btnPauseMacro.updateHint(paused ? this.view.tipResumeMacro : this.view.tipPauseMacro);
                 }
             }
-            Common.NotificationCenter.trigger('edit:complete', this.view);
-        },
-
-        onClickMacrosPause: function() {
-            var recorder = this.api.getMacroRecorder();
-            if (recorder.isInProgress()) {
-                recorder.isPaused() ? recorder.resume() : recorder.pause();
-                var paused = recorder.isPaused();
-                this.view.btnPauseMacro.setCaption(paused ? this.view.textResumeMacro : this.view.textPauseMacro);
-                this.view.btnPauseMacro.updateHint(paused ? this.view.tipResumeMacro : this.view.tipPauseMacro);
-            }
-            Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
         onChangeDarkMode: function (isdarkmode) {
@@ -429,26 +433,6 @@ define([
                 this.api.asc_setViewerTargetType(type);
                 Common.NotificationCenter.trigger('edit:complete', this.view);
             }
-        },
-
-        onChangeProtectDocument: function(props) {
-            if (!props) {
-                var docprotect = this.getApplication().getController('DocProtection');
-                props = docprotect ? docprotect.getDocProps() : null;
-            }
-            if (props && (props.isReadOnly || props.isFormsOnly || props.isCommentsOnly)) {
-                this.stopMacroRecording();
-            }
-        },
-
-        onChangeDocMode: function (type) {
-            if (type === 'view' || type === 'view-form') {
-                this.stopMacroRecording();
-            }
-        },
-
-        stopMacroRecording: function() {
-            this.api && this.api.getMacroRecorder().isInProgress() && this.onClickMacrosRec();
         }
 
     }, DE.Controllers.ViewTab || {}));

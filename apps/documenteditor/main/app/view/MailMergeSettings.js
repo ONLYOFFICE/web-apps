@@ -854,8 +854,7 @@ define([
                 plugins: false,
                 protect: false,
                 header: {docmode: true, search: false, startfill: false},
-                shortcuts: false,
-                macros: true
+                shortcuts: false
             }, 'mailmerge');
 
             this.lockControls(DE.enumLockMM.preview, disable, {array: [this.btnInsField, this.btnEditData]});
