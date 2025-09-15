@@ -667,7 +667,7 @@ define([
 
             const wc = me.api.asc_getWorksheetsCount();
 
-            var tab = sheetFromUpdate ? _.findWhere(me.statusbar.tabbar.tabs, { sheetid: sheetFromUpdate }) : me.statusbar.tabbar.tabs[sindex];
+            var tab = sheetFromUpdate ? _.findWhere(me.statusbar.tabbar.tabs, { sheetid: sheetFromUpdate }) : _.findWhere(me.statusbar.tabbar.tabs, { sheetindex: sindex });
             var currentName = sheetFromUpdate ? me.renameInputVal : me.api.asc_getWorksheetName(sindex);
             if (!tab) return;
             const $tabEl = tab.$el.find('span');
