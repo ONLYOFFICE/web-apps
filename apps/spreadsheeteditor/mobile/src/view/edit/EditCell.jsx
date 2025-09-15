@@ -151,8 +151,7 @@ const EditCell = props => {
                             onAccountingCellFormat: props.onAccountingCellFormat,
                             dateFormats: props.dateFormats,
                             timeFormats: props.timeFormats,
-                            setCustomFormat: props.setCustomFormat,
-                            onCellFormat: props.onCellFormat
+                            setCustomFormat: props.setCustomFormat
                         }}>
                             {!isAndroid ?
                                 <SvgIcon slot="media" symbolId={IconFormatGeneral.id} className={'icon icon-svg'} /> : null
