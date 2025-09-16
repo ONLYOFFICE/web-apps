@@ -51,6 +51,7 @@ import IconFormatScientific from '@icons/icon-format-scientific.svg';
 import IconFormatText from '@icons/icon-format-text.svg';
 import IconFormatTime from '@icons/icon-format-time.svg';
 import IconFormatInteger from '@icons/icon-format-integer.svg';
+import IconCheck from '@common-android-icons/icon-check.svg';
 
 const EditCell = props => {
     const isAndroid = Device.android;
@@ -1114,7 +1115,8 @@ const PageCreationCustomFormat = observer(props => {
         <Page>
             <Navbar title={t('View.Edit.textCreateFormat')} backLink={_t.textBack}>
                 <NavRight>
-                    <Link text={isIos ? t('View.Edit.textSave') : ''} icon={!isIos ? 'icon-check' : null} className={!formatValue && 'disabled'} onClick={() => handleSetCustomFormat(formatValue)}></Link>
+                    <Link text={isIos ? t('View.Edit.textSave') : ''} className={!formatValue && 'disabled'} onClick={() => handleSetCustomFormat(formatValue)}>
+                    {!isIos && (<SvgIcon symbolId={IconCheck.id} className="icon icon-svg"/>)}</Link>
                 </NavRight>
             </Navbar>
             <>
