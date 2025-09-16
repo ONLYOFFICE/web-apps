@@ -65,8 +65,6 @@ define([
         initialize: function () {
             this.minimizedMode = true;
             this._state = {disabled: false};
-
-            this.shortcutHints = {};
         },
 
         render: function () {
@@ -139,10 +137,12 @@ define([
                 toggleGroup: 'leftMenuGroup'
             });
             this.btnComments.on('click',        this.onBtnMenuClick.bind(this));
-            this.shortcutHints.OpenCommentsPanel = {
-                btn: this.btnComments,
-                label: this.tipComments
-            };
+            PE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                OpenCommentsPanel: {
+                    btn: this.btnComments,
+                    label: this.tipComments
+                }
+            });
 
             this.btnChat = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-chat'),
@@ -153,10 +153,12 @@ define([
                 toggleGroup: 'leftMenuGroup'
             });
             this.btnChat.on('click',            this.onBtnMenuClick.bind(this));
-            this.shortcutHints.OpenChatPanel = {
-                btn: this.btnChat,
-                label: this.tipChat
-            };
+            PE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                OpenChatPanel: {
+                    btn: this.btnChat,
+                    label: this.tipChat
+                }
+            });
 
             this.btnComments.hide();
             this.btnChat.hide();
@@ -167,13 +169,6 @@ define([
             this.btnAbout.panel = (new Common.Views.About({el: '#about-menu-panel', appName: this.txtEditor}));
 
             this.$el.html($markup);
-
-            const updateShortcuntsHints = function() {
-                const app = (window.DE || window.PE || window.SSE || window.PDFE || window.VE);
-                app.getController('Common.Controllers.Shortcuts').updateShortcuntsHints(this.shortcutHints);
-            }.bind(this);
-            updateShortcuntsHints();
-            Common.NotificationCenter.on('shortcuts:update', _.bind(updateShortcuntsHints, this));
 
             return this;
         },

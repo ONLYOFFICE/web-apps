@@ -98,6 +98,8 @@ define([
                 this.lockedControls = [];
                 this.formulaControls = [];
 
+                this.shortcutsController = SSE.getController('Common.Controllers.Shortcuts');
+
                 var me = this,
                     $host = me.toolbar.$el,
                     _set = Common.enumLock;
@@ -235,7 +237,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-autosum',
                     caption: this.txtAutosum,
-                    hint: [this.txtAutosumTip + Common.Utils.String.platformKey('Alt+='), this.txtFormulaTip + Common.Utils.String.platformKey('Shift+F3')],
+                    hint: [this.txtAutosumTip, this.txtFormulaTip],
                     split: true,
                     action: 'autosum',
                     disabled: true,
@@ -251,7 +253,7 @@ define([
                             {
                                 caption: me.txtAdditional,
                                 value: 'more',
-                                hint: me.txtFormulaTip + Common.Utils.String.platformKey('Shift+F3')
+                                hint: me.txtFormulaTip
                             }
                         ]
                     }),
@@ -261,13 +263,33 @@ define([
                 });
                 this.lockedControls.push(this.btnAutosum);
                 this.formulaControls.push(this.btnAutosum);
+                this.shortcutsController.updateShortcutHints({
+                    CellInsertSumFunction: {
+                        btn: this.btnAutosum,
+                        label: this.txtAutosumTip,
+                        applyCallback: function(item, hintText) {
+                            item.btn.updateHint([hintText, item.btn.options.hint[1]]);
+                        }
+                    },
+                    OpenInsertFunctionDialog: {
+                        btn: this.btnAutosum,
+                        label: this.txtFormulaTip,
+                        applyCallback: function(item, hintText) {
+                            const moreMenuItem = _.find(item.btn.menu.items, function(item) { 
+                                return item.value == 'more' 
+                            });
+                            moreMenuItem && moreMenuItem.updateHint(hintText);
+                            item.btn.updateHint([item.btn.options.hint[0], hintText]);
+                        }
+                    }
+                });
 
                 this.btnFormula = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-additional-formula'),
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-ins-formula',
                     caption: this.txtFormula,
-                    hint: this.txtFormulaTip + Common.Utils.String.platformKey('Shift+F3'),
+                    hint: this.txtFormulaTip,
                     disabled: true,
                     lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.userProtected],
                     dataHint: '1',
@@ -276,6 +298,12 @@ define([
                 });
                 this.lockedControls.push(this.btnFormula);
                 this.formulaControls.push(this.btnFormula);
+                this.shortcutsController.updateShortcutHints({
+                    OpenInsertFunctionDialog: {
+                        btn: this.btnFormula,
+                        label: this.txtFormulaTip
+                    }
+                });
 
                 this.btnMore = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-more'),
@@ -426,7 +454,7 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    me.btnCalculate.updateHint([me.tipCalculateTheEntireWorkbook + Common.Utils.String.platformKey('F9'), me.tipCalculate]);
+                    me.btnCalculate.updateHint([me.tipCalculateTheEntireWorkbook, me.tipCalculate]);
                     var _menu = new Common.UI.Menu({
                         items: [
                             {caption: me.textCalculateWorkbook, value: Asc.c_oAscCalculateType.All},
@@ -437,6 +465,15 @@ define([
                         ]
                     });
                     me.btnCalculate.setMenu(_menu);
+                    me.shortcutsController.updateShortcutHints({
+                        RecalculateAll: {
+                            btn: me.btnCalculate,
+                            label: me.tipCalculateTheEntireWorkbook,
+                            applyCallback: function(item, hintText) {
+                                item.btn.updateHint([hintText, item.btn.options.hint[1]]);
+                            }
+                        }
+                    });
 
                     me.btnShowFormulas.updateHint(me.tipShowFormulas + Common.Utils.String.format(' ({0}+`)', Common.Utils.String.textCtrl));
                     me.btnTracePrec.updateHint(me.tipTracePrec);
@@ -507,7 +544,7 @@ define([
                                 {
                                     caption: me.txtAdditional,
                                     value: 'more',
-                                    hint: me.txtFormulaTip + Common.Utils.String.platformKey('Shift+F3')
+                                    hint: me.txtFormulaTip
                                 }
                             ]
                         }));
@@ -520,6 +557,19 @@ define([
                             _.delay(function() {
                                 menu._innerMenu && menu._innerMenu.cmpEl.focus();
                             }, 10);
+                        });
+                        me.shortcutsController.updateShortcutHints({
+                            OpenInsertFunctionDialog: {
+                                btn: btn,
+                                label: me.txtFormulaTip,
+                                applyCallback: function(item, hintText) {
+                                    const moreMenuItem = _.find(item.btn.menu.items, function(item) { 
+                                        return item.value == 'more' 
+                                    });
+                                    moreMenuItem && moreMenuItem.updateHint(hintText);
+                                    item.btn.updateHint([item.btn.options.hint[0], hintText]);
+                                }
+                            }
                         });
 
                         var menu = new Common.UI.Menu({
@@ -591,7 +641,7 @@ define([
                                     {
                                         caption: me.txtAdditional,
                                         value: 'more',
-                                        hint: me.txtFormulaTip + Common.Utils.String.platformKey('Shift+F3')
+                                        hint: me.txtFormulaTip
                                     }
                                 ]
                             })
@@ -611,6 +661,17 @@ define([
                                 if ($parent.hasClass('dropdown-submenu') && $parent.hasClass('over')) { // close submenu
                                     $parent.removeClass('over');
                                     $parent.find('> a').focus();
+                                }
+                            }
+                        });
+                        me.shortcutsController.updateShortcutHints({
+                            OpenInsertFunctionDialog: {
+                                label: me.txtFormulaTip,
+                                applyCallback: function(item, hintText) {
+                                    const moreMenuItem = _.find(mnu.menu.items, function(item) { 
+                                        return item.value == 'more' 
+                                    });
+                                    moreMenuItem && moreMenuItem.updateHint(hintText);
                                 }
                             }
                         });

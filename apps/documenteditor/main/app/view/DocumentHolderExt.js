@@ -2055,21 +2055,33 @@ define([], function () {
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
                 me.currentMenu = null;
             });
-
+            
+            const shortcutHints = {};
             var nextpage = $('#id_buttonNextPage');
             nextpage.attr('data-toggle', 'tooltip');
-            nextpage.tooltip({
-                title       : me.textNextPage + Common.Utils.String.platformKey('Alt+PgDn'),
-                placement   : 'top-right'
-            });
+            shortcutHints.MoveToNextPage = {
+                label: me.textNextPage,
+                applyCallback: function(item, hintText) {
+                    nextpage.tooltip({
+                        title       : hintText,
+                        placement   : 'top-right'
+                    });
+                }
+            };
 
             var prevpage = $('#id_buttonPrevPage');
             prevpage.attr('data-toggle', 'tooltip');
-            prevpage.tooltip({
-                title       : me.textPrevPage + Common.Utils.String.platformKey('Alt+PgUp'),
-                placement   : 'top-right'
-            });
-
+            shortcutHints.MoveToPreviousPage = {
+                label: me.textPrevPage,
+                applyCallback: function(item, hintText) {
+                    prevpage.tooltip({
+                        title       : hintText,
+                        placement   : 'top-right'
+                    });
+                }
+            };
+            DE.getController('Common.Controllers.Shortcuts').updateShortcutHints(shortcutHints);
+            
             this.fireEvent('createdelayedelements', [this, 'edit']);
         };
 

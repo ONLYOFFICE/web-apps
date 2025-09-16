@@ -184,7 +184,7 @@ define([
                     );
 
                     this.btnSaveCls = config.canSaveToFile || config.isDesktopApp && config.isOffline ? 'btn-save' : 'btn-download';
-                    this.btnSaveTip = config.canSaveToFile || config.isDesktopApp && config.isOffline ? this.tipSave + Common.Utils.String.platformKey('Ctrl+S') : this.tipDownload;
+                    this.btnSaveTip = config.canSaveToFile || config.isDesktopApp && config.isOffline ? this.tipSave : this.tipDownload;
 
                     this.btnPrint = new Common.UI.Button({
                         id: 'id-toolbar-btn-print',
@@ -218,8 +218,9 @@ define([
                     this.toolbarControls.push(this.btnSave);
                     this.btnCollabChanges = this.btnSave;
                     this.shortcutHints.Save = {
-                        btn: this.btnSave,
-                        label: this.tipSave
+                        applyCallback: function(item, hintText) {
+                            me.btnSave.updateHint(me.btnSaveTip + hintText);
+                        }
                     };
 
                     this.btnUndo = new Common.UI.Button({
@@ -1960,7 +1961,7 @@ define([
                     );
                     if (config.isRestrictedEdit && config.canFillForms && config.isPDFForm) {
                         this.btnSaveCls = config.canSaveToFile || config.isDesktopApp && config.isOffline ? 'btn-save' : 'btn-download';
-                        this.btnSaveTip = config.canSaveToFile || config.isDesktopApp && config.isOffline ? this.tipSave + Common.Utils.String.platformKey('Ctrl+S') : this.tipDownload;
+                        this.btnSaveTip = config.canSaveToFile || config.isDesktopApp && config.isOffline ? this.tipSave : this.tipDownload;
 
                         this.btnPrint = new Common.UI.Button({
                             id: 'id-toolbar-btn-print',
@@ -1994,8 +1995,9 @@ define([
                         this.toolbarControls.push(this.btnSave);
                         this.btnCollabChanges = this.btnSave;
                         this.shortcutHints.Save = {
-                            btn: this.btnSave,
-                            label: this.tipSave
+                            applyCallback: function(item, hintText) {
+                                me.btnSave.updateHint(me.btnSaveTip + hintText);
+                            }
                         };
 
                         this.btnUndo = new Common.UI.Button({
@@ -2690,21 +2692,14 @@ define([
             createDelayedElementsRestrictedEditForms: function() {
                 if (!this.mode.isRestrictedEdit || !this.mode.canFillForms || !this.mode.isPDFForm) return;
 
-                this.btnPrint.updateHint(this.tipPrint + Common.Utils.String.platformKey('Ctrl+P'));
-                this.btnSave.updateHint(this.btnSaveTip);
-                this.btnUndo.updateHint(this.tipUndo + Common.Utils.String.platformKey('Ctrl+Z'));
-                this.btnRedo.updateHint(this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'));
-                this.btnCopy.updateHint(this.tipCopy + Common.Utils.String.platformKey('Ctrl+C'));
-                this.btnPaste.updateHint(this.tipPaste + Common.Utils.String.platformKey('Ctrl+V'));
-                this.btnCut.updateHint(this.tipCut + Common.Utils.String.platformKey('Ctrl+X'));
-                this.btnSelectAll.updateHint(this.tipSelectAll + Common.Utils.String.platformKey('Ctrl+A'));
                 this.btnSelectTool.updateHint(this.tipSelectTool);
                 this.btnHandTool.updateHint(this.tipHandTool);
                 // this.btnEditMode.updateHint(this.tipEditMode, true);
+
+                DE.getController('Common.Controllers.Shortcuts').updateShortcutHints(this.shortcutHints);
             },
 
             updateHints: function() {
-                this.btnSave.updateHint(this.btnSaveTip);
                 this.btnStrikeout.updateHint(this.textStrikeout);
                 this.btnHighlightColor.updateHint(this.tipHighlightColor);
                 this.btnFontColor.updateHint(this.tipFontColor);
@@ -2741,12 +2736,7 @@ define([
                 this.btnHyphenation.updateHint(this.tipHyphenation);
                 this.btnPageColor.updateHint(this.tipPageColor);
 
-
-                const updateShortcuntsHints = function() {
-                    DE.getController('Common.Controllers.Shortcuts').updateShortcuntsHints(this.shortcutHints);
-                }.bind(this);
-                updateShortcuntsHints();
-                Common.NotificationCenter.on('shortcuts:update', _.bind(updateShortcuntsHints, this));
+                DE.getController('Common.Controllers.Shortcuts').updateShortcutHints(this.shortcutHints);
             },
 
             createDelayedElements: function () {
@@ -3639,7 +3629,14 @@ define([
                     this.synchTooltip.target = this.btnCollabChanges.$el.is(':visible') ? this.btnCollabChanges.$el : $('[data-layout-name=toolbar-file]', this.$el);
                     this.synchTooltip.show();
                 } else {
-                    this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
+                    this.btnSaveTip = this.tipSynchronize;
+                    DE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                        Save: {
+                            btn: this.btnCollabChanges,
+                            label: this.btnSaveTip,
+                            ignoreUpdates: true
+                        },
+                    });
                 }
 
                 this.lockToolbar(Common.enumLock.cantSave, false, {array: [this.btnSave]});
@@ -3655,12 +3652,26 @@ define([
                 this.synchTooltip.on('dontshowclick', function () {
                     this.showSynchTip = false;
                     this.synchTooltip.hide();
-                    this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
+                    this.btnSaveTip = this.tipSynchronize;
+                    DE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                        Save: {
+                            btn: this.btnCollabChanges,
+                            label: this.btnSaveTip,
+                            ignoreUpdates: true
+                        },
+                    });
                     Common.localStorage.setItem("de-hide-synch", 1);
                 }, this);
                 this.synchTooltip.on('closeclick', function () {
                     this.synchTooltip.hide();
-                    this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
+                    this.btnSaveTip = this.tipSynchronize;
+                    DE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                        Save: {
+                            btn: this.btnCollabChanges,
+                            label: this.btnSaveTip,
+                            ignoreUpdates: true
+                        },
+                    });
                 }, this);
             },
 
@@ -3672,7 +3683,14 @@ define([
                         me.btnCollabChanges.cmpEl.removeClass('notify');
                         if (this.synchTooltip)
                             this.synchTooltip.hide();
-                        this.btnCollabChanges.updateHint(this.btnSaveTip);
+
+                        DE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                            Save: {
+                                btn: me.btnCollabChanges,
+                                label: me.btnSaveTip,
+                                ignoreUpdates: true
+                            },
+                        });
 
                         this.lockToolbar(Common.enumLock.cantSave, !me.mode.forcesave && !me.mode.canSaveDocumentToBinary && me.mode.canSaveToFile || !me.mode.showSaveButton, {array: [this.btnSave]});
                         this._state.hasCollaborativeChanges = false;
@@ -3691,8 +3709,14 @@ define([
                 var length = _.size(editusers);
                 var cls = (length > 1) ? 'btn-save-coauth' : 'btn-save';
                 if ( cls !== me.btnSaveCls && me.btnCollabChanges.rendered ) {
-                    me.btnSaveTip = ((length > 1) ? me.tipSaveCoauth : me.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
-                    me.btnCollabChanges.updateHint(me.btnSaveTip);
+                    me.btnSaveTip = ((length > 1) ? me.tipSaveCoauth : me.tipSave );
+                    DE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                        Save: {
+                            btn: me.btnCollabChanges,
+                            label: me.btnSaveTip,
+                            ignoreUpdates: true
+                        },
+                    });
                     me.btnCollabChanges.changeIcon({next: cls, curr: me.btnSaveCls});
                     me.btnSaveCls = cls;
                 }

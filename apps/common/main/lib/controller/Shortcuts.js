@@ -42,6 +42,7 @@ define([
 
     Common.Controllers.Shortcuts = Backbone.Controller.extend(_.extend({
         initialize: function() {
+            this.eventsMap = {};
             this._fillActionsMap();
         },
 
@@ -127,6 +128,8 @@ define([
                     }
                 });
             }
+
+            this._eventsTrigger();
             Common.localStorage.setItem("shortcuts", '');
             Common.NotificationCenter.trigger('shortcuts:update');
         },
@@ -203,7 +206,10 @@ define([
                 })
             };
             this._saveModifiedShortcuts(savedInStorage, removableFromStorage);
+            
+            // TODO: Изменить на обновление для отдельных действий
             Common.NotificationCenter.trigger('shortcuts:update');
+            this._eventsTrigger(this.getDefaultShortcutActionsInvert()[actionType]);
         },
 
         getActionsMap: function() {
@@ -211,7 +217,7 @@ define([
         },
 
         getDefaultShortcutActions: function() {
-            if(window.DE) {
+            if(window.DE || window.PDFE) {
                 return Asc.c_oAscDocumentShortcutType;
             } else if(window.PE) {
                 return Asc.c_oAscPresentationShortcutType;
@@ -219,6 +225,13 @@ define([
                 return Asc.c_oAscSpreadsheetShortcutType;
             }
             return {};
+        },
+
+        getDefaultShortcutActionsInvert: function() {
+            if(!this._defaultShortcutsActionsInvert) {
+                this._defaultShortcutsActionsInvert = _.invert(this.getDefaultShortcutActions());
+            }
+            return this._defaultShortcutsActionsInvert;
         },
 
         /**
@@ -235,57 +248,98 @@ define([
          * getShortcutsByActionType('Save');
          * getShortcutsByActionType(7);
          */
-        getShortcutsByActionType: function(actionType) {
+        getShortcutsByActionType: function(actionType, withHidden) {
             const actionTypeNumber = (typeof actionType === 'number')
                 ? actionType
                 : this.getDefaultShortcutActions()[actionType];
             const actionItem = this.actionsMap[actionTypeNumber];
-            return actionItem ? actionItem.shortcuts : null;
+            let shortcuts = actionItem ? actionItem.shortcuts : null;
+            if(!withHidden && shortcuts) {
+                shortcuts = shortcuts.filter(function(shortcut) {
+                    return !shortcut.ascShortcut.asc_IsHidden();
+                });
+            } 
+            return shortcuts;
         },
 
         /**
-         * Updates button hints
+         * Updates button hints for shortcuts.
          *
-         * @param {Object<string, {btn: Object, label: string}>} shortcutHints
-         * An object where the key is the action type (actionType),
-         * and the value is an object with:
-         * - `btn` {Object} — a button object that provides the `updateHint(string)` method
-         * - `label` {string} — the base label text for the hint
+         * For each action type, finds the first visible shortcut (non-hidden)
+         * and appends its key combination to the base label. Then applies the
+         * updated hint to the button or via a custom callback.
          *
-         * The method finds the first visible shortcut for each action
-         * and appends its key combination to the label, then updates the hint on the button.
+         * @param {Object<string, {
+         *   btn: Object,
+         *   label: string,
+         *   applyCallback?: function(Object, string):void,
+         *   ignoreUpdates?: boolean
+         * }>} shortcutHints
+         *
+         * An object where:
+         * - key is the action type (actionType),
+         * - value is a config object:
+         *
+         *   - `btn` {Object} — button object that provides `updateHint(string)` method.
+         *   - `label` {string} — the base label text for the hint.
+         *   - `applyCallback` [optional] — custom function to apply the generated hint text.
+         *      Receives `(item, hintText)` as arguments.
+         *   - `ignoreUpdates` [optional] — if `true`, will not be updated when shortcuts are updated
          *
          * @example
-         * updateShortcuntsHints({
+         * updateShortcutHints({
          *   EditUndo: {
          *     btn: btnUndo,
          *     label: 'Undo'
          *   },
          *   EditRedo: {
-         *     btn: btnRedo,
-         *     label: 'Redo'
+         *     label: 'Redo',
+         *     applyCallback: function(item, hintText) {
+         *       console.log('Custom hint:', text);
+         *     },
+         *     ignoreUpdates: true
          *   }
          * });
          */
-        updateShortcuntsHints: function(shortcutHints) {
-            const defaultShortcutsActions = this.getDefaultShortcutActions();
+        updateShortcutHints: function(shortcutHints) {
             for (const actionType in shortcutHints) {
                 const item = shortcutHints[actionType];
-                const type = defaultShortcutsActions[actionType];
-                const action = type ? this.actionsMap[type] : null;
-                if (action) {
-                    const firstShortcut = _.find(action.shortcuts, function(shortcut) {
-                        return !shortcut.ascShortcut.asc_IsHidden();
-                    });
-                    const hintText = item.label + (firstShortcut ? ' (' + firstShortcut.keys.join('+') + ')' : '');
-                    
-                    if(item.applyCallback) {
-                        item.applyCallback(item, hintText);
-                    } else {
-                        item.btn.updateHint(hintText);
+                if(item) {
+                    const callback = function() {
+                        const defaultShortcutsActions = this.getDefaultShortcutActions();
+                        const type = defaultShortcutsActions[actionType];
+                        const action = type ? this.actionsMap[type] : null;
+                        if(action) {
+                            const firstShortcut = _.find(action.shortcuts, function(shortcut) {
+                                return !shortcut.ascShortcut.asc_IsHidden();
+                            });
+                            const hintText = (item.label || '') + (firstShortcut ? ' (' + firstShortcut.keys.join('+') + ')' : '');
+                            
+                            if(item.applyCallback) {
+                                item.applyCallback(item, hintText);
+                            } else {
+                                item.btn.updateHint(hintText);
+                            }
+                        }
+                    }.bind(this);
+
+                    callback();
+                    if(!item.ignoreUpdates) {
+                        !this.eventsMap[actionType] && (this.eventsMap[actionType] = []);
+                        this.eventsMap[actionType].push(callback);
                     }
                 }
             }
+        },
+
+        _eventsTrigger: function(actionType) {
+            const lists = actionType ? [this.eventsMap[actionType]] : _.values(this.eventsMap);
+
+            _.each(lists, function(callbacks) {
+                _.each(callbacks, function(cb) { 
+                    cb && cb(); 
+                });
+            });
         },
 
         _fillActionsMap: function() {
@@ -398,6 +452,7 @@ define([
                 if(e.key == 'shortcuts') {
                     applyMethod(e.originalEvent.newValue);
                     this._fillActionsMap();
+                    this._eventsTrigger();
                     Common.NotificationCenter.trigger('shortcuts:update');
                 }
             }.bind(this))

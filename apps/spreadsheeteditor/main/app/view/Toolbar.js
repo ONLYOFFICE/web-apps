@@ -144,7 +144,7 @@ define([
                 hasCollaborativeChanges: undefined
             };
             me.btnSaveCls = 'btn-save';
-            me.btnSaveTip = this.tipSave + Common.Utils.String.platformKey('Ctrl+S');
+            me.btnSaveTip = this.tipSave;
 
             me.ascFormatOptions = {
                 General     : 'General',
@@ -306,11 +306,14 @@ define([
                         }
                     };
                     me.shortcutHints.OpenInsertFunctionDialog = {
-                        btn: _.find(me.btnInsertFormula.menu.items, function(item) { return item.value == 'more' }),
+                        btn: me.btnInsertFormula,
                         label: me.txtFormula,
                         applyCallback: function(item, hintText) {
-                            item.btn.setCaption(hintText);
-                            me.btnInsertFormula.updateHint([me.btnInsertFormula.options.hint[0], hintText]);
+                            const moreMenuItem = _.find(item.btn.menu.items, function(item) { 
+                                return item.value == 'more' 
+                            });
+                            moreMenuItem && moreMenuItem.updateHint(hintText);
+                            item.btn.updateHint([item.btn.options.hint[0], hintText]);
                         }
                     };
 
@@ -921,6 +924,11 @@ define([
                     dataHintTitle: 'S'
                 });
                 me.btnCollabChanges = me.btnSave;
+                me.shortcutHints.Save = {
+                    applyCallback: function(item, hintText) {
+                        me.btnSave.updateHint(me.btnSaveTip + hintText);
+                    }
+                };
 
                 me.btnIncFontSize = new Common.UI.Button({
                     id          : 'id-toolbar-btn-incfont',
@@ -1730,11 +1738,14 @@ define([
                     }
                 };
                 me.shortcutHints.OpenInsertFunctionDialog = {
-                    btn: _.find(me.btnInsertFormula.menu.items, function(item) { return item.value == 'more' }),
+                    btn: me.btnInsertFormula,
                     label: me.txtFormula,
                     applyCallback: function(item, hintText) {
-                        item.btn.setCaption(hintText);
-                        me.btnInsertFormula.updateHint([me.btnInsertFormula.options.hint[0], hintText]);
+                        const moreMenuItem = _.find(item.btn.menu.items, function(item) { 
+                            return item.value == 'more' 
+                        });
+                        moreMenuItem && moreMenuItem.updateHint(hintText);
+                        item.btn.updateHint([item.btn.options.hint[0], hintText]);
                     }
                 };
 
@@ -2714,11 +2725,7 @@ define([
             });
 
 
-            const updateShortcuntsHints = function() {
-                SSE.getController('Common.Controllers.Shortcuts').updateShortcuntsHints(this.shortcutHints);
-            }.bind(this);
-            updateShortcuntsHints();
-            Common.NotificationCenter.on('shortcuts:update', _.bind(updateShortcuntsHints, this));
+            SSE.getController('Common.Controllers.Shortcuts').updateShortcutHints(this.shortcutHints);
         },
 
         createDelayedElements: function() {
@@ -3408,7 +3415,14 @@ define([
                 this.synchTooltip.target = this.btnCollabChanges.$el.is(':visible') ? this.btnCollabChanges.$el : $('[data-layout-name=toolbar-file]', this.$el);
                 this.synchTooltip.show();
             } else {
-                this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
+                this.btnSaveTip = this.tipSynchronize;
+                SSE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                    Save: {
+                        btn: this.btnCollabChanges,
+                        label: this.btnSaveTip,
+                        ignoreUpdates: true
+                    },
+                });
             }
             this.lockToolbar(Common.enumLock.cantSave, false, {array: [this.btnSave]});
             Common.Gateway.collaborativeChanges();
@@ -3423,12 +3437,26 @@ define([
             this.synchTooltip.on('dontshowclick', function() {
                 this.showSynchTip = false;
                 this.synchTooltip.hide();
-                this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
+                this.btnSaveTip = this.tipSynchronize;
+                SSE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                    Save: {
+                        btn: this.btnCollabChanges,
+                        label: this.btnSaveTip,
+                        ignoreUpdates: true
+                    },
+                });
                 Common.localStorage.setItem('sse-hide-synch', 1);
             }, this);
             this.synchTooltip.on('closeclick', function() {
                 this.synchTooltip.hide();
-                this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
+                this.btnSaveTip = this.tipSynchronize;
+                SSE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                    Save: {
+                        btn: this.btnCollabChanges,
+                        label: this.btnSaveTip,
+                        ignoreUpdates: true
+                    },
+                });
             }, this);
         },
 
@@ -3457,8 +3485,14 @@ define([
             var length = _.size(editusers);
             var cls = (length>1) ? 'btn-save-coauth' : 'btn-save';
             if (cls !== this.btnSaveCls && this.btnCollabChanges.rendered) {
-                this.btnSaveTip = ((length>1) ? this.tipSaveCoauth : this.tipSave )+ Common.Utils.String.platformKey('Ctrl+S');
-                this.btnCollabChanges.updateHint(this.btnSaveTip);
+                this.btnSaveTip = ((length>1) ? this.tipSaveCoauth : this.tipSave );
+                SSE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                    Save: {
+                        btn: this.btnCollabChanges,
+                        label: this.btnSaveTip,
+                        ignoreUpdates: true
+                    },
+                });
                 this.btnCollabChanges.changeIcon({next: cls, curr: this.btnSaveCls});
                 this.btnSaveCls = cls;
             }

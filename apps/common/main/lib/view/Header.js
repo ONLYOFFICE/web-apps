@@ -705,12 +705,10 @@ define([
             if (appConfig.twoLevelHeader && !appConfig.compactHeader)
                 Common.NotificationCenter.on('window:resize', onResize);
 
-            const updateShortcuntsHints = function() {
-                const app = (window.DE || window.PE || window.SSE || window.PDFE || window.VE);
-                app.getController('Common.Controllers.Shortcuts').updateShortcuntsHints(this.shortcutHints);
-            }.bind(this);
-            updateShortcuntsHints();
-            Common.NotificationCenter.on('shortcuts:update', _.bind(updateShortcuntsHints, this));
+            const app = (window.DE || window.PE || window.SSE || window.PDFE || window.VE);
+            if(app && app.getController('Common.Controllers.Shortcuts')) {
+                app.getController('Common.Controllers.Shortcuts').updateShortcutHints(this.shortcutHints);
+            }
         }
 
         function onFocusDocName(e){
@@ -927,6 +925,7 @@ define([
 
                         if ( config.canPrint ) {
                             this.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-hbtn-print'), undefined, 'bottom', 'big', 'P');
+                            this.btnPrint.updateHint(this.tipPrint);
                             this.shortcutHints.PrintPreviewAndPrint = {
                                 btn: me.btnPrint,
                                 label: me.tipPrint
