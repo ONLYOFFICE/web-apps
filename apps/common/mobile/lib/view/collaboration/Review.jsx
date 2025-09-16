@@ -141,6 +141,8 @@ const PageReviewChange = inject("storeAppOptions")(observer(props => {
     const isLockPrevNext = (displayMode === "final" || displayMode === "original");
     const appOptions = props.storeAppOptions;
     const isProtected = appOptions.isProtected;
+    const isDeleteShow = (props.isReviewOnly && change && change?.editable) && 
+        (!appOptions.isProtected || appOptions.typeProtection === Asc.c_oAscEDocProtect.TrackedChanges);
 
     return (
         <Page className='page-review'>
@@ -172,7 +174,7 @@ const PageReviewChange = inject("storeAppOptions")(observer(props => {
                             >{_t.textReject}</Link>
                         </span>
                     }
-                    {(props.isReviewOnly && change && change?.editable) &&
+                    {(isDeleteShow) &&
                         <span className='delete'>
                             <Link href='#' id="btn-delete-change" onClick={() => {props.onDeleteChange()}}>{_t.textDelete}</Link>
                         </span>
