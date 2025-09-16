@@ -3152,7 +3152,66 @@ define([], function () {
             }
         };
 
-        dh.onFormulaInfo = function(name) {
+        dh.parseArgsDesc = function(args) {
+            if (args.charAt(0)=='(')
+                args = args.substring(1);
+            if (args.charAt(args.length-1)==')')
+                args = args.substring(0, args.length-1);
+            var arr = args.split(this.api.asc_getFunctionArgumentSeparator());
+            arr.forEach(function(item, index){
+                var str = item.trim();
+                if (str.charAt(0)=='[')
+                    str = str.substring(1);
+                if (str.charAt(str.length-1)==']')
+                    str = str.substring(0, str.length-1);
+                arr[index] = str.trim();
+            });
+            return arr;
+        };
+
+        dh.fillRepeatedNames = function(argsNames, repeatedArg) {
+            var repeatedIdx = 1;
+            if (argsNames.length>=1) {
+                if (repeatedArg && repeatedArg.length>0 && argsNames[argsNames.length-1]==='...') {
+                    var req = argsNames.length-1 - repeatedArg.length; // required/no-repeated
+                    for (var i=0; i<repeatedArg.length; i++) {
+                        var str = argsNames[argsNames.length-2-i],
+                            ch = str.charAt(str.length-1);
+                        if ('123456789'.indexOf(ch)>-1) {
+                            repeatedIdx = parseInt(ch);
+                            argsNames[argsNames.length-2-i] = str.substring(0, str.length-1);
+                        }
+                    }
+                }
+            }
+            return repeatedIdx;
+        };
+
+        dh.getArgumentName = function(argcount, argsNames, repeatedArg, minArgCount, maxArgCount, repeatedIdx) {
+            var name = '',
+                namesLen = argsNames.length;
+            if ((!repeatedArg || repeatedArg.length<1) && argcount<namesLen && argsNames[argcount]!=='...') { // no repeated args
+                name = argsNames[argcount];
+                (name==='') && (name = this.textArgument + (maxArgCount>1 ? (' ' + (argcount+1)) : ''));
+            } else if (repeatedArg && repeatedArg.length>0 && argsNames[namesLen-1]==='...') {
+                var repeatedLen = repeatedArg.length;
+                var req = namesLen-1 - repeatedLen; // required/no-repeated
+                if (argcount<req) // get required args as is
+                    name = argsNames[argcount];
+                else {
+                    var idx = repeatedLen - (argcount - req)%repeatedLen,
+                        num = Math.floor((argcount - req)/repeatedLen) + repeatedIdx;
+                    name = argsNames[namesLen-1-idx] + num;
+                }
+            } else
+                name = this.textArgument + (maxArgCount>1 ? (' ' + (argcount+1)) : '');
+            if (maxArgCount>1 && argcount>=minArgCount)
+                name = '[' + name + ']';
+
+            return name;
+        };
+
+        dh.onFormulaInfo = function(name, pos, funcInfo) {
             if(!Common.Utils.InternalSettings.get("sse-settings-function-tooltip")) return;
 
             var functip = this.tooltips.func_arg;
@@ -3163,14 +3222,60 @@ define([], function () {
                     this.documentHolder.cmpEl.append(functip.parentEl);
                 }
                 var funcdesc = this.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
-                    hint = '';
+                    hint = '',
+                    args = '';
                 if (funcdesc && funcdesc[name]) {
                     hint = this.api.asc_getFormulaLocaleName(name) + funcdesc[name].a;
                     hint = hint.replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
+                    args = funcdesc[name].a.replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
                 } else {
                     var custom = this.api.asc_getCustomFunctionInfo(name),
                         arr_args = custom ? custom.asc_getArg() || [] : [];
                     hint = this.api.asc_getFormulaLocaleName(name) + '(' + arr_args.map(function (item) { return item.asc_getIsOptional() ? '[' + item.asc_getName() + ']' : item.asc_getName(); }).join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
+                    args = '(' + arr_args.map(function (item) { return item.asc_getIsOptional() ? '[' + item.asc_getName() + ']' : item.asc_getName(); }).join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
+                }
+                var argstype = funcInfo.asc_getArgumentsType(),
+                    activeArg = funcInfo.asc_getActiveArgPos();
+
+                if (argstype && activeArg) {
+                    var argsNames = this.parseArgsDesc(args),
+                        minArgCount = funcInfo.asc_getArgumentMin(),
+                        maxArgCount = funcInfo.asc_getArgumentMax(),
+                        repeatedArg = undefined,
+                        repeatedIdx = 1,
+                        arr = [],
+                        me = this;
+
+                    function fillArgs(types) {
+                        let argcount = arr.length;
+                        for (var j = 0; j < types.length; j++) {
+                            var str = me.getArgumentName(argcount, argsNames, repeatedArg, minArgCount, maxArgCount, repeatedIdx);
+                            (argcount===activeArg-1) && (str = '<b>' + str + '</b>');
+                            arr.push(str);
+                            argcount++;
+                        }
+                    }
+
+                    for (var i=0; i<argstype.length; i++) {
+                        var type = argstype[i],
+                            types = [];
+
+                        if (typeof type == 'object') {
+                            repeatedArg = type;
+                            repeatedIdx = this.fillRepeatedNames(argsNames, repeatedArg);
+                            types = type;
+                        } else
+                            types.push(type);
+
+                        fillArgs(types);
+                    }
+                    if (arr.length<=activeArg && repeatedArg) { // add repeated
+                        while (arr.length<=activeArg) {
+                            fillArgs(repeatedArg);
+                        }
+                    }
+                    repeatedArg && arr.push('...');
+                    hint = this.api.asc_getFormulaLocaleName(name) + '(' + arr.join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
                 }
 
                 if (functip.ref && functip.ref.isVisible()) {
@@ -3213,6 +3318,10 @@ define([], function () {
                 var tipwidth = functip.ref.getBSTip().$tip.width();
                 if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
                     showPoint[0] = this.tooltips.coauth.bodyWidth - tipwidth;
+                if (showPoint[0]<0) {
+                    showPoint[0] = 0;
+                    functip.ref.getBSTip().$tip.find('.tooltip-inner').css('max-width', this.tooltips.coauth.bodyWidth);
+                }
 
                 functip.ref.getBSTip().$tip.css({
                     top : showPoint[1] + 'px',
