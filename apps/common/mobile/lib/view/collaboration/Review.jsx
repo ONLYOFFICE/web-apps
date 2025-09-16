@@ -172,7 +172,7 @@ const PageReviewChange = inject("storeAppOptions")(observer(props => {
                             >{_t.textReject}</Link>
                         </span>
                     }
-                    {!props.isReviewOnly && change && change?.editable &&
+                    {(props.isReviewOnly && change && change?.editable) &&
                         <span className='delete'>
                             <Link href='#' id="btn-delete-change" onClick={() => {props.onDeleteChange()}}>{_t.textDelete}</Link>
                         </span>
