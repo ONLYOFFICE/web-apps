@@ -428,8 +428,13 @@ define([
                 // this.btnInsertSmartArt.updateHint(this.tipInsertSmartArt);
                 this.btnInsertEquation.updateHint(this.tipInsertEquation);
                 this.btnInsertSymbol.updateHint(this.tipInsertSymbol);
-                this.btnInsertHyperlink.updateHint(this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
+                PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                    InsertHyperlink: {
+                        btn: this.btnInsertHyperlink,
+                        label: this.tipInsertHyperlink
+                    }
+                });
                 // this.btnEditHeader.updateHint(this.tipEditHeaderFooter);
                 // this.btnInsDateTime.updateHint(this.tipDateTime);
                 // this.btnInsSlideNum.updateHint(this.tipPageNum);
