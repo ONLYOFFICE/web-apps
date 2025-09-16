@@ -26,6 +26,18 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
         }
     };
 
+    const showLoadMask = (title, immediately = false) => {
+        if (immediately) {
+            loadMask = f7.dialog.preloader(title);
+        } else {
+            showTimer = setTimeout(() => {
+                loadMask = f7.dialog.preloader(title);
+                showTimer = null;
+            }, 300);
+        }
+        return loadMask; 
+    };
+
     useEffect( () => {
         const on_engine_created = api => { 
             api.asc_registerCallback('asc_onStartAction', onLongActionBegin);
@@ -194,9 +206,7 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
             } else if ($$('.dialog-preloader').hasClass('modal-in')) {
                 $$('.dialog-preloader').find('dialog-title').text(title);
             } else {
-                showTimer = setTimeout(() => {
-                    loadMask = f7.dialog.preloader(title);
-                }, 300);
+                loadMask = showLoadMask(title, action.id === Asc.c_oAscAsyncAction['Open']);
             }
         }
 
