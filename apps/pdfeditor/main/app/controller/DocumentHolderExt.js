@@ -113,29 +113,6 @@ define([], function () {
                 view.menuEditAddComment.on('click', _.bind(me.addComment, me));
                 view.menuEditRemoveComment.on('click', _.bind(me.removeComment, me));
                 /*
-                 var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-                 if (diagramEditor) {
-                 diagramEditor.on('internalmessage', _.bind(function(cmp, message) {
-                 var command = message.data.command;
-                 var data = message.data.data;
-                 if (this.api) {
-                 ( diagramEditor.isEditMode() )
-                 ? this.api.asc_editChartDrawingObject(data)
-                 : this.api.asc_addChartDrawingObject(data, diagramEditor.getPlaceholder());
-                 }
-                 }, this));
-                 diagramEditor.on('hide', _.bind(function(cmp, message) {
-                 if (this.api) {
-                 this.api.asc_onCloseFrameEditor();
-                 this.api.asc_enableKeyEvents(true);
-                 }
-                 var me = this;
-                 setTimeout(function(){
-                 me.editComplete();
-                 }, 10);
-                 }, this));
-                 }
-
                  var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
                  if (oleEditor) {
                  oleEditor.on('internalmessage', _.bind(function(cmp, message) {
@@ -174,7 +151,7 @@ define([], function () {
                 view.menuEditHyperlinkTable.on('click', _.bind(me.editHyperlink, me));
                 view.menuRemoveHyperlinkPara.on('click', _.bind(me.removeHyperlink, me));
                 view.menuRemoveHyperlinkTable.on('click', _.bind(me.removeHyperlink, me));
-                // view.menuChartEdit.on('click', _.bind(me.editChartClick, me, undefined));
+                view.menuChartEdit.on('click', _.bind(me.editChartClick, me, undefined));
                 view.menuImgSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
                 view.menuTableSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
                 view.menuAddCommentPara.on('click', _.bind(me.addComment, me));
@@ -197,7 +174,7 @@ define([], function () {
                 view.menuImgEditPoints.on('click', _.bind(me.onImgEditPoints, me));
                 view.menuShapeAdvanced.on('click', _.bind(me.onShapeAdvanced, me));
                 view.menuParagraphAdvanced.on('click', _.bind(me.onParagraphAdvanced, me));
-                // view.menuChartAdvanced.on('click', _.bind(me.onChartAdvanced, me));
+                view.menuChartAdvanced.on('click', _.bind(me.onChartAdvanced, me));
                 view.mnuGroupImg.on('click', _.bind(me.onGroupImg, me));
                 view.mnuUnGroupImg.on('click', _.bind(me.onUnGroupImg, me));
                 view.mnuArrangeFront.on('click', _.bind(me.onArrangeFront, me));
@@ -229,12 +206,14 @@ define([], function () {
 
         dh.applyEditorMode = function() {
             if (this.mode && this.mode.isPDFEdit && this._state.initEditorEvents && Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.initExternalEditors();
                 this.documentHolder.createDelayedElementsPDFEditor();
                 this._state.initEditorEvents = false;
                 this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                 this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
                 this.api.asc_registerCallback('asc_onDialogAddHyperlink',       _.bind(this.onDialogAddHyperlink, this));
                 this.api.asc_registerCallback('asc_ChangeCropState',            _.bind(this.onChangeCropState, this));
+                this.api.asc_registerCallback('asc_doubleClickOnChart',         _.bind(this.onDoubleClickOnChart, this));
             }
             if (this.mode)
                 this.mode.isPDFEdit ? this.onHideTextBar() : this.onHideMathTrack();
@@ -303,12 +282,12 @@ define([], function () {
                     else
                         menu_to_show = documentHolder.pictureMenu;
                 }
-                // else if (Asc.c_oAscTypeSelectElement.Chart == elType) {
-                //     menu_to_show = documentHolder.pictureMenu;
-                //     menu_props.chartProps = {};
-                //     menu_props.chartProps.value = elValue;
-                //     menu_props.chartProps.locked = (elValue) ? elValue.get_Locked() : false;
-                // }
+                else if (Asc.c_oAscTypeSelectElement.Chart == elType) {
+                    menu_to_show = documentHolder.pictureMenu;
+                    menu_props.chartProps = {};
+                    menu_props.chartProps.value = elValue;
+                    menu_props.chartProps.locked = (elValue) ? elValue.get_Locked() : false;
+                }
                 else if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
                     menu_props.paraProps = {};
                     menu_props.paraProps.value = elValue;
@@ -2193,6 +2172,40 @@ define([], function () {
             }
         };
 
+        dh.onChartAdvanced = function(item, e){
+            var me = this;
+            if (me.api) {
+                var selectedElements = me.api.getSelectedElements();
+
+                if (selectedElements && selectedElements.length > 0){
+                    var elType, elValue;
+                    for (var i = selectedElements.length - 1; i >= 0; i--) {
+                        elType  = selectedElements[i].get_ObjectType();
+                        elValue = selectedElements[i].get_ObjectValue();
+
+                        if (Asc.c_oAscTypeSelectElement.Chart == elType) {
+                            (new PDFE.Views.ChartSettingsAdvanced(
+                                {
+                                    chartProps: elValue,
+                                    slideSize: PDFE.getController('Toolbar').currentPageSize,
+                                    chartSettings: me.api.asc_getChartSettings(),
+                                    handler: function(result, value) {
+                                        if (result == 'ok') {
+                                            if (me.api) {
+                                                me.api.ChartApply(value.chartProps);
+                                            }
+                                        }
+                                        me.editComplete();
+                                        Common.component.Analytics.trackEvent('DocumentHolder', 'Chart Settings Advanced');
+                                    }
+                                })).show();
+                            break;
+                        }
+                    }
+                }
+            }
+        };
+
         dh.onParagraphAdvanced = function(item) {
             var me = this;
             if (me.api){
@@ -2552,6 +2565,48 @@ define([], function () {
 
         dh.applySettings = function() {
             !Common.Utils.InternalSettings.get('pdfe-settings-annot-bar') && this.onHideAnnotBar();
+        };
+
+        dh.initExternalEditors = function() {
+            var me = this;
+            var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+            if (diagramEditor) {
+                diagramEditor.on('internalmessage', _.bind(function(cmp, message) {
+                    var command = message.data.command;
+                    var data = message.data.data;
+                    if (this.api) {
+                        ( diagramEditor.isEditMode() )
+                            ? this.api.asc_editChartDrawingObject(data)
+                            : this.api.asc_addChartDrawingObject(data, diagramEditor.getPlaceholder());
+                    }
+                }, this));
+                diagramEditor.on('hide', _.bind(function(cmp, message) {
+                    if (this.api) {
+                        this.api.asc_onCloseFrameEditor();
+                        this.api.asc_enableKeyEvents(true);
+                    }
+                    setTimeout(function(){
+                        me.editComplete();
+                    }, 10);
+                }, this));
+            }
+        };
+
+        dh.onDoubleClickOnChart = function(chart) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+            if (this.mode && this.mode.isEdit && this.mode.isPDFEdit && !this._isDisabled) {
+                var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+                if (diagramEditor && chart) {
+                    diagramEditor.setEditMode(true);
+                    diagramEditor.show();
+                    diagramEditor.setChartData(chart);
+                }
+            }
+        };
+
+        dh.editChartClick = function(){
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+            this.api.asc_editChartInFrameEditor();
         };
 
     }

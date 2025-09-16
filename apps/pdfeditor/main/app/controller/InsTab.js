@@ -155,10 +155,6 @@ define([
             if (this.mode && this.mode.isPDFEdit) {
                 var shapes = this.api.asc_getPropertyEditorShapes();
                 shapes && this.fillAutoShapes(shapes[0], shapes[1]);
-
-                // this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.mode, customization: this.mode.customization});
-                // this.getApplication().getController('Common.Controllers.ExternalOleEditor').setApi(this.api).loadConfig({config:this.mode, customization: this.mode.customization});
-
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, false, {array: this.view.lockedControls});
             }
         },
@@ -662,7 +658,7 @@ define([
                 this.api.asc_createSmartArt(value);
             }
         },
-/*
+
         onSelectChart: function(type) {
             var me      = this,
                 chart = false;
@@ -679,29 +675,19 @@ define([
 
             if (chart) {
                 var isCombo = (type==Asc.c_oAscChartTypeSettings.comboBarLine || type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
-                    type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom);
+                type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom);
                 if (isCombo && chart.get_ChartProperties() && chart.get_ChartProperties().getSeries().length<2) {
                     Common.NotificationCenter.trigger('showerror', Asc.c_oAscError.ID.ComboSeriesError, Asc.c_oAscError.Level.NoCritical);
                 } else
                     chart.changeType(type);
-                Common.NotificationCenter.trigger('edit:complete', this.view);
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else {
-                if (!this.diagramEditor)
-                    this.diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-
-                if (this.diagramEditor && me.api) {
-                    this.diagramEditor.setEditMode(false);
-                    this.diagramEditor.show();
-
-                    chart = me.api.asc_getChartObject(type);
-                    if (chart) {
-                        this.diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
-                    }
-                    me.view.fireEvent('insertchart', me.view);
-                }
+                me.api.asc_addChartDrawingObject(type);
+                me.api.asc_editChartInFrameEditor();
+                me.toolbar.fireEvent('insertchart', me.toolbar);
             }
         },
-*/
+
         onTextLanguage: function(langId) {
             this._state.lang = langId;
         },
@@ -950,10 +936,10 @@ define([
                 }
             }
 
-            // if (in_chart !== this._state.in_chart) {
-            //     this.view.btnInsertChart.updateHint(in_chart ? this.view.tipChangeChart : this.view.tipInsertChart);
-            //     this._state.in_chart = in_chart;
-            // }
+            if (in_chart !== this._state.in_chart) {
+                this.view.btnInsertChart.updateHint(in_chart ? this.view.tipChangeChart : this.view.tipInsertChart);
+                this._state.in_chart = in_chart;
+            }
 
             if (this._state.prcontrolsdisable !== paragraph_locked) {
                 if (this._state.activated) this._state.prcontrolsdisable = paragraph_locked;

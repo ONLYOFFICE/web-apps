@@ -1096,6 +1096,7 @@ define([
                 navigationController.setMode(me.appOptions).setApi(me.api);
 
                 chatController.setApi(this.api).setMode(this.appOptions);
+                application.getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
                 pluginsController.setApi(me.api);
 
                 documentHolderController.setApi(me.api);
