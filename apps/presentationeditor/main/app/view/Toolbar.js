@@ -504,6 +504,10 @@ define([
                     });
                     me.paragraphControls.push(me.btnStrikeout);
                     me.lockControls.push(me.btnStrikeout);
+                    me.shortcutHints.Strikeout = {
+                        btn: me.btnStrikeout,
+                        label: me.textStrikeout
+                    };
 
                     me.btnSuperscript = new Common.UI.Button({
                         id: 'id-toolbar-btn-superscript',
@@ -731,28 +735,28 @@ define([
                     });
                     me.paragraphControls.push(me.btnHorizontalAlign);
                     me.lockControls.push(me.btnHorizontalAlign);
-                    me.shortcutHints.LeftAlign = {
+                    me.shortcutHints.LeftPara = {
                         btn: me.btnHorizontalAlign.menu.items[0],
                         label: me.textAlignLeft,
                         applyCallback: function(item, hintText) {
                             item.btn.setCaption(hintText);
                         }
                     };
-                    me.shortcutHints.CenterAlign = {
+                    me.shortcutHints.CenterPara = {
                         btn: me.btnHorizontalAlign.menu.items[1],
                         label: me.textAlignCenter,
                         applyCallback: function(item, hintText) {
                             item.btn.setCaption(hintText);
                         }
                     };
-                    me.shortcutHints.RightAlign = {
+                    me.shortcutHints.RightPara = {
                         btn: me.btnHorizontalAlign.menu.items[2],
                         label: me.textAlignRight,
                         applyCallback: function(item, hintText) {
                             item.btn.setCaption(hintText);
                         }
                     };
-                    me.shortcutHints.JustifyAlign = {
+                    me.shortcutHints.JustifyPara = {
                         btn: me.btnHorizontalAlign.menu.items[3],
                         label: me.textAlignJust,
                         applyCallback: function(item, hintText) {
@@ -1030,7 +1034,7 @@ define([
                     });
                     me.paragraphControls.push(me.btnInsertHyperlink);
                     me.lockControls.push(me.btnInsertHyperlink);
-                    me.shortcutHints.AddHyperlink = {
+                    me.shortcutHints.InsertHyperlink = {
                         btn: me.btnInsertHyperlink,
                         label: me.tipInsertHyperlink
                     };
@@ -1728,7 +1732,6 @@ define([
                 this.btnSave.updateHint(this.btnSaveTip);
                 this.btnChangeSlide.updateHint(this.tipChangeSlide);
                 this.btnPreview.updateHint(this.tipPreview);
-                this.btnStrikeout.updateHint(this.textStrikeout);
                 this.btnFontColor.updateHint(this.tipFontColor);
                 this.btnHighlightColor.updateHint(this.tipHighlightColor);
                 this.btnChangeCase.updateHint(this.tipChangeCase);

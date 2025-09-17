@@ -1027,6 +1027,10 @@ define([
                     dataHint    : '1',
                     dataHintDirection: 'bottom'
                 });
+                me.shortcutHints.Strikeout = {
+                    btn: me.btnStrikeout,
+                    label: me.textStrikeout
+                };
 
                 me.btnSubscript = new Common.UI.Button({
                     id          : 'id-toolbar-btn-subscript',
@@ -1064,14 +1068,14 @@ define([
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -16'
                 });
-                me.shortcutHints.DrawingSuperscript = {
+                me.shortcutHints.Superscript = {
                     btn: me.btnSubscript.menu.items[0],
                     label: me.textSuperscript,
                     applyCallback: function(item, hintText) {
                         item.btn.setCaption(hintText);
                     }
                 };
-                me.shortcutHints.DrawingSubscript = {
+                me.shortcutHints.Subscript = {
                     btn: me.btnSubscript.menu.items[1],
                     label: me.textSubscript,
                     applyCallback: function(item, hintText) {
@@ -1139,7 +1143,7 @@ define([
                     dataHint    : '1',
                     dataHintDirection: 'bottom'
                 });
-                me.shortcutHints.DrawingLeftPara = {
+                me.shortcutHints.LeftPara = {
                     btn: me.btnAlignLeft,
                     label: me.tipAlignLeft
                 };
@@ -1154,7 +1158,7 @@ define([
                     dataHint    : '1',
                     dataHintDirection: 'bottom'
                 });
-                me.shortcutHints.DrawingCenterPara = {
+                me.shortcutHints.CenterPara = {
                     btn: me.btnAlignCenter,
                     label: me.tipAlignCenter
                 };
@@ -1169,7 +1173,7 @@ define([
                     dataHint    : '1',
                     dataHintDirection: 'bottom'
                 });
-                me.shortcutHints.DrawingRightPara = {
+                me.shortcutHints.RightPara = {
                     btn: me.btnAlignRight,
                     label: me.tipAlignRight
                 };
@@ -1184,7 +1188,7 @@ define([
                     dataHint    : '1',
                     dataHintDirection: 'bottom'
                 });
-                me.shortcutHints.DrawingJustifyPara = {
+                me.shortcutHints.JustifyPara = {
                     btn: me.btnAlignJust,
                     label: me.tipAlignJust
                 };
@@ -2669,7 +2673,6 @@ define([
             // set hints
             _updateHint(this.btnSave, this.btnSaveTip);
             _updateHint(this.btnChangeCase, this.tipChangeCase);
-            _updateHint(this.btnStrikeout, this.textStrikeout);
             _updateHint(this.btnSubscript, this.textSubSuperscript);
             _updateHint(this.btnTextColor, this.tipFontColor);
             _updateHint(this.btnBackColor, this.tipPrColor);
