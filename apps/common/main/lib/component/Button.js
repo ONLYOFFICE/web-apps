@@ -1097,6 +1097,14 @@ define([
 
             this.updateIcon();
             Common.NotificationCenter.on('uitheme:changed', this.updateIcons.bind(this));
+
+            if (this.cmpEl && this.options.customAttributes) {
+                for (var key in this.options.customAttributes) {
+                    if (Object.prototype.hasOwnProperty.call(this.options.customAttributes, key)) {
+                        this.cmpEl.attr(Common.Utils.String.htmlEncode(key), Common.Utils.String.htmlEncode(this.options.customAttributes[key]));
+                    }
+                }
+            }
         },
 
         updateIcons: function() {

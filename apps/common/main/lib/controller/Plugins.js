@@ -274,7 +274,7 @@ define([
             //$('<div class="separator long"></div>').appendTo(me.$toolbarPanelPlugins);
             group = $('<div class="group" style="' + (Common.UI.isRTL() ? 'padding-right: 0;' : 'padding-left: 0;') + '"></div>');
             this.viewPlugins.backgroundBtn = this.viewPlugins.createBackgroundPluginsButton();
-            var $backgroundSlot = $('<span class="btn-slot text x-huge"></span>').appendTo(group);
+            var $backgroundSlot = $('<span class="btn-slot text x-huge" id="slot-background-plugin"></span>').appendTo(group);
             this.viewPlugins.backgroundBtn.render($backgroundSlot);
             this.viewPlugins.backgroundBtn.hide();
 
