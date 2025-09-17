@@ -104,7 +104,8 @@
                 html        : opts.html,
                 hideonclick : opts.hideonclick,
                 keepvisible: opts.keepvisible,
-                dir        : opts.dir
+                dir        : opts.dir,
+                animation  : opts.animation
             });
 
             if (opts.hideonclick) {

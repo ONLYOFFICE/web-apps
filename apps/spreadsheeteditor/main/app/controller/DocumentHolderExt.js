@@ -3295,7 +3295,8 @@ define([], function () {
                         owner   : functip.parentEl,
                         html    : true,
                         title   : hint,
-                        cls: 'auto-tooltip'
+                        cls: 'auto-tooltip',
+                        animation: false
                     });
 
                     functip.ref.show([-10000, -10000]);
