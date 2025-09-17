@@ -82,7 +82,7 @@ define([
 
                 this.btnMarkForRedact = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-edit-text',
+                    iconCls: 'toolbar__icon btn-redact-text',
                     style: 'min-width: 45px;',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     caption: me.capMarkRedact,
@@ -95,7 +95,7 @@ define([
 
                 this.btnRedactPages = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-day',
+                    iconCls: 'toolbar__icon btn-redact-pages',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     caption: me.capRedactPages,
                     menu: true,
@@ -107,7 +107,7 @@ define([
 
                 this.btnFindRedact = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-dark-mode',
+                    iconCls: 'toolbar__icon btn-find-to-redact',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     caption: me.capFindRedact,
                     dataHint: '1',
@@ -119,7 +119,7 @@ define([
 
                 this.btnApplyRedactions = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-edit-text',
+                    iconCls: 'toolbar__icon btn-redact-apply',
                     style: 'min-width: 45px;',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     caption: me.capApplyRedactions,
