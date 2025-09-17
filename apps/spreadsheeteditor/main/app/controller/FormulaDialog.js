@@ -504,7 +504,7 @@ define([
                             allFunctions.push(func);
                         }
                         customFunctionsGroup.set('functions', _.sortBy(functions, function (model) {return model.get('name'); }));
-                        allFunctionsGroup.set('functions', _.sortBy(allFunctions, function (model) {return model.get('name'); }));
+                        allFunctionsGroup && allFunctionsGroup.set('functions', _.sortBy(allFunctions, function (model) {return model.get('name'); }));
                         break;
                     }
                 }
