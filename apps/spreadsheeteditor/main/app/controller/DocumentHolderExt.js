@@ -3189,7 +3189,8 @@ define([], function () {
 
         dh.getArgumentName = function(argcount, argsNames, repeatedArg, minArgCount, maxArgCount, repeatedIdx) {
             var name = '',
-                namesLen = argsNames.length;
+                namesLen = argsNames.length,
+                idxInRepeatedArr = -1;
             if ((!repeatedArg || repeatedArg.length<1) && argcount<namesLen && argsNames[argcount]!=='...') { // no repeated args
                 name = argsNames[argcount];
                 (name==='') && (name = this.textArgument + (maxArgCount>1 ? (' ' + (argcount+1)) : ''));
@@ -3201,12 +3202,13 @@ define([], function () {
                 else {
                     var idx = repeatedLen - (argcount - req)%repeatedLen,
                         num = Math.floor((argcount - req)/repeatedLen) + repeatedIdx;
+                    idxInRepeatedArr = repeatedLen - idx;
                     name = argsNames[namesLen-1-idx] + num;
                 }
             } else
                 name = this.textArgument + (maxArgCount>1 ? (' ' + (argcount+1)) : '');
             if (maxArgCount>1 && argcount>=minArgCount)
-                name = '[' + name + ']';
+                name = (idxInRepeatedArr<=0 ? '[' : '') + name + (idxInRepeatedArr<0 || repeatedArg && idxInRepeatedArr===repeatedArg.length-1 ? ']' : '');
 
             return name;
         };
