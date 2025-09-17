@@ -3207,7 +3207,7 @@ define([], function () {
                 }
             } else
                 name = this.textArgument + (maxArgCount>1 ? (' ' + (argcount+1)) : '');
-            if (maxArgCount>1 && argcount>=minArgCount)
+            if (maxArgCount>0 && argcount>=minArgCount)
                 name = (idxInRepeatedArr<=0 ? '[' : '') + name + (idxInRepeatedArr<0 || repeatedArg && idxInRepeatedArr===repeatedArg.length-1 ? ']' : '');
 
             return name;
