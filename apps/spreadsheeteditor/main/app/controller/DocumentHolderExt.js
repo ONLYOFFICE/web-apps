@@ -3213,7 +3213,7 @@ define([], function () {
             return name;
         };
 
-        dh.onFormulaInfo = function(name, pos, funcInfo) {
+        dh.onFormulaInfo = function(name, shiftpos, funcInfo) {
             if(!Common.Utils.InternalSettings.get("sse-settings-function-tooltip")) return;
 
             var functip = this.tooltips.func_arg;
@@ -3225,9 +3225,9 @@ define([], function () {
                 }
                 var funcdesc = this.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
                     hint = '',
-                    argstype = funcInfo.asc_getArgumentsType(),
-                    activeArg = funcInfo.asc_getActiveArgPos(),
-                    activeArgsCount = funcInfo.asc_getActiveArgsCount();
+                    argstype = funcInfo ? funcInfo.asc_getArgumentsType() : null,
+                    activeArg = funcInfo ? funcInfo.asc_getActiveArgPos() : null,
+                    activeArgsCount = funcInfo ? funcInfo.asc_getActiveArgsCount() : null;
 
                 if (argstype && activeArgsCount) {
                     var args = '';
