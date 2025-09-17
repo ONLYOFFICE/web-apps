@@ -953,6 +953,8 @@ define([
                         Common.NotificationCenter.trigger('api:disconnect');
 
                     var timer_sl = setTimeout(function(){
+                        PDFE.getController('Common.Controllers.Shortcuts').setApi(me.api);
+
                         toolbarController.createDelayedElements();
                         toolbarController.activateControls();
                         documentHolderController.applyEditorMode();

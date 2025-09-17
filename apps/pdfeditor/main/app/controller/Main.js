@@ -1128,6 +1128,8 @@ define([
                     me.appOptions.isRestrictedEdit && me.api.asc_SetHighlightRequiredFields(true);
 
                     var timer_sl = setTimeout(function(){
+                        PDFE.getController('Common.Controllers.Shortcuts').setApi(me.api);
+
                         toolbarController.createDelayedElements();
                         toolbarController.activateControls();
                         documentHolderController.applyEditorMode();
