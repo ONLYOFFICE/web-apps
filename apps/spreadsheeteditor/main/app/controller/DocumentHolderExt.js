@@ -3223,21 +3223,20 @@ define([], function () {
                 }
                 var funcdesc = this.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
                     hint = '',
-                    args = '';
-                if (funcdesc && funcdesc[name]) {
-                    hint = this.api.asc_getFormulaLocaleName(name) + funcdesc[name].a;
-                    hint = hint.replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
-                    args = funcdesc[name].a.replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
-                } else {
-                    var custom = this.api.asc_getCustomFunctionInfo(name),
-                        arr_args = custom ? custom.asc_getArg() || [] : [];
-                    hint = this.api.asc_getFormulaLocaleName(name) + '(' + arr_args.map(function (item) { return item.asc_getIsOptional() ? '[' + item.asc_getName() + ']' : item.asc_getName(); }).join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
-                    args = '(' + arr_args.map(function (item) { return item.asc_getIsOptional() ? '[' + item.asc_getName() + ']' : item.asc_getName(); }).join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
-                }
-                var argstype = funcInfo.asc_getArgumentsType(),
-                    activeArg = funcInfo.asc_getActiveArgPos();
+                    argstype = funcInfo.asc_getArgumentsType(),
+                    activeArg = funcInfo.asc_getActiveArgPos(),
+                    activeArgsCount = funcInfo.asc_getActiveArgsCount();
 
-                if (argstype && activeArg) {
+                if (argstype && activeArg && activeArgsCount) {
+                    var args = '';
+                    if (funcdesc && funcdesc[name]) {
+                        args = funcdesc[name].a.replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
+                    } else {
+                        var custom = this.api.asc_getCustomFunctionInfo(name),
+                            arr_args = custom ? custom.asc_getArg() || [] : [];
+                        args = '(' + arr_args.map(function (item) { return item.asc_getIsOptional() ? '[' + item.asc_getName() + ']' : item.asc_getName(); }).join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
+                    }
+
                     var argsNames = this.parseArgsDesc(args),
                         minArgCount = funcInfo.asc_getArgumentMin(),
                         maxArgCount = funcInfo.asc_getArgumentMax(),
@@ -3269,13 +3268,22 @@ define([], function () {
 
                         fillArgs(types);
                     }
-                    if (arr.length<=activeArg && repeatedArg) { // add repeated
-                        while (arr.length<=activeArg) {
+                    if (arr.length<=activeArgsCount && repeatedArg) { // add repeated
+                        while (arr.length<=activeArgsCount) {
                             fillArgs(repeatedArg);
                         }
                     }
                     repeatedArg && arr.push('...');
                     hint = this.api.asc_getFormulaLocaleName(name) + '(' + arr.join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
+                } else {
+                    if (funcdesc && funcdesc[name]) {
+                        hint = this.api.asc_getFormulaLocaleName(name) + funcdesc[name].a;
+                        hint = hint.replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
+                    } else {
+                        var custom = this.api.asc_getCustomFunctionInfo(name),
+                            arr_args = custom ? custom.asc_getArg() || [] : [];
+                        hint = this.api.asc_getFormulaLocaleName(name) + '(' + arr_args.map(function (item) { return item.asc_getIsOptional() ? '[' + item.asc_getName() + ']' : item.asc_getName(); }).join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
+                    }
                 }
 
                 if (functip.ref && functip.ref.isVisible()) {
