@@ -114,6 +114,9 @@ define([
                 },
                 'RedactTab': {
                     'search:showredact': _.bind(this.onShowHideRedactSearch, this)
+                },
+                'Common.Views.SearchPanel': {
+                    'search:showredact': _.bind(this.onShowHideRedactSearch, this)
                 }
             });
 

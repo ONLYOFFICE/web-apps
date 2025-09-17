@@ -192,7 +192,9 @@ define([
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'medium'
                 });
-                this.buttonRedactSearch.on('click', _.bind(this.onClickClosePanel, this));
+                this.buttonRedactSearch.on('click', _.bind(function() {
+                    this.fireEvent('search:showredact');
+                }, this));
 
                 this.$resultsContainer = $('#search-results');
                 this.$resultsContainer.hide();
