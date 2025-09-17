@@ -3229,7 +3229,7 @@ define([], function () {
                     activeArg = funcInfo.asc_getActiveArgPos(),
                     activeArgsCount = funcInfo.asc_getActiveArgsCount();
 
-                if (argstype && activeArg && activeArgsCount) {
+                if (argstype && activeArgsCount) {
                     var args = '';
                     if (funcdesc && funcdesc[name]) {
                         args = funcdesc[name].a.replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
@@ -3251,7 +3251,7 @@ define([], function () {
                         let argcount = arr.length;
                         for (var j = 0; j < types.length; j++) {
                             var str = me.getArgumentName(argcount, argsNames, repeatedArg, minArgCount, maxArgCount, repeatedIdx);
-                            (argcount===activeArg-1) && (str = '<b>' + str + '</b>');
+                            activeArg && (argcount===activeArg-1) && (str = '<b>' + str + '</b>');
                             arr.push(str);
                             argcount++;
                         }
@@ -3276,7 +3276,9 @@ define([], function () {
                         }
                     }
                     repeatedArg && arr.push('...');
-                    hint = this.api.asc_getFormulaLocaleName(name) + '(' + arr.join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
+                    hint = this.api.asc_getFormulaLocaleName(name);
+                    !activeArg && (hint = '<b>' + hint + '</b>');
+                    hint += '(' + arr.join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
                 } else {
                     if (funcdesc && funcdesc[name]) {
                         hint = this.api.asc_getFormulaLocaleName(name) + funcdesc[name].a;
