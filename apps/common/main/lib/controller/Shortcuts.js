@@ -42,6 +42,19 @@ define([
 
     Common.Controllers.Shortcuts = Backbone.Controller.extend(_.extend({
         initialize: function() {
+            this.localStorageKey = '';
+            if(window.DE) {
+                this.localStorageKey = 'de-shortcuts';
+            } else if(window.PDFE) {
+                this.localStorageKey = 'pdfe-shortcuts';
+            } else if(window.PE) {
+                this.localStorageKey = 'pe-shortcuts';
+            } else if(window.SSE) {
+                this.localStorageKey = 'SSE-shortcuts';
+            } else if(window.VE) {
+                this.localStorageKey = 've-shortcuts';
+            }
+
             this.eventsMap = {};
             this._fillActionsMap();
         },
@@ -130,7 +143,7 @@ define([
             }
 
             this._eventsTrigger();
-            Common.localStorage.setItem("shortcuts", '');
+            Common.localStorage.setItem(this.localStorageKey, '');
             Common.NotificationCenter.trigger('shortcuts:update');
         },
 
@@ -207,9 +220,8 @@ define([
             };
             this._saveModifiedShortcuts(savedInStorage, removableFromStorage);
             
-            // TODO: Изменить на обновление для отдельных действий
             Common.NotificationCenter.trigger('shortcuts:update');
-            this._eventsTrigger(this.getDefaultShortcutActionsInvert()[actionType]);
+            this._eventsTrigger([actionType].concat(_.keys(removableFromStorage)));
         },
 
         getActionsMap: function() {
@@ -223,15 +235,10 @@ define([
                 return Asc.c_oAscPresentationShortcutType;
             } else if(window.SSE) {
                 return Asc.c_oAscSpreadsheetShortcutType;
+            } else if(window.VE) {
+                return Asc.c_oAscDiagramShortcutType;
             }
             return {};
-        },
-
-        getDefaultShortcutActionsInvert: function() {
-            if(!this._defaultShortcutsActionsInvert) {
-                this._defaultShortcutsActionsInvert = _.invert(this.getDefaultShortcutActions());
-            }
-            return this._defaultShortcutsActionsInvert;
         },
 
         /**
@@ -332,8 +339,26 @@ define([
             }
         },
 
-        _eventsTrigger: function(actionType) {
-            const lists = actionType ? [this.eventsMap[actionType]] : _.values(this.eventsMap);
+        _getDefaultShortcutActionsInvert: function() {
+            if(!this._defaultShortcutsActionsInvert) {
+                this._defaultShortcutsActionsInvert = _.invert(this.getDefaultShortcutActions());
+            }
+            return this._defaultShortcutsActionsInvert;
+        },
+
+        _eventsTrigger: function(actionTypes) {
+            const me = this;
+            let lists = [];
+            if(actionTypes) {
+                lists = actionTypes.map(function(type) {
+                    type = (typeof +type === 'number')
+                        ? me._getDefaultShortcutActionsInvert()[type]
+                        : type;
+                    return me.eventsMap[type];
+                });
+            } else {
+                lists =  _.values(this.eventsMap);
+            }
 
             _.each(lists, function(callbacks) {
                 _.each(callbacks, function(cb) { 
@@ -347,6 +372,7 @@ define([
             
             const me = this;
             const shortcutActions = this.getDefaultShortcutActions();
+            const unlockedTypes = Asc.c_oAscUnlockedShortcutActionTypes || {};
             for (let actionName in shortcutActions) {
                 const type = shortcutActions[actionName];
                 this.actionsMap[type] = {
@@ -354,7 +380,7 @@ define([
                         name: this['txtLabel' + actionName],
                         description: this['txtDescription' + actionName],
                         type: type,
-                        isLocked: !Asc.c_oAscUnlockedShortcutActionTypes[type]
+                        isLocked: !unlockedTypes[type]
                     },
                     shortcuts: []
                 }
@@ -431,7 +457,7 @@ define([
 
         _applyShortcutsInSDK: function() {
             const applyMethod = function(storage) {
-                storage = JSON.parse(storage || Common.localStorage.getItem("shortcuts") || "{}");
+                storage = JSON.parse(storage || Common.localStorage.getItem(this.localStorageKey) || "{}");
                 for (const actionType in storage) {
                     storage[actionType] = storage[actionType].map(function(ascShortcutJson) {
                         const ascShortcut = new Asc.CAscShortcut();
@@ -449,7 +475,7 @@ define([
             }.bind(this);
 
             $(window).on('storage', function (e) {
-                if(e.key == 'shortcuts') {
+                if(e.key == this.localStorageKey) {
                     applyMethod(e.originalEvent.newValue);
                     this._fillActionsMap();
                     this._eventsTrigger();
@@ -466,7 +492,7 @@ define([
          *  An object where keys are action types and values are arrays of ascShortcut instances.
         */
         _getModifiedShortcuts: function() {
-            const storage = JSON.parse(Common.localStorage.getItem("shortcuts") || "{}");
+            const storage = JSON.parse(Common.localStorage.getItem(this.localStorageKey) || "{}");
             for (const actionType in storage) {
                 storage[actionType] = storage[actionType].map(function(ascShortcutJson) {
                     const ascShortcut = new Asc.CAscShortcut();
@@ -512,7 +538,7 @@ define([
                     return ascShortcut.asc_ToJson();
                 });
             }
-            Common.localStorage.setItem("shortcuts", JSON.stringify(customShortcuts));
+            Common.localStorage.setItem(this.localStorageKey, JSON.stringify(customShortcuts));
         },
         
         _getAscShortcutKeys: function(ascShortcut) {

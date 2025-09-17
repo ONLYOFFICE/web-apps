@@ -1087,14 +1087,10 @@ define([
                         
                         // Set hint text based on save availability and editor type
                         if (appConfig.canSaveToFile || appConfig.isDesktopApp && appConfig.isOffline) {
-                            if (isPDFEditor) {
-                                me.btnSave.updateHint(me.tipSave);
-                            } else {
-                                me.shortcutHints.Save = {
-                                    btn: me.btnSave,
-                                    label: me.tipSave
-                                };
-                            }
+                            me.shortcutHints.Save = {
+                                btn: me.btnSave,
+                                label: me.tipSave
+                            };
                         } else {
                             me.btnSave.updateHint(me.tipDownload);
                         }
