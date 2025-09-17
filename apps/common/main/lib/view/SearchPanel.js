@@ -127,6 +127,16 @@ define([
                 });
                 this.btnReplaceAll.on('click', _.bind(this.onReplaceClick, this, 'replaceall'));
 
+                this.btnMark = new Common.UI.Button({
+                    el: $('#search-adv-mark')
+                });
+                this.btnMark.on('click', _.bind(this.onMarkClick, this, 'mark'));
+
+                this.btnMarkAll = new Common.UI.Button({
+                    el: $('#search-adv-mark-all')
+                });
+                this.btnMarkAll.on('click', _.bind(this.onMarkClick, this, 'markall'));
+
                 this.$reaultsNumber = $('#search-adv-results-number');
                 this.updateResultsNumber('no-results');
 
@@ -173,6 +183,17 @@ define([
                 });
                 this.buttonClose.on('click', _.bind(this.onClickClosePanel, this));
 
+                this.buttonRedactSearch = new Common.UI.Button({
+                    parentEl: $('#search-btn-redact-open', this.$el),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-redact-text',
+                    hint: this.textFindRedact,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'medium'
+                });
+                this.buttonRedactSearch.on('click', _.bind(this.onClickClosePanel, this));
+
                 this.$resultsContainer = $('#search-results');
                 this.$resultsContainer.hide();
 
@@ -184,6 +205,8 @@ define([
                 });
 
                 Common.NotificationCenter.on('search:updateresults', _.bind(this.disableNavButtons, this));
+                Common.NotificationCenter.on('pdf:mode-apply', _.bind(this.onModeChanged, this));
+
                 if (window.SSE) {
                     this.cmbWithin = new Common.UI.ComboBox({
                         el: $('#search-adv-cmb-within'),
@@ -332,8 +355,10 @@ define([
 
         setSearchMode: function (mode) {
             if (this.mode !== mode) {
-                this.$el.find('.edit-setting')[mode !== 'no-replace' ? 'show' : 'hide']();
-                this.$el.find('#search-adv-title').text(mode !== 'no-replace' ? this.textFindAndReplace : this.textFind);
+                this.$el.find('.edit-setting')[mode !== 'no-replace' && mode !== 'redact' ? 'show' : 'hide']();
+                this.$el.find('.redact-setting')[mode === 'redact' && this.options.mode.isPDFEdit ? 'show' : 'hide']();
+                this.$el.find('.redact-no-replace-btn')[mode === 'no-replace' && this.options.mode.isPDFEdit === true ? 'show' : 'hide']();
+                this.$el.find('#search-adv-title').text(mode === 'no-replace' ? this.textFind : mode === 'redact' ? this.textFindAndRedact : this.textFindAndReplace);
                 this.mode = mode;
             }
         },
@@ -417,6 +442,17 @@ define([
 
         onReplaceClick: function (action) {
             this.fireEvent('search:'+action, [this.inputText.getValue(), this.inputReplace.getValue()]);
+        },
+
+        onMarkClick: function (action) {
+            this.fireEvent('search:'+action, [this.inputText.getValue()]);
+        },
+
+        onModeChanged: function (isEdit) {
+            if (isEdit !== 'edit') {
+                Common.NotificationCenter.trigger('search:resetmode');
+            }
+            this.$el.find('.redact-no-replace-btn')[this.mode === 'no-replace' && isEdit === 'edit' ? 'show' : 'hide']();
         },
 
         getSettings: function() {

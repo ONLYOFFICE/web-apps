@@ -74,6 +74,8 @@ define([
                     'search:input': _.bind(this.onInputSearchChange, this),
                     'search:options': _.bind(this.onChangeSearchOption, this),
                     'search:keydown': _.bind(this.onSearchNext, this, 'keydown'),
+                    'search:mark': _.bind(this.onMark, this),
+                    'search:markall': _.bind(this.onMarkAll, this),
                     'show': _.bind(this.onShowPanel, this),
                     'hide': _.bind(this.onHidePanel, this),
                 },
@@ -276,6 +278,17 @@ define([
 
                 this.removeResultItems('replace-all');
             }
+        },
+
+        onMark: function (textSearch) {
+            this.api.asc_RedactSearchElement(this.resultItems[this._state.currentResult].id);
+            if (this.resultItems[this._state.currentResult + 1]) {
+                this.api.asc_SelectSearchElement(this._state.currentResult + 1);
+            }
+        },
+
+        onMarkAll: function (textSearch) {
+            this.api.asc_RedactAllSearchElements();
         },
 
         removeResultItems: function (type) {

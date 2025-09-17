@@ -1,6 +1,7 @@
 <div id="search-box" class="layout-ct vbox search-panel" role="search">
     <div id="search-header">
         <label id="search-adv-title" role="heading"></label>
+        <div id="search-btn-redact-open" class="float-right redact-no-replace-btn"></div>
         <div id="search-btn-close" class="float-right"></div>
     </div>
     <div id="search-container">
@@ -27,6 +28,12 @@
                     <td class="padding-large">
                        <button type="button" class="btn btn-text-default" id="search-adv-replace" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textReplace %></button>
                        <button type="button" class="btn btn-text-default" id="search-adv-replace-all" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textReplaceAll %></button>
+                    </td>
+                </tr>
+                <tr class="redact-setting">
+                    <td class="padding-large">
+                       <button type="button" class="btn btn-text-default" id="search-adv-mark" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textMark %></button>
+                       <button type="button" class="btn btn-text-default" id="search-adv-mark-all" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textMarkAll %></button>
                     </td>
                 </tr>
                 <tr class="search-options-block">

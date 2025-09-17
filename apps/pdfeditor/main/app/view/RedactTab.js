@@ -115,6 +115,7 @@ define([
                     dataHintOffset: 'small',
                 });
                 me.lockedControls.push(this.btnFindRedact);
+                this.btnFindRedact.on('click', _.bind(this.onOpenPanel, this));
 
                 this.btnApplyRedactions = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
@@ -193,6 +194,10 @@ define([
                         button.setDisabled(state);
                     }
                 }, this);
+            },
+
+            onOpenPanel: function () {
+                this.fireEvent('search:showredact', [true, '']);
             },
         }
     }()), PDFE.Views.RedactTab || {}));

@@ -109,13 +109,18 @@ define([
                     'leftmenu:hide': _.bind(this.onLeftMenuHide, this)
                 },
                 'SearchBar': {
-                    'search:show': _.bind(this.onShowHideSearch, this)
+                    'search:show': _.bind(this.onShowHideSearch, this),
+                    'search:showredact': _.bind(this.onShowHideRedactSearch, this)
+                },
+                'RedactTab': {
+                    'search:showredact': _.bind(this.onShowHideRedactSearch, this)
                 }
             });
 
             Common.NotificationCenter.on('leftmenu:change', _.bind(this.onMenuChange, this));
             Common.NotificationCenter.on('app:comment:add', _.bind(this.onAppAddComment, this));
             Common.NotificationCenter.on('file:print', _.bind(this.clickToolbarPrint, this));
+            Common.NotificationCenter.on('search:resetmode', _.bind(this.onSetDefaultSearchMode, this));
         },
 
         onLaunch: function() {
@@ -898,10 +903,19 @@ define([
             }
         },
 
+        onShowHideRedactSearch: function () {
+            this.leftMenu.showMenu('advancedsearch', undefined, true);
+            this.leftMenu.panelSearch.setSearchMode('redact');
+        },
+
         onMenuSearchBar: function(obj, show) {
             if (show) {
-                this.leftMenu.panelSearch.setSearchMode('no-replace');
+                this.onSetDefaultSearchMode();
             }
+        },
+
+        onSetDefaultSearchMode: function () {
+            this.leftMenu.panelSearch.setSearchMode('no-replace');
         },
 
         isSearchPanelVisible: function () {
