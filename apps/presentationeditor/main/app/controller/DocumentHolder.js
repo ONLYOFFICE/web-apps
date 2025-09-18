@@ -419,6 +419,7 @@ define([
             if (this.mode && this.mode.isEdit) {
                 var i = -1,
                     in_equation = false,
+                    in_chart = false,
                     locked = false;
                 while (++i < selectedElements.length) {
                     var type = selectedElements[i].get_ObjectType();
@@ -430,11 +431,19 @@ define([
                     } else if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
                         var value = selectedElements[i].get_ObjectValue();
                         value && (locked = locked || value.get_Locked());
+                    } else if (type === Asc.c_oAscTypeSelectElement.Chart) {
+                        in_chart = true;
+                        var value = selectedElements[i].get_ObjectValue();
+                        value && (locked = locked || value.get_Locked());
                     }
                 }
                 if (in_equation) {
                     this._state.equationLocked = locked;
                     this.disableEquationBar();
+                }
+                if (in_chart) {
+                    this._state.chartLocked = locked;
+                    this.disableChartElementButton();
                 }
             }
         },
@@ -709,20 +718,26 @@ define([
             this.documentHolder.SetDisabled(state);
             this.disableEquationBar();
             this.disableSpecialPaste();
+            this.disableChartElementButton();
         },
 
         clearSelection: function() {
             this.onHideMathTrack();
             this.onHideSpecialPasteOptions();
+            this.onHideChartElementButton();
         },
 
         onHideMathTrack: function() {},
 
         onHideSpecialPasteOptions: function() {},
 
+        onHideChartElementButton: function() {},
+
         disableEquationBar: function() {},
 
         disableSpecialPaste: function() {},
+
+        disableChartElementButton: function() {},
 
         editComplete: function() {
             this.documentHolder && this.documentHolder.fireEvent('editcomplete', this.documentHolder);

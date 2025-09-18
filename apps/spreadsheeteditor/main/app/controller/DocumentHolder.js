@@ -523,6 +523,23 @@ define([
             }
         },
 
+        onHideChartElementButton: function() {
+            if (!this.documentHolder || !this.documentHolder.cmpEl) return;
+            var chartContainer = this.documentHolder.cmpEl.find('#chart-element-container');
+            if (chartContainer.is(':visible')) {
+                chartContainer.hide();
+            }
+        },
+
+        disableChartElementButton: function() {
+            var chartContainer = this.documentHolder.cmpEl.find('#chart-element-container'),
+                disabled = this._isDisabled  || this._state.chartLocked;
+
+            if (chartContainer.length>0 && chartContainer.is(':visible')) {
+                this.btnChartElement.setDisabled(!!disabled);
+            }
+        },
+
         onKeyUp: function (e) {
             if (e.keyCode == Common.UI.Keys.CTRL && this._needShowSpecPasteMenu && !this._handleZoomWheel && !this.btnSpecialPaste.menu.isVisible() && /area_id/.test(e.target.id)) {
                 $('button', this.btnSpecialPaste.cmpEl).click();
@@ -594,11 +611,13 @@ define([
             this._canProtect = state ? canProtect : true;
             this.disableEquationBar();
             this.disableSpecialPaste();
+            this.disableChartElementButton();
         },
 
         clearSelection: function() {
             this.onHideMathTrack();
             this.onHideSpecialPasteOptions();
+            this.onHideChartElementButton();
         },
 
         onPluginContextMenu: function(data) {
