@@ -69,7 +69,6 @@ define([], function () {
             });
 
             if (me.api) {
-                
                 me.api.asc_registerCallback('asc_onContextMenu',        _.bind(me.onContextMenu, me));
                 me.api.asc_registerCallback('asc_onMouseMoveStart',     _.bind(me.onMouseMoveStart, me));
                 me.api.asc_registerCallback('asc_onMouseMoveEnd',       _.bind(me.onMouseMoveEnd, me));
