@@ -3055,8 +3055,8 @@ define([], function () {
                 var x = asc_CRect.asc_getX(),
                     y = asc_CRect.asc_getY(),
                     width = asc_CRect.asc_getWidth(),
-                    btnLeft = me.isRtlSheet ? x - 55 : x + width - 10,
-                    btnTop = y - 28;
+                    btnLeft = me.isRtlSheet ? x - 40 : x + width + 8,
+                    btnTop = y;
 
                 if (btnLeft < 25 || btnLeft + 50 > me._Width || btnTop + 30 > me._Height) {
                     chartContainer.hide();

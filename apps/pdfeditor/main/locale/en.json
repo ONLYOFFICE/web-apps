@@ -1514,6 +1514,7 @@
   "PDFE.Views.DocumentHolder.textMovingAverage": "Moving Average (2)",
   "PDFE.Views.DocumentHolder.textTrendline": "Trendline",
   "PDFE.Views.DocumentHolder.textUpDownBars": " Up/Down Bars",
+  "PDFE.Views.DocumentHolder.btnChart": "Add, remove or change chart elements such as the title, legend, gridlines, and data labels",
   "PDFE.Views.FileMenu.ariaFileMenu": "File menu",
   "PDFE.Views.FileMenu.btnBackCaption": "Open File Location",
   "PDFE.Views.FileMenu.btnCloseEditor": "Close File",
