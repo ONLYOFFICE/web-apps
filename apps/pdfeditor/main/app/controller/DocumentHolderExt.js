@@ -3021,6 +3021,8 @@ define([], function () {
         };
 
         dh.onSingleChartSelectionChanged = function(asc_CRect) {
+            if (!(this.mode && this.mode.isPDFEdit && this.mode.isEdit && !this._isDisabled)) return;
+
             var me = this,
                 documentHolderView = me.documentHolder,
                 chartContainer = documentHolderView.cmpEl.find('#chart-element-container');
