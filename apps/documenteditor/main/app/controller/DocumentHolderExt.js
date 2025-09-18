@@ -2484,6 +2484,7 @@ define([], function () {
                                 imageProps  : elValue,
                                 sizeOriginal: imgsizeOriginal,
                                 api         : me.api,
+                                chartSettings: me.api.asc_getChartSettings(),
                                 sectionProps: me.api.asc_GetSectionProps(),
                                 handler     : function(result, value) {
                                     if (result == 'ok') {
