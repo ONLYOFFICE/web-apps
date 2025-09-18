@@ -2175,12 +2175,12 @@ define([], function () {
             }
             if (this.dlgFilter && this.dlgFilter.isVisible())
                 this.dlgFilter.close();
-            if (!this.mouse.isLeftButtonDown) return;
 
             if (this.permissions && this.permissions.isEdit) {
                 var selectedObjects = this.api.asc_getGraphicObjectProps(),
                     i = -1,
                     in_equation = false,
+                    in_chart = false,
                     locked = false;
                 while (++i < selectedObjects.length) {
                     var type = selectedObjects[i].asc_getObjectType();
@@ -2189,11 +2189,21 @@ define([], function () {
                     } else if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
                         var value = selectedObjects[i].asc_getObjectValue();
                         value && (locked = locked || value.asc_getLocked());
+                    } else if (type == Asc.c_oAscTypeSelectElement.Image) {
+                        var value = selectedObjects[i].asc_getObjectValue();
+                        if (value.asc_getChartProperties() !== null) {
+                            in_chart = true;
+                            locked = value.asc_getLocked();
+                        }
                     }
                 }
                 if (in_equation) {
                     this._state.equationLocked = locked;
                     this.disableEquationBar();
+                }
+                if (in_chart) {
+                    this._state.chartLocked = locked;
+                    this.disableChartElementButton();
                 }
             }
         };
@@ -3719,6 +3729,8 @@ define([], function () {
         };
 
         dh.onSingleChartSelectionChanged = function(asc_CRect) {
+            if (this.permissions && !this.permissions.isEdit) return;
+
             var me = this,
                 documentHolderView = me.documentHolder,
                 chartContainer = documentHolderView.cmpEl.find('#chart-element-container');
@@ -3793,6 +3805,7 @@ define([], function () {
                         }
                     });
                 }
+                me.disableChartElementButton();
             } else {
                 chartContainer.hide();
             }

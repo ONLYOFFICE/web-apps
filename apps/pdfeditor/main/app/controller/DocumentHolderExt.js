@@ -224,9 +224,17 @@ define([], function () {
                 this.api.asc_registerCallback('asc_ChangeCropState',            _.bind(this.onChangeCropState, this));
                 this.api.asc_registerCallback('asc_doubleClickOnChart',         _.bind(this.onDoubleClickOnChart, this));
                 this.api.asc_registerCallback('asc_onSingleChartSelectionChanged',  _.bind(this.onSingleChartSelectionChanged, this));
+                this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Image, _.bind(this.onInsertImage, this));
+                this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.ImageUrl, _.bind(this.onInsertImageUrl, this));
             }
-            if (this.mode)
-                this.mode.isPDFEdit ? this.onHideTextBar() : this.onHideMathTrack();
+            if (this.mode) {
+                if (this.mode.isPDFEdit)
+                    this.onHideTextBar()
+                else {
+                    this.onHideMathTrack();
+                    this.onHideChartElementButton();
+                }
+            }
         };
 
         dh.fillViewMenuProps = function(selectedElements) {
@@ -3021,6 +3029,8 @@ define([], function () {
         };
 
         dh.onSingleChartSelectionChanged = function(asc_CRect) {
+            if (!(this.mode && this.mode.isPDFEdit && this.mode.isEdit))  return;
+
             var me = this,
                 documentHolderView = me.documentHolder,
                 chartContainer = documentHolderView.cmpEl.find('#chart-element-container');
@@ -3088,10 +3098,56 @@ define([], function () {
                         }
                     });
                 }
+                me.disableChartElementButton();
             } else {
                 chartContainer.hide();
             }
         };
 
+        dh.onHideChartElementButton = function() {
+            if (!this.documentHolder || !this.documentHolder.cmpEl) return;
+            var chartContainer = this.documentHolder.cmpEl.find('#chart-element-container');
+            if (chartContainer.is(':visible')) {
+                chartContainer.hide();
+            }
+        };
+
+        dh.disableChartElementButton = function() {
+            var chartContainer = this.documentHolder.cmpEl.find('#chart-element-container'),
+                disabled = this._isDisabled  || this._state.chartLocked;
+
+            if (chartContainer.length>0 && chartContainer.is(':visible')) {
+                this.btnChartElement.setDisabled(!!disabled);
+            }
+        };
+
+        dh.onInsertImage = function(obj, x, y) {
+            if (!this.documentHolder || !(this.mode && this.mode.isPDFEdit && this.mode.isEdit) || this._isDisabled)
+                return;
+
+            if (this.api)
+                this.api.asc_addImage(obj);
+            this.editComplete();
+        };
+
+        dh.onInsertImageUrl = function(obj, x, y) {
+            if (!this.documentHolder || !(this.mode && this.mode.isPDFEdit && this.mode.isEdit) || this._isDisabled)
+                return;
+
+            var me = this;
+            (new Common.Views.ImageFromUrlDialog({
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            var checkUrl = value.replace(/ /g, '');
+                            if (!_.isEmpty(checkUrl)) {
+                                me.api.AddImageUrl([checkUrl], undefined, undefined, obj);
+                            }
+                        }
+                    }
+                    me.editComplete();
+                }
+            })).show();
+        };
     }
 });

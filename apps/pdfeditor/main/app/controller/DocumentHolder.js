@@ -285,6 +285,7 @@ define([
             if (this.mode && this.mode.isEdit && this.mode.isPDFEdit) {
                 var i = -1,
                     in_equation = false,
+                    in_chart = false,
                     locked = false;
                 while (++i < selectedElements.length) {
                     var type = selectedElements[i].get_ObjectType();
@@ -293,11 +294,21 @@ define([
                     } else if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
                         var value = selectedElements[i].get_ObjectValue();
                         value && (locked = locked || value.get_Locked());
+                    } else if (type === Asc.c_oAscTypeSelectElement.Shape) { // shape
+                        var value = selectedElements[i].get_ObjectValue();
+                        if (value && value.get_FromChart()) {
+                            in_chart = true;
+                            locked = locked || value.get_Locked();
+                        }
                     }
                 }
                 if (in_equation) {
                     this._state.equationLocked = locked;
                     this.disableEquationBar();
+                }
+                if (in_chart) {
+                    this._state.chartLocked = locked;
+                    this.disableChartElementButton();
                 }
             }
         },
@@ -547,6 +558,8 @@ define([
         SetDisabled: function(state, canProtect, fillFormMode) {
             this._isDisabled = state;
             this.documentHolder.SetDisabled(state, canProtect, fillFormMode);
+            this.disableEquationBar();
+            this.disableChartElementButton();
         },
 
         changePosition: function() {
@@ -584,9 +597,13 @@ define([
 
         onHideMathTrack: function() {},
 
+        onHideChartElementButton: function() {},
+
         onHideTextBar: function() {},
 
         disableEquationBar: function() {},
+
+        disableChartElementButton: function() {},
 
         onHideAnnotBar: function() {},
 
@@ -602,6 +619,7 @@ define([
             this.onHideTextBar();
             this.onHideAnnotBar();
             this.onHideAnnotSelectBar();
+            this.onHideChartElementButton();
         },
 
         editComplete: function() {

@@ -1214,6 +1214,8 @@ define([], function () {
         };
 
          dh.onSingleChartSelectionChanged = function(asc_CRect) {
+             if (this.mode && !this.mode.isEdit) return;
+
             var me = this,
                 documentHolderView = me.documentHolder,
                 chartContainer = documentHolderView.cmpEl.find('#chart-element-container');
@@ -1278,8 +1280,27 @@ define([], function () {
                         }
                     });
                 }
+                me.disableChartElementButton();
             } else {
                 chartContainer.hide();
+            }
+        };
+
+        dh.onHideChartElementButton = function() {
+            if (!this.documentHolder || !this.documentHolder.cmpEl) return;
+            var chartContainer = this.documentHolder.cmpEl.find('#chart-element-container');
+            if (chartContainer.is(':visible')) {
+                chartContainer.hide();
+            }
+        };
+
+        dh.disableChartElementButton = function() {
+            var chartContainer = this.documentHolder.cmpEl.find('#chart-element-container'),
+                docProtection = this.documentHolder._docProtection,
+                disabled = this._isDisabled  || this._state.chartLocked || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly;
+
+            if (chartContainer.length>0 && chartContainer.is(':visible')) {
+                this.btnChartElement.setDisabled(!!disabled);
             }
         };
 
