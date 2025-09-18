@@ -224,6 +224,8 @@ define([], function () {
                 this.api.asc_registerCallback('asc_onDialogAddHyperlink',       _.bind(this.onDialogAddHyperlink, this));
                 this.api.asc_registerCallback('asc_ChangeCropState',            _.bind(this.onChangeCropState, this));
                 this.api.asc_registerCallback('asc_doubleClickOnChart',         _.bind(this.onDoubleClickOnChart, this));
+                this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Image, _.bind(this.onInsertImage, this));
+                this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.ImageUrl, _.bind(this.onInsertImageUrl, this));
             }
             if (this.mode)
                 this.mode.isPDFEdit ? this.onHideTextBar() : this.onHideMathTrack();
@@ -3095,5 +3097,33 @@ define([], function () {
             }
         };
 
+        dh.onInsertImage = function(obj, x, y) {
+            if (!this.documentHolder || !(this.mode && this.mode.isPDFEdit && this.mode.isEdit) || this._isDisabled)
+                return;
+
+            if (this.api)
+                this.api.asc_addImage(obj);
+            this.editComplete();
+        };
+
+        dh.onInsertImageUrl = function(obj, x, y) {
+            if (!this.documentHolder || !(this.mode && this.mode.isPDFEdit && this.mode.isEdit) || this._isDisabled)
+                return;
+
+            var me = this;
+            (new Common.Views.ImageFromUrlDialog({
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            var checkUrl = value.replace(/ /g, '');
+                            if (!_.isEmpty(checkUrl)) {
+                                me.api.AddImageUrl([checkUrl], undefined, undefined, obj);
+                            }
+                        }
+                    }
+                    me.editComplete();
+                }
+            })).show();
+        };
     }
 });
