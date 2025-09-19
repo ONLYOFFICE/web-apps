@@ -1076,6 +1076,7 @@
   "SSE.Controllers.DocumentHolder.txtWarnUrl": "Clicking this link can be harmful to your device and data.To protect you computer, click only those hyperlinks from trusted sources. This location may be unsafe:<br><br>{0}<br><br>Are you sure you want to continue?",
   "SSE.Controllers.DocumentHolder.txtWidth": "Width",
   "SSE.Controllers.DocumentHolder.warnFilterError": "You need at least one field in the Values area in order to apply a value filter.",
+  "SSE.Controllers.DocumentHolder.textArgument": "argument",
   "SSE.Controllers.FormulaDialog.sCategoryAll": "All",
   "SSE.Controllers.FormulaDialog.sCategoryCube": "Cube",
   "SSE.Controllers.FormulaDialog.sCategoryCustom": "Custom",
