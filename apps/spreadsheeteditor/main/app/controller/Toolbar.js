@@ -4036,7 +4036,6 @@ define([
 
         onInsertSymbolClickCallback: function() {
             if (this.api) {
-                console.log('init')
                 var me = this,
                     selected = me.api.asc_GetSelectedText(),
                     win = new Common.Views.SymbolTableDialog({
