@@ -66,7 +66,8 @@
     "textTableSize": "表格大小",
     "textWithBlueLinks": "带蓝色链接",
     "textWithPageNumbers": "带页码",
-    "txtNotUrl": "该字段应为“http://www.example.com”格式的URL"
+    "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
+    "textRemovePicture": "Remove picture"
   },
   "Common": {
     "Collaboration": {
@@ -532,7 +533,6 @@
     "criticalErrorTitle": "错误",
     "errorAccessDeny": "您正在尝试执行您无权执行的操作<br>请与管理员联系。",
     "errorOpensource": "使用免费的社区版本，您可以打开文档以供查看。要访问移动web编辑器，需要商业许可证。",
-    "errorProcessSaveResult": "保存失败",
     "errorServerVersion": "该编辑版本已经更新。该页面将被重新加载以应用更改。",
     "errorUpdateVersion": "\n该文件版本已经改变了。该页面将被重新加载。",
     "leavePageText": "您有未保存的更改。单击“停留在此页面”等待自动保存。单击“离开此页面”放弃所有未保存的更改。",

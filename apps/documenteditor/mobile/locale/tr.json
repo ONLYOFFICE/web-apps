@@ -66,7 +66,8 @@
     "textTableSize": "Tablo Boyutu",
     "textWithBlueLinks": "Mavi Bağlantılar Yardımıyla ",
     "textWithPageNumbers": "Sayfa Numaralarıyla",
-    "txtNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır"
+    "txtNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır",
+    "textRemovePicture": "Remove picture"
   },
   "Common": {
     "Collaboration": {
@@ -532,7 +533,6 @@
     "criticalErrorTitle": "Hata",
     "errorAccessDeny": "Haklarınız olmayan bir işlemi gerçekleştirmeye çalışıyorsunuz.<br>Lütfen yöneticinizle iletişime geçin.",
     "errorOpensource": "Ücretsiz Topluluk sürümünü kullanarak belgeleri yalnızca görüntüleme için açabilirsiniz. Mobil web editörlerine erişmek için ticari bir lisans gereklidir.",
-    "errorProcessSaveResult": "Kaydetme başarısız.",
     "errorServerVersion": "Editör versiyonu güncellendi. Değişikliklerin uygulanabilmesi için sayfa yenilenecek.",
     "errorUpdateVersion": "Dosya versiyonu değiştirildi. Sayfa yenilenecek.",
     "leavePageText": "Kaydedilmemiş değişiklikleriniz mevcut. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",

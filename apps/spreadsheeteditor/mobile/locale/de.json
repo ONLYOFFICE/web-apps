@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Fehler",
       "errorAccessDeny": "Dieser Vorgang ist für Sie nicht verfügbar.<br>Bitte wenden Sie sich an Administratoren.",
       "errorOpensource": "Mit der kostenlosen Community-Version können Sie Dokumente nur schreibgeschützt öffnen. Für den Zugriff auf mobilen Web-Editoren ist eine kommerzielle Lizenz erforderlich.",
-      "errorProcessSaveResult": "Fehler beim Speichern von Daten.",
       "errorServerVersion": "Version des Editors wurde aktualisiert. Die Seite wird neu geladen, um die Änderungen zu übernehmen.",
       "errorUpdateVersion": "Die Dateiversion wurde geändert. Die Seite wird neu geladen.",
       "leavePageText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
@@ -428,6 +427,7 @@
   "Statusbar": {
     "notcriticalErrorTitle": "Warnung",
     "textCancel": "Abbrechen",
+    "textContinue": "Weiter",
     "textDelete": "Löschen",
     "textDuplicate": "Verdoppeln",
     "textErrNameExists": "Es gibt schon ein Arbeitsblatt mit solchem Namen.",
@@ -448,7 +448,8 @@
     "textSheetName": "Blattname",
     "textTabColor": "Registerfarbe",
     "textUnhide": "Einblenden",
-    "textWarnDeleteSheet": "Das Arbeitsblatt kann Daten enthalten. Möchten Sie fortsetzen?"
+    "textWarnDeleteSheet": "Das Arbeitsblatt kann Daten enthalten. Möchten Sie fortsetzen?",
+    "warnAddSheetCsv": "Das CSV-Format unterstützt das Speichern einer Datei mit mehreren Blättern nicht. Nur das aktive Blatt wird gespeichert. Um alle Blätter zu behalten, speichern Sie die Datei bitte in einem anderen Format."
   },
   "Toolbar": {
     "btnRestartNow": "Jetzt neu starten",
@@ -884,7 +885,8 @@
       "txtUk": "Ukrainisch",
       "txtVi": "Vietnamesisch",
       "txtZh": "Chinesisch ",
-      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?"
+      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
+      "warnDownloadCsv": "Das CSV-Format unterstützt nicht das Speichern einer Datei mit mehreren Blättern und allen Elementen außer Text.<br>Um nur das ausgewählte Blatt als CSV zu speichern, drücken Sie OK.<br>Um die gesamte Tabelle und alle Funktionen zu speichern, klicken Sie auf Abbrechen und wählen Sie ein anderes Format aus."
     }
   }
 }

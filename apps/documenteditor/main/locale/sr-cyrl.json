@@ -1005,7 +1005,6 @@
   "DE.Controllers.Main.errorMailMergeSaveFile": "Спајање неуспешно.",
   "DE.Controllers.Main.errorNoTOC": "Нема табеле садржаја за ажурирање. Можете убацити једну са Референце картице.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "Лозинка коју сте снабдели није тачна.<br>Верификуј да је CAPS LOCK дугме искључено и будите сигурни да користите одговарајућу величину слова.",
-  "DE.Controllers.Main.errorProcessSaveResult": "Чување неуспешно.",
   "DE.Controllers.Main.errorSaveWatermark": "Овај фајл садржи слику воденог жига која је повезана са другим доменом.<br>Да би била видљива у PDF-у, ажурирајте слику воденог жига тако да буде повезана са истим доменом као и ваш документ или је отпремите са свог рачунара.",
   "DE.Controllers.Main.errorServerVersion": "Верзија уређивача је ажурирана. Страница ће бити поново учитана да се примене промене.",
   "DE.Controllers.Main.errorSessionAbsolute": "Фаза уређивања документа је истекла. Молимо поново учитајте страницу.",
@@ -2464,6 +2463,7 @@
   "DE.Views.FileMenuPanels.Settings.txtWorkspace": "Радни простор",
   "DE.Views.FileMenuPanels.ViewSaveAs.textDownloadAs": "Преузми као",
   "DE.Views.FileMenuPanels.ViewSaveCopy.textSaveCopyAs": "Сачувај копију као",
+  "DE.Views.FormSettings.textAddRole": "Add recipient",
   "DE.Views.FormSettings.textAlways": "Увек",
   "DE.Views.FormSettings.textAnyone": "Било ко",
   "DE.Views.FormSettings.textAspect": "Закључај однос димензија",
@@ -3956,5 +3956,5 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Подвуци",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Назив фонта",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Величина фонта",
-  "DE.Views.FormSettings.textAddRole": "Add recipient"
+  "DE.Views.DocumentHolder.btnChart": "Add, remove or change chart elements such as the title, legend, gridlines, and data labels"
 }

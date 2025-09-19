@@ -206,7 +206,6 @@
   "VE.Controllers.Main.errorKeyExpire": "Okres ważności deskryptora klucza wygasł",
   "VE.Controllers.Main.errorLoadingFont": "Czcionki nie zostały załadowane.<br>Skontaktuj się z administratorem Serwera Dokumentów.",
   "VE.Controllers.Main.errorPasswordIsNotCorrect": "Podane hasło jest nieprawidłowe.<br>Upewnij się, że klawisz CAPS LOCK jest wyłączony i użyj prawidłowej wielkości liter.",
-  "VE.Controllers.Main.errorProcessSaveResult": "Zapisywanie nie powiodło się.",
   "VE.Controllers.Main.errorServerVersion": "Wersja edytora została zaktualizowana. Strona zostanie ponownie załadowana, aby zastosować zmiany.",
   "VE.Controllers.Main.errorSessionAbsolute": "Sesja edycji dokumentu wygasła. Proszę ponownie załadować stronę.",
   "VE.Controllers.Main.errorSessionIdle": "Dokument nie był edytowany przez długi czas. Proszę ponownie załadować stronę.",

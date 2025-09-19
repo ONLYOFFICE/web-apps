@@ -206,7 +206,6 @@
   "VE.Controllers.Main.errorKeyExpire": "Key descriptor expired",
   "VE.Controllers.Main.errorLoadingFont": "A betűtípusok nem töltődnek be.<br>Vegye fel a kapcsolatot a dokumentumkiszolgáló rendszergazdájával.",
   "VE.Controllers.Main.errorPasswordIsNotCorrect": "A megadott jelszó helytelen.<br>Győződjön meg arról, hogy a CAPS LOCK billentyű ki van kapcsolva, és ügyeljen arra, hogy a megfelelő nagybetűket használja.",
-  "VE.Controllers.Main.errorProcessSaveResult": "Nem sikerült elmenteni.",
   "VE.Controllers.Main.errorServerVersion": "A szerkesztő verziója frissült. Az oldal újratöltésre kerül a módosítások alkalmazásához.",
   "VE.Controllers.Main.errorSessionAbsolute": "A dokumentumszerkesztési munkamenet lejárt. Töltse újra az oldalt.",
   "VE.Controllers.Main.errorSessionIdle": "A dokumentumot régóta nem szerkesztették. Töltse újra az oldalt.",

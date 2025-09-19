@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Erro",
       "errorAccessDeny": "Está intentando realizar unha acción para a que non ten dereitos.<br>Por favor, contacte co seu admiinistrador.",
       "errorOpensource": "Usando a versión gratuíta da Comunidade, pode abrir documentos só para visualización. Para acceder editores da web móbil é necesaria unha licenza comercial.",
-      "errorProcessSaveResult": "Erro ao gardar",
       "errorServerVersion": "A versión do editor foi actualizada. A páxina será recargada para aplicar os cambios.",
       "errorUpdateVersion": "Cambiouse a versión do ficheiro. A páxina será actualizada.",
       "leavePageText": "Ten cambios non gardados neste documento. Prema en \"Quedarse nesta páxina\" para esperar ata que se garden automaticamente. Prema en \"Saír desta páxina\" para descartar todos os cambios non gardados.",
@@ -442,7 +441,9 @@
     "textSheetName": "Nome da folla",
     "textTabColor": "Cor da lapela",
     "textUnhide": "Volver a amosar",
-    "textWarnDeleteSheet": "A folla de traballo pode que conteña datos. Queres continuar a operación?"
+    "textWarnDeleteSheet": "A folla de traballo pode que conteña datos. Queres continuar a operación?",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Ten cambios non gardados neste documento. Prema en \"Quedarse nesta páxina\" para esperar ata que se garden automaticamente. Prema en \"Saír desta páxina\" para descartar todos os cambios non gardados.",
@@ -878,7 +879,8 @@
       "textClose": "Close",
       "textDark": "Dark",
       "textLight": "Light",
-      "textTheme": "Theme"
+      "textTheme": "Theme",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   },
   "Draw": {

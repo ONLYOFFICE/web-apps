@@ -63,6 +63,7 @@
     "textDrawing": "Drawing",
     "textPasteImageUrl": "Paste an image URL",
     "textRecommended": "Recommended",
+    "textRemovePicture": "Remove picture",
     "textRequired": "Required",
     "textTableContents": "Table of Contents",
     "textWithBlueLinks": "With Blue Links",
@@ -227,7 +228,7 @@
     "menuEditLink": "Edit Link",
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Upozornenie",
@@ -518,7 +519,7 @@
     "uploadImageTitleText": "Nahrávanie obrázku",
     "waitText": "Čakajte, prosím...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "savingText": "Saving",
+    "savingText": "Submitting",
     "textContinue": "Continue",
     "textUndo": "Undo"
   },
@@ -526,7 +527,6 @@
     "criticalErrorTitle": "Chyba",
     "errorAccessDeny": "Pokúšate sa vykonať akciu, na ktorú nemáte práva.<br>Kontaktujte svojho správcu.",
     "errorOpensource": "Pomocou bezplatnej komunitnej verzie môžete otvárať dokumenty len na prezeranie. Na prístup k editorom mobilného webu je potrebná komerčná licencia.",
-    "errorProcessSaveResult": "Ukladanie zlyhalo.",
     "errorServerVersion": "Verzia editora bola aktualizovaná. Stránka sa opätovne načíta, aby sa vykonali zmeny.",
     "errorUpdateVersion": "Verzia súboru bola zmenená. Stránka sa znova načíta.",
     "leavePageText": "Máte neuložené zmeny. Kliknite na „Zostať na tejto stránke“ a počkajte na automatické uloženie. Kliknutím na „Opustiť túto stránku“ zahodíte všetky neuložené zmeny.",

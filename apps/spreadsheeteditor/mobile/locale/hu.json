@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Hiba",
       "errorAccessDeny": "Olyan műveletet próbál végrehajtani, amelyhez nincs jogosultsága.<br>Kérjük, forduljon a rendszergazdához.",
       "errorOpensource": "Az ingyenes közösségi verzió használatával a dokumentumokat csak megtekintésre nyithatja meg. A mobil webszerkesztők eléréséhez kereskedelmi licenc szükséges.",
-      "errorProcessSaveResult": "Sikertelen mentés.",
       "errorServerVersion": "A szerkesztő verziója frissült. Az oldal újratöltésre kerül a módosítások alkalmazásához.",
       "errorUpdateVersion": "A dokumentum verziója megváltozott. Az oldal újratöltődik.",
       "leavePageText": "Nem mentett módosításai vannak ebben a dokumentumban. Kattintson a „Maradj ezen az oldalon” gombra az automatikus mentés megvárásához. Kattintson a \"Hagyja el ezt az oldalt\" gombra az összes nem mentett módosítás elvetéséhez.",
@@ -448,7 +447,9 @@
     "textSheetName": "Munkalap neve",
     "textTabColor": "Lap Színe",
     "textUnhide": "Megmutat",
-    "textWarnDeleteSheet": "A munkalap lehet hogy tartalmaz adatok. Folytatja a műveletet?"
+    "textWarnDeleteSheet": "A munkalap lehet hogy tartalmaz adatok. Folytatja a műveletet?",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "btnRestartNow": "Újraindítás most",
@@ -884,7 +885,8 @@
       "txtUk": "Ukrán",
       "txtVi": "Vietnámi",
       "txtZh": "Kínai",
-      "warnDownloadAs": "Ha ebbe a formátumba ment, a nyers szövegen kívül minden elveszik.<br>Biztos benne, hogy folytatni akarja?"
+      "warnDownloadAs": "Ha ebbe a formátumba ment, a nyers szövegen kívül minden elveszik.<br>Biztos benne, hogy folytatni akarja?",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   }
 }

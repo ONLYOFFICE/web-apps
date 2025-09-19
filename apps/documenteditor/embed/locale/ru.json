@@ -53,7 +53,7 @@
   "DE.ApplicationController.txtClose": "Закрыть",
   "DE.ApplicationController.txtEmpty": "(Пусто)",
   "DE.ApplicationController.txtNo": "Нет",
-  "DE.ApplicationController.txtOpenWarning": "Переход по этой ссылке может нанести вред вашему устройству и данным.<br>Вы действительно хотите продолжить?",
+  "DE.ApplicationController.txtOpenWarning": "Переход по этой ссылке может нанести вред вашему устройству и данным. Чтобы защитить свой компьютер, переходите только по ссылкам из проверенных источников. Этот сайт может быть небезопасным:<br>%1<br>Вы действительно хотите продолжить?",
   "DE.ApplicationController.txtPressLink": "Нажмите %1 и щелкните по ссылке",
   "DE.ApplicationController.txtSecurityWarningLink": "Этот документ пытается подключиться к %1.<br>Если вы доверяете этому сайту, нажмите \"OK\", удерживая клавишу Ctrl.",
   "DE.ApplicationController.txtSecurityWarningOpenFile": "Этот документ пытается открыть диалоговое окно файла, нажмите \"OK\", чтобы открыть.",

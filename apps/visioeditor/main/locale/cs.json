@@ -206,7 +206,6 @@
   "VE.Controllers.Main.errorKeyExpire": "Key descriptor expired",
   "VE.Controllers.Main.errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator.",
   "VE.Controllers.Main.errorPasswordIsNotCorrect": "Zadáno nesprávné heslo.<br> Zkontrolujte, že máte vypnutý CAPS LOCK a správnou velikosti písmen.",
-  "VE.Controllers.Main.errorProcessSaveResult": "Saving failed.",
   "VE.Controllers.Main.errorServerVersion": "The editor version has been updated. The page will be reloaded to apply the changes.",
   "VE.Controllers.Main.errorSessionAbsolute": "The document editing session has expired. Please reload the page.",
   "VE.Controllers.Main.errorSessionIdle": "The document has not been edited for quite a long time. Please reload the page.",

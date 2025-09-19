@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Kļūda",
       "errorAccessDeny": "Jūs mēģināt veikt darbību, kuru nedrīkstat veikt.<br>Sazinieties ar savu administratoru.",
       "errorOpensource": "Izmantojot bezmaksas kopienas versiju, varat atvērt dokumentus tikai apskatei. Lai piekļūtu mobilā tīmekļa redaktoriem, ir nepieciešama komerciāla licence.",
-      "errorProcessSaveResult": "Saglabāšana neizdevās.",
       "errorServerVersion": "Redaktora versija ir atjaunināta. Lapa tiks pārlādēta, lai piemērotu izmaiņas.",
       "errorUpdateVersion": "Faila versija ir mainīta. Lapa tiks atkārtoti ielādēta.",
       "leavePageText": "Šajā dokumentā ir nesaglabātas izmaiņas. Noklikšķiniet uz 'Palikt šajā lapā', lai gaidītu automātisko saglabāšanu. Noklikšķiniet uz 'Pamest lapu', lai atmestu visas nesaglabātās izmaiņas.",
@@ -442,7 +441,9 @@
     "textSheetName": "Lapas nosaukums",
     "textTabColor": "Cilnes krāsa",
     "textUnhide": "Rādīt",
-    "textWarnDeleteSheet": "Varbūt darblapā ir dati. Vai turpināt operāciju?"
+    "textWarnDeleteSheet": "Varbūt darblapā ir dati. Vai turpināt operāciju?",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Šajā dokumentā ir nesaglabātas izmaiņas. Noklikšķiniet uz Palikt šajā lapā, lai gaidītu automātisko saglabāšanu. Noklikšķiniet uz 'Pamest lapu', lai atmestu visas nesaglabātās izmaiņas.",
@@ -878,7 +879,8 @@
       "textLight": "Light",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
-      "txtDe": "German"
+      "txtDe": "German",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   },
   "Draw": {

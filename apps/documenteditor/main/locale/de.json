@@ -1005,7 +1005,6 @@
   "DE.Controllers.Main.errorMailMergeSaveFile": "Merge ist fehlgeschlagen.",
   "DE.Controllers.Main.errorNoTOC": "Es gibt kein Inhaltsverzeichnis. Sie können es auf der Registerkarte \"Verweise\" einfügen.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "Das eingegebene Kennwort ist ungültig.<br>Stellen Sie sicher, dass die FESTSTELLTASTE nicht aktiviert ist und dass Sie die korrekte Groß-/Kleinschreibung verwenden.",
-  "DE.Controllers.Main.errorProcessSaveResult": "Speichern ist fehlgeschlagen.",
   "DE.Controllers.Main.errorSaveWatermark": "Diese Datei enthält ein Wasserzeichen, das mit einer anderen Domain verknüpft ist.<br>Um es in PDF sichtbar zu machen, aktualisieren Sie das Wasserzeichen, so dass es von derselben Domain wie Ihr Dokument verlinkt wird, oder laden Sie es von Ihrem Computer hoch.",
   "DE.Controllers.Main.errorServerVersion": "Editor-Version wurde aktualisiert. Die Seite wird neu geladen, um die Änderungen zu übernehmen.",
   "DE.Controllers.Main.errorSessionAbsolute": "Die Bearbeitungssitzung des Dokumentes ist abgelaufen. Laden Sie die Seite neu.",
@@ -3956,5 +3955,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Halbtransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Unterstrichen",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Schriftartname",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Schriftgrad"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Schriftgrad",
+  "DE.Views.DocumentHolder.btnChart": "Add, remove or change chart elements such as the title, legend, gridlines, and data labels"
 }

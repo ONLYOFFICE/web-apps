@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Грешка",
       "errorAccessDeny": "Покушавате да изведете акцију на коју немате права.<br>Молимо контактирајте вашег админа.",
       "errorOpensource": "Користећи бесплатну верзију Заједнице, можете отворити документ само за преглед. Да бисте приступили мобилним веб уређивачима, потребна је комерцијална лиценца.",
-      "errorProcessSaveResult": "Чување је неуспешно.",
       "errorServerVersion": "Верзија уређивача је ажурирана. Страница ће бити поново учитана да се примене промене.",
       "errorUpdateVersion": "Верзија фајла је промењена. Страница ће бити поново учитана.",
       "leavePageText": "Имате несачуване промене у овом документу. Кликните 'Остани на овој страници' да сачекате на ауточување. Кликните 'Напусти ову страницу' да одбаците све несачуване промене.",
@@ -442,7 +441,9 @@
     "textSheetName": "Лист име",
     "textTabColor": "Картица боја",
     "textUnhide": "Откриј",
-    "textWarnDeleteSheet": "Радни лист можда има податке. Настави операцију?"
+    "textWarnDeleteSheet": "Радни лист можда има податке. Настави операцију?",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Имате несачуване промене у овом документу. Кликните 'Остани на овој страници' да сачекате на ауточување. Кликните 'Напусти ову страницу' да одбаците све несачуване промене.",
@@ -878,7 +879,8 @@
       "txtUk": "Украјински",
       "txtVi": "Вијетнамски",
       "txtZh": "Кинески",
-      "warnDownloadAs": "Ако наставите да чувате у овом формату све карактеристике осим текста ће бити изгубљене.<br>Да ли сте сигурни да желите да наставите?"
+      "warnDownloadAs": "Ако наставите да чувате у овом формату све карактеристике осим текста ће бити изгубљене.<br>Да ли сте сигурни да желите да наставите?",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   },
   "Draw": {

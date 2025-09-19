@@ -83,7 +83,7 @@
     "textRows": "Riadky",
     "menuEditLink": "Edit Link",
     "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -93,7 +93,6 @@
       "criticalErrorTitle": "Chyba",
       "errorAccessDeny": "Pokúšate sa vykonať akciu, na ktorú nemáte práva.<br>Kontaktujte svojho správcu.",
       "errorOpensource": "Pomocou bezplatnej komunitnej verzie môžete otvárať dokumenty len na prezeranie. Na prístup k editorom mobilného webu je potrebná komerčná licencia.",
-      "errorProcessSaveResult": "Ukladanie zlyhalo.",
       "errorServerVersion": "Verzia editora bola aktualizovaná. Stránka sa opätovne načíta, aby sa vykonali zmeny.",
       "errorUpdateVersion": "Verzia súboru bola zmenená. Stránka sa znova načíta.",
       "leavePageText": "V tomto dokumente máte neuložené zmeny. Kliknite na „Zostať na tejto stránke“ a počkajte na automatické uloženie. Kliknutím na „Opustiť túto stránku“ zahodíte všetky neuložené zmeny.",

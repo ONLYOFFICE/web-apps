@@ -95,7 +95,6 @@
       "criticalErrorTitle": "שגיאה",
       "errorAccessDeny": "התבצע ניסיון לפעולה ללא הרשאה.<br>נא ליצור קשר עם מנהל המערכת שלך.",
       "errorOpensource": "באמצעות גרסת הקהילה החינמית אפשר לפתוח מסמכים לצפייה בלבד. כדי לגשת לעורכי אינטרנט ניידים, נדרש רישיון מסחרי.",
-      "errorProcessSaveResult": "שמירה נכשלה.",
       "errorServerVersion": "גרסת העורך עודכנה. הדף ייטען מחדש כדי להחיל את השינויים.",
       "errorUpdateVersion": "גרסת הקובץ שונתה. הדף ייטען מחדש.",
       "leavePageText": "קיימים שינויים שלא נשמרו במסמך זה. נא ללחוץ על 'הישאר בדף זה' כדי להמתין לשמירה אוטומטית. נא ללחוץ על 'צא מדף זה' כדי למחוק את כל השינויים שלא נשמרו.",
@@ -448,7 +447,9 @@
     "textSheetName": "שם גיליון",
     "textTabColor": "צבע הכרטיסייה",
     "textUnhide": "בטל הסתרה",
-    "textWarnDeleteSheet": "אולי קיימים נתונים בגליון העבודה. להמשיך בפעולה?"
+    "textWarnDeleteSheet": "אולי קיימים נתונים בגליון העבודה. להמשיך בפעולה?",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "btnRestartNow": "הפעל מחדש עכשיו",
@@ -884,7 +885,8 @@
       "txtUk": "אוקראינית",
       "txtVi": "וייטנאמית",
       "txtZh": "סינית",
-      "warnDownloadAs": "אם תימשך השמירה בפורמט זה כל התכונות מלבד הטקסט יאבדו.<br>האם להמשיך בוודאות?"
+      "warnDownloadAs": "אם תימשך השמירה בפורמט זה כל התכונות מלבד הטקסט יאבדו.<br>האם להמשיך בוודאות?",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   }
 }

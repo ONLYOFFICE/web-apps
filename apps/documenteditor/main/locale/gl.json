@@ -1005,7 +1005,6 @@
   "DE.Controllers.Main.errorMailMergeSaveFile": "Erro ao mesturar.",
   "DE.Controllers.Main.errorNoTOC": "Non hai unha táboa de contidos para actualizar. Pódese inserir unha desde a lapela de Referencias.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "O contrasinal que forneceu non é correcto.<br>Verifique que a tecla BLOQUEO MAIÚSCULAS estea desactivada e asegúrese de usar a maiúscula correcta.",
-  "DE.Controllers.Main.errorProcessSaveResult": "Erro ao gardar.",
   "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "A versión do editor foi actualizada. A páxina será recargada para aplicar os cambios.",
   "DE.Controllers.Main.errorSessionAbsolute": "A sesión de edición de documentos caducou. Recarga a páxina.",
@@ -3956,5 +3955,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Subliñado",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nome da fonte",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño da fonte"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño da fonte",
+  "DE.Views.DocumentHolder.btnChart": "Add, remove or change chart elements such as the title, legend, gridlines, and data labels"
 }

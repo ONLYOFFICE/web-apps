@@ -1005,7 +1005,6 @@
   "DE.Controllers.Main.errorMailMergeSaveFile": "فشل الدمج",
   "DE.Controllers.Main.errorNoTOC": "لا يوجد جدول محتويات ليتم تحديثه. بإمكانك إدراج واحد من تبويب المراجع",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "كلمة المرور التي أدخلتها غير صحيحة.<br>تحقق من إيقاف تشغيل مفتاح CAPS LOCK وتأكد من استخدام الأحرف الكبيرة الصحيحة.",
-  "DE.Controllers.Main.errorProcessSaveResult": "فشل الحفظ",
   "DE.Controllers.Main.errorSaveWatermark": "يحتوي هذا الملف على صورة علامة مائية مرتبطة بنطاق آخر.<br>لجعلها مرئية في ملف PDF، قم بتحديث صورة العلامة المائية بحيث ترتبط من نفس النطاق الذي يوجد به مستندك، أو قم بتحميلها من جهاز الكمبيوتر الخاص بك.",
   "DE.Controllers.Main.errorServerVersion": "تم تحديث إصدار المحرر.سيتم اعادة تحميل الصفحة لتطبيق التغييرات",
   "DE.Controllers.Main.errorSessionAbsolute": "تم انتهاء صلاحية الجلسة.برجاء اعادة تحميل الصفحة",
@@ -3956,5 +3955,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "شبه شفاف",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "تحته خط",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "اسم الخط",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط",
+  "DE.Views.DocumentHolder.btnChart": "Add, remove or change chart elements such as the title, legend, gridlines, and data labels"
 }

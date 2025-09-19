@@ -1005,7 +1005,6 @@
   "DE.Controllers.Main.errorMailMergeSaveFile": "Sikertelen egyesítés.",
   "DE.Controllers.Main.errorNoTOC": "Nincs frissítendő tartalomjegyzék. A Hivatkozások lapon beilleszthet egyet.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "A megadott jelszó helytelen.<br>Győződjön meg arról, hogy a CAPS LOCK billentyű ki van kapcsolva, és ügyeljen arra, hogy a megfelelő nagybetűket használja.",
-  "DE.Controllers.Main.errorProcessSaveResult": "Sikertelen mentés.",
   "DE.Controllers.Main.errorSaveWatermark": "Ez a fájl egy másik domainhez kapcsolt vízjelképet tartalmaz.<br>Ahhoz, hogy PDF-ben látható legyen, frissítse a vízjelképet úgy, hogy ugyanarról a domainről mutasson, mint a dokumentum, vagy töltse fel a számítógépéről.",
   "DE.Controllers.Main.errorServerVersion": "A szerkesztő verziója frissült. Az oldal újratöltésre kerül a módosítások alkalmazásához.",
   "DE.Controllers.Main.errorSessionAbsolute": "A dokumentumszerkesztési munkamenet lejárt. Töltse újra az oldalt.",
@@ -3956,5 +3955,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Féligáttetsző",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Aláhúzott",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Betűtípus neve",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Betűméret"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Betűméret",
+  "DE.Views.DocumentHolder.btnChart": "Add, remove or change chart elements such as the title, legend, gridlines, and data labels"
 }

@@ -1005,7 +1005,6 @@
   "DE.Controllers.Main.errorMailMergeSaveFile": "מיזוג נכשל.",
   "DE.Controllers.Main.errorNoTOC": "אין תוכן עניינים לעדכון. אפשר להוסיף תוכן עניינים מלשונית ההפניות.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "הסיסמה שהזנת אינה נכונה.<br> נא לודא ש-CAPS LOCK כבוי ולהקפיד להשתמש באותיות רישיות נכונות.",
-  "DE.Controllers.Main.errorProcessSaveResult": "שמירה נכשלה",
   "DE.Controllers.Main.errorSaveWatermark": "קובץ זה מכיל תמונת חתימת-מים המקושרת לתחום אתר (דומיין) אחר.<br>כדי שסימן המים יהיה מוצג ב-PDF, יש לעדכן את תמונת סימן המים כך שתהיה מקושרת לתחום האתר בו מאוחסן המסמך שלך, או להעלות את התמונה מהמחשב שלך.",
   "DE.Controllers.Main.errorServerVersion": "גרסת העורך עודכנה. הדף ייטען מחדש כדי להחיל את השינויים.",
   "DE.Controllers.Main.errorSessionAbsolute": "פג תוקפה של הפעלת עריכת המסמכים. נא לטעון מחדש את הדף.",
@@ -3956,5 +3955,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "חצי שקוף",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "קו תחתון",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "שם גופן",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "גודל גופן"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "גודל גופן",
+  "DE.Views.DocumentHolder.btnChart": "Add, remove or change chart elements such as the title, legend, gridlines, and data labels"
 }

@@ -66,7 +66,8 @@
     "textWithBlueLinks": "Com ligações azuis",
     "textWithPageNumbers": "Com números de página",
     "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\"",
-    "textDrawing": "Drawing"
+    "textDrawing": "Drawing",
+    "textRemovePicture": "Remove picture"
   },
   "Common": {
     "Collaboration": {
@@ -526,13 +527,12 @@
     "uploadImageTextText": "A carregar imagem...",
     "uploadImageTitleText": "A carregar imagem",
     "waitText": "Aguarde...",
-    "savingText": "Saving"
+    "savingText": "Submitting"
   },
   "Main": {
     "criticalErrorTitle": "Erro",
     "errorAccessDeny": "Está a tentar realizar uma ação para a qual não tem autorização.<br>Por favor, contacte o seu administrador.",
     "errorOpensource": "Utilizando a versão comunitária gratuita, pode abrir documentos apenas para visualização. Para aceder aos editores da web móvel, é necessária uma licença comercial.",
-    "errorProcessSaveResult": "Falha ao guardar.",
     "errorServerVersion": "A versão do editor foi atualizada. A página será recarregada para aplicar as alterações.",
     "errorUpdateVersion": "A versão do ficheiro foi alterada. A página será recarregada.",
     "leavePageText": "Existem alterações não guardadas. Clique 'Ficar na página' para guardar automaticamente. Clique 'Sair da página' para rejeitar todas as alterações.",

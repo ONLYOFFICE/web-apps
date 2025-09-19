@@ -93,7 +93,6 @@
       "criticalErrorTitle": "Erro",
       "errorAccessDeny": "Você está tentando realizar uma ação para a qual não possui direitos. <br> Por favor, entre em contato com o seu administrador.",
       "errorOpensource": "Usando a versão gratuita da Comunidade, você pode abrir documentos apenas para visualização. Para acessar editores da web móvel, é necessária uma licença comercial.",
-      "errorProcessSaveResult": "Salvamento falhou.",
       "errorServerVersion": "A versão do editor foi atualizada. A página será recarregada para aplicar as alterações.",
       "errorUpdateVersion": "A versão do arquivo foi alterada. A página será recarregada.",
       "leavePageText": "Você tem alterações não salvas neste documento. Clique em 'Permanecer nesta página' para aguardar o salvamento automático. Clique em 'Sair desta página' para descartar todas as alterações não salvas.",

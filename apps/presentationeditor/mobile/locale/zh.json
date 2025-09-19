@@ -93,7 +93,6 @@
       "criticalErrorTitle": "错误",
       "errorAccessDeny": "您正要执行一个你没有权限的操作<br>请联系您的管理员。",
       "errorOpensource": "在使用免费社区版本的情况下，你只能查看打开的文件。要想使用移动网上编辑器功能，你需要持有付费许可证。",
-      "errorProcessSaveResult": "保存失败",
       "errorServerVersion": "编辑器版本已经更新。该页面将被重新加载以应用更改。",
       "errorUpdateVersion": "文件版本已更改。该页面将被重新加载。",
       "leavePageText": "你在该文档中有未保存的修改。点击“留在该页”来等待自动保存。点击“离开该页”将舍弃全部未保存的更改。",

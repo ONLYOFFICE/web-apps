@@ -95,7 +95,6 @@
       "criticalErrorTitle": "خطأ",
       "errorAccessDeny": "أنت تحاول تنفيذ اجراء ليس لديك صلاحيات القيام به.<br> الرجاء الاتصال بمسؤولك.",
       "errorOpensource": "باستخدام نسخة المجتمع المجانية, سيكون بمقدروك فتح الملفات للمشاهدة فقط. للوصول إلى محررات الويب للهاتف يجب استخدام ترخيص تجاري",
-      "errorProcessSaveResult": "فشل الحفظ",
       "errorServerVersion": "تم تحديث إصدار المحرر.سيتم اعادة تحميل الصفحة لتطبيق التغييرات",
       "errorUpdateVersion": "تم تغيير إصدار الملف. سيتم اعادة تحميل الصفحة",
       "leavePageText": "لديك تغييرات غير محفوظة. اضغط على 'البقاء في هذه الصفحة' لانتظار الحفظ التلقائي. اضغط على 'غادر هذه الصفحة' للتخلي عن كل التغييرات الغير محفوظة.",
@@ -448,7 +447,9 @@
     "textSheetName": "اسم ورقة العمل",
     "textTabColor": "لون التبويبة",
     "textUnhide": "إظهار",
-    "textWarnDeleteSheet": "ربما تحتوي ورقة العمل على بيانات. هل تريد متابعة العملية؟"
+    "textWarnDeleteSheet": "ربما تحتوي ورقة العمل على بيانات. هل تريد متابعة العملية؟",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "btnRestartNow": "إعادة التشغيل الآن",
@@ -884,7 +885,8 @@
       "txtUk": "الأوكرانية",
       "txtVi": "الفيتمانية",
       "txtZh": "الصينية",
-      "warnDownloadAs": "اذا تابعت الحفظ بهذا التنسيق ستفقد كل الميزات عدا النص.<br> هل حقا تريد المتابعة؟ "
+      "warnDownloadAs": "اذا تابعت الحفظ بهذا التنسيق ستفقد كل الميزات عدا النص.<br> هل حقا تريد المتابعة؟ ",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   }
 }

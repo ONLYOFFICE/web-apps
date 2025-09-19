@@ -1005,7 +1005,6 @@
   "DE.Controllers.Main.errorMailMergeSaveFile": "No s'ha pogut combinar.",
   "DE.Controllers.Main.errorNoTOC": "No hi ha cap taula de continguts per actualitzar. En podeu inserir una des de la pestanya de Referències.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "La contrasenya que has introduït no és correcta.<br>Verifica que la tecla Bloq Maj està desactivada i assegura't que fas servir les majúscules correctes.",
-  "DE.Controllers.Main.errorProcessSaveResult": "S'ha produït un error en desar.",
   "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "S'ha actualitzat la versió de l'editor. Es tornarà a carregar la pàgina per aplicar els canvis.",
   "DE.Controllers.Main.errorSessionAbsolute": "La sessió d'edició del document ha caducat. Torneu a carregar la pàgina.",
@@ -3956,5 +3955,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Subratllar",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nom de la lletra",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Mida de la lletra"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Mida de la lletra",
+  "DE.Views.DocumentHolder.btnChart": "Add, remove or change chart elements such as the title, legend, gridlines, and data labels"
 }

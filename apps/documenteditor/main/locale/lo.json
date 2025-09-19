@@ -1005,7 +1005,6 @@
   "DE.Controllers.Main.errorMailMergeSaveFile": "ບໍ່ສາມາດລວມໄດ້",
   "DE.Controllers.Main.errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
-  "DE.Controllers.Main.errorProcessSaveResult": "ບັນທຶກບຊ່ສຳເລັດ",
   "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "ສະບັບດັດແກ້ໄດ້ຖືກປັບປຸງແລ້ວ. ໜ້າເວັບຈະຖືກໂຫລດຄືນເພື່ອນຳໃຊ້ການປ່ຽນແປງ.",
   "DE.Controllers.Main.errorSessionAbsolute": "ໝົດເວລາການແກ້ໄຂເອກະສານ  ກະລຸນາໂຫລດໜ້ານີ້ຄືນໃໝ່",
@@ -3956,5 +3955,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "ຂີ້ດກ້ອງ",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "ຊື່ຕົວອັກສອນ",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "ຂະໜາດຕົວອັກສອນ"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "ຂະໜາດຕົວອັກສອນ",
+  "DE.Views.DocumentHolder.btnChart": "Add, remove or change chart elements such as the title, legend, gridlines, and data labels"
 }

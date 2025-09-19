@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Error",
       "errorAccessDeny": "No tens permís per realitzar aquesta acció. <br>Posa't en contacte amb l'administrador.",
       "errorOpensource": "Amb la versió gratuïta de la Comunitat, només pots obrir els documents en mode lectura. Per accedir als editors de web per a mòbils, cal una llicència comercial.",
-      "errorProcessSaveResult": "No s'ha pogut desar.",
       "errorServerVersion": "S'ha actualitzat la versió de l'editor. Es tornarà a carregar la pàgina per aplicar els canvis.",
       "errorUpdateVersion": "S'ha canviat la versió del fitxer. La pàgina es tornarà a carregar.",
       "leavePageText": "Tens canvis no desats en aquest document. Fes clic a \"Queda't en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Sortir d'aquesta pàgina\" per descartar tots els canvis no desats.",
@@ -442,7 +441,9 @@
     "textSheetName": "Nom del full",
     "textTabColor": "Color de la pestanya",
     "textUnhide": "Mostrar",
-    "textWarnDeleteSheet": "El full de càlcul pot tenir dades. Vols continuar amb l'operació?"
+    "textWarnDeleteSheet": "El full de càlcul pot tenir dades. Vols continuar amb l'operació?",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tens canvis no desats en aquest document. Fes clic a \"Queda't en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Sortir d'aquesta pàgina\" per descartar tots els canvis no desats.",
@@ -878,7 +879,8 @@
       "txtVi": "Vietnamita",
       "txtZh": "Xinès",
       "warnDownloadAs": "Si continues i deses en aquest format, es perdran totes les característiques, excepte el text. <br>Vols continuar?",
-      "textClose": "Close"
+      "textClose": "Close",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   },
   "Draw": {

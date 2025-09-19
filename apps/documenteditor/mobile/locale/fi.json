@@ -63,6 +63,7 @@
     "textPasteImageUrl": "Paste an image URL",
     "textPosition": "Position",
     "textRecommended": "Recommended",
+    "textRemovePicture": "Remove picture",
     "textRequired": "Required",
     "textWithBlueLinks": "With Blue Links",
     "textWithPageNumbers": "With Page Numbers",
@@ -530,7 +531,6 @@
   },
   "Main": {
     "criticalErrorTitle": "Virhe",
-    "errorProcessSaveResult": "Tallennus epäonnistui.",
     "errorUpdateVersion": "Tiedoston versio on muuttunut. Sivu ladataan uudelleen.",
     "notcriticalErrorTitle": "Varoitus",
     "SDK": {

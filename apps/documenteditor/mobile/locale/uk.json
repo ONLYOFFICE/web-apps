@@ -64,6 +64,7 @@
     "textDrawing": "Drawing",
     "textPasteImageUrl": "Paste an image URL",
     "textRecommended": "Recommended",
+    "textRemovePicture": "Remove picture",
     "textRequired": "Required",
     "textTableContents": "Table of Contents",
     "textWithBlueLinks": "With Blue Links"
@@ -227,7 +228,7 @@
     "menuEditLink": "Edit Link",
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Увага",
@@ -526,7 +527,6 @@
     "criticalErrorTitle": "Помилка",
     "errorAccessDeny": "Ви намагаєтеся виконати дію, на яку у вас немає прав.<br>Будь ласка, зверніться до адміністратора.",
     "errorOpensource": "Використовуючи безплатну версію Community, ви можете відкривати документи лише на перегляд. Для доступу до мобільних вебредакторів потрібна комерційна ліцензія.",
-    "errorProcessSaveResult": "Помилка збереження",
     "errorServerVersion": "Версія редактора була оновлена. Сторінка буде перезавантажена, щоб застосувати зміни.",
     "errorUpdateVersion": "Версія файлу була змінена. Сторінка буде перезавантажена.",
     "leavePageText": "У документі є незбережені зміни. Натисніть 'Залишитись на сторінці', щоб дочекатися автозбереження. Натисніть 'Піти зі сторінки', щоб скинути всі незбережені зміни.",

@@ -206,7 +206,6 @@
   "VE.Controllers.Main.errorKeyExpire": "Descritor de chave expirado",
   "VE.Controllers.Main.errorLoadingFont": "As fontes não foram carregadas. <br> Entre em contato com o administrador do Document Server.",
   "VE.Controllers.Main.errorPasswordIsNotCorrect": "A senha fornecida não está correta. <br> Verifique se a tecla CAPS LOCK está desligada e use a capitalização correta.",
-  "VE.Controllers.Main.errorProcessSaveResult": "Salvamento falhou.",
   "VE.Controllers.Main.errorServerVersion": "A versão do editor foi atualizada. A página será recarregada para aplicar as alterações.",
   "VE.Controllers.Main.errorSessionAbsolute": "A sessão de edição de documentos expirou. Por favor, atualize a página.",
   "VE.Controllers.Main.errorSessionIdle": "O documento ficou sem edição por muito tempo. Por favor atualize a página.",

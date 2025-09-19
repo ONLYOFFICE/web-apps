@@ -83,7 +83,7 @@
     "textDoNotShowAgain": "Ne plus afficher",
     "textOk": "OK",
     "textRows": "Lignes",
-    "txtWarnUrl": "Cliquer sur ce lien peut être dangereux pour votre appareil et vos données. <br>Êtes-vous sûr de vouloir continuer ?"
+    "txtWarnUrl": "Cliquer sur ce lien peut endommager votre appareil et vos données. Cet emplacement peut être dangereux :<br>{0}<br>Voulez-vous continuer ?"
   },
   "Controller": {
     "Main": {
@@ -93,7 +93,6 @@
       "criticalErrorTitle": "Erreur",
       "errorAccessDeny": "Vous tentez d'exéсuter une action pour laquelle vous ne disposez pas des droits.<br>Veuillez contacter votre administrateur.",
       "errorOpensource": "Sous version gratuite Community, le document est disponible en lecture seule. Pour accéder aux éditeurs mobiles web vous avez besoin d'une licence payante.",
-      "errorProcessSaveResult": "Échec de l'enregistrement",
       "errorServerVersion": "La version de l'éditeur a été mise à jour. La page sera rechargée pour appliquer les modifications.",
       "errorUpdateVersion": "La version du fichier a été changée. La page sera rechargée.",
       "leavePageText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",

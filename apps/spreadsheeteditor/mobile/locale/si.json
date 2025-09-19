@@ -95,7 +95,6 @@
       "criticalErrorTitle": "දෝෂයකි",
       "errorAccessDeny": "ඔබට අයිතියක් නැති ක්‍රියාමාර්ගයක් ගැනීමට ඔබ උත්සාහ කරයි.<br>ඔබගේ පරිපාලක අමතන්න.",
       "errorOpensource": "ඔබට නොමිලේ ප්‍රජා අනුවාදය භාවිතා කරමින් ලේඛන දැකීම සඳහා පමණක් විවෘත කිරීමට හැකිය. ජංගම වියමන සංස්කරක වෙත ප්‍රවේශ වීමට වාණිජ බලපත්‍රයක් අවශ්‍ය වේ.",
-      "errorProcessSaveResult": "සුරැකීමට අසමත් විය.",
       "errorServerVersion": "සංස්කරක අනුවාදය වෙනස්ව ඇත. වෙනස්කම් යෙදීමට පිටුව යළි පූරණය වනු ඇත.",
       "errorUpdateVersion": "ගොනුවේ අනුවාදය වෙනස්ව ඇත. පිටුව යළි පූරණය වනු ඇත.",
       "leavePageText": "මෙම ලේඛනයේ ඔබ නොසුරකින ලද වෙනස්කම් තිබේ. ඉබේ සුරැකෙන තෙක් රැඳීමට 'මෙම පිටුවේ සිටින්න' ඔබන්න. නොසුරකින ලද සියළුම වෙනස්කම් ඉවතලීමට 'මෙම පිටුව හැරයන්න' ඔබන්න.",
@@ -448,7 +447,9 @@
     "textSheetName": "කොළයේ නම",
     "textTabColor": "පටිත්තේ පාට",
     "textUnhide": "නොසඟවන්න",
-    "textWarnDeleteSheet": "පත්‍රියේ දත්ත තිබීමට හැකිය. මෙහෙයුම කරගෙන යන්නද?"
+    "textWarnDeleteSheet": "පත්‍රියේ දත්ත තිබීමට හැකිය. මෙහෙයුම කරගෙන යන්නද?",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "btnRestartNow": "යළි අරඹන්න",
@@ -884,7 +885,8 @@
       "txtUk": "යුක්රේනියානු",
       "txtVi": "වියට්නාම",
       "txtZh": "චීන",
-      "warnDownloadAs": "ඔබ දිගටම මෙම ආකෘතියෙන් සුරැකුවහොත් පෙළ හැර අනෙකුත් සියළුම විශේෂාංග අහිමි වනු ඇත.<br>ඔබට ඉදිරියට යාමට වුවමනා ද?"
+      "warnDownloadAs": "ඔබ දිගටම මෙම ආකෘතියෙන් සුරැකුවහොත් පෙළ හැර අනෙකුත් සියළුම විශේෂාංග අහිමි වනු ඇත.<br>ඔබට ඉදිරියට යාමට වුවමනා ද?",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   }
 }

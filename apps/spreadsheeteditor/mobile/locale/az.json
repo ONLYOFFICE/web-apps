@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Xəta",
       "errorAccessDeny": "Hüquqlarınız olmayan əməliyyatı yerinə yetirməyə çalışırsınız.<br>Lütfən, admininizlə əlaqə saxlayın.",
       "errorOpensource": "Ödənişsiz İcma versiyasından istifadə edərək sənədləri yalnız baxmaq üçün aça bilərsiniz. Mobil veb redaktorlarına daxil olmaq üçün kommersiya lisenziyası tələb olunur.",
-      "errorProcessSaveResult": "Saxlama prosesi uğursuz oldu.",
       "errorServerVersion": "Redaktor versiyası yeniləndi. Dəyişiklikləri tətbiq etmək üçün səhifə yenidən yüklənəcək.",
       "errorUpdateVersion": "Fayl versiyası dəyişdirilib. Səhifə yenidən yüklənəcək.",
       "leavePageText": "Bu sənəddə saxlanmamış dəyişiklikləriniz var. Avtomatik saxlanmanı gözləmək üçün \"Bu Səhifədə Qalın\" hissəsinin üzərinə klikləyin. Bütün saxlanmamış dəyişiklikləri ləğv etmək üçün \"Bu səhifədən Çıxın\" hissəsinin üzərinə klikləyin.",
@@ -442,7 +441,9 @@
     "textSheetName": "Vərəq Adı",
     "textTabColor": "Tab Rəngi",
     "textUnhide": "Gizlətməni ləğv et",
-    "textWarnDeleteSheet": "İş vərəqində məlumat ola bilər. Əməliyyat davam etdirilsin?"
+    "textWarnDeleteSheet": "İş vərəqində məlumat ola bilər. Əməliyyat davam etdirilsin?",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Bu sənəddə saxlanmamış dəyişiklikləriniz var. Avtomatik saxlanmanı gözləmək üçün \"Bu Səhifədə Qalın\" hissəsinin üzərinə klikləyin. Bütün saxlanmamış dəyişiklikləri ləğv etmək üçün \"Bu səhifədən Çıxın\" hissəsinin üzərinə klikləyin.",
@@ -878,7 +879,8 @@
       "textLight": "Light",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "textTheme": "Theme",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   },
   "Draw": {

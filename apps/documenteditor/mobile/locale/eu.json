@@ -66,7 +66,8 @@
     "textWithBlueLinks": "Esteka urdinekin",
     "textWithPageNumbers": "Orri-zenbakiekin",
     "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
-    "textDrawing": "Drawing"
+    "textDrawing": "Drawing",
+    "textRemovePicture": "Remove picture"
   },
   "Common": {
     "Collaboration": {
@@ -520,13 +521,12 @@
     "uploadImageTextText": "Irudia kargatzen...",
     "uploadImageTitleText": "Irudia kargatzen",
     "waitText": "Mesedez, itxaron...",
-    "savingText": "Saving"
+    "savingText": "Submitting"
   },
   "Main": {
     "criticalErrorTitle": "Errorea",
     "errorAccessDeny": "Baimenik ez duzun ekintza bat egiten saiatzen ari zara.<br>Mesedez, jarri administratzailearekin harremanetan.",
     "errorOpensource": "Doako Community bertsioa erabiliz dokumentuak ikusteko bakarrik ireki ditzakezu. Mugikorreko web editoreetara sarbidea izateko lizentzia komertziala behar da.",
-    "errorProcessSaveResult": "Gordetzeak huts egin du.",
     "errorServerVersion": "Editorearen bertsioa eguneratu da. Orria berriz kargatuko da aldaketak aplikatzeko.",
     "errorUpdateVersion": "Fitxategiaren bertsioa aldatu da. Orria berriz kargatuko da.",
     "leavePageText": "Gorde gabeko aldaketak dituzu. Egin klik \"Jarraitu orri honetan\" gordetze-automatikoari itxaroteko. Egin klik \"Utzi orri hau\" gorde gabeko aldaketa guztiak baztertzeko.",

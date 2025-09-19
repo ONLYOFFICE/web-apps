@@ -1005,7 +1005,6 @@
   "DE.Controllers.Main.errorMailMergeSaveFile": "Ihopslagning misslyckades.",
   "DE.Controllers.Main.errorNoTOC": "Det finns ingen innehållsförteckning att uppdatera. Du kan infoga en från fliken Referenser.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "Lösenordet som du angav är felaktigt.<br>Se till att CAPS LOCK inte är aktiverat och säkerställ att du använder rätt storlek på tecknen i lösenordet.",
-  "DE.Controllers.Main.errorProcessSaveResult": "Sparar felaktig.",
   "DE.Controllers.Main.errorSaveWatermark": "Den här filen innehåller en vattenstämpelbild länkad till en annan domän.<br>För att göra den synlig i PDF-filen, uppdatera vattenstämpelbilden så att den länkar från samma domän som ditt dokument, eller ladda upp den från din dator.",
   "DE.Controllers.Main.errorServerVersion": "Textredigerarens version har uppdaterats. Sidan kommer att laddas om för att verkställa ändringarna.",
   "DE.Controllers.Main.errorSessionAbsolute": "Dokumentet redigeringssession har löpt ut. Vänligen ladda om sidan.",
@@ -2464,6 +2463,7 @@
   "DE.Views.FileMenuPanels.Settings.txtWorkspace": "Arbetsyta",
   "DE.Views.FileMenuPanels.ViewSaveAs.textDownloadAs": "Ladda ned som",
   "DE.Views.FileMenuPanels.ViewSaveCopy.textSaveCopyAs": "Spara kopia som",
+  "DE.Views.FormSettings.textAddRole": "Add recipient",
   "DE.Views.FormSettings.textAlways": "Alltid",
   "DE.Views.FormSettings.textAnyone": "Vem som helst",
   "DE.Views.FormSettings.textAspect": "Lås bildformat",
@@ -3956,5 +3956,5 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Understrykning",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fontnamn",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fontstorlek",
-  "DE.Views.FormSettings.textAddRole": "Add recipient"
+  "DE.Views.DocumentHolder.btnChart": "Add, remove or change chart elements such as the title, legend, gridlines, and data labels"
 }

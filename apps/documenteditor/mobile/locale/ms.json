@@ -64,6 +64,7 @@
     "textDrawing": "Drawing",
     "textPasteImageUrl": "Paste an image URL",
     "textRecommended": "Recommended",
+    "textRemovePicture": "Remove picture",
     "textRequired": "Required",
     "textWithBlueLinks": "With Blue Links",
     "textWithPageNumbers": "With Page Numbers"
@@ -518,7 +519,7 @@
     "uploadImageTitleText": "Imej dimuat naik",
     "waitText": "Sila, tunggu…",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "savingText": "Saving",
+    "savingText": "Submitting",
     "textContinue": "Continue",
     "textUndo": "Undo"
   },
@@ -526,7 +527,6 @@
     "criticalErrorTitle": "Ralat",
     "errorAccessDeny": "Anda sedang cuba untuk melakukan tindakan yang anda tidak mempunyai hak untuk.<br>Sila, hubungi pentadbir anda.",
     "errorOpensource": "Menggunakan versi percuma Community, anda boleh membuka dokumen untuk paparan sahaja. Untuk akses editor mobile web, lesen komersial diperlukan.",
-    "errorProcessSaveResult": "Gagal disimpan.",
     "errorServerVersion": "Versi editor telah dikemas kinikan. Halaman akan dimuat semula untuk menggunakan perubahan.",
     "errorUpdateVersion": "Versi fail telah berubah. Halaman akan dimuatkan semula.",
     "leavePageText": "Anda mempunyai perubahan yang tidak disimpan. Klik 'Stay on this Page' untuk menunggu autosimpan. Klik 'Leave this Page' untuk membuang semua perubahan yang tidak disimpan.",

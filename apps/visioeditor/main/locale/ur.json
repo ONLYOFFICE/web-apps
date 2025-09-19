@@ -206,7 +206,6 @@
   "VE.Controllers.Main.errorKeyExpire": "کلیدی تفصیل کار کی میعاد ختم ہوگئ",
   "VE.Controllers.Main.errorLoadingFont": "فونٹس لوڈ نہیں ہیں۔ براہ کرم اپنے دستاویز سرور کے منتظم سے رابطہ کریں۔",
   "VE.Controllers.Main.errorPasswordIsNotCorrect": "آپ کا فراہم کردہ پاس ورڈ درست نہیں ہے۔ تصدیق کریں کہ کیپس لاک کلید آف ہے اور درست کیپیٹلائزیشن کا استعمال یقینی بنائیں۔",
-  "VE.Controllers.Main.errorProcessSaveResult": "محفوظ کرنا ناکام ہو گیا۔",
   "VE.Controllers.Main.errorServerVersion": "ایڈیٹر ورژن کو اپ ڈیٹ کر دیا گیا ہے۔ تبدیلیوں کو لاگو کرنے کے لئے صفحہ دوبارہ لوڈ کیا جائے گا۔",
   "VE.Controllers.Main.errorSessionAbsolute": "دستاویز میں ترمیم کا سیشن ختم ہوگیا ہے۔ براہ کرم صفحہ دوبارہ لوڈ کریں۔",
   "VE.Controllers.Main.errorSessionIdle": "دستاویز میں کافی دن سے ترمیم نہیں کی گئی ہے۔ براہ کرم صفحہ دوبارہ لوڈ کریں۔",
