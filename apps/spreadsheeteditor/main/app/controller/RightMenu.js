@@ -554,7 +554,8 @@ define([
         },
 
         tryToShowRightMenu: function() {
-            if (this.rightmenu && this.rightmenu.mode && (!this.rightmenu.mode.canBrandingExt || !this.rightmenu.mode.customization || this.rightmenu.mode.customization.rightMenu !== false) && Common.UI.LayoutManager.isElementVisible('rightMenu'))
+            if (this.rightmenu && this.rightmenu.mode && (!this.rightmenu.mode.canBrandingExt || !this.rightmenu.mode.customization || this.rightmenu.mode.customization.rightMenu !== false) && Common.UI.LayoutManager.isElementVisible('rightMenu') &&
+                !this.rightmenu.mode.isEditMailMerge && !this.rightmenu.mode.isEditDiagram && !this.rightmenu.mode.isEditOle)
                 this.onRightMenuHide(null, true);
         },
 

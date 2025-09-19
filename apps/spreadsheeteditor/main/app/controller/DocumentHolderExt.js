@@ -2681,7 +2681,8 @@ define([], function () {
                 documentHolder.pmiEntriesList.setVisible(!iscelledit && !inPivot);
 
                 documentHolder.pmiNumFormat.setVisible(!iscelledit);
-                documentHolder.pmiCellFormat.setVisible(!iscelledit && !(this.permissions.canBrandingExt && this.permissions.customization && this.permissions.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu')));
+                documentHolder.pmiCellFormat.setVisible(!iscelledit && !(this.permissions.canBrandingExt && this.permissions.customization && this.permissions.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu')) &&
+                                                        !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle);
                 documentHolder.pmiAdvancedNumFormat.options.numformatinfo = documentHolder.pmiNumFormat.menu.options.numformatinfo = xfs.asc_getNumFormatInfo();
                 documentHolder.pmiAdvancedNumFormat.options.numformat = xfs.asc_getNumFormat();
 
