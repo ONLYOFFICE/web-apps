@@ -64,6 +64,7 @@
     "textDrawing": "Drawing",
     "textOk": "Ok",
     "textPasteImageUrl": "Paste an image URL",
+    "textRemovePicture": "Remove picture",
     "textRequired": "Required",
     "textWithBlueLinks": "With Blue Links",
     "textWithPageNumbers": "With Page Numbers"
@@ -525,14 +526,13 @@
     "uploadImageTitleText": "Afbeelding wordt geüpload",
     "waitText": "Een moment geduld...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "savingText": "Saving",
+    "savingText": "Submitting",
     "textUndo": "Undo"
   },
   "Main": {
     "criticalErrorTitle": "Fout",
     "errorAccessDeny": "U probeert een actie uit te voeren waar u geen rechten voor heeft. <br>Neem contact op met uw administrator.",
     "errorOpensource": "Met de gratis Community versie kunt u documenten openen om ze alleen te bekijken. Voor toegang tot mobiele webeditors is een commerciële licentie vereist.",
-    "errorProcessSaveResult": "Opslaan mislukt.",
     "errorServerVersion": "De versie van de editor is bijgewerkt. De pagina wordt opnieuw geladen om de wijzigingen toe te passen.",
     "errorUpdateVersion": "De bestandsversie is gewijzigd. De pagina wordt opnieuw geladen.",
     "leavePageText": "U heeft nog niet opgeslagen wijzigingen. Klik op 'Blijf op deze pagina' om te wachten op automatisch opslaan. Klik op 'Verlaat deze pagina' om alle niet-opgeslagen wijzigingen te verwijderen.",

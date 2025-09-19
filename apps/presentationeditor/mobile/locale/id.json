@@ -93,7 +93,6 @@
       "criticalErrorTitle": "Kesalahan",
       "errorAccessDeny": "Anda mencoba melakukan sesuatu yang tidak memiliki izin.<br>Silakan hubungi admin Anda.",
       "errorOpensource": "Menggunakan versi Komunitas gratis, Anda bisa membuka dokumen hanya untuk dilihat. Untuk mengakses editor web mobile, diperlukan lisensi komersial.",
-      "errorProcessSaveResult": "Gagal menyimpan.",
       "errorServerVersion": "Versi editor sudah di update. Halaman akan dimuat ulang untuk menerapkan perubahan.",
       "errorUpdateVersion": "Versi file telah diubah. Halaman tidak akan dimuat ulang.",
       "leavePageText": "Ada perubahan yang belum disimpan dalam dokumen ini. Klik 'Tetap di Halaman Ini' untuk menunggu simpan otomatis. Klik ‘Tinggalkan Halaman Ini’ untuk membatalkan semua perubahan yang belum disimpan.",

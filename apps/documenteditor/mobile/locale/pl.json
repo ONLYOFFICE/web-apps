@@ -63,6 +63,7 @@
     "textEmptyImgUrl": "You need to specify image URL.",
     "textPasteImageUrl": "Paste an image URL",
     "textPosition": "Position",
+    "textRemovePicture": "Remove picture",
     "textStartAt": "Start At",
     "textTableSize": "Table Size",
     "textWithBlueLinks": "With Blue Links",
@@ -523,14 +524,13 @@
     "waitText": "Proszę czekać...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
     "savePreparingText": "Preparing to save",
-    "savingText": "Saving",
+    "savingText": "Submitting",
     "sendMergeText": "Sending Merge...",
     "sendMergeTitle": "Sending Merge",
     "textUndo": "Undo"
   },
   "Main": {
     "criticalErrorTitle": "Błąd",
-    "errorProcessSaveResult": "Zapisywanie nie powiodło się.",
     "errorServerVersion": "Wersja edytora została zaktualizowana. Strona zostanie ponownie załadowana, aby zastosować zmiany.",
     "notcriticalErrorTitle": "Ostrzeżenie",
     "SDK": {

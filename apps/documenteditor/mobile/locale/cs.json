@@ -66,7 +66,8 @@
     "textTableSize": "Velikost tabulky",
     "textWithBlueLinks": "s modrými odkazy",
     "textWithPageNumbers": "s číslováním stránek",
-    "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\""
+    "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
+    "textRemovePicture": "Remove picture"
   },
   "Common": {
     "Collaboration": {
@@ -532,7 +533,6 @@
     "criticalErrorTitle": "Chyba",
     "errorAccessDeny": "Pokoušíte se provést akci, na kterou nemáte oprávnění.<br>Prosím kontaktujte Vašeho správce.",
     "errorOpensource": "Při využívání bezplatné komunitní veze, můžete otevřít dokumenty pouze pro náhled. Pro získání přístupu k mobilním online editorům, je nutná komerční licence.",
-    "errorProcessSaveResult": "Ukládání selhalo.",
     "errorServerVersion": "Verze editoru byla aktualizována. Stránka bude znovu načtena, aby se změny uplatnily.",
     "errorUpdateVersion": "Verze souboru byla změněna. Stránka bude znovu načtena.",
     "leavePageText": "V tomto dokumentu máte neuložené změny. Klikněte na 'Zůstat na této stránce'. Klikněte na 'Opustit tuto stránku' pro zahození neuložených změn.",

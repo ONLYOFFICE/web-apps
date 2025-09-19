@@ -206,7 +206,6 @@
   "VE.Controllers.Main.errorKeyExpire": "انتهت صلاحية واصف المفتاح",
   "VE.Controllers.Main.errorLoadingFont": "لم يتم تحميل الخطوط.<br>الرجاء الاتصال بمسؤول خادم المستندات لديك.",
   "VE.Controllers.Main.errorPasswordIsNotCorrect": "كلمة المرور التي أدخلتها غير صحيحة.<br>تحقق من إيقاف تشغيل مفتاح CAPS LOCK وتأكد من استخدام الأحرف الكبيرة الصحيحة.",
-  "VE.Controllers.Main.errorProcessSaveResult": "فشل الحفظ",
   "VE.Controllers.Main.errorServerVersion": "تم تحديث إصدار المحرر ،سيتم إعادة تحميل الصفحة لتطبيق التغييرات",
   "VE.Controllers.Main.errorSessionAbsolute": "انتهت صلاحية جلسة تحرير المستند. يرجى إعادة تحميل الصفحة.",
   "VE.Controllers.Main.errorSessionIdle": "لم يتم تحرير المستند لفترة طويلة. يرجى إعادة تحميل الصفحة.",

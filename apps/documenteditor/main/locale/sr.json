@@ -1005,7 +1005,6 @@
   "DE.Controllers.Main.errorMailMergeSaveFile": "Spajanje neuspešno.",
   "DE.Controllers.Main.errorNoTOC": "Nema tabele sadržaja za ažuriranje. Možete ubaciti jednu sa Reference kartice.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "Lozinka koju ste snabdeli nije tačna.<br>Verifikuj da je CAPS LOCK dugme isključeno i budite sigurni da koristite odgovarajuću veličinu slova.",
-  "DE.Controllers.Main.errorProcessSaveResult": "Čuvanje neuspešno.",
   "DE.Controllers.Main.errorSaveWatermark": "Ovaj fajl sadrži sliku vodenog žiga koja je povezana sa drugim domenom.<br>Da bi bila vidljiva u PDF-u, ažurirajte sliku vodenog žiga tako da bude povezana sa istim domenom kao i vaš dokument ili je otpremite sa svog računara.",
   "DE.Controllers.Main.errorServerVersion": "Verzija uređivača je ažurirana. Stranica će biti ponovo učitana da se primene promene.",
   "DE.Controllers.Main.errorSessionAbsolute": "Faza uređivanja dokumenta je istekla. Molimo ponovo učitajte stranicu.",
@@ -3956,5 +3955,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Poluprovidno",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podvuci",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Naziv fonta ",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veličina fonta"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veličina fonta",
+  "DE.Views.DocumentHolder.btnChart": "Add, remove or change chart elements such as the title, legend, gridlines, and data labels"
 }

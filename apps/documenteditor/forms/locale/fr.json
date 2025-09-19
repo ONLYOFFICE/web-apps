@@ -164,6 +164,7 @@
   "DE.Controllers.ApplicationController.txtPressLink": "Appuyez sur Ctrl et cliquez sur le lien",
   "DE.Controllers.ApplicationController.txtSignedForm": "Ce document a été signé et ne peut être modifié.",
   "DE.Controllers.ApplicationController.txtUntitled": "Sans titre",
+  "DE.Controllers.ApplicationController.txtWarnUrl": "Cliquer sur ce lien peut endommager votre appareil et vos données. Pour protéger votre ordinateur, ne cliquez que sur les liens provenant de sources fiables. Cet emplacement peut être dangereux :<br><br>{0}<br><br>Voulez-vous continuer ?",
   "DE.Controllers.ApplicationController.unknownErrorText": "Erreur inconnue.",
   "DE.Controllers.ApplicationController.unsupportedBrowserErrorText": "Votre navigateur n'est pas pris en charge.",
   "DE.Controllers.ApplicationController.uploadImageExtMessage": "Format d'image inconnu.",

@@ -53,7 +53,7 @@
   "DE.ApplicationController.txtClose": "Cerrar",
   "DE.ApplicationController.txtEmpty": "(Vacío)",
   "DE.ApplicationController.txtNo": "No",
-  "DE.ApplicationController.txtOpenWarning": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos.<br> ¿Está seguro de que desea continuar?",
+  "DE.ApplicationController.txtOpenWarning": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos. Para proteger su ordenador, haga clic solo en los hipervínculos de fuentes fiables. Esta ubicación puede ser insegura:<br>%1<br>¿Está seguro de que quiere continuar?",
   "DE.ApplicationController.txtPressLink": "Pulse %1 y haga clic en el enlace",
   "DE.ApplicationController.txtSecurityWarningLink": "Este documento está intentando conectarse a %1.<br>Si confía en este sitio, pulse \"OK\" mientras mantiene pulsada la tecla ctrl.",
   "DE.ApplicationController.txtSecurityWarningOpenFile": "Este documento está intentando abrir el diálogo de archivo, pulse \"OK\" para abrir.",

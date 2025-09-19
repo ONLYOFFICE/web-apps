@@ -66,7 +66,8 @@
     "textTableSize": "Táblázat mérete",
     "textWithBlueLinks": "Kék linkkel",
     "textWithPageNumbers": "Oldalszámokkal",
-    "txtNotUrl": "A mező URL-címének a \"http://www.example.com\" formátumban kell lennie"
+    "txtNotUrl": "A mező URL-címének a \"http://www.example.com\" formátumban kell lennie",
+    "textRemovePicture": "Remove picture"
   },
   "Common": {
     "Collaboration": {
@@ -532,7 +533,6 @@
     "criticalErrorTitle": "Hiba",
     "errorAccessDeny": "Olyan műveletet próbál végrehajtani, amelyhez nincs jogosultsága.<br>Kérjük, forduljon rendszergazdájához.",
     "errorOpensource": "Az ingyenes közösségi verzió használatával a dokumentumokat csak megtekintésre nyithatja meg. A mobil webszerkesztők eléréséhez kereskedelmi licenc szükséges.",
-    "errorProcessSaveResult": "Sikertelen mentés.",
     "errorServerVersion": "A szerkesztő verziója frissült. Az oldal újratöltődik a változások érvényesítéséhez.",
     "errorUpdateVersion": "A dokumentum verziója megváltozott. Az oldal újratöltődik.",
     "leavePageText": "Vannak el nem mentett módosításai. Kattintson a 'Maradjon ezen az oldalon' gombra az automatikus mentéshez. Kattintson a 'Hagyja el ezt az oldalt' gombra a mentetlen módosítások elvetéséhez.",

@@ -87,7 +87,7 @@
     "textCopyCutPasteActions": "Fonctions de Copier, Couper et Coller",
     "textDoNotShowAgain": "Ne plus afficher",
     "textOk": "OK",
-    "txtWarnUrl": "Cliquer sur ce lien peut être dangereux pour votre appareil et vos données. <br>Êtes-vous sûr de vouloir continuer ?",
+    "txtWarnUrl": "Cliquer sur ce lien peut endommager votre appareil et vos données. Cet emplacement peut être dangereux :<br>{0}<br>Voulez-vous continuer ?",
     "warnMergeLostData": "Seulement les données de la cellule supérieure gauche seront conservées dans la cellule fusionnée.<br>Êtes-vous sûr de vouloir continuer ?"
   },
   "Controller": {
@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Erreur",
       "errorAccessDeny": "Vous tentez d'exéсuter une action pour laquelle vous ne disposez pas des droits.<br>Veuillez contacter votre administrateur.",
       "errorOpensource": "Sous version gratuite Community, le document est disponible en lecture seule. Pour accéder aux éditeurs mobiles web, vous avez besoin d'une licence payante.",
-      "errorProcessSaveResult": "Échec de l‘enregistrement.",
       "errorServerVersion": "La version de l'éditeur a été mise à jour. La page sera rechargée pour appliquer les modifications.",
       "errorUpdateVersion": "La version du fichier a été changée. La page sera rechargée.",
       "leavePageText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",
@@ -428,6 +427,7 @@
   "Statusbar": {
     "notcriticalErrorTitle": "Avertissement",
     "textCancel": "Annuler",
+    "textContinue": "Continuer",
     "textDelete": "Supprimer",
     "textDuplicate": "Dupliquer",
     "textErrNameExists": "Une feuille de calcul avec le même nom existe déjà.",
@@ -448,7 +448,8 @@
     "textSheetName": "Nom de la feuille",
     "textTabColor": "Couleur d'onglet",
     "textUnhide": "Afficher",
-    "textWarnDeleteSheet": "La feuille de calcul peut contenir des données. Êtes-vous sûr de vouloir continuer?"
+    "textWarnDeleteSheet": "La feuille de calcul peut contenir des données. Êtes-vous sûr de vouloir continuer?",
+    "warnAddSheetCsv": "Le format CSV ne prend pas en charge l'enregistrement d'un fichier à plusieurs feuilles. Seule la feuille active sera enregistrée. Pour conserver toutes les feuilles, veuillez enregistrer le fichier dans un autre format."
   },
   "Toolbar": {
     "btnRestartNow": "Redémarrer maintenant",
@@ -884,7 +885,8 @@
       "txtUk": "Ukrainien",
       "txtVi": "Vietnamien",
       "txtZh": "Chinois",
-      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?"
+      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?",
+      "warnDownloadCsv": "Le format CSV ne prend pas en charge l'enregistrement d'un fichier à plusieurs feuilles et de tous les éléments, à l'exception du texte.<br>Pour enregistrer uniquement la feuille sélectionnée au format CSV, appuyez sur OK.<br>Pour enregistrer l'ensemble du tableur et toutes les fonctionnalités, cliquez sur Annuler et sélectionnez un autre format."
     }
   }
 }

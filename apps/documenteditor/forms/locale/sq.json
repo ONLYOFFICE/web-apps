@@ -164,6 +164,7 @@
   "DE.Controllers.ApplicationController.txtPressLink": "Shtypni Ctrl dhe klikoni lidhjen",
   "DE.Controllers.ApplicationController.txtSignedForm": "Ky dokument është nënshkruar dhe nuk mund të modifikohet.",
   "DE.Controllers.ApplicationController.txtUntitled": "Pa titull",
+  "DE.Controllers.ApplicationController.txtWarnUrl": "Klikimi i kësaj lidhjeje mund të jetë i dëmshëm për pajisjen dhe të dhënat tuaja. Për të mbrojtur kompjuterin tuaj, klikoni vetëm ato hiperlidhje nga burime të besueshme. Kjo vendndodhje mund të jetë e pasigurt:<br><br>{0}<br><br>A jeni të sigurt që dëshironi të vazhdoni?",
   "DE.Controllers.ApplicationController.unknownErrorText": "Gabim i panjohur",
   "DE.Controllers.ApplicationController.unsupportedBrowserErrorText": "Shfletuesi juaj nuk suportohet.",
   "DE.Controllers.ApplicationController.uploadImageExtMessage": "Format i panjohur i fotos.",

@@ -88,12 +88,11 @@
     "menuUnmerge": "Unmerge",
     "menuUnwrap": "Unwrap",
     "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
       "criticalErrorTitle": "Fejl",
-      "errorProcessSaveResult": "Gem fejlede.",
       "notcriticalErrorTitle": "Advarsel",
       "SDK": {
         "Grayscale": "Gråtoner",
@@ -439,10 +438,12 @@
     "textSheet": "Ark",
     "textSheetName": "Ark navn",
     "textTabColor": "Fane farve",
+    "textContinue": "Continue",
     "textErrNameExists": "Sheet with this name already exists.",
     "textErrorLastSheet": "The workbook must have at least one visible sheet.",
     "textUnhide": "Unhide",
-    "textWarnDeleteSheet": "The sheet maybe has data. Proceed operation?"
+    "textWarnDeleteSheet": "The sheet maybe has data. Proceed operation?",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "leaveButtonText": "Forlad denne side",
@@ -878,7 +879,8 @@
       "textUploaded": "Uploaded",
       "textVersion": "Version",
       "textVersionHistory": "Version History",
-      "txtSemicolon": "Semicolon"
+      "txtSemicolon": "Semicolon",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   },
   "Draw": {

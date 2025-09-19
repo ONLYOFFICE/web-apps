@@ -88,14 +88,13 @@
     "warnMergeLostData": "Alleen de gegevens in de cel linksboven blijven behouden in de samengevoegde cel.<br>Wilt u doorgaan?",
     "menuAutofill": "Autofill",
     "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
       "criticalErrorTitle": "Fout",
       "errorAccessDeny": "U probeert een actie uit te voeren waar u geen rechten voor heeft. <br>Neem contact op met uw beheerder.",
       "errorOpensource": "Met de gratis Community versie kunt u documenten openen om ze alleen te bekijken. Voor toegang tot mobiele webeditors is een commerciële licentie vereist.",
-      "errorProcessSaveResult": "Opslaan mislukt.",
       "errorServerVersion": "De versie van de editor is bijgewerkt. De pagina wordt opnieuw geladen om de wijzigingen toe te passen.",
       "errorUpdateVersion": "De bestandsversie is gewijzigd. De pagina wordt opnieuw geladen.",
       "leavePageText": "U hebt niet-opgeslagen wijzigingen in dit document. Klik op 'Blijf op deze pagina' om te wachten op automatisch opslaan. Klik op 'Verlaat deze pagina' om alle niet-opgeslagen wijzigingen te verwijderen.",
@@ -448,7 +447,9 @@
     "textSheetName": "Bladnaam",
     "textTabColor": "Tabkleur",
     "textUnhide": "Verbergen ongedaan maken",
-    "textWarnDeleteSheet": "Het werkblad heeft misschien gegevens. Verder gaan met de bewerking?"
+    "textWarnDeleteSheet": "Het werkblad heeft misschien gegevens. Verder gaan met de bewerking?",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "U hebt niet-opgeslagen wijzigingen in dit document. Klik op 'Blijf op deze pagina' om te wachten op automatisch opslaan. Klik op 'Verlaat deze pagina' om alle niet-opgeslagen wijzigingen te verwijderen.",
@@ -884,7 +885,8 @@
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRightToLeft": "Right To Left",
       "textVersionHistory": "Version History",
-      "txtDe": "German"
+      "txtDe": "German",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   }
 }

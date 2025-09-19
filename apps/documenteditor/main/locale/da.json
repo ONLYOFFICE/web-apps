@@ -1005,7 +1005,6 @@
   "DE.Controllers.Main.errorMailMergeSaveFile": "Fusionering fejlede",
   "DE.Controllers.Main.errorNoTOC": "Der er ingen indholdsfortegnelse at opdatere. Du kan indsætte en fra fanen \"Referencer\".",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
-  "DE.Controllers.Main.errorProcessSaveResult": "Kunne ikke gemme",
   "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "Redigeringsversionen er blevet opdatere. Siden vil blive genindlæst for at anvende ændringerne. ",
   "DE.Controllers.Main.errorSessionAbsolute": "Sessionen for dokumentredigering er udløbet. Genindlæs venligst siden. ",
@@ -3956,5 +3955,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Halvgennemsigtig",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Understreg",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Skrifttypenavn",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Skriftstørrelse"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Skriftstørrelse",
+  "DE.Views.DocumentHolder.btnChart": "Add, remove or change chart elements such as the title, legend, gridlines, and data labels"
 }

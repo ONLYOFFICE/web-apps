@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Greška",
       "errorAccessDeny": "Pokušavate da izvedete akciju na koju nemate prava.<br>Molimo, kontaktirajte vašeg admina.",
       "errorOpensource": "Koristeći besplatnu verziju Zajednice, možete otvoriti dokument samo za pregled. Da biste pristupili mobilnim veb uređivačima, potrebna je komercijalna licenca.",
-      "errorProcessSaveResult": "Čuvanje je neuspešno.",
       "errorServerVersion": "Verzija uređivača je ažurirana. Stranica će biti ponovo učitana da se primene promene.",
       "errorUpdateVersion": "Verzija fajla je promenjena. Stranica će biti ponovo učitana.",
       "leavePageText": "Imate nesačuvane promene u ovom dokumentu. Kliknite 'Ostani na ovoj Stranici' da sačekate na autočuvanje. Kliknite 'Napusti ovu Stranicu' da odbacite sve nesačuvane promene.",
@@ -428,6 +427,7 @@
   "Statusbar": {
     "notcriticalErrorTitle": "Upozorenje ",
     "textCancel": "Otkaži",
+    "textContinue": "Nastavi",
     "textDelete": "Izbriši",
     "textDuplicate": "Dupliciraj",
     "textErrNameExists": "Radni list sa ovim imenom već postoji.",
@@ -448,7 +448,8 @@
     "textSheetName": "List ime",
     "textTabColor": "Kartica boja",
     "textUnhide": "Otkrij",
-    "textWarnDeleteSheet": "Radni list možda ima podatke. Nastavi operaciju?"
+    "textWarnDeleteSheet": "Radni list možda ima podatke. Nastavi operaciju?",
+    "warnAddSheetCsv": "CSV format ne podržava čuvanje datoteka sa više listova. Biće sačuvan samo aktivni list. Da biste sačuvali sve listove,molimo  sačuvajte datoteku u drugom formatu."
   },
   "Toolbar": {
     "btnRestartNow": "Ponovo pokreni sada",
@@ -884,7 +885,8 @@
       "txtUk": "Ukrajinski",
       "txtVi": "Vijetnamski",
       "txtZh": "Kineski",
-      "warnDownloadAs": "Ako nastavite da čuvate u ovom formatu sve karakteristike osim teksta će biti izgubljene.<br>Da li ste sigurni da želite da nastavite?"
+      "warnDownloadAs": "Ako nastavite da čuvate u ovom formatu sve karakteristike osim teksta će biti izgubljene.<br>Da li ste sigurni da želite da nastavite?",
+      "warnDownloadCsv": "CSV format ne podržava čuvanje datoteka sa više listova niti sve elemente osim teksta.<br>Da biste sačuvali samo izabrani list u CSV formatu, kliknite na U redu.<br>Da biste sačuvali celu tabelu sa svim funkcijama, kliknite na Otkaži i izaberite neki drugi format"
     }
   }
 }

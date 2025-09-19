@@ -1005,7 +1005,6 @@
   "DE.Controllers.Main.errorMailMergeSaveFile": "ඒකාබද්ධයට අසමත් විය.",
   "DE.Controllers.Main.errorNoTOC": "යාවත්කාල කිරීමට පටුනක් නැත. නිර්දේශ පටිත්තෙන් ඇතුළු කළ හැකිය.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "ඔබ සැපයූ මුරපදය නිවැරදි නොවේ.<br>ලොකු අකුරු යතුර ක්‍රියා විරහිත බව තහවුරු කර නිවැරදි ලොකු අකුරු භාවිතයට ද වග බලා ගන්න.",
-  "DE.Controllers.Main.errorProcessSaveResult": "සුරැකීමට අසමත් විය.",
   "DE.Controllers.Main.errorSaveWatermark": "මෙම ගොනුවේ වෙනත් වසමකට අදාළ දිය සලකුණක රූපයක් අඩංගු වේ.<br>එය PDF හි දිස් වීමට දිය සලකුණේ රූපය යාවත්කාල කරන්න එවිට ඔබ දැන් ලේඛනගත කරන වසමට සබැඳෙනු ඇත හෝ ඔබගේ පරිගණකයෙන් උඩුගත කරන්න.",
   "DE.Controllers.Main.errorServerVersion": "සංස්කරක අනුවාදය වෙනස්ව ඇත. වෙනස්කම් යෙදීමට පිටුව යළි පූරණය වනු ඇත.",
   "DE.Controllers.Main.errorSessionAbsolute": "ලේඛනය සංස්කරණ වාරය කල් ඉකුත් වී ඇත. පිටුව නැවත පූරණය කරන්න.",
@@ -3956,5 +3955,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "අර්ධ පාරදෘශ්‍යතාව",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "යටිඉර",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "රුවකුරේ නම",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "රුවකුරේ තරම"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "රුවකුරේ තරම",
+  "DE.Views.DocumentHolder.btnChart": "Add, remove or change chart elements such as the title, legend, gridlines, and data labels"
 }

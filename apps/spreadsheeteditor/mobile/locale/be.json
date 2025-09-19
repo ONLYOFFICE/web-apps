@@ -87,13 +87,12 @@
     "textCopyCutPasteActions": "Copy, Cut and Paste Actions",
     "textDoNotShowAgain": "Don't show again",
     "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?",
     "warnMergeLostData": "Only the data from the upper-left cell will remain in the merged cell. <br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
       "criticalErrorTitle": "Памылка",
-      "errorProcessSaveResult": "Не атрымалася захаваць.",
       "notcriticalErrorTitle": "Увага",
       "SDK": {
         "Grayscale": "Адценні шэрага",
@@ -428,6 +427,7 @@
     "textMoveToEnd": "(Перамясціць у канец)",
     "textSheet": "Аркуш",
     "textSheetName": "Назва аркуша",
+    "textContinue": "Continue",
     "textDuplicate": "Duplicate",
     "textErrNameExists": "Sheet with this name already exists.",
     "textErrorLastSheet": "The workbook must have at least one visible sheet.",
@@ -442,7 +442,8 @@
     "textRenameSheet": "Rename Sheet",
     "textTabColor": "Tab Color",
     "textUnhide": "Unhide",
-    "textWarnDeleteSheet": "The sheet maybe has data. Proceed operation?"
+    "textWarnDeleteSheet": "The sheet maybe has data. Proceed operation?",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "View": {
     "Add": {
@@ -866,7 +867,8 @@
       "txtUk": "Ukrainian",
       "txtVi": "Vietnamese",
       "txtZh": "Chinese",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   },
   "Draw": {

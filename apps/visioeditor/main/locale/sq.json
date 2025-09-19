@@ -206,7 +206,6 @@
   "VE.Controllers.Main.errorKeyExpire": "Përshkrimi i çelësit ka skaduar",
   "VE.Controllers.Main.errorLoadingFont": "Fontet nuk janë ngarkuar.<br>Ju lutem, kontaktoni administratorin tuaj të serverit të dokumenteve.",
   "VE.Controllers.Main.errorPasswordIsNotCorrect": "FJalëkalimi që dhatë nuk është i saktë.<br>Verifikoni që tasti ME SHKRONJA TË MËDHA është i fikur dhe sigurohuni që të përdorni shkronjat e duhura.",
-  "VE.Controllers.Main.errorProcessSaveResult": "Ruajtja dështoi",
   "VE.Controllers.Main.errorServerVersion": "Verzioni i redakturesit është përditësuar. Faqja do të ringarkohet për të zbatuar ndryshimet.",
   "VE.Controllers.Main.errorSessionAbsolute": "Sesioni i redaktimit të dokumentit ka skaduar. Ju lutem ringarkoni faqen.",
   "VE.Controllers.Main.errorSessionIdle": "Dokumenti nuk është redaktuar për një kohë të gjatë. Ju lutem ringarkoni faqen.",

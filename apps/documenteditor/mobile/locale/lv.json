@@ -66,7 +66,8 @@
     "textWithBlueLinks": "Ar zilām saitēm",
     "textWithPageNumbers": "Ar lapu numuriem",
     "txtNotUrl": "Šim laukam ir jābūt URL formātā \"http://www.example.com\"",
-    "textDrawing": "Drawing"
+    "textDrawing": "Drawing",
+    "textRemovePicture": "Remove picture"
   },
   "Common": {
     "Collaboration": {
@@ -520,13 +521,12 @@
     "uploadImageTextText": "Augšupielādē attēlu...",
     "uploadImageTitleText": "Augšupielādē attēlu",
     "waitText": "Uzgaidiet...",
-    "savingText": "Saving"
+    "savingText": "Submitting"
   },
   "Main": {
     "criticalErrorTitle": "Kļūda",
     "errorAccessDeny": "Jūs mēģināt veikt darbību, kuru nedrīkstat veikt.<br>Sazinieties ar savu administratoru.",
     "errorOpensource": "Izmantojot bezmaksas kopienas versiju, varat atvērt dokumentus tikai apskatei. Lai piekļūtu mobilā tīmekļa redaktoriem, ir nepieciešama komerciāla licence.",
-    "errorProcessSaveResult": "Neizdevās saglabāt.",
     "errorServerVersion": "Redaktora versija ir atjaunināta. Lapa tiks pārlādēta, lai piemērotu izmaiņas.",
     "errorUpdateVersion": "Faila versija ir mainīta. Lapa tiks atkārtoti ielādēta.",
     "leavePageText": "Jums ir nesaglabātas izmaiņas. Noklikšķiniet uz Palikt šajā lapā, lai gaidītu automātisko saglabāšanu. Noklikšķiniet uz 'Pamest lapu', lai atmestu visas nesaglabātās izmaiņas.",

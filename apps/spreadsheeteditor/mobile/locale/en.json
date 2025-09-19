@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Error",
       "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please, contact your admin.",
       "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
-      "del_errorProcessSaveResult": "Saving is failed.",
       "errorServerVersion": "The editor version has been updated. The page will be reloaded to apply the changes.",
       "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
       "leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
@@ -428,6 +427,7 @@
   "Statusbar": {
     "notcriticalErrorTitle": "Warning",
     "textCancel": "Cancel",
+    "textContinue": "Continue",
     "textDelete": "Delete",
     "textDuplicate": "Duplicate",
     "textErrNameExists": "Sheet with this name already exists.",
@@ -449,7 +449,6 @@
     "textTabColor": "Tab Color",
     "textUnhide": "Unhide",
     "textWarnDeleteSheet": "The sheet maybe has data. Proceed operation?",
-    "textContinue": "Continue",
     "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {

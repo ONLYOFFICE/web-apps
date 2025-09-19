@@ -206,7 +206,6 @@
   "VE.Controllers.Main.errorKeyExpire": "署名キーは期限切れました",
   "VE.Controllers.Main.errorLoadingFont": "フォントが読み込まれていません。<br>ドキュメントサーバーの管理者に連絡してください。",
   "VE.Controllers.Main.errorPasswordIsNotCorrect": "入力されたパスワードが間違っています。<br> CapsLock キーがオフになっていること、大文字と小文字が正しく使われていることを確認してください。　",
-  "VE.Controllers.Main.errorProcessSaveResult": "保存に失敗しました",
   "VE.Controllers.Main.errorServerVersion": "エディタのバージョンが更新されました。変更を適用するためにページが再読み込みされます。",
   "VE.Controllers.Main.errorSessionAbsolute": "ドキュメント編集セッションが終了しました。 ページを再ロードしてください。",
   "VE.Controllers.Main.errorSessionIdle": "このドキュメントはかなり長い間編集されていませんでした。このページをリロードしてください。",

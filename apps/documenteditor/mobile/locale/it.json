@@ -66,7 +66,8 @@
     "textTableSize": "Dimensione della tabella",
     "textWithBlueLinks": "Con collegamento blu",
     "textWithPageNumbers": "Con numeri di pagina",
-    "txtNotUrl": "Questo campo dev'essere un URL nel formato \"http://www.example.com\""
+    "txtNotUrl": "Questo campo dev'essere un URL nel formato \"http://www.example.com\"",
+    "textRemovePicture": "Remove picture"
   },
   "Common": {
     "Collaboration": {
@@ -532,7 +533,6 @@
     "criticalErrorTitle": "Errore",
     "errorAccessDeny": "Stai cercando di eseguire un'azione per la quale non hai diritti.<br>Ti preghiamo di contattare il tuo amministratore.",
     "errorOpensource": "Usando la versione Community gratuita, puoi aprire i documenti solo per visualizzarli. Per accedere agli editor mobili sul web è richiesta una licenza commerciale.",
-    "errorProcessSaveResult": "Salvataggio fallito",
     "errorServerVersion": "La versione dell'editor è stata aggiornata. La pagina viene ricaricata per applicare tutti i cambiamenti.",
     "errorUpdateVersion": "La versione del file è stata cambiata. La pagina verrà ricaricata.",
     "leavePageText": "Hai dei cambiamenti non salvati. Premi 'Rimani sulla pagina' per attendere il salvataggio automatico. Premi 'Lascia la pagina' per scartare tutte le modifiche non salvate.",

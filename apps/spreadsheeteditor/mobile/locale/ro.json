@@ -87,7 +87,7 @@
     "textCopyCutPasteActions": "Comenzile de copiere, decupare și lipire",
     "textDoNotShowAgain": "Nu mai afișa",
     "textOk": "OK",
-    "txtWarnUrl": "Un clic pe acest link ar putea căuza daune dispozitivului și datelor dvs.<br>Sunteți sigur că doriți să continuați?",
+    "txtWarnUrl": "Accesarea acestui link poate dăuna dispozitivului sau datelor dvs. Această locație poate fi nesigură:<br>{0}<br>Sigur doriti sa continuati? ",
     "warnMergeLostData": "În celula îmbinată se afișează numai conținutul celulei din stânga sus.<br>Sunteți sigur că doriți să continuați?"
   },
   "Controller": {
@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Eroare",
       "errorAccessDeny": "Nu aveți dreptul să efectuați acțiunea pe care doriți.<br>Contactați administratorul dvs.",
       "errorOpensource": "În versiunea Community documentul este disponibil numai pentru vizualizare. Aveți nevoie de o licență comercială pentru accesarea editorului mobil web.",
-      "errorProcessSaveResult": "Salvarea a eșuat.",
       "errorServerVersion": "Editorul a fost actualizat. Pagina va fi reîmprospătată pentru a aplica această actualizare.",
       "errorUpdateVersion": "Versiunea fișierului s-a modificat. Pagina va fi reîmprospătată.",
       "leavePageText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
@@ -428,6 +427,7 @@
   "Statusbar": {
     "notcriticalErrorTitle": "Avertisment",
     "textCancel": "Revocare",
+    "textContinue": "Continuare",
     "textDelete": "Ștergere",
     "textDuplicate": "Dubluri",
     "textErrNameExists": "O foaie de calcul cu același nume există deja.",
@@ -448,7 +448,8 @@
     "textSheetName": "Numele foii",
     "textTabColor": "Culoare filă",
     "textUnhide": "Reafișare",
-    "textWarnDeleteSheet": "Foaie de calcul poate conține datele. Sigur doriți să continuați?"
+    "textWarnDeleteSheet": "Foaie de calcul poate conține datele. Sigur doriți să continuați?",
+    "warnAddSheetCsv": "Formatul CSV nu acceptă salvarea unui fișier cu mai multe foi de calcul. Numai foaia de calcul activă va fi salvată. Pentru a păstra toate foile, salvați fișierul într-un format diferit."
   },
   "Toolbar": {
     "btnRestartNow": "Repornire acum",
@@ -884,7 +885,8 @@
       "txtUk": "Ucraineană",
       "txtVi": "Vietnameză",
       "txtZh": "Chineză",
-      "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?"
+      "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?",
+      "warnDownloadCsv": "Formatul CSV nu acceptă salvarea unui fișier cu mai multe foi de calcul și a tuturor elementelor, cu excepția textului.<br>Pentru a salva ca CSV numai foaia selectată, apăsați OK.<br>Pentru a salva întreaga foaie de calcul și toate caracteristicile, faceți clic pe Anulare și selectați un alt format."
     }
   }
 }

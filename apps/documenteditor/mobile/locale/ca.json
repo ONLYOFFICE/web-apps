@@ -66,7 +66,8 @@
     "textWithBlueLinks": "Amb enllaços blaus",
     "textWithPageNumbers": "Amb números de pàgina",
     "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
-    "textDrawing": "Drawing"
+    "textDrawing": "Drawing",
+    "textRemovePicture": "Remove picture"
   },
   "Common": {
     "Collaboration": {
@@ -520,13 +521,12 @@
     "uploadImageTextText": "S'està carregant la imatge...",
     "uploadImageTitleText": "S'està carregant la imatge",
     "waitText": "Espera...",
-    "savingText": "Saving"
+    "savingText": "Submitting"
   },
   "Main": {
     "criticalErrorTitle": "Error",
     "errorAccessDeny": "No tens permís per realitzar aquesta acció. <br>Posa't en contacte amb l'administrador.",
     "errorOpensource": "Amb la versió gratuïta de la Comunitat, només pots obrir els documents en mode lectura. Per accedir als editors de web per a mòbils, cal una llicència comercial.",
-    "errorProcessSaveResult": "S'ha produït un error en desar.",
     "errorServerVersion": "S'ha actualitzat la versió de l'editor. Es tornarà a carregar la pàgina per aplicar els canvis.",
     "errorUpdateVersion": "S'ha canviat la versió del fitxer. La pàgina es tornarà a carregar.",
     "leavePageText": "Tens canvis sense desar. Fes clic a \"Mantingueu-vos en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Deixar aquesta pàgina\" per descartar tots els canvis no desats.",

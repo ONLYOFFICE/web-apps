@@ -206,7 +206,6 @@
   "VE.Controllers.Main.errorKeyExpire": "פג תוקף תיאור המפתח",
   "VE.Controllers.Main.errorLoadingFont": "הגופנים אינם נטענים.<br>נדרש ליצור קשר עם מנהל שרת המסמכים שלך.",
   "VE.Controllers.Main.errorPasswordIsNotCorrect": "הסיסמה שסופקה אינה נכונה. <br> נא לודא ש-CAPS LOCK כבוי ולהקפיד להשתמש באותיות רישיות נכונות.",
-  "VE.Controllers.Main.errorProcessSaveResult": "שמירה נכשלה.",
   "VE.Controllers.Main.errorServerVersion": "גרסת העורך עודכנה. הדף ייטען מחדש כדי להחיל את השינויים.",
   "VE.Controllers.Main.errorSessionAbsolute": "פג תוקפו של הפעלת עריכת המסמכים. נא לטעון מחדש את הדף.",
   "VE.Controllers.Main.errorSessionIdle": "המסמך לא נערך די הרבה זמן. נא לטעון מחדש את הדף.",

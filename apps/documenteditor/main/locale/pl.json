@@ -1005,7 +1005,6 @@
   "DE.Controllers.Main.errorMailMergeSaveFile": "Scalanie nie powiodło się.",
   "DE.Controllers.Main.errorNoTOC": "Brak spisu treści do aktualizacji. Możesz go wstawić z zakładki Odniesienia.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "Podane hasło jest nieprawidłowe.<br>Upewnij się, że klawisz CAPS LOCK jest wyłączony i użyj prawidłowej wielkości liter.",
-  "DE.Controllers.Main.errorProcessSaveResult": "Zapisywanie nie powiodło się.",
   "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "Wersja edytora została zaktualizowana. Strona zostanie ponownie załadowana, aby zastosować zmiany.",
   "DE.Controllers.Main.errorSessionAbsolute": "Sesja edycji dokumentu wygasła. Proszę ponownie załadować stronę.",
@@ -3956,5 +3955,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Półprzezroczysty",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podkreślenie",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nazwa czcionki",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Rozmiar czcionki"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Rozmiar czcionki",
+  "DE.Views.DocumentHolder.btnChart": "Add, remove or change chart elements such as the title, legend, gridlines, and data labels"
 }

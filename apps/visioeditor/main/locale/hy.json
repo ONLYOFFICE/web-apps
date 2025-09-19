@@ -206,7 +206,6 @@
   "VE.Controllers.Main.errorKeyExpire": "Բանալու նկարագրիչի ժամկետը սպառվել է",
   "VE.Controllers.Main.errorLoadingFont": "Տառատեսակները բեռնված չեն:<br>Խնդրում ենք կապվել ձեր փաստաթղթերի սերվերի ադմինիստրատորի հետ:",
   "VE.Controllers.Main.errorPasswordIsNotCorrect": "Ձեր տրամադրած գաղտնաբառը ճիշտ չէ:<br>Ստուգեք, որ CAPS LOCK ստեղնը անջատված է և օգտագործեք ճիշտ գլխատառացումը:",
-  "VE.Controllers.Main.errorProcessSaveResult": "Պահումը ձախողվել է:",
   "VE.Controllers.Main.errorServerVersion": "Խմբագրի տարբերակը թարմացվել է։ Որպեսզի փոփոխումները տեղի ունենան, էջը նորից կբեռնվի։",
   "VE.Controllers.Main.errorSessionAbsolute": "Փաստաթղթի խմբագրման գործաժամը սպառվել է։ Նորի՛ց բեռնեք էջը։",
   "VE.Controllers.Main.errorSessionIdle": "Փաստաթուղթը երկար ժամանակ չի խմբագրվել։ Նորի՛ց բեռնեք էջը։",

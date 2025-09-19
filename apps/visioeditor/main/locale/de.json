@@ -206,7 +206,6 @@
   "VE.Controllers.Main.errorKeyExpire": "Der Schlüsseldeskriptor ist abgelaufen",
   "VE.Controllers.Main.errorLoadingFont": "Schriftarten nicht hochgeladen.<br>Bitte wenden Sie sich an Administrator von Document Server.",
   "VE.Controllers.Main.errorPasswordIsNotCorrect": "Das eingegebene Kennwort ist ungültig.<br>Stellen Sie sicher, dass die FESTSTELLTASTE nicht aktiviert ist und dass Sie die korrekte Groß-/Kleinschreibung verwenden.",
-  "VE.Controllers.Main.errorProcessSaveResult": "Speichern ist fehlgeschlagen.",
   "VE.Controllers.Main.errorServerVersion": "Version des Editors wurde aktualisiert. Die Seite wird neu geladen, um die Änderungen zu übernehmen.",
   "VE.Controllers.Main.errorSessionAbsolute": "Die Bearbeitungssitzung des Dokumentes ist abgelaufen. Laden Sie bitte die Seite neu.",
   "VE.Controllers.Main.errorSessionIdle": "Das Dokument wurde lange nicht bearbeitet. Laden Sie die Seite neu.",

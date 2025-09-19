@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Erro",
       "errorAccessDeny": "Você está tentando realizar uma ação para a qual não possui direitos. <br> Por favor, entre em contato com o seu administrador.",
       "errorOpensource": "Usando a versão gratuita da Comunidade, você pode abrir documentos apenas para visualização. Para acessar editores da web móvel, é necessária uma licença comercial.",
-      "errorProcessSaveResult": "O salvamento falhou.",
       "errorServerVersion": "A versão do editor foi atualizada. A página será recarregada para aplicar as alterações.",
       "errorUpdateVersion": "A versão do arquivo foi alterada. A página será recarregada.",
       "leavePageText": "Você tem alterações não salvas neste documento. Clique em 'Permanecer nesta página' para aguardar o salvamento automático. Clique em 'Sair desta página' para descartar todas as alterações não salvas.",
@@ -428,6 +427,7 @@
   "Statusbar": {
     "notcriticalErrorTitle": "Aviso",
     "textCancel": "Cancelar",
+    "textContinue": "Continuar",
     "textDelete": "Excluir",
     "textDuplicate": "Duplicado",
     "textErrNameExists": "A folha de trabalho com este nome já existe.",
@@ -448,7 +448,8 @@
     "textSheetName": "Nome da folha",
     "textTabColor": "Cor da aba",
     "textUnhide": "Reexibir",
-    "textWarnDeleteSheet": "A folha de trabalho talvez tenha dados. Proceder à operação?"
+    "textWarnDeleteSheet": "A folha de trabalho talvez tenha dados. Proceder à operação?",
+    "warnAddSheetCsv": "O formato CSV não permite salvar um arquivo com várias planilhas. Somente a planilha ativa será salva. Para manter todas as planilhas, salve o arquivo em um formato diferente."
   },
   "Toolbar": {
     "btnRestartNow": "Reiniciar agora",
@@ -884,7 +885,8 @@
       "txtUk": "Ucraniano",
       "txtVi": "Vietnamita",
       "txtZh": "Chinês",
-      "warnDownloadAs": "Se você continuar salvando neste formato, todos os recursos com exceção do texto serão perdidos.<Br>Você tem certeza que quer continuar?"
+      "warnDownloadAs": "Se você continuar salvando neste formato, todos os recursos com exceção do texto serão perdidos.<Br>Você tem certeza que quer continuar?",
+      "warnDownloadCsv": "O formato CSV não suporta salvar um arquivo de várias planilhas e todos os elementos, exceto texto.<br>Para salvar apenas a planilha selecionada em CSV, pressione OK.<br>Para salvar a planilha inteira e todos os recursos, clique em Cancelar e selecione outro formato."
     }
   }
 }

@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Kesalahan",
       "errorAccessDeny": "Anda mencoba melakukan sesuatu yang tidak memiliki izin.<br>Silakan hubungi admin Anda.",
       "errorOpensource": "Menggunakan versi Komunitas gratis, Anda bisa membuka dokumen hanya untuk dilihat. Untuk mengakses editor web mobile, diperlukan lisensi komersial.",
-      "errorProcessSaveResult": "Penyimpanan gagal.",
       "errorServerVersion": "Versi editor sudah di update. Halaman akan dimuat ulang untuk menerapkan perubahan.",
       "errorUpdateVersion": "Versi file telah diubah. Halaman tidak akan dimuat ulang.",
       "leavePageText": "Ada perubahan yang belum disimpan dalam dokumen ini. Klik 'Tetap di Halaman Ini' untuk menunggu simpan otomatis. Klik ‘Tinggalkan Halaman Ini’ untuk membatalkan semua perubahan yang belum disimpan.",
@@ -448,7 +447,9 @@
     "textSheetName": "Nama Sheet",
     "textTabColor": "Warna Tab",
     "textUnhide": "Tidak Disembunyikan",
-    "textWarnDeleteSheet": "Lembar mungkin punya data. Lanjutkan operasi?"
+    "textWarnDeleteSheet": "Lembar mungkin punya data. Lanjutkan operasi?",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "btnRestartNow": "Restart sekarang",
@@ -884,7 +885,8 @@
       "txtUk": "Ukraina",
       "txtVi": "Vietnam",
       "txtZh": "China",
-      "warnDownloadAs": "Jika Anda lanjut simpan dengan format ini, semua fitur kecuali teks akan hilang.<br>Apakah Anda ingin melanjutkan?"
+      "warnDownloadAs": "Jika Anda lanjut simpan dengan format ini, semua fitur kecuali teks akan hilang.<br>Apakah Anda ingin melanjutkan?",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   }
 }

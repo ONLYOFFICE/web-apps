@@ -63,6 +63,7 @@
     "textDrawing": "Drawing",
     "textPasteImageUrl": "Paste an image URL",
     "textRecommended": "Recommended",
+    "textRemovePicture": "Remove picture",
     "textRequired": "Required",
     "textTableContents": "Table of Contents",
     "textWithBlueLinks": "With Blue Links",
@@ -227,7 +228,7 @@
     "menuEditLink": "Edit Link",
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?"
   },
   "Edit": {
     "notcriticalErrorTitle": "ເຕືອນ",
@@ -518,7 +519,7 @@
     "uploadImageTitleText": "ກໍາລັງອັບໂຫລດຮູບພາບ",
     "waitText": "ກະລຸນາລໍຖ້າ...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "savingText": "Saving",
+    "savingText": "Submitting",
     "textContinue": "Continue",
     "textUndo": "Undo"
   },
@@ -526,7 +527,6 @@
     "criticalErrorTitle": "ຂໍ້ຜິດພາດ",
     "errorAccessDeny": "ທ່ານກໍາລັງພະຍາຍາມດໍາເນີນການໃນໜ້າທີ່ທ່ານບໍ່ມີສິດສໍາລັບດໍາເນີນການ.<br>ກະລຸນາ, ຕິດຕໍ່ແອດມີນລະບົບຂອງທ່ານ.",
     "errorOpensource": "ການນໍາໃຊ້ສະບັບຟຣີ, ທ່ານສາມາດເປີດເອກະສານສໍາລັບການອ່ານເທົ່ານັ້ນ. ໃນການເຂົ້າເຖິງໂປຣແກຣມ, ຕ້ອງມີໃບອະນຸຍາດທາງການຄ້າ.",
-    "errorProcessSaveResult": "ບັນທຶກບຊ່ສຳເລັດ",
     "errorServerVersion": "ສະບັບດັດແກ້ໄດ້ຖືກປັບປຸງແລ້ວ. ໜ້າເວັບຈະຖືກໂຫລດຄືນເພື່ອນຳໃຊ້ການປ່ຽນແປງ.",
     "errorUpdateVersion": "ເອກະສານໄດ້ຖືກປ່ຽນແລ້ວ. ໜ້າເວັບຈະຖືກໂຫລດໃໝ່.",
     "leavePageText": "ທ່ານມີການປ່ຽນແປງທີ່ຍັງບໍ່ໄດ້ບັນທຶກໄວ້. ຄລິກທີ່ 'ຢູ່ໃນໜ້ານີ້' ເພື່ອລໍຖ້າການບັນທຶກອັດຕະໂນມັດ. ຄລິກ 'ອອກຈາກໜ້ານີ້' ເພື່ອຍົກເລີກການປ່ຽນແປງທີ່ບໍ່ໄດ້ບັນທຶກໄວ້ທັງໝົດ.",

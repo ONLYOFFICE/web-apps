@@ -40,7 +40,6 @@
       "criticalErrorTitle": "Greška",
       "errorAccessDeny": "Pokušavate da izvršite radnju za koju nemate prava.<br>Molimo, kontaktirajte svog administratora.",
       "errorOpensource": "Koristeći besplatnu Community verziju, možete otvarati dokumente samo za pregled. Da biste pristupili web uređivačima za mobilne uređaje, potrebna je komercijalna licenca.",
-      "errorProcessSaveResult": "Čuvanje neuspešno.",
       "errorServerVersion": "Verzija uređivača je ažurirana. Stranica će biti ponovo učitana da bi se primenile promene.",
       "errorUpdateVersion": "Verzija datoteke je promenjena. Stranica će biti ponovo učitana.",
       "leavePageText": "Imate nesačuvane promene u ovom dokumentu. Kliknite 'Ostanite na ovoj stranici' da biste sačekali automatsko čuvanje. Kliknite 'Napustite ovu stranicu' da biste odbacili sve nesačuvane promene.",

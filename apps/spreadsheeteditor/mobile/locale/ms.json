@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Ralat",
       "errorAccessDeny": "Anda sedang cuba untuk melakukan tindakan yang anda tidak mempunyai hak untuk.<br>Sila, hubungi pentadbir anda.",
       "errorOpensource": "Menggunakan versi percuma Community, anda boleh membuka dokumen untuk paparan sahaja. Untuk akses editor mobile web, lesen komersial diperlukan.",
-      "errorProcessSaveResult": "Telah gagal disimpan.",
       "errorServerVersion": "Versi editor telah dikemas kinikan. Halaman akan dimuat semula untuk menggunakan perubahan.",
       "errorUpdateVersion": "Versi fail telah berubah. Halaman akan dimuatkan semula.",
       "leavePageText": "Anda mempunyai perubahan yang tidak disimpan dalam dokumen ini. Klik 'Stay on this Page’ untuk menunggu autosimpan. Klik 'Leave this Page' untuk membuang semua perubahan yang tidak disimpan.",
@@ -442,7 +441,9 @@
     "textSheetName": "Nama Helaian",
     "textTabColor": "Warna Tab",
     "textUnhide": "Nyahsembunyi",
-    "textWarnDeleteSheet": "Lembaran kerja mungkin mempunyai data. Teruskan operasi?"
+    "textWarnDeleteSheet": "Lembaran kerja mungkin mempunyai data. Teruskan operasi?",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Anda mempunyai perubahan yang tidak disimpan dalam dokumen ini. Klik 'Stay on this Page’ untuk menunggu autosimpan. Klik 'Leave this Page' untuk membuang semua perubahan yang tidak disimpan.",
@@ -878,7 +879,8 @@
       "txtTr": "Turkish",
       "txtUk": "Ukrainian",
       "txtVi": "Vietnamese",
-      "txtZh": "Chinese"
+      "txtZh": "Chinese",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   },
   "Draw": {

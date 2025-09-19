@@ -1005,7 +1005,6 @@
   "DE.Controllers.Main.errorMailMergeSaveFile": "Sloučení se nezdařilo.",
   "DE.Controllers.Main.errorNoTOC": "Chybí obsah k aktualizaci. Obsah můžete vložit pomocí záložky Odkazy.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "Zadáno nesprávné heslo.<br> Zkontrolujte, že máte vypnutý CAPS LOCK a správnou velikosti písmen.",
-  "DE.Controllers.Main.errorProcessSaveResult": "Ukládání se nezdařilo.",
   "DE.Controllers.Main.errorSaveWatermark": "Tento soubor obsahuje vodoznak nad obrázkem odkazující na jinou doménou.<br>Chcete-li, aby byl vodoznak nad obrázkem v PDF viditelný, aktualizujte odkaz tak, aby odkazoval na stejnou doménu jako váš dokument, nebo jej nahrajte ze svého počítače.",
   "DE.Controllers.Main.errorServerVersion": "Verze editoru byla aktualizována. Stránka bude znovu načtena, aby se provedly změny.",
   "DE.Controllers.Main.errorSessionAbsolute": "Platnost relace upravování dokumentu skončila. Načtete stránku znovu.",
@@ -3956,5 +3955,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Poloprůhledné",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podtržené",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Název písma",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost písma"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost písma",
+  "DE.Views.DocumentHolder.btnChart": "Add, remove or change chart elements such as the title, legend, gridlines, and data labels"
 }

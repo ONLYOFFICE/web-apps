@@ -40,7 +40,6 @@
       "criticalErrorTitle": "Error",
       "errorAccessDeny": "Está intentando realizar una acción para la que no tiene derechos.<br>Por favor, contacte con su administrador.",
       "errorOpensource": "Utilizando la versión gratuita Community, puede abrir documentos sólo para visualizarlos. Para acceder a los editores web móviles, se requiere una licencia comercial.",
-      "errorProcessSaveResult": "Error al guardar.",
       "errorServerVersion": "La versión del editor se ha actualizado. La página se recargará para aplicar los cambios.",
       "errorUpdateVersion": "Se ha cambiado la versión del archivo. La página se actualizará.",
       "leavePageText": "Tiene cambios no guardados en este documento. Haga clic en \"Quedarse en esta página\" para esperar hasta que se guarden automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",

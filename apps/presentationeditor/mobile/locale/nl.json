@@ -83,7 +83,7 @@
     "textDoNotShowAgain": "Niet meer laten zien.",
     "textRows": "Rijen",
     "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -93,7 +93,6 @@
       "criticalErrorTitle": "Fout",
       "errorAccessDeny": "U probeert een actie uit te voeren waar u geen rechten voor heeft. <br>Neem contact op met uw beheerder.",
       "errorOpensource": "Met de gratis Community versie kunt u documenten openen om ze alleen te bekijken. Voor toegang tot mobiele webdocumentbewerkers is een commerciële licentie vereist.",
-      "errorProcessSaveResult": "Opslaan mislukt.",
       "errorServerVersion": "De versie van de editor is bijgewerkt. De pagina wordt opnieuw geladen om de wijzigingen toe te passen.",
       "errorUpdateVersion": "De bestandsversie is gewijzigd. De pagina wordt opnieuw geladen.",
       "leavePageText": "U hebt niet-opgeslagen wijzigingen in dit document. Klik op 'Blijf op deze pagina' om te wachten op automatisch opslaan. Klik op 'Verlaat deze pagina' om alle niet-opgeslagen wijzigingen te verwijderen.",

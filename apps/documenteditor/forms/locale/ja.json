@@ -164,6 +164,7 @@
   "DE.Controllers.ApplicationController.txtPressLink": "Ctrlを押しながらリンクをクリック",
   "DE.Controllers.ApplicationController.txtSignedForm": "この文書は署名されているため、編集することができません。",
   "DE.Controllers.ApplicationController.txtUntitled": "無題",
+  "DE.Controllers.ApplicationController.txtWarnUrl": "このリンクをクリックすると、デバイスやデータに害を及ぼす可能性があります。コンピューターを保護するために、信頼できるソースからのハイパーリンクのみをクリックしてください。この場所は安全でない可能性があります:<br><br>{0}<br><br>続行してもよろしいですか？",
   "DE.Controllers.ApplicationController.unknownErrorText": "不明なエラー",
   "DE.Controllers.ApplicationController.unsupportedBrowserErrorText": "お使いのブラウザはサポートされていません。",
   "DE.Controllers.ApplicationController.uploadImageExtMessage": "不明なイメージ形式です",

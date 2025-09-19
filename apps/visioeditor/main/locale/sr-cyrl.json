@@ -206,7 +206,6 @@
   "VE.Controllers.Main.errorKeyExpire": "Кључни опис истекао",
   "VE.Controllers.Main.errorLoadingFont": "Фонтови нису учитани.<br>Молимо контактирајте свог Документ Сервер администратора.",
   "VE.Controllers.Main.errorPasswordIsNotCorrect": "Лозинка коју сте снабдели није тачна.<br>Верификуј да је CAPS LOCK дугме искључено и будите сигурни да користите одговарајућу величину слова.",
-  "VE.Controllers.Main.errorProcessSaveResult": "Чување неуспешно.",
   "VE.Controllers.Main.errorServerVersion": "Верзија уређивача је ажурирана. Страница ће бити поново учитана да се примене промене.",
   "VE.Controllers.Main.errorSessionAbsolute": "Фаза уређивања документа је истекла. Молимо поново учитајте страницу.",
   "VE.Controllers.Main.errorSessionIdle": "Документ се није уређивао већ дуже време. Молимо поново учитајте страницу.",

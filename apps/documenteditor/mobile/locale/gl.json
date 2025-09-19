@@ -66,7 +66,8 @@
     "textWithPageNumbers": "Con números de páxina",
     "txtNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\"",
     "textDrawing": "Drawing",
-    "textPasteImageUrl": "Paste an image URL"
+    "textPasteImageUrl": "Paste an image URL",
+    "textRemovePicture": "Remove picture"
   },
   "Common": {
     "Collaboration": {
@@ -519,14 +520,13 @@
     "uploadImageTitleText": "Cargando imaxe",
     "waitText": "Agarde...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "savingText": "Saving",
+    "savingText": "Submitting",
     "textContinue": "Continue"
   },
   "Main": {
     "criticalErrorTitle": "Erro",
     "errorAccessDeny": "Está intentando realizar unha acción para a que non ten dereitos.<br>Por favor, póñase en contacto co seu administrador.",
     "errorOpensource": "Usando a versión gratuíta da Comunidade, pode abrir documentos só para visualización. Para acceder editores da web móbil é necesaria unha licenza comercial.",
-    "errorProcessSaveResult": "Erro ao gardar.",
     "errorServerVersion": "A versión do editor foi actualizada. A páxina será recargada para aplicar os cambios.",
     "errorUpdateVersion": "Cambiouse a versión do ficheiro. A páxina será actualizada.",
     "leavePageText": "Ten cambios sen gardar. Prema en \"Permanecer nesta páxina\" para esperar a que se garde automaticamente. Prema en \"Saír desta páxina\" para descartar todos os cambios non gardados.",

@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Սխալ",
       "errorAccessDeny": "Դուք փորձում եք կատարել գործողություն, որի համար իրավունք չունեք:<br>Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ:",
       "errorOpensource": "Օգտագործելով Համայնքի անվճար տարբերակը՝ կարող եք փաստաթղթեր բացել միայն դիտելու համար:Բջջային վեբ խմբագիրներ մուտք գործելու համար անհրաժեշտ է կոմերցիոն լիցենզիա:",
-      "errorProcessSaveResult": "Պահպանումը խափանվեց։",
       "errorServerVersion": "Խմբագրիչի տարբերակը արդիացվել է։ Որպեսզի փոփոխումները տեղի ունենան, էջը նորից կբեռնվի։",
       "errorUpdateVersion": "Ֆայլի տարբերակը փոխվել է։ Էջը նորից կբեռնվի։",
       "leavePageText": "Դուք այս փաստաթղթում չպահված փոփոխություններ ունեք:Սեղմեք «Մնալ այս էջում»՝ սպասելու ավտոմատ պահպանմանը:Սեղմեք «Լքել այս էջը»՝ չպահված բոլոր փոփոխությունները մերժելու համար:",
@@ -232,8 +231,11 @@
       "textUpdate": "Արդիացնել",
       "textWarnUpdateExternalData": "Այս աշխատանքային գիրքը պարունակում է հղումներ դեպի մեկ կամ մի քանի արտաքին աղբյուրներ, որոնք կարող են վտանգավոր լինել: Եթե ​​վստահում եք հղումներին, թարմացրեք դրանք՝ վերջին տվյալները ստանալու համար:",
       "textYes": "Այո",
+      "tipLicenseExceeded": "Փաստաթուղթը բացվել է միայն կարդալու ռեժիմով, քանի որ լիցենզիայի կողմից թույլատրելի միաժամանակյա միացումների առավելագույն քանակը հասել է սահմանին։<br><br>Խնդրում ենք փորձել կրկին ավելի ուշ կամ կապվել փաստաթղթի սեփականատիրոջ հետ, եթե անհրաժեշտ է խմբագրման հասանելիություն։",
+      "tipLicenseUsersExceeded": "Փաստաթուղթը բացվել է միայն կարդալու ռեժիմով, քանի որ լիցենզիայի կողմից թույլատրելի փաստաթղթեր խմբագրող օգտատերերի առավելագույն քանակը հասել է սահմանին։<br><br>Խնդրում ենք փորձել կրկին ավելի ուշ կամ կապվել փաստաթղթի սեփականատիրոջ հետ, եթե անհրաժեշտ է խմբագրման հասանելիություն։",
       "titleLicenseExp": "Թույլատրագրի ժամկետը սպառվել է",
       "titleLicenseNotActive": "Լիցենզիան ակտիվ չէ",
+      "titleReadOnly": "Միայն կարդալու ռեժիմ",
       "titleServerVersion": "Խմբագրիչը արդիացվել է",
       "titleUpdateVersion": "Տարբերակը փոխվել է",
       "warnLicenseAnonymous": "Մուտքն արգելված է անանուն օգտատերերի համար:<br>Այս փաստաթուղթը կբացվի միայն դիտելու համար:",
@@ -243,10 +245,7 @@
       "warnLicenseLimitedRenewed": "Լիցենզիան պետք է երկարաձգվի։Փաստաթղթերի խմբագրման գործառույթի հասանելիությունը սահմանափակ է:Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ՝ լիարժեք մուտք ստանալու համար․",
       "warnNoLicense": "Դուք հասել եք %1 խմբագիրների հետ միաժամանակյա միացումների սահմանաչափին:Այս փաստաթուղթը կբացվի միայն դիտելու համար:նձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
       "warnNoLicenseUsers": "Դուք հասել եք %1 խմբագիրների օգտվողի սահմանաչափին:Անձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
-      "warnProcessRightsChange": "Դուք ֆայլը խմբագրելու թույլտվություն չունեք:",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "Դուք ֆայլը խմբագրելու թույլտվություն չունեք:"
     }
   },
   "Draw": {
@@ -428,6 +427,7 @@
   "Statusbar": {
     "notcriticalErrorTitle": "Զգուշացում",
     "textCancel": "Չեղարկել",
+    "textContinue": "Շարունակել",
     "textDelete": "Ջնջել",
     "textDuplicate": "Կրկնօրինակել",
     "textErrNameExists": "Այս անունով աշխատաթերթ արդեն գոյություն ունի:",
@@ -448,7 +448,8 @@
     "textSheetName": "Թերթի անվանում",
     "textTabColor": "Սյունատի գույն",
     "textUnhide": "Ապաթաքցնել",
-    "textWarnDeleteSheet": "Աշխատաթերթը գուցե տվյալներ ունի:Շարունակե՞լ գործողությունը:"
+    "textWarnDeleteSheet": "Աշխատաթերթը գուցե տվյալներ ունի:Շարունակե՞լ գործողությունը:",
+    "warnAddSheetCsv": "CSV ֆորմատը չի աջակցում բազմաթերթ ֆայլ պահպանելուն։ Միայն ակտիվ թերթիկը կպահպանվի։ Ամբողջ թերթիկները պահելու համար, խնդրում ենք ֆայլը պահպանել այլ ֆորմատով։"
   },
   "Toolbar": {
     "btnRestartNow": "Վերագործարկել հիմա",
@@ -533,6 +534,8 @@
       "textAccounting": "Հաշվապահություն",
       "textActualSize": "Իրական չափ",
       "textAddCustomColor": "Հավելել նոր գույն",
+      "textAdditional": "Հավելյալ",
+      "textAdditionalFormatting": "Հավելյալ ձևաչափում",
       "textAddress": "Հասցե",
       "textAlign": "Հավասարեցնել",
       "textAlignBottom": "Հավասարեցնել ներքևում",
@@ -542,6 +545,7 @@
       "textAlignRight": "Հավասարեցնել աջից",
       "textAlignTop": "Հավասարեցնել վերևից",
       "textAllBorders": "Բոլոր եզրագծերը",
+      "textAllCaps": "Բոլորը մեծատառ",
       "textAngleClockwise": "Ժամասլաքի ուղղությամբ",
       "textAngleCounterclockwise": "Ժամասլաքի հակառակ ուղղությամբ",
       "textArrange": "Դասավորել",
@@ -552,6 +556,7 @@
       "textAxisPosition": "Առանցքի դիրք",
       "textAxisTitle": "Առանցքի անվանում",
       "textBack": "Հետ",
+      "textBaseline": "Հիմնագիծ",
       "textBetweenTickMarks": "Բաժանումների միջև",
       "textBillions": "Միլիարդ",
       "textBorder": "Եզրագիծ",
@@ -560,6 +565,7 @@
       "textBottomBorder": "Ստորին եզրագիծ",
       "textBringToForeground": "Բերել առջևք ",
       "textCancel": "Չեղարկել",
+      "textCapitalization": "Մեծատառերի օգտագործում",
       "textCell": "Վանդակ",
       "textCellStyle": "Վանդակի ոճ",
       "textCenter": "Կենտրոն",
@@ -589,6 +595,7 @@
       "textDisplayUnits": "Ցուցադրման միավորներ",
       "textDollar": "Դոլար",
       "textDone": "Պատրաստ է",
+      "textDoubleStrikethrough": "Կրկնակի վրագծում",
       "textEditLink": "Խմբագրել հղումը",
       "textEffects": "Էֆեկտներ",
       "textEmptyImgUrl": "Դուք պետք է նշեք պատկերի URL-ը:",
@@ -637,6 +644,7 @@
       "textLeftBorder": "Ձախ եզրագիծ",
       "textLeftOverlay": "Ձախ վերածածկ",
       "textLegend": "Պայմանանշան",
+      "textLetterSpacing": "Տառամիջոց",
       "textLink": "Հղում",
       "textLinkSettings": "Հղման կարգավորումներ",
       "textLinkType": "Հղման տեսակ",
@@ -694,7 +702,11 @@
       "textShape": "Պատկեր",
       "textSheet": "Թերթ",
       "textSize": "Չափ",
+      "textSmallCaps": "Փոքրատառեր",
+      "textStrikethrough": "Վրագծում",
       "textStyle": "Ոճ",
+      "textSubscript": "Ներքևի ինդեքս",
+      "textSuperscript": "Վերևի ինդեքս",
       "textTenMillions": "10 000 000",
       "textTenThousands": "10 000",
       "textText": "Տեքստ",
@@ -719,18 +731,7 @@
       "textYen": "Յուան",
       "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
       "txtSortHigh2Low": "Տեսակավորել բարձրից ցածր:",
-      "txtSortLow2High": "Տեսակավորել ցածրից բարձր:",
-      "textAdditional": "Additional",
-      "textAdditionalFormatting": "Additional formatting",
-      "textAllCaps": "All Caps",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textDoubleStrikethrough": "Double Strikethrough",
-      "textLetterSpacing": "Letter spacing",
-      "textSmallCaps": "Small Caps",
-      "textStrikethrough": "Strikethrough",
-      "textSubscript": "Subscript",
-      "textSuperscript": "Superscript"
+      "txtSortLow2High": "Տեսակավորել ցածրից բարձր:"
     },
     "Settings": {
       "advCSVOptions": "Ընտրել CSV-ի հարաչափերը",
@@ -884,7 +885,8 @@
       "txtUk": "ուկրաիներեն",
       "txtVi": "Վիետնամերեն",
       "txtZh": "Չինական",
-      "warnDownloadAs": "Եթե շարունակեք պահպանումն այս ձևաչափով, բոլոր հատկությունները՝ տեքստից բացի, կկորչեն։<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:"
+      "warnDownloadAs": "Եթե շարունակեք պահպանումն այս ձևաչափով, բոլոր հատկությունները՝ տեքստից բացի, կկորչեն։<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:",
+      "warnDownloadCsv": "CSV ֆորմատը չի աջակցում բազմաթերթ փաստաթուղթ պահպանելուն և բոլոր տարրերին, բացառությամբ տեքստի։<br>Մեկ թերթիկը միայն CSV ֆորմատով պահպանելու համար սեղմեք ԼԱՎ։<br>Ամբողջ աղյուսակն ու բոլոր ֆունկցիաները պահպանելու համար սեղմեք Չեղարկել և ընտրեք այլ ֆորմատ։"
     }
   }
 }

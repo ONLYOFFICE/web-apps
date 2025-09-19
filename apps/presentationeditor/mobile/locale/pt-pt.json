@@ -93,7 +93,6 @@
       "criticalErrorTitle": "Erro",
       "errorAccessDeny": "Está a tentar realizar uma ação para a qual não tem permissão.<br>Por favor, contacte o seu administrador.",
       "errorOpensource": "Com a versão comunitária gratuita, apenas pode abrir documentos para visualização. Para aceder aos editores web móvel, é necessária uma licença comercial.",
-      "errorProcessSaveResult": "Falha ao guardar.",
       "errorServerVersion": "A versão do editor foi atualizada. A página será recarregada para aplicar as alterações.",
       "errorUpdateVersion": "A versão do ficheiro foi alterada. A página será recarregada.",
       "leavePageText": "Este documento tem alterações não guardadas. Clique 'Ficar na página' para que o documento seja guardado automaticamente. Clique 'Sair da página' para rejeitar todas as alterações.",

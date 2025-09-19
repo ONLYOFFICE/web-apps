@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Error",
       "errorAccessDeny": "Está intentando realizar una acción para la que no tiene derechos. <br>Contacte con su administrador.",
       "errorOpensource": "Utilizando la versión gratuita Community, puede abrir documentos sólo para visualizarlos. Para acceder a los editores web móviles, se requiere una licencia comercial.",
-      "errorProcessSaveResult": "Error al guardar",
       "errorServerVersion": "La versión del editor ha sido actualizada. La página será recargada para aplicar los cambios.",
       "errorUpdateVersion": "Se ha cambiado la versión del archivo. La página será actualizada.",
       "leavePageText": "Tiene cambios no guardados en este documento. Haga clic en \"Quedarse en esta página\" para esperar hasta que se guarden automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
@@ -428,6 +427,7 @@
   "Statusbar": {
     "notcriticalErrorTitle": "Advertencia",
     "textCancel": "Cancelar",
+    "textContinue": "Continuar",
     "textDelete": "Eliminar",
     "textDuplicate": "Duplicar",
     "textErrNameExists": "La hoja con este nombre ya existe.",
@@ -448,7 +448,8 @@
     "textSheetName": "Nombre de hoja",
     "textTabColor": "Color de la pestaña",
     "textUnhide": "Volver a mostrar",
-    "textWarnDeleteSheet": "La hoja puede tener datos. ¿Continuar con la operación?"
+    "textWarnDeleteSheet": "La hoja puede tener datos. ¿Continuar con la operación?",
+    "warnAddSheetCsv": "El formato CSV no permite guardar un archivo de varias hojas. Solo se guardará la hoja activa. Para mantener todas las hojas, guarde el archivo en un formato diferente."
   },
   "Toolbar": {
     "btnRestartNow": "Reiniciar ahora",
@@ -884,7 +885,8 @@
       "txtUk": "Ucraniano",
       "txtVi": "Vietnamita",
       "txtZh": "Chino",
-      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?"
+      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?",
+      "warnDownloadCsv": "El formato CSV no permite guardar un archivo de varias hojas y todos los elementos, excepto el texto.<br>Para guardar solo la hoja seleccionada en CSV, pulse OK.<br>Para guardar toda la hoja de cálculo y todas las características, pulse Cancelar y seleccione otro formato."
     }
   }
 }

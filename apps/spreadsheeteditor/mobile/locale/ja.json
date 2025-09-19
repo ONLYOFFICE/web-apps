@@ -95,7 +95,6 @@
       "criticalErrorTitle": "エラー",
       "errorAccessDeny": "許可されていないアクションを実行しています。アドミニストレータを連絡してください。",
       "errorOpensource": "無料のコミュニティバージョンを使用すると、表示専用のドキュメントを開くことができます。モバイルWebエディターにアクセスするには、商用ライセンスが必要です。",
-      "errorProcessSaveResult": "保存が失敗",
       "errorServerVersion": "エディターのバージョンが更新されました。 変更を適用するために、ページが再読み込みされます。",
       "errorUpdateVersion": "ファイルのバージョンが変更されました。ページが再ロードされます。",
       "leavePageText": "保存されていない変更があります。自動保存を待つように「このページから移動しない」をクリックしてください。保存されていない変更を破棄ように「このページから移動する」をクリックしてください。",
@@ -428,6 +427,7 @@
   "Statusbar": {
     "notcriticalErrorTitle": " 警告",
     "textCancel": "キャンセル",
+    "textContinue": "続ける",
     "textDelete": "削除",
     "textDuplicate": "コピー",
     "textErrNameExists": "この名前のワークシートはすでに存在しています。",
@@ -448,7 +448,8 @@
     "textSheetName": "シート名",
     "textTabColor": "シート見出しの色",
     "textUnhide": "再表示",
-    "textWarnDeleteSheet": "選択したシートにはデータが含まれている可能性があります。続行してもよろしいですか？"
+    "textWarnDeleteSheet": "選択したシートにはデータが含まれている可能性があります。続行してもよろしいですか？",
+    "warnAddSheetCsv": "CSV形式では複数シートのファイルの保存をサポートしていません。アクティブなシートのみが保存されます。すべてのシートを保持するには、別の形式でファイルを保存してください。"
   },
   "Toolbar": {
     "btnRestartNow": "今すぐ再起動",
@@ -533,6 +534,8 @@
       "textAccounting": "会計",
       "textActualSize": "実際のサイズ",
       "textAddCustomColor": "カスタム色を追加する",
+      "textAdditional": "追加",
+      "textAdditionalFormatting": "追加の書式設定",
       "textAddress": "アドレス",
       "textAlign": "配置",
       "textAlignBottom": "下揃え",
@@ -542,6 +545,7 @@
       "textAlignRight": "右揃え",
       "textAlignTop": "上揃え",
       "textAllBorders": "すべての枠線",
+      "textAllCaps": "すべて大文字",
       "textAngleClockwise": "右回りに​​回転",
       "textAngleCounterclockwise": "左回りに​​回転",
       "textArrange": "整列",
@@ -552,6 +556,7 @@
       "textAxisPosition": "軸位置",
       "textAxisTitle": "軸の名",
       "textBack": "戻る",
+      "textBaseline": "ベースライン",
       "textBetweenTickMarks": "目盛の間",
       "textBillions": "十億",
       "textBorder": "境界線",
@@ -560,6 +565,7 @@
       "textBottomBorder": "下の枠線",
       "textBringToForeground": "最前面ヘ移動",
       "textCancel": "キャンセル",
+      "textCapitalization": "大文字表記",
       "textCell": "セル",
       "textCellStyle": "セルのスタイル",
       "textCenter": "中央揃え",
@@ -589,6 +595,7 @@
       "textDisplayUnits": "表示単位",
       "textDollar": "ドル",
       "textDone": "完了",
+      "textDoubleStrikethrough": "二重取り消し線",
       "textEditLink": "リンクを編集する",
       "textEffects": "効果",
       "textEmptyImgUrl": "イメージのURLを指定ことが必要です。",
@@ -637,6 +644,7 @@
       "textLeftBorder": "左の枠線",
       "textLeftOverlay": "左のオーバーレイ",
       "textLegend": "凡例​​",
+      "textLetterSpacing": "文字間隔",
       "textLink": "リンク",
       "textLinkSettings": "リンク設定",
       "textLinkType": "リンクのタイプ",
@@ -694,7 +702,11 @@
       "textShape": "図形",
       "textSheet": "シート",
       "textSize": "サイズ",
+      "textSmallCaps": "小型英大文字",
+      "textStrikethrough": "取り消し線",
       "textStyle": "スタイル",
+      "textSubscript": "下付き文字",
+      "textSuperscript": "上付き文字",
       "textTenMillions": "10,000,000",
       "textTenThousands": "10,000",
       "textText": "テキスト",
@@ -719,18 +731,7 @@
       "textYen": "円",
       "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
       "txtSortHigh2Low": " 大きい順に並べ替えます",
-      "txtSortLow2High": "小さい順に並べ替えます。",
-      "textAdditional": "Additional",
-      "textAdditionalFormatting": "Additional formatting",
-      "textAllCaps": "All Caps",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textDoubleStrikethrough": "Double Strikethrough",
-      "textLetterSpacing": "Letter spacing",
-      "textSmallCaps": "Small Caps",
-      "textStrikethrough": "Strikethrough",
-      "textSubscript": "Subscript",
-      "textSuperscript": "Superscript"
+      "txtSortLow2High": "小さい順に並べ替えます。"
     },
     "Settings": {
       "advCSVOptions": "CSVオプションを選択する",
@@ -884,7 +885,8 @@
       "txtUk": "ウクライナ語",
       "txtVi": "ベトナム語",
       "txtZh": "中国語",
-      "warnDownloadAs": "この形式で保存する続けば、テクスト除いて全てが失います。続けてもよろしいですか？"
+      "warnDownloadAs": "この形式で保存する続けば、テクスト除いて全てが失います。続けてもよろしいですか？",
+      "warnDownloadCsv": "CSV形式は複数シートファイルおよびテキスト以外のすべての要素の保存をサポートしていません。<br>選択したシートのみをCSVに保存するには、OKを押してください。<br>スプレッドシート全体とすべての機能を保存するには、キャンセルをクリックして別の形式を選"
     }
   }
 }

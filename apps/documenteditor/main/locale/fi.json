@@ -1005,7 +1005,6 @@
   "DE.Controllers.Main.errorMailMergeSaveFile": "Yhdistäminen epäonnistui.",
   "DE.Controllers.Main.errorNoTOC": "Ei ole sisällysluetteloa, jota päivittää. Voit luoda uuden luettelon Viittaukset-välilehdellä.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "Antamasi salasana on väärä.<br>Varmista, ettei CAPS LOCK ole päällä ja että käytät oikeaa kirjainkokoa.",
-  "DE.Controllers.Main.errorProcessSaveResult": "Tallennus epäonnistui.",
   "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "Editori on päivitetty. Sivu ladataan uudelleen, jotta muutokset voidaan tehdä.",
   "DE.Controllers.Main.errorSessionAbsolute": "Asiakirjan muokkauksen istunnon aika on erääntynyt. Ole hyvä ja lataa uudelleen sivu.",
@@ -3956,5 +3955,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Läpikuultava",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Alleviivaus",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fontti",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonttikoko"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonttikoko",
+  "DE.Views.DocumentHolder.btnChart": "Add, remove or change chart elements such as the title, legend, gridlines, and data labels"
 }

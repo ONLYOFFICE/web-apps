@@ -87,7 +87,7 @@
     "textCopyCutPasteActions": "Copy, Cut and Paste Actions",
     "textDoNotShowAgain": "Don't show again",
     "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?",
     "warnMergeLostData": "Only the data from the upper-left cell will remain in the merged cell. <br>Are you sure you want to continue?"
   },
   "Controller": {
@@ -96,7 +96,6 @@
       "criticalErrorTitle": "Error",
       "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please, contact your admin.",
       "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
-      "errorProcessSaveResult": "Saving is failed.",
       "errorServerVersion": "The editor version has been updated. The page will be reloaded to apply the changes.",
       "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
       "leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
@@ -424,6 +423,7 @@
     "textMoveToEnd": "(Przenieś do końca)",
     "textSheet": "Arkusz",
     "notcriticalErrorTitle": "Warning",
+    "textContinue": "Continue",
     "textDelete": "Delete",
     "textDuplicate": "Duplicate",
     "textErrNameExists": "Sheet with this name already exists.",
@@ -442,7 +442,8 @@
     "textSheetName": "Sheet Name",
     "textTabColor": "Tab Color",
     "textUnhide": "Unhide",
-    "textWarnDeleteSheet": "The sheet maybe has data. Proceed operation?"
+    "textWarnDeleteSheet": "The sheet maybe has data. Proceed operation?",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "View": {
     "Add": {
@@ -866,7 +867,8 @@
       "txtUk": "Ukrainian",
       "txtVi": "Vietnamese",
       "txtZh": "Chinese",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   },
   "Draw": {
