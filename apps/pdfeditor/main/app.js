@@ -151,6 +151,7 @@ require([
             'Common.Controllers.Comments',
             'Common.Controllers.Draw',
             'Common.Controllers.Plugins',
+            'Common.Controllers.ExternalLinks',
             'Common.Controllers.ExternalDiagramEditor',
             // 'Common.Controllers.ExternalOleEditor',
             'Common.Controllers.Protection'
@@ -187,6 +188,7 @@ require([
                 'common/main/lib/controller/Comments',
                 'common/main/lib/controller/Chat',
                 /** coauthoring end **/
+                'common/main/lib/controller/ExternalLinks',
                 'common/main/lib/controller/Plugins',
                 'common/main/lib/controller/ExternalDiagramEditor',
                 // 'common/main/lib/controller/ExternalOleEditor',

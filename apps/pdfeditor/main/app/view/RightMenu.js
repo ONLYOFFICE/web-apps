@@ -255,6 +255,7 @@ define([
             this.imageSettings && this.imageSettings.setMode(mode);
             this.shapeSettings && this.shapeSettings.setMode(mode);
             this.formSettings && this.formSettings.setMode(mode);
+            this.chartSettings && this.chartSettings.setMode(mode);
         },
 
         onBtnMenuClick: function(btn, e) {
