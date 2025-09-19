@@ -1480,7 +1480,7 @@ define([], function () {
         txtBe: 'Belarusian',
         txtBg: 'Bulgarian',
         txtCa: 'Catalan',
-        txtZh: 'Chinese',
+        txtZh: 'Chinese (Simplified)',
         txtCs: 'Czech',
         txtDa: 'Danish',
         txtNl: 'Dutch',
@@ -1548,7 +1548,8 @@ define([], function () {
         strTabStyle: 'Tab style',
         textFill: 'Fill',
         textLine: 'Line',
-        txtAppearance: 'Appearance'
+        txtAppearance: 'Appearance',
+        txtZhtw: 'Chinese (Traditional)'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
