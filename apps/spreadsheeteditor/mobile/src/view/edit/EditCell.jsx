@@ -1298,7 +1298,7 @@ const PageCellDirection = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const storeCellSettings = props.storeCellSettings;
-    const textDirection = storeCellSettings.textDirection ?? 1; 
+    const textDirection = storeCellSettings.textDirection ?? Asc.c_oReadingOrderTypes.LTR; 
 
     return (
         <Page>
@@ -1316,26 +1316,26 @@ const PageCellDirection = props => {
             </Navbar>
             <List>
                 <ListItem title={_t.textLtrTextDirection} radio
-                    checked={textDirection === 1}
+                    checked={textDirection === Asc.c_oReadingOrderTypes.LTR}
                     radioIcon="end"
                     onChange={() => {
-                        props.setRtlTextdDirection(1);
+                        props.setRtlTextdDirection(Asc.c_oReadingOrderTypes.LTR);
                     }}>
                     <SvgIcon slot="media" symbolId={IconTextDirectionLtr.id} className="icon icon-svg" />
                 </ListItem>
                 <ListItem title={_t.textRtlTextDirection} radio
-                    checked={textDirection === 2}
+                    checked={textDirection === Asc.c_oReadingOrderTypes.RTL}
                     radioIcon="end"
                     onChange={() => {
-                        props.setRtlTextdDirection(2);
+                        props.setRtlTextdDirection(Asc.c_oReadingOrderTypes.RTL);
                     }}>
                     <SvgIcon slot="media" symbolId={IconTextDirectionRtl.id} className="icon icon-svg" />
                 </ListItem>
                 <ListItem title={_t.textContextTextDirection} radio
-                    checked={textDirection === 0}
+                    checked={textDirection === Asc.c_oReadingOrderTypes.Context}
                     radioIcon="end"
                     onChange={() => {
-                        props.setRtlTextdDirection(0);
+                        props.setRtlTextdDirection(Asc.c_oReadingOrderTypes.Context);
                     }}>
                     <SvgIcon slot="media" symbolId={IconTextDirectionContext.id} className="icon icon-svg" />
                 </ListItem>

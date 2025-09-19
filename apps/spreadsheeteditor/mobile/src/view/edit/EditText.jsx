@@ -112,23 +112,21 @@ const EditText = props => {
                                 </a>
                             </div>
                         </ListItem>
-                        {shapeObject &&
-                        <>
-                            <ListItem title={t('View.Edit.textTextOrientation')} link='/edit-text-shape-orientation/' routeProps={{
+                        {shapeObject && [
+                            <ListItem key="orientation" title={t('View.Edit.textTextOrientation')} link='/edit-text-shape-orientation/' routeProps={{
                                 setOrientationTextShape: props.setOrientationTextShape,
                                 shapeObject
                             }}>
                                 {!isAndroid && <SvgIcon slot="media" symbolId={IconTextOrientationAnglecount.id} className={'icon icon-svg'} />}
-                            </ListItem>
-                            <ListItem title={_t.textTextDirection} link='/edit-text-direction/' routeProps={{
+                            </ListItem>,
+                            <ListItem key="direction" title={_t.textTextDirection} link='/edit-text-direction/' routeProps={{
                                 setRtlTextdDirection: props.setRtlTextdDirection
                             }}>
                                 {!isAndroid && 
                                     <SvgIcon slot="media" symbolId={textDirectionIcon[textDirection] ?? textDirectionIcon.default} className='icon icon-svg' />
                                 }
                             </ListItem>
-                        </>
-                        }
+                        ]}
                     </List>
                 </Fragment>
             ) : null}
@@ -439,14 +437,6 @@ const PageDirection = props => {
                     }}>
                     <SvgIcon slot="media" symbolId={IconTextDirectionRtl.id} className="icon icon-svg" />
                 </ListItem>
-                {/* <ListItem title={_t.textContextTextDirection} radio
-                    checked={textDirection === 0}
-                    radioIcon="end"
-                    onChange={() => {
-                        props.setRtlTextdDirection(0);
-                    }}>
-                    <SvgIcon slot="media" symbolId={IconTextDirectionContext.id} className="icon icon-svg" />
-                </ListItem> */}
             </List>
         </Page>
     )
