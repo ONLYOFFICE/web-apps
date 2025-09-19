@@ -141,8 +141,12 @@ const PageReviewChange = inject("storeAppOptions")(observer(props => {
     const isLockPrevNext = (displayMode === "final" || displayMode === "original");
     const appOptions = props.storeAppOptions;
     const isProtected = appOptions.isProtected;
-    const isDeleteShow = (props.isReviewOnly && change && change?.editable) && 
-        (!appOptions.isProtected || appOptions.typeProtection === Asc.c_oAscEDocProtect.TrackedChanges);
+    let isProtectedReview = appOptions.typeProtection === Asc.c_oAscEDocProtect.TrackedChanges;
+    let hint = !appOptions.canReview;
+
+    if (isProtected && !isProtectedReview) {
+        hint = true;
+    }
 
     return (
         <Page className='page-review'>
@@ -160,24 +164,33 @@ const PageReviewChange = inject("storeAppOptions")(observer(props => {
             </Navbar>
             <Toolbar position='bottom'>
                 <span className='change-buttons row'>
-                    {(!props.isReviewOnly && !isProtected) &&
-                        <span className='accept-reject row'>
-                            <Link id='btn-accept-change'
-                                  href='#'
-                                  className={(isLockAcceptReject) && 'disabled'}
-                                  onClick={() => {props.onAcceptCurrentChange()}}
-                            >{_t.textAccept}</Link>
-                            <Link id='btn-reject-change'
-                                  href='#'
-                                  className={(isLockAcceptReject) && 'disabled'}
-                                  onClick={() => {props.onRejectCurrentChange()}}
-                            >{_t.textReject}</Link>
-                        </span>
-                    }
-                    {(isDeleteShow) &&
-                        <span className='delete'>
-                            <Link href='#' id="btn-delete-change" onClick={() => {props.onDeleteChange()}}>{_t.textDelete}</Link>
-                        </span>
+                    {(!hint) &&
+                    <>
+                        {(props.isReviewOnly || isProtectedReview) ? (
+                            (change?.editable) && (
+                                <span className='delete'>
+                                    <Link href='#' id="btn-delete-change" onClick={() => {props.onDeleteChange()}}>{_t.textDelete}</Link>
+                                </span>
+                            )
+                        )
+                        : ((change?.editable) && (
+                        <>
+                            <span className='accept-reject row'>
+                                <Link id='btn-accept-change'
+                                    href='#'
+                                    className={(isLockAcceptReject) && 'disabled'}
+                                    onClick={() => {props.onAcceptCurrentChange()}}
+                                >{_t.textAccept}</Link>
+                                <Link id='btn-reject-change'
+                                    href='#'
+                                    className={(isLockAcceptReject) && 'disabled'}
+                                    onClick={() => {props.onRejectCurrentChange()}}
+                                >{_t.textReject}</Link>
+                            </span>
+                        </>
+                        ))
+                        }
+                    </>                        
                     }
                     {props.goto && <Link href='#' id='btn-goto-change' onClick={() => {props.onGotoNextChange()}}>
                             {Device.ios ? 
