@@ -487,6 +487,11 @@ define([
             this.btnNext.setDisabled(disable);
         },
 
+        disableRedactButtons: function (disable) {
+            this.btnMark.setDisabled(disable.current)
+            this.btnMarkAll.setDisabled(disable.all)
+        },
+
         disableReplaceButtons: function (disable) {
             this.btnReplace.setDisabled(disable);
             this.btnReplaceAll.setDisabled(disable);

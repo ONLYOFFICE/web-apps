@@ -308,6 +308,7 @@ define([
             if (this.view) {
                 this.view.updateResultsNumber(current, all);
                 this.view.disableNavButtons(current, all);
+                this.view.disableRedactButtons(this.api.asc_GetRedactSearchInfo(current))
                 if (this.resultItems && this.resultItems.length > 0) {
                     this.resultItems.forEach(function (item) {
                         item.selected = false;
