@@ -1206,10 +1206,9 @@ define([], function () {
             legendMenu.items[4].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.leftOverlay);
             legendMenu.items[5].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.rightOverlay);
 
-            const supportedElements = chartElementMap[type] || chartElementMap[45] || [];
-            
+            const supportedElements = chartElementMap[type] || [];
             menu.items.forEach(function(item) {
-                item.setDisabled(supportedElements.indexOf(item.value) === -1);
+                item.setVisible(supportedElements.includes(item.value));
             });
         };
 
