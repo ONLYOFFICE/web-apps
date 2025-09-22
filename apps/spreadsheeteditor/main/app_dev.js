@@ -135,6 +135,7 @@ require([
             'PivotTable',
             'DataTab',
             'ViewTab',
+            'TableDesignTab',
             'Search',
             'WBProtection',
             'Common.Controllers.Fonts',
@@ -142,6 +143,7 @@ require([
             'Common.Controllers.Chat',
             'Common.Controllers.Comments',
             'Common.Controllers.Draw',
+            'Common.Controllers.ExternalLinks',
             'Common.Controllers.Plugins'
             ,'Common.Controllers.ExternalOleEditor'
             ,'Common.Controllers.ReviewChanges'
@@ -172,6 +174,7 @@ require([
             'spreadsheeteditor/main/app/controller/PivotTable',
             'spreadsheeteditor/main/app/controller/DataTab',
             'spreadsheeteditor/main/app/controller/ViewTab',
+            'spreadsheeteditor/main/app/controller/TableDesignTab',
             'spreadsheeteditor/main/app/controller/Search',
             'spreadsheeteditor/main/app/controller/WBProtection',
             // 'spreadsheeteditor/main/app/view/ParagraphSettings',
@@ -187,6 +190,7 @@ require([
             'common/main/lib/controller/History',
             'common/main/lib/controller/Comments',
             'common/main/lib/controller/Chat',
+            'common/main/lib/controller/ExternalLinks',
             'common/main/lib/controller/Plugins'
             ,'common/main/lib/controller/ExternalOleEditor'
             ,'common/main/lib/controller/ReviewChanges'
@@ -220,6 +224,8 @@ require([
                 'common/main/lib/util/define',
                 'common/main/lib/view/SignDialog',
                 'common/main/lib/view/SignSettingsDialog',
+                'common/main/lib/view/ExternalLinksDlg',
+                'common/main/lib/view/FormatSettingsDialog',
                 'common/main/lib/view/DocumentPropertyDialog',
                 'common/main/lib/view/MacrosDialog',
                 'common/main/lib/view/MacrosAiDialog',
@@ -236,7 +242,6 @@ require([
                 'spreadsheeteditor/main/app/view/ViewManagerDlg',
                 'spreadsheeteditor/main/app/view/ChartDataDialog',
                 'spreadsheeteditor/main/app/view/ChartTypeDialog',
-                'spreadsheeteditor/main/app/view/ExternalLinksDlg',
                 'spreadsheeteditor/main/app/view/FormatRulesEditDlg',
                 'spreadsheeteditor/main/app/view/FormatRulesManagerDlg',
                 'spreadsheeteditor/main/app/view/MacroDialog',
@@ -250,7 +255,6 @@ require([
                 'spreadsheeteditor/main/app/view/SlicerAddDialog',
                 'spreadsheeteditor/main/app/view/Spellcheck',
                 'spreadsheeteditor/main/app/view/WatchDialog',
-                'spreadsheeteditor/main/app/view/FormatSettingsDialog',
                 'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
                 'spreadsheeteditor/main/app/view/SpecialPasteDialog',
                 'spreadsheeteditor/main/app/view/FieldSettingsDialog',

@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Kļūda",
       "errorAccessDeny": "Jūs mēģināt veikt darbību, kuru nedrīkstat veikt.<br>Sazinieties ar savu administratoru.",
       "errorOpensource": "Izmantojot bezmaksas kopienas versiju, varat atvērt dokumentus tikai apskatei. Lai piekļūtu mobilā tīmekļa redaktoriem, ir nepieciešama komerciāla licence.",
-      "errorProcessSaveResult": "Saglabāšana neizdevās.",
       "errorServerVersion": "Redaktora versija ir atjaunināta. Lapa tiks pārlādēta, lai piemērotu izmaiņas.",
       "errorUpdateVersion": "Faila versija ir mainīta. Lapa tiks atkārtoti ielādēta.",
       "leavePageText": "Šajā dokumentā ir nesaglabātas izmaiņas. Noklikšķiniet uz 'Palikt šajā lapā', lai gaidītu automātisko saglabāšanu. Noklikšķiniet uz 'Pamest lapu', lai atmestu visas nesaglabātās izmaiņas.",
@@ -123,11 +122,9 @@
       "titleLicenseExp": "Licencei ir beidzies termiņš",
       "titleServerVersion": "Atjaunināts redaktors",
       "titleUpdateVersion": "Versija mainīta",
-      "warnLicenseExceeded": "Jūs sasniedzāt vienlaicīgu savienojumu ierobežojumu ar %1 redaktoriem. Šis dokuments tiks atvērts tikai skatīšanai. Sazinieties ar savu administratoru, lai uzzinātu vairāk.",
       "warnLicenseExp": "Jūsu licencei ir beidzies derīguma termiņš. Atjauniniet savu licenci un atsvaidziniet lapu.",
       "warnLicenseLimitedNoAccess": "Licencei ir beidzies termiņš. Jums nav piekļuves dokumentu rediģēšanas funkcijai. Sazinieties ar savu administratoru.",
       "warnLicenseLimitedRenewed": "Licence ir jāatjauno. Jums ir ierobežota piekļuve dokumentu rediģēšanas funkcionalitātei.<br>Sazinieties ar savu administratoru, lai iegūtu pilnu piekļuvi",
-      "warnLicenseUsersExceeded": "Jūs sasniedzāt %1 redaktoru lietotāju ierobežojumu. Sazinieties ar savu administratoru, lai uzzinātu vairāk.",
       "warnNoLicense": "Jūs sasniedzāt vienlaicīgu savienojumu ierobežojumu ar %1 redaktoriem. Šis dokuments tiks atvērts tikai skatīšanai. Sazinieties ar %1 pārdošanas komandu, lai uzzinātu personīgos jaunināšanas noteikumus.",
       "warnNoLicenseUsers": "Jūs sasniedzāt %1 redaktoru lietotāju ierobežojumu. Sazinieties ar %1 pārdošanas komandu, lai uzzinātu personīgos jaunināšanas noteikumus.",
       "warnProcessRightsChange": "Jums nav atļaujas rediģēt failu.",
@@ -243,7 +240,10 @@
         "Your text here": "Your text here"
       },
       "textNoLicenseTitle": "License limit reached",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
       "titleLicenseNotActive": "License not active",
+      "titleReadOnly": "Read-Only Mode",
       "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
@@ -441,7 +441,9 @@
     "textSheetName": "Lapas nosaukums",
     "textTabColor": "Cilnes krāsa",
     "textUnhide": "Rādīt",
-    "textWarnDeleteSheet": "Varbūt darblapā ir dati. Vai turpināt operāciju?"
+    "textWarnDeleteSheet": "Varbūt darblapā ir dati. Vai turpināt operāciju?",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Šajā dokumentā ir nesaglabātas izmaiņas. Noklikšķiniet uz Palikt šajā lapā, lai gaidītu automātisko saglabāšanu. Noklikšķiniet uz 'Pamest lapu', lai atmestu visas nesaglabātās izmaiņas.",
@@ -709,10 +711,21 @@
       "txtNotUrl": "Šim laukam ir jābūt URL formātā \"http://www.example.com\"",
       "txtSortHigh2Low": "Šķirot no augstākā uz zemāko",
       "txtSortLow2High": "Šķirot no zemākā uz augstāko",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textAllCaps": "All Caps",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
       "textCreateCustomFormat": "Create Custom Format",
       "textCreateFormat": "Create Format",
+      "textDoubleStrikethrough": "Double Strikethrough",
       "textEnterFormat": "Enter Format",
-      "textInvalidName": "The file name cannot contain any of the following characters: "
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textLetterSpacing": "Letter spacing",
+      "textSmallCaps": "Small Caps",
+      "textStrikethrough": "Strikethrough",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript"
     },
     "Settings": {
       "advCSVOptions": "Izvēlēties CSV parametrus",
@@ -866,7 +879,8 @@
       "textLight": "Light",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
-      "txtDe": "German"
+      "txtDe": "German",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   },
   "Draw": {

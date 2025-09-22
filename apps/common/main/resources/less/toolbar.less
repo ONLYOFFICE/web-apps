@@ -47,11 +47,13 @@
         }
     }
 
-    .box-tabs {
-        padding-left: @border-radius-toolbar-ie;
-        padding-left: @border-radius-toolbar;
-        padding-right: @border-radius-toolbar-ie;
-        padding-right: @border-radius-toolbar;
+    .box-tabs{
+        .top-title & {
+            padding-left: @border-radius-toolbar-ie;
+            padding-left: @border-radius-toolbar;
+            padding-right: @border-radius-toolbar-ie;
+            padding-right: @border-radius-toolbar;
+        }
     }
 
     .ribtab {
@@ -96,8 +98,10 @@
 
         display: flex;
         align-items: stretch;
-        position: relative;
-        z-index: 1;
+        &:not(.z-clear *) {
+            position: relative;
+            z-index: 1;
+        }
 
         .extra {
             .header-background-color();
@@ -1275,11 +1279,12 @@ section .field-styles {
 }
 
 .toolbar,
-#special-paste-container {
+#special-paste-container,
+#chart-element-container {
     .btn-group,
     .btn-toolbar {
         .pixel-ratio__2_5 & {
-            display: flex;
+            display: inline-flex;
             align-items: center;
         }
     }

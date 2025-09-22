@@ -51,7 +51,7 @@ define([
     var LoadingDocument = -256,
         maxPages = 0,
         labelDocName,
-        _submitFail,
+        _submitFail = true,
         screenTip,
         mouseMoveData = null,
         isTooltipHiding = false,
@@ -83,7 +83,8 @@ define([
                 weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
             });
 
-            this._state = {isDisconnected: false, licenseType: false, isDocModified: false};
+            this._state = {isDisconnected: false, licenseType: false, isDocModified: false, isFormDisconnected: false};
+            this._isDisabled = false;
 
             this.view = this.createView('ApplicationView').render();
 
@@ -142,6 +143,7 @@ define([
                 this.api.asc_registerCallback('asc_onCurrentPage',           this.onCurrentPage.bind(this));
                 this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
                 this.api.asc_registerCallback('asc_onZoomChange',           this.onApiZoomChange.bind(this));
+                this.api.asc_registerCallback('asc_onDisconnectEveryone',    _.bind(this.onDisconnectEveryone, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiServerDisconnect, this));
 
@@ -196,8 +198,6 @@ define([
             this.warnNoLicense  = this.warnNoLicense.replace(/%1/g, '{{COMPANY_NAME}}');
             this.warnNoLicenseUsers = this.warnNoLicenseUsers.replace(/%1/g, '{{COMPANY_NAME}}');
             this.textNoLicenseTitle = this.textNoLicenseTitle.replace(/%1/g, '{{COMPANY_NAME}}');
-            this.warnLicenseExceeded = this.warnLicenseExceeded.replace(/%1/g, '{{COMPANY_NAME}}');
-            this.warnLicenseUsersExceeded = this.warnLicenseUsersExceeded.replace(/%1/g, '{{COMPANY_NAME}}');
         },
 
         onDocumentResize: function() {
@@ -662,7 +662,8 @@ define([
 
             var type = /^(?:(pdf))$/.exec(this.document.fileType); // can fill forms only in pdf format
             this.appOptions.isOFORM = !!(type && typeof type[1] === 'string');
-            this.appOptions.canFillForms   = this.appOptions.canLicense && this.appOptions.isOFORM && ((this.permissions.fillForms===undefined) ? (this.permissions.edit !== false) : this.permissions.fillForms) && (this.editorConfig.mode !== 'view');
+            this.appOptions.canFillForms = this.appOptions.canLicense && this.appOptions.isOFORM && ((this.permissions.fillForms===undefined) ? (this.permissions.edit !== false) : this.permissions.fillForms) &&
+                                           (this.editorConfig.mode !== 'view') && !this._state.isFormDisconnected;
             this.api.asc_setViewMode(!this.appOptions.canFillForms);
 
             this.appOptions.canBranding  = params.asc_getCustomization();
@@ -771,6 +772,11 @@ define([
                     Common.Gateway.requestClose();
                 });
             }
+
+            if (this.appOptions.canFillForms) {
+                this.api.asc_registerCallback('asc_onUpdateSignatures', _.bind(this.onApiUpdateSignatures, this));
+            }
+
             this._isPermissionsInited = true;
             this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
             this.api.asc_LoadDocument();
@@ -800,7 +806,7 @@ define([
         },
 
         onUpdateVersion: function(callback) {
-            console.log("Obsolete: The 'onOutdatedVersion' event is deprecated. Please use 'onRequestRefreshFile' event and 'refreshFile' method instead.");
+            this.editorConfig && this.editorConfig.canUpdateVersion && console.log("Obsolete: The 'onOutdatedVersion' event is deprecated. Please use 'onRequestRefreshFile' event and 'refreshFile' method instead.");
 
             var me = this;
             me.needToUpdateVersion = true;
@@ -841,17 +847,21 @@ define([
                 });
             } else if (this._state.licenseType) {
                 var license = this._state.licenseType,
+                    title = this.textNoLicenseTitle,
                     buttons = ['ok'],
-                    primary = 'ok';
+                    primary = 'ok',
+                    modal = false;
                 if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
                     (license===Asc.c_oLicenseResult.SuccessLimit || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
                     license = this.warnLicenseLimitedRenewed;
                 } else if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
-                    license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
+                    title = this.titleReadOnly;
+                    license = (license===Asc.c_oLicenseResult.Connections) ? this.tipLicenseExceeded : this.tipLicenseUsersExceeded;
                 } else {
                     license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
                     buttons = [{value: 'buynow', caption: this.textBuyNow}, {value: 'contact', caption: this.textContactUs}];
                     primary = 'buynow';
+                    modal = true;
                 }
 
                 if (this._state.licenseType!==Asc.c_oLicenseResult.SuccessLimit && this.appOptions.canFillForms) {
@@ -859,25 +869,21 @@ define([
                     Common.NotificationCenter.trigger('api:disconnect');
                 }
 
-                var value = Common.localStorage.getItem("de-license-warning");
-                value = (value!==null) ? parseInt(value) : 0;
-                var now = (new Date).getTime();
-                if (now - value > 86400000) {
-                    Common.UI.info({
-                        maxwidth: 500,
-                        title: this.textNoLicenseTitle,
-                        msg  : license,
-                        buttons: buttons,
-                        primary: primary,
-                        callback: function(btn) {
-                            Common.localStorage.setItem("de-license-warning", now);
-                            if (btn == 'buynow')
-                                window.open('{{PUBLISHER_URL}}', "_blank");
-                            else if (btn == 'contact')
-                                window.open('mailto:{{SALES_EMAIL}}', "_blank");
-                        }
-                    });
-                }
+                !modal ? Common.UI.TooltipManager.showTip({ step: 'licenseError', text: license, header: title, target: '#toolbar', maxwidth: 430,
+                        automove: true, noHighlight: true, textButton: this.textContinue}) :
+                Common.UI.info({
+                    maxwidth: 500,
+                    title: title,
+                    msg  : license,
+                    buttons: buttons,
+                    primary: primary,
+                    callback: function(btn) {
+                        if (btn == 'buynow')
+                            window.open('{{PUBLISHER_URL}}', "_blank");
+                        else if (btn == 'contact')
+                            window.open('mailto:{{SALES_EMAIL}}', "_blank");
+                    }
+                });
             }
         },
 
@@ -893,7 +899,7 @@ define([
                 if (value.logo.image || value.logo.imageDark || value.logo.imageLight) {
                     _logoImage = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image || value.logo.imageLight) :
                                                                  (value.logo.imageLight || value.logo.image || value.logo.imageDark);
-                    logo.html('<img src="' + _logoImage + '" style="max-width:100px; max-height:20px;"/>');
+                    logo.html('<img src="' + _logoImage + '" style="max-width:300px; max-height:20px;"/>');
                     logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
                 }
 
@@ -922,7 +928,7 @@ define([
                     _submitFail = false;
                     text = this.savingText;
                     this.submitedTooltip && this.submitedTooltip.hide();
-                    this.view.btnSubmit.setDisabled(true);
+                    this.view.btnSubmit.setDisabled(!_submitFail || this._state.hasForm);
                     this.view.btnSubmit.cmpEl.css("pointer-events", "none");
                     this.disableFillingForms(true);
                     break;
@@ -955,7 +961,7 @@ define([
              action ? this.setLongActionView(action) : this.loadMask && this.loadMask.hide();
 
              if (id==Asc.c_oAscAsyncAction['Submit']) {
-                 this.view.btnSubmit.setDisabled(!_submitFail);
+                 this.view.btnSubmit.setDisabled(!_submitFail || this._state.hasForm);
                  this.view.btnSubmit.cmpEl.css("pointer-events", "auto");
                 if (!_submitFail) {
                     Common.Gateway.submitForm();
@@ -1216,8 +1222,28 @@ define([
         },
 
         onHyperlinkClick: function(url) {
-            if (url /*&& me.api.asc_getUrlType(url)>0*/) {
-                window.open(url);
+            if (url) {
+                var type = this.api.asc_getUrlType(url);
+                if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email)
+                    window.open(url);
+                else {
+                    var me = this;
+                    setTimeout(function() {
+                        Common.UI.warning({
+                            maxwidth: 500,
+                            msg: Common.Utils.String.format(me.txtWarnUrl, url),
+                            buttons: ['no', 'yes'],
+                            primary: 'no',
+                            callback: function(btn) {
+                                try {
+                                    (btn == 'yes') && window.open(url);
+                                } catch (err) {
+                                    err && console.log(err.stack);
+                                }
+                            }
+                        });
+                    }, 1);
+                }
             }
         },
 
@@ -1599,6 +1625,8 @@ define([
                 Common.Gateway.on('insertimage',        _.bind(this.insertImage, this));
                 Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this)); // try to load image from storage
                 Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this)); // set loaded image to control
+
+                this.showSignatureTooltip(this.api.asc_getSignatures());
             }
             DE.getController('Plugins').setApi(this.api);
             DE.getController('SearchBar').setApi(this.api);
@@ -2104,7 +2132,7 @@ define([
 
         disableFillingForms: function(state) {
             this._isDisabled = state;
-            this.view && this.view.btnClear && this.view.btnClear.setDisabled(state);
+            this.view && this.view.btnClear && this.view.btnClear.setDisabled(state || this._state.hasForm);
             this.view && this.view.btnUndo && this.view.btnUndo.setDisabled(state || !this.api.asc_getCanUndo());
             this.view && this.view.btnRedo && this.view.btnRedo.setDisabled(state || !this.api.asc_getCanRedo());
             if (this.view && this.view.btnOptions && this.view.btnOptions.menu) {
@@ -2182,6 +2210,7 @@ define([
 
         onRequestRefreshFile: function() {
             Common.Gateway.requestRefreshFile();
+            console.log('Trying to refresh file');
         },
 
         onRefreshFile: function(data) {
@@ -2235,6 +2264,41 @@ define([
             }
         },
 
+        onDisconnectEveryone: function() {
+            this._state.isFormDisconnected = true;
+            if (this.appOptions) this.appOptions.canFillForms = false;
+            this.showFillingForms(false); // hide filling forms
+            Common.UI.warning({
+                msg  : this.warnStartFilling,
+                buttons: ['ok']
+            });
+        },
+
+        onApiUpdateSignatures: function(valid, requested){
+            if (!this._isDocReady) return;
+
+            this.showSignatureTooltip(valid);
+        },
+
+        showSignatureTooltip: function(valid) {
+            if (!this.view) return;
+
+            var hasForm = false;
+            valid && _.each(valid, function(item, index){
+                item.asc_getIsForm() && (hasForm = true);
+            });
+
+            if (!hasForm)
+                Common.UI.TooltipManager.closeTip('formSigned');
+            else
+                Common.UI.TooltipManager.showTip({ step: 'formSigned', text: this.txtSignedForm, target: '#toolbar', showButton: false,
+                                                        maxwidth: 'none', closable: true, automove: true, noHighlight: true});
+
+            this.view.btnClear && this.view.btnClear.setDisabled(this._isDisabled || hasForm);
+            this.view.btnSubmit && this.view.btnSubmit.setDisabled(!_submitFail || hasForm);
+            this._state.hasForm = hasForm;
+        },
+
         onEditComplete: function() {
             var me = this;
             me.boxSdk && _.defer(function(){  me.boxSdk.focus(); }, 50);
@@ -2276,8 +2340,6 @@ define([
         errorUpdateVersion: 'The file version has been changed. The page will be reloaded.',
         warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
         warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
-        warnLicenseExceeded: "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact your administrator to learn more.",
-        warnLicenseUsersExceeded: "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
         warnNoLicense: "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact %1 sales team for personal upgrade terms.",
         warnNoLicenseUsers: "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
         textBuyNow: 'Visit website',
@@ -2322,7 +2384,12 @@ define([
         warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
         textSubmitOk: 'Your PDF form has been saved in the Complete section. You can fill out this form again and send another result.',
         textFilled: 'Filled',
-        savingText: 'Saving'
+        savingText: 'Saving',
+        tipLicenseExceeded: 'The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.',
+        tipLicenseUsersExceeded: 'The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.',
+        titleReadOnly: 'Read-Only Mode',
+        textContinue: 'Continue',
+        txtSignedForm: 'This document has been signed and cannot be edited.',
 
     }, DE.Controllers.ApplicationController));
 });

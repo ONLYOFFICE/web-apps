@@ -95,7 +95,6 @@
       "criticalErrorTitle": "エラー",
       "errorAccessDeny": "許可されていないアクションを実行しています。アドミニストレータを連絡してください。",
       "errorOpensource": "無料のコミュニティバージョンを使用すると、表示専用のドキュメントを開くことができます。モバイルWebエディターにアクセスするには、商用ライセンスが必要です。",
-      "errorProcessSaveResult": "保存が失敗",
       "errorServerVersion": "エディターのバージョンが更新されました。 変更を適用するために、ページが再読み込みされます。",
       "errorUpdateVersion": "ファイルのバージョンが変更されました。ページが再ロードされます。",
       "leavePageText": "保存されていない変更があります。自動保存を待つように「このページから移動しない」をクリックしてください。保存されていない変更を破棄ように「このページから移動する」をクリックしてください。",
@@ -232,17 +231,18 @@
       "textUpdate": "更新",
       "textWarnUpdateExternalData": "このワークブックには、安全でない可能性のある1つまたは複数の外部リンクが含まれています。リンクを信頼する場合は、最新のデータを取得するためにそれらを更新してください。",
       "textYes": "はい",
+      "tipLicenseExceeded": "このドキュメントは、ライセンスによって許可される同時接続の最大数に達したため、閲覧専用モードで開かれています。<br><br>後ほど再試行するか、編集アクセスが必要な場合はドキュメント所有者までご連絡ください。",
+      "tipLicenseUsersExceeded": "ライセンスで許可されている編集可能なユーザー数の上限に達したため、ドキュメントは閲覧専用モードで開かれています。<br><br>後ほど再度お試しいただくか、編集アクセスが必要な場合はドキュメントの所有者にお問い合わせください。",
       "titleLicenseExp": "ライセンスの有効期限が切れています",
       "titleLicenseNotActive": "ライセンスが無効になっています",
+      "titleReadOnly": "閲覧専用モード",
       "titleServerVersion": "編集者が更新された",
       "titleUpdateVersion": "バージョンが変更されました",
       "warnLicenseAnonymous": "匿名ユーザーのアクセスは拒否されます。<br>このドキュメントは閲覧専用に開かれます。",
       "warnLicenseBefore": "ライセンスが無効になっています。<br>管理者までご連絡ください。",
-      "warnLicenseExceeded": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。詳細についてはアドミニストレータを連絡してください。",
       "warnLicenseExp": "ライセンスの有効期限が切れています。ライセンスを更新してページを再読み込みしてください。",
       "warnLicenseLimitedNoAccess": "ライセンスの有効期限が切れています。ドキュメント編集機能にアクセスできません。管理者にご連絡ください。",
       "warnLicenseLimitedRenewed": "ライセンスを書き換えが必要です。編集の汎関数にアクセスの制限があります。<br> フル アクセスを受けてようにアドミニストレータを連絡してください。",
-      "warnLicenseUsersExceeded": "％1エディターのユーザー制限に達しました。 詳細についてはアドミニストレータを連絡してください。",
       "warnNoLicense": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnProcessRightsChange": "ファイルを編集する権限がありません！"
@@ -257,6 +257,7 @@
   "Error": {
     "convertationTimeoutText": "変換のタイムアウトを超過しました。",
     "criticalErrorExtText": "文書のリストに帰るために「OK」ボタンをクリックしてください。",
+    "criticalErrorExtTextClose": "［OK］を押すとエディターが閉じます。",
     "criticalErrorTitle": "エラー",
     "downloadErrorText": "ダウンロード失敗",
     "errNoDuplicates": "重複した値はありません",
@@ -377,8 +378,7 @@
     "uploadDocSizeMessage": "文書の最大サイズ制限を超えています。",
     "uploadImageExtMessage": "不明なイメージ形式",
     "uploadImageFileCountMessage": "アップロードしたイメージがない",
-    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。"
   },
   "LongActions": {
     "advDRMPassword": "パスワード",
@@ -427,6 +427,7 @@
   "Statusbar": {
     "notcriticalErrorTitle": " 警告",
     "textCancel": "キャンセル",
+    "textContinue": "続ける",
     "textDelete": "削除",
     "textDuplicate": "コピー",
     "textErrNameExists": "この名前のワークシートはすでに存在しています。",
@@ -447,7 +448,8 @@
     "textSheetName": "シート名",
     "textTabColor": "シート見出しの色",
     "textUnhide": "再表示",
-    "textWarnDeleteSheet": "選択したシートにはデータが含まれている可能性があります。続行してもよろしいですか？"
+    "textWarnDeleteSheet": "選択したシートにはデータが含まれている可能性があります。続行してもよろしいですか？",
+    "warnAddSheetCsv": "CSV形式では複数シートのファイルの保存をサポートしていません。アクティブなシートのみが保存されます。すべてのシートを保持するには、別の形式でファイルを保存してください。"
   },
   "Toolbar": {
     "btnRestartNow": "今すぐ再起動",
@@ -532,6 +534,8 @@
       "textAccounting": "会計",
       "textActualSize": "実際のサイズ",
       "textAddCustomColor": "カスタム色を追加する",
+      "textAdditional": "追加",
+      "textAdditionalFormatting": "追加の書式設定",
       "textAddress": "アドレス",
       "textAlign": "配置",
       "textAlignBottom": "下揃え",
@@ -541,6 +545,7 @@
       "textAlignRight": "右揃え",
       "textAlignTop": "上揃え",
       "textAllBorders": "すべての枠線",
+      "textAllCaps": "すべて大文字",
       "textAngleClockwise": "右回りに​​回転",
       "textAngleCounterclockwise": "左回りに​​回転",
       "textArrange": "整列",
@@ -551,6 +556,7 @@
       "textAxisPosition": "軸位置",
       "textAxisTitle": "軸の名",
       "textBack": "戻る",
+      "textBaseline": "ベースライン",
       "textBetweenTickMarks": "目盛の間",
       "textBillions": "十億",
       "textBorder": "境界線",
@@ -559,6 +565,7 @@
       "textBottomBorder": "下の枠線",
       "textBringToForeground": "最前面ヘ移動",
       "textCancel": "キャンセル",
+      "textCapitalization": "大文字表記",
       "textCell": "セル",
       "textCellStyle": "セルのスタイル",
       "textCenter": "中央揃え",
@@ -588,6 +595,7 @@
       "textDisplayUnits": "表示単位",
       "textDollar": "ドル",
       "textDone": "完了",
+      "textDoubleStrikethrough": "二重取り消し線",
       "textEditLink": "リンクを編集する",
       "textEffects": "効果",
       "textEmptyImgUrl": "イメージのURLを指定ことが必要です。",
@@ -636,6 +644,7 @@
       "textLeftBorder": "左の枠線",
       "textLeftOverlay": "左のオーバーレイ",
       "textLegend": "凡例​​",
+      "textLetterSpacing": "文字間隔",
       "textLink": "リンク",
       "textLinkSettings": "リンク設定",
       "textLinkType": "リンクのタイプ",
@@ -693,7 +702,11 @@
       "textShape": "図形",
       "textSheet": "シート",
       "textSize": "サイズ",
+      "textSmallCaps": "小型英大文字",
+      "textStrikethrough": "取り消し線",
       "textStyle": "スタイル",
+      "textSubscript": "下付き文字",
+      "textSuperscript": "上付き文字",
       "textTenMillions": "10,000,000",
       "textTenThousands": "10,000",
       "textText": "テキスト",
@@ -872,7 +885,8 @@
       "txtUk": "ウクライナ語",
       "txtVi": "ベトナム語",
       "txtZh": "中国語",
-      "warnDownloadAs": "この形式で保存する続けば、テクスト除いて全てが失います。続けてもよろしいですか？"
+      "warnDownloadAs": "この形式で保存する続けば、テクスト除いて全てが失います。続けてもよろしいですか？",
+      "warnDownloadCsv": "CSV形式は複数シートファイルおよびテキスト以外のすべての要素の保存をサポートしていません。<br>選択したシートのみをCSVに保存するには、OKを押してください。<br>スプレッドシート全体とすべての機能を保存するには、キャンセルをクリックして別の形式を選"
     }
   }
 }

@@ -64,6 +64,7 @@
     "textDrawing": "Drawing",
     "textPasteImageUrl": "Paste an image URL",
     "textRecommended": "Recommended",
+    "textRemovePicture": "Remove picture",
     "textRequired": "Required",
     "textTableContents": "Table of Contents",
     "textWithBlueLinks": "With Blue Links"
@@ -227,7 +228,7 @@
     "menuEditLink": "Edit Link",
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Увага",
@@ -370,6 +371,10 @@
     "textWrap": "Стиль обтікання",
     "textAmountOfLevels": "Amount of Levels",
     "textArrange": "Arrange",
+    "textBaseline": "Baseline",
+    "textCapitalization": "Capitalization",
+    "textCellOptions": "Cell options",
+    "textCellSize": "Rows & columns size",
     "textCentered": "Centered",
     "textChooseAnItem": "Choose an item",
     "textChooseAnOption": "Choose an option",
@@ -409,7 +414,10 @@
     "textTextOrientation": "Text Orientation",
     "textTextWrapping": "Text Wrapping",
     "textWrappingStyle": "Wrapping Style",
-    "textYourOption": "Your option"
+    "textWrapText": "Wrap Text",
+    "textYourOption": "Your option",
+    "txtHeight": "Height",
+    "txtWidth": "Width"
   },
   "Error": {
     "convertationTimeoutText": "Перевищено час очікування конверсії.",
@@ -519,7 +527,6 @@
     "criticalErrorTitle": "Помилка",
     "errorAccessDeny": "Ви намагаєтеся виконати дію, на яку у вас немає прав.<br>Будь ласка, зверніться до адміністратора.",
     "errorOpensource": "Використовуючи безплатну версію Community, ви можете відкривати документи лише на перегляд. Для доступу до мобільних вебредакторів потрібна комерційна ліцензія.",
-    "errorProcessSaveResult": "Помилка збереження",
     "errorServerVersion": "Версія редактора була оновлена. Сторінка буде перезавантажена, щоб застосувати зміни.",
     "errorUpdateVersion": "Версія файлу була змінена. Сторінка буде перезавантажена.",
     "leavePageText": "У документі є незбережені зміни. Натисніть 'Залишитись на сторінці', щоб дочекатися автозбереження. Натисніть 'Піти зі сторінки', щоб скинути всі незбережені зміни.",
@@ -640,11 +647,9 @@
     "titleLicenseExp": "Термін дії ліцензії закінчився",
     "titleServerVersion": "Редактор оновлено",
     "titleUpdateVersion": "Версія змінилась",
-    "warnLicenseExceeded": "Ви досягли ліміту на одночасне підключення до редакторів %1. Цей документ буде відкритий лише для перегляду. Зв'яжіться з адміністратором, щоб дізнатися більше.",
     "warnLicenseExp": "Вийшов термін дії ліцензії. Оновіть ліцензію та оновіть сторінку.",
     "warnLicenseLimitedNoAccess": "Вийшов термін дії ліцензії. Немає доступу до функцій редагування документів. Будь ласка, зверніться до адміністратора.",
     "warnLicenseLimitedRenewed": "Потрібно оновити ліцензію. У вас обмежений доступ до функцій редагування документів.<br>Будь ласка, зверніться до адміністратора, щоб отримати повний доступ",
-    "warnLicenseUsersExceeded": "Ви досягли ліміту на кількість користувачів редакторів %1.<br>Зв'яжіться з адміністратором, щоб дізнатися більше.",
     "warnNoLicense": "Ви досягли ліміту на одночасне підключення до редакторів %1. Цей документ буде відкрито для перегляду. Напишіть у відділ продажу %1, щоб обговорити індивідуальні умови оновлення.",
     "warnNoLicenseUsers": "Ви досягли ліміту на одночасне підключення до редакторів %1.<br>Напишіть у відділ продаж %1, для обговорення індивідуальних умов ліцензування.",
     "warnProcessRightsChange": "У вас немає прав на редагування цього файлу.",
@@ -658,8 +663,11 @@
     "textNoMatches": "No Matches",
     "textOk": "Ok",
     "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
     "titleDialogProtectedDocument": "The document is protected",
     "titleLicenseNotActive": "License not active",
+    "titleReadOnly": "Read-Only Mode",
     "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
     "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
     "warnLicenseBefore": "License not active.<br>Please contact your administrator."

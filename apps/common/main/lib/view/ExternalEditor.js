@@ -42,36 +42,44 @@ define([], function () {
         initialize : function(options) {
             var filter = Common.localStorage.getKeysFilter(),
                 appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
-            this.storageName = appPrefix + (options.storageName || 'external-editor');
+            this.storageName = options.storageName ? appPrefix + options.storageName : null;
 
             var _options = {},
                 width = options.initwidth || 900,
-                height = options.initheight || 700;
-            var value = Common.localStorage.getItem(this.storageName + '-width');
-            value && (width = parseInt(value));
-            value = Common.localStorage.getItem(this.storageName + '-height');
-            value && (height = parseInt(value));
+                height = options.initheight || 700,
+                footer = options.footer !== undefined ? options.footer : true;
+
+            if (this.storageName) {
+                var value = Common.localStorage.getItem(this.storageName + '-width');
+                value && (width = parseFloat(value));
+                value = Common.localStorage.getItem(this.storageName + '-height');
+                value && (height = parseFloat(value));
+            }
 
             _.extend(_options,  {
                 width: width,
+                height: height,
                 cls: 'advanced-settings-dlg',
                 header: true,
                 toolclose: 'hide',
                 toolcallback: _.bind(this.onToolClose, this),
-                resizable: true
+                resizable: true,
+                footer: footer
             }, options);
-            // (!_options.buttons || _.size(_options.buttons)<1) && (_options.cls += ' no-footer');
-            _options.contentHeight = height;
+
+            !footer && (_options.cls += ' no-footer');
 
             this.template = [
-                '<div id="id-editor-container" class="box" style="height:' + _options.contentHeight + 'px; padding: 0 5px;">',
+                '<div id="id-editor-container" class="box" style="padding: 0 5px;">',
                     '<div id="' + (_options.sdkplaceholder || '') + '" style="width: 100%;height: 100%;"></div>',
                 '</div>',
+                '<% if (footer) { %>',
                 '<div class="separator horizontal"></div>',
                 '<div class="footer" style="text-align: center;">',
                     '<button id="id-btn-editor-apply" class="btn normal dlg-btn primary auto" result="ok" data-hint="1" data-hint-direction="bottom" data-hint-offset="big">' + this.textSave + '</button>',
                     '<button id="id-btn-editor-cancel" class="btn normal dlg-btn" result="cancel" data-hint="1" data-hint-direction="bottom" data-hint-offset="big">' + this.textClose + '</button>',
-                '</div>'
+                '</div>',
+                '<% } %>'
             ].join('');
 
             _options.tpl = _.template(this.template)(_options);
@@ -86,15 +94,14 @@ define([], function () {
             Common.UI.Window.prototype.render.call(this);
             this.boxEl = this.$window.find('.body > .box');
             var bodyEl = this.$window.find('> .body');
-            this._headerFooterHeight = this.initConfig.header ? parseInt(this.$window.find('.header').css('height')) : 0;
-            this._headerFooterHeight += parseInt(this.$window.find('.footer').css('height')) + parseInt(bodyEl.css('padding-top')) + parseInt(bodyEl.css('padding-bottom'));
-            this._headerFooterHeight += ((parseInt(this.$window.css('border-top-width')) + parseInt(this.$window.css('border-bottom-width'))));
+            this._headerFooterHeight = this.initConfig.header ? parseFloat(this.$window.find('.header').css('height')) : 0;
+            this._headerFooterHeight += (this.initConfig.footer ? parseFloat(this.$window.find('.footer').css('height')) : 0) + parseFloat(bodyEl.css('padding-top')) + parseFloat(bodyEl.css('padding-bottom'));
+            this._headerFooterHeight += ((parseFloat(this.$window.css('border-top-width')) + parseFloat(this.$window.css('border-bottom-width'))));
+            var resizeborder = this.$window.find('.resize-border.bottom');
+            if (resizeborder.length>0)
+                this._headerFooterHeight += $(resizeborder[0]).height()-2;
 
-            var _inner_height = Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top');
-            if (_inner_height < this.initConfig.contentHeight + this._headerFooterHeight) {
-                this.initConfig.contentHeight = _inner_height - this._headerFooterHeight;
-                this.boxEl.css('height', this.initConfig.contentHeight);
-            }
+            this.boxEl.css('height', this.getHeight() - this._headerFooterHeight);
 
             this.btnSave = new Common.UI.Button({
                 el: this.$window.find('#id-btn-editor-apply'),
@@ -142,12 +149,12 @@ define([], function () {
         },
 
         setHeight: function(height) {
-            if (height >= 0) {
+            if (this.$window && height >= 0) {
                 var min = parseInt(this.$window.css('min-height'));
                 height < min && (height = min);
                 this.$window.height(height);
 
-                var header_height = (this.initConfig.header) ? parseInt(this.$window.find('> .header').css('height')) : 0;
+                var header_height = (this.initConfig.header) ? parseFloat(this.$window.find('> .header').css('height')) : 0;
 
                 this.$window.find('> .body').css('height', height-header_height);
                 this.$window.find('> .body > .box').css('height', height-this._headerFooterHeight);
@@ -166,8 +173,8 @@ define([], function () {
         setInnerSize: function(width, height) {
             var maxHeight = Common.Utils.innerHeight(),
                 maxWidth = Common.Utils.innerWidth(),
-                borders_width = (parseInt(this.$window.css('border-left-width')) + parseInt(this.$window.css('border-right-width'))),
-                paddings = (parseInt(this.boxEl.css('padding-left')) + parseInt(this.boxEl.css('padding-right')));
+                borders_width = (parseFloat(this.$window.css('border-left-width')) + parseFloat(this.$window.css('border-right-width'))),
+                paddings = (parseFloat(this.boxEl.css('padding-left')) + parseFloat(this.boxEl.css('padding-right')));
             height += 90; // add toolbar and statusbar height
             if (maxHeight<height + this._headerFooterHeight)
                 height = maxHeight - this._headerFooterHeight;
@@ -188,8 +195,10 @@ define([], function () {
         onWindowResize: function (args) {
             if (args && args[1]=='end') {
                 var value = this.getSize();
-                Common.localStorage.setItem(this.storageName + '-width', value[0]);
-                Common.localStorage.setItem(this.storageName + '-height', value[1]);
+                if (this.storageName) {
+                    Common.localStorage.setItem(this.storageName + '-width', value[0]);
+                    Common.localStorage.setItem(this.storageName + '-height', value[1]);
+                }
             }
         },
 

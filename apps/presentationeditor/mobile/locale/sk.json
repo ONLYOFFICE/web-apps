@@ -83,7 +83,7 @@
     "textRows": "Riadky",
     "menuEditLink": "Edit Link",
     "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -93,7 +93,6 @@
       "criticalErrorTitle": "Chyba",
       "errorAccessDeny": "Pokúšate sa vykonať akciu, na ktorú nemáte práva.<br>Kontaktujte svojho správcu.",
       "errorOpensource": "Pomocou bezplatnej komunitnej verzie môžete otvárať dokumenty len na prezeranie. Na prístup k editorom mobilného webu je potrebná komerčná licencia.",
-      "errorProcessSaveResult": "Ukladanie zlyhalo.",
       "errorServerVersion": "Verzia editora bola aktualizovaná. Stránka sa opätovne načíta, aby sa vykonali zmeny.",
       "errorUpdateVersion": "Verzia súboru bola zmenená. Stránka sa znova načíta.",
       "leavePageText": "V tomto dokumente máte neuložené zmeny. Kliknite na „Zostať na tejto stránke“ a počkajte na automatické uloženie. Kliknutím na „Opustiť túto stránku“ zahodíte všetky neuložené zmeny.",
@@ -167,18 +166,19 @@
       "titleUpdateVersion": "Verzia bola zmenená",
       "txtIncorrectPwd": "Heslo je chybné ",
       "txtProtected": "Akonáhle vložíte heslo a otvoríte súbor, terajšie heslo sa zresetuje.",
-      "warnLicenseExceeded": "Dosiahli ste limit pre simultánne pripojenia k %1 editorom. Tento dokument sa otvorí iba na prezeranie. Ak sa chcete dozvedieť viac, kontaktujte svojho správcu.",
       "warnLicenseExp": "Platnosť vašej licencie vypršala. Aktualizujte ho a obnovte stránku.",
       "warnLicenseLimitedNoAccess": "Platnosť licencie vypršala. Nemáte prístup k funkciám úpravy dokumentov. Kontaktujte svojho správcu.",
       "warnLicenseLimitedRenewed": "Licenciu je potrebné obnoviť. Máte obmedzený prístup k funkciám úpravy dokumentov.<br>Ak chcete získať úplný prístup, kontaktujte svojho správcu",
-      "warnLicenseUsersExceeded": "Dosiahli ste limit %1 editora v režime spolupráce na úpravách. Ohľadne podrobnosti sa obráťte na svojho správcu. ",
       "warnNoLicense": "Dosiahli ste limit pre simultánne pripojenia k %1 editorom. Tento dokument sa otvorí iba na prezeranie. Kontaktujte predajný tím %1 pre osobné podmienky inovácie.",
       "warnNoLicenseUsers": "Dosiahli ste limit %1 editora. Pre rozšírenie funkcií kontaktujte %1 obchodné oddelenie.",
       "warnProcessRightsChange": "Nemáte povolenie na úpravu súboru.",
       "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
       "titleLicenseNotActive": "License not active",
+      "titleReadOnly": "Read-Only Mode",
       "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
@@ -474,7 +474,10 @@
       "textZoomOut": "Oddialiť",
       "textZoomRotate": "Priblížiť a otáčať",
       "textArrange": "Arrange",
+      "textBaseline": "Baseline",
       "textCancel": "Cancel",
+      "textCapitalization": "Capitalization",
+      "textCellSize": "Cell size",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textHorizontalText": "Horizontal Text",
@@ -489,7 +492,9 @@
       "textRequired": "Required",
       "textRotateTextDown": "Rotate Text Down",
       "textRotateTextUp": "Rotate Text Up",
-      "textTextOrientation": "Text Orientation"
+      "textTextOrientation": "Text Orientation",
+      "txtHeight": "Height",
+      "txtWidth": "Width"
     },
     "Settings": {
       "mniSlideStandard": "Štandard (4:3)",

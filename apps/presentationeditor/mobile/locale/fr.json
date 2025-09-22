@@ -83,7 +83,7 @@
     "textDoNotShowAgain": "Ne plus afficher",
     "textOk": "OK",
     "textRows": "Lignes",
-    "txtWarnUrl": "Cliquer sur ce lien peut être dangereux pour votre appareil et vos données. <br>Êtes-vous sûr de vouloir continuer ?"
+    "txtWarnUrl": "Cliquer sur ce lien peut endommager votre appareil et vos données. Cet emplacement peut être dangereux :<br>{0}<br>Voulez-vous continuer ?"
   },
   "Controller": {
     "Main": {
@@ -93,7 +93,6 @@
       "criticalErrorTitle": "Erreur",
       "errorAccessDeny": "Vous tentez d'exéсuter une action pour laquelle vous ne disposez pas des droits.<br>Veuillez contacter votre administrateur.",
       "errorOpensource": "Sous version gratuite Community, le document est disponible en lecture seule. Pour accéder aux éditeurs mobiles web vous avez besoin d'une licence payante.",
-      "errorProcessSaveResult": "Échec de l'enregistrement",
       "errorServerVersion": "La version de l'éditeur a été mise à jour. La page sera rechargée pour appliquer les modifications.",
       "errorUpdateVersion": "La version du fichier a été changée. La page sera rechargée.",
       "leavePageText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",
@@ -165,19 +164,20 @@
       "textReplaceSuccess": "La recherche a été effectuée. Occurrences remplacées : {0}",
       "textRequestMacros": "Une macro fait une demande à l'URL. Voulez-vous autoriser la demande à l'adresse %1 ?",
       "textYes": "Oui",
+      "tipLicenseExceeded": "Le document est ouvert en mode lecture seule, car le nombre maximal de connexions simultanées autorisées par la licence a été atteint.\n<br><br>Veuillez réessayer plus tard ou contacter le propriétaire du document si vous avez besoin d’un accès en modification.",
+      "tipLicenseUsersExceeded": "Le document est ouvert en mode lecture seule, car le nombre maximal d’utilisateurs autorisés à modifier des documents selon la licence a été atteint.<br><br>Veuillez réessayer plus tard ou contacter le propriétaire du document si vous avez besoin d’un accès en modification.",
       "titleLicenseExp": "Licence expirée",
       "titleLicenseNotActive": "Licence non active",
+      "titleReadOnly": "Mode lecture seule",
       "titleServerVersion": "L'éditeur est mis à jour",
       "titleUpdateVersion": "La version a été modifiée",
       "txtIncorrectPwd": "Mot de passe incorrect",
       "txtProtected": "Une fois le mot de passe saisi et le ficher ouvert, le mot de passe actuel sera réinitialisé",
       "warnLicenseAnonymous": "Accès refusé aux utilisateurs anonymes.<br>Ce document sera accessible en lecture seule uniquement.",
       "warnLicenseBefore": "Licence non active.<br>Veuillez contacter votre administrateur.",
-      "warnLicenseExceeded": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Pour en savoir plus, contactez votre administrateur.",
       "warnLicenseExp": "Votre licence a expiré. Veuillez mettre à jour votre licence et actualiser la page.",
       "warnLicenseLimitedNoAccess": "La licence est expirée. Vous n'avez plus d'accès aux outils d'édition. Veuillez contacter votre administrateur.",
       "warnLicenseLimitedRenewed": "Il est indispensable de renouveler la licence. Vous avez un accès limité aux outils d'édition des documents.<br>Veuillez contacter votre administrateur pour obtenir un accès complet",
-      "warnLicenseUsersExceeded": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Pour en savoir plus, contactez votre administrateur.",
       "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
       "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
       "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
@@ -355,6 +355,7 @@
       "textBack": "Retour",
       "textBandedColumn": "Colonne à couleur alternée",
       "textBandedRow": "Ligne à couleur alternée",
+      "textBaseline": "Ligne de base",
       "textBefore": "Avant",
       "textBlack": "A travers le noir",
       "textBorder": "Bordure",
@@ -365,8 +366,10 @@
       "textBullets": "Puces",
       "textBulletsAndNumbers": "Puces et numérotation",
       "textCancel": "Annuler",
+      "textCapitalization": "Casse",
       "textCaseSensitive": "Respecter la casse",
       "textCellMargins": "Marges de la cellule",
+      "textCellSize": "Taille de la cellule",
       "textChangeShape": "Modifier la forme",
       "textChart": "Graphique",
       "textClock": "Horloge",
@@ -495,7 +498,9 @@
       "textZoom": "Zoom",
       "textZoomIn": "Zoom avant",
       "textZoomOut": "Zoom arrière",
-      "textZoomRotate": "Zoom et rotation"
+      "textZoomRotate": "Zoom et rotation",
+      "txtHeight": "Hauteur",
+      "txtWidth": "Largeur"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

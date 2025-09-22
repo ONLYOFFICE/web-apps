@@ -107,6 +107,13 @@
             right: @simple-editor-layout-collapse-button-rigth;
         }
     }
+    .inner-simple-editor.rtl & {
+        .ce-group-expand {
+            right: auto;
+            left: 3px;
+            left: @simple-editor-layout-collapse-button-rigth;
+        }
+    }
 }
 
 .inner-simple-editor {
@@ -120,7 +127,7 @@
     background-color: #ee3525;
     border: none;
     border-radius: 0;
-    padding: 3px 10px;
+    padding: 0 10px;
     color: #ffffff;
     .font-size-normal();
     pointer-events: none;
@@ -275,15 +282,21 @@
 #id-toolbar-mnu-item-border-color {
     > span {
         background-image: none;
-        width: 12px;
-        height: 12px;
-        margin: 2px 8px 0 -20px;
+        width: calc(@x-small-btn-size-ie/2 + 3px);
+        height: calc(@x-small-btn-size-ie/2 + 3px);
+        width: calc(@x-small-btn-size/2 + 3px);
+        height: calc(@x-small-btn-size/2 + 3px);
+        margin: 1px 6px 0 calc(-1 * @x-small-btn-size-ie);
+        margin: 1px 6px 0 calc(-1 * @x-small-btn-size);
         border-style: solid;
         border-width: 3px;
         border-color: #000;
+        border-radius: @border-radius-dataview-item-ie;
+        border-radius: @border-radius-dataview-item;
 
         .rtl & {
-            margin: 2px -20px 0 8px;
+            margin: 1px calc(-1 * @x-small-btn-size-ie) 0 6px;
+            margin: 1px calc(-1 * @x-small-btn-size) 0 6px;
         }
     }
 }

@@ -156,7 +156,7 @@ define([
                                 '</div>' +
                                 '<div class="lr-separator" id="id-box-doc-name">' +
                                     // '<label id="title-doc-name" /></label>' +
-                                    '<input id="title-doc-name" autofill="off" autocomplete="off"/></input>' +
+                                    '<input id="title-doc-name" autofill="off" autocomplete="off" spellcheck="false"/></input>' +
                                 '</div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" data-layout-name="header-user">' +
@@ -880,7 +880,7 @@ define([
                             this.logo.addClass('hidden');
                         } else if (this.branding.logo.image || this.branding.logo.imageDark || this.branding.logo.imageLight) {
                             _logoImage = logo.image;
-                            this.logo.html('<img src="' + _logoImage + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
+                            this.logo.html('<img src="' + _logoImage + '" style="max-width:300px; max-height:20px; margin: 0;"/>');
                             this.logo.css({'background-image': 'none', width: 'auto'});
                             (this.branding.logo.url || this.branding.logo.url===undefined) && this.logo.addClass('link');
                         }
@@ -1149,7 +1149,7 @@ define([
                         element.addClass('hidden');
                     } else if (value.logo.image || value.logo.imageDark || value.logo.imageLight) {
                         _logoImage = logo.image;
-                        element.html('<img src="' + _logoImage + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
+                        element.html('<img src="' + _logoImage + '" style="max-width:300px; max-height:20px; margin: 0;"/>');
                         element.css({'background-image': 'none', width: 'auto'});
                         (value.logo.url || value.logo.url===undefined) && element.addClass('link');
                     }
@@ -1398,6 +1398,8 @@ define([
                     if (me.btnSearch) {
                         me.btnSearch.setDisabled(lock);
                     }
+                } else if ( alias == 'startfill' ) {
+                    me.btnStartFill && me.btnStartFill.setDisabled(lock);
                 } else {
                     var _lockButton = function (btn) {
                         btn && Common.Utils.lockControls(cause, lock, {array: [btn]});

@@ -112,7 +112,7 @@ define([
                     this.cmpEl.find('.btn-div').on('click', _.bind(function() { this.trigger('buttonclick');}, this));
 
                     this.closable && this.cmpEl.addClass('closable');
-                    this.binding.windowresize = _.bind(this.applyPlacement, this);
+                    this.binding.windowresize = _.bind(this.onWindowResize, this);
                 }
 
                 this.applyPlacement();
@@ -141,8 +141,18 @@ define([
                 this.automove && $(window).off('resize', this.binding.windowresize);
             },
 
-            applyPlacement: function () {
+            onWindowResize: function() {
+                this.applyPlacement();
+            },
+
+            applyPlacement: function (repeatOnce) {
                 var target = this.target && this.target.length>0 ? this.target : $(document.body);
+
+                if (!target.is(':visible') && !repeatOnce) {
+                    var me = this;
+                    setTimeout(function(){ me.applyPlacement(true); }, 100);
+                    return;
+                }
                 var showxy = Common.Utils.getOffset(target),
                     offset = this.offset || {x: 0, y: 0};
                 if (this.placement=='target' && !this.position) {
@@ -345,6 +355,7 @@ define([
                     textLink: props.link ? props.link.text : '',
                     closable: props.closable !== false, // true by default
                     showButton: props.showButton !== false, // true by default
+                    textButton: props.textButton, // button text, Got it by default
                     automove: !!props.automove
                 });
                 props.tip.on({

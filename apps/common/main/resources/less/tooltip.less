@@ -51,9 +51,13 @@
     background-clip: padding-box;
 
     white-space: pre-wrap;
-    .text-align-left();
     word-wrap: break-word;
     max-width: 300px;
+    .text-align-left();
+
+    .tooltip[dir=auto] & {
+        text-align: unset;
+    }
 }
 
 .link-tooltip .tooltip-inner {

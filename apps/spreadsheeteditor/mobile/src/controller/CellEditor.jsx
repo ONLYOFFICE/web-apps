@@ -10,7 +10,7 @@ const CellEditor = inject("storeFunctions")(observer(props => {
         Common.Notifications.on('engineCreated', api => {
             api.asc_registerCallback('asc_onSelectionNameChanged', onApiCellSelection.bind(this));
             api.asc_registerCallback('asc_onSelectionChanged', onApiSelectionChanged.bind(this));
-            api.asc_registerCallback('asc_onFormulaCompleteMenu', onFormulaCompleteMenu.bind(this));
+            api.asc_registerCallback('asc_onFormulaCompleteMenu', onApiFormulaCompleteMenu.bind(this));
         });
     }, []);
 
@@ -37,6 +37,12 @@ const CellEditor = inject("storeFunctions")(observer(props => {
 
         setFunctionshDisabled(is_image || is_mode_2 || coauth_disable);
     }
+
+    const onApiFormulaCompleteMenu = (funcarr) => {
+        setTimeout(function() {
+            onFormulaCompleteMenu(funcarr);
+        }, 0);
+    };
 
     const onFormulaCompleteMenu = async funcArr => {
         const api = Common.EditorApi.get();

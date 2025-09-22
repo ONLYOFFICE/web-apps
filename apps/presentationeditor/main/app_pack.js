@@ -25,6 +25,8 @@ require([
     'common/main/lib/view/DocumentHolderExt',
     'common/main/lib/view/SignDialog',
     'common/main/lib/view/ListSettingsDialog',
+    'common/main/lib/view/ExternalLinksDlg',
+    'common/main/lib/view/FormatSettingsDialog',
     'common/main/lib/view/DocumentPropertyDialog',
     'common/main/lib/view/MacrosDialog',
     'common/main/lib/view/MacrosAiDialog',

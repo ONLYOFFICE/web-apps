@@ -138,15 +138,16 @@ class EditTextController extends Component {
 
     changeLetterSpacing(curSpacing, isDecrement) {
         const api = Common.EditorApi.get();
+        const step = Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01;
+        const maxValue = Common.Utils.Metric.fnRecalcFromMM(558.7);
+        const minValue = Common.Utils.Metric.fnRecalcFromMM(-558.7);
+        const newValue = isDecrement
+            ? Math.max(minValue, curSpacing - step)
+            : Math.min(maxValue, curSpacing + step);
+        const convertedValue = Common.Utils.Metric.fnRecalcToMM(newValue);
         if (api) {
-            let spacing = curSpacing;
-            if (isDecrement) {
-                spacing = Math.max(-100, --spacing);
-            } else {
-                spacing = Math.min(100, ++spacing);
-            }
             const properties = new Asc.asc_CParagraphProperty();
-            properties.put_TextSpacing(Common.Utils.Metric.fnRecalcToMM(spacing));
+            properties.put_TextSpacing(convertedValue);
             api.paraApply(properties);
         }
     }
@@ -232,7 +233,7 @@ class EditTextController extends Component {
         let arrayElements = (type===0) ? storeTextSettings.getBulletsList() : (type===1) ? storeTextSettings.getNumbersList() : storeTextSettings.getMultiLevelList();
 
         for (let i=0; i<arrayElements.length; i++) {
-            if (arrayElements[i].type > 0 && api.asc_IsCurrentNumberingPreset(arrayElements[i].numberingInfo, type!==2)) {
+            if (api.asc_IsCurrentNumberingPreset(arrayElements[i].numberingInfo, type!==2)) {
                 subtype = arrayElements[i].subtype;
                 break;
             }

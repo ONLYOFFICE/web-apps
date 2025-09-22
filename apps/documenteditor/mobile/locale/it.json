@@ -66,7 +66,8 @@
     "textTableSize": "Dimensione della tabella",
     "textWithBlueLinks": "Con collegamento blu",
     "textWithPageNumbers": "Con numeri di pagina",
-    "txtNotUrl": "Questo campo dev'essere un URL nel formato \"http://www.example.com\""
+    "txtNotUrl": "Questo campo dev'essere un URL nel formato \"http://www.example.com\"",
+    "textRemovePicture": "Remove picture"
   },
   "Common": {
     "Collaboration": {
@@ -415,11 +416,19 @@
     "textWe": "Mer",
     "textWrap": "Avvolgi",
     "textWrappingStyle": "Stile di avvolgimento testo",
-    "textYourOption": "La tua opzione"
+    "textYourOption": "La tua opzione",
+    "textBaseline": "Baseline",
+    "textCapitalization": "Capitalization",
+    "textCellOptions": "Cell options",
+    "textCellSize": "Rows & columns size",
+    "textWrapText": "Wrap Text",
+    "txtHeight": "Height",
+    "txtWidth": "Width"
   },
   "Error": {
     "convertationTimeoutText": "È stato superato il tempo massimo di conversione.",
     "criticalErrorExtText": "Premere 'OK' per tornare all'elenco documenti.",
+    "criticalErrorExtTextClose": "Clicca \"OK\" per chiudere l'editor.",
     "criticalErrorTitle": "Errore",
     "downloadErrorText": "Scaricamento fallito.",
     "errorAccessDeny": "Stai cercando di eseguire un'azione per la quale non hai diritti.<br>Ti preghiamo di contattare il tuo amministratore.",
@@ -479,8 +488,7 @@
     "uploadDocSizeMessage": "È stato superato il limite massimo delle dimensioni del documento.",
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
-    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Caricamento dati in corso...",
@@ -525,7 +533,6 @@
     "criticalErrorTitle": "Errore",
     "errorAccessDeny": "Stai cercando di eseguire un'azione per la quale non hai diritti.<br>Ti preghiamo di contattare il tuo amministratore.",
     "errorOpensource": "Usando la versione Community gratuita, puoi aprire i documenti solo per visualizzarli. Per accedere agli editor mobili sul web è richiesta una licenza commerciale.",
-    "errorProcessSaveResult": "Salvataggio fallito",
     "errorServerVersion": "La versione dell'editor è stata aggiornata. La pagina viene ricaricata per applicare tutti i cambiamenti.",
     "errorUpdateVersion": "La versione del file è stata cambiata. La pagina verrà ricaricata.",
     "leavePageText": "Hai dei cambiamenti non salvati. Premi 'Rimani sulla pagina' per attendere il salvataggio automatico. Premi 'Lascia la pagina' per scartare tutte le modifiche non salvate.",
@@ -653,19 +660,20 @@
     "textRequestMacros": "Una macro effettua una richiesta all'URL. Vuoi consentire la richiesta al %1?",
     "textSaveAsPdf": "Salva come PDF",
     "textYes": "Sì",
+    "tipLicenseExceeded": "Il documento è aperto in modalità di sola lettura poiché è stato raggiunto il numero massimo di connessioni simultanee consentito dalla licenza.<br><br>Riprova più tardi o contatta il proprietario del documento se hai bisogno dell'accesso di modifica.",
+    "tipLicenseUsersExceeded": "Il documento è aperto in modalità di sola lettura poiché è stato raggiunto il numero massimo di utenti autorizzati a modificare i documenti in base alla licenza.<br><br>Riprova più tardi o contatta il proprietario del documento se hai bisogno dell'accesso di modifica.",
     "titleDialogProtectedDocument": "Il documento è protetto.",
     "titleLicenseExp": "La licenza è scaduta",
     "titleLicenseNotActive": "Licenza non attiva",
+    "titleReadOnly": "Modalità di sola lettura",
     "titleServerVersion": "L'editor è stato aggiornato",
     "titleUpdateVersion": "La versione è stata cambiata",
     "warnDownloadAsPdf": "Il tuo {0} verrà convertito in un formato modificabile. Questo potrebbe richiedere del tempo. Il documento risultante sarà ottimizzato per consentirti di modificare il testo, quindi potrebbe non apparire esattamente come l'originale {0}, soprattutto se il file originale conteneva molti elementi grafici.",
     "warnLicenseAnonymous": "Accesso negato per utenti anonimi.<br>Questo documento verrà aperto solo per la visualizzazione.",
     "warnLicenseBefore": "Licenza non attiva.<br>Ti preghiamo di contattare l'Amministratore.",
-    "warnLicenseExceeded": "Hai raggiunto il limite delle connessioni simultanee a %1 editor. Questo documento sarà aperto solo in modalità visualizzazione. Ti preghiamo di contattare il tuo amministratore per maggiori informazioni.",
     "warnLicenseExp": "La tua licenza è scaduta. Ti preghiamo di aggiornarla e ricaricare la pagina.",
     "warnLicenseLimitedNoAccess": "La licenza è scaduta. Non hai più accesso alle funzionalità di modifica dei documenti. Ti preghiamo di contattare il tuo amministratore.",
     "warnLicenseLimitedRenewed": "La licenza deve essere rinnovata. Hai l'accesso limitato alle funzionalità di modifica dei documenti.<br>Ti preghiamo di contattare il tuo amministratore per ottenere l'accesso completo.",
-    "warnLicenseUsersExceeded": "Hai raggiunto il limite di utenti per %1 editor. Ti preghiamo di contattare il tuo amministratore per maggiori informazioni.",
     "warnNoLicense": "Hai raggiunto il limite delle connessioni simultanee a %1 editor. Questo documento sarà aperto solo in modalità visualizzazione. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
     "warnNoLicenseUsers": "Hai raggiunto il limite degli utenti per %1 editor. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
     "warnProcessRightsChange": "Non hai il permesso di modificare questo file."
@@ -714,6 +722,7 @@
     "textDownloadAs": "Scarica come",
     "textDownloadRtf": "Se continui a salvare in questo formato, alcune delle formattazioni potrebbero andare perse. Sei sicuro di voler proseguire?",
     "textDownloadTxt": "Se continui a salvare in questo formato, tutte le funzionalità tranne il testo saranno perse. Sei sicuro di voler proseguire?",
+    "textDrawing": "Disegna",
     "textEmptyHeading": "Intestazione vuota",
     "textEmptyScreens": "Non ci sono titoli nel documento. Applica uno stile di intestazione al testo in modo che appaia nel sommario.",
     "textEnableAll": "Abilita tutto",
@@ -808,8 +817,7 @@
     "txtDownloadTxt": "Scarica TXT",
     "txtIncorrectPwd": "Password non corretta",
     "txtOk": "OK",
-    "txtProtected": "Una volta inserita la password e aperto il file, la password corrente verrà resettata",
-    "textDrawing": "Drawing"
+    "txtProtected": "Una volta inserita la password e aperto il file, la password corrente verrà resettata"
   },
   "Toolbar": {
     "btnRestartNow": "Riavvia ora",

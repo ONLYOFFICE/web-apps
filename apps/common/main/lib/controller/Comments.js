@@ -82,6 +82,8 @@ define([
         initialize: function () {
             this.currentGroupFilter = null;
             this.currentTypeFilter = null;
+            this.isPDFEditor = !!window.PDFE;
+
             this.addListeners({
                 'Common.Views.Comments': {
 
@@ -661,6 +663,8 @@ define([
         // SDK
 
         onApiAddComment: function (id, data) {
+            if (this.isPDFEditor && (this.findComment(id) || this.findCommentInGroup(id))) return; // fix for PDF, do not add comment with existing id
+
             var requestObj = {},
                 comment = this.readSDKComment(id, data, requestObj);
             if (comment) {
@@ -1036,7 +1040,7 @@ define([
                         this.getPopover().showComments(false, undefined, undefined, text);
                     }
 
-                    this.getPopover().setLeftTop(posX, posY, leftX, undefined, true);
+                    this.getPopover().setLeftTop(posX, posY, leftX, undefined);
 
 //                    if (this.isSelectedComment && (0 === _.difference(this.uids, uids).length)) {
                         //NOTE: click to sdk view ?

@@ -188,6 +188,7 @@ const AddOther = props => {
     const { t } = useTranslation();
     const _t = t('Add', {returnObjects: true});
     const storeFocusObjects = props.storeFocusObjects;
+    const canComments = props.storeAppOptions.canComments;
 
     const isShape = storeFocusObjects.settings.indexOf('shape') > -1,
         isText = storeFocusObjects.settings.indexOf('text') > -1,
@@ -202,7 +203,7 @@ const AddOther = props => {
 
     return (
         <List>
-            {isText && <ListItem title={_t.textComment} onClick={() => {
+            {isText && canComments && <ListItem title={_t.textComment} onClick={() => {
                 props.closeModal();
                 Common.Notifications.trigger('addcomment');
             }}>
@@ -276,7 +277,7 @@ const AddOther = props => {
     )
 };
 
-const AddOtherContainer = inject("storeComments","storeFocusObjects", "storeLinkSettings")(observer(AddOther));
+const AddOtherContainer = inject("storeComments","storeFocusObjects", "storeLinkSettings", "storeAppOptions",)(observer(AddOther));
 
 export {
     AddOtherContainer as AddOther,

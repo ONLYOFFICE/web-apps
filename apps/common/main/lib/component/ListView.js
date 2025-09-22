@@ -189,11 +189,11 @@ define([
                 labelEl.text(name);
             },
 
-            setHeaderWidth: function(index, width) {
+            setHeaderWidth: function(index, width, innerLabel) {
                 if(index < 0 || index > this.options.headers.length - 1 || !this.headerEl) return;
 
                 var labelEl = $(this.headerEl.find('.table-header-item')[index]);
-                if(labelEl.attr('sort-type')) {
+                if(labelEl.attr('sort-type') && innerLabel) {
                     labelEl = labelEl.find('label')[0];
                 }
 

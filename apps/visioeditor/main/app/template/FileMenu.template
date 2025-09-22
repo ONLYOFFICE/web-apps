@@ -17,6 +17,7 @@
     <li class="devider"></li>
     <li id="fm-btn-settings" class="fm-btn" data-layout-name="toolbar-file-settings"></li>
     <li id="fm-btn-help" class="fm-btn"></li>
+    <li id="fm-btn-suggest" class="fm-btn"></li>
 </div>
 <div class="panel-context">
     <div id="panel-saveas" class="content-box"></div>

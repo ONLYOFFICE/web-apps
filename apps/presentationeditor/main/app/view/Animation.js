@@ -317,7 +317,7 @@ define([
                     dataHintDirection: 'top',
                     dataHintOffset: 'small',
                     updateFormControl: function(record) {
-                        record && this.setRawValue(record.get('value') + ' ' + me.txtSec);
+                        record && record.get('value')>=0 && this.setRawValue(record.get('value') + ' ' + me.txtSec);
                     }
                 });
                 this.lockedControls.push(this.cmbDuration);

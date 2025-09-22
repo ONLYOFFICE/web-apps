@@ -2317,7 +2317,7 @@ define([
 
                 this.btnsPageBreak = Common.Utils.injectButtons($host.find('.btn-slot.btn-pagebreak'), '', 'toolbar__icon btn-pagebreak', this.capBtnInsPagebreak,
                     [Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.inEquation, Common.enumLock.richDelLock,
-                        Common.enumLock.plainDelLock, Common.enumLock.inHeader, Common.enumLock.inFootnote, Common.enumLock.inControl, Common.enumLock.cantPageBreak, Common.enumLock.previewReviewMode,
+                        Common.enumLock.plainDelLock, Common.enumLock.inHeader, Common.enumLock.inFootnote, Common.enumLock.cantPageBreak, Common.enumLock.previewReviewMode,
                         Common.enumLock.viewFormMode, Common.enumLock.lostConnect, Common.enumLock.disableOnStart, Common.enumLock.docLockViewIns, Common.enumLock.docLockForms, Common.enumLock.docLockCommentsIns, Common.enumLock.viewMode],
                         true, true, undefined, '1', 'bottom', 'small', undefined, 'page-break');
                 Array.prototype.push.apply(this.paragraphControls, this.btnsPageBreak);
@@ -2925,6 +2925,20 @@ define([
                     items: []
                 }));
 
+                this.brdInnerVert = new Common.UI.MenuItem({
+                    caption: this.textInsideVertBorders,
+                    iconCls: 'menu__icon btn-border-insidevert',
+                    icls: 'btn-border-insidevert',
+                    borderId: 'innerVert'
+                });
+
+                this.brdInner = new Common.UI.MenuItem({
+                    caption: this.textInsideBorders,
+                    iconCls: 'menu__icon btn-border-inside',
+                    icls: 'btn-border-inside',
+                    borderId: 'inner',
+                });
+                                           
                 if (this.btnBorders && this.btnBorders.rendered) {
                     this.btnBorders.setMenu(new Common.UI.Menu({
                         cls: 'shifted-right',
@@ -2972,12 +2986,14 @@ define([
                                 icls: 'btn-border-out',
                                 borderId: 'outer',
                             },
+                            this.brdInner,
                             {
-                                caption: this.textInsideBorders,
-                                iconCls: 'menu__icon btn-border-inside',
-                                icls: 'btn-border-inside',
-                                borderId: 'inner',
+                                caption: this.textInsideHorBorders,
+                                iconCls: 'menu__icon btn-border-insidehor',
+                                icls: 'btn-border-insidehor',
+                                borderId: 'innerHor'
                             },
+                            this.brdInnerVert,
                             { caption: '--' },
                             {
                                 id: 'id-toolbar-menu-item-border-width',
@@ -3031,8 +3047,7 @@ define([
                                         { caption: '--' },
                                         {
                                             id: "id-toolbar-menu-new-bordercolor",
-                                            template: _.template('<a tabindex="-1" type="menuitem">' + this.textNewColor + '</a>'),
-                                            stopPropagation: true
+                                            template: _.template('<a tabindex="-1" type="menuitem">' + this.textNewColor + '</a>')
                                         }
                                     ]
                                 })

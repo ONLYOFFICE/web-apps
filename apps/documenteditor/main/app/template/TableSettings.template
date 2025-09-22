@@ -127,12 +127,7 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <div class="separator horizontal"></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="padding-small" colspan=2>
-            <button type="button" class="btn btn-text-default" id="table-btn-add-formula" style="width:100%;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textAddFormula %></button>
+            <div id="table-checkbox-autofit"></div>
         </td>
     </tr>
     <tr>
@@ -142,17 +137,17 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <div id="table-checkbox-repeat-row"></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="padding-small" colspan=2>
-            <div class="separator horizontal"></div>
+            <div id="table-btn-add-formula" style="width:100%;"></div>
         </td>
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
             <div id="table-btn-convert-to-text" style="width:100%;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div id="table-checkbox-repeat-row"></div>
         </td>
     </tr>
     <tr>

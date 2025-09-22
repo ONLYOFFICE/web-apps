@@ -173,6 +173,9 @@ define([
                         me.view.chRulers.$el.closest('.group').remove();
                         me.view.chRulers.$el.remove();
                         me.view.$el.find('.separator-rulers').remove();
+                    }
+
+                    if (!config.isEdit || config.customization && config.customization.macros===false) {
                         me.view.$el.find('#slot-btn-macros').closest('.group').prev().addBack().remove();
                     }
 

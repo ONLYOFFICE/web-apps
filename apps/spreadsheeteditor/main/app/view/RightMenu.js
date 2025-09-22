@@ -230,7 +230,7 @@ define([
             this.chartSettings = new SSE.Views.ChartSettings();
             this.shapeSettings = new SSE.Views.ShapeSettings();
             this.textartSettings = new SSE.Views.TextArtSettings();
-            this.tableSettings = new SSE.Views.TableSettings();
+            // this.tableSettings = new SSE.Views.TableSettings();
             this.pivotSettings = new SSE.Views.PivotSettings();
             this.cellSettings = new SSE.Views.CellSettings();
             this.slicerSettings = new SSE.Views.SlicerSettings();
@@ -280,7 +280,7 @@ define([
             this.chartSettings.setApi(api).on('updatescroller', _updateScroller);
             this.shapeSettings.setApi(api).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
             this.textartSettings.setApi(api).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
-            this.tableSettings.setApi(api);
+            // this.tableSettings.setApi(api);
             this.pivotSettings.setApi(api);
             this.cellSettings.setApi(api).on('eyedropper', _.bind(_isEyedropperStart, this));
             this.slicerSettings.setApi(api);
@@ -292,7 +292,7 @@ define([
             this.mode = mode;
             this.imageSettings && this.imageSettings.setMode(mode);
             this.shapeSettings && this.shapeSettings.setMode(mode);
-            this.tableSettings && this.tableSettings.setMode(mode);
+            // this.tableSettings && this.tableSettings.setMode(mode);
             return this;
         },
 

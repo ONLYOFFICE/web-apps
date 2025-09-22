@@ -83,7 +83,7 @@
     "textRows": "ແຖວ",
     "menuEditLink": "Edit Link",
     "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -93,7 +93,6 @@
       "criticalErrorTitle": "ຂໍ້ຜິດພາດ",
       "errorAccessDeny": "ທ່ານກໍາລັງພະຍາຍາມດໍາເນີນການໃນໜ້າທີ່ທ່ານບໍ່ມີສິດສໍາລັບດໍາເນີນການ.<br>ກະລຸນາ, ຕິດຕໍ່ແອດມີນລະບົບຂອງທ່ານ.",
       "errorOpensource": "ການນໍາໃຊ້ສະບັບຟຣີ, ທ່ານສາມາດເປີດເອກະສານສໍາລັບການອ່ານເທົ່ານັ້ນ. ໃນການເຂົ້າເຖິງໂປຣແກຣມ, ຕ້ອງມີໃບອະນຸຍາດທາງການຄ້າ.",
-      "errorProcessSaveResult": "ບັນທຶກບຊ່ສຳເລັດ",
       "errorServerVersion": "ສະບັບດັດແກ້ໄດ້ຖືກປັບປຸງແລ້ວ. ໜ້າເວັບຈະຖືກໂຫລດຄືນເພື່ອນຳໃຊ້ການປ່ຽນແປງ.",
       "errorUpdateVersion": "ເອກະສານໄດ້ຖືກປ່ຽນແລ້ວ. ໜ້າເວັບຈະຖືກໂຫລດໃໝ່.",
       "leavePageText": "ທ່ານມີການປ່ຽນແປງທີ່ຍັງບໍ່ໄດ້ບັນທຶກໄວ້ໃນເອກະສານນີ້. ຄລິກທີ່ 'ຢູ່ໃນໜ້ານີ້' ເພື່ອລໍຖ້າການບັນທຶກອັດຕະໂນມັດ. ຄລິກ 'ອອກຈາກໜ້ານີ້' ເພື່ອຍົກເລີກການປ່ຽນແປງທີ່ບໍ່ໄດ້ບັນທຶກໄວ້ທັງໝົດ.",
@@ -167,18 +166,19 @@
       "titleUpdateVersion": "ປ່ຽນແປງລຸ້ນ",
       "txtIncorrectPwd": "ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ",
       "txtProtected": "ຖ້າເຈົ້ານໍາໃຊ້ລະຫັດເພື່ອເປີດເອກະສານ, ລະຫັດປັດຈະບັນຈະຖືກແກ້ໄຂ",
-      "warnLicenseExceeded": "ທ່ານໄດ້ຖືກຈຳກັດສິດພຽງເທົ່ານີ້ສຳຫລັບການເຊື່່ອມພ້ອມກັນກັບເຄື່ອງມືແກ້ໄຂ %1 ແລ້ວເອກະສານນີ້ຈະເປີດໃຫ້ເບີ່ງເທົ່ານັ້ນ ຕິດຕໍ່ຫາທາງແອດມີນຂອງທ່ານເພື່ອຮັບຂໍ້ມູນເພີ່ມ",
       "warnLicenseExp": "License ຂອງທ່ານໄດ້ໝົດອາຍຸກະລຸນາຕໍ່ License ຂອງທ່ານ ແລະ ໂຫລດໜ້າເວັບຄືນໃໝ່ອີກຄັ້ງ.",
       "warnLicenseLimitedNoAccess": "ໃບອະນຸຍາດໝົດອາຍຸແລ້ວ. ທ່ານບໍ່ສາມາດເຂົ້າເຖິງການດຳເນີນງານແກ້ໄຂເອກະສານ. ກະລຸນາ, ຕິດຕໍ່ແອດມີນຂອງທ່ານ.",
       "warnLicenseLimitedRenewed": "ໃບອະນຸຍາດຕ້ອງໄດ້ຮັບການຕໍ່ອາຍຸ. ທ່ານຈະຖືກຈຳກັດສິດໃນການເຂົ້າເຖິ່ງການແກ້ໄຂເອກະສານ.<br> ກະລຸນາຕິດຕໍ່ແອດມີນຂອງທ່ານເພື່ອຕໍ່ອາຍຸ",
-      "warnLicenseUsersExceeded": "ຈໍານວນ ການເຊື່ອມຕໍ່ພ້ອມກັນກັບຜູ້ແກ້ໄຂ ແມ່ນເກີນກໍານົດ % 1. ຕິດຕໍ່ທີມບໍລິຫານເພື່ອຂໍ້ມູນເພີ່ມເຕີ່ມ",
       "warnNoLicense": "ທ່ານໄດ້ຖືກຈຳກັດສິດພຽງເທົ່ານີ້ສຳຫລັບການເຊື່່ອມພ້ອມກັນກັບເຄື່ອງມືແກ້ໄຂ %1 ແລ້ວເອກະສານນີ້ຈະເປີດໃຫ້ເບີ່ງເທົ່ານັ້ນ ຕິດຕໍ່ທີມຂາຍ %1 ສຳຫລັບເງື່ອນໄຂການອັບເກດສ່ວນບຸກຄົນ",
       "warnNoLicenseUsers": "ຈໍານວນການເຊື່ອມຕໍ່ພ້ອມກັນກັບບັນນາທິການ ແມ່ນເກີນກໍານົດ % 1. ຕິດຕໍ່ ທີມຂາຍ %1 ສຳລັບຂໍ້ກຳນົດການຍົກລະດັບສິດ",
       "warnProcessRightsChange": "ທ່ານບໍ່ມີສິດໃນການແກ້ໄຂໄຟລ໌ນີ້.",
       "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
       "titleLicenseNotActive": "License not active",
+      "titleReadOnly": "Read-Only Mode",
       "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
@@ -473,7 +473,10 @@
       "textZoomOut": "ຂະຫຍາຍອອກ",
       "textZoomRotate": "ຂະຫຍາຍ ແລະ ໝຸນ",
       "textArrange": "Arrange",
+      "textBaseline": "Baseline",
       "textCancel": "Cancel",
+      "textCapitalization": "Capitalization",
+      "textCellSize": "Cell size",
       "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
@@ -489,7 +492,9 @@
       "textRequired": "Required",
       "textRotateTextDown": "Rotate Text Down",
       "textRotateTextUp": "Rotate Text Up",
-      "textTextOrientation": "Text Orientation"
+      "textTextOrientation": "Text Orientation",
+      "txtHeight": "Height",
+      "txtWidth": "Width"
     },
     "Settings": {
       "mniSlideStandard": "ມາດຕະຖານ (4:3)",

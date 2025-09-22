@@ -63,6 +63,7 @@
     "textDrawing": "Drawing",
     "textPasteImageUrl": "Paste an image URL",
     "textRecommended": "Recommended",
+    "textRemovePicture": "Remove picture",
     "textRequired": "Required",
     "textTableContents": "Table of Contents",
     "textWithBlueLinks": "With Blue Links",
@@ -227,7 +228,7 @@
     "menuEditLink": "Edit Link",
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Upozornenie",
@@ -364,7 +365,11 @@
     "textWrap": "Zabaliť",
     "textAmountOfLevels": "Amount of Levels",
     "textArrange": "Arrange",
+    "textBaseline": "Baseline",
     "textCancel": "Cancel",
+    "textCapitalization": "Capitalization",
+    "textCellOptions": "Cell options",
+    "textCellSize": "Rows & columns size",
     "textCentered": "Centered",
     "textChooseAnItem": "Choose an item",
     "textChooseAnOption": "Choose an option",
@@ -409,7 +414,10 @@
     "textTextWrapping": "Text Wrapping",
     "textTitle": "Title",
     "textWrappingStyle": "Wrapping Style",
-    "textYourOption": "Your option"
+    "textWrapText": "Wrap Text",
+    "textYourOption": "Your option",
+    "txtHeight": "Height",
+    "txtWidth": "Width"
   },
   "Error": {
     "convertationTimeoutText": "Prekročený čas konverzie.",
@@ -511,7 +519,7 @@
     "uploadImageTitleText": "Nahrávanie obrázku",
     "waitText": "Čakajte, prosím...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "savingText": "Saving",
+    "savingText": "Submitting",
     "textContinue": "Continue",
     "textUndo": "Undo"
   },
@@ -519,7 +527,6 @@
     "criticalErrorTitle": "Chyba",
     "errorAccessDeny": "Pokúšate sa vykonať akciu, na ktorú nemáte práva.<br>Kontaktujte svojho správcu.",
     "errorOpensource": "Pomocou bezplatnej komunitnej verzie môžete otvárať dokumenty len na prezeranie. Na prístup k editorom mobilného webu je potrebná komerčná licencia.",
-    "errorProcessSaveResult": "Ukladanie zlyhalo.",
     "errorServerVersion": "Verzia editora bola aktualizovaná. Stránka sa opätovne načíta, aby sa vykonali zmeny.",
     "errorUpdateVersion": "Verzia súboru bola zmenená. Stránka sa znova načíta.",
     "leavePageText": "Máte neuložené zmeny. Kliknite na „Zostať na tejto stránke“ a počkajte na automatické uloženie. Kliknutím na „Opustiť túto stránku“ zahodíte všetky neuložené zmeny.",
@@ -638,11 +645,9 @@
     "titleLicenseExp": "Platnosť licencie uplynula",
     "titleServerVersion": "Editor bol aktualizovaný",
     "titleUpdateVersion": "Verzia bola zmenená",
-    "warnLicenseExceeded": "Dosiahli ste limit pre simultánne pripojenia k %1 editorom. Tento dokument sa otvorí iba na prezeranie. Ak sa chcete dozvedieť viac, kontaktujte svojho správcu.",
     "warnLicenseExp": "Platnosť vašej licencie vypršala. Aktualizujte svoju licenciu a obnovte stránku.",
     "warnLicenseLimitedNoAccess": "Platnosť licencie vypršala. Nemáte prístup k funkciám úpravy dokumentov. Prosím, kontaktujte svojho administrátora.",
     "warnLicenseLimitedRenewed": "Licenciu je potrebné obnoviť. Máte obmedzený prístup k funkciám úpravy dokumentov.<br>Ak chcete získať úplný prístup, kontaktujte svojho správcu",
-    "warnLicenseUsersExceeded": "Dosiahli ste limit %1 editora v režime spolupráce na úpravách. Ohľadne podrobnosti sa obráťte na svojho správcu. ",
     "warnNoLicense": "Dosiahli ste limit pre simultánne pripojenia k %1 editorom. Tento dokument sa otvorí iba na prezeranie. Kontaktujte predajný tím %1 pre osobné podmienky inovácie.",
     "warnNoLicenseUsers": "Dosiahli ste limit %1 editora. Pre rozšírenie funkcií kontaktujte %1 obchodné oddelenie.",
     "warnProcessRightsChange": "Nemáte povolenie na úpravu tohto súboru.",
@@ -658,8 +663,11 @@
     "textOk": "Ok",
     "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
     "textSaveAsPdf": "Save as PDF",
+    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
     "titleDialogProtectedDocument": "The document is protected",
     "titleLicenseNotActive": "License not active",
+    "titleReadOnly": "Read-Only Mode",
     "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
     "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
     "warnLicenseBefore": "License not active.<br>Please contact your administrator."

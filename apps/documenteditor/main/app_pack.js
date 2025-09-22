@@ -27,6 +27,8 @@ require([
     'common/main/lib/view/LanguageDialog',
     'common/main/lib/view/TextInputDialog',
     'common/main/lib/view/DocumentHolderExt',
+    'common/main/lib/view/ExternalLinksDlg',
+    'common/main/lib/view/FormatSettingsDialog',
     'common/main/lib/view/PdfSignDialog',
     'common/main/lib/view/DocumentPropertyDialog',
     'common/main/lib/view/MacrosDialog',

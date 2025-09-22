@@ -65,6 +65,7 @@
     "txtNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır",
     "textDrawing": "Drawing",
     "textPasteImageUrl": "Paste an image URL",
+    "textRemovePicture": "Remove picture",
     "textWithBlueLinks": "With Blue Links",
     "textWithPageNumbers": "With Page Numbers"
   },
@@ -388,6 +389,10 @@
     "textWrap": "Keçirin",
     "textWrappingStyle": "Yerləşdirmə üslubu",
     "textAmountOfLevels": "Amount of Levels",
+    "textBaseline": "Baseline",
+    "textCapitalization": "Capitalization",
+    "textCellOptions": "Cell options",
+    "textCellSize": "Rows & columns size",
     "textChooseAnItem": "Choose an item",
     "textChooseAnOption": "Choose an option",
     "textCreateTextStyle": "Create new text style",
@@ -409,7 +414,10 @@
     "textStructure": "Structure",
     "textTableOfCont": "TOC",
     "textTextOrientation": "Text Orientation",
-    "textYourOption": "Your option"
+    "textWrapText": "Wrap Text",
+    "textYourOption": "Your option",
+    "txtHeight": "Height",
+    "txtWidth": "Width"
   },
   "Error": {
     "convertationTimeoutText": "Çevrilmə vaxtı maksimumu keçdi.",
@@ -451,7 +459,7 @@
     "scriptLoadError": "Bağlantı çox yavaşdır, bəzi komponentləri yükləmək mümkün deyil. Zəhmət olmasa, səhifəni yenidən yükləyin.",
     "splitDividerErrorText": "Sətirlərin sayı 1% böləni olmalıdır",
     "splitMaxColsErrorText": "Sütunların sayı 1%-dən az olmalıdır",
-    "splitMaxRowsErrorText": "Sətirlərin sayı 1%-dən az olmalıdır",
+    "splitMaxRowsErrorText": "Sətirlərin sayı %1-dən az olmalıdır",
     "unknownErrorText": "Naməlum xəta.",
     "uploadDocExtMessage": "Naməlum sənəd formatı.",
     "uploadDocFileCountMessage": "Heç bir sənəd yüklənməyib.",
@@ -513,13 +521,12 @@
     "uploadImageTitleText": "Təsvir Yüklənir",
     "waitText": "Lütfən, gözləyin...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "savingText": "Saving"
+    "savingText": "Submitting"
   },
   "Main": {
     "criticalErrorTitle": "Xəta",
     "errorAccessDeny": "Hüquqlarınız olmayan əməliyyatı yerinə yetirməyə çalışırsınız.<br>Lütfən, inzibatçınızla əlaqə saxlayın.",
     "errorOpensource": "Ödənişsiz İcma versiyasından istifadə edərək sənədləri yalnız baxmaq üçün aça bilərsiniz. Mobil veb redaktorlarına daxil olmaq üçün kommersiya lisenziyası tələb olunur.",
-    "errorProcessSaveResult": "Saxlama prosesi uğursuz oldu",
     "errorServerVersion": "Redaktor versiyası yeniləndi. Dəyişiklikləri tətbiq etmək üçün səhifə yenidən yüklənəcək.",
     "errorUpdateVersion": "Fayl versiyası dəyişdirilib. Səhifə yenidən yüklənəcək.",
     "leavePageText": "Saxlanmamış dəyişiklikləriniz var. Avtomatik saxlanmanı gözləmək üçün \"Bu Səhifədə Qalın\" üzərinə klikləyin. Bütün saxlanmamış dəyişiklikləri ləğv etmək üçün \"Bu səhifədən Çıxın\" hissəsinin üzərinə klikləyin.",
@@ -640,11 +647,9 @@
     "titleLicenseExp": "Lisenziyanın müddəti bitdi",
     "titleServerVersion": "Redaktor yeniləndi",
     "titleUpdateVersion": "Versiya dəyişdirildi",
-    "warnLicenseExceeded": "Siz 1% redaktorlarına eyni vaxtda qoşulma limitinə çatdınız. Bu sənəd yalnız baxmaq üçün açılacaq. Ətraflı öyrənmək üçün inzibatçınızla əlaqə saxlayın.",
     "warnLicenseExp": "Lisenziyanızın müddəti başa çatıb. Lütfən, lisenziyanızı və səhifəni yeniləyin.",
     "warnLicenseLimitedNoAccess": "Lisenziyanın müddəti bitdi. Sizin sənəd redaktə funksiyasına girişiniz yoxdur. Zəhmət olmasa admininizlə əlaqə saxlayın.",
     "warnLicenseLimitedRenewed": "Lisenziya yenilənməlidir. Sənəd redaktə funksiyasına girişiniz məhduddur.<br>Tam giriş əldə etmək üçün inzibatçınızla əlaqə saxlayın",
-    "warnLicenseUsersExceeded": "1% redaktor üçün istifadəçi limitinə çatdınız. Ətraflı öyrənmək üçün inzibatçınızla əlaqə saxlayın.",
     "warnNoLicense": "Siz 1% redaktorlarına eyni vaxtda qoşulma limitinə çatdınız. Bu sənəd yalnız baxmaq üçün açılacaq. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
     "warnNoLicenseUsers": "1% redaktor üçün istifadəçi limitinə çatdınız. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
     "warnProcessRightsChange": "Bu faylı redaktə etmək icazəniz yoxdur.",
@@ -658,8 +663,11 @@
     "textDownloadPdf": "Download PDF",
     "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
     "textSaveAsPdf": "Save as PDF",
+    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
     "titleDialogProtectedDocument": "The document is protected",
     "titleLicenseNotActive": "License not active",
+    "titleReadOnly": "Read-Only Mode",
     "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
     "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
     "warnLicenseBefore": "License not active.<br>Please contact your administrator."

@@ -160,6 +160,7 @@ define([
                 Common.NotificationCenter.on('uitheme:changed', _.bind(function() {
                     this.clearActiveData();
                     this.processPanelVisible();
+                    this.repaintMoreBtns();
                 }, this));
             },
 
@@ -378,7 +379,28 @@ define([
 
                 var _tabTemplate = _.template('<li class="ribtab" style="display: none;" <% if (typeof layoutname == "string") print(" data-layout-name=" + \' \' +  layoutname) + \' \' %>><a role="tab" id="<%= action %>" data-tab="<%= action %>" data-title="<%= caption %>" data-hint="0" data-hint-direction="bottom" data-hint-offset="small" <% if (typeof dataHintTitle !== "undefined") { %> data-hint-title="<%= dataHintTitle %>" <% } %> ><%= caption %></a></li>');
 
-                config.tabs[after + 1] = tab;
+                if (after===undefined || tab.aux)
+                    after = config.tabs.length-1;
+
+                if (tab.aux) { // alwayw show tab at the end of toolbar
+                    config.tabs.push(tab);
+                } else if (config.tabs[after + 1]) {
+                    var index = -1;
+                    for (let i=after + 2; i<config.tabs.length; i++) {
+                        if (config.tabs[i]===undefined) {
+                            index = i;
+                            break;
+                        }
+                    }
+                    if (index<0 || index>config.tabs.length-1)
+                        config.tabs.splice(after+1, 0, tab);
+                    else {
+                        config.tabs.splice(index, 1);
+                        config.tabs.splice(after+1, 0, tab);
+                    }
+                } else {
+                    config.tabs[after + 1] = tab;
+                }
                 var _after_action = _get_tab_action(after);
 
                 var _elements = this.$tabs || this.$layout.find('.tabs');
@@ -424,7 +446,8 @@ define([
             },
 
             getLastTabIdx: function() {
-                return config.tabs.length;
+                var index = _.findIndex(config.tabs, {aux: true});
+                return index<0 ? config.tabs.length-1 : index-1;
             },
 
             isCompact: function () {
@@ -618,6 +641,9 @@ define([
                     var moreContainer = $('<div class="dropdown-menu more-container" data-tab="' + tab + '"><div style="display: inline;"></div></div>');
                     optsFold.$bar.append(moreContainer);
                     btnsMore[tab].panel = moreContainer.find('div');
+                } else if (btnsMore[tab].needRepaint && panel.is(':visible')) {
+                    btnsMore[tab].cmpEl.closest('.more-box').css('top', Common.Utils.getPosition(panel).top);
+                    btnsMore[tab].needRepaint = false;
                 }
                 this.$moreBar = btnsMore[tab].panel;
             },
@@ -625,8 +651,11 @@ define([
             repaintMoreBtns: function() {
                 for (var btn in btnsMore) {
                     if (btnsMore[btn] && btnsMore[btn].cmpEl) {
-                        var box = btnsMore[btn].cmpEl.closest('.more-box');
-                        box.css('top', Common.Utils.getPosition(box.parent()).top);
+                        var box = btnsMore[btn].cmpEl.closest('.more-box'),
+                            panel = box.parent(),
+                            isVisible = panel.is(':visible');
+                        isVisible && box.css('top', Common.Utils.getPosition(panel).top);
+                        btnsMore[btn].needRepaint = !isVisible;
                     }
                 }
             },
@@ -745,7 +774,7 @@ define([
                     _maxright = box_controls_width;
                 if (!_staticPanelWidth) _staticPanelWidth = 0;
                 var _rightedge = $active.outerWidth() + _staticPanelWidth,
-                    delta = (this._prevBoxWidth) ? (_maxright - this._prevBoxWidth) : -1,
+                    delta = (this._prevBoxWidth!==undefined) ? (_maxright - this._prevBoxWidth) : -1,
                     hideAllMenus = false;
                 this._prevBoxWidth = _maxright;
                 more_section.is(':visible') && (_maxright -= more_section_width);

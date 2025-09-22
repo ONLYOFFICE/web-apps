@@ -71,6 +71,7 @@
                         <span class="btn-slot split-small" id="<% if (!isRTL) { %>slot-btn-align-right<% } else { %>slot-btn-align-left<% } %>"></span>
                         <span class="btn-slot split-small" id="slot-btn-align-just"></span>
                         <span class="btn-slot split" id="slot-btn-merge"></span>
+                        <span class="btn-slot split" id="slot-btn-direction"></span>
                     </div>
                 </div>
                 <div class="separator long"></div>

@@ -5,8 +5,7 @@
             <div id="id-table-settings" class="settings-panel"></div>
             <div id="id-image-settings" class="settings-panel"></div>
             <div id="id-shape-settings" class="settings-panel"></div>
-        <!--        <div id="id-chart-settings" class="settings-panel">-->
-        <!--        </div>-->
+            <div id="id-chart-settings" class="settings-panel"></div>
             <div id="id-textart-settings" class="settings-panel"></div>
         <!--        <div id="id-signature-settings" class="settings-panel">-->
         <!--        </div>-->
@@ -19,7 +18,7 @@
         <button id="id-right-menu-image" class="btn btn-category arrow-left" content-target="id-image-settings" data-hint="0" data-hint-direction="left" data-hint-offset="big"><i class="icon toolbar__icon btn-menu-image">&nbsp;</i></button>
         <button id="id-right-menu-text" class="btn btn-category arrow-left" content-target="id-paragraph-settings" data-hint="0" data-hint-direction="left" data-hint-offset="big"><i class="icon toolbar__icon btn-paragraph">&nbsp;</i></button>
         <button id="id-right-menu-table" class="btn btn-category arrow-left" content-target="id-table-settings" data-hint="0" data-hint-direction="left" data-hint-offset="big"><i class="icon toolbar__icon btn-menu-table">&nbsp;</i></button>
-<!--        <button id="id-right-menu-chart" class="btn btn-category arrow-left" content-target="id-chart-settings" data-hint="0" data-hint-direction="left" data-hint-offset="big"><i class="icon toolbar__icon btn-menu-chart">&nbsp;</i></button>-->
+        <button id="id-right-menu-chart" class="btn btn-category arrow-left" content-target="id-chart-settings" data-hint="0" data-hint-direction="left" data-hint-offset="big"><i class="icon toolbar__icon btn-menu-chart">&nbsp;</i></button>
         <button id="id-right-menu-textart" class="btn btn-category arrow-left" content-target="id-textart-settings" data-hint="0" data-hint-direction="left" data-hint-offset="big"><i class="icon toolbar__icon btn-menu-textart">&nbsp;</i></button>
 <!--        <button id="id-right-menu-signature" class="btn btn-category arrow-left hidden" content-target="id-signature-settings" data-hint="0" data-hint-direction="left" data-hint-offset="big"><i class="icon toolbar__icon btn-menu-signature">&nbsp;</i></button>-->
         <button id="id-right-menu-form" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-form-settings"><i class="icon toolbar__icon btn-field">&nbsp;</i></button>

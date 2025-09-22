@@ -91,6 +91,20 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         }
     }, [isViewer]);
 
+    useEffect(() => {
+        const resetOffset = () => {
+            scrollOffsetRef.current = 0;
+        };
+
+        window.addEventListener('touchstart', resetOffset);
+        window.addEventListener('mousedown', resetOffset);
+
+        return () => {
+            window.removeEventListener('touchstart', resetOffset);
+            window.removeEventListener('mousedown', resetOffset);
+        };
+    }, []);
+
     // Scroll handler
 
     const scrollHandler = offset => {
@@ -98,16 +112,24 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         const navbarHeight = getNavbarTotalHeight();
         const isSearchbarEnabled = document.querySelector('.subnavbar .searchbar')?.classList.contains('searchbar-enabled');
 
-        if(!isSearchbarEnabled && navbarHeight) {
-            if(offset > 0 && Math.abs(offset) > Math.abs(scrollOffsetRef.current)) {
+        if (!isSearchbarEnabled && navbarHeight) {
+            if (offset > 0) {
+                offset > scrollOffsetRef.current ? hideNavbar() : showNavbar();
+            } else if (offset < 0) {
+                Math.abs(offset) > Math.abs(scrollOffsetRef.current) ? showNavbar() : hideNavbar();
+            }
+
+            function hideNavbar () {
                 props.closeOptions('fab');
                 f7.navbar.hide('.main-navbar');
                 api.SetMobileTopOffset(undefined, 0);
-            } else if(offset < 0 && Math.abs(offset) <= Math.abs(scrollOffsetRef.current)) {
+            };
+
+            function showNavbar () {
                 props.openOptions('fab');
                 f7.navbar.show('.main-navbar');
                 api.SetMobileTopOffset(undefined, navbarHeight);
-            }
+            };
 
             scrollOffsetRef.current = offset;
         }
@@ -285,7 +307,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             ],
             on: {
                 opened: () => {
-                    const nameDoc = docTitle.split('.')[0];
+                    const nameDoc = docTitle.slice(0, docTitle.lastIndexOf("."));
                     const titleField = document.querySelector('#modal-title');
                     const btnChangeTitle = document.querySelector('.btn-change-title');
 
@@ -441,6 +463,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             canFillForms={appOptions.canFillForms}
             canSubmitForms={appOptions.canSubmitForms}
             forceDesktopMode={forceDesktopMode}
+            isHiddenFileName={appOptions.config?.customization?.toolbarHideFileName ?? false}
         />
     )
 }));

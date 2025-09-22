@@ -846,6 +846,7 @@ define([
                                     imageProps: elValue,
                                     api: me.api,
                                     sectionProps: me.api.asc_GetSectionProps(),
+                                    chartSettings: null,
                                     handler: function(result, value) {
                                         if (result == 'ok') {
                                             if (me.api) {
@@ -2035,7 +2036,7 @@ define([
                 this.imgprops.put_ShapeProperties(props);
                 this.api.ImgApply(this.imgprops);
             }
-            $(this.btnTexture.el).find('.form-control').prop('innerHTML', record.get('name'));
+            // $(this.btnTexture.el).find('.form-control').prop('innerHTML', record.get('name'));
             this.fireEvent('editcomplete', this);
         },
 

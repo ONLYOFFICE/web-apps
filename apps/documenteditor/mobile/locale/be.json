@@ -65,6 +65,7 @@
     "txtNotUrl": "Гэтае поле мусіць быць URL-адрасам фармату \"http://www.example.com\"",
     "textDrawing": "Drawing",
     "textPasteImageUrl": "Paste an image URL",
+    "textRemovePicture": "Remove picture",
     "textWithBlueLinks": "With Blue Links",
     "textWithPageNumbers": "With Page Numbers"
   },
@@ -387,7 +388,11 @@
     "textWrap": "Абцяканне",
     "textWrappingStyle": "Стыль абцякання",
     "textAmountOfLevels": "Amount of Levels",
+    "textBaseline": "Baseline",
     "textBulletsAndNumbers": "Bullets & Numbers",
+    "textCapitalization": "Capitalization",
+    "textCellOptions": "Cell options",
+    "textCellSize": "Rows & columns size",
     "textChooseAnItem": "Choose an item",
     "textChooseAnOption": "Choose an option",
     "textCreateTextStyle": "Create new text style",
@@ -409,7 +414,10 @@
     "textStructure": "Structure",
     "textTableOfCont": "TOC",
     "textTextOrientation": "Text Orientation",
-    "textYourOption": "Your option"
+    "textWrapText": "Wrap Text",
+    "textYourOption": "Your option",
+    "txtHeight": "Height",
+    "txtWidth": "Width"
   },
   "Error": {
     "convertationTimeoutText": "Час чакання пераўтварэння сышоў.",
@@ -513,11 +521,10 @@
     "uploadImageTextText": "Запампоўванне выявы…",
     "uploadImageTitleText": "Запампоўванне выявы",
     "waitText": "Калі ласка, пачакайце...",
-    "savingText": "Saving"
+    "savingText": "Submitting"
   },
   "Main": {
     "criticalErrorTitle": "Памылка",
-    "errorProcessSaveResult": "Не атрымалася захаваць",
     "errorServerVersion": "Рэдактар быў абноўлены. Старонка перазагрузіцца, каб ужыць змены.",
     "errorUpdateVersion": "Версія файла была змененая. Старонка будзе перазагружаная.",
     "notcriticalErrorTitle": "Увага",
@@ -639,7 +646,6 @@
     "titleUpdateVersion": "Версія змянілася",
     "warnDownloadAsPdf": "{0} будзе ператвораны ў рэдагавальны фармат. Гэта можа заняць пэўны час. Выніковы дакумент будзе даступны для рэдагавання, таму можа адрознівацца ад зыходнага {0}, асабліва калі зыходны файл змяшчае шмат графічных элементаў.",
     "warnLicenseBefore": "Ліцэнзія не дзейнічае.<br>Звярніцеся да адміністратара.",
-    "warnLicenseUsersExceeded": "Вы дасягнулі абмежавання па адначасовай колькасці падлучэнняў да рэдактараў %1. Звяжыцеся з адміністратарам, каб даведацца больш.",
     "warnNoLicenseUsers": "Вы дасягнулі абмежавання па адначасовай колькасці падлучэнняў да рэдактараў %1. Напішыце ў аддзел продажу %1, каб абмеркаваць асабістыя ўмовы ліцэнзіявання.",
     "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please, contact your administrator.",
     "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
@@ -655,9 +661,11 @@
     "textDownloadPdf": "Download PDF",
     "textRemember": "Remember my choice",
     "textSaveAsPdf": "Save as PDF",
+    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
     "titleDialogProtectedDocument": "The document is protected",
+    "titleReadOnly": "Read-Only Mode",
     "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
-    "warnLicenseExceeded": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact your administrator to learn more.",
     "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
     "warnLicenseLimitedNoAccess": "License expired. You have no access to document editing functionality. Please, contact your admin.",
     "warnLicenseLimitedRenewed": "License needs to be renewed. You have limited access to document editing functionality.<br>Please contact your administrator to get full access",

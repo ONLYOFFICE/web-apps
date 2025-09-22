@@ -694,7 +694,7 @@ define([
                     iconCls: 'toolbar__icon btn-ltr',
                     action: 'text-direction',
                     dirRtl: false,
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.disableOnStart, _set.inAnnotation],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inCheckForm, _set.disableOnStart, _set.inAnnotation],
                     menu: new Common.UI.Menu({
                         items: [
                             {caption: this.textDirLtr, value: false, iconCls: 'menu__icon btn-ltr'},
@@ -1106,6 +1106,92 @@ define([
                     });
                     this.btnsHighlight = [this.btnHighlight];
                     this.toolbarControls.push(this.btnHighlight);
+
+                    this.btnShapeComment = new Common.UI.ButtonColored({
+                        id: 'tlbtn-shapecomment',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-big-annotation-rectangle',
+                        lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
+                        caption: ' ',
+                        menu: true,
+                        split: true,
+                        enableToggle: true,
+                        colors: colorsconfig.colors,
+                        color: 'D43230',
+                        dynamiccolors: colorsconfig.dynamiccolors,
+                        themecolors: colorsconfig.themecolors,
+                        effects: colorsconfig.effects,
+                        columns: colorsconfig.columns,
+                        paletteCls: colorsconfig.cls,
+                        paletteWidth: colorsconfig.paletteWidth,
+                        currentSize: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2},
+                        hidePaletteOnClick: false,
+                        additionalItemsBefore: [
+                            {
+                                cls: 'shifted-right',
+                                tipForMainBtn: me.tipInsertRectComment,
+                                caption: me.txtRectComment,
+                                checkable: true,
+                                checkmark: false,
+                                toggleGroup: 'shapecomment',
+                                iconCls     : 'menu__icon btn-annotation-rectangle',
+                                value: AscPDF.ANNOTATIONS_TYPES.Square,
+                                iconClsForMainBtn: 'btn-big-annotation-rectangle',
+                                captionForMainBtn: me.capBtnRectComment
+                            },
+                            {
+                                cls: 'shifted-right',
+                                tipForMainBtn: me.tipInsertCircleComment,
+                                caption: me.txtCircleComment,
+                                checkable: true,
+                                checkmark: false,
+                                toggleGroup: 'shapecomment',
+                                iconCls     : 'menu__icon btn-annotation-circle',
+                                value: AscPDF.ANNOTATIONS_TYPES.Circle,
+                                iconClsForMainBtn: 'btn-big-annotation-circle',
+                                captionForMainBtn: me.capBtnCircleComment
+                            },
+                            {
+                                cls: 'shifted-right',
+                                tipForMainBtn: me.tipInsertArrowComment,
+                                caption: me.txtArrowComment,
+                                checkable: true,
+                                checkmark: false,
+                                toggleGroup: 'shapecomment',
+                                iconCls     : 'menu__icon btn-annotation-arrow',
+                                value: AscPDF.ANNOTATIONS_TYPES.Line,
+                                iconClsForMainBtn: 'btn-big-annotation-arrow',
+                                captionForMainBtn: me.capBtnArrowComment
+                            },
+                            {
+                                cls: 'shifted-right',
+                                tipForMainBtn: me.tipInsertPolyLineComment,
+                                caption: me.txtPolyLineComment,
+                                checkable: true,
+                                checkmark: false,
+                                toggleGroup: 'shapecomment',
+                                iconCls     : 'menu__icon btn-annotation-connected-lines',
+                                value: AscPDF.ANNOTATIONS_TYPES.PolyLine,
+                                iconClsForMainBtn: 'btn-big-annotation-connected-lines',
+                                captionForMainBtn: me.capBtnPolyLineComment
+                            },
+                            {caption: '--'},
+                        ],
+                        additionalItemsAfter: [
+                            {caption: '--'},
+                            new Common.UI.MenuItem({
+                                template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
+                                stopPropagation: true
+                            })
+                        ],
+                        storageSuffix: '-shapecomment',
+                        hideColorsSeparator: true,
+                        action: 'insert-shape-comment',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.toolbarControls.push(this.btnShapeComment);
 
                     if (config.isPDFAnnotate && config.canPDFEdit || config.isPDFEdit) {
                         this.btnEditMode = new Common.UI.Button({
@@ -1541,6 +1627,7 @@ define([
                 _injectComponent('#slot-btn-underline', this.btnUnderline);
                 _injectComponent('#slot-btn-highlight', this.btnHighlight);
                 _injectComponent('#slot-btn-text-comment', this.btnTextComment);
+                _injectComponent('#slot-btn-shape-comment', this.btnShapeComment);
                 _injectComponent('#slot-btn-stamp', this.btnStamp);
                 this.btnEditMode ? _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode) : $host.findById('#slot-btn-tb-edit-mode').parents('.group').hide().next('.separator').hide();
             },
@@ -1707,6 +1794,27 @@ define([
                             ]
                         }));
                     }
+                    if (me.btnShapeComment) {
+                        var btn = me.btnShapeComment;
+                        btn.options.shapeType = AscPDF.ANNOTATIONS_TYPES.Square;
+                        btn.setMenu();
+                        btn.currentColor = btn.color;
+                        let onShowAfter = function(menu) {
+                            var sizePicker = new Common.UI.UpDownPicker({
+                                el: menu.cmpEl.find('.custom-scale'),
+                                caption: me.txtSize,
+                                minWidth: 50
+                            });
+                            sizePicker.setValue(btn.options.currentSize.arr[btn.options.currentSize.idx] + ' ' + me.txtMM);
+                            sizePicker.on('click', function (direction) {
+                                me.fireEvent('shapeannot:size', [direction]);
+                            });
+                            btn.sizePicker = sizePicker;
+                            menu.off('show:after', onShowAfter);
+                        };
+                        btn.menu.on('show:after', onShowAfter);
+                        me.mnuShapeCommentColorPicker = btn.getPicker();
+                    }
                     if (me.btnStamp) {
                         me.btnStamp.setMenu(new Common.UI.Menu({
                             restoreHeight: 500
@@ -1754,6 +1862,7 @@ define([
                 this.btnHighlight.updateHint(this.textHighlight);
                 // this.btnTextComment.updateHint([this.tipInsertTextComment, this.tipInsertText]);
                 this.btnTextComment.updateHint(this.tipInsertTextComment);
+                this.btnShapeComment.updateHint(this.tipInsertRectComment);
                 this.btnStamp.updateHint(this.tipInsertStamp);
                 this.btnEditMode && this.btnEditMode.updateHint(this.tipEditMode);
             },
