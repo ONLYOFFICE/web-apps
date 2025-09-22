@@ -3262,7 +3262,7 @@ define([], function () {
                         let argcount = arr.length;
                         for (var j = 0; j < types.length; j++) {
                             var str = me.getArgumentName(argcount, argsNames, repeatedArg, minArgCount, maxArgCount, repeatedIdx);
-                            activeArg && (argcount===activeArg-1) && (str = '<b>' + str + '</b>');
+                            activeArg && (argcount===activeArg-1) && (str = '<span class="contrast">' + str + '</span>');
                             arr.push(str);
                             argcount++;
                         }
@@ -3288,7 +3288,7 @@ define([], function () {
                     }
                     repeatedArg && arr.push('...');
                     hint = this.api.asc_getFormulaLocaleName(name);
-                    !activeArg && (hint = '<b>' + hint + '</b>');
+                    !activeArg && (hint = '<span class="contrast">' + hint + '</span>');
                     hint += '(' + arr.join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
                 } else {
                     if (funcdesc && funcdesc[name]) {
