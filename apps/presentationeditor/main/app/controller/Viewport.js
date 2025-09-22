@@ -255,7 +255,10 @@ define([
         onPreviewStart: function(slidenum, presenter, fromApiEvent, isCurrent) {
             this.previewPanel = this.previewPanel || this.getView('DocumentPreview');
             var me = this,
-                isResized = false;
+                isResized = false,
+                print = PE.getController && PE.getController('Print');
+            
+            if (print && print._isPreviewVisible) return;
             
             var reporterObject = (presenter) ? PE.getController('Main').document : null;
             if (reporterObject) {
