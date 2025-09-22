@@ -139,14 +139,17 @@
 
         &:hover {
             .user-comment-item {
-                background-color: @highlight-button-hover;
+                background-color: @highlight-comment-hover-ie;
+                background-color: @highlight-comment-hover;
             }
         }
         &.active {
             .user-comment-item {
-                background-color: transparent;
-                border-color: @border-toolbar;
-                .box-shadow(2px 3px 4px 0px @border-toolbar);
+                background-color: @highlight-comment-pressed-ie;
+                background-color: @highlight-comment-pressed;
+                border-color: @highlight-comment-pressed-ie;
+                border-color: @highlight-comment-pressed;
+                .box-shadow(0 1px 2px 0px fade(#000, 10%));
             }
         }
     }
