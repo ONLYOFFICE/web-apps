@@ -43,7 +43,7 @@ export class storeApplicationSettings {
     isRefStyle = false;
     isComments = true;
     isResolvedComments = true; 
-    formulaLangs = ['en', 'be', 'bg', 'ca', 'zh', 'cs', 'da', 'nl', 'fi', 'fr', 'de', 'el', 'hu', 'id', 'it', 'ja', 'ko', 'lv', 'lo', 'nb', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sr', 'sr-cyrl', 'sk', 'sl', 'sv', 'es', 'tr', 'uk', 'vi'];
+    formulaLangs = ['en', 'be', 'bg', 'ca', 'zh', 'zh-tw', 'cs', 'da', 'nl', 'fi', 'fr', 'de', 'el', 'hu', 'id', 'it', 'ja', 'ko', 'lv', 'lo', 'nb', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sr', 'sr-cyrl', 'sk', 'sl', 'sv', 'es', 'tr', 'uk', 'vi'];
 
     formulaLangsExamples = {
         'txtExampleEn': 'SUM; MIN; MAX; COUNT',
