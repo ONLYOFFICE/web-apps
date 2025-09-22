@@ -1549,7 +1549,11 @@ define([], function () {
         textFill: 'Fill',
         textLine: 'Line',
         txtAppearance: 'Appearance',
-        txtZhtw: 'Chinese (Traditional)'
+        txtZhtw: 'Chinese (Traditional)',
+        txtSr: 'Serbian (Latin)',
+        txtSrcyrl: 'Serbian (Cyrillic)',
+        txtExampleSr: 'SUMA; MIN; MAKS; BROJANJE',
+        txtExampleSrcyrl: 'СУМА; МИН; МАКС; БРОЈАЊЕ'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
