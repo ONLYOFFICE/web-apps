@@ -580,7 +580,7 @@ define([
                     return false;
                 }
                 if (newName !== currentName) {
-                    me.api.asc_renameWorksheet(newName);
+                    me.api.asc_renameWorksheet(newName, tab.sheetid);
                     me.renameInputVal = null;
                     me.renamingWorksheet = null;
                 }
