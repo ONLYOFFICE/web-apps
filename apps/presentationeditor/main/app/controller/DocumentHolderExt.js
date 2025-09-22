@@ -1632,7 +1632,7 @@ define([], function () {
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                 });
                 picker.on('item:click', function (picker, item, record, e) {
-                    me.api.asc_addChartDrawingObject(record.get('type'), me._state.placeholderObj);
+                    me.api.asc_addChartDrawingObject(record.get('type'), me._state.placeholderObj, true);
                 });
             }
             menuContainer.css({left: x, top : y});

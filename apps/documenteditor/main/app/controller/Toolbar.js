@@ -2615,8 +2615,7 @@ define([
                     chart.changeType(type);
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else {
-                me.api.asc_addChartDrawingObject(type);
-                me.api.asc_editChartInFrameEditor();
+                me.api.asc_addChartDrawingObject(type, undefined, true);
                 me.toolbar.fireEvent('insertchart', me.toolbar);
             }
         },
