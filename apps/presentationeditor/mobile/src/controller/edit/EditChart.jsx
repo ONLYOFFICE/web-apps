@@ -97,9 +97,8 @@ class EditChartController extends Component {
 
     onType (type) {
         const api = Common.EditorApi.get();
-        let chart = new Asc.CAscChartProp();
+        let chart = this.props.storeFocusObjects.chartObject.get_ChartProperties();
         chart.changeType(type);
-        api.ChartApply(chart);
         // Force update styles
         this.props.storeChartSettings.updateChartStyles(api.asc_getChartPreviews(chart.getType()));
     }

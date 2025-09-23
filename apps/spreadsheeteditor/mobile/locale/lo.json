@@ -95,7 +95,6 @@
       "criticalErrorTitle": "ຂໍ້ຜິດພາດ",
       "errorAccessDeny": "ທ່ານກໍາລັງພະຍາຍາມດໍາເນີນການໃນໜ້າທີ່ທ່ານບໍ່ມີສິດສໍາລັບດໍາເນີນການ.<br>ກະລຸນາ, ຕິດຕໍ່ແອດມີນລະບົບຂອງທ່ານ.",
       "errorOpensource": "ການນໍາໃຊ້ສະບັບຟຣີ, ທ່ານສາມາດເປີດເອກະສານສໍາລັບການອ່ານເທົ່ານັ້ນ. ໃນການເຂົ້າເຖິງໂປຣແກຣມ, ຕ້ອງມີໃບອະນຸຍາດທາງການຄ້າ.",
-      "errorProcessSaveResult": "ບັນທຶກບໍ່ສໍາເລັດ",
       "errorServerVersion": "ສະບັບດັດແກ້ໄດ້ຖືກປັບປຸງແລ້ວ. ໜ້າເວັບຈະຖືກໂຫລດຄືນເພື່ອນຳໃຊ້ການປ່ຽນແປງ.",
       "errorUpdateVersion": "ເອກະສານໄດ້ຖືກປ່ຽນແລ້ວ. ໜ້າເວັບຈະຖືກໂຫລດ ໃໝ່.",
       "leavePageText": "ທ່ານມີການປ່ຽນແປງທີ່ຍັງບໍ່ໄດ້ບັນທຶກໄວ້ໃນເອກະສານນີ້. ຄລິກທີ່ 'ຢູ່ໃນໜ້ານີ້' ເພື່ອລໍຖ້າການບັນທຶກອັດຕະໂນມັດ. ຄລິກ 'ອອກຈາກໜ້ານີ້' ເພື່ອຍົກເລີກການປ່ຽນແປງທີ່ບໍ່ໄດ້ບັນທຶກໄວ້ທັງໝົດ.",
@@ -119,10 +118,8 @@
       "titleLicenseExp": "ໃບອະນຸຍາດໝົດອາຍຸ",
       "titleServerVersion": "ອັບເດດການແກ້ໄຂ",
       "titleUpdateVersion": "ປ່ຽນແປງລຸ້ນ",
-      "warnLicenseExceeded": "ທ່ານໄດ້ຖືກຈຳກັດສິດພຽງເທົ່ານີ້ສຳຫລັບການເຊື່່ອມພ້ອມກັນກັບເຄື່ອງມືແກ້ໄຂ %1 ແລ້ວເອກະສານນີ້ຈະເປີດໃຫ້ເບີ່ງເທົ່ານັ້ນ ຕິດຕໍ່ຫາທາງແອດມີນຂອງທ່ານເພື່ອຮັບຂໍ້ມູນເພີ່ມ",
       "warnLicenseLimitedNoAccess": "ໃບອະນຸຍາດໝົດອາຍຸແລ້ວ. ທ່ານບໍ່ສາມາດເຂົ້າເຖິງການດຳເນີນງານແກ້ໄຂເອກະສານ. ກະລຸນາ, ຕິດຕໍ່ແອດມີນຂອງທ່ານ.",
       "warnLicenseLimitedRenewed": "ໃບອະນຸຍາດຕ້ອງໄດ້ຮັບການຕໍ່ອາຍຸ. ທ່ານຈະຖືກຈຳກັດສິດໃນການເຂົ້າເຖິ່ງການແກ້ໄຂເອກະສານ.<br> ກະລຸນາຕິດຕໍ່ແອດມີນຂອງທ່ານເພື່ອຕໍ່ອາຍຸ",
-      "warnLicenseUsersExceeded": "ຈໍານວນ ການເຊື່ອມຕໍ່ພ້ອມກັນກັບຜູ້ແກ້ໄຂ ແມ່ນເກີນກໍານົດ % 1. ຕິດຕໍ່  ທີມບໍລິຫານເພື່ອຂໍ້ມູນເພີ່ມເຕີ່ມ",
       "warnNoLicense": "ທ່ານໄດ້ຖືກຈຳກັດສິດພຽງເທົ່ານີ້ສຳຫລັບການເຊື່່ອມພ້ອມກັນກັບເຄື່ອງມືແກ້ໄຂ %1 ແລ້ວເອກະສານນີ້ຈະເປີດໃຫ້ເບີ່ງເທົ່ານັ້ນ ຕິດຕໍ່ທີມຂາຍ %1 ສຳຫລັບເງື່ອນໄຂການອັບເກດສ່ວນບຸກຄົນ",
       "warnNoLicenseUsers": "ຈໍານວນ ການເຊື່ອມຕໍ່ພ້ອມກັນກັບບັນນາທິການ ແມ່ນເກີນກໍານົດ % 1. ຕິດຕໍ່  ທີມຂາຍ% 1 ສຳ ລັບຂໍ້ ກຳນົດການຍົກລະດັບສິດ",
       "warnProcessRightsChange": "ທ່ານບໍ່ມີສິດໃນການແກ້ໄຂໄຟລ໌ນີ້.",
@@ -242,7 +239,10 @@
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
       "textUpdate": "Update",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
       "titleLicenseNotActive": "License not active",
+      "titleReadOnly": "Read-Only Mode",
       "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
@@ -441,7 +441,9 @@
     "textSheetName": "ຊື່ແຜ່ນເຈ້ຍ",
     "textTabColor": "ສີຫຍໍ້ໜ້າ",
     "textUnhide": "ເປີດເຜີຍ",
-    "textWarnDeleteSheet": "ແຜ່ນວຽກອາດມີຂໍ້ມູນ. ດໍາເນີນການດໍາເນີນງານບໍ?"
+    "textWarnDeleteSheet": "ແຜ່ນວຽກອາດມີຂໍ້ມູນ. ດໍາເນີນການດໍາເນີນງານບໍ?",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "ທ່ານມີການປ່ຽນແປງທີ່ຍັງບໍ່ໄດ້ບັນທຶກໄວ້ໃນເອກະສານນີ້. ຄລິກທີ່ 'ຢູ່ໃນໜ້ານີ້' ເພື່ອລໍຖ້າການບັນທຶກອັດຕະໂນມັດ. ຄລິກ 'ອອກຈາກໜ້ານີ້' ເພື່ອຍົກເລີກການປ່ຽນແປງທີ່ບໍ່ໄດ້ບັນທຶກໄວ້ທັງໝົດ.",
@@ -703,6 +705,11 @@
       "txtNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ \"http://www.example.com\"",
       "txtSortHigh2Low": "ລຽງລຳດັບຈາກສູງສຸດໄປຫາຕ່ຳສຸດ",
       "txtSortLow2High": "ລຽງລຳດັບແຕ່ຕ່ຳສຸດໄປຫາສູງສຸດ",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textAllCaps": "All Caps",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
       "textChangeShape": "Change Shape",
       "textCreateCustomFormat": "Create Custom Format",
       "textCreateFormat": "Create Format",
@@ -710,9 +717,15 @@
       "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
+      "textDoubleStrikethrough": "Double Strikethrough",
       "textEnterFormat": "Enter Format",
       "textInvalidName": "The file name cannot contain any of the following characters: ",
-      "textSave": "Save"
+      "textLetterSpacing": "Letter spacing",
+      "textSave": "Save",
+      "textSmallCaps": "Small Caps",
+      "textStrikethrough": "Strikethrough",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript"
     },
     "Settings": {
       "advCSVOptions": "ເລືອກຕົວເລືອກຂອງ CSV",
@@ -866,7 +879,8 @@
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
       "textVersionHistory": "Version History",
-      "txtDe": "German"
+      "txtDe": "German",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   },
   "Draw": {

@@ -12,6 +12,9 @@ export class storeTextSettings {
             isBold: observable,
             isItalic: observable,
             isUnderline: observable,
+            isStrikethrough: observable,
+            isSuperscript: observable,
+            isSubscript: observable,
             textColor: observable,
             customTextColors: observable,
             paragraphAlign: observable,
@@ -53,6 +56,9 @@ export class storeTextSettings {
     isBold = false;
     isItalic = false;
     isUnderline = false;
+    isStrikethrough = false;
+    isSuperscript = false;
+    isSubscript = false;
     textColor = undefined;
     customTextColors = [];
     paragraphAlign = undefined;
@@ -61,7 +67,7 @@ export class storeTextSettings {
 
     initTextSettings(cellInfo) {
         let xfs = cellInfo.asc_getXfs();
-        let selectType = cellInfo.asc_getSelectionType();
+        let selectType = cellInfo.asc_getSelectionType();        
 
         switch (selectType) {
             case Asc.c_oAscSelectionType.RangeChartText: this.textIn = 1; break;
@@ -79,7 +85,10 @@ export class storeTextSettings {
         this.isBold = xfs.asc_getFontBold();
         this.isItalic = xfs.asc_getFontItalic();
         this.isUnderline = xfs.asc_getFontUnderline();
-    
+        this.isStrikethrough = xfs.asc_getFontStrikeout();
+        this.isSuperscript = xfs.asc_getFontSuperscript();
+        this.isSubscript = xfs.asc_getFontSubscript();
+
         let color = xfs.asc_getFontColor();
         // console.log(color);
         this.textColor = this.resetTextColor(color);

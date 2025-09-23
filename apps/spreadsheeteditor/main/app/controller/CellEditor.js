@@ -81,7 +81,6 @@ define([
             this.api = api;
 
             this.api.isCEditorFocused = false;
-            this.api.asc_registerCallback('asc_onSelectionNameChanged', _.bind(this.onApiCellSelection, this));
             this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
             this.api.asc_registerCallback('asc_onEditorSelectionChanged', _.bind(this.onCellEditorTextChange, this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiDisconnect,this));
@@ -96,12 +95,14 @@ define([
         setMode: function(mode) {
             this.mode = mode;
 
+            this.editor.setMode(mode);
             this.editor.$btnfunc[this.mode.isEdit?'removeClass':'addClass']('disabled');
             this.editor.btnNamedRanges.setVisible(this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge && !this.mode.isEditOle);
 
             if ( this.mode.isEdit ) {
                 this.api.asc_registerCallback('asc_onSelectionChanged', _.bind(this.onApiSelectionChanged, this));
             }
+            !this.mode.isEditDiagram && this.api.asc_registerCallback('asc_onSelectionNameChanged', _.bind(this.onApiCellSelection, this));
         },
 
         onInputKeyDown: function(e) {

@@ -866,8 +866,8 @@ define([
                     enable_dropcap = true;
             }
 
-            toolbar.brdInnerVert?.setDisabled(!inTable);
-            toolbar.brdInner?.setDisabled(!inTable);
+            toolbar.brdInnerVert && toolbar.brdInnerVert.setDisabled(!inTable);
+            toolbar.brdInner && toolbar.brdInner.setDisabled(!inTable);
 
             if (sh)
                 this.onParagraphColor(sh);
@@ -941,7 +941,7 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.cantAddTable, !can_add_table, {array: [toolbar.btnInsertTable]});
             this.toolbar.lockToolbar(Common.enumLock.cantAddPageNum, toolbar.mnuPageNumCurrentPos.isDisabled() && toolbar.mnuPageNumberPosPicker.isDisabled(), {array: [toolbar.mnuInsertPageNum]});
             this.toolbar.lockToolbar(Common.enumLock.inHeader, in_header, {array: toolbar.btnsPageBreak.concat([toolbar.btnBlankPage, toolbar.btnColumns])});
-            this.toolbar.lockToolbar(Common.enumLock.inControl, in_control, {array: toolbar.btnsPageBreak.concat([toolbar.btnBlankPage])});
+            this.toolbar.lockToolbar(Common.enumLock.inControl, in_control, {array: [toolbar.btnBlankPage]});
             this.toolbar.lockToolbar(Common.enumLock.cantPageBreak, in_image && !btn_eq_state, {array: toolbar.btnsPageBreak.concat([toolbar.btnBlankPage])});
             this.toolbar.lockToolbar(Common.enumLock.contentLock, content_locked, {array: [toolbar.btnInsertShape, toolbar.btnInsertText, toolbar.btnInsertImage, toolbar.btnInsertTextArt, toolbar.btnInsertChart, toolbar.btnInsertSmartArt ]});
             this.toolbar.lockToolbar(Common.enumLock.inFootnote, in_footnote, {array: toolbar.btnsPageBreak.concat([toolbar.btnBlankPage, toolbar.btnInsertShape, toolbar.btnInsertText, toolbar.btnInsertTextArt, toolbar.btnInsertSmartArt ])});
@@ -2615,8 +2615,7 @@ define([
                     chart.changeType(type);
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else {
-                me.api.asc_addChartDrawingObject(type);
-                me.api.asc_editChartInFrameEditor();
+                me.api.asc_addChartDrawingObject(type, undefined, true);
                 me.toolbar.fireEvent('insertchart', me.toolbar);
             }
         },
@@ -2964,7 +2963,6 @@ define([
         },
 
         onNewBorderColor: function(picker, color) {
-            this.toolbar.btnBorders.menu.hide();
             this.toolbar.btnBorders.toggle(false, true);
             this.toolbar.mnuBorderColorPicker.addNewColor();
         },
@@ -3038,7 +3036,7 @@ define([
                 }
 
                 if (inTable) {
-                    var borders = props?.get_CellBorders?.();
+                    var borders = props && props.get_CellBorders && props.get_CellBorders();
                     const CellBorders = new Asc.CBorders();
 
                     var borderSide = {
@@ -3055,14 +3053,14 @@ define([
                     };
 
                     ['Left', 'Top', 'Right', 'Bottom', 'InsideV', 'InsideH'].forEach(side => {
-                        var border = borders?.[`get_${side}`]?.();
+                        var border = borders && borders[`get_${side}`] && borders[`get_${side}`]();
                         if (border) {
-                            var currentSize = (border.asc_getValue?.() === 1) ? border.asc_getSize?.() : 0;
+                            var currentSize = (border.asc_getValue && border.asc_getValue() === 1) ? border.asc_getSize() : 0;
                             var sizePts = currentSize * 72 / 25.4;
                             currentBorder[side] = {
                                 width: sizePts,
-                                color: border.asc_getColor?.(),
-                                value: border.asc_getValue?.()
+                                color: border.asc_getColor && border.asc_getColor(),
+                                value: border.asc_getValue && border.asc_getValue()
                             };
                         } else {
                             currentBorder[side] = {width: 0, color: new Asc.asc_CColor(), value: 0};
@@ -3129,7 +3127,7 @@ define([
                     ['Left', 'Top', 'Right', 'Bottom', 'Between'].forEach(side => {
                         var border = borders[`get_${side}`]();
                         if (border) {
-                            var currentSize = (border.asc_getValue?.() === 1) ? border.asc_getSize?.() : 0;
+                            var currentSize = (border.asc_getValue && border.asc_getValue() === 1) ? border.asc_getSize() : 0;
                             var sizePts = currentSize * 72 / 25.4;
                             currentBorder[side] = {
                                 width: sizePts, 
@@ -3989,7 +3987,7 @@ define([
                     Array.prototype.push.apply(me.toolbar.paragraphControls, drawtab.getView().getButtons());
                 }
 
-                if ( config.canProtect ) {
+                if ( config.canProtect && !config.isPDFForm) {
                     tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
                     $panel = application.getController('Common.Controllers.Protection').createToolbarPanel();
                     if ($panel) {
@@ -4273,6 +4271,7 @@ define([
             this.smartArtGenerating = undefined;
             if (this.currentSmartArtMenu) {
                 this.currentSmartArtMenu.menu.alignPosition();
+                this.currentSmartArtMenu.cmpEl && this.currentSmartArtMenu.cmpEl.attr('data-preview-loaded', true);
             }
             if (this.delayedSmartArt !== undefined) {
                 var delayedSmartArt = this.delayedSmartArt;

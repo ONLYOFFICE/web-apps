@@ -664,11 +664,18 @@ const PageAdditionalFormatting = props => {
                     </NavRight>
                 }
             </Navbar>
-            <List>
+            <BlockTitle>{_t.textStrikethrough}</BlockTitle>
+            <List title={_t.textStrikethrough}>
                 <ListItem title={_t.textStrikethrough} radio checked={isStrikeout} onClick={() => {props.onAdditionalStrikethrough('strikethrough', !isStrikeout)}}/>
                 <ListItem title={_t.textDoubleStrikethrough} radio checked={isDStrikeout} onClick={() => {props.onAdditionalStrikethrough('dbStrikethrough', !isDStrikeout)}}/>
+            </List>
+            <BlockTitle>{_t.textBaseline}</BlockTitle>
+            <List>
                 <ListItem title={_t.textSuperscript} radio checked={isSuperscript} onClick={() => {props.onAdditionalScript('superscript', !isSuperscript)}}/>
                 <ListItem title={_t.textSubscript} radio checked={isSubscript} onClick={() => {props.onAdditionalScript('subscript', !isSubscript)}}/>
+            </List>
+            <BlockTitle>{_t.textCapitalization}</BlockTitle>
+            <List>
                 <ListItem title={_t.textSmallCaps} radio checked={isSmallCaps} onClick={() => {props.onAdditionalCaps('small', !isSmallCaps)}}/>
                 <ListItem title={_t.textAllCaps} radio checked={isAllCaps} onClick={() => {props.onAdditionalCaps('all', !isAllCaps)}}/>
             </List>

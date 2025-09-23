@@ -310,6 +310,7 @@ define([], function () { 'use strict';
         },
 
         onSelectItem: function(picker, item, record, e){
+            if (!record) return;
             this.btnOk.setDisabled(record.get('level')==0 && record.get('index')>0);
             if (this.isAutoUpdate) {
                 this.inputDisplay.setValue((record.get('level') || record.get('index')==0) ? record.get('name') : '');

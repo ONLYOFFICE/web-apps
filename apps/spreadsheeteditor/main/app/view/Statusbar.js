@@ -494,7 +494,7 @@ define([
                         const tab = _.findWhere(this.tabbar.tabs, { sheetid: renamingWorksheet });
                         if (tab) {
                             setTimeout(() => {
-                                me.onSheetChanged(0, tab.sheetindex, tab);
+                                me.onSheetChanged(0, tab.index, tab);
                                 this.controller.renameWorksheet(renamingWorksheet, true);
                             }, 50);
                         } else {

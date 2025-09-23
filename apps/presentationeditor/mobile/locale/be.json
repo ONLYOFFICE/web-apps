@@ -83,7 +83,7 @@
     "menuSplit": "Split",
     "textDoNotShowAgain": "Don't show again",
     "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -91,7 +91,6 @@
       "advDRMPassword": "Пароль",
       "closeButtonText": "Закрыць файл",
       "criticalErrorTitle": "Памылка",
-      "errorProcessSaveResult": "Не атрымалася захаваць",
       "errorServerVersion": "Рэдактар быў абноўлены. Старонка перазагрузіцца, каб ужыць змены.",
       "errorUpdateVersion": "Версія файла была змененая. Старонка будзе перазагружаная.",
       "notcriticalErrorTitle": "Увага",
@@ -169,15 +168,16 @@
       "textOk": "Ok",
       "textRemember": "Remember my choice",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
       "titleLicenseNotActive": "License not active",
+      "titleReadOnly": "Read-Only Mode",
       "txtIncorrectPwd": "Password is incorrect",
       "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "warnLicenseExceeded": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact your administrator to learn more.",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
       "warnLicenseLimitedNoAccess": "License expired. You have no access to document editing functionality. Please, contact your administrator.",
       "warnLicenseLimitedRenewed": "License needs to be renewed. You have limited access to document editing functionality.<br>Please contact your administrator to get full access",
-      "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
       "warnProcessRightsChange": "You don't have permission to edit the file."
@@ -468,8 +468,11 @@
       "textZoomOut": "Памяншэнне",
       "textZoomRotate": "Павелічэнне і паварочванне",
       "textArrange": "Arrange",
+      "textBaseline": "Baseline",
       "textBulletsAndNumbers": "Bullets & Numbers",
       "textCancel": "Cancel",
+      "textCapitalization": "Capitalization",
+      "textCellSize": "Cell size",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textEmptyImgUrl": "You need to specify the image URL.",
@@ -489,7 +492,9 @@
       "textSelectObjectToEdit": "Select object to edit",
       "textSplit": "Split",
       "textTextOrientation": "Text Orientation",
-      "textTransitions": "Transitions"
+      "textTransitions": "Transitions",
+      "txtHeight": "Height",
+      "txtWidth": "Width"
     },
     "Settings": {
       "mniSlideStandard": "Стандартны (4:3)",

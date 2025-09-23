@@ -80,6 +80,11 @@ class EditCellController extends Component {
         api.asc_setCellUnderline(value);
     }
 
+    toggleStrikethrough(value) {
+        const api = Common.EditorApi.get();
+        api.asc_setCellStrikeout(value);
+    }
+
     onStyleClick(type) {
         const api = Common.EditorApi.get();
         api.asc_setCellStyle(type);
@@ -238,6 +243,7 @@ class EditCellController extends Component {
                 toggleBold={this.toggleBold}
                 toggleItalic={this.toggleItalic}
                 toggleUnderline={this.toggleUnderline}
+                toggleStrikethrough={this.toggleStrikethrough}
                 onStyleClick={this.onStyleClick}
                 onTextColor={this.onTextColor}
                 onFillColor={this.onFillColor}

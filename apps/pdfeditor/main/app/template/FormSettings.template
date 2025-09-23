@@ -290,6 +290,24 @@
             <div id="form-background-color-btn" style="display: inline-block;" class="float-right"></div>
         </td>
     </tr>
+    <tr class="form-not-check">
+        <td colspan=2 class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr class="form-not-check">
+        <td colspan=2>
+            <label class="header padding-small"><%= scope.textText %></label>
+        </td>
+    </tr>
+    <tr class="form-not-check">
+        <td class="padding-small" width="50%">
+            <label class="input-label" style="margin-top: 4px;"><%= scope.textNumeral %></label>
+        </td>
+        <td class="padding-small" width="50%">
+            <div id="form-combo-numeral"></div>
+        </td>
+    </tr>
 </table>
 <table cols="1" role="presentation">
     <tr>

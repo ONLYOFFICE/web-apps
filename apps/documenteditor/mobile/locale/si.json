@@ -66,7 +66,8 @@
     "textTableSize": "වගුවේ ප්‍රමාණය",
     "textWithBlueLinks": "නිල් සබැඳි සමඟ",
     "textWithPageNumbers": "පිටු අංක සමඟ",
-    "txtNotUrl": "මෙම ක්‍ෂේත්‍රය \"http://උපවසම.උදාහරණය.ලංකා\" ආකෘතියේ ඒ.ස.නි. ක් විය යුතුය."
+    "txtNotUrl": "මෙම ක්‍ෂේත්‍රය \"http://උපවසම.උදාහරණය.ලංකා\" ආකෘතියේ ඒ.ස.නි. ක් විය යුතුය.",
+    "textRemovePicture": "Remove picture"
   },
   "Common": {
     "Collaboration": {
@@ -415,7 +416,14 @@
     "textWe": "අපි",
     "textWrap": "වෙළීම",
     "textWrappingStyle": "දවටන ශෛලිය",
-    "textYourOption": "ඔබගේ විකල්පය"
+    "textYourOption": "ඔබගේ විකල්පය",
+    "textBaseline": "Baseline",
+    "textCapitalization": "Capitalization",
+    "textCellOptions": "Cell options",
+    "textCellSize": "Rows & columns size",
+    "textWrapText": "Wrap Text",
+    "txtHeight": "Height",
+    "txtWidth": "Width"
   },
   "Error": {
     "convertationTimeoutText": "අනුවර්තන කාලය ඉක්මවා ඇත.",
@@ -525,7 +533,6 @@
     "criticalErrorTitle": "දෝෂයකි",
     "errorAccessDeny": "අයිතියක් නැති ක්‍රියාමාර්ගයක් ගැනීමට ඔබ උත්සාහ කරයි.<br>කරුණාකර, ඔබගේ පරිපාලක අමතන්න.",
     "errorOpensource": "ඔබට නොමිලේ ප්‍රජා අනුවාදය භාවිතා කරමින් ලේඛන දැකීම සඳහා පමණක් විවෘත කිරීමට හැකිය. ජංගම වියමන සංස්කරක වෙත ප්‍රවේශ වීමට වාණිජ බලපත්‍රයක් අවශ්‍ය වේ.",
-    "errorProcessSaveResult": "සුරැකීමට අසමත් විය.",
     "errorServerVersion": "සංස්කරක අනුවාදය වෙනස්ව ඇත. වෙනස්කම් යෙදීමට පිටුව යළි පූරණය වනු ඇත.",
     "errorUpdateVersion": "ගොනුවේ අනුවාදය වෙනස්ව ඇත. පිටුව යළි පූරණය වනු ඇත.",
     "leavePageText": "ඔබ සතුව නොසුරකින ලද වෙනස්කම් තිබේ. ඉබේ සුරැකෙන තෙක් රැඳීමට 'මෙම පිටුවේ සිටින්න' ඔබන්න. නොසුරකින ලද සියළුම වෙනස්කම් ඉවතලීමට 'මෙම පිටුව හැරයන්න' ඔබන්න.",
@@ -661,14 +668,15 @@
     "warnDownloadAsPdf": "ඔබගේ {0} සංස්කරණය කළ හැකි ආකෘතියකට හරවනු ඇත. මෙයට යම් කාලයක් ගත වීමට හැකිය. ප්‍රතිඵලයක් ලෙස ලැබෙන ලේඛනය ඔබට පෙළ සංස්කරණයට ඉඩ සලසන පරිදි ප්‍රශස්ත කෙරේ, එබැවින් එය තත්‍වාකාරයෙන් මුල් {0} මෙන් නොපෙනෙනු ඇත, උදා: මුල් ගොනුවේ විත්‍රණ බොහෝ ප්‍රමාණයක් තිබේ නම්.",
     "warnLicenseAnonymous": "නිර්නාමික පරිශ්‍රීලකයින් සඳහා ප්‍රවේශය ප්‍රතික්‍ෂේපිතයි.<br>මෙම ලේඛනය දැකීමට පමණක් විවෘත වනු ඇත.",
     "warnLicenseBefore": "බලපත්‍රය සක්‍රිය නැත.<br>කරුණාකර ඔබගේ පරිපාලක අමතන්න.",
-    "warnLicenseExceeded": "%1 සංස්කරක සමකාල සම්බන්ධතා සීමාවට ළඟා වී ඇත. මෙම ලේඛනය දැකීමට පමණක් විවෘත වේ. තව දැන ගැනීමට ඔබගේ පරිපාලක අමතන්න.",
     "warnLicenseExp": "ඔබගේ බලපත්‍රය කල් ඉකුත්ය. බලපත්‍රය යාවත්කාල කර පිටුව නැවුම් කරන්න.",
     "warnLicenseLimitedNoAccess": "බලපත්‍රය කල් ඉකුත්ය. ඔබට ලේඛන සංස්කරණය කිරීමට ප්‍රවේශයක් නැත. කරුණාකර, ඔබගේ පරිපාලක අමතන්න.",
     "warnLicenseLimitedRenewed": "බලපත්‍රය අළුත් කළ යුතුයි. ඔබට ලේඛන සංස්කරණයට සීමිත ප්‍රවේශයක් තිබේ.<br>පූර්ණ ප්‍රවේශය ලබා ගැනීමට ඔබගේ පරිපාලක අමතන්න",
-    "warnLicenseUsersExceeded": "ඔබ %1 සංස්කරක වල පරිශ්‍රීලක සීමාවට ළඟා වී ඇත. තව දැන ගැනීමට ඔබගේ පරිපාලක අමතන්න.",
     "warnNoLicense": "%1 සංස්කරක සමකාල සම්බන්ධතා සීමාවට ළඟා වී ඇත. මෙම ලේඛනය දැකීමට පමණක් විවෘත වේ. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
     "warnNoLicenseUsers": "ඔබ %1 සංස්කරක වල පරිශ්‍රීලක සීමාවට ළඟා වී ඇත. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
-    "warnProcessRightsChange": "ඔබට මෙම ගොනුව සංස්කරණයට අවසර නැත."
+    "warnProcessRightsChange": "ඔබට මෙම ගොනුව සංස්කරණයට අවසර නැත.",
+    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "titleReadOnly": "Read-Only Mode"
   },
   "Settings": {
     "advDRMOptions": "රක්‍ෂිත ගොනුවකි",

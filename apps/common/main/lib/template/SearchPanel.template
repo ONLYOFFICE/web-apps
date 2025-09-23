@@ -19,8 +19,7 @@
                             <%= scope.textSearchResults %>
                         </label>
                         <div class="search-nav-btns float-right">
-                            <div id="search-adv-back"></div>
-                            <div id="search-adv-next"></div>
+                            <div id="search-adv-back"></div><div id="search-adv-next"></div>
                         </div>
                     </td>
                 </tr>

@@ -60,7 +60,6 @@ define([], function () {
             Common.Gateway.on('setactionlink', _.bind(me.onSetActionLink, me));
 
             if (this.api) {
-                this.api.asc_registerCallback('asc_onSingleChartSelectionChanged', _.bind(this.onSingleChartSelectionChanged, this));
                 this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onApiContextMenu, this));
                 this.api.asc_registerCallback('asc_onMouseMove',            _.bind(this.onApiMouseMove, this));
                 /** coauthoring begin **/
@@ -91,6 +90,7 @@ define([], function () {
                         this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.ImageUrl, _.bind(this.onInsertImageUrl, this));
 
                     }
+                    if (!this.permissions.isEditDiagram) this.api.asc_registerCallback('asc_onSingleChartSelectionChanged', _.bind(this.onSingleChartSelectionChanged, this));
                     this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                     this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
                     this.api.asc_registerCallback('asc_onHideEyedropper',           _.bind(this.hideEyedropperTip, this));
@@ -168,7 +168,11 @@ define([], function () {
                 view.menuChartElement.on('item:click',               _.bind(me.onChartElement, me));
                 view.menuChartElement.menu.items.forEach(item => {
                     if (item.menu) {
-                        item.menu.on('item:click',                   _.bind(me.onChartElement, me));
+                        item.menu.items.forEach(item => {
+                            item.on('click', function() {
+                                me.onChartElement(item.menu, item);
+                            });
+                        });
                     }
                 });
                 view.menuParagraphVAlign.menu.on('item:click',      _.bind(me.onParagraphVAlign, me));
@@ -2003,9 +2007,10 @@ define([], function () {
                 window.open(url, '_blank');
             else
                 Common.UI.warning({
-                    msg: this.txtWarnUrl,
-                    buttons: ['yes', 'no'],
-                    primary: 'yes',
+                    maxwidth: 500,
+                    msg: Common.Utils.String.format(this.txtWarnUrl, url),
+                    buttons: ['no', 'yes'],
+                    primary: 'no',
                     callback: function(btn) {
                         try {
                             (btn == 'yes') && window.open(url, '_blank');
@@ -2170,12 +2175,12 @@ define([], function () {
             }
             if (this.dlgFilter && this.dlgFilter.isVisible())
                 this.dlgFilter.close();
-            if (!this.mouse.isLeftButtonDown) return;
 
             if (this.permissions && this.permissions.isEdit) {
                 var selectedObjects = this.api.asc_getGraphicObjectProps(),
                     i = -1,
                     in_equation = false,
+                    in_chart = false,
                     locked = false;
                 while (++i < selectedObjects.length) {
                     var type = selectedObjects[i].asc_getObjectType();
@@ -2184,11 +2189,21 @@ define([], function () {
                     } else if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
                         var value = selectedObjects[i].asc_getObjectValue();
                         value && (locked = locked || value.asc_getLocked());
+                    } else if (type == Asc.c_oAscTypeSelectElement.Image) {
+                        var value = selectedObjects[i].asc_getObjectValue();
+                        if (value.asc_getChartProperties() !== null) {
+                            in_chart = true;
+                            locked = value.asc_getLocked();
+                        }
                     }
                 }
                 if (in_equation) {
                     this._state.equationLocked = locked;
                     this.disableEquationBar();
+                }
+                if (in_chart) {
+                    this._state.chartLocked = locked;
+                    this.disableChartElementButton();
                 }
             }
         };
@@ -2666,7 +2681,8 @@ define([], function () {
                 documentHolder.pmiEntriesList.setVisible(!iscelledit && !inPivot);
 
                 documentHolder.pmiNumFormat.setVisible(!iscelledit);
-                documentHolder.pmiCellFormat.setVisible(!iscelledit && !(this.permissions.canBrandingExt && this.permissions.customization && this.permissions.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu')));
+                documentHolder.pmiCellFormat.setVisible(!iscelledit && !(this.permissions.canBrandingExt && this.permissions.customization && this.permissions.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu')) &&
+                                                        !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle);
                 documentHolder.pmiAdvancedNumFormat.options.numformatinfo = documentHolder.pmiNumFormat.menu.options.numformatinfo = xfs.asc_getNumFormatInfo();
                 documentHolder.pmiAdvancedNumFormat.options.numformat = xfs.asc_getNumFormat();
 
@@ -3147,7 +3163,68 @@ define([], function () {
             }
         };
 
-        dh.onFormulaInfo = function(name) {
+        dh.parseArgsDesc = function(args) {
+            if (args.charAt(0)=='(')
+                args = args.substring(1);
+            if (args.charAt(args.length-1)==')')
+                args = args.substring(0, args.length-1);
+            var arr = args.split(this.api.asc_getFunctionArgumentSeparator());
+            arr.forEach(function(item, index){
+                var str = item.trim();
+                if (str.charAt(0)=='[')
+                    str = str.substring(1);
+                if (str.charAt(str.length-1)==']')
+                    str = str.substring(0, str.length-1);
+                arr[index] = str.trim();
+            });
+            return arr;
+        };
+
+        dh.fillRepeatedNames = function(argsNames, repeatedArg) {
+            var repeatedIdx = 1;
+            if (argsNames.length>=1) {
+                if (repeatedArg && repeatedArg.length>0 && argsNames[argsNames.length-1]==='...') {
+                    var req = argsNames.length-1 - repeatedArg.length; // required/no-repeated
+                    for (var i=0; i<repeatedArg.length; i++) {
+                        var str = argsNames[argsNames.length-2-i],
+                            ch = str.charAt(str.length-1);
+                        if ('123456789'.indexOf(ch)>-1) {
+                            repeatedIdx = parseInt(ch);
+                            argsNames[argsNames.length-2-i] = str.substring(0, str.length-1);
+                        }
+                    }
+                }
+            }
+            return repeatedIdx;
+        };
+
+        dh.getArgumentName = function(argcount, argsNames, repeatedArg, minArgCount, maxArgCount, repeatedIdx) {
+            var name = '',
+                namesLen = argsNames.length,
+                idxInRepeatedArr = -1;
+            if ((!repeatedArg || repeatedArg.length<1) && argcount<namesLen && argsNames[argcount]!=='...') { // no repeated args
+                name = argsNames[argcount];
+                (name==='') && (name = this.textArgument + (maxArgCount>1 ? (' ' + (argcount+1)) : ''));
+            } else if (repeatedArg && repeatedArg.length>0 && argsNames[namesLen-1]==='...') {
+                var repeatedLen = repeatedArg.length;
+                var req = namesLen-1 - repeatedLen; // required/no-repeated
+                if (argcount<req) // get required args as is
+                    name = argsNames[argcount];
+                else {
+                    var idx = repeatedLen - (argcount - req)%repeatedLen,
+                        num = Math.floor((argcount - req)/repeatedLen) + repeatedIdx;
+                    idxInRepeatedArr = repeatedLen - idx;
+                    name = argsNames[namesLen-1-idx] + num;
+                }
+            } else
+                name = this.textArgument + (maxArgCount>1 ? (' ' + (argcount+1)) : '');
+            if (maxArgCount>0 && argcount>=minArgCount)
+                name = (idxInRepeatedArr<=0 ? '[' : '') + name + (idxInRepeatedArr<0 || repeatedArg && idxInRepeatedArr===repeatedArg.length-1 ? ']' : '');
+
+            return name;
+        };
+
+        dh.onFormulaInfo = function(name, shiftpos, funcInfo) {
             if(!Common.Utils.InternalSettings.get("sse-settings-function-tooltip")) return;
 
             var functip = this.tooltips.func_arg;
@@ -3158,14 +3235,70 @@ define([], function () {
                     this.documentHolder.cmpEl.append(functip.parentEl);
                 }
                 var funcdesc = this.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
-                    hint = '';
-                if (funcdesc && funcdesc[name]) {
-                    hint = this.api.asc_getFormulaLocaleName(name) + funcdesc[name].a;
-                    hint = hint.replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
+                    hint = '',
+                    argstype = funcInfo ? funcInfo.asc_getArgumentsType() : null,
+                    activeArg = funcInfo ? funcInfo.asc_getActiveArgPos() : null,
+                    activeArgsCount = funcInfo ? funcInfo.asc_getActiveArgsCount() : null;
+
+                if (argstype && activeArgsCount) {
+                    var args = '';
+                    if (funcdesc && funcdesc[name]) {
+                        args = funcdesc[name].a.replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
+                    } else {
+                        var custom = this.api.asc_getCustomFunctionInfo(name),
+                            arr_args = custom ? custom.asc_getArg() || [] : [];
+                        args = '(' + arr_args.map(function (item) { return item.asc_getIsOptional() ? '[' + item.asc_getName() + ']' : item.asc_getName(); }).join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
+                    }
+
+                    var argsNames = this.parseArgsDesc(args),
+                        minArgCount = funcInfo.asc_getArgumentMin(),
+                        maxArgCount = funcInfo.asc_getArgumentMax(),
+                        repeatedArg = undefined,
+                        repeatedIdx = 1,
+                        arr = [],
+                        me = this;
+
+                    function fillArgs(types) {
+                        let argcount = arr.length;
+                        for (var j = 0; j < types.length; j++) {
+                            var str = me.getArgumentName(argcount, argsNames, repeatedArg, minArgCount, maxArgCount, repeatedIdx);
+                            activeArg && (argcount===activeArg-1) && (str = '<span class="contrast">' + str + '</span>');
+                            arr.push(str);
+                            argcount++;
+                        }
+                    }
+
+                    for (var i=0; i<argstype.length; i++) {
+                        var type = argstype[i],
+                            types = [];
+
+                        if (typeof type == 'object') {
+                            repeatedArg = type;
+                            repeatedIdx = this.fillRepeatedNames(argsNames, repeatedArg);
+                            types = type;
+                        } else
+                            types.push(type);
+
+                        fillArgs(types);
+                    }
+                    if (arr.length<=activeArgsCount && repeatedArg) { // add repeated
+                        while (arr.length<=activeArgsCount) {
+                            fillArgs(repeatedArg);
+                        }
+                    }
+                    repeatedArg && arr.push('...');
+                    hint = this.api.asc_getFormulaLocaleName(name);
+                    !activeArg && (hint = '<span class="contrast">' + hint + '</span>');
+                    hint += '(' + arr.join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
                 } else {
-                    var custom = this.api.asc_getCustomFunctionInfo(name),
-                        arr_args = custom ? custom.asc_getArg() || [] : [];
-                    hint = this.api.asc_getFormulaLocaleName(name) + '(' + arr_args.map(function (item) { return item.asc_getIsOptional() ? '[' + item.asc_getName() + ']' : item.asc_getName(); }).join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
+                    if (funcdesc && funcdesc[name]) {
+                        hint = this.api.asc_getFormulaLocaleName(name) + funcdesc[name].a;
+                        hint = hint.replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
+                    } else {
+                        var custom = this.api.asc_getCustomFunctionInfo(name),
+                            arr_args = custom ? custom.asc_getArg() || [] : [];
+                        hint = this.api.asc_getFormulaLocaleName(name) + '(' + arr_args.map(function (item) { return item.asc_getIsOptional() ? '[' + item.asc_getName() + ']' : item.asc_getName(); }).join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
+                    }
                 }
 
                 if (functip.ref && functip.ref.isVisible()) {
@@ -3185,7 +3318,8 @@ define([], function () {
                         owner   : functip.parentEl,
                         html    : true,
                         title   : hint,
-                        cls: 'auto-tooltip'
+                        cls: 'auto-tooltip',
+                        animation: false
                     });
 
                     functip.ref.show([-10000, -10000]);
@@ -3208,6 +3342,10 @@ define([], function () {
                 var tipwidth = functip.ref.getBSTip().$tip.width();
                 if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
                     showPoint[0] = this.tooltips.coauth.bodyWidth - tipwidth;
+                if (showPoint[0]<0) {
+                    showPoint[0] = 0;
+                    functip.ref.getBSTip().$tip.find('.tooltip-inner').css('max-width', this.tooltips.coauth.bodyWidth);
+                }
 
                 functip.ref.getBSTip().$tip.css({
                     top : showPoint[1] + 'px',
@@ -3270,7 +3408,8 @@ define([], function () {
                         owner   : inputtip.parentEl,
                         html    : true,
                         title   : hint,
-                        keepvisible: true
+                        keepvisible: true,
+                        dir: 'auto'
                     });
 
                     inputtip.ref.show([-10000, -10000]);
@@ -3347,102 +3486,103 @@ define([], function () {
                 [_set.unknown]:                ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars']
             };
 
-        dh.onChartElement = function(menu, item) {
+         dh.onChartElement = function(menu, item) {
             var chartProps = this.chartProps,
-                HorAxis = chartProps.getHorAxesProps()?.[0],
-                SecHorAxis = chartProps.getHorAxesProps()?.[1],
-                VertAxis = chartProps.getVertAxesProps()?.[0],
-                SecVertAxis = chartProps.getVertAxesProps()?.[1],
-                DepthAxis = chartProps.getDepthAxesProps()?.[0],
-                HorMajorGridlines = HorAxis?.getGridlines() === 1 || HorAxis?.getGridlines() === 3,
-                HorMinorGridlines = HorAxis?.getGridlines() === 2 || HorAxis?.getGridlines() === 3,
-                VertMajorGridlines = VertAxis?.getGridlines() === 1 || VertAxis?.getGridlines() === 3,
-                VertMinorGridlines = VertAxis?.getGridlines() === 2 || VertAxis?.getGridlines() === 3;
+                HorAxis = chartProps.getHorAxesProps && chartProps.getHorAxesProps()[0],
+                SecHorAxis = chartProps.getHorAxesProps && chartProps.getHorAxesProps()[1],
+                VertAxis = chartProps.getVertAxesProps && chartProps.getVertAxesProps()[0],
+                SecVertAxis = chartProps.getVertAxesProps && chartProps.getVertAxesProps()[1],
+                DepthAxis = chartProps.getDepthAxesProps && chartProps.getDepthAxesProps()[0],
+                HorMajorGridlines = HorAxis && (HorAxis.getGridlines() === 1 || HorAxis.getGridlines() === 3),
+                HorMinorGridlines = HorAxis && (HorAxis.getGridlines() === 2 || HorAxis.getGridlines() === 3),
+                VertMajorGridlines = VertAxis && (VertAxis.getGridlines() === 1 || VertAxis.getGridlines() === 3),
+                VertMinorGridlines = VertAxis && (VertAxis.getGridlines() === 2 || VertAxis.getGridlines() === 3);
                 
             const value = item.value,
                 type = chartProps.getType(),
                 RadarChart = [_set.radar, _set.radarMarker, _set.radarFilled].includes(type),
                 hBarChart = [_set.hBarNormal, _set.hBarStacked, _set.hBarStackedPer, _set.hBarNormal3d, _set.hBarStacked3d, _set.hBarStackedPer3d].includes(type),
-                scatterChart = [_set.scatter, _set.scatterLine, _set.scatterLineMarker, _set.scatterMarker, _set.scatterNone, _set.scatterSmooth, _set.scatterSmoothMarker, _set.surfaceNormal].includes(type);
+                scatterChart = [_set.scatter, _set.scatterLine, _set.scatterLineMarker, _set.scatterMarker, _set.scatterNone, _set.scatterSmooth, _set.scatterSmoothMarker, _set.surfaceNormal].includes(type),
+                comboCustom = [_set.comboCustom].includes(type);
             
             switch (value) {
                 case 'bShowHorAxis':
                     if (hBarChart) {
-                        chartProps.setDisplayAxes(VertAxis?.getShow(), SecVertAxis?.getShow(), item.checked, SecHorAxis?.getShow(), DepthAxis?.getShow());
+                        chartProps.setDisplayAxes(VertAxis && VertAxis.getShow(), SecVertAxis && SecVertAxis.getShow(), item.checked, SecHorAxis && SecHorAxis.getShow(), DepthAxis && DepthAxis.getShow());
                     } else if (scatterChart) {
-                        chartProps.setDisplayAxes(SecVertAxis?.getShow(), SecHorAxis?.getShow(), item.checked, VertAxis?.getShow(), DepthAxis?.getShow());
-                    } else if (type === 38) {
-                        chartProps.setDisplayAxes(item.checked, SecVertAxis?.getShow(), VertAxis?.getShow(), SecHorAxis?.getShow(), DepthAxis?.getShow());
+                        chartProps.setDisplayAxes(SecVertAxis && SecVertAxis.getShow(), SecHorAxis && SecHorAxis.getShow(), item.checked, VertAxis && VertAxis.getShow(), DepthAxis && DepthAxis.getShow());
+                    } else if (comboCustom) {
+                        chartProps.setDisplayAxes(item.checked, SecVertAxis && SecVertAxis.getShow(), VertAxis && VertAxis.getShow(), SecHorAxis && SecHorAxis.getShow(), DepthAxis && DepthAxis.getShow());
                     } else {
-                        chartProps.setDisplayAxes(item.checked, SecHorAxis?.getShow(), VertAxis?.getShow(), SecVertAxis?.getShow(), DepthAxis?.getShow());
+                        chartProps.setDisplayAxes(item.checked, SecHorAxis && SecHorAxis.getShow(), VertAxis && VertAxis.getShow(), SecVertAxis && SecVertAxis.getShow(), DepthAxis && DepthAxis.getShow());
                     }
                     break;                
                 case 'bShowVertAxis':
                     if (hBarChart) {
-                        chartProps.setDisplayAxes(item.checked, SecVertAxis?.getShow(), HorAxis?.getShow(), SecHorAxis?.getShow(), DepthAxis?.getShow());
+                        chartProps.setDisplayAxes(item.checked, SecVertAxis && SecVertAxis.getShow(), HorAxis && HorAxis.getShow(), SecHorAxis && SecHorAxis.getShow(), DepthAxis && DepthAxis.getShow());
                     } else if (scatterChart) {
-                        chartProps.setDisplayAxes(SecVertAxis?.getShow(), SecHorAxis?.getShow(), HorAxis?.getShow(), item.checked, DepthAxis?.getShow());
-                    } else if (type === 38) {
-                        chartProps.setDisplayAxes(HorAxis?.getShow(), SecVertAxis?.getShow(), item.checked, SecHorAxis?.getShow(), DepthAxis?.getShow());
+                        chartProps.setDisplayAxes(SecVertAxis && SecVertAxis.getShow(), SecHorAxis && SecHorAxis.getShow(), HorAxis && HorAxis.getShow(), item.checked, DepthAxis && DepthAxis.getShow());
+                    } else if (comboCustom) {
+                        chartProps.setDisplayAxes(HorAxis && HorAxis.getShow(), SecVertAxis && SecVertAxis.getShow(), item.checked, SecHorAxis && SecHorAxis.getShow(), DepthAxis && DepthAxis.getShow());
                     } else {
-                        chartProps.setDisplayAxes(HorAxis?.getShow(), SecHorAxis?.getShow(), item.checked, SecVertAxis?.getShow(), DepthAxis?.getShow());
+                        chartProps.setDisplayAxes(HorAxis && HorAxis.getShow(), SecHorAxis && SecHorAxis.getShow(), item.checked, SecVertAxis && SecVertAxis.getShow(), DepthAxis && DepthAxis.getShow());
                     }
                     break;
                 case 'bShowHorAxSec':
-                    if (type === 38) {
-                        chartProps.setDisplayAxes(HorAxis?.getShow(), SecVertAxis?.getShow(), VertAxis?.getShow(), item.checked, DepthAxis?.getShow());
+                    if (comboCustom) {
+                        chartProps.setDisplayAxes(HorAxis && HorAxis.getShow(), SecVertAxis && SecVertAxis.getShow(), VertAxis && VertAxis.getShow(), item.checked, DepthAxis && DepthAxis.getShow());
                     } else {
-                        chartProps.setDisplayAxes(HorAxis?.getShow(), item.checked, VertAxis?.getShow(), SecVertAxis?.getShow(), DepthAxis?.getShow());
+                        chartProps.setDisplayAxes(HorAxis && HorAxis.getShow(), item.checked, VertAxis && VertAxis.getShow(), SecVertAxis && SecVertAxis.getShow(), DepthAxis && DepthAxis.getShow());
                     }
                     break;          
                 case 'bShowVertAxSec':
-                    if (type === 38) {
-                        chartProps.setDisplayAxes(HorAxis?.getShow(), item.checked, VertAxis?.getShow(), SecHorAxis?.getShow(), DepthAxis?.getShow());
+                    if (comboCustom) {
+                        chartProps.setDisplayAxes(HorAxis && HorAxis.getShow(), item.checked, VertAxis && VertAxis.getShow(), SecHorAxis && SecHorAxis.getShow(), DepthAxis && DepthAxis.getShow());
                     } else {
-                        chartProps.setDisplayAxes(HorAxis?.getShow(), SecHorAxis?.getShow(), VertAxis?.getShow(), item.checked, DepthAxis?.getShow());
+                        chartProps.setDisplayAxes(HorAxis && HorAxis.getShow(), SecHorAxis && SecHorAxis.getShow(), VertAxis && VertAxis.getShow(), item.checked, DepthAxis && DepthAxis.getShow());
                     }
                     break; 
                 case 'bShowDepthAxes':
-                    chartProps.setDisplayAxes(HorAxis?.getShow(), SecHorAxis?.getShow(), VertAxis?.getShow(), SecVertAxis?.getShow(), item.checked);
+                    chartProps.setDisplayAxes(HorAxis && HorAxis.getShow(), SecHorAxis && SecHorAxis.getShow(), VertAxis && VertAxis.getShow(), SecVertAxis && SecVertAxis.getShow(), item.checked);
                     break;
                 case 'bShowHorAxTitle':
                     if (hBarChart) {
-                        chartProps.setDisplayAxisTitles(VertAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, item.checked,  SecHorAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
+                        chartProps.setDisplayAxisTitles((VertAxis && VertAxis.getLabel() === 1), (SecVertAxis && SecVertAxis.getLabel() === 1), item.checked,  (SecHorAxis && SecHorAxis.getLabel() === 1), (DepthAxis && DepthAxis.getLabel() === 1));
                     } else if (scatterChart) {
-                        chartProps.setDisplayAxisTitles(SecHorAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, item.checked, VertAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
-                    } else if (type === 38) {
-                        chartProps.setDisplayAxisTitles(item.checked, SecVertAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
+                        chartProps.setDisplayAxisTitles((SecHorAxis && SecHorAxis.getLabel() === 1), (SecVertAxis && SecVertAxis.getLabel() === 1), item.checked, (VertAxis && VertAxis.getLabel() === 1), (DepthAxis && DepthAxis.getLabel() === 1));
+                    } else if (comboCustom) {
+                        chartProps.setDisplayAxisTitles(item.checked, (SecVertAxis && SecVertAxis.getLabel() === 1), (VertAxis && VertAxis.getLabel() === 1), (SecHorAxis && SecHorAxis.getLabel() === 1), (DepthAxis && DepthAxis.getLabel() === 1));
                     } else {
-                        chartProps.setDisplayAxisTitles(item.checked, SecHorAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
+                        chartProps.setDisplayAxisTitles(item.checked, (SecHorAxis && SecHorAxis.getLabel() === 1), (VertAxis && VertAxis.getLabel() === 1), (SecVertAxis && SecVertAxis.getLabel() === 1), (DepthAxis && DepthAxis.getLabel() === 1));
                     }
                     break;
                 case 'bShowVertAxTitle':
                     if (hBarChart) {
-                        chartProps.setDisplayAxisTitles(item.checked, SecVertAxis?.getLabel() === 1, HorAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
+                        chartProps.setDisplayAxisTitles(item.checked, (SecVertAxis && SecVertAxis.getLabel() === 1), (HorAxis && HorAxis.getLabel() === 1), (SecHorAxis && SecHorAxis.getLabel() === 1), (DepthAxis && DepthAxis.getLabel() === 1));
                     } else if (scatterChart) {
-                        chartProps.setDisplayAxisTitles(SecHorAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, HorAxis?.getLabel() === 1, item.checked, DepthAxis?.getLabel() === 1);
-                    } else if (type === 38) {
-                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, item.checked, SecHorAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
+                        chartProps.setDisplayAxisTitles((SecHorAxis && SecHorAxis.getLabel() === 1), (SecVertAxis && SecVertAxis.getLabel() === 1), (HorAxis && HorAxis.getLabel() === 1), item.checked, (DepthAxis && DepthAxis.getLabel() === 1));
+                    } else if (comboCustom) {
+                        chartProps.setDisplayAxisTitles((HorAxis && HorAxis.getLabel() === 1), (SecVertAxis && SecVertAxis.getLabel() === 1), item.checked, (SecHorAxis && SecHorAxis.getLabel() === 1), (DepthAxis && DepthAxis.getLabel() === 1));
                     } else {
-                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, item.checked, SecVertAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
+                        chartProps.setDisplayAxisTitles((HorAxis && HorAxis.getLabel() === 1), (SecHorAxis && SecHorAxis.getLabel() === 1), item.checked, (SecVertAxis && SecVertAxis.getLabel() === 1), (DepthAxis && DepthAxis.getLabel() === 1));
                     }
                     break;
                 case 'bShowHorAxTitleSec':
-                    if (type === 38) {
-                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, item.checked, DepthAxis?.getLabel() === 1);
+                    if (comboCustom) {
+                        chartProps.setDisplayAxisTitles((HorAxis && HorAxis.getLabel() === 1), (SecVertAxis && SecVertAxis.getLabel() === 1), (VertAxis && VertAxis.getLabel() === 1), item.checked, (DepthAxis && DepthAxis.getLabel() === 1));
                     } else {
-                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, item.checked, VertAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
+                        chartProps.setDisplayAxisTitles((HorAxis && HorAxis.getLabel() === 1), item.checked, (VertAxis && VertAxis.getLabel() === 1), (SecVertAxis && SecVertAxis.getLabel() === 1), (DepthAxis && DepthAxis.getLabel() === 1));
                     }
                     break;
                 case 'bShowVertAxisTitleSec':
-                    if (type === 38) {
-                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, item.checked, VertAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
+                    if (comboCustom) {
+                        chartProps.setDisplayAxisTitles((HorAxis && HorAxis.getLabel() === 1), item.checked, (VertAxis && VertAxis.getLabel() === 1), (SecHorAxis && SecHorAxis.getLabel() === 1), (DepthAxis && DepthAxis.getLabel() === 1));
                     } else { 
-                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, item.checked, DepthAxis?.getLabel() === 1);
+                        chartProps.setDisplayAxisTitles((HorAxis && HorAxis.getLabel() === 1), (SecHorAxis && SecHorAxis.getLabel() === 1), (VertAxis && VertAxis.getLabel() === 1), item.checked, (DepthAxis && DepthAxis.getLabel() === 1));
                     }
                     break;
                 case 'bShowDepthAxisTitle':
-                    chartProps.setDisplayAxes(HorAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, item.checked);
+                    chartProps.setDisplayAxes((HorAxis && HorAxis.getLabel() === 1), (SecHorAxis && SecHorAxis.getLabel() === 1), (VertAxis && VertAxis.getLabel() === 1), (SecVertAxis && SecVertAxis.getLabel() === 1), item.checked);
                     break;
                 case 'bShowChartTitleNone':
                     chartProps.setDisplayChartTitle(false, false); 
@@ -3593,12 +3733,12 @@ define([], function () {
 
         dh.updateChartElementMenu = function(menu, chartProps) {
             const type = chartProps.getType(),
-                horAxes = chartProps.getHorAxesProps?.(),
-                vertAxes = chartProps.getVertAxesProps?.(),
-                depthAxes = chartProps.getDepthAxesProps?.(),
-                dataLabelsPos = chartProps.getDataLabelsPos?.(),
-                title = chartProps.getTitle?.(),
-                legendPos = chartProps.getLegendPos?.(),
+                horAxes = chartProps.getHorAxesProps && chartProps.getHorAxesProps(),
+                vertAxes = chartProps.getVertAxesProps && chartProps.getVertAxesProps(),
+                depthAxes = chartProps.getDepthAxesProps && chartProps.getDepthAxesProps(),
+                dataLabelsPos = chartProps.getDataLabelsPos && chartProps.getDataLabelsPos(),
+                title = chartProps.getTitle && chartProps.getTitle(),
+                legendPos = chartProps.getLegendPos && chartProps.getLegendPos(),
                 GridMajor = Asc.c_oAscGridLinesSettings.major,
                 GridMinor = Asc.c_oAscGridLinesSettings.minor,
                 GridMajorMinor = Asc.c_oAscGridLinesSettings.majorMinor,
@@ -3608,8 +3748,8 @@ define([], function () {
                 LabelGroup2Types = [_set.barNormal, _set.barStacked, _set.barStackedPer, _set.pie, _set.pie3d, _set.hBarNormal, _set.hBarStacked, _set.hBarStackedPer],
                 LabelGroup3Types = [_set.barNormal, _set.pie, _set.pie3d, _set.hBarNormal],
                 LabelGroup4Types = [_set.lineNormal, _set.lineStacked, _set.lineStackedPer, _set.lineNormalMarker, _set.lineStackedMarker, _set.lineStackedPerMarker, _set.stock, _set.scatter, _set.scatterLine, _set.scatterLineMarker, _set.scatterSmooth, _set.scatterSmoothMarker],
-                LabelGroup5Types = [_set.pie, _set.pie3d],            
-                comboType = ComboChart ? chartProps.getSeries()?.[0]?.asc_getChartType() : type,
+                LabelGroup5Types = [_set.pie, _set.pie3d],   
+                comboType = ComboChart ? (chartProps.getSeries && chartProps.getSeries()[0] && chartProps.getSeries()[0].asc_getChartType()) : type,
                 LabelGroup1 = LabelGroup1Types.includes(comboType),
                 LabelGroup2 = LabelGroup2Types.includes(comboType),
                 LabelGroup3 = LabelGroup3Types.includes(comboType),
@@ -3618,30 +3758,30 @@ define([], function () {
 
             const axesMenu = menu.items[0].menu;
             axesMenu.items[0].setVisible(!RadarChart);
-            axesMenu.items[0].setChecked(!RadarChart && horAxes?.[0]?.getShow());
-            axesMenu.items[1].setChecked(vertAxes?.[0]?.getShow());
-            axesMenu.items[4].setVisible(depthAxes?.[0]);
-            axesMenu.items[4].setChecked(depthAxes?.[0]?.getShow());
+            axesMenu.items[0].setChecked(!RadarChart && horAxes && horAxes[0] && horAxes[0].getShow());
+            axesMenu.items[1].setChecked(vertAxes && vertAxes[0] && vertAxes[0].getShow());
+            axesMenu.items[4].setVisible(depthAxes && depthAxes[0]);
+            axesMenu.items[4].setChecked(depthAxes && depthAxes[0] && depthAxes[0].getShow());
             if (ComboChart) {
-                axesMenu.items[2].setVisible(horAxes?.[1]);
-                axesMenu.items[2].setChecked(horAxes?.[1]?.getShow());
-                axesMenu.items[3].setVisible(vertAxes?.[1]);
-                axesMenu.items[3].setChecked(vertAxes?.[1]?.getShow());
+                axesMenu.items[2].setVisible(horAxes && horAxes[1]);
+                axesMenu.items[2].setChecked(horAxes && horAxes[1] && horAxes[1].getShow());
+                axesMenu.items[3].setVisible(vertAxes && vertAxes[1]);
+                axesMenu.items[3].setChecked(vertAxes && vertAxes[1] && vertAxes[1].getShow());
             } else {
                 axesMenu.items[2].setVisible(false);
                 axesMenu.items[3].setVisible(false);
             }
 
             const titlesMenu = menu.items[1].menu;
-            titlesMenu.items[0].setChecked(horAxes?.[0]?.getLabel() === Asc.c_oAscChartHorAxisLabelShowSettings.noOverlay);
-            titlesMenu.items[1].setChecked(vertAxes?.[0]?.getLabel() === Asc.c_oAscChartVertAxisLabelShowSettings.rotated);
-            titlesMenu.items[4].setVisible(depthAxes?.[0]);
-            titlesMenu.items[4].setChecked(depthAxes?.[0]?.getLabel() === Asc.c_oAscChartVertAxisLabelShowSettings.rotated);
+            titlesMenu.items[0].setChecked(horAxes && horAxes[0] && horAxes[0].getLabel() === Asc.c_oAscChartHorAxisLabelShowSettings.noOverlay);
+            titlesMenu.items[1].setChecked(vertAxes && vertAxes[0] && vertAxes[0].getLabel() === Asc.c_oAscChartVertAxisLabelShowSettings.rotated);
+            titlesMenu.items[4].setVisible(depthAxes && depthAxes[0]);
+            titlesMenu.items[4].setChecked(depthAxes && depthAxes[0] && depthAxes[0].getLabel() === Asc.c_oAscChartVertAxisLabelShowSettings.rotated);
             if (ComboChart) {
-                titlesMenu.items[2].setVisible(horAxes?.[1]);
-                titlesMenu.items[2].setChecked(horAxes?.[1]?.getLabel() === Asc.c_oAscChartHorAxisLabelShowSettings.noOverlay);
-                titlesMenu.items[3].setVisible(vertAxes?.[1]);
-                titlesMenu.items[3].setChecked(vertAxes?.[1]?.getLabel() === Asc.c_oAscChartVertAxisLabelShowSettings.rotated);
+                titlesMenu.items[2].setVisible(horAxes && horAxes[1]);
+                titlesMenu.items[2].setChecked(horAxes && horAxes[1] && horAxes[1].getLabel() === Asc.c_oAscChartHorAxisLabelShowSettings.noOverlay);
+                titlesMenu.items[3].setVisible(vertAxes && vertAxes[1]);
+                titlesMenu.items[3].setChecked(vertAxes && vertAxes[1] && vertAxes[1].getLabel() === Asc.c_oAscChartVertAxisLabelShowSettings.rotated);
             } else {
                 titlesMenu.items[2].setVisible(false);
                 titlesMenu.items[3].setVisible(false);
@@ -3685,15 +3825,15 @@ define([], function () {
             if (RadarChart) {
                 gridMenu.items[0].setVisible(false);
                 gridMenu.items[0].setChecked(false);
-                gridMenu.items[1].setChecked(vertAxes?.[0]?.getGridlines() === GridMajor || vertAxes?.[0]?.getGridlines() === GridMajorMinor);
+                gridMenu.items[1].setChecked(vertAxes && vertAxes[0] && (vertAxes[0].getGridlines() === GridMajor || vertAxes[0].getGridlines() === GridMajorMinor));
                 gridMenu.items[2].setChecked(false);
                 gridMenu.items[2].setVisible(false);
-                gridMenu.items[3].setChecked(vertAxes?.[0]?.getGridlines() === GridMinor || vertAxes?.[0]?.getGridlines() === GridMajorMinor);
+                gridMenu.items[3].setChecked(vertAxes && vertAxes[0] && (vertAxes[0].getGridlines() === GridMinor || vertAxes[0].getGridlines() === GridMajorMinor));
             } else if (type !== Asc.c_oAscChartTypeSettings.pie && type !== Asc.c_oAscChartTypeSettings.pie3d) {
-                gridMenu.items[0].setChecked(vertAxes?.[0]?.getGridlines() === GridMajor || vertAxes?.[0]?.getGridlines() === GridMajorMinor);
-                gridMenu.items[1].setChecked(horAxes?.[0]?.getGridlines() === GridMajor || horAxes?.[0]?.getGridlines() === GridMajorMinor);
-                gridMenu.items[2].setChecked(vertAxes?.[0]?.getGridlines() === GridMinor || vertAxes?.[0]?.getGridlines() === GridMajorMinor);
-                gridMenu.items[3].setChecked(horAxes?.[0]?.getGridlines() === GridMinor || horAxes?.[0]?.getGridlines() === GridMajorMinor);
+                gridMenu.items[0].setChecked(vertAxes && vertAxes[0] && (vertAxes[0].getGridlines() === GridMajor || vertAxes[0].getGridlines() === GridMajorMinor));
+                gridMenu.items[1].setChecked(horAxes && horAxes[0] && (horAxes[0].getGridlines() === GridMajor || horAxes[0].getGridlines() === GridMajorMinor));
+                gridMenu.items[2].setChecked(vertAxes && vertAxes[0] && (vertAxes[0].getGridlines() === GridMinor || vertAxes[0].getGridlines() === GridMajorMinor));
+                gridMenu.items[3].setChecked(horAxes && horAxes[0] && (horAxes[0].getGridlines() === GridMinor || horAxes[0].getGridlines() === GridMajorMinor));
             }
             
             const legendMenu = menu.items[6].menu;
@@ -3704,14 +3844,15 @@ define([], function () {
             legendMenu.items[4].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.leftOverlay);
             legendMenu.items[5].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.rightOverlay);
 
-            const supportedElements = chartElementMap[type] || chartElementMap[45] || [];
-            
+            const supportedElements = chartElementMap[type] || [];
             menu.items.forEach(function(item) {
-                item.setDisabled(supportedElements.indexOf(item.value) === -1);
+                item.setVisible(supportedElements.includes(item.value));
             });
         };
 
         dh.onSingleChartSelectionChanged = function(asc_CRect) {
+            if (this.permissions && !this.permissions.isEdit) return;
+
             var me = this,
                 documentHolderView = me.documentHolder,
                 chartContainer = documentHolderView.cmpEl.find('#chart-element-container');
@@ -3775,7 +3916,8 @@ define([], function () {
                         parentEl: $('#id-document-holder-btn-chart-element'),
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-chart-elements',
-                        menu: this.documentHolder.menuChartElement.menu
+                        hint: me.documentHolder.btnChart,
+                        menu: me.documentHolder.menuChartElement.menu
                     });
         
                     me.btnChartElement.on('click', function() {
@@ -3785,6 +3927,7 @@ define([], function () {
                         }
                     });
                 }
+                me.disableChartElementButton();
             } else {
                 chartContainer.hide();
             }
@@ -4325,7 +4468,7 @@ define([], function () {
                 value = me.api.asc_getLocale();
             (!value) && (value = ((me.permissions.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.permissions.lang)) : 0x0409));
 
-            (new SSE.Views.FormatSettingsDialog({
+            (new Common.Views.FormatSettingsDialog({
                 api: me.api,
                 handler: function(result, settings) {
                     if (settings) {

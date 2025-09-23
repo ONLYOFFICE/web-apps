@@ -2182,7 +2182,7 @@ define([
 
                 this.btnsPageBreak = Common.Utils.injectButtons($host.find('.btn-slot.btn-pagebreak'), '', 'toolbar__icon btn-pagebreak', this.capBtnInsPagebreak,
                     [Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.inEquation, Common.enumLock.richDelLock,
-                        Common.enumLock.plainDelLock, Common.enumLock.inHeader, Common.enumLock.inFootnote, Common.enumLock.inControl, Common.enumLock.cantPageBreak, Common.enumLock.previewReviewMode,
+                        Common.enumLock.plainDelLock, Common.enumLock.inHeader, Common.enumLock.inFootnote, Common.enumLock.cantPageBreak, Common.enumLock.previewReviewMode,
                         Common.enumLock.viewFormMode, Common.enumLock.lostConnect, Common.enumLock.disableOnStart, Common.enumLock.docLockViewIns, Common.enumLock.docLockForms, Common.enumLock.docLockCommentsIns, Common.enumLock.viewMode],
                         true, true, undefined, '1', 'bottom', 'small', undefined, 'page-break');
                 Array.prototype.push.apply(this.paragraphControls, this.btnsPageBreak);
@@ -2938,8 +2938,7 @@ define([
                                         { caption: '--' },
                                         {
                                             id: "id-toolbar-menu-new-bordercolor",
-                                            template: _.template('<a tabindex="-1" type="menuitem">' + this.textNewColor + '</a>'),
-                                            stopPropagation: true
+                                            template: _.template('<a tabindex="-1" type="menuitem">' + this.textNewColor + '</a>')
                                         }
                                     ]
                                 })

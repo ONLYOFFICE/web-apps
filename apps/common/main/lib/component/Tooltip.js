@@ -103,7 +103,9 @@
                 cls         : opts.cls,
                 html        : opts.html,
                 hideonclick : opts.hideonclick,
-                keepvisible: opts.keepvisible
+                keepvisible: opts.keepvisible,
+                dir        : opts.dir,
+                animation  : opts.animation
             });
 
             if (opts.hideonclick) {

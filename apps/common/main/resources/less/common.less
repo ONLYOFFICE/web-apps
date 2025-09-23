@@ -1,10 +1,13 @@
 label {
-    &.link {
+    &.link,
+    span.link{
         border-bottom: @scaled-one-px-value-ie dotted @text-secondary-ie;
         border-bottom: @scaled-one-px-value dotted @text-secondary;
         cursor: pointer;
-
-        &.disabled {
+    }
+    &.disabled {
+        &.link,
+        span.link {
             cursor: default;
         }
     }

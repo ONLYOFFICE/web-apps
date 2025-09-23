@@ -108,6 +108,14 @@ class EditTableController extends Component {
             api.tblApply(properties);
         }
     }
+    onOptionCellWrap (value) {
+        const api = Common.EditorApi.get();
+        if (api) {
+            const properties = new Asc.CTableProp();
+            properties.put_CellsNoWrap(value);
+            api.tblApply(properties);
+        }
+    }
     onWrapType (value) {
         const api = Common.EditorApi.get();
         if (api) {
@@ -214,6 +222,32 @@ class EditTableController extends Component {
         api.tblApply(properties);
     }
 
+    onChangeTableDimension (type, value, isDecrement) {
+        const api = Common.EditorApi.get();
+        const properties = new Asc.CTableProp();
+        const maxValue = Common.Utils.Metric.fnRecalcFromMM(558.8);
+
+        const step = Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1;
+        const newValue = isDecrement
+            ? Math.max(0, value - step)
+            : Math.min(maxValue, value + step);
+
+        const convertedValue = Common.Utils.Metric.fnRecalcToMM(newValue);
+
+        if (type === 'row') {
+            properties.put_RowHeight(convertedValue);
+        } else if (type === 'column') {
+            properties.put_ColumnWidth(convertedValue);
+        }
+        api.tblApply(properties);
+    }
+
+
+    onDistributeTable (isColumn) {
+        const api = Common.EditorApi.get();
+        api.asc_DistributeTableCells(isColumn)
+    }
+
     render () {
         return (
             <EditTable onRemoveTable={this.onRemoveTable}
@@ -235,6 +269,9 @@ class EditTableController extends Component {
                        onFillColor={this.onFillColor}
                        onBorderTypeClick={this.onBorderTypeClick}
                        onGetTableStylesPreviews = {this.onGetTableStylesPreviews}
+                       onDistributeTable = {this.onDistributeTable}
+                       onChangeTableDimension = {this.onChangeTableDimension}
+                       onOptionCellWrap = {this.onOptionCellWrap}
             />
         )
     }

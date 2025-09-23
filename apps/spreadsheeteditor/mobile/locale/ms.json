@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Ralat",
       "errorAccessDeny": "Anda sedang cuba untuk melakukan tindakan yang anda tidak mempunyai hak untuk.<br>Sila, hubungi pentadbir anda.",
       "errorOpensource": "Menggunakan versi percuma Community, anda boleh membuka dokumen untuk paparan sahaja. Untuk akses editor mobile web, lesen komersial diperlukan.",
-      "errorProcessSaveResult": "Telah gagal disimpan.",
       "errorServerVersion": "Versi editor telah dikemas kinikan. Halaman akan dimuat semula untuk menggunakan perubahan.",
       "errorUpdateVersion": "Versi fail telah berubah. Halaman akan dimuatkan semula.",
       "leavePageText": "Anda mempunyai perubahan yang tidak disimpan dalam dokumen ini. Klik 'Stay on this Page’ untuk menunggu autosimpan. Klik 'Leave this Page' untuk membuang semua perubahan yang tidak disimpan.",
@@ -119,10 +118,8 @@
       "textYes": "Ya",
       "titleServerVersion": "Editor dikemas kini",
       "titleUpdateVersion": "Perubahan versi",
-      "warnLicenseExceeded": "Anda telah mencapai had pengguna untuk sambungan serentak kepada editor %1. Dokumen ini akan dibuka untuk dilihat sahaja. Hubungi pentadbir anda untuk ketahui selanjutnya.",
       "warnLicenseLimitedNoAccess": "Lesen tamat tempoh. Anda tidak mempunyai akses terhadap fungsi pengeditan dokumen. Sila, hubungi pentadbir anda.",
       "warnLicenseLimitedRenewed": "Lesen perlu untuk diperbaharui. Anda mempunyai akses terhad kepada fungi pengeditan dokumen.<br>Sila hubungi pentadbir anda untuk mendapatkan akses penuh",
-      "warnLicenseUsersExceeded": "Anda telah mencapai had pengguna untuk editor %1. Hubungi pentadbir anda untuk ketahui selanjutnya.",
       "warnNoLicense": "Anda telah mencapai had pengguna untuk sambungan serentak kepada editor %1. Dokumen ini akan dibuka untuk dilihat sahaja. Hubungi pasukan jualan %1 untuk naik taraf terma peribadi.",
       "warnNoLicenseUsers": "Anda telah mencapai had pengguna untuk editor %1. Hubungi pasukan jualan %1 untuk naik taraf terma peribadi.",
       "warnProcessRightsChange": "Anda tidak mempunyai keizinan untuk edit fail ini.",
@@ -241,8 +238,11 @@
       "textNoMatches": "No Matches",
       "textUpdate": "Update",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
       "titleLicenseExp": "License expired",
       "titleLicenseNotActive": "License not active",
+      "titleReadOnly": "Read-Only Mode",
       "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
@@ -441,7 +441,9 @@
     "textSheetName": "Nama Helaian",
     "textTabColor": "Warna Tab",
     "textUnhide": "Nyahsembunyi",
-    "textWarnDeleteSheet": "Lembaran kerja mungkin mempunyai data. Teruskan operasi?"
+    "textWarnDeleteSheet": "Lembaran kerja mungkin mempunyai data. Teruskan operasi?",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Anda mempunyai perubahan yang tidak disimpan dalam dokumen ini. Klik 'Stay on this Page’ untuk menunggu autosimpan. Klik 'Leave this Page' untuk membuang semua perubahan yang tidak disimpan.",
@@ -699,8 +701,13 @@
       "txtNotUrl": "Medan ini perlu sebagai URL dalam “http://www.example.com” formatnya",
       "txtSortHigh2Low": "Isih Tertinggi Ke Terendah",
       "txtSortLow2High": "Isih Terendah Ke Tertinggi.",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textAllCaps": "All Caps",
       "textArrange": "Arrange",
+      "textBaseline": "Baseline",
       "textCancel": "Cancel",
+      "textCapitalization": "Capitalization",
       "textChangeShape": "Change Shape",
       "textCreateCustomFormat": "Create Custom Format",
       "textCreateFormat": "Create Format",
@@ -709,10 +716,16 @@
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textDone": "Done",
+      "textDoubleStrikethrough": "Double Strikethrough",
       "textEnterFormat": "Enter Format",
       "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textLetterSpacing": "Letter spacing",
       "textRecommended": "Recommended",
-      "textSave": "Save"
+      "textSave": "Save",
+      "textSmallCaps": "Small Caps",
+      "textStrikethrough": "Strikethrough",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript"
     },
     "Settings": {
       "advCSVOptions": "Pilih pilihan CSV",
@@ -866,7 +879,8 @@
       "txtTr": "Turkish",
       "txtUk": "Ukrainian",
       "txtVi": "Vietnamese",
-      "txtZh": "Chinese"
+      "txtZh": "Chinese",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   },
   "Draw": {

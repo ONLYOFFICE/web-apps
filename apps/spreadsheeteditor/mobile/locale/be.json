@@ -87,13 +87,12 @@
     "textCopyCutPasteActions": "Copy, Cut and Paste Actions",
     "textDoNotShowAgain": "Don't show again",
     "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?",
     "warnMergeLostData": "Only the data from the upper-left cell will remain in the merged cell. <br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
       "criticalErrorTitle": "Памылка",
-      "errorProcessSaveResult": "Не атрымалася захаваць.",
       "notcriticalErrorTitle": "Увага",
       "SDK": {
         "Grayscale": "Адценні шэрага",
@@ -232,17 +231,18 @@
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
       "textUpdate": "Update",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
       "titleLicenseExp": "License expired",
       "titleLicenseNotActive": "License not active",
+      "titleReadOnly": "Read-Only Mode",
       "titleServerVersion": "Editor updated",
       "titleUpdateVersion": "Version changed",
       "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "warnLicenseExceeded": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact your administrator to learn more.",
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
       "warnLicenseLimitedNoAccess": "License expired. You have no access to document editing functionality. Please, contact your admin.",
       "warnLicenseLimitedRenewed": "License needs to be renewed. You have limited access to document editing functionality.<br>Please contact your administrator to get full access",
-      "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
       "warnProcessRightsChange": "You don't have permission to edit the file."
@@ -427,6 +427,7 @@
     "textMoveToEnd": "(Перамясціць у канец)",
     "textSheet": "Аркуш",
     "textSheetName": "Назва аркуша",
+    "textContinue": "Continue",
     "textDuplicate": "Duplicate",
     "textErrNameExists": "Sheet with this name already exists.",
     "textErrorLastSheet": "The workbook must have at least one visible sheet.",
@@ -441,7 +442,8 @@
     "textRenameSheet": "Rename Sheet",
     "textTabColor": "Tab Color",
     "textUnhide": "Unhide",
-    "textWarnDeleteSheet": "The sheet maybe has data. Proceed operation?"
+    "textWarnDeleteSheet": "The sheet maybe has data. Proceed operation?",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "View": {
     "Add": {
@@ -565,13 +567,18 @@
       "textVerticalAxis": "Вертыкальная вось",
       "textVerticalText": "Вертыкальны тэкст ",
       "textYen": "Ена",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textAllCaps": "All Caps",
       "textArrange": "Arrange",
       "textAxisOptions": "Axis Options",
       "textAxisPosition": "Axis Position",
       "textAxisTitle": "Axis Title",
+      "textBaseline": "Baseline",
       "textBottom": "Bottom",
       "textBottomBorder": "Bottom Border",
       "textBringToForeground": "Bring to foreground",
+      "textCapitalization": "Capitalization",
       "textClearFilter": "Clear Filter",
       "textCreateCustomFormat": "Create Custom Format",
       "textCreateFormat": "Create Format",
@@ -591,6 +598,7 @@
       "textDisplayUnits": "Display Units",
       "textDollar": "Dollar",
       "textDone": "Done",
+      "textDoubleStrikethrough": "Double Strikethrough",
       "textEditLink": "Edit Link",
       "textEffects": "Effects",
       "textEmptyImgUrl": "You need to specify the image URL.",
@@ -634,6 +642,7 @@
       "textLeftBorder": "Left Border",
       "textLeftOverlay": "Left Overlay",
       "textLegend": "Legend",
+      "textLetterSpacing": "Letter spacing",
       "textLink": "Link",
       "textLinkSettings": "Link Settings",
       "textLinkType": "Link Type",
@@ -682,7 +691,11 @@
       "textSave": "Save",
       "textSelectObjectToEdit": "Select object to edit",
       "textSendToBackground": "Send to Background",
+      "textSmallCaps": "Small Caps",
+      "textStrikethrough": "Strikethrough",
       "textStyle": "Style",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript",
       "textText": "Text",
       "textTextColor": "Text Color",
       "textTextFormat": "Text Format",
@@ -854,7 +867,8 @@
       "txtUk": "Ukrainian",
       "txtVi": "Vietnamese",
       "txtZh": "Chinese",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   },
   "Draw": {

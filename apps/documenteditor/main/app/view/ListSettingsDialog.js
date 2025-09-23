@@ -1033,7 +1033,8 @@ define([
                 if (props.get_Format() !== Asc.c_oAscNumberingFormat.Bullet) {
                     var text = props.get_Text();
                     var me = this;
-                    var arr = this.formatString.lvlIndexes[this.level];
+                    var arr = this.formatString.lvlIndexes[this.level],
+                        isLgl = this.props.get_Lvl(this.level).get_IsLgl();
                     text.forEach(function (item, index) {
                         if (item.get_Type() === Asc.c_oAscNumberingLvlTextType.Text) {
                             formatStr += item.get_Value().toString();
@@ -1042,8 +1043,12 @@ define([
                             if (me.levels[num] === undefined)
                                 me.levels[num] = me.props.get_Lvl(num);
                             arr[num] = {start: formatStr.length, index: index};
-                            var lvl = me.levels[num];
-                            formatStr += AscCommon.IntToNumberFormat(lvl.get_Start(), lvl.get_Format(), me.lang);
+                            var lvl = me.levels[num],
+                                fmt = lvl.get_Format();
+                            if (isLgl && fmt !== Asc.c_oAscNumberingFormat.Decimal && fmt !== Asc.c_oAscNumberingFormat.DecimalZero) {
+                                fmt = Asc.c_oAscNumberingFormat.Decimal;
+                            }
+                            formatStr += AscCommon.IntToNumberFormat(lvl.get_Start(), fmt, me.lang);
                             arr[num].end = formatStr.length;
                         }
                     });

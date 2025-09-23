@@ -66,7 +66,8 @@
     "textTableSize": "Táblázat mérete",
     "textWithBlueLinks": "Kék linkkel",
     "textWithPageNumbers": "Oldalszámokkal",
-    "txtNotUrl": "A mező URL-címének a \"http://www.example.com\" formátumban kell lennie"
+    "txtNotUrl": "A mező URL-címének a \"http://www.example.com\" formátumban kell lennie",
+    "textRemovePicture": "Remove picture"
   },
   "Common": {
     "Collaboration": {
@@ -415,7 +416,14 @@
     "textWe": "Sze",
     "textWrap": "Tördel",
     "textWrappingStyle": "Tördelés stílus",
-    "textYourOption": "Az Ön opciója"
+    "textYourOption": "Az Ön opciója",
+    "textBaseline": "Baseline",
+    "textCapitalization": "Capitalization",
+    "textCellOptions": "Cell options",
+    "textCellSize": "Rows & columns size",
+    "textWrapText": "Wrap Text",
+    "txtHeight": "Height",
+    "txtWidth": "Width"
   },
   "Error": {
     "convertationTimeoutText": "A átalakítás időkorlátja lejárt.",
@@ -525,7 +533,6 @@
     "criticalErrorTitle": "Hiba",
     "errorAccessDeny": "Olyan műveletet próbál végrehajtani, amelyhez nincs jogosultsága.<br>Kérjük, forduljon rendszergazdájához.",
     "errorOpensource": "Az ingyenes közösségi verzió használatával a dokumentumokat csak megtekintésre nyithatja meg. A mobil webszerkesztők eléréséhez kereskedelmi licenc szükséges.",
-    "errorProcessSaveResult": "Sikertelen mentés.",
     "errorServerVersion": "A szerkesztő verziója frissült. Az oldal újratöltődik a változások érvényesítéséhez.",
     "errorUpdateVersion": "A dokumentum verziója megváltozott. Az oldal újratöltődik.",
     "leavePageText": "Vannak el nem mentett módosításai. Kattintson a 'Maradjon ezen az oldalon' gombra az automatikus mentéshez. Kattintson a 'Hagyja el ezt az oldalt' gombra a mentetlen módosítások elvetéséhez.",
@@ -661,14 +668,15 @@
     "warnDownloadAsPdf": "A(z) {0} szerkeszthető formátumra lesz konvertálva. Ez eltarthat egy ideig. Az eredményül kapott dokumentumot úgy optimalizáljuk, hogy lehetővé tegye a szöveg szerkesztését, így előfordulhat, hogy nem úgy néz ki, mint az eredeti {0}, különösen, ha az eredeti fájl sok grafikát tartalmazott.",
     "warnLicenseAnonymous": "Hozzáférés megtagadva az ismeretlen felhasználók számára.<br>Ez a dokumentum csak olvasásra nyílik meg.",
     "warnLicenseBefore": "A licenc nem aktív.<br>Kérjük, forduljon rendszergazdájához.",
-    "warnLicenseExceeded": "Ön elérte az egyidejű kapcsolódások számának határát a(z) %1 szerkesztőhöz. Ez a dokumentum csak megtekintésre lesz megnyitva. További információkért forduljon a rendszergazdához.",
     "warnLicenseExp": "Az Ön licence lejárt. Kérjük, frissítse licencét majd frissítse az oldalt.",
     "warnLicenseLimitedNoAccess": "Licenc lejárt. Nincs hozzáférése a dokumentumszerkesztési funkciókhoz. Kérjük, forduljon a rendszergazdához.",
     "warnLicenseLimitedRenewed": "A licencet meg kell újítani. Korlátozott hozzáféréssel rendelkezik a dokumentumszerkesztési funkciókhoz.<br>Kérjük, lépjen kapcsolatba a rendszergazdával a teljes hozzáférés megszerzéséhez",
-    "warnLicenseUsersExceeded": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználó számának korlátját. További információért forduljon rendszergazdájához.",
     "warnNoLicense": "Elérte a(z) %1 szerkesztővel való egyidejű kapcsolódási korlátot. Ez a dokumentum csak megtekintésre nyílik meg. Lépjen kapcsolatba a(z) %1 értékesítési csapatával a személyes bővíthető feltételekért.",
     "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
-    "warnProcessRightsChange": "Nincs jogosultsága a fájl szerkesztéséhez."
+    "warnProcessRightsChange": "Nincs jogosultsága a fájl szerkesztéséhez.",
+    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "titleReadOnly": "Read-Only Mode"
   },
   "Settings": {
     "advDRMOptions": "Védett fájl",

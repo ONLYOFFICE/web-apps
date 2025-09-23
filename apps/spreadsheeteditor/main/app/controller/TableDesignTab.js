@@ -470,7 +470,7 @@ define([
         },
 
         onSelectionChanged: function(info) {
-            if (this.rangeSelectionMode || !this.appConfig.isEdit || !this.view) return;
+            if (!this.appConfig.isEdit || !this.view) return;
             var tableInfo = info.asc_getFormatTableInfo();
             if (tableInfo)
                 this.ChangeSettings(tableInfo);

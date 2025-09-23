@@ -580,7 +580,7 @@ define([
                     return false;
                 }
                 if (newName !== currentName) {
-                    me.api.asc_renameWorksheet(newName);
+                    me.api.asc_renameWorksheet(newName, tab.sheetid);
                     me.renameInputVal = null;
                     me.renamingWorksheet = null;
                 }
@@ -667,7 +667,7 @@ define([
 
             const wc = me.api.asc_getWorksheetsCount();
 
-            var tab = sheetFromUpdate ? _.findWhere(me.statusbar.tabbar.tabs, { sheetid: sheetFromUpdate }) : me.statusbar.tabbar.tabs[sindex];
+            var tab = sheetFromUpdate ? _.findWhere(me.statusbar.tabbar.tabs, { sheetid: sheetFromUpdate }) : _.findWhere(me.statusbar.tabbar.tabs, { sheetindex: sindex });
             var currentName = sheetFromUpdate ? me.renameInputVal : me.api.asc_getWorksheetName(sindex);
             if (!tab) return;
             const $tabEl = tab.$el.find('span');
@@ -785,9 +785,23 @@ define([
         onAddWorksheetClick: function(o, index, opts) {
             if (this.api) {
                 this.api.asc_closeCellEditor();
-                this.api.asc_addWorksheet(this.createSheetName());
 
-                Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + this.api.asc_getActiveWorksheetId()], false);  //  hide popover
+                if (this.statusbar.mode.spreadsheet.fileType.toLowerCase()==='csv') {
+                    Common.UI.warning({
+                        msg: this.warnAddSheetCsv,
+                        buttons: [{value: 'ok', caption: this.textContinue}, 'cancel'],
+                        maxwidth: 500,
+                        callback: _.bind(function (btn) {
+                            if (btn == 'ok') {
+                                this.api.asc_addWorksheet(this.createSheetName());
+                                Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + this.api.asc_getActiveWorksheetId()], false);  //  hide popover
+                            }
+                        }, this)
+                    });
+                } else {
+                    this.api.asc_addWorksheet(this.createSheetName());
+                    Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + this.api.asc_getActiveWorksheetId()], false);  //  hide popover
+                }
             }
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },

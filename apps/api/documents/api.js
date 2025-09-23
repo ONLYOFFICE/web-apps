@@ -669,16 +669,6 @@
             });
         };
 
-        var _processSaveResult = function(result, message) {
-            _sendCommand({
-                command: 'processSaveResult',
-                data: {
-                    result: result,
-                    message: message
-                }
-            });
-        };
-
         // TODO: remove processRightsChange, use denyEditingRights
         var _processRightsChange = function(enabled, message) {
             _sendCommand({
@@ -903,7 +893,6 @@
 
         return {
             showMessage         : _showMessage,
-            processSaveResult   : _processSaveResult,
             processRightsChange : _processRightsChange,
             denyEditingRights   : _denyEditingRights,
             refreshHistory      : _refreshHistory,

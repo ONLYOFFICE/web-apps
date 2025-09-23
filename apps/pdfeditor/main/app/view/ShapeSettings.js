@@ -1894,7 +1894,7 @@ define([
                 props.put_fill(fill);
                 this.api.ShapeApply(props);
             }
-            $(this.btnTexture.el).find('.form-control').prop('innerHTML', record.get('name'));
+            // $(this.btnTexture.el).find('.form-control').prop('innerHTML', record.get('name'));
             this.fireEvent('editcomplete', this);
         },
 

@@ -30,7 +30,7 @@
   "ContextMenu": {
     "menuCancel": "Revocare",
     "textOk": "OK",
-    "txtWarnUrl": "Un clic pe acest link ar putea căuza daune dispozitivului și datelor dvs.<br>Sunteți sigur că doriți să continuați?"
+    "txtWarnUrl": "Accesarea acestui link poate dăuna dispozitivului sau datelor dvs. Această locație poate fi nesigură:<br>{0}<br>Sigur doriti sa continuati? "
   },
   "Controller": {
     "Main": {
@@ -40,7 +40,6 @@
       "criticalErrorTitle": "Eroare",
       "errorAccessDeny": "Nu aveți dreptul să efectuați acțiunea pe care doriți.<br>Contactați administratorul dvs.",
       "errorOpensource": "În versiunea Community documentul este disponibil numai pentru vizualizare. Aveți nevoie de o licență comercială pentru accesarea editorului mobil web.",
-      "errorProcessSaveResult": "Salvarea nu a reușit.",
       "errorServerVersion": "Editorul a fost actualizat. Pagina va fi reîmprospătată pentru a aplica această actualizare.",
       "errorUpdateVersion": "Versiunea fișierului s-a modificat. Pagina va fi reîmprospătată.",
       "leavePageText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
@@ -57,18 +56,19 @@
       "textOpenFile": "Introduceți parola pentru a deschide fișierul",
       "textPaidFeature": "Funcția contra plată",
       "textYes": "Da",
+      "tipLicenseExceeded": "Documentul este deschis în modul doar citire deoarece a fost atins numărul maxim de conexiuni simultane stabilite de licență.<br><br>Vă rugăm să încercați din nou mai târziu sau să contactați proprietarul documentului dacă aveți nevoie de acces la editare.",
+      "tipLicenseUsersExceeded": "Documentul este deschis în modul doar citire deoarece a fost atins numărul maxim de utilizatori cu permisiuni de editare stabilite de licență.<br><br>Vă rugăm să încercați din nou mai târziu sau să contactați proprietarul documentului dacă aveți nevoie de acces la editare.",
       "titleLicenseExp": "Licența a expirat",
       "titleLicenseNotActive": "Licența nu este activă",
+      "titleReadOnly": "Mod doar în citire",
       "titleServerVersion": "Editorul a fost actualizat",
       "titleUpdateVersion": "Versiunea s-a modificat",
       "txtIncorrectPwd": "Parolă incorectă",
       "warnLicenseAnonymous": "Acces refuzat pentru utilizatori anonimi.<br>Acest document va fi accesibil numai în modul de vizualizare.",
       "warnLicenseBefore": "Licența nu este activă.<br>Contactaţi administratorul.",
-      "warnLicenseExceeded": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați administratorul dvs pentru mai multe detalii.",
       "warnLicenseExp": "Licența dvs. a expirat. Licența urmează să fie reînnoită iar pagina reîmprospătată.",
       "warnLicenseLimitedNoAccess": "Licența dvs. a expirat. Nu aveți acces la funcții de editare a documentului.Contactați administratorul dvs. de rețeea.",
       "warnLicenseLimitedRenewed": "Licență urmează să fie reînnoită. Funcțiile de editare sunt cu acces limitat.<br>Pentru a obține acces nelimitat, contactați administratorul dvs. de rețea.",
-      "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori care este prevăzut pentru editoare %1. Pentru detalii, contactați administratorul dvs.",
       "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
       "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori pentru editoare %1. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
       "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
@@ -174,7 +174,7 @@
       "notcriticalErrorTitle": "Avertisment",
       "textAbout": "Informații",
       "textAddress": "adresă:",
-      "textApplication": "Aplicația",
+      "textApplication": "Aplicație",
       "textApplicationSettings": "Setări Aplicație",
       "textAuthor": "Autor",
       "textBack": "Înapoi",

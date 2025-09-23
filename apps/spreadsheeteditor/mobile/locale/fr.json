@@ -87,7 +87,7 @@
     "textCopyCutPasteActions": "Fonctions de Copier, Couper et Coller",
     "textDoNotShowAgain": "Ne plus afficher",
     "textOk": "OK",
-    "txtWarnUrl": "Cliquer sur ce lien peut être dangereux pour votre appareil et vos données. <br>Êtes-vous sûr de vouloir continuer ?",
+    "txtWarnUrl": "Cliquer sur ce lien peut endommager votre appareil et vos données. Cet emplacement peut être dangereux :<br>{0}<br>Voulez-vous continuer ?",
     "warnMergeLostData": "Seulement les données de la cellule supérieure gauche seront conservées dans la cellule fusionnée.<br>Êtes-vous sûr de vouloir continuer ?"
   },
   "Controller": {
@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Erreur",
       "errorAccessDeny": "Vous tentez d'exéсuter une action pour laquelle vous ne disposez pas des droits.<br>Veuillez contacter votre administrateur.",
       "errorOpensource": "Sous version gratuite Community, le document est disponible en lecture seule. Pour accéder aux éditeurs mobiles web, vous avez besoin d'une licence payante.",
-      "errorProcessSaveResult": "Échec de l‘enregistrement.",
       "errorServerVersion": "La version de l'éditeur a été mise à jour. La page sera rechargée pour appliquer les modifications.",
       "errorUpdateVersion": "La version du fichier a été changée. La page sera rechargée.",
       "leavePageText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",
@@ -232,17 +231,18 @@
       "textUpdate": "Mettre à jour",
       "textWarnUpdateExternalData": "Ce livre contient des liens vers une ou plusieurs sources externes qui pourraient être dangereuses. Si vous faites confiance à ces liens, mettez-les à jour pour obtenir les données les plus récentes.",
       "textYes": "Oui",
+      "tipLicenseExceeded": "Le document est ouvert en mode lecture seule, car le nombre maximal de connexions simultanées autorisées par la licence a été atteint.\n<br><br>Veuillez réessayer plus tard ou contacter le propriétaire du document si vous avez besoin d’un accès en modification.",
+      "tipLicenseUsersExceeded": "Le document est ouvert en mode lecture seule, car le nombre maximal d’utilisateurs autorisés à modifier des documents selon la licence a été atteint.<br><br>Veuillez réessayer plus tard ou contacter le propriétaire du document si vous avez besoin d’un accès en modification.",
       "titleLicenseExp": "Licence expirée",
       "titleLicenseNotActive": "Licence non active",
+      "titleReadOnly": "Mode lecture seule",
       "titleServerVersion": "L'éditeur est mis à jour",
       "titleUpdateVersion": "La version a été modifiée",
       "warnLicenseAnonymous": "Accès refusé aux utilisateurs anonymes.<br>Ce document sera accessible en lecture seule uniquement.",
       "warnLicenseBefore": "Licence non active.<br>Veuillez contacter votre administrateur.",
-      "warnLicenseExceeded": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Pour en savoir plus, contactez votre administrateur.",
       "warnLicenseExp": "Votre licence a expiré. Veuillez mettre à jour votre licence et rafraîchir la page.",
       "warnLicenseLimitedNoAccess": "La licence est expirée. Vous n'avez plus d'accès aux outils d'édition. Veuillez contacter votre administrateur.",
       "warnLicenseLimitedRenewed": "Il est indispensable de renouveler la licence. Vous avez un accès limité aux outils d'édition des documents.<br>Veuillez contacter votre administrateur pour obtenir un accès complet",
-      "warnLicenseUsersExceeded": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Pour en savoir plus, contactez votre administrateur.",
       "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
       "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
       "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
@@ -427,6 +427,7 @@
   "Statusbar": {
     "notcriticalErrorTitle": "Avertissement",
     "textCancel": "Annuler",
+    "textContinue": "Continuer",
     "textDelete": "Supprimer",
     "textDuplicate": "Dupliquer",
     "textErrNameExists": "Une feuille de calcul avec le même nom existe déjà.",
@@ -447,7 +448,8 @@
     "textSheetName": "Nom de la feuille",
     "textTabColor": "Couleur d'onglet",
     "textUnhide": "Afficher",
-    "textWarnDeleteSheet": "La feuille de calcul peut contenir des données. Êtes-vous sûr de vouloir continuer?"
+    "textWarnDeleteSheet": "La feuille de calcul peut contenir des données. Êtes-vous sûr de vouloir continuer?",
+    "warnAddSheetCsv": "Le format CSV ne prend pas en charge l'enregistrement d'un fichier à plusieurs feuilles. Seule la feuille active sera enregistrée. Pour conserver toutes les feuilles, veuillez enregistrer le fichier dans un autre format."
   },
   "Toolbar": {
     "btnRestartNow": "Redémarrer maintenant",
@@ -532,6 +534,8 @@
       "textAccounting": "Comptabilité",
       "textActualSize": "Taille actuelle",
       "textAddCustomColor": "Ajouter une couleur personnalisée",
+      "textAdditional": "Supplémentaire",
+      "textAdditionalFormatting": "Mise en forme supplémentaire",
       "textAddress": "Adresse",
       "textAlign": "Aligner",
       "textAlignBottom": "Aligner en bas",
@@ -541,6 +545,7 @@
       "textAlignRight": "Aligner à droite",
       "textAlignTop": "Aligner en haut",
       "textAllBorders": "Toutes les bordures",
+      "textAllCaps": "Tout en majuscules",
       "textAngleClockwise": "Rotation dans le sens des aiguilles d'une montre",
       "textAngleCounterclockwise": "Rotation dans le sens inverse des aiguilles d'une montre",
       "textArrange": "Organiser",
@@ -551,6 +556,7 @@
       "textAxisPosition": "Position de l'axe",
       "textAxisTitle": "Titre de l'axe",
       "textBack": "Retour",
+      "textBaseline": "Ligne de base",
       "textBetweenTickMarks": "Entre graduations",
       "textBillions": "Milliards",
       "textBorder": "Bordure",
@@ -559,6 +565,7 @@
       "textBottomBorder": "Bordure inférieure",
       "textBringToForeground": "Mettre au premier plan",
       "textCancel": "Annuler",
+      "textCapitalization": "Casse",
       "textCell": "Cellule",
       "textCellStyle": "Style de cellule",
       "textCenter": "Au centre",
@@ -588,6 +595,7 @@
       "textDisplayUnits": "Unités d'affichage",
       "textDollar": "Dollar",
       "textDone": "Terminé",
+      "textDoubleStrikethrough": "Barré double",
       "textEditLink": "Modifier le lien",
       "textEffects": "Effets",
       "textEmptyImgUrl": "Spécifiez l'URL de l'image",
@@ -636,6 +644,7 @@
       "textLeftBorder": "Bordure gauche",
       "textLeftOverlay": "Superposition à gauche",
       "textLegend": "Légende",
+      "textLetterSpacing": "Espacement des caractères",
       "textLink": "Lien",
       "textLinkSettings": "Paramètres de lien",
       "textLinkType": "Type de lien",
@@ -693,7 +702,11 @@
       "textShape": "Forme",
       "textSheet": "Feuille",
       "textSize": "Taille",
+      "textSmallCaps": "Petites majuscules",
+      "textStrikethrough": "Barré",
       "textStyle": "Style",
+      "textSubscript": "Indice",
+      "textSuperscript": "Exposant",
       "textTenMillions": "10 000 000",
       "textTenThousands": "10 000",
       "textText": "Texte",
@@ -872,7 +885,8 @@
       "txtUk": "Ukrainien",
       "txtVi": "Vietnamien",
       "txtZh": "Chinois",
-      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?"
+      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?",
+      "warnDownloadCsv": "Le format CSV ne prend pas en charge l'enregistrement d'un fichier à plusieurs feuilles et de tous les éléments, à l'exception du texte.<br>Pour enregistrer uniquement la feuille sélectionnée au format CSV, appuyez sur OK.<br>Pour enregistrer l'ensemble du tableur et toutes les fonctionnalités, cliquez sur Annuler et sélectionnez un autre format."
     }
   }
 }

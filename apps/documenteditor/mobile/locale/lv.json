@@ -66,7 +66,8 @@
     "textWithBlueLinks": "Ar zilām saitēm",
     "textWithPageNumbers": "Ar lapu numuriem",
     "txtNotUrl": "Šim laukam ir jābūt URL formātā \"http://www.example.com\"",
-    "textDrawing": "Drawing"
+    "textDrawing": "Drawing",
+    "textRemovePicture": "Remove picture"
   },
   "Common": {
     "Collaboration": {
@@ -399,6 +400,10 @@
     "textWe": "Mēs",
     "textWrap": "Aplauzt",
     "textWrappingStyle": "Aplaušanas stils",
+    "textBaseline": "Baseline",
+    "textCapitalization": "Capitalization",
+    "textCellOptions": "Cell options",
+    "textCellSize": "Rows & columns size",
     "textChooseAnItem": "Choose an item",
     "textChooseAnOption": "Choose an option",
     "textCustomStyle": "Custom Style",
@@ -409,7 +414,10 @@
     "textRotateTextUp": "Rotate Text Up",
     "textSave": "Save",
     "textTextOrientation": "Text Orientation",
-    "textYourOption": "Your option"
+    "textWrapText": "Wrap Text",
+    "textYourOption": "Your option",
+    "txtHeight": "Height",
+    "txtWidth": "Width"
   },
   "Error": {
     "convertationTimeoutText": "Konversijas taimauts pārsniegts.",
@@ -513,13 +521,12 @@
     "uploadImageTextText": "Augšupielādē attēlu...",
     "uploadImageTitleText": "Augšupielādē attēlu",
     "waitText": "Uzgaidiet...",
-    "savingText": "Saving"
+    "savingText": "Submitting"
   },
   "Main": {
     "criticalErrorTitle": "Kļūda",
     "errorAccessDeny": "Jūs mēģināt veikt darbību, kuru nedrīkstat veikt.<br>Sazinieties ar savu administratoru.",
     "errorOpensource": "Izmantojot bezmaksas kopienas versiju, varat atvērt dokumentus tikai apskatei. Lai piekļūtu mobilā tīmekļa redaktoriem, ir nepieciešama komerciāla licence.",
-    "errorProcessSaveResult": "Neizdevās saglabāt.",
     "errorServerVersion": "Redaktora versija ir atjaunināta. Lapa tiks pārlādēta, lai piemērotu izmaiņas.",
     "errorUpdateVersion": "Faila versija ir mainīta. Lapa tiks atkārtoti ielādēta.",
     "leavePageText": "Jums ir nesaglabātas izmaiņas. Noklikšķiniet uz Palikt šajā lapā, lai gaidītu automātisko saglabāšanu. Noklikšķiniet uz 'Pamest lapu', lai atmestu visas nesaglabātās izmaiņas.",
@@ -647,11 +654,9 @@
     "titleServerVersion": "Atjaunināts redaktors",
     "titleUpdateVersion": "Versija mainīta",
     "warnDownloadAsPdf": "Jūsu {0} tiks pārveidots rediģējamā formātā. Tas var aizņemt kādu laiku. Iegūtais dokuments tiks optimizēts, lai jūs varētu rediģēt tekstu, tāpēc tas var neizskatīties tieši tāpat kā oriģinālais {0}, it īpaši, ja sākotnējā failā bija daudz grafikas.",
-    "warnLicenseExceeded": "Jūs sasniedzāt vienlaicīgu savienojumu ierobežojumu ar %1 redaktoriem. Šis dokuments tiks atvērts tikai skatīšanai. Sazinieties ar savu administratoru, lai uzzinātu vairāk.",
     "warnLicenseExp": "Jūsu licencei ir beidzies derīguma termiņš. Atjauniniet savu licenci un atsvaidziniet lapu.",
     "warnLicenseLimitedNoAccess": "Licencei ir beidzies termiņš. Jums nav piekļuves dokumentu rediģēšanas funkcijai. Sazinieties ar savu administratoru.",
     "warnLicenseLimitedRenewed": "Licence ir jāatjauno. Jums ir ierobežota piekļuve dokumentu rediģēšanas funkcionalitātei.<br>Sazinieties ar savu administratoru, lai iegūtu pilnu piekļuvi",
-    "warnLicenseUsersExceeded": "Jūs sasniedzāt %1 redaktoru lietotāju ierobežojumu. Sazinieties ar savu administratoru, lai uzzinātu vairāk.",
     "warnNoLicense": "Jūs sasniedzāt vienlaicīgu savienojumu ierobežojumu ar %1 redaktoriem. Šis dokuments tiks atvērts tikai skatīšanai. Sazinieties ar %1 pārdošanas komandu, lai uzzinātu personīgos jaunināšanas noteikumus.",
     "warnNoLicenseUsers": "Jūs sasniedzāt %1 redaktoru lietotāju ierobežojumu. Sazinieties ar %1 pārdošanas komandu, lai uzzinātu personīgos jaunināšanas noteikumus.",
     "warnProcessRightsChange": "Jums nav atļaujas rediģēt šo failu.",
@@ -660,7 +665,10 @@
     "textDownloadPdf": "Download PDF",
     "textNoLicenseTitle": "License limit reached",
     "textSaveAsPdf": "Save as PDF",
+    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
     "titleLicenseNotActive": "License not active",
+    "titleReadOnly": "Read-Only Mode",
     "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
     "warnLicenseBefore": "License not active.<br>Please contact your administrator."
   },

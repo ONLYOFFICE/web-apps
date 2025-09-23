@@ -160,6 +160,7 @@ define([
                 Common.NotificationCenter.on('uitheme:changed', _.bind(function() {
                     this.clearActiveData();
                     this.processPanelVisible();
+                    this.repaintMoreBtns();
                 }, this));
             },
 
@@ -640,6 +641,9 @@ define([
                     var moreContainer = $('<div class="dropdown-menu more-container" data-tab="' + tab + '"><div style="display: inline;"></div></div>');
                     optsFold.$bar.append(moreContainer);
                     btnsMore[tab].panel = moreContainer.find('div');
+                } else if (btnsMore[tab].needRepaint && panel.is(':visible')) {
+                    btnsMore[tab].cmpEl.closest('.more-box').css('top', Common.Utils.getPosition(panel).top);
+                    btnsMore[tab].needRepaint = false;
                 }
                 this.$moreBar = btnsMore[tab].panel;
             },
@@ -647,8 +651,11 @@ define([
             repaintMoreBtns: function() {
                 for (var btn in btnsMore) {
                     if (btnsMore[btn] && btnsMore[btn].cmpEl) {
-                        var box = btnsMore[btn].cmpEl.closest('.more-box');
-                        box.css('top', Common.Utils.getPosition(box.parent()).top);
+                        var box = btnsMore[btn].cmpEl.closest('.more-box'),
+                            panel = box.parent(),
+                            isVisible = panel.is(':visible');
+                        isVisible && box.css('top', Common.Utils.getPosition(panel).top);
+                        btnsMore[btn].needRepaint = !isVisible;
                     }
                 }
             },

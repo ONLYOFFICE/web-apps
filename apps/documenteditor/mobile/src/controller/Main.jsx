@@ -18,6 +18,7 @@ import LongActionsController from "./LongActions";
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
 import EncodingController from "./Encoding";
 import DropdownListController from "./DropdownList";
+import AddFormImageController from './add/AddFormImage.jsx';
 import { Device } from '../../../../common/mobile/utils/device';
 import { processArrayScripts } from '../../../../common/mobile/utils/processArrayScripts.js';
 import '../../../../common/main/lib/util/LanguageInfo.js'
@@ -401,7 +402,6 @@ class MainController extends Component {
                     Common.Notifications.trigger('api:disconnect');
                 }
 
-                Common.Gateway.on('processsaveresult', this.onProcessSaveResult.bind(this));
                 Common.Gateway.on('processrightschange', this.onProcessRightsChange.bind(this));
                 Common.Gateway.on('downloadas', this.onDownloadAs.bind(this));
                 Common.Gateway.on('requestclose', this.onRequestClose.bind(this));
@@ -869,15 +869,7 @@ class MainController extends Component {
                     break;
                 case Asc.c_oAscContentControlSpecificType.Picture:
                 case Asc.c_oAscContentControlSpecificType.Signature:
-                    if (obj.pr && obj.pr.get_Lock) {
-                        let lock = obj.pr.get_Lock();
-                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock == Asc.c_oAscSdtLockType.ContentLocked)
-                            return;
-                    }
-                    this.api.asc_addImage(obj);
-                    setTimeout(() => {
-                        this.api.asc_UncheckContentControlButtons();
-                    }, 500);
+                    this.onShowImageActions(obj, x, y);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
@@ -1045,10 +1037,11 @@ class MainController extends Component {
     onChangeProtectDocument() {
         const storeVersionHistory = this.props.storeVersionHistory;
         if (storeVersionHistory.isVersionHistoryMode) return;
+        const props = this.getDocProps(true);
+        if (!props) return;
 
         const { t } = this.props;
         const storeAppOptions = this.props.storeAppOptions;
-        const props = this.getDocProps(true);
         const isProtected = props && (props.isReadOnly || props.isCommentsOnly || props.isFormsOnly || props.isReviewOnly || props.isTrackedChanges);
         let textWarningDialog;
 
@@ -1202,6 +1195,29 @@ class MainController extends Component {
         }, 100)
     }
 
+    onShowImageActions(obj, x, y) {
+        if(!Device.isPhone) {
+            const boxSdk = $$('#editor_sdk');
+            let dropdownListTarget = boxSdk.find('#dropdown-image-list-target');
+
+            if (dropdownListTarget.length < 1) {
+                dropdownListTarget = $$('<div id="dropdown-image-list-target" style="position: absolute;"></div>');
+                boxSdk.append(dropdownListTarget);
+            }
+            if (y > boxSdk.height()) {
+                y = boxSdk.height();
+            }
+            dropdownListTarget.css({left: `${x}px`, top: `${y}px`});
+            Common.Notifications.trigger('openFormImageListTablet', obj, x, y, boxSdk.height(), 260);
+        } else {
+            Common.Notifications.trigger('openFormImageListPhone', obj)
+        }
+
+        setTimeout(() => {
+            this.api.asc_UncheckContentControlButtons();
+        }, 500);
+    }
+
     onShowListActions(obj, x, y) {
         if(!Device.isPhone) {
             const boxSdk = $$('#editor_sdk');
@@ -1218,20 +1234,6 @@ class MainController extends Component {
         if ( !this.appOptions.isCorePDF )
             Common.Notifications.trigger('openDropdownList', obj);
         else Common.Notifications.trigger('openPdfDropdownList', obj);
-    }
-
-    onProcessSaveResult (data) {
-        this.api.asc_OnSaveEnd(data.result);
-
-        if (data && data.result === false) {
-            const { t } = this.props;
-            const _t = t('Main', {returnObjects:true});
-
-            f7.dialog.alert(
-                (!data.message) ? _t.errorProcessSaveResult : data.message,
-                _t.criticalErrorTitle
-            );
-        }
     }
 
     onProcessRightsChange (data) {
@@ -1636,6 +1638,7 @@ class MainController extends Component {
                 <PluginsController />
                 <EncodingController />
                 <DropdownListController />
+                <AddFormImageController />
             </Fragment>
         )
     }
