@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Popover, Sheet, View, f7 } from 'framework7-react';
 import { Device } from '../../../../../common/mobile/utils/device';
-import { PageTextFonts, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextLineSpacing, PageTextFontColor, PageTextCustomFontColor, PageTextHighlightColor, PageOrientationTextShape, PageOrientationTextTable  } from "./EditText";
+import { PageTextFonts, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextLineSpacing, PageTextFontColor, PageTextCustomFontColor, PageTextHighlightColor, PageOrientationTextShape, PageOrientationTextTable, PageTextDirection  } from "./EditText";
 import { ParagraphAdvSettings, PageParagraphBackColor, PageParagraphCustomColor, PageParagraphStyle, PageCreateTextStyle, PageChangeNextParagraphStyle } from "./EditParagraph";
 import { PageShapeStyleNoFill, PageShapeStyle, PageShapeCustomFillColor, PageShapeBorderColor, PageShapeCustomBorderColor, PageWrap, PageReorder, PageReplace } from "./EditShape";
 import { PageImageReorder, PageImageReplace, PageImageWrap, PageLinkSettings, PageWrappingStyle } from "./EditImage";
@@ -29,6 +29,10 @@ const routes = [
     {
         path: '/edit-bullets-and-numbers/',
         component: PageTextBulletsAndNumbers,
+    },
+    {
+        path: '/edit-text-direction/',
+        component: PageTextDirection,
     },
     {
         path: '/edit-text-line-spacing/',

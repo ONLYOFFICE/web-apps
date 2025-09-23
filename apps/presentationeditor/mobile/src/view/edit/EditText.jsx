@@ -33,6 +33,9 @@ import IconTextColor from '@common-icons/icon-text-color.svg';
 import IconTextSelection from '@common-icons/icon-text-selection.svg';
 import IconBullets from '@common-icons/icon-bullets.svg';
 import IconLineSpacing from '@common-icons/icon-linespacing.svg';
+import IconTextDirectionContext from '@common-icons/icon-text-direction-context.svg';
+import IconTextDirectionRtl from '@common-icons/icon-text-direction-rtl.svg';
+import IconTextDirectionLtr from '@common-icons/icon-text-direction-ltr.svg';
 
 const EditText = props => {
     const isAndroid = Device.android;
@@ -61,6 +64,7 @@ const EditText = props => {
     const canIncreaseIndent = storeTextSettings.canIncreaseIndent;
     const canDecreaseIndent = storeTextSettings.canDecreaseIndent;
     const paragraphObj = storeFocusObjects.paragraphObject;
+    const isRtlTextDirection = storeTextSettings.isRtlTextDirection;
     let spaceBefore;
     let spaceAfter;
     let previewList;
@@ -166,12 +170,12 @@ const EditText = props => {
                             </div>
                         </ListItem>
                         <ListItem className='buttons'>
-                            <div className="row">
+                            <div dir={isRtlTextDirection ? 'rtl': ''} className="row">
                                 <a className={'button item-link' + (!canDecreaseIndent ? ' disabled' : '') } onClick={() => {props.onParagraphMove('left')}}>
-                                   <SvgIcon slot="media" symbolId={IconDeIndent.id} className='icon icon-svg' />
+                                   <SvgIcon slot="media" symbolId={IconDeIndent.id} className={'icon icon-svg ' + (isRtlTextDirection ? 'icon-svg-rtl' : '')} />
                                 </a>
                                 <a className={'button item-link' + (!canIncreaseIndent ? ' disabled' : '') } onClick={() => {props.onParagraphMove('right')}}>
-                                    <SvgIcon slot="media" symbolId={IconInIndent.id} className='icon icon-svg' />
+                                    <SvgIcon slot="media" symbolId={IconInIndent.id} className={'icon icon-svg ' + (isRtlTextDirection ? 'icon-svg-rtl' : '')} />
                                 </a>
                             </div>
                         </ListItem>
@@ -181,7 +185,7 @@ const EditText = props => {
                                 shapeObject
                             }}>
                                 {!isAndroid && 
-                                    <SvgIcon slot="media" symbolId={getShapeTextOrientationIcon(shapeObject.get_Vert())} className='icon icon-svg' />
+                                    <SvgIcon slot="media" symbolId={getShapeTextOrientationIcon(shapeObject.get_Vert())} className='icon icon-svg '/>
                                 }
                             </ListItem>
                         }
@@ -205,7 +209,14 @@ const EditText = props => {
                         }}>
                             <div className="preview">{previewList}</div>
                             {!isAndroid && 
-                                <SvgIcon slot="media" symbolId={IconBullets.id} className='icon icon-svg' />
+                                <SvgIcon slot="media" symbolId={IconBullets.id} className={'icon icon-svg ' + (isRtlTextDirection ? 'icon-svg-rtl' : '')} />
+                            }
+                        </ListItem>
+                        <ListItem title={_t.textTextDirection} link='/edit-text-direction/' routeProps={{
+                            setRtlTextdDirection: props.setRtlTextdDirection
+                        }}>
+                            {!isAndroid && 
+                                <SvgIcon slot="media" symbolId={isRtlTextDirection ? IconTextDirectionRtl.id : IconTextDirectionLtr.id} className='icon icon-svg' />
                             }
                         </ListItem>
                         <ListItem title={_t.textLineSpacing} link='/edit-text-line-spacing/' routeProps={{
@@ -910,6 +921,49 @@ const PageBulletsAndNumbers = props => {
     )
 }
 
+const PageDirection = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const storeTextSettings = props.storeTextSettings
+    const isRtlTextDirection = storeTextSettings.isRtlTextDirection;
+    
+
+    return (
+        <Page>
+            <Navbar title={_t.textTextDirection} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <List>
+                <ListItem title={_t.textLtrTextDirection} radio
+                    checked={!isRtlTextDirection}
+                    radioIcon="end"
+                    onChange={() => {
+                        props.setRtlTextdDirection(false);
+                    }}>
+                    <SvgIcon slot="media" symbolId={IconTextDirectionLtr.id} className="icon icon-svg" />
+                </ListItem>
+                <ListItem title={_t.textRtlTextDirection} radio
+                    checked={isRtlTextDirection}
+                    radioIcon="end"
+                    onChange={() => {
+                        props.setRtlTextdDirection(true);
+                    }}>
+                    <SvgIcon slot="media" symbolId={IconTextDirectionRtl.id} className="icon icon-svg" />
+                </ListItem>
+            </List>
+        </Page>
+    )
+}
+
 const PageLineSpacing = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
@@ -956,6 +1010,7 @@ const PageTextHighlightColor = inject("storeTextSettings")(observer(PageHighligh
 const PageTextCustomFontColor = inject("storeTextSettings", "storePalette")(observer(PageCustomFontColor));
 const PageTextAddFormatting = inject("storeTextSettings", "storeFocusObjects")(observer(PageAdditionalFormatting));
 const PageTextBulletsAndNumbers = inject("storeTextSettings", "storeFocusObjects")(observer(PageBulletsAndNumbers));
+const PageTextDirection = inject("storeTextSettings", "storeFocusObjects")(observer(PageDirection));
 const PageTextLineSpacing = inject("storeTextSettings", "storeFocusObjects")(observer(PageLineSpacing));
 const PageTextBulletsLinkSettings = inject("storeTextSettings", "storeFocusObjects")(observer(PageBulletLinkSettings));
 
@@ -967,6 +1022,7 @@ export {
     PageTextCustomFontColor,
     PageTextAddFormatting,
     PageTextBulletsAndNumbers,
+    PageTextDirection,
     PageTextLineSpacing,
     PageTextBulletsLinkSettings,
     PageOrientationTextShape,

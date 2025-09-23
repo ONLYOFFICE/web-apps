@@ -478,6 +478,10 @@ class MainController extends Component {
             storeTextSettings.resetParagraphValign(valign);
         });
 
+        this.api.asc_registerCallback('asc_onTextDirection', (isRtl) => {
+            storeTextSettings.resetRtlTextDirection(isRtl);
+        });
+
         this.api.asc_registerCallback('asc_canIncreaseIndent', value => {
             storeTextSettings.resetIncreaseIndent(value);
         });
