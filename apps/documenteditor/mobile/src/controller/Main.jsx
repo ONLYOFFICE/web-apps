@@ -1037,10 +1037,11 @@ class MainController extends Component {
     onChangeProtectDocument() {
         const storeVersionHistory = this.props.storeVersionHistory;
         if (storeVersionHistory.isVersionHistoryMode) return;
+        const props = this.getDocProps(true);
+        if (!props) return;
 
         const { t } = this.props;
         const storeAppOptions = this.props.storeAppOptions;
-        const props = this.getDocProps(true);
         const isProtected = props && (props.isReadOnly || props.isCommentsOnly || props.isFormsOnly || props.isReviewOnly || props.isTrackedChanges);
         let textWarningDialog;
 
