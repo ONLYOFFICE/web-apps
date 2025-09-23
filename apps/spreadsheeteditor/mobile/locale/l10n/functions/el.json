@@ -479,6 +479,8 @@
 	"ARRAYTOTEXT": "ARRAYTOTEXT",
 	"SORT": "SORT",
 	"SORTBY": "SORTBY",
+	"GETPIVOTDATA": "GETPIVOTDATA",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",
@@ -500,7 +502,22 @@
 			"num": "#NUM!",
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
-			"uf": "#UNSUPPORTED_FUNCTION!"
+			"uf": "#UNSUPPORTED_FUNCTION!",
+			"calc": "#CALC!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "Διεύθυνση",
+			"col": "Στήλη",
+			"color": "Χρώμα",
+			"contents": "Περιεχόμενου",
+			"filename": "Όνομα αρχείου",
+			"format": "Μορφή",
+			"parentheses": "Παρένθεση",
+			"prefix": "Πρόθεμα",
+			"protect": "Προστασία",
+			"row": "Γραμμή",
+			"type": "Τύπος",
+			"width": "Πλάτος"
 		}
 	}
 }

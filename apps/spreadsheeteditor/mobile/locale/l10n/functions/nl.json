@@ -479,6 +479,8 @@
 	"ARRAYTOTEXT": "ARRAYTOTEXT",
 	"SORT": "SORTEREN",
 	"SORTBY": "SORTEREN.OP",
+	"GETPIVOTDATA": "DRAAITABEL.OPHALEN",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",
@@ -500,7 +502,22 @@
 			"num": "#NUM!",
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
-			"uf": "#UNSUPPORTED_FUNCTION!"
+			"uf": "#UNSUPPORTED_FUNCTION!",
+			"calc": "#CALC!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "adres",
+			"col": "kolom",
+			"color": "kleur",
+			"contents": "inhoud",
+			"filename": "bestandsnaam",
+			"format": "notatie",
+			"parentheses": "haakjes",
+			"prefix": "voorvoegsel",
+			"protect": "bescherming",
+			"row": "rij",
+			"type": "type",
+			"width": "breedte"
 		}
 	}
 }
