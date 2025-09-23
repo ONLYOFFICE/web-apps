@@ -1480,7 +1480,7 @@ define([], function () {
         txtBe: 'Belarusian',
         txtBg: 'Bulgarian',
         txtCa: 'Catalan',
-        txtZh: 'Chinese',
+        txtZh: 'Chinese (Simplified)',
         txtCs: 'Czech',
         txtDa: 'Danish',
         txtNl: 'Dutch',
@@ -1548,7 +1548,12 @@ define([], function () {
         strTabStyle: 'Tab style',
         textFill: 'Fill',
         textLine: 'Line',
-        txtAppearance: 'Appearance'
+        txtAppearance: 'Appearance',
+        txtZhtw: 'Chinese (Traditional)',
+        txtSr: 'Serbian (Latin)',
+        txtSrcyrl: 'Serbian (Cyrillic)',
+        txtExampleSr: 'SUMA; MIN; MAKS; BROJANJE',
+        txtExampleSrcyrl: 'СУМА; МИН; МАКС; БРОЈАЊЕ'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 

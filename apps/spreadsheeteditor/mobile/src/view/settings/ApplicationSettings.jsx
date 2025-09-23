@@ -13,8 +13,12 @@ const PageApplicationSettings = props => {
     const regCode = storeApplicationSettings.regCode;
     const regExample = storeApplicationSettings.regExample;
     const formulaLangsColection = storeApplicationSettings.formulaLangsColection;
-    const defineFormulaLang = () => formulaLangsColection.find(obj => obj.value === formulaLang);
-    const currentFormulaLang = defineFormulaLang();
+    const defineFormulaLang = (lang) => formulaLangsColection.find(obj => obj.value === lang);
+    let currentFormulaLang = defineFormulaLang(formulaLang);
+    if (!currentFormulaLang) {
+        storeApplicationSettings.changeFormulaLang('en');
+        currentFormulaLang = defineFormulaLang('en');
+    }
     const defineRegSetting = () => regData.find(obj => regCode === obj.code);
     const currentRegSetting = defineRegSetting();
     const isRefStyle = storeApplicationSettings.isRefStyle;
