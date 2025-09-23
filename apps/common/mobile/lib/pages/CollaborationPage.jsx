@@ -19,9 +19,7 @@ const CollaborationPage = props => {
     const _t = t('Common.Collaboration', {returnObjects: true});
     const appOptions = props.storeAppOptions;
     const isForm = appOptions.isForm;
-    const sharingSettingsUrl = appOptions.sharingSettingsUrl;
-    const isViewer = appOptions.isViewer;
-    const isProtected = appOptions.isProtected;    
+    const sharingSettingsUrl = appOptions.sharingSettingsUrl;  
 
     return (
         <Page name="collab__main">
@@ -59,7 +57,7 @@ const CollaborationPage = props => {
                         }
                     </ListItem>
                 }
-                {(window.editorType === 'de' && (appOptions.canReview || appOptions.canViewReview) && (isViewer || isProtected)) &&
+                {(window.editorType === 'de' && (appOptions.canReview || appOptions.canViewReview)) &&
                     <ListItem link={'/review/'} title={_t.textReview}>
                         {Device.ios ? 
                             <SvgIcon slot="media" symbolId={IconReviewIos.id} className={'icon icon-svg'} /> :
