@@ -1,7 +1,7 @@
 {
 	"DATE": {
 		"a": "(year; month; day)",
-		"d": "在 Microsoft Excel 的日期和時間碼中代表日期的時間序列值",
+		"d": "在的日期和時間碼中代表日期的時間序列值",
 		"ad": "is a number from 1900 or 1904 (depending on the workbook's date system) to 9999!is a number from 1 to 12 representing the month of the year!is a number from 1 to 31 representing the day of the month"
 	},
 	"DATEDIF": {
@@ -11,7 +11,7 @@
 	},
 	"DATEVALUE": {
 		"a": "(date_text)",
-		"d": "將文字形式的日期轉換以 Microsoft Excel 日期時間代代碼表示日期的數字",
+		"d": "將文字形式的日期轉換以日期時間代代碼表示日期的數字",
 		"ad": "is text that represents a date in a Spreadsheet Editor date format, between 1/1/1900 or 1/1/1904 (depending on the workbook's date system) and 12/31/9999"
 	},
 	"DAY": {
