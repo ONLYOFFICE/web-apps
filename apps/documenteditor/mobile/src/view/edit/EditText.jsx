@@ -826,8 +826,8 @@ const EditText = props => {
                                 }
                             </ListItem>
                         }
-                {!inSmartArt && !inSmartArtInternal && [
-                    <ListItem key="bullet" title={t('Edit.textBulletsAndNumbers')} link='/edit-bullets-and-numbers/' routeProps={{
+                {!inSmartArt && !inSmartArtInternal &&
+                    <ListItem title={t('Edit.textBulletsAndNumbers')} link='/edit-bullets-and-numbers/' routeProps={{
                         onBullet: props.onBullet,
                         onNumber: props.onNumber,
                         onMultiLevelList: props.onMultiLevelList,
@@ -838,15 +838,15 @@ const EditText = props => {
                         {!isAndroid && 
                             <SvgIcon slot="media" symbolId={IconBullets.id} className={'icon icon-svg ' + (isRtlTextDirection ? 'icon-svg-rtl' : '')} />
                         }
-                    </ListItem>,
-                    <ListItem key="direction" title={t('Edit.textTextDirection')} link='/edit-text-direction/' routeProps={{
+                    </ListItem>
+                }
+                <ListItem key="direction" title={t('Edit.textTextDirection')} link='/edit-text-direction/' routeProps={{
                         setRtlTextdDirection: props.setRtlTextdDirection
                     }}>
                         {!isAndroid && 
                             <SvgIcon slot="media" symbolId={isRtlTextDirection ? IconTextDirectionRtl.id : IconTextDirectionLtr.id} className='icon icon-svg' />
                         }
                     </ListItem>
-                ]}
                 <ListItem title={t("Edit.textLineSpacing")} link='/edit-text-line-spacing/' routeProps={{
                     onLineSpacing: props.onLineSpacing
                 }}>
