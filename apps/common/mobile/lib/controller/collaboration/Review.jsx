@@ -451,7 +451,7 @@ class ReviewChange extends Component {
             const userColor = item.get_UserColor();
             const goto = (item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveTo || item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveFrom);
             date = this.dateToLocaleTimeString(date, this.appConfig.lang);
-            const editable = (this.appConfig.isReviewOnly || isProtectedReview) && (item.get_UserId() == this.appConfig.user.id) || (!this.appConfig.isReviewOnly || isProtectedReview) && (!this.appConfig.canUseReviewPermissions || AscCommon.UserInfoParser.canEditReview(item.get_UserName()));
+            const editable = (this.appConfig.isReviewOnly || isProtectedReview) && (item.get_UserId() == this.appConfig.user.id) || !(this.appConfig.isReviewOnly || isProtectedReview) && (!this.appConfig.canUseReviewPermissions || AscCommon.UserInfoParser.canEditReview(item.get_UserName()));
             arr.push({date: date, user: user, userColor: userColor, changeText: changeText, goto: goto, editable: editable});
         });
         return arr;
