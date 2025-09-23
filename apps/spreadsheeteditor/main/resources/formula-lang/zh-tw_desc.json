@@ -81,12 +81,12 @@
 	},
 	"TIME": {
 		"a": "(hour; minute; second)",
-		"d": "將代表小時、分、秒的給定數字轉換成 Excel 時間格式序列值。",
+		"d": "將代表小時、分、秒的給定數字轉換成 時間格式序列值。",
 		"ad": "is a number from 0 to 23 representing the hour!is a number from 0 to 59 representing the minute!is a number from 0 to 59 representing the second"
 	},
 	"TIMEVALUE": {
 		"a": "(time_text)",
-		"d": "將文字時間轉換成 Excel 時間序列值，亦即從 0 (12:00:00 A.M.) 到 1 (11:59:59 P.M.) 的數字。輸入公式後，將數字的格式轉成時間格式",
+		"d": "將文字時間轉換成 時間序列值，亦即從 0 (12:00:00 A.M.) 到 1 (11:59:59 P.M.) 的數字。輸入公式後，將數字的格式轉成時間格式",
 		"ad": "is a text string that gives a time in any one of the Spreadsheet Editor time formats (date information in the string is ignored)"
 	},
 	"TODAY": {
@@ -636,7 +636,7 @@
 	},
 	"AVERAGE": {
 		"a": "(number1; [number2]; ...)",
-		"d": "傳回其引數的平均值 (算術平均值)，引數可為數字，或是包含數字的名稱、陣列、或參照位址",
+		"d": "傳回其引數的平均值（算術平均值），引數可為數字，或是包含數字的名稱、陣列或參照位址",
 		"ad": "are 1 to 255 numeric arguments for which you want the average"
 	},
 	"AVERAGEA": {
@@ -656,12 +656,12 @@
 	},
 	"BETADIST": {
 		"a": "(x; alpha; beta; [A]; [B])",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回累加 Beta 機率密度函數",
+		"d": "傳回累加 Beta 機率密度函數",
 		"ad": "is the value between A and B at which to evaluate the function!is a parameter to the distribution and must be greater than 0!is a parameter to the distribution and must be greater than 0!is an optional lower bound to the interval of x. If omitted, A = 0!is an optional upper bound to the interval of x. If omitted, B = 1"
 	},
 	"BETAINV": {
 		"a": "(probability; alpha; beta; [A]; [B])",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回累加 Beta 機率密度反函數 (BETADIST)",
+		"d": "傳回累加 Beta 機率密度反函數 (BETADIST)",
 		"ad": "is a probability associated with the beta distribution!is a parameter to the distribution and must be greater than 0!is a parameter to the distribution and must be greater than 0!is an optional lower bound to the interval of x. If omitted, A = 0!is an optional upper bound to the interval of x. If omitted, B = 1"
 	},
 	"BETA.DIST": {
@@ -676,7 +676,7 @@
 	},
 	"BINOMDIST": {
 		"a": "(number_s; trials; probability_s; cumulative)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回在特定次數之二項分配實驗中，實驗成功的機率",
+		"d": "傳回在特定次數之二項分配實驗中，實驗成功的機率",
 		"ad": "is the number of successes in trials!is the number of independent trials!is the probability of success on each trial!is a logical value: for the cumulative distribution function, use TRUE; for the probability mass function, use FALSE"
 	},
 	"BINOM.DIST": {
@@ -696,17 +696,17 @@
 	},
 	"CHIDIST": {
 		"a": "(x; deg_freedom)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回右尾卡方分配的機率值",
+		"d": "傳回右尾卡方分配的機率值",
 		"ad": "is the value at which you want to evaluate the distribution, a nonnegative number!is the number of degrees of freedom, a number between 1 and 10^10, excluding 10^10"
 	},
 	"CHIINV": {
 		"a": "(probability; deg_freedom)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回卡方分配之右尾機率的反傳值",
+		"d": "傳回卡方分配之右尾機率的反傳值",
 		"ad": "is a probability associated with the chi-squared distribution, a value between 0 and 1 inclusive!is the number of degrees of freedom, a number between 1 and 10^10, excluding 10^10"
 	},
 	"CHITEST": {
 		"a": "(actual_range; expected_range)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回獨立性檢定之結果: 依給定的自由度及總計量，傳回卡方獨立性檢定的結果",
+		"d": "傳回獨立性檢定之結果: 依給定的自由度及總計量，傳回卡方獨立性檢定的結果",
 		"ad": "is the range of data that contains observations to test against expected values!is the range of data that contains the ratio of the product of row totals and column totals to the grand total"
 	},
 	"CHISQ.DIST": {
@@ -736,7 +736,7 @@
 	},
 	"CONFIDENCE": {
 		"a": "(alpha; standard_dev; size)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n使用常態分配傳回一母體平均數的信賴區間",
+		"d": "使用常態分配傳回一母體平均數的信賴區間",
 		"ad": "is the significance level used to compute the confidence level, a number greater than 0 and less than 1!is the population standard deviation for the data range and is assumed to be known. Standard_dev must be greater than 0!is the sample size"
 	},
 	"CONFIDENCE.NORM": {
@@ -781,7 +781,7 @@
 	},
 	"COVAR": {
 		"a": "(array1; array2)",
-		"d": "此函數相容於 Excel 2007 及更舊的版本。\r\n傳回共變數。所謂共變數為兩組資料的各個對應的資料點相減後再全部相乘，然後求平均值",
+		"d": "傳回共變數。所謂共變數為兩組資料的各個對應的資料點相減後再全部相乘，然後求平均值",
 		"ad": "is the first cell range of integers and must be numbers, arrays, or references that contain numbers!is the second cell range of integers and must be numbers, arrays, or references that contain numbers"
 	},
 	"COVARIANCE.P": {
@@ -796,7 +796,7 @@
 	},
 	"CRITBINOM": {
 		"a": "(trials; probability_s; alpha)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回在累加二項分配函數大於或等於臨界值之最小值",
+		"d": "傳回在累加二項分配函數大於或等於臨界值之最小值",
 		"ad": "is the number of Bernoulli trials!is the probability of success on each trial, a number between 0 and 1 inclusive!is the criterion value, a number between 0 and 1 inclusive"
 	},
 	"DEVSQ": {
@@ -806,7 +806,7 @@
 	},
 	"EXPONDIST": {
 		"a": "(x; lambda; cumulative)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回指數分配函數",
+		"d": "傳回指數分配函數",
 		"ad": "is the value of the function, a nonnegative number!is the parameter value, a positive number!is a logical value for the function to return: the cumulative distribution function = TRUE; the probability density function = FALSE"
 	},
 	"EXPON.DIST": {
@@ -816,17 +816,17 @@
 	},
 	"FDIST": {
 		"a": "(x; deg_freedom1; deg_freedom2)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回兩組資料的 (右尾) F 機率分配 (散佈程度)",
+		"d": "傳回兩組資料的 (右尾) F 機率分配 (散佈程度)",
 		"ad": "is the value at which to evaluate the function, a nonnegative number!is the numerator degrees of freedom, a number between 1 and 10^10, excluding 10^10!is the denominator degrees of freedom, a number between 1 and 10^10, excluding 10^10"
 	},
 	"FINV": {
 		"a": "(probability; deg_freedom1; deg_freedom2)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回 (右尾) F 機率分配之反函數值: 如果 p = FDIST(x,...)，則反函數為 FINV(p,....) = x",
+		"d": "傳回 (右尾) F 機率分配之反函數值: 如果 p = FDIST(x,...)，則反函數為 FINV(p,....) = x",
 		"ad": "is a probability associated with the F cumulative distribution, a number between 0 and 1 inclusive!is the numerator degrees of freedom, a number between 1 and 10^10, excluding 10^10!is the denominator degrees of freedom, a number between 1 and 10^10, excluding 10^10"
 	},
 	"FTEST": {
 		"a": "(array1; array2)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回一個 F 檢定的結果 (雙尾機率值)。用來檢定 Array1 與 Array2 中的變異數是否有顯著不同",
+		"d": "傳回一個 F 檢定的結果 (雙尾機率值)。用來檢定 Array1 與 Array2 中的變異數是否有顯著不同",
 		"ad": "is the first array or range of data and can be numbers or names, arrays, or references that contain numbers (blanks are ignored)!is the second array or range of data and can be numbers or names, arrays, or references that contain numbers (blanks are ignored)"
 	},
 	"F.DIST": {
@@ -866,7 +866,7 @@
 	},
 	"FORECAST": {
 		"a": "(x; known_y's; known_x's)",
-		"d": "此功能可用於相容的 Excel 2013 及更早版本。\r\n使用現有的值計算或預測線性趨勢的未來值",
+		"d": "使用現有的值計算或預測線性趨勢的未來值",
 		"ad": "is the data point for which you want to predict a value and must be a numeric value!is the dependent array or range of numeric data!is the independent array or range of numeric data. The variance of Known_x's must not be zero"
 	},
 	"FORECAST.ETS": {
@@ -906,7 +906,7 @@
 	},
 	"GAMMADIST": {
 		"a": "(x; alpha; beta; cumulative)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回伽瑪分配函數",
+		"d": "傳回伽瑪分配函數",
 		"ad": "is the value at which you want to evaluate the distribution, a nonnegative number!is a parameter to the distribution, a positive number!is a parameter to the distribution, a positive number. If beta = 1, GAMMADIST returns the standard gamma distribution!is a logical value: return the cumulative distribution function = TRUE; return the probability mass function = FALSE or omitted"
 	},
 	"GAMMA.DIST": {
@@ -916,7 +916,7 @@
 	},
 	"GAMMAINV": {
 		"a": "(probability; alpha; beta)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回伽瑪累加分配的反函數值。如果 p = GAMMADIST(x,...) 則反函數為 GAMMAINV(p,...) = x",
+		"d": "傳回伽瑪累加分配的反函數值。如果 p = GAMMADIST(x,...) 則反函數為 GAMMAINV(p,...) = x",
 		"ad": "is the probability associated with the gamma distribution, a number between 0 and 1, inclusive!is a parameter to the distribution, a positive number!is a parameter to the distribution, a positive number. If beta = 1, GAMMAINV returns the inverse of the standard gamma distribution"
 	},
 	"GAMMA.INV": {
@@ -961,7 +961,7 @@
 	},
 	"HYPGEOMDIST": {
 		"a": "(sample_s; number_sample; population_s; number_pop)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回超幾何分配",
+		"d": "傳回超幾何分配",
 		"ad": "is the number of successes in the sample!is the size of the sample!is the number of successes in the population!is the population size"
 	},
 	"INTERCEPT": {
@@ -991,7 +991,7 @@
 	},
 	"LOGINV": {
 		"a": "(probability; mean; standard_dev)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回 x 的對數常態累加分配函數的反函數。在此 ln(x) 以平均數 Mean 和標準差 Standard_dev 參數進行常態分配",
+		"d": "傳回 x 的對數常態累加分配函數的反函數。在此 ln(x) 以平均數 Mean 和標準差 Standard_dev 參數進行常態分配",
 		"ad": "is a probability associated with the lognormal distribution, a number between 0 and 1, inclusive!is the mean of ln(x)!is the standard deviation of ln(x), a positive number"
 	},
 	"LOGNORM.DIST": {
@@ -1006,12 +1006,12 @@
 	},
 	"LOGNORMDIST": {
 		"a": "(x; mean; standard_dev)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回 x 的累加對數分配。在此 ln(x) 以平均數 Mean 和標準差 Standard_dev 參數進行常態分配",
+		"d": "傳回 x 的累加對數分配。在此 ln(x) 以平均數 Mean 和標準差 Standard_dev 參數進行常態分配",
 		"ad": "is the value at which to evaluate the function, a positive number!is the mean of ln(x)!is the standard deviation of ln(x), a positive number"
 	},
 	"MAX": {
 		"a": "(number1; [number2]; ...)",
-		"d": "傳回引數中的最大值。邏輯值及文字將被略過而不計",
+		"d": "傳回一組值中的最大值。邏輯值與文字將被略過而不計",
 		"ad": "are 1 to 255 numbers, empty cells, logical values, or text numbers for which you want the maximum"
 	},
 	"MAXA": {
@@ -1046,7 +1046,7 @@
 	},
 	"MODE": {
 		"a": "(number1; [number2]; ...)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回在一陣列或範圍的資料中出現頻率最高的值 (眾數)",
+		"d": "傳回在一陣列或範圍的資料中出現頻率最高的值 (眾數)",
 		"ad": "are 1 to 255 numbers, or names, arrays, or references that contain numbers for which you want the mode"
 	},
 	"MODE.MULT": {
@@ -1066,7 +1066,7 @@
 	},
 	"NEGBINOMDIST": {
 		"a": "(number_f; number_s; probability_s)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回負二項分配的機率值，其代表在單次實驗的成功機率為 Probability_s ，在出現第 Number_s-th 成功之前，出現 Number_f  次失敗的這種情況的機率值",
+		"d": "傳回負二項分配的機率值，其代表在單次實驗的成功機率為 Probability_s ，在出現第 Number_s-th 成功之前，出現 Number_f  次失敗的這種情況的機率值",
 		"ad": "is the number of failures!is the threshold number of successes!is the probability of a success; a number between 0 and 1"
 	},
 	"NORM.DIST": {
@@ -1076,7 +1076,7 @@
 	},
 	"NORMDIST": {
 		"a": "(x; mean; standard_dev; cumulative)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回指定平均數和標準差下的常態累加分配",
+		"d": "傳回指定平均數和標準差下的常態累加分配",
 		"ad": "is the value for which you want the distribution!is the arithmetic mean of the distribution!is the standard deviation of the distribution, a positive number!is a logical value: for the cumulative distribution function, use TRUE; for the probability density function, use FALSE"
 	},
 	"NORM.INV": {
@@ -1086,7 +1086,7 @@
 	},
 	"NORMINV": {
 		"a": "(probability; mean; standard_dev)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n在指定平均數和標準差下，傳回常態累加分配的反分配",
+		"d": "在指定平均數和標準差下，傳回常態累加分配的反分配",
 		"ad": "is a probability corresponding to the normal distribution, a number between 0 and 1 inclusive!is the arithmetic mean of the distribution!is the standard deviation of the distribution, a positive number"
 	},
 	"NORM.S.DIST": {
@@ -1096,7 +1096,7 @@
 	},
 	"NORMSDIST": {
 		"a": "(z)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回標準常態累加分配 (即平均值為 0，標準差為 1)",
+		"d": "傳回標準常態累加分配 (即平均值為 0，標準差為 1)",
 		"ad": "is the value for which you want the distribution"
 	},
 	"NORM.S.INV": {
@@ -1106,7 +1106,7 @@
 	},
 	"NORMSINV": {
 		"a": "(probability)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回標準常態累加函數的反函數 (即平均數為 0，標準差為 1)",
+		"d": "傳回標準常態累加函數的反函數 (即平均數為 0，標準差為 1)",
 		"ad": "is a probability corresponding to the normal distribution, a number between 0 and 1 inclusive"
 	},
 	"PEARSON": {
@@ -1116,7 +1116,7 @@
 	},
 	"PERCENTILE": {
 		"a": "(array; k)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回範圍中位於第 K 個百分比的值",
+		"d": "傳回範圍中位於第 K 個百分比的值",
 		"ad": "is the array or range of data that defines relative standing!is the percentile value that is between 0 through 1, inclusive"
 	},
 	"PERCENTILE.EXC": {
@@ -1131,7 +1131,7 @@
 	},
 	"PERCENTRANK": {
 		"a": "(array; x; [significance])",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回某數值在一個資料組中的百分比的等級",
+		"d": "傳回某數值在一個資料組中的百分比的等級",
 		"ad": "is the array or range of data with numeric values that defines relative standing!is the value for which you want to know the rank!is an optional value that identifies the number of significant digits for the returned percentage, three digits if omitted (0.xxx%)"
 	},
 	"PERCENTRANK.EXC": {
@@ -1161,7 +1161,7 @@
 	},
 	"POISSON": {
 		"a": "(x; mean; cumulative)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回波氏分配",
+		"d": "傳回波氏分配",
 		"ad": "is the number of events!is the expected numeric value, a positive number!is a logical value: for the cumulative Poisson probability, use TRUE; for the Poisson probability mass function, use FALSE"
 	},
 	"POISSON.DIST": {
@@ -1176,7 +1176,7 @@
 	},
 	"QUARTILE": {
 		"a": "(array; quart)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回資料組的四分位數",
+		"d": "傳回資料組的四分位數",
 		"ad": "is the array or cell range of numeric values for which you want the quartile value!is a number: minimum value = 0; 1st quartile = 1; median value = 2; 3rd quartile = 3; maximum value = 4"
 	},
 	"QUARTILE.INC": {
@@ -1191,7 +1191,7 @@
 	},
 	"RANK": {
 		"a": "(number; ref; [order])",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回某數字在某數字清單中的順序，亦即該數字相對於清單中其他數值的大小",
+		"d": "傳回某數字在某數字清單中的順序，亦即該數字相對於清單中其他數值的大小",
 		"ad": "is the number for which you want to find the rank!is an array of, or a reference to, a list of numbers. Nonnumeric values are ignored!is a number: rank in the list sorted descending = 0 or omitted; rank in the list sorted ascending = any nonzero value"
 	},
 	"RANK.AVG": {
@@ -1236,7 +1236,7 @@
 	},
 	"STDEV": {
 		"a": "(number1; [number2]; ...)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n根據樣本估計標準差 (樣本中的邏輯值、文字將忽略不計)",
+		"d": "根據樣本，計算標準差估計值（樣本中的邏輯值、文字將忽略不計）",
 		"ad": "are 1 to 255 numbers corresponding to a sample of a population and can be numbers or references that contain numbers"
 	},
 	"STDEV.P": {
@@ -1256,7 +1256,7 @@
 	},
 	"STDEVP": {
 		"a": "(number1; [number2]; ...)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n根據以引數形式提供的整個母體計算標準差 (邏輯值或文字將忽略不計)",
+		"d": "根據以引數形式提供的整個母體計算標準差 (邏輯值或文字將忽略不計)",
 		"ad": "are 1 to 255 numbers corresponding to a population and can be numbers or references that contain numbers"
 	},
 	"STDEVPA": {
@@ -1271,12 +1271,12 @@
 	},
 	"TDIST": {
 		"a": "(x; deg_freedom; tails)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回 Student's 式之 T 分配",
+		"d": "傳回 Student's 式之 T 分配",
 		"ad": "is the numeric value at which to evaluate the distribution!is an integer indicating the number of degrees of freedom that characterize the distribution!specifies the number of distribution tails to return: one-tailed distribution = 1; two-tailed distribution = 2"
 	},
 	"TINV": {
 		"a": "(probability; deg_freedom)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回 Student's 式 T 分配的雙尾反值",
+		"d": "傳回 Student's 式 T 分配的雙尾反值",
 		"ad": "is the probability associated with the two-tailed Student's t-distribution, a number between 0 and 1 inclusive!is a positive integer indicating the number of degrees of freedom to characterize the distribution"
 	},
 	"T.DIST": {
@@ -1321,12 +1321,12 @@
 	},
 	"TTEST": {
 		"a": "(array1; array2; tails; type)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回有關 Student's 式 T 檢定之機率值",
+		"d": "傳回有關 Student's 式 T 檢定之機率值",
 		"ad": "is the first data set!is the second data set!specifies the number of distribution tails to return: one-tailed distribution = 1; two-tailed distribution = 2!is the kind of t-test: paired = 1, two-sample equal variance (homoscedastic) = 2, two-sample unequal variance = 3"
 	},
 	"VAR": {
 		"a": "(number1; [number2]; ...)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n根據樣本，標準差估計值 (樣本中的邏輯值、文字將忽略不計)",
+		"d": "根據樣本，標準差估計值 (樣本中的邏輯值、文字將忽略不計)",
 		"ad": "are 1 to 255 numeric arguments corresponding to a sample of a population"
 	},
 	"VAR.P": {
@@ -1346,7 +1346,7 @@
 	},
 	"VARP": {
 		"a": "(number1; [number2]; ...)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n根據整個母體計算變異數 (母體中的邏輯值及文字將忽略不計)",
+		"d": "根據整個母體計算變異數 (母體中的邏輯值及文字將忽略不計)",
 		"ad": "are 1 to 255 numeric arguments corresponding to a population"
 	},
 	"VARPA": {
@@ -1356,7 +1356,7 @@
 	},
 	"WEIBULL": {
 		"a": "(x; alpha; beta; cumulative)",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回 Weibull 分配",
+		"d": "傳回 Weibull 分配",
 		"ad": "is the value at which to evaluate the function, a nonnegative number!is a parameter to the distribution, a positive number!is a parameter to the distribution, a positive number!is a logical value: for the cumulative distribution function, use TRUE; for the probability mass function, use FALSE"
 	},
 	"WEIBULL.DIST": {
@@ -1371,7 +1371,7 @@
 	},
 	"ZTEST": {
 		"a": "(array; x; [sigma])",
-		"d": "此函數的目的是要和 Excel 2007 與之前的版本相容。\r\n傳回 Z 檢定的單尾 P 值",
+		"d": "傳回 Z 檢定的單尾 P 值",
 		"ad": "is the array or range of data against which to test X!is the value to test!is the population (known) standard deviation. If omitted, the sample standard deviation is used"
 	},
 	"ACCRINT": {
@@ -2091,7 +2091,7 @@
 	},
 	"HYPERLINK": {
 		"a": "(link_location; [friendly_name])",
-		"d": "建立一個捷徑，可讓您直接開啟硬碟、網路伺服器、或網際網路上的文件",
+		"d": "建立一個捷徑,可讓您直接開啟硬碟、網路伺服器、或網際網路上的文件",
 		"ad": "is the text giving the path and file name to the document to be opened, a hard drive location, UNC address, or URL path!is text or a number that is displayed in the cell. If omitted, the cell displays the Link_location text"
 	},
 	"INDEX": {
