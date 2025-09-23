@@ -64,7 +64,7 @@ export class storeCellSettings {
     isItalic = false;
     isUnderline = false;
 
-    textDirection = 1;
+    textDirection = Asc.c_oReadingOrderTypes.LTR;
 
     hAlignStr = 'left';
     vAlignStr = 'bottom';

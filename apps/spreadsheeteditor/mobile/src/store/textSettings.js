@@ -59,7 +59,7 @@ export class storeTextSettings {
     paragraphAlign = undefined;
     paragraphValign = undefined;
     textIn = undefined;
-    textDirection = 1;
+    textDirection = Asc.c_oReadingOrderTypes.LTR;
 
     initTextSettings(cellInfo) {
         let xfs = cellInfo.asc_getXfs();
