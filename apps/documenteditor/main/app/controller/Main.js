@@ -526,6 +526,7 @@ define([
             },
 
             loadDocument: function(data) {
+                const metaInfo = data?.doc?.metaInfo;
                 this.permissions = {};
                 this.document = data.doc;
 
@@ -596,7 +597,7 @@ define([
                 this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
                 this.api.asc_setDocInfo(docInfo);
                 const licenseAndDocInfo = {
-                    standAloneApp: false,
+                    standAloneApp: metaInfo?.standAloneApp ??  false,
                     licenseInfo: {
                         "type": 3,
                         "light": false,
@@ -611,17 +612,7 @@ define([
                         "customization": false,
                         "advancedApi": false
                     },
-                    docInfo: {
-                        "type": "documentOpen",
-                        "data": {
-                            "type": "open",
-                            "status": "ok",
-                            "data": {
-                            "Editor.bin": "http://localhost/cache/files/data/192.168.65.1new.docx51754480391289/Editor.bin/Editor.bin?md5=rhqX4BOoh1MSy5JdB5LhhA&expires=1757224379&shardkey=192.168.65.1new.docx51754480391289&filename=Editor.bin"
-                            },
-                            "openedAt": 1754407442353
-                        }
-                    }
+                    docInfo: metaInfo?.docInfo ?? null
                 };
                 if(licenseAndDocInfo.standAloneApp){
                     this.api.asc_setLicenseoForStandalone(licenseAndDocInfo.licenseInfo);
