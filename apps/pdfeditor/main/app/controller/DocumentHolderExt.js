@@ -44,6 +44,19 @@ define([], function () {
     if (window.PDFE && window.PDFE.Controllers && window.PDFE.Controllers.DocumentHolder) {
         let dh = window.PDFE.Controllers.DocumentHolder.prototype;
 
+        dh.checkEditorOffsets = function() {
+            if (_.isUndefined(this._XY)) {
+                let cmpEl = this.documentHolder.cmpEl;
+                this._XY = [
+                    Common.Utils.getOffset(cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(cmpEl).top - $(window).scrollTop()
+                ];
+                this._Width       = cmpEl.width();
+                this._Height      = cmpEl.height();
+                this._BodyWidth   = $('body').width();
+            }
+        };
+
         dh.setEvents = function() {
             this.addListeners({
                 'DocumentHolder': {
@@ -374,15 +387,7 @@ define([], function () {
         dh.onShowTextBar = function(bounds) {
             if (this.mode && !(!this.mode.isPDFEdit && this.mode.isEdit)) return;
 
-            if (_.isUndefined(this._XY)) {
-                this._XY = [
-                    Common.Utils.getOffset(this.documentHolder.cmpEl).left - $(window).scrollLeft(),
-                    Common.Utils.getOffset(this.documentHolder.cmpEl).top - $(window).scrollTop()
-                ];
-                this._Width       = this.documentHolder.cmpEl.width();
-                this._Height      = this.documentHolder.cmpEl.height();
-                this._BodyWidth   = $('body').width();
-            }
+            this.checkEditorOffsets();
 
             this.lastTextBarBounds = bounds;
             if (bounds[3] < 0 || bounds[1] > this._Height) {
@@ -744,15 +749,7 @@ define([], function () {
         dh.onShowAnnotBar = function(bounds, mouseOnTop) {
             if (this.mode && !this.mode.isEdit) return;
 
-            if (_.isUndefined(this._XY)) {
-                this._XY = [
-                    Common.Utils.getOffset(this.documentHolder.cmpEl).left - $(window).scrollLeft(),
-                    Common.Utils.getOffset(this.documentHolder.cmpEl).top - $(window).scrollTop()
-                ];
-                this._Width       = this.documentHolder.cmpEl.width();
-                this._Height      = this.documentHolder.cmpEl.height();
-                this._BodyWidth   = $('body').width();
-            }
+            this.checkEditorOffsets();
 
             this.lastAnnotBarBounds = bounds;
             (mouseOnTop!==undefined) && (this.lastAnnotBarOnTop = mouseOnTop);
@@ -836,15 +833,7 @@ define([], function () {
         dh.onShowAnnotSelectBar = function(bounds, mouseOnTop) {
             if (this.mode && !this.mode.isEdit) return;
 
-            if (_.isUndefined(this._XY)) {
-                this._XY = [
-                    Common.Utils.getOffset(this.documentHolder.cmpEl).left - $(window).scrollLeft(),
-                    Common.Utils.getOffset(this.documentHolder.cmpEl).top - $(window).scrollTop()
-                ];
-                this._Width       = this.documentHolder.cmpEl.width();
-                this._Height      = this.documentHolder.cmpEl.height();
-                this._BodyWidth   = $('body').width();
-            }
+            this.checkEditorOffsets();
 
             this.lastAnnotSelBarBounds = bounds;
             (mouseOnTop!==undefined) && (this.lastAnnotSelBarOnTop = mouseOnTop);
@@ -1071,15 +1060,7 @@ define([], function () {
             showPoint[1] = Math.min(me._Height - eqContainer.outerHeight(), Math.max(0, showPoint[1]));
             eqContainer.css({left: showPoint[0], top : showPoint[1]});
 
-            if (_.isUndefined(me._XY)) {
-                me._XY = [
-                    Common.Utils.getOffset(documentHolder.cmpEl).left - $(window).scrollLeft(),
-                    Common.Utils.getOffset(documentHolder.cmpEl).top - $(window).scrollTop()
-                ];
-                me._Width       = documentHolder.cmpEl.width();
-                me._Height      = documentHolder.cmpEl.height();
-                me._BodyWidth   = $('body').width();
-            }
+            me.checkEditorOffsets();
 
             var diffDown = me._Height - showPoint[1] - eqContainer.outerHeight(),
                 diffUp = me._XY[1] + showPoint[1],
@@ -1147,15 +1128,7 @@ define([], function () {
             var me = this,
                 cmpEl = me.documentHolder.cmpEl,
                 screenTip = me.screenTip;
-            if (me._XY === undefined) {
-                me._XY = [
-                    Common.Utils.getOffset(cmpEl).left - $(window).scrollLeft(),
-                    Common.Utils.getOffset(cmpEl).top - $(window).scrollTop()
-                ];
-                me._Height = cmpEl.height();
-                me._Width = cmpEl.width();
-                me._BodyWidth = $('body').width();
-            }
+            this.checkEditorOffsets();
 
             if (moveData) {
                 var showPoint, ToolTip,
@@ -2615,8 +2588,31 @@ define([], function () {
             if (this.mode && this.mode.isEdit && this.mode.isPDFEdit && !this._isDisabled) {
                 var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
                 if (diagramEditor && chart) {
+                    let x, y;
+                    if (this._state.currentChartRect) {
+                        this.checkEditorOffsets();
+
+                        diagramEditor.setSize(diagramEditor.initConfig.initwidth, diagramEditor.initConfig.initheight);
+
+                        let dlgW = diagramEditor.getWidth() || diagramEditor.initConfig.initwidth,
+                            dlgH = diagramEditor.getHeight() || diagramEditor.initConfig.initheight,
+                            rect_x = this._state.currentChartRect.asc_getX(),
+                            rect_y = this._state.currentChartRect.asc_getY(),
+                            w = this._state.currentChartRect.asc_getWidth(),
+                            h = this._state.currentChartRect.asc_getHeight();
+                        y = this._XY[1] + rect_y + h;
+                        if (y + dlgH > Common.Utils.innerHeight()) {
+                            y = this._XY[1] + rect_y - dlgH;
+                            if (y<0) {
+                                y = Common.Utils.innerHeight() - dlgH;
+                            }
+                        }
+                        x = this._XY[0] + rect_x - (dlgW - w)/2;
+                        if (x + dlgW > Common.Utils.innerWidth())
+                            x = Common.Utils.innerWidth() - dlgW;
+                    }
                     diagramEditor.setEditMode(true);
-                    diagramEditor.show();
+                    diagramEditor.show(x, y);
                     diagramEditor.setChartData(chart);
                 }
             }
