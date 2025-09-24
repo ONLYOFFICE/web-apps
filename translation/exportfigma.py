@@ -1,4 +1,5 @@
 import requests
+import re
 import os
 import json
 import exportfigmaconfig as config
@@ -66,6 +67,9 @@ def get_visible_images_from_group(icon_group_node):
             visible_icons.append(child)
     return visible_icons
 
+def skip_fill_params(data):
+    return re.sub(r'\s?(?:fill|stroke)="(?:none|black|currentColor)"',"",data)
+
 def export_and_save_images(file_key, nodes, names_map, outputdir, scale=2):
     """export icons with names from names_map"""
     node_ids = [node["id"] for node in nodes]
@@ -107,6 +111,9 @@ def export_and_save_images(file_key, nodes, names_map, outputdir, scale=2):
         try:
             img_data = requests.get(img_url, timeout=15).content
             with open(filename, "wb") as f:
+                skiped = skip_fill_params(img_data.decode('utf-8'))
+                img_data = skiped.encode('utf-8')
+
                 f.write(img_data)
             # print(f"done: {filename}")
         except Exception as e:
