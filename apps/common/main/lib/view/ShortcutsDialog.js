@@ -37,8 +37,7 @@
  */
 
 define([
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ListView'
+    'common/main/lib/view/AdvancedSettingsWindow'
 ], function () { 'use strict';
 
     Common.Views.ShortcutsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
