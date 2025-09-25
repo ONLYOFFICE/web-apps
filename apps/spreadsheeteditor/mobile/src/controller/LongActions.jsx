@@ -27,6 +27,11 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
     };
 
     const showLoadMask = (title, immediately = false) => {
+        if (showTimer) {
+            clearTimeout(showTimer);
+            showTimer = null;
+        }
+
         if (immediately) {
             loadMask = f7.dialog.preloader(title);
         } else {
