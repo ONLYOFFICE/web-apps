@@ -145,6 +145,7 @@ require([
             ,'Common.Controllers.ExternalDiagramEditor'
             // ,'Common.Controllers.ExternalOleEditor'
             ,'Common.Controllers.Protection'
+            ,'Common.Controllers.Shortcuts'
         ]
     });
 
@@ -183,6 +184,7 @@ require([
                 // ,'common/main/lib/controller/ExternalOleEditor'
                 ,'common/main/lib/controller/Draw'
                 ,'common/main/lib/controller/Protection'
+                ,'common/main/lib/controller/Shortcuts'
             ], function() {
                 app.postLaunchScripts = [
                     'common/main/lib/controller/ScreenReaderFocus',
@@ -211,6 +213,8 @@ require([
                     'common/main/lib/view/CustomizeQuickAccessDialog',
                     'common/main/lib/view/PasswordDialog',
                     'common/main/lib/component/TextareaField',
+                    'common/main/lib/view/ShortcutsDialog',
+                    'common/main/lib/view/ShortcutEditDialog',
 
                     'pdfeditor/main/app/controller/DocumentHolderExt',
                     'pdfeditor/main/app/view/FileMenuPanels',

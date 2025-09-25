@@ -152,9 +152,9 @@ define([], function () { 'use strict';
             $window.find('.body > .box').css('height', height);
         },
 
-        fixHeight: function() { // check height of the content
+        fixHeight: function(force) { // check height of the content
             let diff = this.content_panels.filter('.active').height() - this.content_panel.height();
-            (diff>0) && this.setInnerHeight(parseInt(this.$window.find('.body > .box').css('height')) + diff);
+            (force || diff>0) && this.setInnerHeight(parseInt(this.$window.find('.body > .box').css('height')) + diff);
         },
 
         onDlgBtnClick: function(event) {

@@ -148,6 +148,7 @@ require([
             ,'Common.Controllers.ExternalOleEditor'
             ,'Common.Controllers.ReviewChanges'
             ,'Common.Controllers.Protection'
+            ,'Common.Controllers.Shortcuts'
         ]
     });
 
@@ -194,6 +195,7 @@ require([
             ,'common/main/lib/controller/ExternalOleEditor'
             ,'common/main/lib/controller/ReviewChanges'
             ,'common/main/lib/controller/Protection'
+            ,'common/main/lib/controller/Shortcuts'
             ,'common/main/lib/controller/Draw'
         ], function() {
             app.postLaunchScripts = [
@@ -227,6 +229,8 @@ require([
                 'common/main/lib/view/DocumentPropertyDialog',
                 'common/main/lib/view/MacrosDialog',
                 'common/main/lib/view/MacrosAiDialog',
+                'common/main/lib/view/ShortcutsDialog',
+                'common/main/lib/view/ShortcutEditDialog',
                 'common/main/lib/component/MonacoEditor',
 
                 'spreadsheeteditor/main/app/controller/DocumentHolderExt',

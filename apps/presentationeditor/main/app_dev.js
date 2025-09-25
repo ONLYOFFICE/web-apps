@@ -146,6 +146,7 @@ require([
             ,'Common.Controllers.ExternalOleEditor'
             ,'Common.Controllers.ReviewChanges'
             ,'Common.Controllers.Protection'
+            ,'Common.Controllers.Shortcuts'
             ,'Transitions'
             ,'Animation'
         ]
@@ -192,6 +193,7 @@ require([
             ,'common/main/lib/controller/ExternalOleEditor'
             ,'common/main/lib/controller/ReviewChanges'
             ,'common/main/lib/controller/Protection'
+            ,'common/main/lib/controller/Shortcuts'
             ,'common/main/lib/controller/Draw'
             ,'presentationeditor/main/app/controller/Transitions'
             ,'presentationeditor/main/app/controller/Animation'
@@ -228,6 +230,8 @@ require([
                 'common/main/lib/view/DocumentPropertyDialog',
                 'common/main/lib/view/MacrosDialog',
                 'common/main/lib/view/MacrosAiDialog',
+                'common/main/lib/view/ShortcutsDialog',
+                'common/main/lib/view/ShortcutEditDialog',
                 'common/main/lib/component/MonacoEditor',
                 'common/main/lib/component/TextareaField',
 

@@ -1483,6 +1483,7 @@ define([
                         if (window.document_content_ready) {
                             clearInterval(timer_sl);
 
+                            DE.getController('Common.Controllers.Shortcuts').setApi(me.api);
                             toolbarController.createDelayedElements();
                             documentHolderController.getView().createDelayedElements();
                             me.setLanguages();

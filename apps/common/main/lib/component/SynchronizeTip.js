@@ -74,7 +74,17 @@ define([
             ].join('')),
 
             initialize : function(options) {
-                this.textSynchronize += Common.Utils.String.platformKey('Ctrl+S');
+                const me = this;
+                const app = (window.DE || window.PE || window.SSE || window.PDFE || window.VE);
+                app.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                    Save: {
+                        label: '',
+                        applyCallback: function(item, hintText) {
+                            me.textSynchronize += hintText;
+                        },
+                        ignoreUpdates: true
+                    },
+                });
                 
                 Common.UI.BaseView.prototype.initialize.call(this, options);
                 this.target = this.options.target;

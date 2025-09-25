@@ -1063,6 +1063,7 @@ define([
                         if (window.styles_loaded) {
                             clearInterval(timer_sl);
 
+                            PE.getController('Common.Controllers.Shortcuts').setApi(me.api);
                             toolbarController.createDelayedElements();
 
                             documentHolderController.getView().createDelayedElements();

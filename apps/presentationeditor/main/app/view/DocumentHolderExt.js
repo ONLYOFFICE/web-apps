@@ -2323,19 +2323,31 @@ define([], function () {
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
             });
 
+            const shortcutHints = {};
             var nextpage = $('#id_buttonNextPage');
             nextpage.attr('data-toggle', 'tooltip');
-            nextpage.tooltip({
-                title       : me.textNextPage + Common.Utils.String.platformKey('PgDn'),
-                placement   : 'top-right'
-            });
+            shortcutHints.GoToNextSlide = {
+                label: me.textNextPage,
+                applyCallback: function(item, hintText) {
+                    nextpage.tooltip({
+                        title       : hintText,
+                        placement   : 'top-right'
+                    });
+                }
+            };
 
             var prevpage = $('#id_buttonPrevPage');
             prevpage.attr('data-toggle', 'tooltip');
-            prevpage.tooltip({
-                title       : me.textPrevPage + Common.Utils.String.platformKey('PgUp'),
-                placement   : 'top-right'
-            });
+            shortcutHints.GoToPreviousSlide = {
+                label: me.textPrevPage,
+                applyCallback: function(item, hintText) {
+                    nextpage.tooltip({
+                        title       : hintText,
+                        placement   : 'top-right'
+                    });
+                }
+            };
+            PE.getController('Common.Controllers.Shortcuts').updateShortcutHints(shortcutHints);
 
             this.fireEvent('createdelayedelements', [this, 'edit']);
         };
