@@ -561,7 +561,7 @@ class MainController extends Component {
                 text:  _t.txtSignedForm,
                 buttons: [
                     {   
-                        text: t('Main.textCancel'),
+                        text: _t.textCancel,
                         onClick: () => {
                             f7.dialog.close(); 
                         }
