@@ -692,6 +692,7 @@ define([
                     id: 'id-toolbar-btn-direction',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-ltr',
+                    icls: 'btn-ltr',
                     action: 'text-direction',
                     dirRtl: false,
                     lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inCheckForm, _set.disableOnStart, _set.inAnnotation],

@@ -666,6 +666,7 @@ define([
                         id: 'id-toolbar-btn-direction',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-ltr',
+                        icls: 'btn-ltr',
                         action: 'text-direction',
                         dirRtl: false,
                         lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewPara, _set.docLockForms, _set.docLockCommentsPara, _set.fixedForm, _set.viewMode],
