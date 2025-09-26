@@ -1545,8 +1545,6 @@ define([
                 app.getController('ViewTab').applyEditorMode();
                 app.getController('DocumentHolder').applyEditorMode();
                 app.getController('LeftMenu').leftMenu.getMenu('file').applyMode();
-                toolbar.toolbar.clearActiveData();
-                toolbar.toolbar.processPanelVisible(null, true);
             },
 
             onPdfModeCoAuthApply: function() {
