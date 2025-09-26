@@ -799,6 +799,7 @@ define([
                     id: 'id-toolbar-btn-direction',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-ltr',
+                    icls: 'btn-ltr',
                     action: 'text-direction',
                     lock: [_set.editCell, _set.selChart, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat, _set.userProtected],
                     menu: new Common.UI.Menu({
