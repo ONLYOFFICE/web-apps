@@ -186,7 +186,7 @@ define([
                 this.buttonRedactSearch = new Common.UI.Button({
                     parentEl: $('#search-btn-redact-open', this.$el),
                     cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-redact-text',
+                    iconCls: 'toolbar__icon btn-find-redacted',
                     hint: this.textFindRedact,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
