@@ -311,6 +311,7 @@
     <script src="../../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
 </head>
 <body role="application">
+    <div class="inlined-svg"></div>
     <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
     <script src="../../../../../apps/common/main/lib/util/docserviceworker.js?__inline=true"></script>
 
@@ -416,7 +417,6 @@
     <inline src="../../common/main/resources/img/right-panels/arrows.svg" />
     <inline src="../../common/main/resources/img/combo-border-size/BorderSize.svg" />
     <inline src="resources/img/form-points.svg" />
-    <div class="inlined-svg"></div>
     <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
 
     <script>
