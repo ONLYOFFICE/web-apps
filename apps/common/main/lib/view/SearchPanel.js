@@ -417,6 +417,7 @@ define([
             }
             this.updateResultsContainerHeight();
             !window.SSE && this.disableReplaceButtons(!count);
+            !window.SSE && this.disableRedactButtons(!count);
         },
 
         showToManyResults: function () {
@@ -488,8 +489,13 @@ define([
         },
 
         disableRedactButtons: function (disable) {
-            this.btnMark.setDisabled(disable.current)
-            this.btnMarkAll.setDisabled(disable.all)
+            if (typeof disable === 'object') {
+                this.btnMark.setDisabled(disable.current)
+                this.btnMarkAll.setDisabled(disable.all)
+            } else {
+                this.btnMark.setDisabled(disable)
+                this.btnMarkAll.setDisabled(disable)
+            }
         },
 
         disableReplaceButtons: function (disable) {
