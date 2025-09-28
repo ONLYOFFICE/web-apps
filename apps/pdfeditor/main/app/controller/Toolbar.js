@@ -1647,7 +1647,7 @@ define([
 
                 this._state.initEditing = false;
             }
-            if (this.mode.isPDFEdit || toolbar.isTabActive('ins') || toolbar.isTabActive('forms'))
+            if (this.mode.isPDFEdit || toolbar.isTabActive('ins') || toolbar.isTabActive('forms') || toolbar.isTabActive('red'))
                 toolbar.setTab('home');
             toolbar.setVisible('ins', this.mode.isPDFEdit);
             toolbar.setVisible('red', this.mode.isPDFEdit);
