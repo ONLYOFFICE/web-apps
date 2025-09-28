@@ -1638,8 +1638,15 @@ define([
                 toolbar.setTab('home');
             toolbar.setVisible('ins', this.mode.isPDFEdit);
             toolbar.setVisible('forms', this.mode.isPDFEdit && this.mode.canFeatureForms);
+
+            !this.mode.isPDFEdit && $host.find('.annotate').addClass('transparent');
             $host.find('.annotate').toggleClass('hidden', this.mode.isPDFEdit);
+            this.mode.isPDFEdit && $host.find('.pdfedit').addClass('transparent');
             $host.find('.pdfedit').toggleClass('hidden', !this.mode.isPDFEdit);
+            toolbar.moveAllFromMoreButton('home');
+            toolbar.processPanelVisible(null, true, true);
+            $host.find('.annotate').removeClass('transparent');
+            $host.find('.pdfedit').removeClass('transparent');
 
             this.mode.isPDFEdit ? Common.UI.TooltipManager.showTip('formEditor') : Common.UI.TooltipManager.closeTip('formEditor');
         },
