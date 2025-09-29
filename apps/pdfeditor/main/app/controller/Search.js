@@ -109,6 +109,7 @@ define([
                 this.api.asc_registerCallback('asc_onRemoveTextAroundSearch', _.bind(this.onApiRemoveTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onSearchEnd', _.bind(this.onApiSearchEnd, this));
                 this.api.asc_registerCallback('asc_onReplaceAll', _.bind(this.onApiTextReplaced, this));
+                this.api.asc_registerCallback('asc_onUpdateRedactState', _.bind(this.onUpdateRedactState, this));
             }
             return this;
         },
@@ -291,6 +292,10 @@ define([
 
         onMarkAll: function (textSearch) {
             this.api.asc_RedactAllSearchElements();
+            this.view.disableRedactButtons(this.api.asc_GetRedactSearchInfo(this._state.currentResult))
+        },
+
+        onUpdateRedactState: function () {
             this.view.disableRedactButtons(this.api.asc_GetRedactSearchInfo(this._state.currentResult))
         },
 
