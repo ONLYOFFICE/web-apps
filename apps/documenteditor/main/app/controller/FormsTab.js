@@ -126,7 +126,8 @@ define([
                     'forms:clear': this.onClearClick,
                     // 'forms:no-color': this.onNoControlsColor,
                     // 'forms:select-color': this.onSelectControlsColor,
-                    'forms:mode': this.onModeClick,
+                    'forms:preview': this.onPreviewClick,
+                    'forms:final': this.onFinalClick,
                     'forms:goto': this.onGoTo,
                     'forms:submit': this.onSubmitClick,
                     'forms:save': this.onSaveFormClick,
@@ -304,25 +305,50 @@ define([
         onModeClick: function(state, lastViewRole) {
             if (this.api) {
                 this.disableEditing(state);
-                this.view && this.view.setPreviewMode(state); // send role name - lastViewRole
+                this.view && this.view.setPreviewMode(state);
                 var role = new AscCommon.CRestrictionSettings();
                 role.put_OFormRole(lastViewRole);
                 this.api.asc_setRestriction(state ? Asc.c_oAscRestrictionType.OnlyForms : Asc.c_oAscRestrictionType.None, role);
                 this.api.asc_SetPerformContentControlActionByClick(state);
                 this.api.asc_SetHighlightRequiredFields(state);
-                state && (this._state.lastViewRole = lastViewRole);
+                state && lastViewRole && (this._state.lastViewRole = lastViewRole);
                 this.toolbar.toolbar.clearActiveData();
                 this.toolbar.toolbar.processPanelVisible(null, true);
+                !state && this.view && Common.Utils.lockControls(Common.enumLock.viewFormFinal, false, {array: [this.view.btnViewFormRoles]});
+                !state && this.view && Common.Utils.lockControls(Common.enumLock.viewFormNotFinal, false, {array: [this.view.btnFinal]});
             }
             Common.NotificationCenter.trigger('doc:mode-changed', state ? 'view-form' : undefined);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        changeViewFormMode: function(state) {
-            if (this.view && this.view.btnViewFormRoles && (state !== this.view.btnViewFormRoles.isActive())) {
-                this.view.btnViewFormRoles.toggle(state, true);
-                this.onModeClick(state);
+        changeViewFormMode: function(state, finalize) {
+            if (this.view && (this.view.btnViewFormRoles && (state !== this.view.btnViewFormRoles.isActive()) ||
+                              this.view.btnFinal && (finalize || !state && (state !== this.view.btnFinal.isActive())))) {
+                var current,
+                    btnview = this.view.btnViewFormRoles,
+                    btnfinal = this.view.btnFinal;
+                btnview && !finalize && btnview.toggle(state, true);
+                btnfinal && (finalize || !state) && btnfinal.toggle(state, true);
+                if (state && !finalize && btnview && btnview.menu) {
+                    current = btnview.menu.getChecked();
+                    if (current) {
+                        current = current.caption;
+                    } else if (this.view._state.roles && this.view._state.roles.length>0) {
+                        current = this.view._state.roles[0].asc_getSettings().asc_getName();
+                    }
+                }
+                finalize ? this.onFinalClick(state) : this.onPreviewClick(state, current);
             }
+        },
+
+        onPreviewClick: function(state, lastViewRole) {
+            this.onModeClick(state, lastViewRole);
+            state && this.view && Common.Utils.lockControls(Common.enumLock.viewFormNotFinal, true, {array: [this.view.btnFinal]});
+        },
+
+        onFinalClick: function(state) {
+            this.onModeClick(state); // role = undefined, forms can be filled out by anyone
+            state && this.view && Common.Utils.lockControls(Common.enumLock.viewFormFinal, true, {array: [this.view.btnViewFormRoles]});
         },
 
         onClearClick: function() {
