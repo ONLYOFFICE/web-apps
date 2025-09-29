@@ -138,7 +138,7 @@ define([
             });
             this.btnUndo.render($('#id-btn-undo'));
             DE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
-                Undo: {
+                EditUndo: {
                     btn: this.btnUndo,
                     label: this.tipUndo
                 }
@@ -152,7 +152,7 @@ define([
             });
             this.btnRedo.render($('#id-btn-redo'));
             DE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
-                Redo: {
+                EditRedo: {
                     btn: this.btnRedo,
                     label: this.tipRedo
                 }
