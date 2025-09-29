@@ -112,9 +112,17 @@ define([
                     '<span class="btn-slot text" id="slot-chk-rightmenu"></span>' +
                 '</div>' +
             '</div>' +
-            '<div class="separator long"></div>' +
-            '<div class="group">' +
+            '<div class="separator long macro"></div>' +
+            '<div class="group macro">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-macros"></span>' +
+            '</div>' +
+            '<div class="group small macro">' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-btn-macro-start" style="text-align: center;"></span>' +
+                '</div>' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-btn-macro-pause" style="text-align: center;"></span>' +
+                '</div>' +
             '</div>' +
         '</section>';
 
@@ -173,6 +181,13 @@ define([
             me.btnMacros && me.btnMacros.on('click', function () {
                 me.fireEvent('macros:click');
             });
+            me.btnRecMacro && me.btnRecMacro.on('click', function () {
+                me.fireEvent('macros:record');
+            });
+            me.btnPauseMacro && me.btnPauseMacro.on('click', function () {
+                me.fireEvent('macros:pause');
+            });
+
             me.btnViewNormal && me.btnViewNormal.on('click', function (btn, e) {
                 btn.pressed && me.fireEvent('viewtab:viewmode', [Asc.c_oAscESheetViewType.normal]);
             });
@@ -311,6 +326,28 @@ define([
                             dataHintOffset: 'small'
                         });
                         this.lockedControls.push(this.btnMacros);
+
+                        this.btnRecMacro = new Common.UI.Button({
+                            cls: 'btn-toolbar',
+                            iconCls: 'toolbar__icon btn-macros-record',
+                            lock: [_set.selRangeEdit, _set.editFormula, _set.lostConnect, _set.disableOnStart],
+                            caption: this.textRecMacro,
+                            dataHint: '1',
+                            dataHintDirection: 'left',
+                            dataHintOffset: 'medium'
+                        });
+                        this.lockedControls.push(this.btnRecMacro);
+
+                        this.btnPauseMacro = new Common.UI.Button({
+                            cls: 'btn-toolbar',
+                            iconCls: 'toolbar__icon btn-macros-pause',
+                            lock: [_set.macrosStopped, _set.selRangeEdit, _set.editFormula, _set.lostConnect, _set.disableOnStart],
+                            caption: this.textPauseMacro,
+                            dataHint: '1',
+                            dataHintDirection: 'left',
+                            dataHintOffset: 'medium'
+                        });
+                        this.lockedControls.push(this.btnPauseMacro);
                     }
                 }
 
@@ -429,8 +466,11 @@ define([
                 this.chLeftMenu.render($host.find('#slot-chk-leftmenu'));
                 this.chRightMenu.render($host.find('#slot-chk-rightmenu'));
                 this.btnMacros && this.btnMacros.render($host.find('#slot-btn-macros'));
+                this.btnRecMacro && this.btnRecMacro.render($host.find('#slot-btn-macro-start'));
+                this.btnPauseMacro && this.btnPauseMacro.render($host.find('#slot-btn-macro-pause'));
                 this.btnViewNormal && this.btnViewNormal.render($host.find('#slot-btn-view-normal'));
                 this.btnViewPageBreak && this.btnViewPageBreak.render($host.find('#slot-btn-view-pagebreak'));
+                Common.Utils.lockControls(Common.enumLock.macrosStopped, true, {array: [this.btnPauseMacro]});
                 return this.$el;
             },
 
@@ -451,6 +491,8 @@ define([
                     }
                     me.btnMacros && me.btnMacros.updateHint(me.tipMacros);
                     me.btnInterfaceTheme.updateHint(me.tipInterfaceTheme);
+                    me.btnRecMacro && me.btnRecMacro.updateHint(me.tipRecMacro);
+                    me.btnPauseMacro && me.btnPauseMacro.updateHint(me.tipPauseMacro);
 
                     if (config.isEdit) {
                         me.btnFreezePanes.setMenu(new Common.UI.Menu({
@@ -487,7 +529,7 @@ define([
                         me.toolbar && me.toolbar.$el.find('.group.sheet-gridlines').hide();
                     }
                     if (!config.isEdit || config.customization && config.customization.macros===false) {
-                        me.toolbar.$el.find('#slot-btn-macros').closest('.group').prev().addBack().remove();
+                        me.toolbar.$el.find('.macro').remove();
                     }
 
                     if (!Common.UI.Themes.available()) {

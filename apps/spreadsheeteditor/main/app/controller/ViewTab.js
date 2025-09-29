@@ -69,6 +69,10 @@ define([
                 this.api.asc_registerCallback('asc_onSheetsChanged',            this.onApiSheetChanged.bind(this));
                 this.api.asc_registerCallback('asc_onUpdateSheetViewSettings',  this.onApiSheetChanged.bind(this));
                 this.api.asc_registerCallback('asc_updateSheetViewType',    this.onApiUpdateSheetViewType.bind(this));
+                this.api.asc_registerCallback('asc_onMacroRecordingStart', _.bind(this.updateMacroState, this, true, false));
+                this.api.asc_registerCallback('asc_onMacroRecordingStop', _.bind(this.updateMacroState, this, false));
+                this.api.asc_registerCallback('asc_onMacroRecordingPause', _.bind(this.updateMacroState, this, true, true));
+                this.api.asc_registerCallback('asc_onMacroRecordingResume', _.bind(this.updateMacroState, this, true, false));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
             }
@@ -100,7 +104,9 @@ define([
                     'viewtab:createview': this.onCreateView,
                     'viewtab:manager': this.onOpenManager,
                     'viewtab:viewmode': this.onPreviewMode,
-                    'macros:click':  this.onClickMacros
+                    'macros:click':  this.onClickMacros,
+                    'macros:record':  _.bind(this.onClickMacrosRec, this),
+                    'macros:pause':  _.bind(this.onClickMacrosPause, this)
                 },
                 'Statusbar': {
                     'sheet:changed': this.onApiSheetChanged.bind(this),
@@ -318,6 +324,39 @@ define([
                 api: this.api,
             });
             macrosWindow.show();
+        },
+
+        onClickMacrosRec: function() {
+            var recorder = this.api.getMacroRecorder();
+            recorder.isInProgress() ? recorder.stop() : recorder.start();
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onClickMacrosPause: function() {
+            var recorder = this.api.getMacroRecorder();
+            if (recorder.isInProgress()) {
+                recorder.isPaused() ? recorder.resume() : recorder.pause();
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        updateMacroState: function(inProgress, paused) {
+            if (this.view) {
+                this.view.btnRecMacro.changeIcon({
+                    next: inProgress ? 'btn-macros-stop' : 'btn-macros-record',
+                    curr: inProgress ? 'btn-macros-record' : 'btn-macros-stop'
+                });
+                this.view.btnRecMacro.setCaption(inProgress ? this.view.textStopMacro : this.view.textRecMacro);
+                this.view.btnRecMacro.updateHint(inProgress ? this.view.tipStopMacro : this.view.tipRecMacro);
+                Common.Utils.lockControls(Common.enumLock.macrosStopped, !inProgress, {array: [this.view.btnPauseMacro]});
+                if (!inProgress) {
+                    this.view.btnPauseMacro.setCaption(this.view.textPauseMacro);
+                    this.view.btnPauseMacro.updateHint(this.view.tipPauseMacro);
+                } else {
+                    this.view.btnPauseMacro.setCaption(paused ? this.view.textResumeMacro : this.view.textPauseMacro);
+                    this.view.btnPauseMacro.updateHint(paused ? this.view.tipResumeMacro : this.view.tipPauseMacro);
+                }
+            }
         },
 
         onApiUpdateSheetViewType: function(index) {
