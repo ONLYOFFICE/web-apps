@@ -297,6 +297,7 @@ define([
                 this.btnSearchBar.toggle(false, true);
             }
             this.toggleActivePluginButton(false);
+            Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 
         isOpened: function() {
