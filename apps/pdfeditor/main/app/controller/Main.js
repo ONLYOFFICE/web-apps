@@ -1525,7 +1525,7 @@ define([
                 Common.Utils.InternalSettings.set("pdfe-config-region", region);
             },
 
-            onPdfModeApply: function(mode) {
+            onPdfModeApply: function(mode, activeTab) {
                 if (!this.appOptions.canSwitchMode) return;
 
                 if (mode==='edit' && this.appOptions.canPDFEdit) {
@@ -1541,7 +1541,7 @@ define([
                 Common.NotificationCenter.trigger('pdf:mode-changed', this.appOptions);
                 var app = this.getApplication(),
                     toolbar = app.getController('Toolbar');
-                toolbar.applyMode();
+                toolbar.applyMode(activeTab);
                 app.getController('Viewport').applyEditorMode();
                 app.getController('ViewTab').applyEditorMode();
                 app.getController('DocumentHolder').applyEditorMode();

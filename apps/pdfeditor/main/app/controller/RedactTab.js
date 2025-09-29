@@ -187,28 +187,33 @@ define([
                 const isMarked = this.api.HasRedact();
                 if (isMarked) {
                     Common.UI.warning({
-                    width: 500,
-                    msg: this.textUnappliedRedactions,
-                    buttons: [{
-                        value: 'apply',
-                        caption: this.applyButtonText
-                    }, {
-                        value: 'doNotApply',
-                        caption: this.doNotApplyButtonText
-                    }, 'cancel'],
-                    primary: 'apply',
-                    callback: _.bind(function(btn) {
-                        if (btn == 'apply') {
-                            this.api.ApplyRedact();
-                            this.api.SetRedactTool(false);
-                            this.view.btnMarkForRedact.toggle(false);
-                        } else if (btn == 'doNotApply') {
-                            this.api.RemoveAllRedact();
-                            this.api.SetRedactTool(false);
-                            this.view.btnMarkForRedact.toggle(false);
-                        } else if (btn == 'cancel') {
-                            this.toolbar.toolbar.setTab('red')
-                        }}, this)
+                        width: 500,
+                        msg: this.textUnappliedRedactions,
+                        buttons: [{
+                            value: 'apply',
+                            caption: this.applyButtonText
+                        }, {
+                            value: 'doNotApply',
+                            caption: this.doNotApplyButtonText
+                        }, 'cancel'],
+                        primary: 'apply',
+                        callback: _.bind(function(btn) {
+                            if (btn == 'apply') {
+                                this.api.ApplyRedact();
+                                this.api.SetRedactTool(false);
+                                this.view.btnMarkForRedact.toggle(false);
+                            } else if (btn == 'doNotApply') {
+                                this.api.RemoveAllRedact();
+                                this.api.SetRedactTool(false);
+                                this.view.btnMarkForRedact.toggle(false);
+                            } else if (btn == 'cancel') {
+                                if (this.mode.isPDFEdit) {
+                                    this.toolbar.toolbar.setTab('red')
+                                } else {
+                                    Common.NotificationCenter.trigger('pdf:mode-apply', 'edit', 'red');
+                                }
+                            }
+                        }, this)
                     });
                 } else {
                     this.view.btnMarkForRedact.toggle(false);

@@ -1597,7 +1597,7 @@ define([
             }
         },
 
-        applyMode: function() {
+        applyMode: function(activeTab) {
             var me = this,
                 toolbar = this.toolbar,
                 $host = $(toolbar.$layout);
@@ -1647,8 +1647,11 @@ define([
 
                 this._state.initEditing = false;
             }
-            if (this.mode.isPDFEdit || toolbar.isTabActive('ins') || toolbar.isTabActive('forms') || toolbar.isTabActive('red'))
+            if (activeTab)
+                toolbar.setTab(activeTab);
+            else if (this.mode.isPDFEdit ||  toolbar.isTabActive('ins') || toolbar.isTabActive('forms') || toolbar.isTabActive('red'))
                 toolbar.setTab('home');
+
             toolbar.setVisible('ins', this.mode.isPDFEdit);
             toolbar.setVisible('red', this.mode.isPDFEdit);
             toolbar.setVisible('forms', this.mode.isPDFEdit && this.mode.canFeatureForms);
