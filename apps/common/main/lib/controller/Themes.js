@@ -70,7 +70,7 @@ define([
                                     --sk-canvas-page-border: #dde0e5; --sk-canvas-line: rgba(0,0,0,.05);
                                     --sk-height-formula: 24px; --sk-padding-formula: 0 0 4px 0;
                                     --sk-border-style-formula: solid; --sk-gap-formula-field: 20px;
-                                    --sk-border-radius-formula-field: 0px;
+                                    --sk-border-radius-formula-field: 0px; --sk-layout-padding-placeholder: 46px auto;
                                 }`
                 },
             },
@@ -91,7 +91,7 @@ define([
                                     --sk-canvas-page-border: #dde0e5; --sk-canvas-line: rgba(0,0,0,.05);
                                     --sk-height-formula: 24px; --sk-padding-formula: 0 0 4px 0;
                                     --sk-border-style-formula: solid; --sk-gap-formula-field: 20px;
-                                    --sk-border-radius-formula-field: 0px;
+                                    --sk-border-radius-formula-field: 0px; --sk-layout-padding-placeholder: 46px auto;
                                 }`
                 },
             },
@@ -113,7 +113,7 @@ define([
                                 --sk-canvas-page-border: #555; --sk-canvas-line: rgba(0,0,0,.05);
                                 --sk-height-formula: 24px; --sk-padding-formula: 0 0 4px 0;
                                 --sk-border-style-formula: solid; --sk-gap-formula-field: 20px;
-                                --sk-border-radius-formula-field: 0px;
+                                --sk-border-radius-formula-field: 0px; --sk-layout-padding-placeholder: 46px auto;
                             }
                             .content-theme-dark {
                                 --sk-canvas-content-background: #3a3a3a; --sk-canvas-page-border: #616161;
@@ -139,7 +139,7 @@ define([
                                 --sk-canvas-page-border: #555; --sk-canvas-line: rgba(0,0,0,.05);
                                 --sk-height-formula: 24px; --sk-padding-formula: 0 0 4px 0;
                                 --sk-border-style-formula: solid; --sk-gap-formula-field: 20px;
-                                --sk-border-radius-formula-field: 0px;
+                                --sk-border-radius-formula-field: 0px; --sk-layout-padding-placeholder: 46px auto;
                             }
                             .content-theme-dark {
                                 --sk-canvas-content-background: #3a3a3a;
@@ -164,7 +164,7 @@ define([
                                     --sk-canvas-page-border: #ccc; --sk-canvas-line: rgba(0,0,0,.05);
                                     --sk-height-formula: 24px; --sk-padding-formula: 0 0 4px 0;
                                     --sk-border-style-formula: solid; --sk-gap-formula-field: 20px;
-                                    --sk-border-radius-formula-field: 0px;
+                                    --sk-border-radius-formula-field: 0px; --sk-layout-padding-placeholder: 46px auto;
                                 }`
                 },
             },
