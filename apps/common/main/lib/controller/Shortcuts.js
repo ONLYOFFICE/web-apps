@@ -55,14 +55,16 @@ define([
                 this.localStorageKey = 've-shortcuts';
             }
 
+            this.actionsMap = {};
             this.eventsMap = {};
-            this._fillActionsMap();
         },
 
         setApi: function(api) {
             this.api = api;
 
+            this._fillActionsMap();
             api && this._applyShortcutsInSDK();
+            this._eventsTrigger();
 
             return this;
         },

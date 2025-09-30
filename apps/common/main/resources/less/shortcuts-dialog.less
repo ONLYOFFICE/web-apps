@@ -25,10 +25,22 @@
 
                 .action-name {
                     min-width: 250px;
+                    max-width: 250px;
                     line-height: 21px;
                     .margin-right(4px);
                     margin-top: 3px;
                     margin-bottom: 3px;
+
+                    white-space: normal;
+                    overflow-wrap: break-word;
+                    word-wrap: break-word;
+
+                    display: block;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;   
+                    -webkit-line-clamp: 2;
+                    overflow: hidden;
+                    text-overflow: ellipsis;                     
                 }
 
                 .action-keys {
@@ -97,7 +109,18 @@
 
     #action-description {
         margin-top: 12px;
-        height: 66px
+        height: 66px;
+
+        white-space: normal;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+
+        display: block;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;   
+        -webkit-line-clamp: 4;
+        overflow: hidden;
+        text-overflow: ellipsis; 
     }
 }
 

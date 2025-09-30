@@ -119,7 +119,8 @@ require([
         controllers : [
             'ApplicationController',
             'Plugins',
-            'SearchBar'
+            'SearchBar',
+            'Common.Controllers.Shortcuts'
         ]
     });
 
@@ -142,6 +143,7 @@ require([
                 'common/main/lib/controller/Themes',
                 'common/main/lib/controller/Desktop',
                 'common/main/lib/view/SearchBar',
+                'common/main/lib/controller/Shortcuts',
                 'common/forms/lib/view/modals'
             ], function() {
                 app.postLaunchScripts = [

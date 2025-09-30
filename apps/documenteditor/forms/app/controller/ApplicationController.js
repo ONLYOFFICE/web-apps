@@ -1603,6 +1603,7 @@ define([
             var zf = (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);
             (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
+            DE.getController('Common.Controllers.Shortcuts').setApi(me.api);
             this.createDelayedElements();
 
             this.api.asc_registerCallback('asc_onStartAction',           _.bind(this.onLongActionBegin, this));
