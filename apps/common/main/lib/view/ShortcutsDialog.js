@@ -109,16 +109,23 @@ define([
                             '</button>',
                         '<% } %>',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                tabindex: 1
             });
             this.actionsList.on('item:select', _.bind(this.onSelectActionItem, this));
             this.actionsList.on('item:click', _.bind(this.onClickActionItem, this));
             this.actionsList.on('item:dblclick', _.bind(this.onEditActionItem, this));
+            this.actionsList.on('entervalue', _.bind(function(list, record) {
+                this.onEditActionItem(list, null, record);
+            }, this));
 
             this.searchInput = this.$window.find('#search-input');
             this.searchInput.on('input', _.bind(this.onInputSearch, this));
 
-            this.resetAllBtn = this.$window.find('#reset-all-btn');
+
+            this.resetAllBtn = new Common.UI.Button({
+                el: this.$window.find('#reset-all-btn')
+            });
             this.resetAllBtn.on('click', _.bind(this.onResetAll, this));
 
             Common.NotificationCenter.on('shortcuts:update', _.bind(function() {
@@ -129,7 +136,11 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [].concat(this.getFooterButtons());
+            return [this.searchInput, this.resetAllBtn, this.actionsList];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.actionsList;
         },
 
         _setDefaults: function() {
@@ -194,6 +205,7 @@ define([
             this.shortcutEditDialog.show();
             this.shortcutEditDialog.on('close', function() {
                 me.shortcutEditDialog = null;
+                me.actionsList.focus();
             });
         },
 

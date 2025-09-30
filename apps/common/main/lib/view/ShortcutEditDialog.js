@@ -70,6 +70,7 @@ define([
     
             const app = (window.DE || window.PE || window.SSE || window.PDFE || window.VE);
             this._shortcutsController = app.getController('Common.Controllers.Shortcuts'); 
+            this._prevKeysForActiveInput = [];
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -94,12 +95,31 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [].concat(this.getFooterButtons());
+            const dynamicComponents = [];
+            this.shortcutsCollection.each(function(record) {
+                dynamicComponents.push(record.get('keysInput'), record.get('removeBtn'));
+            });
+            return dynamicComponents.concat(this.getFooterButtons());
+        },
+
+        getDefaultFocusableComponent: function() {
+            return this.shortcutsCollection.at(0).get('keysInput');
         },
 
         _setDefaults: function() {
             this.shortcutsCollection = new Backbone.Collection([]);
-            this.shortcutsCollection.on('add remove reset', this._renderShortcutsList, this);
+            this.shortcutsCollection.on('reset', function(newCollection, details) {
+                this._renderShortcutsList(details.previousModels);
+            }, this);
+            this.shortcutsCollection.on('add', function(record, newCollection) {
+                const prevCollection = newCollection.filter(function(item) { return item != record });
+                this._renderShortcutsList(prevCollection);
+            }, this);
+             this.shortcutsCollection.on('remove', function(record, newCollection) {
+                const prevCollection = newCollection.toArray();
+                prevCollection.push(record);
+                this._renderShortcutsList(prevCollection);
+            }, this);
             this.shortcutsCollection.on('add remove reset change:keys', this.renderShortcutsWarning, this);
 
             //Get shortcuts for the current action and copy the instances so as not to modify the original instances
@@ -198,7 +218,7 @@ define([
             });
         },
 
-        _renderShortcutsList: function(item) {
+        _renderShortcutsList: function(prevCollection) {
             const me = this;
 
             this.$window.find('#shortcuts-list').empty();
@@ -232,10 +252,21 @@ define([
                     placeHolder : me.txtInputPlaceholder,
                     disabled    : isLocked
                 });
-                item.set({ keysInput: keysInput });
+                const removeButton = new Common.UI.Button({
+                    el: $item.find('.remove-btn'),
+                });
+                item.set({ keysInput: keysInput, removeBtn: removeButton });
 
                 const $keysInput = $item.find('.keys-input input'); 
                 $keysInput.on('keydown', function(e) {
+                    if (e.key == 'Escape' || e.key === 'Tab' && !e.ctrlKey && !e.altKey && !e.metaKey) {
+                        if(me._prevKeysForActiveInput.length) {
+                            item.set('keys', me._prevKeysForActiveInput);
+                            $item.find('input').val(me._prevKeysForActiveInput.join(' + '));
+                        }
+                        return;
+                    }
+
                     e.stopPropagation();
                     e.preventDefault();
 
@@ -264,16 +295,16 @@ define([
                 });
 
 
-                const removeKeysIfOnlyModifiers = function(removedKey) {
+                const removeKeysIfOnlyModifiers = function(removedKeys) {
                     const modifierKeys = ['Ctrl', 'Shift', 'Alt', '⌘'];
                     const keys = item.get('keys');
                     const hasExtra = _.some(keys, function(k) {
                         return !_.contains(modifierKeys, k);
                     });
 
-                    if (!hasExtra && removedKey && removedKey.length) {
+                    if (!hasExtra && removedKeys && removedKeys.length) {
                         const filteredKeys = keys.filter(function(k) {
-                            return !_.contains(removedKey, k);
+                            return !_.contains(removedKeys, k);
                         });
 
                         item.set('keys', filteredKeys);
@@ -288,12 +319,20 @@ define([
                         Shift: 'Shift',
                         Meta: '⌘'
                     };
-                    const mappedKey = keyMap[e.key];
-                    removeKeysIfOnlyModifiers(mappedKey ? [mappedKey] : []);
+                    const modifierKey = keyMap[e.key];
+                    removeKeysIfOnlyModifiers(modifierKey ? [modifierKey] : []);
+                    if(!modifierKey) {
+                        me._prevKeysForActiveInput = item.get('keys');
+                    }
+                });
+
+                $keysInput.on('focusin', function() {
+                    me._prevKeysForActiveInput = item.get('keys');
                 });
 
                 $keysInput.on('focusout', function() {
-                    removeKeysIfOnlyModifiers(item.get('keys', []));
+                    me._prevKeysForActiveInput = [];
+                    removeKeysIfOnlyModifiers(item.get('keys'));
                 });
 
                 $item.find('.remove-btn').on('click', function() {
@@ -301,10 +340,15 @@ define([
                     if(me.shortcutsCollection.length == 0) {
                         me.onAddShortcut();
                     }
+                    me.$window.find('#shortcuts-list .item input').last().focus();
                 });
             });
             this.fixHeight(true);
             this.scroller.update(this.scrollerOptions);
+
+            //Update focus controll
+            Common.UI.FocusManager.remove(this, 0, prevCollection.length * 2 + 2);
+            Common.UI.FocusManager.add(this, this.getFocusedComponents());
         },
         
         renderShortcutsWarning: function() {
