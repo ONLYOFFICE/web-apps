@@ -211,7 +211,7 @@ define([
                 }
             }
             this.btnFinal && this.btnFinal.on('click', function (b, e) {
-                me.fireEvent('forms:final', [b.pressed]);
+                me.fireEvent('forms:final', [b.pressed, true]);
             });
             this.btnManager && this.btnManager.on('click', function (b, e) {
                 me.fireEvent('forms:manager');

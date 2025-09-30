@@ -144,6 +144,7 @@ define([
             });
             this.appConfig.isRestrictedEdit && this.api && this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
             this.appConfig.isPDFSignatureSupport && this.appConfig.isRestrictedEdit && this.api && this.api.asc_registerCallback('asc_onUpdateSignatures',    _.bind(this.onApiUpdateSignatures, this));
+            this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.isFormCreator && !this.appConfig.isOForm && this.api && this.api.asc_registerCallback('asc_onOFormChangeFinal', _.bind(this.onOFormChangeFinal, this))
         },
 
         SetDisabled: function(state) {
@@ -321,23 +322,26 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        changeViewFormMode: function(state, finalize) {
+        changeViewFormMode: function(state, saveFlag) {
             if (this.view && (this.view.btnViewFormRoles && (state !== this.view.btnViewFormRoles.isActive()) ||
-                              this.view.btnFinal && (finalize || !state && (state !== this.view.btnFinal.isActive())))) {
-                var current,
-                    btnview = this.view.btnViewFormRoles,
+                              this.view.btnFinal && this.view.btnFinal.isActive() && !state)) {
+                var btnview = this.view.btnViewFormRoles,
                     btnfinal = this.view.btnFinal;
-                btnview && !finalize && btnview.toggle(state, true);
-                btnfinal && (finalize || !state) && btnfinal.toggle(state, true);
-                if (state && !finalize && btnview && btnview.menu) {
-                    current = btnview.menu.getChecked();
-                    if (current) {
-                        current = current.caption;
-                    } else if (this.view._state.roles && this.view._state.roles.length>0) {
-                        current = this.view._state.roles[0].asc_getSettings().asc_getName();
+                if (btnview && (state !== btnview.isActive())) {
+                    btnview.toggle(state, true);
+                    if (state && btnview.menu) {
+                        var current = btnview.menu.getChecked();
+                        if (current) {
+                            current = current.caption;
+                        } else if (this.view._state.roles && this.view._state.roles.length>0) {
+                            current = this.view._state.roles[0].asc_getSettings().asc_getName();
+                        }
                     }
+                    this.onPreviewClick(state, current);
+                } else if (btnfinal && btnfinal.isActive() && !state) {
+                    btnfinal.toggle(state, true);
+                    this.onFinalClick(state, saveFlag);
                 }
-                finalize ? this.onFinalClick(state) : this.onPreviewClick(state, current);
             }
         },
 
@@ -346,9 +350,30 @@ define([
             state && this.view && Common.Utils.lockControls(Common.enumLock.viewFormNotFinal, true, {array: [this.view.btnFinal]});
         },
 
-        onFinalClick: function(state) {
+        onFinalClick: function(state, saveFlag) {
+            saveFlag && this.api && this.api.asc_markAsFinal(state);
             this.onModeClick(state); // role = undefined, forms can be filled out by anyone
             state && this.view && Common.Utils.lockControls(Common.enumLock.viewFormFinal, true, {array: [this.view.btnViewFormRoles]});
+        },
+
+        onOFormChangeFinal: function(isFinal) {
+            // off preview review changes
+            var review = this.getApplication().getController('Common.Controllers.ReviewChanges');
+            if (review && review.isPreviewChangesMode()) {
+                var value = Common.Utils.InternalSettings.get("de-review-mode-editor") || 'markup';
+                review.turnDisplayMode(value);
+                review.view && review.view.turnDisplayMode(value);
+            }
+
+            if (this.view) {
+                if (this.view.btnViewFormRoles && this.view.btnViewFormRoles.isActive()) // off view form mode
+                    this.changeViewFormMode(false);
+
+                if (this.view.btnFinal) {
+                    this.view.btnFinal.toggle(isFinal, true);
+                    this.onFinalClick(isFinal, false);
+                }
+            }
         },
 
         onClearClick: function() {
