@@ -777,7 +777,11 @@ define([
             if (this._state.needToStartFilling) {
                 this._state.needToStartFilling = false;
                 this.requestStartFilling();
+            } else if (this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.isFormCreator && !this.appConfig.isOForm) {
+                // var isfinal = this.api.asc_getFinal();
+                // isfinal && this.changeViewFormMode(true, true);
             }
+
             this.appConfig.isPDFSignatureSupport && this.appConfig.isRestrictedEdit && this.api && this.showSignatureTooltip(this.api.asc_getSignatures());
         },
 
