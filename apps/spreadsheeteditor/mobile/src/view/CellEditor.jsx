@@ -34,6 +34,24 @@ const CellEditorView = props => {
         setExpanded(!expanded);
     };
 
+    const FunctionHint = ({ funcHint }) => {
+        if (!funcHint || !funcHint.args) return null;
+
+        return (
+            <div className="function-hint-card">
+                <div className="name">
+                    {funcHint.name}(
+                    {funcHint.args.map((arg, i) => (
+                        <span key={i} className={arg.isActive ? "contrast" : ""}>
+                            {arg.name}{i < funcHint.args.length - 1 ? '; ' : ''}
+                        </span>
+                    ))}
+                    )
+                </div>
+            </div>
+        );
+    };
+
     return (
         <>
             <View id="idx-celleditor" style={viewStyle} routes={routes} className={expanded ? 'cell-editor expanded' : 'cell-editor collapsed'}>
@@ -46,6 +64,7 @@ const CellEditorView = props => {
                 <div className="ce-group group--content" style={contentStyle}>
                     <div id="idx-list-target" className="target-function-list"></div>
                     <textarea id="idx-cell-content" spellCheck="false" />
+                    <FunctionHint funcHint={props.funcHint}/>
                 </div>
                 <div className="ce-group">
                     <Link icon="caret" onClick={expandClick} /> 
