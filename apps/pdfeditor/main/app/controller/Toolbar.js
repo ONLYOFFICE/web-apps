@@ -1244,7 +1244,7 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Add Text');
         },
 
-        onBtnShapeCommentClick: function(btn, e) {
+         onBtnShapeCommentClick: function(btn, e) {
             btn.menu.getItems(true).filter(function(item) {
                 return item.value == btn.options.shapeType
             })[0].setChecked(true);
@@ -1257,7 +1257,6 @@ define([
         onMenuShapeCommentClick: function(menu, item, e) {
             var newType = item.value;
             if (newType===null || newType===undefined) return;
-
             this.toolbar.btnShapeComment.toggle(true);
             var oldType = this.toolbar.btnShapeComment.options.shapeType;
             if(newType !== oldType){
@@ -1277,11 +1276,9 @@ define([
             if (!btn.pressed) {
                 btn.toggle(true, true);
             }
-
             var size = btn.options.currentSize;
             size.idx =  (direction==='up') ? Math.min(size.idx+1, size.arr.length-1) : Math.max(size.idx-1, 0);
             btn.sizePicker.setValue(size.arr[size.idx] + ' ' + this.toolbar.txtMM);
-
             this.onInsertShapeComment(btn);
         },
 
@@ -1289,7 +1286,6 @@ define([
             if (!btn.pressed) {
                 btn.toggle(true, true);
             }
-
             btn.currentColor = color;
             this.onInsertShapeComment(btn);
         },
@@ -1308,7 +1304,6 @@ define([
                 this.api.StartAddAnnot('', undefined, false);
                 $(document.body).off('mouseup', this.binding.checkInsertShapeComment);
             }
-
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnShapeComment);
             Common.component.Analytics.trackEvent('ToolBar', 'Add Shape Annotation');
         },
@@ -1318,7 +1313,6 @@ define([
                 this.toolbar.btnShapeComment.toggle(false, true);
                 this.toolbar.btnShapeComment.menu.clearAll(true);
             }
-
             $(document.body).off('mouseup', this.binding.checkInsertShapeComment);
         },
 
@@ -1328,7 +1322,6 @@ define([
                 btn_id = cmp.closest('button').attr('id');
             if (btn_id===undefined)
                 btn_id = cmp.closest('.btn-group').attr('id');
-
             if (cmp.attr('id') != 'editor_sdk' && cmp_sdk.length<=0) {
                 if ( this.toolbar.btnShapeComment.pressed && this.toolbar.btnShapeComment.id !== btn_id ) {
                     this.api.StartAddAnnot('', undefined, false);
@@ -1578,6 +1571,17 @@ define([
                     me.toolbar.setVisible('ins', true);
                 }
 
+                tab = {caption: me.toolbar.textTabRedact, action: 'red', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-redact', dataHintTitle: 'X'};
+                var redacttab = me.getApplication().getController('RedactTab');
+                redacttab.setApi(me.api).setConfig({toolbar: me, mode: config});
+                redacttab.onAppReady(config);
+                $panel = redacttab.createToolbarPanel()
+                if ($panel) {
+                    me.toolbar.addTab(tab, $panel, 2);
+                    me.toolbar.setVisible('red', true);
+                    redacttab.onDocumentReady();
+                };
+
                 if (config.canFeatureForms) {
                     tab = {caption: me.textTabForms, action: 'forms', layoutname: 'toolbar-forms', dataHintTitle: 'M'};
                     var forms = me.getApplication().getController('FormsTab');
@@ -1593,7 +1597,7 @@ define([
             }
         },
 
-        applyMode: function() {
+        applyMode: function(activeTab) {
             var me = this,
                 toolbar = this.toolbar,
                 $host = $(toolbar.$layout);
@@ -1622,6 +1626,15 @@ define([
                     instab.onDocumentReady();
                 }, 50);
 
+                var tab = {caption: toolbar.textTabRedact, action: 'red', extcls: this.mode.isEdit ? 'canedit' : '', layoutname: 'toolbar-redact', dataHintTitle: 'X'};
+                var redacttab = this.getApplication().getController('RedactTab');
+                redacttab.setApi(this.api).setConfig({toolbar: this, mode: this.mode});
+                toolbar.addTab(tab, redacttab.createToolbarPanel(), 2);
+                redacttab.onAppReady(this.mode);
+                setTimeout(function(){
+                    redacttab.onDocumentReady();
+                }, 50);
+
                 if (this.mode.canFeatureForms) {
                     tab = {caption: me.textTabForms, action: 'forms', layoutname: 'toolbar-forms', dataHintTitle: 'M'};
                     var forms = this.getApplication().getController('FormsTab');
@@ -1634,9 +1647,13 @@ define([
 
                 this._state.initEditing = false;
             }
-            if (this.mode.isPDFEdit || toolbar.isTabActive('ins') || toolbar.isTabActive('forms'))
+            if (activeTab)
+                toolbar.setTab(activeTab);
+            else if (this.mode.isPDFEdit ||  toolbar.isTabActive('ins') || toolbar.isTabActive('forms') || toolbar.isTabActive('red'))
                 toolbar.setTab('home');
+
             toolbar.setVisible('ins', this.mode.isPDFEdit);
+            toolbar.setVisible('red', this.mode.isPDFEdit);
             toolbar.setVisible('forms', this.mode.isPDFEdit && this.mode.canFeatureForms);
 
             !this.mode.isPDFEdit && $host.find('.annotate').addClass('transparent');
