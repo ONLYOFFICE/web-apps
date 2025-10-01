@@ -117,6 +117,8 @@ define([
         disableOnStart: 'on-start',
         complexForm:    'complex-form',
         formsNoRoles:   'no-roles',
+        viewFinalForm:  'final-form',
+        viewFormNotFinal:'not-final-form',
         fixedForm:      'fixed-form',
         fileMenuOpened: 'file-menu-opened',
         changeModeLock: 'change-mode-lock',
