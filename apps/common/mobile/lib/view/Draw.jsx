@@ -28,7 +28,7 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
             }}
           />
         </Sheet>
-        <Sheet className="draw-sheet draw-sheet--settings" backdrop swipeToClose style={{ height: 'auto' }}>
+        <Sheet className="draw-sheet draw-sheet--settings" backdrop swipeToClose style={{ height: 'auto' }} onSheetOpen={() => {document.activeElement?.blur()}}>
           <div id='swipe-handler' className='swipe-container'>
             <Icon icon='icon icon-swipe'/>
           </div>
