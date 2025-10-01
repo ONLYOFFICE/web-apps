@@ -64,6 +64,10 @@ define([
 
     StateManager.prototype.initialize = function (options) {
         this.bar = options.bar;
+        if (!Common.Utils.isIE && !Common.Utils.isSafari) {
+            this.ghostImage = new Image();
+            this.ghostImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+        }
     };
 
     StateManager.prototype.attach = function (tab) {
@@ -204,8 +208,7 @@ define([
             {dragstart: $.proxy(function (e) {
                 var event = e.originalEvent;
                 if (!Common.Utils.isIE && !Common.Utils.isSafari) {
-                    var img = document.createElement('div');
-                    event.dataTransfer.setDragImage(img, 0, 0);
+                    event.dataTransfer.setDragImage(this.ghostImage, 0, 0);
                 } else if (Common.Utils.isIE) {
                     this.bar.selectTabs.forEach(function (tab) {
                         tab.$el.find('span').prop('tabtitle', '');
