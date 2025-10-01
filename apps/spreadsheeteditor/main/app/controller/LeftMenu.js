@@ -822,14 +822,14 @@ define([
                     if ( this.mode.canDownload ) {
                         if (this.mode.isDesktopApp && this.mode.isOffline) {
                             this.api.asc_DownloadAs();
-                        } else {
+                        } else if (!this.isEditFormula) {
                             Common.UI.Menu.Manager.hideAll();
                             this.leftMenu.showMenu('file:saveas');
                         }
                     }
                     return false;
                 case 'help':
-                    if ( this.mode.canHelp ) {                   // TODO: unlock 'help' panel for 'view' mode
+                    if ( this.mode.canHelp && !this.isEditFormula) { // TODO: unlock 'help' panel for 'view' mode
                         Common.UI.Menu.Manager.hideAll();
                         this.api.asc_closeCellEditor();
                         this.leftMenu.showMenu('file:help');
@@ -837,8 +837,10 @@ define([
 
                     return false;
                 case 'file':
-                    Common.UI.Menu.Manager.hideAll();
-                    this.leftMenu.showMenu('file');
+                    if (!this.isEditFormula) {
+                        Common.UI.Menu.Manager.hideAll();
+                        this.leftMenu.showMenu('file');
+                    }
 
                     return false;
                 case 'escape':
@@ -885,13 +887,13 @@ define([
                     break;
                 /** coauthoring begin **/
                 case 'chat':
-                    if (this.mode.canCoAuthoring && this.mode.canChat && !this.mode.isLightVersion) {
+                    if (this.mode.canCoAuthoring && this.mode.canChat && !this.mode.isLightVersion && !this.isEditFormula) {
                         Common.UI.Menu.Manager.hideAll();
                         this.leftMenu.showMenu('chat');
                     }
                     return false;
                 case 'comments':
-                    if (this.mode.canCoAuthoring && this.mode.canViewComments && !this.mode.isLightVersion) {
+                    if (this.mode.canCoAuthoring && this.mode.canViewComments && !this.mode.isLightVersion && !this.isEditFormula) {
                         Common.UI.Menu.Manager.hideAll();
                         this.leftMenu.showMenu('comments');
                         this.getApplication().getController('Common.Controllers.Comments').onAfterShow();
@@ -914,14 +916,14 @@ define([
         },
 
         onApiEditCell: function(state) {
-            var isEditFormula = (state == Asc.c_oAscCellEditorState.editFormula);
+            this.isEditFormula = (state == Asc.c_oAscCellEditorState.editFormula);
 
-            this.leftMenu.btnAbout.setDisabled(isEditFormula);
-            this.leftMenu.btnSearchBar.setDisabled(isEditFormula);
-            this.leftMenu.btnSpellcheck.setDisabled(isEditFormula);
+            this.leftMenu.btnAbout.setDisabled(this.isEditFormula);
+            this.leftMenu.btnSearchBar.setDisabled(this.isEditFormula);
+            this.leftMenu.btnSpellcheck.setDisabled(this.isEditFormula);
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
-                Common.Utils.lockControls(Common.enumLock.editFormula, isEditFormula, {array: this.leftMenu.panelPlugins.lockedControls});
-                this.leftMenu.panelPlugins.setLocked(isEditFormula);
+                Common.Utils.lockControls(Common.enumLock.editFormula, this.isEditFormula, {array: this.leftMenu.panelPlugins.lockedControls});
+                this.leftMenu.panelPlugins.setLocked(this.isEditFormula);
             }
         },
 
