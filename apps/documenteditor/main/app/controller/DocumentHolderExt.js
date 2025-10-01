@@ -1283,7 +1283,31 @@ define([], function () {
             } else {
                 chartContainer.hide();
             }
-        };
+
+             var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+             if (diagramEditor && diagramEditor.isVisible()) {
+                 let x, y;
+                 this.checkEditorOffsets();
+
+                 let dlgW = diagramEditor.getWidth() || diagramEditor.initConfig.initwidth,
+                     dlgH = diagramEditor.getHeight() || diagramEditor.initConfig.initheight,
+                     rect_x = this._state.currentChartRect.asc_getX(),
+                     rect_y = this._state.currentChartRect.asc_getY(),
+                     w = this._state.currentChartRect.asc_getWidth(),
+                     h = this._state.currentChartRect.asc_getHeight();
+                 y = this._XY[1] + rect_y + h;
+                 if (y + dlgH > Common.Utils.innerHeight()) {
+                     y = this._XY[1] + rect_y - dlgH;
+                     if (y<0) {
+                         y = Common.Utils.innerHeight() - dlgH;
+                     }
+                 }
+                 x = this._XY[0] + rect_x - (dlgW - w)/2;
+                 if (x + dlgW > Common.Utils.innerWidth())
+                     x = Common.Utils.innerWidth() - dlgW;
+                 diagramEditor.setPosition(x, y);
+             }
+         };
 
         dh.onHideChartElementButton = function() {
             if (!this.documentHolder || !this.documentHolder.cmpEl) return;
