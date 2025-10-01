@@ -1045,7 +1045,8 @@ define([
                     }
 
                     this.getPopover().setLeftTop(posX, posY, leftX, undefined);
-
+                    this.getPopover().moveMentions();
+                    
 //                    if (this.isSelectedComment && (0 === _.difference(this.uids, uids).length)) {
                         //NOTE: click to sdk view ?
 //                        if (this.api) {
