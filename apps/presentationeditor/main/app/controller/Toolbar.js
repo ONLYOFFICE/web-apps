@@ -306,16 +306,16 @@ define([
                     'ja': 'https://www.onlyoffice.com/blog/ja/2025/06/onlyoffice-docs-9-0-released'},
                 url = langmap[lang] || 'https://www.onlyoffice.com/blog/2025/06/onlyoffice-docs-9-0-released';
 
-            !Common.Utils.isIE && !Common.Controllers.Desktop.isWinXp() && Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom', text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader, target: '#slot-btn-interface-theme',
-                                 automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
-            });
-            Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'rtlDirection' : {name: 'pe-help-tip-rtl-dir', placement: 'bottom-left', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', automove: true,
-                                  closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
-                'animText' : {name: 'pe-help-tip-anim-text', placement: 'target', offset: {x: 5, y: 60}, text: this.helpAnimText, header: this.helpAnimTextHeader,
-                              target: '#animation-field-effects', isNewFeature: true, maxwidth: 300, closable: false, link: {text: _main.textLearnMore, url: url}}
-            });
+            // !Common.Utils.isIE && !Common.Controllers.Desktop.isWinXp() && Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
+            //     'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom', text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader, target: '#slot-btn-interface-theme',
+            //                      automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
+            // });
+            // Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
+            //     'rtlDirection' : {name: 'pe-help-tip-rtl-dir', placement: 'bottom-left', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', automove: true,
+            //                       closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
+            //     'animText' : {name: 'pe-help-tip-anim-text', placement: 'target', offset: {x: 5, y: 60}, text: this.helpAnimText, header: this.helpAnimTextHeader,
+            //                   target: '#animation-field-effects', isNewFeature: true, maxwidth: 300, closable: false, link: {text: _main.textLearnMore, url: url}}
+            // });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -999,8 +999,8 @@ define([
                 this.toolbar.mnuArrangeBackward.setDisabled(in_smartart_internal);
             }
 
-            if (!this.toolbar.btnTextDir.isDisabled() && this.toolbar.isTabActive('home'))
-                Common.UI.TooltipManager.showTip('rtlDirection');
+            // if (!this.toolbar.btnTextDir.isDisabled() && this.toolbar.isTabActive('home'))
+            //     Common.UI.TooltipManager.showTip('rtlDirection');
         },
 
         onApiStyleChange: function(v) {
@@ -1716,7 +1716,7 @@ define([
         },
 
         onTextDirShowAfter: function(menu, item) {
-            Common.UI.TooltipManager.closeTip('rtlDirection');
+            // Common.UI.TooltipManager.closeTip('rtlDirection');
         },
 
         onApiTextDirection: function (isRtl){
@@ -2900,8 +2900,8 @@ define([
             }
             Common.Utils.asyncCall(function () {
                 if ( config.isEdit ) {
-                    if (me.toolbar.btnTextDir && !me.toolbar.btnTextDir.isDisabled() && me.toolbar.isTabActive('home'))
-                        Common.UI.TooltipManager.showTip('rtlDirection');
+                    // if (me.toolbar.btnTextDir && !me.toolbar.btnTextDir.isDisabled() && me.toolbar.isTabActive('home'))
+                    //     Common.UI.TooltipManager.showTip('rtlDirection');
                 }
             });
         },
@@ -3079,14 +3079,14 @@ define([
         },
 
         onActiveTab: function(tab) {
-            if (tab !== 'home')
-                Common.UI.TooltipManager.closeTip('rtlDirection');
-            else if (this.toolbar && this.toolbar.btnTextDir && !this.toolbar.btnTextDir.isDisabled())
-                setTimeout(function() {
-                    Common.UI.TooltipManager.showTip('rtlDirection');
-                }, 10);
+            // if (tab !== 'home')
+            //     Common.UI.TooltipManager.closeTip('rtlDirection');
+            // else if (this.toolbar && this.toolbar.btnTextDir && !this.toolbar.btnTextDir.isDisabled())
+            //     setTimeout(function() {
+            //         Common.UI.TooltipManager.showTip('rtlDirection');
+            //     }, 10);
 
-            (tab === 'view') ? Common.UI.TooltipManager.showTip('modernTheme') : Common.UI.TooltipManager.closeTip('modernTheme');
+            // (tab === 'view') ? Common.UI.TooltipManager.showTip('modernTheme') : Common.UI.TooltipManager.closeTip('modernTheme');
         },
 
         onBeforeActiveTab: function(tab) {
@@ -3095,8 +3095,8 @@ define([
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('rtlDirection');
-            Common.UI.TooltipManager.closeTip('modernTheme');
+            // Common.UI.TooltipManager.closeTip('rtlDirection');
+            // Common.UI.TooltipManager.closeTip('modernTheme');
         },
 
         showStaticElements: function() {

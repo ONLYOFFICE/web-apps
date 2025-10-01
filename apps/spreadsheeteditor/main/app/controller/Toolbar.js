@@ -287,14 +287,14 @@ define([
                     'ja': 'https://www.onlyoffice.com/blog/ja/2025/06/onlyoffice-docs-9-0-released'},
                 url = langmap[lang] || 'https://www.onlyoffice.com/blog/2025/06/onlyoffice-docs-9-0-released';
 
-            !Common.Utils.isIE && !Common.Controllers.Desktop.isWinXp() && Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom', offset: {x: 10, y: 0}, text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader,
-                                 target: 'li.ribtab #view', automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
-            });
-            Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'asyncFunction' : {name: 'help-tip-async-func', placement: 'bottom-left', text: this.helpAsyncFunc, header: this.helpAsyncFuncHeader, target: '#slot-btn-macros', automove: true,
-                                   maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
-            });
+            // !Common.Utils.isIE && !Common.Controllers.Desktop.isWinXp() && Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
+            //     'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom', offset: {x: 10, y: 0}, text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader,
+            //                      target: 'li.ribtab #view', automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
+            // });
+            // Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
+            //     'asyncFunction' : {name: 'help-tip-async-func', placement: 'bottom-left', text: this.helpAsyncFunc, header: this.helpAsyncFuncHeader, target: '#slot-btn-macros', automove: true,
+            //                        maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
+            // });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -4664,7 +4664,7 @@ define([
                     Common.UI.LayoutManager.addControls(this.btnsComment);
                 }
             }
-            Common.UI.TooltipManager.showTip('modernTheme');
+            // Common.UI.TooltipManager.showTip('modernTheme');
         },
 
         onFileMenu: function (opts) {
@@ -5247,11 +5247,11 @@ define([
         },
 
         onActiveTab: function(tab) {
-            if (tab === 'view') {
-                Common.UI.TooltipManager.closeTip('modernTheme');
-                Common.UI.TooltipManager.showTip('asyncFunction');
-            } else
-                Common.UI.TooltipManager.closeTip('asyncFunction');
+            // if (tab === 'view') {
+            //     Common.UI.TooltipManager.closeTip('modernTheme');
+            //     Common.UI.TooltipManager.showTip('asyncFunction');
+            // } else
+            //     Common.UI.TooltipManager.closeTip('asyncFunction');
         },
 
         onClickTab: function(tab) {
@@ -5259,7 +5259,7 @@ define([
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('asyncFunction');
+            // Common.UI.TooltipManager.closeTip('asyncFunction');
         }
     }, SSE.Controllers.Toolbar || {}));
 });

@@ -234,7 +234,7 @@ define([
                                 Common.Utils.lockControls(Common.enumLock.inLightTheme, !Common.UI.Themes.isDarkTheme(), {array: [me.view.btnDarkDocument]});
                             }, me));
                             me.view.btnInterfaceTheme.menu.on('show:after', function () {
-                                Common.UI.TooltipManager.closeTip('modernTheme');
+                                // Common.UI.TooltipManager.closeTip('modernTheme');
                             });
 
                             setTimeout(function () {

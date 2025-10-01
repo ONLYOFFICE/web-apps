@@ -609,7 +609,7 @@ define([
                                 Common.UI.Themes.setTheme(value);
                             }, me));
                             me.btnInterfaceTheme.menu.on('show:after', function () {
-                                Common.UI.TooltipManager.closeTip('modernTheme');
+                                // Common.UI.TooltipManager.closeTip('modernTheme');
                             });
                         }
                     }
