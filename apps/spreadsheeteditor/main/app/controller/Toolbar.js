@@ -70,7 +70,8 @@ define([
                     'smartart:mouseleave': this.mouseleaveSmartArt,
                     'tab:active': this.onActiveTab,
                     'tab:click': this.onClickTab,
-                    'tab:collapse': this.onTabCollapse
+                    'tab:collapse': this.onTabCollapse,
+                    'inserttable': this.onInsertTable
                 },
                 'FileMenu': {
                     'menu:hide': me.onFileMenu.bind(me, 'hide'),
@@ -4677,6 +4678,10 @@ define([
             }
         },
 
+        onInsertTable: function() {
+            this._state.showTableDesignTab = true;
+        },
+
         onInsertPivot:  function() {
             this._state.showPivotTab = true;
         },
@@ -5256,6 +5261,7 @@ define([
 
         onClickTab: function(tab) {
             this._state.showPivotTab = tab === 'pivot';
+            this._state.showTableDesignTab = tab ==='tabledesign';
         },
 
         onTabCollapse: function(tab) {
