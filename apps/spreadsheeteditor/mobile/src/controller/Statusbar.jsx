@@ -6,8 +6,8 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../common/mobile/utils/device';
 
-const StatusbarController = inject('storeWorksheets', 'storeFocusObjects', 'users')(observer(props => {
-    const {storeWorksheets, storeFocusObjects, users} = props;
+const StatusbarController = inject('storeWorksheets', 'storeFocusObjects', 'users', 'storeSpreadsheetSettings')(observer(props => {
+    const {storeWorksheets, storeFocusObjects, users, storeSpreadsheetSettings} = props;
  
     useEffect(() => {
         Common.Notifications.on('engineCreated', api => {
@@ -28,10 +28,16 @@ const StatusbarController = inject('storeWorksheets', 'storeFocusObjects', 'user
             api.asc_registerCallback('asc_onHidePopMenu', onApiHideTabContextMenu);
             api.asc_registerCallback('asc_onUpdateTabColor', onApiUpdateTabColor);
             api.asc_registerCallback('asc_onCoAuthoringDisconnect', onApiDisconnect);
+            api.asc_registerCallback('asc_onUpdateSheetViewSettings', onApiUpdateSheet);
         });
         Common.Notifications.on('document:ready', onApiSheetsChanged);
         Common.Notifications.on('api:disconnect', onApiDisconnect);
     });
+
+    const onApiUpdateSheet = () => {    
+        const api = Common.EditorApi.get();
+        storeSpreadsheetSettings.changeSheetRtl(api.asc_getSheetViewSettings().asc_getRightToLeft());
+    }
 
     const onApiEditCell = state => {
         let isDisable = state !== Asc.c_oAscCellEditorState.editEnd;
@@ -63,6 +69,7 @@ const StatusbarController = inject('storeWorksheets', 'storeFocusObjects', 'user
         }
 
         storeWorksheets.resetSheets(items);
+        onApiUpdateSheet();
     };
 
     const onApiActiveSheetChanged = (index) => {

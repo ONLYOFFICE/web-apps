@@ -196,12 +196,12 @@ const PopoverAllList = (props) => {
     )
 };
 
-const StatusbarView = inject('storeAppOptions', 'storeWorksheets', 'users')(observer(props => {
+const StatusbarView = inject('storeAppOptions', 'storeWorksheets', 'users', 'storeSpreadsheetSettings')(observer(props => {
     const { t } = useTranslation();
     const _t = t('Statusbar', {returnObjects: true});
     const isAndroid = Device.android;
     const isPhone = Device.isPhone;
-    const {storeWorksheets, storeAppOptions, users} = props;
+    const {storeWorksheets, storeAppOptions, users, storeSpreadsheetSettings} = props;
     const allSheets = storeWorksheets.sheets;
     const hiddenSheets = storeWorksheets.hiddenWorksheets();
     const isWorkbookLocked = storeWorksheets.isWorkbookLocked;
@@ -209,6 +209,7 @@ const StatusbarView = inject('storeAppOptions', 'storeWorksheets', 'users')(obse
     const isEdit = storeAppOptions.isEdit;
     const isDisconnected = users.isDisconnected;
     const isDisabledEditSheet = storeWorksheets.isDisabledEditSheet;
+    const isSheetRtl = storeSpreadsheetSettings.isSheetRtl;
 
     const setSheetColor = sheet => {
         if(sheet) {
@@ -234,7 +235,7 @@ const StatusbarView = inject('storeAppOptions', 'storeWorksheets', 'users')(obse
 
     return (
         <Fragment>
-            <View id="idx-statusbar" className="statusbar" style={{ marginBottom: storeAppOptions.isDrawMode ? 'calc(44px + env(safe-area-inset-bottom) + env(keyboard-inset-top))' : undefined, ...viewStyle }}>
+            <View id="idx-statusbar" className={`statusbar ${isSheetRtl ? 'rtl' : ''}`} style={{ marginBottom: storeAppOptions.isDrawMode ? 'calc(44px + env(safe-area-inset-bottom) + env(keyboard-inset-top))' : undefined, ...viewStyle }}>
                 {isEdit &&
                     <div id="idx-box-add-tab" className={`${isDisconnected || isWorkbookLocked ? 'disabled box-tab' : 'box-tab'}`}>
                         <Link href={false} id="idx-btn-addtab" className={`tab${isDisabledEditSheet || isDisconnected || isWorkbookLocked || isProtectedWorkbook  ? ' disabled' : ''}`} onClick={props.onAddTabClicked}>
