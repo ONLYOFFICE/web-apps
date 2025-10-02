@@ -1495,7 +1495,7 @@ define([
                 }
 
                 Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", !!fastCoauth);
-                Common.Utils.InternalSettings.set("pdfe-settings-autosave", !!autosave);
+                Common.Utils.InternalSettings.set("pdfe-settings-autosave", autosave ? 1 : 0);
             },
 
             loadDefaultMetricSettings: function() {
