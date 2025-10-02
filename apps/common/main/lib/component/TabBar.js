@@ -65,8 +65,12 @@ define([
     StateManager.prototype.initialize = function (options) {
         this.bar = options.bar;
         if (!Common.Utils.isIE && !Common.Utils.isSafari) {
-            this.ghostImage = new Image();
-            this.ghostImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+            if (Common.Utils.isMac) {
+                this.ghostImage = new Image();
+                this.ghostImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+            } else {
+                this.ghostImage = document.createElement('div');
+            }
         }
     };
 
