@@ -870,7 +870,7 @@ define([
                 }
 
                 !modal ? Common.UI.TooltipManager.showTip({ step: 'licenseError', text: license, header: title, target: '#toolbar', maxwidth: 430,
-                        automove: true, noHighlight: true, textButton: this.textContinue}) :
+                        automove: true, noHighlight: true, noArrow: true, textButton: this.textContinue}) :
                 Common.UI.info({
                     maxwidth: 500,
                     title: title,
@@ -2293,7 +2293,7 @@ define([
                 Common.UI.TooltipManager.closeTip('formSigned');
             else
                 Common.UI.TooltipManager.showTip({ step: 'formSigned', text: this.txtSignedForm, target: '#toolbar', showButton: false,
-                                                        maxwidth: 'none', closable: true, automove: true, noHighlight: true});
+                                                        maxwidth: 'none', closable: true, automove: true, noHighlight: true, noArrow: true});
 
             this.view.btnClear && this.view.btnClear.setDisabled(this._isDisabled || hasForm);
             this.view.btnSubmit && this.view.btnSubmit.setDisabled(!_submitFail || hasForm);

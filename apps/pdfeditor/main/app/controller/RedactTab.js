@@ -263,9 +263,9 @@ define([
             }
             Common.UI.TooltipManager.addTips({
                 'mark-for-redaction' : {name: 'help-tip-mark-for-redaction', placement: 'bottom-right', text: this.tipMarkForRedaction, header: this.tipMarkForRedactionHeader, target: '#slot-btn-markredact',
-                    automove: true, next: 'apply-redaction', maxwidth: 270, closable: false, isNewFeature: false},
+                    automove: true, next: 'apply-redaction', maxwidth: 270, closable: false, isNewFeature: false, noHighlight: true},
                 'apply-redaction' : {name: 'help-tip-apply-redaction', placement: 'bottom-left', text: this.tipApplyRedaction, header: this.tipApplyRedactionHeader, target: '#slot-btn-apply-redactions',
-                    automove: true, prev: 'mark-for-redaction', maxwidth: 270, closable: false, isNewFeature: false},
+                    automove: true, prev: 'mark-for-redaction', maxwidth: 270, closable: false, isNewFeature: false, noHighlight: true},
             });
         },
 

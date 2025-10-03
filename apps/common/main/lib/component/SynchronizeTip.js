@@ -257,6 +257,7 @@ define([
             //     maxwidth: 250 // number or string '123px/none/...', 250 by default,
             //     extCls: '' //
             //     noHighlight: false // false by default,
+            //     noArrow: false // false by default,
             //     multiple: false // false by default, show tip multiple times,
             //     isNewFeature: false // false by default, show "New" tip in the header
             // }
@@ -343,7 +344,7 @@ define([
                 }
 
                 props.tip = new Common.UI.SynchronizeTip({
-                    extCls: 'colored' + (props.extCls ? ' ' + props.extCls : '') + (props.noHighlight ? ' no-arrow' : ''),
+                    extCls: 'colored' + (props.extCls ? ' ' + props.extCls : '') + (props.noArrow ? ' no-arrow' : ''),
                     style: 'min-width:200px;max-width:' + (props.maxwidth ? props.maxwidth + (typeof props.maxwidth === 'number' ? 'px;' : ';') : '250px;'),
                     placement: placement,
                     position: props.position,
