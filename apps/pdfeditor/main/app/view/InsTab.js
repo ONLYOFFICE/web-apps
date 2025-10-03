@@ -464,6 +464,9 @@ define([
                     menu.setInnerMenu([{menu: picker, index: 0}]);
                 };
                 this.btnInsertChart.menu.on('show:before', onShowBefore);
+                this.btnInsertChart.menu.on('show:before', function() {
+                    Common.UI.TooltipManager.closeTip('pdfCharts');
+                });
 
                 this.btnInsertSmartArt.setMenu(new Common.UI.Menu({
                     cls: 'shifted-right',

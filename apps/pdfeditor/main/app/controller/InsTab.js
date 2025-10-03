@@ -117,6 +117,9 @@ define([
                     'insert:smartart'   : this.onInsertSmartArt,
                     'smartart:mouseenter': this.mouseenterSmartArt,
                     'smartart:mouseleave': this.mouseleaveSmartArt,
+                },
+                'Toolbar': {
+                    'tab:active': _.bind(this.onActiveTab, this)
                 }
             });
         },
@@ -955,12 +958,29 @@ define([
                 if (this._state.activated) this._state.pagecontrolsdisable = page_deleted;
                 Common.Utils.lockControls(Common.enumLock.pageDeleted, page_deleted, {array: this.view.lockedControls});
             }
+
+            if (!this.view.btnInsertChart.isDisabled() && this._state.onactivetab)
+                Common.UI.TooltipManager.showTip('pdfCharts');
         },
 
         onApiCanAddHyperlink: function(value) {
             if (this._state.can_hyper !== value) {
                 Common.Utils.lockControls(Common.enumLock.hyperlinkLock, !value, {array: [this.view.btnInsertHyperlink]});
                 if (this._state.activated) this._state.can_hyper = value;
+            }
+        },
+
+        onActiveTab: function(tab) {
+            if (tab === 'ins') {
+                this._state.onactivetab = true;
+                if (this.view && !this.view.btnInsertChart.isDisabled())
+                    setTimeout(function() {
+                        Common.UI.TooltipManager.getNeedShow('pdfCharts') && Common.UI.TooltipManager.closeTip('redactTab');
+                        Common.UI.TooltipManager.showTip('pdfCharts');
+                    }, 10);
+            } else {
+                this._state.onactivetab = false;
+                Common.UI.TooltipManager.closeTip('pdfCharts');
             }
         }
 

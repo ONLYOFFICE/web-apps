@@ -292,10 +292,12 @@ define([
             //     'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom', offset: {x: 10, y: 0}, text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader,
             //                      target: 'li.ribtab #view', automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
             // });
-            // Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
+            Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
             //     'asyncFunction' : {name: 'help-tip-async-func', placement: 'bottom-left', text: this.helpAsyncFunc, header: this.helpAsyncFuncHeader, target: '#slot-btn-macros', automove: true,
             //                        maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
-            // });
+                'rtlDirection' : {name: 'sse-help-tip-rtl-dir', placement: 'bottom-left', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', automove: true,
+                                  closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
+            });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -435,6 +437,7 @@ define([
                 toolbar.btnAlignJust.on('click',                            _.bind(this.onHorizontalAlign, this, AscCommon.align_Justify));
                 toolbar.btnMerge.on('click',                                _.bind(this.onMergeCellsMenu, this, toolbar.btnMerge.menu, toolbar.btnMerge.menu.items[0]));
                 toolbar.btnTextDir.menu.on('item:click',                    _.bind(this.onTextDirClick, this));
+                toolbar.btnTextDir.menu.on('show:after',                    _.bind(this.onTextDirShowAfter, this));
                 toolbar.btnMerge.menu.on('item:click',                      _.bind(this.onMergeCellsMenu, this));
                 toolbar.btnAlignTop.on('click',                             _.bind(this.onVerticalAlign, this, Asc.c_oAscVAlign.Top));
                 toolbar.btnAlignMiddle.on('click',                          _.bind(this.onVerticalAlign, this, Asc.c_oAscVAlign.Center));
@@ -988,6 +991,10 @@ define([
         onTextDirClick: function(menu, item) {
             this.api && this.api.asc_setCellReadingOrder(item.value);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onTextDirShowAfter: function(menu, item) {
+            Common.UI.TooltipManager.closeTip('rtlDirection');
         },
 
         onWrap: function(btn, e) {
@@ -2900,7 +2907,8 @@ define([
                 toolbar = this.toolbar,
                 xfs = info.asc_getXfs(),
                 val, need_disable = false;
-            this.onApiTextDirection(xfs, selectionType)
+            this.onApiTextDirection(xfs, selectionType);
+
             /* read font name */
             Common.NotificationCenter.trigger('fonts:change', xfs);
 
@@ -3312,6 +3320,9 @@ define([
 
             this._state.isUserProtected = info.asc_getUserProtected();
             toolbar.lockToolbar(Common.enumLock.userProtected, this._state.isUserProtected);
+
+            if (toolbar.btnTextDir && !toolbar.btnTextDir.isDisabled() && toolbar.isTabActive('home'))
+                Common.UI.TooltipManager.showTip('rtlDirection');
         },
 
         onApiSelectionChangedRestricted: function(info) {
@@ -4665,6 +4676,10 @@ define([
                     Common.UI.LayoutManager.addControls(this.btnsComment);
                 }
             }
+            if ( config.isEdit && !config.isEditDiagram  && !config.isEditMailMerge  && !config.isEditOle ) {
+                if (me.toolbar.btnTextDir && !me.toolbar.btnTextDir.isDisabled() && me.toolbar.isTabActive('home'))
+                    Common.UI.TooltipManager.showTip('rtlDirection');
+            }
             // Common.UI.TooltipManager.showTip('modernTheme');
         },
 
@@ -5252,6 +5267,13 @@ define([
         },
 
         onActiveTab: function(tab) {
+            if (tab !== 'home')
+                Common.UI.TooltipManager.closeTip('rtlDirection');
+            else if (this.toolbar && this.toolbar.btnTextDir && !this.toolbar.btnTextDir.isDisabled())
+                setTimeout(function() {
+                    Common.UI.TooltipManager.showTip('rtlDirection');
+                }, 10);
+
             // if (tab === 'view') {
             //     Common.UI.TooltipManager.closeTip('modernTheme');
             //     Common.UI.TooltipManager.showTip('asyncFunction');
@@ -5265,6 +5287,7 @@ define([
         },
 
         onTabCollapse: function(tab) {
+            Common.UI.TooltipManager.closeTip('rtlDirection');
             // Common.UI.TooltipManager.closeTip('asyncFunction');
         }
     }, SSE.Controllers.Toolbar || {}));

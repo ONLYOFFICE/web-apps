@@ -197,12 +197,18 @@ define([
             //     'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom-right', text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader, target: '#slot-btn-interface-theme',
             //                      automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
             // });
-            // Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-            //     'formEditor' : {name: 'help-tip-form-editor', placement: 'bottom-right', offset: {x: 10, y: 0}, text: this.helpFormEditor, header: this.helpFormEditorHeader, target: 'li.ribtab #forms',
+            Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
+                'pdfCharts' : {name: 'pdfe-help-tip-pdf-charts', placement: 'bottom-left', text: this.helpPdfCharts, header: this.helpPdfChartsHeader,
+                              target: '#slot-btn-insertchart', isNewFeature: true, maxwidth: 300, closable: false, link: {text: _main.textLearnMore, url: url}},
+                'annotRect' : {name: 'pdfe-help-tip-annot-rect', placement: 'bottom-left', text: this.helpAnnotRect, header: this.helpAnnotRectHeader,
+                              target: '#slot-btn-shape-comment', isNewFeature: true, maxwidth: 300, closable: false, link: {text: _main.textLearnMore, url: url}},
+                'redactTab' : {name: 'help-tip-redact-tab', placement: 'bottom-right', offset: {x: 10, y: 0}, text: this.helpRedactTab, header: this.helpRedactTabHeader, target: 'li.ribtab #red',
+                               automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
+                //     'formEditor' : {name: 'help-tip-form-editor', placement: 'bottom-right', offset: {x: 10, y: 0}, text: this.helpFormEditor, header: this.helpFormEditorHeader, target: 'li.ribtab #forms',
             //                      automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
             //     'copyPages' : {name: 'help-tip-copy-pages', placement: 'right-bottom', offset: {x: -30, y: 110}, text: Common.Utils.String.format(this.helpCopyPages, Common.Utils.String.platformKey('Ctrl+C', '{0}'), Common.Utils.String.platformKey('Ctrl+V', '{0}')),
             //                    header: this.helpCopyPagesHeader, target: '#thumbnails-btn-close', closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
-            // });
+            });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -275,6 +281,7 @@ define([
             toolbar.btnTextComment.menu.on('item:click',                _.bind(this.onMenuTextCommentClick, this));
             toolbar.btnShapeComment.on('click',                         _.bind(this.onBtnShapeCommentClick, this));
             toolbar.btnShapeComment.menu.on('item:click',               _.bind(this.onMenuShapeCommentClick, this));
+            toolbar.btnShapeComment.menu.on('show:after',               _.bind(this.onMenuShapeCommentShowAfter, this));
             toolbar.btnShapeComment.on('color:select',                  _.bind(this.onSelectShapeCommentColor, this));
             toolbar.btnStamp.on('click',                                _.bind(this.onBtnStampClick, this));
             toolbar.btnStamp.menu.on('item:click',                      _.bind(this.onMenuStampClick, this));
@@ -581,6 +588,8 @@ define([
                 if (this._state.activated) this._state.pagecontrolsdisable = page_deleted;
                 this.toolbar.lockToolbar(Common.enumLock.pageDeleted, page_deleted);
             }
+            if (this.toolbar.btnShapeComment && !this.toolbar.btnShapeComment.isDisabled() && this.toolbar.isTabActive('comment'))
+                Common.UI.TooltipManager.showTip('annotRect');
         },
 
         onApiFocusObject: function(selectedObjects) {
@@ -753,6 +762,9 @@ define([
             toolbar.lockToolbar(Common.enumLock.cantRotatePage, !this.api.asc_CanRotatePages(), {array: [toolbar.btnRotatePage]});
             toolbar.lockToolbar(Common.enumLock.pageEditText, page_edit_text, {array: [toolbar.btnEditText]});
             toolbar.lockToolbar(Common.enumLock.cantDelPage, !this.api.asc_CanRemovePages(), {array: [toolbar.btnDelPage]});
+
+            if (toolbar.btnShapeComment && !toolbar.btnShapeComment.isDisabled() && toolbar.isTabActive('comment'))
+                Common.UI.TooltipManager.showTip('annotRect');
         },
 
         onApiZoomChange: function(percent, type) {},
@@ -1246,6 +1258,8 @@ define([
         },
 
          onBtnShapeCommentClick: function(btn, e) {
+            Common.UI.TooltipManager.closeTip('annotRect');
+
             btn.menu.getItems(true).filter(function(item) {
                 return item.value == btn.options.shapeType
             })[0].setChecked(true);
@@ -1270,6 +1284,10 @@ define([
                 this.toolbar.btnShapeComment.options.shapeType = newType;
             }
             this.onInsertShapeComment(this.toolbar.btnShapeComment, item);
+        },
+
+        onMenuShapeCommentShowAfter: function(menu) {
+            Common.UI.TooltipManager.closeTip('annotRect');
         },
 
         onShapeCommentSizeClick: function (direction) {
@@ -1666,6 +1684,7 @@ define([
             $host.find('.annotate').removeClass('transparent');
             $host.find('.pdfedit').removeClass('transparent');
 
+            this.mode.isPDFEdit ? Common.UI.TooltipManager.showTip('redactTab') : Common.UI.TooltipManager.closeTip('redactTab');
             // this.mode.isPDFEdit ? Common.UI.TooltipManager.showTip('formEditor') : Common.UI.TooltipManager.closeTip('formEditor');
         },
         
@@ -1729,6 +1748,17 @@ define([
                 this.requiredTooltip.close();
                 this.requiredTooltip = undefined;
             }
+            if (tab === 'comment') {
+                if (this.toolbar && !this.toolbar.btnShapeComment.isDisabled())
+                    setTimeout(function() {
+                        Common.UI.TooltipManager.getNeedShow('annotRect') && Common.UI.TooltipManager.closeTip('redactTab');
+                        Common.UI.TooltipManager.showTip('annotRect')
+                    }, 10);
+            } else
+                Common.UI.TooltipManager.closeTip('annotRect');
+
+            (tab === 'red') && Common.UI.TooltipManager.closeTip('redactTab');
+
             // (tab === 'file') && Common.UI.TooltipManager.closeTip('copyPages');
             // (tab === 'forms') && Common.UI.TooltipManager.closeTip('formEditor');
             // if (tab === 'view') {
@@ -1739,6 +1769,8 @@ define([
         },
 
         onTabCollapse: function(tab) {
+            Common.UI.TooltipManager.closeTip('pdfCharts');
+            Common.UI.TooltipManager.closeTip('annotRect');
             // Common.UI.TooltipManager.closeTip('modernTheme');
         },
 
