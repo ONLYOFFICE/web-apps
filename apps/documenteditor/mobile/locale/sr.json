@@ -228,7 +228,7 @@
     "textRefreshEntireTable": "Osveži celu tabelu",
     "textRefreshPageNumbersOnly": "Osveži samo brojeve stranice",
     "textRows": "Redovi",
-    "txtWarnUrl": "Kliknuti na ovaj link može biti štetno za vaš uređaj i podatke.<br>Da li ste sigurni da želite da nastavite?"
+    "txtWarnUrl": "Klik na ovaj link može biti štetan za vaš uređaj i podatke. Da biste zaštitili svoj računar, klikćite samo na hiperveze koje dolaze iz pouzdanih izvora. Ova lokacija može biti nesigurna:<br><br>{0}<br><br>Da li ste sigurni da želite da nastavite?"
   },
   "Draw": {
     "textColor": "Boja",
@@ -518,7 +518,7 @@
     "savePreparingTitle": "Spremanje za čuvanje. Molimo sačekajte...",
     "saveTextText": "Čuvanje dokumenta...",
     "saveTitleText": "Čuvanje Dokumenta",
-    "savingText": "Čuvanje",
+    "savingText": "Slanje",
     "sendMergeText": "Slanje spajanja...",
     "sendMergeTitle": "Slanje Spajanja",
     "textContinue": "Nastavi",
@@ -668,6 +668,7 @@
     "titleReadOnly": "Režim samo za čitanje",
     "titleServerVersion": "Uređivač ažuriran",
     "titleUpdateVersion": "Verzija promenjena",
+    "txtSignedForm": "Ovaj dokument je potpisan i ne može biti izmenjen.",
     "warnDownloadAsPdf": "Vaš {0} će biti konvertovan u format za uređivanje. Ovo može potrajati. Rezultirajući dokument će biti optimizovan tako da vam omogući da uredite tekst, pa možda neće izgledati isto kao original {0}, pogotovo ako je originalni fajl sadržao puno grafika.",
     "warnLicenseAnonymous": "Pristup odbijen za anonimne korisnike.<br>Ovaj dokument će biti otvoren samo za prikaz.",
     "warnLicenseBefore": "Licenca nije aktivna.<br>Molimo kontaktirajte vašeg administratora.",

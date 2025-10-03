@@ -83,7 +83,7 @@
     "textDoNotShowAgain": "Não volte a aparecer",
     "textOk": "OK",
     "textRows": "Linhas",
-    "txtWarnUrl": "Clicar neste link pode ser prejudicial ao seu dispositivo e dados.<br>Você tem certeza de que quer continuar?"
+    "txtWarnUrl": "Clicar neste link pode ser prejudicial ao seu dispositivo e aos seus dados. Este local pode não ser seguro:<br>{0}<br>Tem certeza de que deseja continuar?"
   },
   "Controller": {
     "Main": {

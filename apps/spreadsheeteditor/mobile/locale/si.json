@@ -886,6 +886,9 @@
       "txtVi": "වියට්නාම",
       "txtZh": "චීන",
       "warnDownloadAs": "ඔබ දිගටම මෙම ආකෘතියෙන් සුරැකුවහොත් පෙළ හැර අනෙකුත් සියළුම විශේෂාංග අහිමි වනු ඇත.<br>ඔබට ඉදිරියට යාමට වුවමනා ද?",
+      "txtSr": "Serbian (Latin)",
+      "txtSrcyrl": "Serbian (Cyrillic)",
+      "txtZhtw": "Chinese (Traditional)",
       "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   }
