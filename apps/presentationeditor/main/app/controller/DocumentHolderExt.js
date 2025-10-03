@@ -1200,21 +1200,39 @@ define([], function () {
 
             me.isRtlSheet = me.api ? Common.UI.isRTL() : false;
 
-             if (me.chartProps) {
+            if (me.chartProps) {
                 var x = asc_CRect.asc_getX(),
                     y = asc_CRect.asc_getY(),
                     width = asc_CRect.asc_getWidth(),
-                    btnLeft = me.isRtlSheet ? x - 40 : x + width + 10,
-                    btnTop = y;
+                    btnLeft,
+                    btnTop = y,
+                    windowWidth = me._Width,
+                    btnWidth = 50,
+                    leftSide = x - 40,          
+                    rightSide = x + width + 10,
+                    panelWidth = $('#id_panel_thumbnails').outerWidth() || 0; 
 
-                if (btnLeft < 25 || btnLeft + 50 > me._Width || btnTop + 30 > me._Height) {
-                    chartContainer.hide();
-                    return;
+                if (me.isRtlSheet) {
+                    if (leftSide >= 0) {
+                        btnLeft = leftSide;
+                    } else if (rightSide + btnWidth <= windowWidth - panelWidth) { 
+                        btnLeft = rightSide;
+                    } else {
+                        chartContainer.hide();
+                        return;
+                    }
+                } else {
+                    if (rightSide + btnWidth <= windowWidth) {
+                        btnLeft = rightSide;
+                    } else if (leftSide >= panelWidth) { 
+                        btnLeft = leftSide;
+                    } else {
+                        chartContainer.hide();
+                        return;
+                    }
                 }
 
-                if (btnTop < 0) {
-                    btnTop = 0
-                }
+                if (btnTop < 0) btnTop = 0;
 
                 chartContainer.css({
                     left: btnLeft + 'px',

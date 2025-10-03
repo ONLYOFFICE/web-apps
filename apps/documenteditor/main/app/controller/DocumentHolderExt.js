@@ -1246,17 +1246,34 @@ define([], function () {
                 var x = asc_CRect.asc_getX(),
                     y = asc_CRect.asc_getY(),
                     width = asc_CRect.asc_getWidth(),
-                    btnLeft = me.isRtlSheet ? x - 55 : x + width - 10,
-                    btnTop = y - 28;
+                    btnLeft,
+                    btnTop = y - 28,
+                    windowWidth = me._Width,
+                    btnWidth = 50,
+                    leftSide = x - 60,          
+                    rightSide = x + width - 10;
 
-                if (btnLeft < 25 || btnLeft + 50 > me._Width || btnTop + 30 > me._Height) {
-                    chartContainer.hide();
-                    return;
+                if (me.isRtlSheet) {
+                    if (leftSide >= 0) {
+                        btnLeft = leftSide + 5;
+                    } else if (rightSide + btnWidth <= windowWidth) {
+                        btnLeft = rightSide + 5;
+                    } else {
+                        chartContainer.hide();
+                        return;
+                    }
+                } else {
+                    if (rightSide + btnWidth <= windowWidth) {
+                        btnLeft = rightSide;
+                    } else if (leftSide >= 0) {
+                        btnLeft = leftSide;
+                    } else {
+                        chartContainer.hide();
+                        return;
+                    }
                 }
 
-                if (btnTop < 0) {
-                    btnTop = 0
-                }
+                if (btnTop < 0) btnTop = 0;
 
                 chartContainer.css({
                     left: btnLeft + 'px',

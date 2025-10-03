@@ -3887,24 +3887,44 @@ define([], function () {
                     btnLeft,
                     btnTop = y,
                     windowWidth = documentHolderView.cmpEl.width(),
-                    windowHeight = documentHolderView.cmpEl.height();
+                    windowHeight = documentHolderView.cmpEl.height(),
+                    btnWidth = 50, 
+                    leftSide = x - btnWidth - 10,
+                    rightSide = x + width + 7,
+                    rtlSheet = x + width - 45; 
 
                 if (me.isRtlSheet) {
-                    btnLeft = x + width - 45;
+                    if (rtlSheet >= 0 && rtlSheet + btnWidth <= windowWidth) {
+                        btnLeft = rtlSheet;
+                    } else if (leftSide >= 0) {
+                        btnLeft = leftSide - 32; 
+                    } else if (rightSide + btnWidth <= windowWidth) {
+                        btnLeft = rightSide; 
+                    } else {
+                        chartContainer.hide();
+                        return;
+                    }
                 } else if (me.isRtl) {
-                    btnLeft = x - 40;
+                    if (leftSide >= 0) {
+                        btnLeft = leftSide;
+                    } else if (rightSide + btnWidth <= windowWidth) {
+                        btnLeft = rightSide; 
+                    } else {
+                        chartContainer.hide();
+                        return;
+                    }
                 } else {
-                    btnLeft = x + width + 7;
+                    if (rightSide + btnWidth <= windowWidth) {
+                        btnLeft = rightSide;
+                    } else if (leftSide >= 0) {
+                        btnLeft = leftSide + 18; 
+                    } else {
+                        chartContainer.hide();
+                        return;
+                    }
                 }
 
-                if (btnLeft < 25 || btnLeft + 50 > windowWidth || btnTop + 30 > windowHeight) {
-                    chartContainer.hide();
-                    return;
-                }
-
-                if (btnTop < 20) {
-                    btnTop = 20
-                }
+                if (btnTop < 20) btnTop = 20;
 
                 chartContainer.css({
                     left: btnLeft + 'px',
