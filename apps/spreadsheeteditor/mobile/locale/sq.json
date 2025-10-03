@@ -879,12 +879,15 @@
       "txtSk": "Sllovake",
       "txtSl": "Slloven",
       "txtSpace": "Hapësirë",
+      "txtSr": "Serbisht (Latinisht)",
+      "txtSrcyrl": "Serbisht (Cirilik)",
       "txtSv": "Suedeze",
       "txtTab": "Skedë",
       "txtTr": "Turke",
       "txtUk": "Ukrainase",
       "txtVi": "Vietnameze",
       "txtZh": "Kinezisht",
+      "txtZhtw": "Kinezisht (Tradicionale)",
       "warnDownloadAs": "Në qoftë se vazhdoni të ruani në këtë format, të gjitha veçoritë përveç tekstit do të humbasin .<br>Jeni i sigurt që dëshironi të vazhdoni?",
       "warnDownloadCsv": "Formati CSV nuk mbështet ruajtjen e një skedari me shumë fletë dhe të të gjithë elementëve, përveç tekstit.<br>Për të ruajtur vetëm fletën e zgjedhur në CSV, shtypni OK.<br>Për të ruajtur të gjithë fletëllogaritësen dhe të gjitha veçoritë, klikoni Anulo dhe zgjidhni një format tjetër."
     }

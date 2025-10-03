@@ -83,7 +83,7 @@
     "textDoNotShowAgain": "No mostrar de nuevo",
     "textOk": "Aceptar",
     "textRows": "Filas",
-    "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos.<br>¿Está seguro de que quiere continuar?"
+    "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos. Esta ubicación puede ser insegura:<br>{0}<br>¿Está seguro de que quiere continuar?"
   },
   "Controller": {
     "Main": {

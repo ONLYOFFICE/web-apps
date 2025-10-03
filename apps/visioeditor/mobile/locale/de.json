@@ -30,7 +30,7 @@
   "ContextMenu": {
     "menuCancel": "Abbrechen",
     "textOk": "OK",
-    "txtWarnUrl": "Dieser Link kann für Ihr Gerät und Daten gefährlich sein.<br>Möchten Sie wirklich fortsetzen?"
+    "txtWarnUrl": "Das Klicken auf diesen Link kann Ihr Gerät und Ihre Daten schädigen. Dieser Standort ist möglicherweise unsicher:<br>{0}<br>Möchten Sie wirklich fortfahren?"
   },
   "Controller": {
     "Main": {

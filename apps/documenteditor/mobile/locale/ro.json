@@ -668,6 +668,7 @@
     "titleReadOnly": "Mod doar în citire",
     "titleServerVersion": "Editorul a fost actualizat",
     "titleUpdateVersion": "Versiunea s-a modificat",
+    "txtSignedForm": "Documentul este semnat și nu poate fi modificat.",
     "warnDownloadAsPdf": "Fișierul dvs {0} va fi convertit într-un format editabil. Convertirea poate dura ceva timp. Documentul rezultat va fi optimizat pentru a vă permite să editați textul, dar s-ar putea să nu arate exact ca original {0}, mai ales dacă fișierul original conține mai multe elemente grafice.",
     "warnLicenseAnonymous": "Acces refuzat pentru utilizatori anonimi.<br>Acest document va fi accesibil numai în modul de vizualizare.",
     "warnLicenseBefore": "Licența nu este activă.<br>Contactaţi administratorul.",

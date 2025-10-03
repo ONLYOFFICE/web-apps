@@ -880,6 +880,9 @@
       "txtZh": "Txinera",
       "warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br> Ziur zaude aurrera jarraitu nahi duzula?",
       "textClose": "Close",
+      "txtSr": "Serbian (Latin)",
+      "txtSrcyrl": "Serbian (Cyrillic)",
+      "txtZhtw": "Chinese (Traditional)",
       "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   },

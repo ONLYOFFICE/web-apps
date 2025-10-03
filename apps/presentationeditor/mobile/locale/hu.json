@@ -164,8 +164,11 @@
       "textReplaceSuccess": "A keresés megtörtént. Helyettesített események: {0}",
       "textRequestMacros": "A makró kérést intéz a webcímhez. Szeretné engedélyezni a kérést a következőhöz: %1?",
       "textYes": "Igen",
+      "tipLicenseExceeded": "A dokumentum írásvédett módban van megnyitva, mivel a licenc által megengedett egyidejű kapcsolatok maximális száma elérte a megengedett legnagyobb számot.<br><br>Kérjük, próbálja újra később, vagy vegye fel a kapcsolatot a dokumentum tulajdonosával, ha szerkesztési hozzáférésre van szüksége.",
+      "tipLicenseUsersExceeded": "A dokumentum írásvédett módban van megnyitva, mivel elérte a licenc által a dokumentumok szerkesztésére engedélyezett felhasználók maximális számát.<br><br>Kérjük, próbálja meg később, vagy vegye fel a kapcsolatot a dokumentum tulajdonosával, ha szerkesztési hozzáférésre van szüksége.",
       "titleLicenseExp": "Lejárt licenc",
       "titleLicenseNotActive": "A licenc nem aktív",
+      "titleReadOnly": "Csak olvasható mód",
       "titleServerVersion": "Szerkesztő frissítve",
       "titleUpdateVersion": "A verzió megváltozott",
       "txtIncorrectPwd": "Érvénytelen jelszó",
@@ -177,10 +180,7 @@
       "warnLicenseLimitedRenewed": "A licencet meg kell újítani. Korlátozott hozzáférése van a dokumentumszerkesztési funkciókhoz.<br>A teljes hozzáférés érdekében forduljon rendszergazdájához",
       "warnNoLicense": "Elérte a(z) %1 szerkesztővel való egyidejű kapcsolódási korlátot. Ez a dokumentum csak megtekintésre nyílik meg. Lépjen kapcsolatba a(z) %1 értékesítési csapatával a személyes bővíthető feltételekért.",
       "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználók számának korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
-      "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére.",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére."
     }
   },
   "Draw": {
@@ -355,6 +355,7 @@
       "textBack": "Vissza",
       "textBandedColumn": "Sávos oszlop",
       "textBandedRow": "Sávos sor",
+      "textBaseline": "Alapvonal",
       "textBefore": "Előtt",
       "textBlack": "Feketén keresztül",
       "textBorder": "Szegély",
@@ -365,8 +366,10 @@
       "textBullets": "Pontok",
       "textBulletsAndNumbers": "Pontok és Számok",
       "textCancel": "Mégse",
+      "textCapitalization": "Nagybetűs",
       "textCaseSensitive": "Kis-nagybetű érzékeny",
       "textCellMargins": "Cellamargók",
+      "textCellSize": "Cella méret",
       "textChangeShape": "Forma módosítása",
       "textChart": "Diagram",
       "textClock": "Óra",
@@ -496,11 +499,8 @@
       "textZoomIn": "Nagyítás",
       "textZoomOut": "Kicsinyítés",
       "textZoomRotate": "Zoom és elforgatás",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textCellSize": "Cell size",
-      "txtHeight": "Height",
-      "txtWidth": "Width"
+      "txtHeight": "Magasság",
+      "txtWidth": "Szélesség"
     },
     "Settings": {
       "mniSlideStandard": "Sztenderd (4:3)",
