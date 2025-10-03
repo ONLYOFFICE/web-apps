@@ -669,6 +669,7 @@
     "titleDialogProtectedDocument": "The document is protected",
     "titleLicenseNotActive": "License not active",
     "titleReadOnly": "Read-Only Mode",
+    "txtSignedForm": "This document has been signed and cannot be edited.",
     "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
     "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
     "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",

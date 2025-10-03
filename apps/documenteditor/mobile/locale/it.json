@@ -676,7 +676,8 @@
     "warnLicenseLimitedRenewed": "La licenza deve essere rinnovata. Hai l'accesso limitato alle funzionalità di modifica dei documenti.<br>Ti preghiamo di contattare il tuo amministratore per ottenere l'accesso completo.",
     "warnNoLicense": "Hai raggiunto il limite delle connessioni simultanee a %1 editor. Questo documento sarà aperto solo in modalità visualizzazione. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
     "warnNoLicenseUsers": "Hai raggiunto il limite degli utenti per %1 editor. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
-    "warnProcessRightsChange": "Non hai il permesso di modificare questo file."
+    "warnProcessRightsChange": "Non hai il permesso di modificare questo file.",
+    "txtSignedForm": "This document has been signed and cannot be edited."
   },
   "Settings": {
     "advDRMOptions": "File protetto",

@@ -668,6 +668,7 @@
     "titleReadOnly": "Modaliteti vetëm për lexim",
     "titleServerVersion": "Redaktori i përditësuar",
     "titleUpdateVersion": "Version i ndryshuar",
+    "txtSignedForm": "Ky dokument është nënshkruar dhe nuk mund të modifikohet.",
     "warnDownloadAsPdf": "{0} juaj do të konvertohet në një format të modufikueshëm. Kjo mund të marrë pak kohë. Dokumenti që rezulton do të optimizohet pë të ju lejuar të redaktoni tekstin, kështu që mund të mos duket saktësisht si origjinali {0}, veçanërisht nëse skedari origjinaë përmban shumë grafikë.",
     "warnLicenseAnonymous": "Aksesi u refuzua për përdoruesit anonimë.<br>Ky dokument do të hapet vetëm për shikim.",
     "warnLicenseBefore": "Lisensë joaktive.<br>Ju lutem kontaktoni administratorin tuaj.",

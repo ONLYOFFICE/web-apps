@@ -115,6 +115,12 @@ define([
 
         onStartRedact: function(isMarkMode) {
             Common.UI.TooltipManager.closeTip('mark-for-redaction');
+            if (isMarkMode && this.toolbar) {
+                this.toolbar.turnOnSelectTool();
+                this.api.SetMarkerFormat(undefined, false);
+                this.api.asc_StopInkDrawer();
+                this.toolbar.onClearHighlight();
+            }
             this.api.SetRedactTool(isMarkMode);
         },
 
@@ -224,6 +230,8 @@ define([
 
         onRedactionStateToggle: function(isRedaction) {
             this.view.btnMarkForRedact.toggle(isRedaction);
+            if (this.toolbar)
+                isRedaction ? this.toolbar.clearSelectTools() : this.toolbar.updateSelectTools();
         },
 
         SetDisabled: function(state) {

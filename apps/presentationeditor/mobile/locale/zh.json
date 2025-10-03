@@ -83,7 +83,7 @@
     "textDoNotShowAgain": "不要再显示",
     "textOk": "确定",
     "textRows": "行",
-    "txtWarnUrl": "点击此链接可能对您的设备和数据有害<br>您确定要继续吗？"
+    "txtWarnUrl": "点击此链接可能会对您的设备和数据造成损害。此位置可能不安全：<br>{0}<br>您确定要继续吗？"
   },
   "Controller": {
     "Main": {
@@ -355,6 +355,7 @@
       "textBack": "返回",
       "textBandedColumn": "镶边列",
       "textBandedRow": "镶边行",
+      "textBaseline": "基准线",
       "textBefore": "之前",
       "textBlack": "通过黑色",
       "textBorder": "边框",
@@ -365,8 +366,10 @@
       "textBullets": "项目符号",
       "textBulletsAndNumbers": "项目符号与编号",
       "textCancel": "取消",
+      "textCapitalization": "大写",
       "textCaseSensitive": "区分大小写",
       "textCellMargins": "儲存格邊界",
+      "textCellSize": "单元格大小",
       "textChangeShape": "更改形状",
       "textChart": "图表",
       "textClock": "时钟",
@@ -496,11 +499,8 @@
       "textZoomIn": "放大",
       "textZoomOut": "缩小",
       "textZoomRotate": "缩放并旋转",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textCellSize": "Cell size",
-      "txtHeight": "Height",
-      "txtWidth": "Width"
+      "txtHeight": "高度",
+      "txtWidth": "宽度"
     },
     "Settings": {
       "mniSlideStandard": "标准（4：3）",

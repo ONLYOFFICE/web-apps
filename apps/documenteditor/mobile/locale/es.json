@@ -228,7 +228,7 @@
     "textRefreshEntireTable": "Actualizar toda la tabla",
     "textRefreshPageNumbersOnly": "Actualizar solamente los números de página",
     "textRows": "Filas",
-    "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos.<br>¿Está seguro de que quiere continuar?"
+    "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos. Esta ubicación puede ser insegura:<br>{0}<br>¿Está seguro de que quiere continuar?"
   },
   "Draw": {
     "textColor": "Color",
@@ -518,7 +518,7 @@
     "savePreparingTitle": "Preparando para guardar. Espere por favor...",
     "saveTextText": "Guardando documento...",
     "saveTitleText": "Guardando documento",
-    "savingText": "Guardando",
+    "savingText": "Enviando",
     "sendMergeText": "Envío de los resultados de la fusión...",
     "sendMergeTitle": "Envío de los resultados de la fusión",
     "textContinue": "Continuar",
@@ -668,6 +668,7 @@
     "titleReadOnly": "Modo de sólo lectura",
     "titleServerVersion": "Editor ha sido actualizado",
     "titleUpdateVersion": "Versión ha cambiado",
+    "txtSignedForm": "Este documento se ha firmado y no se puede modificar.",
     "warnDownloadAsPdf": "Su {0} se convertirá en un formato editable. Esto puede llevar un tiempo. El documento resultante será optimizado para permitirle editar el texto, por lo que puede que no se vea exactamente como el {0} original, especialmente si el archivo original contenía muchos gráficos.",
     "warnLicenseAnonymous": "Acceso denegado a usuarios anónimos.<br>Este documento se abrirá solo para su visualización.",
     "warnLicenseBefore": "Licencia no activa.<br>Por favor, póngase en contacto con su administrador.",

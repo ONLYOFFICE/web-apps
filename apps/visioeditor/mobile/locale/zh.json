@@ -30,7 +30,7 @@
   "ContextMenu": {
     "menuCancel": "取消",
     "textOk": "确定",
-    "txtWarnUrl": "点击此链接可能对您的设备和数据有害。<br>您确定要继续吗？"
+    "txtWarnUrl": "点击此链接可能会对您的设备和数据造成损害。此位置可能不安全：<br>{0}<br>您确定要继续吗？"
   },
   "Controller": {
     "Main": {

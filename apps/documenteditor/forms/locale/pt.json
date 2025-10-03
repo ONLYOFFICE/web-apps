@@ -164,6 +164,7 @@
   "DE.Controllers.ApplicationController.txtPressLink": "Pressione CTRL e clique no link",
   "DE.Controllers.ApplicationController.txtSignedForm": "Este documento foi assinado e não pode ser editado.",
   "DE.Controllers.ApplicationController.txtUntitled": "Sem título",
+  "DE.Controllers.ApplicationController.txtWarnUrl": "Clicar neste link pode ser prejudicial ao seu dispositivo e dados.<br>Você tem certeza de que quer continuar?",
   "DE.Controllers.ApplicationController.unknownErrorText": "Erro desconhecido.",
   "DE.Controllers.ApplicationController.unsupportedBrowserErrorText": "Seu navegador não é suportado.",
   "DE.Controllers.ApplicationController.uploadImageExtMessage": "Formato de imagem desconhecido.",

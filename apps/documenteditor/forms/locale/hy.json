@@ -164,6 +164,7 @@
   "DE.Controllers.ApplicationController.txtPressLink": "Սեղմել Ctrl և անցնել հղումը",
   "DE.Controllers.ApplicationController.txtSignedForm": "Այս փաստաթուղթը ստորագրված է և չի կարող խմբագրվել։",
   "DE.Controllers.ApplicationController.txtUntitled": "Անանուն",
+  "DE.Controllers.ApplicationController.txtWarnUrl": "Այս հղմանը հետևելը կարող է վնասել ձեր սարքավորումն ու տվյալները:<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:",
   "DE.Controllers.ApplicationController.unknownErrorText": "Անհայտ սխալ։",
   "DE.Controllers.ApplicationController.unsupportedBrowserErrorText": "Ձեր դիտարկիչը չի աջակցվում։",
   "DE.Controllers.ApplicationController.uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
