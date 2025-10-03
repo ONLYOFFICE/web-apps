@@ -1236,7 +1236,7 @@ define([], function () {
             me.chartProps = me.getCurrentChartProps();
         
             if (chartContainer.length < 1) {
-                chartContainer = $('<div id="chart-element-container" style="position: absolute; z-index: 1000;"><div id="id-document-holder-btn-chart-element"></div></div>');
+                chartContainer = $('<div id="chart-element-container" style="position: absolute; z-index: 990;"><div id="id-document-holder-btn-chart-element"></div></div>');
                 documentHolderView.cmpEl.find('#id_main_view').append(chartContainer);
             }
             
@@ -1246,6 +1246,7 @@ define([], function () {
                 var x = asc_CRect.asc_getX(),
                     y = asc_CRect.asc_getY(),
                     width = asc_CRect.asc_getWidth(),
+                    height = asc_CRect.asc_getHeight(),
                     btnLeft = me.isRtlSheet ? x - 55 : x + width - 10,
                     btnTop = y - 28;
 
@@ -1253,7 +1254,15 @@ define([], function () {
                     chartContainer.hide();
                     return;
                 }
-
+                
+                if (y < 0) {
+                    var chartBottom = y + height;
+                    if (chartBottom < 45) { 
+                        chartContainer.hide();
+                        return;
+                    }
+                }
+                
                 if (btnTop < 0) {
                     btnTop = 0
                 }

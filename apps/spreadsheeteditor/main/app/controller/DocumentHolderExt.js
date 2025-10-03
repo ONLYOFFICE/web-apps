@@ -3873,7 +3873,7 @@ define([], function () {
             me.chartProps = me.getCurrentChartProps();
         
             if (chartContainer.length < 1) {
-                chartContainer = $('<div id="chart-element-container" style="position: absolute; z-index: 1000;"><div id="id-document-holder-btn-chart-element"></div></div>');
+                chartContainer = $('<div id="chart-element-container" style="position: absolute; z-index: 990;"><div id="id-document-holder-btn-chart-element"></div></div>');
                 documentHolderView.cmpEl.find('#ws-canvas-outer').append(chartContainer);
             }
 
@@ -3884,6 +3884,7 @@ define([], function () {
                 var x = asc_CRect.asc_getX(),
                     y = asc_CRect.asc_getY(),
                     width = asc_CRect.asc_getWidth(),
+                    height = asc_CRect.asc_getHeight(),
                     btnLeft,
                     btnTop = y,
                     windowWidth = documentHolderView.cmpEl.width(),
@@ -3904,6 +3905,14 @@ define([], function () {
 
                 if (btnTop < 20) {
                     btnTop = 20
+                }
+
+                if (y < 0) {
+                    var chartBottom = y + height;
+                    if (chartBottom < 40) { 
+                        chartContainer.hide();
+                        return;
+                    }
                 }
 
                 chartContainer.css({
