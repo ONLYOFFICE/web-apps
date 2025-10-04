@@ -959,8 +959,10 @@ define([
                 Common.Utils.lockControls(Common.enumLock.pageDeleted, page_deleted, {array: this.view.lockedControls});
             }
 
-            if (!this.view.btnInsertChart.isDisabled() && this._state.onactivetab)
+            if (!this.view.btnInsertChart.isDisabled() && this._state.onactivetab) {
+                Common.UI.TooltipManager.getNeedShow('pdfCharts') && Common.UI.TooltipManager.closeTip('redactTab');
                 Common.UI.TooltipManager.showTip('pdfCharts');
+            }
         },
 
         onApiCanAddHyperlink: function(value) {

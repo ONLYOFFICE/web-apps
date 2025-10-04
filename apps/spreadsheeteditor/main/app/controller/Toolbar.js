@@ -295,8 +295,10 @@ define([
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
             //     'asyncFunction' : {name: 'help-tip-async-func', placement: 'bottom-left', text: this.helpAsyncFunc, header: this.helpAsyncFuncHeader, target: '#slot-btn-macros', automove: true,
             //                        maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
-                'rtlDirection' : {name: 'sse-help-tip-rtl-dir', placement: 'bottom-left', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', automove: true,
+                'rtlDirection' : {name: 'sse-help-tip-rtl-dir', placement: 'bottom-right', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', maxwidth: 300, automove: true,
                                   closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
+                'commentFilter' : {name: 'help-tip-comment-filter', placement: 'bottom-right', text: this.helpCommentFilter, header: this.helpCommentFilterHeader, target: '#comments-btn-sort', maxwidth: 300,
+                                  closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true},

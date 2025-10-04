@@ -727,7 +727,12 @@ define([
 
                 if (state) {
                     this.getApplication().getController('Common.Controllers.Comments').onAfterShow();
-                }
+                    Common.UI.TooltipManager.getNeedShow('commentFilter') && Common.UI.TooltipManager.closeTip('rtlDirection');
+                    setTimeout(function() {
+                        Common.UI.TooltipManager.showTip('commentFilter');
+                    }, 10);
+                } else
+                    Common.UI.TooltipManager.closeTip('commentFilter');
 
                 if (!state) $(this.leftMenu.btnComments.el).blur();
             }

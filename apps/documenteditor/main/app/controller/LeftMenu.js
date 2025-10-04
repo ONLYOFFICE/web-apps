@@ -773,8 +773,13 @@ define([
 
             if (mode === 'show') {
                 this.getApplication().getController('Common.Controllers.Comments').onAfterShow();
-            }
-                $(this.leftMenu.btnComments.el).blur();
+                setTimeout(function() {
+                    Common.UI.TooltipManager.showTip('commentFilter');
+                }, 10);
+            } else
+                Common.UI.TooltipManager.closeTip('commentFilter');
+
+            $(this.leftMenu.btnComments.el).blur();
         },
         /** coauthoring end **/
 

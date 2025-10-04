@@ -286,13 +286,16 @@ define([
         };
 
         var _closeTip = function(step, force, preventNext) {
-            var props = _helpTips[step];
-            if (props) {
-                preventNext && (props.next = undefined);
-                props.tip && props.tip.close();
-                props.tip = undefined;
-                force && props.name && Common.localStorage.setItem(props.name, 1);
-            }
+            var steps = typeof step === 'string' ? [step] : step;
+            steps && steps.forEach(function(step) {
+                var props = _helpTips[step];
+                if (props) {
+                    preventNext && (props.next = undefined);
+                    props.tip && props.tip.close();
+                    props.tip = undefined;
+                    force && props.name && Common.localStorage.setItem(props.name, 1);
+                }
+            });
         };
 
         var _findTarget = function(target) {

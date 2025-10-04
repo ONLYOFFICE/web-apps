@@ -1777,6 +1777,8 @@
   "PE.Controllers.Toolbar.helpOldTheme": "You can switch back to the previous theme at any time in the settings.",
   "del_PE.Controllers.Toolbar.helpRtlDir": "Set paragraph direction in the presentation editor.",
   "del_PE.Controllers.Toolbar.helpRtlDirHeader": "Paragraph direction",
+  "PE.Controllers.Toolbar.helpCommentFilter": "Control how comments are displayed by toggling between open and resolved ones in the left panel.",
+  "PE.Controllers.Toolbar.helpCommentFilterHeader": "Comment filters",
   "PE.Controllers.Toolbar.textAccent": "Accents",
   "PE.Controllers.Toolbar.textBracket": "Brackets",
   "PE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",
