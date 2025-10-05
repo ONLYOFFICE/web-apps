@@ -925,10 +925,9 @@ define([
 
                         if ( config.canPrint ) {
                             this.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-hbtn-print'), undefined, 'bottom', 'big', 'P');
-                            this.btnPrint.updateHint(this.tipPrint);
                             this.shortcutHints.PrintPreviewAndPrint = {
                                 btn: me.btnPrint,
-                                label: me.tipPrint
+                                label: me.tipPrint + (!!window.VE ? (Common.Utils.String.platformKey('Ctrl+P')) : '')
                             };
                         }
 
