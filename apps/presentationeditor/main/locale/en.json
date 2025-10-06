@@ -2379,6 +2379,8 @@
   "PE.Views.DocumentHolder.textInsertLayout": "Insert Layout",
   "PE.Views.DocumentHolder.textInsertSlideMaster": "Insert Slide Master",
   "PE.Views.DocumentHolder.textLeftData": "Left",
+  "PE.Views.DocumentHolder.textLeft": "Left",
+  "PE.Views.DocumentHolder.textLeftOverlay": "Left Overlay",
   "PE.Views.DocumentHolder.textLegendPos": "Legend",
   "PE.Views.DocumentHolder.textLinear": "Linear",
   "PE.Views.DocumentHolder.textLinearForecast": "Linear Forecast",
