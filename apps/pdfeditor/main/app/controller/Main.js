@@ -1116,6 +1116,8 @@ define([
 
                 documentHolderController.getView().on('editcomplete', _.bind(me.onEditComplete, me));
 
+                PDFE.getController('Common.Controllers.Shortcuts').setApi(me.api);
+
                 if (me.appOptions.isEdit || me.appOptions.isRestrictedEdit) {
                     if (me.appOptions.isEdit && me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
                         me.appOptions.forcesave = Common.localStorage.getBool("pdfe-settings-forcesave", me.appOptions.canForcesave);
@@ -1129,7 +1131,6 @@ define([
                     me.appOptions.isRestrictedEdit && me.api.asc_SetHighlightRequiredFields(true);
 
                     var timer_sl = setTimeout(function(){
-                        PDFE.getController('Common.Controllers.Shortcuts').setApi(me.api);
 
                         toolbarController.createDelayedElements();
                         toolbarController.activateControls();

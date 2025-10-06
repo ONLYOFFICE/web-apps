@@ -1456,6 +1456,8 @@ define([
 
                 documentHolderController.getView().on('editcomplete', _.bind(me.onEditComplete, me));
 
+                DE.getController('Common.Controllers.Shortcuts').setApi(me.api);
+                
                 if (me.appOptions.isEdit) {
                     if (me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
                         me.appOptions.forcesave = Common.localStorage.getBool("de-settings-forcesave", me.appOptions.canForcesave);
@@ -1483,7 +1485,6 @@ define([
                         if (window.document_content_ready) {
                             clearInterval(timer_sl);
 
-                            DE.getController('Common.Controllers.Shortcuts').setApi(me.api);
                             toolbarController.createDelayedElements();
                             documentHolderController.getView().createDelayedElements();
                             me.setLanguages();

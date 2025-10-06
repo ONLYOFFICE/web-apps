@@ -1072,6 +1072,8 @@ define([
 
                 this.formulaInput = celleditorController.getView('CellEditor').$el.find('textarea');
 
+                SSE.getController('Common.Controllers.Shortcuts').setApi(me.api);
+
                 if (me.appOptions.isEdit) {
                     Common.UI.FeaturesManager.canChange('spellcheck') && spellcheckController.setApi(me.api).setMode(me.appOptions);
 
@@ -1101,7 +1103,6 @@ define([
                         if (window.styles_loaded || me.appOptions.isEditDiagram || me.appOptions.isEditMailMerge || me.appOptions.isEditOle) {
                             clearInterval(timer_sl);
 
-                            SSE.getController('Common.Controllers.Shortcuts').setApi(me.api);
                             
                             Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + me.api.asc_getActiveWorksheetId()]);
                             documentHolderView.createDelayedElements();

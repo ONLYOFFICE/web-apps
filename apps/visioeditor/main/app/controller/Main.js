@@ -951,12 +951,13 @@ define([
 
                 documentHolderController.getView().on('editcomplete', _.bind(me.onEditComplete, me));
 
+                // VE.getController('Common.Controllers.Shortcuts').setApi(me.api);
+
                 if (me.appOptions.isEdit) {
                     if (me.needToUpdateVersion)
                         Common.NotificationCenter.trigger('api:disconnect');
 
                     var timer_sl = setTimeout(function(){
-                        PDFE.getController('Common.Controllers.Shortcuts').setApi(me.api);
 
                         toolbarController.createDelayedElements();
                         toolbarController.activateControls();
