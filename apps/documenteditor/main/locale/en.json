@@ -2402,6 +2402,8 @@
   "DE.Views.DocumentHolder.textJoinList": "Join to previous list",
   "DE.Views.DocumentHolder.textLeft": "Shift cells left",
   "DE.Views.DocumentHolder.textLeftData": "Left",
+  "DE.Views.DocumentHolder.textLeftPos": "Left",
+  "DE.Views.DocumentHolder.textLeftOverlay": "Left overlay",
   "DE.Views.DocumentHolder.textLegendPos": "Legend",
   "DE.Views.DocumentHolder.textLinear": "Linear",
   "DE.Views.DocumentHolder.textLinearForecast": "Linear Forecast",
