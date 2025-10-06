@@ -274,10 +274,10 @@ define([], function () {
                     '<td><label><%= scope.strFontRender %></label></td>',
                     '<td><span id="fms-cmb-font-render"></span></td>',
                 '</tr>',
-                '<tr>',
-                    '<td><label><%= scope.strKeyboardShortcuts %></label></td>',
-                    '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-keyboard-shortcuts" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomize %></button></div></td>',
-                '</tr>',
+                // '<tr>',
+                //     '<td><label><%= scope.strKeyboardShortcuts %></label></td>',
+                //     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-keyboard-shortcuts" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomize %></button></div></td>',
+                // '</tr>',
                 // '<tr class="macros">',
                 //     '<td><label><%= scope.strMacrosSettings %></label></td>',
                 //     '<td><div><div id="fms-cmb-macros"></div></div></td>',
@@ -384,10 +384,10 @@ define([], function () {
             });
             this.cmbFontRender.on('selected', _.bind(this.onFontRenderSelected, this));
 
-            this.btnKeyboardMacros = new Common.UI.Button({
-                el: $markup.findById('#fms-btn-keyboard-shortcuts')
-            });
-            this.btnKeyboardMacros.on('click', _.bind(this.onClickKeyboardShortcut, this));
+            // this.btnKeyboardMacros = new Common.UI.Button({
+            //     el: $markup.findById('#fms-btn-keyboard-shortcuts')
+            // });
+            // this.btnKeyboardMacros.on('click', _.bind(this.onClickKeyboardShortcut, this));
 
             // this.cmbMacros = new Common.UI.ComboBox({
             //     el          : $markup.findById('#fms-cmb-macros'),
