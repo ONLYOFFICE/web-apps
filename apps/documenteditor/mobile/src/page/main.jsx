@@ -338,7 +338,7 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
                     {!state.collaborationVisible ? null : 
                         <CollaborationView 
                             closeOptions={handleOptionsViewClosed} 
-                            showOpts={state.addShowOptions}
+                            showOptions={state.addShowOptions}
                         />
                     }
                     {!state.navigationVisible ? null : <NavigationController />}

@@ -79,7 +79,7 @@ const CollaborationView = props => {
         }
     }, []);
 
-    const initUrl = props.showOpts ? `/${props.showOpts}/` : '/collaboration-page/';
+    const initUrl = props.showOptions ? `/${props.showOptions}/` : '/collaboration-page/';
 
     return (
         !Device.phone ?
