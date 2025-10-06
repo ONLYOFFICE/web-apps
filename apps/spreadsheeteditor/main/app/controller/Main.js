@@ -2267,6 +2267,11 @@ define([
                         config.msg = this.errorNotUniqueFieldWithCalculated;
                         break;
 
+                    case Asc.c_oAscError.ID.MacroUnavailableWarning:
+                        config.msg = this.errorMacroUnavailableWarning.replace('%1', errData ? "'" + errData + "'" : '');
+                        config.maxwidth = 600;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;

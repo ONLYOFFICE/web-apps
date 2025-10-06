@@ -357,6 +357,7 @@
     "errorWrongBracketsCount": "An error in the formula.<br>Wrong number of brackets.",
     "errorWrongOperator": "An error in the entered formula. Wrong operator is used.<br>Please correct the error.",
     "errRemDuplicates": "Duplicate values found and deleted: {0}, unique values left: {1}.",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled.",
     "notcriticalErrorTitle": "Warning",
     "openErrorText": "An error has occurred while opening the file",
     "pastInMergeAreaError": "Cannot change a part of a merged cell",
