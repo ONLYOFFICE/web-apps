@@ -295,10 +295,12 @@ define([
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
             //     'asyncFunction' : {name: 'help-tip-async-func', placement: 'bottom-left', text: this.helpAsyncFunc, header: this.helpAsyncFuncHeader, target: '#slot-btn-macros', automove: true,
             //                        maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
-                'rtlDirection' : {name: 'sse-help-tip-rtl-dir', placement: 'bottom-right', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', maxwidth: 300, automove: true,
+                'rtlDirection' : {name: 'sse-help-tip-rtl-dir', placement: 'bottom', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', maxwidth: 300, automove: true,
                                   closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
                 'commentFilter' : {name: 'help-tip-comment-filter', placement: 'bottom-right', text: this.helpCommentFilter, header: this.helpCommentFilterHeader, target: '#comments-btn-sort', maxwidth: 300,
-                                  closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
+                                  closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
+                'tableTab' : {name: 'sse-help-tip-table-tab', placement: 'bottom', offset: {x: Common.UI.isRTL() ? -10 : 10, y: 0}, text: this.helpTableTab, header: this.helpTableTabHeader, target: 'li.ribtab #tabledesign',
+                                automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true},
@@ -3211,8 +3213,10 @@ define([
                     if ( !intabledesign && this.toolbar.isTabActive('tabledesign') )
                         this.toolbar.setTab('home');
                     this.toolbar.setVisible('tabledesign', !!intabledesign);
-                    if (intabledesign && this._state.showTableDesignTab)
+                    if (intabledesign && this._state.showTableDesignTab) {
                         this.toolbar.setTab('tabledesign');
+                        Common.UI.TooltipManager.showTip('tableTab');
+                    }
                     this._state.intabledesign = intabledesign;
                 }
 
@@ -5275,7 +5279,7 @@ define([
                 setTimeout(function() {
                     Common.UI.TooltipManager.showTip('rtlDirection');
                 }, 10);
-
+            (tab !== 'tabledesign') && Common.UI.TooltipManager.closeTip('tableTab');
             // if (tab === 'view') {
             //     Common.UI.TooltipManager.closeTip('modernTheme');
             //     Common.UI.TooltipManager.showTip('asyncFunction');

@@ -2039,6 +2039,8 @@
   "SSE.Controllers.Toolbar.helpRtlDirHeader": "Cell text direction",
   "SSE.Controllers.Toolbar.helpCommentFilter": "Control how comments are displayed by toggling between open and resolved ones in the left panel.",
   "SSE.Controllers.Toolbar.helpCommentFilterHeader": "Comment filters",
+  "SSE.Controllers.Toolbar.helpTableTab": "Formatted table settings are now available in the Table Design tab.",
+  "SSE.Controllers.Toolbar.helpTableTabHeader": "Table Design tab",
   "SSE.Controllers.Toolbar.textAccent": "Accents",
   "SSE.Controllers.Toolbar.textBracket": "Brackets",
   "SSE.Controllers.Toolbar.textDirectional": "Directional",

@@ -1779,6 +1779,8 @@
   "del_PE.Controllers.Toolbar.helpRtlDirHeader": "Paragraph direction",
   "PE.Controllers.Toolbar.helpCommentFilter": "Control how comments are displayed by toggling between open and resolved ones in the left panel.",
   "PE.Controllers.Toolbar.helpCommentFilterHeader": "Comment filters",
+  "PE.Controllers.Toolbar.helpMasterTab": "Slide Master settings are now grouped in a dedicated Slide Master tab on the toolbar.",
+  "PE.Controllers.Toolbar.helpMasterTabHeader": "Slide Master tab",
   "PE.Controllers.Toolbar.textAccent": "Accents",
   "PE.Controllers.Toolbar.textBracket": "Brackets",
   "PE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",

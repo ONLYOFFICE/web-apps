@@ -312,7 +312,10 @@ define([
             // });
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
                 'commentFilter' : {name: 'help-tip-comment-filter', placement: 'bottom-right', text: this.helpCommentFilter, header: this.helpCommentFilterHeader, target: '#comments-btn-sort', maxwidth: 300,
-                                   closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
+                                   closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
+                'masterTab' : {name: 'pe-help-tip-master-tab', placement: 'bottom-right', offset: {x: Common.UI.isRTL() ? -10 : 10, y: 0}, text: this.helpMasterTab, header: this.helpMasterTabHeader, target: 'li.ribtab #slideMaster',
+                                automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
+
                 //     'rtlDirection' : {name: 'pe-help-tip-rtl-dir', placement: 'bottom-left', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', automove: true,
             //                       closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
             //     'animText' : {name: 'pe-help-tip-anim-text', placement: 'target', offset: {x: 5, y: 60}, text: this.helpAnimText, header: this.helpAnimTextHeader,
@@ -3070,6 +3073,9 @@ define([
             if (isMaster) {
                 Common.NotificationCenter.trigger('tab:visible', 'slideMaster', true);
                 this.toolbar.setTab('slideMaster');
+                setTimeout(function() {
+                    Common.UI.TooltipManager.showTip('masterTab');
+                }, 100);
             } else {
                 Common.NotificationCenter.trigger('tab:visible', 'slideMaster', false);
                 this.toolbar.setTab('home');
@@ -3089,6 +3095,7 @@ define([
             //     }, 10);
 
             // (tab === 'view') ? Common.UI.TooltipManager.showTip('modernTheme') : Common.UI.TooltipManager.closeTip('modernTheme');
+            (tab !== 'slideMaster') && Common.UI.TooltipManager.closeTip('masterTab');
         },
 
         onBeforeActiveTab: function(tab) {
