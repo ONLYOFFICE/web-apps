@@ -2384,7 +2384,6 @@ define([
                         length++;
                 });
                 this._state.usersCount = length;
-                // this._state.fastCoauth && this._state.usersCount>1 && this.api.asc_getCanUndo() && Common.UI.TooltipManager.showTip('fastUndo');
             },
 
             onUserConnection: function(change){
@@ -2413,7 +2412,6 @@ define([
                         this._state.fastCoauth = Common.localStorage.getBool("pdfe-settings-coauthmode");
                         if (this._state.fastCoauth && !oldval)
                             this.synchronizeChanges();
-                        // this._state.fastCoauth && this._state.usersCount>1 && this.api.asc_getCanUndo() && Common.UI.TooltipManager.showTip('fastUndo');
                     }
                     if (this.appOptions.canForcesave) {
                         this.appOptions.forcesave = Common.localStorage.getBool("pdfe-settings-forcesave", this.appOptions.canForcesave);

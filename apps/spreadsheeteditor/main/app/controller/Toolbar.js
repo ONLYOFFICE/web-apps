@@ -288,13 +288,7 @@ define([
                     'ja': 'https://www.onlyoffice.com/blog/ja/2025/06/onlyoffice-docs-9-0-released'},
                 url = langmap[lang] || 'https://www.onlyoffice.com/blog/2025/06/onlyoffice-docs-9-0-released';
 
-            // !Common.Utils.isIE && !Common.Controllers.Desktop.isWinXp() && Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-            //     'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom', offset: {x: 10, y: 0}, text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader,
-            //                      target: 'li.ribtab #view', automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
-            // });
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-            //     'asyncFunction' : {name: 'help-tip-async-func', placement: 'bottom-left', text: this.helpAsyncFunc, header: this.helpAsyncFuncHeader, target: '#slot-btn-macros', automove: true,
-            //                        maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
                 'rtlDirection' : {name: 'sse-help-tip-rtl-dir', placement: 'bottom', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', maxwidth: 300, automove: true,
                                   closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
                 'commentFilter' : {name: 'help-tip-comment-filter', placement: 'bottom-right', text: this.helpCommentFilter, header: this.helpCommentFilterHeader, target: '#comments-btn-sort', maxwidth: 300,
@@ -4687,7 +4681,6 @@ define([
                 if (me.toolbar.btnTextDir && !me.toolbar.btnTextDir.isDisabled() && me.toolbar.isTabActive('home'))
                     Common.UI.TooltipManager.showTip('rtlDirection');
             }
-            // Common.UI.TooltipManager.showTip('modernTheme');
         },
 
         onFileMenu: function (opts) {
@@ -5282,11 +5275,6 @@ define([
                 }, 10);
 
             (tab === 'tabledesign') ? Common.UI.TooltipManager.showTip('tableTab') : Common.UI.TooltipManager.closeTip('tableTab');
-            // if (tab === 'view') {
-            //     Common.UI.TooltipManager.closeTip('modernTheme');
-            //     Common.UI.TooltipManager.showTip('asyncFunction');
-            // } else
-            //     Common.UI.TooltipManager.closeTip('asyncFunction');
         },
 
         onClickTab: function(tab) {
@@ -5296,7 +5284,6 @@ define([
 
         onTabCollapse: function(tab) {
             Common.UI.TooltipManager.closeTip('rtlDirection');
-            // Common.UI.TooltipManager.closeTip('asyncFunction');
         }
     }, SSE.Controllers.Toolbar || {}));
 });

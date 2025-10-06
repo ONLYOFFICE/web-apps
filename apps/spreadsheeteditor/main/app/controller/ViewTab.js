@@ -313,7 +313,6 @@ define([
         },
 
         onClickMacros: function() {
-            // Common.UI.TooltipManager.closeTip('asyncFunction');
             var macrosWindow = new Common.Views.MacrosDialog({
                 api: this.api,
             });

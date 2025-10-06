@@ -193,21 +193,13 @@ define([
                     'ja': 'https://www.onlyoffice.com/blog/ja/2025/06/onlyoffice-docs-9-0-released'},
                 url = langmap[lang] || 'https://www.onlyoffice.com/blog/2025/06/onlyoffice-docs-9-0-released';
 
-            // !Common.Utils.isIE && !Common.Controllers.Desktop.isWinXp() && Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-            //     'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom-right', text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader, target: '#slot-btn-interface-theme',
-            //                      automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
-            // });
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
                 'pdfCharts' : {name: 'pdfe-help-tip-pdf-charts', placement: 'bottom', offset: {x: Common.UI.isRTL() ? -30 : 30, y: 0}, text: this.helpPdfCharts, header: this.helpPdfChartsHeader,
                               target: '#slot-btn-inssmartart', isNewFeature: true, maxwidth: 300, closable: false, link: {text: _main.textLearnMore, url: url}},
                 'annotRect' : {name: 'pdfe-help-tip-annot-rect', placement: 'bottom', text: this.helpAnnotRect, header: this.helpAnnotRectHeader,
                               target: '#slot-btn-shape-comment', isNewFeature: true, maxwidth: 300, closable: false, noHighlight: true, link: {text: _main.textLearnMore, url: url}},
                 'redactTab' : {name: 'help-tip-redact-tab', placement: 'bottom-right', offset: {x: Common.UI.isRTL() ? -10 : 10, y: 0}, text: this.helpRedactTab, header: this.helpRedactTabHeader, target: 'li.ribtab #red',
-                               automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
-                //     'formEditor' : {name: 'help-tip-form-editor', placement: 'bottom-right', offset: {x: 10, y: 0}, text: this.helpFormEditor, header: this.helpFormEditorHeader, target: 'li.ribtab #forms',
-            //                      automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
-            //     'copyPages' : {name: 'help-tip-copy-pages', placement: 'right-bottom', offset: {x: -30, y: 110}, text: Common.Utils.String.format(this.helpCopyPages, Common.Utils.String.platformKey('Ctrl+C', '{0}'), Common.Utils.String.platformKey('Ctrl+V', '{0}')),
-            //                    header: this.helpCopyPagesHeader, target: '#thumbnails-btn-close', closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
+                               automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true},
@@ -1687,7 +1679,6 @@ define([
             $host.find('.pdfedit').removeClass('transparent');
 
             this.mode.isPDFEdit ? Common.UI.TooltipManager.showTip('redactTab') : Common.UI.TooltipManager.closeTip('redactTab');
-            // this.mode.isPDFEdit ? Common.UI.TooltipManager.showTip('formEditor') : Common.UI.TooltipManager.closeTip('formEditor');
         },
         
         onAppReady: function (config) {
@@ -1760,20 +1751,11 @@ define([
                 Common.UI.TooltipManager.closeTip('annotRect');
 
             (tab === 'red') && Common.UI.TooltipManager.closeTip('redactTab');
-
-            // (tab === 'file') && Common.UI.TooltipManager.closeTip('copyPages');
-            // (tab === 'forms') && Common.UI.TooltipManager.closeTip('formEditor');
-            // if (tab === 'view') {
-            //     Common.UI.TooltipManager.getNeedShow('modernTheme') && Common.UI.TooltipManager.closeTip('formEditor');
-            //     Common.UI.TooltipManager.showTip('modernTheme')
-            // } else
-            //     Common.UI.TooltipManager.closeTip('modernTheme');
         },
 
         onTabCollapse: function(tab) {
             Common.UI.TooltipManager.closeTip('pdfCharts');
             Common.UI.TooltipManager.closeTip('annotRect');
-            // Common.UI.TooltipManager.closeTip('modernTheme');
         },
 
         applySettings: function() {
@@ -2747,7 +2729,6 @@ define([
         },
 
         onTextDirShowAfter: function(menu, item) {
-            // Common.UI.TooltipManager.closeTip('rtlDirection');
         },
 
         onApiTextDirection: function (isRtl){

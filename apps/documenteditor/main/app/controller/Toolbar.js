@@ -278,10 +278,6 @@ define([
                             'it': 'https://www.onlyoffice.com/blog/it/2025/06/disponibile-onlyoffice-docs-9-0',
                             'ja': 'https://www.onlyoffice.com/blog/ja/2025/06/onlyoffice-docs-9-0-released'},
                 url = langmap[lang] || 'https://www.onlyoffice.com/blog/2025/06/onlyoffice-docs-9-0-released';
-            // !Common.Utils.isIE && !Common.Controllers.Desktop.isWinXp() && !this.mode.isPDFForm && Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-            //     'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom', offset: {x: 10, y: 0}, text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader, target: 'li.ribtab #view',
-            //                      automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: langmap[lang] || 'https://www.onlyoffice.com/blog/2025/06/onlyoffice-docs-9-0-released'}}
-            // });
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
                 'commentFilter' : {name: 'help-tip-comment-filter', placement: 'bottom-right', text: this.helpCommentFilter, header: this.helpCommentFilterHeader, target: '#comments-btn-sort', maxwidth: 300,
                                   closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
@@ -4122,7 +4118,6 @@ define([
                         me.api.asc_setViewerTargetType('hand');
                     }
                 }
-                // Common.UI.TooltipManager.showTip('modernTheme');
 
                 config.isOForm && config.canDownload && Common.UI.warning({
                     msg  : config.canRequestSaveAs || !!config.saveAsUrl || config.isOffline ? me.textConvertFormSave : me.textConvertFormDownload,
@@ -4375,7 +4370,6 @@ define([
         },
 
         onActiveTab: function(tab) {
-            // (tab === 'view') && Common.UI.TooltipManager.closeTip('modernTheme');
         },
 
         onTabCollapse: function(tab) {

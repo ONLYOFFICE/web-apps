@@ -132,11 +132,9 @@ define([
         show: function () {
             Common.UI.BaseView.prototype.show.call(this,arguments);
             this.fireEvent('show', this );
-            // Common.UI.TooltipManager.showTip('copyPages');
         },
 
         hide: function () {
-            // Common.UI.TooltipManager.closeTip('copyPages');
             Common.UI.BaseView.prototype.hide.call(this,arguments);
             this.fireEvent('hide', this );
         },
