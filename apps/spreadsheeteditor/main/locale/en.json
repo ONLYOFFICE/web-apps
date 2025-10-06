@@ -1603,6 +1603,7 @@
   "SSE.Controllers.Main.errorWrongOperator": "An error in the entered formula. Wrong operator is used.<br>Please correct the error.",
   "SSE.Controllers.Main.errorWrongPassword": "The password you supplied is not correct.",
   "SSE.Controllers.Main.errRemDuplicates": "Duplicate values found and deleted: {0}, unique values left: {1}.",
+  "SSE.Controllers.Main.errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled.",
   "SSE.Controllers.Main.leavePageText": "You have unsaved changes in this spreadsheet. Click 'Stay on this Page' then 'Save' to save them. Click 'Leave this Page' to discard all the unsaved changes.",
   "SSE.Controllers.Main.leavePageTextOnClose": "All unsaved changes in this spreadsheet will be lost.<br> Click \"Cancel\" then \"Save\" to save them. Click \"OK\" to discard all the unsaved changes.",
   "SSE.Controllers.Main.loadFontsTextText": "Loading data...",

@@ -1949,6 +1949,7 @@ define([
                         iconCls: 'warn',
                         buttons: ['ok', 'cancel'],
                         msg: Common.Utils.String.format(msg, sURI || ''),
+                        maxwidth: 600,
                         callback: _.bind(function(btn){
                             if (btn == 'ok' && window.event && (!Common.Utils.isMac && window.event.ctrlKey == true || Common.Utils.isMac && window.event.metaKey)) {
                                 onAllow();
