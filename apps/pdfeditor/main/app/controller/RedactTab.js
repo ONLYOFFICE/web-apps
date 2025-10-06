@@ -174,9 +174,8 @@ define([
                                 pages.push(i - 1);
                             }
                         } else {
-                            pages.push(parseInt(value, 10));
+                            pages.push(parseInt(value, 10) - 1);
                         }
-
                         me.api.RedactPages(pages);
                     }
                 }
