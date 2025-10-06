@@ -3906,7 +3906,7 @@ define([], function () {
                     }
                 } else if (me.isRtl) {
                     if (leftSide >= 0) {
-                        btnLeft = leftSide;
+                        btnLeft = leftSide + 18;
                     } else if (rightSide + btnWidth <= windowWidth) {
                         btnLeft = rightSide; 
                     } else {
@@ -3914,7 +3914,7 @@ define([], function () {
                         return;
                     }
                 } else {
-                    if (rightSide + btnWidth <= windowWidth) {
+                    if (rightSide + btnWidth <= windowWidth + 5) {
                         btnLeft = rightSide;
                     } else if (leftSide >= 0) {
                         btnLeft = leftSide + 18; 

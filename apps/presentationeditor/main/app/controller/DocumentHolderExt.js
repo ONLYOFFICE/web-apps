@@ -1204,28 +1204,28 @@ define([], function () {
                 var x = asc_CRect.asc_getX(),
                     y = asc_CRect.asc_getY(),
                     width = asc_CRect.asc_getWidth(),
-                    btnLeft,
+                    btn,
                     btnTop = y,
-                    windowWidth = me._Width,
                     btnWidth = 50,
-                    leftSide = x - 40,          
-                    rightSide = x + width + 10,
-                    panelWidth = $('#id_panel_thumbnails').outerWidth() || 0; 
+                    windowWidth = $('#editor-container').width() || $(window).width(),
+                    leftMenuWidth = $('#id_panel_thumbnails').outerWidth() || 0,
+                    leftSide = x - 40,
+                    rightSide = x + width + 10;
 
                 if (me.isRtlSheet) {
                     if (leftSide >= 0) {
-                        btnLeft = leftSide;
-                    } else if (rightSide + btnWidth <= windowWidth - panelWidth) { 
-                        btnLeft = rightSide;
+                        btn = leftSide;
+                    } else if (rightSide + btnWidth <= windowWidth - leftMenuWidth) {
+                        btn = rightSide;
                     } else {
                         chartContainer.hide();
                         return;
                     }
                 } else {
-                    if (rightSide + btnWidth <= windowWidth) {
-                        btnLeft = rightSide;
-                    } else if (leftSide >= panelWidth) { 
-                        btnLeft = leftSide;
+                    if (rightSide + btnWidth <= windowWidth + 20) {
+                        btn = rightSide;
+                    } else if (leftSide >= leftMenuWidth) {
+                        btn = leftSide;
                     } else {
                         chartContainer.hide();
                         return;
@@ -1235,7 +1235,7 @@ define([], function () {
                 if (btnTop < 0) btnTop = 0;
 
                 chartContainer.css({
-                    left: btnLeft + 'px',
+                    left: btn + 'px',
                     top: btnTop + 'px'
                 }).show();
         
