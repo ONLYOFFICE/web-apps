@@ -1781,6 +1781,8 @@
   "PE.Controllers.Toolbar.helpCommentFilterHeader": "Comment filters",
   "PE.Controllers.Toolbar.helpMasterTab": "Slide Master settings are now grouped in a dedicated Slide Master tab on the toolbar.",
   "PE.Controllers.Toolbar.helpMasterTabHeader": "Slide Master tab",
+  "PE.Controllers.Toolbar.helpChartElements": "Quickly show or hide chart elements.",
+  "PE.Controllers.Toolbar.helpChartElementsHeader": "Chart elements",
   "PE.Controllers.Toolbar.textAccent": "Accents",
   "PE.Controllers.Toolbar.textBracket": "Brackets",
   "PE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",

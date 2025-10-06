@@ -301,6 +301,8 @@ define([
                                   closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
                 'tableTab' : {name: 'sse-help-tip-table-tab', placement: 'bottom', offset: {x: Common.UI.isRTL() ? -10 : 10, y: 0}, text: this.helpTableTab, header: this.helpTableTabHeader, target: 'li.ribtab #tabledesign',
                                 automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
+                'chartElements' : {name: 'help-tip-chart-elements', placement: 'bottom', text: this.helpChartElements, header: this.helpChartElementsHeader, target: '#id-document-holder-btn-chart-element', maxwidth: 300,
+                    automove: true, noHighlight: true, noArrow: true, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true},
@@ -3215,7 +3217,6 @@ define([
                     this.toolbar.setVisible('tabledesign', !!intabledesign);
                     if (intabledesign && this._state.showTableDesignTab) {
                         this.toolbar.setTab('tabledesign');
-                        Common.UI.TooltipManager.showTip('tableTab');
                     }
                     this._state.intabledesign = intabledesign;
                 }
@@ -5279,7 +5280,8 @@ define([
                 setTimeout(function() {
                     Common.UI.TooltipManager.showTip('rtlDirection');
                 }, 10);
-            (tab !== 'tabledesign') && Common.UI.TooltipManager.closeTip('tableTab');
+
+            (tab === 'tabledesign') ? Common.UI.TooltipManager.showTip('tableTab') : Common.UI.TooltipManager.closeTip('tableTab');
             // if (tab === 'view') {
             //     Common.UI.TooltipManager.closeTip('modernTheme');
             //     Common.UI.TooltipManager.showTip('asyncFunction');

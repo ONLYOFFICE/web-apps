@@ -285,6 +285,11 @@ define([
             return _helpTips[step] && !(_helpTips[step].name && Common.localStorage.getItem(_helpTips[step].name));
         };
 
+        var _applyPlacement = function(step) {
+            if (_helpTips[step] && _helpTips[step].tip && _helpTips[step].tip.isVisible())
+                _helpTips[step].tip.applyPlacement();
+        };
+
         var _closeTip = function(step, force, preventNext) {
             var steps = typeof step === 'string' ? [step] : step;
             steps && steps.forEach(function(step) {
@@ -403,7 +408,8 @@ define([
             closeTip: _closeTip,
             removeTip: _removeTip,
             addTips: _addTips,
-            getNeedShow: _getNeedShow
+            getNeedShow: _getNeedShow,
+            applyPlacement: _applyPlacement
         }
     })();
 });

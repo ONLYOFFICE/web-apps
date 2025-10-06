@@ -758,6 +758,9 @@ define([
                         this.mode.canChat && this.leftMenu.panelChat['hide']();
                     }
                 }
+                if (state) {
+                    Common.UI.TooltipManager.closeTip('chartElements');
+                }
             }
         },
 

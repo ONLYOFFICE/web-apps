@@ -1740,6 +1740,8 @@
   "del_DE.Controllers.Toolbar.helpOldTheme": "You can switch back to the previous theme at any time in the settings.",
   "DE.Controllers.Toolbar.helpCommentFilter": "Control how comments are displayed by toggling between open and resolved ones in the left panel.",
   "DE.Controllers.Toolbar.helpCommentFilterHeader": "Comment filters",
+  "DE.Controllers.Toolbar.helpChartElements": "Quickly show or hide chart elements.",
+  "DE.Controllers.Toolbar.helpChartElementsHeader": "Chart elements",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Warning",
   "DE.Controllers.Toolbar.textAccent": "Accents",
   "DE.Controllers.Toolbar.textBracket": "Brackets",

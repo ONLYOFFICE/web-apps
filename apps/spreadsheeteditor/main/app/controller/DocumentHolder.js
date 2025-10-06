@@ -528,6 +528,7 @@ define([
             var chartContainer = this.documentHolder.cmpEl.find('#chart-element-container');
             if (chartContainer.is(':visible')) {
                 chartContainer.hide();
+                Common.UI.TooltipManager.closeTip('chartElements');
             }
         },
 

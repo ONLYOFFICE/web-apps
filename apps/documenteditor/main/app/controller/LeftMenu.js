@@ -794,6 +794,9 @@ define([
                     this.mode.canChat && this.leftMenu.panelChat['hide']();
                 }
             }
+            if (!value) {
+                Common.UI.TooltipManager.closeTip('chartElements');
+            }
         },
 
         menuFilesShowHide: function(state) {

@@ -2041,6 +2041,8 @@
   "SSE.Controllers.Toolbar.helpCommentFilterHeader": "Comment filters",
   "SSE.Controllers.Toolbar.helpTableTab": "Formatted table settings are now available in the Table Design tab.",
   "SSE.Controllers.Toolbar.helpTableTabHeader": "Table Design tab",
+  "SSE.Controllers.Toolbar.helpChartElements": "Quickly show or hide chart elements.",
+  "SSE.Controllers.Toolbar.helpChartElementsHeader": "Chart elements",
   "SSE.Controllers.Toolbar.textAccent": "Accents",
   "SSE.Controllers.Toolbar.textBracket": "Brackets",
   "SSE.Controllers.Toolbar.textDirectional": "Directional",

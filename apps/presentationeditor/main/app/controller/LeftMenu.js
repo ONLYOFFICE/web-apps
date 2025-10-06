@@ -634,6 +634,9 @@ define([
                     this.mode.canChat && this.leftMenu.panelChat['hide']();
                 }
             }
+            if (!value) {
+                Common.UI.TooltipManager.closeTip('chartElements');
+            }
         },
 
         onShortcut: function(s, e) {
