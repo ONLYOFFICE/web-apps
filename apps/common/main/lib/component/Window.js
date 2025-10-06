@@ -537,7 +537,11 @@ define([
                             (Math.max(text.width(), check.length>0 ? $(check).find('.checkbox-indeterminate').outerWidth(true) : 0)));
                     window.setSize(width, parseInt(body.css('height')) + parseInt(header.css('height')));
                 } else {
-                    text.css('white-space', 'normal');
+                    text.css({
+                        'white-space': 'normal',
+                        'overflow-wrap': 'break-word',
+                        'word-wrap': 'break-word'
+                    });
                     window.setWidth(options.width);
                     text_cnt.height(Math.max(text.height(), icon_height) + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0));
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
