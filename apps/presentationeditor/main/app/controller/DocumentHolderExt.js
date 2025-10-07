@@ -2267,6 +2267,7 @@ define([], function () {
                                     chartProps: elValue,
                                     slideSize: PE.getController('Toolbar').currentPageSize,
                                     chartSettings: me.api.asc_getChartSettings(),
+                                    api : me.api,
                                     handler: function(result, value) {
                                         if (result == 'ok') {
                                             if (me.api) {
