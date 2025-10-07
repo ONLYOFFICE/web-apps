@@ -36,6 +36,10 @@ import IconLineSpacing from '@common-icons/icon-linespacing.svg';
 import IconTextDirectionContext from '@common-icons/icon-text-direction-context.svg';
 import IconTextDirectionRtl from '@common-icons/icon-text-direction-rtl.svg';
 import IconTextDirectionLtr from '@common-icons/icon-text-direction-ltr.svg';
+import IconTextBold from '@common-icons/icon-text-bold.svg'
+import IconTextItalic from '@common-icons/icon-text-italic.svg'
+import IconTextUnderline from '@common-icons/icon-text-underline.svg'
+import IconTextStrikethrough from '@common-icons/icon-text-strikethrough.svg'
 
 const EditText = props => {
     const isAndroid = Device.android;
@@ -105,10 +109,18 @@ const EditText = props => {
                 }}/>
                 <ListItem className='buttons'>
                     <div className="row">
-                        <a className={'button' + (isBold ? ' active' : '')} onClick={() => { props.toggleBold(!isBold)}}><b>B</b></a>
-                        <a className={'button' + (isItalic ? ' active' : '')} onClick={() => {props.toggleItalic(!isItalic)}}><i>I</i></a>
-                        <a className={'button' + (isUnderline ? ' active' : '')} onClick={() => {props.toggleUnderline(!isUnderline)}} style={{textDecoration: "underline"}}>U</a>
-                        <a className={'button' + (isStrikethrough ? ' active' : '')} onClick={() => {props.toggleStrikethrough(!isStrikethrough)}} style={{textDecoration: "line-through"}}>S</a>
+                        <a className={'button' + (isBold ? ' active' : '')} onClick={() => { props.toggleBold(!isBold)}}>
+                            <SvgIcon slot="media" symbolId={IconTextBold.id} className={'icon icon-svg'} />
+                        </a>
+                        <a className={'button' + (isItalic ? ' active' : '')} onClick={() => {props.toggleItalic(!isItalic)}}>
+                            <SvgIcon slot="media" symbolId={IconTextItalic.id} className={'icon icon-svg'} />
+                        </a>
+                        <a className={'button' + (isUnderline ? ' active' : '')} onClick={() => {props.toggleUnderline(!isUnderline)}}>
+                            <SvgIcon slot="media" symbolId={IconTextUnderline.id} className={'icon icon-svg'} />
+                        </a>
+                        <a className={'button' + (isStrikethrough ? ' active' : '')} onClick={() => {props.toggleStrikethrough(!isStrikethrough)}}>
+                            <SvgIcon slot="media" symbolId={IconTextStrikethrough.id} className={'icon icon-svg'} />
+                        </a>
                     </div>
                 </ListItem>
                 <ListItem title={_t.textFontColor} link="/edit-text-font-color/" routeProps={{
