@@ -3058,21 +3058,41 @@ define([], function () {
             me.isRtlSheet = me.api ? Common.UI.isRTL() : false;
 
             if (me.chartProps) {
+                me._XY = undefined;
+                me.checkEditorOffsets();
                 var x = asc_CRect.asc_getX(),
                     y = asc_CRect.asc_getY(),
                     width = asc_CRect.asc_getWidth(),
                     height = asc_CRect.asc_getHeight(),
-                    btnLeft = me.isRtlSheet ? x - 40 : x + width + 8,
-                    btnTop = y;
-
-                if (btnLeft < 25 || btnLeft + 50 > me._Width || btnTop + 30 > me._Height) {
-                    chartContainer.hide();
-                    return;
+                    btn,
+                    btnTop = y,
+                    btnWidth = 50,
+                    offsetLeft = chartContainer.width() === 40 ? 50 : 42, 
+                    leftSide = x - offsetLeft,
+                    rightSide = x + width + 7;
+                   
+                if (me.isRtlSheet) {
+                    if (leftSide >= 0) {
+                        btn = leftSide + 15;
+                    } else if (rightSide + btnWidth <= me._Width) {
+                        btn = rightSide + 15;
+                    } else {
+                        chartContainer.hide();
+                        return;
+                    }
+                } else {
+                    if (rightSide + btnWidth <= me._Width + 18) {
+                        btn = rightSide;
+                    } else if (leftSide >= 0) {
+                        btn = leftSide;
+                    } else {
+                        chartContainer.hide();
+                        return;
+                    }
+                    
                 }
 
-                if (btnTop < 0) {
-                    btnTop = 0
-                }
+                if (btnTop < 0) btnTop = 0;
 
                 if (y < 0) {
                     var chartBottom = y + height;
@@ -3083,7 +3103,7 @@ define([], function () {
                 }
 
                 chartContainer.css({
-                    left: btnLeft + 'px',
+                    left: btn + 'px',
                     top: btnTop + 'px'
                 }).show();
         

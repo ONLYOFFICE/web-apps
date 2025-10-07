@@ -1200,40 +1200,62 @@ define([], function () {
 
             me.isRtlSheet = me.api ? Common.UI.isRTL() : false;
 
-             if (me.chartProps) {
+            if (me.chartProps) {
+                me._XY = undefined;
+                me.checkEditorOffsets();
                 var x = asc_CRect.asc_getX(),
                     y = asc_CRect.asc_getY(),
                     width = asc_CRect.asc_getWidth(),
                     height = asc_CRect.asc_getHeight(),
-                    btnLeft = me.isRtlSheet ? x - 40 : x + width + 10,
-                    btnTop = y;
+                    btn,
+                    btnTop = y,
+                    btnWidth = 50,
+                    leftMenuWidth = $('#id_panel_thumbnails').outerWidth() || 0,
+                    offsetLeft = chartContainer.width() === 40 ? 48 : 40, 
+                    leftSide = x - offsetLeft,
+                    rightSide = x + width + 10;
 
-                if (btnLeft < 25 || btnLeft + 50 > me._Width || btnTop + 30 > me._Height) {
-                    chartContainer.hide();
-                    Common.UI.TooltipManager.closeTip('chartElements');
-                    return;
+                if (me.isRtlSheet) {
+                    if (leftSide >= 0) {
+                        btn = leftSide;
+                    } else if (rightSide + btnWidth <= me._Width - leftMenuWidth) {
+                        btn = rightSide;
+                    } else {
+                        chartContainer.hide();
+                        Common.UI.TooltipManager.closeTip('chartElements');
+                        return;
+                    }
+                } else {
+                    if (rightSide + btnWidth <= me._Width + 20) {
+                        btn = rightSide;
+                    } else if (leftSide >= leftMenuWidth) {
+                        btn = leftSide;
+                    } else {
+                        chartContainer.hide();
+                        Common.UI.TooltipManager.closeTip('chartElements');
+                        return;
+                    }
                 }
 
-                if (btnTop < 0) {
-                    btnTop = 0
-                }
+                if (btnTop < 0) btnTop = 0;
 
                 if (y < 0) {
                     var chartBottom = y + height;
                     if (chartBottom < 20) { 
                         chartContainer.hide();
+                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 }
 
                 chartContainer.css({
-                    left: btnLeft + 'px',
+                    left: btn + 'px',
                     top: btnTop + 'px'
                 }).show();
-                 setTimeout(function (){
-                     Common.UI.TooltipManager.showTip('chartElements');
-                     Common.UI.TooltipManager.applyPlacement('chartElements');
-                 }, 100);
+                setTimeout(function (){
+                    Common.UI.TooltipManager.showTip('chartElements');
+                    Common.UI.TooltipManager.applyPlacement('chartElements');
+                }, 100);
         
                 if (!me.btnChartElement) {
                     me.btnChartElement = new Common.UI.Button({

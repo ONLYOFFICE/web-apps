@@ -1243,33 +1243,54 @@ define([], function () {
             me.isRtlSheet = me.api ? Common.UI.isRTL() : false;
 
             if (me.chartProps) {
+                me._XY = undefined;
+                me.checkEditorOffsets();
                 var x = asc_CRect.asc_getX(),
                     y = asc_CRect.asc_getY(),
                     width = asc_CRect.asc_getWidth(),
                     height = asc_CRect.asc_getHeight(),
-                    btnLeft = me.isRtlSheet ? x - 55 : x + width - 10,
-                    btnTop = y - 28;
+                    btn,
+                    btnTop = y - 28,
+                    btnWidth = 50,
+                    offsetLeft = chartContainer.width() === 40 ? 68 : 60, 
+                    leftSide = x - offsetLeft,
+                    rightSide = x + width - 10;
 
-                if (btnLeft < 25 || btnLeft + 50 > me._Width || btnTop + 30 > me._Height) {
-                    chartContainer.hide();
-                    Common.UI.TooltipManager.closeTip('chartElements');
-                    return;
+                if (me.isRtlSheet) {
+                    if (leftSide >= - 8) {
+                        btn = leftSide + 5;
+                    } else if (rightSide + btnWidth <= me._Width) {
+                        btn = rightSide + 5;
+                    } else {
+                        chartContainer.hide();
+                        Common.UI.TooltipManager.closeTip('chartElements');
+                        return;
+                    }
+                } else {
+                    if (rightSide + btnWidth <= me._Width - 10) {
+                        btn = rightSide;
+                    } else if (leftSide >= 0) {
+                        btn = leftSide;
+                    } else {
+                        chartContainer.hide();
+                        Common.UI.TooltipManager.closeTip('chartElements');
+                        return;
+                    }
                 }
-                
+
+                if (btnTop < 0) btnTop = 0;
+
                 if (y < 0) {
                     var chartBottom = y + height;
                     if (chartBottom < 45) { 
                         chartContainer.hide();
+                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 }
-                
-                if (btnTop < 0) {
-                    btnTop = 0
-                }
 
                 chartContainer.css({
-                    left: btnLeft + 'px',
+                    left: btn + 'px',
                     top: btnTop + 'px'
                 }).show();
                 setTimeout(function (){
