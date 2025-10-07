@@ -2958,10 +2958,10 @@ define([
 
             toolbar.lockToolbar(Common.enumLock.pageBreakLock, this.api.asc_GetPageBreaksDisableType(this.api.asc_getActiveWorksheetIndex())===Asc.c_oAscPageBreaksDisableType.all, {array: [toolbar.btnPageBreak]});
 
-            if (editOptionsDisabled) return;
+            // if (editOptionsDisabled) return;
 
             /* read font params */
-            if (!toolbar.mode.isEditMailMerge && !toolbar.mode.isEditDiagram && !toolbar.mode.isEditOle) {
+            if (!editOptionsDisabled && !toolbar.mode.isEditMailMerge && !toolbar.mode.isEditDiagram && !toolbar.mode.isEditOle) {
                 val = xfs.asc_getFontBold();
                 if (this._state.bold !== val) {
                     toolbar.btnBold.toggle(val === true, true);
@@ -3013,7 +3013,7 @@ define([
                 fontColorPicker      = this.toolbar.mnuTextColorPicker,
                 paragraphColorPicker = this.toolbar.mnuBackColorPicker;
 
-            if (!fontColorPicker.isDummy) {
+            if (!editOptionsDisabled && !fontColorPicker.isDummy) {
                 color = xfs.asc_getFontColor();
                 if (color) {
                     if (color.get_auto()) {
@@ -3044,7 +3044,7 @@ define([
             }
 
             /* read cell background color */
-            if (!paragraphColorPicker.isDummy) {
+            if (!editOptionsDisabled && !paragraphColorPicker.isDummy) {
                 color = xfs.asc_getFillColor();
                 if (color && !color.get_auto()) {
                     if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
@@ -3073,7 +3073,7 @@ define([
                 toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);
                 this._state.in_chart = in_chart;
             }
-            if (in_chart) return;
+            // if (in_chart) return;
 
             if (!toolbar.mode.isEditDiagram)
             {
@@ -3082,7 +3082,7 @@ define([
 
                 var filterInfo = info.asc_getAutoFilterInfo(),
                     formatTableInfo = info.asc_getFormatTableInfo();
-                if (!toolbar.mode.isEditMailMerge) {
+                if (!editOptionsDisabled && !in_chart && !toolbar.mode.isEditMailMerge) {
                     /* read cell horizontal align */
                     var fontparam = xfs.asc_getHorAlign();
                     if (this._state.pralign !== fontparam) {
@@ -3222,90 +3222,92 @@ define([
                                                                                           toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2], toolbar.btnInsertTable, toolbar.btnDataValidation).concat(toolbar.btnsRemoveDuplicates).concat(toolbar.btnsTableDesign)});
             }
 
-            val = xfs.asc_getNumFormatInfo();
-            if (val) {
-				this._state.numformat = xfs.asc_getNumFormat();
-				this._state.numformatinfo = val;
-				val = val.asc_getType();
-				if (this._state.numformattype !== val) {
-                    toolbar.cmbNumberFormat.setValue(val, toolbar.txtCustom);
-                    this._state.numformattype = val;
-				}
-            }
-
-            val = xfs.asc_getAngle();
-            if (this._state.angle !== val) {
-                toolbar.btnTextOrient.menu.clearAll(true);
-                switch(val) {
-                    case 45:    toolbar.btnTextOrient.menu.items[1].setChecked(true, true); break;
-                    case -45:   toolbar.btnTextOrient.menu.items[2].setChecked(true, true); break;
-                    case 255:   toolbar.btnTextOrient.menu.items[3].setChecked(true, true); break;
-                    case 90:    toolbar.btnTextOrient.menu.items[4].setChecked(true, true); break;
-                    case -90:   toolbar.btnTextOrient.menu.items[5].setChecked(true, true); break;
-                    case 0:     toolbar.btnTextOrient.menu.items[0].setChecked(true, true); break;
+            if (!editOptionsDisabled && !in_chart ) {
+                val = xfs.asc_getNumFormatInfo();
+                if (val) {
+                    this._state.numformat = xfs.asc_getNumFormat();
+                    this._state.numformatinfo = val;
+                    val = val.asc_getType();
+                    if (this._state.numformattype !== val) {
+                        toolbar.cmbNumberFormat.setValue(val, toolbar.txtCustom);
+                        this._state.numformattype = val;
+                    }
                 }
-                this._state.angle = val;
-            }
 
-            val = info.asc_getStyleName();
-            if (this._state.prstyle != val && !this.toolbar.listStyles.isDisabled()) {
-                var listStyle = this.toolbar.listStyles,
-                    listStylesVisible = (listStyle.rendered);
-
-                if (listStylesVisible) {
-                    listStyle.suspendEvents();
-                    var styleRec = listStyle.menuPicker.store.findWhere({
-                        name: val
-                    });
-                    this._state.prstyle = (listStyle.menuPicker.store.length>0) ? val : undefined;
-
-                    listStyle.menuPicker.selectRecord(styleRec);
-                    listStyle.resumeEvents();
+                val = xfs.asc_getAngle();
+                if (this._state.angle !== val) {
+                    toolbar.btnTextOrient.menu.clearAll(true);
+                    switch(val) {
+                        case 45:    toolbar.btnTextOrient.menu.items[1].setChecked(true, true); break;
+                        case -45:   toolbar.btnTextOrient.menu.items[2].setChecked(true, true); break;
+                        case 255:   toolbar.btnTextOrient.menu.items[3].setChecked(true, true); break;
+                        case 90:    toolbar.btnTextOrient.menu.items[4].setChecked(true, true); break;
+                        case -90:   toolbar.btnTextOrient.menu.items[5].setChecked(true, true); break;
+                        case 0:     toolbar.btnTextOrient.menu.items[0].setChecked(true, true); break;
+                    }
+                    this._state.angle = val;
                 }
-            }
 
-            var selCol = selectionType==Asc.c_oAscSelectionType.RangeCol,
-                selRow = selectionType==Asc.c_oAscSelectionType.RangeRow,
-                selMax = selectionType==Asc.c_oAscSelectionType.RangeMax;
+                val = info.asc_getStyleName();
+                if (this._state.prstyle != val && !this.toolbar.listStyles.isDisabled()) {
+                    var listStyle = this.toolbar.listStyles,
+                        listStylesVisible = (listStyle.rendered);
 
-            need_disable = selRow || selMax && this._state.wsLock || this._state.wsProps['InsertColumns'];
-            toolbar.btnAddCell.menu.items[3].setDisabled(need_disable);
+                    if (listStylesVisible) {
+                        listStyle.suspendEvents();
+                        var styleRec = listStyle.menuPicker.store.findWhere({
+                            name: val
+                        });
+                        this._state.prstyle = (listStyle.menuPicker.store.length>0) ? val : undefined;
 
-            need_disable = selRow || selMax && this._state.wsLock || !selCol && this._state.wsLock || this._state.wsProps['DeleteColumns'];
-            toolbar.btnDeleteCell.menu.items[3].setDisabled(need_disable);
+                        listStyle.menuPicker.selectRecord(styleRec);
+                        listStyle.resumeEvents();
+                    }
+                }
 
-            need_disable = selCol || selMax && this._state.wsLock || this._state.wsProps['InsertRows'];
-            toolbar.btnAddCell.menu.items[2].setDisabled(need_disable);
+                var selCol = selectionType==Asc.c_oAscSelectionType.RangeCol,
+                    selRow = selectionType==Asc.c_oAscSelectionType.RangeRow,
+                    selMax = selectionType==Asc.c_oAscSelectionType.RangeMax;
 
-            need_disable = selCol || selMax && this._state.wsLock || !selRow && this._state.wsLock || this._state.wsProps['DeleteRows'];
-            toolbar.btnDeleteCell.menu.items[2].setDisabled(need_disable);
+                need_disable = selRow || selMax && this._state.wsLock || this._state.wsProps['InsertColumns'];
+                toolbar.btnAddCell.menu.items[3].setDisabled(need_disable);
 
-            val = filterInfo && filterInfo.asc_getIsApplyAutoFilter();
-            need_disable = selRow || val || !(selCol || selMax) && this._state.wsLock || selCol && this._state.wsProps['InsertColumns'] || selMax && this._state.wsProps['InsertColumns'] && this._state.wsProps['InsertRows'];
-            toolbar.btnAddCell.menu.items[0].setDisabled(need_disable);
+                need_disable = selRow || selMax && this._state.wsLock || !selCol && this._state.wsLock || this._state.wsProps['DeleteColumns'];
+                toolbar.btnDeleteCell.menu.items[3].setDisabled(need_disable);
 
-            need_disable = selRow || val || !(selCol || selMax) && this._state.wsLock || selCol && this._state.wsProps['DeleteColumns'] || selMax && this._state.wsProps['DeleteColumns'] && this._state.wsProps['DeleteRows'];
-            toolbar.btnDeleteCell.menu.items[0].setDisabled(need_disable);
+                need_disable = selCol || selMax && this._state.wsLock || this._state.wsProps['InsertRows'];
+                toolbar.btnAddCell.menu.items[2].setDisabled(need_disable);
 
-            need_disable = selCol || val || !(selRow || selMax) && this._state.wsLock || selRow && this._state.wsProps['InsertRows'] || selMax && this._state.wsProps['InsertColumns'] && this._state.wsProps['InsertRows'];
-            toolbar.btnAddCell.menu.items[1].setDisabled(need_disable);
+                need_disable = selCol || selMax && this._state.wsLock || !selRow && this._state.wsLock || this._state.wsProps['DeleteRows'];
+                toolbar.btnDeleteCell.menu.items[2].setDisabled(need_disable);
 
-            need_disable = selCol || val || !(selRow || selMax) && this._state.wsLock || selRow && this._state.wsProps['DeleteRows'] || selMax && this._state.wsProps['DeleteColumns'] && this._state.wsProps['DeleteRows'];
-            toolbar.btnDeleteCell.menu.items[1].setDisabled(need_disable);
+                val = filterInfo && filterInfo.asc_getIsApplyAutoFilter();
+                need_disable = selRow || val || !(selCol || selMax) && this._state.wsLock || selCol && this._state.wsProps['InsertColumns'] || selMax && this._state.wsProps['InsertColumns'] && this._state.wsProps['InsertRows'];
+                toolbar.btnAddCell.menu.items[0].setDisabled(need_disable);
 
-            var items = toolbar.btnAddCell.menu.getItems(true),
+                need_disable = selRow || val || !(selCol || selMax) && this._state.wsLock || selCol && this._state.wsProps['DeleteColumns'] || selMax && this._state.wsProps['DeleteColumns'] && this._state.wsProps['DeleteRows'];
+                toolbar.btnDeleteCell.menu.items[0].setDisabled(need_disable);
+
+                need_disable = selCol || val || !(selRow || selMax) && this._state.wsLock || selRow && this._state.wsProps['InsertRows'] || selMax && this._state.wsProps['InsertColumns'] && this._state.wsProps['InsertRows'];
+                toolbar.btnAddCell.menu.items[1].setDisabled(need_disable);
+
+                need_disable = selCol || val || !(selRow || selMax) && this._state.wsLock || selRow && this._state.wsProps['DeleteRows'] || selMax && this._state.wsProps['DeleteColumns'] && this._state.wsProps['DeleteRows'];
+                toolbar.btnDeleteCell.menu.items[1].setDisabled(need_disable);
+
+                var items = toolbar.btnAddCell.menu.getItems(true),
+                    enabled = false;
+                for (var i=0; i<4; i++) {
+                    !items[i].isDisabled() && (enabled = true);
+                }
+                toolbar.lockToolbar(Common.enumLock.itemsDisabled, !enabled, {array: [toolbar.btnAddCell]});
+
+                items = me.toolbar.btnDeleteCell.menu.getItems(true);
                 enabled = false;
-            for (var i=0; i<4; i++) {
-                !items[i].isDisabled() && (enabled = true);
+                for (var i=0; i<4; i++) {
+                    !items[i].isDisabled() && (enabled = true);
+                }
+                toolbar.lockToolbar(Common.enumLock.itemsDisabled, !enabled, {array: [toolbar.btnDeleteCell]});
             }
-            toolbar.lockToolbar(Common.enumLock.itemsDisabled, !enabled, {array: [toolbar.btnAddCell]});
-
-            items = me.toolbar.btnDeleteCell.menu.getItems(true);
-            enabled = false;
-            for (var i=0; i<4; i++) {
-                !items[i].isDisabled() && (enabled = true);
-            }
-            toolbar.lockToolbar(Common.enumLock.itemsDisabled, !enabled, {array: [toolbar.btnDeleteCell]});
 
             toolbar.lockToolbar(Common.enumLock.headerLock, info.asc_getLockedHeaderFooter(), {array: this.toolbar.btnsEditHeader});
 
