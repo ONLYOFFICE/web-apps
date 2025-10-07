@@ -87,7 +87,7 @@
     "textCopyCutPasteActions": "复制，剪切和粘贴操作",
     "textDoNotShowAgain": "不要再显示",
     "textOk": "确定",
-    "txtWarnUrl": "点击此链接可能对您的设备和数据有害<br>您确定要继续吗？",
+    "txtWarnUrl": "点击此链接可能会对您的设备和数据造成损害。此位置可能不安全：<br>{0}<br>您确定要继续吗？",
     "warnMergeLostData": "只有来自左上方单元格的数据将保留在合并的单元格中。 <br>您确定要继续吗？"
   },
   "Controller": {
@@ -427,6 +427,7 @@
   "Statusbar": {
     "notcriticalErrorTitle": "警告",
     "textCancel": "取消",
+    "textContinue": "继续",
     "textDelete": "删除",
     "textDuplicate": "复制",
     "textErrNameExists": "具有此名称的工作表已存在。",
@@ -448,8 +449,7 @@
     "textTabColor": "标签颜色",
     "textUnhide": "取消隐藏",
     "textWarnDeleteSheet": "工作表可能有数据。是否继续操作？",
-    "textContinue": "Continue",
-    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
+    "warnAddSheetCsv": "CSV格式不支持保存有多个工作表的文件。只有活动工作表会被保存。如需保留所有工作表，请将文件保存为其他格式。"
   },
   "Toolbar": {
     "btnRestartNow": "立即重启",
@@ -534,6 +534,8 @@
       "textAccounting": "会计",
       "textActualSize": "实际大小",
       "textAddCustomColor": "添加自定义颜色",
+      "textAdditional": "更多",
+      "textAdditionalFormatting": "更多格式",
       "textAddress": "地址",
       "textAlign": "对齐",
       "textAlignBottom": "底部对齐",
@@ -543,6 +545,7 @@
       "textAlignRight": "右对齐",
       "textAlignTop": "顶端对齐",
       "textAllBorders": "所有边框",
+      "textAllCaps": "全部大写",
       "textAngleClockwise": "顺时针角度",
       "textAngleCounterclockwise": "逆时针角度",
       "textArrange": "安排",
@@ -553,6 +556,7 @@
       "textAxisPosition": "轴位置",
       "textAxisTitle": "轴题标",
       "textBack": "返回",
+      "textBaseline": "基准线",
       "textBetweenTickMarks": "刻度线之间",
       "textBillions": "十亿",
       "textBorder": "边框",
@@ -561,6 +565,7 @@
       "textBottomBorder": "底部边框",
       "textBringToForeground": "放到最上面",
       "textCancel": "取消",
+      "textCapitalization": "大写",
       "textCell": "单元格",
       "textCellStyle": "单元格样式",
       "textCenter": "中心",
@@ -590,6 +595,7 @@
       "textDisplayUnits": "显示单位",
       "textDollar": "美元",
       "textDone": "完成",
+      "textDoubleStrikethrough": "双删除线",
       "textEditLink": "编辑链接",
       "textEffects": "效果",
       "textEmptyImgUrl": "您需要指定图片的URL。",
@@ -638,6 +644,7 @@
       "textLeftBorder": "左边框",
       "textLeftOverlay": "左叠加",
       "textLegend": "传说",
+      "textLetterSpacing": "字符间距",
       "textLink": "链接",
       "textLinkSettings": "链接设置",
       "textLinkType": "链接类型",
@@ -695,7 +702,11 @@
       "textShape": "形状",
       "textSheet": "工作表",
       "textSize": "大小",
+      "textSmallCaps": "小型大写字母",
+      "textStrikethrough": "删除线",
       "textStyle": "样式",
+      "textSubscript": "下标",
+      "textSuperscript": "上标",
       "textTenMillions": "10 000 000",
       "textTenThousands": "10 000",
       "textText": "文本",
@@ -720,18 +731,7 @@
       "textYen": "日元",
       "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
       "txtSortHigh2Low": "从高到低排序",
-      "txtSortLow2High": "从低到高排序",
-      "textAdditional": "Additional",
-      "textAdditionalFormatting": "Additional formatting",
-      "textAllCaps": "All Caps",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textDoubleStrikethrough": "Double Strikethrough",
-      "textLetterSpacing": "Letter spacing",
-      "textSmallCaps": "Small Caps",
-      "textStrikethrough": "Strikethrough",
-      "textSubscript": "Subscript",
-      "textSuperscript": "Superscript"
+      "txtSortLow2High": "从低到高排序"
     },
     "Settings": {
       "advCSVOptions": "选择CSV选项",
@@ -879,14 +879,17 @@
       "txtSk": "斯洛伐克語",
       "txtSl": "斯洛文尼亚语",
       "txtSpace": "空格",
+      "txtSr": "塞尔维亚语（拉丁）",
+      "txtSrcyrl": "塞尔维亚语（西里尔文）",
       "txtSv": "瑞典語",
       "txtTab": "标签",
       "txtTr": "土耳其語",
       "txtUk": "乌克兰语",
       "txtVi": "越南语",
-      "txtZh": "中文",
+      "txtZh": "中文（简体）",
+      "txtZhtw": "中文（繁体）",
       "warnDownloadAs": "如果您继续以此格式保存，除文本之外的所有功能将丢失。<br>您确定要继续吗？",
-      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
+      "warnDownloadCsv": "CSV格式不支持保存有多个工作表的文件和除文本之外的所有元素。<br>若只要将选择的工作表保存为CSV，请点击“确定”。<br>要保存整个电子表格和所有功能，请单击“取消”并选择其他格式。"
     }
   }
 }

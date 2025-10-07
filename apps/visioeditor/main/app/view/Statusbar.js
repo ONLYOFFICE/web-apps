@@ -57,11 +57,11 @@ define([
             VE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
                 ZoomOut: {
                     btn: me.btnZoomDown,
-                    label: me.tipZoomOut
+                    label: me.tipZoomOut + Common.Utils.String.platformKey('Ctrl+-')
                 },
                 ZoomIn: {
                     btn: me.btnZoomUp,
-                    label: me.tipZoomIn
+                    label: me.tipZoomIn + Common.Utils.String.platformKey('Ctrl++')
                 }
             });
 

@@ -1236,7 +1236,7 @@ define([], function () {
             me.chartProps = me.getCurrentChartProps();
         
             if (chartContainer.length < 1) {
-                chartContainer = $('<div id="chart-element-container" style="position: absolute; z-index: 1000;"><div id="id-document-holder-btn-chart-element"></div></div>');
+                chartContainer = $('<div id="chart-element-container" style="position: absolute; z-index: 990;"><div id="id-document-holder-btn-chart-element"></div></div>');
                 documentHolderView.cmpEl.find('#id_main_view').append(chartContainer);
             }
             
@@ -1248,6 +1248,7 @@ define([], function () {
                 var x = asc_CRect.asc_getX(),
                     y = asc_CRect.asc_getY(),
                     width = asc_CRect.asc_getWidth(),
+                    height = asc_CRect.asc_getHeight(),
                     btn,
                     btnTop = y - 28,
                     btnWidth = 50,
@@ -1262,6 +1263,7 @@ define([], function () {
                         btn = rightSide + 5;
                     } else {
                         chartContainer.hide();
+                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 } else {
@@ -1271,17 +1273,30 @@ define([], function () {
                         btn = leftSide;
                     } else {
                         chartContainer.hide();
+                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 }
 
                 if (btnTop < 0) btnTop = 0;
 
+                if (y < 0) {
+                    var chartBottom = y + height;
+                    if (chartBottom < 45) { 
+                        chartContainer.hide();
+                        return;
+                    }
+                }
+
                 chartContainer.css({
                     left: btn + 'px',
                     top: btnTop + 'px'
                 }).show();
-        
+                setTimeout(function (){
+                    Common.UI.TooltipManager.showTip('chartElements');
+                    Common.UI.TooltipManager.applyPlacement('chartElements');
+                }, 100);
+
                 if (!me.btnChartElement) {
                     me.btnChartElement = new Common.UI.Button({
                         parentEl: $('#id-document-holder-btn-chart-element'),
@@ -1296,11 +1311,13 @@ define([], function () {
                         if (me.chartProps) {
                             me.updateChartElementMenu(me.documentHolder.menuChartElement.menu, me.chartProps);
                         }
+                        Common.UI.TooltipManager.closeTip('chartElements');
                     });
                 }
                 me.disableChartElementButton();
             } else {
                 chartContainer.hide();
+                Common.UI.TooltipManager.closeTip('chartElements');
             }
 
              var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
@@ -1333,6 +1350,7 @@ define([], function () {
             var chartContainer = this.documentHolder.cmpEl.find('#chart-element-container');
             if (chartContainer.is(':visible')) {
                 chartContainer.hide();
+                Common.UI.TooltipManager.closeTip('chartElements');
             }
         };
 

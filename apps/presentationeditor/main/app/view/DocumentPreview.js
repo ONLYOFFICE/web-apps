@@ -142,7 +142,6 @@ define([
                     iconCls: 'toolbar__icon btn-pen-tool',
                     onlyIcon: true,
                     stopPropagation: true,
-                    takeFocusOnClose: true,
                     hint: this.txtDraw,
                     hintAnchor: 'top',
                     hintContainer: '#pe-preview',
@@ -244,8 +243,9 @@ define([
                 hintAnchor: 'top',
                 hintContainer: '#pe-preview'
             });
-            this.btnPrev.on('click', _.bind(function() {
+            this.btnPrev.on('click', _.bind(function(btn) {
                 if (this.api) this.api.DemonstrationPrevSlide();
+                btn.cmpEl && btn.cmpEl.blur();
                 this.editComplete();
             }, this));
 
@@ -255,8 +255,9 @@ define([
                 hintAnchor: 'top',
                 hintContainer: '#pe-preview'
             });
-            this.btnNext.on('click', _.bind(function() {
+            this.btnNext.on('click', _.bind(function(btn) {
                 if (this.api) this.api.DemonstrationNextSlide();
+                btn.cmpEl && btn.cmpEl.blur();
                 this.editComplete();
             }, this));
 
@@ -279,6 +280,7 @@ define([
                     if (this.api)
                         this.api.DemonstrationPlay ();
                 }
+                btn.cmpEl && btn.cmpEl.blur();
                 this.editComplete();
             }, this));
 
@@ -290,11 +292,6 @@ define([
             });
             this.btnClose.on('click', _.bind(function() {
                 if (this.api) this.api.EndDemonstration();
-                if (this.btnDraw) {
-                    this.btnDraw.menu.clearAll();
-                    this.btnDraw.toggle(false);
-                    this.currentDrawTool = undefined;
-                }
             }, this));
 
             this.btnFullScreen = new Common.UI.Button({
@@ -526,6 +523,11 @@ define([
         },
 
         onEndDemonstration: function( ) {
+            if (this.btnDraw) {
+                this.btnDraw.menu.clearAll();
+                this.btnDraw.toggle(false);
+                this.currentDrawTool = undefined;
+            }
             this.hide();
             Common.Utils.cancelFullscreen();
         },
@@ -553,11 +555,7 @@ define([
         },
 
         editComplete: function() {
-            var me = this;
-            setTimeout(function() {
-                $(me.el).focus();
-                me.api && me.api.asc_enableKeyEvents(true);
-            }, 10);
+            this.api && this.api.asc_enableKeyEvents(true);
         },
 
         txtDraw: 'Draw',

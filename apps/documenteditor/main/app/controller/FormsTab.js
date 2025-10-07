@@ -825,7 +825,7 @@ define([
                 Common.UI.TooltipManager.closeTip('formSigned');
             else
                 Common.UI.TooltipManager.showTip({ step: 'formSigned', text: this.view.txtSignedForm, target: '#toolbar', showButton: false,
-                                                         maxwidth: 'none', closable: true, automove: true, noHighlight: true});
+                                                         maxwidth: 'none', closable: true, automove: true, noHighlight: true, noArrow: true});
             Common.Utils.lockControls(Common.enumLock.formSigned, hasForm, {array: [this.view.btnSubmit, this.view.btnClear]});
         }
 

@@ -87,7 +87,7 @@
     "textCopyCutPasteActions": "Copiar, Cortar e Colar",
     "textDoNotShowAgain": "Não volte a aparecer",
     "textOk": "OK",
-    "txtWarnUrl": "Clicar neste link pode ser prejudicial ao seu dispositivo e dados.<br>Você tem certeza de que quer continuar?",
+    "txtWarnUrl": "Clicar neste link pode ser prejudicial ao seu dispositivo e aos seus dados. Este local pode não ser seguro:<br>{0}<br>Tem certeza de que deseja continuar?",
     "warnMergeLostData": "Apenas os dados da célula superior esquerda permanecerá na célula mesclada.<br>Você tem certeza de que deseja continuar? "
   },
   "Controller": {
@@ -879,12 +879,15 @@
       "txtSk": "Eslovaco",
       "txtSl": "Esloveno",
       "txtSpace": "Espaço",
+      "txtSr": "Sérvio (latim)",
+      "txtSrcyrl": "Sérvio (cirílico)",
       "txtSv": "Sueco",
       "txtTab": "Aba",
       "txtTr": "Turco",
       "txtUk": "Ucraniano",
       "txtVi": "Vietnamita",
-      "txtZh": "Chinês",
+      "txtZh": "Chinês (simplificado)",
+      "txtZhtw": "Chinês (tradicional)",
       "warnDownloadAs": "Se você continuar salvando neste formato, todos os recursos com exceção do texto serão perdidos.<Br>Você tem certeza que quer continuar?",
       "warnDownloadCsv": "O formato CSV não suporta salvar um arquivo de várias planilhas e todos os elementos, exceto texto.<br>Para salvar apenas a planilha selecionada em CSV, pressione OK.<br>Para salvar a planilha inteira e todos os recursos, clique em Cancelar e selecione outro formato."
     }

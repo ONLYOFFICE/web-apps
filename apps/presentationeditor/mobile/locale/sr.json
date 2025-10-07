@@ -83,7 +83,7 @@
     "textDoNotShowAgain": "Ne pokazuj ponovo",
     "textOk": "OK",
     "textRows": "Redovi",
-    "txtWarnUrl": "Kliknuti na ovaj link može biti štetno za vaš uređaj i podatke.<br>Da li ste sigurni da želite da nastavite?"
+    "txtWarnUrl": "Klik na ovaj link može biti štetan za vaš uređaj i podatke. Da biste zaštitili svoj računar, klikćite samo na hiperveze koje dolaze iz pouzdanih izvora. Ova lokacija može biti nesigurna:<br><br>{0}<br><br>Da li ste sigurni da želite da nastavite?"
   },
   "Controller": {
     "Main": {

@@ -773,7 +773,7 @@ define([
                 var $panel = this.getTab(tab),
                     $morepanel = this.getMorePanel(tab),
                     $moresection = $panel ? $panel.find('.more-box') : null;
-                ($moresection.length<1) && ($moresection = null);
+                ($moresection && $moresection.length<1) && ($moresection = null);
                 return $panel ? !($panel.find('> .group').length>0 || $morepanel && $morepanel.find('.group').length>0) : false;
             },
 

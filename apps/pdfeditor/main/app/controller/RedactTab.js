@@ -115,6 +115,12 @@ define([
 
         onStartRedact: function(isMarkMode) {
             Common.UI.TooltipManager.closeTip('mark-for-redaction');
+            if (isMarkMode && this.toolbar) {
+                this.toolbar.turnOnSelectTool();
+                this.api.SetMarkerFormat(undefined, false);
+                this.api.asc_StopInkDrawer();
+                this.toolbar.onClearHighlight();
+            }
             this.api.SetRedactTool(isMarkMode);
         },
 
@@ -168,9 +174,8 @@ define([
                                 pages.push(i - 1);
                             }
                         } else {
-                            pages.push(parseInt(value, 10));
+                            pages.push(parseInt(value, 10) - 1);
                         }
-
                         me.api.RedactPages(pages);
                     }
                 }
@@ -224,6 +229,8 @@ define([
 
         onRedactionStateToggle: function(isRedaction) {
             this.view.btnMarkForRedact.toggle(isRedaction);
+            if (this.toolbar)
+                isRedaction ? this.toolbar.clearSelectTools() : this.toolbar.updateSelectTools();
         },
 
         SetDisabled: function(state) {
@@ -254,10 +261,10 @@ define([
                 });
             }
             Common.UI.TooltipManager.addTips({
-                'mark-for-redaction' : {name: 'help-tip-mark-for-redaction', placement: 'bottom-right', offset: {x: 10, y: 0}, text: this.tipMarkForRedaction, header: this.tipMarkForRedactionHeader, target: '#slot-btn-markredact',
-                    automove: true, next: 'apply-redaction', maxwidth: 270, closable: false, isNewFeature: true},
-                'apply-redaction' : {name: 'help-tip-apply-redaction', placement: 'bottom-left', offset: {x: 10, y: 0}, text: this.tipApplyRedaction, header: this.tipApplyRedactionHeader, target: '#slot-btn-apply-redactions',
-                    automove: true, prev: 'mark-for-redaction', maxwidth: 270, closable: false, isNewFeature: true},
+                'mark-for-redaction' : {name: 'help-tip-mark-for-redaction', placement: 'bottom-right', text: this.tipMarkForRedaction, header: this.tipMarkForRedactionHeader, target: '#slot-btn-markredact',
+                    automove: true, next: 'apply-redaction', maxwidth: 270, closable: false, isNewFeature: false, noHighlight: true},
+                'apply-redaction' : {name: 'help-tip-apply-redaction', placement: 'bottom-left', text: this.tipApplyRedaction, header: this.tipApplyRedactionHeader, target: '#slot-btn-apply-redactions',
+                    automove: true, prev: 'mark-for-redaction', maxwidth: 270, closable: false, isNewFeature: false, noHighlight: true},
             });
         },
 

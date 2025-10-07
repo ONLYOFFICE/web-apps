@@ -119,7 +119,7 @@ define([
             VE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
                 OpenChatPanel: {
                     btn: this.btnChat,
-                    label: this.tipChat
+                    label: this.tipChat + Common.Utils.String.platformKey('Alt+Q', ' (' + (Common.Utils.isMac ? Common.Utils.String.textCtrl + '+' : '') + '{0})')
                 }
             });
 
