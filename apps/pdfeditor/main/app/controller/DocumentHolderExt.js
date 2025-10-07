@@ -3067,21 +3067,21 @@ define([], function () {
                     btn,
                     btnTop = y,
                     btnWidth = 50,
-                    leftSide = x - 42,
-                    rightSide = x + width + 7,
-                    windowWidth = me._Width || 0;
+                    offsetLeft = chartContainer.width() === 40 ? 50 : 42, 
+                    leftSide = x - offsetLeft,
+                    rightSide = x + width + 7;
                    
                 if (me.isRtlSheet) {
                     if (leftSide >= 0) {
-                        btn = leftSide;
-                    } else if (rightSide + btnWidth <= windowWidth) {
-                        btn = rightSide;
+                        btn = leftSide + 15;
+                    } else if (rightSide + btnWidth <= me._Width) {
+                        btn = rightSide + 15;
                     } else {
                         chartContainer.hide();
                         return;
                     }
                 } else {
-                    if (rightSide + btnWidth <= windowWidth + 18) {
+                    if (rightSide + btnWidth <= me._Width + 18) {
                         btn = rightSide;
                     } else if (leftSide >= 0) {
                         btn = leftSide;

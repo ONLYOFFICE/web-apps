@@ -1252,14 +1252,14 @@ define([], function () {
                     btn,
                     btnTop = y - 28,
                     btnWidth = 50,
-                    windowWidth = me._Width || 0,
-                    leftSide = x - 60,
+                    offsetLeft = chartContainer.width() === 40 ? 68 : 60, 
+                    leftSide = x - offsetLeft,
                     rightSide = x + width - 10;
 
                 if (me.isRtlSheet) {
                     if (leftSide >= - 8) {
                         btn = leftSide + 5;
-                    } else if (rightSide + btnWidth <= windowWidth) {
+                    } else if (rightSide + btnWidth <= me._Width) {
                         btn = rightSide + 5;
                     } else {
                         chartContainer.hide();
@@ -1267,7 +1267,7 @@ define([], function () {
                         return;
                     }
                 } else {
-                    if (rightSide + btnWidth <= windowWidth - 10) {
+                    if (rightSide + btnWidth <= me._Width - 10) {
                         btn = rightSide;
                     } else if (leftSide >= 0) {
                         btn = leftSide;

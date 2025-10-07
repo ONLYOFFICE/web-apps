@@ -3881,26 +3881,25 @@ define([], function () {
             me.isRtlSheet = me.api.asc_getSheetViewSettings().asc_getRightToLeft();
 
             if (me.chartProps) {
+                me.tooltips.coauth.XY = undefined
+                me.onDocumentResize();
                 var x = asc_CRect.asc_getX(),
                     y = asc_CRect.asc_getY(),
                     width = asc_CRect.asc_getWidth(),
                     height = asc_CRect.asc_getHeight(),
                     btnLeft,
                     btnTop = y,
-                    windowWidth = documentHolderView.cmpEl.width(),
-                    windowHeight = documentHolderView.cmpEl.height(),
-                    btnWidth = 50, 
-                    leftSide = x - btnWidth - 10,
+                    btnWidth = 50,
+                    offsetLeft = chartContainer.width() === 40 ? 18 : 10, 
+                    leftSide = x - btnWidth - offsetLeft,
                     rightSide = x + width + 7,
                     rtlSheet = x + width - 45; 
 
                 if (me.isRtlSheet) {
-                    if (rtlSheet >= 0 && rtlSheet + btnWidth <= windowWidth) {
+                    if (rtlSheet >= 0 && rtlSheet + btnWidth <= me.tooltips.coauth.apiWidth) {
                         btnLeft = rtlSheet;
                     } else if (leftSide >= 0) {
                         btnLeft = leftSide - 32; 
-                    } else if (rightSide + btnWidth <= windowWidth) {
-                        btnLeft = rightSide; 
                     } else {
                         chartContainer.hide();
                         Common.UI.TooltipManager.closeTip('chartElements');
@@ -3909,7 +3908,7 @@ define([], function () {
                 } else if (me.isRtl) {
                     if (leftSide >= 0) {
                         btnLeft = leftSide + 18;
-                    } else if (rightSide + btnWidth <= windowWidth) {
+                    } else if (rightSide + btnWidth <= me.tooltips.coauth.apiWidth) {
                         btnLeft = rightSide; 
                     } else {
                         chartContainer.hide();
@@ -3917,7 +3916,7 @@ define([], function () {
                         return;
                     }
                 } else {
-                    if (rightSide + btnWidth <= windowWidth + 5) {
+                    if (rightSide + btnWidth <= me.tooltips.coauth.apiWidth + 5) {
                         btnLeft = rightSide;
                     } else if (leftSide >= 0) {
                         btnLeft = leftSide + 18; 
