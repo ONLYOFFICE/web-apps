@@ -1252,6 +1252,7 @@ define([], function () {
 
                 if (btnLeft < 25 || btnLeft + 50 > me._Width || btnTop + 30 > me._Height) {
                     chartContainer.hide();
+                    Common.UI.TooltipManager.closeTip('chartElements');
                     return;
                 }
                 
@@ -1271,7 +1272,11 @@ define([], function () {
                     left: btnLeft + 'px',
                     top: btnTop + 'px'
                 }).show();
-        
+                setTimeout(function (){
+                    Common.UI.TooltipManager.showTip('chartElements');
+                    Common.UI.TooltipManager.applyPlacement('chartElements');
+                }, 100);
+
                 if (!me.btnChartElement) {
                     me.btnChartElement = new Common.UI.Button({
                         parentEl: $('#id-document-holder-btn-chart-element'),
@@ -1286,11 +1291,13 @@ define([], function () {
                         if (me.chartProps) {
                             me.updateChartElementMenu(me.documentHolder.menuChartElement.menu, me.chartProps);
                         }
+                        Common.UI.TooltipManager.closeTip('chartElements');
                     });
                 }
                 me.disableChartElementButton();
             } else {
                 chartContainer.hide();
+                Common.UI.TooltipManager.closeTip('chartElements');
             }
 
              var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
@@ -1323,6 +1330,7 @@ define([], function () {
             var chartContainer = this.documentHolder.cmpEl.find('#chart-element-container');
             if (chartContainer.is(':visible')) {
                 chartContainer.hide();
+                Common.UI.TooltipManager.closeTip('chartElements');
             }
         };
 
