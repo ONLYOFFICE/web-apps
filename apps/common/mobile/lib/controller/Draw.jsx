@@ -3,6 +3,7 @@ import { DrawView } from "../view/Draw";
 import { inject, observer } from "mobx-react";
 import { Device } from "../../utils/device";
 import { LocalStorage } from '../../utils/LocalStorage.mjs';
+import { f7 } from 'framework7-react';
 
 const DEFAULT_TOOL_SETTINGS = {
   pen: { color: '#FF0000', opacity: 100, lineSize: 2 },
@@ -34,25 +35,32 @@ export const DrawController = inject('storeAppOptions')(observer(({ storeAppOpti
   }
 
   useEffect(() => {
-    Common.Notifications.on('draw:start', () => {
+    const handleDrawStart = () => {
       storeAppOptions.changeDrawMode(true);
       setCurrentToolAndApply('pen');
-    })
+    };
 
-    Common.Notifications.on('draw:stop', () => {
+    const handleDrawStop = () => {
       storeAppOptions.changeDrawMode(false);
       setCurrentToolAndApply('scroll');
-    })
+    };
 
-    Common.Notifications.on('engineCreated', api => {
-      api.asc_registerCallback(window.editorType === 'sse' ? 'asc_onSelectionChanged' : 'asc_onFocusObject', onApiFocusObject);
-    });
+    const handleEngineCreated = (api) => {
+      api.asc_registerCallback(
+        window.editorType === 'sse' ? 'asc_onSelectionChanged' : 'asc_onFocusObject',
+        onApiFocusObject
+      );
+    };
+
+    Common.Notifications.on('draw:start', handleDrawStart);
+    Common.Notifications.on('draw:stop', handleDrawStop);
+    Common.Notifications.on('engineCreated', handleEngineCreated);
 
     return () => {
-      Common.Notifications.off('draw:start');
-      Common.Notifications.off('draw:stop');
-      Common.Notifications.off('engineCreated');
-    }
+      Common.Notifications.off('draw:start', handleDrawStart);
+      Common.Notifications.off('draw:stop', handleDrawStop);
+      Common.Notifications.off('engineCreated', handleEngineCreated);
+    };
   }, []);
 
   const createStroke = (color, lineSize, opacity) => {
@@ -102,6 +110,19 @@ export const DrawController = inject('storeAppOptions')(observer(({ storeAppOpti
     LocalStorage.setJson('draw-colors', updatedColors)
   }
 
+  const closeBackdropSheet = (e) => {
+    e.preventDefault();
+    f7.sheet.close();
+  }
+
+  const attachBackdropSwipeClose = () => {
+    document.querySelector('.sheet-backdrop')?.addEventListener('touchmove', closeBackdropSheet);
+  }
+
+  const removeBackdropSwipeClose = () => {
+    document.querySelector('.sheet-backdrop')?.removeEventListener('touchmove', closeBackdropSheet);
+  }
+
   return storeAppOptions.isDrawMode ? <DrawView
     currentTool={currentTool}
     setTool={setCurrentToolAndApply}
@@ -110,5 +131,7 @@ export const DrawController = inject('storeAppOptions')(observer(({ storeAppOpti
     colors={colors}
     addCustomColor={addCustomColor}
     enableErasing={enableErasing}
+    attachBackdropSwipeClose={attachBackdropSwipeClose}
+    removeBackdropSwipeClose={removeBackdropSwipeClose}
   /> : null
 }));
