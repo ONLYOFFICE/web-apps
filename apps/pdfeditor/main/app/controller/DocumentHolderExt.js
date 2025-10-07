@@ -3057,6 +3057,8 @@ define([], function () {
             me.isRtlSheet = me.api ? Common.UI.isRTL() : false;
 
             if (me.chartProps) {
+                me._XY = undefined;
+                me.checkEditorOffsets();
                 var x = asc_CRect.asc_getX(),
                     y = asc_CRect.asc_getY(),
                     width = asc_CRect.asc_getWidth(),
@@ -3065,7 +3067,7 @@ define([], function () {
                     btnWidth = 50,
                     leftSide = x - 42,
                     rightSide = x + width + 7,
-                    windowWidth = $('#editor-container').width() || $(window).width();
+                    windowWidth = me._Width || 0;
                    
                 if (me.isRtlSheet) {
                     if (leftSide >= 0) {

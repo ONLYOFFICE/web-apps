@@ -1243,13 +1243,15 @@ define([], function () {
             me.isRtlSheet = me.api ? Common.UI.isRTL() : false;
 
             if (me.chartProps) {
+                me._XY = undefined;
+                me.checkEditorOffsets();
                 var x = asc_CRect.asc_getX(),
                     y = asc_CRect.asc_getY(),
                     width = asc_CRect.asc_getWidth(),
                     btn,
                     btnTop = y - 28,
                     btnWidth = 50,
-                    windowWidth = $('#editor-container').width() || $(window).width(),
+                    windowWidth = me._Width || 0,
                     leftSide = x - 60,
                     rightSide = x + width - 10;
 
