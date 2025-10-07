@@ -796,6 +796,13 @@ define([
             }
             if (!value) {
                 Common.UI.TooltipManager.closeTip('chartElements');
+                if (this.mode && this.mode.isPDFForm) {
+                    Common.UI.TooltipManager.closeTip('formSigned');
+                    var rightmenu = this.getApplication().getController('RightMenu');
+                    if (rightmenu && rightmenu.rightmenu && rightmenu.rightmenu.signatureSettings) {
+                        rightmenu.rightmenu.signatureSettings.hideSignatureTooltip();
+                    }
+                }
             }
         },
 
