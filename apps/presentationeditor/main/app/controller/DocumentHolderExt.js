@@ -1201,6 +1201,25 @@ define([], function () {
             me.isRtlSheet = me.api ? Common.UI.isRTL() : false;
 
             if (me.chartProps) {
+                
+                if (!me.btnChartElement) {
+                    me.btnChartElement = new Common.UI.Button({
+                        parentEl: $('#id-document-holder-btn-chart-element'),
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-chart-elements',
+                        hint: me.documentHolder.btnChart,
+                        menu: me.documentHolder.menuChartElement.menu
+                    });
+        
+                    me.btnChartElement.on('click', function() {
+                        me.chartProps = me.getCurrentChartProps();
+                        if (me.chartProps) {
+                            me.updateChartElementMenu(me.documentHolder.menuChartElement.menu, me.chartProps);
+                        }
+                        Common.UI.TooltipManager.closeTip('chartElements');
+                    });
+                }
+
                 me._XY = undefined;
                 me.checkEditorOffsets();
                 var x = asc_CRect.asc_getX(),
@@ -1257,23 +1276,6 @@ define([], function () {
                     Common.UI.TooltipManager.applyPlacement('chartElements');
                 }, 100);
         
-                if (!me.btnChartElement) {
-                    me.btnChartElement = new Common.UI.Button({
-                        parentEl: $('#id-document-holder-btn-chart-element'),
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-chart-elements',
-                        hint: me.documentHolder.btnChart,
-                        menu: me.documentHolder.menuChartElement.menu
-                    });
-        
-                    me.btnChartElement.on('click', function() {
-                        me.chartProps = me.getCurrentChartProps();
-                        if (me.chartProps) {
-                            me.updateChartElementMenu(me.documentHolder.menuChartElement.menu, me.chartProps);
-                        }
-                        Common.UI.TooltipManager.closeTip('chartElements');
-                    });
-                }
                  me.disableChartElementButton();
             } else {
                 chartContainer.hide();
