@@ -1284,6 +1284,7 @@ define([], function () {
                     var chartBottom = y + height;
                     if (chartBottom < 45) { 
                         chartContainer.hide();
+                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 }

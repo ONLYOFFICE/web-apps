@@ -3903,6 +3903,7 @@ define([], function () {
                         btnLeft = rightSide; 
                     } else {
                         chartContainer.hide();
+                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 } else if (me.isRtl) {
@@ -3912,6 +3913,7 @@ define([], function () {
                         btnLeft = rightSide; 
                     } else {
                         chartContainer.hide();
+                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 } else {
@@ -3921,6 +3923,7 @@ define([], function () {
                         btnLeft = leftSide + 18; 
                     } else {
                         chartContainer.hide();
+                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 }
@@ -3931,6 +3934,7 @@ define([], function () {
                     var chartBottom = y + height;
                     if (chartBottom < 40) { 
                         chartContainer.hide();
+                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 }

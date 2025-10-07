@@ -1243,6 +1243,7 @@ define([], function () {
                     var chartBottom = y + height;
                     if (chartBottom < 20) { 
                         chartContainer.hide();
+                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 }
