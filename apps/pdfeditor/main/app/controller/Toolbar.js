@@ -360,7 +360,6 @@ define([
             toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
             toolbar.btnColumns.menu.on('show:before',                   _.bind(this.onBeforeColumns, this));
             toolbar.btnTextDir.menu.on('item:click',                    _.bind(this.onTextDirClick, this));
-            toolbar.btnTextDir.menu.on('show:after',                    _.bind(this.onTextDirShowAfter, this));
             toolbar.btnClearStyle.on('click',                           _.bind(this.onClearStyleClick, this));
             toolbar.btnShapeAlign.menu.on('item:click',                 _.bind(this.onShapeAlign, this));
             toolbar.btnShapeAlign.menu.on('show:before',                _.bind(this.onBeforeShapeAlign, this));
@@ -2726,9 +2725,6 @@ define([
         onTextDirClick: function(menu, item) {
             this.api && this.api.asc_setRtlTextDirection(!!item.value);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onTextDirShowAfter: function(menu, item) {
         },
 
         onApiTextDirection: function (isRtl){

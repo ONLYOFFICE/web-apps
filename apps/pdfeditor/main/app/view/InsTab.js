@@ -540,6 +540,9 @@ define([
                     menu.off('show:before', onShowBeforeSmartArt);
                 };
                 this.btnInsertSmartArt.menu.on('show:before', onShowBeforeSmartArt);
+                this.btnInsertSmartArt.menu.on('show:before', function() {
+                    Common.UI.TooltipManager.closeTip('pdfCharts');
+                });
 
                 var onShowBeforeTextArt = function (menu) {
                     var collection = PDFE.getCollection('Common.Collections.TextArt');
