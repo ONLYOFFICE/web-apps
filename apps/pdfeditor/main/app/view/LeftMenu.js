@@ -370,7 +370,7 @@ define([
                 if ( !this.menuFile.isVisible() ) {
                     // this.btnFile.toggle(true);
                 }
-                this.menuFile.show(re[2].length ? re[2] : undefined, opts);
+                this.menuFile.show(re[2].length ? re[2] : undefined, opts, re[2].length ? true : false);
             } else {
                 /** coauthoring begin **/
                 if (menu == 'chat') {

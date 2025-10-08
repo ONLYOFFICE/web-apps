@@ -363,7 +363,7 @@ define([
             return this;
         },
 
-        show: function(panel, opts) {
+        show: function(panel, opts, fromHotkeys) {
             if (this.isVisible() && panel===undefined || !this.mode || !Common.Controllers.LaunchController.isScriptLoaded()) return;
 
             if ( !this.rendered )
@@ -377,7 +377,9 @@ define([
             this.selectMenu(panel, opts, defPanel);
             this.api && this.api.asc_enableKeyEvents(false);
 
-            this.fireEvent('menu:show', [this]);
+            if (fromHotkeys) {
+                this.fireEvent('menu:show', [this]);
+            }
         },
 
         hide: function() {
