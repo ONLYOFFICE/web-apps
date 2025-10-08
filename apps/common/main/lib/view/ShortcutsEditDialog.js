@@ -30,7 +30,7 @@
  *
  */
 /**
- *  ShortcutEditDialog.js
+ *  ShortcutsEditDialog.js
  *
  *  Created on 23/06/25
  *
@@ -40,7 +40,7 @@ define([
     'common/main/lib/view/AdvancedSettingsWindow',
 ], function () { 'use strict';
 
-    Common.Views.ShortcutEditDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
+    Common.Views.ShortcutsEditDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             height: 'auto',
             contentWidth: 268,
@@ -462,5 +462,5 @@ define([
         txtRestoreDescription: 'All shortcuts for action “%1” will be restored to deafult.',
         txtRestoreContinue: 'Do you want to continue?'
 
-    },  Common.Views.ShortcutEditDialog || {}))
+    },  Common.Views.ShortcutsEditDialog || {}))
 });

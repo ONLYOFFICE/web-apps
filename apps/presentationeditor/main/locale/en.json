@@ -1246,6 +1246,7 @@
   "Common.Views.ShortcutsDialog.txtRestoreToDefault": "Restore to default",
   "Common.Views.ShortcutsDialog.txtSearch": "Search",
   "Common.Views.ShortcutsDialog.txtTitle": "Keyboard Shortcuts",
+  "Common.Views.ShortcutsDialog.txtDescription": "Description",
   "Common.Views.ShortcutsEditDialog.txtAction": "Action",
   "Common.Views.ShortcutsEditDialog.txtInputPlaceholder": "Type desired shortcut",
   "Common.Views.ShortcutsEditDialog.txtInputWarnMany": "The shortcut used by actions %1",
