@@ -1396,6 +1396,13 @@ define([], function () {
                                 menuAlign: 'tl-tr',
                                 items: [
                                     { 
+                                        caption: me.textNone, 
+                                        value: 'NoneLegend',
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend',  
+                                        checkable: true
+                                    },
+                                    { 
                                         caption: _СhartSettingsDlg_view.textTop, 
                                         value: 'TopLegend',
                                         stopPropagation: true,

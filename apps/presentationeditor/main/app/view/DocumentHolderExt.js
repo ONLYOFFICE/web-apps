@@ -1380,6 +1380,13 @@ define([], function () {
                                 menuAlign: 'tl-tr',
                                 items: [
                                     { 
+                                        caption: me.textNone, 
+                                        value: 'NoneLegend',
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend',  
+                                        checkable: true
+                                    },
+                                    { 
                                         caption: me.textTop, 
                                         value: 'TopLegend',
                                         stopPropagation: true,
