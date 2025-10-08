@@ -58,7 +58,7 @@ define([
                     '</div>',
                     '<div id="actions-list"></div>',
                     '<div id="action-description">',
-                        '<b>Description: </b>',
+                        '<b><%= scope.txtDescription %>: </b>',
                         '<span id="action-description-text"></span>',
                     '</div>'
                 ].join(''))({scope: this}),
@@ -246,6 +246,7 @@ define([
         },
 
         txtTitle: 'Keyboard Shortcuts',
+        txtDescription: 'Description',
         txtEmpty: 'No matches found. Adjust your search.',
         txtSearch: 'Search',
         txtRestoreAll: 'Restore All to Defaults',
