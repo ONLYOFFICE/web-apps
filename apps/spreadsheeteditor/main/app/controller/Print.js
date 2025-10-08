@@ -406,7 +406,7 @@ define([
             this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
 
             this.fillPrintOptions(this.adjPrintParams, false);
-            this.adjPrintParams.asc_setActiveSheetsArray(this.printSettings.getRange() === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
+            this.adjPrintParams.asc_setActiveSheetsArray(this.printSettings.getRange() === Asc.c_oAscPrintType.Selection || this.printSettings.getRange() === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
 
             var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
             opts.asc_setAdvancedOptions(this.adjPrintParams);
@@ -481,7 +481,7 @@ define([
                 this.adjPrintParams.asc_setPrintType(printtype);
                 this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
                 this.adjPrintParams.asc_setIgnorePrintArea(this.printSettingsDlg.getIgnorePrintArea());
-                this.adjPrintParams.asc_setActiveSheetsArray(printtype === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
+                this.adjPrintParams.asc_setActiveSheetsArray(printtype === Asc.c_oAscPrintType.Selection || printtype === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
                 var pageFrom = this.printSettingsDlg.getPagesFrom(),
                     pageTo = this.printSettingsDlg.getPagesTo();
                 if (pageFrom > pageTo) {
@@ -538,7 +538,7 @@ define([
             this.adjPrintParams.asc_setPrintType(printType);
             this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
             this.adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
-            this.adjPrintParams.asc_setActiveSheetsArray(printType === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
+            this.adjPrintParams.asc_setActiveSheetsArray(printType === Asc.c_oAscPrintType.Selection || printType === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
             var pageFrom = this.printSettings.getPagesFrom(),
                 pageTo = this.printSettings.getPagesTo();
             if (pageFrom > pageTo) {
@@ -967,7 +967,7 @@ define([
                 adjPrintParams.asc_setPrintType(printType);
                 adjPrintParams.asc_setPageOptionsMap(this._changedProps);
                 adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
-                adjPrintParams.asc_setActiveSheetsArray(printType === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
+                adjPrintParams.asc_setActiveSheetsArray(printType === Asc.c_oAscPrintType.Selection || printType === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
                 var pageFrom = this.printSettings.getPagesFrom(),
                     pageTo = this.printSettings.getPagesTo();
                 if (pageFrom > pageTo) {
