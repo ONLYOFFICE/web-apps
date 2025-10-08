@@ -911,39 +911,30 @@ define([], function () {
                     chartProps.setDisplayChartTitle(true, true); 
                     break;    
                 case 'CenterData':
-                    if (chartProps.getDataLabelsPos() === 0) chartProps.setDisplayDataLabels(false, false);
                     chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.ctr); 
                     break;
                 case 'InnerBottomData':
-                    if (chartProps.getDataLabelsPos() === 0)  chartProps.setDisplayDataLabels(false, false);
                     chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.inBase); 
                     break;
                 case 'InnerTopData':
-                    if (chartProps.getDataLabelsPos() === 0) chartProps.setDisplayDataLabels(false, false);
                     chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.inEnd); 
                     break;            
                 case 'OuterTopData':
-                    if (chartProps.getDataLabelsPos() === 0) chartProps.setDisplayDataLabels(false, false);
                     chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.outEnd); 
                     break;
                 case 'TopData':
-                    if (chartProps.getDataLabelsPos() === 0) chartProps.setDisplayDataLabels(false, false);
                     chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.t); 
                     break;
                 case 'LeftData':
-                    if (chartProps.getDataLabelsPos() === 0) chartProps.setDisplayDataLabels(false, false);
                     chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.l); 
                     break;
                 case 'RightData':
-                    if (chartProps.getDataLabelsPos() === 0) chartProps.setDisplayDataLabels(false, false);
                     chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.r); 
                     break;
                 case 'BottomData':
-                    if (chartProps.getDataLabelsPos() === 0) chartProps.setDisplayDataLabels(false, false);
                     chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.b); 
                     break; 
                 case 'FitWidthData':
-                    if (chartProps.getDataLabelsPos() === 0) chartProps.setDisplayDataLabels(false, false);
                     chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.bestFit); 
                     break;        
                 case 'bShowDataLabels':
@@ -1210,7 +1201,7 @@ define([], function () {
             me.isRtlSheet = me.api ? Common.UI.isRTL() : false;
 
             if (me.chartProps) {
-
+                
                 if (!me.btnChartElement) {
                     me.btnChartElement = new Common.UI.Button({
                         parentEl: $('#id-document-holder-btn-chart-element'),
