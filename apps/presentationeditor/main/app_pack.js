@@ -31,7 +31,7 @@ require([
     'common/main/lib/view/MacrosDialog',
     'common/main/lib/view/MacrosAiDialog',
     'common/main/lib/view/ShortcutsDialog',
-    'common/main/lib/view/ShortcutEditDialog',
+    'common/main/lib/view/ShortcutsEditDialog',
     'common/main/lib/component/MonacoEditor',
     'common/main/lib/component/TextareaField',
 

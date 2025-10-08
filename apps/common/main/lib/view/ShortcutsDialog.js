@@ -130,7 +130,7 @@ define([
 
             Common.NotificationCenter.on('shortcuts:update', _.bind(function() {
                 this._setDefaults();
-                this.shortcutEditDialog && this.shortcutEditDialog.renderShortcutsWarning();
+                this.shortcutsEditDialog && this.shortcutsEditDialog.renderShortcutsWarning();
             }, this));
             this._setDefaults();
         },
@@ -199,12 +199,12 @@ define([
             
             const me = this;
 
-            this.shortcutEditDialog = new Common.Views.ShortcutEditDialog({
+            this.shortcutsEditDialog = new Common.Views.ShortcutsEditDialog({
                 action: record.get('action')
             });
-            this.shortcutEditDialog.show();
-            this.shortcutEditDialog.on('close', function() {
-                me.shortcutEditDialog = null;
+            this.shortcutsEditDialog.show();
+            this.shortcutsEditDialog.on('close', function() {
+                me.shortcutsEditDialog = null;
                 me.actionsList.focus();
             });
         },
