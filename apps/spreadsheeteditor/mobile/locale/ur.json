@@ -378,7 +378,8 @@
     "uploadDocSizeMessage": "دستاویز کے سائز کی زیادہ سے زیادہ حد سے تجاوز کر گیا۔",
     "uploadImageExtMessage": "نامعلوم تصویر کا فارمیٹ۔",
     "uploadImageFileCountMessage": "کوئ تصاویر اپلوڈ نہیں کی گیئں",
-    "uploadImageSizeMessage": " تصویر بہت بڑی ہے۔ زیادہ سے زیادہ سائز ہے  پچیس ایم بی "
+    "uploadImageSizeMessage": " تصویر بہت بڑی ہے۔ زیادہ سے زیادہ سائز ہے  پچیس ایم بی ",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled."
   },
   "LongActions": {
     "advDRMPassword": "پاس ورڈ",

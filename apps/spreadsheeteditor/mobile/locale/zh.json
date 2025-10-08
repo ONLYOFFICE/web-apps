@@ -321,6 +321,7 @@
     "errorLockedAll": "由于工作表被其他用户锁定，因此无法进行操作。",
     "errorLockedCellPivot": "您不能更改数据透视表中的数据。",
     "errorLockedWorksheetRename": "此时由于其他用户重命名该表单，因此无法重命名该表",
+    "errorMacroUnavailableWarning": "无法运行%1宏。该宏可能在此工作簿中不可用，或所有宏已被禁用。",
     "errorMaxPoints": "每个图表的最大串联点数为4096。",
     "errorMaxRows": "错误！每个图表的最大数据系列数为255。",
     "errorMoveRange": "无法更改合并单元格内的一部分",

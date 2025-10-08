@@ -1735,9 +1735,6 @@
   "DE.Controllers.Toolbar.dataUrl": "ڈیٹا URL چسپاں کریں۔",
   "DE.Controllers.Toolbar.errorAccessDeny": "آپ ایک ایسی کارروائی کرنے کی کوشش کر رہے ہیں جس کا آپ کو حق نہیں ہے۔ براہ کرم اپنے دستاویز سرور کے منتظم سے رابطہ کریں۔",
   "DE.Controllers.Toolbar.fileUrl": "فائل کا URL چسپاں کریں۔",
-  "DE.Controllers.Toolbar.helpModernTheme": "ایک نیا بصری تھیم شامل کیا گیا ہے۔ آپ انٹرفیس کی ظاہری شکل کو اپ ڈیٹ کرنے کے لیے ویو سیٹنگز میں اسے فعال کر سکتے ہیں۔",
-  "DE.Controllers.Toolbar.helpModernThemeHeader": "انٹرفیس تھیم",
-  "DE.Controllers.Toolbar.helpOldTheme": "آپ ترتیبات میں کسی بھی وقت سابقہ ​​تھیم پر واپس جا سکتے ہیں۔",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "انتباہ",
   "DE.Controllers.Toolbar.textAccent": "لہجے",
   "DE.Controllers.Toolbar.textBracket": "بریکٹ",
@@ -4273,5 +4270,12 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "نیم شفاف",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "لکیر",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "فونٹ کا نام",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "فونٹ کا سائز"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "فونٹ کا سائز",
+  "Common.Views.ShortcutsDialog.txtDescription": "Description",
+  "DE.Controllers.Toolbar.helpChartElements": "Easily toggle the visibility of chart elements with several clicks.",
+  "DE.Controllers.Toolbar.helpChartElementsHeader": "Chart elements display",
+  "DE.Controllers.Toolbar.helpCommentFilter": "Manage your view by toggling between open and resolved comments in the left panel.",
+  "DE.Controllers.Toolbar.helpCommentFilterHeader": "Comment filters",
+  "DE.Views.DocumentHolder.textLeftOverlay": "Left overlay",
+  "DE.Views.DocumentHolder.textLeftPos": "Left"
 }

@@ -321,6 +321,7 @@
     "errorLockedAll": "Operacioni nuk mund të kryhet pasi fleta është bllokuar nga një përdorues tjetër.",
     "errorLockedCellPivot": "Ju nuk mund të ndryshoni të dhënat brenda një tabele kryesore.",
     "errorLockedWorksheetRename": "Fleta nuk mund të riemërohet për momentin pasi nuk është duke u riemëruar nga një përdorues tjetër.",
+    "errorMacroUnavailableWarning": "Nuk mund të ekyekutohet makroja %1. Makroja mund të mës jetë e disponueshme në këtë libër pune ose të gjitha makrot mund të jenë të çaktivizuar.",
     "errorMaxPoints": "Numri maksimal i pikëve në seri për grafik është 4096",
     "errorMaxRows": "GABIM! Numri maksimal i serive të të dhënave për grafik është 255.",
     "errorMoveRange": "Nuk mund të ndryshohet një pjesë e një qelize të bashkuar",

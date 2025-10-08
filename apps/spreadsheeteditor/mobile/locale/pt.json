@@ -321,6 +321,7 @@
     "errorLockedAll": "A operação não pode ser concluída uma vez que a folha foi bloqueada por outro usuário.",
     "errorLockedCellPivot": "Você não pode alterar a data em uma tabela dinâmica.",
     "errorLockedWorksheetRename": "A folha não pode ser renomeada no momento uma vez que está sendo renomeada por outro usuário",
+    "errorMacroUnavailableWarning": "Não é possível executar a macro %1. A macro pode não estar disponível nesta pasta de trabalho ou todas as macros podem estar desabilitadas.",
     "errorMaxPoints": "O máximo número de pontos em séries por gráfico é 4096.",
     "errorMaxRows": "ERRO! O número máximo de séries de dado por gráfico é 255.",
     "errorMoveRange": "Não é possível alterar uma parte de uma célula mesclada",

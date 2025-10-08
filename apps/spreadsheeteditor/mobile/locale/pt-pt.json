@@ -369,6 +369,7 @@
     "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
     "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
     "errorLabledColumnsPivot": "To create a pivot table report, you must use data that is organized as a list with labeled columns.",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled.",
     "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
     "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorPrecedentsNoValidRef": "The Trace Precedents command requires that the active cell contain a formula which includes a valid references.",

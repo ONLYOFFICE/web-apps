@@ -378,7 +378,8 @@
     "uploadDocSizeMessage": "최대 문서 크기 제한을 초과했습니다.",
     "uploadImageExtMessage": "알수 없는 이미지 형식입니다.",
     "uploadImageFileCountMessage": "이미지가 업로드되지 않았습니다.",
-    "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다."
+    "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다.",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled."
   },
   "LongActions": {
     "advDRMPassword": "암호",

@@ -378,7 +378,8 @@
     "uploadDocSizeMessage": "Il limite massimo delle dimensioni del documento è stato superato.",
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
-    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB."
+    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled."
   },
   "LongActions": {
     "advDRMPassword": "Password",

@@ -164,7 +164,7 @@
   "Common.Views.ShortcutsDialog.txtRestoreAll": "Επαναφορά όλων στις προεπιλογές",
   "Common.Views.ShortcutsDialog.txtRestoreContinue": "Θέλετε να συνεχίσετε;",
   "Common.Views.ShortcutsDialog.txtRestoreDescription": "Όλες οι ρυθμίσεις συντομεύσεων θα επανέλθουν στις προεπιλεγμένες.",
-  "Common.Views.ShortcutsDialog.txtRestoreToDefault": "Επαναφορά σε προεπιλογή",
+  "Common.Views.ShortcutsDialog.txtRestoreToDefault": "Επαναφορά στην προεπιλογή",
   "Common.Views.ShortcutsDialog.txtSearch": "Αναζήτηση",
   "Common.Views.ShortcutsDialog.txtTitle": "Συντομεύσεις πληκτρολογίου",
   "Common.Views.ShortcutsEditDialog.txtAction": "Ενέργεια",
@@ -176,7 +176,7 @@
   "Common.Views.ShortcutsEditDialog.txtNewShortcut": "Νέα συντόμευση",
   "Common.Views.ShortcutsEditDialog.txtRestoreContinue": "Θέλετε να συνεχίσετε;",
   "Common.Views.ShortcutsEditDialog.txtRestoreDescription": "Όλες οι συντομεύσεις για τη δράση \"%1\" θα αποκατασταθούν στην προεπιλογή.",
-  "Common.Views.ShortcutsEditDialog.txtRestoreToDefault": "Επαναφορά σε προεπιλογή",
+  "Common.Views.ShortcutsEditDialog.txtRestoreToDefault": "Επαναφορά στην προεπιλογή",
   "Common.Views.ShortcutsEditDialog.txtTitle": "Επεξεργασία συντόμευσης",
   "Common.Views.ShortcutsEditDialog.txtTypeDesiredShortcut": "Πληκτρολογήστε την επιθυμητή συντόμευση",
   "Common.Views.UserNameDialog.textDontShow": "Να μην ερωτηθώ ξανά",
@@ -447,5 +447,6 @@
   "VE.Views.ViewTab.textZoom": "Εστίαση",
   "VE.Views.ViewTab.tipFitPage": "Προσαρμογή στη σελίδα",
   "VE.Views.ViewTab.tipFitWidth": "Προσαρμογή στο πλάτος",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής",
+  "Common.Views.ShortcutsDialog.txtDescription": "Description"
 }

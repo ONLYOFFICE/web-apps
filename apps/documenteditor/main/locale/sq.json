@@ -1735,9 +1735,10 @@
   "DE.Controllers.Toolbar.dataUrl": "Ngjit një URL të dhënash",
   "DE.Controllers.Toolbar.errorAccessDeny": "Ju po përpiqeni të kryeni një veprim për të cilin nuk keni të drejta.<br>Ju lutem, kontaktoni administratorin e serverit të dokumenteve. ",
   "DE.Controllers.Toolbar.fileUrl": "Ngjitni një skedar URL",
-  "DE.Controllers.Toolbar.helpModernTheme": "Është shtuar nje temë e re vizuale. Mund ta aktivizoni në cilësimet e pamjes për të përditësuar pamjen e ndërfaqes.",
-  "DE.Controllers.Toolbar.helpModernThemeHeader": "Temë e ndërfaqes",
-  "DE.Controllers.Toolbar.helpOldTheme": "Mund të ktheheni në temën e mëparshme në çdo kohë te cilësimet.",
+  "DE.Controllers.Toolbar.helpChartElements": "Aktiviyoni lehtësisht dukshmërine e elementëve të grafikut me disa klikime.",
+  "DE.Controllers.Toolbar.helpChartElementsHeader": "Shfaqja e elementeve të grafikut",
+  "DE.Controllers.Toolbar.helpCommentFilter": "Menaxhoni pamjen tënde duke kaluar midis komenteve të hapura dhe të zgjidhura në panelin e majtë.",
+  "DE.Controllers.Toolbar.helpCommentFilterHeader": "Filtrat e komenteve",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Paralajmërim",
   "DE.Controllers.Toolbar.textAccent": "Akcente",
   "DE.Controllers.Toolbar.textBracket": "Kllapa",
@@ -2402,6 +2403,8 @@
   "DE.Views.DocumentHolder.textJoinList": "Bashkoju listës së mëparshme",
   "DE.Views.DocumentHolder.textLeft": "Zhvendos qelizat majtas",
   "DE.Views.DocumentHolder.textLeftData": "Majtas",
+  "DE.Views.DocumentHolder.textLeftOverlay": "Mbivendosja e majtë",
+  "DE.Views.DocumentHolder.textLeftPos": "Majtas",
   "DE.Views.DocumentHolder.textLegendPos": "Legjenda",
   "DE.Views.DocumentHolder.textLinear": "Linear",
   "DE.Views.DocumentHolder.textLinearForecast": "Parashikimi linear",
@@ -4273,5 +4276,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Gjysmë transparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Nënvizim",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Emri i fontit",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Madhësia e fontit"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Madhësia e fontit",
+  "Common.Views.ShortcutsDialog.txtDescription": "Description"
 }

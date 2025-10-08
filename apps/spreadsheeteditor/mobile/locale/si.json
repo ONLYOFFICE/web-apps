@@ -378,6 +378,7 @@
     "uploadImageFileCountMessage": "රූප කිසිවක් උඩුගත කර නැත.",
     "uploadImageSizeMessage": "රූපය ඉතා විශාලයි. උපරිම ප්‍රමාණය මෙ.බ. 25 කි.",
     "errorDependentsNoFormulas": "The Trace Dependents command found no formulas that refer to the active cell.",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled.",
     "errorPrecedentsNoValidRef": "The Trace Precedents command requires that the active cell contain a formula which includes a valid references."
   },
   "LongActions": {

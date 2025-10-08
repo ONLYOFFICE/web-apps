@@ -160,6 +160,7 @@
   "Common.Views.SearchPanel.tipPreviousResult": "Предыдущий результат",
   "Common.Views.SelectFileDlg.textLoading": "Загрузка",
   "Common.Views.SelectFileDlg.textTitle": "Выбрать источник данных",
+  "Common.Views.ShortcutsDialog.txtDescription": "Описание",
   "Common.Views.ShortcutsDialog.txtEmpty": "Совпадений не найдено. Измените условия поиска.",
   "Common.Views.ShortcutsDialog.txtRestoreAll": "Восстановить все настройки по умолчанию",
   "Common.Views.ShortcutsDialog.txtRestoreContinue": "Хотите продолжить?",

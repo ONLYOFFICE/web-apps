@@ -378,7 +378,8 @@
     "uploadImageExtMessage": "פורמט תמונה לא ידוע.",
     "uploadImageFileCountMessage": "לא הועלו תמונות.",
     "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled."
   },
   "LongActions": {
     "advDRMPassword": "סיסמה",

@@ -378,7 +378,8 @@
     "uploadImageExtMessage": "امتداد صورة غير معروف",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
     "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled."
   },
   "LongActions": {
     "advDRMPassword": "كملة السر",

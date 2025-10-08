@@ -378,7 +378,8 @@
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
     "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled."
   },
   "LongActions": {
     "advDRMPassword": "Kata Sandi",

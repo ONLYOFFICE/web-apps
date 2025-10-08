@@ -321,6 +321,7 @@
     "errorLockedAll": "Operacija nije mogla biti ispunjena zato što je list zaključan od strane drugog korisnika.",
     "errorLockedCellPivot": "Ne možete promeniti podatke unutar pivot tabele.",
     "errorLockedWorksheetRename": "List ne može biti preimenovan u ovom trenutku zato što se preimenuje od strane drugog korisnika",
+    "errorMacroUnavailableWarning": "Nije moguće pokrenuti makro %1. Makro možda nije dostupan u ovoj radnoj svesci ili su svi makroi onemogućeni.",
     "errorMaxPoints": "Maksimalan broj tačaka u serijama po grafikonu je 4096.",
     "errorMaxRows": "GREŠKA! Maksimalan broj serije podataka po grafikonu je 255.",
     "errorMoveRange": "Ne može se promeniti deo spojene ćelije",

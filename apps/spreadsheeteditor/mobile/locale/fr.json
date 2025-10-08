@@ -321,6 +321,7 @@
     "errorLockedAll": "L'opération ne peut pas être réalisée car la feuille a été verrouillée par un autre utilisateur.",
     "errorLockedCellPivot": "Impossible de modifier les données d'un tableau croisé dynamique.",
     "errorLockedWorksheetRename": "La feuille ne peut pas être renommée pour le moment car elle est en train d'être renommée par un autre utilisateur",
+    "errorMacroUnavailableWarning": "Impossible d'exécuter la macro %1. La macro n'est peut-être pas disponible dans ce classeur ou toutes les macros sont peut-être désactivées.",
     "errorMaxPoints": "Maximum de 4096 points en série par graphique.",
     "errorMaxRows": "ERREUR ! Le nombre maximal de séries de données par diagramme est 255.",
     "errorMoveRange": "Impossible de modifier une partie d'une cellule fusionnée",

@@ -321,6 +321,7 @@
     "errorLockedAll": "A műveletet nem lehetett végrehajtani, mivel a munkalapot egy másik felhasználó zárolta.",
     "errorLockedCellPivot": "Nem módosíthatja az adatokat a pivot táblázatban.",
     "errorLockedWorksheetRename": "Jelenleg a lapot nem lehet átnevezni, mert egy másik felhasználó már átnevezte",
+    "errorMacroUnavailableWarning": "A(z) %1 makró nem futtatható. Lehetséges, hogy a makró nem érhető el ebben a munkafüzetben, vagy az összes makró le van tiltva.",
     "errorMaxPoints": "A soronkénti maximális pontszám diagramonként 4096.",
     "errorMaxRows": "HIBA! Az adatsorok maximális száma diagramonként 255.",
     "errorMoveRange": "Az egyesített cella egy része nem módosítható",

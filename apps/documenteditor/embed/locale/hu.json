@@ -47,7 +47,7 @@
   "DE.ApplicationController.textOk": "OK",
   "DE.ApplicationController.textRequired": "Az űrlap elküldéséhez töltse ki az összes szükséges mezőt.",
   "DE.ApplicationController.textSubmit": "Beküldés",
-  "DE.ApplicationController.textSubmited": "<b>Az űrlap sikeresen elküldve</b><br>Kattintson a tipp bezárásához",
+  "DE.ApplicationController.textSubmited": "<b>Az űrlap sikeresen belküldve</b><br>Kattintson a tipp bezárásához",
   "DE.ApplicationController.titleLicenseExp": "Liszensz lejárt",
   "DE.ApplicationController.titleLicenseNotActive": "Liszensz nem aktív",
   "DE.ApplicationController.txtClose": "Bezárás",

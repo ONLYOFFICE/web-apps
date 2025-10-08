@@ -378,7 +378,8 @@
     "uploadImageSizeMessage": "圖片超出最大大小限制。最大大小為25MB。",
     "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorEmailClient": "No email client could be found",
-    "errorLabledColumnsPivot": "To create a pivot table report, you must use data that is organized as a list with labeled columns."
+    "errorLabledColumnsPivot": "To create a pivot table report, you must use data that is organized as a list with labeled columns.",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled."
   },
   "LongActions": {
     "advDRMPassword": "密碼",

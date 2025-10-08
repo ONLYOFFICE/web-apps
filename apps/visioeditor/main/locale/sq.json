@@ -447,5 +447,6 @@
   "VE.Views.ViewTab.textZoom": "Zmadhoj",
   "VE.Views.ViewTab.tipFitPage": "Përshtatet me faqen",
   "VE.Views.ViewTab.tipFitWidth": "Përshtatet me gjerësinë",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes",
+  "Common.Views.ShortcutsDialog.txtDescription": "Description"
 }

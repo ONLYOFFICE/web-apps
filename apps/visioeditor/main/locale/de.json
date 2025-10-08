@@ -160,6 +160,7 @@
   "Common.Views.SearchPanel.tipPreviousResult": "Vorheriges Ergebnis",
   "Common.Views.SelectFileDlg.textLoading": "Ladevorgang",
   "Common.Views.SelectFileDlg.textTitle": "Datenquelle auswählen",
+  "Common.Views.ShortcutsDialog.txtDescription": "Beschreibung",
   "Common.Views.ShortcutsDialog.txtEmpty": "Keine Übereinstimmungen gefunden. Passen Sie Ihre Suche an.",
   "Common.Views.ShortcutsDialog.txtRestoreAll": "Alles auf Standard zurücksetzen",
   "Common.Views.ShortcutsDialog.txtRestoreContinue": "Möchten Sie fortsetzen?",

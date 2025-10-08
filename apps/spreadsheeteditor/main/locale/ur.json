@@ -2030,11 +2030,6 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "چارٹ کے مطابق سیریز میں پوائنٹس کی زیادہ سے زیادہ تعداد ۴۰۹۶ ہے.",
   "SSE.Controllers.Toolbar.errorMaxRows": "غلطی! اس طرح کے عنوان کے ساتھ رینج پہلے سے موجود ہے۔",
   "SSE.Controllers.Toolbar.errorStockChart": "غلط صف آرڈر۔ اسٹاک چارٹ بنانے کے لئےڈیٹا کو درج ذیل ترتیب میں شیٹ پر رکھیں: قیمت ، زیادہ سے زیادہ قیمت ، کم سے کم قیمت ، اختتامی قیمت۔",
-  "SSE.Controllers.Toolbar.helpAsyncFunc": "اب آپ اپنے حسب ضرورت فنکشن میں غیر مطابقت پذیر منطق استعمال کر سکتے ہیں۔",
-  "SSE.Controllers.Toolbar.helpAsyncFuncHeader": "Async فنکشن",
-  "SSE.Controllers.Toolbar.helpModernTheme": "ایک نیا بصری تھیم شامل کیا گیا ہے۔ آپ انٹرفیس کی ظاہری شکل کو اپ ڈیٹ کرنے کے لیے ویو سیٹنگز میں اسے فعال کر سکتے ہیں۔",
-  "SSE.Controllers.Toolbar.helpModernThemeHeader": "انٹرفیس تھیم",
-  "SSE.Controllers.Toolbar.helpOldTheme": "آپ ترتیبات میں کسی بھی وقت سابقہ ​​تھیم پر واپس جا سکتے ہیں۔",
   "SSE.Controllers.Toolbar.textAccent": "لہجے",
   "SSE.Controllers.Toolbar.textBracket": "بریکٹ",
   "SSE.Controllers.Toolbar.textDirectional": "دشاتمک",
@@ -5123,5 +5118,15 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "شیٹ کو غیر محفوظ کرنے کے لیے پاس ورڈ درج کریں۔",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "غیر محفوظ شدہ شیٹ",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "ورک بک کو غیر محفوظ کرنے کے لیے پاس ورڈ درج کریں۔",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "ورک بک کو غیر محفوظ کریں۔"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "ورک بک کو غیر محفوظ کریں۔",
+  "Common.Views.ShortcutsDialog.txtDescription": "Description",
+  "SSE.Controllers.Main.errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled.",
+  "SSE.Controllers.Toolbar.helpChartElements": "Easily toggle the visibility of chart elements with several clicks.",
+  "SSE.Controllers.Toolbar.helpChartElementsHeader": "Chart elements display",
+  "SSE.Controllers.Toolbar.helpCommentFilter": "Manage your view by toggling between open and resolved comments in the left panel.",
+  "SSE.Controllers.Toolbar.helpCommentFilterHeader": "Comment filters",
+  "SSE.Controllers.Toolbar.helpRtlDir": "Adjust the text direction for cells to align with your content needs.",
+  "SSE.Controllers.Toolbar.helpRtlDirHeader": "Cell text direction",
+  "SSE.Controllers.Toolbar.helpTableTab": "Access all formatted table settings conveniently in the dedicated Table Design tab.",
+  "SSE.Controllers.Toolbar.helpTableTabHeader": "Table Design tab"
 }

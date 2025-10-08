@@ -777,6 +777,7 @@
     "errorLockedAll": "The operation could not be done as the sheet has been locked by another user.",
     "errorLockedCellPivot": "You cannot change data inside a pivot table.",
     "errorLockedWorksheetRename": "The sheet cannot be renamed at the moment as it is being renamed by another user",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled.",
     "errorMaxPoints": "The maximum number of points in series per chart is 4096.",
     "errorMaxRows": "ERROR! The maximum number of data series per chart is 255.",
     "errorMoveRange": "Cannot change a part of a merged cell",

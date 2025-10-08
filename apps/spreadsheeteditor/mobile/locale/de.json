@@ -321,6 +321,7 @@
     "errorLockedAll": "Die Operation kann nicht durchgeführt werden, weil das Blatt von einem anderen Benutzer gesperrt ist.",
     "errorLockedCellPivot": "Die Daten innerhalb einer Pivot-Tabelle können nicht geändert werden.",
     "errorLockedWorksheetRename": "Umbenennen des Blattes ist derzeit nicht möglich, denn es wird gleichzeitig von einem anderen Benutzer umbenannt.",
+    "errorMacroUnavailableWarning": "Das Makro %1 kann nicht ausgeführt werden. Das Makro ist in dieser Arbeitsmappe möglicherweise nicht verfügbar oder alle Makros sind deaktiviert.",
     "errorMaxPoints": "Die maximale Punktzahl pro eine Tabelle beträgt 4096 Punkte.",
     "errorMaxRows": "FEHLER! Maximale Anzahl an Datenreihen pro Diagramm ist 255.",
     "errorMoveRange": "Teil einer verbundenen Zelle kann nicht geändert werden",
