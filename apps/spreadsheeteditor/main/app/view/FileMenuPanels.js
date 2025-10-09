@@ -374,10 +374,10 @@ define([], function () {
                         '<div><div id="fms-cmb-macros"></div>',
                     '</td>',
                 '</tr>',
-                '<tr>',
-                    '<td><label><%= scope.strKeyboardShortcuts %><span class="new-hint"><%= Common.UI.SynchronizeTip.prototype.textNew.toUpperCase() %></span></label></td>',
-                    '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-keyboard-shortcuts" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomize %></button></div></td>',
-                '</tr>',
+                // '<tr>',
+                //     '<td><label><%= scope.strKeyboardShortcuts %><span class="new-hint"><%= Common.UI.SynchronizeTip.prototype.textNew.toUpperCase() %></span></label></td>',
+                //     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-keyboard-shortcuts" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomize %></button></div></td>',
+                // '</tr>',
                 '<tr class ="divider-group"></tr>',
                 '<tr>',
                     '<td class="group-name" colspan="2"><label><%= scope.strRegSettings %></label></td>',
@@ -800,10 +800,10 @@ define([], function () {
                 dataHintOffset: 'big'
             });
 
-            this.btnKeyboardMacros = new Common.UI.Button({
-                el: $markup.findById('#fms-btn-keyboard-shortcuts')
-            });
-            this.btnKeyboardMacros.on('click', _.bind(this.onClickKeyboardShortcut, this));
+            // this.btnKeyboardMacros = new Common.UI.Button({
+            //     el: $markup.findById('#fms-btn-keyboard-shortcuts')
+            // });
+            // this.btnKeyboardMacros.on('click', _.bind(this.onClickKeyboardShortcut, this));
 
             this.chPaste = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-paste-settings'),
@@ -1408,12 +1408,12 @@ define([], function () {
             this.dlgAutoCorrect.show();
         },
 
-        onClickKeyboardShortcut: function() {
-            const win = new Common.Views.ShortcutsDialog({
-                api: this.api
-            });
-            win.show();
-        },
+        // onClickKeyboardShortcut: function() {
+        //     const win = new Common.Views.ShortcutsDialog({
+        //         api: this.api
+        //     });
+        //     win.show();
+        // },
 
         SetDisabled: function(disabled) {
             if ( disabled ) {

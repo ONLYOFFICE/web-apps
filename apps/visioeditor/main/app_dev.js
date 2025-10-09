@@ -173,8 +173,8 @@ require([
                     'common/main/lib/view/PluginPanel',
                     'common/main/lib/view/DocumentHolderExt',
                     'common/main/lib/view/CustomizeQuickAccessDialog',
-                    'common/main/lib/view/ShortcutsDialog',
-                    'common/main/lib/view/ShortcutsEditDialog',
+                    // 'common/main/lib/view/ShortcutsDialog',
+                    // 'common/main/lib/view/ShortcutsEditDialog',
 
                     'visioeditor/main/app/view/FileMenuPanels',
                     'visioeditor/main/app/view/DocumentHolderExt'
