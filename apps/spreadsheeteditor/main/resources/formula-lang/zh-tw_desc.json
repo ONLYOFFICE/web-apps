@@ -496,7 +496,7 @@
 	},
 	"FINDB": {
 		"a": "( string-1; string-2; [start-pos] )",
-		"d": "Finds the specified substring (string-1) within a string (string-2) and is intended for languages the double-byte character set (DBCS) like Japanese, Chinese, Korean etc.",
+		"d": "在字串（字串 2）中尋找指定的子字串（字串 1），適用於日文、中文、韓文等雙位元組字元集（DBCS）語言。",
 		"ad": "is the text you want to find. Use double quotes (empty text) to match the first character in string-2; wildcard characters not allowed!is the text containing the text you want to find!specifies the character at which to start the search. The first character in string-2 is character number 1. If omitted, start-pos = 1"
 	},
 	"FIXED": {
@@ -511,7 +511,7 @@
 	},
 	"LEFTB": {
 		"a": "( string; [number-chars] )",
-		"d": "Extracts the substring from the specified string starting from the left character and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc.",
+		"d": "從指定字串的左側字元開始提取子字串，適用於使用雙位元組字元集 (DBCS) 的語言，如日文、中文、韓文等。",
 		"ad": "is the text string containing the characters you want to extract!specifies how many characters you want LEFTB to extract; 1 if omitted"
 	},
 	"LEN": {
@@ -521,7 +521,7 @@
 	},
 	"LENB": {
 		"a": "( string )",
-		"d": "Analyses the specified string and returns the number of characters it contains and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc.",
+		"d": "分析指定字串並回傳其所佔的位元組數，適用於使用雙位元字元集（DBCS）的語言，如日文、中文、韓文等。",
 		"ad": "is the text whose length you want to find. Spaces count as characters"
 	},
 	"LOWER": {
@@ -536,7 +536,7 @@
 	},
 	"MIDB": {
 		"a": "( string; start-pos; number-chars )",
-		"d": "Extracts the characters from the specified string starting from any position and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc.",
+		"d": "從指定字串的任意位置擷取位元組，適用於使用雙位元字元集（DBCS）語言，如日文、中文、韓文等。",
 		"ad": "is the text string from which you want to extract the characters!is the position of the first character you want to extract. The first character in String is 1!specifies how many characters to return from String"
 	},
 	"NUMBERVALUE": {
@@ -556,7 +556,7 @@
 	},
 	"REPLACEB": {
 		"a": "( string-1; start-pos; number-chars; string-2 )",
-		"d": "Replaces a set of characters, based on the number of characters and the start position you specify, with a new set of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc.",
+		"d": "依您指定的起始位置和位元組數，將一串字元替換為新的字元組，適用於使用雙位元字元集（DBCS）語言，如日文、中文、韓文等。",
 		"ad": "is text in which you want to replace some characters!is the position of the character in String-1 that you want to replace with String-2!is the number of characters in String-1 that you want to replace!is the text that will replace characters in String-1"
 	},
 	"REPT": {
@@ -571,7 +571,7 @@
 	},
 	"RIGHTB": {
 		"a": "( string; [number-chars] )",
-		"d": "Extracts a substring from a string starting from the right-most character, based on the specified number of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc.",
+		"d": "根據指定的字元數，從最右邊的字元開始從字串中提取子字串，適用於使用雙位元組字元集 (DBCS) 的語言，如日文、中文、韓文等。",
 		"ad": "is the text string that contains the characters you want to extract!specifies how many characters you want to extract, 1 if omitted"
 	},
 	"SEARCH": {
@@ -581,7 +581,7 @@
 	},
 	"SEARCHB": {
 		"a": "( string-1; string-2; [start-pos] )",
-		"d": "Returns the location of the specified substring in a string and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc.",
+		"d": "回傳指定子字串在字串中的位元組位置，適用於使用雙位元字元集（DBCS）語言，如日文、中文、韓文等。",
 		"ad": "is the text you want to find. You can use the ? and * wildcard characters; use ~? and ~* to find the ? and * characters!is the text in which you want to search for String-1!is the character number in String-2, counting from the left, at which you want to start searching. If omitted, 1 is used"
 	},
 	"SUBSTITUTE": {
@@ -881,12 +881,12 @@
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(values; timeline; [data_completion]; [aggregation])",
-		"d": "Returns the length of the repetitive pattern an application detects for the specified time series.",
+		"d": "回傳應用程式偵測指定時間序列資料之重複模式的長度。",
 		"ad": "is the array or range of numeric data you're predicting.!is the independent array or range of numeric data. The dates in the timeline must have a consistent step between them and can't be zero.!is an optional value for handling missing values. The default value of 1 replaces missing values by interpolation, and 0 replaces them with zeros.!is an optional numeric value for aggregating multiple values with the same time stamp. If blank, Spreadsheet Editor averages the values."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(values; timeline; statistic_type; [seasonality]; [data_completion]; [aggregation])",
-		"d": "Returns the requested statistic for the forecast.",
+		"d": "回傳預測所需的統計值。",
 		"ad": "is the array or range of numeric data you're predicting.!is the independent array or range of numeric data. The dates in the timeline must have a consistent step between them and can't be zero.!is a number between 1 and 8, indicating which statistic Spreadsheet Editor will return for the calculated forecast.!is an optional numeric value that indicates the length of the seasonal pattern. The default value of 1 indicates seasonality is detected automatically.!is an optional value for handling missing values. The default value of 1 replaces missing values by interpolation, and 0 replaces them with zeros.!is an optional numeric value for aggregating multiple values with the same time stamp. If blank, Spreadsheet Editor averages the values."
 	},
 	"FORECAST.LINEAR": {
@@ -1386,7 +1386,7 @@
 	},
 	"AMORDEGRC": {
 		"a": "(cost; date_purchased; first_period; salvage; period; rate; [basis])",
-		"d": "Returns the prorated linear depreciation of an asset for each accounting period.",
+		"d": "回傳資產在各會計期間的按比例線性折舊額。",
 		"ad": "is the cost of the asset!is the date the asset is purchased!is the date of the end of the first period!is the salvage value at the end of life of the asset.!is the period!is the rate of depreciation!year_basis : 0 for year of 360 days, 1 for actual, 3 for year of 365 days."
 	},
 	"AMORLINC": {
@@ -1686,7 +1686,7 @@
 	},
 	"ASC": {
 		"a": "( text )",
-		"d": "For Double-byte character set (DBCS) languages, the function changes full-width (double-byte) characters to half-width (single-byte) characters",
+		"d": "針對雙位元字元集（DBCS）語言，將全形（雙位元）字元轉換為半形（單位元）字元。",
 		"ad": "is the text you want to change. If text does not contain any full-width letters, text is not changed."
 	},
 	"ASIN": {
@@ -1731,7 +1731,7 @@
 	},
 	"CEILING.PRECISE": {
 		"a": "( x; [significance] )",
-		"d": "Returns a number that is rounded up to the nearest integer or to the nearest multiple of significance",
+		"d": "回傳將數值向上取整至最接近的整數或指定倍數後的結果。",
 		"ad": "is the value you want to round!is the multiple to which you want to round"
 	},
 	"COMBIN": {
@@ -1786,7 +1786,7 @@
 	},
 	"ECMA.CEILING": {
 		"a": "( x; significance )",
-		"d": "Rounds the number up to the nearest multiple of significance",
+		"d": "將數值向上取整至指定的倍數。",
 		"ad": "is the value you want to round!is the multiple to which you want to round"
 	},
 	"EVEN": {
@@ -1816,7 +1816,7 @@
 	},
 	"FLOOR.PRECISE": {
 		"a": "( x; [significance] )",
-		"d": "Returns a number that is rounded down to the nearest integer or to the nearest multiple of significance",
+		"d": "回傳將數值向下取整至最接近的整數或指定倍數後的結果。",
 		"ad": "is the value you want to round!is the multiple to which you want to round"
 	},
 	"FLOOR.MATH": {
@@ -1836,7 +1836,7 @@
 	},
 	"ISO.CEILING": {
 		"a": "( number; [significance] )",
-		"d": "Returns a number that is rounded up to the nearest integer or to the nearest multiple of significance regardless of the sign of the number. However, if the number or the significance is zero, zero is returned.",
+		"d": "不論數值正負，回傳將數值向上取整至最接近的整數或指定倍數的結果。如數值或指定倍數為零則回傳零。",
 		"ad": "is the value you want to round!is the multiple to which you want to round"
 	},
 	"LCM": {
@@ -2151,7 +2151,7 @@
 	},
 	"CELL": {
 		"a": "(info_type; [reference])",
-		"d": "Returns information about the formatting, location, or contents of a cell",
+		"d": "回傳儲存格的格式、位置或內容資訊。",
 		"ad": "is a text value that specifies what type of cell information you want to return!the cell that you want information about"
 	},
 	"ERROR.TYPE": {
@@ -2406,7 +2406,7 @@
 	},
 	"IMPORTRANGE": {
 		"a": "(spreadsheet_url, range_string)",
-		"d": "Imports a range of cells from a specified spreadsheet.",
+		"d": "從指定的試算表匯入儲存格範圍。",
 		"ad": "is the URL of the spreadsheet from where data will be imported!is the range to import"
 	}
 }

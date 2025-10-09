@@ -3665,47 +3665,26 @@ define([], function () {
                     }else 
                         chartProps.setDisplayGridlines(VertMajorGridlines, HorMajorGridlines, VertMinorGridlines, item.checked);
                     break;
+                case 'NoneLegend':
+                        chartProps.setDisplayLegend(false, Asc.c_oAscChartLegendShowSettings.none);
+                    break;
                 case 'LeftLegend':
-                    if (chartProps.getLegendPos() === 1) {
-                        chartProps.setDisplayLegend(false, 0);
-                    } else {
-                        chartProps.setDisplayLegend(true, 1);
-                    }
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.left);
                     break;
                 case 'TopLegend':
-                    if (chartProps.getLegendPos() === 2) {
-                        chartProps.setDisplayLegend(false, 0);
-                    } else {
-                        chartProps.setDisplayLegend(true, 2);
-                    }
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.top);
                     break;
                 case 'RightLegend':
-                    if (chartProps.getLegendPos() === 3) {
-                        chartProps.setDisplayLegend(false, 0);
-                    } else {
-                        chartProps.setDisplayLegend(true, 3);
-                    }
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.right);
                     break;
                 case 'BottomLegend':
-                    if (chartProps.getLegendPos() === 4) {
-                        chartProps.setDisplayLegend(false, 0);
-                    } else {
-                        chartProps.setDisplayLegend(true, 4);
-                    }
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.bottom);
                     break;
                 case 'LeftOverlay':
-                    if (chartProps.getLegendPos() === 5) {
-                        chartProps.setDisplayLegend(false, 0);
-                    } else {
-                        chartProps.setDisplayLegend(true,5);
-                    }
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.leftOverlay);
                     break;
                 case 'RightOverlay':
-                    if (chartProps.getLegendPos() === 6) {
-                        chartProps.setDisplayLegend(false, 0);
-                    } else {
-                        chartProps.setDisplayLegend(true, 6);
-                    }
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.rightOverlay);
                     break;
                 case 'trendLineNone':
                     chartProps.setDisplayTrendlines(false, false, 0, 0);
@@ -3873,7 +3852,7 @@ define([], function () {
             me.chartProps = me.getCurrentChartProps();
         
             if (chartContainer.length < 1) {
-                chartContainer = $('<div id="chart-element-container" style="position: absolute; z-index: 1000;"><div id="id-document-holder-btn-chart-element"></div></div>');
+                chartContainer = $('<div id="chart-element-container" style="position: absolute; z-index: 990;"><div id="id-document-holder-btn-chart-element"></div></div>');
                 documentHolderView.cmpEl.find('#ws-canvas-outer').append(chartContainer);
             }
 
@@ -3881,36 +3860,7 @@ define([], function () {
             me.isRtlSheet = me.api.asc_getSheetViewSettings().asc_getRightToLeft();
 
             if (me.chartProps) {
-                var x = asc_CRect.asc_getX(),
-                    y = asc_CRect.asc_getY(),
-                    width = asc_CRect.asc_getWidth(),
-                    btnLeft,
-                    btnTop = y,
-                    windowWidth = documentHolderView.cmpEl.width(),
-                    windowHeight = documentHolderView.cmpEl.height();
-
-                if (me.isRtlSheet) {
-                    btnLeft = x + width - 45;
-                } else if (me.isRtl) {
-                    btnLeft = x - 40;
-                } else {
-                    btnLeft = x + width + 7;
-                }
-
-                if (btnLeft < 25 || btnLeft + 50 > windowWidth || btnTop + 30 > windowHeight) {
-                    chartContainer.hide();
-                    return;
-                }
-
-                if (btnTop < 20) {
-                    btnTop = 20
-                }
-
-                chartContainer.css({
-                    left: btnLeft + 'px',
-                    top: btnTop + 'px'
-                }).show();
-        
+                
                 if (!me.btnChartElement) {
                     me.btnChartElement = new Common.UI.Button({
                         parentEl: $('#id-document-holder-btn-chart-element'),
@@ -3925,11 +3875,80 @@ define([], function () {
                         if (me.chartProps) {
                             me.updateChartElementMenu(me.documentHolder.menuChartElement.menu, me.chartProps);
                         }
+                        Common.UI.TooltipManager.closeTip('chartElements');
                     });
                 }
+
+                me.tooltips.coauth.XY = undefined
+                me.onDocumentResize();
+                var x = asc_CRect.asc_getX(),
+                    y = asc_CRect.asc_getY(),
+                    width = asc_CRect.asc_getWidth(),
+                    height = asc_CRect.asc_getHeight(),
+                    btnLeft,
+                    btnTop = y,
+                    btnWidth = 50,
+                    offsetLeft = chartContainer.width() === 40 ? 18 : 10, 
+                    leftSide = x - btnWidth - offsetLeft,
+                    rightSide = x + width + 7,
+                    rtlSheet = x + width - 45; 
+
+                if (me.isRtlSheet) {
+                    if (rtlSheet >= 0 && rtlSheet + btnWidth <= me.tooltips.coauth.apiWidth) {
+                        btnLeft = rtlSheet;
+                    } else if (leftSide >= 0) {
+                        btnLeft = leftSide - 32; 
+                    } else {
+                        chartContainer.hide();
+                        Common.UI.TooltipManager.closeTip('chartElements');
+                        return;
+                    }
+                } else if (me.isRtl) {
+                    if (leftSide >= 0) {
+                        btnLeft = leftSide + 18;
+                    } else if (rightSide + btnWidth <= me.tooltips.coauth.apiWidth) {
+                        btnLeft = rightSide; 
+                    } else {
+                        chartContainer.hide();
+                        Common.UI.TooltipManager.closeTip('chartElements');
+                        return;
+                    }
+                } else {
+                    if (rightSide + btnWidth <= me.tooltips.coauth.apiWidth + 5) {
+                        btnLeft = rightSide;
+                    } else if (leftSide >= 0) {
+                        btnLeft = leftSide + 18; 
+                    } else {
+                        chartContainer.hide();
+                        Common.UI.TooltipManager.closeTip('chartElements');
+                        return;
+                    }
+                }
+
+                if (btnTop < 20) btnTop = 20;
+
+                if (y < 0) {
+                    var chartBottom = y + height;
+                    if (chartBottom < 40) { 
+                        chartContainer.hide();
+                        Common.UI.TooltipManager.closeTip('chartElements');
+                        return;
+                    }
+                }
+
+                chartContainer.css({
+                    left: btnLeft + 'px',
+                    top: btnTop + 'px'
+                }).show();
+                setTimeout(function (){
+                    Common.UI.TooltipManager.showTip('chartElements');
+                    Common.UI.TooltipManager.applyPlacement('chartElements');
+                }, 100);
+        
                 me.disableChartElementButton();
             } else {
                 chartContainer.hide();
+                Common.UI.TooltipManager.closeTip('chartElements');
             }
         };
 

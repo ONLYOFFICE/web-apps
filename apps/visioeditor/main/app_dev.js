@@ -131,7 +131,8 @@ require([
             'ViewTab',
             // 'Search',
             'Common.Controllers.Chat',
-            'Common.Controllers.Plugins'
+            'Common.Controllers.Plugins',
+            'Common.Controllers.Shortcuts'
         ]
     });
 
@@ -156,6 +157,7 @@ require([
                 'common/main/lib/util/utils'
                 ,'common/main/lib/controller/Chat'
                 ,'common/main/lib/controller/Plugins'
+                ,'common/main/lib/controller/Shortcuts'
             ], function() {
                 app.postLaunchScripts = [
                     'common/main/lib/controller/ScreenReaderFocus',
@@ -171,6 +173,8 @@ require([
                     'common/main/lib/view/PluginPanel',
                     'common/main/lib/view/DocumentHolderExt',
                     'common/main/lib/view/CustomizeQuickAccessDialog',
+                    'common/main/lib/view/ShortcutsDialog',
+                    'common/main/lib/view/ShortcutsEditDialog',
 
                     'visioeditor/main/app/view/FileMenuPanels',
                     'visioeditor/main/app/view/DocumentHolderExt'

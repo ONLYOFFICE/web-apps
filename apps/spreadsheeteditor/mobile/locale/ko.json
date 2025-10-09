@@ -378,7 +378,8 @@
     "uploadDocSizeMessage": "최대 문서 크기 제한을 초과했습니다.",
     "uploadImageExtMessage": "알수 없는 이미지 형식입니다.",
     "uploadImageFileCountMessage": "이미지가 업로드되지 않았습니다.",
-    "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다."
+    "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다.",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled."
   },
   "LongActions": {
     "advDRMPassword": "암호",
@@ -885,8 +886,11 @@
       "txtUk": "우크라이나어",
       "txtVi": "베트남어",
       "txtZh": "중국어",
+      "txtZhtw": "중국어 (번체)",
       "warnDownloadAs": "이 형식으로 저장을 계속하면 텍스트를 제외한 모든 기능이 손실됩니다. 계속 하시겠습니까?",
-      "warnDownloadCsv": "CSV 형식은 여러 시트 파일과 텍스트 외의 모든 요소를 저장할 수 없습니다.<br>선택한 시트만 CSV로 저장하려면 확인을 누르세요.<br>전체 스프레드시트와 모든 기능을 저장하려면 취소를 클릭하고 다른 형식을 선택하세요."
+      "warnDownloadCsv": "CSV 형식은 여러 시트 파일과 텍스트 외의 모든 요소를 저장할 수 없습니다.<br>선택한 시트만 CSV로 저장하려면 확인을 누르세요.<br>전체 스프레드시트와 모든 기능을 저장하려면 취소를 클릭하고 다른 형식을 선택하세요.",
+      "txtSr": "Serbian (Latin)",
+      "txtSrcyrl": "Serbian (Cyrillic)"
     }
   }
 }

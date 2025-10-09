@@ -453,7 +453,6 @@ define([
             }
 
             if ( me.btnPrint ) {
-                me.btnPrint.updateHint(me.tipPrint + Common.Utils.String.platformKey('Ctrl+P'));
                 me.btnPrint.on('click', function (e) {
                     me.fireEvent('print', me);
                 });
@@ -467,28 +466,24 @@ define([
             }
 
             if ( me.btnSave ) {
-                me.btnSave.updateHint(appConfig.canSaveToFile || appConfig.isDesktopApp && appConfig.isOffline ? me.tipSave + (isPDFEditor ? '' : Common.Utils.String.platformKey('Ctrl+S')) : me.tipDownload);
                 me.btnSave.on('click', function (e) {
                     me.fireEvent('save', me);
                 });
             }
 
             if ( me.btnUndo ) {
-                me.btnUndo.updateHint(me.tipUndo + Common.Utils.String.platformKey('Ctrl+Z'));
                 me.btnUndo.on('click', function (e) {
                     me.fireEvent('undo', me);
                 });
             }
 
             if ( me.btnRedo ) {
-                me.btnRedo.updateHint(me.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'));
                 me.btnRedo.on('click', function (e) {
                     me.fireEvent('redo', me);
                 });
             }
 
             if (me.btnStartOver) {
-                me.btnStartOver.updateHint(me.tipStartOver + (Common.Utils.String.platformKey(Common.Utils.isMac ? 'Ctrl+Shift+enter' : 'Ctrl+F5')));
                 me.btnStartOver.on('click', function (e) {
                     me.fireEvent('startover', me);
                 });
@@ -606,8 +601,6 @@ define([
                 });
             }
 
-            if (me.btnSearch)
-                me.btnSearch.updateHint(me.tipSearch +  Common.Utils.String.platformKey('Ctrl+F'));
 
             var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="menu-item"><div>' +
                                             '<% if (!_.isEmpty(iconCls)) { %>' +
@@ -711,6 +704,11 @@ define([
             }
             if (appConfig.twoLevelHeader && !appConfig.compactHeader)
                 Common.NotificationCenter.on('window:resize', onResize);
+
+            const app = (window.DE || window.PE || window.SSE || window.PDFE || window.VE);
+            if(app && app.getController('Common.Controllers.Shortcuts')) {
+                app.getController('Common.Controllers.Shortcuts').updateShortcutHints(this.shortcutHints);
+            }
         }
 
         function onFocusDocName(e){
@@ -796,6 +794,8 @@ define([
                 var filter = Common.localStorage.getKeysFilter();
                 this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
+                this.shortcutHints = {};
+
                 me.btnGoBack = new Common.UI.Button({
                     id: 'btn-go-back',
                     cls: 'btn-header',
@@ -820,6 +820,10 @@ define([
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
                 });
+                this.shortcutHints.OpenFindDialog = {
+                    btn: me.btnSearch,
+                    label: me.tipSearch
+                };
 
                 me.btnFavorite = new Common.UI.Button({
                     id: 'id-btn-favorite',
@@ -919,8 +923,13 @@ define([
                         if ( (config.canDownload || config.canDownloadOrigin) && !config.isOffline  )
                             this.btnDownload = createTitleButton('toolbar__icon icon--inverse btn-download', $html.findById('#slot-hbtn-download'), undefined, 'bottom', 'big');
 
-                        if ( config.canPrint )
+                        if ( config.canPrint ) {
                             this.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-hbtn-print'), undefined, 'bottom', 'big', 'P');
+                            this.shortcutHints.PrintPreviewAndPrint = {
+                                btn: me.btnPrint,
+                                label: me.tipPrint + (!!window.VE ? (Common.Utils.String.platformKey('Ctrl+P')) : '')
+                            };
+                        }
 
                         if ( config.canQuickPrint )
                             this.btnPrintQuick = createTitleButton('toolbar__icon icon--inverse btn-quick-print', $html.findById('#slot-hbtn-print-quick'), undefined, 'bottom', 'big', 'Q');
@@ -1060,6 +1069,10 @@ define([
 
                     if ( config.canPrint && config.twoLevelHeader ) {
                         me.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-btn-dt-print'), true, undefined, undefined, 'P');
+                        me.shortcutHints.PrintPreviewAndPrint = {
+                            btn: me.btnPrint,
+                            label: me.tipPrint
+                        };
                         !Common.localStorage.getBool(me.appPrefix + 'quick-access-print', true) && me.btnPrint.hide();
                     }
                     if ( config.canQuickPrint && config.twoLevelHeader ) {
@@ -1070,16 +1083,40 @@ define([
                         let save_icon = config.canSaveToFile || config.isDesktopApp && config.isOffline ? 'btn-save' : 'btn-download';
                         me.btnSave = createTitleButton('toolbar__icon icon--inverse ' + save_icon, $html.findById('#slot-btn-dt-save'), true, undefined, undefined, 'S');
                         !Common.localStorage.getBool(me.appPrefix + 'quick-access-save', true) && me.btnSave.hide();
+                        
+                        // Set hint text based on save availability and editor type
+                        if (appConfig.canSaveToFile || appConfig.isDesktopApp && appConfig.isOffline) {
+                            me.shortcutHints.Save = {
+                                btn: me.btnSave,
+                                label: me.tipSave
+                            };
+                        } else {
+                            me.btnSave.updateHint(me.tipDownload);
+                        }
                     }
                     me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo icon-rtl', $html.findById('#slot-btn-dt-undo'), true, undefined, undefined, 'Z',
                                                     [Common.enumLock.undoLock, Common.enumLock.fileMenuOpened, Common.enumLock.lostConnect]);
                     !Common.localStorage.getBool(me.appPrefix + 'quick-access-undo', true) && me.btnUndo.hide();
+                    me.shortcutHints.EditUndo = {
+                        btn: me.btnUndo,
+                        label: me.tipUndo
+                    };
+                    
                     me.btnRedo = createTitleButton('toolbar__icon icon--inverse btn-redo icon-rtl', $html.findById('#slot-btn-dt-redo'), true, undefined, undefined, 'Y',
                                                     [Common.enumLock.redoLock, Common.enumLock.fileMenuOpened, Common.enumLock.lostConnect]);
                     !Common.localStorage.getBool(me.appPrefix + 'quick-access-redo', true) && me.btnRedo.hide();
+                    me.shortcutHints.EditRedo = {
+                        btn: me.btnRedo,
+                        label: me.tipRedo
+                    };
+
                     if (isPEEditor) {
-                    me.btnStartOver= createTitleButton('toolbar__icon icon--inverse btn-preview', $html.findById('#slot-btn-dt-start-over'), true, undefined, undefined, 'O');
-                    !Common.localStorage.getBool(me.appPrefix + 'quick-access-start-over', true) && me.btnStartOver.hide();
+                        me.btnStartOver= createTitleButton('toolbar__icon icon--inverse btn-preview', $html.findById('#slot-btn-dt-start-over'), true, undefined, undefined, 'O');
+                        !Common.localStorage.getBool(me.appPrefix + 'quick-access-start-over', true) && me.btnStartOver.hide();
+                        me.shortcutHints.DemonstrationStartPresentation = {
+                            btn: me.btnStartOver,
+                            label: me.tipStartOver
+                        };
                     }
                     me.btnQuickAccess = new Common.UI.Button({
                         cls: 'btn-header no-caret',

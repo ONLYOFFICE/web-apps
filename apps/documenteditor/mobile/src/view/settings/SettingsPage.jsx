@@ -28,7 +28,7 @@ import IconFeedbackForIos from '@common-ios-icons/icon-feedback.svg?ios';
 import IconFeedbackForAndroid from '@common-android-icons/icon-feedback.svg';
 import IconDraw from '../../../../../common/mobile/resources/icons/draw.svg'
 
-const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo")(observer(props => {
+const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo",  "storeToolbarSettings")(observer(props => {
     const { t } = useTranslation();
     const _t = t('Settings', {returnObjects: true});
     const settingsContext = useContext(SettingsContext);
@@ -47,6 +47,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
             <div className="title" onClick={settingsContext.changeTitleHandler}>{docTitle}</div>
             {Device.phone && <NavRight><Link popupClose=".settings-popup">{_t.textDone}</Link></NavRight>}
         </Navbar>;
+    const isSignatureForm = props.storeToolbarSettings.isSignatureForm; 
 
     const onOpenOptions = name => {
         openOptions(name);
@@ -107,7 +108,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                             }
                         </ListItem>
                     : ''),
-                    <ListItem key='clear-all-fields-link' title={t('Settings.textClearAllFields')} link='#' className='no-indicator' onClick={settingsContext.clearAllFields}>
+                    <ListItem key='clear-all-fields-link' title={t('Settings.textClearAllFields')} link='#' className='no-indicator' onClick={settingsContext.clearAllFields}  disabled={isSignatureForm}>
                         <SvgIcon slot="media" symbolId={IconClearFields.id} className={'icon icon-svg'} />
                     </ListItem>
                 ] : null}

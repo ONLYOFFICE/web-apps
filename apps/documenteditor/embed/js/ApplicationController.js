@@ -163,6 +163,7 @@ DE.ApplicationController = new(function(){
                 api.asc_setDocInfo(docInfo);
                 api.asc_getEditorPermissions(config.licenseUrl, config.customerId);
                 api.asc_enableKeyEvents(true);
+                common.controller.Shortcuts.setApi(api);
 
                 Common.Analytics.trackEvent('Load', 'Start');
             }

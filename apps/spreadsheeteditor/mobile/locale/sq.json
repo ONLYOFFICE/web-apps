@@ -321,6 +321,7 @@
     "errorLockedAll": "Operacioni nuk mund të kryhet pasi fleta është bllokuar nga një përdorues tjetër.",
     "errorLockedCellPivot": "Ju nuk mund të ndryshoni të dhënat brenda një tabele kryesore.",
     "errorLockedWorksheetRename": "Fleta nuk mund të riemërohet për momentin pasi nuk është duke u riemëruar nga një përdorues tjetër.",
+    "errorMacroUnavailableWarning": "Nuk mund të ekyekutohet makroja %1. Makroja mund të mës jetë e disponueshme në këtë libër pune ose të gjitha makrot mund të jenë të çaktivizuar.",
     "errorMaxPoints": "Numri maksimal i pikëve në seri për grafik është 4096",
     "errorMaxRows": "GABIM! Numri maksimal i serive të të dhënave për grafik është 255.",
     "errorMoveRange": "Nuk mund të ndryshohet një pjesë e një qelize të bashkuar",
@@ -879,12 +880,15 @@
       "txtSk": "Sllovake",
       "txtSl": "Slloven",
       "txtSpace": "Hapësirë",
+      "txtSr": "Serbisht (Latinisht)",
+      "txtSrcyrl": "Serbisht (Cirilik)",
       "txtSv": "Suedeze",
       "txtTab": "Skedë",
       "txtTr": "Turke",
       "txtUk": "Ukrainase",
       "txtVi": "Vietnameze",
       "txtZh": "Kinezisht",
+      "txtZhtw": "Kinezisht (Tradicionale)",
       "warnDownloadAs": "Në qoftë se vazhdoni të ruani në këtë format, të gjitha veçoritë përveç tekstit do të humbasin .<br>Jeni i sigurt që dëshironi të vazhdoni?",
       "warnDownloadCsv": "Formati CSV nuk mbështet ruajtjen e një skedari me shumë fletë dhe të të gjithë elementëve, përveç tekstit.<br>Për të ruajtur vetëm fletën e zgjedhur në CSV, shtypni OK.<br>Për të ruajtur të gjithë fletëllogaritësen dhe të gjitha veçoritë, klikoni Anulo dhe zgjidhni një format tjetër."
     }

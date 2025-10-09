@@ -329,6 +329,7 @@
     "errorLockedAll": "The operation could not be done as the sheet has been locked by another user.",
     "errorLockedCellPivot": "You cannot change data inside a pivot table.",
     "errorLockedWorksheetRename": "The sheet cannot be renamed at the moment as it is being renamed by another user",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled.",
     "errorMaxPoints": "The maximum number of points in series per chart is 4096.",
     "errorMaxRows": "ERROR! The maximum number of data series per chart is 255.",
     "errorMoveSlicerError": "Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.",
@@ -880,6 +881,9 @@
       "textVersion": "Version",
       "textVersionHistory": "Version History",
       "txtSemicolon": "Semicolon",
+      "txtSr": "Serbian (Latin)",
+      "txtSrcyrl": "Serbian (Cyrillic)",
+      "txtZhtw": "Chinese (Traditional)",
       "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   },

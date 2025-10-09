@@ -83,7 +83,7 @@
     "textDoNotShowAgain": "Nicht mehr anzeigen",
     "textOk": "OK",
     "textRows": "Zeilen",
-    "txtWarnUrl": "Dieser Link kann für Ihr Gerät und Ihre Daten gefährlich sein.<br>Möchten Sie wirklich fortsetzen?"
+    "txtWarnUrl": "Das Klicken auf diesen Link kann Ihr Gerät und Ihre Daten schädigen. Dieser Standort ist möglicherweise unsicher:<br>{0}<br>Möchten Sie wirklich fortfahren?"
   },
   "Controller": {
     "Main": {
@@ -162,7 +162,7 @@
       "textRemember": "Auswahl speichern",
       "textReplaceSkipped": "Der Ersatzvorgang wurde durchgeführt. {0} Vorkommen wurden ausgelassen.",
       "textReplaceSuccess": "Der Suchvorgang wurde durchgeführt. Vorkommen wurden ersetzt:{0}",
-      "textRequestMacros": "Ein Makro stellt eine Anfrage an die URL. Möchten Sie die Anfrage an die %1 zulassen?",
+      "textRequestMacros": "Ein Makro stellt eine Anfrage an die URL. Möchten Sie die Anfrage an %1 zulassen?",
       "textYes": "Ja",
       "tipLicenseExceeded": "Das Dokument ist im schreibgeschützten Modus geöffnet, da die durch die Lizenz zulässige maximale Anzahl gleichzeitiger Verbindungen erreicht wurde.<br><br>Bitte versuchen Sie es später erneut oder wenden Sie sich an den Eigentümer des Dokuments, wenn Sie Bearbeitungszugriff benötigen.",
       "tipLicenseUsersExceeded": "Das Dokument ist im schreibgeschützten Modus geöffnet, da die maximale Anzahl von Benutzern, die laut Lizenz Dokumente bearbeiten dürfen, erreicht wurde.<br><br>Bitte versuchen Sie es später erneut oder wenden Sie sich an den Dokumentbesitzer, wenn Sie Bearbeitungszugriff benötigen.",

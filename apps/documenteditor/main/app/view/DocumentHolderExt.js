@@ -312,7 +312,7 @@ define([], function () {
                                         checkable: true
                                     },
                                     { 
-                                        caption: me.textLeft, 
+                                        caption: me.textLeftPos, 
                                         value: 'LeftData', 
                                         stopPropagation: true,
                                         toggleGroup: 'dataLabels', 
@@ -438,6 +438,13 @@ define([], function () {
                                 menuAlign: 'tl-tr',
                                 items: [
                                     { 
+                                        caption: me.textNone, 
+                                        value: 'NoneLegend',
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend',  
+                                        checkable: true
+                                    },
+                                    { 
                                         caption: me.textTop, 
                                         value: 'TopLegend',
                                         stopPropagation: true,
@@ -445,7 +452,7 @@ define([], function () {
                                         checkable: true
                                     },
                                     { 
-                                        caption: me.textLeft, 
+                                        caption: me.textLeftPos, 
                                         value: 'LeftLegend', 
                                         stopPropagation: true,
                                         toggleGroup: 'legend', 
@@ -2453,21 +2460,33 @@ define([], function () {
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
                 me.currentMenu = null;
             });
-
+            
+            const shortcutHints = {};
             var nextpage = $('#id_buttonNextPage');
             nextpage.attr('data-toggle', 'tooltip');
-            nextpage.tooltip({
-                title       : me.textNextPage + Common.Utils.String.platformKey('Alt+PgDn'),
-                placement   : 'top-right'
-            });
+            shortcutHints.MoveToNextPage = {
+                label: me.textNextPage,
+                applyCallback: function(item, hintText) {
+                    nextpage.tooltip({
+                        title       : hintText,
+                        placement   : 'top-right'
+                    });
+                }
+            };
 
             var prevpage = $('#id_buttonPrevPage');
             prevpage.attr('data-toggle', 'tooltip');
-            prevpage.tooltip({
-                title       : me.textPrevPage + Common.Utils.String.platformKey('Alt+PgUp'),
-                placement   : 'top-right'
-            });
-
+            shortcutHints.MoveToPreviousPage = {
+                label: me.textPrevPage,
+                applyCallback: function(item, hintText) {
+                    prevpage.tooltip({
+                        title       : hintText,
+                        placement   : 'top-right'
+                    });
+                }
+            };
+            DE.getController('Common.Controllers.Shortcuts').updateShortcutHints(shortcutHints);
+            
             this.fireEvent('createdelayedelements', [this, 'edit']);
         };
 

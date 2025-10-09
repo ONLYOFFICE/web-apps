@@ -672,6 +672,7 @@
     "titleDialogProtectedDocument": "The document is protected",
     "titleReadOnly": "Read-Only Mode",
     "titleUpdateVersion": "Version changed",
+    "txtSignedForm": "This document has been signed and cannot be edited.",
     "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
     "warnLicenseLimitedNoAccess": "License expired. You have no access to document editing functionality. Please, contact your admin.",
     "warnLicenseLimitedRenewed": "License needs to be renewed. You have limited access to document editing functionality.<br>Please contact your administrator to get full access",

@@ -870,7 +870,7 @@ define([
                 }
 
                 !modal ? Common.UI.TooltipManager.showTip({ step: 'licenseError', text: license, header: title, target: '#toolbar', maxwidth: 430,
-                        automove: true, noHighlight: true, textButton: this.textContinue}) :
+                        automove: true, noHighlight: true, noArrow: true, textButton: this.textContinue}) :
                 Common.UI.info({
                     maxwidth: 500,
                     title: title,
@@ -984,7 +984,7 @@ define([
                         }
                         this.submitedTooltip.show();
                     }
-                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View);
+                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View, this.api.asc_getRestrictionSettings());
                     this.onApiServerDisconnect(true);
                 } else
                     this.disableFillingForms(false);
@@ -1603,6 +1603,7 @@ define([
             var zf = (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);
             (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
+            DE.getController('Common.Controllers.Shortcuts').setApi(me.api);
             this.createDelayedElements();
 
             this.api.asc_registerCallback('asc_onStartAction',           _.bind(this.onLongActionBegin, this));
@@ -2292,7 +2293,7 @@ define([
                 Common.UI.TooltipManager.closeTip('formSigned');
             else
                 Common.UI.TooltipManager.showTip({ step: 'formSigned', text: this.txtSignedForm, target: '#toolbar', showButton: false,
-                                                        maxwidth: 'none', closable: true, automove: true, noHighlight: true});
+                                                        maxwidth: 'none', closable: true, automove: true, noHighlight: true, noArrow: true});
 
             this.view.btnClear && this.view.btnClear.setDisabled(this._isDisabled || hasForm);
             this.view.btnSubmit && this.view.btnSubmit.setDisabled(!_submitFail || hasForm);

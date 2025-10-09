@@ -87,7 +87,7 @@
     "textCopyCutPasteActions": "Kopiraj, Iseci i Nalepi akcije",
     "textDoNotShowAgain": "Ne pokazuj ponovo",
     "textOk": "Ok",
-    "txtWarnUrl": "Kliknuti na ovaj link može biti štetno za vaš uređaj i podatke.<br>Da li ste sigurni da želite da nastavite?",
+    "txtWarnUrl": "Klik na ovaj link može biti štetan za vaš uređaj i podatke. Da biste zaštitili svoj računar, klikćite samo na hiperveze koje dolaze iz pouzdanih izvora. Ova lokacija može biti nesigurna:<br><br>{0}<br><br>Da li ste sigurni da želite da nastavite?",
     "warnMergeLostData": "Samo podatak iz gornje-leve ćelije će da ostane u spojenoj ćeliji.<br>Da li ste sigurni da želite da nastavite?"
   },
   "Controller": {
@@ -321,6 +321,7 @@
     "errorLockedAll": "Operacija nije mogla biti ispunjena zato što je list zaključan od strane drugog korisnika.",
     "errorLockedCellPivot": "Ne možete promeniti podatke unutar pivot tabele.",
     "errorLockedWorksheetRename": "List ne može biti preimenovan u ovom trenutku zato što se preimenuje od strane drugog korisnika",
+    "errorMacroUnavailableWarning": "Nije moguće pokrenuti makro %1. Makro možda nije dostupan u ovoj radnoj svesci ili su svi makroi onemogućeni.",
     "errorMaxPoints": "Maksimalan broj tačaka u serijama po grafikonu je 4096.",
     "errorMaxRows": "GREŠKA! Maksimalan broj serije podataka po grafikonu je 255.",
     "errorMoveRange": "Ne može se promeniti deo spojene ćelije",
@@ -879,12 +880,15 @@
       "txtSk": "Slovački",
       "txtSl": "Slovenski",
       "txtSpace": "Razmak",
+      "txtSr": "Srpski (latinica)",
+      "txtSrcyrl": "Srpski (ćirilica)",
       "txtSv": "Švedski",
       "txtTab": "Kartica ",
       "txtTr": "Turski",
       "txtUk": "Ukrajinski",
       "txtVi": "Vijetnamski",
-      "txtZh": "Kineski",
+      "txtZh": "Kineski (pojednostavljeni)",
+      "txtZhtw": "Kineski (tradicionalni)",
       "warnDownloadAs": "Ako nastavite da čuvate u ovom formatu sve karakteristike osim teksta će biti izgubljene.<br>Da li ste sigurni da želite da nastavite?",
       "warnDownloadCsv": "CSV format ne podržava čuvanje datoteka sa više listova niti sve elemente osim teksta.<br>Da biste sačuvali samo izabrani list u CSV formatu, kliknite na U redu.<br>Da biste sačuvali celu tabelu sa svim funkcijama, kliknite na Otkaži i izaberite neki drugi format"
     }

@@ -365,6 +365,10 @@ class MainController extends Component {
                 this._isDocReady = true;
 
                 this.api.SetDrawingFreeze(false);
+                
+                if (appOptions.canFillForms) {
+                    this.api.asc_registerCallback('asc_onUpdateSignatures', this.showSignatureTooltip.bind(this));
+                }
 
                 Common.Notifications.trigger('preloader:close');
                 Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
@@ -534,6 +538,36 @@ class MainController extends Component {
             document.body.appendChild(script);
         } else {
             on_script_load();
+        }
+    }
+
+    
+    showSignatureTooltip(valid, requested) {
+        let hasSigned = false;
+        if (valid) {
+            valid.forEach(item => {
+                if (item.asc_getIsForm()) {
+                    hasSigned = true;
+                }
+            });
+        }
+        this.props.storeToolbarSettings.setIsSignatureForm(hasSigned);
+
+        if (hasSigned) {
+            const { t } = this.props;
+            const _t = t('Main', { returnObjects: true });
+            
+            f7.dialog.create({
+                text:  _t.txtSignedForm,
+                buttons: [
+                    {   
+                        text: _t.textCancel,
+                        onClick: () => {
+                            f7.dialog.close(); 
+                        }
+                    }
+                ]
+            }).open();
         }
     }
 

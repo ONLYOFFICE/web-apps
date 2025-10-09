@@ -120,14 +120,27 @@ define([
 
                 this.btnZoomDown = new Common.UI.Button({
                     el: $('#btn-zoom-down',this.el),
-                    hint: this.tipZoomOut+Common.Utils.String.platformKey('Ctrl+-'),
+                    hint: this.tipZoomOut,
                     hintAnchor: 'top'
                 });
+                PE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                    ZoomOut: {
+                        btn: this.btnZoomDown,
+                        label: this.tipZoomOut
+                    }
+                });
+                
 
                 this.btnZoomUp = new Common.UI.Button({
                     el: $('#btn-zoom-up',this.el),
-                    hint: this.tipZoomIn+Common.Utils.String.platformKey('Ctrl++'),
+                    hint: this.tipZoomIn,
                     hintAnchor: 'top-right'
+                });
+                 PE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                    ZoomIn: {
+                        btn: this.btnZoomUp,
+                        label: this.tipZoomIn
+                    }
                 });
 
                 this.cntZoom = new Common.UI.Button({

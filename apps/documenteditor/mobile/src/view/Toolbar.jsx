@@ -163,8 +163,8 @@ const ToolbarView = props => {
                                         <SvgIcon symbolId={IconSettingsAndroid.id} className={'icon icon-svg'} />
                                     }</Link>,
                             <Link key='send-form-link'
-                                  id='btn-submit-form'
-                                  className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'}
+                                  id='btn-submit-form' 
+                                  className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal ||  props.isSignatureForm) && 'disabled'}
                                   text={t("Toolbar.btnSend")} href={false}
                                   onClick={() => props.saveForm()}></Link>
                         ] : [

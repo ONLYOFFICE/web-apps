@@ -87,7 +87,7 @@
     "textCopyCutPasteActions": "Acciones de Copiar, Cortar y Pegar",
     "textDoNotShowAgain": "No mostrar de nuevo",
     "textOk": "Aceptar",
-    "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos.<br>¿Está seguro de que quiere continuar?",
+    "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos. Esta ubicación puede ser insegura:<br>{0}<br>¿Está seguro de que quiere continuar?",
     "warnMergeLostData": "En la celda unida permanecerán sólo los datos de la celda de la esquina superior izquierda.<br>Está seguro de que quiere continuar?"
   },
   "Controller": {
@@ -321,6 +321,7 @@
     "errorLockedAll": "No se puede realizar la operación porque la hoja ha sido bloqueada por otro usuario.",
     "errorLockedCellPivot": "No puede modificar datos dentro de una tabla pivote.",
     "errorLockedWorksheetRename": "No se puede cambiar el nombre de la hoja en este momento, porque se está cambiando el nombre por otro usuario",
+    "errorMacroUnavailableWarning": "No se puede ejecutar la macro %1. Es posible que la macro no esté disponible en este libro o que todas las macros estén desactivadas.",
     "errorMaxPoints": "El número máximo de puntos en serie por gráfico es 4096.",
     "errorMaxRows": "ERROR! El número máximo de series de datos por gráfico es 255.",
     "errorMoveRange": "No se puede modificar una parte de una celda combinada",
@@ -879,12 +880,15 @@
       "txtSk": "Eslovaco",
       "txtSl": "Esloveno",
       "txtSpace": "Espacio",
+      "txtSr": "Serbio (alfabeto latino)",
+      "txtSrcyrl": "Serbio (cirílico)",
       "txtSv": "Sueco",
       "txtTab": "Pestaña",
       "txtTr": "Turco",
       "txtUk": "Ucraniano",
       "txtVi": "Vietnamita",
-      "txtZh": "Chino",
+      "txtZh": "Chino (simplificado)",
+      "txtZhtw": "Chino (tradicional)",
       "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?",
       "warnDownloadCsv": "El formato CSV no permite guardar un archivo de varias hojas y todos los elementos, excepto el texto.<br>Para guardar solo la hoja seleccionada en CSV, pulse OK.<br>Para guardar toda la hoja de cálculo y todas las características, pulse Cancelar y seleccione otro formato."
     }

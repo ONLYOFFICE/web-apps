@@ -233,9 +233,6 @@ define([
                                 Common.UI.Themes.setTheme(value);
                                 Common.Utils.lockControls(Common.enumLock.inLightTheme, !Common.UI.Themes.isDarkTheme(), {array: [me.view.btnDarkDocument]});
                             }, me));
-                            me.view.btnInterfaceTheme.menu.on('show:after', function () {
-                                Common.UI.TooltipManager.closeTip('modernTheme');
-                            });
 
                             setTimeout(function () {
                                 me.onContentThemeChangedToDark(Common.UI.Themes.isContentThemeDark());
@@ -356,7 +353,16 @@ define([
         },
 
         applyEditorMode: function(config) {
-            this.view && this.view.chRightMenu && this.view.chRightMenu.setVisible((config || this.mode)['isPDFEdit']);
+            if (this.view && this.view.chRightMenu) {
+                var isVisible = (config || this.mode)['isPDFEdit'];
+                isVisible && this.view.chRightMenu.$el.closest('.elset').addClass('transparent');
+                this.view.chRightMenu.setVisible(isVisible);
+                if (this.toolbar && this.toolbar.toolbar) {
+                    this.toolbar.toolbar.moveAllFromMoreButton('view');
+                    this.toolbar.toolbar.processPanelVisible(null, true, true);
+                }
+                this.view.chRightMenu.$el.closest('.elset').removeClass('transparent');
+            }
         }
 
     }, PDFE.Controllers.ViewTab || {}));

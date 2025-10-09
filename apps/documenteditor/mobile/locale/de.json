@@ -228,7 +228,7 @@
     "textRefreshEntireTable": "Ganze Tabelle aktualisieren",
     "textRefreshPageNumbersOnly": "Nur Seitenzahlen aktualisieren",
     "textRows": "Zeilen",
-    "txtWarnUrl": "Dieser Link kann für Ihr Gerät und Daten gefährlich sein.<br>Möchten Sie wirklich fortsetzen?"
+    "txtWarnUrl": "Das Klicken auf diesen Link kann Ihr Gerät und Ihre Daten schädigen. Dieser Standort ist möglicherweise unsicher:<br>{0}<br>Möchten Sie wirklich fortfahren?"
   },
   "Draw": {
     "textColor": "Farbe",
@@ -518,7 +518,7 @@
     "savePreparingTitle": "Speichervorbereitung. Bitte warten...",
     "saveTextText": "Dokument wird gespeichert...",
     "saveTitleText": "Dokument wird gespeichert...",
-    "savingText": "Wird gespeichert",
+    "savingText": "Absenden",
     "sendMergeText": "Merge wird versandt...",
     "sendMergeTitle": "Ergebnisse der Zusammenführung werden gesendet",
     "textContinue": "Fortsetzen",
@@ -668,6 +668,7 @@
     "titleReadOnly": "Schreibgeschützter Modus",
     "titleServerVersion": "Editor wurde aktualisiert",
     "titleUpdateVersion": "Version wurde geändert",
+    "txtSignedForm": "Dieses Dokument wurde signiert und kann nicht bearbeitet werden.",
     "warnDownloadAsPdf": "{0} wird in ein bearbeitbares Format umgewandelt. Dies kann eine Weile dauern. Das Ausgabedokument wird so gestaltet, dass Sie den Text bearbeiten können. Es sieht also möglicherweise nicht genau so aus wie die ursprüngliche Datei {0}, besonders wenn sie viele Grafiken enthält.",
     "warnLicenseAnonymous": "Schreibzugriff für anonyme Benutzer verweigert.<br>Dieses Dokument wird nur zur Ansicht geöffnet.",
     "warnLicenseBefore": "Lizenz nicht aktiv.<br>Bitte wenden Sie sich an Ihren Administrator.",

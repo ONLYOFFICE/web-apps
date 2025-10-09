@@ -87,7 +87,7 @@
     "textCopyCutPasteActions": "Kopieren, Ausschneiden und Einfügen",
     "textDoNotShowAgain": "Nicht mehr anzeigen",
     "textOk": "OK",
-    "txtWarnUrl": "Dieser Link kann für Ihr Gerät und Daten gefährlich sein.<br>Möchten Sie wirklich fortsetzen?",
+    "txtWarnUrl": "Das Klicken auf diesen Link kann Ihr Gerät und Ihre Daten schädigen. Dieser Standort ist möglicherweise unsicher:<br>{0}<br>Möchten Sie wirklich fortfahren?",
     "warnMergeLostData": "Nur die Daten aus der oberen linken Zelle bleiben nach der Vereinigung.<br>Möchten Sie wirklich fortsetzen?"
   },
   "Controller": {
@@ -321,6 +321,7 @@
     "errorLockedAll": "Die Operation kann nicht durchgeführt werden, weil das Blatt von einem anderen Benutzer gesperrt ist.",
     "errorLockedCellPivot": "Die Daten innerhalb einer Pivot-Tabelle können nicht geändert werden.",
     "errorLockedWorksheetRename": "Umbenennen des Blattes ist derzeit nicht möglich, denn es wird gleichzeitig von einem anderen Benutzer umbenannt.",
+    "errorMacroUnavailableWarning": "Das Makro %1 kann nicht ausgeführt werden. Das Makro ist in dieser Arbeitsmappe möglicherweise nicht verfügbar oder alle Makros sind deaktiviert.",
     "errorMaxPoints": "Die maximale Punktzahl pro eine Tabelle beträgt 4096 Punkte.",
     "errorMaxRows": "FEHLER! Maximale Anzahl an Datenreihen pro Diagramm ist 255.",
     "errorMoveRange": "Teil einer verbundenen Zelle kann nicht geändert werden",
@@ -879,12 +880,15 @@
       "txtSk": "Slowakisch",
       "txtSl": "Slowenisch",
       "txtSpace": "Leerzeichen",
+      "txtSr": "Serbisch (Latein)",
+      "txtSrcyrl": "Serbisch (Kyrillisch)",
       "txtSv": "Schwedisch",
       "txtTab": "Tab",
       "txtTr": "Türkisch",
       "txtUk": "Ukrainisch",
       "txtVi": "Vietnamesisch",
-      "txtZh": "Chinesisch ",
+      "txtZh": "Chinesisch (vereinfacht)",
+      "txtZhtw": "Chinesisch (traditionell)",
       "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
       "warnDownloadCsv": "Das CSV-Format unterstützt nicht das Speichern einer Datei mit mehreren Blättern und allen Elementen außer Text.<br>Um nur das ausgewählte Blatt als CSV zu speichern, drücken Sie OK.<br>Um die gesamte Tabelle und alle Funktionen zu speichern, klicken Sie auf Abbrechen und wählen Sie ein anderes Format aus."
     }

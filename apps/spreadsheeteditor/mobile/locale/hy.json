@@ -378,7 +378,8 @@
     "uploadDocSizeMessage": "Փաստաթղթի չափի առավելագույն սահմանաչափը գերազանցվել է:",
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
-    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:"
+    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled."
   },
   "LongActions": {
     "advDRMPassword": "Գաղտնաբառ",
@@ -879,12 +880,15 @@
       "txtSk": "Սլովակերեն",
       "txtSl": "Սլովեներեն",
       "txtSpace": "Բացատ",
+      "txtSr": "Սերբերեն (Լատիներեն)",
+      "txtSrcyrl": "Սերբերեն (Կիրիլիցա)",
       "txtSv": "Շվեդերեն",
       "txtTab": "Սյունատ",
       "txtTr": "Թուրքերեն",
       "txtUk": "ուկրաիներեն",
       "txtVi": "Վիետնամերեն",
       "txtZh": "Չինական",
+      "txtZhtw": "Չինարեն (Ավանդական)",
       "warnDownloadAs": "Եթե շարունակեք պահպանումն այս ձևաչափով, բոլոր հատկությունները՝ տեքստից բացի, կկորչեն։<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:",
       "warnDownloadCsv": "CSV ֆորմատը չի աջակցում բազմաթերթ փաստաթուղթ պահպանելուն և բոլոր տարրերին, բացառությամբ տեքստի։<br>Մեկ թերթիկը միայն CSV ֆորմատով պահպանելու համար սեղմեք ԼԱՎ։<br>Ամբողջ աղյուսակն ու բոլոր ֆունկցիաները պահպանելու համար սեղմեք Չեղարկել և ընտրեք այլ ֆորմատ։"
     }

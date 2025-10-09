@@ -727,7 +727,12 @@ define([
 
                 if (state) {
                     this.getApplication().getController('Common.Controllers.Comments').onAfterShow();
-                }
+                    Common.UI.TooltipManager.getNeedShow('commentFilter') && Common.UI.TooltipManager.closeTip('rtlDirection');
+                    setTimeout(function() {
+                        Common.UI.TooltipManager.showTip('commentFilter');
+                    }, 10);
+                } else
+                    Common.UI.TooltipManager.closeTip('commentFilter');
 
                 if (!state) $(this.leftMenu.btnComments.el).blur();
             }
@@ -752,6 +757,9 @@ define([
                         this.mode.canViewComments && this.leftMenu.panelComments['hide']();
                         this.mode.canChat && this.leftMenu.panelChat['hide']();
                     }
+                }
+                if (state) {
+                    Common.UI.TooltipManager.closeTip('chartElements');
                 }
             }
         },

@@ -161,6 +161,7 @@ require([
             ,'Common.Controllers.ExternalOleEditor'
             ,'Common.Controllers.ReviewChanges'
             ,'Common.Controllers.Protection'
+            ,'Common.Controllers.Shortcuts'
         ]
     });
 
@@ -203,6 +204,7 @@ require([
                 ,'common/main/lib/controller/ExternalOleEditor'
                 ,'common/main/lib/controller/ReviewChanges'
                 ,'common/main/lib/controller/Protection'
+                ,'common/main/lib/controller/Shortcuts'
                 ,'common/main/lib/controller/Draw'
             ], function() {
                 const code_path = !window.isIEBrowser ?

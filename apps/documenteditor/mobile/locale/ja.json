@@ -676,7 +676,8 @@
     "warnLicenseLimitedRenewed": "ライセンスが書き換えすべきです。文書を変更ためのアクセスが制限付きされました。フル アクセスを再接続ためにアドミニストレータを連絡してください。",
     "warnNoLicense": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。個人的なアップグレード条件については、％1営業チームを連絡してください。",
     "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
-    "warnProcessRightsChange": "ファイルを編集する権限がありません！"
+    "warnProcessRightsChange": "ファイルを編集する権限がありません！",
+    "txtSignedForm": "This document has been signed and cannot be edited."
   },
   "Settings": {
     "advDRMOptions": "保護されたファイル",

@@ -428,8 +428,13 @@ define([
                 this.btnInsertChart.updateHint(this.tipInsertChart);
                 this.btnInsertEquation.updateHint(this.tipInsertEquation);
                 this.btnInsertSymbol.updateHint(this.tipInsertSymbol);
-                this.btnInsertHyperlink.updateHint(this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
+                PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                    InsertHyperlink: {
+                        btn: this.btnInsertHyperlink,
+                        label: this.tipInsertHyperlink
+                    }
+                });
                 // this.btnEditHeader.updateHint(this.tipEditHeaderFooter);
                 // this.btnInsDateTime.updateHint(this.tipDateTime);
                 // this.btnInsSlideNum.updateHint(this.tipPageNum);
@@ -459,6 +464,9 @@ define([
                     menu.setInnerMenu([{menu: picker, index: 0}]);
                 };
                 this.btnInsertChart.menu.on('show:before', onShowBefore);
+                this.btnInsertChart.menu.on('show:before', function() {
+                    Common.UI.TooltipManager.closeTip('pdfCharts');
+                });
 
                 this.btnInsertSmartArt.setMenu(new Common.UI.Menu({
                     cls: 'shifted-right',
@@ -532,6 +540,9 @@ define([
                     menu.off('show:before', onShowBeforeSmartArt);
                 };
                 this.btnInsertSmartArt.menu.on('show:before', onShowBeforeSmartArt);
+                this.btnInsertSmartArt.menu.on('show:before', function() {
+                    Common.UI.TooltipManager.closeTip('pdfCharts');
+                });
 
                 var onShowBeforeTextArt = function (menu) {
                     var collection = PDFE.getCollection('Common.Collections.TextArt');

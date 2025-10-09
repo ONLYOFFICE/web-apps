@@ -44,6 +44,19 @@ define([], function () {
     if (window.PDFE && window.PDFE.Controllers && window.PDFE.Controllers.DocumentHolder) {
         let dh = window.PDFE.Controllers.DocumentHolder.prototype;
 
+        dh.checkEditorOffsets = function() {
+            if (_.isUndefined(this._XY)) {
+                let cmpEl = this.documentHolder.cmpEl;
+                this._XY = [
+                    Common.Utils.getOffset(cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(cmpEl).top - $(window).scrollTop()
+                ];
+                this._Width       = cmpEl.width();
+                this._Height      = cmpEl.height();
+                this._BodyWidth   = $('body').width();
+            }
+        };
+
         dh.setEvents = function() {
             this.addListeners({
                 'DocumentHolder': {
@@ -374,15 +387,7 @@ define([], function () {
         dh.onShowTextBar = function(bounds) {
             if (this.mode && !(!this.mode.isPDFEdit && this.mode.isEdit)) return;
 
-            if (_.isUndefined(this._XY)) {
-                this._XY = [
-                    Common.Utils.getOffset(this.documentHolder.cmpEl).left - $(window).scrollLeft(),
-                    Common.Utils.getOffset(this.documentHolder.cmpEl).top - $(window).scrollTop()
-                ];
-                this._Width       = this.documentHolder.cmpEl.width();
-                this._Height      = this.documentHolder.cmpEl.height();
-                this._BodyWidth   = $('body').width();
-            }
+            this.checkEditorOffsets();
 
             this.lastTextBarBounds = bounds;
             if (bounds[3] < 0 || bounds[1] > this._Height) {
@@ -744,15 +749,7 @@ define([], function () {
         dh.onShowAnnotBar = function(bounds, mouseOnTop) {
             if (this.mode && !this.mode.isEdit) return;
 
-            if (_.isUndefined(this._XY)) {
-                this._XY = [
-                    Common.Utils.getOffset(this.documentHolder.cmpEl).left - $(window).scrollLeft(),
-                    Common.Utils.getOffset(this.documentHolder.cmpEl).top - $(window).scrollTop()
-                ];
-                this._Width       = this.documentHolder.cmpEl.width();
-                this._Height      = this.documentHolder.cmpEl.height();
-                this._BodyWidth   = $('body').width();
-            }
+            this.checkEditorOffsets();
 
             this.lastAnnotBarBounds = bounds;
             (mouseOnTop!==undefined) && (this.lastAnnotBarOnTop = mouseOnTop);
@@ -836,15 +833,7 @@ define([], function () {
         dh.onShowAnnotSelectBar = function(bounds, mouseOnTop) {
             if (this.mode && !this.mode.isEdit) return;
 
-            if (_.isUndefined(this._XY)) {
-                this._XY = [
-                    Common.Utils.getOffset(this.documentHolder.cmpEl).left - $(window).scrollLeft(),
-                    Common.Utils.getOffset(this.documentHolder.cmpEl).top - $(window).scrollTop()
-                ];
-                this._Width       = this.documentHolder.cmpEl.width();
-                this._Height      = this.documentHolder.cmpEl.height();
-                this._BodyWidth   = $('body').width();
-            }
+            this.checkEditorOffsets();
 
             this.lastAnnotSelBarBounds = bounds;
             (mouseOnTop!==undefined) && (this.lastAnnotSelBarOnTop = mouseOnTop);
@@ -1071,15 +1060,7 @@ define([], function () {
             showPoint[1] = Math.min(me._Height - eqContainer.outerHeight(), Math.max(0, showPoint[1]));
             eqContainer.css({left: showPoint[0], top : showPoint[1]});
 
-            if (_.isUndefined(me._XY)) {
-                me._XY = [
-                    Common.Utils.getOffset(documentHolder.cmpEl).left - $(window).scrollLeft(),
-                    Common.Utils.getOffset(documentHolder.cmpEl).top - $(window).scrollTop()
-                ];
-                me._Width       = documentHolder.cmpEl.width();
-                me._Height      = documentHolder.cmpEl.height();
-                me._BodyWidth   = $('body').width();
-            }
+            me.checkEditorOffsets();
 
             var diffDown = me._Height - showPoint[1] - eqContainer.outerHeight(),
                 diffUp = me._XY[1] + showPoint[1],
@@ -1147,15 +1128,7 @@ define([], function () {
             var me = this,
                 cmpEl = me.documentHolder.cmpEl,
                 screenTip = me.screenTip;
-            if (me._XY === undefined) {
-                me._XY = [
-                    Common.Utils.getOffset(cmpEl).left - $(window).scrollLeft(),
-                    Common.Utils.getOffset(cmpEl).top - $(window).scrollTop()
-                ];
-                me._Height = cmpEl.height();
-                me._Width = cmpEl.width();
-                me._BodyWidth = $('body').width();
-            }
+            this.checkEditorOffsets();
 
             if (moveData) {
                 var showPoint, ToolTip,
@@ -2207,6 +2180,7 @@ define([], function () {
                                     chartProps: elValue,
                                     slideSize: PDFE.getController('Toolbar').currentPageSize,
                                     chartSettings: me.api.asc_getChartSettings(),
+                                    api : me.api,
                                     handler: function(result, value) {
                                         if (result == 'ok') {
                                             if (me.api) {
@@ -2615,8 +2589,31 @@ define([], function () {
             if (this.mode && this.mode.isEdit && this.mode.isPDFEdit && !this._isDisabled) {
                 var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
                 if (diagramEditor && chart) {
+                    let x, y;
+                    if (this._state.currentChartRect) {
+                        this.checkEditorOffsets();
+
+                        diagramEditor.setSize(diagramEditor.initConfig.initwidth, diagramEditor.initConfig.initheight);
+
+                        let dlgW = diagramEditor.getWidth() || diagramEditor.initConfig.initwidth,
+                            dlgH = diagramEditor.getHeight() || diagramEditor.initConfig.initheight,
+                            rect_x = this._state.currentChartRect.asc_getX(),
+                            rect_y = this._state.currentChartRect.asc_getY(),
+                            w = this._state.currentChartRect.asc_getWidth(),
+                            h = this._state.currentChartRect.asc_getHeight();
+                        y = this._XY[1] + rect_y + h;
+                        if (y + dlgH > Common.Utils.innerHeight()) {
+                            y = this._XY[1] + rect_y - dlgH;
+                            if (y<0) {
+                                y = Common.Utils.innerHeight() - dlgH;
+                            }
+                        }
+                        x = this._XY[0] + rect_x - (dlgW - w)/2;
+                        if (x + dlgW > Common.Utils.innerWidth())
+                            x = Common.Utils.innerWidth() - dlgW;
+                    }
                     diagramEditor.setEditMode(true);
-                    diagramEditor.show();
+                    diagramEditor.show(x, y);
                     diagramEditor.setChartData(chart);
                 }
             }
@@ -2847,47 +2844,31 @@ define([], function () {
                     }else 
                         chartProps.setDisplayGridlines(VertMajorGridlines, HorMajorGridlines, VertMinorGridlines, item.checked);
                     break;
+                case 'NoneLegend':
+                        chartProps.setDisplayLegend(false, Asc.c_oAscChartLegendShowSettings.none);
+                    break;
                 case 'LeftLegend':
-                    if (chartProps.getLegendPos() === 1) {
-                        chartProps.setDisplayLegend(false, 0);
-                    } else {
-                        chartProps.setDisplayLegend(true, 1);
-                    }
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.left);
                     break;
+
                 case 'TopLegend':
-                    if (chartProps.getLegendPos() === 2) {
-                        chartProps.setDisplayLegend(false, 0);
-                    } else {
-                        chartProps.setDisplayLegend(true, 2);
-                    }
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.top);
                     break;
+
                 case 'RightLegend':
-                    if (chartProps.getLegendPos() === 3) {
-                        chartProps.setDisplayLegend(false, 0);
-                    } else {
-                        chartProps.setDisplayLegend(true, 3);
-                    }
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.right);
                     break;
+
                 case 'BottomLegend':
-                    if (chartProps.getLegendPos() === 4) {
-                        chartProps.setDisplayLegend(false, 0);
-                    } else {
-                        chartProps.setDisplayLegend(true, 4);
-                    }
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.bottom);
                     break;
+
                 case 'LeftOverlay':
-                    if (chartProps.getLegendPos() === 5) {
-                        chartProps.setDisplayLegend(false, 0);
-                    } else {
-                        chartProps.setDisplayLegend(true,5);
-                    }
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.leftOverlay);
                     break;
+
                 case 'RightOverlay':
-                    if (chartProps.getLegendPos() === 6) {
-                        chartProps.setDisplayLegend(false, 0);
-                    } else {
-                        chartProps.setDisplayLegend(true, 6);
-                    }
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.rightOverlay);
                     break;
                 case 'trendLineNone':
                     chartProps.setDisplayTrendlines(false, false, 0, 0);
@@ -3054,33 +3035,14 @@ define([], function () {
             me.chartProps = me.getCurrentChartProps();
         
             if (chartContainer.length < 1) {
-                chartContainer = $('<div id="chart-element-container" style="position: absolute; z-index: 1000;"><div id="id-document-holder-btn-chart-element"></div></div>');
+                chartContainer = $('<div id="chart-element-container" style="position: absolute; z-index: 990;"><div id="id-document-holder-btn-chart-element"></div></div>');
                 documentHolderView.cmpEl.append(chartContainer);
             }
             
             me.isRtlSheet = me.api ? Common.UI.isRTL() : false;
 
             if (me.chartProps) {
-                var x = asc_CRect.asc_getX(),
-                    y = asc_CRect.asc_getY(),
-                    width = asc_CRect.asc_getWidth(),
-                    btnLeft = me.isRtlSheet ? x - 40 : x + width + 8,
-                    btnTop = y;
-
-                if (btnLeft < 25 || btnLeft + 50 > me._Width || btnTop + 30 > me._Height) {
-                    chartContainer.hide();
-                    return;
-                }
-
-                if (btnTop < 0) {
-                    btnTop = 0
-                }
-
-                chartContainer.css({
-                    left: btnLeft + 'px',
-                    top: btnTop + 'px'
-                }).show();
-        
+                
                 if (!me.btnChartElement) {
                     me.btnChartElement = new Common.UI.Button({
                         parentEl: $('#id-document-holder-btn-chart-element'),
@@ -3097,6 +3059,56 @@ define([], function () {
                         }
                     });
                 }
+
+                me._XY = undefined;
+                me.checkEditorOffsets();
+                var x = asc_CRect.asc_getX(),
+                    y = asc_CRect.asc_getY(),
+                    width = asc_CRect.asc_getWidth(),
+                    height = asc_CRect.asc_getHeight(),
+                    btn,
+                    btnTop = y,
+                    btnWidth = 50,
+                    offsetLeft = chartContainer.width() === 40 ? 50 : 42, 
+                    leftSide = x - offsetLeft,
+                    rightSide = x + width + 7;
+                   
+                if (me.isRtlSheet) {
+                    if (leftSide >= 0) {
+                        btn = leftSide + 15;
+                    } else if (rightSide + btnWidth <= me._Width) {
+                        btn = rightSide + 15;
+                    } else {
+                        chartContainer.hide();
+                        return;
+                    }
+                } else {
+                    if (rightSide + btnWidth <= me._Width + 18) {
+                        btn = rightSide;
+                    } else if (leftSide >= 0) {
+                        btn = leftSide;
+                    } else {
+                        chartContainer.hide();
+                        return;
+                    }
+                    
+                }
+
+                if (btnTop < 0) btnTop = 0;
+
+                if (y < 0) {
+                    var chartBottom = y + height;
+                    if (chartBottom < 20) { 
+                        chartContainer.hide();
+                        return;
+                    }
+                }
+
+                chartContainer.css({
+                    left: btn + 'px',
+                    top: btnTop + 'px'
+                }).show();
+        
                 me.disableChartElementButton();
             } else {
                 chartContainer.hide();

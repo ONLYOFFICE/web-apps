@@ -485,9 +485,9 @@ define([
              * hide button's caption to decrease panel width
              * ##adopt-panel-width
             **/
-            processPanelVisible: function(panel, force) {
+            processPanelVisible: function(panel, reset, force) {
                 var me = this;
-                function _fc() {
+                function _fc(reset) {
                     var $active = panel || me.$panels.filter('.active');
                     if ( $active && $active.length ) {
                         var _maxright = $active.parents('.box-controls').width(),
@@ -547,9 +547,9 @@ define([
                                 }
                                 data.rightedge = _rightedge;
                             }
-                            me.resizeToolbar(force);
+                            me.resizeToolbar(reset);
                         } else {
-                            more_section.is(':visible') && me.resizeToolbar(force);
+                            more_section.is(':visible') && me.resizeToolbar(reset);
                             if (!more_section.is(':visible')) {
                                 for (var i=0; i<_btns.length; i++) {
                                     var btn = _btns[i];
@@ -581,12 +581,13 @@ define([
                     }
                 };
 
-                if (!me._timer_id) {
-                    _fc();
+                if (!me._timer_id || force) {
+                    me._timer_id && clearInterval(me._timer_id);
+                    _fc(reset);
                     me._needProcessPanel = false;
-                    me._timer_id =  setInterval(function() {
+                    me._timer_id = setInterval(function() {
                         if (me._needProcessPanel) {
-                            _fc();
+                            _fc(me._needProcessPanel.reset);
                             me._needProcessPanel = false;
                         } else {
                             clearInterval(me._timer_id);
@@ -594,7 +595,7 @@ define([
                         }
                     }, 100);
                 } else
-                    me._needProcessPanel = true;
+                    me._needProcessPanel = {reset: me._needProcessPanel ? me._needProcessPanel.reset || reset : reset};
             },
             /**/
 
@@ -673,6 +674,22 @@ define([
                     btnsMore[tab].remove();
                     delete btnsMore[tab];
                 }
+            },
+
+            moveAllFromMoreButton: function(tab) {
+                if (btnsMore[tab]) {
+                    var moreBar = btnsMore[tab].panel,
+                        items = moreBar ? moreBar.children() : [];
+                    if (items.length>0) {
+                        items.removeAttr('hidden-on-resize');
+                        items.removeAttr('data-hidden-tb-item');
+                        items.removeAttr('group-state');
+                        var panel = this.$panels.filter('[data-tab=' + tab + ']');
+                        panel.length && panel.find('.more-box').before(items);
+                        this.clearMoreButton(tab);
+                    }
+                }
+                this.clearActiveData();
             },
 
             clearActiveData: function(tab) {
@@ -756,7 +773,7 @@ define([
                 var $panel = this.getTab(tab),
                     $morepanel = this.getMorePanel(tab),
                     $moresection = $panel ? $panel.find('.more-box') : null;
-                ($moresection.length<1) && ($moresection = null);
+                ($moresection && $moresection.length<1) && ($moresection = null);
                 return $panel ? !($panel.find('> .group').length>0 || $morepanel && $morepanel.find('.group').length>0) : false;
             },
 
