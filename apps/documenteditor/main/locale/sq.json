@@ -1177,6 +1177,7 @@
   "Common.Views.ShapeShadowDialog.txtSize": "Madhësia",
   "Common.Views.ShapeShadowDialog.txtTitle": "Rregulloni hijen",
   "Common.Views.ShapeShadowDialog.txtTransparency": "Transparencë",
+  "Common.Views.ShortcutsDialog.txtDescription": "Përshkrim",
   "Common.Views.ShortcutsDialog.txtEmpty": "Nuk u gjetën përputhje. Rregulloni kërkimin tuaj.",
   "Common.Views.ShortcutsDialog.txtRestoreAll": "Riktheni të gjitha në cilësimet fillestare",
   "Common.Views.ShortcutsDialog.txtRestoreContinue": "Dëshironi të vazhdoni?",
@@ -2540,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Shirit mbi tekstin",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Mbishkruaj qelizat",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Vazhdo formatimin e burimit",
+  "DE.Views.DocumentHolder.txtPercentage": "Përqindje",
   "DE.Views.DocumentHolder.txtPressLink": "Shtypni {0} dhe klikoni lidhjen",
   "DE.Views.DocumentHolder.txtPrintSelection": "Seksioni i printimit",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Fshini shiritin e fraksionit",
@@ -4276,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Gjysmë transparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Nënvizim",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Emri i fontit",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Madhësia e fontit",
-  "Common.Views.ShortcutsDialog.txtDescription": "Description"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Madhësia e fontit"
 }
