@@ -58,6 +58,8 @@ define([
         onLaunch: function () {
             this._state = {};
 
+            this.redactionsWarning = null;
+            this.isFileMenuTab = null;
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
 
@@ -190,8 +192,11 @@ define([
                 Common.UI.TooltipManager.closeTip('mark-for-redaction');
                 Common.UI.TooltipManager.closeTip('apply-redaction');
                 const isMarked = this.api.HasRedact();
-                if (isMarked) {
-                    Common.UI.warning({
+                if (
+                    isMarked &&
+                    (!this.redactionsWarning || !this.redactionsWarning.isVisible())
+                ) {
+                    this.redactionsWarning = Common.UI.warning({
                         width: 500,
                         msg: this.textUnappliedRedactions,
                         buttons: [{
@@ -211,7 +216,10 @@ define([
                                 this.api.RemoveAllRedact();
                                 this.api.SetRedactTool(false);
                                 this.view.btnMarkForRedact.toggle(false);
-                            } else if (btn == 'cancel') {
+                            } else {
+                                if (this.isFileMenuTab) {
+                                    this.view.fireEvent('menu:hide', [this]);
+                                }
                                 if (this.mode.isPDFEdit) {
                                     this.toolbar.toolbar.setTab('red')
                                 } else {
@@ -225,6 +233,7 @@ define([
                     this.api.SetRedactTool(false);
                 }
             }
+            this.isFileMenuTab = tab === 'file';
         },
 
         onRedactionStateToggle: function(isRedaction) {
