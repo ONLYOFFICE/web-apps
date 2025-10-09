@@ -59,6 +59,7 @@ define([
             this._state = {};
 
             this.redactionsWarningVisible = null;
+            this.isFileMenuTab = null;
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
 
@@ -191,9 +192,11 @@ define([
                 Common.UI.TooltipManager.closeTip('mark-for-redaction');
                 Common.UI.TooltipManager.closeTip('apply-redaction');
                 const isMarked = this.api.HasRedact();
-                if (isMarked && !this.redactionsWarningVisible) {
-                    this.redactionsWarningVisible = true;
-                    Common.UI.warning({
+                if (
+                    isMarked &&
+                    (!this.redactionsWarningVisible || !this.redactionsWarningVisible.isVisible())
+                ) {
+                    this.redactionsWarningVisible = Common.UI.warning({
                         width: 500,
                         msg: this.textUnappliedRedactions,
                         buttons: [{
@@ -209,19 +212,19 @@ define([
                                 this.api.ApplyRedact();
                                 this.api.SetRedactTool(false);
                                 this.view.btnMarkForRedact.toggle(false);
-                                this.redactionsWarningVisible = false;
                             } else if (btn == 'doNotApply') {
                                 this.api.RemoveAllRedact();
                                 this.api.SetRedactTool(false);
                                 this.view.btnMarkForRedact.toggle(false);
-                                this.redactionsWarningVisible = false;
                             } else if (btn == 'cancel') {
+                                if (this.isFileMenuTab) {
+                                    this.view.fireEvent('menu:hide', [this]);
+                                }
                                 if (this.mode.isPDFEdit) {
                                     this.toolbar.toolbar.setTab('red')
                                 } else {
                                     Common.NotificationCenter.trigger('pdf:mode-apply', 'edit', 'red');
                                 }
-                                this.redactionsWarningVisible = false;
                             }
                         }, this)
                     });
@@ -230,6 +233,7 @@ define([
                     this.api.SetRedactTool(false);
                 }
             }
+            this.isFileMenuTab = tab === 'file' ? true : false;
         },
 
         onRedactionStateToggle: function(isRedaction) {
