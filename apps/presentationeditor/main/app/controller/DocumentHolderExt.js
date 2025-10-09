@@ -1702,14 +1702,10 @@ define([], function () {
                     minColumns: 10,
                     maxRows: 8,
                     maxColumns: 10,
-                    customClear: true,          // because bug 74394
                 });
                 picker.on('select', function(picker, columns, rows){
                     me.api.put_Table(columns, rows, me._state.placeholderObj);
                     me.editComplete();
-                });
-                menu.on('hide:before', function(menu, e){
-                    picker.setTableSize(0,0);
                 });
                 menu.on('item:click', function(menu, item, e){
                     if (item.value === 'custom') {
