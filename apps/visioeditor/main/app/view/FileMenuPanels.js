@@ -621,12 +621,12 @@ define([], function () {
             this._fontRender = combo.getValue();
         },
 
-        onClickKeyboardShortcut: function() {
-            const win = new Common.Views.ShortcutsDialog({
-                api: this.api
-            });
-            win.show();
-        },
+        // onClickKeyboardShortcut: function() {
+        //     const win = new Common.Views.ShortcutsDialog({
+        //         api: this.api
+        //     });
+        //     win.show();
+        // },
 
         customizeQuickAccess: function () {
             if (this.dlgQuickAccess && this.dlgQuickAccess.isVisible()) return;

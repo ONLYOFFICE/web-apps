@@ -320,7 +320,7 @@ define([
 
                 this.btnAltText = new Common.UI.Button({
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'toolbar__icon btn-big-pivot-sum',
+                    iconCls     : 'toolbar__icon btn-table-alt-text',
                     caption     : this.txtAltText,
                     lock: [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock, _set.cantModifyFilter],
                     style       : 'width: 100%;',

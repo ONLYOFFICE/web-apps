@@ -113,7 +113,8 @@ define([
                     'search:showredact': _.bind(this.onShowHideRedactSearch, this)
                 },
                 'RedactTab': {
-                    'search:showredact': _.bind(this.onShowHideRedactSearch, this)
+                    'search:showredact': _.bind(this.onShowHideRedactSearch, this),
+                    'menu:hide': _.bind(this.clickToolbarTab, this, 'red')
                 },
                 'Common.Views.SearchPanel': {
                     'search:showredact': _.bind(this.onShowHideRedactSearch, this)
