@@ -108,7 +108,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         </ListItem>
                     : ''),
                     <ListItem key='clear-all-fields-link' title={t('Settings.textClearAllFields')} link='#' className='no-indicator' onClick={settingsContext.clearAllFields}>
-                        <SvgIcon slot="media" symbolId={IconClearFields.id} className={'icon icon-svg stroke-svg'} />
+                        <SvgIcon slot="media" symbolId={IconClearFields.id} className={'icon icon-svg'} />
                     </ListItem>
                 ] : null}
                 {(Device.phone || isEditableForms) &&
