@@ -1480,7 +1480,7 @@
   "SSE.Controllers.LeftMenu.textWorkbook": "工作簿",
   "SSE.Controllers.LeftMenu.txtUntitled": "未命名",
   "SSE.Controllers.LeftMenu.warnDownloadAs": "如果您繼續以此格式保存，除文字外的所有功能將會丟失。確定要繼續嗎？",
-  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
   "SSE.Controllers.LeftMenu.warnDownloadCsvSheets": "CSV格式不支持保存多工作表文件。&lt;br&gt;要保留所選格式並僅保存當前工作表，請按“保存”。&lt;br&gt;要保存當前電子表格，請單擊“取消”並以不同的格式保存。",
   "SSE.Controllers.Main.confirmAddCellWatches": "此操作將新增 {0} 個儲存格監視。您是否要繼續？",
   "SSE.Controllers.Main.confirmAddCellWatchesMax": "出於記憶體節省的原因，此操作僅會新增 {0} 個儲存格監視。您是否要繼續？",

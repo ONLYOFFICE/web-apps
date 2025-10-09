@@ -1480,7 +1480,7 @@
   "SSE.Controllers.LeftMenu.textWorkbook": "Pasta de trabalho",
   "SSE.Controllers.LeftMenu.txtUntitled": "Sem título",
   "SSE.Controllers.LeftMenu.warnDownloadAs": "Se guardar o documento neste formato, perderá todos os atributos com exceção do texto.<br>Quer continuar?",
-  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
   "SSE.Controllers.LeftMenu.warnDownloadCsvSheets": "The CSV format does not support saving a multi-sheet file.<br>To keep the selected format and save only the current sheet, press Save.<br>To save the current spreadsheet, click Cancel and save it in a different format.",
   "SSE.Controllers.Main.confirmAddCellWatches": "Esta ação adicionará {0} células de observação.<br>Quer continuar?",
   "SSE.Controllers.Main.confirmAddCellWatchesMax": "Esta ação apenas adiciona {0} células de observação para poupar memória.<br>Continuar?",

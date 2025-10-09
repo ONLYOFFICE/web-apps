@@ -1480,7 +1480,7 @@
   "SSE.Controllers.LeftMenu.textWorkbook": "חוברת עבודה",
   "SSE.Controllers.LeftMenu.txtUntitled": "ללא כותרת",
   "SSE.Controllers.LeftMenu.warnDownloadAs": "<br>אם תימשך השמירה בפורמט זה כל התכונות מלבד הטקסט יאבדו.האם להמשיך בוודאות?",
-  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
   "SSE.Controllers.LeftMenu.warnDownloadCsvSheets": "הפורמט אינו תומך בשמירת קובץ מרובה גיליונות.<br>כדי לשמור את הפורמט שנבחר ולשמור רק את הגיליון הנוכחי נא ללחוץ על \"שמירה\".<br>כדי לשמור את הגיליון האלקטרוני הנוכחי נא ללחוץ על \"ביטול\" ולשמור אותו בפורמט אחר.",
   "SSE.Controllers.Main.confirmAddCellWatches": "פעולה זו תוסיף מעקב אחר תאים{0} .<br>האם אתה רוצה להמשיך?",
   "SSE.Controllers.Main.confirmAddCellWatchesMax": "פעולה זו תוסיף רק {0} מעקבים על תאים כדי לחסוך זיכרון.<br>האם להמשיך?",
