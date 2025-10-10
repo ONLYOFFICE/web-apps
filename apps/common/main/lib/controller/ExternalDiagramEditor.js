@@ -231,8 +231,12 @@ define([
                             this.diagramEditorView.setControlsDisabled(false);
                     } else
                     if (eventData.type == "shortcut") {
-                        if (eventData.data.key == 'escape')
+                        if (eventData.data.key == 'escape') {
+                            if (externalEditor) {
+                                externalEditor.serviceCommand('getChartData');
+                            }
                             this.diagramEditorView.hide();
+                        }
                     } else
                     if (eventData.type == "canClose") {
                         if (eventData.data.answer === true) {
