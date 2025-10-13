@@ -1562,6 +1562,8 @@ define([], function () {
                 if (current.hasOwnProperty(key)) {
                     if (key == 'default') {
                         defUrl = current[key];
+                    } else if (key == '*') {
+                        defUrl = current[key];
                     } else if (!isNaN(parseInt(key))) {
                         currentDistance = Math.abs(ratio - parseInt(key));
                         if (currentDistance < (bestDistance - 0.01)) {
