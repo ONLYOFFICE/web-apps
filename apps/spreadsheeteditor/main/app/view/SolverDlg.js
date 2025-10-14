@@ -478,26 +478,25 @@ define([
         onAddConstrains: function() {
             var me = this,
                 index = this.constrainsList.store.length;
-            // var handlerDlg = function(dlg, result) {
-            //     if (result == 'ok') {
-            //         me.props.addConstraint(index, dlg.getSettings()); //{cellRef: '', operator:AscCommonExcel.c_oAscOperator, constraint:''}
-            //         this.updateConstrainsList(index);
-            //         this.updateButtons();
-            //     }
-            // };
-            // var win = new SSE.Views.ConstraintDialog({
-            //     handler: handlerDlg
-            // }).on('close', function() {
-            //     me.show();
-            // });
-            //
-            // var xy = Common.Utils.getOffset(me.$window);
-            // me.hide();
-            // win.show(me.$window, xy);
-            // win.setSettings({
-            //     api     : me.api,
-            //     props: {cellRef: '', operator: AscCommonExcel.c_oAscOperator['<='], constraint: ''}
-            // });
+            var handlerDlg = function(dlg, result) {
+                if (result == 'ok') {
+                    me.props.addConstraint(index, dlg.getSettings()); //{cellRef: '', operator:AscCommonExcel.c_oAscOperator, constraint:''}
+                    this.updateConstrainsList(index);
+                    this.updateButtons();
+                }
+            };
+            var win = new SSE.Views.ConstraintDialog({
+                handler: handlerDlg,
+                isEdit: false,
+                constraintOperator: me._constraintOperator
+            }).on('close', function() {
+                me.show();
+            });
+
+            var xy = Common.Utils.getOffset(me.$window);
+            me.hide();
+            win.show(me.$window, xy);
+            win.setSettings({cellRef: '', operator: AscCommonExcel.c_oAscOperator['<='], constraint: ''});
         },
 
         onDeleteConstrains: function() {
