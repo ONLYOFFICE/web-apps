@@ -77,6 +77,7 @@ const StatusbarController = inject('storeWorksheets', 'storeFocusObjects', 'user
             storeWorksheets.setActiveWorksheet(index);
             Common.Notifications.trigger('sheet:active', index);
         }
+        onApiUpdateSheet();
     };
 
     const onApiHideTabContextMenu = () => {
