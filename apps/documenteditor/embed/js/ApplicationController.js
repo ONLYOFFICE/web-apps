@@ -163,6 +163,7 @@ DE.ApplicationController = new(function(){
                 api.asc_setDocInfo(docInfo);
                 api.asc_getEditorPermissions(config.licenseUrl, config.customerId);
                 api.asc_enableKeyEvents(true);
+                common.controller.Shortcuts.setApi(api);
 
                 Common.Analytics.trackEvent('Load', 'Start');
             }
@@ -778,14 +779,17 @@ DE.ApplicationController = new(function(){
             WarningShown = true; 
             common.controller.modals.showWarning({
                     title: me.notcriticalErrorTitle,
-                    message: me.txtOpenWarning,
-                    buttons: [me.txtYes, me.txtNo], 
-                    primary: me.txtYes,
+                    message: me.txtOpenWarning.replace('%1', url || ''),
+                    buttons: [me.txtNo, me.txtYes],
+                    primary: me.txtNo,
                     callback: function (btn) {
                         WarningShown = false; 
                         if (btn === me.txtYes) {
                             window.open(url);
                         }
+                    },
+                    closecallback: function() {
+                        WarningShown = false;
                     }
             }); 
         }    
@@ -798,6 +802,9 @@ DE.ApplicationController = new(function(){
                 message: me.scriptLoadError,
                 buttons: [me.txtClose],
                 callback: function(btn) {
+                    window.location.reload();
+                },
+                closecallback: function() {
                     window.location.reload();
                 }
             });
@@ -908,6 +915,11 @@ DE.ApplicationController = new(function(){
                 if (level == Asc.c_oAscError.Level.Critical) {
                     window.location.reload();
                 } 
+            },
+            closecallback: function() {
+                if (level == Asc.c_oAscError.Level.Critical) {
+                    window.location.reload();
+                }
             }
         });
 
@@ -978,7 +990,7 @@ DE.ApplicationController = new(function(){
             }
 
             if (value.logo.image || value.logo.imageEmbedded) {
-                logo.html('<img src="'+(value.logo.image || value.logo.imageEmbedded)+'" style="max-width:100px; max-height:20px;"/>');
+                logo.html('<img src="'+(value.logo.image || value.logo.imageEmbedded)+'" style="max-width:300px; max-height:20px;"/>');
                 logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
 
                 value.logo.imageEmbedded && console.log("Obsolete: The 'imageEmbedded' parameter of the 'customization.logo' section is deprecated. Please use 'image' parameter instead.");
@@ -990,6 +1002,44 @@ DE.ApplicationController = new(function(){
                 logo.removeAttr('href');logo.removeAttr('target');
             }
         }
+    }
+
+    function onOpenLinkPdfForm(sURI, onAllow, onCancel) {
+        var re = new RegExp('ctrl|' + me.textCtrl, 'i'),
+            msg = common.utils.isMac ? me.txtSecurityWarningLink.replace(re, '⌘') : me.txtSecurityWarningLink;
+        common.controller.modals.showWarning({
+            title: me.notcriticalErrorTitle,
+            message: msg.replace('%1', sURI || ''),
+            buttons: [me.textOk, me.textCancel],
+            callback: function(btn) {
+                if (btn == me.textOk && window.event && (!common.utils.isMac && window.event.ctrlKey == true || common.utils.isMac && window.event.metaKey)) {
+                    onAllow();
+                }
+                else
+                    onCancel();
+            },
+            closecallback: function() {
+                onCancel();
+            }
+        });
+    }
+
+    function onOpenFilePdfForm(onAllow, onCancel) {
+        common.controller.modals.showWarning({
+            title: me.notcriticalErrorTitle,
+            message: me.txtSecurityWarningOpenFile,
+            buttons: [me.textOk, me.textCancel],
+            callback: function(btn) {
+                if (btn == me.textOk) {
+                    onAllow();
+                }
+                else
+                    onCancel();
+            },
+            closecallback: function() {
+                onCancel();
+            }
+        });
     }
         // Helpers
     // -------------------------
@@ -1069,6 +1119,10 @@ DE.ApplicationController = new(function(){
 //            api.asc_registerCallback('OnCurrentVisiblePage',    onCurrentPage);
             api.asc_registerCallback('asc_onCurrentPage',           onCurrentPage);
 
+            if (isPDF) {
+                api.asc_registerCallback('asc_onOpenLinkPdfForm',          onOpenLinkPdfForm);
+                api.asc_registerCallback('asc_onOpenFilePdfForm',          onOpenFilePdfForm);
+            }
             // Initialize api gateway
             Common.Gateway.on('init',               loadConfig);
             Common.Gateway.on('opendocument',       loadDocument);
@@ -1131,8 +1185,12 @@ DE.ApplicationController = new(function(){
         textConvertFormDownload: 'Download file as a fillable PDF form to be able to fill it out.',
         textDownloadPdf: 'Download pdf',
         errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
-        txtOpenWarning: 'Clicking this link can be harmful to your device and data.<br> Are you sure you want to continue?',
+        txtOpenWarning: 'Clicking this link can be harmful to your device and data.To protect you computer, click only those hyperlinks from trusted sources. This location may be unsafe:<br>%1<br>Are you sure you want to continue?',
         txtYes:'Yes',
-        txtNo: 'No'
+        txtNo: 'No',
+        textOk: 'OK',
+        textCancel: 'Cancel',
+        txtSecurityWarningLink: 'This document is trying to connect to %1.<br>If you trust this site, press \"OK\" while holding down the ctrl key.',
+        txtSecurityWarningOpenFile: 'This document is trying to open file dialog, press \"OK\" to open.',
     }
 })();

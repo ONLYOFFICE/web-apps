@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Errorea",
       "errorAccessDeny": "Baimenik ez duzun ekintza bat egiten saiatzen ari zara.<br>Mesedez, jarri harremanetan kudeatzaileekin.",
       "errorOpensource": "Doako Community bertsioa erabiliz dokumentuak ikusteko bakarrik ireki ditzakezu. Mugikorreko web editoreetara sarbidea izateko lizentzia komertziala behar da.",
-      "errorProcessSaveResult": "Gordetzean errorea.",
       "errorServerVersion": "Editorearen bertsioa eguneratu da. Orria berriz kargatuko da aldaketak aplikatzeko.",
       "errorUpdateVersion": "Fitxategiaren bertsioa aldatu da. Orria berriz kargatuko da.",
       "leavePageText": "Gorde gabeko aldaketak dituzu dokumentu honetan. Egin klik \"Jarraitu orri honetan\" gordetze automatikoari itxaroteko. Egin klik \"Utzi orri hau\" gorde gabeko aldaketa guztiak baztertzeko.",
@@ -238,14 +237,15 @@
       "titleUpdateVersion": "Bertsioa aldatu da",
       "warnLicenseAnonymous": "Sarbidea debekatuta erabiltzaile anonimoentzat.<br>Irakurtzeko soilik irekiko da dokumentu hau.",
       "warnLicenseBefore": "Lizentzia ez dago aktibo.<br>Jarri zure administratzailearekin harremanetan.",
-      "warnLicenseExceeded": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau bistaratzeko bakarrik irekiko da. Jarri harremanetan administratzailearekin informazio gehiago lortzeko.",
       "warnLicenseExp": "Zure lizentzia iraungi da. Mesedez, eguneratu zure lizentzia eta freskatu orria.",
       "warnLicenseLimitedNoAccess": "Lizentzia iraungi da. Ez daukazu dokumentu-edizio funtzionalitaterako sarbidea. Mesedez, kontaktatu zure administratzailea.",
       "warnLicenseLimitedRenewed": "Lizentziak berritzea behar du. Dokumentu-edizioaren funtzionalitatera sarbide mugatua duzu.<br>Mesedez jarri harremanetan zure administratzailearekin sarbide osoa lortzeko",
-      "warnLicenseUsersExceeded": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan zure administratzailearekin informazio gehiagorako.",
       "warnNoLicense": "Aldibereko konexioen mugara iritsi zara %1 editorerekin. Dokumentu hau bere bistaratzerako bakarrik irekiko da. Jarri harremanetan  %1 salmenta taldearekin eguneraketa pertsonalaren baldintzak jakiteko.",
       "warnNoLicenseUsers": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan %1 salmenta taldearekin mailaz igotzeko baldintzak ezagutzeko.",
-      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko."
+      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Error": {
@@ -370,6 +370,7 @@
     "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
     "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled.",
     "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
     "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
@@ -441,7 +442,9 @@
     "textSheetName": "Orriaren izena",
     "textTabColor": "Fitxa kolorea",
     "textUnhide": "Ezkutatzeaz utzi",
-    "textWarnDeleteSheet": "Kalkulu-orriak datuak izan ditzake. Eragiketarekin jarraitu?"
+    "textWarnDeleteSheet": "Kalkulu-orriak datuak izan ditzake. Eragiketarekin jarraitu?",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Gorde gabeko aldaketak dituzu dokumentu honetan. Egin klik \"Jarraitu orri honetan\" gordetze automatikoari itxaroteko. Egin klik \"Utzi orri hau\" gorde gabeko aldaketa guztiak baztertzeko.",
@@ -712,7 +715,18 @@
       "textYen": "Yen",
       "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
       "txtSortHigh2Low": "Antolatu handienetik txikienera",
-      "txtSortLow2High": "Antolatu txikienetik handienera"
+      "txtSortLow2High": "Antolatu txikienetik handienera",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textAllCaps": "All Caps",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textDoubleStrikethrough": "Double Strikethrough",
+      "textLetterSpacing": "Letter spacing",
+      "textSmallCaps": "Small Caps",
+      "textStrikethrough": "Strikethrough",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript"
     },
     "Settings": {
       "advCSVOptions": "Hautatu CSV aukerak",
@@ -866,7 +880,11 @@
       "txtVi": "Vietnamera",
       "txtZh": "Txinera",
       "warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br> Ziur zaude aurrera jarraitu nahi duzula?",
-      "textClose": "Close"
+      "textClose": "Close",
+      "txtSr": "Serbian (Latin)",
+      "txtSrcyrl": "Serbian (Cyrillic)",
+      "txtZhtw": "Chinese (Traditional)",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   },
   "Draw": {

@@ -302,8 +302,6 @@ define([
                 me.warnNoLicense  = (me.warnNoLicense || '').replace(/%1/g, '{{COMPANY_NAME}}');
                 me.warnNoLicenseUsers = (me.warnNoLicenseUsers || '').replace(/%1/g, '{{COMPANY_NAME}}');
                 me.textNoLicenseTitle = (me.textNoLicenseTitle || '').replace(/%1/g, '{{COMPANY_NAME}}');
-                me.warnLicenseExceeded = (me.warnLicenseExceeded || '').replace(/%1/g, '{{COMPANY_NAME}}');
-                me.warnLicenseUsersExceeded = (me.warnLicenseUsersExceeded || '').replace(/%1/g, '{{COMPANY_NAME}}');
             },
 
             loadConfig: function(data) {
@@ -489,7 +487,7 @@ define([
                     Common.NotificationCenter.trigger('collaboration:sharingdeny');
                     Common.NotificationCenter.trigger('api:disconnect');
                     !old_rights && Common.UI.TooltipManager.showTip({ step: 'changeRights', text: _.isEmpty(data.message) ? this.warnProcessRightsChange : data.message,
-                        target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true,
+                        target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true,
                         callback: function() {
                             me._state.lostEditingRights = false;
                         }});
@@ -953,11 +951,14 @@ define([
 
                 documentHolderController.getView().on('editcomplete', _.bind(me.onEditComplete, me));
 
+                // VE.getController('Common.Controllers.Shortcuts').setApi(me.api);
+
                 if (me.appOptions.isEdit) {
                     if (me.needToUpdateVersion)
                         Common.NotificationCenter.trigger('api:disconnect');
 
                     var timer_sl = setTimeout(function(){
+
                         toolbarController.createDelayedElements();
                         toolbarController.activateControls();
                         documentHolderController.applyEditorMode();
@@ -1048,17 +1049,21 @@ define([
                     });
                 } else if (this._state.licenseType) {
                     var license = this._state.licenseType,
+                        title = this.textNoLicenseTitle,
                         buttons = ['ok'],
-                        primary = 'ok';
+                        primary = 'ok',
+                        modal = false;
                     if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
                         (license===Asc.c_oLicenseResult.SuccessLimit || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
                         license = this.warnLicenseLimitedRenewed;
                     } else if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
-                        license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
+                        title = this.titleReadOnly;
+                        license = (license===Asc.c_oLicenseResult.Connections) ? this.tipLicenseExceeded : this.tipLicenseUsersExceeded;
                     } else {
                         license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
                         buttons = [{value: 'buynow', caption: this.textBuyNow}, {value: 'contact', caption: this.textContactUs}];
                         primary = 'buynow';
+                        modal = true;
                     }
 
                     if (this._state.licenseType!==Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.isEdit || this.appOptions.isRestrictedEdit)) {
@@ -1067,25 +1072,19 @@ define([
                         Common.NotificationCenter.trigger('api:disconnect');
                     }
 
-                    var value = Common.localStorage.getItem("ve-license-warning");
-                    value = (value!==null) ? parseInt(value) : 0;
-                    var now = (new Date).getTime();
-                    if (now - value > 86400000) {
-                        Common.UI.info({
-                            maxwidth: 500,
-                            title: this.textNoLicenseTitle,
-                            msg  : license,
-                            buttons: buttons,
-                            primary: primary,
-                            callback: function(btn) {
-                                Common.localStorage.setItem("ve-license-warning", now);
-                                if (btn == 'buynow')
-                                    window.open('{{PUBLISHER_URL}}', "_blank");
-                                else if (btn == 'contact')
-                                    window.open('mailto:{{SALES_EMAIL}}', "_blank");
-                            }
-                        });
-                    }
+                    Common.UI.info({
+                        maxwidth: 500,
+                        title: title,
+                        msg  : license,
+                        buttons: buttons,
+                        primary: primary,
+                        callback: function(btn) {
+                            if (btn == 'buynow')
+                                window.open('{{PUBLISHER_URL}}', "_blank");
+                            else if (btn == 'contact')
+                                window.open('mailto:{{SALES_EMAIL}}', "_blank");
+                        }
+                    });
                 } else if (!this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt &&
                     this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo ||
                         this.editorConfig.customization.font && (this.editorConfig.customization.font.size || this.editorConfig.customization.font.name))) {
@@ -1363,7 +1362,7 @@ define([
                         Common.NotificationCenter.trigger('collaboration:sharingdeny');
                         var me = this;
                         Common.UI.TooltipManager.showTip({ step: 'userDrop', text: this.errorUserDrop,
-                            target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true,
+                            target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true,
                             callback: function() {
                                 me._state.lostEditingRights = false;
                             }});
@@ -1711,13 +1710,13 @@ define([
             },
 
             onUpdateVersion: function(callback) {
-                console.log("Obsolete: The 'onOutdatedVersion' event is deprecated. Please use 'onRequestRefreshFile' event and 'refreshFile' method instead.");
+                this.editorConfig && this.editorConfig.canUpdateVersion && console.log("Obsolete: The 'onOutdatedVersion' event is deprecated. Please use 'onRequestRefreshFile' event and 'refreshFile' method instead.");
 
                 var me = this;
                 me.needToUpdateVersion = true;
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                 Common.UI.TooltipManager.showTip({ step: 'updateVersionReload', text: this.errorUpdateVersion, header: this.titleUpdateVersion,
-                    target: '#toolbar', maxwidth: 'none', closable: false, automove: true, noHighlight: true,
+                    target: '#toolbar', maxwidth: 'none', closable: false, automove: true, noHighlight: true, noArrow: true,
                     callback: function() {
                         _.defer(function() {
                             Common.Gateway.updateVersion();
@@ -2020,6 +2019,7 @@ define([
 
             onRequestRefreshFile: function() {
                 Common.Gateway.requestRefreshFile();
+                console.log('Trying to refresh file');
             },
 
             onRefreshFile: function(data) {

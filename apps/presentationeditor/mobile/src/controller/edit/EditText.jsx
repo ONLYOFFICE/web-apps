@@ -230,16 +230,16 @@ class EditTextController extends Component {
 
     changeLetterSpacing(curSpacing, isDecrement) {
         const api = Common.EditorApi.get();
-        let spacing = curSpacing;
-
-        if (isDecrement) {
-            spacing = (spacing === null || spacing === undefined || spacing === NaN) ? 0 : Math.max(-100, --spacing);
-        } else {
-            spacing = (spacing === null || spacing === undefined || spacing === NaN) ? 0 : Math.min(100, ++spacing);
-        }
+        const step = Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01;
+        const maxValue = Common.Utils.Metric.fnRecalcFromMM(558.7);
+        const minValue = Common.Utils.Metric.fnRecalcFromMM(-558.7);
+        const newValue = isDecrement
+            ? Math.max(minValue, curSpacing - step)
+            : Math.min(maxValue, curSpacing + step);
+        const convertedValue = Common.Utils.Metric.fnRecalcToMM(newValue);
     
         const properties = new Asc.asc_CParagraphProperty();
-        properties.put_TextSpacing(Common.Utils.Metric.fnRecalcToMM(spacing));
+        properties.put_TextSpacing(convertedValue);
         api.paraApply(properties);
     }
 
@@ -314,6 +314,14 @@ class EditTextController extends Component {
         api.ShapeApply(properties);
     }
 
+    setOrientationTextTable(direction) {
+        const api = Common.EditorApi.get();
+        const properties = new Asc.CTableProp();
+
+        properties.put_CellsTextDirection(direction);
+        api.tblApply(properties);
+    }
+
     render () {
         return (
             <EditText
@@ -341,6 +349,7 @@ class EditTextController extends Component {
                 onInsertByUrl={this.onInsertByUrl}
                 onLineSpacing={this.onLineSpacing}
                 setOrientationTextShape={this.setOrientationTextShape}
+                setOrientationTextTable={this.setOrientationTextTable}
             />
         )
     }

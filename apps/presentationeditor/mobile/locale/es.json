@@ -83,7 +83,7 @@
     "textDoNotShowAgain": "No mostrar de nuevo",
     "textOk": "Aceptar",
     "textRows": "Filas",
-    "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos.<br>¿Está seguro de que quiere continuar?"
+    "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos. Esta ubicación puede ser insegura:<br>{0}<br>¿Está seguro de que quiere continuar?"
   },
   "Controller": {
     "Main": {
@@ -93,7 +93,6 @@
       "criticalErrorTitle": "Error",
       "errorAccessDeny": "Está intentando realizar una acción para la que no tiene derechos.<br>Por favor, contacte con su administrador.",
       "errorOpensource": "Utilizando la versión gratuita Community, puede abrir documentos sólo para visualizarlos. Para acceder a los editores web móviles, se requiere una licencia comercial.",
-      "errorProcessSaveResult": "Error al guardar.",
       "errorServerVersion": "La versión del editor ha sido actualizada. La página será recargada para aplicar los cambios.",
       "errorUpdateVersion": "Se ha cambiado la versión del archivo. La página será actualizada.",
       "leavePageText": "Tiene cambios no guardados en este documento. Haga clic en \"Quedarse en esta página\" para esperar hasta que se guarden automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
@@ -165,19 +164,20 @@
       "textReplaceSuccess": "Se ha realizado la búsqueda. Ocurrencias reemplazadas: {0}",
       "textRequestMacros": "Una macro realiza una solicitud a la URL. ¿Quiere permitir la solicitud al %1?",
       "textYes": "Sí",
+      "tipLicenseExceeded": "El documento está abierto en modo de sólo lectura, ya que se ha alcanzado el número máximo de conexiones simultáneas permitidas por la licencia.<br><br>Por favor, inténtelo de nuevo más tarde o póngase en contacto con el propietario del documento si necesita acceso a la edición.",
+      "tipLicenseUsersExceeded": "El documento está abierto en modo de sólo lectura, ya que se ha alcanzado el número máximo de usuarios autorizados a editar documentos por licencia.<br><br>Por favor, inténtelo de nuevo más tarde o póngase en contacto con el propietario del documento si necesita acceso a la edición.",
       "titleLicenseExp": "Licencia ha expirado",
       "titleLicenseNotActive": "Licencia no activa",
+      "titleReadOnly": "Modo de sólo lectura",
       "titleServerVersion": "Editor ha sido actualizado",
       "titleUpdateVersion": "Versión ha cambiado",
       "txtIncorrectPwd": "La contraseña es incorrecta",
       "txtProtected": "Una vez que se ha introducido la contraseña y abierto el archivo, la contraseña actual del archivo se restablecerá",
       "warnLicenseAnonymous": "Acceso denegado a usuarios anónimos.<br>Este documento se abrirá solo para su visualización.",
       "warnLicenseBefore": "Licencia no activa.<br>Por favor, póngase en contacto con su administrador.",
-      "warnLicenseExceeded": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con su administrador para obtener más información.",
       "warnLicenseExp": "Su licencia ha expirado. Por favor, actualícela y recargue la página.",
       "warnLicenseLimitedNoAccess": "La licencia ha expirado. No tiene acceso a la funcionalidad de edición de documentos. Por favor, póngase en contacto con su administrador.",
       "warnLicenseLimitedRenewed": "La licencia necesita renovación. Tiene acceso limitado a la funcionalidad de edición de documentos.<br>Por favor, póngase en contacto con su administrador para obtener acceso completo",
-      "warnLicenseUsersExceeded": "Ha alcanzado el límite de usuarios para los editores de %1. Contacte con su administrador para recibir más información.",
       "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para los editores de %1. <br>Contacte con el equipo de ventas de %1 para conocer los términos de actualización personal.",
       "warnProcessRightsChange": "No tiene permiso para editar el archivo."
@@ -355,6 +355,7 @@
       "textBack": "Atrás",
       "textBandedColumn": "Columna con bandas",
       "textBandedRow": "Fila con bandas",
+      "textBaseline": "Línea de base",
       "textBefore": "Antes",
       "textBlack": "En negro",
       "textBorder": "Borde",
@@ -365,8 +366,10 @@
       "textBullets": "Viñetas",
       "textBulletsAndNumbers": "Viñetas y números",
       "textCancel": "Cancelar",
+      "textCapitalization": "Mayúsculas",
       "textCaseSensitive": "Distinguir mayúsculas de minúsculas",
       "textCellMargins": "Márgenes de celdas",
+      "textCellSize": "Tamaño de la сelda",
       "textChangeShape": "Cambiar forma",
       "textChart": "Gráfico",
       "textClock": "Reloj",
@@ -495,7 +498,9 @@
       "textZoom": "Zoom",
       "textZoomIn": "Acercar",
       "textZoomOut": "Alejar",
-      "textZoomRotate": "Zoom y giro"
+      "textZoomRotate": "Zoom y giro",
+      "txtHeight": "Altura",
+      "txtWidth": "Ancho"
     },
     "Settings": {
       "mniSlideStandard": "Estándar (4:3)",

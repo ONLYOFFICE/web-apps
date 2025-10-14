@@ -3,10 +3,10 @@ import { Popover, Sheet, View, f7 } from 'framework7-react';
 import { Device } from '../../../../../common/mobile/utils/device';
 import { EditLinkController } from "../../controller/edit/EditLink";
 import { Theme, Layout, Transition, Type, Effect, StyleFillColor, CustomFillColor } from './EditSlide';
-import { PageTextFonts, PageTextFontColor, PageTextHighlightColor, PageTextCustomFontColor, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextLineSpacing, PageTextBulletsLinkSettings, PageOrientationTextShape } from './EditText';
+import { PageTextFonts, PageTextFontColor, PageTextHighlightColor, PageTextCustomFontColor, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextLineSpacing, PageTextBulletsLinkSettings, PageOrientationTextShape, PageOrientationTextTable } from './EditText';
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageAlignContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 import { PageImageReplace, PageImageReorder, PageImageAlign, PageLinkSettings } from './EditImage';
-import { PageTableStyle, PageTableStyleOptions, PageTableCustomFillColor, PageTableBorderColor, PageTableCustomBorderColor, PageTableReorder, PageTableAlign } from './EditTable';
+import { PageTableStyle, PageTableStyleOptions, PageTableCustomFillColor, PageTableBorderColor, PageTableCustomBorderColor, PageTableReorder, PageTableAlign, PageTableSize } from './EditTable';
 import { PageChartDesign, PageChartDesignType, PageChartDesignStyle, PageChartDesignFill, PageChartDesignBorder, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartAlign } from './EditChart'
 import EditingPage from './EditingPage';
 import { MainContext } from '../../page/main';
@@ -157,6 +157,10 @@ const routes = [
         component: PageTableStyle
     },
     {
+        path: '/edit-table-size/',
+        component: PageTableSize
+    },
+    {
         path: '/edit-table-style-options/',
         component: PageTableStyleOptions
     },
@@ -172,6 +176,10 @@ const routes = [
         path: '/edit-table-custom-fill-color/',
         component: PageTableCustomFillColor
     }, 
+    {
+        path: '/edit-text-table-orientation/',
+        component: PageOrientationTextTable
+    },
 
     // Chart
 

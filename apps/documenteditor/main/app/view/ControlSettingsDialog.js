@@ -203,23 +203,13 @@ define([
             this.btnDown.on('click', _.bind(this.onMoveItem, this, false));
 
             // date picker
-            var data = [{ value: 0x0401 }, { value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0406 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x3809 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
-                { value: 0x040B }, { value: 0x040C }, { value: 0x100C }, { value: 0x0421 }, { value: 0x0410 }, { value: 0x0810 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
-                { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x281A }, { value: 0x241A }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }, { value: 0x0404 }];
-            data.forEach(function(item) {
-                var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
-                var displayName = Common.util.LanguageInfo.getLocalLanguageDisplayName(item.value);
-                item.displayValue = displayName.native;
-                item.displayValueEn = displayName.english;
-                item.langName = langinfo[0];
-            });
-
             this.cmbLang = new Common.UI.ComboBox({
                 el          : $('#control-settings-lang'),
                 menuStyle   : 'min-width: 100%; max-height: 185px;',
                 cls         : 'input-group-nr',
                 editable    : false,
                 takeFocusOnClose: true,
+                data        : Common.util.LanguageInfo.getRegionalData(),
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= item.value %>">',
@@ -230,9 +220,8 @@ define([
                             '<label style="opacity: 0.6"><%= item.displayValueEn %></label>',
                             '</a>',
                         '</li>',
-                    '<% }); %>',
+                    '<% }); %>'
                 ].join('')),
-                data        : data,
                 search: true,
                 searchFields: ['displayValue', 'displayValueEn'],
                 scrollAlwaysVisible: true

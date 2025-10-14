@@ -1102,7 +1102,411 @@ define([], function () {
                 })
             });
 
-
+            var _СhartSettingsDlg_view = SSE.Views.ChartSettingsDlg.prototype;
+            me.menuChartElement = new Common.UI.MenuItem({
+                menu: new Common.UI.Menu({
+                    items: [
+                        { 
+                            caption: me.textAxes, 
+                            value: 'axes',
+                            disabled: false, 
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',  
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textHorAxis, 
+                                        value: 'bShowHorAxis',
+                                        stopPropagation: true,
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textVertAxis, 
+                                        value: 'bShowVertAxis',
+                                        stopPropagation: true, 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textHorAxisSec, 
+                                        value: 'bShowHorAxSec',
+                                        stopPropagation: true, 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textVertAxisSec, 
+                                        value: 'bShowVertAxSec', 
+                                        stopPropagation: true,
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.DepthAxis, 
+                                        value: 'bShowDepthAxes', 
+                                        stopPropagation: true,
+                                        checkable: true
+                                    }
+                                ]
+                            })
+                        },
+                        { 
+                            caption: me.textAxisTitles, 
+                            value: 'axisTitles', 
+                            disabled: false,
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',  
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    { 
+                                        caption:_СhartSettingsDlg_view.textHorAxis, 
+                                        value: 'bShowHorAxTitle',
+                                        stopPropagation: true, 
+                                        checkable: true                                   
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textVertAxis, 
+                                        value: 'bShowVertAxTitle',
+                                        stopPropagation: true,  
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption:  _СhartSettingsDlg_view.textHorAxisSec, 
+                                        value: 'bShowHorAxTitleSec',
+                                        stopPropagation: true,  
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textVertAxisSec, 
+                                        value: 'bShowVertAxisTitleSec',
+                                        stopPropagation: true,  
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.DepthAxis, 
+                                        value: 'bShowDepthAxisTitle',
+                                        stopPropagation: true,  
+                                        checkable: true
+                                    }
+                                ]
+                            })
+                        },
+                        { 
+                            caption: me.textChartTitle, 
+                            value: 'chartTitle',
+                            disabled: false,
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',  
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    { 
+                                        caption: me.textNone, 
+                                        value: 'bShowChartTitleNone',
+                                        stopPropagation: true, 
+                                        toggleGroup: 'chartTitle', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textNoOverlay, 
+                                        value: 'bShowChartTitle',
+                                        stopPropagation: true,
+                                        toggleGroup: 'chartTitle',   
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textOverlay, 
+                                        value: 'bOverlayTitle',
+                                        stopPropagation: true,
+                                        toggleGroup: 'chartTitle',   
+                                        checkable: true
+                                    }
+                                ]
+                            })
+                        },
+                        { 
+                            caption: _СhartSettingsDlg_view.textDataLabels, 
+                            value: 'dataLabels', 
+                            disabled: false,
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',  
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    { 
+                                        caption: me.textNone, 
+                                        value: 'bShowDataLabels',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels',   
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textCenter, 
+                                        value: 'CenterData',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels',   
+                                        checkable: true
+                                    },
+                                    {   
+                                        caption: _СhartSettingsDlg_view.textInnerBottom, 
+                                        value: 'InnerBottomData',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels',   
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textInnerTop, 
+                                        value: 'InnerTopData',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels',   
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textOuterTop, 
+                                        value: 'OuterTopData',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels',   
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textTop, 
+                                        value: 'TopData',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels',   
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textLeft, 
+                                        value: 'LeftData',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels',   
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textRight, 
+                                        value: 'RightData',
+                                        stopPropagation: true,  
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textBottom, 
+                                        value: 'BottomData',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels',   
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textFit, 
+                                        value: 'FitWidthData',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels',   
+                                        checkable: true
+                                    }                 
+                                ]
+                            })
+                        },
+                        // { 
+                        //     caption: me.textDataTable, 
+                        //     value: 'dataTable', 
+                        //     disabled: false,
+                        //     menu: new Common.UI.Menu({
+                        //         cls: 'shifted-right',  
+                        //         menuAlign: 'tl-tr',
+                        //         items: [
+                        //             { 
+                        //                 caption: me.textNone, 
+                        //                 value: 'bShowDataNone'
+                        //             },
+                        //             { 
+                        //                 caption: me.textShowDataTable, 
+                        //                 value: 'bShowDataTable'
+                        //             },
+                        //             { 
+                        //                 caption: me.textShowLegendKeys, 
+                        //                 value: 'bShowLegendKeys' 
+                        //             }
+                        //         ]
+                        //     })
+                        // },
+                        {
+                            caption: me.textErrorBars,
+                            value: 'errorBars',
+                            disabled: false,
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',  
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    {
+                                        caption: me.textStandardError,
+                                        value: 'standardError',
+                                        stopPropagation: true, 
+                                        disabled: false
+                                    },
+                                    {
+                                        caption: me.txtPercentage,
+                                        value: 'percentage',
+                                        stopPropagation: true, 
+                                        disabled: false
+                                    },
+                                    {
+                                        caption: me.textStandardDeviation,
+                                        value: 'standardDeviation',
+                                        stopPropagation: true, 
+                                        disabled: false
+                                    }
+                                ]
+                            })
+                        },
+                        { 
+                            caption: _СhartSettingsDlg_view.textGridLines, 
+                            value: 'gridLines', 
+                            disabled: false,
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',  
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    { 
+                                        caption: me.textHorizontalMajor, 
+                                        value: 'bShowHorMajor',
+                                        stopPropagation: true,  
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textVerticalMajor, 
+                                        value: 'bShowVerMajor',
+                                        stopPropagation: true,  
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textHorizontalMinor, 
+                                        value: 'bShowHorMinor',
+                                        stopPropagation: true,  
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.textVerticalMinor, 
+                                        value: 'bShowVerMinor',
+                                        stopPropagation: true,  
+                                        checkable: true
+                                    }
+                                ]
+                            })
+                        },
+                        { 
+                            caption: _СhartSettingsDlg_view.textLegendPos, 
+                            value: 'legend', 
+                            disabled: false,
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',  
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    { 
+                                        caption: me.textNone, 
+                                        value: 'NoneLegend',
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend',  
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textTop, 
+                                        value: 'TopLegend',
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend',  
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textLeft, 
+                                        value: 'LeftLegend',
+                                        stopPropagation: true, 
+                                        toggleGroup: 'legend',   
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textRight, 
+                                        value: 'RightLegend', 
+                                        stopPropagation: true, 
+                                        toggleGroup: 'legend',  
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textBottom, 
+                                        value: 'BottomLegend', 
+                                        stopPropagation: true, 
+                                        toggleGroup: 'legend',  
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textLeftOverlay, 
+                                        value: 'LeftOverlay', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend',   
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: _СhartSettingsDlg_view.textRightOverlay, 
+                                        value: 'RightOverlay', 
+                                        stopPropagation: true, 
+                                        toggleGroup: 'legend',  
+                                        checkable: true
+                                    }
+                                ]
+                            })
+                        },
+                        {
+                            caption: me.textTrendline,
+                            value: 'trendLines',
+                            disabled: false,
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',  
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    {
+                                        caption: me.textNone, 
+                                        stopPropagation: true, 
+                                        value: 'trendLineNone'
+                                    },
+                                    {
+                                        caption: me.textLinear,
+                                        stopPropagation: true, 
+                                        value: 'trendLineLinear'
+                                    },
+                                    {
+                                        caption: me.textExponential,
+                                        stopPropagation: true,  
+                                        value: 'trendLineExponential'
+                                    },
+                                    {
+                                        caption: me.textLinearForecast,
+                                        stopPropagation: true, 
+                                        value: 'trendLineForecast'
+                                    },
+                                    {
+                                        caption: me.textMovingAverage, 
+                                        stopPropagation: true, 
+                                        value: 'trendLineMovingAverage'
+                                    }
+                                ]
+                            })
+                        },
+                        { 
+                            caption: me.textUpDownBars, 
+                            value: 'upDownBars', 
+                            disabled: false,
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',  
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    { 
+                                        caption: me.textNone, 
+                                        stopPropagation: true,  
+                                        value: 'bShowUpDownNone'
+                                    },
+                                    { 
+                                        caption: me.textShowUpDown, 
+                                        stopPropagation: true, 
+                                        value: 'bShowUpDownBars'
+                                    }
+                                ]
+                            })
+                        }
+                    ]
+                })
+            });
 
             me.menuImgRotate = new Common.UI.MenuItem({
                 caption     : me.textRotate,

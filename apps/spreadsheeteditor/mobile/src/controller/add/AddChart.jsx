@@ -23,20 +23,24 @@ class AddChartController extends Component {
         const api = Common.EditorApi.get();
         const { t } = this.props;
         const _t = t('View.Add', {returnObjects: true});
-        const settings = api.asc_getChartObject(true);
+        const settings = api.asc_getChartSettings(true);
         const info = api.asc_getCellInfo();
         const selType = info.asc_getSelectionType();
         const isChartEdit = (selType == Asc.c_oAscSelectionType.RangeChart || selType == Asc.c_oAscSelectionType.RangeChartText);
 
         if (settings) {
-            isChartEdit ? settings.changeType(type) : settings.putType(type);
-            let range = settings.getRange(),
-                isValid = !!range ? api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, !settings.getInColumns(), settings.getType()) : Asc.c_oAscError.ID.No;
-            if (isValid == Asc.c_oAscError.ID.No) {
-                isChartEdit ? api.asc_editChartDrawingObject(settings) : api.asc_addChartDrawingObject(settings);
-                this.closeModal();
+            if (isChartEdit) {
+                settings.changeType(type);
             } else {
-                f7.dialog.alert((isValid == Asc.c_oAscError.ID.StockChartError) ? _t.errorStockChart : ((isValid == Asc.c_oAscError.ID.MaxDataSeriesError) ? _t.errorMaxRows : _t.txtInvalidRange), _t.notcriticalErrorTitle);
+                settings.putType(type);
+                let range = settings.getRange(),
+                    isValid = !!range ? api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, !settings.getInColumns(), settings.getType()) : Asc.c_oAscError.ID.No;
+                if (isValid == Asc.c_oAscError.ID.No) {
+                    api.asc_addChartDrawingObject(settings);
+                    this.closeModal();
+                } else {
+                    f7.dialog.alert((isValid == Asc.c_oAscError.ID.StockChartError) ? _t.errorStockChart : ((isValid == Asc.c_oAscError.ID.MaxDataSeriesError) ? _t.errorMaxRows : _t.txtInvalidRange), _t.notcriticalErrorTitle);
+                }
             }
         }
     }

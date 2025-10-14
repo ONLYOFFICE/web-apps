@@ -614,19 +614,30 @@ define([
 
             // Roles
 
+            // add_role command = 0
+
             var itemsTemplate =
                 [
                     '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" data-value="<%= Common.Utils.String.htmlEncode(item.value) %>"><a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right: 10px;': 'padding-left: 10px;') + 'overflow: hidden; text-overflow: ellipsis;">',
-                            '<span class="color" style="background: <%= item.color %>;"></span>',
-                            '<%= Common.Utils.String.htmlEncode(item.displayValue) %>',
-                        '</a></li>',
+                        '<li id="<%= item.id %>" data-value="<%= Common.Utils.String.htmlEncode(item.value) %>"<% if (item.value === 0) { %> class="border-top"<% } %>>',
+                            '<% if (item.value === 0) { %>',
+                                '<a tabindex="-1" type="menuitem" style="display: block; padding: ' + (Common.UI.isRTL() ? '5px 24px 5px 20px' : '5px 20px 5px 24px') + ';">',
+                                    '<span class="menu-item-icon menu__icon btn-zoomup"></span>',
+                                    '<%= Common.Utils.String.htmlEncode(item.displayValue) %>',
+                                '</a>',
+                            '<% } else { %>',
+                                '<a tabindex="-1" type="menuitem" style="padding-' + (Common.UI.isRTL() ? 'right' : 'left') + ': 10px;">',
+                                    '<span class="color" style="background: <%= item.color %>;"></span>',
+                                    '<div style="overflow: hidden; text-overflow: ellipsis;"><%= Common.Utils.String.htmlEncode(item.displayValue) %></div>',
+                                '</a>',
+                            '<% } %>',
+                        '</li>',
                     '<% }); %>'
                 ];
 
             var template = [
                 '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                    '<div class="form-control" style="display: block; padding-top:3px; line-height: 14px; cursor: pointer; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;<%= style %>"></div>',
+                    '<div class="form-control" style="display: flex; align-items: center; line-height: 14px; cursor: pointer; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;<%= style %>"></div>',
                     '<div style="display: table-cell;"></div>',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">'].concat(itemsTemplate).concat([
@@ -652,7 +663,8 @@ define([
                 updateFormControl: function(record) {
                     var formcontrol = $(this.el).find('.form-control');
                     if (record) {
-                        formcontrol[0].innerHTML = '<span class="color" style="background:' + record.get('color') + ';"></span>' + Common.Utils.String.htmlEncode(record.get('displayValue'));
+                        formcontrol[0].innerHTML =
+                            `<span class="color" style="background: ${record.get('color')};"></span><div style="overflow: hidden; text-overflow: ellipsis;">${Common.Utils.String.htmlEncode(record.get('displayValue'))}</div>`;
                     } else
                         formcontrol[0].innerHTML = '';
                 }
@@ -779,16 +791,6 @@ define([
                 setTimeout(function(){me.cmbDateFormat._input && me.cmbDateFormat._input.select();}, 1);
             });
 
-            var data = [{ value: 0x0401 }, { value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0406 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x3809 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
-                { value: 0x040B }, { value: 0x040C }, { value: 0x100C }, { value: 0x0421 }, { value: 0x0410 }, { value: 0x0810 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
-                { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x281A }, { value: 0x241A }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }];
-            data.forEach(function(item) {
-                var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
-                var displayName = Common.util.LanguageInfo.getLocalLanguageDisplayName(item.value);
-                item.displayValue = displayName.native;
-                item.displayValueEn = displayName.english;
-                item.langName = langinfo[0];
-            });
             this.cmbLang = new Common.UI.ComboBox({
                 el: $markup.findById('#form-cmb-date-lang'),
                 cls: 'input-group-nr',
@@ -797,6 +799,7 @@ define([
                 menuAlignEl: $(this.el).parent(),
                 restoreMenuHeightAndTop: 85,
                 editable: false,
+                data: Common.util.LanguageInfo.getRegionalData(),
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= item.value %>">',
@@ -807,9 +810,8 @@ define([
                                 '<label style="opacity: 0.6"><%= item.displayValueEn %></label>',
                             '</a>',
                         '</li>',
-                    '<% }); %>',
+                    '<% }); %>'
                 ].join('')),
-                data: data,
                 search: true,
                 searchFields: ['displayValue', 'displayValueEn'],
                 dataHint: '1',
@@ -1940,6 +1942,9 @@ define([
                     color: color ? '#' + Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()) : 'transparent'
                 });
             });
+
+            arr.push({ displayValue: this.textAddRole, value: 0 });
+
             this.cmbRoles.setData(arr);
             this.cmbRoles.setValue(lastrole);
         },
@@ -1947,13 +1952,43 @@ define([
         onRolesChanged: function(combo, record) {
             if (this.api && !this._noApply) {
                 this._state.Role = undefined;
-                var props   = this._originalProps || new AscCommon.CContentControlPr();
+
+                var me = this;
+                var props = this._originalProps || new AscCommon.CContentControlPr();
                 var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
-                formPr.put_Role(record.value);
-                props.put_FormPr(formPr);
-                this.api.asc_SetContentControlProperties(props, this.internalId);
-                Common.Utils.InternalSettings.set('de-last-form-role', record.value)
-                this.fireEvent('editcomplete', this);
+
+                if (record.value === 0) {
+                    combo.setValue(formPr.get_Role());
+
+                    const formManager = this.api.asc_GetOForm();
+
+                    new DE.Views.RoleEditDlg({
+                        oformManager: formManager,
+                        colors: [],
+                        isEdit: false,
+                        handler: function (result, settings) {
+                            if (result === 'ok' && settings) {
+                                const role = new AscCommon.CRoleSettings();
+                                role.asc_putName(settings.name);
+                                role.asc_putColor(settings.color);
+                                this.oformManager.asc_addRole(role);
+
+                                formPr.put_Role(settings.name);
+                                props.put_FormPr(formPr);
+                                me.api.asc_SetContentControlProperties(props, me.internalId);
+                                Common.Utils.InternalSettings.set('de-last-form-role', settings.name);
+                            }
+                        }
+                    }).on('close', () => {
+                        me.fireEvent('editcomplete', this);
+                    }).show();
+                } else {
+                    formPr.put_Role(record.value);
+                    props.put_FormPr(formPr);
+                    this.api.asc_SetContentControlProperties(props, this.internalId);
+                    Common.Utils.InternalSettings.set('de-last-form-role', record.value)
+                    this.fireEvent('editcomplete', this);
+                }
             }
         },
 
@@ -1995,7 +2030,12 @@ define([
         onThemeChanged: function() {
             var el = this.$el || $(this.el);
             this._themeChanged = !el.is(':visible');
-            !this._themeChanged && this.cmbRoles && this.cmbRoles.setWidth(el.width());
+            if (!this._themeChanged && this.cmbRoles) {
+                var width = el.width();
+                this.cmbRoles.setWidth(width);
+                this.cmbRoles.cmpEl && this.cmbRoles.cmpEl.find('.form-control').css('width', width + 'px');
+
+            }
         }
 
     }, DE.Views.FormSettings || {}));

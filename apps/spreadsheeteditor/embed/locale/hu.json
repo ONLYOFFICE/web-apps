@@ -1,5 +1,5 @@
 {
-  "common.view.modals.txtCopy": "Másolás vágólapra",
+  "common.view.modals.txtCopy": "Másolás a vágólapra",
   "common.view.modals.txtEmbed": "Beágyazás",
   "common.view.modals.txtHeight": "Magasság",
   "common.view.modals.txtIncorrectPwd": "Érvénytelen jelszó",
@@ -39,6 +39,10 @@
   "SSE.ApplicationController.titleLicenseExp": "Liszensz lejárt",
   "SSE.ApplicationController.titleLicenseNotActive": "Liszensz nem aktív",
   "SSE.ApplicationController.txtClose": "Bezár",
+  "SSE.ApplicationController.txtNo": "Nem",
+  "SSE.ApplicationController.txtOpenWarning": "A hivatkozásra kattintás káros lehet az eszközére és az adataira nézve. Számítógépe védelme érdekében csak a megbízható forrásból származó hivatkozásokra kattintson. Ez a hely nem biztonságos lehet:<br>%1<br>Biztosan folytatja?",
+  "SSE.ApplicationController.txtPressLink": "Kattintson a hivatkozásra a megnyitáshoz",
+  "SSE.ApplicationController.txtYes": "Igen",
   "SSE.ApplicationController.unknownErrorText": "Ismeretlen hiba.",
   "SSE.ApplicationController.unsupportedBrowserErrorText": "A böngészője nem támogatott.",
   "SSE.ApplicationController.waitText": "Kérjük, várjon...",

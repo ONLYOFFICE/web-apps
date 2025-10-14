@@ -1009,6 +1009,30 @@
                             padding-top: 3px;
                         }
                     }
+
+
+                    .text-dropdown-item {
+                        background:none; 
+                        cursor: default;
+                    }
+                    #print-waiting-for-printers {
+                        display: flex;
+                        align-items: center;
+                        .spiner-image {
+                            background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PGNpcmNsZSBjeD0iMTAiIGN5PSIxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDQ0IiBzdHJva2Utd2lkdGg9IjEuNSIgcj0iNy4yNSIgc3Ryb2tlLWRhc2hhcnJheT0iMTYwJSwgNDAlIiAvPjwvc3ZnPg==");
+                            width: 14px;
+                            height: 14px;
+                            .margin-left(6px);
+                            .theme-type-dark & {
+                                filter: invert();
+                            }
+
+                            animation-duration: .8s;
+                            animation-name: rotation;
+                            animation-iteration-count: infinite;
+                            animation-timing-function: linear;
+                        }
+                    }
                 }
                 .fms-flex-apply {
                     .padding-left(16px);

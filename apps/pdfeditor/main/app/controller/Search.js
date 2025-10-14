@@ -74,6 +74,8 @@ define([
                     'search:input': _.bind(this.onInputSearchChange, this),
                     'search:options': _.bind(this.onChangeSearchOption, this),
                     'search:keydown': _.bind(this.onSearchNext, this, 'keydown'),
+                    'search:mark': _.bind(this.onMark, this),
+                    'search:markall': _.bind(this.onMarkAll, this),
                     'show': _.bind(this.onShowPanel, this),
                     'hide': _.bind(this.onHidePanel, this),
                 },
@@ -107,6 +109,7 @@ define([
                 this.api.asc_registerCallback('asc_onRemoveTextAroundSearch', _.bind(this.onApiRemoveTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onSearchEnd', _.bind(this.onApiSearchEnd, this));
                 this.api.asc_registerCallback('asc_onReplaceAll', _.bind(this.onApiTextReplaced, this));
+                this.api.asc_registerCallback('asc_onUpdateRedactState', _.bind(this.onUpdateRedactState, this));
             }
             return this;
         },
@@ -278,6 +281,24 @@ define([
             }
         },
 
+        onMark: function (textSearch) {
+            this.api.asc_RedactSearchElement(this.resultItems[this._state.currentResult].id);
+            if (this.resultItems[this._state.currentResult + 1]) {
+                this.api.asc_SelectSearchElement(this._state.currentResult + 1);
+            } else {
+                this.view.disableRedactButtons(this.api.asc_GetRedactSearchInfo(this._state.currentResult))
+            }
+        },
+
+        onMarkAll: function (textSearch) {
+            this.api.asc_RedactAllSearchElements();
+            this.view.disableRedactButtons(this.api.asc_GetRedactSearchInfo(this._state.currentResult))
+        },
+
+        onUpdateRedactState: function () {
+            this.view.disableRedactButtons(this.api.asc_GetRedactSearchInfo(this._state.currentResult))
+        },
+
         removeResultItems: function (type) {
             this.resultItems = [];
             type !== 'replace-all' && this.view.updateResultsNumber(type, 0); // type === undefined, count === 0 -> no matches
@@ -295,6 +316,7 @@ define([
             if (this.view) {
                 this.view.updateResultsNumber(current, all);
                 this.view.disableNavButtons(current, all);
+                this.view.disableRedactButtons(this.api.asc_GetRedactSearchInfo(current));
                 if (this.resultItems && this.resultItems.length > 0) {
                     this.resultItems.forEach(function (item) {
                         item.selected = false;

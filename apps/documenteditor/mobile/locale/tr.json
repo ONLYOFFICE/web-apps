@@ -66,7 +66,8 @@
     "textTableSize": "Tablo Boyutu",
     "textWithBlueLinks": "Mavi Bağlantılar Yardımıyla ",
     "textWithPageNumbers": "Sayfa Numaralarıyla",
-    "txtNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır"
+    "txtNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır",
+    "textRemovePicture": "Remove picture"
   },
   "Common": {
     "Collaboration": {
@@ -415,7 +416,14 @@
     "textWe": "Çar",
     "textWrap": "Metni Kaydır",
     "textWrappingStyle": "Sarma Stili",
-    "textYourOption": "Senin seçeneğin"
+    "textYourOption": "Senin seçeneğin",
+    "textBaseline": "Baseline",
+    "textCapitalization": "Capitalization",
+    "textCellOptions": "Cell options",
+    "textCellSize": "Rows & columns size",
+    "textWrapText": "Wrap Text",
+    "txtHeight": "Height",
+    "txtWidth": "Width"
   },
   "Error": {
     "convertationTimeoutText": "Değişim süresi aşıldı.",
@@ -525,7 +533,6 @@
     "criticalErrorTitle": "Hata",
     "errorAccessDeny": "Haklarınız olmayan bir işlemi gerçekleştirmeye çalışıyorsunuz.<br>Lütfen yöneticinizle iletişime geçin.",
     "errorOpensource": "Ücretsiz Topluluk sürümünü kullanarak belgeleri yalnızca görüntüleme için açabilirsiniz. Mobil web editörlerine erişmek için ticari bir lisans gereklidir.",
-    "errorProcessSaveResult": "Kaydetme başarısız.",
     "errorServerVersion": "Editör versiyonu güncellendi. Değişikliklerin uygulanabilmesi için sayfa yenilenecek.",
     "errorUpdateVersion": "Dosya versiyonu değiştirildi. Sayfa yenilenecek.",
     "leavePageText": "Kaydedilmemiş değişiklikleriniz mevcut. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",
@@ -661,14 +668,16 @@
     "warnDownloadAsPdf": "{0} düzenlenebilir bir biçime dönüştürülecek.  Bu biraz zaman alabilir.  Ortaya çıkan belge, metni düzenlemenize izin verecek şekilde optimize edilecektir, bu nedenle, özellikle orijinal dosya çok sayıda grafik içeriyorsa, dosya tam olarak orijinal {0} gibi görünmeyebilir.",
     "warnLicenseAnonymous": "Erişim anonim kullanıcılar için engellendi.<br>Bu doküman sadece görüntüleme için açılacaktır.",
     "warnLicenseBefore": "Lisans aktif değil. <br>Lütfen yöneticinizle görüşün.",
-    "warnLicenseExceeded": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Daha fazla bilgi edinmek için yöneticinizle iletişime geçin.",
     "warnLicenseExp": "Lisansınızın süresi doldu. Lütfen lisansınızı güncelleyin ve sayfayı yenileyin.",
     "warnLicenseLimitedNoAccess": "Lisans süresi doldu. Doküman edit etme özelliğini kullanmaya izniniz bulunmamaktadır. Lütfen, yöneticinizle iletişime geçin.",
     "warnLicenseLimitedRenewed": "Lisansın yenilenmesi gerekiyor. Belge düzenleme işlevine sınırlı erişiminiz var.<br>Tam erişim için lütfen yöneticinizle iletişime geçin.",
-    "warnLicenseUsersExceeded": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Daha fazla bilgi edinmek için yöneticinizle iletişime geçin.",
     "warnNoLicense": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
     "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
-    "warnProcessRightsChange": "Bu dosyayı düzenleme izniniz yok."
+    "warnProcessRightsChange": "Bu dosyayı düzenleme izniniz yok.",
+    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "titleReadOnly": "Read-Only Mode",
+    "txtSignedForm": "This document has been signed and cannot be edited."
   },
   "Settings": {
     "advDRMOptions": "Korumalı dosya",

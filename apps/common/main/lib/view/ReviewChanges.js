@@ -664,7 +664,15 @@ define([
                     }
                     me.btnSharing && me.btnSharing.updateHint(me.tipSharing);
                     me.btnHistory && me.btnHistory.updateHint(me.tipHistory);
-                    me.btnChat && me.btnChat.updateHint(me.txtChat + Common.Utils.String.platformKey('Alt+Q', ' (' + (Common.Utils.isMac ? Common.Utils.String.textCtrl + '+' : '') + '{0})'));
+                    if(me.btnChat) {
+                        const app = (window.DE || window.PE || window.SSE || window.PDFE || window.VE);
+                        app.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                            OpenChatPanel: {
+                                btn: me.btnChat,
+                                label: me.txtChat
+                            }
+                        });
+                    }
                     me.btnMailRecepients && me.btnMailRecepients.updateHint(me.tipMailRecepients);
                     if (me.btnCoAuthMode) {
                         me.btnCoAuthMode.setMenu(

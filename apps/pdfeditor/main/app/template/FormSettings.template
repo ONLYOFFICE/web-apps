@@ -1,10 +1,10 @@
 <table cols="1" role="presentation">
-    <tr>
+    <tr class="form-name">
         <td>
             <label class="header padding-small" id="form-settings-name"><%= scope.textField %></label>
         </td>
     </tr>
-    <tr>
+    <tr class="form-name">
         <td class="padding-small">
             <label class="input-label"><%= scope.textName %></label>
             <div id="form-combo-name" style="width: 100%;"></div>
@@ -14,6 +14,12 @@
         <td class="padding-small">
             <label class="input-label"><%= scope.textPlaceholder %></label>
             <div id="form-txt-pholder"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textTip %></label>
+            <div id="form-txt-tip"></div>
         </td>
     </tr>
     <tr class="form-text-combo">
@@ -282,6 +288,24 @@
         <td colspan=2 class="padding-small">
             <label class="input-label" style="margin-top: 4px;"><%= scope.textBackgroundColor %></label>
             <div id="form-background-color-btn" style="display: inline-block;" class="float-right"></div>
+        </td>
+    </tr>
+    <tr class="form-not-check">
+        <td colspan=2 class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr class="form-not-check">
+        <td colspan=2>
+            <label class="header padding-small"><%= scope.textText %></label>
+        </td>
+    </tr>
+    <tr class="form-not-check">
+        <td class="padding-small" width="50%">
+            <label class="input-label" style="margin-top: 4px;"><%= scope.textNumeral %></label>
+        </td>
+        <td class="padding-small" width="50%">
+            <div id="form-combo-numeral"></div>
         </td>
     </tr>
 </table>

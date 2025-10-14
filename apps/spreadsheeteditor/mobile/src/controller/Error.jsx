@@ -507,6 +507,10 @@ const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({store
                 config.msg = t('Error.errorSaveWatermark');
                 break;
 
+            case Asc.c_oAscError.ID.MacroUnavailableWarning:
+                config.msg = t('Error.errorMacroUnavailableWarning').replace('%1', errData ? "'" + errData + "'" : '');
+                break;
+
             default:
                 config.msg = _t.errorDefaultMessage.replace('%1', id);
                 break;

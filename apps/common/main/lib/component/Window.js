@@ -158,6 +158,7 @@ define([
                 minheight: 0,
                 enableKeyEvents: true,
                 automove: true,
+                transparentMask: false,
                 role: 'dialog'
         };
 
@@ -536,7 +537,11 @@ define([
                             (Math.max(text.width(), check.length>0 ? $(check).find('.checkbox-indeterminate').outerWidth(true) : 0)));
                     window.setSize(width, parseInt(body.css('height')) + parseInt(header.css('height')));
                 } else {
-                    text.css('white-space', 'normal');
+                    text.css({
+                        'white-space': 'normal',
+                        'overflow-wrap': 'break-word',
+                        'word-wrap': 'break-word'
+                    });
                     window.setWidth(options.width);
                     text_cnt.height(Math.max(text.height(), icon_height) + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0));
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
@@ -767,7 +772,7 @@ define([
                         mask.attr('counter', parseInt(mask.attr('counter'))+1);
                         mask.show();
                     } else {
-                        var maskOpacity = $(':root').css('--modal-window-mask-opacity');
+                        var maskOpacity = this.initConfig.transparentMask ? 0 : $(':root').css('--modal-window-mask-opacity');
 
                         mask.css('opacity', 0);
                         mask.attr('counter', parseInt(mask.attr('counter'))+1);
@@ -794,8 +799,9 @@ define([
                 } else
                 if (!this.$window.is(':visible')) {
                     this.$window.css({opacity: 0});
+                    (_.isNumber(x) && _.isNumber(y)) && this.setPosition(x, y);
                     _setVisible.call(this);
-                    this.$window.show()
+                    this.$window.show();
                 }
 
                 $(document).on('keydown.' + this.cid, this.binding.keydown);
@@ -874,7 +880,7 @@ define([
 
                     if ( hide_mask ) {
                         if (this.options.animate !== false) {
-                            var maskOpacity = $(':root').css('--modal-window-mask-opacity');
+                            var maskOpacity = this.initConfig.transparentMask ? 0 : $(':root').css('--modal-window-mask-opacity');
                             mask.css(_getTransformation(0));
 
                             setTimeout(function () {
@@ -916,7 +922,7 @@ define([
 
                         if ( hide_mask ) {
                             if (this.options.animate !== false) {
-                                var maskOpacity = $(':root').css('--modal-window-mask-opacity');
+                                var maskOpacity = this.initConfig.transparentMask ? 0 : $(':root').css('--modal-window-mask-opacity');
                                 mask.css(_getTransformation(0));
 
                                 setTimeout(function () {
@@ -951,7 +957,7 @@ define([
             },
 
             setWidth: function(width) {
-                if (width >= 0) {
+                if (this.$window && width >= 0) {
                     var min = parseInt(this.$window.css('min-width'));
                     width < min && (width = min);
                     width -= (parseInt(this.$window.css('border-left-width')) + parseInt(this.$window.css('border-right-width')));
@@ -960,11 +966,11 @@ define([
             },
 
             getWidth: function() {
-                return parseInt(this.$window.css('width'));
+                return this.$window ? parseInt(this.$window.css('width')) : undefined;
             },
 
             setHeight: function(height) {
-                if (height >= 0) {
+                if (this.$window && height >= 0) {
                     var min = parseInt(this.$window.css('min-height'));
                     height < min && (height = min);
                     height -= (parseInt(this.$window.css('border-bottom-width')) + parseInt(this.$window.css('border-top-width')));
@@ -978,7 +984,7 @@ define([
             },
 
             getHeight: function() {
-                return parseInt(this.$window.css('height'));
+                return this.$window ? parseInt(this.$window.css('height')) : undefined;
             },
 
             setSize: function(w, h) {
@@ -1023,14 +1029,14 @@ define([
             setResizable: function(resizable, minSize, maxSize) {
                 if (resizable !== this.resizable) {
                     if (resizable) {
-                        var bordersTemplate = '<div class="resize-border left" style="top:' + ((this.initConfig.header) ? '33' : '5') + 'px; bottom: 5px; height: auto; border-right-style: solid; cursor: w-resize;"></div>' +
-                            '<div class="resize-border left bottom" style="border-bottom-left-radius: 5px; cursor: sw-resize;"></div>' +
+                        var bordersTemplate = '<div class="resize-border left bottom" style="cursor: sw-resize;"></div>' +
+                            '<div class="resize-border left" style="top:' + ((this.initConfig.header) ? '33' : '5') + 'px; bottom: 5px; height: auto; border-right-style: solid; cursor: w-resize;"></div>' +
                             '<div class="resize-border bottom" style="left: 4px; right: 4px; width: auto; z-index: 2; border-top-style: solid; cursor: s-resize;"></div>' +
-                            '<div class="resize-border right bottom" style="border-bottom-right-radius: 5px; cursor: se-resize;"></div>' +
+                            '<div class="resize-border right bottom" style="cursor: se-resize;"></div>' +
                             '<div class="resize-border right" style="top:' + ((this.initConfig.header) ? '33' : '5') + 'px; bottom: 5px; height: auto; border-left-style: solid; cursor: e-resize;"></div>' +
-                            '<div class="resize-border left top" style="border-top-left-radius: 5px; cursor: nw-resize;"></div>' +
+                            '<div class="resize-border left top" style="cursor: nw-resize;"></div>' +
                             '<div class="resize-border top" style="left: 4px; right: 4px; width: auto; z-index: 2; border-bottom-style:' + ((this.initConfig.header) ? "none" : "solid") + '; cursor: n-resize;"></div>' +
-                            '<div class="resize-border right top" style="border-top-right-radius: 5px; cursor: ne-resize;"></div>';
+                            '<div class="resize-border right top" style="cursor: ne-resize;"></div>';
                         if (this.initConfig.header)
                             bordersTemplate += '<div class="resize-border left" style="top: 5px; height: 28px; cursor: w-resize;"></div>' +
                                                '<div class="resize-border right" style="top: 5px; height: 28px; cursor: e-resize;"></div>';

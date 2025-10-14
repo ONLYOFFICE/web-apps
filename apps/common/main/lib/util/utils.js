@@ -215,7 +215,7 @@ define([], function () {
                 return false;
             },
             getBoundingClientRect = function(element) {
-                let rect = element.getBoundingClientRect();
+                let rect = _extend_object({}, element.getBoundingClientRect());
                 if (!isOffsetUsedZoom())
                     return rect;
 
@@ -233,13 +233,13 @@ define([], function () {
                 return newRect;
             },
             getOffset = function($element) {
-                let pos = $element.offset();
+                let pos = _extend_object({}, $element.offset());
                 if (!isOffsetUsedZoom())
                     return pos;
                 return {left: pos.left * me.zoom, top: pos.top * me.zoom};
             },
             getPosition = function($element) {
-                let pos = $element.position();
+                let pos = _extend_object({}, $element.position());
                 if (!isOffsetUsedZoom())
                     return pos;
                 return {left: pos.left * me.zoom, top: pos.top * me.zoom};
@@ -1598,6 +1598,12 @@ define([], function () {
         columns: 5,
         cls: 'palette-large',
         paletteWidth: 174
+    };
+
+    Common.UI.blockOperations = {
+        ApplyEditRights: -255,
+        LoadingDocument: -256,
+        UpdateChart: -257
     };
 
     Common.UI.isValidNumber = function (val) {

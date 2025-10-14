@@ -30,7 +30,7 @@
   "ContextMenu": {
     "menuCancel": "Abbrechen",
     "textOk": "OK",
-    "txtWarnUrl": "Dieser Link kann für Ihr Gerät und Daten gefährlich sein.<br>Möchten Sie wirklich fortsetzen?"
+    "txtWarnUrl": "Das Klicken auf diesen Link kann Ihr Gerät und Ihre Daten schädigen. Dieser Standort ist möglicherweise unsicher:<br>{0}<br>Möchten Sie wirklich fortfahren?"
   },
   "Controller": {
     "Main": {
@@ -40,7 +40,6 @@
       "criticalErrorTitle": "Fehler",
       "errorAccessDeny": "Dieser Vorgang ist für Sie nicht verfügbar.<br>Bitte wenden Sie sich an den Administrator.",
       "errorOpensource": "Mit der kostenlosen Community-Version können Sie Dokumente nur schreibgeschützt öffnen. Für den Zugriff auf mobilen Web-Editoren ist eine kommerzielle Lizenz erforderlich.",
-      "errorProcessSaveResult": "Speichern ist fehlgeschlagen.",
       "errorServerVersion": "Version des Editors wurde aktualisiert. Die Seite wird neu geladen, um die Änderungen zu übernehmen.",
       "errorUpdateVersion": "Die Dateiversion wurde geändert. Die Seite wird neu geladen.",
       "leavePageText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
@@ -57,18 +56,19 @@
       "textOpenFile": "Geben Sie ein Passwort ein, um die Datei zu öffnen",
       "textPaidFeature": "Kostenpflichtige Funktion",
       "textYes": "Ja",
+      "tipLicenseExceeded": "Das Dokument ist im schreibgeschützten Modus geöffnet, da die durch die Lizenz zulässige maximale Anzahl gleichzeitiger Verbindungen erreicht wurde.<br><br>Bitte versuchen Sie es später erneut oder wenden Sie sich an den Eigentümer des Dokuments, wenn Sie Bearbeitungszugriff benötigen.",
+      "tipLicenseUsersExceeded": "Das Dokument ist im schreibgeschützten Modus geöffnet, da die maximale Anzahl von Benutzern, die laut Lizenz Dokumente bearbeiten dürfen, erreicht wurde.<br><br>Bitte versuchen Sie es später erneut oder wenden Sie sich an den Dokumentbesitzer, wenn Sie Bearbeitungszugriff benötigen.",
       "titleLicenseExp": "Lizenz ist abgelaufen",
       "titleLicenseNotActive": "Lizenz nicht aktiv",
+      "titleReadOnly": "Schreibgeschützter Modus",
       "titleServerVersion": "Editor wurde aktualisiert",
       "titleUpdateVersion": "Version wurde geändert",
       "txtIncorrectPwd": "Passwort ist falsch",
       "warnLicenseAnonymous": "Zugriff für anonyme Benutzer verweigert.<br>Dieses Dokument wird nur zur Ansicht geöffnet.",
       "warnLicenseBefore": "Lizenz nicht aktiv.<br>Bitte wenden Sie sich an Ihren Administrator.",
-      "warnLicenseExceeded": "Sie haben das Limit für gleichzeitige Verbindungen zu %1 Editoren erreicht. Dieses Dokument wird nur zur Ansicht geöffnet. Wenden Sie sich an Ihren Administrator, um mehr zu erfahren.",
       "warnLicenseExp": "Ihre Lizenz ist abgelaufen. Bitte erneuern Sie die Lizenz und laden Sie die Seite neu.",
       "warnLicenseLimitedNoAccess": "Lizenz abgelaufen. Keine Bearbeitung möglich. Bitte wenden Sie sich an den Administrator.",
       "warnLicenseLimitedRenewed": "Die Lizenz soll erneuert werden. Die Bearbeitungsfunktionen wurden eingeschränkt.<br>Bitte wenden Sie sich an Administrator für den vollen Zugriff",
-      "warnLicenseUsersExceeded": "Sie haben das Benutzerlimit für %1 Editoren erreicht. Wenden Sie sich an Ihren Administrator, um mehr zu erfahren.",
       "warnNoLicense": "Sie haben das Limit für gleichzeitige Verbindungen zu %1 Editoren erreicht. Dieses Dokument wird nur zur Ansicht geöffnet. Kontaktieren Sie das %1-Verkaufsteam, um die Bedingungen für ein persönliches Upgrade zu erfahren.",
       "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1 Redakteure erreicht. Kontaktieren Sie das %1 Vertriebsteam, um die Bedingungen für ein persönliches Upgrade zu erfahren.",
       "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."

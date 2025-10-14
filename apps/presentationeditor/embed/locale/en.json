@@ -40,7 +40,7 @@
   "PE.ApplicationController.titleLicenseNotActive": "License not active",
   "PE.ApplicationController.txtClose": "Close",
   "PE.ApplicationController.txtNo": "No",
-  "PE.ApplicationController.txtOpenWarning": "Clicking this link can be harmful to your device and data.<br> Are you sure you want to continue?",
+  "PE.ApplicationController.txtOpenWarning": "Clicking this link can be harmful to your device and data. To protect you computer, click only those hyperlinks from trusted sources. This location may be unsafe:<br>%1<br>Are you sure you want to continue?",
   "PE.ApplicationController.txtPressLink": "Click the link to open it",
   "PE.ApplicationController.txtYes": "Yes",
   "PE.ApplicationController.unknownErrorText": "Unknown error.",

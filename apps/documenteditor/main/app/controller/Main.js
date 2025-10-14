@@ -61,8 +61,8 @@ define([
 
     DE.Controllers.Main = Backbone.Controller.extend(_.extend((function() {
         var appHeader;
-        var ApplyEditRights = -255;
-        var LoadingDocument = -256;
+        var ApplyEditRights = Common.UI.blockOperations.ApplyEditRights;
+        var LoadingDocument = Common.UI.blockOperations.LoadingDocument;
 
         var mapCustomizationElements = {
             about: 'button#left-btn-about',
@@ -394,8 +394,6 @@ define([
                 me.warnNoLicense  = (me.warnNoLicense || '').replace(/%1/g, '{{COMPANY_NAME}}');
                 me.warnNoLicenseUsers = (me.warnNoLicenseUsers || '').replace(/%1/g, '{{COMPANY_NAME}}');
                 me.textNoLicenseTitle = (me.textNoLicenseTitle || '').replace(/%1/g, '{{COMPANY_NAME}}');
-                me.warnLicenseExceeded = (me.warnLicenseExceeded || '').replace(/%1/g, '{{COMPANY_NAME}}');
-                me.warnLicenseUsersExceeded = (me.warnLicenseUsersExceeded || '').replace(/%1/g, '{{COMPANY_NAME}}');
             },
 
             loadConfig: function(data) {
@@ -465,6 +463,9 @@ define([
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
                 this.appOptions.canRequestSelectDocument = this.editorConfig.canRequestSelectDocument;
                 this.appOptions.canRequestSelectSpreadsheet = this.editorConfig.canRequestSelectSpreadsheet;
+                this.appOptions.canRequestReferenceData = this.editorConfig.canRequestReferenceData;
+                this.appOptions.canRequestOpen = this.editorConfig.canRequestOpen;
+                this.appOptions.canRequestReferenceSource = this.editorConfig.canRequestReferenceSource;
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
                 this.appOptions.canFeatureComparison = true;
                 this.appOptions.canFeatureContentControl = true;
@@ -500,6 +501,7 @@ define([
 
                 if (this.editorConfig.lang)
                     this.api.asc_setLocale(this.editorConfig.lang);
+                Common.Utils.InternalSettings.set("de-config-lang", this.editorConfig.lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.editorConfig.lang)) : 0x0409);
 
                 this.loadDefaultMetricSettings();
 
@@ -603,16 +605,6 @@ define([
                 }
             },
 
-            onProcessSaveResult: function(data) {
-                this.api.asc_OnSaveEnd(data.result);
-                if (data && data.result === false) {
-                    Common.UI.error({
-                        title: this.criticalErrorTitle,
-                        msg  : _.isEmpty(data.message) ? this.errorProcessSaveResult : data.message
-                    });
-                }
-            },
-
             onProcessRightsChange: function(data) {
                 if (data && data.enabled === false) {
                     var me = this,
@@ -622,7 +614,7 @@ define([
                     Common.NotificationCenter.trigger('collaboration:sharingdeny');
                     Common.NotificationCenter.trigger('api:disconnect');
                     !old_rights && Common.UI.TooltipManager.showTip({ step: 'changeRights', text: _.isEmpty(data.message) ? this.warnProcessRightsChange : data.message,
-                        target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true,
+                        target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true,
                         callback: function() {
                             me._state.lostEditingRights = false;
                         }});
@@ -1243,6 +1235,11 @@ define([
                         this.getApplication().getController('Statusbar').setStatusCaption(text);
                         return;
 
+                    case Common.UI.blockOperations.UpdateChart:
+                        title   = this.updateChartText;
+                        text    = this.updateChartText;
+                        break;
+
                     case Asc.c_oAscAsyncAction['RefreshFile']:
                         title    = this.textUpdating;
                         text    = this.textUpdating;
@@ -1398,6 +1395,8 @@ define([
                 me.api.asc_registerCallback('asc_onCompletePreparingOForm',     _.bind(me.onCompletePreparingOForm, me));
                 me.api.asc_registerCallback('asc_onPrint',                  _.bind(me.onPrint, me));
                 me.api.asc_registerCallback('asc_onConfirmAction',          _.bind(me.onConfirmAction, me));
+                Common.NotificationCenter.on('action:start',                _.bind(me.onLongActionBegin, me));
+                Common.NotificationCenter.on('action:end',                  _.bind(me.onLongActionEnd, me));
 
                 appHeader.setDocumentCaption(me.api.asc_getDocumentName());
                 me.updateWindowTitle(true);
@@ -1457,6 +1456,8 @@ define([
 
                 documentHolderController.getView().on('editcomplete', _.bind(me.onEditComplete, me));
 
+                DE.getController('Common.Controllers.Shortcuts').setApi(me.api);
+                
                 if (me.appOptions.isEdit) {
                     if (me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
                         me.appOptions.forcesave = Common.localStorage.getBool("de-settings-forcesave", me.appOptions.canForcesave);
@@ -1529,7 +1530,6 @@ define([
                     Common.component.Analytics.initialize('UA-12442749-13', 'Document Editor');
 
                 Common.Gateway.on('applyeditrights',        _.bind(me.onApplyEditRights, me));
-                Common.Gateway.on('processsaveresult',      _.bind(me.onProcessSaveResult, me));
                 Common.Gateway.on('processrightschange',    _.bind(me.onProcessRightsChange, me));
                 Common.Gateway.on('processmouse',           _.bind(me.onProcessMouse, me));
                 Common.Gateway.on('refreshhistory',         _.bind(me.onRefreshHistory, me));
@@ -1590,17 +1590,21 @@ define([
                     });
                 } else if (this._state.licenseType) {
                     var license = this._state.licenseType,
+                        title = this.textNoLicenseTitle,
                         buttons = ['ok'],
-                        primary = 'ok';
+                        primary = 'ok',
+                        modal = false;
                     if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
                         (license===Asc.c_oLicenseResult.SuccessLimit || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
                         license = this.warnLicenseLimitedRenewed;
                     } else if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
-                        license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
+                        title = this.titleReadOnly;
+                        license = (license===Asc.c_oLicenseResult.Connections) ? this.tipLicenseExceeded : this.tipLicenseUsersExceeded;
                     } else {
                         license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
                         buttons = [{value: 'buynow', caption: this.textBuyNow}, {value: 'contact', caption: this.textContactUs}];
                         primary = 'buynow';
+                        modal = true;
                     }
 
                     if (this._state.licenseType!==Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.isEdit || this.appOptions.isRestrictedEdit)) {
@@ -1609,25 +1613,21 @@ define([
                         Common.NotificationCenter.trigger('api:disconnect');
                     }
 
-                    var value = Common.localStorage.getItem("de-license-warning");
-                    value = (value!==null) ? parseInt(value) : 0;
-                    var now = (new Date).getTime();
-                    if (now - value > 86400000) {
-                        Common.UI.info({
-                            maxwidth: 500,
-                            title: this.textNoLicenseTitle,
-                            msg  : license,
-                            buttons: buttons,
-                            primary: primary,
-                            callback: function(btn) {
-                                Common.localStorage.setItem("de-license-warning", now);
-                                if (btn == 'buynow')
-                                    window.open('{{PUBLISHER_URL}}', "_blank");
-                                else if (btn == 'contact')
-                                    window.open('mailto:{{SALES_EMAIL}}', "_blank");
-                            }
-                        });
-                    }
+                    !modal ? Common.UI.TooltipManager.showTip({ step: 'licenseError', text: license, header: title, target: '#toolbar', maxwidth: 430,
+                                                                      automove: true, noHighlight: true, noArrow: true, textButton: this.textContinue}) :
+                    Common.UI.info({
+                        maxwidth: 500,
+                        title: title,
+                        msg  : license,
+                        buttons: buttons,
+                        primary: primary,
+                        callback: function(btn) {
+                            if (btn == 'buynow')
+                                window.open('{{PUBLISHER_URL}}', "_blank");
+                            else if (btn == 'contact')
+                                window.open('mailto:{{SALES_EMAIL}}', "_blank");
+                        }
+                    });
                 } else if (!this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt &&
                             this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo ||
                             this.editorConfig.customization.font && (this.editorConfig.customization.font.size || this.editorConfig.customization.font.name))) {
@@ -1737,8 +1737,8 @@ define([
 
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
                 this.appOptions.isBeta         = params.asc_getIsBeta();
-                this.appOptions.isSignatureSupport= this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport() && (this.permissions.protect!==false);
-                this.appOptions.isPDFSignatureSupport= this.appOptions.isEdit && this.appOptions.isPDFForm;
+                this.appOptions.isSignatureSupport= this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && !this.appOptions.isPDFForm && this.api.asc_isSignaturesSupport() && (this.permissions.protect!==false);
+                this.appOptions.isPDFSignatureSupport= this.appOptions.isPDFForm;
                 this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.api.asc_isProtectionSupport() && (this.permissions.protect!==false);
                 this.appOptions.canProtect     = (this.permissions.protect!==false);
                 this.appOptions.canEditContentControl = (this.permissions.modifyContentControl!==false);
@@ -1956,7 +1956,7 @@ define([
 
                     if (mode==='view-form' || !!this.stackDisableActions.get({type: 'forms'})) {
                         var forms = this.getApplication().getController('FormsTab');
-                        forms && forms.changeViewFormMode(mode==='view-form');
+                        forms && forms.changeViewFormMode(mode==='view-form', true);
                     }
 
                     if (mode==='edit') {
@@ -1964,7 +1964,7 @@ define([
                     } else if (mode==='review') {
                         Common.NotificationCenter.trigger('reviewchanges:turn', true);
                     }
-                    this.api.asc_setRestriction(mode==='view' ? Asc.c_oAscRestrictionType.View : mode==='view-form' ? Asc.c_oAscRestrictionType.OnlyForms : Asc.c_oAscRestrictionType.None);
+                    this.api.asc_setRestriction(mode==='view' ? Asc.c_oAscRestrictionType.View : mode==='view-form' ? Asc.c_oAscRestrictionType.OnlyForms : Asc.c_oAscRestrictionType.None, this.api.asc_getRestrictionSettings());
                 }
                 (!inViewMode || force) && Common.NotificationCenter.trigger('doc:mode-changed', mode);
             },
@@ -2144,7 +2144,7 @@ define([
                         Common.NotificationCenter.trigger('collaboration:sharingdeny');
                         var me = this;
                         Common.UI.TooltipManager.showTip({ step: 'userDrop', text: this.errorUserDrop,
-                            target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true,
+                            target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true,
                             callback: function() {
                                 me._state.lostEditingRights = false;
                             }});
@@ -2626,13 +2626,13 @@ define([
             },
 
             onUpdateVersion: function(callback) {
-                console.log("Obsolete: The 'onOutdatedVersion' event is deprecated. Please use 'onRequestRefreshFile' event and 'refreshFile' method instead.");
+                this.editorConfig && this.editorConfig.canUpdateVersion && console.log("Obsolete: The 'onOutdatedVersion' event is deprecated. Please use 'onRequestRefreshFile' event and 'refreshFile' method instead.");
 
                 var me = this;
                 me.needToUpdateVersion = true;
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                 Common.UI.TooltipManager.showTip({ step: 'updateVersionReload', text: this.errorUpdateVersion, header: this.titleUpdateVersion,
-                                                    target: '#toolbar', maxwidth: 'none', closable: false, automove: true, noHighlight: true,
+                                                    target: '#toolbar', maxwidth: 'none', closable: false, automove: true, noHighlight: true, noArrow: true,
                                                     callback: function() {
                                                         _.defer(function() {
                                                             Common.Gateway.updateVersion();
@@ -3404,6 +3404,7 @@ define([
 
             onRequestRefreshFile: function() {
                 Common.Gateway.requestRefreshFile();
+                console.log('Trying to refresh file');
             },
 
             onRefreshFile: function(data) {

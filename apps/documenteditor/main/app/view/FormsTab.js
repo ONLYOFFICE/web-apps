@@ -51,7 +51,8 @@ define([
         requiredNotFilled: 'required-not-filled',
         submit: 'submit',
         firstPage: 'first-page',
-        lastPage: 'last-page'
+        lastPage: 'last-page',
+        formSigned: 'form-signed'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -116,6 +117,7 @@ define([
             '<div class="separator long pdf-buttons" style="display: none;"></div>' +
             '<div class="group no-group-mask" style="">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-view-roles"></span>' +
+                '<span class="btn-slot text x-huge hidden" id="slot-btn-form-final"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-prev"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-next"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-clear"></span>' +
@@ -194,13 +196,13 @@ define([
                             item = me._state.roles[0].asc_getSettings().asc_getName();
                         }
                     }
-                    me.fireEvent('forms:mode', [b.pressed, item]);
+                    me.fireEvent('forms:preview', [b.pressed, item]);
                 });
                 if (this.btnViewFormRoles.menu) {
                     this.btnViewFormRoles.menu.on('item:click', _.bind(function (menu, item) {
                         if (!!item.checked) {
                             me.btnViewFormRoles.toggle(true, true);
-                            me.fireEvent('forms:mode', [true, item.caption]);
+                            me.fireEvent('forms:preview', [true, item.caption]);
                         }
                     }, me));
                     this.btnViewFormRoles.menu.on('show:after',  function (menu) {
@@ -208,6 +210,9 @@ define([
                     });
                 }
             }
+            this.btnFinal && this.btnFinal.on('click', function (b, e) {
+                // me.fireEvent('forms:final', [b.pressed, true]);
+            });
             this.btnManager && this.btnManager.on('click', function (b, e) {
                 me.fireEvent('forms:manager');
             });
@@ -503,7 +508,7 @@ define([
                     this.btnViewFormRoles = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-big-sheet-view',
-                        lock: [ _set.previewReviewMode, _set.formsNoRoles, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        lock: [ _set.previewReviewMode, _set.formsNoRoles, _set.viewFormFinal, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                         caption: this.capBtnView,
                         split: Common.UI.FeaturesManager.isFeatureEnabled('roles', true),
                         menu: Common.UI.FeaturesManager.isFeatureEnabled('roles', true) ? new Common.UI.Menu({
@@ -518,6 +523,18 @@ define([
                         dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnViewFormRoles);
+
+                    this.btnFinal = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-make-final',
+                        lock: [ _set.previewReviewMode, _set.viewFormNotFinal, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        caption: this.capBtnFinal,
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnFinal);
 
                     // this.btnHighlight = new Common.UI.ButtonColored({
                     //     cls         : 'btn-toolbar',
@@ -547,7 +564,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-clear-style',
                     caption: this.textClear,
-                    lock: [ _set.lostConnect, _set.viewMode, _set.disableOnStart],
+                    lock: [ _set.lostConnect, _set.viewMode, _set.disableOnStart, _set.formSigned],
                     visible: this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && this.appConfig.isPDFForm,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -586,7 +603,7 @@ define([
                         this.btnSubmit = new Common.UI.Button({
                             cls: 'btn-text-default auto back-color',
                             caption: this.capBtnSubmit,
-                            lock: [_set.lostConnect, _set.disableOnStart, _set.requiredNotFilled, _set.submit],
+                            lock: [_set.lostConnect, _set.disableOnStart, _set.requiredNotFilled, _set.submit, _set.formSigned],
                             dataHint: '0',
                             dataHintDirection: 'bottom',
                             dataHintOffset: 'big'
@@ -595,7 +612,7 @@ define([
                         this.btnSubmit = new Common.UI.Button({
                             cls: 'btn-toolbar x-huge icon-top',
                             iconCls: 'toolbar__icon btn-submit-form',
-                            lock: [_set.lostConnect, _set.disableOnStart, _set.requiredNotFilled, _set.submit],
+                            lock: [_set.lostConnect, _set.disableOnStart, _set.requiredNotFilled, _set.submit, _set.formSigned],
                             caption: this.capBtnSubmit,
                             // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
                             dataHint: '1',
@@ -684,6 +701,7 @@ define([
                         me.btnImageField.updateHint(me.tipImageField);
                         me.btnSignField.updateHint(me.tipSignField);
                         me.btnViewFormRoles.updateHint(me.tipViewForm);
+                        me.btnFinal.updateHint(me.tipFinalForm);
                         me.btnManager.updateHint(me.tipManager);
                         me.btnEmailField.updateHint(me.tipEmailField);
                         me.btnPhoneField.updateHint(me.tipPhoneField);
@@ -730,6 +748,7 @@ define([
                     this.btnImageField.render($host.find('#slot-btn-form-image'));
                     this.btnSignField.render($host.find('#slot-btn-form-signature'));
                     this.btnViewFormRoles.render($host.find('#slot-btn-form-view-roles'));
+                    this.btnFinal.render($host.find('#slot-btn-form-final'));
                     this.btnManager.render($host.find('#slot-btn-manager'));
                     // this.btnHighlight.render($host.find('#slot-form-highlight'));
                     this.btnEmailField.render($host.find('#slot-btn-form-email'));

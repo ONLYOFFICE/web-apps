@@ -19,7 +19,7 @@ window.$ = jQuery;
 // Import App Custom Styles
 
 import('./less/app.less');
-import '../../../../../sdkjs/cell/css/main-mobile.css';
+// import '../../../../../sdkjs/cell/css/main-mobile.css';
 
 // Import App Component
 import App from './page/app.jsx';

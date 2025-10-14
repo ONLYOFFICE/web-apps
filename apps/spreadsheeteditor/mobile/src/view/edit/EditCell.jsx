@@ -51,6 +51,7 @@ import IconFormatScientific from '@icons/icon-format-scientific.svg';
 import IconFormatText from '@icons/icon-format-text.svg';
 import IconFormatTime from '@icons/icon-format-time.svg';
 import IconFormatInteger from '@icons/icon-format-integer.svg';
+import IconCheck from '@common-android-icons/icon-check.svg';
 
 const EditCell = props => {
     const isAndroid = Device.android;
@@ -73,6 +74,7 @@ const EditCell = props => {
     const isBold = storeCellSettings.isBold;
     const isItalic = storeCellSettings.isItalic;
     const isUnderline = storeCellSettings.isUnderline;
+    const isStrikethrough = storeCellSettings.isStrikethrough;
 
     const fontColorPreview = fontColor !== 'auto' ?
         <span className="color-preview" style={{ background: `#${(typeof fontColor === "object" ? fontColor.color : fontColor)}`}}></span> :
@@ -98,6 +100,7 @@ const EditCell = props => {
                                 <a className={'button' + (isBold ? ' active' : '')} onClick={() => {props.toggleBold(!isBold)}}><b>B</b></a>
                                 <a className={'button' + (isItalic ? ' active' : '')} onClick={() => {props.toggleItalic(!isItalic)}}><i>I</i></a>
                                 <a className={'button' + (isUnderline ? ' active' : '')} onClick={() => {props.toggleUnderline(!isUnderline)}} style={{textDecoration: "underline"}}>U</a>
+                                <a className={'button' + (isStrikethrough ? ' active' : '')} onClick={() => {props.toggleStrikethrough(!isStrikethrough)}} style={{textDecoration: "line-through"}}>S</a>
                             </div>
                         </ListItem>
                         <ListItem title={_t.textTextColor} link="/edit-cell-text-color/" routeProps={{
@@ -149,8 +152,7 @@ const EditCell = props => {
                             onAccountingCellFormat: props.onAccountingCellFormat,
                             dateFormats: props.dateFormats,
                             timeFormats: props.timeFormats,
-                            setCustomFormat: props.setCustomFormat,
-                            onCellFormat: props.onCellFormat
+                            setCustomFormat: props.setCustomFormat
                         }}>
                             {!isAndroid ?
                                 <SvgIcon slot="media" symbolId={IconFormatGeneral.id} className={'icon icon-svg'} /> : null
@@ -1113,7 +1115,8 @@ const PageCreationCustomFormat = observer(props => {
         <Page>
             <Navbar title={t('View.Edit.textCreateFormat')} backLink={_t.textBack}>
                 <NavRight>
-                    <Link text={isIos ? t('View.Edit.textSave') : ''} icon={!isIos ? 'icon-check' : null} className={!formatValue && 'disabled'} onClick={() => handleSetCustomFormat(formatValue)}></Link>
+                    <Link text={isIos ? t('View.Edit.textSave') : ''} className={!formatValue && 'disabled'} onClick={() => handleSetCustomFormat(formatValue)}>
+                    {!isIos && (<SvgIcon symbolId={IconCheck.id} className="icon icon-svg"/>)}</Link>
                 </NavRight>
             </Navbar>
             <>

@@ -1,0 +1,161 @@
+#shortcuts-gialog {
+    #header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+
+        #search-input {
+            width: 160px;
+        }
+    }
+
+    #actions-list {
+        width: 100%;
+        height: 316px;
+
+        .item {
+            padding: 8px 16px;
+            
+            .list-item {
+                pointer-events: none;
+                width: 100%;
+                display: flex;
+                align-items: center;
+
+                .action-name {
+                    min-width: 250px;
+                    max-width: 250px;
+                    line-height: 21px;
+                    .margin-right(4px);
+                    margin-top: 3px;
+                    margin-bottom: 3px;
+
+                    white-space: normal;
+                    overflow-wrap: break-word;
+                    word-wrap: break-word;
+
+                    display: block;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;   
+                    -webkit-line-clamp: 2;
+                    overflow: hidden;
+                    text-overflow: ellipsis;                     
+                }
+
+                .action-keys {
+                    display: flex;
+                    flex-wrap: wrap;
+                    flex: 1;
+                    .margin-right(4px);
+
+                    .action-keys-item {
+                        display: flex;
+                        margin: 3px 0px;
+                        .margin-right(3px);
+                        
+                        .action-keys-item-plus {
+                            margin: 0 3px;
+                            display: flex;
+                            align-items: center;
+                        }
+                        .action-keys-item-key {
+                            padding: 2px 5px;
+                            border-radius: 4px;
+                            background-color: @background-toolbar-ie;
+                            background-color: @background-toolbar;
+                            border: 1px solid @border-divider-ie;
+                            border: 1px solid @border-divider;
+                            box-shadow: 0 1px 0 0 @border-divider-ie;
+                            box-shadow: 0 1px 0 0 @border-divider;
+                        }
+                        .action-keys-item-comma {
+                            display: flex;
+                            align-items: flex-end;
+                            padding: 2px 4px 2px 2px;
+                            .rtl & {
+                                padding: 2px 2px 2px 4px;
+                            }
+                        }
+                        &:last-child .action-keys-item-comma{
+                            display: none;
+                        }
+                    }
+                }
+
+                .action-edit {
+                    pointer-events: auto;
+                    margin-left: auto;
+                    opacity: 0;
+                }
+
+                .icon-lock {
+                    margin-left: auto;
+                    width: @x-small-btn-size-ie;
+                    width: @x-small-btn-size;
+                    height: @x-small-btn-size-ie;
+                    height: @x-small-btn-size;
+                    opacity: 0.8;
+                }
+            }
+
+            &:hover {
+                .action-edit {
+                    opacity: 1;
+                }
+            }
+        }        
+    }
+
+    #action-description {
+        margin-top: 12px;
+        height: 66px;
+
+        white-space: normal;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+
+        display: block;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;   
+        -webkit-line-clamp: 4;
+        overflow: hidden;
+        text-overflow: ellipsis; 
+    }
+}
+
+#shortcut-edit-gialog {
+    #action-label {
+        margin-bottom: 12px;
+
+        #action-label-name {
+            .font-weight-bold();
+        }
+    }
+
+    #shortcuts-list {
+        padding: 2px 12px 2px 2px;
+        margin: -2px -12px -2px -2px;
+        max-height: 155px;
+        position: relative;
+        overflow: hidden;
+        
+        .item {
+            display: flex;
+
+            .keys-input {
+                flex: 1;
+                .margin-right(8px);
+            }
+        }
+        .item:not(.first) {
+            margin-top: 8px;
+        }
+    }
+
+    #buttons-row {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 12px;
+    }
+}

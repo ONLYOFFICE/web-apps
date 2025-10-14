@@ -47,11 +47,13 @@
         }
     }
 
-    .box-tabs {
-        padding-left: @border-radius-toolbar-ie;
-        padding-left: @border-radius-toolbar;
-        padding-right: @border-radius-toolbar-ie;
-        padding-right: @border-radius-toolbar;
+    .box-tabs{
+        .top-title & {
+            padding-left: @border-radius-toolbar-ie;
+            padding-left: @border-radius-toolbar;
+            padding-right: @border-radius-toolbar-ie;
+            padding-right: @border-radius-toolbar;
+        }
     }
 
     .ribtab {
@@ -657,6 +659,10 @@
     #slot-field-fontname {
         min-width: 60px;
         flex-grow: 1;
+    }
+
+    .transparent {
+        opacity: 0;
     }
 }
 
@@ -1277,7 +1283,8 @@ section .field-styles {
 }
 
 .toolbar,
-#special-paste-container {
+#special-paste-container,
+#chart-element-container {
     .btn-group,
     .btn-toolbar {
         .pixel-ratio__2_5 & {

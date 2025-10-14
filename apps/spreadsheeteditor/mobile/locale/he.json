@@ -95,7 +95,6 @@
       "criticalErrorTitle": "שגיאה",
       "errorAccessDeny": "התבצע ניסיון לפעולה ללא הרשאה.<br>נא ליצור קשר עם מנהל המערכת שלך.",
       "errorOpensource": "באמצעות גרסת הקהילה החינמית אפשר לפתוח מסמכים לצפייה בלבד. כדי לגשת לעורכי אינטרנט ניידים, נדרש רישיון מסחרי.",
-      "errorProcessSaveResult": "שמירה נכשלה.",
       "errorServerVersion": "גרסת העורך עודכנה. הדף ייטען מחדש כדי להחיל את השינויים.",
       "errorUpdateVersion": "גרסת הקובץ שונתה. הדף ייטען מחדש.",
       "leavePageText": "קיימים שינויים שלא נשמרו במסמך זה. נא ללחוץ על 'הישאר בדף זה' כדי להמתין לשמירה אוטומטית. נא ללחוץ על 'צא מדף זה' כדי למחוק את כל השינויים שלא נשמרו.",
@@ -238,14 +237,15 @@
       "titleUpdateVersion": "הגרסה השתנתה",
       "warnLicenseAnonymous": "הגישה נדחתה עבור משתמשים אנונימיים.<br>מסמך זה ייפתח לצפייה בלבד.",
       "warnLicenseBefore": "רישיון לא פעיל.<br>נא ליצור קשר עם מנהל המערכת שלך.",
-      "warnLicenseExceeded": "הגעת למגבלה של חיבורים סימולטניים לעורכי %1. מסמך זה ייפתח לצפייה בלבד. פנה למנהל המערכת שלך למידע נוסף.",
       "warnLicenseExp": "פג תוקפו של הרישיון שלך. אנא, עדכן את הרישיון שלך ורענן את הדף.",
       "warnLicenseLimitedNoAccess": "פג תוקפו של הרישיון. אין לך גישה לפונקציונליות של עריכת מסמכים. נא ליצור קשר עם מנהל המערכת שלך.",
       "warnLicenseLimitedRenewed": "יש לחדש את הרישיון. יש לך גישה מוגבלת לפונקציונליות של עריכת מסמכים.<br>נא ליצור קשר עם מנהל המערכת שלך כדי לקבל גישה מלאה",
-      "warnLicenseUsersExceeded": "הגעת למגבלת המשתמש עבור %1 עורכים. פנה למנהל המערכת שלך למידע נוסף.",
       "warnNoLicense": "הגעת למגבלה של חיבורים סימולטניים לעורכי %1. מסמך זה ייפתח לצפייה בלבד. נא ליצור קשר עם צוות המכירות %1 לקבלת תנאי שדרוג אישיים.",
       "warnNoLicenseUsers": "הגעת למגבלת המשתמש עבור %1 עורכים. נא ליצור קשר עם צוות המכירות %1 לקבלת תנאי שדרוג אישיים.",
-      "warnProcessRightsChange": "אין לך הרשאה לערוך את הקובץ."
+      "warnProcessRightsChange": "אין לך הרשאה לערוך את הקובץ.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Draw": {
@@ -378,7 +378,8 @@
     "uploadImageExtMessage": "פורמט תמונה לא ידוע.",
     "uploadImageFileCountMessage": "לא הועלו תמונות.",
     "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled."
   },
   "LongActions": {
     "advDRMPassword": "סיסמה",
@@ -447,7 +448,9 @@
     "textSheetName": "שם גיליון",
     "textTabColor": "צבע הכרטיסייה",
     "textUnhide": "בטל הסתרה",
-    "textWarnDeleteSheet": "אולי קיימים נתונים בגליון העבודה. להמשיך בפעולה?"
+    "textWarnDeleteSheet": "אולי קיימים נתונים בגליון העבודה. להמשיך בפעולה?",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "btnRestartNow": "הפעל מחדש עכשיו",
@@ -718,7 +721,18 @@
       "textYen": "ין",
       "txtNotUrl": "שדה זה אמור להיות כתובת אתר בפורמט \"http://www.example.com\"",
       "txtSortHigh2Low": "מיון הגבוה ביותר לנמוך ביותר",
-      "txtSortLow2High": "מיון מהנמוך לגבוה ביותר"
+      "txtSortLow2High": "מיון מהנמוך לגבוה ביותר",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textAllCaps": "All Caps",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textDoubleStrikethrough": "Double Strikethrough",
+      "textLetterSpacing": "Letter spacing",
+      "textSmallCaps": "Small Caps",
+      "textStrikethrough": "Strikethrough",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript"
     },
     "Settings": {
       "advCSVOptions": "בחירת אפשרויות",
@@ -872,7 +886,11 @@
       "txtUk": "אוקראינית",
       "txtVi": "וייטנאמית",
       "txtZh": "סינית",
-      "warnDownloadAs": "אם תימשך השמירה בפורמט זה כל התכונות מלבד הטקסט יאבדו.<br>האם להמשיך בוודאות?"
+      "warnDownloadAs": "אם תימשך השמירה בפורמט זה כל התכונות מלבד הטקסט יאבדו.<br>האם להמשיך בוודאות?",
+      "txtSr": "Serbian (Latin)",
+      "txtSrcyrl": "Serbian (Cyrillic)",
+      "txtZhtw": "Chinese (Traditional)",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   }
 }

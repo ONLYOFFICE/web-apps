@@ -74,7 +74,17 @@ define([
             ].join('')),
 
             initialize : function(options) {
-                this.textSynchronize += Common.Utils.String.platformKey('Ctrl+S');
+                const me = this;
+                const app = (window.DE || window.PE || window.SSE || window.PDFE || window.VE);
+                app.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                    Save: {
+                        label: '',
+                        applyCallback: function(item, hintText) {
+                            me.textSynchronize += hintText;
+                        },
+                        ignoreUpdates: true
+                    },
+                });
                 
                 Common.UI.BaseView.prototype.initialize.call(this, options);
                 this.target = this.options.target;
@@ -102,7 +112,7 @@ define([
                     this.cmpEl.find('.btn-div').on('click', _.bind(function() { this.trigger('buttonclick');}, this));
 
                     this.closable && this.cmpEl.addClass('closable');
-                    this.binding.windowresize = _.bind(this.applyPlacement, this);
+                    this.binding.windowresize = _.bind(this.onWindowResize, this);
                 }
 
                 this.applyPlacement();
@@ -131,8 +141,18 @@ define([
                 this.automove && $(window).off('resize', this.binding.windowresize);
             },
 
-            applyPlacement: function () {
+            onWindowResize: function() {
+                this.applyPlacement();
+            },
+
+            applyPlacement: function (repeatOnce) {
                 var target = this.target && this.target.length>0 ? this.target : $(document.body);
+
+                if (!target.is(':visible') && !repeatOnce) {
+                    var me = this;
+                    setTimeout(function(){ me.applyPlacement(true); }, 100);
+                    return;
+                }
                 var showxy = Common.Utils.getOffset(target),
                     offset = this.offset || {x: 0, y: 0};
                 if (this.placement=='target' && !this.position) {
@@ -237,6 +257,7 @@ define([
             //     maxwidth: 250 // number or string '123px/none/...', 250 by default,
             //     extCls: '' //
             //     noHighlight: false // false by default,
+            //     noArrow: false // false by default,
             //     multiple: false // false by default, show tip multiple times,
             //     isNewFeature: false // false by default, show "New" tip in the header
             // }
@@ -264,14 +285,22 @@ define([
             return _helpTips[step] && !(_helpTips[step].name && Common.localStorage.getItem(_helpTips[step].name));
         };
 
+        var _applyPlacement = function(step) {
+            if (_helpTips[step] && _helpTips[step].tip && _helpTips[step].tip.isVisible())
+                _helpTips[step].tip.applyPlacement();
+        };
+
         var _closeTip = function(step, force, preventNext) {
-            var props = _helpTips[step];
-            if (props) {
-                preventNext && (props.next = undefined);
-                props.tip && props.tip.close();
-                props.tip = undefined;
-                force && props.name && Common.localStorage.setItem(props.name, 1);
-            }
+            var steps = typeof step === 'string' ? [step] : step;
+            steps && steps.forEach(function(step) {
+                var props = _helpTips[step];
+                if (props) {
+                    preventNext && (props.next = undefined);
+                    props.tip && props.tip.close();
+                    props.tip = undefined;
+                    force && props.name && Common.localStorage.setItem(props.name, 1);
+                }
+            });
         };
 
         var _findTarget = function(target) {
@@ -323,7 +352,7 @@ define([
                 }
 
                 props.tip = new Common.UI.SynchronizeTip({
-                    extCls: 'colored' + (props.extCls ? ' ' + props.extCls : '') + (props.noHighlight ? ' no-arrow' : ''),
+                    extCls: 'colored' + (props.extCls ? ' ' + props.extCls : '') + (props.noArrow ? ' no-arrow' : ''),
                     style: 'min-width:200px;max-width:' + (props.maxwidth ? props.maxwidth + (typeof props.maxwidth === 'number' ? 'px;' : ';') : '250px;'),
                     placement: placement,
                     position: props.position,
@@ -335,6 +364,7 @@ define([
                     textLink: props.link ? props.link.text : '',
                     closable: props.closable !== false, // true by default
                     showButton: props.showButton !== false, // true by default
+                    textButton: props.textButton, // button text, Got it by default
                     automove: !!props.automove
                 });
                 props.tip.on({
@@ -378,7 +408,8 @@ define([
             closeTip: _closeTip,
             removeTip: _removeTip,
             addTips: _addTips,
-            getNeedShow: _getNeedShow
+            getNeedShow: _getNeedShow,
+            applyPlacement: _applyPlacement
         }
     })();
 });

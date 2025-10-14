@@ -93,7 +93,6 @@
       "criticalErrorTitle": "Chyba",
       "errorAccessDeny": "Pokoušíte se provést akci, na kterou nemáte oprávnění.<br>Prosím kontaktujte Vašeho správce.",
       "errorOpensource": "Při využívání bezplatné komunitní veze, můžete otevřít dokumenty pouze pro náhled. Pro získání přístupu k mobilním online editorům, je nutná komerční licence.",
-      "errorProcessSaveResult": "Ukládání selhalo.",
       "errorServerVersion": "Verze editoru byla aktualizována. Stránka bude znovu načtena, aby se změny uplatnily.",
       "errorUpdateVersion": "Verze souboru byla změněna. Stránka bude znovu načtena.",
       "leavePageText": "V tomto dokumentu máte neuložené změny. Klikněte na 'Zůstat na této stránce' a počkejte dokud nedojde k automatickému uložení. Klikněte na 'Opustit tuto stránku' pro zahození neuložených změn.",
@@ -165,19 +164,20 @@
       "textReplaceSuccess": "Hledání bylo dokončeno. Nahrazeno výskytů: {0}",
       "textRequestMacros": "Makro vytváří požadavek na URL. Chcete povolit požadavek k přístupu na %1?",
       "textYes": "Ano",
+      "tipLicenseExceeded": "Dokument je otevřen v režimu pro čtení, protože došlo k dosažení limitu souběžného připojení, který je povolen pro tuto licenci.<br><br>Prosím zkuste to znovu později, nebo se obraťte na vlastníka dokumentu pro získání přístupu k úpravám.",
+      "tipLicenseUsersExceeded": "Dokument je otevřen v režimu pro čtení, protože došlo k dosažení maximálního počtu uživatelů, který je povolen pro tuto licenci.<br><br>Prosím zkuste to znovu později, nebo se obraťte na vlastníka dokumentu pro získání přístupu k úpravám.",
       "titleLicenseExp": "Platnost licence vypršela",
       "titleLicenseNotActive": "Licence není aktivní",
+      "titleReadOnly": "Pouze pro čtení",
       "titleServerVersion": "Editor byl aktualizován",
       "titleUpdateVersion": "Verze změněna",
       "txtIncorrectPwd": "Heslo je chybné",
       "txtProtected": "Jakmile zadáte heslo a soubor otevřete, stávající heslo k souboru bude resetováno",
       "warnLicenseAnonymous": "Přístup zamítnut pro anonymní uživatele.<br>Tento dokument bude zobrazen pouze jako náhled.",
       "warnLicenseBefore": "Licence není aktivní.<br>Prosím kontaktujte svého správce.",
-      "warnLicenseExceeded": "Došlo k dosažení limitu souběžného připojení %1 editorů. Tento dokument bude otevřen pouze pro náhled. Pro více informací kontaktujte Vašeho správce.",
       "warnLicenseExp": "Platnost vaší licence skončila.<br>Obnovte si svou licenci a načtěte stránku znovu.",
       "warnLicenseLimitedNoAccess": "Platnost licence vypršela. Nemáte přístup k úpravě dokumentů. Prosím, kontaktujte Vašeho správce.",
       "warnLicenseLimitedRenewed": "Licence musí být obnovena. Máte omezený přístup k možnostem editace dokumentů.<br>Prosím kontaktujte Vašeho správce pro získání plného přístupu.",
-      "warnLicenseUsersExceeded": "Došlo dosažení limitu %1 editorů v režimu spolupráce na úpravách. Ohledně podrobností se obraťte na svého správce.",
       "warnNoLicense": "Došlo k dosažení limitu souběžného připojení %1 editorů. Tento dokument bude otevřen pouze pro náhled. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
       "warnNoLicenseUsers": "Došlo k dosažení limitu %1 editorů. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
       "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu."
@@ -192,6 +192,7 @@
   "Error": {
     "convertationTimeoutText": "Překročen časový limit pro provedení převodu.",
     "criticalErrorExtText": "Pro návrat na seznam dokumentů klikněte na 'OK'.",
+    "criticalErrorExtTextClose": "Pro zavření editoru klikněte na 'OK'.",
     "criticalErrorTitle": "Chyba",
     "downloadErrorText": "Stahování se nezdařilo.",
     "errorAccessDeny": "Pokoušíte se provést akci, na kterou nemáte oprávnění.<br>Obraťte se na Vašeho správce.",
@@ -239,8 +240,7 @@
     "unknownErrorText": "Neznámá chyba.",
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Žádné obrázky nenahrány.",
-    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Načítání dat...",
@@ -355,6 +355,7 @@
       "textBack": "Zpět",
       "textBandedColumn": "Pruhované sloupce",
       "textBandedRow": "Pruhované řádky",
+      "textBaseline": "Základ",
       "textBefore": "Před",
       "textBlack": "Přes černou",
       "textBorder": "Ohraničení",
@@ -365,8 +366,10 @@
       "textBullets": "Odrážky",
       "textBulletsAndNumbers": "Odrážky & Číslování",
       "textCancel": "Zrušit",
+      "textCapitalization": "Kapitalizace",
       "textCaseSensitive": "Rozlišovat malá a velká písmena",
       "textCellMargins": "Okraje buňky",
+      "textCellSize": "Velikost buňky",
       "textChangeShape": "Změnit obrazec",
       "textChart": "Graf",
       "textClock": "Hodiny",
@@ -495,7 +498,9 @@
       "textZoom": "Přiblížení",
       "textZoomIn": "Přiblížit",
       "textZoomOut": "Oddálit",
-      "textZoomRotate": "Přiblížit a otočit"
+      "textZoomRotate": "Přiblížit a otočit",
+      "txtHeight": "Výška",
+      "txtWidth": "Šířka"
     },
     "Settings": {
       "mniSlideStandard": "Standardní (4:3)",

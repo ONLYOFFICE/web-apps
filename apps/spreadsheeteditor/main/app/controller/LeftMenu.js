@@ -344,7 +344,7 @@ define([
         showLostDataWarning: function(callback) {
             Common.UI.warning({
                 title: this.textWarning,
-                msg: this.warnDownloadAs,
+                msg: this.warnDownloadCsv,
                 buttons: ['ok', 'cancel'],
                 callback: _.bind(function (btn) {
                     if (btn == 'ok') {
@@ -357,25 +357,10 @@ define([
         clickSaveAsFormat: function(menu, format) {
             if (format == Asc.c_oAscFileType.CSV) {
                 var me = this;
-                if (this.api.asc_getWorksheetsCount()>1) {
-                    Common.UI.warning({
-                        title: this.textWarning,
-                        msg: this.warnDownloadCsvSheets,
-                        buttons: [{value: 'ok', caption: this.textSave}, 'cancel'],
-                        callback: _.bind(function (btn) {
-                            if (btn == 'ok') {
-                                me.showLostDataWarning(function () {
-                                    Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, me.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
-                                    menu.hide();
-                                });
-                            }
-                        }, this)
-                    });
-                } else
-                    this.showLostDataWarning(function () {
-                        Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, me.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
-                        menu.hide();
-                    });
+                this.showLostDataWarning(function () {
+                    Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, me.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
+                    menu.hide();
+                });
             } else if (format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA) {
                 menu.hide();
                 Common.NotificationCenter.trigger('download:settings', this.leftMenu, format);
@@ -388,33 +373,14 @@ define([
         clickSaveCopyAsFormat: function(menu, format, ext, wopiPath) {
             if (format == Asc.c_oAscFileType.CSV) {
                 var me = this;
-                if (this.api.asc_getWorksheetsCount()>1) {
-                    Common.UI.warning({
-                        title: this.textWarning,
-                        msg: this.warnDownloadCsvSheets,
-                        buttons: [{value: 'ok', caption: this.textSave}, 'cancel'],
-                        callback: _.bind(function (btn) {
-                            if (btn == 'ok') {
-                                me.showLostDataWarning(function () {
-                                    me.isFromFileDownloadAs = ext;
-                                    var options = new Asc.asc_CDownloadOptions(format, true);
-                                    options.asc_setIsSaveAs(true);
-                                    wopiPath && options.asc_setWopiSaveAsPath(wopiPath);
-                                    Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, me.api.asc_getAdvancedOptions(), 2, options);
-                                    menu.hide();
-                                });
-                            }
-                        }, this)
-                    });
-                } else
-                    me.showLostDataWarning(function () {
-                        me.isFromFileDownloadAs = ext;
-                        var options = new Asc.asc_CDownloadOptions(format, true);
-                        options.asc_setIsSaveAs(true);
-                        wopiPath && options.asc_setWopiSaveAsPath(wopiPath);
-                        Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, me.api.asc_getAdvancedOptions(), 2, options);
-                        menu.hide();
-                    });
+                me.showLostDataWarning(function () {
+                    me.isFromFileDownloadAs = ext;
+                    var options = new Asc.asc_CDownloadOptions(format, true);
+                    options.asc_setIsSaveAs(true);
+                    wopiPath && options.asc_setWopiSaveAsPath(wopiPath);
+                    Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, me.api.asc_getAdvancedOptions(), 2, options);
+                    menu.hide();
+                });
             } else if (format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA) {
                 this.isFromFileDownloadAs = ext;
                 menu.hide();
@@ -761,7 +727,12 @@ define([
 
                 if (state) {
                     this.getApplication().getController('Common.Controllers.Comments').onAfterShow();
-                }
+                    Common.UI.TooltipManager.getNeedShow('commentFilter') && Common.UI.TooltipManager.closeTip('rtlDirection');
+                    setTimeout(function() {
+                        Common.UI.TooltipManager.showTip('commentFilter');
+                    }, 10);
+                } else
+                    Common.UI.TooltipManager.closeTip('commentFilter');
 
                 if (!state) $(this.leftMenu.btnComments.el).blur();
             }
@@ -786,6 +757,9 @@ define([
                         this.mode.canViewComments && this.leftMenu.panelComments['hide']();
                         this.mode.canChat && this.leftMenu.panelChat['hide']();
                     }
+                }
+                if (state) {
+                    Common.UI.TooltipManager.closeTip('chartElements');
                 }
             }
         },

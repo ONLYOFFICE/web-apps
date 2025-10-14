@@ -40,7 +40,6 @@
       "criticalErrorTitle": "දෝෂයකි",
       "errorAccessDeny": "ඔබට අයිතියක් නැති ක්‍රියාමාර්ගයක් ගැනීමට ඔබ උත්සාහ කරයි.<br>ඔබගේ පරිපාලක අමතන්න.",
       "errorOpensource": "ඔබට නොමිලේ ප්‍රජා අනුවාදය භාවිතා කරමින් ලේඛන දැකීම සඳහා පමණක් විවෘත කිරීමට හැකිය. ජංගම වියමන සංස්කරක වෙත ප්‍රවේශ වීමට වාණිජ බලපත්‍රයක් අවශ්‍ය වේ.",
-      "errorProcessSaveResult": "සුරැකීමට අසමත් විය.",
       "errorServerVersion": "සංස්කරක අනුවාදය වෙනස්ව ඇත. වෙනස්කම් යෙදීමට පිටුව යළි පූරණය වනු ඇත.",
       "errorUpdateVersion": "ගොනුවේ අනුවාදය වෙනස්ව ඇත. පිටුව යළි පූරණය වනු ඇත.",
       "leavePageText": "මෙම ලේඛනයේ ඔබ නොසුරකින ලද වෙනස්කම් තිබේ. ඉබේ සුරැකෙන තෙක් රැඳීමට 'මෙම පිටුවේ සිටින්න' ඔබන්න. නොසුරකින ලද සියළුම වෙනස්කම් ඉවතලීමට 'මෙම පිටුව හැරයන්න' ඔබන්න.",
@@ -64,19 +63,21 @@
       "txtIncorrectPwd": "මුරපදය වැරදියි",
       "warnLicenseAnonymous": "නිර්නාමික පරිශ්‍රීලකයින් සඳහා ප්‍රවේශය ප්‍රතික්‍ෂේපිතයි.<br>මෙම ලේඛනය දැකීමට පමණක් විවෘත වනු ඇත.",
       "warnLicenseBefore": "බලපත්‍රය සක්‍රිය නැත.<br>කරුණාකර ඔබගේ පරිපාලක අමතන්න.",
-      "warnLicenseExceeded": "%1 සංස්කරක සමකාල සම්බන්ධතා සීමාවට ළඟා වී ඇත. මෙම ලේඛනය දැකීමට පමණක් විවෘත වේ. තව දැන ගැනීමට ඔබගේ පරිපාලක අමතන්න.",
       "warnLicenseExp": "ඔබගේ බලපත්‍රය කල් ඉකුත් වී ඇත. එය යාවත්කාල කර පිටුව නැවුම් කරන්න.",
       "warnLicenseLimitedNoAccess": "බලපත්‍රය කල් ඉකුත්ය. ඔබට ලේඛන සංස්කරණයට ප්‍රවේශය නැත. කරුණාකර, ඔබගේ පරිපාලක අමතන්න",
       "warnLicenseLimitedRenewed": "බලපත්‍රය අළුත් කළ යුතුයි. ඔබට ලේඛන සංස්කරණයට සීමිත ප්‍රවේශයක් තිබේ.<br>පූර්ණ ප්‍රවේශය ලබා ගැනීමට ඔබගේ පරිපාලක අමතන්න",
-      "warnLicenseUsersExceeded": "ඔබ %1 සංස්කරක වල පරිශ්‍රීලක සීමාවට ළඟා වී ඇත. තව දැන ගැනීමට ඔබගේ පරිපාලක අමතන්න.",
       "warnNoLicense": "%1 සංස්කරක සමකාල සම්බන්ධතා සීමාවට ළඟා වී ඇත. මෙම ලේඛනය දැකීමට පමණක් විවෘත වේ. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
       "warnNoLicenseUsers": "ඔබ %1 සංස්කරක වල පරිශ්‍රීලක සීමාවට ළඟා වී ඇත. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
-      "warnProcessRightsChange": "ඔබට ගොනුව සංස්කරණයට අවසර නැත."
+      "warnProcessRightsChange": "ඔබට ගොනුව සංස්කරණයට අවසර නැත.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Error": {
     "convertationTimeoutText": "අනුවර්තන කාලය ඉක්මවා ඇත.",
     "criticalErrorExtText": "ලේඛන වට්ටෝරුවට ආපසු යාමට 'හරි' ඔබන්න.",
+    "criticalErrorExtTextClose": "සංස්කරකය වැසීමට 'හරි' ඔබන්න.",
     "criticalErrorTitle": "දෝෂයකි",
     "downloadErrorText": "බාගැනීමට අසමත් විය.",
     "errorAccessDeny": "ඔබට අයිතියක් නැති ක්‍රියාමාර්ගයක් ගැනීමට ඔබ උත්සාහ කරයි.<br>ඔබගේ පරිපාලක අමතන්න.",
@@ -119,8 +120,7 @@
     "unknownErrorText": "නොදන්නා දෝෂයකි",
     "uploadImageExtMessage": "නොදන්නා රූප ආකෘතියකි.",
     "uploadImageFileCountMessage": "රූප කිසිවක් උඩුගත කර නැත.",
-    "uploadImageSizeMessage": "රූපය ඉතා විශාලයි. උපරිම ප්‍රමාණය මෙ.බ. 25 කි.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "uploadImageSizeMessage": "රූපය ඉතා විශාලයි. උපරිම ප්‍රමාණය මෙ.බ. 25 කි."
   },
   "LongActions": {
     "applyChangesTextText": "දත්ත පූරණය වෙමින්...",

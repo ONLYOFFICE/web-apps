@@ -32,41 +32,6 @@
             }
         }
     }
-
-    .range-tableview {
-        .list-item > div{
-            vertical-align: middle;
-            display: inline-block;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: pre;
-        }
-
-        .listitem-icon {
-            width: 20px;
-            height: 20px;
-            vertical-align: middle;
-        }
-
-        .selected {
-            .listitem-icon {
-                background-position-x: -20px;
-                background-position-x: @button-small-active-icon-offset-x;
-            }
-        }
-
-        .lock-user {
-            position: absolute;
-            right: 2px;
-            min-width: 100px;
-            max-width: 150px;
-            height: 20px;
-            padding: 2px 10px;
-            background-color: #EE3525;
-            color: #fff;
-            text-align: center;
-        }
-    }
 }
 
 .sort-dialog-btn-text {
@@ -427,9 +392,11 @@
         .listitem-icon {
             position: absolute;
             width: 20px;
+            width: @x-small-btn-size;
             height: 20px;
+            height: @x-small-btn-size;
             right: 16px;
-            top: 4px;
+            top: 2px;
             .rtl & {
                 right: auto;
                 left: 16px;

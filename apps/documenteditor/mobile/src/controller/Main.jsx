@@ -18,6 +18,7 @@ import LongActionsController from "./LongActions";
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
 import EncodingController from "./Encoding";
 import DropdownListController from "./DropdownList";
+import AddFormImageController from './add/AddFormImage.jsx';
 import { Device } from '../../../../common/mobile/utils/device';
 import { processArrayScripts } from '../../../../common/mobile/utils/processArrayScripts.js';
 import '../../../../common/main/lib/util/LanguageInfo.js'
@@ -364,6 +365,10 @@ class MainController extends Component {
                 this._isDocReady = true;
 
                 this.api.SetDrawingFreeze(false);
+                
+                if (appOptions.canFillForms) {
+                    this.api.asc_registerCallback('asc_onUpdateSignatures', this.showSignatureTooltip.bind(this));
+                }
 
                 Common.Notifications.trigger('preloader:close');
                 Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
@@ -401,7 +406,6 @@ class MainController extends Component {
                     Common.Notifications.trigger('api:disconnect');
                 }
 
-                Common.Gateway.on('processsaveresult', this.onProcessSaveResult.bind(this));
                 Common.Gateway.on('processrightschange', this.onProcessRightsChange.bind(this));
                 Common.Gateway.on('downloadas', this.onDownloadAs.bind(this));
                 Common.Gateway.on('requestclose', this.onRequestClose.bind(this));
@@ -534,6 +538,36 @@ class MainController extends Component {
             document.body.appendChild(script);
         } else {
             on_script_load();
+        }
+    }
+
+    
+    showSignatureTooltip(valid, requested) {
+        let hasSigned = false;
+        if (valid) {
+            valid.forEach(item => {
+                if (item.asc_getIsForm()) {
+                    hasSigned = true;
+                }
+            });
+        }
+        this.props.storeToolbarSettings.setIsSignatureForm(hasSigned);
+
+        if (hasSigned) {
+            const { t } = this.props;
+            const _t = t('Main', { returnObjects: true });
+            
+            f7.dialog.create({
+                text:  _t.txtSignedForm,
+                buttons: [
+                    {   
+                        text: _t.textCancel,
+                        onClick: () => {
+                            f7.dialog.close(); 
+                        }
+                    }
+                ]
+            }).open();
         }
     }
 
@@ -686,8 +720,6 @@ class MainController extends Component {
         const warnNoLicense  = _t.warnNoLicense.replace(/%1/g, __COMPANY_NAME__);
         const warnNoLicenseUsers = _t.warnNoLicenseUsers.replace(/%1/g, __COMPANY_NAME__);
         const textNoLicenseTitle = _t.textNoLicenseTitle.replace(/%1/g, __COMPANY_NAME__);
-        const warnLicenseExceeded = _t.warnLicenseExceeded.replace(/%1/g, __COMPANY_NAME__);
-        const warnLicenseUsersExceeded = _t.warnLicenseUsersExceeded.replace(/%1/g, __COMPANY_NAME__);
 
         const appOptions = this.props.storeAppOptions;
         const isForm = appOptions.isForm;
@@ -729,13 +761,15 @@ class MainController extends Component {
         } else if (this._state.licenseType) {
             let license = this._state.licenseType;
             let buttons = [{ text: _t.textOk }];
+            let title = textNoLicenseTitle;
             if ((appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
                 (license === Asc.c_oLicenseResult.SuccessLimit ||
                     appOptions.permissionsLicense === Asc.c_oLicenseResult.SuccessLimit)
             ) {
                 license = _t.warnLicenseLimitedRenewed;
             } else if (license === Asc.c_oLicenseResult.Connections || license === Asc.c_oLicenseResult.UsersCount) {
-                license = (license===Asc.c_oLicenseResult.Connections) ? warnLicenseExceeded : warnLicenseUsersExceeded;
+                title = _t.titleReadOnly;
+                license = (license===Asc.c_oLicenseResult.Connections) ? _t.tipLicenseExceeded : _t.tipLicenseUsersExceeded;
             } else {
                 license = (license === Asc.c_oLicenseResult.ConnectionsOS) ? warnNoLicense : warnNoLicenseUsers;
                 buttons = [{
@@ -761,18 +795,11 @@ class MainController extends Component {
                 Common.Notifications.trigger('api:disconnect');
             }
 
-            let value = LocalStorage.getItem("de-license-warning");
-            value = (value !== null) ? parseInt(value) : 0;
-            const now = (new Date).getTime();
-
-            if (now - value > 86400000) {
-                LocalStorage.setItem("de-license-warning", now);
-                f7.dialog.create({
-                    title: textNoLicenseTitle,
-                    text : license,
-                    buttons: buttons
-                }).open();
-            }
+            f7.dialog.create({
+                title: title,
+                text : license,
+                buttons: buttons
+            }).open();
         } else {
             if (!appOptions.isDesktopApp && !appOptions.canBrandingExt &&
                 appOptions.config && appOptions.config.customization && (appOptions.config.customization.loaderName || appOptions.config.customization.loaderLogo)) {
@@ -876,15 +903,7 @@ class MainController extends Component {
                     break;
                 case Asc.c_oAscContentControlSpecificType.Picture:
                 case Asc.c_oAscContentControlSpecificType.Signature:
-                    if (obj.pr && obj.pr.get_Lock) {
-                        let lock = obj.pr.get_Lock();
-                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock == Asc.c_oAscSdtLockType.ContentLocked)
-                            return;
-                    }
-                    this.api.asc_addImage(obj);
-                    setTimeout(() => {
-                        this.api.asc_UncheckContentControlButtons();
-                    }, 500);
+                    this.onShowImageActions(obj, x, y);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
@@ -1052,10 +1071,11 @@ class MainController extends Component {
     onChangeProtectDocument() {
         const storeVersionHistory = this.props.storeVersionHistory;
         if (storeVersionHistory.isVersionHistoryMode) return;
+        const props = this.getDocProps(true);
+        if (!props) return;
 
         const { t } = this.props;
         const storeAppOptions = this.props.storeAppOptions;
-        const props = this.getDocProps(true);
         const isProtected = props && (props.isReadOnly || props.isCommentsOnly || props.isFormsOnly || props.isReviewOnly || props.isTrackedChanges);
         let textWarningDialog;
 
@@ -1209,6 +1229,29 @@ class MainController extends Component {
         }, 100)
     }
 
+    onShowImageActions(obj, x, y) {
+        if(!Device.isPhone) {
+            const boxSdk = $$('#editor_sdk');
+            let dropdownListTarget = boxSdk.find('#dropdown-image-list-target');
+
+            if (dropdownListTarget.length < 1) {
+                dropdownListTarget = $$('<div id="dropdown-image-list-target" style="position: absolute;"></div>');
+                boxSdk.append(dropdownListTarget);
+            }
+            if (y > boxSdk.height()) {
+                y = boxSdk.height();
+            }
+            dropdownListTarget.css({left: `${x}px`, top: `${y}px`});
+            Common.Notifications.trigger('openFormImageListTablet', obj, x, y, boxSdk.height(), 260);
+        } else {
+            Common.Notifications.trigger('openFormImageListPhone', obj)
+        }
+
+        setTimeout(() => {
+            this.api.asc_UncheckContentControlButtons();
+        }, 500);
+    }
+
     onShowListActions(obj, x, y) {
         if(!Device.isPhone) {
             const boxSdk = $$('#editor_sdk');
@@ -1225,20 +1268,6 @@ class MainController extends Component {
         if ( !this.appOptions.isCorePDF )
             Common.Notifications.trigger('openDropdownList', obj);
         else Common.Notifications.trigger('openPdfDropdownList', obj);
-    }
-
-    onProcessSaveResult (data) {
-        this.api.asc_OnSaveEnd(data.result);
-
-        if (data && data.result === false) {
-            const { t } = this.props;
-            const _t = t('Main', {returnObjects:true});
-
-            f7.dialog.alert(
-                (!data.message) ? _t.errorProcessSaveResult : data.message,
-                _t.criticalErrorTitle
-            );
-        }
     }
 
     onProcessRightsChange (data) {
@@ -1643,6 +1672,7 @@ class MainController extends Component {
                 <PluginsController />
                 <EncodingController />
                 <DropdownListController />
+                <AddFormImageController />
             </Fragment>
         )
     }

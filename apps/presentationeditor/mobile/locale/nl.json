@@ -83,7 +83,7 @@
     "textDoNotShowAgain": "Niet meer laten zien.",
     "textRows": "Rijen",
     "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -93,7 +93,6 @@
       "criticalErrorTitle": "Fout",
       "errorAccessDeny": "U probeert een actie uit te voeren waar u geen rechten voor heeft. <br>Neem contact op met uw beheerder.",
       "errorOpensource": "Met de gratis Community versie kunt u documenten openen om ze alleen te bekijken. Voor toegang tot mobiele webdocumentbewerkers is een commerciële licentie vereist.",
-      "errorProcessSaveResult": "Opslaan mislukt.",
       "errorServerVersion": "De versie van de editor is bijgewerkt. De pagina wordt opnieuw geladen om de wijzigingen toe te passen.",
       "errorUpdateVersion": "De bestandsversie is gewijzigd. De pagina wordt opnieuw geladen.",
       "leavePageText": "U hebt niet-opgeslagen wijzigingen in dit document. Klik op 'Blijf op deze pagina' om te wachten op automatisch opslaan. Klik op 'Verlaat deze pagina' om alle niet-opgeslagen wijzigingen te verwijderen.",
@@ -167,11 +166,9 @@
       "titleUpdateVersion": "Versie gewijzigd",
       "txtIncorrectPwd": "Wachtwoord is onjuist",
       "txtProtected": "Wanneer u het wachtwoord ingeeft en het bestand opent zal het huidige wachtwoord worden gereset.",
-      "warnLicenseExceeded": "U heeft de gebruikerslimiet voor %1 gelijktijdige gebruikers bereikt. Het document zal worden geopend in leesmodus. Neem contact op met uw beheerder voor meer informatie.",
       "warnLicenseExp": "Uw licentie is verlopen. Gelieve deze bij te werken en de pagina te vernieuwen.",
       "warnLicenseLimitedNoAccess": "Licentie verlopen. U hebt geen toegang tot de documentbewerking functionaliteit. Neem contact op met uw beheerder.",
       "warnLicenseLimitedRenewed": "De licentie moet worden vernieuwd. U heeft beperkte toegang tot de documentbewerking functionaliteit.<br>Neem contact op met uw administrator om volledige toegang te krijgen",
-      "warnLicenseUsersExceeded": "U heeft de gebruikerslimiet voor %1 gelijktijdige gebruikers bereikt. Neem contact op met uw beheerder voor meer informatie.",
       "warnNoLicense": "U hebt de limiet bereikt voor gelijktijdige verbindingen met %1 gelijktijdige gebruikers. Dit document wordt alleen geopend om te bekijken. Neem contact op met %1 verkoopteam voor persoonlijke upgradevoorwaarden.",
       "warnNoLicenseUsers": "U heeft de gebruikerslimiet voor %1 gelijktijdige gebruikers bereikt. Neem contact op met de verkoopafdeling voor persoonlijke upgradevoorwaarden.",
       "warnProcessRightsChange": "Je hebt geen toestemming om het bestand te bewerken.",
@@ -179,6 +176,9 @@
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode",
       "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
@@ -486,7 +486,10 @@
       "textZoomIn": "Inzoomen",
       "textZoomOut": "Uitzoomen",
       "textZoomRotate": "Zoomen en draaien",
+      "textBaseline": "Baseline",
       "textCancel": "Cancel",
+      "textCapitalization": "Capitalization",
+      "textCellSize": "Cell size",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textHorizontalText": "Horizontal Text",
@@ -495,7 +498,9 @@
       "textMorph": "Morph",
       "textMorphLetters": "Letters",
       "textMorphObjects": "Objects",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "txtHeight": "Height",
+      "txtWidth": "Width"
     },
     "Settings": {
       "mniSlideStandard": "Standaard (4:3)",

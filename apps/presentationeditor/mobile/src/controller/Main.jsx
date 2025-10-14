@@ -584,7 +584,6 @@ class MainController extends Component {
             Common.Notifications.trigger('api:disconnect');
         }
 
-        Common.Gateway.on('processsaveresult', this.onProcessSaveResult.bind(this));
         Common.Gateway.on('processrightschange', this.onProcessRightsChange.bind(this));
         Common.Gateway.on('downloadas', this.onDownloadAs.bind(this));
         Common.Gateway.on('requestclose', this.onRequestClose.bind(this));
@@ -670,8 +669,6 @@ class MainController extends Component {
         const warnNoLicense  = _t.warnNoLicense.replace(/%1/g, __COMPANY_NAME__);
         const warnNoLicenseUsers = _t.warnNoLicenseUsers.replace(/%1/g, __COMPANY_NAME__);
         const textNoLicenseTitle = _t.textNoLicenseTitle.replace(/%1/g, __COMPANY_NAME__);
-        const warnLicenseExceeded = _t.warnLicenseExceeded.replace(/%1/g, __COMPANY_NAME__);
-        const warnLicenseUsersExceeded = _t.warnLicenseUsersExceeded.replace(/%1/g, __COMPANY_NAME__);
 
         const appOptions = this.props.storeAppOptions;
         if (appOptions.config.mode !== 'view' && !EditorUIController.isSupportEditFeature()) {
@@ -711,13 +708,15 @@ class MainController extends Component {
         } else if (this._state.licenseType) {
             let license = this._state.licenseType;
             let buttons = [{ text: _t.textOk }];
+            let title = textNoLicenseTitle;
             if ((appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
                 (license === Asc.c_oLicenseResult.SuccessLimit ||
                     appOptions.permissionsLicense === Asc.c_oLicenseResult.SuccessLimit)
             ) {
                 license = _t.warnLicenseLimitedRenewed;
             } else if (license === Asc.c_oLicenseResult.Connections || license === Asc.c_oLicenseResult.UsersCount) {
-                license = (license===Asc.c_oLicenseResult.Connections) ? warnLicenseExceeded : warnLicenseUsersExceeded;
+                title = _t.titleReadOnly;
+                license = (license===Asc.c_oLicenseResult.Connections) ? _t.tipLicenseExceeded : _t.tipLicenseUsersExceeded;
             } else {
                 license = (license === Asc.c_oLicenseResult.ConnectionsOS) ? warnNoLicense : warnNoLicenseUsers;
                 buttons = [{
@@ -743,18 +742,11 @@ class MainController extends Component {
                 Common.Notifications.trigger('api:disconnect');
             }
 
-            let value = LocalStorage.getItem("pe-license-warning");
-            value = (value !== null) ? parseInt(value) : 0;
-            const now = (new Date).getTime();
-
-            if (now - value > 86400000) {
-                LocalStorage.setItem("pe-license-warning", now);
-                f7.dialog.create({
-                    title: textNoLicenseTitle,
-                    text : license,
-                    buttons: buttons
-                }).open();
-            }
+            f7.dialog.create({
+                title: title,
+                text : license,
+                buttons: buttons
+            }).open();
         } else {
             if (!appOptions.isDesktopApp && !appOptions.canBrandingExt &&
                 appOptions.config && appOptions.config.customization && (appOptions.config.customization.loaderName || appOptions.config.customization.loaderLogo)) {
@@ -1054,19 +1046,6 @@ class MainController extends Component {
                         }
                     }]
             }).open();
-        }
-    }
-
-    onProcessSaveResult (data) {
-        this.api.asc_OnSaveEnd(data.result);
-
-        if (data && data.result === false) {
-            const { t } = this.props;
-            const _t = t('Controller.Main', {returnObjects:true});
-            f7.dialog.alert(
-                (!data.message) ? _t.errorProcessSaveResult : data.message,
-                _t.criticalErrorTitle
-            );
         }
     }
 

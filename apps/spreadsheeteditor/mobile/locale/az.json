@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Xəta",
       "errorAccessDeny": "Hüquqlarınız olmayan əməliyyatı yerinə yetirməyə çalışırsınız.<br>Lütfən, admininizlə əlaqə saxlayın.",
       "errorOpensource": "Ödənişsiz İcma versiyasından istifadə edərək sənədləri yalnız baxmaq üçün aça bilərsiniz. Mobil veb redaktorlarına daxil olmaq üçün kommersiya lisenziyası tələb olunur.",
-      "errorProcessSaveResult": "Saxlama prosesi uğursuz oldu.",
       "errorServerVersion": "Redaktor versiyası yeniləndi. Dəyişiklikləri tətbiq etmək üçün səhifə yenidən yüklənəcək.",
       "errorUpdateVersion": "Fayl versiyası dəyişdirilib. Səhifə yenidən yüklənəcək.",
       "leavePageText": "Bu sənəddə saxlanmamış dəyişiklikləriniz var. Avtomatik saxlanmanı gözləmək üçün \"Bu Səhifədə Qalın\" hissəsinin üzərinə klikləyin. Bütün saxlanmamış dəyişiklikləri ləğv etmək üçün \"Bu səhifədən Çıxın\" hissəsinin üzərinə klikləyin.",
@@ -121,11 +120,9 @@
       "titleLicenseExp": "Lisenziyanın müddəti bitdi",
       "titleServerVersion": "Redaktor yeniləndi",
       "titleUpdateVersion": "Versiya dəyişdirildi",
-      "warnLicenseExceeded": "Siz 1% redaktorlarına eyni vaxtda qoşulma limitinə çatdınız. Bu sənəd yalnız baxmaq üçün açılacaq. Ətraflı öyrənmək üçün inzibatçınızla əlaqə saxlayın.",
       "warnLicenseExp": "Lisenziyanızın vaxtı bitib. Lisenziyanızı yeniləyin və səhifəni yeniləyin.",
       "warnLicenseLimitedNoAccess": "Lisenziyanın müddəti bitdi. Sizin sənəd redaktə funksiyasına girişiniz yoxdur. Zəhmət olmasa admininizlə əlaqə saxlayın.",
       "warnLicenseLimitedRenewed": "Lisenziya yenilənməlidir. Sənəd redaktə funksiyasına girişiniz məhduddur.<br>Tam giriş əldə etmək üçün inzibatçınızla əlaqə saxlayın",
-      "warnLicenseUsersExceeded": "1% redaktor üçün istifadəçi limitinə çatdınız. Ətraflı öyrənmək üçün inzibatçınızla əlaqə saxlayın.",
       "warnNoLicense": "Siz 1% redaktorlarına eyni vaxtda qoşulma limitinə çatdınız. Bu sənəd yalnız baxmaq üçün açılacaq. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
       "warnNoLicenseUsers": "1% redaktor üçün istifadəçi limitinə çatdınız. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
       "warnProcessRightsChange": "Faylı redaktə etmək icazəniz yoxdur.",
@@ -243,7 +240,10 @@
       "textDontUpdate": "Don't Update",
       "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
       "textWarnUpdateExternalData": "This workbook contains links to one or more external sources that could be unsafe. If you trust the links, update them to get the latest data.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
       "titleLicenseNotActive": "License not active",
+      "titleReadOnly": "Read-Only Mode",
       "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
     }
@@ -363,6 +363,7 @@
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
     "errorLabledColumnsPivot": "To create a pivot table report, you must use data that is organized as a list with labeled columns.",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled.",
     "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
     "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorPrecedentsNoValidRef": "The Trace Precedents command requires that the active cell contain a formula which includes a valid references.",
@@ -441,7 +442,9 @@
     "textSheetName": "Vərəq Adı",
     "textTabColor": "Tab Rəngi",
     "textUnhide": "Gizlətməni ləğv et",
-    "textWarnDeleteSheet": "İş vərəqində məlumat ola bilər. Əməliyyat davam etdirilsin?"
+    "textWarnDeleteSheet": "İş vərəqində məlumat ola bilər. Əməliyyat davam etdirilsin?",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Bu sənəddə saxlanmamış dəyişiklikləriniz var. Avtomatik saxlanmanı gözləmək üçün \"Bu Səhifədə Qalın\" hissəsinin üzərinə klikləyin. Bütün saxlanmamış dəyişiklikləri ləğv etmək üçün \"Bu səhifədən Çıxın\" hissəsinin üzərinə klikləyin.",
@@ -707,12 +710,23 @@
       "txtNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır",
       "txtSortHigh2Low": "Ən Böyükdən ən Kiçiyə doğru Çeşidləyin.",
       "txtSortLow2High": "Ən Kiçikdən ən Böyüyə doğru Çeşidləyin.",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textAllCaps": "All Caps",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
       "textCreateCustomFormat": "Create Custom Format",
       "textCreateFormat": "Create Format",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
+      "textDoubleStrikethrough": "Double Strikethrough",
       "textEnterFormat": "Enter Format",
-      "textInvalidName": "The file name cannot contain any of the following characters: "
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textLetterSpacing": "Letter spacing",
+      "textSmallCaps": "Small Caps",
+      "textStrikethrough": "Strikethrough",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript"
     },
     "Settings": {
       "advCSVOptions": "CSV seçimlərini seçin",
@@ -866,7 +880,11 @@
       "textLight": "Light",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "textTheme": "Theme",
+      "txtSr": "Serbian (Latin)",
+      "txtSrcyrl": "Serbian (Cyrillic)",
+      "txtZhtw": "Chinese (Traditional)",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
     }
   },
   "Draw": {

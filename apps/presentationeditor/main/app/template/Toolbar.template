@@ -46,10 +46,7 @@
                     <span class="btn-slot split" id="slot-preview"></span>
                 </div>
             </div>
-            <div class="group" style="display:none;">
-                <span class="btn-slot text x-huge" id="slot-addslidemaster"></span>
-                <span class="btn-slot text x-huge" id="slot-addlayout"></span>
-            </div>
+            <div class="group" style="display:none;"></div>
             <div class="separator long" id="id-toolbar-separator-end-static"></div>
         </section>
         <section class="box-panels">
@@ -118,21 +115,6 @@
                 </div>
             </section>
             <section class="panel" data-tab="ins" role="tabpanel" aria-labelledby="ins">
-                <div class="group master-slide-mode" style="display:none;">
-                    <span class="btn-slot text x-huge" id="slot-btn-insplaceholder"></span>
-                </div>
-                <div class="group master-slide-mode" style="display:none;">
-                    <div class="elset">
-                        <span class="btn-slot text x-huge" id="slot-chk-title"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot text x-huge" id="slot-chk-footers"></span>
-                    </div>
-                </div>
-                <div class="group master-slide-mode" style="display:none;">
-                    <span class="btn-slot text x-huge" id="slot-btn-closeslidemaster"></span>
-                </div>
-                <div class="master-slide-mode separator long" style="display:none;"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-inserttable"></span>
                 </div>
@@ -234,7 +216,7 @@
                 <div class="group small">
                     <div class="elset font-normal">
                         <span class="btn-slot text" id="animation-label-start"></span>
-                        <div class="btn-slot" style="width: 96px; " id="animation-start"></div>
+                        <div class="btn-slot" style="width: 110px; " id="animation-start"></div>
                     </div>
                     <div class="elset font-normal">
                         <div class="btn-slot text"  id="animation-trigger"></div>
@@ -244,7 +226,7 @@
                 <div class="group small">
                     <div class="elset font-normal">
                         <span class="btn-slot text" id="animation-duration"></span>
-                        <span id="animation-spin-duration"  style="width: 96px; " class="btn-slot"></span>
+                        <span id="animation-spin-duration"  style="width: 110px; " class="btn-slot"></span>
                     </div>
                     <div class="elset font-normal">
                         <span class="btn-slot text" id="animation-delay"></span>
@@ -255,7 +237,7 @@
                 <div class="group small">
                     <div class="elset font-normal">
                         <span class="btn-slot text" id="animation-repeat"></span>
-                        <div id="animation-spin-repeat" style="width: 96px; " class="btn-slot" ></div>
+                        <div id="animation-spin-repeat" style="width: 110px; " class="btn-slot" ></div>
                     </div>
                     <div class="elset font-normal">
                         <span class="btn-slot text" id="animation-checkbox-rewind"></span>

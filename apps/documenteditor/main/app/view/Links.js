@@ -413,9 +413,16 @@ define([
                         }));
                     });
 
-                    me.btnsHyperlink.forEach( function(btn) {
-                        btn.updateHint(me.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
-                    });
+                    DE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                        InsertHyperlink: {
+                            label: me.tipInsertHyperlink,
+                            applyCallback: function(item, hintText) {
+                                me.btnsHyperlink.forEach( function(btn) {
+                                    btn.updateHint(hintText);
+                                });
+                            }
+                        }
+                    });             
 
                     me.btnBookmarks.updateHint(me.tipBookmarks);
                     me.btnCaption.updateHint(me.tipCaption);

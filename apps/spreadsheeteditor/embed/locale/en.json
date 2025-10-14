@@ -40,7 +40,7 @@
   "SSE.ApplicationController.titleLicenseNotActive": "License not active",
   "SSE.ApplicationController.txtClose": "Close",
   "SSE.ApplicationController.txtNo": "No",
-  "SSE.ApplicationController.txtOpenWarning": "Clicking this link can be harmful to your device and data.<br> Are you sure you want to continue?",
+  "SSE.ApplicationController.txtOpenWarning": "Clicking this link can be harmful to your device and data. To protect you computer, click only those hyperlinks from trusted sources. This location may be unsafe:<br>%1<br>Are you sure you want to continue?",
   "SSE.ApplicationController.txtPressLink": "Click the link to open it",
   "SSE.ApplicationController.txtYes": "Yes",
   "SSE.ApplicationController.unknownErrorText": "Unknown error.",

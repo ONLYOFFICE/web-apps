@@ -214,7 +214,7 @@ define([
                     }
                     const ctrl_print = webapp.getController('Print');
                     if ( ctrl_print )
-                        ctrl_print.setPrinterInfo(currentPrinter, printers);
+                        ctrl_print.setPrintersInfo(currentPrinter, printers);
                 } else
                 if (/file:saveas/.test(cmd)) {
                     webapp.getController('Main').api.asc_DownloadAs();
@@ -543,6 +543,7 @@ define([
                 const _f_ = rawarray[i];
                 if ( utils.matchFileFormat( _f_.type ) ) {
                     if (_re_name.test(_f_.path)) {
+                        _f_.path = $('<div>').html(_f_.path).text();
                         const name = _re_name.exec(_f_.path)[1],
                             dir = _f_.path.slice(0, _f_.path.length - name.length - 1);
 

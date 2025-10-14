@@ -1,10 +1,13 @@
 label {
-    &.link {
+    &.link,
+    span.link{
         border-bottom: @scaled-one-px-value-ie dotted @text-secondary-ie;
         border-bottom: @scaled-one-px-value dotted @text-secondary;
         cursor: pointer;
-
-        &.disabled {
+    }
+    &.disabled {
+        &.link,
+        span.link {
             cursor: default;
         }
     }
@@ -369,6 +372,14 @@ label {
         color: #6e4e00;
         padding: 3px 5px;
         border-radius: 2px;
+    }
+
+    .new-hint {
+        background-color: #ffb400;
+        color: #6e4e00;
+        padding: 3px 5px;
+        border-radius: 4px;
+        font-weight: 600;
         .margin-left-10();
     }
 }
@@ -683,6 +694,15 @@ body {
     & > div {
         .display-inline-block-middle();
     }
+}
+
+#chart-element-container {
+    background-color: @background-toolbar-ie;
+    background-color: @background-toolbar;
+    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+    border: @scaled-one-px-value solid @border-regular-control;
+    border-radius: @border-radius-form-control-ie;
+    border-radius: @border-radius-form-control;
 }
 
 // only for test screen reader focus manager

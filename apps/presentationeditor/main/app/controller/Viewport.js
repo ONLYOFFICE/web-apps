@@ -255,7 +255,10 @@ define([
         onPreviewStart: function(slidenum, presenter, fromApiEvent, isCurrent) {
             this.previewPanel = this.previewPanel || this.getView('DocumentPreview');
             var me = this,
-                isResized = false;
+                isResized = false,
+                print = PE.getController && PE.getController('Print');
+            
+            if (print && print._isPreviewVisible) return;
             
             var reporterObject = (presenter) ? PE.getController('Main').document : null;
             if (reporterObject) {
@@ -269,6 +272,12 @@ define([
                     inkColor: me.previewPanel.txtInkColor,
                     eraser: me.previewPanel.txtEraser,
                     eraseScreen: me.previewPanel.txtEraseScreen,
+                    play: me.previewPanel.txtPlay,
+                    pause: me.previewPanel.txtPause,
+                    prevSlide: me.previewPanel.txtPrev,
+                    nextSlide: me.previewPanel.txtNext,
+                    pointer: me.previewPanel.txtPointer,
+                    draw: me.previewPanel.txtDraw,
                 };
                 reporterObject.token = me.api.asc_getSessionToken();
                 reporterObject.customization = me.viewport.mode.customization;

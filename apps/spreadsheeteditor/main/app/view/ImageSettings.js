@@ -216,14 +216,9 @@ define([
             this.btnEditObject.on('click', _.bind(function(btn){
                 if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
                 if (this.api) {
-                    var oleobj = this.api.asc_canEditTableOleObject(true);
+                    var oleobj = this.api.asc_canEditTableOleObject();
                     if (oleobj) {
-                        var oleEditor = SSE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-                        if (oleEditor) {
-                            oleEditor.setEditMode(true);
-                            oleEditor.show();
-                            oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
-                        }
+                        this.api.asc_editOleTableInFrameEditor();
                     } else
                         this.api.asc_startEditCurrentOleObject();
                 }

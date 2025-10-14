@@ -50,8 +50,7 @@ define([
 
             this._state = {
                 firstPrintPage: 0,
-                isPrintPreviewOpenedOnce: false,
-                isPrinterInfoLoad: false,
+                shouldUpdateCmbPrinter: false, 
                 currentPrinter: null,
                 printersList: []
             };
@@ -407,7 +406,7 @@ define([
             this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
 
             this.fillPrintOptions(this.adjPrintParams, false);
-            this.adjPrintParams.asc_setActiveSheetsArray(this.printSettings.getRange() === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
+            this.adjPrintParams.asc_setActiveSheetsArray(this.printSettings.getRange() === Asc.c_oAscPrintType.Selection || this.printSettings.getRange() === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
 
             var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
             opts.asc_setAdvancedOptions(this.adjPrintParams);
@@ -422,9 +421,8 @@ define([
             this._isPreviewVisible = true;
             !!pageCount && this.updatePreview();
 
-            if(this._state.isPrinterInfoLoad && !this._state.isPrintPreviewOpenedOnce) {
-                this._state.isPrintPreviewOpenedOnce = true;
-                this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList);      
+            if(this._state.shouldUpdateCmbPrinter) {
+                this.updateCmbPrinter();      
             }
         },
 
@@ -483,7 +481,7 @@ define([
                 this.adjPrintParams.asc_setPrintType(printtype);
                 this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
                 this.adjPrintParams.asc_setIgnorePrintArea(this.printSettingsDlg.getIgnorePrintArea());
-                this.adjPrintParams.asc_setActiveSheetsArray(printtype === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
+                this.adjPrintParams.asc_setActiveSheetsArray(printtype === Asc.c_oAscPrintType.Selection || printtype === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
                 var pageFrom = this.printSettingsDlg.getPagesFrom(),
                     pageTo = this.printSettingsDlg.getPagesTo();
                 if (pageFrom > pageTo) {
@@ -540,7 +538,7 @@ define([
             this.adjPrintParams.asc_setPrintType(printType);
             this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
             this.adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
-            this.adjPrintParams.asc_setActiveSheetsArray(printType === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
+            this.adjPrintParams.asc_setActiveSheetsArray(printType === Asc.c_oAscPrintType.Selection || printType === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
             var pageFrom = this.printSettings.getPagesFrom(),
                 pageTo = this.printSettings.getPagesTo();
             if (pageFrom > pageTo) {
@@ -557,10 +555,15 @@ define([
                 pageSetup = props.asc_getPageSetup(),
                 size = [pageSetup.asc_getWidth(), pageSetup.asc_getHeight()],
                 orientation = pageSetup.asc_getOrientation(),
-                printerOption = (this.printSettings.cmbPrinter ? this.printSettings.cmbPrinter.getSelectedRecord() : null);
+                printerOption = (this.printSettings.cmbPrinter ? this.printSettings.cmbPrinter.getSelectedRecord() : null),
+                colorPrintingValue = this.printSettings.cmbColorPrinting
+                    ? this.printSettings.cmbColorPrinting.getValue()
+                    : null;
+                    
             this.adjPrintParams.asc_setNativeOptions({
                 usesystemdialog: useSystemDialog,
                 printer: printerOption ? printerOption.value : null,
+                colorMode: colorPrintingValue === 'color',
                 paperSize: {
                     w: size[0],
                     h: size[1],
@@ -731,14 +734,22 @@ define([
             }
         },
 
-        setPrinterInfo: function(currentPrinter, list) {
-            this._state.isPrinterInfoLoad = true;
-            this._state.currentPrinter = currentPrinter;
-            this._state.printersList = list;
-            if(this.printSettings && this.printSettings.isVisible() && !this._state.isPrintPreviewOpenedOnce) {
-                this._state.isPrintPreviewOpenedOnce = true;
-                this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList);
+        setPrintersInfo: function(currentPrinter, list, isWaitingForPrinters) {
+            this._state.currentPrinter = currentPrinter || this._state.currentPrinter;
+            this._state.printersList = _.uniq(_.union(this._state.printersList, list), function(option) {
+                return option.name;
+            });
+            this._state.isWaitingForPrinters = !!isWaitingForPrinters;
+            this._state.shouldUpdateCmbPrinter = true;
+
+            if(this.printSettings && this.printSettings.isVisible() && this._state.shouldUpdateCmbPrinter) {
+                this.updateCmbPrinter();
             }
+        },
+
+        updateCmbPrinter: function() {
+            this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList, this._state.isWaitingForPrinters);
+            this._state.shouldUpdateCmbPrinter = false;
         },
 
         fillComponents: function(panel, selectdata) {
@@ -956,7 +967,7 @@ define([
                 adjPrintParams.asc_setPrintType(printType);
                 adjPrintParams.asc_setPageOptionsMap(this._changedProps);
                 adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
-                adjPrintParams.asc_setActiveSheetsArray(printType === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
+                adjPrintParams.asc_setActiveSheetsArray(printType === Asc.c_oAscPrintType.Selection || printType === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
                 var pageFrom = this.printSettings.getPagesFrom(),
                     pageTo = this.printSettings.getPagesTo();
                 if (pageFrom > pageTo) {

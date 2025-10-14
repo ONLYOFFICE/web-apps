@@ -64,6 +64,14 @@ define([
 
     StateManager.prototype.initialize = function (options) {
         this.bar = options.bar;
+        if (!Common.Utils.isIE && !Common.Utils.isSafari) {
+            if (Common.Utils.isMac) {
+                this.ghostImage = new Image();
+                this.ghostImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+            } else {
+                this.ghostImage = document.createElement('div');
+            }
+        }
     };
 
     StateManager.prototype.attach = function (tab) {
@@ -204,8 +212,7 @@ define([
             {dragstart: $.proxy(function (e) {
                 var event = e.originalEvent;
                 if (!Common.Utils.isIE && !Common.Utils.isSafari) {
-                    var img = document.createElement('div');
-                    event.dataTransfer.setDragImage(img, 0, 0);
+                    event.dataTransfer.setDragImage(this.ghostImage, 0, 0);
                 } else if (Common.Utils.isIE) {
                     this.bar.selectTabs.forEach(function (tab) {
                         tab.$el.find('span').prop('tabtitle', '');
@@ -326,6 +333,7 @@ define([
                         this.isDragDrop = true;
                     }
                     this.trigger('tab:drop', event.dataTransfer, 'last', (event.ctrlKey || Common.Utils.isMac && event.altKey));
+                    this.preventCutTab = true;
                 } else {
                     this.isDrop = undefined;
                 }

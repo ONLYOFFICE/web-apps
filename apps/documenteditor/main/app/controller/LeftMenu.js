@@ -773,8 +773,13 @@ define([
 
             if (mode === 'show') {
                 this.getApplication().getController('Common.Controllers.Comments').onAfterShow();
-            }
-                $(this.leftMenu.btnComments.el).blur();
+                setTimeout(function() {
+                    Common.UI.TooltipManager.showTip('commentFilter');
+                }, 10);
+            } else
+                Common.UI.TooltipManager.closeTip('commentFilter');
+
+            $(this.leftMenu.btnComments.el).blur();
         },
         /** coauthoring end **/
 
@@ -787,6 +792,16 @@ define([
                 if (this.mode.canCoAuthoring) {
                     this.mode.canViewComments && this.leftMenu.panelComments['hide']();
                     this.mode.canChat && this.leftMenu.panelChat['hide']();
+                }
+            }
+            if (!value) {
+                Common.UI.TooltipManager.closeTip('chartElements');
+                if (this.mode && this.mode.isPDFForm) {
+                    Common.UI.TooltipManager.closeTip('formSigned');
+                    var rightmenu = this.getApplication().getController('RightMenu');
+                    if (rightmenu && rightmenu.rightmenu && rightmenu.rightmenu.signatureSettings) {
+                        rightmenu.rightmenu.signatureSettings.hideSignatureTooltip();
+                    }
                 }
             }
         },

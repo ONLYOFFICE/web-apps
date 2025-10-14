@@ -66,7 +66,8 @@
     "textWithBlueLinks": "Amb enllaços blaus",
     "textWithPageNumbers": "Amb números de pàgina",
     "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
-    "textDrawing": "Drawing"
+    "textDrawing": "Drawing",
+    "textRemovePicture": "Remove picture"
   },
   "Common": {
     "Collaboration": {
@@ -409,7 +410,14 @@
     "textWe": "dc.",
     "textWrap": "Ajustament",
     "textWrappingStyle": "Estil d'ajustament",
-    "textYourOption": "La teva opció"
+    "textYourOption": "La teva opció",
+    "textBaseline": "Baseline",
+    "textCapitalization": "Capitalization",
+    "textCellOptions": "Cell options",
+    "textCellSize": "Rows & columns size",
+    "textWrapText": "Wrap Text",
+    "txtHeight": "Height",
+    "txtWidth": "Width"
   },
   "Error": {
     "convertationTimeoutText": "S'ha superat el temps de conversió.",
@@ -513,13 +521,12 @@
     "uploadImageTextText": "S'està carregant la imatge...",
     "uploadImageTitleText": "S'està carregant la imatge",
     "waitText": "Espera...",
-    "savingText": "Saving"
+    "savingText": "Submitting"
   },
   "Main": {
     "criticalErrorTitle": "Error",
     "errorAccessDeny": "No tens permís per realitzar aquesta acció. <br>Posa't en contacte amb l'administrador.",
     "errorOpensource": "Amb la versió gratuïta de la Comunitat, només pots obrir els documents en mode lectura. Per accedir als editors de web per a mòbils, cal una llicència comercial.",
-    "errorProcessSaveResult": "S'ha produït un error en desar.",
     "errorServerVersion": "S'ha actualitzat la versió de l'editor. Es tornarà a carregar la pàgina per aplicar els canvis.",
     "errorUpdateVersion": "S'ha canviat la versió del fitxer. La pàgina es tornarà a carregar.",
     "leavePageText": "Tens canvis sense desar. Fes clic a \"Mantingueu-vos en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Deixar aquesta pàgina\" per descartar tots els canvis no desats.",
@@ -655,14 +662,16 @@
     "warnDownloadAsPdf": "El {0} es convertirà a un format editable. Això pot trigar una estona. El document resultant s'optimitzarà perquè puguis editar el text, de manera que pot ser que no s'assembli a l'original {0}, sobretot si el fitxer original contenia molts gràfics.",
     "warnLicenseAnonymous": "Accés denegat a usuaris anònims.<br> Aquest document només s'obrirà en format lectura.",
     "warnLicenseBefore": "Llicència inactiva. <br> Contacta amb l'administrador.",
-    "warnLicenseExceeded": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'administrador per a més informació.",
     "warnLicenseExp": "La llicència ha caducat. Actualitza-la i recarrega la pàgina.",
     "warnLicenseLimitedNoAccess": "La llicència ha caducat. No tens accés a la funció d'edició de documents. Posa't en contacte amb l'administrador.",
     "warnLicenseLimitedRenewed": "Cal renovar la llicència. Tens accés limitat a la funció d'edició de documents. <br>Posa't en contacte amb l'administrador per obtenir accés total",
-    "warnLicenseUsersExceeded": "Has arribat al límit d'usuari per a %1 editors. Posa't en contacte amb l'administrador per a més informació.",
     "warnNoLicense": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'equip de vendes %1 per conèixer les condicions d'actualització personal.",
     "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Contacta amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels teus serveis.",
-    "warnProcessRightsChange": "No tens permís per editar aquest fitxer."
+    "warnProcessRightsChange": "No tens permís per editar aquest fitxer.",
+    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "titleReadOnly": "Read-Only Mode",
+    "txtSignedForm": "This document has been signed and cannot be edited."
   },
   "Settings": {
     "advDRMOptions": "El fitxer està protegit",

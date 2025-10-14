@@ -364,6 +364,10 @@ define([], function () {
                     '<td><label><%= scope.strMacrosSettings %></label></td>',
                     '<td><div><div id="fms-cmb-macros"></div></div></td>',
                 '</tr>',
+                // '<tr>',
+                //     '<td><label><%= scope.strKeyboardShortcuts %><span class="new-hint"><%= Common.UI.SynchronizeTip.prototype.textNew.toUpperCase() %></span></label></td>',
+                //     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-keyboard-shortcuts" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomize %></button></div></td>',
+                // '</tr>',
                 '<tr class ="divider-group"></tr>',
                 '<tr class="fms-btn-apply">',
                     '<td style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.okButtonText %></button></td>',
@@ -592,6 +596,11 @@ define([], function () {
                 me.lblMacrosDesc.text(record.descValue);
             });
             this.lblMacrosDesc = $markup.findById('#fms-lbl-macros');
+
+            // this.btnKeyboardMacros = new Common.UI.Button({
+            //     el: $markup.findById('#fms-btn-keyboard-shortcuts')
+            // });
+            // this.btnKeyboardMacros.on('click', _.bind(this.onClickKeyboardShortcut, this));
 
             this.chPaste = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-paste-settings'),
@@ -891,6 +900,13 @@ define([], function () {
             this.dlgAutoCorrect.show();
         },
 
+        // onClickKeyboardShortcut: function() {
+        //     const win = new Common.Views.ShortcutsDialog({
+        //         api: this.api
+        //     });
+        //     win.show();
+        // },
+
         customizeQuickAccess: function () {
             if (this.dlgQuickAccess && this.dlgQuickAccess.isVisible()) return;
             this.dlgQuickAccess = new Common.Views.CustomizeQuickAccessDialog({
@@ -934,6 +950,8 @@ define([], function () {
         txtSpellCheck: 'Spell Checking',
         txtCacheMode: 'Default cache mode',
         strMacrosSettings: 'Macros Settings',
+        strKeyboardShortcuts: 'Keyboard Shortcuts',
+        txtCustomize: 'Customize',
         txtWarnMacros: 'Show Notification',
         txtRunMacros: 'Enable All',
         txtStopMacros: 'Disable All',
@@ -2121,6 +2139,8 @@ define([], function () {
                                 '<tbody>',
                                     '<tr><td><label class="font-weight-bold"><%= scope.txtPrinter %></label></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-combo-printer" style="width: 248px;"></div></td></tr>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtColorPrinting %></label></td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-combo-color-printing" style="width: 248px;"></div></td></tr>',
                                     '<tr><td><label class="font-weight-bold"><%= scope.txtPrintRange %></label></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-combo-range" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-large">',
@@ -2133,8 +2153,8 @@ define([], function () {
                                     '<tr><td class="padding-large"><div id="print-combo-sides" style="width: 248px;"></div></td></tr>',
                                     '<tr><td><label class="font-weight-bold"><%= scope.txtPaperSize %></label></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-combo-pages" style="width: 248px;"></div></td></tr>',
-                                    '<tr class="header-settings"><td class="padding-large"><label class="link" id="print-header-footer-settings" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtHeaderFooterSettings %></label></td></tr>',
-                                    '<tr><td class="padding-large"><label class="link" id="print-btn-system-dialog" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtPrintUsingSystemDialog %></label></td></tr>',
+                                    '<tr class="header-settings"><td class="padding-large"><label id="print-header-footer-settings" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><span class="link"><%= scope.txtHeaderFooterSettings %></span></label></td></tr>',
+                                    '<tr><td class="padding-large"><label id="print-btn-system-dialog" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><span class="link"><%= scope.txtPrintUsingSystemDialog %></span></label></td></tr>',
                                     '<tr class="fms-btn-apply"><td>',
                                         '<div class="footer justify">',
                                             '<button id="print-btn-print" class="btn normal dlg-btn primary margin-right-8" result="print" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button>',
@@ -2196,6 +2216,7 @@ define([], function () {
 
             this._initSettings = true;
             this._originalPageSize = undefined;
+            this._colorPrinting = '';
         },
 
         render: function(node) {
@@ -2215,16 +2236,41 @@ define([], function () {
                         '<% _.each(items, function(item) { %>',
                             '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
                         '<% }); %>',
-                    '<% } else { %>',
-                        '<li><a style="background:none; cursor: default;" onclick="event.stopPropagation();">' + this.txtPrintersNotFound + '</a></li>',
+                    '<% } %>',
+                    '<% if(scope.options.isWatingForPrinters) { %>',
+                        '<li><a id="print-waiting-for-printers" class="text-dropdown-item" onclick="event.stopPropagation();">' + this.txtWaitingForPrinters + '<div class="spiner-image"></div></a></li>',
+                    '<% } else if(items.length == 0) {%>',
+                        '<li><a class="text-dropdown-item" onclick="event.stopPropagation();">' + this.txtPrintersNotFound + '</a></li>',
                     '<% } %>'
                 ].join('')),
+                isWatingForPrinters: true,
                 data: [],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
             this.cmbPrinter.on('selected', _.bind(this.onPrinterSelected, this));
+
+            this.cmbColorPrinting = new Common.UI.ComboBox({
+                el: $markup.findById('#print-combo-color-printing'),
+                menuStyle: 'width: 248px; max-height: 280px;',
+                editable: false,
+                takeFocusOnClose: true,
+                cls: 'input-group-nr',
+                disabled: true,
+                data: [
+                    { value: 'color', displayValue: this.txtColorPrinting },
+                    { value: 'black-and-white', displayValue: this.txtBlackAndWhitePrinting }
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbColorPrinting.on('selected', _.bind(function(combo, record) { 
+                this._colorPrinting = record.value 
+            }, this));
+            this.cmbColorPrinting.setValue('black-and-white');
+            this._colorPrinting = 'black-and-white';
 
             this.cmbRange = new Common.UI.ComboBox({
                 el: $markup.findById('#print-combo-range'),
@@ -2361,7 +2407,7 @@ define([], function () {
             this.pnlTable = $(this.pnlSettings.find('table')[0]);
             this.trApply = $markup.find('.fms-btn-apply');
 
-            this.btnPrintSystemDialog = $markup.findById('#print-btn-system-dialog');
+            this.btnPrintSystemDialog = $markup.find('#print-btn-system-dialog > span');
             this.btnPrint = new Common.UI.Button({
                 el: $markup.findById('#print-btn-print'),
                 disabled: true
@@ -2411,7 +2457,7 @@ define([], function () {
             });
 
             this.$el = $(node).html($markup);
-            this.$el.on('click', '#print-header-footer-settings', _.bind(this.openHeaderSettings, this));
+            this.$el.on('click', '#print-header-footer-settings > span', _.bind(this.openHeaderSettings, this));
             this.$previewBox = $('#print-preview-box');
             this.$previewEmpty = $('#print-preview-empty');
 
@@ -2448,32 +2494,41 @@ define([], function () {
             this.fireEvent('show', this);
         },
 
-        updateCmbPrinter: function(currentPrinter, printers) {
-            var cmbPrinterOptions = [];
-
-            printers = printers || [];
-
-            //If the current printer is not in the list of printers, add it
-            if(currentPrinter && !_.some(printers, function(printer) { return printer.name == currentPrinter })) {
-                printers.push({
-                    name: currentPrinter,
-                    duplex_supported: true,
-                    paperSupported: this._defaultPaperSizeList
-                });
-            }
-
-            cmbPrinterOptions = printers.map(function(printer) {
+        updateCmbPrinter: function(currentPrinter, printers, isWaitingForPrinters) {
+            const cmbPrinterOptions = (printers || []).map(function(printer) {
                 return {
                     value: printer.name,
                     displayValue: printer.name,
                     paperSupported: printer.paper_supported,
-                    isDuplexSupported: printer.duplex_supported
+                    isDuplexSupported: printer.duplex_supported,
+                    colorSupported: !!printer.color_supported
                 }
             });
 
+            this.cmbPrinter.options.isWatingForPrinters = isWaitingForPrinters;
             this.cmbPrinter.setData(cmbPrinterOptions);
-            this.cmbPrinter.setValue(currentPrinter);
-            this.cmbPrinter.trigger('selected', this, this.cmbPrinter.getSelectedRecord());
+
+            let selectedPrinter = this.cmbPrinter.getValue();
+            if(!selectedPrinter &&  _.some(cmbPrinterOptions, function(option) { return option.value == currentPrinter })) {
+                selectedPrinter = currentPrinter;
+            }
+
+            if(selectedPrinter) {
+                const isChanged = selectedPrinter != this.cmbPrinter.getValue();
+                this.cmbPrinter.setValue(selectedPrinter);
+                if(isChanged) {
+                    this.cmbPrinter.trigger('selected', this, this.cmbPrinter.getSelectedRecord());
+                }
+            }
+        },
+
+        setCmbColorPrintingDisabled: function(disabled) {
+            if(disabled) {
+                this.cmbColorPrinting.setValue('black-and-white');
+            } else {
+                this.cmbColorPrinting.setValue(this._colorPrinting);
+            }
+            this.cmbColorPrinting.setDisabled(disabled);
         },
 
         setCmbSidesOptions: function(isDuplexSupported) {
@@ -2625,6 +2680,7 @@ define([], function () {
         onPrinterSelected: function(combo, record) {
             this.setCmbSidesOptions(record ? record.isDuplexSupported : true);
             this.setCmbPaperSizeOptions(record ? record.paperSupported : null);
+            this.setCmbColorPrintingDisabled(record ? !record.colorSupported : true);
             this.btnPrint.setDisabled(!record);
         },
 
@@ -2663,6 +2719,9 @@ define([], function () {
         txtPrinter: 'Printer',
         txtPrinterNotSelected: 'Printer not selected',
         txtPrintersNotFound: 'Printers not found',
+        txtWaitingForPrinters: 'Waiting for printers',
+        txtColorPrinting: 'Color printing',
+        txtBlackAndWhitePrinting: 'Black and white printing',
         txtPrintUsingSystemDialog: 'Print using the system dialog',
         txtPrintRange: 'Print range',
         txtCurrentPage: 'Current slide',

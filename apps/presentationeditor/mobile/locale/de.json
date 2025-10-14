@@ -83,7 +83,7 @@
     "textDoNotShowAgain": "Nicht mehr anzeigen",
     "textOk": "OK",
     "textRows": "Zeilen",
-    "txtWarnUrl": "Dieser Link kann für Ihr Gerät und Ihre Daten gefährlich sein.<br>Möchten Sie wirklich fortsetzen?"
+    "txtWarnUrl": "Das Klicken auf diesen Link kann Ihr Gerät und Ihre Daten schädigen. Dieser Standort ist möglicherweise unsicher:<br>{0}<br>Möchten Sie wirklich fortfahren?"
   },
   "Controller": {
     "Main": {
@@ -93,7 +93,6 @@
       "criticalErrorTitle": "Fehler",
       "errorAccessDeny": "Dieser Vorgang ist für Sie nicht verfügbar.<br>Bitte wenden Sie sich an den Administrator.",
       "errorOpensource": "Mit der kostenlosen Community-Version können Sie Dokumente nur schreibgeschützt öffnen. Für den Zugriff auf mobilen Web-Editoren ist eine kommerzielle Lizenz erforderlich.",
-      "errorProcessSaveResult": "Speichern ist fehlgeschlagen.",
       "errorServerVersion": "Version des Editors wurde aktualisiert. Die Seite wird neu geladen, um die Änderungen zu übernehmen.",
       "errorUpdateVersion": "Die Dateiversion hat sich geändert. Die Seite wird neu geladen.",
       "leavePageText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
@@ -163,21 +162,22 @@
       "textRemember": "Auswahl speichern",
       "textReplaceSkipped": "Der Ersatzvorgang wurde durchgeführt. {0} Vorkommen wurden ausgelassen.",
       "textReplaceSuccess": "Der Suchvorgang wurde durchgeführt. Vorkommen wurden ersetzt:{0}",
-      "textRequestMacros": "Ein Makro stellt eine Anfrage an die URL. Möchten Sie die Anfrage an die %1 zulassen?",
+      "textRequestMacros": "Ein Makro stellt eine Anfrage an die URL. Möchten Sie die Anfrage an %1 zulassen?",
       "textYes": "Ja",
+      "tipLicenseExceeded": "Das Dokument ist im schreibgeschützten Modus geöffnet, da die durch die Lizenz zulässige maximale Anzahl gleichzeitiger Verbindungen erreicht wurde.<br><br>Bitte versuchen Sie es später erneut oder wenden Sie sich an den Eigentümer des Dokuments, wenn Sie Bearbeitungszugriff benötigen.",
+      "tipLicenseUsersExceeded": "Das Dokument ist im schreibgeschützten Modus geöffnet, da die maximale Anzahl von Benutzern, die laut Lizenz Dokumente bearbeiten dürfen, erreicht wurde.<br><br>Bitte versuchen Sie es später erneut oder wenden Sie sich an den Dokumentbesitzer, wenn Sie Bearbeitungszugriff benötigen.",
       "titleLicenseExp": "Lizenz ist abgelaufen",
       "titleLicenseNotActive": "Lizenz nicht aktiv",
+      "titleReadOnly": "Schreibgeschützter Modus",
       "titleServerVersion": "Editor wurde aktualisiert",
       "titleUpdateVersion": "Version wurde geändert",
       "txtIncorrectPwd": "Passwort ist falsch",
       "txtProtected": "Sobald Sie das Passwort eingegeben und die Datei geöffnet haben, wird das aktuelle Passwort für die Datei zurückgesetzt",
       "warnLicenseAnonymous": "Zugriff für anonyme Benutzer verweigert.<br>Dieses Dokument wird nur zur Ansicht geöffnet.",
       "warnLicenseBefore": "Lizenz nicht aktiv.<br>Bitte wenden Sie sich an Ihren Administrator.",
-      "warnLicenseExceeded": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist in diesem Dokument nicht verfügbar. Wenden Sie sich an die Administratoren für weitere Informationen.",
       "warnLicenseExp": "Ihre Lizenz ist abgelaufen. Bitte erneuern Sie die Lizenz und laden Sie die Seite neu.",
       "warnLicenseLimitedNoAccess": "Lizenz abgelaufen. Keine Bearbeitung möglich. Bitte wenden Sie sich an den Administrator.",
       "warnLicenseLimitedRenewed": "Die Lizenz muss erneuert werden. Die Bearbeitungsfunktionen wurden eingeschränkt.<br>Bitte wenden Sie sich an Ihren Administrator für den vollen Zugriff",
-      "warnLicenseUsersExceeded": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte wenden Sie sich an Ihren Administrator, um weitere Informationen zu erhalten.",
       "warnNoLicense": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Bitte kontaktieren Sie unser Verkaufsteam, um individuelle Upgrade-Bedingungen zu erhalten.",
       "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um individuelle Upgrade-Bedingungen zu erhalten.",
       "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."
@@ -355,6 +355,7 @@
       "textBack": "Zurück",
       "textBandedColumn": "Gebänderte Spalte",
       "textBandedRow": "Gebänderte Zeile",
+      "textBaseline": "Grundlinie",
       "textBefore": "Vorher ",
       "textBlack": "Through Black",
       "textBorder": "Rahmen",
@@ -365,8 +366,10 @@
       "textBullets": "Aufzählungszeichen",
       "textBulletsAndNumbers": "Aufzählungszeichen und Nummern",
       "textCancel": "Abbrechen",
+      "textCapitalization": "Kapitalisierung",
       "textCaseSensitive": "Groß-/Kleinschreibung beachten",
       "textCellMargins": "Zellenränder",
+      "textCellSize": "Zellengröße",
       "textChangeShape": "Form ändern",
       "textChart": "Diagramm",
       "textClock": "Uhr",
@@ -495,7 +498,9 @@
       "textZoom": "Zoom",
       "textZoomIn": "Vergrößern",
       "textZoomOut": "Verkleinern",
-      "textZoomRotate": "Vergrößern und drehen"
+      "textZoomRotate": "Vergrößern und drehen",
+      "txtHeight": "Höhe",
+      "txtWidth": "Breite"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

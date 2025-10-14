@@ -80,9 +80,9 @@ define([
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onEndAddShape', _.bind(this.onApiEndAddShape, this)); //for shapes
                 this.api.asc_registerCallback('asc_onTextLanguage',         _.bind(this.onTextLanguage, this));
-                // this.api.asc_registerCallback('asc_onBeginSmartArtPreview', _.bind(this.onApiBeginSmartArtPreview, this));
-                // this.api.asc_registerCallback('asc_onAddSmartArtPreview', _.bind(this.onApiAddSmartArtPreview, this));
-                // this.api.asc_registerCallback('asc_onEndSmartArtPreview', _.bind(this.onApiEndSmartArtPreview, this));
+                this.api.asc_registerCallback('asc_onBeginSmartArtPreview', _.bind(this.onApiBeginSmartArtPreview, this));
+                this.api.asc_registerCallback('asc_onAddSmartArtPreview', _.bind(this.onApiAddSmartArtPreview, this));
+                this.api.asc_registerCallback('asc_onEndSmartArtPreview', _.bind(this.onApiEndSmartArtPreview, this));
                 this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onApiFocusObject, this));
                 this.api.asc_registerCallback('asc_onCanAddHyperlink',      _.bind(this.onApiCanAddHyperlink, this));
                 Common.NotificationCenter.on('storage:image-load',          _.bind(this.openImageFromStorage, this));
@@ -114,9 +114,12 @@ define([
                     'insert:table'      : this.onInsertTableClick,
                     'insert:equation'   : this.onInsertEquationClick,
                     'insert:symbol'     : this.onInsertSymbolClick,
-                    // 'insert:smartart'   : this.onInsertSmartArt,
-                    // 'smartart:mouseenter': this.mouseenterSmartArt,
-                    // 'smartart:mouseleave': this.mouseleaveSmartArt,
+                    'insert:smartart'   : this.onInsertSmartArt,
+                    'smartart:mouseenter': this.mouseenterSmartArt,
+                    'smartart:mouseleave': this.mouseleaveSmartArt,
+                },
+                'Toolbar': {
+                    'tab:active': _.bind(this.onActiveTab, this)
                 }
             });
         },
@@ -155,10 +158,6 @@ define([
             if (this.mode && this.mode.isPDFEdit) {
                 var shapes = this.api.asc_getPropertyEditorShapes();
                 shapes && this.fillAutoShapes(shapes[0], shapes[1]);
-
-                // this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.mode, customization: this.mode.customization});
-                // this.getApplication().getController('Common.Controllers.ExternalOleEditor').setApi(this.api).loadConfig({config:this.mode, customization: this.mode.customization});
-
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, false, {array: this.view.lockedControls});
             }
         },
@@ -597,7 +596,7 @@ define([
         onAddPage: function(before) {
             this.api && this.api.asc_AddPage(this.api.getCurrentPage() + (before ? 0 : 1) );
         },
-/*
+
         mouseenterSmartArt: function (groupName, menu) {
             if (this.smartArtGenerating === undefined) {
                 this.generateSmartArt(groupName, menu);
@@ -649,6 +648,7 @@ define([
             this.smartArtGenerating = undefined;
             if (this.currentSmartArtCategoryMenu) {
                 this.currentSmartArtCategoryMenu.menu.alignPosition();
+                this.currentSmartArtCategoryMenu.cmpEl && this.currentSmartArtCategoryMenu.cmpEl.attr('data-preview-loaded', true);
             }
             if (this.delayedSmartArt !== undefined) {
                 var delayedSmartArt = this.delayedSmartArt;
@@ -679,29 +679,18 @@ define([
 
             if (chart) {
                 var isCombo = (type==Asc.c_oAscChartTypeSettings.comboBarLine || type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
-                    type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom);
+                type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom);
                 if (isCombo && chart.get_ChartProperties() && chart.get_ChartProperties().getSeries().length<2) {
                     Common.NotificationCenter.trigger('showerror', Asc.c_oAscError.ID.ComboSeriesError, Asc.c_oAscError.Level.NoCritical);
                 } else
                     chart.changeType(type);
-                Common.NotificationCenter.trigger('edit:complete', this.view);
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else {
-                if (!this.diagramEditor)
-                    this.diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-
-                if (this.diagramEditor && me.api) {
-                    this.diagramEditor.setEditMode(false);
-                    this.diagramEditor.show();
-
-                    chart = me.api.asc_getChartObject(type);
-                    if (chart) {
-                        this.diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
-                    }
-                    me.view.fireEvent('insertchart', me.view);
-                }
+                me.api.asc_addChartDrawingObject(type, undefined, true);
+                me.toolbar.fireEvent('insertchart', me.toolbar);
             }
         },
-*/
+
         onTextLanguage: function(langId) {
             this._state.lang = langId;
         },
@@ -950,10 +939,10 @@ define([
                 }
             }
 
-            // if (in_chart !== this._state.in_chart) {
-            //     this.view.btnInsertChart.updateHint(in_chart ? this.view.tipChangeChart : this.view.tipInsertChart);
-            //     this._state.in_chart = in_chart;
-            // }
+            if (in_chart !== this._state.in_chart) {
+                this.view.btnInsertChart.updateHint(in_chart ? this.view.tipChangeChart : this.view.tipInsertChart);
+                this._state.in_chart = in_chart;
+            }
 
             if (this._state.prcontrolsdisable !== paragraph_locked) {
                 if (this._state.activated) this._state.prcontrolsdisable = paragraph_locked;
@@ -969,12 +958,31 @@ define([
                 if (this._state.activated) this._state.pagecontrolsdisable = page_deleted;
                 Common.Utils.lockControls(Common.enumLock.pageDeleted, page_deleted, {array: this.view.lockedControls});
             }
+
+            if (!this.view.btnInsertChart.isDisabled() && this._state.onactivetab) {
+                Common.UI.TooltipManager.getNeedShow('pdfCharts') && Common.UI.TooltipManager.closeTip('redactTab');
+                Common.UI.TooltipManager.showTip('pdfCharts');
+            }
         },
 
         onApiCanAddHyperlink: function(value) {
             if (this._state.can_hyper !== value) {
                 Common.Utils.lockControls(Common.enumLock.hyperlinkLock, !value, {array: [this.view.btnInsertHyperlink]});
                 if (this._state.activated) this._state.can_hyper = value;
+            }
+        },
+
+        onActiveTab: function(tab) {
+            if (tab === 'ins') {
+                this._state.onactivetab = true;
+                if (this.view && !this.view.btnInsertChart.isDisabled())
+                    setTimeout(function() {
+                        Common.UI.TooltipManager.getNeedShow('pdfCharts') && Common.UI.TooltipManager.closeTip('redactTab');
+                        Common.UI.TooltipManager.showTip('pdfCharts');
+                    }, 10);
+            } else {
+                this._state.onactivetab = false;
+                Common.UI.TooltipManager.closeTip('pdfCharts');
             }
         }
 
