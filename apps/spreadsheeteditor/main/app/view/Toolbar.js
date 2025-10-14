@@ -1943,6 +1943,23 @@ define([
                     label: me.tipDeleteOpt
                 };
 
+                me.btnFormatCell = new Common.UI.Button({
+                    id          : 'id-toolbar-btn-formatcell',
+                    cls         : 'btn-toolbar x-huge icon-top',
+                    iconCls     : 'toolbar__icon btn-formatcell',
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.itemsDisabled, _set.lostConnect, _set.coAuth, _set.userProtected],
+                    caption     : me.textCellFormat,
+                    menu        : true,
+                    action: 'format-cell',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: '0, -6'
+                });
+                me.shortcutHints.OpenDeleteCellsWindow = {
+                    btn: me.btnFormatCell,
+                    label: me.tipDeleteOpt
+                };
+
                 me.btnCondFormat = new Common.UI.Button({
                     id          : 'id-toolbar-btn-condformat',
                     cls         : 'btn-toolbar',
@@ -2428,7 +2445,7 @@ define([
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
                     me.btnMerge, me.btnTextDir, me.btnInsertFormula, me.btnNamedRange, me.btnFillNumbers, me.btnIncDecimal, me.btnInsertShape, me.btnInsertSmartArt, me.btnInsertEquation, me.btnInsertSymbol, me.btnInsertSlicer,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
-                    me.btnTableTemplate, me.btnCellStyle, me.btnPercentStyle, me.btnCommaStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
+                    me.btnTableTemplate, me.btnCellStyle, me.btnPercentStyle, me.btnCommaStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnFormatCell, me.btnCondFormat,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
                     me.btnInsertChart, me.btnInsertChartRecommend, me.btnColorSchemas, me.btnInsertSparkline,
                     me.btnCopy, me.btnPaste, me.btnCut, me.btnSelectAll, me.btnReplace, me.listStyles, me.btnPrint,
@@ -2621,6 +2638,7 @@ define([
             _injectComponent('#slot-btn-copystyle',      this.btnCopyStyle);
             _injectComponent('#slot-btn-cell-ins',       this.btnAddCell);
             _injectComponent('#slot-btn-cell-del',       this.btnDeleteCell);
+            _injectComponent('#slot-btn-cell-format',    this.btnFormatCell);
             _injectComponent('#slot-btn-colorschemas',   this.btnColorSchemas);
             _injectComponent('#slot-btn-search',         this.btnSearch);
             _injectComponent('#slot-btn-inschart',       this.btnInsertChart);
@@ -3268,6 +3286,56 @@ define([
                         }
                     ]
                 }));
+            }
+            
+            if (this.btnFormatCell && this.btnFormatCell.rendered) {
+                this.btnFormatCell.setMenu( new Common.UI.Menu({
+                    items: [
+                        {
+                        // caption     : this.txtRowHeight, ///// Перевод не работатет
+                        // menu        : new Common.UI.Menu({
+                        //     cls: 'shifted-right',
+                        //     menuAlign: 'tl-tr',
+                        //     items   : [
+                        //         { caption: this.txtAutoRowHeight, value: 'auto-row-height' },
+                        //         { caption: this.txtCustomRowHeight, value: 'row-height' }
+                        //     ]
+                        // })
+                        },
+                        {caption: '--'},
+                        {
+                            caption   : this.textHide,
+                            menu      : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: [
+                                    { caption: this.textRows, type: Asc.c_oAscCFType.cellIs, value: 'hideCell', isRowMenu: true },
+                                    { caption: this.textColumns, type: Asc.c_oAscCFType.cellIs, value: 'hideCell', isRowMenu: false },
+                                    { caption: this.textSheet, type: Asc.c_oAscCFType.cellIs, value: 'hideSheet', isRowMenu: false }
+                                ]
+                            })
+                        },
+                        {
+                            caption   : this.textShow,
+                            menu      : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: [
+                                    { caption: this.textRows, type: Asc.c_oAscCFType.cellIs, value: 'showCell', isRowMenu: true },
+                                    { caption: this.textColumns, type: Asc.c_oAscCFType.cellIs, value: 'showCell', isRowMenu: false },
+                                    this.mnuShowSheets = new Common.UI.MenuItem({ 
+                                        caption: this.textSheet, 
+                                        type: Asc.c_oAscCFType.cellIs,
+                                        menu        : new Common.UI.Menu({
+                                        menuAlign   : 'tl-tr',
+                                        style: 'min-width: auto;',
+                                        items: []
+                                    })
+                                    })
+                                ]
+                            })
+                        },
+                        {caption: '--'},
+                    ]
+                }) )
             }
 
             if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram && !this.mode.isEditOle)
