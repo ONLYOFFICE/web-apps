@@ -23,6 +23,7 @@ class SpreadsheetSettingsController extends Component {
         this.props.storeSpreadsheetSettings.changeHideGridlines(!params.asc_getShowGridLines());
         this.props.storeSpreadsheetSettings.resetPortrait(opt.asc_getOrientation() === Asc.c_oAscPageOrientation.PagePortrait ? true : false);
         this.props.storeSpreadsheetSettings.changeDocSize(opt.asc_getWidth(), opt.asc_getHeight());
+        this.props.storeSpreadsheetSettings.changeSheetRtl(params.asc_getRightToLeft());
     }
 
     initSpreadsheetMargins() {
@@ -93,6 +94,11 @@ class SpreadsheetSettingsController extends Component {
         this.initSpreadsheetSettings();
     }
 
+    onRtlSheetClick(value) {
+        const api = Common.EditorApi.get();
+        api.asc_setRightToLeft(value);
+    }
+
     render () {
         return (
             <SpreadsheetSettings 
@@ -105,6 +111,7 @@ class SpreadsheetSettingsController extends Component {
                 initPageColorSchemes={this.initPageColorSchemes}
                 onColorSchemeChange={this.onColorSchemeChange}
                 onFormatChange={this.onFormatChange}
+                onRtlSheetClick={this.onRtlSheetClick}
                 initSpreadsheetMargins={this.initSpreadsheetMargins}
                 onPageMarginsChange={this.onPageMarginsChange}
             />
