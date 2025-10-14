@@ -142,6 +142,7 @@ define([
             this.lang = this.options.lang;
             this.props = this.options.props;
             this._constraintOperator = {};
+            this._maxConstraintIndex = 0;
             let obj = AscCommonExcel.c_oAscOperator;
             for (let key in obj) {
                 if (obj.hasOwnProperty(key)) {
@@ -381,7 +382,7 @@ define([
                 }
                 this.cmbSolver.setValue(value);
 
-                this.updateConstrainsList(0);
+                this.updateConstrainsList();
             }
             this.updateButtons();
         },
@@ -477,19 +478,24 @@ define([
 
         onAddConstrains: function() {
             var me = this,
-                index = this.constrainsList.store.length;
+                index = me._maxConstraintIndex,
+                needUpdate = false;
             var handlerDlg = function(dlg, result) {
-                if (result == 'ok') {
-                    me.props.addConstraint(index, dlg.getSettings()); //{cellRef: '', operator:AscCommonExcel.c_oAscOperator, constraint:''}
-                    this.updateConstrainsList(index);
-                    this.updateButtons();
+                if (result === 'ok' || result==='add') {
+                    me.props.addConstraint(++index, dlg.getSettings());
+                    needUpdate = true;
                 }
             };
             var win = new SSE.Views.ConstraintDialog({
                 handler: handlerDlg,
                 isEdit: false,
+                api: me.api,
                 constraintOperator: me._constraintOperator
             }).on('close', function() {
+                if (needUpdate) {
+                    me.updateConstrainsList(index);
+                    me.updateButtons();
+                }
                 me.show();
             });
 
@@ -502,8 +508,9 @@ define([
         onDeleteConstrains: function() {
             var rec = this.constrainsList.getSelectedRec();
             if (rec) {
-                var index = rec.get('index');
-                this.props.removeConstraint(index);
+                var index = _.indexOf(this.constrainsList.store.models, rec);
+                index = this.constrainsList.store.at(Math.max(0, index-1)).get('index');
+                this.props.removeConstraint(rec.get('index'));
                 this.updateConstrainsList(index);
                 this.updateButtons();
             }
@@ -513,27 +520,38 @@ define([
             var rec = this.constrainsList.getSelectedRec();
             if (rec) {
                 var me = this,
-                    index = rec.get('index');
-                // var handlerDlg = function(dlg, result) {
-                //     if (result == 'ok') {
-                //         me.props.editConstraint(index, dlg.getSettings()); //{cellRef: '', operator:AscCommonExcel.c_oAscOperator, constraint:''}
-                //         this.updateConstrainsList(index);
-                //         this.updateButtons();
-                //     }
-                // };
-                // var win = new SSE.Views.ConstraintDialog({
-                //     handler: handlerDlg
-                // }).on('close', function() {
-                //     me.show();
-                // });
-                //
-                // var xy = Common.Utils.getOffset(me.$window);
-                // me.hide();
-                // win.show(me.$window, xy);
-                // win.setSettings({
-                //     api     : me.api,
-                //     props   : {cellRef: rec.get('cellRef'), operator: rec.get('operator'), constraint: rec.get('constraint')}
-                // });
+                    index = rec.get('index'),
+                    changed = false,
+                    needUpdate = false;
+                var handlerDlg = function(dlg, result) {
+                    if (result === 'ok' || result==='add') {
+                        if (!changed) {
+                            me.props.editConstraint(index, dlg.getSettings());
+                            changed = true;
+                            index = me._maxConstraintIndex;
+                        } else {
+                            me.props.addConstraint(++index, dlg.getSettings());
+                        }
+                        needUpdate = true;
+                    }
+                };
+                var win = new SSE.Views.ConstraintDialog({
+                    handler: handlerDlg,
+                    isEdit: true,
+                    api: me.api,
+                    constraintOperator: me._constraintOperator
+                }).on('close', function() {
+                    if (needUpdate) {
+                        me.updateConstrainsList(rec.get('index'));
+                        me.updateButtons();
+                    }
+                    me.show();
+                });
+
+                var xy = Common.Utils.getOffset(me.$window);
+                me.hide();
+                win.show(me.$window, xy);
+                win.setSettings({cellRef: rec.get('cellRef'), operator: rec.get('operator'), constraint: rec.get('constraint')});
             }
         },
 
@@ -548,6 +566,7 @@ define([
                 arr = [],
                 store = this.constrainsList.store,
                 constaints = this.props.getConstraints();
+            me._maxConstraintIndex = 0;
             constaints && constaints.forEach(function(item, index) {
                 arr.push({
                     cellRef: item.cellRef,
@@ -556,9 +575,14 @@ define([
                     operator: item.operator,
                     operatorName: me._constraintOperator[item.operator]
                 });
+                if (me._maxConstraintIndex<index)
+                    me._maxConstraintIndex = index;
             });
             store.reset(arr);
-            (store.length>0) && this.constrainsList.selectByIndex(Math.min(idx || 0, store.length-1));
+            if (store.length>0) {
+                var rec = (idx!==undefined) ? this.constrainsList.store.findWhere({index: idx}) : null;
+                rec ? this.constrainsList.selectRecord(rec) : this.constrainsList.selectByIndex(0);
+            }
         },
 
         onSelectSolver: function (cmb, record) {

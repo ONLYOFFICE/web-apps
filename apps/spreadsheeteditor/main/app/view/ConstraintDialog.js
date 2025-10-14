@@ -46,27 +46,28 @@ define([], function () { 'use strict';
             _.extend(_options,  {
                 title: options.isEdit ? this.txtTitleChange : this.txtTitle,
                 cls: 'modal-dlg',
-                width: 350,
+                width: 400,
                 height: 'auto',
                 buttons: ['ok', { value: 'add', caption: this.txtAdd }, 'cancel']
             }, options);
 
             this.handler        = options.handler;
             this.constraintOperator = options.constraintOperator;
+            this.api = options.api;
 
             this.template = [
                 '<div class="box">',
                 '<table cols="3" style="width: 100%;">',
                     '<tr style="vertical-align: bottom;">',
-                        '<td class="padding-right-10" style="width: 50px;">',
+                        '<td class="padding-right-10">',
                             '<label>' + this.txtCellRef + '</label>',
                             '<div id="id-dlg-constraint-ref" style="margin-bottom: 10px;"></div>',
                         '</td>',
-                        '<td class="padding-right-10" style="width: 50px;">',
+                        '<td>',
                             '<label></label>',
                             '<div id="id-dlg-constraint-operator" style="margin-bottom: 10px;"></div>',
                         '</td>',
-                        '<td>',
+                        '<td class="padding-left-10">',
                             '<label>' + this.txtConstraint + '</label>',
                             '<div id="id-dlg-constraint-constr" style="margin-bottom: 10px; "></div>',
                         '</td>',
@@ -90,8 +91,7 @@ define([], function () { 'use strict';
                 allowBlank  : true
                 // validateOnChange: true
             });
-            this.txtCellRef.on('button:click', _.bind(this.onSelectCellRef, this));
-            this.txtCellRef.on('changed:after', _.bind(this.onCellRefChanged, this));
+            this.txtCellRef.on('button:click', _.bind(this.onSelectData, this));
 
             this.txtConstraint = new Common.UI.InputFieldBtn({
                 el          : this.$window.find('#id-dlg-constraint-constr'),
@@ -101,12 +101,11 @@ define([], function () { 'use strict';
                 allowBlank  : true
                 // validateOnChange: true
             });
-            this.txtConstraint.on('button:click', _.bind(this.onSelectConstraint, this));
-            this.txtConstraint.on('changed:after', _.bind(this.onConstraintChanged, this));
+            this.txtConstraint.on('button:click', _.bind(this.onSelectData, this));
 
             this.cmbOperator = new Common.UI.ComboBox({
                 el: this.$window.find('#id-dlg-constraint-operator'),
-                style: 'width: 100px;',
+                style: 'width: 60px;',
                 menuStyle: 'min-width: 100%;',
                 editable: false,
                 cls: 'input-group-nr',
@@ -118,7 +117,7 @@ define([], function () { 'use strict';
                 takeFocusOnClose: true
             });
             this.cmbOperator.setValue(AscCommonExcel.c_oAscOperator['<=']);
-            this.cmbOperator.on('selected', _.bind(this.onOperator , this));
+            this.cmbOperator.on('selected', _.bind(this.onSelectOperator, this));
 
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
         },
@@ -142,11 +141,17 @@ define([], function () { 'use strict';
 
         _handleInput: function(state) {
             if (this.options.handler) {
-                if (state == 'ok') {
+                if (state === 'ok' || state==='add') {
                     if (this.isRangeValid() !== true)
                         return;
                 }
                 this.options.handler.call(this, this, state);
+                if (state==='add') {
+                    this.txtCellRef.setValue('');
+                    this.txtConstraint.setValue('');
+                    this.cmbOperator.setValue(AscCommonExcel.c_oAscOperator['<=']);
+                    return;
+                }
             }
 
             this.close();
@@ -182,11 +187,11 @@ define([], function () { 'use strict';
                 value;
             if (_.isEmpty(this.txtCellRef.getValue())) {
                 isvalid = false;
-                txtError = this.txtEmpty;
+                txtError = this.txtEmptyRef;
             } else {
                 value = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtCellRef.getValue(), true);
                 if (value != Asc.c_oAscError.ID.No) {
-                    txtError = ''; // check errors
+                    txtError = ''; // TODO: check errors
                     isvalid = false;
                 }
             }
@@ -198,11 +203,11 @@ define([], function () { 'use strict';
 
             if (_.isEmpty(this.txtConstraint.getValue())) {
                 isvalid = false;
-                txtError = this.txtEmpty;
+                txtError = this.txtEmptyConstraint;
             } else {
                 value = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtConstraint.getValue(), true);
                 if (value != Asc.c_oAscError.ID.No) {
-                    txtError = ''; // check errors
+                    txtError = ''; // // TODO: check errors
                     isvalid = false;
                 }
             }
@@ -213,6 +218,42 @@ define([], function () { 'use strict';
             }
 
             return isvalid;
+        },
+
+        onSelectData: function(input) {
+            var me = this;
+            if (me.api) {
+                var handlerDlg = function(dlg, result) {
+                    if (result == 'ok') {
+                        input.setValue(dlg.getSettings());
+                    }
+                };
+
+                var win = new SSE.Views.CellRangeDialog({
+                    handler: handlerDlg
+                }).on('close', function() {
+                    me.show();
+                });
+
+                var xy = Common.Utils.getOffset(me.$window);
+                me.hide();
+                win.show(me.$window, xy);
+                win.setSettings({
+                    api     : me.api,
+                    range   : input.getValue(),
+                    type    : Asc.c_oAscSelectionDialogType.Chart,
+                    validation: function() {return true;}
+                });
+            }
+        },
+
+        onSelectOperator: function (cmb, record) {
+            if (record.value===AscCommonExcel.c_oAscOperator.integer)
+                this.txtConstraint.setValue(this.txtInt);
+            else if (record.value===AscCommonExcel.c_oAscOperator.bin)
+                this.txtConstraint.setValue(this.txtBin);
+            else if (record.value===AscCommonExcel.c_oAscOperator.diff)
+                this.txtConstraint.setValue(this.txtDiff);
         },
 
     }, SSE.Views.ConstraintDialog || {}));
