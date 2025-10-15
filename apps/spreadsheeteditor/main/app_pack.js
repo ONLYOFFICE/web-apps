@@ -90,7 +90,8 @@ require([
     'spreadsheeteditor/main/app/view/PivotGroupDialog',
     'spreadsheeteditor/main/app/view/PivotCalculatedItemsDialog',
     'spreadsheeteditor/main/app/view/PivotInsertCalculatedItemDialog',
-    'spreadsheeteditor/main/app/view/SolverDlg'
+    'spreadsheeteditor/main/app/view/SolverDlg',
+    'spreadsheeteditor/main/app/view/ConstraintDialog'
 ], function () {
     Common.NotificationCenter.trigger('app-pack:loaded');
 });
