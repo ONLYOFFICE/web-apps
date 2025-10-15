@@ -442,6 +442,38 @@
 
 }
 
+.combo-chart-template {
+    .combo-template(62px);
+
+    top: -4px;
+    position: absolute;
+    .padding-right-12();
+
+    .more-container & {
+        position: static;
+    }
+
+    .view .dataview, .dropdown-menu {
+        padding: 1px;
+    }
+
+    .dropdown-menu {
+        padding: 5px 1px 5px 1px;
+
+        .dataview {
+            .group-description {
+                padding: 3px 0 3px 10px;
+                .font-weight-bold();
+
+                .rtl & {
+                    padding: 3px 10px 3px 0;
+                }
+            }
+        }
+    }
+
+}
+
 .combo-slicer-style {
     .combo-textart(60px, 4px);
 }

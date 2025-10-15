@@ -206,7 +206,8 @@ define([
                 is_lockShape: false,
                 isUserProtected: false,
                 showPivotTab: false,
-                showTableDesignTab: false
+                showTableDesignTab: false,
+                showChartTab: false
             };
             this.binding = {};
 
@@ -3075,6 +3076,14 @@ define([
                 toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);
                 this._state.in_chart = in_chart;
             }
+            if (this._state.inchart !== in_chart) {
+                if ( !in_chart && this.toolbar.isTabActive('charttab') )
+                    this.toolbar.setTab('home');
+                this.toolbar.setVisible('charttab', !!in_chart);
+                if (in_chart && this._state.showChartTab)
+                    this.toolbar.setTab('charttab');
+                this._state.inchart = in_chart;
+            }
             if (in_chart) return;
 
             if (!toolbar.mode.isEditDiagram)
@@ -4590,6 +4599,18 @@ define([
                         }
                         me.toolbar.btnsRemoveDuplicates.push(view.getButtons('rem-duplicates'));
                         me.toolbar.btnsTableDesign = tabledesignbuttons;
+                    }
+
+                    tab = {caption: 'Chart', action: 'charttab', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-charttab', dataHintTitle: 'V', aux: true};
+                    var charttab = me.getApplication().getController('ChartTab');
+                    charttab.setApi(me.api).setConfig({toolbar: me});
+                    var view = charttab.getView('ChartTab');
+                    var chartbuttons = view.getButtons();
+                    var $panel = charttab.createToolbarPanel();
+                    if ($panel) {
+                        me.toolbar.addTab(tab, $panel);
+                        me._state.inchart && me.toolbar.setVisible('charttab', true);
+                        Array.prototype.push.apply(me.toolbar.lockControls, chartbuttons);
                     }
 
                     if (!config.compactHeader) {

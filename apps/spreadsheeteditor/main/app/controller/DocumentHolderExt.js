@@ -50,6 +50,17 @@ define([], function () {
                 'DocumentHolder': {
                     'createdelayedelements': this.onCreateDelayedElements,
                     'equation:callback': this.equationCallback
+                },
+                'ChartTab': {
+                    'charttab:updatemenu': function (menu) {
+                        me.chartProps = me.getCurrentChartProps();
+                        if (me.chartProps) {
+                            this.updateChartElementMenu(menu, me.chartProps)
+                        }
+                    },
+                    'charttab:elementselected': function (menu, item) {
+                        me.onChartElement(menu, item)
+                    }
                 }
             });
 
