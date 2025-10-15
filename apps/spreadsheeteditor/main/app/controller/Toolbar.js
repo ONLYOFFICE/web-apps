@@ -1205,6 +1205,7 @@ define([
                             isvalid = (!_.isEmpty(range)) ? me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, props.getInRows(), props.getType()) : Asc.c_oAscError.ID.No;
                         if (isvalid == Asc.c_oAscError.ID.No) {
                             me.api.asc_addChartDrawingObject(props);
+                            this._state.showChartTab = true;
                         } else {
                             var msg = me.txtInvalidRange;
                             switch (isvalid) {
@@ -4613,6 +4614,18 @@ define([
                         Array.prototype.push.apply(me.toolbar.lockControls, chartbuttons);
                     }
 
+                    tab = {caption: 'Sparkline', action: 'sparklinetab', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-sparklinetab', dataHintTitle: 'V', aux: true};
+                    var sparklinetab = me.getApplication().getController('SparklineTab');
+                    sparklinetab.setApi(me.api).setConfig({toolbar: me});
+                    var view = sparklinetab.getView('SparklineTab');
+                    var sparklinebuttons = view.getButtons();
+                    var $panel = sparklinetab.createToolbarPanel();
+                    if ($panel) {
+                        me.toolbar.addTab(tab, $panel);
+                        me.toolbar.setVisible('sparklinetab', true);
+                        Array.prototype.push.apply(me.toolbar.lockControls, sparklinebuttons);
+                    }
+
                     if (!config.compactHeader) {
                         // hide 'print' and 'save' buttons group and next separator
                         me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
@@ -5283,6 +5296,7 @@ define([
         onClickTab: function(tab) {
             this._state.showPivotTab = tab === 'pivot';
             this._state.showTableDesignTab = tab ==='tabledesign';
+            this._state.showChartTab = tab ==='charttab';
         },
 
         onTabCollapse: function(tab) {

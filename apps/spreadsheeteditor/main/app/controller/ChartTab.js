@@ -180,7 +180,6 @@ define([
 
                     value = props.asc_getLockAspect();
                     if (this._state.keepRatio!==value) {
-                        console.log(this.view.chRatio)
                         this.view.chRatio.setValue(value, true);
                         this._state.keepRatio=value;
                     }
@@ -241,10 +240,6 @@ define([
         },
 
         ShowHideElem: function(isChart, is3D) {
-            // this.ChartSizeContainer.toggleClass('settings-hidden', !isChart);
-            // this.ChartTypesContainer.toggleClass('settings-hidden', !isChart);
-            // this.SparkTypesContainer.toggleClass('settings-hidden', isChart);
-            // this.SparkPointsContainer.toggleClass('settings-hidden', isChart);
             // this.Chart3DContainer.toggleClass('settings-hidden', !isChart || !is3D);
             this.fireEvent('updatescroller', this);
         },

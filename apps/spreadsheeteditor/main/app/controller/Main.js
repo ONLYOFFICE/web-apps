@@ -1719,6 +1719,9 @@ define([
                     if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram && !me.appOptions.isEditOle && me.appOptions.canFeatureTable)
                         application.getController('ChartTab').setMode(me.appOptions);
 
+                    if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram && !me.appOptions.isEditOle && me.appOptions.canFeatureTable)
+                        application.getController('SparklineTab').setMode(me.appOptions);
+
                     var viewport = this.getApplication().getController('Viewport').getView('Viewport');
                     viewport.applyEditorMode();
                     rightmenuController.getView('RightMenu').setMode(me.appOptions).setApi(me.api);
