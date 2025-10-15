@@ -71,11 +71,28 @@
         <path d="M22 0H25V3H22V0Z"/>
         <path d="M31 0H34V3H31V0Z"/>
     </symbol>
+    <symbol id="annotation-solid" width="60" height="1" viewBox="0 0 60 1">
+        <path d="M0 0h60v1H0z"/>
+    </symbol>
+    <symbol id="annotation-dots" width="58" height="1" viewBox="0 0 58 1">
+        <path d="M0 0h1v1H0zm3 0h1v1H3zm3 0h1v1H6zm3 0h1v1H9zm3 0h1v1h-1zm3 0h1v1h-1zm3 0h1v1h-1zm3 0h1v1h-1zm3 0h1v1h-1zm3 0h1v1h-1zm3 0h1v1h-1zm3 0h1v1h-1zm3 0h1v1h-1zm3 0h1v1h-1zm3 0h1v1h-1zm3 0h1v1h-1zm3 0h1v1h-1zm3 0h1v1h-1zm3 0h1v1h-1zm3 0h1v1h-1z"/>
+    </symbol>
+    <symbol id="annotation-dots-dense" width="58" height="1" viewBox="0 0 58 1">
+        <path d="M0 0h1v1H0zm2 0h2v1H2zm3 0h1v1H5zm2 0h1v1H7zm2 0h2v1H9zm3 0h1v1h-1zm2 0h1v1h-1zm2 0h2v1h-2zm3 0h1v1h-1zm2 0h1v1h-1zm2 0h2v1h-2zm3 0h1v1h-1zm2 0h1v1h-1zm2 0h2v1h-2zm3 0h1v1h-1zm2 0h1v1h-1zm2 0h2v1h-2zm3 0h1v1h-1zm2 0h1v1h-1zm2 0h2v1h-2zm3 0h1v1h-1zm2 0h1v1h-1zm2 0h2v1h-2zm3 0h1v1h-1zm2 0h1v1h-1z"/>
+    </symbol>
+    <symbol id="annotation-dashes" width="59" height="1" viewBox="0 0 59 1">
+        <path d="M0 0h2v1H0zm4 0h2v1H4zm3 0h2v1H7zm3 0h2v1h-2zm4 0h2v1h-2zm3 0h2v1h-2zm3 0h2v1h-2zm4 0h2v1h-2zm3 0h2v1h-2zm3 0h2v1h-2zm4 0h2v1h-2zm3 0h2v1h-2zm3 0h2v1h-2zm4 0h2v1h-2zm3 0h2v1h-2zm3 0h2v1h-2zm4 0h2v1h-2zm3 0h2v1h-2z"/>
+    </symbol>
+    <symbol id="annotation-dashes-dense" width="60" height="1" viewBox="0 0 60 1">
+        <path d="M0 0h2v1H0zm3 0h1v1H3zm2 0h2v1H5zm3 0h1v1H8zm2 0h2v1h-2zm3 0h1v1h-1zm2 0h2v1h-2zm3 0h1v1h-1zm2 0h2v1h-2zm3 0h1v1h-1zm2 0h2v1h-2zm4 0h2v1h-2zm3 0h1v1h-1zm2 0h2v1h-2zm3 0h2v1h-2zm3 0h1v1h-1zm2 0h2v1h-2zm3 0h2v1h-2zm3 0h1v1h-1zm2 0h2v1h-2zm3 0h2v1h-2zm3 0h1v1h-1zm2 0h2v1h-2z"/>
+    </symbol>
+    <symbol id="annotation-dash-dot" width="60" height="1" viewBox="0 0 60 1">
+        <path d="M0 0h2v1H0zm3 0h8v1H3zm9 0h2v1h-2zm3 0h8v1h-8zm9 0h2v1h-2zm3 0h8v1h-8zm9 0h2v1h-2zm3 0h8v1h-8zm9 0h2v1h-2zm3 0h8v1h-8z"/>
+    </symbol>
+    <symbol id="annotation-dash-dot-wide" width="60" height="1" viewBox="0 0 60 1">
+        <path d="M0 0h4v1H0zm6 0h1v1H6zm3 0h4v1H9zm6 0h1v1h-1zm3 0h4v1h-4zm6 0h1v1h-1zm3 0h4v1h-4zm6 0h1v1h-1zm3 0h4v1h-4zm6 0h1v1h-1zm3 0h4v1h-4zm6 0h1v1h-1zm3 0h4v1h-4z"/>
+    </symbol>
+    <symbol id="annotation-wave" width="64" height="12" viewBox="0 0 64 12">
+        <path d="M1 6.5S4.5 1 12 1s9.5 5.5 9.5 5.5m2 5-2-5m0 0S25 1 32 1s9.5 5.5 9.5 5.5m0 0 2 5m-2-5S45 1 52 1s8.5 3.5 9.5 5.5 2 5 2 5"/>
+    </symbol>
 </svg>
-
-
-
-
-
-
-
