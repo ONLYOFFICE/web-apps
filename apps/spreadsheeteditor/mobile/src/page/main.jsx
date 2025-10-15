@@ -120,6 +120,9 @@ class MainPage extends Component {
     }
 
     componentDidMount () {
+        if ($$('.skl-container').length) {
+            $$('.skl-container').remove();
+        }
 
         document.addEventListener('touchmove', this.touchMoveHandler);
 
