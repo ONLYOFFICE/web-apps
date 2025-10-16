@@ -591,7 +591,21 @@ define([
         },
 
         onOptions: function() {
-
+            var win,
+                me = this;
+            win = new SSE.Views.SolverMethodDialog({
+                handler: function(dlg, result) {
+                    if (result == 'ok') {
+                        dlg.getSettings();
+                    }
+                }
+            }).on('close', function() {
+                me.show();
+            });
+            var xy = Common.Utils.getOffset(me.$window);
+            me.hide();
+            win.show(me.$window, xy);
+            win.setSettings(this.props.getOptions());
         },
 
         showHelp: function() {

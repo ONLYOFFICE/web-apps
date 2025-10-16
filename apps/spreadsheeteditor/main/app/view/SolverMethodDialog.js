@@ -60,7 +60,7 @@ define([], function () { 'use strict';
                                 '<label class="margin-right-5">' + this.txtPrecision + '</label>',
                             '</td>',
                             '<td style="padding-bottom: 10px;">',
-                                '<div id="smethod-txt-precision" style="display: inline-block;"></div>',
+                                '<div id="smethod-txt-precision" class="float-right" style="display: inline-block;"></div>',
                             '</td>',
                         '</tr>',
                         '<tr>',
@@ -69,26 +69,26 @@ define([], function () { 'use strict';
                             '</td>',
                         '</tr>',
                         '<tr>',
-                            '<td colspan="2" style="padding-bottom: 15px;">',
+                            '<td colspan="2" style="padding-bottom: 10px;">',
                                 '<label class="font-weight-bold">' + this.txtSolverInt + '</label>',
                             '</td>',
                         '</tr>',
                         '<tr>',
-                            '<td colspan="2" style="padding-bottom: 15px;">',
+                            '<td colspan="2" style="padding-bottom: 10px;">',
                                 '<div id="smethod-chk-ignore"></div>',
                             '</td>',
                         '</tr>',
                         '<tr>',
-                            '<td style="padding-bottom: 10px;">',
+                            '<td style="padding-bottom: 15px;">',
                                 '<label class="margin-right-5">' + this.txtOptimality + '</label>',
                             '</td>',
-                            '<td style="padding-bottom: 10px;">',
-                                '<div id="smethod-txt-optimality" style="display: inline-block;"></div>',
+                            '<td style="padding-bottom: 15px;">',
+                                '<div id="smethod-txt-optimality" class="float-right" style="display: inline-block;"></div>',
                             '</td>',
                         '</tr>',
                         '<tr>',
                         '<tr>',
-                            '<td colspan="2" style="padding-bottom: 15px;">',
+                            '<td colspan="2" style="padding-bottom: 5px;">',
                                 '<label class="font-weight-bold">' + this.txtSolverLimits + '</label>',
                             '</td>',
                         '</tr>',
@@ -96,7 +96,7 @@ define([], function () { 'use strict';
                                 '<label class="margin-right-5">' + this.txtMaxTime + '</label>',
                             '</td>',
                             '<td style="padding-bottom: 10px;">',
-                                '<div id="smethod-txt-maxtime" style="display: inline-block;"></div>',
+                                '<div id="smethod-txt-maxtime" class="float-right" style="display: inline-block;"></div>',
                             '</td>',
                         '</tr>',
                         '</tr>',
@@ -104,7 +104,7 @@ define([], function () { 'use strict';
                                 '<label class="margin-right-5">' + this.txtIterations + '</label>',
                             '</td>',
                             '<td style="padding-bottom: 5px;">',
-                                '<div id="smethod-txt-iterations" style="display: inline-block;"></div>',
+                                '<div id="smethod-txt-iterations" class="float-right" style="display: inline-block;"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
@@ -126,21 +126,19 @@ define([], function () { 'use strict';
                 el: $window.find('#smethod-chk-auto-scaling'),
                 labelText: this.txtAutoScale
             }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                if (this._changedProps)
-                    this._changedProps.setAutomaticScaling(field.getValue()==='checked');
+                this._autoChanged = true;
             }, this));
 
             this.chIgnore = new Common.UI.CheckBox({
                 el: $window.find('#smethod-chk-ignore'),
                 labelText: this.txtIgnore
             }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                if (this._changedProps)
-                    this._changedProps.setIgnoreIntConstraints(field.getValue()==='checked');
+                this._ignoreChanged = true;
             }, this));
 
             this.inputPrecision = new Common.UI.InputField({
                 el: $window.find('#smethod-txt-precision'),
-                style: 'width: 100%;',
+                style: 'width: 80px;',
                 maskExp     : /[0-9,\.]/,
                 value: '0.000001',
                 validateOnBlur: false,
@@ -150,8 +148,8 @@ define([], function () { 'use strict';
             }, this));
 
             this.inputOptimality = new Common.UI.InputField({
-                el: $window.find('#smethod-txt-precision'),
-                style: 'width: 100%;',
+                el: $window.find('#smethod-txt-optimality'),
+                style: 'width: 80px;',
                 maskExp     : /[0-9]/,
                 value: '1',
                 validateOnBlur: false,
@@ -162,8 +160,8 @@ define([], function () { 'use strict';
             this.inputOptimality.setValue();
 
             this.inputMaxTime = new Common.UI.InputField({
-                el: $window.find('#smethod-txt-precision'),
-                style: 'width: 100%;',
+                el: $window.find('#smethod-txt-maxtime'),
+                style: 'width: 80px;',
                 maskExp     : /[0-9]/,
                 validateOnBlur: false,
                 hideErrorOnInput: true
@@ -172,8 +170,8 @@ define([], function () { 'use strict';
             }, this));
 
             this.inputIterations = new Common.UI.InputField({
-                el: $window.find('#smethod-txt-precision'),
-                style: 'width: 100%;',
+                el: $window.find('#smethod-txt-iterations'),
+                style: 'width: 80px;',
                 maskExp     : /[0-9]/,
                 validateOnBlur: false,
                 hideErrorOnInput: true
@@ -196,7 +194,7 @@ define([], function () { 'use strict';
             if (props) {
                 this.chAuto.setValue(!!props.getAutomaticScaling(), true);
                 this.chIgnore.setValue(!!props.getIgnoreIntConstraints(), true);
-                this.inputPrecision.setValue(props.getConstraintPresicion());
+                this.inputPrecision.setValue(props.getConstraintPrecision());
                 this.inputOptimality.setValue(props.getIntOptimal());
                 this.inputMaxTime.setValue(props.getMaxTime());
                 this.inputIterations.setValue(props.getIterations());
@@ -253,11 +251,12 @@ define([], function () { 'use strict';
 
         getSettings: function() {
             if (this._changedProps) {
-                this._precisionChanged && this._changedProps.setConstraintPresicion(this.inputPrecision.getValue());
+                this._precisionChanged && this._changedProps.setConstraintPrecision(this.inputPrecision.getValue());
                 this._optimalityChanged && this._changedProps.setIntOptimal(this.inputOptimality.getValue());
                 this._maxTimeChanged && this._changedProps.setMaxTime(this.inputMaxTime.getValue());
                 this._iterationsChanged && this._changedProps.setIterations(this.inputIterations.getValue());
-
+                this._autoChanged && this._changedProps.setAutomaticScaling(this.chAuto.getValue()==='checked');
+                this._ignoreChanged && this._changedProps.setIgnoreIntConstraints(this.chIgnore.getValue()==='checked');
             }
             return this._changedProps;
         },
