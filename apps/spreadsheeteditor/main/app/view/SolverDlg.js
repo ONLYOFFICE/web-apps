@@ -327,7 +327,7 @@ define([
                 if (this.originalMethod!==AscCommonExcel.c_oAscSolvingMethod.simplexLP && method===AscCommonExcel.c_oAscSolvingMethod.simplexLP) {
                     // method is changed to simplex LP
                     Common.UI.warning({
-                        msg: this.textConfirmChangeMethod.replace(/%1/g, method===AscCommonExcel.c_oAscSolvingMethod.grgNonlinear ? this.textNonlinear : this.textEvolutionary),
+                        msg: this.textConfirmChangeMethod.replace(/%1/g, this.originalMethod===AscCommonExcel.c_oAscSolvingMethod.grgNonlinear ? this.textNonlinear : this.textEvolutionary),
                         maxwidth: 600,
                         buttons: ['ok', 'cancel'],
                         callback: function(btn){
