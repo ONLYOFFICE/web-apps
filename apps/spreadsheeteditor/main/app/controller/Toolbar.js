@@ -1701,34 +1701,41 @@ define([
         onShowBeforeCellFormat: function(cmp, item, e) {
             if (cmp.mnuShowSheets.menu.items.length>0) return;
 
-            cmp.btnFormatCell.menu.items[2].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+            cmp.btnFormatCell.menu.items[0].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+            cmp.btnFormatCell.menu.items[1].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
             cmp.btnFormatCell.menu.items[3].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
-            
-            cmp.mnuShowSheets.menu.addItem({caption: 'hello', type: 'asdasd', value: 'asd'})
+            cmp.btnFormatCell.menu.items[4].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+            cmp.btnFormatCell.menu.items[4].menu.items[2].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+
+            let hiddenItems = SSE.getController('Statusbar').statusbar.tabMenu.items[5].menu.items;
+            cmp.mnuShowSheets.menu.removeAll();
+            hiddenItems.forEach(item => {
+                cmp.mnuShowSheets.menu.addItem(new Common.UI.MenuItem({
+                    style: 'white-space: pre-wrap',
+                    caption: item.caption,
+                    value: 'showSheet',
+                    sheetId: item.value
+                }))
+            })
+
             // Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             // Common.component.Analytics.trackEvent('ToolBar', 'Cell delete');
         },
 
         onCellFormatMenu: function(menu, item, e) {
             if (!this.api) return;
-            // let statusBar = this.getApplication().getController('Statusbar');
-            // statusBar.setApi(this.api).hideWorksheet(true, 1)
-            // let selectTabs = this.statusbar.tabbar.selectTabs,
-            //     arrIndex = [];
-            // selectTabs.forEach(function (item) {
-            //     arrIndex.push(item.sheetindex);
-            // });
-
+            
+            if (['row-height', 'column-width', 'auto-row-height', 'auto-column-width'].includes(item.value))
+                SSE.getController('DocumentHolder').onSetSize(menu, item);
             if (item.value === 'hideCell')
                 this.api[item.options.isRowMenu ? 'asc_hideRows' : 'asc_hideColumns']();
             if (item.value === 'showCell')
                 this.api[item.options.isRowMenu ? 'asc_showRows' : 'asc_showColumns']();
-            if (item.value === 'hideSheet') {
-                // setTimeout(function () {
-                //     statusBar.setApi(this.api).hideWorksheet(true, 1)
-                // }, 1);
+            if (item.value === 'hideSheet') 
+                SSE.getController('Statusbar').hideWorksheet(true, [this.api.asc_getActiveWorksheetIndex()]);
+            if (item.value === 'showSheet') {
+                SSE.getController('Statusbar').hideWorksheet(false, item.options.sheetId);
             }
-            console.log(item);
         },
 
         onColorSchemaClick: function(menu, item) {

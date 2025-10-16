@@ -1946,7 +1946,7 @@ define([
                 me.btnFormatCell = new Common.UI.Button({
                     id          : 'id-toolbar-btn-formatcell',
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'toolbar__icon btn-formatcell',
+                    iconCls     : 'toolbar__icon btn-menu-cell',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.itemsDisabled, _set.lostConnect, _set.coAuth, _set.userProtected],
                     caption     : me.textCellFormat,
                     menu        : true,
@@ -3292,15 +3292,26 @@ define([
                 this.btnFormatCell.setMenu( new Common.UI.Menu({
                     items: [
                         {
-                        // caption     : this.txtRowHeight, ///// Перевод не работатет
-                        // menu        : new Common.UI.Menu({
-                        //     cls: 'shifted-right',
-                        //     menuAlign: 'tl-tr',
-                        //     items   : [
-                        //         { caption: this.txtAutoRowHeight, value: 'auto-row-height' },
-                        //         { caption: this.txtCustomRowHeight, value: 'row-height' }
-                        //     ]
-                        // })
+                            caption     : this.textRowHeight,
+                            menu        : new Common.UI.Menu({
+                                cls: 'shifted-right',
+                                menuAlign: 'tl-tr',
+                                items   : [
+                                    { caption: this.textAutoRowHeight, value: 'auto-row-height' },
+                                    { caption: this.textCustomRowHeight, value: 'row-height' }
+                                ]
+                            })
+                        },
+                        {
+                            caption     : this.textColumnWidth,
+                            menu        : new Common.UI.Menu({
+                                cls: 'shifted-right',
+                                menuAlign: 'tl-tr',
+                                items   : [
+                                    { caption: this.textAutoColumnWidth, value: 'auto-column-width' },
+                                    { caption: this.textCustomColumnWidth, value: 'column-width' }
+                                ]
+                            })
                         },
                         {caption: '--'},
                         {
@@ -3322,18 +3333,46 @@ define([
                                     { caption: this.textRows, type: Asc.c_oAscCFType.cellIs, value: 'showCell', isRowMenu: true },
                                     { caption: this.textColumns, type: Asc.c_oAscCFType.cellIs, value: 'showCell', isRowMenu: false },
                                     this.mnuShowSheets = new Common.UI.MenuItem({ 
-                                        caption: this.textSheet, 
+                                        caption: this.textSheets, 
                                         type: Asc.c_oAscCFType.cellIs,
                                         menu        : new Common.UI.Menu({
-                                        menuAlign   : 'tl-tr',
-                                        style: 'min-width: auto;',
-                                        items: []
+                                            menuAlign   : 'tl-tr',
+                                            style: 'min-width: auto;',
+                                            items: []
                                     })
                                     })
                                 ]
                             })
                         },
                         {caption: '--'},
+                        {
+                            caption     : this.textRenameSheet,
+                            value       : 'rename'
+                        },
+                        {
+                            caption     : this.textMoveCopySheet,
+                            value       : 'moveCopySheet'
+                        },
+                        {
+                            caption     : this.textTabColor,
+                            value       : 'fillColor',
+                        },
+                        {
+                            caption     : this.textProtectSheet,
+                            value       : 'protectSheet',
+                        },
+                        {caption: '--'},
+                        {
+                            caption     : this.textLockedCell,
+                            iconCls     : 'menu__icon btn-lock',
+                            value       : 'lockedCell',
+                        },
+                        {caption: '--'},
+                        {
+                            caption     : this.textFormatCells,
+                            iconCls     : 'menu__icon btn-menu-cell',
+                            value       : 'formatCells',
+                        },
                     ]
                 }) )
             }
