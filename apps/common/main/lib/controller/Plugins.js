@@ -322,6 +322,7 @@ define([
                     value: guid,
                     caption: model.get('name'),
                     iconsSet: me.viewPlugins.iconsStr2IconsObj(icons),
+                    baseUrl: model.get('baseUrl'), // icons have a relative path, so need to use the base url
                     template: _.template([
                         '<div id="<%= id %>" class="menu-item" <% if(!_.isUndefined(options.stopPropagation)) { %> data-stopPropagation="true" <% } %> >',
                             '<img class="menu-item-icon" src="<%= options.iconImg %>">',
