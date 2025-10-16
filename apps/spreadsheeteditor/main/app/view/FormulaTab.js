@@ -567,7 +567,6 @@ define([
                                         return item.value == 'more' 
                                     });
                                     moreMenuItem && moreMenuItem.updateHint(hintText);
-                                    item.btn.updateHint([item.btn.options.hint[0], hintText]);
                                 }
                             }
                         });
