@@ -1480,7 +1480,7 @@
   "SSE.Controllers.LeftMenu.textWorkbook": "Радна свеска",
   "SSE.Controllers.LeftMenu.txtUntitled": "Без наслова",
   "SSE.Controllers.LeftMenu.warnDownloadAs": "Ако наставите да чувате у овом формату све карактеристике осим текста ће бити изгубљене.<br>Да ли сте сигурни да желите да наставите?",
-  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
   "SSE.Controllers.LeftMenu.warnDownloadCsvSheets": "CSV формат не подржава чување датотеке са више листова.<br>Да бисте задржали одабрани формат и сачували само тренутни лист, притисните Сачувај.<br>Да бисте сачували тренутни радни лист, кликните Откажи и сачувајте га у другом формату.",
   "SSE.Controllers.Main.confirmAddCellWatches": "Ова радња ће додати {0} посматрача ћелија.<br>Да ли желите да наставите?",
   "SSE.Controllers.Main.confirmAddCellWatchesMax": "Ова радња ће додати само {0} посматраче ћелија из разлога чувања у меморији.<br>Желите ли да наставите?",

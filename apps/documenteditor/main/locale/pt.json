@@ -1736,6 +1736,10 @@
   "DE.Controllers.Toolbar.dataUrl": "Colar uma URL de dados",
   "DE.Controllers.Toolbar.errorAccessDeny": "Você está tentando executar uma ação para a qual não tem direitos.<br>Entre em contato com o administrador do Document Server.",
   "DE.Controllers.Toolbar.fileUrl": "Colar um URL de arquivo",
+  "DE.Controllers.Toolbar.helpChartElements": "Alterne facilmente a visibilidade dos elementos do gráfico com alguns cliques.",
+  "DE.Controllers.Toolbar.helpChartElementsHeader": "Exibição de elementos do gráfico",
+  "DE.Controllers.Toolbar.helpCommentFilter": "Gerencie sua visualização alternando entre comentários abertos e resolvidos no painel esquerdo.",
+  "DE.Controllers.Toolbar.helpCommentFilterHeader": "Filtros de comentários",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Aviso",
   "DE.Controllers.Toolbar.textAccent": "Acentos",
   "DE.Controllers.Toolbar.textBracket": "Parênteses",
@@ -2400,6 +2404,8 @@
   "DE.Views.DocumentHolder.textJoinList": "Junta-se à lista anterior",
   "DE.Views.DocumentHolder.textLeft": "Deslocar células para a esquerda",
   "DE.Views.DocumentHolder.textLeftData": "Esquerda",
+  "DE.Views.DocumentHolder.textLeftOverlay": "Sobreposição esquerda",
+  "DE.Views.DocumentHolder.textLeftPos": "Esquerda",
   "DE.Views.DocumentHolder.textLegendPos": "Legenda",
   "DE.Views.DocumentHolder.textLinear": "Linear",
   "DE.Views.DocumentHolder.textLinearForecast": "Previsão Linear",
@@ -4272,10 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Sublinhar",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nome da Fonte",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamanho da fonte",
-  "DE.Controllers.Toolbar.helpChartElements": "Easily toggle the visibility of chart elements with several clicks.",
-  "DE.Controllers.Toolbar.helpChartElementsHeader": "Chart elements display",
-  "DE.Controllers.Toolbar.helpCommentFilter": "Manage your view by toggling between open and resolved comments in the left panel.",
-  "DE.Controllers.Toolbar.helpCommentFilterHeader": "Comment filters",
-  "DE.Views.DocumentHolder.textLeftOverlay": "Left overlay",
-  "DE.Views.DocumentHolder.textLeftPos": "Left"
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
 }

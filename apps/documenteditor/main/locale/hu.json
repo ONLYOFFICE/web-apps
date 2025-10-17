@@ -1177,6 +1177,7 @@
   "Common.Views.ShapeShadowDialog.txtSize": "Méret",
   "Common.Views.ShapeShadowDialog.txtTitle": "Árnyék beállítása",
   "Common.Views.ShapeShadowDialog.txtTransparency": "Átláthatóság",
+  "Common.Views.ShortcutsDialog.txtDescription": "Leírás",
   "Common.Views.ShortcutsDialog.txtEmpty": "Nincs találat. Módosítsa a keresést.",
   "Common.Views.ShortcutsDialog.txtRestoreAll": "Minden visszaállítása alapértelmezettre",
   "Common.Views.ShortcutsDialog.txtRestoreContinue": "Folytatni kívánja?",
@@ -2540,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Sáv a szöveg fölött",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Cellák felülírása",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Forrás formátumának megtartása",
+  "DE.Views.DocumentHolder.txtPercentage": "Százalék",
   "DE.Views.DocumentHolder.txtPressLink": "Nyomja meg a {0} billentyűt és kattintson a hivatkozásra",
   "DE.Views.DocumentHolder.txtPrintSelection": "Nyomtató kiválasztás",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Törtjel eltávolítása",
@@ -4276,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Féligáttetsző",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Aláhúzott",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Betűtípus neve",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Betűméret",
-  "Common.Views.ShortcutsDialog.txtDescription": "Description"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Betűméret"
 }

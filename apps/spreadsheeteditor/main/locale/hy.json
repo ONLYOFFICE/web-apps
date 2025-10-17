@@ -1480,7 +1480,7 @@
   "SSE.Controllers.LeftMenu.textWorkbook": "Աշխատագիրք",
   "SSE.Controllers.LeftMenu.txtUntitled": "Անանուն",
   "SSE.Controllers.LeftMenu.warnDownloadAs": "Եթե շարունակեք պահպանումն այս ձևաչափով, բոլոր հատկությունները՝ տեքստից բացի, կկորչեն։<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:",
-  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
   "SSE.Controllers.LeftMenu.warnDownloadCsvSheets": "CSV ձևաչափը չի աջակցում բազմաշերտ ֆայլի պահպանմանը:<br>Ընտրված ձևաչափը պահելու և միայն ընթացիկ թերթիկը պահելու համար սեղմեք Պահպանել:<br>Ընթացիկ աղյուսակը պահելու համար սեղմեք Չեղարկել և պահել այն այլ ձևաչափով:",
   "SSE.Controllers.Main.confirmAddCellWatches": "Այս գործողությամբ կավելացվեն {0} բջջային ժամացույցներ:<br>Ցանկանու՞մ եք շարունակել։",
   "SSE.Controllers.Main.confirmAddCellWatchesMax": "Այս գործողությամբ կավելացվեն միայն {0} բջջային ժամացույցներ՝ ըստ հիշողության պահպանման պատճառի:<br>Ցանկանու՞մ եք շարունակել։",

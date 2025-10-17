@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Черта над текстом",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Заменить содержимое ячеек",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Сохранить исходное форматирование",
+  "DE.Views.DocumentHolder.txtPercentage": "Процент",
   "DE.Views.DocumentHolder.txtPressLink": "Нажмите {0} и щелкните по ссылке",
   "DE.Views.DocumentHolder.txtPrintSelection": "Напечатать выделенное",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Удалить дробную черту",

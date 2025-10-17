@@ -2936,6 +2936,8 @@ define([
             },
 
             setLanguages: function() {
+                if (!this.languages)
+                    return;
                 let sLangs = Common.Controllers.Desktop.systemLangs() || {},
                     arr = [],
                     me = this;

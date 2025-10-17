@@ -1177,6 +1177,7 @@
   "Common.Views.ShapeShadowDialog.txtSize": "Veličina ",
   "Common.Views.ShapeShadowDialog.txtTitle": "Podešavanje senke",
   "Common.Views.ShapeShadowDialog.txtTransparency": "Providnost",
+  "Common.Views.ShortcutsDialog.txtDescription": "Opis",
   "Common.Views.ShortcutsDialog.txtEmpty": "Nema rezultata. Podesite pretragu.",
   "Common.Views.ShortcutsDialog.txtRestoreAll": "Vrati sve na podrazumevano",
   "Common.Views.ShortcutsDialog.txtRestoreContinue": "Da li želite da nastavite?",
@@ -2540,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Traka preko teksta",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Prepisi ćelija",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Nastavi formatiranje izvora",
+  "DE.Views.DocumentHolder.txtPercentage": "Procenat",
   "DE.Views.DocumentHolder.txtPressLink": "Pritisnite {0} i kliknite na link",
   "DE.Views.DocumentHolder.txtPrintSelection": "Štampaj selekciju",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Odstrani liniju razlomka",
@@ -4276,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Poluprovidno",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podvuci",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Naziv fonta ",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veličina fonta",
-  "Common.Views.ShortcutsDialog.txtDescription": "Description"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veličina fonta"
 }

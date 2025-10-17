@@ -1480,7 +1480,7 @@
   "SSE.Controllers.LeftMenu.textWorkbook": "Munkafüzet",
   "SSE.Controllers.LeftMenu.txtUntitled": "Névtelen",
   "SSE.Controllers.LeftMenu.warnDownloadAs": "Ha ebbe a formátumba ment, a nyers szövegen kívül minden elveszik.<br>Biztos benne, hogy folytatni akarja?",
-  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
   "SSE.Controllers.LeftMenu.warnDownloadCsvSheets": "A CSV formátum nem támogatja a többlapos fájlok mentését.<br>A kiválasztott formátum megőrzéséhez és csak az aktuális munkalap mentéséhez kattintson a Mentés gombra.<br>Az aktuális táblázat mentéséhez kattintson a Mégse gombra, és mentse el más formátumban.",
   "SSE.Controllers.Main.confirmAddCellWatches": "Ez a művelet {0} cellafigyelőt ad hozzá.<br>Folytatja?",
   "SSE.Controllers.Main.confirmAddCellWatchesMax": "Ez a művelet csak {0} cellafigyelőt ad hozzá a memóriába mentés okának megfelelően.<br>Folytatja?",

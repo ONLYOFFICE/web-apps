@@ -1480,7 +1480,7 @@
   "SSE.Controllers.LeftMenu.textWorkbook": "مصنف",
   "SSE.Controllers.LeftMenu.txtUntitled": "بدون عنوان",
   "SSE.Controllers.LeftMenu.warnDownloadAs": "إذا تابعت الحفظ بهذا التنسيق ستفقد كل الميزات عدا النص <br> هل حقاً تريد المتابعة؟",
-  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
   "SSE.Controllers.LeftMenu.warnDownloadCsvSheets": "إن تنسيق CSV لا يدعم حفظ الملفات التي تحتوي على أوراق متعددة. <br>للحفاظ على النسق المححد و حفظ الورقة الحالية فقط، إضغط على زر الحفظ. <br>للحفظ إلى الجدول الحسابي الحالي، إضغط على إلغاء و من ثم احفظ الملف باستخدام تنسيق مختلف.",
   "SSE.Controllers.Main.confirmAddCellWatches": "سيقوم هذا الفعل بإضافة {0} مراقبات خلية.<br>هل تود المتابعة؟",
   "SSE.Controllers.Main.confirmAddCellWatchesMax": "سيقوم هذا الفعل بإضافة {0} مراقبات خلية فقط لأسباب تتعلق بتوفير الذاكرة.<br>هل تود المتابعة؟",

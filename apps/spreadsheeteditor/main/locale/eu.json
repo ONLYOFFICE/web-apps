@@ -1480,7 +1480,7 @@
   "SSE.Controllers.LeftMenu.textWorkbook": "Laneko liburua",
   "SSE.Controllers.LeftMenu.txtUntitled": "Izengabea",
   "SSE.Controllers.LeftMenu.warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br>Ziur zaude aurrera jarraitu nahi duzula?",
-  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
   "SSE.Controllers.LeftMenu.warnDownloadCsvSheets": "CSV formatuak ez du onartzen orri anitzeko fitxategiak gordetzea.<br>Hautatutako formatua mantentzeko eta uneko orria soilik gordetzeko, sakatu Gorde.<br>Uneko kalkulu-orria gordetzeko, egin klik Utzi eta gorde beste formatu batean.",
   "SSE.Controllers.Main.confirmAddCellWatches": "Ekintza honek {0} gelaxka-ikuskatzaile gehituko ditu.<br>Jarraitu nahi duzu?",
   "SSE.Controllers.Main.confirmAddCellWatchesMax": "Ekintza honek soilik {0} gelaxka-ikuskatzaile gehituko ditu memoria aurrezteko.<br>Jarraitu nahi duzu?",
