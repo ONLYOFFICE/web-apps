@@ -444,6 +444,7 @@ define([
 
             update: function() {
                 var me = this;
+                me.hiddenWorksheets = [];
                 var renamingWorksheet = this.controller && this.controller.renamingWorksheet;
                 this.tabbar.empty(true);
                 this.tabMenu.items[5].menu.removeAll();
@@ -506,6 +507,7 @@ define([
 
                     allItems.forEach(function(item){
                         var hidden = me.api.asc_isWorksheetHidden(item.sheetindex);
+                        hidden && me.hiddenWorksheets.push(item);
                         me.sheetListMenu.addItem(new Common.UI.MenuItem({
                             style: 'white-space: pre',
                             caption: Common.Utils.String.htmlEncode(item.label),
@@ -548,6 +550,10 @@ define([
                     me.fireEvent('sheet:updateColors', [true]);
                     Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + me.api.asc_getActiveWorksheetId()], false);
                 }
+            },
+
+            getHiddenWorksheets: function () {
+                return this.hiddenWorksheets;
             },
 
             onUpdateSheetViewSettings: function() {
@@ -1341,7 +1347,7 @@ define([
                     var active = this.listNames.getSelectedRec(),
                         index = active ? active.get('inindex') : 0;
                     if (index === -255)
-                        index = this.listNames.store.length - 1;
+                        index = this.listNames.store.length - 1 + this.options.hiddenWorksheets.length;
 
                     var record = this.cmbSpreadsheet.getSelectedRecord();
                     this.options.handler.call(this,
@@ -1356,7 +1362,7 @@ define([
                     var active = this.listNames.getSelectedRec(),
                         index = active ? active.get('inindex') : 0;
                     if (index === -255)
-                        index = this.listNames.store.length - 1;
+                        index = this.listNames.store.length - 1 + this.options.hiddenWorksheets.length;
 
                     var record = this.cmbSpreadsheet.getSelectedRecord();
                     this.options.handler.call(this, 'ok', index, this.chCreateCopy.getValue()==='checked', record.value);
