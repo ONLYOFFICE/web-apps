@@ -165,7 +165,7 @@
       "textTabs": "Změnit záložky",
       "textTrackChanges": "Sledovat změny",
       "textTryUndoRedo": "Funkce Zpět/Znovu jsou vypnuty pro rychlý režim spolupráce.",
-      "textUnderline": "Podtržení",
+      "textUnderline": "Podtržené",
       "textUsers": "Uživatelé",
       "textWidow": "Ovládací prvek okna"
     },
@@ -228,7 +228,7 @@
     "textRefreshEntireTable": "Aktualizovat celou tabulku",
     "textRefreshPageNumbersOnly": "Aktualizovat pouze číslování stránek",
     "textRows": "Řádky",
-    "txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data.<br>Jste si jistí, že chcete pokračovat?"
+    "txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data. Toto umístění může být nebezpečné:<br>{0}<br>Jste si jistí, že chcete pokračovat?"
   },
   "Draw": {
     "textColor": "Barva",

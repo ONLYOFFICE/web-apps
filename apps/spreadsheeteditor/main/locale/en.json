@@ -4591,7 +4591,7 @@
   "SSE.Views.TableOptionsDialog.txtFormat": "Create table",
   "SSE.Views.TableOptionsDialog.txtInvalidRange": "ERROR! Invalid cells range",
   "SSE.Views.TableOptionsDialog.txtNote": "The headers must remain in the same row, and the resulting table range must overlap the original table range.",
-  "SSE.Views.TableOptionsDialog.txtTitle": "Title",
+  "SSE.Views.TableOptionsDialog.txtTitle": "My table has headers",
   "SSE.Views.TableSettings.deleteColumnText": "Delete column",
   "SSE.Views.TableSettings.deleteRowText": "Delete row",
   "SSE.Views.TableSettings.deleteTableText": "Delete table",

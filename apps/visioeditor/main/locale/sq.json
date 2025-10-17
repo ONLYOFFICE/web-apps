@@ -160,6 +160,7 @@
   "Common.Views.SearchPanel.tipPreviousResult": "Rezultati i mëparshëm",
   "Common.Views.SelectFileDlg.textLoading": "Po ngarkohet",
   "Common.Views.SelectFileDlg.textTitle": "Selektoni burimin e të dhënave",
+  "Common.Views.ShortcutsDialog.txtDescription": "Description",
   "Common.Views.ShortcutsDialog.txtEmpty": "Nuk u gjetën përputhje. Rregulloni kërkimin tuaj.",
   "Common.Views.ShortcutsDialog.txtRestoreAll": "Riktheni të gjitha në cilësimet fillestare",
   "Common.Views.ShortcutsDialog.txtRestoreContinue": "Dëshironi të vazhdoni?",
@@ -447,6 +448,5 @@
   "VE.Views.ViewTab.textZoom": "Zmadhoj",
   "VE.Views.ViewTab.tipFitPage": "Përshtatet me faqen",
   "VE.Views.ViewTab.tipFitWidth": "Përshtatet me gjerësinë",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes",
-  "Common.Views.ShortcutsDialog.txtDescription": "Description"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes"
 }

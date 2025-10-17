@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Tekstin yläpalkki",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Ylikirjoita solut",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Säilytä lähteen muotoilu",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "Paina {0} näppäintä ja klikkaa linkkiä",
   "DE.Views.DocumentHolder.txtPrintSelection": "Tulosta valinta",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Poista murtoluku pylväs",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Läpikuultava",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Alleviivaus",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fontti",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonttikoko",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonttikoko"
 }

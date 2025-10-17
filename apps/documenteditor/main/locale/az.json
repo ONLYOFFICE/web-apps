@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Mətnin üstündə xətt",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Xanaların üzərinə yazın",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Mənbə formatını saxlayın",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "{0} düyməsinə basıb linkə klikləyin",
   "DE.Views.DocumentHolder.txtPrintSelection": "Seçimi çap edin",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Kəsr xəttini silin",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Yarım şəffaf",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Altından xətt çəkilmiş",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Şrift Adı",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Şrift Ölçüsü",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Şrift Ölçüsü"
 }

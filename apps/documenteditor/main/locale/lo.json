@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "ຂີດທັບຕົວໜັງສື",
   "DE.Views.DocumentHolder.txtOverwriteCells": "ຂຽນທັບແຊວ",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "ຮັກສາຮູບແບບແຫຼ່ງຂໍ້ມູນ",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "ກົດ {0} ແລະກົດລິ້ງ",
   "DE.Views.DocumentHolder.txtPrintSelection": "ານຄັດເລືອກການພິມ",
   "DE.Views.DocumentHolder.txtRemFractionBar": "ລຶບແຖບສວ່ນໜຶ່ງອອກ",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "ຂີ້ດກ້ອງ",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "ຊື່ຕົວອັກສອນ",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "ຂະໜາດຕົວອັກສອນ",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "ຂະໜາດຕົວອັກສອນ"
 }

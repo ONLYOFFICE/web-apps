@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "පෙළ මතින් තීරුව",
   "DE.Views.DocumentHolder.txtOverwriteCells": "කෝෂ මතින් ලිවීම",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "මූලාශ්‍ර ආකෘතිය තබාගන්න",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "{0} තද කරගෙන සබැඳිය ඔබන්න",
   "DE.Views.DocumentHolder.txtPrintSelection": "තේරීම මුද්‍රණය",
   "DE.Views.DocumentHolder.txtRemFractionBar": "භාග තීරය ඉවතලන්න",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "අර්ධ පාරදෘශ්‍යතාව",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "යටිඉර",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "රුවකුරේ නම",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "රුවකුරේ තරම",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "රුවකුරේ තරම"
 }

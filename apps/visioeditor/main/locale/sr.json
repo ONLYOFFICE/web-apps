@@ -160,6 +160,7 @@
   "Common.Views.SearchPanel.tipPreviousResult": "Prethodni rezultat",
   "Common.Views.SelectFileDlg.textLoading": "Učitavanje",
   "Common.Views.SelectFileDlg.textTitle": "Izaberite izvor podataka",
+  "Common.Views.ShortcutsDialog.txtDescription": "Opis",
   "Common.Views.ShortcutsDialog.txtEmpty": "Nema rezultata. Podesite pretragu.",
   "Common.Views.ShortcutsDialog.txtRestoreAll": "Vrati sve na podrazumevano",
   "Common.Views.ShortcutsDialog.txtRestoreContinue": "Da li želite da nastavite?",
@@ -447,6 +448,5 @@
   "VE.Views.ViewTab.textZoom": "Zumiranje",
   "VE.Views.ViewTab.tipFitPage": "Prilagodi stranici",
   "VE.Views.ViewTab.tipFitWidth": "Prilagodi širini",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa",
-  "Common.Views.ShortcutsDialog.txtDescription": "Description"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa"
 }

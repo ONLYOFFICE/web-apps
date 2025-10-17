@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Barra sobre texto",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Sobreescribir as celdas",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Manter formatación original",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "Prema {0} e na ligazón",
   "DE.Views.DocumentHolder.txtPrintSelection": "Imprimir selección",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Eliminar a barra de fracción",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Subliñado",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nome da fonte",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño da fonte",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño da fonte"
 }

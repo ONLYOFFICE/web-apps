@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "文字上方橫線",
   "DE.Views.DocumentHolder.txtOverwriteCells": "覆寫儲存格",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "保留原始格式",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "按{0}並單擊連結",
   "DE.Views.DocumentHolder.txtPrintSelection": "列印選擇",
   "DE.Views.DocumentHolder.txtRemFractionBar": "移除分數欄",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "半透明",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "底線",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "字型名稱",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字型大小",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字型大小"
 }

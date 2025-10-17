@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Трака преко текста",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Преписи ћелија",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Настави форматирање извора",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "Притисните {0} и кликните на линк",
   "DE.Views.DocumentHolder.txtPrintSelection": "Штампај селекцију",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Одстрани линију разломка",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Полупровидно",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Подвуци",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Назив фонта",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Величина фонта",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Величина фонта"
 }

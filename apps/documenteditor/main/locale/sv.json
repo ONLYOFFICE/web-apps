@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Linje ovanför text",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Skriv över celler",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Behåll källformatering",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "Tryck på {0} och klicka på länken",
   "DE.Views.DocumentHolder.txtPrintSelection": "Skriv ut markering",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Ta bort fraktionslinje",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "halvgenomskinlig",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Understrykning",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fontnamn",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fontstorlek",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fontstorlek"
 }

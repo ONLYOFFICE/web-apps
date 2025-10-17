@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Linje over teksten",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Overwrite cells",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Keep source formatting",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "Press {0} and click link",
   "DE.Views.DocumentHolder.txtPrintSelection": "Print selection",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Remove fraction bar",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Understreking",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Font name",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font size",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font size"
 }

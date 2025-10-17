@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Barra sobre el text",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Sobreescriu les cel·les",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Conserva el format original",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "Premeu {0} i feu clic a l'enllaç",
   "DE.Views.DocumentHolder.txtPrintSelection": "Imprimir la selecció",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Suprimir la barra de fracció",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Subratllar",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nom de la lletra",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Mida de la lletra",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Mida de la lletra"
 }

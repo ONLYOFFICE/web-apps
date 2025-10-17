@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Gạch trên văn bản",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Overwrite cells",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Keep source formatting",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "Ấn {0} và nhấp vào liên kết",
   "DE.Views.DocumentHolder.txtPrintSelection": "In phần được chọn",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Xóa dấu phân số",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Underline",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Font name",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font size",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font size"
 }
