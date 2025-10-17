@@ -1480,7 +1480,7 @@
   "SSE.Controllers.LeftMenu.textWorkbook": "Workbook",
   "SSE.Controllers.LeftMenu.txtUntitled": "Tanpa Judul",
   "SSE.Controllers.LeftMenu.warnDownloadAs": "Jika Anda lanjut simpan dengan format ini, semua fitur kecuali teks akan hilang.<br>Apakah Anda ingin melanjutkan?",
-  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
   "SSE.Controllers.LeftMenu.warnDownloadCsvSheets": "Format CSV tidak mendukung penyimpanan file multi-sheet.<br>Untuk tetap menggunakan format terpilih dan hanya menyimpan sheet ini, tekan Simpan.<br>Untuk menyimpan spreadsheet ini, klik Batalkan dan simpan dengan format lain.",
   "SSE.Controllers.Main.confirmAddCellWatches": "Tindakan ini akan menambahkan {0} pengawas sel.<br>Apakah Anda ingin melanjutkan?",
   "SSE.Controllers.Main.confirmAddCellWatchesMax": "Tindakan ini hanya akan menambahkan {0} pengawas sel atas alasan penghematan memori.<br>Apakah Anda akan melanjutkan?",

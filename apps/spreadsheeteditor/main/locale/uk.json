@@ -1480,7 +1480,7 @@
   "SSE.Controllers.LeftMenu.textWorkbook": "Робоча книга",
   "SSE.Controllers.LeftMenu.txtUntitled": "Без назви",
   "SSE.Controllers.LeftMenu.warnDownloadAs": "Якщо ви продовжите збереження в цьому форматі, всі функції, окрім тексту, буде втрачено. <br> Ви впевнені, що хочете продовжити?",
-  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
   "SSE.Controllers.LeftMenu.warnDownloadCsvSheets": "Формат CSV не підтримує збереження кількох аркушів у одному файлі.<br>Щоби зберегти дані у файлі CSV тільки з поточного аркушу, натисніть \"Зберегти\".<br>Щоби зберегти всю електронну таблицю, натисніть \"Скасувати\" та збережіть в іншому форматі.",
   "SSE.Controllers.Main.confirmAddCellWatches": "В результаті цієї дії буде додано {0} переглядів комірок.<br>Продовжити?",
   "SSE.Controllers.Main.confirmAddCellWatchesMax": "В результаті ціє дії буде додано лише {0} переглядів комірок через обмеження пам'яті.<br>Продовжити?",

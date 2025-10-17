@@ -1480,7 +1480,7 @@
   "SSE.Controllers.LeftMenu.textWorkbook": "Кніга",
   "SSE.Controllers.LeftMenu.txtUntitled": "Без назвы",
   "SSE.Controllers.LeftMenu.warnDownloadAs": "Калі вы працягнеце захаванне ў гэты фармат, усе функцыі, апроч тэксту страцяцца.<br>Сапраўды хочаце працягнуць?",
-  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
   "SSE.Controllers.LeftMenu.warnDownloadCsvSheets": "The CSV format does not support saving a multi-sheet file.<br>To keep the selected format and save only the current sheet, press Save.<br>To save the current spreadsheet, click Cancel and save it in a different format.",
   "SSE.Controllers.Main.confirmAddCellWatches": "Гэтае дзеянне дадасць {0} ячэек назірання.<br>Хочаце працягнуць?",
   "SSE.Controllers.Main.confirmAddCellWatchesMax": "Каб зэканоміць памяць, гэтае дзеянне дадасць толькі {0} ячэек назірання.<br>Хочаце працягнуць?",

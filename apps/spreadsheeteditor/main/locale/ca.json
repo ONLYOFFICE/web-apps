@@ -1480,7 +1480,7 @@
   "SSE.Controllers.LeftMenu.textWorkbook": "Llibre de treball",
   "SSE.Controllers.LeftMenu.txtUntitled": "Sense títol",
   "SSE.Controllers.LeftMenu.warnDownloadAs": "Si continues i deses en aquest format, es perdran totes les característiques, excepte el text. <br>Vols continuar?",
-  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
   "SSE.Controllers.LeftMenu.warnDownloadCsvSheets": "El format CSV no admet desar un fitxer de diversos fulls. <br>Per mantenir el format seleccionat i desar només el full actual, prem Desa. <br>Per desar el full de càlcul actual, fes clic a Cancel·la i desa'l en un format diferent.",
   "SSE.Controllers.Main.confirmAddCellWatches": "Aquesta acció afegirà {0} visualitzacions de cel·les. <Vols continuar?",
   "SSE.Controllers.Main.confirmAddCellWatchesMax": "Aquesta acció només afegirà {0} rellotges de cel·les per motiu d'estalvi de memòria. <br>Vols continuar?",

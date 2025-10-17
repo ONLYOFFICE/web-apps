@@ -1480,7 +1480,7 @@
   "SSE.Controllers.LeftMenu.textWorkbook": "Sešit",
   "SSE.Controllers.LeftMenu.txtUntitled": "Bez názvu",
   "SSE.Controllers.LeftMenu.warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?",
-  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
   "SSE.Controllers.LeftMenu.warnDownloadCsvSheets": "Formát CSV nepodporuje ukládání souboru s více listy.<br>Chcete-li zachovat zvolený formát a uložit pouze aktuální list, stiskněte tlačítko Uložit.<br>Chcete-li uložit aktuální sešit, klikněte na tlačítko Zrušit a uložte jej v jiném formátu.",
   "SSE.Controllers.Main.confirmAddCellWatches": "Touto akcí přidáte {0} kukátek do buněk.<br>Opravdu chcete pokračovat?",
   "SSE.Controllers.Main.confirmAddCellWatchesMax": "Touto akcí přidáte pouze {0} kukátek do buněk, z důvodu ukládání do paměti.<br>Opravdu chcete pokračovat?",

@@ -1480,7 +1480,7 @@
   "SSE.Controllers.LeftMenu.textWorkbook": "Darba burtnīca",
   "SSE.Controllers.LeftMenu.txtUntitled": "Bez nosaukuma",
   "SSE.Controllers.LeftMenu.warnDownloadAs": "Ja jūs izvēlēsieties turpināt saglabāt šajā formātā visas diagrammas un attēli tiks zaudēti.<br>Vai tiešām vēlaties turpināt?",
-  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the selected sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+  "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
   "SSE.Controllers.LeftMenu.warnDownloadCsvSheets": "The CSV format does not support saving a multi-sheet file.<br>To keep the selected format and save only the current sheet, press Save.<br>To save the current spreadsheet, click Cancel and save it in a different format.",
   "SSE.Controllers.Main.confirmAddCellWatches": "Šī darbība pievienos {0} šūnu pulksteni (-ņus).<br>Vai vēlaties turpināt?",
   "SSE.Controllers.Main.confirmAddCellWatchesMax": "Šī darbība pēc atmiņas taupīšanas iemesla pievienos tikai {0} šūnu pulksteni (-ņus).<br>Vai vēlaties turpināt?",
