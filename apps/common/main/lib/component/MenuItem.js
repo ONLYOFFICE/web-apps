@@ -496,6 +496,14 @@ define([
         render: function () {
             Common.UI.MenuItem.prototype.render.call(this);
 
+            if (this.options.scaling !== false) {
+                var me = this;
+                me.cmpEl.attr('ratio', 'ratio');
+                me.cmpEl.on('app:scaling', function (e, info) {
+                    me.applyScaling(info.ratio);
+                });
+            }
+
             this.updateIcon();
             Common.NotificationCenter.on('uitheme:changed', this.updateIcons.bind(this));
             return this;
@@ -508,7 +516,7 @@ define([
         },
 
         updateIcon: function() {
-            this.cmpEl && this.cmpEl.find('> a img').attr('src', this.iconImg).addClass('custom-icon');
+            this.cmpEl && this.cmpEl.find('img.menu-item-icon').attr('src', this.iconImg).addClass('custom-icon');
         },
 
         applyScaling: function (ratio) {
