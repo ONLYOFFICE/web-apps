@@ -54,7 +54,8 @@ define([
     'common/main/lib/component/ComboBoxFonts',
     'common/main/lib/component/ComboDataView'
     ,'common/main/lib/component/SynchronizeTip'
-    ,'common/main/lib/component/Mixtbar'
+    ,'common/main/lib/component/Mixtbar',
+    'common/main/lib/component/ThemeColorPalette'
 ], function (Backbone, template, simple, template_view) { 'use strict';
 
     if (!Common.enumLock)
@@ -3339,7 +3340,7 @@ define([
                                             menuAlign   : 'tl-tr',
                                             style: 'min-width: auto;',
                                             items: []
-                                    })
+                                        })
                                     })
                                 ]
                             })
@@ -3347,7 +3348,7 @@ define([
                         {caption: '--'},
                         {
                             caption     : this.textRenameSheet,
-                            value       : 'rename'
+                            value       : 'renameSheet'
                         },
                         {
                             caption     : this.textMoveCopySheet,
@@ -3356,6 +3357,18 @@ define([
                         {
                             caption     : this.textTabColor,
                             value       : 'fillColor',
+                            menu        : new Common.UI.Menu({
+                                menuAlign: 'tl-tr',
+                                cls: 'color-tab',
+                                items: [
+                                    { template: _.template('<div id="id-toolbar-menu-tab-color" style="width: 164px;display: inline-block;"></div>') },
+                                    { caption: '--' },
+                                    {
+                                        id: "id-toolbar-menu-new-color",
+                                        template: _.template('<a tabindex="-1" type="menuitem" style="' + (this.isRtlSheet ? 'padding-right: 12px;' : 'padding-left: 12px;') + '">' + this.textNewColor + '</a>')
+                                    }
+                                ]
+                            })
                         },
                         {
                             caption     : this.textProtectSheet,
@@ -3374,7 +3387,20 @@ define([
                             value       : 'formatCells',
                         },
                     ]
-                }) )
+                }).on('render:after', _.bind(function(menu) {
+                    this.mnuTabColorToolbar = new Common.UI.ThemeColorPalette({
+                        el: $('#id-toolbar-menu-tab-color'),
+                        outerMenu: { menu: menu, index: 0, focusOnShow: true },
+                        transparent: true
+                    });
+                    menu.setInnerMenu([{ menu: this.mnuTabColorToolbar, index: 0 }]);
+                    this.mnuTabColorToolbar.on('select', _.bind(function(picker, color) {
+                        SSE.getController('Statusbar').statusbar.fireEvent('sheet:setcolor', [color]);
+                        setTimeout(_.bind(function() {
+                            menu.hide();
+                        }, this), 1);
+                    }, this));
+                }, this)) )
             }
 
             if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram && !this.mode.isEditOle)

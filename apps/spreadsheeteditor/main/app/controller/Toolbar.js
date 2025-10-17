@@ -1698,43 +1698,71 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Cell delete');
         },
 
-        onShowBeforeCellFormat: function(cmp, item, e) {
-            if (cmp.mnuShowSheets.menu.items.length>0) return;
+        onShowBeforeCellFormat: function(cmp, item, e) {          
+            
+            // if (cmp.mnuShowSheets.menu.items.length>0) return;
 
-            cmp.btnFormatCell.menu.items[0].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
-            cmp.btnFormatCell.menu.items[1].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
-            cmp.btnFormatCell.menu.items[3].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
-            cmp.btnFormatCell.menu.items[4].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
-            cmp.btnFormatCell.menu.items[4].menu.items[2].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
-
-            let hiddenItems = SSE.getController('Statusbar').statusbar.tabMenu.items[5].menu.items;
-            cmp.mnuShowSheets.menu.removeAll();
-            hiddenItems.forEach(item => {
-                cmp.mnuShowSheets.menu.addItem(new Common.UI.MenuItem({
-                    style: 'white-space: pre-wrap',
-                    caption: item.caption,
-                    value: 'showSheet',
-                    sheetId: item.value
-                }))
-            })
-
+            // cmp.btnFormatCell.menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+            // cmp.btnFormatCell.menu.items[0].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+            // cmp.btnFormatCell.menu.items[1].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+            // cmp.btnFormatCell.menu.items[3].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+            // cmp.btnFormatCell.menu.items[4].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+            // cmp.btnFormatCell.menu.items[4].menu.items[2].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+            
+            // let hiddenItems = SSE.getController('Statusbar').statusbar.tabMenu.items[5].menu.items;
+            // cmp.mnuShowSheets.menu.removeAll();
+            // hiddenItems.forEach(item => {
+            //     cmp.mnuShowSheets.menu.addItem(new Common.UI.MenuItem({
+            //         style: 'white-space: pre-wrap',
+            //         caption: item.caption,
+            //         value: 'showSheet',
+            //         sheetId: item.value
+            //     }))
+            // })
+            // console.log(Common.NotificationCenter);
+            
+            
             // Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             // Common.component.Analytics.trackEvent('ToolBar', 'Cell delete');
         },
 
         onCellFormatMenu: function(menu, item, e) {
             if (!this.api) return;
-            
-            if (['row-height', 'column-width', 'auto-row-height', 'auto-column-width'].includes(item.value))
-                SSE.getController('DocumentHolder').onSetSize(menu, item);
-            if (item.value === 'hideCell')
-                this.api[item.options.isRowMenu ? 'asc_hideRows' : 'asc_hideColumns']();
-            if (item.value === 'showCell')
-                this.api[item.options.isRowMenu ? 'asc_showRows' : 'asc_showColumns']();
-            if (item.value === 'hideSheet') 
-                SSE.getController('Statusbar').hideWorksheet(true, [this.api.asc_getActiveWorksheetIndex()]);
-            if (item.value === 'showSheet') {
-                SSE.getController('Statusbar').hideWorksheet(false, item.options.sheetId);
+
+            switch (item.value) {
+                case 'row-height':
+                case 'column-width':
+                case 'auto-row-height':
+                case 'auto-column-width':
+                    SSE.getController('DocumentHolder').onSetSize(menu, item);
+                    break;
+                case 'hideCell':
+                    this.api[item.options.isRowMenu ? 'asc_hideRows' : 'asc_hideColumns']();
+                    break;
+                case 'showCell':
+                    this.api[item.options.isRowMenu ? 'asc_showRows' : 'asc_showColumns']();
+                    break;
+                case 'hideSheet':
+                    SSE.getController('Statusbar').hideWorksheet(true, [this.api.asc_getActiveWorksheetIndex()]);
+                    break;
+                case 'showSheet':
+                    SSE.getController('Statusbar').hideWorksheet(false, item.options.sheetId);
+                    break;
+                case 'renameSheet':
+                    SSE.getController('Statusbar').statusbar.fireEvent('sheet:changename');
+                    break;
+                case 'moveCopySheet':
+                    SSE.getController('Statusbar').moveWorksheet([this.api.asc_getActiveWorksheetIndex()]);
+                    break;
+                case 'protectSheet':
+                    Common.NotificationCenter.trigger('protect:sheet', !this.api.asc_isProtectedSheet());
+                    break;
+                case 'lockedCell':
+                    this.api.asc_setCellLocked(false);
+                    break;
+                case 'formatCells':
+                    SSE.getController('RightMenu').onRightMenuOpen(Common.Utils.documentSettingsType.Cell);
+                    break;
             }
         },
 
@@ -2662,6 +2690,29 @@ define([
             this.api.asc_isLayoutLocked(currentSheet) ? this.onApiLockDocumentProps(currentSheet) : this.onApiUnLockDocumentProps(currentSheet);
             this.toolbar.lockToolbar(Common.enumLock.printAreaLock, this.api.asc_isPrintAreaLocked(currentSheet), {array: [this.toolbar.btnPrintArea]});
             this.toolbar.lockToolbar(Common.enumLock.pageBreakLock, this.api.asc_GetPageBreaksDisableType(currentSheet)===Asc.c_oAscPageBreaksDisableType.all, {array: [this.toolbar.btnPageBreak]});
+            
+            if (this.toolbar.mnuShowSheets) {
+                if (!this.toolbar.mnuShowSheets.menu.items.length>0) {
+                    this.toolbar.btnFormatCell.menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+                    this.toolbar.btnFormatCell.menu.items[0].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+                    this.toolbar.btnFormatCell.menu.items[1].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+                    this.toolbar.btnFormatCell.menu.items[3].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+                    this.toolbar.btnFormatCell.menu.items[4].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+                    this.toolbar.btnFormatCell.menu.items[4].menu.items[2].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+                }
+
+                let hiddenItems = SSE.getController('Statusbar').statusbar.tabMenu.items[5].menu.items;
+                this.toolbar.mnuShowSheets.menu.removeAll();
+                hiddenItems.forEach(item => {
+                    this.toolbar.mnuShowSheets.menu.addItem(new Common.UI.MenuItem({
+                        style: 'white-space: pre-wrap',
+                        caption: item.caption,
+                        value: 'showSheet',
+                        sheetId: item.value
+                    }))
+                })
+            }
+                        
         },
 
         onUpdateDocumentProps: function(nIndex) {
@@ -3898,6 +3949,10 @@ define([
                     }
                 }
             };
+
+            if (this.toolbar) {
+                updateColors(this.toolbar.mnuTabColorToolbar, 1);
+            }
 
             updateColors(this.toolbar.mnuTextColorPicker, Common.Utils.ThemeColor.getStandartColors()[1]);
             if (this.toolbar.btnTextColor.currentColor === undefined || !this.toolbar.btnTextColor.currentColor.isAuto) {
