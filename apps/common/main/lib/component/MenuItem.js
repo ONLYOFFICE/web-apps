@@ -500,7 +500,6 @@ define([
                 var me = this;
                 me.cmpEl.attr('ratio', 'ratio');
                 me.cmpEl.on('app:scaling', function (e, info) {
-                    console.log('scaling');
                     me.applyScaling(info.ratio);
                 });
             }
