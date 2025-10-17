@@ -463,19 +463,49 @@ define([
                         native.execCommand('title:button', JSON.stringify({click: "home"}));
                     });
 
+
+                    let clickTimeout = null;
+                    let clickCount = 0;
+                    let mousedownDetect = false;
+                    const delayForDblclick = 500;
                     $('#id-box-doc-name').on({
-                        'dblclick': function (e) {
-                            native.execCommand('title:dblclick', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
+                        'dblclick': function () {
+                            native.execCommand('title:dblclick');
                         },
-                        'mousedown': function (e) {
-                            native.execCommand('title:mousedown', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
+                        'mousedown': function () {
+                            clickCount += 1;
+                            if (clickCount === 1) {
+                                native.execCommand('title:mousedown', JSON.stringify({timestamp: new Date().getTime()}));
+                                mousedownDetect = true;
+                                clickTimeout = setTimeout(function() { 
+                                    clickCount = 0;
+                                }, delayForDblclick);
+                            }
                         },
-                        'mousemove': function (e) {
-                            native.execCommand('title:mousemove', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
+                        'mouseup': function () {
+                            if (mousedownDetect) {
+                                native.execCommand('title:mouseup', JSON.stringify({timestamp: new Date().getTime()}));
+                                mousedownDetect = false;
+                            }
                         },
-                        'mouseup': function (e) {
-                            native.execCommand('title:mouseup', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
-                        }
+                        'mousemove': function () {
+                            native.execCommand('title:mousemove', JSON.stringify({timestamp: new Date().getTime()}));
+                        },
+                        'mouseenter': function () {
+                            const rect = $('#id-box-doc-name')[0].getBoundingClientRect();
+                            const box = {
+                                topLeft:     { x: rect.left,  y: rect.top },
+                                topRight:    { x: rect.right, y: rect.top },
+                                bottomLeft:  { x: rect.left,  y: rect.bottom },
+                                bottomRight: { x: rect.right, y: rect.bottom },
+                                width: rect.width,
+                                height: rect.height
+                            };
+                            native.execCommand('title:mouseenter', JSON.stringify({box}));
+                        },
+                        'mouseleave': function () {
+                            native.execCommand('title:mouseleave');
+                        },
                     });
                 }
 
