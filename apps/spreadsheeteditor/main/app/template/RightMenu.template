@@ -1,7 +1,6 @@
 <div id="view-right-menu" class="tool-menu right">
     <div class="right-panel side-panel">
         <div class="content-box">
-            <div id="id-table-settings" class="settings-panel"></div>
             <div id="id-shape-settings" class="settings-panel"></div>
             <div id="id-image-settings" class="settings-panel"></div>
             <div id="id-chart-settings" class="settings-panel"></div>

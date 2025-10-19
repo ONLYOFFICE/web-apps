@@ -440,7 +440,7 @@ define([
 
                 if (this.rightmenu.signatureSettings) {
                     !allowSignature && this.rightmenu.btnSignature.setDisabled(disabled);
-                    allowSignature && disabled && this.onFocusObject([], undefined, undefined, undefined, undefined, true); // force press signature button
+                    allowSignature && disabled && this.onFocusObject([], undefined, undefined, undefined, true); // force press signature button
                 }
 
                 if (disabled) {
