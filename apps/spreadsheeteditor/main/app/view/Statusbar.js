@@ -444,7 +444,6 @@ define([
 
             update: function() {
                 var me = this;
-                me.hiddenWorksheets = [];
                 var renamingWorksheet = this.controller && this.controller.renamingWorksheet;
                 this.tabbar.empty(true);
                 this.tabMenu.items[5].menu.removeAll();
@@ -453,7 +452,8 @@ define([
                 this.sheetListMenu.removeAll();
                 if (this.api) {
                     var wc = this.api.asc_getWorksheetsCount(), i = -1;
-                    var hidentems = [], items = [], allItems = [], tab, locked, name;
+                    me.hiddenItems = [];
+                    var items = [], allItems = [], tab, locked, name;
                     var sindex = this.api.asc_getActiveWorksheetIndex();
                     var wbprotected = this.api.asc_isProtectedWorkbook();
                     var sid = me.api.asc_getActiveWorksheetId();
@@ -475,11 +475,11 @@ define([
                             iconTitle     : name,
                             iconVisible   : name!==''
                         };
-                        this.api.asc_isWorksheetHidden(i)? hidentems.push(tab) : items.push(tab);
+                        this.api.asc_isWorksheetHidden(i)? me.hiddenItems.push(tab) : items.push(tab);
                         allItems.push(tab);
                     }
-                    if (hidentems.length) {
-                        hidentems.forEach(function(item){
+                    if (me.hiddenItems.length) {
+                        me.hiddenItems.forEach(function(item){
                             me.tabMenu.items[5].menu.addItem(new Common.UI.MenuItem({
                                 style: 'white-space: pre-wrap',
                                 caption: item.label,
@@ -507,7 +507,6 @@ define([
 
                     allItems.forEach(function(item){
                         var hidden = me.api.asc_isWorksheetHidden(item.sheetindex);
-                        hidden && me.hiddenWorksheets.push(item);
                         me.sheetListMenu.addItem(new Common.UI.MenuItem({
                             style: 'white-space: pre',
                             caption: Common.Utils.String.htmlEncode(item.label),
@@ -553,7 +552,7 @@ define([
             },
 
             getHiddenWorksheets: function () {
-                return this.hiddenWorksheets;
+                return this.hiddenItems;
             },
 
             onUpdateSheetViewSettings: function() {
