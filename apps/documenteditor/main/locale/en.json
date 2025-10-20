@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Bar over text",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Overwrite cells",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Keep source formatting",
+  "DE.Views.DocumentHolder.txtPastePicture": "Picture",
   "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "Press {0} and click link",
   "DE.Views.DocumentHolder.txtPrintSelection": "Print selection",
