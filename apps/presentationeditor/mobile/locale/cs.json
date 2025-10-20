@@ -83,7 +83,7 @@
     "textDoNotShowAgain": "Nezobrazovat znovu",
     "textOk": "OK",
     "textRows": "Řádky",
-    "txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data.<br>Jste si jistí, že chcete pokračovat?"
+    "txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data. Toto umístění může být nebezpečné:<br>{0}<br>Jste si jistí, že chcete pokračovat?"
   },
   "Controller": {
     "Main": {

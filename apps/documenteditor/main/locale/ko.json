@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "텍스트 위에 가로 막기",
   "DE.Views.DocumentHolder.txtOverwriteCells": "셀에 덮어쓰기",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "소스 포맷을 유지하세요",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "{0} 키를 누르고 링크를 클릭합니다.",
   "DE.Views.DocumentHolder.txtPrintSelection": "선택 항목 인쇄",
   "DE.Views.DocumentHolder.txtRemFractionBar": "분수 막대 제거",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "투명한",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "밑줄",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "글꼴 이름",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "글꼴 크기",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "글꼴 크기"
 }

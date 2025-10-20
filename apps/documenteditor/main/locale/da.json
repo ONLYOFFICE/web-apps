@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Linie over tekst",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Overskriv celler",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Behold oprindelig formattering",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "Tryk {0} og klik på linket",
   "DE.Views.DocumentHolder.txtPrintSelection": "Printer-valg",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Fjern fraktionsbar",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Halvgennemsigtig",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Understreg",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Skrifttypenavn",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Skriftstørrelse",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Skriftstørrelse"
 }

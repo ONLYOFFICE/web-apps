@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Barra testuaren gainean",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Gainidatzi gelaxkak",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Mantendu jatorrizko formatua",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "Sakatu {0} eta egin klik estekan",
   "DE.Views.DocumentHolder.txtPrintSelection": "Inprimatu hautapena",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Kendu frakzio-barra",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Erdigardena",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Azpimarra",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Letra-tipoaren izena",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Letra-tamaina",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Letra-tamaina"
 }

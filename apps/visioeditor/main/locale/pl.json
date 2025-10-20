@@ -160,6 +160,7 @@
   "Common.Views.SearchPanel.tipPreviousResult": "Poprzedni wynik",
   "Common.Views.SelectFileDlg.textLoading": "Ładowanie",
   "Common.Views.SelectFileDlg.textTitle": "Wybierz źródło danych",
+  "Common.Views.ShortcutsDialog.txtDescription": "Description",
   "Common.Views.ShortcutsDialog.txtEmpty": "No matches found. Adjust your search.",
   "Common.Views.ShortcutsDialog.txtRestoreAll": "Restore All to Defaults",
   "Common.Views.ShortcutsDialog.txtRestoreContinue": "Do you want to continue?",
@@ -447,6 +448,5 @@
   "VE.Views.ViewTab.textZoom": "Powiększenie",
   "VE.Views.ViewTab.tipFitPage": "Dopasuj do strony",
   "VE.Views.ViewTab.tipFitWidth": "Dopasuj do szerokości",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Motyw interfejsu",
-  "Common.Views.ShortcutsDialog.txtDescription": "Description"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Motyw interfejsu"
 }

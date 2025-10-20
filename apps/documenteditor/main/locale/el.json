@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Μπάρα πάνω από κείμενο",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Αντικατάσταση κελιών",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Διατήρηση μορφοποίησης πηγής",
+  "DE.Views.DocumentHolder.txtPercentage": "Ποσοστό",
   "DE.Views.DocumentHolder.txtPressLink": "Πατήστε {0} και κάντε κλικ στο σύνδεσμο",
   "DE.Views.DocumentHolder.txtPrintSelection": "Εκτύπωση επιλογής",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Αφαίρεση γραμμής κλάσματος",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Ημιδιαφανές",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Υπογράμμιση",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Όνομα γραμματοσειράς",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς"
 }

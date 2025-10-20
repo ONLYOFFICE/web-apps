@@ -1194,6 +1194,7 @@
   "Common.Views.ShapeShadowDialog.txtSize": "Madhësia",
   "Common.Views.ShapeShadowDialog.txtTitle": "Rregulloni hijen",
   "Common.Views.ShapeShadowDialog.txtTransparency": "Transparencë",
+  "Common.Views.ShortcutsDialog.txtDescription": "Description",
   "Common.Views.ShortcutsDialog.txtEmpty": "Nuk u gjetën përputhje. Rregulloni kërkimin tuaj.",
   "Common.Views.ShortcutsDialog.txtRestoreAll": "Riktheni të gjitha në cilësimet fillestare",
   "Common.Views.ShortcutsDialog.txtRestoreContinue": "Dëshironi të vazhdoni?",
@@ -5127,6 +5128,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Futni një fjalëkalim për të hequr mbrojtjen e fletës",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Fletë e pambrojtur",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Futni një fjalëkalim për të hequr mbrojtjen e librit të punës",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Libër pune i pambrojtur",
-  "Common.Views.ShortcutsDialog.txtDescription": "Description"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Libër pune i pambrojtur"
 }

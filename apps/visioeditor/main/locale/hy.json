@@ -160,6 +160,7 @@
   "Common.Views.SearchPanel.tipPreviousResult": "Նախորդ արդյունքը",
   "Common.Views.SelectFileDlg.textLoading": "Բեռնվում է",
   "Common.Views.SelectFileDlg.textTitle": "Ընտրել տվյալների աղբյուր",
+  "Common.Views.ShortcutsDialog.txtDescription": "Description",
   "Common.Views.ShortcutsDialog.txtEmpty": "No matches found. Adjust your search.",
   "Common.Views.ShortcutsDialog.txtRestoreAll": "Restore All to Defaults",
   "Common.Views.ShortcutsDialog.txtRestoreContinue": "Do you want to continue?",
@@ -447,6 +448,5 @@
   "VE.Views.ViewTab.textZoom": "Խոշորացնել",
   "VE.Views.ViewTab.tipFitPage": "Հարմարեցնել էջին",
   "VE.Views.ViewTab.tipFitWidth": "Հարմարեցնել լայնությանը",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի ոճ",
-  "Common.Views.ShortcutsDialog.txtDescription": "Description"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի ոճ"
 }

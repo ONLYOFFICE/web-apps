@@ -160,6 +160,7 @@
   "Common.Views.SearchPanel.tipPreviousResult": "前の結果",
   "Common.Views.SelectFileDlg.textLoading": "読み込み中",
   "Common.Views.SelectFileDlg.textTitle": "データソースを選択する",
+  "Common.Views.ShortcutsDialog.txtDescription": "Description",
   "Common.Views.ShortcutsDialog.txtEmpty": "No matches found. Adjust your search.",
   "Common.Views.ShortcutsDialog.txtRestoreAll": "Restore All to Defaults",
   "Common.Views.ShortcutsDialog.txtRestoreContinue": "Do you want to continue?",
@@ -447,6 +448,5 @@
   "VE.Views.ViewTab.textZoom": "拡大図",
   "VE.Views.ViewTab.tipFitPage": "ページに合わせる",
   "VE.Views.ViewTab.tipFitWidth": "幅に合わせる",
-  "VE.Views.ViewTab.tipInterfaceTheme": "インターフェースのテーマ",
-  "Common.Views.ShortcutsDialog.txtDescription": "Description"
+  "VE.Views.ViewTab.tipInterfaceTheme": "インターフェースのテーマ"
 }

@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Риска над текстом",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Перезаписати комірки",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Зберегти початкове форматування",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "Натисніть {0} та клацніть по посиланню",
   "DE.Views.DocumentHolder.txtPrintSelection": "Друк виділеного",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Видалити фракційну стрічку",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Напівпрозорий",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Підкреслений",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Шрифт",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Розмір шрифту",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Розмір шрифту"
 }

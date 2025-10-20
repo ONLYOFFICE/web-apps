@@ -1239,6 +1239,7 @@
   "Common.Views.ShapeShadowDialog.txtSize": "Madhësia",
   "Common.Views.ShapeShadowDialog.txtTitle": "Rregulloni hijen",
   "Common.Views.ShapeShadowDialog.txtTransparency": "Transparencë",
+  "Common.Views.ShortcutsDialog.txtDescription": "Description",
   "Common.Views.ShortcutsDialog.txtEmpty": "Nuk u gjetën përputhje. Rregulloni kërkimin tuaj.",
   "Common.Views.ShortcutsDialog.txtRestoreAll": "Riktheni të gjitha në cilësimet fillestare",
   "Common.Views.ShortcutsDialog.txtRestoreContinue": "Dëshironi të vazhdoni?",
@@ -3539,6 +3540,5 @@
   "PE.Views.ViewTab.tipMacros": "Makrot",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Selektoni mjetin",
-  "PE.Views.ViewTab.tipSlideMaster": "Slajdi master",
-  "Common.Views.ShortcutsDialog.txtDescription": "Description"
+  "PE.Views.ViewTab.tipSlideMaster": "Slajdi master"
 }

@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Bar over text",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Hücrelerin üzerine yaz",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Kaynak biçimlendirmesini koruyun",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "{0}'ye basın ve bağlantıya tıklayın",
   "DE.Views.DocumentHolder.txtPrintSelection": "Seçimi Yazdır",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Remove fraction bar",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Yarı saydam",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Altı çizili",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Yazı Tipi",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Yazıtipi boyutu",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Yazıtipi boyutu"
 }

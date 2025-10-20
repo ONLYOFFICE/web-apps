@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Bar over text",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Overwrite cells",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Ohrani izvorno oblikovanje",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "Pritisnite {0} in pritisnite povezavo",
   "DE.Views.DocumentHolder.txtPrintSelection": "Nastisni izbor",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Remove fraction bar",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Underline",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Ime pisave",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost pisave",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost pisave"
 }

@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Streep boven tekst",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Cellen overschrijven",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Behoud bronopmaak",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "Druk op {0} en klik op koppeling",
   "DE.Views.DocumentHolder.txtPrintSelection": "Selectie afdrukken",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Deelteken verwijderen",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "semi-transparant",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Onderstreept",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Lettertype",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tekengrootte",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tekengrootte"
 }

@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Josla virs teksta",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Pārrakstīt šūnas",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Atstāt sākotnējo formatējumu",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "Nospiediet {0} un noklikšķiniet saiti",
   "DE.Views.DocumentHolder.txtPrintSelection": "Drukas atlase",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Noņemt dalījuma joslu",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Daļēji caurspīdīgs",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Pasvītrot",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fonta nosaukums",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonta izmērs",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonta izmērs"
 }

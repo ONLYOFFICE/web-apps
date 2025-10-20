@@ -160,6 +160,7 @@
   "Common.Views.SearchPanel.tipPreviousResult": "이전 결과",
   "Common.Views.SelectFileDlg.textLoading": "로드 중",
   "Common.Views.SelectFileDlg.textTitle": "데이터 소스 선택",
+  "Common.Views.ShortcutsDialog.txtDescription": "Description",
   "Common.Views.ShortcutsDialog.txtEmpty": "No matches found. Adjust your search.",
   "Common.Views.ShortcutsDialog.txtRestoreAll": "Restore All to Defaults",
   "Common.Views.ShortcutsDialog.txtRestoreContinue": "Do you want to continue?",
@@ -447,6 +448,5 @@
   "VE.Views.ViewTab.textZoom": "확대 / 축소",
   "VE.Views.ViewTab.tipFitPage": "페이지에 맞춤",
   "VE.Views.ViewTab.tipFitWidth": "너비에 맞춤",
-  "VE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마",
-  "Common.Views.ShortcutsDialog.txtDescription": "Description"
+  "VE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마"
 }
