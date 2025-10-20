@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Завършете текст",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Презаписване на клетки",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Запазете форматирането на източника",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "Натиснете {0} и кликнете върху връзката",
   "DE.Views.DocumentHolder.txtPrintSelection": "Print selection",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Премахване на фракционната лента",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Underline",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Име на шрифта",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Размер на шрифта",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Размер на шрифта"
 }

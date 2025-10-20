@@ -828,7 +828,7 @@
   "Common.Views.Comments.textEdit": "确定",
   "Common.Views.Comments.textEnterCommentHint": "在这里输入您的批注",
   "Common.Views.Comments.textHintAddComment": "添加批注",
-  "Common.Views.Comments.textOpen": "打开",
+  "Common.Views.Comments.textOpen": "未解决",
   "Common.Views.Comments.textOpenAgain": "再次打开",
   "Common.Views.Comments.textReply": "回复",
   "Common.Views.Comments.textResolve": "解决",
@@ -1194,6 +1194,7 @@
   "Common.Views.ShapeShadowDialog.txtSize": "大小",
   "Common.Views.ShapeShadowDialog.txtTitle": "调整阴影",
   "Common.Views.ShapeShadowDialog.txtTransparency": "透明度",
+  "Common.Views.ShortcutsDialog.txtDescription": "描述",
   "Common.Views.ShortcutsDialog.txtEmpty": "未找到匹配项，请调整搜索条件。",
   "Common.Views.ShortcutsDialog.txtRestoreAll": "将所有设置恢复为默认值",
   "Common.Views.ShortcutsDialog.txtRestoreContinue": "您确定要继续操作吗？",
@@ -5127,6 +5128,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "输入密码以取消工作表保护",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "撤消工作表保护",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "输入密码以取消工作簿保护",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "撤消工作簿保护",
-  "Common.Views.ShortcutsDialog.txtDescription": "Description"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "撤消工作簿保护"
 }

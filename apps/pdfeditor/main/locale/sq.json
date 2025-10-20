@@ -881,6 +881,7 @@
   "Common.Views.ShapeShadowDialog.txtSize": "Madhësia",
   "Common.Views.ShapeShadowDialog.txtTitle": "Rregulloni hijen",
   "Common.Views.ShapeShadowDialog.txtTransparency": "Transparencë",
+  "Common.Views.ShortcutsDialog.txtDescription": "Description",
   "Common.Views.ShortcutsDialog.txtEmpty": "Nuk u gjetën përputhje. Rregulloni kërkimin tuaj.",
   "Common.Views.ShortcutsDialog.txtRestoreAll": "Riktheni të gjitha në cilësimet fillestare",
   "Common.Views.ShortcutsDialog.txtRestoreContinue": "Dëshironi të vazhdoni?",
@@ -3007,6 +3008,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Përshtatet me faqen",
   "PDFE.Views.ViewTab.tipFitToWidth": "Përshtatet me gjerësinë",
   "PDFE.Views.ViewTab.tipHeadings": "Tituj",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes",
-  "Common.Views.ShortcutsDialog.txtDescription": "Description"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes"
 }

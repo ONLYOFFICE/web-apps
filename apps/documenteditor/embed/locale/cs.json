@@ -53,7 +53,7 @@
   "DE.ApplicationController.txtClose": "Zavřít",
   "DE.ApplicationController.txtEmpty": "(Prázdné)",
   "DE.ApplicationController.txtNo": "Ne",
-  "DE.ApplicationController.txtOpenWarning": "Kliknutí na odkaz může být škodlivé pro vaše zařízení a data. Z důvodu bezpečnosti vašeho počítače, klikněte výhradně na hypertextové odkazy z důvěryhodných zdrojů. Toto umístění může být nebezpečné:<br>%1<br>Opravdu chcete pokračovat?",
+  "DE.ApplicationController.txtOpenWarning": "Kliknutí na odkaz může být škodlivé pro vaše zařízení a data. Z důvodu bezpečnosti vašeho počítače, klikněte výhradně na hypertextové odkazy z důvěryhodných zdrojů. Toto umístění může být nebezpečné.<br>%1<br>Opravdu chcete pokračovat?",
   "DE.ApplicationController.txtPressLink": "Stiskněte %1 a klikněte na odkaz",
   "DE.ApplicationController.txtSecurityWarningLink": "Dokument se pokouší o připojení k %1.<br>Pokud této stránce důvěřujete, stiskněte tlačítko „OK“ spolu s klávesu Ctrl.",
   "DE.ApplicationController.txtSecurityWarningOpenFile": "Pro zobrazení tohoto dokumentu v okně stiskněte \"OK\".",

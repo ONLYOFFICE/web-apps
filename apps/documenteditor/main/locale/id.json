@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Bar di atas teks",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Tiban sel",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Pertahankan formatting sumber",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "Tekan {0} dan klik link",
   "DE.Views.DocumentHolder.txtPrintSelection": "Cetak pilihan",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Hilangkan bar pecahan",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semi Transparan",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Garis bawah",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nama font",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Ukuran font",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Ukuran font"
 }

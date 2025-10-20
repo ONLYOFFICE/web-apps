@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Лінія па-над тэкстам",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Перазапісаць ячэйкі",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Пакінуць зыходнае фарматаванне",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "Націсніце {0} і пстрыкніце па спасылцы",
   "DE.Views.DocumentHolder.txtPrintSelection": "Надрукаваць абранае",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Выдаліць рыску дробу",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Паўпразрысты",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Падкрэслены",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Назва шрыфту",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Памер шрыфту",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Памер шрыфту"
 }

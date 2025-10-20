@@ -321,6 +321,7 @@
     "errorLockedAll": "Η λειτουργία δεν μπόρεσε να γίνει καθώς το φύλλο έχει κλειδωθεί από άλλο χρήστη.",
     "errorLockedCellPivot": "Δεν είναι δυνατή η τροποποίηση δεδομένων εντός ενός συγκεντρωτικού πίνακα",
     "errorLockedWorksheetRename": "Το φύλλο δεν μπορεί να μετονομαστεί προς το παρόν καθώς μετονομάζεται από άλλο χρήστη",
+    "errorMacroUnavailableWarning": "Δεν είναι δυνατή η εκτέλεση της μακροεντολής %1. Η μακροεντολή μπορεί να μην είναι διαθέσιμη σε αυτό το βιβλίο εργασίας ή όλες οι μακροεντολές μπορεί να είναι απενεργοποιημένες.",
     "errorMaxPoints": "Ο μέγιστος αριθμός σημείων σε σειρά ανά γράφημα είναι 4096.",
     "errorMaxRows": "ΣΦΑΛΜΑ! Ο μέγιστος αριθμός σειρών δεδομένων ανά γράφημα είναι 255.",
     "errorMoveRange": "Αδύνατη η τροποποίηση μέρους συγχωνευμένου κελιού",
@@ -378,8 +379,7 @@
     "uploadDocSizeMessage": "Ξεπεράστηκε το μέγιστο μέγεθος εγγράφου.",
     "uploadImageExtMessage": "Άγνωστη μορφή εικόνας.",
     "uploadImageFileCountMessage": "Δεν μεταφορτώθηκαν εικόνες.",
-    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB.",
-    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled."
+    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB."
   },
   "LongActions": {
     "advDRMPassword": "Συνθηματικό",

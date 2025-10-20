@@ -1396,23 +1396,30 @@ define([], function () {
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceFormattingLink] = 'F';
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormattingLink] = 'L';
 
+            var str = '';
             for(var key in me.hkSpecPaste){
                 if(me.hkSpecPaste.hasOwnProperty(key)){
-                    var keymap = {};
-                    keymap[me.hkSpecPaste[key]] = _.bind(me.onSpecialPasteItemClick, me, {value: parseInt(key)});
-                    Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
-                    Common.util.Shortcuts.suspendEvents(me.hkSpecPaste[key], undefined, true);
+                    if (str.indexOf(me.hkSpecPaste[key])<0)
+                        str += me.hkSpecPaste[key] + ',';
                 }
             }
+            str = str.substring(0, str.length-1)
+            var keymap = {};
+            keymap[str] = _.bind(function(e) {
+                var menu = this.btnSpecialPaste.menu;
+                for (var i = 0; i < menu.items.length; i++) {
+                    if (this.hkSpecPaste[menu.items[i].value] === String.fromCharCode(e.keyCode)) {
+                        return me.onSpecialPasteItemClick({value: menu.items[i].value});
+                    }
+                }
+            }, me);
+            Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
+            Common.util.Shortcuts.suspendEvents(str, undefined, true);
 
             me.btnSpecialPaste.menu.on('show:after', function(menu) {
-                for (var i = 0; i < menu.items.length; i++) {
-                    me.hkSpecPaste[menu.items[i].value] && Common.util.Shortcuts.resumeEvents(me.hkSpecPaste[menu.items[i].value]);
-                }
+                Common.util.Shortcuts.resumeEvents(str);
             }).on('hide:after', function(menu) {
-                for (var i = 0; i < menu.items.length; i++) {
-                    me.hkSpecPaste[menu.items[i].value] && Common.util.Shortcuts.suspendEvents(me.hkSpecPaste[menu.items[i].value], undefined, true);
-                }
+                Common.util.Shortcuts.suspendEvents(str, undefined, true);
             });
         };
 
@@ -1702,14 +1709,10 @@ define([], function () {
                     minColumns: 10,
                     maxRows: 8,
                     maxColumns: 10,
-                    customClear: true,          // because bug 74394
                 });
                 picker.on('select', function(picker, columns, rows){
                     me.api.put_Table(columns, rows, me._state.placeholderObj);
                     me.editComplete();
-                });
-                menu.on('hide:before', function(menu, e){
-                    picker.setTableSize(0,0);
                 });
                 menu.on('item:click', function(menu, item, e){
                     if (item.value === 'custom') {

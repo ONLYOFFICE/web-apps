@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "סרגל מעל טקסט",
   "DE.Views.DocumentHolder.txtOverwriteCells": "להחליף תאים",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "שמור על עיצוב המקור",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "לחץ {0} ולחץ על קישור",
   "DE.Views.DocumentHolder.txtPrintSelection": "הדפסת בחירה ",
   "DE.Views.DocumentHolder.txtRemFractionBar": "הסר סרגל שברים",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "חצי שקוף",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "קו תחתון",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "שם גופן",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "גודל גופן",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "גודל גופן"
 }

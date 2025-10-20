@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Bar melepasi teks",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Tulis Ganti Sel",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Kekalkan sumber pemformatan",
+  "DE.Views.DocumentHolder.txtPercentage": "Percentage",
   "DE.Views.DocumentHolder.txtPressLink": "Tekan {0} dan klik pautan",
   "DE.Views.DocumentHolder.txtPrintSelection": "Pemilihan Cetakan",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Alih keluar bar pecahan",
@@ -4277,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Separa telus",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Garis bawah",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nama Fon",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Saiz Fon",
-  "DE.Views.DocumentHolder.txtPercentage": "Percentage"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Saiz Fon"
 }
