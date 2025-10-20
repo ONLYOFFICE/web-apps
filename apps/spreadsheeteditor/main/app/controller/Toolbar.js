@@ -1699,31 +1699,7 @@ define([
         },
 
         onShowBeforeCellFormat: function(cmp, item, e) {          
-            
-            // if (cmp.mnuShowSheets.menu.items.length>0) return;
-
-            // cmp.btnFormatCell.menu.on('item:click', _.bind(this.onCellFormatMenu, this));
-            // cmp.btnFormatCell.menu.items[0].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
-            // cmp.btnFormatCell.menu.items[1].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
-            // cmp.btnFormatCell.menu.items[3].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
-            // cmp.btnFormatCell.menu.items[4].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
-            // cmp.btnFormatCell.menu.items[4].menu.items[2].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
-            
-            // let hiddenItems = SSE.getController('Statusbar').statusbar.tabMenu.items[5].menu.items;
-            // cmp.mnuShowSheets.menu.removeAll();
-            // hiddenItems.forEach(item => {
-            //     cmp.mnuShowSheets.menu.addItem(new Common.UI.MenuItem({
-            //         style: 'white-space: pre-wrap',
-            //         caption: item.caption,
-            //         value: 'showSheet',
-            //         sheetId: item.value
-            //     }))
-            // })
-            // console.log(Common.NotificationCenter);
-            
-            
-            // Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            // Common.component.Analytics.trackEvent('ToolBar', 'Cell delete');
+            this.toolbar.btnFormatCell.menu.items[11].setChecked(this.api.asc_getCellInfo().asc_getXfs().asc_getLocked());  
         },
 
         onCellFormatMenu: function(menu, item, e) {
@@ -1758,11 +1734,17 @@ define([
                     Common.NotificationCenter.trigger('protect:sheet', !this.api.asc_isProtectedSheet());
                     break;
                 case 'lockedCell':
-                    this.api.asc_setCellLocked(false);
+                    this.api.asc_setCellLocked(item.checked);                    
                     break;
                 case 'formatCells':
                     SSE.getController('RightMenu').onRightMenuOpen(Common.Utils.documentSettingsType.Cell);
                     break;
+            }
+        },
+
+        onNewTabColor: function() {
+            if (this.toolbar && this.toolbar.mnuTabColorToolbar) {
+                this.toolbar.mnuTabColorToolbar.addNewColor();
             }
         },
 
@@ -2699,6 +2681,7 @@ define([
                     this.toolbar.btnFormatCell.menu.items[3].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
                     this.toolbar.btnFormatCell.menu.items[4].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
                     this.toolbar.btnFormatCell.menu.items[4].menu.items[2].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+                    $('#id-toolbar-menu-new-color', this.toolbar.$el).on('click', _.bind(this.onNewTabColor, this));                  
                 }
 
                 let hiddenItems = SSE.getController('Statusbar').statusbar.tabMenu.items[5].menu.items;

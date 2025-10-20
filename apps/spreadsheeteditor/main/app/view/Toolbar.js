@@ -3379,6 +3379,8 @@ define([
                             caption     : this.textLockedCell,
                             iconCls     : 'menu__icon btn-lock',
                             value       : 'lockedCell',
+                            checkable   : true,
+                            checkmark   : false,
                         },
                         {caption: '--'},
                         {
