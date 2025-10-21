@@ -494,10 +494,8 @@ define([
                         'mouseenter': function () {
                             const rect = $('#id-box-doc-name')[0].getBoundingClientRect();
                             const box = {
-                                topLeft:     { x: rect.left,  y: rect.top },
-                                topRight:    { x: rect.right, y: rect.top },
-                                bottomLeft:  { x: rect.left,  y: rect.bottom },
-                                bottomRight: { x: rect.right, y: rect.bottom },
+                                x:  rect.x,
+                                y:  rect.y,
                                 width: rect.width,
                                 height: rect.height
                             };
