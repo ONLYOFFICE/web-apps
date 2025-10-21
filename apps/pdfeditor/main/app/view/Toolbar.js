@@ -136,7 +136,6 @@ define([
                 this.paragraphControls = [];
                 this.toolbarControls = [];
                 this.shapeControls = [];
-                this.shortcutHints = {};
                 this._state = {
                     hasCollaborativeChanges: undefined
                 };
@@ -149,6 +148,8 @@ define([
 
                 var _set = Common.enumLock,
                     arr = [];
+
+                const shortcutHints = {};
                 // tab Edit
                 this.btnEditText = new Common.UI.Button({
                     id: 'id-toolbar-btn-edittext',
@@ -217,7 +218,7 @@ define([
                 });
                 this.paragraphControls.push(this.btnIncFontSize);
                 arr.push(this.btnIncFontSize);
-                this.shortcutHints.IncreaseFontSize = {
+                shortcutHints.IncreaseFontSize = {
                     btn: this.btnIncFontSize,
                     label: this.tipIncFont
                 };
@@ -232,7 +233,7 @@ define([
                 });
                 this.paragraphControls.push(this.btnDecFontSize);
                 arr.push(this.btnDecFontSize);
-                this.shortcutHints.DecreaseFontSize = {
+                shortcutHints.DecreaseFontSize = {
                     btn: this.btnDecFontSize,
                     label: this.tipDecFont
                 };
@@ -248,7 +249,7 @@ define([
                 });
                 this.paragraphControls.push(this.btnBold);
                 arr.push(this.btnBold);
-                this.shortcutHints.Bold = {
+                shortcutHints.Bold = {
                     btn: this.btnBold,
                     label: this.textBold
                 };
@@ -264,7 +265,7 @@ define([
                 });
                 this.paragraphControls.push(this.btnItalic);
                 arr.push(this.btnItalic);
-                this.shortcutHints.Italic = {
+                shortcutHints.Italic = {
                     btn: this.btnItalic,
                     label: this.textItalic
                 };
@@ -280,7 +281,7 @@ define([
                 });
                 this.paragraphControls.push(this.btnTextUnderline);
                 arr.push(this.btnTextUnderline);
-                this.shortcutHints.Underline = {
+                shortcutHints.Underline = {
                     btn: this.btnTextUnderline,
                     label: this.textUnderline
                 };
@@ -309,7 +310,7 @@ define([
                 });
                 this.paragraphControls.push(this.btnSuperscript);
                 arr.push(this.btnSuperscript);
-                this.shortcutHints.Superscript = {
+                shortcutHints.Superscript = {
                     btn: this.btnSuperscript,
                     label: this.textSuperscript
                 };
@@ -326,7 +327,7 @@ define([
                 });
                 this.paragraphControls.push(this.btnSubscript);
                 arr.push(this.btnSubscript);
-                this.shortcutHints.Subscript = {
+                shortcutHints.Subscript = {
                     btn: this.btnSubscript,
                     label: this.textSubscript
                 };
@@ -515,28 +516,28 @@ define([
                 });
                 this.paragraphControls.push(this.btnHorizontalAlign);
                 arr.push(this.btnHorizontalAlign);
-                this.shortcutHints.LeftPara = {
+                shortcutHints.LeftPara = {
                     btn: this.btnHorizontalAlign.menu.items[0],
                     label: this.textAlignLeft,
                     applyCallback: function(item, hintText) {
                         item.btn.setCaption(hintText);
                     }
                 };
-                this.shortcutHints.CenterPara = {
+                shortcutHints.CenterPara = {
                     btn: this.btnHorizontalAlign.menu.items[1],
                     label: this.textAlignCenter,
                     applyCallback: function(item, hintText) {
                         item.btn.setCaption(hintText);
                     }
                 };
-                this.shortcutHints.RightPara = {
+                shortcutHints.RightPara = {
                     btn: this.btnHorizontalAlign.menu.items[2],
                     label: this.textAlignRight,
                     applyCallback: function(item, hintText) {
                         item.btn.setCaption(hintText);
                     }
                 };
-                this.shortcutHints.JustifyPara = {
+                shortcutHints.JustifyPara = {
                     btn: this.btnHorizontalAlign.menu.items[3],
                     label: this.textAlignJust,
                     applyCallback: function(item, hintText) {
@@ -600,7 +601,7 @@ define([
                 });
                 this.paragraphControls.push(this.btnDecLeftOffset);
                 arr.push(this.btnDecLeftOffset);
-                this.shortcutHints.UnIndent = {
+                shortcutHints.UnIndent = {
                     btn: this.btnDecLeftOffset,
                     label: this.tipDecPrLeft
                 };
@@ -615,7 +616,7 @@ define([
                 });
                 this.paragraphControls.push(this.btnIncLeftOffset);
                 arr.push(this.btnIncLeftOffset);
-                this.shortcutHints.Indent = {
+                shortcutHints.Indent = {
                     btn: this.btnIncLeftOffset,
                     label: this.tipIncPrLeft
                 };
@@ -914,6 +915,9 @@ define([
                 });
                 arr.push(this.btnRotatePage);
                 Common.UI.LayoutManager.addControls(arr);
+
+                PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints(shortcutHints);
+
                 return arr;
             },
 
@@ -1285,6 +1289,7 @@ define([
                 }
 
                 if ( config.isEdit || config.isRestrictedEdit) {
+                    const shortcutHints = {};
                     this.btnPrint = new Common.UI.Button({
                         id: 'id-toolbar-btn-print',
                         cls: 'btn-toolbar',
@@ -1299,7 +1304,7 @@ define([
                         printType: 'print'
                     });
                     this.toolbarControls.push(this.btnPrint);
-                    this.shortcutHints.PrintPreviewAndPrint = {
+                    shortcutHints.PrintPreviewAndPrint = {
                         btn: this.btnPrint,
                         label: this.tipPrint
                     };
@@ -1315,7 +1320,7 @@ define([
                         dataHintTitle: 'Z'
                     });
                     this.toolbarControls.push(this.btnUndo);
-                    this.shortcutHints.EditUndo = {
+                    shortcutHints.EditUndo = {
                         btn: this.btnUndo,
                         label: this.tipUndo
                     };
@@ -1331,7 +1336,7 @@ define([
                         dataHintTitle: 'Y'
                     });
                     this.toolbarControls.push(this.btnRedo);
-                    this.shortcutHints.EditRedo = {
+                    shortcutHints.EditRedo = {
                         btn: this.btnRedo,
                         label: this.tipRedo
                     };
@@ -1346,7 +1351,7 @@ define([
                         dataHintTitle: 'C'
                     });
                     this.toolbarControls.push(this.btnCopy);
-                    this.shortcutHints.Copy = {
+                    shortcutHints.Copy = {
                         btn: this.btnCopy,
                         label: this.tipCopy
                     };
@@ -1361,7 +1366,7 @@ define([
                         dataHintTitle: 'V'
                     });
                     this.paragraphControls.push(this.btnPaste);
-                    this.shortcutHints.Paste = {
+                    shortcutHints.Paste = {
                         btn: this.btnPaste,
                         label: this.tipPaste
                     };
@@ -1376,7 +1381,7 @@ define([
                         dataHintTitle: 'X'
                     });
                     this.paragraphControls.push(this.btnCut);
-                    this.shortcutHints.Cut = {
+                    shortcutHints.Cut = {
                         btn: this.btnCut,
                         label: this.tipCut
                     };
@@ -1390,7 +1395,7 @@ define([
                         dataHintDirection: 'bottom'
                     });
                     this.toolbarControls.push(this.btnSelectAll);
-                    this.shortcutHints.EditSelectAll = {
+                    shortcutHints.EditSelectAll = {
                         btn: this.btnSelectAll,
                         label: this.tipSelectAll
                     };
@@ -1487,6 +1492,8 @@ define([
                         dataHintDirection: 'bottom'
                     });
                     this.toolbarControls.push(this.btnNextPage);
+
+                    PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints(shortcutHints);
 
                     // Menus
                     //
@@ -2025,8 +2032,6 @@ define([
                     this.mode.isPDFEdit && this.createDelayedElementsPDFEdit();
                 } else if (this.mode.isRestrictedEdit)
                     this.createDelayedElementsRestrictedEdit();
-
-                PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints(this.shortcutHints);
             },
 
             onToolbarAfterRender: function(toolbar) {
