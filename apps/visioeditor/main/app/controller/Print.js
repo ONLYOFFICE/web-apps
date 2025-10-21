@@ -390,6 +390,6 @@ define([
         },
 
         txtPrintRangeInvalid: 'Invalid print range',
-        txtPrintRangeSingleRange: 'Enter either a single slide number or a single slide range (for example, 5-12). Or you can Print to PDF.'
+        txtPrintRangeSingleRange: 'Enter either a single page number or a single page range (for example, 5-12). Or you can Print to PDF.'
     }, VE.Controllers.Print || {}));
 });
