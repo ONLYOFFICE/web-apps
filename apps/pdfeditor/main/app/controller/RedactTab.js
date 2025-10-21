@@ -140,44 +140,56 @@ define([
                 value: `1-${countPages}`,
                 description: this.textEnterRangeDescription,
                 inputConfig: {
-                    maxLength: 20,
+                    maxLength: 50,
                     allowBlank: false,
                     validation: function(value) {
                         const singlePage = /^\d+$/;
                         const range = /^(\d+)-(\d+)$/;
 
-                        if (singlePage.test(value)) {
-                            const page = parseInt(value, 10);
-                            if (page < 1 || page > countPages) return Common.Utils.String.format(me.txtInvalidRange, countPages);
-                            return true;
-                        }
+                        const parts = value.split(',').map(v => v.trim()).filter(Boolean);
+                        if (parts.length === 0) return me.txtInvalidFormat;
 
-                        const match = value.match(range);
-                        if (match) {
-                            const start = parseInt(match[1], 10);
-                            const end = parseInt(match[2], 10);
-                            if (start < 1 || end < 1 || start > countPages || end > countPages) {
-                                return Common.Utils.String.format(me.txtInvalidRange, countPages);
+                        for (const part of parts) {
+                            if (singlePage.test(part)) {
+                                const page = parseInt(part, 10);
+                                if (page < 1 || page > countPages) {
+                                    return Common.Utils.String.format(me.txtInvalidRange, countPages);
+                                }
+                            } else {
+                                const match = part.match(range);
+                                if (match) {
+                                    const start = parseInt(match[1], 10);
+                                    const end = parseInt(match[2], 10);
+                                    if (start < 1 || end < 1 || start > countPages || end > countPages) {
+                                        return Common.Utils.String.format(me.txtInvalidRange, countPages);
+                                    }
+                                    if (start > end) return me.txtReversedRange;
+                                } else {
+                                    return me.txtInvalidFormat;
+                                }
                             }
-                            if (start > end) return me.txtReversedRange;
-                            return true;
                         }
-
-                        return me.txtInvalidFormat;
+                        return true;
                     }
                 },
                 handler: function(result, value) {
                     if (result === 'ok') {
                         let pages = [];
+                        const parts = value.split(',').map(v => v.trim()).filter(Boolean);
 
-                        if (value.includes('-')) {
-                            const [start, end] = value.split('-').map(p => parseInt(p, 10));
-                            for (let i = start; i <= end; i++) {
-                                pages.push(i - 1);
+                        for (const part of parts) {
+                            if (part.includes('-')) {
+                                const [start, end] = part.split('-').map(p => parseInt(p, 10));
+                                for (let i = start; i <= end; i++) {
+                                    pages.push(i - 1);
+                                }
+                            } else {
+                                pages.push(parseInt(part, 10) - 1);
                             }
-                        } else {
-                            pages.push(parseInt(value, 10) - 1);
                         }
+
+                        pages = Array.from(new Set(pages)).sort((a, b) => a - b);
+
                         me.api.RedactPages(pages);
                     }
                 }
