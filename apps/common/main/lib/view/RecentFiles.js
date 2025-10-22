@@ -81,6 +81,7 @@ define([
                     '<div class="recent-wrap">',
                         '<div class="recent-icon">',
                             '<div>',
+                                '<svg><use href="#<%=format || \'blank\' %>"></use></svg>',
                                 '<div class= <% if (typeof format !== "undefined") {%> "img-format-<%=format %>"<% } else {%> "svg-file-recent"<%} %>></div>',
                             '</div>',
                         '</div>',

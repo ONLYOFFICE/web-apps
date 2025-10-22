@@ -226,6 +226,41 @@ module.exports = function (grunt, rootpathprefix) {
 
             ...generate_svg_sprite_tasks('draw'),
             ...generate_svg_sprite_tasks('draw', true),
+
+            docformats: {
+                src: [
+                    `${_prefix}apps/common/main/resources/img/doc-formats/*.svg`,
+                    `!${_prefix}apps/common/main/resources/img/doc-formats/formats@2.5x.svg`
+                ],
+                dest: `${_prefix}apps/common/main/resources/img/doc-formats`,
+                options: {
+                    svg: {
+                        rootAttributes: {
+                            xmlns:'http://www.w3.org/2000/svg',
+                        },
+                        dimensionAttributes: false,
+                    },
+                    mode: {
+                        symbol: {
+                            inline: false,
+                            dest: './',
+                            sprite: `formats@2.5x.svg`,
+                        },
+                    },
+                    shape: {
+                        id: {
+                            separator: ""
+                        },
+                        transform: [{
+                            svgo: {
+                                plugins: [
+                                    'removeXMLNS',
+                                ]
+                            },
+                        }]
+                    },
+                }
+            },
         },
     });
 
