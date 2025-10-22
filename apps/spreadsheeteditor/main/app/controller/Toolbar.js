@@ -509,7 +509,14 @@ define([
                     toolbar.btnCondFormat.menu.on('show:before',            _.bind(this.onShowBeforeCondFormat, this, this.toolbar, 'toolbar'));
                 }
                 if (toolbar.btnFormatCell.rendered) {
-                    toolbar.btnFormatCell.menu.on('show:before',            _.bind(this.onShowBeforeCellFormat, this, this.toolbar));
+                    toolbar.btnFormatCell.on('click',            _.bind(this.onClickCellFormat, this, this.toolbar));
+                    toolbar.btnFormatCell.menu.on('item:click',        _.bind(this.onCellFormatMenu, this));
+                    toolbar.btnFormatCell.menu.items[0].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+                    toolbar.btnFormatCell.menu.items[1].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+                    toolbar.btnFormatCell.menu.items[3].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+                    toolbar.btnFormatCell.menu.items[4].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+                    toolbar.btnFormatCell.menu.items[4].menu.items[2].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+                    $('#id-toolbar-menu-new-color', this.toolbar.$el).on('click', _.bind(this.onNewTabColor, this)); 
                 }
                 toolbar.btnInsertChartRecommend.on('click',                 _.bind(this.onChartRecommendedClick, this));
                 toolbar.btnFillNumbers.menu.on('item:click',                _.bind(this.onFillNumMenu, this));
@@ -1698,8 +1705,36 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Cell delete');
         },
 
-        onShowBeforeCellFormat: function(cmp, item, e) {          
-            this.toolbar.btnFormatCell.menu.items[11].setChecked(this.api.asc_getCellInfo().asc_getXfs().asc_getLocked());  
+        onClickCellFormat: function(cmp, item, e) {          
+            this.toolbar.btnFormatCell.menu.items[11].setChecked(this.api.asc_getCellInfo().asc_getXfs().asc_getLocked());
+
+            let selectionType = this.api.asc_getCellInfo().asc_getSelectionType();
+            let isDisabled = selectionType !== Asc.c_oAscSelectionType.RangeCells && selectionType !== Asc.c_oAscSelectionType.RangeCol 
+                && selectionType !== Asc.c_oAscSelectionType.RangeRow;
+            
+            this.toolbar.btnFormatCell.menu.items[0].setDisabled(isDisabled);
+            this.toolbar.btnFormatCell.menu.items[1].setDisabled(isDisabled);
+            this.toolbar.btnFormatCell.menu.items[3].menu.items[0].setDisabled(isDisabled);
+            this.toolbar.btnFormatCell.menu.items[3].menu.items[1].setDisabled(isDisabled);
+            this.toolbar.btnFormatCell.menu.items[4].menu.items[0].setDisabled(isDisabled);
+            this.toolbar.btnFormatCell.menu.items[4].menu.items[1].setDisabled(isDisabled);
+            this.toolbar.btnFormatCell.menu.items[11].setDisabled(isDisabled);
+            this.toolbar.btnFormatCell.menu.items[13].setDisabled(isDisabled);
+             
+            let hiddenItems = SSE.getController('Statusbar').statusbar.tabMenu.items[5].menu.items;
+            this.toolbar.mnuShowSheets.menu.removeAll();
+            this.toolbar.mnuShowSheets.hide();
+            if (hiddenItems.length) {
+                hiddenItems.forEach(item => {
+                    this.toolbar.mnuShowSheets.menu.addItem(new Common.UI.MenuItem({
+                        style: 'white-space: pre-wrap',
+                        caption: item.caption,
+                        value: 'showSheet',
+                        sheetId: item.value
+                    }))
+                })
+                this.toolbar.mnuShowSheets.show();
+            }            
         },
 
         onCellFormatMenu: function(menu, item, e) {
@@ -1722,7 +1757,8 @@ define([
                     SSE.getController('Statusbar').hideWorksheet(true, [this.api.asc_getActiveWorksheetIndex()]);
                     break;
                 case 'showSheet':
-                    SSE.getController('Statusbar').hideWorksheet(false, item.options.sheetId);
+                    SSE.getController('Statusbar').hideWorksheet(false, item.options.sheetId);                   
+                    menu.hide()                    
                     break;
                 case 'renameSheet':
                     SSE.getController('Statusbar').statusbar.fireEvent('sheet:changename');
@@ -1743,8 +1779,8 @@ define([
         },
 
         onNewTabColor: function() {
-            if (this.toolbar && this.toolbar.mnuTabColorToolbar) {
-                this.toolbar.mnuTabColorToolbar.addNewColor();
+            if (this.toolbar && this.toolbar.mnuTabColorToolbarPicker) {
+                this.toolbar.mnuTabColorToolbarPicker.addNewColor();
             }
         },
 
@@ -2672,30 +2708,6 @@ define([
             this.api.asc_isLayoutLocked(currentSheet) ? this.onApiLockDocumentProps(currentSheet) : this.onApiUnLockDocumentProps(currentSheet);
             this.toolbar.lockToolbar(Common.enumLock.printAreaLock, this.api.asc_isPrintAreaLocked(currentSheet), {array: [this.toolbar.btnPrintArea]});
             this.toolbar.lockToolbar(Common.enumLock.pageBreakLock, this.api.asc_GetPageBreaksDisableType(currentSheet)===Asc.c_oAscPageBreaksDisableType.all, {array: [this.toolbar.btnPageBreak]});
-            
-            if (this.toolbar.mnuShowSheets) {
-                if (!this.toolbar.mnuShowSheets.menu.items.length>0) {
-                    this.toolbar.btnFormatCell.menu.on('item:click', _.bind(this.onCellFormatMenu, this));
-                    this.toolbar.btnFormatCell.menu.items[0].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
-                    this.toolbar.btnFormatCell.menu.items[1].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
-                    this.toolbar.btnFormatCell.menu.items[3].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
-                    this.toolbar.btnFormatCell.menu.items[4].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
-                    this.toolbar.btnFormatCell.menu.items[4].menu.items[2].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
-                    $('#id-toolbar-menu-new-color', this.toolbar.$el).on('click', _.bind(this.onNewTabColor, this));                  
-                }
-
-                let hiddenItems = SSE.getController('Statusbar').statusbar.tabMenu.items[5].menu.items;
-                this.toolbar.mnuShowSheets.menu.removeAll();
-                hiddenItems.forEach(item => {
-                    this.toolbar.mnuShowSheets.menu.addItem(new Common.UI.MenuItem({
-                        style: 'white-space: pre-wrap',
-                        caption: item.caption,
-                        value: 'showSheet',
-                        sheetId: item.value
-                    }))
-                })
-            }
-                        
         },
 
         onUpdateDocumentProps: function(nIndex) {
@@ -3934,7 +3946,7 @@ define([
             };
 
             if (this.toolbar) {
-                updateColors(this.toolbar.mnuTabColorToolbar, 1);
+                updateColors(this.toolbar.mnuTabColorToolbarPicker, 1);
             }
 
             updateColors(this.toolbar.mnuTextColorPicker, Common.Utils.ThemeColor.getStandartColors()[1]);

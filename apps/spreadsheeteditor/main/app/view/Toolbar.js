@@ -54,8 +54,7 @@ define([
     'common/main/lib/component/ComboBoxFonts',
     'common/main/lib/component/ComboDataView'
     ,'common/main/lib/component/SynchronizeTip'
-    ,'common/main/lib/component/Mixtbar',
-    'common/main/lib/component/ThemeColorPalette'
+    ,'common/main/lib/component/Mixtbar'
 ], function (Backbone, template, simple, template_view) { 'use strict';
 
     if (!Common.enumLock)
@@ -1948,7 +1947,6 @@ define([
                     id          : 'id-toolbar-btn-formatcell',
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'toolbar__icon btn-menu-cell',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.itemsDisabled, _set.lostConnect, _set.coAuth, _set.userProtected],
                     caption     : me.textCellFormat,
                     menu        : true,
                     action: 'format-cell',
@@ -1956,9 +1954,9 @@ define([
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
                 });
-                me.shortcutHints.OpenDeleteCellsWindow = {
+                me.shortcutHints.OpenFormatCell = {
                     btn: me.btnFormatCell,
-                    label: me.tipDeleteOpt
+                    label: me.tipFormatCell
                 };
 
                 me.btnCondFormat = new Common.UI.Button({
@@ -3291,11 +3289,11 @@ define([
             
             if (this.btnFormatCell && this.btnFormatCell.rendered) {
                 this.btnFormatCell.setMenu( new Common.UI.Menu({
+                    cls: 'shifted-right',
                     items: [
                         {
                             caption     : this.textRowHeight,
                             menu        : new Common.UI.Menu({
-                                cls: 'shifted-right',
                                 menuAlign: 'tl-tr',
                                 items   : [
                                     { caption: this.textAutoRowHeight, value: 'auto-row-height' },
@@ -3306,7 +3304,6 @@ define([
                         {
                             caption     : this.textColumnWidth,
                             menu        : new Common.UI.Menu({
-                                cls: 'shifted-right',
                                 menuAlign: 'tl-tr',
                                 items   : [
                                     { caption: this.textAutoColumnWidth, value: 'auto-column-width' },
@@ -3348,13 +3345,13 @@ define([
                         {caption: '--'},
                         {
                             caption     : this.textRenameSheet,
-                            value       : 'renameSheet'
+                            value       : 'renameSheet',
                         },
                         {
                             caption     : this.textMoveCopySheet,
-                            value       : 'moveCopySheet'
+                            value       : 'moveCopySheet',
                         },
-                        {
+                        this.mnuTabColorToolbar = new Common.UI.MenuItem({
                             caption     : this.textTabColor,
                             value       : 'fillColor',
                             menu        : new Common.UI.Menu({
@@ -3369,7 +3366,7 @@ define([
                                     }
                                 ]
                             })
-                        },
+                        }),
                         {
                             caption     : this.textProtectSheet,
                             value       : 'protectSheet',
@@ -3389,20 +3386,18 @@ define([
                             value       : 'formatCells',
                         },
                     ]
-                }).on('render:after', _.bind(function(menu) {
-                    this.mnuTabColorToolbar = new Common.UI.ThemeColorPalette({
-                        el: $('#id-toolbar-menu-tab-color'),
-                        outerMenu: { menu: menu, index: 0, focusOnShow: true },
-                        transparent: true
-                    });
-                    menu.setInnerMenu([{ menu: this.mnuTabColorToolbar, index: 0 }]);
-                    this.mnuTabColorToolbar.on('select', _.bind(function(picker, color) {
-                        SSE.getController('Statusbar').statusbar.fireEvent('sheet:setcolor', [color]);
-                        setTimeout(_.bind(function() {
-                            menu.hide();
-                        }, this), 1);
-                    }, this));
-                }, this)) )
+                }));                
+                this.mnuTabColorToolbarPicker = new Common.UI.ThemeColorPalette({
+                    el: $('#id-toolbar-menu-tab-color'),
+                    outerMenu: { menu: this.mnuTabColorToolbar.menu, index: 0 }
+                });
+                this.mnuTabColorToolbar.menu.setInnerMenu([{ menu: this.mnuTabColorToolbarPicker, index: 0 }]);
+                this.mnuTabColorToolbarPicker.on('select', _.bind(function(picker, color) {
+                    this.fireEvent('statusbar:setcolor', [color]);
+                    setTimeout(_.bind(function() {
+                        this.btnFormatCell.menu.hide();
+                    }, this), 1);
+                }, this));
             }
 
             if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram && !this.mode.isEditOle)

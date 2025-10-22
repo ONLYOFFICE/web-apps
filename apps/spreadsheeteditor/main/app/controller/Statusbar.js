@@ -68,6 +68,9 @@ define([
                 },
                 'ViewTab': {
                     'statusbar:setcompact': _.bind(this.onChangeViewMode, this)
+                },
+                'Toolbar': {
+                    'statusbar:setcolor': _.bind(this.setWorksheetColor, this)
                 }
             });
         },

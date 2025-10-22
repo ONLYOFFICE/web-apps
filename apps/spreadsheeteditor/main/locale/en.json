@@ -4908,6 +4908,7 @@
   "SSE.Views.Toolbar.tipDecDecimal": "Decrease decimal",
   "SSE.Views.Toolbar.tipDecFont": "Decrement font size",
   "SSE.Views.Toolbar.tipDeleteOpt": "Delete cells",
+  "SSE.Views.Toolbar.tipFormatCell": "Change the row height or column width, organize sheets, or protect or hide cells",
   "SSE.Views.Toolbar.tipDigStyleAccounting": "Accounting style",
   "SSE.Views.Toolbar.tipDigStyleComma": "Comma style",
   "SSE.Views.Toolbar.tipDigStyleCurrency": "Currency style",
