@@ -157,8 +157,6 @@ window.Common = {
                                         child.setAttribute('data-sprite-uid', sprite_uid);
                                     el.appendChild(child);
 
-                                    console.log(url, 'injected' );
-
                                     const i = svg_icons_array.findIndex(function (item) {return item == url});
                                     if ( !(i < 0) ) svg_icons_array.splice(i, 1)
                                 }).catch(console.error.bind(console))
