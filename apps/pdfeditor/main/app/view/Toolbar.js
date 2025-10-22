@@ -466,7 +466,7 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-align-left',
                     icls: 'btn-align-left',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.cantAlign, _set.disableOnStart, _set.inAnnotation],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.cantAlign, _set.disableOnStart],
                     menu: new Common.UI.Menu({
                         items: [
                             {
@@ -695,7 +695,7 @@ define([
                     icls: 'btn-ltr',
                     action: 'text-direction',
                     dirRtl: false,
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inCheckForm, _set.disableOnStart, _set.inAnnotation],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inCheckForm, _set.disableOnStart],
                     menu: new Common.UI.Menu({
                         items: [
                             {caption: this.textDirLtr, value: false, iconCls: 'menu__icon btn-ltr'},
