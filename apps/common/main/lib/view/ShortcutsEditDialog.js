@@ -284,9 +284,11 @@ define([
                     e.stopPropagation();
                     e.preventDefault();
 
-                    if(!alowedSingleKeys.includes(e.keyCode) && !e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) {
-                        return;
-                    }
+                    if (
+                        !alowedSingleKeys.includes(e.keyCode) &&
+                        !e.ctrlKey && !e.shiftKey && !e.altKey &&
+                        !(e.metaKey && Common.Utils.isMac)
+                    ) return;
 
                     const keys = [];
 
