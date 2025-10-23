@@ -1303,7 +1303,7 @@ define([], function () {
             }
 
              var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-             if (diagramEditor && diagramEditor.isVisible()) {
+             if (diagramEditor && diagramEditor.isVisible() && me._state.currentChartRect) {
                  let x, y;
                  this.checkEditorOffsets();
 
