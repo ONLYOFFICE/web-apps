@@ -61,6 +61,7 @@ define([
                     'insertchart':  this.onInsertChart.bind(this),
                     'inserttextart': this.onInsertTextArt.bind(this),
                     // 'inserttable': this.onInsertTable.bind(this)
+                    'rightmenu:open': this.onRightMenuOpen.bind(this)
                 },
                 'RightMenu': {
                     'rightmenuclick': this.onRightMenuClick,

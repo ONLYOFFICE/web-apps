@@ -70,7 +70,18 @@ define([
                     'statusbar:setcompact': _.bind(this.onChangeViewMode, this)
                 },
                 'Toolbar': {
-                    'statusbar:setcolor': _.bind(this.setWorksheetColor, this)
+                    'statusbar:setcolor': _.bind(this.setWorksheetColor, this),
+                    'sheet:changename': _.bind(function(){
+                        this.api.asc_closeCellEditor();
+                        this.renameWorksheet();
+                    },this),
+                    'sheet:move': _.bind(this.moveWorksheet, this),
+                    'sheet:hidden': _.bind(function (obj, index) {
+                        this.hideWorksheet(false, index);
+                    }, this),
+                    'sheet:hide': _.bind(function (obj, index) {
+                        this.hideWorksheet(true, index);
+                    }, this)
                 }
             });
         },

@@ -1745,7 +1745,7 @@ define([
                 case 'column-width':
                 case 'auto-row-height':
                 case 'auto-column-width':
-                    SSE.getController('DocumentHolder').onSetSize(menu, item);
+                    this.toolbar.fireEvent('cell:size', [menu, item])
                     break;
                 case 'hideCell':
                     this.api[item.options.isRowMenu ? 'asc_hideRows' : 'asc_hideColumns']();
@@ -1754,17 +1754,16 @@ define([
                     this.api[item.options.isRowMenu ? 'asc_showRows' : 'asc_showColumns']();
                     break;
                 case 'hideSheet':
-                    SSE.getController('Statusbar').hideWorksheet(true, [this.api.asc_getActiveWorksheetIndex()]);
+                    this.toolbar.fireEvent('sheet:hide', [this, [this.api.asc_getActiveWorksheetIndex()]]);
                     break;
                 case 'showSheet':
-                    SSE.getController('Statusbar').hideWorksheet(false, item.options.sheetId);                   
-                    menu.hide()                    
+                    this.toolbar.fireEvent('sheet:hidden', [this, item.options.sheetId]);                
                     break;
                 case 'renameSheet':
-                    SSE.getController('Statusbar').statusbar.fireEvent('sheet:changename');
+                    this.toolbar.fireEvent('sheet:changename');
                     break;
                 case 'moveCopySheet':
-                    SSE.getController('Statusbar').moveWorksheet([this.api.asc_getActiveWorksheetIndex()]);
+                    this.toolbar.fireEvent('sheet:move', [[this.api.asc_getActiveWorksheetIndex()]]);
                     break;
                 case 'protectSheet':
                     Common.NotificationCenter.trigger('protect:sheet', !this.api.asc_isProtectedSheet());
@@ -1773,7 +1772,7 @@ define([
                     this.api.asc_setCellLocked(item.checked);                    
                     break;
                 case 'formatCells':
-                    SSE.getController('RightMenu').onRightMenuOpen(Common.Utils.documentSettingsType.Cell);
+                    this.toolbar.fireEvent('rightmenu:open', [Common.Utils.documentSettingsType.Cell]);
                     break;
             }
         },

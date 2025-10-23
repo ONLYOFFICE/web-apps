@@ -50,6 +50,9 @@ define([], function () {
                 'DocumentHolder': {
                     'createdelayedelements': this.onCreateDelayedElements,
                     'equation:callback': this.equationCallback
+                },
+                'Toolbar': {
+                    'cell:size': this.onSetSize.bind(this)
                 }
             });
 
