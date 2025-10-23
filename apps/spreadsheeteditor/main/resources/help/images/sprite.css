@@ -696,8 +696,14 @@
 	height: 16px;
 }
 
-.icon-usersnumber {
+.icon-chartelements {
 	background-position: -48px -217px;
+	width: 25px;
+	height: 16px;
+}
+
+.icon-usersnumber {
+	background-position: -73px -217px;
 	width: 22px;
 	height: 16px;
 }
@@ -727,91 +733,91 @@
 }
 
 .icon-converttorange {
-	background-position: -70px -217px;
+	background-position: -95px -217px;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-dropdownarrow {
-	background-position: -86px -217px;
+	background-position: -111px -217px;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-editcommenticon {
-	background-position: -102px -217px;
+	background-position: -127px -217px;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-expandrowsicon {
-	background-position: -118px -217px;
+	background-position: -143px -217px;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-filterbutton {
-	background-position: -134px -217px;
+	background-position: -159px -217px;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-firstlevelicon {
-	background-position: -150px -217px;
+	background-position: -175px -217px;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-highesttolowest {
-	background-position: -166px -217px;
+	background-position: -191px -217px;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-highesttolowest1 {
-	background-position: -182px -217px;
+	background-position: -207px -217px;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-lowesttohighest {
-	background-position: -198px -217px;
+	background-position: -223px -217px;
 	width: 16px;
 	height: 16px;
 }
 
 .icon-lowesttohighest1 {
-	background-position: -214px -217px;
-	width: 16px;
-	height: 16px;
-}
-
-.icon-pivot_settings {
 	background-position: -241px 0px;
 	width: 16px;
 	height: 16px;
 }
 
-.icon-secondlevelicon {
+.icon-pivot_settings {
 	background-position: -241px -16px;
 	width: 16px;
 	height: 16px;
 }
 
-.icon-thirdlevelicon {
+.icon-secondlevelicon {
 	background-position: -241px -32px;
 	width: 16px;
 	height: 16px;
 }
 
-.icon-distributevertically {
+.icon-thirdlevelicon {
 	background-position: -241px -48px;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-distributevertically {
+	background-position: -241px -64px;
 	width: 14px;
 	height: 16px;
 }
 
 .icon-textart_settings_icon {
-	background-position: -241px -64px;
+	background-position: -241px -80px;
 	width: 12px;
 	height: 16px;
 }
@@ -859,91 +865,91 @@
 }
 
 .icon-bgcolor {
-	background-position: -241px -80px;
+	background-position: -241px -96px;
 	width: 16px;
 	height: 15px;
 }
 
 .icon-about {
-	background-position: -241px -95px;
+	background-position: -241px -111px;
 	width: 15px;
 	height: 15px;
 }
 
 .icon-abouticon {
-	background-position: -241px -110px;
+	background-position: -241px -126px;
 	width: 15px;
 	height: 15px;
 }
 
 .icon-advanced_settings_icon {
-	background-position: -241px -125px;
+	background-position: -241px -141px;
 	width: 15px;
 	height: 15px;
 }
 
 .icon-insertpivot {
-	background-position: -241px -140px;
+	background-position: -241px -156px;
 	width: 15px;
 	height: 15px;
 }
 
 .icon-plus {
-	background-position: -241px -155px;
+	background-position: -241px -171px;
 	width: 15px;
 	height: 15px;
 }
 
 .icon-plus_sheet {
-	background-position: -241px -170px;
+	background-position: -241px -186px;
 	width: 15px;
 	height: 15px;
 }
 
 .icon-save {
-	background-position: -241px -185px;
+	background-position: -241px -201px;
 	width: 15px;
 	height: 15px;
 }
 
 .icon-tabstopcenter {
-	background-position: -241px -200px;
+	background-position: -241px -216px;
 	width: 15px;
 	height: 15px;
 }
 
 .icon-tabstopleft {
-	background-position: -241px -215px;
+	background-position: -205px -19px;
 	width: 15px;
 	height: 15px;
 }
 
 .icon-feedback {
-	background-position: -205px -19px;
-	width: 14px;
-	height: 15px;
-}
-
-.icon-flipupsidedown {
 	background-position: -205px -34px;
 	width: 14px;
 	height: 15px;
 }
 
-.icon-shapesettings {
+.icon-flipupsidedown {
 	background-position: -205px -49px;
 	width: 14px;
 	height: 15px;
 }
 
-.icon-file {
+.icon-shapesettings {
 	background-position: -205px -64px;
+	width: 14px;
+	height: 15px;
+}
+
+.icon-file {
+	background-position: -205px -79px;
 	width: 13px;
 	height: 15px;
 }
 
 .icon-back {
-	background-position: -205px -79px;
+	background-position: -205px -94px;
 	width: 12px;
 	height: 15px;
 }
@@ -979,133 +985,133 @@
 }
 
 .icon-fliplefttoright {
-	background-position: -205px -94px;
+	background-position: -205px -109px;
 	width: 15px;
 	height: 14px;
 }
 
 .icon-sort {
-	background-position: -205px -108px;
+	background-position: -205px -123px;
 	width: 15px;
 	height: 14px;
 }
 
 .icon-alignobjectbottom {
-	background-position: -205px -122px;
+	background-position: -205px -137px;
 	width: 14px;
 	height: 14px;
 }
 
 .icon-alignobjectleft {
-	background-position: -205px -136px;
+	background-position: -205px -151px;
 	width: 14px;
 	height: 14px;
 }
 
 .icon-alignobjectright {
-	background-position: -205px -150px;
+	background-position: -205px -165px;
 	width: 14px;
 	height: 14px;
 }
 
 .icon-alignobjecttop {
-	background-position: -205px -164px;
+	background-position: -205px -179px;
 	width: 14px;
 	height: 14px;
 }
 
 .icon-bordercolor {
-	background-position: -205px -178px;
-	width: 14px;
-	height: 14px;
-}
-
-.icon-borderwidth {
 	background-position: -171px -66px;
 	width: 14px;
 	height: 14px;
 }
 
-.icon-chartsettingsicon {
+.icon-borderwidth {
 	background-position: -171px -88px;
 	width: 14px;
 	height: 14px;
 }
 
-.icon-clearicon {
+.icon-chartsettingsicon {
 	background-position: -233px -233px;
 	width: 14px;
 	height: 14px;
 }
 
-.icon-commentsicon {
+.icon-clearicon {
 	background-position: -257px 0px;
 	width: 14px;
 	height: 14px;
 }
 
-.icon-deleteicon {
+.icon-commentsicon {
 	background-position: -257px -14px;
 	width: 14px;
 	height: 14px;
 }
 
-.icon-function {
+.icon-deleteicon {
 	background-position: -257px -28px;
 	width: 14px;
 	height: 14px;
 }
 
-.icon-group {
+.icon-function {
 	background-position: -257px -42px;
 	width: 14px;
 	height: 14px;
 }
 
-.icon-image_settings_icon {
+.icon-group {
 	background-position: -257px -56px;
 	width: 14px;
 	height: 14px;
 }
 
-.icon-searchicon {
+.icon-image_settings_icon {
 	background-position: -257px -70px;
 	width: 14px;
 	height: 14px;
 }
 
-.icon-shape_settings_icon {
+.icon-searchicon {
 	background-position: -257px -84px;
 	width: 14px;
 	height: 14px;
 }
 
-.icon-ungroup {
+.icon-shape_settings_icon {
 	background-position: -257px -98px;
 	width: 14px;
 	height: 14px;
 }
 
-.icon-alignobjectcenter {
+.icon-ungroup {
 	background-position: -257px -112px;
+	width: 14px;
+	height: 14px;
+}
+
+.icon-alignobjectcenter {
+	background-position: -257px -126px;
 	width: 13px;
 	height: 14px;
 }
 
 .icon-copystyle {
-	background-position: -257px -126px;
-	width: 12px;
-	height: 14px;
-}
-
-.icon-gradientslider {
 	background-position: -257px -140px;
 	width: 12px;
 	height: 14px;
 }
 
-.icon-hard {
+.icon-gradientslider {
 	background-position: -257px -154px;
+	width: 12px;
+	height: 14px;
+}
+
+.icon-hard {
+	background-position: -257px -168px;
 	width: 9px;
 	height: 14px;
 }
@@ -1303,91 +1309,91 @@
 }
 
 .icon-dropcap_text {
-	background-position: -257px -168px;
+	background-position: -257px -182px;
 	width: 13px;
 	height: 13px;
 }
 
 .icon-equationplaceholder {
-	background-position: -257px -181px;
+	background-position: -257px -195px;
 	width: 13px;
 	height: 13px;
 }
 
 .icon-fitpage {
-	background-position: -257px -194px;
+	background-position: -257px -208px;
 	width: 13px;
 	height: 13px;
 }
 
 .icon-fitwidth {
-	background-position: -257px -207px;
+	background-position: -257px -221px;
 	width: 13px;
 	height: 13px;
 }
 
 .icon-insideborders {
-	background-position: -257px -220px;
+	background-position: -257px -234px;
 	width: 13px;
 	height: 13px;
 }
 
 .icon-insidehorizontalborders {
-	background-position: -257px -233px;
-	width: 13px;
-	height: 13px;
-}
-
-.icon-insideverticalborders {
 	background-position: 0px -261px;
 	width: 13px;
 	height: 13px;
 }
 
-.icon-leftborders {
+.icon-insideverticalborders {
 	background-position: -13px -261px;
 	width: 13px;
 	height: 13px;
 }
 
-.icon-noborders {
+.icon-leftborders {
 	background-position: -26px -261px;
 	width: 13px;
 	height: 13px;
 }
 
-.icon-outsideborders {
+.icon-noborders {
 	background-position: -39px -261px;
 	width: 13px;
 	height: 13px;
 }
 
-.icon-rightborders {
+.icon-outsideborders {
 	background-position: -52px -261px;
 	width: 13px;
 	height: 13px;
 }
 
-.icon-sendbackward {
+.icon-rightborders {
 	background-position: -65px -261px;
 	width: 13px;
 	height: 13px;
 }
 
-.icon-sendtoback {
+.icon-sendbackward {
 	background-position: -78px -261px;
 	width: 13px;
 	height: 13px;
 }
 
-.icon-topborders {
+.icon-sendtoback {
 	background-position: -91px -261px;
 	width: 13px;
 	height: 13px;
 }
 
-.icon-zoomin {
+.icon-topborders {
 	background-position: -104px -261px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-zoomin {
+	background-position: -117px -261px;
 	width: 13px;
 	height: 13px;
 }
@@ -1405,19 +1411,19 @@
 }
 
 .icon-rotateclockwise {
-	background-position: -117px -261px;
+	background-position: -130px -261px;
 	width: 12px;
 	height: 13px;
 }
 
 .icon-rotatecounterclockwise {
-	background-position: -129px -261px;
+	background-position: -142px -261px;
 	width: 12px;
 	height: 13px;
 }
 
 .icon-alignmiddle {
-	background-position: -230px -217px;
+	background-position: -154px -261px;
 	width: 11px;
 	height: 13px;
 }
@@ -1429,307 +1435,307 @@
 }
 
 .icon-accountingstyle {
-	background-position: -141px -261px;
+	background-position: -165px -261px;
 	width: 26px;
 	height: 12px;
 }
 
 .icon-cellsettings_rightpanel {
-	background-position: -167px -261px;
+	background-position: -191px -261px;
 	width: 15px;
 	height: 12px;
 }
 
 .icon-decreasedecimal {
-	background-position: -182px -261px;
+	background-position: -206px -261px;
 	width: 14px;
 	height: 12px;
 }
 
 .icon-slicer_clearfilter {
-	background-position: -196px -261px;
+	background-position: -220px -261px;
 	width: 14px;
 	height: 12px;
 }
 
 .icon-increasedecimal {
-	background-position: -210px -261px;
+	background-position: -234px -261px;
 	width: 13px;
 	height: 12px;
 }
 
 .icon-angleclockwise {
-	background-position: -223px -261px;
-	width: 12px;
-	height: 12px;
-}
-
-.icon-anglecounterclockwise {
-	background-position: -235px -261px;
-	width: 12px;
-	height: 12px;
-}
-
-.icon-circle {
 	background-position: -247px -261px;
 	width: 12px;
 	height: 12px;
 }
 
-.icon-firstsheet {
+.icon-anglecounterclockwise {
 	background-position: -259px -261px;
 	width: 12px;
 	height: 12px;
 }
 
-.icon-larger {
+.icon-circle {
 	background-position: -271px -261px;
 	width: 12px;
 	height: 12px;
 }
 
-.icon-nofill {
+.icon-firstsheet {
 	background-position: 0px -274px;
 	width: 12px;
 	height: 12px;
 }
 
-.icon-sup {
+.icon-larger {
 	background-position: -12px -274px;
 	width: 12px;
 	height: 12px;
 }
 
-.icon-deletecommenticon {
+.icon-nofill {
 	background-position: -24px -274px;
+	width: 12px;
+	height: 12px;
+}
+
+.icon-sup {
+	background-position: -36px -274px;
+	width: 12px;
+	height: 12px;
+}
+
+.icon-deletecommenticon {
+	background-position: -48px -274px;
 	width: 11px;
 	height: 12px;
 }
 
 .icon-selectcolumn_cursor {
-	background-position: -35px -274px;
+	background-position: -59px -274px;
 	width: 11px;
 	height: 12px;
 }
 
 .icon-tabletemplate {
-	background-position: -46px -274px;
+	background-position: -70px -274px;
 	width: 26px;
 	height: 11px;
 }
 
 .icon-merge {
-	background-position: -72px -274px;
-	width: 24px;
-	height: 11px;
-}
-
-.icon-subscripticon {
 	background-position: -96px -274px;
 	width: 24px;
 	height: 11px;
 }
 
-.icon-addborders {
+.icon-subscripticon {
 	background-position: -120px -274px;
+	width: 24px;
+	height: 11px;
+}
+
+.icon-addborders {
+	background-position: -144px -274px;
 	width: 22px;
 	height: 11px;
 }
 
 .icon-deletecells {
-	background-position: -142px -274px;
+	background-position: -166px -274px;
 	width: 21px;
 	height: 11px;
 }
 
 .icon-linespacing {
-	background-position: -163px -274px;
+	background-position: -187px -274px;
 	width: 21px;
 	height: 11px;
 }
 
 .icon-nonprintingcharacters {
-	background-position: -184px -274px;
+	background-position: -208px -274px;
 	width: 20px;
 	height: 11px;
 }
 
 .icon-namedranges {
-	background-position: -204px -274px;
+	background-position: -228px -274px;
 	width: 16px;
 	height: 11px;
 }
 
 .icon-table_settings_icon {
-	background-position: -220px -274px;
+	background-position: -244px -274px;
 	width: 16px;
 	height: 11px;
 }
 
 .icon-viewsettingsicon {
-	background-position: -236px -274px;
+	background-position: -260px -274px;
 	width: 16px;
 	height: 11px;
 }
 
 .icon-sub {
-	background-position: -252px -274px;
+	background-position: -287px 0px;
 	width: 13px;
 	height: 11px;
 }
 
 .icon-aligncenter {
-	background-position: -108px -78px;
-	width: 12px;
-	height: 11px;
-}
-
-.icon-alignleft {
-	background-position: -265px -274px;
-	width: 12px;
-	height: 11px;
-}
-
-.icon-alignright {
-	background-position: -287px 0px;
-	width: 12px;
-	height: 11px;
-}
-
-.icon-borderstyle {
 	background-position: -287px -11px;
 	width: 12px;
 	height: 11px;
 }
 
-.icon-clearfilter {
+.icon-alignleft {
 	background-position: -287px -22px;
 	width: 12px;
 	height: 11px;
 }
 
-.icon-decreasedec {
+.icon-alignright {
 	background-position: -287px -33px;
 	width: 12px;
 	height: 11px;
 }
 
-.icon-decreaseindent {
+.icon-borderstyle {
 	background-position: -287px -44px;
 	width: 12px;
 	height: 11px;
 }
 
-.icon-increasedec {
+.icon-clearfilter {
 	background-position: -287px -55px;
 	width: 12px;
 	height: 11px;
 }
 
-.icon-increaseindent {
+.icon-decreasedec {
 	background-position: -287px -66px;
 	width: 12px;
 	height: 11px;
 }
 
-.icon-justify {
+.icon-decreaseindent {
 	background-position: -287px -77px;
 	width: 12px;
 	height: 11px;
 }
 
-.icon-resolvedicon {
+.icon-increasedec {
 	background-position: -287px -88px;
 	width: 12px;
 	height: 11px;
 }
 
-.icon-resolveicon {
+.icon-increaseindent {
 	background-position: -287px -99px;
 	width: 12px;
 	height: 11px;
 }
 
-.icon-selecttable_cursor {
+.icon-justify {
 	background-position: -287px -110px;
 	width: 12px;
 	height: 11px;
 }
 
-.icon-sortandfilter {
+.icon-resolvedicon {
 	background-position: -287px -121px;
 	width: 12px;
 	height: 11px;
 }
 
-.icon-alignbottom {
+.icon-resolveicon {
 	background-position: -287px -132px;
-	width: 11px;
+	width: 12px;
 	height: 11px;
 }
 
-.icon-aligntop {
+.icon-selecttable_cursor {
 	background-position: -287px -143px;
-	width: 11px;
+	width: 12px;
 	height: 11px;
 }
 
-.icon-diagonal_down_border {
+.icon-sortandfilter {
 	background-position: -287px -154px;
-	width: 11px;
+	width: 12px;
 	height: 11px;
 }
 
-.icon-diagonal_up_border {
+.icon-alignbottom {
 	background-position: -287px -165px;
 	width: 11px;
 	height: 11px;
 }
 
-.icon-sortatoz {
+.icon-aligntop {
 	background-position: -287px -176px;
 	width: 11px;
 	height: 11px;
 }
 
-.icon-sortztoa {
+.icon-diagonal_down_border {
 	background-position: -287px -187px;
 	width: 11px;
 	height: 11px;
 }
 
-.icon-percentstyle {
+.icon-diagonal_up_border {
 	background-position: -287px -198px;
-	width: 10px;
+	width: 11px;
 	height: 11px;
 }
 
-.icon-underline {
+.icon-sortatoz {
 	background-position: -287px -209px;
-	width: 10px;
+	width: 11px;
 	height: 11px;
 }
 
-.icon-verticaltext {
+.icon-sortztoa {
 	background-position: -287px -220px;
-	width: 10px;
+	width: 11px;
 	height: 11px;
 }
 
-.icon-zoomout {
+.icon-percentstyle {
 	background-position: -287px -231px;
 	width: 10px;
 	height: 11px;
 }
 
-.icon-rotatedown {
+.icon-underline {
 	background-position: -287px -242px;
+	width: 10px;
+	height: 11px;
+}
+
+.icon-verticaltext {
+	background-position: -287px -253px;
+	width: 10px;
+	height: 11px;
+}
+
+.icon-zoomout {
+	background-position: -287px -264px;
+	width: 10px;
+	height: 11px;
+}
+
+.icon-rotatedown {
+	background-position: -287px -275px;
 	width: 9px;
 	height: 11px;
 }
 
 .icon-commastyle {
-	background-position: -287px -253px;
+	background-position: -232px -119px;
 	width: 7px;
 	height: 11px;
 }
@@ -1747,13 +1753,13 @@
 }
 
 .icon-strike {
-	background-position: -287px -264px;
+	background-position: -108px -78px;
 	width: 12px;
 	height: 10px;
 }
 
 .icon-smaller {
-	background-position: -287px -274px;
+	background-position: -276px -274px;
 	width: 11px;
 	height: 10px;
 }
@@ -1771,31 +1777,31 @@
 }
 
 .icon-rotateup {
-	background-position: -232px -119px;
+	background-position: -232px -136px;
 	width: 9px;
 	height: 10px;
 }
 
 .icon-bold {
-	background-position: -232px -136px;
-	width: 8px;
-	height: 10px;
-}
-
-.icon-nextsheet {
 	background-position: -176px -22px;
 	width: 8px;
 	height: 10px;
 }
 
-.icon-previoussheet {
+.icon-nextsheet {
 	background-position: -176px -32px;
 	width: 8px;
 	height: 10px;
 }
 
-.icon-italic {
+.icon-previoussheet {
 	background-position: -135px -115px;
+	width: 8px;
+	height: 10px;
+}
+
+.icon-italic {
+	background-position: -135px -125px;
 	width: 7px;
 	height: 10px;
 }
@@ -1831,7 +1837,7 @@
 }
 
 .icon-resize_square {
-	background-position: -277px -274px;
+	background-position: -81px -286px;
 	width: 9px;
 	height: 9px;
 }
@@ -1849,55 +1855,55 @@
 }
 
 .icon-constantproportions {
-	background-position: -81px -286px;
+	background-position: -90px -286px;
 	width: 13px;
 	height: 8px;
 }
 
 .icon-tabstopcenter_marker {
-	background-position: -94px -286px;
+	background-position: -103px -286px;
 	width: 12px;
 	height: 8px;
 }
 
 .icon-soft {
-	background-position: -106px -286px;
+	background-position: -115px -286px;
 	width: 10px;
 	height: 8px;
 }
 
 .icon-tabstopleft_marker {
-	background-position: -135px -125px;
+	background-position: -125px -286px;
 	width: 8px;
 	height: 8px;
 }
 
 .icon-tabstopright_marker {
-	background-position: -116px -286px;
+	background-position: -133px -286px;
 	width: 8px;
 	height: 8px;
 }
 
 .icon-redo1 {
-	background-position: -205px -192px;
+	background-position: -205px -193px;
 	width: 13px;
 	height: 6px;
 }
 
 .icon-undo1 {
-	background-position: -124px -286px;
+	background-position: -141px -286px;
 	width: 13px;
 	height: 6px;
 }
 
 .icon-nextpage {
-	background-position: -294px -253px;
+	background-position: -266px -168px;
 	width: 5px;
 	height: 6px;
 }
 
 .icon-previouspage {
-	background-position: -266px -154px;
+	background-position: -266px -174px;
 	width: 5px;
 	height: 6px;
 }
@@ -1909,25 +1915,25 @@
 }
 
 .icon-connectionpoint {
-	background-position: -294px -259px;
-	width: 5px;
-	height: 5px;
-}
-
-.icon-nonbreakspace {
-	background-position: -266px -160px;
-	width: 5px;
-	height: 5px;
-}
-
-.icon-square {
 	background-position: -236px -85px;
 	width: 5px;
 	height: 5px;
 }
 
+.icon-nonbreakspace {
+	background-position: -236px -90px;
+	width: 5px;
+	height: 5px;
+}
+
+.icon-square {
+	background-position: -236px -95px;
+	width: 5px;
+	height: 5px;
+}
+
 .icon-space {
-	background-position: -297px -198px;
+	background-position: -298px -165px;
 	width: 2px;
 	height: 3px;
 }
