@@ -3666,6 +3666,10 @@ define([], function () {
             this.txtNumberPage.setValue(index + 1);
         },
 
+        getOriginalPageSize: function () {
+            return this._originalPageSize;
+        },
+
         setOriginalPageSize: function (w, h) {
             this._originalPageSize = {w: w, h: h};
         },
