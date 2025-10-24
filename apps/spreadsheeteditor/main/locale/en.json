@@ -1483,6 +1483,7 @@
   "SSE.Controllers.LeftMenu.warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
   "SSE.Controllers.LeftMenu.warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
   "SSE.Controllers.LeftMenu.warnDownloadCsvSheets": "The CSV format does not support saving a multi-sheet file.<br>To keep the selected format and save only the current sheet, press Save.<br>To save the current spreadsheet, click Cancel and save it in a different format.",
+  "SSE.Controllers.LeftMenu.warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?",
   "SSE.Controllers.Main.confirmAddCellWatches": "This action will add {0} cell watches.<br>Do you want to continue?",
   "SSE.Controllers.Main.confirmAddCellWatchesMax": "This action will add only {0} cell watches by memory save reason.<br>Do you want to continue?",
   "SSE.Controllers.Main.confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
