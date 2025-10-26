@@ -1157,7 +1157,7 @@ define([
                     console.log("Obsolete: The 'chat' parameter of the 'customization' section is deprecated. Please use 'chat' parameter in the permissions instead.");
                 }
                 this.appOptions.canPrint       = (this.permissions.print !== false);
-                this.appOptions.canPreviewPrint = false;
+                this.appOptions.canPreviewPrint = this.appOptions.canPrint && !Common.Utils.isMac && this.appOptions.isDesktopApp;
                 this.appOptions.canQuickPrint = this.appOptions.canPrint && !Common.Utils.isMac && this.appOptions.isDesktopApp;
                 this.appOptions.canRename      = this.editorConfig.canRename;
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
@@ -1301,6 +1301,11 @@ define([
                 leftMenu.setMode(this.appOptions);
 
                 viewport.applyCommonMode();
+
+                if (this.appOptions.canPreviewPrint) {
+                    var printController = app.getController('Print');
+                    printController && this.api && printController.setApi(this.api).setMode(this.appOptions);
+                }
 
                 this.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(this.onDownloadUrl, this));
                 this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onAuthParticipantsChanged, this));
