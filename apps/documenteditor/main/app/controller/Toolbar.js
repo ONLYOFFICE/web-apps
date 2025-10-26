@@ -3981,6 +3981,18 @@ define([
                     Array.prototype.push.apply(me.toolbar.paragraphControls, drawtab.getView().getButtons());
                 }
 
+                tab = {caption: 'Header/Footer', action: 'headerfooter', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-headerfooter', dataHintTitle: 'S'};
+                var headerfootertab = application.getController('HeaderFooterTab');
+                headerfootertab.setApi(me.api).setConfig({toolbar: me, mode: config});
+                $panel = headerfootertab.createToolbarPanel();
+                if ($panel) {
+                    var visible = Common.UI.LayoutManager.isElementVisible('toolbar-headerfooter');
+                    me.toolbar.addTab(tab, $panel, 12);
+                    me.toolbar.setVisible('headerfooter', true);
+                    // !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'headerfooter'); // need to activate later
+                }
+                config.isEdit && Array.prototype.push.apply(me.toolbar.lockControls, headerfootertab.getView('HeaderFooterTab').getButtons());
+
                 if ( config.canProtect && !config.isPDFForm) {
                     tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
                     $panel = application.getController('Common.Controllers.Protection').createToolbarPanel();
