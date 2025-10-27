@@ -269,7 +269,6 @@ define([
             "canvas-high-contrast",
             "canvas-high-contrast-disabled",
 
-            "canvas-cell-border",
             "canvas-cell-title-background",
             "canvas-cell-title-background-hover",
             "canvas-cell-title-background-selected",
@@ -284,8 +283,6 @@ define([
             "canvas-dark-cell-title-border",
             "canvas-dark-cell-title-border-hover",
             "canvas-dark-cell-title-border-selected",
-            "canvas-dark-content-background",
-            "canvas-dark-page-border",
 
             "canvas-scroll-thumb",
             "canvas-scroll-thumb-hover",
@@ -305,8 +302,6 @@ define([
             "canvas-sheet-view-cell-background-pressed",
             "canvas-sheet-view-cell-title-label",
 
-            "canvas-freeze-line-1px",
-            "canvas-freeze-line-2px",
             "canvas-select-all-icon",
 
             "canvas-anim-pane-background",
