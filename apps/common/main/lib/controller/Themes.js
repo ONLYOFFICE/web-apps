@@ -201,7 +201,6 @@ define([
 
             "background-normal",
             "background-toolbar",
-            "background-toolbar-additional",
             "background-primary-dialog-button",
             "background-notification-popover",
             "background-notification-badge",
@@ -218,8 +217,6 @@ define([
             "highlight-header-button-hover",
             "highlight-header-button-pressed",
             "highlight-text-select",
-            "highlight-accent-button-hover",
-            "highlight-accent-button-pressed",
             "highlight-toolbar-tab-underline-document",
             "highlight-toolbar-tab-underline-spreadsheet",
             "highlight-toolbar-tab-underline-presentation",
@@ -234,12 +231,10 @@ define([
             "border-toolbar",
             "border-divider",
             "border-regular-control",
-            "border-toolbar-button-hover",
             "border-preview-hover",
             "border-preview-select",
             "border-control-focus",
             "border-color-shading",
-            "border-error",
             "border-contrast-popover",
 
             "text-normal",
@@ -257,10 +252,7 @@ define([
 
             "icon-normal",
             "icon-normal-pressed",
-            "icon-inverse",
             "icon-toolbar-header",
-            "icon-notification-badge",
-            "icon-contrast-popover",
             "icon-success",
 
             "canvas-background",

@@ -17,7 +17,6 @@
 
         "background-normal": "#333",
         "background-toolbar": "#404040",
-        "background-toolbar-additional": "#505050",
         "background-primary-dialog-button": "#c681ff",
         "background-accent-button": "#486F9E",
         "background-notification-popover": "#3e5968",
@@ -31,8 +30,6 @@
         "highlight-button-pressed": "#49617D",
         "highlight-button-pressed-hover": "#808080",
         "highlight-primary-dialog-button-hover": "#d39eff",
-        "highlight-accent-button-hover": "#75a2d6",
-        "highlight-accent-button-pressed": "#89afdc",
         "highlight-header-button-hover": "rgba(255, 255, 255, 0.05)",
         "highlight-header-button-pressed": "rgba(255, 255, 255, 0.15)",
         "highlight-text-select": "#96c8fd",
@@ -41,12 +38,10 @@
         "border-toolbar-active-panel-top": "#616161",
         "border-divider": "#505050",
         "border-regular-control": "#666",
-        "border-toolbar-button-hover": "#5a5a5a",
         "border-preview-hover": "#757575",
         "border-preview-select": "#bdbdbd",
         "border-control-focus": "#b948ff",
         "border-color-shading": "rgba(255, 255, 255, 0.1)",
-        "border-error": "#f62211",
         "border-contrast-popover": "#666",
 
         "text-normal": "rgba(255, 255, 255, 0.8)",
@@ -64,10 +59,7 @@
 
         "icon-normal": "rgba(255, 255, 255, 0.8)",
         "icon-normal-pressed": "rgba(255, 255, 255, 0.8)",
-        "icon-inverse": "#444",
         "icon-toolbar-header": "rgba(255, 255, 255, 0.8)",
-        "icon-notification-badge": "#000",
-        "icon-contrast-popover": "#fff",
         "icon-success": "#090",
 
         "canvas-background": "#555",
