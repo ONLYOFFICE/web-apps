@@ -53,6 +53,9 @@ define([
         sdkViewName : '#id_main',
 
         initialize: function () {
+            this._initSettings = true;
+            this.spinners = [];
+
             this.addListeners({
                 'HeaderFooterTab': {
                     'header:editremove':      _.bind(this.editRemoveHeader, this),
@@ -60,8 +63,109 @@ define([
                     'headerfooter:pagecount': _.bind(this.onInsertPageCountClick, this),
                     'headerfooter:pospick':   _.bind(this.onInsertPageNumberClick, this),
                     'headerfooter:inspagenumber':   _.bind(this.onInsertPageNumberMenuClick, this),
+                    'headerfooter:headerfooterpos':   _.bind(this.onNumPositionChange, this),
+                    'headerfooter:difffirst':   _.bind(this.onDiffFirstChange, this),
+                    'headerfooter:diffoddeven':   _.bind(this.onDiffOddEvenChange, this),
+                    'headerfooter:sameas':   _.bind(this.onSameAsChange, this),
                 },
             });
+        },
+
+        onDiffFirstChange: function (field) {
+            if (this.api)
+                this.api.HeadersAndFooters_DifferentFirstPage(field.getValue()=='checked');
+            this.fireEvent('editcomplete', this);
+        },
+
+        onDiffOddEvenChange: function (field) {
+            if (this.api)
+                this.api.HeadersAndFooters_DifferentOddandEvenPage((field.getValue()=='checked'));
+            this.fireEvent('editcomplete', this);
+        },
+
+        onSameAsChange: function(field, newValue, oldValue, eOpts){
+            if (this.api)
+                this.api.HeadersAndFooters_LinkToPrevious((field.getValue()=='checked'));
+            this.fireEvent('editcomplete', this);
+        },
+
+        ChangeSettings: function(prop) {
+            if (this._initSettings)
+                this.createDelayedElements();
+
+            // this.disableControls(this._locked);
+
+            if (prop) {
+                var value = prop.get_Type();
+                if (this._state.PositionType !== value) {
+                    this._state.PositionType = value;
+                }
+
+                value = prop.get_Position();
+                if ( Math.abs(this._state.Position-value)>0.001 ) {
+                    this.numPosition.setValue(Common.Utils.Metric.fnRecalcFromMM(value), true);
+                    this._state.Position = value;
+                }
+
+                value = prop.get_DifferentFirst();
+                if ( this._state.DiffFirst!==value ) {
+                    this.view.chDiffFirst.setValue(value, true);
+                    this._state.DiffFirst=value;
+                }
+
+                value = prop.get_DifferentEvenOdd();
+                if ( this._state.DiffOdd!==value ) {
+                    this.view.chDiffOddEven.setValue(value, true);
+                    this._state.DiffOdd=value;
+                }
+
+                value = prop.get_LinkToPrevious();
+                if ( this._state.SameAs!==value ) {
+                    this.view.chSameAs.setDisabled(value===null || this._locked);
+                    this.view.chSameAs.setValue(value==true, true);
+                    this._state.SameAs=value;
+                }
+
+                value = prop.get_StartPageNumber();
+                if ( this._state.Numbering!==value && value !== null) {
+                    // if (value<0)
+                    //     this.radioPrev.setValue(true, true);
+                    // else {
+                    //     this.radioFrom.setValue(true, true);
+                    //     this.numFrom.setValue(value, true);
+                    // }
+                    this._state.Numbering=value;
+                }
+
+                value = prop.get_NumFormat();
+                if ( this._state.NumFormat!==value) {
+                    // this.fillFormatCombo(value);
+                    this._state.NumFormat = value;
+                }
+            }
+        },
+
+        createDelayedElements: function() {
+            this.spinners.push(this.view.numHeaderPosition);
+            this.spinners.push(this.view.numFooterPosition);
+            this.updateMetricUnit();
+            this._initSettings = false;
+        },
+
+        updateMetricUnit: function() {
+            if (this.spinners) {
+                for (var i=0; i<this.spinners.length; i++) {
+                    var spinner = this.spinners[i];
+                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
+                }
+                this.numPosition && this.numPosition.setValue(Common.Utils.Metric.fnRecalcFromMM(this._state.Position), true);
+            }
+        },
+
+        onNumPositionChange: function(field, isHeader, newValue, oldValue, eOpts){
+            if (this.api)
+                this.api.put_HeadersAndFootersDistance(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()), isHeader);
         },
 
         onInsertPageNumberClick: function(picker, item, record, e) {
@@ -76,29 +180,33 @@ define([
         },
 
         onInsertPageNumberMenuClick: function (item) {
+            var me = this
             if (this.api) {
                 if (item.value === 'current') {
                     this.api.put_PageNum(-1);
                 } else if (item.value === 'format') {
                     var me = this;
-                    me._docProtectDlg  = new DE.Views.PageNumberingDlg({
+                    me._docPageNumberingDlg  = new DE.Views.PageNumberingDlg({
                         props: me.appConfig,
-                        handler: function(result, value, props) {
+                        numbering: this._state.Numbering,
+                        numFormat: this._state.NumFormat,
+                        mode: this.mode,
+                        handler: function(result, from, format) {
                             if (result == 'ok') {
-                                var protection = me.api.asc_getDocumentProtection() || new AscCommonWord.CDocProtect();
-                                protection.asc_setEditType(props);
-                                protection.asc_setPassword(value);
-                                me.api.asc_setDocumentProtection(protection);
+                                const pageProps = new Asc.SectionPageNumProps();
+                                pageProps.put_Start(from);
+                                pageProps.put_Format(format);
+                                me.api.asc_SetSectionPageNumProps(pageProps);
                             }
                             Common.NotificationCenter.trigger('edit:complete');
                         }
                     }).on('close', function() {
-                        me._docProtectDlg = undefined;
+                        me._docPageNumberingDlg = undefined;
                     });
 
-                    me._docProtectDlg.show();
+                    me._docPageNumberingDlg.show();
                 }
-            this.fireEvent('editcomplete', this);
+                this.fireEvent('editcomplete', this);
             }
         },
 
@@ -144,13 +252,23 @@ define([
             if (api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect, this));
+                this.api.asc_registerCallback('asc_onFocusObject',       _.bind(this.onApiFocusObject, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
             }
             return this;
         },
 
+        onApiFocusObject: function (selected) {
+            for (var i = 0; i < selected.length; i++) {
+                if (selected[i].asc_getObjectType() === Asc.c_oAscTypeSelectElement.Header) {
+                    this.ChangeSettings(selected[i].asc_getObjectValue());
+                };
+            };
+        },
+
         setConfig: function(config) {
             var mode = config.mode;
+            this.mode = mode;
             this.toolbar = config.toolbar;
             this.view = this.createView('HeaderFooterTab', {
                 toolbar: this.toolbar.toolbar,

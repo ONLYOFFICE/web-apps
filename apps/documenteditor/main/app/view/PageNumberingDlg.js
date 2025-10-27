@@ -56,8 +56,12 @@ define([], function () {
                 }, 'cancel']
             }, options);
 
-            this.handler        = options.handler;
+            this.recentNumTypes = [];
+            this.handler = options.handler;
             this.props = options.props;
+            this.numbering = options.numbering;
+            this.numFormat = options.numFormat;
+            this.mode = options.mode;
 
             this.template = options.template || [
                 '<div class="box">',
@@ -119,6 +123,23 @@ define([], function () {
                 ariaLabel: this.textFrom
             });
 
+            this._arrNumbers = [
+                { displayValue: '1, 2, 3,...',      value: Asc.c_oAscNumberingFormat.Decimal },
+                { displayValue: '- 1 -, - 2 -, - 3 -,...',      value: Asc.c_oAscNumberingFormat.NumberInDash },
+                { displayValue: 'a, b, c,...',      value: Asc.c_oAscNumberingFormat.LowerLetter },
+                { displayValue: 'A, B, C,...',      value: Asc.c_oAscNumberingFormat.UpperLetter },
+                { displayValue: 'i, ii, iii,...',   value: Asc.c_oAscNumberingFormat.LowerRoman },
+                { displayValue: 'I, II, III,...',   value: Asc.c_oAscNumberingFormat.UpperRoman }
+            ];
+            if (Common.Locale.getDefaultLanguage() === 'ru') {
+                this._arrNumbers = this._arrNumbers.concat([
+                    { displayValue: 'а, б, в,...',      value: Asc.c_oAscNumberingFormat.RussianLower },
+                    { displayValue: 'А, Б, В,...',      value: Asc.c_oAscNumberingFormat.RussianUpper }
+                ]);
+            }
+
+            this.loadRecent();
+
             this.cmbFormat = new Common.UI.ComboBox({
                 el          : $('#id-headerfooter-combo-format'),
                 cls: 'input-group-nr',
@@ -133,6 +154,16 @@ define([], function () {
                 dataHintOffset: 'big'
             });
 
+            if (this.numbering < 0) {
+                this.rbPrev.setValue(true, true);
+            } else {
+                this.rbFrom.setValue(true, true);
+                this.numFrom.setValue(this.numbering, true);
+            }
+
+            this.fillFormatCombo(this.numFormat);
+            this.cmbFormat.on('selected', _.bind(this.onFormatSelect, this));
+
             this.btnOk = _.find(this.getFooterButtons(), function (item) {
                 return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
             }) || new Common.UI.Button({ el: this.$window.find('.primary') });
@@ -140,12 +171,85 @@ define([], function () {
             this.afterRender();
         },
 
-        getFocusedComponents: function() {
-            return [this.rbPrev,].concat(this.getFooterButtons());
+        loadRecent: function(){
+            var sRecents = Common.localStorage.getItem('de-recent-header-formats');
+            if(sRecents !== ''){
+                sRecents = JSON.parse(sRecents);
+            }
+            if(_.isArray(sRecents)){
+                this.recentNumTypes = sRecents;
+            }
         },
 
-        getDefaultFocusableComponent: function () {
-            return this.inputPwd;
+        onFormatSelect: function (combo, record) {
+            if (record.value === -2) {
+                this.addNewListType();
+            }
+        },
+
+        addNewListType: function() {
+            var me = this,
+                btn,
+                win = new DE.Views.ListTypesAdvanced({
+                    modal: true,
+                    lang: me.mode.lang,
+                }).on('close', function(obj){
+                    // (btn!=='ok') && me.cmbFormat.setValue(me._state.NumFormat);
+                    console.log(obj)
+                });
+            win.show();
+        },
+
+        fillFormatCombo: function(format) {
+            if (format !== Asc.c_oAscNumberingFormat.None && format !== undefined && format !== null)
+                this.checkRecentNum(format);
+
+            var store = [].concat(this._arrNumbers),
+                me = this;
+            this.recentNumTypes.forEach(function(item) {
+                if (item!==null && item!==undefined) {
+                    item = parseInt(item);
+                    store.push({ displayValue: AscCommon.IntToNumberFormat(1, item, me.mode.lang) + ', ' + AscCommon.IntToNumberFormat(2, item, me.mode.lang) + ', ' + AscCommon.IntToNumberFormat(3, item, me.mode.lang) + ',...', value: item });
+                }
+            });
+            store.push({ displayValue: 'More types', value: -2 });
+            this.cmbFormat.setData(store);
+            this.cmbFormat.setValue(format !== Asc.c_oAscNumberingFormat.None && format !== undefined && format !== null ? format : '');
+        },
+
+        checkRecentNum: function(format){
+            if (format===null || format===undefined) return;
+
+            for(var i = 0; i < this._arrNumbers.length; ++i){
+                if(this._arrNumbers[i].value === format){
+                    return;
+                }
+            }
+            if(this.recentNumTypes.length === 0){
+                this.recentNumTypes.push(format);
+                this.saveRecentNum();
+                return;
+            }
+            for (var i = 0; i < this.recentNumTypes.length; ++i){
+                if(this.recentNumTypes[i] === format){
+                    this.recentNumTypes.splice(i, 1);
+                    break;
+                }
+            }
+            this.recentNumTypes.splice(0, 0, format);
+            if(this.recentNumTypes.length > nMaxRecent){
+                this.recentNumTypes.splice(nMaxRecent, this.recentNumTypes.length - nMaxRecent);
+            }
+            this.saveRecentNum();
+        },
+
+        saveRecentNum: function(){
+            var sJSON = JSON.stringify(this.recentNumTypes);
+            Common.localStorage.setItem('de-recent-header-formats', sJSON);
+        },
+
+        getFocusedComponents: function() {
+            return [this.rbPrev,].concat(this.getFooterButtons());
         },
 
         afterRender: function() {
@@ -162,22 +266,20 @@ define([], function () {
         },
 
         _handleInput: function(state) {
+            var me = this;
             if (state === 'ok' && this.btnOk.isDisabled())
                 return;
 
             if (this.handler) {
                 if (state === 'ok') {
-                    if (this.inputPwd.checkValidate() !== true)  {
-                        this.inputPwd.focus();
-                        return;
+                    if (this.rbPrev.getValue()) {
+                        me.from = -1;
+                    } else {
+                        me.from = this.numFrom.getValue();
                     }
-                    if (this.inputPwd.getValue() !== this.repeatPwd.getValue()) {
-                        this.repeatPwd.checkValidate();
-                        this.repeatPwd.focus();
-                        return;
-                    }
+                    me.format = this.cmbFormat.getValue();
                 }
-                this.handler.call(this, state, this.inputPwd.getValue(), (state == 'ok') ? this.getSettings() : undefined);
+                this.handler.call(this, state, me.from, me.format);
             }
 
             this.close();
