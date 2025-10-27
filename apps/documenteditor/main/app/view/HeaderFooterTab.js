@@ -107,7 +107,22 @@ define([
                 });
                 this.btnInsPageNumber.menu.on('item:click', function (menu, item, e) {
                     me.fireEvent('headerfooter:inspagenumber', [item]);
-                })
+                });
+                this.numHeaderPosition.on('change', function(field){
+                    me.fireEvent('headerfooter:headerfooterpos', [field, true]);}
+                );
+                this.numFooterPosition.on('change', function(field){
+                    me.fireEvent('headerfooter:headerfooterpos', [field, false]);}
+                );
+                this.chDiffFirst.on('change', function(field, newValue, oldValue, eOpts){
+                    me.fireEvent('headerfooter:difffirst', [field]);}
+                );
+                this.chDiffOddEven.on('change', function(field, newValue, oldValue, eOpts){
+                    me.fireEvent('headerfooter:diffoddeven', [field]);}
+                );
+                this.chSameAs.on('change', function(field, newValue, oldValue, eOpts){
+                    me.fireEvent('headerfooter:sameas', [field]);}
+                );
             },
 
             initialize: function (options) {
@@ -194,8 +209,9 @@ define([
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big',
                 });
-                // this.spinners.push(this.numHeaderPosition);
                 this.lockedControls.push(this.numHeaderPosition);
+
+                this.numHeaderPosition.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
                 this.numFooterPosition = new Common.UI.MetricSpinner({
                     step: .1,
@@ -208,7 +224,6 @@ define([
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big',
                 });
-                // this.spinners.push(this.numFooterPosition);
                 this.lockedControls.push(this.numFooterPosition);
 
                 this.chDiffFirst = new Common.UI.CheckBox({
@@ -235,35 +250,9 @@ define([
                 });
                 this.lockedControls.push(this.chSameAs);
 
-                this._arrNumbers = [
-                    { displayValue: '1, 2, 3,...',      value: Asc.c_oAscNumberingFormat.Decimal },
-                    { displayValue: '- 1 -, - 2 -, - 3 -,...',      value: Asc.c_oAscNumberingFormat.NumberInDash },
-                    { displayValue: 'a, b, c,...',      value: Asc.c_oAscNumberingFormat.LowerLetter },
-                    { displayValue: 'A, B, C,...',      value: Asc.c_oAscNumberingFormat.UpperLetter },
-                    { displayValue: 'i, ii, iii,...',   value: Asc.c_oAscNumberingFormat.LowerRoman },
-                    { displayValue: 'I, II, III,...',   value: Asc.c_oAscNumberingFormat.UpperRoman }
-                ];
-                if (Common.Locale.getDefaultLanguage() === 'ru') {
-                    this._arrNumbers = this._arrNumbers.concat([
-                        { displayValue: 'а, б, в,...',      value: Asc.c_oAscNumberingFormat.RussianLower },
-                        { displayValue: 'А, Б, В,...',      value: Asc.c_oAscNumberingFormat.RussianUpper }
-                    ]);
-                }
-                this.loadRecent();
-
                 Common.Utils.lockControls(_set.disableOnStart, true, {array: this.lockedControls});
                 Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
-            },
-
-            loadRecent: function(){
-                var sRecents = Common.localStorage.getItem('de-recent-header-formats');
-                if(sRecents !== ''){
-                    sRecents = JSON.parse(sRecents);
-                }
-                if(_.isArray(sRecents)){
-                    this.recentNumTypes = sRecents;
-                }
             },
 
             render: function (el) {
