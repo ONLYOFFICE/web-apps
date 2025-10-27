@@ -1754,16 +1754,16 @@ define([
                     this.api[item.options.isRowMenu ? 'asc_showRows' : 'asc_showColumns']();
                     break;
                 case 'hideSheet':
-                    this.toolbar.fireEvent('sheet:hide', [this, [this.api.asc_getActiveWorksheetIndex()]]);
+                    this.toolbar.fireEvent('sheet:hide', [this, this.api.asc_getActiveWorksheetIndex()]);
                     break;
                 case 'showSheet':
-                    this.toolbar.fireEvent('sheet:hidden', [this, item.options.sheetId]);                
+                    this.toolbar.fireEvent('sheet:show', [this, item.options.sheetId]);
                     break;
                 case 'renameSheet':
                     this.toolbar.fireEvent('sheet:changename');
                     break;
                 case 'moveCopySheet':
-                    this.toolbar.fireEvent('sheet:move', [[this.api.asc_getActiveWorksheetIndex()]]);
+                    this.toolbar.fireEvent('sheet:move', [this.api.asc_getActiveWorksheetIndex()]);
                     break;
                 case 'protectSheet':
                     Common.NotificationCenter.trigger('protect:sheet', !this.api.asc_isProtectedSheet());
