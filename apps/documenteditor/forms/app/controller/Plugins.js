@@ -165,7 +165,7 @@ define([
                 me.pluginDlg = new Common.Views.PluginDlg({
                     cls: isCustomWindow ? 'plain' : '',
                     header: !isCustomWindow,
-                    title: plugin.get_Name(lang),
+                    title: Common.Utils.String.htmlEncode(plugin.get_Name(lang)),
                     width: size[0], // inner width
                     height: size[1], // inner height
                     url: url,
