@@ -509,8 +509,8 @@ define([
                     toolbar.btnCondFormat.menu.on('show:before',            _.bind(this.onShowBeforeCondFormat, this, this.toolbar, 'toolbar'));
                 }
                 if (toolbar.btnFormatCell.rendered) {
-                    toolbar.btnFormatCell.on('click',            _.bind(this.onClickCellFormat, this, this.toolbar));
-                    toolbar.btnFormatCell.menu.on('item:click',        _.bind(this.onCellFormatMenu, this));
+                    toolbar.btnFormatCell.menu.on('show:before',            _.bind(this.onShowBeforeCellFormat, this, this.toolbar));
+                    toolbar.btnFormatCell.menu.on('item:click',             _.bind(this.onCellFormatMenu, this));
                     toolbar.btnFormatCell.menu.items[0].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
                     toolbar.btnFormatCell.menu.items[1].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
                     toolbar.btnFormatCell.menu.items[3].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
@@ -1705,7 +1705,10 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Cell delete');
         },
 
-        onClickCellFormat: function(cmp, item, e) {          
+        onShowBeforeCellFormat: function(cmp, item, e) {
+            if (!(e && e.target===e.currentTarget))
+                return;
+
             this.toolbar.btnFormatCell.menu.items[11].setChecked(this.api.asc_getCellInfo().asc_getXfs().asc_getLocked());
 
             let selectionType = this.api.asc_getCellInfo().asc_getSelectionType();
