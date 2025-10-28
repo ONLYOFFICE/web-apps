@@ -39,6 +39,8 @@
 define([], function () {
     'use strict';
 
+    var nMaxRecent = 5;
+
     DE.Views.PageNumberingDlg = Common.UI.Window.extend(_.extend({
 
         initialize : function (options) {
@@ -90,7 +92,7 @@ define([], function () {
 
             this.rbPrev = new Common.UI.RadioBox({
                 el: $('#id-headerfooter-radio-prev'),
-                labelText: 'Continue from previous section',
+                labelText: this.textPrev,
                 name: 'asc-radio-header-numbering',
                 checked: true,
                 dataHint: '1',
@@ -100,7 +102,7 @@ define([], function () {
 
             this.rbFrom = new Common.UI.RadioBox({
                 el: $('#id-headerfooter-radio-from'),
-                labelText: 'Start at',
+                labelText: this.textFrom,
                 name: 'asc-radio-header-numbering',
                 checked: true,
                 dataHint: '1',
@@ -160,7 +162,6 @@ define([], function () {
                 this.rbFrom.setValue(true, true);
                 this.numFrom.setValue(this.numbering, true);
             }
-
             this.fillFormatCombo(this.numFormat);
             this.cmbFormat.on('selected', _.bind(this.onFormatSelect, this));
 
@@ -193,9 +194,15 @@ define([], function () {
                 win = new DE.Views.ListTypesAdvanced({
                     modal: true,
                     lang: me.mode.lang,
+                    handler: function(result, value) {
+                        btn = result;
+                        if (result == 'ok') {
+                            me.fillFormatCombo(+value)
+                            me.numFormat = +value;
+                        }
+                    }
                 }).on('close', function(obj){
-                    // (btn!=='ok') && me.cmbFormat.setValue(me._state.NumFormat);
-                    console.log(obj)
+                    (btn!=='ok') && me.cmbFormat.setValue(me.numFormat);
                 });
             win.show();
         },
@@ -249,8 +256,13 @@ define([], function () {
         },
 
         getFocusedComponents: function() {
-            return [this.rbPrev,].concat(this.getFooterButtons());
+            return [this.rbPrev, this.rbFrom, this.numFrom, this.cmbFormat].concat(this.getFooterButtons());
         },
+
+        getDefaultFocusableComponent: function () {
+            return this.rbPrev;
+        },
+
 
         afterRender: function() {
             this._setDefaults(this.props);
@@ -275,9 +287,9 @@ define([], function () {
                     if (this.rbPrev.getValue()) {
                         me.from = -1;
                     } else {
-                        me.from = this.numFrom.getValue();
+                        me.from = +this.numFrom.getValue();
                     }
-                    me.format = this.cmbFormat.getValue();
+                    me.format = +this.cmbFormat.getValue();
                 }
                 this.handler.call(this, state, me.from, me.format);
             }
@@ -291,33 +303,12 @@ define([], function () {
         },
 
         getSettings: function() {
-            if (this.rbView.getValue())
-                return Asc.c_oAscEDocProtect.ReadOnly;
-            if (this.rbForms.getValue())
-                return Asc.c_oAscEDocProtect.Forms;
-            if (this.rbReview.getValue())
-                return Asc.c_oAscEDocProtect.TrackedChanges;
-            if (this.rbComments.getValue())
-                return Asc.c_oAscEDocProtect.Comments;
+
         },
 
         SetDisabled: function(disabled) {
             this.btnOk.setDisabled(disabled);
         },
-
-        txtPassword : "Password",
-        txtRepeat: 'Repeat password',
-        txtOptional: 'optional',
-        txtIncorrectPwd: 'Confirmation password is not identical',
-        txtWarning: 'Warning: If you lose or forget the password, it cannot be recovered. Please keep it in a safe place.',
-        txtProtect: 'Protect',
-        txtTitle: 'Page numbering',
-        txtAllow: 'Allow only this type of editing in the document',
-        textView: 'No changes (Read only)',
-        textForms: 'Filling forms',
-        textReview: 'Tracked changes',
-        textComments: 'Comments',
-        txtLimit: 'Password is limited to 15 characters'
 
     }, DE.Views.PageNumberingDlg || {}));
 });

@@ -139,7 +139,7 @@ define([
                     cls: 'btn-toolbar align-left',
                     iconCls: 'toolbar__icon btn-ic-zoomtopage',
                     lock: [_set.lostConnect, _set.disableOnStart],
-                    caption: 'Header',
+                    caption: this.txtHeader,
                     menu: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -151,7 +151,7 @@ define([
                     cls: 'btn-toolbar align-left',
                     iconCls: 'toolbar__icon btn-ic-zoomtowidth',
                     lock: [_set.lostConnect, _set.disableOnStart],
-                    caption: 'Footer',
+                    caption: this.txtFooter,
                     menu: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -162,7 +162,7 @@ define([
                 this.btnInsPageNumber = new Common.UI.Button({
                     id: 'tlbtn-insertchart',
                     cls: 'btn-toolbar x-huge icon-top',
-                    caption: 'Page Number',
+                    caption: this.txtPageNumbering,
                     iconCls: 'toolbar__icon btn-insertchart',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     menu: true,
@@ -175,7 +175,7 @@ define([
                 this.btnNumbOfPages = new Common.UI.Button({
                     id: 'tlbtn-insertchart',
                     cls: 'btn-toolbar x-huge icon-top',
-                    caption: 'Number Of Pages',
+                    caption: this.txtNumOfPages,
                     iconCls: 'toolbar__icon btn-text-from-file',
                     lock: [_set.lostConnect, _set.disableOnStart, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock],
                     dataHint: '1',
@@ -185,13 +185,13 @@ define([
                 this.lockedControls.push(this.btnNumbOfPages);
 
                 this.lblHeaderTop = new Common.UI.Label({
-                    caption: 'Header from top',
+                    caption: this.capHeaderTop,
                     lock: [_set.paragraphLock,]
                 });
                 this.lockedControls.push(this.lblHeaderTop);
 
                 this.lblFooterBottom = new Common.UI.Label({
-                    caption: 'Footer from bottom',
+                    caption: this.capFooterBottom,
                     lock: [_set.paragraphLock,]
                 });
                 this.lockedControls.push(this.lblFooterBottom);
@@ -227,7 +227,7 @@ define([
                 this.lockedControls.push(this.numFooterPosition);
 
                 this.chDiffFirst = new Common.UI.CheckBox({
-                    labelText: 'Different first page',
+                    labelText: this.txtDiffFirst,
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -235,7 +235,7 @@ define([
                 this.lockedControls.push(this.chDiffFirst);
 
                 this.chDiffOddEven = new Common.UI.CheckBox({
-                    labelText: 'Different odd and even pages',
+                    labelText: this.txtDiffOddEven,
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -243,12 +243,11 @@ define([
                 this.lockedControls.push(this.chDiffOddEven);
 
                 this.chSameAs = new Common.UI.CheckBox({
-                    labelText: 'Link to previous',
+                    labelText: this.txtSameAs,
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
                 });
-                this.lockedControls.push(this.chSameAs);
 
                 Common.Utils.lockControls(_set.disableOnStart, true, {array: this.lockedControls});
                 Common.UI.LayoutManager.addControls(this.lockedControls);
@@ -280,9 +279,6 @@ define([
                 this.chDiffFirst && this.chDiffFirst.render($host.find('#slot-chk-diff-first'));
                 this.chDiffOddEven && this.chDiffOddEven.render($host.find('#slot-chk-diff-odd-even'));
                 this.chSameAs && this.chSameAs.render($host.find('#slot-chk-sameas'));
-                // this.numHeaderPosition && this.numHeaderPosition.render($host.find('#slot-spin-header-top'));
-                // this.numFooterPosition && this.numFooterPosition.render($host.find('#slot-spin-footer-bot'));
-                // var created = this.btnsFitToPage.concat(this.btnsFitToWidth).concat(this.cmbsZoom);
                 return this.$el;
             },
 
@@ -292,16 +288,16 @@ define([
                 this.btnHeader.setMenu(
                     new Common.UI.Menu({
                     items: [
-                        {caption: 'Edit header', value: 'edit'},
-                        {caption: 'Remove header', value: 'remove'},
+                        {caption: this.txtEditHeader, value: 'edit'},
+                        {caption: this.txtRemoveHeader, value: 'remove'},
                     ]})
                 );
 
                 this.btnFooter.setMenu(
                     new Common.UI.Menu({
                     items: [
-                        {caption: 'Edit footer', value: 'edit'},
-                        {caption: 'Remove footer', value: 'remove'},
+                        {caption: this.txtEditFooter, value: 'edit'},
+                        {caption: this.txtRemoveFooter, value: 'remove'},
                     ]})
                 );
 
@@ -311,14 +307,14 @@ define([
                         items: [
                             {template: _.template('<div id="id-toolbar-menu-pageposition" class="menu-pageposition"></div>')},
                             this.mnuPageNumCurrentPos = new Common.UI.MenuItem({
-                                caption: 'To current position',
+                                caption: this.capCurrentPos,
                                 // lock: this.mnuPageNumCurrentPos.options.lock,
                                 // disabled: this.mnuPageNumCurrentPos.isDisabled(),
                                 value: 'current'
                             }),
                             {caption: '--'},
                             this.mnuPageNumCurrentPos = new Common.UI.MenuItem({
-                                caption: 'Format Page Numbers',
+                                caption: this.capFormatNums,
                                 value: 'format'
                             })
                         ]
@@ -379,10 +375,10 @@ define([
                     itemTemplate: _.template('<div id="<%= id %>" class="item-pagenumber options__icon options__icon-huge <%= iconname %>"></div>')
                 });
 
-                this.btnHeader.updateHint('Header menu');
-                this.btnFooter.updateHint('Footer menu');
-                this.btnInsPageNumber.updateHint('Insert page number');
-                this.btnNumbOfPages.updateHint('Insert page number');
+                this.btnHeader.updateHint(this.tipHeaderMenu);
+                this.btnFooter.updateHint(this.tipFooterMenu);
+                this.btnInsPageNumber.updateHint(this.tipPageNumbering);
+                this.btnNumbOfPages.updateHint(this.tipNumOfPages);
             },
 
             show: function () {
@@ -403,29 +399,6 @@ define([
                     }
                 }, this);
             },
-
-            textNavigation: 'Navigation',
-            textOutline: 'Headings',
-            textZoom: 'Zoom',
-            textFitToPage: 'Fit To Page',
-            textFitToWidth: 'Fit To Width',
-            textInterfaceTheme: 'Interface theme',
-            textStatusBar: 'Status Bar',
-            textAlwaysShowToolbar: 'Always show toolbar',
-            textRulers: 'Rulers',
-            textDarkDocument: 'Dark document',
-            tipHeadings: 'Headings',
-            tipFitToPage: 'Fit to page',
-            tipFitToWidth: 'Fit to width',
-            tipInterfaceTheme: 'Interface theme',
-            tipDarkDocument: 'Dark document',
-            textLeftMenu: 'Left panel',
-            textRightMenu: 'Right panel',
-            textTabStyle: 'Tab style',
-            textFill: 'Fill',
-            textLine: 'Line',
-            textMacros: 'Macros',
-            tipMacros: 'Macros'
         }
     }()), DE.Views.HeaderFooterTab || {}));
 });

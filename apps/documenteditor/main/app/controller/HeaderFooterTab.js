@@ -56,6 +56,15 @@ define([
             this._initSettings = true;
             this.spinners = [];
 
+            this._state = {
+                HeaderPosition: 12.5,
+                FooterPosition: 12.5,
+                DiffFirst: false,
+                DiffOdd: false,
+                SameAs: false,
+                Numbering: undefined
+            };
+
             this.addListeners({
                 'HeaderFooterTab': {
                     'header:editremove':      _.bind(this.editRemoveHeader, this),
@@ -90,21 +99,21 @@ define([
         },
 
         ChangeSettings: function(prop) {
+            var me = this;
             if (this._initSettings)
                 this.createDelayedElements();
 
-            // this.disableControls(this._locked);
-
             if (prop) {
-                var value = prop.get_Type();
-                if (this._state.PositionType !== value) {
-                    this._state.PositionType = value;
+                var value = prop.get_HeaderMargin();
+                if ( Math.abs(this._state.HeaderPosition-value)>0.001 ) {
+                    this.view.numHeaderPosition.setValue(Common.Utils.Metric.fnRecalcFromMM(value), true);
+                    this._state.HeaderPosition = value;
                 }
 
-                value = prop.get_Position();
-                if ( Math.abs(this._state.Position-value)>0.001 ) {
-                    this.numPosition.setValue(Common.Utils.Metric.fnRecalcFromMM(value), true);
-                    this._state.Position = value;
+                value = prop.get_FooterMargin();
+                if ( Math.abs(this._state.FooterPosition-value)>0.001 ) {
+                    this.view.numFooterPosition.setValue(Common.Utils.Metric.fnRecalcFromMM(value), true);
+                    this._state.FooterPosition = value;
                 }
 
                 value = prop.get_DifferentFirst();
@@ -121,25 +130,18 @@ define([
 
                 value = prop.get_LinkToPrevious();
                 if ( this._state.SameAs!==value ) {
-                    this.view.chSameAs.setDisabled(value===null || this._locked);
+                    this.view.chSameAs.setDisabled(value===null);
                     this.view.chSameAs.setValue(value==true, true);
                     this._state.SameAs=value;
                 }
 
                 value = prop.get_StartPageNumber();
                 if ( this._state.Numbering!==value && value !== null) {
-                    // if (value<0)
-                    //     this.radioPrev.setValue(true, true);
-                    // else {
-                    //     this.radioFrom.setValue(true, true);
-                    //     this.numFrom.setValue(value, true);
-                    // }
                     this._state.Numbering=value;
                 }
 
                 value = prop.get_NumFormat();
                 if ( this._state.NumFormat!==value) {
-                    // this.fillFormatCombo(value);
                     this._state.NumFormat = value;
                 }
             }
@@ -159,7 +161,8 @@ define([
                     spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
                     spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
                 }
-                this.numPosition && this.numPosition.setValue(Common.Utils.Metric.fnRecalcFromMM(this._state.Position), true);
+                this.numHeaderPosition && this.numHeaderPosition.setValue(Common.Utils.Metric.fnRecalcFromMM(this._state.HeaderPosition), true);
+                this.numFooterPosition && this.numFooterPosition.setValue(Common.Utils.Metric.fnRecalcFromMM(this._state.FooterPosition), true);
             }
         },
 
@@ -176,7 +179,6 @@ define([
                 this.toolbar.btnEditHeader.menu.hide();
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            // Common.component.Analytics.trackEvent('ToolBar', 'Page Number');
         },
 
         onInsertPageNumberMenuClick: function (item) {
@@ -186,11 +188,12 @@ define([
                     this.api.put_PageNum(-1);
                 } else if (item.value === 'format') {
                     var me = this;
-                    me._docPageNumberingDlg  = new DE.Views.PageNumberingDlg({
+                    me._docPageNumberingDlg = new DE.Views.PageNumberingDlg({
                         props: me.appConfig,
                         numbering: this._state.Numbering,
                         numFormat: this._state.NumFormat,
                         mode: this.mode,
+                        title: this.txtNumberingDlgTitle,
                         handler: function(result, from, format) {
                             if (result == 'ok') {
                                 const pageProps = new Asc.SectionPageNumProps();
@@ -218,8 +221,7 @@ define([
                     this.api.asc_RemoveHeader(this.api.getCurrentPage());
                 }
             }
-            // Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            // Common.component.Analytics.trackEvent('ToolBar', 'Edit ' + item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         editRemoveFooter: function(item) {
@@ -230,8 +232,7 @@ define([
                     this.api.asc_RemoveFooter(this.api.getCurrentPage());
                 }
             }
-            // Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            // Common.component.Analytics.trackEvent('ToolBar', 'Edit ' + item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onInsertPageCountClick: function(item, e) {
@@ -239,11 +240,9 @@ define([
                 this.api.asc_AddPageCount();
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            // Common.component.Analytics.trackEvent('ToolBar', 'Pages Count');
         },
 
         onLaunch: function () {
-            this._state = {};
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
