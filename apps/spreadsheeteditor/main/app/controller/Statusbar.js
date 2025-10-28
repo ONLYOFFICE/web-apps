@@ -70,7 +70,7 @@ define([
                     'statusbar:setcompact': _.bind(this.onChangeViewMode, this)
                 },
                 'Toolbar': {
-                    'statusbar:setcolor': _.bind(this.setWorksheetColor, this),
+                    'sheet:setcolor': _.bind(this.setWorksheetColor, this),
                     'sheet:changename': _.bind(function(){
                         this.api.asc_closeCellEditor();
                         this.renameWorksheet();

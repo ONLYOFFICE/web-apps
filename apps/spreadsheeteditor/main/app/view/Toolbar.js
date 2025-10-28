@@ -3393,7 +3393,7 @@ define([
                 });
                 this.mnuTabColorToolbar.menu.setInnerMenu([{ menu: this.mnuTabColorToolbarPicker, index: 0 }]);
                 this.mnuTabColorToolbarPicker.on('select', _.bind(function(picker, color) {
-                    this.fireEvent('statusbar:setcolor', [color]);
+                    this.fireEvent('sheet:setcolor', [color]);
                     setTimeout(_.bind(function() {
                         this.btnFormatCell.menu.hide();
                     }, this), 1);
