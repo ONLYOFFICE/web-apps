@@ -521,6 +521,17 @@
       div {
         width: 100%;
         height: 100%;
+
+        svg {
+          display: none;
+          width: 24px;
+          height: 30px;
+
+          .pixel-ratio__2_5 & {
+            display: block;
+          }
+        }
+
         div{
           background: ~"url(@{common-image-const-path}/doc-formats/formats.png)";
           background-size: 1200px 30px;
@@ -539,6 +550,10 @@
 
             .pixel-ratio__2 & {
               background-image: ~"url(@{common-image-const-path}/doc-formats/formats@2x.png)";
+            }
+
+            .pixel-ratio__2_5 & {
+              display: none;
             }
           }
         }
