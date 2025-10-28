@@ -129,6 +129,7 @@ require([
             'LeftMenu',
             'Main',
             'ViewTab',
+            'Print',
             // 'Search',
             'Common.Controllers.Chat',
             'Common.Controllers.Plugins',
@@ -153,6 +154,7 @@ require([
                 'visioeditor/main/app/controller/LeftMenu',
                 'visioeditor/main/app/controller/Main',
                 'visioeditor/main/app/controller/ViewTab',
+                'visioeditor/main/app/controller/Print',
                 // 'visioeditor/main/app/controller/Search',
                 'common/main/lib/util/utils'
                 ,'common/main/lib/controller/Chat'

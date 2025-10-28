@@ -117,7 +117,7 @@ define([
             '<div class="separator long pdf-buttons" style="display: none;"></div>' +
             '<div class="group no-group-mask" style="">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-view-roles"></span>' +
-                '<span class="btn-slot text x-huge" id="slot-btn-form-final"></span>' +
+                '<span class="btn-slot text x-huge hidden" id="slot-btn-form-final"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-prev"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-next"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-clear"></span>' +
@@ -211,7 +211,7 @@ define([
                 }
             }
             this.btnFinal && this.btnFinal.on('click', function (b, e) {
-                me.fireEvent('forms:final', [b.pressed, true]);
+                // me.fireEvent('forms:final', [b.pressed, true]);
             });
             this.btnManager && this.btnManager.on('click', function (b, e) {
                 me.fireEvent('forms:manager');

@@ -164,7 +164,7 @@
   "DE.Controllers.ApplicationController.txtPressLink": "Stiskněte CTRL a klikněte na odkaz",
   "DE.Controllers.ApplicationController.txtSignedForm": "Dokument byl podepsán a nelze jej upravit.",
   "DE.Controllers.ApplicationController.txtUntitled": "Bez názvu",
-  "DE.Controllers.ApplicationController.txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data.<br>Jste si jistí, že chcete pokračovat?",
+  "DE.Controllers.ApplicationController.txtWarnUrl": "Kliknutí na odkaz může být škodlivé pro vaše zařízení a data. Z důvodu bezpečnosti vašeho počítače, klikněte výhradně na hypertextové odkazy z důvěryhodných zdrojů. Toto umístění může být nebezpečné:<br><br>{0}<br><br>Opravdu chcete pokračovat?",
   "DE.Controllers.ApplicationController.unknownErrorText": "Neznámá chyba.",
   "DE.Controllers.ApplicationController.unsupportedBrowserErrorText": "Vámi používaný webový prohlížeč není podporován.",
   "DE.Controllers.ApplicationController.uploadImageExtMessage": "Neznámý formát obrázku.",

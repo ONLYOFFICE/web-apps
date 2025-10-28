@@ -1,6 +1,6 @@
 {
   "About": {
-    "textAbout": "O",
+    "textAbout": "U vezi",
     "textAddress": "Adresa",
     "textBack": "Nazad",
     "textEditor": "Pregledač dijagrama",
@@ -64,7 +64,7 @@
       "titleServerVersion": "Uređivač ažuriran",
       "titleUpdateVersion": "Verzija promenjena",
       "txtIncorrectPwd": "Lozinka je netačna",
-      "warnLicenseAnonymous": "Pristup odbijen za anonimne korisnike.<br>Ovaj dokument će biti otvoren samo za pregled.",
+      "warnLicenseAnonymous": "Pristup odbijen za anonimne korisnike.<br>Ovaj dokument će biti otvoren samo za prikaz.",
       "warnLicenseBefore": "Licenca nije aktivna.<br>Molimo kontaktirajte vašeg administratora.",
       "warnLicenseExp": "Vaša licenca je istekla. Molimo, ažurirajte vašu licencu i osvežite stranicu.",
       "warnLicenseLimitedNoAccess": "Licenca je istekla. Nemate pristup funkcijama za uređivanje dokumenata. Molimo kontaktirajte svog administratora.",
@@ -172,7 +172,7 @@
     },
     "Settings": {
       "notcriticalErrorTitle": "Upozorenje",
-      "textAbout": "O",
+      "textAbout": "U vezi",
       "textAddress": "adresa:",
       "textApplication": "Aplikacija",
       "textApplicationSettings": "Podešavanja Aplikacije",

@@ -756,6 +756,7 @@ define([
                 spreadsheetName: me.api.asc_getDocumentName(),
                 isDesktopApp: me.statusbar.mode.isDesktopApp,
                 isOffline: me.statusbar.mode.isOffline,
+                hiddenWorksheets: me.statusbar.getHiddenWorksheets(),
                 handler : function(result, i, copy, workbook) {
                     btn = result;
                     if (btn == 'ok') {

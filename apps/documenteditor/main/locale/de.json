@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Balken über dem Text",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Zellen überschreiben",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Ursprüngliche Formatierung beibehalten",
+  "DE.Views.DocumentHolder.txtPercentage": "Prozentsatz",
   "DE.Views.DocumentHolder.txtPressLink": "Drücken Sie {0} und klicken Sie auf den Link",
   "DE.Views.DocumentHolder.txtPrintSelection": "Auswahl drucken",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Bruchstrich entfernen",

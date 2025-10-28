@@ -2936,6 +2936,8 @@ define([
             },
 
             setLanguages: function() {
+                if (!this.languages)
+                    return;
                 let sLangs = Common.Controllers.Desktop.systemLangs() || {},
                     arr = [],
                     me = this;
@@ -3793,7 +3795,7 @@ define([
                     docInfo.put_Format(this.appOptions.spreadsheet.fileType);
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
-                    docInfo.put_Permissions(this.permissions);
+                    docInfo.put_Permissions(this.appOptions.spreadsheet.permissions);
                     docInfo.put_DirectUrl(data.document && data.document.directUrl ? data.document.directUrl : this.appOptions.spreadsheet.directUrl);
                     docInfo.put_VKey(data.document && data.document.vkey ?  data.document.vkey : this.appOptions.spreadsheet.vkey);
                     docInfo.put_EncryptedInfo(data.editorConfig && data.editorConfig.encryptionKeys ? data.editorConfig.encryptionKeys : this.editorConfig.encryptionKeys);

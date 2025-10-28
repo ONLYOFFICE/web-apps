@@ -262,6 +262,7 @@ define([
             if (this.mode.isEdit && Common.UI.FeaturesManager.canChange('spellcheck')) {
                 Common.UI.LayoutManager.isElementVisible('leftMenu-spellcheck') && this.leftMenu.btnSpellcheck.show();
                 this.leftMenu.setOptionsPanel('spellcheck', this.getApplication().getController('Spellcheck').getView('Spellcheck'));
+                this.leftMenu.clearMoreButton();
                 this.leftMenu.setButtons();
                 this.leftMenu.setMoreButton();
             }

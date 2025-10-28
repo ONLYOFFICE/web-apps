@@ -2541,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Barra sobre texto",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Sobreescribir las celdas",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Mantener el formato original",
+  "DE.Views.DocumentHolder.txtPercentage": "Porcentaje",
   "DE.Views.DocumentHolder.txtPressLink": "Pulse {0} y haga clic en el enlace",
   "DE.Views.DocumentHolder.txtPrintSelection": "Imprimir selección",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Quitar la barra de fracción",

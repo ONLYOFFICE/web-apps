@@ -160,6 +160,7 @@
   "Common.Views.SearchPanel.tipPreviousResult": "කලින් ප්‍රතිඵලය",
   "Common.Views.SelectFileDlg.textLoading": "පූරණය වෙමින්",
   "Common.Views.SelectFileDlg.textTitle": "දත්ත මූලාශ්‍රය තෝරන්න",
+  "Common.Views.ShortcutsDialog.txtDescription": "Description",
   "Common.Views.ShortcutsDialog.txtEmpty": "No matches found. Adjust your search.",
   "Common.Views.ShortcutsDialog.txtRestoreAll": "Restore All to Defaults",
   "Common.Views.ShortcutsDialog.txtRestoreContinue": "Do you want to continue?",
@@ -447,6 +448,5 @@
   "VE.Views.ViewTab.textZoom": "විශාල කරන්න",
   "VE.Views.ViewTab.tipFitPage": "පිටුවට ගළපන්න",
   "VE.Views.ViewTab.tipFitWidth": "පළලට ගළපන්න",
-  "VE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව",
-  "Common.Views.ShortcutsDialog.txtDescription": "Description"
+  "VE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව"
 }

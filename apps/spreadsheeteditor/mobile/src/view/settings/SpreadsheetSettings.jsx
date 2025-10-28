@@ -212,6 +212,7 @@ const PageSpreadsheetSettings = props => {
     const isPortrait = storeSpreadsheetSettings.isPortrait;
     const isHideHeadings = storeSpreadsheetSettings.isHideHeadings;
     const isHideGridlines = storeSpreadsheetSettings.isHideGridlines;
+    const isSheetRtl = storeSpreadsheetSettings.isSheetRtl;
 
     // Init Format
 
@@ -247,6 +248,14 @@ const PageSpreadsheetSettings = props => {
                     initSpreadsheetMargins: props.initSpreadsheetMargins,
                     onPageMarginsChange: props.onPageMarginsChange
                 }}></ListItem>
+            </List>
+            <List>
+                <ListItem title={_t.textSheetRtl}>
+                    <Toggle checked={isSheetRtl} onToggleChange={() => {
+                        storeSpreadsheetSettings.changeSheetRtl(!isSheetRtl)
+                        props.onRtlSheetClick(!isSheetRtl)
+                    }} />
+                </ListItem>
             </List>
             <List>
                 <ListItem title={_t.textHideHeadings}>

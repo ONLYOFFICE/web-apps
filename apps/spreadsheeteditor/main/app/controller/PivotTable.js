@@ -68,9 +68,6 @@ define([
                     'pivottable:grandtotals':   _.bind(this.onPivotGrandTotals, this),
                     'pivot:open':               _.bind(this.onPivotOpen, this)
                 },
-                'TableSettings': {
-                    'pivottable:create':        _.bind(this.onCreateClick, this)
-                },
                 'TableDesignTab': {
                     'pivottable:create':        _.bind(this.onCreateClick, this)
                 },

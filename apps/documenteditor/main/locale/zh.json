@@ -803,7 +803,7 @@
   "Common.Views.Comments.textEdit": "确定",
   "Common.Views.Comments.textEnterCommentHint": "在这里输入您的批注",
   "Common.Views.Comments.textHintAddComment": "添加批注",
-  "Common.Views.Comments.textOpen": "打开",
+  "Common.Views.Comments.textOpen": "未解决",
   "Common.Views.Comments.textOpenAgain": "再次打开",
   "Common.Views.Comments.textReply": "回复",
   "Common.Views.Comments.textResolve": "解决",
@@ -1177,6 +1177,7 @@
   "Common.Views.ShapeShadowDialog.txtSize": "大小",
   "Common.Views.ShapeShadowDialog.txtTitle": "调整阴影",
   "Common.Views.ShapeShadowDialog.txtTransparency": "透明度",
+  "Common.Views.ShortcutsDialog.txtDescription": "描述",
   "Common.Views.ShortcutsDialog.txtEmpty": "未找到匹配项，请调整搜索条件。",
   "Common.Views.ShortcutsDialog.txtRestoreAll": "将所有设置恢复为默认值",
   "Common.Views.ShortcutsDialog.txtRestoreContinue": "您确定要继续操作吗？",
@@ -2540,6 +2541,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "文本上横条",
   "DE.Views.DocumentHolder.txtOverwriteCells": "覆盖单元格",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "保留源格式",
+  "DE.Views.DocumentHolder.txtPercentage": "百分比",
   "DE.Views.DocumentHolder.txtPressLink": "按 {0} 并单击链接",
   "DE.Views.DocumentHolder.txtPrintSelection": "打印所选内容",
   "DE.Views.DocumentHolder.txtRemFractionBar": "删除分数栏",
@@ -4276,6 +4278,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "半透明",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "下划线",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "字体名称",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字体大小",
-  "Common.Views.ShortcutsDialog.txtDescription": "Description"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字体大小"
 }
