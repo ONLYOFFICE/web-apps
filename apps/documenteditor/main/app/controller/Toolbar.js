@@ -1000,6 +1000,16 @@ define([
                 this._state.docLockCommentsIns = docLockCommentsIns;
             }
 
+            if (this._state.inheaderfooter !== in_header) {
+                if ( !in_header && this.toolbar.isTabActive('headerfooter') )
+                    this.toolbar.setTab('home');
+                this.toolbar.setVisible('headerfooter', !!in_header);
+                if (in_header) {
+                    this.toolbar.setTab('headerfooter');
+                }
+                this._state.inheaderfooter = in_header;
+            }
+
             var listId = this.api.asc_GetCurrentNumberingId(),
                 numformat = (listId !== null) ? this.api.asc_GetNumberingPr(listId).get_Lvl(this.api.asc_GetCurrentNumberingLvl()).get_Format() : Asc.c_oAscNumberingFormat.None;
             this.toolbar.btnMarkers.toggle(numformat===Asc.c_oAscNumberingFormat.Bullet || numformat===Asc.c_oAscNumberingFormat.None && (listId !== null), true);
@@ -3980,15 +3990,13 @@ define([
                     Array.prototype.push.apply(me.toolbar.paragraphControls, drawtab.getView().getButtons());
                 }
 
-                tab = {caption: 'Header/Footer', action: 'headerfooter', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-headerfooter', dataHintTitle: 'S'};
+                tab = {caption: this.toolbar.textTabHeaderFooter, action: 'headerfooter', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-headerfooter', dataHintTitle: 'S'};
                 var headerfootertab = application.getController('HeaderFooterTab');
                 headerfootertab.setApi(me.api).setConfig({toolbar: me, mode: config});
                 $panel = headerfootertab.createToolbarPanel();
                 if ($panel) {
                     var visible = Common.UI.LayoutManager.isElementVisible('toolbar-headerfooter');
                     me.toolbar.addTab(tab, $panel, 12);
-                    me.toolbar.setVisible('headerfooter', true);
-                    // !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'headerfooter'); // need to activate later
                 }
                 config.isEdit && Array.prototype.push.apply(me.toolbar.lockControls, headerfootertab.getView('HeaderFooterTab').getButtons());
 
