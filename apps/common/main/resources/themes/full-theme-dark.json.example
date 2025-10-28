@@ -17,6 +17,7 @@
 
         "background-normal": "#333",
         "background-toolbar": "#404040",
+        "background-toolbar-additional": "#505050",
         "background-primary-dialog-button": "#c681ff",
         "background-accent-button": "#486F9E",
         "background-notification-popover": "#3e5968",

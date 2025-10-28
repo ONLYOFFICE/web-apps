@@ -201,6 +201,7 @@ define([
 
             "background-normal",
             "background-toolbar",
+            "background-toolbar-additional",
             "background-primary-dialog-button",
             "background-notification-popover",
             "background-notification-badge",
