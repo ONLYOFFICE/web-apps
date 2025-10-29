@@ -2854,6 +2854,7 @@
   "DE.Views.FormSettings.textValue": "Value options",
   "DE.Views.FormSettings.textWidth": "Cell width",
   "DE.Views.FormSettings.textZipCodeUS": "US ZIP Code (e.g. 92663 or 92663-1234)",
+  "DE.Views.FormSettings.textLabel": "Label",
   "DE.Views.FormsTab.capBtnCheckBox": "Checkbox",
   "DE.Views.FormsTab.capBtnComboBox": "Combo Box",
   "DE.Views.FormsTab.capBtnComplex": "Complex Field",
