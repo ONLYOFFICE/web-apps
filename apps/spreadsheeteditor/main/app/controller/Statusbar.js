@@ -76,13 +76,13 @@ define([
                         this.renameWorksheet();
                     },this),
                     'sheet:move': _.bind(function (obj, index) {
-                        this.moveWorksheet([index]);
+                        this.moveWorksheet(index);
                         }, this),
                     'sheet:show': _.bind(function (obj, index) {
                         this.hideWorksheet(false, index);
                     }, this),
                     'sheet:hide': _.bind(function (obj, index) {
-                        this.hideWorksheet(true, [index]);
+                        this.hideWorksheet(true, index);
                     }, this)
                 }
             });

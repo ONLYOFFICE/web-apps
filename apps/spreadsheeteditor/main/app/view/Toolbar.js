@@ -3377,7 +3377,8 @@ define([
                 }));                
                 this.mnuTabColorToolbarPicker = new Common.UI.ThemeColorPalette({
                     el: $('#id-toolbar-menu-tab-color'),
-                    outerMenu: { menu: this.mnuTabColorToolbar.menu, index: 0 }
+                    outerMenu: { menu: this.mnuTabColorToolbar.menu, index: 0, focusOnShow: true },
+                    transparent: true
                 });
                 this.mnuTabColorToolbar.menu.setInnerMenu([{ menu: this.mnuTabColorToolbarPicker, index: 0 }]);
                 this.mnuTabColorToolbarPicker.on('select', _.bind(function(picker, color) {

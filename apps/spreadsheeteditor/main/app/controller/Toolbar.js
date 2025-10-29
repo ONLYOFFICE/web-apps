@@ -1714,6 +1714,25 @@ define([
             let selectionType = this.api.asc_getCellInfo().asc_getSelectionType();
             let isDisabled = selectionType !== Asc.c_oAscSelectionType.RangeCells && selectionType !== Asc.c_oAscSelectionType.RangeCol 
                 && selectionType !== Asc.c_oAscSelectionType.RangeRow;
+
+            let color = null,
+                clr = null;
+            let sindex = this.api.asc_getActiveWorksheetIndex();
+
+            if (this.toolbar) {
+                this.toolbar.mnuTabColorToolbarPicker.updateCustomColors();
+
+                color = this.api.asc_getWorksheetTabColor(sindex);
+                if (color) {
+                    if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                        clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
+                    } else {
+                        clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                    }
+                } else
+                    clr = 'transparent';
+                Common.Utils.ThemeColor.selectPickerColorByEffect(clr, this.toolbar.mnuTabColorToolbarPicker);
+            }
             
             this.toolbar.btnFormatCell.menu.items[0].setDisabled(isDisabled);
             this.toolbar.btnFormatCell.menu.items[1].setDisabled(isDisabled);
@@ -1724,16 +1743,17 @@ define([
             this.toolbar.btnFormatCell.menu.items[11].setDisabled(isDisabled);
             this.toolbar.btnFormatCell.menu.items[13].setDisabled(isDisabled);
              
-            let hiddenItems = SSE.getController('Statusbar').statusbar.tabMenu.items[5].menu.items;
+            let hiddenItems = SSE.getController('Statusbar').statusbar.getHiddenWorksheets();      
+            
             this.toolbar.mnuShowSheets.menu.removeAll();
             this.toolbar.mnuShowSheets.hide();
             if (hiddenItems.length) {
                 hiddenItems.forEach(item => {
                     this.toolbar.mnuShowSheets.menu.addItem(new Common.UI.MenuItem({
                         style: 'white-space: pre-wrap',
-                        caption: item.caption,
+                        caption: item.label,
                         value: 'showSheet',
-                        sheetId: item.value
+                        sheetId: item.sheetindex
                     }))
                 })
                 this.toolbar.mnuShowSheets.show();
@@ -1742,6 +1762,12 @@ define([
 
         onCellFormatMenu: function(menu, item, e) {
             if (!this.api) return;
+
+            let selectTabs = SSE.getController('Statusbar').statusbar.tabbar.selectTabs
+            let tabIndex = []
+            selectTabs.forEach(function (item) {
+                tabIndex.push(item.sheetindex);
+            });
 
             switch (item.value) {
                 case 'row-height':
@@ -1757,7 +1783,7 @@ define([
                     this.api[item.options.isRowMenu ? 'asc_showRows' : 'asc_showColumns']();
                     break;
                 case 'hideSheet':
-                    this.toolbar.fireEvent('sheet:hide', [this, this.api.asc_getActiveWorksheetIndex()]);
+                    this.toolbar.fireEvent('sheet:hide', [this, tabIndex]);
                     break;
                 case 'showSheet':
                     this.toolbar.fireEvent('sheet:show', [this, item.options.sheetId]);
@@ -1766,7 +1792,7 @@ define([
                     this.toolbar.fireEvent('sheet:changename');
                     break;
                 case 'moveCopySheet':
-                    this.toolbar.fireEvent('sheet:move', [this.api.asc_getActiveWorksheetIndex()]);
+                    this.toolbar.fireEvent('sheet:move', [this, tabIndex]);
                     break;
                 case 'protectSheet':
                     Common.NotificationCenter.trigger('protect:sheet', !this.api.asc_isProtectedSheet());
