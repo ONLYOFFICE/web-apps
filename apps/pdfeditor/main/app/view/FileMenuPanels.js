@@ -854,6 +854,8 @@ define([], function () {
             value = Common.Utils.InternalSettings.get("settings-tab-style");
             item = this.cmbTabStyle.store.findWhere({value: value});
             this.cmbTabStyle.setValue(item ? item.get('value') : 'fill');
+
+            Common.localStorage.getItem('help-tip-customize-shortcuts') && $('.new-hint', this.el).addClass('hidden');
         },
 
         applySettings: function() {
@@ -937,6 +939,7 @@ define([], function () {
                 api: this.api
             });
             win.show();
+            Common.localStorage.setItem('help-tip-customize-shortcuts', 1); // don't show new feature label
         },
 
         customizeQuickAccess: function () {

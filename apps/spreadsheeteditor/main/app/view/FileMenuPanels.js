@@ -1243,6 +1243,8 @@ define([], function () {
                 this.chHScroll.setValue(this.api.asc_GetShowHorizontalScroll());
                 this.chVScroll.setValue(this.api.asc_GetShowVerticalScroll());
             }
+
+            Common.localStorage.getItem('help-tip-customize-shortcuts') && $('.new-hint', this.el).addClass('hidden');
         },
 
         isValid: function() {
@@ -1413,6 +1415,7 @@ define([], function () {
                 api: this.api
             });
             win.show();
+            Common.localStorage.setItem('help-tip-customize-shortcuts', 1); // don't show new feature label
         },
 
         SetDisabled: function(disabled) {
