@@ -67,9 +67,6 @@ define([], function () {
 
             this.template = options.template || [
                 '<div class="box">',
-                    '<div class="" style="margin-bottom: 5px;">',
-                        '<label class="font-weight-bold" style="margin-bottom: 5px;">' + 'Page numbering' + '</label>',
-                    '</div>',
                     '<div id="id-headerfooter-radio-prev" style="margin-bottom: 8px;"></div>' +
                     '<div class="" style="margin-bottom: 5px;">',
                         '<div id="id-headerfooter-radio-from" style="margin-bottom: 8px; display: inline-block; vertical-align: middle;"></div>' +

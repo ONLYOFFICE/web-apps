@@ -67,17 +67,42 @@ define([
 
             this.addListeners({
                 'HeaderFooterTab': {
-                    'header:editremove':      _.bind(this.editRemoveHeader, this),
-                    'footer:editremove':      _.bind(this.editRemoveFooter, this),
-                    'headerfooter:pagecount': _.bind(this.onInsertPageCountClick, this),
                     'headerfooter:pospick':   _.bind(this.onInsertPageNumberClick, this),
                     'headerfooter:inspagenumber':   _.bind(this.onInsertPageNumberMenuClick, this),
                     'headerfooter:headerfooterpos':   _.bind(this.onNumPositionChange, this),
                     'headerfooter:difffirst':   _.bind(this.onDiffFirstChange, this),
                     'headerfooter:diffoddeven':   _.bind(this.onDiffOddEvenChange, this),
                     'headerfooter:sameas':   _.bind(this.onSameAsChange, this),
+                    'headerfooter:close':   _.bind(this.onTabClose, this),
+                    'headerfooter:editremove':   _.bind(this.onHeaderFooterEditRemove, this),
                 },
             });
+        },
+
+        onHeaderFooterEditRemove: function (item) {
+            if (this.api) {
+                switch (item.value) {
+                    case 'edit-header':
+                        this.api.GoToHeader(this.api.getCurrentPage());
+                        break;
+                    case 'edit-footer':
+                        this.api.GoToFooter(this.api.getCurrentPage());
+                        break;
+                    case 'remove-header':
+                        this.api.asc_RemoveHeader(this.api.getCurrentPage());
+                        break;
+                    case 'remove-footer':
+                        this.api.asc_RemoveFooter(this.api.getCurrentPage());
+                        break;
+                }
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            }
+        },
+
+        onTabClose: function () {
+            if (this.api) {
+                this.api.asc_CancelHdrFtrEditing();
+            }
         },
 
         onDiffFirstChange: function (field) {
@@ -208,38 +233,11 @@ define([
                     });
 
                     me._docPageNumberingDlg.show();
+                } else if (item.value === 'quantity') {
+                    this.api.asc_AddPageCount();
                 }
                 this.fireEvent('editcomplete', this);
             }
-        },
-
-        editRemoveHeader: function(item) {
-            if (this.api) {
-                if (item.value === 'edit') {
-                    this.api.GoToHeader(this.api.getCurrentPage());
-                } else if (item.value === 'remove') {
-                    this.api.asc_RemoveHeader(this.api.getCurrentPage());
-                }
-            }
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        editRemoveFooter: function(item) {
-            if (this.api) {
-                if (item.value === 'edit') {
-                    this.api.GoToFooter(this.api.getCurrentPage());
-                } else if (item.value === 'remove') {
-                    this.api.asc_RemoveFooter(this.api.getCurrentPage());
-                }
-            }
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onInsertPageCountClick: function(item, e) {
-            if (this.api)
-                this.api.asc_AddPageCount();
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onLaunch: function () {
