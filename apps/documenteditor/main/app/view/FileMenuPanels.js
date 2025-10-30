@@ -1079,6 +1079,8 @@ define([], function () {
             value = Common.Utils.InternalSettings.get("de-settings-numeral");
             item = this.cmbNumeral.store.findWhere({value: value});
             this.cmbNumeral.setValue(item ? item.get('value') : Asc.c_oNumeralType.arabic);
+
+            Common.localStorage.getItem('help-tip-customize-shortcuts') && $('.new-hint', this.el).addClass('hidden');
         },
 
         applySettings: function() {
@@ -1198,6 +1200,7 @@ define([], function () {
                 api: this.api
             });
             win.show();
+            Common.localStorage.setItem('help-tip-customize-shortcuts', 1); // don't show new feature label
         },
 
         customizeQuickAccess: function () {
