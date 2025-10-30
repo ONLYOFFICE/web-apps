@@ -46,18 +46,12 @@ define([
     DE.Views.HeaderFooterTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
         '<section class="panel" data-tab="headerfooter" role="tabpanel" aria-labelledby="headerfooter">' +
-            '<div class="group small">' +
-                '<div class="elset">' +
-                    '<span class="btn-slot text" id="slot-btn-header"></span>' +
-                '</div>' +
-                '<div class="elset">' +
-                    '<span class="btn-slot text" id="slot-btn-footer"></span>' +
-                '</div>' +
+            '<div class="group">' +
+                '<span class="btn-slot text x-huge" id="slot-btn-edit-remove-headerfooter"></span>' +
             '</div>' +
             '<div class="separator long"></div>' +
             '<div class="group">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-ins-page-numb"></span>' +
-                '<span class="btn-slot text x-huge" id="slot-btn-numb-of-pages"></span>' +
             '</div>' +
             '<div class="separator long"></div>' +
             '<div class="group small">' +
@@ -85,6 +79,10 @@ define([
                 '</div>' +
                 '<div class="elset"></div>' +
             '</div>' +
+            '<div class="separator long"></div>' +
+            '<div class="group">' +
+                '<span class="btn-slot text x-huge" id="slot-btn-close-tab"></span>' +
+            '</div>' +
         '</section>';
 
         return {
@@ -93,15 +91,6 @@ define([
             setEvents: function () {
                 var me = this;
 
-                this.btnHeader.menu.on('item:click', function(menu, item, e) {
-                    me.fireEvent('header:editremove', [item]);
-                });
-                this.btnFooter.menu.on('item:click', function(menu, item, e) {
-                    me.fireEvent('footer:editremove', [item]);
-                });
-                this.btnNumbOfPages.on('click', function(menu, item, e) {
-                    me.fireEvent('headerfooter:pagecount', [item]);
-                });
                 this.mnuPageNumberPosPicker.on('item:click', function(picker, item, record, e) {
                     me.fireEvent('headerfooter:pospick', [picker, item, record, e]);
                 });
@@ -123,6 +112,12 @@ define([
                 this.chSameAs.on('change', function(field, newValue, oldValue, eOpts){
                     me.fireEvent('headerfooter:sameas', [field]);}
                 );
+                this.btnCloseTab.on('click', function(field){
+                    me.fireEvent('headerfooter:close');}
+                );
+                this.btnHeaderFooter.menu.on('item:click', function (menu, item, e) {
+                    me.fireEvent('headerfooter:editremove', [item]);
+                });
             },
 
             initialize: function (options) {
@@ -135,32 +130,19 @@ define([
                 var me = this;
                 var _set = Common.enumLock;
 
-                this.btnHeader = new Common.UI.Button({
-                    cls: 'btn-toolbar align-left',
-                    iconCls: 'toolbar__icon btn-ic-zoomtopage',
+                this.btnHeaderFooter = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-editheader',
                     lock: [_set.lostConnect, _set.disableOnStart],
-                    caption: this.txtHeader,
+                    caption: this.txtHeaderFooter,
                     menu: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small',
                 });
-                this.lockedControls.push(this.btnHeader);
-
-                this.btnFooter = new Common.UI.Button({
-                    cls: 'btn-toolbar align-left',
-                    iconCls: 'toolbar__icon btn-ic-zoomtowidth',
-                    lock: [_set.lostConnect, _set.disableOnStart],
-                    caption: this.txtFooter,
-                    menu: true,
-                    dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'small',
-                });
-                this.lockedControls.push(this.btnFooter);
+                this.lockedControls.push(this.btnHeaderFooter);
 
                 this.btnInsPageNumber = new Common.UI.Button({
-                    id: 'tlbtn-insertchart',
                     cls: 'btn-toolbar x-huge icon-top',
                     caption: this.txtPageNumbering,
                     iconCls: 'toolbar__icon btn-insertchart',
@@ -172,17 +154,16 @@ define([
                 });
                 this.lockedControls.push(this.btnInsPageNumber);
 
-                this.btnNumbOfPages = new Common.UI.Button({
-                    id: 'tlbtn-insertchart',
+                this.btnCloseTab = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    caption: this.txtNumOfPages,
-                    iconCls: 'toolbar__icon btn-text-from-file',
-                    lock: [_set.lostConnect, _set.disableOnStart, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock],
+                    caption: this.txtCloseTab,
+                    iconCls: 'toolbar__icon btn-ic-protect',
+                    lock: [_set.lostConnect, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
                 });
-                this.lockedControls.push(this.btnNumbOfPages);
+                this.lockedControls.push(this.btnCloseTab);
 
                 this.lblHeaderTop = new Common.UI.Label({
                     caption: this.capHeaderTop,
@@ -270,10 +251,9 @@ define([
 
                 _injectComponent('#slot-spin-header-top', this.numHeaderPosition);
                 _injectComponent('#slot-spin-footer-bot', this.numFooterPosition);
-                this.btnHeader && this.btnHeader.render($host.find('#slot-btn-header'));
-                this.btnFooter && this.btnFooter.render($host.find('#slot-btn-footer'));
                 this.btnInsPageNumber && this.btnInsPageNumber.render($host.find('#slot-btn-ins-page-numb'));
-                this.btnNumbOfPages && this.btnNumbOfPages.render($host.find('#slot-btn-numb-of-pages'));
+                this.btnHeaderFooter && this.btnHeaderFooter.render($host.find('#slot-btn-edit-remove-headerfooter'));
+                this.btnCloseTab && this.btnCloseTab.render($host.find('#slot-btn-close-tab'));
                 this.lblHeaderTop && this.lblHeaderTop.render($host.find('#slot-lbl-header-top'));
                 this.lblFooterBottom && this.lblFooterBottom.render($host.find('#slot-lbl-footer-bot'));
                 this.chDiffFirst && this.chDiffFirst.render($host.find('#slot-chk-diff-first'));
@@ -285,21 +265,17 @@ define([
             onAppReady: function (config) {
                 var me = this;
 
-                this.btnHeader.setMenu(
+                this.btnHeaderFooter.setMenu(
                     new Common.UI.Menu({
-                    items: [
-                        {caption: this.txtEditHeader, value: 'edit'},
-                        {caption: this.txtRemoveHeader, value: 'remove'},
-                    ]})
-                );
-
-                this.btnFooter.setMenu(
-                    new Common.UI.Menu({
-                    items: [
-                        {caption: this.txtEditFooter, value: 'edit'},
-                        {caption: this.txtRemoveFooter, value: 'remove'},
-                    ]})
-                );
+                        items: [
+                            {caption: this.txtEditHeader, value: 'edit-header'},
+                            {caption: this.txtEditFooter, value: 'edit-footer'},
+                            {caption: '--'},
+                            {caption: this.txtRemoveHeader, value: 'remove-header'},
+                            {caption: this.txtRemoveFooter, value: 'remove-footer'},
+                        ]
+                    })
+                )
 
                 this.btnInsPageNumber.setMenu(
                     new Common.UI.Menu({
@@ -312,8 +288,12 @@ define([
                                 // disabled: this.mnuPageNumCurrentPos.isDisabled(),
                                 value: 'current'
                             }),
+                            this.mnuPageNumOfPages = new Common.UI.MenuItem({
+                                caption: this.capNumOfPages,
+                                value: 'quantity'
+                            }),
                             {caption: '--'},
-                            this.mnuPageNumCurrentPos = new Common.UI.MenuItem({
+                            this.mnuNumFormat = new Common.UI.MenuItem({
                                 caption: this.capFormatNums,
                                 value: 'format'
                             })
@@ -375,10 +355,9 @@ define([
                     itemTemplate: _.template('<div id="<%= id %>" class="item-pagenumber options__icon options__icon-huge <%= iconname %>"></div>')
                 });
 
-                this.btnHeader.updateHint(this.tipHeaderMenu);
-                this.btnFooter.updateHint(this.tipFooterMenu);
                 this.btnInsPageNumber.updateHint(this.tipPageNumbering);
-                this.btnNumbOfPages.updateHint(this.tipNumOfPages);
+                this.btnHeaderFooter.updateHint(this.tipHeaderFooter);
+                this.btnCloseTab.updateHint(this.tipCloseTab);
             },
 
             show: function () {
