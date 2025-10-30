@@ -1763,11 +1763,7 @@ define([
         onCellFormatMenu: function(menu, item, e) {
             if (!this.api) return;
 
-            let selectTabs = SSE.getController('Statusbar').statusbar.tabbar.selectTabs
-            let tabIndex = []
-            selectTabs.forEach(function (item) {
-                tabIndex.push(item.sheetindex);
-            });
+            let tabIndex = SSE.getController('Statusbar').getSelectTabs();
 
             switch (item.value) {
                 case 'row-height':
