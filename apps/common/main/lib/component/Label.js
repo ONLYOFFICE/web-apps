@@ -101,7 +101,7 @@ define([
             }
 
             if (this.disabled)
-                this.setDisabled(this.disabled);
+                this.setDisabled(!(this.disabled=false));
 
             if (this.options.scaling !== false && this.iconCls) {
                 this.$label.attr('ratio', 'ratio');
@@ -118,12 +118,11 @@ define([
         },
 
         setDisabled: function(disabled) {
-            if (!this.rendered)
-                return;
-
-            disabled = (disabled===true);
-            if (disabled !== this.disabled) {
-                this.$label.toggleClass('disabled', disabled);
+            if (this.rendered) {
+                disabled = (disabled===true);
+                if (disabled !== this.disabled) {
+                    this.$label.toggleClass('disabled', disabled);
+                }
             }
 
             this.disabled = disabled;

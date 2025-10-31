@@ -112,7 +112,7 @@ define([
             this.DefValueDropDown = el.find('#form-combo-def-value').closest('tr');
             this.TagSettings = el.find('#form-txt-tag').closest('tr');
 
-            !Common.UI.FeaturesManager.isFeatureEnabled('roles', true) && el.find('#form-combo-roles').closest('tr').hide();
+            !Common.UI.FeaturesManager.isFeatureEnabled('roles', true) && el.find('#form-combo-roles').closest('tr').hide().next('tr').hide();
         },
 
         createDelayedElements: function() {
@@ -656,7 +656,7 @@ define([
 
             var template = [
                 '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                    '<div class="form-control" style="display: flex; align-items: center; line-height: 14px; cursor: pointer; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;<%= style %>"></div>',
+                    '<div class="form-control" style="display: flex; align-items: center; line-height: 14px; cursor: pointer; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>"></div>',
                     '<div style="display: table-cell;"></div>',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">'].concat(itemsTemplate).concat([
@@ -668,7 +668,7 @@ define([
                 el: $markup.findById('#form-combo-roles'),
                 cls: 'menu-roles',
                 menuCls: 'menu-absolute',
-                menuStyle: 'min-width: 194px; max-height: 190px;max-width: 400px;',
+                menuStyle: 'min-width: 194px; max-height: 205px;max-width: 400px;',
                 menuAlignEl: $(this.el).parent(),
                 restoreMenuHeightAndTop: 85,
                 style: 'width: ' + $markup.width() + 'px;',
@@ -2015,6 +2015,7 @@ define([
                                 props.put_FormPr(formPr);
                                 me.api.asc_SetContentControlProperties(props, me.internalId);
                                 Common.Utils.InternalSettings.set('de-last-form-role', settings.name);
+                                me.fireEvent('forms:currentrole');
                             }
                         }
                     }).on('close', () => {
@@ -2026,6 +2027,7 @@ define([
                     this.api.asc_SetContentControlProperties(props, this.internalId);
                     Common.Utils.InternalSettings.set('de-last-form-role', record.value)
                     this.fireEvent('editcomplete', this);
+                    this.fireEvent('forms:currentrole');
                 }
             }
         },
