@@ -892,6 +892,8 @@ define([
             },
 
             fillFillForCombo: function(roles, lastRoleInList) {
+                if (!this.cmbRoles) return;
+                
                 var lastrole = this.cmbRoles.getSelectedRecord();
                 lastrole = lastrole ? lastrole.value : '';
 
