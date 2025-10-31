@@ -110,11 +110,10 @@
         if ( base_url.lastIndexOf('../img/', 0) === 0 )
             base_url = base_url.replace('..','./resources');
 
-        const svg_icons_array = [base_url + 'iconssmall@2.5x.svg', base_url + 'iconsbig@2.5x.svg', base_url + 'iconshuge@2.5x.svg', '../../common/main/resources/img/doc-formats/formats@2.5x.svg'];
         if ( window.Common && window.Common.Utils )
-            window.Common.Utils.injectSvgIcons(svg_icons_array, true);
+            window.Common.Utils.injectSvgIcons([base_url + 'iconssmall@2.5x.svg', base_url + 'iconsbig@2.5x.svg', base_url + 'iconshuge@2.5x.svg', '../../common/main/resources/img/doc-formats/formats@2.5x.svg'], true);
         else {
-            window.uitheme.svg_icons = svg_icons_array;
+            window.uitheme.svg_icons = [base_url + 'iconssmall@2.5x.svg', base_url + 'iconsbig@2.5x.svg', base_url + 'iconshuge@2.5x.svg'];
         }
     }
 
