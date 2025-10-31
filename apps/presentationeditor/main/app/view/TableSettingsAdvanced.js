@@ -82,10 +82,10 @@ define([
                 Right  : 0.19,
                 Top    : null,
                 Bottom : null,
-                Flag   : 0  // 0(checked) - как в таблице, 1(indeterminate) - разные значения, не определено, 2 (unchecked) - собственные
+                Flag   : 0  // 0(checked) - as in table, 1(indeterminate) - different values, undefined, 2 (unchecked) - own values
             };
 
-            this._initialMarginsDefault = false;  // если для всех выделенных ячеек пришло одинаковое значение Flag=0 (Use Default Margins)
+            this._initialMarginsDefault = false;  // If the same value is received for all selected cells Flag=0 (Use Default Margins)
             this._originalProps = new Asc.CTableProp(this.options.tableProps);
             this.slideSize = this.options.slideSize;
         },
@@ -319,7 +319,7 @@ define([
                 labelText: this.textCheckMargins
             });
             this.chCellMargins.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                if ( oldValue=='checked' && this._originalProps && this._originalProps.get_CellMargins().get_Flag()==1 ) { // позволяем выставлять значение indeterminate только если исходные значения не совпадали
+                if ( oldValue=='checked' && this._originalProps && this._originalProps.get_CellMargins().get_Flag()==1 ) { // allow to set the indeterminate value only if the original values did not match
                     field.setValue('indeterminate', true);
                 }
                 this.fillMargins.call( this, field.getValue());
@@ -567,7 +567,7 @@ define([
                 }
 
                 if ( flag===0 ) {
-                    // Если для всех выделенных ячеек пришло одинаковое значение Flag=0 (Use Default Margins), выставим в поля для Cell Margins значения DefaultMargins
+                    // If the same value is received for all selected cells Flag=0 (Use Default Margins), set DefaultMargins values in the fields for Cell Margins
                     if (this.CellMargins.Left=== null) this.CellMargins.Left = this.TableMargins.Left;
                     if (this.CellMargins.Top=== null) this.CellMargins.Top = this.TableMargins.Top;
                     if (this.CellMargins.Right=== null) this.CellMargins.Right = this.TableMargins.Right;
@@ -588,7 +588,7 @@ define([
 
         fillMargins : function (checkMarginsState) {
             if ( this._initialMarginsDefault && checkMarginsState=='unchecked' ) {
-                // изначально для всех ячеек использовали DefaultMargins, а теперь снимаем галку -> выставим в поля для маргинов 0, а не пустые значения
+                // Initially, DefaultMargins were used for all cells, and now uncheck option -> set 0 for cells margins (not empty values)
                 if (this.CellMargins.Left=== null) this.CellMargins.Left = 0;
                 if (this.CellMargins.Top=== null) this.CellMargins.Top = 0;
                 if (this.CellMargins.Right=== null) this.CellMargins.Right = 0;

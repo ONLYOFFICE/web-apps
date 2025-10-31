@@ -5128,5 +5128,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Sayfanın korumasını kaldırmak için bir şifre girin",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Korumasız Sayfa",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Çalışma kitabının korumasını kaldırmak için bir parola girin",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Korumasız Çalışma Sayfası"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Korumasız Çalışma Sayfası",
+  "SSE.Controllers.LeftMenu.warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
 }

@@ -5128,5 +5128,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Zadejte heslo pro deaktivaci zabezpečení listu",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Zrušit zabezpečení listu",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Vložte heslo pro přístup k sešitu",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Zrušit zabezpečení sešitu"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Zrušit zabezpečení sešitu",
+  "SSE.Controllers.LeftMenu.warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
 }

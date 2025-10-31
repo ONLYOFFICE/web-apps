@@ -890,7 +890,8 @@
       "txtZh": "Chinês (simplificado)",
       "txtZhtw": "Chinês (tradicional)",
       "warnDownloadAs": "Se você continuar salvando neste formato, todos os recursos com exceção do texto serão perdidos.<Br>Você tem certeza que quer continuar?",
-      "warnDownloadCsv": "O formato CSV não suporta salvar um arquivo de várias planilhas e todos os elementos, exceto texto.<br>Para salvar apenas a planilha selecionada em CSV, pressione OK.<br>Para salvar a planilha inteira e todos os recursos, clique em Cancelar e selecione outro formato."
+      "warnDownloadCsv": "O formato CSV não suporta salvar um arquivo de várias planilhas e todos os elementos, exceto texto.<br>Para salvar apenas a planilha selecionada em CSV, pressione OK.<br>Para salvar a planilha inteira e todos os recursos, clique em Cancelar e selecione outro formato.",
+      "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
     }
   }
 }

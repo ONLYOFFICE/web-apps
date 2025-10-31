@@ -890,7 +890,8 @@
       "txtZh": "Čínština (Zjednodušená)",
       "txtZhtw": "Čínština (Tradiční)",
       "warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?",
-      "warnDownloadCsv": "Formát CSV nepodporuje ukládání souboru s více listy a všech prvků kromě textu.<br>Pro uložení pouze vybraného listu do CSV, klikněte na OK.<br>Pro uložení celého sešitu a všech jeho vlastností klikněte na Zrušit a vyberte jiný formát."
+      "warnDownloadCsv": "Formát CSV nepodporuje ukládání souboru s více listy a všech prvků kromě textu.<br>Pro uložení pouze vybraného listu do CSV, klikněte na OK.<br>Pro uložení celého sešitu a všech jeho vlastností klikněte na Zrušit a vyberte jiný formát.",
+      "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
     }
   }
 }

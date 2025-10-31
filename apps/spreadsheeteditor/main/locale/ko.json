@@ -1301,7 +1301,7 @@
   "SSE.Controllers.DocumentHolder.textAutoCorrectSettings": "자동 고침 옵션",
   "SSE.Controllers.DocumentHolder.textChangeColumnWidth": "열 너비 {0} 기호 ({1} 픽셀)",
   "SSE.Controllers.DocumentHolder.textChangeRowHeight": "행 높이 {0} 점 ({1} 픽셀)",
-  "SSE.Controllers.DocumentHolder.textCtrlClick": "CTRL 키를 누른 상태에서 링크 클릭",
+  "SSE.Controllers.DocumentHolder.textCtrlClick": "실행하려면 한 번만 클릭하십시오. 누르고 있으면 현재 셀이 선택됩니다.",
   "SSE.Controllers.DocumentHolder.textInsertLeft": "왼쪽에 삽입",
   "SSE.Controllers.DocumentHolder.textInsertTop": "위의 행 삽입",
   "SSE.Controllers.DocumentHolder.textPasteSpecial": "특수기호 붙이기",
@@ -5128,5 +5128,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "양식 보호를 해제하려면 비밀번호를 입력하세요.",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "시트 보호해제",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "통합 문서 보호를 해제하려면 비밀번호를 입력하세요.",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "통합 문서 보호 잠금 해제"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "통합 문서 보호 잠금 해제",
+  "SSE.Controllers.LeftMenu.warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
 }

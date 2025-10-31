@@ -231,9 +231,9 @@ define([
                 this._settings[settingsType].props = value;
                 this._settings[settingsType].hidden = 0;
 
-                if (!this._settings[Common.Utils.documentSettingsType.Signature].locked) // lock Signature, если хотя бы один объект locked
+                if (!this._settings[Common.Utils.documentSettingsType.Signature].locked) // lock Signature, if at least one object is locked
                     this._settings[Common.Utils.documentSettingsType.Signature].locked = value.asc_getLocked();
-                if (!this._settings[Common.Utils.documentSettingsType.Paragraph].locked) // lock Paragraph, если хотя бы у одной автофигуры заблокирован текст
+                if (!this._settings[Common.Utils.documentSettingsType.Paragraph].locked) // lock Paragraph, if at least one shape has locked text
                     this._settings[Common.Utils.documentSettingsType.Paragraph].locked = this._state.wsProps['Objects'] && locktext;
             }
 

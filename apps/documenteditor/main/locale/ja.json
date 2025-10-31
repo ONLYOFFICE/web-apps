@@ -4278,5 +4278,7 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "半透明",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "アンダーライン",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "フォント名",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "フォントのサイズ"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "フォントのサイズ",
+  "DE.Views.DocumentHolder.txtPastePicture": "Picture",
+  "DE.Views.FormSettings.textLabel": "Label"
 }

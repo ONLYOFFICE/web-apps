@@ -5128,5 +5128,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Unesite lozinku da nezaštitite list",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Nezaštiti list",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Unesite lozinku da nezaštitite radnu knjigu",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Nezaštiti radnu knjigu"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Nezaštiti radnu knjigu",
+  "SSE.Controllers.LeftMenu.warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
 }

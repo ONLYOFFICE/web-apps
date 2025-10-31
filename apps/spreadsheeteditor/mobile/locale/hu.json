@@ -890,7 +890,8 @@
       "txtZh": "Kínai (egyszerűsített)",
       "txtZhtw": "Kínai (hagyományos)",
       "warnDownloadAs": "Ha ebbe a formátumba ment, a nyers szövegen kívül minden elveszik.<br>Biztos benne, hogy folytatni akarja?",
-      "warnDownloadCsv": "A CSV formátum nem támogatja a többlapos fájlok és a szöveg kivételével az összes elem mentését.<br>Csak a kiválasztott munkalap CSV-fájlba mentéséhez kattintson az OK gombra.<br>A teljes táblázat és az összes funkció mentéséhez kattintson a Mégse gombra, és válasszon másik formátumot."
+      "warnDownloadCsv": "A CSV formátum nem támogatja a többlapos fájlok és a szöveg kivételével az összes elem mentését.<br>Csak a kiválasztott munkalap CSV-fájlba mentéséhez kattintson az OK gombra.<br>A teljes táblázat és az összes funkció mentéséhez kattintson a Mégse gombra, és válasszon másik formátumot.",
+      "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
     }
   }
 }

@@ -4278,5 +4278,7 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "شبه شفاف",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "تحته خط",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "اسم الخط",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط",
+  "DE.Views.DocumentHolder.txtPastePicture": "Picture",
+  "DE.Views.FormSettings.textLabel": "Label"
 }

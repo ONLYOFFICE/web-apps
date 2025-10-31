@@ -5128,5 +5128,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "輸入密碼以解除工作表的保護",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "解除工作表保護",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "輸入密碼以解除工作簿的保護",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "解除工作簿保護"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "解除工作簿保護",
+  "SSE.Controllers.LeftMenu.warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
 }
