@@ -161,7 +161,7 @@
   "DE.Controllers.ApplicationController.txtClose": "Închidere",
   "DE.Controllers.ApplicationController.txtEmpty": "(Gol)",
   "DE.Controllers.ApplicationController.txtEnterDate": "Introducere data",
-  "DE.Controllers.ApplicationController.txtPressLink": "Apăsați Ctrl și faceți clic pe linkul",
+  "DE.Controllers.ApplicationController.txtPressLink": "Apăsați Ctrl și faceți clic pe link",
   "DE.Controllers.ApplicationController.txtSignedForm": "Documentul este semnat și nu poate fi modificat.",
   "DE.Controllers.ApplicationController.txtUntitled": "Fără titlu",
   "DE.Controllers.ApplicationController.txtWarnUrl": "Accesarea acestui link poate dăuna dispozitivului sau datelor dvs. Pentru a vă proteja calculatorul, evitați să dați click pe linkuri de la surse necunoscute. Această locație poate fi nesigură:<br><br>{0}<br><br>Sigur doriti sa continuati? ",

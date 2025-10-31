@@ -4278,5 +4278,7 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Poloprůhledné",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podtržené",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Název písma",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost písma"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost písma",
+  "DE.Views.DocumentHolder.txtPastePicture": "Picture",
+  "DE.Views.FormSettings.textLabel": "Label"
 }

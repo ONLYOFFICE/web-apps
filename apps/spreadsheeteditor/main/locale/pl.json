@@ -860,7 +860,7 @@
   "Common.Views.DocumentPropertyDialog.txtPropertyBooleanTrue": "Yes",
   "Common.Views.DocumentPropertyDialog.txtPropertyTitleBlankError": "Property should have a title",
   "Common.Views.DocumentPropertyDialog.txtPropertyTitleLabel": "Title",
-  "Common.Views.DocumentPropertyDialog.txtPropertyTypeBoolean": "\"Yes\" or \"No\"",
+  "Common.Views.DocumentPropertyDialog.txtPropertyTypeBoolean": "\"Tak\" czy \"Nie\"",
   "Common.Views.DocumentPropertyDialog.txtPropertyTypeDate": "Date",
   "Common.Views.DocumentPropertyDialog.txtPropertyTypeLabel": "Type",
   "Common.Views.DocumentPropertyDialog.txtPropertyTypeNumber": "Number",
@@ -3096,7 +3096,7 @@
   "SSE.Views.DocumentHolder.txtPaste": "Wklej",
   "SSE.Views.DocumentHolder.txtPercent": "% of",
   "SSE.Views.DocumentHolder.txtPercentage": "Procentowe",
-  "SSE.Views.DocumentHolder.txtPercentDiff": "% difference from",
+  "SSE.Views.DocumentHolder.txtPercentDiff": "Różnica procentowa od",
   "SSE.Views.DocumentHolder.txtPercentOfCol": "% of column total",
   "SSE.Views.DocumentHolder.txtPercentOfGrand": "% of grand total",
   "SSE.Views.DocumentHolder.txtPercentOfParent": "% of parent total",
@@ -5128,5 +5128,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Wprowadź hasło, aby odblokować arkusz",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Usuń ochronę arkusza",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Wprowadź hasło, aby wyłączyć ochronę skoroszytu",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Usuń ochronę skoroszytu"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Usuń ochronę skoroszytu",
+  "SSE.Controllers.LeftMenu.warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
 }

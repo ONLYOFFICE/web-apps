@@ -4278,5 +4278,7 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Yarım şəffaf",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Altından xətt çəkilmiş",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Şrift Adı",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Şrift Ölçüsü"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Şrift Ölçüsü",
+  "DE.Views.DocumentHolder.txtPastePicture": "Picture",
+  "DE.Views.FormSettings.textLabel": "Label"
 }

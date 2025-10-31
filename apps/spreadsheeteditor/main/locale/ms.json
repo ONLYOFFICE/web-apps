@@ -5128,5 +5128,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Masukkan kata laluan untuk melindungi helaian",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Helaian Nyahlindung",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Masukkan kata laluan untuk melindungi buku kerja",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Buku Kerja Nyahlindung"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Buku Kerja Nyahlindung",
+  "SSE.Controllers.LeftMenu.warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
 }

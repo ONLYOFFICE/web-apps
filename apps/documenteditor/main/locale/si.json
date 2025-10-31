@@ -4278,5 +4278,7 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "අර්ධ පාරදෘශ්‍යතාව",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "යටිඉර",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "රුවකුරේ නම",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "රුවකුරේ තරම"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "රුවකුරේ තරම",
+  "DE.Views.DocumentHolder.txtPastePicture": "Picture",
+  "DE.Views.FormSettings.textLabel": "Label"
 }
