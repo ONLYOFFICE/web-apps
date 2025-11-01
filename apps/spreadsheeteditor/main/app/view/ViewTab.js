@@ -448,6 +448,8 @@ define([
 
                         me.btnCreateView.updateHint(me.tipCreate);
                         me.btnCloseView.updateHint(me.tipClose);
+                        Common.Utils.lockControls(Common.enumLock.sheetView, me.toolbar && me.toolbar.api && me.toolbar.api.asc_getActiveNamedSheetView &&
+                                                !me.toolbar.api.asc_getActiveNamedSheetView(me.toolbar.api.asc_getActiveWorksheetIndex()), {array: [me.btnCloseView]});
                     }
                     me.btnMacros && me.btnMacros.updateHint(me.tipMacros);
                     me.btnInterfaceTheme.updateHint(me.tipInterfaceTheme);

@@ -64,7 +64,7 @@ define([
             if (api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onZoomChanged',              this.onApiZoomChange.bind(this));
-                this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onSelectionChanged, this));
+                this.api.asc_registerCallback('asc_onChangeActiveNamedSheetView',     _.bind(this.onChangeActiveNamedSheetView, this));
                 this.api.asc_registerCallback('asc_onWorksheetLocked',      _.bind(this.onWorksheetLocked, this));
                 this.api.asc_registerCallback('asc_onSheetsChanged',            this.onApiSheetChanged.bind(this));
                 this.api.asc_registerCallback('asc_onUpdateSheetViewSettings',  this.onApiSheetChanged.bind(this));
@@ -144,7 +144,7 @@ define([
             this.SetDisabled(true);
         },
 
-        onSelectionChanged: function(info) {
+        onChangeActiveNamedSheetView: function() {
             if (!this.toolbar.editMode || !this.view) return;
 
             Common.Utils.lockControls(Common.enumLock.sheetView, this.api.asc_getActiveNamedSheetView && !this.api.asc_getActiveNamedSheetView(this.api.asc_getActiveWorksheetIndex()),
