@@ -100,9 +100,17 @@ define([
                 '</div>' +
                 '<div class="elset"></div>' +
             '</div>' +
-            '<div class="separator long"></div>' +
-            '<div class="group">' +
+            '<div class="separator long macro"></div>' +
+            '<div class="group macro">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-macros"></span>' +
+            '</div>' +
+            '<div class="group small macro">' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-btn-macro-start" style="text-align: center;"></span>' +
+                '</div>' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-btn-macro-pause" style="text-align: center;"></span>' +
+                '</div>' +
             '</div>' +
         '</section>';
 
@@ -149,6 +157,13 @@ define([
                 me.btnMacros && me.btnMacros.on('click', function () {
                     me.fireEvent('macros:click');
                 });
+                me.btnRecMacro && me.btnRecMacro.on('click', function () {
+                    me.fireEvent('macros:record');
+                });
+                me.btnPauseMacro && me.btnPauseMacro.on('click', function () {
+                    me.fireEvent('macros:pause');
+                });
+
                 me.btnSelectTool && me.btnSelectTool.on('toggle', _.bind(function(btn, state) {
                     state && me.fireEvent('pointer:select');
                 }, me));
@@ -289,6 +304,28 @@ define([
                         dataHintOffset: 'small'
                     });
                     this.lockedControls.push(this.btnMacros);
+
+                    this.btnRecMacro = new Common.UI.Button({
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-macros-record',
+                        lock: [_set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.lostConnect, _set.disableOnStart],
+                        caption: this.textRecMacro,
+                        dataHint: '1',
+                        dataHintDirection: 'left',
+                        dataHintOffset: 'medium'
+                    });
+                    this.lockedControls.push(this.btnRecMacro);
+
+                    this.btnPauseMacro = new Common.UI.Button({
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-macros-pause',
+                        lock: [_set.macrosStopped, _set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.lostConnect, _set.disableOnStart],
+                        caption: this.textPauseMacro,
+                        dataHint: '1',
+                        dataHintDirection: 'left',
+                        dataHintOffset: 'medium'
+                    });
+                    this.lockedControls.push(this.btnPauseMacro);
                 } else if (!this.appConfig.isRestrictedEdit) {
                     this.btnSelectTool = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
@@ -375,6 +412,8 @@ define([
                 this.chRightMenu.render($host.find('#slot-chk-rightmenu'));
                 this.btnSelectTool && this.btnSelectTool.render($host.find('#slot-btn-select-tool-view'));
                 this.btnHandTool && this.btnHandTool.render($host.find('#slot-btn-hand-tool-view'));
+                this.btnRecMacro && this.btnRecMacro.render($host.find('#slot-btn-macro-start'));
+                this.btnPauseMacro && this.btnPauseMacro.render($host.find('#slot-btn-macro-pause'));
 
                 if (this.toolbar && this.toolbar.$el) {
                     this.btnsFitToPage = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-btn-ftp'), 'tlbtn-btn-ftp-', 'toolbar__icon btn-ic-zoomtopage', this.textFitToPage,
@@ -390,6 +429,7 @@ define([
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: created});
                 Array.prototype.push.apply(this.lockedControls, created);
                 Common.UI.LayoutManager.addControls(created);
+                Common.Utils.lockControls(Common.enumLock.macrosStopped, true, {array: [this.btnPauseMacro]});
                 return this.$el;
             },
 
@@ -405,6 +445,8 @@ define([
                     btn.updateHint(me.tipFitToWidth);
                 });
                 this.btnMacros && this.btnMacros.updateHint(this.tipMacros);
+                this.btnRecMacro && this.btnRecMacro.updateHint(this.tipRecMacro);
+                this.btnPauseMacro && this.btnPauseMacro.updateHint(this.tipPauseMacro);
 
                 var value = Common.UI.LayoutManager.getInitValue('leftMenu');
                 value = (value!==undefined) ? !value : false;
