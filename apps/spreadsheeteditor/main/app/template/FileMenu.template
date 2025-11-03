@@ -1,9 +1,9 @@
 <div class="panel-menu" role="menubar" aria-label="<%= scope.ariaFileMenu %>">
     <li id="fm-btn-return" class="fm-btn" data-layout-name="toolbar-file-close"></li>
-    <li class="devider devider-small"></li>
+    <li class="divider divider-small"></li>
     <li id="fm-btn-create" class="fm-btn"></li>
     <li id="fm-btn-recent" class="fm-btn"></li>
-    <li class="devider devider-small"></li>
+    <li class="divider divider-small"></li>
     <li id="fm-btn-save" class="fm-btn" data-layout-name="toolbar-file-save"></li>
     <li id="fm-btn-edit" class="fm-btn"></li>
     <li id="fm-btn-download" class="fm-btn"></li>
@@ -13,13 +13,13 @@
     <li id="fm-btn-print-with-preview" class="fm-btn"></li>
     <li id="fm-btn-rename" class="fm-btn"></li>
     <li id="fm-btn-protect" class="fm-btn"></li>
-    <li class="devider"></li>
+    <li class="divider"></li>
     <li id="fm-btn-info" class="fm-btn" data-layout-name="toolbar-file-info"></li>
     <li id="fm-btn-history" class="fm-btn"></li>
     <li id="fm-btn-rights" class="fm-btn"></li>
     <li id="fm-btn-back" class="fm-btn"></li>
-    <li class="devider-last"></li>
-    <li class="devider"></li>
+    <li class="divider-last"></li>
+    <li class="divider"></li>
     <li id="fm-btn-settings" class="fm-btn" data-layout-name="toolbar-file-settings"></li>
     <li id="fm-btn-help" class="fm-btn"></li>
     <li id="fm-btn-suggest" class="fm-btn"></li>
