@@ -217,9 +217,9 @@ define([
                 this._settings[settingsType].props = value;
                 this._settings[settingsType].hidden = 0;
 
-                if (!this._settings[Common.Utils.documentSettingsType.Signature].locked) // lock Signature, РµСЃР»Рё С…РѕС‚СЏ Р±С‹ РѕРґРёРЅ РѕР±СЉРµРєС‚ locked
+                if (!this._settings[Common.Utils.documentSettingsType.Signature].locked) // lock Signature, если хотя бы один объект locked
                     this._settings[Common.Utils.documentSettingsType.Signature].locked = value.asc_getLocked();
-                if (!this._settings[Common.Utils.documentSettingsType.Paragraph].locked) // lock Paragraph, РµСЃР»Рё С…РѕС‚СЏ Р±С‹ Сѓ РѕРґРЅРѕР№ Р°РІС‚РѕС„РёРіСѓСЂС‹ Р·Р°Р±Р»РѕРєРёСЂРѕРІР°РЅ С‚РµРєСЃС‚
+                if (!this._settings[Common.Utils.documentSettingsType.Paragraph].locked) // lock Paragraph, если хотя бы у одной автофигуры заблокирован текст
                     this._settings[Common.Utils.documentSettingsType.Paragraph].locked = this._state.wsProps['Objects'] && locktext;
             }
 
