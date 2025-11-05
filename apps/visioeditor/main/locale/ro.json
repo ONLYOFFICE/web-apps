@@ -334,7 +334,7 @@
   "VE.Controllers.Toolbar.txtUntitled": "Fără titlu",
   "VE.Views.DocumentHolder.guestText": "Invitat",
   "VE.Views.DocumentHolder.textCopy": "Copiere",
-  "VE.Views.DocumentHolder.txtPressLink": "Apăsați {0} și faceți clic pe linkul",
+  "VE.Views.DocumentHolder.txtPressLink": "Apăsați {0} și faceți clic pe link",
   "VE.Views.DocumentHolder.txtWarnUrl": "Accesarea acestui link poate dăuna dispozitivului sau datelor dvs. Pentru a vă proteja calculatorul, evitați să dați click pe linkuri de la surse necunoscute. Această locație poate fi nesigură:<br><br>{0}<br><br>Sigur doriti sa continuati? ",
   "VE.Views.FileMenu.ariaFileMenu": "Meniul Fișier",
   "VE.Views.FileMenu.btnBackCaption": "Deschidere locație fișier",

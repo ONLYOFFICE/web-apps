@@ -890,7 +890,8 @@
       "txtZh": "Chino (simplificado)",
       "txtZhtw": "Chino (tradicional)",
       "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?",
-      "warnDownloadCsv": "El formato CSV no permite guardar un archivo de varias hojas y todos los elementos, excepto el texto.<br>Para guardar solo la hoja seleccionada en CSV, pulse OK.<br>Para guardar toda la hoja de cálculo y todas las características, pulse Cancelar y seleccione otro formato."
+      "warnDownloadCsv": "El formato CSV no permite guardar un archivo de varias hojas y todos los elementos, excepto el texto.<br>Para guardar solo la hoja seleccionada en CSV, pulse OK.<br>Para guardar toda la hoja de cálculo y todas las características, pulse Cancelar y seleccione otro formato.",
+      "warnDownloadOds": "Al guardar este archivo, es posible que se pierdan algunas fórmulas, el formato de las celdas u objetos incrustados debido a la compatibilidad limitada con determinados formatos.<br>¿Está seguro de que desea continuar?"
     }
   }
 }

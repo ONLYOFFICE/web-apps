@@ -355,6 +355,8 @@ define([
 
                 default:
                     config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
+                    if (typeof id == 'string')
+                        config.maxwidth = 600;
                     break;
             }
 

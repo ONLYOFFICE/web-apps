@@ -112,7 +112,7 @@ define([
             this.DefValueDropDown = el.find('#form-combo-def-value').closest('tr');
             this.TagSettings = el.find('#form-txt-tag').closest('tr');
 
-            !Common.UI.FeaturesManager.isFeatureEnabled('roles', true) && el.find('#form-combo-roles').closest('tr').hide();
+            !Common.UI.FeaturesManager.isFeatureEnabled('roles', true) && el.find('#form-combo-roles').closest('tr').hide().next('tr').hide();
         },
 
         createDelayedElements: function() {
@@ -419,6 +419,25 @@ define([
                 setTimeout(function(){me.txtChoice._input && me.txtChoice._input.select();}, 1);
             });
 
+            // checkbox props
+            this.txtLabel = new Common.UI.InputField({
+                el          : $markup.findById('#form-txt-label'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.lockedControls.push(this.txtLabel);
+            this.txtLabel.on('changed:after', this.onLabelChanged.bind(this));
+            this.txtLabel.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtLabel.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.txtLabel._input && me.txtLabel._input.select();}, 1);
+            });
+
             // combobox & dropdown list
             this.txtNewValue = new Common.UI.InputField({
                 el          : $markup.findById('#form-txt-new-value'),
@@ -637,7 +656,7 @@ define([
 
             var template = [
                 '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                    '<div class="form-control" style="display: flex; align-items: center; line-height: 14px; cursor: pointer; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;<%= style %>"></div>',
+                    '<div class="form-control" style="display: flex; align-items: center; line-height: 14px; cursor: pointer; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>"></div>',
                     '<div style="display: table-cell;"></div>',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">'].concat(itemsTemplate).concat([
@@ -649,7 +668,7 @@ define([
                 el: $markup.findById('#form-combo-roles'),
                 cls: 'menu-roles',
                 menuCls: 'menu-absolute',
-                menuStyle: 'min-width: 194px; max-height: 190px;max-width: 400px;',
+                menuStyle: 'min-width: 194px; max-height: 205px;max-width: 400px;',
                 menuAlignEl: $(this.el).parent(),
                 restoreMenuHeightAndTop: 85,
                 style: 'width: ' + $markup.width() + 'px;',
@@ -1097,6 +1116,19 @@ define([
             }
         },
 
+        onLabelChanged: function(input, newValue, oldValue, e) {
+            if (this.api && !this._noApply && (newValue!==oldValue)) {
+                this._state.label = undefined;
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var specProps = this._originalCheckProps || new AscCommon.CSdtCheckBoxPr();
+                specProps.put_Label(newValue);
+                props.put_CheckBoxPr(specProps);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
+                    this.fireEvent('editcomplete', this);
+            }
+        },
+
         fillListProps: function() {
             if (this.api && !this._noApply) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
@@ -1468,6 +1500,12 @@ define([
                         if (this._state.ChDefValue!==val) {
                             this.chDefValue.setValue(!!val, true);
                             this._state.ChDefValue=val;
+                        }
+
+                        val = specProps.get_Label();
+                        if (this._state.label !== val) {
+                            this.txtLabel.setValue(val ? val : '');
+                            this._state.label = val;
                         }
                     }
 
@@ -1977,6 +2015,7 @@ define([
                                 props.put_FormPr(formPr);
                                 me.api.asc_SetContentControlProperties(props, me.internalId);
                                 Common.Utils.InternalSettings.set('de-last-form-role', settings.name);
+                                me.fireEvent('forms:currentrole');
                             }
                         }
                     }).on('close', () => {
@@ -1988,6 +2027,7 @@ define([
                     this.api.asc_SetContentControlProperties(props, this.internalId);
                     Common.Utils.InternalSettings.set('de-last-form-role', record.value)
                     this.fireEvent('editcomplete', this);
+                    this.fireEvent('forms:currentrole');
                 }
             }
         },

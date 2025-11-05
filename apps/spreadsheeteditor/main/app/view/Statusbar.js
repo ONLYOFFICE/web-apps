@@ -412,6 +412,7 @@ define([
                 this.api = api;
                 this.api.asc_registerCallback('asc_onSheetsChanged', _.bind(this.update, this));
                 this.api.asc_registerCallback('asc_onUpdateSheetViewSettings', _.bind(this.onUpdateSheetViewSettings, this));
+                this.api.asc_registerCallback('asc_onChangeActiveNamedSheetView', _.bind(this.update, this));
                 return this;
             },
 

@@ -124,7 +124,8 @@ define([
         changeModeLock: 'change-mode-lock',
         noStyles: 'no-styles',
         cantMergeShape: 'merge-shape-lock',
-        cantSave: 'cant-save'
+        cantSave: 'cant-save',
+        macrosStopped: 'macros-stopped'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {

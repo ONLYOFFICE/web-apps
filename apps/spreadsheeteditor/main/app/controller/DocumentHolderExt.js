@@ -2496,8 +2496,8 @@ define([], function () {
                 documentHolder.menuParagraphBullets.setVisible(istextchartmenu!==true);
                 documentHolder.menuHyperlinkShape.setVisible(istextshapemenu && can_add_hyperlink!==false && hyperinfo);
                 documentHolder.menuAddHyperlinkShape.setVisible(istextshapemenu && can_add_hyperlink!==false && !hyperinfo);
-                documentHolder.menuParagraphVAlign.setVisible(istextchartmenu!==true && !isEquation); // убрать после того, как заголовок можно будет растягивать по вертикали!!
-                documentHolder.menuParagraphDirection.setVisible(istextchartmenu!==true && !isEquation); // убрать после того, как заголовок можно будет растягивать по вертикали!!
+                documentHolder.menuParagraphVAlign.setVisible(istextchartmenu!==true && !isEquation); // remove it after the header can be stretched vertically!!
+                documentHolder.menuParagraphDirection.setVisible(istextchartmenu!==true && !isEquation); // remove it after the header can be stretched vertically!!
                 documentHolder.textInShapeMenu.items[3].setVisible(istextchartmenu!==true || istextshapemenu && can_add_hyperlink!==false);
                 documentHolder.pmiTextAdvanced.setVisible(documentHolder.pmiTextAdvanced.textInfo!==undefined);
 
@@ -2746,8 +2746,8 @@ define([], function () {
 
                 documentHolder.menuHyperlinkShape.setVisible(false);
                 documentHolder.menuAddHyperlinkShape.setVisible(false);
-                documentHolder.menuParagraphVAlign.setVisible(false); // убрать после того, как заголовок можно будет растягивать по вертикали!!
-                documentHolder.menuParagraphDirection.setVisible(false); // убрать после того, как заголовок можно будет растягивать по вертикали!!
+                documentHolder.menuParagraphVAlign.setVisible(false); // remove it after the header can be stretched vertically!!
+                documentHolder.menuParagraphDirection.setVisible(false); // remove it after the header can be stretched vertically!!
                 documentHolder.pmiTextAdvanced.setVisible(false);
                 documentHolder.menuParagraphEquation.setVisible(false);
                 documentHolder.textInShapeMenu.items[9].setVisible(false);

@@ -890,7 +890,8 @@
       "txtZh": "Cinese",
       "txtZhtw": "Cinese (tradizionale)",
       "warnDownloadAs": "Se continui a salvare in questo formato, tutte le funzioni tranne il testo saranno perse.<br>Sei sicuro di voler continuare?",
-      "warnDownloadCsv": "Il formato CSV non supporta il salvataggio di file con più fogli e di tutti gli elementi, ad eccezione del testo.<br>Per salvare solo il foglio attivo in CSV, premi OK.<br>Per salvare l'intero foglio di calcolo e tutte le funzionalità, fai clicca su Annulla e seleziona un altro formato."
+      "warnDownloadCsv": "Il formato CSV non supporta il salvataggio di file con più fogli e di tutti gli elementi, ad eccezione del testo.<br>Per salvare solo il foglio attivo in CSV, premi OK.<br>Per salvare l'intero foglio di calcolo e tutte le funzionalità, fai clicca su Annulla e seleziona un altro formato.",
+      "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
     }
   }
 }

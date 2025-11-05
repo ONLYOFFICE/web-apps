@@ -2466,7 +2466,7 @@
   "DE.Views.DocumentHolder.textUpdateAll": "Odśwież całą tabelę",
   "DE.Views.DocumentHolder.textUpdatePages": "Odśwież wyłącznie numery stron",
   "DE.Views.DocumentHolder.textUpdateTOC": "Odśwież tabelę zawartości",
-  "DE.Views.DocumentHolder.textUpDownBars": " Up/Down Bars",
+  "DE.Views.DocumentHolder.textUpDownBars": "Paski w górę/w dół",
   "DE.Views.DocumentHolder.textVertAxis": "Vertical axis",
   "DE.Views.DocumentHolder.textVertAxisSec": "Secondary vertical axis",
   "DE.Views.DocumentHolder.textVerticalMajor": "Vertical Major",
@@ -4278,5 +4278,7 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Półprzezroczysty",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podkreślenie",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nazwa czcionki",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Rozmiar czcionki"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Rozmiar czcionki",
+  "DE.Views.DocumentHolder.txtPastePicture": "Picture",
+  "DE.Views.FormSettings.textLabel": "Label"
 }

@@ -326,7 +326,7 @@ define([
                     template: _.template([
                         '<div id="<%= id %>" class="menu-item" <% if(!_.isUndefined(options.stopPropagation)) { %> data-stopPropagation="true" <% } %> >',
                             '<img class="menu-item-icon" src="<%= options.iconImg %>">',
-                            '<div class="plugin-caption"><%= caption %></div>',
+                            '<div class="plugin-caption"><%- caption %></div>',
                             '<div class="plugin-tools">',
                                 '<div class="plugin-toggle"></div>',
                                 '<div class="plugin-settings"></div>',
@@ -1188,7 +1188,7 @@ define([
             me.customPluginsDlg[frameId] = new Common.Views.PluginDlg({
                 cls: (isCustomWindow ? 'plain' : '') + (variation.transparent ? ' ' + 'no-background' : ''),
                 header: !isCustomWindow,
-                title: description,
+                title: Common.Utils.String.htmlEncode(description),
                 width: size[0], // inner width
                 height: size[1], // inner height
                 url: variation.url,

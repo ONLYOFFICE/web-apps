@@ -890,7 +890,8 @@
       "warnDownloadCsv": "CSV形式は複数シートファイルおよびテキスト以外のすべての要素の保存をサポートしていません。<br>選択したシートのみをCSVに保存するには、OKを押してください。<br>スプレッドシート全体とすべての機能を保存するには、キャンセルをクリックして別の形式を選",
       "txtSr": "Serbian (Latin)",
       "txtSrcyrl": "Serbian (Cyrillic)",
-      "txtZhtw": "Chinese (Traditional)"
+      "txtZhtw": "Chinese (Traditional)",
+      "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
     }
   }
 }
