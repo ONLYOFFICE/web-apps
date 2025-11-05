@@ -32,8 +32,6 @@
         "highlight-button-pressed": "#cbcbcb",
         "highlight-button-pressed-hover": "#bababa",
         "highlight-primary-dialog-button-hover": "#52a6ff",
-        "highlight-accent-button-hover": "#375478",
-        "highlight-accent-button-pressed": "#293f59",
         "highlight-header-button-hover": "rgba(255, 255, 255, 0.15)",
         "highlight-header-button-pressed": "rgba(255, 255, 255, 0.25)",
         "highlight-text-select": "#3494fb",
@@ -42,12 +40,10 @@
         "border-toolbar-active-panel-top": "var(--background-toolbar)",
         "border-divider": "#dfdfdf",
         "border-regular-control": "#c0c0c0",
-        "border-toolbar-button-hover": "#e0e0e0",
         "border-preview-hover": "#bababa",
         "border-preview-select": "#888",
         "border-control-focus": "#2e8df2",
         "border-color-shading": "rgba(0, 0, 0, 0.15)",
-        "border-error": "#f62211",
         "border-contrast-popover": "#fff",
 
         "text-normal": "rgba(0, 0, 0, 0.8)",
@@ -65,10 +61,7 @@
 
         "icon-normal": "#444",
         "icon-normal-pressed": "#444",
-        "icon-inverse": "#fff",
         "icon-toolbar-header": "#fff",
-        "icon-notification-badge": "#000",
-        "icon-contrast-popover": "#fff",
         "icon-success": "#090",
 
         "canvas-background": "#eee",
@@ -85,7 +78,6 @@
         "canvas-high-contrast": "#000",
         "canvas-high-contrast-disabled": "#666",
 
-        "canvas-cell-border": "rgba(0, 0, 0, 0.1)",
         "canvas-cell-title": "#444",
         "canvas-cell-title-hover": "#dfdfdf",
         "canvas-cell-title-selected": "#cfcfcf",
@@ -99,8 +91,6 @@
         "canvas-dark-cell-title-border": "#3d3d3d",
         "canvas-dark-cell-title-border-hover": "#5c5c5c",
         "canvas-dark-cell-title-border-selected": "#0f0f0f",
-        "canvas-dark-content-background": "#3a3a3a",
-        "canvas-dark-page-border": "#2a2a2a",
 
         "canvas-scroll-thumb": "#f7f7f7",
         "canvas-scroll-thumb-hover": "#c0c0c0",
@@ -120,8 +110,6 @@
         "canvas-sheet-view-cell-background-pressed": "#aaffcc",
         "canvas-sheet-view-cell-title-label": "#121213",
 
-        "canvas-freeze-line-1px": "#818182",
-        "canvas-freeze-line-2px": "#aaaaaa",
         "canvas-select-all-icon": "#3d664e"
     }
 }
