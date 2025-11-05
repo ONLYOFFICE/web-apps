@@ -983,6 +983,8 @@ define([
 
                 if (me.appOptions.isEdit && me.appOptions.spreadsheet.fileType.toLowerCase()==='csv')
                     Common.UI.TooltipManager.showTip({ step: 'openCsv', text: me.warnOpenCsv, target: '#toolbar', maxwidth: 350, automove: true, noHighlight: true, noArrow: true, showButton: false});
+                if (me.appOptions.isEdit && !me.appOptions.canModifyFilter)
+                    Common.UI.TooltipManager.showTip({ step: 'cantModifyFilter', text: me.warnModifyFilter, target: '#toolbar', maxwidth: 400, showButton: false, automove: true, noHighlight: true, noArrow: true});
 
                 value = (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram || this.appOptions.isEditOle) ? 100 : Common.localStorage.getItem("sse-settings-zoom");
                 Common.Utils.InternalSettings.set("sse-settings-zoom", value);
