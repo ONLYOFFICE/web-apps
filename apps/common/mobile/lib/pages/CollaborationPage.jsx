@@ -11,8 +11,7 @@ import IconReviewAndroid from '@common-android-icons/icon-review.svg';
 import IconSharingSettings from '@common-icons/icon-sharing-settings.svg';
 import IconInsertCommentIos from '@common-ios-icons/icon-insert-comment.svg?ios';
 import IconInsertCommentAndroid from '@common-android-icons/icon-insert-comment.svg';
-import IconUsersIos from '@common-ios-icons/icon-users.svg?ios';
-import IconUsersAndroid from '@common-android-icons/icon-users.svg';
+import IconUsers from '@common-icons/icon-users.svg';
 
 const CollaborationPage = props => {
     const { t } = useTranslation();
@@ -44,10 +43,7 @@ const CollaborationPage = props => {
                 }
                 {props.users.editUsers.length > 0 &&
                     <ListItem link={'/users/'} title={_t.textUsers}>
-                        {Device.ios ? 
-                            <SvgIcon slot="media" symbolId={IconUsersIos.id} className={'icon icon-svg'} /> :
-                            <SvgIcon slot="media" symbolId={IconUsersAndroid.id} className={'icon icon-svg'} />
-                        }
+                            <SvgIcon slot="media" symbolId={IconUsers.id} className={'icon icon-svg'} />
                     </ListItem>
                 }
                 {appOptions.canViewComments &&

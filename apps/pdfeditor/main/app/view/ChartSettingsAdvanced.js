@@ -1422,6 +1422,11 @@ define([
             };
         },
 
+        close: function () {
+            this.api && this.api.asc_onCloseFrameEditor();
+            Common.Views.AdvancedSettingsWindow.prototype.close.apply(this, arguments);
+        },
+
         textTitle:      'Chart - Advanced Settings',
         textAlt: 'Alternative Text',
         textAltTitle: 'Title',

@@ -9,12 +9,14 @@ export class storeSpreadsheetSettings {
             allSchemes: observable,
             isHideHeadings: observable,
             isHideGridlines: observable,
+            isSheetRtl: observable,
             resetPortrait: action,
             changeDocSize: action,
             pageSizesIndex: computed,
             addSchemes: action,
             changeHideHeadings: action,
-            changeHideGridlines: action
+            changeHideGridlines: action,
+            changeSheetRtl: action
         })
     }
 
@@ -72,6 +74,12 @@ export class storeSpreadsheetSettings {
         }, this);
 
         return ind;
+    }
+
+    isSheetRtl = false;
+    
+    changeSheetRtl (value) { 
+        this.isSheetRtl = value;
     }
 
     // Color Schemes

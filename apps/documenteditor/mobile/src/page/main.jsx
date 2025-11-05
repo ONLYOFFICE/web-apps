@@ -136,6 +136,7 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
                 return {
                     ...prevState,
                     collaborationVisible: true,
+                    addShowOptions: showOpts,
                     isOpenModal: true
                 }
             } else if(opts === 'navigation') {
@@ -337,6 +338,7 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
                     {!state.collaborationVisible ? null : 
                         <CollaborationView 
                             closeOptions={handleOptionsViewClosed} 
+                            showOptions={state.addShowOptions}
                         />
                     }
                     {!state.navigationVisible ? null : <NavigationController />}

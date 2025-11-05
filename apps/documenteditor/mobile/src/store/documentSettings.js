@@ -7,17 +7,29 @@ export class storeDocumentSettings {
             widthDocument: observable,
             heightDocument: observable,
             allSchemes: observable,
+            isHyphenation: observable,
             resetPortrait: action,
             changeDocSize: action,
             pageSizesIndex: computed,
-            addSchemes: action
+            addSchemes: action,
+            setHyphenation: action,
         });
     }
 
     isPortrait = true;
+    isHyphenation = false;
 
     resetPortrait (isPortrait) {
         this.isPortrait = isPortrait === true;
+    }
+
+    setHyphenation (value) {
+        this.isHyphenation = value;
+    }
+
+    getHyphenation () {
+        this.setHyphenation(Common.EditorApi.get().asc_isAutoHyphenation());
+        return this.isHyphenation;
     }
 
     //Document Formats
@@ -60,7 +72,7 @@ export class storeDocumentSettings {
             ];
         return pageSizes;
     }
-    
+
     get pageSizesIndex () {
         let w = this.widthDocument;
         let h = this.heightDocument;

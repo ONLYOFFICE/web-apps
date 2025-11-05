@@ -873,7 +873,7 @@ define([
             var same_uids = (0 === _.difference(this.uids, uids).length) && (0 === _.difference(uids, this.uids).length);
             
             if (hint && this.isSelectedComment && same_uids && !this.isModeChanged) {
-                // хотим показать тот же коментарий что был и выбран
+                // want to show the same comment that was selected
                 return;
             }
 
@@ -940,8 +940,10 @@ define([
                     this.uids = _.clone(uids);
 
                     comments.push(comment);
-                    if (!this._dontScrollToComment)
+                    if (!this._dontScrollToComment) {
+                        this.view.commentsView.clearActive();
                         this.view.commentsView.scrollToRecord(comment);
+                    }
                     this._dontScrollToComment = false;
                 }
 
@@ -961,6 +963,8 @@ define([
         },
         onApiHideComment: function (hint) {
             var t = this;
+
+            this.view && this.view.commentsView && this.view.commentsView.clearActive();
 
             if (this.getPopover()) {
                 if (this.isSelectedComment && hint) {
@@ -1041,7 +1045,8 @@ define([
                     }
 
                     this.getPopover().setLeftTop(posX, posY, leftX, undefined);
-
+                    this.getPopover().moveMentions();
+                    
 //                    if (this.isSelectedComment && (0 === _.difference(this.uids, uids).length)) {
                         //NOTE: click to sdk view ?
 //                        if (this.api) {

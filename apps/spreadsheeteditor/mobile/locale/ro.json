@@ -321,6 +321,7 @@
     "errorLockedAll": "Operațiunea nu poate fi efectuată deoarece foaia a fost blocată de către un alt utilizator.",
     "errorLockedCellPivot": "Nu puteți modifica datele manipulând tabel Pivot.",
     "errorLockedWorksheetRename": "Deocamdată, nu puteți redenumi foaia deoarece foaia este redenumită de către un alt utilizator",
+    "errorMacroUnavailableWarning": "Nu se poate executa macrocomanda %1. Posibil că macrocomanda nu este disponibilă în acest registru de lucru sau că toate macrocomenzile sunt dezactivate.",
     "errorMaxPoints": "Numărul maxim de puncte de date pe serie în diagramă este limitat la 4096.",
     "errorMaxRows": "EROARE! Număr maxim serii de date în diagramă este 225.",
     "errorMoveRange": "O parte din celulă îmbinată nu poate fi modificată ",
@@ -673,7 +674,7 @@
       "textOuterTop": "În exterior în sus",
       "textOutsideBorders": "Borduri în exteriorul",
       "textOverlay": "Suprapunere",
-      "textPercentage": "Procentaj",
+      "textPercentage": "Procent",
       "textPictureFromLibrary": "Imagine dintr-o bibliotecă ",
       "textPictureFromURL": "Imaginea prin URL",
       "textPound": "Pound",
@@ -879,14 +880,18 @@
       "txtSk": "Slovacă",
       "txtSl": "Slovenă",
       "txtSpace": "Spațiu",
+      "txtSr": "Sârbă (alfabetul latin)",
+      "txtSrcyrl": "Sârbă (alfabetul chirilic)",
       "txtSv": "Suedeză",
       "txtTab": "Tabulator",
       "txtTr": "Turcă",
       "txtUk": "Ucraineană",
       "txtVi": "Vietnameză",
-      "txtZh": "Chineză",
+      "txtZh": "Chineză (simplificată)",
+      "txtZhtw": "Chineză (tradițională)",
       "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?",
-      "warnDownloadCsv": "Formatul CSV nu acceptă salvarea unui fișier cu mai multe foi de calcul și a tuturor elementelor, cu excepția textului.<br>Pentru a salva ca CSV numai foaia selectată, apăsați OK.<br>Pentru a salva întreaga foaie de calcul și toate caracteristicile, faceți clic pe Anulare și selectați un alt format."
+      "warnDownloadCsv": "Formatul CSV nu acceptă salvarea unui fișier cu mai multe foi de calcul și a tuturor elementelor, cu excepția textului.<br>Pentru a salva ca CSV numai foaia selectată, apăsați OK.<br>Pentru a salva întreaga foaie de calcul și toate caracteristicile, faceți clic pe Anulare și selectați un alt format.",
+      "warnDownloadOds": "Salvarea acestui fișier poate duce la pierderea unor formule, formatării celulelor sau a obiectelor încorporate deoarece acceptarea acestui format este limitată.<br>Sigur doriți să continui?"
     }
   }
 }

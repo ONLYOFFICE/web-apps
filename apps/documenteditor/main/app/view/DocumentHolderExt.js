@@ -312,7 +312,7 @@ define([], function () {
                                         checkable: true
                                     },
                                     { 
-                                        caption: me.textLeft, 
+                                        caption: me.textLeftPos, 
                                         value: 'LeftData', 
                                         stopPropagation: true,
                                         toggleGroup: 'dataLabels', 
@@ -438,6 +438,13 @@ define([], function () {
                                 menuAlign: 'tl-tr',
                                 items: [
                                     { 
+                                        caption: me.textNone, 
+                                        value: 'NoneLegend',
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend',  
+                                        checkable: true
+                                    },
+                                    { 
                                         caption: me.textTop, 
                                         value: 'TopLegend',
                                         stopPropagation: true,
@@ -445,7 +452,7 @@ define([], function () {
                                         checkable: true
                                     },
                                     { 
-                                        caption: me.textLeft, 
+                                        caption: me.textLeftPos, 
                                         value: 'LeftLegend', 
                                         stopPropagation: true,
                                         toggleGroup: 'legend', 

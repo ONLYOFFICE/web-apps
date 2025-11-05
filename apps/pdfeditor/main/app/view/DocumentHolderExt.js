@@ -936,6 +936,13 @@ define([], function () {
                                 menuAlign: 'tl-tr',
                                 items: [
                                     { 
+                                        caption: me.textNone, 
+                                        value: 'NoneLegend',
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend',  
+                                        checkable: true
+                                    },
+                                    { 
                                         caption: me.textTop, 
                                         value: 'TopLegend',
                                         stopPropagation: true,
@@ -1798,6 +1805,9 @@ define([], function () {
                     '<div id="text-bar-super" style="display:inline-block;" class="margin-right-4"></div>' +
                     '<div id="text-bar-sub" style="display:inline-block;" class="margin-right-4"></div>' +
                     '<div id="text-bar-textcolor" style="display:inline-block;"></div>' +
+                    '<div class="separator margin-left-6"></div>' +
+                    '<div id="text-bar-halign" style="display:inline-block;" class="margin-left-13"></div>' +
+                    '<div id="text-bar-direction" style="display:inline-block;" class="margin-left-4"></div>' +
                     '</div>'),
                 toolbarController = PDFE.getController('Toolbar'),
                 toolbar = toolbarController.getView('Toolbar');
@@ -1923,6 +1933,65 @@ define([], function () {
             this.btnFontColor.setMenu();
             this.mnuFontColorPicker = this.btnFontColor.getPicker();
             this.btnFontColor.currentColor = this.btnFontColor.color;
+
+            this.btnTextDir = new Common.UI.Button({
+                parentEl: $('#text-bar-direction', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-ltr',
+                icls: 'btn-ltr',
+                action: 'text-direction',
+                dirRtl: false,
+                hint: toolbar.tipTextDir,
+                menu: new Common.UI.Menu({
+                    items: [
+                        {caption: toolbar.textDirLtr, value: false, iconCls: 'menu__icon btn-ltr'},
+                        {caption: toolbar.textDirRtl, value: true, iconCls: 'menu__icon btn-rtl'},
+                    ]
+                })
+            });
+            textBarBtns.push(this.btnTextDir);
+
+            this.btnHorizontalAlign = new Common.UI.Button({
+                parentEl: $('#text-bar-halign', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-align-left',
+                icls: 'btn-align-left',
+                hint: toolbar.tipHAligh,
+                menu: new Common.UI.Menu({
+                    items: [
+                        {
+                            caption: toolbar.textAlignLeft,
+                            iconCls: 'menu__icon btn-align-left',
+                            icls: 'btn-align-left',
+                            checkable: true,
+                            checkmark: false,
+                            toggleGroup: 'halignGroup',
+                            checked: true,
+                            value: 1
+                        },
+                        {
+                            caption: toolbar.textAlignCenter,
+                            iconCls: 'menu__icon btn-align-center',
+                            icls: 'btn-align-center',
+                            checkable: true,
+                            checkmark: false,
+                            toggleGroup: 'halignGroup',
+                            value: 2
+                        },
+                        {
+                            caption: toolbar.textAlignRight,
+                            iconCls: 'menu__icon btn-align-right',
+                            icls: 'btn-align-right',
+                            checkable: true,
+                            checkmark: false,
+                            toggleGroup: 'halignGroup',
+                            value: 0
+                        }
+                    ]
+                }),
+                action: 'align-horizontal'
+            });
+            textBarBtns.push(this.btnHorizontalAlign);
 
             return container;
         };

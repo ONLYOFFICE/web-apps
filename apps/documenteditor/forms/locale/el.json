@@ -130,7 +130,7 @@
   "DE.Controllers.ApplicationController.openErrorText": "Παρουσιάστηκε σφάλμα κατά το άνοιγμα του αρχείου.",
   "DE.Controllers.ApplicationController.saveErrorText": "Παρουσιάστηκε σφάλμα κατά την αποθήκευση του αρχείου.",
   "DE.Controllers.ApplicationController.saveErrorTextDesktop": "Δεν είναι δυνατή η αποθήκευση ή η δημιουργία αυτού του αρχείου.<br>Πιθανοί λόγοι είναι:<br>1. Το αρχείο είναι μόνο για ανάγνωση.<br>2. Το αρχείο τελεί υπό επεξεργασία από άλλους χρήστες.<br>3. Ο δίσκος είναι γεμάτος ή κατεστραμμένος.",
-  "DE.Controllers.ApplicationController.savingText": "Γίνεται αποθήκευση",
+  "DE.Controllers.ApplicationController.savingText": "Γίνεται υποβολή",
   "DE.Controllers.ApplicationController.scriptLoadError": "Η σύνδεση είναι πολύ αργή, δεν ήταν δυνατή η φόρτωση ορισμένων στοιχείων. Φορτώστε ξανά τη σελίδα.",
   "DE.Controllers.ApplicationController.textAnonymous": "Ανώνυμος",
   "DE.Controllers.ApplicationController.textBuyNow": "Επισκεφθείτε την ιστοσελίδα",

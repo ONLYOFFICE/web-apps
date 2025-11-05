@@ -117,7 +117,8 @@ define([
         externalChartProtected: 'external-chart-protected',
         fileMenuOpened: 'file-menu-opened',
         cantMergeShape: 'merge-shape-lock',
-        cantSave: 'cant-save'
+        cantSave: 'cant-save',
+        macrosStopped: 'macros-stopped'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -1136,60 +1137,48 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-align-left',
                     enableToggle: true,
+                    hint        : me.tipAlignLeft,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat, _set.userProtected],
                     toggleGroup : 'alignGroup',
                     dataHint    : '1',
                     dataHintDirection: 'bottom'
                 });
-                me.shortcutHints.LeftPara = {
-                    btn: me.btnAlignLeft,
-                    label: me.tipAlignLeft
-                };
 
                 me.btnAlignCenter = new Common.UI.Button({
                     id          : 'id-toolbar-btn-align-center',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-align-center',
                     enableToggle: true,
+                    hint        : me.tipAlignCenter,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat, _set.userProtected],
                     toggleGroup : 'alignGroup',
                     dataHint    : '1',
                     dataHintDirection: 'bottom'
                 });
-                me.shortcutHints.CenterPara = {
-                    btn: me.btnAlignCenter,
-                    label: me.tipAlignCenter
-                };
 
                 me.btnAlignRight = new Common.UI.Button({
                     id          : 'id-toolbar-btn-align-right',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-align-right',
                     enableToggle: true,
+                    hint        : me.tipAlignRight,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat, _set.userProtected],
                     toggleGroup : 'alignGroup',
                     dataHint    : '1',
                     dataHintDirection: 'bottom'
                 });
-                me.shortcutHints.RightPara = {
-                    btn: me.btnAlignRight,
-                    label: me.tipAlignRight
-                };
 
                 me.btnAlignJust = new Common.UI.Button({
                     id          : 'id-toolbar-btn-align-just',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-align-just',
                     enableToggle: true,
+                    hint        : me.tipAlignJust,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat, _set.userProtected],
                     toggleGroup: 'alignGroup',
                     dataHint    : '1',
                     dataHintDirection: 'bottom'
                 });
-                me.shortcutHints.JustifyPara = {
-                    btn: me.btnAlignJust,
-                    label: me.tipAlignJust
-                };
 
                 me.btnMerge = new Common.UI.Button({
                     id          : 'id-toolbar-rtn-merge',

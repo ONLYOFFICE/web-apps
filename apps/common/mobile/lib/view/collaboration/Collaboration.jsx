@@ -79,15 +79,17 @@ const CollaborationView = props => {
         }
     }, []);
 
+    const initUrl = props.showOptions ? `/${props.showOptions}/` : '/collaboration-page/';
+
     return (
         !Device.phone ?
             <Popover id="coauth-popover" className="popover__titled" onPopoverClosed={() => props.closeOptions('coauth')} closeByOutsideClick={false}>
-                <View style={{height: '430px'}} routes={routes} url='/collaboration-page/'>
+                <View style={{height: '430px'}} routes={routes} url={initUrl}>
                     <CollaborationPage />
                 </View>
             </Popover> :
             <Sheet className="coauth__sheet" onSheetClosed={() => props.closeOptions('coauth')}>
-                <View routes={routes} url='/collaboration-page/'>
+                <View routes={routes} url={initUrl}>
                     <CollaborationPage />
                 </View>
             </Sheet>

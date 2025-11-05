@@ -18,11 +18,29 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
     });
 
     let loadMask = null;
+    let showTimer = null;
 
     const closePreloader = () => {
         if (loadMask && loadMask.el) {
             f7.dialog.close(loadMask.el);
         }
+    };
+
+    const showLoadMask = (title, immediately = false) => {
+        if (showTimer) {
+            clearTimeout(showTimer);
+            showTimer = null;
+        }
+
+        if (immediately) {
+            loadMask = f7.dialog.preloader(title);
+        } else {
+            showTimer = setTimeout(() => {
+                loadMask = f7.dialog.preloader(title);
+                showTimer = null;
+            }, 300);
+        }
+        return loadMask; 
     };
 
     useEffect( () => {
@@ -64,7 +82,13 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
     };
 
     const onLongActionEnd = (type, id, forceClose) => {
-        if (!stackLongActions.exist({id: id, type: type})) return;
+
+        if (showTimer) {
+            clearTimeout(showTimer);
+            showTimer = null;
+        }
+
+        if (!stackLongActions.exist({ id: id, type: type })) return;
 
         let action = {id: id, type: type};
         stackLongActions.pop(action);
@@ -187,7 +211,7 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
             } else if ($$('.dialog-preloader').hasClass('modal-in')) {
                 $$('.dialog-preloader').find('dialog-title').text(title);
             } else {
-                loadMask = f7.dialog.preloader(title);
+                loadMask = showLoadMask(title, action.id === Asc.c_oAscAsyncAction['Open']);
             }
         }
 

@@ -922,7 +922,13 @@ class MainController extends Component {
             storeTextSettings.resetTypeBaseline(typeBaseline);
         });
         this.api.asc_registerCallback('asc_onPrAlign', (align) => {
+            if (this.api.asc_isRtlTextDirection()) {
+                align = align === 0 ? 1 : align === 1 ? 0 : align;
+            }
             storeTextSettings.resetParagraphAlign(align);
+        });
+        this.api.asc_registerCallback('asc_onTextDirection', (isRtl) => {
+            storeTextSettings.resetTextDirection(isRtl);
         });
         this.api.asc_registerCallback('asc_onTextColor', (color) => {
             storeTextSettings.resetTextColor(color);
@@ -1639,7 +1645,7 @@ class MainController extends Component {
             docInfo.put_Format(this.document.fileType);
             docInfo.put_Lang(this.editorConfig.lang);
             docInfo.put_Mode(this.editorConfig.mode);
-            docInfo.put_Permissions(this.permissions);
+            docInfo.put_Permissions(this.document.permissions);
             docInfo.put_DirectUrl(data.document && data.document.directUrl ? data.document.directUrl : this.document.directUrl);
             docInfo.put_VKey(data.document && data.document.vkey ?  data.document.vkey : this.document.vkey);
             docInfo.put_EncryptedInfo(data.editorConfig && data.editorConfig.encryptionKeys ? data.editorConfig.encryptionKeys : this.editorConfig.encryptionKeys);

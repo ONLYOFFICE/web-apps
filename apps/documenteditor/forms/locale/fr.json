@@ -130,7 +130,7 @@
   "DE.Controllers.ApplicationController.openErrorText": "Une erreur s’est produite lors de l’ouverture du fichier.",
   "DE.Controllers.ApplicationController.saveErrorText": "Une erreur s'est produite lors de l'enregistrement du fichier.",
   "DE.Controllers.ApplicationController.saveErrorTextDesktop": "Ce fichier ne peut pas être enregistré ou créé.<br>Les raisons possibles sont : <br>1. Le fichier est en lecture seule. <br>2. Le fichier est en cours d'édition par d'autres utilisateurs. <br>3. le disque est plein ou corrompu.",
-  "DE.Controllers.ApplicationController.savingText": "Enregistrement",
+  "DE.Controllers.ApplicationController.savingText": "Envoi",
   "DE.Controllers.ApplicationController.scriptLoadError": "La connexion est trop lente, certains  éléments ne peuvent pas être chargés. Veuillez recharger la page.",
   "DE.Controllers.ApplicationController.textAnonymous": "Anonyme",
   "DE.Controllers.ApplicationController.textBuyNow": "Visiter le site web",

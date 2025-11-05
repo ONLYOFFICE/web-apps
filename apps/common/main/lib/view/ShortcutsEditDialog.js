@@ -30,7 +30,7 @@
  *
  */
 /**
- *  ShortcutEditDialog.js
+ *  ShortcutsEditDialog.js
  *
  *  Created on 23/06/25
  *
@@ -40,7 +40,7 @@ define([
     'common/main/lib/view/AdvancedSettingsWindow',
 ], function () { 'use strict';
 
-    Common.Views.ShortcutEditDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
+    Common.Views.ShortcutsEditDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             height: 'auto',
             contentWidth: 268,
@@ -259,8 +259,22 @@ define([
 
                 const $keysInput = $item.find('.keys-input input'); 
                 $keysInput.on('keydown', function(e) {
-                    if (e.key == 'Escape' || e.key === 'Tab' && !e.ctrlKey && !e.altKey && !e.metaKey) {
-                        if(me._prevKeysForActiveInput.length) {
+                    const alowedSingleKeys = [
+                        Common.UI.Keys.F1, Common.UI.Keys.F2, Common.UI.Keys.F3, Common.UI.Keys.F4, Common.UI.Keys.F5,
+                        Common.UI.Keys.F6, Common.UI.Keys.F7, Common.UI.Keys.F8, Common.UI.Keys.F9, Common.UI.Keys.F10,
+                        Common.UI.Keys.F11, Common.UI.Keys.F12,Common.UI.Keys.INSERT, Common.UI.Keys.HOME,
+                        Common.UI.Keys.PAGEUP, Common.UI.Keys.DELETE, Common.UI.Keys.END, Common.UI.Keys.PAGEDOWN,
+                        Common.UI.Keys.LEFT, Common.UI.Keys.UP, Common.UI.Keys.RIGHT, Common.UI.Keys.DOWN 
+                    ];
+
+                    const forbiddensKeys = [Common.UI.Keys.ESC, Common.UI.Keys.TAB];
+                    if(!Common.Utils.isMac) {
+                        forbiddensKeys.push(91);        //Meta (Super, Win)
+                    }
+
+                    if (forbiddensKeys.includes(e.keyCode)) {
+                        // Restore previous input state when press Tab
+                        if(e.keyCode == Common.UI.Keys.TAB && me._prevKeysForActiveInput.length) {
                             item.set('keys', me._prevKeysForActiveInput);
                             $item.find('input').val(me._prevKeysForActiveInput.join(' + '));
                         }
@@ -270,14 +284,20 @@ define([
                     e.stopPropagation();
                     e.preventDefault();
 
+                    if (
+                        !alowedSingleKeys.includes(e.keyCode) &&
+                        !e.ctrlKey && !e.shiftKey && !e.altKey &&
+                        !(e.metaKey && Common.Utils.isMac)
+                    ) return;
+
                     const keys = [];
 
                     if (e.ctrlKey) keys.push('Ctrl');
                     if (e.shiftKey) keys.push('Shift');
                     if (e.altKey) keys.push('Alt');
-                    if (e.metaKey) keys.push('⌘');
+                    if (e.metaKey && Common.Utils.isMac) keys.push('⌘');
 
-                    if (!['Control', 'Shift', 'Alt', 'Meta'].includes(e.key)) {
+                    if (![Common.UI.Keys.CTRL, Common.UI.Keys.SHIFT, Common.UI.Keys.ALT, 91].includes(e.keyCode)) {
                         const app = (window.DE || window.PE || window.SSE || window.PDFE || window.VE);
                         keys.push(app.getController('Common.Controllers.Shortcuts').keyCodeToKeyName(e.keyCode));
                         ascShortcut.asc_SetKeyCode(e.keyCode);
@@ -288,7 +308,7 @@ define([
                     ascShortcut.asc_SetIsCtrl(!!e.ctrlKey);
                     ascShortcut.asc_SetIsShift(!!e.shiftKey);
                     ascShortcut.asc_SetIsAlt(!!e.altKey);
-                    ascShortcut.asc_SetIsCommand(!!e.metaKey);
+                    ascShortcut.asc_SetIsCommand(!!e.metaKey && Common.Utils.isMac);
 
                     item.set('keys', keys);
                     $item.find('input').val(keys.join(' + '));
@@ -313,13 +333,13 @@ define([
                 };
 
                 $keysInput.on('keyup', function(e) {
-                    const keyMap = {
-                        Control: 'Ctrl',
-                        Alt: 'Alt',
-                        Shift: 'Shift',
-                        Meta: '⌘'
+                    const modifierKeyMap = {
+                        [Common.UI.Keys.CTRL]: 'Ctrl',
+                        [Common.UI.Keys.ALT]: 'Alt',
+                        [Common.UI.Keys.SHIFT]: 'Shift',
+                        91: '⌘'
                     };
-                    const modifierKey = keyMap[e.key];
+                    const modifierKey = modifierKeyMap[e.keyCode];
                     removeKeysIfOnlyModifiers(modifierKey ? [modifierKey] : []);
                     if(!modifierKey) {
                         me._prevKeysForActiveInput = item.get('keys');
@@ -462,5 +482,5 @@ define([
         txtRestoreDescription: 'All shortcuts for action “%1” will be restored to deafult.',
         txtRestoreContinue: 'Do you want to continue?'
 
-    },  Common.Views.ShortcutEditDialog || {}))
+    },  Common.Views.ShortcutsEditDialog || {}))
 });

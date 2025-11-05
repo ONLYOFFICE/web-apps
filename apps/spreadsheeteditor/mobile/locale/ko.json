@@ -321,6 +321,7 @@
     "errorLockedAll": "다른 사용자가 시트를 잠근 상태에서 작업을 수행 할 수 없습니다.",
     "errorLockedCellPivot": "피벗 테이블에서 데이터를 변경할 수 없습니다.",
     "errorLockedWorksheetRename": "시트의 이름을 다른 사용자가 바꾸면 이름을 바꿀 수 없습니다.",
+    "errorMacroUnavailableWarning": "%1 매크로를 실행할 수 없습니다. 이 워크북에세는 매크로를 쓸 수 없거나 모든 매크로가 사용불가일 수 있습니다.",
     "errorMaxPoints": "차트당 시리즈내 포인트의 최대값은 4096임",
     "errorMaxRows": "오류! 차트 당 최대 데이터 시리즈 수는 255입니다.",
     "errorMoveRange": "병합된 셀의 일부는 수정할 수 없습니다.",
@@ -879,14 +880,18 @@
       "txtSk": "슬로바키아어",
       "txtSl": "슬로베이나어",
       "txtSpace": "공간",
+      "txtSr": "세르비아(라틴문자)",
+      "txtSrcyrl": "세르비아(키릴문자)",
       "txtSv": "스웨덴어",
       "txtTab": "탭",
       "txtTr": "터키어",
       "txtUk": "우크라이나어",
       "txtVi": "베트남어",
       "txtZh": "중국어",
+      "txtZhtw": "중국어 (번체)",
       "warnDownloadAs": "이 형식으로 저장을 계속하면 텍스트를 제외한 모든 기능이 손실됩니다. 계속 하시겠습니까?",
-      "warnDownloadCsv": "CSV 형식은 여러 시트 파일과 텍스트 외의 모든 요소를 저장할 수 없습니다.<br>선택한 시트만 CSV로 저장하려면 확인을 누르세요.<br>전체 스프레드시트와 모든 기능을 저장하려면 취소를 클릭하고 다른 형식을 선택하세요."
+      "warnDownloadCsv": "CSV 형식은 여러 시트 파일과 텍스트 외의 모든 요소를 저장할 수 없습니다.<br>선택한 시트만 CSV로 저장하려면 확인을 누르세요.<br>전체 스프레드시트와 모든 기능을 저장하려면 취소를 클릭하고 다른 형식을 선택하세요.",
+      "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
     }
   }
 }

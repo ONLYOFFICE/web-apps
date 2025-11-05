@@ -53,7 +53,7 @@
   "DE.ApplicationController.txtClose": "Zatvori",
   "DE.ApplicationController.txtEmpty": "(Prazno)",
   "DE.ApplicationController.txtNo": "Ne",
-  "DE.ApplicationController.txtOpenWarning": "Klik na ovaj link može biti štetan za vaš uređaj i podatke.<br> Da li ste sigurni da želite da nastavite?",
+  "DE.ApplicationController.txtOpenWarning": "Klik na ovaj link može biti štetan za vaš uređaj i podatke. Da biste zaštitili svoj računar, klikćite samo na hiperveze koje dolaze iz pouzdanih izvora. Ova lokacija može biti nesigurna:<br><br>{0}<br><br>Da li ste sigurni da želite da nastavite?",
   "DE.ApplicationController.txtPressLink": "Pritisni %1 i klikni link",
   "DE.ApplicationController.txtSecurityWarningLink": "Ovaj dokument pokušava da se poveže sa %1.<br> Ako verujete ovom sajtu, pritisnite \"U redu\" dok držite taster Ctrl.",
   "DE.ApplicationController.txtSecurityWarningOpenFile": "Ovaj dokument pokušava da otvori dijalog fajla, pritisnite \"OK\" da otvorite.",

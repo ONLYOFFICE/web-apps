@@ -16,6 +16,7 @@
             --sk-height-toolbar-controls:84px;
             --sk-layout-padding-toolbar:0 10px;
             --sk-layout-padding-header: 0 10px;
+            --sk-layout-padding-placeholder: 53px auto;
             --sk-shadow-toolbar: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
             --sk-border-radius-toolbar: 8px;
             --sk-background-toolbar: #f3f3f3;
@@ -33,6 +34,7 @@
         .theme-night .loadmask {
             --sk-height-toolbar-controls: 84px; 
             --sk-layout-padding-toolbar: 0 10px;
+            --sk-layout-padding-placeholder: 53px auto;
             --sk-border-radius-toolbar: 8px;
 
             /* --shadow-toolbar: 0px 1px 3px 0px rgba(0, 0, 0, 0.10), 0px 1px 2px 0px rgba(0, 0, 0, 0.06) */
@@ -196,6 +198,7 @@
             background: var(--sk-canvas-content-background, #fff);
             width: 794px;
             margin: 46px auto;
+            margin: var(--sk-layout-padding-placeholder);
             height: 1123px;
             border: 1px solid #bbbec2;
             border: var(--scaled-one-px-value, 1px) solid var(--sk-canvas-page-border, #bbbec2);
@@ -317,7 +320,7 @@
 
     <div id="loading-mask" class="loadmask"><div class="brendpanel" style="display: none;"><div><div class="spacer"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span></div></div>
     <div id="sktoolbar" class="sktoolbar" style="display: none;"><section class="box-controls"><ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"></li><li style="width: 234px;"></li><li class="space"></li><li style="width: 189px;"></li><li class="fat"></li></ul><ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"></li><li style="width: 234px;"></li><li class="space"></li><li style="width: 189px;"></li></ul></section></div>
-    <div id="sktoolbar-pdf" class="sktoolbar" style="display: none;"><ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space" style="width: 98px;"></li><li style="width: 105px;"></li><li class="space"></li><li style="width: 160px;"></li></ul><ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"></li><li class="big"/><li class="big"/><li class="space"></li><li style="width: 105px;"></li><li class="space"></li><li style="width: 160px;"></li><li class="big"/><li class="big"/><li class="big"/></ul></div>
+    <div id="sktoolbar-pdf" class="sktoolbar" style="display: none;"><section class="box-controls"><ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space" style="width: 98px;"></li><li style="width: 105px;"></li><li class="space"></li><li style="width: 160px;"></li></ul><ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"></li><li class="big"/><li class="big"/><li class="space"></li><li style="width: 105px;"></li><li class="space"></li><li style="width: 160px;"></li></ul></section></div>
     <div class="placeholder" style="display: none;"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
     <div id="viewport" role="main"></div>
 

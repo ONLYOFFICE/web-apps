@@ -129,6 +129,7 @@ require([
             'LeftMenu',
             'Main',
             'ViewTab',
+            'Print',
             // 'Search',
             'Common.Controllers.Chat',
             'Common.Controllers.Plugins',
@@ -153,6 +154,7 @@ require([
                 'visioeditor/main/app/controller/LeftMenu',
                 'visioeditor/main/app/controller/Main',
                 'visioeditor/main/app/controller/ViewTab',
+                'visioeditor/main/app/controller/Print',
                 // 'visioeditor/main/app/controller/Search',
                 'common/main/lib/util/utils'
                 ,'common/main/lib/controller/Chat'
@@ -173,8 +175,8 @@ require([
                     'common/main/lib/view/PluginPanel',
                     'common/main/lib/view/DocumentHolderExt',
                     'common/main/lib/view/CustomizeQuickAccessDialog',
-                    'common/main/lib/view/ShortcutsDialog',
-                    'common/main/lib/view/ShortcutEditDialog',
+                    // 'common/main/lib/view/ShortcutsDialog',
+                    // 'common/main/lib/view/ShortcutsEditDialog',
 
                     'visioeditor/main/app/view/FileMenuPanels',
                     'visioeditor/main/app/view/DocumentHolderExt'

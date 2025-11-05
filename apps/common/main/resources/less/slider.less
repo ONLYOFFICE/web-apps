@@ -5,7 +5,7 @@
 
     &.single-slider {
         padding-top: 7px;
-        margin-inline: (@slider-thumb-size-ie / 2);
+        margin: 0 (@slider-thumb-size-ie / 2);
         margin-inline: calc(@slider-thumb-size / 2);
 
         .track {
@@ -16,8 +16,9 @@
             background-color: @slider-track-background-normal;
             border-radius: @slider-border-radius-ie;
             border-radius: @slider-border-radius;
+            width: 100%;
             width: calc(100% + @slider-thumb-size);
-            margin-inline: (@slider-thumb-size-ie / -2);
+            margin: 0 (@slider-thumb-size-ie / -2);
             margin-inline: calc(@slider-thumb-size / -2);
 
             //&:before {
@@ -43,8 +44,8 @@
         }
 
         .thumb {
-            top: calc((@slider-height-ie - @slider-thumb-size-ie) / 2); // implement fallback for ie: 3px
-            top: calc((@slider-height - @slider-thumb-size) / 2); // implement fallback for ie: 3px
+            top: calc((@slider-height-ie - @slider-thumb-size-ie) / 2);
+            top: calc((@slider-height - @slider-thumb-size) / 2);
             bottom: 0;
             transform: translateX(-50%);
             margin-left: 0;
@@ -74,7 +75,8 @@
         }
 
         &.vertical {
-            height: 100%;
+            margin: (@slider-thumb-size-ie / 2) 0;
+            margin-block: calc(@slider-thumb-size / 2);
             width: @slider-height-ie;
             width: @slider-height;
             padding-top: 0;
@@ -83,8 +85,12 @@
             .track {
                 position: absolute;
                 height: 100%;
+                height: calc(100% + @slider-thumb-size);
                 width: @slider-track-height-ie;
                 width: @slider-track-height;
+                margin-inline: 0;
+                margin: (@slider-thumb-size-ie / -2) 0;
+                margin-block: calc(@slider-thumb-size / -2);
 
                 //&:before {
                 //    transform: translateX(-50%);

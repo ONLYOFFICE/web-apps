@@ -53,6 +53,7 @@
     "textPictureFromURL": "Obrázek z adresy URL",
     "textPosition": "Pozice",
     "textRecommended": "Doporučeno",
+    "textRemovePicture": "Odstranit obrázek",
     "textRequired": "Požadováno",
     "textRightBottom": "Vpravo dole",
     "textRightTop": "Vpravo nahoře",
@@ -66,8 +67,7 @@
     "textTableSize": "Velikost tabulky",
     "textWithBlueLinks": "s modrými odkazy",
     "textWithPageNumbers": "s číslováním stránek",
-    "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
-    "textRemovePicture": "Remove picture"
+    "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\""
   },
   "Common": {
     "Collaboration": {
@@ -165,7 +165,7 @@
       "textTabs": "Změnit záložky",
       "textTrackChanges": "Sledovat změny",
       "textTryUndoRedo": "Funkce Zpět/Znovu jsou vypnuty pro rychlý režim spolupráce.",
-      "textUnderline": "Podtržení",
+      "textUnderline": "Podtržené",
       "textUsers": "Uživatelé",
       "textWidow": "Ovládací prvek okna"
     },
@@ -228,7 +228,7 @@
     "textRefreshEntireTable": "Aktualizovat celou tabulku",
     "textRefreshPageNumbersOnly": "Aktualizovat pouze číslování stránek",
     "textRows": "Řádky",
-    "txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data.<br>Jste si jistí, že chcete pokračovat?"
+    "txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data. Toto umístění může být nebezpečné:<br>{0}<br>Jste si jistí, že chcete pokračovat?"
   },
   "Draw": {
     "textColor": "Barva",
@@ -259,6 +259,7 @@
     "textBackground": "Pozadí",
     "textBandedColumn": "Pruhované sloupce",
     "textBandedRow": "Pruhované řádky",
+    "textBaseline": "Základ",
     "textBefore": "Před",
     "textBehind": "Za",
     "textBorder": "Ohraničení",
@@ -266,7 +267,10 @@
     "textBullets": "Odrážky",
     "textBulletsAndNumbers": "Odrážky & Číslování",
     "textCancel": "Zrušit",
+    "textCapitalization": "Kapitalizace",
     "textCellMargins": "Okraje buňky",
+    "textCellOptions": "Možnosti buňky",
+    "textCellSize": "Velikost řádků a sloupců",
     "textCentered": "Vycentrováno",
     "textChangeShape": "Změnit obrazec",
     "textChart": "Graf",
@@ -416,18 +420,15 @@
     "textWe": "st",
     "textWrap": "Obtékání",
     "textWrappingStyle": "Styl zalomení",
+    "textWrapText": "Zalomit text",
     "textYourOption": "Váš výběr",
-    "textBaseline": "Baseline",
-    "textCapitalization": "Capitalization",
-    "textCellOptions": "Cell options",
-    "textCellSize": "Rows & columns size",
-    "textWrapText": "Wrap Text",
-    "txtHeight": "Height",
-    "txtWidth": "Width"
+    "txtHeight": "Výška",
+    "txtWidth": "Šířka"
   },
   "Error": {
     "convertationTimeoutText": "Překročen časový limit pro provedení převodu.",
     "criticalErrorExtText": "Pro návrat na seznam dokumentů klikněte na 'OK'.",
+    "criticalErrorExtTextClose": "Pro zavření editoru klikněte na 'OK'.",
     "criticalErrorTitle": "Chyba",
     "downloadErrorText": "Stahování se nezdařilo.",
     "errorAccessDeny": "Pokoušíte se provést akci, na kterou nemáte oprávnění.<br>Prosím kontaktujte Vašeho správce.",
@@ -487,8 +488,7 @@
     "uploadDocSizeMessage": "Překročena maximální velikost dokumentu.",
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Nenahrány žádné obrázky.",
-    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Načítání dat...",
@@ -609,7 +609,7 @@
       "Red Orange": "Červeno-oranžová",
       "Red Violet": "Červeno-fialková",
       "Same as Previous": "Stejné jako předchozí",
-      "Series": "Skupiny",
+      "Series": "Řady",
       "Slipstream": "Proudění vzduchu",
       "Strong": "Silné",
       "Subtitle": "Podtitulek",
@@ -660,11 +660,15 @@
     "textRequestMacros": "Makro vytváří požadavek na URL. Chcete povolit požadavek k přístupu na %1?",
     "textSaveAsPdf": "Uložit jako PDF",
     "textYes": "Ano",
+    "tipLicenseExceeded": "Dokument je otevřen v režimu pro čtení, protože došlo k dosažení limitu souběžného připojení, který je povolen pro tuto licenci.<br><br>Prosím zkuste to znovu později, nebo se obraťte na vlastníka dokumentu pro získání přístupu k úpravám.",
+    "tipLicenseUsersExceeded": "Dokument je otevřen v režimu pro čtení, protože došlo k dosažení maximálního počtu uživatelů, který je povolen pro tuto licenci.<br><br>Prosím zkuste to znovu později, nebo se obraťte na vlastníka dokumentu pro získání přístupu k úpravám.",
     "titleDialogProtectedDocument": "Dokument je zabezpečen",
     "titleLicenseExp": "Platnost licence vypršela",
     "titleLicenseNotActive": "Licence není aktivní",
+    "titleReadOnly": "Pouze pro čtení",
     "titleServerVersion": "Editor byl aktualizován",
     "titleUpdateVersion": "Verze změněna",
+    "txtSignedForm": "Dokument byl podepsán a nelze jej upravit.",
     "warnDownloadAsPdf": "Vašich {0} bude převedeno do editovatelného formátu. Tato operace může chvíli trvat. Výsledný dokument bude optimalizován a umožní editaci textu. Nemusí vypadat totožně jako původní {0}, zvláště pokud původní soubor obsahoval velké množství grafiky. ",
     "warnLicenseAnonymous": "Přístup zamítnut pro anonymní uživatele.<br>Tento dokument bude zobrazen pouze jako náhled.",
     "warnLicenseBefore": "Licence není aktivní.<br>Prosím kontaktujte svého správce.",
@@ -673,10 +677,7 @@
     "warnLicenseLimitedRenewed": "Licence musí být obnovena. Máte omezený přístup k možnostem editace dokumentů.<br>Prosím kontaktujte Vašeho správce pro získání plného přístupu.",
     "warnNoLicense": "Došlo k dosažení limitu souběžného připojení %1 editorů. Tento dokument bude otevřen pouze pro náhled. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
     "warnNoLicenseUsers": "Došlo k dosažení limitu %1 editorů. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
-    "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu.",
-    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-    "titleReadOnly": "Read-Only Mode"
+    "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu."
   },
   "Settings": {
     "advDRMOptions": "Zabezpečený soubor",
@@ -722,6 +723,7 @@
     "textDownloadAs": "Stáhnout jako",
     "textDownloadRtf": "V případě, že soubor uložíte v tomto formátu může dojít ke ztrátě formátování. Opravdu chcete pokračovat?",
     "textDownloadTxt": "V případě, že soubor uložíte v tomto formátu všechny funkce až na text budou ztraceny. Opravdu chcete pokračovat?",
+    "textDrawing": "Kreslení",
     "textEmptyHeading": "Prázdné záhlaví",
     "textEmptyScreens": "V dokumentu nebyly nalezeny žádné nadpisy. Použijte na text styly pro nadpisy, aby se objevily v tabulce obsahu.",
     "textEnableAll": "Zapnout vše",
@@ -816,8 +818,7 @@
     "txtDownloadTxt": "Stáhnout TXT",
     "txtIncorrectPwd": "Heslo je chybné",
     "txtOk": "OK",
-    "txtProtected": "Jakmile zadáte heslo a otevřete soubor, aktuální heslo bude obnoveno",
-    "textDrawing": "Drawing"
+    "txtProtected": "Jakmile zadáte heslo a otevřete soubor, aktuální heslo bude obnoveno"
   },
   "Toolbar": {
     "btnRestartNow": "Restartovat nyní",

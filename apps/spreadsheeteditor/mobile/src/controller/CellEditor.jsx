@@ -11,6 +11,7 @@ const CellEditor = inject("storeFunctions")(observer(props => {
             api.asc_registerCallback('asc_onSelectionNameChanged', onApiCellSelection.bind(this));
             api.asc_registerCallback('asc_onSelectionChanged', onApiSelectionChanged.bind(this));
             api.asc_registerCallback('asc_onFormulaCompleteMenu', onApiFormulaCompleteMenu.bind(this));
+            api.asc_registerCallback('asc_onFormulaInfo', onFormulaInfo.bind(this));
         });
     }, []);
 
@@ -19,6 +20,7 @@ const CellEditor = inject("storeFunctions")(observer(props => {
     const [stateFunctions, setFunctionshDisabled] = useState(null);
     const [stateFuncArr, setFuncArr] = useState('');
     const [stateHintArr, setHintArr] = useState('');
+    const [funcHint, setFuncHint] = useState('');
 
     const onApiCellSelection = info => {
         setCellName(typeof(info)=='string' ? info : info.asc_getName());
@@ -42,6 +44,66 @@ const CellEditor = inject("storeFunctions")(observer(props => {
         setTimeout(function() {
             onFormulaCompleteMenu(funcarr);
         }, 0);
+    };
+
+    const onFormulaInfo = (name, shiftpos, funcInfo) => {
+        if (!funcInfo || !name) {
+            setFuncHint([]);
+            return;
+        }
+
+        const api = Common.EditorApi.get();
+        const storeFunctions = props.storeFunctions;
+        const functions = storeFunctions.functions;
+        const activeArg = funcInfo.asc_getActiveArgPos();
+        const activeArgsCount = funcInfo.asc_getActiveArgsCount();
+        const argTypes = funcInfo.asc_getArgumentsType() || [];
+
+        let args = [];
+        let argsNames = [];
+
+        const origName = api.asc_getFormulaNameByLocale(name);
+
+        if (functions && functions[origName] && functions[origName].args) {
+            let separator = api.asc_getFunctionArgumentSeparator();
+            argsNames = functions[origName].args
+                .replace(/[()]/g, '') 
+                .split(separator)
+                .map(a => a.trim());
+        } else {
+            const custom = api.asc_getCustomFunctionInfo(name);
+            if (custom) {
+                const arr_args = custom.asc_getArg() || [];
+                argsNames = arr_args.map(a =>
+                    a.asc_getIsOptional() ? `[${a.asc_getName()}]` : a.asc_getName()
+                );
+            } 
+        }
+
+        let repeatedArg;
+        function fillArgs(types) {
+            let argCount = args.length;
+            for (let j = 0; j < types.length; j++) {
+                let str = argsNames[argCount] || `arg${argCount + 1}`;
+                const isActive = activeArg && argCount === activeArg - 1;
+                args.push({ name: str, isActive });
+                argCount++;
+            }
+        }
+
+        argTypes.forEach(type => {
+            if (typeof type === 'object') {
+                repeatedArg = type;
+                fillArgs(type);
+            } else fillArgs([type]);
+        });
+
+        if (repeatedArg && args.length < activeArgsCount) {
+            while (args.length < activeArgsCount) fillArgs(repeatedArg);
+        }
+        if (repeatedArg) args.push({ name: '...', isActive: false });
+
+        setFuncHint({ name, args });
     };
 
     const onFormulaCompleteMenu = async funcArr => {
@@ -139,6 +201,7 @@ const CellEditor = inject("storeFunctions")(observer(props => {
             funcArr={stateFuncArr}
             hintArr={stateHintArr}
             insertFormula={insertFormula}
+            funcHint={funcHint} 
         />
     )
 }));

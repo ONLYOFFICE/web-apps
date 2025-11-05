@@ -10,7 +10,7 @@ import IconScroll from '../../../../common/mobile/resources/icons/scroll.svg'
 import { WheelColorPicker } from "../component/WheelColorPicker";
 import { Device } from "../../utils/device";
 
-export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, addCustomColor, enableErasing }) => {
+export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, addCustomColor, enableErasing, attachBackdropSwipeClose, removeBackdropSwipeClose }) => {
   const { t } = useTranslation();
   const _t = t('Draw', { returnObjects: true });
   const isDrawingTool = currentTool === 'pen' || currentTool === 'highlighter';
@@ -18,7 +18,10 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
   return (
     <React.Fragment>
       {isDrawingTool && (<>
-        <Sheet className='draw-sheet draw-sheet--color-picker' backdrop swipeToClose onSheetClosed={() => f7.sheet.open('.draw-sheet--settings')}>
+        <Sheet className='draw-sheet draw-sheet--color-picker' backdrop swipeToClose onSheetOpened={attachBackdropSwipeClose} onSheetClosed={() => {
+          f7.sheet.open('.draw-sheet--settings');
+          removeBackdropSwipeClose();
+        }}>
           <div className='draw-sheet-label'><span>{_t.textCustomColor}</span></div>
           <WheelColorPicker
             initialColor={settings[currentTool].color}
@@ -28,7 +31,7 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
             }}
           />
         </Sheet>
-        <Sheet className="draw-sheet draw-sheet--settings" backdrop swipeToClose style={{ height: 'auto' }} onSheetOpen={() => {document.activeElement?.blur()}}>
+        <Sheet className="draw-sheet draw-sheet--settings" backdrop swipeToClose onSheetOpen={() => {document.activeElement?.blur()}} onSheetOpened={attachBackdropSwipeClose} onSheetClosed={removeBackdropSwipeClose} style={{ height: 'auto' }}>
           <div id='swipe-handler' className='swipe-container'>
             <Icon icon='icon icon-swipe'/>
           </div>

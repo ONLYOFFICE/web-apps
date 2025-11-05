@@ -257,6 +257,7 @@ define([
             //     maxwidth: 250 // number or string '123px/none/...', 250 by default,
             //     extCls: '' //
             //     noHighlight: false // false by default,
+            //     noArrow: false // false by default,
             //     multiple: false // false by default, show tip multiple times,
             //     isNewFeature: false // false by default, show "New" tip in the header
             // }
@@ -284,14 +285,22 @@ define([
             return _helpTips[step] && !(_helpTips[step].name && Common.localStorage.getItem(_helpTips[step].name));
         };
 
+        var _applyPlacement = function(step) {
+            if (_helpTips[step] && _helpTips[step].tip && _helpTips[step].tip.isVisible())
+                _helpTips[step].tip.applyPlacement();
+        };
+
         var _closeTip = function(step, force, preventNext) {
-            var props = _helpTips[step];
-            if (props) {
-                preventNext && (props.next = undefined);
-                props.tip && props.tip.close();
-                props.tip = undefined;
-                force && props.name && Common.localStorage.setItem(props.name, 1);
-            }
+            var steps = typeof step === 'string' ? [step] : step;
+            steps && steps.forEach(function(step) {
+                var props = _helpTips[step];
+                if (props) {
+                    preventNext && (props.next = undefined);
+                    props.tip && props.tip.close();
+                    props.tip = undefined;
+                    force && props.name && Common.localStorage.setItem(props.name, 1);
+                }
+            });
         };
 
         var _findTarget = function(target) {
@@ -343,7 +352,7 @@ define([
                 }
 
                 props.tip = new Common.UI.SynchronizeTip({
-                    extCls: 'colored' + (props.extCls ? ' ' + props.extCls : '') + (props.noHighlight ? ' no-arrow' : ''),
+                    extCls: 'colored' + (props.extCls ? ' ' + props.extCls : '') + (props.noArrow ? ' no-arrow' : ''),
                     style: 'min-width:200px;max-width:' + (props.maxwidth ? props.maxwidth + (typeof props.maxwidth === 'number' ? 'px;' : ';') : '250px;'),
                     placement: placement,
                     position: props.position,
@@ -399,7 +408,8 @@ define([
             closeTip: _closeTip,
             removeTip: _removeTip,
             addTips: _addTips,
-            getNeedShow: _getNeedShow
+            getNeedShow: _getNeedShow,
+            applyPlacement: _applyPlacement
         }
     })();
 });

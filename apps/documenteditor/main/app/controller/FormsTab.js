@@ -126,12 +126,14 @@ define([
                     'forms:clear': this.onClearClick,
                     // 'forms:no-color': this.onNoControlsColor,
                     // 'forms:select-color': this.onSelectControlsColor,
-                    'forms:mode': this.onModeClick,
+                    'forms:preview': this.onPreviewClick,
+                    'forms:final': this.onFinalClick,
                     'forms:goto': this.onGoTo,
                     'forms:submit': this.onSubmitClick,
                     'forms:save': this.onSaveFormClick,
                     'forms:manager': this.onManagerClick,
-                    'forms:gopage': this.onGotoPage
+                    'forms:gopage': this.onGotoPage,
+                    'forms:currentrole': this.onCurrentRole
                 },
                 'Toolbar': {
                     'tab:active': this.onActiveTab,
@@ -139,10 +141,14 @@ define([
                     'view:compact'  : function (toolbar, state) {
                         state && me.onTabCollapse();
                     },
+                },
+                'FormSettings': {
+                    'forms:currentrole': this.onCurrentRoleChanged
                 }
             });
             this.appConfig.isRestrictedEdit && this.api && this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
             this.appConfig.isPDFSignatureSupport && this.appConfig.isRestrictedEdit && this.api && this.api.asc_registerCallback('asc_onUpdateSignatures',    _.bind(this.onApiUpdateSignatures, this));
+            this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.isFormCreator && !this.appConfig.isOForm && this.api && this.api.asc_registerCallback('asc_onOFormChangeFinal', _.bind(this.onOFormChangeFinal, this))
         },
 
         SetDisabled: function(state) {
@@ -304,24 +310,73 @@ define([
         onModeClick: function(state, lastViewRole) {
             if (this.api) {
                 this.disableEditing(state);
-                this.view && this.view.setPreviewMode(state); // send role name - lastViewRole
+                this.view && this.view.setPreviewMode(state);
                 var role = new AscCommon.CRestrictionSettings();
                 role.put_OFormRole(lastViewRole);
                 this.api.asc_setRestriction(state ? Asc.c_oAscRestrictionType.OnlyForms : Asc.c_oAscRestrictionType.None, role);
                 this.api.asc_SetPerformContentControlActionByClick(state);
                 this.api.asc_SetHighlightRequiredFields(state);
-                state && (this._state.lastViewRole = lastViewRole);
+                state && lastViewRole && (this._state.lastViewRole = lastViewRole);
                 this.toolbar.toolbar.clearActiveData();
                 this.toolbar.toolbar.processPanelVisible(null, true);
+                !state && this.view && Common.Utils.lockControls(Common.enumLock.viewFormFinal, false, {array: [this.view.btnViewFormRoles]});
+                !state && this.view && Common.Utils.lockControls(Common.enumLock.viewFormNotFinal, false, {array: [this.view.btnFinal]});
             }
             Common.NotificationCenter.trigger('doc:mode-changed', state ? 'view-form' : undefined);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        changeViewFormMode: function(state) {
-            if (this.view && this.view.btnViewFormRoles && (state !== this.view.btnViewFormRoles.isActive())) {
-                this.view.btnViewFormRoles.toggle(state, true);
-                this.onModeClick(state);
+        changeViewFormMode: function(state, saveFlag) {
+            if (this.view && (this.view.btnViewFormRoles && (state !== this.view.btnViewFormRoles.isActive()) ||
+                              this.view.btnFinal && this.view.btnFinal.isActive() && !state)) {
+                var btnview = this.view.btnViewFormRoles,
+                    btnfinal = this.view.btnFinal;
+                if (btnview && (state !== btnview.isActive())) {
+                    btnview.toggle(state, true);
+                    if (state && btnview.menu) {
+                        var current = btnview.menu.getChecked();
+                        if (current) {
+                            current = current.caption;
+                        } else if (this.view._state.roles && this.view._state.roles.length>0) {
+                            current = this.view._state.roles[0].asc_getSettings().asc_getName();
+                        }
+                    }
+                    this.onPreviewClick(state, current);
+                } else if (btnfinal && btnfinal.isActive() && !state) {
+                    btnfinal.toggle(state, true);
+                    this.onFinalClick(state, saveFlag);
+                }
+            }
+        },
+
+        onPreviewClick: function(state, lastViewRole) {
+            this.onModeClick(state, lastViewRole);
+            state && this.view && Common.Utils.lockControls(Common.enumLock.viewFormNotFinal, true, {array: [this.view.btnFinal]});
+        },
+
+        onFinalClick: function(state, saveFlag) {
+            saveFlag && this.api && this.api.asc_markAsFinal(state);
+            this.onModeClick(state); // role = undefined, forms can be filled out by anyone
+            state && this.view && Common.Utils.lockControls(Common.enumLock.viewFormFinal, true, {array: [this.view.btnViewFormRoles]});
+        },
+
+        onOFormChangeFinal: function(isFinal) {
+            // off preview review changes
+            var review = this.getApplication().getController('Common.Controllers.ReviewChanges');
+            if (review && review.isPreviewChangesMode()) {
+                var value = Common.Utils.InternalSettings.get("de-review-mode-editor") || 'markup';
+                review.turnDisplayMode(value);
+                review.view && review.view.turnDisplayMode(value);
+            }
+
+            if (this.view) {
+                if (this.view.btnViewFormRoles && this.view.btnViewFormRoles.isActive()) // off view form mode
+                    this.changeViewFormMode(false);
+
+                if (this.view.btnFinal) {
+                    this.view.btnFinal.toggle(isFinal, true);
+                    this.onFinalClick(isFinal, false);
+                }
             }
         },
 
@@ -539,6 +594,12 @@ define([
                         // me.showHelpTip('submit');
                     // }
                 }
+                if (me.view && me.view.cmbRoles && me.view.cmbRoles.cmpEl) {
+                    let width = Math.max(me.view.lblRoles.$label.width(), 130);
+                    me.view.cmbRoles.setWidth(width);
+                    me.view.cmbRoles.cmpEl.find('.form-control').css('width', width + 'px');
+                    me.view.cmbRoles.cmpEl.find('.dropdown-menu').css('min-width', width + 'px');
+                }
                 me.onRefreshRolesList();
                 me.onChangeProtectDocument();
             });
@@ -608,7 +669,10 @@ define([
                 oform && (roles = oform.asc_getAllRoles());
             }
             this._state.lastRoleInList = (roles && roles.length>0) ? roles[roles.length-1].asc_getSettings().asc_getName() : undefined;
-            this.view && this.view.fillRolesMenu(roles, this._state.lastViewRole);
+            if (this.view) {
+                this.view.fillRolesMenu(roles, this._state.lastViewRole);
+                this.view.fillFillForCombo(roles, this._state.lastRoleInList);
+            }
         },
 
         onManagerClick: function() {
@@ -739,6 +803,40 @@ define([
             }
         },
 
+        onCurrentRole: function (combo, record) {
+            if (!this.api) return;
+            if (record.value === 0) {
+                combo.setValue(Common.Utils.InternalSettings.get('de-last-form-role') || this._state.lastRoleInList);
+
+                const formManager = this.api.asc_GetOForm();
+
+                new DE.Views.RoleEditDlg({
+                    oformManager: formManager,
+                    colors: [],
+                    isEdit: false,
+                    handler: function (result, settings) {
+                        if (result === 'ok' && settings) {
+                            const role = new AscCommon.CRoleSettings();
+                            role.asc_putName(settings.name);
+                            role.asc_putColor(settings.color);
+                            this.oformManager.asc_addRole(role);
+                            Common.Utils.InternalSettings.set('de-last-form-role', settings.name);
+                            combo.setValue(Common.Utils.InternalSettings.get('de-last-form-role'));
+                        }
+                    }
+                }).on('close', () => {
+                    this.fireEvent('editcomplete', this);
+                }).show();
+            } else {
+                Common.Utils.InternalSettings.set('de-last-form-role', record.value)
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onCurrentRoleChanged: function() {
+            this.view && this.view.cmbRoles && this.view.cmbRoles.setValue(Common.Utils.InternalSettings.get('de-last-form-role'));
+        },
+
         onRequestRoles: function(tab) {
             if (this._isDocReady)
                 this.requestStartFilling();
@@ -752,6 +850,7 @@ define([
                 this._state.needToStartFilling = false;
                 this.requestStartFilling();
             }
+
             this.appConfig.isPDFSignatureSupport && this.appConfig.isRestrictedEdit && this.api && this.showSignatureTooltip(this.api.asc_getSignatures());
         },
 
@@ -773,7 +872,7 @@ define([
                 Common.UI.TooltipManager.closeTip('formSigned');
             else
                 Common.UI.TooltipManager.showTip({ step: 'formSigned', text: this.view.txtSignedForm, target: '#toolbar', showButton: false,
-                                                         maxwidth: 'none', closable: true, automove: true, noHighlight: true});
+                                                         maxwidth: 'none', closable: true, automove: true, noHighlight: true, noArrow: true});
             Common.Utils.lockControls(Common.enumLock.formSigned, hasForm, {array: [this.view.btnSubmit, this.view.btnClear]});
         }
 

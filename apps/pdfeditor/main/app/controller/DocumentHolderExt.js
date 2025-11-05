@@ -426,6 +426,8 @@ define([], function () {
                 this.api.asc_registerCallback('asc_onVerticalAlign',        _.bind(this.onApiVerticalAlign, this));
                 Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
                 this.api.asc_registerCallback('asc_onTextColor',            _.bind(this.onApiTextColor, this));
+                this.api.asc_registerCallback('asc_onPrAlign',              _.bind(this.onApiParagraphAlign, this));
+                this.api.asc_registerCallback('asc_onTextDirection',        _.bind(this.onApiTextDirection, this));
 
                 documentHolder.btnBold.on('click',                         _.bind(this.onBold, this));
                 documentHolder.btnItalic.on('click',                       _.bind(this.onItalic, this));
@@ -447,6 +449,8 @@ define([], function () {
                 documentHolder.cmbFontName.on('hide:after',                _.bind(this.onHideMenus, this));
                 documentHolder.cmbFontName.on('combo:blur',                _.bind(this.onComboBlur, this));
                 documentHolder.cmbFontName.on('combo:focusin',             _.bind(this.onComboOpen, this, false));
+                documentHolder.btnHorizontalAlign.menu.on('item:click',    _.bind(this.onMenuHorizontalAlignSelect, this));
+                documentHolder.btnTextDir.menu.on('item:click',            _.bind(this.onTextDirClick, this));
 
                 this.api.UpdateInterfaceState();
             }
@@ -571,6 +575,49 @@ define([], function () {
                 this._state.clrtext = clr;
             }
             this._state.clrtext_asccolor = color;
+        };
+
+        dh.onApiParagraphAlign = function(v) {
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
+            if (this._state.pralign !== v) {
+                this._state.pralign = v;
+
+                var index = -1,
+                    align,
+                    btnHorizontalAlign = this.documentHolder.btnHorizontalAlign;
+
+                switch (v) {
+                    case 0: index = 2; align = 'btn-align-right'; break;
+                    case 1: index = 0; align = 'btn-align-left'; break;
+                    case 2: index = 1; align = 'btn-align-center'; break;
+                    case 3: index = 3; align = 'btn-align-just'; break;
+                    default:  index = -255; align = 'btn-align-left'; break;
+                }
+                if (!(index < 0)) {
+                    btnHorizontalAlign.menu.items[index].setChecked(true);
+                } else if (index == -255) {
+                    btnHorizontalAlign.menu.clearAll(true);
+                }
+
+                if ( btnHorizontalAlign.rendered && btnHorizontalAlign.$icon ) {
+                    btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls).addClass(align);
+                    btnHorizontalAlign.options.icls = align;
+                }
+            }
+        };
+
+        dh.onApiTextDirection = function (isRtl){
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
+            var documentHolder = this.documentHolder,
+                oldRtl = documentHolder.btnTextDir.options.dirRtl,
+                newRtl = !!isRtl;
+            if (oldRtl !== newRtl) {
+                documentHolder.btnTextDir.changeIcon({
+                    next: newRtl ? 'btn-rtl' : 'btn-ltr',
+                    curr: oldRtl ? 'btn-rtl' : 'btn-ltr'
+                });
+                documentHolder.btnTextDir.options.dirRtl = !!isRtl;
+            }
         };
 
         dh.onBold = function(btn, e) {
@@ -733,6 +780,25 @@ define([], function () {
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             }
+        };
+
+        dh.onTextDirClick = function(menu, item) {
+            this.api && this.api.asc_setRtlTextDirection(!!item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        };
+
+        dh.onMenuHorizontalAlignSelect = function(menu, item) {
+            this._state.pralign = undefined;
+            var btnHorizontalAlign = this.documentHolder.btnHorizontalAlign;
+
+            btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls);
+            btnHorizontalAlign.options.icls = !item.checked ? 'btn-align-left' : item.options.icls;
+            btnHorizontalAlign.$icon.addClass(btnHorizontalAlign.options.icls);
+
+            if (this.api && item.checked)
+                this.api.put_PrAlign(item.value);
+
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         };
 
         dh._getApiTextSize = function () {
@@ -2180,6 +2246,7 @@ define([], function () {
                                     chartProps: elValue,
                                     slideSize: PDFE.getController('Toolbar').currentPageSize,
                                     chartSettings: me.api.asc_getChartSettings(),
+                                    api : me.api,
                                     handler: function(result, value) {
                                         if (result == 'ok') {
                                             if (me.api) {
@@ -2843,47 +2910,31 @@ define([], function () {
                     }else 
                         chartProps.setDisplayGridlines(VertMajorGridlines, HorMajorGridlines, VertMinorGridlines, item.checked);
                     break;
+                case 'NoneLegend':
+                        chartProps.setDisplayLegend(false, Asc.c_oAscChartLegendShowSettings.none);
+                    break;
                 case 'LeftLegend':
-                    if (chartProps.getLegendPos() === 1) {
-                        chartProps.setDisplayLegend(false, 0);
-                    } else {
-                        chartProps.setDisplayLegend(true, 1);
-                    }
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.left);
                     break;
+
                 case 'TopLegend':
-                    if (chartProps.getLegendPos() === 2) {
-                        chartProps.setDisplayLegend(false, 0);
-                    } else {
-                        chartProps.setDisplayLegend(true, 2);
-                    }
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.top);
                     break;
+
                 case 'RightLegend':
-                    if (chartProps.getLegendPos() === 3) {
-                        chartProps.setDisplayLegend(false, 0);
-                    } else {
-                        chartProps.setDisplayLegend(true, 3);
-                    }
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.right);
                     break;
+
                 case 'BottomLegend':
-                    if (chartProps.getLegendPos() === 4) {
-                        chartProps.setDisplayLegend(false, 0);
-                    } else {
-                        chartProps.setDisplayLegend(true, 4);
-                    }
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.bottom);
                     break;
+
                 case 'LeftOverlay':
-                    if (chartProps.getLegendPos() === 5) {
-                        chartProps.setDisplayLegend(false, 0);
-                    } else {
-                        chartProps.setDisplayLegend(true,5);
-                    }
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.leftOverlay);
                     break;
+
                 case 'RightOverlay':
-                    if (chartProps.getLegendPos() === 6) {
-                        chartProps.setDisplayLegend(false, 0);
-                    } else {
-                        chartProps.setDisplayLegend(true, 6);
-                    }
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.rightOverlay);
                     break;
                 case 'trendLineNone':
                     chartProps.setDisplayTrendlines(false, false, 0, 0);
@@ -3050,33 +3101,14 @@ define([], function () {
             me.chartProps = me.getCurrentChartProps();
         
             if (chartContainer.length < 1) {
-                chartContainer = $('<div id="chart-element-container" style="position: absolute; z-index: 1000;"><div id="id-document-holder-btn-chart-element"></div></div>');
+                chartContainer = $('<div id="chart-element-container" style="position: absolute; z-index: 990;"><div id="id-document-holder-btn-chart-element"></div></div>');
                 documentHolderView.cmpEl.append(chartContainer);
             }
             
             me.isRtlSheet = me.api ? Common.UI.isRTL() : false;
 
             if (me.chartProps) {
-                var x = asc_CRect.asc_getX(),
-                    y = asc_CRect.asc_getY(),
-                    width = asc_CRect.asc_getWidth(),
-                    btnLeft = me.isRtlSheet ? x - 40 : x + width + 8,
-                    btnTop = y;
-
-                if (btnLeft < 25 || btnLeft + 50 > me._Width || btnTop + 30 > me._Height) {
-                    chartContainer.hide();
-                    return;
-                }
-
-                if (btnTop < 0) {
-                    btnTop = 0
-                }
-
-                chartContainer.css({
-                    left: btnLeft + 'px',
-                    top: btnTop + 'px'
-                }).show();
-        
+                
                 if (!me.btnChartElement) {
                     me.btnChartElement = new Common.UI.Button({
                         parentEl: $('#id-document-holder-btn-chart-element'),
@@ -3093,6 +3125,56 @@ define([], function () {
                         }
                     });
                 }
+
+                me._XY = undefined;
+                me.checkEditorOffsets();
+                var x = asc_CRect.asc_getX(),
+                    y = asc_CRect.asc_getY(),
+                    width = asc_CRect.asc_getWidth(),
+                    height = asc_CRect.asc_getHeight(),
+                    btn,
+                    btnTop = y,
+                    btnWidth = 50,
+                    offsetLeft = chartContainer.width() === 40 ? 50 : 42, 
+                    leftSide = x - offsetLeft,
+                    rightSide = x + width + 7;
+                   
+                if (me.isRtlSheet) {
+                    if (leftSide >= 0) {
+                        btn = leftSide + 15;
+                    } else if (rightSide + btnWidth <= me._Width) {
+                        btn = rightSide + 15;
+                    } else {
+                        chartContainer.hide();
+                        return;
+                    }
+                } else {
+                    if (rightSide + btnWidth <= me._Width + 18) {
+                        btn = rightSide;
+                    } else if (leftSide >= 0) {
+                        btn = leftSide;
+                    } else {
+                        chartContainer.hide();
+                        return;
+                    }
+                    
+                }
+
+                if (btnTop < 0) btnTop = 0;
+
+                if (y < 0) {
+                    var chartBottom = y + height;
+                    if (chartBottom < 20) { 
+                        chartContainer.hide();
+                        return;
+                    }
+                }
+
+                chartContainer.css({
+                    left: btn + 'px',
+                    top: btnTop + 'px'
+                }).show();
+        
                 me.disableChartElementButton();
             } else {
                 chartContainer.hide();

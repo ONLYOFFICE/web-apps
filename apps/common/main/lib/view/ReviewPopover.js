@@ -678,6 +678,7 @@ define([
                 this.handlerHide();
             }
             this.hideTips();
+            this.hideMentions();
             this._state.commentsVisible = false;
             if (!this._state.reviewVisible)
                 this.hide();
@@ -704,6 +705,7 @@ define([
             }
 
             this.hideTips();
+            this.hideMentions();
 
             Common.UI.Window.prototype.hide.call(this);
 
@@ -1171,8 +1173,27 @@ define([
                         });
                     }
                 }, this);
+        },
+
+        hideMentions: function () {
             if (this.emailMenu && this.emailMenu.rendered)
                 this.emailMenu.cmpEl.css('display', 'none');
+        },
+
+        moveMentions: function () {
+            var menu = this.emailMenu;
+            if (menu && menu.rendered && menu.isVisible() && this.commentsView) {
+                var menuContainer = this.$window.find(Common.Utils.String.format('#menu-container-{0}', menu.id)),
+                    textbox = this.commentsView.getTextBox(),
+                    textboxDom = textbox ? textbox[0] : null,
+                    showPoint = textboxDom ? [textboxDom.offsetLeft, textboxDom.offsetTop + textboxDom.clientHeight + 3] : [0, 0];
+
+                menuContainer.css({left: showPoint[0], top : showPoint[1]});
+                menu.menuAlignEl = textbox;
+                menu.show();
+                menu.cmpEl.css('display', '');
+                menu.alignPosition('bl-tl', -5);
+            }
         },
 
         isCommentsViewMouseOver: function () {

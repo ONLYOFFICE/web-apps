@@ -233,8 +233,8 @@
     width: @header-component-width-ie;
     width: @header-component-width;
     border: 0;
-    padding: @header-component-padding-ie;
-    padding: @header-component-padding;
+    padding: @header-component-padding-y-ie @header-component-padding-x-ie;
+    padding: @header-component-padding-y @header-component-padding-x;
 
     .icon {
         width: @x-small-btn-icon-size-ie;
@@ -480,6 +480,7 @@
         line-height: 20px;
         overflow: hidden;
         margin: 0 6px;
+        margin: 0 calc((@header-component-width - @header-component-padding-x*2 - 20px)/2);
         text-align: center;
     }
 }

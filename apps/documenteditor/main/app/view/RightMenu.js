@@ -205,7 +205,7 @@ define([
             this.shapeSettings = new DE.Views.ShapeSettings();
             this.textartSettings = new DE.Views.TextArtSettings();
 
-            if (mode && mode.canCoAuthoring && mode.canUseMailMerge) {
+            if (mode && mode.canCoAuthoring && mode.canUseMailMerge && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration-mailmerge')) {
                 this.btnMailMerge = new Common.UI.Button({
                     hint: this.txtMailMergeSettings,
                     asctype: Common.Utils.documentSettingsType.MailMerge,

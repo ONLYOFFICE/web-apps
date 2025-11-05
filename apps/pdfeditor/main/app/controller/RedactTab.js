@@ -58,6 +58,8 @@ define([
         onLaunch: function () {
             this._state = {};
 
+            this.redactionsWarning = null;
+            this.isFileMenuTab = null;
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
 
@@ -115,6 +117,12 @@ define([
 
         onStartRedact: function(isMarkMode) {
             Common.UI.TooltipManager.closeTip('mark-for-redaction');
+            if (isMarkMode && this.toolbar) {
+                this.toolbar.turnOnSelectTool();
+                this.api.SetMarkerFormat(undefined, false);
+                this.api.asc_StopInkDrawer();
+                this.toolbar.onClearHighlight();
+            }
             this.api.SetRedactTool(isMarkMode);
         },
 
@@ -132,44 +140,55 @@ define([
                 value: `1-${countPages}`,
                 description: this.textEnterRangeDescription,
                 inputConfig: {
-                    maxLength: 20,
+                    maxLength: 50,
                     allowBlank: false,
                     validation: function(value) {
                         const singlePage = /^\d+$/;
                         const range = /^(\d+)-(\d+)$/;
 
-                        if (singlePage.test(value)) {
-                            const page = parseInt(value, 10);
-                            if (page < 1 || page > countPages) return Common.Utils.String.format(me.txtInvalidRange, countPages);
-                            return true;
-                        }
+                        const parts = value.split(',').map(v => v.trim()).filter(Boolean);
+                        if (parts.length === 0) return me.txtInvalidFormat;
 
-                        const match = value.match(range);
-                        if (match) {
-                            const start = parseInt(match[1], 10);
-                            const end = parseInt(match[2], 10);
-                            if (start < 1 || end < 1 || start > countPages || end > countPages) {
-                                return Common.Utils.String.format(me.txtInvalidRange, countPages);
+                        for (const part of parts) {
+                            if (singlePage.test(part)) {
+                                const page = parseInt(part, 10);
+                                if (page < 1 || page > countPages) {
+                                    return Common.Utils.String.format(me.txtInvalidRange, countPages);
+                                }
+                            } else {
+                                const match = part.match(range);
+                                if (match) {
+                                    const start = parseInt(match[1], 10);
+                                    const end = parseInt(match[2], 10);
+                                    if (start < 1 || end < 1 || start > countPages || end > countPages) {
+                                        return Common.Utils.String.format(me.txtInvalidRange, countPages);
+                                    }
+                                    if (start > end) return me.txtReversedRange;
+                                } else {
+                                    return me.txtInvalidFormat;
+                                }
                             }
-                            if (start > end) return me.txtReversedRange;
-                            return true;
                         }
-
-                        return me.txtInvalidFormat;
+                        return true;
                     }
                 },
                 handler: function(result, value) {
                     if (result === 'ok') {
                         let pages = [];
+                        const parts = value.split(',').map(v => v.trim()).filter(Boolean);
 
-                        if (value.includes('-')) {
-                            const [start, end] = value.split('-').map(p => parseInt(p, 10));
-                            for (let i = start; i <= end; i++) {
-                                pages.push(i - 1);
+                        for (const part of parts) {
+                            if (part.includes('-')) {
+                                const [start, end] = part.split('-').map(p => parseInt(p, 10));
+                                for (let i = start; i <= end; i++) {
+                                    pages.push(i - 1);
+                                }
+                            } else {
+                                pages.push(parseInt(part, 10) - 1);
                             }
-                        } else {
-                            pages.push(parseInt(value, 10));
                         }
+
+                        pages = Array.from(new Set(pages)).sort((a, b) => a - b);
 
                         me.api.RedactPages(pages);
                     }
@@ -185,8 +204,11 @@ define([
                 Common.UI.TooltipManager.closeTip('mark-for-redaction');
                 Common.UI.TooltipManager.closeTip('apply-redaction');
                 const isMarked = this.api.HasRedact();
-                if (isMarked) {
-                    Common.UI.warning({
+                if (
+                    isMarked &&
+                    (!this.redactionsWarning || !this.redactionsWarning.isVisible())
+                ) {
+                    this.redactionsWarning = Common.UI.warning({
                         width: 500,
                         msg: this.textUnappliedRedactions,
                         buttons: [{
@@ -206,7 +228,10 @@ define([
                                 this.api.RemoveAllRedact();
                                 this.api.SetRedactTool(false);
                                 this.view.btnMarkForRedact.toggle(false);
-                            } else if (btn == 'cancel') {
+                            } else {
+                                if (this.isFileMenuTab) {
+                                    this.view.fireEvent('menu:hide', [this]);
+                                }
                                 if (this.mode.isPDFEdit) {
                                     this.toolbar.toolbar.setTab('red')
                                 } else {
@@ -220,10 +245,13 @@ define([
                     this.api.SetRedactTool(false);
                 }
             }
+            this.isFileMenuTab = tab === 'file';
         },
 
         onRedactionStateToggle: function(isRedaction) {
             this.view.btnMarkForRedact.toggle(isRedaction);
+            if (this.toolbar)
+                isRedaction ? this.toolbar.clearSelectTools() : this.toolbar.updateSelectTools();
         },
 
         SetDisabled: function(state) {
@@ -254,10 +282,10 @@ define([
                 });
             }
             Common.UI.TooltipManager.addTips({
-                'mark-for-redaction' : {name: 'help-tip-mark-for-redaction', placement: 'bottom-right', offset: {x: 10, y: 0}, text: this.tipMarkForRedaction, header: this.tipMarkForRedactionHeader, target: '#slot-btn-markredact',
-                    automove: true, next: 'apply-redaction', maxwidth: 270, closable: false, isNewFeature: true},
-                'apply-redaction' : {name: 'help-tip-apply-redaction', placement: 'bottom-left', offset: {x: 10, y: 0}, text: this.tipApplyRedaction, header: this.tipApplyRedactionHeader, target: '#slot-btn-apply-redactions',
-                    automove: true, prev: 'mark-for-redaction', maxwidth: 270, closable: false, isNewFeature: true},
+                'mark-for-redaction' : {name: 'help-tip-mark-for-redaction', placement: 'bottom-right', text: this.tipMarkForRedaction, header: this.tipMarkForRedactionHeader, target: '#slot-btn-markredact',
+                    automove: true, next: 'apply-redaction', maxwidth: 270, closable: false, isNewFeature: false, noHighlight: true},
+                'apply-redaction' : {name: 'help-tip-apply-redaction', placement: 'bottom-left', text: this.tipApplyRedaction, header: this.tipApplyRedactionHeader, target: '#slot-btn-apply-redactions',
+                    automove: true, prev: 'mark-for-redaction', maxwidth: 270, closable: false, isNewFeature: false, noHighlight: true},
             });
         },
 

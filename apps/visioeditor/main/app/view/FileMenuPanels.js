@@ -274,10 +274,10 @@ define([], function () {
                     '<td><label><%= scope.strFontRender %></label></td>',
                     '<td><span id="fms-cmb-font-render"></span></td>',
                 '</tr>',
-                '<tr>',
-                    '<td><label><%= scope.strKeyboardShortcuts %></label></td>',
-                    '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-keyboard-shortcuts" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomize %></button></div></td>',
-                '</tr>',
+                // '<tr>',
+                //     '<td><label><%= scope.strKeyboardShortcuts %></label></td>',
+                //     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-keyboard-shortcuts" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomize %></button></div></td>',
+                // '</tr>',
                 // '<tr class="macros">',
                 //     '<td><label><%= scope.strMacrosSettings %></label></td>',
                 //     '<td><div><div id="fms-cmb-macros"></div></div></td>',
@@ -384,10 +384,10 @@ define([], function () {
             });
             this.cmbFontRender.on('selected', _.bind(this.onFontRenderSelected, this));
 
-            this.btnKeyboardMacros = new Common.UI.Button({
-                el: $markup.findById('#fms-btn-keyboard-shortcuts')
-            });
-            this.btnKeyboardMacros.on('click', _.bind(this.onClickKeyboardShortcut, this));
+            // this.btnKeyboardMacros = new Common.UI.Button({
+            //     el: $markup.findById('#fms-btn-keyboard-shortcuts')
+            // });
+            // this.btnKeyboardMacros.on('click', _.bind(this.onClickKeyboardShortcut, this));
 
             // this.cmbMacros = new Common.UI.ComboBox({
             //     el          : $markup.findById('#fms-cmb-macros'),
@@ -582,6 +582,8 @@ define([], function () {
             value = Common.Utils.InternalSettings.get("settings-tab-style");
             item = this.cmbTabStyle.store.findWhere({value: value});
             this.cmbTabStyle.setValue(item ? item.get('value') : 'fill');
+
+            // Common.localStorage.getItem('help-tip-customize-shortcuts') && $('.new-hint', this.el).addClass('hidden');
         },
 
         applySettings: function() {
@@ -621,12 +623,13 @@ define([], function () {
             this._fontRender = combo.getValue();
         },
 
-        onClickKeyboardShortcut: function() {
-            const win = new Common.Views.ShortcutsDialog({
-                api: this.api
-            });
-            win.show();
-        },
+        // onClickKeyboardShortcut: function() {
+        //     const win = new Common.Views.ShortcutsDialog({
+        //         api: this.api
+        //     });
+        //     win.show();
+        //     Common.localStorage.setItem('help-tip-customize-shortcuts', 1); // don't show new feature label
+        // },
 
         customizeQuickAccess: function () {
             if (this.dlgQuickAccess && this.dlgQuickAccess.isVisible()) return;
@@ -1528,4 +1531,616 @@ define([], function () {
         }
     });
 
+    VE.Views.PrintWithPreview = Common.UI.BaseView.extend(_.extend({
+        el: '#panel-print',
+        menu: undefined,
+
+        template: _.template([
+            '<div style="width:100%; height:100%; position: relative;">',
+                '<div id="id-print-settings" class="no-padding">',
+                    '<div class="print-settings">',
+                        '<div class="flex-settings ps-container oo settings-container">',
+                            '<div class="main-header"><%= scope.txtPrint %></div>',
+                            '<table style="width: 100%;">',
+                                '<tbody>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtPrinter %></label></td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-combo-printer" style="width: 248px;"></div></td></tr>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtColorPrinting %></label></td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-combo-color-printing" style="width: 248px;"></div></td></tr>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtPrintRange %></label></td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-combo-range" style="width: 248px;"></div></td></tr>',
+                                    '<tr><td class="padding-large">',
+                                        '<table style="width: 100%;"><tbody>',
+                                        '<tr><td class="padding-large"><%= scope.txtPages %>:</td><td class="padding-large" style="width: 100%;"><div id="print-txt-pages" class="padding-left-5" style="width: 100%;"></div></td></tr>',
+                                        '<tr><td><%= scope.txtCopies %>:</td><td style="width: 100%;"><div id="print-txt-copies" class="padding-left-5" style="width: 60px;"></div></td></tr>',
+                                        '</tr></tbody></table>',
+                                    '</td></tr>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtPrintSides %></label></td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-combo-sides" style="width: 248px;"></div></td></tr>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtPaperSize %></label></td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-combo-pages" style="width: 248px;"></div></td></tr>',
+                                    '<tr><td class="padding-large"><label id="print-btn-system-dialog" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><span class="link"><%= scope.txtPrintUsingSystemDialog %></span></label></td></tr>',
+                                    '<tr class="fms-btn-apply"><td>',
+                                        '<div class="footer justify">',
+                                            '<button id="print-btn-print" class="btn normal dlg-btn primary margin-right-8" result="print" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button>',
+                                            '<button id="print-btn-print-pdf" class="btn normal dlg-btn" result="pdf" style="min-width: 96px;width: auto;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrintPdf %></button>',
+                                        '</div>',
+                                    '</td></tr>',
+                                '</tbody>',
+                            '</table>',
+                        '</div>',
+                    '</div>',
+                '</div>',
+                '<div id="print-preview-box" class="no-padding">',
+                    '<div id="print-preview"></div>',
+                    '<div id="print-navigation">',
+                        '<% if (!isRTL) { %>',
+                            '<div id="print-prev-page"></div>',
+                            '<div id="print-next-page"></div>',
+                        '<% } else { %>',
+                            '<div id="print-next-page"></div>',
+                            '<div id="print-prev-page"></div>',
+                        '<% } %>',
+                        '<div class="page-number margin-left-10">',
+                            '<label><%= scope.txtPage %></label>',
+                            '<div id="print-number-page" class="margin-left-4"></div>',
+                            '<label id="print-count-page" class="margin-left-4"><%= scope.txtOf %></label>',
+                        '</div>',
+                    '</div>',
+                '</div>',
+                '<div id="print-preview-empty" class="hidden">',
+                    '<div><%= scope.txtEmptyTable %></div>',
+                '</div>',
+            '</div>'
+        ].join('')),
+
+        initialize: function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this,arguments);
+
+            this.menu = options.menu;
+
+            this._defaultPaperSizeList = [
+                { value: 0, displayValue: ['US Letter', '21,59', '27,94', 'cm'], caption: 'US Letter', size: [215.9, 279.4]},
+                { value: 1, displayValue: ['US Legal', '21,59', '35,56', 'cm'], caption: 'US Legal', size: [215.9, 355.6]},
+                { value: 2, displayValue: ['A4', '21', '29,7', 'cm'], caption: 'A4', size: [210, 297]},
+                { value: 3, displayValue: ['A5', '14,8', '21', 'cm'], caption: 'A5', size: [148, 210]},
+                { value: 4, displayValue: ['B5', '17,6', '25', 'cm'], caption: 'B5', size: [176, 250]},
+                { value: 5, displayValue: ['Envelope #10', '10,48', '24,13', 'cm'], caption: 'Envelope #10', size: [104.8, 241.3]},
+                { value: 6, displayValue: ['Envelope DL', '11', '22', 'cm'], caption: 'Envelope DL', size: [110, 220]},
+                { value: 7, displayValue: ['Tabloid', '27,94', '43,18', 'cm'], caption: 'Tabloid', size: [279.4, 431.8]},
+                { value: 8, displayValue: ['A3', '29,7', '42', 'cm'], caption: 'A3', size: [297, 420]},
+                { value: 9, displayValue: ['Tabloid Oversize', '29,69', '45,72', 'cm'], caption: 'Tabloid Oversize', size: [296.9, 457.2]},
+                { value: 10, displayValue: ['ROC 16K', '19,68', '27,3', 'cm'], caption: 'ROC 16K', size: [196.8, 273]},
+                { value: 11, displayValue: ['Envelope Choukei 3', '12', '23,5', 'cm'], caption: 'Envelope Choukei 3', size: [120, 235]},
+                { value: 12, displayValue: ['Super B/A3', '30,5', '48,7', 'cm'], caption: 'Super B/A3', size: [305, 487]},
+                { value: 13, displayValue: ['A4', '84,1', '118,9', 'cm'], caption: 'A0', size: [841, 1189]},
+                { value: 14, displayValue: ['A4', '59,4', '84,1', 'cm'], caption: 'A1', size: [594, 841]},
+                { value: 16, displayValue: ['A4', '42', '59,4', 'cm'], caption: 'A2', size: [420, 594]},
+                { value: 17, displayValue: ['A4', '10,5', '14,8', 'cm'], caption: 'A6', size: [105, 148]}
+            ];
+
+            this._initSettings = true;
+            this._originalPageSize = undefined;
+            this._colorPrinting = '';
+        },
+
+        render: function(node) {
+            var me = this;
+
+            var $markup = $(this.template({scope: this, isRTL: Common.UI.isRTL()}));
+
+            this.cmbPrinter = new Common.UI.ComboBox({
+                el: $markup.findById('#print-combo-printer'),
+                menuStyle: 'width: 248px;max-height: 280px;',
+                editable: false,
+                takeFocusOnClose: true,
+                cls: 'input-group-nr',
+                placeHolder: this.txtPrinterNotSelected,
+                itemsTemplate:  _.template([
+                    '<% if (items.length > 0) { %>',
+                        '<% _.each(items, function(item) { %>',
+                            '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
+                        '<% }); %>',
+                    '<% } %>',
+                    '<% if(scope.options.isWatingForPrinters) { %>',
+                        '<li><a id="print-waiting-for-printers" class="text-dropdown-item" onclick="event.stopPropagation();">' + this.txtWaitingForPrinters + '<div class="spiner-image"></div></a></li>',
+                    '<% } else if(items.length == 0) {%>',
+                        '<li><a class="text-dropdown-item" onclick="event.stopPropagation();">' + this.txtPrintersNotFound + '</a></li>',
+                    '<% } %>'
+                ].join('')),
+                isWatingForPrinters: true,
+                data: [],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbPrinter.on('selected', _.bind(this.onPrinterSelected, this));
+
+            this.cmbColorPrinting = new Common.UI.ComboBox({
+                el: $markup.findById('#print-combo-color-printing'),
+                menuStyle: 'width: 248px; max-height: 280px;',
+                editable: false,
+                takeFocusOnClose: true,
+                cls: 'input-group-nr',
+                disabled: true,
+                data: [
+                    { value: 'color', displayValue: this.txtColorPrinting },
+                    { value: 'black-and-white', displayValue: this.txtBlackAndWhitePrinting }
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbColorPrinting.on('selected', _.bind(function(combo, record) { 
+                this._colorPrinting = record.value 
+            }, this));
+            this.cmbColorPrinting.setValue('black-and-white');
+            this._colorPrinting = 'black-and-white';
+
+            this.cmbRange = new Common.UI.ComboBox({
+                el: $markup.findById('#print-combo-range'),
+                menuStyle: 'min-width: 248px;max-height: 280px;',
+                editable: false,
+                takeFocusOnClose: true,
+                cls: 'input-group-nr',
+                data: [
+                    { value: 'all', displayValue: this.txtAllPages },
+                    { value: 'current', displayValue: this.txtCurrentPage },
+                    { value: -1, displayValue: this.txtCustomPages }
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbRange.setValue('all');
+
+            this.inputPages = new Common.UI.InputField({
+                el: $markup.findById('#print-txt-pages'),
+                allowBlank: true,
+                validateOnChange: true,
+                validateOnBlur: false,
+                maskExp: /[0-9,\-]/,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.spnCopies = new Common.UI.MetricSpinner({
+                el: $markup.findById('#print-txt-copies'),
+                step: 1,
+                width: 60,
+                defaultUnit : '',
+                value: 1,
+                maxValue: 32767,
+                minValue: 1,
+                allowDecimal: false,
+                maskExp: /[0-9]/,
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
+            this.cmbSides = new Common.UI.ComboBox({
+                el          : $markup.findById('#print-combo-sides'),
+                menuStyle   : 'width:100%;',
+                editable: false,
+                takeFocusOnClose: true,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 'one', displayValue: this.txtOneSide, descValue: this.txtOneSideDesc },
+                    { value: 'both-long', displayValue: this.txtBothSides, descValue: this.txtBothSidesLongDesc },
+                    { value: 'both-short', displayValue: this.txtBothSides, descValue: this.txtBothSidesShortDesc }
+                ],
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
+                    '<label class="font-weight-bold"><%= scope.getDisplayValue(item) %></label><label class="comment-text"><%= item.descValue %></label></a></li>',
+                    '<% }); %>'
+                ].join('')),
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbSides.setValue('one');
+
+            var paperSizeItemsTemplate = !Common.UI.isRTL() ?
+                _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem">',
+                    '<%= item.displayValue[0] %>',
+                    ' (<%= item.displayValue[1] %> <%= item.displayValue[3] %> x',
+                    ' <%= item.displayValue[2] %> <%= item.displayValue[3] %>)',
+                    '</a></li>',
+                    '<% }); %>'
+                ].join('')) :
+                _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" dir="ltr">',
+                    '(<span dir="rtl"><%= item.displayValue[2] %> <%= item.displayValue[3] %></span>',
+                    '<span> x </span>',
+                    '<span dir="rtl"><%= item.displayValue[1] %> <%= item.displayValue[3] %></span>)',
+                    '<span> <%= item.displayValue[0] %></span>',
+                    '</a></li>',
+                    '<% }); %>'
+                ].join(''));
+
+            var paperSizeTemplate = _.template([
+                '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
+                '<div class="form-control" style="padding-top:3px; line-height: 14px; cursor: pointer; width: 248px; <%= style %>"',
+                (Common.UI.isRTL() ? 'dir="rtl"' : ''), '></div>',
+                '<div style="display: table-cell;"></div>',
+                '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
+                '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">'].concat(paperSizeItemsTemplate).concat([
+                '</ul>',
+                '</div>'
+            ]).join(''));
+
+            this.cmbPaperSize = new Common.UI.ComboBoxCustom({
+                el: $markup.findById('#print-combo-pages'),
+                menuStyle: 'max-height: 280px; width: 248px;',
+                editable: false,
+                takeFocusOnClose: true,
+                template: paperSizeTemplate,
+                itemsTemplate: paperSizeItemsTemplate,
+                data: [].concat(this._defaultPaperSizeList),
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big',
+                updateFormControl: function (record, customValue){
+                    var formcontrol = $(this.el).find('.form-control');
+                    if (record || customValue) {
+                        var displayValue = customValue ? customValue : record.get('displayValue');
+                        if (typeof displayValue === 'string') {
+                            formcontrol[0].innerHTML = displayValue;
+                        } else {
+                            if (!Common.UI.isRTL()) {
+                                formcontrol[0].innerHTML = displayValue[0] + ' (' + displayValue[1] + ' ' + displayValue[3] + ' x ' +
+                                    displayValue[2] + ' ' + displayValue[3] + ')';
+                            } else {
+                                formcontrol[0].innerHTML = '<span dir="ltr">(<span dir="rtl">' + displayValue[2] + ' ' + displayValue[3] + '</span>' +
+                                    '<span> x </span>' + '<span dir="rtl">' + displayValue[1] + ' ' + displayValue[3] + '</span>)' +
+                                    '<span> ' + displayValue[0] + '</span></span>';
+                            }
+                        }
+                    } else
+                        formcontrol[0].innerHTML = '';
+                }
+            });
+            this.cmbPaperSize.setValue(2);
+
+            this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
+            this.pnlTable = $(this.pnlSettings.find('table')[0]);
+            this.trApply = $markup.find('.fms-btn-apply');
+
+            this.btnPrintSystemDialog = $markup.find('#print-btn-system-dialog > span');
+            this.btnPrint = new Common.UI.Button({
+                el: $markup.findById('#print-btn-print'),
+                disabled: true
+            });
+            this.btnPrintPdf = new Common.UI.Button({
+                el: $markup.findById('#print-btn-print-pdf')
+            });
+
+            this.btnPrevPage = new Common.UI.Button({
+                parentEl: $markup.findById('#print-prev-page'),
+                cls: 'btn-prev-page',
+                iconCls: 'arrow',
+                scaling: false,
+                dataHint: '2',
+                dataHintDirection: 'top'
+            });
+
+            this.btnNextPage = new Common.UI.Button({
+                parentEl: $markup.findById('#print-next-page'),
+                cls: 'btn-next-page',
+                iconCls: 'arrow',
+                scaling: false,
+                dataHint: '2',
+                dataHintDirection: 'top'
+            });
+
+            this.countOfPages = $markup.findById('#print-count-page');
+
+            this.txtNumberPage = new Common.UI.InputField({
+                el: $markup.findById('#print-number-page'),
+                allowBlank: true,
+                validateOnChange: true,
+                style: 'width: 50px;',
+                maskExp: /[0-9]/,
+                validation: function(value) {
+                    if (/(^[0-9]+$)/.test(value)) {
+                        value = parseInt(value);
+                        if (undefined !== value && value > 0 && value <= me.pageCount)
+                            return true;
+                    }
+
+                    return me.txtPageNumInvalid;
+                },
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.$el = $(node).html($markup);
+            this.$previewBox = $('#print-preview-box');
+            this.$previewEmpty = $('#print-preview-empty');
+
+            this.applyMode();
+
+            if (_.isUndefined(this.scroller)) {
+                this.scroller = new Common.UI.Scroller({
+                    el: this.pnlSettings,
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
+                });
+            }
+
+            Common.NotificationCenter.on({
+                'window:resize': function() {
+                    me.isVisible() && me.updateScroller();
+                }
+            });
+
+            this.updateMetricUnit();
+
+            this.fireEvent('render:after', this);
+
+            return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+            if (this._initSettings) {
+                this.updateMetricUnit();
+                this._initSettings = false;
+            }
+            this.updateScroller();
+            this.fireEvent('show', this);
+        },
+
+        updateCmbPrinter: function(currentPrinter, printers, isWaitingForPrinters) {
+            const cmbPrinterOptions = (printers || []).map(function(printer) {
+                return {
+                    value: printer.name,
+                    displayValue: printer.name,
+                    paperSupported: printer.paper_supported,
+                    isDuplexSupported: printer.duplex_supported,
+                    colorSupported: !!printer.color_supported
+                }
+            });
+
+            this.cmbPrinter.options.isWatingForPrinters = isWaitingForPrinters;
+            this.cmbPrinter.setData(cmbPrinterOptions);
+
+            let selectedPrinter = this.cmbPrinter.getValue();
+            if(!selectedPrinter &&  _.some(cmbPrinterOptions, function(option) { return option.value == currentPrinter })) {
+                selectedPrinter = currentPrinter;
+            }
+
+            if(selectedPrinter) {
+                const isChanged = selectedPrinter != this.cmbPrinter.getValue();
+                this.cmbPrinter.setValue(selectedPrinter);
+                if(isChanged) {
+                    this.cmbPrinter.trigger('selected', this, this.cmbPrinter.getSelectedRecord());
+                }
+            }
+        },
+
+        setCmbColorPrintingDisabled: function(disabled) {
+            if(disabled) {
+                this.cmbColorPrinting.setValue('black-and-white');
+            } else {
+                this.cmbColorPrinting.setValue(this._colorPrinting);
+            }
+            this.cmbColorPrinting.setDisabled(disabled);
+        },
+
+        setCmbSidesOptions: function(isDuplexSupported) {
+            var cmbValue = this.cmbSides.getValue();
+            var list = [{ value: 'one', displayValue: this.txtOneSide, descValue: this.txtOneSideDesc }];
+            if(isDuplexSupported) {
+                list.push(
+                    { value: 'both-long', displayValue: this.txtBothSides, descValue: this.txtBothSidesLongDesc },
+                    { value: 'both-short', displayValue: this.txtBothSides, descValue: this.txtBothSidesShortDesc }
+                );
+            } else if(cmbValue != 'one') {
+                cmbValue = 'one';
+            }
+            this.cmbSides.setData(list);
+            this.cmbSides.setValue(cmbValue);
+        },
+
+        setCmbPaperSizeOptions: function(paperSizeList) {
+            var resultList = [];
+
+            if(paperSizeList && paperSizeList.length > 0) {
+                resultList = paperSizeList.map(function(item, index) {
+                    return {
+                        value: index, 
+                        displayValue: [item.name, item.width / 10, item.height / 10, 'cm'], 
+                        caption: item.name, 
+                        size: [item.width, item.height]
+                    }
+                });
+            } else {
+                resultList = [].concat(this._defaultPaperSizeList);
+            }
+
+            var prevSelectedOption = this.cmbPaperSize.store.findWhere({ 
+                value: this.cmbPaperSize.getValue()
+            });
+            var newSelectedOption = null;
+
+            function findOptionBySize(list, width, height) {
+                return _.find(list, function(option) {
+                    return Math.abs(option.size[0] - width) < 0.1 && Math.abs(option.size[1] - height) < 0.1;
+                });
+            }
+
+            // If a previously selected option exists, search for a matching one in resultList
+            if (prevSelectedOption) {
+                newSelectedOption = findOptionBySize(
+                    resultList, 
+                    Math.round(prevSelectedOption.get('size')[0]), 
+                    Math.round(prevSelectedOption.get('size')[1])
+                );
+            }
+
+            if (!newSelectedOption) {
+                if(prevSelectedOption) {
+                    newSelectedOption = {
+                        custom: true,
+                        value: [
+                            this.txtCustom,
+                            parseFloat(Common.Utils.Metric.fnRecalcFromMM(prevSelectedOption.get('size')[0]).toFixed(2)),
+                            parseFloat(Common.Utils.Metric.fnRecalcFromMM(prevSelectedOption.get('size')[1]).toFixed(2)),
+                            Common.Utils.Metric.getCurrentMetricName()
+                        ]
+                    }
+                } else {
+                    const _w = this._originalPageSize ? this._originalPageSize.w : 210,
+                        _h = this._originalPageSize ? this._originalPageSize.h : 297;
+                    // If no matching option is found, look for the default size 210x297 (A4)
+                    if (!newSelectedOption) {
+                        newSelectedOption = findOptionBySize(resultList, _w, _h);
+                    }
+
+                    if (!newSelectedOption) {
+                        newSelectedOption = {
+                            custom: true,
+                            value: [
+                                this.txtCustom,
+                                parseFloat(Common.Utils.Metric.fnRecalcFromMM(_w).toFixed(2)),
+                                parseFloat(Common.Utils.Metric.fnRecalcFromMM(_h).toFixed(2)),
+                                Common.Utils.Metric.getCurrentMetricName()
+                            ]
+                        };
+                    }
+
+                    if (!newSelectedOption && resultList[0]) {
+                        newSelectedOption = resultList[0];
+                    } 
+                }
+            }
+            
+            this.cmbPaperSize.setData(resultList);
+            this.updatePaperSizeMetricUnit();
+            if (!newSelectedOption) {
+                this.cmbPaperSize.setValue(null);
+            } else if (newSelectedOption.custom) {
+                this.cmbPaperSize.setValue(undefined, newSelectedOption.value);
+            } else {
+                this.cmbPaperSize.setValue(newSelectedOption.value);
+            }
+        },
+
+        updateScroller: function() {
+            if (this.scroller) {
+                Common.UI.Menu.Manager.hideAll();
+                var scrolled = this.$el.height()< this.pnlTable.height() + 25 + this.$el.find('.main-header').outerHeight(true);
+                this.pnlSettings.css('overflow', scrolled ? 'hidden' : 'visible');
+                this.scroller.update();
+            }
+        },
+
+        setMode: function(mode) {
+            this.mode = mode;
+            !this._initSettings && this.applyMode();
+        },
+
+        applyMode: function() {
+            if (!this.mode || !this.$el) return;
+            this.$el.find('.header-settings')[this.mode.isEdit ? 'show' : 'hide']();
+            // !this.mode.isDesktopApp && this.$el.find('.desktop-settings').hide();
+        },
+
+        setApi: function(api) {
+
+        },
+
+        isVisible: function() {
+            return (this.$el || $(this.el)).is(":visible");
+        },
+
+        setRange: function(value) {
+            this.cmbRange.setValue(value);
+        },
+
+        getRange: function() {
+            return this.cmbRange.getValue();
+        },
+
+        updateCountOfPages: function (count) {
+            this.countOfPages.text(
+                Common.Utils.String.format(this.txtOf, count)
+            );
+            this.pageCount = count;
+        },
+
+        updateCurrentPage: function (index) {
+            this.txtNumberPage.setValue(index + 1);
+        },
+
+        onPrinterSelected: function(combo, record) {
+            this.setCmbSidesOptions(record ? record.isDuplexSupported : true);
+            this.setCmbPaperSizeOptions(record ? record.paperSupported : null);
+            this.setCmbColorPrintingDisabled(record ? !record.colorSupported : true);
+            this.btnPrint.setDisabled(!record);
+        },
+
+        updateMetricUnit: function() {
+            this.updatePaperSizeMetricUnit();
+        },
+
+        updatePaperSizeMetricUnit: function() {
+            if (!this.cmbPaperSize) return;
+            var store = this.cmbPaperSize.store;
+            for (var i=0; i<store.length; i++) {
+                var item = store.at(i),
+                    size = item.get('size'),
+                    pagewidth = size[0],
+                    pageheight = size[1];
+
+                item.set('displayValue', [item.get('caption'),
+                    parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)),
+                    parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)),
+                    Common.Utils.Metric.getCurrentMetricName()]);
+            }
+            this.cmbPaperSize.onResetItems();
+        },
+
+
+        setOriginalPageSize: function (w, h) {
+            this._originalPageSize = {w: w, h: h};
+        },
+
+        txtPrint: 'Print',
+        txtPrintPdf: 'Print to PDF',
+        txtPrinter: 'Printer',
+        txtPrinterNotSelected: 'Printer not selected',
+        txtPrintersNotFound: 'Printers not found',
+        txtWaitingForPrinters: 'Waiting for printers',
+        txtColorPrinting: 'Color printing',
+        txtBlackAndWhitePrinting: 'Black and white printing',
+        txtPrintUsingSystemDialog: 'Print using the system dialog',
+        txtPrintRange: 'Print range',
+        txtCurrentPage: 'Current page',
+        txtAllPages: 'All pages',
+        txtCustom: 'Custom',
+        txtCustomPages: 'Custom print',
+        txtPage: 'Page',
+        txtOf: 'of {0}',
+        txtPageNumInvalid: 'Page number invalid',
+        txtEmptyTable: 'There is nothing to print because the presentation is empty',
+        txtPages: 'Pages',
+        txtPaperSize: 'Paper size',
+        txtCopies: 'Copies',
+        txtPrintSides: 'Print sides',
+        txtOneSide: 'Print one sided',
+        txtOneSideDesc: 'Only print on one side of the page',
+        txtBothSides: 'Print on both sides',
+        txtBothSidesLongDesc: 'Flip pages on long edge',
+        txtBothSidesShortDesc: 'Flip pages on short edge'
+
+    }, VE.Views.PrintWithPreview || {}));
 });

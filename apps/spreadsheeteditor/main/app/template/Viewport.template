@@ -12,7 +12,7 @@
                 <div class="layout-item">
                     <div class="layout-ct vbox">
                         <div id="cell-editing-box" class="layout-item" style="height:18px;"></div>
-                        <div id="editor_sdk" class="layout-item" style="min-height: 100px;"></div>
+                        <div id="editor_sdk" class="layout-item"></div>
                     </div>
                 </div>
                 <div id="right-menu" class="layout-item hint-section" data-layout-name="rightMenu"></div>

@@ -53,6 +53,7 @@
     "textPictureFromURL": "Immagine dall'URL",
     "textPosition": "Posizione",
     "textRecommended": "Consigliato",
+    "textRemovePicture": "Rimuovi immagine",
     "textRequired": "Richiesto",
     "textRightBottom": "In basso a destra",
     "textRightTop": "In alto a destra",
@@ -66,8 +67,7 @@
     "textTableSize": "Dimensione della tabella",
     "textWithBlueLinks": "Con collegamento blu",
     "textWithPageNumbers": "Con numeri di pagina",
-    "txtNotUrl": "Questo campo dev'essere un URL nel formato \"http://www.example.com\"",
-    "textRemovePicture": "Remove picture"
+    "txtNotUrl": "Questo campo dev'essere un URL nel formato \"http://www.example.com\""
   },
   "Common": {
     "Collaboration": {
@@ -259,6 +259,7 @@
     "textBackground": "Sfondo",
     "textBandedColumn": "Colonna a strisce",
     "textBandedRow": "Riga a strisce",
+    "textBaseline": "Linea di base",
     "textBefore": "Prima",
     "textBehind": "Dietro al testo",
     "textBorder": "Bordo",
@@ -266,7 +267,10 @@
     "textBullets": "Elenchi puntati",
     "textBulletsAndNumbers": "Pallini e numeri",
     "textCancel": "Annulla",
+    "textCapitalization": "Maiuscole",
     "textCellMargins": "Margini della cella",
+    "textCellOptions": "Opzioni della cella",
+    "textCellSize": "Dimensioni di righe e colonne",
     "textCentered": "Centrato",
     "textChangeShape": "Cambia forma",
     "textChart": "Grafico",
@@ -416,14 +420,10 @@
     "textWe": "Mer",
     "textWrap": "Avvolgi",
     "textWrappingStyle": "Stile di avvolgimento testo",
+    "textWrapText": "Avvolgi il testo",
     "textYourOption": "La tua opzione",
-    "textBaseline": "Baseline",
-    "textCapitalization": "Capitalization",
-    "textCellOptions": "Cell options",
-    "textCellSize": "Rows & columns size",
-    "textWrapText": "Wrap Text",
-    "txtHeight": "Height",
-    "txtWidth": "Width"
+    "txtHeight": "Altezza",
+    "txtWidth": "Larghezza"
   },
   "Error": {
     "convertationTimeoutText": "È stato superato il tempo massimo di conversione.",
@@ -668,6 +668,7 @@
     "titleReadOnly": "Modalità di sola lettura",
     "titleServerVersion": "L'editor è stato aggiornato",
     "titleUpdateVersion": "La versione è stata cambiata",
+    "txtSignedForm": "Questo documento è stato firmato e non può essere modificato.",
     "warnDownloadAsPdf": "Il tuo {0} verrà convertito in un formato modificabile. Questo potrebbe richiedere del tempo. Il documento risultante sarà ottimizzato per consentirti di modificare il testo, quindi potrebbe non apparire esattamente come l'originale {0}, soprattutto se il file originale conteneva molti elementi grafici.",
     "warnLicenseAnonymous": "Accesso negato per utenti anonimi.<br>Questo documento verrà aperto solo per la visualizzazione.",
     "warnLicenseBefore": "Licenza non attiva.<br>Ti preghiamo di contattare l'Amministratore.",

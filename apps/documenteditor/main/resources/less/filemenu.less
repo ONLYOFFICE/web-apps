@@ -94,70 +94,70 @@
   cursor: pointer;
   .svg-format- {
     &docx {
-      background: ~"url('@{common-image-const-path}/doc-formats/docx.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/docx.svg') no-repeat center";
     }
     &pdf {
-      background: ~"url('@{common-image-const-path}/doc-formats/pdf.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/pdf.svg') no-repeat center";
     }
     &odt {
-      background: ~"url('@{common-image-const-path}/doc-formats/odt.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/odt.svg') no-repeat center";
     }
     &txt {
-      background: ~"url('@{common-image-const-path}/doc-formats/txt.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/txt.svg') no-repeat center";
     }
     &dotx {
-      background: ~"url('@{common-image-const-path}/doc-formats/dotx.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/dotx.svg') no-repeat center";
     }
     &pdfa {
-      background: ~"url('@{common-image-const-path}/doc-formats/pdfa.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/pdfa.svg') no-repeat center";
     }
     &ott {
-      background: ~"url('@{common-image-const-path}/doc-formats/ott.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/ott.svg') no-repeat center";
     }
     &rtf {
-      background: ~"url('@{common-image-const-path}/doc-formats/rtf.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/rtf.svg') no-repeat center";
     }
     &docm {
-      background: ~"url('@{common-image-const-path}/doc-formats/docm.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/docm.svg') no-repeat center";
     }
     &docxf {
-      background: ~"url('@{common-image-const-path}/doc-formats/docxf.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/docxf.svg') no-repeat center";
     }
     &oform {
-      background: ~"url('@{common-image-const-path}/doc-formats/oform.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/oform.svg') no-repeat center";
     }
     &html {
-      background: ~"url('@{common-image-const-path}/doc-formats/html.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/html.svg') no-repeat center";
     }
     &fb2 {
-      background: ~"url('@{common-image-const-path}/doc-formats/fb2.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/fb2.svg') no-repeat center";
     }
     &epub {
-      background: ~"url('@{common-image-const-path}/doc-formats/epub.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/epub.svg') no-repeat center";
     }
     &xps {
-      background: ~"url('@{common-image-const-path}/doc-formats/xps.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/xps.svg') no-repeat center";
     }
     &oxps {
-      background: ~"url('@{common-image-const-path}/doc-formats/oxps.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/oxps.svg') no-repeat center";
     }
     &djvu {
-      background: ~"url('@{common-image-const-path}/doc-formats/djvu.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/djvu.svg') no-repeat center";
     }
     &png {
-      background: ~"url('@{common-image-const-path}/doc-formats/png.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/png.svg') no-repeat center";
     }
     &jpg {
-      background: ~"url('@{common-image-const-path}/doc-formats/jpg.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/jpg.svg') no-repeat center";
     }
     &hwp {
-      background: ~"url('@{common-image-const-path}/doc-formats/hwp.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/hwp.svg') no-repeat center";
     }
     &hwpx {
-      background: ~"url('@{common-image-const-path}/doc-formats/hwpx.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/hwpx.svg') no-repeat center";
     }
     &vsdx {
-      background: ~"url('@{common-image-const-path}/doc-formats/vsdx.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/vsdx.svg') no-repeat center";
     }
   }
 
@@ -521,6 +521,17 @@
       div {
         width: 100%;
         height: 100%;
+
+        svg {
+          display: none;
+          width: 24px;
+          height: 30px;
+
+          .pixel-ratio__2_5 & {
+            display: block;
+          }
+        }
+
         div{
           background: ~"url(@{common-image-const-path}/doc-formats/formats.png)";
           background-size: 1200px 30px;
@@ -539,6 +550,10 @@
 
             .pixel-ratio__2 & {
               background-image: ~"url(@{common-image-const-path}/doc-formats/formats@2x.png)";
+            }
+
+            .pixel-ratio__2_5 & {
+              display: none;
             }
           }
         }

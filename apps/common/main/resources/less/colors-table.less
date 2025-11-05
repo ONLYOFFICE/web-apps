@@ -363,7 +363,8 @@
     // header button
     --header-component-height:  100%;
     --header-component-width:  40px;
-    --header-component-padding: 1px 3px;
+    --header-component-padding-x: 3px;
+    --header-component-padding-y: 1px;
     --header-component-margin: 0;
     --header-component-line-height: var(--line-height-base, 1.5);
     --header-component-align: stretch;
@@ -390,6 +391,9 @@
     --simple-editor-layout-collapse-button-rigth: 3px;
     --toolbar-preferred-tab-style: fill;
     --border-editor-sdk: var(--scaled-one-pixel, 1px) solid var(--border-toolbar);
+
+    --highlight-comment-hover: #EBEAEB;
+    --highlight-comment-pressed: #DCDBDB;
 }
 
 // Background
@@ -634,7 +638,8 @@
 @header-component-height: var(--header-component-height);
 @header-component-width: var(--header-component-width);
 @header-component-line-height: var(--header-component-line-height);
-@header-component-padding: var(--header-component-padding);
+@header-component-padding-x: var(--header-component-padding-x);
+@header-component-padding-y: var(--header-component-padding-y);
 @header-component-margin: var(--header-component-margin);
 @header-component-align: var(--header-component-align);
 
@@ -644,6 +649,9 @@
 @layout-padding-hor-toolbar-simple: var(--layout-padding-hor-toolbar-simple);
 @simple-editor-layout-collapse-button-rigth: var(--simple-editor-layout-collapse-button-rigth);
 @border-editor-sdk: var(--border-editor-sdk);
+
+@highlight-comment-hover: var(--highlight-comment-hover);
+@highlight-comment-pressed: var(--highlight-comment-pressed);
 
 // Canvas
 // ---------------------------

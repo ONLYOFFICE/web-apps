@@ -58,7 +58,7 @@ define([
                     '</div>',
                     '<div id="actions-list"></div>',
                     '<div id="action-description">',
-                        '<b>Description: </b>',
+                        '<b><%= scope.txtDescription %>: </b>',
                         '<span id="action-description-text"></span>',
                     '</div>'
                 ].join(''))({scope: this}),
@@ -102,10 +102,12 @@ define([
                             '<% }); %>',
                         '</div>',
                         '<% if (action.isLocked) { %>',
-                            '<i class="icon toolbar__icon btn-lock icon-lock">&nbsp;</i>',
+                            '<button type="button" class="btn-toolbar">',
+                                 '<i class="icon options__icon toolbar__icon btn-lock icon-lock">&nbsp;</i>',
+                            '</button>',
                         '<% } else { %>',
                             '<button type="button" class="action-edit btn-toolbar">',
-                                '<i class="icon toolbar__icon btn-edit">&nbsp;</i>',
+                                '<i class="icon options__icon toolbar__icon btn-edit">&nbsp;</i>',
                             '</button>',
                         '<% } %>',
                     '</div>'
@@ -130,7 +132,7 @@ define([
 
             Common.NotificationCenter.on('shortcuts:update', _.bind(function() {
                 this._setDefaults();
-                this.shortcutEditDialog && this.shortcutEditDialog.renderShortcutsWarning();
+                this.shortcutsEditDialog && this.shortcutsEditDialog.renderShortcutsWarning();
             }, this));
             this._setDefaults();
         },
@@ -199,12 +201,12 @@ define([
             
             const me = this;
 
-            this.shortcutEditDialog = new Common.Views.ShortcutEditDialog({
+            this.shortcutsEditDialog = new Common.Views.ShortcutsEditDialog({
                 action: record.get('action')
             });
-            this.shortcutEditDialog.show();
-            this.shortcutEditDialog.on('close', function() {
-                me.shortcutEditDialog = null;
+            this.shortcutsEditDialog.show();
+            this.shortcutsEditDialog.on('close', function() {
+                me.shortcutsEditDialog = null;
                 me.actionsList.focus();
             });
         },
@@ -246,6 +248,7 @@ define([
         },
 
         txtTitle: 'Keyboard Shortcuts',
+        txtDescription: 'Description',
         txtEmpty: 'No matches found. Adjust your search.',
         txtSearch: 'Search',
         txtRestoreAll: 'Restore All to Defaults',

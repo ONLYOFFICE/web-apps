@@ -52,6 +52,13 @@ import IconFormatText from '@icons/icon-format-text.svg';
 import IconFormatTime from '@icons/icon-format-time.svg';
 import IconFormatInteger from '@icons/icon-format-integer.svg';
 import IconCheck from '@common-android-icons/icon-check.svg';
+import IconTextDirectionContext from '@common-icons/icon-text-direction-context.svg';
+import IconTextDirectionRtl from '@common-icons/icon-text-direction-rtl.svg';
+import IconTextDirectionLtr from '@common-icons/icon-text-direction-ltr.svg';
+import IconTextBold from '@common-icons/icon-text-bold.svg'
+import IconTextItalic from '@common-icons/icon-text-italic.svg'
+import IconTextUnderline from '@common-icons/icon-text-underline.svg'
+import IconTextStrikethrough from '@common-icons/icon-text-strikethrough.svg'
 
 const EditCell = props => {
     const isAndroid = Device.android;
@@ -97,10 +104,18 @@ const EditCell = props => {
                     <List>
                         <ListItem className='buttons'>
                             <div className="row">
-                                <a className={'button' + (isBold ? ' active' : '')} onClick={() => {props.toggleBold(!isBold)}}><b>B</b></a>
-                                <a className={'button' + (isItalic ? ' active' : '')} onClick={() => {props.toggleItalic(!isItalic)}}><i>I</i></a>
-                                <a className={'button' + (isUnderline ? ' active' : '')} onClick={() => {props.toggleUnderline(!isUnderline)}} style={{textDecoration: "underline"}}>U</a>
-                                <a className={'button' + (isStrikethrough ? ' active' : '')} onClick={() => {props.toggleStrikethrough(!isStrikethrough)}} style={{textDecoration: "line-through"}}>S</a>
+                                <a className={'button' + (isBold ? ' active' : '')} onClick={() => {props.toggleBold(!isBold)}}>
+                                    <SvgIcon slot="media" symbolId={IconTextBold.id} className={'icon icon-svg'} />
+                                </a>
+                                <a className={'button' + (isItalic ? ' active' : '')} onClick={() => {props.toggleItalic(!isItalic)}}>
+                                    <SvgIcon slot="media" symbolId={IconTextItalic.id} className={'icon icon-svg'} />
+                                </a>
+                                <a className={'button' + (isUnderline ? ' active' : '')} onClick={() => {props.toggleUnderline(!isUnderline)}}>
+                                    <SvgIcon slot="media" symbolId={IconTextUnderline.id} className={'icon icon-svg'} />
+                                </a>
+                                <a className={'button' + (isStrikethrough ? ' active' : '')} onClick={() => {props.toggleStrikethrough(!isStrikethrough)}}>
+                                    <SvgIcon slot="media" symbolId={IconTextStrikethrough.id} className={'icon icon-svg'} />
+                                </a>
                             </div>
                         </ListItem>
                         <ListItem title={_t.textTextColor} link="/edit-cell-text-color/" routeProps={{
@@ -124,7 +139,8 @@ const EditCell = props => {
                             onHAlignChange: props.onHAlignChange,
                             onVAlignChange: props.onVAlignChange,
                             onWrapTextChange: props.onWrapTextChange,
-                            onTextOrientationChange: props.onTextOrientationChange
+                            onTextOrientationChange: props.onTextOrientationChange,
+                            setRtlTextdDirection: props.setRtlTextdDirection
                         }}>
                             {!isAndroid ?
                                 <SvgIcon slot="media" symbolId={IconTextAlignLeft.id} className='icon icon-svg' /> : null
@@ -552,11 +568,19 @@ const PageTextFormatCell = props => {
     const hAlignStr = storeCellSettings.hAlignStr;
     const vAlignStr = storeCellSettings.vAlignStr;
     const isWrapText = storeCellSettings.isWrapText;
-
+    const textDirection = storeCellSettings.textDirection; 
+    
     const storeFocusObjects = props.storeFocusObjects;
     if ((storeFocusObjects.focusOn !== 'cell') && Device.phone) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
         return null;
+    }
+
+    const textDirectionIcon = {
+        [Asc.c_oReadingOrderTypes.Context]: IconTextDirectionContext.id,
+        [Asc.c_oReadingOrderTypes.LTR]: IconTextDirectionLtr.id,
+        [Asc.c_oReadingOrderTypes.RTL]: IconTextDirectionRtl.id,
+        default: IconTextDirectionLtr.id
     }
 
     return (
@@ -608,6 +632,13 @@ const PageTextFormatCell = props => {
                 }}>
                     {!isAndroid ?
                         <SvgIcon slot="media" symbolId={IconTextOrientationHorizontal.id} className='icon icon-svg' /> : null
+                    }
+                </ListItem>
+                <ListItem title={_t.textTextDirection} link='/edit-cell-text-direction/' routeProps={{
+                    setRtlTextdDirection: props.setRtlTextdDirection
+                }}>
+                    {!isAndroid && 
+                        <SvgIcon slot="media" symbolId={textDirectionIcon[textDirection] ?? textDirectionIcon.default} className='icon icon-svg' />
                     }
                 </ListItem>
                 <ListItem title={_t.textWrapText}>
@@ -1278,6 +1309,56 @@ const PageTimeFormatCell = props => {
     )
 }
 
+const PageCellDirection = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const storeCellSettings = props.storeCellSettings;
+    const textDirection = storeCellSettings.textDirection ?? Asc.c_oReadingOrderTypes.LTR; 
+
+    return (
+        <Page>
+            <Navbar title={_t.textTextDirection} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <List>
+                <ListItem title={_t.textLtrTextDirection} radio
+                    checked={textDirection === Asc.c_oReadingOrderTypes.LTR}
+                    radioIcon="end"
+                    onChange={() => {
+                        props.setRtlTextdDirection(Asc.c_oReadingOrderTypes.LTR);
+                    }}>
+                    <SvgIcon slot="media" symbolId={IconTextDirectionLtr.id} className="icon icon-svg" />
+                </ListItem>
+                <ListItem title={_t.textRtlTextDirection} radio
+                    checked={textDirection === Asc.c_oReadingOrderTypes.RTL}
+                    radioIcon="end"
+                    onChange={() => {
+                        props.setRtlTextdDirection(Asc.c_oReadingOrderTypes.RTL);
+                    }}>
+                    <SvgIcon slot="media" symbolId={IconTextDirectionRtl.id} className="icon icon-svg" />
+                </ListItem>
+                <ListItem title={_t.textContextTextDirection} radio
+                    checked={textDirection === Asc.c_oReadingOrderTypes.Context}
+                    radioIcon="end"
+                    onChange={() => {
+                        props.setRtlTextdDirection(Asc.c_oReadingOrderTypes.Context);
+                    }}>
+                    <SvgIcon slot="media" symbolId={IconTextDirectionContext.id} className="icon icon-svg" />
+                </ListItem>
+            </List>
+        </Page>
+    )
+}
+
 
 const PageEditCell = inject("storeCellSettings", "storeWorksheets")(observer(EditCell));
 const TextColorCell = inject("storeCellSettings", "storePalette", "storeFocusObjects")(observer(PageTextColorCell));
@@ -1293,6 +1374,7 @@ const CustomBorderColorCell = inject("storeCellSettings", "storePalette")(observ
 const BorderSizeCell = inject("storeCellSettings")(observer(PageBorderSizeCell));
 const CellStyle = inject("storeCellSettings")(observer(PageCellStyle));
 const CustomFormats = inject("storeCellSettings")(observer(PageCustomFormats));
+const PageCellTextDirection = inject("storeCellSettings")(observer(PageCellDirection));
 
 export {
     PageEditCell as EditCell,
@@ -1314,5 +1396,6 @@ export {
     PageTimeFormatCell,
     CellStyle,
     CustomFormats,
-    PageCreationCustomFormat
+    PageCreationCustomFormat,
+    PageCellTextDirection
 };

@@ -169,7 +169,7 @@ define([
                 this.updateResultsNumber(resultNumber, allResults);
             }, this));
 
-            this.btnOpenPanelRedact.setVisible(this.mode === 'edit')
+            this.btnOpenPanelRedact && this.btnOpenPanelRedact.setVisible(this.mode === 'edit')
 
             return this;
         },

@@ -53,6 +53,7 @@
     "textPictureFromURL": "来自网络的图片",
     "textPosition": "位置",
     "textRecommended": "建议",
+    "textRemovePicture": "移除图片",
     "textRequired": "必填",
     "textRightBottom": "右下",
     "textRightTop": "右上",
@@ -66,8 +67,7 @@
     "textTableSize": "表格大小",
     "textWithBlueLinks": "带蓝色链接",
     "textWithPageNumbers": "带页码",
-    "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
-    "textRemovePicture": "Remove picture"
+    "txtNotUrl": "该字段应为“http://www.example.com”格式的URL"
   },
   "Common": {
     "Collaboration": {
@@ -228,7 +228,7 @@
     "textRefreshEntireTable": "刷新整个表格",
     "textRefreshPageNumbersOnly": "仅刷新页码",
     "textRows": "列",
-    "txtWarnUrl": "点击此链接可能对您的设备和数据有害<br>您确定要继续吗？"
+    "txtWarnUrl": "点击此链接可能会对您的设备和数据造成损害。此位置可能不安全：<br>{0}<br>您确定要继续吗？"
   },
   "Draw": {
     "textColor": "颜色",
@@ -259,6 +259,7 @@
     "textBackground": "背景",
     "textBandedColumn": "镶边列",
     "textBandedRow": "镶边行",
+    "textBaseline": "基准线",
     "textBefore": "之前",
     "textBehind": "衬于文字下方",
     "textBorder": "边框",
@@ -266,7 +267,10 @@
     "textBullets": "项目符号",
     "textBulletsAndNumbers": "项目符号&编号",
     "textCancel": "取消",
+    "textCapitalization": "大写",
     "textCellMargins": "单元格边距",
+    "textCellOptions": "单元格选项",
+    "textCellSize": "行和列的大小",
     "textCentered": "居中",
     "textChangeShape": "更改形状",
     "textChart": "图表",
@@ -416,14 +420,10 @@
     "textWe": "周三",
     "textWrap": "环绕",
     "textWrappingStyle": "环绕方式",
+    "textWrapText": "环绕文字",
     "textYourOption": "您的选择",
-    "textBaseline": "Baseline",
-    "textCapitalization": "Capitalization",
-    "textCellOptions": "Cell options",
-    "textCellSize": "Rows & columns size",
-    "textWrapText": "Wrap Text",
-    "txtHeight": "Height",
-    "txtWidth": "Width"
+    "txtHeight": "高度",
+    "txtWidth": "宽度"
   },
   "Error": {
     "convertationTimeoutText": "转换超时",
@@ -518,7 +518,7 @@
     "savePreparingTitle": "正在保存，请稍候...",
     "saveTextText": "正在保存文档...",
     "saveTitleText": "正在保存文件",
-    "savingText": "保存中",
+    "savingText": "提交中",
     "sendMergeText": "发送合并中...",
     "sendMergeTitle": "发送合并",
     "textContinue": "继续",
@@ -668,6 +668,7 @@
     "titleReadOnly": "只读模式",
     "titleServerVersion": "编辑器已更新",
     "titleUpdateVersion": "版本已变化",
+    "txtSignedForm": "此文档已签署，无法编辑。",
     "warnDownloadAsPdf": "您的｛0｝将被转换为可编辑格式。这可能需要一段时间。生成的文档将进行优化以允许您编辑文本，因此它可能与原始｛0｝不完全相同，尤其是在原始文件包含大量图形的情况下。",
     "warnLicenseAnonymous": "匿名用户的访问被拒绝。<br>此文档将以只读模式打开。",
     "warnLicenseBefore": "许可证未激活<br>请与管理员联系。",
