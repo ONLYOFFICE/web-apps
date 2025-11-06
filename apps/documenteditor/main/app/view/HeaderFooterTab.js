@@ -135,7 +135,7 @@ define([
                 this.btnCloseTab = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     caption: this.txtCloseTab,
-                    iconCls: 'toolbar__icon btn-ic-protect',
+                    iconCls: 'toolbar__icon btn-close-master',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -255,7 +255,7 @@ define([
                     [_set.previewReviewMode, _set.viewFormMode, _set.inEquation, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode], undefined, true, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.lockedControls, this.btnsHeaderFooter);
 
-                this.btnsPageNumber = Common.Utils.injectButtons($host.find('.btn-slot.slot-pagenumbers').add(this.toolbar.$el.find('.btn-slot.slot-pagenumbers')), '', 'toolbar__icon btn-insertchart', this.txtPageNumbering,
+                this.btnsPageNumber = Common.Utils.injectButtons($host.find('.btn-slot.slot-pagenumbers').add(this.toolbar.$el.find('.btn-slot.slot-pagenumbers')), '', 'toolbar__icon btn-pagenum', this.txtPageNumbering,
                     [_set.previewReviewMode, _set.viewFormMode, _set.inEquation, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode], undefined, true, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.lockedControls, this.btnsPageNumber);
 
