@@ -227,18 +227,7 @@ define([
                     },
                     options: {}
                 };
-                var clone = function (source) {
-                    var obj = {};
-                    for (var prop in source)
-                        obj[prop] = (typeof(source[prop]) == 'object') ? clone(source[prop]) : source[prop];
-                    return obj;
-                };
-                this.mnuPageNumCurrentPos = clone(this.mnuPageNumberPosPicker);
-                this.mnuPageNumCurrentPos.options.lock = [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock];
-                this.paragraphControls.push(this.mnuPageNumCurrentPos);
-                this.mnuPageNumOfPages = clone(this.mnuPageNumberPosPicker);
-                this.mnuPageNumOfPages.options.lock = [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock];
-                this.paragraphControls.push(this.mnuInsertPageCount);
+
                 this.mnuPageNumberPosPicker.options.lock = [_set.headerFooterLock];
 
                 Common.Utils.lockControls(_set.disableOnStart, true, {array: this.lockedControls});
@@ -263,23 +252,11 @@ define([
                 _injectComponent('#slot-spin-header-top', this.numHeaderPosition);
                 _injectComponent('#slot-spin-footer-bot', this.numFooterPosition);
                 this.btnsHeaderFooter = Common.Utils.injectButtons($host.find('.btn-slot.slot-headerfooter').add(this.toolbar.$el.find('.btn-slot.slot-headerfooter')), '', 'toolbar__icon btn-editheader', this.txtHeaderFooter,
-                    [_set.previewReviewMode, _set.viewFormMode, _set.inEquation, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
-                    undefined,
-                    true,
-                    undefined,
-                    '1',
-                    'bottom',
-                    'small');
+                    [_set.previewReviewMode, _set.viewFormMode, _set.inEquation, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode], undefined, true, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.lockedControls, this.btnsHeaderFooter);
 
                 this.btnsPageNumber = Common.Utils.injectButtons($host.find('.btn-slot.slot-pagenumbers').add(this.toolbar.$el.find('.btn-slot.slot-pagenumbers')), '', 'toolbar__icon btn-insertchart', this.txtPageNumbering,
-                    [_set.previewReviewMode, _set.viewFormMode, _set.inEquation, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
-                    undefined,
-                    true,
-                    undefined,
-                    '1',
-                    'bottom',
-                    'small');
+                    [_set.previewReviewMode, _set.viewFormMode, _set.inEquation, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode], undefined, true, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.lockedControls, this.btnsPageNumber);
 
                 this.btnCloseTab && this.btnCloseTab.render($host.find('#slot-btn-close-tab'));
