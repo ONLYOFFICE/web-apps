@@ -47,11 +47,11 @@ define([
         var template =
         '<section class="panel" data-tab="headerfooter" role="tabpanel" aria-labelledby="headerfooter">' +
             '<div class="group">' +
-                '<span class="btn-slot text x-huge" id="slot-btn-edit-remove-headerfooter"></span>' +
+                '<span class="btn-slot text x-huge slot-headerfooter"></span>' +
             '</div>' +
             '<div class="separator long"></div>' +
             '<div class="group">' +
-                '<span class="btn-slot text x-huge" id="slot-btn-ins-page-numb"></span>' +
+                '<span class="btn-slot text x-huge slot-pagenumbers"></span>' +
             '</div>' +
             '<div class="separator long"></div>' +
             '<div class="group small">' +
@@ -91,11 +91,10 @@ define([
             setEvents: function () {
                 var me = this;
 
-                this.mnuPageNumberPosPicker.on('item:click', function(picker, item, record, e) {
-                    me.fireEvent('headerfooter:pospick', [picker, item, record, e]);
-                });
-                this.btnInsPageNumber.menu.on('item:click', function (menu, item, e) {
-                    me.fireEvent('headerfooter:inspagenumber', [item]);
+                this.btnsPageNumber.forEach(function (button) {
+                    button.menu.on('item:click', function (menu, item, e) {
+                        me.fireEvent('headerfooter:inspagenumber', [item]);
+                    })
                 });
                 this.numHeaderPosition.on('change', function(field){
                     me.fireEvent('headerfooter:headerfooterpos', [field, true]);}
@@ -115,9 +114,11 @@ define([
                 this.btnCloseTab.on('click', function(field){
                     me.fireEvent('headerfooter:close');}
                 );
-                this.btnHeaderFooter.menu.on('item:click', function (menu, item, e) {
-                    me.fireEvent('headerfooter:editremove', [item]);
-                });
+                this.btnsHeaderFooter.forEach(function (button) {
+                    button.menu.on('item:click', function(menu, item, e) {
+                        me.fireEvent('headerfooter:editremove', [item]);
+                    })
+                })
             },
 
             initialize: function (options) {
@@ -126,33 +127,10 @@ define([
                 this.appConfig = options.mode;
 
                 this.lockedControls = [];
+                this.paragraphControls = [];
 
                 var me = this;
                 var _set = Common.enumLock;
-
-                this.btnHeaderFooter = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-editheader',
-                    lock: [_set.lostConnect, _set.disableOnStart],
-                    caption: this.txtHeaderFooter,
-                    menu: true,
-                    dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'small',
-                });
-                this.lockedControls.push(this.btnHeaderFooter);
-
-                this.btnInsPageNumber = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    caption: this.txtPageNumbering,
-                    iconCls: 'toolbar__icon btn-insertchart',
-                    lock: [_set.lostConnect, _set.disableOnStart],
-                    menu: true,
-                    dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
-                });
-                this.lockedControls.push(this.btnInsPageNumber);
 
                 this.btnCloseTab = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
@@ -185,12 +163,13 @@ define([
                     defaultValue : 0,
                     maxValue: 55.88,
                     minValue: 0,
-                    lock: [_set.headerLock, _set.richEditLock],
+                    lock: [_set.headerLock],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big',
                 });
                 this.lockedControls.push(this.numHeaderPosition);
+                this.paragraphControls.push(this.numHeaderPosition);
 
                 this.numHeaderPosition.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
@@ -200,35 +179,67 @@ define([
                     value: '1.25 cm',
                     defaultUnit : "cm",
                     maxValue: 55.88,
+                    lock: [_set.headerLock],
                     minValue: 0,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big',
                 });
                 this.lockedControls.push(this.numFooterPosition);
+                this.paragraphControls.push(this.numFooterPosition);
 
                 this.chDiffFirst = new Common.UI.CheckBox({
                     labelText: this.txtDiffFirst,
                     dataHint: '1',
+                    lock: [_set.headerLock],
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chDiffFirst);
+                this.paragraphControls.push(this.chDiffFirst);
 
                 this.chDiffOddEven = new Common.UI.CheckBox({
                     labelText: this.txtDiffOddEven,
                     dataHint: '1',
+                    lock: [_set.headerLock],
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chDiffOddEven);
+                this.paragraphControls.push(this.chDiffOddEven);
 
                 this.chSameAs = new Common.UI.CheckBox({
                     labelText: this.txtSameAs,
                     dataHint: '1',
+                    lock: [_set.headerLock],
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
                 });
+                this.paragraphControls.push(this.chSameAs);
+
+                this.mnuPageNumberPosPicker = {
+                    conf: {disabled: false},
+                    isDisabled: function () {
+                        return this.conf.disabled;
+                    },
+                    setDisabled: function (val) {
+                        this.conf.disabled = val;
+                    },
+                    options: {}
+                };
+                var clone = function (source) {
+                    var obj = {};
+                    for (var prop in source)
+                        obj[prop] = (typeof(source[prop]) == 'object') ? clone(source[prop]) : source[prop];
+                    return obj;
+                };
+                this.mnuPageNumCurrentPos = clone(this.mnuPageNumberPosPicker);
+                this.mnuPageNumCurrentPos.options.lock = [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock];
+                this.paragraphControls.push(this.mnuPageNumCurrentPos);
+                this.mnuPageNumOfPages = clone(this.mnuPageNumberPosPicker);
+                this.mnuPageNumOfPages.options.lock = [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock];
+                this.paragraphControls.push(this.mnuInsertPageCount);
+                this.mnuPageNumberPosPicker.options.lock = [_set.headerFooterLock];
 
                 Common.Utils.lockControls(_set.disableOnStart, true, {array: this.lockedControls});
                 Common.UI.LayoutManager.addControls(this.lockedControls);
@@ -248,11 +259,29 @@ define([
                 var _injectComponent = function (id, cmp) {
                     Common.Utils.injectComponent($host.findById(id), cmp);
                 };
-
+                var _set = Common.enumLock;
                 _injectComponent('#slot-spin-header-top', this.numHeaderPosition);
                 _injectComponent('#slot-spin-footer-bot', this.numFooterPosition);
-                this.btnInsPageNumber && this.btnInsPageNumber.render($host.find('#slot-btn-ins-page-numb'));
-                this.btnHeaderFooter && this.btnHeaderFooter.render($host.find('#slot-btn-edit-remove-headerfooter'));
+                this.btnsHeaderFooter = Common.Utils.injectButtons($host.find('.btn-slot.slot-headerfooter').add(this.toolbar.$el.find('.btn-slot.slot-headerfooter')), '', 'toolbar__icon btn-editheader', this.txtHeaderFooter,
+                    [_set.previewReviewMode, _set.viewFormMode, _set.inEquation, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                    undefined,
+                    true,
+                    undefined,
+                    '1',
+                    'bottom',
+                    'small');
+                Array.prototype.push.apply(this.lockedControls, this.btnsHeaderFooter);
+
+                this.btnsPageNumber = Common.Utils.injectButtons($host.find('.btn-slot.slot-pagenumbers').add(this.toolbar.$el.find('.btn-slot.slot-pagenumbers')), '', 'toolbar__icon btn-insertchart', this.txtPageNumbering,
+                    [_set.previewReviewMode, _set.viewFormMode, _set.inEquation, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                    undefined,
+                    true,
+                    undefined,
+                    '1',
+                    'bottom',
+                    'small');
+                Array.prototype.push.apply(this.lockedControls, this.btnsPageNumber);
+
                 this.btnCloseTab && this.btnCloseTab.render($host.find('#slot-btn-close-tab'));
                 this.lblHeaderTop && this.lblHeaderTop.render($host.find('#slot-lbl-header-top'));
                 this.lblFooterBottom && this.lblFooterBottom.render($host.find('#slot-lbl-footer-bot'));
@@ -264,99 +293,94 @@ define([
 
             onAppReady: function (config) {
                 var me = this;
+                this.$el = $(_.template(template)({}));
+                var _set = Common.enumLock;
 
-                this.btnHeaderFooter.setMenu(
-                    new Common.UI.Menu({
+                me.mnuPageNumberPosPickers = [];
+                me.numOfPages = [];
+                me.numFormats = [];
+                me.numCurrPos = [];
+
+                this.btnsHeaderFooter.forEach(function (button) {
+                    button.updateHint(me.tipHeaderFooter);
+
+                    var _menu = new Common.UI.Menu({
                         items: [
-                            {caption: this.txtEditHeader, value: 'edit-header'},
-                            {caption: this.txtEditFooter, value: 'edit-footer'},
+                            {caption: me.txtEditHeader, value: 'edit-header'},
+                            {caption: me.txtEditFooter, value: 'edit-footer'},
                             {caption: '--'},
-                            {caption: this.txtRemoveHeader, value: 'remove-header'},
-                            {caption: this.txtRemoveFooter, value: 'remove-footer'},
+                            {caption: me.txtRemoveHeader, value: 'remove-header'},
+                            {caption: me.txtRemoveFooter, value: 'remove-footer'},
                         ]
-                    })
-                )
+                    });
+                    button.setMenu(_menu); 
+                });
 
-                this.btnInsPageNumber.setMenu(
-                    new Common.UI.Menu({
+                this.btnsPageNumber.forEach(function (button, index) {
+                    button.updateHint(me.tipPageNumbering);
+                    var id = `id-toolbar-menu-pageposition${index}`;
+
+                    var _menu = new Common.UI.Menu({
                         style: 'min-width: 90px;',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-pageposition" class="menu-pageposition"></div>')},
-                            this.mnuPageNumCurrentPos = new Common.UI.MenuItem({
-                                caption: this.capCurrentPos,
-                                // lock: this.mnuPageNumCurrentPos.options.lock,
-                                // disabled: this.mnuPageNumCurrentPos.isDisabled(),
+                            {template: _.template(`<div id="${id}" class="menu-pageposition"></div>`)},
+                            me[`mnuPageNumCurrentPos${index}`] = new Common.UI.MenuItem({
+                                caption: me.capCurrentPos,
+                                lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock],
                                 value: 'current'
                             }),
-                            this.mnuPageNumOfPages = new Common.UI.MenuItem({
-                                caption: this.capNumOfPages,
+                            me[`mnuPageNumOfPages${index}`] = new Common.UI.MenuItem({
+                                caption: me.capNumOfPages,
+                                lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.headerFooterLock],
                                 value: 'quantity'
                             }),
                             {caption: '--'},
-                            this.mnuNumFormat = new Common.UI.MenuItem({
-                                caption: this.capFormatNums,
+                            me[`mnuNumFormat${index}`] = new Common.UI.MenuItem({
+                                caption: me.capFormatNums,
+                                lock: [_set.inHeader, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.headerFooterLock],
                                 value: 'format'
                             })
                         ]
-                    })
-                );
+                    });
 
-                this.mnuPageNumberPosPicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-pageposition'),
-                    // lock: this.mnuPageNumberPosPicker.options.lock,
-                    allowScrollbar: false,
-                    parentMenu:  this.btnInsPageNumber.menu,
-                    outerMenu:  {menu: this.btnInsPageNumber.menu, index: 0},
-                    showLast: false,
-                    store: new Common.UI.DataViewStore([
-                        {
-                            iconname: 'btn-page-number-top-left',
-                            data: {
-                                type: c_pageNumPosition.PAGE_NUM_POSITION_TOP,
-                                subtype: c_pageNumPosition.PAGE_NUM_POSITION_LEFT
-                            }
-                        },
-                        {
-                            iconname: 'btn-page-number-top-center',
-                            data: {
-                                type: c_pageNumPosition.PAGE_NUM_POSITION_TOP,
-                                subtype: c_pageNumPosition.PAGE_NUM_POSITION_CENTER
-                            }
-                        },
-                        {
-                            iconname: 'btn-page-number-top-right',
-                            data: {
-                                type: c_pageNumPosition.PAGE_NUM_POSITION_TOP,
-                                subtype: c_pageNumPosition.PAGE_NUM_POSITION_RIGHT
-                            }
-                        },
-                        {
-                            iconname: 'btn-page-number-bottom-left',
-                            data: {
-                                type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,
-                                subtype: c_pageNumPosition.PAGE_NUM_POSITION_LEFT
-                            }
-                        },
-                        {
-                            iconname: 'btn-page-number-bottom-center',
-                            data: {
-                                type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,
-                                subtype: c_pageNumPosition.PAGE_NUM_POSITION_CENTER
-                            }
-                        },
-                        {
-                            iconname: 'btn-page-number-bottom-right',
-                            data: {
-                                type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,
-                                subtype: c_pageNumPosition.PAGE_NUM_POSITION_RIGHT
-                            }
-                        }
-                    ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-pagenumber options__icon options__icon-huge <%= iconname %>"></div>')
+                    button.setMenu(_menu);
+
+                    var _conf = me.mnuPageNumberPosPicker ? me.mnuPageNumberPosPicker.conf : undefined;
+                    var keepState = me.mnuPageNumberPosPicker ? me.mnuPageNumberPosPicker.keepState : undefined;
+
+                    const picker = new Common.UI.DataView({
+                        el: $(`#${id}`),
+                        lock: me.mnuPageNumberPosPicker.options.lock,
+                        allowScrollbar: false,
+                        parentMenu: button.menu,
+                        outerMenu: {menu: button.menu, index: 0},
+                        showLast: false,
+                        store: new Common.UI.DataViewStore([
+                            { iconname: 'btn-page-number-top-left', data: { type: c_pageNumPosition.PAGE_NUM_POSITION_TOP, subtype: c_pageNumPosition.PAGE_NUM_POSITION_LEFT } },
+                            { iconname: 'btn-page-number-top-center', data: { type: c_pageNumPosition.PAGE_NUM_POSITION_TOP, subtype: c_pageNumPosition.PAGE_NUM_POSITION_CENTER } },
+                            { iconname: 'btn-page-number-top-right', data: { type: c_pageNumPosition.PAGE_NUM_POSITION_TOP, subtype: c_pageNumPosition.PAGE_NUM_POSITION_RIGHT } },
+                            { iconname: 'btn-page-number-bottom-left', data: { type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM, subtype: c_pageNumPosition.PAGE_NUM_POSITION_LEFT } },
+                            { iconname: 'btn-page-number-bottom-center', data: { type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM, subtype: c_pageNumPosition.PAGE_NUM_POSITION_CENTER } },
+                            { iconname: 'btn-page-number-bottom-right', data: { type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM, subtype: c_pageNumPosition.PAGE_NUM_POSITION_RIGHT } }
+                        ]),
+                        itemTemplate: _.template('<div id="<%= id %>" class="item-pagenumber options__icon options__icon-huge <%= iconname %>"></div>')
+                    }).on('item:click', function (picker, item, record, e) {
+                        me.fireEvent('headerfooter:pospick', [picker, item, record, e]);
+                    });
+
+                    me.mnuPageNumberPosPickers.push(picker);
+                    me.numOfPages.push(me[`mnuPageNumOfPages${index}`]);
+                    me.numFormats.push(me[`mnuNumFormat${index}`]);
+                    me.numCurrPos.push(me[`mnuPageNumCurrentPos${index}`]);
+
+                    picker.keepState = keepState;
+                    _conf && picker.setDisabled(_conf.disabled);
                 });
 
-                this.btnInsPageNumber.updateHint(this.tipPageNumbering);
-                this.btnHeaderFooter.updateHint(this.tipHeaderFooter);
+                Array.prototype.push.apply(me.paragraphControls, me.numOfPages);
+                Array.prototype.push.apply(me.paragraphControls, me.numCurrPos);
+                Array.prototype.push.apply(me.paragraphControls, me.numFormats);
+                Array.prototype.push.apply(me.lockedControls, me.numFormats);
                 this.btnCloseTab.updateHint(this.tipCloseTab);
             },
 

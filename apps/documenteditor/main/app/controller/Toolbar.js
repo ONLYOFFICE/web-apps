@@ -3999,7 +3999,7 @@ define([
                     var visible = Common.UI.LayoutManager.isElementVisible('toolbar-headerfooter');
                     me.toolbar.addTab(tab, $panel, 12);
                 }
-                config.isEdit && Array.prototype.push.apply(me.toolbar.lockControls, headerfootertab.getView('HeaderFooterTab').getButtons());
+                Array.prototype.push.apply(me.toolbar.lockControls, headerfootertab.getView('HeaderFooterTab').getButtons());
 
                 if ( config.canProtect && !config.isPDFForm) {
                     tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};

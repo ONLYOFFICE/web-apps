@@ -112,7 +112,8 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
-                    <span class="btn-slot text x-huge" id="slot-btn-editheader"></span>
+                    <span class="btn-slot text x-huge slot-headerfooter"></span>
+                    <span class="btn-slot text x-huge slot-pagenumbers"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">

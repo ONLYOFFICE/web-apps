@@ -250,17 +250,49 @@ define([
                 this.api = api;
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onFocusObject',       _.bind(this.onApiFocusObject, this));
+                this.api.asc_registerCallback('asc_onLockHeaderFooters', _.bind(this.onApiLockHeaderFooters, this));
+                this.api.asc_registerCallback('asc_onUnLockHeaderFooters', _.bind(this.onApiUnLockHeaderFooters, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
             }
             return this;
         },
 
+        onApiLockHeaderFooters: function() {
+            Common.Utils.lockControls(Common.enumLock.headerFooterLock, true, {array: [this.view.mnuPageNumberPosPicker]});
+            Common.Utils.lockControls(Common.enumLock.headerFooterLock, true, {array: this.view.mnuPageNumberPosPickers});
+        },
+
+        onApiUnLockHeaderFooters: function() {
+            Common.Utils.lockControls(Common.enumLock.headerFooterLock, false, {array: this.view.mnuPageNumberPosPickers});
+            Common.Utils.lockControls(Common.enumLock.headerFooterLock, false, {array: this.view.mnuPageNumberPosPickers});
+        },
+
         onApiFocusObject: function (selected) {
+            var header_locked = undefined;
+            var frame_pr = undefined;
+            var paragraph_locked = undefined;
+            var in_header = false;
+
             for (var i = 0; i < selected.length; i++) {
+                var pr = selected[i].get_ObjectValue();
                 if (selected[i].asc_getObjectType() === Asc.c_oAscTypeSelectElement.Header) {
+                    header_locked = pr.get_Locked();
+                    in_header = true;
                     this.ChangeSettings(selected[i].asc_getObjectValue());
-                };
+                } else if (selected[i].asc_getObjectType() === Asc.c_oAscTypeSelectElement.Paragraph) {
+                    frame_pr = selected[i].get_ObjectValue();
+                    paragraph_locked = frame_pr.get_Locked();
+                }
             };
+
+            var rich_edit_lock = (frame_pr) ? !frame_pr.can_EditBlockContentControl() : false,
+                plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : false;
+
+            Common.Utils.lockControls(Common.enumLock.richEditLock,  rich_edit_lock,     {array: this.view.paragraphControls});
+            Common.Utils.lockControls(Common.enumLock.plainEditLock,  plain_edit_lock,     {array: this.view.paragraphControls});
+            Common.Utils.lockControls(Common.enumLock.paragraphLock, paragraph_locked,   {array: this.view.paragraphControls});
+            Common.Utils.lockControls(Common.enumLock.headerLock, header_locked,   {array: this.view.paragraphControls});
+            Common.Utils.lockControls(Common.enumLock.inHeader, !in_header,   {array: this.view.lockedControls});
         },
 
         setConfig: function(config) {
