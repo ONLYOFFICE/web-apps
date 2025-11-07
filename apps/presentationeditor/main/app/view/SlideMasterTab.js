@@ -230,7 +230,7 @@ define([
                     this.btnCloseSlideMaster = new Common.UI.Button({
                         id: 'slot-btn-closeslidemaster',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-close-master',
+                        iconCls: 'toolbar__icon btn-close-tab',
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         caption: me.capCloseMaster,
                         dataHint: '1',
