@@ -202,12 +202,15 @@ label {
     .content-box {
         height: 100%;
         width: 100%;
-        padding: @layout-padding-right-panel-content-ie;
-        padding: @layout-padding-right-panel-content;
+        .settings-panel {
+            padding: @layout-padding-right-panel-content-ie;
+            padding: @layout-padding-right-panel-content;
 
-        .rtl & {
-            padding: @layout-padding-right-panel-content-rtl-ie;
-            padding: @layout-padding-right-panel-content-rtl;
+            .rtl & {
+                padding: @layout-padding-right-panel-content-rtl-ie;
+                padding: @layout-padding-right-panel-content-rtl;
+            }
+
         }
     }
 }
