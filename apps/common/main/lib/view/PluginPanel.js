@@ -86,7 +86,7 @@ define([], function () {
             if (this.sideMenuButton) {
                 this.pluginHide = new Common.UI.Button({
                     parentEl: this.$el.find('.plugin-hide'),
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar' + (this.menu==='right' ^ Common.UI.isRTL() ? ' icon-mirrored' : ''),
                     iconCls: 'toolbar__icon btn-panel-left-collapse',
                     hint: this.textHidePanel
                 });
