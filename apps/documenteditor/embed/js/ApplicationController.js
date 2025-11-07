@@ -1005,14 +1005,12 @@ DE.ApplicationController = new(function(){
     }
 
     function onOpenLinkPdfForm(sURI, onAllow, onCancel) {
-        var re = new RegExp('ctrl|' + me.textCtrl, 'i'),
-            msg = common.utils.isMac ? me.txtSecurityWarningLink.replace(re, '⌘') : me.txtSecurityWarningLink;
         common.controller.modals.showWarning({
             title: me.notcriticalErrorTitle,
-            message: msg.replace('%1', sURI || ''),
+            message: me.txtSecurityWarningLinkOk.replace('%1', sURI || ''),
             buttons: [me.textOk, me.textCancel],
             callback: function(btn) {
-                if (btn == me.textOk && window.event && (!common.utils.isMac && window.event.ctrlKey == true || common.utils.isMac && window.event.metaKey)) {
+                if (btn == me.textOk) {
                     onAllow();
                 }
                 else
