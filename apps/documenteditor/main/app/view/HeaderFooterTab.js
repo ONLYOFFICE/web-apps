@@ -135,7 +135,7 @@ define([
                 this.btnCloseTab = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     caption: this.txtCloseTab,
-                    iconCls: 'toolbar__icon btn-close-master',
+                    iconCls: 'toolbar__icon btn-close-tab',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
