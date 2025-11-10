@@ -54,8 +54,8 @@ const SettingsController = props => {
         let config = props.storeAppOptions.config;
 
         closeModal();
-        if(config && !!config.feedback && !!config.feedback.url) {
-            window.open(config.feedback.url, "_blank");
+        if(!!config?.customization?.feedback?.url) {
+            window.open(config.customization.feedback.url, "_blank");
         } else window.open(__SUPPORT_URL__, "_blank");
     };
 
