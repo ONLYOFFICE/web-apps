@@ -105,6 +105,13 @@ define([
                     'Diagram Title': this.txtDiagramTitle,
                     'X Axis': this.txtXAxis,
                     'Y Axis': this.txtYAxis,
+                    'Button': this.txtButton,
+                    'Group': this.txtGroup,
+                    'Checkbox': this.txtCheckbox,
+                    'Text': this.txtText,
+                    'Dropdown': this.txtDropdown,
+                    'Listbox': this.txtListbox,
+                    'Signature': this.txtSignature
                 };
             },
 
