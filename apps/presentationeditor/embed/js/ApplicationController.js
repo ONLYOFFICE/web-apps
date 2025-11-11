@@ -155,7 +155,6 @@ PE.ApplicationController = new(function(){
                 api.asc_setDocInfo(docInfo);
                 api.asc_getEditorPermissions(config.licenseUrl, config.customerId);
                 api.asc_enableKeyEvents(true);
-                common.controller.Shortcuts.setApi(api);
 
                 Common.Analytics.trackEvent('Load', 'Start');
             }
@@ -350,6 +349,8 @@ PE.ApplicationController = new(function(){
             share: '#idt-share',
             embed: '#idt-embed'
         });
+
+        common.controller.Shortcuts.setApi(api);
 
         api.asc_registerCallback('asc_onMouseMoveStart',        onDocMouseMoveStart);
         api.asc_registerCallback('asc_onMouseMoveEnd',          onDocMouseMoveEnd);

@@ -163,7 +163,6 @@ DE.ApplicationController = new(function(){
                 api.asc_setDocInfo(docInfo);
                 api.asc_getEditorPermissions(config.licenseUrl, config.customerId);
                 api.asc_enableKeyEvents(true);
-                common.controller.Shortcuts.setApi(api);
 
                 Common.Analytics.trackEvent('Load', 'Start');
             }
@@ -484,6 +483,8 @@ DE.ApplicationController = new(function(){
             share: '#idt-share',
             embed: '#idt-embed'
         });
+
+        common.controller.Shortcuts.setApi(api);
 
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
         api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
