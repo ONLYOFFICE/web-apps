@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "Makros",
   "PE.Views.ViewTab.textNormal": "Normal",
   "PE.Views.ViewTab.textNotes": "Notizen",
+  "PE.Views.ViewTab.textPauseMacro": "Aufnahme pausieren",
+  "PE.Views.ViewTab.textRecMacro": "Makro aufzeichnen",
+  "PE.Views.ViewTab.textResumeMacro": "Aufnahme fortsetzen",
   "PE.Views.ViewTab.textRightMenu": "Rechtes Bedienungsfeld ",
   "PE.Views.ViewTab.textRulers": "Lineale",
   "PE.Views.ViewTab.textShowGridlines": "Gitternetzlinien anzeigen",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "Intelligente Führungslinien",
   "PE.Views.ViewTab.textSnapObjects": "Objekt an das Raster binden",
   "PE.Views.ViewTab.textStatusBar": "Statusleiste",
+  "PE.Views.ViewTab.textStopMacro": "Aufnahme beenden",
   "PE.Views.ViewTab.textTabStyle": "Stil der Registerkarte",
   "PE.Views.ViewTab.textZoom": "Zoom",
   "PE.Views.ViewTab.tipFitToSlide": "An Folie anpassen",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Thema der Benutzeroberfläche",
   "PE.Views.ViewTab.tipMacros": "Makros",
   "PE.Views.ViewTab.tipNormal": "Normal",
+  "PE.Views.ViewTab.tipPauseMacro": "Aufnahme pausieren",
+  "PE.Views.ViewTab.tipRecMacro": "Makro aufzeichnen",
+  "PE.Views.ViewTab.tipResumeMacro": "Aufnahme fortsetzen",
   "PE.Views.ViewTab.tipSelectTool": "Auswählungstool",
-  "PE.Views.ViewTab.tipSlideMaster": "Folienmaster"
+  "PE.Views.ViewTab.tipSlideMaster": "Folienmaster",
+  "PE.Views.ViewTab.tipStopMacro": "Aufnahme beenden"
 }

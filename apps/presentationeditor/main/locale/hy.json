@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "Մակրոներ",
   "PE.Views.ViewTab.textNormal": "Սովորական",
   "PE.Views.ViewTab.textNotes": "Նշումներ",
+  "PE.Views.ViewTab.textPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.textRecMacro": "Record macro",
+  "PE.Views.ViewTab.textResumeMacro": "Resume recording",
   "PE.Views.ViewTab.textRightMenu": "Աջ վահանակ",
   "PE.Views.ViewTab.textRulers": "Քանոններ",
   "PE.Views.ViewTab.textShowGridlines": "Ցուցադրել Ցանցային գծերը",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "Խելացի ուղեցույցներ",
   "PE.Views.ViewTab.textSnapObjects": "Կցեք օբյեկտը ցանցին",
   "PE.Views.ViewTab.textStatusBar": "Վիճակագոտի",
+  "PE.Views.ViewTab.textStopMacro": "Stop recording",
   "PE.Views.ViewTab.textTabStyle": "Ներդիրի ոճ",
   "PE.Views.ViewTab.textZoom": "Խոշորացնել",
   "PE.Views.ViewTab.tipFitToSlide": "Հարմարեցնել լուսապատկերին",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի ոճ",
   "PE.Views.ViewTab.tipMacros": "Մակրոներ",
   "PE.Views.ViewTab.tipNormal": "Սովորական",
+  "PE.Views.ViewTab.tipPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.tipRecMacro": "Record macro",
+  "PE.Views.ViewTab.tipResumeMacro": "Resume recording",
   "PE.Views.ViewTab.tipSelectTool": "Ընտրել գործիք",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.ViewTab.tipStopMacro": "Stop recording"
 }

@@ -55,7 +55,6 @@
   "DE.ApplicationController.txtNo": "No",
   "DE.ApplicationController.txtOpenWarning": "Fer clic en aquest enllaç pot ser perjudicial per al vostre dispositiu i les vostres dades. Per protegir l'ordinador, feu clic només a aquests enllaços de fonts de confiança. Aquesta ubicació pot ser insegura:<br>%1<br>Esteu segur que voleu continuar?",
   "DE.ApplicationController.txtPressLink": "Prem %1 i fes clic a l'enllaç",
-  "DE.ApplicationController.txtSecurityWarningLink": "Aquest document està intentant connectar-se a %1.<br>Si confieu en aquest lloc, premeu \"OK\" mentre manteniu premuda la tecla Ctrl.",
   "DE.ApplicationController.txtSecurityWarningOpenFile": "Aquest document intenta obrir el diàleg de fitxers, prem “D'acord” per obrir-lo.",
   "DE.ApplicationController.txtYes": "Sí",
   "DE.ApplicationController.unknownErrorText": "Error desconegut.",

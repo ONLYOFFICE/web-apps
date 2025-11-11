@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "Macrocomandă",
   "PE.Views.ViewTab.textNormal": "Normal",
   "PE.Views.ViewTab.textNotes": "Note",
+  "PE.Views.ViewTab.textPauseMacro": "Înregistrare în pauză",
+  "PE.Views.ViewTab.textRecMacro": "Înregistrare macrocomandă",
+  "PE.Views.ViewTab.textResumeMacro": "Reluare înregistrare",
   "PE.Views.ViewTab.textRightMenu": "Panou dreapta",
   "PE.Views.ViewTab.textRulers": "Rigle",
   "PE.Views.ViewTab.textShowGridlines": "Afișare linii de grilă",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "Ghiduri inteligente",
   "PE.Views.ViewTab.textSnapObjects": "Fixare obiect la grilă",
   "PE.Views.ViewTab.textStatusBar": "Bară de stare",
+  "PE.Views.ViewTab.textStopMacro": "Oprire înregistrare",
   "PE.Views.ViewTab.textTabStyle": "Stil filă",
   "PE.Views.ViewTab.textZoom": "Zoom",
   "PE.Views.ViewTab.tipFitToSlide": "Se aliniază la diapozitiv",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema interfeței",
   "PE.Views.ViewTab.tipMacros": "Macrocomandă",
   "PE.Views.ViewTab.tipNormal": "Normal",
+  "PE.Views.ViewTab.tipPauseMacro": "Înregistrare în pauză",
+  "PE.Views.ViewTab.tipRecMacro": "Înregistrare macrocomandă",
+  "PE.Views.ViewTab.tipResumeMacro": "Reluare înregistrare",
   "PE.Views.ViewTab.tipSelectTool": "Instrumentul Selectare",
-  "PE.Views.ViewTab.tipSlideMaster": "Coordonator de diapozitive"
+  "PE.Views.ViewTab.tipSlideMaster": "Coordonator de diapozitive",
+  "PE.Views.ViewTab.tipStopMacro": "Oprire înregistrare"
 }

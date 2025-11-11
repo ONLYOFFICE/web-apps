@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "Macro",
   "PE.Views.ViewTab.textNormal": "Normale",
   "PE.Views.ViewTab.textNotes": "Appunti",
+  "PE.Views.ViewTab.textPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.textRecMacro": "Record macro",
+  "PE.Views.ViewTab.textResumeMacro": "Resume recording",
   "PE.Views.ViewTab.textRightMenu": "Pannello destro",
   "PE.Views.ViewTab.textRulers": "Righelli",
   "PE.Views.ViewTab.textShowGridlines": "Mostra griglie",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "Guide intelligenti",
   "PE.Views.ViewTab.textSnapObjects": "Fissa l'obiettivo alla griglia",
   "PE.Views.ViewTab.textStatusBar": "Barra di stato",
+  "PE.Views.ViewTab.textStopMacro": "Stop recording",
   "PE.Views.ViewTab.textTabStyle": "Stile della tabella",
   "PE.Views.ViewTab.textZoom": "Zoom",
   "PE.Views.ViewTab.tipFitToSlide": "Adatta alla diapositiva",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema dell'interfaccia",
   "PE.Views.ViewTab.tipMacros": "Macro",
   "PE.Views.ViewTab.tipNormal": "Normale",
+  "PE.Views.ViewTab.tipPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.tipRecMacro": "Record macro",
+  "PE.Views.ViewTab.tipResumeMacro": "Resume recording",
   "PE.Views.ViewTab.tipSelectTool": "Seleziona strumento",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.ViewTab.tipStopMacro": "Stop recording"
 }
