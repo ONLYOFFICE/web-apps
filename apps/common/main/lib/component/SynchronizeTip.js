@@ -213,6 +213,9 @@ define([
                         var width = this.cmpEl.width();
                         if (left+width>Common.Utils.innerWidth())
                             left = Common.Utils.innerWidth() - width - 10;
+                        if (left < 10)
+                            left = 10;
+  
                         left = (left + 'px');
                     } else
                         left = 'auto';
