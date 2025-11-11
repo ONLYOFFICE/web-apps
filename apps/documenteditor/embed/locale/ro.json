@@ -55,7 +55,6 @@
   "DE.ApplicationController.txtNo": "Nu",
   "DE.ApplicationController.txtOpenWarning": "Accesarea acestui link poate dăuna dispozitivului sau datelor dvs. Pentru a vă proteja calculatorul, evitați să dați click pe linkuri de la surse necunoscute. Această locație poate fi nesigură:<br>%1<br>Sigur doriti sa continuati? ",
   "DE.ApplicationController.txtPressLink": "Apăsați %1 și faceți clic pe link",
-  "DE.ApplicationController.txtSecurityWarningLink": "Acest document încearcă să se conecteze la %1.<br>Dacă aveți încredere în acest site, faceți clic pe OK și țineți apăsată tasta Ctrl.",
   "DE.ApplicationController.txtSecurityWarningOpenFile": "Acest document încearcă să deschidă fereastra de dialog, apăsați OK pentru a-l deschide.",
   "DE.ApplicationController.txtYes": "Da",
   "DE.ApplicationController.unknownErrorText": "Eroare necunoscută.",

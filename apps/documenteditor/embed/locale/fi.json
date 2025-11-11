@@ -54,7 +54,6 @@
   "DE.ApplicationController.txtNo": "Ei",
   "DE.ApplicationController.txtOpenWarning": "Tämän linkin avaaminen voi olla haitallista laitteellesi ja tiedoillesi. Tietokonettasi suojellaksesi avaa vain linkkejä luotetuista lähteistä. Linkin kohde voi olla turvaton:<br>%1<br>Oletko varma, että haluat jatkaa?",
   "DE.ApplicationController.txtPressLink": "Paina %1 ja klikkaa linkkiä",
-  "DE.ApplicationController.txtSecurityWarningLink": "Tämä asiakirja yrittää yhdistää %1.<br>Jos luotat tähän sivustoon, paina \"OK\" pitäen Ctrl näppäintä pohjassa.",
   "DE.ApplicationController.txtSecurityWarningOpenFile": "Tämä asiakirja yrittää avata tiedosto dialogin. Paina \"OK\" avataksesi. ",
   "DE.ApplicationController.txtYes": "Kyllä",
   "DE.ApplicationController.unknownErrorText": "Tuntematon virhe.",

@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "Macros",
   "PE.Views.ViewTab.textNormal": "Normale",
   "PE.Views.ViewTab.textNotes": "Notes",
+  "PE.Views.ViewTab.textPauseMacro": "Mettre en pause l'enregistrement",
+  "PE.Views.ViewTab.textRecMacro": "Enregistrer une macro",
+  "PE.Views.ViewTab.textResumeMacro": "Reprendre l'enregistrement",
   "PE.Views.ViewTab.textRightMenu": "Panneau droit",
   "PE.Views.ViewTab.textRulers": "Règles",
   "PE.Views.ViewTab.textShowGridlines": "Afficher le quadrillage",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "Repères actifs",
   "PE.Views.ViewTab.textSnapObjects": "Fixer l'objet à la grille",
   "PE.Views.ViewTab.textStatusBar": "Barre d'état",
+  "PE.Views.ViewTab.textStopMacro": "Arrêter l'enregistrement",
   "PE.Views.ViewTab.textTabStyle": "Style d'onglet",
   "PE.Views.ViewTab.textZoom": "Zoom",
   "PE.Views.ViewTab.tipFitToSlide": "Ajuster à la diapositive",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Thème d'interface",
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normale",
+  "PE.Views.ViewTab.tipPauseMacro": "Mettre en pause l'enregistrement",
+  "PE.Views.ViewTab.tipRecMacro": "Enregistrer une macro",
+  "PE.Views.ViewTab.tipResumeMacro": "Reprendre l'enregistrement",
   "PE.Views.ViewTab.tipSelectTool": "Outil de sélection",
-  "PE.Views.ViewTab.tipSlideMaster": "Masque de diapositives"
+  "PE.Views.ViewTab.tipSlideMaster": "Masque de diapositives",
+  "PE.Views.ViewTab.tipStopMacro": "Arrêter l'enregistrement"
 }

@@ -248,7 +248,17 @@ DE.ApplicationController = new(function(){
             if (type == Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Form) { // hyperlink
                 me.isHideBodyTip = false;
 
-                var str = (type == Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? (me.txtPressLink.replace('%1', common.utils.isMac ? '⌘' : me.textCtrl)) : data.get_FormHelpText();
+                var str = '';
+                if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink) {
+                    var hyperProps = data.get_Hyperlink();
+                    if (!hyperProps) return;
+                    if (hyperProps.get_NoCtrl && hyperProps.get_NoCtrl())
+                        str = hyperProps.get_ToolTip() || hyperProps.get_Value();
+                    else
+                        str = me.txtPressLink.replace('%1', common.utils.isMac ? '⌘' : me.textCtrl);
+                } else
+                    str = data.get_FormHelpText();
+
                 if (str.length>500)
                     str = str.substr(0, 500) + '...';
                 str = common.utils.htmlEncode(str);
@@ -1190,5 +1200,6 @@ DE.ApplicationController = new(function(){
         textCancel: 'Cancel',
         txtSecurityWarningLink: 'This document is trying to connect to %1.<br>If you trust this site, press \"OK\" while holding down the ctrl key.',
         txtSecurityWarningOpenFile: 'This document is trying to open file dialog, press \"OK\" to open.',
+        txtSecurityWarningLinkOk: 'This document is trying to connect to %1.<br>If you trust this site, press \"OK\".'
     }
 })();

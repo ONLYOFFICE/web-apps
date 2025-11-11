@@ -162,7 +162,7 @@
       "textRemember": "Zapamti moj izbor",
       "textReplaceSkipped": "Zamena je učinjena. {0} pojave su preskočene.",
       "textReplaceSuccess": "Pretraga je učinjena. Pojave zamenjene: {0}",
-      "textRequestMacros": "Makro pravi zahtev za URL. Da li želite da dozvolite zahtev za %1?",
+      "textRequestMacros": "Makro pravi zahtev za URL. Da li želite da dozvolite zahtev do %1?",
       "textYes": "Da",
       "tipLicenseExceeded": "Dokument je otvoren u režimu samo za čitanje jer je dostignut maksimalni broj istovremenih veza dozvoljenih licencom.<br><br>Molimo pokušajte ponovo kasnije ili kontaktirajte vlasnika dokumenta ako vam je potreban pristup za uređivanje.",
       "tipLicenseUsersExceeded": "Dokument je otvoren u režimu samo za čitanje jer je dostignut maksimalni broj korisnika kojima je licenca dozvolila uređivanje dokumenata.<br><br>Molimo pokušajte ponovo kasnije ili kontaktirajte vlasnika dokumenta ako vam je potreban pristup za uređivanje.",

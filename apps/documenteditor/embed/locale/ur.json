@@ -55,7 +55,6 @@
   "DE.ApplicationController.txtNo": "نہیں",
   "DE.ApplicationController.txtOpenWarning": "اس لنک پر کلک کرنا آپ کے آلے اور ڈیٹا کے لیے نقصان دہ ہو سکتا ہے۔ کیا آپ واقعی جاری رکھنا چاہتے ہیں؟",
   "DE.ApplicationController.txtPressLink": "ایک فیصد دبائیں اور لنک پر کلک کریں۔",
-  "DE.ApplicationController.txtSecurityWarningLink": "یہ دستاویز %1 سے جڑنے کی کوشش کر رہی ہے۔ اگر آپ کو اس سائٹ پر بھروسہ ہے تو، ctrl کی کو دبائے رکھتے ہوئے \"ٹھیک ہے\" کو دبائیں۔",
   "DE.ApplicationController.txtSecurityWarningOpenFile": "یہ دستاویز فائل ڈائیلاگ کو کھولنے کی کوشش کر رہی ہے، کھولنے کے لیے \"OK\" دبائیں۔",
   "DE.ApplicationController.txtYes": "جی ہاں",
   "DE.ApplicationController.unknownErrorText": "نامعلوم خرابی",
