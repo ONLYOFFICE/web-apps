@@ -157,7 +157,7 @@ define([
         },
 
         /**
-         * Finds all actions that already have the given shortcut assigned.
+         * Finds all actions that currently use the specified shortcut and returns both the action and the shortcut.
          *
          * If `extraAction` is provided and its `extraAction.actionType` matches the current item,
          * the method will check `extraAction.shortcuts` instead of the original shortcuts.
@@ -167,7 +167,7 @@ define([
          * @param {Object} [extraAction] Optional object that can replace the shortcuts of a matching action.
          * @param {number} extraAction.actionType The type of the action to match.
          * @param {CAscShortcut[]} extraAction.shortcuts Custom list of shortcuts to check for this action.
-         * @returns {Object[]} Array of action objects that already use the given shortcut.
+         * @returns {Object[]} Array of objects containing `action` and the matching `shortcut`.
          */
         _findAssignedActions: function(ascShortcut, extraAction) {
             const shortcutIndex = ascShortcut.asc_GetShortcutIndex();
@@ -184,17 +184,20 @@ define([
                     item.shortcuts = extraAction.shortcuts;
                 }
 
-                const existsVisible = _.some(item.shortcuts, function(shortcut) {
+                const foundShortcut = _.find(item.shortcuts, function(shortcut) {
                     return shortcut.ascShortcut.asc_GetShortcutIndex() == shortcutIndex &&
                         !shortcut.ascShortcut.asc_IsHidden();
                 });
 
-                if (existsVisible) {
-                    foundItems.push(item);
+                if (foundShortcut) {
+                    foundItems.push({
+                        action: item.action,
+                        shortcut: foundShortcut
+                    });
                 }
             }
 
-            return _.map(foundItems, function(item) { return item.action; });
+            return foundItems;
         },
 
         /**
@@ -387,19 +390,22 @@ define([
             this.shortcutsCollection.each(function(item) {
                 const ascShortcut = item.get('ascShortcut');
                 const assignedActionNames = [];
-                const assignedActions = me._findAssignedActions(ascShortcut, {
+                const assignedItem = me._findAssignedActions(ascShortcut, {
                     actionType: me.options.action.type,
                     shortcuts: me.shortcutsCollection.toJSON().slice(0, _.indexOf(me.shortcutsCollection.models, item))
                 });
                 const isDefaultShortcut = me._isDefaultShortcut(ascShortcut);
                 const isDisabled = !isDefaultShortcut && 
-                    _.some(assignedActions, function(action) { return action.isLocked; });
+                    _.some(assignedItem, function(item) { 
+                        return item.action.isLocked || item.shortcut.ascShortcut.asc_IsLocked(); 
+                    });
                 
                 isButtonDisabled = isButtonDisabled || isDisabled;
 
-                for (let i = 0; i < assignedActions.length; i++) {
-                    const action = assignedActions[i];
-                    if(action.isLocked == isDisabled) {
+                for (let i = 0; i < assignedItem.length; i++) {
+                    const action = assignedItem[i].action;
+                    const ascShortcut = assignedItem[i].shortcut.ascShortcut;
+                    if((action.isLocked || ascShortcut.asc_IsLocked()) == isDisabled) {
                         assignedActionNames.push('“' + action.name + '”');
                     } 
                 }
