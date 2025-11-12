@@ -97,21 +97,19 @@ define([
         getFocusedComponents: function() {
             const dynamicComponents = [];
             this.shortcutsCollection.each(function(record) {
-                dynamicComponents.push(record.get('keysInput'), record.get('removeBtn'));
+                if(record.get('removeBtn')) {
+                    dynamicComponents.push(record.get('keysInput'), record.get('removeBtn'));
+                }
             });
             return dynamicComponents.concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function() {
-            return this.getFirstFocusableComponent();
-        },
-
-        getFirstFocusableComponent: function(right) {
-            const focusableItems = this.shortcutsCollection.filter(function(item) {
+            const firstFocusableItem = this.shortcutsCollection.find(function(item) {
                 return item.get('removeBtn');
             });
-            if(focusableItems.length > 0) {
-                return focusableItems[right ? focusableItems.length - 1 : 0].get('keysInput');
+            if(firstFocusableItem) {
+                return firstFocusableItem.get('keysInput');
             } else {
                 return this.getFooterButtons()[0];
             }
@@ -379,11 +377,20 @@ define([
                 });
 
                 $item.find('.remove-btn').on('click', function() {
+                    const removedIndex = me.shortcutsCollection.findIndex(function(record) {
+                        return record == item;
+                    });
                     me.shortcutsCollection.remove(item);
                     if(me.shortcutsCollection.length == 0) {
                         me.onAddShortcut();
                     }
-                    me.getFirstFocusableComponent(true).focus();
+
+                    let newFocusableIndex = removedIndex < me.shortcutsCollection.length ? removedIndex : removedIndex - 1;
+                    if(me.shortcutsCollection.at(newFocusableIndex).get('removeBtn')) {
+                        me.shortcutsCollection.at(newFocusableIndex).get('removeBtn').focus();
+                    } else {
+                        me.getFooterButtons()[0].focus();;
+                    }
                 });
             });
             this.fixHeight(true);
