@@ -103,7 +103,18 @@ define([
         },
 
         getDefaultFocusableComponent: function() {
-            return this.shortcutsCollection.at(0).get('keysInput');
+            return this.getFirstFocusableComponent();
+        },
+
+        getFirstFocusableComponent: function(right) {
+            const focusableItems = this.shortcutsCollection.filter(function(item) {
+                return item.get('removeBtn');
+            });
+            if(focusableItems.length > 0) {
+                return focusableItems[right ? focusableItems.length - 1 : 0].get('keysInput');
+            } else {
+                return this.getFooterButtons()[0];
+            }
         },
 
         _setDefaults: function() {
@@ -372,7 +383,7 @@ define([
                     if(me.shortcutsCollection.length == 0) {
                         me.onAddShortcut();
                     }
-                    me.$window.find('#shortcuts-list .item input').last().focus();
+                    me.getFirstFocusableComponent(true).focus();
                 });
             });
             this.fixHeight(true);
