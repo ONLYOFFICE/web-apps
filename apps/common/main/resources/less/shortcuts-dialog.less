@@ -68,6 +68,8 @@
                             border: 1px solid @border-divider;
                             box-shadow: 0 1px 0 0 @border-divider-ie;
                             box-shadow: 0 1px 0 0 @border-divider;
+                            color: @text-normal-ie;
+                            color: @text-normal;
                         }
                         .action-keys-item-comma {
                             display: flex;
@@ -102,6 +104,15 @@
             &:hover, &.selected {
                 .action-edit {
                     opacity: 1;
+                }
+            }
+
+            &.selected {
+                button {
+                    :not(:hover).icon {
+                        background-position-x: -20px;
+                        background-position-x: @button-small-active-icon-offset-x;
+                    }
                 }
             }
         }        
