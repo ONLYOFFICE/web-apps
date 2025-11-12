@@ -230,9 +230,7 @@ define([
                     '<div class="item ' + (index == 0 ? 'first' : '') + '">' +
                         '<div class="keys-input"></div>' +
                         (isLocked
-                            ? '<button type="button" class="btn-toolbar">' +
-                                '<i class="icon toolbar__icon btn-menu-about">&nbsp;</i>' +
-                            '</button>'
+                            ? '<i class="lock-info-icon icon toolbar__icon btn-menu-about">&nbsp;</i>'
                             : '<button type="button" class="btn-toolbar remove-btn">' +
                                 '<i class="icon toolbar__icon btn-cc-remove">&nbsp;</i>' +
                             '</button>'
@@ -252,10 +250,21 @@ define([
                     placeHolder : me.txtInputPlaceholder,
                     disabled    : isLocked
                 });
-                const removeButton = new Common.UI.Button({
-                    el: $item.find('.remove-btn'),
-                });
-                item.set({ keysInput: keysInput, removeBtn: removeButton });
+
+                let removeButton;
+                if(isLocked) {
+                    $item.find('.lock-info-icon').tooltip({
+                        title: me.txtCantBeEdited,
+                        placement: 'cursor',
+                        zIndex : parseInt(me.$window.css('z-index')) + 10
+                    });
+                } else {
+                    removeButton = new Common.UI.Button({
+                        el: $item.find('.remove-btn')
+                    });
+                }
+
+                item.set({ keysInput: keysInput, removeBtn: removeButton});
 
                 const $keysInput = $item.find('.keys-input input'); 
                 $keysInput.on('keydown', function(e) {
@@ -480,7 +489,8 @@ define([
         txtRestoreToDefault: 'Restore to default',
         txtTypeDesiredShortcut: 'Type desired shortcut',
         txtRestoreDescription: 'All shortcuts for action “%1” will be restored to deafult.',
-        txtRestoreContinue: 'Do you want to continue?'
+        txtRestoreContinue: 'Do you want to continue?',
+        txtCantBeEdited: 'This shortcut can’t be edited'
 
     },  Common.Views.ShortcutsEditDialog || {}))
 });

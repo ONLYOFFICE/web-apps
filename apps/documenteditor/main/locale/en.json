@@ -1197,6 +1197,7 @@
   "Common.Views.ShortcutsEditDialog.txtRestoreToDefault": "Restore to default",
   "Common.Views.ShortcutsEditDialog.txtTitle": "Edit shortcut",
   "Common.Views.ShortcutsEditDialog.txtTypeDesiredShortcut": "Type desired shortcut",
+  "Common.Views.ShortcutsEditDialog.txtCantBeEdited": "This shortcut can’t be edited",
   "Common.Views.SignDialog.textBold": "Bold",
   "Common.Views.SignDialog.textCertificate": "Certificate",
   "Common.Views.SignDialog.textChange": "Change",
