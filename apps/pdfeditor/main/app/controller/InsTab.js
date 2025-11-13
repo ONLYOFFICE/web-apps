@@ -917,7 +917,8 @@ define([
                 paragraph_locked = false,
                 no_paragraph = true,
                 in_chart = false,
-                page_deleted = false;
+                page_deleted = false,
+                has_object = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -937,6 +938,7 @@ define([
                 } else if (type == Asc.c_oAscTypeSelectElement.PdfPage) {
                     page_deleted = pr.asc_getDeleteLock();
                 }
+                has_object = has_object || type !== Asc.c_oAscTypeSelectElement.PdfPage; // not only page
             }
 
             if (in_chart !== this._state.in_chart) {
@@ -952,6 +954,11 @@ define([
             if (this._state.no_paragraph !== no_paragraph) {
                 if (this._state.activated) this._state.no_paragraph = no_paragraph;
                 Common.Utils.lockControls(Common.enumLock.noParagraphSelected, no_paragraph, {array: this.view.lockedControls});
+            }
+
+            if (this._state.object_without_paragraph !== no_paragraph && has_object) {
+                if (this._state.activated) this._state.object_without_paragraph = no_paragraph && has_object;
+                Common.Utils.lockControls(Common.enumLock.noParagraphSelected, no_paragraph && has_object, {array: this.view.lockedControls});
             }
 
             if (page_deleted !== undefined && this._state.pagecontrolsdisable !== page_deleted) {
