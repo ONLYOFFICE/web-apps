@@ -634,7 +634,7 @@ define([
                     width: 500,
                     closable: false,
                     title: this.notcriticalErrorTitle,
-                    msg: opts.data.error,
+                    msg: Common.Utils.String.htmlEncode(opts.data.error),
                     iconCls: 'warn',
                     buttons: _.isEmpty(opts.data.createEmailAccountUrl) ? ['ok'] : [{value: 'custom', caption: this.textGoToMail}, 'cancel'],
                     primary: _.isEmpty(opts.data.createEmailAccountUrl) ? ['ok'] : 'custom',
