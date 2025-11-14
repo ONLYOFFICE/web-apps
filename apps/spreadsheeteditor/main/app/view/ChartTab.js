@@ -87,6 +87,9 @@ define([
             '</div>' +
             '<div class="separator long"></div>' +
             '<div class="group">' +
+                '<span class="btn-slot text x-huge" id="slot-btn-chart-3d-settings"></span>' +
+            '</div>' +
+            '<div class="group">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-chart-advanced-settings"></span>' +
             '</div>' +
         '</section>';
@@ -114,6 +117,9 @@ define([
             });
             me.btnSwitchRowsCols.on('click', function (btn, e) {
                 me.fireEvent('charttab:rowscols');
+            });
+            me.btn3DSettings.on('click', function (btn, e) {
+                me.fireEvent('charttab:3dsettings');
             });
             me.btnAdvancedSettings.on('click', function (btn, e) {
                 me.fireEvent('charttab:advanced');
@@ -144,7 +150,7 @@ define([
                     menu: new Common.UI.Menu({
                         items: [
                             {
-                                caption: 'Axes',
+                                caption: me.textAxes,
                                 value: 'axes',
                                 disabled: false,
                                 menu: new Common.UI.Menu({
@@ -152,31 +158,31 @@ define([
                                     menuAlign: 'tl-tr',
                                     items: [
                                         {
-                                            caption: 'Horizontal Axis',
+                                            caption: me.textHorAxis,
                                             value: 'bShowHorAxis',
                                             stopPropagation: true,
                                             checkable: true
                                         },
                                         {
-                                            caption: 'Vertical Axis',
+                                            caption: me.textVertAxis,
                                             value: 'bShowVertAxis',
                                             stopPropagation: true,
                                             checkable: true
                                         },
                                         { 
-                                            caption: 'Horizontal Axis Sec',
+                                            caption: me.textHorAxisSec,
                                             value: 'bShowHorAxSec',
                                             stopPropagation: true,
                                             checkable: true
                                         },
                                         { 
-                                            caption: 'Vertical Axis Sec',
+                                            caption: me.textVertAxisSec,
                                             value: 'bShowVertAxSec',
                                             stopPropagation: true,
                                             checkable: true
                                         },
                                         { 
-                                            caption: 'Depth Axes',
+                                            caption: me.DepthAxis,
                                             value: 'bShowDepthAxes',
                                             stopPropagation: true,
                                             checkable: true
@@ -185,7 +191,7 @@ define([
                                 })
                             },
                             { 
-                                caption: 'Axis Titles',
+                                caption: me.textAxisTitles,
                                 value: 'axisTitles',
                                 disabled: false,
                                 menu: new Common.UI.Menu({
@@ -193,31 +199,31 @@ define([
                                     menuAlign: 'tl-tr',
                                     items: [
                                         {
-                                            caption:'Horizontal Axis',
+                                            caption:me.textHorAxis,
                                             value: 'bShowHorAxTitle',
                                             stopPropagation: true,
                                             checkable: true
                                         },
                                         {
-                                            caption: 'Vertical Axis',
+                                            caption: me.textVertAxis,
                                             value: 'bShowVertAxTitle',
                                             stopPropagation: true,
                                             checkable: true
                                         },
                                         {
-                                            caption:  'Horizontal Axis Sec',
+                                            caption:  me.textHorAxisSec,
                                             value: 'bShowHorAxTitleSec',
                                             stopPropagation: true,
                                             checkable: true
                                         },
                                         {
-                                            caption: 'Vertical Axis Sec',
+                                            caption: me.textVertAxisSec,
                                             value: 'bShowVertAxisTitleSec',
                                             stopPropagation: true,
                                             checkable: true
                                         },
                                         { 
-                                            caption: 'Depth Axis Title',
+                                            caption: me.DepthAxis,
                                             value: 'bShowDepthAxisTitle',
                                             stopPropagation: true,
                                             checkable: true
@@ -226,7 +232,7 @@ define([
                                 })
                             },
                             { 
-                                caption: 'Chart Title',
+                                caption: me.textChartTitle,
                                 value: 'chartTitle',
                                 disabled: false,
                                 menu: new Common.UI.Menu({
@@ -234,21 +240,21 @@ define([
                                     menuAlign: 'tl-tr',
                                     items: [
                                         { 
-                                            caption: 'None',
+                                            caption: me.textNone,
                                             value: 'bShowChartTitleNone',
                                             stopPropagation: true, 
                                             toggleGroup: 'chartTitle',
                                             checkable: true
                                         },
                                         { 
-                                            caption: 'No overlay', 
+                                            caption: me.textNoOverlay,
                                             value: 'bShowChartTitle',
                                             stopPropagation: true,
                                             toggleGroup: 'chartTitle',
                                             checkable: true
                                         },
                                         { 
-                                            caption: 'Overlay', 
+                                            caption: me.textOverlay,
                                             value: 'bOverlayTitle',
                                             stopPropagation: true,
                                             toggleGroup: 'chartTitle',
@@ -258,7 +264,7 @@ define([
                                 })
                             },
                             { 
-                                caption: 'Data Labels', 
+                                caption: me.textDataLabels,
                                 value: 'dataLabels', 
                                 disabled: false,
                                 menu: new Common.UI.Menu({
@@ -266,69 +272,69 @@ define([
                                     menuAlign: 'tl-tr',
                                     items: [
                                         { 
-                                            caption: 'None', 
+                                            caption: me.textNone,
                                             value: 'bShowDataLabels',
                                             stopPropagation: true,
                                             toggleGroup: 'dataLabels',
                                             checkable: true
                                         },
                                         { 
-                                            caption: 'Center', 
+                                            caption: me.textCenter,
                                             value: 'CenterData',
                                             stopPropagation: true,
                                             toggleGroup: 'dataLabels',
                                             checkable: true
                                         },
                                         {   
-                                            caption: 'Inner bottom', 
+                                            caption: me.textInnerBottom,
                                             value: 'InnerBottomData',
                                             stopPropagation: true,
                                             toggleGroup: 'dataLabels',
                                             checkable: true
                                         },
                                         { 
-                                            caption: 'Inner top', 
+                                            caption: me.textInnerTop,
                                             value: 'InnerTopData',
                                             stopPropagation: true,
                                             toggleGroup: 'dataLabels',
                                             checkable: true
                                         },
                                         { 
-                                            caption: 'Outer top', 
+                                            caption: me.textOuterTop,
                                             value: 'OuterTopData',
                                             stopPropagation: true,
                                             toggleGroup: 'dataLabels',
                                             checkable: true
                                         },
                                         { 
-                                            caption: 'Top', 
+                                            caption: me.textTop,
                                             value: 'TopData',
                                             stopPropagation: true,
                                             toggleGroup: 'dataLabels',
                                             checkable: true
                                         },
                                         { 
-                                            caption: 'Left', 
+                                            caption: me.textLeft,
                                             value: 'LeftData',
                                             stopPropagation: true,
                                             toggleGroup: 'dataLabels',
                                             checkable: true
                                         },
                                         { 
-                                            caption: 'Right', 
+                                            caption: me.textRight,
                                             value: 'RightData',
                                             stopPropagation: true,  
                                             checkable: true
                                         },
                                         { 
-                                            caption: 'Bottom', 
+                                            caption: me.textBottom,
                                             value: 'BottomData',
                                             stopPropagation: true,
                                             toggleGroup: 'dataLabels',
                                             checkable: true
                                         },
                                         { 
-                                            caption: 'Fit', 
+                                            caption: me.textFit,
                                             value: 'FitWidthData',
                                             stopPropagation: true,
                                             toggleGroup: 'dataLabels',
@@ -337,31 +343,8 @@ define([
                                     ]
                                 })
                             },
-                            // { 
-                            //     caption: me.textDataTable, 
-                            //     value: 'dataTable', 
-                            //     disabled: false,
-                            //     menu: new Common.UI.Menu({
-                            //         cls: 'shifted-right',
-                            //         menuAlign: 'tl-tr',
-                            //         items: [
-                            //             { 
-                            //                 caption: me.textNone,
-                            //                 value: 'bShowDataNone'
-                            //             },
-                            //             { 
-                            //                 caption: me.textShowDataTable,
-                            //                 value: 'bShowDataTable'
-                            //             },
-                            //             { 
-                            //                 caption: me.textShowLegendKeys, 
-                            //                 value: 'bShowLegendKeys' 
-                            //             }
-                            //         ]
-                            //     })
-                            // },
                             {
-                                caption: 'Error bars',
+                                caption: me.textErrorBars,
                                 value: 'errorBars',
                                 disabled: false,
                                 menu: new Common.UI.Menu({
@@ -369,19 +352,19 @@ define([
                                     menuAlign: 'tl-tr',
                                     items: [
                                         {
-                                            caption: 'Standart Error',
+                                            caption: me.textStandardError,
                                             value: 'standardError',
                                             stopPropagation: true, 
                                             disabled: false
                                         },
                                         {
-                                            caption: 'Percentage',
+                                            caption: me.txtPercentage,
                                             value: 'percentage',
                                             stopPropagation: true, 
                                             disabled: false
                                         },
                                         {
-                                            caption: 'Standart Deviation',
+                                            caption: me.textStandardDeviation,
                                             value: 'standardDeviation',
                                             stopPropagation: true, 
                                             disabled: false
@@ -390,7 +373,7 @@ define([
                                 })
                             },
                             { 
-                                caption: 'Gridlines', 
+                                caption: me.textGridLines,
                                 value: 'gridLines', 
                                 disabled: false,
                                 menu: new Common.UI.Menu({
@@ -398,25 +381,25 @@ define([
                                     menuAlign: 'tl-tr',
                                     items: [
                                         { 
-                                            caption: 'Horizontal Major', 
+                                            caption: me.textHorizontalMajor,
                                             value: 'bShowHorMajor',
                                             stopPropagation: true,  
                                             checkable: true
                                         },
                                         { 
-                                            caption: 'Vertical Major', 
+                                            caption: me.textVerticalMajor,
                                             value: 'bShowVerMajor',
                                             stopPropagation: true,  
                                             checkable: true
                                         },
                                         { 
-                                            caption: 'Horizontal Minor', 
+                                            caption: me.textHorizontalMinor,
                                             value: 'bShowHorMinor',
                                             stopPropagation: true,  
                                             checkable: true
                                         },
                                         { 
-                                            caption: 'Vertical Minor', 
+                                            caption: me.textVerticalMinor,
                                             value: 'bShowVerMinor',
                                             stopPropagation: true,  
                                             checkable: true
@@ -425,7 +408,7 @@ define([
                                 })
                             },
                             { 
-                                caption: 'Legend', 
+                                caption: me.textLegendPos,
                                 value: 'legend', 
                                 disabled: false,
                                 menu: new Common.UI.Menu({
@@ -433,42 +416,42 @@ define([
                                     menuAlign: 'tl-tr',
                                     items: [
                                         { 
-                                            caption: 'Top', 
+                                            caption: me.textTop,
                                             value: 'TopLegend',
                                             stopPropagation: true,
                                             toggleGroup: 'legend',  
                                             checkable: true
                                         },
                                         { 
-                                            caption: 'Left', 
+                                            caption: me.textLeft,
                                             value: 'LeftLegend',
                                             stopPropagation: true, 
                                             toggleGroup: 'legend',   
                                             checkable: true
                                         },
                                         { 
-                                            caption: 'Right', 
+                                            caption: me.textRight,
                                             value: 'RightLegend', 
                                             stopPropagation: true, 
                                             toggleGroup: 'legend',  
                                             checkable: true
                                         },
                                         { 
-                                            caption: 'Bottom', 
+                                            caption: me.textBottom,
                                             value: 'BottomLegend', 
                                             stopPropagation: true, 
                                             toggleGroup: 'legend',  
                                             checkable: true
                                         },
                                         { 
-                                            caption: 'Left overlay', 
+                                            caption: me.textLeftOverlay,
                                             value: 'LeftOverlay', 
                                             stopPropagation: true,
                                             toggleGroup: 'legend',   
                                             checkable: true
                                         },
                                         { 
-                                            caption: 'Right overlay', 
+                                            caption: me.textRightOverlay,
                                             value: 'RightOverlay', 
                                             stopPropagation: true, 
                                             toggleGroup: 'legend',  
@@ -478,7 +461,7 @@ define([
                                 })
                             },
                             {
-                                caption: 'Trendline',
+                                caption: me.textTrendline,
                                 value: 'trendLines',
                                 disabled: false,
                                 menu: new Common.UI.Menu({
@@ -486,27 +469,27 @@ define([
                                     menuAlign: 'tl-tr',
                                     items: [
                                         {
-                                            caption: 'None', 
+                                            caption: me.textNone,
                                             stopPropagation: true, 
                                             value: 'trendLineNone'
                                         },
                                         {
-                                            caption: 'Linear',
+                                            caption: me.textLinear,
                                             stopPropagation: true, 
                                             value: 'trendLineLinear'
                                         },
                                         {
-                                            caption: 'Exponential',
+                                            caption: me.textExponential,
                                             stopPropagation: true,  
                                             value: 'trendLineExponential'
                                         },
                                         {
-                                            caption: 'Linear Forecast',
+                                            caption: me.textLinearForecast,
                                             stopPropagation: true, 
                                             value: 'trendLineForecast'
                                         },
                                         {
-                                            caption: 'Moving average', 
+                                            caption: me.textMovingAverage,
                                             stopPropagation: true, 
                                             value: 'trendLineMovingAverage'
                                         }
@@ -541,7 +524,7 @@ define([
                 this.btnChartElements = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-freeze-panes',
-                    caption: 'Chart Elements',
+                    caption: me.capChartElements,
                     lock: [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -554,9 +537,8 @@ define([
                 this.btnChartType = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-big-sheet-view',
-                    caption: 'Chart Type',
+                    caption: me.capChartType,
                     lock        : [_set.lostConnect, _set.coAuth, _set.editCell],
-                    action: 'sheet-view',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -566,9 +548,8 @@ define([
                 this.btnSelectData = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-big-pivot-sum',
-                    caption: 'Select Data',
+                    caption: me.capSelectData,
                     lock        : [_set.lostConnect, _set.coAuth, _set.editCell],
-                    action: 'sheet-view',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -578,9 +559,8 @@ define([
                 this.btnSwitchRowsCols = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-big-slicer',
-                    caption: 'Switch Row / Column',
+                    caption: me.capRowCol,
                     lock        : [_set.lostConnect, _set.coAuth, _set.editCell],
-                    action: 'sheet-view',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -600,7 +580,7 @@ define([
                     beforeOpenHandler: function(e) {
                         var cmp = this,
                             menu = cmp.openButton.menu,
-                            columnCount = 7;
+                            columnCount = 8;
 
                         if (menu.cmpEl) {
                             var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent();
@@ -625,6 +605,7 @@ define([
                                 'width': menuWidth,
                                 'min-height': cmp.cmpEl.height()
                             });
+                            console.log(menuWidth)
                         }
                     },
                     dataHint: '1',
@@ -633,12 +614,22 @@ define([
                 });
                 this.lockedControls.push(this.chartStyles);
 
+                this.btn3DSettings = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-day',
+                    caption: me.cap3DRotation,
+                    lock        : [_set.lostConnect, _set.coAuth, _set.editCell],
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btn3DSettings);
+
                 this.btnAdvancedSettings = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-day',
-                    caption: 'Advanced Settings',
+                    caption: me.capAdvancedSettings,
                     lock        : [_set.lostConnect, _set.coAuth, _set.editCell],
-                    action: 'sheet-view',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -676,7 +667,7 @@ define([
                 this.lockedControls.push(this.spnHeight);
 
                 this.chRatio = new Common.UI.CheckBox({
-                    labelText: 'Constant Proportions',
+                    labelText: me.textLockRation,
                     value: true,
                     lock        : [_set.lostConnect, _set.editCell],
                     dataHint    : '1',
@@ -711,11 +702,11 @@ define([
                 this.btnChartType && this.btnChartType.render($host.find('#slot-btn-chart-type'));
                 this.btnSelectData && this.btnSelectData.render($host.find('#slot-btn-select-data'));
                 this.btnSwitchRowsCols && this.btnSwitchRowsCols.render($host.find('#slot-btn-switch-rowscols'));
+                this.btn3DSettings && this.btn3DSettings.render($host.find('#slot-btn-chart-3d-settings'));
                 this.btnAdvancedSettings && this.btnAdvancedSettings.render($host.find('#slot-btn-chart-advanced-settings'));
                 this.chRatio && this.chRatio.render($host.find('#slot-chk-ratio'));
                 $host.find('#slot-lbl-width').text('Width');
                 $host.find('#slot-lbl-height').text('Height');
-                // this.btnRemDuplicates && this.btnRemDuplicates.render($host.find('#slot-btn-remove-duplicates'));
                 this.chartStyles.render(this.$el.find('#slot-field-chart-styles'));
                 return this.$el;
             },
@@ -746,42 +737,6 @@ define([
                     }
                 }, this);
             },
-
-            txtRowsCols: 'Rows & Columns',
-            tipRowsCols: 'Rows & Columns',
-            txtGroupTable_Custom: 'Custom',
-            txtGroupTable_Light: 'Light',
-            txtGroupTable_Medium: 'Medium',
-            txtGroupTable_Dark: 'Dark',
-            tipRemDuplicates: 'Removing duplicate lines from a sheet.',
-            tipConvertRange: 'Convert this table to a regular range of cells.',
-            tipInsertSlicer: 'Insert slicer',
-            tipInsertPivot: 'Insert Pivot Table',
-            tipHeaderRow: 'Show or hide the header row in a table.',
-            tipAltText: 'Set alternative title and description for a table.',
-            selectRowText: 'Select row',
-            selectColumnText: 'Select entire column',
-            selectColumnData: 'Select column data',
-            selectTableText: 'Select table',
-            insertRowAboveText: 'Insert row above',
-            insertRowBelowText: 'Insert row below',
-            insertColumnLeftText: 'Insert column left',
-            insertColumnRightText: 'Insert column right',
-            deleteRowText: 'Delete row',
-            deleteColumnText: 'Delete column',
-            deleteTableText: 'Delete table',
-            txtRemDuplicates: 'Remove duplicates',
-            txtConvertToRange: 'Convert to range',
-            txtSlicer: 'Slicer',
-            txtPivot: 'Pivot',
-            txtHeaderRow: 'Header row',
-            txtTotalRow: 'Total row',
-            txtFirstColumn: 'First column',
-            txtLastColumn: 'Last column',
-            txtBandedRows: 'Banded rows',
-            txtBandedColumns: 'Banded columns',
-            txtFilterButton: 'Filter button',
-            txtAltText: 'Alt text'
         }
     }()), SSE.Views.ChartTab || {}));
 });

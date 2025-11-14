@@ -82,8 +82,49 @@ define([
                     'charttab:widthchange':              _.bind(this.onWidthChange, this),
                     'charttab:heightchange':             _.bind(this.onHeightChange, this),
                     'charttab:ratio':                    _.bind(this.onToggleRatio, this),
+                    'charttab:3dsettings':               _.bind(this.open3DSettings, this),
                 },
             });
+        },
+
+        open3DSettings: function () {
+            if (this.view.btn3DSettings.isDisabled() || !Common.Controllers.LaunchController.isScriptLoaded()) return;
+
+            var me = this;
+            var win, props;
+            if (me.api){
+                props = (me.isChart) ? me.api.asc_getChartSettings() : me._originalProps;
+                if (props) {
+                    var oView3D = props.getView3d();
+                    (new SSE.Views.Charts3DDlg(
+                        {
+                            oView3D: oView3D,
+                            chartProps: props,
+                            X: me._state.X,
+                            Y: me._state.Y,
+                            RightAngle: me._state.RightAngle,
+                            Perspective: me._state.Perspective,
+                            Depth: me._state.Depth,
+                            Height3d: me._state.Height3d,
+                            api: me.api,
+                            handler: function(result, obj, props) {
+                                if (result == 'ok') {
+                                    if (me.api) {
+                                        if (props) {
+                                            if (obj) {
+                                                props.startEdit();
+                                                props.setView3d(obj);
+                                                props.endEdit();
+                                            }
+                                        }
+                                        console.log(result)
+                                    }
+                                }
+                                Common.NotificationCenter.trigger('edit:complete', me);
+                            }
+                        })).show();
+                }
+            }
         },
 
         onToggleRatio: function (value) {
@@ -113,9 +154,6 @@ define([
                 chartSettings = isChart ? this.api.asc_getChartSettings(true) : null, // don't lock chart object
                 props3d = chartSettings ? chartSettings.getView3d() : null;
 
-            if ( this.isChart!==isChart || this._state.is3D!==!!props3d ) {
-                this.ShowHideElem(isChart, !!props3d);
-            }
             this._state.is3D=!!props3d;
             this.disableControls(this._locked);
             if (this.api && props){
@@ -191,57 +229,40 @@ define([
                         value = props3d.asc_getRotX();
                         if ((this._state.X===undefined || value===undefined)&&(this._state.X!==value) ||
                             Math.abs(this._state.X-value)>0.001) {
-                            // this.spnX.setValue((value!==null && value !== undefined) ? value : '', true);
                             this._state.X = value;
                         }
 
                         value = props3d.asc_getRotY();
                         if ( (this._state.Y===undefined || value===undefined)&&(this._state.Y!==value) ||
                             Math.abs(this._state.Y-value)>0.001) {
-                            // this.spnY.setValue((value!==null && value !== undefined) ? value : '', true);
                             this._state.Y = value;
                         }
 
                         value = props3d.asc_getRightAngleAxes();
                         if ( this._state.RightAngle!==value ) {
-                            // this.chRightAngle.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
                             this._state.RightAngle=value;
                         }
 
                         value = props3d.asc_getPerspective();
                         if ( (this._state.Perspective===undefined || value===undefined)&&(this._state.Perspective!==value) ||
                             Math.abs(this._state.Perspective-value)>0.001) {
-                            // this.spnPerspective.setMinValue((value!==null && value !== undefined) ? 0.1 : 0);
-                            // this.spnPerspective.setValue((value!==null && value !== undefined) ? value : 0, true);
                             this._state.Perspective = value;
                         }
-                        // this.spnPerspective.setDisabled(this._locked || !!this._state.RightAngle);
-                        // this.btnNarrow.setDisabled(this._locked || !!this._state.RightAngle);
-                        // this.btnWiden.setDisabled(this._locked || !!this._state.RightAngle);
 
                         value = props3d.asc_getDepth();
                         if ( Math.abs(this._state.Depth-value)>0.001 ||
                             (this._state.Depth===undefined || value===undefined)&&(this._state.Depth!==value)) {
-                            // this.spn3DDepth.setValue((value!==null && value !== undefined) ? value : '', true);
                             this._state.Depth = value;
                         }
 
                         value = props3d.asc_getHeight();
                         if ( Math.abs(this._state.Height3d-value)>0.001 ||
                             (this._state.Height3d===undefined || this._state.Height3d===null || value===null)&&(this._state.Height3d!==value)) {
-                            (value!==null) && this.spn3DHeight.setValue(value, true);
-                            // this.chAutoscale.setValue(value===null, true);
                             this._state.Height3d = value;
                         }
-                        // this.spn3DHeight.setDisabled(this._locked || value===null);
                     }
                 }
             }
-        },
-
-        ShowHideElem: function(isChart, is3D) {
-            // this.Chart3DContainer.toggleClass('settings-hidden', !isChart || !is3D);
-            this.fireEvent('updatescroller', this);
         },
 
         updateMetricUnit: function() {

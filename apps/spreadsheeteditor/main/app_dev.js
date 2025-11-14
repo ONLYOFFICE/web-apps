@@ -282,6 +282,7 @@ require([
                 'spreadsheeteditor/main/app/view/ShapeSettingsAdvanced',
                 'spreadsheeteditor/main/app/view/ProtectDialog',
                 'spreadsheeteditor/main/app/view/ProtectedRangesEditDlg',
+                'spreadsheeteditor/main/app/view/Charts3DDlg',
                 'spreadsheeteditor/main/app/view/CreatePivotDialog',
                 'spreadsheeteditor/main/app/view/SortOptionsDialog',
                 'spreadsheeteditor/main/app/view/SetValueDialog',

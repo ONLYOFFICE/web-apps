@@ -40,26 +40,126 @@ define([
     'common/main/lib/util/utils',
     'common/main/lib/component/Button',
     'common/main/lib/component/BaseView',
-    'common/main/lib/component/Layout'
+    'common/main/lib/component/Layout',
+    'common/main/lib/component/Label',
+    'common/main/lib/component/ThemeColorPalette',
 ], function () {
     'use strict';
 
     SSE.Views.SparklineTab = Common.UI.BaseView.extend(_.extend((function(){
         var template = '<section id="sparkline-design-panel" class="panel" data-tab="sparklinetab" role="tabpanel" aria-labelledby="view">' +
+            '<div class="group">' +
+                '<span class="btn-slot text x-huge" id="slot-btn-sparkline-line"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-sparkline-column"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-sparkline-winloss"></span>' +
+            '</div>' +
+            '<div class="separator long"></div>' +
+            '<div class="group small">' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-chk-high"></span>' +
+                '</div>' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-chk-low"></span>' +
+                '</div>' +
+            '</div>' +
+            '<div class="group small">' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-chk-first"></span>' +
+                '</div>' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-chk-last"></span>' +
+                '</div>' +
+            '</div>' +
+            '<div class="group small">' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-chk-negative"></span>' +
+                '</div>' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-chk-markers"></span>' +
+                '</div>' +
+            '</div>' +
+            '<div class="separator long"></div>' +
+            '<div class="group">' +
+                '<span class="btn-slot text x-huge" id="slot-btn-sparkline-marker-color"></span>' +
+            '</div>' +
+            '<div class="group flex small" id="id-spark-combo-style" style="min-width: 220px;"></div>' +
+            '<div class="group small">' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-btn-sparkline-color"></span>' +
+                '</div>' +
+                '<div class="elset">' +
+                   ' <span class="btn-slot text font-size-normal margin-right-6" id="slot-lbl-line-weight" style="margin-top: 3px" "></span>' +
+                    '<span id="slot-spin-line-weight" style="float: right;"></span>' +
+                '</div>' +
+            '</div>' +
+            '<div class="separator long"></div>' +
+            '<div class="group small">' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-btn-sparkline-advanced"></span>' +
+                '</div>' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-btn-sparkline-clear"></span>' +
+                '</div>' +
+            '</div>' +
         '</section>';
 
         function setEvents() {
             var me = this;
-
-            // me.btnChartElements.on('click', function (btn, e) {
-            //     me.fireEvent('charttab:updatemenu', [me.menuChartElement.menu]);
-            // });
+            this.chHighPoint.on('change', function (type, field, newValue, oldValue, eOpts) {
+                me.fireEvent('sparkline:checkbox', [0, field, 0]);
+            });
+            this.chLowPoint.on('change', function (type, field, newValue, oldValue, eOpts) {
+                me.fireEvent('sparkline:checkbox', [1, field, 1]);
+            });
+            this.chNegativePoint.on('change', function (type, field, newValue, oldValue, eOpts) {
+                me.fireEvent('sparkline:checkbox', [2, field, 2]);
+            });
+            this.chFirstPoint.on('change', function (type, field, newValue, oldValue, eOpts) {
+                me.fireEvent('sparkline:checkbox', [3, field, 3]);
+            });
+            this.chLastPoint.on('change', function (type, field, newValue, oldValue, eOpts) {
+                me.fireEvent('sparkline:checkbox', [4, field, 4]);
+            });
+            this.chMarkers.on('change', function (type, field, newValue, oldValue, eOpts) {
+                me.fireEvent('sparkline:checkbox', [5, field, 5]);
+            });
+            this.btnLineType.on('click', function () {
+                me.fireEvent('sparkline:type', [0]);
+            });
+            this.btnColumnType.on('click', function () {
+                me.fireEvent('sparkline:type', [1]);
+            });
+            this.btnWinLossType.on('click', function () {
+                me.fireEvent('sparkline:type', [2]);
+            });
+            this.btnSparklineColor.menu.on('item:click', function (menu, item) {
+                me.fireEvent('sparkline:addnewcolor', [menu, item])
+            });
+            this.btnClear.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('sparkline:clear', [menu, item, e])
+            });
+            this.btnAdvancedSettings.on('click', function () {
+                me.fireEvent('sparkline:advanced');
+            });
+            this.cmbBorderSize.on('selected', function (combo, record) {
+                me.fireEvent('sparkline:bordersizeselect', [combo, record])
+            });
+            this.cmbBorderSize.on('changed:before', function (combo, record) {
+                me.fireEvent('sparkline:bordersizechanged', [combo, record, true])
+            });
+            this.cmbBorderSize.on('changed:after', function (combo, record) {
+                me.fireEvent('sparkline:bordersizechanged', [combo, record, false])
+            });
+            this.cmbSparkStyle.on('click', function (combo, record) {
+                me.fireEvent('sparkline:styleselect', [combo, record])
+            });
         }
 
         return {
             initialize: function (options) {
                 var controller = SSE.getController('SparklineTab');
                 this._state = controller._state;
+                this.defColor = {r: 255, g: 239, b: 191, Auto: false};
                 Common.UI.BaseView.prototype.initialize.call(this);
 
                 this.lockedControls = [];
@@ -67,16 +167,283 @@ define([
                 var me = this,
                     _set = Common.enumLock;
 
-                // this.chRatio = new Common.UI.CheckBox({
-                //     labelText: 'Constant Proportions',
-                //     value: true,
-                //     lock        : [_set.lostConnect, _set.editCell],
-                //     dataHint    : '1',
-                //     dataHintDirection: 'left',
-                //     dataHintOffset: 'small'
-                // });
-                // this.lockedControls.push(this.chRatio);
+                this.btnLineType = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-big-sheet-view',
+                    caption: me.capLine,
+                    lock        : [_set.lostConnect, _set.coAuth, _set.editCell],
+                    enableToggle: true,
+                    action: 'sheet-view',
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnLineType);
 
+                this.btnColumnType = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-big-pivot-sum',
+                    caption: me.capColumn,
+                    lock        : [_set.lostConnect, _set.coAuth, _set.editCell],
+                    enableToggle: true,
+                    action: 'sheet-view',
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnColumnType);
+
+                this.btnWinLossType = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-big-slicer',
+                    caption: me.capWinLoss,
+                    lock        : [_set.lostConnect, _set.coAuth, _set.editCell],
+                    enableToggle: true,
+                    action: 'sheet-view',
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnWinLossType);
+
+                this.chHighPoint = new Common.UI.CheckBox({
+                    labelText: me.textHighPoint,
+                    lock        : [_set.lostConnect, _set.editCell],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chHighPoint);
+
+                this.chLowPoint = new Common.UI.CheckBox({
+                    labelText: me.textLowPoint,
+                    lock        : [_set.lostConnect, _set.editCell],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chLowPoint);
+
+                this.chFirstPoint = new Common.UI.CheckBox({
+                    labelText: me.textFirstPoint,
+                    lock        : [_set.lostConnect, _set.editCell],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chFirstPoint);
+
+                this.chLastPoint = new Common.UI.CheckBox({
+                    labelText: me.textLastPoint,
+                    lock        : [_set.lostConnect, _set.editCell],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chLastPoint);
+
+                this.chNegativePoint = new Common.UI.CheckBox({
+                    labelText: me.textNegativePoint,
+                    lock        : [_set.lostConnect, _set.editCell],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chNegativePoint);
+
+                this.chMarkers = new Common.UI.CheckBox({
+                    labelText: me.textMarkers,
+                    lock        : [_set.lostConnect, _set.editCell],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chMarkers);
+
+                this.btnMarkerColor = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-day',
+                    caption: me.capMarkerColor,
+                    lock        : [_set.lostConnect, _set.coAuth, _set.editCell],
+                    menu: true,
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnMarkerColor);
+
+                this.cmbSparkStyle = new Common.UI.ComboDataView({
+                    itemWidth: 50,
+                    itemHeight: 50,
+                    menuMaxHeight: 300,
+                    enableKeyEvents: true,
+                    cls: 'combo-chart-template',
+                    style: 'min-width: 103px; max-width: 517px;',
+                    delayRenderTips: true,
+                    autoWidth: true,
+                    fillOnChangeVisibility: true
+                });
+                this.cmbSparkStyle.openButton.menu.on('show:after', function () {
+                    me.cmbSparkStyle.menuPicker.scroller.update({alwaysVisibleY: true});
+                });
+                this.lockedControls.push(this.cmbSparkStyle);
+
+                this.btnSparklineColor = new Common.UI.Button({
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-remove-trace-arrows',
+                    lock: [_set.editCell],
+                    caption: this.capSparklineColor,
+                    menu: new Common.UI.Menu({
+                        cls: 'color-menu',
+                        menuAlign: 'tl-tr',
+                        items: [
+                            { template: _.template('<div id="sparkline-color-menu-picker" style="width: 164px;display: inline-block;"></div>'), stopPropagation: true },
+                            { caption: '--'},
+                            {
+                                caption: this.textMoreColors,
+                                value: 1
+                            },
+                        ]
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: '0, -8'
+                });
+                this.lockedControls.push(this.btnRemArrows);
+
+                this.cmbBorderSize = new Common.UI.ComboBorderSizeEditable({
+                    style       : 'width: 90px;',
+                    allowNoBorders: false
+                })
+                this.BorderSize = this.cmbBorderSize.store.at(1).get('value');
+                this.cmbBorderSize.setValue(this.BorderSize);
+                this.lockedControls.push(this.cmbBorderSize);
+
+                this.lblLineWeight = new Common.UI.Label({
+                    caption: me.lblLineWeight,
+                    lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewPara, _set.docLockForms, _set.docLockCommentsPara, _set.fixedForm, _set.viewMode]
+                });
+
+                this.btnAdvancedSettings = new Common.UI.Button({
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-remove-trace-arrows',
+                    lock: [_set.editCell],
+                    caption: this.capAdvancedSettings,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: '0, -8'
+                });
+                this.lockedControls.push(this.btnAdvancedSettings);
+
+                this.btnClear = new Common.UI.Button({
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-remove-trace-arrows',
+                    lock: [_set.editCell],
+                    caption: this.capClear,
+                    menu        : new Common.UI.Menu({
+                        menuAlign: 'tl-tr',
+                        items   : [
+                                { caption: me.txtClearSparklines, value: Asc.c_oAscCleanOptions.Sparklines },
+                                { caption: me.txtClearSparklineGroups, value: Asc.c_oAscCleanOptions.SparklineGroups }
+                            ]
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: '0, -8'
+                });
+                this.lockedControls.push(this.btnClear);
+
+                var colorMenu = new Common.UI.Menu({
+                    cls: 'menu-marker-colors',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption: me.textHighPoint,
+                            color: '#' + Common.Utils.ThemeColor.getHexColor(me.defColor.r, me.defColor.g, me.defColor.b),
+                            checkable: true,
+                            menu: true,
+                            value: 'high',
+                            toggleGroup: 'formtab-view-role',
+                            template: _.template([
+                                '<a id="<%= id %>"  tabindex="-1" type="menuitem" class="<%= options.cls %>" style="overflow: hidden; text-overflow: ellipsis;">',
+                                '<span class="color" style="background: <%= options.color %>;"></span>',
+                                '<%= Common.Utils.String.htmlEncode(caption) %>',
+                                '</a>'
+                            ].join(''))
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.textLowPoint,
+                            color: '#' + Common.Utils.ThemeColor.getHexColor(me.defColor.r, me.defColor.g, me.defColor.b),
+                            checkable: true,
+                            menu: true,
+                            value: 'low',
+                            toggleGroup: 'formtab-view-role',
+                            template: _.template([
+                                '<a id="<%= id %>"  tabindex="-1" type="menuitem" class="<%= options.cls %>" style="overflow: hidden; text-overflow: ellipsis;">',
+                                '<span class="color" style="background: <%= options.color %>;"></span>',
+                                '<%= Common.Utils.String.htmlEncode(caption) %>',
+                                '</a>'
+                            ].join(''))
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.textFirstPoint,
+                            color: '#' + Common.Utils.ThemeColor.getHexColor(me.defColor.r, me.defColor.g, me.defColor.b),
+                            checkable: true,
+                            menu: true,
+                            value: 'first',
+                            toggleGroup: 'formtab-view-role',
+                            template: _.template([
+                                '<a id="<%= id %>"  tabindex="-1" type="menuitem" class="<%= options.cls %>" style="overflow: hidden; text-overflow: ellipsis;">',
+                                '<span class="color" style="background: <%= options.color %>;"></span>',
+                                '<%= Common.Utils.String.htmlEncode(caption) %>',
+                                '</a>'
+                            ].join(''))
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.textLastPoint,
+                            color: '#' + Common.Utils.ThemeColor.getHexColor(me.defColor.r, me.defColor.g, me.defColor.b),
+                            checkable: true,
+                            menu: true,
+                            value: 'last',
+                            toggleGroup: 'formtab-view-role',
+                            template: _.template([
+                                '<a id="<%= id %>"  tabindex="-1" type="menuitem" class="<%= options.cls %>" style="overflow: hidden; text-overflow: ellipsis;">',
+                                '<span class="color" style="background: <%= options.color %>;"></span>',
+                                '<%= Common.Utils.String.htmlEncode(caption) %>',
+                                '</a>'
+                            ].join(''))
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.textNegativePoint,
+                            color: '#' + Common.Utils.ThemeColor.getHexColor(me.defColor.r, me.defColor.g, me.defColor.b),
+                            checkable: true,
+                            menu: true,
+                            value: 'negative',
+                            toggleGroup: 'formtab-view-role',
+                            template: _.template([
+                                '<a id="<%= id %>"  tabindex="-1" type="menuitem" class="<%= options.cls %>" style="overflow: hidden; text-overflow: ellipsis;">',
+                                '<span class="color" style="background: <%= options.color %>; vertical-align: middle;"></span>',
+                                '<%= Common.Utils.String.htmlEncode(caption) %>',
+                                '</a>'
+                            ].join(''))
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.textMarkers,
+                            color: '#' + Common.Utils.ThemeColor.getHexColor(me.defColor.r, me.defColor.g, me.defColor.b),
+                            checkable: true,
+                            menu: true,
+                            value: 'markers',
+                            toggleGroup: 'formtab-view-role',
+                            template: _.template([
+                                '<a id="<%= id %>"  tabindex="-1" type="menuitem" class="<%= options.cls %>" style="overflow: hidden; text-overflow: ellipsis;">',
+                                '<span class="color" style="background: <%= options.color %>;"></span>',
+                                '<%= Common.Utils.String.htmlEncode(caption) %>',
+                                '</a>'
+                            ].join(''))
+                        }),
+                    ]
+                })
+
+                this.btnMarkerColor.setMenu(colorMenu)
                 Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -95,10 +462,25 @@ define([
             getPanel: function () {
                 this.$el = $(_.template(template)( {} ));
                 var $host = this.$el;
-
-                // this.btnAdvancedSettings && this.btnAdvancedSettings.render($host.find('#slot-btn-chart-advanced-settings'));
-                // $host.find('#slot-lbl-height').text('Height');
-                // this.chartStyles.render(this.$el.find('#slot-field-chart-styles'));
+                var _injectComponent = function (id, cmp) {
+                    Common.Utils.injectComponent($host.findById(id), cmp);
+                };
+                _injectComponent('#slot-spin-line-weight', this.cmbBorderSize);
+                _injectComponent('#id-spark-combo-style', this.cmbSparkStyle);
+                this.lblLineWeight && this.lblLineWeight.render($host.find('#slot-lbl-line-weight'));
+                this.btnLineType && this.btnLineType.render($host.find('#slot-btn-sparkline-line'));
+                this.btnColumnType && this.btnColumnType.render($host.find('#slot-btn-sparkline-column'));
+                this.btnWinLossType && this.btnWinLossType.render($host.find('#slot-btn-sparkline-winloss'));
+                this.chHighPoint && this.chHighPoint.render($host.find('#slot-chk-high'));
+                this.chLowPoint && this.chLowPoint.render($host.find('#slot-chk-low'));
+                this.chFirstPoint && this.chFirstPoint.render($host.find('#slot-chk-first'));
+                this.chLastPoint && this.chLastPoint.render($host.find('#slot-chk-last'));
+                this.chNegativePoint && this.chNegativePoint.render($host.find('#slot-chk-negative'));
+                this.chMarkers && this.chMarkers.render($host.find('#slot-chk-markers'));
+                this.btnMarkerColor && this.btnMarkerColor.render($host.find('#slot-btn-sparkline-marker-color'));
+                this.btnSparklineColor && this.btnSparklineColor.render($host.find('#slot-btn-sparkline-color'));
+                this.btnAdvancedSettings && this.btnAdvancedSettings.render($host.find('#slot-btn-sparkline-advanced'));
+                this.btnClear && this.btnClear.render($host.find('#slot-btn-sparkline-clear'));
                 return this.$el;
             },
 
@@ -107,7 +489,35 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    // me.btnAdvancedSettings.updateHint('Advanced settings')
+                    me.btnMarkerColor.menu.items.forEach(function (item, index) {
+                        var subMenu = new Common.UI.Menu({
+                            cls: 'color-menu',
+                            menuAlign: 'tl-tr',
+                            items: [
+                                { template: _.template(`<div id="sparkline-markers-menu-picker${index}" style="width: 164px;display: inline-block;"></div>`), stopPropagation: true },
+                                { caption: '--'},
+                                {
+                                    caption: me.textMoreColors,
+                                    value: 1
+                                },
+                            ]
+                        });
+
+                        subMenu.on('item:click', function (menu, color) {
+                            me.fireEvent('sparkline:addnewcolor', [menu, color])
+                        })
+                        item.setMenu(subMenu);
+
+                        var colorsMenu = new Common.UI.ThemeColorPalette({
+                            el: $(`#sparkline-markers-menu-picker${index}`),
+                            outerMenu: {menu: item.menu, index: 0}
+                        });
+                        item.menu.setInnerMenu([{menu: colorsMenu, index: 0}]);
+                        colorsMenu.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+                        colorsMenu.on('select', function (item, color) {
+                            me.fireEvent('sparkline:markerscolor', [item, color, index])
+                        });
+                    });
                     setEvents.call(me);
                 });
             },
@@ -128,42 +538,6 @@ define([
                     }
                 }, this);
             },
-
-            txtRowsCols: 'Rows & Columns',
-            tipRowsCols: 'Rows & Columns',
-            txtGroupTable_Custom: 'Custom',
-            txtGroupTable_Light: 'Light',
-            txtGroupTable_Medium: 'Medium',
-            txtGroupTable_Dark: 'Dark',
-            tipRemDuplicates: 'Removing duplicate lines from a sheet.',
-            tipConvertRange: 'Convert this table to a regular range of cells.',
-            tipInsertSlicer: 'Insert slicer',
-            tipInsertPivot: 'Insert Pivot Table',
-            tipHeaderRow: 'Show or hide the header row in a table.',
-            tipAltText: 'Set alternative title and description for a table.',
-            selectRowText: 'Select row',
-            selectColumnText: 'Select entire column',
-            selectColumnData: 'Select column data',
-            selectTableText: 'Select table',
-            insertRowAboveText: 'Insert row above',
-            insertRowBelowText: 'Insert row below',
-            insertColumnLeftText: 'Insert column left',
-            insertColumnRightText: 'Insert column right',
-            deleteRowText: 'Delete row',
-            deleteColumnText: 'Delete column',
-            deleteTableText: 'Delete table',
-            txtRemDuplicates: 'Remove duplicates',
-            txtConvertToRange: 'Convert to range',
-            txtSlicer: 'Slicer',
-            txtPivot: 'Pivot',
-            txtHeaderRow: 'Header row',
-            txtTotalRow: 'Total row',
-            txtFirstColumn: 'First column',
-            txtLastColumn: 'Last column',
-            txtBandedRows: 'Banded rows',
-            txtBandedColumns: 'Banded columns',
-            txtFilterButton: 'Filter button',
-            txtAltText: 'Alt text'
         }
     }()), SSE.Views.SparklineTab || {}));
 });

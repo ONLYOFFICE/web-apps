@@ -207,7 +207,8 @@ define([
                 isUserProtected: false,
                 showPivotTab: false,
                 showTableDesignTab: false,
-                showChartTab: false
+                showChartTab: false,
+                showSparklineTab: false
             };
             this.binding = {};
 
@@ -1262,6 +1263,8 @@ define([
                                         me.view && me.view.fireEvent('insertspark', me.view);
                                         if (settings.destination)
                                             me.api.asc_addSparklineGroup(type, settings.source, settings.destination);
+
+                                        me.showSparklineTab = true;
                                     }
                                     Common.NotificationCenter.trigger('edit:complete', me);
                                 }
@@ -3085,7 +3088,16 @@ define([
                     this.toolbar.setTab('charttab');
                 this._state.inchart = in_chart;
             }
-            if (in_chart) return;
+
+            var in_sparkline = !!info.asc_getSparklineInfo();
+            if (this._state.insparkline !== in_sparkline) {
+                if ( !in_sparkline && this.toolbar.isTabActive('sparklinetab') )
+                    this.toolbar.setTab('home');
+                this.toolbar.setVisible('sparklinetab', !!in_sparkline);
+                if (in_sparkline && this._state.showSparklineTab)
+                    this.toolbar.setTab('sparklinetab');
+                this._state.insparkline = in_sparkline;
+            }
 
             if (!toolbar.mode.isEditDiagram)
             {
@@ -4602,7 +4614,7 @@ define([
                         me.toolbar.btnsTableDesign = tabledesignbuttons;
                     }
 
-                    tab = {caption: 'Chart', action: 'charttab', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-charttab', dataHintTitle: 'V', aux: true};
+                    tab = {caption: me.toolbar.textTabChart, action: 'charttab', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-charttab', dataHintTitle: 'V', aux: true};
                     var charttab = me.getApplication().getController('ChartTab');
                     charttab.setApi(me.api).setConfig({toolbar: me});
                     var view = charttab.getView('ChartTab');
@@ -4614,7 +4626,7 @@ define([
                         Array.prototype.push.apply(me.toolbar.lockControls, chartbuttons);
                     }
 
-                    tab = {caption: 'Sparkline', action: 'sparklinetab', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-sparklinetab', dataHintTitle: 'V', aux: true};
+                    tab = {caption: me.toolbar.textTabSparkline, action: 'sparklinetab', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-sparklinetab', dataHintTitle: 'V', aux: true};
                     var sparklinetab = me.getApplication().getController('SparklineTab');
                     sparklinetab.setApi(me.api).setConfig({toolbar: me});
                     var view = sparklinetab.getView('SparklineTab');
@@ -5297,6 +5309,7 @@ define([
             this._state.showPivotTab = tab === 'pivot';
             this._state.showTableDesignTab = tab ==='tabledesign';
             this._state.showChartTab = tab ==='charttab';
+            this._state.showSparklineTab = tab ==='sparklinetab';
         },
 
         onTabCollapse: function(tab) {
