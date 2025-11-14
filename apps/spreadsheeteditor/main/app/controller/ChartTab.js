@@ -261,6 +261,7 @@ define([
                             this._state.Height3d = value;
                         }
                     }
+                    this.view.btn3DSettings.setVisible(props3d)
                 }
             }
         },
