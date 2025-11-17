@@ -283,7 +283,6 @@ define([
                 props3d = chartSettings ? chartSettings.getView3d() : null;
 
             this._state.is3D=!!props3d;
-            this.disableControls(this._locked);
 
             if (this.api && props){
                 if (!isChart) { //sparkline
@@ -329,7 +328,7 @@ define([
                         this._state.MarkersPoint=point;
                         styleChanged = true;
                     }
-                    this.view.chMarkers.setDisabled(this._state.SparkType !== Asc.c_oAscSparklineType.Line, 'asd');
+                    this.view.chMarkers.setDisabled(this._state.SparkType !== Asc.c_oAscSparklineType.Line);
                     // this.view.btnMarkerColor.setDisabled(this._state.SparkType!==Asc.c_oAscSparklineType.Line);
 
                     point = props.asc_getHighPoint();
@@ -374,7 +373,9 @@ define([
 
                     if (styleChanged)
                         this.updateSparkStyles(props.asc_getStyles());
-                    this.updateMarkerColors()
+
+                    this.updateMarkerColors();
+                    Common.Utils.lockControls(Common.enumLock.notLineType, this._state.SparkType !== Asc.c_oAscSparklineType.Line, {array: this.view.lockedControls});
                 }
             }
         },
@@ -469,18 +470,6 @@ define([
                     stylesStore.reset(stylearray, {silent: false});
                     this.view.cmbSparkStyle.fillComboView(stylesStore.at(selectedIdx<0 ? 0 : selectedIdx), selectedIdx>-1);
                 }
-            }
-        },
-
-        disableControls: function(disable) {
-            if (this._initSettings) return;
-            
-            if (this._state.DisabledControls!==disable) {
-                this._state.DisabledControls = disable;
-                _.each(this.lockedControls, function(item) {
-                    item.setDisabled(disable);
-                });
-                // this.view.btnAdvancedSettings.setDisabled(disable);
             }
         },
 

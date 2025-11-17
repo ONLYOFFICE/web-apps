@@ -560,7 +560,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-big-slicer',
                     caption: me.capRowCol,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.editCell],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.editCell, _set.noRange],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -576,7 +576,7 @@ define([
                     menuMaxHeight   : 300,
                     groups          : new Common.UI.DataViewGroupStore(),
                     autoWidth       : true,
-                    lock: [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock, _set.cantModifyFilter],
+                    lock: [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock, _set.cantModifyFilter, _set.noStyles],
                     beforeOpenHandler: function(e) {
                         var cmp = this,
                             menu = cmp.openButton.menu,
@@ -605,7 +605,6 @@ define([
                                 'width': menuWidth,
                                 'min-height': cmp.cmpEl.height()
                             });
-                            console.log(menuWidth)
                         }
                     },
                     dataHint: '1',
@@ -629,7 +628,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-day',
                     caption: me.capAdvancedSettings,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.editCell],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.editCell, _set.SeveralCharts],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -697,6 +696,7 @@ define([
             getPanel: function () {
                 this.$el = $(_.template(template)( {} ));
                 var $host = this.$el;
+                var me = this;
 
                 this.btnChartElements && this.btnChartElements.render($host.find('#slot-btn-chart-elements'));
                 this.btnChartType && this.btnChartType.render($host.find('#slot-btn-chart-type'));
@@ -705,8 +705,8 @@ define([
                 this.btn3DSettings && this.btn3DSettings.render($host.find('#slot-btn-chart-3d-settings'));
                 this.btnAdvancedSettings && this.btnAdvancedSettings.render($host.find('#slot-btn-chart-advanced-settings'));
                 this.chRatio && this.chRatio.render($host.find('#slot-chk-ratio'));
-                $host.find('#slot-lbl-width').text('Width');
-                $host.find('#slot-lbl-height').text('Height');
+                $host.find('#slot-lbl-width').text(me.textWidth);
+                $host.find('#slot-lbl-height').text(me.textHeight);
                 this.chartStyles.render(this.$el.find('#slot-field-chart-styles'));
                 return this.$el;
             },
@@ -716,7 +716,13 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    me.btnAdvancedSettings.updateHint('Advanced settings')
+                    me.btnAdvancedSettings.updateHint(me.tipAdvanced)
+                    me.btnChartElements.updateHint(me.tipChartElements)
+                    me.btnChartType.updateHint(me.tipChartType)
+                    me.btnSelectData.updateHint(me.tipSelectData)
+                    me.btnSwitchRowsCols.updateHint(me.tipSwitchRowCol)
+                    me.btn3DSettings.updateHint(me.tip3DRotation)
+                    me.btnAdvancedSettings.updateHint(me.tipAdvanced)
                     setEvents.call(me);
                 });
             },

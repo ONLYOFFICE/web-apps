@@ -88,8 +88,8 @@ define([
                     '<span class="btn-slot text" id="slot-btn-sparkline-color"></span>' +
                 '</div>' +
                 '<div class="elset">' +
-                   ' <span class="btn-slot text font-size-normal margin-right-6" id="slot-lbl-line-weight" style="margin-top: 3px" "></span>' +
-                    '<span id="slot-spin-line-weight" style="float: right;"></span>' +
+                   ' <span class="btn-slot text font-size-normal margin-right-6" id="slot-lbl-line-weight" style="flex-grow:1;" "></span>' +
+                    '<span id="slot-spin-line-weight" class="btn-slot text "></span>' +
                 '</div>' +
             '</div>' +
             '<div class="separator long"></div>' +
@@ -208,7 +208,7 @@ define([
 
                 this.chHighPoint = new Common.UI.CheckBox({
                     labelText: me.textHighPoint,
-                    lock        : [_set.lostConnect, _set.editCell],
+                    lock        : [_set.lostConnect, _set.editCell, _set.coAuth],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -217,7 +217,7 @@ define([
 
                 this.chLowPoint = new Common.UI.CheckBox({
                     labelText: me.textLowPoint,
-                    lock        : [_set.lostConnect, _set.editCell],
+                    lock        : [_set.lostConnect, _set.editCell, _set.coAuth],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -226,7 +226,7 @@ define([
 
                 this.chFirstPoint = new Common.UI.CheckBox({
                     labelText: me.textFirstPoint,
-                    lock        : [_set.lostConnect, _set.editCell],
+                    lock        : [_set.lostConnect, _set.editCell, _set.coAuth],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -235,7 +235,7 @@ define([
 
                 this.chLastPoint = new Common.UI.CheckBox({
                     labelText: me.textLastPoint,
-                    lock        : [_set.lostConnect, _set.editCell],
+                    lock        : [_set.lostConnect, _set.editCell, _set.coAuth],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -244,7 +244,7 @@ define([
 
                 this.chNegativePoint = new Common.UI.CheckBox({
                     labelText: me.textNegativePoint,
-                    lock        : [_set.lostConnect, _set.editCell],
+                    lock        : [_set.lostConnect, _set.editCell, _set.coAuth],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -253,7 +253,7 @@ define([
 
                 this.chMarkers = new Common.UI.CheckBox({
                     labelText: me.textMarkers,
-                    lock        : [_set.lostConnect, _set.editCell],
+                    lock        : [_set.lostConnect, _set.editCell, _set.notLineType, _set.coAuth],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -276,6 +276,7 @@ define([
                     itemWidth: 50,
                     itemHeight: 50,
                     menuMaxHeight: 300,
+                    lock: [_set.lostConnect, _set.coAuth, _set.editCell],
                     enableKeyEvents: true,
                     cls: 'combo-chart-template',
                     style: 'min-width: 103px; max-width: 517px;',
@@ -291,7 +292,7 @@ define([
                 this.btnSparklineColor = new Common.UI.Button({
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-remove-trace-arrows',
-                    lock: [_set.editCell],
+                    lock: [_set.lostConnect, _set.coAuth, _set.editCell],
                     caption: this.capSparklineColor,
                     menu: new Common.UI.Menu({
                         cls: 'color-menu',
@@ -309,10 +310,11 @@ define([
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -8'
                 });
-                this.lockedControls.push(this.btnRemArrows);
+                this.lockedControls.push(this.btnSparklineColor);
 
                 this.cmbBorderSize = new Common.UI.ComboBorderSizeEditable({
                     style       : 'width: 90px;',
+                    lock: [_set.lostConnect, _set.notLineType, _set.coAuth],
                     allowNoBorders: false
                 })
                 this.BorderSize = this.cmbBorderSize.store.at(1).get('value');
@@ -321,13 +323,14 @@ define([
 
                 this.lblLineWeight = new Common.UI.Label({
                     caption: me.lblLineWeight,
-                    lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewPara, _set.docLockForms, _set.docLockCommentsPara, _set.fixedForm, _set.viewMode]
+                    lock: [_set.lostConnect, _set.editCell, _set.notLineType, _set.coAuth]
                 });
+                this.lockedControls.push(this.lblLineWeight);
 
                 this.btnAdvancedSettings = new Common.UI.Button({
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-remove-trace-arrows',
-                    lock: [_set.editCell],
+                    lock: [_set.editCell, _set.lostConnect, _set.coAuth],
                     caption: this.capAdvancedSettings,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -338,7 +341,7 @@ define([
                 this.btnClear = new Common.UI.Button({
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-remove-trace-arrows',
-                    lock: [_set.editCell],
+                    lock: [_set.editCell, _set.lostConnect, _set.coAuth],
                     caption: this.capClear,
                     menu        : new Common.UI.Menu({
                         menuAlign: 'tl-tr',
@@ -426,10 +429,11 @@ define([
                                 '</a>'
                             ].join(''))
                         }),
-                        new Common.UI.MenuItem({
+                        this.markerColor = new Common.UI.MenuItem({
                             caption: me.textMarkers,
                             color: '#' + Common.Utils.ThemeColor.getHexColor(me.defColor.r, me.defColor.g, me.defColor.b),
                             checkable: true,
+                            lock: [_set.notLineType],
                             menu: true,
                             value: 'markers',
                             toggleGroup: 'formtab-view-role',
@@ -443,6 +447,7 @@ define([
                     ]
                 })
 
+                this.lockedControls.push(this.markerColor)
                 this.btnMarkerColor.setMenu(colorMenu)
                 Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));

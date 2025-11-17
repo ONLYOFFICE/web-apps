@@ -117,7 +117,6 @@ define([
                                                 props.endEdit();
                                             }
                                         }
-                                        console.log(result)
                                     }
                                 }
                                 Common.NotificationCenter.trigger('edit:complete', me);
@@ -155,7 +154,6 @@ define([
                 props3d = chartSettings ? chartSettings.getView3d() : null;
 
             this._state.is3D=!!props3d;
-            this.disableControls(this._locked);
             if (this.api && props){
                 if (isChart) { // chart
                     this._originalProps = new Asc.asc_CImgProperty(props);
@@ -164,13 +162,11 @@ define([
                     this._noApply = true;
                     this.chartProps = props.asc_getChartProperties();
 
-                    var value = props.asc_getSeveralCharts() || this._locked;
-                    if (this._state.SeveralCharts!==value) {
-                        this.view.btnAdvancedSettings.setDisabled(value)
-                        this._state.SeveralCharts=value;
-                    }
+                    var severalCharts = props.asc_getSeveralCharts();
+                    Common.Utils.lockControls(Common.enumLock.SeveralCharts, severalCharts, {array: [this.view.btnAdvancedSettings]});
+                    this._state.SeveralCharts = severalCharts;
 
-                    value = props.asc_getSeveralChartTypes();
+                    var value = props.asc_getSeveralChartTypes();
                     var type = (this._state.SeveralCharts && value) ? null : this.chartProps.getType();
                     if (this._state.ChartType !== type) {
                         this.ShowCombinedProps(type);
@@ -223,7 +219,8 @@ define([
                     }
 
                     var series = chartSettings ? chartSettings.getSeries() : null;
-                    this.view.btnSwitchRowsCols.setDisabled(this._locked || !series || series.length<1 || !chartSettings || !chartSettings.getRange());
+                    Common.Utils.lockControls(Common.enumLock.noRange, !series || series.length<1 || !chartSettings || 
+                        !chartSettings.getRange(), {array: [this.view.btnSwitchRowsCols]});
 
                     if (props3d) {
                         value = props3d.asc_getRotX();
@@ -420,18 +417,6 @@ define([
             }
         },
 
-        disableControls: function(disable) {
-            if (this._initSettings) return;
-            
-            if (this._state.DisabledControls!==disable) {
-                this._state.DisabledControls = disable;
-                _.each(this.lockedControls, function(item) {
-                    item.setDisabled(disable);
-                });
-                this.view.btnAdvancedSettings.setDisabled(disable);
-            }
-        },
-
         ShowCombinedProps: function(type) {
             this.view.chartStyles.setVisible(!(type===null || type==Asc.c_oAscChartTypeSettings.comboBarLine || type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
                                                                        type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom));
@@ -446,7 +431,7 @@ define([
             this.view.chartStyles.openButton.menu.on('show:after', function () {
                 me.view.chartStyles.menuPicker.scroller.update({alwaysVisibleY: true});
             });
-            this.lockedControls.push(this.view.chartStyles);
+            this.view.lockedControls.push(this.view.chartStyles);
 
             if (styles && styles.length>0){
                 var stylesStore = this.view.chartStyles.menuPicker.store;
@@ -465,7 +450,7 @@ define([
                 this.view.chartStyles.menuPicker.store.reset();
                 this.view.chartStyles.clearComboView();
             }
-            this.view.chartStyles.setDisabled(!styles || styles.length<1 || this._locked);
+            Common.Utils.lockControls(Common.enumLock.noStyles, !styles || styles.length<1, {array: [this.view.chartStyles]});
         },
 
         onSelectStyle: function(combo, record) {
