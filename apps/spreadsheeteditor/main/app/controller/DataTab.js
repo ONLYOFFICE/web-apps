@@ -68,6 +68,7 @@ define([
                 this.api.asc_registerCallback('asc_onChangeProtectWorkbook',_.bind(this.onChangeProtectWorkbook, this));
                 this.api.asc_registerCallback('asc_onGoalSeekUpdate',       _.bind(this.onUpdateGoalSeekStatus, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
+                this.api.asc_registerCallback('asc_onSolverResultDlgOpen',_.bind(this.onSolverResultDlgOpen, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('protect:wslock',              _.bind(this.onChangeProtectSheet, this));
                 Common.NotificationCenter.on('document:ready',              _.bind(this.onDocumentReady, this));
@@ -495,18 +496,43 @@ define([
         },
 
         onSolver: function() {
-            var me = this;
+            var me = this,
+                res;
             (new SSE.Views.SolverDlg({
                 api: me.api,
                 lang: me.toolbar.mode.lang,
                 props: me.api.asc_GetSolverParams(),
                 handler: function(result, settings) {
+                    res = result;
                     if (result == 'ok' && settings) {
                         me.api.asc_StartSolver(settings);
                     }
                     Common.NotificationCenter.trigger('edit:complete');
                 }
-            })).show();
+            })).on('close', function() {
+                if (res !== 'ok')
+                    me.api.asc_CloseSolver(false);
+            }).show();
+        },
+
+        onSolverResultDlgOpen: function(id) {
+            var me = this,
+                keepSolution = false,
+                openParams = false,
+                win = (new SSE.Views.SolverResultsDlg({
+                    handler: function(dlg, result) {
+                        if (result === 'ok') {
+                            let settings = dlg.getSettings();
+                            keepSolution = settings.keepSolution;
+                            openParams = settings.openParams;
+                        }
+                    }
+                })).on('close', function() {
+                    me.api.asc_CloseSolver(keepSolution);
+                    openParams ? me.onSolver() : Common.NotificationCenter.trigger('edit:complete');
+                });
+            win.show();
+            win.setSettings(id);
         },
 
         onUpdateGoalSeekStatus: function (targetValue, currentValue, iteration, cellName) {

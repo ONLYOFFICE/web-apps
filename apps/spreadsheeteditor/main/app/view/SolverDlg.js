@@ -312,7 +312,7 @@ define([
                     buttons: [{value: 'ok', caption: this.textReset}, 'cancel'],
                     callback: function(btn){
                         if (btn=='ok') {
-                            me.props.resetAll();
+                            me.props.asc_resetAll();
                             me.fillControls(me.props);
                         } else
                             me.btnReset.focus();
@@ -323,7 +323,7 @@ define([
             if (state == 'ok') {
                 if (!this.isRangeValid()) return;
 
-                var method = this.props.getSolvingMethod();
+                var method = this.props.asc_getSolvingMethod();
                 if (this.originalMethod!==AscCommonExcel.c_oAscSolvingMethod.simplexLP && method===AscCommonExcel.c_oAscSolvingMethod.simplexLP) {
                     // method is changed to simplex LP
                     Common.UI.warning({
@@ -356,21 +356,21 @@ define([
 
         fillControls: function(props) {
             if (props){
-                var value = props.getObjectiveFunction();
+                var value = props.asc_getObjectiveFunction();
                 this.txtObjectiveRange.setValue(value || '');
 
-                value = props.getChangingCells();
+                value = props.asc_getChangingCells();
                 this.txtVarsRange.setValue(value || '');
 
-                value = props.getOptimizeResultTo();
+                value = props.asc_getOptimizeResultTo();
                 (value===AscCommonExcel.c_oAscOptimizeTo.max) && this.radioMax.setValue(true, true);
                 (value===AscCommonExcel.c_oAscOptimizeTo.min) && this.radioMin.setValue(true, true);
                 (value===AscCommonExcel.c_oAscOptimizeTo.valueOf) && this.radioValue.setValue(true, true);
                 this.txtValue.setDisabled(value!==AscCommonExcel.c_oAscOptimizeTo.valueOf);
 
-                this.chNonNegative.setValue(this.props.getVariablesNonNegative(), true);
+                this.chNonNegative.setValue(this.props.asc_getVariablesNonNegative(), true);
 
-                value = this.props.getSolvingMethod();
+                value = this.props.asc_getSolvingMethod();
                 if (this.originalMethod===undefined)
                     this.originalMethod = value;
                 if (value !== AscCommonExcel.c_oAscSolvingMethod.simplexLP) {
@@ -389,17 +389,17 @@ define([
 
         onRadioToChange: function(field, newValue, eOpts) {
             if (newValue) {
-                this.props.setOptimizeResultTo(field.options.value);
+                this.props.asc_setOptimizeResultTo(field.options.value);
                 this.txtValue.setDisabled(field.options.value!==AscCommonExcel.c_oAscOptimizeTo.valueOf);
             }
         },
 
         onValueChanged: function(input, newValue, oldValue) {
-            (newValue !== oldValue) && this.props.setValueOf(newValue);
+            (newValue !== oldValue) && this.props.asc_setValueOf(newValue);
         },
 
         onNonNegative: function(field, newValue, oldValue, eOpts){
-            this.props.setVariablesNonNegative(field.getValue()==='checked');
+            this.props.asc_setVariablesNonNegative(field.getValue()==='checked');
         },
 
         onSelectObjectiveData: function(input) {
@@ -431,7 +431,7 @@ define([
         },
 
         onObjectiveChanged: function(input, newValue, oldValue) {
-            this.props.setObjectiveFunction(newValue);
+            this.props.asc_setObjectiveFunction(newValue);
         },
 
         onSelectVarsData: function(input) {
@@ -463,7 +463,7 @@ define([
         },
 
         onVarsChanged: function(input, newValue, oldValue) {
-            this.props.setChangingCells(newValue);
+            this.props.asc_setChangingCells(newValue);
         },
 
         onListKeyDown: function (e, data) {
@@ -482,7 +482,7 @@ define([
                 needUpdate = false;
             var handlerDlg = function(dlg, result) {
                 if (result === 'ok' || result==='add') {
-                    me.props.addConstraint(++index, dlg.getSettings());
+                    me.props.asc_addConstraint(++index, dlg.getSettings());
                     needUpdate = true;
                 }
             };
@@ -510,7 +510,7 @@ define([
             if (rec) {
                 var index = _.indexOf(this.constrainsList.store.models, rec);
                 index = this.constrainsList.store.at(Math.max(0, index-1)).get('index');
-                this.props.removeConstraint(rec.get('index'));
+                this.props.asc_removeConstraint(rec.get('index'));
                 this.updateConstrainsList(index);
                 this.updateButtons();
             }
@@ -526,11 +526,11 @@ define([
                 var handlerDlg = function(dlg, result) {
                     if (result === 'ok' || result==='add') {
                         if (!changed) {
-                            me.props.editConstraint(index, dlg.getSettings());
+                            me.props.asc_editConstraint(index, dlg.getSettings());
                             changed = true;
                             index = me._maxConstraintIndex;
                         } else {
-                            me.props.addConstraint(++index, dlg.getSettings());
+                            me.props.asc_addConstraint(++index, dlg.getSettings());
                         }
                         needUpdate = true;
                     }
@@ -565,7 +565,7 @@ define([
             var me = this,
                 arr = [],
                 store = this.constrainsList.store,
-                constaints = this.props.getConstraints();
+                constaints = this.props.asc_getConstraints();
             me._maxConstraintIndex = 0;
             constaints && constaints.forEach(function(item, index) {
                 arr.push({
@@ -586,7 +586,7 @@ define([
         },
 
         onSelectSolver: function (cmb, record) {
-            this.props.setSolvingMethod(record.value);
+            this.props.asc_setSolvingMethod(record.value);
             this.btnOk.setDisabled(record.value !== AscCommonExcel.c_oAscSolvingMethod.simplexLP);
         },
 
@@ -605,7 +605,7 @@ define([
             var xy = Common.Utils.getOffset(me.$window);
             me.hide();
             win.show(me.$window, xy);
-            win.setSettings(this.props.getOptions());
+            win.setSettings(this.props.asc_getOptions());
         },
 
         showHelp: function() {

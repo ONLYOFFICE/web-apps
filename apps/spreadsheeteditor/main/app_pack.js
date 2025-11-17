@@ -92,7 +92,8 @@ require([
     'spreadsheeteditor/main/app/view/PivotInsertCalculatedItemDialog',
     'spreadsheeteditor/main/app/view/SolverDlg',
     'spreadsheeteditor/main/app/view/ConstraintDialog',
-    'spreadsheeteditor/main/app/view/SolverMethodDialog'
+    'spreadsheeteditor/main/app/view/SolverMethodDialog',
+    'spreadsheeteditor/main/app/view/SolverResultsDlg'
 ], function () {
     Common.NotificationCenter.trigger('app-pack:loaded');
 });

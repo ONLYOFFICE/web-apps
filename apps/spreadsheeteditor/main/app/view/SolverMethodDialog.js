@@ -192,12 +192,12 @@ define([], function () { 'use strict';
 
         setSettings: function (props) {
             if (props) {
-                this.chAuto.setValue(!!props.getAutomaticScaling(), true);
-                this.chIgnore.setValue(!!props.getIgnoreIntConstraints(), true);
-                this.inputPrecision.setValue(props.getConstraintPrecision());
-                this.inputOptimality.setValue(props.getIntOptimal());
-                this.inputMaxTime.setValue(props.getMaxTime());
-                this.inputIterations.setValue(props.getIterations());
+                this.chAuto.setValue(!!props.asc_getAutomaticScaling(), true);
+                this.chIgnore.setValue(!!props.asc_getIgnoreIntConstraints(), true);
+                this.inputPrecision.setValue(props.asc_getConstraintPrecision());
+                this.inputOptimality.setValue(props.asc_getIntOptimal());
+                this.inputMaxTime.setValue(props.asc_getMaxTime());
+                this.inputIterations.setValue(props.asc_getIterations());
             }
             this._changedProps = props || new AscCommon.asc_COptions();
         },
@@ -251,12 +251,12 @@ define([], function () { 'use strict';
 
         getSettings: function() {
             if (this._changedProps) {
-                this._precisionChanged && this._changedProps.setConstraintPrecision(this.inputPrecision.getValue());
-                this._optimalityChanged && this._changedProps.setIntOptimal(this.inputOptimality.getValue());
-                this._maxTimeChanged && this._changedProps.setMaxTime(this.inputMaxTime.getValue());
-                this._iterationsChanged && this._changedProps.setIterations(this.inputIterations.getValue());
-                this._autoChanged && this._changedProps.setAutomaticScaling(this.chAuto.getValue()==='checked');
-                this._ignoreChanged && this._changedProps.setIgnoreIntConstraints(this.chIgnore.getValue()==='checked');
+                this._precisionChanged && this._changedProps.asc_setConstraintPrecision(this.inputPrecision.getValue());
+                this._optimalityChanged && this._changedProps.asc_setIntOptimal(this.inputOptimality.getValue());
+                this._maxTimeChanged && this._changedProps.asc_setMaxTime(this.inputMaxTime.getValue());
+                this._iterationsChanged && this._changedProps.asc_setIterations(this.inputIterations.getValue());
+                this._autoChanged && this._changedProps.asc_setAutomaticScaling(this.chAuto.getValue()==='checked');
+                this._ignoreChanged && this._changedProps.asc_setIgnoreIntConstraints(this.chIgnore.getValue()==='checked');
             }
             return this._changedProps;
         },
