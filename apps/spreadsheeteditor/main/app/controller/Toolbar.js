@@ -2915,7 +2915,7 @@ define([
                 toolbar.cmbFontSize.setValue((str_size !== undefined) ? str_size : '');
                 this._state.fontsize = str_size;
             }
-
+            toolbar.lockToolbar(Common.enumLock.sparkLocked, info.asc_getLockedSparkline()===true, {array: toolbar.btnsSparklineTab});
             toolbar.lockToolbar(Common.enumLock.cantHyperlink, (selectionType === Asc.c_oAscSelectionType.RangeShapeText) && (this.api.asc_canAddShapeHyperlink()===false), { array: [toolbar.btnInsertHyperlink]});
 
             /*
@@ -4637,6 +4637,7 @@ define([
                         me.toolbar.setVisible('sparklinetab', true);
                         Array.prototype.push.apply(me.toolbar.lockControls, sparklinebuttons);
                     }
+                    me.toolbar.btnsSparklineTab = sparklinebuttons
 
                     if (!config.compactHeader) {
                         // hide 'print' and 'save' buttons group and next separator

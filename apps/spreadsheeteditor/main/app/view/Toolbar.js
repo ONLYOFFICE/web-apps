@@ -82,6 +82,7 @@ define([
         cantPrint:      'cant-print',
         multiselect:    'is-multiselect',
         cantHyperlink:  'cant-hyperlink',
+        sparkLocked:  'spark-locked',
         commentLock:    'can-comment',
         cantModifyFilter: 'cant-filter',
         disableOnStart: 'on-start',

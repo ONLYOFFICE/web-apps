@@ -525,7 +525,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-freeze-panes',
                     caption: me.capChartElements,
-                    lock: [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                    lock: [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell, _set.coAuthText, _set.wsLock,],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small',
@@ -538,7 +538,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-big-sheet-view',
                     caption: me.capChartType,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.editCell],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.editCell, _set.coAuthText, _set.wsLock,],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -549,7 +549,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-big-pivot-sum',
                     caption: me.capSelectData,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.editCell],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.editCell, _set.coAuthText, _set.wsLock,],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -560,7 +560,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-big-slicer',
                     caption: me.capRowCol,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.editCell, _set.noRange],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.editCell, _set.noRange, _set.coAuthText, _set.wsLock,],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -576,7 +576,7 @@ define([
                     menuMaxHeight   : 300,
                     groups          : new Common.UI.DataViewGroupStore(),
                     autoWidth       : true,
-                    lock: [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock, _set.cantModifyFilter, _set.noStyles],
+                    lock: [_set.editCell, _set.lostConnect, _set.coAuth, _set.wsLock, _set.noStyles, _set.coAuthText],
                     beforeOpenHandler: function(e) {
                         var cmp = this,
                             menu = cmp.openButton.menu,
@@ -617,7 +617,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-day',
                     caption: me.cap3DRotation,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.editCell],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.editCell, _set.coAuthText, _set.wsLock,],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -628,7 +628,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-day',
                     caption: me.capAdvancedSettings,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.editCell, _set.SeveralCharts],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.editCell, _set.SeveralCharts, _set.coAuthText, _set.wsLock,],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -640,6 +640,7 @@ define([
                     step: .1,
                     width: 78,
                     defaultUnit : "cm",
+                    lock: [_set.lostConnect, _set.coAuth, _set.editCell, _set.coAuthText, _set.wsLock,],
                     value: '3 cm',
                     maxValue: 55.88,
                     minValue: 0,
@@ -655,6 +656,7 @@ define([
                     step: .1,
                     width: 78,
                     defaultUnit : "cm",
+                    lock: [_set.lostConnect, _set.coAuth, _set.editCell, _set.coAuthText, _set.wsLock,],
                     value: '3 cm',
                     maxValue: 55.88,
                     minValue: 0,
@@ -668,12 +670,24 @@ define([
                 this.chRatio = new Common.UI.CheckBox({
                     labelText: me.textLockRation,
                     value: true,
-                    lock        : [_set.lostConnect, _set.editCell],
+                    lock        : [_set.lostConnect, _set.editCell, _set.coAuthText, _set.wsLock,],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chRatio);
+
+                this.lblWidth = new Common.UI.Label({
+                    caption: me.textWidth,
+                    lock: [_set.lostConnect, _set.coAuth, _set.editCell, _set.coAuthText, _set.wsLock,],
+                });
+                this.lockedControls.push(this.lblWidth);
+
+                this.lblHeight = new Common.UI.Label({
+                    caption: me.textHeight,
+                    lock: [_set.lostConnect, _set.coAuth, _set.editCell, _set.coAuthText, _set.wsLock,],
+                });
+                this.lockedControls.push(this.lblHeight);
 
                 this.spnWidth.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
                 this.spnHeight.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
@@ -705,8 +719,8 @@ define([
                 this.btn3DSettings && this.btn3DSettings.render($host.find('#slot-btn-chart-3d-settings'));
                 this.btnAdvancedSettings && this.btnAdvancedSettings.render($host.find('#slot-btn-chart-advanced-settings'));
                 this.chRatio && this.chRatio.render($host.find('#slot-chk-ratio'));
-                $host.find('#slot-lbl-width').text(me.textWidth);
-                $host.find('#slot-lbl-height').text(me.textHeight);
+                this.lblWidth && this.lblWidth.render($host.find('#slot-lbl-width'));
+                this.lblHeight && this.lblHeight.render($host.find('#slot-lbl-height'));
                 this.chartStyles.render(this.$el.find('#slot-field-chart-styles'));
                 return this.$el;
             },
