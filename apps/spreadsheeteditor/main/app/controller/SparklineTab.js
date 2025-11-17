@@ -318,7 +318,6 @@ define([
                         }
                         this.BorderSize = w;
                     }
-                    this.view.cmbBorderSize.setDisabled(this._state.SparkType!==Asc.c_oAscSparklineType.Line);
                     var color = props.asc_getColorSeries();
 
                     var point = props.asc_getMarkersPoint();
@@ -328,8 +327,6 @@ define([
                         this._state.MarkersPoint=point;
                         styleChanged = true;
                     }
-                    this.view.chMarkers.setDisabled(this._state.SparkType !== Asc.c_oAscSparklineType.Line);
-                    // this.view.btnMarkerColor.setDisabled(this._state.SparkType!==Asc.c_oAscSparklineType.Line);
 
                     point = props.asc_getHighPoint();
                     color = props.asc_getColorHigh();
