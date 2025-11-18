@@ -69,6 +69,7 @@ define([
                 this.api.asc_registerCallback('asc_onGoalSeekUpdate',       _.bind(this.onUpdateGoalSeekStatus, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onSolverResultDlgOpen',_.bind(this.onSolverResultDlgOpen, this));
+                this.api.asc_registerCallback('asc_onSolverTrialDlgOpen',_.bind(this.onSolverTrialDlgOpen, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('protect:wslock',              _.bind(this.onChangeProtectSheet, this));
                 Common.NotificationCenter.on('document:ready',              _.bind(this.onDocumentReady, this));
@@ -533,6 +534,40 @@ define([
                 });
             win.show();
             win.setSettings(id);
+        },
+
+        onSolverTrialDlgOpen: function(id) {
+            var me = this,
+                msg;
+            switch (id) {
+                case AscCommonExcel.c_oAscResultStatus.maxIterationsReached:
+                    msg = this.txtMaxIterations;
+                    break;
+                case AscCommonExcel.c_oAscResultStatus.maxTimeReached:
+                    msg = this.txtMaxTime;
+                    break;
+                case AscCommonExcel.c_oAscResultStatus.maxFeasibleSolutionReached:
+                    msg = this.txtMaxFeasible;
+                    break;
+                case AscCommonExcel.c_oAscResultStatus.maxSubproblemSolutionReached:
+                    msg = this.txtMaxSubproblem;
+                    break;
+            }
+            msg && Common.UI.alert({
+                title: this.txtTrialSolution,
+                msg: msg,
+                buttons: [{
+                    value: 'ok',
+                    caption: this.txtContinue
+                }, {
+                    value: 'cancel',
+                    caption: this.txtStop
+                }],
+                primary: 'ok',
+                callback: function (btn) {
+                    (btn === 'cancel') ? me.api.asc_StopSolver() : me.api.asc_StepSolver();
+                }
+            });
         },
 
         onUpdateGoalSeekStatus: function (targetValue, currentValue, iteration, cellName) {
