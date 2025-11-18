@@ -411,7 +411,11 @@ define([
                 });
                 this.lockedControls.push(this.chLeftMenu);
 
-                if (this.appConfig.isEdit && !(this.appConfig.customization && this.appConfig.customization.macros===false)) {
+                if (
+                    this.appConfig.isEdit && 
+                    !(this.appConfig.customization && this.appConfig.customization.macros===false) && 
+                    !(Common.Controllers.Desktop && Common.Controllers.Desktop.isWinXp())
+                ) {
                     this.btnMacros = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-macros',
@@ -589,7 +593,11 @@ define([
                         me.btnGuides.$el.closest('.group').remove();
                         me.$el.find('#slot-btn-slide-master').closest('.group').next().addBack().remove();
                     }
-                    if (!config.isEdit || config.customization && config.customization.macros===false) {
+                    if (
+                        !config.isEdit || 
+                        config.customization && config.customization.macros===false ||
+                        (Common.Controllers.Desktop && Common.Controllers.Desktop.isWinXp())
+                    ) {
                         me.$el.find('.macro').remove();
                     }
                     if (config.isEdit || config.isRestrictedEdit) {
