@@ -286,6 +286,7 @@ define([
             if (this.resultItems[this._state.currentResult + 1]) {
                 this.api.asc_SelectSearchElement(this._state.currentResult + 1);
             } else {
+                this.api.asc_SelectSearchElement(this.resultItems[0].id);
                 this.view.disableRedactButtons(this.api.asc_GetRedactSearchInfo(this._state.currentResult))
             }
         },
