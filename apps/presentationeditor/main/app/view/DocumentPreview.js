@@ -124,6 +124,11 @@ define([
                     this.editComplete();
                 }
             };
+            this.drawToolIconMapper = {
+                pen: 'menu__icon btn-pen-tool',
+                highlighter: 'menu__icon btn-highlighter-tool',
+                eraser: 'menu__icon btn-clearstyle'
+            };
         },
 
         render: function () {
@@ -207,6 +212,8 @@ define([
                         this.btnDraw.toggle(true);
                         this.btnDraw.menu.items[0].setChecked(true);
                         this.drawTool['pen']();
+                        this.currentDrawTool = 'pen';
+                        this.btnDraw.setIconCls(this.drawToolIconMapper['pen']);
                         return;
                     }
 
@@ -216,6 +223,8 @@ define([
                         this.btnDraw.menu.items[this.btnDraw.menu.items.indexOf(currentTool)].setChecked(false);
                         this.btnDraw.menu.items[0].setChecked(true);
                         this.drawTool['pen']();
+                        this.currentDrawTool = 'pen';
+                        this.btnDraw.setIconCls(this.drawToolIconMapper['pen']);
                     }
                 });
 
@@ -225,12 +234,14 @@ define([
                         this.drawTool['select']();
                         this.btnDraw.toggle(false);
                         this.currentDrawTool = undefined;
+                        this.btnDraw.setIconCls(this.drawToolIconMapper['pen']);
                         return;
                     }
 
                     if (item.value !== 'eraseAll') {
                         this.btnDraw.toggle(true);
                         this.currentDrawTool = item.value;
+                        this.btnDraw.setIconCls(this.drawToolIconMapper[item.value]);
                     }
 
                     this.drawTool[item.value]();
