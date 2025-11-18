@@ -75,9 +75,9 @@ define([
                 9: 'Tab',
                 12: 'Clear',
                 13: 'Enter',
-                16: 'Shift',
-                17: 'Ctrl',
-                18: 'Alt',
+                16: Common.Utils.isMac ? '⇧ Shift' : 'Shift',
+                17: Common.Utils.isMac ? '^ Ctrl' : 'Ctrl',
+                18: Common.Utils.isMac ? '⌥ Option' : 'Alt',
                 19: 'Pause',
                 20: 'CapsLock',
                 27: 'Escape',
@@ -93,7 +93,7 @@ define([
                 44: 'PrintScreen',
                 45: 'Insert',
                 46: 'Delete',
-                91: 'Meta',
+                91: Common.Utils.isMac ? '⌘ Cmd' : 'Meta',
                 93: 'ContextMenu',
                 96: "Num 0",
                 97: "Num 1",
@@ -563,10 +563,10 @@ define([
         
         _getAscShortcutKeys: function(ascShortcut) {
             const keys = [];
-            ascShortcut.asc_IsCommand() && keys.push('⌘');
-            ascShortcut.asc_IsCtrl() && keys.push('Ctrl');
-            ascShortcut.asc_IsAlt() && keys.push('Alt');
-            ascShortcut.asc_IsShift() && keys.push('Shift');
+            ascShortcut.asc_IsCommand() && keys.push(this.keyCodeToKeyName(Common.UI.Keys.META));
+            ascShortcut.asc_IsCtrl() && keys.push(this.keyCodeToKeyName(Common.UI.Keys.CTRL));
+            ascShortcut.asc_IsAlt() && keys.push(this.keyCodeToKeyName(Common.UI.Keys.ALT));
+            ascShortcut.asc_IsShift() && keys.push(this.keyCodeToKeyName(Common.UI.Keys.SHIFT));
             keys.push(this.keyCodeToKeyName(ascShortcut.asc_GetKeyCode()));
             return keys;
         },

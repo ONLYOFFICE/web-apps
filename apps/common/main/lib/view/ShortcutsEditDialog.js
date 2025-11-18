@@ -290,7 +290,7 @@ define([
 
                     const forbiddensKeys = [Common.UI.Keys.ESC, Common.UI.Keys.TAB];
                     if(!Common.Utils.isMac) {
-                        forbiddensKeys.push(91);        //Meta (Super, Win)
+                        forbiddensKeys.push(Common.UI.Keys.META);        //Meta (Super, Win)
                     }
 
                     if (forbiddensKeys.includes(e.keyCode)) {
@@ -313,14 +313,13 @@ define([
 
                     const keys = [];
 
-                    if (e.ctrlKey) keys.push('Ctrl');
-                    if (e.shiftKey) keys.push('Shift');
-                    if (e.altKey) keys.push('Alt');
-                    if (e.metaKey && Common.Utils.isMac) keys.push('⌘');
+                    if (e.ctrlKey) keys.push(me._shortcutsController.keyCodeToKeyName(Common.UI.Keys.CTRL));
+                    if (e.shiftKey) keys.push(me._shortcutsController.keyCodeToKeyName(Common.UI.Keys.SHIFT));
+                    if (e.altKey) keys.push(me._shortcutsController.keyCodeToKeyName(Common.UI.Keys.ALT));
+                    if (e.metaKey && Common.Utils.isMac) keys.push(me._shortcutsController.keyCodeToKeyName(Common.UI.Keys.META));
 
-                    if (![Common.UI.Keys.CTRL, Common.UI.Keys.SHIFT, Common.UI.Keys.ALT, 91].includes(e.keyCode)) {
-                        const app = (window.DE || window.PE || window.SSE || window.PDFE || window.VE);
-                        keys.push(app.getController('Common.Controllers.Shortcuts').keyCodeToKeyName(e.keyCode));
+                    if (![Common.UI.Keys.CTRL, Common.UI.Keys.SHIFT, Common.UI.Keys.ALT, Common.UI.Keys.META].includes(e.keyCode)) {
+                        keys.push(me._shortcutsController.keyCodeToKeyName(e.keyCode));
                         ascShortcut.asc_SetKeyCode(e.keyCode);
                     } else {
                         ascShortcut.asc_SetKeyCode(null);
@@ -337,7 +336,12 @@ define([
 
 
                 const removeKeysIfOnlyModifiers = function(removedKeys) {
-                    const modifierKeys = ['Ctrl', 'Shift', 'Alt', '⌘'];
+                    const modifierKeys = [
+                        me._shortcutsController.keyCodeToKeyName(Common.UI.Keys.CTRL),
+                        me._shortcutsController.keyCodeToKeyName(Common.UI.Keys.SHIFT),
+                        me._shortcutsController.keyCodeToKeyName(Common.UI.Keys.ALT),
+                        me._shortcutsController.keyCodeToKeyName(Common.UI.Keys.META)
+                    ];
                     const keys = item.get('keys');
                     const hasExtra = _.some(keys, function(k) {
                         return !_.contains(modifierKeys, k);
@@ -355,10 +359,10 @@ define([
 
                 $keysInput.on('keyup', function(e) {
                     const modifierKeyMap = {
-                        [Common.UI.Keys.CTRL]: 'Ctrl',
-                        [Common.UI.Keys.ALT]: 'Alt',
-                        [Common.UI.Keys.SHIFT]: 'Shift',
-                        91: '⌘'
+                        [Common.UI.Keys.CTRL]: me._shortcutsController.keyCodeToKeyName(Common.UI.Keys.CTRL),
+                        [Common.UI.Keys.ALT]: me._shortcutsController.keyCodeToKeyName(Common.UI.Keys.ALT),
+                        [Common.UI.Keys.SHIFT]: me._shortcutsController.keyCodeToKeyName(Common.UI.Keys.SHIFT),
+                        [Common.UI.Keys.META]: me._shortcutsController.keyCodeToKeyName(Common.UI.Keys.META)
                     };
                     const modifierKey = modifierKeyMap[e.keyCode];
                     removeKeysIfOnlyModifiers(modifierKey ? [modifierKey] : []);

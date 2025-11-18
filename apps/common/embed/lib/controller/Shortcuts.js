@@ -66,9 +66,9 @@
                 9: 'Tab',
                 12: 'Clear',
                 13: 'Enter',
-                16: 'Shift',
-                17: 'Ctrl',
-                18: 'Alt',
+                16: common.utils.isMac ? '⇧ Shift' : 'Shift',
+                17: common.utils.isMac ? '^ Ctrl' : 'Ctrl',
+                18: common.utils.isMac ? '⌥ Option' : 'Alt',
                 19: 'Pause',
                 20: 'CapsLock',
                 27: 'Escape',
@@ -84,7 +84,7 @@
                 44: 'PrintScreen',
                 45: 'Insert',
                 46: 'Delete',
-                91: 'Meta',
+                91: common.utils.isMac ? '⌘ Cmd' : 'Meta',
                 93: 'ContextMenu',
                 96: "Num 0",
                 97: "Num 1",
@@ -286,10 +286,10 @@
     
         var _getAscShortcutKeys = function(ascShortcut) {
             const keys = [];
-            ascShortcut.asc_IsCommand() && keys.push('⌘');
-            ascShortcut.asc_IsCtrl() && keys.push('Ctrl');
-            ascShortcut.asc_IsAlt() && keys.push('Alt');
-            ascShortcut.asc_IsShift() && keys.push('Shift');
+            ascShortcut.asc_IsCommand() && keys.push(_keyCodeToKeyName(91));
+            ascShortcut.asc_IsCtrl() && keys.push(_keyCodeToKeyName(17));
+            ascShortcut.asc_IsAlt() && keys.push(_keyCodeToKeyName(18));
+            ascShortcut.asc_IsShift() && keys.push(_keyCodeToKeyName(16));
             keys.push(_keyCodeToKeyName(ascShortcut.asc_GetKeyCode()));
             return keys;
         };
