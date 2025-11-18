@@ -587,6 +587,12 @@ define([
             }
         },
 
+        redactText: function(item, e, eOpt){
+            this.mode && !this.mode.isPDFEdit && Common.NotificationCenter.trigger('pdf:mode-apply', 'edit');
+            this.mode.isPDFEdit && Common.NotificationCenter.trigger('tab:set-active', 'red');
+            this.api && this.api.AddRedactBySelect();
+        },
+
         onCountPages: function(count) {
             this.documentHolder && (this.documentHolder._pagesCount = count);
         },
