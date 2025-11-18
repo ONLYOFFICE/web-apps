@@ -181,7 +181,11 @@ define([
                         me.view.$el.find('.separator-rulers').remove();
                     }
 
-                    if (!config.isEdit || config.customization && config.customization.macros===false) {
+                    if (
+                        !config.isEdit || 
+                        config.customization && config.customization.macros===false ||
+                        (Common.Controllers.Desktop && Common.Controllers.Desktop.isWinXp())
+                    ) {
                         me.view.$el.find('.macro').remove();
                     }
 

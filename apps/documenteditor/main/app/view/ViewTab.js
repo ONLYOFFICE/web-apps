@@ -293,7 +293,11 @@ define([
                 });
                 this.lockedControls.push(this.chRulers);
 
-                if (this.appConfig.isEdit && !(this.appConfig.customization && this.appConfig.customization.macros===false)) {
+                if (
+                    this.appConfig.isEdit && 
+                    !(this.appConfig.customization && this.appConfig.customization.macros===false) && 
+                    !(Common.Controllers.Desktop && Common.Controllers.Desktop.isWinXp())
+                ) {
                     this.btnMacros = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-macros',
