@@ -4085,6 +4085,7 @@
   "SSE.Views.SolverDlg.textInt": "int",
   "SSE.Views.SolverDlg.textBin": "bin",
   "SSE.Views.SolverDlg.textDif": "dif",
+  "SSE.Views.SolverDlg.textMustContainFormula": "The cell must contain a formula",
   "SSE.Views.SolverMethodDialog.txtTitle": "Method options",
   "SSE.Views.SolverMethodDialog.txtPrecision": "Constraint precision",
   "SSE.Views.SolverMethodDialog.txtAutoScale": "Use automatic scaling",

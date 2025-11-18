@@ -424,7 +424,7 @@ define([
                 win.setSettings({
                     api     : me.api,
                     range   : input.getValue(),
-                    type    : Asc.c_oAscSelectionDialogType.Chart,
+                    type    : Asc.c_oAscSelectionDialogType.Solver_ObjectiveCell,
                     validation: function() {return true;}
                 });
             }
@@ -650,9 +650,11 @@ define([
                 isvalid = false;
                 txtError = this.txtEmpty;
             } else {
-                value = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtObjectiveRange.getValue(), true);
+                value = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Solver_ObjectiveCell, this.txtObjectiveRange.getValue(), true);
                 if (value != Asc.c_oAscError.ID.No) {
-                    txtError = ''; // check errors
+                    if (value == Asc.c_oAscError.ID.MustContainFormula) {
+                        txtError = this.textMustContainFormula;
+                    }
                     isvalid = false;
                 }
             }
