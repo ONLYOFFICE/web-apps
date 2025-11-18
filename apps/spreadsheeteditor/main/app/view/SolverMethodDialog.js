@@ -68,30 +68,30 @@ define([], function () { 'use strict';
                                 '<div id="smethod-chk-auto-scaling"></div>',
                             '</td>',
                         '</tr>',
-                        '<tr>',
-                            '<td colspan="2" style="padding-bottom: 10px;">',
-                                '<label class="font-weight-bold">' + this.txtSolverInt + '</label>',
-                            '</td>',
-                        '</tr>',
-                        '<tr>',
-                            '<td colspan="2" style="padding-bottom: 10px;">',
-                                '<div id="smethod-chk-ignore"></div>',
-                            '</td>',
-                        '</tr>',
-                        '<tr>',
-                            '<td style="padding-bottom: 15px;">',
-                                '<label class="margin-right-5">' + this.txtOptimality + '</label>',
-                            '</td>',
-                            '<td style="padding-bottom: 15px;">',
-                                '<div id="smethod-txt-optimality" class="float-right" style="display: inline-block;"></div>',
-                            '</td>',
-                        '</tr>',
-                        '<tr>',
+                        // '<tr>',
+                        //     '<td colspan="2" style="padding-bottom: 10px;">',
+                        //         '<label class="font-weight-bold">' + this.txtSolverInt + '</label>',
+                        //     '</td>',
+                        // '</tr>',
+                        // '<tr>',
+                        //     '<td colspan="2" style="padding-bottom: 10px;">',
+                        //         '<div id="smethod-chk-ignore"></div>',
+                        //     '</td>',
+                        // '</tr>',
+                        // '<tr>',
+                        //     '<td style="padding-bottom: 15px;">',
+                        //         '<label class="margin-right-5">' + this.txtOptimality + '</label>',
+                        //     '</td>',
+                        //     '<td style="padding-bottom: 15px;">',
+                        //         '<div id="smethod-txt-optimality" class="float-right" style="display: inline-block;"></div>',
+                        //     '</td>',
+                        // '</tr>',
                         '<tr>',
                             '<td colspan="2" style="padding-bottom: 5px;">',
                                 '<label class="font-weight-bold">' + this.txtSolverLimits + '</label>',
                             '</td>',
                         '</tr>',
+                        '<tr>',
                             '<td style="padding-bottom: 10px;">',
                                 '<label class="margin-right-5">' + this.txtMaxTime + '</label>',
                             '</td>',
@@ -129,12 +129,12 @@ define([], function () { 'use strict';
                 this._autoChanged = true;
             }, this));
 
-            this.chIgnore = new Common.UI.CheckBox({
-                el: $window.find('#smethod-chk-ignore'),
-                labelText: this.txtIgnore
-            }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                this._ignoreChanged = true;
-            }, this));
+            // this.chIgnore = new Common.UI.CheckBox({
+            //     el: $window.find('#smethod-chk-ignore'),
+            //     labelText: this.txtIgnore
+            // }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
+            //     this._ignoreChanged = true;
+            // }, this));
 
             this.inputPrecision = new Common.UI.InputField({
                 el: $window.find('#smethod-txt-precision'),
@@ -147,17 +147,17 @@ define([], function () { 'use strict';
                 (newValue !== oldValue) && (this._precisionChanged = true);
             }, this));
 
-            this.inputOptimality = new Common.UI.InputField({
-                el: $window.find('#smethod-txt-optimality'),
-                style: 'width: 80px;',
-                maskExp     : /[0-9]/,
-                value: '1',
-                validateOnBlur: false,
-                hideErrorOnInput: true
-            }).on('changed:after', _.bind(function(input, newValue, oldValue) {
-                (newValue !== oldValue) && (this._optimalityChanged = true);
-            }, this));
-            this.inputOptimality.setValue();
+            // this.inputOptimality = new Common.UI.InputField({
+            //     el: $window.find('#smethod-txt-optimality'),
+            //     style: 'width: 80px;',
+            //     maskExp     : /[0-9]/,
+            //     value: '1',
+            //     validateOnBlur: false,
+            //     hideErrorOnInput: true
+            // }).on('changed:after', _.bind(function(input, newValue, oldValue) {
+            //     (newValue !== oldValue) && (this._optimalityChanged = true);
+            // }, this));
+            // this.inputOptimality.setValue();
 
             this.inputMaxTime = new Common.UI.InputField({
                 el: $window.find('#smethod-txt-maxtime'),
@@ -183,7 +183,7 @@ define([], function () { 'use strict';
         },
 
         getFocusedComponents: function() {
-            return [this.inputPrecision, this.chAuto, this.chIgnore, this.inputOptimality, this.inputMaxTime, this.inputIterations].concat(this.getFooterButtons());
+            return [this.inputPrecision, this.chAuto, /*this.chIgnore, this.inputOptimality, */ this.inputMaxTime, this.inputIterations].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -193,9 +193,9 @@ define([], function () { 'use strict';
         setSettings: function (props) {
             if (props) {
                 this.chAuto.setValue(!!props.asc_getAutomaticScaling(), true);
-                this.chIgnore.setValue(!!props.asc_getIgnoreIntConstraints(), true);
+                // this.chIgnore.setValue(!!props.asc_getIgnoreIntConstraints(), true);
                 this.inputPrecision.setValue(props.asc_getConstraintPrecision());
-                this.inputOptimality.setValue(props.asc_getIntOptimal());
+                // this.inputOptimality.setValue(props.asc_getIntOptimal());
                 this.inputMaxTime.setValue(props.asc_getMaxTime());
                 this.inputIterations.setValue(props.asc_getIterations());
             }
@@ -212,12 +212,12 @@ define([], function () { 'use strict';
                         return;
                     }
 
-                    val = this.inputOptimality.getValue();
-                    if (!_.isEmpty(val) && (!Common.UI.isValidNumber(val) || (parseFloat(val) % 1 !== 0) || parseFloat(val)>=100 || parseFloat(val)<0)) {
-                        this.inputOptimality.showError([this.txtOptimalityInvalid]);
-                        this.inputOptimality.focus();
-                        return;
-                    }
+                    // val = this.inputOptimality.getValue();
+                    // if (!_.isEmpty(val) && (!Common.UI.isValidNumber(val) || (parseFloat(val) % 1 !== 0) || parseFloat(val)>=100 || parseFloat(val)<0)) {
+                    //     this.inputOptimality.showError([this.txtOptimalityInvalid]);
+                    //     this.inputOptimality.focus();
+                    //     return;
+                    // }
 
                     val = this.inputMaxTime.getValue();
                     if (!_.isEmpty(val) && (!Common.UI.isValidNumber(val) || (parseFloat(val) % 1 !== 0))) {
@@ -252,11 +252,11 @@ define([], function () { 'use strict';
         getSettings: function() {
             if (this._changedProps) {
                 this._precisionChanged && this._changedProps.asc_setConstraintPrecision(this.inputPrecision.getValue());
-                this._optimalityChanged && this._changedProps.asc_setIntOptimal(this.inputOptimality.getValue());
+                // this._optimalityChanged && this._changedProps.asc_setIntOptimal(this.inputOptimality.getValue());
                 this._maxTimeChanged && this._changedProps.asc_setMaxTime(this.inputMaxTime.getValue());
                 this._iterationsChanged && this._changedProps.asc_setIterations(this.inputIterations.getValue());
                 this._autoChanged && this._changedProps.asc_setAutomaticScaling(this.chAuto.getValue()==='checked');
-                this._ignoreChanged && this._changedProps.asc_setIgnoreIntConstraints(this.chIgnore.getValue()==='checked');
+                // this._ignoreChanged && this._changedProps.asc_setIgnoreIntConstraints(this.chIgnore.getValue()==='checked');
             }
             return this._changedProps;
         },
