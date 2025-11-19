@@ -7,23 +7,32 @@ import IconDrawHighlighter from '../../../../common/mobile/resources/icons/draw-
 import IconClearAll from '../../../../common/mobile/resources/icons/clear-all.svg'
 import IconClearObject from '../../../../common/mobile/resources/icons/clear-object.svg'
 import IconScroll from '../../../../common/mobile/resources/icons/scroll.svg'
+import IconPlusIos from '@common-ios-icons/icon-plus.svg?ios';
+import IconPlusAndroid from '@common-android-icons/icon-plus.svg?android';
 import { WheelColorPicker } from "../component/WheelColorPicker";
 import { Device } from "../../utils/device";
 
 export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, addCustomColor, enableErasing, attachBackdropSwipeClose, removeBackdropSwipeClose }) => {
   const { t } = useTranslation();
   const _t = t('Draw', { returnObjects: true });
+
+  const pickerRef = React.useRef(null);
   const isDrawingTool = currentTool === 'pen' || currentTool === 'highlighter';
+  const currentSettings = settings[currentTool] || {};
+  const currentColor = currentSettings.color || '#000000';
 
   return (
     <React.Fragment>
       {isDrawingTool && (<>
-        <Sheet className='draw-sheet draw-sheet--color-picker' backdrop swipeToClose onSheetOpened={attachBackdropSwipeClose} onSheetClosed={() => {
-          f7.sheet.open('.draw-sheet--settings');
-          removeBackdropSwipeClose();
+        <Sheet className='draw-sheet draw-sheet--color-picker' backdrop swipeToClose onSheetOpened={() => {
+            attachBackdropSwipeClose();
+        }} onSheetClosed={() => {
+            f7.sheet.open('.draw-sheet--settings');
+            removeBackdropSwipeClose();
         }}>
           <div className='draw-sheet-label'><span>{_t.textCustomColor}</span></div>
           <WheelColorPicker
+            ref={pickerRef}
             initialColor={settings[currentTool].color}
             onSelectColor={(color) => {
               f7.sheet.close('.draw-sheet--color-picker')
@@ -31,6 +40,7 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
             }}
           />
         </Sheet>
+
         <Sheet className="draw-sheet draw-sheet--settings" backdrop swipeToClose onSheetOpen={() => {document.activeElement?.blur()}} onSheetOpened={attachBackdropSwipeClose} onSheetClosed={removeBackdropSwipeClose} style={{ height: 'auto' }}>
           <div id='swipe-handler' className='swipe-container'>
             <Icon icon='icon icon-swipe'/>
@@ -38,22 +48,30 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
           <div className='draw-sheet-label'><span>{_t.textColor}</span></div>
           <div className='draw-sheet--settings-colors'>
             <div className="draw-sheet--settings-colors-list">
-              {colors.map((color, index) => (
-                <div
+              {colors.map((color, index) => {
+
+                  const isSelected = color.toLowerCase() === currentColor.toLowerCase();
+                return (<div
                   key={index}
-                  className="draw-sheet--settings-colors-list-item" style={{ backgroundColor: color }}
+                  className="draw-sheet--settings-colors-list-item"
+                  style={{ backgroundColor: color }}
+                  data-selected={isSelected}
                   onClick={() => setSettings({ color })}
                   onTouchStart={() => setSettings({ color })}
-                />
-              ))}
+                />)
+              })}
               <div
                 className="draw-sheet--settings-colors-list-add" style={{ backgroundColor: settings[currentTool].color }}
                 onClick={() => {
-                  f7.sheet.close('.draw-sheet--settings')
-                  f7.sheet.open('.draw-sheet--color-picker')
+                    f7.sheet.close('.draw-sheet--settings');
+                    f7.sheet.open('.draw-sheet--color-picker');
+                    pickerRef.current?.update();
                 }}
               >
-                <Icon icon="icon-plus"/>
+                  {Device.ios
+                      ? (<SvgIcon slot="media" symbolId={IconPlusIos.id} className='icon icon-svg' />)
+                      : (<SvgIcon slot="media" symbolId={IconPlusAndroid.id} className='icon icon-svg white' />)
+                  }
               </div>
             </div>
           </div>
@@ -120,4 +138,3 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
     </React.Fragment>
   )
 }
-

@@ -12,6 +12,16 @@ const DEFAULT_TOOL_SETTINGS = {
 const DEFAULT_ANDROID_COLORS = ['#FF0000', '#FFC000', '#FFFF00', '#92D050', '#00B050', '#00B0F0', '#0070C0', '#002060', '#C00000']
 const DEFAULT_IOS_COLORS = ['#FFFC54', '#72F54A', '#74F9FD', '#EB51F7', '#A900F9', '#FF0303', '#EF8B3A', '#D3D3D4', '#000000']
 
+const createStroke = (color, lineSize, opacity) => {
+    const stroke = new Asc.asc_CStroke();
+    stroke.put_type(Asc.c_oAscStrokeType.STROKE_COLOR);
+    stroke.put_color(Common.Utils.ThemeColor.getRgbColor(color));
+    stroke.asc_putPrstDash(Asc.c_oDashType.solid);
+    stroke.put_width(lineSize);
+    stroke.put_transparent(opacity * 2.55);
+    return stroke;
+};
+
 export const DrawController = inject('storeAppOptions')(observer(({ storeAppOptions }) => {
   const [currentTool, setCurrentTool] = useState(null);
   const [toolSettings, setToolSettings] = useState(() => {
@@ -27,12 +37,20 @@ export const DrawController = inject('storeAppOptions')(observer(({ storeAppOpti
   })
   const [enableErasing, setEnableErasing] = useState(true);
 
-  const onApiFocusObject = () => {
-    if (storeAppOptions.isDrawMode && currentTool !== 'scroll') {
-      const api = Common.EditorApi.get();
-      setEnableErasing(api.asc_HaveInks());
-    }
-  }
+  const onApiFocusObject = React.useCallback(() => {
+      if (storeAppOptions.isDrawMode && currentTool !== 'scroll') {
+          const api = Common.EditorApi.get();
+          setEnableErasing(api.asc_HaveInks());
+      }
+  }, [storeAppOptions.isDrawMode, currentTool]);
+
+    const toolActions = React.useMemo(() => ({
+        pen: (api, settings) => api.asc_StartDrawInk(createStroke(settings.pen.color, settings.pen.lineSize, settings.pen.opacity)),
+        highlighter: (api, settings) => api.asc_StartDrawInk(createStroke(settings.highlighter.color, settings.highlighter.lineSize, settings.highlighter.opacity)),
+        eraser: (api) => api.asc_StartInkEraser(),
+        eraseEntireScreen: (api) => api.asc_RemoveAllInks(),
+        scroll: (api) => api.asc_StopInkDrawer(),
+    }), []);
 
   useEffect(() => {
     const handleDrawStart = () => {
@@ -61,25 +79,7 @@ export const DrawController = inject('storeAppOptions')(observer(({ storeAppOpti
       Common.Notifications.off('draw:stop', handleDrawStop);
       Common.Notifications.off('engineCreated', handleEngineCreated);
     };
-  }, []);
-
-  const createStroke = (color, lineSize, opacity) => {
-    const stroke = new Asc.asc_CStroke();
-    stroke.put_type(Asc.c_oAscStrokeType.STROKE_COLOR);
-    stroke.put_color(Common.Utils.ThemeColor.getRgbColor(color));
-    stroke.asc_putPrstDash(Asc.c_oDashType.solid);
-    stroke.put_width(lineSize);
-    stroke.put_transparent(opacity * 2.55);
-    return stroke;
-  };
-
-  const toolActions = {
-    pen: (api, settings) => api.asc_StartDrawInk(createStroke(settings.pen.color, settings.pen.lineSize, settings.pen.opacity)),
-    highlighter: (api, settings) => api.asc_StartDrawInk(createStroke(settings.highlighter.color, settings.highlighter.lineSize, settings.highlighter.opacity)),
-    eraser: (api) => api.asc_StartInkEraser(),
-    eraseEntireScreen: (api) => api.asc_RemoveAllInks(),
-    scroll: (api) => api.asc_StopInkDrawer(),
-  };
+  }, [storeAppOptions, toolActions, toolSettings, onApiFocusObject]);
 
   const setCurrentToolAndApply = (tool) => {
     const api = Common.EditorApi.get();
