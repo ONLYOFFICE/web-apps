@@ -589,7 +589,7 @@ define([
 
         redactText: function(item, e, eOpt){
             this.mode && !this.mode.isPDFEdit && Common.NotificationCenter.trigger('pdf:mode-apply', 'edit');
-            this.mode.isPDFEdit && Common.NotificationCenter.trigger('tab:set-active', 'red');
+            this.mode.isPDFEdit && Common.NotificationCenter.trigger('tab:set-active', 'red', false);
             this.api && this.api.AddRedactBySelect();
         },
 
