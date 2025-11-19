@@ -55,7 +55,6 @@
   "DE.ApplicationController.txtNo": "Nein",
   "DE.ApplicationController.txtOpenWarning": "Das Klicken auf diesen Link kann Ihr Gerät und Ihre Daten schädigen. Um Ihren Computer zu schützen, klicken Sie nur auf Hyperlinks aus vertrauenswürdigen Quellen. Dieser Ort ist möglicherweise unsicher:<br>%1<br>Möchten Sie wirklich fortfahren?",
   "DE.ApplicationController.txtPressLink": "Drücken Sie %1 und klicken Sie auf den Link",
-  "DE.ApplicationController.txtSecurityWarningLink": "Dieses Dokument versucht, eine Verbindung zu %1 herzustellen.<br>Wenn Sie dieser Site vertrauen, drücken Sie OK, während Sie die Strg-Taste gedrückt halten.",
   "DE.ApplicationController.txtSecurityWarningOpenFile": "Dieses Dokument versucht, den Dateidialog zu öffnen. Klicken Sie zum Öffnen auf OK.",
   "DE.ApplicationController.txtYes": "Ja",
   "DE.ApplicationController.unknownErrorText": "Unbekannter Fehler.",

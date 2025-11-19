@@ -639,7 +639,7 @@ define([
                 type: 'plugin'
             });
             button.render($button);
-            var $panel = $('<div id="panel-plugins-' + name + '" class="plugin-panel content-box" style="height: 100%;"></div>');
+            var $panel = $('<div id="panel-plugins-' + name + '" class="plugin-panel' + (menu !== 'right' ? ' content-box' : '') + '" style="height: 100%;"></div>');
             this.viewPlugins.fireEvent(menu === 'right' ? 'plugins:addtoright' : 'plugins:addtoleft', [button, $button, $panel]);
             this.viewPlugins.pluginPanels[pluginGuid] = new Common.Views.PluginPanel({
                 el: '#panel-plugins-' + name,
@@ -1335,7 +1335,7 @@ define([
                     type: 'plugin'
                 });
             button.render($button);
-            var $panel = $('<div id="panel-plugins-' + frameId + '" class="plugin-panel content-box" style="height: 100%;"></div>');
+            var $panel = $('<div id="panel-plugins-' + frameId + '" class="plugin-panel' + (menu !== 'right' ? ' content-box' : '') + '" style="height: 100%;"></div>');
             this.viewPlugins.fireEvent(menu === 'right' ? 'plugins:addtoright' : 'plugins:addtoleft', [button, $button, $panel]);
             this.viewPlugins.customPluginPanels[frameId] = new Common.Views.PluginPanel({
                 el: '#panel-plugins-' + frameId,

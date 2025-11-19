@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "Macros",
   "PE.Views.ViewTab.textNormal": "Normal",
   "PE.Views.ViewTab.textNotes": "Oharrak",
+  "PE.Views.ViewTab.textPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.textRecMacro": "Record macro",
+  "PE.Views.ViewTab.textResumeMacro": "Resume recording",
   "PE.Views.ViewTab.textRightMenu": "Eskuineko panela",
   "PE.Views.ViewTab.textRulers": "Erregelak",
   "PE.Views.ViewTab.textShowGridlines": "Erakutsi sareta-lerroak",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "Gida adimendunak",
   "PE.Views.ViewTab.textSnapObjects": "Atxiki objektua saretara",
   "PE.Views.ViewTab.textStatusBar": "Egoera-barra",
+  "PE.Views.ViewTab.textStopMacro": "Stop recording",
   "PE.Views.ViewTab.textTabStyle": "Tab style",
   "PE.Views.ViewTab.textZoom": "Zooma",
   "PE.Views.ViewTab.tipFitToSlide": "Doitu diapositibara",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Interfazearen gaia",
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
+  "PE.Views.ViewTab.tipPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.tipRecMacro": "Record macro",
+  "PE.Views.ViewTab.tipResumeMacro": "Resume recording",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.ViewTab.tipStopMacro": "Stop recording"
 }

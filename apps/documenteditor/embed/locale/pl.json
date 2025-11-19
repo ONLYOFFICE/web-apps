@@ -55,7 +55,6 @@
   "DE.ApplicationController.txtNo": "Nie",
   "DE.ApplicationController.txtOpenWarning": "Kliknięcie tego linku może być szkodliwe dla Twojego urządzenia i danych. Aby chronić swój komputer, klikaj tylko hiperłącza pochodzące z zaufanych źródeł. Ta lokalizacja może być niebezpieczna:<br>%1<br>Czy na pewno chcesz kontynuować?",
   "DE.ApplicationController.txtPressLink": "Naciśnij %1 i kliknij w link",
-  "DE.ApplicationController.txtSecurityWarningLink": "Ten dokument próbuje połączyć się z %1.<br>Jeśli ufasz tej witrynie, naciśnij „OK”, przytrzymując klawisz Ctrl.",
   "DE.ApplicationController.txtSecurityWarningOpenFile": "Ten dokument próbuje otworzyć okno dialogowe pliku, naciśnij \"OK\", aby otworzyć.",
   "DE.ApplicationController.txtYes": "Tak",
   "DE.ApplicationController.unknownErrorText": "Nieznany błąd.",

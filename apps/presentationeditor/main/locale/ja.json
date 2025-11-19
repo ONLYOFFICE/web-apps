@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "マクロ",
   "PE.Views.ViewTab.textNormal": "標準",
   "PE.Views.ViewTab.textNotes": "ノート",
+  "PE.Views.ViewTab.textPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.textRecMacro": "Record macro",
+  "PE.Views.ViewTab.textResumeMacro": "Resume recording",
   "PE.Views.ViewTab.textRightMenu": "右パネル",
   "PE.Views.ViewTab.textRulers": "ルーラー",
   "PE.Views.ViewTab.textShowGridlines": "枠線を表示する",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "スマートガイド",
   "PE.Views.ViewTab.textSnapObjects": "スナップオブジェクトをグリッドに",
   "PE.Views.ViewTab.textStatusBar": "ステータスバー",
+  "PE.Views.ViewTab.textStopMacro": "Stop recording",
   "PE.Views.ViewTab.textTabStyle": "タブのスタイル",
   "PE.Views.ViewTab.textZoom": "ズーム",
   "PE.Views.ViewTab.tipFitToSlide": "スライドに合わせる",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "インターフェースのテーマ",
   "PE.Views.ViewTab.tipMacros": "マクロ",
   "PE.Views.ViewTab.tipNormal": "標準",
+  "PE.Views.ViewTab.tipPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.tipRecMacro": "Record macro",
+  "PE.Views.ViewTab.tipResumeMacro": "Resume recording",
   "PE.Views.ViewTab.tipSelectTool": "選択ツール",
-  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター"
+  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター",
+  "PE.Views.ViewTab.tipStopMacro": "Stop recording"
 }

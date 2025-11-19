@@ -163,7 +163,6 @@ DE.ApplicationController = new(function(){
                 api.asc_setDocInfo(docInfo);
                 api.asc_getEditorPermissions(config.licenseUrl, config.customerId);
                 api.asc_enableKeyEvents(true);
-                common.controller.Shortcuts.setApi(api);
 
                 Common.Analytics.trackEvent('Load', 'Start');
             }
@@ -248,7 +247,17 @@ DE.ApplicationController = new(function(){
             if (type == Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Form) { // hyperlink
                 me.isHideBodyTip = false;
 
-                var str = (type == Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? (me.txtPressLink.replace('%1', common.utils.isMac ? '⌘' : me.textCtrl)) : data.get_FormHelpText();
+                var str = '';
+                if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink) {
+                    var hyperProps = data.get_Hyperlink();
+                    if (!hyperProps) return;
+                    if (hyperProps.get_NoCtrl && hyperProps.get_NoCtrl())
+                        str = hyperProps.get_ToolTip() || hyperProps.get_Value();
+                    else
+                        str = me.txtPressLink.replace('%1', common.utils.isMac ? '⌘' : me.textCtrl);
+                } else
+                    str = data.get_FormHelpText();
+
                 if (str.length>500)
                     str = str.substr(0, 500) + '...';
                 str = common.utils.htmlEncode(str);
@@ -484,6 +493,8 @@ DE.ApplicationController = new(function(){
             share: '#idt-share',
             embed: '#idt-embed'
         });
+
+        common.controller.Shortcuts.setApi(api);
 
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
         api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
@@ -1005,14 +1016,12 @@ DE.ApplicationController = new(function(){
     }
 
     function onOpenLinkPdfForm(sURI, onAllow, onCancel) {
-        var re = new RegExp('ctrl|' + me.textCtrl, 'i'),
-            msg = common.utils.isMac ? me.txtSecurityWarningLink.replace(re, '⌘') : me.txtSecurityWarningLink;
         common.controller.modals.showWarning({
             title: me.notcriticalErrorTitle,
-            message: msg.replace('%1', sURI || ''),
+            message: me.txtSecurityWarningLinkOk.replace('%1', sURI || ''),
             buttons: [me.textOk, me.textCancel],
             callback: function(btn) {
-                if (btn == me.textOk && window.event && (!common.utils.isMac && window.event.ctrlKey == true || common.utils.isMac && window.event.metaKey)) {
+                if (btn == me.textOk) {
                     onAllow();
                 }
                 else
@@ -1192,5 +1201,6 @@ DE.ApplicationController = new(function(){
         textCancel: 'Cancel',
         txtSecurityWarningLink: 'This document is trying to connect to %1.<br>If you trust this site, press \"OK\" while holding down the ctrl key.',
         txtSecurityWarningOpenFile: 'This document is trying to open file dialog, press \"OK\" to open.',
+        txtSecurityWarningLinkOk: 'This document is trying to connect to %1.<br>If you trust this site, press \"OK\".'
     }
 })();

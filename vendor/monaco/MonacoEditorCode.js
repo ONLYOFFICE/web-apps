@@ -150,4 +150,19 @@ var _postMessage = function(msg) {
     } else {
         window.addEventListener('message', fn, false);
     }
+
+    var _onResize = function() {
+        var styleTag = document.getElementById('dynamic-styles');
+        if (!styleTag) {
+            styleTag = document.createElement('style');
+            styleTag.id = 'dynamic-styles';
+            document.head.appendChild(styleTag);
+        }
+        //Calculate tooltip height(20px - height text row)
+        var maxHeight = Math.min((window.innerHeight - 20) / 2, 250);
+        styleTag.textContent = `.monaco-hover { max-height: ${maxHeight}px !important; }`;
+    };
+
+    _onResize();
+    window.addEventListener('resize', _onResize);
 })(window, undefined);

@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "Makra",
   "PE.Views.ViewTab.textNormal": "Normální",
   "PE.Views.ViewTab.textNotes": "Poznámky",
+  "PE.Views.ViewTab.textPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.textRecMacro": "Record macro",
+  "PE.Views.ViewTab.textResumeMacro": "Resume recording",
   "PE.Views.ViewTab.textRightMenu": "Pravý panel",
   "PE.Views.ViewTab.textRulers": "Pravítka",
   "PE.Views.ViewTab.textShowGridlines": "Zobrazit mřížku",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "Chytrá vodítka",
   "PE.Views.ViewTab.textSnapObjects": "Připnout objekt k mřížce",
   "PE.Views.ViewTab.textStatusBar": "Stavová lišta",
+  "PE.Views.ViewTab.textStopMacro": "Stop recording",
   "PE.Views.ViewTab.textTabStyle": "Styl panelu",
   "PE.Views.ViewTab.textZoom": "Přiblížení",
   "PE.Views.ViewTab.tipFitToSlide": "Přizpůsobit snímku",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Vzhled uživatelského rozhraní",
   "PE.Views.ViewTab.tipMacros": "Makra",
   "PE.Views.ViewTab.tipNormal": "Normální",
+  "PE.Views.ViewTab.tipPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.tipRecMacro": "Record macro",
+  "PE.Views.ViewTab.tipResumeMacro": "Resume recording",
   "PE.Views.ViewTab.tipSelectTool": "Zvolit nástroj",
-  "PE.Views.ViewTab.tipSlideMaster": "Předloha snímků"
+  "PE.Views.ViewTab.tipSlideMaster": "Předloha snímků",
+  "PE.Views.ViewTab.tipStopMacro": "Stop recording"
 }

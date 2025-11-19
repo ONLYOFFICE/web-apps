@@ -875,6 +875,7 @@ define([
                     var clr,
                         effectcolors = Common.Utils.ThemeColor.getEffectColors();
 
+                    if (!effectcolors) return;
                     for (var i = 0; i < effectcolors.length; ++i) {
                         if (typeof(picker.currentColor) == 'object' &&
                             clr === undefined &&

@@ -3840,6 +3840,7 @@ define([
                     var clr;
 
                     var effectcolors = Common.Utils.ThemeColor.getEffectColors();
+                    if (!effectcolors) return;
                     for (var i = 0; i < effectcolors.length; i++) {
                         if (typeof(picker.currentColor) == 'object' &&
                             clr === undefined &&
@@ -3856,17 +3857,18 @@ define([
                 }
             };
 
-            updateColors(this.toolbar.mnuTextColorPicker, Common.Utils.ThemeColor.getStandartColors()[1]);
+            var stdColors = Common.Utils.ThemeColor.getStandartColors();
+            updateColors(this.toolbar.mnuTextColorPicker, stdColors ? stdColors[1] : undefined);
             if (this.toolbar.btnTextColor.currentColor === undefined || !this.toolbar.btnTextColor.currentColor.isAuto) {
-                this.toolbar.btnTextColor.currentColor=Common.Utils.ThemeColor.getStandartColors()[1];
+                this.toolbar.btnTextColor.currentColor=stdColors ? stdColors[1] : undefined;
                 this.toolbar.btnTextColor.setColor(this.toolbar.btnTextColor.currentColor);
             }
 
-            updateColors(this.toolbar.mnuBackColorPicker, Common.Utils.ThemeColor.getStandartColors()[3]);
+            updateColors(this.toolbar.mnuBackColorPicker, stdColors ? stdColors[3] : undefined);
             if (this.toolbar.btnBackColor.currentColor === undefined) {
-                this.toolbar.btnBackColor.currentColor=Common.Utils.ThemeColor.getStandartColors()[3];
+                this.toolbar.btnBackColor.currentColor=stdColors ? stdColors[3] : undefined;
             } else
-                this.toolbar.btnBackColor.currentColor = this.toolbar.mnuBackColorPicker.currentColor.color || this.toolbar.mnuBackColorPicker.currentColor;
+                this.toolbar.btnBackColor.currentColor = this.toolbar.mnuBackColorPicker.currentColor ? this.toolbar.mnuBackColorPicker.currentColor.color || this.toolbar.mnuBackColorPicker.currentColor : this.toolbar.mnuBackColorPicker.currentColor;
             this.toolbar.btnBackColor.setColor(this.toolbar.btnBackColor.currentColor);
 
             if (this._state.clrtext_asccolor!==undefined || this._state.clrshd_asccolor!==undefined) {
@@ -3885,7 +3887,7 @@ define([
                     var clr_item = this.toolbar.btnBorders.menu.$el.find('#id-toolbar-menu-auto-bordercolor > a');
                     !clr_item.hasClass('selected') && clr_item.addClass('selected');
                 }
-                this.toolbar.btnBorders.options.borderscolor = currentColor.color || currentColor;
+                this.toolbar.btnBorders.options.borderscolor = currentColor ? currentColor.color || currentColor : currentColor;
                 $('#id-toolbar-mnu-item-border-color > a .menu-item-icon').css('border-color', '#' + this.toolbar.btnBorders.options.borderscolor);
             }
         },

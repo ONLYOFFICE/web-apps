@@ -105,6 +105,13 @@ define([
                     'Diagram Title': this.txtDiagramTitle,
                     'X Axis': this.txtXAxis,
                     'Y Axis': this.txtYAxis,
+                    'Button': this.txtButton,
+                    'Group': this.txtGroup,
+                    'Checkbox': this.txtCheckbox,
+                    'Text': this.txtText,
+                    'Dropdown': this.txtDropdown,
+                    'Listbox': this.txtListbox,
+                    'Signature': this.txtSignature
                 };
             },
 
@@ -535,7 +542,7 @@ define([
                     this.api.asc_coAuthoringDisconnect();
                     Common.NotificationCenter.trigger('collaboration:sharingdeny');
                     Common.NotificationCenter.trigger('api:disconnect');
-                    !old_rights && Common.UI.TooltipManager.showTip({ step: 'changeRights', text: _.isEmpty(data.message) ? this.warnProcessRightsChange : data.message,
+                    !old_rights && Common.UI.TooltipManager.showTip({ step: 'changeRights', text: _.isEmpty(data.message) ? this.warnProcessRightsChange : Common.Utils.String.htmlEncode(data.message),
                         target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true,
                         callback: function() {
                             me._state.lostEditingRights = false;
@@ -1944,17 +1951,15 @@ define([
 
             onOpenLinkPdfForm: function(sURI, onAllow, onCancel) {
                 var id = 'pdf-link',
-                    re = new RegExp('ctrl|' + Common.Utils.String.textCtrl, 'i'),
-                    msg = Common.Utils.isMac ? this.txtSecurityWarningLink.replace(re, '⌘') : this.txtSecurityWarningLink,
                     config = {
                         closable: true,
                         title: this.notcriticalErrorTitle,
                         iconCls: 'warn',
                         buttons: ['ok', 'cancel'],
-                        msg: Common.Utils.String.format(msg, sURI || ''),
+                        msg: Common.Utils.String.format(this.txtSecurityWarningLinkOk, sURI || ''),
                         maxwidth: 600,
                         callback: _.bind(function(btn){
-                            if (btn == 'ok' && window.event && (!Common.Utils.isMac && window.event.ctrlKey == true || Common.Utils.isMac && window.event.metaKey)) {
+                            if (btn == 'ok') {
                                 onAllow();
                             }
                             else

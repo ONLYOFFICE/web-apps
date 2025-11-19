@@ -202,7 +202,7 @@ define([
             if (!opts.data || opts.data.error) {
                  var config = {
                     title: this.notcriticalErrorTitle,
-                    msg: opts.data && opts.data.error ? opts.data.error : this.txtErrorLoadHistory,
+                    msg: opts.data && opts.data.error ? Common.Utils.String.htmlEncode(opts.data.error) : this.txtErrorLoadHistory,
                     iconCls: 'warn',
                     buttons: ['ok']
                 };

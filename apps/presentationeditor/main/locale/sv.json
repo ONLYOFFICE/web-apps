@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "Macros",
   "PE.Views.ViewTab.textNormal": "Normal",
   "PE.Views.ViewTab.textNotes": "Anteckningar",
+  "PE.Views.ViewTab.textPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.textRecMacro": "Record macro",
+  "PE.Views.ViewTab.textResumeMacro": "Resume recording",
   "PE.Views.ViewTab.textRightMenu": "Höger panel",
   "PE.Views.ViewTab.textRulers": "Linjaler",
   "PE.Views.ViewTab.textShowGridlines": "Visa rutnät",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "Smart guides",
   "PE.Views.ViewTab.textSnapObjects": "Snap object to grid",
   "PE.Views.ViewTab.textStatusBar": "Statusmätare",
+  "PE.Views.ViewTab.textStopMacro": "Stop recording",
   "PE.Views.ViewTab.textTabStyle": "Tab style",
   "PE.Views.ViewTab.textZoom": "Förstora",
   "PE.Views.ViewTab.tipFitToSlide": "Anpassa till bild",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Gränssnittstema",
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
+  "PE.Views.ViewTab.tipPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.tipRecMacro": "Record macro",
+  "PE.Views.ViewTab.tipResumeMacro": "Resume recording",
   "PE.Views.ViewTab.tipSelectTool": "Välj verktyg",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.ViewTab.tipStopMacro": "Stop recording"
 }

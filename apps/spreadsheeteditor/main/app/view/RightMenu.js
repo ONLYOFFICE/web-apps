@@ -295,7 +295,7 @@ define([
                     Common.localStorage.setItem("sse-hide-right-settings", 0);
                     Common.Utils.InternalSettings.set("sse-hide-right-settings", false);
                 }
-                target_pane_parent.find('.settings-panel.active').removeClass('active');
+                target_pane_parent.find('.content-box > .active').removeClass('active');
                 target_pane && target_pane.addClass("active");
 
                 if (this.scroller) {
@@ -309,7 +309,6 @@ define([
                 Common.Utils.InternalSettings.set("sse-hide-right-settings", true);
             }
 
-            !isPlugin && $('.right-panel .plugin-panel').toggleClass('active', false);
             btn && !isPlugin && this.fireEvent('rightmenuclick', [this, btn.options.asctype, this.minimizedMode, e]);
         },
 
@@ -322,7 +321,7 @@ define([
             } else {
                 var target_pane = $("#" + this._settings[type].panel );
                 if ( !target_pane.hasClass('active') ) {
-                    target_pane.parent().find('.settings-panel.active').removeClass('active');
+                    target_pane.parent().find('> .active').removeClass('active');
                     target_pane.addClass("active");
                     if (this.scroller) {
                         this.scroller.update();
@@ -341,7 +340,7 @@ define([
 
         clearSelection: function() {
             var target_pane = $(".right-panel");
-            target_pane.find('.settings-panel.active').removeClass('active');
+            target_pane.find('.content-box > .active').removeClass('active');
             this._settings.forEach(function(item){
                 if (item.btn.isActive())
                     item.btn.toggle(false, true);
@@ -362,6 +361,10 @@ define([
         setButtons: function () {
             var allButtons = [this.btnCell, this.btnShape, this.btnImage, this.btnChart, this.btnText, this.btnTextArt, this.btnSlicer, this.btnSignature, this.btnPivot];
             Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
+        },
+
+        insertPanel: function ($panel) {
+            this.$el.find('.side-panel .content-box').append($panel);
         },
 
         updateWidth: function() {

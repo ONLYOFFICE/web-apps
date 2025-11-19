@@ -55,7 +55,6 @@
   "DE.ApplicationController.txtNo": "لا",
   "DE.ApplicationController.txtOpenWarning": "قد يكون النقر فوق هذا الرابط ضارًا بجهازك وبياناتك. لحماية حاسوبك، انقر فقط على الروابط التشعبية من مصادر موثوقة. قد يكون هذا الموقع غير آمن:<br>%1<br>أمتأكد أنك تريد المتابعة؟",
   "DE.ApplicationController.txtPressLink": "إضغط على %1 و إضغط على الرابط",
-  "DE.ApplicationController.txtSecurityWarningLink": "يحاول هذا المستند الاتصال بـ %1.<br>إذا كنت تثق بهذا الموقع، فاضغط على \"موافق\" مع الاستمرار في الضغط على مفتاح Ctrl.",
   "DE.ApplicationController.txtSecurityWarningOpenFile": "يحاول هذا المستند فتح مربع حوار الملفات، اضغط \"موافق\" للفتح.",
   "DE.ApplicationController.txtYes": "نعم",
   "DE.ApplicationController.unknownErrorText": "خطأ غير معروف.",
