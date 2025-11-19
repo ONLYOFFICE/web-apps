@@ -610,8 +610,10 @@ define([
         onHideAnnotSelectBar: function() {},
 
         editText: function() {
-            this.mode && !this.mode.isPDFEdit && Common.NotificationCenter.trigger('pdf:mode-apply', 'edit');
-            this.api && this.api.asc_EditPage();
+            var me = this;
+            this.mode && !this.mode.isPDFEdit && Common.NotificationCenter.trigger('pdf:mode-apply', 'edit', undefined, function() {
+                me.api && me.api.asc_EditPage();
+            });
         },
 
         clearSelection: function() {

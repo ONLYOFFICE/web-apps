@@ -205,7 +205,7 @@ define([
                     Common.NotificationCenter.on('showmessage',                     _.bind(this.onExternalMessage, this));
                     Common.NotificationCenter.on('showerror',                       _.bind(this.onError, this));
                     Common.NotificationCenter.on('editing:disable',                 _.bind(this.onEditingDisable, this));
-                    Common.NotificationCenter.on('pdf:mode-apply',                  _.bind(this.onPdfModeApply, this));
+                    Common.NotificationCenter.on('pdf:mode-apply',                  _.bind(this.onTryPdfModeApply, this));
 
                     this.isShowOpenDialog = false;
                     
@@ -1532,7 +1532,38 @@ define([
                 Common.Utils.InternalSettings.set("pdfe-config-region", region);
             },
 
-            onPdfModeApply: function(mode, activeTab) {
+            onTryPdfModeApply: function(mode, activeTab, callback, pwd) {
+                if (mode==='edit' && this.appOptions.canPDFEdit && !this.api.asc_CheckEditPassword(pwd!==undefined ? pwd : null)) {
+                    var me = this,
+                        newPwd,
+                        win = new Common.Views.OpenDialog({
+                            title: me.txtUnlockTitle,
+                            closable: true,
+                            type: Common.Utils.importTextType.DRM,
+                            txtOpenFile: me.txtDocUnlockDescription,
+                            validatePwd: pwd!==undefined,
+                            handler: function (result, value) {
+                                if (result === 'ok') {
+                                    if (value && value.drmOptions && me.api.asc_CheckEditPassword(value.drmOptions.asc_getPassword()))
+                                        me.onPdfModeApply(mode, activeTab, callback);
+                                    else
+                                        newPwd = value.drmOptions.asc_getPassword();
+                                }
+                            }
+                        }).on('close', function() {
+                            if (newPwd!==undefined)
+                                setTimeout(function() {
+                                    me.onTryPdfModeApply(mode, activeTab, callback, newPwd);
+                                }, 100);
+                            else
+                                Common.NotificationCenter.trigger('pdf:mode-changed', me.appOptions);
+                        });
+                    win.show();
+                } else
+                    this.onPdfModeApply(mode, activeTab, callback);
+            },
+
+            onPdfModeApply: function(mode, activeTab, callback) {
                 if (!this.appOptions.canSwitchMode) return;
 
                 if (mode==='edit' && this.appOptions.canPDFEdit) {
@@ -1553,6 +1584,7 @@ define([
                 app.getController('ViewTab').applyEditorMode();
                 app.getController('DocumentHolder').applyEditorMode();
                 app.getController('LeftMenu').leftMenu.getMenu('file').applyMode();
+                callback && callback.call();
             },
 
             onPdfModeCoAuthApply: function() {

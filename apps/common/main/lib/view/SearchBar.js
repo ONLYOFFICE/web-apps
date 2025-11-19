@@ -79,7 +79,7 @@ define([
             Common.UI.Window.prototype.initialize.call(this, this.options);
 
             Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));
-            Common.NotificationCenter.on('pdf:mode-apply', _.bind(this.onModeChanged, this));
+            Common.NotificationCenter.on('pdf:mode-changed', _.bind(this.onModeChanged, this));
             $(window).on('resize', _.bind(this.onLayoutChanged, this));
         },
 
@@ -219,8 +219,9 @@ define([
             this.$window.css({left: left, top: top});
         },
 
-        onModeChanged: function (mode) {
-            this.mode = mode;
+        onModeChanged: function (config) {
+            if (!config) return;
+            this.mode = config.isPDFEdit ? 'edit' : (config.isPDFAnnotate ? 'comment' : 'view');
             this.btnOpenPanel.setVisible(this.mode !== 'edit')
             this.btnOpenPanelRedact.setVisible(this.mode == 'edit')
         },
