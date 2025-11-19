@@ -91,7 +91,7 @@ define([], function () { 'use strict';
                 allowBlank  : true
                 // validateOnChange: true
             });
-            this.txtCellRef.on('button:click', _.bind(this.onSelectData, this));
+            this.txtCellRef.on('button:click', _.bind(this.onSelectData, this, Asc.c_oAscSelectionDialogType.Chart));
 
             this.txtConstraint = new Common.UI.InputFieldBtn({
                 el          : this.$window.find('#id-dlg-constraint-constr'),
@@ -101,7 +101,7 @@ define([], function () { 'use strict';
                 allowBlank  : true
                 // validateOnChange: true
             });
-            this.txtConstraint.on('button:click', _.bind(this.onSelectData, this));
+            this.txtConstraint.on('button:click', _.bind(this.onSelectData, this, Asc.c_oAscSelectionDialogType.Solver_Constraint));
 
             this.cmbOperator = new Common.UI.ComboBox({
                 el: this.$window.find('#id-dlg-constraint-operator'),
@@ -185,15 +185,10 @@ define([], function () { 'use strict';
             var isvalid = true,
                 txtError = '',
                 value;
-            if (_.isEmpty(this.txtCellRef.getValue())) {
+            value = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtCellRef.getValue(), true);
+            if (value != Asc.c_oAscError.ID.No) {
+                txtError = this.txtNotValidRef;
                 isvalid = false;
-                txtError = this.txtEmptyRef;
-            } else {
-                value = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtCellRef.getValue(), true);
-                if (value != Asc.c_oAscError.ID.No) {
-                    txtError = ''; // TODO: check errors
-                    isvalid = false;
-                }
             }
             if (!isvalid) {
                 this.txtCellRef.showError([txtError]);
@@ -201,16 +196,18 @@ define([], function () { 'use strict';
                 return isvalid;
             }
 
-            if (_.isEmpty(this.txtConstraint.getValue())) {
-                isvalid = false;
-                txtError = this.txtEmptyConstraint;
-            } else {
-                value = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtConstraint.getValue(), true);
-                if (value != Asc.c_oAscError.ID.No) {
-                    txtError = ''; // // TODO: check errors
+            // if (_.isEmpty(this.txtConstraint.getValue())) {
+            //     isvalid = false;
+            //     txtError = this.textDataConstraint;
+            // } else {
+                value = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Solver_Constraint, this.txtConstraint.getValue(), true);
+                if (value !== Asc.c_oAscError.ID.No) {
+                    if (value === Asc.c_oAscError.ID.DataConstraintError) {
+                        txtError = this.textDataConstraint;
+                    }
                     isvalid = false;
                 }
-            }
+            // }
             if (!isvalid) {
                 this.txtConstraint.showError([txtError]);
                 this.txtConstraint.focus();
@@ -220,7 +217,7 @@ define([], function () { 'use strict';
             return isvalid;
         },
 
-        onSelectData: function(input) {
+        onSelectData: function(type, input) {
             var me = this;
             if (me.api) {
                 var handlerDlg = function(dlg, result) {
@@ -241,7 +238,7 @@ define([], function () { 'use strict';
                 win.setSettings({
                     api     : me.api,
                     range   : input.getValue(),
-                    type    : Asc.c_oAscSelectionDialogType.Chart,
+                    type    : type,
                     validation: function() {return true;}
                 });
             }

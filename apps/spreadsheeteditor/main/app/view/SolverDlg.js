@@ -456,7 +456,7 @@ define([
                 win.setSettings({
                     api     : me.api,
                     range   : input.getValue(),
-                    type    : Asc.c_oAscSelectionDialogType.Chart,
+                    type    : Asc.c_oAscSelectionDialogType.Solver_VariableCell,
                     validation: function() {return true;}
                 });
             }
@@ -646,17 +646,16 @@ define([
                 txtError = '',
                 value;
 
-            if (_.isEmpty(this.txtObjectiveRange.getValue())) {
-                isvalid = false;
-                txtError = this.txtEmpty;
-            } else {
-                value = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Solver_ObjectiveCell, this.txtObjectiveRange.getValue(), true);
-                if (value != Asc.c_oAscError.ID.No) {
-                    if (value == Asc.c_oAscError.ID.MustContainFormula) {
-                        txtError = this.textMustContainFormula;
-                    }
-                    isvalid = false;
+            value = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Solver_ObjectiveCell, this.txtObjectiveRange.getValue(), true);
+            if (value !== Asc.c_oAscError.ID.No) {
+                if (value === Asc.c_oAscError.ID.MustContainFormula) {
+                    txtError = this.textMustContainFormula;
+                } else if (value === Asc.c_oAscError.ID.MustSingleCell) {
+                    txtError = this.textMustSingleCell;
+                } else if (value === Asc.c_oAscError.ID.DataRangeError) {
+                    txtError = this.textDataRange;
                 }
+                isvalid = false;
             }
             if (!isvalid) {
                 this.txtObjectiveRange.showError([txtError]);
@@ -680,15 +679,14 @@ define([
 
             }
 
-            if (_.isEmpty(this.txtVarsRange.getValue())) {
-                isvalid = false;
-                txtError = this.txtEmpty;
-            } else {
-                value = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtVarsRange.getValue(), true);
-                if (value != Asc.c_oAscError.ID.No) {
-                    txtError = ''; // check errors
-                    isvalid = false;
+            value = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Solver_VariableCell, this.txtVarsRange.getValue(), true);
+            if (value != Asc.c_oAscError.ID.No) {
+                if (value === Asc.c_oAscError.ID.TooManyVarCellsSolver) {
+                    txtError = this.textManyVarCells;
+                } else if (value === Asc.c_oAscError.ID.DataRangeError) {
+                    txtError = this.textDataRange;
                 }
+                isvalid = false;
             }
             if (!isvalid) {
                 this.txtVarsRange.showError([txtError]);

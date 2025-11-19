@@ -565,7 +565,7 @@ define([
                 }],
                 primary: 'ok',
                 callback: function (btn) {
-                    (btn === 'cancel') ? me.api.asc_StopSolver() : me.api.asc_StepSolver();
+                    (btn === 'cancel') ? me.api.asc_StopSolver() : me.api.asc_ContinueSolver();
                 }
             });
         },

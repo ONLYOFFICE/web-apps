@@ -920,6 +920,11 @@ define([
                         text    = this.loadingDocumentTitleText;
                         break;
 
+                    case Asc.c_oAscAsyncAction['SolverLookingSolution']:
+                        title   = this.txtSolverLookingSolution;
+                        text    = this.txtSolverLookingSolution;
+                        break;
+
                     case Asc.c_oAscAsyncAction['Disconnect']:
                         title    = this.textDisconnect;
                         text     = this.textDisconnect;
@@ -2274,6 +2279,10 @@ define([
 
                     case Asc.c_oAscError.ID.NotUniqueFieldWithCalculated:
                         config.msg = this.errorNotUniqueFieldWithCalculated;
+                        break;
+
+                    case Asc.c_oAscError.ID.LockedCellSolver:
+                        config.msg = this.errorLockedCellSolver;
                         break;
 
                     default:
