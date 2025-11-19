@@ -12,129 +12,148 @@ import IconPlusAndroid from '@common-android-icons/icon-plus.svg?android';
 import { WheelColorPicker } from "../component/WheelColorPicker";
 import { Device } from "../../utils/device";
 
-export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, addCustomColor, enableErasing, attachBackdropSwipeClose, removeBackdropSwipeClose }) => {
-  const { t } = useTranslation();
-  const _t = t('Draw', { returnObjects: true });
+export const DrawView = ({
+                             currentTool,
+                             setTool,
+                             settings,
+                             setSettings,
+                             colors,
+                             addCustomColor,
+                             enableErasing,
+                             attachBackdropSwipeClose,
+                             removeBackdropSwipeClose
+                         }) => {
+    const { t } = useTranslation();
+    const _t = t('Draw', { returnObjects: true });
 
-  const pickerRef = React.useRef(null);
-  const isDrawingTool = currentTool === 'pen' || currentTool === 'highlighter';
-  const currentSettings = settings[currentTool] || {};
-  const currentColor = currentSettings.color || '#000000';
+    const pickerRef = React.useRef(null);
+    const isDrawingTool = currentTool === 'pen' || currentTool === 'highlighter';
+    const currentSettings = settings[currentTool] || {};
+    const currentColor = currentSettings.color || '#000000';
 
-  return (
-    <React.Fragment>
-      {isDrawingTool && (<>
-        <Sheet className='draw-sheet draw-sheet--color-picker' backdrop swipeToClose onSheetOpened={() => {
-            attachBackdropSwipeClose();
-        }} onSheetClosed={() => {
-            f7.sheet.open('.draw-sheet--settings');
-            removeBackdropSwipeClose();
-        }}>
-          <div className='draw-sheet-label'><span>{_t.textCustomColor}</span></div>
-          <WheelColorPicker
-            ref={pickerRef}
-            initialColor={settings[currentTool].color}
-            onSelectColor={(color) => {
-              f7.sheet.close('.draw-sheet--color-picker')
-              addCustomColor(color)
-            }}
-          />
-        </Sheet>
+    return (
+        <React.Fragment>
+            {isDrawingTool && (<>
+                <Sheet className='draw-sheet draw-sheet--color-picker' backdrop swipeToClose onSheetOpened={() => {
+                    attachBackdropSwipeClose();
+                }} onSheetClosed={() => {
+                    f7.sheet.open('.draw-sheet--settings');
+                    removeBackdropSwipeClose();
+                }}>
+                    <div className='draw-sheet-label'><span>{_t.textCustomColor}</span></div>
+                    <WheelColorPicker
+                        ref={pickerRef}
+                        initialColor={settings[currentTool].color}
+                        onSelectColor={(color) => {
+                            f7.sheet.close('.draw-sheet--color-picker')
+                            addCustomColor(color)
+                        }}
+                    />
+                </Sheet>
 
-        <Sheet className="draw-sheet draw-sheet--settings" backdrop swipeToClose onSheetOpen={() => {document.activeElement?.blur()}} onSheetOpened={attachBackdropSwipeClose} onSheetClosed={removeBackdropSwipeClose} style={{ height: 'auto' }}>
-          <div id='swipe-handler' className='swipe-container'>
-            <Icon icon='icon icon-swipe'/>
-          </div>
-          <div className='draw-sheet-label'><span>{_t.textColor}</span></div>
-          <div className='draw-sheet--settings-colors'>
-            <div className="draw-sheet--settings-colors-list">
-              {colors.map((color, index) => {
+                <Sheet className="draw-sheet draw-sheet--settings" backdrop swipeToClose onSheetOpen={() => {
+                    document.activeElement?.blur()
+                }} onSheetOpened={attachBackdropSwipeClose} onSheetClosed={removeBackdropSwipeClose}
+                       style={{ height: 'auto' }}>
+                    <div id='swipe-handler' className='swipe-container'>
+                        <Icon icon='icon icon-swipe'/>
+                    </div>
+                    <div className='draw-sheet-label'><span>{_t.textColor}</span></div>
+                    <div className='draw-sheet--settings-colors'>
+                        <div className="draw-sheet--settings-colors-list">
+                            {colors.map((color, index) => {
 
-                  const isSelected = color.toLowerCase() === currentColor.toLowerCase();
-                return (<div
-                  key={index}
-                  className="draw-sheet--settings-colors-list-item"
-                  style={{ backgroundColor: color }}
-                  data-selected={isSelected}
-                  onClick={() => setSettings({ color })}
-                  onTouchStart={() => setSettings({ color })}
-                />)
-              })}
-              <div
-                className="draw-sheet--settings-colors-list-add" style={{ backgroundColor: settings[currentTool].color }}
-                onClick={() => {
-                    f7.sheet.close('.draw-sheet--settings');
-                    f7.sheet.open('.draw-sheet--color-picker');
-                    pickerRef.current?.update();
-                }}
-              >
-                  {Device.ios
-                      ? (<SvgIcon slot="media" symbolId={IconPlusIos.id} className='icon icon-svg' />)
-                      : (<SvgIcon slot="media" symbolId={IconPlusAndroid.id} className='icon icon-svg white' />)
-                  }
-              </div>
+                                const isSelected = color.toLowerCase() === currentColor.toLowerCase();
+                                return (<div
+                                    key={index}
+                                    className="draw-sheet--settings-colors-list-item"
+                                    style={{ backgroundColor: color }}
+                                    data-selected={isSelected}
+                                    onClick={() => setSettings({ color })}
+                                    onTouchStart={() => setSettings({ color })}
+                                />)
+                            })}
+                            <div
+                                className="draw-sheet--settings-colors-list-add"
+                                style={{ backgroundColor: settings[currentTool].color }}
+                                onClick={() => {
+                                    f7.sheet.close('.draw-sheet--settings');
+                                    f7.sheet.open('.draw-sheet--color-picker');
+                                    pickerRef.current?.update();
+                                }}
+                            >
+                                {Device.ios
+                                    ? (<SvgIcon slot="media" symbolId={IconPlusIos.id} className='icon icon-svg'/>)
+                                    : (<SvgIcon slot="media" symbolId={IconPlusAndroid.id}
+                                                className='icon icon-svg white'/>)
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div className='draw-sheet-label'><span>{_t.textLineSize}</span></div>
+                    <div className='draw-sheet-item'>
+                        {/*{Device.android ? (*/}
+                        <Range
+                            min={0.5} max={10} step={0.5} value={settings[currentTool].lineSize}
+                            onRangeChange={(value) => setSettings({ lineSize: value })}
+                        />
+                        {/*) : (*/}
+                        {/*   <input className='line-size-range--ios' type='range' min={0.5} max={10} step={0.5} value={settings[currentTool].lineSize} onChange={(e) => setSettings({ lineSize: parseInt(e.target.value) })} />*/}
+                        {/* )}*/}
+                    </div>
+                    <div className='draw-sheet-label'><span>{_t.textOpacity}</span></div>
+                    <div className='draw-sheet-item'>
+                        <input style={{ '--color': settings[currentTool].color }}
+                               className={Device.android ? 'opacity-range-input--android' : 'opacity-range-input--ios'}
+                               type='range' min={0} max={100} step={1}
+                               value={settings[currentTool].opacity}
+                               onChange={(e) => setSettings({ opacity: parseInt(e.target.value) })}/>
+                    </div>
+                </Sheet>
+            </>)}
+            <div className="draw-toolbar">
+                <div className="draw-toolbar-item">
+                    <Button type='button' fill={currentTool === 'pen'} onClick={() => setTool('pen')}>
+                        <SvgIcon symbolId={IconDrawPen.id} className='icon icon-svg'/>
+                    </Button>
+                </div>
+                <div className="draw-toolbar-item">
+                    <Button type='button' fill={currentTool === 'highlighter'} onClick={() => setTool('highlighter')}>
+                        <SvgIcon symbolId={IconDrawHighlighter.id} className='icon icon-svg'/>
+                    </Button>
+                </div>
+                <div className="draw-toolbar-item">
+                    <Button type='button' sheetOpen={isDrawingTool ? ".draw-sheet--settings" : undefined}
+                            disabled={!isDrawingTool}>
+                        <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50%" cy="50%" r="8" fill={settings[currentTool]?.color || '#808080'}/>
+                        </svg>
+                    </Button>
+                </div>
+                <div className="draw-toolbar-item">
+                    <div className='draw-toolbar-divider'/>
+                </div>
+                <div className="draw-toolbar-item">
+                    <Button type='button' disabled={!enableErasing} fill={currentTool === 'eraser'}
+                            onClick={() => setTool('eraser')}>
+                        <SvgIcon symbolId={IconClearObject.id} className='icon icon-svg'/>
+                    </Button>
+                </div>
+                <div className="draw-toolbar-item">
+                    <Button type='button' disabled={!enableErasing} onClick={() => setTool('eraseEntireScreen')}>
+                        <SvgIcon symbolId={IconClearAll.id} className='icon icon-svg'/>
+                    </Button>
+                </div>
+                <div className="draw-toolbar-item">
+                    <div className='draw-toolbar-divider'/>
+                </div>
+                <div className="draw-toolbar-item">
+                    <Button type='button' fill={currentTool === 'scroll'} onClick={() => setTool('scroll')}
+                            tabIndex='-1'>
+                        <SvgIcon symbolId={IconScroll.id} className='icon icon-svg'/>
+                    </Button>
+                </div>
             </div>
-          </div>
-          <div className='draw-sheet-label'><span>{_t.textLineSize}</span></div>
-          <div className='draw-sheet-item'>
-            {/*{Device.android ? (*/}
-            <Range
-              min={0.5} max={10} step={0.5} value={settings[currentTool].lineSize}
-              onRangeChange={(value) => setSettings({ lineSize: value })}
-            />
-            {/*) : (*/}
-            {/*   <input className='line-size-range--ios' type='range' min={0.5} max={10} step={0.5} value={settings[currentTool].lineSize} onChange={(e) => setSettings({ lineSize: parseInt(e.target.value) })} />*/}
-            {/* )}*/}
-          </div>
-          <div className='draw-sheet-label'><span>{_t.textOpacity}</span></div>
-          <div className='draw-sheet-item'>
-            <input style={{ '--color': settings[currentTool].color }}
-                   className={Device.android ? 'opacity-range-input--android' : 'opacity-range-input--ios'} type='range' min={0} max={100} step={1}
-                   value={settings[currentTool].opacity}
-                   onChange={(e) => setSettings({ opacity: parseInt(e.target.value) })}/>
-          </div>
-        </Sheet>
-      </>)}
-      <div className="draw-toolbar">
-        <div className="draw-toolbar-item">
-          <Button type='button' fill={currentTool === 'pen'} onClick={() => setTool('pen')}>
-            <SvgIcon symbolId={IconDrawPen.id} className='icon icon-svg'/>
-          </Button>
-        </div>
-        <div className="draw-toolbar-item">
-          <Button type='button' fill={currentTool === 'highlighter'} onClick={() => setTool('highlighter')}>
-            <SvgIcon symbolId={IconDrawHighlighter.id} className='icon icon-svg'/>
-          </Button>
-        </div>
-        <div className="draw-toolbar-item">
-          <Button type='button' sheetOpen={isDrawingTool ? ".draw-sheet--settings" : undefined} disabled={!isDrawingTool}>
-            <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="50%" cy="50%" r="8" fill={settings[currentTool]?.color || '#808080'}/>
-            </svg>
-          </Button>
-        </div>
-        <div className="draw-toolbar-item">
-          <div className='draw-toolbar-divider'/>
-        </div>
-        <div className="draw-toolbar-item">
-          <Button type='button' disabled={!enableErasing} fill={currentTool === 'eraser'} onClick={() => setTool('eraser')}>
-            <SvgIcon symbolId={IconClearObject.id} className='icon icon-svg'/>
-          </Button>
-        </div>
-        <div className="draw-toolbar-item">
-          <Button type='button' disabled={!enableErasing} onClick={() => setTool('eraseEntireScreen')}>
-            <SvgIcon symbolId={IconClearAll.id} className='icon icon-svg'/>
-          </Button>
-        </div>
-        <div className="draw-toolbar-item">
-          <div className='draw-toolbar-divider'/>
-        </div>
-        <div className="draw-toolbar-item">
-          <Button type='button' fill={currentTool === 'scroll'} onClick={() => setTool('scroll')} tabIndex='-1'>
-            <SvgIcon symbolId={IconScroll.id} className='icon icon-svg'/>
-          </Button>
-        </div>
-      </div>
-    </React.Fragment>
-  )
+        </React.Fragment>
+    )
 }

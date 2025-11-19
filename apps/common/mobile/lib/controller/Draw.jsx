@@ -6,8 +6,8 @@ import { LocalStorage } from '../../utils/LocalStorage.mjs';
 import { f7 } from 'framework7-react';
 
 const DEFAULT_TOOL_SETTINGS = {
-  pen: { color: '#FF0000', opacity: 100, lineSize: 2 },
-  highlighter: { color: '#FFFC54', opacity: 50, lineSize: 5 },
+    pen: { color: '#FF0000', opacity: 100, lineSize: 2 },
+    highlighter: { color: '#FFFC54', opacity: 50, lineSize: 5 },
 }
 const DEFAULT_ANDROID_COLORS = ['#FF0000', '#FFC000', '#FFFF00', '#92D050', '#00B050', '#00B0F0', '#0070C0', '#002060', '#C00000']
 const DEFAULT_IOS_COLORS = ['#FFFC54', '#72F54A', '#74F9FD', '#EB51F7', '#A900F9', '#FF0303', '#EF8B3A', '#D3D3D4', '#000000']
@@ -23,26 +23,26 @@ const createStroke = (color, lineSize, opacity) => {
 };
 
 export const DrawController = inject('storeAppOptions')(observer(({ storeAppOptions }) => {
-  const [currentTool, setCurrentTool] = useState(null);
-  const [toolSettings, setToolSettings] = useState(() => {
-    const stored = LocalStorage.getJson('draw-settings');
-    return stored || DEFAULT_TOOL_SETTINGS;
-  });
-  const [colors, setColors] = useState(() => {
-    const storageColors = LocalStorage.getJson('draw-colors', []);
-    if (!storageColors.length) {
-      return Device.android ? DEFAULT_ANDROID_COLORS : DEFAULT_IOS_COLORS
-    }
-    return storageColors
-  })
-  const [enableErasing, setEnableErasing] = useState(true);
+    const [currentTool, setCurrentTool] = useState(null);
+    const [toolSettings, setToolSettings] = useState(() => {
+        const stored = LocalStorage.getJson('draw-settings');
+        return stored || DEFAULT_TOOL_SETTINGS;
+    });
+    const [colors, setColors] = useState(() => {
+        const storageColors = LocalStorage.getJson('draw-colors', []);
+        if (!storageColors.length) {
+            return Device.android ? DEFAULT_ANDROID_COLORS : DEFAULT_IOS_COLORS
+        }
+        return storageColors
+    })
+    const [enableErasing, setEnableErasing] = useState(true);
 
-  const onApiFocusObject = React.useCallback(() => {
-      if (storeAppOptions.isDrawMode && currentTool !== 'scroll') {
-          const api = Common.EditorApi.get();
-          setEnableErasing(api.asc_HaveInks());
-      }
-  }, [storeAppOptions.isDrawMode, currentTool]);
+    const onApiFocusObject = React.useCallback(() => {
+        if (storeAppOptions.isDrawMode && currentTool !== 'scroll') {
+            const api = Common.EditorApi.get();
+            setEnableErasing(api.asc_HaveInks());
+        }
+    }, [storeAppOptions.isDrawMode, currentTool]);
 
     const toolActions = React.useMemo(() => ({
         pen: (api, settings) => api.asc_StartDrawInk(createStroke(settings.pen.color, settings.pen.lineSize, settings.pen.opacity)),
@@ -52,86 +52,86 @@ export const DrawController = inject('storeAppOptions')(observer(({ storeAppOpti
         scroll: (api) => api.asc_StopInkDrawer(),
     }), []);
 
-  useEffect(() => {
-    const handleDrawStart = () => {
-      storeAppOptions.changeDrawMode(true);
-      setCurrentToolAndApply('pen');
+    useEffect(() => {
+        const handleDrawStart = () => {
+            storeAppOptions.changeDrawMode(true);
+            setCurrentToolAndApply('pen');
+        };
+
+        const handleDrawStop = () => {
+            storeAppOptions.changeDrawMode(false);
+            setCurrentToolAndApply('scroll');
+        };
+
+        const handleEngineCreated = (api) => {
+            api.asc_registerCallback(
+                window.editorType === 'sse' ? 'asc_onSelectionChanged' : 'asc_onFocusObject',
+                onApiFocusObject
+            );
+        };
+
+        Common.Notifications.on('draw:start', handleDrawStart);
+        Common.Notifications.on('draw:stop', handleDrawStop);
+        Common.Notifications.on('engineCreated', handleEngineCreated);
+
+        return () => {
+            Common.Notifications.off('draw:start', handleDrawStart);
+            Common.Notifications.off('draw:stop', handleDrawStop);
+            Common.Notifications.off('engineCreated', handleEngineCreated);
+        };
+    }, [storeAppOptions, toolActions, toolSettings, onApiFocusObject]);
+
+    const setCurrentToolAndApply = (tool) => {
+        const api = Common.EditorApi.get();
+        if (tool === 'eraseEntireScreen') {
+            toolActions.eraseEntireScreen(api);
+            toolActions[currentTool]?.(api, toolSettings);
+            setEnableErasing(false);
+        } else {
+            setCurrentTool(tool);
+            toolActions[tool]?.(api, toolSettings);
+        }
     };
 
-    const handleDrawStop = () => {
-      storeAppOptions.changeDrawMode(false);
-      setCurrentToolAndApply('scroll');
+    const updateToolSettings = (newSettings) => {
+        setToolSettings(prev => {
+            const updatedSettings = { ...prev, [currentTool]: { ...prev[currentTool], ...newSettings } };
+            const api = Common.EditorApi.get();
+            toolActions[currentTool]?.(api, updatedSettings);
+            LocalStorage.setJson('draw-settings', updatedSettings)
+            return updatedSettings;
+        });
     };
 
-    const handleEngineCreated = (api) => {
-      api.asc_registerCallback(
-        window.editorType === 'sse' ? 'asc_onSelectionChanged' : 'asc_onFocusObject',
-        onApiFocusObject
-      );
-    };
-
-    Common.Notifications.on('draw:start', handleDrawStart);
-    Common.Notifications.on('draw:stop', handleDrawStop);
-    Common.Notifications.on('engineCreated', handleEngineCreated);
-
-    return () => {
-      Common.Notifications.off('draw:start', handleDrawStart);
-      Common.Notifications.off('draw:stop', handleDrawStop);
-      Common.Notifications.off('engineCreated', handleEngineCreated);
-    };
-  }, [storeAppOptions, toolActions, toolSettings, onApiFocusObject]);
-
-  const setCurrentToolAndApply = (tool) => {
-    const api = Common.EditorApi.get();
-    if (tool === 'eraseEntireScreen') {
-      toolActions.eraseEntireScreen(api);
-      toolActions[currentTool]?.(api, toolSettings);
-      setEnableErasing(false);
-    } else {
-      setCurrentTool(tool);
-      toolActions[tool]?.(api, toolSettings);
+    const addCustomColor = (color) => {
+        const updatedColors = [...colors, color]
+        setColors(updatedColors)
+        updateToolSettings({ color })
+        LocalStorage.setJson('draw-colors', updatedColors)
     }
-  };
 
-  const updateToolSettings = (newSettings) => {
-    setToolSettings(prev => {
-      const updatedSettings = { ...prev, [currentTool]: { ...prev[currentTool], ...newSettings } };
-      const api = Common.EditorApi.get();
-      toolActions[currentTool]?.(api, updatedSettings);
-      LocalStorage.setJson('draw-settings', updatedSettings)
-      return updatedSettings;
-    });
-  };
+    const closeBackdropSheet = (e) => {
+        e.preventDefault();
+        f7.sheet.close();
+    }
 
-  const addCustomColor = (color) => {
-    const updatedColors = [...colors, color]
-    setColors(updatedColors)
-    updateToolSettings({ color })
-    LocalStorage.setJson('draw-colors', updatedColors)
-  }
+    const attachBackdropSwipeClose = () => {
+        document.querySelector('.sheet-backdrop')?.addEventListener('touchmove', closeBackdropSheet);
+    }
 
-  const closeBackdropSheet = (e) => {
-    e.preventDefault();
-    f7.sheet.close();
-  }
+    const removeBackdropSwipeClose = () => {
+        document.querySelector('.sheet-backdrop')?.removeEventListener('touchmove', closeBackdropSheet);
+    }
 
-  const attachBackdropSwipeClose = () => {
-    document.querySelector('.sheet-backdrop')?.addEventListener('touchmove', closeBackdropSheet);
-  }
-
-  const removeBackdropSwipeClose = () => {
-    document.querySelector('.sheet-backdrop')?.removeEventListener('touchmove', closeBackdropSheet);
-  }
-
-  return storeAppOptions.isDrawMode ? <DrawView
-    currentTool={currentTool}
-    setTool={setCurrentToolAndApply}
-    settings={toolSettings}
-    setSettings={updateToolSettings}
-    colors={colors}
-    addCustomColor={addCustomColor}
-    enableErasing={enableErasing}
-    attachBackdropSwipeClose={attachBackdropSwipeClose}
-    removeBackdropSwipeClose={removeBackdropSwipeClose}
-  /> : null
+    return storeAppOptions.isDrawMode ? <DrawView
+        currentTool={currentTool}
+        setTool={setCurrentToolAndApply}
+        settings={toolSettings}
+        setSettings={updateToolSettings}
+        colors={colors}
+        addCustomColor={addCustomColor}
+        enableErasing={enableErasing}
+        attachBackdropSwipeClose={attachBackdropSwipeClose}
+        removeBackdropSwipeClose={removeBackdropSwipeClose}
+    /> : null
 }));

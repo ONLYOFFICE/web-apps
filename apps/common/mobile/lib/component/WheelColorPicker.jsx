@@ -6,49 +6,49 @@ import IconPlusIos from '@common-ios-icons/icon-plus.svg?ios';
 import IconPlusAndroid from '@common-android-icons/icon-plus.svg?android';
 
 export const WheelColorPicker = ({ initialColor = '#ffffff', onSelectColor, ref }) => {
-  const [color, setColor] = useState(initialColor);
+    const [color, setColor] = useState(initialColor);
 
-  useEffect(() => {
-    if (!document.getElementsByClassName('color-picker-wheel').length) {
-      const picker = f7.colorPicker.create({
-        containerEl: document.getElementsByClassName('color-picker-container')[0],
-        value: { hex: initialColor },
-        on: { change: (value) => setColor(value.getValue().hex) }
-      });
+    useEffect(() => {
+        if (!document.getElementsByClassName('color-picker-wheel').length) {
+            const picker = f7.colorPicker.create({
+                containerEl: document.getElementsByClassName('color-picker-container')[0],
+                value: { hex: initialColor },
+                on: { change: (value) => setColor(value.getValue().hex) }
+            });
 
-      if (ref) {
-          if (typeof ref === 'function') {
-              ref(picker);
-          } else {
-              ref.current = picker;
-          }
-      }
-    }
-
-    return () => {
-        if (ref.current) {
-            ref.current.destroy();
-        } else if (document.getElementsByClassName('color-picker-wheel').length) {
-            f7.colorPicker.destroy('.color-picker-wheel');
+            if (ref) {
+                if (typeof ref === 'function') {
+                    ref(picker);
+                } else {
+                    ref.current = picker;
+                }
+            }
         }
-    }
-  }, [ref, initialColor]);
 
-  return (
-    <div id='color-picker'>
-      <div className='color-picker-container'/>
-      <div className='right-block'>
-        <div className='color-hsb-preview'>
-          <div className='new-color-hsb-preview' style={{ backgroundColor: color }}/>
-          <div className='current-color-hsb-preview' style={{ backgroundColor: initialColor }}/>
+        return () => {
+            if (ref.current) {
+                ref.current.destroy();
+            } else if (document.getElementsByClassName('color-picker-wheel').length) {
+                f7.colorPicker.destroy('.color-picker-wheel');
+            }
+        }
+    }, [ref, initialColor]);
+
+    return (
+        <div id='color-picker'>
+            <div className='color-picker-container'/>
+            <div className='right-block'>
+                <div className='color-hsb-preview'>
+                    <div className='new-color-hsb-preview' style={{ backgroundColor: color }}/>
+                    <div className='current-color-hsb-preview' style={{ backgroundColor: initialColor }}/>
+                </div>
+                <a href='#' id='add-new-color' className='button button-round' onClick={() => onSelectColor(color)}>
+                    {Device.ios ?
+                        <SvgIcon slot="media" symbolId={IconPlusIos.id} className='icon icon-svg'/> :
+                        <SvgIcon slot="media" symbolId={IconPlusAndroid.id} className='icon icon-svg white'/>
+                    }
+                </a>
+            </div>
         </div>
-        <a href='#' id='add-new-color' className='button button-round' onClick={() => onSelectColor(color)}>
-        {Device.ios ?
-          <SvgIcon slot="media" symbolId={IconPlusIos.id} className='icon icon-svg' /> :
-          <SvgIcon slot="media" symbolId={IconPlusAndroid.id} className='icon icon-svg white' />
-        }
-        </a>
-      </div>
-    </div>
-  )
+    )
 }
