@@ -3990,7 +3990,7 @@ define([
                     Array.prototype.push.apply(me.toolbar.paragraphControls, drawtab.getView().getButtons());
                 }
 
-                tab = {caption: this.toolbar.textTabHeaderFooter, action: 'headerfooter', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-headerfooter', dataHintTitle: 'S'};
+                tab = {caption: this.toolbar.textTabHeaderFooter, action: 'headerfooter', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-headerfooter', dataHintTitle: 'D'};
                 var headerfootertab = application.getController('HeaderFooterTab');
                 headerfootertab.setApi(me.api).setConfig({toolbar: me, mode: config});
                 $panel = headerfootertab.createToolbarPanel();

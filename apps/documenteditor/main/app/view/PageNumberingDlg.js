@@ -52,10 +52,7 @@ define([], function () {
                 cls: 'modal-dlg',
                 width: 350,
                 height: 'auto',
-                buttons: options.buttons ? options.buttons : [{
-                    value: 'ok',
-                    caption: 'Ok'
-                }, 'cancel']
+                buttons: options.buttons ? options.buttons : ['ok', 'cancel']
             }, options);
 
             this.recentNumTypes = [];
@@ -72,7 +69,7 @@ define([], function () {
                         '<div id="id-headerfooter-radio-from" style="margin-bottom: 8px; display: inline-block; vertical-align: middle;"></div>' +
                         '<div id="id-headerfooter-spin-from" style="margin-bottom: 8px; display: inline-block; vertical-align: middle; margin-left: 5px;"></div>' +
                     '</div>' +
-                    '<label id="id-headerfooter-label-format" class="input-label">Number format</label>' +
+                    `<label id="id-headerfooter-label-format" class="input-label">${t.textNumberFormat}</label>` +
                     '<div id="id-headerfooter-combo-format"></div>' +
                 '</div>'
             ].join('');
@@ -88,27 +85,20 @@ define([], function () {
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.rbPrev = new Common.UI.RadioBox({
-                el: $('#id-headerfooter-radio-prev'),
+                el: this.$window.find('#id-headerfooter-radio-prev'),
                 labelText: this.textPrev,
                 name: 'asc-radio-header-numbering',
-                checked: true,
-                dataHint: '1',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
             })
 
             this.rbFrom = new Common.UI.RadioBox({
-                el: $('#id-headerfooter-radio-from'),
+                el: this.$window.find('#id-headerfooter-radio-from'),
                 labelText: this.textFrom,
                 name: 'asc-radio-header-numbering',
-                checked: true,
-                dataHint: '1',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                checked: true
             })
 
             this.numFrom = new Common.UI.MetricSpinner({
-                el: $('#id-headerfooter-spin-from'),
+                el: this.$window.find('#id-headerfooter-spin-from'),
                 step: 1,
                 width: 85,
                 value: '1',
@@ -116,9 +106,6 @@ define([], function () {
                 maxValue: 2147483646,
                 minValue: 0,
                 allowDecimal: false,
-                dataHint: '1',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big',
                 ariaLabel: this.textFrom
             });
 
@@ -140,17 +127,15 @@ define([], function () {
             this.loadRecent();
 
             this.cmbFormat = new Common.UI.ComboBox({
-                el          : $('#id-headerfooter-combo-format'),
+                el          : this.$window.find('#id-headerfooter-combo-format'),
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100%;max-height: 220px;',
-                menuAlignEl: $(this.el).parent(),
+                menuAlignEl: this.$window.find(this.el).parent(),
                 restoreMenuHeightAndTop: 110,
                 style       : "width: 150px;",
+                takeFocusOnClose: true,
                 editable    : false,
-                data        : [],
-                dataHint: '1',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                data        : []
             });
 
             if (this.numbering < 0) {
@@ -216,7 +201,7 @@ define([], function () {
                     store.push({ displayValue: AscCommon.IntToNumberFormat(1, item, me.mode.lang) + ', ' + AscCommon.IntToNumberFormat(2, item, me.mode.lang) + ', ' + AscCommon.IntToNumberFormat(3, item, me.mode.lang) + ',...', value: item });
                 }
             });
-            store.push({ displayValue: 'More types', value: -2 });
+            store.push({ displayValue: this.textMoreTypes, value: -2 });
             this.cmbFormat.setData(store);
             this.cmbFormat.setValue(format !== Asc.c_oAscNumberingFormat.None && format !== undefined && format !== null ? format : '');
         },
@@ -276,8 +261,6 @@ define([], function () {
 
         _handleInput: function(state) {
             var me = this;
-            if (state === 'ok' && this.btnOk.isDisabled())
-                return;
 
             if (this.handler) {
                 if (state === 'ok') {
@@ -301,10 +284,6 @@ define([], function () {
 
         getSettings: function() {
 
-        },
-
-        SetDisabled: function(disabled) {
-            this.btnOk.setDisabled(disabled);
         },
 
     }, DE.Views.PageNumberingDlg || {}));
