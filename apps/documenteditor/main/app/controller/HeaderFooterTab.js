@@ -327,9 +327,6 @@ define([
                     accept();
                 })).then(function(){
                     me.view.setEvents();
-
-                    if (Common.Utils.InternalSettings.get('toolbar-active-tab')==='headerfooter')
-                        Common.NotificationCenter.trigger('tab:set-active', 'headerfooter');
                 });
             }
         },
