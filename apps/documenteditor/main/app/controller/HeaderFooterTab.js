@@ -53,7 +53,6 @@ define([
         sdkViewName : '#id_main',
 
         initialize: function () {
-            this._initSettings = true;
             this.spinners = [];
 
             this._state = {
@@ -125,8 +124,7 @@ define([
 
         ChangeSettings: function(prop) {
             var me = this;
-            if (this._initSettings)
-                this.createDelayedElements();
+            this.createDelayedElements();
 
             if (prop) {
                 var value = prop.get_HeaderMargin();
@@ -155,7 +153,6 @@ define([
 
                 value = prop.get_LinkToPrevious();
                 if ( this._state.SameAs!==value ) {
-                    this.view.chSameAs.setDisabled(value===null);
                     this.view.chSameAs.setValue(value==true, true);
                     this._state.SameAs=value;
                 }
@@ -169,14 +166,17 @@ define([
                 if ( this._state.NumFormat!==value) {
                     this._state.NumFormat = value;
                 }
+
+                Common.Utils.lockControls(Common.enumLock.linkToPrevious, this._state.SameAs===null, {array: [this.view.chSameAs]})
             }
         },
 
         createDelayedElements: function() {
-            this.spinners.push(this.view.numHeaderPosition);
-            this.spinners.push(this.view.numFooterPosition);
+            if (this.spinners.length === 0) {
+                this.spinners.push(this.view.numHeaderPosition);
+                this.spinners.push(this.view.numFooterPosition);
+            }
             this.updateMetricUnit();
-            this._initSettings = false;
         },
 
         updateMetricUnit: function() {
@@ -186,8 +186,8 @@ define([
                     spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
                     spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
                 }
-                this.numHeaderPosition && this.numHeaderPosition.setValue(Common.Utils.Metric.fnRecalcFromMM(this._state.HeaderPosition), true);
-                this.numFooterPosition && this.numFooterPosition.setValue(Common.Utils.Metric.fnRecalcFromMM(this._state.FooterPosition), true);
+                this.view.numHeaderPosition && this.view.numHeaderPosition.setValue(Common.Utils.Metric.fnRecalcFromMM(this._state.HeaderPosition), true);
+                this.view.numFooterPosition && this.view.numFooterPosition.setValue(Common.Utils.Metric.fnRecalcFromMM(this._state.FooterPosition), true);
             }
         },
 
@@ -199,9 +199,6 @@ define([
         onInsertPageNumberClick: function(picker, item, record, e) {
             if (this.api)
                 this.api.put_PageNum(record.get('data').type, record.get('data').subtype);
-
-            if (e.type !== 'click')
-                this.toolbar.btnEditHeader.menu.hide();
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },

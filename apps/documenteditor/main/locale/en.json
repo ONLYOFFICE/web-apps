@@ -2272,6 +2272,8 @@
   "DE.Views.DocProtection.txtUnlockTitle": "Unprotect document",
   "DE.Views.PageNumberingDlg.textPrev": "Continue from previous section",
   "DE.Views.PageNumberingDlg.textFrom": "Start at",
+  "DE.Views.PageNumberingDlg.textNumberFormat": "Number format",
+  "DE.Views.PageNumberingDlg.textMoreTypes": "More types",
   "DE.Views.DocumentHolder.aboveText": "Above",
   "DE.Views.DocumentHolder.addCommentText": "Add comment",
   "DE.Views.DocumentHolder.advancedDropCapText": "Drop cap settings",

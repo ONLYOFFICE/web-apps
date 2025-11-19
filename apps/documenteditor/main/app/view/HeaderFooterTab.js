@@ -145,15 +145,17 @@ define([
 
                 this.lblHeaderTop = new Common.UI.Label({
                     caption: this.capHeaderTop,
-                    lock: [_set.paragraphLock,]
+                    lock: [_set.paragraphLock, _set.headerLock, _set.viewMode, _set.docLockView]
                 });
                 this.lockedControls.push(this.lblHeaderTop);
+                this.paragraphControls.push(this.lblHeaderTop);
 
                 this.lblFooterBottom = new Common.UI.Label({
                     caption: this.capFooterBottom,
-                    lock: [_set.paragraphLock,]
+                    lock: [_set.paragraphLock, _set.headerLock, _set.viewMode, _set.docLockView]
                 });
                 this.lockedControls.push(this.lblFooterBottom);
+                this.paragraphControls.push(this.lblFooterBottom);
 
                 this.numHeaderPosition = new Common.UI.MetricSpinner({
                     step: .1,
@@ -163,14 +165,13 @@ define([
                     defaultValue : 0,
                     maxValue: 55.88,
                     minValue: 0,
-                    lock: [_set.headerLock],
+                    lock: [_set.headerLock, _set.viewMode, _set.docLockView],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big',
                 });
                 this.lockedControls.push(this.numHeaderPosition);
                 this.paragraphControls.push(this.numHeaderPosition);
-
                 this.numHeaderPosition.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
                 this.numFooterPosition = new Common.UI.MetricSpinner({
@@ -179,7 +180,7 @@ define([
                     value: '1.25 cm',
                     defaultUnit : "cm",
                     maxValue: 55.88,
-                    lock: [_set.headerLock],
+                    lock: [_set.headerLock, _set.viewMode, _set.docLockView],
                     minValue: 0,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -187,11 +188,12 @@ define([
                 });
                 this.lockedControls.push(this.numFooterPosition);
                 this.paragraphControls.push(this.numFooterPosition);
+                this.numFooterPosition.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
                 this.chDiffFirst = new Common.UI.CheckBox({
                     labelText: this.txtDiffFirst,
                     dataHint: '1',
-                    lock: [_set.headerLock],
+                    lock: [_set.headerLock, _set.viewMode, _set.docLockView],
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
                 });
@@ -201,7 +203,7 @@ define([
                 this.chDiffOddEven = new Common.UI.CheckBox({
                     labelText: this.txtDiffOddEven,
                     dataHint: '1',
-                    lock: [_set.headerLock],
+                    lock: [_set.headerLock, _set.viewMode, _set.docLockView],
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
                 });
@@ -211,7 +213,7 @@ define([
                 this.chSameAs = new Common.UI.CheckBox({
                     labelText: this.txtSameAs,
                     dataHint: '1',
-                    lock: [_set.headerLock],
+                    lock: [_set.headerLock, _set.linkToPrevious, _set.viewMode, _set.docLockView],
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
                 });
@@ -252,11 +254,11 @@ define([
                 _injectComponent('#slot-spin-header-top', this.numHeaderPosition);
                 _injectComponent('#slot-spin-footer-bot', this.numFooterPosition);
                 this.btnsHeaderFooter = Common.Utils.injectButtons($host.find('.btn-slot.slot-headerfooter').add(this.toolbar.$el.find('.btn-slot.slot-headerfooter')), '', 'toolbar__icon btn-editheader', this.txtHeaderFooter,
-                    [_set.previewReviewMode, _set.viewFormMode, _set.inEquation, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode], undefined, true, undefined, '1', 'bottom', 'small');
+                    [_set.previewReviewMode, _set.viewFormMode, _set.inEquation, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.viewMode], undefined, true, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.lockedControls, this.btnsHeaderFooter);
 
                 this.btnsPageNumber = Common.Utils.injectButtons($host.find('.btn-slot.slot-pagenumbers').add(this.toolbar.$el.find('.btn-slot.slot-pagenumbers')), '', 'toolbar__icon btn-pagenum', this.txtPageNumbering,
-                    [_set.previewReviewMode, _set.viewFormMode, _set.inEquation, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode], undefined, true, undefined, '1', 'bottom', 'small');
+                    [_set.previewReviewMode, _set.viewFormMode, _set.inEquation, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.viewMode], undefined, true, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.lockedControls, this.btnsPageNumber);
 
                 this.btnCloseTab && this.btnCloseTab.render($host.find('#slot-btn-close-tab'));
@@ -344,6 +346,7 @@ define([
                     }).on('item:click', function (picker, item, record, e) {
                         me.fireEvent('headerfooter:pospick', [picker, item, record, e]);
                     });
+                    button.menu.setInnerMenu([{menu: picker, index: 0}]);
 
                     me.mnuPageNumberPosPickers.push(picker);
                     me.numOfPages.push(me[`mnuPageNumOfPages${index}`]);
