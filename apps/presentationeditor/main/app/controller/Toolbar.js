@@ -206,9 +206,9 @@ define([
             Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
                 this.toolbar.collapse();
             }, this));
-            Common.NotificationCenter.on('tab:set-active', _.bind(function(action){
+            Common.NotificationCenter.on('tab:set-active', _.bind(function(action, needUnfold){
                 this.toolbar.setTab(action);
-                this.onChangeCompactView(null, false, true);
+                needUnfold && this.onChangeCompactView(null, false, true);
             }, this));
             
             var me = this;
