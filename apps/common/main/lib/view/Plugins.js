@@ -312,7 +312,7 @@ define([
                 cls: 'btn-toolbar x-huge icon-top',
                 iconCls: icon_cls,
                 iconsSet: this.iconsStr2IconsObj(icons),
-                baseUrl: model.get('baseUrl'), // icons have a relative path, so need to use the base url
+                baseUrl: model.get('baseUrl').replace(/\(/g, '%28').replace(/\)/g, '%29'), // icons have a relative path, so need to use the base url
                 caption: Common.Utils.String.htmlEncode(model.get('name')),
                 menu: _menu_items.length > 1,
                 split: _menu_items.length > 1,
