@@ -269,6 +269,7 @@ define([
             var frame_pr = undefined;
             var paragraph_locked = undefined;
             var in_header = false;
+            var in_equation = false;
 
             for (var i = 0; i < selected.length; i++) {
                 var pr = selected[i].get_ObjectValue();
@@ -279,6 +280,8 @@ define([
                 } else if (selected[i].asc_getObjectType() === Asc.c_oAscTypeSelectElement.Paragraph) {
                     frame_pr = selected[i].get_ObjectValue();
                     paragraph_locked = frame_pr.get_Locked();
+                } else if (selected[i].asc_getObjectType() === Asc.c_oAscTypeSelectElement.Math) {
+                    in_equation = true;
                 }
             };
 
@@ -290,6 +293,7 @@ define([
             Common.Utils.lockControls(Common.enumLock.paragraphLock, paragraph_locked,   {array: this.view.paragraphControls});
             Common.Utils.lockControls(Common.enumLock.headerLock, header_locked,   {array: this.view.paragraphControls});
             Common.Utils.lockControls(Common.enumLock.inHeader, !in_header,   {array: this.view.lockedControls});
+            Common.Utils.lockControls(Common.enumLock.inEquation, in_equation,   {array: this.view.getButtons('insertbtns')});
         },
 
         setConfig: function(config) {
