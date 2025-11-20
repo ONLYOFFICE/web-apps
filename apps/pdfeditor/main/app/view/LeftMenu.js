@@ -198,7 +198,7 @@ define([
                 this.fireEvent('comments:hide', this);
         },
 
-        onBtnMenuClick: function(btn, e, needDeactivateRedact) {
+        onBtnMenuClick: function(btn, e) {
             this.supressEvents = true;
             this.btnAbout.toggle(false);
 
@@ -218,7 +218,6 @@ define([
             btn.pressed && btn.options.action == 'advancedsearch' && this.fireEvent('search:aftershow', this);
             btn.options.type !== 'plugin' && $('.left-panel .plugin-panel').toggleClass('active', false);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
-            !needDeactivateRedact && this.fireEvent('search:hideredact');
         },
 
         onCoauthOptions: function(e) {
@@ -333,7 +332,7 @@ define([
                 }
                 if (this.panelSearch) {
                     this.panelSearch['hide']();
-                    this.btnSearchBar.toggle(false, true);
+                    this.btnSearchBar.toggle(false);
                 }
                 if (this.panelThumbnails) {
                     this.panelThumbnails['hide']();
@@ -364,7 +363,7 @@ define([
             this.setDisabledAllMoreMenuItems(false);
         },
 
-        showMenu: function(menu, opts, suspendAfter, needDeactivateRedact) {
+        showMenu: function(menu, opts, suspendAfter) {
             var re = /^(\w+):?(\w*)$/.exec(menu);
             if ( re[1] == 'file' ) {
                 if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
@@ -398,7 +397,7 @@ define([
                     if ((this.btnSearchBar.isVisible() || this.isButtonInMoreMenu(this.btnSearchBar)) &&
                         !this.btnSearchBar.isDisabled() && !this.btnSearchBar.pressed) {
                         this.btnSearchBar.toggle(true);
-                        this.onBtnMenuClick(this.btnSearchBar, undefined, needDeactivateRedact);
+                        this.onBtnMenuClick(this.btnSearchBar);
                         this.panelSearch.focus();
                         !suspendAfter && this.fireEvent('search:aftershow', this);
                     }

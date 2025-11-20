@@ -907,9 +907,16 @@ define([
             }
         },
 
-        onShowHideRedactSearch: function () {
-            this.leftMenu.showMenu('advancedsearch', undefined, true, true);
-            this.leftMenu.panelSearch.setSearchMode('redact');
+        onShowHideRedactSearch: function (state) {
+            if (state) {
+                Common.UI.Menu.Manager.hideAll();
+                this.tryToShowLeftMenu();
+                this.leftMenu.showMenu('advancedsearch', undefined, true);
+                this.leftMenu.panelSearch.setSearchMode('redact');
+            } else {
+                this.leftMenu.btnSearchBar.toggle(false, true);
+                this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);
+            }
         },
 
         onMenuSearchBar: function(obj, show) {

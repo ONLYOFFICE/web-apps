@@ -59,9 +59,6 @@ define([
                 },
                 'SearchBar': {
                     'search:showredact': _.bind(this.onToggleFindRedact, this, 'show')
-                },
-                'LeftMenu': {
-                    'search:hideredact': _.bind(this.onToggleFindRedact, this, 'hide')
                 }
             });
         },
@@ -299,6 +296,12 @@ define([
                 })).then(function(){
                     me.view.onAppReady(config);
                     me.view.setEvents();
+
+                    if (me.view.btnFindRedact) {
+                        me.getApplication().getController('LeftMenu').leftMenu.btnSearchBar.on('toggle', function (btn, state) {
+                            !state && me.view.turnFindRedact(state);
+                        });
+                    }
                 });
             }
             Common.UI.TooltipManager.addTips({
