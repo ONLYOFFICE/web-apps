@@ -588,9 +588,20 @@ define([
         },
 
         redactText: function(item, e, eOpt){
-            this.mode && !this.mode.isPDFEdit && Common.NotificationCenter.trigger('pdf:mode-apply', 'edit');
-            this.mode.isPDFEdit && Common.NotificationCenter.trigger('tab:set-active', 'red', false);
-            this.api && this.api.AddRedactBySelect();
+            if (this.mode) {
+                if (!this.mode.isPDFEdit) {
+                    var me = this;
+                    Common.NotificationCenter.trigger('pdf:mode-apply', 'edit', undefined, function() {
+                        if (me.mode.isPDFEdit) {
+                            Common.NotificationCenter.trigger('tab:set-active', 'red', false);
+                            me.api && me.api.AddRedactBySelect();
+                        }
+                    });
+                } else {
+                    Common.NotificationCenter.trigger('tab:set-active', 'red', false);
+                    this.api && this.api.AddRedactBySelect();
+                }
+            }
         },
 
         onCountPages: function(count) {
@@ -618,7 +629,7 @@ define([
         editText: function() {
             var me = this;
             this.mode && !this.mode.isPDFEdit && Common.NotificationCenter.trigger('pdf:mode-apply', 'edit', undefined, function() {
-                me.api && me.api.asc_EditPage();
+                me.api && me.mode.isPDFEdit && me.api.asc_EditPage();
             });
         },
 
