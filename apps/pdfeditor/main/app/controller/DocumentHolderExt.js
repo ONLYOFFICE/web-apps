@@ -960,6 +960,10 @@ define([], function () {
             btn.currentColor = color;
             btn.setColor(btn.currentColor);
             btn.getPicker().select(btn.currentColor, true);
+            if (annotType !== AscPDF.ANNOTATIONS_TYPES.Highlight) { // hide opacity for redact
+                btn.menu.items[btn.menu.items.length-1].setVisible(annotType !== AscPDF.ANNOTATIONS_TYPES.Redact);
+                btn.menu.items[btn.menu.items.length-2].setVisible(annotType !== AscPDF.ANNOTATIONS_TYPES.Redact);
+            }
 
             var showPoint = [(bounds[0] + bounds[2])/2 - textContainer.outerWidth()/2, me.lastAnnotSelBarOnTop ? bounds[1] - textContainer.outerHeight() - 10 : bounds[3] + 10];
             (showPoint[0]<0) && (showPoint[0] = 0);
