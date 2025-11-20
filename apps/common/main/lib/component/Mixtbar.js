@@ -191,11 +191,10 @@ define([
 
             setFolded: function(value) {
                 this.isFolded = value;
-
                 var me = this;
-                if ( this.isFolded ) {
-                    if (!optsFold.$box) optsFold.$box = me.$el.find('.box-controls');
+                if (!optsFold.$box) optsFold.$box = me.$el.find('.box-controls');
 
+                if ( this.isFolded ) {
                     optsFold.$bar.addClass('folded z-clear').toggleClass('expanded', false);
                     optsFold.$bar.find('.tabs .ribtab').removeClass('active');
                     optsFold.$bar.on($.support.transition.end, function (e) {

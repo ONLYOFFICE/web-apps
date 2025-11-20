@@ -18,6 +18,7 @@ window.$ = jQuery;
 
 // Import Icons and App Custom Styles
 // import '../css/icons.css';
+import '../../../common/mobile/resources/less/icons-preload.less';
 import('./less/app.less');
 
 // Import App Component

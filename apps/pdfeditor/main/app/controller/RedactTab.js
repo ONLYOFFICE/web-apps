@@ -198,8 +198,10 @@ define([
 
         onActiveTab: function(tab) {
             if (tab == 'red') {
-                Common.UI.TooltipManager.showTip('mark-for-redaction');
-                Common.UI.TooltipManager.showTip('apply-redaction');
+                if (!this.toolbar.toolbar.isCompact()) {
+                    Common.UI.TooltipManager.showTip('mark-for-redaction');
+                    Common.UI.TooltipManager.showTip('apply-redaction');
+                }
             } else {
                 Common.UI.TooltipManager.closeTip('mark-for-redaction');
                 Common.UI.TooltipManager.closeTip('apply-redaction');
