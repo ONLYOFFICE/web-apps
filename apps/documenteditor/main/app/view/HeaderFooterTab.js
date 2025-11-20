@@ -136,7 +136,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     caption: this.txtCloseTab,
                     iconCls: 'toolbar__icon btn-close-tab',
-                    lock: [_set.lostConnect, _set.disableOnStart],
+                    lock: [_set.lostConnect],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -145,14 +145,14 @@ define([
 
                 this.lblHeaderTop = new Common.UI.Label({
                     caption: this.capHeaderTop,
-                    lock: [_set.paragraphLock, _set.headerLock, _set.viewMode, _set.docLockView]
+                    lock: [_set.paragraphLock, _set.headerLock, _set.viewMode, _set.docLockView, _set.previewReviewMode, _set.viewFormMode, _set.docLockComments, _set.docLockForms]
                 });
                 this.lockedControls.push(this.lblHeaderTop);
                 this.paragraphControls.push(this.lblHeaderTop);
 
                 this.lblFooterBottom = new Common.UI.Label({
                     caption: this.capFooterBottom,
-                    lock: [_set.paragraphLock, _set.headerLock, _set.viewMode, _set.docLockView]
+                    lock: [_set.paragraphLock, _set.headerLock, _set.viewMode, _set.docLockView, _set.previewReviewMode, _set.viewFormMode, _set.docLockComments, _set.docLockForms]
                 });
                 this.lockedControls.push(this.lblFooterBottom);
                 this.paragraphControls.push(this.lblFooterBottom);
@@ -165,7 +165,7 @@ define([
                     defaultValue : 0,
                     maxValue: 55.88,
                     minValue: 0,
-                    lock: [_set.headerLock, _set.viewMode, _set.docLockView],
+                    lock: [_set.headerLock, _set.viewMode, _set.docLockView, _set.previewReviewMode, _set.viewFormMode, _set.docLockComments, _set.docLockForms],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big',
@@ -180,7 +180,7 @@ define([
                     value: '1.25 cm',
                     defaultUnit : "cm",
                     maxValue: 55.88,
-                    lock: [_set.headerLock, _set.viewMode, _set.docLockView],
+                    lock: [_set.headerLock, _set.viewMode, _set.docLockView, _set.previewReviewMode, _set.viewFormMode, _set.docLockComments, _set.docLockForms],
                     minValue: 0,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -193,7 +193,7 @@ define([
                 this.chDiffFirst = new Common.UI.CheckBox({
                     labelText: this.txtDiffFirst,
                     dataHint: '1',
-                    lock: [_set.headerLock, _set.viewMode, _set.docLockView],
+                    lock: [_set.headerLock, _set.viewMode, _set.docLockView, _set.previewReviewMode, _set.viewFormMode, _set.docLockComments, _set.docLockForms],
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
                 });
@@ -203,7 +203,7 @@ define([
                 this.chDiffOddEven = new Common.UI.CheckBox({
                     labelText: this.txtDiffOddEven,
                     dataHint: '1',
-                    lock: [_set.headerLock, _set.viewMode, _set.docLockView],
+                    lock: [_set.headerLock, _set.viewMode, _set.docLockView, _set.previewReviewMode, _set.viewFormMode, _set.docLockComments, _set.docLockForms],
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
                 });
@@ -213,7 +213,7 @@ define([
                 this.chSameAs = new Common.UI.CheckBox({
                     labelText: this.txtSameAs,
                     dataHint: '1',
-                    lock: [_set.headerLock, _set.linkToPrevious, _set.viewMode, _set.docLockView],
+                    lock: [_set.headerLock, _set.linkToPrevious, _set.viewMode, _set.docLockView, _set.previewReviewMode, _set.viewFormMode, _set.docLockComments, _set.docLockForms],
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
                 });
@@ -232,7 +232,6 @@ define([
 
                 this.mnuPageNumberPosPicker.options.lock = [_set.headerFooterLock];
 
-                Common.Utils.lockControls(_set.disableOnStart, true, {array: this.lockedControls});
                 Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -254,11 +253,11 @@ define([
                 _injectComponent('#slot-spin-header-top', this.numHeaderPosition);
                 _injectComponent('#slot-spin-footer-bot', this.numFooterPosition);
                 this.btnsHeaderFooter = Common.Utils.injectButtons($host.find('.btn-slot.slot-headerfooter').add(this.toolbar.$el.find('.btn-slot.slot-headerfooter')), '', 'toolbar__icon btn-editheader', this.txtHeaderFooter,
-                    [_set.previewReviewMode, _set.viewFormMode, _set.inEquation, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.viewMode], undefined, true, undefined, '1', 'bottom', 'small');
+                    [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.viewMode, _set.docLockComments], undefined, true, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.lockedControls, this.btnsHeaderFooter);
 
                 this.btnsPageNumber = Common.Utils.injectButtons($host.find('.btn-slot.slot-pagenumbers').add(this.toolbar.$el.find('.btn-slot.slot-pagenumbers')), '', 'toolbar__icon btn-pagenum', this.txtPageNumbering,
-                    [_set.previewReviewMode, _set.viewFormMode, _set.inEquation, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.viewMode], undefined, true, undefined, '1', 'bottom', 'small');
+                    [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.viewMode, _set.docLockComments], undefined, true, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.lockedControls, this.btnsPageNumber);
 
                 this.btnCloseTab && this.btnCloseTab.render($host.find('#slot-btn-close-tab'));
@@ -305,18 +304,18 @@ define([
                             {template: _.template(`<div id="${id}" class="menu-pageposition"></div>`)},
                             me[`mnuPageNumCurrentPos${index}`] = new Common.UI.MenuItem({
                                 caption: me.capCurrentPos,
-                                lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock],
+                                lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inEquation],
                                 value: 'current'
                             }),
                             me[`mnuPageNumOfPages${index}`] = new Common.UI.MenuItem({
                                 caption: me.capNumOfPages,
-                                lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.headerFooterLock],
+                                lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.headerFooterLock, _set.inEquation],
                                 value: 'quantity'
                             }),
                             {caption: '--'},
                             me[`mnuNumFormat${index}`] = new Common.UI.MenuItem({
                                 caption: me.capFormatNums,
-                                lock: [_set.inHeader, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.headerFooterLock],
+                                lock: [_set.inHeader, _set.paragraphLock, _set.headerLock, _set.headerFooterLock],
                                 value: 'format'
                             })
                         ]
@@ -372,6 +371,8 @@ define([
             getButtons: function(type) {
                 if (type===undefined)
                     return this.lockedControls;
+                else if (type === 'insertbtns')
+                    return this.numCurrPos.concat(this.numOfPages);
                 return [];
             },
 
