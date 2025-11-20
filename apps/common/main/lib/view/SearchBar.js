@@ -76,6 +76,7 @@ define([
 
             this.options.tpl = _.template(this.template)(this.options);
             this.iconType = this.options.iconType;
+            this.mode = options.editMode;
             Common.UI.Window.prototype.initialize.call(this, this.options);
 
             Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));
@@ -169,8 +170,8 @@ define([
                 this.updateResultsNumber(resultNumber, allResults);
             }, this));
 
-            this.btnOpenPanelRedact && this.btnOpenPanelRedact.setVisible(this.mode === 'edit')
-
+            this.btnOpenPanelRedact && this.btnOpenPanelRedact.setVisible(this.mode === true);
+            this.btnOpenPanel && this.btnOpenPanel.setVisible(this.mode === false);
             return this;
         },
 

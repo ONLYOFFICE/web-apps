@@ -110,6 +110,7 @@ define([
                     iconCls: 'toolbar__icon btn-find-to-redact',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     caption: me.capFindRedact,
+                    enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small',
@@ -197,7 +198,11 @@ define([
             },
 
             onOpenPanel: function () {
-                this.fireEvent('search:showredact', [true, '']);
+                if (this.btnFindRedact.pressed === false) {
+                    Common.NotificationCenter.trigger('leftmenu:change', 'hide');
+                } else {
+                    this.fireEvent('search:showredact', [true, '']);
+                }
             },
         }
     }()), PDFE.Views.RedactTab || {}));

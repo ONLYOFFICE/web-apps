@@ -298,8 +298,10 @@ define([
                     (!Common.UI.LayoutManager.isElementVisible('leftMenu') || this.mode.customization && this.mode.customization.leftMenu === false);
                 this.searchBar = new Common.UI.SearchBar( hideLeftPanel ? {
                     showOpenPanel: false,
-                    width: 303
-                } : {});
+                    width: 303,
+                } : {
+                    editMode: this.mode.isPDFEdit
+                });
                 this.searchBar.on('hide', _.bind(function () {
                     this.header.btnSearch.toggle(false, true);
                     Common.NotificationCenter.trigger('edit:complete');
