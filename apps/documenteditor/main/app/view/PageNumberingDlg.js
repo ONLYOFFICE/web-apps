@@ -185,6 +185,7 @@ define([], function () {
                     }
                 }).on('close', function(obj){
                     (btn!=='ok') && me.cmbFormat.setValue(me.numFormat);
+                    setTimeout(function(){me.cmbFormat.focus();}, 1);
                 });
             win.show();
         },
