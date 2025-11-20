@@ -170,8 +170,8 @@ define([
                 this.updateResultsNumber(resultNumber, allResults);
             }, this));
 
-            this.btnOpenPanelRedact && this.btnOpenPanelRedact.setVisible(this.mode === true);
-            this.btnOpenPanel && this.btnOpenPanel.setVisible(this.mode === false);
+            this.btnOpenPanelRedact && this.btnOpenPanelRedact.setVisible(this.mode === 'edit');
+            this.btnOpenPanel && this.btnOpenPanel.setVisible(this.mode !== 'edit');
             return this;
         },
 

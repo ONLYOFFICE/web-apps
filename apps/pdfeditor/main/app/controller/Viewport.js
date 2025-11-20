@@ -300,7 +300,7 @@ define([
                     showOpenPanel: false,
                     width: 303,
                 } : {
-                    editMode: this.mode.isPDFEdit
+                    editMode: this.mode.isPDFEdit ? 'edit' : 'comment'
                 });
                 this.searchBar.on('hide', _.bind(function () {
                     this.header.btnSearch.toggle(false, true);

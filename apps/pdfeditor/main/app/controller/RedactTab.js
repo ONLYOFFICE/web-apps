@@ -79,9 +79,9 @@ define([
 
         onToggleFindRedact: function (action) {
             if (action === 'hide') {
-                this.view.btnFindRedact.toggle(false);
+                this.view && this.view.btnFindRedact && this.view.btnFindRedact.toggle(false);
             } else {
-                this.view.btnFindRedact.toggle(true);
+                this.view && this.view.btnFindRedact && this.view.btnFindRedact.toggle(true);
             }
         },
 
