@@ -59,6 +59,9 @@ define([
                 },
                 'SearchBar': {
                     'search:showredact': _.bind(this.onToggleFindRedact, this, 'show')
+                },
+                'LeftMenu': {
+                    'search:hideredact': _.bind(this.onToggleFindRedact, this, 'hide')
                 }
             });
         },

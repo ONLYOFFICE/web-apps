@@ -908,7 +908,7 @@ define([
         },
 
         onShowHideRedactSearch: function () {
-            this.leftMenu.showMenu('advancedsearch', undefined, true);
+            this.leftMenu.showMenu('advancedsearch', undefined, true, true);
             this.leftMenu.panelSearch.setSearchMode('redact');
         },
 
