@@ -2004,6 +2004,7 @@ define([], function () {
                     '<div id="annot-bar-highlight" style="display:inline-block;" class="margin-left-4"></div>' +
                     '<div id="annot-bar-underline" style="display:inline-block;" class="margin-left-4"></div>' +
                     '<div id="annot-bar-strikeout" style="display:inline-block;" class="margin-left-4"></div>' +
+                    '<div id="annot-bar-redact" style="display:inline-block;" class="margin-left-4"></div>' +
                     '<div class="separator margin-left-6"></div>' +
                     '<div id="annot-bar-edit-text" class="margin-left-13" style="display:inline-block;"></div>' +
                     '</div>'),
@@ -2088,6 +2089,15 @@ define([], function () {
                 type: AscPDF.ANNOTATIONS_TYPES.Strikeout
             });
             annotBarBtns.push(this.btnStrikeout);
+
+            this.btnRedact = new Common.UI.Button({
+                parentEl: $('#annot-bar-redact', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-copy',
+                caption: this.textRedact,
+                hint: toolbar.tipRedact
+            });
+            annotBarBtns.push(this.btnRedact);
 
             this.btnHighlight = new Common.UI.ButtonColored({
                 parentEl: $('#annot-bar-highlight', container),

@@ -153,9 +153,9 @@ define([
                 this.toolbar.collapse();
             }, this));
             Common.NotificationCenter.on('oleedit:close', _.bind(this.onOleEditClose, this));
-            Common.NotificationCenter.on('tab:set-active', _.bind(function(action){
+            Common.NotificationCenter.on('tab:set-active', _.bind(function(action, needUnfold){
                 this.toolbar.setTab(action);
-                this.onChangeViewMode(null, false, true);
+                needUnfold && this.onChangeViewMode(null, false, true);
             }, this));
 
             this.editMode = true;

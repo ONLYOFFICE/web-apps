@@ -793,7 +793,7 @@ define([
                     Common.NotificationCenter.trigger('tab:visible', 'review', visible);
                     if (Common.Utils.InternalSettings.get('toolbar-active-tab') && visible) { // collaboration tab has hign priority in view mode
                         Common.Utils.InternalSettings.set('toolbar-active-tab', null);
-                        Common.NotificationCenter.trigger('tab:set-active', 'review');
+                        Common.NotificationCenter.trigger('tab:set-active', 'review', true);
                     }
                     setEvents.call(me);
                 });
