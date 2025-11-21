@@ -3337,7 +3337,7 @@ define([], function () {
                             Common.Utils.getOffset(this.documentHolder.cmpEl).top  - $(window).scrollTop()
                         ],
                         coord  = this.api.asc_getActiveCellCoord();
-                    showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] + coord.asc_getHeight() + 4];
+                    showPoint = [coord.asc_getX() + pos[0] + 9, coord.asc_getY() + pos[1] + coord.asc_getHeight() + 4];
                 }
                 var tipwidth = functip.ref.getBSTip().$tip.width();
                 if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
