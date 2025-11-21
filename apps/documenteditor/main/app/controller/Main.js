@@ -1303,7 +1303,7 @@ define([
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
-                if (!this.appOptions.canCopy)
+                if (!me.appOptions.canCopy)
                     Common.UI.TooltipManager.showTip({ step: 'copyDisabled', text: me.errorCopyDisabled, target: '#toolbar', maxwidth: 350, automove: true, noHighlight: true, noArrow: true, showButton: false});
 
                 Common.Utils.InternalSettings.set("de-settings-datetime-default", Common.localStorage.getItem("de-settings-datetime-default"));

@@ -48,6 +48,7 @@
   "PE.ApplicationController.waitText": "Please, wait...",
   "PE.ApplicationController.warnLicenseBefore": "License not active. Please contact your administrator.",
   "PE.ApplicationController.warnLicenseExp": "Your license has expired. Please update your license and refresh the page.",
+  "PE.ApplicationController.errorCopyDisabled": "For security reasons, the contents of this document cannot be copied to the clipboard.",
   "PE.ApplicationView.txtDownload": "Download",
   "PE.ApplicationView.txtEmbed": "Embed",
   "PE.ApplicationView.txtFileLocation": "Open file location",

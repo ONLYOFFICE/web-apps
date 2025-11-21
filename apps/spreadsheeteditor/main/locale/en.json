@@ -1987,6 +1987,7 @@
   "SSE.Controllers.Main.warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
   "SSE.Controllers.Main.warnOpenCsv": "The CSV format does not support saving a multi-sheet file or any elements except text.<br>Only the active sheet will be saved.",
   "SSE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
+  "SSE.Controllers.Main.errorCopyDisabled": "For security reasons, the contents of this document cannot be copied to the clipboard.",
   "SSE.Controllers.PivotTable.strSheet": "Sheet",
   "SSE.Controllers.PivotTable.txtCalculatedItemInPageField": "The item cannot be added or modified. PivotTable report has this field in Filters.",
   "SSE.Controllers.PivotTable.txtCalculatedItemWarningDefault": "No actions with calculated items are allowed for this active cell.",

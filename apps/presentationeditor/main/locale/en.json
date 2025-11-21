@@ -1761,6 +1761,7 @@
   "PE.Controllers.Main.warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact %1 sales team for personal upgrade terms.",
   "PE.Controllers.Main.warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
   "PE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
+  "PE.Controllers.Main.errorCopyDisabled": "For security reasons, the contents of this document cannot be copied to the clipboard.",
   "PE.Controllers.Print.txtPrintRangeInvalid": "Invalid print range",
   "PE.Controllers.Print.txtPrintRangeSingleRange": "Enter either a single slide number or a single slide range (for example, 5-12). Or you can Print to PDF.",
   "PE.Controllers.Search.notcriticalErrorTitle": "Warning",

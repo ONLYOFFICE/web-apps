@@ -49,6 +49,7 @@
   "VE.ApplicationController.waitText": "Please, wait...",
   "VE.ApplicationController.warnLicenseBefore": "License not active. Please contact your administrator.",
   "VE.ApplicationController.warnLicenseExp": "Your license has expired. Please update your license and refresh the page.",
+  "VE.ApplicationController.errorCopyDisabled": "For security reasons, the contents of this document cannot be copied to the clipboard.",
   "VE.ApplicationView.txtDownload": "Download",
   "VE.ApplicationView.txtEmbed": "Embed",
   "VE.ApplicationView.txtFileLocation": "Open file location",

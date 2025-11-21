@@ -650,7 +650,7 @@ define([
                 var res = (type === 'cut') ? me.api.asc_Cut() : ((type === 'copy') ? me.api.asc_Copy() : me.api.asc_Paste());
                 if (!res) {
                     var value = Common.localStorage.getItem("sse-hide-copywarning");
-                    if (!(value && parseInt(value) == 1)) {
+                    if (!(value && parseInt(value) == 1) && (type === 'paste' || me.toolbar.mode.canCopy)) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
                                 if (dontshow) Common.localStorage.setItem("sse-hide-copywarning", 1);
