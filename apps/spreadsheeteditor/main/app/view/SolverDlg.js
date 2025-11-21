@@ -143,6 +143,7 @@ define([
             this.props = this.options.props;
             this._constraintOperator = {};
             this._maxConstraintIndex = 0;
+            this._unsupportedConstraintIndex = -1;
             let obj = AscCommonExcel.c_oAscOperator;
             for (let key in obj) {
                 if (obj.hasOwnProperty(key)) {
@@ -322,6 +323,20 @@ define([
             }
             if (state == 'ok') {
                 if (!this.isRangeValid()) return;
+
+                if (this._unsupportedConstraintIndex>-1) {
+                    Common.UI.warning({
+                        msg: this.textUnsupportedConstraints,
+                        maxwidth: 600,
+                        buttons: ['ok'],
+                        callback: function(btn){
+                            me.constrainsList.focus();
+                            var rec = me.constrainsList.store.findWhere({index: me._unsupportedConstraintIndex});
+                            rec && me.constrainsList.selectRecord(rec);
+                        }
+                    });
+                    return;
+                }
 
                 var method = this.props.asc_getSolvingMethod();
                 if (this.originalMethod!==AscCommonExcel.c_oAscSolvingMethod.simplexLP && method===AscCommonExcel.c_oAscSolvingMethod.simplexLP) {
@@ -567,16 +582,20 @@ define([
                 store = this.constrainsList.store,
                 constaints = this.props.asc_getConstraints();
             me._maxConstraintIndex = 0;
+            me._unsupportedConstraintIndex = -1;
             constaints && constaints.forEach(function(item, index) {
                 arr.push({
                     cellRef: item.cellRef,
                     index: index,
                     constraint: item.constraint,
                     operator: item.operator,
-                    operatorName: me._constraintOperator[item.operator]
+                    operatorName: me._constraintOperator[item.operator],
+                    isNotSupported: item.isNotSupported
                 });
                 if (me._maxConstraintIndex<index)
                     me._maxConstraintIndex = index;
+                if (me._unsupportedConstraintIndex<0 && item.isNotSupported)
+                    me._unsupportedConstraintIndex = index;
             });
             store.reset(arr);
             if (store.length>0) {

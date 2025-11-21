@@ -180,6 +180,7 @@ define([], function () { 'use strict';
             }
             title && this.getChild().find('#solver-results-title').text(title);
             desc && this.getChild().find('#solver-results-desc').text(desc);
+            this.onAppRepaint();
         },
 
         _handleInput: function(state) {
