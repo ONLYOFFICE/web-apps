@@ -2093,7 +2093,7 @@ define([], function () {
             this.btnRedact = new Common.UI.Button({
                 parentEl: $('#annot-bar-redact', container),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-copy',
+                iconCls: 'toolbar__icon btn-redact-text',
                 caption: this.textRedact,
                 hint: toolbar.tipRedact
             });
