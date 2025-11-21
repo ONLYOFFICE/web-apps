@@ -82,7 +82,7 @@ define([
 
                 this.btnMarkForRedact = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-redact-text',
+                    iconCls: 'toolbar__icon btn-big-redact-text',
                     style: 'min-width: 45px;',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     caption: me.capMarkRedact,
