@@ -136,7 +136,7 @@
             }
         }
 
-        .show-link label {
+        .show-link label span{
             border-bottom: @scaled-one-px-value-ie dotted @text-normal-ie;
             border-bottom: @scaled-one-px-value dotted @text-normal;
             color: @text-normal-ie;
@@ -494,12 +494,14 @@
     margin-top: 6px;
 }
 
-.show-link label {
+.show-link label span{
     border-bottom: @scaled-one-px-value-ie dotted @text-link-ie;
     border-bottom: @scaled-one-px-value dotted @text-link;
     color: @text-link-ie;
     color: @text-link;
     cursor: pointer;
+    word-break: break-word;
+    word-wrap: break-word;
 
     &:hover:not(:disabled) {
         color: @text-link-hover;

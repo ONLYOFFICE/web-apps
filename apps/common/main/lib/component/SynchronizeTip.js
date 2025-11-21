@@ -64,7 +64,7 @@ define([
                             '<% } %>',
                         '</div>',
                         '<% if ( scope.showLink ) { %>',
-                        '<div class="show-link"><label><%= scope.textLink %></label></div>',
+                        '<div class="show-link"><label><span><%= scope.textLink %></span></label></div>',
                         '<% } %>',
                         '<% if ( scope.showButton ) { %>',
                         '<div class="btn-div"><%= scope.textButton %></div>',
