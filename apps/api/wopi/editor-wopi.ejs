@@ -287,6 +287,11 @@ div {
         }
 
         var connectEditor = function () {
+            var statusCode = "<%= typeof statusCode !== 'undefined' ? statusCode : '' %>";
+            if (statusCode) {
+                handleWopiError(statusCode);
+                return;
+            }
 
             fileInfo = JSON.parse(document.getElementById('fileInfoJsonData').getAttribute('data-json'));
 
@@ -437,6 +442,55 @@ div {
                                 '</div>';
             document.body.appendChild(newDiv);
         };
+
+        /**
+         * Handle WOPI error status and show appropriate error message
+         * @param {number|string} statusCode - HTTP status code
+         * @returns {boolean} - Returns true if error was handled, false if no error
+         */
+        var handleWopiError = function (statusCode) {
+            if (!statusCode) {
+                return false;
+            }
+            const status = parseInt(statusCode, 10);
+            // WOPI spec-compliant error messages
+            // https://learn.microsoft.com/en-us/microsoft-365/cloud-storage-partner-program/rest/files/checkfileinfo#status-codes
+            var errorMessage;
+            switch (status) {
+                case 400:
+                    errorMessage = 'Bad Request - malformed or invalid request';
+                    break;
+                case 401:
+                    errorMessage = 'Invalid access token';
+                    break;
+                case 403:
+                    errorMessage = 'Access forbidden';
+                    break;
+                case 404:
+                    errorMessage = 'Resource not found or user unauthorized';
+                    break;
+                case 409:
+                    errorMessage = 'Conflict - lock mismatch or file version conflict';
+                    break;
+                case 412:
+                    errorMessage = 'Precondition Failed - lock token mismatch';
+                    break;
+                case 413:
+                    errorMessage = 'Payload Too Large - file size exceeds limits';
+                    break;
+                case 500:
+                    errorMessage = 'Internal server error or invalid proof keys';
+                    break;
+                case 501:
+                    errorMessage = 'Not Implemented - operation not supported';
+                    break;
+                case 507:
+                    errorMessage = 'Insufficient Storage - not enough storage space';
+                    break;
+            }
+            showError(errorMessage);
+            return true;
+        }
 
 		//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
 		if (typeof Object.assign !== 'function') {
