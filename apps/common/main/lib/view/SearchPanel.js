@@ -193,7 +193,7 @@ define([
                     dataHintOffset: 'medium'
                 });
                 this.buttonRedactSearch.on('click', _.bind(function() {
-                    this.fireEvent('search:showredact');
+                    this.fireEvent('search:showredact', [true]);
                 }, this));
 
                 this.$resultsContainer = $('#search-results');

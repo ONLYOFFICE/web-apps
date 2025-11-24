@@ -68,6 +68,9 @@ define([
                 me.btnApplyRedactions.on('click', function (menu, item, e) {
                     me.fireEvent('redact:apply', [item.value]);
                 });
+                me.btnFindRedact && me.btnFindRedact.on('click', function (btn) {
+                    me.fireEvent('search:showredact', [btn.pressed])
+                })
             },
 
             initialize: function (options) {
@@ -110,12 +113,12 @@ define([
                     iconCls: 'toolbar__icon btn-find-to-redact',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     caption: me.capFindRedact,
+                    enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small',
                 });
                 me.lockedControls.push(this.btnFindRedact);
-                this.btnFindRedact.on('click', _.bind(this.onOpenPanel, this));
 
                 this.btnApplyRedactions = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
@@ -131,6 +134,10 @@ define([
 
                 Common.UI.LayoutManager.addControls(me.lockedControls);
                 Common.Utils.lockControls(_set.disableOnStart, true, {array: this.lockedControls});
+            },
+
+            turnFindRedact: function (state) {
+                this.btnFindRedact && this.btnFindRedact.toggle(state, true);
             },
 
             render: function (el) {
@@ -194,10 +201,6 @@ define([
                         button.setDisabled(state);
                     }
                 }, this);
-            },
-
-            onOpenPanel: function () {
-                this.fireEvent('search:showredact', [true, '']);
             },
         }
     }()), PDFE.Views.RedactTab || {}));

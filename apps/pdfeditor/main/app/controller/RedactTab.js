@@ -53,6 +53,14 @@ define([
         sdkViewName : '#id_main',
 
         initialize: function () {
+             this.addListeners({
+                'Common.Views.SearchPanel': {
+                    'search:showredact': _.bind(this.onToggleFindRedact, this, 'show')
+                },
+                'SearchBar': {
+                    'search:showredact': _.bind(this.onToggleFindRedact, this, 'show')
+                }
+            });
         },
 
         onLaunch: function () {
@@ -62,10 +70,19 @@ define([
             this.isFileMenuTab = null;
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
+            Common.NotificationCenter.on('leftmenu:change', _.bind(this.onToggleFindRedact, this));
 
             this.binding = {
 
             };
+        },
+
+        onToggleFindRedact: function (action) {
+            if (action === 'hide') {
+                this.view && this.view.btnFindRedact && this.view.btnFindRedact.toggle(false);
+            } else {
+                this.view && this.view.btnFindRedact && this.view.btnFindRedact.toggle(true);
+            }
         },
 
         setApi: function (api) {
@@ -281,6 +298,12 @@ define([
                 })).then(function(){
                     me.view.onAppReady(config);
                     me.view.setEvents();
+
+                    if (me.view.btnFindRedact) {
+                        me.getApplication().getController('LeftMenu').leftMenu.btnSearchBar.on('toggle', function (btn, state) {
+                            !state && me.view.turnFindRedact(state);
+                        });
+                    }
                 });
             }
             Common.UI.TooltipManager.addTips({
