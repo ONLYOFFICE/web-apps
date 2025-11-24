@@ -187,7 +187,8 @@ const CellEditor = inject("storeFunctions")(observer(props => {
             setFuncHint({
                 name: funcName,
                 nameIsActive: !activeArg,
-                args: arr
+                args: arr,
+                separator: separator
             });
         } else {
             let hint = '';
@@ -209,7 +210,8 @@ const CellEditor = inject("storeFunctions")(observer(props => {
             setFuncHint({
                 name: funcName,
                 nameIsActive: false,
-                args: args
+                args: args,
+                separator: separator
             });
         }
     };

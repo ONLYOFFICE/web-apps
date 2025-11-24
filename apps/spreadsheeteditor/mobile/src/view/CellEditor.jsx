@@ -36,7 +36,7 @@ const CellEditorView = props => {
 
     const FunctionHint = ({ funcHint }) => {
         if (!funcHint || !funcHint.args) return null;
-
+        const separator = funcHint.separator;
         return (
             <div className="function-hint-card">
                 <div className="name">
@@ -47,7 +47,7 @@ const CellEditorView = props => {
                     {funcHint.args.map((arg, i) => (
                         <span key={i} className={arg.isActive ? "contrast" : ""}>
                             {arg.name}
-                            {i < funcHint.args.length - 1 ? '; ' : ""}
+                            {i < funcHint.args.length - 1 ? `${separator} ` : ""}
                         </span>
                     ))}
                     )
