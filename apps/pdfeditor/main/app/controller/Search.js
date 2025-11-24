@@ -364,6 +364,7 @@ define([
 
         onApiGetTextAroundSearch: function (data) {
             if (this.view && this._state.isStartedAddingResults) {
+                this.api.asc_SelectSearchElement(0);
                 this._state.isStartedAddingResults = false;
                 this.hideResults();
                 if (data.length > 300 || !data.length) return;
