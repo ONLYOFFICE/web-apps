@@ -1110,6 +1110,22 @@ define([], function () {
                 caption     : me.advancedParagraphText
             });
 
+            me.menuStyleInTable = new Common.UI.MenuItem({
+                caption: me.styleText,
+                menu: new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    items: [
+                        me.menuStyleSaveInTable = new Common.UI.MenuItem({
+                            caption: me.saveStyleText
+                        }),
+                        me.menuStyleUpdateInTable = new Common.UI.MenuItem({
+                            caption: me.updateStyleText.replace('%1', window.currentStyleName)
+                        })
+                    ]
+                })
+            });
+
             var menuHyperlinkSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
@@ -1651,6 +1667,14 @@ define([], function () {
                     me.menuToDictionaryTable.setVisible(me.mode.isDesktopApp);
                     menuSpellcheckTableSeparator.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
 
+                    const isInChart = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ChartProperties()));
+                    const editStyle = me.mode.canEditStyles && !isInChart && !(value.imgProps && value.imgProps.isSmartArtInternal);
+                    me.menuStyleInTable.setVisible(editStyle);
+                    if (editStyle) {
+                        me.menuStyleUpdateInTable.setCaption(me.updateStyleText.replace('%1', DE.getController('Main').translationTable[window.currentStyleName] || window.currentStyleName));
+                        me.menuStyleSaveInTable.setDisabled(!window.styles_loaded);
+                    }
+
                     me.langTableMenu.setDisabled(disabled);
                     if (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false && value.spellProps.value.get_Variants() !== null && value.spellProps.value.get_Variants() !== undefined) {
                         me.addWordVariants(false);
@@ -1774,7 +1798,8 @@ define([], function () {
                     menuTableControl,
                     me.menuTableTOC,
                     me.menuParagraphAdvancedInTable,
-                    me.menuTableEquation
+                    me.menuTableEquation,
+                    me.menuStyleInTable
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
                 me.clearCustomItems(menu);
