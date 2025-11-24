@@ -207,7 +207,7 @@ define([
                 });
 
                 Common.NotificationCenter.on('search:updateresults', _.bind(this.disableNavButtons, this));
-                Common.NotificationCenter.on('pdf:mode-apply', _.bind(this.onModeChanged, this));
+                Common.NotificationCenter.on('pdf:mode-changed', _.bind(this.onModeChanged, this));
 
                 if (window.SSE) {
                     this.cmbWithin = new Common.UI.ComboBox({
@@ -451,11 +451,10 @@ define([
             this.fireEvent('search:'+action, [this.inputText.getValue()]);
         },
 
-        onModeChanged: function (isEdit) {
-            if (isEdit !== 'edit') {
-                Common.NotificationCenter.trigger('search:resetmode');
-            }
-            this.$el.find('.redact-no-replace-btn')[this.mode === 'no-replace' && isEdit === 'edit' ? 'show' : 'hide']();
+        onModeChanged: function (config) {
+            var isEdit = config && config.isPDFEdit;
+            !isEdit && Common.NotificationCenter.trigger('search:resetmode');
+            this.$el.find('.redact-no-replace-btn')[this.mode === 'no-replace' && isEdit ? 'show' : 'hide']();
         },
 
         getSettings: function() {
