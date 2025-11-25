@@ -52,6 +52,9 @@ define([
             '<div class="separator long"></div>' +
             '<div class="group">' +
                 '<span class="btn-slot text x-huge slot-pagenumbers"></span>' +
+                '<span class="btn-slot text x-huge slot-insertdatetime"></span>' +
+                '<span class="btn-slot text x-huge slot-insertfield"></span>' +
+                '<span class="btn-slot text x-huge slot-insertimage"></span>' +
             '</div>' +
             '<div class="separator long"></div>' +
             '<div class="group small">' +
@@ -260,6 +263,24 @@ define([
                     [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.viewMode, _set.docLockComments], undefined, true, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.lockedControls, this.btnsPageNumber);
 
+                this.btnsInsDateTime = Common.Utils.injectButtons($host.find('.btn-slot.slot-insertdatetime').add(this.toolbar.$el.find('.btn-slot.slot-insertdatetime')), '', 'toolbar__icon btn-datetime', this.capBtnDateTime,
+                    [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock, _set.noParagraphSelected, _set.previewReviewMode,
+                            _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode], undefined, undefined, undefined, '1', 'bottom', 'small');
+                Array.prototype.push.apply(this.lockedControls, this.btnsInsDateTime);
+                Array.prototype.push.apply(this.paragraphControls, this.btnsInsDateTime);
+
+                this.btnsInsField = Common.Utils.injectButtons($host.find('.btn-slot.slot-insertfield').add(this.toolbar.$el.find('.btn-slot.slot-insertfield')), '', 'toolbar__icon btn-quick-field', this.capBtnInsField,
+                    [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock, _set.noParagraphSelected, _set.previewReviewMode,
+                            _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode], undefined, undefined, undefined, '1', 'bottom', 'small');
+                Array.prototype.push.apply(this.lockedControls, this.btnsInsField);
+                Array.prototype.push.apply(this.paragraphControls, this.btnsInsField);
+
+                this.btnsInsImage = Common.Utils.injectButtons($host.find('.btn-slot.slot-insertimage').add(this.toolbar.$el.find('.btn-slot.slot-insertimage')), '', 'toolbar__icon btn-insertimage', this.capBtnInsImage,
+                    [_set.paragraphLock, _set.headerLock, _set.inEquation, _set.controlPlain, _set.richDelLock, _set.plainDelLock,  _set.contentLock,  _set.cantAddImagePara,
+                            _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode], undefined, true, undefined, '1', 'bottom', 'small', 'insert-image');
+                Array.prototype.push.apply(this.lockedControls, this.btnsInsImage);
+                Array.prototype.push.apply(this.paragraphControls, this.btnsInsImage);
+
                 this.btnCloseTab && this.btnCloseTab.render($host.find('#slot-btn-close-tab'));
                 this.lblHeaderTop && this.lblHeaderTop.render($host.find('#slot-lbl-header-top'));
                 this.lblFooterBottom && this.lblFooterBottom.render($host.find('#slot-lbl-footer-bot'));
@@ -278,6 +299,40 @@ define([
                 me.numOfPages = [];
                 me.numFormats = [];
                 me.numCurrPos = [];
+
+                this.btnsInsDateTime.forEach(function (button) {
+                    button.updateHint(me.tipDateTime);
+
+                    button.on('click', function () {
+                        me.fireEvent('headerfooter:insdatetime');
+                    });
+                });
+
+                this.btnsInsField.forEach(function (button) {
+                    button.updateHint(me.tipInsField);
+
+                    button.on('click', function () {
+                        me.fireEvent('headerfooter:insfield');
+                    });
+                });
+
+                this.btnsInsImage.forEach(function (button) {
+                    button.updateHint(me.tipInsertImage);
+
+                    button.setMenu(
+                        new Common.UI.Menu({
+                            items: [
+                                {caption: me.mniImageFromFile, value: 'file'},
+                                {caption: me.mniImageFromUrl, value: 'url'},
+                                {caption: me.mniImageFromStorage, value: 'storage'}
+                            ]
+                        }).on('item:click', function (menu, item, e) {
+                            me.fireEvent('headerfooter:insimage', [menu, item, e]);
+                        })
+                    );
+
+                    button.menu && button.menu.items[2].setVisible(config.canRequestInsertImage || config.fileChoiceUrl && config.fileChoiceUrl.indexOf("{documentType}")>-1);
+                });
 
                 this.btnsHeaderFooter.forEach(function (button) {
                     button.updateHint(me.tipHeaderFooter);
