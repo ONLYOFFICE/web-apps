@@ -892,27 +892,6 @@ define([
                     });
                     this.paragraphControls.push(this.btnInsertTable);
 
-                    this.btnInsertImage = new Common.UI.Button({
-                        id: 'tlbtn-insertimage',
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-insertimage',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.inEquation, _set.controlPlain, _set.richDelLock, _set.plainDelLock,  _set.contentLock,  _set.cantAddImagePara,
-                                _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
-                        caption: me.capBtnInsImage,
-                        menu: new Common.UI.Menu({
-                            items: [
-                                {caption: this.mniImageFromFile, value: 'file'},
-                                {caption: this.mniImageFromUrl, value: 'url'},
-                                {caption: this.mniImageFromStorage, value: 'storage'}
-                            ]
-                        }),
-                        action: 'insert-image',
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    this.paragraphControls.push(this.btnInsertImage);
-
                     this.btnInsertChart = new Common.UI.Button({
                         id: 'tlbtn-insertchart',
                         cls: 'btn-toolbar x-huge icon-top',
@@ -965,20 +944,6 @@ define([
                     });
                     this.paragraphControls.push(this.btnInsertTextArt);
 
-                    this.btnEditHeader = new Common.UI.Button({
-                        id: 'id-toolbar-btn-editheader',
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-editheader',
-                        lock: [ _set.previewReviewMode, _set.viewFormMode, _set.inEquation, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
-                        caption: me.capBtnInsHeader,
-                        menu: true,
-                        action: 'edit-header',
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    this.toolbarControls.push(this.btnEditHeader);
-
                     this.btnTextFromFile = new Common.UI.Button({
                         id: 'id-toolbar-btn-text-from-file',
                         cls: 'btn-toolbar x-huge icon-top',
@@ -1003,41 +968,6 @@ define([
                         },
                         options: {}
                     };
-                    this.mnuPageNumCurrentPos = clone(this.mnuPageNumberPosPicker);
-                    this.mnuPageNumCurrentPos.options.lock = [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock];
-                    this.paragraphControls.push(this.mnuPageNumCurrentPos);
-                    this.mnuInsertPageCount = clone(this.mnuPageNumberPosPicker);
-                    this.mnuInsertPageCount.options.lock = [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock];
-                    this.paragraphControls.push(this.mnuInsertPageCount);
-                    this.mnuInsertPageNum = clone(this.mnuPageNumberPosPicker);
-                    this.mnuInsertPageNum.options.lock = [_set.cantAddPageNum, _set.controlPlain];
-                    this.mnuPageNumberPosPicker.options.lock = [_set.headerFooterLock];
-
-                    this.btnInsDateTime = new Common.UI.Button({
-                        id: 'id-toolbar-btn-datetime',
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-datetime',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock, _set.noParagraphSelected, _set.previewReviewMode,
-                            _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
-                        caption: me.capBtnDateTime,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    this.paragraphControls.push(this.btnInsDateTime);
-
-                    this.btnInsField = new Common.UI.Button({
-                        id: 'id-toolbar-btn-insfield',
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-quick-field',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock, _set.noParagraphSelected, _set.previewReviewMode,
-                            _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
-                        caption: me.capBtnInsField,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    this.paragraphControls.push(this.btnInsField);
 
                     this.btnBlankPage = new Common.UI.Button({
                         id: 'id-toolbar-btn-blankpage',
@@ -1806,7 +1736,6 @@ define([
                     this.mnuLineSpace = this.btnLineSpace.menu;
                     this.mnuNonPrinting = this.btnShowHidenChars.menu;
                     this.mnuInsertTable = this.btnInsertTable.menu;
-                    this.mnuInsertImage = this.btnInsertImage.menu;
                     this.mnuPageSize = this.btnPageSize.menu;
                     this.mnuColorSchema = this.btnColorSchemas.menu;
                     this.mnuChangeCase = this.btnChangeCase.menu;
@@ -2275,7 +2204,6 @@ define([
                 _injectComponent('#slot-btn-numbering', this.btnNumbers);
                 _injectComponent('#slot-btn-multilevels', this.btnMultilevels);
                 _injectComponent('#slot-btn-instable', this.btnInsertTable);
-                _injectComponent('#slot-btn-insimage', this.btnInsertImage);
                 _injectComponent('#slot-btn-inschart', this.btnInsertChart);
                 _injectComponent('#slot-btn-instext', this.btnInsertText);
                 _injectComponent('#slot-btn-instextart', this.btnInsertTextArt);
@@ -2283,9 +2211,6 @@ define([
                 _injectComponent('#slot-btn-controls', this.btnContentControls);
                 _injectComponent('#slot-btn-columns', this.btnColumns);
                 _injectComponent('#slot-btn-line-numbers', this.btnLineNumbers);
-                // _injectComponent('#slot-btn-editheader', this.btnEditHeader);
-                _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
-                _injectComponent('#slot-btn-insfield', this.btnInsField);
                 _injectComponent('#slot-btn-blankpage', this.btnBlankPage);
                 _injectComponent('#slot-btn-insshape', this.btnInsertShape);
                 _injectComponent('#slot-btn-inssmartart', this.btnInsertSmartArt);
@@ -2715,13 +2640,9 @@ define([
                 this.btnNumbers.updateHint(this.tipNumbers);
                 this.btnMultilevels.updateHint(this.tipMultilevels);
                 this.btnInsertTable.updateHint(this.tipInsertTable);
-                this.btnInsertImage.updateHint(this.tipInsertImage);
                 this.btnInsertChart.updateHint(this.tipInsertChart);
                 this.btnInsertText.updateHint([this.tipInsertHorizontalText ,this.tipInsertText]);
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
-                this.btnEditHeader.updateHint(this.tipEditHeader);
-                this.btnInsDateTime.updateHint(this.tipDateTime);
-                this.btnInsField.updateHint(this.tipInsField);
                 this.btnBlankPage.updateHint(this.tipBlankPage);
                 this.btnInsertShape.updateHint(this.tipInsertShape);
                 this.btnInsertSmartArt.updateHint(this.tipInsertSmartArt);
@@ -2848,53 +2769,6 @@ define([
                         ]
                     })
                 );
-
-                var keepStateCurr = this.mnuPageNumCurrentPos.keepState,
-                    keepStateCount = this.mnuInsertPageCount.keepState,
-                    keepStateNum = this.mnuInsertPageNum.keepState;
-                this.btnEditHeader.setMenu(
-                    new Common.UI.Menu({
-                        items: [
-                            {caption: this.mniEditHeader, value: 'header'},
-                            {caption: this.mniEditFooter, value: 'footer'},
-                            {caption: '--'},
-                            {caption: this.mniRemoveHeader, value: 'header-remove'},
-                            {caption: this.mniRemoveFooter, value: 'footer-remove'},
-                            {caption: '--'},
-                            this.mnuInsertPageNum = new Common.UI.MenuItem({
-                                caption: this.textInsertPageNumber,
-                                lock: this.mnuInsertPageNum.options.lock,
-                                disabled: this.mnuInsertPageNum.isDisabled(),
-                                menu: new Common.UI.Menu({
-                                    cls: 'shifted-left',
-                                    menuAlign: 'tl-tr',
-                                    style: 'min-width: 90px;',
-                                    items: [
-                                        {template: _.template('<div id="id-toolbar-menu-pageposition" class="menu-pageposition"></div>')},
-                                        this.mnuPageNumCurrentPos = new Common.UI.MenuItem({
-                                            caption: this.textToCurrent,
-                                            lock: this.mnuPageNumCurrentPos.options.lock,
-                                            disabled: this.mnuPageNumCurrentPos.isDisabled(),
-                                            value: 'current'
-                                        })
-                                    ]
-                                })
-                            }),
-                            this.mnuInsertPageCount = new Common.UI.MenuItem({
-                                caption: this.textInsertPageCount,
-                                    lock: this.mnuInsertPageCount.options.lock,
-                                disabled: this.mnuInsertPageCount.isDisabled()
-                            })
-                        ]
-                    })
-                );
-                this.mnuInsertPageNum.keepState = keepStateNum;
-                this.mnuPageNumCurrentPos.keepState = keepStateCurr;
-                this.paragraphControls.push(this.mnuPageNumCurrentPos);
-                this.lockControls.push(this.mnuPageNumCurrentPos);
-                this.mnuInsertPageCount.keepState = keepStateCount;
-                this.paragraphControls.push(this.mnuInsertPageCount);
-                this.lockControls.push(this.mnuInsertPageCount);
 
                 this.btnInsertChart.setMenu( new Common.UI.Menu({
                     style: 'width: 364px;padding-top: 12px;',
@@ -3384,65 +3258,6 @@ define([
                     ]);
                     me.mnuMultilevelPicker.store.reset(me.mnuMultilevelPicker.conf.recents.concat(arr));
                 });
-
-                _conf = this.mnuPageNumberPosPicker ? this.mnuPageNumberPosPicker.conf : undefined;
-                var keepState = this.mnuPageNumberPosPicker ? this.mnuPageNumberPosPicker.keepState : undefined;
-                this.mnuPageNumberPosPicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-pageposition'),
-                    lock: this.mnuPageNumberPosPicker.options.lock,
-                    allowScrollbar: false,
-                    parentMenu:  this.mnuInsertPageNum.menu,
-                    outerMenu:  {menu: this.mnuInsertPageNum.menu, index: 0},
-                    showLast: false,
-                    store: new Common.UI.DataViewStore([
-                        {
-                            iconname: 'btn-page-number-top-left',
-                            data: {
-                                type: c_pageNumPosition.PAGE_NUM_POSITION_TOP,
-                                subtype: c_pageNumPosition.PAGE_NUM_POSITION_LEFT
-                            }
-                        },
-                        {
-                            iconname: 'btn-page-number-top-center',
-                            data: {
-                                type: c_pageNumPosition.PAGE_NUM_POSITION_TOP,
-                                subtype: c_pageNumPosition.PAGE_NUM_POSITION_CENTER
-                            }
-                        },
-                        {
-                            iconname: 'btn-page-number-top-right',
-                            data: {
-                                type: c_pageNumPosition.PAGE_NUM_POSITION_TOP,
-                                subtype: c_pageNumPosition.PAGE_NUM_POSITION_RIGHT
-                            }
-                        },
-                        {
-                            iconname: 'btn-page-number-bottom-left',
-                            data: {
-                                type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,
-                                subtype: c_pageNumPosition.PAGE_NUM_POSITION_LEFT
-                            }
-                        },
-                        {
-                            iconname: 'btn-page-number-bottom-center',
-                            data: {
-                                type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,
-                                subtype: c_pageNumPosition.PAGE_NUM_POSITION_CENTER
-                            }
-                        },
-                        {
-                            iconname: 'btn-page-number-bottom-right',
-                            data: {
-                                type: c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,
-                                subtype: c_pageNumPosition.PAGE_NUM_POSITION_RIGHT
-                            }
-                        }
-                    ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-pagenumber options__icon options__icon-huge <%= iconname %>"></div>')
-                });
-                this.mnuPageNumberPosPicker.keepState = keepState;
-                _conf && this.mnuPageNumberPosPicker.setDisabled(_conf.disabled);
-                this.mnuInsertPageNum.menu.setInnerMenu([{menu: this.mnuPageNumberPosPicker, index: 0}]);
 
                 this.mnuTablePicker = new Common.UI.DimensionPicker({
                     el: $('#id-toolbar-menu-tablepicker'),

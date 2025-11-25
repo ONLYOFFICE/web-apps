@@ -177,7 +177,6 @@ define([
                 },
                 'DocumentHolder': {
                     'list:settings': this.onMarkerSettingsClick.bind(this),
-                    'field:edit': this.onInsFieldClick.bind(this, 'edit')
                 },
                 'Common.Views.ReviewChanges': {
                     'collaboration:mailmerge':  _.bind(this.onSelectRecepientsClick, this)
@@ -401,7 +400,6 @@ define([
             toolbar.mnuTablePicker.on('select',                         _.bind(this.onTablePickerSelect, this));
             toolbar.mnuInsertTable.on('item:click',                     _.bind(this.onInsertTableClick, this));
             toolbar.mnuInsertTable.on('show:after',                     _.bind(this.onInsertTableShow, this));
-            toolbar.mnuInsertImage.on('item:click',                     _.bind(this.onInsertImageClick, this));
             toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
             toolbar.btnInsertText.menu.on('item:click',                 _.bind(this.onMenuInsertTextClick, this));
             toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
@@ -417,12 +415,6 @@ define([
             toolbar.mnuPageSize.on('item:click',                        _.bind(this.onPageSizeClick, this));
             toolbar.mnuColorSchema.on('item:click',                     _.bind(this.onColorSchemaClick, this));
             toolbar.mnuColorSchema.on('show:after',                     _.bind(this.onColorSchemaShow, this));
-            toolbar.mnuPageNumberPosPicker.on('item:click',             _.bind(this.onInsertPageNumberClick, this));
-            toolbar.btnEditHeader.menu.on('item:click',                 _.bind(this.onEditHeaderFooterClick, this));
-            toolbar.btnInsDateTime.on('click',                          _.bind(this.onInsDateTimeClick, this));
-            toolbar.btnInsField.on('click',                             _.bind(this.onInsFieldClick, this, 'add'));
-            toolbar.mnuPageNumCurrentPos.on('click',                    _.bind(this.onPageNumCurrentPosClick, this));
-            toolbar.mnuInsertPageCount.on('click',                      _.bind(this.onInsertPageCountClick, this));
             toolbar.btnBlankPage.on('click',                            _.bind(this.onBtnBlankPageClick, this));
             toolbar.listStyles.on('click',                              _.bind(this.onListStyleSelect, this));
             toolbar.listStyles.on('contextmenu',                        _.bind(this.onListStyleContextMenu, this));
@@ -482,8 +474,6 @@ define([
                 this.api.asc_registerCallback('asc_onUnLockDocumentProps', _.bind(this.onApiUnLockDocumentProps, this));
                 this.api.asc_registerCallback('asc_onLockDocumentSchema', _.bind(this.onApiLockDocumentSchema, this));
                 this.api.asc_registerCallback('asc_onUnLockDocumentSchema', _.bind(this.onApiUnLockDocumentSchema, this));
-                this.api.asc_registerCallback('asc_onLockHeaderFooters', _.bind(this.onApiLockHeaderFooters, this));
-                this.api.asc_registerCallback('asc_onUnLockHeaderFooters', _.bind(this.onApiUnLockHeaderFooters, this));
                 this.api.asc_registerCallback('asc_onZoomChange', _.bind(this.onApiZoomChange, this));
                 this.api.asc_registerCallback('asc_onMarkerFormatChanged', _.bind(this.onApiStartHighlight, this));
                 this.api.asc_registerCallback('asc_onTextHighLight', _.bind(this.onApiHighlightColor, this));
@@ -877,16 +867,16 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.richEditLock,  rich_edit_lock,     {array: this.toolbar.paragraphControls.concat([toolbar.btnClearStyle])});
             this.toolbar.lockToolbar(Common.enumLock.plainEditLock, plain_edit_lock,    {array: this.toolbar.paragraphControls.concat([toolbar.btnClearStyle])});
 
-            this.toolbar.lockToolbar(Common.enumLock.richDelLock, rich_del_lock,        {array: toolbar.btnsPageBreak.concat(this.btnsComment).concat([toolbar.btnInsertTable, toolbar.btnInsertImage, toolbar.btnInsertChart, toolbar.btnInsertTextArt,
-                                                                                    toolbar.btnInsDateTime, toolbar.btnBlankPage, toolbar.btnInsertEquation, toolbar.btnInsertSymbol, toolbar.btnInsField ])});
-            this.toolbar.lockToolbar(Common.enumLock.plainDelLock, plain_del_lock,      {array: toolbar.btnsPageBreak.concat(this.btnsComment).concat([toolbar.btnInsertTable, toolbar.btnInsertImage, toolbar.btnInsertChart, toolbar.btnInsertTextArt,
-                                                                                    toolbar.btnInsDateTime, toolbar.btnBlankPage, toolbar.btnInsertEquation, toolbar.btnInsertSymbol, toolbar.btnInsField ])});
+            this.toolbar.lockToolbar(Common.enumLock.richDelLock, rich_del_lock,        {array: toolbar.btnsPageBreak.concat(this.btnsComment).concat([toolbar.btnInsertTable, toolbar.btnInsertChart, toolbar.btnInsertTextArt,
+                                                                                    toolbar.btnBlankPage, toolbar.btnInsertEquation, toolbar.btnInsertSymbol ])});
+            this.toolbar.lockToolbar(Common.enumLock.plainDelLock, plain_del_lock,      {array: toolbar.btnsPageBreak.concat(this.btnsComment).concat([toolbar.btnInsertTable, toolbar.btnInsertChart, toolbar.btnInsertTextArt,
+                                                                                    toolbar.btnBlankPage, toolbar.btnInsertEquation, toolbar.btnInsertSymbol ])});
 
             this.toolbar.lockToolbar(Common.enumLock.inChart,       in_chart,           {array: toolbar.textOnlyControls.concat([toolbar.btnClearStyle, toolbar.btnInsertEquation])});
             this.toolbar.lockToolbar(Common.enumLock.inSmartart,    in_smart_art,       {array: toolbar.textOnlyControls.concat([toolbar.btnClearStyle, toolbar.btnContentControls])});
             this.toolbar.lockToolbar(Common.enumLock.inSmartartInternal, in_smart_art_internal,    {array: toolbar.textOnlyControls.concat([toolbar.btnClearStyle, toolbar.btnDecLeftOffset, toolbar.btnIncLeftOffset, toolbar.btnContentControls])});
             this.toolbar.lockToolbar(Common.enumLock.inEquation,    in_equation,        {array: toolbar.btnsPageBreak.concat([toolbar.btnDropCap, toolbar.btnInsertTable, toolbar.btnBlankPage, toolbar.btnInsertShape,
-                    toolbar.btnInsertText, toolbar.btnInsertTextArt, toolbar.btnInsertImage, toolbar.btnInsertSmartArt, toolbar.btnSuperscript, toolbar.btnSubscript, toolbar.btnEditHeader])});
+                    toolbar.btnInsertText, toolbar.btnInsertTextArt, toolbar.btnInsertSmartArt, toolbar.btnSuperscript, toolbar.btnSubscript])});
 
             in_control = this.api.asc_IsContentControl();
             var control_props = in_control ? this.api.asc_GetContentControlProperties() : null,
@@ -910,7 +900,7 @@ define([
                 toolbar.btnDecLeftOffset, toolbar.btnIncLeftOffset,
                 toolbar.btnLineSpace, toolbar.btnBorders
             ]});  
-            this.toolbar.lockToolbar(Common.enumLock.controlPlain, control_plain, {array: [toolbar.btnInsertTable, toolbar.btnInsertImage,  toolbar.btnInsertChart,  toolbar.btnInsertText, toolbar.btnInsertTextArt,
+            this.toolbar.lockToolbar(Common.enumLock.controlPlain, control_plain, {array: [toolbar.btnInsertTable,  toolbar.btnInsertChart,  toolbar.btnInsertText, toolbar.btnInsertTextArt,
                                                                                 toolbar.btnInsertShape, toolbar.btnInsertSmartArt, toolbar.btnInsertEquation, toolbar.btnDropCap, toolbar.btnColumns, toolbar.mnuInsertPageNum ]});
             if (enable_dropcap && frame_pr) {
                 var value = frame_pr.get_FramePr(),
@@ -932,13 +922,12 @@ define([
                 toolbar.mnuDropCapAdvanced.setDisabled(disable_dropcapadv);
 
             this.toolbar.lockToolbar(Common.enumLock.cantAddTable, !can_add_table, {array: [toolbar.btnInsertTable]});
-            this.toolbar.lockToolbar(Common.enumLock.cantAddPageNum, toolbar.mnuPageNumCurrentPos.isDisabled() && toolbar.mnuPageNumberPosPicker.isDisabled(), {array: [toolbar.mnuInsertPageNum]});
             this.toolbar.lockToolbar(Common.enumLock.inHeader, in_header, {array: toolbar.btnsPageBreak.concat([toolbar.btnBlankPage, toolbar.btnColumns])});
             this.toolbar.lockToolbar(Common.enumLock.inControl, in_control, {array: [toolbar.btnBlankPage]});
             this.toolbar.lockToolbar(Common.enumLock.cantPageBreak, in_image && !btn_eq_state, {array: toolbar.btnsPageBreak.concat([toolbar.btnBlankPage])});
-            this.toolbar.lockToolbar(Common.enumLock.contentLock, content_locked, {array: [toolbar.btnInsertShape, toolbar.btnInsertText, toolbar.btnInsertImage, toolbar.btnInsertTextArt, toolbar.btnInsertChart, toolbar.btnInsertSmartArt ]});
+            this.toolbar.lockToolbar(Common.enumLock.contentLock, content_locked, {array: [toolbar.btnInsertShape, toolbar.btnInsertText, toolbar.btnInsertTextArt, toolbar.btnInsertChart, toolbar.btnInsertSmartArt ]});
             this.toolbar.lockToolbar(Common.enumLock.inFootnote, in_footnote, {array: toolbar.btnsPageBreak.concat([toolbar.btnBlankPage, toolbar.btnInsertShape, toolbar.btnInsertText, toolbar.btnInsertTextArt, toolbar.btnInsertSmartArt ])});
-            this.toolbar.lockToolbar(Common.enumLock.cantAddImagePara, in_para && !can_add_image, {array: [toolbar.btnInsertImage, toolbar.btnInsertTextArt]});
+            this.toolbar.lockToolbar(Common.enumLock.cantAddImagePara, in_para && !can_add_image, {array: [toolbar.btnInsertTextArt]});
 
             if (in_chart !== this._state.in_chart) {
                 toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);
@@ -950,7 +939,7 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.chartLock, in_chart && image_locked, {array: [toolbar.btnInsertChart]});
 
             this.toolbar.lockToolbar(Common.enumLock.cantAddEquation, !can_add_image&&!in_equation, {array: [toolbar.btnInsertEquation]});
-            this.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, !in_para, {array: [toolbar.btnInsertSymbol, toolbar.btnInsDateTime, toolbar.btnLineSpace, toolbar.btnInsField, toolbar.btnBorders]});
+            this.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, !in_para, {array: [toolbar.btnInsertSymbol, toolbar.btnLineSpace, toolbar.btnBorders]});
             this.toolbar.lockToolbar(Common.enumLock.inImage, in_image, {array: [toolbar.btnColumns]});
             this.toolbar.lockToolbar(Common.enumLock.inImagePara, in_image && in_para, {array: [toolbar.btnLineNumbers]});
 
@@ -1075,16 +1064,6 @@ define([
 
         onApiUnLockDocumentSchema: function() {
             this.toolbar.lockToolbar(Common.enumLock.docSchemaLock, false, {array: [this.toolbar.btnColorSchemas]});
-        },
-
-        onApiLockHeaderFooters: function() {
-            this.toolbar.lockToolbar(Common.enumLock.headerFooterLock, true, {array: [this.toolbar.mnuPageNumberPosPicker]});
-            this.toolbar.lockToolbar(Common.enumLock.cantAddPageNum, this.toolbar.mnuPageNumCurrentPos.isDisabled(), {array: [this.toolbar.mnuInsertPageNum]});
-        },
-
-        onApiUnLockHeaderFooters: function() {
-            this.toolbar.lockToolbar(Common.enumLock.headerFooterLock, false, {array: [this.toolbar.mnuPageNumberPosPicker]});
-            this.toolbar.lockToolbar(Common.enumLock.cantAddPageNum, false, {array: [this.toolbar.mnuInsertPageNum]});
         },
 
         onApiZoomChange: function(percent, type) {},
@@ -1964,39 +1943,6 @@ define([
             }
         },
 
-        onInsertImageClick: function(menu, item, e) {
-            var me = this;
-            if (item.value === 'file') {
-                this.toolbar.fireEvent('insertimage', this.toolbar);
-
-                if (this.api)
-                    setTimeout(function() {me.api.asc_addImage();}, 1);
-
-                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                Common.component.Analytics.trackEvent('ToolBar', 'Image');
-            } else if (item.value === 'url') {
-                (new Common.Views.ImageFromUrlDialog({
-                    handler: function(result, value) {
-                        if (result == 'ok') {
-                            if (me.api) {
-                                var checkUrl = value.replace(/ /g, '');
-                                if (!_.isEmpty(checkUrl)) {
-                                    me.toolbar.fireEvent('insertimage', me.toolbar);
-                                    me.api.AddImageUrl([checkUrl]);
-
-                                    Common.component.Analytics.trackEvent('ToolBar', 'Image');
-                                }
-                            }
-
-                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                        }
-                    }
-                })).show();
-            } else if (item.value === 'storage') {
-                Common.NotificationCenter.trigger('storage:image-load', 'add');
-            }
-        },
-
         openImageFromStorage: function(type) {
             var me = this;
             if (this.toolbar.mode.canRequestInsertImage) {
@@ -2653,24 +2599,6 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Pages Count');
-        },
-
-        onEditHeaderFooterClick: function(menu, item) {
-            if (this.api) {
-                if (item.value == 'header')
-                    this.api.GoToHeader(this.api.getCurrentPage());
-                else if (item.value == 'footer')
-                    this.api.GoToFooter(this.api.getCurrentPage());
-                else if (item.value == 'header-remove')
-                    this.api.asc_RemoveHeader(this.api.getCurrentPage());
-                else if (item.value == 'footer-remove')
-                    this.api.asc_RemoveFooter(this.api.getCurrentPage());
-                else
-                    return;
-
-                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-                Common.component.Analytics.trackEvent('ToolBar', 'Edit ' + item.value);
-            }
         },
 
         onPageNumCurrentPosClick: function(item, e) {
@@ -4208,25 +4136,6 @@ define([
                     if (result == 'ok') {
                         if (me.api) {
                             me.api.asc_addDateTime(value);
-                        }
-                    }
-                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                }
-            })).show();
-        },
-
-        onInsFieldClick: function(type) {
-            var me = this;
-            (new Common.Views.TextInputDialog({
-                width: 450,
-                title: me.textFieldTitle,
-                label: me.textFieldLabel,
-                description: me.textFieldExample,
-                value: type==='edit' ? me.api.asc_GetComplexFieldInstruction() : '',
-                handler: function(result, value) {
-                    if (result == 'ok') {
-                        if (me.api) {
-                            type==='edit' ? me.api.asc_EditComplexFieldInstruction(value) : me.api.asc_AddComplexFieldWithInstruction(value);
                         }
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
