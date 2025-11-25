@@ -158,6 +158,7 @@ define([
                 minheight: 0,
                 enableKeyEvents: true,
                 automove: true,
+                autoPosOnResize: 'none',    //center, ratio
                 transparentMask: false,
                 role: 'dialog'
         };
@@ -355,6 +356,9 @@ define([
                 top < topedge ? (top = topedge) : top > this.dragging.maxy && (top = this.dragging.maxy);
 
                 this.$window.css({left: left, top: top});
+
+                this.dragging.wasDragged = true;
+                this.initConfig.autoPosOnResize == 'relative' && _calcWindowPositionRatio.call(this);
             }
         }
 
@@ -362,6 +366,35 @@ define([
             if (data.type == 'mouseup' && this.dragging.enabled) {
                 _mouseup.call(this);
             }
+        }
+
+        function _onResizeWindow() {
+            if(this.initConfig.autoPosOnResize == 'center' && !this.dragging.wasDragged) {
+                this.setPosition();
+            } else if(this.initConfig.autoPosOnResize == 'relative' && this.windowPositionRatio) {
+                const documentGeometry = _readDocumetGeometry();
+                const newPos = {
+                    x: documentGeometry.width * this.windowPositionRatio.left - (this.getWidth() / 2),
+                    y: documentGeometry.height * this.windowPositionRatio.top - (this.getHeight() / 2),
+                };
+                this.setPosition(newPos.x, newPos.y);
+            }
+
+            if(this.initConfig.automove) {
+                _onResizeMove.call(this);
+            }
+        }
+
+        function _calcWindowPositionRatio(){
+            const documentGeometry = _readDocumetGeometry();
+            const windowCenter = {
+                left: this.getLeft() + this.getWidth() / 2,
+                top: this.getTop() + this.getHeight() / 2
+            };
+            this.windowPositionRatio = {
+                left: windowCenter.left / documentGeometry.width,
+                top: windowCenter.top / documentGeometry.height,
+            };
         }
 
         function _onResizeMove(){
@@ -805,10 +838,12 @@ define([
                 }
 
                 $(document).on('keydown.' + this.cid, this.binding.keydown);
-                if(this.initConfig.automove){
-                    this.binding.windowresize = _.bind(_onResizeMove, this);
+                if(this.initConfig.automove || this.initConfig.autoPosOnResize != 'none'){
+                    this.binding.windowresize = _.bind(_onResizeWindow, this);
                     $(window).on('resize', this.binding.windowresize);
                 }
+
+                this.initConfig.autoPosOnResize == 'relative' && _calcWindowPositionRatio.call(this);
 
                 var me = this;
 
@@ -860,7 +895,7 @@ define([
 
             close: function(suppressevent) {
                 $(document).off('keydown.' + this.cid);
-                this.initConfig.automove && $(window).off('resize', this.binding.windowresize);
+                this.binding.windowresize && $(window).off('resize', this.binding.windowresize);
                 if ( this.initConfig.header ) {
                     this.$window.find('.header').off('mousedown', this.binding.dragStart);
                 }
@@ -908,7 +943,7 @@ define([
 
             hide: function() {
                 $(document).off('keydown.' + this.cid);
-                this.initConfig.automove && $(window).off('resize', this.binding.windowresize);
+                this.binding.windowresize && $(window).off('resize', this.binding.windowresize);
                 if (this.$window) {
                     if (this.initConfig.modal) {
                         var mask = _getMask(),

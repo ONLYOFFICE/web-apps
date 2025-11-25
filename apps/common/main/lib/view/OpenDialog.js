@@ -63,6 +63,8 @@ define([
                 contentTemplate : '',
                 toolcallback    : _.bind(t.onToolClose, t),
                 closeFile       : false,
+                // autoPosOnResize : 'center',
+                autoPosOnResize : 'relative',
                 buttons         : ['ok'].concat(options.closeFile ? [{value: 'cancel', caption: this.closeButtonText}] : []).concat(options.closable ? ['cancel'] : []),
             }, options);
 
