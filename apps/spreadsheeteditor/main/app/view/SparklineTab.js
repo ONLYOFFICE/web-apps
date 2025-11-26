@@ -82,7 +82,7 @@ define([
             '<div class="group">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-sparkline-marker-color"></span>' +
             '</div>' +
-            '<div class="group flex small" id="id-spark-combo-style" style="min-width: 220px;"></div>' +
+            '<div class="group flex small" id="id-spark-combo-style" style="width: 100%; min-width: 105px;" data-group-width="100%"></div>' +
             '<div class="group small">' +
                 '<div class="elset">' +
                     '<span class="btn-slot text" id="slot-btn-sparkline-color"></span>' +
@@ -279,9 +279,38 @@ define([
                     lock: [_set.lostConnect, _set.coAuth, _set.editCell, _set.sparkLocked, _set.wsLock,],
                     enableKeyEvents: true,
                     cls: 'combo-chart-template',
-                    style: 'min-width: 103px; max-width: 517px;',
+                    style: 'min-width: 103px; max-width: 497px;',
                     delayRenderTips: true,
                     autoWidth: true,
+                    beforeOpenHandler: function(e) {
+                        var cmp = this,
+                            menu = cmp.openButton.menu,
+                            columnCount = 8;
+
+                        if (menu.cmpEl) {
+                            var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent();
+                            var itemMargin = 8;
+                            var itemWidth = itemEl.is(':visible') ? parseFloat(itemEl.css('width')) :
+                                (cmp.itemWidth + parseFloat(itemEl.css('padding-left')) + parseFloat(itemEl.css('padding-right')) +
+                                parseFloat(itemEl.css('border-left-width')) + parseFloat(itemEl.css('border-right-width')));
+                            menu.menuAlignEl = cmp.cmpEl;
+                            menu.menuAlign = 'tl-tl';
+                            var menuWidth = columnCount * (itemMargin + itemWidth) + 14, // for scroller
+                                buttonOffsetLeft = Common.Utils.getOffset(cmp.openButton.$el).left;
+                            if (menuWidth>Common.Utils.innerWidth())
+                                menuWidth = Math.max(Math.floor((Common.Utils.innerWidth()-14)/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth) - 14;
+                            var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft) - 1;
+                            if (Common.UI.isRTL()) {
+                                offset = cmp.openButton.$el.width() + parseFloat($(cmp.$el.find('.combo-dataview').get(0)).css('padding-left'));
+                            }
+                            menu.setOffset(Common.UI.isRTL() ? offset : Math.min(offset, 0));
+
+                            menu.cmpEl.css({
+                                'width': menuWidth,
+                                'min-height': cmp.cmpEl.height()
+                            });
+                        }
+                    },
                     fillOnChangeVisibility: true
                 });
                 this.cmbSparkStyle.openButton.menu.on('show:after', function () {
@@ -296,7 +325,6 @@ define([
                     caption: this.capSparklineColor,
                     menu: new Common.UI.Menu({
                         cls: 'color-menu',
-                        menuAlign: 'tl-tr',
                         items: [
                             { template: _.template('<div id="sparkline-color-menu-picker" style="width: 164px;display: inline-block;"></div>'), stopPropagation: true },
                             { caption: '--'},
@@ -344,7 +372,6 @@ define([
                     lock: [_set.editCell, _set.lostConnect, _set.coAuth, _set.sparkLocked, _set.wsLock,],
                     caption: this.capClear,
                     menu        : new Common.UI.Menu({
-                        menuAlign: 'tl-tr',
                         items   : [
                                 { caption: me.txtClearSparklines, value: Asc.c_oAscCleanOptions.Sparklines },
                                 { caption: me.txtClearSparklineGroups, value: Asc.c_oAscCleanOptions.SparklineGroups }

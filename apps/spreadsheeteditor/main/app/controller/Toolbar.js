@@ -1205,8 +1205,8 @@ define([
                         var range = props.getRange(),
                             isvalid = (!_.isEmpty(range)) ? me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, props.getInRows(), props.getType()) : Asc.c_oAscError.ID.No;
                         if (isvalid == Asc.c_oAscError.ID.No) {
+                            me._state.showChartTab = true;
                             me.api.asc_addChartDrawingObject(props);
-                            this._state.showChartTab = true;
                         } else {
                             var msg = me.txtInvalidRange;
                             switch (isvalid) {
@@ -2965,6 +2965,31 @@ define([
 
             toolbar.lockToolbar(Common.enumLock.pageBreakLock, this.api.asc_GetPageBreaksDisableType(this.api.asc_getActiveWorksheetIndex())===Asc.c_oAscPageBreaksDisableType.all, {array: [toolbar.btnPageBreak]});
 
+            var in_chart = (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText);
+            if (in_chart !== this._state.in_chart) {
+                toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);
+                this._state.in_chart = in_chart;
+            }
+
+            if (this._state.inchart !== in_chart) {
+                if ( !in_chart && this.toolbar.isTabActive('charttab') )
+                    this.toolbar.setTab('home');
+                this.toolbar.setVisible('charttab', !!in_chart);
+                if (in_chart && this._state.showChartTab)
+                    this.toolbar.setTab('charttab');
+                this._state.inchart = in_chart;
+            }
+
+            var in_sparkline = !!info.asc_getSparklineInfo();
+            if (this._state.insparkline !== in_sparkline) {
+                if ( !in_sparkline && this.toolbar.isTabActive('sparklinetab') )
+                    this.toolbar.setTab('home');
+                this.toolbar.setVisible('sparklinetab', !!in_sparkline);
+                if (in_sparkline && this._state.showSparklineTab)
+                    this.toolbar.setTab('sparklinetab');
+                this._state.insparkline = in_sparkline;
+            }
+
             if (editOptionsDisabled) return;
 
             /* read font params */
@@ -3073,30 +3098,6 @@ define([
                     this._state.clrback = clr;
                 }
                 this._state.clrshd_asccolor = color;
-            }
-
-            var in_chart = (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText);
-            if (in_chart !== this._state.in_chart) {
-                toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);
-                this._state.in_chart = in_chart;
-            }
-            if (this._state.inchart !== in_chart) {
-                if ( !in_chart && this.toolbar.isTabActive('charttab') )
-                    this.toolbar.setTab('home');
-                this.toolbar.setVisible('charttab', !!in_chart);
-                if (in_chart && this._state.showChartTab)
-                    this.toolbar.setTab('charttab');
-                this._state.inchart = in_chart;
-            }
-
-            var in_sparkline = !!info.asc_getSparklineInfo();
-            if (this._state.insparkline !== in_sparkline) {
-                if ( !in_sparkline && this.toolbar.isTabActive('sparklinetab') )
-                    this.toolbar.setTab('home');
-                this.toolbar.setVisible('sparklinetab', !!in_sparkline);
-                if (in_sparkline && this._state.showSparklineTab)
-                    this.toolbar.setTab('sparklinetab');
-                this._state.insparkline = in_sparkline;
             }
 
             if (!toolbar.mode.isEditDiagram)
@@ -5227,6 +5228,7 @@ define([
                 isEdit: (seltype == Asc.c_oAscSelectionType.RangeChart || seltype == Asc.c_oAscSelectionType.RangeChartText),
                 handler: function(result, value) {
                     if (result == 'ok') {
+                        me._state.showChartTab = true;
                         me.api && me.api.asc_addChartSpace(value);
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);

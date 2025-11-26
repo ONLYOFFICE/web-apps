@@ -3587,6 +3587,7 @@
   "SSE.Views.ChartTab.textLeftOverlay": "Left overlay",
   "SSE.Views.ChartTab.textRightOverlay": "Right overlay",
   "SSE.Views.ChartTab.textTrendlineOptions": "Trendline options",
+  "SSE.Views.ChartTab.textTrendline": "Trendline",
   "SSE.Views.ChartTab.textLinear": "Linear",
   "SSE.Views.ChartTab.textLinearForecast": "Linear Forecast",
   "SSE.Views.ChartTab.textLinearTrend": "Linear trend",

@@ -169,9 +169,17 @@ define([
                     var value = props.asc_getSeveralChartTypes();
                     var type = (this._state.SeveralCharts && value) ? null : this.chartProps.getType();
                     if (this._state.ChartType !== type) {
+                        var isCombo =
+                            type === null ||
+                            type === Asc.c_oAscChartTypeSettings.comboBarLine ||
+                            type === Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+                            type === Asc.c_oAscChartTypeSettings.comboAreaBar ||
+                            type === Asc.c_oAscChartTypeSettings.comboCustom;
                         this.ShowCombinedProps(type);
-                        !(type===null || type==Asc.c_oAscChartTypeSettings.comboBarLine || type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
-                        type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom) && this.updateChartStyles(this.api.asc_getChartPreviews(type, undefined, true));
+                        if (!isCombo) {
+                            this.updateChartStyles(this.api.asc_getChartPreviews(type, undefined, true));
+                        }
+                        this.view.$el.find('.separator-chart-styles')[isCombo ? 'hide' : 'show']();
                         this._state.ChartType = type;
                     }
 
