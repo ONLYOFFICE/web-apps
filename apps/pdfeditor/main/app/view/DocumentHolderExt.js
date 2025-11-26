@@ -225,7 +225,7 @@ define([], function () {
                             checkable   : true,
                             checkmark   : false,
                             toggleGroup : 'popuptablecellhalign',
-                            value       : 0
+                            halign      : 0
                         }),
                         me.menuTableCellJust = new Common.UI.MenuItem({
                             iconCls     : 'menu__icon btn-align-just',
