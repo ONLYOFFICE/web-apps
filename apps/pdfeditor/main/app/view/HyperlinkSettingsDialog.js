@@ -77,6 +77,7 @@ define([], function () { 'use strict';
                             '<label>' + this.strLinkTo + '</label>',
                         '</div>',
                         '<div id="id-dlg-hyperlink-list" style="width:100%; height: 171px;"></div>',
+                        '<div id="id-dlg-hyperlink-chb-page" class="input-row" style="margin-top: 15px;"></div>',
                     '</div>',
                     '<div class="input-row not-annotation">',
                         '<label>' + this.strDisplay + '</label>',
@@ -180,6 +181,13 @@ define([], function () { 'use strict';
             });
             me.internalList.on('item:select', _.bind(this.onSelectItem, this));
 
+            me.chPageView = new Common.UI.CheckBox({
+                el: $window.find('#id-dlg-hyperlink-chb-page'),
+                labelText: this.txtPageView
+            }).on('change', function(field, newValue, oldValue, eOpts){
+                // me.internalList.setDisabled(newValue==='checked');
+            });
+
             me.btnOk = _.find(this.getFooterButtons(), function (item) {
                 return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
             }) || new Common.UI.Button({ el: $window.find('.primary') });
@@ -192,7 +200,8 @@ define([], function () { 'use strict';
 
             if (me.isAnnotation) {
                 $window.find('.not-annotation').addClass('hidden');
-            }
+            } else
+                me.chPageView.setVisible(false);
         },
 
         getFocusedComponents: function() {
@@ -273,6 +282,62 @@ define([], function () { 'use strict';
         _handleInput: function(state) {
             if (this.options.handler) {
                 if (state == 'ok') {
+                    if (this.isAnnotation && this.chPageView.getValue()==='checked') {
+                        var me = this;
+                        me.hide();
+
+                        Common.NotificationCenter.trigger('editing:disable', true, {
+                            viewMode: true,
+                            allowSignature: false,
+                            statusBar: true,
+                            rightMenu: {clear: true, disable: true},
+                            leftMenu: {disable: true, previewMode: true},
+                            fileMenu: {protect: true},
+                            navigation: {disable: true, previewMode: true},
+                            comments: {disable: true, previewMode: true},
+                            chat: true,
+                            viewport: true,
+                            documentHolder: {clear: true, disable: true},
+                            toolbar: true,
+                            plugins: false,
+                            header: {docmode: true, search: true},
+                            shortcuts: true
+                        }, 'setlink');
+
+                        Common.UI.alert({
+                            modal: false,
+                            maxwidth: 400,
+                            title: this.txtCreateLink,
+                            msg: this.txtCreateDesc,
+                            buttons: [  {caption: this.txtSetLink, primary: true, value: 'ok'},
+                                'cancel'],
+                            callback: function(btn){
+                                if (btn === 'ok') {
+                                    me.options.handler.call(me, me, 'view');
+                                }
+                                me.close();
+                                Common.NotificationCenter.trigger('editing:disable', false, {
+                                    viewMode: false,
+                                    allowSignature: false,
+                                    statusBar: true,
+                                    rightMenu: {clear: true, disable: true},
+                                    leftMenu: {disable: true, previewMode: true},
+                                    fileMenu: {protect: true},
+                                    navigation: {disable: true, previewMode: true},
+                                    comments: {disable: true, previewMode: true},
+                                    chat: true,
+                                    viewport: true,
+                                    documentHolder: {clear: true, disable: true},
+                                    toolbar: true,
+                                    plugins: false,
+                                    header: {docmode: true, search: true},
+                                    shortcuts: true
+                                }, 'setlink');
+                            }
+                        });
+                        return;
+                    }
+
                     var checkurl = (this.btnExternal.isActive()) ? this.inputUrl.checkValidate() : true;
                     if (checkurl !== true)  {
                         this.isInputFirstChange = true;

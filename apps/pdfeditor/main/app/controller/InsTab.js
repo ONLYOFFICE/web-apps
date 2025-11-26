@@ -394,6 +394,8 @@ define([
                 res = result;
                 if (result === 'ok') {
                     me.api.add_Hyperlink(dlg.getSettings());
+                } else if (result === 'view') {
+                    me.api.SetLinkAnnotGoToAction(arrIds);
                 }
                 Common.NotificationCenter.trigger('edit:complete', me.view);
             };
@@ -411,7 +413,7 @@ define([
                 handler: handlerDlg,
                 slides: _arr
             }).on('close', function() {
-                (res!=='ok') && me.api.asc_removeAnnots(arrIds);
+                (res!=='ok' && res!=='view') && me.api.asc_removeAnnots(arrIds);
             });
             win.show();
             win.setSettings();
