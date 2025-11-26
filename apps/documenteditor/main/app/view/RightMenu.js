@@ -50,7 +50,7 @@ define([
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/CheckBox',
     'documenteditor/main/app/view/ParagraphSettings',
-    'documenteditor/main/app/view/HeaderFooterSettings',
+    // 'documenteditor/main/app/view/HeaderFooterSettings',
     'documenteditor/main/app/view/ImageSettings',
     'documenteditor/main/app/view/ChartSettings',
     'documenteditor/main/app/view/TableSettings',
@@ -105,15 +105,15 @@ define([
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
-            this.btnHeaderFooter = new Common.UI.Button({
-                hint: this.txtHeaderFooterSettings,
-                asctype: Common.Utils.documentSettingsType.Header,
-                enableToggle: true,
-                disabled: true,
-                iconCls: 'btn-menu-header',
-                toggleGroup: 'tabpanelbtnsGroup',
-                allowMouseEventsOnDisabled: true
-            });
+            // this.btnHeaderFooter = new Common.UI.Button({
+            //     hint: this.txtHeaderFooterSettings,
+            //     asctype: Common.Utils.documentSettingsType.Header,
+            //     enableToggle: true,
+            //     disabled: true,
+            //     iconCls: 'btn-menu-header',
+            //     toggleGroup: 'tabpanelbtnsGroup',
+            //     allowMouseEventsOnDisabled: true
+            // });
             this.btnChart = new Common.UI.Button({
                 hint: this.txtChartSettings,
                 asctype: Common.Utils.documentSettingsType.Chart,
@@ -147,7 +147,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Paragraph]   = {panel: "id-paragraph-settings",  btn: this.btnText};
             this._settings[Common.Utils.documentSettingsType.Table]       = {panel: "id-table-settings",      btn: this.btnTable};
             this._settings[Common.Utils.documentSettingsType.Image]       = {panel: "id-image-settings",      btn: this.btnImage};
-            this._settings[Common.Utils.documentSettingsType.Header]      = {panel: "id-header-settings",     btn: this.btnHeaderFooter};
+            // this._settings[Common.Utils.documentSettingsType.Header]      = {panel: "id-header-settings",     btn: this.btnHeaderFooter};
             this._settings[Common.Utils.documentSettingsType.Shape]       = {panel: "id-shape-settings",      btn: this.btnShape};
             this._settings[Common.Utils.documentSettingsType.Chart]       = {panel: "id-chart-settings",      btn: this.btnChart};
             this._settings[Common.Utils.documentSettingsType.TextArt]     = {panel: "id-textart-settings",    btn: this.btnTextArt};
@@ -184,7 +184,7 @@ define([
             this.btnText.setElement($markup.findById('#id-right-menu-text'), false);           this.btnText.render();
             this.btnTable.setElement($markup.findById('#id-right-menu-table'), false);         this.btnTable.render();
             this.btnImage.setElement($markup.findById('#id-right-menu-image'), false);         this.btnImage.render();
-            this.btnHeaderFooter.setElement($markup.findById('#id-right-menu-header'), false); this.btnHeaderFooter.render();
+            // this.btnHeaderFooter.setElement($markup.findById('#id-right-menu-header'), false); this.btnHeaderFooter.render();
             this.btnChart.setElement($markup.findById('#id-right-menu-chart'), false);         this.btnChart.render();
             this.btnShape.setElement($markup.findById('#id-right-menu-shape'), false);         this.btnShape.render();
             this.btnTextArt.setElement($markup.findById('#id-right-menu-textart'), false);     this.btnTextArt.render();
@@ -192,13 +192,13 @@ define([
             this.btnText.on('click',            this.onBtnMenuClick.bind(this));
             this.btnTable.on('click',           this.onBtnMenuClick.bind(this));
             this.btnImage.on('click',           this.onBtnMenuClick.bind(this));
-            this.btnHeaderFooter.on('click',    this.onBtnMenuClick.bind(this));
+            // this.btnHeaderFooter.on('click',    this.onBtnMenuClick.bind(this));
             this.btnChart.on('click',           this.onBtnMenuClick.bind(this));
             this.btnShape.on('click',           this.onBtnMenuClick.bind(this));
             this.btnTextArt.on('click',         this.onBtnMenuClick.bind(this));
 
             this.paragraphSettings = new DE.Views.ParagraphSettings();
-            this.headerSettings = new DE.Views.HeaderFooterSettings();
+            // this.headerSettings = new DE.Views.HeaderFooterSettings();
             this.imageSettings = new DE.Views.ImageSettings();
             this.chartSettings = new DE.Views.ChartSettings();
             this.tableSettings = new DE.Views.TableSettings();
@@ -280,7 +280,7 @@ define([
             var _isEyedropperStart = function (isStart) {this._isEyedropperStart = isStart;};
             var _updateScroller = function () {me.updateScroller();};
             this.paragraphSettings.setApi(api).on('editcomplete', _fire_editcomplete).on('eyedropper', _.bind(_isEyedropperStart, this));
-            this.headerSettings.setApi(api).on('editcomplete', _fire_editcomplete);
+            // this.headerSettings.setApi(api).on('editcomplete', _fire_editcomplete);
             this.imageSettings.setApi(api).on('editcomplete', _fire_editcomplete);
             this.chartSettings.setApi(api).on('editcomplete', _fire_editcomplete).on('updatescroller', _updateScroller);
             this.tableSettings.setApi(api).on('editcomplete', _fire_editcomplete).on('eyedropper', _.bind(_isEyedropperStart, this));
@@ -298,7 +298,7 @@ define([
             this.shapeSettings && this.shapeSettings.setMode(mode);
             this.formSettings && this.formSettings.setMode(mode);
             this.chartSettings && this.chartSettings.setMode(mode);
-            this.headerSettings && this.headerSettings.setMode(mode);
+            // this.headerSettings && this.headerSettings.setMode(mode);
             this.signatureSettings && this.signatureSettings.setMode(mode);
         },
 
@@ -386,7 +386,7 @@ define([
         },
 
         setButtons: function () {
-            var allButtons = [this.btnText, this.btnTable, this.btnImage, this.btnHeaderFooter, this.btnShape, this.btnChart, this.btnTextArt,
+            var allButtons = [this.btnText, this.btnTable, this.btnImage, this.btnShape, this.btnChart, this.btnTextArt,
                     this.btnMailMerge, this.btnSignature, this.btnForm];
             Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
