@@ -219,6 +219,7 @@ define([
                     iconCls: 'toolbar__icon btn-big-inserthyperlink',
                     caption: me.capInsertHyperlink,
                     lock: [_set.hyperlinkLock, _set.paragraphLock, _set.lostConnect, _set.objectWithoutParagraph],
+                    enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'

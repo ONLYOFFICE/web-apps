@@ -48,21 +48,20 @@ var c_oHyperlinkType = {
 define([], function () { 'use strict';
 
     PDFE.Views.HyperlinkSettingsDialog = Common.UI.Window.extend(_.extend({
-        options: {
-            width: 350,
-            style: 'min-width: 230px;',
-            cls: 'modal-dlg',
-            id: 'window-hyperlink-settings',
-            buttons: ['ok', 'cancel']
-        },
 
         initialize : function(options) {
-            _.extend(this.options, {
-                title: this.textTitle
+            var _options = {};
+            _.extend(_options, {
+                title: this.textTitle,
+                width: 350,
+                style: 'min-width: 230px;',
+                cls: 'modal-dlg',
+                id: 'window-hyperlink-settings',
+                buttons: ['ok', 'cancel']
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 330px;">',
+                '<div class="box" style="height: ' + (options.isAnnotation ? 280 : 330) + 'px;">',
                     '<div style="margin-bottom: 10px;">',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external">', this.textExternalLink,'</button>',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal">', this.textInternalLink,'</button>',
@@ -79,24 +78,25 @@ define([], function () { 'use strict';
                         '</div>',
                         '<div id="id-dlg-hyperlink-list" style="width:100%; height: 171px;"></div>',
                     '</div>',
-                    '<div class="input-row">',
+                    '<div class="input-row not-annotation">',
                         '<label>' + this.strDisplay + '</label>',
                     '</div>',
-                    '<div id="id-dlg-hyperlink-display" class="input-row" style="margin-bottom: 5px;"></div>',
-                    '<div class="input-row">',
+                    '<div id="id-dlg-hyperlink-display" class="input-row not-annotation" style="margin-bottom: 5px;"></div>',
+                    '<div class="input-row not-annotation">',
                         '<label>' + this.textTipText + '</label>',
                     '</div>',
-                    '<div id="id-dlg-hyperlink-tip" class="input-row" style="margin-bottom: 5px;"></div>',
+                    '<div id="id-dlg-hyperlink-tip" class="input-row not-annotation" style="margin-bottom: 5px;"></div>',
                 '</div>'
             ].join('');
 
-            this.options.tpl = _.template(this.template)(this.options);
-            this.slides = this.options.slides;
-            this.api = this.options.api;
+            _options.tpl = _.template(this.template)(_options);
+            this.slides = _options.slides;
+            this.api = _options.api;
             this.urlType = AscCommon.c_oAscUrlType.Invalid;
-            this.appOptions = this.options.appOptions;
+            this.appOptions = _options.appOptions;
+            this.isAnnotation = !!_options.isAnnotation;
 
-            Common.UI.Window.prototype.initialize.call(this, this.options);
+            Common.UI.Window.prototype.initialize.call(this, _options);
         },
 
         render: function() {
@@ -189,6 +189,10 @@ define([], function () { 'use strict';
             me.internalList.on('entervalue', _.bind(me.onPrimary, me));
             me.externalPanel = $window.find('#id-external-link');
             me.internalPanel = $window.find('#id-internal-link');
+
+            if (me.isAnnotation) {
+                $window.find('.not-annotation').addClass('hidden');
+            }
         },
 
         getFocusedComponents: function() {
@@ -233,7 +237,7 @@ define([], function () { 'use strict';
                     tip = rec.get('tiptext');
                 }
                 props.put_Value( url );
-                props.put_ToolTip(_.isEmpty(txttip) ? tip : txttip);
+                !this.isAnnotation && props.put_ToolTip(_.isEmpty(txttip) ? tip : txttip);
                 def_display = tip;
             } else {
                 var url = $.trim(me.inputUrl.getValue());
@@ -241,17 +245,17 @@ define([], function () { 'use strict';
                     url = ( (me.urlType==AscCommon.c_oAscUrlType.Email) ? 'mailto:' : 'http://' ) + url;
                 url = url.replace(new RegExp("%20",'g')," ");
                 props.put_Value( url );
-                props.put_ToolTip(me.inputTip.getValue());
+                !this.isAnnotation && props.put_ToolTip(me.inputTip.getValue());
                 def_display = url;
             }
 
             if (!me.inputDisplay.isDisabled() && (me.isTextChanged || _.isEmpty(me.inputDisplay.getValue()))) {
                 if (_.isEmpty(me.inputDisplay.getValue()) || type==c_oHyperlinkType.WebLink && me.isAutoUpdate)
                     me.inputDisplay.setValue(def_display);
-                props.put_Text(me.inputDisplay.getValue());
+                !this.isAnnotation && props.put_Text(me.inputDisplay.getValue());
             }
             else
-                props.put_Text(null);
+                !this.isAnnotation && props.put_Text(null);
 
             return props;
         },
@@ -269,18 +273,20 @@ define([], function () { 'use strict';
         _handleInput: function(state) {
             if (this.options.handler) {
                 if (state == 'ok') {
-                    var checkurl = (this.btnExternal.isActive()) ? this.inputUrl.checkValidate() : true,
-                        checkdisp = this.inputDisplay.checkValidate();
+                    var checkurl = (this.btnExternal.isActive()) ? this.inputUrl.checkValidate() : true;
                     if (checkurl !== true)  {
                         this.isInputFirstChange = true;
                         this.inputUrl.focus();
                         return;
                     }
-                    if (checkdisp !== true) {
-                        this.inputDisplay.focus();
-                        return;
+                    if (!this.isAnnotation) {
+                        var checkdisp = this.inputDisplay.checkValidate();
+                        if (checkdisp !== true) {
+                            this.inputDisplay.focus();
+                            return;
+                        }
+                        !this._originalProps.get_Value() &&  Common.Utils.InternalSettings.set("pdfe-settings-link-type", this.btnInternal.isActive());
                     }
-                    !this._originalProps.get_Value() &&  Common.Utils.InternalSettings.set("pdfe-settings-link-type", this.btnInternal.isActive());
                 }
                 this.options.handler.call(this, this, state);
             }
