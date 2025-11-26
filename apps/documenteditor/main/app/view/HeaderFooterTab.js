@@ -277,7 +277,7 @@ define([
 
                 this.btnsInsImage = Common.Utils.injectButtons($host.find('.btn-slot.slot-insertimage').add(this.toolbar.$el.find('.btn-slot.slot-insertimage')), '', 'toolbar__icon btn-insertimage', this.capBtnInsImage,
                     [_set.paragraphLock, _set.headerLock, _set.inEquation, _set.controlPlain, _set.richDelLock, _set.plainDelLock,  _set.contentLock,  _set.cantAddImagePara,
-                            _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode], undefined, true, undefined, '1', 'bottom', 'small', 'insert-image');
+                            _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode], undefined, true, undefined, '1', 'bottom', 'small', undefined, 'insert-image');
                 Array.prototype.push.apply(this.lockedControls, this.btnsInsImage);
                 Array.prototype.push.apply(this.paragraphControls, this.btnsInsImage);
 
