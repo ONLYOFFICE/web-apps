@@ -2474,7 +2474,7 @@ define([], function () {
         dh.onDialogAddHyperlink = function() {
             var win, props, text;
             var me = this;
-            if (me.api && me.mode.isEdit && !me._isDisabled && !PDFE.getController('LeftMenu').leftMenu.menuFile.isVisible()){
+            if (me.api && me.mode.isEdit && !me._isDisabled && !PDFE.getController('LeftMenu').leftMenu.menuFile.isVisible() && !this._state.no_paragraph){ // show dialog only for table/shape
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
                         props = dlg.getSettings();

@@ -286,6 +286,7 @@ define([
                 var i = -1,
                     in_equation = false,
                     in_chart = false,
+                    no_paragraph = true,
                     locked = false;
                 while (++i < selectedElements.length) {
                     var type = selectedElements[i].get_ObjectType();
@@ -294,12 +295,17 @@ define([
                     } else if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
                         var value = selectedElements[i].get_ObjectValue();
                         value && (locked = locked || value.get_Locked());
+                        no_paragraph = false;
                     } else if (type === Asc.c_oAscTypeSelectElement.Shape) { // shape
                         var value = selectedElements[i].get_ObjectValue();
                         if (value && value.get_FromChart()) {
                             in_chart = true;
                             locked = locked || value.get_Locked();
                         }
+                        if (value && !value.get_FromImage() && !value.get_FromChart())
+                            no_paragraph = false;
+                    } else if (type == Asc.c_oAscTypeSelectElement.Table) {
+                        no_paragraph = false;
                     }
                 }
                 if (in_equation) {
@@ -310,6 +316,7 @@ define([
                     this._state.chartLocked = locked;
                     this.disableChartElementButton();
                 }
+                this._state.no_paragraph = no_paragraph;
             }
         },
 
