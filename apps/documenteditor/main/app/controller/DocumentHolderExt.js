@@ -242,6 +242,8 @@ define([], function () {
             view.menuTableCellAlign.menu.on('item:click', _.bind(me.tableCellsVAlign, me));
             view.menuTableAdvanced.on('click', _.bind(me.advancedTableClick, me));
             view.menuParagraphAdvancedInTable.on('click', _.bind(me.advancedParagraphClick, me));
+            view.menuStyleSaveInTable.on('click', _.bind(me.onMenuSaveStyle, me));
+            view.menuStyleUpdateInTable.on('click', _.bind(me.onMenuUpdateStyle, me));
             view.menuParagraphAdvanced.on('click', _.bind(me.advancedParagraphClick, me));
             view.menuEditHyperlinkTable.on('click', _.bind(me.editHyperlink, me));
             view.menuEditHyperlinkPara.on('click', _.bind(me.editHyperlink, me));
