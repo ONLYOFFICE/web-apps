@@ -303,7 +303,7 @@ define([], function () { 'use strict';
                             header: {docmode: true, search: true},
                             shortcuts: true
                         }, 'setlink');
-
+                        me.api.SetCanInteract(false);
                         Common.UI.alert({
                             modal: false,
                             maxwidth: 400,
@@ -333,6 +333,7 @@ define([], function () { 'use strict';
                                     header: {docmode: true, search: true},
                                     shortcuts: true
                                 }, 'setlink');
+                                me.api.SetCanInteract(true);
                             }
                         });
                         return;
