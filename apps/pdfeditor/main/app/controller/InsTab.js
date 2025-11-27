@@ -86,6 +86,7 @@ define([
                 this.api.asc_registerCallback('asc_onEndSmartArtPreview', _.bind(this.onApiEndSmartArtPreview, this));
                 this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onApiFocusObject, this));
                 this.api.asc_registerCallback('asc_onCanAddHyperlink',      _.bind(this.onApiCanAddHyperlink, this));
+                this.api.asc_registerCallback('asc_onLinkToolState',        _.bind(this.onLinkToolState, this));
                 this.api.asc_registerCallback('asc_onDialogAddAnnotLink',   _.bind(this.onDialogAddAnnotLink, this));
                 Common.NotificationCenter.on('storage:image-load',          _.bind(this.openImageFromStorage, this));
                 Common.NotificationCenter.on('storage:image-insert',        _.bind(this.insertImageFromStorage, this));
@@ -313,19 +314,20 @@ define([
             });
         },
 
+        onLinkToolState: function (state) {
+            this.view && this.view.btnInsertHyperlink.toggle(state, true);
+        },
+
         onHyperlinkClick: function() {
             var me = this,
                 win, props, text;
 
             if (this._state.no_paragraph) {//add hyperlink annotation
                 if (this.view.btnInsertHyperlink.pressed) {
-                    var stroke = new Asc.asc_CStroke();
-                    stroke.put_type( Asc.c_oAscStrokeType.STROKE_COLOR);
-                    stroke.put_color(Common.Utils.ThemeColor.getRgbColor('#1755A0'));
-                    this.api.StartAddAnnot(AscPDF.ANNOTATIONS_TYPES.Link, stroke, true);
+                    this.api.SetLinkTool(true);
                     $(document.body).on('mouseup', this.binding.checkInsertHyperlinkAnnot);
                 } else {
-                    this.api.StartAddAnnot('', undefined, false);
+                    this.api.SetLinkTool(false);
                     $(document.body).off('mouseup', this.binding.checkInsertHyperlinkAnnot);
                 }
                 return;
@@ -381,9 +383,6 @@ define([
         },
 
         onDialogAddAnnotLink: function(arrIds) {
-            if ( this.view.btnInsertHyperlink.pressed ) {
-                this.view.btnInsertHyperlink.toggle(false, true);
-            }
             $(document.body).off('mouseup', this.binding.checkInsertHyperlinkAnnot);
 
             if (!this.api) return;
@@ -427,7 +426,7 @@ define([
                 btn_id = cmp.closest('.btn-group').attr('id');
             if (cmp.attr('id') !== 'editor_sdk' && cmp_sdk.length<=0) {
                 if ( this.view.btnInsertHyperlink.pressed && this.view.btnInsertHyperlink.id !== btn_id ) {
-                    this.api.StartAddAnnot('', undefined, false);
+                    this.api.SetLinkTool(false);
                     $(document.body).off('mouseup', this.binding.checkInsertHyperlinkAnnot);
                     this.view.btnInsertHyperlink.toggle(false, true);
                     Common.NotificationCenter.trigger('edit:complete', this.view);
