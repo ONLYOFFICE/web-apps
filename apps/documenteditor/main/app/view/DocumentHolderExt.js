@@ -373,6 +373,12 @@ define([], function () {
                                 cls: 'shifted-right',  
                                 menuAlign: 'tl-tr',
                                 items: [
+                                    { 
+                                        caption: me.textNone, 
+                                        value: 'noneError',
+                                        stopPropagation: true, 
+                                        disabled: false
+                                    },
                                     {
                                         caption: me.textStandardError,
                                         value: 'standardError',

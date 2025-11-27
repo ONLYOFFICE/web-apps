@@ -994,6 +994,9 @@ define([], function () {
                 // case 'bShowLegendKeys':
                 //     chartProps.setDisplayDataTable(true, true);
                 //     break;
+                case 'noneError':
+                    chartProps.setDisplayErrorBars(false);
+                    break;
                 case 'standardError':
                     chartProps.setDisplayErrorBars(true, 4);
                     break;
