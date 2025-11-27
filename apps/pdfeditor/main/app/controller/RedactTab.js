@@ -71,6 +71,7 @@ define([
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
             Common.NotificationCenter.on('leftmenu:change', _.bind(this.onToggleFindRedact, this));
+            Common.NotificationCenter.on('tab:redactwarning', _.bind(this.onShowRedactionsWarning, this));
 
             this.binding = {
 
@@ -115,6 +116,12 @@ define([
                     'tab:active': this.onActiveTab
                 }
             });
+        },
+
+        onActiveTabBefore: function () {
+            if (this.api)
+                var isMarked = this.api.HasRedact();
+            Common.NotificationCenter.trigger('tab:redacted', isMarked)
         },
 
         onApplyRedact: function() {
@@ -222,49 +229,53 @@ define([
             } else {
                 Common.UI.TooltipManager.closeTip('mark-for-redaction');
                 Common.UI.TooltipManager.closeTip('apply-redaction');
-                const isMarked = this.api.HasRedact();
-                if (
-                    isMarked &&
-                    (!this.redactionsWarning || !this.redactionsWarning.isVisible())
-                ) {
-                    this.redactionsWarning = Common.UI.warning({
-                        width: 500,
-                        msg: this.textUnappliedRedactions,
-                        buttons: [{
-                            value: 'apply',
-                            caption: this.applyButtonText
-                        }, {
-                            value: 'doNotApply',
-                            caption: this.doNotApplyButtonText
-                        }, 'cancel'],
-                        primary: 'apply',
-                        callback: _.bind(function(btn) {
-                            if (btn == 'apply') {
-                                this.api.ApplyRedact();
-                                this.api.SetRedactTool(false);
-                                this.view.btnMarkForRedact.toggle(false);
-                            } else if (btn == 'doNotApply') {
-                                this.api.RemoveAllRedact();
-                                this.api.SetRedactTool(false);
-                                this.view.btnMarkForRedact.toggle(false);
-                            } else {
-                                if (this.isFileMenuTab) {
-                                    this.view.fireEvent('menu:hide', [this]);
-                                }
-                                if (this.mode.isPDFEdit) {
-                                    this.toolbar.toolbar.setTab('red')
-                                } else {
-                                    Common.NotificationCenter.trigger('pdf:mode-apply', 'edit', 'red');
-                                }
-                            }
-                        }, this)
-                    });
-                } else {
-                    this.view.btnMarkForRedact.toggle(false);
-                    this.api.SetRedactTool(false);
-                }
             }
+        },
+
+        onShowRedactionsWarning: function (tab) {
             this.isFileMenuTab = tab === 'file';
+
+            if (
+                !this.redactionsWarning || !this.redactionsWarning.isVisible()
+            ) {
+                this.redactionsWarning = Common.UI.warning({
+                    width: 500,
+                    msg: this.textUnappliedRedactions,
+                    buttons: [{
+                        value: 'apply',
+                        caption: this.applyButtonText
+                    }, {
+                        value: 'doNotApply',
+                        caption: this.doNotApplyButtonText
+                    }, 'cancel'],
+                    primary: 'apply',
+                    callback: _.bind(function(btn) {
+                        if (btn == 'apply') {
+                            this.api.ApplyRedact();
+                            this.api.SetRedactTool(false);
+                            this.view.btnMarkForRedact.toggle(false);
+                            Common.NotificationCenter.trigger('tab:set-active', tab)
+                        } else if (btn == 'doNotApply') {
+                            this.api.RemoveAllRedact();
+                            this.api.SetRedactTool(false);
+                            this.view.btnMarkForRedact.toggle(false);
+                            Common.NotificationCenter.trigger('tab:set-active', tab)
+                        } else {
+                            if (this.isFileMenuTab) {
+                                this.view.fireEvent('menu:hide', [this]);
+                            }
+                            if (this.mode.isPDFEdit) {
+                                this.toolbar.toolbar.setTab('red');
+                            } else {
+                                Common.NotificationCenter.trigger('pdf:mode-apply', 'edit', 'red');
+                            }
+                        }
+                    }, this)
+                });
+            } else {
+                this.view.btnMarkForRedact.toggle(false);
+                this.api.SetRedactTool(false);
+            }
         },
 
         onRedactionStateToggle: function(isRedaction) {
@@ -312,6 +323,7 @@ define([
                 'apply-redaction' : {name: 'help-tip-apply-redaction', placement: 'bottom-left', text: this.tipApplyRedaction, header: this.tipApplyRedactionHeader, target: '#slot-btn-apply-redactions',
                     automove: true, prev: 'mark-for-redaction', maxwidth: 270, closable: false, isNewFeature: false, noHighlight: true},
             });
+            Common.NotificationCenter.on('tab:active:before', _.bind(this.onActiveTabBefore, this));
         },
 
         onDocumentReady: function() {
