@@ -56,6 +56,7 @@ define([
     'common/main/lib/controller/LaunchController',
     'common/main/lib/view/OpenDialog',
     'common/main/lib/view/UserNameDialog',
+    'common/main/lib/component/RadioBox',
 ], function () {
     'use strict';
 
