@@ -392,7 +392,7 @@ define([
             var handlerDlg = function(dlg, result) {
                 res = result;
                 if (result === 'ok') {
-                    me.api.add_Hyperlink(dlg.getSettings());
+                    me.api.add_Hyperlink(dlg.getSettings(), arrIds);
                 } else if (result === 'view') {
                     me.api.SetLinkAnnotGoToAction(arrIds);
                 }
