@@ -770,10 +770,9 @@ define([
             if (commentsView && arrowView && editorView && editorView.get(0)) {
                 editorBounds = Common.Utils.getBoundingClientRect(editorView.get(0));
                 if (editorBounds) {
-                    editorBounds.height = Math.min(editorBounds.height, Math.max(300, editorBounds.height * 0.75));
                     sdkBoundsHeight = editorBounds.height - this.sdkBounds.padding * 2;
 
-                    this.$window.css({maxHeight: sdkBoundsHeight + 'px'});
+                    this.$window.css({maxHeight: (Math.min(editorBounds.height, Math.max(300, editorBounds.height * 0.75)) - this.sdkBounds.padding * 2) + 'px'});
 
                     this.sdkBounds.width = this.sdkBounds.outerWidth = editorBounds.width;
                     this.sdkBounds.height = this.sdkBounds.outerHeight = editorBounds.height;
@@ -913,10 +912,10 @@ define([
                     if (editorView && editorView.get(0)) {
                         editorBounds = Common.Utils.getBoundingClientRect(editorView.get(0));
                         if (editorBounds) {
-                            editorBounds.height = Math.min(editorBounds.height, Math.max(300, editorBounds.height * 0.75));
                             sdkBoundsHeight = editorBounds.height - this.sdkBounds.padding * 2;
                             sdkBoundsTopPos = sdkBoundsTop;
                             windowHeight = this.$window.outerHeight();
+                            var maxWindowHeight = Math.min(editorBounds.height, Math.max(300, editorBounds.height * 0.75)) - this.sdkBounds.padding * 2;
 
                             // TOP CORNER
 
@@ -931,10 +930,17 @@ define([
                                 }
                             }
 
-                            outerHeight = Math.max(commentsView.outerHeight(), this.$window.outerHeight());
+                            outerHeight = Math.max(commentsView.outerHeight(), windowHeight);
 
                             var movePos = this.isOverCursor();
                             if (movePos) {
+                                if (Math.ceil(maxWindowHeight) <= Math.ceil(outerHeight)) {
+                                    this.$window.css({
+                                        maxHeight: maxWindowHeight + 'px'
+                                    });
+                                    commentsView.css({height: maxWindowHeight - 3 + 'px'});
+                                    outerHeight = maxWindowHeight;
+                                }
                                 var leftPos = parseInt(this.$window.css('left')) - this.arrow.width,
                                     newTopDown = movePos[1][1] + sdkPanelHeight + this.arrow.width,// try move down
                                     newTopUp = movePos[0][1] + sdkPanelHeight - this.arrow.width, // try move up
@@ -972,40 +978,30 @@ define([
                                 arrowView.toggleClass('top', isMoveDown);
                                 arrowView.toggleClass('bottom', !isMoveDown);
                                 arrowView.removeClass('left right');
-                            } else if (Math.ceil(sdkBoundsHeight) <= Math.ceil(outerHeight)) {
-                                this.$window.css({
-                                    maxHeight: sdkBoundsHeight - sdkPanelHeight + 'px',
-                                    top: sdkBoundsTop + sdkPanelHeight + 'px'
-                                });
-
-                                commentsView.css({height: sdkBoundsHeight - sdkPanelHeight - 3 + 'px'});
-
-                                // arrowPosY = Math.max(this.arrow.margin, this.arrowPosY - sdkPanelHeight - this.arrow.width);
-                                arrowPosY = Math.min(arrowPosY, sdkBoundsHeight - (sdkPanelHeight + this.arrow.margin + this.arrow.height));
-
-                                arrowView.css({top: arrowPosY + 'px', left: ''});
-                                arrowView.removeClass('top bottom right left');
-                                arrowView.addClass(this._state.arrowCls);
-                                this.scroller.scrollTop(scrollPos);
                             } else {
+                                if (Math.ceil(maxWindowHeight) <= Math.ceil(outerHeight)) {
+                                    this.$window.css({
+                                        maxHeight: maxWindowHeight + 'px'
+                                    });
+                                    commentsView.css({height: maxWindowHeight - 3 + 'px'});
+                                    outerHeight = maxWindowHeight;
 
-                                outerHeight = windowHeight;
-
+                                } else
+                                    outerHeight = windowHeight;
                                 if (outerHeight > 0) {
                                     if (contentBounds.top + outerHeight > sdkBoundsHeight + sdkBoundsTop || contentBounds.height === 0) {
                                         topPos = Math.min(sdkBoundsTop + sdkBoundsHeight - outerHeight, this.arrowPosY + sdkBoundsTop - this.arrow.height);
                                         topPos = Math.max(topPos, sdkBoundsTopPos);
-
                                         this.$window.css({top: topPos + 'px'});
                                     }
                                 }
-
                                 arrowPosY = Math.max(this.arrow.margin, this.arrowPosY - (sdkBoundsHeight - outerHeight) - this.arrow.height);
                                 arrowPosY = Math.min(arrowPosY, outerHeight - this.arrow.margin - this.arrow.height);
 
                                 arrowView.css({top: arrowPosY + 'px', left: ''});
                                 arrowView.removeClass('top bottom right left');
                                 arrowView.addClass(this._state.arrowCls);
+                                this.scroller.scrollTop(scrollPos);
                             }
                         }
                     }
