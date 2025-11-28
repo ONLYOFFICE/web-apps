@@ -2886,6 +2886,9 @@ define([], function () {
                 case 'bShowDataLabels':
                     chartProps.setDisplayDataLabels(false, false);
                     break;
+                case 'noneError':
+                    chartProps.setDisplayErrorBars(false);
+                    break;
                 case 'standardError':
                     chartProps.setDisplayErrorBars(true, 4);
                     break;
