@@ -83,7 +83,7 @@ define([
                 '</div>' +
             '</div>' +
             '<div class="separator long"></div>' +
-            '<div class="group flex small" id="slot-field-chart-styles" style="width: 100%; min-width: 105px;" data-group-width="100%">' +
+            '<div class="group flex small" id="slot-field-chart-styles" style="width: 100%; min-width: 100px;" data-group-width="100%">' +
             '</div>' +
             '<div class="separator long separator-chart-styles"></div>' +
             '<div class="group">' +
@@ -527,7 +527,6 @@ define([
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small',
-                    menu: true,
                     menu: this.menuChartElement.menu
                 });
                 this.lockedControls.push(this.btnChartElements);
@@ -567,7 +566,7 @@ define([
 
                 this.chartStyles = new Common.UI.ComboDataView({
                     cls             : 'combo-chart-template',
-                    style           : 'min-width: 103px; max-width: 497px;',
+                    style           : 'min-width: 90px; max-width: 496px;',
                     enableKeyEvents : true,
                     itemWidth       : 50,
                     itemHeight      : 50,
@@ -578,7 +577,7 @@ define([
                     beforeOpenHandler: function(e) {
                         var cmp = this,
                             menu = cmp.openButton.menu,
-                            columnCount = 8;
+                            minMenuColumn = 4;
 
                         if (menu.cmpEl) {
                             var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent();
@@ -586,13 +585,17 @@ define([
                             var itemWidth = itemEl.is(':visible') ? parseFloat(itemEl.css('width')) :
                                 (cmp.itemWidth + parseFloat(itemEl.css('padding-left')) + parseFloat(itemEl.css('padding-right')) +
                                 parseFloat(itemEl.css('border-left-width')) + parseFloat(itemEl.css('border-right-width')));
+
+                            var minCount = cmp.menuPicker.store.length >= minMenuColumn ? minMenuColumn : cmp.menuPicker.store.length,
+                                    columnCount = Math.min(cmp.menuPicker.store.length, Math.round($('.dataview', $(cmp.fieldPicker.el)).width() / (itemMargin + itemWidth)));
+                            columnCount = columnCount < minCount ? minCount : columnCount;
                             menu.menuAlignEl = cmp.cmpEl;
                             menu.menuAlign = 'tl-tl';
-                            var menuWidth = columnCount * (itemMargin + itemWidth) + 14, // for scroller
+                            var menuWidth = columnCount * (itemMargin + itemWidth) + 16, // for scroller
                                 buttonOffsetLeft = Common.Utils.getOffset(cmp.openButton.$el).left;
                             if (menuWidth>Common.Utils.innerWidth())
-                                menuWidth = Math.max(Math.floor((Common.Utils.innerWidth()-14)/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth) - 14;
-                            var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft) - 1;
+                                menuWidth = Math.max(Math.floor((Common.Utils.innerWidth()-16)/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth) + 16;
+                            var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft);
                             if (Common.UI.isRTL()) {
                                 offset = cmp.openButton.$el.width() + parseFloat($(cmp.$el.find('.combo-dataview').get(0)).css('padding-left'));
                             }

@@ -259,6 +259,9 @@ define([], function () {
             this.chRightAngle.on('change', _.bind(function(field, newValue, oldValue, eOpts) {
                 if (this.api && this.chartProps && this.oView3D) {
                     this.oView3D.asc_setRightAngleAxes(field.getValue()=='checked');
+                    this.spnPerspective.setDisabled(field.getValue()=='checked');
+                    this.btnNarrow.setDisabled(field.getValue()=='checked');
+                    this.btnWiden.setDisabled(field.getValue()=='checked');
                 }
             }, this));
 
@@ -269,6 +272,7 @@ define([], function () {
             this.chAutoscale.on('change', _.bind(function(field, newValue, oldValue, eOpts) {
                 if (this.api && this.chartProps && this.oView3D){
                     this.oView3D.asc_setHeight(field.getValue()=='checked' ? null : this.spn3DHeight.getNumberValue());
+                    this.spn3DHeight.setDisabled(field.getValue()=='checked');
                 }
             }, this));
 
