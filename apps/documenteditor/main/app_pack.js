@@ -73,6 +73,7 @@ require([
     'documenteditor/main/app/view/NumberingValueDialog',
     'documenteditor/main/app/view/ListIndentsDialog',
     'documenteditor/main/app/view/ProtectDialog',
+    'documenteditor/main/app/view/PageNumberingDlg',
     'documenteditor/main/app/view/MailMergeEmailDlg'
 ], function () {
     Common.NotificationCenter.trigger('app-pack:loaded');
