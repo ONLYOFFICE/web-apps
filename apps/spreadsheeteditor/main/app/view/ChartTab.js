@@ -83,7 +83,7 @@ define([
                 '</div>' +
             '</div>' +
             '<div class="separator long"></div>' +
-            '<div class="group flex small" id="slot-field-chart-styles" style="width: 100%; min-width: 100px;" data-group-width="100%">' +
+            '<div class="group flex small" id="slot-field-chart-styles" style="min-width: 100px; width: 448px" data-group-width="448px">' +
             '</div>' +
             '<div class="separator long separator-chart-styles"></div>' +
             '<div class="group">' +

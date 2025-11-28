@@ -82,7 +82,7 @@ define([
             '<div class="group">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-sparkline-marker-color"></span>' +
             '</div>' +
-            '<div class="group flex small" id="id-spark-combo-style" style="width: 100%; min-width: 100px;" data-group-width="100%"></div>' +
+            '<div class="group flex small" id="id-spark-combo-style" min-width: 100px; width: 448px" data-group-width="448px"></div>' +
             '<div class="group small">' +
                 '<div class="elset">' +
                     '<span class="btn-slot text" id="slot-btn-sparkline-color"></span>' +
