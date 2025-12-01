@@ -51,12 +51,20 @@ define([
             '</div>' +
             '<div class="separator long"></div>' +
             '<div class="group">' +
-                '<span class="btn-slot text x-huge" id="slot-btn-chart-type"></span>' +
-            '</div>' +
-            '<div class="separator long"></div>' +
-            '<div class="group">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-select-data"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-switch-rowscols"></span>' +
+            '</div>' +
+            '<div class="separator long"></div>' +
+            '<div class="group flex small" id="slot-field-chart-styles" style="min-width: 100px; width: 448px" data-group-width="448px">' +
+            '</div>' +
+            '<div class="separator long separator-chart-styles"></div>' +
+            '<div class="group small">' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text font-size-normal" id="slot-btn-chart-type"></span>' +
+                '</div>' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text font-size-normal" id="slot-btn-chart-advanced-settings"></span>' +
+                '</div>' +
             '</div>' +
             '<div class="separator long"></div>' +
             '<div class="group small">' +
@@ -82,13 +90,9 @@ define([
                 '<div class="elset">' +
                 '</div>' +
             '</div>' +
-            '<div class="separator long"></div>' +
-            '<div class="group flex small" id="slot-field-chart-styles" style="min-width: 100px; width: 448px" data-group-width="448px">' +
-            '</div>' +
-            '<div class="separator long separator-chart-styles"></div>' +
+            '<div class="separator long separator-chart-3d"></div>' +
             '<div class="group">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-chart-3d-settings"></span>' +
-                '<span class="btn-slot text x-huge" id="slot-btn-chart-advanced-settings"></span>' +
             '</div>' +
         '</section>';
 
@@ -532,10 +536,11 @@ define([
                 this.lockedControls.push(this.btnChartElements);
 
                 this.btnChartType = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-big-sheet-view',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-chart-type',
                     caption: me.capChartType,
                     lock        : [_set.lostConnect, _set.coAuth, _set.editCell, _set.coAuthText, _set.wsLock,],
+                    menu: true,
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -625,7 +630,7 @@ define([
                 this.lockedControls.push(this.btn3DSettings);
 
                 this.btnAdvancedSettings = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
+                    cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-day',
                     caption: me.capAdvancedSettings,
                     lock        : [_set.lostConnect, _set.coAuth, _set.editCell, _set.SeveralCharts, _set.coAuthText, _set.wsLock,],

@@ -266,6 +266,7 @@ define([
                             this._state.Height3d = value;
                         }
                     }
+                    this.view.$el.find('.separator-chart-3d')[props3d ? 'show' : 'hide']();
                     this.view.btn3DSettings.setVisible(props3d)
                 }
             }
