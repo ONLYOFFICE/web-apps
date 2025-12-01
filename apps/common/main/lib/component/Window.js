@@ -158,7 +158,7 @@ define([
                 minheight: 0,
                 enableKeyEvents: true,
                 automove: true,
-                autoPosOnResize: 'none',    //center, ratio
+                autoPosOnResize: 'none',    //center, relative
                 transparentMask: false,
                 role: 'dialog'
         };
