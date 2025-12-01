@@ -91,7 +91,8 @@ define([
                 matchWord: false,
                 useRegExp: false,
                 isHighlightedResults: false,
-                isContentChanged: false
+                isContentChanged: false,
+                isPanelShowed: false
             };
         },
 
@@ -364,7 +365,7 @@ define([
 
         onApiGetTextAroundSearch: function (data) {
             if (this.view && this._state.isStartedAddingResults) {
-                this.api.asc_SelectSearchElement(0);
+                this._state.isPanelShowed && this.api.asc_SelectSearchElement(0);
                 this._state.isStartedAddingResults = false;
                 this.hideResults();
                 if (data.length > 300 || !data.length) return;
@@ -466,6 +467,7 @@ define([
 
         onShowPanel: function () {
             this.onSelectSearchingResults(true);
+            this._state.isPanelShowed = true;
             if (this.resultItems && this.resultItems.length > 0 && !this._state.isStartedAddingResults) {
                 var me = this;
                 this.view.$resultsContainer.show();
@@ -485,6 +487,7 @@ define([
         onHidePanel: function () {
             this.hideResults();
             this.onSelectSearchingResults(false);
+            this._state.isPanelShowed = false;
         },
 
         onSelectSearchingResults: function (val) {
