@@ -631,7 +631,7 @@ define([
 
                 this.btnAdvancedSettings = new Common.UI.Button({
                     cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-day',
+                    iconCls: 'toolbar__icon btn-settings',
                     caption: me.capAdvancedSettings,
                     lock        : [_set.lostConnect, _set.coAuth, _set.editCell, _set.SeveralCharts, _set.coAuthText, _set.wsLock,],
                     dataHint    : '1',

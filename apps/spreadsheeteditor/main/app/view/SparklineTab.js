@@ -262,7 +262,7 @@ define([
 
                 this.btnMarkerColor = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-day',
+                    iconCls: 'toolbar__icon btn-big-colorschemas',
                     caption: me.capMarkerColor,
                     lock        : [_set.lostConnect, _set.coAuth, _set.editCell, _set.sparkLocked, _set.wsLock,],
                     menu: true,
@@ -324,7 +324,7 @@ define([
 
                 this.btnSparklineColor = new Common.UI.Button({
                     cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-remove-trace-arrows',
+                    iconCls: 'toolbar__icon btn-paracolor',
                     lock: [_set.lostConnect, _set.coAuth, _set.editCell, _set.sparkLocked, _set.wsLock,],
                     caption: this.capSparklineColor,
                     menu: new Common.UI.Menu({
@@ -361,7 +361,7 @@ define([
 
                 this.btnAdvancedSettings = new Common.UI.Button({
                     cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-remove-trace-arrows',
+                    iconCls: 'toolbar__icon btn-settings',
                     lock: [_set.editCell, _set.lostConnect, _set.coAuth, _set.sparkLocked, _set.wsLock,],
                     caption: this.capAdvancedSettings,
                     dataHint: '1',
@@ -372,7 +372,7 @@ define([
 
                 this.btnClear = new Common.UI.Button({
                     cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-remove-trace-arrows',
+                    iconCls: 'toolbar__icon btn-clearstyle',
                     lock: [_set.editCell, _set.lostConnect, _set.coAuth, _set.sparkLocked, _set.wsLock,],
                     caption: this.capClear,
                     menu        : new Common.UI.Menu({
