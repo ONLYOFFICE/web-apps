@@ -328,9 +328,15 @@ define([
             var opt = this._changedProps[sheet] ? this._changedProps[sheet].asc_getPageSetup() : new Asc.asc_CPageSetup();
             opt.asc_setOrientation(panel.cmbPaperOrientation.getValue() == '-' ? undefined : panel.cmbPaperOrientation.getValue());
 
-            var size = panel.cmbPaperSize.getSelectedRecord().size;
-            var pagew = size[0];
-            var pageh = size[1];
+            var pagew, pageh;
+            const cmbPaperSizeRecord = panel.cmbPaperSize.getSelectedRecord();
+            if(cmbPaperSizeRecord) {
+                pagew = cmbPaperSizeRecord.size[0];
+                pageh = cmbPaperSizeRecord.size[1];
+            } else {
+                pagew = panel.getOriginalPageSize().w;
+                pageh = panel.getOriginalPageSize().h;
+            }
 
             opt.asc_setWidth(pagew ? pagew : (this._originalPageSettings ? this._originalPageSettings.asc_getWidth() : undefined));
             opt.asc_setHeight(pageh? pageh : (this._originalPageSettings ? this._originalPageSettings.asc_getHeight() : undefined));

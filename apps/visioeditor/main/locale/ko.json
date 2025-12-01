@@ -160,12 +160,13 @@
   "Common.Views.SearchPanel.tipPreviousResult": "이전 결과",
   "Common.Views.SelectFileDlg.textLoading": "로드 중",
   "Common.Views.SelectFileDlg.textTitle": "데이터 소스 선택",
+  "Common.Views.ShortcutsDialog.txtDescription": "Description",
   "Common.Views.ShortcutsDialog.txtEmpty": "No matches found. Adjust your search.",
   "Common.Views.ShortcutsDialog.txtRestoreAll": "Restore All to Defaults",
   "Common.Views.ShortcutsDialog.txtRestoreContinue": "Do you want to continue?",
   "Common.Views.ShortcutsDialog.txtRestoreDescription": "All shortcuts settings will be restored to default.",
-  "Common.Views.ShortcutsDialog.txtRestoreToDefault": "Restore to default",
-  "Common.Views.ShortcutsDialog.txtSearch": "Search",
+  "Common.Views.ShortcutsDialog.txtRestoreToDefault": "기본값으로 복원",
+  "Common.Views.ShortcutsDialog.txtSearch": "검색",
   "Common.Views.ShortcutsDialog.txtTitle": "Keyboard Shortcuts",
   "Common.Views.ShortcutsEditDialog.txtAction": "Action",
   "Common.Views.ShortcutsEditDialog.txtInputPlaceholder": "Type desired shortcut",
@@ -176,7 +177,7 @@
   "Common.Views.ShortcutsEditDialog.txtNewShortcut": "New shortcut",
   "Common.Views.ShortcutsEditDialog.txtRestoreContinue": "Do you want to continue?",
   "Common.Views.ShortcutsEditDialog.txtRestoreDescription": "All shortcuts for action “%1” will be restored to default.",
-  "Common.Views.ShortcutsEditDialog.txtRestoreToDefault": "Restore to default",
+  "Common.Views.ShortcutsEditDialog.txtRestoreToDefault": "기본값으로 복원",
   "Common.Views.ShortcutsEditDialog.txtTitle": "Edit shortcut",
   "Common.Views.ShortcutsEditDialog.txtTypeDesiredShortcut": "Type desired shortcut",
   "Common.Views.UserNameDialog.textDontShow": "다시 표시하지 않음",
@@ -447,6 +448,5 @@
   "VE.Views.ViewTab.textZoom": "확대 / 축소",
   "VE.Views.ViewTab.tipFitPage": "페이지에 맞춤",
   "VE.Views.ViewTab.tipFitWidth": "너비에 맞춤",
-  "VE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마",
-  "Common.Views.ShortcutsDialog.txtDescription": "Description"
+  "VE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마"
 }

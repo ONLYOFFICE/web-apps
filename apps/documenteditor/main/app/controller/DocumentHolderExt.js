@@ -1303,7 +1303,7 @@ define([], function () {
             }
 
              var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-             if (diagramEditor && diagramEditor.isVisible()) {
+             if (diagramEditor && diagramEditor.isVisible() && me._state.currentChartRect) {
                  let x, y;
                  this.checkEditorOffsets();
 
@@ -1368,6 +1368,7 @@ define([], function () {
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormattingEmbedding] = documentHolder.txtDestEmbed;
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceFormattingLink] = documentHolder.txtSourceLink;
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormattingLink] = documentHolder.txtDestLink;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = documentHolder.txtPastePicture;
 
                 pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
                 documentHolder.cmpEl.find('#id_main_view').append(pasteContainer);
@@ -1456,23 +1457,32 @@ define([], function () {
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormattingEmbedding] = 'H';
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceFormattingLink] = 'F';
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormattingLink] = 'L';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.picture] = 'U';
+
+            var str = '';
             for(var key in me.hkSpecPaste){
                 if(me.hkSpecPaste.hasOwnProperty(key)){
-                    var keymap = {};
-                    keymap[me.hkSpecPaste[key]] = _.bind(me.onSpecialPasteItemClick, me, {value: parseInt(key)});
-                    Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
-                    Common.util.Shortcuts.suspendEvents(me.hkSpecPaste[key], undefined, true);
+                    if (str.indexOf(me.hkSpecPaste[key])<0)
+                        str += me.hkSpecPaste[key] + ',';
                 }
             }
+            str = str.substring(0, str.length-1)
+            var keymap = {};
+            keymap[str] = _.bind(function(e) {
+                var menu = this.btnSpecialPaste.menu;
+                for (var i = 0; i < menu.items.length; i++) {
+                    if (this.hkSpecPaste[menu.items[i].value] === String.fromCharCode(e.keyCode)) {
+                        return me.onSpecialPasteItemClick({value: menu.items[i].value});
+                    }
+                }
+            }, me);
+            Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
+            Common.util.Shortcuts.suspendEvents(str, undefined, true);
 
             me.btnSpecialPaste.menu.on('show:after', function(menu) {
-                for (var i = 0; i < menu.items.length; i++) {
-                    me.hkSpecPaste[menu.items[i].value] && Common.util.Shortcuts.resumeEvents(me.hkSpecPaste[menu.items[i].value]);
-                }
+                Common.util.Shortcuts.resumeEvents(str);
             }).on('hide:after', function(menu) {
-                for (var i = 0; i < menu.items.length; i++) {
-                    me.hkSpecPaste[menu.items[i].value] && Common.util.Shortcuts.suspendEvents(me.hkSpecPaste[menu.items[i].value], undefined, true);
-                }
+                Common.util.Shortcuts.suspendEvents(str, undefined, true);
             });
         };
 

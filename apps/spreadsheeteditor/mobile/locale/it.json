@@ -321,6 +321,7 @@
     "errorLockedAll": "Impossibile eseguire l'operazione poiché il foglio è stato bloccato da un'altro utente.",
     "errorLockedCellPivot": "Non è possibile modificare i dati all'interno di una tabella pivot.",
     "errorLockedWorksheetRename": "Il foglio non può essere rinominato al momento in quanto viene rinominato da un'altro utente.",
+    "errorMacroUnavailableWarning": "Impossibile eseguire la macro %1. La macro potrebbe non essere disponibile in questa cartella di lavoro oppure tutte le macro potrebbero essere disabilitate.",
     "errorMaxPoints": "Il numero massimo di punti in serie per grafico è 4096.",
     "errorMaxRows": "ERRORE! Il numero massimo della serie di dati per grafico è di 255.",
     "errorMoveRange": "Impossibile modificare una parte di una cella unita",
@@ -378,8 +379,7 @@
     "uploadDocSizeMessage": "Il limite massimo delle dimensioni del documento è stato superato.",
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
-    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
-    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled."
+    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Password",
@@ -428,6 +428,7 @@
   "Statusbar": {
     "notcriticalErrorTitle": "Avvertimento",
     "textCancel": "Annulla",
+    "textContinue": "Continua",
     "textDelete": "Elimina",
     "textDuplicate": "Duplicazione",
     "textErrNameExists": "Un foglio di calcolo con questo nome esiste già.",
@@ -449,8 +450,7 @@
     "textTabColor": "Colore scheda",
     "textUnhide": "Scoprire",
     "textWarnDeleteSheet": "Il foglio di calcolo potrebbe contenere dati. Procedere con l'operazione?",
-    "textContinue": "Continue",
-    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
+    "warnAddSheetCsv": "Il formato CSV non supporta il salvataggio di file con più fogli. Verrà salvato solo il foglio attivo. Per conservare tutti i fogli, salva il file in un formato diverso."
   },
   "Toolbar": {
     "btnRestartNow": "Riavvia ora",
@@ -535,6 +535,8 @@
       "textAccounting": "Contabilità",
       "textActualSize": "Dimensione reale",
       "textAddCustomColor": "Aggiungi colore personalizzato",
+      "textAdditional": "Aggiuntivo",
+      "textAdditionalFormatting": "Formattazione aggiuntiva",
       "textAddress": "Indirizzo",
       "textAlign": "Allineamento",
       "textAlignBottom": "Allinea in basso",
@@ -544,6 +546,7 @@
       "textAlignRight": "Allinea a destra",
       "textAlignTop": "Allinea in alto",
       "textAllBorders": "Tutti i bordi",
+      "textAllCaps": "Tutto maiuscolo",
       "textAngleClockwise": "Angolo in senso orario",
       "textAngleCounterclockwise": "Angolo in senso antiorario",
       "textArrange": "Disponi",
@@ -554,6 +557,7 @@
       "textAxisPosition": "Posizione dell'asse",
       "textAxisTitle": "Titolo dell'asse",
       "textBack": "Indietro",
+      "textBaseline": "Linea di base",
       "textBetweenTickMarks": "Tra segni di spunta",
       "textBillions": "Miliardi",
       "textBorder": "Bordo",
@@ -562,6 +566,7 @@
       "textBottomBorder": "Bordo inferiore",
       "textBringToForeground": "Porta in primo piano",
       "textCancel": "Annulla",
+      "textCapitalization": "Maiuscole",
       "textCell": "Cella",
       "textCellStyle": "Stile cella",
       "textCenter": "Al centro",
@@ -591,6 +596,7 @@
       "textDisplayUnits": "Mostra unità",
       "textDollar": "Dollaro",
       "textDone": "Fatto",
+      "textDoubleStrikethrough": "Barrato doppio",
       "textEditLink": "Modifica collegamento",
       "textEffects": "Effetti",
       "textEmptyImgUrl": "Devi specificare l'URL dell'immagine.",
@@ -639,6 +645,7 @@
       "textLeftBorder": "Bordo sinistro",
       "textLeftOverlay": "Sovrapposizione a sinistra",
       "textLegend": "Legenda",
+      "textLetterSpacing": "Spaziatura delle lettere",
       "textLink": "Collegamento",
       "textLinkSettings": "Impostazioni collegamento",
       "textLinkType": "Tipo di collegamento",
@@ -696,7 +703,11 @@
       "textShape": "Forma",
       "textSheet": "Foglio",
       "textSize": "Dimensione",
+      "textSmallCaps": "Minuscole",
+      "textStrikethrough": "Barrato",
       "textStyle": "Stile",
+      "textSubscript": "Pedice",
+      "textSuperscript": "Apice",
       "textTenMillions": "10 000 000",
       "textTenThousands": "10 000",
       "textText": "Testo",
@@ -721,18 +732,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Questo campo dev'essere un URL nel formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Ordina dal più alto al più basso",
-      "txtSortLow2High": "Ordina dal più basso al più alto",
-      "textAdditional": "Additional",
-      "textAdditionalFormatting": "Additional formatting",
-      "textAllCaps": "All Caps",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textDoubleStrikethrough": "Double Strikethrough",
-      "textLetterSpacing": "Letter spacing",
-      "textSmallCaps": "Small Caps",
-      "textStrikethrough": "Strikethrough",
-      "textSubscript": "Subscript",
-      "textSuperscript": "Superscript"
+      "txtSortLow2High": "Ordina dal più basso al più alto"
     },
     "Settings": {
       "advCSVOptions": "Scegli le opzioni CSV",
@@ -880,17 +880,18 @@
       "txtSk": "Slovacco",
       "txtSl": "Sloveno",
       "txtSpace": "Spazio",
+      "txtSr": "Serbo (latino)",
+      "txtSrcyrl": "Serbo (cirillico)",
       "txtSv": "Svedese",
       "txtTab": "Tabulazione",
       "txtTr": "Turco",
       "txtUk": "Ucraino",
       "txtVi": "Vietnamita",
       "txtZh": "Cinese",
+      "txtZhtw": "Cinese (tradizionale)",
       "warnDownloadAs": "Se continui a salvare in questo formato, tutte le funzioni tranne il testo saranno perse.<br>Sei sicuro di voler continuare?",
-      "txtSr": "Serbian (Latin)",
-      "txtSrcyrl": "Serbian (Cyrillic)",
-      "txtZhtw": "Chinese (Traditional)",
-      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format."
+      "warnDownloadCsv": "Il formato CSV non supporta il salvataggio di file con più fogli e di tutti gli elementi, ad eccezione del testo.<br>Per salvare solo il foglio attivo in CSV, premi OK.<br>Per salvare l'intero foglio di calcolo e tutte le funzionalità, fai clicca su Annulla e seleziona un altro formato.",
+      "warnDownloadOds": "Il salvataggio di questo file potrebbe causare la perdita di alcune formule, formattazioni delle celle o oggetti incorporati a causa del supporto limitato del formato.<br>Sei sicuro di voler continuare?"
     }
   }
 }

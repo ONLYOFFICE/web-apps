@@ -1239,6 +1239,7 @@
   "Common.Views.ShapeShadowDialog.txtSize": "Madhësia",
   "Common.Views.ShapeShadowDialog.txtTitle": "Rregulloni hijen",
   "Common.Views.ShapeShadowDialog.txtTransparency": "Transparencë",
+  "Common.Views.ShortcutsDialog.txtDescription": "Përshkrim",
   "Common.Views.ShortcutsDialog.txtEmpty": "Nuk u gjetën përputhje. Rregulloni kërkimin tuaj.",
   "Common.Views.ShortcutsDialog.txtRestoreAll": "Riktheni të gjitha në cilësimet fillestare",
   "Common.Views.ShortcutsDialog.txtRestoreContinue": "Dëshironi të vazhdoni?",
@@ -3520,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "Makrot",
   "PE.Views.ViewTab.textNormal": "Normal",
   "PE.Views.ViewTab.textNotes": "Shënime",
+  "PE.Views.ViewTab.textPauseMacro": "Ndërprit regjistrimin",
+  "PE.Views.ViewTab.textRecMacro": "Regjistro makronë",
+  "PE.Views.ViewTab.textResumeMacro": "Rifillo regjistrimin",
   "PE.Views.ViewTab.textRightMenu": "Paneli i djathtë",
   "PE.Views.ViewTab.textRulers": "Vizoret",
   "PE.Views.ViewTab.textShowGridlines": "Shfaqni linjat e rrjetit",
@@ -3528,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "Udhëzues të zgjuar",
   "PE.Views.ViewTab.textSnapObjects": "Përputh objektin me rrjetin",
   "PE.Views.ViewTab.textStatusBar": "Statusi i shiritit",
+  "PE.Views.ViewTab.textStopMacro": "Ndalo regjistrimin",
   "PE.Views.ViewTab.textTabStyle": "Stili i skedës",
   "PE.Views.ViewTab.textZoom": "Zmadhoj",
   "PE.Views.ViewTab.tipFitToSlide": "Përshtatni me slajdet",
@@ -3538,7 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes",
   "PE.Views.ViewTab.tipMacros": "Makrot",
   "PE.Views.ViewTab.tipNormal": "Normal",
+  "PE.Views.ViewTab.tipPauseMacro": "Ndërprit regjistrimin",
+  "PE.Views.ViewTab.tipRecMacro": "Regjistro makronë",
+  "PE.Views.ViewTab.tipResumeMacro": "Rifillo regjistrimin",
   "PE.Views.ViewTab.tipSelectTool": "Selektoni mjetin",
   "PE.Views.ViewTab.tipSlideMaster": "Slajdi master",
-  "Common.Views.ShortcutsDialog.txtDescription": "Description"
+  "PE.Views.ViewTab.tipStopMacro": "Ndalo regjistrimin"
 }

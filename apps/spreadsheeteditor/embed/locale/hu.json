@@ -30,7 +30,7 @@
   "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "Az internetkapcsolat helyreállt és a fájl verziója megváltozott.<br>Mielőtt folytatná a munkát, töltse le a fájlt vagy másolja át annak tartalmát megbizonyosodva arról, hogy semmi sem veszett el, végül töltse újra ezt az oldalt.",
   "SSE.ApplicationController.errorUserDrop": "A dokumentum jelenleg nem érhető el.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Figyelmeztetés",
-  "SSE.ApplicationController.openErrorText": "Hiba történt a fájl megnyitása során.",
+  "SSE.ApplicationController.openErrorText": "Hiba történt a fájl megnyitásakor.",
   "SSE.ApplicationController.scriptLoadError": "A kapcsolat túl lassú, néhány komponens nem töltődött be. Frissítse az oldalt.",
   "SSE.ApplicationController.textAnonymous": "Ismeretlen",
   "SSE.ApplicationController.textGuest": "Vendég",

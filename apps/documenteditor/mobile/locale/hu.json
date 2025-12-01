@@ -238,7 +238,7 @@
   },
   "Edit": {
     "notcriticalErrorTitle": "Figyelmeztetés",
-    "textActualSize": "Aktuális méret",
+    "textActualSize": "Tényleges méret",
     "textAddCustomColor": "Egyéni szín hozzáadása",
     "textAdditional": "További",
     "textAdditionalFormatting": "További formázás",
@@ -311,7 +311,7 @@
     "textFonts": "Betűtípusok",
     "textFooter": "Lábléc",
     "textFormal": "Formál",
-    "textFr": "Fr",
+    "textFr": "Pé",
     "textHeader": "Fejléc",
     "textHeaderRow": "Fejléc sor",
     "textHighlightColor": "Kiemelés színe",

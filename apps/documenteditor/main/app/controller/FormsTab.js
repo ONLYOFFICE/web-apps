@@ -132,7 +132,8 @@ define([
                     'forms:submit': this.onSubmitClick,
                     'forms:save': this.onSaveFormClick,
                     'forms:manager': this.onManagerClick,
-                    'forms:gopage': this.onGotoPage
+                    'forms:gopage': this.onGotoPage,
+                    'forms:currentrole': this.onCurrentRole
                 },
                 'Toolbar': {
                     'tab:active': this.onActiveTab,
@@ -140,6 +141,9 @@ define([
                     'view:compact'  : function (toolbar, state) {
                         state && me.onTabCollapse();
                     },
+                },
+                'FormSettings': {
+                    'forms:currentrole': this.onCurrentRoleChanged
                 }
             });
             this.appConfig.isRestrictedEdit && this.api && this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
@@ -590,6 +594,12 @@ define([
                         // me.showHelpTip('submit');
                     // }
                 }
+                if (me.view && me.view.cmbRoles && me.view.cmbRoles.cmpEl) {
+                    let width = Math.max(me.view.lblRoles.$label.width(), 130);
+                    me.view.cmbRoles.setWidth(width);
+                    me.view.cmbRoles.cmpEl.find('.form-control').css('width', width + 'px');
+                    me.view.cmbRoles.cmpEl.find('.dropdown-menu').css('min-width', width + 'px');
+                }
                 me.onRefreshRolesList();
                 me.onChangeProtectDocument();
             });
@@ -659,7 +669,10 @@ define([
                 oform && (roles = oform.asc_getAllRoles());
             }
             this._state.lastRoleInList = (roles && roles.length>0) ? roles[roles.length-1].asc_getSettings().asc_getName() : undefined;
-            this.view && this.view.fillRolesMenu(roles, this._state.lastViewRole);
+            if (this.view) {
+                this.view.fillRolesMenu(roles, this._state.lastViewRole);
+                this.view.fillFillForCombo(roles, this._state.lastRoleInList);
+            }
         },
 
         onManagerClick: function() {
@@ -788,6 +801,40 @@ define([
                     value = this._state.pageCount;
                 this.api && this.api.goToPage(value-1);
             }
+        },
+
+        onCurrentRole: function (combo, record) {
+            if (!this.api) return;
+            if (record.value === 0) {
+                combo.setValue(Common.Utils.InternalSettings.get('de-last-form-role') || this._state.lastRoleInList);
+
+                const formManager = this.api.asc_GetOForm();
+
+                new DE.Views.RoleEditDlg({
+                    oformManager: formManager,
+                    colors: [],
+                    isEdit: false,
+                    handler: function (result, settings) {
+                        if (result === 'ok' && settings) {
+                            const role = new AscCommon.CRoleSettings();
+                            role.asc_putName(settings.name);
+                            role.asc_putColor(settings.color);
+                            this.oformManager.asc_addRole(role);
+                            Common.Utils.InternalSettings.set('de-last-form-role', settings.name);
+                            combo.setValue(Common.Utils.InternalSettings.get('de-last-form-role'));
+                        }
+                    }
+                }).on('close', () => {
+                    this.fireEvent('editcomplete', this);
+                }).show();
+            } else {
+                Common.Utils.InternalSettings.set('de-last-form-role', record.value)
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onCurrentRoleChanged: function() {
+            this.view && this.view.cmbRoles && this.view.cmbRoles.setValue(Common.Utils.InternalSettings.get('de-last-form-role'));
         },
 
         onRequestRoles: function(tab) {

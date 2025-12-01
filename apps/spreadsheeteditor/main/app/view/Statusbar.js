@@ -412,6 +412,7 @@ define([
                 this.api = api;
                 this.api.asc_registerCallback('asc_onSheetsChanged', _.bind(this.update, this));
                 this.api.asc_registerCallback('asc_onUpdateSheetViewSettings', _.bind(this.onUpdateSheetViewSettings, this));
+                this.api.asc_registerCallback('asc_onChangeActiveNamedSheetView', _.bind(this.update, this));
                 return this;
             },
 
@@ -452,7 +453,8 @@ define([
                 this.sheetListMenu.removeAll();
                 if (this.api) {
                     var wc = this.api.asc_getWorksheetsCount(), i = -1;
-                    var hidentems = [], items = [], allItems = [], tab, locked, name;
+                    me.hiddenItems = [];
+                    var items = [], allItems = [], tab, locked, name;
                     var sindex = this.api.asc_getActiveWorksheetIndex();
                     var wbprotected = this.api.asc_isProtectedWorkbook();
                     var sid = me.api.asc_getActiveWorksheetId();
@@ -474,11 +476,11 @@ define([
                             iconTitle     : name,
                             iconVisible   : name!==''
                         };
-                        this.api.asc_isWorksheetHidden(i)? hidentems.push(tab) : items.push(tab);
+                        this.api.asc_isWorksheetHidden(i)? me.hiddenItems.push(tab) : items.push(tab);
                         allItems.push(tab);
                     }
-                    if (hidentems.length) {
-                        hidentems.forEach(function(item){
+                    if (me.hiddenItems.length) {
+                        me.hiddenItems.forEach(function(item){
                             me.tabMenu.items[5].menu.addItem(new Common.UI.MenuItem({
                                 style: 'white-space: pre-wrap',
                                 caption: item.label,
@@ -548,6 +550,10 @@ define([
                     me.fireEvent('sheet:updateColors', [true]);
                     Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + me.api.asc_getActiveWorksheetId()], false);
                 }
+            },
+
+            getHiddenWorksheets: function () {
+                return this.hiddenItems;
             },
 
             onUpdateSheetViewSettings: function() {
@@ -1341,7 +1347,7 @@ define([
                     var active = this.listNames.getSelectedRec(),
                         index = active ? active.get('inindex') : 0;
                     if (index === -255)
-                        index = this.listNames.store.length - 1;
+                        index = this.listNames.store.length - 1 + this.options.hiddenWorksheets.length;
 
                     var record = this.cmbSpreadsheet.getSelectedRecord();
                     this.options.handler.call(this,
@@ -1356,7 +1362,7 @@ define([
                     var active = this.listNames.getSelectedRec(),
                         index = active ? active.get('inindex') : 0;
                     if (index === -255)
-                        index = this.listNames.store.length - 1;
+                        index = this.listNames.store.length - 1 + this.options.hiddenWorksheets.length;
 
                     var record = this.cmbSpreadsheet.getSelectedRecord();
                     this.options.handler.call(this, 'ok', index, this.chCreateCopy.getValue()==='checked', record.value);

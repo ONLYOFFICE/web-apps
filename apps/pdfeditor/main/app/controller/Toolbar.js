@@ -588,6 +588,7 @@ define([
                 in_smartart = false,
                 in_smartart_internal = false,
                 in_annot = false,
+                in_text_annot = false,
                 annot_lock = false,
                 page_deleted = false,
                 page_rotate_lock = false,
@@ -638,8 +639,10 @@ define([
                 } else if (type === Asc.c_oAscTypeSelectElement.Annot) {
                     var annotPr = pr.asc_getAnnotProps();
                     in_annot = true;
-                    if (annotPr && annotPr.asc_getCanEditText && annotPr.asc_getCanEditText())
+                    if (annotPr && annotPr.asc_getCanEditText && annotPr.asc_getCanEditText()) {
+                        in_text_annot = true;
                         no_text = false;
+                    }
                 } else if (type == Asc.c_oAscTypeSelectElement.PdfPage) {
                     page_deleted = pr.asc_getDeleteLock();
                     page_rotate_lock = pr.asc_getRotateLock();
@@ -685,9 +688,9 @@ define([
                 toolbar.lockToolbar(Common.enumLock.inCheckForm, in_check_form, {array: toolbar.paragraphControls});
             }
 
-            let cant_align = no_paragraph && !in_text_form;
+            let cant_align = no_paragraph && !in_text_form && !in_text_annot;
             toolbar.lockToolbar(Common.enumLock.cantAlign, cant_align, {array: [toolbar.btnHorizontalAlign]});
-            !cant_align && toolbar.btnHorizontalAlign.menu.items[3].setDisabled(in_text_form);
+            !cant_align && toolbar.btnHorizontalAlign.menu.items[3].setDisabled(in_text_form || in_text_annot);
 
             if (this._state.no_object !== no_object ) {
                 if (this._state.activated) this._state.no_object = no_object;
@@ -740,9 +743,9 @@ define([
                 toolbar.lockToolbar(Common.enumLock.pageDeleted, page_deleted);
             }
             toolbar.lockToolbar(Common.enumLock.pageRotateLock, page_rotate_lock, {array: [toolbar.btnRotatePage]});
-            toolbar.lockToolbar(Common.enumLock.cantRotatePage, !this.api.asc_CanRotatePages(), {array: [toolbar.btnRotatePage]});
+            toolbar.lockToolbar(Common.enumLock.cantRotatePage, !this.api.asc_CanRotatePages([this.api.getCurrentPage()]), {array: [toolbar.btnRotatePage]});
             toolbar.lockToolbar(Common.enumLock.pageEditText, page_edit_text, {array: [toolbar.btnEditText]});
-            toolbar.lockToolbar(Common.enumLock.cantDelPage, !this.api.asc_CanRemovePages(), {array: [toolbar.btnDelPage]});
+            toolbar.lockToolbar(Common.enumLock.cantDelPage, !this.api.asc_CanRemovePages([this.api.getCurrentPage()]), {array: [toolbar.btnDelPage]});
 
             if (toolbar.btnShapeComment && !toolbar.btnShapeComment.isDisabled() && toolbar.isTabActive('comment')) {
                 Common.UI.TooltipManager.getNeedShow('annotRect') && Common.UI.TooltipManager.closeTip('redactTab');

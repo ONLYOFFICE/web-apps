@@ -890,7 +890,8 @@
       "txtZh": "Kinezisht",
       "txtZhtw": "Kinezisht (Tradicionale)",
       "warnDownloadAs": "Në qoftë se vazhdoni të ruani në këtë format, të gjitha veçoritë përveç tekstit do të humbasin .<br>Jeni i sigurt që dëshironi të vazhdoni?",
-      "warnDownloadCsv": "Formati CSV nuk mbështet ruajtjen e një skedari me shumë fletë dhe të të gjithë elementëve, përveç tekstit.<br>Për të ruajtur vetëm fletën e zgjedhur në CSV, shtypni OK.<br>Për të ruajtur të gjithë fletëllogaritësen dhe të gjitha veçoritë, klikoni Anulo dhe zgjidhni një format tjetër."
+      "warnDownloadCsv": "Formati CSV nuk mbështet ruajtjen e një skedari me shumë fletë dhe të të gjithë elementëve, përveç tekstit.<br>Për të ruajtur vetëm fletën e zgjedhur në CSV, shtypni OK.<br>Për të ruajtur të gjithë fletëllogaritësen dhe të gjitha veçoritë, klikoni Anulo dhe zgjidhni një format tjetër.",
+      "warnDownloadOds": "Ruajtja e këtij skedari mund te rezultojë në humbjen e disa formulave, formatimit të qelizave ose objekteve të integruara për shkak të mbështetjes së kufizuar të formateve.<br>Jeni të sigurt që dëshironi të vazhdoni?"
     }
   }
 }

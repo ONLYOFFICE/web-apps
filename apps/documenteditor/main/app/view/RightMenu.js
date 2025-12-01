@@ -205,7 +205,7 @@ define([
             this.shapeSettings = new DE.Views.ShapeSettings();
             this.textartSettings = new DE.Views.TextArtSettings();
 
-            if (mode && mode.canCoAuthoring && mode.canUseMailMerge) {
+            if (mode && mode.canCoAuthoring && mode.canUseMailMerge && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration-mailmerge')) {
                 this.btnMailMerge = new Common.UI.Button({
                     hint: this.txtMailMergeSettings,
                     asctype: Common.Utils.documentSettingsType.MailMerge,
@@ -318,7 +318,7 @@ define([
                     Common.localStorage.setItem("de-hide-right-settings", 0);
                     Common.Utils.InternalSettings.set("de-hide-right-settings", false);
                 }
-                target_pane_parent.find('.settings-panel.active').removeClass('active');
+                target_pane_parent.find('.content-box > .active').removeClass('active');
                 target_pane && target_pane.addClass("active");
 
                 if (this.scroller) {
@@ -332,7 +332,6 @@ define([
                 Common.Utils.InternalSettings.set("de-hide-right-settings", true);
             }
 
-            !isPlugin && $('.right-panel .plugin-panel').toggleClass('active', false);
             btn && !isPlugin && this.fireEvent('rightmenuclick', [this, btn.options.asctype, this.minimizedMode, e]);
         },
 
@@ -345,7 +344,7 @@ define([
             } else {
                 var target_pane = this.$el.find("#" + this._settings[type].panel );
                 if ( !target_pane.hasClass('active') ) {
-                    target_pane.parent().find('.settings-panel.active').removeClass('active');
+                    target_pane.parent().find('> .active').removeClass('active');
                     target_pane.addClass("active");
                     if (this.scroller) {
                         this.scroller.update();
@@ -362,12 +361,17 @@ define([
             return (this.minimizedMode || active.length === 0) ? null : active[0].id;
         },
 
+        GetActivePluginPane: function() {
+            var active = this.$el.find(".plugin-panel.active");
+            return (this.minimizedMode || active.length === 0) ? null : active[0].id;
+        },
+
         clearSelection: function() {
             if (this.mergeSettings)
                 this.mergeSettings.disablePreviewMode();
 
             var target_pane = $(".right-panel");
-            target_pane.find('.settings-panel.active').removeClass('active');
+            target_pane.find('.content-box > .active').removeClass('active');
             this._settings.forEach(function(item){
                 if (item.btn.isActive())
                     item.btn.toggle(false, true);
@@ -389,6 +393,10 @@ define([
             var allButtons = [this.btnText, this.btnTable, this.btnImage, this.btnHeaderFooter, this.btnShape, this.btnChart, this.btnTextArt,
                     this.btnMailMerge, this.btnSignature, this.btnForm];
             Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
+        },
+
+        insertPanel: function ($panel) {
+            this.$el.find('.side-panel .content-box').append($panel);
         },
 
         updateWidth: function() {

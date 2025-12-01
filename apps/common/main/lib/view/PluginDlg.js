@@ -159,8 +159,10 @@ define([], function () {
             Common.UI.Window.prototype.setHeight.call(this, height + this._headerFooterHeight);
             Common.UI.Window.prototype.setWidth.call(this, width + borders_width);
 
-            this.$window.css('left',(maxWidth - width - borders_width) / 2);
-            this.$window.css('top',(maxHeight - height - this._headerFooterHeight) / 2);
+            if (this.getLeft() + width + borders_width > maxWidth)
+                this.$window.css('left', Math.max(0, maxWidth - width - borders_width - this.bordersOffset));
+            if (this.getTop() + height + this._headerFooterHeight > maxHeight)
+                this.$window.css('top', Math.max(0, maxHeight - height - this._headerFooterHeight - this.bordersOffset));
 
             this._restoreHeight = this._restoreWidth = undefined;
         },

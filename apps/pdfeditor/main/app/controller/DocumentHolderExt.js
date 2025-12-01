@@ -426,6 +426,8 @@ define([], function () {
                 this.api.asc_registerCallback('asc_onVerticalAlign',        _.bind(this.onApiVerticalAlign, this));
                 Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
                 this.api.asc_registerCallback('asc_onTextColor',            _.bind(this.onApiTextColor, this));
+                this.api.asc_registerCallback('asc_onPrAlign',              _.bind(this.onApiParagraphAlign, this));
+                this.api.asc_registerCallback('asc_onTextDirection',        _.bind(this.onApiTextDirection, this));
 
                 documentHolder.btnBold.on('click',                         _.bind(this.onBold, this));
                 documentHolder.btnItalic.on('click',                       _.bind(this.onItalic, this));
@@ -447,6 +449,8 @@ define([], function () {
                 documentHolder.cmbFontName.on('hide:after',                _.bind(this.onHideMenus, this));
                 documentHolder.cmbFontName.on('combo:blur',                _.bind(this.onComboBlur, this));
                 documentHolder.cmbFontName.on('combo:focusin',             _.bind(this.onComboOpen, this, false));
+                documentHolder.btnHorizontalAlign.menu.on('item:click',    _.bind(this.onMenuHorizontalAlignSelect, this));
+                documentHolder.btnTextDir.menu.on('item:click',            _.bind(this.onTextDirClick, this));
 
                 this.api.UpdateInterfaceState();
             }
@@ -571,6 +575,49 @@ define([], function () {
                 this._state.clrtext = clr;
             }
             this._state.clrtext_asccolor = color;
+        };
+
+        dh.onApiParagraphAlign = function(v) {
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
+            if (this._state.pralign !== v) {
+                this._state.pralign = v;
+
+                var index = -1,
+                    align,
+                    btnHorizontalAlign = this.documentHolder.btnHorizontalAlign;
+
+                switch (v) {
+                    case 0: index = 2; align = 'btn-align-right'; break;
+                    case 1: index = 0; align = 'btn-align-left'; break;
+                    case 2: index = 1; align = 'btn-align-center'; break;
+                    case 3: index = 3; align = 'btn-align-just'; break;
+                    default:  index = -255; align = 'btn-align-left'; break;
+                }
+                if (!(index < 0)) {
+                    btnHorizontalAlign.menu.items[index].setChecked(true);
+                } else if (index == -255) {
+                    btnHorizontalAlign.menu.clearAll(true);
+                }
+
+                if ( btnHorizontalAlign.rendered && btnHorizontalAlign.$icon ) {
+                    btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls).addClass(align);
+                    btnHorizontalAlign.options.icls = align;
+                }
+            }
+        };
+
+        dh.onApiTextDirection = function (isRtl){
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
+            var documentHolder = this.documentHolder,
+                oldRtl = documentHolder.btnTextDir.options.dirRtl,
+                newRtl = !!isRtl;
+            if (oldRtl !== newRtl) {
+                documentHolder.btnTextDir.changeIcon({
+                    next: newRtl ? 'btn-rtl' : 'btn-ltr',
+                    curr: oldRtl ? 'btn-rtl' : 'btn-ltr'
+                });
+                documentHolder.btnTextDir.options.dirRtl = !!isRtl;
+            }
         };
 
         dh.onBold = function(btn, e) {
@@ -733,6 +780,25 @@ define([], function () {
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             }
+        };
+
+        dh.onTextDirClick = function(menu, item) {
+            this.api && this.api.asc_setRtlTextDirection(!!item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        };
+
+        dh.onMenuHorizontalAlignSelect = function(menu, item) {
+            this._state.pralign = undefined;
+            var btnHorizontalAlign = this.documentHolder.btnHorizontalAlign;
+
+            btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls);
+            btnHorizontalAlign.options.icls = !item.checked ? 'btn-align-left' : item.options.icls;
+            btnHorizontalAlign.$icon.addClass(btnHorizontalAlign.options.icls);
+
+            if (this.api && item.checked)
+                this.api.put_PrAlign(item.value);
+
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         };
 
         dh._getApiTextSize = function () {
@@ -1218,11 +1284,12 @@ define([], function () {
 
                     ToolTip = Common.Utils.String.htmlEncode(ToolTip);
 
-                    if (screenTip.tipType !== type || screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
-                        screenTip.toolTip.setTitle((type==Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? (ToolTip + '<br><b>' + Common.Utils.String.platformKey('Ctrl', me.documentHolder.txtPressLink) + '</b>') : ToolTip);
+                    if (screenTip.tipType !== type || screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 || (hyperProps && screenTip.noCtrl !== hyperProps.get_NoCtrl())) {
+                        screenTip.toolTip.setTitle((type==Asc.c_oAscMouseMoveDataTypes.Hyperlink && !hyperProps.get_NoCtrl()) ? (ToolTip + '<br><b>' + Common.Utils.String.platformKey('Ctrl', me.documentHolder.txtPressLink) + '</b>') : ToolTip);
                         screenTip.tipLength = ToolTip.length;
                         screenTip.strTip = ToolTip;
                         screenTip.tipType = type;
+                        screenTip.noCtrl = !!hyperProps && hyperProps.get_NoCtrl();
                         recalc = true;
                     }
 

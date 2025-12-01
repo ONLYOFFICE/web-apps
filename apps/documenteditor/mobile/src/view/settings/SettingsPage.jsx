@@ -89,7 +89,10 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
 
         if (appOptions.customization) {
             _canHelp = appOptions.customization.help !== false;
-            _canFeedback = appOptions.customization.feedback !== false;
+            _canFeedback = (
+                appOptions.customization.feedback !== false && 
+                appOptions.customization.feedback.visible !== false
+            );
             _canDisplayInfo = appOptions.customization.mobile?.info !== false;
         }
     }

@@ -83,7 +83,7 @@
     "textDoNotShowAgain": "Non mostrare di nuovo",
     "textOk": "Ok",
     "textRows": "Righe",
-    "txtWarnUrl": "Cliccando su questo collegamento si può danneggiare il tuo dispositivo e i dati.<br>Sei sicuro di voler continuare?"
+    "txtWarnUrl": "Cliccando su questo collegamento il tuo dispositivo e i dati potrebbero essere danneggiati.<br>Sei sicuro di voler continuare?"
   },
   "Controller": {
     "Main": {
@@ -355,6 +355,7 @@
       "textBack": "Indietro",
       "textBandedColumn": "Colonne a strisce",
       "textBandedRow": "Riga a strisce",
+      "textBaseline": "Linea di base",
       "textBefore": "Prima",
       "textBlack": "Attraverso il nero",
       "textBorder": "Bordo",
@@ -365,8 +366,10 @@
       "textBullets": "Elenchi puntati",
       "textBulletsAndNumbers": "Pallini e numeri",
       "textCancel": "Annulla",
+      "textCapitalization": "Maiuscola",
       "textCaseSensitive": "Maiuscole/minuscole",
       "textCellMargins": "Margini della cella",
+      "textCellSize": "Dimensione cella",
       "textChangeShape": "Cambia forma",
       "textChart": "Grafico",
       "textClock": "Orologio",
@@ -496,11 +499,8 @@
       "textZoomIn": "Ingrandisci",
       "textZoomOut": "Rimpicciolisci",
       "textZoomRotate": "Ingrandisci e ruota",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textCellSize": "Cell size",
-      "txtHeight": "Height",
-      "txtWidth": "Width"
+      "txtHeight": "Altezza",
+      "txtWidth": "Larghezza"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

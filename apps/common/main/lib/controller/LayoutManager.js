@@ -296,7 +296,7 @@ Common.UI.LayoutManager = new(function() {
                                 cls: 'btn-toolbar x-huge icon-top',
                                 iconsSet: item.icons,
                                 baseUrl: '', // base url is included in icon path
-                                caption: item.text || ' ',
+                                caption: Common.Utils.String.htmlEncode(item.text || ' '),
                                 menu: item.items,
                                 split: item.items && !!item.split,
                                 enableToggle: item.enableToggle && (!item.items || !!item.split),

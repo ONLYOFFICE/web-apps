@@ -740,6 +740,7 @@ define([
                 spreadsheetName: me.api.asc_getDocumentName(),
                 isDesktopApp: me.statusbar.mode.isDesktopApp,
                 isOffline: me.statusbar.mode.isOffline,
+                hiddenWorksheets: me.statusbar.getHiddenWorksheets(),
                 handler : function(result, i, copy, workbook) {
                     btn = result;
                     if (btn == 'ok') {
@@ -874,6 +875,7 @@ define([
                     var clr,
                         effectcolors = Common.Utils.ThemeColor.getEffectColors();
 
+                    if (!effectcolors) return;
                     for (var i = 0; i < effectcolors.length; ++i) {
                         if (typeof(picker.currentColor) == 'object' &&
                             clr === undefined &&

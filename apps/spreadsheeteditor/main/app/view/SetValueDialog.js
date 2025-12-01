@@ -88,7 +88,7 @@ define([], function () { 'use strict';
                     var input = me.spnSize.$input[0];
                     if (document.selection) { // IE
                         me.spnSize.$input.select();
-                    } else { //FF и Webkit
+                    } else { //FF and Webkit
                         input.selectionStart = 0;
                         input.selectionEnd = (me.startvalue).toString().length;
                     }

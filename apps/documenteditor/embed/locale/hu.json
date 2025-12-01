@@ -55,7 +55,6 @@
   "DE.ApplicationController.txtNo": "Nem",
   "DE.ApplicationController.txtOpenWarning": "A hivatkozásra kattintás káros lehet az eszközére és az adataira nézve. Számítógépe védelme érdekében csak a megbízható forrásból származó hivatkozásokra kattintson. Ez a hely nem biztonságos lehet:<br>%1<br>Biztosan folytatja?",
   "DE.ApplicationController.txtPressLink": "Nyomja meg a %1 billentyűt és kattintson a hivatkozásra",
-  "DE.ApplicationController.txtSecurityWarningLink": "Ez a dokumentum a következőhöz próbál csatlakozni: %1.<br>Ha megbízik ebben az oldalon, nyomja meg az „OK” gombot, miközben lenyomva tartja a Ctrl billentyűt.",
   "DE.ApplicationController.txtSecurityWarningOpenFile": "Ez a dokumentum fájl párbeszédpanelt próbál megnyitni, kattintson az „OK” gombra a megnyitáshoz.",
   "DE.ApplicationController.txtYes": "Igen",
   "DE.ApplicationController.unknownErrorText": "Ismeretlen hiba.",

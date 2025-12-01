@@ -236,9 +236,9 @@ define([
                 } else
                     this._settings[settingsType].locked = value.get_Locked() || content_locked || isProtected;
 
-                if (!this._settings[Common.Utils.documentSettingsType.MailMerge].locked) // lock MailMerge-InsertField, если хотя бы один объект locked
+                if (!this._settings[Common.Utils.documentSettingsType.MailMerge].locked) // lock MailMerge-InsertField, if at least one object is locked
                     this._settings[Common.Utils.documentSettingsType.MailMerge].locked = value.get_Locked() || isProtected;
-                if (!this._settings[Common.Utils.documentSettingsType.Signature].locked) // lock Signature, если хотя бы один объект locked
+                if (!this._settings[Common.Utils.documentSettingsType.Signature].locked) // lock Signature, if at least one object is locked
                     this._settings[Common.Utils.documentSettingsType.Signature].locked = value.get_Locked();
             }
 
@@ -331,7 +331,7 @@ define([
                 else if (lastactive>=0 && currentactive<0) active = lastactive;
                 else if (currentactive>=0) active = currentactive;
                 else if (forceSignature && !this._settings[Common.Utils.documentSettingsType.Signature].hidden) active = Common.Utils.documentSettingsType.Signature;
-                else if (!this._settings[Common.Utils.documentSettingsType.MailMerge].hidden) active = Common.Utils.documentSettingsType.MailMerge;
+                else if (!this.rightmenu.GetActivePluginPane() && !this._settings[Common.Utils.documentSettingsType.MailMerge].hidden) active = Common.Utils.documentSettingsType.MailMerge;
 
                 if (active == undefined && open && lastactive>=0)
                     active = lastactive;
