@@ -1010,6 +1010,7 @@ define([
                     warningMsg: advOptions,
                     validatePwd: !!me._isDRM,
                     iconType: 'svg',
+                    autoPosOnResize : 'center',
                     handler: function (result, value) {
                         me.isShowOpenDialog = false;
                         if (result == 'ok') {
