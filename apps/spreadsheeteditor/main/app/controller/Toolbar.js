@@ -379,6 +379,8 @@ define([
                 toolbar.btnTextFormatting.menu.on('item:click',             _.bind(this.onTextFormattingMenu, this));
                 toolbar.btnHorizontalAlign.menu.on('item:click',            _.bind(this.onHorizontalAlignMenu, this));
                 toolbar.btnVerticalAlign.menu.on('item:click',              _.bind(this.onVerticalAlignMenu, this));
+            } if ( me.appConfig.isEditDiagram || me.appConfig.isEditOle ){
+                toolbar.btnTextDir.menu.on('item:click',                    _.bind(this.onTextDirClick, this));
             } else {
                 toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
                 toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
@@ -979,6 +981,13 @@ define([
         },
 
         onTextDirClick: function(menu, item) {
+            if (item.value === 'rtlSheet') {
+                var sheet = this.api.asc_getSheetViewSettings().asc_getRightToLeft();
+                this.api && this.api.asc_setRightToLeft(!sheet)
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                return; 
+            }
+    
             this.api && this.api.asc_setCellReadingOrder(item.value);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
