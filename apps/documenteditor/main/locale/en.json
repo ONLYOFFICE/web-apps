@@ -1716,7 +1716,7 @@
   "DE.Controllers.Main.warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
   "DE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
   "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
-  "DE.Controllers.Main.errorCopyDisabled": "For security reasons, the contents of this document cannot be copied to the clipboard.",
+  "DE.Controllers.Main.errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
   "DE.Controllers.Navigation.txtBeginning": "Beginning of document",
   "DE.Controllers.Navigation.txtGotoBeginning": "Go to the beginning of the document",
   "DE.Controllers.Print.textMarginsLast": "Last Custom",

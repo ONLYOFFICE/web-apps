@@ -322,7 +322,7 @@
   "VE.Controllers.Main.warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact %1 sales team for personal upgrade terms.",
   "VE.Controllers.Main.warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
   "VE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
-  "VE.Controllers.Main.errorCopyDisabled": "For security reasons, the contents of this document cannot be copied to the clipboard.",
+  "VE.Controllers.Main.errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
   "VE.Controllers.Search.notcriticalErrorTitle": "Warning",
   "VE.Controllers.Search.textNoTextFound": "The data you have been searching for could not be found. Please adjust your search options.",
   "VE.Controllers.Search.textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
