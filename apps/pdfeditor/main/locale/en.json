@@ -1594,6 +1594,7 @@
   "PDFE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
   "PDFE.Controllers.Main.txtUnlockTitle": "Unprotect document",
   "PDFE.Controllers.Main.txtDocUnlockDescription": "Enter a password to unprotect document",
+  "PDFE.Controllers.Main.errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
   "PDFE.Controllers.Navigation.txtBeginning": "Beginning of document",
   "PDFE.Controllers.Navigation.txtGotoBeginning": "Go to the beginning of the document",
   "PDFE.Controllers.Print.textMarginsLast": "Last custom",

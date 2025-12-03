@@ -12,6 +12,7 @@ import EditorUIController from '../lib/patch';
     canComments: stores.storeAppOptions.canComments,
     canViewComments: stores.storeAppOptions.canViewComments,
     canCoAuthoring: stores.storeAppOptions.canCoAuthoring,
+    canCopy: stores.storeAppOptions.canCopy,
     isRestrictedEdit: stores.storeAppOptions.isRestrictedEdit,
     users: stores.users,
     isDisconnected: stores.users.isDisconnected,
@@ -107,12 +108,12 @@ class ContextMenu extends ContextMenuController {
 
         switch (action) {
             case 'cut':
-                if (!LocalStorage.getBool("sse-hide-copy-cut-paste-warning")) {
+                if (!LocalStorage.getBool("sse-hide-copy-cut-paste-warning") && this.props.canCopy) {
                     this.showCopyCutPasteModal();
                 }
                 break;
             case 'copy':
-                if (!api.asc_Copy() && !LocalStorage.getBool("sse-hide-copy-cut-paste-warning")) {
+                if (!api.asc_Copy() && !LocalStorage.getBool("sse-hide-copy-cut-paste-warning") && this.props.canCopy) {
                     this.showCopyCutPasteModal();
                 }
                 break;

@@ -877,6 +877,9 @@ define([
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
+                // if (!me.appOptions.canCopy) // Show this warning when copy button is added to the toolbar
+                //     Common.UI.TooltipManager.showTip({ step: 'copyDisabled', text: me.errorCopyDisabled, target: '#toolbar', maxwidth: 350, automove: true, noHighlight: true, noArrow: true, showButton: false});
+
                 if (zf == -1) {
                     this.api.zoomFitToPage();
                 } else if (zf == -2) {
@@ -1180,6 +1183,7 @@ define([
                 this.appOptions.canSaveToFile = this.appOptions.isEdit || this.appOptions.isRestrictedEdit;
                 this.appOptions.showSaveButton = this.appOptions.isEdit;
                 this.appOptions.canSuggest     = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.suggestFeature===false);
+                this.appOptions.canCopy        = this.permissions.copy !== false;
 
                 this.appOptions.compactHeader = this.appOptions.customization && (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compactHeader;
                 this.appOptions.twoLevelHeader = this.appOptions.isEdit; // when compactHeader=true some buttons move to toolbar
@@ -1514,6 +1518,11 @@ define([
                             config.msg = this.errorInconsistentExtPptx.replace('%1', this.document.fileType || '');
                         else
                             config.msg = this.errorInconsistentExt;
+                        break;
+
+                    case Asc.c_oAscError.ID.CopyDisabled:
+                        config.maxwidth = 450;
+                        config.msg = this.errorCopyDisabled;
                         break;
 
                     default:

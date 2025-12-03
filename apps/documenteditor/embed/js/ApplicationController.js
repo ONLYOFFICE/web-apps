@@ -912,6 +912,10 @@ DE.ApplicationController = new(function(){
             case Asc.c_oAscError.ID.SessionToken: // don't show error message
                 return;
 
+            case Asc.c_oAscError.ID.CopyDisabled:
+                message= me.errorCopyDisabled;
+                break;
+
             default:
                 // message = me.errorDefaultMessage.replace('%1', id);
                 // break;
@@ -1201,6 +1205,7 @@ DE.ApplicationController = new(function(){
         textCancel: 'Cancel',
         txtSecurityWarningLink: 'This document is trying to connect to %1.<br>If you trust this site, press \"OK\" while holding down the ctrl key.',
         txtSecurityWarningOpenFile: 'This document is trying to open file dialog, press \"OK\" to open.',
-        txtSecurityWarningLinkOk: 'This document is trying to connect to %1.<br>If you trust this site, press \"OK\".'
+        txtSecurityWarningLinkOk: 'This document is trying to connect to %1.<br>If you trust this site, press \"OK\".',
+        errorCopyDisabled: 'For security reasons, the contents of this document cannot be copied to the clipboard.'
     }
 })();

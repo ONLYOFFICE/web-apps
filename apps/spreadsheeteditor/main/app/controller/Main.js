@@ -985,6 +985,8 @@ define([
                     Common.UI.TooltipManager.showTip({ step: 'openCsv', text: me.warnOpenCsv, target: '#toolbar', maxwidth: 350, automove: true, noHighlight: true, noArrow: true, showButton: false});
                 if (me.appOptions.isEdit && !me.appOptions.canModifyFilter)
                     Common.UI.TooltipManager.showTip({ step: 'cantModifyFilter', text: me.warnModifyFilter, target: '#toolbar', maxwidth: 400, showButton: false, automove: true, noHighlight: true, noArrow: true});
+                if (!me.appOptions.canCopy)
+                    Common.UI.TooltipManager.showTip({ step: 'copyDisabled', text: me.errorCopyDisabled, target: '#toolbar', maxwidth: 350, automove: true, noHighlight: true, noArrow: true, showButton: false});
 
                 value = (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram || this.appOptions.isEditOle) ? 100 : Common.localStorage.getItem("sse-settings-zoom");
                 Common.Utils.InternalSettings.set("sse-settings-zoom", value);
@@ -1493,6 +1495,7 @@ define([
                 this.appOptions.canSaveToFile = this.appOptions.isEdit || this.appOptions.isRestrictedEdit;
                 this.appOptions.showSaveButton = this.appOptions.isEdit;
                 this.appOptions.canSuggest     = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.suggestFeature===false);
+                this.appOptions.canCopy        = this.permissions.copy !== false;
 
                 this.appOptions.compactHeader = this.appOptions.customization && (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compactHeader;
                 this.appOptions.twoLevelHeader = this.appOptions.isEdit; // when compactHeader=true some buttons move to toolbar
@@ -2273,6 +2276,11 @@ define([
                     case Asc.c_oAscError.ID.MacroUnavailableWarning:
                         config.msg = this.errorMacroUnavailableWarning.replace('%1', errData ? "'" + errData + "'" : '');
                         config.maxwidth = 600;
+                        break;
+
+                    case Asc.c_oAscError.ID.CopyDisabled:
+                        config.maxwidth = 450;
+                        config.msg = this.errorCopyDisabled;
                         break;
 
                     default:

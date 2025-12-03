@@ -1242,7 +1242,7 @@ define([
             if (me.api) {
                 var res = (type === 'cut') ? me.api.Cut() : ((type === 'copy') ? me.api.Copy() : me.api.Paste());
                 if (!res) {
-                    if (!Common.localStorage.getBool("pe-hide-copywarning")) {
+                    if (!Common.localStorage.getBool("pe-hide-copywarning") && (type === 'paste' || me.toolbar.mode.canCopy)) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
                                 if (dontshow) Common.localStorage.setItem("pe-hide-copywarning", 1);

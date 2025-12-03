@@ -1307,6 +1307,9 @@ define([
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
+                if (!me.appOptions.canCopy)
+                    Common.UI.TooltipManager.showTip({ step: 'copyDisabled', text: me.errorCopyDisabled, target: '#toolbar', maxwidth: 350, automove: true, noHighlight: true, noArrow: true, showButton: false});
+
                 Common.Utils.InternalSettings.set("de-settings-datetime-default", Common.localStorage.getItem("de-settings-datetime-default"));
 
                 /** coauthoring begin **/
@@ -1754,6 +1757,7 @@ define([
                 this.appOptions.canDownload       = this.permissions.download !== false;
                 this.appOptions.showSaveButton = this.appOptions.isEdit || !this.appOptions.isRestrictedEdit && this.appOptions.isPDFForm && this.appOptions.canDownload; // save to file or save to file copy (for pdf-form viewer)
                 this.appOptions.canSuggest     = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.suggestFeature===false);
+                this.appOptions.canCopy        = this.permissions.copy !== false;
 
                 if (this.appOptions.isPDFForm && !this.appOptions.isEdit && !this.appOptions.isRestrictedEdit) {
                     if (!this.appOptions.isRestrictedEdit && !this.appOptions.canEdit)
@@ -2362,6 +2366,11 @@ define([
                             config.msg = this.errorInconsistentExtPptx.replace('%1', this.document.fileType || '');
                         else
                             config.msg = this.errorInconsistentExt;
+                        break;
+
+                    case Asc.c_oAscError.ID.CopyDisabled:
+                        config.maxwidth = 450;
+                        config.msg = this.errorCopyDisabled;
                         break;
 
                     default:

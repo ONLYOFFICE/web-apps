@@ -912,6 +912,9 @@ define([
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
+                if (!me.appOptions.canCopy)
+                    Common.UI.TooltipManager.showTip({ step: 'copyDisabled', text: me.errorCopyDisabled, target: '#toolbar', maxwidth: 350, automove: true, noHighlight: true, noArrow: true, showButton: false});
+
                 Common.Utils.InternalSettings.set("pe-settings-datetime-default", Common.localStorage.getItem("pe-settings-datetime-default"));
 
                 value = Common.localStorage.getItem("pe-settings-zoom");
@@ -1383,6 +1386,7 @@ define([
                 this.appOptions.canSaveToFile = this.appOptions.isEdit || this.appOptions.isRestrictedEdit;
                 this.appOptions.showSaveButton = this.appOptions.isEdit;
                 this.appOptions.canSuggest     = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.suggestFeature===false);
+                this.appOptions.canCopy        = this.permissions.copy !== false;
 
                 this.appOptions.compactHeader = this.appOptions.customization && (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compactHeader;
                 this.appOptions.twoLevelHeader = this.appOptions.isEdit; // when compactHeader=true some buttons move to toolbar
@@ -1836,6 +1840,11 @@ define([
                     case Asc.c_oAscError.ID.CannotSaveWatermark:
                         config.maxwidth = 600;
                         config.msg = this.errorSaveWatermark;
+                        break;
+
+                    case Asc.c_oAscError.ID.CopyDisabled:
+                        config.maxwidth = 450;
+                        config.msg = this.errorCopyDisabled;
                         break;
 
                     default:
