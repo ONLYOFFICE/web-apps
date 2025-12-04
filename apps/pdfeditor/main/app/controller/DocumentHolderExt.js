@@ -162,6 +162,7 @@ define([], function () {
                 view.menuAddHyperlinkTable.on('click', _.bind(me.addHyperlink, me));
                 view.menuEditHyperlinkPara.on('click', _.bind(me.editHyperlink, me));
                 view.menuEditHyperlinkTable.on('click', _.bind(me.editHyperlink, me));
+                view.menuPDFEditHyperlink.on('click', _.bind(me.editHyperlink, me));
                 view.menuRemoveHyperlinkPara.on('click', _.bind(me.removeHyperlink, me));
                 view.menuRemoveHyperlinkTable.on('click', _.bind(me.removeHyperlink, me));
                 view.menuChartEdit.on('click', _.bind(me.editChartClick, me, undefined));
@@ -1954,7 +1955,8 @@ define([], function () {
         dh.editHyperlink = function(item, e){
             var win, me = this;
             if (me.api){
-                var _arr = [];
+                var _arr = [],
+                    isAnnotation = item.annotProps && item.annotProps.value;
                 for (var i=0; i<me.api.getCountPages(); i++) {
                     _arr.push({
                         displayValue: i+1,
@@ -1966,11 +1968,14 @@ define([], function () {
                     appOptions: me.mode,
                     handler: function(dlg, result) {
                         if (result == 'ok') {
-                            me.api.change_Hyperlink(win.getSettings());
+                            me.api.change_Hyperlink(win.getSettings(), isAnnotation ? item.annotProps.value.asc_getIds() : undefined );
+                        } else if (result === 'view') {
+                            me.api.SetLinkAnnotGoToAction(isAnnotation ? item.annotProps.value.asc_getIds() : undefined);
                         }
                         me.editComplete();
                     },
-                    slides: _arr
+                    slides: _arr,
+                    isAnnotation: isAnnotation
                 });
                 win.show();
                 win.setSettings(item.hyperProps.value);

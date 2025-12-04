@@ -136,6 +136,10 @@ define([], function () {
                 caption     : me.removeCommentText
             });
 
+            me.menuPDFEditHyperlink = new Common.UI.MenuItem({
+                caption     : me.editHyperlinkText
+            });
+
             this.editPDFModeMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function (value) {
@@ -145,10 +149,17 @@ define([], function () {
                     me.menuEditAddComment.setDisabled(disabled);
                     me.menuEditRemoveComment.setVisible(value && value.annotProps && value.annotProps.value);
                     me.menuEditRemoveComment.setDisabled(disabled);
+
+                    me.menuPDFEditHyperlink.setVisible(value.annotProps && value.annotProps.value && value.annotProps.value.asc_getType()===AscPDF.ANNOTATIONS_TYPES.Link && !_.isUndefined(value.hyperProps));
+                    me.menuPDFEditHyperlink.setDisabled(disabled);
+                    me.menuPDFEditHyperlink.hyperProps = value.hyperProps;
+                    me.menuPDFEditHyperlink.annotProps = value.annotProps;
+
                 },
                 items: [
                     me.menuPDFEditCopy,
                     me.menuEditAddComment,
+                    me.menuPDFEditHyperlink,
                     me.menuEditRemoveComment
                 ]
             }).on('hide:after', function (menu, e, isFromInputControl) {

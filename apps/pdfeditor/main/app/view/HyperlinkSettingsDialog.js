@@ -227,6 +227,7 @@ define([], function () { 'use strict';
                 this.isTextChanged = false;
                 this.inputTip.setValue(props.get_ToolTip());
 
+                this.isAnnotation && this.chPageView.setValue(props.get_PageView());
                 me._originalProps = props;
             }
         },
@@ -282,7 +283,7 @@ define([], function () { 'use strict';
         _handleInput: function(state) {
             if (this.options.handler) {
                 if (state == 'ok') {
-                    if (this.isAnnotation && this.chPageView.getValue()==='checked') {
+                    if (this.isAnnotation && this.btnInternal.isActive() && this.chPageView.getValue()==='checked') {
                         var me = this;
                         me.hide();
 
