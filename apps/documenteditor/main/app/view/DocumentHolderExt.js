@@ -1063,7 +1063,7 @@ define([], function () {
             });
 
             me.menuTableCellAlign = new Common.UI.MenuItem({
-                caption     : me.cellAlignText,
+                caption     : me.AlignText,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
                     menuAlign: 'tl-tr',
@@ -1828,7 +1828,7 @@ define([], function () {
             });
 
             me.menuParagraphVAlign = new Common.UI.MenuItem({
-                caption     : me.cellAlignText,
+                caption     : me.AlignText,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
                     menuAlign: 'tl-tr',
