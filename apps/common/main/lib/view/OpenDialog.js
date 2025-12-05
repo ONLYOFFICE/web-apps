@@ -106,9 +106,39 @@ define([
                         '<% if (type == Common.Utils.importTextType.Paste || type == Common.Utils.importTextType.Columns || type == Common.Utils.importTextType.Data) { %>',
                         '<div style="display: inline-block; <% if (codepages && codepages.length>0) { %>margin-top:15px;<% } %>width: 100%;">',
                             '<label class="header">' + t.txtDelimiter + '</label>',
-                            '<div>',
-                                '<div id="id-delimiters-combo" class="input-group-nr" style="max-width: 100px;display: inline-block; vertical-align: middle;"></div>',
-                                '<div id="id-delimiter-other" class="input-row margin-left-10" style="display: inline-block; vertical-align: middle;"></div>',
+                            '<div class="controll-panel <% if (type == Common.Utils.importTextType.Columns) { %>margin-top<% } %>">',
+                                '<% if (type == Common.Utils.importTextType.Columns) { %>',
+                                    '<table id="id-delimiters-table">',
+                                        '<tr>',
+                                            '<td>',
+                                                '<div id="id-delimiter-chk-comma"></div>',
+                                            '</td>',
+                                            '<td>',
+                                                '<div id="id-delimiter-chk-tab"></div>',
+                                            '</td>',
+                                        '</tr>',
+                                        '<tr>',
+                                            '<td>',
+                                                '<div id="id-delimiter-chk-semicolon"></div>',
+                                            '</td>',
+                                            '<td>',
+                                                '<div id="id-delimiter-chk-space"></div>',
+                                            '</td>',
+                                        '</tr>',
+                                        '<tr>',
+                                            '<td>',
+                                                '<div id="id-delimiter-chk-colon"></div>',
+                                            '</td>',    
+                                            '<td id="id-delimiter-other-row">',
+                                                '<div id="id-delimiter-chk-other"></div>',
+                                                '<div id="id-delimiter-other"></div>',
+                                            '</td>',
+                                        '</tr>',
+                                    '</table>',
+                                '<% } else { %>',
+                                    '<div id="id-delimiters-combo" class="input-group-nr" style="max-width: 100px;display: inline-block; vertical-align: middle;"></div>',
+                                    '<div id="id-delimiter-other" class="input-row margin-left-10" style="display: inline-block; vertical-align: middle;"></div>',
+                                '<% } %>',
                                 '<button type="button" class="btn auto btn-text-default float-right" id="id-delimiters-advanced" style="min-width:100px; display: inline-block;">' + t.txtAdvanced + '</button>',
                             '</div>',
                         '</div>',
@@ -214,6 +244,7 @@ define([
             this.inputPwd && arr.push(this.inputPwd);
             this.cmbEncoding && arr.push(this.cmbEncoding);
             this.cmbDelimiter && arr.push(this.cmbDelimiter);
+            this.delimiterCheckboxes && (arr = arr.concat(this.delimiterCheckboxes.map(function(i) { return i.cmp; })));
             this.inputDelimiter && arr.push(this.inputDelimiter);
             this.btnAdvanced && arr.push(this.btnAdvanced);
             this.txtDestRange && arr.push(this.txtDestRange);
@@ -225,16 +256,20 @@ define([
             Common.UI.Window.prototype.show.apply(this, arguments);
 
             var me = this;
-             if (this.type == Common.Utils.importTextType.DRM) {
-                 setTimeout(function(){
-                     me.inputPwd.focus();
-                     if (me.validatePwd)
-                         me.inputPwd.checkValidate();
-                 }, 500);
-             } else {
-                 var cmp = me.txtDestRange ? me.txtDestRange : (me.cmbEncoding ? me.cmbEncoding : me.cmbDelimiter);
-                 cmp && setTimeout(function(){cmp.focus();}, 500);
-             }
+            if (this.type == Common.Utils.importTextType.DRM) {
+                setTimeout(function(){
+                    me.inputPwd.focus();
+                    if (me.validatePwd)
+                        me.inputPwd.checkValidate();
+                }, 500);
+            } else {
+                var cmp = me.txtDestRange || null;
+                (!cmp && me.cmbEncoding) && (cmp = me.cmbEncoding); 
+                (!cmp && me.cmbDelimiter) && (cmp = me.cmbDelimiter); 
+                (!cmp && me.delimiterCheckboxes) && (cmp = me.delimiterCheckboxes[0].cmp); 
+
+                cmp && setTimeout(function(){cmp.focus();}, 500);
+            }
         },
 
         onBtnClick: function(event) {
@@ -256,25 +291,43 @@ define([
 
                     var encoding = (this.cmbEncoding && !this.cmbEncoding.isDisabled()) ? this.cmbEncoding.getValue() :
                             ((this.settings && this.settings.asc_getCodePage()) ? this.settings.asc_getCodePage() : 0),
-                        delimiter = this.cmbDelimiter ? this.cmbDelimiter.getValue() : null,
-                        delimiterChar = (delimiter == -1) ? this.inputDelimiter.getValue() : null;
-                    (delimiter == -1) && (delimiter = null);
+                        delimiters = [],
+                        delimiterChar = null;
+
+                    if(this.cmbDelimiter) {
+                        delimiters = [this.cmbDelimiter.getValue()];
+                    } else if(this.delimiterCheckboxes) {
+                        this.delimiterCheckboxes.forEach(function(checkbox) {
+                            checkbox.cmp.isChecked() && delimiters.push(checkbox.id);
+                        });
+                    }
+                    delimiterChar = delimiters.includes(-1) ? this.inputDelimiter.getValue() : null;
+
+                    const delimForSave = JSON.stringify(!delimiters.length ? [-1] : delimiters);
                     if (this.type === Common.Utils.importTextType.TXT) { //save last encoding only for txt files
                         this._isEncodingChanged && Common.localStorage.setItem("de-settings-open-encoding", encoding);
                     } else if (this.type === Common.Utils.importTextType.CSV) { // only for csv files
-                        this._isDelimChanged && Common.localStorage.setItem("sse-settings-csv-delimiter", delimiter === null ? -1 : delimiter);
-                        this._isDelimCharChanged && Common.localStorage.setItem("sse-settings-csv-delimiter-char", delimiterChar || '');
+                        this._isDelimChanged && Common.localStorage.setItem("sse-settings-csv-delimiter", delimForSave);
+                        this._isDelimCharChanged && Common.localStorage.setItem("sse-settings-csv-delimiter-char", 
+                            delimiterChar || ''
+                        );
                         this._isEncodingChanged && Common.localStorage.setItem("sse-settings-csv-encoding", encoding);
-                    } else if (this.type === Common.Utils.importTextType.Paste || this.type === Common.Utils.importTextType.Columns || this.type === Common.Utils.importTextType.Data) {
-                        this._isDelimChanged && Common.localStorage.setItem("sse-settings-data-delimiter", delimiter === null ? -1 : delimiter);
-                        this._isDelimCharChanged && Common.localStorage.setItem("sse-settings-data-delimiter-char", delimiterChar || '');
+                    } else if (this.type === Common.Utils.importTextType.Paste || 
+                        this.type === Common.Utils.importTextType.Columns || 
+                        this.type === Common.Utils.importTextType.Data
+                    ) {
+                        this._isDelimChanged && Common.localStorage.setItem("sse-settings-data-delimiter", delimForSave);
+                        this._isDelimCharChanged && Common.localStorage.setItem("sse-settings-data-delimiter-char", 
+                            delimiterChar || ''
+                        );
                         this._isEncodingChanged && Common.localStorage.setItem("sse-settings-data-encoding", encoding);
                     }
+                    delimiters = delimiters.filter(function(el) { return el != -1; });
 
                     var decimal = this.separatorOptions ? this.separatorOptions.decimal : undefined,
                         thousands = this.separatorOptions ? this.separatorOptions.thousands : undefined,
                         qualifier = this.separatorOptions ? this.separatorOptions.qualifier : '"';
-                    var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
+                    var options = new Asc.asc_CTextOptions(encoding, delimiters, delimiterChar);
                     decimal && options.asc_setNumberDecimalSeparator(decimal);
                     thousands && options.asc_setNumberGroupSeparator(thousands);
                     qualifier && options.asc_setTextQualifier(qualifier);
@@ -366,38 +419,119 @@ define([
             }
 
             if (this.type == Common.Utils.importTextType.CSV || this.type == Common.Utils.importTextType.Paste || this.type == Common.Utils.importTextType.Columns || this.type == Common.Utils.importTextType.Data) {
-                var delimiter = '',
+                var delimiters = [],
                     delimiterChar = '';
                 if (!this.preview) { // don't need to detect delimiter (save to csv)
-                    delimiter = this.settings && this.settings.asc_getDelimiter() ? this.settings.asc_getDelimiter() : 4,
+                    delimiters = this.settings && this.settings.asc_getDelimiter() ? this.settings.asc_getDelimiter() : [4],
                     delimiterChar = this.settings && this.settings.asc_getDelimiterChar() ? this.settings.asc_getDelimiterChar() : '';
-                    var value = Common.localStorage.getItem(this.type == Common.Utils.importTextType.CSV ? "sse-settings-csv-delimiter" : "sse-settings-data-delimiter");
-                    if (value) {
-                        value = parseInt(value);
-                        if (!isNaN(value)) {
-                            delimiter = value;
-                            (delimiter===-1) && (delimiterChar = Common.localStorage.getItem(this.type == Common.Utils.importTextType.CSV ? "sse-settings-csv-delimiter-char" : "sse-settings-data-delimiter-char") || '');
+                    let valueFromStorage = Common.localStorage.getItem(
+                        this.type == Common.Utils.importTextType.CSV
+                            ? "sse-settings-csv-delimiter"
+                            : "sse-settings-data-delimiter"
+                    );
+
+                    if (valueFromStorage) {
+                        let isDelitFromStorage = false;
+                        
+                        valueFromStorage = JSON.parse(valueFromStorage);
+                        if (Array.isArray(valueFromStorage)) {
+                            delimiters = valueFromStorage;
+                            isDelitFromStorage = true;
+                        } else {
+                            const intValue = parseInt(valueFromStorage);
+                            if(!isNaN(intValue)) {
+                                delimiters = [intValue];
+                                isDelitFromStorage = true;
+                            }
+                        }
+
+                        if(isDelitFromStorage && delimiters.includes(-1)) {
+                            const key = (this.type === Common.Utils.importTextType.CSV
+                                ? "sse-settings-csv-delimiter-char"
+                                : "sse-settings-data-delimiter-char"
+                            );
+
+                            delimiterChar = Common.localStorage.getItem(key) || '';
                         }
                     }
                 }
 
-                this.cmbDelimiter = new Common.UI.ComboBox({
-                    el: $('#id-delimiters-combo', this.$window),
-                    style: 'width: 100px;',
-                    menuStyle: 'min-width: 100px;',
-                    cls: 'input-group-nr',
-                    data: [
-                        {value: 4, displayValue: this.txtComma},
-                        {value: 2, displayValue: this.txtSemicolon},
-                        {value: 3, displayValue: this.txtColon},
-                        {value: 1, displayValue: this.txtTab},
-                        {value: 5, displayValue: this.txtSpace},
-                        {value: -1, displayValue: this.txtOther}],
-                    editable: false,
-                    takeFocusOnClose: true
-                });
-                this.cmbDelimiter.setValue(delimiter);
-                this.cmbDelimiter.on('selected', _.bind(this.onCmbDelimiterSelect, this));
+                if(this.type == Common.Utils.importTextType.Columns) {
+                    const me = this;
+                    this.delimiterCheckboxes = [
+                        {
+                            id: 4,
+                            cmp: new Common.UI.CheckBox({
+                                el: $('#id-delimiter-chk-comma'),
+                                labelText: this.txtComma
+                            }),
+                        },
+                        {
+                            id: 2,
+                            cmp: new Common.UI.CheckBox({
+                                el: $('#id-delimiter-chk-semicolon'),
+                                labelText: this.txtSemicolon
+                            })
+                        },
+                        {
+                            id: 3,
+                            cmp: new Common.UI.CheckBox({
+                                el: $('#id-delimiter-chk-colon'),
+                                labelText: this.txtColon
+                            })
+                        },
+                        {
+                            id: 1,
+                            cmp: new Common.UI.CheckBox({
+                                el: $('#id-delimiter-chk-tab'),
+                                labelText: this.txtTab
+                            })
+                        },
+                        {
+                            id: 5,
+                            cmp: new Common.UI.CheckBox({
+                                el: $('#id-delimiter-chk-space'),
+                                labelText: this.txtSpace
+                            })
+                        },
+                        {
+                            id: -1,
+                            cmp: new Common.UI.CheckBox({
+                                el: $('#id-delimiter-chk-other'),
+                                labelText: this.txtOther,
+                                value: -1
+                            })
+                        }
+                    ];
+                    this.delimiterCheckboxes.forEach(function(checkbox) {
+                        checkbox.cmp.on('change', function(field) {
+                            if(checkbox.id == -1) {
+                                me.inputDelimiter.setVisible(field.isChecked());
+                                field.isChecked() && setTimeout(function(){me.inputDelimiter.focus();}, 10);
+                            }
+                            me.preview && me.updatePreview();
+                            me._isDelimChanged = true;
+                        });
+                    });
+                } else {
+                    this.cmbDelimiter = new Common.UI.ComboBox({
+                        el: $('#id-delimiters-combo', this.$window),
+                        style: 'width: 100px;',
+                        menuStyle: 'min-width: 100px;',
+                        cls: 'input-group-nr',
+                        data: [
+                            {value: 4, displayValue: this.txtComma},
+                            {value: 2, displayValue: this.txtSemicolon},
+                            {value: 3, displayValue: this.txtColon},
+                            {value: 1, displayValue: this.txtTab},
+                            {value: 5, displayValue: this.txtSpace},
+                            {value: -1, displayValue: this.txtOther}],
+                        editable: false,
+                        takeFocusOnClose: true
+                    });
+                    this.cmbDelimiter.setValue(delimiters[0]);
+                    this.cmbDelimiter.on('selected', _.bind(this.onCmbDelimiterSelect, this));
+                }
 
                 this.inputDelimiter = new Common.UI.InputField({
                     el          : $('#id-delimiter-other'),
@@ -407,7 +541,7 @@ define([
                     validateOnBlur: false,
                     value: delimiterChar
                 });
-                this.inputDelimiter.setVisible(delimiter===-1);
+                this.inputDelimiter.setVisible(delimiters.includes(-1));
                 this.inputDelimiter.on ('changing', _.bind(this.onInputCharChanging, this));
 
                 if (this.type == Common.Utils.importTextType.Paste || this.type == Common.Utils.importTextType.Columns || this.type == Common.Utils.importTextType.Data) {
@@ -440,24 +574,38 @@ define([
         },
 
         textCallback: function(text) {
-            var delimiter,
+            var delimiters = [],
                 delimiterChar,
                 encoding = (this.cmbEncoding && !this.cmbEncoding.isDisabled()) ? this.cmbEncoding.getValue() :
                            ((this.settings && this.settings.asc_getCodePage()) ? this.settings.asc_getCodePage() : 0);
             if (this.detectedDelimiter || this.type === Common.Utils.importTextType.TXT) {
-                delimiter = this.cmbDelimiter ? this.cmbDelimiter.getValue() : null;
-                delimiterChar = delimiter == -1 ? this.inputDelimiter.getValue() : null;
+                if(this.cmbDelimiter) {
+                    delimiters = [this.cmbDelimiter.getValue()];
+                } else if(this.delimiterCheckboxes) {
+                    this.delimiterCheckboxes.forEach(function(checkbox) {
+                        checkbox.cmp.isChecked() && delimiters.push(checkbox.id);
+                    });
+                }
+                delimiterChar = delimiters.includes(-1) ? this.inputDelimiter.getValue() : '';
             } else {
                 var res = this.api.asc_getCSVDelimiter(text);
                 text = res.text;
-                delimiter = res.delimiter || -1;
-                delimiterChar = delimiter===-1 ? res.delimiterChar || '' : '';
-                this.cmbDelimiter.setValue(delimiter);
-                this.inputDelimiter.setVisible(delimiter===-1);
+                delimiters = [res.delimiter || -1];
+                delimiterChar = delimiters.includes(-1) ? res.delimiterChar || '' : '';
+                if(this.cmbDelimiter) {
+                    this.cmbDelimiter.setValue(delimiters[0]);
+                } else if(this.delimiterCheckboxes) {
+                    this.delimiterCheckboxes.forEach(function(checkbox) {
+                        checkbox.cmp.setValue(delimiters.includes(checkbox.id), true);
+                    });
+                }
+                this.inputDelimiter.setVisible(delimiters.includes(-1));
                 this.inputDelimiter.setValue(delimiterChar);
                 this.detectedDelimiter = true;
             }
-            var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
+            
+            delimiters = delimiters.filter(function(el) { return el != -1; });
+            var options = new Asc.asc_CTextOptions(encoding, delimiters, delimiterChar);
             if (this.separatorOptions) {
                 options.asc_setNumberDecimalSeparator(this.separatorOptions.decimal);
                 options.asc_setNumberGroupSeparator(this.separatorOptions.thousands);
@@ -512,7 +660,7 @@ define([
                         maxlength = str.length;
                 }
                 this._previewTdMaxLength = Math.max(this._previewTdMaxLength, maxlength);
-                var tpl = '<table>';
+                var tpl = '<table id="id-preview-table">';
                 for (var i=0; i<data.length; i++) {
                     var str = data[i] || '';
                     tpl += '<tr style="vertical-align: top;">';
@@ -534,7 +682,7 @@ define([
                 }
                 tpl += '</table>';
             } else {
-                var tpl = '<table>';
+                var tpl = '<table id="id-preview-table">';
                 for (var i=0; i<data.length; i++) {
                     var str = data[i] || '';
                     tpl += '<tr style="vertical-align: top;"><td>' + Common.Utils.String.htmlEncode(str) + '</td></tr>';
