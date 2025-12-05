@@ -2031,6 +2031,13 @@ define([], function () {
 
         dh.tableCellsVAlign = function(menu, item, e) {
             if (this.api) {
+
+                if (item.options.halign != null) {
+                    var type = item.options.halign;
+                    this.api.put_PrAlign(type);
+                    return;
+                }
+                
                 var properties = new Asc.CTableProp();
                 properties.put_CellsVAlign(item.value);
                 this.api.tblApply(properties);
@@ -2370,6 +2377,13 @@ define([], function () {
         dh.onParagraphVAlign = function (menu, item) {
             var me = this;
             if (me.api) {
+
+                if (item.options.halign != null) {
+                    var type = item.options.halign;
+                    me.api.put_PrAlign(type);
+                    return;
+                }
+
                 var properties = new Asc.asc_CShapeProperty();
                 properties.put_VerticalTextAlign(item.value);
 
