@@ -186,6 +186,8 @@ define([], function () { 'use strict';
                 labelText: this.txtPageView
             }).on('change', function(field, newValue, oldValue, eOpts){
                 me.internalList.setDisabled(newValue==='checked');
+                var rec = me.internalList.getSelectedRec();
+                me.btnOk.setDisabled((!rec || rec.get('index')==4) && (newValue!=='checked'));
             });
 
             me.btnOk = _.find(this.getFooterButtons(), function (item) {
@@ -451,7 +453,7 @@ define([], function () { 'use strict';
                 }
                 var rec = this.internalList.getSelectedRec();
                 rec && this.internalList.scrollToRecord(rec);
-                this.btnOk.setDisabled(!rec || rec.get('index')==4);
+                this.btnOk.setDisabled((!rec || rec.get('index')==4) && !(this.isAnnotation && this.chPageView.getValue()==='checked'));
                 var me = this;
                 _.delay(function(){
                     me.inputDisplay.focus();
@@ -494,7 +496,7 @@ define([], function () { 'use strict';
 
         onSelectItem: function(picker, item, record, e){
             if (!record) return;
-            this.btnOk.setDisabled(record.get('index')==4);
+            this.btnOk.setDisabled(record.get('index')==4 && !(this.isAnnotation && this.chPageView.getValue()==='checked'));
             if (this.isAutoUpdate) {
                 this.inputDisplay.setValue((record.get('level') || record.get('index')<4) ? record.get('name') : '');
                 this.isTextChanged = true;
