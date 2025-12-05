@@ -525,7 +525,7 @@ define([
                 
                 this.btnChartElements = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-freeze-panes',
+                    iconCls: 'toolbar__icon btn-big-chart-elements',
                     caption: me.capChartElements,
                     lock: [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell, _set.coAuthText, _set.wsLock,],
                     dataHint: '1',
@@ -537,7 +537,7 @@ define([
 
                 this.btnChartType = new Common.UI.Button({
                     cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-chart-type',
+                    iconCls: 'toolbar__icon btn-menu-chart',
                     caption: me.capChartType,
                     lock        : [_set.lostConnect, _set.coAuth, _set.editCell, _set.coAuthText, _set.wsLock,],
                     menu: true,
@@ -549,7 +549,7 @@ define([
                 
                 this.btnSelectData = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-big-pivot-sum',
+                    iconCls: 'toolbar__icon btn-big-select-range',
                     caption: me.capSelectData,
                     lock        : [_set.lostConnect, _set.coAuth, _set.editCell, _set.coAuthText, _set.wsLock,],
                     dataHint    : '1',
@@ -560,7 +560,7 @@ define([
 
                 this.btnSwitchRowsCols = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-big-slicer',
+                    iconCls: 'toolbar__icon btn-big-switch-row-column',
                     caption: me.capRowCol,
                     lock        : [_set.lostConnect, _set.coAuth, _set.editCell, _set.noRange, _set.coAuthText, _set.wsLock,],
                     dataHint    : '1',
@@ -620,7 +620,7 @@ define([
 
                 this.btn3DSettings = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-day',
+                    iconCls: 'toolbar__icon btn-3d-rotation',
                     caption: me.cap3DRotation,
                     lock        : [_set.lostConnect, _set.coAuth, _set.editCell, _set.coAuthText, _set.wsLock,],
                     dataHint    : '1',

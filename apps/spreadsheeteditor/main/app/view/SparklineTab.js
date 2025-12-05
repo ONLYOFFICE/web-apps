@@ -169,7 +169,7 @@ define([
 
                 this.btnLineType = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-big-sheet-view',
+                    iconCls: 'toolbar__icon btn-sparkline-line',
                     caption: me.capLine,
                     lock        : [_set.lostConnect, _set.coAuth, _set.editCell, _set.sparkLocked, _set.wsLock,],
                     enableToggle: true,
@@ -182,7 +182,7 @@ define([
 
                 this.btnColumnType = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-big-pivot-sum',
+                    iconCls: 'toolbar__icon btn-sparkline-column',
                     caption: me.capColumn,
                     lock        : [_set.lostConnect, _set.coAuth, _set.editCell, _set.sparkLocked, _set.wsLock,],
                     enableToggle: true,
@@ -195,7 +195,7 @@ define([
 
                 this.btnWinLossType = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-big-slicer',
+                    iconCls: 'toolbar__icon btn-sparkline-win-loss',
                     caption: me.capWinLoss,
                     lock        : [_set.lostConnect, _set.coAuth, _set.editCell, _set.sparkLocked, _set.wsLock,],
                     enableToggle: true,
