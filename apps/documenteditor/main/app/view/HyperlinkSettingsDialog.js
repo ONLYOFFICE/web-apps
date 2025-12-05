@@ -428,6 +428,9 @@ define([], function () { 'use strict';
         },
 
         _handleInput: function(state) {
+            if (state === 'ok' && this.btnOk.isDisabled())
+                return;
+
             if (this.options.handler) {
                 if (state == 'ok') {
                     if (this.btnExternal.isActive()) {//WebLink

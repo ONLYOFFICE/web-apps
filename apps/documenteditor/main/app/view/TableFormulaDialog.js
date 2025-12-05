@@ -225,6 +225,9 @@ define([
         },
 
         _handleInput: function(state) {
+            if (state === 'ok' && this.btnOk.isDisabled())
+                return;
+
             if (this.options.handler) {
                 this.options.handler.call(this, state, this.getSettings());
             }
