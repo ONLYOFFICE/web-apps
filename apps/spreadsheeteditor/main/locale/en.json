@@ -4958,6 +4958,7 @@
   "SSE.Views.Toolbar.tipShapesMerge": "Merge shapes",
   "SSE.Views.Toolbar.tipSynchronize": "The document has been changed by another user. Please click to save your changes and reload the updates.",
   "SSE.Views.Toolbar.tipTextDirection": "Text direction",
+  "SSE.Views.Toolbar.tipTextDir": "Direction",
   "SSE.Views.Toolbar.tipTextFormatting": "More text formatting tools",
   "SSE.Views.Toolbar.tipTextOrientation": "Orientation",
   "SSE.Views.Toolbar.tipUndo": "Undo",
