@@ -185,7 +185,7 @@ define([], function () { 'use strict';
                 el: $window.find('#id-dlg-hyperlink-chb-page'),
                 labelText: this.txtPageView
             }).on('change', function(field, newValue, oldValue, eOpts){
-                // me.internalList.setDisabled(newValue==='checked');
+                me.internalList.setDisabled(newValue==='checked');
             });
 
             me.btnOk = _.find(this.getFooterButtons(), function (item) {
@@ -205,7 +205,7 @@ define([], function () { 'use strict';
         },
 
         getFocusedComponents: function() {
-            return [this.btnExternal, this.btnInternal, this.inputUrl, this.internalList, this.inputDisplay, this.inputTip].concat(this.getFooterButtons());
+            return [this.btnExternal, this.btnInternal, this.inputUrl, this.internalList, this.inputDisplay, this.inputTip, this.chPageView].concat(this.getFooterButtons());
         },
 
         setSettings: function (props) {
@@ -229,6 +229,9 @@ define([], function () { 'use strict';
 
                 this.isAnnotation && this.chPageView.setValue(props.get_PageView());
                 me._originalProps = props;
+            } else {
+                this.btnExternal.toggle(true);
+                this.ShowHideElem(c_oHyperlinkType.WebLink);
             }
         },
 
