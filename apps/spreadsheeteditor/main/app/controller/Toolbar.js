@@ -381,6 +381,7 @@ define([
                 toolbar.btnVerticalAlign.menu.on('item:click',              _.bind(this.onVerticalAlignMenu, this));
             } if ( me.appConfig.isEditDiagram || me.appConfig.isEditOle ){
                 toolbar.btnTextDir.menu.on('item:click',                    _.bind(this.onTextDirClick, this));
+                toolbar.btnTextDir.menu.on('show:before',                    _.bind(this.onUpdateTextDir, this));
             } else {
                 toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
                 toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
@@ -982,8 +983,7 @@ define([
 
         onTextDirClick: function(menu, item) {
             if (item.value === 'rtlSheet') {
-                var sheet = this.api.asc_getSheetViewSettings().asc_getRightToLeft();
-                this.api && this.api.asc_setRightToLeft(!sheet)
+                this.api && this.api.asc_setRightToLeft(item.checked)
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 return; 
             }
@@ -994,6 +994,10 @@ define([
 
         onTextDirShowAfter: function(menu, item) {
             Common.UI.TooltipManager.closeTip('rtlDirection');
+        },
+
+        onUpdateTextDir: function(menu, item) {
+           if (this.api) menu.items[4].setChecked(this.api.asc_getSheetViewSettings().asc_getRightToLeft());
         },
 
         onWrap: function(btn, e) {
