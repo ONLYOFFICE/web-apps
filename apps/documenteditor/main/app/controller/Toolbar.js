@@ -87,7 +87,8 @@ define([
                 in_chart: false,
                 linenum_apply: Asc.c_oAscSectionApplyType.All,
                 suppress_num: undefined,
-                rtlDir: undefined
+                rtlDir: undefined,
+                showChartTab: false,
             };
             this.flg = {};
             this.diagramEditor = null;
@@ -112,6 +113,7 @@ define([
                     'smartart:mouseenter': this.mouseenterSmartArt,
                     'smartart:mouseleave': this.mouseleaveSmartArt,
                     'tab:active': this.onActiveTab,
+                    'tab:click': this.onClickTab,
                     'tab:collapse': this.onTabCollapse
                 },
                 'FileMenu': {
@@ -174,6 +176,9 @@ define([
                 },
                 'ViewTab': {
                     'toolbar:setcompact': this.onChangeCompactView.bind(this)
+                },
+                'ChartTab': {
+                    'add:chart': this.onSelectChart.bind(this)
                 },
                 'DocumentHolder': {
                     'list:settings': this.onMarkerSettingsClick.bind(this),
@@ -933,6 +938,16 @@ define([
                 toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);
                 this._state.in_chart = in_chart;
             }
+
+            if (this._state.inchart !== in_chart) {
+                if ( !in_chart && this.toolbar.isTabActive('charttab') )
+                    this.toolbar.setTab('home');
+                this.toolbar.setVisible('charttab', !!in_chart);
+                if (in_chart && this._state.showChartTab)
+                    this.toolbar.setTab('charttab');
+                this._state.inchart = in_chart;
+            }
+
             var need_disable = paragraph_locked || header_locked || in_equation || control_plain || rich_del_lock || plain_del_lock  || content_locked || in_para && !can_add_image;
             need_disable = !in_chart && need_disable;
             this.toolbar.lockToolbar(Common.enumLock.cantAddChart, need_disable, {array: [toolbar.btnInsertChart]});
@@ -2564,6 +2579,7 @@ define([
                     chart.changeType(type);
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else {
+                me._state.showChartTab = true;
                 me.api.asc_addChartDrawingObject(type, undefined, true);
                 me.toolbar.fireEvent('insertchart', me.toolbar);
             }
@@ -3929,6 +3945,18 @@ define([
                 }
                 Array.prototype.push.apply(me.toolbar.lockControls, headerfootertab.getView('HeaderFooterTab').getButtons());
 
+                tab = {caption: me.toolbar.textTabChart, action: 'charttab', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-charttab', dataHintTitle: 'V', aux: true};
+                var charttab = me.getApplication().getController('ChartTab');
+                charttab.setApi(me.api).setConfig({toolbar: me});
+                var view = charttab.getView('ChartTab');
+                var chartbuttons = view.getButtons();
+                var $panel = charttab.createToolbarPanel();
+                if ($panel) {
+                    me.toolbar.addTab(tab, $panel);
+                    me._state.inchart && me.toolbar.setVisible('charttab', true);
+                    Array.prototype.push.apply(me.toolbar.lockControls, chartbuttons);
+                }
+
                 if ( config.canProtect && !config.isPDFForm) {
                     tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
                     $panel = application.getController('Common.Controllers.Protection').createToolbarPanel();
@@ -4034,6 +4062,9 @@ define([
                         this.btnsComment.add(_comments.buttonAddNew);
                     }
                 }
+
+                Array.prototype.push.apply(this.toolbar.paragraphControls, this.toolbar.btnsImgWrapping);
+                Array.prototype.push.apply(this.toolbar.lockControls, this.toolbar.btnsImgWrapping);
                 Array.prototype.push.apply(this.toolbar.paragraphControls, this.btnsComment);
                 Array.prototype.push.apply(this.toolbar.lockControls, this.btnsComment);
                 Common.UI.LayoutManager.addControls(this.btnsComment);
@@ -4290,6 +4321,10 @@ define([
         },
 
         onActiveTab: function(tab) {
+        },
+
+        onClickTab: function(tab) {
+            this._state.showChartTab = tab ==='charttab';
         },
 
         onTabCollapse: function(tab) {

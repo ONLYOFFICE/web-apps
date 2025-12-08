@@ -168,6 +168,7 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-img-wrapping"></span>
+                    <span class="btn-slot text x-huge slot-img-wrapping"></span>
                     <span class="btn-slot text x-huge" id="slot-img-movefrwd"></span>
                     <span class="btn-slot text x-huge" id="slot-img-movebkwd"></span>
                     <span class="btn-slot text x-huge" id="slot-img-align"></span>

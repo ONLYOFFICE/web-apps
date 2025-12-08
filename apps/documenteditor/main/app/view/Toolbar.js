@@ -1673,7 +1673,7 @@ define([
                     me.btnImgWrapping = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-img-wrap',
-                        lock: [_set.cantWrap, _set.imageLock, _set.contentLock, _set.noObjectSelected, _set.lostConnect, _set.previewReviewMode, _set.viewFormMode, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        lock: [_set.cantWrap, _set.imageLock, _set.previewReviewMode, _set.contentLock, _set.noObjectSelected, _set.lostConnect, _set.viewFormMode, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                         caption: me.capImgWrapping,
                         menu: true,
                         action: 'object-wrap',
@@ -2332,6 +2332,13 @@ define([
                     }
                     me.cmbFontSize.setData(fontSizeData);
                 }
+
+                var _set = Common.enumLock;
+
+                this.btnsImgWrapping = Common.Utils.injectButtons(me.$el.find('.btn-slot.slot-img-wrapping'), '', 'toolbar__icon btn-img-wrap', this.capImgWrapping,
+                    [_set.cantWrap, _set.imageLock, _set.contentLock, _set.noObjectSelected, _set.lostConnect, _set.previewReviewMode, _set.viewFormMode, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode], undefined, true, undefined, '1', 'bottom', 'small', undefined, 'object-wrap');
+                Array.prototype.push.apply(me.toolbarControls, this.btnsImgWrapping);
+
                 (new Promise( function(resolve, reject) {
                     resolve();
                 })).then(function () {
@@ -2532,6 +2539,74 @@ define([
                             groupval: -1
                         }]
                     }));
+
+                    me.btnsImgWrapping.forEach( function (btn) {
+                        btn.updateHint(me.tipImgWrapping);
+
+                        btn.setMenu(new Common.UI.Menu({
+                            cls: 'ppm-toolbar shifted-right',
+                            items: [{
+                                    caption     : _holder_view.txtInline,
+                                    iconCls     : 'menu__icon btn-small-wrap-inline',
+                                    toggleGroup : 'imgwrapping',
+                                    wrapType    : Asc.c_oAscWrapStyle2.Inline,
+                                    checkmark   : false,
+                                    checkable   : true
+                                },
+                                { caption: '--' },
+                                {
+                                    caption     : _holder_view.txtSquare,
+                                    iconCls     : 'menu__icon btn-small-wrap-square',
+                                    toggleGroup : 'imgwrapping',
+                                    wrapType    : Asc.c_oAscWrapStyle2.Square,
+                                    checkmark   : false,
+                                    checkable   : true
+                                }, {
+                                    caption     : _holder_view.txtTight,
+                                    iconCls     : 'menu__icon btn-small-wrap-tight',
+                                    toggleGroup : 'imgwrapping',
+                                    wrapType    : Asc.c_oAscWrapStyle2.Tight,
+                                    checkmark   : false,
+                                    checkable   : true
+                                }, {
+                                    caption     : _holder_view.txtThrough,
+                                    iconCls     : 'menu__icon btn-small-wrap-through',
+                                    toggleGroup : 'imgwrapping',
+                                    wrapType    : Asc.c_oAscWrapStyle2.Through,
+                                    checkmark   : false,
+                                    checkable   : true
+                                }, {
+                                    caption     : _holder_view.txtTopAndBottom,
+                                    iconCls     : 'menu__icon btn-small-wrap-topandbottom',
+                                    toggleGroup : 'imgwrapping',
+                                    wrapType    : Asc.c_oAscWrapStyle2.TopAndBottom,
+                                    checkmark   : false,
+                                    checkable   : true
+                                },
+                                { caption: '--' },
+                                {
+                                    caption     : _holder_view.txtInFront,
+                                    iconCls     : 'menu__icon btn-small-wrap-infront',
+                                    toggleGroup : 'imgwrapping',
+                                    wrapType    : Asc.c_oAscWrapStyle2.InFront,
+                                    checkmark   : false,
+                                    checkable   : true
+                                }, {
+                                    caption     : _holder_view.txtBehind,
+                                    iconCls     : 'menu__icon btn-small-wrap-behind',
+                                    toggleGroup : 'imgwrapping',
+                                    wrapType    : Asc.c_oAscWrapStyle2.Behind,
+                                    checkmark   : false,
+                                    checkable   : true
+                                },
+                                { caption: '--' },
+                                {
+                                    caption     : _holder_view.textEditWrapBoundary,
+                                    wrapType    : 'edit'
+                                }
+                            ]
+                        }))
+                    });
 
                     me.btnImgWrapping.updateHint(me.tipImgWrapping);
                     me.btnImgWrapping.setMenu(new Common.UI.Menu({

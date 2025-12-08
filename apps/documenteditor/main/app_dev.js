@@ -135,6 +135,7 @@ require([
             'Main',
             'ViewTab',
             'HeaderFooterTab',
+            'ChartTab',
             'Search',
             'DocProtection',
             'Print',
@@ -179,6 +180,7 @@ require([
                 'documenteditor/main/app/controller/Main',
                 'documenteditor/main/app/controller/ViewTab',
                 'documenteditor/main/app/controller/HeaderFooterTab',
+                'documenteditor/main/app/controller/ChartTab',
                 'documenteditor/main/app/controller/Search',
                 'documenteditor/main/app/controller/DocProtection',
                 'documenteditor/main/app/controller/Print',
@@ -274,6 +276,7 @@ require([
                     'documenteditor/main/app/view/NumberingValueDialog',
                     'documenteditor/main/app/view/ListIndentsDialog',
                     'documenteditor/main/app/view/ProtectDialog',
+                    'documenteditor/main/app/view/Charts3DDlg',
                     'documenteditor/main/app/view/PageNumberingDlg',
                     'documenteditor/main/app/view/MailMergeEmailDlg'
                 ];
