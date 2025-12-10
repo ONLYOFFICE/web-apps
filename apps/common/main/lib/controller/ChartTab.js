@@ -71,15 +71,33 @@ define([
             this._originalProps = null;
             this.addListeners({
                 'Common.Views.ChartTab': {
-                    'charttab:3dsettings':   _.bind(this.open3DSettings, this),
+                    'charttab:3dsettings':               _.bind(this.open3DSettings, this),
                     'charttab:widthchange':              _.bind(this.onWidthChange, this),
                     'charttab:heightchange':             _.bind(this.onHeightChange, this),
                     'charttab:ratio':                    _.bind(this.onToggleRatio, this),
-                    'charttab:advanced':                    _.bind(this.openAdvancedSettings, this),
-                    'charttab:editdata':                    _.bind(this.setEditData, this),
+                    'charttab:advanced':                 _.bind(this.openAdvancedSettings, this),
+                    'charttab:editdata':                 _.bind(this.setEditData, this),
+                    'charttab:updatedata':               _.bind(this.onUpdateData, this),
+                    'charttab:editdataext':              _.bind(this.onEditDataExt, this),
                 },
             });
-            console.log(window.DE, window.SSE)
+        },
+
+        onEditDataExt: function (menu, item, e) {
+            if (item.value === 'data') {
+                if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+                this.api.asc_editChartInFrameEditor();
+            } else if (item.value === 'links') {
+                if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+                Common.NotificationCenter.trigger('data:externallinks');
+            } else if (item.value === 'file') {
+                Common.NotificationCenter.trigger('data:openlink', this.chartProps.getExternalReference());
+            }
+        },
+
+        onUpdateData: function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+            Common.NotificationCenter.trigger('data:updatereferences', [this.chartProps.getExternalReference()]);
         },
 
         setEditData: function() {
@@ -222,9 +240,20 @@ define([
                 this.api.asc_registerCallback('asc_onFocusObject',       _.bind(this.onApiFocusObject, this));
                 this.api.asc_registerCallback('asc_onAddChartStylesPreview', _.bind(this.onAddChartStylesPreview, this));
                 this.api.asc_registerCallback('asc_onUpdateChartStyles', _.bind(this._onUpdateChartStyles, this));
+                this.api.asc_registerCallback('asc_onStartUpdateExternalReference', _.bind(this.onStartUpdateExternalReference, this));
                 Common.NotificationCenter.on('cells:range',                 _.bind(this.onCellsRange, this));
             }
             return this;
+        },
+
+        onStartUpdateExternalReference: function(status) {
+            this._state.isUpdatingReference = status;
+            // if (this._initSettings) return;
+            
+            // var externalRef = this.chartProps.getExternalReference();
+            // this.btnEditData.setDisabled(this._locked || externalRef && this._state.isUpdatingReference);
+            // this.btnUpdateData.setDisabled(this._locked || this._state.isUpdatingReference);
+            // this.linkExternalSrc.toggleClass('disabled', this._locked || !!this._state.isUpdatingReference);
         },
 
         onAddChartStylesPreview: function(styles){
@@ -297,10 +326,14 @@ define([
 
                 value = props.get_SeveralCharts();
                 // this.btnEditData.setDisabled(value || externalRef && this._state.isUpdatingReference);
-                // this.btnUpdateData.setDisabled(value || this._state.isUpdatingReference);
+                // this.view.btnUpdateData.setDisabled(value || this._state.isUpdatingReference);
                 // this.btnEditLinks.setDisabled(this._locked);
                 this._state.SeveralCharts=value;
 
+                this.view.btnUpdateData.setVisible(externalRef);
+                this.view.btnEditDataExt.setVisible(externalRef);
+                this.view.btnEditData.setVisible(!externalRef);
+                this.view.btnEditDataExt.menu.items[2].setCaption(me.menuCapOpen + ` ${text}`);
                 value = props.asc_getSeveralChartTypes();
                 var type = (this._state.SeveralCharts && value) ? null : this.chartProps.getType();
                 if (this._state.ChartType !== type) {
@@ -317,7 +350,6 @@ define([
                     this.view.$el.find('.separator-chart-styles')[isCombo ? 'hide' : 'show']();
                     this._state.ChartType = type;
                 }
-                // this.btnChartType.setDisabled(!this.mnuChartTypePicker || this._locked);
 
                 if (!(type==Asc.c_oAscChartTypeSettings.comboBarLine || type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
                     type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom)) {
@@ -509,65 +541,33 @@ define([
             this.SetDisabled(true);
         },
 
-        // onSelectionChanged: function(info) {
-        //     if (this.rangeSelectionMode || !this.appConfig.isEdit || !this.view) return;
-        //     var selectType = info.asc_getSelectionType();
-        //     var selectedObjects = this.api.asc_getGraphicObjectProps();
-        //     if ((selectType == Asc.c_oAscSelectionType.RangeChart || selectType == Asc.c_oAscSelectionType.RangeChartText) && selectedObjects)
-        //         for (var i = 0; i < selectedObjects.length; i++) {
-        //             if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
-        //                 var elValue = selectedObjects[i].asc_getObjectValue();
-        //                 if ( elValue.asc_getChartProperties() ) {
-        //                     this.ChangeSettings(this.api.asc_getGraphicObjectProps()[i].asc_getObjectValue());
-        //                     break;
-        //                 }
-        //             }
-        //         }
-        // },
-
         onApiFocusObject: function (selected) {
-            // var header_locked = undefined;
-            // var frame_pr = undefined;
-            // var paragraph_locked = undefined;
-            // var in_header = false;
-            // var in_equation = false;
-            // var in_para = false;
-            // var can_add_image = false;
-            // var in_control = false;
+            var header_locked = undefined;
+            var frame_pr = undefined;
+            var islocked = false;
+            var paragraph_locked = undefined;
+            var in_control = false;
 
             for (var i = 0; i < selected.length; i++) {
                 var pr = selected[i].get_ObjectValue();
                 if (selected[i].asc_getObjectType() === Asc.c_oAscTypeSelectElement.Image) {
+                    islocked = pr.get_Locked();
                     if (pr && pr.get_ChartProperties())
                         this.ChangeSettings(selected[i].asc_getObjectValue());
                 }
             };
 
-            // var rich_edit_lock = (frame_pr) ? !frame_pr.can_EditBlockContentControl() : false,
-            //     plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : false,
-            //     rich_del_lock = (frame_pr) ? !frame_pr.can_DeleteBlockContentControl() : false,
-            //     plain_del_lock = (frame_pr) ? !frame_pr.can_DeleteInlineContentControl() : false;
+            in_control = this.api.asc_IsContentControl();
+            var control_props = in_control ? this.api.asc_GetContentControlProperties() : null,
+                lock_type = (in_control&&control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
 
-            // in_control = this.api.asc_IsContentControl();
-            // var control_props = in_control ? this.api.asc_GetContentControlProperties() : null,
-            //     lock_type = (in_control&&control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
-            //     control_plain = (in_control&&control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
+            (lock_type===undefined) && (lock_type = Asc.c_oAscSdtLockType.Unlocked);
+            var content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
 
-            // (lock_type===undefined) && (lock_type = Asc.c_oAscSdtLockType.Unlocked);
-            // var content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
-
-            // Common.Utils.lockControls(Common.enumLock.richEditLock,  rich_edit_lock,     {array: this.view.paragraphControls});
-            // Common.Utils.lockControls(Common.enumLock.plainEditLock,  plain_edit_lock,     {array: this.view.paragraphControls});
-            // Common.Utils.lockControls(Common.enumLock.richDelLock,  rich_del_lock,     {array: this.view.paragraphControls});
-            // Common.Utils.lockControls(Common.enumLock.plainDelLock,  plain_del_lock,     {array: this.view.paragraphControls});
-            // Common.Utils.lockControls(Common.enumLock.paragraphLock, paragraph_locked,   {array: this.view.paragraphControls});
-            // Common.Utils.lockControls(Common.enumLock.headerLock, header_locked,   {array: this.view.paragraphControls});
-            // Common.Utils.lockControls(Common.enumLock.noParagraphSelected, !in_para,   {array: this.view.paragraphControls});
-            // Common.Utils.lockControls(Common.enumLock.inHeader, !in_header,   {array: this.view.lockedControls});
-            // Common.Utils.lockControls(Common.enumLock.inEquation, in_equation,   {array: this.view.btnsInsImage.concat(this.view.getButtons('insertbtns'))});
-            // Common.Utils.lockControls(Common.enumLock.cantAddImagePara, in_para && !can_add_image,   {array: this.view.btnsInsImage});
-            // Common.Utils.lockControls(Common.enumLock.controlPlain, control_plain,   {array: this.view.btnsInsImage});
-            // Common.Utils.lockControls(Common.enumLock.contentLock, content_locked,   {array: this.view.btnsInsImage});
+            Common.Utils.lockControls(Common.enumLock.paragraphLock, paragraph_locked,   {array: this.view.lockedControls});
+            Common.Utils.lockControls(Common.enumLock.headerLock, header_locked,   {array: this.view.lockedControls});
+            Common.Utils.lockControls(Common.enumLock.imageLock, islocked,   {array: this.view.lockedControls});
+            Common.Utils.lockControls(Common.enumLock.contentLock, content_locked,   {array: this.view.lockedControls});
         },
 
         onCellsRange: function(status) {

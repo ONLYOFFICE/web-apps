@@ -51,6 +51,10 @@ define([
                 '<div class="group">' +
                     '<span class="btn-slot text x-huge" id="slot-btn-edit-data1"></span>' +
                 '</div>' +
+                '<div class="group">' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-edit-data-ext"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-update-data"></span>' +
+                '</div>' +
                 '<div class="separator long"></div>' +
                 '<div class="group flex small" id="slot-field-chart-styles1" style="min-width: 100px; width: 448px" data-group-width="448px">' +
                 '</div>' +
@@ -64,10 +68,14 @@ define([
                     '</div>' +
                 '</div>' +
                 '<div class="separator long"></div>' +
-                '<div class="group">' +
-                    '<span class="btn-slot text x-huge slot-img-wrapping"></span>' +
-                '</div>' +
-                '<div class="separator long"></div>' +
+                (
+                    window.DE ?
+                        '<div class="group">' +
+                            '<span class="btn-slot text x-huge slot-img-wrapping"></span>' +
+                        '</div>' +
+                        '<div class="separator long"></div>'
+                        : ''
+                ) +
                 '<div class="group small">' +
                     '<div class="elset" style="text-align: center;">' +
                         '<span class="btn-slot text font-size-normal" id="slot-lbl-width1" style="text-align: center;margin-top: 2px;"></span>' +
@@ -127,6 +135,12 @@ define([
             });
             me.btnEditData.on('click', function (btn, e) {
                 me.fireEvent('charttab:editdata');
+            });
+            me.btnEditDataExt.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('charttab:editdataext', [menu, item, e]);
+            });
+            me.btnUpdateData.on('click', function (btn, e) {
+                me.fireEvent('charttab:updatedata');
             });
         }
         return {
@@ -521,7 +535,8 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-ic-reviewview',
                     caption: me.capChartElements,
-                    lock: [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell, _set.coAuthText, _set.wsLock,],
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.sheetLock, _set.lostConnect,
+                        _set.coAuth, _set.editCell, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.wsLock, _set.viewMode],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small',
@@ -533,12 +548,70 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-pagemargins',
                     caption: me.capEditData,
-                    lock: [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell, _set.coAuthText, _set.wsLock,],
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.sheetLock, _set.lostConnect,
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.editCell, _set.coAuthText, _set.wsLock, _set.viewMode],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small',
                 });
                 this.lockedControls.push(this.btnEditData);
+
+                this.menuEditDataExt = new Common.UI.Menu({
+                    items: [
+                        {
+                            caption: me.menuCapEditData,
+                            value: 'data'
+                        },
+                        {
+                            caption: me.menuCapEditLinks,
+                            value: 'links'
+                        },
+                        {
+                            caption: me.menuCapOpen,
+                            value: 'file'
+                        }
+                    ]
+                })
+
+                this.btnEditDataExt = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-pagemargins',
+                    caption: me.capEditData,
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.sheetLock, _set.lostConnect,
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.editCell, _set.coAuthText, _set.wsLock, _set.viewMode],
+                    dataHint: '1',
+                    menu: new Common.UI.Menu({
+                    items: [
+                            {
+                                caption: me.menuCapEditData,
+                                value: 'data'
+                            },
+                            {
+                                caption: me.menuCapEditLinks,
+                                value: 'links'
+                            },
+                            {
+                                caption: me.menuCapOpen,
+                                value: 'file'
+                            }
+                        ]
+                    }),
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small',
+                });
+                this.lockedControls.push(this.btnEditDataExt);
+
+                this.btnUpdateData = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-pagemargins',
+                    caption: me.capUpdateData,
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.sheetLock, _set.lostConnect,
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.editCell, _set.coAuthText, _set.wsLock, _set.viewMode],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small',
+                });
+                this.lockedControls.push(this.btnUpdateData);
 
                 this.chartStyles = new Common.UI.ComboDataView({
                     cls             : 'combo-chart-template',
@@ -549,7 +622,8 @@ define([
                     menuMaxHeight   : 300,
                     groups          : new Common.UI.DataViewGroupStore(),
                     autoWidth       : true,
-                    lock: [_set.editCell, _set.lostConnect, _set.coAuth, _set.wsLock, _set.noStyles, _set.coAuthText],
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.editCell, _set.lostConnect,
+                         _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.wsLock, _set.noStyles, _set.coAuthText, _set.viewMode],
                     beforeOpenHandler: function(e) {
                         var cmp = this,
                             menu = cmp.openButton.menu,
@@ -593,8 +667,8 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-update',
                     caption: me.capChartType,
-                    lock        : [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.controlPlain, _set.richDelLock, _set.plainDelLock, _set.contentLock,
-                                _set.chartLock, _set.cantAddChart, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
+                    lock        : [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.contentLock,
+                        _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                     menu: true,
                     action: 'insert-chart',
                     dataHint    : '1',
@@ -607,7 +681,8 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-settings',
                     caption: me.capAdvancedSettings,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.editCell, _set.SeveralCharts, _set.coAuthText, _set.wsLock,],
+                    lock        : [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                        _set.coAuth, _set.editCell, _set.SeveralCharts, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.wsLock, _set.viewMode],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -616,13 +691,15 @@ define([
 
                 this.lblWidth = new Common.UI.Label({
                     caption: me.textWidth,
-                    lock: [_set.lostConnect, _set.coAuth, _set.editCell, _set.coAuthText, _set.wsLock,],
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.editCell, _set.coAuthText, _set.wsLock, _set.viewMode],
                 });
                 this.lockedControls.push(this.lblWidth);
 
                 this.lblHeight = new Common.UI.Label({
                     caption: me.textHeight,
-                    lock: [_set.lostConnect, _set.coAuth, _set.editCell, _set.coAuthText, _set.wsLock,],
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.editCell, _set.coAuthText, _set.wsLock, _set.viewMode],
                 });
                 this.lockedControls.push(this.lblHeight);
 
@@ -630,7 +707,8 @@ define([
                     step: .1,
                     width: 78,
                     defaultUnit : "cm",
-                    lock: [_set.lostConnect, _set.coAuth, _set.editCell, _set.coAuthText, _set.wsLock,],
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.editCell, _set.coAuthText, _set.wsLock, _set.viewMode],
                     value: '3 cm',
                     maxValue: 55.88,
                     minValue: 0,
@@ -645,7 +723,8 @@ define([
                     step: .1,
                     width: 78,
                     defaultUnit : "cm",
-                    lock: [_set.lostConnect, _set.coAuth, _set.editCell, _set.coAuthText, _set.wsLock,],
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.editCell, _set.coAuthText, _set.wsLock, _set.viewMode],
                     value: '3 cm',
                     maxValue: 55.88,
                     minValue: 0,
@@ -659,7 +738,8 @@ define([
                 this.chRatio = new Common.UI.CheckBox({
                     labelText: me.textLockRation,
                     value: true,
-                    lock        : [_set.lostConnect, _set.editCell, _set.coAuthText, _set.wsLock,],
+                    lock        : [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                        _set.editCell, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.wsLock, _set.viewMode],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -670,7 +750,8 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-day',
                     caption: me.cap3DRotation,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.editCell, _set.coAuthText, _set.wsLock,],
+                    lock        : [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                        _set.coAuth, _set.editCell, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.wsLock, _set.viewMode],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -707,6 +788,8 @@ define([
                 _injectComponent('#id-chart-spin-height1', this.spnHeight);
                 this.btnChartElements && this.btnChartElements.render($host.find('#slot-btn-chart-elements1'));
                 this.btnEditData && this.btnEditData.render($host.find('#slot-btn-edit-data1'));
+                this.btnEditDataExt && this.btnEditDataExt.render($host.find('#slot-btn-edit-data-ext'));
+                this.btnUpdateData && this.btnUpdateData.render($host.find('#slot-btn-update-data'));
                 this.chartStyles.render(this.$el.find('#slot-field-chart-styles1'));
                 this.btnChartType && this.btnChartType.render($host.find('#slot-btn-chart-type1'));
                 this.btnAdvancedSettings && this.btnAdvancedSettings.render($host.find('#slot-btn-chart-advanced-settings1'));
@@ -753,7 +836,9 @@ define([
                     accept();
                 })).then(function(){
                     me.btnChartElements.updateHint(me.tipChartElements);
-                    me.btnEditData.updateHint(me.tipEditData);
+                    me.btnEditData && me.btnEditData.updateHint(me.tipEditData);
+                    me.btnEditDataExt && me.btnEditDataExt.updateHint(me.tipEditData);
+                    me.btnUpdateData && me.btnUpdateData.updateHint(me.tipUpdateData);
                     me.btnChartType.updateHint(me.tipChartType);
                     me.btnAdvancedSettings.updateHint(me.tipAdvanced);
                     me.btn3DSettings.updateHint(me.tip3DRotation);

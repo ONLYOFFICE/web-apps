@@ -4068,6 +4068,7 @@ define([
                 Array.prototype.push.apply(this.toolbar.paragraphControls, this.btnsComment);
                 Array.prototype.push.apply(this.toolbar.lockControls, this.btnsComment);
                 Common.UI.LayoutManager.addControls(this.btnsComment);
+                Common.UI.LayoutManager.addControls(this.toolbar.btnsImgWrapping);
             }
 
             (new Promise(function(accept) {
