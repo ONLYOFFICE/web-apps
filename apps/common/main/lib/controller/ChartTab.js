@@ -37,15 +37,15 @@
  */
 define([
     'core',
-    'documenteditor/main/app/view/ChartTab'
+    'common/main/lib/view/ChartTab'
 ], function () {
     'use strict';
-    DE.Controllers.ChartTab = Backbone.Controller.extend(_.extend({
+    Common.Controllers.ChartTab = Backbone.Controller.extend(_.extend({
         models : [],
         collections : [
         ],
         views : [
-            'ChartTab'
+            'Common.Views.ChartTab'
         ],
         sdkViewName : '#id_main',
         initialize: function () {
@@ -70,7 +70,7 @@ define([
             this._noApply = false;
             this._originalProps = null;
             this.addListeners({
-                'ChartTab': {
+                'Common.Views.ChartTab': {
                     'charttab:3dsettings':   _.bind(this.open3DSettings, this),
                     'charttab:widthchange':              _.bind(this.onWidthChange, this),
                     'charttab:heightchange':             _.bind(this.onHeightChange, this),
@@ -79,6 +79,7 @@ define([
                     'charttab:editdata':                    _.bind(this.setEditData, this),
                 },
             });
+            console.log(window.DE, window.SSE)
         },
 
         setEditData: function() {
@@ -183,7 +184,7 @@ define([
                 var props = new Asc.asc_CImgProperty();
                 if (props) {
                     var oView3D = me.chartProps.getView3d();
-                    (new DE.Views.Charts3DDlg(
+                    (new Common.Views.Charts3DDlg(
                         {
                             oView3D: oView3D,
                             chartProps: props,
@@ -486,7 +487,7 @@ define([
         },
 
         setConfig: function(config) {
-            this.view = this.createView('ChartTab', {
+            this.view = this.createView('Common.Views.ChartTab', {
                 toolbar: config.toolbar.toolbar
             });
         },
@@ -573,5 +574,5 @@ define([
             this.rangeSelectionMode = (status != Asc.c_oAscSelectionDialogType.None);
         },
 
-    }, DE.Controllers.ChartTab || {}));
+    }, Common.Controllers.ChartTab || {}));
 });

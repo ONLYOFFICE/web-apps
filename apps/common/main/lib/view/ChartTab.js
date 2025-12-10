@@ -42,58 +42,58 @@ define([
     'common/main/lib/component/Layout'
 ], function () {
     'use strict';
-    DE.Views.ChartTab = Common.UI.BaseView.extend(_.extend((function(){
-        var template = '<section id="chart-design-panel" class="panel" data-tab="charttab" role="tabpanel" aria-labelledby="view">' +
+    Common.Views.ChartTab = Common.UI.BaseView.extend(_.extend((function(){
+        var template = '<section id="chart-design-panel1" class="panel" data-tab="charttab" role="tabpanel" aria-labelledby="view">' +
             '<div class="group">' +
-                '<span class="btn-slot text x-huge" id="slot-btn-chart-elements"></span>' +
-            '</div>' +
-            '<div class="separator long"></div>' +
-            '<div class="group">' +
-                '<span class="btn-slot text x-huge" id="slot-btn-edit-data"></span>' +
-            '</div>' +
-            '<div class="separator long"></div>' +
-            '<div class="group flex small" id="slot-field-chart-styles" style="min-width: 100px; width: 448px" data-group-width="448px">' +
-            '</div>' +
-            '<div class="separator long separator-chart-styles"></div>' +
-            '<div class="group small">' +
-                '<div class="elset">' +
-                    '<span class="btn-slot text font-size-normal" id="slot-btn-chart-type"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-chart-elements1"></span>' +
                 '</div>' +
-                '<div class="elset">' +
-                    '<span class="btn-slot text font-size-normal" id="slot-btn-chart-advanced-settings"></span>' +
+                '<div class="separator long"></div>' +
+                '<div class="group">' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-edit-data1"></span>' +
                 '</div>' +
-            '</div>' +
-            '<div class="separator long"></div>' +
-            '<div class="group">' +
-                '<span class="btn-slot text x-huge slot-img-wrapping"></span>' +
-            '</div>' +
-            '<div class="separator long"></div>' +
-            '<div class="group small">' +
-                '<div class="elset" style="text-align: center;">' +
-                    '<span class="btn-slot text font-size-normal" id="slot-lbl-width" style="text-align: center;margin-top: 2px;"></span>' +
+                '<div class="separator long"></div>' +
+                '<div class="group flex small" id="slot-field-chart-styles1" style="min-width: 100px; width: 448px" data-group-width="448px">' +
                 '</div>' +
-                '<div class="elset" style="text-align: center;">' +
-                    '<span class="btn-slot text font-size-normal" id="slot-lbl-height" style="text-align: center;margin-top: 2px;"></span>' +
+                '<div class="separator long separator-chart-styles"></div>' +
+                '<div class="group small">' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text font-size-normal" id="slot-btn-chart-type1"></span>' +
+                    '</div>' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text font-size-normal" id="slot-btn-chart-advanced-settings1"></span>' +
+                    '</div>' +
                 '</div>' +
-            '</div>' +
-            '<div class="group small">' +
-                '<div class="elset">' +
-                    '<div id="id-chart-spin-width"></div>' +
+                '<div class="separator long"></div>' +
+                '<div class="group">' +
+                    '<span class="btn-slot text x-huge slot-img-wrapping"></span>' +
                 '</div>' +
-                '<div class="elset">' +
-                    '<div id="id-chart-spin-height"></div>' +
+                '<div class="separator long"></div>' +
+                '<div class="group small">' +
+                    '<div class="elset" style="text-align: center;">' +
+                        '<span class="btn-slot text font-size-normal" id="slot-lbl-width1" style="text-align: center;margin-top: 2px;"></span>' +
+                    '</div>' +
+                    '<div class="elset" style="text-align: center;">' +
+                        '<span class="btn-slot text font-size-normal" id="slot-lbl-height1" style="text-align: center;margin-top: 2px;"></span>' +
+                    '</div>' +
                 '</div>' +
-            '</div>' +
-            '<div class="group small">' +
-                '<div class="elset">' +
-                    '<span class="btn-slot text" id="slot-chk-ratio"></span>' +
+                '<div class="group small">' +
+                    '<div class="elset">' +
+                        '<div id="id-chart-spin-width1"></div>' +
+                    '</div>' +
+                    '<div class="elset">' +
+                        '<div id="id-chart-spin-height1"></div>' +
+                    '</div>' +
                 '</div>' +
-                '<div class="elset">' +
+                '<div class="group small">' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="slot-chk-ratio1"></span>' +
+                    '</div>' +
+                    '<div class="elset">' +
+                    '</div>' +
                 '</div>' +
-            '</div>' +
-            '<div class="separator long separator-chart-3d"></div>' +
-            '<div class="group">' +
-                '<span class="btn-slot text x-huge" id="slot-btn-chart-3d-settings"></span>' +
+                '<div class="separator long separator-chart-3d"></div>' +
+                '<div class="group">' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-chart-3d-settings1"></span>' +
             '</div>' +
         '</section>';
         function setEvents() {
@@ -131,8 +131,6 @@ define([
         }
         return {
             initialize: function (options) {
-                var controller = DE.getController('ChartTab');
-                // this._state = controller._state;
                 Common.UI.BaseView.prototype.initialize.call(this);
                 this.lockedControls = [];
                 var me = this,
@@ -705,17 +703,18 @@ define([
                     Common.Utils.injectComponent($host.findById(id), cmp);
                 };
 
-                _injectComponent('#id-chart-spin-width', this.spnWidth);
-                _injectComponent('#id-chart-spin-height', this.spnHeight);
-                this.btnChartElements && this.btnChartElements.render($host.find('#slot-btn-chart-elements'));
-                this.btnEditData && this.btnEditData.render($host.find('#slot-btn-edit-data'));
-                this.chartStyles.render(this.$el.find('#slot-field-chart-styles'));
-                this.btnChartType && this.btnChartType.render($host.find('#slot-btn-chart-type'));
-                this.btnAdvancedSettings && this.btnAdvancedSettings.render($host.find('#slot-btn-chart-advanced-settings'));
-                this.lblWidth && this.lblWidth.render($host.find('#slot-lbl-width'));
-                this.lblHeight && this.lblHeight.render($host.find('#slot-lbl-height'));
-                this.chRatio && this.chRatio.render($host.find('#slot-chk-ratio'));
-                this.btn3DSettings && this.btn3DSettings.render($host.find('#slot-btn-chart-3d-settings'));
+                _injectComponent('#id-chart-spin-width1', this.spnWidth);
+                _injectComponent('#id-chart-spin-height1', this.spnHeight);
+                this.btnChartElements && this.btnChartElements.render($host.find('#slot-btn-chart-elements1'));
+                this.btnEditData && this.btnEditData.render($host.find('#slot-btn-edit-data1'));
+                this.chartStyles.render(this.$el.find('#slot-field-chart-styles1'));
+                this.btnChartType && this.btnChartType.render($host.find('#slot-btn-chart-type1'));
+                this.btnAdvancedSettings && this.btnAdvancedSettings.render($host.find('#slot-btn-chart-advanced-settings1'));
+                this.lblWidth && this.lblWidth.render($host.find('#slot-lbl-width1'));
+                this.lblHeight && this.lblHeight.render($host.find('#slot-lbl-height1'));
+                this.chRatio && this.chRatio.render($host.find('#slot-chk-ratio1'));
+                this.btn3DSettings && this.btn3DSettings.render($host.find('#slot-btn-chart-3d-settings1'));
+
                 return this.$el;
             },
 
@@ -725,13 +724,13 @@ define([
                 this.btnChartType.setMenu( new Common.UI.Menu({
                     style: 'width: 364px;padding-top: 12px;',
                     items: [
-                        {template: _.template('<div id="id-chart-menu-insertchart" class="menu-insertchart"></div>')}
+                        {template: _.template('<div id="id-chart-menu-insertchart1" class="menu-insertchart"></div>')}
                     ]
                 }));
 
                 var onShowBefore = function(menu) {
                     var picker = new Common.UI.DataView({
-                        el: $('#id-chart-menu-insertchart'),
+                        el: $('#id-chart-menu-insertchart1'),
                         parentMenu: menu,
                         outerMenu: {menu: menu, index:0},
                         showLast: false,
@@ -779,5 +778,5 @@ define([
                 }, this);
             },
         }
-    }()), DE.Views.ChartTab || {}));
+    }()), Common.Views.ChartTab || {}));
 });

@@ -177,7 +177,7 @@ define([
                 'ViewTab': {
                     'toolbar:setcompact': this.onChangeCompactView.bind(this)
                 },
-                'ChartTab': {
+                'Common.Views.ChartTab': {
                     'add:chart': this.onSelectChart.bind(this)
                 },
                 'DocumentHolder': {
@@ -3946,9 +3946,9 @@ define([
                 Array.prototype.push.apply(me.toolbar.lockControls, headerfootertab.getView('HeaderFooterTab').getButtons());
 
                 tab = {caption: me.toolbar.textTabChart, action: 'charttab', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-charttab', dataHintTitle: 'V', aux: true};
-                var charttab = me.getApplication().getController('ChartTab');
+                var charttab = me.getApplication().getController('Common.Controllers.ChartTab');
                 charttab.setApi(me.api).setConfig({toolbar: me});
-                var view = charttab.getView('ChartTab');
+                var view = charttab.getView('Common.Views.ChartTab');
                 var chartbuttons = view.getButtons();
                 var $panel = charttab.createToolbarPanel();
                 if ($panel) {

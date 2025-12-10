@@ -38,7 +38,7 @@
 define([], function () {
     'use strict';
     var nMaxRecent = 5;
-    DE.Views.Charts3DDlg = Common.UI.Window.extend(_.extend({
+    Common.Views.Charts3DDlg = Common.UI.Window.extend(_.extend({
         initialize : function (options) {
             var t = this,
                 _options = {};
@@ -52,6 +52,7 @@ define([], function () {
                     caption: 'Ok'
                 }, 'cancel']
             }, options);
+
             this.recentNumTypes = [];
             this.handler = options.handler;
             this.props = options.props;
@@ -127,10 +128,12 @@ define([], function () {
             _options.tpl        =   _.template(this.template)(_options);
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
+
         render: function () {
             Common.UI.Window.prototype.render.call(this);
             var me = this;
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+
             this.btnLeft = new Common.UI.Button({
                 parentEl: $('#id-chart-btn-x-left'),
                 cls: 'btn-toolbar',
@@ -142,6 +145,7 @@ define([], function () {
             this.btnLeft.on('click', _.bind(function() {
                 this.spnX.setValue(Math.ceil((this.spnX.getNumberValue() - 10)/10)*10);
             }, this));
+
             this.btnRight= new Common.UI.Button({
                 parentEl: $('#id-chart-btn-x-right'),
                 cls: 'btn-toolbar',
@@ -153,6 +157,7 @@ define([], function () {
             this.btnRight.on('click', _.bind(function() {
                 this.spnX.setValue(Math.floor((this.spnX.getNumberValue() + 10)/10)*10);
             }, this));
+
             this.spnX = new Common.UI.MetricSpinner({
                 el: $('#id-chart-spin-x'),
                 step: 10,
@@ -168,6 +173,7 @@ define([], function () {
             });
             this.spnX.on('change', _.bind(this.onXRotation, this));
             this.spnX.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
+
             this.spnY = new Common.UI.MetricSpinner({
                 el: $('#id-chart-spin-y'),
                 step: 10,
@@ -183,6 +189,7 @@ define([], function () {
             });
             this.spnY.on('change', _.bind(this.onYRotation, this));
             this.spnY.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
+
             this.btnUp = new Common.UI.Button({
                 parentEl: $('#id-chart-btn-y-up'),
                 cls: 'btn-toolbar',
@@ -194,6 +201,7 @@ define([], function () {
             this.btnUp.on('click', _.bind(function() {
                 this.spnY.setValue(Math.ceil((this.spnY.getNumberValue() - 10)/10)*10);
             }, this));
+
             this.btnDown= new Common.UI.Button({
                 parentEl: $('#id-chart-btn-y-down'),
                 cls: 'btn-toolbar',
@@ -205,6 +213,7 @@ define([], function () {
             this.btnDown.on('click', _.bind(function() {
                 this.spnY.setValue(Math.floor((this.spnY.getNumberValue() + 10)/10)*10);
             }, this));
+
             this.spnPerspective = new Common.UI.MetricSpinner({
                 el: $('#id-chart-spin-persp'),
                 step: 5,
@@ -220,6 +229,7 @@ define([], function () {
             });
             this.spnPerspective.on('change', _.bind(this.onPerspective, this));
             this.spnPerspective.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
+
             this.btnNarrow = new Common.UI.Button({
                 parentEl: $('#id-chart-btn-narrow'),
                 cls: 'btn-toolbar',
@@ -231,6 +241,7 @@ define([], function () {
             this.btnNarrow.on('click', _.bind(function() {
                 this.spnPerspective.setValue(Math.ceil((this.spnPerspective.getNumberValue() - 5)/5)*5);
             }, this));
+
             this.btnWiden= new Common.UI.Button({
                 parentEl: $('#id-chart-btn-widen'),
                 cls: 'btn-toolbar',
@@ -242,6 +253,7 @@ define([], function () {
             this.btnWiden.on('click', _.bind(function() {
                 this.spnPerspective.setValue(Math.floor((this.spnPerspective.getNumberValue() + 5)/5)*5);
             }, this));
+
             this.chRightAngle = new Common.UI.CheckBox({
                 el: $('#id-chart-checkbox-right-angle'),
                 labelText: this.capRightAngleAxes
@@ -254,6 +266,7 @@ define([], function () {
                     this.btnWiden.setDisabled(field.getValue()=='checked');
                 }
             }, this));
+
             this.chAutoscale = new Common.UI.CheckBox({
                 el: $('#id-chart-checkbox-autoscale'),
                 labelText: this.capAutoscale
@@ -264,6 +277,7 @@ define([], function () {
                     this.spn3DHeight.setDisabled(field.getValue()=='checked');
                 }
             }, this));
+
             this.spn3DDepth = new Common.UI.MetricSpinner({
                 el: $('#id-chart-spin-3d-depth'),
                 step: 10,
@@ -279,6 +293,7 @@ define([], function () {
             });
             this.spn3DDepth.on('change', _.bind(this.on3DDepth, this));
             this.spn3DDepth.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
+
             this.spn3DHeight = new Common.UI.MetricSpinner({
                 el: $('#id-chart-spin-3d-height'),
                 step: 10,
@@ -294,6 +309,7 @@ define([], function () {
             });
             this.spn3DHeight.on('change', _.bind(this.on3DHeight, this));
             this.spn3DHeight.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
+
             this.linkDefRotation = $('#id-chart-def-rotate-link');
             this.linkDefRotation.on('click', _.bind(this.onDefRotation, this));
             this.spnX.setValue((me.X!==null && me.X !== undefined) ? me.X : '', true);
@@ -308,36 +324,43 @@ define([], function () {
             this.chAutoscale.setValue(me.Height3d===null, true);
             (me.Height3d!==null) && this.spn3DHeight.setValue(me.Height3d, true);
             this.spn3DHeight.setDisabled(me.Height3d===null);
+
             this.btnOk = _.find(this.getFooterButtons(), function (item) {
                 return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
             }) || new Common.UI.Button({ el: this.$window.find('.primary') });
             this.afterRender();
         },
+
         onXRotation: function(field, newValue, oldValue, eOpts){
             if (this.api && this.chartProps && this.oView3D) {
                 this.oView3D.asc_setRotX(field.getNumberValue());
             }
         },
+
         onYRotation: function(field, newValue, oldValue, eOpts){
             if (this.api && this.chartProps && this.oView3D) {
                 this.oView3D.asc_setRotY(field.getNumberValue());
             }
         },
+
         onPerspective: function(field, newValue, oldValue, eOpts){
             if (this.api && this.chartProps && this.oView3D) {
                 this.oView3D.asc_setPerspective(field.getNumberValue());
             }
         },
+
         on3DDepth: function(field, newValue, oldValue, eOpts){
             if (this.api && this.chartProps && this.oView3D) {
                 this.oView3D.asc_setDepth(field.getNumberValue());
             }
         },
+
         on3DHeight: function(field, newValue, oldValue, eOpts){
             if (this.api && this.chartProps && this.oView3D) {
                 this.oView3D.asc_setHeight(field.getNumberValue());
             }
         },
+
         onDefRotation: function() {
             var me = this;
             if (this.api && this.chartProps && this.oView3D) {
@@ -347,22 +370,28 @@ define([], function () {
                 me.spnY.setValue(15);
             }
         },
+
         getFocusedComponents: function() {
             return [this.btnLeft, this.btnRight].concat(this.getFooterButtons());
         },
+
         getDefaultFocusableComponent: function () {
             return this.spnX;
         },
+
         afterRender: function() {
             this._setDefaults(this.props);
         },
+
         onPrimary: function(event) {
             this._handleInput('ok');
             return false;
         },
+
         onBtnClick: function(event) {
             this._handleInput(event.currentTarget.attributes['result'].value);
         },
+
         _handleInput: function(state) {
             var me = this;
             if (state === 'ok' && this.btnOk.isDisabled())
@@ -372,14 +401,17 @@ define([], function () {
             }
             this.close();
         },
+
         _setDefaults: function (props) {
             if (props) {
             }
         },
+
         getSettings: function() {
         },
+
         SetDisabled: function(disabled) {
             this.btnOk.setDisabled(disabled);
         },
-    }, DE.Views.Charts3DDlg || {}));
+    }, Common.Views.Charts3DDlg || {}));
 });

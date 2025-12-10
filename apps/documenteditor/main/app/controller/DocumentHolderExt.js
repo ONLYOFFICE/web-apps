@@ -65,7 +65,7 @@ define([], function () {
                     'createdelayedelements': this.createDelayedElements,
                     'equation:callback': this.equationCallback
                 },
-                'ChartTab': {
+                'Common.Views.ChartTab': {
                     'charttab:updatemenu': function (menu) {
                         me.chartProps = me.getCurrentChartProps();
                         if (me.chartProps) {

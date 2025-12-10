@@ -135,11 +135,11 @@ require([
             'Main',
             'ViewTab',
             'HeaderFooterTab',
-            'ChartTab',
             'Search',
             'DocProtection',
             'Print',
             'Common.Controllers.Fonts',
+            'Common.Controllers.ChartTab',
             'Common.Controllers.History'
             /** coauthoring begin **/
             ,'Common.Controllers.Chat'
@@ -180,12 +180,12 @@ require([
                 'documenteditor/main/app/controller/Main',
                 'documenteditor/main/app/controller/ViewTab',
                 'documenteditor/main/app/controller/HeaderFooterTab',
-                'documenteditor/main/app/controller/ChartTab',
                 'documenteditor/main/app/controller/Search',
                 'documenteditor/main/app/controller/DocProtection',
                 'documenteditor/main/app/controller/Print',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Fonts',
+                'common/main/lib/controller/ChartTab',
                 'common/main/lib/controller/History'
                 /** coauthoring begin **/
                 ,'common/main/lib/controller/Comments'
@@ -238,6 +238,7 @@ require([
                     'common/main/lib/view/MacrosAiDialog',
                     'common/main/lib/view/ShortcutsDialog',
                     'common/main/lib/view/ShortcutsEditDialog',
+                    'common/main/lib/view/Charts3DDlg',
                     'common/main/lib/component/MonacoEditor',
 
                     'documenteditor/main/app/controller/DocumentHolderExt',
@@ -276,7 +277,6 @@ require([
                     'documenteditor/main/app/view/NumberingValueDialog',
                     'documenteditor/main/app/view/ListIndentsDialog',
                     'documenteditor/main/app/view/ProtectDialog',
-                    'documenteditor/main/app/view/Charts3DDlg',
                     'documenteditor/main/app/view/PageNumberingDlg',
                     'documenteditor/main/app/view/MailMergeEmailDlg'
                 ];

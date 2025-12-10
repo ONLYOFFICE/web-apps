@@ -145,11 +145,11 @@ require([
             'Main',
             'ViewTab',
             'HeaderFooterTab',
-            'ChartTab',
             'Search',
             'DocProtection',
             'Print',
             'Common.Controllers.Fonts',
+            'Common.Controllers.ChartTab',
             'Common.Controllers.History'
             /** coauthoring begin **/
             ,'Common.Controllers.Chat'
@@ -190,12 +190,12 @@ require([
                 'documenteditor/main/app/controller/Main',
                 'documenteditor/main/app/controller/ViewTab',
                 'documenteditor/main/app/controller/HeaderFooterTab',
-                'documenteditor/main/app/controller/ChartTab',
                 'documenteditor/main/app/controller/Search',
                 'documenteditor/main/app/controller/DocProtection',
                 'documenteditor/main/app/controller/Print',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Fonts',
+                'common/main/lib/controller/ChartTab',
                 'common/main/lib/controller/History'
                 /** coauthoring begin **/
                 ,'common/main/lib/controller/Comments'
