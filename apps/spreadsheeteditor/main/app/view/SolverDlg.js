@@ -382,6 +382,7 @@ define([
                 (value===AscCommonExcel.c_oAscOptimizeTo.min) && this.radioMin.setValue(true, true);
                 (value===AscCommonExcel.c_oAscOptimizeTo.valueOf) && this.radioValue.setValue(true, true);
                 this.txtValue.setDisabled(value!==AscCommonExcel.c_oAscOptimizeTo.valueOf);
+                this.txtValue.setValue(value===AscCommonExcel.c_oAscOptimizeTo.valueOf ? props.asc_getValueOf() : 0);
 
                 this.chNonNegative.setValue(this.props.asc_getVariablesNonNegative(), true);
 
@@ -406,11 +407,12 @@ define([
             if (newValue) {
                 this.props.asc_setOptimizeResultTo(field.options.value);
                 this.txtValue.setDisabled(field.options.value!==AscCommonExcel.c_oAscOptimizeTo.valueOf);
+                (field.options.value===AscCommonExcel.c_oAscOptimizeTo.valueOf) && this.props.asc_setValueOf(parseInt(this.txtValue.getValue() || 0));
             }
         },
 
         onValueChanged: function(input, newValue, oldValue) {
-            (newValue !== oldValue) && this.props.asc_setValueOf(newValue);
+            (newValue !== oldValue) && this.props.asc_setValueOf(parseInt(newValue || 0));
         },
 
         onNonNegative: function(field, newValue, oldValue, eOpts){
