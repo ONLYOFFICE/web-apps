@@ -3711,6 +3711,7 @@ define([], function () {
                     chartProps.setDisplayUpDownBars(false);
                     break;
             }
+            this.chartProps = this.getCurrentChartProps();
         };
 
         dh.updateChartElementMenu = function(menu, chartProps) {

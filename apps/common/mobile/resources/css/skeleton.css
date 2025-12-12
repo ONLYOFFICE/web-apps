@@ -165,7 +165,7 @@ body.theme-type-dark {
 }
 
 .word-editor {
-    --toolbar-icons: var(--brand-word, #446995);
+    --skl-toolbar-icons: var(--toolbar-icons, #446995);
 }
 
 .md .word-editor {
@@ -175,7 +175,7 @@ body.theme-type-dark {
 }
 
 .cell-editor {
-    --toolbar-icons: var(--brand-cell, #40865c);
+    --skl-toolbar-icons: var(--toolbar-icons, #40865c);
 }
 
 .md .cell-editor {
@@ -185,7 +185,7 @@ body.theme-type-dark {
 }
 
 .slide-editor {
-    --toolbar-icons: var(--brand-slide, #BE664F);
+    --skl-toolbar-icons: var(--toolbar-icons, #BE664F);
 }
 
 .md .slide-editor {
@@ -194,14 +194,22 @@ body.theme-type-dark {
     --f7-subnavbar-height: 56px;
 }
 
+.visio-editor {
+    --skl-toolbar-icons: var(--toolbar-icons, #444796);
+}
+
 .md .visio-editor {
     --f7-navbar-bg-color: var(--background-navbar-visio, #444796);
     --f7-subnavbar-bg-color: var(--background-navbar-visio, #444796);
     --f7-subnavbar-height: 56px;
 }
 
+.md .theme-type-light {
+    --skl-toolbar-icons: var(--toolbar-icons, #fff);
+}
+
 .icon-svg {
     width: 24px;
     height: 24px;
-    fill: var(--toolbar-icons);
+    fill: var(--skl-toolbar-icons);
 }
