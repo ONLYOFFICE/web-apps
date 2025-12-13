@@ -214,7 +214,7 @@ define([
                         this._input.attr('data-can-copy', false);
                         this._input.on('mousedown',function (e){e.preventDefault();})
                     }
-
+                    
                     if (me.options.hint) {
                         el.attr('data-toggle', 'tooltip');
                         el.tooltip({
@@ -271,7 +271,7 @@ define([
                     if (ariaLabel)
                         this.cmpEl.find('.form-control').attr('aria-label', ariaLabel);
                 }
-
+                
                 me.rendered = true;
                 if (me.disabled) me.setDisabled(me.disabled);
 
@@ -853,6 +853,7 @@ define([
 
             focus: function() {
                 this._input && this._input.focus();
+                this._input.length && (this._input[0].scrollLeft = 0);
             }
         }
     })());
