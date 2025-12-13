@@ -195,6 +195,18 @@ define([], function () {
                 caption: me.txtMoveSlidesToEnd
             });
 
+            me.menuSlideCopy = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
+                caption : me.textCopy,
+                value : 'copy'
+            });
+
+            me.menuSlideCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
+                caption : me.textCut,
+                value : 'cut'
+            });
+
             me.menuSlidePaste = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-paste',
                 caption : me.textPaste,
@@ -256,7 +268,12 @@ define([], function () {
                 initMenu: function(value) {
                     var selectedLast = me.api.asc_IsLastSlideSelected(),
                         selectedFirst = me.api.asc_IsFirstSlideSelected();
-                    me.menuSlidePaste.setVisible(value.fromThumbs!==true);
+                    var cancopy = me.api && me.api.can_CopyCut();
+                    me.menuSlideCopy.setVisible(value.fromThumbs===true);
+                    me.menuSlideCut.setVisible(value.fromThumbs===true);
+                    me.menuSlidePaste.setVisible(value.fromThumbs===true);
+                    me.menuSlideCopy.setDisabled(!cancopy);
+                    me.menuSlideCut.setDisabled(!cancopy);
                     me.mnuNewSlide.setVisible(value.fromThumbs===true); // New Slide
                     me.mnuDuplicateSlide.setVisible(value.isSlideSelect===true); // Duplicate Slide
                     me.mnuDeleteSlide.setVisible(value.isSlideSelect===true);
@@ -269,18 +286,18 @@ define([], function () {
                     me.menuSlideSettings.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     me.menuSlideSettings.options.value = null;
 
-                    me.slideMenu.items[10].setVisible(!value.fromThumbs); // guides separator
+                    me.slideMenu.items[13].setVisible(!value.fromThumbs); // guides separator
                     me.mnuGuides.setVisible(!value.fromThumbs);
                     me.mnuGridlines.setVisible(!value.fromThumbs);
                     me.mnuRulers.setVisible(!value.fromThumbs);
-                    me.slideMenu.items[14].setVisible(value.fromThumbs===true);
+                    me.slideMenu.items[17].setVisible(value.fromThumbs===true);
                     me.mnuSelectAll.setVisible(value.fromThumbs===true);
 
                     me.mnuPrintSelection.setVisible(me.mode.canPrint && value.fromThumbs===true);
-                    me.slideMenu.items[17].setVisible((!selectedLast || !selectedFirst) && value.isSlideSelect===true);
+                    me.slideMenu.items[20].setVisible((!selectedLast || !selectedFirst) && value.isSlideSelect===true);
                     me.mnuMoveSlideToEnd.setVisible(!selectedLast && value.isSlideSelect===true);
                     me.mnuMoveSlideToStart.setVisible(!selectedFirst && value.isSlideSelect===true);
-                    me.slideMenu.items[20].setVisible(value.fromThumbs===true);
+                    me.slideMenu.items[23].setVisible(value.fromThumbs===true);
                     me.mnuPreview.setVisible(value.fromThumbs===true);
 
                     if (!value.fromThumbs) {
@@ -352,8 +369,9 @@ define([], function () {
                             }
                         });
                     }
-                    for (var i = 0; i < 3; i++) {
-                        me.slideMenu.items[i].setDisabled(locked);
+                    for (var i = 0; i < 6; i++) {
+                        if(i !== 3)
+                            me.slideMenu.items[i].setDisabled(locked);
                     }
                     me.mnuPreview.setDisabled(me.slidesCount<1);
                     me.mnuSelectAll.setDisabled(me.slidesCount<2);
@@ -365,7 +383,10 @@ define([], function () {
                     me.mnuPrintSelection.setDisabled(me.slidesCount<1);
                 },
                 items: [
+                    me.menuSlideCut,
+                    me.menuSlideCopy,
                     me.menuSlidePaste,
+                    {caption: '--'},
                     me.mnuNewSlide,
                     me.mnuDuplicateSlide,
                     me.mnuDeleteSlide,
@@ -525,6 +546,10 @@ define([], function () {
                         });
                     }
                     
+                    var cancopy = me.api && me.api.can_CopyCut();
+                    me.menuSlideCopy.setDisabled(!cancopy);
+                    me.menuSlideCut.setDisabled(!cancopy);
+
                     me.mnuRenameMaster.setDisabled(currentName === undefined);
                     me.mnuRenameLayout.setDisabled(currentName === undefined);
 
@@ -541,6 +566,10 @@ define([], function () {
                     !isMaster && me.mnuDeleteLayout.setDisabled(!me.api.asc_CanDeleteLayout());
                 },
                 items: [
+                    me.menuSlideCut,
+                    me.menuSlideCopy,
+                    me.menuSlidePaste,
+                    {caption: '--'},
                     me.mnuInsertMaster,
                     me.mnuInsertLayout,
                     me.mnuDuplicateMaster,

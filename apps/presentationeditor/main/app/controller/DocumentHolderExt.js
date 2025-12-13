@@ -175,6 +175,8 @@ define([], function () {
             }
 
             view.menuEditObject.on('click', _.bind(me.onEditObject, me));
+            view.menuSlideCopy.on('click', _.bind(me.onCutCopyPaste, me));
+            view.menuSlideCut.on('click', _.bind(me.onCutCopyPaste, me));
             view.menuSlidePaste.on('click', _.bind(me.onCutCopyPaste, me));
             view.menuParaCopy.on('click', _.bind(me.onCutCopyPaste, me));
             view.menuParaPaste.on('click', _.bind(me.onCutCopyPaste, me));
