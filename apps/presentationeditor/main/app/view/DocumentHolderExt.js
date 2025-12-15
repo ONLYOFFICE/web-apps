@@ -272,9 +272,10 @@ define([], function () {
                     me.menuSlideCopy.setVisible(value.fromThumbs===true);
                     me.menuSlideCut.setVisible(value.fromThumbs===true);
                     me.menuSlidePaste.setVisible(value.fromThumbs===true);
+                    me.slideMenu.items[3].setVisible(value.fromThumbs===true);
                     me.menuSlideCopy.setDisabled(!cancopy);
                     me.menuSlideCut.setDisabled(!cancopy);
-                    me.mnuNewSlide.setVisible(value.fromThumbs===true); // New Slide
+                     // New Slide
                     me.mnuDuplicateSlide.setVisible(value.isSlideSelect===true); // Duplicate Slide
                     me.mnuDeleteSlide.setVisible(value.isSlideSelect===true);
                     me.mnuSlideHide.setVisible(value.isSlideSelect===true);
@@ -546,6 +547,10 @@ define([], function () {
                         });
                     }
                     
+                    me.menuSlideCopy.setVisible(true);
+                    me.menuSlideCut.setVisible(true);
+                    me.menuSlidePaste.setVisible(true);
+
                     var cancopy = me.api && me.api.can_CopyCut();
                     me.menuSlideCopy.setDisabled(!cancopy);
                     me.menuSlideCut.setDisabled(!cancopy);
