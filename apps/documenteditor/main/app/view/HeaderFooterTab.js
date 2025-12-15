@@ -255,27 +255,27 @@ define([
                 var _set = Common.enumLock;
                 _injectComponent('#slot-spin-header-top', this.numHeaderPosition);
                 _injectComponent('#slot-spin-footer-bot', this.numFooterPosition);
-                this.btnsHeaderFooter = Common.Utils.injectButtons($host.find('.btn-slot.slot-headerfooter').add(this.toolbar.$el.find('.btn-slot.slot-headerfooter')), '', 'toolbar__icon btn-editheader', this.txtHeaderFooter,
+                this.btnsHeaderFooter = Common.Utils.injectButtons($host.find('.btn-slot.slot-headerfooter').add(this.toolbar.$el.find('.btn-slot.slot-headerfooter')), 'tlbtn-headerfooter-', 'toolbar__icon btn-editheader', this.txtHeaderFooter,
                     [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.viewMode, _set.docLockComments], undefined, true, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.lockedControls, this.btnsHeaderFooter);
 
-                this.btnsPageNumber = Common.Utils.injectButtons($host.find('.btn-slot.slot-pagenumbers').add(this.toolbar.$el.find('.btn-slot.slot-pagenumbers')), '', 'toolbar__icon btn-pagenum', this.txtPageNumbering,
+                this.btnsPageNumber = Common.Utils.injectButtons($host.find('.btn-slot.slot-pagenumbers').add(this.toolbar.$el.find('.btn-slot.slot-pagenumbers')), 'tlbtn-insertpagenum-', 'toolbar__icon btn-pagenum', this.txtPageNumbering,
                     [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.viewMode, _set.docLockComments], undefined, true, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.lockedControls, this.btnsPageNumber);
 
-                this.btnsInsDateTime = Common.Utils.injectButtons($host.find('.btn-slot.slot-insertdatetime').add(this.toolbar.$el.find('.btn-slot.slot-insertdatetime')), '', 'toolbar__icon btn-datetime', this.capBtnDateTime,
+                this.btnsInsDateTime = Common.Utils.injectButtons($host.find('.btn-slot.slot-insertdatetime').add(this.toolbar.$el.find('.btn-slot.slot-insertdatetime')), 'tlbtn-insertdatetime-', 'toolbar__icon btn-datetime', this.capBtnDateTime,
                     [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock, _set.noParagraphSelected, _set.previewReviewMode,
                             _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode], undefined, undefined, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.lockedControls, this.btnsInsDateTime);
                 Array.prototype.push.apply(this.paragraphControls, this.btnsInsDateTime);
 
-                this.btnsInsField = Common.Utils.injectButtons($host.find('.btn-slot.slot-insertfield').add(this.toolbar.$el.find('.btn-slot.slot-insertfield')), '', 'toolbar__icon btn-quick-field', this.capBtnInsField,
+                this.btnsInsField = Common.Utils.injectButtons($host.find('.btn-slot.slot-insertfield').add(this.toolbar.$el.find('.btn-slot.slot-insertfield')), 'tlbtn-insertfield-', 'toolbar__icon btn-quick-field', this.capBtnInsField,
                     [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock, _set.noParagraphSelected, _set.previewReviewMode,
                             _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode], undefined, undefined, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.lockedControls, this.btnsInsField);
                 Array.prototype.push.apply(this.paragraphControls, this.btnsInsField);
 
-                this.btnsInsImage = Common.Utils.injectButtons($host.find('.btn-slot.slot-insertimage').add(this.toolbar.$el.find('.btn-slot.slot-insertimage')), '', 'toolbar__icon btn-insertimage', this.capBtnInsImage,
+                this.btnsInsImage = Common.Utils.injectButtons($host.find('.btn-slot.slot-insertimage').add(this.toolbar.$el.find('.btn-slot.slot-insertimage')), 'tlbtn-insertimage-', 'toolbar__icon btn-insertimage', this.capBtnInsImage,
                     [_set.paragraphLock, _set.headerLock, _set.inEquation, _set.controlPlain, _set.richDelLock, _set.plainDelLock,  _set.contentLock,  _set.cantAddImagePara,
                             _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode], undefined, true, undefined, '1', 'bottom', 'small', undefined, 'insert-image');
                 Array.prototype.push.apply(this.lockedControls, this.btnsInsImage);
