@@ -483,6 +483,25 @@ define([], function () {
                 }
             });
 
+
+            me.mnuSlideCopy = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
+                caption : me.textCopy,
+                value : 'copy'
+            });
+
+            me.mnuSlideCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
+                caption : me.textCut,
+                value : 'cut'
+            });
+
+            me.mnuSlidePaste = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-paste',
+                caption : me.textPaste,
+                value : 'paste'
+            });
+
             me.mnuInsertMaster = new Common.UI.MenuItem({
                 caption : me.textInsertSlideMaster,
                 value : 'ins-master'
@@ -547,13 +566,13 @@ define([], function () {
                         });
                     }
                     
-                    me.menuSlideCopy.setVisible(true);
-                    me.menuSlideCut.setVisible(true);
-                    me.menuSlidePaste.setVisible(true);
+                    me.mnuSlideCopy.setVisible(true);
+                    me.mnuSlideCut.setVisible(true);
+                    me.mnuSlidePaste.setVisible(true);
 
                     var cancopy = me.api && me.api.can_CopyCut();
-                    me.menuSlideCopy.setDisabled(!cancopy);
-                    me.menuSlideCut.setDisabled(!cancopy);
+                    
+                    me.mnuSlideCut.setDisabled(!cancopy);
 
                     me.mnuRenameMaster.setDisabled(currentName === undefined);
                     me.mnuRenameLayout.setDisabled(currentName === undefined);
@@ -571,9 +590,9 @@ define([], function () {
                     !isMaster && me.mnuDeleteLayout.setDisabled(!me.api.asc_CanDeleteLayout());
                 },
                 items: [
-                    me.menuSlideCut,
-                    me.menuSlideCopy,
-                    me.menuSlidePaste,
+                    me.mnuSlideCut,
+                    me.mnuSlideCopy,
+                    me.mnuSlidePaste,
                     {caption: '--'},
                     me.mnuInsertMaster,
                     me.mnuInsertLayout,
