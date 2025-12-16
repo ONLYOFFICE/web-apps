@@ -4073,6 +4073,7 @@
   "SSE.Views.PrintWithPreview.txtHeaderFooterSettings": "Header/footer settings",
   "SSE.Views.PrintWithPreview.txtIgnore": "Ignore print area",
   "SSE.Views.PrintWithPreview.txtLandscape": "Landscape",
+  "SSE.Views.PrintWithPreview.txtAuto": "Auto",
   "SSE.Views.PrintWithPreview.txtLeft": "Left",
   "SSE.Views.PrintWithPreview.txtMargins": "Margins",
   "SSE.Views.PrintWithPreview.txtMarginsLast": "Last Custom",
