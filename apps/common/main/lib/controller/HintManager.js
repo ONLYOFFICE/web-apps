@@ -127,6 +127,22 @@ Common.UI.HintManager = new(function() {
         };
 
     var _api;
+    var _more = null; 
+        
+    var _prefillMore = function ($menu, level) {
+        if (!$menu.length || $menu.is(':visible')) return;
+
+        var prevDisplay = $menu[0].style.display,
+            prevVisibility = $menu[0].style.visibility;
+        $menu.css({ display: 'block', visibility: 'hidden' });
+
+        _currentSection = $('#toolbar');
+        _currentLevel = level;
+        _getControls(); 
+
+        $menu.css({ display: prevDisplay, visibility: prevVisibility });
+    };
+
 
     var _setCurrentSection = function (btn, section) {
         if (section) {
@@ -155,8 +171,9 @@ Common.UI.HintManager = new(function() {
         }
     };
 
-    var _showHints = function () {
+    var _showHints = function (btnMore) {
         _inputLetters = '';
+        if (!btnMore && $('.dropdown-menu.more-container:visible').length) return;
         if (_currentLevel === 0) {
             Common.NotificationCenter.trigger('toolbar:collapse');
         }
@@ -347,7 +364,13 @@ Common.UI.HintManager = new(function() {
             docW = _isEditDiagram ? (window.parent.innerWidth * Common.Utils.zoom()) : (Common.Utils.innerWidth()),
             section = _isEditDiagram ? _currentSection[0] : _currentSection,
             topSection = _currentLevel !== 0 && $(section).length > 0 && !_isEditDiagram ? Common.Utils.getOffset($(section)).top : 0,
-            bottomSection = _currentLevel !== 0 && $(section).length > 0 && !_isEditDiagram ? topSection + $(section).height() : docH;
+            bottomSection = _currentLevel !== 0 && $(section).length > 0 && !_isEditDiagram ? topSection + $(section).height() : docH,
+            isMoreDropdown = $(section).hasClass('more-container') || $(section).closest('.more-container').length > 0;
+            if (isMoreDropdown) {
+                topSection = 0;
+                bottomSection = docH;
+            }
+
         if ($(section).prop('id') === 'toolbar' && $(section).outerHeight() < $(section).find('.box-controls').outerHeight()) {
             bottomSection += $(section).find('.box-controls').outerHeight();
         }
@@ -571,6 +594,22 @@ Common.UI.HintManager = new(function() {
                         if (curr) {
                             Common.UI.ScreenReaderFocusManager && Common.UI.ScreenReaderFocusManager.exitFocusMode();
                             var tag = curr.prop("tagName").toLowerCase();
+                            if (curr && curr.closest('.slot-btn-more').length) { 
+                                var tab = curr.closest('.panel').attr('data-tab'); 
+                                var $menu = tab ? $('.dropdown-menu.more-container[data-tab="' + tab + '"]') : $();
+
+                                _prefillMore($menu, 1);           
+
+                                curr.trigger(jQuery.Event('click', { which: 1 }));  
+                                _nextLevel(); 
+                                
+                                _more = $menu.find('[data-hint="1"]');  
+                                _more.attr('data-hint', '2');
+                                _setCurrentSection(undefined, $menu);
+                                _showHints(true);
+                                
+                                return;
+                            }
                             if (window.SSE && curr.parent().prop('id') === 'statusbar_bottom') {
                                 _hideHints();
                                 curr.contextmenu();
@@ -686,6 +725,8 @@ Common.UI.HintManager = new(function() {
     };
 
     var _clearHints = function (isComplete, leaveLockedKeyEvents) {
+        if (_more && _more.length) _more.attr('data-hint', '1');
+        _more = null;
         if (Common.Utils.isIE || Common.UI.isMac && Common.Utils.isGecko)
             return;
         _hintVisible && _hideHints();

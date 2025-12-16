@@ -631,7 +631,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top dropdown-manual',
                         caption: Common.Locale.get("textMoreButton",{name:"Common.Translation", default: "More"}),
                         iconCls: 'toolbar__icon btn-big-more',
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '1',              
+                        dataHintDirection: 'bottom', 
+                        dataHintTitle: 'MO' 
                     });
                     btnsMore[tab].render(box.find('.slot-btn-more'));
                     btnsMore[tab].on('toggle', function(btn, state, e) {
