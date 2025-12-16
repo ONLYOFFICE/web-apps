@@ -277,7 +277,7 @@ define([], function () {
                     me.mnuDeleteSlide.setVisible(value.isSlideSelect===true);
                     me.mnuSlideHide.setVisible(value.isSlideSelect===true);
                     me.mnuSlideHide.setChecked(value.isSlideHidden===true);
-                    me.slideMenu.items[5].setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
+                    me.slideMenu.items[8].setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     me.mnuChangeSlide.setVisible(!me.api.asc_IsMasterMode() && (value.isSlideSelect===true || value.fromThumbs!==true));
                     me.mnuResetSlide.setVisible(!me.api.asc_IsMasterMode() && (value.isSlideSelect===true || value.fromThumbs!==true));
                     mnuChangeTheme.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
