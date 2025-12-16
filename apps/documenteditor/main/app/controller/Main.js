@@ -2065,8 +2065,7 @@ define([
                         rightmenuView.setMode(me.appOptions);
                     }
 
-                    if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram && !me.appOptions.isEditOle && me.appOptions.canFeatureTable)
-                        application.getController('Common.Controllers.ChartTab').setMode(me.appOptions);
+                    application.getController('Common.Controllers.ChartTab').setMode(me.appOptions);
 
                     var toolbarView = (toolbarController) ? toolbarController.getView() : null;
                     if (toolbarView) {

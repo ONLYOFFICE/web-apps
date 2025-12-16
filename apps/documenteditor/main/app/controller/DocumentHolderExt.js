@@ -114,6 +114,7 @@ define([], function () {
                     Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this));
                     Common.NotificationCenter.on('forms:image-select', _.bind(this.selectFormImage, this));// select from right pane
                 }
+                Common.NotificationCenter.on('charttab:advanced', _.bind(this.onImgAdvanced, this));
                 this.api.asc_registerCallback('onPluginContextMenu',                 _.bind(this.onPluginContextMenu, this));
             }
         };

@@ -148,6 +148,7 @@ require([
             'Print',
             'FormsTab',
             'Common.Controllers.Fonts',
+            'Common.Controllers.ChartTab',
             'Common.Controllers.Chat',
             'Common.Controllers.Comments',
             'Common.Controllers.Draw',
@@ -188,6 +189,7 @@ require([
                 'pdfeditor/main/app/view/ChartSettings',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Fonts',
+                'common/main/lib/controller/ChartTab',
                 'common/main/lib/controller/Comments',
                 'common/main/lib/controller/Chat',
                 /** coauthoring end **/

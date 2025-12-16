@@ -107,38 +107,7 @@ define([
 
         openAdvancedSettings: function(e) {
             if (this.view.btnAdvancedSettings.isDisabled()) return;
-
-            var me = this;
-            var win;
-            if (me.api){
-                var selectedElements = me.api.getSelectedElements();
-                if (selectedElements && selectedElements.length>0){
-                    var elType, elValue;
-                    for (var i = selectedElements.length - 1; i >= 0; i--) {
-                        elType = selectedElements[i].get_ObjectType();
-                        elValue = selectedElements[i].get_ObjectValue();
-                        var isChart = !!(elValue && elValue.get_ChartProperties());
-                        if (Asc.c_oAscTypeSelectElement.Image == elType) {
-                            (new DE.Views.ImageSettingsAdvanced(
-                                {
-                                    imageProps: elValue,
-                                    chartSettings: isChart ? me.api.asc_getChartSettings() : null,
-                                    sectionProps: me.api.asc_GetSectionProps(),
-                                    api         : me.api,
-                                    handler: function(result, value) {
-                                        if (result == 'ok') {
-                                            if (me.api) {
-                                                me.api.ImgApply(value.imageProps);
-                                            }
-                                        }
-                                        me.view.fireEvent('editcomplete', me);
-                                    }
-                            })).show();
-                            break;
-                        }
-                    }
-                }
-            }
+            Common.NotificationCenter.trigger('charttab:advanced');
         },
 
         onToggleRatio: function (value) {
@@ -220,7 +189,7 @@ define([
                                             if (obj) {
                                                 me.chartProps.putView3d(obj);
                                                 props.put_ChartProperties(me.chartProps);
-                                                me.api.ImgApply(props);
+                                                window.DE ? me.api.ImgApply(props) : (window.PDFE || window.PE) ? me.api.ChartApply(props) : null;
                                             }
                                         }
                                     }
@@ -317,24 +286,16 @@ define([
                 this.chartProps = props.get_ChartProperties();
 
                 var externalRef = this.chartProps.getExternalReference();
-                // this.lblLinkData.text(externalRef ? this.textLinkedData : this.textData);
-                // this.btnEditData.setCaption(externalRef ? this.textSelectData : this.textEditData);
-                // this.ExternalOnlySettings.toggleClass('settings-hidden', !externalRef);
                 var text = externalRef ? (externalRef.asc_getSource() || '').replace(new RegExp("%20",'g')," ") : '';
-                // this.linkExternalSrc.text(text);
-                // this.OpenLinkSettings.toggleClass('settings-hidden', !text || !(this.mode.canRequestOpen || this.mode.isOffline));
 
                 value = props.get_SeveralCharts();
-                // this.btnEditData.setDisabled(value || externalRef && this._state.isUpdatingReference);
-                // this.view.btnUpdateData.setDisabled(value || this._state.isUpdatingReference);
-                // this.btnEditLinks.setDisabled(this._locked);
                 this._state.SeveralCharts=value;
 
                 this.view.btnUpdateData.setVisible(externalRef);
                 this.view.btnEditDataExt.setVisible(externalRef);
                 this.view.btnEditData.setVisible(!externalRef);
                 this.view.btnEditDataExt.menu.items[2].setCaption(me.menuCapOpen + ` ${text}`);
-                value = props.asc_getSeveralChartTypes();
+                value = window.DE ? props.asc_getSeveralChartTypes() : window.PE ? props.get_SeveralChartTypes() : null;
                 var type = (this._state.SeveralCharts && value) ? null : this.chartProps.getType();
                 if (this._state.ChartType !== type) {
                     var isCombo =
@@ -372,7 +333,7 @@ define([
                 this._noApply = false;
 
                 value = props.get_CanBeFlow();
-                var fromgroup = props.get_FromGroup();
+                var fromgroup = window.DE ? props.get_FromGroup() : window.PE ? props.asc_getFromGroup() : null;
                 this._state.CanBeFlow=value;
                 this._state.FromGroup=fromgroup;
 
@@ -500,10 +461,10 @@ define([
             if (this._noApply) return;
 
             if (this.api && !this._noApply && this.chartProps) {
-                var props = new Asc.asc_CImgProperty();
+                var props = window.DE ? new Asc.asc_CImgProperty() : (window.PE || window.PDFE) ? new Asc.CAscChartProp() : null;
                 this.chartProps.putStyle(record.get('data'));
                 props.put_ChartProperties(this.chartProps);
-                this.api.ImgApply(props);
+                window.DE ? this.api.ImgApply(props) : (window.PE || window.PDFE) ? this.api.ChartApply(props) : null;
             }
             this.view.fireEvent('editcomplete', this);
         },
@@ -547,27 +508,43 @@ define([
             var islocked = false;
             var paragraph_locked = undefined;
             var in_control = false;
+            var slide_deleted = undefined;
+            var page_deleted = false;
 
             for (var i = 0; i < selected.length; i++) {
                 var pr = selected[i].get_ObjectValue();
-                if (selected[i].asc_getObjectType() === Asc.c_oAscTypeSelectElement.Image) {
+                if (window.DE && selected[i].asc_getObjectType() === Asc.c_oAscTypeSelectElement.Image) {
                     islocked = pr.get_Locked();
                     if (pr && pr.get_ChartProperties())
-                        this.ChangeSettings(selected[i].asc_getObjectValue());
+                        this.ChangeSettings(pr);
+                } else if ((window.PE || window.PDFE) && selected[i].asc_getObjectType() === Asc.c_oAscTypeSelectElement.Chart) {
+                    islocked = pr.get_Locked();
+                    if (pr && pr.get_ChartProperties())
+                        this.ChangeSettings(pr);
+                } else if (window.PE && selected[i].asc_getObjectType() === Asc.c_oAscTypeSelectElement.Slide) {
+                    slide_deleted = pr.get_LockDelete();
+                } else if (window.PDFE && selected[i].asc_getObjectType() === Asc.c_oAscTypeSelectElement.PdfPage) {
+                    page_deleted = pr.asc_getDeleteLock();
                 }
             };
 
-            in_control = this.api.asc_IsContentControl();
-            var control_props = in_control ? this.api.asc_GetContentControlProperties() : null,
-                lock_type = (in_control&&control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
+            if (window.DE) {
+                in_control = this.api.asc_IsContentControl();
+                var control_props = in_control ? this.api.asc_GetContentControlProperties() : null,
+                    lock_type = (in_control&&control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
 
-            (lock_type===undefined) && (lock_type = Asc.c_oAscSdtLockType.Unlocked);
-            var content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
+                (lock_type===undefined) && (lock_type = Asc.c_oAscSdtLockType.Unlocked);
+                var content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
 
-            Common.Utils.lockControls(Common.enumLock.paragraphLock, paragraph_locked,   {array: this.view.lockedControls});
-            Common.Utils.lockControls(Common.enumLock.headerLock, header_locked,   {array: this.view.lockedControls});
-            Common.Utils.lockControls(Common.enumLock.imageLock, islocked,   {array: this.view.lockedControls});
-            Common.Utils.lockControls(Common.enumLock.contentLock, content_locked,   {array: this.view.lockedControls});
+                Common.Utils.lockControls(Common.enumLock.paragraphLock, paragraph_locked,   {array: this.view.lockedControls});
+                Common.Utils.lockControls(Common.enumLock.headerLock, header_locked,   {array: this.view.lockedControls});
+                Common.Utils.lockControls(Common.enumLock.imageLock, islocked,   {array: this.view.lockedControls});
+                Common.Utils.lockControls(Common.enumLock.contentLock, content_locked,   {array: this.view.lockedControls});
+            } else if (window.PE) {
+                Common.Utils.lockControls(Common.enumLock.slideDeleted, slide_deleted,   {array: this.view.lockedControls});
+            } else if (window.PDFE) {
+                Common.Utils.lockControls(Common.enumLock.pageDeleted, page_deleted,   {array: this.view.lockedControls});
+            }
         },
 
         onCellsRange: function(status) {

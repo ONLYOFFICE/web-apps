@@ -65,6 +65,16 @@ define([], function () {
                 },
                 'FileMenu': {
                     'settings:apply': _.bind(this.applySettings, this)
+                },
+                 'Common.Views.ChartTab': {
+                    'charttab:updatemenu': function (menu) {
+                        if (this.chartProps) {
+                            this.updateChartElementMenu(menu, this.chartProps)
+                        }
+                    },
+                    'charttab:elementselected': function (menu, item) {
+                        this.onChartElement(menu, item)
+                    }
                 }
             });
 
@@ -97,6 +107,7 @@ define([], function () {
                 }
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect',                      _.bind(this.onCoAuthoringDisconnect, this));
+                Common.NotificationCenter.on('charttab:advanced', _.bind(this.onChartAdvanced, this));
 
                 this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
                 this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));

@@ -103,7 +103,8 @@ define([
                 isLockedSlideHeaderAppyToAll: false,
                 customPluginItems: undefined,
                 activeTab: 'home',
-                viewMode: 'normal'
+                viewMode: 'normal',
+                showChartTab: false,
             };
             this._isAddingShape = false;
             this.slideSizeArr = [
@@ -140,6 +141,7 @@ define([
                     'add:chart'         : this.onSelectChart,
                     'insert:smartart'   : this.onInsertSmartArt,
                     'smartart:mouseenter': this.mouseenterSmartArt,
+                    'tab:click'          : this.onClickTab,
                     'smartart:mouseleave': this.mouseleaveSmartArt,
                     'tab:active'         : this.onActiveTab.bind(this),
                     'tab:active:before'  : this.onBeforeActiveTab.bind(this),
@@ -201,7 +203,10 @@ define([
                 'ViewTab': {
                     'toolbar:setcompact': this.onChangeCompactView.bind(this),
                     'viewmode:change': this.onChangeViewMode.bind(this)
-                }
+                },
+                'Common.Views.ChartTab': {
+                    'add:chart': this.onSelectChart.bind(this)
+                },
             });
             Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
                 this.toolbar.collapse();
@@ -902,6 +907,15 @@ define([
             if (in_chart !== this._state.in_chart) {
                 this.toolbar.btnInsertChart.updateHint(in_chart ? this.toolbar.tipChangeChart : this.toolbar.tipInsertChart);
                 this._state.in_chart = in_chart;
+            }
+
+            if (this._state.inchart !== in_chart) {
+                if ( !in_chart && this.toolbar.isTabActive('charttab') )
+                    this.toolbar.setTab('home');
+                this.toolbar.setVisible('charttab', !!in_chart);
+                if (in_chart && this._state.showChartTab)
+                    this.toolbar.setTab('charttab');
+                this._state.inchart = in_chart;
             }
 
             this.toolbar.lockToolbar(Common.enumLock.noParagraphObject, !in_para, {array: [me.toolbar.btnLineSpace]});
@@ -2177,6 +2191,7 @@ define([
                     chart.changeType(type);
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else {
+                me._state.showChartTab = true;
                 me.api.asc_addChartDrawingObject(type, undefined, true);
                 me.toolbar.fireEvent('insertchart', me.toolbar);
             }
@@ -2785,6 +2800,18 @@ define([
                     Array.prototype.push.apply(me.toolbar.slideOnlyControls, me.btnsDrawTab);
                 }
 
+                tab = {caption: me.toolbar.textTabChart, action: 'charttab', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-charttab', dataHintTitle: 'V', aux: true};
+                var charttab = me.getApplication().getController('Common.Controllers.ChartTab');
+                charttab.setApi(me.api).setConfig({toolbar: me});
+                var view = charttab.getView('Common.Views.ChartTab');
+                var chartbuttons = view.getButtons();
+                var $panel = charttab.createToolbarPanel();
+                if ($panel) {
+                    me.toolbar.addTab(tab, $panel);
+                    me._state.inchart && me.toolbar.setVisible('charttab', true);
+                    Array.prototype.push.apply(me.toolbar.lockControls, chartbuttons);
+                }
+
                 var transitController = me.getApplication().getController('Transitions');
                 transitController.setApi(me.api).setConfig({toolbar: me,mode:config}).createToolbarPanel();
                 Array.prototype.push.apply(me.toolbar.lockControls,transitController.getView().getButtons());
@@ -3062,6 +3089,10 @@ define([
 
         onActiveTab: function(tab) {
             (tab !== 'slideMaster') && Common.UI.TooltipManager.closeTip('masterTab');
+        },
+
+        onClickTab: function(tab) {
+            this._state.showChartTab = tab ==='charttab';
         },
 
         onBeforeActiveTab: function(tab) {

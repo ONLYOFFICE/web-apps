@@ -80,7 +80,8 @@ define([
                 can_decrease: undefined,
                 fontsize: undefined,
                 textclrhighlight: undefined,
-                initEditing: true
+                initEditing: true,
+                showChartTab: false,
             };
             this.editMode = true;
             this.binding = {
@@ -92,6 +93,7 @@ define([
                     'change:compact'    : this.onClickChangeCompact,
                     'home:open'         : this.onHomeOpen,
                     'tab:active'        : this.onActiveTab,
+                    'tab:click'         : this.onClickTab,
                     'tab:collapse'      : this.onTabCollapse,
                     'shapeannot:size'   : this.onShapeCommentSizeClick
                 },
@@ -154,7 +156,10 @@ define([
                 },
                 'DocumentHolder': {
                     'annotbar:create': this.onCreateAnnotBar.bind(this)
-                }
+                },
+                'InsTab': {
+                    'insert:chart': this.onSelectChart.bind(this)
+                },
             });
 
             Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
@@ -595,7 +600,8 @@ define([
                 page_edit_text = false,
                 in_form = false,
                 in_check_form = false,
-                in_text_form = false;
+                in_text_form = false,
+                in_chart = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -619,6 +625,7 @@ define([
                     }
                     if (type == Asc.c_oAscTypeSelectElement.Chart) {
                         no_columns = true;
+                        in_chart = true;
                     }
                     if (type == Asc.c_oAscTypeSelectElement.Shape) {
                         var shapetype = pr.asc_getType();
@@ -654,6 +661,15 @@ define([
                     in_text_form = ft===AscPDF.FIELD_TYPES.text || ft===AscPDF.FIELD_TYPES.combobox || ft===AscPDF.FIELD_TYPES.listbox;
                     in_check_form = ft===AscPDF.FIELD_TYPES.checkbox || ft===AscPDF.FIELD_TYPES.radiobutton;
                 }
+            }
+
+            if (this._state.inchart !== in_chart) {
+                if ( !in_chart && this.toolbar.isTabActive('charttab') )
+                    this.toolbar.setTab('home');
+                this.toolbar.setVisible('charttab', !!in_chart);
+                if (in_chart && this._state.showChartTab)
+                    this.toolbar.setTab('charttab');
+                this._state.inchart = in_chart;
             }
 
             if (this._state.prcontrolsdisable !== paragraph_locked) {
@@ -964,6 +980,10 @@ define([
                 this.toolbar.btnSelectTool.toggle(true, true);
                 this.toolbar.btnHandTool.toggle(false, true);
             }
+        },
+
+        onSelectChart: function () {
+            this._state.showChartTab = true;
         },
 
         clearSelectTools: function() {
@@ -1554,6 +1574,18 @@ define([
                 !config.canComments && me.toolbar.setVisible('comment', false);
             }
 
+            tab = {caption: me.textTabChart, action: 'charttab', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-charttab', dataHintTitle: 'V', aux: true};
+            var charttab = me.getApplication().getController('Common.Controllers.ChartTab');
+            charttab.setApi(me.api).setConfig({toolbar: me});
+            var view = charttab.getView('Common.Views.ChartTab');
+            var chartbuttons = view.getButtons();
+            var $panel = charttab.createToolbarPanel();
+            if ($panel) {
+                me.toolbar.addTab(tab, $panel);
+                me._state.inchart && me.toolbar.setVisible('charttab', true);
+                Array.prototype.push.apply(me.toolbar.lockControls, chartbuttons);
+            }
+
             var tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
             var viewtab = me.getApplication().getController('ViewTab');
             viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
@@ -1743,6 +1775,10 @@ define([
                 Common.UI.TooltipManager.closeTip('annotRect');
 
             (tab === 'red') && Common.UI.TooltipManager.closeTip('redactTab');
+        },
+
+        onClickTab: function(tab) {
+            this._state.showChartTab = tab ==='charttab';
         },
 
         onTabCollapse: function(tab) {

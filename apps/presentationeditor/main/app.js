@@ -143,6 +143,7 @@ require([
             'Search',
             'Print',
             'Common.Controllers.Fonts',
+            'Common.Controllers.ChartTab',
             'Common.Controllers.History'
             /** coauthoring begin **/
             , 'Common.Controllers.Chat'
@@ -190,6 +191,7 @@ require([
             // 'presentationeditor/main/app/view/SignatureSettings',
             'common/main/lib/util/utils',
             'common/main/lib/controller/Fonts',
+            'common/main/lib/controller/ChartTab',
             'common/main/lib/controller/History'
             /** coauthoring begin **/
             ,'common/main/lib/controller/Comments',

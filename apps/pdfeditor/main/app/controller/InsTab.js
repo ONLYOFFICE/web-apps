@@ -120,6 +120,9 @@ define([
                 },
                 'Toolbar': {
                     'tab:active': _.bind(this.onActiveTab, this)
+                },
+                'Common.Views.ChartTab': {
+                    'add:chart': _.bind(this.onSelectChart, this)
                 }
             });
         },
