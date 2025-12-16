@@ -257,9 +257,9 @@ define([], function () {
             view.menuTableEquationSettings.menu.on('item:click', _.bind(me.convertEquation, me));
             view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
             view.animEffectMenu.on('item:click', _.bind(me.onAnimEffect, me));
-            view.mnuSlideCopy.on('click', _.bind(me.onCutCopyPaste, me));
-            view.mnuSlideCut.on('click', _.bind(me.onCutCopyPaste, me));
-            view.mnuSlidePaste.on('click', _.bind(me.onCutCopyPaste, me));
+            view.mnuSlideMasterCopy.on('click', _.bind(me.onCutCopyPaste, me));
+            view.mnuSlideMasterCut.on('click', _.bind(me.onCutCopyPaste, me));
+            view.mnuSlideMasterPaste.on('click', _.bind(me.onCutCopyPaste, me));
             view.mnuInsertMaster.on('click', _.bind(me.onInsertMaster, me));
             view.mnuInsertLayout.on('click', _.bind(me.onInsertLayout, me));
             view.mnuDuplicateMaster.on('click', _.bind(me.onDuplicateMaster, me));

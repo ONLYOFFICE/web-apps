@@ -483,19 +483,19 @@ define([], function () {
             });
 
 
-            me.mnuSlideCopy = new Common.UI.MenuItem({
+            me.mnuSlideMasterCopy = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-copy',
                 caption : me.textCopy,
                 value : 'copy'
             });
 
-            me.mnuSlideCut = new Common.UI.MenuItem({
+            me.mnuSlideMasterCut = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-cut',
                 caption : me.textCut,
                 value : 'cut'
             });
 
-            me.mnuSlidePaste = new Common.UI.MenuItem({
+            me.mnuSlideMasterPaste = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-paste',
                 caption : me.textPaste,
                 value : 'paste'
@@ -565,8 +565,8 @@ define([], function () {
                         });
                     }
                     
-                    me.mnuSlideCopy.setVisible(true);
-                    me.mnuSlideCut.setVisible(true);
+                    me.mnuSlideMasterCopy.setVisible(true);
+                    me.mnuSlideMasterCut.setVisible(true);
                     
                     me.mnuRenameMaster.setDisabled(currentName === undefined);
                     me.mnuRenameLayout.setDisabled(currentName === undefined);
@@ -582,16 +582,16 @@ define([], function () {
 
                     var cancopy = me.api && me.api.can_CopyCut();
                     
-                    me.mnuSlideCut.setDisabled(!cancopy);
-                    me.mnuSlideCopy.setDisabled(!cancopy);
-                    me.mnuSlidePaste.setDisabled(!cancopy);
+                    me.mnuSlideMasterCut.setDisabled(!cancopy);
+                    me.mnuSlideMasterCopy.setDisabled(!cancopy);
+                    me.mnuSlideMasterPaste.setDisabled(!cancopy);
                     isMaster && me.mnuDeleteMaster.setDisabled(!me.api.asc_CanDeleteMaster());
                     !isMaster && me.mnuDeleteLayout.setDisabled(!me.api.asc_CanDeleteLayout());
                 },
                 items: [
-                    me.mnuSlideCut,
-                    me.mnuSlideCopy,
-                    me.mnuSlidePaste,
+                    me.mnuSlideMasterCut,
+                    me.mnuSlideMasterCopy,
+                    me.mnuSlideMasterPaste,
                     {caption: '--'},
                     me.mnuInsertMaster,
                     me.mnuInsertLayout,
