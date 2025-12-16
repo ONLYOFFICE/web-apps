@@ -268,13 +268,10 @@ define([], function () {
                 initMenu: function(value) {
                     var selectedLast = me.api.asc_IsLastSlideSelected(),
                         selectedFirst = me.api.asc_IsFirstSlideSelected();
-                    var cancopy = me.api && me.api.can_CopyCut();
                     me.menuSlideCopy.setVisible(value.fromThumbs===true);
                     me.menuSlideCut.setVisible(value.fromThumbs===true);
                     me.menuSlidePaste.setVisible(value.fromThumbs===true);
                     me.slideMenu.items[3].setVisible(value.fromThumbs===true);
-                    me.menuSlideCopy.setDisabled(!cancopy);
-                    me.menuSlideCut.setDisabled(!cancopy);
                      // New Slide
                     me.mnuDuplicateSlide.setVisible(value.isSlideSelect===true); // Duplicate Slide
                     me.mnuDeleteSlide.setVisible(value.isSlideSelect===true);
@@ -370,12 +367,14 @@ define([], function () {
                             }
                         });
                     }
-                    for (var i = 0; i < 6; i++) {
-                        if(i !== 3)
-                            me.slideMenu.items[i].setDisabled(locked);
-                    }
+                    let cancopy = me.api && me.api.can_CopyCut();
+                    me.menuSlideCopy.setDisabled(!cancopy);
+                    me.menuSlideCut.setDisabled(!cancopy || locked);
                     me.mnuPreview.setDisabled(me.slidesCount<1);
                     me.mnuSelectAll.setDisabled(me.slidesCount<2);
+                    me.menuSlidePaste.setDisabled(locked);
+                    me.mnuNewSlide.setDisabled(locked);
+                    me.mnuDuplicateSlide.setDisabled(locked);
                     me.mnuDeleteSlide.setDisabled(lockedDeleted || locked);
                     me.mnuChangeSlide.setDisabled(lockedLayout || locked);
                     me.mnuResetSlide.setDisabled(lockedLayout || locked);
@@ -568,12 +567,7 @@ define([], function () {
                     
                     me.mnuSlideCopy.setVisible(true);
                     me.mnuSlideCut.setVisible(true);
-                    me.mnuSlidePaste.setVisible(true);
-
-                    var cancopy = me.api && me.api.can_CopyCut();
                     
-                    me.mnuSlideCut.setDisabled(!cancopy);
-
                     me.mnuRenameMaster.setDisabled(currentName === undefined);
                     me.mnuRenameLayout.setDisabled(currentName === undefined);
 
@@ -586,6 +580,11 @@ define([], function () {
                     me.mnuDeleteLayout.setVisible(!isMaster);
                     me.mnuRenameLayout.setVisible(!isMaster);
 
+                    var cancopy = me.api && me.api.can_CopyCut();
+                    
+                    me.mnuSlideCut.setDisabled(!cancopy);
+                    me.mnuSlideCopy.setDisabled(!cancopy);
+                    me.mnuSlidePaste.setDisabled(!cancopy);
                     isMaster && me.mnuDeleteMaster.setDisabled(!me.api.asc_CanDeleteMaster());
                     !isMaster && me.mnuDeleteLayout.setDisabled(!me.api.asc_CanDeleteLayout());
                 },
