@@ -56,10 +56,28 @@
             grid-template-columns: repeat(10, 1fr);
             gap: 2px;
 
+            @media (min-width: 550px) {
+                gap: 4px;
+            }
+
             &-item {
                 border: 1px solid;
                 aspect-ratio: 1;
                 border-color: @background-menu-divider;
+
+                &[data-selected="true"] {
+                    position: relative;
+                    border: 2px solid @background-primary;
+
+                    &:after {
+                        content: '';
+                        position: absolute;
+                        inset: -5px;
+                        background-color: @brandColor;
+                        z-index: -1;
+                        border-radius: 4px;
+                    }
+                }
             }
 
             &-add {
@@ -70,8 +88,9 @@
                 aspect-ratio: 1;
                 border: 2px solid @background-primary;
 
-                i {
-                    background-color: @brandColor;
+                svg {
+                    width: 24px;
+                    height: 24px;
                 }
 
                 &:after {
@@ -110,7 +129,6 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding-inline: 10px;
         width: 100%;
 
         @media (min-width: 550px) {
@@ -125,6 +143,14 @@
                 justify-content: center;
             }
 
+            &:first-child {
+                margin-left: 10px;
+            }
+
+            &:last-child {
+               margin-right: 10px;
+            }
+
             button {
                 display: flex;
                 padding: 0;
@@ -137,6 +163,13 @@
                 &.button-fill {
                     color: @brandColor;
                     background-color: @button-active-opacity;
+                }
+
+                &:after {
+                    content: '';
+                    position: absolute;
+                    inset: -4px;
+                    z-index: -1;
                 }
             }
         }

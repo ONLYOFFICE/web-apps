@@ -319,7 +319,7 @@ define([
                 [
                     '<% _.each(items, function(item) { %>',
                     '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
-                    '<%= item.displayValue %><% if (item.value === Asc.c_oAscNumberingFormat.Bullet) { %><span style="font-family:<%=item.font%>;"><%=item.symbol%></span><% } %>',
+                    '<%= item.displayValue %><% if (item.value === Asc.c_oAscNumberingFormat.Bullet) { %><span style="font-family:<%-item.font%>;"><%=item.symbol%></span><% } %>',
                     '</a></li>',
                     '<% }); %>'
                 ];
@@ -372,7 +372,7 @@ define([
                     var formcontrol = $(this.el).find('.form-control');
                     if (record) {
                         if (record.get('value')==Asc.c_oAscNumberingFormat.Bullet)
-                            formcontrol[0].innerHTML = record.get('displayValue') + '<span style="font-family:' + (record.get('font') || 'Arial') + '">' + record.get('symbol') + '</span>';
+                            formcontrol[0].innerHTML = record.get('displayValue') + '<span style="font-family:' + (Common.Utils.String.htmlEncode(record.get('font')) || 'Arial') + '">' + record.get('symbol') + '</span>';
                         else
                             formcontrol[0].innerHTML = record.get('displayValue');
                     } else

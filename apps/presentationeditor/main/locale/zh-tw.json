@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "巨集",
   "PE.Views.ViewTab.textNormal": "標準模式",
   "PE.Views.ViewTab.textNotes": "註解",
+  "PE.Views.ViewTab.textPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.textRecMacro": "Record macro",
+  "PE.Views.ViewTab.textResumeMacro": "Resume recording",
   "PE.Views.ViewTab.textRightMenu": "右側面板",
   "PE.Views.ViewTab.textRulers": "尺規",
   "PE.Views.ViewTab.textShowGridlines": "顯示格線",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "智慧參考線",
   "PE.Views.ViewTab.textSnapObjects": "對齊物件到網格",
   "PE.Views.ViewTab.textStatusBar": "狀態列",
+  "PE.Views.ViewTab.textStopMacro": "Stop recording",
   "PE.Views.ViewTab.textTabStyle": "索引標籤樣式",
   "PE.Views.ViewTab.textZoom": "縮放",
   "PE.Views.ViewTab.tipFitToSlide": "調整至投影片大小",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "介面主題",
   "PE.Views.ViewTab.tipMacros": "巨集",
   "PE.Views.ViewTab.tipNormal": "標準模式",
+  "PE.Views.ViewTab.tipPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.tipRecMacro": "Record macro",
+  "PE.Views.ViewTab.tipResumeMacro": "Resume recording",
   "PE.Views.ViewTab.tipSelectTool": "選取工具",
-  "PE.Views.ViewTab.tipSlideMaster": "大綱模式"
+  "PE.Views.ViewTab.tipSlideMaster": "大綱模式",
+  "PE.Views.ViewTab.tipStopMacro": "Stop recording"
 }

@@ -890,7 +890,8 @@
       "txtZh": "Kineski (pojednostavljeni)",
       "txtZhtw": "Kineski (tradicionalni)",
       "warnDownloadAs": "Ako nastavite da čuvate u ovom formatu sve karakteristike osim teksta će biti izgubljene.<br>Da li ste sigurni da želite da nastavite?",
-      "warnDownloadCsv": "CSV format ne podržava čuvanje datoteka sa više listova niti sve elemente osim teksta.<br>Da biste sačuvali samo izabrani list u CSV formatu, kliknite na U redu.<br>Da biste sačuvali celu tabelu sa svim funkcijama, kliknite na Otkaži i izaberite neki drugi format"
+      "warnDownloadCsv": "CSV format ne podržava čuvanje datoteka sa više listova niti sve elemente osim teksta.<br>Da biste sačuvali samo izabrani list u CSV formatu, kliknite na U redu.<br>Da biste sačuvali celu tabelu sa svim funkcijama, kliknite na Otkaži i izaberite neki drugi format",
+      "warnDownloadOds": "Čuvanje ove datoteke može dovesti do gubitka nekih formula, formatiranja ćelija ili ugrađenih objekata zbog ograničene podrške za format.<br>Da li ste sigurni da želite da nastavite?"
     }
   }
 }

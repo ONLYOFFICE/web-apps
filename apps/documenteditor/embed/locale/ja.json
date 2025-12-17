@@ -55,7 +55,6 @@
   "DE.ApplicationController.txtNo": "いいえ",
   "DE.ApplicationController.txtOpenWarning": "このリンクをクリックすると、お使いのデバイスやデータに害を及ぼす可能性があります。コンピュータを保護するため、信頼できる発信元のハイパーリンクのみをクリックしてください。この場所は安全でない可能性があります:<br>%1<br>続行しますか",
   "DE.ApplicationController.txtPressLink": "リンクをクリックして%1を押してください",
-  "DE.ApplicationController.txtSecurityWarningLink": "このドキュメントは%1に接続しようとしています。<br> このサイトを信頼する場合は、Ctrキーを押しながら「OK」を押してください。",
   "DE.ApplicationController.txtSecurityWarningOpenFile": "このドキュメントはファイルダイアログを開こうとしています。開くには、OKを押してください。",
   "DE.ApplicationController.txtYes": "はい",
   "DE.ApplicationController.unknownErrorText": "不明なエラー",

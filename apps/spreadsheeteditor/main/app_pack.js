@@ -29,8 +29,8 @@ require([
     'common/main/lib/view/DocumentPropertyDialog',
     'common/main/lib/view/MacrosDialog',
     'common/main/lib/view/MacrosAiDialog',
-    // 'common/main/lib/view/ShortcutsDialog',
-    // 'common/main/lib/view/ShortcutsEditDialog',
+    'common/main/lib/view/ShortcutsDialog',
+    'common/main/lib/view/ShortcutsEditDialog',
     'common/main/lib/component/MonacoEditor',
 
     'spreadsheeteditor/main/app/controller/DocumentHolderExt',
@@ -91,7 +91,11 @@ require([
     'spreadsheeteditor/main/app/view/AutoFilterDialog',
     'spreadsheeteditor/main/app/view/PivotGroupDialog',
     'spreadsheeteditor/main/app/view/PivotCalculatedItemsDialog',
-    'spreadsheeteditor/main/app/view/PivotInsertCalculatedItemDialog'
+    'spreadsheeteditor/main/app/view/PivotInsertCalculatedItemDialog',
+    'spreadsheeteditor/main/app/view/SolverDlg',
+    'spreadsheeteditor/main/app/view/ConstraintDialog',
+    'spreadsheeteditor/main/app/view/SolverMethodDialog',
+    'spreadsheeteditor/main/app/view/SolverResultsDlg'
 ], function () {
     Common.NotificationCenter.trigger('app-pack:loaded');
 });

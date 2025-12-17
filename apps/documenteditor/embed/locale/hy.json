@@ -55,7 +55,6 @@
   "DE.ApplicationController.txtNo": "Ոչ",
   "DE.ApplicationController.txtOpenWarning": "Այս հղումը կարող է վնասել ձեր սարքին և տվյալներին։<br> Ցանկանո՞ւմ եք շարունակել։",
   "DE.ApplicationController.txtPressLink": "Սեղմել %1 և անցնել հղումը",
-  "DE.ApplicationController.txtSecurityWarningLink": "Այս փաստաթուղթը փորձում է միանալ %1-ին։<br>Եթե վստահում եք այս կայքին, սեղմեք «Լավ»՝ պահելով Ctrl ստեղնը։",
   "DE.ApplicationController.txtSecurityWarningOpenFile": "Այս փաստաթուղթը փորձում է բացել ֆայլի երկխոսությունը, բացելու համար սեղմեք «OK»:",
   "DE.ApplicationController.txtYes": "Այո",
   "DE.ApplicationController.unknownErrorText": "Անհայտ սխալ։",

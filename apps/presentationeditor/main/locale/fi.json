@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "Macros",
   "PE.Views.ViewTab.textNormal": "Normaali",
   "PE.Views.ViewTab.textNotes": "Notes",
+  "PE.Views.ViewTab.textPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.textRecMacro": "Record macro",
+  "PE.Views.ViewTab.textResumeMacro": "Resume recording",
   "PE.Views.ViewTab.textRightMenu": "Oikea paneeli",
   "PE.Views.ViewTab.textRulers": "Viivaimet",
   "PE.Views.ViewTab.textShowGridlines": "Show Gridlines",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "Smart guides",
   "PE.Views.ViewTab.textSnapObjects": "Snap object to grid",
   "PE.Views.ViewTab.textStatusBar": "Tilarivi",
+  "PE.Views.ViewTab.textStopMacro": "Stop recording",
   "PE.Views.ViewTab.textTabStyle": "Välilehden tyyli",
   "PE.Views.ViewTab.textZoom": "Zoom",
   "PE.Views.ViewTab.tipFitToSlide": "Sovita diaan",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Käyttöliittymän teema",
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normaali",
+  "PE.Views.ViewTab.tipPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.tipRecMacro": "Record macro",
+  "PE.Views.ViewTab.tipResumeMacro": "Resume recording",
   "PE.Views.ViewTab.tipSelectTool": "Valitse työkalu",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.ViewTab.tipStopMacro": "Stop recording"
 }

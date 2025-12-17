@@ -55,7 +55,6 @@
   "DE.ApplicationController.txtNo": "නැහැ",
   "DE.ApplicationController.txtOpenWarning": "මෙම සබැඳිය එබීමෙන් ඔබගේ උපාංගයට සහ දත්ත වලට හානි විය හැකිය.<br> ඔබට ඉදිරියට යාමට වුවමනා ද?",
   "DE.ApplicationController.txtPressLink": "%1 තද කරගෙන සබැඳිය ඔබන්න",
-  "DE.ApplicationController.txtSecurityWarningLink": "මෙම ලේඛනය %1 වෙත සම්බන්ධ වීමට උත්සාහ කරයි.<br>ඔබට මෙම අඩවිය විශ්වාස නම්, ctrl යතුර ඔබාගෙන \"හරි\" ඔබන්න.",
   "DE.ApplicationController.txtSecurityWarningOpenFile": "මෙම ලේඛනය ගොනු කවුළුව ඇරීමට උත්සාහ කරයි, එය ඇරීමට \"හරි\" ඔබන්න.",
   "DE.ApplicationController.txtYes": "ඔව්",
   "DE.ApplicationController.unknownErrorText": "නොදන්නා දෝෂයකි",

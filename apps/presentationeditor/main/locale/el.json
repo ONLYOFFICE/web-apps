@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "Μακροεντολές",
   "PE.Views.ViewTab.textNormal": "Κανονικό",
   "PE.Views.ViewTab.textNotes": "Σημειώσεις",
+  "PE.Views.ViewTab.textPauseMacro": "Παύση εγγραφής",
+  "PE.Views.ViewTab.textRecMacro": "Εγγραφή μακροεντολής",
+  "PE.Views.ViewTab.textResumeMacro": "Συνέχιση εγγραφής",
   "PE.Views.ViewTab.textRightMenu": "Δεξιό πλαίσιο",
   "PE.Views.ViewTab.textRulers": "Χάρακες",
   "PE.Views.ViewTab.textShowGridlines": "Εμφάνιση γραμμών πλέγματος",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "Έξυπνοι οδηγοί",
   "PE.Views.ViewTab.textSnapObjects": "Προσκόλληση αντικειμένου στο πλέγμα",
   "PE.Views.ViewTab.textStatusBar": "Γραμμή κατάστασης",
+  "PE.Views.ViewTab.textStopMacro": "Διακοπή εγγραφής",
   "PE.Views.ViewTab.textTabStyle": "Στυλ καρτέλας",
   "PE.Views.ViewTab.textZoom": "Εστίαση",
   "PE.Views.ViewTab.tipFitToSlide": "Προσαρμογή στη διαφάνεια",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής",
   "PE.Views.ViewTab.tipMacros": "Μακροεντολές",
   "PE.Views.ViewTab.tipNormal": "Κανονικό",
+  "PE.Views.ViewTab.tipPauseMacro": "Παύση εγγραφής",
+  "PE.Views.ViewTab.tipRecMacro": "Εγγραφή μακροεντολής",
+  "PE.Views.ViewTab.tipResumeMacro": "Συνέχιση εγγραφής",
   "PE.Views.ViewTab.tipSelectTool": "Εργαλείο επιλογής",
-  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών"
+  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών",
+  "PE.Views.ViewTab.tipStopMacro": "Διακοπή εγγραφής"
 }

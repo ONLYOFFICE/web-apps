@@ -36,14 +36,18 @@ const CellEditorView = props => {
 
     const FunctionHint = ({ funcHint }) => {
         if (!funcHint || !funcHint.args) return null;
-
+        const separator = funcHint.separator;
         return (
             <div className="function-hint-card">
                 <div className="name">
-                    {funcHint.name}(
+                    <span className={funcHint.nameIsActive ? 'contrast' : ''}>
+                        {funcHint.name}
+                    </span>
+                    (
                     {funcHint.args.map((arg, i) => (
                         <span key={i} className={arg.isActive ? "contrast" : ""}>
-                            {arg.name}{i < funcHint.args.length - 1 ? '; ' : ''}
+                            {arg.name}
+                            {i < funcHint.args.length - 1 ? `${separator} ` : ""}
                         </span>
                     ))}
                     )
@@ -57,9 +61,14 @@ const CellEditorView = props => {
             <View id="idx-celleditor" style={viewStyle} routes={routes} className={expanded ? 'cell-editor expanded' : 'cell-editor collapsed'}>
                 <div id="box-cell-name" className="ce-group">
                     <span id="idx-cell-name">{props.cellName}</span>
-                    <a href="#" id="idx-btn-function" className='link icon-only' disabled={(!isEdit && true) || props.stateFunctions || functionsDisable || wsLock} onClick={() => {props.onClickToOpenAddOptions('function', '#idx-btn-function');}}>
-                        <SvgIcon symbolId={IconFunction.id} className={'icon icon-svg icon_function'} />
-                    </a>
+                    {storeAppOptions.isDocReady && (
+                        <a href="#" id="idx-btn-function" className='link icon-only'
+                           disabled={(!isEdit && true) || props.stateFunctions || functionsDisable || wsLock}
+                           onClick={() => {
+                               props.onClickToOpenAddOptions('function', '#idx-btn-function');
+                           }}>
+                            <SvgIcon symbolId={IconFunction.id} className={'icon icon-svg icon_function'}/>
+                        </a>)}
                 </div>
                 <div className="ce-group group--content" style={contentStyle}>
                     <div id="idx-list-target" className="target-function-list"></div>

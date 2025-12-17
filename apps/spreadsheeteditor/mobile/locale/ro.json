@@ -890,7 +890,8 @@
       "txtZh": "Chineză (simplificată)",
       "txtZhtw": "Chineză (tradițională)",
       "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?",
-      "warnDownloadCsv": "Formatul CSV nu acceptă salvarea unui fișier cu mai multe foi de calcul și a tuturor elementelor, cu excepția textului.<br>Pentru a salva ca CSV numai foaia selectată, apăsați OK.<br>Pentru a salva întreaga foaie de calcul și toate caracteristicile, faceți clic pe Anulare și selectați un alt format."
+      "warnDownloadCsv": "Formatul CSV nu acceptă salvarea unui fișier cu mai multe foi de calcul și a tuturor elementelor, cu excepția textului.<br>Pentru a salva ca CSV numai foaia selectată, apăsați OK.<br>Pentru a salva întreaga foaie de calcul și toate caracteristicile, faceți clic pe Anulare și selectați un alt format.",
+      "warnDownloadOds": "Salvarea acestui fișier poate duce la pierderea unor formule, formatării celulelor sau a obiectelor încorporate deoarece acceptarea acestui format este limitată.<br>Sigur doriți să continui?"
     }
   }
 }

@@ -134,6 +134,7 @@ require([
             'LeftMenu',
             'Main',
             'ViewTab',
+            'HeaderFooterTab',
             'Search',
             'DocProtection',
             'Print',
@@ -177,6 +178,7 @@ require([
                 'documenteditor/main/app/controller/LeftMenu',
                 'documenteditor/main/app/controller/Main',
                 'documenteditor/main/app/controller/ViewTab',
+                'documenteditor/main/app/controller/HeaderFooterTab',
                 'documenteditor/main/app/controller/Search',
                 'documenteditor/main/app/controller/DocProtection',
                 'documenteditor/main/app/controller/Print',
@@ -232,8 +234,8 @@ require([
                     'common/main/lib/view/DocumentPropertyDialog',
                     'common/main/lib/view/MacrosDialog',
                     'common/main/lib/view/MacrosAiDialog',
-                    // 'common/main/lib/view/ShortcutsDialog',
-                    // 'common/main/lib/view/ShortcutsEditDialog',
+                    'common/main/lib/view/ShortcutsDialog',
+                    'common/main/lib/view/ShortcutsEditDialog',
                     'common/main/lib/component/MonacoEditor',
 
                     'documenteditor/main/app/controller/DocumentHolderExt',
@@ -272,6 +274,7 @@ require([
                     'documenteditor/main/app/view/NumberingValueDialog',
                     'documenteditor/main/app/view/ListIndentsDialog',
                     'documenteditor/main/app/view/ProtectDialog',
+                    'documenteditor/main/app/view/PageNumberingDlg',
                     'documenteditor/main/app/view/MailMergeEmailDlg'
                 ];
 

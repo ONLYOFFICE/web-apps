@@ -712,7 +712,7 @@ define([
                 if (model) {
                     this.collection.remove(model);
                     if (!silentUpdate) {
-                        this.updateComments(true);
+                        this.updateComments(true, undefined, undefined, true);
                     }
                 }
 
@@ -873,7 +873,7 @@ define([
             var same_uids = (0 === _.difference(this.uids, uids).length) && (0 === _.difference(uids, this.uids).length);
             
             if (hint && this.isSelectedComment && same_uids && !this.isModeChanged) {
-                // хотим показать тот же коментарий что был и выбран
+                // want to show the same comment that was selected
                 return;
             }
 
@@ -1089,16 +1089,18 @@ define([
 
         // internal
 
-        updateComments: function (needRender, disableSort, loadText) {
+        updateComments: function (needRender, disableSort, loadText, isSaveScrollPos) {
             var me = this;
             me.updateCommentsTime = new Date();
             me.disableSort = !!disableSort;
             if (me.timerUpdateComments===undefined)
                 me.timerUpdateComments = setInterval(function(){
                     if ((new Date()) - me.updateCommentsTime>100) {
+                        const scrollPos =  me.view.commentsView.scroller.getScrollTop();
                         clearInterval(me.timerUpdateComments);
                         me.timerUpdateComments = undefined;
                         me.updateCommentsView(needRender, me.disableSort, loadText);
+                        isSaveScrollPos && me.view.commentsView.scroller.scrollTop(scrollPos);
                     }
                }, 25);
         },

@@ -394,7 +394,7 @@ define([
                 currentMenu = me.documentHolder.currentMenu;
             if (currentMenu && currentMenu.isVisible()){
                 if (me.api.asc_getCurrentFocusObject() === 0 ){ // thumbnails
-                    if (me.documentHolder.slideMenu===currentMenu && !me._isDisabled) {
+                    if (me.documentHolder.slideMenu===currentMenu && !!me.documentHolder.slideMenu.options.fromThumbs && !me._isDisabled) {
                         var isHidden = false;
                         _.each(selectedElements, function(element, index) {
                             if (Asc.c_oAscTypeSelectElement.Slide == element.get_ObjectType()) {
@@ -408,7 +408,7 @@ define([
                 } else {
                     var obj = (me.mode.isEdit && !me._isDisabled) ? me.fillMenuProps(selectedElements) : me.fillViewMenuProps(selectedElements);
                     if (obj) {
-                        if (obj.menu_to_show===currentMenu) {
+                        if (obj.menu_to_show===currentMenu && (me.documentHolder.slideMenu!==currentMenu || !me.documentHolder.slideMenu.options.fromThumbs)) {
                             currentMenu.options.initMenu(obj.menu_props);
                             currentMenu.alignPosition();
                         }

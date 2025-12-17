@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "פקודות מאקרו",
   "PE.Views.ViewTab.textNormal": "רגיל",
   "PE.Views.ViewTab.textNotes": "הערות",
+  "PE.Views.ViewTab.textPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.textRecMacro": "Record macro",
+  "PE.Views.ViewTab.textResumeMacro": "Resume recording",
   "PE.Views.ViewTab.textRightMenu": "לוח ימני",
   "PE.Views.ViewTab.textRulers": "סרגלים",
   "PE.Views.ViewTab.textShowGridlines": "הצג קווי רשת",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "מדריכים חכמים",
   "PE.Views.ViewTab.textSnapObjects": "הצמד אובייקט לרשת",
   "PE.Views.ViewTab.textStatusBar": "שורת מצב",
+  "PE.Views.ViewTab.textStopMacro": "Stop recording",
   "PE.Views.ViewTab.textTabStyle": "סגנון טאב",
   "PE.Views.ViewTab.textZoom": "זום",
   "PE.Views.ViewTab.tipFitToSlide": "התאמה לשקופית",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא",
   "PE.Views.ViewTab.tipMacros": "פקודות מאקרו",
   "PE.Views.ViewTab.tipNormal": "רגיל",
+  "PE.Views.ViewTab.tipPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.tipRecMacro": "Record macro",
+  "PE.Views.ViewTab.tipResumeMacro": "Resume recording",
   "PE.Views.ViewTab.tipSelectTool": "כלי הבחירה",
-  "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות"
+  "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות",
+  "PE.Views.ViewTab.tipStopMacro": "Stop recording"
 }

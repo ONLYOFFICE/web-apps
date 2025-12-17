@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "Макросы",
   "PE.Views.ViewTab.textNormal": "Обычный",
   "PE.Views.ViewTab.textNotes": "Заметки",
+  "PE.Views.ViewTab.textPauseMacro": "Приостановить запись",
+  "PE.Views.ViewTab.textRecMacro": "Записать макрос",
+  "PE.Views.ViewTab.textResumeMacro": "Возобновить запись",
   "PE.Views.ViewTab.textRightMenu": "Правая панель",
   "PE.Views.ViewTab.textRulers": "Линейки",
   "PE.Views.ViewTab.textShowGridlines": "Показать линии сетки",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "Смарт-направляющие",
   "PE.Views.ViewTab.textSnapObjects": "Привязать объект к сетке",
   "PE.Views.ViewTab.textStatusBar": "Строка состояния",
+  "PE.Views.ViewTab.textStopMacro": "Остановить запись",
   "PE.Views.ViewTab.textTabStyle": "Стиль вкладки",
   "PE.Views.ViewTab.textZoom": "Масштаб",
   "PE.Views.ViewTab.tipFitToSlide": "По размеру слайда",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса",
   "PE.Views.ViewTab.tipMacros": "Макросы",
   "PE.Views.ViewTab.tipNormal": "Обычный",
+  "PE.Views.ViewTab.tipPauseMacro": "Приостановить запись",
+  "PE.Views.ViewTab.tipRecMacro": "Записать макрос",
+  "PE.Views.ViewTab.tipResumeMacro": "Возобновить запись",
   "PE.Views.ViewTab.tipSelectTool": "Инструмент выделения",
-  "PE.Views.ViewTab.tipSlideMaster": "Образец слайдов"
+  "PE.Views.ViewTab.tipSlideMaster": "Образец слайдов",
+  "PE.Views.ViewTab.tipStopMacro": "Остановить запись"
 }

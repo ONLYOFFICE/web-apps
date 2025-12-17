@@ -56,6 +56,7 @@ define([
     'common/main/lib/controller/LaunchController',
     'common/main/lib/view/OpenDialog',
     'common/main/lib/view/UserNameDialog',
+    'common/main/lib/component/RadioBox',
 ], function () {
     'use strict';
 
@@ -98,6 +99,9 @@ define([
                     },
                     'Common.Views.ReviewChanges': {
                         'settings:apply': _.bind(this.applySettings, this)
+                    },
+                    'HeaderFooterTab': {
+                        'insertimage': _.bind(this.onInsertImage, this)
                     }
                 });
 
@@ -352,7 +356,7 @@ define([
                             me.api.asc_enableKeyEvents(false);
                         },
                         'modal:close': function(dlg) {
-                            Common.Utils.ModalWindow.close();
+                            dlg && dlg.isVisible() && Common.Utils.ModalWindow.close(); // close can be called after hiding
                             if (!Common.Utils.ModalWindow.isVisible())
                                 me.api.asc_enableKeyEvents(true);
                         },
@@ -613,7 +617,7 @@ define([
                     this.api.asc_coAuthoringDisconnect();
                     Common.NotificationCenter.trigger('collaboration:sharingdeny');
                     Common.NotificationCenter.trigger('api:disconnect');
-                    !old_rights && Common.UI.TooltipManager.showTip({ step: 'changeRights', text: _.isEmpty(data.message) ? this.warnProcessRightsChange : data.message,
+                    !old_rights && Common.UI.TooltipManager.showTip({ step: 'changeRights', text: _.isEmpty(data.message) ? this.warnProcessRightsChange : Common.Utils.String.htmlEncode(data.message),
                         target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true,
                         callback: function() {
                             me._state.lostEditingRights = false;
@@ -705,7 +709,7 @@ define([
                     }
                     Common.UI.alert({
                         title: this.notcriticalErrorTitle,
-                        msg: (opts.data.error) ? opts.data.error : this.txtErrorLoadHistory,
+                        msg: (opts.data.error) ? Common.Utils.String.htmlEncode(opts.data.error) : this.txtErrorLoadHistory,
                         iconCls: 'warn',
                         buttons: ['ok'],
                         callback: _.bind(function(btn){
@@ -1131,7 +1135,7 @@ define([
                     (!this.getApplication().getController('Toolbar').dlgSymbolTable || !this.getApplication().getController('Toolbar').dlgSymbolTable.isVisible()) &&
                     !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['LoadFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] || id == Asc.c_oAscAsyncAction['DownloadAs'] || id == Asc.c_oAscAsyncAction['LoadImage'] || id == Asc.c_oAscAsyncAction['UploadImage']) &&
                       (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl)) ) {
-//                        this.onEditComplete(this.loadMask); //если делать фокус, то при принятии чужих изменений, заканчивается свой композитный ввод
+//                        this.onEditComplete(this.loadMask); // if try to set the focus, then when accepting co-authoring changes, composite input ends.
                         this.api.asc_enableKeyEvents(true);
                 }
             },
@@ -1302,6 +1306,9 @@ define([
                 me.api.SetDrawingFreeze(false);
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+
+                if (!me.appOptions.canCopy)
+                    Common.UI.TooltipManager.showTip({ step: 'copyDisabled', text: me.errorCopyDisabled, target: '#toolbar', maxwidth: 350, automove: true, noHighlight: true, noArrow: true, showButton: false});
 
                 Common.Utils.InternalSettings.set("de-settings-datetime-default", Common.localStorage.getItem("de-settings-datetime-default"));
 
@@ -1701,7 +1708,7 @@ define([
                 this.appOptions.canUseHistory  = this.appOptions.canLicense && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isOffline;
                 this.appOptions.canHistoryClose  = this.editorConfig.canHistoryClose;
                 this.appOptions.canHistoryRestore= this.editorConfig.canHistoryRestore;
-                this.appOptions.canUseMailMerge= this.appOptions.canLicense && this.appOptions.canEdit && !this.appOptions.isOffline;
+                this.appOptions.canUseMailMerge= this.appOptions.canLicense && this.appOptions.canEdit;
                 this.appOptions.canSendEmailAddresses  = this.appOptions.canLicense && this.editorConfig.canSendEmailAddresses && this.appOptions.canEdit && this.appOptions.canCoAuthoring;
                 this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comment===undefined ? this.appOptions.isEdit : this.permissions.comment) && (this.editorConfig.mode !== 'view');
                 this.appOptions.canComments    = !isPDFViewer && this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
@@ -1750,6 +1757,7 @@ define([
                 this.appOptions.canDownload       = this.permissions.download !== false;
                 this.appOptions.showSaveButton = this.appOptions.isEdit || !this.appOptions.isRestrictedEdit && this.appOptions.isPDFForm && this.appOptions.canDownload; // save to file or save to file copy (for pdf-form viewer)
                 this.appOptions.canSuggest     = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.suggestFeature===false);
+                this.appOptions.canCopy        = this.permissions.copy !== false;
 
                 if (this.appOptions.isPDFForm && !this.appOptions.isEdit && !this.appOptions.isRestrictedEdit) {
                     if (!this.appOptions.isRestrictedEdit && !this.appOptions.canEdit)
@@ -2065,8 +2073,8 @@ define([
                     if (toolbarView) {
                         toolbarView.setApi(me.api);
                         toolbarView.on('editcomplete', _.bind(me.onEditComplete, me));
-                        toolbarView.on('insertimage', _.bind(me.onInsertImage, me));
                         toolbarView.on('inserttable', _.bind(me.onInsertTable, me));
+                        toolbarView.on('insertimage', _.bind(me.onInsertImage, me));
                         toolbarView.on('insertshape', _.bind(me.onInsertShape, me));
                         toolbarView.on('inserttextart', _.bind(me.onInsertTextArt, me));
                         toolbarView.on('insertchart', _.bind(me.onInsertChart, me));
@@ -2360,8 +2368,15 @@ define([
                             config.msg = this.errorInconsistentExt;
                         break;
 
+                    case Asc.c_oAscError.ID.CopyDisabled:
+                        config.maxwidth = 450;
+                        config.msg = this.errorCopyDisabled;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
+                        if (typeof id == 'string')
+                            config.maxwidth = 600;
                         break;
                 }
 
@@ -2433,7 +2448,7 @@ define([
                     }, this);
                 }
 
-                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value="' + id + '"]').length<1)
                     Common.UI.alert(config).$window.attr('data-value', id);
 
                 (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
@@ -2949,6 +2964,7 @@ define([
                         warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline) && (typeof advOptions == 'string'),
                         warningMsg: advOptions,
                         validatePwd: !!me._state.isDRM,
+                        autoPosOnResize : 'center',
                         handler: function (result, value) {
                             me.isShowOpenDialog = false;
                             if (result == 'ok') {

@@ -55,7 +55,6 @@
   "DE.ApplicationController.txtNo": "否",
   "DE.ApplicationController.txtOpenWarning": "点击此链接可能会对您的设备和数据造成损害。为了保护您的计算机，请仅点击来自可信来源的超链接。此位置可能不安全：<br>%1<br>您确定要继续吗？",
   "DE.ApplicationController.txtPressLink": "按 %1 并点击链接",
-  "DE.ApplicationController.txtSecurityWarningLink": "此文档正在尝试连接到%1.<br>如果您信任此站点，请按住Ctrl键同时点击“确定”。",
   "DE.ApplicationController.txtSecurityWarningOpenFile": "此文档正在尝试打开文件对话框，请按“确定”打开。",
   "DE.ApplicationController.txtYes": "是",
   "DE.ApplicationController.unknownErrorText": "未知错误。",

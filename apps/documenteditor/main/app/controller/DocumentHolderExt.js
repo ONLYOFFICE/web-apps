@@ -242,6 +242,8 @@ define([], function () {
             view.menuTableCellAlign.menu.on('item:click', _.bind(me.tableCellsVAlign, me));
             view.menuTableAdvanced.on('click', _.bind(me.advancedTableClick, me));
             view.menuParagraphAdvancedInTable.on('click', _.bind(me.advancedParagraphClick, me));
+            view.menuStyleSaveInTable.on('click', _.bind(me.onMenuSaveStyle, me));
+            view.menuStyleUpdateInTable.on('click', _.bind(me.onMenuUpdateStyle, me));
             view.menuParagraphAdvanced.on('click', _.bind(me.advancedParagraphClick, me));
             view.menuEditHyperlinkTable.on('click', _.bind(me.editHyperlink, me));
             view.menuEditHyperlinkPara.on('click', _.bind(me.editHyperlink, me));
@@ -994,6 +996,9 @@ define([], function () {
                 // case 'bShowLegendKeys':
                 //     chartProps.setDisplayDataTable(true, true);
                 //     break;
+                case 'noneError':
+                    chartProps.setDisplayErrorBars(false);
+                    break;
                 case 'standardError':
                     chartProps.setDisplayErrorBars(true, 4);
                     break;
@@ -1178,12 +1183,13 @@ define([], function () {
             }
             
             const legendMenu = menu.items[6].menu;
-            legendMenu.items[0].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.top);
-            legendMenu.items[1].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.left);
-            legendMenu.items[2].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.right);
-            legendMenu.items[3].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.bottom);
-            legendMenu.items[4].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.leftOverlay);
-            legendMenu.items[5].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.rightOverlay);
+            legendMenu.items[0].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.none);
+            legendMenu.items[1].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.top);
+            legendMenu.items[2].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.left);
+            legendMenu.items[3].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.right);
+            legendMenu.items[4].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.bottom);
+            legendMenu.items[5].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.leftOverlay);
+            legendMenu.items[6].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.rightOverlay);
 
             const supportedElements = chartElementMap[type] || [];
             menu.items.forEach(function(item) {
@@ -1303,7 +1309,7 @@ define([], function () {
             }
 
              var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-             if (diagramEditor && diagramEditor.isVisible()) {
+             if (diagramEditor && diagramEditor.isVisible() && me._state.currentChartRect) {
                  let x, y;
                  this.checkEditorOffsets();
 
@@ -1368,6 +1374,7 @@ define([], function () {
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormattingEmbedding] = documentHolder.txtDestEmbed;
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceFormattingLink] = documentHolder.txtSourceLink;
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormattingLink] = documentHolder.txtDestLink;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = documentHolder.txtPastePicture;
 
                 pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
                 documentHolder.cmpEl.find('#id_main_view').append(pasteContainer);
@@ -1456,6 +1463,7 @@ define([], function () {
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormattingEmbedding] = 'H';
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceFormattingLink] = 'F';
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormattingLink] = 'L';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.picture] = 'U';
 
             var str = '';
             for(var key in me.hkSpecPaste){
@@ -2138,7 +2146,7 @@ define([], function () {
             if (me.api) {
                 var res =  (item.value == 'cut') ? me.api.Cut() : ((item.value == 'copy') ? me.api.Copy() : me.api.Paste());
                 if (!res) {
-                    if (!Common.localStorage.getBool("de-hide-copywarning")) {
+                    if (!Common.localStorage.getBool("de-hide-copywarning") && (item.value === 'paste' || me.mode.canCopy)) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
                                 if (dontshow) Common.localStorage.setItem("de-hide-copywarning", 1);
@@ -2358,6 +2366,13 @@ define([], function () {
 
         dh.tableCellsVAlign = function(menu, item, e) {
             if (this.api) {
+                
+                if (item.options.halign != null) {
+                    var type = item.options.halign;
+                    this.api.put_PrAlign(type);
+                    return;
+                }
+
                 var properties = new Asc.CTableProp();
                 properties.put_CellsVAlign(item.options.valign);
                 this.api.tblApply(properties);
@@ -2672,6 +2687,13 @@ define([], function () {
         dh.paragraphVAlign = function(menu, item, e) {
             var me = this;
             if (me.api) {
+
+                if (item.options.halign != null) {
+                    var type = item.options.halign;
+                    me.api.put_PrAlign(type);
+                    return;
+                }
+
                 var properties = new Asc.asc_CImgProperty();
                 properties.put_VerticalTextAlign(item.options.valign);
                 me.api.ImgApply(properties);

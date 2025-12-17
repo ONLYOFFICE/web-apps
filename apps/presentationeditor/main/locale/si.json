@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "සාර්ව",
   "PE.Views.ViewTab.textNormal": "සාමාන්‍ය",
   "PE.Views.ViewTab.textNotes": "සටහන්",
+  "PE.Views.ViewTab.textPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.textRecMacro": "Record macro",
+  "PE.Views.ViewTab.textResumeMacro": "Resume recording",
   "PE.Views.ViewTab.textRightMenu": "දකුණු මඬල",
   "PE.Views.ViewTab.textRulers": "කෝදු",
   "PE.Views.ViewTab.textShowGridlines": "ජාලකය පෙන්වන්න",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "සුහුරු උපදේශ",
   "PE.Views.ViewTab.textSnapObjects": "වස්තුව ජාලකයට සකසන්න(*)",
   "PE.Views.ViewTab.textStatusBar": "තත්‍ව තීරුව",
+  "PE.Views.ViewTab.textStopMacro": "Stop recording",
   "PE.Views.ViewTab.textTabStyle": "පටිති ශෛලිය",
   "PE.Views.ViewTab.textZoom": "විශාල කරන්න",
   "PE.Views.ViewTab.tipFitToSlide": "සර්පණයට ගළපන්න",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව",
   "PE.Views.ViewTab.tipMacros": "සාර්ව",
   "PE.Views.ViewTab.tipNormal": "සාමාන්‍ය",
+  "PE.Views.ViewTab.tipPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.tipRecMacro": "Record macro",
+  "PE.Views.ViewTab.tipResumeMacro": "Resume recording",
   "PE.Views.ViewTab.tipSelectTool": "මෙවලම තෝරන්න",
-  "PE.Views.ViewTab.tipSlideMaster": "ප්‍රධාන සර්පණය"
+  "PE.Views.ViewTab.tipSlideMaster": "ප්‍රධාන සර්පණය",
+  "PE.Views.ViewTab.tipStopMacro": "Stop recording"
 }

@@ -98,19 +98,19 @@
 
   .svg-format- {
     &vsdx {
-      background: ~"url('@{common-image-const-path}/doc-formats/vsdx.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/vsdx.svg') no-repeat center";
     }
     &pdf {
-      background: ~"url('@{common-image-const-path}/doc-formats/pdf.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/pdf.svg') no-repeat center";
     }
     &pdfa {
-      background: ~"url('@{common-image-const-path}/doc-formats/pdfa.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/pdfa.svg') no-repeat center";
     }
     &png {
-      background: ~"url('@{common-image-const-path}/doc-formats/png.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/png.svg') no-repeat center";
     }
     &jpg {
-      background: ~"url('@{common-image-const-path}/doc-formats/jpg.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/jpg.svg') no-repeat center";
     }
   }
 
@@ -344,6 +344,17 @@
       div {
         width: 100%;
         height: 100%;
+
+        svg {
+          display: none;
+          width: 24px;
+          height: 30px;
+
+          .pixel-ratio__2_5 & {
+            display: block;
+          }
+        }
+
         div{
           background: ~"url(@{common-image-const-path}/doc-formats/formats.png)";
           background-size: 1200px 30px;
@@ -362,6 +373,10 @@
 
             .pixel-ratio__2 & {
               background-image: ~"url(@{common-image-const-path}/doc-formats/formats@2x.png)";
+            }
+
+            .pixel-ratio__2_5 & {
+              display: none;
             }
           }
         }

@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "Makroi",
   "PE.Views.ViewTab.textNormal": "Normalno",
   "PE.Views.ViewTab.textNotes": "Beleške ",
+  "PE.Views.ViewTab.textPauseMacro": "Pauzirajte snimanje",
+  "PE.Views.ViewTab.textRecMacro": "Snimite makro",
+  "PE.Views.ViewTab.textResumeMacro": "Nastavite snimanje",
   "PE.Views.ViewTab.textRightMenu": "Desni panel",
   "PE.Views.ViewTab.textRulers": "Lenjiri",
   "PE.Views.ViewTab.textShowGridlines": "Prikaži Linije Mreže",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "Pametni vodiči",
   "PE.Views.ViewTab.textSnapObjects": "Poveži objekat sa mrežom",
   "PE.Views.ViewTab.textStatusBar": "Statusna traka",
+  "PE.Views.ViewTab.textStopMacro": "Prekinite snimanje",
   "PE.Views.ViewTab.textTabStyle": "Stil kartice",
   "PE.Views.ViewTab.textZoom": "Zumiraj",
   "PE.Views.ViewTab.tipFitToSlide": "Prilagodi Slajdu",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa",
   "PE.Views.ViewTab.tipMacros": "Makroi",
   "PE.Views.ViewTab.tipNormal": "Normalno",
+  "PE.Views.ViewTab.tipPauseMacro": "Pauzirajte snimanje",
+  "PE.Views.ViewTab.tipRecMacro": "Snimite makro",
+  "PE.Views.ViewTab.tipResumeMacro": "Nastavite snimanje",
   "PE.Views.ViewTab.tipSelectTool": "Odaberi alatku",
-  "PE.Views.ViewTab.tipSlideMaster": "Glavni upravljaš slajdova"
+  "PE.Views.ViewTab.tipSlideMaster": "Glavni upravljaš slajdova",
+  "PE.Views.ViewTab.tipStopMacro": "Prekinite snimanje"
 }

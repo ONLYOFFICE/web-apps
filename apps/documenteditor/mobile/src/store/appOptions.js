@@ -250,6 +250,7 @@ export class storeAppOptions {
 
         this.canLiveView = !!params.asc_getLiveViewerSupport() && (this.config.mode === 'view') && !(type && typeof type[1] === 'string') && isSupportEditFeature;
         this.isAnonymousSupport = !!Common.EditorApi.get().asc_isAnonymousSupport();
+        this.canCopy = permissions.copy !== false;
     }
 
     setCanViewReview (value) {

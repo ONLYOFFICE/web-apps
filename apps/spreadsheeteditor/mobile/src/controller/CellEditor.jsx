@@ -47,63 +47,173 @@ const CellEditor = inject("storeFunctions")(observer(props => {
     };
 
     const onFormulaInfo = (name, shiftpos, funcInfo) => {
-        if (!funcInfo || !name) {
-            setFuncHint([]);
+        if (!name) {
+            setFuncHint(null);
             return;
         }
+        
+        const api = Common.EditorApi.get(),
+            storeFunctions = props.storeFunctions,
+            functions = storeFunctions.functions,
+            origName = api.asc_getFormulaNameByLocale(name),
+            separator = api.asc_getFunctionArgumentSeparator(),
+            argstype = funcInfo ? funcInfo.asc_getArgumentsType() : null,
+            activeArg = funcInfo ? funcInfo.asc_getActiveArgPos() : null,
+            activeArgsCount = funcInfo ? funcInfo.asc_getActiveArgsCount() : null;
+        let funcName = api.asc_getFormulaLocaleName(name);
 
-        const api = Common.EditorApi.get();
-        const storeFunctions = props.storeFunctions;
-        const functions = storeFunctions.functions;
-        const activeArg = funcInfo.asc_getActiveArgPos();
-        const activeArgsCount = funcInfo.asc_getActiveArgsCount();
-        const argTypes = funcInfo.asc_getArgumentsType() || [];
+        const parseArgsDesc = (args) => {
+            if (!args) return [];
+            
+            if (args.charAt(0)=='(')
+                args = args.substring(1);
+            if (args.charAt(args.length-1)==')')
+                args = args.substring(0, args.length-1);
+                
+            var arr = args.split(separator);
+            arr.forEach((item, index) => {
+                let str = item.trim();
+                if (str.charAt(0)=='[')
+                    str = str.substring(1);
+                if (str.charAt(str.length-1)==']')
+                    str = str.substring(0, str.length-1);
+                arr[index] = str.trim();
+            });
+            return arr;
+        };
 
-        let args = [];
-        let argsNames = [];
-
-        const origName = api.asc_getFormulaNameByLocale(name);
-
-        if (functions && functions[origName] && functions[origName].args) {
-            let separator = api.asc_getFunctionArgumentSeparator();
-            argsNames = functions[origName].args
-                .replace(/[()]/g, '') 
-                .split(separator)
-                .map(a => a.trim());
-        } else {
-            const custom = api.asc_getCustomFunctionInfo(name);
-            if (custom) {
-                const arr_args = custom.asc_getArg() || [];
-                argsNames = arr_args.map(a =>
-                    a.asc_getIsOptional() ? `[${a.asc_getName()}]` : a.asc_getName()
-                );
-            } 
-        }
-
-        let repeatedArg;
-        function fillArgs(types) {
-            let argCount = args.length;
-            for (let j = 0; j < types.length; j++) {
-                let str = argsNames[argCount] || `arg${argCount + 1}`;
-                const isActive = activeArg && argCount === activeArg - 1;
-                args.push({ name: str, isActive });
-                argCount++;
+        const fillRepeatedNames = (argsNames, repeatedArg) => {
+            var repeatedIdx = 1;
+            if (argsNames.length>=1) {
+                if (repeatedArg && repeatedArg.length>0 && argsNames[argsNames.length-1]==='...') {
+                    var req = argsNames.length-1 - repeatedArg.length;
+                    for (var i=0; i<repeatedArg.length; i++) {
+                        var str = argsNames[argsNames.length-2-i],
+                            ch = str.charAt(str.length-1);
+                        if ('123456789'.indexOf(ch)>-1) {
+                            repeatedIdx = parseInt(ch);
+                            argsNames[argsNames.length-2-i] = str.substring(0, str.length-1);
+                        }
+                    }
+                }
             }
+            return repeatedIdx;
+        };
+
+        const getArgumentName = function(argcount, argsNames, repeatedArg, minArgCount, maxArgCount, repeatedIdx) {
+            var name = '',
+                namesLen = argsNames.length,
+                idxInRepeatedArr = -1,
+                textArgument = t('View.Edit.textArgument') || 'arg';
+            
+            if ((!repeatedArg || repeatedArg.length<1) && argcount<namesLen && argsNames[argcount]!=='...') {
+                name = argsNames[argcount];
+                (name==='') && (name = textArgument + (maxArgCount>1 ? (' ' + (argcount+1)) : ''));
+            } else if (repeatedArg && repeatedArg.length>0 && argsNames[namesLen-1]==='...') {
+                var repeatedLen = repeatedArg.length;
+                var req = namesLen-1 - repeatedLen;
+                if (argcount<req)
+                    name = argsNames[argcount];
+                else {
+                    var idx = repeatedLen - (argcount - req)%repeatedLen,
+                        num = Math.floor((argcount - req)/repeatedLen) + repeatedIdx;
+                    idxInRepeatedArr = repeatedLen - idx;
+                    name = argsNames[namesLen-1-idx] + num;
+                }
+            } else
+                name = textArgument + (maxArgCount>1 ? (' ' + (argcount+1)) : '');
+            
+            if (maxArgCount>0 && argcount>=minArgCount)
+                name = (idxInRepeatedArr<=0 ? '[' : '') + name + (idxInRepeatedArr<0 || (repeatedArg && idxInRepeatedArr===repeatedArg.length-1) ? ']' : '');
+            
+            return name;
+        };
+
+        if (argstype && activeArgsCount) {
+            let args = '';
+
+            if (functions && functions[origName] && functions[origName].args) {
+                args = functions[origName].args.replace(/[,;]/g, separator);
+            } else {
+                const custom = api.asc_getCustomFunctionInfo(origName),
+                    arr_args = custom ? custom.asc_getArg() || [] : [];
+                args = '(' + arr_args.map(item => 
+                    item.asc_getIsOptional() ? '[' + item.asc_getName() + ']' : item.asc_getName()
+                ).join(separator + ' ') + ')';
+            }
+
+            const argsNames = parseArgsDesc(args),
+                minArgCount = funcInfo.asc_getArgumentMin(),
+                maxArgCount = funcInfo.asc_getArgumentMax();
+            let repeatedArg = undefined,
+                repeatedIdx = 1,
+                arr = [];
+
+            const fillArgs = (types) => {
+                let argcount = arr.length;
+                for (let j = 0; j < types.length; j++) {
+                    const str = getArgumentName(argcount, argsNames, repeatedArg, minArgCount, maxArgCount, repeatedIdx);
+                    const isActive = activeArg && (argcount === activeArg - 1);
+                    arr.push({ name: str, isActive });
+                    argcount++;
+                }
+            };
+
+            for (let i = 0; i < argstype.length; i++) {
+                const type = argstype[i];
+                let types = [];
+
+                if (typeof type === 'object') {
+                    repeatedArg = type;
+                    repeatedIdx = fillRepeatedNames(argsNames, repeatedArg);
+                    types = type;
+                } else {
+                    types.push(type);
+                }
+
+                fillArgs(types);
+            }
+
+            if (arr.length <= activeArgsCount && repeatedArg) {
+                while (arr.length <= activeArgsCount) {
+                    fillArgs(repeatedArg);
+                }
+            }
+
+            if (repeatedArg) {
+                arr.push({ name: '...', isActive: false });
+            }
+
+            setFuncHint({
+                name: funcName,
+                nameIsActive: !activeArg,
+                args: arr,
+                separator: separator
+            });
+        } else {
+            let hint = '';
+            if (functions && functions[origName] && functions[origName].args) {
+                hint = funcName + functions[origName].args;
+                hint = hint.replace(/[,;]/g, separator);
+            } else {
+                const custom = api.asc_getCustomFunctionInfo(origName),
+                    arr_args = custom ? custom.asc_getArg() || [] : [];
+                hint = funcName + '(' + arr_args.map(item => 
+                    item.asc_getIsOptional() ? '[' + item.asc_getName() + ']' : item.asc_getName()
+                ).join(separator + ' ') + ')';
+            }
+
+            const argsStr = hint.substring(hint.indexOf('(')),
+                argsNames = parseArgsDesc(argsStr),
+                args = argsNames.map(argName => ({ name: argName, isActive: false }));
+
+            setFuncHint({
+                name: funcName,
+                nameIsActive: false,
+                args: args,
+                separator: separator
+            });
         }
-
-        argTypes.forEach(type => {
-            if (typeof type === 'object') {
-                repeatedArg = type;
-                fillArgs(type);
-            } else fillArgs([type]);
-        });
-
-        if (repeatedArg && args.length < activeArgsCount) {
-            while (args.length < activeArgsCount) fillArgs(repeatedArg);
-        }
-        if (repeatedArg) args.push({ name: '...', isActive: false });
-
-        setFuncHint({ name, args });
     };
 
     const onFormulaCompleteMenu = async funcArr => {

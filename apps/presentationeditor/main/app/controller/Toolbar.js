@@ -206,9 +206,9 @@ define([
             Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
                 this.toolbar.collapse();
             }, this));
-            Common.NotificationCenter.on('tab:set-active', _.bind(function(action){
+            Common.NotificationCenter.on('tab:set-active', _.bind(function(action, needUnfold){
                 this.toolbar.setTab(action);
-                this.onChangeCompactView(null, false, true);
+                needUnfold && this.onChangeCompactView(null, false, true);
             }, this));
             
             var me = this;
@@ -1242,7 +1242,7 @@ define([
             if (me.api) {
                 var res = (type === 'cut') ? me.api.Cut() : ((type === 'copy') ? me.api.Copy() : me.api.Paste());
                 if (!res) {
-                    if (!Common.localStorage.getBool("pe-hide-copywarning")) {
+                    if (!Common.localStorage.getBool("pe-hide-copywarning") && (type === 'paste' || me.toolbar.mode.canCopy)) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
                                 if (dontshow) Common.localStorage.setItem("pe-hide-copywarning", 1);
@@ -2586,6 +2586,7 @@ define([
                     var clr;
 
                     var effectcolors = Common.Utils.ThemeColor.getEffectColors();
+                    if (!effectcolors) return;
                     for (var i = 0; i < effectcolors.length; i++) {
                         if (typeof(picker.currentColor) == 'object' &&
                             clr === undefined &&
@@ -2604,7 +2605,7 @@ define([
 
             updateColors(this.toolbar.mnuFontColorPicker, 1);
             if (this.toolbar.btnFontColor.currentColor===undefined) {
-                this.toolbar.btnFontColor.currentColor = this.toolbar.mnuFontColorPicker.currentColor.color || this.toolbar.mnuFontColorPicker.currentColor;
+                this.toolbar.btnFontColor.currentColor = this.toolbar.mnuFontColorPicker.currentColor ? this.toolbar.mnuFontColorPicker.currentColor.color || this.toolbar.mnuFontColorPicker.currentColor : this.toolbar.mnuFontColorPicker.currentColor;
                 this.toolbar.btnFontColor.setColor(this.toolbar.btnFontColor.currentColor);
             }
             if (this._state.clrtext_asccolor!==undefined) {

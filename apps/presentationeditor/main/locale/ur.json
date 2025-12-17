@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "میکروس",
   "PE.Views.ViewTab.textNormal": "عام",
   "PE.Views.ViewTab.textNotes": "نوٹس",
+  "PE.Views.ViewTab.textPauseMacro": "ریکارڈنگ روک دیں۔",
+  "PE.Views.ViewTab.textRecMacro": "میکرو ریکارڈ کریں۔",
+  "PE.Views.ViewTab.textResumeMacro": "ریکارڈنگ دوبارہ شروع کریں۔",
   "PE.Views.ViewTab.textRightMenu": "دائیں پینل",
   "PE.Views.ViewTab.textRulers": "حکمرانوں",
   "PE.Views.ViewTab.textShowGridlines": "گرڈ لائنز دکھائیں۔",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "اسمارٹ گائیڈز",
   "PE.Views.ViewTab.textSnapObjects": "گرڈ پر آبجیکٹ اسنیپ کریں۔",
   "PE.Views.ViewTab.textStatusBar": "اسٹیٹس بار",
+  "PE.Views.ViewTab.textStopMacro": "ریکارڈنگ بند کرو",
   "PE.Views.ViewTab.textTabStyle": "ٹیب اسٹائل",
   "PE.Views.ViewTab.textZoom": "زوم",
   "PE.Views.ViewTab.tipFitToSlide": "سلائیڈ کے لیے فٹ",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "انٹرفیس تھیم",
   "PE.Views.ViewTab.tipMacros": "میکروس",
   "PE.Views.ViewTab.tipNormal": "عام",
+  "PE.Views.ViewTab.tipPauseMacro": "ریکارڈنگ روک دیں۔",
+  "PE.Views.ViewTab.tipRecMacro": "میکرو ریکارڈ کریں۔",
+  "PE.Views.ViewTab.tipResumeMacro": "ریکارڈنگ دوبارہ شروع کریں۔",
   "PE.Views.ViewTab.tipSelectTool": "ٹول منتخب کریں۔",
-  "PE.Views.ViewTab.tipSlideMaster": "سلائیڈ ماسٹر"
+  "PE.Views.ViewTab.tipSlideMaster": "سلائیڈ ماسٹر",
+  "PE.Views.ViewTab.tipStopMacro": "ریکارڈنگ بند کرو"
 }

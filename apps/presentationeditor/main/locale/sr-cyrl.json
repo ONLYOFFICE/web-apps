@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "Макрои",
   "PE.Views.ViewTab.textNormal": "Нормалан",
   "PE.Views.ViewTab.textNotes": "Белешке",
+  "PE.Views.ViewTab.textPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.textRecMacro": "Record macro",
+  "PE.Views.ViewTab.textResumeMacro": "Resume recording",
   "PE.Views.ViewTab.textRightMenu": "Десни панел",
   "PE.Views.ViewTab.textRulers": "Лењири",
   "PE.Views.ViewTab.textShowGridlines": "Прикажи линије мреже",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "Паметни водичи",
   "PE.Views.ViewTab.textSnapObjects": "Повежи објекат са мрежом",
   "PE.Views.ViewTab.textStatusBar": "Статусна трака",
+  "PE.Views.ViewTab.textStopMacro": "Stop recording",
   "PE.Views.ViewTab.textTabStyle": "Стил картице",
   "PE.Views.ViewTab.textZoom": "Зумирај",
   "PE.Views.ViewTab.tipFitToSlide": "Прилагоди слајду",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса",
   "PE.Views.ViewTab.tipMacros": "Макрои",
   "PE.Views.ViewTab.tipNormal": "Нормалан",
+  "PE.Views.ViewTab.tipPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.tipRecMacro": "Record macro",
+  "PE.Views.ViewTab.tipResumeMacro": "Resume recording",
   "PE.Views.ViewTab.tipSelectTool": "Одабери алатку",
-  "PE.Views.ViewTab.tipSlideMaster": "Главни управљаш слајдова"
+  "PE.Views.ViewTab.tipSlideMaster": "Главни управљаш слајдова",
+  "PE.Views.ViewTab.tipStopMacro": "Stop recording"
 }

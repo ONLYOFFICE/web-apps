@@ -178,6 +178,7 @@
   "DE.Controllers.ApplicationController.warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact %1 sales team for personal upgrade terms.",
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
   "DE.Controllers.ApplicationController.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
+  "DE.Controllers.ApplicationController.errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
   "DE.Views.ApplicationView.textClear": "Clear all fields",
   "DE.Views.ApplicationView.textClearField": "Clear field",
   "DE.Views.ApplicationView.textClose": "Close file",

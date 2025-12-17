@@ -55,7 +55,6 @@
   "DE.ApplicationController.txtNo": "Non",
   "DE.ApplicationController.txtOpenWarning": "Cliquer sur ce lien peut endommager votre appareil et vos données. Pour protéger votre ordinateur, ne cliquez que sur les liens provenant de sources fiables. Cet emplacement peut être dangereux :<br>%1<br>Voulez-vous continuer ?",
   "DE.ApplicationController.txtPressLink": "Appuyez sur %1 et cliquez sur le lien",
-  "DE.ApplicationController.txtSecurityWarningLink": "Ce document tente de se connecter à %1.<br>Si vous faites confiance à ce site, appuyez sur « OK » tout en maintenant la touche Ctrl enfoncée.",
   "DE.ApplicationController.txtSecurityWarningOpenFile": "Ce document tente d'ouvrir la boîte de dialogue du fichier, cliquez « OK »  pour l'ouvrir.",
   "DE.ApplicationController.txtYes": "Oui",
   "DE.ApplicationController.unknownErrorText": "Erreur inconnue.",

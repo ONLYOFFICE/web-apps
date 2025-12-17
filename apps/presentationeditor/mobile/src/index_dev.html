@@ -33,9 +33,11 @@
         <%= htmlWebpackPlugin.options.skeleton.htmlscript %>
     </script>
     <% } %>
-    <section class="skl-container">
-        <div class="skl-navbar skl-navbar--slide"></div>
-    </section>
+    <div id="app">
+        <section class="skl-container">
+            <div class="skl-navbar skl-navbar--slide"></div>
+        </section>
+    </div>
     <script>
         const isAndroid = /Android/.test(navigator.userAgent);
         if ( isAndroid && navigator.platform == 'Win32' )

@@ -121,12 +121,12 @@ define([
                         if (index >= last) {
                             if (btn.options.iconImg) {
                                 arrMore.push({
-                                    caption: Common.Utils.String.htmlEncode(btn.hint),
+                                    caption: btn.hint,
                                     iconImg: btn.options.iconImg,
                                     template: _.template([
                                         '<a id="<%= id %>" class="menu-item" tabindex="-1" type="menuitem">',
                                         '<img class="menu-item-icon" src="<%= options.iconImg %>">',
-                                        '<%= caption %>',
+                                        '<%- caption %>',
                                         '</a>'
                                     ].join('')),
                                     value: index,
@@ -136,7 +136,7 @@ define([
                                 })
                             } else if (btn.options.iconsSet) {
                                 arrMore.push(new Common.UI.MenuItemCustom({
-                                    caption: Common.Utils.String.htmlEncode(btn.hint),
+                                    caption: btn.hint,
                                     iconsSet: btn.options.iconsSet,
                                     baseUrl: btn.options.baseUrl,
                                     value: index,
@@ -147,7 +147,7 @@ define([
                                 }));
                             } else {
                                 arrMore.push({
-                                    caption: Common.Utils.String.htmlEncode(btn.hint),
+                                    caption: btn.hint,
                                     iconCls: 'menu__icon ' + btn.iconCls,
                                     value: index,
                                     disabled: btn.isDisabled(),

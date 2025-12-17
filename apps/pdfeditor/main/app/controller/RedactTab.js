@@ -53,6 +53,14 @@ define([
         sdkViewName : '#id_main',
 
         initialize: function () {
+             this.addListeners({
+                'Common.Views.SearchPanel': {
+                    'search:showredact': _.bind(this.onToggleFindRedact, this, 'show')
+                },
+                'SearchBar': {
+                    'search:showredact': _.bind(this.onToggleFindRedact, this, 'show')
+                }
+            });
         },
 
         onLaunch: function () {
@@ -62,10 +70,19 @@ define([
             this.isFileMenuTab = null;
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
+            Common.NotificationCenter.on('leftmenu:change', _.bind(this.onToggleFindRedact, this));
 
             this.binding = {
 
             };
+        },
+
+        onToggleFindRedact: function (action) {
+            if (action === 'hide') {
+                this.view && this.view.btnFindRedact && this.view.btnFindRedact.toggle(false);
+            } else {
+                this.view && this.view.btnFindRedact && this.view.btnFindRedact.toggle(true);
+            }
         },
 
         setApi: function (api) {
@@ -140,44 +157,56 @@ define([
                 value: `1-${countPages}`,
                 description: this.textEnterRangeDescription,
                 inputConfig: {
-                    maxLength: 20,
+                    maxLength: 50,
                     allowBlank: false,
                     validation: function(value) {
                         const singlePage = /^\d+$/;
                         const range = /^(\d+)-(\d+)$/;
 
-                        if (singlePage.test(value)) {
-                            const page = parseInt(value, 10);
-                            if (page < 1 || page > countPages) return Common.Utils.String.format(me.txtInvalidRange, countPages);
-                            return true;
-                        }
+                        const parts = value.split(',').map(v => v.trim()).filter(Boolean);
+                        if (parts.length === 0) return me.txtInvalidFormat;
 
-                        const match = value.match(range);
-                        if (match) {
-                            const start = parseInt(match[1], 10);
-                            const end = parseInt(match[2], 10);
-                            if (start < 1 || end < 1 || start > countPages || end > countPages) {
-                                return Common.Utils.String.format(me.txtInvalidRange, countPages);
+                        for (const part of parts) {
+                            if (singlePage.test(part)) {
+                                const page = parseInt(part, 10);
+                                if (page < 1 || page > countPages) {
+                                    return Common.Utils.String.format(me.txtInvalidRange, countPages);
+                                }
+                            } else {
+                                const match = part.match(range);
+                                if (match) {
+                                    const start = parseInt(match[1], 10);
+                                    const end = parseInt(match[2], 10);
+                                    if (start < 1 || end < 1 || start > countPages || end > countPages) {
+                                        return Common.Utils.String.format(me.txtInvalidRange, countPages);
+                                    }
+                                    if (start > end) return me.txtReversedRange;
+                                } else {
+                                    return me.txtInvalidFormat;
+                                }
                             }
-                            if (start > end) return me.txtReversedRange;
-                            return true;
                         }
-
-                        return me.txtInvalidFormat;
+                        return true;
                     }
                 },
                 handler: function(result, value) {
                     if (result === 'ok') {
                         let pages = [];
+                        const parts = value.split(',').map(v => v.trim()).filter(Boolean);
 
-                        if (value.includes('-')) {
-                            const [start, end] = value.split('-').map(p => parseInt(p, 10));
-                            for (let i = start; i <= end; i++) {
-                                pages.push(i - 1);
+                        for (const part of parts) {
+                            if (part.includes('-')) {
+                                const [start, end] = part.split('-').map(p => parseInt(p, 10));
+                                for (let i = start; i <= end; i++) {
+                                    pages.push(i - 1);
+                                }
+                            } else {
+                                pages.push(parseInt(part, 10) - 1);
                             }
-                        } else {
-                            pages.push(parseInt(value, 10) - 1);
                         }
+
+                        pages = Array.from(new Set(pages)).sort((a, b) => a - b);
+
                         me.api.RedactPages(pages);
                     }
                 }
@@ -186,8 +215,10 @@ define([
 
         onActiveTab: function(tab) {
             if (tab == 'red') {
-                Common.UI.TooltipManager.showTip('mark-for-redaction');
-                Common.UI.TooltipManager.showTip('apply-redaction');
+                if (!this.toolbar.toolbar.isCompact()) {
+                    Common.UI.TooltipManager.showTip('mark-for-redaction');
+                    Common.UI.TooltipManager.showTip('apply-redaction');
+                }
             } else {
                 Common.UI.TooltipManager.closeTip('mark-for-redaction');
                 Common.UI.TooltipManager.closeTip('apply-redaction');
@@ -267,6 +298,12 @@ define([
                 })).then(function(){
                     me.view.onAppReady(config);
                     me.view.setEvents();
+
+                    if (me.view.btnFindRedact) {
+                        me.getApplication().getController('LeftMenu').leftMenu.btnSearchBar.on('toggle', function (btn, state) {
+                            !state && me.view.turnFindRedact(state);
+                        });
+                    }
                 });
             }
             Common.UI.TooltipManager.addTips({

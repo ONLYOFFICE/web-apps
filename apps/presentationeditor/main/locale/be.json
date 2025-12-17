@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "Macros",
   "PE.Views.ViewTab.textNormal": "Normal",
   "PE.Views.ViewTab.textNotes": "Нататкі",
+  "PE.Views.ViewTab.textPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.textRecMacro": "Record macro",
+  "PE.Views.ViewTab.textResumeMacro": "Resume recording",
   "PE.Views.ViewTab.textRightMenu": "Правая панэль",
   "PE.Views.ViewTab.textRulers": "Лінейкі",
   "PE.Views.ViewTab.textShowGridlines": "Паказваць лініі сеткі",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "Разумныя накіравальныя",
   "PE.Views.ViewTab.textSnapObjects": "Прывязаць аб'ект да сеткі",
   "PE.Views.ViewTab.textStatusBar": "Панэль стану",
+  "PE.Views.ViewTab.textStopMacro": "Stop recording",
   "PE.Views.ViewTab.textTabStyle": "Tab style",
   "PE.Views.ViewTab.textZoom": "Маштаб",
   "PE.Views.ViewTab.tipFitToSlide": "Па памеры слайда",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу",
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
+  "PE.Views.ViewTab.tipPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.tipRecMacro": "Record macro",
+  "PE.Views.ViewTab.tipResumeMacro": "Resume recording",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.ViewTab.tipStopMacro": "Stop recording"
 }

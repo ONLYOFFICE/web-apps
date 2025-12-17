@@ -83,7 +83,7 @@
     "textDoNotShowAgain": "Non mostrare di nuovo",
     "textOk": "Ok",
     "textRows": "Righe",
-    "txtWarnUrl": "Cliccando su questo collegamento si può danneggiare il tuo dispositivo e i dati.<br>Sei sicuro di voler continuare?"
+    "txtWarnUrl": "Cliccando su questo collegamento il tuo dispositivo e i dati potrebbero essere danneggiati.<br>Sei sicuro di voler continuare?"
   },
   "Controller": {
     "Main": {

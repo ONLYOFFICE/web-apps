@@ -244,9 +244,9 @@
 
     .view {
         .margin-right(-14px);
-        .margin-right(calc(-1 * @combo-dataview-button-width));
+        .margin-right(calc(-1 * (2*@scaled-one-px-value + @dd-button-size)));
         .padding-right(12px);
-        .padding-right(calc(@combo-dataview-button-width - @scaled-two-px-value));
+        .padding-right(calc((2*@scaled-one-px-value + @dd-button-size) - @scaled-two-px-value));
 
         .dataview {
             padding: 2px;

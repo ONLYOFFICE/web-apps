@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "Makrók",
   "PE.Views.ViewTab.textNormal": "Normál",
   "PE.Views.ViewTab.textNotes": "Megjegyzések",
+  "PE.Views.ViewTab.textPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.textRecMacro": "Record macro",
+  "PE.Views.ViewTab.textResumeMacro": "Resume recording",
   "PE.Views.ViewTab.textRightMenu": "Jobb panel",
   "PE.Views.ViewTab.textRulers": "Vonalzók",
   "PE.Views.ViewTab.textShowGridlines": "Rácsvonalak Megjelenítése",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "Okos útmutató",
   "PE.Views.ViewTab.textSnapObjects": "Objektum rácshoz igazítása",
   "PE.Views.ViewTab.textStatusBar": "Állapotsor",
+  "PE.Views.ViewTab.textStopMacro": "Stop recording",
   "PE.Views.ViewTab.textTabStyle": "Lap stílus",
   "PE.Views.ViewTab.textZoom": "Zoom",
   "PE.Views.ViewTab.tipFitToSlide": "A diához igazít",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája",
   "PE.Views.ViewTab.tipMacros": "Makrók",
   "PE.Views.ViewTab.tipNormal": "Normál",
+  "PE.Views.ViewTab.tipPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.tipRecMacro": "Record macro",
+  "PE.Views.ViewTab.tipResumeMacro": "Resume recording",
   "PE.Views.ViewTab.tipSelectTool": "Eszköz kiválasztása",
-  "PE.Views.ViewTab.tipSlideMaster": "Diaminta"
+  "PE.Views.ViewTab.tipSlideMaster": "Diaminta",
+  "PE.Views.ViewTab.tipStopMacro": "Stop recording"
 }

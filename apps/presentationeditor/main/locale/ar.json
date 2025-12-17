@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "وحدات الماكرو",
   "PE.Views.ViewTab.textNormal": "عادي",
   "PE.Views.ViewTab.textNotes": "ملاحظات",
+  "PE.Views.ViewTab.textPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.textRecMacro": "Record macro",
+  "PE.Views.ViewTab.textResumeMacro": "Resume recording",
   "PE.Views.ViewTab.textRightMenu": "اللوحة اليمنى",
   "PE.Views.ViewTab.textRulers": "مساطر",
   "PE.Views.ViewTab.textShowGridlines": "إظهار خطوط الشبكة",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "دلائل ذكية",
   "PE.Views.ViewTab.textSnapObjects": "تموضع الكائن على الشبكة",
   "PE.Views.ViewTab.textStatusBar": "شريط الحالة",
+  "PE.Views.ViewTab.textStopMacro": "Stop recording",
   "PE.Views.ViewTab.textTabStyle": "نمط التبويبة",
   "PE.Views.ViewTab.textZoom": "تكبير/تصغير",
   "PE.Views.ViewTab.tipFitToSlide": "الملائمة إلى الشريحة",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
   "PE.Views.ViewTab.tipMacros": "وحدات الماكرو",
   "PE.Views.ViewTab.tipNormal": "عادي",
+  "PE.Views.ViewTab.tipPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.tipRecMacro": "Record macro",
+  "PE.Views.ViewTab.tipResumeMacro": "Resume recording",
   "PE.Views.ViewTab.tipSelectTool": "حدد الأداة",
-  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية"
+  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية",
+  "PE.Views.ViewTab.tipStopMacro": "Stop recording"
 }

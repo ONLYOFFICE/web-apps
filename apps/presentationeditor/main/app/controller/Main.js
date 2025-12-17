@@ -326,7 +326,7 @@ define([
                             me.api.asc_enableKeyEvents(false);
                         },
                         'modal:close': function(dlg) {
-                            Common.Utils.ModalWindow.close();
+                            dlg && dlg.isVisible() && Common.Utils.ModalWindow.close(); // close can be called after hiding
                             if (!Common.Utils.ModalWindow.isVisible())
                                 me.api.asc_enableKeyEvents(true);
                         },
@@ -558,7 +558,7 @@ define([
                     this.api.asc_coAuthoringDisconnect();
                     Common.NotificationCenter.trigger('collaboration:sharingdeny');
                     Common.NotificationCenter.trigger('api:disconnect');
-                    !old_rights && Common.UI.TooltipManager.showTip({ step: 'changeRights', text: _.isEmpty(data.message) ? this.warnProcessRightsChange : data.message,
+                    !old_rights && Common.UI.TooltipManager.showTip({ step: 'changeRights', text: _.isEmpty(data.message) ? this.warnProcessRightsChange : Common.Utils.String.htmlEncode(data.message),
                         target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true,
                         callback: function() {
                             me._state.lostEditingRights = false;
@@ -911,6 +911,9 @@ define([
                 me.api.SetDrawingFreeze(false);
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+
+                if (!me.appOptions.canCopy)
+                    Common.UI.TooltipManager.showTip({ step: 'copyDisabled', text: me.errorCopyDisabled, target: '#toolbar', maxwidth: 350, automove: true, noHighlight: true, noArrow: true, showButton: false});
 
                 Common.Utils.InternalSettings.set("pe-settings-datetime-default", Common.localStorage.getItem("pe-settings-datetime-default"));
 
@@ -1383,6 +1386,7 @@ define([
                 this.appOptions.canSaveToFile = this.appOptions.isEdit || this.appOptions.isRestrictedEdit;
                 this.appOptions.showSaveButton = this.appOptions.isEdit;
                 this.appOptions.canSuggest     = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.suggestFeature===false);
+                this.appOptions.canCopy        = this.permissions.copy !== false;
 
                 this.appOptions.compactHeader = this.appOptions.customization && (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compactHeader;
                 this.appOptions.twoLevelHeader = this.appOptions.isEdit; // when compactHeader=true some buttons move to toolbar
@@ -1838,8 +1842,15 @@ define([
                         config.msg = this.errorSaveWatermark;
                         break;
 
+                    case Asc.c_oAscError.ID.CopyDisabled:
+                        config.maxwidth = 450;
+                        config.msg = this.errorCopyDisabled;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
+                        if (typeof id == 'string')
+                            config.maxwidth = 600;
                         break;
                 }
 
@@ -1910,7 +1921,7 @@ define([
                     }, this);
                 }
 
-                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value="' + id + '"]').length<1)
                     Common.UI.alert(config).$window.attr('data-value', id);
 
                 (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
@@ -2587,6 +2598,7 @@ define([
                         warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline) && (typeof advOptions == 'string'),
                         warningMsg: advOptions,
                         validatePwd: !!me._state.isDRM,
+                        autoPosOnResize : 'center',
                         handler: function (result, value) {
                             me.isShowOpenDialog = false;
                             if (result == 'ok') {
@@ -2830,7 +2842,7 @@ define([
                     }
                     Common.UI.alert({
                         title: this.notcriticalErrorTitle,
-                        msg: (opts.data.error) ? opts.data.error : this.txtErrorLoadHistory,
+                        msg: (opts.data.error) ? Common.Utils.String.htmlEncode(opts.data.error) : this.txtErrorLoadHistory,
                         iconCls: 'warn',
                         buttons: ['ok'],
                         callback: _.bind(function(btn){

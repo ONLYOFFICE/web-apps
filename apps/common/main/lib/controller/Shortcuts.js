@@ -594,6 +594,10 @@ define([
                 // weight = range for main key + “cost” of extra keys
                 return keyIndex * 100 + extras;
             }
+
+            if (first.ascShortcut.asc_IsLocked() && !second.ascShortcut.asc_IsLocked()) return -1;
+            if (!first.ascShortcut.asc_IsLocked() && second.ascShortcut.asc_IsLocked()) return 1;
+
             let wFirst = getWeight(first.ascShortcut);
             let wSecond = getWeight(second.ascShortcut);
 

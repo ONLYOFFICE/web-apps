@@ -332,7 +332,7 @@ define([
                 }
                 if (this.panelSearch) {
                     this.panelSearch['hide']();
-                    this.btnSearchBar.toggle(false, true);
+                    this.btnSearchBar.toggle(false);
                 }
                 if (this.panelThumbnails) {
                     this.panelThumbnails['hide']();

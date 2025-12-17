@@ -55,7 +55,6 @@
   "DE.ApplicationController.txtNo": "No",
   "DE.ApplicationController.txtOpenWarning": "Cliccare su questo link può danneggiare il tuo dispositivo e i tuoi dati. <br> Sei sicuro di voler continuare?",
   "DE.ApplicationController.txtPressLink": "Premi %1 e clicca sul collegamento",
-  "DE.ApplicationController.txtSecurityWarningLink": "Questo documento sta tentando di connettersi a %1.<br>Se ritieni che questo sito sia affidabile, premi “OK” tenendo premuto il tasto Ctrl.",
   "DE.ApplicationController.txtSecurityWarningOpenFile": "Questo documento sta tentando di aprire la finestra di dialogo del file, premi \"OK\" per aprirla.",
   "DE.ApplicationController.txtYes": "Sì",
   "DE.ApplicationController.unknownErrorText": "Errore sconosciuto.",

@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "Macros",
   "PE.Views.ViewTab.textNormal": "Normal",
   "PE.Views.ViewTab.textNotes": "Notas",
+  "PE.Views.ViewTab.textPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.textRecMacro": "Record macro",
+  "PE.Views.ViewTab.textResumeMacro": "Resume recording",
   "PE.Views.ViewTab.textRightMenu": "Painel direito",
   "PE.Views.ViewTab.textRulers": "Regras",
   "PE.Views.ViewTab.textShowGridlines": "Mostrar linhas de grade",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "Guias inteligentes",
   "PE.Views.ViewTab.textSnapObjects": "Ajustar Objeto à Grade",
   "PE.Views.ViewTab.textStatusBar": "Barra de status",
+  "PE.Views.ViewTab.textStopMacro": "Stop recording",
   "PE.Views.ViewTab.textTabStyle": "Estilo da guia",
   "PE.Views.ViewTab.textZoom": "Zoom",
   "PE.Views.ViewTab.tipFitToSlide": "Ajustar slide",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema de interface",
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
+  "PE.Views.ViewTab.tipPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.tipRecMacro": "Record macro",
+  "PE.Views.ViewTab.tipResumeMacro": "Resume recording",
   "PE.Views.ViewTab.tipSelectTool": "Selecionar ferramenta",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide mestre"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide mestre",
+  "PE.Views.ViewTab.tipStopMacro": "Stop recording"
 }

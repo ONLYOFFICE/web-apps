@@ -55,7 +55,6 @@
   "DE.ApplicationController.txtNo": "Όχι",
   "DE.ApplicationController.txtOpenWarning": "Το κλικ σε αυτόν τον σύνδεσμο μπορεί να είναι επιβλαβές για τη συσκευή και τα δεδομένα σας. Για να προστατεύσετε τον υπολογιστή σας, κάντε κλικ μόνο σε αυτούς τους υπερσυνδέσμους από αξιόπιστες πηγές. Αυτή η τοποθεσία μπορεί να είναι ανασφαλής:<br><br>%1<br><br>Είστε σίγουροι ότι θέλετε να συνεχίσετε;",
   "DE.ApplicationController.txtPressLink": "Πατήστε %1 και κάντε κλικ στο σύνδεσμο",
-  "DE.ApplicationController.txtSecurityWarningLink": "Αυτό το έγγραφο προσπαθεί να συνδεθεί με το %1.<br>Αν εμπιστεύεστε αυτόν τον ιστότοπο, πατήστε \"Εντάξει\" ενώ κρατάτε πατημένο το πλήκτρο Ctrl.",
   "DE.ApplicationController.txtSecurityWarningOpenFile": "Αυτό το έγγραφο προσπαθεί να ανοίξει το παράθυρο διαλόγου αρχείου, πατήστε \"Εντάξει\" για να ανοίξετε.",
   "DE.ApplicationController.txtYes": "Ναι",
   "DE.ApplicationController.unknownErrorText": "Άγνωστο σφάλμα.",

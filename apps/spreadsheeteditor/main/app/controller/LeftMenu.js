@@ -355,9 +355,27 @@ define([
             });
         },
 
+        showLostDataWarningOds: function(callback) {
+            Common.UI.warning({
+                title: this.textWarning,
+                msg: this.warnDownloadOds,
+                buttons: ['ok', 'cancel'],
+                maxwidth: 600,
+                callback: _.bind(function (btn) {
+                    if (btn == 'ok') {
+                        callback.call();
+                    }
+                }, this)
+            });
+        },
+
         clickSaveAsFormat: function(menu, format) {
+            var me = this,
+                callback = function () {
+                    me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+                    menu.hide();
+                };
             if (format == Asc.c_oAscFileType.CSV) {
-                var me = this;
                 this.showLostDataWarning(function () {
                     Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, me.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
                     menu.hide();
@@ -365,15 +383,24 @@ define([
             } else if (format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA) {
                 menu.hide();
                 Common.NotificationCenter.trigger('download:settings', this.leftMenu, format);
+            } else if (format == Asc.c_oAscFileType.ODS) {
+                this.showLostDataWarningOds(callback);
             } else {
-                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
-                menu.hide();
+                callback();
             }
         },
 
         clickSaveCopyAsFormat: function(menu, format, ext, wopiPath) {
+            var me = this,
+                callback = function() {
+                    me.isFromFileDownloadAs = ext;
+                    var options = new Asc.asc_CDownloadOptions(format, true);
+                    options.asc_setIsSaveAs(true);
+                    wopiPath && options.asc_setWopiSaveAsPath(wopiPath);
+                    me.api.asc_DownloadAs(options);
+                    menu.hide();
+                };
             if (format == Asc.c_oAscFileType.CSV) {
-                var me = this;
                 me.showLostDataWarning(function () {
                     me.isFromFileDownloadAs = ext;
                     var options = new Asc.asc_CDownloadOptions(format, true);
@@ -386,13 +413,10 @@ define([
                 this.isFromFileDownloadAs = ext;
                 menu.hide();
                 Common.NotificationCenter.trigger('download:settings', this.leftMenu, format, true, wopiPath);
+            } else if (format == Asc.c_oAscFileType.ODS) {
+                this.showLostDataWarningOds(callback);
             } else {
-                this.isFromFileDownloadAs = ext;
-                var options = new Asc.asc_CDownloadOptions(format, true);
-                options.asc_setIsSaveAs(true);
-                wopiPath && options.asc_setWopiSaveAsPath(wopiPath);
-                this.api.asc_DownloadAs(options);
-                menu.hide();
+                callback();
             }
         },
 

@@ -263,6 +263,10 @@ const ErrorController = inject('storeAppOptions','storeDocumentInfo')(({storeApp
                 config.msg = t('Error.errorEditProtectedRange');
                 break;
 
+            case Asc.c_oAscError.ID.CopyDisabled:
+                config.msg = t('Error.errorCopyDisabled');
+                break;
+
             default:
                 config.msg = _t.errorDefaultMessage.replace('%1', id);
                 break;

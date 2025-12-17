@@ -105,6 +105,13 @@ define([
                     'Diagram Title': this.txtDiagramTitle,
                     'X Axis': this.txtXAxis,
                     'Y Axis': this.txtYAxis,
+                    'Button': this.txtButton,
+                    'Group': this.txtGroup,
+                    'Checkbox': this.txtCheckbox,
+                    'Text': this.txtText,
+                    'Dropdown': this.txtDropdown,
+                    'Listbox': this.txtListbox,
+                    'Signature': this.txtSignature
                 };
             },
 
@@ -198,7 +205,7 @@ define([
                     Common.NotificationCenter.on('showmessage',                     _.bind(this.onExternalMessage, this));
                     Common.NotificationCenter.on('showerror',                       _.bind(this.onError, this));
                     Common.NotificationCenter.on('editing:disable',                 _.bind(this.onEditingDisable, this));
-                    Common.NotificationCenter.on('pdf:mode-apply',                  _.bind(this.onPdfModeApply, this));
+                    Common.NotificationCenter.on('pdf:mode-apply',                  _.bind(this.onTryPdfModeApply, this));
 
                     this.isShowOpenDialog = false;
                     
@@ -300,7 +307,7 @@ define([
                             me.api.asc_enableKeyEvents(false);
                         },
                         'modal:close': function(dlg) {
-                            Common.Utils.ModalWindow.close();
+                            dlg && dlg.isVisible() && Common.Utils.ModalWindow.close(); // close can be called after hiding
                             if (!Common.Utils.ModalWindow.isVisible())
                                 me.api.asc_enableKeyEvents(true);
                         },
@@ -535,7 +542,7 @@ define([
                     this.api.asc_coAuthoringDisconnect();
                     Common.NotificationCenter.trigger('collaboration:sharingdeny');
                     Common.NotificationCenter.trigger('api:disconnect');
-                    !old_rights && Common.UI.TooltipManager.showTip({ step: 'changeRights', text: _.isEmpty(data.message) ? this.warnProcessRightsChange : data.message,
+                    !old_rights && Common.UI.TooltipManager.showTip({ step: 'changeRights', text: _.isEmpty(data.message) ? this.warnProcessRightsChange : Common.Utils.String.htmlEncode(data.message),
                         target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true,
                         callback: function() {
                             me._state.lostEditingRights = false;
@@ -876,7 +883,7 @@ define([
                     (!this.getApplication().getController('LeftMenu').dlgSearch || !this.getApplication().getController('LeftMenu').dlgSearch.isVisible()) &&
                     (!this.getApplication().getController('Toolbar').dlgSymbolTable || !this.getApplication().getController('Toolbar').dlgSymbolTable.isVisible()) &&
                     !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['LoadFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] || id == Asc.c_oAscAsyncAction['DownloadAs']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl)) ) {
-//                        this.onEditComplete(this.loadMask); //если делать фокус, то при принятии чужих изменений, заканчивается свой композитный ввод
+//                        this.onEditComplete(this.loadMask); //if try to set the focus, then when accepting co-authoring changes, composite input ends.
                         this.api.asc_enableKeyEvents(true);
                 }
             },
@@ -1028,6 +1035,9 @@ define([
                 me.api.SetDrawingFreeze(false);
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+
+                if (!me.appOptions.canCopy)
+                    Common.UI.TooltipManager.showTip({ step: 'copyDisabled', text: me.errorCopyDisabled, target: '#toolbar', maxwidth: 350, automove: true, noHighlight: true, noArrow: true, showButton: false});
 
                 Common.Utils.InternalSettings.set("pdfe-settings-livecomment", true);
                 Common.Utils.InternalSettings.set("pdfe-settings-resolvedcomment", false);
@@ -1375,6 +1385,7 @@ define([
                 this.appOptions.canDownload       = this.permissions.download !== false;
                 this.appOptions.showSaveButton = this.appOptions.isEdit && !this.appOptions.isPDFFill && (this.appOptions.canSaveToFile || this.appOptions.canDownload);
                 this.appOptions.canSuggest     = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.suggestFeature===false);
+                this.appOptions.canCopy        = this.permissions.copy !== false;
 
                 this.appOptions.compactHeader = this.appOptions.customization && (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compactHeader;
                 this.appOptions.twoLevelHeader = this.appOptions.isEdit || this.appOptions.isRestrictedEdit; // when compactHeader=true some buttons move to toolbar
@@ -1525,7 +1536,38 @@ define([
                 Common.Utils.InternalSettings.set("pdfe-config-region", region);
             },
 
-            onPdfModeApply: function(mode, activeTab) {
+            onTryPdfModeApply: function(mode, activeTab, callback, pwd) {
+                if (mode==='edit' && this.appOptions.canPDFEdit && !this.api.asc_CheckEditPassword(pwd!==undefined ? pwd : null)) {
+                    var me = this,
+                        newPwd,
+                        win = new Common.Views.OpenDialog({
+                            title: me.txtUnlockTitle,
+                            closable: true,
+                            type: Common.Utils.importTextType.DRM,
+                            txtOpenFile: me.txtDocUnlockDescription,
+                            validatePwd: pwd!==undefined,
+                            handler: function (result, value) {
+                                if (result === 'ok') {
+                                    if (value && value.drmOptions && me.api.asc_CheckEditPassword(value.drmOptions.asc_getPassword()))
+                                        me.onPdfModeApply(mode, activeTab, callback);
+                                    else
+                                        newPwd = value.drmOptions.asc_getPassword();
+                                }
+                            }
+                        }).on('close', function() {
+                            if (newPwd!==undefined)
+                                setTimeout(function() {
+                                    me.onTryPdfModeApply(mode, activeTab, callback, newPwd);
+                                }, 100);
+                            else
+                                Common.NotificationCenter.trigger('pdf:mode-changed', me.appOptions);
+                        });
+                    win.show();
+                } else
+                    this.onPdfModeApply(mode, activeTab, callback);
+            },
+
+            onPdfModeApply: function(mode, activeTab, callback) {
                 if (!this.appOptions.canSwitchMode) return;
 
                 if (mode==='edit' && this.appOptions.canPDFEdit) {
@@ -1546,6 +1588,7 @@ define([
                 app.getController('ViewTab').applyEditorMode();
                 app.getController('DocumentHolder').applyEditorMode();
                 app.getController('LeftMenu').leftMenu.getMenu('file').applyMode();
+                callback && callback.call();
             },
 
             onPdfModeCoAuthApply: function() {
@@ -1875,8 +1918,15 @@ define([
                         config.msg = this.errorPDFFormsLocked;
                         break;
 
+                    case Asc.c_oAscError.ID.CopyDisabled:
+                        config.maxwidth = 450;
+                        config.msg = this.errorCopyDisabled;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
+                        if (typeof id == 'string')
+                            config.maxwidth = 600;
                         break;
                 }
 
@@ -1934,7 +1984,7 @@ define([
                     }, this);
                 }
 
-                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value="' + id + '"]').length<1)
                     Common.UI.alert(config).$window.attr('data-value', id);
 
                 (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
@@ -1942,17 +1992,15 @@ define([
 
             onOpenLinkPdfForm: function(sURI, onAllow, onCancel) {
                 var id = 'pdf-link',
-                    re = new RegExp('ctrl|' + Common.Utils.String.textCtrl, 'i'),
-                    msg = Common.Utils.isMac ? this.txtSecurityWarningLink.replace(re, '⌘') : this.txtSecurityWarningLink,
                     config = {
                         closable: true,
                         title: this.notcriticalErrorTitle,
                         iconCls: 'warn',
                         buttons: ['ok', 'cancel'],
-                        msg: Common.Utils.String.format(msg, sURI || ''),
+                        msg: Common.Utils.String.format(this.txtSecurityWarningLinkOk, sURI || ''),
                         maxwidth: 600,
                         callback: _.bind(function(btn){
-                            if (btn == 'ok' && window.event && (!Common.Utils.isMac && window.event.ctrlKey == true || Common.Utils.isMac && window.event.metaKey)) {
+                            if (btn == 'ok') {
                                 onAllow();
                             }
                             else
@@ -2325,6 +2373,7 @@ define([
                         warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline) && (typeof advOptions == 'string'),
                         warningMsg: advOptions,
                         validatePwd: !!me._state.isDRM,
+                        autoPosOnResize : 'center',
                         handler: function (result, value) {
                             me.isShowOpenDialog = false;
                             if (result == 'ok') {

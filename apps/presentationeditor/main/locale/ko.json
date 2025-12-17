@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "매크로",
   "PE.Views.ViewTab.textNormal": "보통",
   "PE.Views.ViewTab.textNotes": "메모",
+  "PE.Views.ViewTab.textPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.textRecMacro": "Record macro",
+  "PE.Views.ViewTab.textResumeMacro": "Resume recording",
   "PE.Views.ViewTab.textRightMenu": "오른쪽 패널",
   "PE.Views.ViewTab.textRulers": "자",
   "PE.Views.ViewTab.textShowGridlines": "눈금선 표시",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "스마트 가이드",
   "PE.Views.ViewTab.textSnapObjects": "객체를 그리드에 정렬하기",
   "PE.Views.ViewTab.textStatusBar": "상태 바",
+  "PE.Views.ViewTab.textStopMacro": "Stop recording",
   "PE.Views.ViewTab.textTabStyle": "탭 스타일",
   "PE.Views.ViewTab.textZoom": "확대 / 축소",
   "PE.Views.ViewTab.tipFitToSlide": "슬라이드에 맞추기",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마",
   "PE.Views.ViewTab.tipMacros": "매크로",
   "PE.Views.ViewTab.tipNormal": "보통",
+  "PE.Views.ViewTab.tipPauseMacro": "Pause recording",
+  "PE.Views.ViewTab.tipRecMacro": "Record macro",
+  "PE.Views.ViewTab.tipResumeMacro": "Resume recording",
   "PE.Views.ViewTab.tipSelectTool": "도구 선택",
-  "PE.Views.ViewTab.tipSlideMaster": "슬라이드 마스터"
+  "PE.Views.ViewTab.tipSlideMaster": "슬라이드 마스터",
+  "PE.Views.ViewTab.tipStopMacro": "Stop recording"
 }

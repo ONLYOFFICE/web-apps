@@ -3521,6 +3521,9 @@
   "PE.Views.ViewTab.textMacros": "宏",
   "PE.Views.ViewTab.textNormal": "正文",
   "PE.Views.ViewTab.textNotes": "备注",
+  "PE.Views.ViewTab.textPauseMacro": "暂停录制",
+  "PE.Views.ViewTab.textRecMacro": "录制宏",
+  "PE.Views.ViewTab.textResumeMacro": "恢复录制",
   "PE.Views.ViewTab.textRightMenu": "右侧面板",
   "PE.Views.ViewTab.textRulers": "标尺",
   "PE.Views.ViewTab.textShowGridlines": "显示网格线",
@@ -3529,6 +3532,7 @@
   "PE.Views.ViewTab.textSmartGuides": "智慧参考线",
   "PE.Views.ViewTab.textSnapObjects": "将对象对齐至网格",
   "PE.Views.ViewTab.textStatusBar": "状态栏",
+  "PE.Views.ViewTab.textStopMacro": "停止录制",
   "PE.Views.ViewTab.textTabStyle": "选项卡样式",
   "PE.Views.ViewTab.textZoom": "缩放",
   "PE.Views.ViewTab.tipFitToSlide": "适应幻灯片",
@@ -3539,6 +3543,10 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "界面主题",
   "PE.Views.ViewTab.tipMacros": "宏",
   "PE.Views.ViewTab.tipNormal": "正常",
+  "PE.Views.ViewTab.tipPauseMacro": "暂停录制",
+  "PE.Views.ViewTab.tipRecMacro": "录制宏",
+  "PE.Views.ViewTab.tipResumeMacro": "恢复录制",
   "PE.Views.ViewTab.tipSelectTool": "选择工具",
-  "PE.Views.ViewTab.tipSlideMaster": "幻灯片母版"
+  "PE.Views.ViewTab.tipSlideMaster": "幻灯片母版",
+  "PE.Views.ViewTab.tipStopMacro": "停止录制"
 }
