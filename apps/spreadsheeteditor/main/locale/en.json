@@ -4809,6 +4809,7 @@
   "SSE.Views.Toolbar.textMoveCopySheet": "Move or copy sheet",
   "SSE.Views.Toolbar.textTabColor": "Tab color",
   "SSE.Views.Toolbar.textProtectSheet": "Protect sheet",
+  "SSE.Views.Toolbar.textUnProtectSheet": "Unprotect sheet",
   "SSE.Views.Toolbar.textLockedCell": "Locked cell",
   "SSE.Views.Toolbar.textFormatCells": "Format cells",
   "SSE.Views.Toolbar.textManyPages": "pages",

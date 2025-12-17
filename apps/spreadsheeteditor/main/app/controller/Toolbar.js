@@ -1709,14 +1709,12 @@ define([
             if (!(e && e.target===e.currentTarget) || !this.toolbar)
                 return;
 
-            this.toolbar.btnFormatCell.menu.items[11].setChecked(this.api.asc_getCellInfo().asc_getXfs().asc_getLocked());
-
             let toolbar = this.toolbar,
                 color = null,
                 clr = null,
                 sindex = this.api.asc_getActiveWorksheetIndex();
 
-            this.toolbar.mnuTabColorToolbarPicker.updateCustomColors();
+            toolbar.mnuTabColorToolbarPicker.updateCustomColors();
 
             color = this.api.asc_getWorksheetTabColor(sindex);
             if (color) {
@@ -1727,7 +1725,7 @@ define([
                 }
             } else
                 clr = 'transparent';
-            Common.Utils.ThemeColor.selectPickerColorByEffect(clr, this.toolbar.mnuTabColorToolbarPicker);
+            Common.Utils.ThemeColor.selectPickerColorByEffect(clr, toolbar.mnuTabColorToolbarPicker);
 
             let _set = Common.enumLock,
                 seltype = this.api.asc_getCellInfo().asc_getSelectionType(),
@@ -1769,19 +1767,21 @@ define([
                     issheetlocked = true;
             });
 
-            this.toolbar.btnFormatCell.menu.items[3].menu.items[2].setDisabled(issheetlocked || isdocprotected); // hide sheet
-            this.toolbar.btnFormatCell.menu.items[4].menu.items[2].setDisabled(isdoclocked || isdocprotected); // show sheet
-            this.toolbar.btnFormatCell.menu.items[6].setDisabled(issheetlocked || isdocprotected); // rename sheet
-            this.toolbar.btnFormatCell.menu.items[7].setDisabled(issheetlocked || isdocprotected); // move/copy sheet
-            this.toolbar.btnFormatCell.menu.items[8].setDisabled(issheetlocked || isdocprotected); // tab color
+            toolbar.btnFormatCell.menu.items[3].menu.items[2].setDisabled(issheetlocked || isdocprotected); // hide sheet
+            toolbar.btnFormatCell.menu.items[4].menu.items[2].setDisabled(isdoclocked || isdocprotected); // show sheet
+            toolbar.btnFormatCell.menu.items[6].setDisabled(issheetlocked || isdocprotected); // rename sheet
+            toolbar.btnFormatCell.menu.items[7].setDisabled(issheetlocked || isdocprotected); // move/copy sheet
+            toolbar.btnFormatCell.menu.items[8].setDisabled(issheetlocked || isdocprotected); // tab color
+
+            toolbar.btnFormatCell.menu.items[9].setCaption(this.api.asc_isProtectedSheet() ? toolbar.textUnProtectSheet : toolbar.textProtectSheet); // protect sheet
+            toolbar.btnFormatCell.menu.items[11].setChecked(this.api.asc_getCellInfo().asc_getXfs().asc_getLocked()); // lock cell
 
             let hiddenItems = SSE.getController('Statusbar').statusbar.getHiddenWorksheets();
-            
-            this.toolbar.mnuShowSheets.menu.removeAll();
-            this.toolbar.mnuShowSheets.setVisible(hiddenItems.length);
+            toolbar.mnuShowSheets.menu.removeAll();
+            toolbar.mnuShowSheets.setVisible(hiddenItems.length);
             if (hiddenItems.length) {
                 hiddenItems.forEach(item => {
-                    this.toolbar.mnuShowSheets.menu.addItem(new Common.UI.MenuItem({
+                    toolbar.mnuShowSheets.menu.addItem(new Common.UI.MenuItem({
                         style: 'white-space: pre-wrap',
                         caption: item.label,
                         value: 'showSheet',
