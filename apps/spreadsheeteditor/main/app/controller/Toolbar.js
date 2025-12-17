@@ -1706,47 +1706,79 @@ define([
         },
 
         onShowBeforeCellFormat: function(cmp, item, e) {
-            if (!(e && e.target===e.currentTarget))
+            if (!(e && e.target===e.currentTarget) || !this.toolbar)
                 return;
 
             this.toolbar.btnFormatCell.menu.items[11].setChecked(this.api.asc_getCellInfo().asc_getXfs().asc_getLocked());
 
-            let selectionType = this.api.asc_getCellInfo().asc_getSelectionType();
-            let isDisabled = selectionType !== Asc.c_oAscSelectionType.RangeCells && selectionType !== Asc.c_oAscSelectionType.RangeCol 
-                && selectionType !== Asc.c_oAscSelectionType.RangeRow;
+            let toolbar = this.toolbar,
+                color = null,
+                clr = null,
+                sindex = this.api.asc_getActiveWorksheetIndex();
 
-            let color = null,
-                clr = null;
-            let sindex = this.api.asc_getActiveWorksheetIndex();
+            this.toolbar.mnuTabColorToolbarPicker.updateCustomColors();
 
-            if (this.toolbar) {
-                this.toolbar.mnuTabColorToolbarPicker.updateCustomColors();
+            color = this.api.asc_getWorksheetTabColor(sindex);
+            if (color) {
+                if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                    clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
+                } else {
+                    clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                }
+            } else
+                clr = 'transparent';
+            Common.Utils.ThemeColor.selectPickerColorByEffect(clr, this.toolbar.mnuTabColorToolbarPicker);
 
-                color = this.api.asc_getWorksheetTabColor(sindex);
-                if (color) {
-                    if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                        clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
-                    } else {
-                        clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-                    }
-                } else
-                    clr = 'transparent';
-                Common.Utils.ThemeColor.selectPickerColorByEffect(clr, this.toolbar.mnuTabColorToolbarPicker);
+            let _set = Common.enumLock,
+                seltype = this.api.asc_getCellInfo().asc_getSelectionType(),
+                type = seltype;
+
+            switch ( seltype ) {
+                case Asc.c_oAscSelectionType.RangeSlicer: type = _set.selSlicer; break;
+                case Asc.c_oAscSelectionType.RangeImage: type = _set.selImage; break;
+                case Asc.c_oAscSelectionType.RangeShape: type = _set.selShape; break;
+                case Asc.c_oAscSelectionType.RangeShapeText: type = _set.selShapeText; break;
+                case Asc.c_oAscSelectionType.RangeChart: type = _set.selChart; break;
+                case Asc.c_oAscSelectionType.RangeChartText: type = _set.selChartText; break;
             }
-            
-            this.toolbar.btnFormatCell.menu.items[0].setDisabled(isDisabled);
-            this.toolbar.btnFormatCell.menu.items[1].setDisabled(isDisabled);
-            this.toolbar.btnFormatCell.menu.items[3].menu.items[0].setDisabled(isDisabled);
-            this.toolbar.btnFormatCell.menu.items[3].menu.items[1].setDisabled(isDisabled);
-            this.toolbar.btnFormatCell.menu.items[4].menu.items[0].setDisabled(isDisabled);
-            this.toolbar.btnFormatCell.menu.items[4].menu.items[1].setDisabled(isDisabled);
-            this.toolbar.btnFormatCell.menu.items[11].setDisabled(isDisabled);
-            this.toolbar.btnFormatCell.menu.items[13].setDisabled(isDisabled);
-             
-            let hiddenItems = SSE.getController('Statusbar').statusbar.getHiddenWorksheets();      
+
+            toolbar.lockToolbar(type, type != seltype, {
+                array: [
+                    toolbar.mnuRowHeight,
+                    toolbar.mnuColumnWidth,
+                    toolbar.mniHideRows,
+                    toolbar.mniHideCols,
+                    toolbar.mniShowRows,
+                    toolbar.mniShowCols,
+                    toolbar.mniLockCell
+                ],
+                clear: [_set.selImage, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selSlicer]
+            });
+            toolbar.lockToolbar(_set['FormatRows'], !!this._state.wsProps['FormatRows'], {array: [toolbar.mnuRowHeight, toolbar.mniHideRows, toolbar.mniShowRows]});
+            toolbar.lockToolbar(_set['FormatColumns'], !!this._state.wsProps['FormatColumns'], {array: [toolbar.mnuColumnWidth, toolbar.mniHideCols, toolbar.mniShowCols]});
+            toolbar.lockToolbar(_set.wsLock, this._state.wsLock, {array: [toolbar.mniLockCell]});
+            toolbar.lockToolbar(_set.userProtected, this._state.isUserProtected, {array: [toolbar.mniLockCell]});
+
+            let isdoclocked     = this.api.asc_isWorkbookLocked(),
+                isdocprotected  = this.api.asc_isProtectedWorkbook(),
+                issheetlocked = false,
+                tabIndexes = this.getApplication().getController('Statusbar').getSelectTabs(),
+                me = this;
+            tabIndexes.forEach(function (item) {
+                if (me.api.asc_isWorksheetLockedOrDeleted(item))
+                    issheetlocked = true;
+            });
+
+            this.toolbar.btnFormatCell.menu.items[3].menu.items[2].setDisabled(issheetlocked || isdocprotected); // hide sheet
+            this.toolbar.btnFormatCell.menu.items[4].menu.items[2].setDisabled(isdoclocked || isdocprotected); // show sheet
+            this.toolbar.btnFormatCell.menu.items[6].setDisabled(issheetlocked || isdocprotected); // rename sheet
+            this.toolbar.btnFormatCell.menu.items[7].setDisabled(issheetlocked || isdocprotected); // move/copy sheet
+            this.toolbar.btnFormatCell.menu.items[8].setDisabled(issheetlocked || isdocprotected); // tab color
+
+            let hiddenItems = SSE.getController('Statusbar').statusbar.getHiddenWorksheets();
             
             this.toolbar.mnuShowSheets.menu.removeAll();
-            this.toolbar.mnuShowSheets.hide();
+            this.toolbar.mnuShowSheets.setVisible(hiddenItems.length);
             if (hiddenItems.length) {
                 hiddenItems.forEach(item => {
                     this.toolbar.mnuShowSheets.menu.addItem(new Common.UI.MenuItem({
@@ -1756,8 +1788,7 @@ define([
                         sheetId: item.sheetindex
                     }))
                 })
-                this.toolbar.mnuShowSheets.show();
-            }            
+            }
         },
 
         onCellFormatMenu: function(menu, item, e) {
