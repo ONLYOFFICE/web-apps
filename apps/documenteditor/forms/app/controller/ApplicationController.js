@@ -165,7 +165,7 @@ define([
                     me.api.asc_enableKeyEvents(false);
                 },
                 'modal:close': function(dlg) {
-                    Common.Utils.ModalWindow.close();
+                    dlg && dlg.isVisible() && Common.Utils.ModalWindow.close(); // close can be called after hiding
                     if (!Common.Utils.ModalWindow.isVisible())
                         me.api.asc_enableKeyEvents(true);
                 },
@@ -353,8 +353,15 @@ define([
                         config.msg = this.errorInconsistentExt;
                     break;
 
+                case Asc.c_oAscError.ID.CopyDisabled:
+                    config.maxwidth = 450;
+                    config.msg = this.errorCopyDisabled;
+                    break;
+
                 default:
                     config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
+                    if (typeof id == 'string')
+                        config.maxwidth = 600;
                     break;
             }
 
@@ -412,7 +419,7 @@ define([
                 }, this);
             }
 
-            if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+            if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value="' + id + '"]').length<1)
                 Common.UI.alert(config).$window.attr('data-value', id);
 
             (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
@@ -671,6 +678,7 @@ define([
 
             this.appOptions.canDownload       = this.permissions.download !== false;
             this.appOptions.canPrint          = (this.permissions.print !== false);
+            this.appOptions.canCopy           = this.permissions.copy !== false;
 
             this.appOptions.fileKey = this.document.key;
             this.appOptions.isAnonymousSupport = !!this.api.asc_isAnonymousSupport();
@@ -870,7 +878,7 @@ define([
                 }
 
                 !modal ? Common.UI.TooltipManager.showTip({ step: 'licenseError', text: license, header: title, target: '#toolbar', maxwidth: 430,
-                        automove: true, noHighlight: true, textButton: this.textContinue}) :
+                        automove: true, noHighlight: true, noArrow: true, textButton: this.textContinue}) :
                 Common.UI.info({
                     maxwidth: 500,
                     title: title,
@@ -984,7 +992,7 @@ define([
                         }
                         this.submitedTooltip.show();
                     }
-                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View);
+                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View, this.api.asc_getRestrictionSettings());
                     this.onApiServerDisconnect(true);
                 } else
                     this.disableFillingForms(false);
@@ -1008,6 +1016,7 @@ define([
                     warningMsg: advOptions,
                     validatePwd: !!me._isDRM,
                     iconType: 'svg',
+                    autoPosOnResize : 'center',
                     handler: function (result, value) {
                         me.isShowOpenDialog = false;
                         if (result == 'ok') {
@@ -1222,8 +1231,28 @@ define([
         },
 
         onHyperlinkClick: function(url) {
-            if (url /*&& me.api.asc_getUrlType(url)>0*/) {
-                window.open(url);
+            if (url) {
+                var type = this.api.asc_getUrlType(url);
+                if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email)
+                    window.open(url);
+                else {
+                    var me = this;
+                    setTimeout(function() {
+                        Common.UI.warning({
+                            maxwidth: 500,
+                            msg: Common.Utils.String.format(me.txtWarnUrl, url),
+                            buttons: ['no', 'yes'],
+                            primary: 'no',
+                            callback: function(btn) {
+                                try {
+                                    (btn == 'yes') && window.open(url);
+                                } catch (err) {
+                                    err && console.log(err.stack);
+                                }
+                            }
+                        });
+                    }, 1);
+                }
             }
         },
 
@@ -1583,6 +1612,7 @@ define([
             var zf = (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);
             (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
+            DE.getController('Common.Controllers.Shortcuts').setApi(me.api);
             this.createDelayedElements();
 
             this.api.asc_registerCallback('asc_onStartAction',           _.bind(this.onLongActionBegin, this));
@@ -2089,7 +2119,7 @@ define([
                     if (this.api) {
                         var res =  (item.value == 'cut') ? this.api.Cut() : ((item.value == 'copy') ? this.api.Copy() : this.api.Paste());
                         if (!res) {
-                            if (!Common.localStorage.getBool("de-forms-hide-copywarning")) {
+                            if (!Common.localStorage.getBool("de-forms-hide-copywarning") && (item.value === 'paste' || this.appOptions.canCopy)) {
                                 (new Common.Views.CopyWarningDialog({
                                     handler: function(dontshow) {
                                         if (dontshow) Common.localStorage.setItem("de-forms-hide-copywarning", 1);
@@ -2225,7 +2255,7 @@ define([
                 docInfo.put_Format(this.document.fileType);
                 docInfo.put_Lang(this.editorConfig.lang);
                 docInfo.put_Mode(this.editorConfig.mode);
-                docInfo.put_Permissions(this.permissions);
+                docInfo.put_Permissions(this.document.permissions);
                 docInfo.put_DirectUrl(data.document && data.document.directUrl ? data.document.directUrl : this.document.directUrl);
                 docInfo.put_VKey(data.document && data.document.vkey ?  data.document.vkey : this.document.vkey);
                 docInfo.put_EncryptedInfo(data.editorConfig && data.editorConfig.encryptionKeys ? data.editorConfig.encryptionKeys : this.editorConfig.encryptionKeys);
@@ -2272,7 +2302,7 @@ define([
                 Common.UI.TooltipManager.closeTip('formSigned');
             else
                 Common.UI.TooltipManager.showTip({ step: 'formSigned', text: this.txtSignedForm, target: '#toolbar', showButton: false,
-                                                        maxwidth: 'none', closable: true, automove: true, noHighlight: true});
+                                                        maxwidth: 'none', closable: true, automove: true, noHighlight: true, noArrow: true});
 
             this.view.btnClear && this.view.btnClear.setDisabled(this._isDisabled || hasForm);
             this.view.btnSubmit && this.view.btnSubmit.setDisabled(!_submitFail || hasForm);
@@ -2370,6 +2400,7 @@ define([
         titleReadOnly: 'Read-Only Mode',
         textContinue: 'Continue',
         txtSignedForm: 'This document has been signed and cannot be edited.',
+        errorCopyDisabled: 'For security reasons, the contents of this document cannot be copied to the clipboard.'
 
     }, DE.Controllers.ApplicationController));
 });

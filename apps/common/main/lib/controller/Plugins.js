@@ -274,7 +274,7 @@ define([
             //$('<div class="separator long"></div>').appendTo(me.$toolbarPanelPlugins);
             group = $('<div class="group" style="' + (Common.UI.isRTL() ? 'padding-right: 0;' : 'padding-left: 0;') + '"></div>');
             this.viewPlugins.backgroundBtn = this.viewPlugins.createBackgroundPluginsButton();
-            var $backgroundSlot = $('<span class="btn-slot text x-huge"></span>').appendTo(group);
+            var $backgroundSlot = $('<span class="btn-slot text x-huge" id="slot-background-plugin"></span>').appendTo(group);
             this.viewPlugins.backgroundBtn.render($backgroundSlot);
             this.viewPlugins.backgroundBtn.hide();
 
@@ -315,19 +315,18 @@ define([
             this.backgroundPlugins.forEach(function (model) {
                 var modes = model.get('variations'),
                     icons = modes[model.get('currentVariation')].get('icons'),
-                    parsedIcons = me.viewPlugins.parseIcons(icons),
-                    icon_url = model.get('baseUrl') + parsedIcons['normal'],
                     guid = model.get('guid'),
                     isRun = _.indexOf(usedPlugins, guid) !== -1;
-                model.set('parsedIcons', parsedIcons);
-                var menuItem = new Common.UI.MenuItem({
+                model.set('parsedIcons', me.viewPlugins.parseIcons(icons));
+                var menuItem = new Common.UI.MenuItemCustom({
                     value: guid,
                     caption: model.get('name'),
-                    iconImg: icon_url,
+                    iconsSet: me.viewPlugins.iconsStr2IconsObj(icons),
+                    baseUrl: model.get('baseUrl'), // icons have a relative path, so need to use the base url
                     template: _.template([
                         '<div id="<%= id %>" class="menu-item" <% if(!_.isUndefined(options.stopPropagation)) { %> data-stopPropagation="true" <% } %> >',
                             '<img class="menu-item-icon" src="<%= options.iconImg %>">',
-                            '<div class="plugin-caption"><%= caption %></div>',
+                            '<div class="plugin-caption"><%- caption %></div>',
                             '<div class="plugin-tools">',
                                 '<div class="plugin-toggle"></div>',
                                 '<div class="plugin-settings"></div>',
@@ -640,7 +639,7 @@ define([
                 type: 'plugin'
             });
             button.render($button);
-            var $panel = $('<div id="panel-plugins-' + name + '" class="plugin-panel content-box" style="height: 100%;"></div>');
+            var $panel = $('<div id="panel-plugins-' + name + '" class="plugin-panel' + (menu !== 'right' ? ' content-box' : '') + '" style="height: 100%;"></div>');
             this.viewPlugins.fireEvent(menu === 'right' ? 'plugins:addtoright' : 'plugins:addtoleft', [button, $button, $panel]);
             this.viewPlugins.pluginPanels[pluginGuid] = new Common.Views.PluginPanel({
                 el: '#panel-plugins-' + name,
@@ -1189,7 +1188,7 @@ define([
             me.customPluginsDlg[frameId] = new Common.Views.PluginDlg({
                 cls: (isCustomWindow ? 'plain' : '') + (variation.transparent ? ' ' + 'no-background' : ''),
                 header: !isCustomWindow,
-                title: description,
+                title: Common.Utils.String.htmlEncode(description),
                 width: size[0], // inner width
                 height: size[1], // inner height
                 url: variation.url,
@@ -1336,7 +1335,7 @@ define([
                     type: 'plugin'
                 });
             button.render($button);
-            var $panel = $('<div id="panel-plugins-' + frameId + '" class="plugin-panel content-box" style="height: 100%;"></div>');
+            var $panel = $('<div id="panel-plugins-' + frameId + '" class="plugin-panel' + (menu !== 'right' ? ' content-box' : '') + '" style="height: 100%;"></div>');
             this.viewPlugins.fireEvent(menu === 'right' ? 'plugins:addtoright' : 'plugins:addtoleft', [button, $button, $panel]);
             this.viewPlugins.customPluginPanels[frameId] = new Common.Views.PluginPanel({
                 el: '#panel-plugins-' + frameId,

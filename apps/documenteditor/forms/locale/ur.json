@@ -164,6 +164,7 @@
   "DE.Controllers.ApplicationController.txtPressLink": "Ctrl دبائیں اور لنک پر کلک کریں۔",
   "DE.Controllers.ApplicationController.txtSignedForm": "اس دستاویز پر دستخط ہو چکے ہیں اور اس میں ترمیم نہیں کی جا سکتی۔",
   "DE.Controllers.ApplicationController.txtUntitled": "بلا عنوان",
+  "DE.Controllers.ApplicationController.txtWarnUrl": "اس لنک پر کلک کرنا آپ کے آلے اور ڈیٹا کے لیے نقصان دہ ہو سکتا ہے۔ اپنے کمپیوٹر کی حفاظت کے لیے، قابل اعتماد ذرائع سے صرف ان ہی ہائپر لنکس پر کلک کریں۔ یہ مقام غیر محفوظ ہو سکتا ہے:<br><br>{0}<br><br>کیا آپ واقعی جاری رکھنا چاہتے ہیں؟",
   "DE.Controllers.ApplicationController.unknownErrorText": "نامعلوم خرابی",
   "DE.Controllers.ApplicationController.unsupportedBrowserErrorText": "آپ کا براؤزر تعاون یافتہ نہیں ہے۔",
   "DE.Controllers.ApplicationController.uploadImageExtMessage": "نامعلوم تصویر کا فارمیٹ۔",

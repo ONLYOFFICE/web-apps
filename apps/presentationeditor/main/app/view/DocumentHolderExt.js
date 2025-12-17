@@ -256,6 +256,7 @@ define([], function () {
                 initMenu: function(value) {
                     var selectedLast = me.api.asc_IsLastSlideSelected(),
                         selectedFirst = me.api.asc_IsFirstSlideSelected();
+                    me.slideMenu.options.fromThumbs = value.fromThumbs;
                     me.menuSlidePaste.setVisible(value.fromThumbs!==true);
                     me.mnuNewSlide.setVisible(value.fromThumbs===true); // New Slide
                     me.mnuDuplicateSlide.setVisible(value.isSlideSelect===true); // Duplicate Slide
@@ -564,15 +565,14 @@ define([], function () {
             });
 
             me.menuTableCellAlign = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-align-top',
-                caption  : me.cellAlignText,
+                caption  : me.AlignText,
                 menu    : new Common.UI.Menu({
                     cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         me.menuTableCellTop = new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-align-top',
-                            caption     : me.textShapeAlignTop,
+                            caption     : me.AlignTop,
                             checkable   : true,
                             checkmark   : false,
                             toggleGroup : 'popuptablecellalign',
@@ -580,7 +580,7 @@ define([], function () {
                         }),
                         me.menuTableCellCenter = new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-align-middle',
-                            caption     : me.textShapeAlignMiddle,
+                            caption     : me.AlignMiddle,
                             checkable   : true,
                             checkmark   : false,
                             toggleGroup : 'popuptablecellalign',
@@ -588,11 +588,44 @@ define([], function () {
                         }),
                         me.menuTableCellBottom = new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-align-bottom',
-                            caption     : me.textShapeAlignBottom,
+                            caption     : me.AlignBottom,
                             checkable   : true,
                             checkmark   : false,
                             toggleGroup : 'popuptablecellalign',
                             value       : Asc.c_oAscVertAlignJc.Bottom
+                        }),
+                        { caption: '--' },
+                        me.menuTableCellLeft = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-left',
+                            caption     : me.AlignLeft,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popuptablecellhalign',
+                            halign      : 1 
+                        }),
+                        me.menuTableCellHCenter = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-center',
+                            caption     : me.AlignCenter,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popuptablecellhalign',
+                            halign      : 2 
+                        }),
+                        me.menuTableCellRight = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-right',
+                            caption     : me.AlignRight,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popuptablecellhalign',
+                            halign      : 0 
+                        }),
+                        me.menuTableCellJust = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-just',
+                            caption     : me.AlignJust,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popuptablecellhalign',
+                            halign      : 3 
                         })
                     ]
                 })
@@ -1086,10 +1119,8 @@ define([], function () {
                 })
             });
 
-             me.menuChartElement = new Common.UI.MenuItem({
+            me.menuChartElement = new Common.UI.MenuItem({
                 menu: new Common.UI.Menu({
-                    cls: 'shifted-right',
-                    menuAlign: 'tl-tr',
                     items: [
                         { 
                             caption: me.textAxes, 
@@ -1101,27 +1132,32 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textHorAxis, 
-                                        value: 'bShowHorAxis', 
+                                        value: 'bShowHorAxis',
+                                        stopPropagation: true, 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textVertAxis, 
-                                        value: 'bShowVertAxis', 
+                                        value: 'bShowVertAxis',
+                                        stopPropagation: true, 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textHorAxisSec, 
-                                        value: 'bShowHorAxSec', 
+                                        value: 'bShowHorAxSec',
+                                        stopPropagation: true, 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textVertAxisSec, 
-                                        value: 'bShowVertAxSec', 
+                                        value: 'bShowVertAxSec',
+                                        stopPropagation: true, 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.DepthAxis, 
-                                        value: 'bShowDepthAxes', 
+                                        value: 'bShowDepthAxes',
+                                        stopPropagation: true, 
                                         checkable: true
                                     }
                                 ]
@@ -1137,27 +1173,32 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textHorAxis, 
-                                        value: 'bShowHorAxTitle', 
+                                        value: 'bShowHorAxTitle',
+                                        stopPropagation: true, 
                                         checkable: true                                   
                                     },
                                     { 
                                         caption: me.textVertAxis, 
                                         value: 'bShowVertAxTitle', 
+                                        stopPropagation: true,
                                         checkable: true
                                     },
                                     { 
                                         caption:  me.textHorAxisSec, 
-                                        value: 'bShowHorAxTitleSec', 
+                                        value: 'bShowHorAxTitleSec',
+                                        stopPropagation: true, 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textVertAxisSec, 
-                                        value: 'bShowVertAxisTitleSec', 
+                                        value: 'bShowVertAxisTitleSec',
+                                        stopPropagation: true, 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.DepthAxis, 
-                                        value: 'bShowDepthAxesTitle', 
+                                        value: 'bShowDepthAxesTitle',
+                                        stopPropagation: true, 
                                         checkable: true
                                     }
                                 ]
@@ -1173,17 +1214,23 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textNone, 
-                                        value: 'bShowChartTitleNone', 
+                                        value: 'bShowChartTitleNone',
+                                        stopPropagation: true,
+                                        toggleGroup: 'chartTitle',  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textNoOverlay, 
-                                        value: 'bShowChartTitle', 
+                                        value: 'bShowChartTitle',
+                                        stopPropagation: true,
+                                        toggleGroup: 'chartTitle',  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textOverlay, 
-                                        value: 'bOverlayTitle', 
+                                        value: 'bOverlayTitle',
+                                        stopPropagation: true,
+                                        toggleGroup: 'chartTitle',  
                                         checkable: true
                                     }
                                 ]
@@ -1199,52 +1246,72 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textNone, 
-                                        value: 'bShowDataLabels', 
+                                        value: 'bShowDataLabels',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels',  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textCenter, 
                                         value: 'CenterData', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels', 
                                         checkable: true
                                     },
                                     {   
                                         caption: me.textInnerBottom, 
-                                        value: 'InnerBottomData', 
+                                        value: 'InnerBottomData',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels',  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textInnerTop, 
                                         value: 'InnerTopData', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels', 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textOuterTop, 
                                         value: 'OuterTopData', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels', 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textTop, 
                                         value: 'TopData', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels', 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textLeft, 
                                         value: 'LeftData', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels', 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textRight, 
                                         value: 'RightData', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels', 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textBottom, 
                                         value: 'BottomData', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels', 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textFit, 
                                         value: 'FitWidthData', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels', 
                                         checkable: true
                                     }                   
                                 ]
@@ -1281,19 +1348,28 @@ define([], function () {
                                 cls: 'shifted-right',  
                                 menuAlign: 'tl-tr',
                                 items: [
+                                    { 
+                                        caption: me.textNone, 
+                                        value: 'noneError',
+                                        stopPropagation: true, 
+                                        disabled: false
+                                    },
                                     {
                                         caption: me.textStandardError,
                                         value: 'standardError',
+                                        stopPropagation: true, 
                                         disabled: false
                                     },
                                     {
                                         caption: me.txtPercentage,
                                         value: 'percentage',
+                                        stopPropagation: true, 
                                         disabled: false
                                     },
                                     {
                                         caption: me.textStandardDeviation,
                                         value: 'standardDeviation',
+                                        stopPropagation: true, 
                                         disabled: false
                                     }
                                 ]
@@ -1309,22 +1385,26 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textHorizontalMajor, 
-                                        value: 'bShowHorMajor', 
+                                        value: 'bShowHorMajor',
+                                        stopPropagation: true,  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textVerticalMajor, 
-                                        value: 'bShowVerMajor', 
+                                        value: 'bShowVerMajor',
+                                        stopPropagation: true,  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textHorizontalMinor, 
-                                        value: 'bShowHorMinor', 
+                                        value: 'bShowHorMinor',
+                                        stopPropagation: true,  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textVerticalMinor, 
                                         value: 'bShowVerMinor', 
+                                        stopPropagation: true, 
                                         checkable: true
                                     }
                                 ]
@@ -1339,33 +1419,52 @@ define([], function () {
                                 menuAlign: 'tl-tr',
                                 items: [
                                     { 
+                                        caption: me.textNone, 
+                                        value: 'NoneLegend',
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend',  
+                                        checkable: true
+                                    },
+                                    { 
                                         caption: me.textTop, 
-                                        value: 'TopLegend', 
+                                        value: 'TopLegend',
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend',  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textLeft, 
                                         value: 'LeftLegend', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend', 
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textRight, 
-                                        value: 'RightLegend', 
+                                        value: 'RightLegend',
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend',  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textBottom, 
                                         value: 'BottomLegend', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend', 
                                         checkable: true
                                     },   
                                     { 
                                         caption: me.textLeftOverlay, 
-                                        value: 'LeftOverlay', 
+                                        value: 'LeftOverlay',
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend',  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textRightOverlay, 
                                         value: 'RightOverlay', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend', 
                                         checkable: true
                                     }
                                 ]
@@ -1381,22 +1480,27 @@ define([], function () {
                                 items: [
                                     {
                                         caption: me.textNone, 
+                                        stopPropagation: true, 
                                         value: 'trendLineNone'
                                     },
                                     {
                                         caption: me.textLinear,
+                                        stopPropagation: true, 
                                         value: 'trendLineLinear'
                                     },
                                     {
                                         caption: me.textExponential, 
+                                        stopPropagation: true, 
                                         value: 'trendLineExponential'
                                     },
                                     {
                                         caption: me.textLinearForecast,
+                                        stopPropagation: true, 
                                         value: 'trendLineForecast'
                                     },
                                     {
                                         caption: me.textMovingAverage, 
+                                        stopPropagation: true, 
                                         value: 'trendLineMovingAverage'
                                     }
                                 ]
@@ -1412,10 +1516,12 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textNone, 
+                                        stopPropagation: true, 
                                         value: 'bShowUpDownNone'
                                     },
                                     { 
                                         caption: me.textShowUpDown, 
+                                        stopPropagation: true, 
                                         value: 'bShowUpDownBars'
                                     }
                                 ]
@@ -1430,15 +1536,14 @@ define([], function () {
             });
 
             me.menuParagraphVAlign = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-align-top',
-                caption     : me.vertAlignText,
+                caption     : me.AlignText,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         me.menuParagraphTop = new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-align-top',
-                            caption     : me.textShapeAlignTop,
+                            caption     : me.AlignTop,
                             checkable   : true,
                             checkmark   : false,
                             toggleGroup : 'popupparagraphvalign',
@@ -1446,7 +1551,7 @@ define([], function () {
                         }),
                         me.menuParagraphCenter = new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-align-middle',
-                            caption     : me.textShapeAlignMiddle,
+                            caption     : me.AlignMiddle,
                             checkable   : true,
                             checkmark   : false,
                             toggleGroup : 'popupparagraphvalign',
@@ -1454,11 +1559,44 @@ define([], function () {
                         }),
                         me.menuParagraphBottom = new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-align-bottom',
-                            caption     : me.textShapeAlignBottom,
+                            caption     : me.AlignBottom,
                             checkable   : true,
                             checkmark   : false,
                             toggleGroup : 'popupparagraphvalign',
                             value       : Asc.c_oAscVAlign.Bottom
+                        }),
+                        { caption: '--' },
+                        me.menuParagraphLeft = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-left',
+                            caption     : me.AlignLeft,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popupparagraphhalign',
+                            halign      : 1 
+                        }),
+                        me.menuParagraphHCenter = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-center',
+                            caption     : me.AlignCenter,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popupparagraphhalign',
+                            halign      : 2 
+                        }),
+                        me.menuParagraphRight = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-right',
+                            caption     : me.AlignRight,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popupparagraphhalign',
+                            halign      : 0 
+                        }),
+                        me.menuParagraphJust = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-just',
+                            caption     : me.AlignJust,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popupparagraphhalign',
+                            halign      : 3 
                         })
                     ]
                 })
@@ -1720,25 +1858,17 @@ define([], function () {
                     me.menuParagraphDirection.setVisible(isInShape && !isInChart && !isEquation); // после того, как заголовок можно будет растягивать по вертикали, вернуть "|| isInChart" !!
                     if (isInShape || isInChart) {
                         var align = value.shapeProps.value.get_VerticalTextAlign();
-                        var cls = '';
-                        switch (align) {
-                            case Asc.c_oAscVAlign.Top:
-                                cls = 'menu__icon btn-align-top';
-                                break;
-                            case Asc.c_oAscVAlign.Center:
-                                cls = 'menu__icon btn-align-middle';
-                                break;
-                            case Asc.c_oAscVAlign.Bottom:
-                                cls = 'menu__icon btn-align-bottom';
-                                break;
-                        }
-                        me.menuParagraphVAlign.setIconCls(cls);
+                        var halign = value.paraProps.value.get_Jc();
                         me.menuParagraphTop.setChecked(align == Asc.c_oAscVAlign.Top);
                         me.menuParagraphCenter.setChecked(align == Asc.c_oAscVAlign.Center);
                         me.menuParagraphBottom.setChecked(align == Asc.c_oAscVAlign.Bottom);
+                        me.menuParagraphLeft.setChecked(halign == 1);
+                        me.menuParagraphHCenter.setChecked(halign == 2);
+                        me.menuParagraphRight.setChecked(halign == 0);
+                        me.menuParagraphJust.setChecked(halign == 3);
 
                         var dir = value.shapeProps.value.get_Vert();
-                        cls = '';
+                        var cls = '';
                         switch (dir) {
                             case Asc.c_oAscVertDrawingText.normal:
                                 cls = 'menu__icon btn-text-orient-hor';
@@ -1892,25 +2022,17 @@ define([], function () {
                     var disabled = (value.slideProps!==undefined && value.slideProps.locked);
 
                     var align = value.tableProps.value.get_CellsVAlign();
-                    var cls = '';
-                    switch (align) {
-                        case Asc.c_oAscVertAlignJc.Top:
-                            cls = 'menu__icon btn-align-top';
-                            break;
-                        case Asc.c_oAscVertAlignJc.Center:
-                            cls = 'menu__icon btn-align-middle';
-                            break;
-                        case Asc.c_oAscVertAlignJc.Bottom:
-                            cls = 'menu__icon btn-align-bottom';
-                            break;
-                    }
-                    me.menuTableCellAlign.setIconCls(cls);
+                    var halign = value.paraProps.value.get_Jc();
                     me.menuTableCellTop.setChecked(align == Asc.c_oAscVertAlignJc.Top);
                     me.menuTableCellCenter.setChecked(align == Asc.c_oAscVertAlignJc.Center);
                     me.menuTableCellBottom.setChecked(align == Asc.c_oAscVertAlignJc.Bottom);
+                    me.menuTableCellLeft.setChecked(halign == 1);
+                    me.menuTableCellHCenter.setChecked(halign == 2);
+                    me.menuTableCellRight.setChecked(halign == 0);
+                    me.menuTableCellJust.setChecked(halign == 3); 
 
                     var dir = value.tableProps.value.get_CellsTextDirection();
-                    cls = '';
+                    var cls = '';
                     switch (dir) {
                         case Asc.c_oAscCellTextDirection.LRTB:
                             cls = 'menu__icon btn-text-orient-hor';
@@ -2263,19 +2385,31 @@ define([], function () {
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
             });
 
+            const shortcutHints = {};
             var nextpage = $('#id_buttonNextPage');
             nextpage.attr('data-toggle', 'tooltip');
-            nextpage.tooltip({
-                title       : me.textNextPage + Common.Utils.String.platformKey('PgDn'),
-                placement   : 'top-right'
-            });
+            shortcutHints.GoToNextSlide = {
+                label: me.textNextPage,
+                applyCallback: function(item, hintText) {
+                    nextpage.tooltip({
+                        title       : hintText,
+                        placement   : 'top-right'
+                    });
+                }
+            };
 
             var prevpage = $('#id_buttonPrevPage');
             prevpage.attr('data-toggle', 'tooltip');
-            prevpage.tooltip({
-                title       : me.textPrevPage + Common.Utils.String.platformKey('PgUp'),
-                placement   : 'top-right'
-            });
+            shortcutHints.GoToPreviousSlide = {
+                label: me.textPrevPage,
+                applyCallback: function(item, hintText) {
+                    nextpage.tooltip({
+                        title       : hintText,
+                        placement   : 'top-right'
+                    });
+                }
+            };
+            PE.getController('Common.Controllers.Shortcuts').updateShortcutHints(shortcutHints);
 
             this.fireEvent('createdelayedelements', [this, 'edit']);
         };

@@ -146,7 +146,7 @@ define([
                     autoWidth:       true,
                     itemTemplate: _.template([
                         '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + itemWidth + 'px;height: ' + itemHeight + 'px;">',
-                        '<div class = "icon toolbar__icon <%= imageUrl %>"></div>',
+                        '<div class = "icon toolbar__icon options__icon <%= imageUrl %>"></div>',
                         '<div class = "caption"><%= title %></div>',
                         '</div>'
                     ].join('')),
@@ -196,10 +196,9 @@ define([
                 this.lockedControls.push(this.btnPreview);
 
                 this.btnParameters = new Common.UI.Button({
-                    cls: 'btn-toolbar  x-huge icon-top',
+                    cls: 'btn-toolbar x-huge icon-top',
                     caption: this.txtParameters,
-                    iconCls: 'toolbar__icon icon btn-transition-none',
-                    scaling: false,
+                    iconCls: 'toolbar__icon btn-transition-none',
                     menu: new Common.UI.Menu({
                         items: this.createParametersMenuItems()
                     }),

@@ -479,6 +479,8 @@
 	"ARRAYTOTEXT": "DİZİMETİN",
 	"SORT": "SIRALA",
 	"SORTBY": "SIRALAÖLÇÜT",
+	"GETPIVOTDATA": "ÖZETVERİAL",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",
@@ -500,7 +502,22 @@
 			"num": "#NUM!",
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
-			"uf": "#UNSUPPORTED_FUNCTION!"
+			"uf": "#UNSUPPORTED_FUNCTION!",
+			"calc": "#HESAPLA!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "adres",
+			"col": "sütun",
+			"color": "renk",
+			"contents": "içerik",
+			"filename": "dosyaadı",
+			"format": "biçim",
+			"parentheses": "ayraçlar",
+			"prefix": "önek",
+			"protect": "koruma",
+			"row": "satır",
+			"type": "tip",
+			"width": "genişlik"
 		}
 	}
 }

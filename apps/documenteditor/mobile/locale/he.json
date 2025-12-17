@@ -66,7 +66,8 @@
     "textTableSize": "גודל הטבלה",
     "textWithBlueLinks": "עם קישורים כחולים",
     "textWithPageNumbers": "עם מספרי עמודים",
-    "txtNotUrl": "שדה זה אמור להיות כתובת אתר בפורמט \"http://www.example.com\""
+    "txtNotUrl": "שדה זה אמור להיות כתובת אתר בפורמט \"http://www.example.com\"",
+    "textRemovePicture": "Remove picture"
   },
   "Common": {
     "Collaboration": {
@@ -532,7 +533,6 @@
     "criticalErrorTitle": "שגיאה",
     "errorAccessDeny": "אין לך הרשאה לביצוע הפעולה שניסית לבצע.<br> נא לפנות למנהל המערכת שלך.",
     "errorOpensource": "באמצעות גרסת הקהילה החינמית ניתן לפתוח מסמכים לצפייה בלבד. השימוש בכלי העריכה המקוונים הניידים מחייב רישיון מסחרי.",
-    "errorProcessSaveResult": "השמירה נכשלה.",
     "errorServerVersion": "גרסת העורך עודכנה. הדף ייטען מחדש כדי להחיל את השינויים.",
     "errorUpdateVersion": "גרסת הקובץ שונתה. הדף ייטען מחדש.",
     "leavePageText": "יש שינויים שלא נשמרו. נא ללחוץ על 'הישאר בדף זה' כדי להמתין לשמירה האוטומטית. ניתן ללחוץ על 'יציאה מדף זה' כדי למחוק את כל השינויים שלא נשמרו.",
@@ -676,7 +676,8 @@
     "warnProcessRightsChange": "אין לך הרשאה לערוך קובץ זה.",
     "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
     "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-    "titleReadOnly": "Read-Only Mode"
+    "titleReadOnly": "Read-Only Mode",
+    "txtSignedForm": "This document has been signed and cannot be edited."
   },
   "Settings": {
     "advDRMOptions": "קובץ מוגן",

@@ -53,6 +53,7 @@
     "textPictureFromURL": "Imagem da URL",
     "textPosition": "Posição",
     "textRecommended": "Recomendado",
+    "textRemovePicture": "Remover imagem",
     "textRequired": "Necessário",
     "textRightBottom": "Parte inferior direita",
     "textRightTop": "Parte superior direita",
@@ -227,7 +228,7 @@
     "textRefreshEntireTable": "Atualizar tabela inteira",
     "textRefreshPageNumbersOnly": "Atualizar apenas números de página",
     "textRows": "Linhas",
-    "txtWarnUrl": "Clicar neste link pode ser prejudicial ao seu dispositivo e dados.<br>Você tem certeza de que quer continuar?"
+    "txtWarnUrl": "Clicar neste link pode ser prejudicial ao seu dispositivo e aos seus dados. Este local pode não ser seguro:<br>{0}<br>Tem certeza de que deseja continuar?"
   },
   "Draw": {
     "textColor": "Cor",
@@ -517,7 +518,7 @@
     "savePreparingTitle": "Preparando para salvar. Por favor, aguarde...",
     "saveTextText": "Salvando documento...",
     "saveTitleText": "Salvando documento",
-    "savingText": "Salvando",
+    "savingText": "Enviando",
     "sendMergeText": "Enviando mesclar...",
     "sendMergeTitle": "Enviando Mesclar",
     "textContinue": "Continuar",
@@ -532,7 +533,6 @@
     "criticalErrorTitle": "Erro",
     "errorAccessDeny": "Você está tentando realizar uma ação para a qual não tem direitos.<br>Por favor, entre em contato com seu administrador.",
     "errorOpensource": "Usando a versão gratuita da Comunidade, você pode abrir documentos apenas para visualização. Para acessar editores da web móvel, é necessária uma licença comercial.",
-    "errorProcessSaveResult": "Salvamento falhou.",
     "errorServerVersion": "A versão do editor foi atualizada. A página será recarregada para aplicar as alterações.",
     "errorUpdateVersion": "A versão do arquivo foi alterada. A página será recarregada.",
     "leavePageText": "Você tem mudanças não salvas. Clique em 'Ficar nesta página' para esperar pela auto-salvar. Clique em 'Sair desta página' para descartar todas as mudanças não salvas.",
@@ -668,6 +668,7 @@
     "titleReadOnly": "Modo somente leitura",
     "titleServerVersion": "Editor atualizado",
     "titleUpdateVersion": "Versão alterada",
+    "txtSignedForm": "Este documento foi assinado e não pode ser editado.",
     "warnDownloadAsPdf": "Seu {0} será convertido em um formato editável. Isso pode demorar um pouco. O documento resultante será otimizado para permitir que você edite o texto, portanto, pode não parecer exatamente com o {0} original, especialmente se o arquivo original contiver muitos gráficos.",
     "warnLicenseAnonymous": "Acesso negado para usuários anônimos.<br>Este documento será aberto apenas para visualização.",
     "warnLicenseBefore": "Licença inativa.<br>Entre em contato com seu administrador.",

@@ -30,7 +30,7 @@
   "ContextMenu": {
     "menuCancel": "Revocare",
     "textOk": "OK",
-    "txtWarnUrl": "Un clic pe acest link ar putea căuza daune dispozitivului și datelor dvs.<br>Sunteți sigur că doriți să continuați?"
+    "txtWarnUrl": "Accesarea acestui link poate dăuna dispozitivului sau datelor dvs. Această locație poate fi nesigură:<br>{0}<br>Sigur doriti sa continuati? "
   },
   "Controller": {
     "Main": {
@@ -40,7 +40,6 @@
       "criticalErrorTitle": "Eroare",
       "errorAccessDeny": "Nu aveți dreptul să efectuați acțiunea pe care doriți.<br>Contactați administratorul dvs.",
       "errorOpensource": "În versiunea Community documentul este disponibil numai pentru vizualizare. Aveți nevoie de o licență comercială pentru accesarea editorului mobil web.",
-      "errorProcessSaveResult": "Salvarea nu a reușit.",
       "errorServerVersion": "Editorul a fost actualizat. Pagina va fi reîmprospătată pentru a aplica această actualizare.",
       "errorUpdateVersion": "Versiunea fișierului s-a modificat. Pagina va fi reîmprospătată.",
       "leavePageText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",

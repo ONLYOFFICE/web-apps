@@ -51,40 +51,40 @@
     cursor: pointer;
     .svg-format- {
         &xlsx {
-            background: ~"url('@{common-image-const-path}/doc-formats/xlsx.svg') no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/large/xlsx.svg') no-repeat center";
         }
         &pdf {
-            background: ~"url('@{common-image-const-path}/doc-formats/pdf.svg') no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/large/pdf.svg') no-repeat center";
         }
         &ods {
-            background: ~"url('@{common-image-const-path}/doc-formats/ods.svg') no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/large/ods.svg') no-repeat center";
         }
         &csv {
-            background: ~"url('@{common-image-const-path}/doc-formats/csv.svg') no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/large/csv.svg') no-repeat center";
         }
         &xltx {
-            background: ~"url('@{common-image-const-path}/doc-formats/xltx.svg') no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/large/xltx.svg') no-repeat center";
         }
         &pdfa {
-            background: ~"url('@{common-image-const-path}/doc-formats/pdfa.svg') no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/large/pdfa.svg') no-repeat center";
         }
         &ots {
-            background: ~"url('@{common-image-const-path}/doc-formats/ots.svg') no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/large/ots.svg') no-repeat center";
         }
         &xlsm {
-            background: ~"url('@{common-image-const-path}/doc-formats/xlsm.svg') no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/large/xlsm.svg') no-repeat center";
         }
         &png {
-            background: ~"url('@{common-image-const-path}/doc-formats/png.svg') no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/large/png.svg') no-repeat center";
         }
         &jpg {
-            background: ~"url('@{common-image-const-path}/doc-formats/jpg.svg') no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/large/jpg.svg') no-repeat center";
         }
         &xlsb {
-            background: ~"url('@{common-image-const-path}/doc-formats/xlsb.svg') no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/large/xlsb.svg') no-repeat center";
         }
         &numbers {
-            background: ~"url('@{common-image-const-path}/doc-formats/numbers.svg') no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/large/numbers.svg') no-repeat center";
         }
     }
 
@@ -105,7 +105,7 @@
     cursor: pointer;
 
     .svg-format-blank {
-        background: ~"url(@{common-image-const-path}/doc-formats/blank.svg) no-repeat center" ;
+        background: ~"url(@{common-image-const-path}/doc-formats/large/blank.svg) no-repeat center" ;
     }
     .svg-file-template{
         background: ~"url(@{app-image-const-path}/file-template.svg) no-repeat center" ;
@@ -591,6 +591,17 @@
                     div {
                         width: 100%;
                         height: 100%;
+
+                        svg {
+                            display: none;
+                            width: 24px;
+                            height: 30px;
+
+                            .pixel-ratio__2_5 & {
+                              display: block;
+                            }
+                        }
+
                         div{
                             background: ~"url(@{common-image-const-path}/doc-formats/formats.png)";
                             background-size: 1200px 30px;
@@ -609,6 +620,10 @@
 
                                 .pixel-ratio__2 & {
                                     background-image: ~"url(@{common-image-const-path}/doc-formats/formats@2x.png)";
+                                }
+
+                                .pixel-ratio__2_5 & {
+                                   display: none;
                                 }
                             }
                         }

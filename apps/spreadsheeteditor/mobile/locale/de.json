@@ -87,7 +87,7 @@
     "textCopyCutPasteActions": "Kopieren, Ausschneiden und Einfügen",
     "textDoNotShowAgain": "Nicht mehr anzeigen",
     "textOk": "OK",
-    "txtWarnUrl": "Dieser Link kann für Ihr Gerät und Daten gefährlich sein.<br>Möchten Sie wirklich fortsetzen?",
+    "txtWarnUrl": "Das Klicken auf diesen Link kann Ihr Gerät und Ihre Daten schädigen. Dieser Standort ist möglicherweise unsicher:<br>{0}<br>Möchten Sie wirklich fortfahren?",
     "warnMergeLostData": "Nur die Daten aus der oberen linken Zelle bleiben nach der Vereinigung.<br>Möchten Sie wirklich fortsetzen?"
   },
   "Controller": {
@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Fehler",
       "errorAccessDeny": "Dieser Vorgang ist für Sie nicht verfügbar.<br>Bitte wenden Sie sich an Administratoren.",
       "errorOpensource": "Mit der kostenlosen Community-Version können Sie Dokumente nur schreibgeschützt öffnen. Für den Zugriff auf mobilen Web-Editoren ist eine kommerzielle Lizenz erforderlich.",
-      "errorProcessSaveResult": "Fehler beim Speichern von Daten.",
       "errorServerVersion": "Version des Editors wurde aktualisiert. Die Seite wird neu geladen, um die Änderungen zu übernehmen.",
       "errorUpdateVersion": "Die Dateiversion wurde geändert. Die Seite wird neu geladen.",
       "leavePageText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
@@ -322,6 +321,7 @@
     "errorLockedAll": "Die Operation kann nicht durchgeführt werden, weil das Blatt von einem anderen Benutzer gesperrt ist.",
     "errorLockedCellPivot": "Die Daten innerhalb einer Pivot-Tabelle können nicht geändert werden.",
     "errorLockedWorksheetRename": "Umbenennen des Blattes ist derzeit nicht möglich, denn es wird gleichzeitig von einem anderen Benutzer umbenannt.",
+    "errorMacroUnavailableWarning": "Das Makro %1 kann nicht ausgeführt werden. Das Makro ist in dieser Arbeitsmappe möglicherweise nicht verfügbar oder alle Makros sind deaktiviert.",
     "errorMaxPoints": "Die maximale Punktzahl pro eine Tabelle beträgt 4096 Punkte.",
     "errorMaxRows": "FEHLER! Maximale Anzahl an Datenreihen pro Diagramm ist 255.",
     "errorMoveRange": "Teil einer verbundenen Zelle kann nicht geändert werden",
@@ -428,6 +428,7 @@
   "Statusbar": {
     "notcriticalErrorTitle": "Warnung",
     "textCancel": "Abbrechen",
+    "textContinue": "Weiter",
     "textDelete": "Löschen",
     "textDuplicate": "Verdoppeln",
     "textErrNameExists": "Es gibt schon ein Arbeitsblatt mit solchem Namen.",
@@ -448,7 +449,8 @@
     "textSheetName": "Blattname",
     "textTabColor": "Registerfarbe",
     "textUnhide": "Einblenden",
-    "textWarnDeleteSheet": "Das Arbeitsblatt kann Daten enthalten. Möchten Sie fortsetzen?"
+    "textWarnDeleteSheet": "Das Arbeitsblatt kann Daten enthalten. Möchten Sie fortsetzen?",
+    "warnAddSheetCsv": "Das CSV-Format unterstützt das Speichern einer Datei mit mehreren Blättern nicht. Nur das aktive Blatt wird gespeichert. Um alle Blätter zu behalten, speichern Sie die Datei bitte in einem anderen Format."
   },
   "Toolbar": {
     "btnRestartNow": "Jetzt neu starten",
@@ -878,13 +880,18 @@
       "txtSk": "Slowakisch",
       "txtSl": "Slowenisch",
       "txtSpace": "Leerzeichen",
+      "txtSr": "Serbisch (Latein)",
+      "txtSrcyrl": "Serbisch (Kyrillisch)",
       "txtSv": "Schwedisch",
       "txtTab": "Tab",
       "txtTr": "Türkisch",
       "txtUk": "Ukrainisch",
       "txtVi": "Vietnamesisch",
-      "txtZh": "Chinesisch ",
-      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?"
+      "txtZh": "Chinesisch (vereinfacht)",
+      "txtZhtw": "Chinesisch (traditionell)",
+      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
+      "warnDownloadCsv": "Das CSV-Format unterstützt nicht das Speichern einer Datei mit mehreren Blättern und allen Elementen außer Text.<br>Um nur das aktive Blatt als CSV zu speichern, drücken Sie OK.<br>Um die gesamte Tabelle und alle Funktionen zu speichern, klicken Sie auf Abbrechen und wählen Sie ein anderes Format aus.",
+      "warnDownloadOds": "Das Speichern dieser Datei kann aufgrund eingeschränkter Formatunterstützung zum Verlust einiger Formeln, Zellformatierungen oder eingebetteter Objekte führen.<br>Möchten Sie fortfahren?"
     }
   }
 }

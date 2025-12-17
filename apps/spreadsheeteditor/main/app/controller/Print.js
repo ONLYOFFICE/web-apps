@@ -41,12 +41,10 @@ define([
         ],
 
         initialize: function() {
-            var value = Common.localStorage.getItem("sse-print-settings-range");
-            value = (value!==null) ? parseInt(value) : Asc.c_oAscPrintType.ActiveSheets;
-            this._currentPrintType = value;
+            this._currentPrintType = Asc.c_oAscPrintType.ActiveSheets;
 
             this.adjPrintParams = new Asc.asc_CAdjustPrint();
-            this.adjPrintParams.asc_setPrintType(value);
+            this.adjPrintParams.asc_setPrintType(this._currentPrintType);
 
             this._state = {
                 firstPrintPage: 0,
@@ -328,9 +326,15 @@ define([
             var opt = this._changedProps[sheet] ? this._changedProps[sheet].asc_getPageSetup() : new Asc.asc_CPageSetup();
             opt.asc_setOrientation(panel.cmbPaperOrientation.getValue() == '-' ? undefined : panel.cmbPaperOrientation.getValue());
 
-            var size = panel.cmbPaperSize.getSelectedRecord().size;
-            var pagew = size[0];
-            var pageh = size[1];
+            var pagew, pageh;
+            const cmbPaperSizeRecord = panel.cmbPaperSize.getSelectedRecord();
+            if(cmbPaperSizeRecord) {
+                pagew = cmbPaperSizeRecord.size[0];
+                pageh = cmbPaperSizeRecord.size[1];
+            } else {
+                pagew = panel.getOriginalPageSize().w;
+                pageh = panel.getOriginalPageSize().h;
+            }
 
             opt.asc_setWidth(pagew ? pagew : (this._originalPageSettings ? this._originalPageSettings.asc_getWidth() : undefined));
             opt.asc_setHeight(pageh? pageh : (this._originalPageSettings ? this._originalPageSettings.asc_getHeight() : undefined));
@@ -406,7 +410,7 @@ define([
             this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
 
             this.fillPrintOptions(this.adjPrintParams, false);
-            this.adjPrintParams.asc_setActiveSheetsArray(this.printSettings.getRange() === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
+            this.adjPrintParams.asc_setActiveSheetsArray(this.printSettings.getRange() === Asc.c_oAscPrintType.Selection || this.printSettings.getRange() === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
 
             var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
             opts.asc_setAdvancedOptions(this.adjPrintParams);
@@ -481,7 +485,7 @@ define([
                 this.adjPrintParams.asc_setPrintType(printtype);
                 this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
                 this.adjPrintParams.asc_setIgnorePrintArea(this.printSettingsDlg.getIgnorePrintArea());
-                this.adjPrintParams.asc_setActiveSheetsArray(printtype === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
+                this.adjPrintParams.asc_setActiveSheetsArray(printtype === Asc.c_oAscPrintType.Selection || printtype === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
                 var pageFrom = this.printSettingsDlg.getPagesFrom(),
                     pageTo = this.printSettingsDlg.getPagesTo();
                 if (pageFrom > pageTo) {
@@ -491,7 +495,6 @@ define([
                 }
                 this.adjPrintParams.asc_setStartPageIndex(pageFrom > 0 ? pageFrom - 1 : null);
                 this.adjPrintParams.asc_setEndPageIndex(pageTo > 0 ? pageTo - 1 : null);
-                Common.localStorage.setItem("sse-print-settings-range", printtype);
 
                 var sheetIndex = printtype === Asc.c_oAscPrintType.EntireWorkbook ? 0 : this.api.asc_getActiveWorksheetIndex(),
                     props = this._changedProps[sheetIndex] || this.api.asc_getPageOptions(sheetIndex),
@@ -538,7 +541,7 @@ define([
             this.adjPrintParams.asc_setPrintType(printType);
             this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
             this.adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
-            this.adjPrintParams.asc_setActiveSheetsArray(printType === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
+            this.adjPrintParams.asc_setActiveSheetsArray(printType === Asc.c_oAscPrintType.Selection || printType === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
             var pageFrom = this.printSettings.getPagesFrom(),
                 pageTo = this.printSettings.getPagesTo();
             if (pageFrom > pageTo) {
@@ -548,7 +551,6 @@ define([
             }
             this.adjPrintParams.asc_setStartPageIndex(pageFrom > 0 ? pageFrom - 1 : null);
             this.adjPrintParams.asc_setEndPageIndex(pageTo > 0 ? pageTo - 1 : null);
-            Common.localStorage.setItem("sse-print-settings-range", printType);
 
             var sheetIndex = printType === Asc.c_oAscPrintType.EntireWorkbook ? 0 : this.api.asc_getActiveWorksheetIndex(),
                 props = this._changedProps[sheetIndex] || this.api.asc_getPageOptions(sheetIndex),
@@ -967,7 +969,7 @@ define([
                 adjPrintParams.asc_setPrintType(printType);
                 adjPrintParams.asc_setPageOptionsMap(this._changedProps);
                 adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
-                adjPrintParams.asc_setActiveSheetsArray(printType === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
+                adjPrintParams.asc_setActiveSheetsArray(printType === Asc.c_oAscPrintType.Selection || printType === Asc.c_oAscPrintType.ActiveSheets ? SSE.getController('Statusbar').getSelectTabs() : null);
                 var pageFrom = this.printSettings.getPagesFrom(),
                     pageTo = this.printSettings.getPagesTo();
                 if (pageFrom > pageTo) {

@@ -1105,40 +1105,43 @@ define([], function () {
             var _СhartSettingsDlg_view = SSE.Views.ChartSettingsDlg.prototype;
             me.menuChartElement = new Common.UI.MenuItem({
                 menu: new Common.UI.Menu({
-                    cls: 'shifted-right',
-                    menuAlign: 'tl-tr',
                     items: [
                         { 
                             caption: me.textAxes, 
                             value: 'axes',
-                            disabled: false,
+                            disabled: false, 
                             menu: new Common.UI.Menu({
                                 cls: 'shifted-right',  
                                 menuAlign: 'tl-tr',
                                 items: [
                                     { 
                                         caption: _СhartSettingsDlg_view.textHorAxis, 
-                                        value: 'bShowHorAxis', 
+                                        value: 'bShowHorAxis',
+                                        stopPropagation: true,
                                         checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textVertAxis, 
-                                        value: 'bShowVertAxis', 
+                                        value: 'bShowVertAxis',
+                                        stopPropagation: true, 
                                         checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textHorAxisSec, 
-                                        value: 'bShowHorAxSec', 
+                                        value: 'bShowHorAxSec',
+                                        stopPropagation: true, 
                                         checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textVertAxisSec, 
                                         value: 'bShowVertAxSec', 
+                                        stopPropagation: true,
                                         checkable: true
                                     },
                                     { 
                                         caption: me.DepthAxis, 
                                         value: 'bShowDepthAxes', 
+                                        stopPropagation: true,
                                         checkable: true
                                     }
                                 ]
@@ -1154,27 +1157,32 @@ define([], function () {
                                 items: [
                                     { 
                                         caption:_СhartSettingsDlg_view.textHorAxis, 
-                                        value: 'bShowHorAxTitle', 
+                                        value: 'bShowHorAxTitle',
+                                        stopPropagation: true, 
                                         checkable: true                                   
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textVertAxis, 
-                                        value: 'bShowVertAxTitle', 
+                                        value: 'bShowVertAxTitle',
+                                        stopPropagation: true,  
                                         checkable: true
                                     },
                                     { 
                                         caption:  _СhartSettingsDlg_view.textHorAxisSec, 
-                                        value: 'bShowHorAxTitleSec', 
+                                        value: 'bShowHorAxTitleSec',
+                                        stopPropagation: true,  
                                         checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textVertAxisSec, 
-                                        value: 'bShowVertAxisTitleSec', 
+                                        value: 'bShowVertAxisTitleSec',
+                                        stopPropagation: true,  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.DepthAxis, 
-                                        value: 'bShowDepthAxisTitle', 
+                                        value: 'bShowDepthAxisTitle',
+                                        stopPropagation: true,  
                                         checkable: true
                                     }
                                 ]
@@ -1190,17 +1198,23 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textNone, 
-                                        value: 'bShowChartTitleNone', 
+                                        value: 'bShowChartTitleNone',
+                                        stopPropagation: true, 
+                                        toggleGroup: 'chartTitle', 
                                         checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textNoOverlay, 
-                                        value: 'bShowChartTitle', 
+                                        value: 'bShowChartTitle',
+                                        stopPropagation: true,
+                                        toggleGroup: 'chartTitle',   
                                         checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textOverlay, 
-                                        value: 'bOverlayTitle', 
+                                        value: 'bOverlayTitle',
+                                        stopPropagation: true,
+                                        toggleGroup: 'chartTitle',   
                                         checkable: true
                                     }
                                 ]
@@ -1216,52 +1230,71 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textNone, 
-                                        value: 'bShowDataLabels', 
+                                        value: 'bShowDataLabels',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels',   
                                         checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textCenter, 
-                                        value: 'CenterData', 
+                                        value: 'CenterData',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels',   
                                         checkable: true
                                     },
                                     {   
                                         caption: _СhartSettingsDlg_view.textInnerBottom, 
-                                        value: 'InnerBottomData', 
+                                        value: 'InnerBottomData',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels',   
                                         checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textInnerTop, 
-                                        value: 'InnerTopData', 
+                                        value: 'InnerTopData',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels',   
                                         checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textOuterTop, 
-                                        value: 'OuterTopData', 
+                                        value: 'OuterTopData',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels',   
                                         checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textTop, 
-                                        value: 'TopData', 
+                                        value: 'TopData',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels',   
                                         checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textLeft, 
-                                        value: 'LeftData', 
+                                        value: 'LeftData',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels',   
                                         checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textRight, 
-                                        value: 'RightData', 
+                                        value: 'RightData',
+                                        stopPropagation: true,  
                                         checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textBottom, 
-                                        value: 'BottomData', 
+                                        value: 'BottomData',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels',   
                                         checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textFit, 
-                                        value: 'FitWidthData', 
+                                        value: 'FitWidthData',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataLabels',   
                                         checkable: true
                                     }                 
                                 ]
@@ -1298,19 +1331,28 @@ define([], function () {
                                 cls: 'shifted-right',  
                                 menuAlign: 'tl-tr',
                                 items: [
+                                    { 
+                                        caption: me.textNone, 
+                                        value: 'noneError',
+                                        stopPropagation: true, 
+                                        disabled: false
+                                    },
                                     {
                                         caption: me.textStandardError,
                                         value: 'standardError',
+                                        stopPropagation: true, 
                                         disabled: false
                                     },
                                     {
                                         caption: me.txtPercentage,
                                         value: 'percentage',
+                                        stopPropagation: true, 
                                         disabled: false
                                     },
                                     {
                                         caption: me.textStandardDeviation,
                                         value: 'standardDeviation',
+                                        stopPropagation: true, 
                                         disabled: false
                                     }
                                 ]
@@ -1326,22 +1368,26 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textHorizontalMajor, 
-                                        value: 'bShowHorMajor', 
+                                        value: 'bShowHorMajor',
+                                        stopPropagation: true,  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textVerticalMajor, 
-                                        value: 'bShowVerMajor', 
+                                        value: 'bShowVerMajor',
+                                        stopPropagation: true,  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textHorizontalMinor, 
-                                        value: 'bShowHorMinor', 
+                                        value: 'bShowHorMinor',
+                                        stopPropagation: true,  
                                         checkable: true
                                     },
                                     { 
                                         caption: me.textVerticalMinor, 
-                                        value: 'bShowVerMinor', 
+                                        value: 'bShowVerMinor',
+                                        stopPropagation: true,  
                                         checkable: true
                                     }
                                 ]
@@ -1356,33 +1402,52 @@ define([], function () {
                                 menuAlign: 'tl-tr',
                                 items: [
                                     { 
+                                        caption: me.textNone, 
+                                        value: 'NoneLegend',
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend',  
+                                        checkable: true
+                                    },
+                                    { 
                                         caption: _СhartSettingsDlg_view.textTop, 
-                                        value: 'TopLegend', 
+                                        value: 'TopLegend',
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend',  
                                         checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textLeft, 
-                                        value: 'LeftLegend', 
+                                        value: 'LeftLegend',
+                                        stopPropagation: true, 
+                                        toggleGroup: 'legend',   
                                         checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textRight, 
                                         value: 'RightLegend', 
+                                        stopPropagation: true, 
+                                        toggleGroup: 'legend',  
                                         checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textBottom, 
                                         value: 'BottomLegend', 
+                                        stopPropagation: true, 
+                                        toggleGroup: 'legend',  
                                         checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textLeftOverlay, 
                                         value: 'LeftOverlay', 
+                                        stopPropagation: true,
+                                        toggleGroup: 'legend',   
                                         checkable: true
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textRightOverlay, 
                                         value: 'RightOverlay', 
+                                        stopPropagation: true, 
+                                        toggleGroup: 'legend',  
                                         checkable: true
                                     }
                                 ]
@@ -1398,22 +1463,27 @@ define([], function () {
                                 items: [
                                     {
                                         caption: me.textNone, 
+                                        stopPropagation: true, 
                                         value: 'trendLineNone'
                                     },
                                     {
                                         caption: me.textLinear,
+                                        stopPropagation: true, 
                                         value: 'trendLineLinear'
                                     },
                                     {
-                                        caption: me.textExponential, 
+                                        caption: me.textExponential,
+                                        stopPropagation: true,  
                                         value: 'trendLineExponential'
                                     },
                                     {
                                         caption: me.textLinearForecast,
+                                        stopPropagation: true, 
                                         value: 'trendLineForecast'
                                     },
                                     {
                                         caption: me.textMovingAverage, 
+                                        stopPropagation: true, 
                                         value: 'trendLineMovingAverage'
                                     }
                                 ]
@@ -1429,10 +1499,12 @@ define([], function () {
                                 items: [
                                     { 
                                         caption: me.textNone, 
+                                        stopPropagation: true,  
                                         value: 'bShowUpDownNone'
                                     },
                                     { 
                                         caption: me.textShowUpDown, 
+                                        stopPropagation: true, 
                                         value: 'bShowUpDownBars'
                                     }
                                 ]
@@ -1540,15 +1612,14 @@ define([], function () {
             });
 
             this.menuParagraphVAlign = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-align-top',
-                caption     : this.vertAlignText,
+                caption     : this.AlignText,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
                     menuAlign   : 'tl-tr',
                     items: [
                         me.menuParagraphTop = new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-align-top',
-                            caption     : me.topCellText,
+                            caption     : me.AlignTop,
                             checkable   : true,
                             checkmark   : false,
                             toggleGroup : 'popupparagraphvalign',
@@ -1556,7 +1627,7 @@ define([], function () {
                         }),
                         me.menuParagraphCenter = new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-align-middle',
-                            caption     : me.centerCellText,
+                            caption     : me.AlignMiddle,
                             checkable   : true,
                             checkmark   : false,
                             toggleGroup : 'popupparagraphvalign',
@@ -1564,11 +1635,44 @@ define([], function () {
                         }),
                         this.menuParagraphBottom = new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-align-bottom',
-                            caption     : me.bottomCellText,
+                            caption     : me.AlignBottom,
                             checkable   : true,
                             checkmark   : false,
                             toggleGroup : 'popupparagraphvalign',
                             value       : Asc.c_oAscVAlign.Bottom
+                        }),
+                        { caption: '--' },
+                        me.menuParagraphLeft = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-left',
+                            caption     : me.AlignLeft,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popupparagraphhalign',
+                            halign      : 1 
+                        }),
+                        me.menuParagraphHCenter = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-center',
+                            caption     : me.AlignCenter,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popupparagraphhalign',
+                            halign      : 2 
+                        }),
+                        me.menuParagraphRight = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-right',
+                            caption     : me.AlignRight,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popupparagraphhalign',
+                            halign      : 0 
+                        }),
+                        me.menuParagraphJust = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-just',
+                            caption     : me.AlignJust,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popupparagraphhalign',
+                            halign      : 3 
                         })
                     ]
                 })

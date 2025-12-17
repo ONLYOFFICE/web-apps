@@ -69,8 +69,16 @@ define([
             var me = this;
             me.btnZoomToPage.updateHint(me.tipFitPage);
             me.btnZoomToWidth.updateHint(me.tipFitWidth);
-            me.btnZoomDown.updateHint(me.tipZoomOut + Common.Utils.String.platformKey('Ctrl+-'));
-            me.btnZoomUp.updateHint(me.tipZoomIn + Common.Utils.String.platformKey('Ctrl++'));
+            DE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                ZoomOut: {
+                    btn: me.btnZoomDown,
+                    label: me.tipZoomOut
+                },
+                ZoomIn: {
+                    btn: me.btnZoomUp,
+                    label: me.tipZoomIn
+                }
+            });
 
             if (config.canUseSelectHandTools) {
                 me.btnSelectTool.updateHint(me.tipSelectTool);

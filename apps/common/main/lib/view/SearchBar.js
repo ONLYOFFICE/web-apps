@@ -66,7 +66,9 @@ define([
                     '<div class="tools">',
                         '<div id="search-bar-back"></div>',
                         '<div id="search-bar-next"></div>',
-                        this.options.showOpenPanel ? '<div id="search-bar-open-panel"></div>' : '',
+                        this.options.showOpenPanel
+                            ? '<div id="search-bar-open-panel"></div><div id="search-bar-open-panel-redact"></div>'
+                            : '',
                         '<div id="search-bar-close"></div>',
                     '</div>',
                 '</div>'
@@ -74,10 +76,11 @@ define([
 
             this.options.tpl = _.template(this.template)(this.options);
             this.iconType = this.options.iconType;
-
+            this.mode = options.editMode;
             Common.UI.Window.prototype.initialize.call(this, this.options);
 
             Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));
+            Common.NotificationCenter.on('pdf:mode-changed', _.bind(this.onModeChanged, this));
             $(window).on('resize', _.bind(this.onLayoutChanged, this));
         },
 
@@ -112,6 +115,8 @@ define([
             this.btnNext.on('click', _.bind(this.onBtnNextClick, this, 'next'));
 
             if (this.options.showOpenPanel) {
+                var me = this;
+
                 this.btnOpenPanel = new Common.UI.Button({
                     parentEl: $('#search-bar-open-panel'),
                     cls: 'btn-toolbar',
@@ -119,6 +124,30 @@ define([
                     hint: this.tipOpenAdvancedSettings
                 });
                 this.btnOpenPanel.on('click', _.bind(this.onOpenPanel, this));
+
+                this.btnOpenPanelRedact = new Common.UI.Button({
+                    parentEl: $('#search-bar-open-panel-redact'),
+                    cls: 'btn-toolbar',
+                    menu: true,
+                    iconCls: 'toolbar__icon btn-more-vertical',
+                    hint: this.tipOpenAdvancedSettings
+                });
+                this.btnOpenPanelRedact.setMenu(
+                    new Common.UI.Menu({
+                        items: [
+                            {caption: me.capFind, value: 'find', hint: this.tipOpenAdvancedSettings},
+                            {caption: me.capFindRedact, value: 'find-redact', hint: this.tipOpenAdvancedSettingsRedact},
+                        ]
+                    }).on('item:click', function (menu, item, e) {
+                        if (item.value === 'find') {
+                            me.hide();
+                            me.fireEvent('search:show', [true, me.inputSearch.val()]);
+                        } else {
+                            me.hide();
+                            me.fireEvent('search:showredact', [true, me.inputSearch.val()])
+                        }
+                    })
+                );
             }
 
             this.btnClose = new Common.UI.Button({
@@ -141,6 +170,8 @@ define([
                 this.updateResultsNumber(resultNumber, allResults);
             }, this));
 
+            this.btnOpenPanelRedact && this.btnOpenPanelRedact.setVisible(this.mode === 'edit');
+            this.btnOpenPanel && this.btnOpenPanel.setVisible(this.mode !== 'edit');
             return this;
         },
 
@@ -187,6 +218,13 @@ define([
                 left = !Common.UI.isRTL() ? Common.Utils.innerWidth() - ($('#right-menu').is(':visible') ? $('#right-menu').width() : 0) - this.$window.width() - 32 :
                     ($('#right-menu').is(':visible') ? $('#right-menu').width() : 0) + 32;
             this.$window.css({left: left, top: top});
+        },
+
+        onModeChanged: function (config) {
+            if (!config) return;
+            this.mode = config.isPDFEdit ? 'edit' : (config.isPDFAnnotate ? 'comment' : 'view');
+            this.btnOpenPanel.setVisible(this.mode !== 'edit')
+            this.btnOpenPanelRedact.setVisible(this.mode == 'edit')
         },
 
         onBtnNextClick: function(action) {

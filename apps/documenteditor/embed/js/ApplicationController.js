@@ -247,7 +247,17 @@ DE.ApplicationController = new(function(){
             if (type == Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Form) { // hyperlink
                 me.isHideBodyTip = false;
 
-                var str = (type == Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? (me.txtPressLink.replace('%1', common.utils.isMac ? '⌘' : me.textCtrl)) : data.get_FormHelpText();
+                var str = '';
+                if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink) {
+                    var hyperProps = data.get_Hyperlink();
+                    if (!hyperProps) return;
+                    if (hyperProps.get_NoCtrl && hyperProps.get_NoCtrl())
+                        str = hyperProps.get_ToolTip() || hyperProps.get_Value();
+                    else
+                        str = me.txtPressLink.replace('%1', common.utils.isMac ? '⌘' : me.textCtrl);
+                } else
+                    str = data.get_FormHelpText();
+
                 if (str.length>500)
                     str = str.substr(0, 500) + '...';
                 str = common.utils.htmlEncode(str);
@@ -483,6 +493,8 @@ DE.ApplicationController = new(function(){
             share: '#idt-share',
             embed: '#idt-embed'
         });
+
+        common.controller.Shortcuts.setApi(api);
 
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
         api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
@@ -778,9 +790,9 @@ DE.ApplicationController = new(function(){
             WarningShown = true; 
             common.controller.modals.showWarning({
                     title: me.notcriticalErrorTitle,
-                    message: me.txtOpenWarning,
-                    buttons: [me.txtYes, me.txtNo], 
-                    primary: me.txtYes,
+                    message: me.txtOpenWarning.replace('%1', url || ''),
+                    buttons: [me.txtNo, me.txtYes],
+                    primary: me.txtNo,
                     callback: function (btn) {
                         WarningShown = false; 
                         if (btn === me.txtYes) {
@@ -900,6 +912,10 @@ DE.ApplicationController = new(function(){
             case Asc.c_oAscError.ID.SessionToken: // don't show error message
                 return;
 
+            case Asc.c_oAscError.ID.CopyDisabled:
+                message= me.errorCopyDisabled;
+                break;
+
             default:
                 // message = me.errorDefaultMessage.replace('%1', id);
                 // break;
@@ -1004,14 +1020,12 @@ DE.ApplicationController = new(function(){
     }
 
     function onOpenLinkPdfForm(sURI, onAllow, onCancel) {
-        var re = new RegExp('ctrl|' + me.textCtrl, 'i'),
-            msg = common.utils.isMac ? me.txtSecurityWarningLink.replace(re, '⌘') : me.txtSecurityWarningLink;
         common.controller.modals.showWarning({
             title: me.notcriticalErrorTitle,
-            message: msg.replace('%1', sURI || ''),
+            message: me.txtSecurityWarningLinkOk.replace('%1', sURI || ''),
             buttons: [me.textOk, me.textCancel],
             callback: function(btn) {
-                if (btn == me.textOk && window.event && (!common.utils.isMac && window.event.ctrlKey == true || common.utils.isMac && window.event.metaKey)) {
+                if (btn == me.textOk) {
                     onAllow();
                 }
                 else
@@ -1184,12 +1198,14 @@ DE.ApplicationController = new(function(){
         textConvertFormDownload: 'Download file as a fillable PDF form to be able to fill it out.',
         textDownloadPdf: 'Download pdf',
         errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
-        txtOpenWarning: 'Clicking this link can be harmful to your device and data.<br> Are you sure you want to continue?',
+        txtOpenWarning: 'Clicking this link can be harmful to your device and data.To protect you computer, click only those hyperlinks from trusted sources. This location may be unsafe:<br>%1<br>Are you sure you want to continue?',
         txtYes:'Yes',
         txtNo: 'No',
         textOk: 'OK',
         textCancel: 'Cancel',
         txtSecurityWarningLink: 'This document is trying to connect to %1.<br>If you trust this site, press \"OK\" while holding down the ctrl key.',
         txtSecurityWarningOpenFile: 'This document is trying to open file dialog, press \"OK\" to open.',
+        txtSecurityWarningLinkOk: 'This document is trying to connect to %1.<br>If you trust this site, press \"OK\".',
+        errorCopyDisabled: 'For security reasons, the contents of this document cannot be copied to the clipboard.'
     }
 })();

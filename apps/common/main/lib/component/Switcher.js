@@ -219,6 +219,7 @@ define([
 
         updateHint: function(hint, isHtml) {
             this.options.hint = hint;
+            this.hint = hint;
 
             if (!this.rendered) return;
 

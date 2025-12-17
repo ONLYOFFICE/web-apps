@@ -751,7 +751,6 @@ class MainController extends Component {
             Common.component.Analytics.initialize('UA-12442749-13', 'Spreadsheet Editor');
         }
 
-        Common.Gateway.on('processsaveresult',      this.onProcessSaveResult.bind(this));
         Common.Gateway.on('processrightschange',    this.onProcessRightsChange.bind(this));
         Common.Gateway.on('downloadas',             this.onDownloadAs.bind(this));
         Common.Gateway.on('requestclose',           this.onRequestClose.bind(this));
@@ -1217,19 +1216,6 @@ class MainController extends Component {
         Common.component.Analytics.trackEvent('Print');
     }
 
-    onProcessSaveResult (data) {
-        this.api.asc_OnSaveEnd(data.result);
-
-        if (data && data.result === false) {
-            const { t } = this.props;
-            const _t = t('Controller.Main', {returnObjects:true});
-            f7.dialog.alert(
-                (!data.message) ? _t.errorProcessSaveResult : data.message,
-                _t.criticalErrorTitle
-            );
-        }
-    }
-
     onProcessRightsChange (data) {
         if (data && data.enabled === false) {
             const appOptions = this.props.storeAppOptions;
@@ -1365,7 +1351,7 @@ class MainController extends Component {
             docInfo.put_Format(this.document.fileType);
             docInfo.put_Lang(this.editorConfig.lang);
             docInfo.put_Mode(this.editorConfig.mode);
-            docInfo.put_Permissions(this.permissions);
+            docInfo.put_Permissions(this.document.permissions);
             docInfo.put_DirectUrl(data.document && data.document.directUrl ? data.document.directUrl : this.document.directUrl);
             docInfo.put_VKey(data.document && data.document.vkey ?  data.document.vkey : this.document.vkey);
             docInfo.put_EncryptedInfo(data.editorConfig && data.editorConfig.encryptionKeys ? data.editorConfig.encryptionKeys : this.editorConfig.encryptionKeys);

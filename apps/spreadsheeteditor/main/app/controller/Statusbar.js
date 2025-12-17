@@ -580,7 +580,7 @@ define([
                     return false;
                 }
                 if (newName !== currentName) {
-                    me.api.asc_renameWorksheet(newName);
+                    me.api.asc_renameWorksheet(newName, tab.sheetid);
                     me.renameInputVal = null;
                     me.renamingWorksheet = null;
                 }
@@ -667,7 +667,7 @@ define([
 
             const wc = me.api.asc_getWorksheetsCount();
 
-            var tab = sheetFromUpdate ? _.findWhere(me.statusbar.tabbar.tabs, { sheetid: sheetFromUpdate }) : me.statusbar.tabbar.tabs[sindex];
+            var tab = sheetFromUpdate ? _.findWhere(me.statusbar.tabbar.tabs, { sheetid: sheetFromUpdate }) : _.findWhere(me.statusbar.tabbar.tabs, { sheetindex: sindex });
             var currentName = sheetFromUpdate ? me.renameInputVal : me.api.asc_getWorksheetName(sindex);
             if (!tab) return;
             const $tabEl = tab.$el.find('span');
@@ -740,6 +740,7 @@ define([
                 spreadsheetName: me.api.asc_getDocumentName(),
                 isDesktopApp: me.statusbar.mode.isDesktopApp,
                 isOffline: me.statusbar.mode.isOffline,
+                hiddenWorksheets: me.statusbar.getHiddenWorksheets(),
                 handler : function(result, i, copy, workbook) {
                     btn = result;
                     if (btn == 'ok') {
@@ -874,6 +875,7 @@ define([
                     var clr,
                         effectcolors = Common.Utils.ThemeColor.getEffectColors();
 
+                    if (!effectcolors) return;
                     for (var i = 0; i < effectcolors.length; ++i) {
                         if (typeof(picker.currentColor) == 'object' &&
                             clr === undefined &&

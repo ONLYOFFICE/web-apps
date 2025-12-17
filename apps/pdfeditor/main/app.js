@@ -143,6 +143,7 @@ require([
             'Main',
             'ViewTab',
             'InsTab',
+            'RedactTab',
             'Search',
             'Print',
             'FormsTab',
@@ -151,9 +152,11 @@ require([
             'Common.Controllers.Comments',
             'Common.Controllers.Draw',
             'Common.Controllers.Plugins',
-            // 'Common.Controllers.ExternalDiagramEditor',
+            'Common.Controllers.ExternalLinks',
+            'Common.Controllers.ExternalDiagramEditor',
             // 'Common.Controllers.ExternalOleEditor',
-            'Common.Controllers.Protection'
+            'Common.Controllers.Protection',
+            'Common.Controllers.Shortcuts'
         ]
     });
 
@@ -178,22 +181,27 @@ require([
                 'pdfeditor/main/app/controller/Main',
                 'pdfeditor/main/app/controller/ViewTab',
                 'pdfeditor/main/app/controller/InsTab',
+                'pdfeditor/main/app/controller/RedactTab',
                 'pdfeditor/main/app/controller/Search',
                 'pdfeditor/main/app/controller/Print',
                 'pdfeditor/main/app/controller/FormsTab',
+                'pdfeditor/main/app/view/ChartSettings',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Fonts',
                 'common/main/lib/controller/Comments',
                 'common/main/lib/controller/Chat',
                 /** coauthoring end **/
+                'common/main/lib/controller/ExternalLinks',
                 'common/main/lib/controller/Plugins',
-                // 'common/main/lib/controller/ExternalDiagramEditor',
+                'common/main/lib/controller/ExternalDiagramEditor',
                 // 'common/main/lib/controller/ExternalOleEditor',
                 'common/main/lib/controller/Draw',
-                'common/main/lib/controller/Protection'
+                'common/main/lib/controller/Protection',
+                'common/main/lib/controller/Shortcuts'
             ], function() {
+                const code_path = !window.isIEBrowser ? 'pdfeditor/main/code' : 'pdfeditor/main/ie/code';
                 app.postLaunchScripts = [
-                    'pdfeditor/main/code',
+                    code_path,
                 ];
 
                 app.start();

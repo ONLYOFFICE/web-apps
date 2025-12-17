@@ -355,7 +355,7 @@ define([
                         me.api.asc_enableKeyEvents(false);
                     },
                     'modal:close': function(dlg) {
-                        Common.Utils.ModalWindow.close();
+                        dlg && dlg.isVisible() && Common.Utils.ModalWindow.close(); // close can be called after hiding
                         if (!Common.Utils.ModalWindow.isVisible())
                             me.api.asc_enableKeyEvents(true);
                     },
@@ -626,16 +626,6 @@ define([
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
             },
 
-            onProcessSaveResult: function(data) {
-                this.api.asc_OnSaveEnd(data.result);
-                if (data && data.result === false) {
-                    Common.UI.error({
-                        title: this.criticalErrorTitle,
-                        msg  : _.isEmpty(data.message) ? this.errorProcessSaveResult : data.message
-                    });
-                }
-            },
-
             onProcessRightsChange: function(data) {
                 if (data && data.enabled === false) {
                     var me = this,
@@ -644,8 +634,8 @@ define([
                     this.api.asc_coAuthoringDisconnect();
                     Common.NotificationCenter.trigger('collaboration:sharingdeny');
                     Common.NotificationCenter.trigger('api:disconnect');
-                    !old_rights && Common.UI.TooltipManager.showTip({ step: 'changeRights', text: _.isEmpty(data.message) ? this.warnProcessRightsChange : data.message,
-                        target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true,
+                    !old_rights && Common.UI.TooltipManager.showTip({ step: 'changeRights', text: _.isEmpty(data.message) ? this.warnProcessRightsChange : Common.Utils.String.htmlEncode(data.message),
+                        target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true,
                         callback: function() {
                             me._state.lostEditingRights = false;
                         }});
@@ -997,7 +987,11 @@ define([
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
                 if (me.appOptions.isEdit && me.appOptions.spreadsheet.fileType.toLowerCase()==='csv')
-                    Common.UI.TooltipManager.showTip({ step: 'openCsv', text: me.warnOpenCsv, target: '#toolbar', maxwidth: 350, automove: true, noHighlight: true, showButton: false});
+                    Common.UI.TooltipManager.showTip({ step: 'openCsv', text: me.warnOpenCsv, target: '#toolbar', maxwidth: 350, automove: true, noHighlight: true, noArrow: true, showButton: false});
+                if (me.appOptions.isEdit && !me.appOptions.canModifyFilter)
+                    Common.UI.TooltipManager.showTip({ step: 'cantModifyFilter', text: me.warnModifyFilter, target: '#toolbar', maxwidth: 400, showButton: false, automove: true, noHighlight: true, noArrow: true});
+                if (!me.appOptions.canCopy)
+                    Common.UI.TooltipManager.showTip({ step: 'copyDisabled', text: me.errorCopyDisabled, target: '#toolbar', maxwidth: 350, automove: true, noHighlight: true, noArrow: true, showButton: false});
 
                 value = (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram || this.appOptions.isEditOle) ? 100 : Common.localStorage.getItem("sse-settings-zoom");
                 Common.Utils.InternalSettings.set("sse-settings-zoom", value);
@@ -1087,6 +1081,8 @@ define([
 
                 this.formulaInput = celleditorController.getView('CellEditor').$el.find('textarea');
 
+                SSE.getController('Common.Controllers.Shortcuts').setApi(me.api);
+
                 if (me.appOptions.isEdit) {
                     Common.UI.FeaturesManager.canChange('spellcheck') && spellcheckController.setApi(me.api).setMode(me.appOptions);
 
@@ -1116,6 +1112,7 @@ define([
                         if (window.styles_loaded || me.appOptions.isEditDiagram || me.appOptions.isEditMailMerge || me.appOptions.isEditOle) {
                             clearInterval(timer_sl);
 
+                            
                             Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + me.api.asc_getActiveWorksheetId()]);
                             documentHolderView.createDelayedElements();
                             toolbarController.createDelayedElements();
@@ -1166,7 +1163,6 @@ define([
                     Common.component.Analytics.initialize('UA-12442749-13', 'Spreadsheet Editor');
 
                 Common.Gateway.on('applyeditrights', _.bind(me.onApplyEditRights, me));
-                Common.Gateway.on('processsaveresult', _.bind(me.onProcessSaveResult, me));
                 Common.Gateway.on('processrightschange', _.bind(me.onProcessRightsChange, me));
                 Common.Gateway.on('processmouse', _.bind(me.onProcessMouse, me));
                 Common.Gateway.on('downloadas',   _.bind(me.onDownloadAs, me));
@@ -1267,7 +1263,7 @@ define([
                     }
 
                     !modal ? Common.UI.TooltipManager.showTip({ step: 'licenseError', text: license, header: title, target: '#toolbar', maxwidth: 430,
-                                                                automove: true, noHighlight: true, textButton: this.textContinue}) :
+                                                                automove: true, noHighlight: true, noArrow: true, textButton: this.textContinue}) :
                     Common.UI.info({
                         maxwidth: 500,
                         title: title,
@@ -1504,6 +1500,7 @@ define([
                 this.appOptions.canSaveToFile = this.appOptions.isEdit || this.appOptions.isRestrictedEdit;
                 this.appOptions.showSaveButton = this.appOptions.isEdit;
                 this.appOptions.canSuggest     = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.suggestFeature===false);
+                this.appOptions.canCopy        = this.permissions.copy !== false;
 
                 this.appOptions.compactHeader = this.appOptions.customization && (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compactHeader;
                 this.appOptions.twoLevelHeader = this.appOptions.isEdit; // when compactHeader=true some buttons move to toolbar
@@ -1814,7 +1811,7 @@ define([
                         Common.NotificationCenter.trigger('collaboration:sharingdeny');
                         var me = this;
                         Common.UI.TooltipManager.showTip({ step: 'userDrop', text: this.errorUserDrop,
-                            target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true,
+                            target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true,
                             callback: function() {
                                 me._state.lostEditingRights = false;
                             }});
@@ -2285,8 +2282,20 @@ define([
                         config.msg = this.errorLockedCellSolver;
                         break;
 
+                    case Asc.c_oAscError.ID.MacroUnavailableWarning:
+                        config.msg = this.errorMacroUnavailableWarning.replace('%1', errData ? "'" + errData + "'" : '');
+                        config.maxwidth = 600;
+                        break;
+
+                    case Asc.c_oAscError.ID.CopyDisabled:
+                        config.maxwidth = 450;
+                        config.msg = this.errorCopyDisabled;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
+                        if (typeof id == 'string')
+                            config.maxwidth = 600;
                         break;
                 }
 
@@ -2343,7 +2352,7 @@ define([
                     }, this);
                 }
 
-                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value="' + id + '"]').length<1)
                     setTimeout(function() {Common.UI.alert(config).$window.attr('data-value', id);}, 1);
 
                 (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
@@ -2541,7 +2550,7 @@ define([
                 me.needToUpdateVersion = true;
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                 Common.UI.TooltipManager.showTip({ step: 'updateVersionReload', text: this.errorUpdateVersion, header: this.titleUpdateVersion,
-                    target: '#toolbar', maxwidth: 'none', closable: false, automove: true, noHighlight: true,
+                    target: '#toolbar', maxwidth: 'none', closable: false, automove: true, noHighlight: true, noArrow: true,
                     callback: function() {
                         _.defer(function() {
                             Common.Gateway.updateVersion();
@@ -2615,6 +2624,7 @@ define([
                         warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline) && (typeof advOptions == 'string'),
                         warningMsg: advOptions,
                         validatePwd: !!me._state.isDRM,
+                        autoPosOnResize : 'center',
                         handler: function (result, value) {
                             me.isShowOpenDialog = false;
                             if (result == 'ok') {
@@ -2948,6 +2958,8 @@ define([
             },
 
             setLanguages: function() {
+                if (!this.languages)
+                    return;
                 let sLangs = Common.Controllers.Desktop.systemLangs() || {},
                     arr = [],
                     me = this;
@@ -3272,7 +3284,6 @@ define([
                         length++;
                 });
                 this._state.usersCount = length;
-                this._state.fastCoauth && this._state.usersCount>1 && this.api.asc_getCanUndo() && Common.UI.TooltipManager.showTip('fastUndo');
             },
 
             onUserConnection: function(change){
@@ -3301,7 +3312,6 @@ define([
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
                     if (this._state.fastCoauth && !oldval)
                         this.synchronizeChanges();
-                    this._state.fastCoauth && this._state.usersCount>1 && this.api.asc_getCanUndo() && Common.UI.TooltipManager.showTip('fastUndo');
                 }
                 if (this.appOptions.canForcesave) {
                     this.appOptions.forcesave = Common.localStorage.getBool("sse-settings-forcesave", this.appOptions.canForcesave);
@@ -3560,7 +3570,7 @@ define([
                     }
                     Common.UI.alert({
                         title: this.notcriticalErrorTitle,
-                        msg: (opts.data.error) ? opts.data.error : this.txtErrorLoadHistory,
+                        msg: (opts.data.error) ? Common.Utils.String.htmlEncode(opts.data.error) : this.txtErrorLoadHistory,
                         iconCls: 'warn',
                         buttons: ['ok'],
                         callback: _.bind(function(btn){
@@ -3807,7 +3817,7 @@ define([
                     docInfo.put_Format(this.appOptions.spreadsheet.fileType);
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
-                    docInfo.put_Permissions(this.permissions);
+                    docInfo.put_Permissions(this.appOptions.spreadsheet.permissions);
                     docInfo.put_DirectUrl(data.document && data.document.directUrl ? data.document.directUrl : this.appOptions.spreadsheet.directUrl);
                     docInfo.put_VKey(data.document && data.document.vkey ?  data.document.vkey : this.appOptions.spreadsheet.vkey);
                     docInfo.put_EncryptedInfo(data.editorConfig && data.editorConfig.encryptionKeys ? data.editorConfig.encryptionKeys : this.editorConfig.encryptionKeys);

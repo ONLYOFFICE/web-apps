@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Xəta",
       "errorAccessDeny": "Hüquqlarınız olmayan əməliyyatı yerinə yetirməyə çalışırsınız.<br>Lütfən, admininizlə əlaqə saxlayın.",
       "errorOpensource": "Ödənişsiz İcma versiyasından istifadə edərək sənədləri yalnız baxmaq üçün aça bilərsiniz. Mobil veb redaktorlarına daxil olmaq üçün kommersiya lisenziyası tələb olunur.",
-      "errorProcessSaveResult": "Saxlama prosesi uğursuz oldu.",
       "errorServerVersion": "Redaktor versiyası yeniləndi. Dəyişiklikləri tətbiq etmək üçün səhifə yenidən yüklənəcək.",
       "errorUpdateVersion": "Fayl versiyası dəyişdirilib. Səhifə yenidən yüklənəcək.",
       "leavePageText": "Bu sənəddə saxlanmamış dəyişiklikləriniz var. Avtomatik saxlanmanı gözləmək üçün \"Bu Səhifədə Qalın\" hissəsinin üzərinə klikləyin. Bütün saxlanmamış dəyişiklikləri ləğv etmək üçün \"Bu səhifədən Çıxın\" hissəsinin üzərinə klikləyin.",
@@ -364,6 +363,7 @@
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
     "errorLabledColumnsPivot": "To create a pivot table report, you must use data that is organized as a list with labeled columns.",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled.",
     "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
     "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorPrecedentsNoValidRef": "The Trace Precedents command requires that the active cell contain a formula which includes a valid references.",
@@ -442,7 +442,9 @@
     "textSheetName": "Vərəq Adı",
     "textTabColor": "Tab Rəngi",
     "textUnhide": "Gizlətməni ləğv et",
-    "textWarnDeleteSheet": "İş vərəqində məlumat ola bilər. Əməliyyat davam etdirilsin?"
+    "textWarnDeleteSheet": "İş vərəqində məlumat ola bilər. Əməliyyat davam etdirilsin?",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Bu sənəddə saxlanmamış dəyişiklikləriniz var. Avtomatik saxlanmanı gözləmək üçün \"Bu Səhifədə Qalın\" hissəsinin üzərinə klikləyin. Bütün saxlanmamış dəyişiklikləri ləğv etmək üçün \"Bu səhifədən Çıxın\" hissəsinin üzərinə klikləyin.",
@@ -878,7 +880,12 @@
       "textLight": "Light",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "textTheme": "Theme",
+      "txtSr": "Serbian (Latin)",
+      "txtSrcyrl": "Serbian (Cyrillic)",
+      "txtZhtw": "Chinese (Traditional)",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+      "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
     }
   },
   "Draw": {

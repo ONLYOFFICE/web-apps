@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Hata",
       "errorAccessDeny": "Haklarınız olmayan bir işlemi gerçekleştirmeye çalışıyorsunuz.<br>Lütfen yöneticinizle iletişime geçin.",
       "errorOpensource": "Ücretsiz Topluluk sürümünü kullanarak belgeleri yalnızca görüntüleme için açabilirsiniz. Mobil web editörlerine erişmek için ticari bir lisans gereklidir.",
-      "errorProcessSaveResult": "Kaydetme başarısız.",
       "errorServerVersion": "Editör versiyonu güncellendi. Sayfa yenilenerek değişiklikler uygulanacaktır.",
       "errorUpdateVersion": "Dosya versiyonu değiştirildi. Sayfa yenilenecektir.",
       "leavePageText": "Bu belgede kaydedilmemiş değişiklikleriniz var. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",
@@ -344,6 +343,7 @@
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
     "errorLabledColumnsPivot": "To create a pivot table report, you must use data that is organized as a list with labeled columns.",
     "errorLocationOrDataRangeError": "The reference for the location or data range is not valid.",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled.",
     "errorMaxRows": "ERROR! The maximum number of data series per chart is 255.",
     "errorMoveSlicerError": "Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.",
     "errorNoDataToParse": "No data was selected to parse.",
@@ -442,7 +442,9 @@
     "textSheetName": "Sayfa ismi",
     "textTabColor": "Sekme Rengi",
     "textUnhide": "Gizlemeyi kaldır",
-    "textWarnDeleteSheet": "Çalışma sayfasında veri olabilir. İşleme devam edilsin mi?"
+    "textWarnDeleteSheet": "Çalışma sayfasında veri olabilir. İşleme devam edilsin mi?",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Bu belgede kaydedilmemiş değişiklikleriniz var. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",
@@ -878,7 +880,12 @@
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
       "textVersionHistory": "Version History",
-      "txtDe": "German"
+      "txtDe": "German",
+      "txtSr": "Serbian (Latin)",
+      "txtSrcyrl": "Serbian (Cyrillic)",
+      "txtZhtw": "Chinese (Traditional)",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+      "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
     }
   },
   "Draw": {

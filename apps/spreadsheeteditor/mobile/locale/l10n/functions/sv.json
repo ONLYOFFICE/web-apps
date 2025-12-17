@@ -479,6 +479,8 @@
 	"ARRAYTOTEXT": "MATRISTILLTEXT",
 	"SORT": "SORTERA",
 	"SORTBY": "SORTERAEFTER",
+	"GETPIVOTDATA": "HÄMTA.PIVOTDATA",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",
@@ -500,7 +502,22 @@
 			"num": "#NUM!",
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
-			"uf": "#UNSUPPORTED_FUNCTION!"
+			"uf": "#UNSUPPORTED_FUNCTION!",
+			"calc": "#KALK!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "adress",
+			"col": "kol",
+			"color": "färg",
+			"contents": "innehåll",
+			"filename": "filnamn",
+			"format": "format",
+			"parentheses": "parenteser",
+			"prefix": "prefix",
+			"protect": "skydd",
+			"row": "rad",
+			"type": "typ",
+			"width": "bredd"
 		}
 	}
 }

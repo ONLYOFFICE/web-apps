@@ -30,7 +30,7 @@
   "ContextMenu": {
     "menuCancel": "Mégse",
     "textOk": "OK",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -39,7 +39,6 @@
       "closeButtonText": "Fájl bezárása",
       "criticalErrorTitle": "Hiba",
       "errorOpensource": "Az ingyenes közösségi verzió használatával a dokumentumokat csak megtekintésre nyithatja meg. A mobil webszerkesztők eléréséhez kereskedelmi licenc szükséges.",
-      "errorProcessSaveResult": "Sikertelen mentés.",
       "notcriticalErrorTitle": "Figyelmeztetés",
       "textAnonymous": "Ismeretlen",
       "textBuyNow": "Weboldalt meglátogatása",

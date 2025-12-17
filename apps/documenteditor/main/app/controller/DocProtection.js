@@ -285,6 +285,8 @@ define([
         },
 
         applyRestrictions: function(type) {
+            if (this.appConfig.isPDFForm && this.api.asc_isFinal()) return;
+
             if (type === Asc.c_oAscEDocProtect.ReadOnly) {
                 this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View);
             } else if (type === Asc.c_oAscEDocProtect.Comments) {

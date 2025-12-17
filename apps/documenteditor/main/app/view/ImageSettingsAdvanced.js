@@ -3162,7 +3162,7 @@ define([
         },
 
         close: function () {
-            // this.api.asc_onCloseFrameEditor();
+            this.api && this.api.asc_onCloseFrameEditor();
             Common.Views.AdvancedSettingsWindow.prototype.close.apply(this, arguments);
         },
 

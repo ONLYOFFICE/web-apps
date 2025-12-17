@@ -12,7 +12,9 @@ export class storeToolbarSettings {
             disabledEditControls: observable,
             setDisabledEditControls: action,
             disabledSettings: observable, 
-            setDisabledSettings: action
+            setDisabledSettings: action,
+            isSignatureForm: observable,
+            setIsSignatureForm: action
         })
     }
 
@@ -44,5 +46,11 @@ export class storeToolbarSettings {
 
     setCanRedo(can) {
         this.isCanRedo = can;
+    }
+
+    isSignatureForm = false;
+
+    setIsSignatureForm(value) {
+        this.isSignatureForm = value;
     }
 }

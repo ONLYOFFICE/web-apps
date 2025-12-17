@@ -66,7 +66,8 @@
     "textWithBlueLinks": "Са плавим линковима",
     "textWithPageNumbers": "Са бројевима страница",
     "txtNotUrl": "Ово поље би требало да буде URL у \"http://www.example.com\" формату",
-    "textDrawing": "Drawing"
+    "textDrawing": "Drawing",
+    "textRemovePicture": "Remove picture"
   },
   "Common": {
     "Collaboration": {
@@ -526,7 +527,6 @@
     "criticalErrorTitle": "Грешка",
     "errorAccessDeny": "Покушавате да изведете акцију на коју немате права.<br>Молимо, контактирајте вашег администратора.",
     "errorOpensource": "Користећи бесплатну верзију Заједнице, можете отворити документ само за преглед. Да бисте приступили мобилним веб уређивачима, потребна је комерцијална лиценца.",
-    "errorProcessSaveResult": "Чување неуспешно.",
     "errorServerVersion": "Верзија уређивача је ажурирана. Страница ће бити поново учитана да се примене промене.",
     "errorUpdateVersion": "Верзија фајла је промењена. Страница ће бити поново учитана.",
     "leavePageText": "Имате несачуване промене. Кликните 'Остани на овој страници' да сачекате на ауточување. Кликните 'Напусти ову страницу' да одбаците све несачуване промене.",
@@ -670,7 +670,8 @@
     "warnProcessRightsChange": "Немате дозволу да уређујете овај фајл.",
     "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
     "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-    "titleReadOnly": "Read-Only Mode"
+    "titleReadOnly": "Read-Only Mode",
+    "txtSignedForm": "This document has been signed and cannot be edited."
   },
   "Settings": {
     "advDRMOptions": "Заштићен фајл",

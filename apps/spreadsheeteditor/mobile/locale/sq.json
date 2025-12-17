@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Gabim",
       "errorAccessDeny": "Ju po mundoheni të kryeni një veprim për të cilin nuk keni të drejta.<br>Ju lutem, kontaktoni administratorin tuaj.",
       "errorOpensource": "Me përdorimin e versionit të lirë të komunitetit, ju mund të hapni dokumente vetëm për ta parë. Për të aksesuar redaktorët e faqes së internetit për celularët, kërkohet një lisensë komerciale",
-      "errorProcessSaveResult": "Ruajtja dështoi",
       "errorServerVersion": "Verzioni i redakturesit është përditësuar. Faqja do të ringarkohet për të zbatuar ndryshimet.",
       "errorUpdateVersion": "Versioni i skedarit është ndryshuar. Faqja do të ringarkohet.",
       "leavePageText": "Ju keni ndryshime të pa ruajtura në këtë dokument. Klikoni 'Qëndro në këtë faqe' të prisni për ruajtijen automatike. Klikoni'Lërni këtë faqe' për të hequr të gjitha ndyshimet e pa ruajtura.",
@@ -322,6 +321,7 @@
     "errorLockedAll": "Operacioni nuk mund të kryhet pasi fleta është bllokuar nga një përdorues tjetër.",
     "errorLockedCellPivot": "Ju nuk mund të ndryshoni të dhënat brenda një tabele kryesore.",
     "errorLockedWorksheetRename": "Fleta nuk mund të riemërohet për momentin pasi nuk është duke u riemëruar nga një përdorues tjetër.",
+    "errorMacroUnavailableWarning": "Nuk mund të ekyekutohet makroja %1. Makroja mund të mës jetë e disponueshme në këtë libër pune ose të gjitha makrot mund të jenë të çaktivizuar.",
     "errorMaxPoints": "Numri maksimal i pikëve në seri për grafik është 4096",
     "errorMaxRows": "GABIM! Numri maksimal i serive të të dhënave për grafik është 255.",
     "errorMoveRange": "Nuk mund të ndryshohet një pjesë e një qelize të bashkuar",
@@ -428,6 +428,7 @@
   "Statusbar": {
     "notcriticalErrorTitle": "Paralajmërim",
     "textCancel": "Anulo",
+    "textContinue": "Vazhdoni",
     "textDelete": "Fshij",
     "textDuplicate": "Dyfishoj",
     "textErrNameExists": "Fletë me këtë emër ekziston tashmë.",
@@ -448,7 +449,8 @@
     "textSheetName": "Emri i fletës",
     "textTabColor": "Ngjyra e skedës",
     "textUnhide": "Zbuloj",
-    "textWarnDeleteSheet": "Fleta e punës ndoshta ka të dhëna. Të vazhdohet operacioni?"
+    "textWarnDeleteSheet": "Fleta e punës ndoshta ka të dhëna. Të vazhdohet operacioni?",
+    "warnAddSheetCsv": "Formati CSV nuk mbështet ruajtjen e një skedari me shumë fletë. Vetëm fleta aktive do të ruhet. Për të mbajtur të gjitha fletët, ju lutem ruani skedarin në një format tjetër."
   },
   "Toolbar": {
     "btnRestartNow": "Rinisni tani",
@@ -878,13 +880,18 @@
       "txtSk": "Sllovake",
       "txtSl": "Slloven",
       "txtSpace": "Hapësirë",
+      "txtSr": "Serbisht (Latinisht)",
+      "txtSrcyrl": "Serbisht (Cirilik)",
       "txtSv": "Suedeze",
       "txtTab": "Skedë",
       "txtTr": "Turke",
       "txtUk": "Ukrainase",
       "txtVi": "Vietnameze",
       "txtZh": "Kinezisht",
-      "warnDownloadAs": "Në qoftë se vazhdoni të ruani në këtë format, të gjitha veçoritë përveç tekstit do të humbasin .<br>Jeni i sigurt që dëshironi të vazhdoni?"
+      "txtZhtw": "Kinezisht (Tradicionale)",
+      "warnDownloadAs": "Në qoftë se vazhdoni të ruani në këtë format, të gjitha veçoritë përveç tekstit do të humbasin .<br>Jeni i sigurt që dëshironi të vazhdoni?",
+      "warnDownloadCsv": "Formati CSV nuk mbështet ruajtjen e një skedari me shumë fletë dhe të të gjithë elementëve, përveç tekstit.<br>Për të ruajtur vetëm fletën e zgjedhur në CSV, shtypni OK.<br>Për të ruajtur të gjithë fletëllogaritësen dhe të gjitha veçoritë, klikoni Anulo dhe zgjidhni një format tjetër.",
+      "warnDownloadOds": "Ruajtja e këtij skedari mund te rezultojë në humbjen e disa formulave, formatimit të qelizave ose objekteve të integruara për shkak të mbështetjes së kufizuar të formateve.<br>Jeni të sigurt që dëshironi të vazhdoni?"
     }
   }
 }

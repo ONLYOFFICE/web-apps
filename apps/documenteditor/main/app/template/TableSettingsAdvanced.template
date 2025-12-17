@@ -219,7 +219,7 @@
         </div>
         <div id="tableadv-panel-borders-spacing" style="width: 100%;" class="padding-large settings-hidden">
             <div id="id-detablestyler-spacing" style="display: inline-block; vertical-align: middle; width: 200px; height: 200px;outline: 1px solid #ccc;"></div>
-            <div style="display: inline-block; vertical-align: middle; width: 76px; height: 200px; padding-top: 10px;" class="float-right">
+            <div style="display: inline-block; vertical-align: middle; width: 100px; height: 200px; padding-top: 10px;" class="border-types">
                 <div id="tableadv-button-border-all-none" style="display: inline-block;"></div>
                 <div id="tableadv-button-border-all-table" style="display: inline-block;"></div>
                 <div id="tableadv-button-border-none-none" style="display: inline-block;"></div>

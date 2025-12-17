@@ -144,6 +144,7 @@ require([
             'LeftMenu',
             'Main',
             'ViewTab',
+            'HeaderFooterTab',
             'Search',
             'DocProtection',
             'Print',
@@ -161,6 +162,7 @@ require([
             ,'Common.Controllers.ExternalOleEditor'
             ,'Common.Controllers.ReviewChanges'
             ,'Common.Controllers.Protection'
+            ,'Common.Controllers.Shortcuts'
         ]
     });
 
@@ -186,6 +188,7 @@ require([
                 'documenteditor/main/app/controller/LeftMenu',
                 'documenteditor/main/app/controller/Main',
                 'documenteditor/main/app/controller/ViewTab',
+                'documenteditor/main/app/controller/HeaderFooterTab',
                 'documenteditor/main/app/controller/Search',
                 'documenteditor/main/app/controller/DocProtection',
                 'documenteditor/main/app/controller/Print',
@@ -203,6 +206,7 @@ require([
                 ,'common/main/lib/controller/ExternalOleEditor'
                 ,'common/main/lib/controller/ReviewChanges'
                 ,'common/main/lib/controller/Protection'
+                ,'common/main/lib/controller/Shortcuts'
                 ,'common/main/lib/controller/Draw'
             ], function() {
                 const code_path = !window.isIEBrowser ?

@@ -208,6 +208,24 @@ ApiChart.prototype = Object.create(ApiDrawing.prototype);
 ApiChart.prototype.constructor = ApiChart;
 
 /**
+ * Class representing shape geometry
+ * @constructor
+ */
+function ApiGeometry(geometry) {}
+
+/**
+ * Class representing a path command
+ * @constructor
+ */
+function ApiPathCommand(command) {}
+
+/**
+ * Class representing a path in geometry
+ * @constructor
+ */
+function ApiPath(path) {}
+
+/**
  * Class representing a chart series.
  * @constructor
  *
@@ -409,6 +427,11 @@ function ApiCustomProperties(oCustomProperties) {}
  */
 
 /**
+ * The types of elements that can be added to the paragraph structure.
+ * @typedef {("ltr" | "rtl")} ReadingOrder
+ */
+
+/**
  * The possible values for the base which the relative horizontal positioning of an object will be calculated from.
  * @typedef {("character" | "column" | "leftMargin" | "rightMargin" | "margin" | "page")} RelFromH
  */
@@ -439,18 +462,40 @@ function ApiCustomProperties(oCustomProperties) {}
  */
 
 /**
+ * This type specifies the formula type that will be used for a geometry guide.
+ * @typedef {("*\/" | "+-" | "+\/" | "?:" | "abs" | "at2" | "cat2" | "cos" | "max" | "min" | "mod" | "pin" | "sat2" | "sin" | "sqrt" | "tan" | "val")} GeometryFormulaType
+ */
+
+/**
  * This type specifies the available chart types which can be used to create a new chart.
- * @typedef {("bar" | "barStacked" | "barStackedPercent" | "bar3D" | "barStacked3D" | "barStackedPercent3D" |
- *     "barStackedPercent3DPerspective" | "horizontalBar" | "horizontalBarStacked" | "horizontalBarStackedPercent"
- *     | "horizontalBar3D" | "horizontalBarStacked3D" | "horizontalBarStackedPercent3D" | "lineNormal" |
- *     "lineStacked" | "lineStackedPercent" | "line3D" | "pie" | "pie3D" | "doughnut" | "scatter" | "stock" |
- *     "area" | "areaStacked" | "areaStackedPercent" | "comboBarLine" | "comboBarLineSecondary" | "comboCustom" | "unknown")} ChartType
+ * @typedef {(
+ *     "bar" | "barStacked" | "barStackedPercent" | "bar3D" | "barStacked3D" | "barStackedPercent3D" | "barStackedPercent3DPerspective" |
+ *     "horizontalBar" | "horizontalBarStacked" | "horizontalBarStackedPercent" | "horizontalBar3D" | "horizontalBarStacked3D" | "horizontalBarStackedPercent3D" |
+ *     "lineNormal" | "lineStacked" | "lineStackedPercent" | "lineNormalMarker" | "lineStackedMarker" | "lineStackedPerMarker" | "line3D" |
+ *     "pie" | "pie3D" | "doughnut" |
+ *     "scatter" | "scatterLine" | "scatterLineMarker" | "scatterSmooth" | "scatterSmoothMarker" |
+ *     "stock" |
+ *     "area" | "areaStacked" | "areaStackedPercent" |
+ *     "comboCustom" | "comboBarLine" | "comboBarLineSecondary" |
+ *     "radar" | "radarMarker" | "radarFilled" |
+ *     "unknown"
+ * )} ChartType
  */
 
 /**
  * This type specifies the type of drawing lock.
  * @typedef {("noGrp" | "noUngrp" | "noSelect" | "noRot" | "noChangeAspect" | "noMove" | "noResize" | "noEditPoints" | "noAdjustHandles"
  * | "noChangeArrowheads" | "noChangeShapeType" | "noDrilldown" | "noTextEdit" | "noCrop" | "txBox")} DrawingLockType
+ */
+
+/**
+ * Fill type for paths
+ * @typedef {("none" | "norm" | "lighten" | "lightenLess" | "darken" | "darkenLess")} PathFillType
+ */
+
+/**
+ * Path command types
+ * @typedef {("moveTo" | "lineTo" | "bezier3" | "bezier4" | "arcTo" | "close")} PathCommandType
  */
 
 /**
@@ -643,7 +688,7 @@ function ApiCustomProperties(oCustomProperties) {}
  * <b>"hyphen"</b> - the "-" punctuation mark.
  * <b>"period"</b> - the "." punctuation mark.
  * <b>"colon"</b> - the ":" punctuation mark.
- * <b>"longDash"</b> - the "вЂ”" punctuation mark.
+ * <b>"longDash"</b> - the "—" punctuation mark.
  * <b>"dash"</b> - the "-" punctuation mark.
  * @typedef {("hyphen" | "period" | "colon" | "longDash" | "dash")} CaptionSep
  */
@@ -758,6 +803,21 @@ ApiInterface.prototype.CreateParagraph = function(){ return new ApiParagraph(); 
  * @returns {ApiRun}
  */
 ApiInterface.prototype.CreateRun = function(){ return new ApiRun(); };
+
+/**
+ * Creates a new custom geometry
+ * @memberof ApiInterface
+ * @returns {ApiGeometry}
+ */
+ApiInterface.prototype.CreateCustomGeometry = function(){ return new ApiGeometry(); };
+
+/**
+ * Creates a preset geometry
+ * @memberof ApiInterface
+ * @param {ShapeType} sPreset - Preset name
+ * @returns {ApiGeometry | null}
+ */
+ApiInterface.prototype.CreatePresetGeometry = function(sPreset){ return new ApiGeometry(); };
 
 /**
  * Creates an RGB color setting the appropriate values for the red, green and blue color components.
@@ -875,8 +935,8 @@ ApiInterface.prototype.CreateNumbering = function(numType, startAt){ return new 
  * The checkbox content control properties
  * @typedef {Object} ContentControlCheckBoxPr
  * @property {boolean} [checked] Indicates whether the checkbox is checked by default.
- * @property {string} [checkedSymbol] A custom symbol to display when the checkbox is checked (e.g., "в�’").
- * @property {string} [uncheckedSymbol] A custom symbol to display when the checkbox is unchecked (e.g., "в�ђ").
+ * @property {string} [checkedSymbol] A custom symbol to display when the checkbox is checked (e.g., "☒").
+ * @property {string} [uncheckedSymbol] A custom symbol to display when the checkbox is unchecked (e.g., "☐").
  */
 
 /**
@@ -906,6 +966,14 @@ ApiUnsupported.prototype.GetClassType = function(){ return ""; };
  * @returns {"documentContent"}
  */
 ApiDocumentContent.prototype.GetClassType = function(){ return ""; };
+
+/**
+ * Returns an internal ID of the current document content.
+ * @memberof ApiDocumentContent
+ * @returns {string}
+ * @since 9.0.4
+ */
+ApiDocumentContent.prototype.GetInternalId = function(){ return ""; };
 
 /**
  * Returns a number of elements in the current document.
@@ -957,11 +1025,363 @@ ApiDocumentContent.prototype.RemoveAllElements = function(){ return true; };
 ApiDocumentContent.prototype.RemoveElement = function(nPos){ return true; };
 
 /**
+ * Class representing a custom XML manager, which provides methods to manage custom XML parts in the document.
+ * @param doc - The current document.
+ * @constructor
+ */
+function ApiCustomXmlParts(doc){}
+ApiCustomXmlParts.prototype = Object.create(ApiCustomXmlParts.prototype);
+ApiCustomXmlParts.prototype.constructor = ApiCustomXmlParts;
+
+/**
+ * Adds a new custom XML part to the XML manager.
+ * @memberof ApiCustomXmlParts
+ * @since 9.0.0
+ * @param {string} xml - The XML string to be added.
+ * @returns {ApiCustomXmlPart} The newly created ApiCustomXmlPart object.
+ */
+ApiCustomXmlParts.prototype.Add = function(xml){ return new ApiCustomXmlPart(); };
+
+/**
+ * Returns a type of the ApiCustomXmlParts class.
+ * @memberof ApiCustomXmlParts
+ * @returns {"customXmlParts"}
+ */
+ApiCustomXmlParts.prototype.GetClassType = function(){ return ""; };
+
+/**
+ * Returns a custom XML part by its ID from the XML manager.
+ * @memberof ApiCustomXmlParts
+ * @since 9.0.0
+ * @param {string} xmlPartId - The XML part ID.
+ * @returns {ApiCustomXmlPart|null} The corresponding ApiCustomXmlPart object if found, or null if no match is found.
+ */
+ApiCustomXmlParts.prototype.GetById = function(xmlPartId){ return new ApiCustomXmlPart(); };
+
+/**
+ * Returns custom XML parts by namespace from the XML manager.
+ * @memberof ApiCustomXmlParts
+ * @since 9.0.0
+ * @param {string} namespace - The namespace of the XML parts.
+ * @returns {ApiCustomXmlPart[]} An array of ApiCustomXmlPart objects or null if no matching XML parts are found.
+ */
+ApiCustomXmlParts.prototype.GetByNamespace = function(namespace){ return [new ApiCustomXmlPart()]; };
+
+/**
+ * Returns a number of custom XML parts in the XML manager.
+ * @memberof ApiCustomXmlParts
+ * @since 9.0.0
+ * @returns {number} The number of custom XML parts.
+ */
+ApiCustomXmlParts.prototype.GetCount = function(){ return 0; };
+
+/**
+ * Returns all custom XML parts from the XML manager.
+ * @memberof ApiCustomXmlParts
+ * @since 9.0.0
+ * @returns {ApiCustomXmlPart[]} An array of all custom XML parts.
+ */
+ApiCustomXmlParts.prototype.GetAll = function(){ return [new ApiCustomXmlPart()]; };
+
+/**
+ * Class representing a custom XML part.
+ * @constructor
+ * @since 9.0.0
+ * @param {Object} customXMl - The custom XML object.
+ * @param {Object} customXmlManager - The custom XML manager instance.
+ * @memberof ApiCustomXmlPart
+ */
+function ApiCustomXmlPart(customXMl, customXmlManager){}
+ApiCustomXmlPart.prototype = Object.create(ApiCustomXmlPart.prototype);
+ApiCustomXmlPart.prototype.constructor = ApiCustomXmlPart;
+
+/**
+ * Returns a type of the ApiCustomXmlPart class.
+ * @memberof ApiCustomXmlPart
+ * @returns {"customXmlPart"}
+ */
+ApiCustomXmlPart.prototype.GetClassType = function(){ return ""; };
+
+/**
+ * Returns the ID of the custom XML part.
+ * @memberof ApiCustomXmlPart
+ * @returns {string}
+ */
+ApiCustomXmlPart.prototype.GetId = function(){ return ""; };
+
+/**
+ * Retrieves nodes from custom XML based on the provided XPath.
+ * @memberof ApiCustomXmlPart
+ * @since 9.0.0
+ * @param {string} xPath - The XPath expression to search for nodes.
+ * @returns {ApiCustomXmlNode[]} An array of ApiCustomXmlNode objects corresponding to the found nodes.
+ */
+ApiCustomXmlPart.prototype.GetNodes = function(xPath){ return [new ApiCustomXmlNode()]; };
+
+/**
+ * Retrieves the XML string from the custom XML part.
+ * @memberof ApiCustomXmlPart
+ * @since 9.0.0
+ * @returns {string} The XML string.
+ */
+ApiCustomXmlPart.prototype.GetXml = function(){ return ""; };
+
+/**
+ * Deletes the XML from the custom XML manager.
+ * @memberof ApiCustomXmlPart
+ * @since 9.0.0
+ * @returns {boolean} True if the XML was successfully deleted.
+ */
+ApiCustomXmlPart.prototype.Delete = function(){ return true; };
+
+/**
+ * Deletes an attribute from the XML node at the specified XPath.
+ * @memberof ApiCustomXmlPart
+ * @since 9.0.0
+ * @param {string} xPath - The XPath of the node from which to delete the attribute.
+ * @param {string} name - The name of the attribute to delete.
+ * @returns {boolean} True if the attribute was successfully deleted.
+ */
+ApiCustomXmlPart.prototype.DeleteAttribute = function(xPath, name){ return true; };
+
+/**
+ * Inserts an attribute into the XML node at the specified XPath.
+ * @memberof ApiCustomXmlPart
+ * @since 9.0.0
+ * @param {string} xPath - The XPath of the node to insert the attribute into.
+ * @param {string} name - The name of the attribute to insert.
+ * @param {string} value - The value of the attribute to insert.
+ * @returns {boolean} True if the attribute was successfully inserted.
+ */
+ApiCustomXmlPart.prototype.InsertAttribute = function(xPath, name, value){ return true; };
+
+/**
+ * Returns an attribute from the XML node at the specified XPath.
+ * @memberof ApiCustomXmlPart
+ * @since 9.0.0
+ * @param {string} xPath - The XPath of the node from which to get the attribute.
+ * @param {string} name - The name of the attribute to find.
+ * @returns {string | null} The attribute value or null if no matching attributes are found.
+ */
+ApiCustomXmlPart.prototype.GetAttribute = function(xPath, name){ return ""; };
+
+/**
+ * Updates an attribute of the XML node at the specified XPath.
+ * @memberof ApiCustomXmlPart
+ * @since 9.0.0
+ * @param {string} xPath - The XPath of the node whose attribute should be updated.
+ * @param {string} name - The name of the attribute to update.
+ * @param {string} value - The new value for the attribute.
+ * @returns {boolean} True if the attribute was successfully updated.
+ */
+ApiCustomXmlPart.prototype.UpdateAttribute = function(xPath, name, value){ return true; };
+
+/**
+ * Deletes an XML element at the specified XPath.
+ * @memberof ApiCustomXmlPart
+ * @since 9.0.0
+ * @param {string} xPath - The XPath of the node to delete.
+ * @returns {boolean} True if the element was successfully deleted.
+ */
+ApiCustomXmlPart.prototype.DeleteElement = function(xPath){ return true; };
+
+/**
+ * Inserts an XML element at the specified XPath.
+ * @memberof ApiCustomXmlPart
+ * @since 9.0.0
+ * @param {string} xPath - The XPath of the parent node where the new element will be inserted.
+ * @param {string} xmlStr - The XML string to insert.
+ * @param {number} [index] - The position at which to insert the new XML element. If omitted, the element will be appended as the last child.
+ * @returns {boolean} True if the insertion was successful.
+ */
+ApiCustomXmlPart.prototype.InsertElement = function(xPath, xmlStr, index){ return true; };
+
+/**
+ * Updates an XML element at the specified XPath.
+ * @memberof ApiCustomXmlPart
+ * @since 9.0.0
+ * @param {string} xPath - The XPath of the node to update.
+ * @param {string} xmlStr - The XML string to replace the node content with.
+ * @returns {boolean} True if the update was successful.
+ */
+ApiCustomXmlPart.prototype.UpdateElement = function(xPath, xmlStr){ return true; };
+
+/**
+ * Class representing a custom XML node.
+ * @constructor
+ * @since 9.0.0
+ * @param xmlNode - The custom XML node.
+ * @param xmlPart - The custom XML part.
+ */
+function ApiCustomXmlNode(xmlNode, xmlPart){}
+ApiCustomXmlNode.prototype = Object.create(ApiCustomXmlNode.prototype);
+ApiCustomXmlNode.prototype.constructor = ApiCustomXmlNode;
+
+/**
+ * Returns a type of the ApiCustomXmlNode class.
+ * @memberof ApiCustomXmlNode
+ * @returns {"customXmlNode"}
+ */
+ApiCustomXmlNode.prototype.GetClassType = function(){ return ""; };
+
+/**
+ * Returns nodes from the custom XML node based on the given XPath.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @param {string} xPath - The XPath expression to match nodes.
+ * @returns {ApiCustomXmlNode[]} An array of nodes that match the given XPath.
+ */
+ApiCustomXmlNode.prototype.GetNodes = function(xPath){ return [new ApiCustomXmlNode()]; };
+
+/**
+ * Returns the absolute XPath of the current XML node.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @returns {string} The absolute XPath of the current node.
+ */
+ApiCustomXmlNode.prototype.GetXPath = function(){ return ""; };
+
+/**
+ * Returns the name of the current XML node.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @returns {string} The name of the current node.
+ */
+ApiCustomXmlNode.prototype.GetNodeName = function(){ return ""; };
+
+/**
+ * Returns the XML string representation of the current node content.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @returns {string} The XML string representation of the current node content.
+ */
+ApiCustomXmlNode.prototype.GetNodeValue = function(){ return ""; };
+
+/**
+ * Returns the XML string of the current node.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @returns {string} The XML string representation of the current node.
+ */
+ApiCustomXmlNode.prototype.GetXml = function(){ return ""; };
+
+/**
+ * Returns the inner text of the current node and its child nodes.
+ * For example: `<text>123<one>4</one></text>` returns `"1234"`.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @returns {string} The combined text content of the node and its descendants.
+ */
+ApiCustomXmlNode.prototype.GetText = function(){ return ""; };
+
+/**
+ * Sets the XML content for the current node.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @param {string} xml - The XML string to set as the content of the current node.
+ * @returns {boolean} Returns `true` if the XML was successfully set.
+ */
+ApiCustomXmlNode.prototype.SetNodeValue = function(xml){ return true; };
+
+/**
+ * Sets the text content of the current XML node.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @param {string} str - The text content to set for the node.
+ * @returns {boolean} Returns `true` if the text was successfully set.
+ */
+ApiCustomXmlNode.prototype.SetText = function(str){ return true; };
+
+/**
+ * Sets the XML content of the current XML node.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @param {string} strXml - The XML string to set as the node content.
+ * @returns {boolean} Returns `true` if the XML was successfully set.
+ */
+ApiCustomXmlNode.prototype.SetXml = function(strXml){ return true; };
+
+/**
+ * Deletes the current XML node.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @returns {boolean} Returns `true` if the node was successfully deleted.
+ */
+ApiCustomXmlNode.prototype.Delete = function(){ return true; };
+
+/**
+ * Returns the parent of the current XML node.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @returns {ApiCustomXmlNode | null} The parent node, or `null` if the current node has no parent.
+ */
+ApiCustomXmlNode.prototype.GetParent = function(){ return new ApiCustomXmlNode(); };
+
+/**
+ * Creates a child node for the current XML node.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @param {string} nodeName - The name of the new child node.
+ * @returns {ApiCustomXmlNode} The newly created child node.
+ */
+ApiCustomXmlNode.prototype.Add = function(nodeName){ return new ApiCustomXmlNode(); };
+
+/**
  * Represents an attribute of an XML node.
  * @typedef {Object} CustomXmlNodeAttribute
  * @property {string} name - The attribute name.
  * @property {string} value - The attribute value.
  */
+
+/**
+ * Returns a list of attributes of the current XML node.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @returns {CustomXmlNodeAttribute[]} An array of attribute objects.
+ */
+ApiCustomXmlNode.prototype.GetAttributes = function(){ return [new CustomXmlNodeAttribute()]; };
+
+/**
+ * Sets an attribute for the custom XML node.
+ * If the attribute already exists, it will not be modified.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @param {string} name - The name of the attribute to set.
+ * @param {string} value - The value to assign to the attribute.
+ * @returns {boolean} Returns `true` if the attribute was successfully set, `false` if the attribute already exists.
+ */
+ApiCustomXmlNode.prototype.SetAttribute = function(name, value){ return true; };
+
+/**
+ * Updates the value of an existing attribute in the custom XML node.
+ * If the attribute doesn't exist, the update will not occur.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @param {string} name - The name of the attribute to update.
+ * @param {string} value - The new value to assign to the attribute.
+ * @returns {boolean} Returns `true` if the attribute was successfully updated, `false` if the attribute doesn't exist.
+ */
+ApiCustomXmlNode.prototype.UpdateAttribute = function(name, value){ return true; };
+
+/**
+ * Deletes an attribute from the custom XML node.
+ * If the attribute exists, it will be removed.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @param {string} name - The name of the attribute to delete.
+ * @returns {boolean} Returns `true` if the attribute was successfully deleted, `false` if the attribute didn't exist.
+ */
+ApiCustomXmlNode.prototype.DeleteAttribute = function(name){ return true; };
+
+/**
+ * Retrieves the attribute value from the custom XML node.
+ * If the attribute doesn't exist, it returns `false`.
+ * @memberof ApiCustomXmlNode
+ * @since 9.0.0
+ * @param {string} name - The name of the attribute to retrieve.
+ * @returns {string |null} The value of the attribute if it exists, or `null` if the attribute is not found.
+ */
+ApiCustomXmlNode.prototype.GetAttribute = function(name){ return ""; };
 
 /**
  * Represents a single comment record.
@@ -1418,6 +1838,12 @@ ApiRun.prototype.SetVertAlign = function(sType){ return new ApiTextPr(); };
 */
 
 /**
+ * Coordinate value for geometry paths.
+ * Can be a guide name from gdLst, a numeric value, or a string representation of a number.
+ * @typedef {string | number} GeometryCoordinate
+ */
+
+/**
  * Returns a type of the ApiTextPr class.
  * @memberof ApiTextPr
  * @returns {"textPr"}
@@ -1814,6 +2240,329 @@ ApiParaPr.prototype.SetOutlineLvl = function(nLvl){ return true; };
  * @since 8.2.0
  */
 ApiParaPr.prototype.GetOutlineLvl = function(){ return 0; };
+
+/**
+ * Checks if this is a custom geometry
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.IsCustom = function(){ return true; };
+
+/**
+ * Gets the preset name if this is a preset geometry
+ * @returns {ShapeType | null}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.GetPreset = function(){ return new ShapeType(); };
+
+/**
+ * Gets the number of paths in the geometry
+ * @returns {number}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.GetPathCount = function(){ return 0; };
+
+/**
+ * Gets a path by index
+ * @param {number} nIndex - Path index
+ * @returns {ApiPath}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.GetPath = function(nIndex){ return new ApiPath(); };
+
+/**
+ * Gets all paths
+ * @returns {ApiPath[]}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.GetPaths = function(){ return [new ApiPath()]; };
+
+/**
+ * Adds a new path to the geometry
+ * @returns {ApiPath | null}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.AddPath = function(){ return new ApiPath(); };
+
+/**
+ * Gets adjustment value by name
+ * @param {string} sName - Adjustment name
+ * @returns {number | null}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.GetAdjValue = function(sName){ return 0; };
+
+/**
+ * Adds an adjustment value
+ * @param {string} sName - Adjustment name
+ * @param {number} nValue - Adjustment value
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.AddAdj = function(sName, nValue){ return true; };
+
+/**
+ * Sets an adjustment value
+ * @param {string} sName - Adjustment name
+ * @param {number} nValue - Adjustment value
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.SetAdjValue = function(sName, nValue){};
+
+/**
+ * Adds a guide (formula)
+ * @param {string} sName - Guide name
+ * @param {GeometryFormulaType} sFormula - Formula type
+ * @param {string} sX - X parameter
+ * @param {string} sY - Y parameter
+ * @param {string} sZ - Z parameter
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.AddGuide = function(sName, sFormula, sX, sY, sZ){ return true; };
+
+/**
+ * Sets the text rectangle
+ * @param {string} sLeft - Left guide name or value
+ * @param {string} sTop - Top guide name or value
+ * @param {string} sRight - Right guide name or value
+ * @param {string} sBottom - Bottom guide name or value
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.SetTextRect = function(sLeft, sTop, sRight, sBottom){ return true; };
+
+/**
+ * Adds a connection point
+ * @param {string} sAngle - Angle
+ * @param {string} sX - X position
+ * @param {string} sY - Y position
+ * @since 9.1.0
+ */
+ApiGeometry.prototype.AddConnectionPoint = function(sAngle, sX, sY){};
+
+/**
+ * Gets the command type
+ * @returns {PathCommandType}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetType = function(){ return new PathCommandType(); };
+
+/**
+ * Gets the X coordinate for moveTo/lineTo commands
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetX = function(){ return ""; };
+
+/**
+ * Gets the Y coordinate for moveTo/lineTo commands
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetY = function(){ return ""; };
+
+/**
+ * Gets first control point X for bezier curves
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetX0 = function(){ return ""; };
+
+/**
+ * Gets first control point Y for bezier curves
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetY0 = function(){ return ""; };
+
+/**
+ * Gets second control point X for cubic bezier
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetX1 = function(){ return ""; };
+
+/**
+ * Gets second control point Y for cubic bezier
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetY1 = function(){ return ""; };
+
+/**
+ * Gets end point X for cubic bezier
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetX2 = function(){ return ""; };
+
+/**
+ * Gets end point Y for cubic bezier
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetY2 = function(){ return ""; };
+
+/**
+ * Gets width radius for arc
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetWR = function(){ return ""; };
+
+/**
+ * Gets height radius for arc
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetHR = function(){ return ""; };
+
+/**
+ * Gets start angle for arc
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetStartAngle = function(){ return ""; };
+
+/**
+ * Gets sweep angle for arc
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiPathCommand.prototype.GetSweepAngle = function(){ return ""; };
+
+/**
+ * Gets whether the path is stroked
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiPath.prototype.GetStroke = function(){ return true; };
+
+/**
+ * Sets whether the path should be stroked
+ * @param {boolean} bStroke - Whether to stroke the path
+ * @since 9.1.0
+ */
+ApiPath.prototype.SetStroke = function(bStroke){};
+
+/**
+ * Gets the fill type
+ * @returns {PathFillType}
+ * @since 9.1.0
+ */
+ApiPath.prototype.GetFill = function(){ return new PathFillType(); };
+
+/**
+ * Sets the fill type for the path
+ * @param {PathFillType} sFill - Fill type
+ * @since 9.1.0
+ */
+ApiPath.prototype.SetFill = function(sFill){};
+
+/**
+ * Gets the path width
+ * @returns {number}
+ * @since 9.1.0
+ */
+ApiPath.prototype.GetWidth = function(){ return 0; };
+
+/**
+ * Sets the path width
+ * @param {number} nWidth - Width in EMU
+ * @since 9.1.0
+ */
+ApiPath.prototype.SetWidth = function(nWidth){};
+
+/**
+ * Gets the path height
+ * @returns {number}
+ * @since 9.1.0
+ */
+ApiPath.prototype.GetHeight = function(){ return 0; };
+
+/**
+ * Sets the path height
+ * @param {number} nHeight - Height in EMU
+ * @since 9.1.0
+ */
+ApiPath.prototype.SetHeight = function(nHeight){};
+
+/**
+ * Gets all path commands
+ * @returns {ApiPathCommand[]}
+ * @since 9.1.0
+ */
+ApiPath.prototype.GetCommands = function(){ return [new ApiPathCommand()]; };
+
+/**
+ * Gets command count
+ * @returns {number}
+ * @since 9.1.0
+ */
+ApiPath.prototype.GetCommandCount = function(){ return 0; };
+
+/**
+ * Gets a specific command by index
+ * @param {number} nIndex - Command index
+ * @returns {ApiPathCommand | null}
+ * @since 9.1.0
+ */
+ApiPath.prototype.GetCommand = function(nIndex){ return new ApiPathCommand(); };
+
+/**
+ * Moves to a point
+ * @param {GeometryCoordinate} x - X coordinate
+ * @param {GeometryCoordinate} y - Y coordinate
+ * @since 9.1.0
+ */
+ApiPath.prototype.MoveTo = function(x, y){};
+
+/**
+ * Draws a line to a point
+ * @param {GeometryCoordinate} x - X coordinate
+ * @param {GeometryCoordinate} y - Y coordinate
+ * @since 9.1.0
+ */
+ApiPath.prototype.LineTo = function(x, y){};
+
+/**
+ * Draws a cubic bezier curve
+ * @param {GeometryCoordinate} x1 - First control point X
+ * @param {GeometryCoordinate} y1 - First control point Y
+ * @param {GeometryCoordinate} x2 - Second control point X
+ * @param {GeometryCoordinate} y2 - Second control point Y
+ * @param {GeometryCoordinate} x3 - End point X
+ * @param {GeometryCoordinate} y3 - End point Y
+ * @since 9.1.0
+ */
+ApiPath.prototype.CubicBezTo = function(x1, y1, x2, y2, x3, y3){};
+
+/**
+ * Draws a quadratic bezier curve
+ * @param {GeometryCoordinate} x1 - Control point X
+ * @param {GeometryCoordinate} y1 - Control point Y
+ * @param {GeometryCoordinate} x2 - End point X
+ * @param {GeometryCoordinate} y2 - End point Y
+ * @since 9.1.0
+ */
+ApiPath.prototype.QuadBezTo = function(x1, y1, x2, y2){};
+
+/**
+ * Draws an arc
+ * @param {GeometryCoordinate} wR - Width radius
+ * @param {GeometryCoordinate} hR - Height radius
+ * @param {GeometryCoordinate} stAng - Start angle
+ * @param {GeometryCoordinate} swAng - Sweep angle Y
+ * @since 9.1.0
+ */
+ApiPath.prototype.ArcTo = function(wR, hR, stAng, swAng){};
+
+/**
+ * Closes the current path
+ * @since 9.1.0
+ */
+ApiPath.prototype.Close = function(){};
 
 /**
  * Returns a type of the ApiChart class.
@@ -2257,6 +3006,150 @@ ApiInterface.prototype.GetFullName = function(){ return ""; };
 ApiInterface.prototype.FullName = ApiInterface.prototype.GetFullName ();
 
 /**
+ * Converts pixels to EMUs (English Metric Units).
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PixelsToEmus = function Px2Emu(px) { return 0; };
+
+/**
+ * Converts millimeters to pixels.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.MillimetersToPixels = function Mm2Px(mm) { return 0; };
+
+/**
+ * Converts points to centimeters.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToCentimeters = function PointsToCentimeters(pt) { return 0; };
+
+/**
+ * Converts points to EMUs (English Metric Units).
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToEmus = function PointsToEmus(pt) { return 0; };
+
+/**
+ * Converts points to inches.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToInches = function PointsToInches(pt) { return 0; };
+
+/**
+ * Converts points to lines (1 line = 12 points).
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToLines = function PointsToLines(pt) { return 0; };
+
+/**
+ * Converts points to millimeters.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToMillimeters = function PointsToMillimeters(pt) { return 0; };
+
+/**
+ * Converts points to picas (1 pica = 12 points).
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToPicas = function PointsToPicas(pt) { return 0; };
+
+/**
+ * Converts points to pixels.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToPixels = function PointsToPixels(pt) { return 0; };
+
+/**
+ * Converts points to twips.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PointsToTwips = function PointsToTwips(pt) { return 0; };
+
+/**
+ * Converts centimeters to points.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.CentimetersToPoints = function CentimetersToPoints(cm) { return 0; };
+
+/**
+ * Converts EMUs (English Metric Units) to points.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.EmusToPoints = function EmusToPoints(emu) { return 0; };
+
+/**
+ * Converts inches to points.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.InchesToPoints = function InchesToPoints(inches) { return 0; };
+
+/**
+ * Converts lines to points (1 line = 12 points).
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.LinesToPoints = function LinesToPoints(lines) { return 0; };
+
+/**
+ * Converts millimeters to points.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.MillimetersToPoints = function MillimetersToPoints(mm) { return 0; };
+
+/**
+ * Converts picas to points.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PicasToPoints = function PicasToPoints(pc) { return 0; };
+
+/**
+ * Converts pixels to points.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.PixelsToPoints = function PixelsToPoints(px) { return 0; };
+
+/**
+ * Converts twips to points.
+ *
+ * @memberof ApiInterface
+ * @returns {number}
+ */
+ApiInterface.prototype.TwipsToPoints = function TwipsToPoints(twips) { return 0; };
+
+/**
  * Returns a type of the ApiCore class.
  * @memberof ApiCore
  * @returns {"core"}
@@ -2566,28 +3459,22 @@ function ApiLayout(oLayout){}
 function ApiPlaceholder(oPh){}
 
 /**
- * Class representing a presentation theme.
- * @constructor
- */
-function ApiTheme(oThemeInfo){}
-
-/**
  * Class representing a theme color scheme.
  * @constructor
  */
-function ApiThemeColorScheme(oClrScheme){}
+function ApiThemeColorScheme(oClrScheme, theme){}
 
 /**
  * Class representing a theme format scheme.
  * @constructor
  */
-function ApiThemeFormatScheme(ofmtScheme){}
+function ApiThemeFormatScheme(ofmtScheme, theme){}
 
 /**
  * Class representing a theme font scheme.
  * @constructor
  */
-function ApiThemeFontScheme(ofontScheme){}
+function ApiThemeFontScheme(ofontScheme, theme){}
 
 /**
  * Class representing a slide.
@@ -2761,6 +3648,10 @@ function ApiTableCell(oCell){}
  */
 
 /**
+ * @typedef {("blank" | "chart" | "chartAndTx" | "clipArtAndTx" | "clipArtAndVertTx" | "cust" | "dgm" | "fourObj" | "mediaAndTx" | "obj" | "objAndTwoObj" | "objAndTx" | "objOnly" | "objOverTx" | "objTx" | "picTx" | "secHead" | "tbl" | "title" | "titleOnly" | "twoColTx" | "twoObj" | "twoObjAndObj" | "twoObjAndTx" | "twoObjOverTx" | "twoTxTwoObj" | "tx" | "txAndChart" | "txAndClipArt" | "txAndMedia" | "txAndObj" | "txAndTwoObj" | "txOverObj" | "vertTitleAndTx" | "vertTitleAndTxOverChart" | "vertTx")} LayoutType - Available layout types.
+ */
+
+/**
  * Any valid drawing element.
  * @typedef {(ApiShape | ApiImage | ApiGroup | ApiOleObject | ApiTable | ApiChart )} Drawing
  */
@@ -2804,6 +3695,13 @@ ApiPresentation.prototype._collectAllObjects = function (getObjectsMethod) {};
 function ApiSelection() {}
 
 /**
+ * Class representing the currently active workbook
+ *
+ * @constructor
+ */
+function ApiWorkbook(workbook) {}
+
+/**
  * The callback function which is called when the specified range of the current sheet changes.
  * <note>Please note that the event is not called for the undo/redo operations.</note>
  * @event Api#onWorksheetChange
@@ -2845,7 +3743,10 @@ function ApiWorksheet(worksheet) {}
  * @property {number} Col - Returns the column number for the selected cell.
  * @property {ApiRange} Rows - Returns the ApiRange object that represents the rows of the specified range.
  * @property {ApiRange} Cols - Returns the ApiRange object that represents the columns of the specified range.
+ * @property {ApiRange} Columns - Returns the ApiRange object that represents the columns of the specified range.
  * @property {ApiRange} Cells - Returns a Range object that represents all the cells in the specified range or a specified cell.
+ * @property {ApiRange} EntireRow - Returns a Range object that represents the entire row(s) that contains the specified range.
+ * @property {ApiRange} EntireColumn - Returns a Range object that represents the entire column(s) that contains the specified range.
  * @property {number} Count - Returns the rows or columns count.
  * @property {string} Address - Returns the range address.
  * @property {string} Value - Returns a value from the first cell of the specified range or sets it to this cell.
@@ -2862,6 +3763,7 @@ function ApiWorksheet(worksheet) {}
  * @property {string} FontName - Sets the specified font family as the font name for the current cell range.
  * @property {'center' | 'bottom' | 'top' | 'distributed' | 'justify'} AlignVertical - Sets the text vertical alignment to the current cell range.
  * @property {'left' | 'right' | 'center' | 'justify'} AlignHorizontal - Sets the text horizontal alignment to the current cell range.
+ * @property {'context' | 'ltr' | 'rtl'} ReadingOrder - Sets the direction (reading order) of the text in the current cell range.
  * @property {boolean} Bold - Sets the bold property to the text characters from the current cell or cell range.
  * @property {boolean} Italic - Sets the italic property to the text characters in the current cell or cell range.
  * @property {'none' | 'single' | 'singleAccounting' | 'double' | 'doubleAccounting'} Underline - Sets the type of underline applied to the font.
@@ -2870,10 +3772,11 @@ function ApiWorksheet(worksheet) {}
  * @property {ApiColor|'No Fill'} FillColor - Returns or sets the background color of the current cell range.
  * @property {string} NumberFormat - Sets a value that represents the format code for the object.
  * @property {ApiRange} MergeArea - Returns the cell or cell range from the merge area.
+ * @property {ApiRange} CurrentRegion - Returns a range that represents the expanded range around the current range.
  * @property {ApiWorksheet} Worksheet - Returns the ApiWorksheet object that represents the worksheet containing the specified range.
  * @property {ApiName} DefName - Returns the ApiName object.
  * @property {ApiComment | null} Comments - Returns the ApiComment collection that represents all the comments from the specified worksheet.
- * @property {'xlDownward' | 'xlHorizontal' | 'xlUpward' | 'xlVertical'} Orientation - Sets an angle to the current cell range.
+ * @property {Angle} Orientation - Returns an angle to the current cell range.
  * @property {ApiAreas} Areas - Returns a collection of the areas.
  * @property {ApiCharacters} Characters - Returns the ApiCharacters object that represents a range of characters within the object text. Use the ApiCharacters object to format characters within a text string.
  * @property {ApiPivotTable | null} PivotTable - Returns the ApiPivotTable object that represents the pivot table report containing the upper-left corner of the specified range.
@@ -3118,7 +4021,7 @@ function ApiAreas(items, parent) {}
  * @property {ApiRange | null} TableRange2 - Returns a Range object that represents the entire pivot table report, including page fields.
  * @property {string} GrandTotalName - Returns or sets the text string label that is displayed in the grand total column or row heading in the specified pivot table report.
  * @property {boolean} RepeatAllLabels - Specifies whether to repeat item labels for all pivot fields in the specified pivot table.
- * @property {object} RowAxisLayout - Sets the way the specified pivot table items appear вЂ” in table format or in outline format.
+ * @property {object} RowAxisLayout - Sets the way the specified pivot table items appear — in table format or in outline format.
  * @property {boolean} LayoutBlankLine - Sets the setting which specifies whether to insert blank rows after each item in the pivot table.
  * @property {boolean} LayoutSubtotals - Sets the setting which specifies whether to show subtotals in the pivot table.
  * @property {number} SubtotalLocation - Sets the layout subtotal location.
@@ -3147,7 +4050,7 @@ function ApiPivotTable(pivot, api) {}
  * @property {ApiPivotTable} Table - Returns the ApiPivotTable object which represents the pivot table for the current field.
  * @property {ApiPivotTable} Parent - Returns the parent object for the current field.
  * @property {boolean} LayoutCompactRow - Returns or sets the setting which specifies whether a pivot table field is compacted.
- * @property {number} LayoutForm - Returns or sets the way the specified pivot table items appear вЂ” in table format or in outline format.
+ * @property {number} LayoutForm - Returns or sets the way the specified pivot table items appear — in table format or in outline format.
  * @property {boolean} LayoutPageBreak - Returns or sets the setting which specifies whether to insert a page break after each field.
  * @property {boolean} ShowingInAxis - Returns the setting which specifies whether the pivot table field is currently visible in the pivot table.
  * @property {boolean} RepeatLabels - Returns or sets the setting which specifies whether to repeat items labels at each row.
@@ -3166,6 +4069,8 @@ function ApiPivotTable(pivot, api) {}
  * @property {string | number} CurrentPage - Returns the current page which is displayed for the page field (valid only for page fields).
  * @property {ApiPivotItem | ApiPivotItem[]} PivotItems - Returns an object that represents either a single pivot table item (the ApiPivotItem object)
  * or a collection of all the visible and hidden items (an array of the ApiPivotItem objects) in the specified field.
+ * @property {string} AutoSortField - Returns the name of the field that is used to sort the specified field.
+ * @property {SortOrder} AutoSortOrder - Returns the sort order for the specified field.
  */
 function ApiPivotField(table, index, pivotField) {}
 
@@ -3207,12 +4112,15 @@ ApiPivotDataField.prototype.constructor = ApiPivotDataField;
  * @property {string} Value - Returns a name of the specified item in the pivot table field.
  * @property {string} Parent - Returns a parent of the pivot item.
  * @property {string} Field - Returns a field of the pivot item.
+ * @property {boolean} Visible - Returns or sets a visibility of the pivot item.
  */
-function ApiPivotItem(field, item) {}
+function ApiPivotItem(field, item, index) {}
 
 /** @type{ApiPivotField} */
 
 /** @type{CT_Item} */
+
+/** @type{number} */
 
 /**
  * Class representing characters in an object that contains text.
@@ -3224,6 +4132,12 @@ function ApiPivotItem(field, item) {}
  * @property {ApiFont} Font - The font of the specified characters.
  */
 function ApiCharacters(options, parent) {}
+
+/**
+ * Class representing a theme.
+ * @constructor
+ */
+function ApiTheme(theme) {}
 
 /**
  * Class that contains the font attributes (font name, font size, color, and so on).
@@ -3258,18 +4172,21 @@ ApiInterface.prototype.Format = function (expression, format) { return ""; };
 
 /**
  * Creates a new custom function.
- * The description of the function parameters and result is specified using JSDoc. The <em>@customfunction</em> tag is required in JSDoc.
- * Parameters and results can be specified as the <em>number / string / boolean / any / number[][] / string[][] / boolean[][] / any[][]</em> types.
+ * The description of the function parameters and result is specified using JSDoc. The *@customfunction* tag is required in JSDoc.
+ * Parameters and results can be specified as the *number / string / boolean / any / number[][] / string[][] / boolean[][] / any[][]* types.
  * Parameters can be required or optional. A user can also set a default value.
+ * The passed function can be asynchronous (async function or function returning a Promise).
+ * Inside the passed function, you can access the current cell address where the calculation is performed using *this.address*.
+ * You can also access the addresses of function arguments using *this.args[0].address*, *this.args[1].address*, etc.
  * @memberof ApiInterface
- * @param {Function} fCustom - A new function for calculating.
+ * @param {Function} fCustom - A new function for calculating. Can be synchronous or asynchronous.
  */
 ApiInterface.prototype.AddCustomFunction = function (fCustom) {};
 
 /**
  * Registers a new custom functions library (see the <b>SetCustomFunctions</b> plugin method).
- * The description of the function parameters and result is specified using JSDoc. The <em>@customfunction</em> tag is required in JSDoc.
- * Parameters and results can be specified as the <em>number / string / boolean / any / number[][] / string[][] / boolean[][] / any[][]</em> types.
+ * The description of the function parameters and result is specified using JSDoc. The *@customfunction* tag is required in JSDoc.
+ * Parameters and results can be specified as the *number / string / boolean / any / number[][] / string[][] / boolean[][] / any[][]* types.
  * Parameters can be required or optional. A user can also set a default value.
  * @memberof ApiInterface
  * @param {string} sName - The library name.
@@ -3341,6 +4258,20 @@ ApiInterface.prototype.GetActiveSheet = function () { return new ApiWorksheet();
  * @returns {ApiWorksheet}
  */
 ApiInterface.prototype.ActiveSheet = ApiInterface.prototype.GetActiveSheet ();
+
+/**
+ * Returns an object that represents the active workbook.
+ * @memberof ApiInterface
+ * @returns {ApiWorkbook}
+ */
+ApiInterface.prototype.GetActiveWorkbook = function () { return new ApiWorkbook(); };
+
+/**
+ * Returns an object that represents the active workbook.
+ * @memberof ApiInterface
+ * @returns {ApiWorkbook}
+ */
+ApiInterface.prototype.ActiveWorkbook = ApiInterface.prototype.GetActiveWorkbook ();
 
 /**
  * Returns an object that represents a sheet.
@@ -4258,7 +5189,7 @@ ApiWorksheetFunction.prototype.FISHERINV = function (arg1) { return 0; };
  */
 
 /**
- * РЎalculates or predicts a future value based on existing (historical) values by using the AAA version of the Exponential Smoothing (ETS) algorithm.
+ * Сalculates or predicts a future value based on existing (historical) values by using the AAA version of the Exponential Smoothing (ETS) algorithm.
  * @memberof ApiWorksheetFunction
  * @param {ApiRange | ApiName | number} arg1 - A date for which a new value will be predicted. Must be after the last date in the timeline.
  * @param {ApiRange | ApiName | number[]} arg2 - A range or an array of numeric data that determines the historical values for which a new point will be predicted.
@@ -4453,11 +5384,11 @@ ApiWorksheetFunction.prototype.GEOMEAN = function () { return 0; };
 /**
  * Calculates predicted exponential growth by using existing data.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number[]} arg1 - The set of y-values from the <em>y = b*m^x</em> equation, an array or range of positive numbers.
- * @param {ApiRange | ApiName | number[]} [arg2] - An optional set of x-values from the <em>y = b*m^x</em> equation, an array or range of positive numbers that has the same size as the set of y-values.
+ * @param {ApiRange | ApiName | number[]} arg1 - The set of y-values from the *y = b*m^x* equation, an array or range of positive numbers.
+ * @param {ApiRange | ApiName | number[]} [arg2] - An optional set of x-values from the *y = b*m^x* equation, an array or range of positive numbers that has the same size as the set of y-values.
  * @param {ApiRange | ApiName | number[]} [arg3] - New x-values for which the function will return the corresponding y-values.
- * @param {ApiRange | ApiName | boolean} [arg4] - A logical value: the constant <em>b</em> is calculated normally if this parameter is set to <b>true</b>,
- * and <em>b</em> is set equal to 1 if the parameter is <b>false</b> or omitted.
+ * @param {ApiRange | ApiName | boolean} [arg4] - A logical value: the constant *b* is calculated normally if this parameter is set to <b>true</b>,
+ * and *b* is set equal to 1 if the parameter is <b>false</b> or omitted.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.GROWTH = function (arg1, arg2, arg3, arg4) { return 0; };
@@ -4525,12 +5456,12 @@ ApiWorksheetFunction.prototype.LARGE = function (arg1, arg2) { return 0; };
 /**
  * Returns statistics that describe a linear trend matching known data points, by fitting a straight line using the least squares method.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName} arg1 - The set of y-values from the <em>y = mx + b</em> equation.
- * @param {ApiRange | ApiName} [arg2] - An optional set of x-values from the <em>y = mx + b</em> equation.
- * @param {ApiRange | ApiName | boolean} [arg3] - A logical value: the constant <em>b</em> is calculated normally if this parameter is set to <b>true</b> or omitted,
- * and <em>b</em> is set equal to 0 if the parameter is <b>false</b>.
+ * @param {ApiRange | ApiName} arg1 - The set of y-values from the *y = mx + b* equation.
+ * @param {ApiRange | ApiName} [arg2] - An optional set of x-values from the *y = mx + b* equation.
+ * @param {ApiRange | ApiName | boolean} [arg3] - A logical value: the constant *b* is calculated normally if this parameter is set to <b>true</b> or omitted,
+ * and *b* is set equal to 0 if the parameter is <b>false</b>.
  * @param {ApiRange | ApiName | boolean} [arg4] - A logical value: return additional regression statistics if this parameter is set to <b>true</b>,
- * and return m-coefficients and the constant <em>b</em> if the parameter is <b>false</b> or omitted.
+ * and return m-coefficients and the constant *b* if the parameter is <b>false</b> or omitted.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.LINEST = function (arg1, arg2, arg3, arg4) { return 0; };
@@ -4538,12 +5469,12 @@ ApiWorksheetFunction.prototype.LINEST = function (arg1, arg2, arg3, arg4) { retu
 /**
  * Returns statistics that describe an exponential curve matching known data points.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | ApiRange} arg1 - The set of y-values from the <em>y = b*m^x</em> equation.
- * @param {ApiRange | ApiName | ApiRange} [arg2] - An optional set of x-values from the <em>y = b*m^x</em> equation.
- * @param {ApiRange | ApiName | boolean} [arg3] - A logical value: the constant <em>b</em> is calculated normally if this parameter is set to <b>true</b> or omitted,
- * and <em>b</em> is set equal to 1 if the parameter is <b>false</b>.
+ * @param {ApiRange | ApiName | ApiRange} arg1 - The set of y-values from the *y = b*m^x* equation.
+ * @param {ApiRange | ApiName | ApiRange} [arg2] - An optional set of x-values from the *y = b*m^x* equation.
+ * @param {ApiRange | ApiName | boolean} [arg3] - A logical value: the constant *b* is calculated normally if this parameter is set to <b>true</b> or omitted,
+ * and *b* is set equal to 1 if the parameter is <b>false</b>.
  * @param {ApiRange | ApiName | boolean} [arg4] - A logical value: return additional regression statistics if this parameter is set to <b>true</b>,
- * and return m-coefficients and the constant <em>b</em> if the parameter is <b>false</b> or omitted.
+ * and return m-coefficients and the constant *b* if the parameter is <b>false</b> or omitted.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.LOGEST = function (arg1, arg2, arg3, arg4) { return 0; };
@@ -5137,11 +6068,11 @@ ApiWorksheetFunction.prototype.TINV = function (arg1, arg2) { return 0; };
 /**
  * Returns numbers in a linear trend matching known data points, using the least squares method.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number[]} arg1 - A range or array of y-values from the <em>y = mx + b</em> equation.
- * @param {ApiRange | ApiName | number[]} [arg2] - An optional range or array of x-values from the <em>y = mx + b</em> equation, an array of the same size as an array of y-values.
+ * @param {ApiRange | ApiName | number[]} arg1 - A range or array of y-values from the *y = mx + b* equation.
+ * @param {ApiRange | ApiName | number[]} [arg2] - An optional range or array of x-values from the *y = mx + b* equation, an array of the same size as an array of y-values.
  * @param {ApiRange | ApiName | number[]} [arg3] - A range or array of new x-values for which this function will return corresponding y-values.
- * @param {ApiRange | ApiName | boolean} [arg4] - A logical value: the constant <em>b</em> is calculated normally if this parameter is set to <b>true</b> or omitted,
- * and <em>b</em> is set equal to 0 if the parameter is <b>false</b>.
+ * @param {ApiRange | ApiName | boolean} [arg4] - A logical value: the constant *b* is calculated normally if this parameter is set to <b>true</b> or omitted,
+ * and *b* is set equal to 0 if the parameter is <b>false</b>.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.TREND = function (arg1, arg2, arg3, arg4) { return 0; };
@@ -5398,7 +6329,7 @@ ApiWorksheetFunction.prototype.NETWORKDAYS = function (arg1, arg2, arg3) { retur
 ApiWorksheetFunction.prototype.NETWORKDAYS_INTL = function (arg1, arg2, arg3, arg4) { return 0; };
 
 /**
- * Returns the current date and time in the <em>MM/dd/yy hh:mm</em> format.
+ * Returns the current date and time in the *MM/dd/yy hh:mm* format.
  * @memberof ApiWorksheetFunction
  * @returns {number}
  */
@@ -5431,7 +6362,7 @@ ApiWorksheetFunction.prototype.TIME = function (arg1, arg2, arg3) { return 0; };
 ApiWorksheetFunction.prototype.TIMEVALUE = function (arg1) { return 0; };
 
 /**
- * Returns the current date in the <em>MM/dd/yy</em> format.
+ * Returns the current date in the *MM/dd/yy* format.
  * @memberof ApiWorksheetFunction
  * @returns {number}
  */
@@ -5730,7 +6661,7 @@ ApiWorksheetFunction.prototype.HEX2OCT = function (arg1, arg2) { return 0; };
 /**
  * Returns the absolute value (modulus) of a complex number.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMABS = function (arg1) { return 0; };
@@ -5738,7 +6669,7 @@ ApiWorksheetFunction.prototype.IMABS = function (arg1) { return 0; };
 /**
  * Returns the imaginary coefficient of a complex number.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMAGINARY = function (arg1) { return 0; };
@@ -5746,7 +6677,7 @@ ApiWorksheetFunction.prototype.IMAGINARY = function (arg1) { return 0; };
 /**
  * Returns the argument Theta, an angle expressed in radians.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMARGUMENT = function (arg1) { return 0; };
@@ -5754,7 +6685,7 @@ ApiWorksheetFunction.prototype.IMARGUMENT = function (arg1) { return 0; };
 /**
  * Returns the complex conjugate of a complex number.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMCONJUGATE = function (arg1) { return 0; };
@@ -5762,7 +6693,7 @@ ApiWorksheetFunction.prototype.IMCONJUGATE = function (arg1) { return 0; };
 /**
  * Returns the cosine of a complex number.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMCOS = function (arg1) { return 0; };
@@ -5770,7 +6701,7 @@ ApiWorksheetFunction.prototype.IMCOS = function (arg1) { return 0; };
 /**
  * Returns the hyperbolic cosine of a complex number.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMCOSH = function (arg1) { return 0; };
@@ -5778,7 +6709,7 @@ ApiWorksheetFunction.prototype.IMCOSH = function (arg1) { return 0; };
 /**
  * Returns the cotangent of a complex number.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMCOT = function (arg1) { return 0; };
@@ -5786,7 +6717,7 @@ ApiWorksheetFunction.prototype.IMCOT = function (arg1) { return 0; };
 /**
  * Returns the cosecant of a complex number.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMCSC = function (arg1) { return 0; };
@@ -5794,7 +6725,7 @@ ApiWorksheetFunction.prototype.IMCSC = function (arg1) { return 0; };
 /**
  * Returns the hyperbolic cosecant of a complex number.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMCSCH = function (arg1) { return 0; };
@@ -5802,8 +6733,8 @@ ApiWorksheetFunction.prototype.IMCSCH = function (arg1) { return 0; };
 /**
  * Returns the quotient of two complex numbers.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - The complex numerator or dividend in the <em>x + yi</em> or <em>x + yj</em> form.
- * @param {ApiRange | ApiName | number} arg2 - The complex denominator or divisor in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | number} arg1 - The complex numerator or dividend in the *x + yi* or *x + yj* form.
+ * @param {ApiRange | ApiName | number} arg2 - The complex denominator or divisor in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMDIV = function (arg1, arg2) { return 0; };
@@ -5811,7 +6742,7 @@ ApiWorksheetFunction.prototype.IMDIV = function (arg1, arg2) { return 0; };
 /**
  * Returns the exponential of a complex number.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMEXP = function (arg1) { return 0; };
@@ -5819,7 +6750,7 @@ ApiWorksheetFunction.prototype.IMEXP = function (arg1) { return 0; };
 /**
  * Returns the natural logarithm of a complex number.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMLN = function (arg1) { return 0; };
@@ -5827,7 +6758,7 @@ ApiWorksheetFunction.prototype.IMLN = function (arg1) { return 0; };
 /**
  * Returns the base-10 logarithm of a complex number.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMLOG10 = function (arg1) { return 0; };
@@ -5835,7 +6766,7 @@ ApiWorksheetFunction.prototype.IMLOG10 = function (arg1) { return 0; };
 /**
  * Returns the base-2 logarithm of a complex number.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMLOG2 = function (arg1) { return 0; };
@@ -5843,7 +6774,7 @@ ApiWorksheetFunction.prototype.IMLOG2 = function (arg1) { return 0; };
 /**
  * Returns a complex number raised to an integer power.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the *x + yi* or *x + yj* form.
  * @param {ApiRange | ApiName | number} arg2 - The power to which the complex number will be raised.
  * @returns {number}
  */
@@ -5852,7 +6783,7 @@ ApiWorksheetFunction.prototype.IMPOWER = function (arg1, arg2) { return 0; };
 /**
  * Returns the product of the specified complex numbers.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | string} args - Up to 255 complex numbers expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | string} args - Up to 255 complex numbers expressed in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMPRODUCT = function () { return 0; };
@@ -5860,7 +6791,7 @@ ApiWorksheetFunction.prototype.IMPRODUCT = function () { return 0; };
 /**
  * Returns the real coefficient of a complex number.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMREAL = function (arg1) { return 0; };
@@ -5868,7 +6799,7 @@ ApiWorksheetFunction.prototype.IMREAL = function (arg1) { return 0; };
 /**
  * Returns the secant of a complex number.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMSEC = function (arg1) { return 0; };
@@ -5876,7 +6807,7 @@ ApiWorksheetFunction.prototype.IMSEC = function (arg1) { return 0; };
 /**
  * Returns the hyperbolic secant of a complex number.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMSECH = function (arg1) { return 0; };
@@ -5884,7 +6815,7 @@ ApiWorksheetFunction.prototype.IMSECH = function (arg1) { return 0; };
 /**
  * Returns the sine of a complex number.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMSIN = function (arg1) { return 0; };
@@ -5892,7 +6823,7 @@ ApiWorksheetFunction.prototype.IMSIN = function (arg1) { return 0; };
 /**
  * Returns the hyperbolic sine of a complex number.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMSINH = function (arg1) { return 0; };
@@ -5900,13 +6831,13 @@ ApiWorksheetFunction.prototype.IMSINH = function (arg1) { return 0; };
 /**
  * Returns the square root of a complex number.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMSQRT = function (arg1) { return 0; };
 
 /**
- * Returns the difference of two complex numbers expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * Returns the difference of two complex numbers expressed in the *x + yi* or *x + yj* form.
  * @memberof ApiWorksheetFunction
  * @param {ApiRange | ApiName | number} arg1 - The complex number from which to subtract the second number.
  * @param {ApiRange | ApiName | number} arg2 - The complex number to subtract from the first number.
@@ -5917,7 +6848,7 @@ ApiWorksheetFunction.prototype.IMSUB = function (arg1, arg2) { return 0; };
 /**
  * Returns the sum of the specified complex numbers.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | string} args - Up to 255 complex numbers expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | string} args - Up to 255 complex numbers expressed in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMSUM = function () { return 0; };
@@ -5925,7 +6856,7 @@ ApiWorksheetFunction.prototype.IMSUM = function () { return 0; };
 /**
  * Returns the tangent of a complex number.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the <em>x + yi</em> or <em>x + yj</em> form.
+ * @param {ApiRange | ApiName | number} arg1 - A complex number expressed in the *x + yi* or *x + yj* form.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.IMTAN = function (arg1) { return 0; };
@@ -6793,7 +7724,7 @@ ApiWorksheetFunction.prototype.AGGREGATE = function () { return 0; };
 ApiWorksheetFunction.prototype.ARABIC = function (arg1) { return 0; };
 
 /**
- * Returns the arcsine of a number in radians, in the range from <em>-Pi/2</em> to <em>Pi/2</em>.
+ * Returns the arcsine of a number in radians, in the range from *-Pi/2* to *Pi/2*.
  * @memberof ApiWorksheetFunction
  * @param {ApiRange | ApiName | number} arg1 - The angle sine. It must be from -1 to 1.
  * @returns {number}
@@ -6809,7 +7740,7 @@ ApiWorksheetFunction.prototype.ASIN = function (arg1) { return 0; };
 ApiWorksheetFunction.prototype.ASINH = function (arg1) { return 0; };
 
 /**
- * Returns the arctangent of a number in radians, in the range from <em>-Pi/2</em> to <em>Pi/2</em>.
+ * Returns the arctangent of a number in radians, in the range from *-Pi/2* to *Pi/2*.
  * @memberof ApiWorksheetFunction
  * @param {ApiRange | ApiName | number} arg1 - The angle tangent.
  * @returns {number}
@@ -6917,7 +7848,7 @@ ApiWorksheetFunction.prototype.COT = function (arg1) { return 0; };
 /**
  * Returns the hyperbolic cotangent of a number.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - The angle in radians for which the hyperbolic cotangent will be calculated. Its absolute value must be less than <em>2^27</em>.
+ * @param {ApiRange | ApiName | number} arg1 - The angle in radians for which the hyperbolic cotangent will be calculated. Its absolute value must be less than *2^27*.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.COTH = function (arg1) { return 0; };
@@ -6933,7 +7864,7 @@ ApiWorksheetFunction.prototype.CSC = function (arg1) { return 0; };
 /**
  * Returns the hyperbolic cosecant of an angle.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - The angle in radians for which the hyperbolic cosecant will be calculated. Its absolute value must be less than <em>2^27</em>.
+ * @param {ApiRange | ApiName | number} arg1 - The angle in radians for which the hyperbolic cosecant will be calculated. Its absolute value must be less than *2^27*.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.CSCH = function (arg1) { return 0; };
@@ -6981,7 +7912,7 @@ ApiWorksheetFunction.prototype.EVEN = function (arg1) { return 0; };
 ApiWorksheetFunction.prototype.EXP = function (arg1) { return 0; };
 
 /**
- * Returns the factorial of a number, which is equal to <em>1*2*3*...*</em> number.
+ * Returns the factorial of a number, which is equal to *1*2*3*...** number.
  * @memberof ApiWorksheetFunction
  * @param {ApiRange | ApiName | number} arg1 - The nonnegative number for which the factorial will be calculated.
  * @returns {number}
@@ -7286,7 +8217,7 @@ ApiWorksheetFunction.prototype.SIGN = function (arg1) { return 0; };
 /**
  * Returns the sine of an angle.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - The angle in radians for which the sine will be returned. If your argument is in degrees, multiply it by <em>PI()/180</em>.
+ * @param {ApiRange | ApiName | number} arg1 - The angle in radians for which the sine will be returned. If your argument is in degrees, multiply it by *PI()/180*.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.SIN = function (arg1) { return 0; };
@@ -7407,7 +8338,7 @@ ApiWorksheetFunction.prototype.SUMSQ = function () { return 0; };
 /**
  * Returns the tangent of an angle.
  * @memberof ApiWorksheetFunction
- * @param {ApiRange | ApiName | number} arg1 - The angle in radians for which the tangent will be returned. If the argument is in degrees, multiply it by <em>PI()/180</em>.
+ * @param {ApiRange | ApiName | number} arg1 - The angle in radians for which the tangent will be returned. If the argument is in degrees, multiply it by *PI()/180*.
  * @returns {number}
  */
 ApiWorksheetFunction.prototype.TAN = function (arg1) { return 0; };
@@ -7493,7 +8424,7 @@ ApiWorksheetFunction.prototype.LOOKUP = function (arg1, arg2, arg3) { return 0; 
 /**
  * The match type.
  * * <b>-1</b> - The values must be sorted in descending order. If the exact match is not found, the function will return the smallest value that is greater than the searched value.
- * * <b>0</b> - The values can be sorted in any order. If the exact match is not found, the function will return the <em>#N/A</em> error.
+ * * <b>0</b> - The values can be sorted in any order. If the exact match is not found, the function will return the *#N/A* error.
  * * <b>1</b> (or omitted) - The values must be sorted in ascending order. If the exact match is not found, the function will return the largest value that is less than the searched value.
  * @typedef {("-1" | "0" | "1")} MatchType
  * */
@@ -7559,7 +8490,7 @@ ApiWorksheetFunction.prototype.VLOOKUP = function (arg1, arg2, arg3, arg4) { ret
 ApiWorksheetFunction.prototype.ERROR_TYPE = function (arg1) { return 0; };
 
 /**
- * Checks whether a value is an error other than <em>#N/A</em>, and returns <b>true</b> or <b>false</b>.
+ * Checks whether a value is an error other than *#N/A*, and returns <b>true</b> or <b>false</b>.
  * @memberof ApiWorksheetFunction
  * @param {number | string | boolean | ApiRange | ApiName} arg1 - The value to test.
  * The value can be an empty cell, error, logical value, text, number, range, or range name.
@@ -7602,7 +8533,7 @@ ApiWorksheetFunction.prototype.ISFORMULA = function (arg1) { return true; };
 ApiWorksheetFunction.prototype.ISLOGICAL = function (arg1) { return true; };
 
 /**
- * Checks whether a value is <em>#N/A</em>, and returns <b>true</b> or <b>false</b>.
+ * Checks whether a value is *#N/A*, and returns <b>true</b> or <b>false</b>.
  * @memberof ApiWorksheetFunction
  * @param {ApiRange | string | number | boolean | ApiName} arg1 - The value to test.
  * The value can be an empty cell, error, logical value, text, number, range, or range name.
@@ -7663,7 +8594,7 @@ ApiWorksheetFunction.prototype.ISTEXT = function (arg1) { return true; };
 ApiWorksheetFunction.prototype.N = function (arg1) { return 0; };
 
 /**
- * Returns the <em>#N/A</em> error value which means "no value is available".
+ * Returns the *#N/A* error value which means "no value is available".
  * @memberof ApiWorksheetFunction
  * @returns {string}
  */
@@ -7728,10 +8659,10 @@ ApiWorksheetFunction.prototype.IF = function (arg1, arg2, arg3) { return 0; };
 ApiWorksheetFunction.prototype.IFERROR = function (arg1, arg2) { return 0; };
 
 /**
- * Checks if there is an error in the formula in the first argument. The function returns the specified value if the formula returns the <em>#N/A</em> error value, otherwise returns the result of the formula.
+ * Checks if there is an error in the formula in the first argument. The function returns the specified value if the formula returns the *#N/A* error value, otherwise returns the result of the formula.
  * @memberof ApiWorksheetFunction
  * @param {ApiRange | ApiName | number | string | boolean} arg1 - The value, expression, or reference that is checked for an error.
- * @param {ApiRange | ApiName | number | string | boolean} arg2 - The value to return if the formula evaluates to the <em>#N/A</em> error value.
+ * @param {ApiRange | ApiName | number | string | boolean} arg2 - The value to return if the formula evaluates to the *#N/A* error value.
  * @returns {number | string | boolean}
  */
 ApiWorksheetFunction.prototype.IFNA = function (arg1, arg2) { return 0; };
@@ -7989,6 +8920,77 @@ ApiInterface.prototype.GetCore = function () { return new ApiCore(); };
  * @since 9.0.0
  */
 ApiInterface.prototype.GetCustomProperties = function () { return new ApiCustomProperties(); };
+
+/**
+ * Saves changes to the specified document.
+ *
+ * @memberof ApiWorkbook
+ * @since 9.1.0
+ */
+ApiWorkbook.prototype.Save = function () {};
+
+/**
+ * Returns a sheet collection that represents all the sheets in the workbook.
+ *
+ * @memberof ApiWorkbook
+ * @returns {ApiWorksheet[]}
+ * @since 9.1.0
+ */
+ApiWorkbook.prototype.GetSheets = function () { return [new ApiWorksheet()]; };
+
+/**
+ * Returns all pivot tables in the workbook.
+ *
+ * @memberof ApiWorkbook
+ * @returns {ApiPivotTable[]}
+ * @since 9.1.0
+ */
+ApiWorkbook.prototype.GetAllPivotTables = function () { return [new ApiPivotTable()]; };
+
+/**
+ * Returns the custom properties of the workbook.
+ *
+ * @memberof ApiWorkbook
+ * @returns {ApiCustomProperties}
+ * @since 9.1.0
+ */
+ApiWorkbook.prototype.GetCustomProperties = function () { return new ApiCustomProperties(); };
+
+/**
+ * Returns the theme of the workbook.
+ *
+ * @memberof ApiWorkbook
+ * @returns {ApiTheme}
+ * @since 9.1.0
+ */
+ApiWorkbook.prototype.GetTheme = function () { return new ApiTheme(); };
+
+/**
+ * Returns the name of the workbook.
+ *
+ * @memberof ApiWorkbook
+ * @returns {string}
+ * @since 9.1.0
+ */
+ApiWorkbook.prototype.GetName = function () { return ""; };
+
+/**
+ * Returns the active sheet of the workbook.
+ *
+ * @memberof ApiWorkbook
+ * @returns {ApiWorksheet}
+ * @since 9.1.0
+ */
+ApiWorkbook.prototype.GetActiveSheet = function () { return new ApiWorksheet(); };
+
+/**
+ * Returns the active chart of the workbook.
+ *
+ * @memberof ApiWorkbook
+ * @returns {ApiChart | null}
+ * @since 9.1.0
+ */
+ApiWorkbook.prototype.GetActiveChart = function () { return new ApiChart(); };
 
 /**
  * Returns the state of sheet visibility.
@@ -8649,6 +9651,15 @@ ApiWorksheet.prototype.AllProtectedRanges = ApiWorksheet.prototype.GetAllProtect
 ApiWorksheet.prototype.Paste = function (destination) {};
 
 /**
+ * Retrieves the custom XML manager associated with the current sheet.
+ * This manager allows manipulation and access to custom XML parts within the current sheet.
+ * @memberof ApiWorksheet
+ * @since 9.1.0
+ * @returns {ApiCustomXmlParts|null} Returns an instance of ApiCustomXmlParts if the custom XML manager exists, otherwise returns null.
+ */
+ApiWorksheet.prototype.GetCustomXmlParts = function(){ return new ApiCustomXmlParts(); };
+
+/**
  * Specifies the cell border position.
  * @typedef {("DiagonalDown" | "DiagonalUp" | "Bottom" | "Left" | "Right" | "Top" | "InsideHorizontal" | "InsideVertical")} BordersIndex
  */
@@ -9035,6 +10046,22 @@ ApiRange.prototype.SetAlignHorizontal = function (sAlignment) { return true; };
 ApiRange.prototype.AlignHorizontal = ApiRange.prototype.SetAlignHorizontal ();
 
 /**
+ * Sets the direction (reading order) of the text in the current cell range.
+ *
+ * @memberof ApiRange
+ * @param {'context' | 'ltr' | 'rtl'} direction - The direction (reading order) that will be applied to the cell contents.
+ */
+ApiRange.prototype.SetReadingOrder = function (direction) {};
+
+/**
+ * Sets the direction (reading order) of the text in the current cell range.
+ *
+ * @memberof ApiRange
+ * @param {'context' | 'ltr' | 'rtl'} direction - The direction (reading order) that will be applied to the cell contents.
+ */
+ApiRange.prototype.ReadingOrder = ApiRange.prototype.SetReadingOrder ();
+
+/**
  * Sets the bold property to the text characters in the current cell or cell range.
  * @memberof ApiRange
  * @param {boolean} isBold - Specifies that the contents of the current cell / cell range are displayed bold.
@@ -9379,8 +10406,8 @@ ApiRange.prototype.Paste = function (rangeFrom) {};
  * @memberof ApiRange
  * @param {PasteType} [sPasteType="xlPasteAll"]  - Paste option.
  * @param {PasteSpecialOperation} [sPasteSpecialOperation="xlPasteSpecialOperationNone"] - The mathematical operation which will be applied to the copied data.
- * @param {boolean} bSkipBlanks [bSkipBlanks=false] - Specifies whether to avoid replacing values in the paste area when blank cells occur in the copy area.
- * @param {boolean} bTranspose [bTranspose=false] - Specifies whether the pasted data will be transposed from rows to columns.
+ * @param {boolean} [bSkipBlanks=false] - Specifies whether to avoid replacing values in the paste area when blank cells occur in the copy area.
+ * @param {boolean} [bTranspose=false] - Specifies whether the pasted data will be transposed from rows to columns.
  * @since 8.1.0
  */
 ApiRange.prototype.PasteSpecial = function (sPasteType, sPasteSpecialOperation, bSkipBlanks, bTranspose) {};
@@ -9555,6 +10582,113 @@ ApiRange.prototype.GetFormulaArray = function () { return ""; };
 ApiRange.prototype.FormulaArray = ApiRange.prototype.GetFormulaArray ();
 
 /**
+ * Returns a range that represents the expanded range around the current range.
+ * @memberof ApiRange
+ * @returns {ApiRange | null} - Returns the expanded range or null if the range cannot be expanded.
+ * @since 9.1
+ */
+ApiRange.prototype.GetCurrentRegion = function () { return new ApiRange(); };
+
+/**
+ * Returns a range that represents the expanded range around the current range.
+ * @memberof ApiRange
+ * @returns {ApiRange | null} - Returns the expanded range or null if the range cannot be expanded.
+ * @since 9.1
+ */
+ApiRange.prototype.CurrentRegion = ApiRange.prototype.GetCurrentRegion ();
+
+/**
+ * Returns a Range object that represents a range that's offset from this range.
+ * @memberof ApiRange
+ * @param {number} rowOffset - The number of rows to offset the range.
+ * @param {number} columnOffset - The number of columns to offset the range.
+ * @returns {ApiRange | null} - Returns the offset range or null if invalid.
+ * @since 9.1.0
+ */
+ApiRange.prototype.Offset = function (rowOffset, columnOffset) { return new ApiRange(); };
+
+/**
+ * Resizes the range by changing the number of rows and columns.
+ * @memberof ApiRange
+ * @param {number} rowSize - The number of rows for the new range.
+ * @param {number} columnSize - The number of columns for the new range.
+ * @returns {ApiRange | null} - Returns the resized range or null if invalid.
+ * @since 9.1.0
+ */
+ApiRange.prototype.Resize = function (rowSize, columnSize) { return new ApiRange(); };
+
+/**
+ * Returns a Range object that represents a cell or a range of cells.
+ * When applied to a Range object, the property is relative to that Range object.
+ * @memberof ApiRange
+ * @param {string | ApiRange} cell1 - The first cell address (e.g., "A1" or "A1:B2").
+ * @param {string | ApiRange} [cell2] - The second cell address (optional, defines corner with cell1).
+ * @returns {ApiRange | null} - Returns the range relative to this range, or null if invalid.
+ * @since 9.1.0
+ */
+ApiRange.prototype.GetRange = function (cell1, cell2) { return new ApiRange(); };
+
+/**
+ * Returns a Range object that represents the entire row(s) that contains the specified range.
+ * @memberof ApiRange
+ * @returns {ApiRange | null} - Returns the entire row range or null if invalid.
+ * @since 9.1.0
+ */
+ApiRange.prototype.GetEntireRow = function () { return new ApiRange(); };
+
+/**
+ * Returns a Range object that represents the entire row(s) that contains the specified range.
+ * @memberof ApiRange
+ * @returns {ApiRange | null} - Returns the entire row range or null if invalid.
+ * @since 9.1.0
+ */
+ApiRange.prototype.EntireRow = ApiRange.prototype.GetEntireRow ();
+
+/**
+ * Returns a Range object that represents the entire column(s) that contains the specified range.
+ * @memberof ApiRange
+ * @returns {ApiRange | null} - Returns the entire column range or null if invalid.
+ * @since 9.1.0
+ */
+ApiRange.prototype.GetEntireColumn = function () { return new ApiRange(); };
+
+/**
+ * Returns a Range object that represents the entire column(s) that contains the specified range.
+ * @memberof ApiRange
+ * @returns {ApiRange | null} - Returns the entire column range or null if invalid.
+ * @since 9.1.0
+ */
+ApiRange.prototype.EntireColumn = ApiRange.prototype.GetEntireColumn ();
+
+/**
+ * Returns a collection of the ranges.
+ * @memberof ApiRange
+ * @returns {ApiValidation}
+ */
+ApiRange.prototype.GetValidation = function () { return new ApiValidation(); };
+
+/**
+ * Returns a collection of the ranges.
+ * @memberof ApiRange
+ * @returns {ApiValidation}
+ */
+ApiRange.prototype.Validation = ApiRange.prototype.GetValidation ();
+
+/**
+ * Returns the format conditions collection for the range.
+ * @memberof ApiRange
+ * @returns {ApiFormatConditions}
+ */
+ApiRange.prototype.GetFormatConditions = function() { return new ApiFormatConditions(); };
+
+/**
+ * Returns the format conditions collection for the range.
+ * @memberof ApiRange
+ * @returns {ApiFormatConditions}
+ */
+ApiRange.prototype.FormatConditions = ApiRange.prototype.GetFormatConditions ();
+
+/**
  * Returns a type of the ApiDrawing class.
  * @memberof ApiDrawing
  * @returns {"drawing"}
@@ -9669,6 +10803,23 @@ ApiShape.prototype.GetDocContent = function () { return new ApiDocumentContent()
  * @returns {boolean} - returns false if shape or aligment doesn't exist.
  */
 ApiShape.prototype.SetVerticalTextAlign = function (sVerticalAlign) { return true; };
+
+/**
+ * Gets the geometry object from a shape
+ * @memberof ApiShape
+ * @returns {ApiGeometry}
+ * @since 9.1.0
+ */
+ApiShape.prototype.GetGeometry = function(){ return new ApiGeometry(); };
+
+/**
+ * Sets a custom geometry for the shape
+ * @memberof ApiShape
+ * @param {ApiGeometry} oGeometry - The geometry to set
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiShape.prototype.SetGeometry = function(oGeometry){ return true; };
 
 /**
  * Sets values from the specified range to the specified series.
@@ -10350,6 +11501,24 @@ ApiCharacters.prototype.GetFont = function () { return new ApiFont(); };
 ApiCharacters.prototype.Font = ApiCharacters.prototype.GetFont ();
 
 /**
+ * Returns a type of the ApiTheme class.
+ *
+ * @memberof ApiTheme
+ * @returns {"theme"}
+ * @since 9.1.0
+ */
+ApiTheme.prototype.GetClassType = function () { return ""; };
+
+/**
+ * Returns the name of the theme.
+ *
+ * @memberof ApiTheme
+ * @returns {string} - The name of the theme.
+ * @since 9.1.0
+ */
+ApiTheme.prototype.GetName = function () { return ""; };
+
+/**
  * Returns the parent ApiCharacters object of the specified font.
  * @memberof ApiFont
  * @returns {ApiCharacters} - The parent ApiCharacters object.
@@ -10871,7 +12040,7 @@ ApiPivotTable.prototype.SetRepeatAllLabels = function (repeat) {};
 ApiPivotTable.prototype.RepeatAllLabels = ApiPivotTable.prototype.SetRepeatAllLabels ();
 
 /**
- * Sets the way the specified pivot table items appear вЂ” in table format or in outline format.
+ * Sets the way the specified pivot table items appear — in table format or in outline format.
  * @memberof ApiPivotTable
  * @param {PivotLayoutType} type - The layout type of the pivot table report.
  * @param {boolean} compact - Specifies whether the pivot table items will be displayed in the compact form.
@@ -10880,7 +12049,7 @@ ApiPivotTable.prototype.RepeatAllLabels = ApiPivotTable.prototype.SetRepeatAllLa
 ApiPivotTable.prototype.SetRowAxisLayout = function (type, compact) {};
 
 /**
- * Sets the way the specified pivot table items appear вЂ” in table format or in outline format.
+ * Sets the way the specified pivot table items appear — in table format or in outline format.
  * @memberof ApiPivotTable
  * @param {PivotLayoutType} type - The layout type of the pivot table report.
  * @param {boolean} compact - Specifies whether the pivot table items will be displayed in the compact form.
@@ -12015,7 +13184,7 @@ ApiPivotField.prototype.LayoutCompactRow = ApiPivotField.prototype.SetLayoutComp
  */
 
 /**
- * Returns the way the specified pivot table items appear вЂ” in table format or in outline format.
+ * Returns the way the specified pivot table items appear — in table format or in outline format.
  * @memberof ApiPivotField
  * @returns {PivotLayoutType}
  * @since 8.2.0
@@ -12023,7 +13192,7 @@ ApiPivotField.prototype.LayoutCompactRow = ApiPivotField.prototype.SetLayoutComp
 ApiPivotField.prototype.GetLayoutForm = function () { return new PivotLayoutType(); };
 
 /**
- * Sets the way the specified pivot table items appear вЂ” in table format or in outline format.
+ * Sets the way the specified pivot table items appear — in table format or in outline format.
  * @memberof ApiPivotField
  * @param {PivotLayoutType} type - The layout type of the pivot table report.
  * @since 8.2.0
@@ -12031,7 +13200,7 @@ ApiPivotField.prototype.GetLayoutForm = function () { return new PivotLayoutType
 ApiPivotField.prototype.SetLayoutForm = function (type) {};
 
 /**
- * Sets the way the specified pivot table items appear вЂ” in table format or in outline format.
+ * Sets the way the specified pivot table items appear — in table format or in outline format.
  * @memberof ApiPivotField
  * @param {PivotLayoutType} type - The layout type of the pivot table report.
  * @since 8.2.0
@@ -12380,6 +13549,67 @@ ApiPivotField.prototype.GetCurrentPage = function () { return ""; };
 ApiPivotField.prototype.CurrentPage = ApiPivotField.prototype.GetCurrentPage ();
 
 /**
+ * Returns the collection of pivot filters applied to the specified pivot field.
+ * @memberof ApiPivotField
+ * @returns {ApiPivotFilters}
+ * @since 9.1.0
+ */
+ApiPivotField.prototype.GetPivotFilters = function () { return new ApiPivotFilters(); };
+
+/**
+ * Returns the collection of pivot filters applied to the specified pivot field.
+ * @memberof ApiPivotField
+ * @returns {ApiPivotFilters}
+ * @since 9.1.0
+ */
+ApiPivotField.prototype.PivotFilters = ApiPivotField.prototype.GetPivotFilters ();
+
+/**
+ * Establishes automatic field-sorting rules for PivotTable reports.
+ * @memberof ApiPivotField
+ * @param {SortOrder} order - The sort order.
+ * @param {string} field - The name of the field to sort by(pivotField.SourceName, pivotField.Name, dataField.Name).
+ * @since 9.1.0
+ */
+ApiPivotField.prototype.AutoSort = function (order, field) {};
+
+/**
+ * Establishes automatic field-sorting rules for PivotTable reports.
+ * @memberof ApiPivotField
+ * @param {SortOrder} order - The sort order.
+ * @param {string} field - The name of the field to sort by(pivotField.SourceName, pivotField.Name, dataField.Name).
+ * @since 9.1.0
+ */
+ApiPivotField.prototype.AutoSortField = ApiPivotField.prototype.AutoSort ();
+
+/**
+ * Class representing a collection of pivot filters applied to a pivot field.
+ * @constructor
+ * @param {ApiPivotField} field - The pivot field that owns this filter collection.
+ */
+function ApiPivotFilters(field) {}
+
+/** @type {ApiPivotField} */
+
+/**
+ * Pivot filter type.
+ * @typedef {("xlAfter" | "xlAfterOrEqualTo" | "xlAllDatesInPeriodApril" | "xlAllDatesInPeriodAugust" | "xlAllDatesInPeriodDecember" | "xlAllDatesInPeriodFebruary" | "xlAllDatesInPeriodJanuary" | "xlAllDatesInPeriodJuly" | "xlAllDatesInPeriodJune" | "xlAllDatesInPeriodMarch" | "xlAllDatesInPeriodMay" | "xlAllDatesInPeriodNovember" | "xlAllDatesInPeriodOctober" | "xlAllDatesInPeriodQuarter1" | "xlAllDatesInPeriodQuarter2" | "xlAllDatesInPeriodQuarter3" | "xlAllDatesInPeriodQuarter4" | "xlAllDatesInPeriodSeptember" | "xlBefore" | "xlBeforeOrEqualTo" | "xlBottomCount" | "xlBottomPercent" | "xlBottomSum" | "xlCaptionBeginsWith" | "xlCaptionContains" | "xlCaptionDoesNotBeginWith" | "xlCaptionDoesNotContain" | "xlCaptionDoesNotEndWith" | "xlCaptionDoesNotEqual" | "xlCaptionEndsWith" | "xlCaptionEquals" | "xlCaptionIsBetween" | "xlCaptionIsGreaterThan" | "xlCaptionIsGreaterThanOrEqualTo" | "xlCaptionIsLessThan" | "xlCaptionIsLessThanOrEqualTo" | "xlCaptionIsNotBetween" | "xlDateBetween" | "xlDateLastMonth" | "xlDateLastQuarter" | "xlDateLastWeek" | "xlDateLastYear" | "xlDateNextMonth" | "xlDateNextQuarter" | "xlDateNextWeek" | "xlDateNextYear" | "xlDateThisMonth" | "xlDateThisQuarter" | "xlDateThisWeek" | "xlDateThisYear" | "xlDateToday" | "xlDateTomorrow" | "xlDateYesterday" | "xlNotSpecificDate" | "xlSpecificDate" | "xlTopCount" | "xlTopPercent" | "xlTopSum" | "xlValueDoesNotEqual" | "xlValueEquals" | "xlValueIsBetween" | "xlValueIsGreaterThan" | "xlValueIsGreaterThanOrEqualTo" | "xlValueIsLessThan" | "xlValueIsLessThanOrEqualTo" | "xlValueIsNotBetween" | "xlYearToDate") } XlPivotFilterType
+ */
+
+/**
+ * Adds a new filter to the pivot field. This method is VBA-compatible and follows the PivotFilters.Add signature from Excel VBA.
+ * Supports all major filter types including label filters, value filters, top/bottom filters, and date filters.
+ * @memberof ApiPivotFilters
+ * @param {XlPivotFilterType} filterType - The type of filter to add. Must match VBA XlPivotFilterType enum values.
+ * @param {ApiPivotDataField} [dataField] - The data field object to filter by. Required for value filters (xlValue* types) and top/bottom filters.
+ * @param {string | number | Date} [value1] - The first value for the filter condition. Required for comparison filters, between filters, and top/bottom count.
+ * @param {string | number | Date} [value2] - The second value for "Between" conditions (xlCaptionIsBetween, xlCaptionIsNotBetween, xlValueIsBetween).
+ * @param {boolean} [wholeDayFilter] - Whether to filter by whole day for date filters. Reserved for future use, currently not implemented.
+ * @since 9.1.0
+ */
+ApiPivotFilters.prototype.Add = function (filterType, dataField, value1, value2, wholeDayFilter) {};
+
+/**
  * Returns a name of the pivot item.
  * @memberof ApiPivotItem
  * @returns {string}
@@ -12442,5 +13672,2724 @@ ApiPivotItem.prototype.GetParent = function () { return new ApiPivotField(); };
  * @since 8.2.0
  */
 ApiPivotItem.prototype.Parent = ApiPivotItem.prototype.GetParent ();
+
+/**
+ * Returns the visibility of the pivot item.
+ * @memberof ApiPivotItem
+ * @returns {boolean} True if the pivot item is visible, false otherwise.
+ * @since 9.1.0
+ */
+ApiPivotItem.prototype.GetVisible = function () { return true; };
+
+/**
+ * Sets the visibility of the pivot item.
+ * Important: ensure at least one stays visible while hiding others
+ * @memberof ApiPivotItem
+ * @param {boolean} visible - Specifies whether the pivot item should be visible.
+ * @since 9.1.0
+ */
+ApiPivotItem.prototype.SetVisible = function (visible) {};
+
+/**
+ * Sets the visibility of the pivot item.
+ * Important: ensure at least one stays visible while hiding others
+ * @memberof ApiPivotItem
+ * @param {boolean} visible - Specifies whether the pivot item should be visible.
+ * @since 9.1.0
+ */
+ApiPivotItem.prototype.Visible = ApiPivotItem.prototype.SetVisible ();
+
+/**
+ * The validation type.
+ * @typedef {("xlValidateInputOnly" | "xlValidateWholeNumber" | "xlValidateDecimal" |
+ * "xlValidateList" | "xlValidateDate" | "xlValidateTime" | "xlValidateTextLength" |
+ * "xlValidateCustom")} ValidationType
+ */
+
+/**
+ * The validation alert style.
+ * @typedef {("xlValidAlertStop" | "xlValidAlertWarning" | "xlValidAlertInformation")} ValidationAlertStyle
+ */
+
+/**
+ * The validation operator.
+ * @typedef {("xlBetween" | "xlNotBetween" | "xlEqual" | "xlNotEqual" |
+ * "xlGreater" | "xlLess" | "xlGreaterEqual" | "xlLessEqual")} ValidationOperator
+ */
+
+/**
+ * Condition value types for color scale criteria.
+ * @typedef {("xlConditionValueAutomaticMax" | "xlConditionValueAutomaticMin" |
+ * "xlConditionValueHighestValue" | "xlConditionValueLowestValue" |
+ * "xlConditionValueNone" | "xlConditionValueNumber" | "xlConditionValuePercent" |
+ * "xlConditionValuePercentile" | "xlConditionValueFormula")} XlConditionValueTypes
+ */
+
+/**
+ * Icon set types for conditional formatting.
+ * @typedef {("xl3Arrows" | "xl3ArrowsGray" | "xl3Flags" | "xl3TrafficLights1" | "xl3TrafficLights2" |
+ * "xl3Signs" | "xl3Symbols" | "xl3Symbols2" | "xl4Arrows" | "xl4ArrowsGray" | "xl4RedToBlack" |
+ * "xl4CRV" | "xl4TrafficLights" | "xl5Arrows" | "xl5ArrowsGray" | "xl5CRV" | "xl5Quarters" |
+ * "xl3Stars" | "xl3Triangles" | "xl5Boxes")} XlIconSet
+ */
+
+/**
+ * Calculation scope for pivot table conditions.
+ * @typedef {("xlAllValues" | "xlColItems" | "xlRowItems")} XlCalcFor
+ */
+
+/**
+ * The XlTopBottom enumeration constants.
+ * @typedef {("xlTop10Top" | "xlTop10Bottom")} XlTopBottom
+ */
+
+/**
+ * The XlDuplicateValues enumeration constants.
+ * @typedef {("xlDuplicate" | "xlUnique")} XlDuplicateValues
+ */
+
+/**
+ * Class representing data validation.
+ * @constructor
+ * @property {ValidationType} Type - Returns or sets the validation type.
+ * @property {ValidationAlertStyle} AlertStyle - Returns or sets the validation alert style.
+ * @property {boolean} IgnoreBlank - Returns or sets a Boolean value that specifies whether blank values are permitted by the range data validation.
+ * @property {boolean} InCellDropdown - Returns or sets a Boolean value indicating whether data validation displays a drop-down list that contains acceptable values.
+ * @property {boolean} ShowInput - Returns or sets a Boolean value indicating whether the data validation input message will be displayed whenever the user selects a cell in the data validation range.
+ * @property {boolean} ShowError - Returns or sets a Boolean value indicating whether the data validation error message will be displayed whenever the user enters invalid data.
+ * @property {string} InputTitle - Returns or sets the title of the data-validation input dialog box.
+ * @property {string} InputMessage - Returns or sets the data validation input message.
+ * @property {string} ErrorTitle - Returns or sets the title of the data-validation error dialog box.
+ * @property {string} ErrorMessage - Returns or sets the data validation error message.
+ * @property {string} Formula1 - Returns or sets the value or expression associated with the conditional format or data validation.
+ * @property {string} Formula2 - Returns or sets the value or expression associated with the second part of a conditional format or data validation.
+ * @property {ValidationOperator} Operator - Returns or sets the data validation operator.
+ * @property {ApiRange} Parent - Returns the parent range object.
+ * @property {string} Value - Returns or sets the validation value.
+ */
+function ApiValidation(validation, range) {}
+
+/**
+ * Adds data validation to the specified range.
+ * @memberof ApiValidation
+ * @param {ValidationType} Type - The validation type.
+ * @param {ValidationAlertStyle} [AlertStyle] - The validation alert style.
+ * @param {ValidationOperator} [Operator] - The data validation operator.
+ * @param {string | number | ApiRange} [Formula1] - The first formula in the data validation.
+ * @param {string | number | ApiRange} [Formula2] - The second formula in the data validation.
+ * @returns {ApiValidation | null}
+ */
+ApiValidation.prototype.Add = function(Type, AlertStyle, Operator, Formula1, Formula2) { return new ApiValidation(); };
+
+/**
+ * Deletes the object.
+ * @memberof ApiValidation
+ */
+ApiValidation.prototype.Delete = function() {};
+
+/**
+ * Modifies data validation for a range.
+ * @memberof ApiValidation
+ * @param {ValidationType} [Type] - The validation type.
+ * @param {ValidationAlertStyle} [AlertStyle] - The validation alert style.
+ * @param {ValidationOperator} [Operator] - The data validation operator.
+ * @param {string | number | ApiRange} [Formula1] - The first formula in the data validation.
+ * @param {string | number | ApiRange} [Formula2] - The second formula in the data validation.
+ * @returns {ApiValidation | null}
+ */
+ApiValidation.prototype.Modify = function(Type, AlertStyle, Operator, Formula1, Formula2) { return new ApiValidation(); };
+
+/**
+ * Returns the validation type.
+ * @memberof ApiValidation
+ * @returns {ValidationType}
+ */
+ApiValidation.prototype.GetType = function() { return new ValidationType(); };
+
+/**
+ * Sets the validation type.
+ * @memberof ApiValidation
+ * @param {ValidationType} Type - The validation type.
+ */
+ApiValidation.prototype.SetType = function(Type) {};
+
+/**
+ * Returns the validation alert style.
+ * @memberof ApiValidation
+ * @returns {ValidationAlertStyle}
+ */
+ApiValidation.prototype.GetAlertStyle = function() { return new ValidationAlertStyle(); };
+
+/**
+ * Sets the validation alert style.
+ * @memberof ApiValidation
+ * @param {ValidationAlertStyle} AlertStyle - The validation alert style.
+ */
+ApiValidation.prototype.SetAlertStyle = function(AlertStyle) {};
+
+/**
+ * Returns whether blank values are permitted by the range data validation.
+ * @memberof ApiValidation
+ * @returns {boolean}
+ */
+ApiValidation.prototype.GetIgnoreBlank = function() { return true; };
+
+/**
+ * Sets whether blank values are permitted by the range data validation.
+ * @memberof ApiValidation
+ * @param {boolean} IgnoreBlank - Specifies whether blank values are permitted.
+ */
+ApiValidation.prototype.SetIgnoreBlank = function(IgnoreBlank) {};
+
+/**
+ * Returns whether data validation displays a drop-down list that contains acceptable values.
+ * @memberof ApiValidation
+ * @returns {boolean}
+ */
+ApiValidation.prototype.GetInCellDropdown = function() { return true; };
+
+/**
+ * Sets whether data validation displays a drop-down list that contains acceptable values.
+ * @memberof ApiValidation
+ * @param {boolean} InCellDropdown - Specifies whether to display a drop-down list.
+ */
+ApiValidation.prototype.SetInCellDropdown = function(InCellDropdown) {};
+
+/**
+ * Returns whether the data validation input message will be displayed.
+ * @memberof ApiValidation
+ * @returns {boolean}
+ */
+ApiValidation.prototype.GetShowInput = function() { return true; };
+
+/**
+ * Sets whether the data validation input message will be displayed.
+ * @memberof ApiValidation
+ * @param {boolean} ShowInput - Specifies whether to show input message.
+ */
+ApiValidation.prototype.SetShowInput = function(ShowInput) {};
+
+/**
+ * Returns whether the data validation error message will be displayed.
+ * @memberof ApiValidation
+ * @returns {boolean}
+ */
+ApiValidation.prototype.GetShowError = function() { return true; };
+
+/**
+ * Sets whether the data validation error message will be displayed.
+ * @memberof ApiValidation
+ * @param {boolean} ShowError - Specifies whether to show error message.
+ */
+ApiValidation.prototype.SetShowError = function(ShowError) {};
+
+/**
+ * Returns the title of the data-validation input dialog box.
+ * @memberof ApiValidation
+ * @returns {string}
+ */
+ApiValidation.prototype.GetInputTitle = function() { return ""; };
+
+/**
+ * Sets the title of the data-validation input dialog box.
+ * @memberof ApiValidation
+ * @param {string} InputTitle - The input dialog title.
+ */
+ApiValidation.prototype.SetInputTitle = function(InputTitle) {};
+
+/**
+ * Returns the data validation input message.
+ * @memberof ApiValidation
+ * @returns {string}
+ */
+ApiValidation.prototype.GetInputMessage = function() { return ""; };
+
+/**
+ * Sets the data validation input message.
+ * @memberof ApiValidation
+ * @param {string} InputMessage - The input message.
+ */
+ApiValidation.prototype.SetInputMessage = function(InputMessage) {};
+
+/**
+ * Returns the title of the data-validation error dialog box.
+ * @memberof ApiValidation
+ * @returns {string}
+ */
+ApiValidation.prototype.GetErrorTitle = function() { return ""; };
+
+/**
+ * Sets the title of the data-validation error dialog box.
+ * @memberof ApiValidation
+ * @param {string} ErrorTitle - The error dialog title.
+ */
+ApiValidation.prototype.SetErrorTitle = function(ErrorTitle) {};
+
+/**
+ * Returns the data validation error message.
+ * @memberof ApiValidation
+ * @returns {string}
+ */
+ApiValidation.prototype.GetErrorMessage = function() { return ""; };
+
+/**
+ * Sets the data validation error message.
+ * @memberof ApiValidation
+ * @param {string} ErrorMessage - The error message.
+ */
+ApiValidation.prototype.SetErrorMessage = function(ErrorMessage) {};
+
+/**
+ * Returns the first formula in the data validation.
+ * @memberof ApiValidation
+ * @returns {string}
+ */
+ApiValidation.prototype.GetFormula1 = function() { return ""; };
+
+/**
+ * Sets the first formula in the data validation.
+ * @memberof ApiValidation
+ * @param {string} Formula1 - The first formula.
+ */
+ApiValidation.prototype.SetFormula1 = function(Formula1) {};
+
+/**
+ * Returns the second formula in the data validation.
+ * @memberof ApiValidation
+ * @returns {string}
+ */
+ApiValidation.prototype.GetFormula2 = function() { return ""; };
+
+/**
+ * Sets the second formula in the data validation.
+ * @memberof ApiValidation
+ * @param {string} Formula2 - The second formula.
+ */
+ApiValidation.prototype.SetFormula2 = function(Formula2) {};
+
+/**
+ * Returns the data validation operator.
+ * @memberof ApiValidation
+ * @returns {ValidationOperator}
+ */
+ApiValidation.prototype.GetOperator = function() { return new ValidationOperator(); };
+
+/**
+ * Sets the data validation operator.
+ * @memberof ApiValidation
+ * @param {ValidationOperator} Operator - The validation operator.
+ */
+ApiValidation.prototype.SetOperator = function(Operator) {};
+
+/**
+ * Returns the parent range object.
+ * @memberof ApiValidation
+ * @returns {ApiRange}
+ */
+ApiValidation.prototype.GetParent = function() { return new ApiRange(); };
+
+/**
+ * Returns the parent range object.
+ * @memberof ApiValidation
+ * @returns {ApiRange}
+ */
+ApiValidation.prototype.Type = ApiValidation.prototype.GetParent ();
+
+/**
+ * Conditional formatting type.
+ * @typedef {("xlCellValue" | "xlExpression" | "xlTop10" | "xlAboveAverageCondition" |
+ * "xlUniqueValues" | "xlTextString" | "xlBlanksCondition" | "xlTimePeriod" | "xlErrorsCondition" |
+ * "xlNoErrorsCondition" | "xlColorScale" | "xlDatabar" | "xlIconSets")} XlFormatConditionType
+ */
+
+/**
+ * Format condition operator.
+ * @typedef {("xlBetween" | "xlNotBetween" | "xlEqual" | "xlNotEqual" |
+ * "xlGreater" | "xlLess" | "xlGreaterEqual" | "xlLessEqual" | "xlBeginsWith" |
+ * "xlEndsWith" | "xlContains" | "xlNotContains")} XlFormatConditionOperator
+ */
+
+/**
+ * Time period for conditional formatting.
+ * @typedef {("xlToday" | "xlYesterday" | "xlTomorrow" | "xlLast7Days" | "xlLastWeek" |
+ * "xlThisWeek" | "xlNextWeek" | "xlLastMonth" | "xlThisMonth" | "xlNextMonth")} XlTimePeriods
+ */
+
+/**
+ * Contains operator for text-based conditional formatting.
+ * @typedef {("xlContains" | "xlDoesNotContain" | "xlBeginsWith" | "xlEndsWith")} XlContainsOperator
+ */
+
+/**
+ * Specifies the scope for pivot table conditional formatting conditions.
+ * @typedef {("xlFieldsScope" | "xlSelectionScope" | "xlDataFieldScope")} XlPivotConditionScope
+ */
+
+/**
+ * The data bar axis position.
+ * @typedef {("xlDataBarAxisAutomatic" | "xlDataBarAxisMidpoint" | "xlDataBarAxisNone")} XlDataBarAxisPosition
+ */
+
+/**
+ * The reading order for data bars.
+ * @typedef {("xlLTR" | "xlRTL" | "xlContext")} XlReadingOrder
+ */
+
+/**
+ * Class representing a collection of format conditions.
+ * @constructor
+ */
+function ApiFormatConditions(range) {}
+
+/**
+ * Adds a new format condition to the collection.
+ * @memberof ApiFormatConditions
+ * @param {XlFormatConditionType} Type - The format condition type.
+ * @param {XlFormatConditionOperator} [Operator] - The format condition operator.
+ * @param {string | number | ApiRange} [Formula1] - The first formula.
+ * @param {string | number | ApiRange} [Formula2] - The second formula.
+ * @returns {ApiFormatCondition | null}
+ */
+ApiFormatConditions.prototype.Add = function(Type, Operator, Formula1, Formula2) { return new ApiFormatCondition(); };
+
+/**
+ * Adds a new above average conditional formatting rule to the collection.
+ * @memberof ApiFormatConditions
+ * @returns {ApiAboveAverage | null}
+ */
+ApiFormatConditions.prototype.AddAboveAverage = function() { return new ApiAboveAverage(); };
+
+/**
+ * Adds a new color scale conditional formatting rule to the collection.
+ * @memberof ApiFormatConditions
+ * @param {number} [ColorScaleType=3] - The type of color scale (2 for two-color scale, 3 for three-color scale).
+ * @returns {ApiColorScale | null}
+ */
+ApiFormatConditions.prototype.AddColorScale = function(ColorScaleType) { return new ApiColorScale(); };
+
+/**
+ * Adds a new data bar conditional formatting rule to the collection.
+ * @memberof ApiFormatConditions
+ * @returns {ApiDatabar | null}
+ */
+ApiFormatConditions.prototype.AddDatabar = function() { return new ApiDatabar(); };
+
+/**
+ * Adds a new icon set conditional formatting rule to the collection.
+ * @memberof ApiFormatConditions
+ * @returns {ApiIconSetCondition | null}
+ */
+ApiFormatConditions.prototype.AddIconSetCondition = function() { return new ApiIconSetCondition(); };
+
+/**
+ * Adds a new top 10 conditional formatting rule to the collection.
+ * @memberof ApiFormatConditions
+ * @returns {ApiTop10 | null}
+ */
+ApiFormatConditions.prototype.AddTop10 = function() { return new ApiTop10(); };
+
+/**
+ * Adds a new unique values conditional formatting rule to the collection.
+ * @memberof ApiFormatConditions
+ * @returns {ApiUniqueValues | null}
+ */
+ApiFormatConditions.prototype.AddUniqueValues = function() { return new ApiUniqueValues(); };
+
+/**
+ * Deletes all format conditions from the collection.
+ * @memberof ApiFormatConditions
+ */
+ApiFormatConditions.prototype.Delete = function() {};
+
+/**
+ * Returns the count of format conditions.
+ * @memberof ApiFormatConditions
+ * @returns {number}
+ */
+ApiFormatConditions.prototype.GetCount = function() { return 0; };
+
+/**
+ * Returns a format condition by index.
+ * @memberof ApiFormatConditions
+ * @param {number} index - The index of the format condition (1-based).
+ * @returns {ApiFormatCondition | null}
+ */
+ApiFormatConditions.prototype.GetItem = function(index) { return new ApiFormatCondition(); };
+
+/**
+ * Returns a format condition by index.
+ * @memberof ApiFormatConditions
+ * @param {number} index - The index of the format condition (1-based).
+ * @returns {ApiFormatCondition | null}
+ */
+ApiFormatConditions.prototype.Count = ApiFormatConditions.prototype.GetItem ();
+
+/**
+ * Returns the parent range object.
+ * @memberof ApiFormatConditions
+ * @returns {ApiRange}
+ */
+ApiFormatConditions.prototype.GetParent = function() { return new ApiRange(); };
+
+/**
+ * Returns the parent range object.
+ * @memberof ApiFormatConditions
+ * @returns {ApiRange}
+ */
+ApiFormatConditions.prototype.Parent = ApiFormatConditions.prototype.GetParent ();
+
+/**
+ * Class representing a single format condition.
+ * @constructor
+ * @property {XlFormatConditionType} Type - Returns or sets the format condition type.
+ * @property {XlFormatConditionOperator} Operator - Returns or sets the format condition operator.
+ * @property {string} Formula1 - Returns or sets the first formula.
+ * @property {string} Formula2 - Returns or sets the second formula.
+ * @property {XlTimePeriods} DateOperator - Returns or sets the date operator for time period conditions.
+ * @property {string} Text - Returns or sets the text for text-based conditions.
+ * @property {number} Rank - Returns or sets the rank for top/bottom conditions.
+ * @property {boolean} PercentRank - Returns or sets whether rank is percentage-based.
+ * @property {boolean} AboveBelow - Returns or sets above/below for average conditions.
+ * @property {number} StdDev - Returns or sets standard deviations for average conditions.
+ * @property {number} Priority - Returns or sets the priority of the condition.
+ * @property {boolean} StopIfTrue - Returns or sets whether to stop if this condition is true.
+ * @property {ApiRange} AppliesTo - Returns the range the condition applies to.
+ */
+function ApiFormatCondition(rule, range, _parent) {}
+
+/**
+ * Deletes the format condition.
+ * @memberof ApiFormatCondition
+ */
+ApiFormatCondition.prototype.Delete = function() {};
+
+/**
+ * Modifies the format condition.
+ * @memberof ApiFormatCondition
+ * @param {XlFormatConditionType} [Type] - The format condition type.
+ * @param {XlFormatConditionOperator} [Operator] - The format condition operator.
+ * @param {string | number | ApiRange} [Formula1] - The first formula.
+ * @param {string | number | ApiRange} [Formula2] - The second formula.
+ * @returns {ApiFormatCondition | null}
+ */
+ApiFormatCondition.prototype.Modify = function(Type, Operator, Formula1, Formula2) { return new ApiFormatCondition(); };
+
+/**
+ * Sets the cell range to which this formatting rule applies.
+ * @memberof ApiFormatCondition
+ * @param {ApiRange} Range - The range to which this formatting rule will be applied.
+ */
+ApiFormatCondition.prototype.ModifyAppliesToRange = function(Range) {};
+
+/**
+ * Returns the range the condition applies to.
+ * @memberof ApiFormatCondition
+ * @returns {ApiRange | null}
+ */
+ApiFormatCondition.prototype.GetAppliesTo = function() { return new ApiRange(); };
+
+/**
+ * Returns the range the condition applies to.
+ * @memberof ApiFormatCondition
+ * @returns {ApiRange | null}
+ */
+ApiFormatCondition.prototype.AppliesTo = ApiFormatCondition.prototype.GetAppliesTo ();
+
+/**
+ * Returns the font applied by the format condition.
+ * @memberof ApiFormatCondition
+ * @returns {ApiFont | null}
+ */
+ApiFormatCondition.prototype.GetFont = function() { return new ApiFont(); };
+
+/**
+ * Returns the font applied by the format condition.
+ * @memberof ApiFormatCondition
+ * @returns {ApiFont | null}
+ */
+ApiFormatCondition.prototype.Font = ApiFormatCondition.prototype.GetFont ();
+
+/**
+ * Returns the format condition type.
+ * @memberof ApiFormatCondition
+ * @returns {XlFormatConditionType}
+ */
+ApiFormatCondition.prototype.GetType = function() { return new XlFormatConditionType(); };
+
+/**
+ * Returns the first formula.
+ * @memberof ApiFormatCondition
+ * @returns {string}
+ */
+ApiFormatCondition.prototype.GetFormula1 = function() { return ""; };
+
+/**
+//  * Sets the first formula.
+//  * @memberof ApiFormatCondition
+//  * @param {string} Formula1 - The first formula.
+//  */
+// ApiFormatCondition.prototype.SetFormula1 = function(Formula1) {};
+
+/**
+//  * Sets the first formula.
+//  * @memberof ApiFormatCondition
+//  * @param {string} Formula1 - The first formula.
+//  */
+// ApiFormatCondition.prototype.Formula1 = // ApiFormatCondition.prototype.SetFormula1 ();
+
+/**
+ * Returns the second formula.
+ * @memberof ApiFormatCondition
+ * @returns {string}
+ */
+ApiFormatCondition.prototype.GetFormula2 = function() { return ""; };
+
+/**
+//  * Sets the second formula.
+//  * @memberof ApiFormatCondition
+//  * @param {string} Formula2 - The second formula.
+//  */
+// ApiFormatCondition.prototype.SetFormula2 = function(Formula2) {};
+
+/**
+//  * Sets the second formula.
+//  * @memberof ApiFormatCondition
+//  * @param {string} Formula2 - The second formula.
+//  */
+// ApiFormatCondition.prototype.Formula2 = // ApiFormatCondition.prototype.SetFormula2 ();
+
+/**
+ * Sets the number format applied to a cell if the conditional formatting rule evaluates to True.
+ * @memberof ApiFormatCondition
+ * @param {string} NumberFormat - The number format code (e.g., "General", "#,##0.00", etc.)
+ */
+ApiFormatCondition.prototype.SetNumberFormat = function(NumberFormat) {};
+
+/**
+ * Returns the number format applied to a cell if the conditional formatting rule evaluates to True.
+ * @memberof ApiFormatCondition
+ * @returns {string}
+ */
+ApiFormatCondition.prototype.GetNumberFormat = function() { return ""; };
+
+/**
+ * Returns the number format applied to a cell if the conditional formatting rule evaluates to True.
+ * @memberof ApiFormatCondition
+ * @returns {string}
+ */
+ApiFormatCondition.prototype.NumberFormat = ApiFormatCondition.prototype.GetNumberFormat ();
+
+/**
+//  * Sets the format condition operator.
+//  * @memberof ApiFormatCondition
+//  * @param {XlFormatConditionOperator} Operator - The format condition operator.
+//  */
+// ApiFormatCondition.prototype.SetOperator = function(Operator) {};
+
+/**
+ * Returns the format condition operator.
+ * @memberof ApiFormatCondition
+ * @returns {XlFormatConditionOperator}
+ */
+ApiFormatCondition.prototype.GetOperator = function() { return new XlFormatConditionOperator(); };
+
+/**
+ * Returns the format condition operator.
+ * @memberof ApiFormatCondition
+ * @returns {XlFormatConditionOperator}
+ */
+ApiFormatCondition.prototype.Operator = ApiFormatCondition.prototype.GetOperator ();
+
+/**
+ * Returns the parent range object.
+ * @memberof ApiFormatCondition
+ * @returns {ApiRange}
+ */
+ApiFormatCondition.prototype.GetParent = function() { return new ApiRange(); };
+
+/**
+ * Returns the parent range object.
+ * @memberof ApiFormatCondition
+ * @returns {ApiRange}
+ */
+ApiFormatCondition.prototype.Parent = ApiFormatCondition.prototype.GetParent ();
+
+/**
+ * Returns the format condition type.
+ * @memberof ApiFormatCondition
+ * @returns {XlFormatConditionType}
+ */
+ApiFormatCondition.prototype.GetType = function() { return new XlFormatConditionType(); };
+
+/**
+ * Returns the format condition type.
+ * @memberof ApiFormatCondition
+ * @returns {XlFormatConditionType}
+ */
+ApiFormatCondition.prototype.Type = ApiFormatCondition.prototype.GetType ();
+
+/**
+ * Returns the pivot table condition object.
+ * @memberof ApiFormatCondition
+ * @returns {PTCondition | null}
+ */
+ApiFormatCondition.prototype.GetPTCondition = function() { return new PTCondition(); };
+
+/**
+ * Returns the pivot table condition object.
+ * @memberof ApiFormatCondition
+ * @returns {PTCondition | null}
+ */
+ApiFormatCondition.prototype.PTCondition = ApiFormatCondition.prototype.GetPTCondition ();
+
+/**
+ * Returns the priority value of the conditional formatting rule.
+ * @memberof ApiFormatCondition
+ * @returns {number}
+ */
+ApiFormatCondition.prototype.GetPriority = function() { return 0; };
+
+/**
+ * Sets the priority value of the conditional formatting rule.
+ * @memberof ApiFormatCondition
+ * @param {number} Priority - The priority value (1-based).
+ */
+ApiFormatCondition.prototype.SetPriority = function(Priority) {};
+
+/**
+ * Sets the priority value of the conditional formatting rule.
+ * @memberof ApiFormatCondition
+ * @param {number} Priority - The priority value (1-based).
+ */
+ApiFormatCondition.prototype.Priority = ApiFormatCondition.prototype.SetPriority ();
+
+/**
+ * Returns the scope type of the conditional formatting rule.
+ * @memberof ApiFormatCondition
+ * @returns {XlPivotConditionScope} - Returns "xlSelectionScope" for normal ranges, "xlDataFieldScope" for entire worksheet, "xlFieldsScope" for pivot tables
+ */
+ApiFormatCondition.prototype.GetScopeType = function() { return new XlPivotConditionScope(); };
+
+/**
+ * Sets the scope type of the conditional formatting rule.
+ * @memberof ApiFormatCondition
+ * @param {XlPivotConditionScope} ScopeType - The scope type: "xlSelectionScope", "xlDataFieldScope", or "xlFieldsScope"
+ */
+ApiFormatCondition.prototype.SetScopeType = function(ScopeType) {};
+
+/**
+ * Sets the scope type of the conditional formatting rule.
+ * @memberof ApiFormatCondition
+ * @param {XlPivotConditionScope} ScopeType - The scope type: "xlSelectionScope", "xlDataFieldScope", or "xlFieldsScope"
+ */
+ApiFormatCondition.prototype.ScopeType = ApiFormatCondition.prototype.SetScopeType ();
+
+/**
+ * Returns whether Excel will stop evaluating additional formatting rules if this rule evaluates to True.
+ * @memberof ApiFormatCondition
+ * @returns {boolean}
+ */
+ApiFormatCondition.prototype.GetStopIfTrue = function() { return true; };
+
+/**
+ * Sets whether Excel will stop evaluating additional formatting rules if this rule evaluates to True.
+ * @memberof ApiFormatCondition
+ * @param {boolean} StopIfTrue - True to stop evaluating additional rules.
+ */
+ApiFormatCondition.prototype.SetStopIfTrue = function(StopIfTrue) {};
+
+/**
+ * Sets whether Excel will stop evaluating additional formatting rules if this rule evaluates to True.
+ * @memberof ApiFormatCondition
+ * @param {boolean} StopIfTrue - True to stop evaluating additional rules.
+ */
+ApiFormatCondition.prototype.StopIfTrue = ApiFormatCondition.prototype.SetStopIfTrue ();
+
+/**
+ * Returns the text value used in text-based conditional formatting rules.
+ * @memberof ApiFormatCondition
+ * @returns {string}
+ */
+ApiFormatCondition.prototype.GetText = function() { return ""; };
+
+/**
+ * Sets the text value used in text-based conditional formatting rules.
+ * @memberof ApiFormatCondition
+ * @param {string} Text - The text value to compare against.
+ */
+ApiFormatCondition.prototype.SetText = function(Text) {};
+
+/**
+ * Sets the text value used in text-based conditional formatting rules.
+ * @memberof ApiFormatCondition
+ * @param {string} Text - The text value to compare against.
+ */
+ApiFormatCondition.prototype.Text = ApiFormatCondition.prototype.SetText ();
+
+/**
+ * Returns the text operator for text-based conditional formatting rules.
+ * @memberof ApiFormatCondition
+ * @returns {XlContainsOperator | null}
+ */
+ApiFormatCondition.prototype.GetTextOperator = function() { return new XlContainsOperator(); };
+
+/**
+ * Sets the text operator for text-based conditional formatting rules.
+ * @memberof ApiFormatCondition
+ * @param {XlContainsOperator} TextOperator - The text operator: "xlContains", "xlDoesNotContain", "xlBeginsWith", "xlEndsWith"
+ */
+ApiFormatCondition.prototype.SetTextOperator = function(TextOperator) {};
+
+/**
+ * Sets the text operator for text-based conditional formatting rules.
+ * @memberof ApiFormatCondition
+ * @param {XlContainsOperator} TextOperator - The text operator: "xlContains", "xlDoesNotContain", "xlBeginsWith", "xlEndsWith"
+ */
+ApiFormatCondition.prototype.TextOperator = ApiFormatCondition.prototype.SetTextOperator ();
+
+/**
+ * Returns the date operator for time period conditions.
+ * @memberof ApiFormatCondition
+ * @returns {XlTimePeriods | null}
+ */
+ApiFormatCondition.prototype.GetDateOperator = function() { return new XlTimePeriods(); };
+
+/**
+ * Sets the date operator for time period conditions.
+ * @memberof ApiFormatCondition
+ * @param {XlTimePeriods} DateOperator - The date operator for time period conditions.
+ */
+ApiFormatCondition.prototype.SetDateOperator = function(DateOperator) {};
+
+/**
+ * Sets the date operator for time period conditions.
+ * @memberof ApiFormatCondition
+ * @param {XlTimePeriods} DateOperator - The date operator for time period conditions.
+ */
+ApiFormatCondition.prototype.DateOperator = ApiFormatCondition.prototype.SetDateOperator ();
+
+/**
+ * Sets borders for the format condition.
+ * @memberof ApiFormatCondition
+ * @param {BordersIndex} bordersIndex - Specifies the cell border position.
+ * @param {LineStyle} lineStyle - Specifies the line style used to form the cell border.
+ * @param {ApiColor} oColor - The color object which specifies the color to be set to the cell border.
+ */
+ApiFormatCondition.prototype.SetBorders = function(bordersIndex, lineStyle, oColor) {};
+
+/**
+ * Sets the background color to the format condition with the previously created color object.
+ * Sets 'No Fill' when previously created color object is null.
+ * @memberof ApiFormatCondition
+ * @param {ApiColor} oColor - The color object which specifies the color to be set to the background in the format condition.
+ */
+ApiFormatCondition.prototype.SetFillColor = function(oColor) {};
+
+/**
+ * Returns the background color for the format condition. Returns 'No Fill' when the color of the background in the format condition is null.
+ * @memberof ApiFormatCondition
+ * @returns {ApiColor|'No Fill'} - return 'No Fill' when the color to the background in the format condition is null.
+ */
+ApiFormatCondition.prototype.GetFillColor = function() { return new ApiColor(); };
+
+/**
+ * Returns the background color for the format condition. Returns 'No Fill' when the color of the background in the format condition is null.
+ * @memberof ApiFormatCondition
+ * @returns {ApiColor|'No Fill'} - return 'No Fill' when the color to the background in the format condition is null.
+ */
+ApiFormatCondition.prototype.FillColor = ApiFormatCondition.prototype.GetFillColor ();
+
+/**
+ * Class representing an above average conditional formatting rule.
+ * @constructor
+ * @extends ApiFormatCondition
+ */
+function ApiAboveAverage(rule, range, _parent) {}
+ApiAboveAverage.prototype = Object.create(ApiFormatCondition.prototype);
+ApiAboveAverage.prototype.constructor = ApiAboveAverage;
+
+/**
+ * Returns whether the rule is looking for above or below average values.
+ * @memberof ApiAboveAverage
+ * @returns {boolean} True if looking for above average values, false for below average.
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.GetAboveBelow = function() { return true; };
+
+/**
+ * Sets whether the rule is looking for above or below average values.
+ * @memberof ApiAboveAverage
+ * @param {boolean} aboveBelow - True to look for above average values, false for below average.
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.SetAboveBelow = function(aboveBelow) {};
+
+/**
+ * Sets whether the rule is looking for above or below average values.
+ * @memberof ApiAboveAverage
+ * @param {boolean} aboveBelow - True to look for above average values, false for below average.
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.AboveBelow = ApiAboveAverage.prototype.SetAboveBelow ();
+
+/**
+ * Returns the calculation scope for the above average condition in pivot tables.
+ * @memberof ApiAboveAverage
+ * @returns {number}
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.GetCalcFor = function() { return 0; };
+
+/**
+ * Sets the calculation scope for the above average condition in pivot tables.
+ * @memberof ApiAboveAverage
+ * @param {number} calcFor - The calculation scope (0 = xlAllValues, 1 = xlColItems, 2 = xlRowItems)
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.SetCalcFor = function(calcFor) {};
+
+/**
+ * Sets the calculation scope for the above average condition in pivot tables.
+ * @memberof ApiAboveAverage
+ * @param {number} calcFor - The calculation scope (0 = xlAllValues, 1 = xlColItems, 2 = xlRowItems)
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.CalcFor = ApiAboveAverage.prototype.SetCalcFor ();
+
+/**
+ * Returns the number of standard deviations from the average.
+ * @memberof ApiAboveAverage
+ * @returns {number}
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.GetNumStdDev = function() { return 0; };
+
+/**
+ * Sets the number of standard deviations from the average.
+ * @memberof ApiAboveAverage
+ * @param {number} numStdDev - The number of standard deviations (0 for simple average, positive numbers for deviations)
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.SetNumStdDev = function(numStdDev) {};
+
+/**
+ * Sets the number of standard deviations from the average.
+ * @memberof ApiAboveAverage
+ * @param {number} numStdDev - The number of standard deviations (0 for simple average, positive numbers for deviations)
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.NumStdDev = ApiAboveAverage.prototype.SetNumStdDev ();
+
+/**
+ * Returns the type of the above average conditional formatting rule.
+ * @memberof ApiAboveAverage
+ * @returns {XlFormatConditionType}
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.GetType = function() { return new XlFormatConditionType(); };
+
+/**
+ * Returns the type of the above average conditional formatting rule.
+ * @memberof ApiAboveAverage
+ * @returns {XlFormatConditionType}
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.Type = ApiAboveAverage.prototype.GetType ();
+
+/**
+ * Deletes the above average conditional formatting rule.
+ * @memberof ApiAboveAverage
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.Delete = ApiFormatCondition.prototype.Delete;{};
+
+/**
+ * Modifies the range to which this formatting rule applies.
+ * @memberof ApiAboveAverage
+ * @param {ApiRange} Range - A Range object representing the new range to which the formatting rule will be applied.
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.ModifyAppliesToRange = ApiFormatCondition.prototype.ModifyAppliesToRange;{};
+
+/**
+ * Sets the priority value for this conditional formatting rule to "1" so that it will be evaluated before all other rules on the worksheet.
+ * @memberof ApiAboveAverage
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.SetFirstPriority = ApiFormatCondition.prototype.SetFirstPriority;{};
+
+/**
+ * Sets the evaluation order for this conditional formatting rule so it is evaluated after all other rules on the worksheet.
+ * @memberof ApiAboveAverage
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.SetLastPriority = ApiFormatCondition.prototype.SetLastPriority;{};
+
+/**
+ * Returns the range to which the conditional formatting rule applies.
+ * @memberof ApiAboveAverage
+ * @returns {ApiRange}
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.GetAppliesTo = ApiFormatCondition.prototype.GetAppliesTo;{ return new ApiRange(); };
+
+/**
+//  * Returns the Borders collection that represents the borders of a style or a range of cells (including a range defined as part of a conditional format).
+//  * @memberof ApiAboveAverage
+//  * @returns {ApiBorders}
+//  * @since 9.1.0
+//  */
+// ApiAboveAverage.prototype.GetBorders = ApiFormatCondition.prototype.GetBorders;{ return new ApiBorders(); };
+
+/**
+ * Returns the Font object that represents the font of the specified object.
+ * @memberof ApiAboveAverage
+ * @returns {ApiFont}
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.GetFont = ApiFormatCondition.prototype.GetFont;{ return new ApiFont(); };
+
+/**
+ * Returns the Interior object that represents the interior of the specified object.
+ * @memberof ApiAboveAverage
+ * @returns {ApiInterior}
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.GetInterior = ApiFormatCondition.prototype.GetInterior;{ return new ApiInterior(); };
+
+/**
+ * Returns the number format applied to a cell if the conditional formatting rule evaluates to True.
+ * @memberof ApiAboveAverage
+ * @returns {string}
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.GetNumberFormat = ApiFormatCondition.prototype.GetNumberFormat;{ return ""; };
+
+/**
+ * Sets the number format applied to a cell if the conditional formatting rule evaluates to True.
+ * @memberof ApiAboveAverage
+ * @param {string} NumberFormat - The number format code.
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.SetNumberFormat = ApiFormatCondition.prototype.SetNumberFormat;{};
+
+/**
+ * Returns the background color for the format condition. Returns 'No Fill' when the color of the background in the format condition is null.
+ * @memberof ApiAboveAverage
+ * @returns {ApiColor|'No Fill'}
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.GetFillColor = ApiFormatCondition.prototype.GetFillColor;{ return new ApiColor(); };
+
+/**
+ * Sets the background color to the format condition with the previously created color object.
+ * Sets 'No Fill' when previously created color object is null.
+ * @memberof ApiAboveAverage
+ * @param {ApiColor} oColor - The color object which specifies the color to be set to the background in the format condition.
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.SetFillColor = ApiFormatCondition.prototype.SetFillColor;{};
+
+/**
+ * Returns the parent object for the specified object.
+ * @memberof ApiAboveAverage
+ * @returns {ApiRange}
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.GetParent = ApiFormatCondition.prototype.GetParent;{ return new ApiRange(); };
+
+/**
+ * Returns the priority value of the conditional formatting rule.
+ * @memberof ApiAboveAverage
+ * @returns {number}
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.GetPriority = ApiFormatCondition.prototype.GetPriority;{ return 0; };
+
+/**
+ * Sets the priority value of the conditional formatting rule.
+ * @memberof ApiAboveAverage
+ * @param {number} Priority - The priority value (1-based).
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.SetPriority = ApiFormatCondition.prototype.SetPriority;{};
+
+/**
+ * Returns the pivot table condition object.
+ * @memberof ApiAboveAverage
+ * @returns {PTCondition | null}
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.GetPTCondition = ApiFormatCondition.prototype.GetPTCondition;{ return new PTCondition(); };
+
+/**
+ * Returns the scope type of the conditional formatting rule.
+ * @memberof ApiAboveAverage
+ * @returns {XlPivotConditionScope}
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.GetScopeType = ApiFormatCondition.prototype.GetScopeType;{ return new XlPivotConditionScope(); };
+
+/**
+ * Sets the scope type of the conditional formatting rule.
+ * @memberof ApiAboveAverage
+ * @param {XlPivotConditionScope} ScopeType - The scope type.
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.SetScopeType = ApiFormatCondition.prototype.SetScopeType;{};
+
+/**
+ * Returns whether Excel will stop evaluating additional formatting rules if this rule evaluates to True.
+ * @memberof ApiAboveAverage
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.GetStopIfTrue = ApiFormatCondition.prototype.GetStopIfTrue;{ return true; };
+
+/**
+ * Sets whether Excel will stop evaluating additional formatting rules if this rule evaluates to True.
+ * @memberof ApiAboveAverage
+ * @param {boolean} StopIfTrue - True to stop evaluating additional rules.
+ * @since 9.1.0
+ */
+ApiAboveAverage.prototype.SetStopIfTrue = ApiFormatCondition.prototype.SetStopIfTrue;{};
+
+/**
+ * Class representing a color scale conditional formatting rule.
+ * @constructor
+ * @extends ApiFormatCondition
+ */
+function ApiColorScale(rule, range, _parent) {}
+ApiColorScale.prototype = Object.create(ApiFormatCondition.prototype);
+ApiColorScale.prototype.constructor = ApiColorScale;
+
+/**
+ * Returns the ColorScaleCriteria collection for this color scale.
+ * @memberof ApiColorScale
+ * @returns {ApiColorScaleCriterion[] | null}
+ * @since 9.1.0
+ */
+ApiColorScale.prototype.GetColorScaleCriteria = function() { return [new ApiColorScaleCriterion()]; };
+
+/**
+ * Returns the ColorScaleCriteria collection for this color scale.
+ * @memberof ApiColorScale
+ * @returns {ApiColorScaleCriterion[] | null}
+ * @since 9.1.0
+ */
+ApiColorScale.prototype.ColorScaleCriteria = ApiColorScale.prototype.GetColorScaleCriteria ();
+
+/**
+//  * Returns the formula for the color scale.
+//  * @memberof ApiColorScale
+//  * @returns {string}
+//  * @since 9.1.0
+//  */
+// ApiColorScale.prototype.GetFormula = function() { return ""; };
+
+/**
+//  * Returns the formula for the color scale.
+//  * @memberof ApiColorScale
+//  * @returns {string}
+//  * @since 9.1.0
+//  */
+// ApiColorScale.prototype.Formula = // ApiColorScale.prototype.GetFormula ();
+
+/**
+ * Returns the type of the color scale conditional formatting rule.
+ * @memberof ApiColorScale
+ * @returns {XlFormatConditionType}
+ * @since 9.1.0
+ */
+ApiColorScale.prototype.GetType = function() { return new XlFormatConditionType(); };
+
+/**
+ * Returns the type of the color scale conditional formatting rule.
+ * @memberof ApiColorScale
+ * @returns {XlFormatConditionType}
+ * @since 9.1.0
+ */
+ApiColorScale.prototype.Type = ApiColorScale.prototype.GetType ();
+
+/**
+ * Deletes the color scale conditional formatting rule.
+ * @memberof ApiColorScale
+ * @since 9.1.0
+ */
+ApiColorScale.prototype.Delete = ApiFormatCondition.prototype.Delete;{};
+
+/**
+ * Modifies the range to which this formatting rule applies.
+ * @memberof ApiColorScale
+ * @param {ApiRange} Range - A Range object representing the new range to which the formatting rule will be applied.
+ * @since 9.1.0
+ */
+ApiColorScale.prototype.ModifyAppliesToRange = ApiFormatCondition.prototype.ModifyAppliesToRange;{};
+
+/**
+ * Sets the priority value for this conditional formatting rule to "1" so that it will be evaluated before all other rules on the worksheet.
+ * @memberof ApiColorScale
+ * @since 9.1.0
+ */
+ApiColorScale.prototype.SetFirstPriority = ApiFormatCondition.prototype.SetFirstPriority;{};
+
+/**
+ * Sets the evaluation order for this conditional formatting rule so it is evaluated after all other rules on the worksheet.
+ * @memberof ApiColorScale
+ * @since 9.1.0
+ */
+ApiColorScale.prototype.SetLastPriority = ApiFormatCondition.prototype.SetLastPriority;{};
+
+/**
+ * Returns the range to which the conditional formatting rule applies.
+ * @memberof ApiColorScale
+ * @returns {ApiRange}
+ * @since 9.1.0
+ */
+ApiColorScale.prototype.GetAppliesTo = ApiFormatCondition.prototype.GetAppliesTo;{ return new ApiRange(); };
+
+/**
+ * Returns the parent object for the specified object.
+ * @memberof ApiColorScale
+ * @returns {ApiRange}
+ * @since 9.1.0
+ */
+ApiColorScale.prototype.GetParent = ApiFormatCondition.prototype.GetParent;{ return new ApiRange(); };
+
+/**
+ * Returns the priority value of the conditional formatting rule.
+ * @memberof ApiColorScale
+ * @returns {number}
+ * @since 9.1.0
+ */
+ApiColorScale.prototype.GetPriority = ApiFormatCondition.prototype.GetPriority;{ return 0; };
+
+/**
+ * Sets the priority value of the conditional formatting rule.
+ * @memberof ApiColorScale
+ * @param {number} Priority - The priority value (1-based).
+ * @since 9.1.0
+ */
+ApiColorScale.prototype.SetPriority = ApiFormatCondition.prototype.SetPriority;{};
+
+/**
+ * Returns the pivot table condition object.
+ * @memberof ApiColorScale
+ * @returns {PTCondition | null}
+ * @since 9.1.0
+ */
+ApiColorScale.prototype.GetPTCondition = ApiFormatCondition.prototype.GetPTCondition;{ return new PTCondition(); };
+
+/**
+ * Returns the scope type of the conditional formatting rule.
+ * @memberof ApiColorScale
+ * @returns {XlPivotConditionScope}
+ * @since 9.1.0
+ */
+ApiColorScale.prototype.GetScopeType = ApiFormatCondition.prototype.GetScopeType;{ return new XlPivotConditionScope(); };
+
+/**
+ * Sets the scope type of the conditional formatting rule.
+ * @memberof ApiColorScale
+ * @param {XlPivotConditionScope} ScopeType - The scope type.
+ * @since 9.1.0
+ */
+ApiColorScale.prototype.SetScopeType = ApiFormatCondition.prototype.SetScopeType;{};
+
+/**
+ * Returns whether Excel will stop evaluating additional formatting rules if this rule evaluates to True.
+ * @memberof ApiColorScale
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiColorScale.prototype.GetStopIfTrue = ApiFormatCondition.prototype.GetStopIfTrue;{ return true; };
+
+/**
+ * Sets whether Excel will stop evaluating additional formatting rules if this rule evaluates to True.
+ * @memberof ApiColorScale
+ * @param {boolean} StopIfTrue - True to stop evaluating additional rules.
+ * @since 9.1.0
+ */
+ApiColorScale.prototype.SetStopIfTrue = ApiFormatCondition.prototype.SetStopIfTrue;{};
+
+/**
+ * Class representing a single ColorScaleCriterion object.
+ * @constructor
+ */
+function ApiColorScaleCriterion(cfvo, color, parent, index) {}
+
+/**
+ * Returns the type of the color scale criterion.
+ * @memberof ApiColorScaleCriterion
+ * @returns {XlConditionValueTypes | null}
+ * @since 9.1.0
+ */
+ApiColorScaleCriterion.prototype.GetType = function() { return new XlConditionValueTypes(); };
+
+/**
+ * Sets the type of the color scale criterion.
+ * @memberof ApiColorScaleCriterion
+ * @param {XlConditionValueTypes} type - The type of the criterion.
+ * @since 9.1.0
+ */
+ApiColorScaleCriterion.prototype.SetType = function(type) {};
+
+/**
+ * Sets the type of the color scale criterion.
+ * @memberof ApiColorScaleCriterion
+ * @param {XlConditionValueTypes} type - The type of the criterion.
+ * @since 9.1.0
+ */
+ApiColorScaleCriterion.prototype.Type = ApiColorScaleCriterion.prototype.SetType ();
+
+/**
+ * Returns the value of the color scale criterion.
+ * @memberof ApiColorScaleCriterion
+ * @returns {string | null}
+ * @since 9.1.0
+ */
+ApiColorScaleCriterion.prototype.GetValue = function() { return ""; };
+
+/**
+ * Sets the value of the color scale criterion.
+ * @memberof ApiColorScaleCriterion
+ * @param {string} value - The value of the criterion.
+ * @since 9.1.0
+ */
+ApiColorScaleCriterion.prototype.SetValue = function(value) {};
+
+/**
+ * Sets the value of the color scale criterion.
+ * @memberof ApiColorScaleCriterion
+ * @param {string} value - The value of the criterion.
+ * @since 9.1.0
+ */
+ApiColorScaleCriterion.prototype.Value = ApiColorScaleCriterion.prototype.SetValue ();
+
+/**
+ * Returns the index indicating which threshold the criteria represents.
+ * @memberof ApiColorScaleCriterion
+ * @returns {number} Returns 1 for minimum threshold, 2 for midpoint (3-color scale) or maximum (2-color scale), and 3 for maximum threshold (3-color scale only).
+ * @since 9.1.0
+ */
+ApiColorScaleCriterion.prototype.GetIndex = function() { return 0; };
+
+/**
+ * Returns the index indicating which threshold the criteria represents.
+ * @memberof ApiColorScaleCriterion
+ * @returns {number} Returns 1 for minimum threshold, 2 for midpoint (3-color scale) or maximum (2-color scale), and 3 for maximum threshold (3-color scale only).
+ * @since 9.1.0
+ */
+ApiColorScaleCriterion.prototype.Index = ApiColorScaleCriterion.prototype.GetIndex ();
+
+/**
+ * Returns the format color of the color scale criterion.
+ * @memberof ApiColorScaleCriterion
+ * @returns {ApiColor | null}
+ * @since 9.1.0
+ */
+ApiColorScaleCriterion.prototype.GetColor = function() { return new ApiColor(); };
+
+/**
+ * Sets the format color of the color scale criterion.
+ * @memberof ApiColorScaleCriterion
+ * @param {ApiColor} oColor - The ApiColor object specifying the color.
+ * @since 9.1.0
+ */
+ApiColorScaleCriterion.prototype.SetColor = function(oColor) {};
+
+/**
+ * Sets the format color of the color scale criterion.
+ * @memberof ApiColorScaleCriterion
+ * @param {ApiColor} oColor - The ApiColor object specifying the color.
+ * @since 9.1.0
+ */
+ApiColorScaleCriterion.prototype.Color = ApiColorScaleCriterion.prototype.SetColor ();
+
+/**
+ * Class representing a data bar conditional formatting rule.
+ * @constructor
+ * @extends ApiFormatCondition
+ */
+function ApiDatabar(rule, range, _parent) {}
+ApiDatabar.prototype = Object.create(ApiFormatCondition.prototype);
+ApiDatabar.prototype.constructor = ApiDatabar;
+
+/**
+ * Sets the axis color of the data bar.
+ * @memberof ApiDatabar
+ * @param {ApiColor} oColor - The axis color.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.SetAxisColor = function(oColor){};
+
+/**
+ * Sets the axis color of the data bar.
+ * @memberof ApiDatabar
+ * @param {ApiColor} oColor - The axis color.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.AxisColor = ApiDatabar.prototype.SetAxisColor ();
+
+/**
+ * Returns the axis position of the data bar.
+ * @memberof ApiDatabar
+ * @returns {XlDataBarAxisPosition} The axis position setting for the data bar.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.GetAxisPosition = function() { return new XlDataBarAxisPosition(); };
+
+/**
+ * Sets the axis position of the data bar.
+ * @memberof ApiDatabar
+ * @param {XlDataBarAxisPosition} position - The axis position setting for the data bar.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.SetAxisPosition = function(position) {};
+
+/**
+ * Sets the axis position of the data bar.
+ * @memberof ApiDatabar
+ * @param {XlDataBarAxisPosition} position - The axis position setting for the data bar.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.AxisPosition = ApiDatabar.prototype.SetAxisPosition ();
+
+/**
+ * Returns the show value setting of the data bar.
+ * @memberof ApiDatabar
+ * @returns {boolean} True if the data bar shows the value, false otherwise.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.GetShowValue = function() { return true; };
+
+/**
+ * Sets the show value setting of the data bar.
+ * @memberof ApiDatabar
+ * @param {boolean} showValue - True to show the value, false to hide it.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.SetShowValue = function(showValue) {};
+
+/**
+ * Sets the show value setting of the data bar.
+ * @memberof ApiDatabar
+ * @param {boolean} showValue - True to show the value, false to hide it.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.ShowValue = ApiDatabar.prototype.SetShowValue ();
+
+/**
+ * Returns the direction of the data bar.
+ * @memberof ApiDatabar
+ * @returns {XlReadingOrder} The direction setting for the data bar.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.GetDirection = function() { return new XlReadingOrder(); };
+
+/**
+ * Sets the direction of the data bar.
+ * @memberof ApiDatabar
+ * @param {XlReadingOrder} direction - The direction setting for the data bar.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.SetDirection = function(direction) {};
+
+/**
+ * Sets the direction of the data bar.
+ * @memberof ApiDatabar
+ * @param {XlReadingOrder} direction - The direction setting for the data bar.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.Direction = ApiDatabar.prototype.SetDirection ();
+
+/**
+ * Returns the bar color of the data bar.
+ * @memberof ApiDatabar
+ * @returns {ApiColor | null} Returns the ApiColor object representing the bar color, or null if not specified.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.GetBarColor = function() { return new ApiColor(); };
+
+/**
+ * Sets the bar color of the data bar.
+ * @memberof ApiDatabar
+ * @param {ApiColor} oColor - The ApiColor object for the bar.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.SetBarColor = function(oColor) {};
+
+/**
+ * Sets the bar color of the data bar.
+ * @memberof ApiDatabar
+ * @param {ApiColor} oColor - The ApiColor object for the bar.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.BarColor = ApiDatabar.prototype.SetBarColor ();
+
+/**
+ * Returns the bar fill type of the data bar.
+ * @memberof ApiDatabar
+ * @returns {XlDataBarFillType} The fill type setting for the data bar.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.GetBarFillType = function() { return new XlDataBarFillType(); };
+
+/**
+ * Sets the bar fill type of the data bar.
+ * @memberof ApiDatabar
+ * @param {XlDataBarFillType} fillType - The fill type setting for the data bar.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.SetBarFillType = function(fillType) {};
+
+/**
+ * Sets the bar fill type of the data bar.
+ * @memberof ApiDatabar
+ * @param {XlDataBarFillType} fillType - The fill type setting for the data bar.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.BarFillType = ApiDatabar.prototype.SetBarFillType ();
+
+/**
+ * Returns the type of the minimum point condition value.
+ * @memberof ApiDatabar
+ * @returns {XlConditionValueTypes | null} The type of the minimum condition value.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.GetMinPointType = function() { return new XlConditionValueTypes(); };
+
+/**
+ * Sets the type of the minimum point condition value.
+ * @memberof ApiDatabar
+ * @param {XlConditionValueTypes} type - The type of the condition value.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.SetMinPointType = function(type) {};
+
+/**
+ * Returns the value of the minimum point condition value.
+ * @memberof ApiDatabar
+ * @returns {string | number | null} The value of the minimum condition value.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.GetMinPointValue = function() { return ""; };
+
+/**
+ * Sets the value of the minimum point condition value.
+ * @memberof ApiDatabar
+ * @param {string | number} value - The value of the condition value.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.SetMinPointValue = function(value) {};
+
+/**
+ * Sets the value of the minimum point condition value.
+ * @memberof ApiDatabar
+ * @param {string | number} value - The value of the condition value.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.MinPoint = ApiDatabar.prototype.SetMinPointValue ();
+
+/**
+ * Returns the type of the maximum point condition value.
+ * @memberof ApiDatabar
+ * @returns {XlConditionValueTypes | null} The type of the maximum condition value.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.GetMaxPointType = function() { return new XlConditionValueTypes(); };
+
+/**
+ * Sets the type of the maximum point condition value.
+ * @memberof ApiDatabar
+ * @param {XlConditionValueTypes} type - The type of the condition value.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.SetMaxPointType = function(type) {};
+
+/**
+ * Returns the value of the maximum point condition value.
+ * @memberof ApiDatabar
+ * @returns {string | number | null} The value of the maximum condition value.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.GetMaxPointValue = function() { return ""; };
+
+/**
+ * Sets the value of the maximum point condition value.
+ * @memberof ApiDatabar
+ * @param {string | number} value - The value of the condition value.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.SetMaxPointValue = function(value) {};
+
+/**
+ * Sets the value of the maximum point condition value.
+ * @memberof ApiDatabar
+ * @param {string | number} value - The value of the condition value.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.MaxPoint = ApiDatabar.prototype.SetMaxPointValue ();
+
+/**
+//  * Returns the negative bar format of the data bar.
+//  * @memberof ApiDatabar
+//  * @returns {ApiNegativeBarFormat | null} Returns the negative bar format object.
+//  * @since 9.1.0
+//  */
+// ApiDatabar.prototype.GetNegativeBarFormat = function() { return new ApiNegativeBarFormat(); };
+
+/**
+//  * Returns the negative bar format of the data bar.
+//  * @memberof ApiDatabar
+//  * @returns {ApiNegativeBarFormat | null} Returns the negative bar format object.
+//  * @since 9.1.0
+//  */
+// ApiDatabar.prototype.NegativeBarFormat = // ApiDatabar.prototype.GetNegativeBarFormat ();
+
+/**
+ * Returns the negative bar color of the data bar.
+ * @memberof ApiDatabar
+ * @returns {ApiColor | null} Returns the ApiColor object representing the negative bar color, or null if not specified.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.GetNegativeBarColor = function() { return new ApiColor(); };
+
+/**
+ * Sets the negative bar color of the data bar.
+ * @memberof ApiDatabar
+ * @param {ApiColor} oColor - The ApiColor object for the negative bars.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.SetNegativeBarColor = function(oColor) {};
+
+/**
+ * Sets the negative bar color of the data bar.
+ * @memberof ApiDatabar
+ * @param {ApiColor} oColor - The ApiColor object for the negative bars.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.NegativeBarColor = ApiDatabar.prototype.SetNegativeBarColor ();
+
+/**
+ * Returns the negative bar border color of the data bar.
+ * @memberof ApiDatabar
+ * @returns {ApiColor | null} Returns the ApiColor object representing the negative bar border color, or null if not specified.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.GetNegativeBorderColor = function() { return new ApiColor(); };
+
+/**
+ * Sets the negative bar border color of the data bar.
+ * @memberof ApiDatabar
+ * @param {ApiColor} oColor - The ApiColor object for the negative bar borders.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.SetNegativeBorderColor = function(oColor) {};
+
+/**
+ * Sets the negative bar border color of the data bar.
+ * @memberof ApiDatabar
+ * @param {ApiColor} oColor - The ApiColor object for the negative bar borders.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.NegativeBorderColor = ApiDatabar.prototype.SetNegativeBorderColor ();
+
+/**
+//  * Returns the bar border of the data bar.
+//  * @memberof ApiDatabar
+//  * @returns {ApiDataBarBorder | null} Returns the data bar border object.
+//  * @since 9.1.0
+//  */
+// ApiDatabar.prototype.GetBarBorder = function() { return new ApiDataBarBorder(); };
+
+/**
+//  * Returns the bar border of the data bar.
+//  * @memberof ApiDatabar
+//  * @returns {ApiDataBarBorder | null} Returns the data bar border object.
+//  * @since 9.1.0
+//  */
+// ApiDatabar.prototype.BarBorder = // ApiDatabar.prototype.GetBarBorder ();
+
+/**
+ * Returns the bar color of the data bar.
+ * @memberof ApiDatabar
+ * @returns {ApiColor | null} Returns the ApiColor object representing the bar color, or null if not specified.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.GetBarBorderColor = function() { return new ApiColor(); };
+
+/**
+ * Sets the bar color of the data bar.
+ * @memberof ApiDatabar
+ * @param {ApiColor} oColor - The ApiColor object for the bar.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.SetBarBorderColor = function(oColor) {};
+
+/**
+ * Returns the percent maximum value of the data bar.
+ * @memberof ApiDatabar
+ * @returns {number} Returns the maximum length as percentage.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.GetPercentMax = function() { return 0; };
+
+/**
+ * Sets the percent maximum value of the data bar.
+ * @memberof ApiDatabar
+ * @param {number} percent - The maximum length as percentage.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.SetPercentMax = function(percent) {};
+
+/**
+ * Sets the percent maximum value of the data bar.
+ * @memberof ApiDatabar
+ * @param {number} percent - The maximum length as percentage.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.PercentMax = ApiDatabar.prototype.SetPercentMax ();
+
+/**
+ * Returns the percent minimum value of the data bar.
+ * @memberof ApiDatabar
+ * @returns {number} Returns the minimum length as percentage.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.GetPercentMin = function() { return 0; };
+
+/**
+ * Sets the percent minimum value of the data bar.
+ * @memberof ApiDatabar
+ * @param {number} percent - The minimum length as percentage.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.SetPercentMin = function(percent) {};
+
+/**
+ * Sets the percent minimum value of the data bar.
+ * @memberof ApiDatabar
+ * @param {number} percent - The minimum length as percentage.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.PercentMin = ApiDatabar.prototype.SetPercentMin ();
+
+/**
+ * Returns the formula for the data bar.
+ * @memberof ApiDatabar
+ * @returns {string} Returns the formula string.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.GetFormula = function() { return ""; };
+
+/**
+ * Returns the formula for the data bar.
+ * @memberof ApiDatabar
+ * @returns {string} Returns the formula string.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.Formula = ApiDatabar.prototype.GetFormula ();
+
+/**
+ * Returns the type of the data bar conditional formatting rule.
+ * @memberof ApiDatabar
+ * @returns {XlFormatConditionType} Returns "xlDatabar".
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.GetType = function() { return new XlFormatConditionType(); };
+
+/**
+ * Returns the type of the data bar conditional formatting rule.
+ * @memberof ApiDatabar
+ * @returns {XlFormatConditionType} Returns "xlDatabar".
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.Type = ApiDatabar.prototype.GetType ();
+
+/**
+ * Deletes the data bar conditional formatting rule.
+ * @memberof ApiDatabar
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.Delete = ApiFormatCondition.prototype.Delete;{};
+
+/**
+ * Modifies the range to which this formatting rule applies.
+ * @memberof ApiDatabar
+ * @param {ApiRange} Range - A Range object representing the new range to which the formatting rule will be applied.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.ModifyAppliesToRange = ApiFormatCondition.prototype.ModifyAppliesToRange;{};
+
+/**
+ * Sets the priority value for this conditional formatting rule to "1" so that it will be evaluated before all other rules on the worksheet.
+ * @memberof ApiDatabar
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.SetFirstPriority = ApiFormatCondition.prototype.SetFirstPriority;{};
+
+/**
+ * Sets the evaluation order for this conditional formatting rule so it is evaluated after all other rules on the worksheet.
+ * @memberof ApiDatabar
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.SetLastPriority = ApiFormatCondition.prototype.SetLastPriority;{};
+
+/**
+ * Returns the range to which the conditional formatting rule applies.
+ * @memberof ApiDatabar
+ * @returns {ApiRange}
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.GetAppliesTo = ApiFormatCondition.prototype.GetAppliesTo;{ return new ApiRange(); };
+
+/**
+ * Returns the parent object for the specified object.
+ * @memberof ApiDatabar
+ * @returns {ApiRange}
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.GetParent = ApiFormatCondition.prototype.GetParent;{ return new ApiRange(); };
+
+/**
+ * Returns the priority value of the conditional formatting rule.
+ * @memberof ApiDatabar
+ * @returns {number}
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.GetPriority = ApiFormatCondition.prototype.GetPriority;{ return 0; };
+
+/**
+ * Sets the priority value of the conditional formatting rule.
+ * @memberof ApiDatabar
+ * @param {number} Priority - The priority value (1-based).
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.SetPriority = ApiFormatCondition.prototype.SetPriority;{};
+
+/**
+ * Returns the pivot table condition object.
+ * @memberof ApiDatabar
+ * @returns {PTCondition | null}
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.GetPTCondition = ApiFormatCondition.prototype.GetPTCondition;{ return new PTCondition(); };
+
+/**
+ * Returns the scope type of the conditional formatting rule.
+ * @memberof ApiDatabar
+ * @returns {XlPivotConditionScope}
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.GetScopeType = ApiFormatCondition.prototype.GetScopeType;{ return new XlPivotConditionScope(); };
+
+/**
+ * Sets the scope type of the conditional formatting rule.
+ * @memberof ApiDatabar
+ * @param {XlPivotConditionScope} ScopeType - The scope type.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.SetScopeType = ApiFormatCondition.prototype.SetScopeType;{};
+
+/**
+ * Returns whether Excel will stop evaluating additional formatting rules if this rule evaluates to True.
+ * @memberof ApiDatabar
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.GetStopIfTrue = ApiFormatCondition.prototype.GetStopIfTrue;{ return true; };
+
+/**
+ * Sets whether Excel will stop evaluating additional formatting rules if this rule evaluates to True.
+ * @memberof ApiDatabar
+ * @param {boolean} StopIfTrue - True to stop evaluating additional rules.
+ * @since 9.1.0
+ */
+ApiDatabar.prototype.SetStopIfTrue = ApiFormatCondition.prototype.SetStopIfTrue;{};
+
+/**
+ * Class representing an icon set conditional formatting rule.
+ * @constructor
+ * @extends ApiFormatCondition
+ */
+function ApiIconSetCondition(rule, range, _parent) {}
+ApiIconSetCondition.prototype = Object.create(ApiFormatCondition.prototype);
+ApiIconSetCondition.prototype.constructor = ApiIconSetCondition;
+
+/**
+ * Returns the icon set type used in the conditional formatting rule.
+ * @memberof ApiIconSetCondition
+ * @returns {XlIconSet | null} The icon set type, or null if not applicable.
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.GetIconSet = function() { return new XlIconSet(); };
+
+/**
+ * Sets the icon set type for the conditional formatting rule.
+ * @memberof ApiIconSetCondition
+ * @param {XlIconSet} iconSet - The icon set type to apply.
+ * @returns {boolean} True if the icon set was successfully set, false otherwise.
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.SetIconSet = function(iconSet) { return true; };
+
+/**
+ * Sets the icon set type for the conditional formatting rule.
+ * @memberof ApiIconSetCondition
+ * @param {XlIconSet} iconSet - The icon set type to apply.
+ * @returns {boolean} True if the icon set was successfully set, false otherwise.
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.IconSet = ApiIconSetCondition.prototype.SetIconSet ();
+
+/**
+ * Returns whether the thresholds for the icon set conditional format are determined by using percentiles.
+ * @memberof ApiIconSetCondition
+ * @returns {boolean} True if all thresholds are set to percentile, false otherwise.
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.GetPercentileValues = function() { return true; };
+
+/**
+ * Sets whether the thresholds for the icon set conditional format are determined by using percentiles.
+ * @memberof ApiIconSetCondition
+ * @param {boolean} percentileValues - True to set all thresholds to percentile, false otherwise.
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.SetPercentileValues = function(percentileValues) {};
+
+/**
+ * Sets whether the thresholds for the icon set conditional format are determined by using percentiles.
+ * @memberof ApiIconSetCondition
+ * @param {boolean} percentileValues - True to set all thresholds to percentile, false otherwise.
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.PercentileValues = ApiIconSetCondition.prototype.SetPercentileValues ();
+
+/**
+ * Returns whether the icon order is reversed.
+ * @memberof ApiIconSetCondition
+ * @returns {boolean | null} True if the icon order is reversed, false otherwise, or null if not applicable.
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.GetReverseOrder = function() { return true; };
+
+/**
+ * Sets whether the icon order should be reversed.
+ * @memberof ApiIconSetCondition
+ * @param {boolean} reverse - True to reverse the icon order, false otherwise.
+ * @returns {boolean} True if the setting was successfully applied, false otherwise.
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.SetReverseOrder = function(reverse) { return true; };
+
+/**
+ * Sets whether the icon order should be reversed.
+ * @memberof ApiIconSetCondition
+ * @param {boolean} reverse - True to reverse the icon order, false otherwise.
+ * @returns {boolean} True if the setting was successfully applied, false otherwise.
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.ReverseOrder = ApiIconSetCondition.prototype.SetReverseOrder ();
+
+/**
+ * Returns whether only icons are displayed (without cell values).
+ * @memberof ApiIconSetCondition
+ * @returns {boolean | null} True if only icons are shown, false if values are also shown, or null if not applicable.
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.GetShowIconOnly = function() { return true; };
+
+/**
+ * Sets whether to display only icons (without cell values).
+ * @memberof ApiIconSetCondition
+ * @param {boolean} showIconOnly - True to show only icons, false to show both icons and values.
+ * @returns {boolean} True if the setting was successfully applied, false otherwise.
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.SetShowIconOnly = function(showIconOnly) { return true; };
+
+/**
+ * Sets whether to display only icons (without cell values).
+ * @memberof ApiIconSetCondition
+ * @param {boolean} showIconOnly - True to show only icons, false to show both icons and values.
+ * @returns {boolean} True if the setting was successfully applied, false otherwise.
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.ShowIconOnly = ApiIconSetCondition.prototype.SetShowIconOnly ();
+
+/**
+ * Returns a collection of icon criteria that represent the threshold values and icons for the icon set conditional formatting rule.
+ * @memberof ApiIconSetCondition
+ * @returns {ApiIconCriterion[] | null} Collection of icon criteria objects, or null if the rule is not an icon set type.
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.GetIconCriteria = function() { return [new ApiIconCriterion()]; };
+
+/**
+ * Returns a collection of icon criteria that represent the threshold values and icons for the icon set conditional formatting rule.
+ * @memberof ApiIconSetCondition
+ * @returns {ApiIconCriterion[] | null} Collection of icon criteria objects, or null if the rule is not an icon set type.
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.IconCriteria = ApiIconSetCondition.prototype.GetIconCriteria ();
+
+/**
+ * Returns the formula associated with the icon set condition.
+ * @memberof ApiIconSetCondition
+ * @returns {string} The formula string, or empty string if no formula is set.
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.GetFormula = function() { return ""; };
+
+/**
+ * Returns the formula associated with the icon set condition.
+ * @memberof ApiIconSetCondition
+ * @returns {string} The formula string, or empty string if no formula is set.
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.Formula = ApiIconSetCondition.prototype.GetFormula ();
+
+/**
+ * Returns the type of the icon set conditional formatting rule.
+ * @memberof ApiIconSetCondition
+ * @returns {XlFormatConditionType} Returns "xlIconSets".
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.GetType = function() { return new XlFormatConditionType(); };
+
+/**
+ * Returns the type of the icon set conditional formatting rule.
+ * @memberof ApiIconSetCondition
+ * @returns {XlFormatConditionType} Returns "xlIconSets".
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.Type = ApiIconSetCondition.prototype.GetType ();
+
+/**
+ * Deletes the icon set conditional formatting rule.
+ * @memberof ApiIconSetCondition
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.Delete = ApiFormatCondition.prototype.Delete;{};
+
+/**
+ * Modifies the range to which this formatting rule applies.
+ * @memberof ApiIconSetCondition
+ * @param {ApiRange} Range - A Range object representing the new range to which the formatting rule will be applied.
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.ModifyAppliesToRange = ApiFormatCondition.prototype.ModifyAppliesToRange;{};
+
+/**
+ * Sets the priority value for this conditional formatting rule to "1" so that it will be evaluated before all other rules on the worksheet.
+ * @memberof ApiIconSetCondition
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.SetFirstPriority = ApiFormatCondition.prototype.SetFirstPriority;{};
+
+/**
+ * Sets the evaluation order for this conditional formatting rule so it is evaluated after all other rules on the worksheet.
+ * @memberof ApiIconSetCondition
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.SetLastPriority = ApiFormatCondition.prototype.SetLastPriority;{};
+
+/**
+ * Returns the range to which the conditional formatting rule applies.
+ * @memberof ApiIconSetCondition
+ * @returns {ApiRange}
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.GetAppliesTo = ApiFormatCondition.prototype.GetAppliesTo;{ return new ApiRange(); };
+
+/**
+ * Returns the parent object for the specified object.
+ * @memberof ApiIconSetCondition
+ * @returns {ApiRange}
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.GetParent = ApiFormatCondition.prototype.GetParent;{ return new ApiRange(); };
+
+/**
+ * Returns the priority value of the conditional formatting rule.
+ * @memberof ApiIconSetCondition
+ * @returns {number}
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.GetPriority = ApiFormatCondition.prototype.GetPriority;{ return 0; };
+
+/**
+ * Sets the priority value of the conditional formatting rule.
+ * @memberof ApiIconSetCondition
+ * @param {number} Priority - The priority value (1-based).
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.SetPriority = ApiFormatCondition.prototype.SetPriority;{};
+
+/**
+ * Returns the pivot table condition object.
+ * @memberof ApiIconSetCondition
+ * @returns {PTCondition | null}
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.GetPTCondition = ApiFormatCondition.prototype.GetPTCondition;{ return new PTCondition(); };
+
+/**
+ * Returns the scope type of the conditional formatting rule.
+ * @memberof ApiIconSetCondition
+ * @returns {XlPivotConditionScope}
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.GetScopeType = ApiFormatCondition.prototype.GetScopeType;{ return new XlPivotConditionScope(); };
+
+/**
+ * Sets the scope type of the conditional formatting rule.
+ * @memberof ApiIconSetCondition
+ * @param {XlPivotConditionScope} ScopeType - The scope type.
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.SetScopeType = ApiFormatCondition.prototype.SetScopeType;{};
+
+/**
+ * Returns whether Excel will stop evaluating additional formatting rules if this rule evaluates to True.
+ * @memberof ApiIconSetCondition
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.GetStopIfTrue = ApiFormatCondition.prototype.GetStopIfTrue;{ return true; };
+
+/**
+ * Sets whether Excel will stop evaluating additional formatting rules if this rule evaluates to True.
+ * @memberof ApiIconSetCondition
+ * @param {boolean} StopIfTrue - True to stop evaluating additional rules.
+ * @since 9.1.0
+ */
+ApiIconSetCondition.prototype.SetStopIfTrue = ApiFormatCondition.prototype.SetStopIfTrue;{};
+
+/**
+//  * Class representing a collection of icon criteria.
+//  * @constructor
+//  */
+
+/**
+//  * Returns the count of icon criteria in the collection.
+//  * @memberof ApiIconCriteria
+//  * @returns {number} The number of icon criteria.
+//  * @since 9.1.0
+//  */
+// ApiIconCriteria.prototype.GetCount = function() { return 0; };
+
+/**
+//  * Returns the count of icon criteria in the collection.
+//  * @memberof ApiIconCriteria
+//  * @returns {number} The number of icon criteria.
+//  * @since 9.1.0
+//  */
+// ApiIconCriteria.prototype.Count = // ApiIconCriteria.prototype.GetCount ();
+
+/**
+//  * Returns an icon criterion by its index.
+//  * @memberof ApiIconCriteria
+//  * @param {number} index - The index of the criterion (1-based).
+//  * @returns {ApiIconCriterion | null} The icon criterion object, or null if index is invalid.
+//  * @since 9.1.0
+//  */
+// ApiIconCriteria.prototype.GetItem = function(index) { return new ApiIconCriterion(); };
+
+/**
+ * Class representing a single icon criterion.
+ * @constructor
+ */
+function ApiIconCriterion(cfvo, iconSet, iconSetElement, parent, index) {}
+
+/**
+ * Returns the condition value type for the icon criterion.
+ * @memberof ApiIconCriterion
+ * @returns {XlConditionValueTypes | null} The condition value type, or null if not available.
+ * @since 9.1.0
+ */
+ApiIconCriterion.prototype.GetType = function() { return new XlConditionValueTypes(); };
+
+/**
+ * Sets the condition value type for the icon criterion.
+ * @memberof ApiIconCriterion
+ * @param {XlConditionValueTypes} type - The condition value type. Only xlConditionValueNumber, xlConditionValuePercent, xlConditionValuePercentile, or xlConditionValueFormula are supported.
+ * @since 9.1.0
+ */
+ApiIconCriterion.prototype.SetType = function(type) {};
+
+/**
+ * Sets the condition value type for the icon criterion.
+ * @memberof ApiIconCriterion
+ * @param {XlConditionValueTypes} type - The condition value type. Only xlConditionValueNumber, xlConditionValuePercent, xlConditionValuePercentile, or xlConditionValueFormula are supported.
+ * @since 9.1.0
+ */
+ApiIconCriterion.prototype.Type = ApiIconCriterion.prototype.SetType ();
+
+/**
+ * Returns the threshold value for the icon criterion.
+ * @memberof ApiIconCriterion
+ * @returns {string | number | null} The threshold value, or null if not available.
+ * @since 9.1.0
+ */
+ApiIconCriterion.prototype.GetValue = function() { return ""; };
+
+/**
+ * Sets the threshold value for the icon criterion.
+ * @memberof ApiIconCriterion
+ * @param {string | number} value - The threshold value to set.
+ * @since 9.1.0
+ */
+ApiIconCriterion.prototype.SetValue = function(value) {};
+
+/**
+ * Sets the threshold value for the icon criterion.
+ * @memberof ApiIconCriterion
+ * @param {string | number} value - The threshold value to set.
+ * @since 9.1.0
+ */
+ApiIconCriterion.prototype.Value = ApiIconCriterion.prototype.SetValue ();
+
+/**
+ * Returns the comparison operator for the icon criterion.
+ * @memberof ApiIconCriterion
+ * @returns {string | null} The operator ("xlGreaterEqual" or "xlGreater"), or null if not available.
+ * @since 9.1.0
+ */
+ApiIconCriterion.prototype.GetOperator = function() { return ""; };
+
+/**
+ * Sets the comparison operator for the icon criterion.
+ * @memberof ApiIconCriterion
+ * @param {string} operator - The operator to set ("xlGreaterEqual" or "xlGreater").
+ * @since 9.1.0
+ */
+ApiIconCriterion.prototype.SetOperator = function(operator) {};
+
+/**
+ * Sets the comparison operator for the icon criterion.
+ * @memberof ApiIconCriterion
+ * @param {string} operator - The operator to set ("xlGreaterEqual" or "xlGreater").
+ * @since 9.1.0
+ */
+ApiIconCriterion.prototype.Operator = ApiIconCriterion.prototype.SetOperator ();
+
+/**
+ * Returns the index of the icon criterion in the collection.
+ * @memberof ApiIconCriterion
+ * @returns {number} The 1-based index of the criterion.
+ * @since 9.1.0
+ */
+ApiIconCriterion.prototype.GetIndex = function() { return 0; };
+
+/**
+ * Returns the index of the icon criterion in the collection.
+ * @memberof ApiIconCriterion
+ * @returns {number} The 1-based index of the criterion.
+ * @since 9.1.0
+ */
+ApiIconCriterion.prototype.Index = ApiIconCriterion.prototype.GetIndex ();
+
+/**
+ * Returns the icon associated with this criterion.
+ * @memberof ApiIconCriterion
+ * @returns {XlIcon | null} The icon constant, or null if not available.
+ * @since 9.1.0
+ */
+ApiIconCriterion.prototype.GetIcon = function() { return new XlIcon(); };
+
+/**
+ * Sets the icon for this criterion.
+ * @memberof ApiIconCriterion
+ * @param {XlIcon} icon - The icon constant to set.
+ * @since 9.1.0
+ */
+ApiIconCriterion.prototype.SetIcon = function(icon) {};
+
+/**
+ * Sets the icon for this criterion.
+ * @memberof ApiIconCriterion
+ * @param {XlIcon} icon - The icon constant to set.
+ * @since 9.1.0
+ */
+ApiIconCriterion.prototype.Icon = ApiIconCriterion.prototype.SetIcon ();
+
+/**
+ * Class representing a top 10 conditional formatting rule.
+ * @constructor
+ * @extends ApiFormatCondition
+ */
+function ApiTop10(rule, range, _parent) {}
+ApiTop10.prototype = Object.create(ApiFormatCondition.prototype);
+ApiTop10.prototype.constructor = ApiTop10;
+
+/**
+ * Returns the calculation scope for the top 10 condition in pivot tables.
+ * @memberof ApiTop10
+ * @returns {XlCalcFor}
+ * @since 9.1.0
+ */
+ApiTop10.prototype.GetCalcFor = function() { return new XlCalcFor(); };
+
+/**
+ * Sets the calculation scope for the top 10 condition in pivot tables.
+ * @memberof ApiTop10
+ * @param {XlCalcFor} calcFor - The calculation scope
+ * @since 9.1.0
+ */
+ApiTop10.prototype.SetCalcFor = function(calcFor) {};
+
+/**
+ * Sets the calculation scope for the top 10 condition in pivot tables.
+ * @memberof ApiTop10
+ * @param {XlCalcFor} calcFor - The calculation scope
+ * @since 9.1.0
+ */
+ApiTop10.prototype.CalcFor = ApiTop10.prototype.SetCalcFor ();
+
+/**
+ * Returns one of the constants of the XlTopBottom enumeration, which determines if the ranking is evaluated from the top or bottom.
+ * @memberof ApiTop10
+ * @returns {XlTopBottom} The XlTopBottom enumeration constant.
+ * @since 9.1.0
+ */
+ApiTop10.prototype.GetTopBottom = function() { return new XlTopBottom(); };
+
+/**
+ * Sets one of the constants of the XlTopBottom enumeration, which determines if the ranking is evaluated from the top or bottom.
+ * @memberof ApiTop10
+ * @param {XlTopBottom} topBottom - The XlTopBottom enumeration constant.
+ * @since 9.1.0
+ */
+ApiTop10.prototype.SetTopBottom = function(topBottom) {};
+
+/**
+ * Sets one of the constants of the XlTopBottom enumeration, which determines if the ranking is evaluated from the top or bottom.
+ * @memberof ApiTop10
+ * @param {XlTopBottom} topBottom - The XlTopBottom enumeration constant.
+ * @since 9.1.0
+ */
+ApiTop10.prototype.TopBottom = ApiTop10.prototype.SetTopBottom ();
+
+/**
+ * Returns whether the rank is percentage-based.
+ * @memberof ApiTop10
+ * @returns {boolean} True if percentage-based, false if count-based.
+ * @since 9.1.0
+ */
+ApiTop10.prototype.GetPercent = function() { return true; };
+
+/**
+ * Sets whether the rank is percentage-based.
+ * @memberof ApiTop10
+ * @param {boolean} percent - True for percentage-based, false for count-based.
+ * @since 9.1.0
+ */
+ApiTop10.prototype.SetPercent = function(percent) {};
+
+/**
+ * Sets whether the rank is percentage-based.
+ * @memberof ApiTop10
+ * @param {boolean} percent - True for percentage-based, false for count-based.
+ * @since 9.1.0
+ */
+ApiTop10.prototype.Percent = ApiTop10.prototype.SetPercent ();
+
+/**
+ * Returns the rank value for the top 10 condition.
+ * @memberof ApiTop10
+ * @returns {number} The rank value.
+ * @since 9.1.0
+ */
+ApiTop10.prototype.GetRank = function() { return 0; };
+
+/**
+ * Sets the rank value for the top 10 condition.
+ * @memberof ApiTop10
+ * @param {number} rank - The rank value.
+ * @since 9.1.0
+ */
+ApiTop10.prototype.SetRank = function(rank) {};
+
+/**
+ * Sets the rank value for the top 10 condition.
+ * @memberof ApiTop10
+ * @param {number} rank - The rank value.
+ * @since 9.1.0
+ */
+ApiTop10.prototype.Rank = ApiTop10.prototype.SetRank ();
+
+/**
+ * Returns the type of the top 10 conditional formatting rule.
+ * @memberof ApiTop10
+ * @returns {XlFormatConditionType}
+ * @since 9.1.0
+ */
+ApiTop10.prototype.GetType = function() { return new XlFormatConditionType(); };
+
+/**
+ * Returns the type of the top 10 conditional formatting rule.
+ * @memberof ApiTop10
+ * @returns {XlFormatConditionType}
+ * @since 9.1.0
+ */
+ApiTop10.prototype.Type = ApiTop10.prototype.GetType ();
+
+/**
+ * Deletes the top 10 conditional formatting rule.
+ * @memberof ApiTop10
+ * @since 9.1.0
+ */
+ApiTop10.prototype.Delete = ApiFormatCondition.prototype.Delete;{};
+
+/**
+ * Modifies the range to which this formatting rule applies.
+ * @memberof ApiTop10
+ * @param {ApiRange} Range - A Range object representing the new range to which the formatting rule will be applied.
+ * @since 9.1.0
+ */
+ApiTop10.prototype.ModifyAppliesToRange = ApiFormatCondition.prototype.ModifyAppliesToRange;{};
+
+/**
+ * Sets the priority value for this conditional formatting rule to "1" so that it will be evaluated before all other rules on the worksheet.
+ * @memberof ApiTop10
+ * @since 9.1.0
+ */
+ApiTop10.prototype.SetFirstPriority = ApiFormatCondition.prototype.SetFirstPriority;{};
+
+/**
+ * Sets the evaluation order for this conditional formatting rule so it is evaluated after all other rules on the worksheet.
+ * @memberof ApiTop10
+ * @since 9.1.0
+ */
+ApiTop10.prototype.SetLastPriority = ApiFormatCondition.prototype.SetLastPriority;{};
+
+/**
+ * Returns the range to which the conditional formatting rule applies.
+ * @memberof ApiTop10
+ * @returns {ApiRange}
+ * @since 9.1.0
+ */
+ApiTop10.prototype.GetAppliesTo = ApiFormatCondition.prototype.GetAppliesTo;{ return new ApiRange(); };
+
+/**
+ * Returns the parent object for the specified object.
+ * @memberof ApiTop10
+ * @returns {ApiRange}
+ * @since 9.1.0
+ */
+ApiTop10.prototype.GetParent = ApiFormatCondition.prototype.GetParent;{ return new ApiRange(); };
+
+/**
+ * Returns the priority value of the conditional formatting rule.
+ * @memberof ApiTop10
+ * @returns {number}
+ * @since 9.1.0
+ */
+ApiTop10.prototype.GetPriority = ApiFormatCondition.prototype.GetPriority;{ return 0; };
+
+/**
+ * Sets the priority value of the conditional formatting rule.
+ * @memberof ApiTop10
+ * @param {number} Priority - The priority value (1-based).
+ * @since 9.1.0
+ */
+ApiTop10.prototype.SetPriority = ApiFormatCondition.prototype.SetPriority;{};
+
+/**
+ * Returns the pivot table condition object.
+ * @memberof ApiTop10
+ * @returns {PTCondition | null}
+ * @since 9.1.0
+ */
+ApiTop10.prototype.GetPTCondition = ApiFormatCondition.prototype.GetPTCondition;{ return new PTCondition(); };
+
+/**
+ * Returns the scope type of the conditional formatting rule.
+ * @memberof ApiTop10
+ * @returns {XlPivotConditionScope}
+ * @since 9.1.0
+ */
+ApiTop10.prototype.GetScopeType = ApiFormatCondition.prototype.GetScopeType;{ return new XlPivotConditionScope(); };
+
+/**
+ * Sets the scope type of the conditional formatting rule.
+ * @memberof ApiTop10
+ * @param {XlPivotConditionScope} ScopeType - The scope type.
+ * @since 9.1.0
+ */
+ApiTop10.prototype.SetScopeType = ApiFormatCondition.prototype.SetScopeType;{};
+
+/**
+ * Returns whether Excel will stop evaluating additional formatting rules if this rule evaluates to True.
+ * @memberof ApiTop10
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiTop10.prototype.GetStopIfTrue = ApiFormatCondition.prototype.GetStopIfTrue;{ return true; };
+
+/**
+ * Sets whether Excel will stop evaluating additional formatting rules if this rule evaluates to True.
+ * @memberof ApiTop10
+ * @param {boolean} StopIfTrue - True to stop evaluating additional rules.
+ * @since 9.1.0
+ */
+ApiTop10.prototype.SetStopIfTrue = ApiFormatCondition.prototype.SetStopIfTrue;{};
+
+/**
+ * Returns the font formatting for the top 10 conditional formatting rule.
+ * @memberof ApiTop10
+ * @returns {ApiFont}
+ * @since 9.1.0
+ */
+ApiTop10.prototype.GetFont = ApiFormatCondition.prototype.GetFont;{ return new ApiFont(); };
+
+/**
+//  * Returns the borders collection for the top 10 conditional formatting rule.
+//  * @memberof ApiTop10
+//  * @returns {ApiBorders}
+//  * @since 9.1.0
+//  */
+// ApiTop10.prototype.GetBorders = ApiFormatCondition.prototype.GetBorders;{ return new ApiBorders(); };
+
+/**
+ * Returns the number format for the top 10 conditional formatting rule.
+ * @memberof ApiTop10
+ * @returns {string}
+ * @since 9.1.0
+ */
+ApiTop10.prototype.GetNumberFormat = ApiFormatCondition.prototype.GetNumberFormat;{ return ""; };
+
+/**
+ * Sets the number format for the top 10 conditional formatting rule.
+ * @memberof ApiTop10
+ * @param {string} NumberFormat - The number format to apply.
+ * @since 9.1.0
+ */
+ApiTop10.prototype.SetNumberFormat = ApiFormatCondition.prototype.SetNumberFormat;{};
+
+/**
+ * Returns the fill color for the top 10 conditional formatting rule.
+ * @memberof ApiTop10
+ * @returns {ApiColor | null}
+ * @since 9.1.0
+ */
+ApiTop10.prototype.GetFillColor = ApiFormatCondition.prototype.GetFillColor;{ return new ApiColor(); };
+
+/**
+ * Sets the fill color for the top 10 conditional formatting rule.
+ * @memberof ApiTop10
+ * @param {ApiColor} oColor - The fill color to apply.
+ * @since 9.1.0
+ */
+ApiTop10.prototype.SetFillColor = ApiFormatCondition.prototype.SetFillColor;{};
+
+/**
+ * Class representing a unique values conditional formatting rule.
+ * @constructor
+ * @extends ApiFormatCondition
+ */
+function ApiUniqueValues(rule, range, _parent) {}
+ApiUniqueValues.prototype = Object.create(ApiFormatCondition.prototype);
+ApiUniqueValues.prototype.constructor = ApiUniqueValues;
+
+/**
+ * Returns the duplicate/unique value setting for the unique values conditional formatting rule.
+ * @memberof ApiUniqueValues
+ * @returns {XlDuplicateValues} The duplicate/unique value setting.
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.GetDupeUnique = function() { return new XlDuplicateValues(); };
+
+/**
+ * Sets the duplicate/unique value setting for the unique values conditional formatting rule.
+ * @memberof ApiUniqueValues
+ * @param {XlDuplicateValues} dupeUnique - The duplicate/unique value setting.
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.SetDupeUnique = function(dupeUnique) {};
+
+/**
+ * Sets the duplicate/unique value setting for the unique values conditional formatting rule.
+ * @memberof ApiUniqueValues
+ * @param {XlDuplicateValues} dupeUnique - The duplicate/unique value setting.
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.DupeUnique = ApiUniqueValues.prototype.SetDupeUnique ();
+
+/**
+ * Returns the type of the unique values conditional formatting rule.
+ * @memberof ApiUniqueValues
+ * @returns {XlFormatConditionType}
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.GetType = function() { return new XlFormatConditionType(); };
+
+/**
+ * Returns the type of the unique values conditional formatting rule.
+ * @memberof ApiUniqueValues
+ * @returns {XlFormatConditionType}
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.Type = ApiUniqueValues.prototype.GetType ();
+
+/**
+ * Deletes the unique values conditional formatting rule.
+ * @memberof ApiUniqueValues
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.Delete = ApiFormatCondition.prototype.Delete;{};
+
+/**
+ * Modifies the range to which this formatting rule applies.
+ * @memberof ApiUniqueValues
+ * @param {ApiRange} Range - A Range object representing the new range to which the formatting rule will be applied.
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.ModifyAppliesToRange = ApiFormatCondition.prototype.ModifyAppliesToRange;{};
+
+/**
+ * Sets the priority value for this conditional formatting rule to "1" so that it will be evaluated before all other rules on the worksheet.
+ * @memberof ApiUniqueValues
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.SetFirstPriority = ApiFormatCondition.prototype.SetFirstPriority;{};
+
+/**
+ * Sets the evaluation order for this conditional formatting rule so it is evaluated after all other rules on the worksheet.
+ * @memberof ApiUniqueValues
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.SetLastPriority = ApiFormatCondition.prototype.SetLastPriority;{};
+
+/**
+ * Returns the range to which the conditional formatting rule applies.
+ * @memberof ApiUniqueValues
+ * @returns {ApiRange}
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.GetAppliesTo = ApiFormatCondition.prototype.GetAppliesTo;{ return new ApiRange(); };
+
+/**
+ * Returns the parent object for the specified object.
+ * @memberof ApiUniqueValues
+ * @returns {ApiRange}
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.GetParent = ApiFormatCondition.prototype.GetParent;{ return new ApiRange(); };
+
+/**
+ * Returns the priority value of the conditional formatting rule.
+ * @memberof ApiUniqueValues
+ * @returns {number}
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.GetPriority = ApiFormatCondition.prototype.GetPriority;{ return 0; };
+
+/**
+ * Sets the priority value of the conditional formatting rule.
+ * @memberof ApiUniqueValues
+ * @param {number} Priority - The priority value (1-based).
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.SetPriority = ApiFormatCondition.prototype.SetPriority;{};
+
+/**
+ * Returns the pivot table condition object.
+ * @memberof ApiUniqueValues
+ * @returns {PTCondition | null}
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.GetPTCondition = ApiFormatCondition.prototype.GetPTCondition;{ return new PTCondition(); };
+
+/**
+ * Returns the scope type of the conditional formatting rule.
+ * @memberof ApiUniqueValues
+ * @returns {XlPivotConditionScope}
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.GetScopeType = ApiFormatCondition.prototype.GetScopeType;{ return new XlPivotConditionScope(); };
+
+/**
+ * Sets the scope type of the conditional formatting rule.
+ * @memberof ApiUniqueValues
+ * @param {XlPivotConditionScope} ScopeType - The scope type.
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.SetScopeType = ApiFormatCondition.prototype.SetScopeType;{};
+
+/**
+ * Returns whether Excel will stop evaluating additional formatting rules if this rule evaluates to True.
+ * @memberof ApiUniqueValues
+ * @returns {boolean}
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.GetStopIfTrue = ApiFormatCondition.prototype.GetStopIfTrue;{ return true; };
+
+/**
+ * Sets whether Excel will stop evaluating additional formatting rules if this rule evaluates to True.
+ * @memberof ApiUniqueValues
+ * @param {boolean} StopIfTrue - True to stop evaluating additional rules.
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.SetStopIfTrue = ApiFormatCondition.prototype.SetStopIfTrue;{};
+
+/**
+ * Returns the font formatting for the unique values conditional formatting rule.
+ * @memberof ApiUniqueValues
+ * @returns {ApiFont}
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.GetFont = ApiFormatCondition.prototype.GetFont;{ return new ApiFont(); };
+
+/**
+//  * Returns the borders collection for the unique values conditional formatting rule.
+//  * @memberof ApiUniqueValues
+//  * @returns {ApiBorders}
+//  * @since 9.1.0
+//  */
+// ApiUniqueValues.prototype.GetBorders = ApiFormatCondition.prototype.GetBorders;{ return new ApiBorders(); };
+
+/**
+ * Returns the interior (background) formatting for the unique values conditional formatting rule.
+ * @memberof ApiUniqueValues
+ * @returns {ApiInterior}
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.GetInterior = ApiFormatCondition.prototype.GetInterior;{ return new ApiInterior(); };
+
+/**
+ * Returns the number format for the unique values conditional formatting rule.
+ * @memberof ApiUniqueValues
+ * @returns {string}
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.GetNumberFormat = ApiFormatCondition.prototype.GetNumberFormat;{ return ""; };
+
+/**
+ * Sets the number format for the unique values conditional formatting rule.
+ * @memberof ApiUniqueValues
+ * @param {string} NumberFormat - The number format to apply.
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.SetNumberFormat = ApiFormatCondition.prototype.SetNumberFormat;{};
+
+/**
+ * Returns the fill color for the unique values conditional formatting rule.
+ * @memberof ApiUniqueValues
+ * @returns {ApiColor | null}
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.GetFillColor = ApiFormatCondition.prototype.GetFillColor;{ return new ApiColor(); };
+
+/**
+ * Sets the fill color for the unique values conditional formatting rule.
+ * @memberof ApiUniqueValues
+ * @param {ApiColor} oColor - The fill color to apply.
+ * @since 9.1.0
+ */
+ApiUniqueValues.prototype.SetFillColor = ApiFormatCondition.prototype.SetFillColor;{};
 
 

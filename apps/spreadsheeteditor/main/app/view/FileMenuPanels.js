@@ -374,6 +374,10 @@ define([], function () {
                         '<div><div id="fms-cmb-macros"></div>',
                     '</td>',
                 '</tr>',
+                '<tr>',
+                    '<td><label><%= scope.strKeyboardShortcuts %><span class="new-hint"><%= Common.UI.SynchronizeTip.prototype.textNew.toUpperCase() %></span></label></td>',
+                    '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-keyboard-shortcuts" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomize %></button></div></td>',
+                '</tr>',
                 '<tr class ="divider-group"></tr>',
                 '<tr>',
                     '<td class="group-name" colspan="2"><label><%= scope.strRegSettings %></label></td>',
@@ -795,6 +799,11 @@ define([], function () {
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
+
+            this.btnKeyboardMacros = new Common.UI.Button({
+                el: $markup.findById('#fms-btn-keyboard-shortcuts')
+            });
+            this.btnKeyboardMacros.on('click', _.bind(this.onClickKeyboardShortcut, this));
 
             this.chPaste = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-paste-settings'),
@@ -1234,6 +1243,8 @@ define([], function () {
                 this.chHScroll.setValue(this.api.asc_GetShowHorizontalScroll());
                 this.chVScroll.setValue(this.api.asc_GetShowVerticalScroll());
             }
+
+            Common.localStorage.getItem('help-tip-customize-shortcuts') && $('.new-hint', this.el).addClass('hidden');
         },
 
         isValid: function() {
@@ -1399,6 +1410,14 @@ define([], function () {
             this.dlgAutoCorrect.show();
         },
 
+        onClickKeyboardShortcut: function() {
+            const win = new Common.Views.ShortcutsDialog({
+                api: this.api
+            });
+            win.show();
+            Common.localStorage.setItem('help-tip-customize-shortcuts', 1); // don't show new feature label
+        },
+
         SetDisabled: function(disabled) {
             if ( disabled ) {
                 this.$el.hide();
@@ -1467,6 +1486,8 @@ define([], function () {
         strThousandsSeparator: 'Thousands separator',
         txtCacheMode: 'Default cache mode',
         strMacrosSettings: 'Macros Settings',
+        strKeyboardShortcuts: 'Keyboard Shortcuts',
+        txtCustomize: 'Customize',
         txtWarnMacros: 'Show Notification',
         txtRunMacros: 'Enable All',
         txtStopMacros: 'Disable All',
@@ -1480,7 +1501,7 @@ define([], function () {
         txtBe: 'Belarusian',
         txtBg: 'Bulgarian',
         txtCa: 'Catalan',
-        txtZh: 'Chinese',
+        txtZh: 'Chinese (Simplified)',
         txtCs: 'Czech',
         txtDa: 'Danish',
         txtNl: 'Dutch',
@@ -1548,7 +1569,12 @@ define([], function () {
         strTabStyle: 'Tab style',
         textFill: 'Fill',
         textLine: 'Line',
-        txtAppearance: 'Appearance'
+        txtAppearance: 'Appearance',
+        txtZhtw: 'Chinese (Traditional)',
+        txtSr: 'Serbian (Latin)',
+        txtSrcyrl: 'Serbian (Cyrillic)',
+        txtExampleSr: 'SUMA; MIN; MAKS; BROJANJE',
+        txtExampleSrcyrl: 'СУМА; МИН; МАКС; БРОЈАЊЕ'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
@@ -3641,6 +3667,10 @@ define([], function () {
 
         updateCurrentPage: function (index) {
             this.txtNumberPage.setValue(index + 1);
+        },
+
+        getOriginalPageSize: function () {
+            return this._originalPageSize;
         },
 
         setOriginalPageSize: function (w, h) {

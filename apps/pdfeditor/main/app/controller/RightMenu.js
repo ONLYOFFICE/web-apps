@@ -88,7 +88,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Image] =     {panelId: "id-image-settings",      panel: rightMenu.imageSettings,    btn: rightMenu.btnImage,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Shape] =     {panelId: "id-shape-settings",      panel: rightMenu.shapeSettings,    btn: rightMenu.btnShape,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.TextArt] =   {panelId: "id-textart-settings",    panel: rightMenu.textartSettings,  btn: rightMenu.btnTextArt,     hidden: 1, locked: false};
-            // this._settings[Common.Utils.documentSettingsType.Chart] = {panelId: "id-chart-settings",          panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Chart] = {panelId: "id-chart-settings",          panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
             // this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: 1, props: {}, locked: false};
             this._settings[Common.Utils.documentSettingsType.Form] = {panelId: "id-form-settings",  panel: rightMenu.formSettings, btn: rightMenu.btnForm,  hidden: 1, props: {}, locked: false};
         },
@@ -252,7 +252,7 @@ define([
                 this.rightmenu.tableSettings.disableControls(disabled);
                 this.rightmenu.imageSettings.disableControls(disabled);
                 this.rightmenu.formSettings && this.rightmenu.formSettings.disableControls(disabled);
-                // this.rightmenu.chartSettings.disableControls(disabled);
+                this.rightmenu.chartSettings.disableControls(disabled);
 
                 // if (this.rightmenu.signatureSettings) {
                 //     !allowSignature && this.rightmenu.btnSignature.setDisabled(disabled);
@@ -266,7 +266,7 @@ define([
                     this.rightmenu.btnShape.setDisabled(disabled);
                     this.rightmenu.btnTextArt.setDisabled(disabled);
                     this.rightmenu.btnForm && this.rightmenu.btnForm.setDisabled(disabled);
-                    // this.rightmenu.btnChart.setDisabled(disabled);
+                    this.rightmenu.btnChart.setDisabled(disabled);
                     this.rightmenu.setDisabledAllMoreMenuItems(disabled);
                 } else {
                     var selectedElements = this.api.getSelectedElements();
@@ -332,7 +332,7 @@ define([
 
         updateMetricUnit: function() {
             this.rightmenu.paragraphSettings.updateMetricUnit();
-            // this.rightmenu.chartSettings.updateMetricUnit();
+            this.rightmenu.chartSettings.updateMetricUnit();
             this.rightmenu.imageSettings.updateMetricUnit();
             this.rightmenu.tableSettings.updateMetricUnit();
         },

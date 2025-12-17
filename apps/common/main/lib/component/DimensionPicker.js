@@ -120,8 +120,9 @@ define([
                 };
 
                 var onMouseLeave = function(event){
-                    if ( !options.customClear )
+                    if (!options.customClear && event.relatedTarget !== null) {
                         me.setTableSize(0, 0, event);
+                    }
                 };
 
                 var onHighLightedMouseClick = function(e){

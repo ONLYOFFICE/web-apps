@@ -11,7 +11,9 @@ import IconExpandUp from '@common-android-icons/icon-expand-up.svg';
 
 const EditSlide = props => {
     const { t } = useTranslation();
-    const _t = t('View.Edit', {returnObjects: true});
+    const _t = t('View.Edit', {returnObjects: true}); 
+    const storeFocusObjects = props.storeFocusObjects;  
+    const isLockResetBackground = storeFocusObjects.slideObject.get_LockResetBackground();
 
     return (
         <Fragment>
@@ -31,9 +33,12 @@ const EditSlide = props => {
                     onDelay: props.onDelay,
                     onApplyAll: props.onApplyAll
                 }}></ListItem>
-                <ListItem title={_t.textStyle} link="/style/" routeProps={{
+            </List>
+            <List>
+                <ListItem title={_t.textBackground} link="/style/" routeProps={{
                     onFillColor: props.onFillColor
                 }}></ListItem>
+                <ListItem className={isLockResetBackground ? 'disabled' : ''} title={_t.textResetBackground} onClick={()=>{props.onResetBackground()}}></ListItem>
             </List>
             <List className="buttons-list">
                 <ListButton className="button-fill button-raised" onClick={props.onDuplicateSlide}>{_t.textDuplicateSlide}</ListButton>
@@ -91,6 +96,7 @@ const PageLayout = props => {
     storeSlideSettings.changeSlideLayoutIndex(storeFocusObjects.slideObject.get_LayoutIndex());
     const arrayLayouts = storeSlideSettings.slideLayouts;
     const slideLayoutIndex = storeSlideSettings.slideLayoutIndex;
+    
    
     return (
         <Page className="slide-layout">
@@ -495,6 +501,7 @@ const PageCustomFillColor = props => {
     )
 };
 
+const InjectEditSlide = inject("storeFocusObjects")(observer(EditSlide));
 const Theme = inject("storeSlideSettings")(observer(PageTheme));
 const Layout = inject("storeSlideSettings", "storeFocusObjects")(observer(PageLayout));
 const Transition = inject("storeSlideSettings", "storeFocusObjects")(observer(PageTransition));
@@ -504,7 +511,7 @@ const StyleFillColor = inject("storeSlideSettings", "storePalette", "storeFocusO
 const CustomFillColor = inject("storeSlideSettings", "storePalette", "storeFocusObjects")(observer(PageCustomFillColor));
 
 export {
-    EditSlide,
+    InjectEditSlide as EditSlide,
     Theme,
     Layout,
     Transition,

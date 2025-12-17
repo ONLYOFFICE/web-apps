@@ -93,7 +93,6 @@
       "criticalErrorTitle": "Սխալ",
       "errorAccessDeny": "Դուք փորձում եք կատարել գործողություն, որի համար իրավունք չունեք:<br>Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ:",
       "errorOpensource": "Օգտագործելով Համայնքի անվճար տարբերակը՝ կարող եք փաստաթղթեր բացել միայն դիտելու համար:Բջջային վեբ խմբագիրներ մուտք գործելու համար անհրաժեշտ է կոմերցիոն լիցենզիա:",
-      "errorProcessSaveResult": "Պահումը ձախողվել է:",
       "errorServerVersion": "Խմբագրիչի տարբերակը արդիացվել է։ Որպեսզի փոփոխումները տեղի ունենան, էջը նորից կբեռնվի։",
       "errorUpdateVersion": "Նիշքի տարբերակը փոխվել է։ Էջը նորից կբեռնվի։",
       "leavePageText": "Դուք այս փաստաթղթում չպահված փոփոխություններ ունեք:Սեղմեք «Մնալ այս էջում»՝ սպասելու ավտոմատ պահպանմանը:Սեղմեք «Լքել այս էջը»՝ չպահված բոլոր փոփոխությունները մերժելու համար:",
@@ -165,8 +164,11 @@
       "textReplaceSuccess": "Որոնողական աշխատանքները կատարվել են։ Փոխարինված դեպքերը՝ {0}",
       "textRequestMacros": "Մակրոն հարցում է անում URL-ին: Ցանկանու՞մ եք թույլ տալ հարցումը %1-ին:",
       "textYes": "Այո",
+      "tipLicenseExceeded": "Փաստաթուղթը բացվել է միայն կարդալու ռեժիմով, քանի որ լիցենզիայի կողմից թույլատրելի միաժամանակյա միացումների առավելագույն քանակը հասել է սահմանին։<br><br>Խնդրում ենք փորձել կրկին ավելի ուշ կամ կապվել փաստաթղթի սեփականատիրոջ հետ, եթե անհրաժեշտ է խմբագրման հասանելիություն։",
+      "tipLicenseUsersExceeded": "Փաստաթուղթը բացվել է միայն կարդալու ռեժիմով, քանի որ լիցենզիայի կողմից թույլատրելի փաստաթղթեր խմբագրող օգտատերերի առավելագույն քանակը հասել է սահմանին։<br><br>Խնդրում ենք փորձել կրկին ավելի ուշ կամ կապվել փաստաթղթի սեփականատիրոջ հետ, եթե անհրաժեշտ է խմբագրման հասանելիություն։",
       "titleLicenseExp": "Լիցենզիայի ժամկետը լրացել է",
       "titleLicenseNotActive": "Լիցենզիան ակտիվ չէ",
+      "titleReadOnly": "Միայն կարդալու ռեժիմ",
       "titleServerVersion": "Խմբագրիչը արդիացվել է",
       "titleUpdateVersion": "Տարբերակը փոխվել է",
       "txtIncorrectPwd": "Գաղտնաբառը սխալ է",
@@ -178,10 +180,7 @@
       "warnLicenseLimitedRenewed": "Լիցենզիան պետք է երկարաձգվի։Փաստաթղթերի խմբագրման գործառույթի հասանելիությունը սահմանափակ է:Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ՝ լիարժեք մուտք ստանալու համար․",
       "warnNoLicense": "Դուք հասել եք %1 խմբագիրների հետ միաժամանակյա միացումների սահմանաչափին:Այս փաստաթուղթը կբացվի միայն դիտելու համար:նձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
       "warnNoLicenseUsers": "Դուք հասել եք %1 խմբագիրների օգտվողի սահմանաչափին:Անձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
-      "warnProcessRightsChange": "Դուք ֆայլը խմբագրելու թույլտվություն չունեք:",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "Դուք ֆայլը խմբագրելու թույլտվություն չունեք:"
     }
   },
   "Draw": {
@@ -356,6 +355,7 @@
       "textBack": "Հետ",
       "textBandedColumn": "Միջարկվող սյունակներ",
       "textBandedRow": "Միջարկվող տողեր",
+      "textBaseline": "Հիմնագիծ",
       "textBefore": "Առաջ",
       "textBlack": "Սևի միջով",
       "textBorder": "Եզրագիծ",
@@ -366,8 +366,10 @@
       "textBullets": "Պարբերակներ",
       "textBulletsAndNumbers": "Պարբերակներ և համարներ",
       "textCancel": "Չեղարկել",
+      "textCapitalization": "Մեծատառերի օգտագործում",
       "textCaseSensitive": "Դուրճազգայուն",
       "textCellMargins": "Վանդակի լուսանցքներ",
+      "textCellSize": "Վանդակի չափեր",
       "textChangeShape": "Փոխել ձևը",
       "textChart": "Գծապատկեր",
       "textClock": "Ժամացույց",
@@ -497,11 +499,8 @@
       "textZoomIn": "Մեծացնել",
       "textZoomOut": "Փոքրացնել",
       "textZoomRotate": "Դիտափոխում և պտտում",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textCellSize": "Cell size",
-      "txtHeight": "Height",
-      "txtWidth": "Width"
+      "txtHeight": "Բարձրություն",
+      "txtWidth": "Լայնք"
     },
     "Settings": {
       "mniSlideStandard": "Ստանդարտ (4:3)",

@@ -105,7 +105,8 @@ define([
         cantAlign: 'cant-align',
         cantSave: 'cant-save',
         cantRotatePage: 'cant-rotate-page',
-        cantDelPage: 'cant-del-page'
+        cantDelPage: 'cant-del-page',
+        objectWithoutParagraph:  'object-without-paragraph',
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -148,6 +149,8 @@ define([
 
                 var _set = Common.enumLock,
                     arr = [];
+
+                const shortcutHints = {};
                 // tab Edit
                 this.btnEditText = new Common.UI.Button({
                     id: 'id-toolbar-btn-edittext',
@@ -216,6 +219,10 @@ define([
                 });
                 this.paragraphControls.push(this.btnIncFontSize);
                 arr.push(this.btnIncFontSize);
+                shortcutHints.IncreaseFontSize = {
+                    btn: this.btnIncFontSize,
+                    label: this.tipIncFont
+                };
 
                 this.btnDecFontSize = new Common.UI.Button({
                     id: 'id-toolbar-btn-decfont',
@@ -227,6 +234,10 @@ define([
                 });
                 this.paragraphControls.push(this.btnDecFontSize);
                 arr.push(this.btnDecFontSize);
+                shortcutHints.DecreaseFontSize = {
+                    btn: this.btnDecFontSize,
+                    label: this.tipDecFont
+                };
 
                 this.btnBold = new Common.UI.Button({
                     id: 'id-toolbar-btn-bold',
@@ -239,6 +250,10 @@ define([
                 });
                 this.paragraphControls.push(this.btnBold);
                 arr.push(this.btnBold);
+                shortcutHints.Bold = {
+                    btn: this.btnBold,
+                    label: this.textBold
+                };
 
                 this.btnItalic = new Common.UI.Button({
                     id: 'id-toolbar-btn-italic',
@@ -251,6 +266,10 @@ define([
                 });
                 this.paragraphControls.push(this.btnItalic);
                 arr.push(this.btnItalic);
+                shortcutHints.Italic = {
+                    btn: this.btnItalic,
+                    label: this.textItalic
+                };
 
                 this.btnTextUnderline = new Common.UI.Button({
                     id: 'id-toolbar-btn-underline',
@@ -263,6 +282,10 @@ define([
                 });
                 this.paragraphControls.push(this.btnTextUnderline);
                 arr.push(this.btnTextUnderline);
+                shortcutHints.Underline = {
+                    btn: this.btnTextUnderline,
+                    label: this.textUnderline
+                };
 
                 this.btnTextStrikeout = new Common.UI.Button({
                     id: 'id-toolbar-btn-strikeout',
@@ -288,6 +311,10 @@ define([
                 });
                 this.paragraphControls.push(this.btnSuperscript);
                 arr.push(this.btnSuperscript);
+                shortcutHints.Superscript = {
+                    btn: this.btnSuperscript,
+                    label: this.textSuperscript
+                };
 
                 this.btnSubscript = new Common.UI.Button({
                     id: 'id-toolbar-btn-subscript',
@@ -301,6 +328,10 @@ define([
                 });
                 this.paragraphControls.push(this.btnSubscript);
                 arr.push(this.btnSubscript);
+                shortcutHints.Subscript = {
+                    btn: this.btnSubscript,
+                    label: this.textSubscript
+                };
 
                 this.btnTextHighlightColor = new Common.UI.ButtonColored({
                     id: 'id-toolbar-btn-text-highlight',
@@ -437,11 +468,11 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-align-left',
                     icls: 'btn-align-left',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.cantAlign, _set.disableOnStart, _set.inAnnotation],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.cantAlign, _set.disableOnStart],
                     menu: new Common.UI.Menu({
                         items: [
                             {
-                                caption: this.textAlignLeft + Common.Utils.String.platformKey('Ctrl+L'),
+                                caption: this.textAlignLeft,
                                 iconCls: 'menu__icon btn-align-left',
                                 icls: 'btn-align-left',
                                 checkable: true,
@@ -451,7 +482,7 @@ define([
                                 value: 1
                             },
                             {
-                                caption: this.textAlignCenter + Common.Utils.String.platformKey('Ctrl+E'),
+                                caption: this.textAlignCenter,
                                 iconCls: 'menu__icon btn-align-center',
                                 icls: 'btn-align-center',
                                 checkable: true,
@@ -460,7 +491,7 @@ define([
                                 value: 2
                             },
                             {
-                                caption: this.textAlignRight + Common.Utils.String.platformKey('Ctrl+R'),
+                                caption: this.textAlignRight,
                                 iconCls: 'menu__icon btn-align-right',
                                 icls: 'btn-align-right',
                                 checkable: true,
@@ -469,7 +500,7 @@ define([
                                 value: 0
                             },
                             {
-                                caption: this.textAlignJust + Common.Utils.String.platformKey('Ctrl+J'),
+                                caption: this.textAlignJust,
                                 iconCls: 'menu__icon btn-align-just',
                                 icls: 'btn-align-just',
                                 checkable: true,
@@ -486,6 +517,34 @@ define([
                 });
                 this.paragraphControls.push(this.btnHorizontalAlign);
                 arr.push(this.btnHorizontalAlign);
+                shortcutHints.LeftPara = {
+                    btn: this.btnHorizontalAlign.menu.items[0],
+                    label: this.textAlignLeft,
+                    applyCallback: function(item, hintText) {
+                        item.btn.setCaption(hintText);
+                    }
+                };
+                shortcutHints.CenterPara = {
+                    btn: this.btnHorizontalAlign.menu.items[1],
+                    label: this.textAlignCenter,
+                    applyCallback: function(item, hintText) {
+                        item.btn.setCaption(hintText);
+                    }
+                };
+                shortcutHints.RightPara = {
+                    btn: this.btnHorizontalAlign.menu.items[2],
+                    label: this.textAlignRight,
+                    applyCallback: function(item, hintText) {
+                        item.btn.setCaption(hintText);
+                    }
+                };
+                shortcutHints.JustifyPara = {
+                    btn: this.btnHorizontalAlign.menu.items[3],
+                    label: this.textAlignJust,
+                    applyCallback: function(item, hintText) {
+                        item.btn.setCaption(hintText);
+                    }
+                };
 
                 this.btnVerticalAlign = new Common.UI.Button({
                     id: 'id-toolbar-btn-valign',
@@ -543,6 +602,10 @@ define([
                 });
                 this.paragraphControls.push(this.btnDecLeftOffset);
                 arr.push(this.btnDecLeftOffset);
+                shortcutHints.UnIndent = {
+                    btn: this.btnDecLeftOffset,
+                    label: this.tipDecPrLeft
+                };
 
                 this.btnIncLeftOffset = new Common.UI.Button({
                     id: 'id-toolbar-btn-incoffset',
@@ -554,6 +617,10 @@ define([
                 });
                 this.paragraphControls.push(this.btnIncLeftOffset);
                 arr.push(this.btnIncLeftOffset);
+                shortcutHints.Indent = {
+                    btn: this.btnIncLeftOffset,
+                    label: this.tipIncPrLeft
+                };
 
                 this.btnLineSpace = new Common.UI.Button({
                     id: 'id-toolbar-btn-linespace',
@@ -627,9 +694,10 @@ define([
                     id: 'id-toolbar-btn-direction',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-ltr',
+                    icls: 'btn-ltr',
                     action: 'text-direction',
                     dirRtl: false,
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inCheckForm, _set.disableOnStart, _set.inAnnotation],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inCheckForm, _set.disableOnStart],
                     menu: new Common.UI.Menu({
                         items: [
                             {caption: this.textDirLtr, value: false, iconCls: 'menu__icon btn-ltr'},
@@ -848,6 +916,9 @@ define([
                 });
                 arr.push(this.btnRotatePage);
                 Common.UI.LayoutManager.addControls(arr);
+
+                PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints(shortcutHints);
+
                 return arr;
             },
 
@@ -868,7 +939,7 @@ define([
                     );
 
                     this.btnSaveCls = config.canSaveToFile || config.isDesktopApp && config.isOffline ? 'btn-save' : 'btn-download';
-                    this.btnSaveTip = config.canSaveToFile || config.isDesktopApp && config.isOffline ? this.tipSave : this.tipDownload;// + Common.Utils.String.platformKey('Ctrl+S');
+                    this.btnSaveTip = config.canSaveToFile || config.isDesktopApp && config.isOffline ? this.tipSave : this.tipDownload;
                     this.btnSave = new Common.UI.Button({
                         id: 'id-toolbar-btn-save',
                         cls: 'btn-toolbar',
@@ -1219,6 +1290,7 @@ define([
                 }
 
                 if ( config.isEdit || config.isRestrictedEdit) {
+                    const shortcutHints = {};
                     this.btnPrint = new Common.UI.Button({
                         id: 'id-toolbar-btn-print',
                         cls: 'btn-toolbar',
@@ -1233,6 +1305,10 @@ define([
                         printType: 'print'
                     });
                     this.toolbarControls.push(this.btnPrint);
+                    shortcutHints.PrintPreviewAndPrint = {
+                        btn: this.btnPrint,
+                        label: this.tipPrint
+                    };
 
                     this.btnUndo = new Common.UI.Button({
                         id: 'id-toolbar-btn-undo',
@@ -1245,6 +1321,10 @@ define([
                         dataHintTitle: 'Z'
                     });
                     this.toolbarControls.push(this.btnUndo);
+                    shortcutHints.EditUndo = {
+                        btn: this.btnUndo,
+                        label: this.tipUndo
+                    };
 
                     this.btnRedo = new Common.UI.Button({
                         id: 'id-toolbar-btn-redo',
@@ -1257,6 +1337,10 @@ define([
                         dataHintTitle: 'Y'
                     });
                     this.toolbarControls.push(this.btnRedo);
+                    shortcutHints.EditRedo = {
+                        btn: this.btnRedo,
+                        label: this.tipRedo
+                    };
 
                     this.btnCopy = new Common.UI.Button({
                         id: 'id-toolbar-btn-copy',
@@ -1268,6 +1352,10 @@ define([
                         dataHintTitle: 'C'
                     });
                     this.toolbarControls.push(this.btnCopy);
+                    shortcutHints.Copy = {
+                        btn: this.btnCopy,
+                        label: this.tipCopy
+                    };
 
                     this.btnPaste = new Common.UI.Button({
                         id: 'id-toolbar-btn-paste',
@@ -1279,6 +1367,10 @@ define([
                         dataHintTitle: 'V'
                     });
                     this.paragraphControls.push(this.btnPaste);
+                    shortcutHints.Paste = {
+                        btn: this.btnPaste,
+                        label: this.tipPaste
+                    };
 
                     this.btnCut = new Common.UI.Button({
                         id: 'id-toolbar-btn-cut',
@@ -1290,6 +1382,10 @@ define([
                         dataHintTitle: 'X'
                     });
                     this.paragraphControls.push(this.btnCut);
+                    shortcutHints.Cut = {
+                        btn: this.btnCut,
+                        label: this.tipCut
+                    };
 
                     this.btnSelectAll = new Common.UI.Button({
                         id: 'id-toolbar-btn-select-all',
@@ -1300,6 +1396,10 @@ define([
                         dataHintDirection: 'bottom'
                     });
                     this.toolbarControls.push(this.btnSelectAll);
+                    shortcutHints.EditSelectAll = {
+                        btn: this.btnSelectAll,
+                        label: this.tipSelectAll
+                    };
 
                     this.btnSelectTool = new Common.UI.Button({
                         id: 'tlbtn-selecttool',
@@ -1393,6 +1493,8 @@ define([
                         dataHintDirection: 'bottom'
                     });
                     this.toolbarControls.push(this.btnNextPage);
+
+                    PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints(shortcutHints);
 
                     // Menus
                     //
@@ -1741,13 +1843,6 @@ define([
             },
 
             createDelayedElementsCommon: function() {
-                this.btnPrint.updateHint(this.tipPrint + Common.Utils.String.platformKey('Ctrl+P'));
-                this.btnUndo.updateHint(this.tipUndo + Common.Utils.String.platformKey('Ctrl+Z'));
-                this.btnRedo.updateHint(this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'));
-                this.btnCopy.updateHint(this.tipCopy + Common.Utils.String.platformKey('Ctrl+C'));
-                this.btnPaste.updateHint(this.tipPaste + Common.Utils.String.platformKey('Ctrl+V'));
-                this.btnCut.updateHint(this.tipCut + Common.Utils.String.platformKey('Ctrl+X'));
-                this.btnSelectAll.updateHint(this.tipSelectAll + Common.Utils.String.platformKey('Ctrl+A'));
                 this.btnSelectTool.updateHint(this.tipSelectTool);
                 this.btnHandTool.updateHint(this.tipHandTool);
                 this.btnFirstPage.updateHint(this.tipFirstPage);
@@ -1786,14 +1881,7 @@ define([
 
                 this.updateMetricUnit();
                 this.btnEditText.updateHint(this.tipRecognize);
-                this.btnIncFontSize.updateHint(this.tipIncFont + Common.Utils.String.platformKey('Ctrl+]'));
-                this.btnDecFontSize.updateHint(this.tipDecFont + Common.Utils.String.platformKey('Ctrl+['));
-                this.btnBold.updateHint(this.textBold + Common.Utils.String.platformKey('Ctrl+B'));
-                this.btnItalic.updateHint(this.textItalic + Common.Utils.String.platformKey('Ctrl+I'));
-                this.btnTextUnderline.updateHint(this.textUnderline + Common.Utils.String.platformKey('Ctrl+U'));
                 this.btnTextStrikeout.updateHint(this.textStrikeout);
-                this.btnSuperscript.updateHint(this.textSuperscript);
-                this.btnSubscript.updateHint(this.textSubscript);
                 this.btnFontColor.updateHint(this.tipFontColor);
                 this.btnTextHighlightColor.updateHint(this.tipHighlightColor);
                 this.btnChangeCase.updateHint(this.tipChangeCase);
@@ -1802,8 +1890,6 @@ define([
                 this.btnNumbers.updateHint(this.tipNumbers);
                 this.btnHorizontalAlign.updateHint(this.tipHAligh);
                 this.btnVerticalAlign.updateHint(this.tipVAligh);
-                this.btnDecLeftOffset.updateHint(this.tipDecPrLeft + Common.Utils.String.platformKey('Ctrl+Shift+M'));
-                this.btnIncLeftOffset.updateHint(this.tipIncPrLeft);
                 this.btnLineSpace.updateHint(this.tipLineSpace);
                 this.btnColumns.updateHint(this.tipColumns);
                 this.btnTextDir.updateHint(this.tipTextDir);
@@ -2000,7 +2086,14 @@ define([
 
                     this.synchTooltip.show();
                 } else {
-                    this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
+                    this.btnSaveTip = this.tipSynchronize;
+                    PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                        Save: {
+                            btn: this.btnCollabChanges,
+                            label: this.btnSaveTip,
+                            ignoreUpdates: true
+                        },
+                    });
                 }
 
                 this.lockToolbar(Common.enumLock.cantSave, !this.mode.isPDFEdit && !this.mode.isPDFAnnotate && this.mode.canSaveToFile, {array: [this.btnSave]});
@@ -2017,12 +2110,24 @@ define([
                 this.synchTooltip.on('dontshowclick', function () {
                     this.showSynchTip = false;
                     this.synchTooltip.hide();
-                    this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
+                    PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                        Save: {
+                            btn: this.btnCollabChanges,
+                            label: this.btnSaveTip,
+                            ignoreUpdates: true
+                        },
+                    });
                     Common.localStorage.setItem("pdfe-hide-synch", 1);
                 }, this);
                 this.synchTooltip.on('closeclick', function () {
                     this.synchTooltip.hide();
-                    this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
+                    PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                        Save: {
+                            btn: this.btnCollabChanges,
+                            label: this.btnSaveTip,
+                            ignoreUpdates: true
+                        },
+                    });
                 }, this);
             },
 
@@ -2034,7 +2139,15 @@ define([
                         me.btnCollabChanges.cmpEl.removeClass('notify');
                         if (this.synchTooltip)
                             this.synchTooltip.hide();
-                        this.btnCollabChanges.updateHint(this.btnSaveTip);
+
+                        PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                            Save: {
+                                btn: this.btnCollabChanges,
+                                label: this.btnSaveTip,
+                                ignoreUpdates: true
+                            },
+                        });
+
                         this.lockToolbar(Common.enumLock.cantSave, !me.mode.forcesave && !me.mode.canSaveDocumentToBinary || !me.mode.isPDFEdit && !me.mode.isPDFAnnotate && me.mode.canSaveToFile || !me.mode.showSaveButton,
                                     {array: [this.btnSave]});
                         this._state.hasCollaborativeChanges = false;
@@ -2055,7 +2168,14 @@ define([
                 var length = _.size(editusers);
                 var cls = (length > 1) ? 'btn-save-coauth' : 'btn-save';
                 if ( cls !== me.btnSaveCls && me.btnCollabChanges && me.btnCollabChanges.rendered ) {
-                    me.btnSaveTip = ((length > 1) ? me.tipSaveCoauth : me.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
+                    me.btnSaveTip = ((length > 1) ? me.tipSaveCoauth : me.tipSave );
+                    PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                        Save: {
+                            btn: this.btnCollabChanges,
+                            label: this.btnSaveTip,
+                            ignoreUpdates: true
+                        },
+                    });
                     me.btnCollabChanges.updateHint(me.btnSaveTip);
                     me.btnCollabChanges.changeIcon({next: cls, curr: me.btnSaveCls});
                     me.btnSaveCls = cls;

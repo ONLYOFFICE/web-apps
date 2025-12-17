@@ -88,12 +88,11 @@
     "menuUnmerge": "Unmerge",
     "menuUnwrap": "Unwrap",
     "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
       "criticalErrorTitle": "Fejl",
-      "errorProcessSaveResult": "Gem fejlede.",
       "notcriticalErrorTitle": "Advarsel",
       "SDK": {
         "Grayscale": "Gråtoner",
@@ -330,6 +329,7 @@
     "errorLockedAll": "The operation could not be done as the sheet has been locked by another user.",
     "errorLockedCellPivot": "You cannot change data inside a pivot table.",
     "errorLockedWorksheetRename": "The sheet cannot be renamed at the moment as it is being renamed by another user",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled.",
     "errorMaxPoints": "The maximum number of points in series per chart is 4096.",
     "errorMaxRows": "ERROR! The maximum number of data series per chart is 255.",
     "errorMoveSlicerError": "Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.",
@@ -439,10 +439,12 @@
     "textSheet": "Ark",
     "textSheetName": "Ark navn",
     "textTabColor": "Fane farve",
+    "textContinue": "Continue",
     "textErrNameExists": "Sheet with this name already exists.",
     "textErrorLastSheet": "The workbook must have at least one visible sheet.",
     "textUnhide": "Unhide",
-    "textWarnDeleteSheet": "The sheet maybe has data. Proceed operation?"
+    "textWarnDeleteSheet": "The sheet maybe has data. Proceed operation?",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "leaveButtonText": "Forlad denne side",
@@ -878,7 +880,12 @@
       "textUploaded": "Uploaded",
       "textVersion": "Version",
       "textVersionHistory": "Version History",
-      "txtSemicolon": "Semicolon"
+      "txtSemicolon": "Semicolon",
+      "txtSr": "Serbian (Latin)",
+      "txtSrcyrl": "Serbian (Cyrillic)",
+      "txtZhtw": "Chinese (Traditional)",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+      "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
     }
   },
   "Draw": {

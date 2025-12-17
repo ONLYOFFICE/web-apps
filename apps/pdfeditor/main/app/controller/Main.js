@@ -100,7 +100,18 @@ define([
                     'Your text here': this.txtArt,
                     "Choose an item": this.txtChoose,
                     "Enter a date": this.txtEnterDate,
-                    "Click to load image": this.txtClickToLoad
+                    "Click to load image": this.txtClickToLoad,
+                    'Series': this.txtSeries,
+                    'Diagram Title': this.txtDiagramTitle,
+                    'X Axis': this.txtXAxis,
+                    'Y Axis': this.txtYAxis,
+                    'Button': this.txtButton,
+                    'Group': this.txtGroup,
+                    'Checkbox': this.txtCheckbox,
+                    'Text': this.txtText,
+                    'Dropdown': this.txtDropdown,
+                    'Listbox': this.txtListbox,
+                    'Signature': this.txtSignature
                 };
             },
 
@@ -194,7 +205,7 @@ define([
                     Common.NotificationCenter.on('showmessage',                     _.bind(this.onExternalMessage, this));
                     Common.NotificationCenter.on('showerror',                       _.bind(this.onError, this));
                     Common.NotificationCenter.on('editing:disable',                 _.bind(this.onEditingDisable, this));
-                    Common.NotificationCenter.on('pdf:mode-apply',                  _.bind(this.onPdfModeApply, this));
+                    Common.NotificationCenter.on('pdf:mode-apply',                  _.bind(this.onTryPdfModeApply, this));
 
                     this.isShowOpenDialog = false;
                     
@@ -296,7 +307,7 @@ define([
                             me.api.asc_enableKeyEvents(false);
                         },
                         'modal:close': function(dlg) {
-                            Common.Utils.ModalWindow.close();
+                            dlg && dlg.isVisible() && Common.Utils.ModalWindow.close(); // close can be called after hiding
                             if (!Common.Utils.ModalWindow.isVisible())
                                 me.api.asc_enableKeyEvents(true);
                         },
@@ -399,6 +410,9 @@ define([
                 this.appOptions.canRequestSaveAs = this.editorConfig.canRequestSaveAs;
                 this.appOptions.canRequestInsertImage = this.editorConfig.canRequestInsertImage;
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
+                this.appOptions.canRequestOpen = this.editorConfig.canRequestOpen;
+                this.appOptions.canRequestReferenceSource = this.editorConfig.canRequestReferenceSource;
+                this.appOptions.canRequestReferenceData = this.editorConfig.canRequestReferenceData;
                 this.appOptions.compatibleFeatures = true;
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
                 this.appOptions.canSaveDocumentToBinary = this.editorConfig.canSaveDocumentToBinary;
@@ -520,16 +534,6 @@ define([
                 }
             },
 
-            onProcessSaveResult: function(data) {
-                this.api.asc_OnSaveEnd(data.result);
-                if (data && data.result === false) {
-                    Common.UI.error({
-                        title: this.criticalErrorTitle,
-                        msg  : _.isEmpty(data.message) ? this.errorProcessSaveResult : data.message
-                    });
-                }
-            },
-
             onProcessRightsChange: function(data) {
                 if (data && data.enabled === false) {
                     var me = this,
@@ -538,8 +542,8 @@ define([
                     this.api.asc_coAuthoringDisconnect();
                     Common.NotificationCenter.trigger('collaboration:sharingdeny');
                     Common.NotificationCenter.trigger('api:disconnect');
-                    !old_rights && Common.UI.TooltipManager.showTip({ step: 'changeRights', text: _.isEmpty(data.message) ? this.warnProcessRightsChange : data.message,
-                        target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true,
+                    !old_rights && Common.UI.TooltipManager.showTip({ step: 'changeRights', text: _.isEmpty(data.message) ? this.warnProcessRightsChange : Common.Utils.String.htmlEncode(data.message),
+                        target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true,
                         callback: function() {
                             me._state.lostEditingRights = false;
                         }});
@@ -879,7 +883,7 @@ define([
                     (!this.getApplication().getController('LeftMenu').dlgSearch || !this.getApplication().getController('LeftMenu').dlgSearch.isVisible()) &&
                     (!this.getApplication().getController('Toolbar').dlgSymbolTable || !this.getApplication().getController('Toolbar').dlgSymbolTable.isVisible()) &&
                     !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['LoadFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] || id == Asc.c_oAscAsyncAction['DownloadAs']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl)) ) {
-//                        this.onEditComplete(this.loadMask); //если делать фокус, то при принятии чужих изменений, заканчивается свой композитный ввод
+//                        this.onEditComplete(this.loadMask); //if try to set the focus, then when accepting co-authoring changes, composite input ends.
                         this.api.asc_enableKeyEvents(true);
                 }
             },
@@ -1032,6 +1036,9 @@ define([
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
+                if (!me.appOptions.canCopy)
+                    Common.UI.TooltipManager.showTip({ step: 'copyDisabled', text: me.errorCopyDisabled, target: '#toolbar', maxwidth: 350, automove: true, noHighlight: true, noArrow: true, showButton: false});
+
                 Common.Utils.InternalSettings.set("pdfe-settings-livecomment", true);
                 Common.Utils.InternalSettings.set("pdfe-settings-resolvedcomment", false);
 
@@ -1106,6 +1113,7 @@ define([
                 navigationController.setMode(me.appOptions).setApi(me.api);
 
                 chatController.setApi(this.api).setMode(this.appOptions);
+                application.getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
                 pluginsController.setApi(me.api);
 
                 documentHolderController.setApi(me.api);
@@ -1117,6 +1125,8 @@ define([
                     me.getApplication().getController('LeftMenu').leftMenu.getMenu('about').setLicInfo(me.editorConfig.customization);
 
                 documentHolderController.getView().on('editcomplete', _.bind(me.onEditComplete, me));
+
+                PDFE.getController('Common.Controllers.Shortcuts').setApi(me.api);
 
                 if (me.appOptions.isEdit || me.appOptions.isRestrictedEdit) {
                     if (me.appOptions.isEdit && me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
@@ -1131,6 +1141,7 @@ define([
                     me.appOptions.isRestrictedEdit && me.api.asc_SetHighlightRequiredFields(true);
 
                     var timer_sl = setTimeout(function(){
+
                         toolbarController.createDelayedElements();
                         toolbarController.activateControls();
                         documentHolderController.applyEditorMode();
@@ -1157,7 +1168,6 @@ define([
                     Common.component.Analytics.initialize('UA-12442749-13', 'Document Editor');
 
                 Common.Gateway.on('applyeditrights',        _.bind(me.onApplyEditRights, me));
-                Common.Gateway.on('processsaveresult',      _.bind(me.onProcessSaveResult, me));
                 Common.Gateway.on('processrightschange',    _.bind(me.onProcessRightsChange, me));
                 Common.Gateway.on('processmouse',           _.bind(me.onProcessMouse, me));
                 Common.Gateway.on('downloadas',             _.bind(me.onDownloadAs, me));
@@ -1247,7 +1257,7 @@ define([
                     }
 
                     !modal ? Common.UI.TooltipManager.showTip({ step: 'licenseError', text: license, header: title, target: '#toolbar', maxwidth: 430,
-                                                                automove: true, noHighlight: true, textButton: this.textContinue}) :
+                                                                automove: true, noHighlight: true, noArrow: true, textButton: this.textContinue}) :
                     Common.UI.info({
                         maxwidth: 500,
                         title: title,
@@ -1375,6 +1385,7 @@ define([
                 this.appOptions.canDownload       = this.permissions.download !== false;
                 this.appOptions.showSaveButton = this.appOptions.isEdit && !this.appOptions.isPDFFill && (this.appOptions.canSaveToFile || this.appOptions.canDownload);
                 this.appOptions.canSuggest     = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.suggestFeature===false);
+                this.appOptions.canCopy        = this.permissions.copy !== false;
 
                 this.appOptions.compactHeader = this.appOptions.customization && (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compactHeader;
                 this.appOptions.twoLevelHeader = this.appOptions.isEdit || this.appOptions.isRestrictedEdit; // when compactHeader=true some buttons move to toolbar
@@ -1496,7 +1507,7 @@ define([
                 }
 
                 Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", !!fastCoauth);
-                Common.Utils.InternalSettings.set("pdfe-settings-autosave", !!autosave);
+                Common.Utils.InternalSettings.set("pdfe-settings-autosave", autosave ? 1 : 0);
             },
 
             loadDefaultMetricSettings: function() {
@@ -1525,7 +1536,38 @@ define([
                 Common.Utils.InternalSettings.set("pdfe-config-region", region);
             },
 
-            onPdfModeApply: function(mode) {
+            onTryPdfModeApply: function(mode, activeTab, callback, pwd) {
+                if (mode==='edit' && this.appOptions.canPDFEdit && !this.api.asc_CheckEditPassword(pwd!==undefined ? pwd : null)) {
+                    var me = this,
+                        newPwd,
+                        win = new Common.Views.OpenDialog({
+                            title: me.txtUnlockTitle,
+                            closable: true,
+                            type: Common.Utils.importTextType.DRM,
+                            txtOpenFile: me.txtDocUnlockDescription,
+                            validatePwd: pwd!==undefined,
+                            handler: function (result, value) {
+                                if (result === 'ok') {
+                                    if (value && value.drmOptions && me.api.asc_CheckEditPassword(value.drmOptions.asc_getPassword()))
+                                        me.onPdfModeApply(mode, activeTab, callback);
+                                    else
+                                        newPwd = value.drmOptions.asc_getPassword();
+                                }
+                            }
+                        }).on('close', function() {
+                            if (newPwd!==undefined)
+                                setTimeout(function() {
+                                    me.onTryPdfModeApply(mode, activeTab, callback, newPwd);
+                                }, 100);
+                            else
+                                Common.NotificationCenter.trigger('pdf:mode-changed', me.appOptions);
+                        });
+                    win.show();
+                } else
+                    this.onPdfModeApply(mode, activeTab, callback);
+            },
+
+            onPdfModeApply: function(mode, activeTab, callback) {
                 if (!this.appOptions.canSwitchMode) return;
 
                 if (mode==='edit' && this.appOptions.canPDFEdit) {
@@ -1541,13 +1583,12 @@ define([
                 Common.NotificationCenter.trigger('pdf:mode-changed', this.appOptions);
                 var app = this.getApplication(),
                     toolbar = app.getController('Toolbar');
-                toolbar.applyMode();
+                toolbar.applyMode(activeTab);
                 app.getController('Viewport').applyEditorMode();
                 app.getController('ViewTab').applyEditorMode();
                 app.getController('DocumentHolder').applyEditorMode();
                 app.getController('LeftMenu').leftMenu.getMenu('file').applyMode();
-                toolbar.toolbar.clearActiveData();
-                toolbar.toolbar.processPanelVisible(null, true);
+                callback && callback.call();
             },
 
             onPdfModeCoAuthApply: function() {
@@ -1688,7 +1729,7 @@ define([
                         Common.NotificationCenter.trigger('collaboration:sharingdeny');
                         var me = this;
                         Common.UI.TooltipManager.showTip({ step: 'userDrop', text: this.errorUserDrop,
-                            target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true,
+                            target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true,
                             callback: function() {
                                 me._state.lostEditingRights = false;
                             }});
@@ -1877,8 +1918,15 @@ define([
                         config.msg = this.errorPDFFormsLocked;
                         break;
 
+                    case Asc.c_oAscError.ID.CopyDisabled:
+                        config.maxwidth = 450;
+                        config.msg = this.errorCopyDisabled;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
+                        if (typeof id == 'string')
+                            config.maxwidth = 600;
                         break;
                 }
 
@@ -1936,7 +1984,7 @@ define([
                     }, this);
                 }
 
-                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value="' + id + '"]').length<1)
                     Common.UI.alert(config).$window.attr('data-value', id);
 
                 (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
@@ -1944,16 +1992,15 @@ define([
 
             onOpenLinkPdfForm: function(sURI, onAllow, onCancel) {
                 var id = 'pdf-link',
-                    re = new RegExp('ctrl|' + Common.Utils.String.textCtrl, 'i'),
-                    msg = Common.Utils.isMac ? this.txtSecurityWarningLink.replace(re, '⌘') : this.txtSecurityWarningLink,
                     config = {
                         closable: true,
                         title: this.notcriticalErrorTitle,
                         iconCls: 'warn',
                         buttons: ['ok', 'cancel'],
-                        msg: Common.Utils.String.format(msg, sURI || ''),
+                        msg: Common.Utils.String.format(this.txtSecurityWarningLinkOk, sURI || ''),
+                        maxwidth: 600,
                         callback: _.bind(function(btn){
-                            if (btn == 'ok' && window.event && (!Common.Utils.isMac && window.event.ctrlKey == true || Common.Utils.isMac && window.event.metaKey)) {
+                            if (btn == 'ok') {
                                 onAllow();
                             }
                             else
@@ -2217,7 +2264,7 @@ define([
                 me.needToUpdateVersion = true;
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                 Common.UI.TooltipManager.showTip({ step: 'updateVersionReload', text: this.errorUpdateVersion, header: this.titleUpdateVersion,
-                    target: '#toolbar', maxwidth: 'none', closable: false, automove: true, noHighlight: true,
+                    target: '#toolbar', maxwidth: 'none', closable: false, automove: true, noHighlight: true, noArrow: true,
                     callback: function() {
                         _.defer(function() {
                             Common.Gateway.updateVersion();
@@ -2326,6 +2373,7 @@ define([
                         warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline) && (typeof advOptions == 'string'),
                         warningMsg: advOptions,
                         validatePwd: !!me._state.isDRM,
+                        autoPosOnResize : 'center',
                         handler: function (result, value) {
                             me.isShowOpenDialog = false;
                             if (result == 'ok') {
@@ -2387,7 +2435,6 @@ define([
                         length++;
                 });
                 this._state.usersCount = length;
-                this._state.fastCoauth && this._state.usersCount>1 && this.api.asc_getCanUndo() && Common.UI.TooltipManager.showTip('fastUndo');
             },
 
             onUserConnection: function(change){
@@ -2416,7 +2463,6 @@ define([
                         this._state.fastCoauth = Common.localStorage.getBool("pdfe-settings-coauthmode");
                         if (this._state.fastCoauth && !oldval)
                             this.synchronizeChanges();
-                        this._state.fastCoauth && this._state.usersCount>1 && this.api.asc_getCanUndo() && Common.UI.TooltipManager.showTip('fastUndo');
                     }
                     if (this.appOptions.canForcesave) {
                         this.appOptions.forcesave = Common.localStorage.getBool("pdfe-settings-forcesave", this.appOptions.canForcesave);

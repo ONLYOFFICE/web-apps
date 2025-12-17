@@ -20,6 +20,7 @@ export class storeTextSettings {
             paragraphAlign: observable,
             paragraphValign: observable,
             textIn: observable,
+            textDirection: observable,
             resetFontsRecent:action,
             initTextSettings: action,
             initFontSettings: action,
@@ -64,6 +65,7 @@ export class storeTextSettings {
     paragraphAlign = undefined;
     paragraphValign = undefined;
     textIn = undefined;
+    textDirection = undefined;
 
     initTextSettings(cellInfo) {
         let xfs = cellInfo.asc_getXfs();
@@ -95,6 +97,8 @@ export class storeTextSettings {
 
         this.paragraphAlign = xfs.asc_getHorAlign();
         this.paragraphValign = xfs.asc_getVertAlign();
+
+        this.textDirection = xfs.asc_getReadingOrder();       
     }
 
     initEditorFonts (fonts, select) {

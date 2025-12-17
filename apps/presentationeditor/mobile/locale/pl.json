@@ -91,7 +91,6 @@
       "advDRMPassword": "Hasło",
       "closeButtonText": "Zamknij plik",
       "criticalErrorTitle": "Błąd",
-      "errorProcessSaveResult": "Zapisywanie nie powiodło się.",
       "errorServerVersion": "Wersja edytora została zaktualizowana. Strona zostanie ponownie załadowana, aby zastosować zmiany.",
       "errorUpdateVersion": "Wersja pliku została zmieniona. Strona zostanie ponownie załadowana.",
       "notcriticalErrorTitle": "Ostrzeżenie",

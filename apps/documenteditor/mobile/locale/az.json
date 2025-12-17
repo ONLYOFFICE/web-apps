@@ -65,6 +65,7 @@
     "txtNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır",
     "textDrawing": "Drawing",
     "textPasteImageUrl": "Paste an image URL",
+    "textRemovePicture": "Remove picture",
     "textWithBlueLinks": "With Blue Links",
     "textWithPageNumbers": "With Page Numbers"
   },
@@ -520,13 +521,12 @@
     "uploadImageTitleText": "Təsvir Yüklənir",
     "waitText": "Lütfən, gözləyin...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "savingText": "Saving"
+    "savingText": "Submitting"
   },
   "Main": {
     "criticalErrorTitle": "Xəta",
     "errorAccessDeny": "Hüquqlarınız olmayan əməliyyatı yerinə yetirməyə çalışırsınız.<br>Lütfən, inzibatçınızla əlaqə saxlayın.",
     "errorOpensource": "Ödənişsiz İcma versiyasından istifadə edərək sənədləri yalnız baxmaq üçün aça bilərsiniz. Mobil veb redaktorlarına daxil olmaq üçün kommersiya lisenziyası tələb olunur.",
-    "errorProcessSaveResult": "Saxlama prosesi uğursuz oldu",
     "errorServerVersion": "Redaktor versiyası yeniləndi. Dəyişiklikləri tətbiq etmək üçün səhifə yenidən yüklənəcək.",
     "errorUpdateVersion": "Fayl versiyası dəyişdirilib. Səhifə yenidən yüklənəcək.",
     "leavePageText": "Saxlanmamış dəyişiklikləriniz var. Avtomatik saxlanmanı gözləmək üçün \"Bu Səhifədə Qalın\" üzərinə klikləyin. Bütün saxlanmamış dəyişiklikləri ləğv etmək üçün \"Bu səhifədən Çıxın\" hissəsinin üzərinə klikləyin.",
@@ -668,6 +668,7 @@
     "titleDialogProtectedDocument": "The document is protected",
     "titleLicenseNotActive": "License not active",
     "titleReadOnly": "Read-Only Mode",
+    "txtSignedForm": "This document has been signed and cannot be edited.",
     "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
     "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
     "warnLicenseBefore": "License not active.<br>Please contact your administrator."

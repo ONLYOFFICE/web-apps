@@ -446,6 +446,10 @@ define([], function () {
                         '<div><div id="fms-cmb-macros"></div>',
                 '</tr>',
                 '<tr>',
+                    '<td><label><%= scope.strKeyboardShortcuts %><span class="new-hint"><%= Common.UI.SynchronizeTip.prototype.textNew.toUpperCase() %></span></label></td>',
+                    '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-keyboard-shortcuts" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomize %></button></div></td>',
+                '</tr>',
+                '<tr>',
                     '<td><label><%= scope.strFontSizeType %></label></td>',
                     '<td><span id="fms-cmb-font-size-type"></span></td>',
                 '</tr>',
@@ -775,6 +779,11 @@ define([], function () {
                 dataHintOffset: 'big'
             });
 
+            this.btnKeyboardMacros = new Common.UI.Button({
+                el: $markup.findById('#fms-btn-keyboard-shortcuts')
+            });
+            this.btnKeyboardMacros.on('click', _.bind(this.onClickKeyboardShortcut, this));
+
             this.cmbFontSizeType = new Common.UI.ComboBox({
                 el          : $markup.find('#fms-cmb-font-size-type'),
                 style       : 'width: 160px;',
@@ -1070,6 +1079,8 @@ define([], function () {
             value = Common.Utils.InternalSettings.get("de-settings-numeral");
             item = this.cmbNumeral.store.findWhere({value: value});
             this.cmbNumeral.setValue(item ? item.get('value') : Asc.c_oNumeralType.arabic);
+
+            Common.localStorage.getItem('help-tip-customize-shortcuts') && $('.new-hint', this.el).addClass('hidden');
         },
 
         applySettings: function() {
@@ -1184,6 +1195,14 @@ define([], function () {
             this.dlgAutoCorrect.show();
         },
 
+        onClickKeyboardShortcut: function() {
+            const win = new Common.Views.ShortcutsDialog({
+                api: this.api
+            });
+            win.show();
+            Common.localStorage.setItem('help-tip-customize-shortcuts', 1); // don't show new feature label
+        },
+
         customizeQuickAccess: function () {
             if (this.dlgQuickAccess && this.dlgQuickAccess.isVisible()) return;
             this.dlgQuickAccess = new Common.Views.CustomizeQuickAccessDialog({
@@ -1231,6 +1250,8 @@ define([], function () {
         textOldVersions: 'Make the files compatible with older MS Word versions when saved as DOCX, DOTX',
         txtCacheMode: 'Default cache mode',
         strMacrosSettings: 'Macros Settings',
+        strKeyboardShortcuts: 'Keyboard Shortcuts',
+        txtCustomize: 'Customize',
         txtWarnMacros: 'Show Notification',
         txtRunMacros: 'Enable All',
         txtStopMacros: 'Disable All',

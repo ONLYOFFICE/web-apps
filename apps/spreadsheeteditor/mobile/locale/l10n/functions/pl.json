@@ -479,6 +479,8 @@
 	"ARRAYTOTEXT": "TABLICA.NA.TEKST",
 	"SORT": "SORTUJ",
 	"SORTBY": "SORTUJ.WEDŁUG",
+	"GETPIVOTDATA": "WEŹDANETABELI",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Wszystkie",
@@ -500,7 +502,22 @@
 			"num": "#LICZBA!",
 			"na": "#N/D",
 			"getdata": "#GETTING_DATA",
-			"uf": "#NIEOBSŁUGIWANE_FUNKCJA!"
+			"uf": "#NIEOBSŁUGIWANE_FUNKCJA!",
+			"calc": "#OBL!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "adres",
+			"col": "kolumna",
+			"color": "kolor",
+			"contents": "zawartość",
+			"filename": "nazwa_pliku",
+			"format": "format",
+			"parentheses": "nawiasy",
+			"prefix": "prefiks",
+			"protect": "ochrona",
+			"row": "wiersz",
+			"type": "typ",
+			"width": "szerokość"
 		}
 	}
 }

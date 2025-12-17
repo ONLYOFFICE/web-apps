@@ -66,7 +66,8 @@
     "textTableSize": "حجم الجدول",
     "textWithBlueLinks": "بروابط زرقاء",
     "textWithPageNumbers": "مع أرقام الصفحات",
-    "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  "
+    "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  ",
+    "textRemovePicture": "Remove picture"
   },
   "Common": {
     "Collaboration": {
@@ -532,7 +533,6 @@
     "criticalErrorTitle": "خطأ",
     "errorAccessDeny": "أنت تحاول تنفيذ اجراء ليس لديك صلاحيات القيام به\n.<br> الرجاء الاتصال بمسؤولك.",
     "errorOpensource": "باستخدام نسخة المجتمع المجانية, سيكون بمقدروك فتح الملفات للمشاهدة فقط. للوصول إلى محررات الويب للهاتف يجب استخدام ترخيص تجاري",
-    "errorProcessSaveResult": "فشل الحفظ",
     "errorServerVersion": "تم تحديث إصدار المحرر.سيتم اعادة تحميل الصفحة لتطبيق التغييرات",
     "errorUpdateVersion": "تم تغيير إصدار الملف. سيتم اعادة تحميل الصفحة",
     "leavePageText": "لديك تغييرات غير محفوظة. اضغط على 'البقاء في هذه الصفحة' لانتظار الحفظ التلقائي. اضغط على 'غادر هذه الصفحة' للتخلي عن كل التغييرات الغير محفوظة.",
@@ -676,7 +676,8 @@
     "warnProcessRightsChange": "ليس لديك إذن تعديل هذا الملف",
     "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
     "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-    "titleReadOnly": "Read-Only Mode"
+    "titleReadOnly": "Read-Only Mode",
+    "txtSignedForm": "This document has been signed and cannot be edited."
   },
   "Settings": {
     "advDRMOptions": "ملف محمي",

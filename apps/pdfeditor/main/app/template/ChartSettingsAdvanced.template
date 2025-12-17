@@ -1,0 +1,138 @@
+<div id="id-chart-settings-dlg-layout" class="settings-panel">
+    <div class="inner-content">
+        <table cols="2" style="width: 100%;">
+            <tr>
+                <td class="padding-small" width="50%">
+                    <label class="input-label"><%= scope.textChartTitle %></label>
+                    <div id="chart-dlg-combo-chart-title" class="input-group-nr margin-right-7"></div>
+                </td>
+                <td class="padding-small" width="50%">
+                    <label class="input-label margin-left-7"><%= scope.textLegendPos %></label>
+                    <div id="chart-dlg-combo-legend-pos" class="input-group-nr margin-left-7"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small" width="50%">
+                    <label class="input-label"><%= scope.textDataLabels %></label>
+                    <div id="chart-dlg-combo-data-labels" class="input-group-nr margin-right-7"></div>
+                </td>
+                <td rowspan="2" class="padding-small" width="50%">
+                    <div id="chart-dlg-check-series"></div>
+                    <div id="chart-dlg-check-category"></div>
+                    <div id="chart-dlg-check-value"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small" width="50%">
+                    <label class="input-label"><%= scope.textSeparator %></label>
+                    <div id="chart-dlg-txt-separator" class="input-row margin-right-7"></div>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%">
+                    <label id="chart-dlg-label-lines" class="input-label"><%= scope.textLines %></label>
+                    <div id="chart-dlg-combo-lines" class="input-group-nr margin-right-7"></div>
+                </td>
+                <td style="vertical-align: bottom;" width="50%">
+                    <div id="chart-dlg-check-markers" class="margin-left-7"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="id-chart-settings-dlg-vert" class="settings-panel">
+</div>
+<div id="id-chart-settings-dlg-vert-sec" class="settings-panel">
+</div>
+<div id="id-chart-settings-dlg-hor" class="settings-panel">
+</div>
+<div id="id-chart-settings-dlg-hor-sec" class="settings-panel">
+</div>
+<div id="id-adv-chart-general" class="settings-panel active">
+    <div class="inner-content">
+    <table cols="1" width="100%" role="presentation">
+        <tr>
+            <td class="padding-large">
+                <label class="header"><%= scope.textChartName %></label>
+                <div id="chart-advanced-name"></div>
+            </td>
+        </tr>
+    </table>
+    </div>
+</div>
+<div  id="id-adv-chart-placement" class="settings-panel active">
+    <div class="inner-content">
+        <table cols="3" role="presentation">
+            <tr>
+                <td colspan="4" width="88px" class="padding-small">
+                    <label class="header"><%= scope.textSize %></label>
+                </td>
+            </tr>
+            <tr>
+                <td width="93px" class="padding-large">
+                    <label class="input-label"><%= scope.textWidth %></label>
+                    <div id="chart-advanced-spin-width"></div>
+                </td>
+                <td width="28px" style="vertical-align: bottom;" class="padding-large">
+                    <div id="chart-advanced-button-ratio"></div>
+                </td>
+                <td width="93px" class="padding-large">
+                    <label class="input-label"><%= scope.textHeight %></label>
+                    <div id="chart-advanced-spin-height"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="inner-content">
+        <table cols="2" style="width: 100%;" role="presentation">
+            <tr>
+                <td colspan="4" width="88px" class="padding-small">
+                    <label class="header"><%= scope.textPosition %></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small" width="121px">
+                    <label class="input-label"><%= scope.textHorizontal %></label>
+                    <div id="chart-advanced-spin-x"></div>
+                </td>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textFrom %></label>
+                    <div id="chart-advanced-combo-from-x"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textVertical %></label>
+                    <div id="chart-advanced-spin-y"></div>
+                </td>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textFrom %></label>
+                    <div id="chart-advanced-combo-from-y"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="id-adv-chart-alttext" class="settings-panel">
+    <div class="inner-content">
+        <table cols="1" width="100%" role="presentation">
+            <tr>
+                <td class="padding-large">
+                    <label class="header"><%= scope.textAltTitle %></label>
+                    <div id="chart-advanced-alt-title"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="header"><%= scope.textAltDescription %></label>
+                    <textarea id="chart-advanced-alt-description" class="form-control" style="width: 100%; height: 70px;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label><%= scope.textAltTip %></label>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

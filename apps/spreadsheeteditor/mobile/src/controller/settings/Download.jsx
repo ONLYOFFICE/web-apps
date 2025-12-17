@@ -44,6 +44,22 @@ class DownloadController extends Component {
                         }
                     ]
                 }).open();
+            } else if (format == Asc.c_oAscFileType.ODS) {
+                f7.dialog.create({
+                    title: _t.notcriticalErrorTitle,
+                    text: _t.warnDownloadOds,
+                    buttons: [
+                        {
+                            text: _t.textCancel
+                        },
+                        {
+                            text: _t.textOk,
+                            onClick: () => {
+                                api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+                            }
+                        }
+                    ]
+                }).open();
             } else {
                 api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
             }

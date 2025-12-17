@@ -22,6 +22,7 @@ export class storeTextSettings {
             customTextColors: observable,
             lineSpacing: observable,
             highlightColor: observable,
+            isRtlTextDirection: observable,
             initEditorFonts: action,
             resetFontName: action,
             resetFontsRecent:action,
@@ -72,6 +73,7 @@ export class storeTextSettings {
     isItalic = false;
     isUnderline = false;
     isStrikethrough = false;
+    isRtlTextDirection = false;
     typeBaseline = undefined;
     listType = undefined;
     typeBullets = undefined;
@@ -164,6 +166,9 @@ export class storeTextSettings {
     }
     resetIsStrikeout (isStrikethrough) {
         this.isStrikethrough = isStrikethrough;
+    }
+    resetTextDirection (isRtl) {
+        this.isRtlTextDirection = isRtl;
     }
 
     // vertical align

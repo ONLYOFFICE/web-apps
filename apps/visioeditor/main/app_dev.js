@@ -129,9 +129,11 @@ require([
             'LeftMenu',
             'Main',
             'ViewTab',
+            'Print',
             // 'Search',
             'Common.Controllers.Chat',
-            'Common.Controllers.Plugins'
+            'Common.Controllers.Plugins',
+            'Common.Controllers.Shortcuts'
         ]
     });
 
@@ -152,10 +154,12 @@ require([
                 'visioeditor/main/app/controller/LeftMenu',
                 'visioeditor/main/app/controller/Main',
                 'visioeditor/main/app/controller/ViewTab',
+                'visioeditor/main/app/controller/Print',
                 // 'visioeditor/main/app/controller/Search',
                 'common/main/lib/util/utils'
                 ,'common/main/lib/controller/Chat'
                 ,'common/main/lib/controller/Plugins'
+                ,'common/main/lib/controller/Shortcuts'
             ], function() {
                 app.postLaunchScripts = [
                     'common/main/lib/controller/ScreenReaderFocus',
@@ -171,6 +175,8 @@ require([
                     'common/main/lib/view/PluginPanel',
                     'common/main/lib/view/DocumentHolderExt',
                     'common/main/lib/view/CustomizeQuickAccessDialog',
+                    // 'common/main/lib/view/ShortcutsDialog',
+                    // 'common/main/lib/view/ShortcutsEditDialog',
 
                     'visioeditor/main/app/view/FileMenuPanels',
                     'visioeditor/main/app/view/DocumentHolderExt'

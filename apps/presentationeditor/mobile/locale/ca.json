@@ -93,7 +93,6 @@
       "criticalErrorTitle": "Error",
       "errorAccessDeny": "No tens permís per realitzar aquesta acció. <br>Posa't en contacte amb l'administrador.",
       "errorOpensource": "Amb la versió gratuïta de la Comunitat, només pots obrir els documents en mode lectura. Per accedir als editors de web per a mòbils, cal una llicència comercial.",
-      "errorProcessSaveResult": "S'ha produït un error en desar.",
       "errorServerVersion": "S'ha actualitzat la versió de l'editor. Es tornarà a carregar la pàgina per aplicar els canvis.",
       "errorUpdateVersion": "S'ha canviat la versió del fitxer. La pàgina es tornarà a carregar.",
       "leavePageText": "Tens canvis no desats en aquest document. Fes clic a \"Queda't en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Sortir d'aquesta pàgina\" per descartar tots els canvis no desats.",

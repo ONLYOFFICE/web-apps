@@ -543,6 +543,7 @@ define([
                 const _f_ = rawarray[i];
                 if ( utils.matchFileFormat( _f_.type ) ) {
                     if (_re_name.test(_f_.path)) {
+                        _f_.path = $('<div>').html(_f_.path).text();
                         const name = _re_name.exec(_f_.path)[1],
                             dir = _f_.path.slice(0, _f_.path.length - name.length - 1);
 
@@ -550,9 +551,9 @@ define([
                             fileid: _f_.id,
                             type: _f_.type,
                             format: utils.parseFileFormat(_f_.type),
-                            title: $('<div>').html(name).text(),
+                            title: name,
                             url: _f_.path,
-                            folder: $('<div>').html(dir).text(),
+                            folder: dir,
                         });
                     }
                 }

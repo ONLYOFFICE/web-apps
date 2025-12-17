@@ -202,12 +202,15 @@ label {
     .content-box {
         height: 100%;
         width: 100%;
-        padding: @layout-padding-right-panel-content-ie;
-        padding: @layout-padding-right-panel-content;
+        .settings-panel {
+            padding: @layout-padding-right-panel-content-ie;
+            padding: @layout-padding-right-panel-content;
 
-        .rtl & {
-            padding: @layout-padding-right-panel-content-rtl-ie;
-            padding: @layout-padding-right-panel-content-rtl;
+            .rtl & {
+                padding: @layout-padding-right-panel-content-rtl-ie;
+                padding: @layout-padding-right-panel-content-rtl;
+            }
+
         }
     }
 }
@@ -372,6 +375,14 @@ label {
         color: #6e4e00;
         padding: 3px 5px;
         border-radius: 2px;
+    }
+
+    .new-hint {
+        background-color: #ffb400;
+        color: #6e4e00;
+        padding: 3px 5px;
+        border-radius: 4px;
+        font-weight: 600;
         .margin-left-10();
     }
 }

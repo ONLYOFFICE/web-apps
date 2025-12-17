@@ -93,7 +93,6 @@
       "criticalErrorTitle": "Hata",
       "errorAccessDeny": "Haklarınız olmayan bir işlemi gerçekleştirmeye çalışıyorsunuz.<br>Lütfen yöneticinizle iletişime geçin.",
       "errorOpensource": "Ücretsiz Topluluk sürümünü kullanarak belgeleri yalnızca görüntüleme için açabilirsiniz. Mobil web editörlerine erişmek için ticari bir lisans gereklidir.",
-      "errorProcessSaveResult": "Kaydetme başarısız.",
       "errorServerVersion": "Editör versiyonu güncellendi. Değişikliklerin uygulanabilmesi için sayfa yenilenecek.",
       "errorUpdateVersion": "Dosya versiyonu değiştirildi. Sayfa yenilenecek.",
       "leavePageText": "Bu belgede kaydedilmemiş değişiklikleriniz var. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",

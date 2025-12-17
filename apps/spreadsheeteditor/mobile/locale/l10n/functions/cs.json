@@ -479,6 +479,8 @@
 	"ARRAYTOTEXT": "ARRAYTOTEXT",
 	"SORT": "SORT",
 	"SORTBY": "SORTBY",
+	"GETPIVOTDATA": "ZÍSKATKONTDATA",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",
@@ -500,7 +502,22 @@
 			"num": "#NUM!",
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
-			"uf": "#UNSUPPORTED_FUNCTION!"
+			"uf": "#UNSUPPORTED_FUNCTION!",
+			"calc": "#VÝPOČET!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "odkaz",
+			"col": "sloupec",
+			"color": "barva",
+			"contents": "obsah",
+			"filename": "názevsouboru",
+			"format": "formát",
+			"parentheses": "závorky",
+			"prefix": "prefix",
+			"protect": "zámek",
+			"row": "řádek",
+			"type": "typ",
+			"width": "šířka"
 		}
 	}
 }

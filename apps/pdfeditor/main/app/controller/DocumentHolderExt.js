@@ -44,6 +44,19 @@ define([], function () {
     if (window.PDFE && window.PDFE.Controllers && window.PDFE.Controllers.DocumentHolder) {
         let dh = window.PDFE.Controllers.DocumentHolder.prototype;
 
+        dh.checkEditorOffsets = function() {
+            if (_.isUndefined(this._XY)) {
+                let cmpEl = this.documentHolder.cmpEl;
+                this._XY = [
+                    Common.Utils.getOffset(cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(cmpEl).top - $(window).scrollTop()
+                ];
+                this._Width       = cmpEl.width();
+                this._Height      = cmpEl.height();
+                this._BodyWidth   = $('body').width();
+            }
+        };
+
         dh.setEvents = function() {
             this.addListeners({
                 'DocumentHolder': {
@@ -59,9 +72,6 @@ define([], function () {
                 this.api.asc_registerCallback('asc_onContextMenu',                  _.bind(this.onContextMenu, this));
                 this.api.asc_registerCallback('asc_onMouseMoveStart',               _.bind(this.onMouseMoveStart, this));
                 this.api.asc_registerCallback('asc_onMouseMoveEnd',                 _.bind(this.onMouseMoveEnd, this));
-
-                //hyperlink
-                this.api.asc_registerCallback('asc_onHyperlinkClick',               _.bind(this.onHyperlinkClick, this));
                 this.api.asc_registerCallback('asc_onMouseMove',                    _.bind(this.onMouseMove, this));
 
                 if (this.mode.isEdit === true) {
@@ -116,29 +126,6 @@ define([], function () {
                 view.menuEditAddComment.on('click', _.bind(me.addComment, me));
                 view.menuEditRemoveComment.on('click', _.bind(me.removeComment, me));
                 /*
-                 var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-                 if (diagramEditor) {
-                 diagramEditor.on('internalmessage', _.bind(function(cmp, message) {
-                 var command = message.data.command;
-                 var data = message.data.data;
-                 if (this.api) {
-                 ( diagramEditor.isEditMode() )
-                 ? this.api.asc_editChartDrawingObject(data)
-                 : this.api.asc_addChartDrawingObject(data, diagramEditor.getPlaceholder());
-                 }
-                 }, this));
-                 diagramEditor.on('hide', _.bind(function(cmp, message) {
-                 if (this.api) {
-                 this.api.asc_onCloseFrameEditor();
-                 this.api.asc_enableKeyEvents(true);
-                 }
-                 var me = this;
-                 setTimeout(function(){
-                 me.editComplete();
-                 }, 10);
-                 }, this));
-                 }
-
                  var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
                  if (oleEditor) {
                  oleEditor.on('internalmessage', _.bind(function(cmp, message) {
@@ -175,9 +162,10 @@ define([], function () {
                 view.menuAddHyperlinkTable.on('click', _.bind(me.addHyperlink, me));
                 view.menuEditHyperlinkPara.on('click', _.bind(me.editHyperlink, me));
                 view.menuEditHyperlinkTable.on('click', _.bind(me.editHyperlink, me));
+                view.menuPDFEditHyperlink.on('click', _.bind(me.editHyperlink, me));
                 view.menuRemoveHyperlinkPara.on('click', _.bind(me.removeHyperlink, me));
                 view.menuRemoveHyperlinkTable.on('click', _.bind(me.removeHyperlink, me));
-                // view.menuChartEdit.on('click', _.bind(me.editChartClick, me, undefined));
+                view.menuChartEdit.on('click', _.bind(me.editChartClick, me, undefined));
                 view.menuImgSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
                 view.menuTableSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
                 view.menuAddCommentPara.on('click', _.bind(me.addComment, me));
@@ -200,7 +188,7 @@ define([], function () {
                 view.menuImgEditPoints.on('click', _.bind(me.onImgEditPoints, me));
                 view.menuShapeAdvanced.on('click', _.bind(me.onShapeAdvanced, me));
                 view.menuParagraphAdvanced.on('click', _.bind(me.onParagraphAdvanced, me));
-                // view.menuChartAdvanced.on('click', _.bind(me.onChartAdvanced, me));
+                view.menuChartAdvanced.on('click', _.bind(me.onChartAdvanced, me));
                 view.mnuGroupImg.on('click', _.bind(me.onGroupImg, me));
                 view.mnuUnGroupImg.on('click', _.bind(me.onUnGroupImg, me));
                 view.mnuArrangeFront.on('click', _.bind(me.onArrangeFront, me));
@@ -225,22 +213,42 @@ define([], function () {
                 view.mnuCutPage.on('click', _.bind(me.onCutCopyPaste, me));
                 view.mnuPastePageBefore.on('click', _.bind(me.onCutCopyPaste, me));
                 view.mnuPastePageAfter.on('click', _.bind(me.onCutCopyPaste, me));
-
+                view.menuChartElement.on('item:click',               _.bind(me.onChartElement, me));
+                view.menuChartElement.menu.items.forEach(item => {
+                    if (item.menu) {
+                        item.menu.items.forEach(item => {
+                            item.on('click', function() {
+                                me.onChartElement(item.menu, item);
+                            });
+                        });
+                    }
+                });
                 view.menuImgReplace.menu.on('item:click', _.bind(me.onImgReplace, me));
             }
         };
 
         dh.applyEditorMode = function() {
             if (this.mode && this.mode.isPDFEdit && this._state.initEditorEvents && Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.initExternalEditors();
                 this.documentHolder.createDelayedElementsPDFEditor();
                 this._state.initEditorEvents = false;
                 this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                 this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
                 this.api.asc_registerCallback('asc_onDialogAddHyperlink',       _.bind(this.onDialogAddHyperlink, this));
                 this.api.asc_registerCallback('asc_ChangeCropState',            _.bind(this.onChangeCropState, this));
+                this.api.asc_registerCallback('asc_doubleClickOnChart',         _.bind(this.onDoubleClickOnChart, this));
+                this.api.asc_registerCallback('asc_onSingleChartSelectionChanged',  _.bind(this.onSingleChartSelectionChanged, this));
+                this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Image, _.bind(this.onInsertImage, this));
+                this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.ImageUrl, _.bind(this.onInsertImageUrl, this));
             }
-            if (this.mode)
-                this.mode.isPDFEdit ? this.onHideTextBar() : this.onHideMathTrack();
+            if (this.mode) {
+                if (this.mode.isPDFEdit)
+                    this.onHideTextBar()
+                else {
+                    this.onHideMathTrack();
+                    this.onHideChartElementButton();
+                }
+            }
         };
 
         dh.fillViewMenuProps = function(selectedElements) {
@@ -306,12 +314,12 @@ define([], function () {
                     else
                         menu_to_show = documentHolder.pictureMenu;
                 }
-                // else if (Asc.c_oAscTypeSelectElement.Chart == elType) {
-                //     menu_to_show = documentHolder.pictureMenu;
-                //     menu_props.chartProps = {};
-                //     menu_props.chartProps.value = elValue;
-                //     menu_props.chartProps.locked = (elValue) ? elValue.get_Locked() : false;
-                // }
+                else if (Asc.c_oAscTypeSelectElement.Chart == elType) {
+                    menu_to_show = documentHolder.pictureMenu;
+                    menu_props.chartProps = {};
+                    menu_props.chartProps.value = elValue;
+                    menu_props.chartProps.locked = (elValue) ? elValue.get_Locked() : false;
+                }
                 else if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
                     menu_props.paraProps = {};
                     menu_props.paraProps.value = elValue;
@@ -380,15 +388,7 @@ define([], function () {
         dh.onShowTextBar = function(bounds) {
             if (this.mode && !(!this.mode.isPDFEdit && this.mode.isEdit)) return;
 
-            if (_.isUndefined(this._XY)) {
-                this._XY = [
-                    Common.Utils.getOffset(this.documentHolder.cmpEl).left - $(window).scrollLeft(),
-                    Common.Utils.getOffset(this.documentHolder.cmpEl).top - $(window).scrollTop()
-                ];
-                this._Width       = this.documentHolder.cmpEl.width();
-                this._Height      = this.documentHolder.cmpEl.height();
-                this._BodyWidth   = $('body').width();
-            }
+            this.checkEditorOffsets();
 
             this.lastTextBarBounds = bounds;
             if (bounds[3] < 0 || bounds[1] > this._Height) {
@@ -427,6 +427,8 @@ define([], function () {
                 this.api.asc_registerCallback('asc_onVerticalAlign',        _.bind(this.onApiVerticalAlign, this));
                 Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
                 this.api.asc_registerCallback('asc_onTextColor',            _.bind(this.onApiTextColor, this));
+                this.api.asc_registerCallback('asc_onPrAlign',              _.bind(this.onApiParagraphAlign, this));
+                this.api.asc_registerCallback('asc_onTextDirection',        _.bind(this.onApiTextDirection, this));
 
                 documentHolder.btnBold.on('click',                         _.bind(this.onBold, this));
                 documentHolder.btnItalic.on('click',                       _.bind(this.onItalic, this));
@@ -448,6 +450,8 @@ define([], function () {
                 documentHolder.cmbFontName.on('hide:after',                _.bind(this.onHideMenus, this));
                 documentHolder.cmbFontName.on('combo:blur',                _.bind(this.onComboBlur, this));
                 documentHolder.cmbFontName.on('combo:focusin',             _.bind(this.onComboOpen, this, false));
+                documentHolder.btnHorizontalAlign.menu.on('item:click',    _.bind(this.onMenuHorizontalAlignSelect, this));
+                documentHolder.btnTextDir.menu.on('item:click',            _.bind(this.onTextDirClick, this));
 
                 this.api.UpdateInterfaceState();
             }
@@ -572,6 +576,49 @@ define([], function () {
                 this._state.clrtext = clr;
             }
             this._state.clrtext_asccolor = color;
+        };
+
+        dh.onApiParagraphAlign = function(v) {
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
+            if (this._state.pralign !== v) {
+                this._state.pralign = v;
+
+                var index = -1,
+                    align,
+                    btnHorizontalAlign = this.documentHolder.btnHorizontalAlign;
+
+                switch (v) {
+                    case 0: index = 2; align = 'btn-align-right'; break;
+                    case 1: index = 0; align = 'btn-align-left'; break;
+                    case 2: index = 1; align = 'btn-align-center'; break;
+                    case 3: index = 3; align = 'btn-align-just'; break;
+                    default:  index = -255; align = 'btn-align-left'; break;
+                }
+                if (!(index < 0)) {
+                    btnHorizontalAlign.menu.items[index].setChecked(true);
+                } else if (index == -255) {
+                    btnHorizontalAlign.menu.clearAll(true);
+                }
+
+                if ( btnHorizontalAlign.rendered && btnHorizontalAlign.$icon ) {
+                    btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls).addClass(align);
+                    btnHorizontalAlign.options.icls = align;
+                }
+            }
+        };
+
+        dh.onApiTextDirection = function (isRtl){
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
+            var documentHolder = this.documentHolder,
+                oldRtl = documentHolder.btnTextDir.options.dirRtl,
+                newRtl = !!isRtl;
+            if (oldRtl !== newRtl) {
+                documentHolder.btnTextDir.changeIcon({
+                    next: newRtl ? 'btn-rtl' : 'btn-ltr',
+                    curr: oldRtl ? 'btn-rtl' : 'btn-ltr'
+                });
+                documentHolder.btnTextDir.options.dirRtl = !!isRtl;
+            }
         };
 
         dh.onBold = function(btn, e) {
@@ -736,6 +783,25 @@ define([], function () {
             }
         };
 
+        dh.onTextDirClick = function(menu, item) {
+            this.api && this.api.asc_setRtlTextDirection(!!item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        };
+
+        dh.onMenuHorizontalAlignSelect = function(menu, item) {
+            this._state.pralign = undefined;
+            var btnHorizontalAlign = this.documentHolder.btnHorizontalAlign;
+
+            btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls);
+            btnHorizontalAlign.options.icls = !item.checked ? 'btn-align-left' : item.options.icls;
+            btnHorizontalAlign.$icon.addClass(btnHorizontalAlign.options.icls);
+
+            if (this.api && item.checked)
+                this.api.put_PrAlign(item.value);
+
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        };
+
         dh._getApiTextSize = function () {
             var out_value   = 12,
                 textPr      = this.api.get_TextProps();
@@ -750,15 +816,7 @@ define([], function () {
         dh.onShowAnnotBar = function(bounds, mouseOnTop) {
             if (this.mode && !this.mode.isEdit) return;
 
-            if (_.isUndefined(this._XY)) {
-                this._XY = [
-                    Common.Utils.getOffset(this.documentHolder.cmpEl).left - $(window).scrollLeft(),
-                    Common.Utils.getOffset(this.documentHolder.cmpEl).top - $(window).scrollTop()
-                ];
-                this._Width       = this.documentHolder.cmpEl.width();
-                this._Height      = this.documentHolder.cmpEl.height();
-                this._BodyWidth   = $('body').width();
-            }
+            this.checkEditorOffsets();
 
             this.lastAnnotBarBounds = bounds;
             (mouseOnTop!==undefined) && (this.lastAnnotBarOnTop = mouseOnTop);
@@ -791,6 +849,10 @@ define([], function () {
                 // annotation text bar
                 documentHolder.btnCopy.on('click',                _.bind(this.onCutCopyPaste, this, {value: 'copy', isFromBar: true}));
                 documentHolder.btnAddComment.on('click',          _.bind(this.addComment, this, {isFromBar: true}));
+                if (me.mode.isPDFAnnotate && me.mode.canPDFEdit || me.mode.isPDFEdit)
+                    documentHolder.btnRedact.on('click',          _.bind(this.redactText, this));
+                else
+                    documentHolder.btnRedact.cmpEl.parent().hide();
                 if (me.mode.isEditTextSupport && (me.mode.isPDFAnnotate && me.mode.canPDFEdit || me.mode.isPDFEdit))
                     documentHolder.btnEditText.on('click',            _.bind(this.editText, this));
                 else
@@ -842,15 +904,7 @@ define([], function () {
         dh.onShowAnnotSelectBar = function(bounds, mouseOnTop) {
             if (this.mode && !this.mode.isEdit) return;
 
-            if (_.isUndefined(this._XY)) {
-                this._XY = [
-                    Common.Utils.getOffset(this.documentHolder.cmpEl).left - $(window).scrollLeft(),
-                    Common.Utils.getOffset(this.documentHolder.cmpEl).top - $(window).scrollTop()
-                ];
-                this._Width       = this.documentHolder.cmpEl.width();
-                this._Height      = this.documentHolder.cmpEl.height();
-                this._BodyWidth   = $('body').width();
-            }
+            this.checkEditorOffsets();
 
             this.lastAnnotSelBarBounds = bounds;
             (mouseOnTop!==undefined) && (this.lastAnnotSelBarOnTop = mouseOnTop);
@@ -907,6 +961,10 @@ define([], function () {
             btn.currentColor = color;
             btn.setColor(btn.currentColor);
             btn.getPicker().select(btn.currentColor, true);
+            if (annotType !== AscPDF.ANNOTATIONS_TYPES.Highlight) { // hide opacity for redact
+                btn.menu.items[btn.menu.items.length-1].setVisible(annotType !== AscPDF.ANNOTATIONS_TYPES.Redact);
+                btn.menu.items[btn.menu.items.length-2].setVisible(annotType !== AscPDF.ANNOTATIONS_TYPES.Redact);
+            }
 
             var showPoint = [(bounds[0] + bounds[2])/2 - textContainer.outerWidth()/2, me.lastAnnotSelBarOnTop ? bounds[1] - textContainer.outerHeight() - 10 : bounds[3] + 10];
             (showPoint[0]<0) && (showPoint[0] = 0);
@@ -1077,15 +1135,7 @@ define([], function () {
             showPoint[1] = Math.min(me._Height - eqContainer.outerHeight(), Math.max(0, showPoint[1]));
             eqContainer.css({left: showPoint[0], top : showPoint[1]});
 
-            if (_.isUndefined(me._XY)) {
-                me._XY = [
-                    Common.Utils.getOffset(documentHolder.cmpEl).left - $(window).scrollLeft(),
-                    Common.Utils.getOffset(documentHolder.cmpEl).top - $(window).scrollTop()
-                ];
-                me._Width       = documentHolder.cmpEl.width();
-                me._Height      = documentHolder.cmpEl.height();
-                me._BodyWidth   = $('body').width();
-            }
+            me.checkEditorOffsets();
 
             var diffDown = me._Height - showPoint[1] - eqContainer.outerHeight(),
                 diffUp = me._XY[1] + showPoint[1],
@@ -1153,15 +1203,7 @@ define([], function () {
             var me = this,
                 cmpEl = me.documentHolder.cmpEl,
                 screenTip = me.screenTip;
-            if (me._XY === undefined) {
-                me._XY = [
-                    Common.Utils.getOffset(cmpEl).left - $(window).scrollLeft(),
-                    Common.Utils.getOffset(cmpEl).top - $(window).scrollTop()
-                ];
-                me._Height = cmpEl.height();
-                me._Width = cmpEl.width();
-                me._BodyWidth = $('body').width();
-            }
+            this.checkEditorOffsets();
 
             if (moveData) {
                 var showPoint, ToolTip,
@@ -1251,11 +1293,12 @@ define([], function () {
 
                     ToolTip = Common.Utils.String.htmlEncode(ToolTip);
 
-                    if (screenTip.tipType !== type || screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
-                        screenTip.toolTip.setTitle((type==Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? (ToolTip + '<br><b>' + Common.Utils.String.platformKey('Ctrl', me.documentHolder.txtPressLink) + '</b>') : ToolTip);
+                    if (screenTip.tipType !== type || screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 || (hyperProps && screenTip.noCtrl !== hyperProps.get_NoCtrl())) {
+                        screenTip.toolTip.setTitle((type==Asc.c_oAscMouseMoveDataTypes.Hyperlink && !hyperProps.get_NoCtrl()) ? (ToolTip + '<br><b>' + Common.Utils.String.platformKey('Ctrl', me.documentHolder.txtPressLink) + '</b>') : ToolTip);
                         screenTip.tipLength = ToolTip.length;
                         screenTip.strTip = ToolTip;
                         screenTip.tipType = type;
+                        screenTip.noCtrl = !!hyperProps && hyperProps.get_NoCtrl();
                         recalc = true;
                     }
 
@@ -1326,7 +1369,7 @@ define([], function () {
             if (me.api) {
                 var res =  (item.value == 'cut') ? me.api.Cut() : ((item.value == 'copy') ? me.api.Copy() : me.api.Paste(item.value == 'paste-before'));
                 if (!res) {
-                    if (!Common.localStorage.getBool("pdfe-hide-copywarning")) {
+                    if (!Common.localStorage.getBool("pdfe-hide-copywarning") && (item.value === 'paste' || me.mode.canCopy)) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
                                 if (dontshow) Common.localStorage.setItem("pdfe-hide-copywarning", 1);
@@ -1921,7 +1964,8 @@ define([], function () {
         dh.editHyperlink = function(item, e){
             var win, me = this;
             if (me.api){
-                var _arr = [];
+                var _arr = [],
+                    isAnnotation = item.annotProps && item.annotProps.value;
                 for (var i=0; i<me.api.getCountPages(); i++) {
                     _arr.push({
                         displayValue: i+1,
@@ -1933,11 +1977,14 @@ define([], function () {
                     appOptions: me.mode,
                     handler: function(dlg, result) {
                         if (result == 'ok') {
-                            me.api.change_Hyperlink(win.getSettings());
+                            me.api.change_Hyperlink(win.getSettings(), isAnnotation ? item.annotProps.value.asc_getIds() : undefined );
+                        } else if (result === 'view') {
+                            me.api.SetLinkAnnotGoToAction(isAnnotation ? item.annotProps.value.asc_getIds() : undefined);
                         }
                         me.editComplete();
                     },
-                    slides: _arr
+                    slides: _arr,
+                    isAnnotation: isAnnotation
                 });
                 win.show();
                 win.setSettings(item.hyperProps.value);
@@ -2011,6 +2058,13 @@ define([], function () {
 
         dh.tableCellsVAlign = function(menu, item, e) {
             if (this.api) {
+
+                if (item.options.halign != null) {
+                    var type = item.options.halign;
+                    this.api.put_PrAlign(type);
+                    return;
+                }
+
                 var properties = new Asc.CTableProp();
                 properties.put_CellsVAlign(item.value);
                 this.api.tblApply(properties);
@@ -2196,6 +2250,41 @@ define([], function () {
             }
         };
 
+        dh.onChartAdvanced = function(item, e){
+            var me = this;
+            if (me.api) {
+                var selectedElements = me.api.getSelectedElements();
+
+                if (selectedElements && selectedElements.length > 0){
+                    var elType, elValue;
+                    for (var i = selectedElements.length - 1; i >= 0; i--) {
+                        elType  = selectedElements[i].get_ObjectType();
+                        elValue = selectedElements[i].get_ObjectValue();
+
+                        if (Asc.c_oAscTypeSelectElement.Chart == elType) {
+                            (new PDFE.Views.ChartSettingsAdvanced(
+                                {
+                                    chartProps: elValue,
+                                    slideSize: PDFE.getController('Toolbar').currentPageSize,
+                                    chartSettings: me.api.asc_getChartSettings(),
+                                    api : me.api,
+                                    handler: function(result, value) {
+                                        if (result == 'ok') {
+                                            if (me.api) {
+                                                me.api.ChartApply(value.chartProps);
+                                            }
+                                        }
+                                        me.editComplete();
+                                        Common.component.Analytics.trackEvent('DocumentHolder', 'Chart Settings Advanced');
+                                    }
+                                })).show();
+                            break;
+                        }
+                    }
+                }
+            }
+        };
+
         dh.onParagraphAdvanced = function(item) {
             var me = this;
             if (me.api){
@@ -2296,6 +2385,13 @@ define([], function () {
         dh.onParagraphVAlign = function (menu, item) {
             var me = this;
             if (me.api) {
+                
+                if (item.options.halign != null) {
+                    var type = item.options.halign;
+                    me.api.put_PrAlign(type);
+                    return;
+                }
+                
                 var properties = new Asc.asc_CShapeProperty();
                 properties.put_VerticalTextAlign(item.value);
 
@@ -2389,31 +2485,6 @@ define([], function () {
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         };
 
-        dh.onHyperlinkClick = function(url) {
-            if (url) {
-                var type = this.api.asc_getUrlType(url);
-                if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email)
-                    window.open(url);
-                else {
-                    var me = this;
-                    setTimeout(function() {
-                        Common.UI.warning({
-                            msg: me.documentHolder.txtWarnUrl,
-                            buttons: ['yes', 'no'],
-                            primary: 'yes',
-                            callback: function(btn) {
-                                try {
-                                    (btn == 'yes') && window.open(url);
-                                } catch (err) {
-                                    err && console.log(err.stack);
-                                }
-                            }
-                        });
-                    }, 1);
-                }
-            }
-        };
-
         dh.removeComment = function(item, e, eOpt){
             this.api && this.api.asc_remove();
             this.editComplete();
@@ -2431,7 +2502,7 @@ define([], function () {
         dh.onDialogAddHyperlink = function() {
             var win, props, text;
             var me = this;
-            if (me.api && me.mode.isEdit && !me._isDisabled && !PDFE.getController('LeftMenu').leftMenu.menuFile.isVisible()){
+            if (me.api && me.mode.isEdit && !me._isDisabled && !PDFE.getController('LeftMenu').leftMenu.menuFile.isVisible() && !this._state.no_paragraph){ // show dialog only for table/shape
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
                         props = dlg.getSettings();
@@ -2582,5 +2653,610 @@ define([], function () {
             !Common.Utils.InternalSettings.get('pdfe-settings-annot-bar') && this.onHideAnnotBar();
         };
 
+        dh.initExternalEditors = function() {
+            var me = this;
+            var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+            if (diagramEditor) {
+                diagramEditor.on('internalmessage', _.bind(function(cmp, message) {
+                    var command = message.data.command;
+                    var data = message.data.data;
+                    if (this.api) {
+                        ( diagramEditor.isEditMode() )
+                            ? this.api.asc_editChartDrawingObject(data)
+                            : this.api.asc_addChartDrawingObject(data, diagramEditor.getPlaceholder());
+                    }
+                }, this));
+                diagramEditor.on('hide', _.bind(function(cmp, message) {
+                    if (this.api) {
+                        this.api.asc_onCloseFrameEditor();
+                        this.api.asc_enableKeyEvents(true);
+                    }
+                    setTimeout(function(){
+                        me.editComplete();
+                    }, 10);
+                }, this));
+            }
+        };
+
+        dh.onDoubleClickOnChart = function(chart) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+            if (this.mode && this.mode.isEdit && this.mode.isPDFEdit && !this._isDisabled) {
+                var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+                if (diagramEditor && chart) {
+                    let x, y;
+                    if (this._state.currentChartRect) {
+                        this.checkEditorOffsets();
+
+                        diagramEditor.setSize(diagramEditor.initConfig.initwidth, diagramEditor.initConfig.initheight);
+
+                        let dlgW = diagramEditor.getWidth() || diagramEditor.initConfig.initwidth,
+                            dlgH = diagramEditor.getHeight() || diagramEditor.initConfig.initheight,
+                            rect_x = this._state.currentChartRect.asc_getX(),
+                            rect_y = this._state.currentChartRect.asc_getY(),
+                            w = this._state.currentChartRect.asc_getWidth(),
+                            h = this._state.currentChartRect.asc_getHeight();
+                        y = this._XY[1] + rect_y + h;
+                        if (y + dlgH > Common.Utils.innerHeight()) {
+                            y = this._XY[1] + rect_y - dlgH;
+                            if (y<0) {
+                                y = Common.Utils.innerHeight() - dlgH;
+                            }
+                        }
+                        x = this._XY[0] + rect_x - (dlgW - w)/2;
+                        if (x + dlgW > Common.Utils.innerWidth())
+                            x = Common.Utils.innerWidth() - dlgW;
+                    }
+                    diagramEditor.setEditMode(true);
+                    diagramEditor.show(x, y);
+                    diagramEditor.setChartData(chart);
+                }
+            }
+        };
+
+        dh.editChartClick = function(){
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+            this.api.asc_editChartInFrameEditor();
+        };
+
+        const _set = Asc.c_oAscChartTypeSettings,
+            chartElementMap = {
+                [_set.barNormal]:              ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+                [_set.barStacked]:             ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'],
+                [_set.barStackedPer]:          ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'],
+                [_set.barNormal3d]:            ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'],
+                [_set.barStacked3d]:           ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'],
+                [_set.barStackedPer3d]:        ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'],
+                [_set.barNormal3dPerspective]: ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'],
+                [_set.lineNormal]:             ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'],
+                [_set.lineStacked]:            ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'upDownBars'],
+                [_set.lineStackedPer]:         ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'],
+                [_set.lineNormalMarker]:       ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'],
+                [_set.lineStackedMarker]:      ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'upDownBars'],
+                [_set.lineStackedPerMarker]:   ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'upDownBars'],
+                [_set.line3d]:                 ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'],
+                [_set.pie]:                    ['chartTitle', 'dataLabels', 'legend'],
+                [_set.pie3d]:                  ['chartTitle', 'dataLabels', 'legend'],
+                [_set.hBarNormal]:             ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+                [_set.hBarStacked]:            ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'],
+                [_set.hBarStackedPer]:         ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'],
+                [_set.hBarNormal3d]:           ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'],
+                [_set.hBarStacked3d]:          ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'],
+                [_set.hBarStackedPer3d]:       ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'gridLines', 'legend'],
+                [_set.areaNormal]:             ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'],
+                [_set.areaStacked]:            ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'],
+                [_set.areaStackedPer]:         ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'],
+                [_set.doughnut]:               ['chartTitle', 'dataLabels', 'legend'],
+                [_set.stock]:                  ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars'],
+                [_set.scatter]:                ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+                [_set.scatterLine]:            ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+                [_set.scatterLineMarker]:      ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+                [_set.scatterMarker]:          ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+                [_set.scatterNone]:            ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+                [_set.scatterSmooth]:          ['axes', 'axisTitles', 'chartTitle', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+                [_set.scatterSmoothMarker]:    ['axes', 'axisTitles', 'chartTitle', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+                [_set.surfaceNormal]:          ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
+                [_set.surfaceWireframe]:       ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
+                [_set.contourNormal]:          ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
+                [_set.contourWireframe]:       ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
+                [_set.comboCustom]:            ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+                [_set.comboBarLine]:           ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+                [_set.comboBarLineSecondary]:  ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+                [_set.comboAreaBar]:           ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend'],
+                [_set.radar]:                  ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
+                [_set.radarMarker]:            ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
+                [_set.radarFilled]:            ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
+                [_set.unknown]:                ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars']
+            };
+
+        dh.onChartElement = function(menu, item) {
+            var chartProps = this.chartProps,
+                HorAxis = chartProps.getHorAxesProps && chartProps.getHorAxesProps()[0],
+                SecHorAxis = chartProps.getHorAxesProps && chartProps.getHorAxesProps()[1],
+                VertAxis = chartProps.getVertAxesProps && chartProps.getVertAxesProps()[0],
+                SecVertAxis = chartProps.getVertAxesProps && chartProps.getVertAxesProps()[1],
+                DepthAxis = chartProps.getDepthAxesProps && chartProps.getDepthAxesProps()[0],
+                HorMajorGridlines = HorAxis && (HorAxis.getGridlines() === 1 || HorAxis.getGridlines() === 3),
+                HorMinorGridlines = HorAxis && (HorAxis.getGridlines() === 2 || HorAxis.getGridlines() === 3),
+                VertMajorGridlines = VertAxis && (VertAxis.getGridlines() === 1 || VertAxis.getGridlines() === 3),
+                VertMinorGridlines = VertAxis && (VertAxis.getGridlines() === 2 || VertAxis.getGridlines() === 3);
+                
+            const value = item.value,
+                type = chartProps.getType(),
+                RadarChart = [_set.radar, _set.radarMarker, _set.radarFilled].includes(type),
+                hBarChart = [_set.hBarNormal, _set.hBarStacked, _set.hBarStackedPer, _set.hBarNormal3d, _set.hBarStacked3d, _set.hBarStackedPer3d].includes(type),
+                scatterChart = [_set.scatter, _set.scatterLine, _set.scatterLineMarker, _set.scatterMarker, _set.scatterNone, _set.scatterSmooth, _set.scatterSmoothMarker, _set.surfaceNormal].includes(type),
+                comboCustom = [_set.comboCustom].includes(type);
+            
+            switch (value) {
+                case 'bShowHorAxis':
+                    if (hBarChart) {
+                        chartProps.setDisplayAxes(VertAxis && VertAxis.getShow(), SecVertAxis && SecVertAxis.getShow(), item.checked, SecHorAxis && SecHorAxis.getShow(), DepthAxis && DepthAxis.getShow());
+                    } else if (scatterChart) {
+                        chartProps.setDisplayAxes(SecVertAxis && SecVertAxis.getShow(), SecHorAxis && SecHorAxis.getShow(), item.checked, VertAxis && VertAxis.getShow(), DepthAxis && DepthAxis.getShow());
+                    } else if (comboCustom) {
+                        chartProps.setDisplayAxes(item.checked, SecVertAxis && SecVertAxis.getShow(), VertAxis && VertAxis.getShow(), SecHorAxis && SecHorAxis.getShow(), DepthAxis && DepthAxis.getShow());
+                    } else {
+                        chartProps.setDisplayAxes(item.checked, SecHorAxis && SecHorAxis.getShow(), VertAxis && VertAxis.getShow(), SecVertAxis && SecVertAxis.getShow(), DepthAxis && DepthAxis.getShow());
+                    }
+                    break;                
+                case 'bShowVertAxis':
+                    if (hBarChart) {
+                        chartProps.setDisplayAxes(item.checked, SecVertAxis && SecVertAxis.getShow(), HorAxis && HorAxis.getShow(), SecHorAxis && SecHorAxis.getShow(), DepthAxis && DepthAxis.getShow());
+                    } else if (scatterChart) {
+                        chartProps.setDisplayAxes(SecVertAxis && SecVertAxis.getShow(), SecHorAxis && SecHorAxis.getShow(), HorAxis && HorAxis.getShow(), item.checked, DepthAxis && DepthAxis.getShow());
+                    } else if (comboCustom) {
+                        chartProps.setDisplayAxes(HorAxis && HorAxis.getShow(), SecVertAxis && SecVertAxis.getShow(), item.checked, SecHorAxis && SecHorAxis.getShow(), DepthAxis && DepthAxis.getShow());
+                    } else {
+                        chartProps.setDisplayAxes(HorAxis && HorAxis.getShow(), SecHorAxis && SecHorAxis.getShow(), item.checked, SecVertAxis && SecVertAxis.getShow(), DepthAxis && DepthAxis.getShow());
+                    }
+                    break;
+                case 'bShowHorAxSec':
+                    if (comboCustom) {
+                        chartProps.setDisplayAxes(HorAxis && HorAxis.getShow(), SecVertAxis && SecVertAxis.getShow(), VertAxis && VertAxis.getShow(), item.checked, DepthAxis && DepthAxis.getShow());
+                    } else {
+                        chartProps.setDisplayAxes(HorAxis && HorAxis.getShow(), item.checked, VertAxis && VertAxis.getShow(), SecVertAxis && SecVertAxis.getShow(), DepthAxis && DepthAxis.getShow());
+                    }
+                    break;          
+                case 'bShowVertAxSec':
+                    if (comboCustom) {
+                        chartProps.setDisplayAxes(HorAxis && HorAxis.getShow(), item.checked, VertAxis && VertAxis.getShow(), SecHorAxis && SecHorAxis.getShow(), DepthAxis && DepthAxis.getShow());
+                    } else {
+                        chartProps.setDisplayAxes(HorAxis && HorAxis.getShow(), SecHorAxis && SecHorAxis.getShow(), VertAxis && VertAxis.getShow(), item.checked, DepthAxis && DepthAxis.getShow());
+                    }
+                    break; 
+                case 'bShowDepthAxes':
+                    chartProps.setDisplayAxes(HorAxis && HorAxis.getShow(), SecHorAxis && SecHorAxis.getShow(), VertAxis && VertAxis.getShow(), SecVertAxis && SecVertAxis.getShow(), item.checked);
+                    break;
+                case 'bShowHorAxTitle':
+                    if (hBarChart) {
+                        chartProps.setDisplayAxisTitles((VertAxis && VertAxis.getLabel() === 1), (SecVertAxis && SecVertAxis.getLabel() === 1), item.checked,  (SecHorAxis && SecHorAxis.getLabel() === 1), (DepthAxis && DepthAxis.getLabel() === 1));
+                    } else if (scatterChart) {
+                        chartProps.setDisplayAxisTitles((SecHorAxis && SecHorAxis.getLabel() === 1), (SecVertAxis && SecVertAxis.getLabel() === 1), item.checked, (VertAxis && VertAxis.getLabel() === 1), (DepthAxis && DepthAxis.getLabel() === 1));
+                    } else if (comboCustom) {
+                        chartProps.setDisplayAxisTitles(item.checked, (SecVertAxis && SecVertAxis.getLabel() === 1), (VertAxis && VertAxis.getLabel() === 1), (SecHorAxis && SecHorAxis.getLabel() === 1), (DepthAxis && DepthAxis.getLabel() === 1));
+                    } else {
+                        chartProps.setDisplayAxisTitles(item.checked, (SecHorAxis && SecHorAxis.getLabel() === 1), (VertAxis && VertAxis.getLabel() === 1), (SecVertAxis && SecVertAxis.getLabel() === 1), (DepthAxis && DepthAxis.getLabel() === 1));
+                    }
+                    break;
+                case 'bShowVertAxTitle':
+                    if (hBarChart) {
+                        chartProps.setDisplayAxisTitles(item.checked, (SecVertAxis && SecVertAxis.getLabel() === 1), (HorAxis && HorAxis.getLabel() === 1), (SecHorAxis && SecHorAxis.getLabel() === 1), (DepthAxis && DepthAxis.getLabel() === 1));
+                    } else if (scatterChart) {
+                        chartProps.setDisplayAxisTitles((SecHorAxis && SecHorAxis.getLabel() === 1), (SecVertAxis && SecVertAxis.getLabel() === 1), (HorAxis && HorAxis.getLabel() === 1), item.checked, (DepthAxis && DepthAxis.getLabel() === 1));
+                    } else if (comboCustom) {
+                        chartProps.setDisplayAxisTitles((HorAxis && HorAxis.getLabel() === 1), (SecVertAxis && SecVertAxis.getLabel() === 1), item.checked, (SecHorAxis && SecHorAxis.getLabel() === 1), (DepthAxis && DepthAxis.getLabel() === 1));
+                    } else {
+                        chartProps.setDisplayAxisTitles((HorAxis && HorAxis.getLabel() === 1), (SecHorAxis && SecHorAxis.getLabel() === 1), item.checked, (SecVertAxis && SecVertAxis.getLabel() === 1), (DepthAxis && DepthAxis.getLabel() === 1));
+                    }
+                    break;
+                case 'bShowHorAxTitleSec':
+                    if (comboCustom) {
+                        chartProps.setDisplayAxisTitles((HorAxis && HorAxis.getLabel() === 1), (SecVertAxis && SecVertAxis.getLabel() === 1), (VertAxis && VertAxis.getLabel() === 1), item.checked, (DepthAxis && DepthAxis.getLabel() === 1));
+                    } else {
+                        chartProps.setDisplayAxisTitles((HorAxis && HorAxis.getLabel() === 1), item.checked, (VertAxis && VertAxis.getLabel() === 1), (SecVertAxis && SecVertAxis.getLabel() === 1), (DepthAxis && DepthAxis.getLabel() === 1));
+                    }
+                    break;
+                case 'bShowVertAxisTitleSec':
+                    if (comboCustom) {
+                        chartProps.setDisplayAxisTitles((HorAxis && HorAxis.getLabel() === 1), item.checked, (VertAxis && VertAxis.getLabel() === 1), (SecHorAxis && SecHorAxis.getLabel() === 1), (DepthAxis && DepthAxis.getLabel() === 1));
+                    } else { 
+                        chartProps.setDisplayAxisTitles((HorAxis && HorAxis.getLabel() === 1), (SecHorAxis && SecHorAxis.getLabel() === 1), (VertAxis && VertAxis.getLabel() === 1), item.checked, (DepthAxis && DepthAxis.getLabel() === 1));
+                    }
+                    break;
+                case 'bShowDepthAxisTitle':
+                    chartProps.setDisplayAxes((HorAxis && HorAxis.getLabel() === 1), (SecHorAxis && SecHorAxis.getLabel() === 1), (VertAxis && VertAxis.getLabel() === 1), (SecVertAxis && SecVertAxis.getLabel() === 1), item.checked);
+                    break;
+                case 'bShowChartTitleNone':
+                    chartProps.setDisplayChartTitle(false, false); 
+                    break;
+                case 'bShowChartTitle':
+                    chartProps.setDisplayChartTitle(true, false); 
+                    break;
+                case 'bOverlayTitle':
+                    chartProps.setDisplayChartTitle(true, true); 
+                    break;    
+                case 'CenterData':
+                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.ctr); 
+                    break;
+                case 'InnerBottomData':
+                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.inBase); 
+                    break;
+                case 'InnerTopData':
+                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.inEnd); 
+                    break;            
+                case 'OuterTopData':
+                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.outEnd); 
+                    break;
+                case 'TopData':
+                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.t); 
+                    break;
+                case 'LeftData':
+                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.l); 
+                    break;
+                case 'RightData':
+                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.r); 
+                    break;
+                case 'BottomData':
+                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.b); 
+                    break; 
+                case 'FitWidthData':
+                    chartProps.setDisplayDataLabels(true, Asc.c_oAscChartDataLabelsPos.bestFit); 
+                    break;        
+                case 'bShowDataLabels':
+                    chartProps.setDisplayDataLabels(false, false);
+                    break;
+                case 'noneError':
+                    chartProps.setDisplayErrorBars(false);
+                    break;
+                case 'standardError':
+                    chartProps.setDisplayErrorBars(true, 4);
+                    break;
+                case 'percentage':
+                    chartProps.setDisplayErrorBars(true, 2);
+                    break;
+                case 'standardDeviation':
+                    chartProps.setDisplayErrorBars(true, 3);
+                    break;       
+               case 'bShowHorMajor':
+                    if (hBarChart) {
+                        chartProps.setDisplayGridlines(HorMajorGridlines, item.checked, HorMinorGridlines, VertMinorGridlines);
+                    } else 
+                       chartProps.setDisplayGridlines(item.checked, HorMajorGridlines, VertMinorGridlines, HorMinorGridlines);
+                    break;
+                case 'bShowVerMajor':
+                    if (hBarChart || RadarChart) {
+                        chartProps.setDisplayGridlines(item.checked, VertMajorGridlines, HorMinorGridlines, VertMinorGridlines);
+                    } else 
+                        chartProps.setDisplayGridlines(VertMajorGridlines, item.checked, VertMinorGridlines, HorMinorGridlines);
+                    break;
+                case 'bShowHorMinor':
+                    if (hBarChart) {
+                        chartProps.setDisplayGridlines(HorMajorGridlines, VertMajorGridlines, HorMinorGridlines, item.checked);
+                    } else 
+                        chartProps.setDisplayGridlines(VertMajorGridlines, HorMajorGridlines, item.checked, HorMinorGridlines);
+                    break; 
+                case 'bShowVerMinor':
+                    if (hBarChart || RadarChart) {
+                        chartProps.setDisplayGridlines(HorMajorGridlines, VertMajorGridlines, item.checked, VertMinorGridlines);
+                    }else 
+                        chartProps.setDisplayGridlines(VertMajorGridlines, HorMajorGridlines, VertMinorGridlines, item.checked);
+                    break;
+                case 'NoneLegend':
+                        chartProps.setDisplayLegend(false, Asc.c_oAscChartLegendShowSettings.none);
+                    break;
+                case 'LeftLegend':
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.left);
+                    break;
+
+                case 'TopLegend':
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.top);
+                    break;
+
+                case 'RightLegend':
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.right);
+                    break;
+
+                case 'BottomLegend':
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.bottom);
+                    break;
+
+                case 'LeftOverlay':
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.leftOverlay);
+                    break;
+
+                case 'RightOverlay':
+                        chartProps.setDisplayLegend(true, Asc.c_oAscChartLegendShowSettings.rightOverlay);
+                    break;
+                case 'trendLineNone':
+                    chartProps.setDisplayTrendlines(false, false, 0, 0);
+                    break;
+                case 'trendLineLinear':
+                    chartProps.setDisplayTrendlines(true, 1, 0, 0);
+                    break;
+                case 'trendLineExponential':
+                    chartProps.setDisplayTrendlines(true, 0, 0, 0);
+                    break;
+                case 'trendLineForecast':
+                    chartProps.setDisplayTrendlines(true, 1, 2, 0);
+                    break;
+                case 'trendLineMovingAverage':
+                    chartProps.setDisplayTrendlines(true, 3, 0, 0);
+                    break;
+                case 'bShowUpDownBars':
+                    chartProps.setDisplayUpDownBars(true);
+                    break;
+                case 'bShowUpDownNone':
+                    chartProps.setDisplayUpDownBars(false);
+                    break;
+            }
+        };
+
+        dh.updateChartElementMenu = function(menu, chartProps) {
+            const type = chartProps.getType(),
+                horAxes = chartProps.getHorAxesProps && chartProps.getHorAxesProps(),
+                vertAxes = chartProps.getVertAxesProps && chartProps.getVertAxesProps(),
+                depthAxes = chartProps.getDepthAxesProps && chartProps.getDepthAxesProps(),
+                dataLabelsPos = chartProps.getDataLabelsPos && chartProps.getDataLabelsPos(),
+                title = chartProps.getTitle && chartProps.getTitle(),
+                legendPos = chartProps.getLegendPos && chartProps.getLegendPos(),
+                GridMajor = Asc.c_oAscGridLinesSettings.major,
+                GridMinor = Asc.c_oAscGridLinesSettings.minor,
+                GridMajorMinor = Asc.c_oAscGridLinesSettings.majorMinor,
+                ComboChart = [_set.comboCustom, _set.comboBarLine,_set.comboBarLineSecondary,_set.comboAreaBar].includes(type),
+                RadarChart = [_set.radar, _set.radarMarker, _set.radarFilled].includes(type),
+                LabelGroup1Types = [_set.barNormal, _set.barStacked, _set.barStackedPer, _set.hBarNormal, _set.hBarStacked, _set.hBarStackedPer],
+                LabelGroup2Types = [_set.barNormal, _set.barStacked, _set.barStackedPer, _set.pie, _set.pie3d, _set.hBarNormal, _set.hBarStacked, _set.hBarStackedPer],
+                LabelGroup3Types = [_set.barNormal, _set.pie, _set.pie3d, _set.hBarNormal],
+                LabelGroup4Types = [_set.lineNormal, _set.lineStacked, _set.lineStackedPer, _set.lineNormalMarker, _set.lineStackedMarker, _set.lineStackedPerMarker, _set.stock, _set.scatter, _set.scatterLine, _set.scatterLineMarker, _set.scatterSmooth, _set.scatterSmoothMarker],
+                LabelGroup5Types = [_set.pie, _set.pie3d],   
+                comboType = ComboChart ? (chartProps.getSeries && chartProps.getSeries()[0] && chartProps.getSeries()[0].asc_getChartType()) : type,
+                LabelGroup1 = LabelGroup1Types.includes(comboType),
+                LabelGroup2 = LabelGroup2Types.includes(comboType),
+                LabelGroup3 = LabelGroup3Types.includes(comboType),
+                LabelGroup4 = LabelGroup4Types.includes(comboType),
+                LabelGroup5 = LabelGroup5Types.includes(comboType);
+
+            const axesMenu = menu.items[0].menu;
+            axesMenu.items[0].setVisible(!RadarChart);
+            axesMenu.items[0].setChecked(!RadarChart && horAxes && horAxes[0] && horAxes[0].getShow());
+            axesMenu.items[1].setChecked(vertAxes && vertAxes[0] && vertAxes[0].getShow());
+            axesMenu.items[4].setVisible(depthAxes && depthAxes[0]);
+            axesMenu.items[4].setChecked(depthAxes && depthAxes[0] && depthAxes[0].getShow());
+            if (ComboChart) {
+                axesMenu.items[2].setVisible(horAxes && horAxes[1]);
+                axesMenu.items[2].setChecked(horAxes && horAxes[1] && horAxes[1].getShow());
+                axesMenu.items[3].setVisible(vertAxes && vertAxes[1]);
+                axesMenu.items[3].setChecked(vertAxes && vertAxes[1] && vertAxes[1].getShow());
+            } else {
+                axesMenu.items[2].setVisible(false);
+                axesMenu.items[3].setVisible(false);
+            }
+
+            const titlesMenu = menu.items[1].menu;
+            titlesMenu.items[0].setChecked(horAxes && horAxes[0] && horAxes[0].getLabel() === Asc.c_oAscChartHorAxisLabelShowSettings.noOverlay);
+            titlesMenu.items[1].setChecked(vertAxes && vertAxes[0] && vertAxes[0].getLabel() === Asc.c_oAscChartVertAxisLabelShowSettings.rotated);
+            titlesMenu.items[4].setVisible(depthAxes && depthAxes[0]);
+            titlesMenu.items[4].setChecked(depthAxes && depthAxes[0] && depthAxes[0].getLabel() === Asc.c_oAscChartVertAxisLabelShowSettings.rotated);
+            if (ComboChart) {
+                titlesMenu.items[2].setVisible(horAxes && horAxes[1]);
+                titlesMenu.items[2].setChecked(horAxes && horAxes[1] && horAxes[1].getLabel() === Asc.c_oAscChartHorAxisLabelShowSettings.noOverlay);
+                titlesMenu.items[3].setVisible(vertAxes && vertAxes[1]);
+                titlesMenu.items[3].setChecked(vertAxes && vertAxes[1] && vertAxes[1].getLabel() === Asc.c_oAscChartVertAxisLabelShowSettings.rotated);
+            } else {
+                titlesMenu.items[2].setVisible(false);
+                titlesMenu.items[3].setVisible(false);
+            }
+            
+            const titleMenu = menu.items[2].menu;
+            titleMenu.items[0].setChecked(title === Asc.c_oAscChartTitleShowSettings.none);
+            titleMenu.items[1].setChecked(title === Asc.c_oAscChartTitleShowSettings.noOverlay);
+            titleMenu.items[2].setChecked(title === Asc.c_oAscChartTitleShowSettings.overlay);
+
+            const labelsMenu = menu.items[3].menu;
+            labelsMenu.items[0].setChecked(dataLabelsPos === Asc.c_oAscChartDataLabelsPos.none);
+            labelsMenu.items[1].setChecked(dataLabelsPos === Asc.c_oAscChartDataLabelsPos.ctr);
+            labelsMenu.items[2].setChecked(LabelGroup1 && dataLabelsPos === Asc.c_oAscChartDataLabelsPos.inBase);
+            labelsMenu.items[3].setChecked(LabelGroup2 && dataLabelsPos === Asc.c_oAscChartDataLabelsPos.inEnd);
+            labelsMenu.items[4].setChecked(LabelGroup3 && dataLabelsPos === Asc.c_oAscChartDataLabelsPos.outEnd);
+            labelsMenu.items[5].setChecked(LabelGroup4 && dataLabelsPos === Asc.c_oAscChartDataLabelsPos.t);
+            labelsMenu.items[6].setChecked(LabelGroup4 && dataLabelsPos === Asc.c_oAscChartDataLabelsPos.l);
+            labelsMenu.items[7].setChecked(LabelGroup4 && dataLabelsPos === Asc.c_oAscChartDataLabelsPos.r);
+            labelsMenu.items[8].setChecked(LabelGroup4 && dataLabelsPos === Asc.c_oAscChartDataLabelsPos.b);
+            labelsMenu.items[9].setChecked(LabelGroup5 && dataLabelsPos === Asc.c_oAscChartDataLabelsPos.bestFit);
+            if (dataLabelsPos !== undefined) {
+                labelsMenu.items[2].setVisible(LabelGroup1);
+                labelsMenu.items[3].setVisible(LabelGroup2);
+                labelsMenu.items[4].setVisible(LabelGroup3);
+                labelsMenu.items[5].setVisible(LabelGroup4);
+                labelsMenu.items[6].setVisible(LabelGroup4);
+                labelsMenu.items[7].setVisible(LabelGroup4);
+                labelsMenu.items[8].setVisible(LabelGroup4);
+                labelsMenu.items[9].setVisible(LabelGroup5);
+            }
+
+            const gridMenu = menu.items[5].menu;
+            gridMenu.items[0].setVisible(true);
+            gridMenu.items[2].setVisible(true);
+            if (RadarChart) {
+                gridMenu.items[0].setVisible(false);
+                gridMenu.items[0].setChecked(false);
+                gridMenu.items[1].setChecked(vertAxes && vertAxes[0] && (vertAxes[0].getGridlines() === GridMajor || vertAxes[0].getGridlines() === GridMajorMinor));
+                gridMenu.items[2].setChecked(false);
+                gridMenu.items[2].setVisible(false);
+                gridMenu.items[3].setChecked(vertAxes && vertAxes[0] && (vertAxes[0].getGridlines() === GridMinor || vertAxes[0].getGridlines() === GridMajorMinor));
+            } else if (type !== Asc.c_oAscChartTypeSettings.pie && type !== Asc.c_oAscChartTypeSettings.pie3d) {
+                gridMenu.items[0].setChecked(vertAxes && vertAxes[0] && (vertAxes[0].getGridlines() === GridMajor || vertAxes[0].getGridlines() === GridMajorMinor));
+                gridMenu.items[1].setChecked(horAxes && horAxes[0] && (horAxes[0].getGridlines() === GridMajor || horAxes[0].getGridlines() === GridMajorMinor));
+                gridMenu.items[2].setChecked(vertAxes && vertAxes[0] && (vertAxes[0].getGridlines() === GridMinor || vertAxes[0].getGridlines() === GridMajorMinor));
+                gridMenu.items[3].setChecked(horAxes && horAxes[0] && (horAxes[0].getGridlines() === GridMinor || horAxes[0].getGridlines() === GridMajorMinor));
+            }
+            
+            const legendMenu = menu.items[6].menu;
+            legendMenu.items[0].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.none);
+            legendMenu.items[1].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.top);
+            legendMenu.items[2].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.left);
+            legendMenu.items[3].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.right);
+            legendMenu.items[4].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.bottom);
+            legendMenu.items[5].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.leftOverlay);
+            legendMenu.items[6].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.rightOverlay);
+
+            const supportedElements = chartElementMap[type] || [];
+            menu.items.forEach(function(item) {
+                item.setVisible(supportedElements.includes(item.value));
+            });
+        };
+
+        dh.onSingleChartSelectionChanged = function(asc_CRect) {
+            if (!(this.mode && this.mode.isPDFEdit && this.mode.isEdit))  return;
+
+            var me = this,
+                documentHolderView = me.documentHolder,
+                chartContainer = documentHolderView.cmpEl.find('#chart-element-container');
+            me._state.currentChartRect = asc_CRect;
+
+            me.getCurrentChartProps = function () {
+                var selectedElements = me.api.getSelectedElements();
+                if (selectedElements && selectedElements.length > 0) {
+                    var elType, elValue;
+                    for (var i = selectedElements.length - 1; i >= 0; i--) {
+                        elType = selectedElements[i].get_ObjectType();
+                        elValue = selectedElements[i].get_ObjectValue();
+
+                        if (elType === Asc.c_oAscTypeSelectElement.Chart) {
+                            return elValue.get_ChartProperties(); 
+                        }
+                    }
+                }
+                return null;
+            };
+        
+            me.chartProps = me.getCurrentChartProps();
+        
+            if (chartContainer.length < 1) {
+                chartContainer = $('<div id="chart-element-container" style="position: absolute; z-index: 990;"><div id="id-document-holder-btn-chart-element"></div></div>');
+                documentHolderView.cmpEl.append(chartContainer);
+            }
+            
+            me.isRtlSheet = me.api ? Common.UI.isRTL() : false;
+
+            if (me.chartProps) {
+                
+                if (!me.btnChartElement) {
+                    me.btnChartElement = new Common.UI.Button({
+                        parentEl: $('#id-document-holder-btn-chart-element'),
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-chart-elements',
+                        hint: me.documentHolder.btnChart,
+                        menu: me.documentHolder.menuChartElement.menu
+                    });
+        
+                    me.btnChartElement.on('click', function() {
+                        me.chartProps = me.getCurrentChartProps();
+                        if (me.chartProps) {
+                            me.updateChartElementMenu(me.documentHolder.menuChartElement.menu, me.chartProps);
+                        }
+                    });
+                }
+
+                me._XY = undefined;
+                me.checkEditorOffsets();
+                var x = asc_CRect.asc_getX(),
+                    y = asc_CRect.asc_getY(),
+                    width = asc_CRect.asc_getWidth(),
+                    height = asc_CRect.asc_getHeight(),
+                    btn,
+                    btnTop = y,
+                    btnWidth = 50,
+                    offsetLeft = chartContainer.width() === 40 ? 50 : 42, 
+                    leftSide = x - offsetLeft,
+                    rightSide = x + width + 7;
+                   
+                if (me.isRtlSheet) {
+                    if (leftSide >= 0) {
+                        btn = leftSide + 15;
+                    } else if (rightSide + btnWidth <= me._Width) {
+                        btn = rightSide + 15;
+                    } else {
+                        chartContainer.hide();
+                        return;
+                    }
+                } else {
+                    if (rightSide + btnWidth <= me._Width + 18) {
+                        btn = rightSide;
+                    } else if (leftSide >= 0) {
+                        btn = leftSide;
+                    } else {
+                        chartContainer.hide();
+                        return;
+                    }
+                    
+                }
+
+                if (btnTop < 0) btnTop = 0;
+
+                if (y < 0) {
+                    var chartBottom = y + height;
+                    if (chartBottom < 20) { 
+                        chartContainer.hide();
+                        return;
+                    }
+                }
+
+                chartContainer.css({
+                    left: btn + 'px',
+                    top: btnTop + 'px'
+                }).show();
+        
+                me.disableChartElementButton();
+            } else {
+                chartContainer.hide();
+            }
+        };
+
+        dh.onHideChartElementButton = function() {
+            if (!this.documentHolder || !this.documentHolder.cmpEl) return;
+            var chartContainer = this.documentHolder.cmpEl.find('#chart-element-container');
+            if (chartContainer.is(':visible')) {
+                chartContainer.hide();
+            }
+        };
+
+        dh.disableChartElementButton = function() {
+            var chartContainer = this.documentHolder.cmpEl.find('#chart-element-container'),
+                disabled = this._isDisabled  || this._state.chartLocked;
+
+            if (chartContainer.length>0 && chartContainer.is(':visible')) {
+                this.btnChartElement.setDisabled(!!disabled);
+            }
+        };
+
+        dh.onInsertImage = function(obj, x, y) {
+            if (!this.documentHolder || !(this.mode && this.mode.isPDFEdit && this.mode.isEdit) || this._isDisabled)
+                return;
+
+            if (this.api)
+                this.api.asc_addImage(obj);
+            this.editComplete();
+        };
+
+        dh.onInsertImageUrl = function(obj, x, y) {
+            if (!this.documentHolder || !(this.mode && this.mode.isPDFEdit && this.mode.isEdit) || this._isDisabled)
+                return;
+
+            var me = this;
+            (new Common.Views.ImageFromUrlDialog({
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            var checkUrl = value.replace(/ /g, '');
+                            if (!_.isEmpty(checkUrl)) {
+                                me.api.AddImageUrl([checkUrl], undefined, undefined, obj);
+                            }
+                        }
+                    }
+                    me.editComplete();
+                }
+            })).show();
+        };
     }
 });

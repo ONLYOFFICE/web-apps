@@ -354,6 +354,31 @@
         &.bottom {
             bottom: 0;
         }
+        &.left.bottom,
+        &.right.bottom,
+        &.left.top,
+        &.right.top {
+            width: calc(@border-radius-window-ie + 2px);
+            width: calc(@border-radius-window + 2px);
+            height: calc(@border-radius-window-ie + 2px);
+            height: calc(@border-radius-window + 2px);
+        }
+        &.left.bottom {
+            border-bottom-left-radius: @border-radius-window-ie;
+            border-bottom-left-radius: @border-radius-window;
+        }
+        &.right.bottom {
+            border-bottom-right-radius: @border-radius-window-ie;
+            border-bottom-right-radius: @border-radius-window;
+        }
+        &.left.top {
+            border-top-left-radius: @border-radius-window-ie;
+            border-top-left-radius: @border-radius-window;
+        }
+        &.right.top {
+            border-top-right-radius: @border-radius-window-ie;
+            border-top-right-radius: @border-radius-window;
+        }
 
         &.resizing {
             cursor: inherit !important;

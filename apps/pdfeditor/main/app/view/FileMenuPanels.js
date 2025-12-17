@@ -388,6 +388,10 @@ define([], function () {
                     '<td><label><%= scope.strFontRender %></label></td>',
                     '<td><span id="fms-cmb-font-render"></span></td>',
                 '</tr>',
+                '<tr>',
+                    '<td><label><%= scope.strKeyboardShortcuts %><span class="new-hint"><%= Common.UI.SynchronizeTip.prototype.textNew.toUpperCase() %></span></label></td>',
+                    '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-keyboard-shortcuts" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomize %></button></div></td>',
+                '</tr>',
                 '<tr class ="divider-group"></tr>',
                 '<tr class="fms-btn-apply">',
                     '<td style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.okButtonText %></button></td>',
@@ -604,6 +608,11 @@ define([], function () {
                 dataHintOffset: 'big'
             });
             this.cmbFontRender.on('selected', _.bind(this.onFontRenderSelected, this));
+
+            this.btnKeyboardMacros = new Common.UI.Button({
+                el: $markup.findById('#fms-btn-keyboard-shortcuts')
+            });
+            this.btnKeyboardMacros.on('click', _.bind(this.onClickKeyboardShortcut, this));
 
             this.cmbUnit = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-unit'),
@@ -845,6 +854,8 @@ define([], function () {
             value = Common.Utils.InternalSettings.get("settings-tab-style");
             item = this.cmbTabStyle.store.findWhere({value: value});
             this.cmbTabStyle.setValue(item ? item.get('value') : 'fill');
+
+            Common.localStorage.getItem('help-tip-customize-shortcuts') && $('.new-hint', this.el).addClass('hidden');
         },
 
         applySettings: function() {
@@ -923,6 +934,14 @@ define([], function () {
             this._fontRender = combo.getValue();
         },
 
+        onClickKeyboardShortcut: function() {
+            const win = new Common.Views.ShortcutsDialog({
+                api: this.api
+            });
+            win.show();
+            Common.localStorage.setItem('help-tip-customize-shortcuts', 1); // don't show new feature label
+        },
+
         customizeQuickAccess: function () {
             if (this.dlgQuickAccess && this.dlgQuickAccess.isVisible()) return;
             this.dlgQuickAccess = new Common.Views.CustomizeQuickAccessDialog({
@@ -951,6 +970,8 @@ define([], function () {
         txtMac: 'as OS X',
         txtNative: 'Native',
         strFontRender: 'Font Hinting',
+        strKeyboardShortcuts: 'Keyboard Shortcuts',
+        txtCustomize: 'Customize',
         textAutoSave: 'Autosave',
         strCoAuthMode: 'Co-editing mode',
         strFast: 'Fast',

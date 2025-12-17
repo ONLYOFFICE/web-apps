@@ -161,6 +161,11 @@ class EditTextController extends Component {
         api.asc_setGraphicObjectProps(properties);
     }
 
+    setRtlTextdDirection(direction) {
+        const api = Common.EditorApi.get();        
+        api.asc_setCellReadingOrder(direction);
+    }
+
     render () {
         return (
             <EditText 
@@ -178,6 +183,7 @@ class EditTextController extends Component {
                 onAdditionalCaps={this.onAdditionalCaps}
                 onAdditionalScript={this.onAdditionalScript}
                 changeLetterSpacing={this.changeLetterSpacing}
+                setRtlTextdDirection={this.setRtlTextdDirection}
             />
         )
     }

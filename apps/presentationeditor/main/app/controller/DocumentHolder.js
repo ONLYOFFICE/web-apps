@@ -394,7 +394,7 @@ define([
                 currentMenu = me.documentHolder.currentMenu;
             if (currentMenu && currentMenu.isVisible()){
                 if (me.api.asc_getCurrentFocusObject() === 0 ){ // thumbnails
-                    if (me.documentHolder.slideMenu===currentMenu && !me._isDisabled) {
+                    if (me.documentHolder.slideMenu===currentMenu && !!me.documentHolder.slideMenu.options.fromThumbs && !me._isDisabled) {
                         var isHidden = false;
                         _.each(selectedElements, function(element, index) {
                             if (Asc.c_oAscTypeSelectElement.Slide == element.get_ObjectType()) {
@@ -408,7 +408,7 @@ define([
                 } else {
                     var obj = (me.mode.isEdit && !me._isDisabled) ? me.fillMenuProps(selectedElements) : me.fillViewMenuProps(selectedElements);
                     if (obj) {
-                        if (obj.menu_to_show===currentMenu) {
+                        if (obj.menu_to_show===currentMenu && (me.documentHolder.slideMenu!==currentMenu || !me.documentHolder.slideMenu.options.fromThumbs)) {
                             currentMenu.options.initMenu(obj.menu_props);
                             currentMenu.alignPosition();
                         }
@@ -419,6 +419,7 @@ define([
             if (this.mode && this.mode.isEdit) {
                 var i = -1,
                     in_equation = false,
+                    in_chart = false,
                     locked = false;
                 while (++i < selectedElements.length) {
                     var type = selectedElements[i].get_ObjectType();
@@ -430,11 +431,19 @@ define([
                     } else if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
                         var value = selectedElements[i].get_ObjectValue();
                         value && (locked = locked || value.get_Locked());
+                    } else if (type === Asc.c_oAscTypeSelectElement.Chart) {
+                        in_chart = true;
+                        var value = selectedElements[i].get_ObjectValue();
+                        value && (locked = locked || value.get_Locked());
                     }
                 }
                 if (in_equation) {
                     this._state.equationLocked = locked;
                     this.disableEquationBar();
+                }
+                if (in_chart) {
+                    this._state.chartLocked = locked;
+                    this.disableChartElementButton();
                 }
             }
         },
@@ -709,20 +718,26 @@ define([
             this.documentHolder.SetDisabled(state);
             this.disableEquationBar();
             this.disableSpecialPaste();
+            this.disableChartElementButton();
         },
 
         clearSelection: function() {
             this.onHideMathTrack();
             this.onHideSpecialPasteOptions();
+            this.onHideChartElementButton();
         },
 
         onHideMathTrack: function() {},
 
         onHideSpecialPasteOptions: function() {},
 
+        onHideChartElementButton: function() {},
+
         disableEquationBar: function() {},
 
         disableSpecialPaste: function() {},
+
+        disableChartElementButton: function() {},
 
         editComplete: function() {
             this.documentHolder && this.documentHolder.fireEvent('editcomplete', this.documentHolder);

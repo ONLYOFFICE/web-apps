@@ -365,11 +365,17 @@ class MainController extends Component {
                 this._isDocReady = true;
 
                 this.api.SetDrawingFreeze(false);
+                
+                if (appOptions.canFillForms) {
+                    this.api.asc_registerCallback('asc_onUpdateSignatures', this.showSignatureTooltip.bind(this));
+                }
 
                 Common.Notifications.trigger('preloader:close');
                 Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
 
                 appOptions.isRestrictedEdit && appOptions.canFillForms && this.api.asc_SetHighlightRequiredFields(true);
+
+                this.checkProtectDocumentOnAppReady();
 
                 let value = LocalStorage.getItem("de-settings-zoom");
                 const zf = (value !== null) ? parseInt(value) : (customization && customization.zoom ? parseInt(customization.zoom) : 100);
@@ -402,7 +408,6 @@ class MainController extends Component {
                     Common.Notifications.trigger('api:disconnect');
                 }
 
-                Common.Gateway.on('processsaveresult', this.onProcessSaveResult.bind(this));
                 Common.Gateway.on('processrightschange', this.onProcessRightsChange.bind(this));
                 Common.Gateway.on('downloadas', this.onDownloadAs.bind(this));
                 Common.Gateway.on('requestclose', this.onRequestClose.bind(this));
@@ -535,6 +540,36 @@ class MainController extends Component {
             document.body.appendChild(script);
         } else {
             on_script_load();
+        }
+    }
+
+    
+    showSignatureTooltip(valid, requested) {
+        let hasSigned = false;
+        if (valid) {
+            valid.forEach(item => {
+                if (item.asc_getIsForm()) {
+                    hasSigned = true;
+                }
+            });
+        }
+        this.props.storeToolbarSettings.setIsSignatureForm(hasSigned);
+
+        if (hasSigned) {
+            const { t } = this.props;
+            const _t = t('Main', { returnObjects: true });
+            
+            f7.dialog.create({
+                text:  _t.txtSignedForm,
+                buttons: [
+                    {   
+                        text: _t.textCancel,
+                        onClick: () => {
+                            f7.dialog.close(); 
+                        }
+                    }
+                ]
+            }).open();
         }
     }
 
@@ -889,7 +924,13 @@ class MainController extends Component {
             storeTextSettings.resetTypeBaseline(typeBaseline);
         });
         this.api.asc_registerCallback('asc_onPrAlign', (align) => {
+            if (this.api.asc_isRtlTextDirection()) {
+                align = align === 0 ? 1 : align === 1 ? 0 : align;
+            }
             storeTextSettings.resetParagraphAlign(align);
+        });
+        this.api.asc_registerCallback('asc_onTextDirection', (isRtl) => {
+            storeTextSettings.resetTextDirection(isRtl);
         });
         this.api.asc_registerCallback('asc_onTextColor', (color) => {
             storeTextSettings.resetTextColor(color);
@@ -1035,16 +1076,25 @@ class MainController extends Component {
         }, 10);
     }
 
-    onChangeProtectDocument() {
+    checkProtectDocumentOnAppReady() {
+        const appOptions = this.props.storeAppOptions;
+        if ((appOptions.isRestrictedEdit || appOptions.isEdit) && !this._state.protectWarn) {
+            this._state.forceDocProtect = true;
+            this.onChangeProtectDocument();
+            this._state.forceDocProtect = false;
+        }
+    }
+
+    onChangeProtectDocument(userId) {
         const storeVersionHistory = this.props.storeVersionHistory;
         if (storeVersionHistory.isVersionHistoryMode) return;
+        const props = this.getDocProps(true);
+        if (!props) return;
 
         const { t } = this.props;
         const storeAppOptions = this.props.storeAppOptions;
-        const props = this.getDocProps(true);
         const isProtected = props && (props.isReadOnly || props.isCommentsOnly || props.isFormsOnly || props.isReviewOnly || props.isTrackedChanges);
         let textWarningDialog;
-
         if(!storeAppOptions.isReviewOnly) {
             if(props.isReviewOnly) {
                 this.api.asc_SetLocalTrackRevisions(true);
@@ -1074,15 +1124,26 @@ class MainController extends Component {
         Common.Notifications.trigger('protect:doclock', props);
 
         if(isProtected) {
-            f7.dialog.create({
-                title: t('Main.titleDialogProtectedDocument'),
-                text: textWarningDialog,
-                buttons: [
-                    {
-                        text: t('Main.textOk')
+            // userId is undefined if the current user has changed protection. in this case warning is not displayed.
+            // userId is undefined on docReady and you need to show warning, so use forceDocProtect!
+            const recUser = this.props.users.searchUserById(userId);
+            if (recUser && recUser.asc_getIdOriginal() !== this.props.users.currentUser.asc_getIdOriginal() || this._state.forceDocProtect) {
+                this._state.protectWarn && this._state.protectWarn.close();
+                this._state.protectWarn = f7.dialog.create({
+                    title: t('Main.titleDialogProtectedDocument'),
+                    text: textWarningDialog,
+                    buttons: [
+                        {
+                            text: t('Main.textOk')
+                        }
+                    ],
+                    on: {
+                        close: () => {
+                            this._state.protectWarn = null;
+                        }
                     }
-                ]
-            }).open();
+                }).open();
+            }
         }
     }
 
@@ -1234,20 +1295,6 @@ class MainController extends Component {
         if ( !this.appOptions.isCorePDF )
             Common.Notifications.trigger('openDropdownList', obj);
         else Common.Notifications.trigger('openPdfDropdownList', obj);
-    }
-
-    onProcessSaveResult (data) {
-        this.api.asc_OnSaveEnd(data.result);
-
-        if (data && data.result === false) {
-            const { t } = this.props;
-            const _t = t('Main', {returnObjects:true});
-
-            f7.dialog.alert(
-                (!data.message) ? _t.errorProcessSaveResult : data.message,
-                _t.criticalErrorTitle
-            );
-        }
     }
 
     onProcessRightsChange (data) {
@@ -1619,7 +1666,7 @@ class MainController extends Component {
             docInfo.put_Format(this.document.fileType);
             docInfo.put_Lang(this.editorConfig.lang);
             docInfo.put_Mode(this.editorConfig.mode);
-            docInfo.put_Permissions(this.permissions);
+            docInfo.put_Permissions(this.document.permissions);
             docInfo.put_DirectUrl(data.document && data.document.directUrl ? data.document.directUrl : this.document.directUrl);
             docInfo.put_VKey(data.document && data.document.vkey ?  data.document.vkey : this.document.vkey);
             docInfo.put_EncryptedInfo(data.editorConfig && data.editorConfig.encryptionKeys ? data.editorConfig.encryptionKeys : this.editorConfig.encryptionKeys);

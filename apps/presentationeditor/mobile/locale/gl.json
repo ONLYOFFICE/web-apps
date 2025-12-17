@@ -93,7 +93,6 @@
       "criticalErrorTitle": "Erro",
       "errorAccessDeny": "Está intentando realizar unha acción para a que non ten dereitos.<br>Por favor, contacte co seu admiinistrador.",
       "errorOpensource": "Usando a versión gratuíta da Comunidade, pode abrir documentos só para visualización. Para acceder editores da web móbil é necesaria unha licenza comercial.",
-      "errorProcessSaveResult": "Erro ao gardar.",
       "errorServerVersion": "A versión do editor foi actualizada. A páxina será recargada para aplicar os cambios.",
       "errorUpdateVersion": "Cambiouse a versión do ficheiro. A páxina será actualizada.",
       "leavePageText": "Ten cambiso non gardados neste documento. Prema en \"Quedarse nesta páxina\" para esperar ata que se garden automaticamente. Prema en \"Saír desta pa´xina\" para descartar todos os cambios non gardados.",

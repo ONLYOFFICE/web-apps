@@ -24,7 +24,7 @@
         </div>
         <div style="padding:10px 0 0 0;">
             <label class="input-label" style="width:12px;">#</label>
-            <input id="extended-text-color" type="text" role="textbox" style="width:67px;display:inline-block;" class="vertical-align-middle text-align-right">
+            <input id="extended-text-color" type="text" role="textbox" style="width:67px;display:inline-block;" class="vertical-align-middle">
         </div>
     </div>
 </div>

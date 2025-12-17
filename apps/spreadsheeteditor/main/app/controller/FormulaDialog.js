@@ -162,8 +162,8 @@ define([
 
         onLaunch: function () {
             this.formulasGroups = this.getApplication().getCollection('FormulaGroups');
-            SSE.Collections.formulasLangs = ['en', 'be', 'bg', 'ca', 'zh', 'cs', 'da', 'nl', 'fi', 'fr', 'de', 'el', 'hu', 'hy', 'id', 'it', 'ja',
-                                            'ko', 'lv', 'lo', 'nb', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sk', 'sl', 'sv', 'es', 'tr', 'uk', 'vi'];
+            SSE.Collections.formulasLangs = ['en', 'be', 'bg', 'ca', 'zh', 'zh-tw', 'cs', 'da', 'nl', 'fi', 'fr', 'de', 'el', 'hu', 'hy', 'id', 'it', 'ja',
+                                            'ko', 'lv', 'lo', 'nb', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sr', 'sr-cyrl', 'sk', 'sl', 'sv', 'es', 'tr', 'uk', 'vi'];
 
             var descriptions = ['Financial', 'Logical', 'TextAndData', 'DateAndTime', 'LookupAndReference', 'Mathematic', 'Cube', 'Database', 'Engineering',  'Information',
                  'Statistical', 'Last10'];
@@ -504,7 +504,7 @@ define([
                             allFunctions.push(func);
                         }
                         customFunctionsGroup.set('functions', _.sortBy(functions, function (model) {return model.get('name'); }));
-                        allFunctionsGroup.set('functions', _.sortBy(allFunctions, function (model) {return model.get('name'); }));
+                        allFunctionsGroup && allFunctionsGroup.set('functions', _.sortBy(allFunctions, function (model) {return model.get('name'); }));
                         break;
                     }
                 }
