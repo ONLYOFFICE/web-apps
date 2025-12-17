@@ -4805,7 +4805,7 @@
   "SSE.Views.Toolbar.textColumnWidth": "Column width",
   "SSE.Views.Toolbar.textAutoColumnWidth": "Auto fit column width",
   "SSE.Views.Toolbar.textCustomColumnWidth": "Custom column width",
-  "SSE.Views.Toolbar.textRenameSheet": "Rename Sheet",
+  "SSE.Views.Toolbar.textRenameSheet": "Rename sheet",
   "SSE.Views.Toolbar.textMoveCopySheet": "Move or copy sheet",
   "SSE.Views.Toolbar.textTabColor": "Tab color",
   "SSE.Views.Toolbar.textProtectSheet": "Protect sheet",
