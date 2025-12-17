@@ -511,11 +511,11 @@ define([
                 if (toolbar.btnFormatCell.rendered) {
                     toolbar.btnFormatCell.menu.on('show:before',            _.bind(this.onShowBeforeCellFormat, this, this.toolbar));
                     toolbar.btnFormatCell.menu.on('item:click',             _.bind(this.onCellFormatMenu, this));
-                    toolbar.btnFormatCell.menu.items[0].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
-                    toolbar.btnFormatCell.menu.items[1].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
-                    toolbar.btnFormatCell.menu.items[3].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
-                    toolbar.btnFormatCell.menu.items[4].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
-                    toolbar.btnFormatCell.menu.items[4].menu.items[2].menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+                    toolbar.mnuRowHeight.menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+                    toolbar.mnuColumnWidth.menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+                    toolbar.mnuHide.menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+                    toolbar.mnuShow.menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+                    toolbar.mnuShowSheets.menu.on('item:click', _.bind(this.onCellFormatMenu, this));
                     $('#id-toolbar-menu-new-color', this.toolbar.$el).on('click', _.bind(this.onNewTabColor, this)); 
                 }
                 toolbar.btnInsertChartRecommend.on('click',                 _.bind(this.onChartRecommendedClick, this));
