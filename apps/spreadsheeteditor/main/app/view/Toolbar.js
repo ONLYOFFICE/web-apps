@@ -3304,7 +3304,7 @@ define([
                             lock: [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set['FormatColumns']]
                         }),
                         {caption: '--'},
-                        {
+                        this.mnuHide = new Common.UI.MenuItem({
                             caption   : this.textHide,
                             menu      : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
@@ -3315,10 +3315,10 @@ define([
                                     this.mniHideCols = new Common.UI.MenuItem({ caption: this.textColumns, type: Asc.c_oAscCFType.cellIs, value: 'hideCell', isRowMenu: false,
                                       lock: [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set['FormatColumns']]
                                     }),
-                                    { caption: this.textSheet, type: Asc.c_oAscCFType.cellIs, value: 'hideSheet', isRowMenu: false }
+                                    this.mniHideSheets = new Common.UI.MenuItem({ caption: this.textSheet, type: Asc.c_oAscCFType.cellIs, value: 'hideSheet', isRowMenu: false })
                                 ]
                             })
-                        },
+                        }),
                         this.mnuShow = new Common.UI.MenuItem({
                             caption   : this.textShow,
                             menu      : new Common.UI.Menu({

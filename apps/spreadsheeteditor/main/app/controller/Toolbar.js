@@ -1767,8 +1767,8 @@ define([
                     issheetlocked = true;
             });
 
-            toolbar.btnFormatCell.menu.items[3].menu.items[2].setDisabled(issheetlocked || isdocprotected); // hide sheet
-            toolbar.btnFormatCell.menu.items[4].menu.items[2].setDisabled(isdoclocked || isdocprotected); // show sheet
+            toolbar.mniHideSheets.setDisabled(issheetlocked || isdocprotected); // hide sheet
+            toolbar.mnuShowSheets.setDisabled(isdoclocked || isdocprotected); // show sheet
             toolbar.btnFormatCell.menu.items[6].setDisabled(issheetlocked || isdocprotected); // rename sheet
             toolbar.btnFormatCell.menu.items[7].setDisabled(issheetlocked || isdocprotected); // move/copy sheet
             toolbar.btnFormatCell.menu.items[8].setDisabled(issheetlocked || isdocprotected); // tab color
@@ -1789,6 +1789,9 @@ define([
                     }))
                 })
             }
+
+            toolbar.mnuHide.setDisabled(toolbar.mniHideRows.isDisabled() && toolbar.mniHideCols.isDisabled() && toolbar.mniHideSheets.isDisabled());
+            toolbar.mnuShow.setDisabled(toolbar.mniShowRows.isDisabled() && toolbar.mniShowCols.isDisabled() && (hiddenItems.length<1 || toolbar.mnuShowSheets.isDisabled()));
         },
 
         onCellFormatMenu: function(menu, item, e) {
