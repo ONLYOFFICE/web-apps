@@ -554,21 +554,15 @@ define([], function () {
                 initMenu: function(value) {
                     var isMaster = value.isMaster;
                     var currentName = ''; 
-                    let locked = false;
                     var selectedElements = me.api.getSelectedElements();
                     if (selectedElements && _.isArray(selectedElements)) {
                         _.each(selectedElements, function(element) {
                             if (Asc.c_oAscTypeSelectElement.Slide == element.get_ObjectType()) {
                                 var elValue = element.get_ObjectValue();
                                 currentName = isMaster ? elValue.get_MasterName() : elValue.get_LayoutName();
-                                locked      = elValue.get_LockDelete();
                             }
                         });
                     }
-                    
-                    me.mnuSlideMasterCopy.setVisible(true);
-                    me.mnuSlideMasterCut.setVisible(true);
-                    me.mnuSlideMasterPaste.setVisible(true);
                     
                     me.mnuRenameMaster.setDisabled(currentName === undefined);
                     me.mnuRenameLayout.setDisabled(currentName === undefined);
@@ -584,9 +578,8 @@ define([], function () {
 
                     var cancopy = me.api && me.api.can_CopyCut();
                     
-                    me.mnuSlideMasterCut.setDisabled(!cancopy || (isMaster && !me.api.asc_CanDeleteMaster()) || (!isMaster && !me.api.asc_CanDeleteLayout()) || locked);
+                    me.mnuSlideMasterCut.setDisabled(!cancopy);
                     me.mnuSlideMasterCopy.setDisabled(!cancopy);
-                    me.mnuSlideMasterPaste.setDisabled(!cancopy);
                     isMaster && me.mnuDeleteMaster.setDisabled(!me.api.asc_CanDeleteMaster());
                     !isMaster && me.mnuDeleteLayout.setDisabled(!me.api.asc_CanDeleteLayout());
                 },
