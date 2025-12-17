@@ -567,6 +567,7 @@ define([], function () {
                     
                     me.mnuSlideMasterCopy.setVisible(true);
                     me.mnuSlideMasterCut.setVisible(true);
+                    me.mnuSlideMasterPaste.setVisible(true);
                     
                     me.mnuRenameMaster.setDisabled(currentName === undefined);
                     me.mnuRenameLayout.setDisabled(currentName === undefined);
