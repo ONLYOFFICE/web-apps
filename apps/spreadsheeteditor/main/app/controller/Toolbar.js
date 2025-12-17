@@ -1711,12 +1711,11 @@ define([
 
             let toolbar = this.toolbar,
                 color = null,
-                clr = null,
-                sindex = this.api.asc_getActiveWorksheetIndex();
+                clr = null;
 
             toolbar.mnuTabColorToolbarPicker.updateCustomColors();
 
-            color = this.api.asc_getWorksheetTabColor(sindex);
+            color = this.api.asc_getWorksheetTabColor(this.api.asc_getActiveWorksheetIndex());
             if (color) {
                 if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                     clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
