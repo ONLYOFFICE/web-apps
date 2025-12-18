@@ -2360,6 +2360,8 @@ define([], function () {
                                 '<tr><td class="padding-large"><div id="print-combo-orient" style="width: 150px;"></div></td></tr>',
                                 '<tr><td><label class="font-weight-bold"><%= scope.txtMargins %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-margins" style="width: 248px;"></div></td></tr>',
+                                '<tr><td><label class="font-weight-bold"><%= scope.txtContent %></label></td></tr>',
+                                '<tr><td class="padding-large"><div id="print-combo-content" style="width: 248px;"></div></td></tr>',
                                 '<tr><td class="padding-large"><label id="print-btn-system-dialog" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><span class="link"><%= scope.txtPrintUsingSystemDialog %></span></label></td></tr>',
                                 '<tr class="fms-btn-apply"><td>',
                                     '<div class="footer justify">',
@@ -2657,6 +2659,24 @@ define([], function () {
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
+
+            this.cmbContent = new Common.UI.ComboBox({
+                el: $markup.findById('#print-combo-content'),
+                menuStyle: 'min-width: 248px; max-height: 280px;',
+                editable: false,
+                takeFocusOnClose: true,
+                cls: 'input-group-nr',
+                data: [
+                    { value: AscPDF.PRINT_CONTENT_TYPES.doc, displayValue: this.txtDocument },
+                    { value: AscPDF.PRINT_CONTENT_TYPES.docAndMarkups, displayValue: this.txtDocumentAndMarkups },
+                    { value: AscPDF.PRINT_CONTENT_TYPES.docAndStamps, displayValue: this.txtDocumentAndStamps },
+                    { value: AscPDF.PRINT_CONTENT_TYPES.formsOnly, displayValue: this.txtFormFieldsOnly }
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbContent.setValue(AscPDF.PRINT_CONTENT_TYPES.doc);
 
             this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
             this.pnlTable = $(this.pnlSettings.find('table')[0]);
@@ -2979,6 +2999,11 @@ define([], function () {
         txtLandscape: 'Landscape',
         txtCustom: 'Custom',
         txtMargins: 'Margins',
+        txtContent: 'Content',
+        txtDocument: 'Document',
+        txtDocumentAndMarkups: 'Document and Markups',
+        txtDocumentAndStamps: 'Document and Stamps',
+        txtFormFieldsOnly: 'Form fields only',
         txtTop: 'Top',
         txtBottom: 'Bottom',
         txtLeft: 'Left',

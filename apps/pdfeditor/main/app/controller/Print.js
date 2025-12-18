@@ -92,6 +92,7 @@ define([
             this.printSettings.cmbPaperSize.on('selected', _.bind(this.onPaperSizeSelect, this));
             this.printSettings.cmbPaperOrientation.on('selected', _.bind(this.onPaperOrientSelect, this));
             this.printSettings.cmbPaperMargins.on('selected', _.bind(this.onPaperMarginsSelect, this));
+            this.printSettings.cmbContent.on('selected', _.bind(this.onContentSelect, this));
             this.printSettings.cmbRange.on('selected', _.bind(this.comboRangeChange, this));
             this.printSettings.inputPages.on('changing', _.bind(this.inputPagesChanging, this));
             this.printSettings.inputPages.validation = function(value) {
@@ -136,7 +137,7 @@ define([
 
             Common.NotificationCenter.on('window:resize', _.bind(function () {
                 if (this._isPreviewVisible) {
-                    this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
+                    this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._state.content);
                 }
             }, this));
             Common.NotificationCenter.on('margins:update', _.bind(this.onUpdateLastCustomMargins, this));
@@ -280,7 +281,7 @@ define([
             if (this._navigationPreview.currentPreviewPage > count - 1) {
                 this._navigationPreview.currentPreviewPage = Math.max(0, count - 1);
                 if (this.printSettings && this.printSettings.isVisible()) {
-                    this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
+                    this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._state.content);
                     this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, count);
                 }
             }
@@ -289,7 +290,7 @@ define([
         onCurrentPage: function(number) {
             this._navigationPreview.currentPreviewPage = number;
             if (this.printSettings && this.printSettings.isVisible()) {
-                this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
+                this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._state.content);
                 this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
             }
         },
@@ -308,7 +309,8 @@ define([
             this.api.asc_initPrintPreview('print-preview', opts);
 
             this._navigationPreview.currentPreviewPage = this._navigationPreview.currentPage = this.api.getCurrentPage();
-            this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
+            this._state.content = this.printSettings.cmbContent.getValue();
+            this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._state.content);
             this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
             this.SetDisabled();
             this._isPreviewVisible = true;
@@ -385,6 +387,11 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete');
+        },
+
+        onContentSelect: function(combo, record) {
+            this._state.content = record.value;
+            this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._state.content);
         },
 
         onUpdateLastCustomMargins: function(props) {
@@ -571,6 +578,7 @@ define([
                     preset: size ? this.findPagePreset(size['W'], size['H']) : undefined
                 },
                 paperOrientation: size ? (size['H'] > size['W'] ? 'portrait' : 'landscape') : null,
+                content: this.printSettings.cmbContent.getValue(),
                 copies: this.printSettings.spnCopies.getNumberValue() || 1,
                 sides: this.printSettings.cmbSides.getValue()
             });
