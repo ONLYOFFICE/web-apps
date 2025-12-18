@@ -29,4 +29,10 @@ export class storeToolbarSettings {
     setCountPages(count) {
         this.countPages = count;
     }
+
+    isShowBack = false;
+
+    setShowBack = (value) => {
+        this.isShowBack = !!value;
+    };
 }
