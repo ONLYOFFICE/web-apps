@@ -2,10 +2,13 @@
     position: relative;
     width: 30px;
     height: 16px;
-    background-color: @border-preview-hover-ie;
-    background-color: @border-preview-hover;
+    background-color: @background-normal-ie;
+    background-color: @background-normal;
     border-radius: 11px;
     cursor: pointer;
+    border: 1px solid @--chb-border-normal-ie;
+    border: 1px solid @--chb-border-normal;
+    box-sizing: initial;
 
     .thumb {
         position: absolute;
@@ -14,17 +17,21 @@
         top: 0;
         height: 12px;
         border-radius: 12px;
-        background-color: @background-normal-ie;
-        background-color: @background-normal;
+        background-color: @chb-border-normal-ie;
+        background-color: @chb-border-normal;
         margin: 2px;
     }
 
     &.on {
         background-color: @background-primary-dialog-button-ie;
         background-color: @background-primary-dialog-button;
+        border: @background-primary-dialog-button-ie;
+        border: @background-primary-dialog-button;
         .thumb {
             right: 0;
             left: auto;
+            background-color: @background-normal-ie;
+            background-color: @background-normal;
         }
     }
 
