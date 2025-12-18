@@ -558,7 +558,7 @@ define([
                 orientationOption = (this.printSettings.cmbPaperOrientation ? this.printSettings.cmbPaperOrientation.getSelectedRecord() : null),
                 orientation = orientationOption && orientationOption.value === 'auto'
                     ? 'auto'
-                    :  pageSetup.asc_getOrientation(),
+                    :  (!pageSetup.asc_getOrientation() ? 'portrait' : 'landscape'),
                 printerOption = (this.printSettings.cmbPrinter ? this.printSettings.cmbPrinter.getSelectedRecord() : null),
                 colorPrintingValue = this.printSettings.cmbColorPrinting
                     ? this.printSettings.cmbColorPrinting.getValue()
@@ -573,7 +573,7 @@ define([
                     h: size[1],
                     preset: this.findPagePreset(this.printSettings, size[0], size[1])
                 },
-                paperOrientation: !orientation ? 'portrait' : 'landscape',
+                paperOrientation: orientation,
                 copies: this.printSettings.spnCopies ? this.printSettings.spnCopies.getNumberValue() || 1 : 1,
                 sides: this.printSettings.cmbSides ? this.printSettings.cmbSides.getValue() : 'one'
             });
