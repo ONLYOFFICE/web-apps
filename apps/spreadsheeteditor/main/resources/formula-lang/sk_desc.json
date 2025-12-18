@@ -2407,5 +2407,20 @@
 	"IMPORTRANGE": {
 		"a": "(webová_adresa_tabuľky, reťazec_rozsahu)",
 		"d": "Importuje rozsah buniek zo zadanej tabuľky."
+	},
+	"REGEXTEST": {
+		"a": "(text; vzor; [veľkosť_písmen])",
+		"d": "Skontroluje, či sa vstup zhoduje so vzorom, a vráti hodnotu TRUE alebo FALSE",
+		"ad": "Ide o text, v ktorom hľadáte!Regulárny výraz, ktorý sa má použiť!Určuje, či sa v zhode rozlišujú malé a veľké písmená"
+	},
+	"REGEXREPLACE": {
+		"a": "(text; vzor; náhrada; [výskyt]; [veľkosť_písmen])",
+		"d": "Vráti text s náhradou namiesto zhody so vzorom",
+		"ad": "Text, v rámci ktorý hľadáte!Regulárny výraz, ktorý sa má použiť!Reťazec, ktorý nahradí zodpovedajúci podreťazec v texte. Kde sa v reťazci zobrazí $n, pričom $n je celé číslo, $n sa nahradí n-tou skupinou záznamu!Určuje, ktorý výskyt sa má nahradiť. Ak je hodnota 0, nahradia sa všetky výskyty. Záporná hodnota znamená, že ide o počet výskytov od konca textu.!Určuje, či sa v zhode rozlišujú malé a veľké písmená"        
+	},
+	"REGEXEXTRACT": {
+		"a": "(text; vzor; [režim_návratu]; [veľkosť_písmen])",
+		"d": "Extrahuje podreťazce textu na základe poskytnutého vzoru REGEX",
+		"ad": "ide o text, v ktorom hľadáte! Regulárny výraz, ktorý sa má použiť! Zadajte, ktoré zhody sa majú vrátiť!Určuje, či sa v zhode rozlišujú malé a veľké písmená"
 	}
 }

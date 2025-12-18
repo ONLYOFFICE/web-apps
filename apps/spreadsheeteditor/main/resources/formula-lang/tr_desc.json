@@ -2408,5 +2408,20 @@
 		"a": "(e-tablo_url'si; aralık_dizesi)",
 		"d": "Belirtilen bir e-tablodan bir hücre aralığını içe aktarır.",
 		"ad": "Verilerin içe aktarılacağı e-tablonun URL'si!aktarılacak aralığı belirten bir dize"
+	},
+	"REGEXTEST": {
+		"a": "(text; pattern; [büyük_küçük_harf_duyarlılığı])",
+		"d": "Girdinin desenle eşleşip eşleşmediğini kontrol eder ve DOĞRU veya YANLIŞ olarak döndürür",
+		"ad": "İçinde aradığınız metindir!Uygulanacak normal ifadedir!Eşleşmenin büyük/küçük harf duyarlılığını ifade eder"
+	},
+	"REGEXREPLACE": {
+		"a": "(text; pattern; replacement; [occurrence]; [büyük_küçük_harf_duyarlılığı])",
+		"d": "Komutu, \"metni\" \"desen\" eşleşmelerinin yerine \"değiştirme\" olarak döndürür",
+		"ad": "İçinde arama yaptığınız metin!Uygulanacak normal ifade!Metinde eşleşen alt dizenin yerini alan dize. Dizede $n ifadesinin gözüktüğü yerde, $n ifadesinin tamsayı olduğu yerde, $n ifadesi N. yakalama grubuyla değiştirilir!Değiştirilecek oluşum. 0 ise tüm oluşumlar değiştirilir. Negatif değer, metin sonundaki oluşum sayısını belirtir.!Eşleşmenin büyük/küçük harf duyarlılığını ifade eder"        
+	},
+	"REGEXEXTRACT": {
+		"a": "(text; pattern; [return_mode]; [büyük_küçük_harf_duyarlılığı])",
+		"d": "Sağlanan NORMAL İFADE \"desenine\" göre \"metin\" alt dizelerini ayıklar",
+		"ad": "İçinde aradığınız metindir!Uygulanacak normal ifadedir!Hangi eşleşmelerin döndürüleceğini belirtir!Eşleşmenin büyük/küçük harf duyarlılığını ifade eder"
 	}
 }
