@@ -270,9 +270,9 @@ define([], function () {
                         selectedFirst = me.api.asc_IsFirstSlideSelected();
                     me.menuSlideCopy.setVisible(value.fromThumbs===true && value.isSlideSelect===true);
                     me.menuSlideCut.setVisible(value.fromThumbs===true && value.isSlideSelect===true);
-                    me.menuSlidePaste.setVisible(value.fromThumbs===true && value.isSlideSelect===true);
-                    me.slideMenu.items[3].setVisible(value.fromThumbs===true && value.isSlideSelect===true);
-                     // New Slide
+                    me.menuSlidePaste.setVisible(value.fromThumbs===true);
+                    me.slideMenu.items[3].setVisible(value.fromThumbs===true);
+                    me.mnuNewSlide.setVisible(value.fromThumbs===true); // New Slide
                     me.mnuDuplicateSlide.setVisible(value.isSlideSelect===true); // Duplicate Slide
                     me.mnuDeleteSlide.setVisible(value.isSlideSelect===true);
                     me.mnuSlideHide.setVisible(value.isSlideSelect===true);
