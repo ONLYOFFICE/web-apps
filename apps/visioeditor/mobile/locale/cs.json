@@ -120,7 +120,8 @@
     "unknownErrorText": "Neznámá chyba.",
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Žádné obrázky nenahrány.",
-    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB."
+    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "Načítání dat...",
@@ -211,7 +212,8 @@
       "textVersion": "Verze",
       "textVisioInfo": "Prohlížeč diagramů - Informace",
       "textVisioSettings": "Prohlížeč diagramů - Nastavení",
-      "textVisioTitle": "Prohlížeč diagramů - Název"
+      "textVisioTitle": "Prohlížeč diagramů - Název",
+      "textOpenLocation": "Open location"
     }
   }
 }

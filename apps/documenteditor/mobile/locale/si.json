@@ -421,6 +421,9 @@
     "textCapitalization": "Capitalization",
     "textCellOptions": "Cell options",
     "textCellSize": "Rows & columns size",
+    "textLtrTextDirection": "Left-to-right",
+    "textRtlTextDirection": "Right-to-left",
+    "textTextDirection": "Text Direction",
     "textWrapText": "Wrap Text",
     "txtHeight": "Height",
     "txtWidth": "Width"
@@ -488,7 +491,8 @@
     "uploadDocSizeMessage": "ලේඛනයක උපරිම ප්‍රමාණයේ සීමාව ඉක්මවිය.",
     "uploadImageExtMessage": "නොදන්නා රූප ආකෘතියකි.",
     "uploadImageFileCountMessage": "රූප කිසිවක් උඩුගත කර නැත.",
-    "uploadImageSizeMessage": "රූපය ඉතා විශාලයි. උපරිම ප්‍රමාණය මෙ.බ. 25 කි."
+    "uploadImageSizeMessage": "රූපය ඉතා විශාලයි. උපරිම ප්‍රමාණය මෙ.බ. 25 කි.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "දත්ත පූරණය වෙමින්...",
@@ -818,7 +822,9 @@
     "txtDownloadTxt": "TXT බාගන්න",
     "txtIncorrectPwd": "මුරපදය සාවද්‍යයි",
     "txtOk": "හරි",
-    "txtProtected": "ඔබ මුරපදය ඇතුල් කර ගොනුව විවෘත කළ පසු, වත්මන් මුරපදය යළි සැකසෙනු ඇත"
+    "txtProtected": "ඔබ මුරපදය ඇතුල් කර ගොනුව විවෘත කළ පසු, වත්මන් මුරපදය යළි සැකසෙනු ඇත",
+    "textHyphenation": "Hyphenation",
+    "textOpenLocation": "Open location"
   },
   "Toolbar": {
     "btnRestartNow": "යළි අරඹන්න",

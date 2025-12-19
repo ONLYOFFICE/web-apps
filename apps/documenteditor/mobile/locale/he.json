@@ -259,6 +259,7 @@
     "textBackground": "רקע",
     "textBandedColumn": "עמודות בדוגמה מפוספסת",
     "textBandedRow": "שורות בדוגמה מפוספסת",
+    "textBaseline": "קו הבסיס",
     "textBefore": "לפני",
     "textBehind": "מאחורי המלל",
     "textBorder": "גבול",
@@ -267,6 +268,8 @@
     "textBulletsAndNumbers": "תבליטים ומספרים",
     "textCancel": "ביטול",
     "textCellMargins": "שולי התא",
+    "textCellOptions": "אפשרויות תא",
+    "textCellSize": "גודל שורות ועמודות",
     "textCentered": "מרכז",
     "textChangeShape": "שינוי הצורה",
     "textChart": "תרשים",
@@ -416,14 +419,14 @@
     "textWe": "אנחנו",
     "textWrap": "עטיפת מילים",
     "textWrappingStyle": "סגנון עטיפת המלל",
+    "textWrapText": "גלישת טקסט",
     "textYourOption": "האפשרות שלך",
-    "textBaseline": "Baseline",
+    "txtHeight": "גובה",
+    "txtWidth": "רוחב",
     "textCapitalization": "Capitalization",
-    "textCellOptions": "Cell options",
-    "textCellSize": "Rows & columns size",
-    "textWrapText": "Wrap Text",
-    "txtHeight": "Height",
-    "txtWidth": "Width"
+    "textLtrTextDirection": "Left-to-right",
+    "textRtlTextDirection": "Right-to-left",
+    "textTextDirection": "Text Direction"
   },
   "Error": {
     "convertationTimeoutText": "ההמרה חרגה מהזמן הקצוב.",
@@ -488,7 +491,8 @@
     "uploadDocSizeMessage": "חריגה ממגבלת הגודל המירבי של מסמך.",
     "uploadImageExtMessage": "פורמט תמונה לא ידוע.",
     "uploadImageFileCountMessage": "לא הועלו תמונות.",
-    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט."
+    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "טעינת נתונים...",
@@ -665,6 +669,7 @@
     "titleLicenseNotActive": "הרישיון לא פעיל",
     "titleServerVersion": "העורך עודכן",
     "titleUpdateVersion": "הגרסה השתנתה",
+    "txtSignedForm": "מסמך זה נחתם ואי אפשר לעורכו.",
     "warnDownloadAsPdf": "ה-{0} שלך יומר לפורמט הניתן לעריכה. הפעולה עשויה להימשך זמן מה. המסמך שיתקבל יהיה מותאם לאפשר לך לערוך את המלל, אך ייתכן שהוא לא ייראה בדיוק כמו המקור {0}, במיוחד אם מסמך המקור הכיל הרבה גרפיקה.",
     "warnLicenseAnonymous": " הגישה למשתמשים בלתי מזוהים נדחתה.<br>המסמך ייפתח לצפייה בלבד.",
     "warnLicenseBefore": "הרישיון לא פעיל.<br> נא ליצור קשר עם מנהל המערכת שלך.",
@@ -676,8 +681,7 @@
     "warnProcessRightsChange": "אין לך הרשאה לערוך קובץ זה.",
     "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
     "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-    "titleReadOnly": "Read-Only Mode",
-    "txtSignedForm": "This document has been signed and cannot be edited."
+    "titleReadOnly": "Read-Only Mode"
   },
   "Settings": {
     "advDRMOptions": "קובץ מוגן",
@@ -818,7 +822,9 @@
     "txtDownloadTxt": "הורדת TXT",
     "txtIncorrectPwd": "הסיסמה שגויה",
     "txtOk": "אישור",
-    "txtProtected": "לאחר הזנת הסיסמה ופתיחת הקובץ, הסיסמה הנוכחית תאופס"
+    "txtProtected": "לאחר הזנת הסיסמה ופתיחת הקובץ, הסיסמה הנוכחית תאופס",
+    "textHyphenation": "Hyphenation",
+    "textOpenLocation": "Open location"
   },
   "Toolbar": {
     "btnRestartNow": "הפעל מחדש עכשיו",

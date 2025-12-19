@@ -369,6 +369,7 @@
     "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da.",
     "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
     "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
     "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled.",
     "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
@@ -721,12 +722,16 @@
       "textAllCaps": "All Caps",
       "textBaseline": "Baseline",
       "textCapitalization": "Capitalization",
+      "textContextTextDirection": "Context",
       "textDoubleStrikethrough": "Double Strikethrough",
       "textLetterSpacing": "Letter spacing",
+      "textLtrTextDirection": "Left-to-right",
+      "textRtlTextDirection": "Right-to-left",
       "textSmallCaps": "Small Caps",
       "textStrikethrough": "Strikethrough",
       "textSubscript": "Subscript",
-      "textSuperscript": "Superscript"
+      "textSuperscript": "Superscript",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "advCSVOptions": "Hautatu CSV aukerak",
@@ -881,10 +886,12 @@
       "txtZh": "Txinera",
       "warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br> Ziur zaude aurrera jarraitu nahi duzula?",
       "textClose": "Close",
+      "textSheetRtl": "Sheet Right to left",
       "txtSr": "Serbian (Latin)",
       "txtSrcyrl": "Serbian (Cyrillic)",
       "txtZhtw": "Chinese (Traditional)",
       "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+      "textOpenLocation": "Open location",
       "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
     }
   },

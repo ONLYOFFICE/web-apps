@@ -120,7 +120,8 @@
     "uploadImageExtMessage": "Непознати формат слике.",
     "uploadImageFileCountMessage": "Нема отпремљених слика.",
     "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "Учитавање података...",
@@ -211,7 +212,8 @@
       "textVisioInfo": "Информације о прегледачу дијаграма",
       "textVisioSettings": "Подешавања прегледача дијаграма",
       "textVisioTitle": "Наслов прегледача дијаграма",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textOpenLocation": "Open location"
     }
   }
 }

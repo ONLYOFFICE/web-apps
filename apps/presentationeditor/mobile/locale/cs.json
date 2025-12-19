@@ -83,7 +83,8 @@
     "textDoNotShowAgain": "Nezobrazovat znovu",
     "textOk": "OK",
     "textRows": "Řádky",
-    "txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data. Toto umístění může být nebezpečné:<br>{0}<br>Jste si jistí, že chcete pokračovat?"
+    "txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data. Toto umístění může být nebezpečné:<br>{0}<br>Jste si jistí, že chcete pokračovat?",
+    "menuDuplicate": "Duplicate"
   },
   "Controller": {
     "Main": {
@@ -240,7 +241,8 @@
     "unknownErrorText": "Neznámá chyba.",
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Žádné obrázky nenahrány.",
-    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB."
+    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "Načítání dat...",
@@ -500,7 +502,12 @@
       "textZoomOut": "Oddálit",
       "textZoomRotate": "Přiblížit a otočit",
       "txtHeight": "Výška",
-      "txtWidth": "Šířka"
+      "txtWidth": "Šířka",
+      "textBackground": "Background",
+      "textLtrTextDirection": "Left-to-right",
+      "textResetBackground": "Reset background",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "mniSlideStandard": "Standardní (4:3)",
@@ -568,7 +575,9 @@
       "textUnitOfMeasurement": "Zobrazovat hodnoty v jednotkách",
       "textUploaded": "Nahráno",
       "textVersion": "Verze",
-      "textVersionHistory": "Historie verzí"
+      "textVersionHistory": "Historie verzí",
+      "textLoopSlideshow": "Loop slideshow",
+      "textOpenLocation": "Open location"
     }
   }
 }

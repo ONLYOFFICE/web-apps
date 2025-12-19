@@ -120,7 +120,8 @@
     "uploadImageExtMessage": "تنسيق الصورة غير معروف.",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
     "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "جار تحميل البيانات...",
@@ -211,7 +212,8 @@
       "textVersion": "الإصدار",
       "textVisioInfo": "معلومات عارض المخططات",
       "textVisioSettings": "إعدادات عارض المخططات",
-      "textVisioTitle": "عنوان عارض المخططات"
+      "textVisioTitle": "عنوان عارض المخططات",
+      "textOpenLocation": "Open location"
     }
   }
 }

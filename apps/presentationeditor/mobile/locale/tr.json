@@ -83,7 +83,8 @@
     "textDoNotShowAgain": "Tekrar gösterme",
     "textOk": "Tamam",
     "textRows": "Satırlar",
-    "txtWarnUrl": "Bu bağlantıyı tıklamak cihazınıza ve verilerinize zarar verebilir.<br>Devam etmek istediğinizden emin misiniz?"
+    "txtWarnUrl": "Bu bağlantıyı tıklamak cihazınıza ve verilerinize zarar verebilir.<br>Devam etmek istediğinizden emin misiniz?",
+    "menuDuplicate": "Duplicate"
   },
   "Controller": {
     "Main": {
@@ -234,6 +235,7 @@
     "uploadImageFileCountMessage": "Resim yüklenmedi.",
     "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir.",
     "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
@@ -490,9 +492,14 @@
       "textZoomIn": "Yakınlaştır",
       "textZoomOut": "Uzaklaştır",
       "textZoomRotate": "Büyüt ve Döndür",
+      "textBackground": "Background",
       "textBaseline": "Baseline",
       "textCapitalization": "Capitalization",
       "textCellSize": "Cell size",
+      "textLtrTextDirection": "Left-to-right",
+      "textResetBackground": "Reset background",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction",
       "txtHeight": "Height",
       "txtWidth": "Width"
     },
@@ -562,7 +569,9 @@
       "textUnitOfMeasurement": "Ölçüm birimi",
       "textUploaded": "Yüklendi",
       "textVersion": "Sürüm",
-      "textVersionHistory": "Sürüm Geçmişi "
+      "textVersionHistory": "Sürüm Geçmişi ",
+      "textLoopSlideshow": "Loop slideshow",
+      "textOpenLocation": "Open location"
     }
   },
   "Draw": {

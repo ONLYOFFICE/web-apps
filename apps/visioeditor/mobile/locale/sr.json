@@ -83,6 +83,7 @@
     "errorAccessDeny": "Pokušavate da izvršite radnju za koju nemate prava.<br>Molimo kontaktirajte svog administratora.",
     "errorBadImageUrl": "URL slike je netačan",
     "errorConnectToServer": "Ne može da se sačuva ovaj dokument. Proverite vaša podešavanja konekcije ili kontaktirajte vašeg admina.<br>Kada kliknete na \"OK\" dugme, bićete podstaknuti da preuzmete dokument.",
+    "errorCopyDisabled": "Zbog sigurnosnih razloga, sadržaj ovog dokumenta ne može biti kopiran.",
     "errorDatabaseConnection": "Spoljašnja greška.<br>Greška u konekciji sa bazom podataka. Molimo, kontaktirajte podršku.",
     "errorDataEncrypted": "Šifrovane promene su primljene, ali ne mogu biti dešifrovane.",
     "errorDataRange": "Neispravan opseg podataka.",
@@ -211,7 +212,8 @@
       "textVersion": "Verzija",
       "textVisioInfo": "Informacije o pregledaču dijagrama",
       "textVisioSettings": "Podešavanja pregledača dijagrama",
-      "textVisioTitle": "Naslov pregledača dijagrama"
+      "textVisioTitle": "Naslov pregledača dijagrama",
+      "textOpenLocation": "Open location"
     }
   }
 }

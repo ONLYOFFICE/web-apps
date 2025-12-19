@@ -421,6 +421,9 @@
     "textCapitalization": "Capitalization",
     "textCellOptions": "Cell options",
     "textCellSize": "Rows & columns size",
+    "textLtrTextDirection": "Left-to-right",
+    "textRtlTextDirection": "Right-to-left",
+    "textTextDirection": "Text Direction",
     "textWrapText": "Wrap Text",
     "txtHeight": "Height",
     "txtWidth": "Width"
@@ -488,7 +491,8 @@
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
     "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "Memuat data...",
@@ -818,7 +822,9 @@
     "txtIncorrectPwd": "Password salah",
     "txtOk": "OK",
     "txtProtected": "Jika Anda memasukkan password dan membuka file, password file saat ini akan di reset.",
-    "textDrawing": "Drawing"
+    "textDrawing": "Drawing",
+    "textHyphenation": "Hyphenation",
+    "textOpenLocation": "Open location"
   },
   "Toolbar": {
     "btnRestartNow": "Restart sekarang",

@@ -120,7 +120,8 @@
     "unknownErrorText": "不明なエラー",
     "uploadImageExtMessage": "不明な画像形式です。",
     "uploadImageFileCountMessage": "アップロードした画像なし",
-    "uploadImageSizeMessage": "画像サイズの上限を超えました。サイズの上限は25MBです。"
+    "uploadImageSizeMessage": "画像サイズの上限を超えました。サイズの上限は25MBです。",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "データを読み込んでいます...",
@@ -211,7 +212,8 @@
       "textVersion": "バージョン",
       "textVisioInfo": "図表ビューア情報",
       "textVisioSettings": "図表ビューアの設定",
-      "textVisioTitle": "図表ビューアのタイトル"
+      "textVisioTitle": "図表ビューアのタイトル",
+      "textOpenLocation": "Open location"
     }
   }
 }

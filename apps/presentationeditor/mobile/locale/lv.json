@@ -83,7 +83,8 @@
     "textDoNotShowAgain": "Nerādīt vēlreiz",
     "textOk": "OK",
     "textRows": "Rindas",
-    "txtWarnUrl": "Noklikšķinot uz šīs saites var kaitēt jūsu ierīcei un datiem.<br>Vai tiešām vēlaties turpināt?"
+    "txtWarnUrl": "Noklikšķinot uz šīs saites var kaitēt jūsu ierīcei un datiem.<br>Vai tiešām vēlaties turpināt?",
+    "menuDuplicate": "Duplicate"
   },
   "Controller": {
     "Main": {
@@ -230,6 +231,7 @@
     "uploadImageSizeMessage": "Attēls ir pārāk liels. Maksimālais izmērs ir 25 MB.",
     "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorComboSeries": "To create a combination chart, select at least two series of data.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
     "errorEmailClient": "No email client could be found",
     "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
@@ -484,14 +486,19 @@
       "textZoomIn": "Palielināt",
       "textZoomOut": "Samazināt",
       "textZoomRotate": "Palielināt un rotēt",
+      "textBackground": "Background",
       "textBaseline": "Baseline",
       "textCapitalization": "Capitalization",
       "textCellSize": "Cell size",
       "textHorizontalText": "Horizontal Text",
       "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textLtrTextDirection": "Left-to-right",
       "textMorph": "Morph",
+      "textResetBackground": "Reset background",
       "textRotateTextDown": "Rotate Text Down",
       "textRotateTextUp": "Rotate Text Up",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction",
       "textTextOrientation": "Text Orientation",
       "txtHeight": "Height",
       "txtWidth": "Width"
@@ -561,8 +568,10 @@
       "textClose": "Close",
       "textDark": "Dark",
       "textLight": "Light",
+      "textLoopSlideshow": "Loop slideshow",
       "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "textTheme": "Theme",
+      "textOpenLocation": "Open location"
     }
   },
   "Draw": {
