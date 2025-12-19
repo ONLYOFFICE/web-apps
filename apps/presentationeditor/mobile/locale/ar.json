@@ -83,7 +83,8 @@
     "textDoNotShowAgain": "عدم الإظهار مجدداً",
     "textOk": "موافق",
     "textRows": "صفوف",
-    "txtWarnUrl": "قد يؤدي النقر على هذا الرابط إلى الإضرار بجهازك وبياناتك.<br>هل أنت متأكد من رغبتك في المتابعة؟"
+    "txtWarnUrl": "قد يؤدي النقر على هذا الرابط إلى الإضرار بجهازك وبياناتك.<br>هل أنت متأكد من رغبتك في المتابعة؟",
+    "menuDuplicate": "Duplicate"
   },
   "Controller": {
     "Main": {
@@ -240,7 +241,8 @@
     "uploadImageExtMessage": "امتداد صورة غير معروف",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
     "uploadImageSizeMessage": "الصورة كبيرة جدًا. الحد الأقصى للحجم هو 25 ميغابايت.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "جار تحميل البيانات...",
@@ -496,9 +498,14 @@
       "textZoomIn": "تكبير",
       "textZoomOut": "تصغير",
       "textZoomRotate": "التكبير و التدوير",
+      "textBackground": "Background",
       "textBaseline": "Baseline",
       "textCapitalization": "Capitalization",
       "textCellSize": "Cell size",
+      "textLtrTextDirection": "Left-to-right",
+      "textResetBackground": "Reset background",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction",
       "txtHeight": "Height",
       "txtWidth": "Width"
     },
@@ -568,7 +575,9 @@
       "textUnitOfMeasurement": "وحدة القياس",
       "textUploaded": "تم الرفع",
       "textVersion": "الإصدار",
-      "textVersionHistory": "سجل الإصدارات"
+      "textVersionHistory": "سجل الإصدارات",
+      "textLoopSlideshow": "Loop slideshow",
+      "textOpenLocation": "Open location"
     }
   }
 }

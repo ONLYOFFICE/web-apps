@@ -3548,5 +3548,14 @@
   "PE.Views.ViewTab.tipResumeMacro": "Resume recording",
   "PE.Views.ViewTab.tipSelectTool": "Ընտրել գործիք",
   "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.ViewTab.tipStopMacro": "Stop recording"
+  "PE.Views.ViewTab.tipStopMacro": "Stop recording",
+  "PE.Controllers.Main.errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
+  "PE.Views.DocumentHolder.AlignBottom": "Bottom",
+  "PE.Views.DocumentHolder.AlignCenter": "Center",
+  "PE.Views.DocumentHolder.AlignJust": "Justify",
+  "PE.Views.DocumentHolder.AlignLeft": "Left",
+  "PE.Views.DocumentHolder.AlignMiddle": "Middle",
+  "PE.Views.DocumentHolder.AlignRight": "Right",
+  "PE.Views.DocumentHolder.AlignText": "Text alignment",
+  "PE.Views.DocumentHolder.AlignTop": "Top"
 }

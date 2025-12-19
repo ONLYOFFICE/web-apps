@@ -379,7 +379,8 @@
     "uploadDocSizeMessage": "Փաստաթղթի չափի առավելագույն սահմանաչափը գերազանցվել է:",
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
-    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:"
+    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "advDRMPassword": "Գաղտնաբառ",
@@ -732,7 +733,11 @@
       "textYen": "Յուան",
       "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
       "txtSortHigh2Low": "Տեսակավորել բարձրից ցածր:",
-      "txtSortLow2High": "Տեսակավորել ցածրից բարձր:"
+      "txtSortLow2High": "Տեսակավորել ցածրից բարձր:",
+      "textContextTextDirection": "Context",
+      "textLtrTextDirection": "Left-to-right",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "advCSVOptions": "Ընտրել CSV-ի հարաչափերը",
@@ -891,6 +896,8 @@
       "txtZhtw": "Չինարեն (Ավանդական)",
       "warnDownloadAs": "Եթե շարունակեք պահպանումն այս ձևաչափով, բոլոր հատկությունները՝ տեքստից բացի, կկորչեն։<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:",
       "warnDownloadCsv": "CSV ֆորմատը չի աջակցում բազմաթերթ փաստաթուղթ պահպանելուն և բոլոր տարրերին, բացառությամբ տեքստի։<br>Մեկ թերթիկը միայն CSV ֆորմատով պահպանելու համար սեղմեք ԼԱՎ։<br>Ամբողջ աղյուսակն ու բոլոր ֆունկցիաները պահպանելու համար սեղմեք Չեղարկել և ընտրեք այլ ֆորմատ։",
+      "textSheetRtl": "Sheet Right to left",
+      "textOpenLocation": "Open location",
       "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
     }
   }

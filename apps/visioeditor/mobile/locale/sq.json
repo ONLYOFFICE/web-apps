@@ -83,6 +83,7 @@
     "errorAccessDeny": "Ju po mundoheni të performoni një veprim për të cilin nuk keni të drejta.<br>Ju lutem kontaktoni administratorin tuaj.",
     "errorBadImageUrl": "Fotoja URL është jo i saktë",
     "errorConnectToServer": "Nuk mundesh ta ruash këtë dokument. Kontrrollo cilësimet e lidhjes tuaj dhe kontakto administratorin tuaj.<br>Kur shtypni butonin'OK', do të nxiteni të shkarkoni dokumentin. ",
+    "errorCopyDisabled": "Për arsye sigurie, përmbajtja e këtij dokumenti nuk mund të kopjohet.",
     "errorDatabaseConnection": "Gabim i jashtëm.<br>Gabim ne lidhjen me bazën e të dhënave. Ju lutem, kontaktoni suportin.",
     "errorDataEncrypted": "Ndryshimet e koduara janë marrë, ato nuk mund të deshifrohen.",
     "errorDataRange": "Intervali i të dhënave është gabim",
@@ -211,7 +212,8 @@
       "textVersion": "Version",
       "textVisioInfo": "Info Visio",
       "textVisioSettings": "Cilësimet e Visio",
-      "textVisioTitle": "Titulli i Visio"
+      "textVisioTitle": "Titulli i Visio",
+      "textOpenLocation": "Open location"
     }
   }
 }

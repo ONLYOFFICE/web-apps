@@ -3548,5 +3548,14 @@
   "PE.Views.ViewTab.tipResumeMacro": "ریکارڈنگ دوبارہ شروع کریں۔",
   "PE.Views.ViewTab.tipSelectTool": "ٹول منتخب کریں۔",
   "PE.Views.ViewTab.tipSlideMaster": "سلائیڈ ماسٹر",
-  "PE.Views.ViewTab.tipStopMacro": "ریکارڈنگ بند کرو"
+  "PE.Views.ViewTab.tipStopMacro": "ریکارڈنگ بند کرو",
+  "PE.Controllers.Main.errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
+  "PE.Views.DocumentHolder.AlignBottom": "Bottom",
+  "PE.Views.DocumentHolder.AlignCenter": "Center",
+  "PE.Views.DocumentHolder.AlignJust": "Justify",
+  "PE.Views.DocumentHolder.AlignLeft": "Left",
+  "PE.Views.DocumentHolder.AlignMiddle": "Middle",
+  "PE.Views.DocumentHolder.AlignRight": "Right",
+  "PE.Views.DocumentHolder.AlignText": "Text alignment",
+  "PE.Views.DocumentHolder.AlignTop": "Top"
 }

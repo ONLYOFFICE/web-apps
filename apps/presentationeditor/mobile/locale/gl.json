@@ -83,7 +83,8 @@
     "textDoNotShowAgain": "Non amosar de novo",
     "textOk": "Aceptar",
     "textRows": "Filas",
-    "txtWarnUrl": "Prema nesta ligazón pode ser prexudicial para o seu dispositivo e os seus datos.<br> Ten a certeza de que quere continuar?"
+    "txtWarnUrl": "Prema nesta ligazón pode ser prexudicial para o seu dispositivo e os seus datos.<br> Ten a certeza de que quere continuar?",
+    "menuDuplicate": "Duplicate"
   },
   "Controller": {
     "Main": {
@@ -226,6 +227,7 @@
     "uploadImageFileCountMessage": "Non hai imaxes subidas.",
     "uploadImageSizeMessage": "A imaxe é demasiado grande. O tamaño máximo é de 25 MB.",
     "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
     "errorEmailClient": "No email client could be found",
     "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
     "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
@@ -480,6 +482,7 @@
       "textZoomIn": "Ampliar",
       "textZoomOut": "Alonxar",
       "textZoomRotate": "Ampliar e rotación",
+      "textBackground": "Background",
       "textBaseline": "Baseline",
       "textCapitalization": "Capitalization",
       "textCellSize": "Cell size",
@@ -487,11 +490,15 @@
       "textDeleteLink": "Delete Link",
       "textHorizontalText": "Horizontal Text",
       "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textLtrTextDirection": "Left-to-right",
       "textMorph": "Morph",
       "textMorphLetters": "Letters",
       "textMorphObjects": "Objects",
+      "textResetBackground": "Reset background",
       "textRotateTextDown": "Rotate Text Down",
       "textRotateTextUp": "Rotate Text Up",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction",
       "textTextOrientation": "Text Orientation",
       "txtHeight": "Height",
       "txtWidth": "Width"
@@ -562,7 +569,9 @@
       "textClose": "Close",
       "textDark": "Dark",
       "textLight": "Light",
-      "textTheme": "Theme"
+      "textLoopSlideshow": "Loop slideshow",
+      "textTheme": "Theme",
+      "textOpenLocation": "Open location"
     }
   },
   "Draw": {

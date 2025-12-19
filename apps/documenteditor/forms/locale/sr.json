@@ -97,6 +97,7 @@
   "DE.Controllers.ApplicationController.errorAccessDeny": "Pokušavate da izvedete akciju na koju nemate prava.<br>Molimo kontaktirajte vašeg Dokument Server administratora.",
   "DE.Controllers.ApplicationController.errorBadImageUrl": "URL slike je netačan",
   "DE.Controllers.ApplicationController.errorConnectToServer": "Dokument nije mogao biti sačuvan. Molimo proverite podešavanja konekcije ili kontaktirajte svog administratora.<br>Kada kliknete na \"OK\" dugme, bićete podstaknuti da preuzmete dokument.",
+  "DE.Controllers.ApplicationController.errorCopyDisabled": "Zbog sigurnosnih razloga, sadržaj ovog dokumenta ne može biti kopiran.",
   "DE.Controllers.ApplicationController.errorDataEncrypted": "Enkriptovane promene su primljene,one ne mogu biti dešifrovane.",
   "DE.Controllers.ApplicationController.errorDefaultMessage": "Greška kod: %1",
   "DE.Controllers.ApplicationController.errorEditingDownloadas": "Pojavila se greška u toku rada sa dokumentom.<br>Koristite \"Preuzmi kao...\" opciju da sačuvate rezervnu kopiju fajla na hard drajv vašeg kompjutera.",

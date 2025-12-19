@@ -276,6 +276,7 @@
     "errorCircularReference": "Il existe une ou plusieurs références circulaires où une formule fait référence à sa propre cellule, directement ou indirectement.<br>Essayez de supprimer ou de modifier ces références, ou de déplacer les formules dans des cellules différentes.",
     "errorComboSeries": "Pour créer un graphique combiné, sélectionnez au moins deux séries de données. ",
     "errorConnectToServer": "Impossible d'enregistrer ce document. Veuillez vérifier vos paramètres de connexion ou contactez l'administrateur.<br>Lorsque vous cliquez sur le bouton 'OK', vous serez invité à télécharger le document.",
+    "errorCopyDisabled": "Pour des raisons de sécurité, le contenu de ce document ne peut être copié.",
     "errorCopyMultiselectArea": "Impossible d'exécuter cette commande sur des sélections multiples.<br>Sélectionnez une seule plage et essayez à nouveau.",
     "errorCountArg": "Il y a une erreur dans la formule:<br>nombre d'arguments incorrecte.",
     "errorCountArgExceed": "Il y a une erreur dans la formule : Nombre maximal d'arguments dépassé.",
@@ -575,6 +576,7 @@
       "textChartTitle": "Titre du graphique",
       "textClearFilter": "Effacer le filtre",
       "textColor": "Couleur",
+      "textContextTextDirection": "Contexte",
       "textCreateCustomFormat": "Créer un format personnalisé",
       "textCreateFormat": "Créer un format",
       "textCross": "Sur l'axe",
@@ -624,7 +626,7 @@
       "textHundredMil": "100 000 000",
       "textHundreds": "Centaines",
       "textHundredThousands": "100 000",
-      "textHyperlink": "Lien hypertexte",
+      "textHyperlink": "Lien",
       "textImage": "Image",
       "textImageURL": "URL d'image",
       "textIn": "À l’intérieur",
@@ -650,6 +652,7 @@
       "textLinkSettings": "Paramètres de lien",
       "textLinkType": "Type de lien",
       "textLow": "En bas",
+      "textLtrTextDirection": "De gauche à droite",
       "textMajor": "Principal",
       "textMajorAndMinor": "Principal et secondaire",
       "textMajorType": "Type principal",
@@ -693,6 +696,7 @@
       "textRotateTextDown": "Faire pivoter le texte vers le bas",
       "textRotateTextUp": "Faire pivoter le texte vers le haut",
       "textRouble": "Rouble",
+      "textRtlTextDirection": "De droite à gauche",
       "textSave": "Enregistrer",
       "textScientific": "Scientifique",
       "textScreenTip": "Info-bulle",
@@ -712,6 +716,7 @@
       "textTenThousands": "10 000",
       "textText": "Texte",
       "textTextColor": "Couleur du texte",
+      "textTextDirection": "Orientation du texte",
       "textTextFormat": "Format du texte",
       "textTextOrientation": "Orientation du texte",
       "textThick": "Épais",
@@ -827,6 +832,7 @@
       "textSearchIn": "Rechercher dans",
       "textSettings": "Paramètres",
       "textSheet": "Feuille",
+      "textSheetRtl": "Feuille de droite à gauche",
       "textShowNotification": "Afficher la notification",
       "textSpreadsheetFormats": "Formats de classeur",
       "textSpreadsheetInfo": "Infos sur le classeur",
@@ -891,7 +897,8 @@
       "txtZhtw": "Chinois (traditionnel)",
       "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?",
       "warnDownloadCsv": "Le format CSV ne prend pas en charge l'enregistrement d'un fichier à plusieurs feuilles et de tous les éléments, à l'exception du texte.<br>Pour enregistrer uniquement la feuille sélectionnée au format CSV, appuyez sur OK.<br>Pour enregistrer l'ensemble du classeur et toutes les fonctionnalités, cliquez sur Annuler et sélectionnez un autre format.",
-      "warnDownloadOds": "L'enregistrement de ce fichier peut entraîner la perte de certaines formules, de la mise en forme des cellules ou des objets intégrés en raison d'une prise en charge limitée des formats. Voulez-vous vraiment continuer ?"
+      "warnDownloadOds": "L'enregistrement de ce fichier peut entraîner la perte de certaines formules, de la mise en forme des cellules ou des objets intégrés en raison d'une prise en charge limitée des formats. Voulez-vous vraiment continuer ?",
+      "textOpenLocation": "Open location"
     }
   }
 }

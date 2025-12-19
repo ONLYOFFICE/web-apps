@@ -83,7 +83,8 @@
     "textRows": "Rows",
     "textOk": "Ok",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?",
-    "menuEditLink": "Edit Link"
+    "menuEditLink": "Edit Link",
+    "menuDuplicate": "Duplicate"
   },
   "Controller": {
     "Main": {
@@ -239,7 +240,8 @@
     "errorSetPassword": "Password could not be set.",
     "textOk": "OK",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -507,7 +509,12 @@
       "txtHeight": "Height",
       "textCellSize": "Cell size",
       "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization"
+      "textCapitalization": "Capitalization",
+      "textBackground": "Background",
+      "textLtrTextDirection": "Left-to-right",
+      "textResetBackground": "Reset background",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -602,7 +609,9 @@
       "textTheme": "Theme",
       "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textRtlInterface": "RTL Interface",
-      "textClose": "Close"
+      "textClose": "Close",
+      "textLoopSlideshow": "Loop slideshow",
+      "textOpenLocation": "Open location"
     }
   },
   "Draw": {

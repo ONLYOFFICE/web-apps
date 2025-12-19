@@ -120,7 +120,8 @@
     "unknownErrorText": "알 수 없는 오류.",
     "uploadImageExtMessage": "알 수 없는 이미지 형식입니다.",
     "uploadImageFileCountMessage": "이미지가 업로드되지 않았습니다.",
-    "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다. 최대 크기는 25MB입니다."
+    "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다. 최대 크기는 25MB입니다.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "데이터로드 중 ...",
@@ -211,7 +212,8 @@
       "textVersion": "버전",
       "textVisioInfo": "다이어그램 뷰어 정보",
       "textVisioSettings": "다이어그램 뷰어 설정",
-      "textVisioTitle": "다이어그램 뷰어 제목"
+      "textVisioTitle": "다이어그램 뷰어 제목",
+      "textOpenLocation": "Open location"
     }
   }
 }

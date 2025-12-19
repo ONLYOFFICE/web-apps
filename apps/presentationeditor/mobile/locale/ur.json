@@ -83,7 +83,8 @@
     "textDoNotShowAgain": "دوبارہ مت دکھانا",
     "textOk": "او کے",
     "textRows": "قطاریں",
-    "txtWarnUrl": "اس لنک پر کلک کرنا آپ کے آلے اور ڈیٹا کے لیے نقصان دہ ہو سکتا ہے۔<br>کیا آپ واقعی جاری رکھنا چاہتے ہیں؟"
+    "txtWarnUrl": "اس لنک پر کلک کرنا آپ کے آلے اور ڈیٹا کے لیے نقصان دہ ہو سکتا ہے۔<br>کیا آپ واقعی جاری رکھنا چاہتے ہیں؟",
+    "menuDuplicate": "Duplicate"
   },
   "Controller": {
     "Main": {
@@ -240,7 +241,8 @@
     "unknownErrorText": "نامعلوم خرابی",
     "uploadImageExtMessage": "نامعلوم تصویر کا فارمیٹ۔",
     "uploadImageFileCountMessage": "کوئ تصاویر اپلوڈ نہیں کی گیئں",
-    "uploadImageSizeMessage": " تصویر بہت بڑی ہے۔ زیادہ سے زیادہ سائز ہے  پچیس ایم بی "
+    "uploadImageSizeMessage": " تصویر بہت بڑی ہے۔ زیادہ سے زیادہ سائز ہے  پچیس ایم بی ",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "ڈیٹا لوڈ ہو رہا ہے…",
@@ -500,7 +502,12 @@
       "textZoomOut": "زوم آوّٹ",
       "textZoomRotate": "زوم اور گھمائیں",
       "txtHeight": "اونچائی",
-      "txtWidth": "چوڑائی"
+      "txtWidth": "چوڑائی",
+      "textBackground": "Background",
+      "textLtrTextDirection": "Left-to-right",
+      "textResetBackground": "Reset background",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "mniSlideStandard": "معیاری (۴: ۳)",
@@ -568,7 +575,9 @@
       "textUnitOfMeasurement": "پیما ئش کا یونٹ",
       "textUploaded": "اپ لوڈ کردہ",
       "textVersion": "ورژن",
-      "textVersionHistory": "ورژن کی تاریخ"
+      "textVersionHistory": "ورژن کی تاریخ",
+      "textLoopSlideshow": "Loop slideshow",
+      "textOpenLocation": "Open location"
     }
   }
 }
