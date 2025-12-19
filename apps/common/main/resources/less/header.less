@@ -368,6 +368,10 @@
         text-align: center;
         overflow: hidden;
         pointer-events: none;
+
+        .ie & {
+            margin-top: @scaled-one-px-value-ie;
+        }
     }
 
     &:not(:disabled) {
