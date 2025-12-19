@@ -212,7 +212,8 @@
       "textVersion": "Version",
       "textVisioInfo": "Diagram Viewer Info",
       "textVisioSettings": "Diagram Viewer Settings",
-      "textVisioTitle": "Diagram Viewer Title"
+      "textVisioTitle": "Diagram Viewer Title",
+      "textOpenLocation": "Open location"
     }
   }
 }

@@ -576,7 +576,8 @@
       "textUnitOfMeasurement": "Unit Of Measurement",
       "textUploaded": "Uploaded",
       "textVersion": "Version",
-      "textVersionHistory": "Version History"
+      "textVersionHistory": "Version History",
+      "textOpenLocation": "Open location"
     }
   }
 }
