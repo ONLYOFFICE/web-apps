@@ -2676,7 +2676,7 @@ define([], function () {
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
-            this.cmbContent.setValue(AscPDF.PRINT_CONTENT_TYPES.doc);
+            this.cmbContent.setValue(AscPDF.PRINT_CONTENT_TYPES.docAndMarkups);
 
             this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
             this.pnlTable = $(this.pnlSettings.find('table')[0]);
