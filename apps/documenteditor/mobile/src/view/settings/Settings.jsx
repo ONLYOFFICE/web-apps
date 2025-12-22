@@ -4,6 +4,7 @@ import { Device } from '../../../../../common/mobile/utils/device';
 import DocumentSettingsController from "../../controller/settings/DocumentSettings";
 import DocumentInfoController from "../../controller/settings/DocumentInfo";
 import { DownloadController } from "../../controller/settings/Download";
+import { SaveACopyController } from "../../controller/settings/SaveACopy";
 import ApplicationSettingsController from "../../controller/settings/ApplicationSettings";
 import { DocumentFormats, DocumentMargins, DocumentColorSchemes } from "./DocumentSettings";
 import { MacrosSettings, ThemeSettings } from "./ApplicationSettings";
@@ -50,6 +51,10 @@ const routes = [
     {
         path: '/download/',
         component: DownloadController
+    },
+    {
+        path: '/saveacopy/',
+        component: SaveACopyController
     },
     {
         path: '/color-schemes/',
