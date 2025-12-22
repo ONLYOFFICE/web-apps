@@ -123,6 +123,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
         _canHelp = true,
         _canPrint = false,
         _canFeedback = true,
+        _canRequestSaveAs = false,
         _canDisplayInfo = true;
 
     if (appOptions.isDisconnected) {
@@ -134,6 +135,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
         _canDownload = appOptions.canDownload;
         _canDownloadOrigin = appOptions.canDownloadOrigin;
         _canPrint = appOptions.canPrint;
+        _canRequestSaveAs = appOptions.canRequestSaveAs;
 
         if (appOptions.customization && appOptions.canBrandingExt) {
             _canAbout = appOptions.customization.about !== false;
@@ -195,6 +197,11 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                     }
                     {_canDownloadOrigin &&
                         <ListItem title={_t.textDownload} link="#" onClick={settingsContext.onDownloadOrigin} className='no-indicator'>
+                            <SvgIcon slot="media" symbolId={IconDownload.id} className={'icon icon-svg'} />
+                        </ListItem>
+                    }
+                    {_canRequestSaveAs &&
+                        <ListItem title={_t.textSaveCopy} link="/saveacopy/">
                             <SvgIcon slot="media" symbolId={IconDownload.id} className={'icon icon-svg'} />
                         </ListItem>
                     }
