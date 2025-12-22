@@ -506,6 +506,12 @@
         //        position: relative;
         //    }
         //}
+
+        &.padding-hor-zerro {
+            &:not(:first-child) {
+                .padding-hor-zerro();
+            }
+        }
     }
 
     .elset {
