@@ -4,6 +4,12 @@
  * http://www.onlyoffice.com
  */
 
+/**
+ * @typedef {import('./config').Config} Config
+ * @typedef {import('./config').ConfigNormal} ConfigNormal
+ * @typedef {import('./config').ConfigEmbedded} ConfigEmbedded
+ */
+
 ;(function(DocsAPI, window, document, undefined) {
 
     /*
@@ -375,6 +381,18 @@
 
     // TODO: allow several instances on one page simultaneously
 
+    /**
+     * Creates editor instance and inject it to the page
+     * 
+     * @param {string} placeholderId Id for html element that editor will be injected in
+     * @param {Config} config Configuration object
+     * @returns The editor
+     * 
+     * @example 
+     * ```
+     * const docEditor = new DocsAPI.DocEditor('iframeEditor', config)
+     * ```
+     */
     DocsAPI.DocEditor = function(placeholderId, config) {
         var _self = this,
             _config = config || {};

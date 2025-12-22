@@ -3142,13 +3142,13 @@ export interface Config extends ConfigNormal {
      * The document section allows to change all the parameters pertaining to the document (title, url, file type, etc.).
      * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/document/
      */
-    document?: DocumentNormal | DocumentEmbedded;
+    document?: DocumentNormal & DocumentEmbedded;
 
     /**
      * The editorConfig section allows to change the parameters pertaining to the editor interface: opening mode (viewer or editor), interface language, additional buttons, etc.
      * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/editor/
      */
-    editorConfig?: EditorConfigNormal | EditorConfigEmbedded;
+    editorConfig?: EditorConfigNormal & EditorConfigEmbedded;
 
     /**
      * The events section allows to change all the functions pertaining to the events.
@@ -3169,5 +3169,5 @@ export interface Config extends ConfigNormal {
      * ```
      * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/events/
      */
-    events?: EventsNormal | EventsEmbedded;
+    events?: EventsNormal & EventsEmbedded;
 }
