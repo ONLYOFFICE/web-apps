@@ -106,12 +106,6 @@ define([
             me.isTooltipHiding = false;
 
             me.screenTip = {
-                toolTip: new Common.UI.Tooltip({
-                    owner: this,
-                    html: true,
-                    title: '<br><b>Press Ctrl and click link</b>'
-//                    style: 'word-wrap: break-word;'
-                }),
                 strTip: '',
                 isHidden: true,
                 isVisible: false
@@ -128,7 +122,8 @@ define([
             me.wrapEvents = {
                 userTipMousover: _.bind(me.userTipMousover, me),
                 userTipMousout: _.bind(me.userTipMousout, me),
-                onKeyUp: _.bind(me.onKeyUp, me)
+                onKeyUp: _.bind(me.onKeyUp, me),
+                onMouseLeave: _.bind(me.onMouseLeave, me)
             };
 
             me.guideTip = { ttHeight: 20 };
@@ -533,8 +528,12 @@ define([
         },
 
         hideScreenTip: function() {
-            this.screenTip.toolTip.hide();
+            this.screenTip.toolTip && this.screenTip.toolTip.hide();
             this.screenTip.isVisible = false;
+        },
+
+        onMouseLeave: function () {
+            this.hideScreenTip();
         },
 
         getUserName: function(id){
@@ -627,7 +626,7 @@ define([
             if (this.screenTip.isHidden && this.screenTip.isVisible) {
                 me.screenTip.isVisible = false;
                 me.isTooltipHiding = true;
-                me.screenTip.toolTip.hide(function(){
+                me.screenTip.toolTip && me.screenTip.toolTip.hide(function(){
                     me.isTooltipHiding = false;
                     if (me.mouseMoveData) me.onMouseMove(me.mouseMoveData);
                     me.mouseMoveData = null;
