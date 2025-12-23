@@ -876,10 +876,15 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-testpresentationeditor', ['init-build-testpresentationeditor', 'deploy-app']);
     grunt.registerTask('deploy-testspreadsheeteditor', ['init-build-testspreadsheeteditor', 'deploy-app']);
 
-    grunt.registerTask('default', ['deploy-common-component',
+    // grunt.registerTask('default', ['deploy-common-component',
+    //                                'deploy-documenteditor-component',
+    //                                'deploy-spreadsheeteditor-component',
+    //                                'deploy-presentationeditor-component',
+    //                                'deploy-pdfeditor-component',
+    //                                'deploy-visioeditor-component']);
+
+
+     grunt.registerTask('default', ['deploy-common-component',
                                    'deploy-documenteditor-component',
-                                   'deploy-spreadsheeteditor-component',
-                                   'deploy-presentationeditor-component',
-                                   'deploy-pdfeditor-component',
-                                   'deploy-visioeditor-component']);
+                                   'deploy-pdfeditor-component']);
 };
