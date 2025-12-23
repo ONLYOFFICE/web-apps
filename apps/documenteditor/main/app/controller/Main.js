@@ -526,7 +526,7 @@ define([
             },
 
             loadDocument: function(data) {
-                const metaInfo = data?.doc?.metaInfo;
+                const metaInfo = data && data.doc && data.doc.metaInfo ? data.doc.metaInfo : {};
                 this.permissions = {};
                 this.document = data.doc;
 
@@ -597,7 +597,7 @@ define([
                 this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
                 this.api.asc_setDocInfo(docInfo);
                 const licenseAndDocInfo = {
-                    standAloneApp: metaInfo?.standAloneApp ??  false,
+                    standAloneApp: metaInfo && metaInfo.standAloneApp?  metaInfo.standAloneApp: false,
                     licenseInfo: {
                         "type": 3,
                         "light": false,
@@ -612,7 +612,7 @@ define([
                         "customization": false,
                         "advancedApi": false
                     },
-                    docInfo: metaInfo?.docInfo ?? null
+                    docInfo: metaInfo && metaInfo.docInfo ? metaInfo.docInfo : null
                 };
                 if(licenseAndDocInfo.standAloneApp){
                     this.api.asc_setLicenseoForStandalone(licenseAndDocInfo.licenseInfo);
