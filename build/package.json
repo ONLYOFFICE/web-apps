@@ -45,7 +45,6 @@
   },
   "devDependencies": {
     "chai": "^5.1.0",
-    "grunt-mocha": "^1.2.0",
     "mocha": "^10.2.0"
   }
 }
