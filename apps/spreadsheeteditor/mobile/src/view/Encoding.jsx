@@ -14,6 +14,7 @@ const PageEncoding = props => {
     const getIndexNameEncoding = () => encodeData.findIndex(encoding => encoding.value === stateEncoding);
     const nameEncoding = encodeData[getIndexNameEncoding()].displayValue;
     const nameDelimeter = namesDelimeter[valuesDelimeter.indexOf(stateDelimeter)];
+    const isFromSaveACopy = props.isFromSaveACopy;
     const mode = props.mode;
 
     const changeStateEncoding = value => {
@@ -49,7 +50,7 @@ const PageEncoding = props => {
                     {mode === 2 ? 
                         <ListButton className='button-fill button-raised' title={_t.textCancel} onClick={() => props.closeModal()}></ListButton>
                     : null}
-                    <ListButton className='button-fill button-raised' title={mode === 2 ?_t.textDownload : _t.txtOk} onClick={() => props.onSaveFormat(stateEncoding, stateDelimeter)}></ListButton>
+                    <ListButton className='button-fill button-raised' title={mode === 2 ?( isFromSaveACopy ? _t.textSaveACopy : _t.textDownload) : _t.txtOk} onClick={() => props.onSaveFormat(stateEncoding, stateDelimeter)}></ListButton>
                 </List>
             </Page>
         </View>
@@ -125,6 +126,7 @@ class EncodingView extends Component {
                     valueEncoding={this.props.valueEncoding}
                     valueDelimeter={this.props.valueDelimeter}
                     valuesDelimeter={this.props.valuesDelimeter}
+                    isFromSaveACopy={this.props.isFromSaveACopy}
                 />
             </Popup>
         )
@@ -160,6 +162,7 @@ const Encoding = props => {
             valueEncoding={props.valueEncoding}
             valueDelimeter={props.valueDelimeter}
             valuesDelimeter={props.valuesDelimeter}
+            isFromSaveACopy={props.isFromSaveACopy}
         />
     )
 };

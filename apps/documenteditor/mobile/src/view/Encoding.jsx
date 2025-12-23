@@ -10,6 +10,7 @@ const PageEncoding = props => {
     const [stateEncoding, setStateEncoding] = useState(props.valueEncoding === -1 ? encodeData.find(encoding => encoding.lcid === 65001).value : props.valueEncoding);
     const getIndexNameEncoding = () => encodeData.findIndex(encoding => encoding.value === stateEncoding);
     const nameEncoding = encodeData[getIndexNameEncoding()].displayValue;
+    const isFromSaveACopy = props.isFromSaveACopy
     const mode = props.mode;
 
     const changeStateEncoding = value => {
@@ -32,7 +33,7 @@ const PageEncoding = props => {
                     {mode === 2 ? 
                         <ListButton className='button-fill button-raised' title={_t.textCancel} onClick={() => props.closeModal()}></ListButton>
                     : null}
-                    <ListButton className='button-fill button-raised' title={mode === 2 ?_t.textDownload : _t.txtOk} onClick={() => props.onSaveFormat(stateEncoding)}></ListButton>
+                    <ListButton className='button-fill button-raised' title={mode === 2 ?( isFromSaveACopy ? _t.textSaveACopy : _t.textDownload) : _t.txtOk} onClick={() => props.onSaveFormat(stateEncoding)}></ListButton>
                 </List>
             </Page>
         </View>
@@ -79,6 +80,7 @@ class EncodingView extends Component {
                     mode={this.props.mode}  
                     encodeData={this.props.encodeData}
                     valueEncoding={this.props.valueEncoding}
+                    isFromSaveACopy={this.props.isFromSaveACopy}
                 />
             </Popup>
         )
@@ -107,6 +109,7 @@ const Encoding = props => {
             mode={props.mode}  
             encodeData={props.encodeData}
             valueEncoding={props.valueEncoding}
+            isFromSaveACopy={props.isFromSaveACopy}
         />
     )
 };

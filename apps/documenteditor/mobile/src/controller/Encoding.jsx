@@ -19,12 +19,21 @@ class EncodingController extends Component {
             });
         });
 
-        Common.Notifications.on('openEncoding', (type, advOptions, mode, formatOptions) => {
-            this.initEncoding(type, advOptions, mode, formatOptions);
+        Common.Notifications.on('openEncoding', (type, advOptions, mode, formatOptions, fromSaveAs) => {
+            this.initEncoding(type, advOptions, mode, formatOptions, fromSaveAs);
         });
     }
 
-    initEncoding(type, advOptions, mode, formatOptions) {
+    componentDidMount() {
+        Common.Notifications.on('fromsaveas', () => {
+            this.isFromSaveACopy = true;
+        })
+    }
+
+    initEncoding(type, advOptions, mode, formatOptions, fromSaveAs) {
+        if (fromSaveAs) {
+            this.isFromSaveACopy = true;
+        }
         if(type === Asc.c_oAscAdvancedOptionsID.TXT) {
             Common.Notifications.trigger('preloader:close');
             Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);
@@ -58,6 +67,7 @@ class EncodingController extends Component {
     closeModal() {
         f7.sheet.close('.encoding-popup', true);
         this.setState({isOpen: false});
+        this.isFromSaveACopy = false;
     }
 
     onSaveFormat(valueEncoding) {
@@ -67,6 +77,7 @@ class EncodingController extends Component {
 
         if(this.mode === 2) {
             this.formatOptions && this.formatOptions.asc_setAdvancedOptions(new Asc.asc_CTextOptions(valueEncoding));
+            Common.Notifications.trigger('fromencoding');
             api.asc_DownloadAs(this.formatOptions);
         } else {
             api.asc_setAdvancedOptions(Asc.c_oAscAdvancedOptionsID.TXT, new Asc.asc_CTextOptions(valueEncoding));
@@ -82,6 +93,7 @@ class EncodingController extends Component {
                     onSaveFormat={this.onSaveFormat} 
                     encodeData={this.encodeData}
                     valueEncoding={this.valueEncoding}
+                    isFromSaveACopy = {this.isFromSaveACopy}
                 /> 
         );
     }

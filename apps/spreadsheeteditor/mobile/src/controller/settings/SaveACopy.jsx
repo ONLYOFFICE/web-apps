@@ -35,7 +35,7 @@ class SaveACopyController extends Component {
 
     onDownloadUrl (url, fileType) {
         if (this._state.isFromGatewayRequestSaveAs) {
-            let docTitle = this.props.storeDocumentInfo.dataDoc.title;
+            let docTitle = this.props.storeSpreadsheetInfo.dataDoc.title;
             !docTitle && (docTitle = this.txtUntitled);
 
             if (typeof this._state.fileExt == 'string') {
@@ -52,31 +52,19 @@ class SaveACopyController extends Component {
 
     onSaveFormat(format, ext) {
         const { t } = this.props;
-        const _t = t("Settings", { returnObjects: true });
+        const _t = t("View.Settings", { returnObjects: true });
         const api = Common.EditorApi.get();
-        const storeDocumentInfo = this.props.storeDocumentInfo;
-        const dataDoc = storeDocumentInfo.dataDoc;
-        const fileType = dataDoc.fileType;
         const isNeedDownload = !!format;
         const options = new Asc.asc_CDownloadOptions(format, true);
         this._state.fileExt = ext;
         options.asc_setIsSaveAs(isNeedDownload);
        
-        if(/^pdf|xps|oxps|djvu$/.test(fileType)) {
+        if (format) {
             this.closeModal();
-
-            if (format === Asc.c_oAscFileType.DJVU) {
-                this._state.isFromGatewayRequestSaveAs = true;
-                api.asc_DownloadOrigin(options);
-            } else if(format === Asc.c_oAscFileType.PDF || format === Asc.c_oAscFileType.PDFA || format === Asc.c_oAscFileType.JPG || format === Asc.c_oAscFileType.PNG) {
-                this._state.isFromGatewayRequestSaveAs = true;
-                api.asc_DownloadAs(options);
-            } else if (format === Asc.c_oAscFileType.TXT || format === Asc.c_oAscFileType.RTF) {
-                options.asc_setTextParams(new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine));
-
+            if (format == Asc.c_oAscFileType.CSV) {
                 f7.dialog.create({
                     title: _t.notcriticalErrorTitle,
-                    text: (format === Asc.c_oAscFileType.TXT) ? _t.textDownloadTxt : _t.textDownloadRtf,
+                    text: _t.warnDownloadCsv,
                     buttons: [
                         {
                             text: _t.textCancel
@@ -84,22 +72,17 @@ class SaveACopyController extends Component {
                         {
                             text: _t.textOk,
                             onClick: () => {
-                                if (format === Asc.c_oAscFileType.TXT) {
-                                    const advOptions = api.asc_getAdvancedOptions();
-                                    Common.Notifications.trigger('fromsaveas');
-                                    Common.Notifications.trigger('openEncoding', Asc.c_oAscAdvancedOptionsID.TXT, advOptions, 2, options, true);
-                                } else {
-                                    this._state.isFromGatewayRequestSaveAs = true;
-                                    api.asc_DownloadAs(options);
-                                }
+                                const advOptions = api.asc_getAdvancedOptions();
+                                Common.Notifications.trigger('fromsaveas');
+                                Common.Notifications.trigger('openEncoding', Asc.c_oAscAdvancedOptionsID.CSV, advOptions, 2, options, true)
                             }
                         }
-                    ],
+                    ]
                 }).open();
-            } else {
+            } else if (format == Asc.c_oAscFileType.ODS) {
                 f7.dialog.create({
                     title: _t.notcriticalErrorTitle,
-                    text: t('Main.warnDownloadAsPdf').replaceAll('{0}', fileType.toUpperCase()), 
+                    text: _t.warnDownloadOds,
                     buttons: [
                         {
                             text: _t.textCancel
@@ -107,17 +90,16 @@ class SaveACopyController extends Component {
                         {
                             text: _t.textOk,
                             onClick: () => {
-                                options.asc_setTextParams(new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine));
                                 this._state.isFromGatewayRequestSaveAs = true;
                                 api.asc_DownloadAs(options);
                             }
                         }
-                    ],
+                    ]
                 }).open();
+            } else {
+                this._state.isFromGatewayRequestSaveAs = true;
+                api.asc_DownloadAs(options);
             }
-        } else {
-            this._state.isFromGatewayRequestSaveAs = true;
-            api.asc_DownloadAs(options);
         }
     }
 
@@ -125,14 +107,12 @@ class SaveACopyController extends Component {
         return (
             <SaveACopy 
                 onSaveFormat={this.onSaveFormat} 
-                isForm={this.appOptions.isForm}
-                canFillForms={this.appOptions.canFillForms}
             />
         );
     }
 }
 
-const SaveACopyWithTranslation = inject("storeAppOptions", "storeDocumentInfo")(observer(withTranslation()(SaveACopyController)));
+const SaveACopyWithTranslation = inject("storeAppOptions", "storeSpreadsheetInfo")(observer(withTranslation()(SaveACopyController)));
 
 export {
     SaveACopyWithTranslation as SaveACopyController,

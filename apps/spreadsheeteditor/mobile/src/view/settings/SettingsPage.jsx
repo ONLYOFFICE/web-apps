@@ -50,6 +50,7 @@ const SettingsPage = inject('storeAppOptions', 'storeSpreadsheetInfo')(observer(
         _canHelp = true,
         _canPrint = false,
         _canFeedback = true,
+        _canRequestSaveAs = false,
         _canDisplayInfo = true;
         
     if (appOptions.isDisconnected) {
@@ -61,6 +62,7 @@ const SettingsPage = inject('storeAppOptions', 'storeSpreadsheetInfo')(observer(
         _canDownload = appOptions.canDownload;
         _canDownloadOrigin = appOptions.canDownloadOrigin;
         _canPrint = appOptions.canPrint;
+        _canRequestSaveAs = appOptions.canRequestSaveAs;
 
         if (appOptions.customization && appOptions.canBrandingExt) {
             _canAbout = appOptions.customization.about !== false;
@@ -109,6 +111,11 @@ const SettingsPage = inject('storeAppOptions', 'storeSpreadsheetInfo')(observer(
                 }
                 {_canDownload &&
                     <ListItem title={_t.textDownload} link="/download/">
+                        <SvgIcon slot="media" symbolId={IconDownload.id} className={'icon icon-svg'} />
+                    </ListItem>
+                }
+                {_canRequestSaveAs &&
+                    <ListItem title={_t.textSaveACopy} link="/saveacopy/">
                         <SvgIcon slot="media" symbolId={IconDownload.id} className={'icon icon-svg'} />
                     </ListItem>
                 }

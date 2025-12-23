@@ -188,7 +188,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                     </ListItem>
                 }
                 {_canRequestSaveAs &&
-                    <ListItem title={_t.textSaveCopy} link="/saveacopy/">
+                    <ListItem title={_t.textSaveACopy} link="/saveacopy/">
                         <SvgIcon slot="media" symbolId={IconDownload.id} className={'icon icon-svg'} />
                     </ListItem>
                 }

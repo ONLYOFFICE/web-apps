@@ -5,6 +5,7 @@ import SpreadsheetSettingsController from '../../controller/settings/Spreadsheet
 import ApplicationSettingsController from '../../controller/settings/ApplicationSettings.jsx';
 import SpreadsheetInfoController from '../../controller/settings/SpreadsheetInfo.jsx';
 import { DownloadWithTranslation } from '../../controller/settings/Download.jsx';
+import { SaveACopyController } from "../../controller/settings/SaveACopy";
 import { SpreadsheetColorSchemes, SpreadsheetFormats, SpreadsheetMargins } from './SpreadsheetSettings.jsx';
 import { MacrosSettings, RegionalSettings, FormulaLanguage, ThemeSettings } from './ApplicationSettings.jsx';
 import About from '../../../../../common/mobile/lib/view/About';
@@ -37,6 +38,10 @@ const routes = [
     {
         path: '/download/',
         component: DownloadWithTranslation
+    },
+    {
+        path: '/saveacopy/',
+        component: SaveACopyController
     },
     {
         path: '/application-settings/',
