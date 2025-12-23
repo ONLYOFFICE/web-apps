@@ -628,6 +628,8 @@
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textSameAsSystem": "Same As System",
       "textSaveDocument": "Save",
+      "textSaveACopy": "Save a Copy",
+      "textSaveACopyAs": "Save a Copy as",
       "textSearch": "Find",
       "textSettings": "Settings",
       "textShowNotification": "Show Notification",

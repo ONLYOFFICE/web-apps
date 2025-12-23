@@ -160,6 +160,7 @@ export class storeAppOptions {
         }
         
         this.canBack = this.canBackToFolder = canBack;
+        this.canRequestSaveAs = config.canRequestSaveAs;
         this.canPlugins = false;
 
         AscCommon.UserInfoParser.setParser(true);

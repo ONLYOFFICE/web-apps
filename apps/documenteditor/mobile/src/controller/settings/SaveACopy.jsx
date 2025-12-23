@@ -19,6 +19,10 @@ class SaveACopyController extends Component {
     componentDidMount() {
         const api = Common.EditorApi.get();
         api.asc_registerCallback('asc_onDownloadUrl', this.onDownloadUrl.bind(this));
+
+        Common.Notifications.on('fromencoding', () => {
+            this._state.isFromGatewayRequestSaveAs = true;
+        })
     }
 
     closeModal() {
@@ -62,6 +66,7 @@ class SaveACopyController extends Component {
             this.closeModal();
 
             if (format === Asc.c_oAscFileType.DJVU) {
+                this._state.isFromGatewayRequestSaveAs = true;
                 api.asc_DownloadOrigin(options);
             } else if(format === Asc.c_oAscFileType.PDF || format === Asc.c_oAscFileType.PDFA || format === Asc.c_oAscFileType.JPG || format === Asc.c_oAscFileType.PNG) {
                 this._state.isFromGatewayRequestSaveAs = true;
@@ -81,7 +86,8 @@ class SaveACopyController extends Component {
                             onClick: () => {
                                 if (format === Asc.c_oAscFileType.TXT) {
                                     const advOptions = api.asc_getAdvancedOptions();
-                                    Common.Notifications.trigger('openEncoding', Asc.c_oAscAdvancedOptionsID.TXT, advOptions, 2, options);
+                                    Common.Notifications.trigger('fromsaveas');
+                                    Common.Notifications.trigger('openEncoding', Asc.c_oAscAdvancedOptionsID.TXT, advOptions, 2, options, true);
                                 } else {
                                     this._state.isFromGatewayRequestSaveAs = true;
                                     api.asc_DownloadAs(options);

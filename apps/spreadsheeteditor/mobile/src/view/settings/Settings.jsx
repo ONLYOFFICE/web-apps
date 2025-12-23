@@ -43,6 +43,7 @@ import LanguageAndRegionController from '../../controller/settings/LanguageAndRe
 import SpreadsheetInfoController from '../../controller/settings/SpreadsheetInfo.jsx';
 import { DownloadWithTranslation } from '../../controller/settings/Download.jsx';
 import SharingSettings from "../../../../../common/mobile/lib/view/SharingSettings";
+import { SaveACopyController } from "../../controller/settings/SaveACopy";
 import { SpreadsheetColorSchemes, SpreadsheetFormats, SpreadsheetMargins } from './SpreadsheetSettings.jsx';
 import { MacrosSettings, ThemeSettings } from './ApplicationSettings.jsx';
 import { RegionalSettings, FormulaLanguage } from './LanguageAndRegion.jsx';
@@ -76,6 +77,10 @@ const routes = [
     {
         path: '/download/',
         component: DownloadWithTranslation
+    },
+    {
+        path: '/saveacopy/',
+        component: SaveACopyController
     },
     {
         path: '/application-settings/',

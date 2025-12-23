@@ -40,6 +40,7 @@ import ApplicationSettingsController from "../../controller/settings/Application
 import { HelpAndFeedback } from "./HelpAndFeedback";
 import { MacrosSettings, ThemeSettings } from "./ApplicationSettings";
 import DownloadController from "../../controller/settings/Download";
+import { SaveACopyController } from "../../controller/settings/SaveACopy";
 import PresentationInfoController from "../../controller/settings/PresentationInfo";
 import PresentationSettingsController from "../../controller/settings/PresentationSettings";
 import { PresentationColorSchemes } from "./PresentationSettings";
@@ -70,6 +71,10 @@ const routes = [
     {
         path: '/download/',
         component: DownloadController
+    },
+    {
+        path: '/saveacopy/',
+        component: SaveACopyController
     },
     {
         path: '/presentation-info/',
