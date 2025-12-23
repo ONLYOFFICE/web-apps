@@ -135,6 +135,10 @@ define([
                 return me.txtPrintRangeInvalid;
             };
 
+            if(!this.printSettings.cmbPrinter) {
+                this.printSettings.setCmbPaperSizeOptions();
+            }
+
             Common.NotificationCenter.on('window:resize', _.bind(function () {
                 if (this._isPreviewVisible) {
                     this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._state.content);
@@ -565,12 +569,16 @@ define([
             else if (this.printSettings.cmbRange.getValue()==='current')
                 this._state.firstPrintPage = this._navigationPreview.currentPage;
 
-            var size = this.api.asc_getPageSize(this._state.firstPrintPage);
-            var printerOption = this.printSettings.cmbPrinter.getSelectedRecord();
+            var size = this.api.asc_getPageSize(this._state.firstPrintPage),
+                printerOption = (this.printSettings.cmbPrinter ? this.printSettings.cmbPrinter.getSelectedRecord() : null),
+                colorPrintingValue = this.printSettings.cmbColorPrinting
+                    ? this.printSettings.cmbColorPrinting.getValue()
+                    : null;
+
             this.adjPrintParams.asc_setNativeOptions({
                 usesystemdialog: useSystemDialog,
                 printer: printerOption ? printerOption.value : null,
-                colorMode: this.printSettings.cmbColorPrinting.getValue() === 'color',
+                colorMode: colorPrintingValue === 'color',
                 pages: this.printSettings.cmbRange.getValue()===-1 ? this.printSettings.inputPages.getValue() : this.printSettings.cmbRange.getValue(),
                 paperSize: {
                     w: size ? size['W'] : undefined,
@@ -579,8 +587,8 @@ define([
                 },
                 paperOrientation: size ? (size['H'] > size['W'] ? 'portrait' : 'landscape') : null,
                 content: this.printSettings.cmbContent.getValue(),
-                copies: this.printSettings.spnCopies.getNumberValue() || 1,
-                sides: this.printSettings.cmbSides.getValue()
+                copies: this.printSettings.spnCopies ? this.printSettings.spnCopies.getNumberValue() || 1 : 1,
+                sides: this.printSettings.cmbSides ? this.printSettings.cmbSides.getValue() : 'one'
             });
 
             this.printSettings.menu.hide();

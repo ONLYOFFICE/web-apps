@@ -179,18 +179,6 @@ define([
                 iconCls: 'menu__icon btn-print'
             });
 
-            this.miPrint = new Common.UI.MenuItem({
-                el      : $markup.elementById('#fm-btn-print'),
-                action  : 'print',
-                caption : this.btnPrintCaption,
-                canFocused: false,
-                dataHint: 1,
-                dataHintDirection: 'left-top',
-                dataHintOffset: [-2, 22],
-                dataHintTitle: 'P',
-                iconCls: 'menu__icon btn-print'
-            });
-
             this.miRename = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-rename'),
                 action  : 'rename',
@@ -318,7 +306,6 @@ define([
                 this.miDownload,
                 this.miSaveCopyAs,
                 this.miSaveAs,
-                this.miPrint,
                 this.miPrintWithPreview,
                 this.miRename,
                 this.miProtect,
@@ -410,8 +397,7 @@ define([
             this.miSaveAs[((this.mode.canDownload || this.mode.canDownloadOrigin) && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
             this.miSave[this.mode.showSaveButton && this.mode.canSaveToFile && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') ?'show':'hide']();
             this.miEdit[!this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights ?'show':'hide']();
-            this.miPrint[this.mode.canPrint && !this.mode.canPreviewPrint ?'show':'hide']();
-            this.miPrintWithPreview[this.mode.canPreviewPrint?'show':'hide']();
+            this.miPrintWithPreview[this.mode.canPrint?'show':'hide']();
             this.miRename[(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
             this.miProtect[(this.mode.isSignatureSupport || this.mode.isPasswordSupport) ?'show':'hide']();
 
@@ -476,7 +462,7 @@ define([
                 this.panels['help'].setLangConfig(this.mode.lang);
             }
 
-            if (this.mode.canPreviewPrint) {
+            if (this.mode.canPrint) {
                 var printPanel = PDFE.getController('Print').getView('PrintWithPreview');
                 printPanel.menu = this;
                 !this.panels['printpreview'] && (this.panels['printpreview'] = printPanel.render(this.$el.find('#panel-print')));
