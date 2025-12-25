@@ -353,9 +353,15 @@
             height: @x-small-btn-icon-size-ie;
             height: @x-small-btn-icon-size;
             top: 50%;
-            transform: translateY(-50%);
+            margin-top: -10px;
+            margin-top: calc(-1 * @font-size-base-app + 1px);
             fill: @icon-toolbar-header-ie;
             fill: @icon-toolbar-header;
+
+            .safari & {
+                margin-top: 0;
+                transform: translateY(-50%);
+            }
         }
     }
 
@@ -363,14 +369,16 @@
         cursor: pointer;
         .font-size-tiny();
         margin-left: -18px;
-        line-height: 1;
+        margin-top: @scaled-one-px-value-ie;
+        margin-top: @scaled-one-px-value;
         width: 16px;
         text-align: center;
         overflow: hidden;
         pointer-events: none;
 
-        .ie & {
-            margin-top: @scaled-one-px-value-ie;
+        .safari & {
+            margin-top: 0;
+            line-height: 1;
         }
     }
 
