@@ -61,7 +61,6 @@ define([
             };
             this._nRatio = 1;
             this.spinners = [];
-            this.chPoints = [];
             this.lockedControls = [];
             this._locked = false;
             this.defColor = {color: '4f81bd', effectId: 24};
@@ -79,7 +78,11 @@ define([
                     'charttab:editdata':                 _.bind(this.setEditData, this),
                     'charttab:updatedata':               _.bind(this.onUpdateData, this),
                     'charttab:editdataext':              _.bind(this.onEditDataExt, this),
+                    'charttab:selectstyle':              _.bind(this.onSelectStyle, this),
                 },
+                'Toolbar': {
+                    'tab:active':                        _.bind(this.onActiveTab, this)
+                }
             });
         },
 
@@ -211,6 +214,8 @@ define([
                 this.api.asc_registerCallback('asc_onUpdateChartStyles', _.bind(this._onUpdateChartStyles, this));
                 this.api.asc_registerCallback('asc_onStartUpdateExternalReference', _.bind(this.onStartUpdateExternalReference, this));
                 Common.NotificationCenter.on('cells:range',                 _.bind(this.onCellsRange, this));
+                Common.NotificationCenter.on('uitheme:changed', _.bind(this.onThemeChanged, this));
+
             }
             return this;
         },
@@ -431,12 +436,6 @@ define([
             var me = this;
             this._isChartStylesChanged = true;
 
-            this.view.chartStyles.on('click', _.bind(this.onSelectStyle, this));
-            this.view.chartStyles.openButton.menu.on('show:after', function () {
-                me.view.chartStyles.menuPicker.scroller.update({alwaysVisibleY: true});
-            });
-            this.view.lockedControls.push(this.view.chartStyles);
-
             if (styles && styles.length>0){
                 var stylesStore = this.view.chartStyles.menuPicker.store;
                 if (stylesStore) {
@@ -480,6 +479,7 @@ define([
         },
 
         setConfig: function(config) {
+            this.toolbar = config.toolbar;
             this.view = this.createView('Common.Views.ChartTab', {
                 toolbar: config.toolbar.toolbar
             });
@@ -550,6 +550,20 @@ define([
         onCellsRange: function(status) {
             this.rangeSelectionMode = (status != Asc.c_oAscSelectionDialogType.None);
         },
+
+        onActiveTab: function(tab) {
+            if (tab==='charttab' && this._themeChanged!==false) {
+                this.onThemeChanged();
+            }
+        },
+
+        onThemeChanged: function() {
+            this._themeChanged = !(this.toolbar && this.toolbar.toolbar && this.toolbar.toolbar.isTabActive('charttab'));
+            if (!this._themeChanged && this.view) {
+                this.view.onThemeChanged();
+                this.toolbar.toolbar.onThemeChanged();
+            }
+        }
 
     }, Common.Controllers.ChartTab || {}));
 });

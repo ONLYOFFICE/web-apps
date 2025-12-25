@@ -214,6 +214,7 @@ define([
                 Common.NotificationCenter.on('more:toggle', _.bind(this.onMoreToggle, this));
                 Common.NotificationCenter.on('tab:active', _.bind(this.onTabActive, this));
                 Common.NotificationCenter.on('window:resize', _.bind(this.startCheckSize, this));
+                Common.NotificationCenter.on('uitheme:changed', _.bind(this.startCheckSize, this));
                 me.checkSize();
                 me.onResize();
                 me.rendered = true;

@@ -44,28 +44,28 @@ define([
 ], function () {
     'use strict';
     Common.Views.ChartTab = Common.UI.BaseView.extend(_.extend((function(){
-        var template = '<section id="chart-design-panel1" class="panel" data-tab="charttab" role="tabpanel" aria-labelledby="view">' +
+        var template = '<section id="chart-design-panel" class="panel" data-tab="charttab" role="tabpanel" aria-labelledby="view">' +
             '<div class="group">' +
-                    '<span class="btn-slot text x-huge" id="slot-btn-chart-elements1"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-chart-elements"></span>' +
                 '</div>' +
                 '<div class="separator long"></div>' +
                 '<div class="group">' +
-                    '<span class="btn-slot text x-huge" id="slot-btn-edit-data1"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-edit-data"></span>' +
                 '</div>' +
                 '<div class="group">' +
                     '<span class="btn-slot text x-huge" id="slot-btn-edit-data-ext"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-update-data"></span>' +
                 '</div>' +
                 '<div class="separator long"></div>' +
-                '<div class="group flex small" id="slot-field-chart-styles1" style="min-width: 100px; width: 448px" data-group-width="448px">' +
+                '<div class="group flex small" id="slot-field-chart-styles" style="min-width: 100px; width: 448px" data-group-width="448px">' +
                 '</div>' +
                 '<div class="separator long separator-chart-styles"></div>' +
                 '<div class="group small">' +
                     '<div class="elset">' +
-                        '<span class="btn-slot text font-size-normal" id="slot-btn-chart-type1"></span>' +
+                        '<span class="btn-slot text font-size-normal" id="slot-btn-chart-type"></span>' +
                     '</div>' +
                     '<div class="elset">' +
-                        '<span class="btn-slot text font-size-normal" id="slot-btn-chart-advanced-settings1"></span>' +
+                        '<span class="btn-slot text font-size-normal" id="slot-btn-chart-advanced-settings"></span>' +
                     '</div>' +
                 '</div>' +
                 '<div class="separator long"></div>' +
@@ -79,30 +79,30 @@ define([
                 ) +
                 '<div class="group small">' +
                     '<div class="elset" style="text-align: center;">' +
-                        '<span class="btn-slot text font-size-normal" id="slot-lbl-width1" style="text-align: center;margin-top: 2px;"></span>' +
+                        '<span class="btn-slot text font-size-normal" id="slot-lbl-width" style="text-align: center;margin-top: 2px;"></span>' +
                     '</div>' +
                     '<div class="elset" style="text-align: center;">' +
-                        '<span class="btn-slot text font-size-normal" id="slot-lbl-height1" style="text-align: center;margin-top: 2px;"></span>' +
+                        '<span class="btn-slot text font-size-normal" id="slot-lbl-height" style="text-align: center;margin-top: 2px;"></span>' +
                     '</div>' +
                 '</div>' +
                 '<div class="group small">' +
                     '<div class="elset">' +
-                        '<div id="id-chart-spin-width1"></div>' +
+                        '<div id="id-chart-spin-width"></div>' +
                     '</div>' +
                     '<div class="elset">' +
-                        '<div id="id-chart-spin-height1"></div>' +
+                        '<div id="id-chart-spin-height"></div>' +
                     '</div>' +
                 '</div>' +
                 '<div class="group small">' +
                     '<div class="elset">' +
-                        '<span class="btn-slot text" id="slot-chk-ratio1"></span>' +
+                        '<span class="btn-slot text" id="slot-chk-ratio"></span>' +
                     '</div>' +
                     '<div class="elset">' +
                     '</div>' +
                 '</div>' +
                 '<div class="separator long separator-chart-3d"></div>' +
                 '<div class="group">' +
-                    '<span class="btn-slot text x-huge" id="slot-btn-chart-3d-settings1"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-chart-3d-settings"></span>' +
             '</div>' +
         '</section>';
         function setEvents() {
@@ -143,6 +143,9 @@ define([
             me.btnUpdateData.on('click', function (btn, e) {
                 me.fireEvent('charttab:updatedata');
             });
+            me.chartStyles.on('click', function (combo, record) {
+                 me.fireEvent('charttab:selectstyle', [combo, record]);
+            })
         }
         return {
             initialize: function (options) {
@@ -616,10 +619,13 @@ define([
 
                 this.chartStyles = new Common.UI.ComboDataView({
                     cls             : 'combo-chart-template',
-                    style           : 'min-width: 90px; max-width: 496px;',
+                    style           : 'min-width: 90px; width: 438; max-width: 438px;',
                     enableKeyEvents : true,
+                    delayRenderTips : true,
                     itemWidth       : 50,
                     itemHeight      : 50,
+                    minMenuColumn   : 4,
+                    maxMenuColumn   : 7,
                     menuMaxHeight   : 300,
                     groups          : new Common.UI.DataViewGroupStore(),
                     autoWidth       : true,
@@ -628,11 +634,11 @@ define([
                     beforeOpenHandler: function(e) {
                         var cmp = this,
                             menu = cmp.openButton.menu,
-                            minMenuColumn = 4;
+                            minMenuColumn = cmp.options.minMenuColumn;
 
                         if (menu.cmpEl) {
                             var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent();
-                            var itemMargin = 8;
+                            var itemMargin = parseFloat(itemEl.css('margin-left')) + parseFloat(itemEl.css('margin-right'));
                             var itemWidth = itemEl.is(':visible') ? parseFloat(itemEl.css('width')) :
                                 (cmp.itemWidth + parseFloat(itemEl.css('padding-left')) + parseFloat(itemEl.css('padding-right')) +
                                 parseFloat(itemEl.css('border-left-width')) + parseFloat(itemEl.css('border-right-width')));
@@ -642,10 +648,10 @@ define([
                             columnCount = columnCount < minCount ? minCount : columnCount;
                             menu.menuAlignEl = cmp.cmpEl;
                             menu.menuAlign = 'tl-tl';
-                            var menuWidth = columnCount * (itemMargin + itemWidth) + 16, // for scroller
+                            var menuWidth = columnCount * (itemMargin + itemWidth) + 14, // for scroller
                                 buttonOffsetLeft = Common.Utils.getOffset(cmp.openButton.$el).left;
                             if (menuWidth>Common.Utils.innerWidth())
-                                menuWidth = Math.max(Math.floor((Common.Utils.innerWidth()-16)/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth) + 16;
+                                menuWidth = Math.max(Math.floor((Common.Utils.innerWidth()-14)/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth) + 14;
                             var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft);
                             if (Common.UI.isRTL()) {
                                 offset = cmp.openButton.$el.width() + parseFloat($(cmp.$el.find('.combo-dataview').get(0)).css('padding-left'));
@@ -661,6 +667,9 @@ define([
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '-16, 0'
+                });
+                this.chartStyles.openButton.menu.on('show:after', function () {
+                    me.chartStyles.menuPicker.scroller.update({alwaysVisibleY: true});
                 });
                 this.lockedControls.push(this.chartStyles);
 
@@ -766,11 +775,6 @@ define([
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
-            onCheckStyleChange: function(type, stateName, field, newValue, oldValue, eOpts) {
-                var me = this;
-                me.fireEvent('tabledesigntab:stylechange', [type, stateName, newValue]);
-            },
-
             render: function (el) {
                 if ( el ) el.html( this.getPanel() );
                 return this;
@@ -785,19 +789,19 @@ define([
                     Common.Utils.injectComponent($host.findById(id), cmp);
                 };
 
-                _injectComponent('#id-chart-spin-width1', this.spnWidth);
-                _injectComponent('#id-chart-spin-height1', this.spnHeight);
-                this.btnChartElements && this.btnChartElements.render($host.find('#slot-btn-chart-elements1'));
-                this.btnEditData && this.btnEditData.render($host.find('#slot-btn-edit-data1'));
+                _injectComponent('#id-chart-spin-width', this.spnWidth);
+                _injectComponent('#id-chart-spin-height', this.spnHeight);
+                this.btnChartElements && this.btnChartElements.render($host.find('#slot-btn-chart-elements'));
+                this.btnEditData && this.btnEditData.render($host.find('#slot-btn-edit-data'));
                 this.btnEditDataExt && this.btnEditDataExt.render($host.find('#slot-btn-edit-data-ext'));
                 this.btnUpdateData && this.btnUpdateData.render($host.find('#slot-btn-update-data'));
-                this.chartStyles.render(this.$el.find('#slot-field-chart-styles1'));
-                this.btnChartType && this.btnChartType.render($host.find('#slot-btn-chart-type1'));
-                this.btnAdvancedSettings && this.btnAdvancedSettings.render($host.find('#slot-btn-chart-advanced-settings1'));
-                this.lblWidth && this.lblWidth.render($host.find('#slot-lbl-width1'));
-                this.lblHeight && this.lblHeight.render($host.find('#slot-lbl-height1'));
-                this.chRatio && this.chRatio.render($host.find('#slot-chk-ratio1'));
-                this.btn3DSettings && this.btn3DSettings.render($host.find('#slot-btn-chart-3d-settings1'));
+                this.chartStyles && this.chartStyles.render(this.$el.find('#slot-field-chart-styles'));
+                this.btnChartType && this.btnChartType.render($host.find('#slot-btn-chart-type'));
+                this.btnAdvancedSettings && this.btnAdvancedSettings.render($host.find('#slot-btn-chart-advanced-settings'));
+                this.lblWidth && this.lblWidth.render($host.find('#slot-lbl-width'));
+                this.lblHeight && this.lblHeight.render($host.find('#slot-lbl-height'));
+                this.chRatio && this.chRatio.render($host.find('#slot-chk-ratio'));
+                this.btn3DSettings && this.btn3DSettings.render($host.find('#slot-btn-chart-3d-settings'));
 
                 return this.$el;
             },
@@ -808,13 +812,13 @@ define([
                 this.btnChartType.setMenu( new Common.UI.Menu({
                     style: 'width: 364px;padding-top: 12px;',
                     items: [
-                        {template: _.template('<div id="id-chart-menu-insertchart1" class="menu-insertchart"></div>')}
+                        {template: _.template('<div id="id-chart-menu-insertchart" class="menu-insertchart"></div>')}
                     ]
                 }));
 
                 var onShowBefore = function(menu) {
                     var picker = new Common.UI.DataView({
-                        el: $('#id-chart-menu-insertchart1'),
+                        el: $('#id-chart-menu-insertchart'),
                         parentMenu: menu,
                         outerMenu: {menu: menu, index:0},
                         showLast: false,
@@ -862,6 +866,22 @@ define([
                         button.setDisabled(state);
                     }
                 }, this);
+            },
+
+            onThemeChanged: function() {
+                var cmp = this.chartStyles;
+                if (cmp && cmp.cmpEl) {
+                    var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent(),
+                        fieldpicker = cmp.cmpEl.find('.field-picker'),
+                        itemMargin = parseFloat(itemEl.css('margin-left')) + parseFloat(itemEl.css('margin-right')),
+                        itemWidth = itemEl.is(':visible') ? parseFloat(itemEl.css('width')) :
+                                    (cmp.itemWidth + parseFloat(itemEl.css('padding-left')) + parseFloat(itemEl.css('padding-right')) +
+                                    parseFloat(itemEl.css('border-left-width')) + parseFloat(itemEl.css('border-right-width'))),
+                        maxwidth = (itemWidth + itemMargin) * cmp.options.maxMenuColumn + parseFloat(fieldpicker.css('padding-right')) +
+                                    parseFloat(fieldpicker.css('padding-left')) + cmp.openButton.$el.width();
+                    cmp.cmpEl.css('max-width', maxwidth + 'px');
+                    cmp.startCheckSize();
+                }
             },
         }
     }()), Common.Views.ChartTab || {}));

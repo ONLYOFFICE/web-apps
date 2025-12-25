@@ -905,17 +905,16 @@ define([
             }
 
             if (in_chart !== this._state.in_chart) {
-                this.toolbar.btnInsertChart.updateHint(in_chart ? this.toolbar.tipChangeChart : this.toolbar.tipInsertChart);
-                this._state.in_chart = in_chart;
-            }
+                this.toolbar.btnInsertChart.updateHint(
+                    in_chart ? this.toolbar.tipChangeChart : this.toolbar.tipInsertChart
+                );
 
-            if (this._state.inchart !== in_chart) {
-                if ( !in_chart && this.toolbar.isTabActive('charttab') )
+                if (!in_chart && this.toolbar.isTabActive('charttab'))
                     this.toolbar.setTab('home');
                 this.toolbar.setVisible('charttab', !!in_chart);
                 if (in_chart && this._state.showChartTab)
                     this.toolbar.setTab('charttab');
-                this._state.inchart = in_chart;
+                this._state.in_chart = in_chart;
             }
 
             this.toolbar.lockToolbar(Common.enumLock.noParagraphObject, !in_para, {array: [me.toolbar.btnLineSpace]});

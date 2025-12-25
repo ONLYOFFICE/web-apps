@@ -663,13 +663,13 @@ define([
                 }
             }
 
-            if (this._state.inchart !== in_chart) {
+            if (this._state.in_chart !== in_chart) {
                 if ( !in_chart && this.toolbar.isTabActive('charttab') )
                     this.toolbar.setTab('home');
                 this.toolbar.setVisible('charttab', !!in_chart);
                 if (in_chart && this._state.showChartTab)
                     this.toolbar.setTab('charttab');
-                this._state.inchart = in_chart;
+                this._state.in_chart = in_chart;
             }
 
             if (this._state.prcontrolsdisable !== paragraph_locked) {

@@ -1313,6 +1313,7 @@
   "Common.Views.ChartTab.menuCapEditLinks": "Edit links",
   "Common.Views.ChartTab.menuCapOpen": "Open",
   "Common.Controllers.ChartTab.menuCapOpen": "Open",
+  "Common.Controllers.ChartTab.textStyle": "Style",
   "Common.Views.Charts3DDlg.txtXRotation": "X-rotation",
   "Common.Views.Charts3DDlg.txtYRotation": "Y-rotation",
   "Common.Views.Charts3DDlg.txtPerspective": "Perspective",

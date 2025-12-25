@@ -935,17 +935,16 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.cantAddImagePara, in_para && !can_add_image, {array: [toolbar.btnInsertTextArt]});
 
             if (in_chart !== this._state.in_chart) {
-                toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);
-                this._state.in_chart = in_chart;
-            }
+                toolbar.btnInsertChart.updateHint(
+                    in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart
+                );
 
-            if (this._state.inchart !== in_chart) {
-                if ( !in_chart && this.toolbar.isTabActive('charttab') )
+                if (!in_chart && this.toolbar.isTabActive('charttab'))
                     this.toolbar.setTab('home');
                 this.toolbar.setVisible('charttab', !!in_chart);
                 if (in_chart && this._state.showChartTab)
                     this.toolbar.setTab('charttab');
-                this._state.inchart = in_chart;
+                this._state.in_chart = in_chart;
             }
 
             var need_disable = paragraph_locked || header_locked || in_equation || control_plain || rich_del_lock || plain_del_lock  || content_locked || in_para && !can_add_image;
