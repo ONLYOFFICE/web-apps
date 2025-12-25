@@ -162,6 +162,79 @@ define([
                     this.processPanelVisible();
                     this.repaintMoreBtns();
                 }, this));
+                Common.NotificationCenter.on({
+                    'hints:activate-control': _.bind(function (p) {
+                        if (p && p.exit && this.isMoreDropdownSection(p.section)) p.exit(true);
+                    }, this),
+
+                    'hints:resolve-section': _.bind(function (p) {
+                        if (!p || !p.set) return;
+
+                        var $more = this.getVisibleMoreContainer();
+                        if (!$more.length) return;
+                        if (p.level === 0) { p.cancel = true; return; }
+                        p.set($more, 1);
+                    }, this),
+
+                   'hints:resolve-bounds': _.bind(function (p) {
+                        if (p && this.isMoreDropdownSection(p.section)) {
+                            p.top = 0;
+                            p.bottom = p.docH;
+                        }
+                    }, this),
+
+                    'hints:esc': _.bind(function (p) {
+                        var handled = this.hasVisibleMoreDropdown();
+                        if (handled) this.closeVisibleMoreDropdown();
+                        if (p && p.handled) p.handled(handled);
+                    }, this)
+                }, this);
+            },
+
+            isMoreDropdownSection: function (section) {
+                return $(section).hasClass('more-container');
+            },
+
+            getVisibleMoreContainer: function () {
+                return $('.dropdown-menu.more-container:visible');
+            },
+
+            hasVisibleMoreDropdown: function () {
+                return this.getVisibleMoreContainer().length > 0;
+            },
+
+            closeVisibleMoreDropdown: function () {
+                var $more = this.getVisibleMoreContainer();
+                if (!$more.length) return null;
+                var tab = $more.attr('data-tab') || null;
+                this.closeMoreDropdown(tab);
+                $more.hide();
+                return tab;
+            },
+
+            closeMoreDropdown: function (tab) {
+                if (!btnsMore) return;
+                if (tab) {
+                    if (btnsMore[tab] && btnsMore[tab].pressed) {
+                        btnsMore[tab].toggle(false, true);
+                    }
+                    return;
+                }
+            },
+
+            prefillMore: function ($menu, level) {
+                if (!$menu || !$menu.length) return;
+
+                var prevDisplay = $menu[0].style.display;
+                var prevVisibility = $menu[0].style.visibility;
+                $menu.css({ display: 'block', visibility: 'hidden' });
+
+                Common.NotificationCenter.trigger('hints:prefill', {
+                    section: $('#toolbar'),   
+                    level: level
+                });
+
+                $menu.css({ display: prevDisplay, visibility: prevVisibility });
             },
 
             afterRender: function() {
@@ -1049,6 +1122,7 @@ define([
 
                 var styles = Common.UI.isRTL() ? {left: '6px', right: 'auto', top : top, 'max-width': Common.Utils.innerWidth() + 'px'} : {right: right, left: 'auto', top : top, 'max-width': Common.Utils.innerWidth() + 'px'}
                 moreContainer.css(styles);
+                this.prefillMore(moreContainer, 1);
                 moreContainer.show();
             },
 

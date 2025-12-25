@@ -127,22 +127,28 @@ Common.UI.HintManager = new(function() {
         };
 
     var _api;
-    var _more = null; 
-        
-    var _prefillMore = function ($menu, level) {
-        if (!$menu.length || $menu.is(':visible')) return;
+    
+    var _runPrefill = function (section, level) {
+        var prevSection = _currentSection, prevLevel = _currentLevel;
+        var prevControls = _currentControls.slice();
+        var prevUsed = _usedTitles.slice();
 
-        var prevDisplay = $menu[0].style.display,
-            prevVisibility = $menu[0].style.visibility;
-        $menu.css({ display: 'block', visibility: 'hidden' });
+        _currentSection = section || prevSection;
+        _currentLevel = (level !== undefined) ? level : prevLevel;
 
-        _currentSection = $('#toolbar');
-        _currentLevel = level;
-        _getControls(); 
+        _currentControls.length = 0;
+        _usedTitles.length = 0;
+        _getControls();
 
-        $menu.css({ display: prevDisplay, visibility: prevVisibility });
-    };
+        _currentSection = prevSection;
+        _currentLevel = prevLevel;
 
+        _currentControls.length = 0;
+        Array.prototype.push.apply(_currentControls, prevControls);
+
+        _usedTitles.length = 0;
+        Array.prototype.push.apply(_usedTitles, prevUsed);
+    }
 
     var _setCurrentSection = function (btn, section) {
         if (section) {
@@ -173,7 +179,20 @@ Common.UI.HintManager = new(function() {
 
     var _showHints = function (btnMore) {
         _inputLetters = '';
-        if (!btnMore && $('.dropdown-menu.more-container:visible').length) return;
+        var p = {
+            level: _currentLevel,
+            section: _currentSection,
+            cancel: false,
+            set: function (section, level) {
+                if (section) _currentSection = section;
+                if (level !== undefined) _currentLevel = level;
+            }
+        };
+
+        Common.NotificationCenter.trigger('hints:resolve-section', p);
+
+        if (p.cancel) return;
+
         if (_currentLevel === 0) {
             Common.NotificationCenter.trigger('toolbar:collapse');
         }
@@ -365,12 +384,12 @@ Common.UI.HintManager = new(function() {
             section = _isEditDiagram ? _currentSection[0] : _currentSection,
             topSection = _currentLevel !== 0 && $(section).length > 0 && !_isEditDiagram ? Common.Utils.getOffset($(section)).top : 0,
             bottomSection = _currentLevel !== 0 && $(section).length > 0 && !_isEditDiagram ? topSection + $(section).height() : docH,
-            isMoreDropdown = $(section).hasClass('more-container') || $(section).closest('.more-container').length > 0;
-            if (isMoreDropdown) {
-                topSection = 0;
-                bottomSection = docH;
-            }
+            p = { section: section, docH: docH, top: topSection, bottom: bottomSection};
 
+        Common.NotificationCenter.trigger('hints:resolve-bounds', p);
+        if (p.top !== undefined && p.top !== topSection) topSection = p.top;
+        if (p.bottom !== undefined && p.bottom !== bottomSection) bottomSection = p.bottom;
+        
         if ($(section).prop('id') === 'toolbar' && $(section).outerHeight() < $(section).find('.box-controls').outerHeight()) {
             bottomSection += $(section).find('.box-controls').outerHeight();
         }
@@ -515,7 +534,11 @@ Common.UI.HintManager = new(function() {
                 _isDocReady = true;
             },
             'hints:clear': _clearHints,
-            'window:resize': _clearHints
+            'window:resize': _clearHints,
+            'hints:prefill': function (payload) {
+                if (!payload) return;
+                _runPrefill(payload.section, payload.level);
+            }
         });
         $('#editor_sdk').on('click', function () {
             _clearHints();
@@ -549,6 +572,26 @@ Common.UI.HintManager = new(function() {
                 e.preventDefault();
                 if (e.keyCode == Common.UI.Keys.ESC ) {
                     setTimeout(function () {
+                        var p = {
+                            level: _currentLevel,
+                            section: _currentSection,
+                            handledValue: false,
+                            handled: function (v) { this.handledValue = !!v; }
+                        };
+
+                        Common.NotificationCenter.trigger('hints:esc', p);
+
+                        if (p.handledValue) {
+                            _removeHints();
+                            _currentHints.length = 0;
+                            _currentControls.length = 0;
+
+                            _currentSection = $('#toolbar');
+                            _currentLevel = 1;
+                            _showHints();
+                            return;
+                        }
+
                         if (_currentLevel === 0) {
                             _hideHints();
                             _resetToDefault();
@@ -594,20 +637,25 @@ Common.UI.HintManager = new(function() {
                         if (curr) {
                             Common.UI.ScreenReaderFocusManager && Common.UI.ScreenReaderFocusManager.exitFocusMode();
                             var tag = curr.prop("tagName").toLowerCase();
-                            if (curr && curr.closest('.slot-btn-more').length) { 
-                                var tab = curr.closest('.panel').attr('data-tab'); 
-                                var $menu = tab ? $('.dropdown-menu.more-container[data-tab="' + tab + '"]') : $();
+                            var p = {
+                                level: _currentLevel,
+                                section: _currentSection,
+                                control: curr,
+                                exitValue: false,
+                                exit: function (v) { this.exitValue = !!v; }
+                            };
 
-                                _prefillMore($menu, 1);           
+                            Common.NotificationCenter.trigger('hints:activate-control', p);
 
-                                curr.trigger(jQuery.Event('click', { which: 1 }));  
-                                _nextLevel(); 
-                                
-                                _more = $menu.find('[data-hint="1"]');  
-                                _more.attr('data-hint', '2');
-                                _setCurrentSection(undefined, $menu);
-                                _showHints(true);
-                                
+                            if (p.exitValue) {
+                                _clearHints(true);
+                                _resetToDefault();
+                                _lockedKeyEvents(false);
+
+                                if (curr && curr.length) {
+                                    if (curr.attr('for')) $('#' + curr.attr('for')).trigger(jQuery.Event('click', { which: 1 }));
+                                    else curr.trigger(jQuery.Event('click', { which: 1 }));
+                                }
                                 return;
                             }
                             if (window.SSE && curr.parent().prop('id') === 'statusbar_bottom') {
@@ -725,8 +773,6 @@ Common.UI.HintManager = new(function() {
     };
 
     var _clearHints = function (isComplete, leaveLockedKeyEvents) {
-        if (_more && _more.length) _more.attr('data-hint', '1');
-        _more = null;
         if (Common.Utils.isIE || Common.UI.isMac && Common.Utils.isGecko)
             return;
         _hintVisible && _hideHints();
