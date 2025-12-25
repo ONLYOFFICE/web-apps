@@ -313,10 +313,10 @@ define([
 
                     const keys = [];
 
-                    if (e.ctrlKey) keys.push(me._shortcutsController.keyCodeToKeyName(Common.UI.Keys.CTRL));
-                    if (e.shiftKey) keys.push(me._shortcutsController.keyCodeToKeyName(Common.UI.Keys.SHIFT));
-                    if (e.altKey) keys.push(me._shortcutsController.keyCodeToKeyName(Common.UI.Keys.ALT));
                     if (e.metaKey && Common.Utils.isMac) keys.push(me._shortcutsController.keyCodeToKeyName(Common.UI.Keys.META));
+                    if (e.ctrlKey) keys.push(me._shortcutsController.keyCodeToKeyName(Common.UI.Keys.CTRL));
+                    if (e.altKey) keys.push(me._shortcutsController.keyCodeToKeyName(Common.UI.Keys.ALT));
+                    if (e.shiftKey) keys.push(me._shortcutsController.keyCodeToKeyName(Common.UI.Keys.SHIFT));
 
                     if (![Common.UI.Keys.CTRL, Common.UI.Keys.SHIFT, Common.UI.Keys.ALT, Common.UI.Keys.META].includes(e.keyCode)) {
                         keys.push(me._shortcutsController.keyCodeToKeyName(e.keyCode));

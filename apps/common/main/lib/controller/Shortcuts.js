@@ -159,6 +159,7 @@ define([
                         ascShortcut: ascShortcut,
                     }
                 });
+                actionItem.shortcuts = actionItem.shortcuts.sort(this._sortComparator);
             }
 
             this._eventsTrigger();
@@ -471,6 +472,9 @@ define([
                         copyAscShortcut.asc_SetIsHidden(true);
                         shortcuts[foundIndex].ascShortcut = copyAscShortcut;
                     }
+                }
+                if(this.actionsMap[actionType]) {
+                    this.actionsMap[actionType].shortcuts = shortcuts.sort(this._sortComparator);
                 }
             }
         },
