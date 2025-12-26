@@ -523,6 +523,11 @@ Common.UI.HintManager = new(function() {
         });
         $(document).on('keydown', function(e) {
             if (_hintVisible) {
+                if (_currentLevel === 0 && e.keyCode === 40) {
+                    e.preventDefault();            
+                    e.stopImmediatePropagation();
+                    return;
+                }
                 e.preventDefault();
                 if (e.keyCode == Common.UI.Keys.ESC ) {
                     setTimeout(function () {
