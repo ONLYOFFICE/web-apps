@@ -434,6 +434,8 @@ SSE.ApplicationController = new(function(){
             embed: '#idt-embed'
         });
 
+        common.controller.Shortcuts.setApi(api);
+
         api.asc_registerCallback('asc_onMouseMove',             onApiMouseMove);
         api.asc_registerCallback('asc_onHyperlinkClick',       onHyperlinkClick);
         api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
@@ -553,6 +555,8 @@ SSE.ApplicationController = new(function(){
 
         $('#editor_sdk').on('click', function(e) {
             if ( e.target.localName == 'canvas' ) {
+                if (e.target.getAttribute && e.target.getAttribute("oo_no_focused"))
+                    return;
                 e.currentTarget.focus();
             }
         });
@@ -667,14 +671,17 @@ SSE.ApplicationController = new(function(){
             WarningShown = true; 
             common.controller.modals.showWarning({
                     title: me.notcriticalErrorTitle,
-                    message: me.txtOpenWarning,
-                    buttons: [me.txtYes, me.txtNo], 
-                    primary: me.txtYes,
+                    message: me.txtOpenWarning.replace('%1', url || ''),
+                    buttons: [me.txtNo, me.txtYes],
+                    primary: me.txtNo,
                     callback: function (btn) {
                         WarningShown = false; 
                         if (btn === me.txtYes) {
                             window.open(url);
                         }
+                    },
+                    closecallback: function() {
+                        WarningShown = false;
                     }
             }); 
         }    
@@ -687,6 +694,9 @@ SSE.ApplicationController = new(function(){
                 message: me.scriptLoadError,
                 buttons: [me.txtClose],
                 callback: function(btn) {
+                    window.location.reload();
+                },
+                closecallback: function() {
                     window.location.reload();
                 }
             });
@@ -777,6 +787,10 @@ SSE.ApplicationController = new(function(){
                 message = me.errorEditingDownloadas;
                 break;
 
+            case Asc.c_oAscError.ID.CopyDisabled:
+                message= me.errorCopyDisabled;
+                break;
+
             default:
                 // message = me.errorDefaultMessage.replace('%1', id);
                 // break;
@@ -791,6 +805,11 @@ SSE.ApplicationController = new(function(){
                 if (level == Asc.c_oAscError.Level.Critical) {
                     window.location.reload();
                 } 
+            },
+            closecallback: function() {
+                if (level == Asc.c_oAscError.Level.Critical) {
+                    window.location.reload();
+                }
             }
         });
 
@@ -909,7 +928,7 @@ SSE.ApplicationController = new(function(){
             }
 
             if (value.logo.image || value.logo.imageEmbedded) {
-                logo.html('<img src="'+(value.logo.image || value.logo.imageEmbedded)+'" style="max-width:100px; max-height:20px;"/>');
+                logo.html('<img src="'+(value.logo.image || value.logo.imageEmbedded)+'" style="max-width:300px; max-height:20px;"/>');
                 logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
 
                 value.logo.imageEmbedded && console.log("Obsolete: The 'imageEmbedded' parameter of the 'customization.logo' section is deprecated. Please use 'image' parameter instead.");
@@ -1009,8 +1028,9 @@ SSE.ApplicationController = new(function(){
         errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
         errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
         txtPressLink: 'Click the link to open it',
-        txtOpenWarning: 'Clicking this link can be harmful to your device and data.<br> Are you sure you want to continue?',
+        txtOpenWarning: 'Clicking this link can be harmful to your device and data.To protect you computer, click only those hyperlinks from trusted sources. This location may be unsafe:<br>%1<br>Are you sure you want to continue?',
         txtYes:'Yes',
-        txtNo: 'No'
+        txtNo: 'No',
+        errorCopyDisabled: 'For security reasons, the contents of this document cannot be copied to the clipboard.'
     }
 })();

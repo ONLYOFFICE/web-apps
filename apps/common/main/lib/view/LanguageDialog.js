@@ -74,11 +74,19 @@ define([], function () { 'use strict';
         var $window = this.getChild();
         $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
-        this.cmbLanguage = new Common.UI.ComboBox({
+        var lckey = "app-settings-recent-langs";
+        this.cmbLanguage = new Common.UI.ComboBoxRecent({
             el: $window.find('#id-document-language'),
             cls: 'input-group-nr',
+            menuCls: 'shifted-right',
             menuStyle: 'min-width: 318px; max-height: 285px;',
             editable: false,
+            recent: {
+                count: Common.Utils.InternalSettings.get(lckey + "-count") || 5,
+                offset: Common.Utils.InternalSettings.get(lckey + "-offset") || 0,
+                key: lckey,
+                valueField: 'value'
+            },
             template: _.template([
                 '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',
                     '<input type="text" class="form-control">',
@@ -87,20 +95,19 @@ define([], function () { 'use strict';
                         '<span class="caret" />',
                     '</button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
-                        '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" data-value="<%= item.value %>">',
-                            '<a tabindex="-1" type="menuitem" langval="<%= item.value %>">',
-                                '<div>',
-                                    '<i class="icon <% if (item.spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
-                                    '<%= item.displayValue %>',
-                                '</div>',
-                                '<label style="opacity: 0.6"><%= item.displayValueEn %></label>',
-                            '</a>',
-                        '</li>',
-                        '<% }); %>',
                     '</ul>',
                 '</span>'
             ].join('')),
+            itemTemplate: _.template([
+                '<li id="<%= id %>" data-value="<%= value %>">',
+                    '<a tabindex="-1" type="menuitem" langval="<%= value %>">',
+                        '<div>',
+                            '<i class="icon <% if (spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
+                            '<%= displayValue %>',
+                        '</div>',
+                        '<label style="opacity: 0.6"><%= displayValueEn %></label>',
+                    '</a>',
+                '</li>'].join('')),
             data: this.options.languages,
             takeFocusOnClose: true,
             search: true,

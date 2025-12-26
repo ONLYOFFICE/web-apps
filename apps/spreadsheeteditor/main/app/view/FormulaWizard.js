@@ -73,7 +73,7 @@ define([
                                 '</td></tr>',
                                 '<tr><td style="padding-bottom: 8px;padding-top: 8px;">',
                                     '<div id="formula-wizard-panel-args-desc" style="padding: 8px;">',
-                                        '<div id="formula-wizard-arg-desc" style="height:30px;overflow: hidden;"></div>',
+                                        '<label id="formula-wizard-arg-desc" style="min-height:30px; height:30px; overflow: hidden;"></label>',
                                     '</div>',
                                 '</td></tr>',
                                 '<tr><td>',
@@ -241,20 +241,25 @@ define([
                 this.scrollerY.update();
         },
 
-        recalcMaxArgDesc: function() {
+        recalcMaxArgDesc: function(isSaveContent) {
             var me = this,
+                minHeight = parseInt(this.lblArgDesc.css('min-height')),
                 oldHeight = parseInt(this.lblArgDesc.css('height')),
-                maxheight = oldHeight;
+                maxHeight = minHeight,
+                content = this.lblArgDesc.html();
             this.argsDesc && this.argsDesc.forEach(function(item, index) {
                 var name = me.args[index] ? me.args[index].argName || '' : '';
                 item && me.lblArgDesc.html('<b>' + name + ': </b><span>' + item + '</span>');
                 var height = parseInt(me.lblArgDesc.find('span').height());
-                if (height>maxheight)
-                    maxheight = height;
+                if (height>maxHeight)
+                    maxHeight = height;
             });
-            me.lblArgDesc.text('');
-            if (maxheight>oldHeight) {
-                this.lblArgDesc.css('height', maxheight+4);
+
+            me.lblArgDesc.html(isSaveContent ? content : '');
+            maxHeight > minHeight && (maxHeight += 4);
+
+            if (maxHeight != oldHeight) {
+                this.lblArgDesc.css('height', maxHeight);
                 this.setInnerHeight();
             }
         },
@@ -484,6 +489,11 @@ define([
                     argindex   : input.options.index
                 });
             }
+        },
+
+        onThemeChanged: function() {
+            this.recalcMaxArgDesc(true);
+            Common.Views.AdvancedSettingsWindow.prototype.onThemeChanged.call(this);
         },
 
         showHelp: function() {

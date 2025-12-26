@@ -3,8 +3,8 @@
 }
 .preview-controls {
     display: table;
-    background: @background-toolbar-ie;
-    background: @background-toolbar;
+    background: @background-pane-ie;
+    background: @background-pane;
     height: 35px;
     z-index: 10;
     opacity: 0.2;
@@ -31,15 +31,7 @@
     }
 
     #btn-preview-prev {
-        margin-left: 10px;
-        .rtl & {
-            margin-left: 0;
-        }
-    }
-    #btn-preview-next {
-        .rtl & {
-            margin-right: 10px;
-        }
+        .margin-left-10();
     }
     #btn-preview-close {
         .margin-right-10();

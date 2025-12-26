@@ -5,9 +5,19 @@
             (min-resolution: 120dpi) and (max-resolution: 143dpi)
     {
         .toolbar__icon, .menu__icon {
+            {{#if (iesupport)}}
             background-image: url(resources/{{{escaped_image}}});
-            background-size: {{scaled width 1.25}}px auto;
+            {{/if}}
+            background-image: var(--sprite-button-{{#spritepostfix}}{{/spritepostfix}}, url(resources/{{{escaped_image}}}));
         }
+
+        {{#if (xpsupport)}}
+        .winxp {
+            .toolbar__icon, .menu__icon {
+                background-image: url(resources/{{{escaped_image}}});
+            }
+        }
+        {{/if}}
     }
 }
 {{/spritesheet}}

@@ -155,7 +155,7 @@ define([
             if(this.api && this.AnimationProperties) {
                 if(toggleGroup == 'animateeffects') {
                     this.AnimationProperties.asc_putSubtype(value);
-                    this.api.asc_SetAnimationProperties(this.AnimationProperties);
+                    this.api.asc_SetAnimationProperties(this.AnimationProperties, !Common.Utils.InternalSettings.get("pe-animation-no-auto-preview"));
                 }
                 else if(toggleGroup == 'custompath') {
                     var groupName = _.findWhere(this.EffectGroups, {value: AscFormat.PRESET_CLASS_PATH}).id;
@@ -591,8 +591,9 @@ define([
             if (tab == 'animate') {
                 this._state.onactivetab = true;
                 this.setSettings();
+            } else {
+                this._state.onactivetab = false;
             }
-            else this._state.onactivetab = false;
             this.api && this.api.asc_onShowAnimTab(!!this._state.onactivetab);
         },
 

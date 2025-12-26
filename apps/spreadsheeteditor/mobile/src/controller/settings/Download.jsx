@@ -29,7 +29,7 @@ class DownloadController extends Component {
             if (format == Asc.c_oAscFileType.CSV) {
                 f7.dialog.create({
                     title: _t.notcriticalErrorTitle,
-                    text: _t.warnDownloadAs,
+                    text: _t.warnDownloadCsv,
                     buttons: [
                         {
                             text: _t.textCancel
@@ -40,6 +40,22 @@ class DownloadController extends Component {
                                 const advOptions = api.asc_getAdvancedOptions();
                                 Common.Notifications.trigger('openEncoding', Asc.c_oAscAdvancedOptionsID.CSV, advOptions, 2, new Asc.asc_CDownloadOptions(format))
                                 // onAdvancedOptions(Asc.c_oAscAdvancedOptionsID.CSV, api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format), _t, true);
+                            }
+                        }
+                    ]
+                }).open();
+            } else if (format == Asc.c_oAscFileType.ODS) {
+                f7.dialog.create({
+                    title: _t.notcriticalErrorTitle,
+                    text: _t.warnDownloadOds,
+                    buttons: [
+                        {
+                            text: _t.textCancel
+                        },
+                        {
+                            text: _t.textOk,
+                            onClick: () => {
+                                api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                             }
                         }
                     ]

@@ -185,7 +185,7 @@
                             view: {
                                 navigation: false/true // navigation button in de
                             } / false / true, // view tab
-                            save: false/true // save button on toolbar in 
+                            save: false/true // save button on toolbar in
                         } / false / true, // use instead of customization.toolbar,
                         header: {
                             users: false/true // users list button
@@ -274,7 +274,8 @@
                     showHorizontalScroll: true/false, //  show/hide scroll in the spreadsheet editor by default
                     startFillingForm: {
                         text: 'Share & collect' // caption of the start filling button, used for pdf-forms
-                    }
+                    },
+                    suggestFeature: true/false
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
@@ -512,7 +513,7 @@
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
-                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett|numbers)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt|key|odg)|(pdf|djvu|xps|oxps)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt|pages|hwp|hwpx)|(vsdx|vssx|vstx|vsdm|vssm|vstm))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett|numbers)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt|key|odg)|(pdf|djvu|xps|oxps)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt|pages|hwp|hwpx|md|hml)|(vsdx|vssx|vstx|vsdm|vssm|vstm))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
@@ -548,7 +549,7 @@
 
                 _config.document.token = _config.token;
             }
-            
+
             return true;
         };
 
@@ -663,16 +664,6 @@
                 command: 'applyEditRights',
                 data: {
                     allowed: allowed,
-                    message: message
-                }
-            });
-        };
-
-        var _processSaveResult = function(result, message) {
-            _sendCommand({
-                command: 'processSaveResult',
-                data: {
-                    result: result,
                     message: message
                 }
             });
@@ -902,7 +893,6 @@
 
         return {
             showMessage         : _showMessage,
-            processSaveResult   : _processSaveResult,
             processRightsChange : _processRightsChange,
             denyEditingRights   : _denyEditingRights,
             refreshHistory      : _refreshHistory,
@@ -1070,7 +1060,8 @@
 
     function isLocalStorageAvailable() {
         try {
-            const storage = window['localStorage'];
+            localStorage.setItem('test', 'test');
+            localStorage.removeItem('test');
             return true;
         }
         catch(e) {

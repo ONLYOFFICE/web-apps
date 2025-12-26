@@ -9,7 +9,7 @@
 
     <!-- splash -->
     <style type="text/css">
-        .theme-dark, .theme-type-dark {
+        /* .theme-dark, .theme-type-dark {
             --toolbar-header-visio: #2a2a2a;
             --background-toolbar: #404040;
             --border-toolbar: #2a2a2a;
@@ -17,7 +17,7 @@
             --highlight-header-button-hover: rgba(255,255,255,.15);
             --canvas-background: #666666;
             /*--canvas-content-background: #fff;*/
-            --canvas-page-border: #555;
+            /* --canvas-page-border: #555;
         }
 
         .theme-classic-light {
@@ -26,10 +26,64 @@
         .theme-light {
             --background-toolbar: #f1f1f1;
             /*--border-toolbar: #cbcbcb;*/
-            --highlight-button-hover: #d8dadc;
+            /* --highlight-button-hover: #d8dadc;
             --highlight-header-button-hover: rgba(0,0,0,.15);
             --canvas-background: #eee;
             --canvas-page-border: #ccc;
+        }  */
+
+        .loadmask {
+            --sk-height-toolbar-controls:84px;
+            --sk-layout-padding-toolbar:0 10px;
+            --sk-layout-padding-header: 0 10px;
+            --sk-shadow-toolbar: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+            --sk-border-radius-toolbar: 8px;
+            --sk-background-toolbar: #f3f3f3;
+            --sk-background-toolbar-controls: #fff;
+            --sk-canvas-background: #f3f3f3;
+            --sk-background-toolbar-header-pdf: #f3f3f3;
+            --sk-background-toolbar-tab: #eaeaea;
+            --sk-background-toolbar-button: #f9f9f9;
+            --sk-layout-padding-toolbar-controls: 0 8px;
+            --sk-canvas-content-background: #fff;
+            --sk-canvas-page-border: #dde0e5;
+            --sk-canvas-line: rgba(0,0,0,.05);
+        }
+
+        .theme-night .loadmask {
+            --sk-height-toolbar-controls: 84px; 
+            --sk-layout-padding-toolbar: 0 10px;
+            --sk-border-radius-toolbar: 8px;
+
+            /* --shadow-toolbar: 0px 1px 3px 0px rgba(0, 0, 0, 0.10), 0px 1px 2px 0px rgba(0, 0, 0, 0.06) */
+            --sk-shadow-toolbar: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+
+            /* --toolbar-header-document: #222222 */
+            --sk-background-toolbar-header-pdf: #222222;
+
+            /* --toolbar-header-document: #222222 */
+            --sk-background-toolbar: #222222;
+
+            /* --background-toolbar: #404040; */
+            --sk-background-toolbar-controls: #404040;
+
+            /* --highlight-header-button-hover: #585858; */
+            --sk-background-toolbar-tab: #585858;
+
+            /* --highlight-button-hover: #585858 */
+            --sk-background-toolbar-button: #585858;
+
+            --sk-layout-padding-toolbar-controls: 0 8px;
+            --sk-layout-padding-header: 0 10px;
+
+            /* --canvas-background: #222222; */
+            --sk-canvas-background: #222222;
+
+            /* --canvas-content-background: #fff; */
+            --sk-canvas-content-background: #fff;
+
+            --sk-canvas-page-border: #555;
+            --sk-canvas-line: rgba(0,0,0,.05);
         }
 
         .loadmask {
@@ -41,20 +95,22 @@
             overflow: hidden;
             border: none;
             background: #e2e2e2;
-            background: var(--canvas-background, #e2e2e2);
+            background: var(--sk-canvas-background, #eee);
             z-index: 1002;
         }
 
         .loadmask > .brendpanel {
-            width: 100%;
+            /* width: 100%; */
             min-height: 28px;
             background: #444796;
-            background: var(--toolbar-header-visio, #444796);
+            background: var(--sk-background-toolbar-header-visio);
+            padding: var(--sk-layout-padding-header);
         }
 
         .loadmask > .brendpanel .underline {
             background: #f1f1f1;
-            background: var(--background-toolbar, #f1f1f1);
+            /* background: var(--background-toolbar, #f1f1f1); */
+            background: var(--sk-background-toolbar-header-visio);
         }
 
         .loadmask > .brendpanel > div {
@@ -81,7 +137,8 @@
         }
 
         .loadmask > .brendpanel .spacer {
-            margin-left: auto;
+            /* margin-left: auto; */
+            flex-grow: 1;
         }
 
         .loadmask > .brendpanel .rect {
@@ -91,33 +148,39 @@
             border-radius: 3px;
             margin: 0 10px;
             background: rgba(0,0,0,.15);
-            background: var(--highlight-header-button-hover, rgba(0,0,0,.15));
+            background: var(--sk-background-toolbar-tab);
         }
 
         .loadmask > .brendpanel .underline .rect {
             background: #d8dadc;
-            background: var(--highlight-button-hover, #d8dadc);
+            background: var(--sk-background-toolbar-tab);
             opacity: 0.4;
-        }
-
-        .loadmask > .brendpanel .circle {
-            vertical-align: middle;
-            width: 20px;
-            height: 20px;
-            border-radius: 20px;
-            margin: 0 10px;
-            background: rgba(0,0,0,.15);
-            background: var(--highlight-header-button-hover, rgba(0,0,0,.15));
         }
 
         .loadmask > .sktoolbar {
             background: #f1f1f1;
-            background: var(--background-toolbar, #f1f1f1);
-            border-bottom: 1px solid #cbcbcb;
-            border-bottom: var(--scaled-one-px-value, 1px) solid var(--border-toolbar, #cbcbcb);
-            height: 46px;
-            padding: 10px 6px;
+            /*height: 66px;*/
+            /*height: var(--sk-height-toolbar-controls, 66px);*/
+            padding: 0;
+            padding: var(--sk-layout-padding-toolbar, 0);
+            
             box-sizing: content-box;
+            background-color: var(--sk-background-toolbar, #f7f7f7);
+        }
+
+        .loadmask > .sktoolbar > .box-controls {
+            background: var(--sk-background-toolbar-controls, #f7f7f7);
+            border-radius: var(--sk-border-radius-toolbar, 0);
+            /*padding: 10px 7px;*/
+            /*padding: 0 7px;*/
+            padding: var(--sk-layout-padding-toolbar-controls);
+            box-shadow: var(--sk-shadow-toolbar);
+            height: 66px;
+            height: var(--sk-height-toolbar-controls);
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .loadmask > .sktoolbar ul {
@@ -125,12 +188,16 @@
             padding: 0;
             white-space: nowrap;
             position: relative;
-            height: 25px;
+            height: 20px;
+        }
+
+        .loadmask > .sktoolbar ul:first-child {
+            margin-bottom: 5px;
         }
 
         .loadmask > .sktoolbar li {
             background: #d8dadc;
-            background: var(--highlight-button-hover, #d8dadc);
+            background: var(--sk-background-toolbar-button, #d8dadc);
             border-radius: 3px;
             width: 20px;
             height: 20px;
@@ -196,9 +263,9 @@
             height: 100%;
             width: 100%;
             background: #fff;
-            background: var(--canvas-content-background, #fff);
+            background: var(--sk-canvas-content-background, #fff);
             border: 1px solid #bbbec2;
-            border: var(--scaled-one-px-value, 1px) solid var(--canvas-page-border, #bbbec2);
+            border: var(--scaled-one-px-value, 1px) solid var(--sk-canvas-page-border, #bbbec2);
 
             -webkit-animation: flickerAnimation 2s infinite ease-in-out;
             -moz-animation: flickerAnimation 2s infinite ease-in-out;
@@ -328,16 +395,40 @@
     <script src="../../common/main/lib/util/htmlutils.js"></script>
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel" style="display: none;">
-            <div><div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo_s.svg"></div><div class="spacer"></div><div class="circle"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
+            <div>
+                <div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo_s.svg"></div>
+                <div class="spacer"></div>
+            </div>
+            <div>
+                <span class="rect"></span>
+                <span class="rect"></span>
+                <span class="rect"></span>
+                <span class="rect"></span>
+                <div class="spacer"></div>
+            </div>
         </div>
         <div class="sktoolbar" style="display: none;">
-            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space" style="width: 54px;"/><li class="split" /><li class="space"/><li style="width: 236px;"/><li class="space"/><li style="width: 136px;"/><li class="space" style="width: 138px;"/><li class="space"/><li style="width: 70px;"/><li class="fat"/></ul>
-            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"/><li class="big" style="width: 48px;"/><li class="split" /><li class="space"/><li style="width: 236px;"/><li class="space"/><li style="width: 136px;"/><li class="space"/><li class="big"/><li class="big"/><li class="big"/><li class="space"/><li style="width: 70px;"/></ul>
+            <section class="box-controls">
+                <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space" style="width: 54px;"/><li class="split" /><li class="space"/><li style="width: 236px;"/><li class="space"/><li style="width: 136px;"/><li class="space" style="width: 138px;"/><li class="space"/><li style="width: 70px;"/><li class="fat"/></ul>
+                <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"/><li class="big" style="width: 48px;"/><li class="split" /><li class="space"/><li style="width: 236px;"/><li class="space"/><li style="width: 136px;"/><li class="space"/><li class="big"/><li class="big"/><li class="big"/><li class="space"/><li style="width: 70px;"/></ul>
+            </section>
         </div>
         <div class="placeholder" style="display: none;">
             <div class="slide-h"><div class="slide-v"><div class="slide-container"></div></div></div>
         </div>
     </div>
+
+    <script>
+        if ( !!window.skhtml ) {
+            var skl = document.getElementById("loading-mask");
+            if ( skl ) {
+                skl.innerHTML = window.skhtml;
+                delete skl;
+            }
+    
+            delete window.skhtml;
+        }
+    </script>
 
     <div id="viewport" role="main"></div>
 

@@ -54,8 +54,8 @@ const SettingsController = props => {
         let config = props.storeAppOptions.config;
 
         closeModal();
-        if(config && !!config.feedback && !!config.feedback.url) {
-            window.open(config.feedback.url, "_blank");
+        if(!!config?.customization?.feedback?.url) {
+            window.open(config.customization.feedback.url, "_blank");
         } else window.open(__SUPPORT_URL__, "_blank");
     };
 
@@ -100,7 +100,7 @@ const SettingsController = props => {
             ],
             on: {
                 opened: () => {
-                    const nameDoc = docTitle.split('.')[0];
+                    const nameDoc = docTitle.slice(0, docTitle.lastIndexOf("."));
                     const titleField = document.querySelector('#modal-title');
                     const btnChangeTitle = document.querySelector('.btn-change-title');
 

@@ -99,7 +99,10 @@ define([
                 }, {
                     el: items[3],
                     alias: 'statusbar',
-                    height: Common.localStorage.getBool('ve-compact-statusbar', true) ? 25 : 50
+                    height: (function () {
+                        var h = parseInt(getComputedStyle(document.body).getPropertyValue('--statusbar-height') || 25);
+                        return Common.localStorage.getBool('ve-compact-statusbar', true) ? h : h * 2;
+                    })()
                 }]
             });
 

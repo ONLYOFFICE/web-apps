@@ -63,8 +63,8 @@ define([
 
     PE.Controllers.Main = Backbone.Controller.extend(_.extend((function() {
         var appHeader;
-        var ApplyEditRights = -255;
-        var LoadingDocument = -256;
+        var ApplyEditRights = Common.UI.blockOperations.ApplyEditRights;
+        var LoadingDocument = Common.UI.blockOperations.LoadingDocument;
 
         var mapCustomizationElements = {
             about: 'button#left-btn-about',
@@ -233,6 +233,7 @@ define([
                     this.api.asc_registerCallback('asc_onEndDemonstration',         _.bind(this.onEndDemonstration, this));
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
+                    Common.NotificationCenter.on('suggest',                         _.bind(this.onSuggest, this));
                     Common.NotificationCenter.on('close',                           _.bind(this.closeEditor, this));
                     Common.NotificationCenter.on('showmessage',                     _.bind(this.onExternalMessage, this));
                     Common.NotificationCenter.on('showerror',                       _.bind(this.onError, this));
@@ -325,7 +326,7 @@ define([
                             me.api.asc_enableKeyEvents(false);
                         },
                         'modal:close': function(dlg) {
-                            Common.Utils.ModalWindow.close();
+                            dlg && dlg.isVisible() && Common.Utils.ModalWindow.close(); // close can be called after hiding
                             if (!Common.Utils.ModalWindow.isVisible())
                                 me.api.asc_enableKeyEvents(true);
                         },
@@ -366,8 +367,6 @@ define([
                 me.warnNoLicense  = (me.warnNoLicense || '').replace(/%1/g, '{{COMPANY_NAME}}');
                 me.warnNoLicenseUsers = (me.warnNoLicenseUsers || '').replace(/%1/g, '{{COMPANY_NAME}}');
                 me.textNoLicenseTitle = (me.textNoLicenseTitle || '').replace(/%1/g, '{{COMPANY_NAME}}');
-                me.warnLicenseExceeded = (me.warnLicenseExceeded || '').replace(/%1/g, '{{COMPANY_NAME}}');
-                me.warnLicenseUsersExceeded = (me.warnLicenseUsersExceeded || '').replace(/%1/g, '{{COMPANY_NAME}}');
             },
 
             loadConfig: function(data) {
@@ -431,6 +430,9 @@ define([
                 this.appOptions.canRequestInsertImage = this.editorConfig.canRequestInsertImage;
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
+                this.appOptions.canRequestReferenceData = this.editorConfig.canRequestReferenceData;
+                this.appOptions.canRequestOpen = this.editorConfig.canRequestOpen;
+                this.appOptions.canRequestReferenceSource = this.editorConfig.canRequestReferenceSource;
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
                 this.appOptions.canSaveDocumentToBinary = this.editorConfig.canSaveDocumentToBinary;
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
@@ -548,16 +550,6 @@ define([
                 }
             },
 
-            onProcessSaveResult: function(data) {
-                this.api.asc_OnSaveEnd(data.result);
-                if (data && data.result === false) {
-                    Common.UI.error({
-                        title: this.criticalErrorTitle,
-                        msg  : _.isEmpty(data.message) ? this.errorProcessSaveResult : data.message
-                    });
-                }
-            },
-
             onProcessRightsChange: function(data) {
                 if (data && data.enabled === false) {
                     var me = this,
@@ -566,8 +558,8 @@ define([
                     this.api.asc_coAuthoringDisconnect();
                     Common.NotificationCenter.trigger('collaboration:sharingdeny');
                     Common.NotificationCenter.trigger('api:disconnect');
-                    !old_rights && Common.UI.TooltipManager.showTip({ step: 'changeRights', text: _.isEmpty(data.message) ? this.warnProcessRightsChange : data.message,
-                        target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true,
+                    !old_rights && Common.UI.TooltipManager.showTip({ step: 'changeRights', text: _.isEmpty(data.message) ? this.warnProcessRightsChange : Common.Utils.String.htmlEncode(data.message),
+                        target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true,
                         callback: function() {
                             me._state.lostEditingRights = false;
                         }});
@@ -657,6 +649,10 @@ define([
                 }
              },
 
+            onSuggest: function() {
+                window.open('{{SUGGEST_URL}}', "_blank");
+            },
+
             closeEditor: function() {
                 this.appOptions.canRequestClose && this.onRequestClose();
             },
@@ -686,11 +682,7 @@ define([
                 
                 application.getController('DocumentHolder').getView().focus();
                 if (this.api && this.appOptions.isEdit && this.api.asc_isDocumentCanSave) {
-                    var cansave = this.api.asc_isDocumentCanSave(),
-                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
-                        isSyncButton = (toolbarView.btnCollabChanges.rendered) ? toolbarView.btnCollabChanges.cmpEl.hasClass('notify') : false,
-                        isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                        toolbarView.btnSave.setDisabled(isDisabled);
+                    this.disableSaveButton(this.api.asc_isDocumentCanSave());
                 }
                 if (this.appOptions.isEdit && (toolbarView && toolbarView._isEyedropperStart || rightMenu && rightMenu._isEyedropperStart)) {
                     toolbarView._isEyedropperStart ? toolbarView._isEyedropperStart = false : rightMenu._isEyedropperStart = false;
@@ -698,6 +690,16 @@ define([
                 }
 
                 Common.UI.HintManager.clearHints(true);
+            },
+
+            disableSaveButton: function (isCanSave) {
+                var toolbarView = this.getApplication().getController('Toolbar').getView('Toolbar');
+                if (!toolbarView || !toolbarView.btnSave || !this.api) return;
+
+                var forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
+                    isSyncButton = (toolbarView.btnCollabChanges && toolbarView.btnCollabChanges.rendered) ? toolbarView.btnCollabChanges.cmpEl.hasClass('notify') : false,
+                    isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
+                toolbarView.lockToolbar(Common.enumLock.cantSave, isDisabled, {array: [toolbarView.btnSave]});
             },
 
             onLongActionBegin: function(type, id) {
@@ -846,6 +848,11 @@ define([
                         this.getApplication().getController('Statusbar').setStatusCaption(text);
                         return;
 
+                    case Common.UI.blockOperations.UpdateChart:
+                        title   = this.updateChartText;
+                        text    = this.updateChartText;
+                        break;
+
                     case Asc.c_oAscAsyncAction['RefreshFile']:
                         title    = this.textUpdating;
                         text    = this.textUpdating;
@@ -904,6 +911,9 @@ define([
                 me.api.SetDrawingFreeze(false);
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+
+                if (!me.appOptions.canCopy)
+                    Common.UI.TooltipManager.showTip({ step: 'copyDisabled', text: me.errorCopyDisabled, target: '#toolbar', maxwidth: 350, automove: true, noHighlight: true, noArrow: true, showButton: false});
 
                 Common.Utils.InternalSettings.set("pe-settings-datetime-default", Common.localStorage.getItem("pe-settings-datetime-default"));
 
@@ -975,6 +985,8 @@ define([
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
                 me.api.asc_registerCallback('asc_onPrint',                  _.bind(me.onPrint, me));
                 me.api.asc_registerCallback('asc_onConfirmAction',          _.bind(me.onConfirmAction, me));
+                Common.NotificationCenter.on('action:start',                _.bind(me.onLongActionBegin, me));
+                Common.NotificationCenter.on('action:end',                  _.bind(me.onLongActionEnd, me));
 
                 appHeader.setDocumentCaption( me.api.asc_getDocumentName() );
                 me.updateWindowTitle(true);
@@ -1033,6 +1045,8 @@ define([
                 documentHolderController.getView().on('editcomplete', _.bind(me.onEditComplete, me));
 //                if (me.isThumbnailsShow) me.getMainMenu().onThumbnailsShow(me.isThumbnailsShow);
                 application.getController('Viewport').getView('DocumentPreview').setApi(me.api).setMode(me.appOptions).on('editcomplete', _.bind(me.onEditComplete, me));
+
+                PE.getController('Common.Controllers.Shortcuts').setApi(me.api);
 
                 if (me.appOptions.isEdit) {
                     if (me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
@@ -1093,7 +1107,6 @@ define([
                     Common.component.Analytics.initialize('UA-12442749-13', 'Presentation Editor');
 
                 Common.Gateway.on('applyeditrights',        _.bind(me.onApplyEditRights, me));
-                Common.Gateway.on('processsaveresult',      _.bind(me.onProcessSaveResult, me));
                 Common.Gateway.on('processrightschange',    _.bind(me.onProcessRightsChange, me));
                 Common.Gateway.on('processmouse',           _.bind(me.onProcessMouse, me));
                 Common.Gateway.on('downloadas',             _.bind(me.onDownloadAs, me));
@@ -1150,17 +1163,21 @@ define([
                     });
                 } else if (this._state.licenseType) {
                     var license = this._state.licenseType,
+                        title = this.textNoLicenseTitle,
                         buttons = ['ok'],
-                        primary = 'ok';
+                        primary = 'ok',
+                        modal = false;
                     if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
                         (license===Asc.c_oLicenseResult.SuccessLimit || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
                         license = this.warnLicenseLimitedRenewed;
                     } else if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
-                        license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
+                        title = this.titleReadOnly;
+                        license = (license===Asc.c_oLicenseResult.Connections) ? this.tipLicenseExceeded : this.tipLicenseUsersExceeded;
                     } else {
                         license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
                         buttons = [{value: 'buynow', caption: this.textBuyNow}, {value: 'contact', caption: this.textContactUs}];
                         primary = 'buynow';
+                        modal = true;
                     }
 
                     if (this._state.licenseType!==Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.isEdit || this.appOptions.isRestrictedEdit)) {
@@ -1169,25 +1186,21 @@ define([
                         Common.NotificationCenter.trigger('api:disconnect');
                     }
 
-                    var value = Common.localStorage.getItem("pe-license-warning");
-                    value = (value!==null) ? parseInt(value) : 0;
-                    var now = (new Date).getTime();
-                    if (now - value > 86400000) {
-                        Common.UI.info({
-                            maxwidth: 500,
-                            title: this.textNoLicenseTitle,
-                            msg  : license,
-                            buttons: buttons,
-                            primary: primary,
-                            callback: function(btn) {
-                                Common.localStorage.setItem("pe-license-warning", now);
-                                if (btn == 'buynow')
-                                    window.open('{{PUBLISHER_URL}}', "_blank");
-                                else if (btn == 'contact')
-                                    window.open('mailto:{{SALES_EMAIL}}', "_blank");
-                            }
-                        });
-                    }
+                    !modal ? Common.UI.TooltipManager.showTip({ step: 'licenseError', text: license, header: title, target: '#toolbar', maxwidth: 430,
+                                                                automove: true, noHighlight: true, noArrow: true, textButton: this.textContinue}) :
+                    Common.UI.info({
+                        maxwidth: 500,
+                        title: title,
+                        msg  : license,
+                        buttons: buttons,
+                        primary: primary,
+                        callback: function(btn) {
+                            if (btn == 'buynow')
+                                window.open('{{PUBLISHER_URL}}', "_blank");
+                            else if (btn == 'contact')
+                                window.open('mailto:{{SALES_EMAIL}}', "_blank");
+                        }
+                    });
                 } else if (!this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt &&
                     this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo ||
                     this.editorConfig.customization.font && (this.editorConfig.customization.font.size || this.editorConfig.customization.font.name))) {
@@ -1372,6 +1385,8 @@ define([
                 this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && this.appOptions.canComments;
                 this.appOptions.canSaveToFile = this.appOptions.isEdit || this.appOptions.isRestrictedEdit;
                 this.appOptions.showSaveButton = this.appOptions.isEdit;
+                this.appOptions.canSuggest     = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.suggestFeature===false);
+                this.appOptions.canCopy        = this.permissions.copy !== false;
 
                 this.appOptions.compactHeader = this.appOptions.customization && (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compactHeader;
                 this.appOptions.twoLevelHeader = this.appOptions.isEdit; // when compactHeader=true some buttons move to toolbar
@@ -1387,6 +1402,7 @@ define([
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                 Common.UI.LayoutManager.init(this.editorConfig.customization ? this.editorConfig.customization.layout : null, this.appOptions.canBrandingExt, this.api);
                 this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
+
                 Common.UI.TabStyler.init(this.editorConfig.customization); // call after Common.UI.FeaturesManager.init() !!!
 
                 this.appOptions.canBranding  = params.asc_getCustomization();
@@ -1661,7 +1677,7 @@ define([
                         Common.NotificationCenter.trigger('collaboration:sharingdeny');
                         var me = this;
                         Common.UI.TooltipManager.showTip({ step: 'userDrop', text: this.errorUserDrop,
-                            target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true,
+                            target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true,
                             callback: function() {
                                 me._state.lostEditingRights = false;
                             }});
@@ -1826,8 +1842,15 @@ define([
                         config.msg = this.errorSaveWatermark;
                         break;
 
+                    case Asc.c_oAscError.ID.CopyDisabled:
+                        config.maxwidth = 450;
+                        config.msg = this.errorCopyDisabled;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
+                        if (typeof id == 'string')
+                            config.maxwidth = 600;
                         break;
                 }
 
@@ -1841,7 +1864,15 @@ define([
                     config.iconCls = 'error';
                     config.closable = false;
 
-                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string') {
+                    if (this.appOptions.canRequestClose) {
+                        config.msg += '<br><br>' + this.criticalErrorExtTextClose;
+                        config.callback = function(btn) {
+                            if (btn == 'ok') {
+                                Common.Gateway.requestClose();
+                                Common.Controllers.Desktop.requestClose();
+                            }
+                        }
+                    } else if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string' && this.appOptions.customization.goback.url && this.appOptions.customization.goback.blank===false) {
                         config.msg += '<br><br>' + this.criticalErrorExtText;
                         config.callback = function(btn) {
                             if (btn == 'ok') {
@@ -1890,7 +1921,7 @@ define([
                     }, this);
                 }
 
-                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value="' + id + '"]').length<1)
                     Common.UI.alert(config).$window.attr('data-value', id);
 
                 (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
@@ -1976,23 +2007,10 @@ define([
                 }
 
                 this.updateWindowTitle();
-
-                var toolbarView = this.getApplication().getController('Toolbar').getView('Toolbar');
-                if (toolbarView && toolbarView.btnCollabChanges) {
-                    var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
-                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
-                        isDisabled = !isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                        toolbarView.btnSave.setDisabled(isDisabled);
-                }
+                this.disableSaveButton(isModified);
             },
             onDocumentCanSaveChanged: function (isCanSave) {
-                var toolbarView = this.getApplication().getController('Toolbar').getView('Toolbar');
-                if ( toolbarView ) {
-                    var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
-                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
-                        isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                        toolbarView.btnSave.setDisabled(isDisabled);
-                }
+                this.disableSaveButton(isCanSave);
             },
 
             onContextMenu: function(event){
@@ -2078,13 +2096,13 @@ define([
             },
 
             onUpdateVersion: function(callback) {
-                console.log("Obsolete: The 'onOutdatedVersion' event is deprecated. Please use 'onRequestRefreshFile' event and 'refreshFile' method instead.");
+                this.editorConfig && this.editorConfig.canUpdateVersion && console.log("Obsolete: The 'onOutdatedVersion' event is deprecated. Please use 'onRequestRefreshFile' event and 'refreshFile' method instead.");
 
                 var me = this;
                 me.needToUpdateVersion = true;
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                 Common.UI.TooltipManager.showTip({ step: 'updateVersionReload', text: this.errorUpdateVersion, header: this.titleUpdateVersion,
-                    target: '#toolbar', maxwidth: 'none', closable: false, automove: true, noHighlight: true,
+                    target: '#toolbar', maxwidth: 'none', closable: false, automove: true, noHighlight: true, noArrow: true,
                     callback: function() {
                         _.defer(function() {
                             Common.Gateway.updateVersion();
@@ -2367,6 +2385,44 @@ define([
                 if (!this.languages || this.languages.length<1) {
                     this.loadLanguages([]);
                 }
+
+                let sLangs = Common.Controllers.Desktop.systemLangs() || {},
+                    arr = [],
+                    me = this;
+                for (let name in sLangs) {
+                    sLangs.hasOwnProperty(name) && arr.push(name);
+                }
+                sLangs = arr;
+
+                arr = []; // system languages can be 'en'... (MacOs)
+                sLangs.forEach(function(lang) {
+                    let rec = _.findWhere(me.languages, {value: lang});
+                    if (!rec) {
+                        rec = Common.util.LanguageInfo.getDefaultLanguageCode(lang);
+                        rec && (rec = _.findWhere(me.languages, {value: Common.util.LanguageInfo.getLocalLanguageName(rec)[0]}));
+                    }
+                    if (!rec)
+                        rec = _.find(me.languages, function(item) {
+                            return item.spellcheck && (item.value.indexOf(lang.toLowerCase())===0);
+                        });
+                    if (!rec)
+                        rec = _.find(me.languages, function(item) {
+                            return (item.value.indexOf(lang.toLowerCase())===0);
+                        });
+                    rec && arr.push(rec.value);
+                });
+                sLangs = _.uniq(arr);
+
+                let recentKey = 'app-settings-recent-langs',
+                    recentCount = Math.max(5, sLangs.length + 3);
+                Common.Utils.InternalSettings.set(recentKey + "-count", recentCount);
+                Common.Utils.InternalSettings.set(recentKey + "-offset", sLangs.length);
+
+                arr = Common.localStorage.getItem(recentKey);
+                arr = arr ? arr.split(';') : [];
+                arr = _.union(sLangs, arr);
+                arr.splice(recentCount);
+                Common.localStorage.setItem(recentKey, arr.join(';'));
                 if (this.languages && this.languages.length>0) {
                     this.getApplication().getController('DocumentHolder').getView().setLanguages(this.languages);
                     this.getApplication().getController('Statusbar').setLanguages(this.languages);
@@ -2542,6 +2598,7 @@ define([
                         warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline) && (typeof advOptions == 'string'),
                         warningMsg: advOptions,
                         validatePwd: !!me._state.isDRM,
+                        autoPosOnResize : 'center',
                         handler: function (result, value) {
                             me.isShowOpenDialog = false;
                             if (result == 'ok') {
@@ -2785,7 +2842,7 @@ define([
                     }
                     Common.UI.alert({
                         title: this.notcriticalErrorTitle,
-                        msg: (opts.data.error) ? opts.data.error : this.txtErrorLoadHistory,
+                        msg: (opts.data.error) ? Common.Utils.String.htmlEncode(opts.data.error) : this.txtErrorLoadHistory,
                         iconCls: 'warn',
                         buttons: ['ok'],
                         callback: _.bind(function(btn){
@@ -2989,6 +3046,7 @@ define([
 
             onRequestRefreshFile: function() {
                 Common.Gateway.requestRefreshFile();
+                console.log('Trying to refresh file');
             },
 
             onRefreshFile: function(data) {
@@ -3024,7 +3082,7 @@ define([
                     docInfo.put_Format(this.document.fileType);
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
-                    docInfo.put_Permissions(this.permissions);
+                    docInfo.put_Permissions(this.document.permissions);
                     docInfo.put_DirectUrl(data.document && data.document.directUrl ? data.document.directUrl : this.document.directUrl);
                     docInfo.put_VKey(data.document && data.document.vkey ?  data.document.vkey : this.document.vkey);
                     docInfo.put_EncryptedInfo(data.editorConfig && data.editorConfig.encryptionKeys ? data.editorConfig.encryptionKeys : this.editorConfig.encryptionKeys);

@@ -95,7 +95,6 @@
       "criticalErrorTitle": "שגיאה",
       "errorAccessDeny": "התבצע ניסיון לפעולה ללא הרשאה.<br>נא ליצור קשר עם מנהל המערכת שלך.",
       "errorOpensource": "באמצעות גרסת הקהילה החינמית אפשר לפתוח מסמכים לצפייה בלבד. כדי לגשת לעורכי אינטרנט ניידים, נדרש רישיון מסחרי.",
-      "errorProcessSaveResult": "שמירה נכשלה.",
       "errorServerVersion": "גרסת העורך עודכנה. הדף ייטען מחדש כדי להחיל את השינויים.",
       "errorUpdateVersion": "גרסת הקובץ שונתה. הדף ייטען מחדש.",
       "leavePageText": "קיימים שינויים שלא נשמרו במסמך זה. נא ללחוץ על 'הישאר בדף זה' כדי להמתין לשמירה אוטומטית. נא ללחוץ על 'צא מדף זה' כדי למחוק את כל השינויים שלא נשמרו.",
@@ -228,7 +227,7 @@
       "textRemember": "זכור את הבחירה שלי",
       "textReplaceSkipped": "ההחלפה בוצעה. {0} מקרים הושמטו.",
       "textReplaceSuccess": "החיפוש נעשה. מקרים הוחלפו: {0}",
-      "textRequestMacros": "מאקרו מגיש בקשה לכתובת אתר URL. האם לאפשר את הבקשה ל - %1?",
+      "textRequestMacros": "מאקרו שולח בקשה לכתובת אתר URL. האם לאפשר את הבקשה ל - %1?",
       "textUpdate": "עדכון",
       "textWarnUpdateExternalData": "חוברת עבודה זו מכילה קישורים למקור חיצוני אחד או יותר שעלולים להיות לא בטוחים. אם ניתן לסמוך על הקישורים, נא לעדכן אותם כדי לקבל את הנתונים העדכניים ביותר.",
       "textYes": "כן",
@@ -238,14 +237,15 @@
       "titleUpdateVersion": "הגרסה השתנתה",
       "warnLicenseAnonymous": "הגישה נדחתה עבור משתמשים אנונימיים.<br>מסמך זה ייפתח לצפייה בלבד.",
       "warnLicenseBefore": "רישיון לא פעיל.<br>נא ליצור קשר עם מנהל המערכת שלך.",
-      "warnLicenseExceeded": "הגעת למגבלה של חיבורים סימולטניים לעורכי %1. מסמך זה ייפתח לצפייה בלבד. פנה למנהל המערכת שלך למידע נוסף.",
       "warnLicenseExp": "פג תוקפו של הרישיון שלך. אנא, עדכן את הרישיון שלך ורענן את הדף.",
       "warnLicenseLimitedNoAccess": "פג תוקפו של הרישיון. אין לך גישה לפונקציונליות של עריכת מסמכים. נא ליצור קשר עם מנהל המערכת שלך.",
       "warnLicenseLimitedRenewed": "יש לחדש את הרישיון. יש לך גישה מוגבלת לפונקציונליות של עריכת מסמכים.<br>נא ליצור קשר עם מנהל המערכת שלך כדי לקבל גישה מלאה",
-      "warnLicenseUsersExceeded": "הגעת למגבלת המשתמש עבור %1 עורכים. פנה למנהל המערכת שלך למידע נוסף.",
       "warnNoLicense": "הגעת למגבלה של חיבורים סימולטניים לעורכי %1. מסמך זה ייפתח לצפייה בלבד. נא ליצור קשר עם צוות המכירות %1 לקבלת תנאי שדרוג אישיים.",
       "warnNoLicenseUsers": "הגעת למגבלת המשתמש עבור %1 עורכים. נא ליצור קשר עם צוות המכירות %1 לקבלת תנאי שדרוג אישיים.",
-      "warnProcessRightsChange": "אין לך הרשאה לערוך את הקובץ."
+      "warnProcessRightsChange": "אין לך הרשאה לערוך את הקובץ.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Draw": {
@@ -257,6 +257,7 @@
   "Error": {
     "convertationTimeoutText": "זמן ההמרה חרג מהמגבלה.",
     "criticalErrorExtText": "נא ללחוץ על 'אישור' כדי לחזור לרשימת המסמכים.",
+    "criticalErrorExtTextClose": "יש ללחוץ 'אישור' לסגירת העורך.",
     "criticalErrorTitle": "שגיאה",
     "downloadErrorText": "ההורדה נכשלה.",
     "errNoDuplicates": "לא נמצאו ערכים כפולים.",
@@ -334,7 +335,7 @@
     "errorPasteSlicerError": "לא ניתן להעתיק חותכי גליון עבודה מגליון אחד לאחר.",
     "errorPivotFieldNameExists": "שם השדה בטבלת הציר כבר קיים.",
     "errorPivotGroup": "לא ניתן לקבץ את הבחירה הזו.",
-    "errorPivotOverlap": "דוח טבלת ציר אינו יכול לחפוף טבלה.",
+    "errorPivotOverlap": "דו\"ח טבלת ציר אינו יכול להיות בחפיפה לטבלה.",
     "errorPivotWithoutUnderlying": "דוח טבלת הציר נשמר ללא הנתונים הבסיסיים.<br>נא להשתמש בלחצן 'רענן' כדי לעדכן את הדוח.",
     "errorPrecedentsNoValidRef": "הפקודה \"עקוב אחר מקורות\" דורשת שהתא הפעיל יכיל נוסחה הכוללת הפניות תקפות.",
     "errorPrintMaxPagesCount": "למרבה הצער, לא ניתן להדפיס יותר מ 1500 עמודים בבת אחת בגירסה הנוכחית של התוכנית.<br>הגבלה זו תבוטל במהדורות הקרובות.",
@@ -377,7 +378,9 @@
     "uploadDocSizeMessage": "חריגה ממגבלת גודל המסמך המרבי.",
     "uploadImageExtMessage": "פורמט תמונה לא ידוע.",
     "uploadImageFileCountMessage": "לא הועלו תמונות.",
-    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט."
+    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled."
   },
   "LongActions": {
     "advDRMPassword": "סיסמה",
@@ -416,7 +419,7 @@
     "textOk": "בסדר",
     "textUndo": "ביטול",
     "textUnlockRange": "שחרור נעילת טווח",
-    "textUnlockRangeWarning": "טווח שהנך מנסה לשנות מוגן בסיסמה.",
+    "textUnlockRangeWarning": "טווח שניסית לשנות מוגן בסיסמה.",
     "textYes": "כן",
     "txtEditingMode": "הגדרת מצב עריכה...",
     "uploadImageTextText": "העלאת תמונה...",
@@ -426,10 +429,11 @@
   "Statusbar": {
     "notcriticalErrorTitle": "אזהרה",
     "textCancel": "ביטול",
+    "textContinue": "המשך",
     "textDelete": "מחיקה",
     "textDuplicate": "שכפול",
     "textErrNameExists": "גליון עבודה עם שם זה כבר קיים.",
-    "textErrNameWrongChar": "שם גיליון לא יכול להכיל תווים:\\,/,*,?, [,],: או התו ' כתו ראשון או אחרון",
+    "textErrNameWrongChar": "שם גיליון לא יכול להכיל תווים:\\,/,*,?, [,],: או התו ' כתו הראשון או האחרון בשם",
     "textErrNotEmpty": "שם גיליון לא יכול להיות ריק",
     "textErrorLastSheet": "על חוברת העבודה לכלול לפחות גליון עבודה גלוי אחד.",
     "textErrorRemoveSheet": "לא ניתן למחוק את גליון העבודה.",
@@ -438,7 +442,7 @@
     "textMore": "עוד",
     "textMove": "הזזה",
     "textMoveBefore": "הזזה לפני גיליון",
-    "textMoveToEnd": "(מעבר לסוף)",
+    "textMoveToEnd": "(העברה לסוף)",
     "textOk": "בסדר",
     "textRename": "שינוי שם",
     "textRenameSheet": "שינוי שם גיליון",
@@ -446,7 +450,8 @@
     "textSheetName": "שם גיליון",
     "textTabColor": "צבע הכרטיסייה",
     "textUnhide": "בטל הסתרה",
-    "textWarnDeleteSheet": "אולי קיימים נתונים בגליון העבודה. להמשיך בפעולה?"
+    "textWarnDeleteSheet": "אולי קיימים נתונים בגליון העבודה. להמשיך בפעולה?",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
     "btnRestartNow": "הפעל מחדש עכשיו",
@@ -531,6 +536,8 @@
       "textAccounting": "חשבונאות",
       "textActualSize": "גודל בפועל",
       "textAddCustomColor": "הוספת צבע מותאם אישית",
+      "textAdditional": "תוספת",
+      "textAdditionalFormatting": "עיצוב נוסף",
       "textAddress": "כתובת",
       "textAlign": "יישור",
       "textAlignBottom": "יישר תחתון",
@@ -540,6 +547,7 @@
       "textAlignRight": "יישור ימינה",
       "textAlignTop": "יישר למעלה",
       "textAllBorders": "כל הגבולות",
+      "textAllCaps": "אותיות גדולות",
       "textAngleClockwise": "זווית בכיוון השעון",
       "textAngleCounterclockwise": "זווית נגד כיוון השעון",
       "textArrange": "סידור",
@@ -550,6 +558,7 @@
       "textAxisPosition": "מיקום ציר",
       "textAxisTitle": "כותרת הציר",
       "textBack": "חזרה",
+      "textBaseline": "קו הבסיס",
       "textBetweenTickMarks": "בין סימונים",
       "textBillions": "מיליארדים",
       "textBorder": "גבול",
@@ -587,10 +596,11 @@
       "textDisplayUnits": "יחידות תצוגה",
       "textDollar": "דולר",
       "textDone": "בוצע",
+      "textDoubleStrikethrough": "חוצה כפול",
       "textEditLink": "עריכת קישור",
       "textEffects": "אפקטים",
       "textEmptyImgUrl": "עליך לציין את כתובת ה-URL של התמונה.",
-      "textEmptyItem": "{Blanks}",
+      "textEmptyItem": "{ריקים}",
       "textEnterFormat": "הזנת פורמט",
       "textErrorMsg": "נא לבחור ערך אחד לפחות",
       "textErrorTitle": "אזהרה",
@@ -635,6 +645,7 @@
       "textLeftBorder": "גבול שמאל",
       "textLeftOverlay": "כיסוי שמאלי",
       "textLegend": "מקרא",
+      "textLetterSpacing": "ריווח אותיות",
       "textLink": "קישור",
       "textLinkSettings": "הגדרות קישור",
       "textLinkType": "סוג קישור",
@@ -692,7 +703,11 @@
       "textShape": "צורה",
       "textSheet": "גיליון",
       "textSize": "גודל",
+      "textSmallCaps": "רישיות קטנות",
+      "textStrikethrough": "חוצה דרך",
       "textStyle": "סגנון",
+      "textSubscript": "כתב תחתי",
+      "textSuperscript": "כתב עילי",
       "textTenMillions": "10 000 000",
       "textTenThousands": "10 000",
       "textText": "טקסט",
@@ -717,7 +732,12 @@
       "textYen": "ין",
       "txtNotUrl": "שדה זה אמור להיות כתובת אתר בפורמט \"http://www.example.com\"",
       "txtSortHigh2Low": "מיון הגבוה ביותר לנמוך ביותר",
-      "txtSortLow2High": "מיון מהנמוך לגבוה ביותר"
+      "txtSortLow2High": "מיון מהנמוך לגבוה ביותר",
+      "textCapitalization": "Capitalization",
+      "textContextTextDirection": "Context",
+      "textLtrTextDirection": "Left-to-right",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "advCSVOptions": "בחירת אפשרויות",
@@ -871,7 +891,14 @@
       "txtUk": "אוקראינית",
       "txtVi": "וייטנאמית",
       "txtZh": "סינית",
-      "warnDownloadAs": "אם תימשך השמירה בפורמט זה כל התכונות מלבד הטקסט יאבדו.<br>האם להמשיך בוודאות?"
+      "warnDownloadAs": "אם תימשך השמירה בפורמט זה כל התכונות מלבד הטקסט יאבדו.<br>האם להמשיך בוודאות?",
+      "textSheetRtl": "Sheet Right to left",
+      "txtSr": "Serbian (Latin)",
+      "txtSrcyrl": "Serbian (Cyrillic)",
+      "txtZhtw": "Chinese (Traditional)",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+      "textOpenLocation": "Open location",
+      "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
     }
   }
 }

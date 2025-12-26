@@ -181,7 +181,7 @@ define([
                     me.hideTips();
                     me.hideEyedropper();
                     me.onDocumentHolderResize();
-                },
+                }
             });
             Common.NotificationCenter.on('protect:doclock', _.bind(me.onChangeProtectDocument, me));
             Common.NotificationCenter.on('script:loaded', _.bind(me.createPostLoadElements, me));
@@ -328,6 +328,7 @@ define([
             if (this.mode && this.mode.isEdit) {
                 var i = -1,
                     in_equation = false,
+                    in_chart = false,
                     locked = false;
                 while (++i < selectedElements.length) {
                     var type = selectedElements[i].get_ObjectType();
@@ -343,35 +344,55 @@ define([
                             canEditPara: value.get_canEditPara(),
                             canInsObject: value.get_canInsObject()
                         };
+                    } else if (type == Asc.c_oAscTypeSelectElement.Image) {
+                        var value = selectedElements[i].get_ObjectValue();
+                        if (value.get_ChartProperties() !== null || value.get_ShapeProperties() !== null && value.get_ShapeProperties().get_FromChart()) {
+                            in_chart = true;
+                            locked = value.get_Locked();
+                        }
                     }
                 }
                 if (in_equation) {
                     this._state.equationLocked = locked;
                     this.disableEquationBar();
                 }
+                if (in_chart) {
+                    this._state.chartLocked = locked;
+                    this.disableChartElementButton();
+                }
             }
         },
 
         handleDocumentWheel: function(event) {
             var me = this;
-            if (me.api) {
-                var delta = (_.isUndefined(event.originalEvent)) ? event.wheelDelta : event.originalEvent.wheelDelta;
-                if (_.isUndefined(delta)) {
-                    delta = event.deltaY;
+            if (!me.api) return;
+
+            if (!me._isScrolling) {
+                me._isScrolling = true;
+                me._ctrlPressedAtScrollStart = event.ctrlKey;
+            }
+
+            clearTimeout(me._scrollEndTimeout);
+            me._scrollEndTimeout = setTimeout(function () {
+                me._isScrolling = false;
+            }, 100);
+
+            var delta = (_.isUndefined(event.originalEvent)) ? event.wheelDelta : event.originalEvent.wheelDelta;
+            if (_.isUndefined(delta)) {
+                delta = event.deltaY;
+            }
+
+            if (me._ctrlPressedAtScrollStart && !event.altKey) {
+                if (delta < 0) {
+                    me.api.zoomOut();
+                    me._handleZoomWheel = true;
+                } else if (delta > 0) {
+                    me.api.zoomIn();
+                    me._handleZoomWheel = true;
                 }
 
-                if (event.ctrlKey && !event.altKey) {
-                    if (delta < 0) {
-                        me.api.zoomOut();
-                        me._handleZoomWheel = true;
-                    } else if (delta > 0) {
-                        me.api.zoomIn();
-                        me._handleZoomWheel = true;
-                    }
-
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
+                event.preventDefault();
+                event.stopPropagation();
             }
         },
 
@@ -438,8 +459,11 @@ define([
                     if (e.target.localName == 'canvas') {
                         if (me._preventClick)
                             me._preventClick = false;
-                        else
+                        else {
+                            if (e.target.getAttribute && e.target.getAttribute("oo_no_focused"))
+                                return;
                             meEl.focus();
+                        }
                     }
                 });
                 meEl.on('mousedown', function(e){
@@ -629,11 +653,13 @@ define([
             this.documentHolder.SetDisabled(state, canProtect, fillFormMode);
             this.disableEquationBar();
             this.disableSpecialPaste();
+            this.disableChartElementButton();
         },
 
         clearSelection: function() {
             this.onHideMathTrack();
             this.onHideSpecialPasteOptions();
+            this.onHideChartElementButton();
         },
 
         changePosition: function() {
@@ -664,9 +690,13 @@ define([
 
         onHideSpecialPasteOptions: function() {},
 
+        onHideChartElementButton: function() {},
+
         disableEquationBar: function() {},
         
         disableSpecialPaste: function() {},
+
+        disableChartElementButton: function() {},
 
         onChangeProtectDocument: function(props) {
             if (!props) {
@@ -677,6 +707,7 @@ define([
                 this.documentHolder._docProtection = props;
                 this.disableEquationBar();
                 this.disableSpecialPaste();
+                this.disableChartElementButton();
             }
         },
 

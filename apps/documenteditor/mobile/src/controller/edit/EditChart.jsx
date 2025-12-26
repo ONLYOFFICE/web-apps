@@ -123,11 +123,8 @@ class EditChartController extends Component {
 
     onType (type) {
         const api = Common.EditorApi.get();
-        const image = new Asc.asc_CImgProperty();
         const chart = this.props.storeFocusObjects.chartObject.get_ChartProperties();
         chart.changeType(type);
-        image.put_ChartProperties(chart);
-        api.ImgApply(image);
         // Force update styles
         this.props.storeChartSettings.updateChartStyles(api.asc_getChartPreviews(chart.getType()));
     }

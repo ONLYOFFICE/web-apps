@@ -162,6 +162,14 @@ define([
                         emptyGroup[emptyGroup.length-1].closest('.group').remove();
                     }
 
+                    if (
+                        !config.canPDFEdit ||
+                        config.customization && config.customization.macros===false ||
+                        (Common.Controllers.Desktop && Common.Controllers.Desktop.isWinXp())
+                    ) {
+                        me.view.$el.find('.macro').remove();
+                    }
+
                     me.view.cmbsZoom.forEach(function (cmb) {
                         cmb.on('selected', _.bind(me.onSelectedZoomValue, me))
                             .on('changed:before',_.bind(me.onZoomChanged, me, true))
@@ -243,7 +251,7 @@ define([
                     }
 
                     if (Common.Utils.InternalSettings.get('toolbar-active-tab')==='view')
-                        Common.NotificationCenter.trigger('tab:set-active', 'view');
+                        Common.NotificationCenter.trigger('tab:set-active', 'view', true);
                 });
             }
         },
@@ -330,7 +338,7 @@ define([
         },
 
         onThemeChanged: function () {
-            if (this.view && Common.UI.Themes.available()) {
+            if (this.view && Common.UI.Themes.available() && this.view.btnInterfaceTheme.menu && (typeof (this.view.btnInterfaceTheme.menu) === 'object')) {
                 var current_theme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId(),
                     menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.getItems(true), {value: current_theme});
                 if ( menu_item ) {
@@ -362,8 +370,17 @@ define([
 
         applyEditorMode: function(config) {
             if (this.view) {
-                this.view.chRightMenu && this.view.chRightMenu.setVisible((config || this.mode)['isPDFEdit']);
-                this.view.$el && this.view.$el.find('.edit')[(config || this.mode)['isPDFEdit'] ? 'show' : 'hide']();
+                this.view.$el && this.view.$el.find('.macro')[(config || this.mode)['isPDFEdit'] ? 'show' : 'hide']();
+            }
+            if (this.view && this.view.chRightMenu) {
+                var isVisible = (config || this.mode)['isPDFEdit'];
+                isVisible && this.view.chRightMenu.$el.closest('.elset').addClass('transparent');
+                this.view.chRightMenu.setVisible(isVisible);
+                if (this.toolbar && this.toolbar.toolbar) {
+                    this.toolbar.toolbar.moveAllFromMoreButton('view');
+                    this.toolbar.toolbar.processPanelVisible(null, true, true);
+                }
+                this.view.chRightMenu.$el.closest('.elset').removeClass('transparent');
             }
         }
 

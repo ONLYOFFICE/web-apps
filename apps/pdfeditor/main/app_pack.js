@@ -12,16 +12,24 @@ require([
     'common/main/lib/view/InsertTableDialog',
     'common/main/lib/view/SearchDialog',
     'common/main/lib/view/RenameDialog',
+    'common/main/lib/view/ExternalEditor',
+    'common/main/lib/view/ExternalDiagramEditor',
+    'common/main/lib/view/FormatSettingsDialog',
     'common/main/lib/view/PluginDlg',
     'common/main/lib/view/PluginPanel',
     'common/main/lib/view/ShapeShadowDialog',
     'common/main/lib/view/TextInputDialog',
     'common/main/lib/view/DocumentHolderExt',
     'common/main/lib/view/ListSettingsDialog',
+    'common/main/lib/view/ExternalLinksDlg',
     'common/main/lib/view/CustomizeQuickAccessDialog',
     'common/main/lib/view/PasswordDialog',
     'common/main/lib/view/MacrosDialog',
-    'common/main/lib/component/AceEditor',
+    'common/main/lib/view/MacrosAiDialog',
+    'common/main/lib/component/TextareaField',
+    'common/main/lib/view/ShortcutsDialog',
+    'common/main/lib/view/ShortcutsEditDialog',
+    'common/main/lib/component/MonacoEditor',
 
     'pdfeditor/main/app/controller/DocumentHolderExt',
     'pdfeditor/main/app/view/FileMenuPanels',
@@ -33,7 +41,8 @@ require([
     'pdfeditor/main/app/view/HyperlinkSettingsDialog',
     'pdfeditor/main/app/view/ShapeSettingsAdvanced',
     'pdfeditor/main/app/view/TableSettingsAdvanced',
-    'pdfeditor/main/app/view/FormatSettingsDialog'
+    'pdfeditor/main/app/view/FormatSettingsDialog',
+    'pdfeditor/main/app/view/ChartSettingsAdvanced'
 ], function () {
     Common.NotificationCenter.trigger('app-pack:loaded');
 });

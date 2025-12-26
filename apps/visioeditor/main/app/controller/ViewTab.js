@@ -152,7 +152,7 @@ define([
         },
 
         onThemeChanged: function () {
-            if (this.view && Common.UI.Themes.available()) {
+            if (this.view && Common.UI.Themes.available() && this.view.btnInterfaceTheme.menu && (typeof (this.view.btnInterfaceTheme.menu) === 'object')) {
                 var current_theme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId(),
                     menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.getItems(true), {value: current_theme});
                 if ( !!menu_item ) {

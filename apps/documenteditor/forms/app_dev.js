@@ -119,7 +119,8 @@ require([
         controllers : [
             'ApplicationController',
             'Plugins',
-            'SearchBar'
+            'SearchBar',
+            'Common.Controllers.Shortcuts'
         ]
     });
 
@@ -142,16 +143,16 @@ require([
                 'common/main/lib/controller/Themes',
                 'common/main/lib/controller/Desktop',
                 'common/main/lib/view/SearchBar',
+                'common/main/lib/controller/Shortcuts',
                 'common/forms/lib/view/modals'
             ], function() {
                 app.postLaunchScripts = [
+                    'common/main/lib/component/TextareaField',
                     'common/main/lib/view/PluginDlg',
                     'common/main/lib/view/CopyWarningDialog',
                     'common/main/lib/view/TextInputDialog',
                     'common/main/lib/view/SelectFileDlg',
-                    'common/main/lib/view/SaveAsDlg',
-                    'common/main/lib/view/SignDialog',
-                    'common/main/lib/view/SignSettingsDialog',
+                    'common/main/lib/view/SaveAsDlg'
                 ];
 
                 window.compareVersions = true;

@@ -39,14 +39,13 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeToolbarSettin
     });
 
     // Back button
-    const [isShowBack, setShowBack] = useState(appOptions.canBackToFolder);
     const loadConfig = (data) => {
         if (data && data.config && data.config.canBackToFolder !== false &&
             data.config.customization && data.config.customization.goback) {
             const canback = data.config.customization.close === undefined ?
                 data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose :
                 data.config.customization.goback.url && !data.config.customization.goback.requestClose;
-            canback && setShowBack(true);
+            props.storeToolbarSettings.setShowBack(canback);
         }
     };
 
@@ -151,7 +150,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeToolbarSettin
             ],
             on: {
                 opened: () => {
-                    const nameDoc = docTitle.split('.')[0];
+                    const nameDoc = docTitle.slice(0, docTitle.lastIndexOf("."));
                     const titleField = document.querySelector('#modal-title');
                     const btnChangeTitle = document.querySelector('.btn-change-title');
 
@@ -232,7 +231,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeToolbarSettin
             openOptions={props.openOptions}
             isEdit={appOptions.isEdit}
             docTitle={docTitle}
-            isShowBack={isShowBack}
+            isShowBack={storeToolbarSettings.isShowBack}
             disabledControls={disabledControls}
             disabledSettings={disabledSettings}
             displayCollaboration={displayCollaboration}
@@ -240,6 +239,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeToolbarSettin
             isOpenModal={props.isOpenModal}
             changeTitleHandler={changeTitleHandler}
             forceDesktopMode={forceDesktopMode}
+            isHiddenFileName={appOptions.config?.customization?.toolbarHideFileName ?? false}
         />
     )
 }));

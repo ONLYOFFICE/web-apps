@@ -70,6 +70,7 @@ define([
         undoLock:       'can-undo',
         redoLock:       'can-redo',
         copyLock:       'can-copy',
+        pasteLock:      'can-paste',
         cutLock:        'can-cut',
         inLightTheme:   'light-theme',
         noParagraphSelected:  'no-paragraph',
@@ -96,9 +97,16 @@ define([
         inAnnotation: 'in-annotation',
         singlePage: 'single-page',
         cantMergeShape: 'merge-shape-lock',
-        pageRotate: 'page-rotate',
+        pageRotateLock: 'page-rotate-lock',
         pageDeleted: 'page-deleted',
-        pageEditText: 'page-edit-text'
+        pageEditText: 'page-edit-text',
+        inForm: 'in-form',
+        inCheckForm: 'in-check-form',
+        cantAlign: 'cant-align',
+        cantSave: 'cant-save',
+        cantRotatePage: 'cant-rotate-page',
+        cantDelPage: 'cant-del-page',
+        objectWithoutParagraph:  'object-without-paragraph',
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -141,6 +149,8 @@ define([
 
                 var _set = Common.enumLock,
                     arr = [];
+
+                const shortcutHints = {};
                 // tab Edit
                 this.btnEditText = new Common.UI.Button({
                     id: 'id-toolbar-btn-edittext',
@@ -161,7 +171,7 @@ define([
                     menuCls: 'scrollable-menu',
                     menuStyle: 'min-width: 325px;',
                     hint: this.tipFontName,
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inCheckForm, _set.shapeLock, _set.disableOnStart],
                     store: new Common.Collections.Fonts(),
                     dataHint: '1',
                     dataHintDirection: 'top'
@@ -173,7 +183,7 @@ define([
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 55px;',
                     hint: this.tipFontSize,
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inCheckForm, _set.shapeLock, _set.disableOnStart],
                     data: [
                         {value: 8, displayValue: "8"},
                         {value: 9, displayValue: "9"},
@@ -203,65 +213,85 @@ define([
                     id: 'id-toolbar-btn-incfont',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-incfont',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inCheckForm, _set.shapeLock, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'top'
                 });
                 this.paragraphControls.push(this.btnIncFontSize);
                 arr.push(this.btnIncFontSize);
+                shortcutHints.IncreaseFontSize = {
+                    btn: this.btnIncFontSize,
+                    label: this.tipIncFont
+                };
 
                 this.btnDecFontSize = new Common.UI.Button({
                     id: 'id-toolbar-btn-decfont',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-decfont',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inCheckForm, _set.shapeLock, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'top'
                 });
                 this.paragraphControls.push(this.btnDecFontSize);
                 arr.push(this.btnDecFontSize);
+                shortcutHints.DecreaseFontSize = {
+                    btn: this.btnDecFontSize,
+                    label: this.tipDecFont
+                };
 
                 this.btnBold = new Common.UI.Button({
                     id: 'id-toolbar-btn-bold',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-bold',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart],
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom'
                 });
                 this.paragraphControls.push(this.btnBold);
                 arr.push(this.btnBold);
+                shortcutHints.Bold = {
+                    btn: this.btnBold,
+                    label: this.textBold
+                };
 
                 this.btnItalic = new Common.UI.Button({
                     id: 'id-toolbar-btn-italic',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-italic',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart],
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom'
                 });
                 this.paragraphControls.push(this.btnItalic);
                 arr.push(this.btnItalic);
+                shortcutHints.Italic = {
+                    btn: this.btnItalic,
+                    label: this.textItalic
+                };
 
                 this.btnTextUnderline = new Common.UI.Button({
                     id: 'id-toolbar-btn-underline',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-underline',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart],
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom'
                 });
                 this.paragraphControls.push(this.btnTextUnderline);
                 arr.push(this.btnTextUnderline);
+                shortcutHints.Underline = {
+                    btn: this.btnTextUnderline,
+                    label: this.textUnderline
+                };
 
                 this.btnTextStrikeout = new Common.UI.Button({
                     id: 'id-toolbar-btn-strikeout',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-strikeout',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart],
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom'
@@ -273,7 +303,7 @@ define([
                     id: 'id-toolbar-btn-superscript',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-superscript',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.inEquation],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart, _set.inEquation],
                     enableToggle: true,
                     toggleGroup: 'superscriptGroup',
                     dataHint: '1',
@@ -281,12 +311,16 @@ define([
                 });
                 this.paragraphControls.push(this.btnSuperscript);
                 arr.push(this.btnSuperscript);
+                shortcutHints.Superscript = {
+                    btn: this.btnSuperscript,
+                    label: this.textSuperscript
+                };
 
                 this.btnSubscript = new Common.UI.Button({
                     id: 'id-toolbar-btn-subscript',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-subscript',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.inEquation],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart, _set.inEquation],
                     enableToggle: true,
                     toggleGroup: 'superscriptGroup',
                     dataHint: '1',
@@ -294,6 +328,10 @@ define([
                 });
                 this.paragraphControls.push(this.btnSubscript);
                 arr.push(this.btnSubscript);
+                shortcutHints.Subscript = {
+                    btn: this.btnSubscript,
+                    label: this.textSubscript
+                };
 
                 this.btnTextHighlightColor = new Common.UI.ButtonColored({
                     id: 'id-toolbar-btn-text-highlight',
@@ -302,7 +340,7 @@ define([
                     enableToggle: true,
                     allowDepress: true,
                     split: true,
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.inAnnotation],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart, _set.inAnnotation],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -16',
@@ -349,7 +387,7 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-change-case',
                     action: 'change-case',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart],
                     menu: new Common.UI.Menu({
                         items: [
                             {caption: this.mniSentenceCase, value: Asc.c_oAscChangeTextCaseType.SentenceCase},
@@ -371,7 +409,7 @@ define([
                     id: 'id-toolbar-btn-clearstyle',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-clearstyle',
-                    lock: [ _set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.disableOnStart],
+                    lock: [ _set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'bottom'
                 });
@@ -430,11 +468,11 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-align-left',
                     icls: 'btn-align-left',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.disableOnStart, _set.inAnnotation],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.cantAlign, _set.disableOnStart],
                     menu: new Common.UI.Menu({
                         items: [
                             {
-                                caption: this.textAlignLeft + Common.Utils.String.platformKey('Ctrl+L'),
+                                caption: this.textAlignLeft,
                                 iconCls: 'menu__icon btn-align-left',
                                 icls: 'btn-align-left',
                                 checkable: true,
@@ -444,7 +482,7 @@ define([
                                 value: 1
                             },
                             {
-                                caption: this.textAlignCenter + Common.Utils.String.platformKey('Ctrl+E'),
+                                caption: this.textAlignCenter,
                                 iconCls: 'menu__icon btn-align-center',
                                 icls: 'btn-align-center',
                                 checkable: true,
@@ -453,7 +491,7 @@ define([
                                 value: 2
                             },
                             {
-                                caption: this.textAlignRight + Common.Utils.String.platformKey('Ctrl+R'),
+                                caption: this.textAlignRight,
                                 iconCls: 'menu__icon btn-align-right',
                                 icls: 'btn-align-right',
                                 checkable: true,
@@ -462,7 +500,7 @@ define([
                                 value: 0
                             },
                             {
-                                caption: this.textAlignJust + Common.Utils.String.platformKey('Ctrl+J'),
+                                caption: this.textAlignJust,
                                 iconCls: 'menu__icon btn-align-just',
                                 icls: 'btn-align-just',
                                 checkable: true,
@@ -479,6 +517,34 @@ define([
                 });
                 this.paragraphControls.push(this.btnHorizontalAlign);
                 arr.push(this.btnHorizontalAlign);
+                shortcutHints.LeftPara = {
+                    btn: this.btnHorizontalAlign.menu.items[0],
+                    label: this.textAlignLeft,
+                    applyCallback: function(item, hintText) {
+                        item.btn.setCaption(hintText);
+                    }
+                };
+                shortcutHints.CenterPara = {
+                    btn: this.btnHorizontalAlign.menu.items[1],
+                    label: this.textAlignCenter,
+                    applyCallback: function(item, hintText) {
+                        item.btn.setCaption(hintText);
+                    }
+                };
+                shortcutHints.RightPara = {
+                    btn: this.btnHorizontalAlign.menu.items[2],
+                    label: this.textAlignRight,
+                    applyCallback: function(item, hintText) {
+                        item.btn.setCaption(hintText);
+                    }
+                };
+                shortcutHints.JustifyPara = {
+                    btn: this.btnHorizontalAlign.menu.items[3],
+                    label: this.textAlignJust,
+                    applyCallback: function(item, hintText) {
+                        item.btn.setCaption(hintText);
+                    }
+                };
 
                 this.btnVerticalAlign = new Common.UI.Button({
                     id: 'id-toolbar-btn-valign',
@@ -536,6 +602,10 @@ define([
                 });
                 this.paragraphControls.push(this.btnDecLeftOffset);
                 arr.push(this.btnDecLeftOffset);
+                shortcutHints.UnIndent = {
+                    btn: this.btnDecLeftOffset,
+                    label: this.tipDecPrLeft
+                };
 
                 this.btnIncLeftOffset = new Common.UI.Button({
                     id: 'id-toolbar-btn-incoffset',
@@ -547,6 +617,10 @@ define([
                 });
                 this.paragraphControls.push(this.btnIncLeftOffset);
                 arr.push(this.btnIncLeftOffset);
+                shortcutHints.Indent = {
+                    btn: this.btnIncLeftOffset,
+                    label: this.tipIncPrLeft
+                };
 
                 this.btnLineSpace = new Common.UI.Button({
                     id: 'id-toolbar-btn-linespace',
@@ -615,6 +689,27 @@ define([
                 });
                 this.paragraphControls.push(this.btnColumns);
                 arr.push(this.btnColumns);
+
+                this.btnTextDir = new Common.UI.Button({
+                    id: 'id-toolbar-btn-direction',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-ltr',
+                    icls: 'btn-ltr',
+                    action: 'text-direction',
+                    dirRtl: false,
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inCheckForm, _set.disableOnStart],
+                    menu: new Common.UI.Menu({
+                        items: [
+                            {caption: this.textDirLtr, value: false, iconCls: 'menu__icon btn-ltr'},
+                            {caption: this.textDirRtl, value: true, iconCls: 'menu__icon btn-rtl'},
+                        ]
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: '0, -6'
+                });
+                this.paragraphControls.push(this.btnTextDir);
+                arr.push(this.btnTextDir);
 
                 this.mniAlignToSlide = new Common.UI.MenuItem({
                     caption: this.txtPageAlign,
@@ -792,8 +887,8 @@ define([
                 this.btnDelPage = new Common.UI.Button({
                     id: 'id-toolbar-btn-delpage',
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-rem-comment',
-                    lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart, _set.singlePage],
+                    iconCls: 'toolbar__icon btn-rem-page',
+                    lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart, _set.singlePage, _set.cantDelPage],
                     caption: this.capBtnDelPage,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -807,7 +902,7 @@ define([
                     caption: this.capBtnRotatePage,
                     split: true,
                     iconCls: 'toolbar__icon btn-update',
-                    lock: [_set.pageDeleted, _set.pageRotate, _set.lostConnect, _set.disableOnStart],
+                    lock: [_set.pageDeleted, _set.pageRotateLock, _set.cantRotatePage, _set.lostConnect, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small',
@@ -821,6 +916,9 @@ define([
                 });
                 arr.push(this.btnRotatePage);
                 Common.UI.LayoutManager.addControls(arr);
+
+                PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints(shortcutHints);
+
                 return arr;
             },
 
@@ -841,12 +939,12 @@ define([
                     );
 
                     this.btnSaveCls = config.canSaveToFile || config.isDesktopApp && config.isOffline ? 'btn-save' : 'btn-download';
-                    this.btnSaveTip = config.canSaveToFile || config.isDesktopApp && config.isOffline ? this.tipSave : this.tipDownload;// + Common.Utils.String.platformKey('Ctrl+S');
+                    this.btnSaveTip = config.canSaveToFile || config.isDesktopApp && config.isOffline ? this.tipSave : this.tipDownload;
                     this.btnSave = new Common.UI.Button({
                         id: 'id-toolbar-btn-save',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon no-mask ' + this.btnSaveCls,
-                        lock: [_set.lostConnect, _set.disableOnStart],
+                        lock: [_set.cantSave, _set.lostConnect, _set.disableOnStart],
                         signals: ['disabled'],
                         dataHint: '1',
                         dataHintDirection: 'top',
@@ -1015,6 +1113,92 @@ define([
                     this.btnsHighlight = [this.btnHighlight];
                     this.toolbarControls.push(this.btnHighlight);
 
+                    this.btnShapeComment = new Common.UI.ButtonColored({
+                        id: 'tlbtn-shapecomment',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-big-annotation-rectangle',
+                        lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
+                        caption: ' ',
+                        menu: true,
+                        split: true,
+                        enableToggle: true,
+                        colors: colorsconfig.colors,
+                        color: 'D43230',
+                        dynamiccolors: colorsconfig.dynamiccolors,
+                        themecolors: colorsconfig.themecolors,
+                        effects: colorsconfig.effects,
+                        columns: colorsconfig.columns,
+                        paletteCls: colorsconfig.cls,
+                        paletteWidth: colorsconfig.paletteWidth,
+                        currentSize: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2},
+                        hidePaletteOnClick: false,
+                        additionalItemsBefore: [
+                            {
+                                cls: 'shifted-right',
+                                tipForMainBtn: me.tipInsertRectComment,
+                                caption: me.txtRectComment,
+                                checkable: true,
+                                checkmark: false,
+                                toggleGroup: 'shapecomment',
+                                iconCls     : 'menu__icon btn-annotation-rectangle',
+                                value: AscPDF.ANNOTATIONS_TYPES.Square,
+                                iconClsForMainBtn: 'btn-big-annotation-rectangle',
+                                captionForMainBtn: me.capBtnRectComment
+                            },
+                            {
+                                cls: 'shifted-right',
+                                tipForMainBtn: me.tipInsertCircleComment,
+                                caption: me.txtCircleComment,
+                                checkable: true,
+                                checkmark: false,
+                                toggleGroup: 'shapecomment',
+                                iconCls     : 'menu__icon btn-annotation-circle',
+                                value: AscPDF.ANNOTATIONS_TYPES.Circle,
+                                iconClsForMainBtn: 'btn-big-annotation-circle',
+                                captionForMainBtn: me.capBtnCircleComment
+                            },
+                            {
+                                cls: 'shifted-right',
+                                tipForMainBtn: me.tipInsertArrowComment,
+                                caption: me.txtArrowComment,
+                                checkable: true,
+                                checkmark: false,
+                                toggleGroup: 'shapecomment',
+                                iconCls     : 'menu__icon btn-annotation-arrow',
+                                value: AscPDF.ANNOTATIONS_TYPES.Line,
+                                iconClsForMainBtn: 'btn-big-annotation-arrow',
+                                captionForMainBtn: me.capBtnArrowComment
+                            },
+                            {
+                                cls: 'shifted-right',
+                                tipForMainBtn: me.tipInsertPolyLineComment,
+                                caption: me.txtPolyLineComment,
+                                checkable: true,
+                                checkmark: false,
+                                toggleGroup: 'shapecomment',
+                                iconCls     : 'menu__icon btn-annotation-connected-lines',
+                                value: AscPDF.ANNOTATIONS_TYPES.PolyLine,
+                                iconClsForMainBtn: 'btn-big-annotation-connected-lines',
+                                captionForMainBtn: me.capBtnPolyLineComment
+                            },
+                            {caption: '--'},
+                        ],
+                        additionalItemsAfter: [
+                            {caption: '--'},
+                            new Common.UI.MenuItem({
+                                template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
+                                stopPropagation: true
+                            })
+                        ],
+                        storageSuffix: '-shapecomment',
+                        hideColorsSeparator: true,
+                        action: 'insert-shape-comment',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.toolbarControls.push(this.btnShapeComment);
+
                     if (config.isPDFAnnotate && config.canPDFEdit || config.isPDFEdit) {
                         this.btnEditMode = new Common.UI.Button({
                             cls: 'btn-toolbar x-huge icon-top',
@@ -1057,7 +1241,7 @@ define([
                     this.btnPrevForm = new Common.UI.Button({
                         id: 'id-toolbar-btn-prev',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-previous-field',
+                        iconCls: 'toolbar__icon btn-previous-field icon-rtl',
                         lock: [_set.disableOnStart],
                         caption: this.capBtnPrev,
                         dataHint: '1',
@@ -1069,7 +1253,7 @@ define([
                     this.btnNextForm = new Common.UI.Button({
                         id: 'id-toolbar-btn-next',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-next-field',
+                        iconCls: 'toolbar__icon btn-next-field icon-rtl',
                         lock: [_set.disableOnStart],
                         caption: this.capBtnNext,
                         dataHint: '1',
@@ -1106,6 +1290,7 @@ define([
                 }
 
                 if ( config.isEdit || config.isRestrictedEdit) {
+                    const shortcutHints = {};
                     this.btnPrint = new Common.UI.Button({
                         id: 'id-toolbar-btn-print',
                         cls: 'btn-toolbar',
@@ -1120,6 +1305,10 @@ define([
                         printType: 'print'
                     });
                     this.toolbarControls.push(this.btnPrint);
+                    shortcutHints.PrintPreviewAndPrint = {
+                        btn: this.btnPrint,
+                        label: this.tipPrint
+                    };
 
                     this.btnUndo = new Common.UI.Button({
                         id: 'id-toolbar-btn-undo',
@@ -1132,6 +1321,10 @@ define([
                         dataHintTitle: 'Z'
                     });
                     this.toolbarControls.push(this.btnUndo);
+                    shortcutHints.EditUndo = {
+                        btn: this.btnUndo,
+                        label: this.tipUndo
+                    };
 
                     this.btnRedo = new Common.UI.Button({
                         id: 'id-toolbar-btn-redo',
@@ -1144,6 +1337,10 @@ define([
                         dataHintTitle: 'Y'
                     });
                     this.toolbarControls.push(this.btnRedo);
+                    shortcutHints.EditRedo = {
+                        btn: this.btnRedo,
+                        label: this.tipRedo
+                    };
 
                     this.btnCopy = new Common.UI.Button({
                         id: 'id-toolbar-btn-copy',
@@ -1155,17 +1352,25 @@ define([
                         dataHintTitle: 'C'
                     });
                     this.toolbarControls.push(this.btnCopy);
+                    shortcutHints.Copy = {
+                        btn: this.btnCopy,
+                        label: this.tipCopy
+                    };
 
                     this.btnPaste = new Common.UI.Button({
                         id: 'id-toolbar-btn-paste',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-paste',
-                        lock: [_set.paragraphLock, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.pasteLock, _set.paragraphLock, _set.lostConnect, _set.disableOnStart],
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintTitle: 'V'
                     });
                     this.paragraphControls.push(this.btnPaste);
+                    shortcutHints.Paste = {
+                        btn: this.btnPaste,
+                        label: this.tipPaste
+                    };
 
                     this.btnCut = new Common.UI.Button({
                         id: 'id-toolbar-btn-cut',
@@ -1177,6 +1382,10 @@ define([
                         dataHintTitle: 'X'
                     });
                     this.paragraphControls.push(this.btnCut);
+                    shortcutHints.Cut = {
+                        btn: this.btnCut,
+                        label: this.tipCut
+                    };
 
                     this.btnSelectAll = new Common.UI.Button({
                         id: 'id-toolbar-btn-select-all',
@@ -1187,6 +1396,10 @@ define([
                         dataHintDirection: 'bottom'
                     });
                     this.toolbarControls.push(this.btnSelectAll);
+                    shortcutHints.EditSelectAll = {
+                        btn: this.btnSelectAll,
+                        label: this.tipSelectAll
+                    };
 
                     this.btnSelectTool = new Common.UI.Button({
                         id: 'tlbtn-selecttool',
@@ -1244,7 +1457,7 @@ define([
                     this.btnFirstPage = new Common.UI.Button({
                         id          : 'id-toolbar-btn-first-page',
                         cls         : 'btn-toolbar',
-                        iconCls     : 'toolbar__icon btn-firstitem',
+                        iconCls     : 'toolbar__icon btn-firstitem icon-rtl',
                         lock: [_set.disableOnStart, _set.firstPage],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
@@ -1254,7 +1467,7 @@ define([
                     this.btnLastPage = new Common.UI.Button({
                         id          : 'id-toolbar-btn-last-page',
                         cls         : 'btn-toolbar',
-                        iconCls     : 'toolbar__icon btn-lastitem',
+                        iconCls     : 'toolbar__icon btn-lastitem icon-rtl',
                         lock: [_set.disableOnStart, _set.lastPage],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
@@ -1264,7 +1477,7 @@ define([
                     this.btnPrevPage = new Common.UI.Button({
                         id          : 'id-toolbar-btn-prev-page',
                         cls         : 'btn-toolbar',
-                        iconCls     : 'toolbar__icon btn-previtem',
+                        iconCls     : 'toolbar__icon btn-previtem icon-rtl',
                         lock: [_set.disableOnStart, _set.firstPage],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
@@ -1274,12 +1487,14 @@ define([
                     this.btnNextPage = new Common.UI.Button({
                         id          : 'id-toolbar-btn-next-page',
                         cls         : 'btn-toolbar',
-                        iconCls     : 'toolbar__icon btn-nextitem',
+                        iconCls     : 'toolbar__icon btn-nextitem icon-rtl',
                         lock: [_set.disableOnStart, _set.lastPage],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
                     });
                     this.toolbarControls.push(this.btnNextPage);
+
+                    PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints(shortcutHints);
 
                     // Menus
                     //
@@ -1404,6 +1619,7 @@ define([
                 _injectComponent('#slot-btn-valign', this.btnVerticalAlign);
                 _injectComponent('#slot-btn-linespace', this.btnLineSpace);
                 _injectComponent('#slot-btn-columns', this.btnColumns);
+                _injectComponent('#slot-btn-direction', this.btnTextDir);
                 _injectComponent('#slot-btn-arrange-shape', this.btnShapeArrange);
                 _injectComponent('#slot-btn-align-shape', this.btnShapeAlign);
                 _injectComponent('#slot-btn-rotate', this.btnRotatePage);
@@ -1420,6 +1636,7 @@ define([
                 _injectComponent('#slot-btn-underline', this.btnUnderline);
                 _injectComponent('#slot-btn-highlight', this.btnHighlight);
                 _injectComponent('#slot-btn-text-comment', this.btnTextComment);
+                _injectComponent('#slot-btn-shape-comment', this.btnShapeComment);
                 _injectComponent('#slot-btn-stamp', this.btnStamp);
                 this.btnEditMode ? _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode) : $host.findById('#slot-btn-tb-edit-mode').parents('.group').hide().next('.separator').hide();
             },
@@ -1586,6 +1803,27 @@ define([
                             ]
                         }));
                     }
+                    if (me.btnShapeComment) {
+                        var btn = me.btnShapeComment;
+                        btn.options.shapeType = AscPDF.ANNOTATIONS_TYPES.Square;
+                        btn.setMenu();
+                        btn.currentColor = btn.color;
+                        let onShowAfter = function(menu) {
+                            var sizePicker = new Common.UI.UpDownPicker({
+                                el: menu.cmpEl.find('.custom-scale'),
+                                caption: me.txtSize,
+                                minWidth: 50
+                            });
+                            sizePicker.setValue(btn.options.currentSize.arr[btn.options.currentSize.idx] + ' ' + me.txtMM);
+                            sizePicker.on('click', function (direction) {
+                                me.fireEvent('shapeannot:size', [direction]);
+                            });
+                            btn.sizePicker = sizePicker;
+                            menu.off('show:after', onShowAfter);
+                        };
+                        btn.menu.on('show:after', onShowAfter);
+                        me.mnuShapeCommentColorPicker = btn.getPicker();
+                    }
                     if (me.btnStamp) {
                         me.btnStamp.setMenu(new Common.UI.Menu({
                             restoreHeight: 500
@@ -1605,13 +1843,6 @@ define([
             },
 
             createDelayedElementsCommon: function() {
-                this.btnPrint.updateHint(this.tipPrint + Common.Utils.String.platformKey('Ctrl+P'));
-                this.btnUndo.updateHint(this.tipUndo + Common.Utils.String.platformKey('Ctrl+Z'));
-                this.btnRedo.updateHint(this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'));
-                this.btnCopy.updateHint(this.tipCopy + Common.Utils.String.platformKey('Ctrl+C'));
-                this.btnPaste.updateHint(this.tipPaste + Common.Utils.String.platformKey('Ctrl+V'));
-                this.btnCut.updateHint(this.tipCut + Common.Utils.String.platformKey('Ctrl+X'));
-                this.btnSelectAll.updateHint(this.tipSelectAll + Common.Utils.String.platformKey('Ctrl+A'));
                 this.btnSelectTool.updateHint(this.tipSelectTool);
                 this.btnHandTool.updateHint(this.tipHandTool);
                 this.btnFirstPage.updateHint(this.tipFirstPage);
@@ -1640,6 +1871,7 @@ define([
                 this.btnHighlight.updateHint(this.textHighlight);
                 // this.btnTextComment.updateHint([this.tipInsertTextComment, this.tipInsertText]);
                 this.btnTextComment.updateHint(this.tipInsertTextComment);
+                this.btnShapeComment.updateHint(this.tipInsertRectComment);
                 this.btnStamp.updateHint(this.tipInsertStamp);
                 this.btnEditMode && this.btnEditMode.updateHint(this.tipEditMode);
             },
@@ -1649,14 +1881,7 @@ define([
 
                 this.updateMetricUnit();
                 this.btnEditText.updateHint(this.tipRecognize);
-                this.btnIncFontSize.updateHint(this.tipIncFont + Common.Utils.String.platformKey('Ctrl+]'));
-                this.btnDecFontSize.updateHint(this.tipDecFont + Common.Utils.String.platformKey('Ctrl+['));
-                this.btnBold.updateHint(this.textBold + Common.Utils.String.platformKey('Ctrl+B'));
-                this.btnItalic.updateHint(this.textItalic + Common.Utils.String.platformKey('Ctrl+I'));
-                this.btnTextUnderline.updateHint(this.textUnderline + Common.Utils.String.platformKey('Ctrl+U'));
                 this.btnTextStrikeout.updateHint(this.textStrikeout);
-                this.btnSuperscript.updateHint(this.textSuperscript);
-                this.btnSubscript.updateHint(this.textSubscript);
                 this.btnFontColor.updateHint(this.tipFontColor);
                 this.btnTextHighlightColor.updateHint(this.tipHighlightColor);
                 this.btnChangeCase.updateHint(this.tipChangeCase);
@@ -1665,10 +1890,9 @@ define([
                 this.btnNumbers.updateHint(this.tipNumbers);
                 this.btnHorizontalAlign.updateHint(this.tipHAligh);
                 this.btnVerticalAlign.updateHint(this.tipVAligh);
-                this.btnDecLeftOffset.updateHint(this.tipDecPrLeft + Common.Utils.String.platformKey('Ctrl+Shift+M'));
-                this.btnIncLeftOffset.updateHint(this.tipIncPrLeft);
                 this.btnLineSpace.updateHint(this.tipLineSpace);
                 this.btnColumns.updateHint(this.tipColumns);
+                this.btnTextDir.updateHint(this.tipTextDir);
                 this.btnShapeAlign.updateHint(this.tipShapeAlign);
                 this.btnShapeArrange.updateHint(this.tipShapeArrange);
                 this.btnShapesMerge.updateHint(this.tipShapeMerge);
@@ -1862,10 +2086,17 @@ define([
 
                     this.synchTooltip.show();
                 } else {
-                    this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
+                    this.btnSaveTip = this.tipSynchronize;
+                    PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                        Save: {
+                            btn: this.btnCollabChanges,
+                            label: this.btnSaveTip,
+                            ignoreUpdates: true
+                        },
+                    });
                 }
 
-                this.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate && this.mode.canSaveToFile);
+                this.lockToolbar(Common.enumLock.cantSave, !this.mode.isPDFEdit && !this.mode.isPDFAnnotate && this.mode.canSaveToFile, {array: [this.btnSave]});
                 Common.Gateway.collaborativeChanges();
             },
 
@@ -1879,12 +2110,24 @@ define([
                 this.synchTooltip.on('dontshowclick', function () {
                     this.showSynchTip = false;
                     this.synchTooltip.hide();
-                    this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
+                    PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                        Save: {
+                            btn: this.btnCollabChanges,
+                            label: this.btnSaveTip,
+                            ignoreUpdates: true
+                        },
+                    });
                     Common.localStorage.setItem("pdfe-hide-synch", 1);
                 }, this);
                 this.synchTooltip.on('closeclick', function () {
                     this.synchTooltip.hide();
-                    this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
+                    PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                        Save: {
+                            btn: this.btnCollabChanges,
+                            label: this.btnSaveTip,
+                            ignoreUpdates: true
+                        },
+                    });
                 }, this);
             },
 
@@ -1896,9 +2139,17 @@ define([
                         me.btnCollabChanges.cmpEl.removeClass('notify');
                         if (this.synchTooltip)
                             this.synchTooltip.hide();
-                        this.btnCollabChanges.updateHint(this.btnSaveTip);
 
-                        this.btnSave.setDisabled(!me.mode.forcesave && !me.mode.canSaveDocumentToBinary || !me.mode.isPDFEdit && !me.mode.isPDFAnnotate && me.mode.canSaveToFile || !me.mode.showSaveButton);
+                        PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                            Save: {
+                                btn: this.btnCollabChanges,
+                                label: this.btnSaveTip,
+                                ignoreUpdates: true
+                            },
+                        });
+
+                        this.lockToolbar(Common.enumLock.cantSave, !me.mode.forcesave && !me.mode.canSaveDocumentToBinary || !me.mode.isPDFEdit && !me.mode.isPDFAnnotate && me.mode.canSaveToFile || !me.mode.showSaveButton,
+                                    {array: [this.btnSave]});
                         this._state.hasCollaborativeChanges = false;
                     }
                 }
@@ -1917,7 +2168,14 @@ define([
                 var length = _.size(editusers);
                 var cls = (length > 1) ? 'btn-save-coauth' : 'btn-save';
                 if ( cls !== me.btnSaveCls && me.btnCollabChanges && me.btnCollabChanges.rendered ) {
-                    me.btnSaveTip = ((length > 1) ? me.tipSaveCoauth : me.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
+                    me.btnSaveTip = ((length > 1) ? me.tipSaveCoauth : me.tipSave );
+                    PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                        Save: {
+                            btn: this.btnCollabChanges,
+                            label: this.btnSaveTip,
+                            ignoreUpdates: true
+                        },
+                    });
                     me.btnCollabChanges.updateHint(me.btnSaveTip);
                     me.btnCollabChanges.changeIcon({next: cls, curr: me.btnSaveCls});
                     me.btnSaveCls = cls;

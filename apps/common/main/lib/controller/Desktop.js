@@ -199,7 +199,22 @@ define([
                     webapp.getController('Main').onPrint();
                 } else
                 if (/printer:config/.test(cmd)) {
-                    console.log('on print:config', param);
+                    var currentPrinter = null;
+                    var printers = [];
+                    var paramParse;
+                    try {
+                        paramParse = JSON.parse(param);
+                    } catch (e) {
+                        console.warn('printers info is broken');
+                    }
+                    
+                    if(paramParse){
+                        paramParse.printers && (printers = paramParse.printers);
+                        paramParse.current_printer && (currentPrinter = paramParse.current_printer);
+                    }
+                    const ctrl_print = webapp.getController('Print');
+                    if ( ctrl_print )
+                        ctrl_print.setPrintersInfo(currentPrinter, printers);
                 } else
                 if (/file:saveas/.test(cmd)) {
                     webapp.getController('Main').api.asc_DownloadAs();
@@ -528,6 +543,7 @@ define([
                 const _f_ = rawarray[i];
                 if ( utils.matchFileFormat( _f_.type ) ) {
                     if (_re_name.test(_f_.path)) {
+                        _f_.path = $('<div>').html(_f_.path).text();
                         const name = _re_name.exec(_f_.path)[1],
                             dir = _f_.path.slice(0, _f_.path.length - name.length - 1);
 
@@ -756,6 +772,9 @@ define([
             },
             uiRtlSupported: function () {
                 return nativevars && nativevars.rtl != undefined;
+            },
+            systemLangs: function () {
+                return nativevars && nativevars.keyboard ? nativevars.keyboard.langs : undefined;
             },
         };
     };

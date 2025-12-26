@@ -3,7 +3,7 @@
         <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td class="padding-small">
-                    <label style="width: 420px;"><%= scope.textDescription %></label>
+                    <label style="width: 415px;"><%= scope.textDescription %></label>
                 </td>
                 <td class="padding-small float-right padding-left-10">
                     <div id="roles-manager-btn-up" style="display: inline-block;"></div>

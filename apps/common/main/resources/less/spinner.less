@@ -1,12 +1,12 @@
 .spinner{
-    @spin-height: 22px;
-    @trigger-width: 17px;
+    @spin-height: @form-control-size-ie;
+    @spin-height: @form-control-size;
+    @trigger-width: 16px;
     position: relative;
 
     input {
         height: @spin-height;
-        .text-align-right();
-        .padding-x(1px, @trigger-width + 2px);
+        .padding-x(3px, @trigger-width + 2px);
 
         .rtl & {
             direction: rtl;
@@ -17,7 +17,7 @@
         display: block;
         position: relative;
         width: @trigger-width;
-        height: (@spin-height/2) - 1;
+        height: calc(@spin-height/2 - 1px);
         height: calc(@spin-height/2 - 1px/@pixel-ratio-factor);
         padding: 0;
         margin: 0;

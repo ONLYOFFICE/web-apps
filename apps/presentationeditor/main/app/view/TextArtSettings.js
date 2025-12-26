@@ -93,6 +93,7 @@ define([
                 DisabledControls: false,
                 applicationPixelRatio: Common.Utils.applicationPixelRatio(),
                 isFromSmartArtInternal: false,
+                isFromChart: false,
                 HideTransformSettings: false
             };
             this.lockedControls = [];
@@ -769,7 +770,8 @@ define([
                 this.createDelayedElements();
 
             this._state.isFromSmartArtInternal = props.get_FromSmartArtInternal();
-            this.hideTransformSettings(this._state.isFromSmartArtInternal);
+            this._state.isFromChart = props.get_FromChart();
+            this.hideTransformSettings(this._state.isFromSmartArtInternal || this._state.isFromChart);
 
             if (props && props.get_TextArtProperties())
             {
@@ -1174,10 +1176,6 @@ define([
                 ariaLabel: this.strPattern
             });
             this.cmbPattern.render($('#textart-combo-pattern'));
-            this.cmbPattern.openButton.menu.cmpEl.css({
-                'min-width': 178,
-                'max-width': 178
-            });
             this.cmbPattern.on('click', _.bind(this.onPatternSelect, this));
             this.cmbPattern.openButton.menu.on('show:after', function () {
                 me.cmbPattern.menuPicker.scroller.update({alwaysVisibleY: true});
@@ -1509,10 +1507,6 @@ define([
                 fillOnChangeVisibility: true
             });
             this.cmbTransform.render($('#textart-combo-transform'));
-            this.cmbTransform.openButton.menu.cmpEl.css({
-                'min-width': 178,
-                'max-width': 178
-            });
             this.cmbTransform.on('click', _.bind(this.onTransformSelect, this));
             this.cmbTransform.openButton.menu.on('show:after', function () {
                 me.cmbTransform.menuPicker.scroller.update({alwaysVisibleY: true});
@@ -1633,7 +1627,7 @@ define([
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.ShapeApply(this.shapeprops);
             }
-            $(this.btnTexture.el).find('.form-control').prop('innerHTML', record.get('name'));
+            // $(this.btnTexture.el).find('.form-control').prop('innerHTML', record.get('name'));
             this.fireEvent('editcomplete', this);
         },
 
@@ -1655,10 +1649,6 @@ define([
                     fillOnChangeVisibility: true
                 });
                 this.cmbTextArt.render($('#textart-combo-template'));
-                this.cmbTextArt.openButton.menu.cmpEl.css({
-                    'min-width': 178,
-                    'max-width': 178
-                });
                 this.cmbTextArt.on('click', _.bind(this.onTextArtSelect, this));
                 this.cmbTextArt.openButton.menu.on('show:after', function () {
                     me.cmbTextArt.menuPicker.scroller.update({alwaysVisibleY: true});

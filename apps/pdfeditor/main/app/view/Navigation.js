@@ -117,6 +117,7 @@ define([
                             menu: new Common.UI.Menu({
                                 menuAlign: 'tl-tr',
                                 style: 'min-width: auto;',
+                                cls: 'shifted-right',
                                 items: [
                                     {
                                         caption: this.txtSmall,

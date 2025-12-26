@@ -54,7 +54,10 @@ define([], function () { 'use strict';
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 245px;">',
+                '<div class="box">',
+                '<table cols="2" style="width: 100%;">',
+                '<tr style="vertical-align: top;">',
+                '<td>',
                     '<div class="float-left">',
                         '<label class="font-weight-bold">' + this.textTitle + '</label>',
                         '<div style="margin-top: 2px;">',
@@ -93,10 +96,15 @@ define([], function () { 'use strict';
                             '<div id="page-margins-cmb-multiple-pages"></div>',
                         '</div>',
                     '</div>',
+                '</td>',
+                '<td>',
                     '<div class="float-right">',
                         '<label class="font-weight-bold">' + this.textPreview + '</label>',
                         '<div id="page-margins-preview" style="margin-top: 2px; height: 120px; width: 162px;"></div>',
                     '</div>',
+                '</td>',
+                '</tr>',
+                '</table>',
                 '</div>'
             ].join('');
 

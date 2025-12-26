@@ -158,6 +158,8 @@ define([
                 minheight: 0,
                 enableKeyEvents: true,
                 automove: true,
+                autoPosOnResize: 'none',    //center, relative
+                transparentMask: false,
                 role: 'dialog'
         };
 
@@ -354,6 +356,9 @@ define([
                 top < topedge ? (top = topedge) : top > this.dragging.maxy && (top = this.dragging.maxy);
 
                 this.$window.css({left: left, top: top});
+
+                this.dragging.wasDragged = true;
+                this.initConfig.autoPosOnResize == 'relative' && _calcWindowPositionRatio.call(this);
             }
         }
 
@@ -361,6 +366,35 @@ define([
             if (data.type == 'mouseup' && this.dragging.enabled) {
                 _mouseup.call(this);
             }
+        }
+
+        function _onResizeWindow() {
+            if(this.initConfig.autoPosOnResize == 'center' && !this.dragging.wasDragged) {
+                this.setPosition();
+            } else if(this.initConfig.autoPosOnResize == 'relative' && this.windowPositionRatio) {
+                const documentGeometry = _readDocumetGeometry();
+                const newPos = {
+                    x: documentGeometry.width * this.windowPositionRatio.left - (this.getWidth() / 2),
+                    y: documentGeometry.height * this.windowPositionRatio.top - (this.getHeight() / 2),
+                };
+                this.setPosition(newPos.x, newPos.y);
+            }
+
+            if(this.initConfig.automove) {
+                _onResizeMove.call(this);
+            }
+        }
+
+        function _calcWindowPositionRatio(){
+            const documentGeometry = _readDocumetGeometry();
+            const windowCenter = {
+                left: this.getLeft() + this.getWidth() / 2,
+                top: this.getTop() + this.getHeight() / 2
+            };
+            this.windowPositionRatio = {
+                left: windowCenter.left / documentGeometry.width,
+                top: windowCenter.top / documentGeometry.height,
+            };
         }
 
         function _onResizeMove(){
@@ -536,7 +570,11 @@ define([
                             (Math.max(text.width(), check.length>0 ? $(check).find('.checkbox-indeterminate').outerWidth(true) : 0)));
                     window.setSize(width, parseInt(body.css('height')) + parseInt(header.css('height')));
                 } else {
-                    text.css('white-space', 'normal');
+                    text.css({
+                        'white-space': 'normal',
+                        'overflow-wrap': 'break-word',
+                        'word-wrap': 'break-word'
+                    });
                     window.setWidth(options.width);
                     text_cnt.height(Math.max(text.height(), icon_height) + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0));
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
@@ -654,7 +692,7 @@ define([
                     _.each(options.buttons, function(b){
                         if (typeof(b) == 'object') {
                             if (b.value !== undefined) {
-                                var item = {value: b.value, text: b.caption, cls: 'auto' + ((b.primary || options.primary==b.value) ? ' primary' : '')};
+                                var item = {value: b.value, text: b.caption, cls: 'auto' + ((b.primary || options.primary==b.value) ? ' primary' : '') + (b.cls ? ' ' + b.cls : '')};
                                 b.id && (item.id = b.id);
                                 newBtns.push(item);
                             }
@@ -677,6 +715,7 @@ define([
 
             render: function() {
                 var renderto = this.initConfig.renderTo || document.body;
+
                 $(renderto).append(
                     _.template(template)(this.initConfig)
                 );
@@ -712,11 +751,12 @@ define([
                         Common.Gateway.on('processmouse', _.bind(_onProcessMouse, this));
                     var tools = this.$window.find('.tools .tool').length;
                     (tools>0) && this.$window.find('> .header > .title').css({'padding-right': tools * 20 + 'px', 'padding-left': tools * 20 + 'px'});
-                } else {
                     this.$window.find('.body').css({
-                        top:0,
-                        'border-radius': '5px'
+                        'border-top-left-radius': '0px',
+                        'border-top-right-radius': '0px'
                     });
+                } else {
+                    this.$window.find('.body').css({top:0});
                 }
 
                 if (this.initConfig.height !== 'auto') {
@@ -730,8 +770,11 @@ define([
                 this.binding.winclose = function(obj) {
                     if (me.$window && me.isVisible() && me.$window == obj.$window) me.close();
                 };
+                this.binding.onAppRepaint = _.bind(this.onAppRepaint, this);
+                this.binding.onThemeChanged = _.bind(this.onThemeChanged, this);
                 Common.NotificationCenter.on('window:close', this.binding.winclose);
-                Common.NotificationCenter.on('app:repaint', _.bind(this.onAppRepaint, this));
+                Common.NotificationCenter.on('app:repaint', this.binding.onAppRepaint);
+                Common.NotificationCenter.on('uitheme:changed', this.binding.onThemeChanged);
 
                 this.initConfig.footerCls && this.$window.find('.footer').addClass(this.initConfig.footerCls);
 
@@ -762,7 +805,7 @@ define([
                         mask.attr('counter', parseInt(mask.attr('counter'))+1);
                         mask.show();
                     } else {
-                        var maskOpacity = $(':root').css('--modal-window-mask-opacity');
+                        var maskOpacity = this.initConfig.transparentMask ? 0 : $(':root').css('--modal-window-mask-opacity');
 
                         mask.css('opacity', 0);
                         mask.attr('counter', parseInt(mask.attr('counter'))+1);
@@ -789,15 +832,18 @@ define([
                 } else
                 if (!this.$window.is(':visible')) {
                     this.$window.css({opacity: 0});
+                    (_.isNumber(x) && _.isNumber(y)) && this.setPosition(x, y);
                     _setVisible.call(this);
-                    this.$window.show()
+                    this.$window.show();
                 }
 
                 $(document).on('keydown.' + this.cid, this.binding.keydown);
-                if(this.initConfig.automove){
-                    this.binding.windowresize = _.bind(_onResizeMove, this);
+                if(this.initConfig.automove || this.initConfig.autoPosOnResize != 'none'){
+                    this.binding.windowresize = _.bind(_onResizeWindow, this);
                     $(window).on('resize', this.binding.windowresize);
                 }
+
+                this.initConfig.autoPosOnResize == 'relative' && _calcWindowPositionRatio.call(this);
 
                 var me = this;
 
@@ -849,11 +895,13 @@ define([
 
             close: function(suppressevent) {
                 $(document).off('keydown.' + this.cid);
-                this.initConfig.automove && $(window).off('resize', this.binding.windowresize);
+                this.binding.windowresize && $(window).off('resize', this.binding.windowresize);
                 if ( this.initConfig.header ) {
                     this.$window.find('.header').off('mousedown', this.binding.dragStart);
                 }
                 Common.NotificationCenter.off({'window:close': this.binding.winclose});
+                Common.NotificationCenter.off('app:repaint', this.binding.onAppRepaint);
+                Common.NotificationCenter.off('uitheme:changed', this.binding.onThemeChanged);
 
                 if (this.initConfig.modal) {
                     var mask = _getMask(),
@@ -867,7 +915,7 @@ define([
 
                     if ( hide_mask ) {
                         if (this.options.animate !== false) {
-                            var maskOpacity = $(':root').css('--modal-window-mask-opacity');
+                            var maskOpacity = this.initConfig.transparentMask ? 0 : $(':root').css('--modal-window-mask-opacity');
                             mask.css(_getTransformation(0));
 
                             setTimeout(function () {
@@ -895,7 +943,7 @@ define([
 
             hide: function() {
                 $(document).off('keydown.' + this.cid);
-                this.initConfig.automove && $(window).off('resize', this.binding.windowresize);
+                this.binding.windowresize && $(window).off('resize', this.binding.windowresize);
                 if (this.$window) {
                     if (this.initConfig.modal) {
                         var mask = _getMask(),
@@ -909,7 +957,7 @@ define([
 
                         if ( hide_mask ) {
                             if (this.options.animate !== false) {
-                                var maskOpacity = $(':root').css('--modal-window-mask-opacity');
+                                var maskOpacity = this.initConfig.transparentMask ? 0 : $(':root').css('--modal-window-mask-opacity');
                                 mask.css(_getTransformation(0));
 
                                 setTimeout(function () {
@@ -944,7 +992,7 @@ define([
             },
 
             setWidth: function(width) {
-                if (width >= 0) {
+                if (this.$window && width >= 0) {
                     var min = parseInt(this.$window.css('min-width'));
                     width < min && (width = min);
                     width -= (parseInt(this.$window.css('border-left-width')) + parseInt(this.$window.css('border-right-width')));
@@ -953,11 +1001,11 @@ define([
             },
 
             getWidth: function() {
-                return parseInt(this.$window.css('width'));
+                return this.$window ? parseInt(this.$window.css('width')) : undefined;
             },
 
             setHeight: function(height) {
-                if (height >= 0) {
+                if (this.$window && height >= 0) {
                     var min = parseInt(this.$window.css('min-height'));
                     height < min && (height = min);
                     height -= (parseInt(this.$window.css('border-bottom-width')) + parseInt(this.$window.css('border-top-width')));
@@ -971,7 +1019,7 @@ define([
             },
 
             getHeight: function() {
-                return parseInt(this.$window.css('height'));
+                return this.$window ? parseInt(this.$window.css('height')) : undefined;
             },
 
             setSize: function(w, h) {
@@ -1016,14 +1064,14 @@ define([
             setResizable: function(resizable, minSize, maxSize) {
                 if (resizable !== this.resizable) {
                     if (resizable) {
-                        var bordersTemplate = '<div class="resize-border left" style="top:' + ((this.initConfig.header) ? '33' : '5') + 'px; bottom: 5px; height: auto; border-right-style: solid; cursor: w-resize;"></div>' +
-                            '<div class="resize-border left bottom" style="border-bottom-left-radius: 5px; cursor: sw-resize;"></div>' +
+                        var bordersTemplate = '<div class="resize-border left bottom" style="cursor: sw-resize;"></div>' +
+                            '<div class="resize-border left" style="top:' + ((this.initConfig.header) ? '33' : '5') + 'px; bottom: 5px; height: auto; border-right-style: solid; cursor: w-resize;"></div>' +
                             '<div class="resize-border bottom" style="left: 4px; right: 4px; width: auto; z-index: 2; border-top-style: solid; cursor: s-resize;"></div>' +
-                            '<div class="resize-border right bottom" style="border-bottom-right-radius: 5px; cursor: se-resize;"></div>' +
+                            '<div class="resize-border right bottom" style="cursor: se-resize;"></div>' +
                             '<div class="resize-border right" style="top:' + ((this.initConfig.header) ? '33' : '5') + 'px; bottom: 5px; height: auto; border-left-style: solid; cursor: e-resize;"></div>' +
-                            '<div class="resize-border left top" style="border-top-left-radius: 5px; cursor: nw-resize;"></div>' +
+                            '<div class="resize-border left top" style="cursor: nw-resize;"></div>' +
                             '<div class="resize-border top" style="left: 4px; right: 4px; width: auto; z-index: 2; border-bottom-style:' + ((this.initConfig.header) ? "none" : "solid") + '; cursor: n-resize;"></div>' +
-                            '<div class="resize-border right top" style="border-top-right-radius: 5px; cursor: ne-resize;"></div>';
+                            '<div class="resize-border right top" style="cursor: ne-resize;"></div>';
                         if (this.initConfig.header)
                             bordersTemplate += '<div class="resize-border left" style="top: 5px; height: 28px; cursor: w-resize;"></div>' +
                                                '<div class="resize-border right" style="top: 5px; height: 28px; cursor: e-resize;"></div>';
@@ -1064,6 +1112,12 @@ define([
                 else if (this.initConfig.repaintcallback!==false) {
                     _centre.call(this);
                 }
+            },
+
+            onThemeChanged: function() {
+                if (!this.$window || !this.isVisible()) return;
+
+                _autoSize.call(this);
             },
 
             suspendKeyEvents: function () {

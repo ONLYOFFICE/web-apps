@@ -12,11 +12,15 @@ export class storeTextSettings {
             isBold: observable,
             isItalic: observable,
             isUnderline: observable,
+            isStrikethrough: observable,
+            isSuperscript: observable,
+            isSubscript: observable,
             textColor: observable,
             customTextColors: observable,
             paragraphAlign: observable,
             paragraphValign: observable,
             textIn: observable,
+            textDirection: observable,
             resetFontsRecent:action,
             initTextSettings: action,
             initFontSettings: action,
@@ -53,15 +57,19 @@ export class storeTextSettings {
     isBold = false;
     isItalic = false;
     isUnderline = false;
+    isStrikethrough = false;
+    isSuperscript = false;
+    isSubscript = false;
     textColor = undefined;
     customTextColors = [];
     paragraphAlign = undefined;
     paragraphValign = undefined;
     textIn = undefined;
+    textDirection = undefined;
 
     initTextSettings(cellInfo) {
         let xfs = cellInfo.asc_getXfs();
-        let selectType = cellInfo.asc_getSelectionType();
+        let selectType = cellInfo.asc_getSelectionType();        
 
         switch (selectType) {
             case Asc.c_oAscSelectionType.RangeChartText: this.textIn = 1; break;
@@ -79,13 +87,18 @@ export class storeTextSettings {
         this.isBold = xfs.asc_getFontBold();
         this.isItalic = xfs.asc_getFontItalic();
         this.isUnderline = xfs.asc_getFontUnderline();
-    
+        this.isStrikethrough = xfs.asc_getFontStrikeout();
+        this.isSuperscript = xfs.asc_getFontSuperscript();
+        this.isSubscript = xfs.asc_getFontSubscript();
+
         let color = xfs.asc_getFontColor();
         // console.log(color);
         this.textColor = this.resetTextColor(color);
 
         this.paragraphAlign = xfs.asc_getHorAlign();
         this.paragraphValign = xfs.asc_getVertAlign();
+
+        this.textDirection = xfs.asc_getReadingOrder();       
     }
 
     initEditorFonts (fonts, select) {

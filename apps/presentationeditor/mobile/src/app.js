@@ -17,6 +17,7 @@ window.$ = jQuery;
 // Import Framework7 or Framework7-RTL Styles
 
 // Import App Custom Styles
+import '../../../common/mobile/resources/less/icons-preload.less';
 import('./less/app.less');
 
 // Import App Component

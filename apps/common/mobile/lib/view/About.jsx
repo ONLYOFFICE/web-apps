@@ -11,13 +11,15 @@ const PageAbout = props => {
     const isCanBranding = store.canBranding;
     const licInfo = isCanBranding ? store.customization : null;
     const customer = licInfo ? licInfo.customer : null;
-    const nameCustomer = customer ? customer.name : null;
-    const mailCustomer = customer ? customer.mail : null;
-    const phoneCustomer = customer ? customer.phone : null;
-    const addressCustomer = customer ? customer.address : null;
-    const urlCustomer = customer ? customer.www : null;
-    const infoCustomer = customer ? customer.info : null;
-    const logoCustomer = customer ? customer.logo : null;
+    const {
+        name: nameCustomer = null,
+        mail: mailCustomer = null,
+        phone: phoneCustomer = null,
+        address: addressCustomer = null,
+        www: urlCustomer = null,
+        info: infoCustomer = null,
+        logo: logoCustomer = null
+    } = customer || {};
 
     const publisherUrl = __PUBLISHER_URL__, 
         publisherPrintUrl = publisherUrl.replace(/https?:\/{2}|\/$/g,"");
@@ -69,24 +71,24 @@ const PageAbout = props => {
                             </p>
                         </div>
                     ) : null}
-                    {nameCustomer || infoCustomer || urlCustomer ? (
+                    {(nameCustomer?.length || infoCustomer?.length || urlCustomer?.length) && (
                         <div className="about__customer">
-                            {nameCustomer && nameCustomer.length ? (
+                            {nameCustomer?.length && (
                                 <p id="settings-about-name" className="about__text">{nameCustomer}</p>
-                            ) : null}
-                            {infoCustomer && infoCustomer.length ? (
+                            )}
+                            {infoCustomer?.length && (
                                 <p className="about__text">{infoCustomer}</p>
-                            ) : null}
-                            {urlCustomer && urlCustomer.length ? (
+                            )}
+                            {urlCustomer?.length && (
                                 <p className="about__text">
                                     <Link id="settings-about-url" external={true} target="_blank" 
                                         href={!/^https?:\/{2}/i.test(urlCustomer) ? "http:\/\/" : '' + urlCustomer}>
                                         {urlCustomer}
                                     </Link>
                                 </p>
-                        ) : null}
+                            )}
                         </div>
-                    ) : null}
+                    )}
                     <div className="about__contacts">
                         <p className="about__text" id="settings-about-address">
                             {__PUBLISHER_ADDRESS__}

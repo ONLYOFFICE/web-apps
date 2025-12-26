@@ -215,6 +215,19 @@ define([
                     arrPara.push(item);
                     arrTable.push(_.clone(item));
                 });
+                var lckey = 'app-settings-recent-langs';
+                me.langParaMenu.menu.setRecent({
+                    count: Common.Utils.InternalSettings.get(lckey + "-count") || 5,
+                    offset: Common.Utils.InternalSettings.get(lckey + "-offset") || 0,
+                    key: lckey,
+                    valueField: 'value'
+                });
+                me.langTableMenu.menu.setRecent({
+                    count: Common.Utils.InternalSettings.get(lckey + "-count") || 5,
+                    offset: Common.Utils.InternalSettings.get(lckey + "-offset") || 0,
+                    key: lckey,
+                    valueField: 'value'
+                });
                 me.langParaMenu.menu.resetItems(arrPara);
                 me.langTableMenu.menu.resetItems(arrTable);
             }
@@ -240,6 +253,7 @@ define([
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                     return this.textRemDropdown;
                 case Asc.c_oAscContentControlSpecificType.Picture:
+                case Asc.c_oAscContentControlSpecificType.Signature:
                     return this.textRemPicture;
                 default:
                     return this.textRemField;

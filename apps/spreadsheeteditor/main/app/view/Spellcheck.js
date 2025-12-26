@@ -49,7 +49,7 @@ define([], function () {
                         '</div>',
                         '<div id="spellcheck-suggestions-list"></div>',
                         '<div id="spellcheck-change" style=""></div>',
-                        '<div id="spellcheck-ignore" class="padding-large margin-left-9"></div>',
+                        '<div id="spellcheck-ignore" class="padding-large margin-left-6"></div>',
                         '<button class="btn btn-text-default auto" id="spellcheck-add-to-dictionary" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtAddToDictionary %></button>',
                         '<label class="header" style="display: block;"><%= scope.txtDictionaryLanguage %></label>',
                         '<div id="spellcheck-dictionary-language"></div>',
@@ -100,7 +100,7 @@ define([], function () {
             this.buttonNext = new Common.UI.Button({
                 parentEl: $('#spellcheck-next'),
                 cls: 'btn-toolbar bg-white',
-                iconCls: 'toolbar__icon btn-nextitem',
+                iconCls: 'toolbar__icon btn-nextitem icon-rtl',
                 hint: this.txtNextTip,
                 dataHint: '1',
                 dataHintDirection: 'bottom'
@@ -166,7 +166,7 @@ define([], function () {
                 dataHintOffset: 'big'
             });
 
-            this.cmbDictionaryLanguage = new Common.UI.ComboBox({
+            this.cmbDictionaryLanguage = new Common.UI.ComboBoxRecent({
                 el          : $('#spellcheck-dictionary-language'),
                 style       : 'width: 100%',
                 menuStyle   : 'width: 100%;max-height: 163px;',
@@ -175,17 +175,15 @@ define([], function () {
                 scroller    : {
                     suppressScrollX: true
                 },
-                itemsTemplate: _.template([
-                    '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                itemTemplate: _.template([
+                        '<li id="<%= id %>" data-value="<%= value %>">',
                             '<a tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false">',
                                 '<div>',
-                                    '<%= item.displayValue %>',
+                                    '<%= displayValue %>',
                                 '</div>',
-                                '<label style="opacity: 0.6"><%= item.displayValueEn %></label>',
+                                '<label style="opacity: 0.6"><%= displayValueEn %></label>',
                             '</a>',
                         '</li>',
-                    '<% }); %>',
                 ].join('')),
                 search: true,
                 searchFields: ['displayValue', 'displayValueEn'],

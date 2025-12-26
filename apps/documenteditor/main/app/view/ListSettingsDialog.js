@@ -48,8 +48,7 @@ define([
     DE.Views.ListSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
             type: 0, // 0 - markers, 1 - numbers, 2 - multilevel
-            width: 300,
-            height: 460,
+            width: 320,
             style: 'min-width: 240px;',
             cls: 'modal-dlg',
             split: false,
@@ -62,8 +61,7 @@ define([
             this.rightPanelWidth = 210;
             _.extend(this.options, {
                 title: this.txtTitle,
-                height: (this.type===2) ? 451 : (this.type===1 ? 470 : 424),
-                width: (this.type===2) ? 415 + (this.extended ? this.rightPanelWidth : 0) : 300
+                width: (this.type===2) ? 415 + (this.extended ? this.rightPanelWidth : 0) : 320
         }, options || {});
 
             this.template = [
@@ -101,11 +99,11 @@ define([
                         '<tr>',
                             '<td class="padding-right-5" style="width: 100%;">',
                                 '<label class="input-label">' + this.txtNumFormatString + '</label>',
-                                '<div id="id-dlg-numbering-format-str" style="width: 100%;height:22px;margin-bottom: 10px;"></div>',
+                                '<div id="id-dlg-numbering-format-str" style="width: 100%;margin-bottom: 10px;"></div>',
                             '</td>',
                             '<td class="padding-left-5">',
                                 '<label class="input-label"></label>',
-                                '<div id="id-dlg-btn-more" style="width: 100%;height:22px;margin-bottom: 10px;"></div>',
+                                '<div id="id-dlg-btn-more" style="width: 100%;margin-bottom: 10px;"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
@@ -124,7 +122,7 @@ define([
                         '<tr>',
                             '<td colspan="2">',
                                 '<label class="input-label" style="display: block;">' + this.txtSize + '</label>',
-                                '<div id="id-dlg-bullet-size" class="input-group-nr" style="width: 129px;display: inline-block;margin-bottom: 10px;vertical-align: middle;"></div>',
+                                '<div id="id-dlg-bullet-size" class="input-group-nr" style="width: 139px;display: inline-block;margin-bottom: 10px;vertical-align: middle;"></div>',
                                 '<div id="id-dlg-numbering-bold" class="margin-left-4" style="display: inline-block;margin-bottom: 10px;vertical-align: middle;"></div>',
                                 '<div id="id-dlg-numbering-italic" class="margin-left-4" style="display: inline-block;margin-bottom: 10px;vertical-align: middle;"></div>',
                                 '<div id="id-dlg-bullet-color" class="margin-left-4" style="display: inline-block;margin-bottom: 10px;vertical-align: middle;"></div>',
@@ -146,7 +144,7 @@ define([
                         '<tr>',
                             '<td colspan="2" style="width: 100%;">',
                                 '<label class="input-label">' + this.txtNumFormatString + '</label>',
-                                '<div id="id-dlg-numbering-format-str" style="width: 100%;height:22px;margin-bottom: 10px;"></div>',
+                                '<div id="id-dlg-numbering-format-str" style="width: 100%;margin-bottom: 10px;"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
@@ -154,7 +152,7 @@ define([
                         '<tr>',
                             '<td class="padding-right-5">',
                                 '<label class="input-label" style="display: block;">' + this.txtFontName + '</label>',
-                                '<div id="id-dlg-numbering-font-name" style="display: inline-block;width: 90px;height:22px;margin-bottom: 10px;vertical-align: middle;"></div>',
+                                '<div id="id-dlg-numbering-font-name" style="display: inline-block;width: 90px;margin-bottom: 10px;vertical-align: middle;"></div>',
                                 '<div id="id-dlg-numbering-bold" class="margin-left-4" style="display: inline-block;margin-bottom: 10px;vertical-align: middle;"></div>',
                                 '<div id="id-dlg-numbering-italic" class="margin-left-4" style="display: inline-block;margin-bottom: 10px;vertical-align: middle;"></div>',
                                 '<div id="id-dlg-bullet-color" class="margin-left-4" style="display: inline-block;margin-bottom: 10px;vertical-align: middle;"></div>',
@@ -194,7 +192,7 @@ define([
                         '<tr>',
                             '<td colspan="2">',
                                 '<label class="input-label" style="display: block;">' + this.txtFontName + '</label>',
-                                '<div id="id-dlg-numbering-font-name" style="display: inline-block;width: 100%;height:22px;margin-bottom: 10px;"></div>',
+                                '<div id="id-dlg-numbering-font-name" style="display: inline-block;width: 100%;margin-bottom: 10px;"></div>',
                             '</td>',
                         '</tr>',
                         '<tr>',
@@ -321,7 +319,7 @@ define([
                 [
                     '<% _.each(items, function(item) { %>',
                     '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
-                    '<%= item.displayValue %><% if (item.value === Asc.c_oAscNumberingFormat.Bullet) { %><span style="font-family:<%=item.font%>;"><%=item.symbol%></span><% } %>',
+                    '<%= item.displayValue %><% if (item.value === Asc.c_oAscNumberingFormat.Bullet) { %><span style="font-family:<%-item.font%>;"><%=item.symbol%></span><% } %>',
                     '</a></li>',
                     '<% }); %>'
                 ];
@@ -364,7 +362,7 @@ define([
             this.cmbFormat = new Common.UI.ComboBoxCustom({
                 el          : $window.find('#id-dlg-numbering-format'),
                 menuStyle   : 'min-width: 100%;max-height: 220px;',
-                style       : this.type===2 ? "width: 100%;" : "width: 129px;",
+                style       : this.type===2 ? "width: 100%;" : "width: 139px;",
                 editable    : false,
                 template    : _.template(template.join('')),
                 itemsTemplate: _.template(itemsTemplate.join('')),
@@ -374,7 +372,7 @@ define([
                     var formcontrol = $(this.el).find('.form-control');
                     if (record) {
                         if (record.get('value')==Asc.c_oAscNumberingFormat.Bullet)
-                            formcontrol[0].innerHTML = record.get('displayValue') + '<span style="font-family:' + (record.get('font') || 'Arial') + '">' + record.get('symbol') + '</span>';
+                            formcontrol[0].innerHTML = record.get('displayValue') + '<span style="font-family:' + (Common.Utils.String.htmlEncode(record.get('font')) || 'Arial') + '">' + record.get('symbol') + '</span>';
                         else
                             formcontrol[0].innerHTML = record.get('displayValue');
                     } else
@@ -1035,7 +1033,8 @@ define([
                 if (props.get_Format() !== Asc.c_oAscNumberingFormat.Bullet) {
                     var text = props.get_Text();
                     var me = this;
-                    var arr = this.formatString.lvlIndexes[this.level];
+                    var arr = this.formatString.lvlIndexes[this.level],
+                        isLgl = this.props.get_Lvl(this.level).get_IsLgl();
                     text.forEach(function (item, index) {
                         if (item.get_Type() === Asc.c_oAscNumberingLvlTextType.Text) {
                             formatStr += item.get_Value().toString();
@@ -1044,8 +1043,12 @@ define([
                             if (me.levels[num] === undefined)
                                 me.levels[num] = me.props.get_Lvl(num);
                             arr[num] = {start: formatStr.length, index: index};
-                            var lvl = me.levels[num];
-                            formatStr += AscCommon.IntToNumberFormat(lvl.get_Start(), lvl.get_Format(), me.lang);
+                            var lvl = me.levels[num],
+                                fmt = lvl.get_Format();
+                            if (isLgl && fmt !== Asc.c_oAscNumberingFormat.Decimal && fmt !== Asc.c_oAscNumberingFormat.DecimalZero) {
+                                fmt = Asc.c_oAscNumberingFormat.Decimal;
+                            }
+                            formatStr += AscCommon.IntToNumberFormat(lvl.get_Start(), fmt, me.lang);
                             arr[num].end = formatStr.length;
                         }
                     });

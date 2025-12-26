@@ -28,7 +28,7 @@ function isLocalStorageAvailable() {
     let lang = (/(?:&|^)lang=([^&]+)&?/i).exec(window.location.search.substring(1));
     lang = ((lang && lang[1]) || window.Common.Locale.defaultLang).split(/[\-\_]/)[0];
     Common.Locale.currentLang = lang;
-    Common.Locale.isCurrentLangRtl = lang.lastIndexOf('ar', 0) === 0 || lang.lastIndexOf('he', 0) === 0;
+    Common.Locale.isCurrentLangRtl = lang && (/^(ar|he|ur)$/i.test(lang));
 }
 
 {
@@ -40,20 +40,40 @@ function isLocalStorageAvailable() {
     }
 }
 
-let obj = !isLocalStorageAvailable() ? {id: 'theme-light', type: 'light'} : JSON.parse(localStorage.getItem("mobile-ui-theme"));
+function getUrlParam(param) {
+    const url = new URL(window.location.href);
+    return url.searchParams.get(param);
+}
 
-if ( !obj ) {
-    let theme_type = window.native?.editorConfig?.theme?.type;
-    if ( !theme_type && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches )
-        theme_type = "dark";
+const uithemeParam = getUrlParam('uitheme');
 
-    obj = theme_type == 'dark' ?
-        {id: 'theme-dark', type: 'dark'} : {id: 'theme-light', type: 'light'};
-    // localStorage && localStorage.setItem("mobile-ui-theme", JSON.stringify(obj));
+const supportedThemes = {
+    'theme-light': 'light',
+    'theme-dark': 'dark',
+    'default-light': 'light',
+    'default-dark': 'dark'
+};
 
-    if(isLocalStorageAvailable()) {
-        localStorage.setItem("mobile-ui-theme", JSON.stringify(obj));
+let obj;
+isLocalStorageAvailable() && (obj = JSON.parse(localStorage.getItem("mobile-ui-theme-client")));
+
+if (!obj) {
+    if (uithemeParam && supportedThemes[uithemeParam]) {
+        obj = {
+            id: uithemeParam,
+            type: supportedThemes[uithemeParam]
+        };
+    } else {
+        let theme_type = window.native?.editorConfig?.theme?.type;
+        if (!theme_type && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme_type = 'dark';
+
+        const id = theme_type === 'dark' ? 'theme-dark' : 'theme-light';
+        obj = {
+            id,
+            type: supportedThemes[id]
+        }
     }
 }
 
+window.mobileUiTheme = obj;
 document.body.classList.add(`theme-type-${obj.type}`, `${window.asceditor}-editor`);

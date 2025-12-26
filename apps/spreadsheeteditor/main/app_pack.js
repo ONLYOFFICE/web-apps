@@ -24,9 +24,14 @@ require([
     'common/main/lib/view/DocumentHolderExt',
     'common/main/lib/view/SignDialog',
     'common/main/lib/view/SignSettingsDialog',
+    'common/main/lib/view/ExternalLinksDlg',
+    'common/main/lib/view/FormatSettingsDialog',
     'common/main/lib/view/DocumentPropertyDialog',
     'common/main/lib/view/MacrosDialog',
-    'common/main/lib/component/AceEditor',
+    'common/main/lib/view/MacrosAiDialog',
+    'common/main/lib/view/ShortcutsDialog',
+    'common/main/lib/view/ShortcutsEditDialog',
+    'common/main/lib/component/MonacoEditor',
 
     'spreadsheeteditor/main/app/controller/DocumentHolderExt',
     'spreadsheeteditor/main/app/view/FileMenuPanels',
@@ -37,7 +42,6 @@ require([
     'spreadsheeteditor/main/app/view/ViewManagerDlg',
     'spreadsheeteditor/main/app/view/ChartDataDialog',
     'spreadsheeteditor/main/app/view/ChartTypeDialog',
-    'spreadsheeteditor/main/app/view/ExternalLinksDlg',
     'spreadsheeteditor/main/app/view/FormatRulesEditDlg',
     'spreadsheeteditor/main/app/view/FormatRulesManagerDlg',
     'spreadsheeteditor/main/app/view/MacroDialog',
@@ -51,7 +55,6 @@ require([
     'spreadsheeteditor/main/app/view/SlicerAddDialog',
     'spreadsheeteditor/main/app/view/Spellcheck',
     'spreadsheeteditor/main/app/view/WatchDialog',
-    'spreadsheeteditor/main/app/view/FormatSettingsDialog',
     'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
     'spreadsheeteditor/main/app/view/SpecialPasteDialog',
     'spreadsheeteditor/main/app/view/FieldSettingsDialog',
@@ -88,7 +91,11 @@ require([
     'spreadsheeteditor/main/app/view/AutoFilterDialog',
     'spreadsheeteditor/main/app/view/PivotGroupDialog',
     'spreadsheeteditor/main/app/view/PivotCalculatedItemsDialog',
-    'spreadsheeteditor/main/app/view/PivotInsertCalculatedItemDialog'
+    'spreadsheeteditor/main/app/view/PivotInsertCalculatedItemDialog',
+    'spreadsheeteditor/main/app/view/SolverDlg',
+    'spreadsheeteditor/main/app/view/ConstraintDialog',
+    'spreadsheeteditor/main/app/view/SolverMethodDialog',
+    'spreadsheeteditor/main/app/view/SolverResultsDlg'
 ], function () {
     Common.NotificationCenter.trigger('app-pack:loaded');
 });

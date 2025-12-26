@@ -152,6 +152,11 @@
                     config.callback(btn);
                 }
             });
+            $dlgWarning.on('click', '[data-dismiss="modal"]', function() {
+                 if (config.closecallback) {
+                    config.closecallback();
+                }
+            });
 
             $dlgWarning.on('hidden.bs.modal', function() {
                 $dlgWarning.remove();

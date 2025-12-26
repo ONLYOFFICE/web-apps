@@ -507,6 +507,14 @@ const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({store
                 config.msg = t('Error.errorSaveWatermark');
                 break;
 
+            case Asc.c_oAscError.ID.MacroUnavailableWarning:
+                config.msg = t('Error.errorMacroUnavailableWarning').replace('%1', errData ? "'" + errData + "'" : '');
+                break;
+
+            case Asc.c_oAscError.ID.CopyDisabled:
+                config.msg = t('Error.errorCopyDisabled');
+                break;
+
             default:
                 config.msg = _t.errorDefaultMessage.replace('%1', id);
                 break;
@@ -519,11 +527,16 @@ const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({store
 
             config.title = _t.criticalErrorTitle;
 
-            if (storeAppOptions.canBackToFolder && !storeAppOptions.isDesktopApp) {
+            if (storeAppOptions.canRequestClose) {
+                config.msg += '<br><br>' + _t.criticalErrorExtTextClose;
+                config.callback = function(btn) {
+                    Common.Gateway.requestClose();
+                };
+            } else if (storeAppOptions.canBackToFolder && !storeAppOptions.isDesktopApp && typeof id !== 'string' && storeAppOptions.customization.goback.url && storeAppOptions.customization.goback.blank===false) {
                 config.msg += '</br></br>' + _t.criticalErrorExtText;
-                config.callback = function() {
+                config.callback = function(btn) {
                     Common.Notifications.trigger('goback', true);
-                }
+                };
             }
             if (id === Asc.c_oAscError.ID.DataEncrypted) {
                 api.asc_coAuthoringDisconnect();
@@ -555,7 +568,7 @@ const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({store
             )) : [
                 {
                     text: t('Error.textOk'),
-                    onClick: (dlg, _) => dlg.close()
+                    onClick: config.callback
                 }
             ]
         }).open();

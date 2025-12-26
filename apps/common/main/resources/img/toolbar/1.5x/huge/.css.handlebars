@@ -5,9 +5,16 @@
             (min-resolution: 144dpi) and (max-resolution: 191dpi)
     {
         .options__icon.options__icon-huge {
+            {{#if (iesupport)}}
             background-image: url(resources/{{{escaped_image}}});
-            background-size: 80px auto;
-            background-size: var(--huge-icon-background-image-width) auto;
+            {{/if}}
+            background-image: var(--sprite-button-{{#spritepostfix}}{{/spritepostfix}}, url(resources/{{{escaped_image}}}));
+
+            {{#if (xpsupport)}}
+            .winxp & {
+                background-image: url(resources/{{{escaped_image}}});
+            }
+            {{/if}}
         }
     }
 }

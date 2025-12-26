@@ -109,13 +109,19 @@ define([
 
             this.btnChat = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-chat'),
-                hint: this.tipChat + Common.Utils.String.platformKey('Alt+Q', ' (' + (Common.Utils.isMac ? Common.Utils.String.textCtrl + '+' : '') + '{0})'),
+                hint: this.tipChat,
                 enableToggle: true,
                 disabled: true,
                 iconCls: 'btn-menu-chat',
                 toggleGroup: 'leftMenuGroup'
             });
             this.btnChat.on('click',            this.onBtnMenuClick.bind(this));
+            VE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                OpenChatPanel: {
+                    btn: this.btnChat,
+                    label: this.tipChat + Common.Utils.String.platformKey('Alt+Q', ' (' + (Common.Utils.isMac ? Common.Utils.String.textCtrl + '+' : '') + '{0})')
+                }
+            });
 
             this.btnChat.hide();
 
@@ -180,6 +186,7 @@ define([
                 this.onCoauthOptions();
             }
 
+            btn.options.type !== 'plugin' && $('.left-panel .plugin-panel').toggleClass('active', false);
             this.fireEvent('panel:show', [this, btn.options.action, btn.pressed]);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
 

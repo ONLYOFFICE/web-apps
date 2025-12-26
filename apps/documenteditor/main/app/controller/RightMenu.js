@@ -93,7 +93,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Paragraph] = {panelId: "id-paragraph-settings",  panel: rightMenu.paragraphSettings,btn: rightMenu.btnText,        hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Table] =     {panelId: "id-table-settings",      panel: rightMenu.tableSettings,    btn: rightMenu.btnTable,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Image] =     {panelId: "id-image-settings",      panel: rightMenu.imageSettings,    btn: rightMenu.btnImage,       hidden: 1, locked: false};
-            this._settings[Common.Utils.documentSettingsType.Header] =    {panelId: "id-header-settings",     panel: rightMenu.headerSettings,   btn: rightMenu.btnHeaderFooter,hidden: 1, locked: false, needShow: true};
+            // this._settings[Common.Utils.documentSettingsType.Header] =    {panelId: "id-header-settings",     panel: rightMenu.headerSettings,   btn: rightMenu.btnHeaderFooter,hidden: 1, locked: false, needShow: true};
             this._settings[Common.Utils.documentSettingsType.Shape] =     {panelId: "id-shape-settings",      panel: rightMenu.shapeSettings,    btn: rightMenu.btnShape,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.TextArt] =   {panelId: "id-textart-settings",    panel: rightMenu.textartSettings,  btn: rightMenu.btnTextArt,     hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Chart] = {panelId: "id-chart-settings",          panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
@@ -236,9 +236,9 @@ define([
                 } else
                     this._settings[settingsType].locked = value.get_Locked() || content_locked || isProtected;
 
-                if (!this._settings[Common.Utils.documentSettingsType.MailMerge].locked) // lock MailMerge-InsertField, если хотя бы один объект locked
+                if (!this._settings[Common.Utils.documentSettingsType.MailMerge].locked) // lock MailMerge-InsertField, if at least one object is locked
                     this._settings[Common.Utils.documentSettingsType.MailMerge].locked = value.get_Locked() || isProtected;
-                if (!this._settings[Common.Utils.documentSettingsType.Signature].locked) // lock Signature, если хотя бы один объект locked
+                if (!this._settings[Common.Utils.documentSettingsType.Signature].locked) // lock Signature, if at least one object is locked
                     this._settings[Common.Utils.documentSettingsType.Signature].locked = value.get_Locked();
             }
 
@@ -250,7 +250,7 @@ define([
                 var spectype = control_props.get_SpecificType();
                 if (spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture || spectype==Asc.c_oAscContentControlSpecificType.Complex ||
                     spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None ||
-                    spectype==Asc.c_oAscContentControlSpecificType.DateTime) {
+                    spectype==Asc.c_oAscContentControlSpecificType.DateTime || spectype==Asc.c_oAscContentControlSpecificType.Signature) {
                     settingsType = Common.Utils.documentSettingsType.Form;
                     this._settings[settingsType].props = control_props;
                     this._settings[settingsType].locked = control_lock || isProtected;
@@ -260,12 +260,12 @@ define([
                 }
             }
 
-            if ( this._settings[Common.Utils.documentSettingsType.Header].locked ) { // all elements are locked if header/footer is locked
-                for (i=0; i<this._settings.length; i++)  {
-                    if (this._settings[i])
-                        this._settings[i].locked = true;
-                }
-            }
+            // if ( this._settings[Common.Utils.documentSettingsType.Header].locked ) { // all elements are locked if header/footer is locked
+            //     for (i=0; i<this._settings.length; i++)  {
+            //         if (this._settings[i])
+            //             this._settings[i].locked = true;
+            //     }
+            // }
 
             if (!this._settings[Common.Utils.documentSettingsType.MailMerge].locked) { // disable MailMerge-InsertField when disable btnInsertTable
                 this._settings[Common.Utils.documentSettingsType.MailMerge].locked = !can_add_table || in_equation;
@@ -331,7 +331,7 @@ define([
                 else if (lastactive>=0 && currentactive<0) active = lastactive;
                 else if (currentactive>=0) active = currentactive;
                 else if (forceSignature && !this._settings[Common.Utils.documentSettingsType.Signature].hidden) active = Common.Utils.documentSettingsType.Signature;
-                else if (!this._settings[Common.Utils.documentSettingsType.MailMerge].hidden) active = Common.Utils.documentSettingsType.MailMerge;
+                else if (!this.rightmenu.GetActivePluginPane() && !this._settings[Common.Utils.documentSettingsType.MailMerge].hidden) active = Common.Utils.documentSettingsType.MailMerge;
 
                 if (active == undefined && open && lastactive>=0)
                     active = lastactive;
@@ -399,7 +399,7 @@ define([
         },
 
         updateMetricUnit: function() {
-            this.rightmenu.headerSettings.updateMetricUnit();
+            // this.rightmenu.headerSettings.updateMetricUnit();
             this.rightmenu.paragraphSettings.updateMetricUnit();
             this.rightmenu.chartSettings.updateMetricUnit();
             this.rightmenu.imageSettings.updateMetricUnit();
@@ -495,7 +495,7 @@ define([
                 this.rightmenu.paragraphSettings.disableControls(disabled);
                 this.rightmenu.shapeSettings.disableControls(disabled);
                 this.rightmenu.textartSettings.disableControls(disabled);
-                this.rightmenu.headerSettings.disableControls(disabled);
+                // this.rightmenu.headerSettings.disableControls(disabled);
                 this.rightmenu.tableSettings.disableControls(disabled);
                 this.rightmenu.imageSettings.disableControls(disabled);
                 this.rightmenu.formSettings && this.rightmenu.formSettings.disableControls(disabled);
@@ -514,7 +514,7 @@ define([
                     this.rightmenu.btnText.setDisabled(disabled);
                     this.rightmenu.btnTable.setDisabled(disabled);
                     this.rightmenu.btnImage.setDisabled(disabled);
-                    this.rightmenu.btnHeaderFooter.setDisabled(disabled);
+                    // this.rightmenu.btnHeaderFooter.setDisabled(disabled);
                     this.rightmenu.btnShape.setDisabled(disabled);
                     this.rightmenu.btnTextArt.setDisabled(disabled);
                     this.rightmenu.btnChart.setDisabled(disabled);
@@ -537,8 +537,8 @@ define([
                     return Common.Utils.documentSettingsType.Table;
                 case Asc.c_oAscTypeSelectElement.Image:
                     return Common.Utils.documentSettingsType.Image;
-                case Asc.c_oAscTypeSelectElement.Header:
-                    return Common.Utils.documentSettingsType.Header;
+                // case Asc.c_oAscTypeSelectElement.Header:
+                //     return Common.Utils.documentSettingsType.Header;
             }
         },
 

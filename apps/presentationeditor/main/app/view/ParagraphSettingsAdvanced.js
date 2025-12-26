@@ -171,6 +171,9 @@ define([
             }, this));
             this.spinners.push(this.numIndentsRight);
 
+            this.lblIndentsLeft = $('#paragraphadv-lbl-indent-left');
+            this.lblIndentsRight = $('#paragraphadv-lbl-indent-right');
+
             this.cmbSpecial = new Common.UI.ComboBox({
                 el: $('#paragraphadv-spin-special'),
                 cls: 'input-group-nr',
@@ -261,6 +264,22 @@ define([
             });
             this.spinners.push(this.numLineHeight);
             this.numLineHeight.on('change', _.bind(this.onNumLineHeightChange, this));
+
+            this.rbDirLtr = new Common.UI.RadioBox({
+                el: $('#paragraphadv-dir-ltr'),
+                name        : 'text-dir',
+                labelText   : this.textDirLtr,
+                value: false
+            });
+            this.rbDirLtr.on('change', _.bind(this.onTextDirChange, this));
+
+            this.rbDirRtl = new Common.UI.RadioBox({
+                el: $('#paragraphadv-dir-rtl'),
+                name        : 'text-dir',
+                labelText   : this.textDirRtl,
+                value: true
+            });
+            this.rbDirRtl.on('change', _.bind(this.onTextDirChange, this));
 
             // Font
 
@@ -408,7 +427,7 @@ define([
         getFocusedComponents: function() {
             return this.btnsCategory.concat([
                 this.cmbTextAlignment, this.numIndentsLeft, this.numIndentsRight, this.cmbSpecial, this.numSpecialBy,
-                this.numSpacingBefore, this.numSpacingAfter, this.cmbLineRule, this.numLineHeight, // 0 tab
+                this.numSpacingBefore, this.numSpacingAfter, this.cmbLineRule, this.numLineHeight, this.rbDirLtr, this.rbDirRtl,// 0 tab
                 this.chStrike, this.chSubscript, this.chDoubleStrike, this.chSmallCaps, this.chSuperscript, this.chAllCaps, this.numSpacing, // 1 tab
                 this.numDefaultTab, this.numTab, this.cmbAlign, this.tabList, this.btnAddTab, this.btnRemoveTab, this.btnRemoveAll // 2 tab
             ]).concat(this.getFooterButtons());
@@ -485,6 +504,14 @@ define([
                 } else {
                     this.numLineHeight.setValue('', true);
                 }
+
+                value = props.asc_getRtlDirection();
+                if (value !== undefined) {
+                    this.rbDirRtl.setValue(value, true);
+                    this.rbDirLtr.setValue(!value, true);
+                }
+                this.lblIndentsLeft.text(value ? this.strIndentsSpacingBefore : this.strIndentsLeftText);
+                this.lblIndentsRight.text(value ? this.strIndentsSpacingAfter : this.strIndentsRightText);
 
                 // Font
                 this._noApply = true;
@@ -809,6 +836,14 @@ define([
                 this.Spacing = properties.get_Spacing();
             }
             this.Spacing.put_Line((this.cmbLineRule.getValue()==c_paragraphLinerule.LINERULE_AUTO) ? field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+        },
+
+        onTextDirChange: function(field, newValue, eOpts) {
+            if (newValue && this._changedProps) {
+                this._changedProps.asc_putRtlDirection(field.options.value);
+                this.lblIndentsLeft.text(field.options.value ? this.strIndentsSpacingBefore : this.strIndentsLeftText);
+                this.lblIndentsRight.text(field.options.value ? this.strIndentsSpacingAfter : this.strIndentsRightText);
+            }
         },
 
         textTitle:      'Paragraph - Advanced Settings',

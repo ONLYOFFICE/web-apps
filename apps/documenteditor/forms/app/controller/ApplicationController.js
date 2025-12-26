@@ -51,7 +51,7 @@ define([
     var LoadingDocument = -256,
         maxPages = 0,
         labelDocName,
-        _submitFail,
+        _submitFail = true,
         screenTip,
         mouseMoveData = null,
         isTooltipHiding = false,
@@ -83,7 +83,8 @@ define([
                 weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
             });
 
-            this._state = {isDisconnected: false, licenseType: false, isDocModified: false};
+            this._state = {isDisconnected: false, licenseType: false, isDocModified: false, isFormDisconnected: false};
+            this._isDisabled = false;
 
             this.view = this.createView('ApplicationView').render();
 
@@ -114,8 +115,11 @@ define([
                 if (e.target.localName == 'canvas') {
                     if (me._preventClick)
                         me._preventClick = false;
-                    else
+                    else {
+                        if (e.target.getAttribute && e.target.getAttribute("oo_no_focused"))
+                            return;
                         me.boxSdk.focus();
+                    }
                 }
             });
             this.boxSdk.on('mousedown', function(e){
@@ -139,6 +143,7 @@ define([
                 this.api.asc_registerCallback('asc_onCurrentPage',           this.onCurrentPage.bind(this));
                 this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
                 this.api.asc_registerCallback('asc_onZoomChange',           this.onApiZoomChange.bind(this));
+                this.api.asc_registerCallback('asc_onDisconnectEveryone',    _.bind(this.onDisconnectEveryone, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiServerDisconnect, this));
 
@@ -160,7 +165,7 @@ define([
                     me.api.asc_enableKeyEvents(false);
                 },
                 'modal:close': function(dlg) {
-                    Common.Utils.ModalWindow.close();
+                    dlg && dlg.isVisible() && Common.Utils.ModalWindow.close(); // close can be called after hiding
                     if (!Common.Utils.ModalWindow.isVisible())
                         me.api.asc_enableKeyEvents(true);
                 },
@@ -193,8 +198,6 @@ define([
             this.warnNoLicense  = this.warnNoLicense.replace(/%1/g, '{{COMPANY_NAME}}');
             this.warnNoLicenseUsers = this.warnNoLicenseUsers.replace(/%1/g, '{{COMPANY_NAME}}');
             this.textNoLicenseTitle = this.textNoLicenseTitle.replace(/%1/g, '{{COMPANY_NAME}}');
-            this.warnLicenseExceeded = this.warnLicenseExceeded.replace(/%1/g, '{{COMPANY_NAME}}');
-            this.warnLicenseUsersExceeded = this.warnLicenseUsersExceeded.replace(/%1/g, '{{COMPANY_NAME}}');
         },
 
         onDocumentResize: function() {
@@ -350,8 +353,15 @@ define([
                         config.msg = this.errorInconsistentExt;
                     break;
 
+                case Asc.c_oAscError.ID.CopyDisabled:
+                    config.maxwidth = 450;
+                    config.msg = this.errorCopyDisabled;
+                    break;
+
                 default:
                     config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
+                    if (typeof id == 'string')
+                        config.maxwidth = 600;
                     break;
             }
 
@@ -363,10 +373,24 @@ define([
                 config.title = this.criticalErrorTitle;
                 config.iconCls = 'error';
                 config.closable = false;
-                config.callback = _.bind(function(btn){
-                    window.location.reload();
-                }, this);
-
+                if (this.appOptions.canRequestClose) {
+                    config.msg += '<br><br>' + this.criticalErrorExtTextClose;
+                    config.callback = function(btn) {
+                        if (btn == 'ok') {
+                            Common.Gateway.requestClose();
+                            Common.Controllers.Desktop.requestClose();
+                        }
+                    }
+                } else if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string' && this.appOptions.customization.goback.url && this.appOptions.customization.goback.blank===false) {
+                    var me = this;
+                    config.msg += '<br><br>' + this.criticalErrorExtText;
+                    config.callback = function(btn) {
+                        if (btn == 'ok') {
+                            if ( !Common.Controllers.Desktop.process('goback') )
+                                parent.location.href = me.appOptions.customization.goback.url;
+                        }
+                    }
+                }
                 if (id == Asc.c_oAscError.ID.DataEncrypted) {
                     this.api.asc_coAuthoringDisconnect();
                     Common.NotificationCenter.trigger('api:disconnect');
@@ -395,7 +419,7 @@ define([
                 }, this);
             }
 
-            if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+            if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value="' + id + '"]').length<1)
                 Common.UI.alert(config).$window.attr('data-value', id);
 
             (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
@@ -645,7 +669,8 @@ define([
 
             var type = /^(?:(pdf))$/.exec(this.document.fileType); // can fill forms only in pdf format
             this.appOptions.isOFORM = !!(type && typeof type[1] === 'string');
-            this.appOptions.canFillForms   = this.appOptions.canLicense && this.appOptions.isOFORM && ((this.permissions.fillForms===undefined) ? (this.permissions.edit !== false) : this.permissions.fillForms) && (this.editorConfig.mode !== 'view');
+            this.appOptions.canFillForms = this.appOptions.canLicense && this.appOptions.isOFORM && ((this.permissions.fillForms===undefined) ? (this.permissions.edit !== false) : this.permissions.fillForms) &&
+                                           (this.editorConfig.mode !== 'view') && !this._state.isFormDisconnected;
             this.api.asc_setViewMode(!this.appOptions.canFillForms);
 
             this.appOptions.canBranding  = params.asc_getCustomization();
@@ -653,6 +678,7 @@ define([
 
             this.appOptions.canDownload       = this.permissions.download !== false;
             this.appOptions.canPrint          = (this.permissions.print !== false);
+            this.appOptions.canCopy           = this.permissions.copy !== false;
 
             this.appOptions.fileKey = this.document.key;
             this.appOptions.isAnonymousSupport = !!this.api.asc_isAnonymousSupport();
@@ -754,6 +780,11 @@ define([
                     Common.Gateway.requestClose();
                 });
             }
+
+            if (this.appOptions.canFillForms) {
+                this.api.asc_registerCallback('asc_onUpdateSignatures', _.bind(this.onApiUpdateSignatures, this));
+            }
+
             this._isPermissionsInited = true;
             this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
             this.api.asc_LoadDocument();
@@ -783,7 +814,7 @@ define([
         },
 
         onUpdateVersion: function(callback) {
-            console.log("Obsolete: The 'onOutdatedVersion' event is deprecated. Please use 'onRequestRefreshFile' event and 'refreshFile' method instead.");
+            this.editorConfig && this.editorConfig.canUpdateVersion && console.log("Obsolete: The 'onOutdatedVersion' event is deprecated. Please use 'onRequestRefreshFile' event and 'refreshFile' method instead.");
 
             var me = this;
             me.needToUpdateVersion = true;
@@ -824,17 +855,21 @@ define([
                 });
             } else if (this._state.licenseType) {
                 var license = this._state.licenseType,
+                    title = this.textNoLicenseTitle,
                     buttons = ['ok'],
-                    primary = 'ok';
+                    primary = 'ok',
+                    modal = false;
                 if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
                     (license===Asc.c_oLicenseResult.SuccessLimit || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
                     license = this.warnLicenseLimitedRenewed;
                 } else if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
-                    license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
+                    title = this.titleReadOnly;
+                    license = (license===Asc.c_oLicenseResult.Connections) ? this.tipLicenseExceeded : this.tipLicenseUsersExceeded;
                 } else {
                     license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
                     buttons = [{value: 'buynow', caption: this.textBuyNow}, {value: 'contact', caption: this.textContactUs}];
                     primary = 'buynow';
+                    modal = true;
                 }
 
                 if (this._state.licenseType!==Asc.c_oLicenseResult.SuccessLimit && this.appOptions.canFillForms) {
@@ -842,25 +877,21 @@ define([
                     Common.NotificationCenter.trigger('api:disconnect');
                 }
 
-                var value = Common.localStorage.getItem("de-license-warning");
-                value = (value!==null) ? parseInt(value) : 0;
-                var now = (new Date).getTime();
-                if (now - value > 86400000) {
-                    Common.UI.info({
-                        maxwidth: 500,
-                        title: this.textNoLicenseTitle,
-                        msg  : license,
-                        buttons: buttons,
-                        primary: primary,
-                        callback: function(btn) {
-                            Common.localStorage.setItem("de-license-warning", now);
-                            if (btn == 'buynow')
-                                window.open('{{PUBLISHER_URL}}', "_blank");
-                            else if (btn == 'contact')
-                                window.open('mailto:{{SALES_EMAIL}}', "_blank");
-                        }
-                    });
-                }
+                !modal ? Common.UI.TooltipManager.showTip({ step: 'licenseError', text: license, header: title, target: '#toolbar', maxwidth: 430,
+                        automove: true, noHighlight: true, noArrow: true, textButton: this.textContinue}) :
+                Common.UI.info({
+                    maxwidth: 500,
+                    title: title,
+                    msg  : license,
+                    buttons: buttons,
+                    primary: primary,
+                    callback: function(btn) {
+                        if (btn == 'buynow')
+                            window.open('{{PUBLISHER_URL}}', "_blank");
+                        else if (btn == 'contact')
+                            window.open('mailto:{{SALES_EMAIL}}', "_blank");
+                    }
+                });
             }
         },
 
@@ -876,7 +907,7 @@ define([
                 if (value.logo.image || value.logo.imageDark || value.logo.imageLight) {
                     _logoImage = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image || value.logo.imageLight) :
                                                                  (value.logo.imageLight || value.logo.image || value.logo.imageDark);
-                    logo.html('<img src="' + _logoImage + '" style="max-width:100px; max-height:20px;"/>');
+                    logo.html('<img src="' + _logoImage + '" style="max-width:300px; max-height:20px;"/>');
                     logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
                 }
 
@@ -905,7 +936,7 @@ define([
                     _submitFail = false;
                     text = this.savingText;
                     this.submitedTooltip && this.submitedTooltip.hide();
-                    this.view.btnSubmit.setDisabled(true);
+                    this.view.btnSubmit.setDisabled(!_submitFail || this._state.hasForm);
                     this.view.btnSubmit.cmpEl.css("pointer-events", "none");
                     this.disableFillingForms(true);
                     break;
@@ -938,7 +969,7 @@ define([
              action ? this.setLongActionView(action) : this.loadMask && this.loadMask.hide();
 
              if (id==Asc.c_oAscAsyncAction['Submit']) {
-                 this.view.btnSubmit.setDisabled(!_submitFail);
+                 this.view.btnSubmit.setDisabled(!_submitFail || this._state.hasForm);
                  this.view.btnSubmit.cmpEl.css("pointer-events", "auto");
                 if (!_submitFail) {
                     Common.Gateway.submitForm();
@@ -961,7 +992,7 @@ define([
                         }
                         this.submitedTooltip.show();
                     }
-                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View);
+                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View, this.api.asc_getRestrictionSettings());
                     this.onApiServerDisconnect(true);
                 } else
                     this.disableFillingForms(false);
@@ -985,6 +1016,7 @@ define([
                     warningMsg: advOptions,
                     validatePwd: !!me._isDRM,
                     iconType: 'svg',
+                    autoPosOnResize : 'center',
                     handler: function (result, value) {
                         me.isShowOpenDialog = false;
                         if (result == 'ok') {
@@ -1199,8 +1231,28 @@ define([
         },
 
         onHyperlinkClick: function(url) {
-            if (url /*&& me.api.asc_getUrlType(url)>0*/) {
-                window.open(url);
+            if (url) {
+                var type = this.api.asc_getUrlType(url);
+                if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email)
+                    window.open(url);
+                else {
+                    var me = this;
+                    setTimeout(function() {
+                        Common.UI.warning({
+                            maxwidth: 500,
+                            msg: Common.Utils.String.format(me.txtWarnUrl, url),
+                            buttons: ['no', 'yes'],
+                            primary: 'no',
+                            callback: function(btn) {
+                                try {
+                                    (btn == 'yes') && window.open(url);
+                                } catch (err) {
+                                    err && console.log(err.stack);
+                                }
+                            }
+                        });
+                    }, 1);
+                }
             }
         },
 
@@ -1220,15 +1272,20 @@ define([
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    if (obj.pr && obj.pr.is_Signature()) { // select signature picture only from local file
-                        me.api.asc_addImage(obj.pr);
-                        setTimeout(function(){
-                            me.api.asc_UncheckContentControlButtons();
-                        }, 500);
-                    } else
-                        setTimeout(function() {
-                            me.onShowImageActions(obj, x, y);
-                        }, 1);
+                    setTimeout(function() {
+                        me.onShowImageActions(obj, x, y);
+                    }, 1);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.Signature:
+                    if (obj.pr && obj.pr.get_Lock) {
+                        var lock = obj.pr.get_Lock();
+                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
+                            return;
+                    }
+                    me.api.asc_addImage(obj.pr);
+                    setTimeout(function(){
+                        me.api.asc_UncheckContentControlButtons();
+                    }, 500);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
@@ -1241,6 +1298,7 @@ define([
 
         onHideContentControlsActions: function() {
             this.listControlMenu && this.listControlMenu.isVisible() && this.listControlMenu.hide();
+            this.imageControlMenu && this.imageControlMenu.isVisible() && this.imageControlMenu.hide();
             var controlsContainer = this.boxSdk.find('#calendar-control-container');
             if (controlsContainer.is(':visible'))
                 controlsContainer.hide();
@@ -1369,7 +1427,7 @@ define([
             var type = obj.type,
                 props = obj.pr,
                 specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr(),
-                isForm = !!props.get_FormPr(),
+                formProps = props.get_FormPr(),
                 menu = this.listControlMenu,
                 menuContainer = menu ? this.boxSdk.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
                 me = this;
@@ -1406,21 +1464,23 @@ define([
                 });
             }
             if (specProps) {
-                if (isForm){ // for dropdown and combobox form control always add placeholder item
-                    var text = props.get_PlaceholderText();
-                    menu.addItem(new Common.UI.MenuItem({
-                        caption     : (text.trim()!=='') ? text : this.txtEmpty,
-                        value       : '',
-                        template    : _.template([
-                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="<% if (options.value=="") { %> opacity: 0.6 <% } %>">',
-                            '<%= Common.Utils.String.htmlEncode(caption) %>',
-                            '</a>'
-                        ].join(''))
-                    }));
-                }
                 var count = specProps.get_ItemsCount();
+                if (formProps){
+                    if (!formProps.get_Required() || count<1) { // for required or empty dropdown/combobox form control always add placeholder item
+                        var text = props.get_PlaceholderText();
+                        menu.addItem(new Common.UI.MenuItem({
+                            caption     : (text.trim()!=='') ? text : this.txtEmpty,
+                            value       : '',
+                            template    : _.template([
+                                '<a id="<%= id %>" tabindex="-1" type="menuitem" style="<% if (options.value=="") { %> opacity: 0.6 <% } %>">',
+                                '<%= Common.Utils.String.htmlEncode(caption) %>',
+                                '</a>'
+                            ].join(''))
+                        }));
+                    }
+                }
                 for (var i=0; i<count; i++) {
-                    (specProps.get_ItemValue(i)!=='' || !isForm) && menu.addItem(new Common.UI.MenuItem({
+                    (specProps.get_ItemValue(i)!=='' || !formProps) && menu.addItem(new Common.UI.MenuItem({
                         caption     : specProps.get_ItemDisplayText(i),
                         value       : specProps.get_ItemValue(i),
                         template    : _.template([
@@ -1430,7 +1490,7 @@ define([
                         ].join(''))
                     }));
                 }
-                if (!isForm && menu.items.length<1) {
+                if (!formProps && menu.items.length<1) {
                     menu.addItem(new Common.UI.MenuItem({
                         caption     : this.txtEmpty,
                         value       : -1
@@ -1552,6 +1612,7 @@ define([
             var zf = (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);
             (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
+            DE.getController('Common.Controllers.Shortcuts').setApi(me.api);
             this.createDelayedElements();
 
             this.api.asc_registerCallback('asc_onStartAction',           _.bind(this.onLongActionBegin, this));
@@ -1574,6 +1635,8 @@ define([
                 Common.Gateway.on('insertimage',        _.bind(this.insertImage, this));
                 Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this)); // try to load image from storage
                 Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this)); // set loaded image to control
+
+                this.showSignatureTooltip(this.api.asc_getSignatures());
             }
             DE.getController('Plugins').setApi(this.api);
             DE.getController('SearchBar').setApi(this.api);
@@ -2056,7 +2119,7 @@ define([
                     if (this.api) {
                         var res =  (item.value == 'cut') ? this.api.Cut() : ((item.value == 'copy') ? this.api.Copy() : this.api.Paste());
                         if (!res) {
-                            if (!Common.localStorage.getBool("de-forms-hide-copywarning")) {
+                            if (!Common.localStorage.getBool("de-forms-hide-copywarning") && (item.value === 'paste' || this.appOptions.canCopy)) {
                                 (new Common.Views.CopyWarningDialog({
                                     handler: function(dontshow) {
                                         if (dontshow) Common.localStorage.setItem("de-forms-hide-copywarning", 1);
@@ -2079,7 +2142,7 @@ define([
 
         disableFillingForms: function(state) {
             this._isDisabled = state;
-            this.view && this.view.btnClear && this.view.btnClear.setDisabled(state);
+            this.view && this.view.btnClear && this.view.btnClear.setDisabled(state || this._state.hasForm);
             this.view && this.view.btnUndo && this.view.btnUndo.setDisabled(state || !this.api.asc_getCanUndo());
             this.view && this.view.btnRedo && this.view.btnRedo.setDisabled(state || !this.api.asc_getCanRedo());
             if (this.view && this.view.btnOptions && this.view.btnOptions.menu) {
@@ -2157,6 +2220,7 @@ define([
 
         onRequestRefreshFile: function() {
             Common.Gateway.requestRefreshFile();
+            console.log('Trying to refresh file');
         },
 
         onRefreshFile: function(data) {
@@ -2191,7 +2255,7 @@ define([
                 docInfo.put_Format(this.document.fileType);
                 docInfo.put_Lang(this.editorConfig.lang);
                 docInfo.put_Mode(this.editorConfig.mode);
-                docInfo.put_Permissions(this.permissions);
+                docInfo.put_Permissions(this.document.permissions);
                 docInfo.put_DirectUrl(data.document && data.document.directUrl ? data.document.directUrl : this.document.directUrl);
                 docInfo.put_VKey(data.document && data.document.vkey ?  data.document.vkey : this.document.vkey);
                 docInfo.put_EncryptedInfo(data.editorConfig && data.editorConfig.encryptionKeys ? data.editorConfig.encryptionKeys : this.editorConfig.encryptionKeys);
@@ -2208,6 +2272,41 @@ define([
                 }
                 this.api.asc_refreshFile(docInfo);
             }
+        },
+
+        onDisconnectEveryone: function() {
+            this._state.isFormDisconnected = true;
+            if (this.appOptions) this.appOptions.canFillForms = false;
+            this.showFillingForms(false); // hide filling forms
+            Common.UI.warning({
+                msg  : this.warnStartFilling,
+                buttons: ['ok']
+            });
+        },
+
+        onApiUpdateSignatures: function(valid, requested){
+            if (!this._isDocReady) return;
+
+            this.showSignatureTooltip(valid);
+        },
+
+        showSignatureTooltip: function(valid) {
+            if (!this.view) return;
+
+            var hasForm = false;
+            valid && _.each(valid, function(item, index){
+                item.asc_getIsForm() && (hasForm = true);
+            });
+
+            if (!hasForm)
+                Common.UI.TooltipManager.closeTip('formSigned');
+            else
+                Common.UI.TooltipManager.showTip({ step: 'formSigned', text: this.txtSignedForm, target: '#toolbar', showButton: false,
+                                                        maxwidth: 'none', closable: true, automove: true, noHighlight: true, noArrow: true});
+
+            this.view.btnClear && this.view.btnClear.setDisabled(this._isDisabled || hasForm);
+            this.view.btnSubmit && this.view.btnSubmit.setDisabled(!_submitFail || hasForm);
+            this._state.hasForm = hasForm;
         },
 
         onEditComplete: function() {
@@ -2251,8 +2350,6 @@ define([
         errorUpdateVersion: 'The file version has been changed. The page will be reloaded.',
         warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
         warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
-        warnLicenseExceeded: "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact your administrator to learn more.",
-        warnLicenseUsersExceeded: "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
         warnNoLicense: "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact %1 sales team for personal upgrade terms.",
         warnNoLicenseUsers: "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
         textBuyNow: 'Visit website',
@@ -2297,7 +2394,13 @@ define([
         warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
         textSubmitOk: 'Your PDF form has been saved in the Complete section. You can fill out this form again and send another result.',
         textFilled: 'Filled',
-        savingText: 'Saving'
+        savingText: 'Saving',
+        tipLicenseExceeded: 'The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.',
+        tipLicenseUsersExceeded: 'The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.',
+        titleReadOnly: 'Read-Only Mode',
+        textContinue: 'Continue',
+        txtSignedForm: 'This document has been signed and cannot be edited.',
+        errorCopyDisabled: 'For security reasons, the contents of this document cannot be copied to the clipboard.'
 
     }, DE.Controllers.ApplicationController));
 });

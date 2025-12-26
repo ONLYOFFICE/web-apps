@@ -80,6 +80,16 @@ define([
 ], function (base, _) {
     'use strict';
 
+    Common.UI.CheckBoxTemplate = '<label class="checkbox-indeterminate">' +
+            '<input id="<%= id %>" type="checkbox" class="checkbox__native">' +
+            '<label for="<%= id %>" class="checkbox__shape canfocused">' +
+                '<svg width="14" height="14" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" x="0" y="0">' +
+                    '<path class="chb-check-mark" d="M10.767,4.201c0.3,0.29 0.31,0.76 0.03,1.07l-4.25,4.5c-0.14,0.14 -0.34,0.23 -0.54,0.23c-0.2,-0 -0.4,-0.08 -0.54,-0.22l-2.25,-2.25c-0.29,-0.29 -0.29,-0.77 0,-1.06c0.29,-0.29 0.77,-0.29 1.06,-0l1.7,1.7l3.72,-3.93c0.29,-0.31 0.76,-0.32 1.07,-0.04Z"/>' +
+                    '<rect class="chb-indeterminate" height="2" rx="0.5" transform="matrix(1 0 0 1 0 0)" width="8" x="3" y="6"/>' +
+                '</svg>' +
+            '</label>' +
+        '</label>';
+
     Common.UI.CheckBox = Common.UI.BaseView.extend({
 
         options : {
@@ -92,8 +102,18 @@ define([
         checked     : false,
         value       : 'unchecked',
 
-        template    : _.template('<label class="checkbox-indeterminate"><input id="<%= id %>" type="checkbox" class="checkbox__native">' +
-                                    '<label for="<%= id %>" class="checkbox__shape canfocused" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" role="checkbox" aria-checked="false" aria-labelledby="<%= id %>-description"></label><span id="<%= id %>-description"></span></label>'),
+        template: _.template([
+            '<label class="checkbox-indeterminate">',
+                '<input id="<%= id %>" type="checkbox" class="checkbox__native">',
+                '<label for="<%= id %>" class="checkbox__shape canfocused" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" role="checkbox" aria-checked="false" aria-labelledby="<%= id %>-description">',
+                    '<svg width="14" height="14" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" x="0" y="0">',
+                        '<path class="chb-check-mark" d="M10.767,4.201c0.3,0.29 0.31,0.76 0.03,1.07l-4.25,4.5c-0.14,0.14 -0.34,0.23 -0.54,0.23c-0.2,-0 -0.4,-0.08 -0.54,-0.22l-2.25,-2.25c-0.29,-0.29 -0.29,-0.77 0,-1.06c0.29,-0.29 0.77,-0.29 1.06,-0l1.7,1.7l3.72,-3.93c0.29,-0.31 0.76,-0.32 1.07,-0.04Z"/>',
+                        '<rect class="chb-indeterminate" height="2" rx="0.5" transform="matrix(1 0 0 1 0 0)" width="8" x="3" y="6"/>',
+                    '</svg>',
+                '</label>',
+                '<span id="<%= id %>-description"></span>',
+            '</label>'
+        ].join('')),
 
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);

@@ -25,6 +25,7 @@
   "PE.ApplicationController.errorInconsistentExtPptx": "Dosya açılırken bir hata oldu.<br>Dosya içeriği sunumlara karşılık geliyor (örn. pptx), ancak dosyanın uzantısı tutarsız: %1.",
   "PE.ApplicationController.errorInconsistentExtXlsx": "Dosya açılırken bir hata oluştu.<br>Dosya içeriği e-tablolara (örn. xlsx) karşılık geliyor, ancak dosyanın uzantısı tutarsız: %1.",
   "PE.ApplicationController.errorLoadingFont": "Yazı tipleri yüklenmedi.<br>Lütfen Doküman Sunucusu yöneticinize başvurun.",
+  "PE.ApplicationController.errorToken": "Belge güvenlik belirteci doğru şekilde oluşturulmamış.<br>Lütfen Belge Sunucu yöneticinize başvurun.",
   "PE.ApplicationController.errorTokenExpire": "Belge güvenlik belirtecinin süresi doldu.<br>Lütfen Belge Sunucusu yöneticinize başvurun.",
   "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Internet bağlantısı sağlandı ve dosya versiyonu değiştirildi. <br>Çalışmaya devam etmeden önce, dosyayı indirin veya içeriğini kopyalayıp herhangi bir kayıp olmadığından emin olun ve sayfayı yenileyin.",
   "PE.ApplicationController.errorUserDrop": "Belgeye şu an erişilemiyor.",

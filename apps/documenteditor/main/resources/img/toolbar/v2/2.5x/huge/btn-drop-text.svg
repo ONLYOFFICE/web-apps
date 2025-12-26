@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M6.5 26.5h27m-13-12h13m-13-6h13m-13 12h13m-27 12h27" class="icon-stroke-gray-primary"/>
+    <path d="m6.5 20.5 1.667-4m0 0 3.333-8 3.333 8m-6.666 0h6.666m0 0 1.667 4" class="icon-stroke-blue-primary"/>
+</svg>

@@ -3,7 +3,7 @@
     "textAbout": "حول",
     "textAddress": "العنوان",
     "textBack": "العودة",
-    "textEditor": "محرر Visio",
+    "textEditor": "عارض المخططات",
     "textEmail": "البريد الاكتروني",
     "textPoweredBy": "مُشَغل بواسطة",
     "textTel": "رقم الهاتف",
@@ -40,7 +40,6 @@
       "criticalErrorTitle": "خطأ",
       "errorAccessDeny": "أنت تحاول تنفيذ اجراء ليس لديك صلاحيات القيام به.<br> الرجاء الاتصال بمسؤولك.",
       "errorOpensource": "باستخدام نسخة المجتمع المجانية, سيكون بمقدروك فتح الملفات للمشاهدة فقط. للوصول إلى محررات الويب للهاتف يجب استخدام ترخيص تجاري",
-      "errorProcessSaveResult": "فشل الحفظ",
       "errorServerVersion": "تم تحديث إصدار المحرر ،سيتم إعادة تحميل الصفحة لتطبيق التغييرات",
       "errorUpdateVersion": "تم تغيير إصدار الملف. سيتم اعادة تحميل الصفحة",
       "leavePageText": "لديك تغييرات غير محفوظة. اضغط على 'البقاء في هذه الصفحة' لانتظار الحفظ التلقائي. اضغط على 'غادر هذه الصفحة' للتخلي عن كل التغييرات الغير محفوظة.",
@@ -64,14 +63,15 @@
       "txtIncorrectPwd": "كلمة المرور غير صحيحة",
       "warnLicenseAnonymous": "تم رفض الوصول للمستخدمين المجهولين.<br>سيتم فتح هذا المستند للعرض فقط.",
       "warnLicenseBefore": "الترخيص ليس مفعلا.<br>برجاء التواصل مع مسئولك",
-      "warnLicenseExceeded": "لقد وصلت إلى الحد الأقصى من الاتصالات المتزامنة لـ %1 محررات.هذا. هذا المستند سيكون للقراءة فقط برجاء التواصل مع المسؤول الخاص بك لمعرفة المزيد",
       "warnLicenseExp": "الترخيص منتهي الصلاحية.الرجاء تحديث الترخيص الخاص بك واعادة تحميل الصفحة",
       "warnLicenseLimitedNoAccess": "الترخيص منتهي الصلاحية.<br>ليس لديك صلاحية تعديل المستند. برجاء التواصل مع مسئولك",
       "warnLicenseLimitedRenewed": "يحتاج الترخيص إلى تجديد. لديك وصول محدود لخاصية تعديل المستند. <br> برجاء التواصل مع مسئولك للحصول على وصول كامل",
-      "warnLicenseUsersExceeded": "لقد وصلت إلى الحد الأقصى لعدد المستخدمين المسموح به لـ %1 من المحررين. اتصل بالمسؤول لمعرفة المزيد.",
       "warnNoLicense": "لقد وصلت إلى الحد الأقصى من الاتصالات المتزامنة لـ%1محررات.هذا المستند سيكون للقراءة فقط. تواصل مع %1 فريق المبيعات لتطوير الشروط الشخصية",
       "warnNoLicenseUsers": "لقد وصلت إلى الحد الأقصى لعدد المستخدمين المسموح به لـ %1 من المحررين. اتصل بفريق مبيعات %1 لمعرفة شروط الترقية الشخصية.",
-      "warnProcessRightsChange": "ليس لديك الإذن بتعديل هذا الملف."
+      "warnProcessRightsChange": "ليس لديك الإذن بتعديل هذا الملف.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Error": {
@@ -119,7 +119,9 @@
     "unknownErrorText": "خطأ غير معروف.",
     "uploadImageExtMessage": "تنسيق الصورة غير معروف.",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
-    "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت."
+    "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "جار تحميل البيانات...",
@@ -153,14 +155,14 @@
     "waitText": "الرجاء الانتظار..."
   },
   "Toolbar": {
+    "btnRestartNow": "إعادة التشغيل الآن",
     "dlgLeaveMsgText": "لديك تغييرات غير محفوظة. اضغط على 'البقاء في هذه الصفحة' لانتظار الحفظ التلقائي. اضغط على 'غادر هذه الصفحة' للتخلي عن كل التغييرات الغير محفوظة.",
     "dlgLeaveTitleText": "انت تغادر التطبيق",
     "leaveButtonText": "مغادرة هذه الصفحة",
     "stayButtonText": "ابقى في هذه الصفحة",
     "textEnterNewFileName": "ادخل اسم جديد للملف",
     "textRenameFile": "إعادة تسمية الملف",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "التحويل إلى وضع سطح المكتب"
   },
   "View": {
     "Edit": {
@@ -210,7 +212,8 @@
       "textVersion": "الإصدار",
       "textVisioInfo": "معلومات عارض المخططات",
       "textVisioSettings": "إعدادات عارض المخططات",
-      "textVisioTitle": "عنوان عارض المخططات"
+      "textVisioTitle": "عنوان عارض المخططات",
+      "textOpenLocation": "Open location"
     }
   }
 }

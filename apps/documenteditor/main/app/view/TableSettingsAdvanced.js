@@ -100,17 +100,17 @@ define([
                 Right  : 0.19,
                 Top    : null,
                 Bottom : null,
-                Flag   : 0  // 0(checked) - как в таблице, 1(indeterminate) - разные значения, не определено, 2 (unchecked) - собственные
+                Flag   : 0  // 0(checked) - as in table, 1(indeterminate) - different values, undefined, 2 (unchecked) - own values
             };
 
             this.TableBorders = {};
             this.CellBorders = {};
-            this.ChangedTableBorders = undefined; // undefined - не менялись, null - применялись пресеты, отправлять TableBorders, object - менялись отдельные границы, отправлять ChangedTableBorders
-            this.ChangedCellBorders = undefined; // undefined - не менялись, null - применялись пресеты, отправлять CellBorders, object - менялись отдельные границы, отправлять ChangedCellBorders
+            this.ChangedTableBorders = undefined; // undefined - not changed, null - apply presets, send TableBorders, object - apply some borders, send ChangedTableBorders
+            this.ChangedCellBorders = undefined; // undefined - not changed, null - apply presets, send CellBorders, object - apply some borders, send ChangedCellBorders
             this.BorderSize = {ptValue: 0, pxValue: 0};
 
-            this.TableColor = {Value: 1, Color: 'transparent'};  // value=1 - цвет определен - прозрачный или другой
-            this.CellColor = {Value: 1, Color: 'transparent'};  // value=1 - цвет определен - прозрачный или другой, value=0 - цвет не определен, рисуем прозрачным
+            this.TableColor = {Value: 1, Color: 'transparent'};  // value=1 - color is defined - transparent or other
+            this.CellColor = {Value: 1, Color: 'transparent'};  // value=1 - color is defined - transparent or other, value=0 - color is undefined, draw transparent
             this.IndeterminateColor = '#C8C8C8';
             this.IndeterminateSize = 4.5;
 
@@ -331,7 +331,7 @@ define([
                 labelText: this.textCheckMargins
             });
             this.chCellMargins.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                if ( oldValue=='checked' && this._originalProps && this._originalProps.get_CellMargins().get_Flag()==1 ) { // позволяем выставлять значение indeterminate только если исходные значения не совпадали
+                if ( oldValue=='checked' && this._originalProps && this._originalProps.get_CellMargins().get_Flag()==1 ) { // allow to set the indeterminate value only if the original values did not match
                     field.setValue('indeterminate', true);
                 }
                 this.fillMargins.call( this, field.getValue());
@@ -1234,7 +1234,7 @@ define([
                 }
 
                 if ( flag===0 ) {
-                    // Если для всех выделенных ячеек пришло одинаковое значение Flag=0 (Use Default Margins), выставим в поля для Cell Margins значения DefaultMargins
+                    // If the same value is received for all selected cells Flag=0 (Use Default Margins), set DefaultMargins values in the fields for Cell Margins
                     if (this.CellMargins.Left=== null) this.CellMargins.Left = this.TableMargins.Left;
                     if (this.CellMargins.Top=== null) this.CellMargins.Top = this.TableMargins.Top;
                     if (this.CellMargins.Right=== null) this.CellMargins.Right = this.TableMargins.Right;

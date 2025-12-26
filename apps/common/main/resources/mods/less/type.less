@@ -33,7 +33,7 @@ h1, .h1,
 h2, .h2,
 h3, .h3 {
   margin-top: @line-height-computed;
-  margin-bottom: (@line-height-computed / 2);
+  margin-bottom: calc(@line-height-computed / 2);
 
   small,
   .small {
@@ -43,8 +43,8 @@ h3, .h3 {
 h4, .h4,
 h5, .h5,
 h6, .h6 {
-  margin-top: (@line-height-computed / 2);
-  margin-bottom: (@line-height-computed / 2);
+  margin-top: calc(@line-height-computed / 2);
+  margin-bottom: calc(@line-height-computed / 2);
 
   small,
   .small {
@@ -64,7 +64,7 @@ h6, .h6 { font-size: @font-size-h6; }
 // -------------------------
 
 p {
-  margin: 0 0 (@line-height-computed / 2);
+  margin: 0 0 calc(@line-height-computed / 2);
 }
 
 .lead {
@@ -153,8 +153,8 @@ mark,
 // -------------------------
 
 .page-header {
-  padding-bottom: ((@line-height-computed / 2) - 1);
-  margin: (@line-height-computed * 2) 0 @line-height-computed;
+  padding-bottom: calc((@line-height-computed / 2) - 1);
+  margin: calc(@line-height-computed * 2) 0 @line-height-computed;
   border-bottom: 1px solid @page-header-border-color;
 }
 
@@ -166,7 +166,7 @@ mark,
 ul,
 ol {
   margin-top: 0;
-  margin-bottom: (@line-height-computed / 2);
+  margin-bottom: calc(@line-height-computed / 2);
   ul,
   ol {
     margin-bottom: 0;
@@ -251,7 +251,7 @@ abbr[data-original-title] {
 
 // Blockquotes
 blockquote {
-  padding: (@line-height-computed / 2) @line-height-computed;
+  padding: calc(@line-height-computed / 2) @line-height-computed;
   margin: 0 0 @line-height-computed;
   font-size: @blockquote-font-size;
   border-left: 5px solid @blockquote-border-color;

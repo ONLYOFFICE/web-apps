@@ -92,7 +92,8 @@
         label {
             width: 100%;
             margin-top: 2px;
-            .padding-right-20();
+            .padding-right(@x-small-btn-size-ie);
+            .padding-right(@x-small-btn-size);
             .font-size-medium();
             .font-weight-bold();
             overflow: hidden;
@@ -134,8 +135,8 @@
     width: 100%;
     height: 100%;
     opacity: 0.4;
-    background-color: @background-toolbar-ie;
-    background-color: @background-toolbar;
+    background-color: @background-pane-ie;
+    background-color: @background-pane;
     z-index: @zindex-tooltip + 1;
 }
 

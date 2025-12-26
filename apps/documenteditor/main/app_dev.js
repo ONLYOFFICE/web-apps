@@ -134,6 +134,7 @@ require([
             'LeftMenu',
             'Main',
             'ViewTab',
+            'HeaderFooterTab',
             'Search',
             'DocProtection',
             'Print',
@@ -144,12 +145,14 @@ require([
             ,'Common.Controllers.Comments'
             ,'Common.Controllers.Draw'
             /** coauthoring end **/
+            ,'Common.Controllers.ExternalLinks'
             ,'Common.Controllers.Plugins'
             ,'Common.Controllers.ExternalDiagramEditor'
             ,'Common.Controllers.ExternalMergeEditor'
             ,'Common.Controllers.ExternalOleEditor'
             ,'Common.Controllers.ReviewChanges'
             ,'Common.Controllers.Protection'
+            ,'Common.Controllers.Shortcuts'
         ]
     });
 
@@ -175,6 +178,7 @@ require([
                 'documenteditor/main/app/controller/LeftMenu',
                 'documenteditor/main/app/controller/Main',
                 'documenteditor/main/app/controller/ViewTab',
+                'documenteditor/main/app/controller/HeaderFooterTab',
                 'documenteditor/main/app/controller/Search',
                 'documenteditor/main/app/controller/DocProtection',
                 'documenteditor/main/app/controller/Print',
@@ -185,12 +189,14 @@ require([
                 ,'common/main/lib/controller/Comments'
                 ,'common/main/lib/controller/Chat'
                 /** coauthoring end **/
+                ,'common/main/lib/controller/ExternalLinks'
                 ,'common/main/lib/controller/Plugins'
                 ,'common/main/lib/controller/ExternalDiagramEditor'
                 ,'common/main/lib/controller/ExternalMergeEditor'
                 ,'common/main/lib/controller/ExternalOleEditor'
                 ,'common/main/lib/controller/ReviewChanges'
                 ,'common/main/lib/controller/Protection'
+                ,'common/main/lib/controller/Shortcuts'
                 ,'common/main/lib/controller/Draw'
             ], function() {
                 app.postLaunchScripts = [
@@ -222,10 +228,15 @@ require([
                     'common/main/lib/view/TextInputDialog',
                     'common/main/lib/view/DocumentHolderExt',
                     'common/main/lib/util/define',
+                    'common/main/lib/view/ExternalLinksDlg',
+                    'common/main/lib/view/FormatSettingsDialog',
                     'common/main/lib/view/PdfSignDialog',
                     'common/main/lib/view/DocumentPropertyDialog',
                     'common/main/lib/view/MacrosDialog',
-                    'common/main/lib/component/AceEditor',
+                    'common/main/lib/view/MacrosAiDialog',
+                    'common/main/lib/view/ShortcutsDialog',
+                    'common/main/lib/view/ShortcutsEditDialog',
+                    'common/main/lib/component/MonacoEditor',
 
                     'documenteditor/main/app/controller/DocumentHolderExt',
                     'documenteditor/main/app/view/FileMenuPanels',
@@ -263,6 +274,7 @@ require([
                     'documenteditor/main/app/view/NumberingValueDialog',
                     'documenteditor/main/app/view/ListIndentsDialog',
                     'documenteditor/main/app/view/ProtectDialog',
+                    'documenteditor/main/app/view/PageNumberingDlg',
                     'documenteditor/main/app/view/MailMergeEmailDlg'
                 ];
 

@@ -17,6 +17,7 @@ export class storeTextSettings {
             typeBullets: observable,
             typeNumbers: observable,
             paragraphAlign: observable,
+            isRtlTextDirection: observable,
             paragraphValign: observable,
             canIncreaseIndent: observable,
             canDecreaseIndent: observable,
@@ -40,6 +41,7 @@ export class storeTextSettings {
             resetBullets: action,
             resetNumbers: action,
             resetParagraphAlign: action,
+            resetRtlTextDirection: action,
             resetParagraphValign: action,
             resetTextColor: action,
             changeCustomTextColors: action,
@@ -75,6 +77,7 @@ export class storeTextSettings {
     isItalic = false;
     isUnderline = false;
     isStrikethrough = false;
+    isRtlTextDirection = false;
     typeBaseline = undefined;
     listType = undefined;
     typeBullets = undefined;
@@ -245,6 +248,10 @@ export class storeTextSettings {
                 break;
         }
         this.paragraphValign = value;
+    }
+
+    resetRtlTextDirection (isRtl) {
+        this.isRtlTextDirection = isRtl;
     }
 
     resetTextColor (color) {

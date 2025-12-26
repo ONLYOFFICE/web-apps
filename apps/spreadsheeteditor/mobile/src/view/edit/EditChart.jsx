@@ -866,7 +866,7 @@ const PageVerticalAxis = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const api = Common.EditorApi.get();
-    const chartProperty = api.asc_getChartObject(true);
+    const chartProperty = api.asc_getChartSettings(true);
     const isIos = Device.ios;
     const verAxisProps = chartProperty.getVertAxisProps();
     const axisProps = (verAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? verAxisProps : chartProperty.getHorAxisProps();
@@ -1234,7 +1234,7 @@ const PageHorizontalAxis = props => {
     const _t = t('View.Edit', {returnObjects: true});
     const api = Common.EditorApi.get();
     const isIos = Device.ios;
-    const chartProperty = api.asc_getChartObject(true);
+    const chartProperty = api.asc_getChartSettings(true);
     const horAxisProps = chartProperty.getHorAxisProps();
     const axisProps = (horAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? chartProperty.getVertAxisProps() : horAxisProps;
     const crossValue = axisProps.getCrossesRule();

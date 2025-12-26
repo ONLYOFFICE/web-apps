@@ -5,8 +5,19 @@ import { Device } from '../../../../../common/mobile/utils/device';
 import { observer, inject } from "mobx-react";
 import { MainContext } from '../../page/main';
 import { SettingsContext } from '../../controller/settings/Settings';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconAppSettings from '@common-icons/icon-app-settings.svg';
+import IconDownload from '@common-icons/icon-download.svg';
+import IconPrint from '@common-icons/icon-print.svg';
+import IconInfo from '@common-icons/icon-info.svg';
+import IconHelp from '@common-icons/icon-help.svg';
+import IconAbout from '@common-icons/icon-about.svg';
+import IconFeedbackIos from '@common-ios-icons/icon-feedback.svg?ios';
+import IconFeedbackAndroid from '@common-android-icons/icon-feedback.svg';
+import IconReturnIos from '@common-ios-icons/icon-return.svg?ios';
+import IconReturnAndroid from '@common-android-icons/icon-return.svg';
 
-const SettingsPage = inject('storeAppOptions', 'storeVisioInfo')(observer(props => {
+const SettingsPage = inject('storeAppOptions', 'storeVisioInfo', 'storeToolbarSettings')(observer(props => {
     const { t } = useTranslation();
     const _t = t('View.Settings', {returnObjects: true});
     const {openOptions, isBranding} = useContext(MainContext);
@@ -16,6 +27,8 @@ const SettingsPage = inject('storeAppOptions', 'storeVisioInfo')(observer(props 
     const docTitle = storeVisioInfo.dataDoc ? storeVisioInfo.dataDoc.title : '';
     const canCloseEditor = appOptions.canCloseEditor;
     const closeButtonText = canCloseEditor && appOptions.customization.close.text;
+    const gobackTitle = appOptions.customization?.goback?.text || _t.textOpenLocation;
+    const isShowBack = props.storeToolbarSettings.isShowBack;
     const navbar =
         <Navbar>
             <div className="title" onClick={settingsContext.changeTitleHandler}>{docTitle}</div>
@@ -49,7 +62,10 @@ const SettingsPage = inject('storeAppOptions', 'storeVisioInfo')(observer(props 
 
         if (appOptions.customization) {
             _canHelp = appOptions.customization.help !== false;
-            _canFeedback = appOptions.customization.feedback !== false;
+            _canFeedback = (
+                appOptions.customization.feedback !== false && 
+                appOptions.customization.feedback.visible !== false
+            );
             _canDisplayInfo = appOptions.customization.mobile?.info !== false;
         }
     }
@@ -58,42 +74,53 @@ const SettingsPage = inject('storeAppOptions', 'storeVisioInfo')(observer(props 
         <Page>
             {navbar}
             <List>
+                {isShowBack &&
+                    <ListItem title={gobackTitle} link="#" className='no-indicator' onClick={() => Common.Notifications.trigger('goback')}>
+                        {Device.ios ? 
+                            <SvgIcon slot="media" symbolId={IconReturnIos.id} className={'icon icon-svg'} /> :
+                            <SvgIcon slot="media" symbolId={IconReturnAndroid.id} className={'icon icon-svg'} />
+                        }
+                    </ListItem>
+                }
                 <ListItem title={_t.textApplicationSettings} link="/application-settings/">
-                    <Icon slot="media" icon="icon-app-settings"></Icon>
+                    <SvgIcon slot="media" symbolId={IconAppSettings.id} className={'icon icon-svg'} />
                 </ListItem>
                 {_canDownload &&
                     <ListItem title={_t.textDownload} link="/download/">
-                        <Icon slot="media" icon="icon-download"></Icon>
+                        <SvgIcon slot="media" symbolId={IconDownload.id} className={'icon icon-svg'} />
                     </ListItem>
                 }
                 {_canDownloadOrigin &&
                     <ListItem title={_t.textDownload} link="#" onClick={settingsContext.onDownloadOrigin} className='no-indicator'>
-                        <Icon slot="media" icon="icon-download"></Icon>
+                        <SvgIcon slot="media" symbolId={IconDownload.id} className={'icon icon-svg'} />
                     </ListItem>
                 }
                 {_canPrint &&
                     <ListItem title={_t.textPrint} onClick={settingsContext.onPrint}>
-                        <Icon slot="media" icon="icon-print"></Icon>
+                        <SvgIcon slot="media" symbolId={IconPrint.id} className={'icon icon-svg'} />
                     </ListItem>
                 }
                 {!(!_canDisplayInfo && isBranding) &&
                     <ListItem title={_t.textVisioInfo} link="/visio-info/">
-                        <Icon slot="media" icon="icon-info"></Icon>
+                        <SvgIcon slot="media" symbolId={IconInfo .id} className={'icon icon-svg'} />
                     </ListItem>
                 }
                 {_canHelp &&
                     <ListItem title={_t.textHelp} link="#" className='no-indicator' onClick={settingsContext.showHelp}>
-                        <Icon slot="media" icon="icon-help"></Icon>
+                        <SvgIcon slot="media" symbolId={IconHelp.id} className={'icon icon-svg'} />
                     </ListItem>
                 }
                 {_canAbout &&
                     <ListItem title={_t.textAbout} link="/about/">
-                        <Icon slot="media" icon="icon-about"></Icon>
+                        <SvgIcon slot="media" symbolId={IconAbout.id} className={'icon icon-svg'} />
                     </ListItem>
                 }
                 {_canFeedback &&
                     <ListItem title={t('View.Settings.textFeedback')} link="#" className='no-indicator' onClick={settingsContext.showFeedback}>
-                        <Icon slot="media" icon="icon-feedback"></Icon>
+                        {Device.ios ? 
+                            <SvgIcon slot="media" symbolId={IconFeedbackIos.id} className={'icon icon-svg'} /> :
+                            <SvgIcon slot="media" symbolId={IconFeedbackAndroid.id} className={'icon icon-svg'} />
+                        }
                     </ListItem>
                 }
                 {canCloseEditor &&

@@ -68,7 +68,7 @@ define([
             this._originalSpecProps = null;
             this._originalProps = null;
             this.defFormat = {FormatType: AscPDF.FormatType.NONE, decimal: 2, separator: AscPDF.SeparatorStyle.COMMA_DOT, negative: AscPDF.NegativeStyle.BLACK_MINUS,
-                              symbol: '', location: true, dateformat: 'm/d/yy', timeformat: 'HH:MM', special: AscPDF.SpecialFormatType.PHONE, regexp: '.'};
+                              symbol: '', location: true, dateformat: 'm/d/yy', timeformat: 0, special: AscPDF.SpecialFormatType.PHONE, regexp: '.'};
             this.render();
         },
 
@@ -92,6 +92,9 @@ define([
             this.DateSettings = el.find('.form-date');
             this.TimeSettings = el.find('.form-time');
             this.linkAdvanced = el.find('#form-advanced-link');
+            this.RequiredSettings = el.find('#form-chb-required').closest('tr');
+            this.NameSettings = el.find('.form-name');
+            this.NotCheckSettings = el.find('.form-not-check');
         },
 
         createDelayedElements: function() {
@@ -126,6 +129,44 @@ define([
             this.cmbName.on('changed:after', this.onNameChanged.bind(this));
             this.cmbName.on('hide:after', this.onHideMenus.bind(this));
 
+            this.cmbNumeral = new Common.UI.ComboBox({
+                el          : $markup.findById('#form-combo-numeral'),
+                editable    : false,
+                cls         : 'input-group-nr',
+                menuStyle   : 'min-width:100%;',
+                data        : [
+                    { value: Asc.c_oNumeralType.arabic, displayValue: this.textArabic },
+                    { value: Asc.c_oNumeralType.hindi, displayValue: this.textHindi }
+                    // { value: Asc.c_oNumeralType.context, displayValue: this.textContext }
+                ],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbNumeral.setValue(Asc.c_oNumeralType.arabic);
+            this.cmbNumeral.on('selected', this.onNumeralChanged.bind(this));
+            this.lockedControls.push(this.cmbNumeral);
+
+            this.cmbOrient = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-orient'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                style: 'width: 48px;',
+                editable: false,
+                data: [
+                    {displayValue: '0°',   value: 0},
+                    {displayValue: '90°', value: 90},
+                    {displayValue: '180°', value: 180},
+                    {displayValue: '270°',  value: 270}
+                ],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbOrient.setValue(0);
+            this.cmbOrient.on('selected', this.onOrientChanged.bind(this));
+            this.lockedControls.push(this.cmbOrient);
+
             this.chRequired = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-required'),
                 labelText: this.textRequired,
@@ -135,6 +176,16 @@ define([
             });
             this.chRequired.on('change', this.onChRequired.bind(this));
             this.lockedControls.push(this.chRequired);
+
+            this.chReadonly = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-readonly'),
+                labelText: this.textReadonly,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chReadonly.on('change', this.onChReadonly.bind(this));
+            this.lockedControls.push(this.chReadonly);
 
             this.cmbLineWidth = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-line-width'),
@@ -174,6 +225,22 @@ define([
             this.cmbLineStyle.on('selected', this.onLineStyleChanged.bind(this));
             this.lockedControls.push(this.cmbLineStyle);
 
+            this.btnLockForm = new Common.UI.Button({
+                parentEl: $markup.findById('#form-btn-lock'),
+                cls         : 'btn-toolbar align-left',
+                iconCls     : 'toolbar__icon btn-lock',
+                caption     : this.textLock,
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.btnLockForm.on('click', _.bind(function(btn){
+                if (this.api && !this._noApply) {
+                    this.api.SetFieldLocked(!this._state.LockDelete);
+                    this.fireEvent('editcomplete', this);
+                }
+            }, this));
+
             //Spec props
             // combobox & text field
             this.txtPlaceholder = new Common.UI.InputField({
@@ -193,6 +260,18 @@ define([
             this.txtPlaceholder.cmpEl.on('focus', 'input.form-control', function() {
                 setTimeout(function(){me.txtPlaceholder._input && me.txtPlaceholder._input.select();}, 1);
             });
+
+            this.textareaTip = new Common.UI.TextareaField({
+                el          : $markup.findById('#form-txt-tip'),
+                style       : 'width: 100%; height: 36px;',
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.lockedControls.push(this.textareaTip);
+            this.textareaTip.on('changed:after', this.onTipChanged.bind(this));
+            this.textareaTip.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
             this.chAutofit = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-autofit'),
@@ -289,12 +368,15 @@ define([
             this.cmbDateFormat.on('hide:after', this.onHideMenus.bind(this));
 
             arr = [];
-            this.api.asc_getFieldTimeFormatOptions().forEach(function(item){
-                arr.push({
-                    value: item,
-                    displayValue: item
-                });
-            });
+            var timearr = this.api.asc_getFieldTimeFormatOptions();
+            for (let str in timearr) {
+                if(timearr.hasOwnProperty(str)) {
+                    arr.push({
+                        value: timearr[str],
+                        displayValue: str
+                    });
+                }
+            }
             this.cmbTimeFormat = new Common.UI.ComboBox({
                 el: $markup.findById('#form-cmb-time-format'),
                 cls: 'input-group-nr',
@@ -313,6 +395,15 @@ define([
             this.cmbTimeFormat.on('hide:after', this.onHideMenus.bind(this));
 
             // text field
+            this.chPwd = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-pwd'),
+                labelText: this.textPassword,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chPwd.on('change', this.onChPwd.bind(this));
+
             this.chMulti = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-multiline'),
                 labelText: this.textMulti,
@@ -727,6 +818,7 @@ define([
             });
             this.sldrPreviewPositionX.on('change', _.bind(this.onImagePositionChange, this, 'x'));
             this.sldrPreviewPositionX.on('changecomplete', _.bind(this.onImagePositionChangeComplete, this, 'x'));
+            this.lockedControls.push(this.sldrPreviewPositionX);
 
             this.sldrPreviewPositionY = new Common.UI.SingleSlider({
                 el: $markup.findById('#form-img-slider-position-y'),
@@ -738,6 +830,7 @@ define([
             });
             this.sldrPreviewPositionY.on('change', _.bind(this.onImagePositionChange, this, 'y'));
             this.sldrPreviewPositionY.on('changecomplete', _.bind(this.onImagePositionChangeComplete, this, 'y'));
+            this.lockedControls.push(this.sldrPreviewPositionY);
 
             var xValue = this.sldrPreviewPositionX.getValue(),
                 yValue = this.sldrPreviewPositionY.getValue();
@@ -766,6 +859,13 @@ define([
         onChRequired: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply) {
                 this.api.SetFieldRequired(field.getValue()==='checked');
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onChReadonly: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                this.api.SetFieldReadOnly(field.getValue()==='checked');
                 this.fireEvent('editcomplete', this);
             }
         },
@@ -829,10 +929,34 @@ define([
             }
         },
 
+        onTipChanged: function(input, newValue, oldValue, e) {
+            if (this.api && !this._noApply && (newValue!==oldValue)) {
+                this.api.SetFieldTooltip(newValue);
+                if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
+                    this.fireEvent('editcomplete', this);
+            }
+        },
+
         onLineWidthChanged: function(combo, record) {
             if (this.api && !this._noApply) {
                 this._state.StrokeWidth = undefined;
                 this.api.SetFieldStrokeWidth(record.value);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onOrientChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.Orient = undefined;
+                this.api.SetFieldRotate(record.value);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onNumeralChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.Numeral = undefined;
+                this.api.SetFieldDigitsType(record.value);
                 this.fireEvent('editcomplete', this);
             }
         },
@@ -903,6 +1027,14 @@ define([
             if (this.api && !this._noApply) {
                 this._state.AutoFit = undefined;
                 this.api.SetFieldAutoFit(field.getValue()=='checked');
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onChPwd: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                this._state.Pwd = undefined;
+                this.api.SetTextFieldPassword(field.getValue()=='checked');
                 this.fireEvent('editcomplete', this);
             }
         },
@@ -1216,6 +1348,12 @@ define([
                 this._originalProps = props;
                 this._noApply = true;
 
+                var val = props.asc_getPropLocked();
+                if (this._state.LockDelete !== val) {
+                    this._state.LockDelete = val;
+                    this.btnLockForm.setCaption(this._state.LockDelete ? this.textUnlock : this.textLock);
+                }
+
                 this.disableControls(this._locked);
 
                 var forceShowHide = false,
@@ -1235,16 +1373,34 @@ define([
                     this._state.Name = undefined;
                 }
 
-                var val = props.asc_getName();
+                val = props.asc_getName();
                 if (this._state.Name!==val) {
                     this.cmbName.setValue(val ? val : '');
                     this._state.Name=val;
                 }
 
+                val = props.asc_getTooltip();
+                if (this._state.tip!==val) {
+                    this.textareaTip.setValue(val ? val : '');
+                    this._state.tip=val;
+                }
+
                 val = props.asc_getRequired();
                 if ( this._state.Required!==val ) {
-                    this.chRequired.setValue(!!val, true);
+                    this.chRequired.setValue(val!==null && val!==undefined ? !!val : 'indeterminate', true);
                     this._state.Required=val;
+                }
+
+                val = props.asc_getReadOnly();
+                if ( this._state.Readonly!==val ) {
+                    this.chReadonly.setValue(val!==null && val!==undefined ? !!val : 'indeterminate', true);
+                    this._state.Readonly=val;
+                }
+
+                val = props.asc_getRot();
+                if ( this._state.Orient!==val ) {
+                    this.cmbOrient.setValue(val!==null && val!==undefined ? val : '');
+                    this._state.Orient=val;
                 }
 
                 var color = props.asc_getStroke();
@@ -1312,10 +1468,13 @@ define([
 
                     var isComb = specProps.asc_getComb(),
                         isMulti = specProps.asc_getMultiline(),
-                        isScroll = specProps.asc_getScrollLongText();
+                        isPwd = specProps.asc_getPassword(),
+                        isScroll = specProps.asc_getScrollLongText(),
+                        isFormatSelected = specProps.asc_getFormat() && specProps.asc_getFormat().asc_getType() !== AscPDF.FormatType.NONE;
+
                     var combChanged = false;
                     if ( this._state.Comb!==isComb ) {
-                        this.chComb.setValue(!!isComb, true);
+                        this.chComb.setValue(isComb!==null && isComb!==undefined ? !!isComb : 'indeterminate', true);
                         this._state.Comb=isComb;
                         combChanged = true;
                     }
@@ -1328,19 +1487,25 @@ define([
                         this.spnMaxChars.setValue(isCharLimits ? val : '', true)
                         this._state.MaxChars=val;
                     }
-                    this.chComb.setDisabled(isMulti || isScroll || isCharLimits || this._state.DisabledControls);
+                    this.chComb.setDisabled(isMulti || isScroll || isCharLimits || isPwd || this._state.DisabledControls);
                     this.spnCombChars.setDisabled(!isComb || this._state.DisabledControls);
                     this.chMaxChars.setDisabled(isComb || this._state.DisabledControls);
                     this.spnMaxChars.setDisabled(!isCharLimits || this._state.DisabledControls);
 
                     if ( this._state.Multi!==isMulti ) {
-                        this.chMulti.setValue(!!isMulti, true);
+                        this.chMulti.setValue(isMulti!==null && isMulti!==undefined ? !!isMulti : 'indeterminate', true);
                         this._state.Multi=isMulti;
                     }
-                    this.chMulti.setDisabled(isComb || this._state.DisabledControls);
+                    this.chMulti.setDisabled(isComb || isPwd || isFormatSelected || this._state.DisabledControls);
+
+                    if ( this._state.Pwd!==isPwd ) {
+                        this.chPwd.setValue(!!isPwd, true);
+                        this._state.Pwd=isPwd;
+                    }
+                    this.chPwd.setDisabled(isComb || isMulti || this._state.DisabledControls);
 
                     if ( this._state.Scroll!==isScroll ) {
-                        this.chScroll.setValue(!!isScroll, true);
+                        this.chScroll.setValue(isScroll!==null && isScroll!==undefined ? !!isScroll : 'indeterminate', true);
                         this._state.Scroll=isScroll;
                     }
                     this.chScroll.setDisabled(isComb || this._state.DisabledControls);
@@ -1356,15 +1521,15 @@ define([
 
                         val = specProps.asc_getAutoFit();
                         if ( this._state.AutoFit!==val ) {
-                            this.chAutofit.setValue(!!val, true);
+                            this.chAutofit.setValue(val!==null && val!==undefined ? !!val : 'indeterminate', true);
                             this._state.AutoFit=val;
                         }
                         this.chAutofit.setDisabled(isComb || this._state.DisabledControls);
 
                         let format = specProps.asc_getFormat();
-                        val = format ? format.asc_getType() : AscPDF.FormatType.NONE;
+                        val = format===undefined ? AscPDF.FormatType.NONE : format===null ? null : format.asc_getType(); // undefined - none, null - different types
                         if ( this._state.FormatType!==val ) {
-                            this.cmbFormat.setValue((val !== null && val !== undefined) ? val : AscPDF.FormatType.NONE, '');
+                            this.cmbFormat.setValue((val !== null && val !== undefined) ? val : '', '');
                             this._state.FormatType=val;
                             forceShowHide = true;
                         }
@@ -1403,12 +1568,13 @@ define([
                             this._state.MaskStr = val;
                         }
                     }
+                    this.cmbFormat.setDisabled(type===AscPDF.FIELD_TYPES.text && this._state.Multi || this._state.DisabledControls);
                 }
 
                 if (type == AscPDF.FIELD_TYPES.combobox && specProps) {
                     val = specProps.asc_getEditable();
                     if ( this._state.CustomText!==val ) {
-                        this.chCustomText.setValue(!!val, true);
+                        this.chCustomText.setValue(val!==null && val!==undefined ? !!val : 'indeterminate', true);
                         this._state.CustomText=val;
                     }
                 }
@@ -1416,7 +1582,7 @@ define([
                 if (type == AscPDF.FIELD_TYPES.listbox && specProps) {
                     val = specProps.asc_getMultipleSelection();
                     if ( this._state.Multisel!==val ) {
-                        this.chMultisel.setValue(!!val, true);
+                        this.chMultisel.setValue(val!==null && val!==undefined ? !!val : 'indeterminate', true);
                         this._state.Multisel=val;
                     }
                 }
@@ -1428,10 +1594,13 @@ define([
                         var options = specProps.asc_getOptions();
                         var arr = [];
                         for (var i=0; i<options.length; i++) {
-                            (options[i]!=='') && arr.push({
-                                value: options[i],
-                                name: options[i]
-                            });
+                            if (options[i]!=='') {
+                                val = _.isArray(options[i]) && options[i].length ? options[i][0] : options[i];
+                                arr.push({
+                                    value: val,
+                                    name: val
+                                });
+                            }
                         }
                         this.list.store.reset(arr);
                         var rec = null;
@@ -1452,7 +1621,7 @@ define([
 
                         val = specProps.asc_getCommitOnSelChange();
                         if ( this._state.Commit!==val ) {
-                            this.chCommit.setValue(!!val, true);
+                            this.chCommit.setValue(val!==null && val!==undefined ? !!val : 'indeterminate', true);
                             this._state.Commit=val;
                         }
                     }
@@ -1535,7 +1704,7 @@ define([
 
                             val = specProps.asc_getFitBounds();
                             if ( this._state.Fit!==val ) {
-                                this.chFit.setValue(!!val, true);
+                                this.chFit.setValue(val!==null && val!==undefined ? !!val : 'indeterminate', true);
                                 this._state.Fit=val;
                             }
                             this.cmbHowScale.setDisabled(this._state.Scale === AscPDF.Api.Types.scaleWhen.never || this._state.DisabledControls);
@@ -1564,17 +1733,23 @@ define([
                         this.chDefValue.setCaption(isCheckbox ? this.textCheckDefault : this.textRadioDefault);
                         val = specProps.asc_getDefaultChecked();
                         if ( this._state.DefValue!==val ) {
-                            this.chDefValue.setValue(!!val, true);
+                            this.chDefValue.setValue(val!==null && val!==undefined ? !!val : 'indeterminate', true);
                             this._state.DefValue=val;
                         }
 
                         if (type == AscPDF.FIELD_TYPES.radiobutton) {
                             val = specProps.asc_getRadiosInUnison();
                             if ( this._state.Unison!==val ) {
-                                this.chUnison.setValue(!!val, true);
+                                this.chUnison.setValue(val!==null && val!==undefined ? !!val : 'indeterminate', true);
                                 this._state.Unison=val;
                             }
                         }
+                    }
+                } else {
+                    val = props.asc_getDigitsType();
+                    if ( this._state.Numeral!==val ) {
+                        this.cmbNumeral.setValue(val!==null && val!==undefined ? val : '');
+                        this._state.Numeral=val;
                     }
                 }
 
@@ -1688,18 +1863,22 @@ define([
             this.btnListAdd.setDisabled(this.txtNewValue.length<1 || this._state.DisabledControls);
             var isComb = this._state.Comb,
                 isMulti = this._state.Multi,
+                isPwd = this._state.Pwd,
                 isScroll = this._state.Scroll;
             this.chAutofit.setDisabled(isComb || this._state.DisabledControls);
-            this.chMulti.setDisabled(isComb || this._state.DisabledControls);
+            this.chMulti.setDisabled(isComb || isPwd || this.type===AscPDF.FIELD_TYPES.text && this._state.FormatType!== AscPDF.FormatType.NONE || this._state.DisabledControls);
             this.chScroll.setDisabled(isComb || this._state.DisabledControls);
+            this.chPwd.setDisabled(isComb || isMulti || this._state.DisabledControls);
+            this.cmbFormat.setDisabled(this.type===AscPDF.FIELD_TYPES.text && isMulti || this._state.DisabledControls);
 
-            this.chComb.setDisabled(isMulti || isScroll || this.chMaxChars.getValue()!=='checked' || this._state.DisabledControls);
+            this.chComb.setDisabled(isMulti || isScroll || isPwd || this.chMaxChars.getValue()!=='checked' || this._state.DisabledControls);
             this.spnCombChars.setDisabled(!isComb || this._state.DisabledControls);
             this.chMaxChars.setDisabled(isComb || this._state.DisabledControls);
             this.spnMaxChars.setDisabled(isComb || this.chMaxChars.getValue()!=='checked' || this._state.DisabledControls);
             this.cmbHowScale.setDisabled(this._state.Scale === AscPDF.Api.Types.scaleWhen.never || this._state.DisabledControls);
             this.cmbState.setDisabled(this._state.Behavior!==AscPDF.BUTTON_HIGHLIGHT_TYPES.push || this._state.DisabledControls);
             this.linkAdvanced.toggleClass('disabled', disable);
+            this.btnLockForm.setDisabled(disable);
         },
 
         showHideControls: function(type, specProps) {
@@ -1711,6 +1890,7 @@ define([
                 isButton = type === AscPDF.FIELD_TYPES.button,
                 isImage = isButton && (specProps.asc_getLayout()!==AscPDF.Api.Types.position.textOnly),
                 isButtonText = isButton && (specProps.asc_getLayout()!==AscPDF.Api.Types.position.iconOnly);
+            this.NameSettings.toggleClass('hidden', type===null);
             this.TextComboSettings.toggleClass('hidden', !(isCombobox || isText));
             this.ListSettings.toggleClass('hidden', !(isCombobox || isListbox));
             this.TextSettings.toggleClass('hidden', !isText);
@@ -1719,6 +1899,7 @@ define([
             this.CheckSettings.toggleClass('hidden', !(isCheck || isRadio));
             this.RadioOnlySettings.toggleClass('hidden', !isRadio);
             this.ButtonSettings.toggleClass('hidden', !isButton);
+            this.RequiredSettings.toggleClass('hidden', isButton);
             this.ImageOnlySettings.toggleClass('hidden', !isImage);
             this.ButtonTextOnlySettings.toggleClass('hidden', !isButtonText);
             this.TextSpecialSettings.toggleClass('hidden', !(isCombobox || isText) || this._state.FormatType!==AscPDF.FormatType.SPECIAL);
@@ -1726,6 +1907,7 @@ define([
                                                                                  this._state.FormatType===AscPDF.FormatType.SPECIAL && this._state.SpecialType===-1));
             this.DateSettings.toggleClass('hidden', !(isCombobox || isText) || this._state.FormatType!==AscPDF.FormatType.DATE);
             this.TimeSettings.toggleClass('hidden', !(isCombobox || isText) || this._state.FormatType!==AscPDF.FormatType.TIME);
+            this.NotCheckSettings.toggleClass('hidden', isCheck || isRadio);
         }
 
     }, PDFE.Views.FormSettings || {}));

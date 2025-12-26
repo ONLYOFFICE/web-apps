@@ -125,7 +125,10 @@ define([
                     cls: 'color-menu ' + (options.eyeDropper ? 'shifted-right' : 'shifted-left'),
                     additionalAlign: options.additionalAlign,
                     items: (options.additionalItemsBefore ? options.additionalItemsBefore : []).concat(auto).concat([
-                            { template: _.template('<div id="' + id + '-color-menu" style="width: ' + width + '; height:' + height + '; display: inline-block;"></div>') }
+                            {
+                                template: _.template('<div id="' + id + '-color-menu" style="width: ' + width + '; height:' + height + '; display: inline-block;"></div>'),
+                                stopPropagation: options.hidePaletteOnClick===false
+                            }
                         ]).concat(options.hideColorsSeparator ? [] : {caption: '--'}).concat(eyedropper).concat([
                         {
                             id: id + '-color-new',

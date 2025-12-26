@@ -24,6 +24,7 @@
   "PE.ApplicationController.errorInconsistentExtPptx": "Errore bat gertatu da fitxategia irekitzean.<br>Fitxategiaren edukia aurkezpen bati dagokio (adibidez, pptx), baina fitxategiaren luzapena ez dator bat: %1.",
   "PE.ApplicationController.errorInconsistentExtXlsx": "Errore bat gertatu da fitxategia irekitzean.<br>Fitxategiaren edukia kalkulu-orri bati dagokio (adibidez, xlsx), baina fitxategiaren luzapena ez dator bat: %1.",
   "PE.ApplicationController.errorLoadingFont": "Letra-tipoak ez dira kargatu.<br>Jarri zure dokumentu-zerbitzariaren administratzailearekin harremanetan.",
+  "PE.ApplicationController.errorToken": "Dokumentuaren segurtasun-tokena ez dago ongi osatuta.<br>Jarri zure dokumentu-zerbitzariaren administratzailearekin harremanetan.",
   "PE.ApplicationController.errorTokenExpire": "Dokumentuaren segurtasun-tokena iraungi da.<br>Jarri zure dokumentu-zerbitzariaren administratzailearekin harremanetan.",
   "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Konexioa berrezarri da eta fitxategiaren bertsioa aldatu da.<br>Lanean jarraitu aurretik, beharrezkoa da fitxategia deskargatzea edo edukia kopiatzea, ezer ez dela galduko ziurtatzeko, eta gero orri hau berriro kargatzea.",
   "PE.ApplicationController.errorUserDrop": "Ezin da fitxategia atzitu une honetan.",

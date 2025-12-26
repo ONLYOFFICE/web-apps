@@ -5,8 +5,8 @@ import { Device } from '../../../../../common/mobile/utils/device';
 // import { EditLinkController } from "../../controller/edit/EditLink";
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 import { PageImageReplace, PageImageReorder, PageLinkSettings } from './EditImage';
-import { TextColorCell, FillColorCell, CustomTextColorCell, CustomFillColorCell, FontsCell, TextFormatCell, TextOrientationCell, BorderStyleCell, BorderColorCell, CustomBorderColorCell, BorderSizeCell, PageFormatCell, PageAccountingFormatCell, PageCurrencyFormatCell, PageDateFormatCell, PageTimeFormatCell, CellStyle, PageCreationCustomFormat, CustomFormats } from './EditCell';
-import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor, PageOrientationTextShape } from './EditText';
+import { TextColorCell, FillColorCell, CustomTextColorCell, CustomFillColorCell, FontsCell, TextFormatCell, TextOrientationCell, BorderStyleCell, BorderColorCell, CustomBorderColorCell, BorderSizeCell, PageFormatCell, PageAccountingFormatCell, PageCurrencyFormatCell, PageDateFormatCell, PageTimeFormatCell, CellStyle, PageCreationCustomFormat, CustomFormats, PageCellTextDirection } from './EditCell';
+import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor, PageOrientationTextShape, PageTextAdditionalFormatting, PageTextDirection } from './EditText';
 import { PageChartDesign,  PageChartDesignType, PageChartDesignStyle, PageChartDesignFill, PageChartDesignBorder, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartLayout, PageLegend, PageChartTitle, PageHorizontalAxisTitle, PageVerticalAxisTitle, PageHorizontalGridlines, PageVerticalGridlines, PageDataLabels, PageChartVerticalAxis, PageVertAxisCrosses, PageDisplayUnits, PageVertMajorType, PageVertMinorType, PageVertLabelPosition, PageChartHorizontalAxis, PageHorAxisCrosses, PageHorAxisPosition, PageHorMajorType, PageHorMinorType, PageHorLabelPosition } from './EditChart';
 import { PageEditTypeLink, PageEditSheet } from './EditLink';
 import EditingPage from './EditingPage';
@@ -98,6 +98,14 @@ const routes = [
         component: TextOrientationCell
     },
     {
+        path: '/edit-cell-text-direction/',
+        component: PageCellTextDirection
+    },
+    {
+        path: '/edit-text-direction/',
+        component: PageTextDirection
+    },
+    {
         path: '/edit-cell-border-style/',
         component: BorderStyleCell
     },
@@ -151,6 +159,10 @@ const routes = [
     {
         path: '/edit-text-custom-font-color/',
         component: PageTextCustomFontColor
+    },
+    {
+        path: '/edit-text-add-formatting/',
+        component: PageTextAdditionalFormatting
     },
 
     // Chart 

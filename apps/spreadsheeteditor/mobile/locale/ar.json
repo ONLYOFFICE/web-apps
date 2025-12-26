@@ -95,7 +95,6 @@
       "criticalErrorTitle": "خطأ",
       "errorAccessDeny": "أنت تحاول تنفيذ اجراء ليس لديك صلاحيات القيام به.<br> الرجاء الاتصال بمسؤولك.",
       "errorOpensource": "باستخدام نسخة المجتمع المجانية, سيكون بمقدروك فتح الملفات للمشاهدة فقط. للوصول إلى محررات الويب للهاتف يجب استخدام ترخيص تجاري",
-      "errorProcessSaveResult": "فشل الحفظ",
       "errorServerVersion": "تم تحديث إصدار المحرر.سيتم اعادة تحميل الصفحة لتطبيق التغييرات",
       "errorUpdateVersion": "تم تغيير إصدار الملف. سيتم اعادة تحميل الصفحة",
       "leavePageText": "لديك تغييرات غير محفوظة. اضغط على 'البقاء في هذه الصفحة' لانتظار الحفظ التلقائي. اضغط على 'غادر هذه الصفحة' للتخلي عن كل التغييرات الغير محفوظة.",
@@ -238,21 +237,22 @@
       "titleUpdateVersion": "تم تغيير الإصدار",
       "warnLicenseAnonymous": "تم رفض الوصول للمستخدمين المجهولين.<br> هذا المستند سيكون مفتوحا للمشاهدة فقط",
       "warnLicenseBefore": "الترخيص ليس مفعلا.<br>برجاء التواصل مع مسئولك",
-      "warnLicenseExceeded": "لقد وصلت إلى الحد الأقصى من الاتصالات المتزامنة لـ %1 محررات.هذا. هذا المستند سيكون للقراءة فقط برجاء التواصل مع المسؤول الخاص بك لمعرفة المزيد",
       "warnLicenseExp": "الترخيص منتهي الصلاحية.برجاء تحديث الترخيص الخاص بك واعادة تحميل الصفحة",
       "warnLicenseLimitedNoAccess": "الترخيص منتهي الصلاحية.<br>ليس لديك صلاحية تعديل المستند. برجاء التواصل مع مسئولك",
       "warnLicenseLimitedRenewed": "يحتاج الترخيص إلى تجديد. لديك وصول محدود لخاصية تعديل المستند. <br> برجاء التواصل مع مسئولك للحصول على وصول كامل",
-      "warnLicenseUsersExceeded": "لقد وصلت إلى الحد الأقصى من عدد المستخدمين لـ %1محررات. تواصل مع مسئولك لمعرفة المزيد",
       "warnNoLicense": "لقد وصلت إلى الحد الأقصى من الاتصالات المتزامنة لـ%1محررات.هذا المستند سيكون للقراءة فقط. تواصل مع %1 فريق المبيعات لتطوير الشروط الشخصية",
       "warnNoLicenseUsers": "لقد وصلت إلى الحد الأقصى من عدد المستخدمين لـ %1. تواصل مع فريق المبيعات لتطوير الشروط الشخصية",
-      "warnProcessRightsChange": "ليس لديك الإذن بتعديل هذا الملف."
+      "warnProcessRightsChange": "ليس لديك الإذن بتعديل هذا الملف.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Draw": {
     "textColor": "اللون",
     "textCustomColor": "لون مخصص",
-    "textOpacity": "معدل الشفافية",
-    "textLineSize": "Line size"
+    "textLineSize": "حجم الخط",
+    "textOpacity": "معدل الشفافية"
   },
   "Error": {
     "convertationTimeoutText": "استغرق التحويل وقتا طويلا تم تجاوز المهلة",
@@ -377,7 +377,10 @@
     "uploadDocSizeMessage": "تم تجاوز الحد الأقصى المسموح به لحجم الملف",
     "uploadImageExtMessage": "امتداد صورة غير معروف",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
-    "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت"
+    "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled."
   },
   "LongActions": {
     "advDRMPassword": "كملة السر",
@@ -446,9 +449,12 @@
     "textSheetName": "اسم ورقة العمل",
     "textTabColor": "لون التبويبة",
     "textUnhide": "إظهار",
-    "textWarnDeleteSheet": "ربما تحتوي ورقة العمل على بيانات. هل تريد متابعة العملية؟"
+    "textWarnDeleteSheet": "ربما تحتوي ورقة العمل على بيانات. هل تريد متابعة العملية؟",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
+    "btnRestartNow": "إعادة التشغيل الآن",
     "dlgLeaveMsgText": "لديك تغييرات غير محفوظة. اضغط على 'البقاء في هذه الصفحة' لانتظار الحفظ التلقائي. اضغط على 'غادر هذه الصفحة' للتخلي عن كل التغييرات الغير محفوظة.",
     "dlgLeaveTitleText": "انت تغادر التطبيق",
     "leaveButtonText": "اترك هذه الصفحة",
@@ -457,8 +463,7 @@
     "textEnterNewFileName": "ادخل اسم جديد للملف",
     "textOk": "موافق",
     "textRenameFile": "إعادة تسمية الملف",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "التحويل إلى وضع سطح المكتب"
   },
   "View": {
     "Add": {
@@ -486,6 +491,7 @@
       "textDataTableHint": "ترجع خلايا بيانات الجدول أو أعمدة الجدول المحدد",
       "textDisplay": "عرض",
       "textDone": "تم",
+      "textDrawing": "الرسم",
       "textEmptyImgUrl": "يجب تحديد رابط الصورة",
       "textExternalLink": "رابط خارجي",
       "textFilter": "تصفية",
@@ -523,8 +529,7 @@
       "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  ",
       "txtSorting": "الترتيب",
       "txtSortSelected": "الترتيب المحدد",
-      "txtYes": "نعم",
-      "textDrawing": "Drawing"
+      "txtYes": "نعم"
     },
     "Edit": {
       "notcriticalErrorTitle": "تحذير",
@@ -717,7 +722,22 @@
       "textYen": "ين",
       "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  ",
       "txtSortHigh2Low": "الترتيب من الأعلى إلى الأقل",
-      "txtSortLow2High": "الترتيب من الأقل إلى الأعلى"
+      "txtSortLow2High": "الترتيب من الأقل إلى الأعلى",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textAllCaps": "All Caps",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textContextTextDirection": "Context",
+      "textDoubleStrikethrough": "Double Strikethrough",
+      "textLetterSpacing": "Letter spacing",
+      "textLtrTextDirection": "Left-to-right",
+      "textRtlTextDirection": "Right-to-left",
+      "textSmallCaps": "Small Caps",
+      "textStrikethrough": "Strikethrough",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "advCSVOptions": "اختر خيارات CSV",
@@ -871,7 +891,14 @@
       "txtUk": "الأوكرانية",
       "txtVi": "الفيتمانية",
       "txtZh": "الصينية",
-      "warnDownloadAs": "اذا تابعت الحفظ بهذا التنسيق ستفقد كل الميزات عدا النص.<br> هل حقا تريد المتابعة؟ "
+      "warnDownloadAs": "اذا تابعت الحفظ بهذا التنسيق ستفقد كل الميزات عدا النص.<br> هل حقا تريد المتابعة؟ ",
+      "textSheetRtl": "Sheet Right to left",
+      "txtSr": "Serbian (Latin)",
+      "txtSrcyrl": "Serbian (Cyrillic)",
+      "txtZhtw": "Chinese (Traditional)",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+      "textOpenLocation": "Open location",
+      "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
     }
   }
 }

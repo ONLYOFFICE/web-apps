@@ -15,6 +15,18 @@
                 <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
             </div>
             <h1>Diagramme einfügen</h1>
+            <h3>Einfügen eines empfohlenen Diagramms</h3>
+            <p>Der einfachste Weg, ein Diagramm in den <a href="https://www.onlyoffice.com/de/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Tabellenkalkulationseditor</b></a> einzufügen, ist die Verwendung des Tools <b>Empfohlenes Diagramm</b>, das je nach ausgewählten Daten die Verwendung bestimmter Diagrammtypen vorschlägt und eine Vorschau für alle Diagrammtypen anzeigt.</p>
+            <ol>
+                <li>
+                    Wählen Sie den Zellbereich aus, der die Daten enthält, die Sie für das Diagramm verwenden möchten.
+                </li>
+                <li>Wechseln Sie zur Registerkarte <b>Einfügen</b> der oberen Symbolleiste.</li>
+                <li>Klicken Sie in der oberen Symbolleiste auf das Symbol <b>Empfohlenes Diagramm</b>.</li>
+                <li>Wechseln Sie zwischen den empfohlenen Diagrammtypen, um zu sehen, wie das Diagramm aussehen wird. Sie können auch die Registerkarten auf der linken Seite verwenden, um eine Vorschau anderer Diagrammtypen anzuzeigen.</li>
+                <li>Wenn der Diagrammtyp ausgewählt ist, klicken Sie auf <b>OK</b>.</li>
+            </ol>
+            <p><img alt="Empfohlenes Diagramm" src="../images/recommendedchart.png" /></p>
             <h3>Diagramm einfügen</h3>
             <p>Ein Diagramm einfügen in der <a href="https://www.onlyoffice.com/de/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Tabellenkalkulation</b></a>:</p>
             <ol>
@@ -88,14 +100,14 @@
                             <li>Punkte mit geraden Linien</li>
                         </ul>
                     </details>
-                    <!--<details class="details-example">
-                        <summary>Radar Charts</summary>
+                    <details class="details-example">
+                        <summary>Radardiagramme</summary>
                         <ul>
                             <li>Radar</li>
-                            <li>Radar with markers</li>
-                            <li>Filled radar</li>
+                            <li>Radar mit Markierungen</li>
+                            <li>Gefülltes Radardiagramm</li>
                         </ul>
-                    </details>-->
+                    </details>
                     <details class="details-example">
                         <summary>Verbund</summary>
                         <ul>
@@ -108,7 +120,7 @@
                 </li>
             </ol>
             <p>Das Diagramm wird in das aktuelle Tabellenblatt eingefügt.</p>
-            <p class="note"><b>ONLYOFFICE Tabellenkalkulation</b> unterstützt die folgenden Arten von Diagrammen, die mit Editoren von Drittanbietern erstellt wurden: <b>Pyramide</b>, <b>Balken (Pyramide)</b>, <b>horizontale/vertikale Zylinder</b>, <b>horizontale/vertikale Kegel</b>. Sie können die Datei, die ein solches Diagramm enthält, öffnen und sie mit den verfügbaren Diagrammbearbeitungswerkzeugen ändern. Die folgenden Typen werden nur zum Öffnen unterstützt: <b>Histogramm</b>, <b>Wasserfall</b>, <b>Trichter</b>.</p>
+            <p class="note"><b>ONLYOFFICE Tabellenkalkulation</b> unterstützt die folgenden Arten von Diagrammen, die mit Editoren von Drittanbietern erstellt wurden: <b>Pyramide</b>, <b>Balken (Pyramide)</b>, <b>horizontale/vertikale Zylinder</b>, <b>horizontale/vertikale Kegel</b>. Sie können die Datei, die ein solches Diagramm enthält, öffnen und sie mit den verfügbaren Diagrammbearbeitungswerkzeugen ändern. Die folgenden Typen werden nur zum Öffnen unterstützt: <b>Histogramm</b>, <b>Wasserfall</b>, <b>Trichter</b>, <b>Explosion</b>.</p>
             <h3>Diagrammeinstellungen anpassen</h3>
             <p>Sie können die Diagrammeinstellungen anpassen. Um den Diagrammtyp anzupassen,</p>
             <ol>
@@ -357,6 +369,8 @@
             <p><img alt="Diagramm - Erweiterte Einstellungen - Andocken an die Zelle" src="../../../../../../common/main/resources/help/de/images/chartsettings_cellsnapping.png" /></p>
             <p>Im Abschnitt <b>Der alternative Text</b> können Sie einen <b>Titel</b> und eine <b>Beschreibung</b> angeben, die Personen mit Seh- oder kognitiven Beeinträchtigungen vorgelesen werden, damit sie besser verstehen, welche Informationen das Diagramm enthält.</p>
             <p><img alt="Diagramm - Erweiterte Einstellungen" src="../../../../../../common/main/resources/help/de/images/chartsettings_alternativetext.png" /></p>
+            <p>Um die <b>Anzeige von Diagrammelementen anzupassen</b>, klicken Sie auf die entsprechende Schaltfläche <span class="icon icon-chartelements"></span> in der oberen rechten Ecke des eingefügten Diagramms und aktivieren/deaktivieren Sie die Elemente, die Sie ein-/ausblenden möchten.</p>
+            <p><img alt="chart elements list" src="../../../../../../common/main/resources/help/de/images/chartelements_list.png" /></p>
             <h3>Diagrammelemente bearbeiten</h3>
             <p>Um den <b>Diagrammtitel</b> zu bearbeiten, wählen Sie den Standardtext mit der Maus aus und geben Sie stattdessen Ihren eigenen Text ein.</p>
             <p>Um die Schriftformatierung innerhalb von Textelementen, wie beispielsweise Diagrammtitel, Achsentitel, Legendeneinträge, Datenbeschriftungen etc. zu ändern, wählen Sie das gewünschte Textelement durch Klicken mit der linken Maustaste aus. Wechseln Sie in die Registerkarte <b>Start</b> und nutzen Sie die in der Menüleiste angezeigten Symbole, um <a href="../UsageInstructions/FontTypeSizeStyle.htm" onclick="onhyperlinkclick(this)">Schriftart, Schriftform, Schriftgröße oder Schriftfarbe</a> zu bearbeiten.</p>
@@ -371,7 +385,7 @@
             <p>Um die Position des Elements zu ändern, klicken Sie mit der linken Maustaste darauf und stellen Sie sicher, dass sich Ihr Cursor in <span class="icon icon-arrow"></span> geändert hat, halten Sie die linke Maustaste gedrückt und ziehen Sie das Element an die gewünschte Position.</p>
             <p><span class="big big-moveelement"></span></p>
             <p>Um ein Diagrammelement zu löschen, wählen Sie es mit der linken Maustaste aus und drücken Sie die Taste <b>Entfernen</b> auf Ihrer Tastatur.</p>
-            <p>Sie haben die Möglichkeit, 3D-Diagramme mithilfe der Maus zu drehen. Klicken Sie mit der linken Maustaste in den Diagrammbereich und halten Sie die Maustaste gedrückt. Um die 3D-Diagrammausrichtung zu ändern, ziehen Sie den Mauszeiger in die gewünschte Richtung ohne die Maustaste loszulassen.</p>
+            <p>Sie können 3D-Diagramme auch mit der Maus drehen. Klicken Sie dazu mit der linken Maustaste in den Diagrammbereich, um ihn auszuwählen, und halten Sie die Maustaste gedrückt. Ziehen Sie den Cursor, ohne die Maustaste loszulassen, um die Ausrichtung des 3D-Diagramms zu ändern.</p>
             <p><img alt="3D-Diagramm" src="../../../../../../common/main/resources/help/de/images/3dchart.png" /></p>
             <p>Wenn Sie ein Diagramm hinzugefügt haben, können Sie <a href="ManipulateObjects.htm" onclick="onhyperlinkclick(this)">Größe und Position beliebig ändern</a>.</p>
             <p>Um das eingefügte Diagramm zu löschen, klicken Sie darauf und drücken Sie die Taste <b>ENTF</b>.</p>

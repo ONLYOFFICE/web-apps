@@ -59,10 +59,6 @@ if (window.Common === undefined) {
                 $me.trigger('applyeditrights', data);
             },
 
-            'processSaveResult': function(data) {
-                $me.trigger('processsaveresult', data);
-            },
-
             'processRightsChange': function(data) {
                 $me.trigger('processrightschange', data);
             },
@@ -358,8 +354,8 @@ if (window.Common === undefined) {
                 _postMessage({event:'onMakeActionLink', data: config});
             },
 
-            requestUsers:  function (command, id) {
-                _postMessage({event:'onRequestUsers', data: {c: command, id: id}});
+            requestUsers:  function (command, id, from, count, search) { // from, count, search are used for mentions
+                _postMessage({event:'onRequestUsers', data: {c: command, id: id, from: from, count: count, search: search}});
             },
 
             requestSendNotify:  function (emails) {

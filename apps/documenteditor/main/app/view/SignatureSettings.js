@@ -66,10 +66,12 @@ define([
                 hasValid: false,
                 hasInvalid: false,
                 hasRequested: false,
+                hasForm: false,
                 tip: undefined
             };
             this._locked = false;
             this._protected = false;
+            this._themeChanged = false;
 
             this.render();
         },
@@ -88,7 +90,7 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="signature-item requested">',
-                        '<div class="caret img-commonctrl nomargin"></div>',
+                        '<div class="caret-button nomargin"><div class="caret"></div></div>',
                         '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
                     '</div>'
                 ].join(''))
@@ -99,7 +101,7 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="signature-item">',
-                        '<div class="caret img-commonctrl img-colored <% if (name == "" || date == "") { %>' + 'nomargin' + '<% } %>"></div>',
+                        '<div class="caret-button <% if (name == "" || date == "") { %>' + 'nomargin' + '<% } %> <% if (isForm) { %>' + 'hidden' + '<% } %>"><div class="caret"></div></div>',
                         '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
                         '<div class="date"><%= Common.Utils.String.htmlEncode(date) %></div>',
                     '</div>'
@@ -111,7 +113,7 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="signature-item">',
-                        '<div class="caret img-commonctrl <% if (name == "" || date == "") { %>' + 'nomargin' + '<% } %>"></div>',
+                        '<div class="caret-button <% if (name == "" || date == "") { %>' + 'nomargin' + '<% } %>"><div class="caret"></div></div>',
                         '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
                         '<div class="date"><%= Common.Utils.String.htmlEncode(date) %></div>',
                     '</div>'
@@ -124,6 +126,9 @@ define([
             this.viewRequestedList.on('item:contextmenu', _.bind(this.onItemContextMenu, this));
             this.viewValidList.on('item:contextmenu', _.bind(this.onItemContextMenu, this));
             this.viewInvalidList.on('item:contextmenu', _.bind(this.onItemContextMenu, this));
+
+            this.parentPanel = this.viewValidList.cmpEl.closest('.content-box');
+            this.onThemeChanged();
 
             this.signatureMenu = new Common.UI.Menu({
                 menuAlign   : 'tr-br',
@@ -143,10 +148,13 @@ define([
                 this.api.asc_registerCallback('asc_onUpdateSignatures',    _.bind(this.onApiUpdateSignatures, this));
             }
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
+            Common.NotificationCenter.on('uitheme:changed', _.bind(this.onThemeChanged, this));
             return this;
         },
 
         ChangeSettings: function(props) {
+            if (this._themeChanged)
+                this.onThemeChanged();
             if (!this._state.hasRequested && !this._state.hasValid && !this._state.hasInvalid)
                 this.updateSignatures(this.api.asc_getSignatures(), this.api.asc_getRequestSignatures());
         },
@@ -161,6 +169,7 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
+            this.$el && this.$el.find('.invisible-sign').toggleClass('hidden', !this.mode.isSignatureSupport);
         },
 
         onApiUpdateSignatures: function(valid, requested){
@@ -175,16 +184,20 @@ define([
                 requestedSignatures = [],
                 validSignatures = [],
                 invalidSignatures = [],
-                name_index = 1;
+                name_index = 1,
+                hasForm = false,
+                hasValidNotForm = false;
 
             _.each(requested, function(item, index){
                 var name = item.asc_getSigner1();
                 requestedSignatures.push({name: (name !== "") ? name : (me.strSigner + " " + name_index++) , guid: item.asc_getGuid(), requested: true});
             });
             _.each(valid, function(item, index){
-                var item_date = item.asc_getDate();
-                var sign = {name: item.asc_getSigner1(), certificateId: item.asc_getId(), guid: item.asc_getGuid(), date: (!_.isEmpty(item_date)) ? new Date(item_date).toLocaleString() : '', invisible: !item.asc_getVisible()};
+                var item_date = item.asc_getDate(),
+                    isForm = item.asc_getIsForm();
+                var sign = {name: item.asc_getSigner1(), certificateId: item.asc_getId(), guid: item.asc_getGuid(), date: (!_.isEmpty(item_date)) ? new Date(item_date).toLocaleString() : '', invisible: !item.asc_getVisible(), isForm: isForm};
                 (item.asc_getValid()==0) ? validSignatures.push(sign) : invalidSignatures.push(sign);
+                isForm ? (hasForm = true) : (hasValidNotForm = true);
             });
 
             // requestedSignatures = [{name: 'Hammish Mitchell', guid: '123', requested: true}, {name: 'Someone Somewhere', guid: '123', requested: true}, {name: 'Mary White', guid: '123', requested: true}, {name: 'John Black', guid: '123', requested: true}];
@@ -194,6 +207,7 @@ define([
             me._state.hasValid = validSignatures.length>0;
             me._state.hasInvalid = invalidSignatures.length>0;
             me._state.hasRequested = requestedSignatures.length>0;
+            me._state.hasForm = hasForm;
 
             this.viewRequestedList.store.reset(requestedSignatures);
             this.viewValidList.store.reset(validSignatures);
@@ -201,6 +215,7 @@ define([
 
             this.$el.find('.requested').toggleClass('hidden', !me._state.hasRequested);
             this.$el.find('.valid').toggleClass('hidden', !me._state.hasValid);
+            this.$el.find('#signature-valid-header').closest('.valid').toggleClass('hidden', !me._state.hasValid || !hasValidNotForm); // hide header if document has only form signature or has not valid signatures
             this.$el.find('.invalid').toggleClass('hidden', !me._state.hasInvalid);
 
             me.disableEditing(me._state.hasValid || me._state.hasInvalid);
@@ -211,6 +226,7 @@ define([
             if (menu.isVisible()) {
                 menu.hide();
             }
+            if (record.get('isForm')) return;
 
             var offsetParent = Common.Utils.getOffset($(this.el)),
                 showPoint = [e.clientX*Common.Utils.zoom() - offsetParent.left + 5, e.clientY*Common.Utils.zoom() - offsetParent.top + 5];
@@ -229,8 +245,7 @@ define([
         onSelectSignature: function(picker, item, record, e){
             if (!record) return;
 
-            var btn = $(e.target);
-            if (btn && btn.hasClass('caret')) {
+            if ($(e.target).closest('.caret-button').length) {
                 var menu = this.signatureMenu;
                 if (menu.isVisible()) {
                     menu.hide();
@@ -284,10 +299,12 @@ define([
                 });
             }
             var requested = record.get('requested'),
-                signed = (this._state.hasValid || this._state.hasInvalid);
-            menu.items[0].setVisible(requested);
-            menu.items[1].setVisible(!requested);
-            menu.items[2].setVisible(requested || !record.get('invisible'));
+                signed = (this._state.hasValid || this._state.hasInvalid),
+                signSupport = this.mode.isSignatureSupport,
+                isForm = record.get('isForm');
+            menu.items[0].setVisible(requested && signSupport && !isForm);
+            menu.items[1].setVisible(!requested && signSupport && !isForm);
+            menu.items[2].setVisible((requested || !record.get('invisible')) && signSupport && !isForm);
             menu.items[3].setVisible(!requested);
 
             menu.items[0].setDisabled(this._locked);
@@ -338,7 +355,8 @@ define([
 
         showSignatureTooltip: function(hasValid, hasInvalid, hasRequested) {
             var me = this,
-                tip = me._state.tip;
+                tip = me._state.tip,
+                hasForm = me._state.hasForm;
 
             if (!hasValid && !hasInvalid && !hasRequested) {
                 if (tip && tip.isVisible()) {
@@ -348,11 +366,15 @@ define([
                 return;
             }
 
-            var showLink = hasValid || hasInvalid,
-                tipText = (hasInvalid) ? me.txtSignedInvalid : (hasValid ? me.txtSigned : "");
-            if (hasRequested)
-                tipText = me.txtRequestedSignatures + "<br><br>" + tipText;
-
+            var showLink = (hasValid || hasInvalid) && !hasForm,
+                tipText = '';
+            if (hasForm) {
+                tipText = me.txtSignedForm;
+            } else {
+                tipText = (hasInvalid) ? me.txtSignedInvalid : (hasValid ? me.txtSigned : "")
+                if (hasRequested)
+                    tipText = me.txtRequestedSignatures + "<br><br>" + tipText;
+            }
             if (tip && tip.isVisible() && (tipText !== tip.text || showLink !== tip.showLink)) {
                 tip.close();
                 me._state.tip = undefined;
@@ -425,9 +447,24 @@ define([
                     toolbar: true,
                     plugins: false,
                     protect: false,
-                    header: {docmode: true, search: false},
+                    header: {docmode: true, search: false, startfill: true},
                     shortcuts: false
                 }, 'signature');
+            }
+        },
+
+        onThemeChanged: function() {
+            var el = this.$el || $(this.el);
+            this._themeChanged = !el.is(':visible');
+            if (!this._themeChanged) {
+                var marginLeft = '-' + this.parentPanel.css('padding-left'),
+                    marginRight = '-' + this.parentPanel.css('padding-right');
+                this.viewRequestedList.cmpEl.css('margin-left', marginLeft);
+                this.viewRequestedList.cmpEl.css('margin-right', marginRight);
+                this.viewValidList.cmpEl.css('margin-left', marginLeft);
+                this.viewValidList.cmpEl.css('margin-right', marginRight);
+                this.viewInvalidList.cmpEl.css('margin-left', marginLeft);
+                this.viewInvalidList.cmpEl.css('margin-right', marginRight);
             }
         },
 
@@ -446,7 +483,8 @@ define([
         txtEditWarning: 'Editing will remove the signatures from the document.<br>Are you sure you want to continue?',
         strDelete: 'Remove Signature',
         strSigner: 'Signer',
-        txtRemoveWarning: 'Are you sure you want to remove this signature?<br>This action cannot be undone.'
+        txtRemoveWarning: 'Are you sure you want to remove this signature?<br>This action cannot be undone.',
+        txtSignedForm: 'This document has been signed and can not be edited.'
 
     }, DE.Views.SignatureSettings || {}));
 });

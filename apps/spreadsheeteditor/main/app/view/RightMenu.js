@@ -38,6 +38,7 @@
 
 var SCALE_MIN = 40;
 var MENU_SCALE_PART = 260;
+var MENU_BASE_WIDTH = 220;
 
 define([
     'text!spreadsheeteditor/main/app/template/RightMenu.template',
@@ -53,7 +54,6 @@ define([
     'spreadsheeteditor/main/app/view/ChartSettings',
     'spreadsheeteditor/main/app/view/ShapeSettings',
     'spreadsheeteditor/main/app/view/TextArtSettings',
-    'spreadsheeteditor/main/app/view/TableSettings',
     'spreadsheeteditor/main/app/view/PivotSettings',
     'spreadsheeteditor/main/app/view/SignatureSettings',
     'spreadsheeteditor/main/app/view/CellSettings',
@@ -123,16 +123,6 @@ define([
                 allowMouseEventsOnDisabled: true
             });
 
-            this.btnTable = new Common.UI.Button({
-                hint: this.txtTableSettings,
-                asctype: Common.Utils.documentSettingsType.Table,
-                enableToggle: true,
-                disabled: true,
-                iconCls: 'btn-menu-table',
-                toggleGroup: 'tabpanelbtnsGroup',
-                allowMouseEventsOnDisabled: true
-            });
-
             this.btnPivot = new Common.UI.Button({
                 hint: this.txtPivotSettings,
                 asctype: Common.Utils.documentSettingsType.Pivot,
@@ -168,7 +158,6 @@ define([
             this._settings[Common.Utils.documentSettingsType.Shape]       = {panel: "id-shape-settings",      btn: this.btnShape};
             this._settings[Common.Utils.documentSettingsType.Chart]       = {panel: "id-chart-settings",      btn: this.btnChart};
             this._settings[Common.Utils.documentSettingsType.TextArt]     = {panel: "id-textart-settings",    btn: this.btnTextArt};
-            this._settings[Common.Utils.documentSettingsType.Table]       = {panel: "id-table-settings",      btn: this.btnTable};
             this._settings[Common.Utils.documentSettingsType.Pivot]       = {panel: "id-pivot-settings",      btn: this.btnPivot};
             this._settings[Common.Utils.documentSettingsType.Cell]        = {panel: "id-cell-settings",       btn: this.btnCell};
             this._settings[Common.Utils.documentSettingsType.Slicer]      = {panel: "id-slicer-settings",     btn: this.btnSlicer};
@@ -184,15 +173,21 @@ define([
             this.defaultHideRightMenu = !(mode.customization && (mode.customization.hideRightMenu===false));
             var open = !Common.localStorage.getBool("sse-hide-right-settings", this.defaultHideRightMenu);
             Common.Utils.InternalSettings.set("sse-hide-right-settings", !open);
-            el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
-            el.css('z-index', 101);
-            el.show();
 
             Common.NotificationCenter.on('app:repaint', function() {
                 el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
             });
 
+            Common.NotificationCenter.on('uitheme:changed', _.bind(function() {
+                this.updateWidth();
+                Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+            }, this));
+
             el.html(this.template({scope: this}));
+
+            this.updateWidth();
+            el.css('z-index', 101);
+            el.show();
 
             this.btnMoreContainer = $('#slot-right-menu-more');
             Common.UI.SideMenu.prototype.render.call(this);
@@ -203,7 +198,6 @@ define([
             this.btnChart.setElement($('#id-right-menu-chart'), false);         this.btnChart.render();
             this.btnShape.setElement($('#id-right-menu-shape'), false);         this.btnShape.render();
             this.btnTextArt.setElement($('#id-right-menu-textart'), false);     this.btnTextArt.render();
-            this.btnTable.setElement($('#id-right-menu-table'), false);         this.btnTable.render();
             this.btnPivot.setElement($('#id-right-menu-pivot'), false);         this.btnPivot.render();
             this.btnCell.setElement($('#id-right-menu-cell'), false);           this.btnCell.render();
             this.btnSlicer.setElement($('#id-right-menu-slicer'), false);       this.btnSlicer.render();
@@ -213,7 +207,6 @@ define([
             this.btnChart.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnShape.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnTextArt.on('click',         _.bind(this.onBtnMenuClick, this));
-            this.btnTable.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnPivot.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnCell.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnSlicer.on('click',         _.bind(this.onBtnMenuClick, this));
@@ -223,7 +216,6 @@ define([
             this.chartSettings = new SSE.Views.ChartSettings();
             this.shapeSettings = new SSE.Views.ShapeSettings();
             this.textartSettings = new SSE.Views.TextArtSettings();
-            this.tableSettings = new SSE.Views.TableSettings();
             this.pivotSettings = new SSE.Views.PivotSettings();
             this.cellSettings = new SSE.Views.CellSettings();
             this.slicerSettings = new SSE.Views.SlicerSettings();
@@ -247,14 +239,14 @@ define([
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el).find('.right-panel'),
+                    el: $(this.el).find('.right-panel > .content-box'),
                     suppressScrollX: true,
                     useKeyboard: false
                 });
             }
 
             if (open) {
-                $('#id-cell-settings').parent().css("display", "inline-block" );
+                $('#id-cell-settings').closest('.right-panel').css("display", "inline-block" );
                 $('#id-cell-settings').addClass("active");
             }
 
@@ -273,7 +265,6 @@ define([
             this.chartSettings.setApi(api).on('updatescroller', _updateScroller);
             this.shapeSettings.setApi(api).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
             this.textartSettings.setApi(api).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
-            this.tableSettings.setApi(api);
             this.pivotSettings.setApi(api);
             this.cellSettings.setApi(api).on('eyedropper', _.bind(_isEyedropperStart, this));
             this.slicerSettings.setApi(api);
@@ -285,7 +276,6 @@ define([
             this.mode = mode;
             this.imageSettings && this.imageSettings.setMode(mode);
             this.shapeSettings && this.shapeSettings.setMode(mode);
-            this.tableSettings && this.tableSettings.setMode(mode);
             return this;
         },
 
@@ -305,7 +295,7 @@ define([
                     Common.localStorage.setItem("sse-hide-right-settings", 0);
                     Common.Utils.InternalSettings.set("sse-hide-right-settings", false);
                 }
-                target_pane_parent.find('> .active').removeClass('active');
+                target_pane_parent.find('.content-box > .active').removeClass('active');
                 target_pane && target_pane.addClass("active");
 
                 if (this.scroller) {
@@ -350,7 +340,7 @@ define([
 
         clearSelection: function() {
             var target_pane = $(".right-panel");
-            target_pane.find('> .active').removeClass('active');
+            target_pane.find('.content-box > .active').removeClass('active');
             this._settings.forEach(function(item){
                 if (item.btn.isActive())
                     item.btn.toggle(false, true);
@@ -369,8 +359,20 @@ define([
         },
 
         setButtons: function () {
-            var allButtons = [this.btnCell, this.btnTable, this.btnShape, this.btnImage, this.btnChart, this.btnText, this.btnTextArt, this.btnSlicer, this.btnSignature, this.btnPivot];
+            var allButtons = [this.btnCell, this.btnShape, this.btnImage, this.btnChart, this.btnText, this.btnTextArt, this.btnSlicer, this.btnSignature, this.btnPivot];
             Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
+        },
+
+        insertPanel: function ($panel) {
+            this.$el.find('.side-panel .content-box').append($panel);
+        },
+
+        updateWidth: function() {
+            var pane = $(this.el).find('.right-panel'),
+                paddings = parseInt(pane.css('padding-left')) + parseInt(pane.css('padding-right'));
+            pane.css('width', MENU_BASE_WIDTH + paddings + 'px');
+            MENU_SCALE_PART = SCALE_MIN + MENU_BASE_WIDTH + paddings;
+            this.$el.css('width', (!Common.Utils.InternalSettings.get("sse-hide-right-settings") ? MENU_SCALE_PART : SCALE_MIN) + 'px');
         },
 
         txtParagraphSettings:       'Paragraph Settings',
@@ -379,7 +381,6 @@ define([
         txtTextArtSettings:         'Text Art Settings',
         txtChartSettings:           'Chart Settings',
         txtSparklineSettings:       'Sparkline Settings',
-        txtTableSettings:           'Table Settings',
         txtPivotSettings:           'Pivot Table Settings',
         txtSignatureSettings:       'Signature Settings',
         txtCellSettings:            'Cell Settings',

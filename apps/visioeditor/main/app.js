@@ -139,9 +139,11 @@ require([
             'LeftMenu',
             'Main',
             'ViewTab',
+            'Print',
             // 'Search',
             'Common.Controllers.Chat',
-            'Common.Controllers.Plugins'
+            'Common.Controllers.Plugins',
+            'Common.Controllers.Shortcuts'
         ]
     });
 
@@ -162,13 +164,16 @@ require([
                 'visioeditor/main/app/controller/LeftMenu',
                 'visioeditor/main/app/controller/Main',
                 'visioeditor/main/app/controller/ViewTab',
+                'visioeditor/main/app/controller/Print',
                 // 'visioeditor/main/app/controller/Search',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Chat',
-                'common/main/lib/controller/Plugins'
+                'common/main/lib/controller/Plugins',
+                'common/main/lib/controller/Shortcuts'
             ], function() {
+                const code_path = !window.isIEBrowser ? 'visioeditor/main/code' : 'visioeditor/main/ie/code';            
                 app.postLaunchScripts = [
-                    'visioeditor/main/code'
+                    code_path,
                 ];
 
                 app.start();

@@ -137,7 +137,7 @@
                     "cwd": "../apps/presentationeditor/main/resources/img/",
                     "src": [
                         "**/*.{png,jpg,gif,ico}",
-                        "!toolbar/*x/**/*"
+                        "!toolbar/**/*x/**/*"
                     ],
                     "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/img/"
                 }
@@ -148,7 +148,7 @@
                     "cwd": "../apps/common/main/resources/img/",
                     "src": [
                         "**/*.{png,jpg,gif}",
-                        "!toolbar/*x/**/*"
+                        "!toolbar/**/*x/**/*"
                     ],
                     "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/img/"
                 }
@@ -202,7 +202,10 @@
                 {
                     "expand": true,
                     "cwd": "../apps/presentationeditor/main/resources/img",
-                    "src": "**/*.svg",
+                    "src": [
+                        "**/*.svg",
+                        "!toolbar/**/*x/**/*"
+                    ],
                     "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/img"
                 }
             ],
@@ -352,6 +355,7 @@
                 "../apps/common/embed/lib/view/LoadMask.js",
                 "../apps/common/embed/lib/view/modals.js",
                 "../apps/common/embed/lib/controller/modals.js",
+                "../apps/common/embed/lib/controller/Shortcuts.js",
                 "../apps/common/embed/lib/view/SearchBar.js",
                 "../apps/presentationeditor/embed/js/SearchBar.js",
                 "../apps/presentationeditor/embed/js/ApplicationView.js",

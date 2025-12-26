@@ -148,10 +148,6 @@ define([
                 ariaLabel: this.textWrap
             });
             this.cmbWrapType.render($('#image-combo-wrap'));
-            this.cmbWrapType.openButton.menu.cmpEl.css({
-                'min-width': 178,
-                'max-width': 178
-            });
             this.cmbWrapType.on('click', _.bind(this.onSelectWrap, this));
             this.cmbWrapType.openButton.menu.on('show:after', function () {
                 me.cmbWrapType.menuPicker.scroller.update({alwaysVisibleY: true});
@@ -182,14 +178,9 @@ define([
             this.btnEditObject.on('click', _.bind(function(btn){
                 if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
                 if (this.api) {
-                    var oleobj = this.api.asc_canEditTableOleObject(true);
+                    var oleobj = this.api.asc_canEditTableOleObject();
                     if (oleobj) {
-                        var oleEditor = DE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-                        if (oleEditor) {
-                            oleEditor.setEditMode(true);
-                            oleEditor.show();
-                            oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
-                        }
+                        this.api.asc_editOleTableInFrameEditor();
                     } else
                         this.api.asc_startEditCurrentOleObject();
                 }
@@ -712,6 +703,7 @@ define([
                                     sizeOriginal: imgsizeOriginal,
                                     api         : me.api,
                                     sectionProps: me.api.asc_GetSectionProps(),
+                                    chartSettings: null,
                                     handler: function(result, value) {
                                         if (result == 'ok') {
                                             if (me.api) {

@@ -102,7 +102,7 @@ define([
                 dataHint: 1,
                 dataHintDirection: 'left-top',
                 dataHintOffset: [-2, 22],
-                iconCls: 'menu__icon btn-previtem'
+                iconCls: 'menu__icon btn-previtem icon-rtl'
             });
 
             this.miDownload = new Common.UI.MenuItem({
@@ -135,6 +135,18 @@ define([
                 dataHint: 1,
                 dataHintDirection: 'left-top',
                 dataHintOffset: [2, 14]
+            });
+
+            this.miPrintWithPreview = new Common.UI.MenuItem({
+                el      : $markup.elementById('#fm-btn-print-with-preview'),
+                action  : 'printpreview',
+                caption : this.btnPrintCaption,
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [-2, 22],
+                dataHintTitle: 'P',
+                iconCls: 'menu__icon btn-print'
             });
 
             this.miPrint = new Common.UI.MenuItem({
@@ -240,6 +252,17 @@ define([
                 iconCls: 'menu__icon btn-goback'
             });
 
+            this.miSuggest = new Common.UI.MenuItem({
+                el      : $markup.elementById('#fm-btn-suggest'),
+                action  : 'suggest',
+                caption : this.btnSuggestCaption,
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [-2, 22],
+                iconCls: 'menu__icon btn-suggest-feature'
+            });
+
             this.items = [];
             this.items.push(
                 this.miClose,
@@ -247,6 +270,7 @@ define([
                 this.miSaveCopyAs,
                 this.miSaveAs,
                 this.miPrint,
+                this.miPrintWithPreview,
                 this.miRename,
                 this.miRecent,
                 this.miNew,
@@ -254,7 +278,8 @@ define([
                 this.miAccess,
                 this.miSettings,
                 this.miHelp,
-                this.miBack
+                this.miBack,
+                this.miSuggest
             );
 
             this.rendered = true;
@@ -331,6 +356,7 @@ define([
             this.miSaveCopyAs[(this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline)) && (this.mode.canRequestSaveAs || this.mode.saveAsUrl) && !isBCSupport ?'show':'hide']();
             this.miSaveAs[(this.mode.canDownload && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
             this.miPrint[this.mode.canPrint && !this.mode.canPreviewPrint ?'show':'hide']();
+            this.miPrintWithPreview[this.mode.canPreviewPrint?'show':'hide']();
             this.miRename[(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
 
             this.miRecent[this.mode.canOpenRecent?'show':'hide']();
@@ -351,6 +377,9 @@ define([
 
             isVisible = this.mode.canBack;
             this.miBack[isVisible ?'show':'hide']();
+
+            isVisible = this.mode.canSuggest;
+            this.miSuggest[isVisible ?'show':'hide']();
 
             if (!this.customizationDone) {
                 this.customizationDone = true;
@@ -384,6 +413,12 @@ define([
             if (this.mode.canHelp && !this.panels['help']) {
                 this.panels['help'] = ((new VE.Views.FileMenuPanels.Help({menu: this})).render());
                 this.panels['help'].setLangConfig(this.mode.lang);
+            }
+
+            if (this.mode.canPreviewPrint) {
+                var printPanel = VE.getController('Print').getView('PrintWithPreview');
+                printPanel.menu = this;
+                !this.panels['printpreview'] && (this.panels['printpreview'] = printPanel.render(this.$el.find('#panel-print')));
             }
 
             if ( Common.Controllers.Desktop.isActive() ) {

@@ -379,7 +379,9 @@ define([
             if (this.options.hold && ( e.keyCode==Common.UI.Keys.UP || e.keyCode==Common.UI.Keys.DOWN)) {
                 e.preventDefault();
                 e.stopPropagation();
-                if (this.switches.timeout===undefined) {
+                if (e.metaKey) {
+                    this._step(e.keyCode === Common.UI.Keys.UP);
+                } else if (this.switches.timeout===undefined) {
                     this.switches.fromKeyDown = true;
                     this._startSpin(e.keyCode==Common.UI.Keys.UP, e);
                 }

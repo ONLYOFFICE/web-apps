@@ -799,6 +799,27 @@
 .vertical-align-middle {
     vertical-align: middle;
 }
+
+.vertical-align-top {
+    vertical-align: top
+}
+
+.display-inline-block-middle {
+    display: inline-block;
+    .vertical-align-middle();
+}
+
+.display-inline-block-top {
+    display: inline-block;
+    .vertical-align-top();
+}
+
+.display-flex-row-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 //.adaptive-solid-border(@width, @color, @borderside: all) {
 //    @lb-border: if((@borderside = all), border, e('border-@{borderside}'));
 //    @lb-border-width: if((@borderside = all), border-width, e('border-@{borderside}-width'));
@@ -858,4 +879,9 @@
 .text-secondary {
     color: @text-secondary-ie;
     color: @text-secondary;
+}
+
+.form-control-size {
+    height: @form-control-size-ie;
+    height: @form-control-size;
 }

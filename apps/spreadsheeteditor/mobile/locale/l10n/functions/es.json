@@ -479,6 +479,11 @@
 	"ARRAYTOTEXT": "MATRIZATEXTO",
 	"SORT": "ORDENAR",
 	"SORTBY": "ORDENARPOR",
+	"GETPIVOTDATA": "IMPORTARDATOSDINAMICOS",
+	"IMPORTRANGE": "IMPORTRANGE",
+	"REGEXTEST": "REGEXPRUEBA",
+	"REGEXREPLACE": "REGEXREEMPLAZAR",
+	"REGEXEXTRACT": "REGEXEXTRACCION",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Encabezados",
@@ -500,7 +505,22 @@
 			"num": "#NUM!",
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
-			"uf": "#UNSUPPORTED_FUNCTION!"
+			"uf": "#UNSUPPORTED_FUNCTION!",
+			"calc": "#CALC!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "DIRECCIÓN",
+			"col": "COLUMNA",
+			"color": "COLOR",
+			"contents": "CONTENIDO",
+			"filename": "ARCHIVO",
+			"format": "FORMATO",
+			"parentheses": "PARÉNTESIS",
+			"prefix": "PREFIJO",
+			"protect": "PROTEGER",
+			"row": "FILA",
+			"type": "TIPO",
+			"width": "ANCHO"
 		}
 	}
 }

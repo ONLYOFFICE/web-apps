@@ -132,6 +132,7 @@ const tip = function ($) {
 
                 if (this.options.arrow === false) $tip.addClass('arrow-free');
                 if (this.options.cls) $tip.addClass(this.options.cls);
+                if (this.options.dir) $tip.attr('dir', this.options.dir);
 
                 var placementEx = (typeof this.options.placement !== 'function') ? /^([a-zA-Z]+)-?([a-zA-Z]*)$/.exec(this.options.placement) : null;
                 if (!at && placementEx && !placementEx[2].length) {

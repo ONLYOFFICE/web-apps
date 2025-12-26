@@ -41,6 +41,9 @@ Common.Locale = new(function() {
         defLang = '{{DEFAULT_LANG}}',
         currentLang = defLang,
         _4letterLangs = ['pt-pt', 'zh-tw', 'sr-cyrl'];
+    
+    if ( defLang[0] == '{' )
+        currentLang = defLang = 'en';
 
     var _applyLocalization = function(callback) {
         _clearRtl();
@@ -183,7 +186,7 @@ Common.Locale = new(function() {
     } else _requireLang();
 
     const _isCurrentRtl = function () {
-        return currentLang && (/^(ar|he)$/i.test(currentLang));
+        return currentLang && (/^(ar|he|ur)$/i.test(currentLang));
     };
 
     return {

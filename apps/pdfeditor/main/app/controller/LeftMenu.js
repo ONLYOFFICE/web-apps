@@ -109,13 +109,22 @@ define([
                     'leftmenu:hide': _.bind(this.onLeftMenuHide, this)
                 },
                 'SearchBar': {
-                    'search:show': _.bind(this.onShowHideSearch, this)
+                    'search:show': _.bind(this.onShowHideSearch, this),
+                    'search:showredact': _.bind(this.onShowHideRedactSearch, this)
+                },
+                'RedactTab': {
+                    'search:showredact': _.bind(this.onShowHideRedactSearch, this),
+                    'menu:hide': _.bind(this.clickToolbarTab, this, 'red')
+                },
+                'Common.Views.SearchPanel': {
+                    'search:showredact': _.bind(this.onShowHideRedactSearch, this)
                 }
             });
 
             Common.NotificationCenter.on('leftmenu:change', _.bind(this.onMenuChange, this));
             Common.NotificationCenter.on('app:comment:add', _.bind(this.onAppAddComment, this));
             Common.NotificationCenter.on('file:print', _.bind(this.clickToolbarPrint, this));
+            Common.NotificationCenter.on('search:resetmode', _.bind(this.onSetDefaultSearchMode, this));
         },
 
         onLaunch: function() {
@@ -261,6 +270,7 @@ define([
                 break;
             case 'close-editor': Common.NotificationCenter.trigger('close'); break;
             case 'switch:mobile': Common.Gateway.switchEditorType('mobile', true); break;
+            case 'suggest': Common.NotificationCenter.trigger('suggest'); break;
             default: close_menu = false;
             }
 
@@ -363,20 +373,22 @@ define([
             var me = this,
                 defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
             !defFileName && (defFileName = me.txtUntitled);
-            var idx = defFileName.lastIndexOf('.');
+            var idx = defFileName.lastIndexOf('.'),
+                fileExt = format===undefined && ext==="true" ? (idx>0 ? defFileName.substring(idx) : '') : ext;
             if (idx>0)
                 defFileName = defFileName.substring(0, idx);
+
             (new Common.Views.TextInputDialog({
                 label: me.textSelectPath,
                 value: defFileName || '',
-                inputFixedConfig: {fixedValue: ext, fixedWidth: 40},
+                inputFixedConfig: {fixedValue: fileExt, fixedWidth: 40},
                 inputConfig: {
                     maxLength: me.mode.wopi.FileNameMaxLength
                 },
                 handler: function(result, value) {
                     if (result == 'ok') {
-                        if (typeof ext === 'string')
-                            value = value + ext;
+                        if (typeof fileExt === 'string')
+                            value = value + fileExt;
                         me.clickSaveAsFormat(menu, format, ext, value);
                     }
                 }
@@ -895,10 +907,26 @@ define([
             }
         },
 
+        onShowHideRedactSearch: function (state) {
+            if (state) {
+                Common.UI.Menu.Manager.hideAll();
+                this.tryToShowLeftMenu();
+                this.leftMenu.showMenu('advancedsearch', undefined, true);
+                this.leftMenu.panelSearch.setSearchMode('redact');
+            } else {
+                this.leftMenu.btnSearchBar.toggle(false, true);
+                this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);
+            }
+        },
+
         onMenuSearchBar: function(obj, show) {
             if (show) {
-                this.leftMenu.panelSearch.setSearchMode('no-replace');
+                this.onSetDefaultSearchMode();
             }
+        },
+
+        onSetDefaultSearchMode: function () {
+            this.leftMenu.panelSearch.setSearchMode('no-replace');
         },
 
         isSearchPanelVisible: function () {

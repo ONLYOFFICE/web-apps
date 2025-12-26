@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect } from 'react';
+import React, {Fragment } from 'react';
 import {NavLeft, NavRight, Link} from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch'
@@ -33,15 +33,6 @@ const ToolbarView = props => {
     const isVersionHistoryMode = props.isVersionHistoryMode;
     const isOpenModal = props.isOpenModal;
 
-    useEffect(() => {
-        if ( $$('.skl-container').length ) {
-            $$('.skl-container').remove();
-        }
-
-        return () => {
-        }
-    }, []);
-
     return (
         <Fragment>
             <NavLeft>
@@ -61,7 +52,7 @@ const ToolbarView = props => {
                 }}>{t("Toolbar.textCloseHistory")}</a> : null}
                 {(Device.ios && !isVersionHistoryMode) && undo_box}
             </NavLeft>
-            {(!Device.phone && !isVersionHistoryMode) && 
+            {(!Device.phone && !isVersionHistoryMode && !props.isHiddenFileName) && 
                 <div className='title' onClick={() => props.changeTitleHandler()} style={{width: '71%'}}>
                     {docTitle}
                 </div>

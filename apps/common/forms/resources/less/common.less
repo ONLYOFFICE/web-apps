@@ -7,6 +7,8 @@
 @import "../../../../common/main/resources/less/colors-table-dark.less";
 @import "../../../../common/main/resources/less/colors-table-dark-contrast.less";
 @import "../../../../common/main/resources/less/colors-table-gray.less";
+@import "../../../../common/main/resources/less/colors-table-white.less";
+@import "../../../../common/main/resources/less/colors-table-night.less";
 // Core variables and mixins
 
 @import "../../../../common/main/resources/mods/less/mixins.less";
@@ -278,6 +280,10 @@
         background-origin: content-box;
         padding: 1px 0 0 1px;
 
+        .theme-icons-cls-mod2 & {
+            padding: 0;
+        }
+
         .box-shadow(0 0 0 2px rgba(255,255,255,0.3));
 
         &:hover {
@@ -412,131 +418,143 @@
 
 .theme-type-dark {
     @neg-value: -@icon-height;
-    --icon-normal-top: @neg-value;
+    --icon-normal-top: calc(@x-small-btn-icon-size * -1);
 }
 @icon-normal-top: var(--icon-normal-top, 0);
 
 .svg-icon {
     background: data-uri('../../../../common/forms/resources/img/icon-menu-sprite.svg') no-repeat;
     background-size: @icon-width*30 @icon-height*2;
+    background-size: calc(@x-small-btn-icon-size * 30) auto;
+
+    .theme-icons-cls-mod2 & {
+        background-image: data-uri('../../../../common/forms/resources/img/icon-menu-sprite-v2.svg');
+    }
 
     &.download {
         background-position: -@icon-width 0;
-        background-position: -@icon-width @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -1) @icon-normal-top;
     }
     &.share {
         background-position: -@icon-width*2 0;
-        background-position: -@icon-width*2 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -2) @icon-normal-top;
     }
     &.embed {
         background-position: -@icon-width*3 0;
-        background-position: -@icon-width*3 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -3) @icon-normal-top;
     }
     &.fullscr {
         background-position: -@icon-width*4 0;
-        background-position: -@icon-width*4 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -4) @icon-normal-top;
     }
     &.zoom-in {
         background-position: -@icon-width*5 0;
-        background-position: -@icon-width*5 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -5) @icon-normal-top;
     }
     &.zoom-out {
         background-position: -@icon-width*6 0;
-        background-position: -@icon-width*6 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -6) @icon-normal-top;
     }
     &.zoom-up {
         background-position: -@icon-width*5 -@icon-height;
+        background-position: calc(@x-small-btn-icon-size * -5) calc(@x-small-btn-icon-size * -1);
     }
     &.zoom-down {
         background-position: -@icon-width*6 -@icon-height;
+        background-position: calc(@x-small-btn-icon-size * -6) calc(@x-small-btn-icon-size * -1);
     }
     &.slide-prev {
         background-position: -@icon-width*7 -@icon-height;
+        background-position: calc(@x-small-btn-icon-size * -7) calc(@x-small-btn-icon-size * -1);
     }
     &.slide-next {
         background-position: -@icon-width*8 -@icon-height;
+        background-position: calc(@x-small-btn-icon-size * -8) calc(@x-small-btn-icon-size * -1);
     }
 
     &.play {
         background-position: -@icon-width*9 -@icon-height;
+        background-position: calc(@x-small-btn-icon-size * -9) calc(@x-small-btn-icon-size * -1);
     }
 
     &.pause {
         background-position: -@icon-width*10 -@icon-height;
+        background-position: calc(@x-small-btn-icon-size * -10) calc(@x-small-btn-icon-size * -1);
     }
 
     &.print {
         background-position: -@icon-width*11 0;
-        background-position: -@icon-width*11 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -11) @icon-normal-top;
     }
 
     &.arrow-up {
         background-position: -@icon-width*17 0;
-        background-position: -@icon-width*17 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -17) @icon-normal-top;
     }
     &.arrow-down {
+        @icon-width: 24px;
         background-position: -@icon-width*16 0;
-        background-position: -@icon-width*16 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -16) @icon-normal-top;
     }
     &.clear-style {
         background-position: -@icon-width*12 0;
-        background-position: -@icon-width*12 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -12) @icon-normal-top;
     }
     &.go-to-location {
         background-position: -@icon-width*15 0;
-        background-position: -@icon-width*15 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -15) @icon-normal-top;
     }
     &.more-vertical {
         background-position: -@icon-width*14 0;
-        background-position: -@icon-width*14 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -14) @icon-normal-top;
     }
     &.cut {
         background-position: -@icon-width*19 0;
-        background-position: -@icon-width*19 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -19) @icon-normal-top;
     }
     &.copy {
         background-position: -@icon-width*20 0;
-        background-position: -@icon-width*20 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -20) @icon-normal-top;
     }
     &.paste {
         background-position: -@icon-width*21 0;
-        background-position: -@icon-width*21 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -21) @icon-normal-top;
     }
     &.undo {
         background-position: -@icon-width*22 0;
-        background-position: -@icon-width*22 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -22) @icon-normal-top;
     }
     &.redo {
         background-position: -@icon-width*23 0;
-        background-position: -@icon-width*23 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -23) @icon-normal-top;
     }
     &.search {
         background-position: -@icon-width*24 0;
-        background-position: -@icon-width*24 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -24) @icon-normal-top;
     }
     &.btn-sheet-view {
         background-position: -@icon-width*25 0;
-        background-position: -@icon-width*25 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -25) @icon-normal-top;
     }
     &.hide-password {
         background-position: -@icon-width*26 0;
-        background-position: -@icon-width*26 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -26) @icon-normal-top;
     }
     &.search-close {
         background-position: -@icon-width*18 0;
-        background-position: -@icon-width*18 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -18) @icon-normal-top;
     }
     &.search-arrow-up {
         background-position: -@icon-width*27 0;
-        background-position: -@icon-width*27 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -27) @icon-normal-top;
     }
     &.search-arrow-down {
         background-position: -@icon-width*28 0;
-        background-position: -@icon-width*28 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -28) @icon-normal-top;
     }
     &.filing-status {
         background-position: -@icon-width*29 0;
-        background-position: -@icon-width*29 @icon-normal-top;
+        background-position: calc(@x-small-btn-icon-size * -29) @icon-normal-top;
     }
 }
 
@@ -645,6 +663,7 @@
 }
 
 .menu-zoom {
+    line-height: @line-height-base-ie;
     line-height: @line-height-base;
 
     .title {

@@ -39,6 +39,12 @@
             <div id="form-txt-pholder"></div>
         </td>
     </tr>
+    <tr class="form-checkbox">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textLabel %></label>
+            <div id="form-txt-label"></div>
+        </td>
+    </tr>
     <tr class="form-not-in-complex">
         <td class="padding-small">
             <label class="input-label"><%= scope.textTag %></label>

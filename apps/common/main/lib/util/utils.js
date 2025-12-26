@@ -215,7 +215,7 @@ define([], function () {
                 return false;
             },
             getBoundingClientRect = function(element) {
-                let rect = element.getBoundingClientRect();
+                let rect = _extend_object({}, element.getBoundingClientRect());
                 if (!isOffsetUsedZoom())
                     return rect;
 
@@ -233,13 +233,13 @@ define([], function () {
                 return newRect;
             },
             getOffset = function($element) {
-                let pos = $element.offset();
+                let pos = _extend_object({}, $element.offset());
                 if (!isOffsetUsedZoom())
                     return pos;
                 return {left: pos.left * me.zoom, top: pos.top * me.zoom};
             },
             getPosition = function($element) {
-                let pos = $element.position();
+                let pos = _extend_object({}, $element.position());
                 if (!isOffsetUsedZoom())
                     return pos;
                 return {left: pos.left * me.zoom, top: pos.top * me.zoom};
@@ -1290,7 +1290,7 @@ define([], function () {
 
     Common.Utils.InternalSettings.set('toolbar-height-tabs', 32);
     Common.Utils.InternalSettings.set('toolbar-height-tabs-top-title', 28);
-    Common.Utils.InternalSettings.set('toolbar-height-controls', 67);
+    Common.Utils.InternalSettings.set('toolbar-height-controls', parseInt(window.getComputedStyle(document.body).getPropertyValue("--toolbar-height-controls") || (Common.Utils.isIE ? 66 : 84)));
     Common.Utils.InternalSettings.set('document-title-height', 28);
     Common.Utils.InternalSettings.set('window-inactive-area-top', 0);
 
@@ -1393,7 +1393,7 @@ define([], function () {
             theme-type - {string} theme type (light|dark|common)
             theme-name - {string} the name of theme
             state - {string} state of icons for different situations (normal|hover|active)
-            scale - {string} list of avaliable scales (100|125|150|175|200|default|extended)
+            scale - {string} list of avaliable scales (100|125|150|175|200|default|*)
             extension - {string} use it after symbol "." (png|jpeg|svg)
 
             Example: "resources/%theme-type%(light|dark)/icon%state%(normal|hover)%scale%(default).%extension%(png)"
@@ -1560,7 +1560,7 @@ define([], function () {
                 bestUrl;
             for (var key in current) {
                 if (current.hasOwnProperty(key)) {
-                    if (key == 'default') {
+                    if (key == 'default' || key == '*') {
                         defUrl = current[key];
                     } else if (!isNaN(parseInt(key))) {
                         currentDistance = Math.abs(ratio - parseInt(key));
@@ -1598,6 +1598,12 @@ define([], function () {
         columns: 5,
         cls: 'palette-large',
         paletteWidth: 174
+    };
+
+    Common.UI.blockOperations = {
+        ApplyEditRights: -255,
+        LoadingDocument: -256,
+        UpdateChart: -257
     };
 
     Common.UI.isValidNumber = function (val) {

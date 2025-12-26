@@ -4,6 +4,7 @@
     font-weight: normal;
     position: relative;
     min-height: 1em;
+    //height: 24px;
 
     display: flex;
     align-items: center;
@@ -12,15 +13,34 @@
         .margin-right-8();
 
         .rb-circle {
-            fill: @background-normal-ie;
-            fill: @background-normal;
-            stroke: @border-regular-control-ie;
-            stroke: @border-regular-control;
+            margin-top: 2px;
+            fill: @rb-background-normal-ie;
+            fill: @rb-background-normal;
+            stroke: @rb-border-normal-ie;
+            stroke: @rb-border-normal;
         }
 
         .rb-check-mark {
-            fill: @text-normal-ie;
-            fill: @text-normal;
+            fill: @rb-check-mark-background-ie;
+            fill: @rb-check-mark-background;
+            r: @rb-check-mark-size-ie;
+            r: @rb-check-mark-size;
+        }
+    }
+
+    &:hover:not(.disabled) {
+        svg .rb-circle {
+            fill: @rb-background-normal-hover-ie;
+            fill: @rb-background-normal-hover;
+            stroke: @rb-border-normal-hover-ie;
+            stroke: @rb-border-normal-hover;
+        }
+
+        input[type=radio]:checked + svg .rb-circle {
+            fill: @rb-background-checked-hover-ie;
+            fill: @rb-background-checked-hover;
+            stroke: @rb-border-checked-hover-ie;
+            stroke: @rb-border-checked-hover;
         }
     }
 
@@ -30,6 +50,15 @@
         &:not(:checked) + svg {
             .rb-check-mark {
                 display: none;
+            }
+        }
+
+        &:checked + svg {
+            .rb-circle {
+                fill: @rb-background-checked-ie;
+                fill: @rb-background-checked;
+                stroke: @rb-border-checked-ie;
+                stroke: @rb-border-checked;
             }
         }
     }
@@ -45,9 +74,14 @@
     &:focus:not(.disabled) {
         svg {
             .rb-circle {
-                stroke: @border-control-focus-ie;
-                stroke: @border-control-focus;
+                stroke: @rb-border-normal-focus-ie;
+                stroke: @rb-border-normal-focus;
             }
+        }
+
+        input[type=radio]:checked + svg .rb-circle {
+            stroke: @rb-border-checked-focus-ie;
+            stroke: @rb-border-checked-focus;
         }
 
         span {

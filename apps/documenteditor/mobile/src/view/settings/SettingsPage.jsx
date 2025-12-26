@@ -26,8 +26,11 @@ import IconHelp from '@common-icons/icon-help.svg';
 import IconAbout from '@common-icons/icon-about.svg';
 import IconFeedbackForIos from '@common-ios-icons/icon-feedback.svg?ios';
 import IconFeedbackForAndroid from '@common-android-icons/icon-feedback.svg';
+import IconReturnIos from '@common-ios-icons/icon-return.svg?ios';
+import IconReturnAndroid from '@common-android-icons/icon-return.svg';
+import IconDraw from '../../../../../common/mobile/resources/icons/draw.svg'
 
-const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo")(observer(props => {
+const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo",  "storeToolbarSettings")(observer(props => {
     const { t } = useTranslation();
     const _t = t('Settings', {returnObjects: true});
     const settingsContext = useContext(SettingsContext);
@@ -46,6 +49,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
             <div className="title" onClick={settingsContext.changeTitleHandler}>{docTitle}</div>
             {Device.phone && <NavRight><Link popupClose=".settings-popup">{_t.textDone}</Link></NavRight>}
         </Navbar>;
+    const isSignatureForm = props.storeToolbarSettings.isSignatureForm; 
 
     const onOpenOptions = name => {
         openOptions(name);
@@ -58,10 +62,11 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
     const isFavorite = appOptions.isFavorite;
     const canFillForms = appOptions.canFillForms;
     const isEditableForms = isForm && canFillForms;
-    const canSubmitForms = appOptions.canSubmitForms;
     const canCloseEditor = appOptions.canCloseEditor;
     const closeButtonText = canCloseEditor && appOptions.customization.close.text;
     const canUseHistory = appOptions.canUseHistory;
+    const gobackTitle = appOptions.customization?.goback?.text || _t.textOpenLocation;
+    const isShowBack = props.storeToolbarSettings.isShowBack;
 
     let _isEdit = false,
         _canDownload = false,
@@ -88,7 +93,10 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
 
         if (appOptions.customization) {
             _canHelp = appOptions.customization.help !== false;
-            _canFeedback = appOptions.customization.feedback !== false;
+            _canFeedback = (
+                appOptions.customization.feedback !== false && 
+                appOptions.customization.feedback.visible !== false
+            );
             _canDisplayInfo = appOptions.customization.mobile?.info !== false;
         }
     }
@@ -97,6 +105,14 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
         <Page>
             {navbar}
             <List>
+                {isShowBack &&
+                    <ListItem title={gobackTitle} link="#" className='no-indicator' onClick={() => Common.Notifications.trigger('goback')}>
+                        {Device.ios ? 
+                            <SvgIcon slot="media" symbolId={IconReturnIos.id} className={'icon icon-svg'} /> :
+                            <SvgIcon slot="media" symbolId={IconReturnAndroid.id} className={'icon icon-svg'} />
+                        }
+                    </ListItem>
+                }
                 {isEditableForms ? [
                     (isFavorite !== undefined && isFavorite !== null ?
                         <ListItem key='add-to-favorites-link' title={isFavorite ? t('Settings.textRemoveFromFavorites') : t('Settings.textAddToFavorites')} link='#' className='no-indicator' onClick={settingsContext.toggleFavorite}>
@@ -107,7 +123,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                             }
                         </ListItem>
                     : ''),
-                    <ListItem key='clear-all-fields-link' title={t('Settings.textClearAllFields')} link='#' className='no-indicator' onClick={settingsContext.clearAllFields}>
+                    <ListItem key='clear-all-fields-link' title={t('Settings.textClearAllFields')} link='#' className='no-indicator' onClick={settingsContext.clearAllFields}  disabled={isSignatureForm}>
                         <SvgIcon slot="media" symbolId={IconClearFields.id} className={'icon icon-svg'} />
                     </ListItem>
                 ] : null}
@@ -130,7 +146,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <SvgIcon slot="media" symbolId={IconVersionHistory.id} className={'icon icon-svg'} />
                     </ListItem>
                 }
-                {!isEditableForms ? 
+                {!isEditableForms ?
                     <ListItem title={t('Settings.textNavigation')} link={!Device.phone ? '/navigation' : '#'} onClick={() => {
                         if(Device.phone) {
                             onOpenOptions('navigation');

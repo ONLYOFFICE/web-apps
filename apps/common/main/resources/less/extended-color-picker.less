@@ -2,6 +2,7 @@
     .box {
         & > div {
             display: inline-block;
+            vertical-align: top;
         }
 
         .hsb-colorpicker {
@@ -26,12 +27,6 @@
             }
         }
 
-        input {
-            font-weight: normal;
-            .font-size-medium();
-            background-color: @background-normal;
-        }
-
         .color-field-wrapper {
             border-radius: 2px;
             border: @scaled-one-px-value-ie solid @border-regular-control-ie;
@@ -49,11 +44,6 @@
             &.bottom {
                 border-top: none;
             }
-        }
-
-        .color-spin {
-            display: inline-block;
-            vertical-align:middle;
         }
 
         .color-transparent {

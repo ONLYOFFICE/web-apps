@@ -163,11 +163,8 @@ define([], function () {
                     scrollAlwaysVisible: true,
                     template: _.template(['<div class="listview inner protect-sheet-options" style=""></div>'].join('')),
                     itemTemplate: _.template([
-                        '<div>',
-                        '<label class="checkbox-indeterminate">',
-                        '<input id="pdcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
-                        '<label for="pdcheckbox-<%= id %>" class="checkbox__shape" ></label>',
-                        '</label>',
+                        '<div class="has-checkbox">',
+                        Common.UI.CheckBoxTemplate,
                         '<div id="<%= id %>" class="list-item margin-left-20">',
                         '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
                         '</div>',
