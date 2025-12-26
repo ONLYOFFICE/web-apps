@@ -141,7 +141,7 @@ define([
 
             Common.NotificationCenter.on('window:resize', _.bind(function () {
                 if (this._isPreviewVisible) {
-                    this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._state.content);
+                    this.drawPrintPreview();
                 }
             }, this));
             Common.NotificationCenter.on('margins:update', _.bind(this.onUpdateLastCustomMargins, this));
@@ -285,7 +285,7 @@ define([
             if (this._navigationPreview.currentPreviewPage > count - 1) {
                 this._navigationPreview.currentPreviewPage = Math.max(0, count - 1);
                 if (this.printSettings && this.printSettings.isVisible()) {
-                    this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._state.content);
+                    this.drawPrintPreview();
                     this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, count);
                 }
             }
@@ -294,7 +294,7 @@ define([
         onCurrentPage: function(number) {
             this._navigationPreview.currentPreviewPage = number;
             if (this.printSettings && this.printSettings.isVisible()) {
-                this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._state.content);
+                this.drawPrintPreview();
                 this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
             }
         },
@@ -313,8 +313,8 @@ define([
             this.api.asc_initPrintPreview('print-preview', opts);
 
             this._navigationPreview.currentPreviewPage = this._navigationPreview.currentPage = this.api.getCurrentPage();
-            this._state.content = this.printSettings.cmbContent.getValue();
-            this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._state.content);
+            this.adjPrintParams.asc_setPdfContent(this.printSettings.cmbContent.getValue());
+            this.drawPrintPreview();
             this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
             this.SetDisabled();
             this._isPreviewVisible = true;
@@ -394,8 +394,8 @@ define([
         },
 
         onContentSelect: function(combo, record) {
-            this._state.content = record.value;
-            this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._state.content);
+            this.adjPrintParams.asc_setPdfContent(record.value);
+            this.drawPrintPreview();
         },
 
         onUpdateLastCustomMargins: function(props) {
@@ -537,6 +537,13 @@ define([
             this.onChangePreviewPage(forward);
         },
 
+        drawPrintPreview: function() {
+            this.api.asc_drawPrintPreview(
+                this._navigationPreview.currentPreviewPage, 
+                this.adjPrintParams.asc_getPdfContent()
+            );
+        },
+
         updateNavigationButtons: function (page, count) {
             this._navigationPreview.currentPage = page;
             this.printSettings.updateCurrentPage(page);
@@ -586,7 +593,6 @@ define([
                     preset: size ? this.findPagePreset(size['W'], size['H']) : undefined
                 },
                 paperOrientation: size ? (size['H'] > size['W'] ? 'portrait' : 'landscape') : null,
-                content: this.printSettings.cmbContent.getValue(),
                 copies: this.printSettings.spnCopies ? this.printSettings.spnCopies.getNumberValue() || 1 : 1,
                 sides: this.printSettings.cmbSides ? this.printSettings.cmbSides.getValue() : 'one'
             });
