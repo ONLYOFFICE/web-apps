@@ -2217,7 +2217,9 @@ define([
                             !me.getApplication().getController('LeftMenu').leftMenu.menuFile.isVisible() && !me._state.wsProps['InsertHyperlinks']) {
                             var cellinfo = me.api.asc_getCellInfo(),
                                 selectionType = cellinfo.asc_getSelectionType();
-                            if (selectionType !== Asc.c_oAscSelectionType.RangeShapeText || me.api.asc_canAddShapeHyperlink()!==false)
+                            if (selectionType !== Asc.c_oAscSelectionType.RangeChartText && selectionType !== Asc.c_oAscSelectionType.RangeChart && selectionType !== Asc.c_oAscSelectionType.RangeSlicer &&
+                               (selectionType !== Asc.c_oAscSelectionType.RangeShapeText && selectionType !== Asc.c_oAscSelectionType.RangeShape && selectionType !== Asc.c_oAscSelectionType.RangeImage ||
+                                   me.api.asc_canAddShapeHyperlink()!==false))
                                 me.onHyperlink();
                         }
                         e.preventDefault();
@@ -3068,7 +3070,8 @@ define([
                 this._state.fontsize = str_size;
             }
 
-            toolbar.lockToolbar(Common.enumLock.cantHyperlink, (selectionType === Asc.c_oAscSelectionType.RangeShapeText) && (this.api.asc_canAddShapeHyperlink()===false), { array: [toolbar.btnInsertHyperlink]});
+            toolbar.lockToolbar(Common.enumLock.cantHyperlink, (selectionType === Asc.c_oAscSelectionType.RangeShapeText || selectionType === Asc.c_oAscSelectionType.RangeShape ||
+                                selectionType === Asc.c_oAscSelectionType.RangeImage) && (this.api.asc_canAddShapeHyperlink()===false), { array: [toolbar.btnInsertHyperlink]});
 
             /*
             need_disable = selectionType != Asc.c_oAscSelectionType.RangeCells && selectionType != Asc.c_oAscSelectionType.RangeCol &&
