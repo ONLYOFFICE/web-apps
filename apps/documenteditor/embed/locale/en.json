@@ -63,6 +63,7 @@
   "DE.ApplicationController.waitText": "Please, wait...",
   "DE.ApplicationController.warnLicenseBefore": "License not active. Please contact your administrator.",
   "DE.ApplicationController.warnLicenseExp": "Your license has expired. Please update your license and refresh the page.",
+  "DE.ApplicationController.errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
   "DE.ApplicationView.txtDownload": "Download",
   "DE.ApplicationView.txtDownloadDocx": "Download as DOCX",
   "DE.ApplicationView.txtDownloadPdf": "Download as PDF",

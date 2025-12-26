@@ -37,14 +37,16 @@
         <%= htmlWebpackPlugin.options.skeleton.checkerscript %>
     </script>
     <% } %>
-    <section class="skl-container">
-        <div class="skl-navbar skl-navbar--word"></div>
-        <div class="skl-lines">
-            <div class="skl-line"></div>
-            <div class="skl-line"></div>
-            <div class="skl-line"></div>
-        </div>
-    </section>
+    <div id="app">
+        <section class="skl-container">
+            <div class="skl-navbar skl-navbar--word"></div>
+            <div class="skl-lines">
+                <div class="skl-line"></div>
+                <div class="skl-line"></div>
+                <div class="skl-line"></div>
+            </div>
+        </section>
+    </div>
     <script>
         const isAndroid = /Android/.test(navigator.userAgent);
         if ( isAndroid && navigator.platform == 'Win32' )

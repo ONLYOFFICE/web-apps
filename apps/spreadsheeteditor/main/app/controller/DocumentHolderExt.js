@@ -50,6 +50,17 @@ define([], function () {
                 'DocumentHolder': {
                     'createdelayedelements': this.onCreateDelayedElements,
                     'equation:callback': this.equationCallback
+                },
+                'ChartTab': {
+                    'charttab:updatemenu': function (menu) {
+                        me.chartProps = me.getCurrentChartProps();
+                        if (me.chartProps) {
+                            this.updateChartElementMenu(menu, me.chartProps)
+                        }
+                    },
+                    'charttab:elementselected': function (menu, item) {
+                        me.onChartElement(menu, item)
+                    }
                 }
             });
 
@@ -306,7 +317,7 @@ define([], function () {
                 var res =  (item.value == 'cut') ? me.api.asc_Cut() : ((item.value == 'copy') ? me.api.asc_Copy() : me.api.asc_Paste());
                 if (!res) {
                     var value = Common.localStorage.getItem("sse-hide-copywarning");
-                    if (!(value && parseInt(value) == 1)) {
+                    if (!(value && parseInt(value) == 1) && (item.value === 'paste' || me.permissions.canCopy)) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
                                 if (dontshow) Common.localStorage.setItem("sse-hide-copywarning", 1);
@@ -1118,6 +1129,13 @@ define([], function () {
 
         dh.onParagraphVAlign = function(menu, item) {
             if (this.api) {
+
+                if (item.options.halign != null) {
+                    var type = item.options.halign;
+                    this.api.asc_setCellAlign(type);
+                    return;
+                }
+
                 var properties = new Asc.asc_CImgProperty();
                 properties.asc_putVerticalTextAlign(item.value);
 
@@ -2395,24 +2413,12 @@ define([], function () {
                         isObjLocked = isObjLocked || value.asc_getLocked();
                         isSmartArt = shapeProps ? shapeProps.asc_getFromSmartArt() : false;
                         isSmartArtInternal = shapeProps ? shapeProps.asc_getFromSmartArtInternal() : false;
-                        var cls = '';
-                        switch (align) {
-                            case Asc.c_oAscVAlign.Top:
-                                cls = 'menu__icon btn-align-top';
-                                break;
-                            case Asc.c_oAscVAlign.Center:
-                                cls = 'menu__icon btn-align-middle';
-                                break;
-                            case Asc.c_oAscVAlign.Bottom:
-                                cls = 'menu__icon btn-align-bottom';
-                                break;
-                        }
-                        documentHolder.menuParagraphVAlign.setIconCls(cls);
+                      
                         documentHolder.menuParagraphTop.setChecked(align == Asc.c_oAscVAlign.Top);
                         documentHolder.menuParagraphCenter.setChecked(align == Asc.c_oAscVAlign.Center);
                         documentHolder.menuParagraphBottom.setChecked(align == Asc.c_oAscVAlign.Bottom);
 
-                        cls = '';
+                        var cls = '';
                         switch (direct) {
                             case Asc.c_oAscVertDrawingText.normal:
                                 cls = 'menu__icon btn-text-orient-hor';
@@ -2484,6 +2490,11 @@ define([], function () {
                     } else if (elType == Asc.c_oAscTypeSelectElement.Paragraph) {
                         documentHolder.pmiTextAdvanced.textInfo = selectedObjects[i].asc_getObjectValue();
                         isObjLocked = isObjLocked || documentHolder.pmiTextAdvanced.textInfo.asc_getLocked();
+                        var halign = selectedObjects[i].asc_getObjectValue().get_Jc();
+                        documentHolder.menuParagraphLeft.setChecked(halign == 1);
+                        documentHolder.menuParagraphHCenter.setChecked(halign == 2);
+                        documentHolder.menuParagraphRight.setChecked(halign == 0);
+                        documentHolder.menuParagraphJust.setChecked(halign == 3);
                     } else if (elType == Asc.c_oAscTypeSelectElement.Math) {
                         this._currentMathObj = selectedObjects[i].asc_getObjectValue();
                         isEquation = true;
@@ -3711,6 +3722,7 @@ define([], function () {
                     chartProps.setDisplayUpDownBars(false);
                     break;
             }
+            this.chartProps = this.getCurrentChartProps();
         };
 
         dh.updateChartElementMenu = function(menu, chartProps) {
@@ -3819,12 +3831,13 @@ define([], function () {
             }
             
             const legendMenu = menu.items[6].menu;
-            legendMenu.items[0].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.top);
-            legendMenu.items[1].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.left);
-            legendMenu.items[2].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.right);
-            legendMenu.items[3].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.bottom);
-            legendMenu.items[4].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.leftOverlay);
-            legendMenu.items[5].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.rightOverlay);
+            legendMenu.items[0].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.none);
+            legendMenu.items[1].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.top);
+            legendMenu.items[2].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.left);
+            legendMenu.items[3].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.right);
+            legendMenu.items[4].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.bottom);
+            legendMenu.items[5].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.leftOverlay);
+            legendMenu.items[6].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.rightOverlay);
 
             const supportedElements = chartElementMap[type] || [];
             menu.items.forEach(function(item) {
