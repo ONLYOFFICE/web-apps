@@ -72,27 +72,27 @@ define([], function () {
                 '<div class="box">',
                     '<table cols="1" id="chart-panel-3d-rotate" role="presentation" style="margin: auto;">' +
                         '<tr >'+
-                            '<td style="padding-bottom: 8px">'+
-                                '<label class="fixed" style="margin-top: 3px;width: 83px;">' + t.txtXRotation + '</label>'+
-                                '<div id="id-chart-spin-x" style="display: inline-block;"></div>'+
-                                '<div id="id-chart-btn-x-left" style="display: inline-block;" class="margin-left-4"></div>'+
-                                '<div id="id-chart-btn-x-right" style="display: inline-block;" class="margin-left-4"></div>'+
+                            '<td style="padding-bottom: 10px">'+
+                                '<label class="fixed display-inline-block-middle" style="width: 83px;">' + t.txtXRotation + '</label>'+
+                                '<div id="id-chart-spin-x" class="display-inline-block-middle"></div>'+
+                                '<div id="id-chart-btn-x-left" class="display-inline-block-middle margin-left-4"></div>'+
+                                '<div id="id-chart-btn-x-right" class="display-inline-block-middle margin-left-4"></div>'+
                             '</td>'+
                         '</tr>'+
                         '<tr>'+
-                            '<td style="padding-bottom: 8px">'+
-                                '<label class="fixed" style="margin-top: 3px;width: 83px;">' + t.txtYRotation + '</label>'+
-                                '<div id="id-chart-spin-y" style="display: inline-block;"></div>'+
-                                '<div id="id-chart-btn-y-up" style="display: inline-block;" class="margin-left-4"></div>'+
-                                '<div id="id-chart-btn-y-down" style="display: inline-block;" class="margin-left-4"></div>'+
+                            '<td style="padding-bottom: 10px">'+
+                                '<label class="fixed display-inline-block-middle" style="width: 83px;">' + t.txtYRotation + '</label>'+
+                                '<div id="id-chart-spin-y" class="display-inline-block-middle"></div>'+
+                                '<div id="id-chart-btn-y-up" class="display-inline-block-middle margin-left-4"></div>'+
+                                '<div id="id-chart-btn-y-down" class="display-inline-block-middle margin-left-4"></div>'+
                             '</td>'+
                         '</tr>'+
                         '<tr>'+
-                            '<td style="padding-bottom: 8px">'+
-                                '<label class="fixed" style="margin-top: 3px;width: 83px;">' + t.txtPerspective + '</label>'+
-                                '<div id="id-chart-spin-persp" style="display: inline-block;"></div>'+
-                                '<div id="id-chart-btn-narrow" style="display: inline-block;" class="margin-left-4"></div>'+
-                                '<div id="id-chart-btn-widen" style="display: inline-block;" class="margin-left-4"></div>'+
+                            '<td style="padding-bottom: 10px">'+
+                                '<label class="fixed display-inline-block-middle" style="width: 83px;">' + t.txtPerspective + '</label>'+
+                                '<div id="id-chart-spin-persp" class="display-inline-block-middle"></div>'+
+                                '<div id="id-chart-btn-narrow" class="display-inline-block-middle margin-left-4"></div>'+
+                                '<div id="id-chart-btn-widen" class="display-inline-block-middle margin-left-4"></div>'+
                             '</td>'+
                         '</tr>'+
                         '<tr>'+
