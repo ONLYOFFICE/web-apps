@@ -3066,5 +3066,7 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Fit to page",
   "PDFE.Views.ViewTab.tipFitToWidth": "Fit to width",
   "PDFE.Views.ViewTab.tipHeadings": "Headings",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface theme"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
+  "PDFE.Views.ViewTab.textMacros": "Macros",
+  "PDFE.Views.ViewTab.tipMacros": "Macros"
 }
