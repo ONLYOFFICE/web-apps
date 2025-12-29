@@ -336,6 +336,15 @@ define([
             if (this._navigationPreview.pageCount<1)
                 return;
 
+            let pages; 
+            if(this.printSettings.cmbRange.getValue() === -1) {
+                pages = this.printSettings.inputPages.getValue();
+            } if (this.printSettings.cmbRange.getValue() === 'all') {
+                pages = 'all';
+            } else if (this.printSettings.cmbRange.getValue() === 'current') {
+                pages = String(this._navigationPreview.currentPage + 1);
+            }
+
             var rec = this.printSettings.cmbPaperSize.getSelectedRecord();
             var printerOption = this.printSettings.cmbPrinter.getSelectedRecord();
             var size = rec ? rec.size : this._paperSize; 
@@ -343,7 +352,7 @@ define([
                 usesystemdialog: useSystemDialog,
                 printer: printerOption ? printerOption.value : null,
                 colorMode: this.printSettings.cmbColorPrinting.getValue() === 'color',
-                pages: this.printSettings.cmbRange.getValue()===-1 ? this.printSettings.inputPages.getValue() : this.printSettings.cmbRange.getValue(),
+                pages: pages,
                 paperSize: {
                     w: size ? size[0] : undefined,
                     h: size ? size[1] : undefined,

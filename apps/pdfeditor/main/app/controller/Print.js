@@ -571,10 +571,17 @@ define([
                 this.isInputFirstChange = true;
                 return;
             }
-            if (this.printSettings.cmbRange.getValue()==='all')
+
+            let pages; 
+            if(this.printSettings.cmbRange.getValue() === -1) {
+                pages = this.printSettings.inputPages.getValue();
+            } if (this.printSettings.cmbRange.getValue() === 'all') {
+                pages = 'all';
                 this._state.firstPrintPage = 0;
-            else if (this.printSettings.cmbRange.getValue()==='current')
+            } else if (this.printSettings.cmbRange.getValue() === 'current') {
+                pages = String(this._navigationPreview.currentPage + 1);
                 this._state.firstPrintPage = this._navigationPreview.currentPage;
+            }
 
             var size = this.api.asc_getPageSize(this._state.firstPrintPage),
                 printerOption = (this.printSettings.cmbPrinter ? this.printSettings.cmbPrinter.getSelectedRecord() : null),
@@ -586,7 +593,7 @@ define([
                 usesystemdialog: useSystemDialog,
                 printer: printerOption ? printerOption.value : null,
                 colorMode: colorPrintingValue === 'color',
-                pages: this.printSettings.cmbRange.getValue()===-1 ? this.printSettings.inputPages.getValue() : this.printSettings.cmbRange.getValue(),
+                pages: pages,
                 paperSize: {
                     w: size ? size['W'] : undefined,
                     h: size ? size['H'] : undefined,
