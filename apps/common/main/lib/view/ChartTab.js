@@ -546,8 +546,8 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-ic-reviewview',
                     caption: me.capChartElements,
-                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.sheetLock, _set.lostConnect,
-                        _set.coAuth, _set.editCell, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.wsLock, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small',
@@ -559,37 +559,20 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-pagemargins',
                     caption: me.capEditData,
-                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.sheetLock, _set.lostConnect,
-                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.editCell, _set.coAuthText, _set.wsLock, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small',
                 });
                 this.lockedControls.push(this.btnEditData);
 
-                this.menuEditDataExt = new Common.UI.Menu({
-                    items: [
-                        {
-                            caption: me.menuCapEditData,
-                            value: 'data'
-                        },
-                        {
-                            caption: me.menuCapEditLinks,
-                            value: 'links'
-                        },
-                        {
-                            caption: me.menuCapOpen,
-                            value: 'file'
-                        }
-                    ]
-                })
-
                 this.btnEditDataExt = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-pagemargins',
                     caption: me.capEditData,
-                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.sheetLock, _set.lostConnect,
-                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.editCell, _set.coAuthText, _set.wsLock, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
                     dataHint: '1',
                     menu: new Common.UI.Menu({
                     items: [
@@ -616,8 +599,8 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-pagemargins',
                     caption: me.capUpdateData,
-                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.sheetLock, _set.lostConnect,
-                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.editCell, _set.coAuthText, _set.wsLock, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode,_set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small',
@@ -636,8 +619,8 @@ define([
                     menuMaxHeight   : 300,
                     groups          : new Common.UI.DataViewGroupStore(),
                     autoWidth       : true,
-                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.editCell, _set.lostConnect,
-                         _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.wsLock, _set.noStyles, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                         _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.noStyles, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
                     beforeOpenHandler: function(e) {
                         var cmp = this,
                             menu = cmp.openButton.menu,
@@ -699,7 +682,7 @@ define([
                     iconCls: 'toolbar__icon btn-settings',
                     caption: me.capAdvancedSettings,
                     lock        : [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
-                        _set.coAuth, _set.editCell, _set.SeveralCharts, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.wsLock, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
+                        _set.coAuth, _set.SeveralCharts, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -709,14 +692,14 @@ define([
                 this.lblWidth = new Common.UI.Label({
                     caption: me.textWidth,
                     lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
-                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.editCell, _set.coAuthText, _set.wsLock, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
                 });
                 this.lockedControls.push(this.lblWidth);
 
                 this.lblHeight = new Common.UI.Label({
                     caption: me.textHeight,
                     lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
-                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.editCell, _set.coAuthText, _set.wsLock, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
                 });
                 this.lockedControls.push(this.lblHeight);
 
@@ -725,7 +708,7 @@ define([
                     width: 78,
                     defaultUnit : "cm",
                     lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
-                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.editCell, _set.coAuthText, _set.wsLock, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
                     value: '3 cm',
                     maxValue: 55.88,
                     minValue: 0,
@@ -741,7 +724,7 @@ define([
                     width: 78,
                     defaultUnit : "cm",
                     lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
-                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.editCell, _set.coAuthText, _set.wsLock, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
                     value: '3 cm',
                     maxValue: 55.88,
                     minValue: 0,
@@ -756,7 +739,7 @@ define([
                     labelText: me.textLockRation,
                     value: true,
                     lock        : [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
-                        _set.editCell, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.wsLock, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
+                        _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -768,7 +751,7 @@ define([
                     iconCls: 'toolbar__icon btn-day',
                     caption: me.cap3DRotation,
                     lock        : [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
-                        _set.coAuth, _set.editCell, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.wsLock, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'

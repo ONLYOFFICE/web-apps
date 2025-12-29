@@ -221,13 +221,9 @@ define([
         },
 
         onStartUpdateExternalReference: function(status) {
-            this._state.isUpdatingReference = status;
-            // if (this._initSettings) return;
-            
-            // var externalRef = this.chartProps.getExternalReference();
-            // this.btnEditData.setDisabled(this._locked || externalRef && this._state.isUpdatingReference);
-            // this.btnUpdateData.setDisabled(this._locked || this._state.isUpdatingReference);
-            // this.linkExternalSrc.toggleClass('disabled', this._locked || !!this._state.isUpdatingReference);
+            this.view.btnEditDataExt.menu.items[0].setDisabled(status);
+            this.view.btnEditDataExt.menu.items[2].setDisabled(status);
+            this.view.btnUpdateData.setDisabled(status);
         },
 
         onAddChartStylesPreview: function(styles){
@@ -283,17 +279,13 @@ define([
                 this._originalProps = new Asc.asc_CImgProperty(props);
 
                 this._noApply = true;
-                var value = props.get_WrappingStyle();
-                if (this._state.WrappingStyle!==value) {
-                    this._state.WrappingStyle=value;
-                }
 
                 this.chartProps = props.get_ChartProperties();
 
                 var externalRef = this.chartProps.getExternalReference();
                 var text = externalRef ? (externalRef.asc_getSource() || '').replace(new RegExp("%20",'g')," ") : '';
 
-                value = props.get_SeveralCharts();
+                var value = props.get_SeveralCharts();
                 this._state.SeveralCharts=value;
 
                 this.view.btnUpdateData.setVisible(externalRef);
