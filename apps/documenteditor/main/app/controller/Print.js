@@ -560,7 +560,7 @@ define([
                 pages = 'all';
                 this._state.firstPrintPage = 0;
             } else if (this.printSettings.cmbRange.getValue() === 'current') {
-                pages = String(this._navigationPreview.currentPage);
+                pages = String(this._navigationPreview.currentPage + 1);
                 this._state.firstPrintPage = this._navigationPreview.currentPage;
             }
 
