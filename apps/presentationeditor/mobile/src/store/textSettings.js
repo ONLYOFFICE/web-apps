@@ -1,6 +1,5 @@
 import {action, observable, computed, makeObservable} from 'mobx';
 import CThumbnailLoader from '../../../../common/mobile/utils/CThumbnailLoader';
-import i18n from '../../src/lib/i18n';
 
 export class storeTextSettings {
     constructor() {
@@ -109,7 +108,7 @@ export class storeTextSettings {
         this.iconHeight = Asc.FONT_THUMBNAIL_HEIGHT || 28;
         this.thumbCanvas = document.createElement('canvas');
         this.thumbContext = this.thumbCanvas.getContext('2d');
-        const lang = (i18n.language || '').toLowerCase();
+        const lang = (Common.Locale.currentLang || '').toLowerCase();
         const eaSprite = (lang === 'zh' || lang === 'ja' || lang === 'ko');
         const sprite = eaSprite ? 'fonts_thumbnail_ea' : 'fonts_thumbnail';
         this.thumbs = [
