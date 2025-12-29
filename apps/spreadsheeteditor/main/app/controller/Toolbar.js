@@ -4637,7 +4637,7 @@ define([
                         me.toolbar.btnsTableDesign = tabledesignbuttons;
                     }
 
-                    tab = {caption: me.toolbar.textTabChart, action: 'charttab', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-charttab', dataHintTitle: 'A', aux: true};
+                    tab = {caption: me.toolbar.textTabChart, action: 'charttab', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-charttab', dataHintTitle: 'B', aux: true};
                     var charttab = me.getApplication().getController('ChartTab');
                     charttab.setApi(me.api).setConfig({toolbar: me});
                     var view = charttab.getView('ChartTab');

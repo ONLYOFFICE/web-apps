@@ -1574,7 +1574,7 @@ define([
                 !config.canComments && me.toolbar.setVisible('comment', false);
             }
 
-            tab = {caption: me.textTabChart, action: 'charttab', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-charttab', dataHintTitle: 'V', aux: true};
+            tab = {caption: me.textTabChart, action: 'charttab', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-charttab', dataHintTitle: 'B', aux: true};
             var charttab = me.getApplication().getController('Common.Controllers.ChartTab');
             charttab.setApi(me.api).setConfig({toolbar: me});
             var view = charttab.getView('Common.Views.ChartTab');
