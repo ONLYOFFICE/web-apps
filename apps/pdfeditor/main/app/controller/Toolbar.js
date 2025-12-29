@@ -80,7 +80,8 @@ define([
                 can_decrease: undefined,
                 fontsize: undefined,
                 textclrhighlight: undefined,
-                initEditing: true
+                initEditing: true,
+                inDrawingMode: false,
             };
             this.editMode = true;
             this.binding = {
@@ -975,7 +976,7 @@ define([
         },
 
         updateSelectTools: function() {
-            if (this.toolbar && this.toolbar.btnSelectTool) {
+            if (this.toolbar && this.toolbar.btnSelectTool && !this._state.inDrawingMode && !this.toolbar.btnStrikeout.pressed && !this.toolbar.btnHighlight.pressed && !this.toolbar.btnUnderline.pressed) {
                 this.toolbar.btnSelectTool.toggle(!!this._state.select_tool, true);
                 this.toolbar.btnHandTool.toggle(!this._state.select_tool, true);
             }
@@ -1187,12 +1188,14 @@ define([
 
         onDrawStart: function() {
             this.api && this.api.SetMarkerFormat(undefined, false);
+            this._state.inDrawingMode = true;
             this.onClearHighlight();
             this.turnOnShowComments();
             this.clearSelectTools();
         },
 
         onDrawStop: function() {
+            this._state.inDrawingMode = false;
             this.onClearHighlight();
             this.turnOnShowComments();
             this.updateSelectTools();
