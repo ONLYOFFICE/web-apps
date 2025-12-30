@@ -147,7 +147,7 @@
     background-color: #ee3525;
     border: none;
     border-radius: 0;
-    padding: 3px 10px;
+    padding: 0 10px;
     color: #ffffff;
     .font-size-normal();
     white-space: nowrap;
@@ -218,7 +218,13 @@
 
 .dropdown-menu.menu-roles,
 .input-group-nr.menu-roles {
+    li > a {
+      display: flex;
+      align-items: center;
+    }
+
     span.color {
+        flex-shrink: 0;
         display: inline-block;
         vertical-align: text-top;
         width: 12px;

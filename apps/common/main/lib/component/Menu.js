@@ -631,9 +631,25 @@ define([
                 if (item.options.stopPropagation) {
                     e.stopPropagation();
                     var me = this;
-                    _.delay(function(){
-                        me.$el.parent().parent().find('[data-toggle=dropdown]').focus();
-                    }, 10);
+                    const _callback = function (records, observer) {
+                        if (records[0].oldValue && records[0].oldValue.indexOf('over') && !me.$el.hasClass('over')) {
+                            observer.disconnect();
+                            _.delay(function(){
+                                me.$el.parent().parent().find('[data-toggle=dropdown]').focus();
+                            }, 10);
+                        }
+                    };
+                    if ((this.menuAlignEl || this.menuRoot.parent()).is('li.dropdown-submenu')) { // for bug 24712, click from submenu
+                        (new MutationObserver(_callback)).observe(this.$el[0], {
+                            attributes : true,
+                            attributeFilter : ['class'],
+                            attributeOldValue: true
+                        });
+                    } else { // click from button menu, set focus to button
+                        _.delay(function(){
+                            me.$el.parent().find('[data-toggle=dropdown]').focus();
+                        }, 10);
+                    }
                     return;
                 }
                 this.trigger(item.isCustomItem ? 'item:custom-click' : 'item:click', this, item, e);

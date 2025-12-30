@@ -131,7 +131,6 @@
   "DE.Controllers.ApplicationController.unsupportedBrowserErrorText": "Ваш браўзер не падтрымліваецца.",
   "DE.Controllers.ApplicationController.uploadImageExtMessage": "Невядомы фармат выявы.",
   "DE.Controllers.ApplicationController.waitText": "Калі ласка, пачакайце...",
-  "DE.Controllers.ApplicationController.warnLicenseExceeded": "Вы дасягнулі абмежавання па адначасовай колькасці падлучэнняў да рэдактараў %1.Гэты дакумент будзе адкрыты для прагляду.<br>Звяжыцеся з адміністратарам, каб даведацца больш.",
   "DE.Controllers.ApplicationController.warnLicenseExp": "Тэрмін дзеяння ліцэнзіі сышоў.<br>Калі ласка, абнавіце ліцэнзію, пасля абнавіце старонку.",
   "DE.Controllers.ApplicationController.warnLicenseLimitedNoAccess": "Тэрмін дзеяння ліцэнзіі сышоў.<br>У вас няма доступу да функцый рэдагавання дакументаў.<br>Калі ласка, звярніцеся да адміністратара.",
   "DE.Controllers.ApplicationController.warnLicenseLimitedRenewed": "Патрэбна абнавіць ліцэнзію.<br>У вас абмежаваны доступ да функцый рэдагавання дакументаў.<br>Каб атрымаць поўны доступ, звярніцеся да адміністратара",

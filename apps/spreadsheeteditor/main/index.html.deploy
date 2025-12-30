@@ -384,6 +384,7 @@
     <script src="../../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
 </head>
 <body role="application">
+    <div class="inlined-svg"></div>
     <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
     <script src="../../../../../apps/common/main/lib/util/docserviceworker.js?__inline=true"></script>
     <div id="loading-mask" class="loadmask">
@@ -456,9 +457,9 @@
                 elements[i].style.display = 'inline-block';
             }
             if (document.body.classList.contains('rtl'))
-                document.querySelector('.fat').style.right = '923px';
+                document.querySelector('.fat').style.right = '944px';
             else
-                document.querySelector('.fat').style.left = '923px';
+                document.querySelector('.fat').style.left = '944px';
         }
 
         visible && (document.querySelector('.brendpanel').style.display = 'block');
@@ -506,7 +507,6 @@
     <inline src="../../common/main/resources/img/combo-border-size/BorderSize.svg" />
     <inline src="resources/img/toolbar/BorderSize.svg" />
     <inline src="resources/img/cf-icons.svg" />
-    <div class="inlined-svg"></div>
     <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
 
     <script>

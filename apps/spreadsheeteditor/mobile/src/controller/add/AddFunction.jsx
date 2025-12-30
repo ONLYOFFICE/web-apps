@@ -26,18 +26,21 @@ class _FunctionGroups extends Component {
         });
     }
     init () {
-        const editorLang = LocalStorage.getItem('sse-settings-func-lang');
-        this._editorLang = (editorLang ? editorLang : 'en').split(/[\-\_]/)[0].toLowerCase();
+        this._editorLang = (LocalStorage.getItem('sse-settings-func-lang') || 'en').toLowerCase();
+
         const localizationFunctions = (data) => {
             this.api.asc_setLocalization(data, this._editorLang);
             this.fill(data);
         };
 
-        fetch(`locale/l10n/functions/${this._editorLang}.json`)
-            .then(response => response.json())
-            .then((data) => {
+        Common.Utils.loadConfig(`locale/l10n/functions/${this._editorLang}.json`, data => {
+            if (data != 'error') {
                 localizationFunctions(data);
-            });
+            } else {
+                this._editorLang = 'en';
+                localizationFunctions();
+            }
+        });
     }
     fill () {
         this._functions = {};

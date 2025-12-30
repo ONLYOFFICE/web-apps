@@ -51,7 +51,7 @@ define([
                 initwidth: 1030,
                 initheight: 700,
                 minwidth: 1030,
-                minheight: 275
+                minheight: 310
             }, options);
 
             this._oleData = null;

@@ -83,7 +83,8 @@
     "textRows": "Rows",
     "textOk": "Ok",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?",
-    "menuEditLink": "Edit Link"
+    "menuEditLink": "Edit Link",
+    "menuDuplicate": "Duplicate"
   },
   "Controller": {
     "Main": {
@@ -182,7 +183,10 @@
       "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches",
       "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
-      "textOk": "Ok"
+      "textOk": "Ok",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Error": {
@@ -236,7 +240,8 @@
     "errorSetPassword": "Password could not be set.",
     "textOk": "OK",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -499,7 +504,17 @@
       "textHorizontalText": "Horizontal Text",
       "textRotateTextDown": "Rotate Text Down",
       "textRotateTextUp": "Rotate Text Up",
-      "textTextOrientation": "Text Orientation"
+      "textTextOrientation": "Text Orientation",
+      "txtWidth": "Width",
+      "txtHeight": "Height",
+      "textCellSize": "Cell size",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textBackground": "Background",
+      "textLtrTextDirection": "Left-to-right",
+      "textResetBackground": "Reset background",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -594,7 +609,9 @@
       "textTheme": "Theme",
       "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textRtlInterface": "RTL Interface",
-      "textClose": "Close"
+      "textClose": "Close",
+      "textLoopSlideshow": "Loop slideshow",
+      "textOpenLocation": "Open location"
     }
   },
   "Draw": {

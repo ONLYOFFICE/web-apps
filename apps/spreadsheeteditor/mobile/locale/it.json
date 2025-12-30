@@ -95,7 +95,6 @@
       "criticalErrorTitle": "Errore",
       "errorAccessDeny": "Stai cercando di eseguire un'azione per la quale non hai diritti.<br>Ti preghiamo di contattare il tuo amministratore.",
       "errorOpensource": "Usando la versione Community gratuita, puoi aprire i documenti solo per visualizzarli. Per accedere agli editor mobili sul web è richiesta una licenza commerciale.",
-      "errorProcessSaveResult": "Salvataggio fallito.",
       "errorServerVersion": "La versione dell'editor è stata aggiornata. La pagina verrà ricaricata per applicare i cambiamenti.",
       "errorUpdateVersion": "La versione del file è stata cambiata. La pagina verrà ricaricata.",
       "leavePageText": "Ci sono cambiamenti non salvati in questo documento. Fai clic su \"Rimane su questa pagina\" per attendere il salvataggio automatico. Fai clic su \"Lascia questa pagina\" per scartare tutti i cambiamenti non salvati.",
@@ -232,17 +231,18 @@
       "textUpdate": "Aggiorna",
       "textWarnUpdateExternalData": "Questa cartella di lavoro contiene collegamenti a una o più fonti esterne che potrebbero essere poco sicure. Se ritieni che il collegamento sia sicuro, aggiornalo per ottenere i dati più recenti.",
       "textYes": "Sì",
+      "tipLicenseExceeded": "Il documento è aperto in modalità di sola lettura poiché è stato raggiunto il numero massimo di connessioni simultanee consentito dalla licenza.<br><br>Riprova più tardi o contatta il proprietario del documento se hai bisogno dell'accesso di modifica.",
+      "tipLicenseUsersExceeded": "Il documento è aperto in modalità di sola lettura poiché è stato raggiunto il numero massimo di utenti autorizzati a modificare i documenti in base alla licenza.<br><br>Riprova più tardi o contatta il proprietario del documento se hai bisogno dell'accesso di modifica.",
       "titleLicenseExp": "La licenza è scaduta",
       "titleLicenseNotActive": "Licenza non attiva",
+      "titleReadOnly": "Modalità di sola lettura",
       "titleServerVersion": "L'editor è stato aggiornato",
       "titleUpdateVersion": "La versione è stata cambiata",
       "warnLicenseAnonymous": "Accesso negato per utenti anonimi.<br>Questo documento verrà aperto solo per la visualizzazione.",
       "warnLicenseBefore": "Licenza non attiva.<br>Ti preghiamo di contattare il tuo amministratore.",
-      "warnLicenseExceeded": "Hai raggiunto il limite di connessioni simultanee a %1 editor. Questo documento sarà aperto solo in modalità visualizzazione. Ti preghiamo di contattare il tuo amministratore per maggiori informazioni.",
       "warnLicenseExp": "La tua licenza è scaduta. Ti preghiamo di aggiornarla e ricaricare la pagina.",
       "warnLicenseLimitedNoAccess": "La licenza è scaduta. Non hai più accesso alle funzionalità di modifica dei documenti. Ti preghiamo di contattare il tuo amministratore.",
       "warnLicenseLimitedRenewed": "La licenza dev'essere rinnovata. Hai accesso limitato alle funzionalità di modifica dei documenti.<br>Si prega di contattare il tuo amministratore per ottenere l'accesso completo",
-      "warnLicenseUsersExceeded": "Hai raggiunto il limite di utenti per %1 editor. Ti preghiamo di contattare il tuo amministratore per maggiori informazioni.",
       "warnNoLicense": "Hai raggiunto il limite di connessioni simultanee a %1 editor. Questo documento sarà aperto solo in modalità visualizzazione. Ti preghiamo di contattare il reparto vendite di %1 per i termini di aggiornamento personali.",
       "warnNoLicenseUsers": "Hai raggiunto il limite di utenti per %1 editor. Ti preghiamo di contattare il reparto vendite di %1 per i termini di aggiornamento personali.",
       "warnProcessRightsChange": "Non hai il permesso di modificare il file."
@@ -257,6 +257,7 @@
   "Error": {
     "convertationTimeoutText": "È stato superato il tempo massimo di conversione.",
     "criticalErrorExtText": "Premi 'OK' per tornare all'elenco documenti.",
+    "criticalErrorExtTextClose": "Clicca \"OK\" per chiudere l'editor.",
     "criticalErrorTitle": "Errore",
     "downloadErrorText": "Scaricamento fallito",
     "errNoDuplicates": "Nessun valore duplicato trovato.",
@@ -320,6 +321,7 @@
     "errorLockedAll": "Impossibile eseguire l'operazione poiché il foglio è stato bloccato da un'altro utente.",
     "errorLockedCellPivot": "Non è possibile modificare i dati all'interno di una tabella pivot.",
     "errorLockedWorksheetRename": "Il foglio non può essere rinominato al momento in quanto viene rinominato da un'altro utente.",
+    "errorMacroUnavailableWarning": "Impossibile eseguire la macro %1. La macro potrebbe non essere disponibile in questa cartella di lavoro oppure tutte le macro potrebbero essere disabilitate.",
     "errorMaxPoints": "Il numero massimo di punti in serie per grafico è 4096.",
     "errorMaxRows": "ERRORE! Il numero massimo della serie di dati per grafico è di 255.",
     "errorMoveRange": "Impossibile modificare una parte di una cella unita",
@@ -378,7 +380,7 @@
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
     "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "advDRMPassword": "Password",
@@ -427,6 +429,7 @@
   "Statusbar": {
     "notcriticalErrorTitle": "Avvertimento",
     "textCancel": "Annulla",
+    "textContinue": "Continua",
     "textDelete": "Elimina",
     "textDuplicate": "Duplicazione",
     "textErrNameExists": "Un foglio di calcolo con questo nome esiste già.",
@@ -447,7 +450,8 @@
     "textSheetName": "Nome foglio",
     "textTabColor": "Colore scheda",
     "textUnhide": "Scoprire",
-    "textWarnDeleteSheet": "Il foglio di calcolo potrebbe contenere dati. Procedere con l'operazione?"
+    "textWarnDeleteSheet": "Il foglio di calcolo potrebbe contenere dati. Procedere con l'operazione?",
+    "warnAddSheetCsv": "Il formato CSV non supporta il salvataggio di file con più fogli. Verrà salvato solo il foglio attivo. Per conservare tutti i fogli, salva il file in un formato diverso."
   },
   "Toolbar": {
     "btnRestartNow": "Riavvia ora",
@@ -532,6 +536,8 @@
       "textAccounting": "Contabilità",
       "textActualSize": "Dimensione reale",
       "textAddCustomColor": "Aggiungi colore personalizzato",
+      "textAdditional": "Aggiuntivo",
+      "textAdditionalFormatting": "Formattazione aggiuntiva",
       "textAddress": "Indirizzo",
       "textAlign": "Allineamento",
       "textAlignBottom": "Allinea in basso",
@@ -541,6 +547,7 @@
       "textAlignRight": "Allinea a destra",
       "textAlignTop": "Allinea in alto",
       "textAllBorders": "Tutti i bordi",
+      "textAllCaps": "Tutto maiuscolo",
       "textAngleClockwise": "Angolo in senso orario",
       "textAngleCounterclockwise": "Angolo in senso antiorario",
       "textArrange": "Disponi",
@@ -551,6 +558,7 @@
       "textAxisPosition": "Posizione dell'asse",
       "textAxisTitle": "Titolo dell'asse",
       "textBack": "Indietro",
+      "textBaseline": "Linea di base",
       "textBetweenTickMarks": "Tra segni di spunta",
       "textBillions": "Miliardi",
       "textBorder": "Bordo",
@@ -559,6 +567,7 @@
       "textBottomBorder": "Bordo inferiore",
       "textBringToForeground": "Porta in primo piano",
       "textCancel": "Annulla",
+      "textCapitalization": "Maiuscole",
       "textCell": "Cella",
       "textCellStyle": "Stile cella",
       "textCenter": "Al centro",
@@ -588,6 +597,7 @@
       "textDisplayUnits": "Mostra unità",
       "textDollar": "Dollaro",
       "textDone": "Fatto",
+      "textDoubleStrikethrough": "Barrato doppio",
       "textEditLink": "Modifica collegamento",
       "textEffects": "Effetti",
       "textEmptyImgUrl": "Devi specificare l'URL dell'immagine.",
@@ -636,6 +646,7 @@
       "textLeftBorder": "Bordo sinistro",
       "textLeftOverlay": "Sovrapposizione a sinistra",
       "textLegend": "Legenda",
+      "textLetterSpacing": "Spaziatura delle lettere",
       "textLink": "Collegamento",
       "textLinkSettings": "Impostazioni collegamento",
       "textLinkType": "Tipo di collegamento",
@@ -693,7 +704,11 @@
       "textShape": "Forma",
       "textSheet": "Foglio",
       "textSize": "Dimensione",
+      "textSmallCaps": "Minuscole",
+      "textStrikethrough": "Barrato",
       "textStyle": "Stile",
+      "textSubscript": "Pedice",
+      "textSuperscript": "Apice",
       "textTenMillions": "10 000 000",
       "textTenThousands": "10 000",
       "textText": "Testo",
@@ -718,7 +733,11 @@
       "textYen": "Yen",
       "txtNotUrl": "Questo campo dev'essere un URL nel formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Ordina dal più alto al più basso",
-      "txtSortLow2High": "Ordina dal più basso al più alto"
+      "txtSortLow2High": "Ordina dal più basso al più alto",
+      "textContextTextDirection": "Context",
+      "textLtrTextDirection": "Left-to-right",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "advCSVOptions": "Scegli le opzioni CSV",
@@ -866,13 +885,20 @@
       "txtSk": "Slovacco",
       "txtSl": "Sloveno",
       "txtSpace": "Spazio",
+      "txtSr": "Serbo (latino)",
+      "txtSrcyrl": "Serbo (cirillico)",
       "txtSv": "Svedese",
       "txtTab": "Tabulazione",
       "txtTr": "Turco",
       "txtUk": "Ucraino",
       "txtVi": "Vietnamita",
       "txtZh": "Cinese",
-      "warnDownloadAs": "Se continui a salvare in questo formato, tutte le funzioni tranne il testo saranno perse.<br>Sei sicuro di voler continuare?"
+      "txtZhtw": "Cinese (tradizionale)",
+      "warnDownloadAs": "Se continui a salvare in questo formato, tutte le funzioni tranne il testo saranno perse.<br>Sei sicuro di voler continuare?",
+      "warnDownloadCsv": "Il formato CSV non supporta il salvataggio di file con più fogli e di tutti gli elementi, ad eccezione del testo.<br>Per salvare solo il foglio attivo in CSV, premi OK.<br>Per salvare l'intero foglio di calcolo e tutte le funzionalità, fai clicca su Annulla e seleziona un altro formato.",
+      "warnDownloadOds": "Il salvataggio di questo file potrebbe causare la perdita di alcune formule, formattazioni delle celle o oggetti incorporati a causa del supporto limitato del formato.<br>Sei sicuro di voler continuare?",
+      "textSheetRtl": "Sheet Right to left",
+      "textOpenLocation": "Open location"
     }
   }
 }

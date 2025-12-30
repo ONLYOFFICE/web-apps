@@ -151,7 +151,6 @@ define([
             setApi: function(api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onCloseMergeEditor', _.bind(this.onMergeEditingDisabled, this));
-                this.api.asc_registerCallback('asc_sendFromGeneralToFrameEditor', _.bind(this.onSendFromGeneralToFrameEditor, this));
                 return this;
             },
 
@@ -264,10 +263,6 @@ define([
                 if (data.type == 'mouseup' && this.isExternalEditorVisible) {
                     externalEditor && externalEditor.serviceCommand('processmouse', data);
                 }
-            },
-
-            onSendFromGeneralToFrameEditor: function(data) {
-                externalEditor && externalEditor.serviceCommand('generalToFrameData', data);
             },
 
             warningTitle: 'Warning',

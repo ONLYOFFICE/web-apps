@@ -105,16 +105,9 @@ class EditSlideController extends Component {
 
         let props = new Asc.CAscSlideProps(),
             fill = new Asc.asc_CShapeFill();
-
-        if (color == 'transparent') {
-            fill.put_type(Asc.c_oAscFill.FILL_TYPE_NOFILL);
-            fill.put_fill(null);
-        } else {
-            fill.put_type(Asc.c_oAscFill.FILL_TYPE_SOLID);
-            fill.put_fill(new Asc.asc_CFillSolid());
-            fill.get_fill().put_color(Common.Utils.ThemeColor.getRgbColor(color));
-        }
-
+        fill.put_type(Asc.c_oAscFill.FILL_TYPE_SOLID);
+        fill.put_fill(new Asc.asc_CFillSolid());
+        fill.get_fill().put_color(Common.Utils.ThemeColor.getRgbColor(color));
         props.put_background(fill);
         api.SetSlideProps(props);
         
@@ -140,6 +133,13 @@ class EditSlideController extends Component {
         this.closeModal();
     };
 
+    onResetBackground() {
+        const api = Common.EditorApi.get();
+        const props = new Asc.CAscSlideProps();                 
+        props.put_ResetBackground(true);
+        api.SetSlideProps(props);
+    }
+
     render () {
         return (
             <EditSlide 
@@ -155,6 +155,7 @@ class EditSlideController extends Component {
                 onFillColor={this.onFillColor}
                 onDuplicateSlide={this.onDuplicateSlide}
                 onRemoveSlide={this.onRemoveSlide}
+                onResetBackground={this.onResetBackground}
             />
         )
     }

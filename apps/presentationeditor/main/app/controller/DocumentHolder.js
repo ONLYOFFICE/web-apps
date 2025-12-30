@@ -106,12 +106,6 @@ define([
             me.isTooltipHiding = false;
 
             me.screenTip = {
-                toolTip: new Common.UI.Tooltip({
-                    owner: this,
-                    html: true,
-                    title: '<br><b>Press Ctrl and click link</b>'
-//                    style: 'word-wrap: break-word;'
-                }),
                 strTip: '',
                 isHidden: true,
                 isVisible: false
@@ -128,7 +122,8 @@ define([
             me.wrapEvents = {
                 userTipMousover: _.bind(me.userTipMousover, me),
                 userTipMousout: _.bind(me.userTipMousout, me),
-                onKeyUp: _.bind(me.onKeyUp, me)
+                onKeyUp: _.bind(me.onKeyUp, me),
+                onMouseLeave: _.bind(me.onMouseLeave, me)
             };
 
             me.guideTip = { ttHeight: 20 };
@@ -394,7 +389,7 @@ define([
                 currentMenu = me.documentHolder.currentMenu;
             if (currentMenu && currentMenu.isVisible()){
                 if (me.api.asc_getCurrentFocusObject() === 0 ){ // thumbnails
-                    if (me.documentHolder.slideMenu===currentMenu && !me._isDisabled) {
+                    if (me.documentHolder.slideMenu===currentMenu && !!me.documentHolder.slideMenu.options.fromThumbs && !me._isDisabled) {
                         var isHidden = false;
                         _.each(selectedElements, function(element, index) {
                             if (Asc.c_oAscTypeSelectElement.Slide == element.get_ObjectType()) {
@@ -408,7 +403,7 @@ define([
                 } else {
                     var obj = (me.mode.isEdit && !me._isDisabled) ? me.fillMenuProps(selectedElements) : me.fillViewMenuProps(selectedElements);
                     if (obj) {
-                        if (obj.menu_to_show===currentMenu) {
+                        if (obj.menu_to_show===currentMenu && (me.documentHolder.slideMenu!==currentMenu || !me.documentHolder.slideMenu.options.fromThumbs)) {
                             currentMenu.options.initMenu(obj.menu_props);
                             currentMenu.alignPosition();
                         }
@@ -419,6 +414,7 @@ define([
             if (this.mode && this.mode.isEdit) {
                 var i = -1,
                     in_equation = false,
+                    in_chart = false,
                     locked = false;
                 while (++i < selectedElements.length) {
                     var type = selectedElements[i].get_ObjectType();
@@ -430,11 +426,19 @@ define([
                     } else if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
                         var value = selectedElements[i].get_ObjectValue();
                         value && (locked = locked || value.get_Locked());
+                    } else if (type === Asc.c_oAscTypeSelectElement.Chart) {
+                        in_chart = true;
+                        var value = selectedElements[i].get_ObjectValue();
+                        value && (locked = locked || value.get_Locked());
                     }
                 }
                 if (in_equation) {
                     this._state.equationLocked = locked;
                     this.disableEquationBar();
+                }
+                if (in_chart) {
+                    this._state.chartLocked = locked;
+                    this.disableChartElementButton();
                 }
             }
         },
@@ -524,8 +528,12 @@ define([
         },
 
         hideScreenTip: function() {
-            this.screenTip.toolTip.hide();
+            this.screenTip.toolTip && this.screenTip.toolTip.hide();
             this.screenTip.isVisible = false;
+        },
+
+        onMouseLeave: function () {
+            this.hideScreenTip();
         },
 
         getUserName: function(id){
@@ -618,7 +626,7 @@ define([
             if (this.screenTip.isHidden && this.screenTip.isVisible) {
                 me.screenTip.isVisible = false;
                 me.isTooltipHiding = true;
-                me.screenTip.toolTip.hide(function(){
+                me.screenTip.toolTip && me.screenTip.toolTip.hide(function(){
                     me.isTooltipHiding = false;
                     if (me.mouseMoveData) me.onMouseMove(me.mouseMoveData);
                     me.mouseMoveData = null;
@@ -703,25 +711,32 @@ define([
             }
         },
         /** coauthoring end **/
+
         SetDisabled: function(state) {
             this._isDisabled = state;
             this.documentHolder.SetDisabled(state);
             this.disableEquationBar();
             this.disableSpecialPaste();
+            this.disableChartElementButton();
         },
 
         clearSelection: function() {
             this.onHideMathTrack();
             this.onHideSpecialPasteOptions();
+            this.onHideChartElementButton();
         },
 
         onHideMathTrack: function() {},
 
         onHideSpecialPasteOptions: function() {},
 
+        onHideChartElementButton: function() {},
+
         disableEquationBar: function() {},
 
         disableSpecialPaste: function() {},
+
+        disableChartElementButton: function() {},
 
         editComplete: function() {
             this.documentHolder && this.documentHolder.fireEvent('editcomplete', this.documentHolder);

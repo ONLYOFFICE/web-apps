@@ -145,6 +145,7 @@ require([
             'PivotTable',
             'DataTab',
             'ViewTab',
+            'TableDesignTab',
             'Search',
             'WBProtection',
             'Common.Controllers.Fonts',
@@ -152,10 +153,12 @@ require([
             'Common.Controllers.Chat',
             'Common.Controllers.Comments',
             'Common.Controllers.Draw',
+            'Common.Controllers.ExternalLinks',
             'Common.Controllers.Plugins'
             ,'Common.Controllers.ExternalOleEditor'
             ,'Common.Controllers.ReviewChanges'
             ,'Common.Controllers.Protection'
+            ,'Common.Controllers.Shortcuts'
         ]
     });
 
@@ -181,6 +184,7 @@ require([
             'spreadsheeteditor/main/app/controller/PivotTable',
             'spreadsheeteditor/main/app/controller/DataTab',
             'spreadsheeteditor/main/app/controller/ViewTab',
+            'spreadsheeteditor/main/app/controller/TableDesignTab',
             'spreadsheeteditor/main/app/controller/Search',
             'spreadsheeteditor/main/app/controller/WBProtection',
             // 'spreadsheeteditor/main/app/view/ParagraphSettings',
@@ -195,14 +199,17 @@ require([
             'common/main/lib/controller/History',
             'common/main/lib/controller/Comments',
             'common/main/lib/controller/Chat',
+            'common/main/lib/controller/ExternalLinks',
             'common/main/lib/controller/Plugins'
             ,'common/main/lib/controller/ExternalOleEditor'
             ,'common/main/lib/controller/ReviewChanges'
             ,'common/main/lib/controller/Protection'
+            ,'common/main/lib/controller/Shortcuts'
             ,'common/main/lib/controller/Draw'
         ], function() {
+            const code_path = !window.isIEBrowser ? 'spreadsheeteditor/main/code' : 'spreadsheeteditor/main/ie/code';            
             app.postLaunchScripts = [
-                'spreadsheeteditor/main/code',
+                code_path,
             ];
 
             app.start();

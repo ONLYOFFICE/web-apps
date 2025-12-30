@@ -83,7 +83,8 @@
     "textDoNotShowAgain": "عدم الإظهار مجدداً",
     "textOk": "موافق",
     "textRows": "صفوف",
-    "txtWarnUrl": "قد يؤدي النقر على هذا الرابط إلى الإضرار بجهازك وبياناتك.<br>هل أنت متأكد من رغبتك في المتابعة؟"
+    "txtWarnUrl": "قد يؤدي النقر على هذا الرابط إلى الإضرار بجهازك وبياناتك.<br>هل أنت متأكد من رغبتك في المتابعة؟",
+    "menuDuplicate": "Duplicate"
   },
   "Controller": {
     "Main": {
@@ -93,7 +94,6 @@
       "criticalErrorTitle": "خطأ",
       "errorAccessDeny": "أنت تحاول تنفيذ اجراء ليس لديك صلاحيات القيام به.<br> الرجاء الاتصال بمسؤولك.",
       "errorOpensource": "باستخدام نسخة المجتمع المجانية, سيكون بمقدروك فتح الملفات للمشاهدة فقط. للوصول إلى محررات الويب للهاتف يجب استخدام ترخيص تجاري",
-      "errorProcessSaveResult": "فشل الحفظ",
       "errorServerVersion": "تم تحديث إصدار المحرر.سيتم اعادة تحميل الصفحة لتطبيق التغييرات",
       "errorUpdateVersion": "تم تغيير إصدار الملف. سيتم إعادة تحميل الصفحة.",
       "leavePageText": "لديك تغييرات غير محفوظة. اضغط على 'البقاء في هذه الصفحة' لانتظار الحفظ التلقائي. اضغط على 'مغادرة هذه الصفحة' للتخلي عن كل التغييرات غير المحفوظة.",
@@ -173,14 +173,15 @@
       "txtProtected": "بمجرد ادخالك كلمة السر و فتح الملف ,سيتم اعادة انشاء كلمة السر للملف",
       "warnLicenseAnonymous": "تم رفض الوصول للمستخدمين المجهولين.<br>هذا المستند سيكون مفتوحا للمشاهدة فقط.",
       "warnLicenseBefore": "الترخيص ليس مفعلا.<br>برجاء التواصل مع مسئولك",
-      "warnLicenseExceeded": "لقد وصلت إلى الحد الأقصى من الاتصالات المتزامنة لـ %1 محررات.هذا. هذا المستند سيكون للقراءة فقط برجاء التواصل مع المسؤول الخاص بك لمعرفة المزيد",
       "warnLicenseExp": "الترخيص منتهي الصلاحية.الرجاء تحديث الترخيص الخاص بك واعادة تحميل الصفحة",
       "warnLicenseLimitedNoAccess": "الترخيص منتهي الصلاحية.<br>ليس لديك صلاحية تعديل المستند. برجاء التواصل مع مسئولك",
       "warnLicenseLimitedRenewed": "يحتاج الترخيص إلى تجديد. لديك وصول محدود لخاصية تعديل المستند. <br> برجاء التواصل مع مسئولك للحصول على وصول كامل",
-      "warnLicenseUsersExceeded": "لقد وصلت إلى الحد الأقصى من عدد المستخدمين لـ %1محررات. تواصل مع مسئولك لمعرفة المزيد",
       "warnNoLicense": "لقد وصلت إلى الحد الأقصى من الاتصالات المتزامنة لـ%1محررات.هذا المستند سيكون للقراءة فقط. تواصل مع %1 فريق المبيعات لتطوير الشروط الشخصية",
       "warnNoLicenseUsers": "لقد وصلت إلى الحد الأقصى من عدد المستخدمين لـ %1. تواصل مع فريق المبيعات لتطوير الشروط الشخصية",
-      "warnProcessRightsChange": "ليس لديك الإذن بتعديل هذا الملف."
+      "warnProcessRightsChange": "ليس لديك الإذن بتعديل هذا الملف.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Draw": {
@@ -240,7 +241,8 @@
     "uploadImageExtMessage": "امتداد صورة غير معروف",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
     "uploadImageSizeMessage": "الصورة كبيرة جدًا. الحد الأقصى للحجم هو 25 ميغابايت.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "جار تحميل البيانات...",
@@ -495,7 +497,17 @@
       "textZoom": "تكبير/تصغير",
       "textZoomIn": "تكبير",
       "textZoomOut": "تصغير",
-      "textZoomRotate": "التكبير و التدوير"
+      "textZoomRotate": "التكبير و التدوير",
+      "textBackground": "Background",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textCellSize": "Cell size",
+      "textLtrTextDirection": "Left-to-right",
+      "textResetBackground": "Reset background",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction",
+      "txtHeight": "Height",
+      "txtWidth": "Width"
     },
     "Settings": {
       "mniSlideStandard": "القياسي (4:3)",
@@ -563,7 +575,9 @@
       "textUnitOfMeasurement": "وحدة القياس",
       "textUploaded": "تم الرفع",
       "textVersion": "الإصدار",
-      "textVersionHistory": "سجل الإصدارات"
+      "textVersionHistory": "سجل الإصدارات",
+      "textLoopSlideshow": "Loop slideshow",
+      "textOpenLocation": "Open location"
     }
   }
 }

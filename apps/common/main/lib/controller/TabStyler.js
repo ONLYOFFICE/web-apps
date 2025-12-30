@@ -53,7 +53,9 @@ define([
 
             var value = Common.UI.FeaturesManager.getInitValue('tabStyle', true);
             if ( _canChangeStyle && Common.localStorage.itemExists("settings-tab-style")) { // get from local storage
-                value = Common.localStorage.getItem("settings-tab-style");
+                var themeid = Common.UI.Themes.currentThemeId(),
+                    isNew = themeid==='theme-system' || themeid==='theme-white' || themeid==='theme-night';
+                value = isNew && !Common.localStorage.itemExists("settings-tab-style-newtheme") ? 'line' : Common.localStorage.getItem("settings-tab-style");
             } else if (value === undefined) {
                 value = (_customization && (typeof _customization === 'object') && _customization.toolbarNoTabs) ? 'line' : Common.UI.Themes.getThemeProps('tab-style');
             }
@@ -106,7 +108,9 @@ define([
             } else {
                 style = Common.UI.FeaturesManager.getInitValue('tabStyle', true);
                 if ( _canChangeStyle && Common.localStorage.itemExists("settings-tab-style")) { // get from local storage
-                    style = Common.localStorage.getItem("settings-tab-style");
+                    var themeid = Common.UI.Themes.currentThemeId(),
+                        isNew = themeid==='theme-system' || themeid==='theme-white' || themeid==='theme-night';
+                    style = isNew && !Common.localStorage.itemExists("settings-tab-style-newtheme") ? 'line' : Common.localStorage.getItem("settings-tab-style");
                 } else if (style === undefined) {
                     style = (_customization && (typeof _customization === 'object') && _customization.toolbarNoTabs) ? 'line' : Common.UI.Themes.getThemeProps('tab-style');
                 }

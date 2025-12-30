@@ -310,6 +310,7 @@ define([], function () { 'use strict';
         },
 
         onSelectItem: function(picker, item, record, e){
+            if (!record) return;
             this.btnOk.setDisabled(record.get('level')==0 && record.get('index')>0);
             if (this.isAutoUpdate) {
                 this.inputDisplay.setValue((record.get('level') || record.get('index')==0) ? record.get('name') : '');
@@ -427,6 +428,9 @@ define([], function () { 'use strict';
         },
 
         _handleInput: function(state) {
+            if (state === 'ok' && this.btnOk.isDisabled())
+                return;
+
             if (this.options.handler) {
                 if (state == 'ok') {
                     if (this.btnExternal.isActive()) {//WebLink

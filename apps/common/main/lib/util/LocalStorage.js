@@ -117,7 +117,9 @@ define(['gateway'], function () {
         };
 
         try {
-            var _lsAllowed = !!window.localStorage;
+            localStorage.setItem('test', 1);    // for WebView checking !!window.localStorage not enough
+            localStorage.removeItem('test');
+            var _lsAllowed = true;
         } catch (e) {
             _lsAllowed = false;
         }

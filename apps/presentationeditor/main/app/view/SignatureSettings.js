@@ -68,6 +68,7 @@ define([
                 tip: undefined
             };
             this._locked = false;
+            this._themeChanged = false;
 
             this.render();
         },
@@ -110,6 +111,9 @@ define([
             this.viewValidList.on('item:contextmenu', _.bind(this.onItemContextMenu, this));
             this.viewInvalidList.on('item:contextmenu', _.bind(this.onItemContextMenu, this));
 
+            this.parentPanel = this.viewValidList.cmpEl.closest('.content-box');
+            this.onThemeChanged();
+
             this.signatureMenu = new Common.UI.Menu({
                 menuAlign   : 'tr-br',
                 items: [
@@ -126,10 +130,13 @@ define([
                 this.api.asc_registerCallback('asc_onUpdateSignatures',    _.bind(this.onApiUpdateSignatures, this));
             }
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
+            Common.NotificationCenter.on('uitheme:changed', _.bind(this.onThemeChanged, this));
             return this;
         },
 
         ChangeSettings: function(props) {
+            if (this._themeChanged)
+                this.onThemeChanged();
             if (!this._state.hasValid && !this._state.hasInvalid)
                 this.updateSignatures(this.api.asc_getSignatures());
         },
@@ -369,6 +376,19 @@ define([
                     shortcuts: false,
                     documentPreview: {draw: true}
                 }, 'signature');
+            }
+        },
+
+        onThemeChanged: function() {
+            var el = this.$el || $(this.el);
+            this._themeChanged = !el.is(':visible');
+            if (!this._themeChanged) {
+                var marginLeft = '-' + this.parentPanel.css('padding-left'),
+                    marginRight = '-' + this.parentPanel.css('padding-right');
+                this.viewValidList.cmpEl.css('margin-left', marginLeft);
+                this.viewValidList.cmpEl.css('margin-right', marginRight);
+                this.viewInvalidList.cmpEl.css('margin-left', marginLeft);
+                this.viewInvalidList.cmpEl.css('margin-right', marginRight);
             }
         },
 

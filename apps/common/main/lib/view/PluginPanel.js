@@ -82,17 +82,22 @@ define([], function () {
                 hint: this.textClosePanel
             });
 
-            if (this.sideMenuButton)
+            var xpadding = 1;
+            if (this.sideMenuButton) {
                 this.pluginHide = new Common.UI.Button({
                     parentEl: this.$el.find('.plugin-hide'),
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar' + (this.menu==='right' ^ Common.UI.isRTL() ? ' icon-mirrored' : ''),
                     iconCls: 'toolbar__icon btn-panel-left-collapse',
                     hint: this.textHidePanel
                 });
+                xpadding++;
+            }
 
             if(this.isCanDocked) {
                 this.showDockedButton();
+                xpadding++;
             }
+            this.pluginName.css(Common.UI.isRTL() ? 'padding-left' : 'padding-right', (parseInt(Common.UI.Themes.getThemeProps('small-btn-size')) * xpadding + 5) + 'px');
 
             this.trigger('render:after', this);
             return this;

@@ -55,6 +55,7 @@ const AddOther = props => {
     const showInsertLink = props.storeLinkSettings.canAddLink && !props.storeFocusObjects.paragraphLocked;
     const hideAddComment = props.hideAddComment();
     const isHyperLink = props.storeFocusObjects.settings.indexOf('hyperlink') > -1;
+    const canComments = props.storeAppOptions.canComments;
 
     return (
         <List>
@@ -66,7 +67,7 @@ const AddOther = props => {
                     <SvgIcon slot="media" symbolId={IconAddTableAndroid.id} className={'icon icon-svg'} />
                 }
             </ListItem>
-            {!hideAddComment && <ListItem title={_t.textComment} onClick={() => {
+            {!hideAddComment && canComments && <ListItem title={_t.textComment} onClick={() => {
                 props.closeModal();
                 Common.Notifications.trigger('addcomment');
             }}>
@@ -100,7 +101,7 @@ const AddOther = props => {
 };
 
 const PageAddTable = inject("storeTableSettings")(observer(PageTable));
-const AddOtherContainer = inject("storeFocusObjects", "storeLinkSettings")(observer(AddOther));
+const AddOtherContainer = inject("storeFocusObjects", "storeLinkSettings", "storeAppOptions")(observer(AddOther));
 
 export {AddOtherContainer as AddOther,
         PageAddTable};

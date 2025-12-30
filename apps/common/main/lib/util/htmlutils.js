@@ -32,7 +32,8 @@
 
 var checkLocalStorage = (function () {
     try {
-        var storage = window['localStorage'];
+        localStorage.setItem('test', 1);   // for WebView checking !!window.localStorage not enough
+        localStorage.removeItem('test');
         return true;
     }
     catch(e) {
@@ -100,8 +101,12 @@ function checkScaling() {
     }
 }
 
-let svg_icons = window.uitheme.svg_icons || ['./resources/img/iconssmall@2.5x.svg',
-                    './resources/img/iconsbig@2.5x.svg', './resources/img/iconshuge@2.5x.svg'];
+let svg_icons = window.uitheme.svg_icons || [
+    './resources/img/iconssmall@2.5x.svg',
+    './resources/img/iconsbig@2.5x.svg',
+    './resources/img/iconshuge@2.5x.svg',
+    '../../common/main/resources/img/doc-formats/formats@2.5x.svg'
+];
 
 window.Common = {
     Utils: {
@@ -130,10 +135,14 @@ window.Common = {
                                     if (r.ok) return r.text();
                                     else {/* error */}
                                 }).then(function (text) {
-                                    const type = /icons(\w+)(?:@2\.5x)\.svg$/.exec(url)[1];
+                                    const btnMatch = /icons(\w+)(?:@2\.5x)\.svg$/.exec(url);
+                                    const formatMatch = /doc-formats\/(\w+)(?:@2\.5x)\.svg$/.exec(url);
+                                    const type = btnMatch ? btnMatch[1] : (formatMatch ? formatMatch[1] : null);
+
                                     let el_id;
                                     if ( type ) {
-                                        const el = document.getElementById((el_id = 'idx-sprite-btns-' + type));
+                                        const prefix = btnMatch ? 'idx-sprite-btns-' : 'idx-sprite-formats-';
+                                        const el = document.getElementById((el_id = prefix  + type));
                                         if ( el ) {
                                             const idx = el.getAttribute('data-sprite-uid');
                                             if ( idx != sprite_uid )
@@ -172,6 +181,7 @@ if ( !window.uitheme.id && !!params.uitheme ) {
         window.uitheme.adapt_to_system_theme();
     } else {
         window.uitheme.id = params.uitheme;
+        window.uitheme.type = params.uithemetype;
     }
 }
 

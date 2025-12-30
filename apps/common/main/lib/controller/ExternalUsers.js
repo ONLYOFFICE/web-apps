@@ -48,6 +48,7 @@ Common.UI.ExternalUsers = new( function() {
         externalUsersInfo = [],
         isUsersInfoLoading = false,
         stackUsersInfoResponse = [],
+        requestedUsersInfo = [],
         api,
         userColors = [];
 
@@ -55,11 +56,13 @@ Common.UI.ExternalUsers = new( function() {
         if (type==='info') {
             (typeof ids !== 'object') && (ids = [ids]);
             ids && (ids = _.uniq(ids));
+            ids = _.difference(ids, requestedUsersInfo);
+            requestedUsersInfo = requestedUsersInfo.concat(ids);
             if (ids.length>100) {
                 while (ids.length>0) {
                     Common.Gateway.requestUsers('info', ids.splice(0, 100));
                 }
-            } else
+            } else if (ids.length>0)
                 Common.Gateway.requestUsers('info', ids);
         } else {
             if (isUsersLoading) return;

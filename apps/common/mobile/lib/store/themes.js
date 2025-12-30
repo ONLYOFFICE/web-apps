@@ -44,7 +44,6 @@ export class storeThemes {
 		"canvas-high-contrast",
 		"canvas-high-contrast-disabled",
 
-		"canvas-cell-border",
 		"canvas-cell-title-border",
 		"canvas-cell-title-border-hover",
 		"canvas-cell-title-border-selected",

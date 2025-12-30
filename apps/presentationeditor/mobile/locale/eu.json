@@ -83,7 +83,8 @@
     "textDoNotShowAgain": "Ez erakutsi berriro",
     "textOk": "Ados",
     "textRows": "Errenkadak",
-    "txtWarnUrl": "Esteka honetan klik egitea kaltegarria izan daiteke zure gailu eta datuentzat<br>Ziur zaude jarraitu nahi duzula?"
+    "txtWarnUrl": "Esteka honetan klik egitea kaltegarria izan daiteke zure gailu eta datuentzat<br>Ziur zaude jarraitu nahi duzula?",
+    "menuDuplicate": "Duplicate"
   },
   "Controller": {
     "Main": {
@@ -93,7 +94,6 @@
       "criticalErrorTitle": "Errorea",
       "errorAccessDeny": "Baimenik ez duzun ekintza bat egiten saiatzen ari zara.<br>Mesedez, jarri harremanetan kudeatzaileekin.",
       "errorOpensource": "Doako Community bertsioa erabiliz dokumentuak ikusteko bakarrik ireki ditzakezu. Mugikorreko web editoreetara sarbidea izateko lizentzia komertziala behar da.",
-      "errorProcessSaveResult": "Gordetzeak huts egin du.",
       "errorServerVersion": "Editorearen bertsioa eguneratu da. Orria berriz kargatuko da aldaketak aplikatzeko.",
       "errorUpdateVersion": "Fitxategiaren bertsioa aldatu da. Orria berriz kargatuko da.",
       "leavePageText": "Gorde gabeko aldaketak dituzu dokumentu honetan. Egin klik \"Jarraitu orri honetan\" gordetze automatikoari itxaroteko. Egin klik \"Utzi orri hau\" gorde gabeko aldaketa guztiak baztertzeko.",
@@ -172,15 +172,16 @@
       "txtProtected": "Behin pasahitza sartu eta fitxategia ireki duzula, uneko pasahitza berrezarri egingo da",
       "warnLicenseAnonymous": "Sarbidea debekatuta erabiltzaile anonimoentzat.<br>Irakurtzeko soilik irekiko da dokumentu hau.",
       "warnLicenseBefore": "Lizentzia ez dago aktibo.<br>Jarri zure administratzailearekin harremanetan.",
-      "warnLicenseExceeded": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau ikusteko bakarrik irekiko da. Jarri harremanetan administratzailearekin informazio gehiago lortzeko.",
       "warnLicenseExp": "Zure lizentzia iraungi da. Mesedez, eguneratu zure lizentzia eta freskatu orria.",
       "warnLicenseLimitedNoAccess": "Lizentzia iraungi da. Ez daukazu sarbiderik dokumentu-edizio funtzionalitatera. Mesedez, kontaktatu zure administratzailea.",
       "warnLicenseLimitedRenewed": "Lizentzia berritu behar da. Dokumentu-edizioaren funtzionalitatera sarbide mugatua duzu.<br>Mesedez jarri harremanetan zure administratzailearekin sarbide osoa lortzeko",
-      "warnLicenseUsersExceeded": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan zure administratzailearekin informazio gehiagorako.",
       "warnNoLicense": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau ikusteko bakarrik irekiko da. Jarri harremanetan %1 salmenta taldearekin eguneraketa pertsonalaren baldintzak jakiteko.",
       "warnNoLicenseUsers": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan %1 salmenta taldearekin mailaz igotzeko baldintzak ezagutzeko.",
       "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko.",
-      "textOk": "Ok"
+      "textOk": "Ok",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
   },
   "Error": {
@@ -233,6 +234,7 @@
     "uploadImageFileCountMessage": "Ez da irudirik kargatu.",
     "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da.",
     "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "textOk": "OK"
   },
@@ -489,7 +491,17 @@
       "textZoom": "Zooma",
       "textZoomIn": "Handiagotu",
       "textZoomOut": "Txikiagotu",
-      "textZoomRotate": "Zoom eta biratu"
+      "textZoomRotate": "Zoom eta biratu",
+      "textBackground": "Background",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textCellSize": "Cell size",
+      "textLtrTextDirection": "Left-to-right",
+      "textResetBackground": "Reset background",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction",
+      "txtHeight": "Height",
+      "txtWidth": "Width"
     },
     "Settings": {
       "mniSlideStandard": "Estandarra (4:3)",
@@ -557,7 +569,9 @@
       "textUploaded": "Kargatuta",
       "textVersion": "Bertsioa",
       "textVersionHistory": "Bertsioen historia",
-      "textClose": "Close"
+      "textClose": "Close",
+      "textLoopSlideshow": "Loop slideshow",
+      "textOpenLocation": "Open location"
     }
   },
   "Draw": {

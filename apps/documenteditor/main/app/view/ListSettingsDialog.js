@@ -319,7 +319,7 @@ define([
                 [
                     '<% _.each(items, function(item) { %>',
                     '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
-                    '<%= item.displayValue %><% if (item.value === Asc.c_oAscNumberingFormat.Bullet) { %><span style="font-family:<%=item.font%>;"><%=item.symbol%></span><% } %>',
+                    '<%= item.displayValue %><% if (item.value === Asc.c_oAscNumberingFormat.Bullet) { %><span style="font-family:<%-item.font%>;"><%=item.symbol%></span><% } %>',
                     '</a></li>',
                     '<% }); %>'
                 ];
@@ -372,7 +372,7 @@ define([
                     var formcontrol = $(this.el).find('.form-control');
                     if (record) {
                         if (record.get('value')==Asc.c_oAscNumberingFormat.Bullet)
-                            formcontrol[0].innerHTML = record.get('displayValue') + '<span style="font-family:' + (record.get('font') || 'Arial') + '">' + record.get('symbol') + '</span>';
+                            formcontrol[0].innerHTML = record.get('displayValue') + '<span style="font-family:' + (Common.Utils.String.htmlEncode(record.get('font')) || 'Arial') + '">' + record.get('symbol') + '</span>';
                         else
                             formcontrol[0].innerHTML = record.get('displayValue');
                     } else
@@ -1033,7 +1033,8 @@ define([
                 if (props.get_Format() !== Asc.c_oAscNumberingFormat.Bullet) {
                     var text = props.get_Text();
                     var me = this;
-                    var arr = this.formatString.lvlIndexes[this.level];
+                    var arr = this.formatString.lvlIndexes[this.level],
+                        isLgl = this.props.get_Lvl(this.level).get_IsLgl();
                     text.forEach(function (item, index) {
                         if (item.get_Type() === Asc.c_oAscNumberingLvlTextType.Text) {
                             formatStr += item.get_Value().toString();
@@ -1042,8 +1043,12 @@ define([
                             if (me.levels[num] === undefined)
                                 me.levels[num] = me.props.get_Lvl(num);
                             arr[num] = {start: formatStr.length, index: index};
-                            var lvl = me.levels[num];
-                            formatStr += AscCommon.IntToNumberFormat(lvl.get_Start(), lvl.get_Format(), me.lang);
+                            var lvl = me.levels[num],
+                                fmt = lvl.get_Format();
+                            if (isLgl && fmt !== Asc.c_oAscNumberingFormat.Decimal && fmt !== Asc.c_oAscNumberingFormat.DecimalZero) {
+                                fmt = Asc.c_oAscNumberingFormat.Decimal;
+                            }
+                            formatStr += AscCommon.IntToNumberFormat(lvl.get_Start(), fmt, me.lang);
                             arr[num].end = formatStr.length;
                         }
                     });

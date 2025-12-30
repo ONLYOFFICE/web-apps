@@ -55,20 +55,31 @@ define([], function () { 'use strict';
                 buttons: ['ok']
             }, options || {});
 
+            const app = (window.DE || window.PE || window.SSE || window.PDFE || window.VE);
+            const shortcutsController =  app.getController('Common.Controllers.Shortcuts');
+
+            const keysShortcuts = { Copy: '', Cut: '', Paste: ''};
+            for (const actionType in keysShortcuts) {
+                const shortcuts = shortcutsController.getShortcutsByActionType(actionType);
+                if(shortcuts && shortcuts[0]) {
+                    keysShortcuts[actionType] = shortcuts[0].keys.join('+');
+                }
+            }
+
             this.template = [
                 '<div class="box">',
                     '<p class="message">' + this.textMsg + '</p>',
                     '<div class="hotkeys">',
                         '<div>',
-                            '<p class="hotkey">' + Common.Utils.String.platformKey('Ctrl+C', '{0}') + '</p>',
+                            '<p class="hotkey">' + keysShortcuts.Copy + '</p>',
                             '<p class="message">' + this.textToCopy + '</p>',
                         '</div>',
                         '<div>',
-                        '<p class="hotkey">' + Common.Utils.String.platformKey('Ctrl+X', '{0}') + '</p>',
+                        '<p class="hotkey">' + keysShortcuts.Cut + '</p>',
                             '<p class="message">' + this.textToCut + '</p>',
                         '</div>',
                         '<div>',
-                            '<p class="hotkey">' + Common.Utils.String.platformKey('Ctrl+V', '{0}') + '</p>',
+                            '<p class="hotkey">' + keysShortcuts.Paste + '</p>',
                             '<p class="message">' + this.textToPaste + '</p>',
                         '</div>',
                     '</div>',

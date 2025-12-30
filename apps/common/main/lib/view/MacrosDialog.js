@@ -429,7 +429,7 @@ define([], function () {
                 });
             }
 
-            if(macrosList.length > 0) {
+            if(macrosList && macrosList.length > 0) {
                 macrosList.forEach(function (macros) {
                     macros.autostart = !!macros.autostart;
                     macros.currentPos = {row: 3, column: 0};

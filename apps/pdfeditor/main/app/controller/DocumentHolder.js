@@ -103,11 +103,6 @@ define([
                 isVisible: false
             };
             me.eyedropperTip = {
-                toolTip: new Common.UI.Tooltip({
-                    owner: this,
-                    html: true,
-                    cls: 'eyedropper-tooltip'
-                }),
                 isHidden: true,
                 isVisible: false,
                 eyedropperColor: null,
@@ -290,6 +285,8 @@ define([
             if (this.mode && this.mode.isEdit && this.mode.isPDFEdit) {
                 var i = -1,
                     in_equation = false,
+                    in_chart = false,
+                    no_paragraph = true,
                     locked = false;
                 while (++i < selectedElements.length) {
                     var type = selectedElements[i].get_ObjectType();
@@ -298,12 +295,28 @@ define([
                     } else if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
                         var value = selectedElements[i].get_ObjectValue();
                         value && (locked = locked || value.get_Locked());
+                        no_paragraph = false;
+                    } else if (type === Asc.c_oAscTypeSelectElement.Shape) { // shape
+                        var value = selectedElements[i].get_ObjectValue();
+                        if (value && value.get_FromChart()) {
+                            in_chart = true;
+                            locked = locked || value.get_Locked();
+                        }
+                        if (value && !value.get_FromImage() && !value.get_FromChart())
+                            no_paragraph = false;
+                    } else if (type == Asc.c_oAscTypeSelectElement.Table) {
+                        no_paragraph = false;
                     }
                 }
                 if (in_equation) {
                     this._state.equationLocked = locked;
                     this.disableEquationBar();
                 }
+                if (in_chart) {
+                    this._state.chartLocked = locked;
+                    this.disableChartElementButton();
+                }
+                this._state.no_paragraph = no_paragraph;
             }
         },
 
@@ -552,6 +565,8 @@ define([
         SetDisabled: function(state, canProtect, fillFormMode) {
             this._isDisabled = state;
             this.documentHolder.SetDisabled(state, canProtect, fillFormMode);
+            this.disableEquationBar();
+            this.disableChartElementButton();
         },
 
         changePosition: function() {
@@ -579,6 +594,23 @@ define([
             }
         },
 
+        redactText: function(item, e, eOpt){
+            if (this.mode) {
+                if (!this.mode.isPDFEdit) {
+                    var me = this;
+                    Common.NotificationCenter.trigger('pdf:mode-apply', 'edit', undefined, function() {
+                        if (me.mode.isPDFEdit) {
+                            Common.NotificationCenter.trigger('tab:set-active', 'red', false);
+                            me.api && me.api.AddRedactBySelect();
+                        }
+                    });
+                } else {
+                    Common.NotificationCenter.trigger('tab:set-active', 'red', false);
+                    this.api && this.api.AddRedactBySelect();
+                }
+            }
+        },
+
         onCountPages: function(count) {
             this.documentHolder && (this.documentHolder._pagesCount = count);
         },
@@ -589,17 +621,23 @@ define([
 
         onHideMathTrack: function() {},
 
+        onHideChartElementButton: function() {},
+
         onHideTextBar: function() {},
 
         disableEquationBar: function() {},
+
+        disableChartElementButton: function() {},
 
         onHideAnnotBar: function() {},
 
         onHideAnnotSelectBar: function() {},
 
         editText: function() {
-            this.mode && !this.mode.isPDFEdit && Common.NotificationCenter.trigger('pdf:mode-apply', 'edit');
-            this.api && this.api.asc_EditPage();
+            var me = this;
+            this.mode && !this.mode.isPDFEdit && Common.NotificationCenter.trigger('pdf:mode-apply', 'edit', undefined, function() {
+                me.api && me.mode.isPDFEdit && me.api.asc_EditPage();
+            });
         },
 
         clearSelection: function() {
@@ -607,6 +645,7 @@ define([
             this.onHideTextBar();
             this.onHideAnnotBar();
             this.onHideAnnotSelectBar();
+            this.onHideChartElementButton();
         },
 
         editComplete: function() {

@@ -1,0 +1,12 @@
+﻿python version 3.9 and above
+
+required params
+FIGMA_FILE_KEY - project id https://www.figma.com/design/ kblmWxvHshQs7QVJ1BvvWU /Desktop-Launc...
+FIGMA_TOKEN - security token for access to figma
+MAIN_NODE_ID - id for node with icons https://www.figma.com/desig...?node-id= 1254-30093 ... -> set in format 1254:30093
+
+launch script
+>python exportfigma.py
+
+if get error "ModuleNotFoundError: No module named 'requests'"
+>pip install requests

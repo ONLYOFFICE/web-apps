@@ -62,14 +62,13 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
     });
 
     // Back button
-    const [isShowBack, setShowBack] = useState(appOptions.canBackToFolder);
     const loadConfig = (data) => {
         if (data && data.config && data.config.canBackToFolder !== false &&
             data.config.customization && data.config.customization.goback) {
             const canback = data.config.customization.close === undefined ?
                 data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose :
                 data.config.customization.goback.url && !data.config.customization.goback.requestClose;
-            canback && setShowBack(true);
+            props.storeToolbarSettings.setShowBack(canback);
         }
     };
 
@@ -213,7 +212,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
             ],
             on: {
                 opened: () => {
-                    const nameDoc = docTitle.split('.')[0];
+                    const nameDoc = docTitle.slice(0, docTitle.lastIndexOf("."));
                     const titleField = document.querySelector('#modal-title');
                     const btnChangeTitle = document.querySelector('.btn-change-title');
 
@@ -295,7 +294,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
             isEdit={appOptions.isEdit}
             isDrawMode={appOptions.isDrawMode}
             docTitle={docTitle}
-            isShowBack={isShowBack}
+            isShowBack={storeToolbarSettings.isShowBack}
             isCanUndo={isCanUndo}
             isCanRedo={isCanRedo}
             onUndo={onUndo}
@@ -317,6 +316,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
             isOpenModal={props.isOpenModal}
             changeTitleHandler={changeTitleHandler}
             forceDesktopMode={forceDesktopMode}
+            isHiddenFileName={appOptions.config?.customization?.toolbarHideFileName ?? false}
         />
     )
 }));

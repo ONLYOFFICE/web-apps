@@ -7,6 +7,7 @@
     {"src": "ProgramInterface/PluginsTab.htm", "name": "Guia Plug-ins"},
     { "src": "UsageInstructions/OpenCreateNew.htm", "name": "Abra um PDF existente ou crie um novo documento", "headername": "Operações básicas"},
     { "src": "UsageInstructions/FillingOutForm.htm", "name": "Preenchendo um formulário" },
+    { "src": "UsageInstructions/EditPDF.htm", "name": "Edição de PDF" },
 	{ "src": "HelpfulHints/Communicating.htm", "name": "Comunicação em tempo real", "headername": "Colaboração"},
 	{"src": "HelpfulHints/Commenting.htm", "name": "Comentando PDFs"},
 	{"src": "UsageInstructions/DrawingOperations.htm", "name": "Desenhar à mão livre em um PDF"},

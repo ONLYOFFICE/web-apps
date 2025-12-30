@@ -16,9 +16,6 @@ const ToolbarView = props => {
     const isOpenModal = props.isOpenModal;
 
     useEffect(() => {
-        if ( $$('.skl-container').length ) {
-            $$('.skl-container').remove();
-        }
 
         return () => {
         }
@@ -33,7 +30,7 @@ const ToolbarView = props => {
                     <SvgIcon slot="media" symbolId={IconReturnAndroid.id} className={'icon icon-svg'} />
                 }</Link>}
             </NavLeft>
-            {(!Device.phone) &&
+            {(!Device.phone  && !props.isHiddenFileName) &&
                 <div className='title' onClick={() => props.changeTitleHandler()} style={{width: '71%'}}>
                     {docTitle}
                 </div>

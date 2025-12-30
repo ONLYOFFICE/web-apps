@@ -46,7 +46,7 @@ define([
     PE.Views.ViewTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
             '<section class="panel" data-tab="view" role="tabpanel" aria-labelledby="view">' +
-                '<div class="group small">' +
+                '<div class="group">' +
                     '<span class="btn-slot text x-huge" id="slot-btn-normal"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-slide-master"></span>' +
                 '</div>' +
@@ -106,9 +106,17 @@ define([
                         '<span class="btn-slot text" id="slot-chk-rightmenu"></span>' +
                     '</div>' +
                 '</div>' +
-                '<div class="separator long"></div>' +
-                '<div class="group">' +
+                '<div class="separator long macro"></div>' +
+                '<div class="group macro">' +
                     '<span class="btn-slot text x-huge" id="slot-btn-macros"></span>' +
+                '</div>' +
+                '<div class="group small macro">' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="slot-btn-macro-start" style="text-align: center;"></span>' +
+                    '</div>' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="slot-btn-macro-pause" style="text-align: center;"></span>' +
+                    '</div>' +
                 '</div>' +
             '</section>';
         return {
@@ -194,6 +202,13 @@ define([
                 me.btnMacros && me.btnMacros.on('click', function () {
                     me.fireEvent('macros:click');
                 });
+                me.btnRecMacro && me.btnRecMacro.on('click', function () {
+                    me.fireEvent('macros:record');
+                });
+                me.btnPauseMacro && me.btnPauseMacro.on('click', function () {
+                    me.fireEvent('macros:pause');
+                });
+
                 me.btnSelectTool && me.btnSelectTool.on('toggle', _.bind(function(btn, state) {
                     state && me.fireEvent('pointer:select');
                 }, me));
@@ -396,7 +411,11 @@ define([
                 });
                 this.lockedControls.push(this.chLeftMenu);
 
-                if (this.appConfig.isEdit) {
+                if (
+                    this.appConfig.isEdit && 
+                    !(this.appConfig.customization && this.appConfig.customization.macros===false) && 
+                    !(Common.Controllers.Desktop && Common.Controllers.Desktop.isWinXp())
+                ) {
                     this.btnMacros = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-macros',
@@ -407,6 +426,28 @@ define([
                         dataHintOffset: 'small'
                     });
                     this.lockedControls.push(this.btnMacros);
+
+                    this.btnRecMacro = new Common.UI.Button({
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-macros-record',
+                        lock: [_set.lostConnect, _set.disableOnStart],
+                        caption: this.textRecMacro,
+                        dataHint: '1',
+                        dataHintDirection: 'left',
+                        dataHintOffset: 'medium'
+                    });
+                    this.lockedControls.push(this.btnRecMacro);
+
+                    this.btnPauseMacro = new Common.UI.Button({
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-macros-pause',
+                        lock: [_set.macrosStopped, _set.lostConnect, _set.disableOnStart],
+                        caption: this.textPauseMacro,
+                        dataHint: '1',
+                        dataHintDirection: 'left',
+                        dataHintOffset: 'medium'
+                    });
+                    this.lockedControls.push(this.btnPauseMacro);
                 }
                 if (!this.appConfig.isEdit && !this.appConfig.isRestrictedEdit) {
                     this.btnSelectTool = new Common.UI.Button({
@@ -468,8 +509,11 @@ define([
                 this.chLeftMenu.render($host.find('#slot-chk-leftmenu'));
                 this.chRightMenu.render($host.find('#slot-chk-rightmenu'));
                 this.btnMacros && this.btnMacros.render($host.find('#slot-btn-macros'));
+                this.btnRecMacro && this.btnRecMacro.render($host.find('#slot-btn-macro-start'));
+                this.btnPauseMacro && this.btnPauseMacro.render($host.find('#slot-btn-macro-pause'));
                 this.btnSelectTool && this.btnSelectTool.render($host.find('#slot-btn-select-tool'));
                 this.btnHandTool && this.btnHandTool.render($host.find('#slot-btn-hand-tool'));
+                Common.Utils.lockControls(Common.enumLock.macrosStopped, true, {array: [this.btnPauseMacro]});
                 return this.$el;
             },
 
@@ -486,6 +530,8 @@ define([
                     me.btnGuides.updateHint(me.tipGuides);
                     me.btnGridlines.updateHint(me.tipGridlines);
                     me.btnMacros && me.btnMacros.updateHint(me.tipMacros);
+                    me.btnRecMacro && me.btnRecMacro.updateHint(me.tipRecMacro);
+                    me.btnPauseMacro && me.btnPauseMacro.updateHint(me.tipPauseMacro);
                     me.btnSelectTool && me.btnSelectTool.updateHint(me.tipSelectTool);
                     me.btnHandTool && me.btnHandTool.updateHint(me.tipHandTool);
                     me.btnGuides.setMenu( new Common.UI.Menu({
@@ -546,7 +592,13 @@ define([
                         me.chRulers.hide();
                         me.btnGuides.$el.closest('.group').remove();
                         me.$el.find('#slot-btn-slide-master').closest('.group').next().addBack().remove();
-                        me.$el.find('#slot-btn-macros').closest('.group').prev().addBack().remove();
+                    }
+                    if (
+                        !config.isEdit || 
+                        config.customization && config.customization.macros===false ||
+                        (Common.Controllers.Desktop && Common.Controllers.Desktop.isWinXp())
+                    ) {
+                        me.$el.find('.macro').remove();
                     }
                     if (config.isEdit || config.isRestrictedEdit) {
                         me.$el.find('#slot-btn-hand-tool').closest('.group').next().addBack().remove();
@@ -606,9 +658,6 @@ define([
                                 var value = item.value;
                                 Common.UI.Themes.setTheme(value);
                             }, me));
-                            me.btnInterfaceTheme.menu.on('show:after', function () {
-                                Common.UI.TooltipManager.closeTip('modernTheme');
-                            });
                         }
                     }
 
@@ -623,7 +672,7 @@ define([
                     me.setEvents();
 
                     if (Common.Utils.InternalSettings.get('toolbar-active-tab')==='view')
-                        Common.NotificationCenter.trigger('tab:set-active', 'view');
+                        Common.NotificationCenter.trigger('tab:set-active', 'view', true);
                 });
             },
 

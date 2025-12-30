@@ -53,9 +53,17 @@ define([
             me.btnScrollNext.updateHint(me.tipNext);
             me.btnZoomToPage.updateHint(me.tipFitPage);
             me.btnZoomToWidth.updateHint(me.tipFitWidth);
-            me.btnZoomDown.updateHint(me.tipZoomOut + Common.Utils.String.platformKey('Ctrl+-'));
-            me.btnZoomUp.updateHint(me.tipZoomIn + Common.Utils.String.platformKey('Ctrl++'));
             me.cntSheetList.updateHint(me.tipListOfSheets);
+            VE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                ZoomOut: {
+                    btn: me.btnZoomDown,
+                    label: me.tipZoomOut + Common.Utils.String.platformKey('Ctrl+-')
+                },
+                ZoomIn: {
+                    btn: me.btnZoomUp,
+                    label: me.tipZoomIn + Common.Utils.String.platformKey('Ctrl++')
+                }
+            });
 
             me.cntZoom.updateHint(me.tipZoomFactor);
             me.cntZoom.cmpEl.on({

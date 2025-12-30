@@ -70,7 +70,7 @@ define([
                                     --sk-canvas-page-border: #dde0e5; --sk-canvas-line: rgba(0,0,0,.05);
                                     --sk-height-formula: 24px; --sk-padding-formula: 0 0 4px 0;
                                     --sk-border-style-formula: solid; --sk-gap-formula-field: 20px;
-                                    --sk-border-radius-formula-field: 0px;
+                                    --sk-border-radius-formula-field: 0px; --sk-layout-padding-placeholder: 46px auto;
                                 }`
                 },
             },
@@ -91,7 +91,7 @@ define([
                                     --sk-canvas-page-border: #dde0e5; --sk-canvas-line: rgba(0,0,0,.05);
                                     --sk-height-formula: 24px; --sk-padding-formula: 0 0 4px 0;
                                     --sk-border-style-formula: solid; --sk-gap-formula-field: 20px;
-                                    --sk-border-radius-formula-field: 0px;
+                                    --sk-border-radius-formula-field: 0px; --sk-layout-padding-placeholder: 46px auto;
                                 }`
                 },
             },
@@ -113,7 +113,7 @@ define([
                                 --sk-canvas-page-border: #555; --sk-canvas-line: rgba(0,0,0,.05);
                                 --sk-height-formula: 24px; --sk-padding-formula: 0 0 4px 0;
                                 --sk-border-style-formula: solid; --sk-gap-formula-field: 20px;
-                                --sk-border-radius-formula-field: 0px;
+                                --sk-border-radius-formula-field: 0px; --sk-layout-padding-placeholder: 46px auto;
                             }
                             .content-theme-dark {
                                 --sk-canvas-content-background: #3a3a3a; --sk-canvas-page-border: #616161;
@@ -139,7 +139,7 @@ define([
                                 --sk-canvas-page-border: #555; --sk-canvas-line: rgba(0,0,0,.05);
                                 --sk-height-formula: 24px; --sk-padding-formula: 0 0 4px 0;
                                 --sk-border-style-formula: solid; --sk-gap-formula-field: 20px;
-                                --sk-border-radius-formula-field: 0px;
+                                --sk-border-radius-formula-field: 0px; --sk-layout-padding-placeholder: 46px auto;
                             }
                             .content-theme-dark {
                                 --sk-canvas-content-background: #3a3a3a;
@@ -164,7 +164,7 @@ define([
                                     --sk-canvas-page-border: #ccc; --sk-canvas-line: rgba(0,0,0,.05);
                                     --sk-height-formula: 24px; --sk-padding-formula: 0 0 4px 0;
                                     --sk-border-style-formula: solid; --sk-gap-formula-field: 20px;
-                                    --sk-border-radius-formula-field: 0px;
+                                    --sk-border-radius-formula-field: 0px; --sk-layout-padding-placeholder: 46px auto;
                                 }`
                 },
             },
@@ -218,8 +218,6 @@ define([
             "highlight-header-button-hover",
             "highlight-header-button-pressed",
             "highlight-text-select",
-            "highlight-accent-button-hover",
-            "highlight-accent-button-pressed",
             "highlight-toolbar-tab-underline-document",
             "highlight-toolbar-tab-underline-spreadsheet",
             "highlight-toolbar-tab-underline-presentation",
@@ -234,12 +232,10 @@ define([
             "border-toolbar",
             "border-divider",
             "border-regular-control",
-            "border-toolbar-button-hover",
             "border-preview-hover",
             "border-preview-select",
             "border-control-focus",
             "border-color-shading",
-            "border-error",
             "border-contrast-popover",
 
             "text-normal",
@@ -257,10 +253,7 @@ define([
 
             "icon-normal",
             "icon-normal-pressed",
-            "icon-inverse",
             "icon-toolbar-header",
-            "icon-notification-badge",
-            "icon-contrast-popover",
             "icon-success",
 
             "canvas-background",
@@ -277,7 +270,6 @@ define([
             "canvas-high-contrast",
             "canvas-high-contrast-disabled",
 
-            "canvas-cell-border",
             "canvas-cell-title-background",
             "canvas-cell-title-background-hover",
             "canvas-cell-title-background-selected",
@@ -292,8 +284,6 @@ define([
             "canvas-dark-cell-title-border",
             "canvas-dark-cell-title-border-hover",
             "canvas-dark-cell-title-border-selected",
-            "canvas-dark-content-background",
-            "canvas-dark-page-border",
 
             "canvas-scroll-thumb",
             "canvas-scroll-thumb-hover",
@@ -313,8 +303,6 @@ define([
             "canvas-sheet-view-cell-background-pressed",
             "canvas-sheet-view-cell-title-label",
 
-            "canvas-freeze-line-1px",
-            "canvas-freeze-line-2px",
             "canvas-select-all-icon",
 
             "canvas-anim-pane-background",
@@ -358,6 +346,22 @@ define([
             }
 
             return out_object;
+        }
+
+        const validate_vars = function (obj) {
+            if ( obj ) {
+                let i = 0, count = 5;
+                for (const value of Object.values(obj)) {
+                    if (value != "") {
+                        return true;
+                    }
+
+                    if ( ++i < count )
+                        break;
+                }
+            }
+
+            return false;
         }
 
         var create_colors_css = function (id, colors) {
@@ -563,27 +567,31 @@ define([
                 }
 
             const colors_obj = get_current_theme_colors();
-            colors_obj.type = themes_map[theme_id].type;
-            colors_obj.name = theme_id;
-            this.api.asc_setSkin(colors_obj);
+            if ( validate_vars(colors_obj) ) {
+                colors_obj.type = themes_map[theme_id].type;
+                colors_obj.name = theme_id;
+                this.api.asc_setSkin(colors_obj);
 
-            if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) ) {
-                // if ( themes_map[id].source != 'static' ) { // TODO: check writing styles
-                    const theme_obj = Object.assign({
-                                        id:id,
-                                        colors: colors_obj},
-                                    themes_map[id]);
-                    delete theme_obj.source;
+                if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) ) {
+                    const theme_str = Common.localStorage.getItem("ui-theme");
+                    let theme_id;
+                    if ( theme_str ) {
+                        const reid = /id":\s?"([\w-]+)/.exec(theme_str);
+                        if ( reid[1] ) {
+                            theme_id = reid[1];
+                        }
+                    }
 
-                    // const theme_obj = {
-                    //     id: id,
-                    //     type: themes_map[id].type,
-                    //     text: themes_map[id].text,
-                    //     colors: colors_obj,
-                    // };
+                    if ( theme_id !== id ) {
 
-                    Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
-                // }
+                    // if ( themes_map[id].source != 'static' ) { // TODO: check writing styles
+                        const theme_obj = Object.assign({id:id, colors: colors_obj},
+                                                            themes_map[id]);
+                        delete theme_obj.source;
+
+                        Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
+                    }
+                }
             }
             theme_props = {};
         }
@@ -622,6 +630,12 @@ define([
                 this.api = api;
 
                 const theme_id = window.uitheme.relevant_theme_id();
+                if ( window.uitheme.type && themes_map[theme_id] &&
+                        window.uitheme.type !== themes_map[theme_id].type )
+                {
+                    apply_theme.call(this, window.uitheme.id);
+                }
+
                 const obj = get_current_theme_colors(name_colors);
                 obj.type = window.uitheme.type ? window.uitheme.type : themes_map[theme_id] ? themes_map[theme_id].type : THEME_TYPE_LIGHT;
                 obj.name = theme_id;
@@ -772,6 +786,10 @@ define([
                     }
                 } else if (prop==='tab-style') {
                     return (Common.Utils.isIE || Common.Controllers.Desktop && Common.Controllers.Desktop.isWinXp()) ? 'fill' : window.getComputedStyle(document.body).getPropertyValue("--toolbar-preferred-tab-style") || 'line';
+                } else if (prop==='small-btn-size') {
+                    if (!theme_props[prop]) {
+                        theme_props[prop] = window.getComputedStyle(document.body).getPropertyValue("--x-small-btn-size") || '20px';
+                    }
                 }
                 return theme_props[prop];
             }

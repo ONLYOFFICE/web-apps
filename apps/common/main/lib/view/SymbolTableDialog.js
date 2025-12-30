@@ -344,14 +344,19 @@ define([
 
     var minScrollbarLength = 20;
     var wheelSpeed = 20;
-
+    var _4letterLangs = ['pt-pt', 'zh-tw', 'sr-cyrl'];
 
     var loadTranslation = function(lang, callback) {
-        lang = lang.split(/[\-_]/)[0].toLocaleLowerCase();
+        lang = lang.toLowerCase().split(/[\-_]/);
+        lang = lang[0] + (lang.length>1 ? '-' + lang[1] : '');
+        var idx4Letters = _4letterLangs.indexOf(lang); // try to load 4 letters language
+        lang = (idx4Letters<0) ? lang.split(/[\-]/)[0] : _4letterLangs[idx4Letters];
         Common.Utils.loadConfig('resources/symboltable/' + lang + '.json', function (langJson) {
-            for (var i=1; i<274; i++) {
-                var val = oRangeNames[i];
-                oRangeNames[i] = langJson[val] || val;
+            if ( langJson !== 'error' ) {
+                for (var i=1; i<274; i++) {
+                    var val = oRangeNames[i];
+                    oRangeNames[i] = langJson[val] || val;
+                }
             }
             callback && callback();
         });

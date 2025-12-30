@@ -155,7 +155,7 @@ define([
             if(this.api && this.AnimationProperties) {
                 if(toggleGroup == 'animateeffects') {
                     this.AnimationProperties.asc_putSubtype(value);
-                    this.api.asc_SetAnimationProperties(this.AnimationProperties);
+                    this.api.asc_SetAnimationProperties(this.AnimationProperties, !Common.Utils.InternalSettings.get("pe-animation-no-auto-preview"));
                 }
                 else if(toggleGroup == 'custompath') {
                     var groupName = _.findWhere(this.EffectGroups, {value: AscFormat.PRESET_CLASS_PATH}).id;
@@ -546,8 +546,6 @@ define([
                 item.set('disabled', !!me._state.lockEmphasis);
             });
             this.setLocked();
-            if (this.view && this.view.listEffects && !this.view.listEffects.isDisabled() && this._state.onactivetab)
-                Common.UI.TooltipManager.showTip('animText');
         },
 
         setTriggerList: function (){
@@ -593,13 +591,8 @@ define([
             if (tab == 'animate') {
                 this._state.onactivetab = true;
                 this.setSettings();
-                if (this.view && this.view.listEffects && !this.view.listEffects.isDisabled())
-                    setTimeout(function() {
-                        Common.UI.TooltipManager.showTip('animText');
-                    }, 10);
             } else {
                 this._state.onactivetab = false;
-                Common.UI.TooltipManager.closeTip('animText');
             }
             this.api && this.api.asc_onShowAnimTab(!!this._state.onactivetab);
         },

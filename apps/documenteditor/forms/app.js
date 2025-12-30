@@ -131,7 +131,8 @@ require([
             'ApplicationController',
             'Plugins',
             'SearchBar',
-            'Common.Controllers.Fonts'
+            'Common.Controllers.Fonts',
+            'Common.Controllers.Shortcuts'
         ],
         features: {
             uitype: 'fillform',
@@ -154,9 +155,11 @@ require([
                 'common/main/lib/controller/Themes',
                 'common/main/lib/controller/Desktop',
                 'common/main/lib/view/SearchBar',
+                'common/main/lib/controller/Shortcuts',
                 'common/forms/lib/view/modals'
             ], function() {
-                app.postLaunchScripts = ['documenteditor/forms/code'];
+                const code_path = !window.isIEBrowser ? 'documenteditor/forms/code' : 'documenteditor/forms/ie/code';
+                app.postLaunchScripts = [code_path];
 
                 app.start();
             });

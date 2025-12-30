@@ -17,6 +17,7 @@ export class storeTextSettings {
             typeBullets: observable,
             typeNumbers: observable,
             paragraphAlign: observable,
+            isRtlTextDirection: observable,
             paragraphValign: observable,
             canIncreaseIndent: observable,
             canDecreaseIndent: observable,
@@ -40,6 +41,7 @@ export class storeTextSettings {
             resetBullets: action,
             resetNumbers: action,
             resetParagraphAlign: action,
+            resetRtlTextDirection: action,
             resetParagraphValign: action,
             resetTextColor: action,
             changeCustomTextColors: action,
@@ -75,6 +77,7 @@ export class storeTextSettings {
     isItalic = false;
     isUnderline = false;
     isStrikethrough = false;
+    isRtlTextDirection = false;
     typeBaseline = undefined;
     listType = undefined;
     typeBullets = undefined;
@@ -105,12 +108,15 @@ export class storeTextSettings {
         this.iconHeight = Asc.FONT_THUMBNAIL_HEIGHT || 28;
         this.thumbCanvas = document.createElement('canvas');
         this.thumbContext = this.thumbCanvas.getContext('2d');
+        const lang = (Common.Locale.currentLang || '').toLowerCase();
+        const eaSprite = (lang === 'zh' || lang === 'ja' || lang === 'ko');
+        const sprite = eaSprite ? 'fonts_thumbnail_ea' : 'fonts_thumbnail';
         this.thumbs = [
-            {ratio: 1, path: '../../../../../sdkjs/common/Images/fonts_thumbnail.png', width: this.iconWidth, height: this.iconHeight},
-            {ratio: 1.25, path: '../../../../../sdkjs/common/Images/fonts_thumbnail@1.25x.png', width: this.iconWidth * 1.25, height: this.iconHeight * 1.25},
-            {ratio: 1.5, path: '../../../../../sdkjs/common/Images/fonts_thumbnail@1.5x.png', width: this.iconWidth * 1.5, height: this.iconHeight * 1.5},
-            {ratio: 1.75, path: '../../../../../sdkjs/common/Images/fonts_thumbnail@1.75x.png', width: this.iconWidth * 1.75, height: this.iconHeight * 1.75},
-            {ratio: 2, path: '../../../../../sdkjs/common/Images/fonts_thumbnail@2x.png', width: this.iconWidth * 2, height: this.iconHeight * 2}
+        {ratio: 1, path: `../../../../../sdkjs/common/Images/${sprite}.png`, width: this.iconWidth, height: this.iconHeight},
+        {ratio: 1.25, path: `../../../../../sdkjs/common/Images/${sprite}@1.25x.png`, width: this.iconWidth * 1.25, height: this.iconHeight * 1.25},
+        {ratio: 1.5, path: `../../../../../sdkjs/common/Images/${sprite}@1.5x.png`, width: this.iconWidth * 1.5, height: this.iconHeight * 1.5},
+        {ratio: 1.75, path: `../../../../../sdkjs/common/Images/${sprite}@1.75x.png`, width: this.iconWidth * 1.75, height: this.iconHeight * 1.75},
+        {ratio: 2, path: `../../../../../sdkjs/common/Images/${sprite}@2x.png`, width: this.iconWidth * 2, height: this.iconHeight * 2}
         ];
 
         const applicationPixelRatio = Common.Utils.applicationPixelRatio();
@@ -245,6 +251,10 @@ export class storeTextSettings {
                 break;
         }
         this.paragraphValign = value;
+    }
+
+    resetRtlTextDirection (isRtl) {
+        this.isRtlTextDirection = isRtl;
     }
 
     resetTextColor (color) {

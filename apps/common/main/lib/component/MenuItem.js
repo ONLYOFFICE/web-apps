@@ -205,26 +205,7 @@ define([
                     }
 
                     if (me.options.hint) {
-                        el.attr('data-toggle', 'tooltip');
-                        el.tooltip({
-                            title       : me.options.hint,
-                            placement   : me.options.hintAnchor||function(tip, element) {
-                                var pos = Common.Utils.getBoundingClientRect(element),
-                                    actualWidth = tip.offsetWidth,
-                                    actualHeight = tip.offsetHeight,
-                                    innerWidth = Common.Utils.innerWidth(),
-                                    innerHeight = Common.Utils.innerHeight();
-                                var top = pos.top,
-                                    left = pos.left + pos.width + 2;
-                                if (top + actualHeight > innerHeight) {
-                                    top = innerHeight - actualHeight - 2;
-                                }
-                                if (left + actualWidth > innerWidth) {
-                                    left = pos.left - actualWidth - 2;
-                                }
-                                Common.Utils.setOffset($(tip),{top: top,left: left}).addClass('in');
-                            }
-                        });
+                        this.createHint();
                     }
 
                     if (this.cls)
@@ -258,6 +239,39 @@ define([
             me.trigger('render:after', me);
 
             return this;
+        },
+
+        createHint: function() {
+            if(!this.cmpEl) return;
+
+            this.cmpEl.attr('data-toggle', 'tooltip');
+            this.cmpEl.tooltip({
+                title       : this.options.hint,
+                placement   : this.options.hintAnchor||function(tip, element) {
+                    var pos = Common.Utils.getBoundingClientRect(element),
+                        actualWidth = tip.offsetWidth,
+                        actualHeight = tip.offsetHeight,
+                        innerWidth = Common.Utils.innerWidth(),
+                        innerHeight = Common.Utils.innerHeight();
+                    var top = pos.top,
+                        left = pos.left + pos.width + 2;
+                    if (top + actualHeight > innerHeight) {
+                        top = innerHeight - actualHeight - 2;
+                    }
+                    if (left + actualWidth > innerWidth) {
+                        left = pos.left - actualWidth - 2;
+                    }
+                    Common.Utils.setOffset($(tip),{top: top,left: left}).addClass('in');
+                }
+            });
+        },
+
+        updateHint: function(hint) {
+            this.options.hint = hint;
+            if (!this.rendered) return;
+
+            this.cmpEl.tooltip('destroy');
+            this.createHint();
         },
 
         setCaption: function(caption) {
@@ -482,6 +496,14 @@ define([
         render: function () {
             Common.UI.MenuItem.prototype.render.call(this);
 
+            if (this.options.scaling !== false) {
+                var me = this;
+                me.cmpEl.attr('ratio', 'ratio');
+                me.cmpEl.on('app:scaling', function (e, info) {
+                    me.applyScaling(info.ratio);
+                });
+            }
+
             this.updateIcon();
             Common.NotificationCenter.on('uitheme:changed', this.updateIcons.bind(this));
             return this;
@@ -494,7 +516,7 @@ define([
         },
 
         updateIcon: function() {
-            this.cmpEl && this.cmpEl.find('> a img').attr('src', this.iconImg).addClass('custom-icon');
+            this.cmpEl && this.cmpEl.find('img.menu-item-icon').attr('src', this.iconImg).addClass('custom-icon');
         },
 
         applyScaling: function (ratio) {

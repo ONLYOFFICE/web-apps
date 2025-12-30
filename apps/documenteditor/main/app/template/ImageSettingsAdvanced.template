@@ -1,3 +1,53 @@
+<div id="id-chart-settings-dlg-layout" class="settings-panel">
+    <div class="inner-content">
+        <table cols="2" style="width: 100%;" role="presentation">
+            <tr>
+                <td class="padding-small" width="50%">
+                    <label class="input-label"><%= scope.textChartTitle %></label>
+                    <div id="chart-dlg-combo-chart-title" class="input-group-nr margin-right-7"></div>
+                </td>
+                <td class="padding-small" width="50%">
+                    <label class="input-label margin-left-7"><%= scope.textLegendPos %></label>
+                    <div id="chart-dlg-combo-legend-pos" class="input-group-nr margin-left-7"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small" width="50%">
+                    <label class="input-label"><%= scope.textDataLabels %></label>
+                    <div id="chart-dlg-combo-data-labels" class="input-group-nr margin-right-7"></div>
+                </td>
+                <td rowspan="2" class="padding-small" width="50%">
+                    <div id="chart-dlg-check-series"></div>
+                    <div id="chart-dlg-check-category"></div>
+                    <div id="chart-dlg-check-value"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small" width="50%">
+                    <label class="input-label"><%= scope.textSeparator %></label>
+                    <div id="chart-dlg-txt-separator" class="input-row margin-right-7"></div>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%">
+                    <label id="chart-dlg-label-lines" class="input-label"><%= scope.textLines %></label>
+                    <div id="chart-dlg-combo-lines" class="input-group-nr margin-right-7"></div>
+                </td>
+                <td style="vertical-align: bottom;" width="50%">
+                    <div id="chart-dlg-check-markers" class="margin-left-7"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="id-chart-settings-dlg-vert" class="settings-panel">
+</div>
+<div id="id-chart-settings-dlg-vert-sec" class="settings-panel">
+</div>
+<div id="id-chart-settings-dlg-hor" class="settings-panel">
+</div>
+<div id="id-chart-settings-dlg-hor-sec" class="settings-panel">
+</div>
 <div id="id-adv-image-width" class="settings-panel active">
     <div class="inner-content">
     <table cols="4" width="100%" role="presentation">

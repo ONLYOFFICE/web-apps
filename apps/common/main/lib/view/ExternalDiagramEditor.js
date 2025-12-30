@@ -44,12 +44,14 @@ define([
             _.extend(_options,  {
                 id: 'id-external-diagram-editor',
                 title: this.textTitle,
-                storageName: 'diagram-editor',
+                // storageName: 'diagram-editor',
                 sdkplaceholder: 'id-diagram-editor-placeholder',
-                initwidth: 900,
-                initheight: 700,
+                initwidth: 730,
+                initheight: 275,
                 minwidth: 730,
-                minheight: 275
+                minheight: 275,
+                footer: false,
+                transparentMask: true
             }, options);
 
             this._chartData = null;

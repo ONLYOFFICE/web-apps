@@ -216,6 +216,15 @@ define([
             return this;
         },
 
+        resetApi: function(api) {
+            /** coauthoring begin **/
+            this.api.asc_unregisterCallback('asc_onHideComment',    this.wrapEvents.apiHideComment);
+//            this.api.asc_unregisterCallback('asc_onShowComment',    this.wrapEvents.apiShowComment);
+            this.api.asc_registerCallback('asc_onHideComment',      this.wrapEvents.apiHideComment);
+//            this.api.asc_registerCallback('asc_onShowComment',      this.wrapEvents.apiShowComment);
+            /** coauthoring end **/
+        },
+
         onAddComment: function(item) {
             if (this._state.wsProps['Objects']) return;
             
@@ -317,8 +326,8 @@ define([
                 me.tooltips.coauth.apiWidth = me.documentHolder.cmpEl.width();
                 var rightMenu = $('#right-menu');
                 me.tooltips.coauth.rightMenuWidth = rightMenu.is(':visible') ? rightMenu.width() : 0;
-                me.tooltips.coauth.bodyWidth = $(window).width();
-                me.tooltips.coauth.bodyHeight = $(window).height();
+                me.tooltips.coauth.bodyWidth = Common.Utils.innerWidth();
+                me.tooltips.coauth.bodyHeight = Common.Utils.innerHeight();
             }
         },
 
@@ -514,6 +523,24 @@ define([
             }
         },
 
+        onHideChartElementButton: function() {
+            if (!this.documentHolder || !this.documentHolder.cmpEl) return;
+            var chartContainer = this.documentHolder.cmpEl.find('#chart-element-container');
+            if (chartContainer.is(':visible')) {
+                chartContainer.hide();
+                Common.UI.TooltipManager.closeTip('chartElements');
+            }
+        },
+
+        disableChartElementButton: function() {
+            var chartContainer = this.documentHolder.cmpEl.find('#chart-element-container'),
+                disabled = this._isDisabled  || this._state.chartLocked;
+
+            if (chartContainer.length>0 && chartContainer.is(':visible')) {
+                this.btnChartElement.setDisabled(!!disabled);
+            }
+        },
+
         onKeyUp: function (e) {
             if (e.keyCode == Common.UI.Keys.CTRL && this._needShowSpecPasteMenu && !this._handleZoomWheel && !this.btnSpecialPaste.menu.isVisible() && /area_id/.test(e.target.id)) {
                 $('button', this.btnSpecialPaste.cmpEl).click();
@@ -522,7 +549,6 @@ define([
             this._handleZoomWheel = false;
             this._needShowSpecPasteMenu = false;
         },
-
 
         onChangeProtectSheet: function(props) {
             if (!props) {
@@ -586,11 +612,13 @@ define([
             this._canProtect = state ? canProtect : true;
             this.disableEquationBar();
             this.disableSpecialPaste();
+            this.disableChartElementButton();
         },
 
         clearSelection: function() {
             this.onHideMathTrack();
             this.onHideSpecialPasteOptions();
+            this.onHideChartElementButton();
         },
 
         onPluginContextMenu: function(data) {

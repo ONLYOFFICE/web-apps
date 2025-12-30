@@ -231,7 +231,7 @@ define([
         close: function () {
             this.clearCategoryListTimer();
 
-            this.api.asc_onCloseChartFrame();
+            this.api.asc_onCloseFrameEditor();
             Common.Views.AdvancedSettingsWindow.prototype.close.apply(this, arguments);
         },
 
@@ -354,7 +354,7 @@ define([
             var record = null, listView = this.seriesList;
 
             if (listView.disabled) return;
-            if (_.isUndefined(undefined)) data = e;
+            if (_.isUndefined(data)) data = e;
 
             if (data.keyCode==Common.UI.Keys.DELETE && !this.btnDelete.isDisabled()) {
                 // this.onDeleteSeries();

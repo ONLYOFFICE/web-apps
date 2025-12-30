@@ -59,7 +59,6 @@ define([
             var me = this;
             if (me.listEffects) {
                 me.listEffects.on('click', _.bind(function (combo, record) {
-                    Common.UI.TooltipManager.closeTip('animText');
                     me.fireEvent('animation:selecteffect', [combo, record]);
                 }, me));
                 me.listEffectsMore.on('click', _.bind(function () {
@@ -242,8 +241,6 @@ define([
                             });
                         }
                         cmp.removeTips();
-
-                        Common.UI.TooltipManager.closeTip('animText');
                     }
                 });
                 this.lockedControls.push(this.listEffects);
@@ -317,7 +314,7 @@ define([
                     dataHintDirection: 'top',
                     dataHintOffset: 'small',
                     updateFormControl: function(record) {
-                        record && this.setRawValue(record.get('value') + ' ' + me.txtSec);
+                        record && record.get('value')>=0 && this.setRawValue(record.get('value') + ' ' + me.txtSec);
                     }
                 });
                 this.lockedControls.push(this.cmbDuration);

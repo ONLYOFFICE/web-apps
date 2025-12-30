@@ -15,6 +15,7 @@ import EditorUIController from '../lib/patch';
     canCoAuthoring: stores.storeAppOptions.canCoAuthoring,
     canReview: stores.storeAppOptions.canReview,
     canFillForms: stores.storeAppOptions.canFillForms,
+    canCopy: stores.storeAppOptions.canCopy,
     users: stores.users,
     isDisconnected: stores.users.isDisconnected,
     displayMode: stores.storeReview.displayMode,
@@ -92,11 +93,11 @@ class ContextMenu extends ContextMenuController {
         const api = Common.EditorApi.get();
         switch (action) {
             case 'cut':
-                if ( !LocalStorage.getBool("de-hide-copy-cut-paste-warning") )
+                if ( !LocalStorage.getBool("de-hide-copy-cut-paste-warning") && this.props.canCopy )
                     this.showCopyCutPasteModal();
                 break;
             case 'copy':
-                if (!api.Copy() && !LocalStorage.getBool("de-hide-copy-cut-paste-warning") )
+                if (!api.Copy() && !LocalStorage.getBool("de-hide-copy-cut-paste-warning") && this.props.canCopy )
                     this.showCopyCutPasteModal();
                 break;
             case 'paste':
@@ -246,18 +247,18 @@ class ContextMenu extends ContextMenuController {
 
                 f7.dialog.create({
                     title: t('Settings', {returnObjects: true}).notcriticalErrorTitle,
-                    text  : _t.txtWarnUrl,
-                    buttons: [{
+                    text  : _t.txtWarnUrl.replaceAll('{0}', url),
+                    buttons: [
+                        { text: _t.menuCancel, bold: true },
+                        {
                         text: _t.textOk,
-                        bold: true,
                         onClick: () => {
                             const newDocumentPage = window.open(url, '_blank');
                             if (newDocumentPage) {
                                 newDocumentPage.focus();
                             }
                         }
-                    },
-                    { text: _t.menuCancel }]
+                    }]
                 }).open();
             }
         }

@@ -83,7 +83,8 @@
     "textDoNotShowAgain": "Non mostrare di nuovo",
     "textOk": "Ok",
     "textRows": "Righe",
-    "txtWarnUrl": "Cliccando su questo collegamento si può danneggiare il tuo dispositivo e i dati.<br>Sei sicuro di voler continuare?"
+    "txtWarnUrl": "Cliccando su questo collegamento il tuo dispositivo e i dati potrebbero essere danneggiati.<br>Sei sicuro di voler continuare?",
+    "menuDuplicate": "Duplicate"
   },
   "Controller": {
     "Main": {
@@ -93,7 +94,6 @@
       "criticalErrorTitle": "Errore",
       "errorAccessDeny": "Stai cercando di eseguire un'azione per la quale non hai diritti.<br>Ti preghiamo di contattare il tuo amministratore.",
       "errorOpensource": "Usando la versione Community gratuita, puoi aprire i documenti solo per visualizzarli. Per accedere agli editor mobili sul web è richiesta una licenza commerciale.",
-      "errorProcessSaveResult": "Salvataggio non riuscito.",
       "errorServerVersion": "La versione dell'editor è stata aggiornata. La pagina verrà ricaricata per applicare i cambiamenti.",
       "errorUpdateVersion": "La versione del file è stata cambiata. La pagina verrà ricaricata.",
       "leavePageText": "Ci sono cambiamenti non salvati in questo documento. Fai clic su \"Rimani su questa pagina\" per attendere il salvataggio automatico. Fai clic su \"Lascia questa pagina\" per scartare tutti i cambiamenti non salvati.",
@@ -165,19 +165,20 @@
       "textReplaceSuccess": "La ricerca è stata effettuata. Ricorrenze sostituite: {0}",
       "textRequestMacros": "Una macro effettua una richiesta all'URL. Vuoi consentire la richiesta al %1?",
       "textYes": "Sì",
+      "tipLicenseExceeded": "Il documento è aperto in modalità di sola lettura poiché è stato raggiunto il numero massimo di connessioni simultanee consentito dalla licenza.<br><br>Riprova più tardi o contatta il proprietario del documento se hai bisogno dell'accesso di modifica.",
+      "tipLicenseUsersExceeded": "Il documento è aperto in modalità di sola lettura poiché è stato raggiunto il numero massimo di utenti autorizzati a modificare i documenti in base alla licenza.<br><br>Riprova più tardi o contatta il proprietario del documento se hai bisogno dell'accesso di modifica.",
       "titleLicenseExp": "La licenza è scaduta",
       "titleLicenseNotActive": "Licenza non attiva",
+      "titleReadOnly": "Modalità di sola lettura",
       "titleServerVersion": "L'editor è stato aggiornato",
       "titleUpdateVersion": "La versione è stata cambiata",
       "txtIncorrectPwd": "La password non è corretta",
       "txtProtected": "Una volta inserita la password e aperto il file, la password corrente del file verrà resettata",
       "warnLicenseAnonymous": "Accesso negato per utenti anonimi.<br>Questo documento verrà aperto solo per la visualizzazione.",
       "warnLicenseBefore": "Licenza non attiva.<br>Ti preghiamo di contattare il tuo amministratore.",
-      "warnLicenseExceeded": "Hai raggiunto il limite di connessioni simultanee a %1 editor. Questo documento sarà aperto solo in modalità visualizzazione.  Ti preghiamo di contattare il tuo amministratore per maggiori informazioni.",
       "warnLicenseExp": "La tua licenza è scaduta. Ti preghiamo di aggiornarla e ricaricare la pagina.",
       "warnLicenseLimitedNoAccess": "La licenza è scaduta. Non hai accesso alle funzionalità di modifica dei documenti. Per favore, contatta il tuo amministratore.",
       "warnLicenseLimitedRenewed": "La licenza dev'essere rinnovata. Hai accesso limitato alle funzionalità di modifiche di documenti.<br>Ti preghiamo di contattare il tuo amministratore per ottenere l'accesso completo.",
-      "warnLicenseUsersExceeded": "Hai raggiunto il limite di utenti per %1 editor. Ti preghiamo di contattare il tuo amministratore per maggiori informazioni.",
       "warnNoLicense": "Hai raggiunto il limite di connessioni simultanee a %1 editor. Questo documento sarà aperto solo in modalità visualizzazione.  Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
       "warnNoLicenseUsers": "Hai raggiunto il limite di utenti per %1 editor. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
       "warnProcessRightsChange": "Non hai il permesso di modificare il file."
@@ -192,6 +193,7 @@
   "Error": {
     "convertationTimeoutText": "È stato superato il tempo massimo di conversione.",
     "criticalErrorExtText": "Premi 'OK' per tornare all'elenco documenti.",
+    "criticalErrorExtTextClose": "Clicca \"OK\" per chiudere l'editor.",
     "criticalErrorTitle": "Errore",
     "downloadErrorText": "Scaricamento fallito.",
     "errorAccessDeny": "Stai tentando di eseguire un'azione per la quale non hai diritti.<br>Ti preghiamo di contattare il tuo amministratore.",
@@ -240,7 +242,7 @@
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
     "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "Caricamento dati in corso...",
@@ -355,6 +357,7 @@
       "textBack": "Indietro",
       "textBandedColumn": "Colonne a strisce",
       "textBandedRow": "Riga a strisce",
+      "textBaseline": "Linea di base",
       "textBefore": "Prima",
       "textBlack": "Attraverso il nero",
       "textBorder": "Bordo",
@@ -365,8 +368,10 @@
       "textBullets": "Elenchi puntati",
       "textBulletsAndNumbers": "Pallini e numeri",
       "textCancel": "Annulla",
+      "textCapitalization": "Maiuscola",
       "textCaseSensitive": "Maiuscole/minuscole",
       "textCellMargins": "Margini della cella",
+      "textCellSize": "Dimensione cella",
       "textChangeShape": "Cambia forma",
       "textChart": "Grafico",
       "textClock": "Orologio",
@@ -495,7 +500,14 @@
       "textZoom": "Zoom",
       "textZoomIn": "Ingrandisci",
       "textZoomOut": "Rimpicciolisci",
-      "textZoomRotate": "Ingrandisci e ruota"
+      "textZoomRotate": "Ingrandisci e ruota",
+      "txtHeight": "Altezza",
+      "txtWidth": "Larghezza",
+      "textBackground": "Background",
+      "textLtrTextDirection": "Left-to-right",
+      "textResetBackground": "Reset background",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -563,7 +575,9 @@
       "textUnitOfMeasurement": "Unità di misura",
       "textUploaded": "Caricato",
       "textVersion": "Versione",
-      "textVersionHistory": "Cronologia delle versioni"
+      "textVersionHistory": "Cronologia delle versioni",
+      "textLoopSlideshow": "Loop slideshow",
+      "textOpenLocation": "Open location"
     }
   }
 }

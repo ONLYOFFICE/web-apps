@@ -227,7 +227,7 @@ define([
         },
 
         close: function () {
-            this.api.asc_onCloseChartFrame();
+            this.api.asc_onCloseFrameEditor();
             this.api.asc_unregisterCallback('asc_onAddChartStylesPreview', this.wrapEvents.onAddChartStylesPreview);
             Common.Views.AdvancedSettingsWindow.prototype.close.apply(this, arguments);
         },

@@ -24,6 +24,7 @@ export class storeFocusObjects {
             setEditCell: action,
             functionsDisable: observable,
             setFunctionsDisabled: action,
+            paragraphObject: computed,
         });
     }
 
@@ -88,6 +89,10 @@ export class storeFocusObjects {
 
     get chartObject() {
         return !!this.intf ? this.intf.getChartObject() : null;
+    }
+
+    get paragraphObject() {
+        return !!this.intf ? this.intf.getParagraphObject() : null;
     }
 
     isLocked = false;

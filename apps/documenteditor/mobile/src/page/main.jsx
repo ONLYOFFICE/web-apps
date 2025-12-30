@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { CSSTransition } from 'react-transition-group';
+import { CSSTransition } from '../../../../common/mobile/lib/component/CSSTransition'
 import { f7, Icon, Page, View, Navbar, Subnavbar } from 'framework7-react';
 import { observer, inject } from "mobx-react";
 import { useTranslation } from 'react-i18next';
@@ -45,8 +45,7 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
     const storeVersionHistory = props.storeVersionHistory;
     const isVersionHistoryMode = storeVersionHistory.isVersionHistoryMode;
     const storeDocumentInfo = props.storeDocumentInfo;
-    const dataDoc = storeDocumentInfo.dataDoc;
-    const docExt = dataDoc?.fileType || '';
+    const docExt = storeDocumentInfo.dataDoc?.fileType || '';
     const isAvailableExt = docExt && docExt !== 'djvu' && docExt !== 'pdf' && docExt !== 'xps';
     const storeToolbarSettings = props.storeToolbarSettings;
     const isFabShow = appOptions.isViewer && !storeToolbarSettings.disabledSettings && !storeToolbarSettings.disabledControls &&
@@ -136,6 +135,7 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
                 return {
                     ...prevState,
                     collaborationVisible: true,
+                    addShowOptions: showOpts,
                     isOpenModal: true
                 }
             } else if(opts === 'navigation') {
@@ -274,7 +274,7 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
                                 }
                             </div>
                         }
-                        {dataDoc &&
+                        {
                             <Subnavbar>
                                 <ToolbarController 
                                     openOptions={handleClickToOpenOptions} 
@@ -337,6 +337,7 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
                     {!state.collaborationVisible ? null : 
                         <CollaborationView 
                             closeOptions={handleOptionsViewClosed} 
+                            showOptions={state.addShowOptions}
                         />
                     }
                     {!state.navigationVisible ? null : <NavigationController />}

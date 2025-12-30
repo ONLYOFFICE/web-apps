@@ -80,6 +80,9 @@ define([
         isDummyComment : false,
 
         initialize: function () {
+            this.currentGroupFilter = null;
+            this.currentTypeFilter = null;
+            this.isPDFEditor = !!window.PDFE;
 
             this.addListeners({
                 'Common.Views.Comments': {
@@ -103,7 +106,8 @@ define([
 
                     'comment:closeEditing':     _.bind(this.closeEditing, this),
                     'comment:sort':             _.bind(this.setComparator, this),
-                    'comment:filtergroups':     _.bind(this.setFilterGroups, this)
+                    'comment:filtergroups':     _.bind(this.setFilterGroups, this),
+                    'comment:filtercomments':     _.bind(this.setFilterComments, this)
                 },
 
                 'Common.Views.ReviewPopover': {
@@ -659,6 +663,8 @@ define([
         // SDK
 
         onApiAddComment: function (id, data) {
+            if (this.isPDFEditor && (this.findComment(id) || this.findCommentInGroup(id))) return; // fix for PDF, do not add comment with existing id
+
             var requestObj = {},
                 comment = this.readSDKComment(id, data, requestObj);
             if (comment) {
@@ -706,7 +712,7 @@ define([
                 if (model) {
                     this.collection.remove(model);
                     if (!silentUpdate) {
-                        this.updateComments(true);
+                        this.updateComments(true, undefined, undefined, true);
                     }
                 }
 
@@ -781,8 +787,9 @@ define([
                     var usergroups = comment.get('parsedGroups');
                     t.fillUserGroups(usergroups);
                     var group = Common.Utils.InternalSettings.get(t.appPrefix + "comments-filtergroups");
-                    var filter = !!group && (group!==-1) && (!usergroups || usergroups.length<1 || usergroups.indexOf(group)<0);
-                    comment.set('filtered', filter);
+                    var groupFilter = !!group && (group !== -1) && (!usergroups || usergroups.length < 1 || usergroups.indexOf(group) < 0);
+                    var typeFilter = (t.currentTypeFilter === 'open' && comment.get('resolved')) || (t.currentTypeFilter === 'resolved' && !comment.get('resolved'));
+                    comment.set('filtered', groupFilter || typeFilter);
                 }
 
                 replies = _.clone(comment.get('replys'));
@@ -866,7 +873,7 @@ define([
             var same_uids = (0 === _.difference(this.uids, uids).length) && (0 === _.difference(uids, this.uids).length);
             
             if (hint && this.isSelectedComment && same_uids && !this.isModeChanged) {
-                // хотим показать тот же коментарий что был и выбран
+                // want to show the same comment that was selected
                 return;
             }
 
@@ -933,8 +940,10 @@ define([
                     this.uids = _.clone(uids);
 
                     comments.push(comment);
-                    if (!this._dontScrollToComment)
+                    if (!this._dontScrollToComment) {
+                        this.view.commentsView.clearActive();
                         this.view.commentsView.scrollToRecord(comment);
+                    }
                     this._dontScrollToComment = false;
                 }
 
@@ -954,6 +963,8 @@ define([
         },
         onApiHideComment: function (hint) {
             var t = this;
+
+            this.view && this.view.commentsView && this.view.commentsView.clearActive();
 
             if (this.getPopover()) {
                 if (this.isSelectedComment && hint) {
@@ -1033,8 +1044,9 @@ define([
                         this.getPopover().showComments(false, undefined, undefined, text);
                     }
 
-                    this.getPopover().setLeftTop(posX, posY, leftX, undefined, true);
-
+                    this.getPopover().setLeftTop(posX, posY, leftX, undefined);
+                    this.getPopover().moveMentions();
+                    
 //                    if (this.isSelectedComment && (0 === _.difference(this.uids, uids).length)) {
                         //NOTE: click to sdk view ?
 //                        if (this.api) {
@@ -1077,16 +1089,18 @@ define([
 
         // internal
 
-        updateComments: function (needRender, disableSort, loadText) {
+        updateComments: function (needRender, disableSort, loadText, isSaveScrollPos) {
             var me = this;
             me.updateCommentsTime = new Date();
             me.disableSort = !!disableSort;
             if (me.timerUpdateComments===undefined)
                 me.timerUpdateComments = setInterval(function(){
                     if ((new Date()) - me.updateCommentsTime>100) {
+                        const scrollPos =  me.view.commentsView.scroller.getScrollTop();
                         clearInterval(me.timerUpdateComments);
                         me.timerUpdateComments = undefined;
                         me.updateCommentsView(needRender, me.disableSort, loadText);
+                        isSaveScrollPos && me.view.commentsView.scroller.scrollTop(scrollPos);
                     }
                }, 25);
         },
@@ -1335,9 +1349,11 @@ define([
                     var usergroups = comment.get('parsedGroups');
                     this.fillUserGroups(usergroups);
                     var group = Common.Utils.InternalSettings.get(this.appPrefix + "comments-filtergroups");
-                    var filter = !!group && (group!==-1) && (!usergroups || usergroups.length<1 || usergroups.indexOf(group)<0);
-                    comment.set('filtered', filter);
+                    var groupFilter = !!group && (group !== -1) && (!usergroups || usergroups.length < 1 || usergroups.indexOf(group) < 0);
+                    var typeFilter = (this.currentTypeFilter === 'open' && comment.get('resolved')) || (this.currentTypeFilter === 'resolved' && !comment.get('resolved'));
+                    comment.set('filtered', groupFilter || typeFilter);
                 }
+
                 var replies = this.readSDKReplies(data, requestObj);
                 if (replies.length) {
                     comment.set('replys', replies);
@@ -1755,25 +1771,39 @@ define([
             }
         },
 
-        setFilterGroups: function (group) {
-            Common.Utils.InternalSettings.set(this.appPrefix + "comments-filtergroups", group);
+        applyCombinedFilter: function () {
             var i, end = true;
+
             for (i = this.collection.length - 1; i >= 0; --i) {
                 var item = this.collection.at(i);
-                if (!item.get('hide')) {
-                    var usergroups = item.get('parsedGroups');
-                    item.set('filtered', !!group && (group!==-1) && (!usergroups || usergroups.length<1 || usergroups.indexOf(group)<0), {silent: true});
-                }
-                if (end && !item.get('hide') && !item.get('filtered')) {
-                    item.set('last', true, {silent: true});
+                var usergroups = item.get('parsedGroups');
+
+                var groupFiltered = !!this.currentGroupFilter && this.currentGroupFilter !== -1 && (!usergroups || usergroups.length < 1 || usergroups.indexOf(this.currentGroupFilter) < 0);
+                var typeFiltered = (this.currentTypeFilter === 'open' && item.get('resolved')) || (this.currentTypeFilter === 'resolved' && !item.get('resolved'));
+                var shouldFilter = groupFiltered || typeFiltered;
+
+                item.set('filtered', shouldFilter, { silent: true });
+
+                if (end && !shouldFilter && !item.get('hide')) {
+                    item.set('last', true, { silent: true });
                     end = false;
-                } else {
-                    if (item.get('last')) {
-                        item.set('last', false, {silent: true});
-                    }
+                } else if (item.get('last')) {
+                    item.set('last', false, { silent: true });
                 }
             }
+
             this.updateComments(true);
+        },
+
+        setFilterGroups: function (group) {
+            Common.Utils.InternalSettings.set(this.appPrefix + "comments-filtergroups", group);
+            this.currentGroupFilter = group;
+            this.applyCombinedFilter();
+        },
+
+        setFilterComments: function (type) {
+            this.currentTypeFilter = type;
+            this.applyCombinedFilter();
         },
 
         onAppReady: function (config) {

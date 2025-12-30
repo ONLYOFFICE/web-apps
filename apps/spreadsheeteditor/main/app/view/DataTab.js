@@ -104,11 +104,15 @@ define([
             });
 
             me.btnExternalLinks.on('click', function (b, e) {
-                me.fireEvent('data:externallinks');
+                Common.NotificationCenter.trigger('data:externallinks');
             });
 
             me.btnGoalSeek.on('click', function (b, e) {
                 me.fireEvent('data:goalseek');
+            });
+
+            me.btnSolver.on('click', function (b, e) {
+                me.fireEvent('data:solver');
             });
 
             me.btnDataFromText.menu ?
@@ -279,6 +283,19 @@ define([
                 });
                 this.lockedControls.push(this.btnGoalSeek);
 
+                this.btnSolver = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-solver'),
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-solver',
+                    caption: this.capSolver,
+                    disabled: true,
+                    lock: [_set.editCell, _set.lostConnect, _set.coAuth],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnSolver);
+
                 this.btnsSortDown = Common.Utils.injectButtons($host.find('.slot-sortdesc'), '', 'toolbar__icon btn-sort-down', '',
                     [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.cantModifyFilter, _set.sheetLock, _set.cantSort, _set['Sort'], _set.userProtected], undefined, undefined, undefined, '1', 'top', undefined, 'D');
 
@@ -347,6 +364,7 @@ define([
                     me.btnDataValidation.updateHint(me.tipDataValidation);
                     me.btnExternalLinks.updateHint(me.tipExternalLinks);
                     me.btnGoalSeek.updateHint(me.tipGoalSeek);
+                    me.btnSolver.updateHint(me.tipSolver);
 
                     me.btnsSortDown.forEach( function(btn) {
                         btn.updateHint(me.toolbar.txtSortAZ);
