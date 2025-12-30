@@ -51,7 +51,7 @@ define([
     'common/main/lib/component/CheckBox',
     'spreadsheeteditor/main/app/view/ParagraphSettings',
     'spreadsheeteditor/main/app/view/ImageSettings',
-    'spreadsheeteditor/main/app/view/ChartSettings',
+    // 'spreadsheeteditor/main/app/view/ChartSettings',
     'spreadsheeteditor/main/app/view/ShapeSettings',
     'spreadsheeteditor/main/app/view/TextArtSettings',
     'spreadsheeteditor/main/app/view/PivotSettings',
@@ -94,15 +94,15 @@ define([
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
-            this.btnChart = new Common.UI.Button({
-                hint: this.txtChartSettings,
-                asctype: Common.Utils.documentSettingsType.Chart,
-                enableToggle: true,
-                disabled: true,
-                iconCls: 'btn-menu-chart',
-                toggleGroup: 'tabpanelbtnsGroup',
-                allowMouseEventsOnDisabled: true
-            });
+            // this.btnChart = new Common.UI.Button({
+            //     hint: this.txtChartSettings,
+            //     asctype: Common.Utils.documentSettingsType.Chart,
+            //     enableToggle: true,
+            //     disabled: true,
+            //     iconCls: 'btn-menu-chart',
+            //     toggleGroup: 'tabpanelbtnsGroup',
+            //     allowMouseEventsOnDisabled: true
+            // });
             this.btnShape = new Common.UI.Button({
                 hint: this.txtShapeSettings,
                 asctype: Common.Utils.documentSettingsType.Shape,
@@ -156,7 +156,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Paragraph]   = {panel: "id-paragraph-settings",  btn: this.btnText};
             this._settings[Common.Utils.documentSettingsType.Image]       = {panel: "id-image-settings",      btn: this.btnImage};
             this._settings[Common.Utils.documentSettingsType.Shape]       = {panel: "id-shape-settings",      btn: this.btnShape};
-            this._settings[Common.Utils.documentSettingsType.Chart]       = {panel: "id-chart-settings",      btn: this.btnChart};
+            // this._settings[Common.Utils.documentSettingsType.Chart]       = {panel: "id-chart-settings",      btn: this.btnChart};
             this._settings[Common.Utils.documentSettingsType.TextArt]     = {panel: "id-textart-settings",    btn: this.btnTextArt};
             this._settings[Common.Utils.documentSettingsType.Pivot]       = {panel: "id-pivot-settings",      btn: this.btnPivot};
             this._settings[Common.Utils.documentSettingsType.Cell]        = {panel: "id-cell-settings",       btn: this.btnCell};
@@ -195,7 +195,7 @@ define([
 
             this.btnText.setElement($('#id-right-menu-text'), false);           this.btnText.render();
             this.btnImage.setElement($('#id-right-menu-image'), false);         this.btnImage.render();
-            this.btnChart.setElement($('#id-right-menu-chart'), false);         this.btnChart.render();
+            // this.btnChart.setElement($('#id-right-menu-chart'), false);         this.btnChart.render();
             this.btnShape.setElement($('#id-right-menu-shape'), false);         this.btnShape.render();
             this.btnTextArt.setElement($('#id-right-menu-textart'), false);     this.btnTextArt.render();
             this.btnPivot.setElement($('#id-right-menu-pivot'), false);         this.btnPivot.render();
@@ -204,7 +204,7 @@ define([
 
             this.btnText.on('click',            _.bind(this.onBtnMenuClick, this));
             this.btnImage.on('click',           _.bind(this.onBtnMenuClick, this));
-            this.btnChart.on('click',           _.bind(this.onBtnMenuClick, this));
+            // this.btnChart.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnShape.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnTextArt.on('click',         _.bind(this.onBtnMenuClick, this));
             this.btnPivot.on('click',           _.bind(this.onBtnMenuClick, this));
@@ -213,7 +213,7 @@ define([
 
             this.paragraphSettings = new SSE.Views.ParagraphSettings();
             this.imageSettings = new SSE.Views.ImageSettings();
-            this.chartSettings = new SSE.Views.ChartSettings();
+            // this.chartSettings = new SSE.Views.ChartSettings();
             this.shapeSettings = new SSE.Views.ShapeSettings();
             this.textartSettings = new SSE.Views.TextArtSettings();
             this.pivotSettings = new SSE.Views.PivotSettings();
@@ -262,7 +262,7 @@ define([
             var _updateScroller = function () {me.updateScroller();};
             this.paragraphSettings.setApi(api);
             this.imageSettings.setApi(api);
-            this.chartSettings.setApi(api).on('updatescroller', _updateScroller);
+            // this.chartSettings.setApi(api).on('updatescroller', _updateScroller);
             this.shapeSettings.setApi(api).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
             this.textartSettings.setApi(api).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
             this.pivotSettings.setApi(api);
@@ -359,7 +359,7 @@ define([
         },
 
         setButtons: function () {
-            var allButtons = [this.btnCell, this.btnShape, this.btnImage, this.btnChart, this.btnText, this.btnTextArt, this.btnSlicer, this.btnSignature, this.btnPivot];
+            var allButtons = [this.btnCell, this.btnShape, this.btnImage, this.btnText, this.btnTextArt, this.btnSlicer, this.btnSignature, this.btnPivot];
             Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 
