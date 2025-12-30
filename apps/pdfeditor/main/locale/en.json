@@ -1600,7 +1600,7 @@
   "PDFE.Controllers.Print.textMarginsLast": "Last custom",
   "PDFE.Controllers.Print.txtCustom": "Custom",
   "PDFE.Controllers.Print.txtPrintRangeInvalid": "Invalid print range",
-  "PDFE.Controllers.Print.txtPrintRangeSingleRange": "Enter either a single page number or a single page range (for example, 5-12). Or you can Print to PDF.",
+  "del_PDFE.Controllers.Print.txtPrintRangeSingleRange": "Enter either a single page number or a single page range (for example, 5-12). Or you can Print to PDF.",
   "PDFE.Controllers.RedactTab.applyButtonText": "Apply",
   "PDFE.Controllers.RedactTab.doNotApplyButtonText": "Dont't apply",
   "PDFE.Controllers.RedactTab.textApplyRedact": "Redacted information will be permanently removed from this document. Once you save it, information couldn't be retrieved anymore",

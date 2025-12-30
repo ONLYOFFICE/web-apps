@@ -95,8 +95,6 @@ define([
                 if (!_.isEmpty(value) && /[0-9,\-]/.test(value)) {
                     var res = [],
                         arr = value.split(',');
-                    if (me._isPrint && arr.length>1)
-                        return me.txtPrintRangeSingleRange;
 
                     for (var i=0; i<arr.length; i++) {
                         var item = arr[i];
@@ -417,7 +415,6 @@ define([
             }
         },
 
-        txtPrintRangeInvalid: 'Invalid print range',
-        txtPrintRangeSingleRange: 'Enter either a single slide number or a single slide range (for example, 5-12). Or you can Print to PDF.'
+        txtPrintRangeInvalid: 'Invalid print range'
     }, PE.Controllers.Print || {}));
 });

@@ -97,8 +97,6 @@ define([
                 if (!_.isEmpty(value) && /[0-9,\-]/.test(value)) {
                     var res = [],
                         arr = value.split(',');
-                    if (me._isPrint && arr.length>1)
-                        return me.txtPrintRangeSingleRange;
 
                     for (var i=0; i<arr.length; i++) {
                         var item = arr[i];
@@ -624,7 +622,6 @@ define([
 
         txtCustom: 'Custom',
         txtPrintRangeInvalid: 'Invalid print range',
-        textMarginsLast: 'Last Custom',
-        txtPrintRangeSingleRange: 'Enter either a single page number or a single page range (for example, 5-12). Or you can Print to PDF.'
+        textMarginsLast: 'Last Custom'
     }, DE.Controllers.Print || {}));
 });

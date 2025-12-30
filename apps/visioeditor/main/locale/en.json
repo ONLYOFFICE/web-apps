@@ -334,7 +334,7 @@
   "VE.Controllers.Toolbar.notcriticalErrorTitle": "Warning",
   "VE.Controllers.Toolbar.txtUntitled": "Untitled",
   "VE.Controllers.Print.txtPrintRangeInvalid": "Invalid print range",
-  "VE.Controllers.Print.txtPrintRangeSingleRange": "Enter either a single page number or a single page range (for example, 5-12). Or you can Print to PDF.",
+  "del_VE.Controllers.Print.txtPrintRangeSingleRange": "Enter either a single page number or a single page range (for example, 5-12). Or you can Print to PDF.",
   "VE.Views.DocumentHolder.guestText": "Guest",
   "VE.Views.DocumentHolder.textCopy": "Copy",
   "VE.Views.DocumentHolder.txtPressLink": "Press {0} and click link",
