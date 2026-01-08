@@ -653,8 +653,8 @@ Common.UI.HintManager = new(function() {
                                 _lockedKeyEvents(false);
 
                                 if (curr && curr.length) {
-                                    if (curr.attr('for')) $('#' + curr.attr('for')).trigger(jQuery.Event('click', { which: 1 }));
-                                    else curr.trigger(jQuery.Event('click', { which: 1 }));
+                                    if (curr.attr('for')) $('#' + curr.attr('for')).trigger('click');
+                                    else curr.trigger('click');
                                 }
                                 return;
                             }
