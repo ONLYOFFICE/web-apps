@@ -554,7 +554,7 @@ define([
             let pages; 
             if(this.printSettings.cmbRange.getValue() === -1) {
                 pages = this.printSettings.inputPages.getValue();
-            } if (this.printSettings.cmbRange.getValue() === 'all') {
+            } else if (this.printSettings.cmbRange.getValue() === 'all') {
                 pages = 'all';
                 this._state.firstPrintPage = 0;
             } else if (this.printSettings.cmbRange.getValue() === 'current') {
