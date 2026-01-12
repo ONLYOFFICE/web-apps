@@ -129,9 +129,10 @@ Common.UI.HintManager = new(function() {
     var _api;
     
     var _runPrefill = function (section, level) {
-        var prevSection = _currentSection, prevLevel = _currentLevel;
-        var prevControls = _currentControls.slice();
-        var prevUsed = _usedTitles.slice();
+        const prevSection = _currentSection,
+            prevLevel = _currentLevel,
+            prevControls = _currentControls.slice(),
+            prevUsed = _usedTitles.slice();
 
         _currentSection = section || prevSection;
         _currentLevel = (level !== undefined) ? level : prevLevel;
@@ -144,10 +145,10 @@ Common.UI.HintManager = new(function() {
         _currentLevel = prevLevel;
 
         _currentControls.length = 0;
-        Array.prototype.push.apply(_currentControls, prevControls);
+        _currentControls.push(...prevControls);
 
         _usedTitles.length = 0;
-        Array.prototype.push.apply(_usedTitles, prevUsed);
+        _usedTitles.push(...prevUsed);
     }
 
     var _setCurrentSection = function (btn, section) {
@@ -179,7 +180,7 @@ Common.UI.HintManager = new(function() {
 
     var _showHints = function (btnMore) {
         _inputLetters = '';
-        var p = {
+        const p = {
             level: _currentLevel,
             section: _currentSection,
             cancel: false,
@@ -572,7 +573,7 @@ Common.UI.HintManager = new(function() {
                 e.preventDefault();
                 if (e.keyCode == Common.UI.Keys.ESC ) {
                     setTimeout(function () {
-                        var p = {
+                        const p = {
                             level: _currentLevel,
                             section: _currentSection,
                             handledValue: false,
@@ -637,7 +638,7 @@ Common.UI.HintManager = new(function() {
                         if (curr) {
                             Common.UI.ScreenReaderFocusManager && Common.UI.ScreenReaderFocusManager.exitFocusMode();
                             var tag = curr.prop("tagName").toLowerCase();
-                            var p = {
+                            const p = {
                                 level: _currentLevel,
                                 section: _currentSection,
                                 control: curr,

@@ -106,6 +106,8 @@ define([
             initialize : function(options) {
                 Common.UI.BaseView.prototype.initialize.call(this, options);
 
+                const me = this;
+
                 var _template_tabs =
                     !Common.UI.isRTL() ?
                     '<section class="tabs">' +
@@ -163,32 +165,32 @@ define([
                     this.repaintMoreBtns();
                 }, this));
                 Common.NotificationCenter.on({
-                    'hints:activate-control': _.bind(function (p) {
-                        if (p && p.exit && this.isMoreDropdownSection(p.section)) p.exit(true);
-                    }, this),
+                    'hints:activate-control': function (p) {
+                        if (p && p.exit && me.isMoreDropdownSection(p.section)) p.exit(true);
+                    },
 
-                    'hints:resolve-section': _.bind(function (p) {
+                    'hints:resolve-section': function (p) {
                         if (!p || !p.set) return;
 
-                        var $more = this.getVisibleMoreContainer();
+                        const $more = me.getVisibleMoreContainer();
                         if (!$more.length) return;
                         if (p.level === 0) { p.cancel = true; return; }
                         p.set($more, 1);
-                    }, this),
+                    },
 
-                   'hints:resolve-bounds': _.bind(function (p) {
-                        if (p && this.isMoreDropdownSection(p.section)) {
-                            p.top = 0;
-                            p.bottom = p.docH;
+                    'hints:resolve-bounds': function (p) {
+                        if (p && me.isMoreDropdownSection(p.section)) {
+                        p.top = 0;
+                        p.bottom = p.docH;
                         }
-                    }, this),
+                    },
 
-                    'hints:esc': _.bind(function (p) {
-                        var handled = this.hasVisibleMoreDropdown();
-                        if (handled) this.closeVisibleMoreDropdown();
+                    'hints:esc': function (p) {
+                        const handled = me.hasVisibleMoreDropdown();
+                        if (handled) me.closeVisibleMoreDropdown();
                         if (p && p.handled) p.handled(handled);
-                    }, this)
-                }, this);
+                    }
+                });
             },
 
             isMoreDropdownSection: function (section) {
@@ -204,9 +206,9 @@ define([
             },
 
             closeVisibleMoreDropdown: function () {
-                var $more = this.getVisibleMoreContainer();
+                const $more = this.getVisibleMoreContainer();
                 if (!$more.length) return null;
-                var tab = $more.attr('data-tab') || null;
+                const tab = $more.attr('data-tab') || null;
                 this.closeMoreDropdown(tab);
                 $more.hide();
                 return tab;
@@ -225,8 +227,8 @@ define([
             prefillMore: function ($menu, level) {
                 if (!$menu || !$menu.length) return;
 
-                var prevDisplay = $menu[0].style.display;
-                var prevVisibility = $menu[0].style.visibility;
+                const prevDisplay = $menu[0].style.display,
+                    prevVisibility = $menu[0].style.visibility;
                 $menu.css({ display: 'block', visibility: 'hidden' });
 
                 Common.NotificationCenter.trigger('hints:prefill', {
