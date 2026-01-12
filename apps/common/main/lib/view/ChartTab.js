@@ -544,7 +544,7 @@ define([
 
                 this.btnChartElements = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-ic-reviewview',
+                    iconCls: 'toolbar__icon btn-big-chart-elements',
                     caption: me.capChartElements,
                     lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
                         _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
@@ -665,7 +665,7 @@ define([
 
                 this.btnChartType = new Common.UI.Button({
                     cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-update',
+                    iconCls: 'toolbar__icon btn-menu-chart',
                     caption: me.capChartType,
                     lock        : [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.contentLock,
                         _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
@@ -748,7 +748,7 @@ define([
 
                 this.btn3DSettings = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-day',
+                    iconCls: 'toolbar__icon btn-3d-rotation',
                     caption: me.cap3DRotation,
                     lock        : [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
                         _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
