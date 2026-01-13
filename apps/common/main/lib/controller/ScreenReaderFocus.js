@@ -383,7 +383,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                     turnOffHints = true;
                     _nextItem();
                 } else if (isNextLevel) {
-                    if ($('.toolbar.folded.z-clear').length > 0) return;
+                    if ($('.toolbar.folded').not('.expanded').length > 0) return;
                     var attr = '[data-hint="' + (_currentLevel + 1) + '"]';
                     if ($(_currentSection).find(attr).length === 0 || btn && $(btn.closest('.hint-section')).find(attr).filter(':visible').length === 0) return;
                     turnOffHints = true;
