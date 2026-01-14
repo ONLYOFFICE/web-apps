@@ -1197,7 +1197,7 @@ define([
                 this.fileExtention = idx>0 ? this.documentCaption.substring(idx) : '';
                 this.isModified && (value += '*');
                 this.readOnly && (value += ' (' + this.textReadOnly + ')');
-                if ( $labelDocName ) {
+                if ( $labelDocName && !this.withoutExt ) {
                     this.setDocTitle( value );
                 }
                 return value;
