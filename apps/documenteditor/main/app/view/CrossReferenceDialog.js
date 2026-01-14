@@ -416,7 +416,8 @@ define([], function () { 'use strict';
             var refType = record.value,
                 typeRec = this.cmbType.getSelectedRecord(),
                 type = (typeRec.type==1 || typeRec.value>4) ? 5 : typeRec.value;
-            var disable = (type==5 && refType!==Asc.c_oAscDocumentRefenceToType.PageNum) || (type<5) && (refType==Asc.c_oAscDocumentRefenceToType.Text || refType==Asc.c_oAscDocumentRefenceToType.AboveBelow);
+            var disable = type === 1 || (type==5 && refType!==Asc.c_oAscDocumentRefenceToType.PageNum) || (type<5) && (refType==Asc.c_oAscDocumentRefenceToType.Text || refType==Asc.c_oAscDocumentRefenceToType.AboveBelow);
+            if (type === 1) this.chBelowAbove.setValue(false);
             this.chBelowAbove.setDisabled(disable);
             disable = !(type==0 || type==2) || (refType!==Asc.c_oAscDocumentRefenceToType.ParaNumFullContex);
             this.chSeparator.setDisabled(disable);
