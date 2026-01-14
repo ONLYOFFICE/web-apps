@@ -557,7 +557,7 @@ define([
 
                 this.btnEditData = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-pagemargins',
+                    iconCls: 'toolbar__icon btn-allow-edit-ranges',
                     caption: me.capEditData,
                     lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
                         _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
@@ -569,7 +569,7 @@ define([
 
                 this.btnEditDataExt = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-pagemargins',
+                    iconCls: 'toolbar__icon btn-allow-edit-ranges',
                     caption: me.capEditData,
                     lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
                         _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
@@ -578,14 +578,17 @@ define([
                     items: [
                             {
                                 caption: me.menuCapEditData,
+                                iconCls: 'menu__icon btn-edit',
                                 value: 'data'
                             },
                             {
                                 caption: me.menuCapEditLinks,
+                                iconCls: 'menu__icon btn-inserthyperlink',
                                 value: 'links'
                             },
                             {
                                 caption: me.menuCapOpen,
+                                iconCls: 'menu__icon btn-external',
                                 value: 'file'
                             }
                         ]
@@ -597,7 +600,7 @@ define([
 
                 this.btnUpdateData = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-pagemargins',
+                    iconCls: 'toolbar__icon btn-update',
                     caption: me.capUpdateData,
                     lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
                         _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode,_set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
