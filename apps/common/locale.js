@@ -41,8 +41,12 @@ Common.Locale = new(function() {
         defLang = '{{DEFAULT_LANG}}',
         currentLang = defLang,
         _4letterLangs = ['pt-pt', 'zh-tw', 'sr-cyrl'];
+    
+    if ( defLang[0] == '{' )
+        currentLang = defLang = 'en';
 
     var _applyLocalization = function(callback) {
+        _clearRtl();
         try {
             callback && (loadcallback = callback);
             if (l10n) {
@@ -160,6 +164,16 @@ Common.Locale = new(function() {
             });
     };
 
+    var _clearRtl = function() {
+        if (!_isCurrentRtl() && document.body.classList.contains('rtl')) {
+            document.body.removeAttribute('dir');
+            document.body.classList.remove('rtl');
+            document.body.classList.remove('rtl-font');
+            document.body.setAttribute('applang', currentLang);
+            window.isrtl = false;
+        }
+    };
+
     if ( !window.fetch ) {
         /* use fetch polifill if native method isn't supported */
         var polyfills = ['../vendor/fetch/fetch.umd'];
@@ -172,7 +186,7 @@ Common.Locale = new(function() {
     } else _requireLang();
 
     const _isCurrentRtl = function () {
-        return currentLang && (/^(ar|he)$/i.test(currentLang));
+        return currentLang && (/^(ar|he|ur)$/i.test(currentLang));
     };
 
     return {

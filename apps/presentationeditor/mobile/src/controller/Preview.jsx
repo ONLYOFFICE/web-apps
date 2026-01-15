@@ -70,7 +70,7 @@ const PreviewController = props => {
     const show = () => {
         const api = Common.EditorApi.get();
 
-        api.StartDemonstration('presentation-preview', api.getCurrentPage());
+        api.StartDemonstrationFromCurrentSlide('presentation-preview');
         enterFullScreen(_view[0]);
     };
 
@@ -105,12 +105,12 @@ const PreviewController = props => {
     const onTouchEnd = e => {
         e.preventDefault();
 
-        const api = Common.EditorApi.get();
-
-        if (_touchEnd[0] - _touchStart[0] > 20)
-            api.DemonstrationPrevSlide();
-        else if (_touchStart[0] - _touchEnd[0] > 20 || (Math.abs(_touchEnd[0] - _touchStart[0]) < 1 && Math.abs(_touchEnd[1] - _touchStart[1]) < 1))
-            api.DemonstrationNextSlide();
+        // const api = Common.EditorApi.get();
+        //
+        // if (_touchEnd[0] - _touchStart[0] > 20)
+        //     api.DemonstrationPrevSlide();
+        // else if (_touchStart[0] - _touchEnd[0] > 20 || (Math.abs(_touchEnd[0] - _touchStart[0]) < 1 && Math.abs(_touchEnd[1] - _touchStart[1]) < 1))
+        //     api.DemonstrationNextSlide();
     };
 
     // API Handlers

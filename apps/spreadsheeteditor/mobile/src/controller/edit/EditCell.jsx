@@ -80,6 +80,11 @@ class EditCellController extends Component {
         api.asc_setCellUnderline(value);
     }
 
+    toggleStrikethrough(value) {
+        const api = Common.EditorApi.get();
+        api.asc_setCellStrikeout(value);
+    }
+
     onStyleClick(type) {
         const api = Common.EditorApi.get();
         api.asc_setCellStyle(type);
@@ -232,12 +237,18 @@ class EditCellController extends Component {
         api.asc_setCellTextColor(color);
     }
 
+    setRtlTextdDirection(direction) {
+        const api = Common.EditorApi.get();        
+        api.asc_setCellReadingOrder(direction);
+    }
+
     render () {
         return (
             <EditCell 
                 toggleBold={this.toggleBold}
                 toggleItalic={this.toggleItalic}
                 toggleUnderline={this.toggleUnderline}
+                toggleStrikethrough={this.toggleStrikethrough}
                 onStyleClick={this.onStyleClick}
                 onTextColor={this.onTextColor}
                 onFillColor={this.onFillColor}
@@ -254,6 +265,7 @@ class EditCellController extends Component {
                 timeFormats={this.timeFormats}
                 onTextColorAuto={this.onTextColorAuto}
                 setCustomFormat={this.setCustomFormat}
+                setRtlTextdDirection={this.setRtlTextdDirection}
             />
         )
     }

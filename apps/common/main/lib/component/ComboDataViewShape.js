@@ -311,6 +311,7 @@ define([
 
         deactivateRecords: function () {
             $(this.cmpEl.find('.field-picker .item')).removeClass('active');
+            this.isRecordActive = false;
         },
 
         isComboViewRecActive: function () {
@@ -342,7 +343,6 @@ define([
                 var button = $('button', this.openButton.cmpEl);
                 var cntButton = $('.button', this.cmpEl);
                 button && cntButton.width() > 0 && button.css({
-                    width : cntButton.width(),
                     height: cntButton.height()
                 });
 

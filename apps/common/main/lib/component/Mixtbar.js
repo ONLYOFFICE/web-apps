@@ -56,8 +56,8 @@ define([
 
         function setScrollButtonsDisabeled(){
             var scrollLeft = $boxTabs.scrollLeft();
-            $scrollL.toggleClass('disabled', Math.floor(scrollLeft) == 0);
-            $scrollR.toggleClass('disabled', Math.ceil(scrollLeft) >= $boxTabs[0].scrollWidth - $boxTabs[0].clientWidth);
+            (Common.UI.isRTL() ? $scrollR : $scrollL).toggleClass('disabled', Math.abs(Math.floor(scrollLeft)) <= (Common.UI.isRTL() ? 1 : 0));
+            (Common.UI.isRTL() ? $scrollL : $scrollR).toggleClass('disabled', Math.abs(Math.ceil(scrollLeft)) >= $boxTabs[0].scrollWidth - $boxTabs[0].clientWidth - (Common.UI.isRTL() ? 1 : 0));
         }
 
         var onScrollTabs = function(opts, e) {
@@ -154,6 +154,14 @@ define([
                     this.setVisible(action, visible);
                 }, this));
                 Common.NotificationCenter.on('tab:resize', _.bind(this.onResizeTabs, this));
+                Common.NotificationCenter.on('app:repaint', _.bind(function() {
+                    this.repaintMoreBtns();
+                }, this));
+                Common.NotificationCenter.on('uitheme:changed', _.bind(function() {
+                    this.clearActiveData();
+                    this.processPanelVisible();
+                    this.repaintMoreBtns();
+                }, this));
             },
 
             afterRender: function() {
@@ -183,11 +191,10 @@ define([
 
             setFolded: function(value) {
                 this.isFolded = value;
-
                 var me = this;
-                if ( this.isFolded ) {
-                    if (!optsFold.$box) optsFold.$box = me.$el.find('.box-controls');
+                if (!optsFold.$box) optsFold.$box = me.$el.find('.box-controls');
 
+                if ( this.isFolded ) {
                     optsFold.$bar.addClass('folded z-clear').toggleClass('expanded', false);
                     optsFold.$bar.find('.tabs .ribtab').removeClass('active');
                     optsFold.$bar.on($.support.transition.end, function (e) {
@@ -330,6 +337,8 @@ define([
                 }
 
                 if ( tab ) {
+                    this.fireEvent('tab:active:before', [tab]);
+
                     me.$tabs.removeClass('active');
                     me.$panels.removeClass('active');
                     me.hideMoreBtns();
@@ -369,7 +378,28 @@ define([
 
                 var _tabTemplate = _.template('<li class="ribtab" style="display: none;" <% if (typeof layoutname == "string") print(" data-layout-name=" + \' \' +  layoutname) + \' \' %>><a role="tab" id="<%= action %>" data-tab="<%= action %>" data-title="<%= caption %>" data-hint="0" data-hint-direction="bottom" data-hint-offset="small" <% if (typeof dataHintTitle !== "undefined") { %> data-hint-title="<%= dataHintTitle %>" <% } %> ><%= caption %></a></li>');
 
-                config.tabs[after + 1] = tab;
+                if (after===undefined || tab.aux)
+                    after = config.tabs.length-1;
+
+                if (tab.aux) { // alwayw show tab at the end of toolbar
+                    config.tabs.push(tab);
+                } else if (config.tabs[after + 1]) {
+                    var index = -1;
+                    for (let i=after + 2; i<config.tabs.length; i++) {
+                        if (config.tabs[i]===undefined) {
+                            index = i;
+                            break;
+                        }
+                    }
+                    if (index<0 || index>config.tabs.length-1)
+                        config.tabs.splice(after+1, 0, tab);
+                    else {
+                        config.tabs.splice(index, 1);
+                        config.tabs.splice(after+1, 0, tab);
+                    }
+                } else {
+                    config.tabs[after + 1] = tab;
+                }
                 var _after_action = _get_tab_action(after);
 
                 var _elements = this.$tabs || this.$layout.find('.tabs');
@@ -415,7 +445,8 @@ define([
             },
 
             getLastTabIdx: function() {
-                return config.tabs.length;
+                var index = _.findIndex(config.tabs, {aux: true});
+                return index<0 ? config.tabs.length-1 : index-1;
             },
 
             isCompact: function () {
@@ -453,9 +484,9 @@ define([
              * hide button's caption to decrease panel width
              * ##adopt-panel-width
             **/
-            processPanelVisible: function(panel, force) {
+            processPanelVisible: function(panel, reset, force) {
                 var me = this;
-                function _fc() {
+                function _fc(reset) {
                     var $active = panel || me.$panels.filter('.active');
                     if ( $active && $active.length ) {
                         var _maxright = $active.parents('.box-controls').width(),
@@ -515,9 +546,9 @@ define([
                                 }
                                 data.rightedge = _rightedge;
                             }
-                            me.resizeToolbar(force);
+                            me.resizeToolbar(reset);
                         } else {
-                            more_section.is(':visible') && me.resizeToolbar(force);
+                            more_section.is(':visible') && me.resizeToolbar(reset);
                             if (!more_section.is(':visible')) {
                                 for (var i=0; i<_btns.length; i++) {
                                     var btn = _btns[i];
@@ -549,12 +580,13 @@ define([
                     }
                 };
 
-                if (!me._timer_id) {
-                    _fc();
+                if (!me._timer_id || force) {
+                    me._timer_id && clearInterval(me._timer_id);
+                    _fc(reset);
                     me._needProcessPanel = false;
-                    me._timer_id =  setInterval(function() {
+                    me._timer_id = setInterval(function() {
                         if (me._needProcessPanel) {
-                            _fc();
+                            _fc(me._needProcessPanel.reset);
                             me._needProcessPanel = false;
                         } else {
                             clearInterval(me._timer_id);
@@ -562,7 +594,7 @@ define([
                         }
                     }, 100);
                 } else
-                    me._needProcessPanel = true;
+                    me._needProcessPanel = {reset: me._needProcessPanel ? me._needProcessPanel.reset || reset : reset};
             },
             /**/
 
@@ -609,8 +641,23 @@ define([
                     var moreContainer = $('<div class="dropdown-menu more-container" data-tab="' + tab + '"><div style="display: inline;"></div></div>');
                     optsFold.$bar.append(moreContainer);
                     btnsMore[tab].panel = moreContainer.find('div');
+                } else if (btnsMore[tab].needRepaint && panel.is(':visible')) {
+                    btnsMore[tab].cmpEl.closest('.more-box').css('top', Common.Utils.getPosition(panel).top);
+                    btnsMore[tab].needRepaint = false;
                 }
                 this.$moreBar = btnsMore[tab].panel;
+            },
+
+            repaintMoreBtns: function() {
+                for (var btn in btnsMore) {
+                    if (btnsMore[btn] && btnsMore[btn].cmpEl) {
+                        var box = btnsMore[btn].cmpEl.closest('.more-box'),
+                            panel = box.parent(),
+                            isVisible = panel.is(':visible');
+                        isVisible && box.css('top', Common.Utils.getPosition(panel).top);
+                        btnsMore[btn].needRepaint = !isVisible;
+                    }
+                }
             },
 
             clearMoreButton: function(tab) {
@@ -628,6 +675,22 @@ define([
                 }
             },
 
+            moveAllFromMoreButton: function(tab) {
+                if (btnsMore[tab]) {
+                    var moreBar = btnsMore[tab].panel,
+                        items = moreBar ? moreBar.children() : [];
+                    if (items.length>0) {
+                        items.removeAttr('hidden-on-resize');
+                        items.removeAttr('data-hidden-tb-item');
+                        items.removeAttr('group-state');
+                        var panel = this.$panels.filter('[data-tab=' + tab + ']');
+                        panel.length && panel.find('.more-box').before(items);
+                        this.clearMoreButton(tab);
+                    }
+                }
+                this.clearActiveData();
+            },
+
             clearActiveData: function(tab) {
                 var panel = tab ? this.$panels.filter('[data-tab=' + tab + ']') : this.$panels.filter('.active');
                 if ( panel.length ) {
@@ -636,7 +699,7 @@ define([
                 }
             },
 
-            addCustomItems: function(tab, added, removed) {
+            addCustomControls: function(tab, added, removed) {
                 if (!tab.action) return;
 
                 var $panel = tab.action ? this.getTab(tab.action) || this.createTab(tab, true) || this.getTab('plugins') : null,
@@ -652,7 +715,7 @@ define([
                                 button.cmpEl.closest('.btn-slot').remove();
                                 if (group.children().length<1) {
                                     var in_more = group.closest('.more-container').length>0;
-                                    in_more ? group.next('.separator').remove() : group.prev('.separator').remove();
+                                    (in_more || group.prev().length===0) ? group.next('.separator').remove() : group.prev('.separator').remove(); // remove separator before empty group or after first empty group
                                     group.remove();
                                     if (in_more && $morepanel.children().filter('.group').length === 0) {
                                         btnsMore[tab.action] && btnsMore[tab.action].isActive() && btnsMore[tab.action].toggle(false);
@@ -709,7 +772,7 @@ define([
                 var $panel = this.getTab(tab),
                     $morepanel = this.getMorePanel(tab),
                     $moresection = $panel ? $panel.find('.more-box') : null;
-                ($moresection.length<1) && ($moresection = null);
+                ($moresection && $moresection.length<1) && ($moresection = null);
                 return $panel ? !($panel.find('> .group').length>0 || $morepanel && $morepanel.find('.group').length>0) : false;
             },
 
@@ -727,7 +790,7 @@ define([
                     _maxright = box_controls_width;
                 if (!_staticPanelWidth) _staticPanelWidth = 0;
                 var _rightedge = $active.outerWidth() + _staticPanelWidth,
-                    delta = (this._prevBoxWidth) ? (_maxright - this._prevBoxWidth) : -1,
+                    delta = (this._prevBoxWidth!==undefined) ? (_maxright - this._prevBoxWidth) : -1,
                     hideAllMenus = false;
                 this._prevBoxWidth = _maxright;
                 more_section.is(':visible') && (_maxright -= more_section_width);

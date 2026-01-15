@@ -57,43 +57,147 @@ define([
                 text: locale.txtThemeLight || 'Light',
                 type: 'light',
                 source: 'static',
+                skeleton: {
+                    css: `.loadmask {--sk-height-toolbar-controls: 66px; --sk-layout-padding-toolbar: 0;
+                                    --sk-shadow-toolbar: inset 0 -1px #cbcbcb; --sk-border-radius-toolbar: 0;
+                                    --sk-background-toolbar: #f7f7f7; --sk-background-toolbar-controls: #f7f7f7;
+                                    --sk-background-toolbar-header-word: #446995; --sk-background-toolbar-header-pdf: #aa5252;
+                                    --sk-background-toolbar-header-slide: #BE664F; --sk-background-toolbar-header-cell: #40865c; 
+                                    --sk-background-toolbar-header-visio: #444796; 
+                                    --sk-background-toolbar-tab: rgba(0,0,0,.15); --sk-background-toolbar-button: #d8dadc;
+                                    --sk-layout-padding-toolbar-controls: 0 7px; --sk-layout-padding-header: 0 8px;
+                                    --sk-canvas-background: #eee; --sk-canvas-content-background: #fff;
+                                    --sk-canvas-page-border: #dde0e5; --sk-canvas-line: rgba(0,0,0,.05);
+                                    --sk-height-formula: 24px; --sk-padding-formula: 0 0 4px 0;
+                                    --sk-border-style-formula: solid; --sk-gap-formula-field: 20px;
+                                    --sk-border-radius-formula-field: 0px; --sk-layout-padding-placeholder: 46px auto;
+                                }`
+                },
             },
             'theme-classic-light': {
                 text: locale.txtThemeClassicLight || 'Classic Light',
                 type: 'light',
                 source: 'static',
+                skeleton: {
+                    css: `.loadmask {--sk-height-toolbar-controls: 66px; --sk-layout-padding-toolbar: 0;
+                                    --sk-shadow-toolbar: inset 0 -1px #cbcbcb; --sk-border-radius-toolbar: 0;
+                                    --sk-background-toolbar-header-word: #446995; --sk-background-toolbar-header-pdf: #aa5252;
+                                    --sk-background-toolbar-header-slide: #BE664F;; --sk-background-toolbar-header-cell: #40865c;
+                                    --sk-background-toolbar-header-visio: #444796; 
+                                    --sk-background-toolbar: #f7f7f7; --sk-background-toolbar-controls: #f1f1f1;
+                                    --sk-background-toolbar-tab: rgba(255,255,255,.15); --sk-background-toolbar-button: #d8dadc;
+                                    --sk-layout-padding-toolbar-controls: 0 7px; --sk-layout-padding-header: 0 8px;
+                                    --sk-canvas-background: #eee; --sk-canvas-content-background: #fff;
+                                    --sk-canvas-page-border: #dde0e5; --sk-canvas-line: rgba(0,0,0,.05);
+                                    --sk-height-formula: 24px; --sk-padding-formula: 0 0 4px 0;
+                                    --sk-border-style-formula: solid; --sk-gap-formula-field: 20px;
+                                    --sk-border-radius-formula-field: 0px; --sk-layout-padding-placeholder: 46px auto;
+                                }`
+                },
             },
             'theme-dark': {
                 text: locale.txtThemeDark || 'Dark',
                 type: 'dark',
                 source: 'static',
+                skeleton: {
+                    css: `.theme-dark .loadmask, .theme-type-dark .loadmask {
+                                --sk-height-toolbar-controls: 66px; --sk-layout-padding-toolbar: 0;
+                                --sk-shadow-toolbar: inset 0 -1px #616161; --sk-border-radius-toolbar: 0;
+                                --sk-background-toolbar-header-word: #2a2a2a; --sk-background-toolbar-header-pdf: #2a2a2a;
+                                --sk-background-toolbar-header-slide: #2a2a2a;--sk-background-toolbar-header-cell: #2a2a2a;
+                                --sk-background-toolbar-header-visio: #2a2a2a; 
+                                --sk-background-toolbar: #404040; --sk-background-toolbar-controls: #404040;
+                                --sk-background-toolbar-tab: rgba(255,255,255,.15); --sk-background-toolbar-button: #555;
+                                --sk-layout-padding-toolbar-controls: 0 7px; --sk-layout-padding-header: 0 8px;
+                                --sk-canvas-background: #555; --sk-canvas-content-background: #fff;
+                                --sk-canvas-page-border: #555; --sk-canvas-line: rgba(0,0,0,.05);
+                                --sk-height-formula: 24px; --sk-padding-formula: 0 0 4px 0;
+                                --sk-border-style-formula: solid; --sk-gap-formula-field: 20px;
+                                --sk-border-radius-formula-field: 0px; --sk-layout-padding-placeholder: 46px auto;
+                            }
+                            .content-theme-dark {
+                                --sk-canvas-content-background: #3a3a3a; --sk-canvas-page-border: #616161;
+                                --sk-canvas-line: rgba(255,255,255,.05);
+                            }`
+                },
             },
             'theme-contrast-dark': {
                 text: locale.txtThemeContrastDark || 'Dark Contrast',
                 type: 'dark',
                 source: 'static',
+                skeleton: {
+                    css: `.theme-dark .loadmask, .theme-type-dark .loadmask {
+                                --sk-height-toolbar-controls: 66px; --sk-layout-padding-toolbar: 0;
+                                --sk-shadow-toolbar: inset 0 -1px #616161; --sk-border-radius-toolbar: 0;
+                                --sk-background-toolbar-header-word: #2a2a2a; --sk-background-toolbar-header-pdf: #2a2a2a;
+                                --sk-background-toolbar-header-slide: #2a2a2a;--sk-background-toolbar-header-cell: #2a2a2a;
+                                --sk-background-toolbar-header-visio: #2a2a2a; 
+                                --sk-background-toolbar: #404040; --sk-background-toolbar-controls: #404040;
+                                --sk-background-toolbar-tab: rgba(255,255,255,.15); --sk-background-toolbar-button: #555;
+                                --sk-layout-padding-toolbar-controls: 0 7px; --sk-layout-padding-header: 0 8px;
+                                --sk-canvas-background: #555; --sk-canvas-content-background: #fff;
+                                --sk-canvas-page-border: #555; --sk-canvas-line: rgba(0,0,0,.05);
+                                --sk-height-formula: 24px; --sk-padding-formula: 0 0 4px 0;
+                                --sk-border-style-formula: solid; --sk-gap-formula-field: 20px;
+                                --sk-border-radius-formula-field: 0px; --sk-layout-padding-placeholder: 46px auto;
+                            }
+                            .content-theme-dark {
+                                --sk-canvas-content-background: #3a3a3a;
+                                --sk-canvas-page-border: #616161; --sk-canvas-line: rgba(255,255,255,.05);
+                            }`
+                },
             },
             'theme-gray': {
                 text: locale.txtThemeGray || 'Gray',
                 type: 'light',
                 source: 'static',
+                skeleton: {
+                    css: `.loadmask {--sk-height-toolbar-controls: 66px;--sk-layout-padding-toolbar: 0;
+                                    --sk-shadow-toolbar: inset 0 -1px #cbcbcb; --sk-border-radius-toolbar: 0;
+                                    --sk-background-toolbar-header-word: #f7f7f7; --sk-background-toolbar-header-pdf: #f7f7f7;
+                                    --sk-background-toolbar-header-slide: #f7f7f7;--sk-background-toolbar-header-cell: #f7f7f7;
+                                    --sk-background-toolbar-header-visio: #f7f7f7; 
+                                    --sk-background-toolbar: #f7f7f7; --sk-background-toolbar-controls: #f1f1f1;
+                                    --sk-background-toolbar-tab: #e0e0e0; --sk-background-toolbar-button: #e0e0e0;
+                                    --sk-layout-padding-toolbar-controls: 0 7px; --sk-layout-padding-header: 0 8px;
+                                    --sk-canvas-background: #eee; --sk-canvas-content-background: #fff;
+                                    --sk-canvas-page-border: #ccc; --sk-canvas-line: rgba(0,0,0,.05);
+                                    --sk-height-formula: 24px; --sk-padding-formula: 0 0 4px 0;
+                                    --sk-border-style-formula: solid; --sk-gap-formula-field: 20px;
+                                    --sk-border-radius-formula-field: 0px; --sk-layout-padding-placeholder: 46px auto;
+                                }`
+                },
+            },
+            'theme-white': {
+                text: locale.txtThemeModernLight || 'White',
+                type: 'light',
+                source: 'static',
+                icons: {
+                    cls: 'mod2',
+                }
+            },
+            'theme-night': {
+                text: locale.txtThemeModernDark || 'Night',
+                type: 'dark',
+                source: 'static',
+                icons: {
+                    cls: 'mod2',
+                }
             },
         }
-
-
-        var id_default_light_theme = 'theme-classic-light',
-            id_default_dark_theme = 'theme-dark';
 
         var name_colors = [
             "toolbar-header-document",
             "toolbar-header-spreadsheet",
             "toolbar-header-presentation",
             "toolbar-header-pdf",
+            "toolbar-header-visio",
 
             "text-toolbar-header-on-background-document",
             "text-toolbar-header-on-background-spreadsheet",
             "text-toolbar-header-on-background-presentation",
             "text-toolbar-header-on-background-pdf",
+            "text-toolbar-header-on-background-visio",
 
             "background-normal",
             "background-toolbar",
@@ -114,26 +218,24 @@ define([
             "highlight-header-button-hover",
             "highlight-header-button-pressed",
             "highlight-text-select",
-            "highlight-accent-button-hover",
-            "highlight-accent-button-pressed",
             "highlight-toolbar-tab-underline-document",
             "highlight-toolbar-tab-underline-spreadsheet",
             "highlight-toolbar-tab-underline-presentation",
             "highlight-toolbar-tab-underline-pdf",
+            "highlight-toolbar-tab-underline-visio",
             "highlight-header-tab-underline-document",
             "highlight-header-tab-underline-spreadsheet",
             "highlight-header-tab-underline-presentation",
             "highlight-header-tab-underline-pdf",
+            "highlight-header-tab-underline-visio",
 
             "border-toolbar",
             "border-divider",
             "border-regular-control",
-            "border-toolbar-button-hover",
             "border-preview-hover",
             "border-preview-select",
             "border-control-focus",
             "border-color-shading",
-            "border-error",
             "border-contrast-popover",
 
             "text-normal",
@@ -151,10 +253,7 @@ define([
 
             "icon-normal",
             "icon-normal-pressed",
-            "icon-inverse",
             "icon-toolbar-header",
-            "icon-notification-badge",
-            "icon-contrast-popover",
             "icon-success",
 
             "canvas-background",
@@ -171,13 +270,13 @@ define([
             "canvas-high-contrast",
             "canvas-high-contrast-disabled",
 
-            "canvas-cell-border",
             "canvas-cell-title-background",
             "canvas-cell-title-background-hover",
             "canvas-cell-title-background-selected",
             "canvas-cell-title-border",
             "canvas-cell-title-border-hover",
             "canvas-cell-title-border-selected",
+            "canvas-cell-title-text",
 
             "canvas-dark-cell-title",
             "canvas-dark-cell-title-hover",
@@ -185,8 +284,6 @@ define([
             "canvas-dark-cell-title-border",
             "canvas-dark-cell-title-border-hover",
             "canvas-dark-cell-title-border-selected",
-            "canvas-dark-content-background",
-            "canvas-dark-page-border",
 
             "canvas-scroll-thumb",
             "canvas-scroll-thumb-hover",
@@ -206,8 +303,6 @@ define([
             "canvas-sheet-view-cell-background-pressed",
             "canvas-sheet-view-cell-title-label",
 
-            "canvas-freeze-line-1px",
-            "canvas-freeze-line-2px",
             "canvas-select-all-icon",
 
             "canvas-anim-pane-background",
@@ -234,7 +329,11 @@ define([
             "canvas-anim-pane-timeline-scroller-opacity",
             "canvas-anim-pane-timeline-scroller-opacity-hovered",
             "canvas-anim-pane-timeline-scroller-opacity-active",
+
+            "toolbar-height-controls",
+            "sprite-button-icons-uid",
         ];
+        var theme_props = {};
 
         var get_current_theme_colors = function (c) {
             const colors = c || name_colors;
@@ -249,6 +348,22 @@ define([
             return out_object;
         }
 
+        const validate_vars = function (obj) {
+            if ( obj ) {
+                let i = 0, count = 5;
+                for (const value of Object.values(obj)) {
+                    if (value != "") {
+                        return true;
+                    }
+
+                    if ( ++i < count )
+                        break;
+                }
+            }
+
+            return false;
+        }
+
         var create_colors_css = function (id, colors) {
             if ( !!colors && !!id ) {
                 var _css_array = [':root .', id, '{'];
@@ -258,6 +373,7 @@ define([
                         _css_array.push('--', c + '-spreadsheet', ':', colors[c], ';');
                         _css_array.push('--', c + '-presentation', ':', colors[c], ';');
                         _css_array.push('--', c + '-pdf', ':', colors[c], ';');
+                        _css_array.push('--', c + '-visio', ':', colors[c], ';');
                         console.log("Obsolete: The 'highlight-toolbar-tab-underline' color for interface themes is deprecated. Please use 'highlight-toolbar-tab-underline-document', 'highlight-toolbar-tab-underline-presentation', etc. instead.");
                     } else
                         _css_array.push('--', c, ':', colors[c], ';');
@@ -268,14 +384,27 @@ define([
             }
         }
 
-        var write_theme_css = function (css) {
+        var write_theme_css = function (id, css) {
             if ( !!css ) {
                 var style = document.createElement('style');
+                style.id = id;
                 style.type = 'text/css';
                 style.innerHTML = css;
                 document.getElementsByTagName('head')[0].appendChild(style);
             }
         }
+
+        const normalize_theme_icons = t => {
+            if ( t.src && t.src.icons ) {
+                !t.icons && (t.icons = {});
+
+                if ( !!t.src.icons['sprite-buttons-base-url'] )
+                    t.icons.basepath = t.src.icons['sprite-buttons-base-url'];
+
+                if ( !!t.src.icons['style-class-selector'] )
+                    t.icons.src = t.src.icons['style-class-selector'];
+            }
+        };
 
         var parse_themes_object = function (obj) {
             var curr_lang = Common.Locale.getCurrentLanguage(),
@@ -284,8 +413,8 @@ define([
                 obj.themes.forEach(function (item) {
                     if ( !!item.id ) {
                         theme_label = !item.l10n || !item.l10n[curr_lang] ? item.name : item.l10n[curr_lang];
-                        themes_map[item.id] = {text: theme_label, type: item.type};
-                        write_theme_css(create_colors_css(item.id, item.colors));
+                        themes_map[item.id] = {text: theme_label, type: item.type, src: item};
+                        // write_theme_css(item.id, create_colors_css(item.id, item.colors));
                     } else
                     if ( typeof item == 'string' ) {
                         get_themes_config(item)
@@ -294,8 +423,8 @@ define([
             } else
             if ( obj.id ) {
                 theme_label = !obj.l10n || !obj.l10n[curr_lang] ? obj.name : obj.l10n[curr_lang];
-                themes_map[obj.id] = {text: theme_label, type: obj.type};
-                write_theme_css( create_colors_css(obj.id, obj.colors) );
+                themes_map[obj.id] = {text: theme_label, type: obj.type, src: obj};
+                // write_theme_css( obj.id, create_colors_css(obj.id, obj.colors) );
             }
 
             Common.NotificationCenter.trigger('uitheme:countchanged');
@@ -326,6 +455,9 @@ define([
                     text: themes_map[theme_id].text,
                     colors: get_current_theme_colors(),
                 };
+
+                if ( themes_map[theme_id].icons )
+                    theme_obj.icons = themes_map[theme_id].icons;
 
                 Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
             }
@@ -385,7 +517,7 @@ define([
         }
         const get_system_default_theme = function () {
             const id = get_system_theme_type() == THEME_TYPE_DARK ?
-                id_default_dark_theme : id_default_light_theme;
+                window.uitheme.DEFAULT_DARK_THEME_ID : window.uitheme.DEFAULT_LIGHT_THEME_ID;
 
             return {id: id, info: themes_map[id]};
         };
@@ -400,8 +532,31 @@ define([
             window.uitheme.set_id(id);
 
             const theme_id = window.uitheme.relevant_theme_id();
+            if ( !!themes_map[theme_id].src ) {
+                let t = themes_map[theme_id];
+                write_theme_css(t.src.id, create_colors_css(t.src.id, t.src.colors));
+                normalize_theme_icons(t);
+
+                delete t.src;
+            }
+
             document.body.className = document.body.className.replace(/theme-[\w-]+\s?/gi, '').trim();
             document.body.classList.add(theme_id, 'theme-type-' + themes_map[theme_id].type);
+
+            let icons_base_url = getComputedStyle(document.body).getPropertyValue('--sprite-button-icons-base-url');
+            if ( !!themes_map[theme_id].icons ) {
+                if ( !!themes_map[theme_id].icons.basepath )
+                    icons_base_url = themes_map[theme_id].icons.basepath;
+                else if ( icons_base_url )
+                    themes_map[theme_id].icons.basepath = icons_base_url;
+
+                if ( themes_map[theme_id].icons.cls )
+                    document.body.classList.add('theme-icons-cls-' + themes_map[theme_id].icons.cls);
+            }
+
+            if ( icons_base_url && !(window.uitheme.embedicons === true) ) {
+                window.uitheme.apply_icons_from_url(theme_id, icons_base_url);
+            }
 
             if ( this.api.asc_setContentDarkMode )
                 if ( themes_map[theme_id].type == 'dark' ) {
@@ -412,22 +567,33 @@ define([
                 }
 
             const colors_obj = get_current_theme_colors();
-            colors_obj.type = themes_map[theme_id].type;
-            colors_obj.name = theme_id;
-            this.api.asc_setSkin(colors_obj);
+            if ( validate_vars(colors_obj) ) {
+                colors_obj.type = themes_map[theme_id].type;
+                colors_obj.name = theme_id;
+                this.api.asc_setSkin(colors_obj);
 
-            if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) ) {
-                // if ( themes_map[id].source != 'static' ) { // TODO: check writing styles
-                    const theme_obj = {
-                        id: id,
-                        type: themes_map[id].type,
-                        text: themes_map[id].text,
-                        colors: colors_obj,
-                    };
+                if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) ) {
+                    const theme_str = Common.localStorage.getItem("ui-theme");
+                    let theme_id;
+                    if ( theme_str ) {
+                        const reid = /id":\s?"([\w-]+)/.exec(theme_str);
+                        if ( reid[1] ) {
+                            theme_id = reid[1];
+                        }
+                    }
 
-                    Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
-                // }
+                    if ( theme_id !== id ) {
+
+                    // if ( themes_map[id].source != 'static' ) { // TODO: check writing styles
+                        const theme_obj = Object.assign({id:id, colors: colors_obj},
+                                                            themes_map[id]);
+                        delete theme_obj.source;
+
+                        Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
+                    }
+                }
             }
+            theme_props = {};
         }
 
         const refresh_theme = function (force, caller) {
@@ -443,7 +609,7 @@ define([
 
         return {
             init: function (api) {
-                ['toolbar-header-document', 'toolbar-header-spreadsheet', 'toolbar-header-presentation', 'toolbar-header-pdf']
+                ['toolbar-header-document', 'toolbar-header-spreadsheet', 'toolbar-header-presentation', 'toolbar-header-pdf', 'toolbar-header-visio']
                     .forEach(function (i) {
                         document.documentElement.style.removeProperty('--' + i);
                     });
@@ -464,6 +630,12 @@ define([
                 this.api = api;
 
                 const theme_id = window.uitheme.relevant_theme_id();
+                if ( window.uitheme.type && themes_map[theme_id] &&
+                        window.uitheme.type !== themes_map[theme_id].type )
+                {
+                    apply_theme.call(this, window.uitheme.id);
+                }
+
                 const obj = get_current_theme_colors(name_colors);
                 obj.type = window.uitheme.type ? window.uitheme.type : themes_map[theme_id] ? themes_map[theme_id].type : THEME_TYPE_LIGHT;
                 obj.name = theme_id;
@@ -475,6 +647,25 @@ define([
 
                 if ( !document.body.classList.contains('theme-type-' + obj.type) )
                     document.body.classList.add('theme-type-' + obj.type);
+
+                if ( !themes_map[theme_id] && window.uitheme && window.uitheme.id == theme_id ) {
+                    themes_map[theme_id] = window.uitheme;
+                }
+
+                const comp_style = getComputedStyle(document.body);
+                if (themes_map[theme_id] && themes_map[theme_id].icons) {
+                    if ( !document.querySelector('style#' + theme_id) && !(window.uitheme.embedicons === true) ) {
+                        const icons_base_url = !!themes_map[theme_id].icons.basepath ? themes_map[theme_id].icons.basepath :
+                                comp_style.getPropertyValue('--sprite-button-icons-base-url');
+
+                        if ( icons_base_url )
+                            window.uitheme.apply_icons_from_url(theme_id, icons_base_url);
+                    }
+
+                    if ( themes_map[theme_id].icons.cls ) {
+                        document.body.classList.add('theme-icons-cls-' + themes_map[theme_id].icons.cls);
+                    }
+                }
 
                 if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) && !Common.Controllers.Desktop.isActive() )
                     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', on_system_theme_dark.bind(this));
@@ -504,7 +695,7 @@ define([
             },
 
             currentThemeId: function () {
-                return !!themes_map[window.uitheme.id] ? window.uitheme.id : id_default_light_theme;
+                return !!themes_map[window.uitheme.id] ? window.uitheme.id : window.uitheme.DEFAULT_LIGHT_THEME_ID;
             },
 
             currentThemeColor: function (token) {
@@ -512,7 +703,7 @@ define([
             },
 
             defaultThemeId: function (type) {
-                return type == 'dark' ? id_default_dark_theme : id_default_light_theme;
+                return type == 'dark' ? window.uitheme.DEFAULT_LIGHT_THEME_ID : window.uitheme.DEFAULT_LIGHT_THEME_ID;
             },
 
             defaultTheme: function (type) {
@@ -574,7 +765,33 @@ define([
             },
 
             toggleTheme: function () {
-                this.setTheme( this.isDarkTheme() ? id_default_light_theme : id_default_dark_theme );
+                // this.setTheme( this.isDarkTheme() ? id_default_light_theme : id_default_dark_theme );
+            },
+
+            getThemeColors: function() {
+                const theme_id = window.uitheme.relevant_theme_id();
+                const obj = get_current_theme_colors();
+                obj.type = themes_map[theme_id] ? themes_map[theme_id].type : 'light';
+                obj.name = theme_id;
+                return obj;
+            },
+
+            getThemeProps: function(prop) {
+                if (prop==='font') {
+                    if (!theme_props[prop]) {
+                        theme_props[prop] = {
+                            size: document.documentElement.style.getPropertyValue("--font-size-base-app-custom") || window.getComputedStyle(document.body).getPropertyValue("--font-size-base") || '11px',
+                            name: document.documentElement.style.getPropertyValue("--font-family-base-custom") || 'Arial, Helvetica, "Helvetica Neue", sans-serif'
+                        };
+                    }
+                } else if (prop==='tab-style') {
+                    return (Common.Utils.isIE || Common.Controllers.Desktop && Common.Controllers.Desktop.isWinXp()) ? 'fill' : window.getComputedStyle(document.body).getPropertyValue("--toolbar-preferred-tab-style") || 'line';
+                } else if (prop==='small-btn-size') {
+                    if (!theme_props[prop]) {
+                        theme_props[prop] = window.getComputedStyle(document.body).getPropertyValue("--x-small-btn-size") || '20px';
+                    }
+                }
+                return theme_props[prop];
             }
         }
     })(Common.UI.Themes);

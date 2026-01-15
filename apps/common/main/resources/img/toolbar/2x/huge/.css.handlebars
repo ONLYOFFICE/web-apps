@@ -4,8 +4,16 @@
             (min-resolution: 2dppx), (min-resolution: 192dpi)
     {
         .options__icon.options__icon-huge {
+            {{#if (iesupport)}}
             background-image: url(resources/{{{escaped_image}}});
-            background-size: var(--huge-icon-background-image-width) auto;
+            {{/if}}
+            background-image: var(--sprite-button-{{#spritepostfix}}{{/spritepostfix}}, url(resources/{{{escaped_image}}}));
+
+            {{#if (xpsupport)}}
+            .winxp & {
+                background-image: url(resources/{{{escaped_image}}});
+            }
+            {{/if}}
         }
     }
 }

@@ -47,8 +47,11 @@ define([], function () {
                 '<div class="current-plugin-frame">',
                 '</div>',
                 '<div class="current-plugin-header">',
+                    '<div class="tools">',
+                        '<div class="plugin-close close"></div>',
+                        '<div class="plugin-hide"></div>',
+                    '</div>',
                     '<label></label>',
-                    '<div class="plugin-close close"></div>',
                 '</div>',
             '</div>',
             '<div id="plugins-mask" style="display: none;">'
@@ -79,8 +82,46 @@ define([], function () {
                 hint: this.textClosePanel
             });
 
+            var xpadding = 1;
+            if (this.sideMenuButton) {
+                this.pluginHide = new Common.UI.Button({
+                    parentEl: this.$el.find('.plugin-hide'),
+                    cls: 'btn-toolbar' + (this.menu==='right' ^ Common.UI.isRTL() ? ' icon-mirrored' : ''),
+                    iconCls: 'toolbar__icon btn-panel-left-collapse',
+                    hint: this.textHidePanel
+                });
+                xpadding++;
+            }
+
+            if(this.isCanDocked) {
+                this.showDockedButton();
+                xpadding++;
+            }
+            this.pluginName.css(Common.UI.isRTL() ? 'padding-left' : 'padding-right', (parseInt(Common.UI.Themes.getThemeProps('small-btn-size')) * xpadding + 5) + 'px');
+
             this.trigger('render:after', this);
             return this;
+        },
+
+        showDockedButton: function() {
+            var header = this.$el.find('.current-plugin-header .tools'),
+                btnCls = 'plugin-undock',
+                btn = header.find('.' + btnCls);
+            if (btn.length < 1) {
+                btn = $('<div class="' + btnCls + '"></div>');
+                this.$el.find('.plugin-close').after(btn);
+                var btnUndock = new Common.UI.Button({
+                    parentEl: this.$el.find('.' + btnCls),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-unpin',
+                    hint: this.textUndock
+                });
+                btnUndock.on('click', _.bind(function() {
+                    this.fireEvent('docked', this.iframePlugin.id);
+                }, this));
+            }
+            btn.show();
+            header.removeClass('hidden');
         },
 
         openInsideMode: function(name, url, frameId, guid) {
@@ -128,8 +169,14 @@ define([], function () {
             Common.UI.BaseView.prototype.hide.call(this,arguments);
         },
 
+        enablePointerEvents: function(enable) {
+            this.iframePlugin && (this.iframePlugin.style.pointerEvents = enable ? "" : "none");
+        },
+
         textClosePanel: 'Close plugin',
-        textLoading: 'Loading'
+        textLoading: 'Loading',
+        textUndock: 'Unpin plugin',
+        textHidePanel: 'Collapse plugin',
 
     }, Common.Views.PluginPanel || {}));
 });

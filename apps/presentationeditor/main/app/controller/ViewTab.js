@@ -67,6 +67,7 @@ define([
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
             Common.NotificationCenter.on('settings:unitschanged', _.bind(this.unitsChanged, this));
             Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
+            Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
         },
 
         setApi: function (api) {
@@ -79,6 +80,10 @@ define([
                 this.api.asc_registerCallback('asc_onLockViewProps', _.bind(this.onLockViewProps, this, true));
                 this.api.asc_registerCallback('asc_onUnLockViewProps', _.bind(this.onLockViewProps, this, false));
                 this.api.asc_registerCallback('asc_onChangeViewMode', _.bind(this.onApiChangeViewMode, this));
+                this.api.asc_registerCallback('asc_onMacroRecordingStart', _.bind(this.updateMacroState, this, true, false));
+                this.api.asc_registerCallback('asc_onMacroRecordingStop', _.bind(this.updateMacroState, this, false));
+                this.api.asc_registerCallback('asc_onMacroRecordingPause', _.bind(this.updateMacroState, this, true, true));
+                this.api.asc_registerCallback('asc_onMacroRecordingResume', _.bind(this.updateMacroState, this, true, false));
             }
             return this;
         },
@@ -111,7 +116,12 @@ define([
                     'gridlines:snap': _.bind(this.onGridlinesSnap, this),
                     'gridlines:spacing': _.bind(this.onGridlinesSpacing, this),
                     'gridlines:custom': _.bind(this.onGridlinesCustom, this),
-                    'gridlines:aftershow': _.bind(this.onGridlinesAfterShow, this)
+                    'gridlines:aftershow': _.bind(this.onGridlinesAfterShow, this),
+                    'macros:click':  _.bind(this.onClickMacros, this),
+                    'macros:record':  _.bind(this.onClickMacrosRec, this),
+                    'macros:pause':  _.bind(this.onClickMacrosPause, this),
+                    'pointer:select': _.bind(this.onPointerType, this, 'select'),
+                    'pointer:hand': _.bind(this.onPointerType, this, 'hand')
                 },
                 'Toolbar': {
                     'view:compact': _.bind(function (toolbar, state) {
@@ -215,11 +225,11 @@ define([
         },
 
         onThemeChanged: function () {
-            if (this.view && Common.UI.Themes.available()) {
+            if (this.view && Common.UI.Themes.available() && this.view.btnInterfaceTheme.menu && (typeof (this.view.btnInterfaceTheme.menu) === 'object')) {
                 var current_theme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId(),
-                    menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.items, {value: current_theme});
+                    menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.getItems(true), {value: current_theme});
                 if ( !!menu_item ) {
-                    this.view.btnInterfaceTheme.menu.clearAll();
+                    this.view.btnInterfaceTheme.menu.clearAll(true);
                     menu_item.setChecked(true, true);
                 }
             }
@@ -347,7 +357,7 @@ define([
             if (this.view) {
                 var menu = this.view.btnGridlines.menu;
                 if (this._state.unitsChanged) {
-                    for (var i = 3; i < menu.items.length-2; i++) {
+                    for (var i = 3; i < menu.getItemsLength(true)-2; i++) {
                         menu.removeItem(menu.items[i]);
                         i--;
                     }
@@ -368,7 +378,7 @@ define([
                 menu.items[1].setChecked(this.api.asc_getSnapToGrid(), true);
 
                 var value = Common.Utils.Metric.fnRecalcFromMM(this.api.asc_getGridSpacing()/36000),
-                    items = menu.items;
+                    items = menu.getItems(true);
                 for (var i=3; i<items.length-2; i++) {
                     var item = items[i];
                     if (item.value<1 && Math.abs(item.value - value)<0.005)
@@ -381,6 +391,47 @@ define([
                 }
                 menu.items[1].setDisabled(this._state.lock_viewProps); // snap to grid
                 menu.items[items.length-1].setDisabled(this._state.lock_viewProps); // custom
+            }
+        },
+
+        onClickMacros: function() {
+            var me = this;
+            var macrosWindow = new Common.Views.MacrosDialog({
+                api: this.api,
+            });
+            macrosWindow.show();
+        },
+
+        onClickMacrosRec: function() {
+            var recorder = this.api.getMacroRecorder();
+            recorder.isInProgress() ? recorder.stop() : recorder.start();
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onClickMacrosPause: function() {
+            var recorder = this.api.getMacroRecorder();
+            if (recorder.isInProgress()) {
+                recorder.isPaused() ? recorder.resume() : recorder.pause();
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        updateMacroState: function(inProgress, paused) {
+            if (this.view) {
+                this.view.btnRecMacro.changeIcon({
+                    next: inProgress ? 'btn-macros-stop' : 'btn-macros-record',
+                    curr: inProgress ? 'btn-macros-record' : 'btn-macros-stop'
+                });
+                this.view.btnRecMacro.setCaption(inProgress ? this.view.textStopMacro : this.view.textRecMacro);
+                this.view.btnRecMacro.updateHint(inProgress ? this.view.tipStopMacro : this.view.tipRecMacro);
+                Common.Utils.lockControls(Common.enumLock.macrosStopped, !inProgress, {array: [this.view.btnPauseMacro]});
+                if (!inProgress) {
+                    this.view.btnPauseMacro.setCaption(this.view.textPauseMacro);
+                    this.view.btnPauseMacro.updateHint(this.view.tipPauseMacro);
+                } else {
+                    this.view.btnPauseMacro.setCaption(paused ? this.view.textResumeMacro : this.view.textPauseMacro);
+                    this.view.btnPauseMacro.updateHint(paused ? this.view.tipResumeMacro : this.view.tipPauseMacro);
+                }
             }
         },
 
@@ -400,6 +451,8 @@ define([
         },
 
         changeViewMode: function (mode) {
+            if (!this.view.btnSlideMaster || !this.view.btnNormal) return;
+            
             var isMaster = mode === 'master';
             this.view.btnSlideMaster.toggle(isMaster, true);
             this.view.btnNormal.toggle(!isMaster, true);
@@ -416,8 +469,14 @@ define([
         },
 
         onChangeViewMode: function (mode) {
-            Common.UI.TooltipManager.closeTip('slideMaster');
             this.changeViewMode(mode);
+        },
+
+        onPointerType: function (type) {
+            if (this.api) {
+                this.api.asc_setViewerTargetType(type);
+                Common.NotificationCenter.trigger('edit:complete', this.view);
+            }
         },
 
         onTabStyleChange: function () {
@@ -426,6 +485,19 @@ define([
                     item.setChecked(Common.Utils.InternalSettings.get("settings-tab-style")===item.value, true);
                 });
             }
+        },
+
+        onAppReady: function (config) {
+            var me = this;
+            (new Promise(function (accept, reject) {
+                accept();
+            })).then(function () {
+                if (me.view && me.view.btnHandTool) {
+                    var hand = config && config.customization && config.customization.pointerMode==='hand';
+                    me.api && me.api.asc_setViewerTargetType(hand ? 'hand' : 'select');
+                    me.view[hand ? 'btnHandTool' : 'btnSelectTool'].toggle(true, true);
+                }
+            });
         }
 
     }, PE.Controllers.ViewTab || {}));

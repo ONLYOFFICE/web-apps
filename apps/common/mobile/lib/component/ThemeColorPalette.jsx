@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { f7, ListItem, List, Icon } from 'framework7-react';
+import React from 'react';
+import { ListItem, List } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { LocalStorage } from '../../utils/LocalStorage.mjs';
+import { WheelColorPicker } from "./WheelColorPicker";
+import {Device} from '../../utils/device';
+import SvgIcon from '@common/lib/component/SvgIcon';
+//import IconPlusIos from '@common-ios-icons/icon-plus.svg?ios';
+//import IconPlusAndroid from '@common-android-icons/icon-plus.svg';
 
 const ThemeColors = ({ themeColors, onColorClick, curColor, isTypeColors, isTypeCustomColors }) => {
     return (
@@ -159,23 +164,6 @@ const CustomColorPicker = props => {
     }
 
     const countDynamicColors = props.countdynamiccolors || 10;
-    const [stateColor, setColor] = useState(`#${currentColor}`);
-
-    useEffect(() => {
-        if (document.getElementsByClassName('color-picker-wheel').length < 1) {
-            const colorPicker = f7.colorPicker.create({
-                containerEl: document.getElementsByClassName('color-picker-container')[0],
-                value: {
-                    hex: `#${currentColor}`
-                },
-                on: {
-                    change: function (value) {
-                        setColor(value.getValue().hex);
-                    }
-                }
-            });
-        }
-    });
 
     const addNewColor = (color) => {
         let colors = LocalStorage.getItem('mobile-custom-colors');
@@ -186,20 +174,7 @@ const CustomColorPicker = props => {
         props.onAddNewColor && props.onAddNewColor(colors, newColor);
     };
 
-    return (
-        <div id='color-picker'>
-            <div className='color-picker-container'></div>
-            <div className='right-block'>
-                <div className='color-hsb-preview'>
-                    <div className='new-color-hsb-preview' style={{backgroundColor: stateColor}}></div>
-                    <div className='current-color-hsb-preview' style={{backgroundColor: `#${currentColor}`}}></div>
-                </div>
-                <a href='#' id='add-new-color' className='button button-round' onClick={()=>{addNewColor(stateColor)}}>
-                    <Icon icon={'icon-plus'} slot="media" />
-                </a>
-            </div>
-        </div>
-    )
+    return <WheelColorPicker initialColor={`#${currentColor}`} onSelectColor={addNewColor}/>
 };
 
 export { ThemeColorPalette, CustomColorPicker };

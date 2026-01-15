@@ -62,7 +62,7 @@
             display: inline-block;
         }
 
-        #table-btn-convert-to-text {
+        #table-btn-convert-to-text, #table-btn-add-formula {
             .btn {
                 width: 100%;
             }
@@ -134,6 +134,10 @@
     &#id-image-settings {
         #image-button-270, #image-button-fliph,
         #image-button-90, #image-button-flipv {
+            display: inline-block;
+        }
+
+        #image-spin-transparency {
             display: inline-block;
         }
     }
@@ -218,7 +222,7 @@
         }
 
         .text-to-label {
-            width: 30px;
+            flex-grow: 1;
             .text-align-right();
             vertical-align: middle;
             .margin-right-2();
@@ -267,12 +271,10 @@
     justify-content: center;
 
     div {
-        width: 32px;
-        height: 32px;
-        background: white;
-        border-radius: 1px;
-        border: 1px @icon-normal-ie solid;
-        border: 1px @icon-normal solid;
+        width: 24px;
+        height: 24px;
+        background: #dedede;
+        border: 1px #808080 solid;
     }
 }
 
@@ -282,6 +284,10 @@
     height: 100%;
     overflow: hidden;
     margin: 0 -10px 0 -15px;
+
+    .rtl & {
+        margin: 0 -15px 0 -10px;
+    }
 
     .item {
         display: block;
@@ -295,7 +301,7 @@
             background-color: @highlight-button-hover-ie;
             background-color: @highlight-button-hover;
 
-            .caret {
+            .caret-button {
                 display: inline-block;
             }
         }
@@ -305,6 +311,7 @@
         padding: 5px 2px 5px 15px;
         text-overflow: ellipsis;
         min-height: 25px;
+        position: relative;
 
         .name {
             width: 100%;
@@ -315,13 +322,29 @@
             text-overflow: ellipsis;
         }
 
-        .caret {
-            margin: 9px;
+        .caret-button {
             display: none;
             position: absolute;
-            right: 14px;
+            width: 30px;
+            height: 25px;
+            top: 10px;
+
+            right: 0;
+            .rtl & {
+                right: unset;
+                left: 0;
+            }
+
+            &.nomargin {
+                top: 0;
+            }
+        }
+        .caret {
+            position: absolute;
             width: 8px;
             height: 8px;
+            top: 6px;
+            right: 12px;
             border: solid 1px @icon-normal-ie;
             border: solid 1px @icon-normal;
             opacity: 0.6;
@@ -331,9 +354,9 @@
             transform: rotate(-135deg);
             filter: none;
 
-            &.nomargin {
-                margin: 2px;
-                right: 26px;
+            .rtl & {
+                right: unset;
+                left: 12px;
             }
         }
 
@@ -401,3 +424,4 @@
         .margin-left-10();
     }
 }
+

@@ -25,6 +25,7 @@
   "SSE.ApplicationController.errorInconsistentExtPptx": "Ֆայլը բացելիս սխալ է տեղի ունեցել:<br>Ֆայլի բովանդակությունը համապատասխանում է ներկայացումներին (օրինակ՝ pptx), սակայն ֆայլն ունի անհամապատասխան ընդլայնում. %1:",
   "SSE.ApplicationController.errorInconsistentExtXlsx": "Ֆայլը բացելիս սխալ է տեղի ունեցել:<br>Ֆայլի բովանդակությունը համապատասխանում է աղյուսակներին (օր. xlsx), սակայն ֆայլն ունի անհամապատասխան ընդլայնում. %1:",
   "SSE.ApplicationController.errorLoadingFont": "Տառատեսակները բեռնված չեն:<br>Խնդրում ենք կապվել ձեր փաստաթղթերի սերվերի ադմինիստրատորի հետ:",
+  "SSE.ApplicationController.errorToken": "Փաստաթղթի անվտանգության կտրոնը ճիշտ չի ձևակերպված։<br>Դիմեք փաստաթղթերի սպասարկիչի ձեր վարիչին։",
   "SSE.ApplicationController.errorTokenExpire": "Փաստաթղթի անվտանգության կտրոնի ժամկետն անցել է։<br>Դիմեք փաստաթղթերի սպասարկիչի ձեր վարիչին։",
   "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "Կապը վերահաստատվել է,և ֆայլի տարբերակը փոխվել է։<br>Նախքան աշխատանքը շարունակելը ներբեռնեք ֆայլը կամ պատճենեք դրա պարունակությունը՝ վստահ լինելու, որ ոչինչ չի կորել, և ապա նորից բեռնեք այս էջը։",
   "SSE.ApplicationController.errorUserDrop": "Այս պահին ֆայլն անհասանելի է։",
@@ -46,8 +47,8 @@
   "SSE.ApplicationView.txtDownload": "Ներբեռնել",
   "SSE.ApplicationView.txtEmbed": "Ներկառուցել",
   "SSE.ApplicationView.txtFileLocation": "Բացել ֆայլի պանակը",
-  "SSE.ApplicationView.txtFullScreen": "Լիէկրան",
+  "SSE.ApplicationView.txtFullScreen": "Ամբողջ էկրանով",
   "SSE.ApplicationView.txtPrint": "Տպել",
-  "SSE.ApplicationView.txtSearch": "Որոնել",
+  "SSE.ApplicationView.txtSearch": "Գտնել",
   "SSE.ApplicationView.txtShare": "Տարածել"
 }

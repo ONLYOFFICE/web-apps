@@ -14,6 +14,7 @@ import EditorUIController from '../lib/patch';
     canComments: stores.storeAppOptions.canComments,
     canViewComments: stores.storeAppOptions.canViewComments,
     canCoAuthoring: stores.storeAppOptions.canCoAuthoring,
+    canCopy: stores.storeAppOptions.canCopy,
     users: stores.users,
     isDisconnected: stores.users.isDisconnected,
     objects: stores.storeFocusObjects.settings,
@@ -78,12 +79,12 @@ class ContextMenu extends ContextMenuController {
         const api = Common.EditorApi.get();
         switch (action) {
             case 'cut':
-                if ( !LocalStorage.getBool("pe-hide-copy-cut-paste-warning")) {
+                if ( !LocalStorage.getBool("pe-hide-copy-cut-paste-warning") && this.props.canCopy) {
                     this.showCopyCutPasteModal();
                 }
                 break;
             case 'copy':
-                if (!api.Copy() && !LocalStorage.getBool("pe-hide-copy-cut-paste-warning")) {
+                if (!api.Copy() && !LocalStorage.getBool("pe-hide-copy-cut-paste-warning") && this.props.canCopy) {
                     this.showCopyCutPasteModal();
                 }
                 break;
@@ -131,7 +132,7 @@ class ContextMenu extends ContextMenuController {
                       <span class="right-text">${_t.textDoNotShowAgain}</span>
                       </div>`,
             buttons: [{
-                text: 'OK',
+                text: _t.textOk,
                 onClick: () => {
                     const dontShow = $$('input[name="checkbox-show"]').prop('checked');
                     if (dontShow) LocalStorage.setItem("pe-hide-copy-cut-paste-warning", 1);
@@ -159,7 +160,7 @@ class ContextMenu extends ContextMenuController {
                     text: _t.menuCancel
                 },
                 {
-                    text: 'OK',
+                    text: _t.textOk,
                     bold: true,
                     onClick: function () {
                         const size = picker.value;
@@ -209,18 +210,18 @@ class ContextMenu extends ContextMenuController {
                     const _t = t("ContextMenu", { returnObjects: true });
                     f7.dialog.create({
                         title: t('View.Settings', {returnObjects: true}).notcriticalErrorTitle,
-                        text  : _t.txtWarnUrl,
-                        buttons: [{
+                        text  : _t.txtWarnUrl.replaceAll('{0}', url),
+                        buttons: [
+                            { text: _t.menuCancel, bold: true },
+                            {
                             text: t('View.Settings', {returnObjects: true}).textOk,
-                            bold: true,
                             onClick: () => {
                                 const newDocumentPage = window.open(url, '_blank');
                                 if (newDocumentPage) {
                                     newDocumentPage.focus();
                                 }
                             }
-                        },
-                        { text: _t.menuCancel }]
+                        }]
                     }).open();
                 }
             }

@@ -43,7 +43,8 @@ export class storeApplicationSettings {
     isRefStyle = false;
     isComments = true;
     isResolvedComments = true; 
-    formulaLangs = ['en', 'be', 'bg', 'ca', 'zh', 'cs', 'da', 'nl', 'fi', 'fr', 'de', 'el', 'hu', 'id', 'it', 'ja', 'ko', 'lv', 'lo', 'nb', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sk', 'sl', 'sv', 'es', 'tr', 'uk', 'vi'];
+    formulaLangs = ['en', 'be', 'bg', 'ca', 'zh', 'zh-tw', 'cs', 'da', 'nl', 'fi', 'fr', 'de', 'el', 'hu', 'id', 'it', 'ja', 'ko', 'lv', 'lo', 'nb', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'sr', 'sr-cyrl', 'sk', 'sl', 'sv', 'es', 'tr', 'uk', 'vi'];
+
     formulaLangsExamples = {
         'txtExampleEn': 'SUM; MIN; MAX; COUNT',
         'txtExampleDe': 'SUMME; MIN; MAX; ANZAHL',
@@ -63,7 +64,9 @@ export class storeApplicationSettings {
         'txtExamplePt': 'SOMA; MÍNIMO; MÁXIMO; CONTAR',
         'txtExamplePtbr': 'SOMA; MÍNIMO; MÁXIMO; CONT.NÚM',
         'txtExampleSv': 'SUMMA; MIN; MAX; ANTAL',
-        'txtExampleTr': 'TOPLA; MİN; MAK; BAĞ_DEĞ_SAY'
+        'txtExampleTr': 'TOPLA; MİN; MAK; BAĞ_DEĞ_SAY',
+        'txtExampleSr': 'SUMA; MIN; MAKS; BROJANJE',
+        'txtExampleSrcyrl': 'СУМА; МИН; МАКС; БРОЈАЊЕ'
     }
     formulaLangsColection = [];
 

@@ -304,7 +304,6 @@ define([
                 var button = $('button', this.openButton.cmpEl);
                 var cntButton = $('.button', this.cmpEl);
                 button && cntButton.width() > 0 && button.css({
-                    width : cntButton.width(),
                     height: cntButton.height()
                 });
 
@@ -340,6 +339,7 @@ define([
                     cmbDataViewEl.css('top', '50%');
                     cmbDataViewEl.css('bottom', '50%');
                     cmbDataViewEl.css('margin', 'auto 0');
+                    cmbDataViewEl.css('width', wrapEl.width() + 'px');
                 }
 
                 return widthCalc;
@@ -391,16 +391,9 @@ define([
             if (_.isFunction(me.beforeOpenHandler)){
                 me.beforeOpenHandler(me, e);
             } else if (me.openButton.menu.cmpEl) {
-                var itemMargin = 0;
-
-                try {
-                    var itemEl = $($('.dropdown-menu .dataview.inner .style', me.cmpEl)[0]);
-                    itemMargin = itemEl ? (parseInt(itemEl.css('margin-left')) + parseInt(itemEl.css('margin-right'))) : 0;
-                } catch(e) {}
-
                 me.openButton.menu.cmpEl.css({
-                    'width' : Math.round((me.cmpEl.width() + (itemMargin * me.fieldPicker.store.length))/ me.itemWidth - .2) * (me.itemWidth + itemMargin),
-                    'min-height': this.cmpEl.height()
+                    'width' : me.cmpEl.width() - me.openButton.cmpEl.width(),
+                    'min-height': me.cmpEl.height()
                 });
             }
 

@@ -1,0 +1,123 @@
+<div class="inner-content">
+    <table cols="2" style="width: 100%" role="presentation">
+        <tr>
+            <td colspan="2" class="padding-small">
+                <div id="chart-dlg-chk-vert-hide-<%=idx%>" class="input-group-nr"></div>
+            </td>
+        </tr>
+        <tr>
+            <td class="padding-large" width="50%">
+                <label class="input-label"><%= scope.textAxisTitle %></label>
+                <div id="chart-dlg-combo-vert-title-<%=idx%>" class="input-group-nr margin-right-7"></div>
+            </td>
+            <td class="padding-large" width="50%">
+                <label class="input-label margin-left-7"><%= scope.textGridLines %></label>
+                <div id="chart-dlg-combo-vert-grid-<%=idx%>" class="input-group-nr margin-left-7"></div>
+            </td>
+        </tr>
+    </table>
+    <table cols="3" style="width: 100%" role="presentation">
+        <tr>
+            <td class="padding-small" width="110">
+                <label class="input-label"><%= scope.textMinValue %></label>
+            </td>
+            <td class="padding-small padding-right-10" width="120">
+                <div id="chart-dlg-combo-mintype-<%=idx%>"></div>
+            </td>
+            <td class="padding-small" width="90">
+                <div id="chart-dlg-input-min-value-<%=idx%>"></div>
+            </td>
+        </tr>
+        <tr>
+            <td class="padding-small" width="110">
+                <label class="input-label"><%= scope.textMaxValue %></label>
+            </td>
+            <td class="padding-small padding-right-10" width="120">
+                <div id="chart-dlg-combo-maxtype-<%=idx%>"></div>
+            </td>
+            <td class="padding-small" width="90">
+                <div id="chart-dlg-input-max-value-<%=idx%>"></div>
+            </td>
+        </tr>
+        <tr>
+            <td class="padding-large" width="110">
+                <label class="input-label"><%= scope.textAxisCrosses %></label>
+            </td>
+            <td class="padding-large padding-right-10" width="120">
+                <div id="chart-dlg-combo-v-crosstype-<%=idx%>"></div>
+            </td>
+            <td class="padding-large" width="90">
+                <div id="chart-dlg-input-v-axis-crosses-<%=idx%>"></div>
+            </td>
+        </tr>
+    </table>
+    <table cols="2" role="presentation">
+        <tr>
+            <td class="padding-small padding-right-10" style="min-width: 110px;">
+                <label class="input-label"><%= scope.textUnits %></label>
+            </td>
+            <td class="padding-small padding-right-10" width="120>
+                <div id="chart-dlg-combo-units-<%=idx%>"></div>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="inner-content">
+    <table cols="2" style="width: 100%;" role="presentation">
+        <tr>
+            <td colspan=2 class="padding-small">
+                <div id="chart-dlg-check-v-reverse-<%=idx%>"></div>
+            </td>
+        </tr>
+        <tr>
+            <td class="padding-large">
+                <div id="chart-dlg-check-v-logscale-<%=idx%>"></div>
+            </td>
+            <td class="padding-large">
+                <div class="base float-right">
+                    <label class="input-label vertical-align-baseline"><%= scope.textBase %></label>
+                    <div id="chart-dlg-input-base-<%=idx%>" class="margin-left-5 vertical-align-baseline" style="display: inline-block;"></div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="inner-content">
+    <table cols="2" style="width: 100%;" role="presentation">
+        <tr>
+            <td colspan=2 class="padding-small">
+                <label class="header"><%= scope.textTickOptions %></label>
+            </td>
+        </tr>
+        <tr>
+            <td class="padding-large" width="50%">
+                <label class="input-label"><%= scope.textMajorType %></label>
+                <div id="chart-dlg-combo-v-major-type-<%=idx%>" class="input-group-nr margin-right-7"></div>
+            </td>
+            <td class="padding-large" width="50%">
+                <label class="input-label margin-left-7"><%= scope.textMinorType %></label>
+                <div id="chart-dlg-combo-v-minor-type-<%=idx%>" class="input-group-nr margin-left-7"></div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan=2 class="padding-small">
+                <label class="header"><%= scope.textLabelOptions %></label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="input-label"><%= scope.textLabelPos %></label>
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td width="50%">
+                <div id="chart-dlg-combo-v-label-pos-<%=idx%>" class="input-group-nr margin-right-7"></div>
+            </td>
+            <td width="50%">
+                <button type="button" class="btn btn-text-default auto margin-left-7" id="chart-dlg-btn-v-format-<%=idx%>" style="min-width: 100px;"><%= scope.textFormat %></button>
+            </td>
+        </tr>
+    </table>
+</div>

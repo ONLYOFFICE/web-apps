@@ -12,6 +12,7 @@ import EditorUIController from '../lib/patch';
     canComments: stores.storeAppOptions.canComments,
     canViewComments: stores.storeAppOptions.canViewComments,
     canCoAuthoring: stores.storeAppOptions.canCoAuthoring,
+    canCopy: stores.storeAppOptions.canCopy,
     isRestrictedEdit: stores.storeAppOptions.isRestrictedEdit,
     users: stores.users,
     isDisconnected: stores.users.isDisconnected,
@@ -87,7 +88,7 @@ class ContextMenu extends ContextMenuController {
                 title: t('ContextMenu.notcriticalErrorTitle'),
                 text: t('ContextMenu.errorInvalidLink'),
                 buttons:[
-                    {text: 'OK'}
+                    { text: t('ContextMenu.textOk') }
                 ] 
             }).open();
         }
@@ -107,12 +108,12 @@ class ContextMenu extends ContextMenuController {
 
         switch (action) {
             case 'cut':
-                if (!LocalStorage.getBool("sse-hide-copy-cut-paste-warning")) {
+                if (!LocalStorage.getBool("sse-hide-copy-cut-paste-warning") && this.props.canCopy) {
                     this.showCopyCutPasteModal();
                 }
                 break;
             case 'copy':
-                if (!api.asc_Copy() && !LocalStorage.getBool("sse-hide-copy-cut-paste-warning")) {
+                if (!api.asc_Copy() && !LocalStorage.getBool("sse-hide-copy-cut-paste-warning") && this.props.canCopy) {
                     this.showCopyCutPasteModal();
                 }
                 break;
@@ -166,7 +167,7 @@ class ContextMenu extends ContextMenuController {
                             text: t('ContextMenu.menuCancel')
                         },
                         {
-                            text: 'OK',
+                            text: t('ContextMenu.textOk'),
                             onClick: () => {
                                 api.asc_mergeCells(Asc.c_oAscMergeOptions.Merge);
                             }
@@ -193,7 +194,7 @@ class ContextMenu extends ContextMenuController {
                       <span class="right-text">${_t.textDoNotShowAgain}</span>
                       </div>`,
             buttons: [{
-                text: 'OK',
+                text: _t.textOk,
                 onClick: () => {
                     const dontShow = $$('input[name="checkbox-show"]').prop('checked');
                     if (dontShow) LocalStorage.setItem("sse-hide-copy-cut-paste-warning", 1);
@@ -215,18 +216,18 @@ class ContextMenu extends ContextMenuController {
                 const _t = t("ContextMenu", { returnObjects: true });
                 f7.dialog.create({
                     title: _t.notcriticalErrorTitle,
-                    text  : _t.txtWarnUrl,
-                    buttons: [{
+                    text  : _t.txtWarnUrl.replaceAll('{0}', url),
+                    buttons: [
+                        { text: _t.menuCancel, bold: true },
+                        {
                         text: _t.textOk,
-                        bold: true,
                         onClick: () => {
                             const newDocumentPage = window.open(url, '_blank');
                             if (newDocumentPage) {
                                 newDocumentPage.focus();
                             }
                         }
-                    },
-                    { text: _t.menuCancel }]
+                        }]
                 }).open();
             }
         }

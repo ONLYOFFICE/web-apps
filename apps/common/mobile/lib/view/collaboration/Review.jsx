@@ -4,6 +4,21 @@ import { Page, Navbar, NavRight, List, ListItem, Icon, Toggle, Toolbar, Link } f
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../utils/device";
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
+import IconReviewChangesIos from '@common-ios-icons/icon-review-changes.svg?ios';
+import IconReviewChangesAndroid from '@common-android-icons/icon-review-changes.svg';
+import IconAcceptChangesIos from '@common-ios-icons/icon-accept-changes.svg?ios';
+import IconAcceptChangesAndroid from '@common-android-icons/icon-accept-changes.svg';
+import IconRejectChangesIos from '@common-ios-icons/icon-reject-changes.svg?ios';
+import IconRejectChangesAndroid from '@common-android-icons/icon-reject-changes.svg';
+import IconGotoIos from '@common-ios-icons/icon-goto.svg';
+import IconGotoAndroid from '@common-android-icons/icon-goto.svg';
+import IconPrevChangeIos from '@common-ios-icons/icon-prev-change.svg?ios';
+import IconPrevChangeAndroid from '@common-android-icons/icon-prev-change.svg';
+import IconNextChangeIos from '@common-ios-icons/icon-next-change.svg?ios';
+import IconNextChangeAndroid from '@common-android-icons/icon-next-change.svg';
 
 const PageReview = props => {
     const { t } = useTranslation();
@@ -18,7 +33,10 @@ const PageReview = props => {
                {Device.phone &&
                <NavRight>
                    <Link sheetClose=".coauth__sheet">
-                       <Icon icon='icon-expand-down'/>
+                        {Device.ios ?
+                            <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                            <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg down'} />
+                        }
                    </Link>
                </NavRight>
                }
@@ -37,18 +55,27 @@ const PageReview = props => {
            </List>
            <List>
                <ListItem title={_t.textReviewChange} link={'/review-change/'}>
-                   <Icon slot="media" icon="icon-review-changes"></Icon>
+                   {Device.ios ? 
+                        <SvgIcon slot="media" symbolId={IconReviewChangesIos.id} className={'icon icon-svg'} /> :
+                        <SvgIcon slot="media" symbolId={IconReviewChangesAndroid.id} className={'icon icon-svg'} />
+                    }
                </ListItem>
                {canReview && !props.canUseReviewPermissions && !isProtected &&
                     <ListItem title={_t.textAcceptAllChanges} link='#'
                               className={'no-indicator' + (isDisableAllSettings ? ' disabled' : '')} onClick={() => {props.onAcceptAll();}}>
-                        <Icon slot="media" icon="icon-accept-changes"></Icon>
+                        {Device.ios ? 
+                            <SvgIcon slot="media" symbolId={IconAcceptChangesIos.id} className={'icon icon-svg'} /> :
+                            <SvgIcon slot="media" symbolId={IconAcceptChangesAndroid.id} className={'icon icon-svg'} />
+                        }
                     </ListItem>
                }
                {canReview && !props.canUseReviewPermissions && !isProtected &&
                     <ListItem title={_t.textRejectAllChanges} link='#'
                               className={'no-indicator' + (isDisableAllSettings ? ' disabled' : '')} onClick={() => {props.onRejectAll();}}>
-                        <Icon slot="media" icon="icon-reject-changes"></Icon>
+                        {Device.ios ? 
+                            <SvgIcon slot="media" symbolId={IconRejectChangesIos.id} className={'icon icon-svg'} /> :
+                            <SvgIcon slot="media" symbolId={IconRejectChangesAndroid.id} className={'icon icon-svg'} />
+                        }
                     </ListItem>
                }
            </List>
@@ -66,7 +93,10 @@ const DisplayMode = props => {
                 {Device.phone &&
                 <NavRight>
                     <Link sheetClose=".coauth__sheet">
-                        <Icon icon='icon-expand-down'/>
+                        {Device.ios ? 
+                            <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                            <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg down'} />
+                        }
                     </Link>
                 </NavRight>
                 }
@@ -118,7 +148,10 @@ const PageReviewChange = inject("storeAppOptions")(observer(props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose=".coauth__sheet">
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg down'} />
+                            }
                         </Link>
                     </NavRight>
                 }
@@ -144,19 +177,29 @@ const PageReviewChange = inject("storeAppOptions")(observer(props => {
                             <Link href='#' id="btn-delete-change" onClick={() => {props.onDeleteChange()}}>{_t.textDelete}</Link>
                         </span>
                     }
-                    {props.goto && <Link href='#' id='btn-goto-change' onClick={() => {props.onGotoNextChange()}}><Icon slot='media' icon='icon-goto'/></Link>}
+                    {props.goto && <Link href='#' id='btn-goto-change' onClick={() => {props.onGotoNextChange()}}>
+                            {Device.ios ? 
+                                <SvgIcon slot="media" symbolId={IconGotoIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon slot="media" symbolId={IconGotoAndroid.id} className={'icon icon-svg'} />
+                            }</Link>}
                 </span>
                 <span className='next-prev row'>
                     <Link id='btn-prev-change'
                           href='#'
                           onClick={() => {props.onPrevChange()}}
                           className={isLockPrevNext && 'disabled'}
-                    ><Icon slot='media' icon='icon-prev-change'/></Link>
+                    >{Device.ios ? 
+                        <SvgIcon slot="media" symbolId={IconPrevChangeIos.id} className={'icon icon-svg'} /> :
+                        <SvgIcon slot="media" symbolId={IconPrevChangeAndroid.id} className={'icon icon-svg'} />
+                    }</Link>
                     <Link id='btn-next-change'
                           href='#'
                           onClick={() => {props.onNextChange()}}
                           className={isLockPrevNext && 'disabled'}
-                    ><Icon slot='media' icon='icon-next-change'/></Link>
+                    >{Device.ios ? 
+                        <SvgIcon slot="media" symbolId={IconNextChangeIos.id} className={'icon icon-svg'} /> :
+                        <SvgIcon slot="media" symbolId={IconNextChangeAndroid.id} className={'icon icon-svg'} />
+                    }</Link>
                 </span>
             </Toolbar>
             {change ?

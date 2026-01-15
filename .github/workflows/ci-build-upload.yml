@@ -1,6 +1,7 @@
 name: "Build and upload helps"
 
-on:
+on: 
+    workflow_dispatch:
     create:
     push:
 
@@ -45,6 +46,7 @@ jobs:
             uses: actions/checkout@v3
             with:
                 repository: onlyoffice/sdkjs
+                token: ${{ secrets.READ_PAT }}
                 ref: ${{env.REF}}
                 path: 'sdkjs'
                 fetch-depth: '1'
@@ -68,7 +70,7 @@ jobs:
 
           - name: Upload artifact
             if: steps.apps-files.outcome == 'success'
-            uses: actions/upload-artifact@v3
+            uses: actions/upload-artifact@v4
             with:
               name: apps-artifact
               path: apps.tar
@@ -81,7 +83,7 @@ jobs:
         steps:
 
           - name: Download artifact
-            uses: actions/download-artifact@v3
+            uses: actions/download-artifact@v4
             with:
               name: apps-artifact
 
@@ -117,7 +119,7 @@ jobs:
             env:
                 URI: ${{steps.tag-dir.outputs.URI}}
             run: |
-                aws cloudfront create-invalidation \
-                    --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }} \
-                    --paths \
-                    "${URI}/*"
+                API_STATUS=$(aws apigateway test-invoke-method --rest-api-id ${{ secrets.AWS_REST_API_ID }} --resource-id "${{ secrets.AWS_RESOURCE_ID }}" \
+                  --http-method PUT --path-with-query-string "/prod/download-oo-com" --body "$(jq -c -n '.paths = $ARGS.positional' --args "${URI}/*")" \
+                  --region us-east-1 --query 'status' --output text || :)
+                echo "API Gateway test-invoke status: ${API_STATUS:-<failed>}"

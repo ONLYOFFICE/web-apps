@@ -30,6 +30,14 @@
 
       }
 
+      .controll-panel.margin-top {
+        margin-top: 8px;
+        
+        #id-delimiters-advanced {
+          margin-top: -3px;
+        }
+      }
+
       #id-preview {
         width: 100%;
         height: 110px !important;
@@ -39,6 +47,33 @@
         border: @border-regular-control solid @scaled-one-px-value;
       }
 
+      #id-delimiters-table {
+        display: inline-block;
+
+        #id-delimiter-other-row {
+          display: flex;
+
+          #id-delimiter-other {
+            position: relative;
+            .margin-left(10px);
+
+            .input-field {
+              position: absolute;
+              top: -3px
+            }
+          }
+        }
+
+        td {
+          padding-bottom: 8px;
+          .padding-right(24px);
+        }
+
+        tr:last-child td{
+          padding-bottom: 0;
+        }
+      }
+
       #id-preview-data {
         width: 100%;
         height: 108px !important;
@@ -46,29 +81,29 @@
         overflow:hidden;
       }
 
-      table {
+      #id-preview-table {
         min-height: 108px;
-      }
 
-      td {
-        padding: 1px 8px 1px 0;
-        border-right: @border-regular-control-ie solid @scaled-one-px-value-ie;
-        border-right: @border-regular-control solid @scaled-one-px-value;
-        min-width: 30px;
-        height: 17px;
-        white-space: nowrap;
-        .rtl & {
-          padding: 1px 0 1px 8px;
-        }
-      }
-
-      td:last-child {
-        border-right: none;
-      }
-
-      tr:last-child {
         td {
-          padding-bottom: 8px;
+          padding: 1px 8px 1px 0;
+          border-right: @border-regular-control-ie solid @scaled-one-px-value-ie;
+          border-right: @border-regular-control solid @scaled-one-px-value;
+          min-width: 30px;
+          height: 17px;
+          white-space: nowrap;
+          .rtl & {
+            padding: 1px 0 1px 8px;
+          }
+        }
+
+        td:last-child {
+          border-right: none;
+        }
+
+        tr:last-child {
+          td {
+            padding-bottom: 8px;
+          }
         }
       }
 

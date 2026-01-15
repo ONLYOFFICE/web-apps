@@ -2,6 +2,10 @@ import React, {useState} from 'react';
 import {List, Page, Navbar, Icon, ListButton, ListInput, NavRight, Link, NavLeft, f7, NavTitle} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconClose from '@common-android-icons/icon-close.svg';
+import IconDone from '@common-android-icons/icon-done.svg';
+import IconDoneDisabled from '@common-android-icons/icon-done-disabled.svg';
 
 const PageLink = props => {
     const { t } = useTranslation();
@@ -22,7 +26,9 @@ const PageLink = props => {
                     <Link text={Device.ios ? t('Add.textCancel') : ''} onClick={() => {
                         props.isNavigate ? f7.views.current.router.back() : props.closeModal('#add-link-popup', '#add-link-popover');
                     }}>
-                        {Device.android && <Icon icon='icon-close' />}
+                        {Device.android && 
+                            <SvgIcon symbolId={IconClose.id} className={'icon icon-svg close'} />
+                        }
                     </Link>
                 </NavLeft>
                 <NavTitle>{t('Add.textLinkSettings')}</NavTitle>
@@ -30,7 +36,11 @@ const PageLink = props => {
                     <Link className={`${stateLink.length < 1 && 'disabled'}`} onClick={() => {
                         props.onInsertLink(stateLink, stateDisplay, stateTip);
                     }} text={Device.ios ? t('Add.textDone') : ''}>
-                        {Device.android && <Icon icon={stateLink.length < 1 ? 'icon-done-disabled' : 'icon-done'} />}
+                        {Device.android && ( 
+                            stateLink.length < 1 ? 
+                                <SvgIcon symbolId={IconDoneDisabled.id} className={'icon icon-svg inactive'} /> :
+                                <SvgIcon symbolId={IconDone.id} className={'icon icon-svg active'} />
+                        )}
                     </Link>
                 </NavRight>
             </Navbar>

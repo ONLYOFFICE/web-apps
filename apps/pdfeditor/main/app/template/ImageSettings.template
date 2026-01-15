@@ -29,23 +29,48 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
+            <div id="image-button-reset-crop"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
             <div class="separator horizontal"></div>
         </td>
     </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div id="image-panel-transparent-fill" style="width: 100%;">
+                <label class="header" style="display:block;"><%= scope.strTransparency %></label>
+                <div style="display: inline-block; margin-top: 3px;">
+                    <label id="image-lbl-transparency-start">0</label>
+                    <div id="image-slider-transparency" style="display: inline-block;margin: 0 4px; vertical-align: middle;"></div>
+                    <label id="image-lbl-transparency-end">100</label>
+                </div>
+                <div id="image-spin-transparency" class="float-right"></div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+</table>
+<table cols="2">
     <tr>
         <td colspan=2 class="padding-small">
             <label class="header"><%= scope.textRotation %></label>
         </td>
     </tr>
     <tr>
-        <td class="padding-small" width="50%">
+        <td class="padding-small">
             <label class="input-label"><%= scope.textRotate90 %></label>
             <div>
                 <div id="image-button-270" class="margin-right-4"></div>
                 <div id="image-button-90"></div>
             </div>
         </td>
-        <td class="padding-small" width="50%">
+        <td class="padding-small padding-left-4">
             <label class="input-label"><%= scope.textFlip %></label>
             <div>
                 <div id="image-button-fliph" class="margin-right-4"></div>

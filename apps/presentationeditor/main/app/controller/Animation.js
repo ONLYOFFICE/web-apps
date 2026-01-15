@@ -155,7 +155,7 @@ define([
             if(this.api && this.AnimationProperties) {
                 if(toggleGroup == 'animateeffects') {
                     this.AnimationProperties.asc_putSubtype(value);
-                    this.api.asc_SetAnimationProperties(this.AnimationProperties);
+                    this.api.asc_SetAnimationProperties(this.AnimationProperties, !Common.Utils.InternalSettings.get("pe-animation-no-auto-preview"));
                 }
                 else if(toggleGroup == 'custompath') {
                     var groupName = _.findWhere(this.EffectGroups, {value: AscFormat.PRESET_CLASS_PATH}).id;
@@ -176,7 +176,6 @@ define([
         onAnimationPane: function(btn) {
             this._state.isAnimPaneVisible = btn.pressed;
             this.api.asc_ShowAnimPane(btn.pressed);
-            Common.UI.TooltipManager.closeTip('animPane');
         },
 
         onApiCloseAnimPane: function () {
@@ -487,7 +486,7 @@ define([
                     view.setMenuParameters(this._state.Effect, rec ? rec.id : undefined, this._state.EffectOption);
 
                     view.isColor  && view.setColor(this.AnimationProperties.asc_getColor());
-                    this._state.noAnimationParam = view.btnParameters.menu.items.length === view.startIndexParam && !view.isColor;
+                    this._state.noAnimationParam = view.btnParameters.menu.getItemsLength() === view.startIndexParam && !view.isColor;
                 }
 
                 value = this.AnimationProperties.asc_getDuration();
@@ -592,8 +591,9 @@ define([
             if (tab == 'animate') {
                 this._state.onactivetab = true;
                 this.setSettings();
+            } else {
+                this._state.onactivetab = false;
             }
-            else this._state.onactivetab = false;
             this.api && this.api.asc_onShowAnimTab(!!this._state.onactivetab);
         },
 
@@ -649,9 +649,10 @@ define([
                 var nodeType = effect[0] === AscFormat.NODE_TYPE_CLICKEFFECT ? this.view.textStartOnClick :
                     (effect[0] === AscFormat.NODE_TYPE_WITHEFFECT ? this.view.textStartWithPrevious :
                         (effect[0] === AscFormat.NODE_TYPE_AFTEREFFECT ? this.view.textStartAfterPrevious : ''));
-                var presetClass = _.findWhere(Common.define.effectData.getEffectGroupData(), {value: effect[1]});
+                var presetClass = _.findWhere(Common.define.effectData.getEffectGroupData(), {value: effect[1]}),
+                    presetId = presetClass ? presetClass.id : '';
                 presetClass = presetClass ? presetClass.caption : '';
-                var preset = _.findWhere(Common.define.effectData.getEffectData(), {value: effect[2]});
+                var preset = _.findWhere(Common.define.effectData.getEffectFullData(), {group: presetId, value: effect[2]});
                 preset = preset ? preset.displayValue : '';
                 var name = Common.Utils.String.htmlEncode(effect[3]) || '';
                 result = nodeType + '\n' + presetClass + '\n' + preset + ' : ' + name;

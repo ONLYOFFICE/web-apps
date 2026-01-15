@@ -65,7 +65,9 @@
     "textWithBlueLinks": "Con ligazóns azuis",
     "textWithPageNumbers": "Con números de páxina",
     "txtNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\"",
-    "textPasteImageUrl": "Paste an image URL"
+    "textDrawing": "Drawing",
+    "textPasteImageUrl": "Paste an image URL",
+    "textRemovePicture": "Remove picture"
   },
   "Common": {
     "Collaboration": {
@@ -175,6 +177,12 @@
       "textStandartColors": "Cores estándar",
       "textThemeColors": "Cores do tema"
     },
+    "Themes": {
+      "light": "Claro",
+      "system": "Igual que o sistema",
+      "dark": "Dark",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Aviso",
       "textAnonymous": "Anónimo",
@@ -188,12 +196,6 @@
       "textWarningRestoreVersion": "Current file will be saved in version history.",
       "titleWarningRestoreVersion": "Restore this version?",
       "txtErrorLoadHistory": "Loading history failed"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -396,6 +398,10 @@
     "textWe": "Me",
     "textWrap": "Axuste",
     "textWrappingStyle": "Axuste do texto",
+    "textBaseline": "Baseline",
+    "textCapitalization": "Capitalization",
+    "textCellOptions": "Cell options",
+    "textCellSize": "Rows & columns size",
     "textChooseAnItem": "Choose an item",
     "textChooseAnOption": "Choose an option",
     "textCustomStyle": "Custom Style",
@@ -403,12 +409,18 @@
     "textDeleteLink": "Delete Link",
     "textEnterYourOption": "Enter your option",
     "textHorizontalText": "Horizontal Text",
+    "textLtrTextDirection": "Left-to-right",
     "textPlaceholder": "Placeholder",
     "textRotateTextDown": "Rotate Text Down",
     "textRotateTextUp": "Rotate Text Up",
+    "textRtlTextDirection": "Right-to-left",
     "textSave": "Save",
+    "textTextDirection": "Text Direction",
     "textTextOrientation": "Text Orientation",
-    "textYourOption": "Your option"
+    "textWrapText": "Wrap Text",
+    "textYourOption": "Your option",
+    "txtHeight": "Height",
+    "txtWidth": "Width"
   },
   "Error": {
     "convertationTimeoutText": "Excedeu o tempo límite de conversión.",
@@ -459,7 +471,10 @@
     "uploadImageExtMessage": "Formato de imaxe descoñecido.",
     "uploadImageFileCountMessage": "Non hai imaxes subidas.",
     "uploadImageSizeMessage": "A imaxe é demasiado grande. O tamaño máximo é de 25 MB.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
     "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
     "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
     "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
@@ -467,7 +482,10 @@
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
     "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "errorTextFormWrongFormat": "The value entered does not match the format of the field.",
+    "textOk": "OK",
     "uploadDocSizeMessage": "Maximum document size limit exceeded."
   },
   "LongActions": {
@@ -506,13 +524,13 @@
     "uploadImageTitleText": "Cargando imaxe",
     "waitText": "Agarde...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "savingText": "Submitting",
     "textContinue": "Continue"
   },
   "Main": {
     "criticalErrorTitle": "Erro",
     "errorAccessDeny": "Está intentando realizar unha acción para a que non ten dereitos.<br>Por favor, póñase en contacto co seu administrador.",
     "errorOpensource": "Usando a versión gratuíta da Comunidade, pode abrir documentos só para visualización. Para acceder editores da web móbil é necesaria unha licenza comercial.",
-    "errorProcessSaveResult": "Erro ao gardar.",
     "errorServerVersion": "A versión do editor foi actualizada. A páxina será recargada para aplicar os cambios.",
     "errorUpdateVersion": "Cambiouse a versión do ficheiro. A páxina será actualizada.",
     "leavePageText": "Ten cambios sen gardar. Prema en \"Permanecer nesta páxina\" para esperar a que se garde automaticamente. Prema en \"Saír desta páxina\" para descartar todos os cambios non gardados.",
@@ -635,11 +653,9 @@
     "titleServerVersion": "Editor actualizado",
     "titleUpdateVersion": "Versión cambiada",
     "warnDownloadAsPdf": "O teu {0} converterase nun formato editable. Isto pode levar un tempo. O documento resultante optimizarase para permitirche editar o texto, polo que é posible que non pareza exactamente ao orixinal {0}, especialmente se o ficheiro orixinal contiña moitos gráficos.",
-    "warnLicenseExceeded": "Alcanzou o límite de conexións simultáneas con %1 editores. Este documento abrirase só para a súa visualización. Póñase en contacto co seu administrador para obter máis información.",
     "warnLicenseExp": "A súa licenza expirou. Por favor, actualice a súa licenza e actualice a páxina.",
     "warnLicenseLimitedNoAccess": "A licenza expirou. Non ten acceso á funcionalidade de edición de documentos. Por favor, póñase en contacto co seu administrador.",
     "warnLicenseLimitedRenewed": "A licenza necesita renovación. Ten acceso limitado á funcionalidade de edición de documentos.<br>Por favor, póñase en contacto co seu administrador para obter acceso completo",
-    "warnLicenseUsersExceeded": "Alcanzou o límite de usuarios para os editores de %1. Por favor, contacte co se uadministrador para recibir máis información.",
     "warnNoLicense": "Alcanzou o límite de conexións simultáneas con %1 editores. Este documento abrirase para as úa visualización. Póñase en contacto co equipo de vendas de %1 para coñecer as condicións de actualización persoal.",
     "warnNoLicenseUsers": "Alcanzou o límite de usuarios para os editores de %1.<br>Contacte co equipo de vendas de %1 para coñecer os termos de actualización persoal.",
     "warnProcessRightsChange": "Non ten permiso para editar este ficheiro.",
@@ -652,8 +668,12 @@
     "textDocumentProtected": "The document is protected. Edit settings are not available",
     "textDownloadPdf": "Download PDF",
     "textSaveAsPdf": "Save as PDF",
+    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
     "titleDialogProtectedDocument": "The document is protected",
     "titleLicenseNotActive": "License not active",
+    "titleReadOnly": "Read-Only Mode",
+    "txtSignedForm": "This document has been signed and cannot be edited.",
     "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
     "warnLicenseBefore": "License not active.<br>Please contact your administrator."
   },
@@ -716,6 +736,7 @@
     "textLastModifiedBy": "Última modificación por",
     "textLeft": "Á esquerda",
     "textLeftToRight": "Da esquerda para a dereita",
+    "textLight": "Claro",
     "textLoading": "Cargando...",
     "textLocation": "Ubicación",
     "textMacrosSettings": "Configuración das macros",
@@ -750,6 +771,7 @@
     "textRestartApplication": "Reinicie o aplicativo para que os cambios teñan efecto",
     "textRight": "Á dereita",
     "textRightToLeft": "Da dereita á esquerda",
+    "textSameAsSystem": "Igual que o sistema",
     "textSave": "Gardar",
     "textSearch": "Buscar",
     "textSetPassword": "Estableza un contrasinal",
@@ -777,12 +799,12 @@
     "textClose": "Close",
     "textDark": "Dark",
     "textDialogUnprotect": "Enter a password to unprotect document",
+    "textDrawing": "Drawing",
     "textEncryptFile": "Encrypt File",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
     "textExport": "Export",
     "textExportAs": "Export As",
     "textFillingForms": "Filling forms",
-    "textLight": "Light",
+    "textHyphenation": "Hyphenation",
     "textMobileView": "Mobile View",
     "textNoChanges": "No changes (Read only)",
     "textPasswordNotMatched": "Passwords DonвЂ™t Match",
@@ -790,15 +812,13 @@
     "textProtectTurnOff": "Protection is turned off",
     "textRemoveFromFavorites": "Remove from Favorites",
     "textRequirePassword": "Require Password",
-    "textRtlInterface": "RTL Interface",
-    "textSameAsSystem": "Same as system",
-    "textSubmit": "Submit",
     "textTheme": "Theme",
     "textTrackedChanges": "Tracked changes",
     "textTypeEditing": "Type Of Editing",
     "textTypeEditingWarning": "Allow only this type of editing in the document.",
     "textVerify": "Verify",
-    "titleDialogUnprotect": "Unprotect Document"
+    "titleDialogUnprotect": "Unprotect Document",
+    "textOpenLocation": "Open location"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Ten cambios sen gardar. Prema en \"Permanecer nesta páxina\" para esperar a que se garde automaticamente. Prema en \"Saír desta páxina\" para descartar todos os cambios non gardados.",
@@ -807,9 +827,19 @@
     "stayButtonText": "Quedarse nesta páxina",
     "textCloseHistory": "Pechar historial",
     "textOk": "Aceptar",
+    "warnEmptyRequiredField": "Encha todos os campos obrigatorios para poder enviar o formulario.",
+    "btnRestartNow": "Restart now",
+    "btnSend": "Send",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "textSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

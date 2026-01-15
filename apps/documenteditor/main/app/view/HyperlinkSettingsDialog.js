@@ -62,8 +62,8 @@ define([], function () { 'use strict';
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 319px;">',
-                    '<div class="input-row" style="margin-bottom: 10px;">',
+                '<div class="box" style="height: 330px;">',
+                    '<div style="margin-bottom: 10px;">',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external">', this.textExternal,'</button>',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal">', this.textInternal,'</button>',
                     '</div>',
@@ -71,7 +71,7 @@ define([], function () { 'use strict';
                         '<div class="input-row">',
                             '<label>' + this.textUrl + '</label>',
                         '</div>',
-                        '<div id="id-dlg-hyperlink-url" class="input-row" style="margin-bottom: 5px;"></div>',
+                        '<div id="id-dlg-hyperlink-url" class="input-row" style="margin-bottom: 4px;"></div>',
                     '</div>',
                     '<div id="id-internal-link">',
                         '<div class="input-row">',
@@ -82,11 +82,11 @@ define([], function () { 'use strict';
                     '<div class="input-row">',
                         '<label>' + this.textDisplay + '</label>',
                     '</div>',
-                    '<div id="id-dlg-hyperlink-display" class="input-row" style="margin-bottom: 5px;"></div>',
+                    '<div id="id-dlg-hyperlink-display" class="input-row" style="margin-bottom: 4px;"></div>',
                     '<div class="input-row">',
                         '<label>' + this.textTooltip + '</label>',
                     '</div>',
-                    '<div id="id-dlg-hyperlink-tip" class="input-row" style="margin-bottom: 5px;"></div>',
+                    '<div id="id-dlg-hyperlink-tip" class="input-row" style="margin-bottom: 4px;"></div>',
                 '</div>'
             ].join('');
 
@@ -121,6 +121,8 @@ define([], function () { 'use strict';
                 allowDepress: false
             });
             me.btnInternal.on('click', _.bind(me.onLinkTypeClick, me, c_oHyperlinkType.InternalLink));
+
+            Common.UI.GroupedButtons([me.btnExternal, me.btnInternal]);
 
             var config = {
                 el          : $('#id-dlg-hyperlink-url'),
@@ -308,6 +310,7 @@ define([], function () { 'use strict';
         },
 
         onSelectItem: function(picker, item, record, e){
+            if (!record) return;
             this.btnOk.setDisabled(record.get('level')==0 && record.get('index')>0);
             if (this.isAutoUpdate) {
                 this.inputDisplay.setValue((record.get('level') || record.get('index')==0) ? record.get('name') : '');
@@ -425,6 +428,9 @@ define([], function () { 'use strict';
         },
 
         _handleInput: function(state) {
+            if (state === 'ok' && this.btnOk.isDisabled())
+                return;
+
             if (this.options.handler) {
                 if (state == 'ok') {
                     if (this.btnExternal.isActive()) {//WebLink

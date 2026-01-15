@@ -10,23 +10,40 @@
     <tr><td class="padding-large">
         <table id="watermark-tbl-text" class="margin-left-22" cols="2" role="presentation">
             <tr>
-                <td class="language padding-small">
+                <td class="language">
                     <label class="input-label"><%= scope.textLanguage %></label>
+                </td>
+                <td>
+                    <label class="input-label"><%= scope.textText %></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="language padding-small">
                     <div id="watermark-combo-lang"></div>
                 </td>
-                <td class="text padding-small">
-                    <label class="input-label"><%= scope.textText %></label>
+                <td class="padding-small">
                     <div id="watermark-combo-text"></div>
                 </td>
             </tr>
             <tr>
-                <td class="padding-large" colspan="2">
-                    <label class="input-label font-label"><%= scope.textFont %></label>
-                    <div id="watermark-fonts" class="input-row"></div>
-                    <div id="watermark-font-size" class="input-row"></div>
-                    <div id="watermark-textcolor"></div>
-                    <div id="watermark-bold"></div><div id="watermark-italic"></div>
-                    <div id="watermark-underline"></div><div id="watermark-strikeout"></div>
+                <td>
+                    <label class="input-label"><%= scope.textFont %></label>
+                </td>
+                <td>
+                    <label class="input-label"></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-large">
+                    <div id="watermark-fonts" class="display-inline-block-middle"></div>
+                </td>
+                <td class="padding-large">
+                    <div id="watermark-font-size" class="display-inline-block-middle"></div>
+                    <div id="watermark-textcolor" class="display-inline-block-middle margin-left-2"></div>
+                    <div id="watermark-bold" class="display-inline-block-middle margin-left-2"></div>
+                    <div id="watermark-italic" class="display-inline-block-middle margin-left-2"></div>
+                    <div id="watermark-underline" class="display-inline-block-middle margin-left-2"></div>
+                    <div id="watermark-strikeout" class="display-inline-block-middle"></div>
                 </td>
             </tr>
             <tr>
@@ -37,8 +54,12 @@
             <tr>
                 <td colspan="2">
                     <label class="layout-label"><%= scope.textLayout %></label>
-                    <div id="watermark-radio-diag"></div>
-                    <div id="watermark-radio-hor"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div id="watermark-radio-diag" class="display-inline-block-middle"></div>
+                    <div id="watermark-radio-hor" class="display-inline-block-middle margin-left-15"></div>
                 </td>
             </tr>
         </table>

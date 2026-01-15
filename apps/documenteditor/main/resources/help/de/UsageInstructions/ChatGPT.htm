@@ -7,7 +7,7 @@
     <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
     <link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
     <script type="text/javascript" src="../callback.js"></script>
-    <script type="text/javascript" src="../search/js/page-search.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
 </head>
 <body>
     <div class="mainpart">
@@ -16,6 +16,7 @@
         </div>
         <h1>ChatGPT</h1>
         <p>Mit dem <b>ChatGPT</b>-Plugin können Sie den ausgewählten Text analysieren, zusammenfassen und übersetzen, Bilder generieren, Synonyme finden und den OpenAI-Chatbot verwenden, um Aufgaben auszuführen, bei denen es um das Verstehen oder Generieren natürlicher Sprache oder von Code geht.</p>
+        <p class="note">Ab ONLYOFFICE Docs 8.2 sind standardmäßig keine Plugins mehr in den Editoren enthalten. Die Plugins müssen über die <a href="https://helpcenter.onlyoffice.com/de/ONLYOFFICE-Editors/Editors-User-Guides/AllEditors/Plugin-manager.aspx" target="_blank" onclick="onhyperlinkclick(this)">Plugin-Verwaltung</a> installiert werden.</p>
         <h3>Installation</h3>
         <p>Um das <b>ChatGPT</b>-Plugin zu installieren,</p>
         <ol>
@@ -34,7 +35,7 @@
 
         <h3>Konfiguration</h3>
         <ol>
-            <li>Erstellen Sie Ihren <b>API-Schlüssel</b> auf der Seite <a href="https://platform.openai.com/account/api-keys">OpenAI-API-Schlüssel</a>.</li>
+            <li>Erstellen Sie Ihren <b>API-Schlüssel</b> auf der Seite <a href="https://platform.openai.com/account/api-keys" target="_blank" onclick="onhyperlinkclick(this)">OpenAI-API-Schlüssel</a>.</li>
             <li>Kopieren Sie den generierten <b>API-Schlüssel</b> in das entsprechende Feld in den Einstellungen.</li>
         </ol>
         <p><img alt="ChatGPT Einstellungen" src="../../../../../../common/main/resources/help/de/images/chatgpt_apikey.png" /></p>
@@ -91,8 +92,8 @@
                 Klicken Sie auf <b>Erweiterte Einstellungen anzeigen</b>, um die Anfrageeinstellungen zu konfigurieren:
                 <p><img alt="ChatGPT Kundenspezifische Anfrage" src="../../../../../../common/main/resources/help/de/images/chatgpt_custom_advanced.png" /></p>
                 <ul>
-                    <li><b>Modell</b> - das Modell, das die Vervollständigung generiert. Einige Modelle eignen sich für Aufgaben in natürlicher Sprache, andere sind auf Code spezialisiert. Weitere Informationen zu diesen Modellen finden Sie auf der <a href="https://platform.openai.com/docs/models/overview">offiziellen ChatGPT-Webseite</a>.</li>
-                    <li><b>Maximumallänge</b> - die maximale Anzahl an Token, die bei der Vervollständigung generiert werden sollen.</li>
+                    <li><b>Modell</b> - das Modell, das die Vervollständigung generiert. Einige Modelle eignen sich für Aufgaben in natürlicher Sprache, andere sind auf Code spezialisiert. Weitere Informationen zu diesen Modellen finden Sie auf der <a href="https://platform.openai.com/docs/models/overview" target="_blank" onclick="onhyperlinkclick(this)">offiziellen ChatGPT-Webseite</a>.</li>
+                    <li><b>Maximallänge</b> - die maximale Anzahl an Token, die bei der Vervollständigung generiert werden sollen.</li>
                     <li><b>Temperatur</b> - Dieser Parameter steuert die Zufälligkeit, z. B. führt eine Verringerung zu weniger zufälligen Abschlüssen. Wenn die Temperatur Null erreicht, wird der Netzknoten deterministisch und repetitiv.</li>
                     <li><b>Top P</b> - eine Alternative zur Probenahme mit Temperatur, genannt Kernprobenahme, bei der das Modell die Ergebnisse der Token mit der Wahrscheinlichkeitsmasse top_p berücksichtigt.</li>
                     <li><b>Stoppsequenzen</b> - bis zu vier Sequenzen, in denen die API die Generierung weiterer Token stoppt. Der zurückgegebene Text enthält nicht die Stoppsequenz.</li>

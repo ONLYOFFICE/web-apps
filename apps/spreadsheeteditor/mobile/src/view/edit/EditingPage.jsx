@@ -9,6 +9,9 @@ import EditTextController from "../../controller/edit/EditText";
 import EditChartController from "../../controller/edit/EditChart";
 import { Device } from "../../../../../common/mobile/utils/device";
 import { MainContext } from '../../page/main';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
 
 const EmptyEditLayout = () => {
     const { t } = useTranslation();
@@ -43,7 +46,12 @@ const EditLayoutNavbar = ({ editors }) => {
             }
             {Device.phone && 
                 <NavRight>
-                    <Link icon='icon-expand-down' sheetClose></Link>
+                    <Link sheetClose>
+                        {Device.ios ? 
+                            <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                            <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                        }
+                    </Link>
                 </NavRight> 
             }
         </Navbar>

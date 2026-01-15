@@ -69,7 +69,7 @@ define([
             this.template   =   options.template || [
                 '<div class="box" style="height:405px;">',
                     '<div class="content-panel" >',
-                        '<div id="formula-dlg-search" style="height:22px; margin-bottom:10px;"></div>',
+                        '<div id="formula-dlg-search" style="margin-bottom:10px;"></div>',
                         '<label class="header">' + t.textGroupDescription + '</label>',
                         '<div id="formula-dlg-combo-group" class="input-group-nr" style=""></div>',
                         '<label class="header" style="margin-top: 10px">' + t.textListDescription + '</label>',

@@ -86,7 +86,7 @@ define([
 
         disabled: false,
 
-        template    : _.template([
+        template: _.template([
             '<div class="slider single-slider <% if (this.options.direction === \'vertical\') { %>vertical<% } %>" style="">',
                 '<div class="track"></div>',
                 '<div class="thumb" style=""></div>',
@@ -132,10 +132,14 @@ define([
                 this.cmpEl = me.$el;
             }
 
-            this.cmpEl.find('.track-center').width(me.options.width - 14);
-            this.cmpEl[me.direction === 'vertical' ? 'height' : 'width'](me.options.width);
-
+            this.track = this.cmpEl.find('.track');
             this.thumb = this.cmpEl.find('.thumb');
+
+            const halfThumbSize = this.thumb.outerWidth() / 2;
+            this.width = this.options.width - halfThumbSize;
+
+            this.cmpEl.find('.track-center').width(me.options.width - 14);
+            this.cmpEl[me.direction === 'vertical' ? 'height' : 'width'](this.width);
 
             var onMouseUp = function (e) {
                 e.preventDefault();
@@ -178,7 +182,7 @@ define([
 
             var onMouseDown = function (e) {
                 if ( me.disabled ) return;
-                me._dragstart = me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - Common.Utils.getOffset(me.thumb).top) : (e.pageX*Common.Utils.zoom() - Common.Utils.getOffset(me.thumb).left) - 6;
+                me._dragstart = me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - Common.Utils.getOffset(me.thumb).top) : (e.pageX*Common.Utils.zoom() - Common.Utils.getOffset(me.thumb).left) - halfThumbSize;
 
                 me.thumb.addClass('active');
                 $(document).on('mouseup',   onMouseUp);
@@ -241,22 +245,26 @@ define([
                 el.on('mousedown', '.thumb', onMouseDown);
                 el.on('mousedown', '.track', onTrackMouseDown);
                 if (this.options.enableKeyEvents) {
+                    me.input = el.find('input');
                     el.on('keydown', 'input', onKeyDown);
                     el.on('keyup',   'input', onKeyUp);
                 }
             }
+
+            this.setThumbPosition(me.options.value);
 
             me.rendered = true;
 
             return this;
         },
 
-        setThumbPosition: function(pos) {
-            if (this.direction === 'vertical') {
-                this.thumb.css({top: pos + '%'});
-            } else {
-                this.thumb.css({left: pos + '%'});
+        setThumbPosition: function (pos) {
+            if (typeof pos !== 'number' || isNaN(pos)) {
+                pos = 0;
             }
+
+            this.track.css('--slider-unfill-percent', 100 - pos + '%');
+            this.thumb.css(this.direction === 'vertical' ? 'top' : 'left', pos + '%');
         },
 
         setValue: function(value) {

@@ -3,6 +3,9 @@ import { Page, Navbar, BlockTitle, List, ListItem, Icon, NavRight, Link } from "
 import { useTranslation } from "react-i18next";
 import { observer, inject } from "mobx-react";
 import { Device } from '../../utils/device';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
 
 const VersionHistoryView = inject('storeVersionHistory', 'users')(observer(props => {
     const { t } = useTranslation();
@@ -51,13 +54,19 @@ const VersionHistoryView = inject('storeVersionHistory', 'users')(observer(props
                 {Device.phone ?
                     <NavRight>
                         <Link sheetClose="#version-history-sheet">
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg down'} />
+                            }
                         </Link>
                     </NavRight>
                     : !isNavigate &&
                         <NavRight>
                             <Link popoverClose="#version-history-popover">
-                                <Icon icon='icon-expand-down'/>
+                                {Device.ios ? 
+                                    <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                    <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg down'} />
+                                }
                             </Link>
                         </NavRight>
                 }
@@ -71,7 +80,7 @@ const VersionHistoryView = inject('storeVersionHistory', 'users')(observer(props
                                     {versions.map((version, index) => {
                                         return (
                                             <ListItem className={`version-history__item ${version === currentVersion ? 'version-history__item_active' : ''}`} key={`version-${index}`} link='#' title={version.created} subtitle={AscCommon.UserInfoParser.getParsedName(version.username)} onClick={() => handleClickRevision(version)}>
-                                                <div slot='media' className='version-history__user' style={{backgroundColor: usersVersions.find(user => user.id === version.userid).color}}>{usersStore.getInitials(version.username)}</div>
+                                                <div slot='media' className='version-history__user' style={{backgroundColor: usersVersions.find(user => user.id === version.userid).color}}>{usersStore.getInitials(AscCommon.UserInfoParser.getParsedName(version.username))}</div>
                                                 {(version === currentVersion && !version.selected && version.canRestore) &&
                                                     <div slot="inner">
                                                         <button type='button' className='version-history__btn' onClick={() => props.onRestoreRevision(version)}>{t('Common.VersionHistory.textRestore')}</button>

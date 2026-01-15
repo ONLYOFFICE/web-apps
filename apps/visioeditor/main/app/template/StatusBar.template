@@ -1,0 +1,34 @@
+<div class="statusbar">
+    <div id="status-tabs-scroll" class="status-group cnt-flex-center" dir="ltr">
+        <button id="status-btn-tabback" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="G"><i class="icon toolbar__icon btn-previtem">&nbsp;</i></button>
+        <button id="status-btn-tabnext" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="J"><i class="icon toolbar__icon btn-nextitem">&nbsp;</i></button>
+    </div>
+    <div id="status-addtabs-box" class="status-group cnt-flex-center">
+        <div class="cnt-tabslist">
+            <button id="status-btn-tabslist" type="button" class="btn small btn-toolbar dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="N"><i class="icon toolbar__icon btn-sheet-list">&nbsp;</i></button>
+        </div>
+    </div>
+    <div id="status-zoom-box" class="status-group cnt-flex-center">
+        <div class="separator short"></div>
+        <button id="status-btn-zoom-topage" type="button" class="btn small btn-toolbar" aria-pressed="false" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-ic-zoomtoslide">&nbsp;</i></button>
+        <button id="status-btn-zoom-towidth" type="button" class="btn small btn-toolbar" aria-pressed="false" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-ic-zoomtowidth">&nbsp;</i></button>
+        <button id="status-btn-zoomdown" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomdown">&nbsp;</i></button>
+        <div class="cnt-zoom">
+            <div class="dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top" role="button" aria-haspopup="menu" aria-expanded="false">
+                <label id="status-label-zoom" class="status-label">Zoom 100%</label>
+            </div>
+        </div>
+        <button id="status-btn-zoomup" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>
+    </div>
+    <div id="status-sheets-bar-box">
+        <div id="status-sheets-bar" class="status-group">
+        </div>
+    </div>
+    <div id="status-number-of-sheet cnt-flex-center">
+        <label id="label-sheets" class="status-label"></label>
+    </div>
+    <div id="status-action">
+        <div class="separator short"></div>
+        <label id="label-action" class="status-label"></label>
+    </div>
+</div>

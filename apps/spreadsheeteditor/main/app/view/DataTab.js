@@ -104,11 +104,15 @@ define([
             });
 
             me.btnExternalLinks.on('click', function (b, e) {
-                me.fireEvent('data:externallinks');
+                Common.NotificationCenter.trigger('data:externallinks');
             });
 
             me.btnGoalSeek.on('click', function (b, e) {
                 me.fireEvent('data:goalseek');
+            });
+
+            me.btnSolver.on('click', function (b, e) {
+                me.fireEvent('data:solver');
             });
 
             me.btnDataFromText.menu ?
@@ -139,6 +143,7 @@ define([
                     caption: this.capDataFromText,
                     // menu: !this.toolbar.mode.isDesktopApp,
                     menu: true,
+                    action: 'import-data',
                     disabled: true,
                     lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.sheetLock, _set.wbLock, _set.lostConnect, _set.coAuth, _set.wsLock],
                     dataHint: '1',
@@ -154,6 +159,7 @@ define([
                     caption: this.capBtnGroup,
                     split: true,
                     menu: true,
+                    action: 'cell-group',
                     disabled: true,
                     lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.sheetLock, _set.lostConnect, _set.coAuth, _set.wsLock, _set.userProtected],
                     dataHint: '1',
@@ -169,6 +175,7 @@ define([
                     caption: this.capBtnUngroup,
                     split: true,
                     menu: true,
+                    action: 'cell-ungroup',
                     disabled: true,
                     lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.sheetLock, _set.lostConnect, _set.coAuth, _set.wsLock, _set.userProtected],
                     dataHint: '1',
@@ -276,6 +283,19 @@ define([
                 });
                 this.lockedControls.push(this.btnGoalSeek);
 
+                this.btnSolver = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-solver'),
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-solver',
+                    caption: this.capSolver,
+                    disabled: true,
+                    lock: [_set.editCell, _set.lostConnect, _set.coAuth],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnSolver);
+
                 this.btnsSortDown = Common.Utils.injectButtons($host.find('.slot-sortdesc'), '', 'toolbar__icon btn-sort-down', '',
                     [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.cantModifyFilter, _set.sheetLock, _set.cantSort, _set['Sort'], _set.userProtected], undefined, undefined, undefined, '1', 'top', undefined, 'D');
 
@@ -290,7 +310,7 @@ define([
                     [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleDelFilter, _set.wsLock, _set.userProtected], undefined, undefined, undefined, '1', 'bottom', undefined, 'N');
 
                 Array.prototype.push.apply(this.lockedControls, this.btnsSortDown.concat(this.btnsSortUp, this.btnsSetAutofilter,this.btnsClearAutofilter));
-
+                Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -344,6 +364,7 @@ define([
                     me.btnDataValidation.updateHint(me.tipDataValidation);
                     me.btnExternalLinks.updateHint(me.tipExternalLinks);
                     me.btnGoalSeek.updateHint(me.tipGoalSeek);
+                    me.btnSolver.updateHint(me.tipSolver);
 
                     me.btnsSortDown.forEach( function(btn) {
                         btn.updateHint(me.toolbar.txtSortAZ);

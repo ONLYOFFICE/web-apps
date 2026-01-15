@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import { f7 } from 'framework7-react';
-import {observer, inject} from "mobx-react";
 import { Device } from '../../../../common/mobile/utils/device';
 
 import ContextMenuView, { idContextMenuElement, ActionsWithExtraItems } from '../view/ContextMenu';
@@ -252,10 +251,15 @@ class ContextMenuController extends Component {
 
     render() {
         return (
-            <Fragment>
-                <ContextMenuView items={this.state.items} onMenuClosed={this.onMenuClosed} onMenuItemClick={this.onMenuItemClick} />
-                <ActionsWithExtraItems items={this.state.extraItems} onMenuItemClick={this.onMenuItemClick} opened={this.state.openedMore} onActionClosed={this.onActionClosed}/>
-            </Fragment>
+            <div>
+                <ContextMenuView items={this.state.items}
+                                 onMenuClosed={this.onMenuClosed}
+                                 onMenuItemClick={this.onMenuItemClick} />
+                <ActionsWithExtraItems items={this.state.extraItems}
+                                       onMenuItemClick={this.onMenuItemClick}
+                                       opened={this.state.openedMore}
+                                       onActionClosed={this.onActionClosed}/>
+            </div>
         )
     }
 }

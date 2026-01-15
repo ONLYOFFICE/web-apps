@@ -149,25 +149,25 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
-        onPreview: function(slidenum, presenter) {
+        onPreview: function(slidenum, presenter, isCurrent) {
             var slideNum = this._state.slideMasterMode ? 0 : (_.isNumber(slidenum) ? slidenum : 0);
-            Common.NotificationCenter.trigger('preview:start', slideNum, presenter);
+            Common.NotificationCenter.trigger('preview:start', slideNum, presenter, false, isCurrent);
         },
 
         onPreviewBtnClick: function(btn, e) {
-            this.onPreview(this.api.getCurrentPage());
+            this.onPreview(this.api.getCurrentPage(), false, true);
         },
 
         onPreviewItemClick: function(menu, item) {
             switch (item.value) {
                 case 0:
-                    this.onPreview(0);
+                    this.onPreview(0, false, false);
                     break;
                 case 1:
-                    this.onPreview(this.api.getCurrentPage());
+                    this.onPreview(this.api.getCurrentPage(), false, true);
                     break;
                 case 2:
-                    this.onPreview(0, true);
+                    this.onPreview(0, true, false);
                     break;
             }
         },
@@ -241,14 +241,15 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
-        showDisconnectTip: function () {
+        showDisconnectTip: function (text) {
             var me = this;
+            text = text || this.textDisconnect;
             if (!this.disconnectTip) {
                 var target = this.statusbar.getStatusLabel();
                 target = target.is(':visible') ? target.parent() : this.statusbar.isVisible() ? this.statusbar.$el : $(document.body);
                 this.disconnectTip = new Common.UI.SynchronizeTip({
                     target  : target,
-                    text    : this.textDisconnect,
+                    text    : text,
                     placement: 'top',
                     position: this.statusbar.isVisible() ? undefined : {bottom: 0},
                     showLink: false,
@@ -260,6 +261,8 @@ define([
                         me.disconnectTip = null;
                     }
                 });
+            } else {
+                this.disconnectTip.setText(text);
             }
             this.disconnectTip.show();
         },
@@ -273,6 +276,10 @@ define([
              var isSlideMaster = mode === 'master';
              this._state.slideMasterMode = isSlideMaster;
              this.statusbar.showSlideMasterStatus(isSlideMaster);
+             if (this.statusbar.btnPreview) {
+                this.statusbar.btnPreview.menu.items[1].setDisabled(isSlideMaster);
+                this.statusbar.btnPreview.menu.items[2].setDisabled(isSlideMaster);
+             }
         },
 
         zoomText        : 'Zoom {0}%',

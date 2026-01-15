@@ -1,3 +1,15 @@
+.side-panel {
+    .content-box {
+        border-radius: @border-radius-toolbar-ie;
+        border-radius: @border-radius-toolbar;
+        box-shadow: @shadow-side-panel-ie;
+        box-shadow: @shadow-side-panel;
+        background: @background-toolbar-ie;
+        background: @background-toolbar;
+        position: relative;
+        overflow: hidden;
+    }
+}
 
 #left-menu {
     &+.layout-resizer {
@@ -14,12 +26,6 @@
     }
 }
 
-.left-panel {
-    #left-panel-history {
-        height: 100%;
-    }
-}
-
 .left-menu-full-ct {
     width: 100%;
     height: 100%;
@@ -28,8 +34,8 @@
     top: 0;
     position: absolute;
     z-index: @zindex-dropdown - 5;
-    background-color: @background-toolbar-ie;
-    background-color: @background-toolbar;
+    background-color: @background-pane-ie;
+    background-color: @background-pane;
     overflow: hidden;
 
     .rtl & {
@@ -45,34 +51,40 @@
     cursor: pointer;
     .svg-format- {
         &pptx {
-            background: ~"url('@{common-image-const-path}/doc-formats/pptx.svg') no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/large/pptx.svg') no-repeat center";
         }
         &pdf {
-            background: ~"url('@{common-image-const-path}/doc-formats/pdf.svg') no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/large/pdf.svg') no-repeat center";
         }
         &odp {
-            background: ~"url('@{common-image-const-path}/doc-formats/odp.svg') no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/large/odp.svg') no-repeat center";
         }
         &potx {
-            background: ~"url('@{common-image-const-path}/doc-formats/potx.svg') no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/large/potx.svg') no-repeat center";
         }
         &pdfa {
-            background: ~"url('@{common-image-const-path}/doc-formats/pdfa.svg') no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/large/pdfa.svg') no-repeat center";
         }
         &otp {
-            background: ~"url('@{common-image-const-path}/doc-formats/otp.svg') no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/large/otp.svg') no-repeat center";
         }
         &ppsx {
-            background: ~"url('@{common-image-const-path}/doc-formats/ppsx.svg') no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/large/ppsx.svg') no-repeat center";
         }
         &png {
-            background: ~"url('@{common-image-const-path}/doc-formats/png.svg') no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/large/png.svg') no-repeat center";
         }
         &jpg {
-            background: ~"url('@{common-image-const-path}/doc-formats/jpg.svg') no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/large/jpg.svg') no-repeat center";
         }
         &pptm {
-            background: ~"url('@{common-image-const-path}/doc-formats/pptm.svg') no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/large/pptm.svg') no-repeat center";
+        }
+        &key {
+            background: ~"url('@{common-image-const-path}/doc-formats/large/key.svg') no-repeat center";
+        }
+        &odg {
+            background: ~"url('@{common-image-const-path}/doc-formats/large/odg.svg') no-repeat center";
         }
     }
 
@@ -93,7 +105,7 @@
     cursor: pointer;
 
     .svg-format-blank {
-        background: ~"url(@{common-image-const-path}/doc-formats/blank.svg) no-repeat center" ;
+        background: ~"url(@{common-image-const-path}/doc-formats/large/blank.svg) no-repeat center" ;
     }
     .svg-file-template{
         background: ~"url(@{app-image-const-path}/file-template.svg) no-repeat center" ;
@@ -339,8 +351,8 @@
 
                 &:hover,
                 &.over {
-                    background-color: @background-toolbar-ie;
-                    background-color: @background-toolbar;
+                    background-color: @background-pane-ie;
+                    background-color: @background-pane;
                 }
 
                 .recent-icon {
@@ -351,9 +363,20 @@
                     div {
                         width: 100%;
                         height: 100%;
+
+                        svg {
+                            display: none;
+                            width: 24px;
+                            height: 30px;
+
+                            .pixel-ratio__2_5 & {
+                               display: block;
+                            }
+                        }
+
                         div{
                             background: ~"url(@{common-image-const-path}/doc-formats/formats.png)";
-                            background-size: 1056px 30px;
+                            background-size: 1200px 30px;
                             &:not(.svg-file-recent) {
                                 .pixel-ratio__1_25 & {
                                     background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.25x.png)";
@@ -370,6 +393,10 @@
                                 .pixel-ratio__2 & {
                                     background-image: ~"url(@{common-image-const-path}/doc-formats/formats@2x.png)";
                                 }
+
+                                .pixel-ratio__2_5 & {
+                                    display: none;
+                                }
                             }
                         }
                         .format-from-index(@index) {
@@ -381,7 +408,7 @@
                             }
 
                             &pdf, &pdfa {
-                                .format-from-index(14);
+                                .format-from-index(13);
                             }
 
                             &odp {
@@ -389,34 +416,40 @@
                             }
 
                             &potx {
-                                .format-from-index(23);
+                                .format-from-index(22);
                             }
 
                             &otp {
-                                .format-from-index(26);
+                                .format-from-index(25);
                             }
 
                             &ppsx {
-                                .format-from-index(28);
+                                .format-from-index(27);
                             }
 
                             &ppt {
                                 .format-from-index(11);
                             }
                             &pptm {
-                                .format-from-index(38);
+                                .format-from-index(37);
                             }
                             &ppsm {
-                                .format-from-index(39);
+                                .format-from-index(38);
                             }
                             &potm {
-                                .format-from-index(40);
+                                .format-from-index(39);
                             }
                             &fodp {
-                                .format-from-index(41);
+                                .format-from-index(40);
                             }
-                            &.neutral {
-                                .format-from-index(43);
+                            &neutral {
+                                .format-from-index(42);
+                            }
+                            &key {
+                                .format-from-index(45);
+                            }
+                            &odg {
+                                .format-from-index(49);
                             }
                         }
                         .svg-file-recent {
@@ -471,8 +504,8 @@
                     &:not(.header-name) {
                         &:hover,
                         &.over {
-                            background-color: @background-toolbar-ie;
-                            background-color: @background-toolbar;
+                            background-color: @background-pane-ie;
+                            background-color: @background-pane;
                         }
 
                         &.selected {
@@ -512,7 +545,7 @@
         }
 
         #panel-info {
-            padding: 30px;
+            padding: 0 30px;
 
             .header {
                 .font-size-very-huge();
@@ -520,14 +553,17 @@
                 line-height: unset;
             }
 
+            table.main {
+                margin: 30px 0 18px;
+            }
+
             table {
                 display: flex;
-                gap: 24px;
                 flex-direction: column;
 
                 tr {
                     display: flex;
-                    gap: 24px;
+                    margin-bottom: 12px;
 
                     td {
                         .font-size-normal();
@@ -543,8 +579,10 @@
                         }
 
                         &.left {
+                            display: block;
                             width: 140px;
                             flex-shrink: 0;
+                            .margin-right(24px);
                         }
 
                         &.right {
@@ -559,14 +597,17 @@
 
                 tbody {
                     display: flex;
-                    gap: 12px;
                     flex-direction: column;
 
+                    &:not(:last-of-type) {
+                        margin-bottom: 12px;
+                    }
+
                     &.properties-tab {
-                        gap: 10px;
+                        margin-bottom: 0;
 
                         tr {
-                            gap: 20px;
+                            margin-bottom: 10px;
                         }
 
                         td {
@@ -576,6 +617,7 @@
                         td.left {
                             display: flex;
                             align-items: center;
+                            .margin-right-20();
 
                             label {
                                 text-overflow: ellipsis;
@@ -595,8 +637,10 @@
                         }
 
                         display: flex;
-                        gap: 5px;
                         align-items: center;
+                        & > *:not(:last-child) {
+                            .margin-right-5();
+                        }
                     }
                 }
 
@@ -623,15 +667,17 @@
                 height: 24px;
 
                 span {
-                    text-decoration: underline dotted;
-                    text-underline-offset: 4px;
+                    border-bottom: 1px dotted currentColor;
+                    padding-bottom: 2px;
                 }
             }
 
             .custom-property-wrapper {
                 display: flex;
-                gap: 5px;
                 align-items: center;
+                & > *:not(:last-child) {
+                    .margin-right-5();
+                }
             }
 
             .tool.close:before, .tool.close:after {
@@ -822,6 +868,42 @@
                     #print-combo-sides {
                         .dropdown-menu li > a {
                             .padding-x(20px, 5px);
+                        }
+                    }
+                    #print-combo-printer,
+                    #print-combo-pages {
+                        .form-control {
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            display: block;
+                        }
+                        .dropdown-menu li > a {
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+                    }
+
+                    .text-dropdown-item {
+                        background:none; 
+                        cursor: default;
+                    }
+                    #print-waiting-for-printers {
+                        display: flex;
+                        align-items: center;
+                        .spiner-image {
+                            background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PGNpcmNsZSBjeD0iMTAiIGN5PSIxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDQ0IiBzdHJva2Utd2lkdGg9IjEuNSIgcj0iNy4yNSIgc3Ryb2tlLWRhc2hhcnJheT0iMTYwJSwgNDAlIiAvPjwvc3ZnPg==");
+                            width: 14px;
+                            height: 14px;
+                            .margin-left(6px);
+                            .theme-type-dark & {
+                                filter: invert();
+                            }
+
+                            animation-duration: .8s;
+                            animation-name: rotation;
+                            animation-iteration-count: infinite;
+                            animation-timing-function: linear;
                         }
                     }
                 }

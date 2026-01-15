@@ -83,7 +83,8 @@
     "textDoNotShowAgain": "אל תציג שוב",
     "textOk": "בסדר",
     "textRows": "שורות",
-    "txtWarnUrl": "לחיצה על קישור זה עלולה להזיק למכשיר ולנתונים שלך.<br>האם אתה בטוח שאתה רוצה להמשיך?"
+    "txtWarnUrl": "לחיצה על קישור זה עלולה להזיק למכשיר ולנתונים שלך.<br>האם אתה בטוח שאתה רוצה להמשיך?",
+    "menuDuplicate": "Duplicate"
   },
   "Controller": {
     "Main": {
@@ -93,7 +94,6 @@
       "criticalErrorTitle": "שגיאה",
       "errorAccessDeny": "אתה מנסה לבצע פעולה ללא הרשאה.<br>אנא, צור קשר עם מנהל המערכת שלך.",
       "errorOpensource": "באמצעות גרסת הקהילה החינמית תוכלו לפתוח מסמכים לצפייה בלבד. כדי לגשת לעורכי אינטרנט ניידים, נדרש רישיון מסחרי.",
-      "errorProcessSaveResult": "שמירה נכשלה",
       "errorServerVersion": "גרסת העורך עודכנה. הדף ייטען מחדש כדי להחיל את השינויים.",
       "errorUpdateVersion": "גרסת הקובץ שונתה. הדף ייטען מחדש.",
       "leavePageText": "יש לך שינויים שלא נשמרו במסמך זה. לחץ על 'הישאר בדף זה' כדי להמתין לשמירה אוטומטית. לחץ על 'צא מדף זה' כדי למחוק את כל השינויים שלא נשמרו.",
@@ -157,6 +157,7 @@
       "textNo": "לא",
       "textNoLicenseTitle": "הגעת למגבלת הרישיון",
       "textNoMatches": "אין התאמות",
+      "textOk": "אישור",
       "textOpenFile": "הזן סיסמה לפתיחת הקובץ",
       "textPaidFeature": "תכונה בתשלום",
       "textRemember": "זכור את הבחירה שלי",
@@ -172,19 +173,27 @@
       "txtProtected": "לאחר שתזין את הסיסמה ותפתח את הקובץ, הסיסמה הנוכחית לקובץ תאופס",
       "warnLicenseAnonymous": "הגישה נדחתה עבור משתמשים אנונימיים.<br>מסמך זה ייפתח לצפייה בלבד.",
       "warnLicenseBefore": "רישיון לא פעיל.<br>אנא צור קשר עם מנהל המערכת שלך.",
-      "warnLicenseExceeded": "הגעת למגבלה של חיבורים סימולטניים לעורכי %1. מסמך זה ייפתח לצפייה בלבד. פנה למנהל המערכת שלך למידע נוסף.",
       "warnLicenseExp": "פג תוקפו של הרישיון שלך. אנא, עדכן את הרישיון שלך ורענן את הדף.",
       "warnLicenseLimitedNoAccess": "פג תוקפו של הרישיון. אין לך גישה לפונקציונליות של עריכת מסמכים. אנא, פנה למנהל המערכת שלך.",
       "warnLicenseLimitedRenewed": "יש לחדש את הרישיון. יש לך גישה מוגבלת לפונקציונליות של עריכת מסמכים.<br>אנא צור קשר עם מנהל המערכת שלך כדי לקבל גישה מלאה",
-      "warnLicenseUsersExceeded": "הגעת למגבלת המשתמש עבור עור. פנה למנהל המערכת שלך למידע נוסף.",
       "warnNoLicense": "הגעת למגבלה של חיבורים סימולטניים לעורכי %1. מסמך זה ייפתח לצפייה בלבד. צור קשר עם צוות המכירות %1 לקבלת תנאי שדרוג אישיים.",
       "warnNoLicenseUsers": "הגעת למגבלת המשתמש עבור עור. צור קשר עם צוות המכירות %1 לקבלת תנאי שדרוג אישיים.",
-      "warnProcessRightsChange": "אין לך הרשאה לערוך את הקובץ."
+      "warnProcessRightsChange": "אין לך הרשאה לערוך את הקובץ.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
+  },
+  "Draw": {
+    "textColor": "צבע",
+    "textCustomColor": "צבע מותאם אישית",
+    "textLineSize": "גודל קו",
+    "textOpacity": "שקיפות"
   },
   "Error": {
     "convertationTimeoutText": "זמן ההמרה חרג מהמגבלה.",
     "criticalErrorExtText": "לחץ על 'אישור' כדי לחזור לרשימת המסמכים.",
+    "criticalErrorExtTextClose": "יש ללחוץ 'אישור' לסגירת העורך.",
     "criticalErrorTitle": "שגיאה",
     "downloadErrorText": "ההורדה נכשלה.",
     "errorAccessDeny": "אתה מנסה לבצע פעולה ללא הרשאה.<br>אנא צור קשר עם מנהל המערכת שלך.",
@@ -209,6 +218,7 @@
     "errorKeyEncrypt": "מתאר מפתח לא ידוע",
     "errorKeyExpire": "תיאור מפתח פג",
     "errorLoadingFont": "גופנים אינם נטענים.<br>אנא צור קשר עם מנהל שרת המסמכים שלך.",
+    "errorSaveWatermark": "קובץ זה מכיל תמונת חתימת-מים המקושרת לתחום אתר (דומיין) אחר.<br>כדי שסימן המים יהיה מוצג ב-PDF, יש לעדכן את תמונת סימן המים כך שתהיה מקושרת לתחום האתר בו מאוחסן המסמך שלך, או להעלות את התמונה מהמחשב שלך.",
     "errorSessionAbsolute": "פג תוקפו של הפעלת עריכת המסמכים. אנא, טען מחדש את הדף.",
     "errorSessionIdle": "המסמך לא נערך די הרבה זמן. אנא, טען מחדש את הדף.",
     "errorSessionToken": "החיבור לשרת שובש. אנא, טען מחדש את הדף.",
@@ -227,10 +237,12 @@
     "splitDividerErrorText": "מספר השורות חייב להיות מחלק של %1",
     "splitMaxColsErrorText": "מספר העמודות חייב להיות פחות מ - %1",
     "splitMaxRowsErrorText": "מספר השורות חייב להיות פחות מ - %1",
+    "textOk": "אישור",
     "unknownErrorText": "שגיאה לא ידועה.",
     "uploadImageExtMessage": "פורמט תמונה לא ידוע.",
     "uploadImageFileCountMessage": "לא הועלו תמונות.",
-    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט."
+    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "טעינת נתונים...",
@@ -267,13 +279,16 @@
     "waitText": "בבקשה, המתן..."
   },
   "Toolbar": {
+    "btnRestartNow": "הפעל מחדש עכשיו",
     "dlgLeaveMsgText": "יש לך שינויים שלא נשמרו במסמך זה. לחץ על 'הישאר בדף זה' כדי להמתין לשמירה אוטומטית. לחץ על 'צא מדף זה' כדי למחוק את כל השינויים שלא נשמרו.",
     "dlgLeaveTitleText": "וויתור על הבקשה",
     "leaveButtonText": "עזוב דף הזה",
     "stayButtonText": "הישאר בדף זה",
     "textCloseHistory": "סגור היסטוריה",
     "textEnterNewFileName": "הזן שם קובץ חדש",
-    "textRenameFile": "שינוי שם קובץ"
+    "textOk": "אוקיי",
+    "textRenameFile": "שינוי שם קובץ",
+    "textSwitchToDesktop": "עבור לשולחן העבודה"
   },
   "View": {
     "Add": {
@@ -287,6 +302,7 @@
       "textDefault": "טקסט נבחר",
       "textDisplay": "תצוגה",
       "textDone": "בוצע",
+      "textDrawing": "ציור",
       "textEmptyImgUrl": "עליך לציין את כתובת ה-URL של התמונה.",
       "textExternalLink": "קישור חיצוני",
       "textFirstSlide": "שקופית ראשונה",
@@ -341,6 +357,7 @@
       "textBack": "חזרה",
       "textBandedColumn": "עמודות מקובצות",
       "textBandedRow": "שורות מקובצות",
+      "textBaseline": "קו הבסיס",
       "textBefore": "לפני",
       "textBlack": "דרך שחור",
       "textBorder": "גבול",
@@ -353,6 +370,7 @@
       "textCancel": "ביטול",
       "textCaseSensitive": "רגיש רישיות",
       "textCellMargins": "שולי תאים",
+      "textCellSize": "גודל תא",
       "textChangeShape": "שינוי צורה",
       "textChart": "תרשים",
       "textClock": "שעון",
@@ -481,7 +499,15 @@
       "textZoom": "זום",
       "textZoomIn": "התמקד פנימה",
       "textZoomOut": "התמקד החוצה",
-      "textZoomRotate": "התמקד וסובב"
+      "textZoomRotate": "התמקד וסובב",
+      "txtHeight": "גובה",
+      "txtWidth": "רוחב",
+      "textBackground": "Background",
+      "textCapitalization": "Capitalization",
+      "textLtrTextDirection": "Left-to-right",
+      "textResetBackground": "Reset background",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "mniSlideStandard": "סטנדרטי (4: 3)",
@@ -511,7 +537,6 @@
       "textEmail": "דואר אלקטרוני:",
       "textEnableAll": "הפעל הכל",
       "textEnableAllMacrosWithoutNotification": "הפעל את כל פקודות המאקרו ללא הודעה",
-      "textExplanationChangeDirection": "היישום יופעל מחדש לצורך הפעלת ממשק RTL",
       "textFeedback": "משוב ותמיכה",
       "textFind": "מצא",
       "textFindAndReplace": "מצא והחלף",
@@ -537,8 +562,6 @@
       "textReplace": "החלף",
       "textReplaceAll": "החלף הכל",
       "textRestartApplication": "אנא הפעל מחדש את היישום כדי שהשינויים ייכנסו לתוקף",
-      "textRTL": "מימין לשמאל",
-      "textRtlInterface": "ממשק מימין לשמאל",
       "textSameAsSystem": "זהה למערכת",
       "textSearch": "חיפוש",
       "textSettings": "הגדרות",
@@ -552,7 +575,9 @@
       "textUnitOfMeasurement": "יחידת מדידה",
       "textUploaded": "נטען",
       "textVersion": "גרסה",
-      "textVersionHistory": "היסטוריית גרסאות"
+      "textVersionHistory": "היסטוריית גרסאות",
+      "textLoopSlideshow": "Loop slideshow",
+      "textOpenLocation": "Open location"
     }
   }
 }

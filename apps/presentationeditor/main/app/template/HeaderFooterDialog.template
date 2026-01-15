@@ -1,10 +1,10 @@
 <table cols="1" style="width: 100%;" role="presentation">
     <tr><td class="padding-small">
-        <div class="input-row-tabs">
+        <div>
             <button type="button" class="btn btn-text-default auto" id="hf-dlg-btn-slide"><%= scope.textSlide %></button><button type="button" class="btn btn-text-default auto" id="hf-dlg-btn-notes"><%= scope.textNotes %></button>
         </div>
     </td></tr>
-    <tr><td class="padding-small">
+    <tr><td class="padding-very-small">
         <div id="hf-dlg-chb-datetime"></div>
     </td></tr>
     <tr><td class="padding-large">

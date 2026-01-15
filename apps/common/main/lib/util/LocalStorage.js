@@ -99,6 +99,11 @@ define(['gateway'], function () {
             return (value!==null) ? (parseInt(value) != 0) : defValue;
         };
 
+        var _getItemAsInt = function (name, defValue) {
+            var value = _getItem(name);
+            return (value!==null) ? parseInt(value) : defValue || 0;
+        };
+
         var _getItemExists = function (name) {
             var value = _getItem(name);
             return value !== null;
@@ -112,7 +117,9 @@ define(['gateway'], function () {
         };
 
         try {
-            var _lsAllowed = !!window.localStorage;
+            localStorage.setItem('test', 1);    // for WebView checking !!window.localStorage not enough
+            localStorage.removeItem('test');
+            var _lsAllowed = true;
         } catch (e) {
             _lsAllowed = false;
         }
@@ -125,6 +132,7 @@ define(['gateway'], function () {
                 _storeName = name;
             },
             getItem: _getItem,
+            getItemAsInt: _getItemAsInt,
             getBool: _getItemAsBool,
             setBool: _setItemAsBool,
             setItem: _setItem,

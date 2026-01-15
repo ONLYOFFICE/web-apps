@@ -155,7 +155,7 @@ define([
 
                 this.chLockedCell = new Common.UI.CheckBox({
                     labelText: this.txtLockedCell,
-                    lock        : [_set.editCell, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.wsLock, _set.wbLock, _set.lostConnect, _set.coAuth, _set.userProtected],
+                    lock        : [_set.editCell, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.wsLock, _set.lostConnect, _set.coAuth, _set.userProtected],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -164,7 +164,7 @@ define([
 
                 this.chLockedShape = new Common.UI.CheckBox({
                     labelText: this.txtLockedShape,
-                    lock        : [_set.selRange, _set.selRangeEdit, _set.wbLock, _set.lostConnect, _set.coAuth, _set['Objects'], _set.wsLockShape],
+                    lock        : [_set.selRange, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set['Objects'], _set.wsLockShape],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -173,7 +173,7 @@ define([
 
                 this.chLockedText = new Common.UI.CheckBox({
                     labelText: this.txtLockedText,
-                    lock        : [_set.selRange, _set.selRangeEdit, _set.selRangeEdit, _set.selImage, _set.selSlicer, _set.wbLock, _set.lostConnect, _set.coAuth, _set['Objects'], _set.wsLockText],
+                    lock        : [_set.selRange, _set.selRangeEdit, _set.selRangeEdit, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['Objects'], _set.wsLockText],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -182,7 +182,7 @@ define([
 
                 this.chHiddenFormula = new Common.UI.CheckBox({
                     labelText: this.txtHiddenFormula,
-                    lock        : [_set.editCell, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.wsLock, _set.wbLock, _set.lostConnect, _set.coAuth, _set.userProtected],
+                    lock        : [_set.editCell, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.wsLock, _set.lostConnect, _set.coAuth, _set.userProtected],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -200,7 +200,7 @@ define([
                     visible: !this.appConfig.isOffline
                 });
                 this.lockedControls.push(this.btnProtectRange);
-
+                Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 

@@ -261,13 +261,19 @@
         z-index: 15;
     }
 
+    .multi-column li:after,
+    .multi-column .item-inner:after {
+        display: none;
+    }
+
     .tab-buttons {
         width: 100%;
         display: flex;
         flex-wrap: nowrap;
         align-self: center;
         .tab-link {
-            display: block;
+            display: flex;
+            justify-content: center;
             width: 100%;
             line-height: 26px;
             position: relative;

@@ -7,6 +7,15 @@ import { AddTableController } from "../../controller/add/AddTable";
 import AddShapeController from "../../controller/add/AddShape";
 import { AddOtherController } from "../../controller/add/AddOther";
 import { MainContext } from '../../page/main';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconAddShapeIos from '@common-ios-icons/icon-add-shape.svg?ios';
+import IconAddShapeAndroid from '@common-android-icons/icon-add-shape.svg';
+import IconAddOtherIos from '@common-ios-icons/icon-add-other.svg?ios';
+import IconAddOtherAndroid from '@common-android-icons/icon-add-other.svg';
+import IconAddTableIos from '@common-ios-icons/icon-add-table.svg?ios';
+import IconAddTableAndroid from '@common-android-icons/icon-add-table.svg';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
 
 const AddLayoutNavbar = ({ tabs, storeTableSettings }) => {
     const isAndroid = Device.android;
@@ -26,13 +35,17 @@ const AddLayoutNavbar = ({ tabs, storeTableSettings }) => {
                 <div className='tab-buttons tabbar'>
                     {tabs.map((item, index) =>
                         <Link key={"de-link-" + item.id} onClick={() => getTableStylesPreviews()} tabLink={"#" + item.id} tabLinkActive={index === 0}>
-                            <Icon slot="media" icon={item.icon}></Icon>
+                            <SvgIcon slot="media" symbolId={item.icon} className={'icon icon-svg'} />
                         </Link>)}
                     {isAndroid && <span className='tab-link-highlight' style={{width: 100 / tabs.lenght + '%'}}></span>}
                 </div> :
                 <NavTitle>{ tabs[0].caption }</NavTitle>
             }
-            {Device.phone && <NavRight><Link icon='icon-expand-down' popupClose=".add-popup"></Link></NavRight>}
+            {Device.phone && <NavRight><Link popupClose=".add-popup">
+            {Device.ios ? 
+                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+            }</Link></NavRight>}
         </Navbar>
     )
 };
@@ -114,7 +127,7 @@ const AddingPage = inject("storeFocusObjects", "storeTableSettings", "storeAppli
             tabs.push({
                 caption: _t.textTable,
                 id: 'add-table',
-                icon: 'icon-add-table',
+                icon: Device.ios ? IconAddTableIos.id : IconAddTableAndroid.id,
                 component: <AddTableController/>
             });
         }
@@ -126,7 +139,7 @@ const AddingPage = inject("storeFocusObjects", "storeTableSettings", "storeAppli
             tabs.push({
                 caption: _t.textShape,
                 id: 'add-shape',
-                icon: 'icon-add-shape',
+                icon: Device.ios ? IconAddShapeIos.id : IconAddShapeAndroid.id,
                 component: <AddShapeController/>
             });
         }
@@ -136,7 +149,7 @@ const AddingPage = inject("storeFocusObjects", "storeTableSettings", "storeAppli
         tabs.push({
             caption: _t.textOther,
             id: 'add-other',
-            icon: 'icon-add-other',
+            icon:  Device.ios ? IconAddOtherIos.id : IconAddOtherAndroid.id,
             component: 
                 <AddOtherController 
                     inFootnote={inFootnote} 

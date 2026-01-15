@@ -3,6 +3,9 @@ import { observer, inject } from "mobx-react";
 import { List, ListItem, Segmented, Button, Toggle, BlockTitle, Icon } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
+import IconExpandUp from '@common-android-icons/icon-expand-up.svg';
 
 const EditHeader = props => {
     const isAndroid = Device.android;
@@ -41,11 +44,15 @@ const EditHeader = props => {
                     <div slot='after'>
                         <Segmented>
                             <Button outline className='decrement item-link' onClick={() => {props.onStartAt(_startAt, true)}}>
-                                {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                                {isAndroid ? 
+                                    <SvgIcon slot="media" symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} /> 
+                                : ' - '}
                             </Button>
                             {isAndroid && <label>{_startAt}</label>}
                             <Button outline className='increment item-link' onClick={() => {props.onStartAt(_startAt, false)}}>
-                                {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                                {isAndroid ? 
+                                    <SvgIcon slot="media" symbolId={IconExpandUp.id} className={'icon icon-svg'} />
+                                : ' + '}
                             </Button>
                         </Segmented>
                     </div>

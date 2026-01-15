@@ -1,0 +1,63 @@
+
+.toolbar {
+    &.masked {
+        button.disabled .icon:not(.no-mask) {
+        }
+        .group:not(.no-mask) {
+            opacity: 0.4;
+        }
+    }
+}
+
+.toolbar-group-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    background-color: transparent;
+}
+
+// menu zoom
+.dropdown-menu .menu-zoom {
+    line-height: @line-height-base-ie;
+    line-height: @line-height-base;
+    .title {
+        padding: 5px 5px 5px 20px;
+        //max-width: 95px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        .rtl & {
+            padding: 5px 20px 5px 5px;
+        }
+    }
+
+    .btn.next {
+        margin: 2px 5px 0 0;
+        .rtl & {
+            margin: 2px 0 0 0 !important;
+        }
+    }
+
+    .btn.prev {
+        margin-top: 2px;
+        .rtl & {
+            margin: 2px 0 0 5px;
+        }
+    }
+}
+
+
+.username-tip {
+    background-color: #ee3525;
+    border: none;
+    border-radius: 0;
+    padding: 0 10px;
+    color: #ffffff;
+    .font-size-normal();
+    white-space: nowrap;
+    letter-spacing: 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

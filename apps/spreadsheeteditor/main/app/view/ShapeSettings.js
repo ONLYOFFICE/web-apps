@@ -1270,10 +1270,6 @@ define([
                 ariaLabel: this.strPattern
             });
             this.cmbPattern.render($('#shape-combo-pattern'));
-            this.cmbPattern.openButton.menu.cmpEl.css({
-                'min-width': 178,
-                'max-width': 178
-            });
             this.cmbPattern.on('click', _.bind(this.onPatternSelect, this));
             this.cmbPattern.openButton.menu.on('show:after', function () {
                 me.cmbPattern.menuPicker.scroller.update({alwaysVisibleY: true});
@@ -1770,24 +1766,24 @@ define([
                 allowScrollbar: false,
                 delayRenderTips: true,
                 store: new Common.UI.DataViewStore([
-                    {value:"tl", offsetX: 6,     offsetY: 6,     spread: 0},
-                    {value:"t",  offsetX: 0,     offsetY: 6,     spread: 0},
-                    {value:"tr", offsetX: -6,    offsetY: 6,     spread: 0},
+                    {value:"br", offsetX: -6,    offsetY: -6,    spread: 0, tip: this.txtOffsetTopLeft},
+                    {value:"b",  offsetX: 0,     offsetY: -6,    spread: 0, tip: this.txtOffsetTop},
+                    {value:"bl", offsetX: 6,     offsetY: -6,    spread: 0, tip: this.txtOffsetTopRight},
 
-                    {value:"l",  offsetX: 6,     offsetY: 0,     spread: 0},
-                    {value:"ctr",offsetX: 0,     offsetY: 0,     spread: 3},
-                    {value:"r",  offsetX: -6,    offsetY: 0,     spread: 0},
+                    {value:"r",  offsetX: -6,    offsetY: 0,     spread: 0, tip: this.txtOffsetLeft},
+                    {value:"ctr",offsetX: 0,     offsetY: 0,     spread: 3, tip: this.txtOffsetCenter},
+                    {value:"l",  offsetX: 6,     offsetY: 0,     spread: 0, tip: this.txtOffsetRight},
 
-                    {value:"bl", offsetX: 6,     offsetY: -6,    spread: 0},
-                    {value:"b",  offsetX: 0,     offsetY: -6,    spread: 0},
-                    {value:"br", offsetX: -6,    offsetY: -6,    spread: 0},
+                    {value:"tr", offsetX: -6,    offsetY: 6,     spread: 0, tip: this.txtOffsetBottomLeft},
+                    {value:"t",  offsetX: 0,     offsetY: 6,     spread: 0, tip: this.txtOffsetBottom},
+                    {value:"tl", offsetX: 6,     offsetY: 6,     spread: 0, tip: this.txtOffsetBottomRight }
                 ]),
                 itemTemplate: _.template(
                     '<div class="item-shadow">' +
                         '<div ' +
                             'style="margin-bottom:<%= offsetY %>px;' +
                             'margin-right:<%= offsetX %>px;' +
-                            'box-shadow: <% if(Common.Utils.isIE) {%>rgba(0,0,0,0.4)<%} else {%>var(--text-tertiary)<%}%> <%= offsetX %>px <%= offsetY %>px 0px <%= spread %>px ;"' +
+                            'box-shadow: #A8A8A8 <%= offsetX %>px <%= offsetY %>px 0px <%= spread %>px ;"' +
                         '>' +
                         '</div>' + 
                     '</div>')
@@ -1920,7 +1916,7 @@ define([
                 this.imgprops.asc_putShapeProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
-            $(this.btnTexture.el).find('.form-control').prop('innerHTML', record.get('name'));
+            // $(this.btnTexture.el).find('.form-control').prop('innerHTML', record.get('name'));
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 

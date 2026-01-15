@@ -7,7 +7,7 @@ const PageEncoding = props => {
     const { t } = useTranslation();
     const _t = t("Settings", { returnObjects: true });
     const encodeData = props.encodeData;
-    const [stateEncoding, setStateEncoding] = useState(props.valueEncoding);
+    const [stateEncoding, setStateEncoding] = useState(props.valueEncoding === -1 ? encodeData.find(encoding => encoding.lcid === 65001).value : props.valueEncoding);
     const getIndexNameEncoding = () => encodeData.findIndex(encoding => encoding.value === stateEncoding);
     const nameEncoding = encodeData[getIndexNameEncoding()].displayValue;
     const mode = props.mode;

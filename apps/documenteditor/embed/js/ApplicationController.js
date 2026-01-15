@@ -44,9 +44,11 @@ DE.ApplicationController = new(function(){
         btnSubmit,
         _submitFail, $submitedTooltip, $requiredTooltip,
         $listControlMenu, listControlItems = [], listObj,
-        bodyWidth = 0;
+        bodyWidth = 0,
+        requireUserAction = true;
 
-    var LoadingDocument = -256;
+    var LoadingDocument = -256,
+        WarningShown = false;
 
     // Initialize analytics
     // -------------------------
@@ -230,7 +232,7 @@ DE.ApplicationController = new(function(){
     }
 
     function onDocMouseMoveEnd() {
-        if (me.isHideBodyTip) {
+        if (me.isHideBodyTip || WarningShown) {
             if ( $tooltip ) {
                 $tooltip.tooltip('hide');
                 $tooltip = false;
@@ -245,7 +247,17 @@ DE.ApplicationController = new(function(){
             if (type == Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Form) { // hyperlink
                 me.isHideBodyTip = false;
 
-                var str = (type == Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? (me.txtPressLink.replace('%1', common.utils.isMac ? '⌘' : me.textCtrl)) : data.get_FormHelpText();
+                var str = '';
+                if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink) {
+                    var hyperProps = data.get_Hyperlink();
+                    if (!hyperProps) return;
+                    if (hyperProps.get_NoCtrl && hyperProps.get_NoCtrl())
+                        str = hyperProps.get_ToolTip() || hyperProps.get_Value();
+                    else
+                        str = me.txtPressLink.replace('%1', common.utils.isMac ? '⌘' : me.textCtrl);
+                } else
+                    str = data.get_FormHelpText();
+
                 if (str.length>500)
                     str = str.substr(0, 500) + '...';
                 str = common.utils.htmlEncode(str);
@@ -313,6 +325,7 @@ DE.ApplicationController = new(function(){
     function onShowContentControlsActions(obj, x, y) {
         switch (obj.type) {
             case Asc.c_oAscContentControlSpecificType.Picture:
+            case Asc.c_oAscContentControlSpecificType.Signature:
                 if (obj.pr && obj.pr.get_Lock) {
                     var lock = obj.pr.get_Lock();
                     if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
@@ -339,7 +352,7 @@ DE.ApplicationController = new(function(){
         var type = obj.type,
             props = obj.pr,
             specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr(),
-            isForm = !!props.get_FormPr();
+            formProps = props.get_FormPr();
 
         var menuContainer = DE.ApplicationView.getMenuForm();
 
@@ -371,24 +384,26 @@ DE.ApplicationController = new(function(){
 
         if (specProps) {
             var k = 0;
-            if (isForm){ // for dropdown and combobox form control always add placeholder item
-                var text = props.get_PlaceholderText();
-                $listControlMenu.append('<li><a tabindex="-1" type="menuitem" style="opacity: 0.6" value="0">' +
-                                        ((text.trim()!=='') ? text : me.txtEmpty) +
-                                        '</a></li>');
-                listControlItems.push('');
-            }
             var count = specProps.get_ItemsCount();
+            if (formProps){
+                if (!formProps.get_Required() || count<1) { // for required or empty dropdown/combobox form control always add placeholder item
+                    var text = props.get_PlaceholderText();
+                    $listControlMenu.append('<li><a tabindex="-1" type="menuitem" style="opacity: 0.6" value="0">' +
+                                            ((text.trim()!=='') ? text : me.txtEmpty) +
+                                            '</a></li>');
+                    listControlItems.push('');
+                }
+            }
             k = listControlItems.length;
             for (var i=0; i<count; i++) {
-                if (specProps.get_ItemValue(i)!=='' || !isForm) {
+                if (specProps.get_ItemValue(i)!=='' || !formProps) {
                     $listControlMenu.append('<li><a tabindex="-1" type="menuitem" value="' + (i+k) + '">' +
                         common.utils.htmlEncode(specProps.get_ItemDisplayText(i)) +
                         '</a></li>');
                     listControlItems.push(specProps.get_ItemValue(i));
                 }
             }
-            if (!isForm && listControlItems.length<1) {
+            if (!formProps && listControlItems.length<1) {
                 $listControlMenu.append('<li><a tabindex="-1" type="menuitem" value="0">' +
                                         me.txtEmpty +
                                         '</a></li>');
@@ -411,6 +426,8 @@ DE.ApplicationController = new(function(){
 
         var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom) : -2);
         (zf == -1) ? api.zoomFitToPage() : ((zf == -2) ? api.zoomFitToWidth() : api.zoom(zf>0 ? zf : 100));
+
+        api.asc_setViewerTargetType(config.customization && config.customization.pointerMode==='hand' ? 'hand' : 'select');
 
         var dividers = $('#box-tools .divider');
         var itemsCount = $('#box-tools a').length;
@@ -477,12 +494,14 @@ DE.ApplicationController = new(function(){
             embed: '#idt-embed'
         });
 
+        common.controller.Shortcuts.setApi(api);
+
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
         api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
         api.asc_registerCallback('asc_onMouseMoveStart',        onDocMouseMoveStart);
         api.asc_registerCallback('asc_onMouseMoveEnd',          onDocMouseMoveEnd);
         api.asc_registerCallback('asc_onMouseMove',             onDocMouseMove);
-        api.asc_registerCallback('asc_onHyperlinkClick',        common.utils.openLink);
+        api.asc_registerCallback('asc_onHyperlinkClick',       onHyperlinkClick);
         api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
         api.asc_registerCallback('asc_onPrint',                 onPrint);
         api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
@@ -636,28 +655,35 @@ DE.ApplicationController = new(function(){
         });
 
         if (appOptions.isOForm && permissions.download!==false) {
-            $('#id-critical-error-title').text(me.notcriticalErrorTitle);
-            $('#id-critical-error-message').html(me.textConvertFormDownload);
-            $('#id-critical-error-close').text(me.textDownloadPdf).off().on('click', function(){
-                downloadAs(Asc.c_oAscFileType.PDF);
-                $('#id-critical-error-dialog').modal('hide');
+            common.controller.modals.showWarning({
+                title: me.notcriticalErrorTitle,
+                message: me.textConvertFormDownload,
+                buttons: [me.textDownloadPdf],
+                callback: function(btn) {
+                    if (btn === me.textDownloadPdf) {
+                        downloadAs(Asc.c_oAscFileType.PDF); 
+                    }
+                }
             });
-            $('#id-critical-error-dialog').modal('show');
         }
 
         Common.Gateway.documentReady();
         Common.Analytics.trackEvent('Load', 'Complete');
+        requireUserAction = false;
     }
 
     function onEditorPermissions(params) {
         var licType = params.asc_getLicenseType();
         if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType ||
             Asc.c_oLicenseResult.NotBefore === licType || Asc.c_oLicenseResult.ExpiredLimited === licType) {
-            $('#id-critical-error-title').text(Asc.c_oLicenseResult.NotBefore === licType ? me.titleLicenseNotActive : me.titleLicenseExp);
-            $('#id-critical-error-message').html(Asc.c_oLicenseResult.NotBefore === licType ? me.warnLicenseBefore : me.warnLicenseExp);
-            $('#id-critical-error-close').parent().remove();
-            $('#id-critical-error-dialog button.close').remove();
-            $('#id-critical-error-dialog').css('z-index', 20002).modal({backdrop: 'static', keyboard: false, show: true});
+                common.controller.modals.showWarning({
+                    title: Asc.c_oLicenseResult.NotBefore === licType ? me.titleLicenseNotActive : me.titleLicenseExp,
+                    message: Asc.c_oLicenseResult.NotBefore === licType ? me.warnLicenseBefore : me.warnLicenseExp,
+                    buttons: []
+                });
+        
+                $('#dlg-warning').css('z-index', 20002);
+                $('#dlg-warning button.close, #dlg-warning .modal-footer').remove();
             return;
         }
 
@@ -671,6 +697,7 @@ DE.ApplicationController = new(function(){
         appOptions.isOForm = !!(type && typeof type[1] === 'string'); // oform and docxf
 
         api.asc_setViewMode(!appOptions.canFillForms);
+        api.asc_setPdfViewer(!appOptions.canFillForms);
 
         btnSubmit = $('#id-btn-submit');
 
@@ -749,17 +776,49 @@ DE.ApplicationController = new(function(){
             api && api.asc_setAdvancedOptions(Asc.c_oAscAdvancedOptionsID.TXT, advOptions.asc_getRecommendedSettings() || new Asc.asc_CTextOptions());
             onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
         }
+        if (requireUserAction) {
+            Common.Gateway.userActionRequired();
+            requireUserAction = false;
+        }
+    }
+
+    function onHyperlinkClick(url) {
+        var type = api.asc_getUrlType(url);
+        if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email) 
+            window.open(url, '_blank');  
+        else {
+            WarningShown = true; 
+            common.controller.modals.showWarning({
+                    title: me.notcriticalErrorTitle,
+                    message: me.txtOpenWarning.replace('%1', url || ''),
+                    buttons: [me.txtNo, me.txtYes],
+                    primary: me.txtNo,
+                    callback: function (btn) {
+                        WarningShown = false; 
+                        if (btn === me.txtYes) {
+                            window.open(url);
+                        }
+                    },
+                    closecallback: function() {
+                        WarningShown = false;
+                    }
+            }); 
+        }    
     }
 
     function onError(id, level, errData) {
         if (id == Asc.c_oAscError.ID.LoadingScriptError) {
-            $('#id-critical-error-title').text(me.criticalErrorTitle);
-            $('#id-critical-error-message').text(me.scriptLoadError);
-            $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
-                window.location.reload();
+            common.controller.modals.showWarning({
+                title: me.criticalErrorTitle,
+                message: me.scriptLoadError,
+                buttons: [me.txtClose],
+                callback: function(btn) {
+                    window.location.reload();
+                },
+                closecallback: function() {
+                    window.location.reload();
+                }
             });
-            $('#id-critical-error-dialog button.close').remove();
-            $('#id-critical-error-dialog').css('z-index', 20002).modal('show');
             return;
         }
 
@@ -853,35 +912,37 @@ DE.ApplicationController = new(function(){
             case Asc.c_oAscError.ID.SessionToken: // don't show error message
                 return;
 
+            case Asc.c_oAscError.ID.CopyDisabled:
+                message= me.errorCopyDisabled;
+                break;
+
             default:
                 // message = me.errorDefaultMessage.replace('%1', id);
                 // break;
                 return;
         }
 
+        common.controller.modals.showWarning({
+            title: (level == Asc.c_oAscError.Level.Critical) ? me.criticalErrorTitle : me.notcriticalErrorTitle,
+            message: message,
+            buttons: [me.txtClose],
+            callback: function(btn) {
+                if (level == Asc.c_oAscError.Level.Critical) {
+                    window.location.reload();
+                } 
+            },
+            closecallback: function() {
+                if (level == Asc.c_oAscError.Level.Critical) {
+                    window.location.reload();
+                }
+            }
+        });
+
         if (level == Asc.c_oAscError.Level.Critical) {
-
-            // report only critical errors
             Common.Gateway.reportError(id, message);
-
-            $('#id-critical-error-title').text(me.criticalErrorTitle);
-            $('#id-critical-error-message').html(message);
-            $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
-                window.location.reload();
-            });
-            $('#id-critical-error-dialog button.close').remove();
-        }
-        else {
+        } else {
             Common.Gateway.reportWarning(id, message);
-
-            $('#id-critical-error-title').text(me.notcriticalErrorTitle);
-            $('#id-critical-error-message').html(message);
-            $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
-                $('#id-critical-error-dialog').modal('hide');
-            });
         }
-
-        $('#id-critical-error-dialog').modal('show');
 
         Common.Analytics.trackEvent('Internal Error', id.toString());
     }
@@ -944,7 +1005,7 @@ DE.ApplicationController = new(function(){
             }
 
             if (value.logo.image || value.logo.imageEmbedded) {
-                logo.html('<img src="'+(value.logo.image || value.logo.imageEmbedded)+'" style="max-width:100px; max-height:20px;"/>');
+                logo.html('<img src="'+(value.logo.image || value.logo.imageEmbedded)+'" style="max-width:300px; max-height:20px;"/>');
                 logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
 
                 value.logo.imageEmbedded && console.log("Obsolete: The 'imageEmbedded' parameter of the 'customization.logo' section is deprecated. Please use 'image' parameter instead.");
@@ -956,6 +1017,42 @@ DE.ApplicationController = new(function(){
                 logo.removeAttr('href');logo.removeAttr('target');
             }
         }
+    }
+
+    function onOpenLinkPdfForm(sURI, onAllow, onCancel) {
+        common.controller.modals.showWarning({
+            title: me.notcriticalErrorTitle,
+            message: me.txtSecurityWarningLinkOk.replace('%1', sURI || ''),
+            buttons: [me.textOk, me.textCancel],
+            callback: function(btn) {
+                if (btn == me.textOk) {
+                    onAllow();
+                }
+                else
+                    onCancel();
+            },
+            closecallback: function() {
+                onCancel();
+            }
+        });
+    }
+
+    function onOpenFilePdfForm(onAllow, onCancel) {
+        common.controller.modals.showWarning({
+            title: me.notcriticalErrorTitle,
+            message: me.txtSecurityWarningOpenFile,
+            buttons: [me.textOk, me.textCancel],
+            callback: function(btn) {
+                if (btn == me.textOk) {
+                    onAllow();
+                }
+                else
+                    onCancel();
+            },
+            closecallback: function() {
+                onCancel();
+            }
+        });
     }
         // Helpers
     // -------------------------
@@ -1005,6 +1102,8 @@ DE.ApplicationController = new(function(){
 
         $('#editor_sdk').on('click', function(e) {
             if ( e.target.localName == 'canvas' ) {
+                if (e.target.getAttribute && e.target.getAttribute("oo_no_focused"))
+                    return;
                 e.currentTarget.focus();
             }
         });
@@ -1015,10 +1114,12 @@ DE.ApplicationController = new(function(){
 
         api = isPDF ? new Asc.PDFEditorApi({
             'id-view'  : 'editor_sdk',
-            'embedded' : true
+            'embedded' : true,
+            'isRtlInterface': window.isrtl
         }) : new Asc.asc_docs_api({
             'id-view'  : 'editor_sdk',
-            'embedded' : true
+            'embedded' : true,
+            'isRtlInterface': window.isrtl
         });
 
         if (api){
@@ -1031,6 +1132,10 @@ DE.ApplicationController = new(function(){
 //            api.asc_registerCallback('OnCurrentVisiblePage',    onCurrentPage);
             api.asc_registerCallback('asc_onCurrentPage',           onCurrentPage);
 
+            if (isPDF) {
+                api.asc_registerCallback('asc_onOpenLinkPdfForm',          onOpenLinkPdfForm);
+                api.asc_registerCallback('asc_onOpenFilePdfForm',          onOpenFilePdfForm);
+            }
             // Initialize api gateway
             Common.Gateway.on('init',               loadConfig);
             Common.Gateway.on('opendocument',       loadDocument);
@@ -1092,6 +1197,15 @@ DE.ApplicationController = new(function(){
         warnLicenseExp: 'Your license has expired. Please update your license and refresh the page.',
         textConvertFormDownload: 'Download file as a fillable PDF form to be able to fill it out.',
         textDownloadPdf: 'Download pdf',
-        errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.'
+        errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
+        txtOpenWarning: 'Clicking this link can be harmful to your device and data.To protect you computer, click only those hyperlinks from trusted sources. This location may be unsafe:<br>%1<br>Are you sure you want to continue?',
+        txtYes:'Yes',
+        txtNo: 'No',
+        textOk: 'OK',
+        textCancel: 'Cancel',
+        txtSecurityWarningLink: 'This document is trying to connect to %1.<br>If you trust this site, press \"OK\" while holding down the ctrl key.',
+        txtSecurityWarningOpenFile: 'This document is trying to open file dialog, press \"OK\" to open.',
+        txtSecurityWarningLinkOk: 'This document is trying to connect to %1.<br>If you trust this site, press \"OK\".',
+        errorCopyDisabled: 'For security reasons, the contents of this document cannot be copied to the clipboard.'
     }
 })();

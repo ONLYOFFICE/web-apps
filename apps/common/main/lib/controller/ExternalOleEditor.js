@@ -60,7 +60,7 @@ define([
                 height      : '100%',
                 documentType: 'cell',
                 document    : {
-                    url         : '_chart_',
+                    url         : '_ole_',
                     permissions : {
                         edit    : true,
                         download: false
@@ -98,6 +98,11 @@ define([
                         },this),
                         'resize': _.bind(function(o, state){
                             externalEditor && externalEditor.serviceCommand('window:resize', state == 'start');
+                        },this),
+                        'animate:before': _.bind(function(){
+                            if(!this.isAppFirstOpened) {
+                                externalEditor && externalEditor.serviceCommand('reshow');
+                            }
                         },this),
                         'show': _.bind(function(cmp){
                             var h = this.oleEditorView.getHeight(),
@@ -148,7 +153,7 @@ define([
             setApi: function(api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onCloseOleEditor', _.bind(this.onOleEditingDisabled, this));
-                this.api.asc_registerCallback('asc_sendFromGeneralToFrameEditor', _.bind(this.onSendFromGeneralToFrameEditor, this));
+                this.api.asc_registerCallback('asc_sendFromGeneralToOleEditor', _.bind(this.onSendFromGeneralToFrameEditor, this));
                 return this;
             },
 
@@ -212,7 +217,7 @@ define([
                             this.onOleEditingDisabled();
                         }
                     } else
-                    if (eventData.type == 'oleEditorReady') {
+                    if (eventData.type == 'frameEditorReady') {
                         if (this.needDisableEditing===undefined)
                             this.oleEditorView.setControlsDisabled(false);
                     } else

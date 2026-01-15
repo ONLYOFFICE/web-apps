@@ -142,7 +142,7 @@ define([
 
             el.html(this.template(this.model.toJSON()));
             el.addClass('item canfocused');
-            el.toggleClass('selected', this.model.get('selected') && this.model.get('allowSelected'));
+            el.toggleClass('selected', !!this.model.get('selected') && this.model.get('allowSelected'));
             el.attr('tabindex', this.options.tabindex || 0);
             el.attr('role', this.options.role ? this.options.role : 'listitem');
             
@@ -220,7 +220,7 @@ define([
             if (_.isUndefined(this.model.id))
                 return this;
             var el = this.$el || $(this.el);
-            el.toggleClass('selected', this.model.get('selected') && this.model.get('allowSelected'));
+            el.toggleClass('selected', !!this.model.get('selected') && this.model.get('allowSelected'));
             el.toggleClass('disabled', !!this.model.get('disabled'));
 
             this.trigger('change', this, this.model);
@@ -672,10 +672,11 @@ define([
                 });
             }
 
+            this.attachKeyEvents();
+
             if (this.disabled)
                 this.setDisabled(this.disabled);
 
-            this.attachKeyEvents();
             this.lastSelectedRec = null;
             this._layoutParams = undefined;
         },
@@ -989,7 +990,7 @@ define([
             if (this.enableKeyEvents && this.handleSelect) {
                 var el = $(this.el).find('.inner').addBack().filter('.inner');
                 el.addClass('canfocused');
-                el.attr('tabindex', this.tabindex.toString());
+                el.attr('tabindex', (this.tabindex || 0).toString());
                 el.on((this.parentMenu && this.useBSKeydown) ? 'dataview:keydown' : 'keydown', _.bind(this.onKeyDown, this));
                 el.on((this.parentMenu && this.useBSKeydown) ? 'dataview:keyup' : 'keyup', _.bind(this.onKeyUp, this));
             }
@@ -1013,6 +1014,12 @@ define([
             disabled = !!disabled;
             this.disabled = disabled;
             $(this.el).find('.inner').addBack().filter('.inner').toggleClass('disabled', disabled);
+
+            if (this.tabindex!==undefined) {
+                var el = $(this.el).find('.inner').addBack().filter('.inner');
+                disabled && (this.tabindex = el.attr('tabindex'));
+                el.attr('tabindex', disabled ? "-1" : this.tabindex);
+            }
         },
 
         isDisabled: function() {
@@ -1143,6 +1150,7 @@ define([
             me.itemTemplate   = me.options.itemTemplate   || null;
             me.handleSelect   = me.options.handleSelect;
             me.parentMenu     = me.options.parentMenu;
+            me.outerMenu      = me.options.outerMenu;
             me.enableKeyEvents= me.options.enableKeyEvents;
             me.useBSKeydown   = me.options.useBSKeydown; // only with enableKeyEvents && parentMenu
             me.style          = me.options.style        || '';
@@ -1403,9 +1411,9 @@ define([
                 if (data.keyCode==Common.UI.Keys.RETURN) {
                     if (this.selectedBeforeHideRec) // only for ComboDataView menuPicker
                         rec = this.selectedBeforeHideRec;
-                    if (this.canAddRecents) // only for DaraViewShape
+                    if (this.canAddRecents) // only for DataViewShape
                         this.addRecentItem(rec);
-                    this.trigger('item:click', this, this, rec, e);
+                    rec && this.trigger('item:click', this, this, rec, e);
                     if (this.parentMenu)
                         this.parentMenu.hide();
                 } else {
@@ -1595,8 +1603,24 @@ define([
             this._layoutParams = undefined;
         },
 
-        focus: function() {
+        focus: function(index) {
             this.cmpEl && this.cmpEl.find('.dataview').focus();
+            var rec;
+            if (typeof index == 'string') {
+                if (index == 'first') {
+                    rec = this.selectByIndex(0, true);
+                } else if (index == 'last') {
+                    if (this._layoutParams === undefined)
+                        this.fillIndexesArray();
+                    rec = this.selectByIndex(this._layoutParams.itemsIndexes[this._layoutParams.rows-1][0], true);
+                }
+            } else if (index !== undefined)
+                rec = this.selectByIndex(index, true);
+            this.scrollToRecord(rec);
+        },
+
+        focusInner: function(e) {
+            this.focus(e.keyCode == Common.UI.Keys.DOWN ? 'first' : 'last');
         }
     });
 
@@ -1626,7 +1650,7 @@ define([
                         '<div class="group-items-container <% if (index === 0) { %> recent-items <% } %>">',
                             '<% _.each(group.groupStore.toJSON(), function(item, index) { %>',
                                 '<% if (!item.id) item.id = Common.UI.getId(); %>',
-                                    '<div class="item" role="listitem" <% if (typeof itemTabindex !== undefined) { %> tabindex="<%= itemTabindex %>" <% } %> data-index="<%= index %>"<% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
+                                    '<div class="item canfocused" role="listitem" <% if (typeof itemTabindex !== undefined) { %> tabindex="<%= itemTabindex %>" <% } %> data-index="<%= index %>"<% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
                                 '<% }); %>',
                         '</div>',
                     '</div>',
@@ -1863,6 +1887,8 @@ define([
             this.addRecentItem(record);
         },
         addRecentItem: function (rec) {
+            if (!rec) return;
+
             var me = this,
                 exist = false,
                 type = rec.get('data').shapeType,
@@ -1927,7 +1953,7 @@ define([
                 var template = _.template([
                     '<% _.each(items, function(item, index) { %>',
                     '<% if (!item.id) item.id = Common.UI.getId(); %>',
-                    '<div class="item" role="listitem" <% if (typeof itemTabindex !== undefined) { %> tabindex="<%= itemTabindex %>" <% } %> data-index="<%= index %>"<% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
+                    '<div class="item canfocused" role="listitem" <% if (typeof itemTabindex !== undefined) { %> tabindex="<%= itemTabindex %>" <% } %> data-index="<%= index %>"<% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
                     '<% }) %>'
                 ].join(''));
                 me.cmpEl && me.cmpEl.find('.recent-items').html(template({

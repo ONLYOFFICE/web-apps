@@ -251,6 +251,22 @@ const ErrorController = inject('storeAppOptions','storeDocumentInfo')(({storeApp
                     config.msg = _t.errorInconsistentExt;
                 break;
 
+            case Asc.c_oAscError.ID.CannotSaveWatermark:
+                config.msg = t('Error.errorSaveWatermark');
+                break;
+
+            case Asc.c_oAscError.ID.PDFFormsLocked:
+                config.msg = t('Error.errorPDFFormsLocked');
+                break;
+
+            case Asc.c_oAscError.ID.EditProtectedRange:
+                config.msg = t('Error.errorEditProtectedRange');
+                break;
+
+            case Asc.c_oAscError.ID.CopyDisabled:
+                config.msg = t('Error.errorCopyDisabled');
+                break;
+
             default:
                 config.msg = _t.errorDefaultMessage.replace('%1', id);
                 break;
@@ -262,12 +278,16 @@ const ErrorController = inject('storeAppOptions','storeDocumentInfo')(({storeApp
             Common.Gateway.reportError(id, config.msg);
 
             config.title = _t.criticalErrorTitle;
-
-            if (storeAppOptions.canBackToFolder && !storeAppOptions.isDesktopApp) {
+            if (storeAppOptions.canRequestClose) {
+                config.msg += '<br><br>' + _t.criticalErrorExtTextClose;
+                config.callback = function(btn) {
+                    Common.Gateway.requestClose();
+                };
+            } else if (storeAppOptions.canBackToFolder && !storeAppOptions.isDesktopApp && typeof id !== 'string' && storeAppOptions.customization.goback.url && storeAppOptions.customization.goback.blank===false) {
                 config.msg += '</br></br>' + _t.criticalErrorExtText;
-                config.callback = function() {
+                config.callback = function(btn) {
                     Common.Notifications.trigger('goback', true);
-                }
+                };
             }
             if (id === Asc.c_oAscError.ID.DataEncrypted) {
                 api.asc_coAuthoringDisconnect();
@@ -296,7 +316,7 @@ const ErrorController = inject('storeAppOptions','storeDocumentInfo')(({storeApp
             text    : config.msg,
             buttons: [
                 {
-                    text: 'OK',
+                    text: _t.textOk,
                     onClick: config.callback
                 }
             ]

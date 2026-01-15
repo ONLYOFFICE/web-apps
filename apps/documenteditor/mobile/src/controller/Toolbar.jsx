@@ -10,27 +10,22 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
     const appOptions = props.storeAppOptions;
-    const isEdit = appOptions.isEdit;
-    const isForm = appOptions.isForm;
-    const canFillForms = appOptions.canFillForms;
-    const canSubmitForms = appOptions.canSubmitForms;
     const storeVersionHistory = props.storeVersionHistory;
     const isVersionHistoryMode = storeVersionHistory.isVersionHistoryMode;
     const isViewer = appOptions.isViewer;
-    const isMobileView = appOptions.isMobileView;
     const isDisconnected = props.users.isDisconnected;
     const displayMode = props.storeReview.displayMode;
     const stateDisplayMode = displayMode == "final" || displayMode == "original" ? true : false;
     const displayCollaboration = props.users.hasEditUsers || appOptions.canViewComments || appOptions.canReview || appOptions.canViewReview;
-    const readerMode = appOptions.readerMode;
     const objectLocked = props.storeFocusObjects.objectLocked;
     const storeToolbarSettings = props.storeToolbarSettings;
     const isCanUndo = storeToolbarSettings.isCanUndo;
     const isCanRedo = storeToolbarSettings.isCanRedo;
+    const isSignatureForm = storeToolbarSettings.isSignatureForm;
     const disabledControls = storeToolbarSettings.disabledControls;
     const disabledEditControls = storeToolbarSettings.disabledEditControls;
     const disabledSettings = storeToolbarSettings.disabledSettings;
-    const showEditDocument = !isEdit && appOptions.canEdit && appOptions.canRequestEditRights;
+    const showEditDocument = !appOptions.isEdit && appOptions.canEdit && appOptions.canRequestEditRights;
     const storeDocumentInfo = props.storeDocumentInfo;
     const docExt = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.fileType : '';
     const docTitle = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.title : '';
@@ -97,6 +92,20 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         }
     }, [isViewer]);
 
+    useEffect(() => {
+        const resetOffset = () => {
+            scrollOffsetRef.current = 0;
+        };
+
+        window.addEventListener('touchstart', resetOffset);
+        window.addEventListener('mousedown', resetOffset);
+
+        return () => {
+            window.removeEventListener('touchstart', resetOffset);
+            window.removeEventListener('mousedown', resetOffset);
+        };
+    }, []);
+
     // Scroll handler
 
     const scrollHandler = offset => {
@@ -104,29 +113,36 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         const navbarHeight = getNavbarTotalHeight();
         const isSearchbarEnabled = document.querySelector('.subnavbar .searchbar')?.classList.contains('searchbar-enabled');
 
-        if(!isSearchbarEnabled && navbarHeight) {
-            if(offset > 0 && Math.abs(offset) > Math.abs(scrollOffsetRef.current)) {
+        if (!isSearchbarEnabled && navbarHeight) {
+            if (offset > 0) {
+                offset > scrollOffsetRef.current ? hideNavbar() : showNavbar();
+            } else if (offset < 0) {
+                Math.abs(offset) > Math.abs(scrollOffsetRef.current) ? showNavbar() : hideNavbar();
+            }
+
+            function hideNavbar () {
                 props.closeOptions('fab');
                 f7.navbar.hide('.main-navbar');
                 api.SetMobileTopOffset(undefined, 0);
-            } else if(offset < 0 && Math.abs(offset) <= Math.abs(scrollOffsetRef.current)) {
+            };
+
+            function showNavbar () {
                 props.openOptions('fab');
                 f7.navbar.show('.main-navbar');
                 api.SetMobileTopOffset(undefined, navbarHeight);
-            }
+            };
 
             scrollOffsetRef.current = offset;
         }
     }
 
     // Back button
-    const [isShowBack, setShowBack] = useState(appOptions.canBackToFolder);
     const loadConfig = (data) => {
         if (data && data.config && data.config?.canBackToFolder !== false && data.config?.customization && data.config?.customization.goback) {
             const canback = data.config.customization.close === undefined ?
                 data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose :
                 data.config.customization.goback.url && !data.config.customization.goback.requestClose;
-            canback && setShowBack(true);
+            props.storeToolbarSettings.setShowBack(canback);
         }
     };
 
@@ -215,15 +231,30 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
         appOptions.changeViewerMode(true);
         api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
+        Common.Notifications.trigger('draw:stop');
     }
 
     const changeMobileView = () => {
         const api = Common.EditorApi.get();
-        const isMobileView = appOptions.isMobileView;
-
-        LocalStorage.setBool('mobile-view', !isMobileView);
+        LocalStorage.setBool('mobile-view', !appOptions.isMobileView);
         appOptions.changeMobileView();
         api.ChangeReaderMode();
+    }
+
+    const forceDesktopMode = () => {
+        f7.dialog.create({
+            text: t('Settings.textRestartApplication'),
+            title: t('Toolbar.textSwitchToDesktop'),
+            buttons: [
+                {
+                    text: t('Edit.textCancel')
+                },
+                {
+                    text: t('Toolbar.btnRestartNow'),
+                    onClick: () => Common.Gateway.switchEditorType('desktop', true),
+                }
+            ]}
+        ).open();
     }
 
     const changeTitleHandler = () => {
@@ -276,7 +307,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             ],
             on: {
                 opened: () => {
-                    const nameDoc = docTitle.split('.')[0];
+                    const nameDoc = docTitle.slice(0, docTitle.lastIndexOf("."));
                     const titleField = document.querySelector('#modal-title');
                     const btnChangeTitle = document.querySelector('.btn-change-title');
 
@@ -355,8 +386,8 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     }
 
     const saveForm = () => {
-        const isSubmitForm = canFillForms && canSubmitForms;
-        const isSavePdf = appOptions.canDownload && canFillForms && !canSubmitForms;
+        const isSubmitForm = appOptions.canFillForms && appOptions.canSubmitForms;
+        const isSavePdf = appOptions.canDownload && appOptions.canFillForms && !appOptions.canSubmitForms;
 
         if(isSubmitForm) submitForm();
         if(isSavePdf) saveAsPdf();
@@ -377,7 +408,20 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
     const submitForm = () => {
         const api = Common.EditorApi.get();
-        api.asc_SendForm();
+        if (!api.asc_IsAllRequiredFormsFilled()) {
+            f7.dialog.create({
+                title   : t('Main.notcriticalErrorTitle'),
+                text    : t('Toolbar.warnEmptyRequiredField'),
+                buttons : [
+                    {
+                        text: t('Toolbar.textOk'),
+                        onClick: () => api.asc_MoveToFillingForm(true, true, true)
+                    }
+                ]
+            }).open();
+        } else {
+            api.asc_SendForm();
+        }
     }
 
     return (
@@ -387,9 +431,10 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             isEdit={appOptions.isEdit}
             docTitle={docTitle}
             docExt={docExt}
-            isShowBack={isShowBack}
+            isShowBack={storeToolbarSettings.isShowBack}
             isCanUndo={isCanUndo}
             isCanRedo={isCanRedo}
+            isSignatureForm={isSignatureForm}
             onUndo={onUndo}
             onRedo={onRedo}
             isObjectLocked={objectLocked}
@@ -398,13 +443,15 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             disabledEditControls={disabledEditControls}
             disabledSettings={disabledSettings}
             displayCollaboration={displayCollaboration}
-            readerMode={readerMode}
+            readerMode={appOptions.readerMode}
             showEditDocument={showEditDocument}
             onEditDocument={onEditDocument}
             isDisconnected={isDisconnected}
             isViewer={isViewer}
+            isDrawMode={appOptions.isDrawMode}
             turnOnViewerMode={turnOnViewerMode}
-            isMobileView={isMobileView}
+            isMobileView={appOptions.isMobileView}
+            isMobileViewAvailable={appOptions.isMobileViewAvailable}
             changeMobileView={changeMobileView}
             changeTitleHandler={changeTitleHandler}
             isVersionHistoryMode={isVersionHistoryMode}
@@ -413,8 +460,11 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             moveNextField={moveNextField}
             movePrevField={movePrevField}
             saveForm={saveForm}
-            isForm={isForm}
-            canFillForms={canFillForms}
+            isForm={appOptions.isForm}
+            canFillForms={appOptions.canFillForms}
+            canSubmitForms={appOptions.canSubmitForms}
+            forceDesktopMode={forceDesktopMode}
+            isHiddenFileName={appOptions.config?.customization?.toolbarHideFileName ?? false}
         />
     )
 }));

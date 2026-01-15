@@ -44,11 +44,11 @@
     </tr>
     <tr>
         <td class="padding-small" width="50%">
-            <label class="input-label"><%= scope.strIndentsLeftText %></label>
+            <label id="paragraph-lbl-indent-left" class="input-label"><%= scope.strIndentsLeftText %></label>
             <div id="paragraph-spin-indent-left"></div>
         </td>
         <td class="padding-small" width="50%">
-            <label class="input-label"><%= scope.strIndentsRightText %></label>
+            <label id="paragraph-lbl-indent-right" class="input-label"><%= scope.strIndentsRightText %></label>
             <div id="paragraph-spin-indent-right"></div>
         </td>
     </tr>

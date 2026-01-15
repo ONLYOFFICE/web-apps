@@ -129,6 +129,7 @@ define([], function () {
                 Data: 5
             },
             isMobile = /android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera),
+            needRepaint = undefined,
             me = this,
             checkSize = function () {
                 var scale = {};
@@ -148,7 +149,7 @@ define([], function () {
                         "screen and (min-resolution: 2.25dppx), screen and (min-resolution: 216dpi)";
 
                     if (window.matchMedia(str_mq_125).matches) {
-                        scale.devicePixelRatio = 1.5;
+                        scale.devicePixelRatio = 1.25;
                     } else if (window.matchMedia(str_mq_150).matches) {
                         scale.devicePixelRatio = 1.5;
                     } else if (window.matchMedia(str_mq_175).matches) {
@@ -196,6 +197,13 @@ define([], function () {
                 me.innerWidth = window.innerWidth * me.zoom;
                 me.innerHeight = window.innerHeight * me.zoom;
                 me.applicationPixelRatio = scale.applicationPixelRatio || scale.devicePixelRatio;
+                if (me.innerWidth<1 && needRepaint===undefined)
+                    needRepaint = true;
+                else if (needRepaint && me.innerWidth>0) {
+                    needRepaint = false;
+                    jQuery.support && jQuery.support.forceStyleTests();
+                    Common.NotificationCenter.trigger('app:repaint');
+                }
             },
             checkSizeIE = function () {
                 me.innerWidth = window.innerWidth;
@@ -207,7 +215,7 @@ define([], function () {
                 return false;
             },
             getBoundingClientRect = function(element) {
-                let rect = element.getBoundingClientRect();
+                let rect = _extend_object({}, element.getBoundingClientRect());
                 if (!isOffsetUsedZoom())
                     return rect;
 
@@ -225,13 +233,13 @@ define([], function () {
                 return newRect;
             },
             getOffset = function($element) {
-                let pos = $element.offset();
+                let pos = _extend_object({}, $element.offset());
                 if (!isOffsetUsedZoom())
                     return pos;
                 return {left: pos.left * me.zoom, top: pos.top * me.zoom};
             },
             getPosition = function($element) {
-                let pos = $element.position();
+                let pos = _extend_object({}, $element.position());
                 if (!isOffsetUsedZoom())
                     return pos;
                 return {left: pos.left * me.zoom, top: pos.top * me.zoom};
@@ -914,7 +922,7 @@ define([], function () {
 
     Common.Utils.showBrowserRestriction = function () {
         if (document.getElementsByClassName && document.getElementsByClassName('app-error-panel').length > 0) return;
-        var editor = (window.DE ? 'Document' : window.SSE ? 'Spreadsheet' : window.PE ? 'Presentation' : window.PDFE ? 'PDF' : 'that');
+        var editor = (window.DE ? 'Document' : window.SSE ? 'Spreadsheet' : window.PE ? 'Presentation' : window.PDFE ? 'PDF' : window.VE ? 'Visio' : 'that');
         var newDiv = document.createElement("div");
         newDiv.innerHTML = '<div class="app-error-panel">' +
             '<div class="message-block">' +
@@ -1138,7 +1146,7 @@ define([], function () {
         });
     };
 
-    Common.Utils.injectButtons = function ($slots, id, iconCls, caption, lock, split, menu, toggle, dataHint, dataHintDirection, dataHintOffset, dataHintTitle) {
+    Common.Utils.injectButtons = function ($slots, id, iconCls, caption, lock, split, menu, toggle, dataHint, dataHintDirection, dataHintOffset, dataHintTitle, action) {
         var btnsArr = createButtonSet();
         btnsArr.setDisabled(true);
         id = id || ("id-toolbar-" + iconCls);
@@ -1157,6 +1165,7 @@ define([], function () {
                 enableToggle: toggle || false,
                 lock: lock,
                 disabled: true,
+                action: action,
                 dataHint: dataHint,
                 dataHintDirection: dataHintDirection,
                 dataHintOffset: dataHintOffset,
@@ -1205,7 +1214,7 @@ define([], function () {
         if (opts.disablefunc)
             opts.disablefunc(true);
 
-        var app = window.DE || window.PE || window.SSE || window.PDFE;
+        var app = window.DE || window.PE || window.SSE || window.PDFE || window.VE;
 
         Common.UI.warning({
             msg: Common.Locale.get("warnFileLocked", {
@@ -1281,7 +1290,7 @@ define([], function () {
 
     Common.Utils.InternalSettings.set('toolbar-height-tabs', 32);
     Common.Utils.InternalSettings.set('toolbar-height-tabs-top-title', 28);
-    Common.Utils.InternalSettings.set('toolbar-height-controls', 67);
+    Common.Utils.InternalSettings.set('toolbar-height-controls', parseInt(window.getComputedStyle(document.body).getPropertyValue("--toolbar-height-controls") || (Common.Utils.isIE ? 66 : 84)));
     Common.Utils.InternalSettings.set('document-title-height', 28);
     Common.Utils.InternalSettings.set('window-inactive-area-top', 0);
 
@@ -1369,7 +1378,7 @@ define([], function () {
         if (window.isrtl === undefined) {
             if (window.nativeprocvars && window.nativeprocvars.rtl !== undefined)
                 window.isrtl = window.nativeprocvars.rtl;
-            else window.isrtl = Common.Locale.isCurrentLanguageRtl() ? !Common.Utils.isIE && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()) : false;
+            else window.isrtl = !Common.Utils.isIE && Common.Locale.isCurrentLanguageRtl();
         }
 
         return window.isrtl;
@@ -1384,10 +1393,10 @@ define([], function () {
             theme-type - {string} theme type (light|dark|common)
             theme-name - {string} the name of theme
             state - {string} state of icons for different situations (normal|hover|active)
-            scale - {string} list of avaliable scales (100|125|150|175|200|default|extended)
+            scale - {string} list of avaliable scales (100|125|150|175|200|default|*)
             extension - {string} use it after symbol "." (png|jpeg|svg)
 
-            Example: "resources/%theme-type%(light|dark)/%state%(normal)/icon%scale%(default).%extension%(png)"
+            Example: "resources/%theme-type%(light|dark)/icon%state%(normal|hover)%scale%(default).%extension%(png)"
         */
         let params_array = {
             "theme-name" : { origin : "", values : [""] },
@@ -1396,6 +1405,9 @@ define([], function () {
             "scale" : { origin : "", values : [] },
             "extension" : { origin : "", values : [] }
         };
+
+        // For bug in version <= 8.2.0
+        let initScaleAddon = "";
 
         let param_parse = function(name) {
             let posOrigin = icons.indexOf("%" + name + "%");
@@ -1407,7 +1419,10 @@ define([], function () {
                 return;
             let pos2 = icons.indexOf(")", pos1);
             params_array[name].origin = icons.substring(posOrigin, pos2 + 1);
-            params_array[name].values = icons.substring(pos1 + 1, pos2).split("|");                    
+            params_array[name].values = icons.substring(pos1 + 1, pos2).split("|");
+
+            if ("scale" === name && posOrigin > 0 && icons.charCodeAt(posOrigin - 1) == 47)
+                initScaleAddon = "icon";
         };
 
         for (let name in params_array)
@@ -1486,7 +1501,7 @@ define([], function () {
 
                     let urlAll = url;
                     if (params_array["scale"].origin != "")
-                        urlAll = urlAll.replaceAll(params_array["scale"].origin, addonScale);
+                        urlAll = urlAll.replaceAll(params_array["scale"].origin, initScaleAddon + addonScale);
                     if (params_array["extension"].origin != "")
                         urlAll = urlAll.replaceAll(params_array["extension"].origin, (isAll && isSvgPresent) ? "svg" : rasterExt);
 
@@ -1545,7 +1560,7 @@ define([], function () {
                 bestUrl;
             for (var key in current) {
                 if (current.hasOwnProperty(key)) {
-                    if (key == 'default') {
+                    if (key == 'default' || key == '*') {
                         defUrl = current[key];
                     } else if (!isNaN(parseInt(key))) {
                         currentDistance = Math.abs(ratio - parseInt(key));
@@ -1583,5 +1598,23 @@ define([], function () {
         columns: 5,
         cls: 'palette-large',
         paletteWidth: 174
+    };
+
+    Common.UI.blockOperations = {
+        ApplyEditRights: -255,
+        LoadingDocument: -256,
+        UpdateChart: -257
+    };
+
+    Common.UI.isValidNumber = function (val) {
+        let regstr = new RegExp('^\s*[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)\s*$');
+        if (typeof val === 'string') {
+            let findComma = val.match(/,/g);
+            if (findComma && findComma.length === 1) {
+                val = val.replace(',','.');
+            }
+        }
+
+        return (typeof val === 'number') ||  !(val === '' || !regstr.test(val.trim()) || isNaN(parseFloat(val)));
     };
 });

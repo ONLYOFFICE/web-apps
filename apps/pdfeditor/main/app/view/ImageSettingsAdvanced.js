@@ -147,7 +147,6 @@ define([
                 this.spnWidth.setValue(this.sizeOriginal.width, true);
                 this.spnHeight.setValue(this.sizeOriginal.height, true);
                 this._nRatio = this.sizeOriginal.width/this.sizeOriginal.height;
-                this._isDefaultSize = true;
             }, this));
 
             this.btnRatio = new Common.UI.Button({

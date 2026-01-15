@@ -59,7 +59,7 @@ define([
                     {value: 'ok', caption: this.textGoTo, primary: true},
                     'close'
                 ],
-                contentStyle: 'padding: 0;',
+                contentStyle: 'padding: 5px 0 0;',
                 contentTemplate: _.template([
                     '<div class="settings-panel active">',
                         '<div class="inner-content">',
@@ -251,22 +251,23 @@ define([
         onDelete: function () {
             var me = this,
                 rec = this.viewList.getSelectedRec(),
-                res;
+                warnMsg;
             if (rec) {
                 if (rec.get('active')) {
-                    Common.UI.warning({
-                        msg: this.warnDeleteView.replace('%1', Common.Utils.String.htmlEncode(rec.get('name'))),
-                        buttons: ['yes', 'no'],
-                        primary: 'yes',
-                        callback: function(btn) {
-                            if (btn == 'yes') {
-                                me.api.asc_deleteNamedSheetViews([rec.get('view')]);
-                            }
-                        }
-                    });
+                    warnMsg = this.warnDeleteView.replace('%1', Common.Utils.String.htmlEncode(rec.get('name')));
                 } else {
-                    this.api.asc_deleteNamedSheetViews([rec.get('view')]);
+                    warnMsg = this.warnDeleteAnotherView;
                 }
+                Common.UI.warning({
+                    msg: warnMsg,
+                    buttons: ['yes', 'no'],
+                    primary: 'yes',
+                    callback: function(btn) {
+                        if (btn == 'yes') {
+                            me.api.asc_deleteNamedSheetViews([rec.get('view')]);
+                        }
+                    }
+                });
             }
         },
 
@@ -379,6 +380,7 @@ define([
         textRenameLabel: 'Rename view',
         textRenameError: 'View name must not be empty.',
         warnDeleteView: "You are trying to delete the currently enabled view '%1'.<br>Close this view and delete it?",
+        warnDeleteAnotherView: 'Are you sure you want to delete this sheet view?',
         textLongName: 'Enter a name that is less than 128 characters.',
         lockText: 'Locked'
 

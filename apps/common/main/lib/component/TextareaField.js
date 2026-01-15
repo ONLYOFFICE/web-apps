@@ -39,11 +39,7 @@
 if (Common === undefined)
     var Common = {};
 
-define([
-    'common/main/lib/component/BaseView',
-    'common/main/lib/component/Tooltip'
-], function () { 'use strict';
-
+define([], function () { 'use strict';
     Common.UI.TextareaField = Common.UI.BaseView.extend((function() {
         return {
             options : {

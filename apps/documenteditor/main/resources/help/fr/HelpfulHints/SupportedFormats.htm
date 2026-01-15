@@ -3,21 +3,21 @@
 	<head>
 		<title>Formats des documents électroniques pris en charge</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="La liste des formats pris en charge par l'éditeur de documents" />
+		<meta name="description" content="Liste des formats de documents pris en charge par l'éditeur de documents" />
 		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
 		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
-    </head>
-    <body>
-        <div class="mainpart">
+	</head>
+	<body>
+		<div class="mainpart">
         <div class="search-field">
             <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
         </div>
 		<h1>Formats des documents électroniques pris en charge</h1>
-		<p>
-			Les documents électroniques représentent l'un des types des fichiers les plus utilisés en informatique. Grâce à l'utilisation du réseau informatique tant développé aujourd'hui, il est possible et plus pratique de distribuer des documents électroniques que des versions imprimées. Les formats de fichier ouverts et propriétaires sont bien nombreux à cause de la variété des périphériques utilisés pour la présentation des documents. <a href="https://www.onlyoffice.com/fr/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>L'éditeur de documents</b></a> prend en charge les formats les plus populaires.
-		</p>
+        <p>
+            Les documents électroniques sont de plus en plus utilisés fichiers informatiques. Grâce à l'utilisation du réseau informatique tant développé aujourd'hui, il est possible et plus pratique de distribuer des documents électroniques que des versions imprimées. Les formats de fichier ouverts et propriétaires sont bien nombreux à cause de la variété des périphériques utilisés pour la présentation des documents. <a href="https://www.onlyoffice.com/fr/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>L'éditeur de documents</b></a> prend en charge les formats les plus populaires.
+        </p>
             <p class="note">Lors du téléchargement ou de l'ouverture d'un fichier, celui-ci sera converti au format Open Office XML (DOCX). Cette conversion permet d'accélérer le traitement des fichiers et d'améliorer l'interopérabilité des données.</p>
             <p>Le tableau ci-dessous présente les formats de fichiers pour l'affichage et/ou pour l'édition.</p>
             <table>
@@ -79,7 +79,15 @@
                 </tr>
                 <tr>
                     <td>EPUB</td>
-                    <td>Electronic Publication<br />Le format ebook standardisé, gratuit et ouvert créé par l'International Digital Publishing Forum</td>
+                    <td>Electronic Publication<br />Le format ebook standardisé, gratuit et ouvert créé par International Digital Publishing Forum</td>
+                    <td></td>
+                    <td>+</td>
+                    <td></td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>FODT</td>
+                    <td>Un document texte sauvegardé dans le format OpenDocument, mais stocké comme un document XML.</td>
                     <td></td>
                     <td>+</td>
                     <td></td>
@@ -88,14 +96,6 @@
                 <tr>
                     <td>FB2</td>
                     <td>Une extension de livres électroniques qui peut être lancé par votre ordinateur ou appareil mobile</td>
-                    <td></td>
-                    <td>+</td>
-                    <td></td>
-                    <td>+</td>
-                </tr>
-                <tr>
-                    <td>FODT</td>
-                    <td>OpenDocument Flat XML<br />Un document texte sauvegardé dans le format OpenDocument format, mais stocké comme un document XML brut au lieu du conteneur .ZIP qui est utilisé avec des fichier .ODT.</td>
                     <td></td>
                     <td>+</td>
                     <td></td>
@@ -119,7 +119,7 @@
                 </tr>
                 <tr>
                     <td>ODT</td>
-                    <td>Le format de fichier du traitement textuel d'OpenDocument, le standard ouvert pour les documents électroniques</td>
+                    <td>Le format de fichier du traitement textuel OpenDocument, le standard ouvert pour les documents électroniques</td>
                     <td></td>
                     <td>+</td>
                     <td></td>
@@ -127,10 +127,10 @@
                 </tr>
                 <tr>
                     <td>OFORM</td>
-                    <td>Le format pour remplir un formulaire. Des champs du formulaire sont modifiables mais on ne peut pas modifier la mise en forme ou configurer les paramètres des éléments du formulaire.</td>
+                    <td>Un format ancien pour remplir un formulaire. On vous invitera à enregistrer le fichier sous PDF pour pouvoir le remplir.</td>
                     <td>+</td>
                     <td></td>
-                    <td>+</td>
+                    <td></td>
                     <td></td>
                 </tr>
                 <tr>
@@ -222,8 +222,7 @@
                     <td></td>
                 </tr>
             </table>
-			<p class="note"><b>*Remarque</b>: le format OFORM c'est un format qui sert à remplir un formulaire. Alors, ce sont des champs du formulaire qui sont modifiables.</p>
-            <p>Le tableau ci-dessous présente les formats pris en charge pour le téléchargement d'un document dans le menu <b>Fichier</b> -> <b>Télécharger comme</b>.</p>
+			<p>Le tableau ci-dessous présente les formats pris en charge pour le téléchargement d'un document dans le menu <b>Fichier</b> -> <b>Télécharger comme</b>.</p>
             <table>
                 <tr>
                     <td><b>Format en entrée</b></td>
@@ -231,43 +230,39 @@
                 </tr>
                 <tr>
                     <td>DjVu</td>
-                    <td>DjVu, JPG, PDF, PDF/A, PNG</td>
+                    <td>DjVu, PDF</td>
                 </tr>
                 <tr>
                     <td>DOC</td>
-                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OFORM, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
+                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
                 </tr>
                 <tr>
                     <td>DOCM</td>
-                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OFORM, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
+                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
                 </tr>
                 <tr>
                     <td>DOCX</td>
-                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OFORM, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
+                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
                 </tr>
                 <tr>
                     <td>DOCXF</td>
-                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OFORM, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
+                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
                 </tr>
                 <tr>
                     <td>DOTX</td>
-                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OFORM, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
+                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
                 </tr>
                 <tr>
                     <td>EPUB</td>
-                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OFORM, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
+                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
                 </tr>
                 <tr>
                     <td>FB2</td>
-                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OFORM, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
-                </tr>
-                <tr>
-                    <td>FODT</td>
-                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OFORM, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
+                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
                 </tr>
                 <tr>
                     <td>HTML</td>
-                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OFORM, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
+                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
                 </tr>
                 <tr>
                     <td>MHTML</td>
@@ -275,27 +270,27 @@
                 </tr>
                 <tr>
                     <td>ODT</td>
-                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OFORM, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
+                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
                 </tr>
-                <tr>
+                <!--<tr>
                     <td>OFORM</td>
-                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OFORM, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
-                </tr>
+                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
+                </tr>-->
                 <tr>
                     <td>OTT</td>
-                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OFORM, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
+                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
                 </tr>
                 <tr>
                     <td>PDF</td>
-                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OFORM, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
+                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, PDF/A, PNG, RTF, TXT</td>
                 </tr>
                 <tr>
                     <td>PDF/A</td>
-                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OFORM, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
+                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, PDF, PNG, RTF, TXT</td>
                 </tr>
                 <tr>
                     <td>RTF</td>
-                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OFORM, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
+                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
                 </tr>
                 <tr>
                     <td>STW</td>
@@ -307,7 +302,7 @@
                 </tr>
                 <tr>
                     <td>TXT</td>
-                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OFORM, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
+                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
                 </tr>
                 <tr>
                     <td>WPS</td>
@@ -319,14 +314,14 @@
                 </tr>
                 <tr>
                     <td>XML</td>
-                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OFORM, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
+                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
                 </tr>
                 <tr>
                     <td>XPS</td>
-                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OFORM, OTT, PDF, PDF/A, PNG, RTF, TXT</td>
+                    <td>DOCX, DOCXF, DOTX, EPUB, FB2, HTML, JPG, ODT, OTT, PDF, PDF/A, PNG, RTF, TXT, XPS</td>
                 </tr>
             </table>
-            <p>Veuillez consulter la matrice de conversion sur <a href="https://api.onlyoffice.com/editors/conversionapi#text-matrix" target="_blank" onclick="onhyperlinkclick(this)"><b>api.onlyoffice.com</b></a> pour vérifier s'il est possible de convertir vos documents dans des formats les plus populaires.</p>
+            <p>Veuillez consulter la matrice de conversion sur <a href="https://api.onlyoffice.com/docs/docs-api/additional-api/conversion-api/conversion-tables/#text-document-file-formats" target="_blank" onclick="onhyperlinkclick(this)"><b>api.onlyoffice.com</b></a> pour vérifier s'il est possible de convertir vos documents dans des formats les plus populaires.</p>
 		</div>
 	</body>
 </html>

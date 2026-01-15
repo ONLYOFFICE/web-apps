@@ -233,9 +233,10 @@ define([
         '</div>';
 
     var getWidthOfCaption = function (txt) {
+        var props = Common.UI.Themes.getThemeProps('font');
         var el = document.createElement('span');
-        el.style.fontSize = document.documentElement.style.getPropertyValue("--font-size-base-app-custom") || '11px';
-        el.style.fontFamily = 'Arial, Helvetica, "Helvetica Neue", sans-serif';
+        el.style.fontSize = props && props.size ? props.size : '11px';
+        el.style.fontFamily = props && props.name ? props.name : 'Arial, Helvetica, "Helvetica Neue", sans-serif';
         el.style.position = "absolute";
         el.style.top = '-1000px';
         el.style.left = '-1000px';
@@ -277,7 +278,8 @@ define([
             dataHintOffset: '0, 0',
             scaling         : true,
             canFocused      : false, // used for button with menu
-            takeFocusOnClose: false // used for button with menu, for future use in toolbar when canFocused=true, but takeFocusOnClose=false
+            takeFocusOnClose: false, // used for button with menu, for future use in toolbar when canFocused=true, but takeFocusOnClose=false
+            action: '' // action for button
         },
 
         template: _.template([
@@ -353,6 +355,7 @@ define([
             me.rendered     = false;
             me.stopPropagation = me.options.stopPropagation;
             me.delayRenderHint = me.options.delayRenderHint;
+            me.action = me.options.action || '';
 
             // if ( /(?<!-)svg-icon(?!-)/.test(me.options.iconCls) )
             //     me.options.scaling = false;
@@ -640,6 +643,8 @@ define([
                     var ariaLabel = me.options.ariaLabel ? me.options.ariaLabel : ((typeof me.options.hint == 'string') ? me.options.hint : me.options.hint[0]);
                     $btn.attr('aria-label', ariaLabel);
                 }
+
+                Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
             }
 
             me.rendered = true;
@@ -809,6 +814,12 @@ define([
         setVisible: function(visible) {
             if (this.cmpEl) this.cmpEl.toggleClass('hidden', !visible);
             this.visible = visible;
+
+            if ( !!this.options.signals ) {
+                if ( !(this.options.signals.indexOf('visible') < 0) ) {
+                    this.trigger('visible', this, visible);
+                }
+            }
         },
 
         isVisible: function() {
@@ -847,7 +858,8 @@ define([
                             html: !!isHtml,
                             title       : (typeof me.options.hint == 'string') ? me.options.hint : me.options.hint[0],
                             placement   : me.options.hintAnchor||'cursor',
-                            zIndex : tipZIndex
+                            zIndex : tipZIndex,
+                            container   : me.options.hintContainer
                         });
                         !Common.Utils.isGecko && (me.btnEl.data('bs.tooltip').enabled = !me.disabled);
                         me.btnEl.mouseenter();
@@ -857,7 +869,8 @@ define([
                             html: !!isHtml,
                             title       : me.options.hint[1],
                             placement   : me.options.hintAnchor||'cursor',
-                            zIndex : tipZIndex
+                            zIndex : tipZIndex,
+                            container   : me.options.hintContainer
                         });
                         !Common.Utils.isGecko && (me.btnMenuEl.data('bs.tooltip').enabled = !me.disabled);
                         me.btnMenuEl.mouseenter();
@@ -867,13 +880,15 @@ define([
                         html: !!isHtml,
                         title       : (typeof this.options.hint == 'string') ? this.options.hint : this.options.hint[0],
                         placement   : this.options.hintAnchor||'cursor',
-                        zIndex      : tipZIndex
+                        zIndex      : tipZIndex,
+                        container   : this.options.hintContainer
                     });
                     this.btnMenuEl && this.btnMenuEl.tooltip({
                         html: !!isHtml,
                         title       : this.options.hint[1],
                         placement   : this.options.hintAnchor||'cursor',
-                        zIndex      : tipZIndex
+                        zIndex      : tipZIndex,
+                        container   : this.options.hintContainer
                     });
                 }
                 if (modalParents.length > 0) {
@@ -903,6 +918,7 @@ define([
 
         updateHint: function(hint, isHtml) {
             this.options.hint = hint;
+            this.hint = hint;
             if (!this.rendered) return;
 
             this.createHint(hint, isHtml);
@@ -958,6 +974,7 @@ define([
                     this.menu.render(this.cmpEl);
                     this.options.canFocused && this.attachKeyEvents();
                 }
+                this.trigger('menu:created', this);
             }
         },
 
@@ -1021,6 +1038,20 @@ define([
             if (!this.disabled) {
                 this.split ? this.cmpEl.attr('tabindex', this.tabindex) : this.$el && this.$el.find('button').addBack().filter('button').attr('tabindex', this.tabindex);
             }
+        },
+
+        onThemeChanged: function() {
+            if (!this.rendered) return;
+
+            var el = this.cmpEl;
+            if (this.options.width>0) {
+                el && el.hasClass('btn-group') && el.hasClass('split') && $('button:first', el).css('width', this.options.width - $('[data-toggle^=dropdown]', el).outerWidth());
+            } else if (el && this.caption && /icon-top/.test(this.options.cls) && /huge/.test(this.options.cls)) { // recalc captions of huge button
+                var captionNode = el.find('.caption');
+                if (captionNode.length > 0) {
+                    captionNode.html((this.split || this.menu) ? _.template(templateBtnCaption)({caption: this.caption}) : this.caption);
+                }
+            }
         }
     });
 
@@ -1029,10 +1060,11 @@ define([
             options.iconCls = 'icon-custom ' + (options.iconCls || '');
             Common.UI.Button.prototype.initialize.call(this, options);
 
+            this.baseUrl = options.baseUrl || '';
             this.iconsSet = Common.UI.iconsStr2IconsObj(options.iconsSet || ['']);
             var icons = Common.UI.getSuitableIcons(this.iconsSet);
-            this.iconNormalImg = icons['normal'];
-            this.iconActiveImg = icons['active'];
+            this.iconNormalImg = this.baseUrl + icons['normal'];
+            this.iconActiveImg = this.baseUrl + icons['active'];
         },
 
         render: function (parentEl) {
@@ -1054,7 +1086,6 @@ define([
                     attributeFilter : ['class'],
                 });
 
-            if (this.menu && !this.split) {
                 var onMouseDown = function (e) {
                     _callback();
                     $(document).on('mouseup',   onMouseUp);
@@ -1064,16 +1095,23 @@ define([
                     $(document).off('mouseup',   onMouseUp);
                 };
                 this.cmpButtonFirst.on('mousedown', _.bind(onMouseDown, this));
-            }
 
             this.updateIcon();
             Common.NotificationCenter.on('uitheme:changed', this.updateIcons.bind(this));
+
+            if (this.cmpEl && this.options.customAttributes) {
+                for (var key in this.options.customAttributes) {
+                    if (Object.prototype.hasOwnProperty.call(this.options.customAttributes, key)) {
+                        this.cmpEl.attr(Common.Utils.String.htmlEncode(key), Common.Utils.String.htmlEncode(this.options.customAttributes[key]));
+                    }
+                }
+            }
         },
 
         updateIcons: function() {
             var icons = Common.UI.getSuitableIcons(this.iconsSet);
-            this.iconNormalImg = icons['normal'];
-            this.iconActiveImg = icons['active'];
+            this.iconNormalImg = this.baseUrl + icons['normal'];
+            this.iconActiveImg = this.baseUrl + icons['active'];
             this.updateIcon();
         },
 
@@ -1088,5 +1126,46 @@ define([
             }
         }
     }, Common.UI.ButtonCustom || {}));
+
+    Common.UI.GroupedButtons = function (buttons, opts) {
+        let _buttons = buttons,
+            _parent = buttons && buttons.length>0 && buttons[0].cmpEl ? buttons[0].cmpEl.parent() : null;
+
+        _parent.addClass('grouped-buttons');
+
+        if (opts) {
+            opts.underline && _parent.addClass('underline');
+            opts.flat && _parent.addClass('flat');
+        }
+
+        let _update = function() {
+            let first, last;
+            _buttons && _buttons.forEach(function(item) {
+                if (!first && item.isVisible()) {
+                    first = true;
+                    item.cmpEl.addClass('first');
+                } else
+                    item.cmpEl.removeClass('first');
+                item.cmpEl.removeClass('last');
+                item.isVisible() && (last = item);
+            });
+            last && last.cmpEl.addClass('last');
+        };
+
+        let _init = function() {
+            _buttons && _buttons.forEach(function(item) {
+                item.options.signals = item.options.signals || [];
+                item.options.signals.push('visible');
+                item.on('visible', _update);
+            });
+        };
+
+        _init();
+        _update();
+
+        return {
+            update: _update
+        }
+    };
 });
 

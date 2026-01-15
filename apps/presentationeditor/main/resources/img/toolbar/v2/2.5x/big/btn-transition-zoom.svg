@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 28 28">
+  <path fill="currentColor" d="M23 7H8v12h15z" class="icon-fill-blue-secondary"/>
+  <path stroke="currentColor" d="M18.5 20.5v2a1 1 0 0 1-1 1h-13a1 1 0 0 1-1-1v-10a1 1 0 0 1 1-1h2m12 9h5a1 1 0 0 0 1-1v-13a1 1 0 0 0-1-1h-16a1 1 0 0 0-1 1v5m12 9h-11a1 1 0 0 1-1-1v-8" class="icon-stroke-gray-primary"/>
+</svg>

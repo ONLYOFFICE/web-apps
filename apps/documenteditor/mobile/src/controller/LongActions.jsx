@@ -17,6 +17,7 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
     });
 
     let loadMask = null;
+    let submitFail = false;
 
     const closePreloader = () => {
         if (loadMask && loadMask.el) {
@@ -30,6 +31,7 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
             api.asc_registerCallback('asc_onEndAction', onLongActionEnd);
             api.asc_registerCallback('asc_onOpenDocumentProgress', onOpenDocument);
             api.asc_registerCallback('asc_onConfirmAction', onConfirmAction);
+            api.asc_registerCallback('asc_onError', onError);
         };
 
         const api = Common.EditorApi.get();
@@ -47,6 +49,7 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
                 api.asc_unregisterCallback('asc_onEndAction', onLongActionEnd);
                 api.asc_unregisterCallback('asc_onOpenDocumentProgress', onOpenDocument);
                 api.asc_unregisterCallback('asc_onConfirmAction', onConfirmAction);
+                api.asc_unregisterCallback('asc_onError', onError);
             }
             
             Common.Notifications.off('engineCreated', on_engine_created);
@@ -59,6 +62,9 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
     const onLongActionBegin = (type, id) => {
         const action = {id: id, type: type};
         stackLongActions.push(action);
+        if (id===Asc.c_oAscAsyncAction['Submit']) {
+            submitFail = false;
+        }
         setLongActionView(action);
     };
 
@@ -78,6 +84,9 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
             loadMask && loadMask.el && loadMask.el.classList.contains('modal-in') ?
             f7.dialog.close(loadMask.el) :
             f7.dialog.close($$('.dialog-preloader'));
+        }
+        if (id===Asc.c_oAscAsyncAction['Submit'] && !submitFail) {
+            Common.Gateway.submitForm();
         }
     };
 
@@ -163,6 +172,10 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
                 // text    = _t.waitText;
                 break;
 
+            case Asc.c_oAscAsyncAction['Submit']:
+                title   = _t.savingText;
+                break;
+
             case ApplyEditRights:
                 title   = _t.txtEditingMode;
                 // text    = _t.txtEditingMode;
@@ -226,7 +239,13 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
 
             $title.innerHTML = `${_t.textLoadingDocument}: ${Math.min(Math.round(proc * 100), 100)}%`;
         }
-    }
+    };
+
+    const onError = (id, level, errData) => {
+        if (id===Asc.c_oAscError.ID.Submit) {
+            submitFail = true;
+        }
+    };
 
     return null;
 });

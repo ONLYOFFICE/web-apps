@@ -133,17 +133,21 @@ require([
             'Main',
             'ViewTab',
             'InsTab',
+            'RedactTab',
             'Search',
             'Print',
+            'FormsTab',
             'Common.Controllers.Fonts'
             ,'Common.Controllers.History'
             ,'Common.Controllers.Chat'
             ,'Common.Controllers.Comments'
             ,'Common.Controllers.Draw'
+            ,'Common.Controllers.ExternalLinks'
             ,'Common.Controllers.Plugins'
-            // ,'Common.Controllers.ExternalDiagramEditor'
+            ,'Common.Controllers.ExternalDiagramEditor'
             // ,'Common.Controllers.ExternalOleEditor'
             ,'Common.Controllers.Protection'
+            ,'Common.Controllers.Shortcuts'
             ,'Common.Controllers.ReviewChanges'
         ]
     });
@@ -169,18 +173,23 @@ require([
                 'pdfeditor/main/app/controller/Main',
                 'pdfeditor/main/app/controller/ViewTab',
                 'pdfeditor/main/app/controller/InsTab',
+                'pdfeditor/main/app/controller/RedactTab',
                 'pdfeditor/main/app/controller/Search',
                 'pdfeditor/main/app/controller/Print',
+                'pdfeditor/main/app/controller/FormsTab',
+                'pdfeditor/main/app/view/ChartSettings',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Fonts',
                 'common/main/lib/controller/History',
                 'common/main/lib/controller/Comments'
                 ,'common/main/lib/controller/Chat'
                 ,'common/main/lib/controller/Plugins'
-                // ,'common/main/lib/controller/ExternalDiagramEditor'
+                ,'common/main/lib/controller/ExternalDiagramEditor'
+                ,'common/main/lib/controller/ExternalLinks'
                 // ,'common/main/lib/controller/ExternalOleEditor'
                 ,'common/main/lib/controller/Draw'
                 ,'common/main/lib/controller/Protection'
+                ,'common/main/lib/controller/Shortcuts'
                 ,'common/main/lib/controller/ReviewChanges'
             ], function() {
                 app.postLaunchScripts = [
@@ -197,22 +206,34 @@ require([
                     'common/main/lib/view/InsertTableDialog',
                     'common/main/lib/view/SearchDialog',
                     'common/main/lib/view/RenameDialog',
+                    'common/main/lib/view/ExternalEditor',
+                    'common/main/lib/view/ExternalDiagramEditor',
+                    'common/main/lib/view/FormatSettingsDialog',
                     'common/main/lib/view/PluginDlg',
                     'common/main/lib/view/PluginPanel',
                     'common/main/lib/view/ShapeShadowDialog',
                     'common/main/lib/view/DocumentHolderExt',
                     'common/main/lib/util/define',
                     'common/main/lib/view/ListSettingsDialog',
+                    'common/main/lib/view/ExternalLinksDlg',
                     'common/main/lib/view/CustomizeQuickAccessDialog',
                     'common/main/lib/view/PasswordDialog',
+                    'common/main/lib/component/TextareaField',
+                    'common/main/lib/view/ShortcutsDialog',
+                    'common/main/lib/view/ShortcutsEditDialog',
 
+                    'pdfeditor/main/app/controller/DocumentHolderExt',
                     'pdfeditor/main/app/view/FileMenuPanels',
                     'pdfeditor/main/app/view/DocumentHolderExt',
+                    'pdfeditor/main/app/view/FormsTab',
+                    'pdfeditor/main/app/view/FormSettings',
                     'pdfeditor/main/app/view/ParagraphSettingsAdvanced',
                     'pdfeditor/main/app/view/ImageSettingsAdvanced',
                     'pdfeditor/main/app/view/HyperlinkSettingsDialog',
                     'pdfeditor/main/app/view/ShapeSettingsAdvanced',
-                    'pdfeditor/main/app/view/TableSettingsAdvanced'
+                    'pdfeditor/main/app/view/TableSettingsAdvanced',
+                    'pdfeditor/main/app/view/FormatSettingsDialog',
+                    'pdfeditor/main/app/view/ChartSettingsAdvanced'
                 ];
 
                 window.compareVersions = true;

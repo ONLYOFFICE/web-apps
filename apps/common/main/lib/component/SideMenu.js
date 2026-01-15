@@ -62,6 +62,7 @@ define([
                     })
                 });
                 this.btnMore.menu.on('item:click', _.bind(this.onMenuMore, this));
+                this.btnMore.menu.on('item:custom-click', _.bind(this.onMenuMore, this));
                 this.btnMore.menu.on('show:before', _.bind(this.onShowBeforeMoreMenu, this));
                 this.btnMore.hide();
 
@@ -120,12 +121,12 @@ define([
                         if (index >= last) {
                             if (btn.options.iconImg) {
                                 arrMore.push({
-                                    caption: Common.Utils.String.htmlEncode(btn.hint),
+                                    caption: btn.hint,
                                     iconImg: btn.options.iconImg,
                                     template: _.template([
                                         '<a id="<%= id %>" class="menu-item" tabindex="-1" type="menuitem">',
                                         '<img class="menu-item-icon" src="<%= options.iconImg %>">',
-                                        '<%= caption %>',
+                                        '<%- caption %>',
                                         '</a>'
                                     ].join('')),
                                     value: index,
@@ -133,9 +134,20 @@ define([
                                     checkmark: false,
                                     checkable: true
                                 })
+                            } else if (btn.options.iconsSet) {
+                                arrMore.push(new Common.UI.MenuItemCustom({
+                                    caption: btn.hint,
+                                    iconsSet: btn.options.iconsSet,
+                                    baseUrl: btn.options.baseUrl,
+                                    value: index,
+                                    disabled: btn.isDisabled(),
+                                    toggleGroup: 'sideMenuItems',
+                                    checkmark: false,
+                                    checkable: true
+                                }));
                             } else {
                                 arrMore.push({
-                                    caption: Common.Utils.String.htmlEncode(btn.hint),
+                                    caption: btn.hint,
                                     iconCls: 'menu__icon ' + btn.iconCls,
                                     value: index,
                                     disabled: btn.isDisabled(),
@@ -164,6 +176,13 @@ define([
                 }
             },
 
+            clearMoreButton: function() {
+                this.buttons && this.buttons.forEach(function (btn) {
+                    btn.cmpEl.show();
+                });
+                this.btnMore.hide();
+            },
+
             onMenuMore: function (menu, item) {
                 var btn = this.buttons[item.value];
                 if (btn.cmpEl.prop('id') !== 'left-btn-support')
@@ -190,7 +209,7 @@ define([
             setDisabledMoreMenuItem: function (btn, disabled) {
                 if (this.btnMore && !btn.cmpEl.is(':visible')) {
                     var index =_.indexOf(this.buttons, btn),
-                        item = _.findWhere(this.btnMore.menu.items, {value: index})
+                        item = _.findWhere(this.btnMore.menu.items, {value: index});
                     item && item.setDisabled(disabled);
                 }
             },
@@ -211,6 +230,10 @@ define([
                         me.setDisabledMoreMenuItem(btn, disabled);
                     }
                 });
+            },
+
+            isButtonInMoreMenu: function (btn) {
+                return _.indexOf(this.buttons, btn)>-1;
             },
 
             getPluginButton: function (guid) {
@@ -272,9 +295,11 @@ define([
                         index = arr[1],
                         menuItem = _.findWhere(me.btnMore.menu.items, {value: index}),
                         src = item.baseUrl + item.parsedIcons['normal'];
-                    btn.options.iconImg = src;
-                    btn.cmpEl.find("img").attr("src", src);
-                    if (menuItem) {
+                    if (!btn.options.iconsSet) {// updated automatically if has iconsSet
+                        btn.options.iconImg = src;
+                        btn.cmpEl.find("img").attr("src", src);
+                    }
+                    if (menuItem && !menuItem.options.iconsSet) {// updated automatically if has iconsSet
                         menuItem.cmpEl.find("img").attr("src", src);
                     }
                 });

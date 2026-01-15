@@ -114,6 +114,16 @@
                         "text": "../vendor/requirejs-text/text"
                     }
                 }
+            },
+            "babel": {
+                "files": [
+                    {
+                        "expand": true,
+                        "cwd": "../deploy/web-apps/apps/documenteditor/forms/",
+                        "src": "*.js",
+                        "dest": "../deploy/web-apps/apps/documenteditor/forms/ie"
+                    }
+                ]
             }
         },
         "less": {

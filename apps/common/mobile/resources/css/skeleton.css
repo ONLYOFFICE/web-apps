@@ -7,6 +7,7 @@ body.theme-type-light {
     --background-navbar-word: #446995;
     --background-navbar-cell: #40865c;
     --background-navbar-slide: #BE664F;
+    --background-navbar-visio: #444796;
 }
 
 body.theme-type-dark {
@@ -14,10 +15,14 @@ body.theme-type-dark {
     --background-navbar-word: #232323;
     --background-navbar-cell: #232323;
     --background-navbar-slide: #232323;
+    --background-navbar-visio: #232323;
+    --background-navbar-pdf: #232323;
+
+    background-color: var(--background-primary, #232323);
 }
 
 .skl-navbar {
-    --box-logo-height: 0;
+    --box-logo-height: 0px;
     --skl-navbar-height: 44px;
     --skl-pixel-ratio: 1;
 }
@@ -52,12 +57,20 @@ body.theme-type-dark {
     background-color: var(--background-navbar-word, #446995);
 }
 
+.skl-navbar.skl-navbar--word.skl-navbar--md.pdf-view {
+    background-color: var(--background-navbar-pdf, #AA5252);
+}
+
 .skl-navbar.skl-navbar--cell.skl-navbar--md {
     background-color: var(--background-navbar-cell, #40865c);
 }
 
 .skl-navbar.skl-navbar--slide.skl-navbar--md {
     background-color: var(--background-navbar-slide, #BE664F);
+}
+
+.skl-navbar.skl-navbar--visio.skl-navbar--md {
+    background-color: var(--background-navbar-visio, #444796);
 }
 
 .skl-navbar::before {
@@ -136,11 +149,23 @@ body.theme-type-dark {
     height: 26px;
 }
 
+.ios .subnavbar .subnavbar-inner .right a + a {
+    margin-left: 0;
+}
+
+.ios .subnavbar .subnavbar-inner {
+    padding-right: 0;
+}
+
 :root .theme-type-dark {
     --f7-navbar-bg-color: #232323;
     --f7-bars-bg-color-rgb: 35,35,35;
     --f7-subnavbar-bg-color: #232323;
     --f7-bars-translucent-opacity: 1;
+}
+
+.word-editor {
+    --skl-toolbar-icons: var(--toolbar-icons, #446995);
 }
 
 .md .word-editor {
@@ -149,14 +174,42 @@ body.theme-type-dark {
     --f7-subnavbar-height: 56px;
 }
 
+.cell-editor {
+    --skl-toolbar-icons: var(--toolbar-icons, #40865c);
+}
+
 .md .cell-editor {
     --f7-navbar-bg-color: var(--background-navbar-cell, #40865c);
     --f7-subnavbar-bg-color: var(--background-navbar-cell, #40865c);
     --f7-subnavbar-height: 56px;
 }
 
+.slide-editor {
+    --skl-toolbar-icons: var(--toolbar-icons, #BE664F);
+}
+
 .md .slide-editor {
     --f7-navbar-bg-color: var(--background-navbar-slide, #BE664F);
     --f7-subnavbar-bg-color: var(--background-navbar-slide, #BE664F);
     --f7-subnavbar-height: 56px;
+}
+
+.visio-editor {
+    --skl-toolbar-icons: var(--toolbar-icons, #444796);
+}
+
+.md .visio-editor {
+    --f7-navbar-bg-color: var(--background-navbar-visio, #444796);
+    --f7-subnavbar-bg-color: var(--background-navbar-visio, #444796);
+    --f7-subnavbar-height: 56px;
+}
+
+.md .theme-type-light {
+    --skl-toolbar-icons: var(--toolbar-icons, #fff);
+}
+
+.icon-svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--skl-toolbar-icons);
 }

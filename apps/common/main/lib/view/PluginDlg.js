@@ -88,6 +88,7 @@ define([], function () {
             this._headerFooterHeight += ((parseInt(this.$window.css('border-top-width')) + parseInt(this.$window.css('border-bottom-width'))));
 
             if (Common.Utils.innerHeight()-this.bordersOffset*2 < this.options.contentHeight + this._headerFooterHeight) {
+                this._restoreHeight = this.options.contentHeight + this._headerFooterHeight;
                 this.options.contentHeight = Common.Utils.innerHeight()-this.bordersOffset*2 - this._headerFooterHeight;
                 this.boxEl.css('height', this.options.contentHeight);
             }
@@ -119,7 +120,7 @@ define([], function () {
 
             iframe.src = this.url;
             pholder.append(iframe);
-
+            this.frame = iframe;
             this.on('resizing', function(args){
                 me.boxEl.css('height', parseInt(me.$window.css('height')) - me._headerFooterHeight);
             });
@@ -131,6 +132,10 @@ define([], function () {
             this.on('close', function() {
                 $(window).off('resize', onMainWindowResize);
             });
+
+            if(this.options.isCanDocked) {
+                this.showDockedButton();
+            }
         },
 
         _onLoad: function() {
@@ -154,8 +159,10 @@ define([], function () {
             Common.UI.Window.prototype.setHeight.call(this, height + this._headerFooterHeight);
             Common.UI.Window.prototype.setWidth.call(this, width + borders_width);
 
-            this.$window.css('left',(maxWidth - width - borders_width) / 2);
-            this.$window.css('top',(maxHeight - height - this._headerFooterHeight) / 2);
+            if (this.getLeft() + width + borders_width > maxWidth)
+                this.$window.css('left', Math.max(0, maxWidth - width - borders_width - this.bordersOffset));
+            if (this.getTop() + height + this._headerFooterHeight > maxHeight)
+                this.$window.css('top', Math.max(0, maxHeight - height - this._headerFooterHeight - this.bordersOffset));
 
             this._restoreHeight = this._restoreWidth = undefined;
         },
@@ -201,6 +208,26 @@ define([], function () {
             }
         },
 
+        showDockedButton: function() {
+            var header = this.$window.find('.header .tools:not(.left)'),
+                // header = this.$window.find('.header .tools.left'),
+                btnId = 'id-plugindlg-docked',
+                btn = header.find('#' + btnId);
+            if (btn.length < 1) {
+                var iconCls = 'btn-pin';
+                btn = $('<div id="' + btnId + '" class="tool custom toolbar__icon ' + iconCls + '"></div>');
+                btn.on('click', _.bind(function() {
+                    var tip = btn.data('bs.tooltip');
+                    if (tip) tip.dontShow = true;
+                    this.fireEvent('docked', this.frameId);
+                }, this));
+                header.append(btn);
+                btn.tooltip({title: this.textDock, placement: 'cursor', zIndex: parseInt(this.$window.css('z-index')) + 10});
+            }
+            btn.show();
+            header.removeClass('hidden');
+        },
+
         showButton: function(id, toRight) {
             var header = this.$window.find(toRight ? '.header .tools:not(.left)' : '.header .tools.left'),
                 btn = header.find('#id-plugindlg-' + id);
@@ -223,6 +250,11 @@ define([], function () {
             }
         },
 
-        textLoading : 'Loading'
+        enablePointerEvents: function(enable) {
+            this.frame && (this.frame.style.pointerEvents = enable ? "" : "none");
+        },
+
+        textLoading : 'Loading',
+        textDock: 'Pin plugin'
     }, Common.Views.PluginDlg || {}));
 });

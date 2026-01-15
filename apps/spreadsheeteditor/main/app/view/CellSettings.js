@@ -347,10 +347,6 @@ define([
                 ].join(''))
             });
             this.cmbPattern.render($('#cell-combo-pattern'));
-            this.cmbPattern.openButton.menu.cmpEl.css({
-                'min-width': 178,
-                'max-width': 178
-            });
             this.cmbPattern.on('click', _.bind(this.onPatternSelect, this));
             this.cmbPattern.openButton.menu.on('show:after', function () {
                 me.cmbPattern.menuPicker.scroller.update({alwaysVisibleY: true});

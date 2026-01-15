@@ -174,7 +174,7 @@ define([
                 }
             }
 
-            if ( this._settings[Common.Utils.documentSettingsType.Slide].locked ) { // если находимся в locked slide, то считаем, что все элементы в нем тоже недоступны
+            if ( this._settings[Common.Utils.documentSettingsType.Slide].locked ) { // all elements are locked if the slide is locked
                 for (i=0; i<this._settings.length; i++)  {
                     if (this._settings[i])
                         this._settings[i].locked = true;
@@ -239,9 +239,9 @@ define([
 
                 if (priorityactive>-1) active = priorityactive;
                 else if (currentactive>=0) active = currentactive;
-                else if (lastactive>=0) active = lastactive;
+                else if (lastactive>=0 && !this.rightmenu.GetActivePluginPane()) active = lastactive;
                 else if (forceSignature && !this._settings[Common.Utils.documentSettingsType.Signature].hidden) active = Common.Utils.documentSettingsType.Signature;
-                else active = Common.Utils.documentSettingsType.Slide;
+                else if (!this.rightmenu.GetActivePluginPane()) active = Common.Utils.documentSettingsType.Slide;
 
                 if (active !== undefined) {
                     this.rightmenu.SetActivePane(active, open);

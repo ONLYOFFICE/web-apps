@@ -52,6 +52,22 @@
         // }
     }
 
+    .function-hint-card {
+        position: absolute;
+        white-space: normal; 
+        border: 1px solid @text-tertiary;
+        background: @background-secondary;
+        border-radius: 6px;
+        padding: 8px;
+        margin-top: 4px;
+        font-size: 14px;
+        color: @text-normal;
+    }
+
+    .function-hint-card .contrast {
+        font-weight: bold;
+    }
+
     #idx-cell-name {
         display: inline-block;
         width: 90px;
@@ -60,6 +76,8 @@
         line-height: 30px;
         //font-size: 17px;
         text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
 
         color: @text-normal;
 

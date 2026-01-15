@@ -112,6 +112,18 @@ define([
                     '<span class="btn-slot text" id="slot-chk-rightmenu"></span>' +
                 '</div>' +
             '</div>' +
+            '<div class="separator long macro"></div>' +
+            '<div class="group macro">' +
+                '<span class="btn-slot text x-huge" id="slot-btn-macros"></span>' +
+            '</div>' +
+            '<div class="group small macro">' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-btn-macro-start" style="text-align: center;"></span>' +
+                '</div>' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-btn-macro-pause" style="text-align: center;"></span>' +
+                '</div>' +
+            '</div>' +
         '</section>';
 
         function setEvents() {
@@ -125,7 +137,7 @@ define([
                 });
             }
 
-            me.btnFreezePanes && me.btnFreezePanes.menu.on('item:click', function (menu, item, e) {
+            me.btnFreezePanes && me.btnFreezePanes.menu && (typeof me.btnFreezePanes.menu === 'object') && me.btnFreezePanes.menu.on('item:click', function (menu, item, e) {
                 if (item.value === 'shadow') {
                     me.fireEvent('viewtab:freezeshadow', [item.checked]);
                 } else {
@@ -166,6 +178,16 @@ define([
             me.chRightMenu.on('change', _.bind(function (checkbox, state) {
                 me.fireEvent('rightmenu:hide', [me.chRightMenu, state === 'checked']);
             }, me));
+            me.btnMacros && me.btnMacros.on('click', function () {
+                me.fireEvent('macros:click');
+            });
+            me.btnRecMacro && me.btnRecMacro.on('click', function () {
+                me.fireEvent('macros:record');
+            });
+            me.btnPauseMacro && me.btnPauseMacro.on('click', function () {
+                me.fireEvent('macros:pause');
+            });
+
             me.btnViewNormal && me.btnViewNormal.on('click', function (btn, e) {
                 btn.pressed && me.fireEvent('viewtab:viewmode', [Asc.c_oAscESheetViewType.normal]);
             });
@@ -194,6 +216,7 @@ define([
                         caption: me.capBtnSheetView,
                         lock        : [_set.lostConnect, _set.coAuth, _set.editCell],
                         menu: true,
+                        action: 'sheet-view',
                         dataHint    : '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -231,6 +254,7 @@ define([
                         iconCls: 'toolbar__icon btn-freeze-panes',
                         caption: this.capBtnFreeze,
                         menu: true,
+                        action: 'freeze-panes',
                         lock: [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -290,6 +314,45 @@ define([
                         dataHintOffset: 'small'
                     });
                     this.lockedControls.push(this.btnViewPageBreak);
+
+                    if (
+                        this.appConfig.isEdit && 
+                        !(this.appConfig.customization && this.appConfig.customization.macros===false) && 
+                        !(Common.Controllers.Desktop && Common.Controllers.Desktop.isWinXp())
+                    ) {
+                        this.btnMacros = new Common.UI.Button({
+                            cls: 'btn-toolbar x-huge icon-top',
+                            iconCls: 'toolbar__icon btn-macros',
+                            lock: [_set.selRangeEdit, _set.editFormula, _set.lostConnect, _set.disableOnStart],
+                            caption: this.textMacros,
+                            dataHint: '1',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'small'
+                        });
+                        this.lockedControls.push(this.btnMacros);
+
+                        this.btnRecMacro = new Common.UI.Button({
+                            cls: 'btn-toolbar',
+                            iconCls: 'toolbar__icon btn-macros-record',
+                            lock: [_set.selRangeEdit, _set.editFormula, _set.lostConnect, _set.disableOnStart],
+                            caption: this.textRecMacro,
+                            dataHint: '1',
+                            dataHintDirection: 'left',
+                            dataHintOffset: 'medium'
+                        });
+                        this.lockedControls.push(this.btnRecMacro);
+
+                        this.btnPauseMacro = new Common.UI.Button({
+                            cls: 'btn-toolbar',
+                            iconCls: 'toolbar__icon btn-macros-pause',
+                            lock: [_set.macrosStopped, _set.selRangeEdit, _set.editFormula, _set.lostConnect, _set.disableOnStart],
+                            caption: this.textPauseMacro,
+                            dataHint: '1',
+                            dataHintDirection: 'left',
+                            dataHintOffset: 'medium'
+                        });
+                        this.lockedControls.push(this.btnPauseMacro);
+                    }
                 }
 
                 this.cmbZoom = new Common.UI.ComboBox({
@@ -323,7 +386,8 @@ define([
                     menu: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
+                    dataHintOffset: 'small',
+                    action: 'interface-theme'
                 });
                 this.lockedControls.push(this.btnInterfaceTheme);
 
@@ -375,6 +439,7 @@ define([
                 });
                 this.lockedControls.push(this.chLeftMenu);
 
+                Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -404,8 +469,12 @@ define([
                 this.chZeros && this.chZeros.render($host.find('#slot-chk-zeros'));
                 this.chLeftMenu.render($host.find('#slot-chk-leftmenu'));
                 this.chRightMenu.render($host.find('#slot-chk-rightmenu'));
+                this.btnMacros && this.btnMacros.render($host.find('#slot-btn-macros'));
+                this.btnRecMacro && this.btnRecMacro.render($host.find('#slot-btn-macro-start'));
+                this.btnPauseMacro && this.btnPauseMacro.render($host.find('#slot-btn-macro-pause'));
                 this.btnViewNormal && this.btnViewNormal.render($host.find('#slot-btn-view-normal'));
                 this.btnViewPageBreak && this.btnViewPageBreak.render($host.find('#slot-btn-view-pagebreak'));
+                Common.Utils.lockControls(Common.enumLock.macrosStopped, true, {array: [this.btnPauseMacro]});
                 return this.$el;
             },
 
@@ -423,9 +492,13 @@ define([
 
                         me.btnCreateView.updateHint(me.tipCreate);
                         me.btnCloseView.updateHint(me.tipClose);
+                        Common.Utils.lockControls(Common.enumLock.sheetView, me.toolbar && me.toolbar.api && me.toolbar.api.asc_getActiveNamedSheetView &&
+                                                !me.toolbar.api.asc_getActiveNamedSheetView(me.toolbar.api.asc_getActiveWorksheetIndex()), {array: [me.btnCloseView]});
                     }
-
+                    me.btnMacros && me.btnMacros.updateHint(me.tipMacros);
                     me.btnInterfaceTheme.updateHint(me.tipInterfaceTheme);
+                    me.btnRecMacro && me.btnRecMacro.updateHint(me.tipRecMacro);
+                    me.btnPauseMacro && me.btnPauseMacro.updateHint(me.tipPauseMacro);
 
                     if (config.isEdit) {
                         me.btnFreezePanes.setMenu(new Common.UI.Menu({
@@ -460,6 +533,13 @@ define([
                         me.toolbar && me.toolbar.$el.find('.group.sheet-freeze').hide();
                         me.toolbar && me.toolbar.$el.find('.separator.sheet-freeze').hide();
                         me.toolbar && me.toolbar.$el.find('.group.sheet-gridlines').hide();
+                    }
+                    if (
+                        !config.isEdit || 
+                        config.customization && config.customization.macros===false ||
+                        (Common.Controllers.Desktop && Common.Controllers.Desktop.isWinXp())
+                    ) {
+                        me.toolbar.$el.find('.macro').remove();
                     }
 
                     if (!Common.UI.Themes.available()) {
@@ -496,7 +576,7 @@ define([
                         function _add_tab_styles() {
                             let btn = me.btnInterfaceTheme;
                             if ( typeof(btn.menu) === 'object' )
-                                btn.menu.addItem({caption: '--'});
+                                btn.menu.addItem({caption: '--'}, true);
                             else
                                 btn.setMenu(new Common.UI.Menu());
                             let mni = new Common.UI.MenuItem({
@@ -516,17 +596,18 @@ define([
                             mni.menu.on('item:click', _.bind(function (menu, item) {
                                 Common.UI.TabStyler.setStyle(item.value);
                             }, me));
-                            btn.menu.addItem(mni);
+                            btn.menu.addItem(mni, true);
                             me.menuTabStyle = mni.menu;
                         }
                         function _fill_themes() {
                             let btn = this.btnInterfaceTheme;
-                            if ( typeof(btn.menu) == 'object' ) btn.menu.removeAll();
+                            if ( typeof(btn.menu) == 'object' ) btn.menu.removeAll(true);
                             else btn.setMenu(new Common.UI.Menu());
 
-                            var currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
+                            var currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId(),
+                                idx = 0;
                             for (var t in Common.UI.Themes.map()) {
-                                btn.menu.addItem({
+                                btn.menu.insertItem(idx++, {
                                     value: t,
                                     caption: Common.UI.Themes.get(t).text,
                                     checked: t === currentTheme,
@@ -540,7 +621,7 @@ define([
                         Common.NotificationCenter.on('uitheme:countchanged', _fill_themes.bind(me));
                         _fill_themes.call(me);
 
-                        if (me.btnInterfaceTheme.menu.items.length) {
+                        if (me.btnInterfaceTheme.menu.getItemsLength(true)) {
                             me.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
                                 var value = item.value;
                                 Common.UI.Themes.setTheme(value);
@@ -557,6 +638,9 @@ define([
                     me.chRightMenu.setValue(!Common.localStorage.getBool("sse-hidden-rightmenu", value));
 
                     setEvents.call(me);
+
+                    if (Common.Utils.InternalSettings.get('toolbar-active-tab')==='view')
+                        Common.NotificationCenter.trigger('tab:set-active', 'view', true);
                 });
             },
 
@@ -667,7 +751,9 @@ define([
             tipViewPageBreak: 'See where the page breaks will appear when your document is printed',
             textTabStyle: 'Tab style',
             textFill: 'Fill',
-            textLine: 'Line'
+            textLine: 'Line',
+            textMacros: 'Macros',
+            tipMacros: 'Macros'
         }
     }()), SSE.Views.ViewTab || {}));
 });

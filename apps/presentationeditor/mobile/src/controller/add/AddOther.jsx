@@ -48,7 +48,7 @@ class AddOtherController extends Component {
                     text: _t.textCancel
                 },
                 {
-                    text: 'OK',
+                    text: _t.textOk,
                     bold: true,
                     onClick: function () {
                         const size = picker.value;

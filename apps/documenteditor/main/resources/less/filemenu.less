@@ -94,61 +94,70 @@
   cursor: pointer;
   .svg-format- {
     &docx {
-      background: ~"url('@{common-image-const-path}/doc-formats/docx.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/docx.svg') no-repeat center";
     }
     &pdf {
-      background: ~"url('@{common-image-const-path}/doc-formats/pdf.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/pdf.svg') no-repeat center";
     }
     &odt {
-      background: ~"url('@{common-image-const-path}/doc-formats/odt.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/odt.svg') no-repeat center";
     }
     &txt {
-      background: ~"url('@{common-image-const-path}/doc-formats/txt.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/txt.svg') no-repeat center";
     }
     &dotx {
-      background: ~"url('@{common-image-const-path}/doc-formats/dotx.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/dotx.svg') no-repeat center";
     }
     &pdfa {
-      background: ~"url('@{common-image-const-path}/doc-formats/pdfa.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/pdfa.svg') no-repeat center";
     }
     &ott {
-      background: ~"url('@{common-image-const-path}/doc-formats/ott.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/ott.svg') no-repeat center";
     }
     &rtf {
-      background: ~"url('@{common-image-const-path}/doc-formats/rtf.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/rtf.svg') no-repeat center";
     }
     &docm {
-      background: ~"url('@{common-image-const-path}/doc-formats/docm.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/docm.svg') no-repeat center";
     }
     &docxf {
-      background: ~"url('@{common-image-const-path}/doc-formats/docxf.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/docxf.svg') no-repeat center";
     }
     &oform {
-      background: ~"url('@{common-image-const-path}/doc-formats/oform.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/oform.svg') no-repeat center";
     }
     &html {
-      background: ~"url('@{common-image-const-path}/doc-formats/html.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/html.svg') no-repeat center";
     }
     &fb2 {
-      background: ~"url('@{common-image-const-path}/doc-formats/fb2.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/fb2.svg') no-repeat center";
     }
     &epub {
-      background: ~"url('@{common-image-const-path}/doc-formats/epub.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/epub.svg') no-repeat center";
     }
     &xps {
-      background: ~"url('@{common-image-const-path}/doc-formats/xps.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/xps.svg') no-repeat center";
     }
     &oxps {
-      background: ~"url('@{common-image-const-path}/doc-formats/oxps.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/oxps.svg') no-repeat center";
     }
     &djvu {
-      background: ~"url('@{common-image-const-path}/doc-formats/djvu.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/djvu.svg') no-repeat center";
     }
     &png {
-      background: ~"url('@{common-image-const-path}/doc-formats/png.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/png.svg') no-repeat center";
     }
     &jpg {
-      background: ~"url('@{common-image-const-path}/doc-formats/jpg.svg') no-repeat center";
+      background: ~"url('@{common-image-const-path}/doc-formats/large/jpg.svg') no-repeat center";
+    }
+    &hwp {
+      background: ~"url('@{common-image-const-path}/doc-formats/large/hwp.svg') no-repeat center";
+    }
+    &hwpx {
+      background: ~"url('@{common-image-const-path}/doc-formats/large/hwpx.svg') no-repeat center";
+    }
+    &vsdx {
+      background: ~"url('@{common-image-const-path}/doc-formats/large/vsdx.svg') no-repeat center";
     }
   }
 
@@ -194,13 +203,7 @@
 
 #panel-info {
   #file-menu-panel & {
-    padding: 30px;
-
-    .flex-settings {
-      gap: 30px;
-      display: flex;
-      flex-direction: column;
-    }
+    padding: 0 30px;
   }
 
   .header {
@@ -209,14 +212,17 @@
     line-height: unset;
   }
 
+  table.main {
+    margin: 30px 0 18px;
+  }
+
   table {
     display: flex;
-    gap: 24px;
     flex-direction: column;
 
     tr {
       display: flex;
-      gap: 24px;
+      margin-bottom: 12px;
 
       td {
         .font-size-normal();
@@ -232,8 +238,10 @@
         }
 
         &.left {
+          display: block;
           width: 140px;
           flex-shrink: 0;
+          .margin-right(24px);
         }
 
         &.right {
@@ -248,14 +256,17 @@
 
     tbody {
       display: flex;
-      gap: 12px;
       flex-direction: column;
 
+      &:not(:last-of-type) {
+        margin-bottom: 12px;
+      }
+
       &.properties-tab {
-        gap: 10px;
+        margin-bottom: 0;
 
         tr {
-          gap: 20px;
+          margin-bottom: 10px;
         }
 
         td {
@@ -265,6 +276,7 @@
         td.left {
           display: flex;
           align-items: center;
+          .margin-right-20();
 
           label {
             text-overflow: ellipsis;
@@ -284,8 +296,10 @@
         }
 
         display: flex;
-        gap: 5px;
         align-items: center;
+        & > *:not(:last-child) {
+          .margin-right-5();
+        }
       }
     }
 
@@ -312,15 +326,17 @@
     height: 24px;
 
     span {
-      text-decoration: underline dotted;
-      text-underline-offset: 4px;
+      border-bottom: 1px dotted currentColor;
+      padding-bottom: 2px;
     }
   }
 
   .custom-property-wrapper {
     display: flex;
-    gap: 5px;
     align-items: center;
+    & > *:not(:last-child) {
+      .margin-right-5();
+    }
   }
 
   .tool.close:before, .tool.close:after {
@@ -492,8 +508,8 @@
 
     &:hover,
     &.over {
-      background-color: @background-toolbar-ie;
-      background-color: @background-toolbar;
+      background-color: @background-pane-ie;
+      background-color: @background-pane;
     }
 
     .recent-icon {
@@ -505,9 +521,20 @@
       div {
         width: 100%;
         height: 100%;
+
+        svg {
+          display: none;
+          width: 24px;
+          height: 30px;
+
+          .pixel-ratio__2_5 & {
+            display: block;
+          }
+        }
+
         div{
           background: ~"url(@{common-image-const-path}/doc-formats/formats.png)";
-          background-size: 1056px 30px;
+          background-size: 1200px 30px;
           &:not(.svg-file-recent) {
             .pixel-ratio__1_25 & {
               background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.25x.png)";
@@ -524,6 +551,10 @@
             .pixel-ratio__2 & {
               background-image: ~"url(@{common-image-const-path}/doc-formats/formats@2x.png)";
             }
+
+            .pixel-ratio__2_5 & {
+              display: none;
+            }
           }
         }
         .format-from-index(@index) {
@@ -534,7 +565,7 @@
             .format-from-index(0);
           }
           &pdf {
-            .format-from-index(14);
+            .format-from-index(13);
           }
           &odt {
             .format-from-index(2);
@@ -543,13 +574,13 @@
             .format-from-index(4);
           }
           &dotx {
-            .format-from-index(21);
+            .format-from-index(20);
           }
           &pdfa {
-            .format-from-index(14);
+            .format-from-index(13);
           }
           &ott {
-            .format-from-index(24);
+            .format-from-index(23);
           }
           &rtf {
             .format-from-index(3);
@@ -558,46 +589,58 @@
             .format-from-index(1);
           }
           &docxf {
-            .format-from-index(29);
+            .format-from-index(28);
           }
           &oform {
-            .format-from-index(30);
+            .format-from-index(29);
           }
           &html, &htm {
             .format-from-index(5);
           }
           &fb2 {
-            .format-from-index(20);
-          }
-          &epub {
             .format-from-index(19);
           }
-          &xps {
-            .format-from-index(16);
-          }
-          &xml {
-            .format-from-index(17);
-          }
-          &djvu {
-            .format-from-index(15);
-          }
-          &mht {
+          &epub {
             .format-from-index(18);
           }
+          &xps {
+            .format-from-index(15);
+          }
+          &xml {
+            .format-from-index(16);
+          }
+          &djvu {
+            .format-from-index(14);
+          }
+          &mht {
+            .format-from-index(17);
+          }
           &docm {
-            .format-from-index(32);
+            .format-from-index(31);
           }
           &dotm {
-            .format-from-index(33);
+            .format-from-index(32);
           }
           &fodt {
-            .format-from-index(34);
+            .format-from-index(33);
           }
           &md {
-            .format-from-index(42);
+            .format-from-index(41);
           }
           &neutral {
+            .format-from-index(42);
+          }
+          &pages {
             .format-from-index(43);
+          }
+          &vsdx {
+            .format-from-index(46);
+          }
+          &hwp {
+            .format-from-index(47);
+          }
+          &hwpx {
+            .format-from-index(48);
           }
         }
         .svg-file-recent {
@@ -654,8 +697,8 @@
       &:not(.header-name) {
         &:hover,
         &.over {
-          background-color: @background-toolbar-ie;
-          background-color: @background-toolbar;
+          background-color: @background-pane-ie;
+          background-color: @background-pane;
         }
 
         &.selected {
@@ -887,6 +930,42 @@
         #print-combo-sides {
           .dropdown-menu li > a {
             .padding-x(20px, 5px);
+          }
+        }
+        #print-combo-printer,
+        #print-combo-pages {
+          .form-control {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block;
+          }
+          .dropdown-menu li > a {
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+
+        .text-dropdown-item {
+          background:none; 
+          cursor: default;
+        }
+        #print-waiting-for-printers {
+          display: flex;
+          align-items: center;
+          .spiner-image {
+            background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PGNpcmNsZSBjeD0iMTAiIGN5PSIxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDQ0IiBzdHJva2Utd2lkdGg9IjEuNSIgcj0iNy4yNSIgc3Ryb2tlLWRhc2hhcnJheT0iMTYwJSwgNDAlIiAvPjwvc3ZnPg==");
+            width: 14px;
+            height: 14px;
+            .margin-left(6px);
+            .theme-type-dark & {
+              filter: invert();
+            }
+
+            animation-duration: .8s;
+            animation-name: rotation;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
           }
         }
       }

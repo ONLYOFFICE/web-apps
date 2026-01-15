@@ -60,8 +60,8 @@ define([
                     '<span class="btn-slot text x-huge slot-instext"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-instextart"></span>' +
                     '<span class="btn-slot text x-huge slot-insertimg"></span>' +
-                    // '<span class="btn-slot text x-huge" id="slot-btn-insertchart"></span>' +
-                    // '<span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-insertchart"></span>' +
                 '</div>' +
                 '<div class="separator long invisible"></div>' +
                 '<div class="group small" id="slot-combo-insertshape"></div>' +
@@ -132,7 +132,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-inserttable',
                     caption: me.capInsertTable,
-                    lock: [_set.lostConnect, _set.disableOnStart],
+                    lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
                     menu: new Common.UI.Menu({
                         cls: 'shifted-left',
                         items: [
@@ -141,18 +141,19 @@ define([
                             // {caption: me.mniInsertSSE, value: 'sse'}
                         ]
                     }),
+                    action: 'insert-table',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
                 });
                 me.lockedControls.push(me.btnInsertTable);
-/*
+
                 me.btnInsertChart = new Common.UI.Button({
                     id: 'tlbtn-insertchart',
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-insertchart',
                     caption: me.capInsertChart,
-                    lock: [_set.lostConnect, _set.disableOnStart],
+                    lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
                     menu: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -164,23 +165,25 @@ define([
                     id: 'tlbtn-insertsmartart',
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-smart-art',
-                    lock: [_set.lostConnect, _set.disableOnStart],
+                    lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
                     caption: me.capBtnInsSmartArt,
                     menu: true,
+                    action: 'insert-smartart',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
                 });
                 me.lockedControls.push(this.btnInsertSmartArt);
-*/
+
                 me.btnInsertEquation = new Common.UI.Button({
                     id: 'tlbtn-insertequation',
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-insertequation',
                     caption: me.capInsertEquation,
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.disableOnStart],
+                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart],
                     split: true,
-                    menu: new Common.UI.Menu({cls: 'menu-shapes'}),
+                    menu: new Common.UI.Menu(),
+                    action: 'insert-equation',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -203,6 +206,7 @@ define([
                             })
                         ]
                     }),
+                    action: 'insert-symbol',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -214,7 +218,8 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-big-inserthyperlink',
                     caption: me.capInsertHyperlink,
-                    lock: [_set.hyperlinkLock, _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected],
+                    lock: [_set.hyperlinkLock, _set.paragraphLock, _set.lostConnect, _set.objectWithoutParagraph],
+                    enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -226,13 +231,14 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-textart',
                     caption: me.capInsertTextArt,
-                    lock: [_set.lostConnect, _set.disableOnStart],
+                    lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
                     menu: new Common.UI.Menu({
                         cls: 'menu-shapes',
                         items: [
                             {template: _.template('<div id="view-insert-art" class="margin-left-5" style="width: 239px;"></div>')}
                         ]
                     }),
+                    action: 'insert-textart',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -256,7 +262,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-datetime',
                     caption: me.capBtnDateTime,
-                    lock: [_set.lostConnect, _set.paragraphLock, _set.disableOnStart],
+                    lock: [_set.pageDeleted, _set.lostConnect, _set.paragraphLock, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -268,42 +274,28 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-pagenum',
                     caption: me.capBtnSlideNum,
-                    lock: [_set.lostConnect, _set.paragraphLock, _set.disableOnStart],
+                    lock: [_set.pageDeleted, _set.lostConnect, _set.paragraphLock, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
                 });
                 me.lockedControls.push(me.btnInsSlideNum);
 */
-                me.btnInsertShape = new Common.UI.Button({
-                    id: 'tlbtn-insertshape',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-insertshape',
-                    caption: me.capInsertShape,
-                    lock: [_set.lostConnect, _set.disableOnStart],
-                    menu: true,
-                    enableToggle: true,
-                    dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
-                });
-                me.lockedControls.push(me.btnInsertShape);
-
                 me.cmbInsertShape = new Common.UI.ComboDataViewShape({
                     cls: 'combo-styles shapes',
                     itemWidth: 20,
                     itemHeight: 20,
                     menuMaxHeight: 652,
                     menuWidth: 330,
-                    style: 'width: 140px;',
+                    style: 'width: 145px;',
                     enableKeyEvents: true,
-                    lock: [_set.lostConnect, _set.disableOnStart],
+                    lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '-16, 0'
                 });
                 me.lockedControls.push(me.cmbInsertShape);
-
+                Common.UI.LayoutManager.addControls(me.lockedControls);
                 Common.Utils.lockControls(_set.disableOnStart, true, {array: this.lockedControls});
             },
 
@@ -319,12 +311,12 @@ define([
                 var _injectComponent = function (id, cmp) {
                     Common.Utils.injectComponent($host.find(id), cmp);
                 };
-                // _injectComponent('#slot-btn-inssmartart', this.btnInsertSmartArt);
+                _injectComponent('#slot-btn-inssmartart', this.btnInsertSmartArt);
                 _injectComponent('#slot-btn-insertequation', this.btnInsertEquation);
                 _injectComponent('#slot-btn-inssymbol', this.btnInsertSymbol);
                 _injectComponent('#slot-btn-insertlink', this.btnInsertHyperlink);
                 _injectComponent('#slot-btn-inserttable', this.btnInsertTable);
-                // _injectComponent('#slot-btn-insertchart', this.btnInsertChart);
+                _injectComponent('#slot-btn-insertchart', this.btnInsertChart);
                 _injectComponent('#slot-btn-instextart', this.btnInsertTextArt);
                 // _injectComponent('#slot-btn-editheader', this.btnEditHeader);
                 // _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
@@ -333,18 +325,19 @@ define([
 
                 if (this.toolbar && this.toolbar.$el) {
                     this.btnsInsertImage = Common.Utils.injectButtons($host.find('.slot-insertimg').add(this.toolbar.$el.find('.slot-insertimg')), 'tlbtn-insertimage-', 'toolbar__icon btn-insertimage', this.capInsertImage,
-                        [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], false, true, undefined, '1', 'bottom', 'small');
+                        [Common.enumLock.pageDeleted, Common.enumLock.lostConnect, Common.enumLock.disableOnStart], false, true, undefined, '1', 'bottom', 'small', undefined, 'insert-image');
                     this.btnsInsertText = Common.Utils.injectButtons($host.find('.slot-instext').add(this.toolbar.$el.find('.slot-instext')), 'tlbtn-inserttext-', 'toolbar__icon btn-big-text', this.capInsertText,
-                        [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], true, false, true, '1', 'bottom', 'small');
+                        [Common.enumLock.pageDeleted, Common.enumLock.lostConnect, Common.enumLock.disableOnStart], true, true, true, '1', 'bottom', 'small', undefined, 'insert-text');
                     this.btnsInsertShape = Common.Utils.injectButtons($host.find('.slot-insertshape').add(this.toolbar.$el.find('.slot-insertshape')), 'tlbtn-insertshape-', 'toolbar__icon btn-insertshape', this.capInsertShape,
-                        [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], false, true, true, '1', 'bottom', 'small');
+                        [Common.enumLock.pageDeleted, Common.enumLock.lostConnect, Common.enumLock.disableOnStart], false, true, true, '1', 'bottom', 'small', undefined, 'insert-shape');
                     this.btnsAddPage = Common.Utils.injectButtons($host.find('.slot-inspage').add(this.toolbar.$el.find('.slot-inspage')), 'tlbtn-insertpage-', 'toolbar__icon btn-blankpage', this.capInsPage,
-                        [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], true, true, false, '1', 'bottom', 'small');
+                        [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], true, true, false, '1', 'bottom', 'small', undefined, 'insert-page');
                 }
 
                 var created = this.btnsInsertImage.concat(this.btnsInsertText, this.btnsInsertShape, this.btnsAddPage);
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: created});
                 Array.prototype.push.apply(this.lockedControls, created);
+                Common.UI.LayoutManager.addControls(created);
 
                 return this.$el;
             },
@@ -432,16 +425,20 @@ define([
                 });
 
                 this.btnInsertTable.updateHint(this.tipInsertTable);
-                // this.btnInsertChart.updateHint(this.tipInsertChart);
-                // this.btnInsertSmartArt.updateHint(this.tipInsertSmartArt);
+                this.btnInsertSmartArt.updateHint(this.tipInsertSmartArt);
+                this.btnInsertChart.updateHint(this.tipInsertChart);
                 this.btnInsertEquation.updateHint(this.tipInsertEquation);
                 this.btnInsertSymbol.updateHint(this.tipInsertSymbol);
-                this.btnInsertHyperlink.updateHint(this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
+                PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                    InsertHyperlink: {
+                        btn: this.btnInsertHyperlink,
+                        label: this.tipInsertHyperlink
+                    }
+                });
                 // this.btnEditHeader.updateHint(this.tipEditHeaderFooter);
                 // this.btnInsDateTime.updateHint(this.tipDateTime);
                 // this.btnInsSlideNum.updateHint(this.tipPageNum);
-/*
                 this.btnInsertChart.setMenu( new Common.UI.Menu({
                     style: 'width: 364px;padding-top: 12px;',
                     items: [
@@ -453,6 +450,7 @@ define([
                     var picker = new Common.UI.DataView({
                         el: $('#id-toolbar-menu-insertchart'),
                         parentMenu: menu,
+                        outerMenu: {menu: menu, index:0},
                         showLast: false,
                         restoreHeight: 535,
                         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
@@ -464,8 +462,12 @@ define([
                             me.fireEvent('insert:chart', [record.get('type')]);
                     });
                     menu.off('show:before', onShowBefore);
+                    menu.setInnerMenu([{menu: picker, index: 0}]);
                 };
                 this.btnInsertChart.menu.on('show:before', onShowBefore);
+                this.btnInsertChart.menu.on('show:before', function() {
+                    Common.UI.TooltipManager.closeTip('pdfCharts');
+                });
 
                 this.btnInsertSmartArt.setMenu(new Common.UI.Menu({
                     cls: 'shifted-right',
@@ -491,9 +493,10 @@ define([
                                     {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
                                 ],
                                 menuAlign: 'tl-tr',
-                            })});
+                            })}, true);
                     });
-                    me.btnInsertSmartArt.menu.items.forEach(function (item, index) {
+                    var sa_items = me.btnInsertSmartArt.menu.getItems(true);
+                    sa_items.forEach(function (item, index) {
                         var items = [];
                         for (var i=0; i<item.options.itemsLength; i++) {
                             items.push({
@@ -502,7 +505,7 @@ define([
                         }
                         item.menuPicker = new Common.UI.DataView({
                             el: $('#' + item.options.itemId),
-                            parentMenu: me.btnInsertSmartArt.menu.items[index].menu,
+                            parentMenu: sa_items[index].menu,
                             itemTemplate: _.template([
                                 '<% if (isLoading) { %>',
                                 '<div class="loading-item" style="width: 70px; height: 70px;">',
@@ -538,7 +541,10 @@ define([
                     menu.off('show:before', onShowBeforeSmartArt);
                 };
                 this.btnInsertSmartArt.menu.on('show:before', onShowBeforeSmartArt);
-*/
+                this.btnInsertSmartArt.menu.on('show:before', function() {
+                    Common.UI.TooltipManager.closeTip('pdfCharts');
+                });
+
                 var onShowBeforeTextArt = function (menu) {
                     var collection = PDFE.getCollection('Common.Collections.TextArt');
                     if (collection.length<1)
@@ -547,6 +553,7 @@ define([
                         el: $('#view-insert-art', menu.$el),
                         store: collection,
                         parentMenu: menu,
+                        outerMenu: {menu: menu, index:0},
                         showLast: false,
                         itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
                     });
@@ -556,6 +563,7 @@ define([
                         if (e.type !== 'click') menu.hide();
                     });
                     menu.off('show:before', onShowBeforeTextArt);
+                    menu.setInnerMenu([{menu: picker, index: 0}]);
                 };
                 this.btnInsertTextArt.menu.on('show:before', onShowBeforeTextArt);
 
@@ -589,6 +597,7 @@ define([
                 ];
                 this.mnuInsertSymbolsPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-symbols'),
+                    cls: 'no-borders-item',
                     parentMenu: this.btnInsertSymbol.menu,
                     outerMenu: {menu: this.btnInsertSymbol.menu, index:0},
                     restoreHeight: 290,
@@ -714,7 +723,7 @@ define([
                     template: _.template('<div id="id-toolbar-menu-insertshape-<%= options.index %>" class="menu-insertshape"></div>'),
                     index: index
                 });
-                menuShape.addItem(menuitem);
+                menuShape.addItem(menuitem, true);
 
                 var recents = Common.localStorage.getItem('pdfe-recent-shapes');
                 recents = recents ? JSON.parse(recents) : null;
@@ -724,6 +733,7 @@ define([
                     itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                     groups: collection,
                     parentMenu: menuShape,
+                    outerMenu: {menu: menuShape, index:0},
                     restoreHeight: 652,
                     textRecentlyUsed: me.textRecentlyUsed,
                     recentShapes: recents
@@ -735,7 +745,7 @@ define([
                         me.cmbInsertShape.updateComboView(record);
                     }
                 });
-
+                menuShape.setInnerMenu([{menu: shapePicker, index: 0}]);
             }
         }
     }()), PDFE.Views.InsTab || {}));

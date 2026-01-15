@@ -9,6 +9,9 @@ export class storeAppOptions {
             setConfigOptions: action,
             setPermissionOptions: action,
 
+            isDrawMode: observable,
+            changeDrawMode: action,
+
             lostEditingRights: observable,
             changeEditingRights: action,
             
@@ -25,6 +28,11 @@ export class storeAppOptions {
     isEdit = false;
     config = {};
     customization;
+
+    isDrawMode = false;
+    changeDrawMode(value) {
+        this.isDrawMode = value;
+    }
     
     canViewComments = false;
     changeCanViewComments(value) {
@@ -155,5 +163,6 @@ export class storeAppOptions {
 
         this.canLiveView = !!params.asc_getLiveViewerSupport() && (this.config.mode === 'view') && isSupportEditFeature;
         this.isAnonymousSupport = !!Common.EditorApi.get().asc_isAnonymousSupport();
+        this.canCopy = permissions.copy !== false;
     }
 }

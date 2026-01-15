@@ -9,7 +9,7 @@ const PageEncoding = props => {
     const encodeData = props.encodeData;
     const valuesDelimeter = props.valuesDelimeter;
     const namesDelimeter = props.namesDelimeter;
-    const [stateEncoding, setStateEncoding] = useState(props.valueEncoding);
+    const [stateEncoding, setStateEncoding] = useState(props.valueEncoding === -1 ? encodeData.find(encoding => encoding.lcid === 65001).value : props.valueEncoding);
     const [stateDelimeter, setStateDelimeter] = useState(props.valueDelimeter);
     const getIndexNameEncoding = () => encodeData.findIndex(encoding => encoding.value === stateEncoding);
     const nameEncoding = encodeData[getIndexNameEncoding()].displayValue;

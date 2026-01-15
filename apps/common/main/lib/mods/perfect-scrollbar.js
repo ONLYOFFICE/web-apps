@@ -84,8 +84,8 @@
 
       var $scrollbarXRail = $("<div class='ps-scrollbar-x-rail'></div>").appendTo($this),
           $scrollbarYRail = $("<div class='ps-scrollbar-y-rail'></div>").appendTo($this),
-          $scrollbarX = $("<div class='ps-scrollbar-x'></div>").appendTo($scrollbarXRail),
-          $scrollbarY = $("<div class='ps-scrollbar-y'></div>").appendTo($scrollbarYRail),
+          $scrollbarX = $("<div class='ps-scrollbar-x'><div></div></div>").appendTo($scrollbarXRail),
+          $scrollbarY = $("<div class='ps-scrollbar-y'><div></div></div>").appendTo($scrollbarYRail),
           scrollbarXActive,
           scrollbarYActive,
           containerWidth,

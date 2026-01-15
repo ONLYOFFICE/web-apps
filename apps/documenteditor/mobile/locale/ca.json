@@ -65,7 +65,9 @@
     "textTableSize": "Mida de la taula",
     "textWithBlueLinks": "Amb enllaços blaus",
     "textWithPageNumbers": "Amb números de pàgina",
-    "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\""
+    "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
+    "textDrawing": "Drawing",
+    "textRemovePicture": "Remove picture"
   },
   "Common": {
     "Collaboration": {
@@ -80,7 +82,7 @@
       "textAtLeast": "pel cap baix",
       "textAuto": "automàtic",
       "textBack": "Enrere",
-      "textBaseline": "Línia de base",
+      "textBaseline": "Línia Subíndex",
       "textBold": "Negreta",
       "textBreakBefore": "Salt de pàgina anterior",
       "textCancel": "Cancel·lar",
@@ -126,7 +128,7 @@
       "textNoChanges": "No hi ha canvis.",
       "textNoComments": "Aquest document no té cap comentari",
       "textNoContextual": "Afegir un interval entre els paràgrafs del mateix estil",
-      "textNoKeepLines": "No mantinguis les línies juntes",
+      "textNoKeepLines": "No mantingueu les línies unides",
       "textNoKeepNext": "No continuïs amb el següent",
       "textNot": "No",
       "textNoWidow": "No hi ha cap control de finestra",
@@ -408,7 +410,17 @@
     "textWe": "dc.",
     "textWrap": "Ajustament",
     "textWrappingStyle": "Estil d'ajustament",
-    "textYourOption": "La teva opció"
+    "textYourOption": "La teva opció",
+    "textBaseline": "Baseline",
+    "textCapitalization": "Capitalization",
+    "textCellOptions": "Cell options",
+    "textCellSize": "Rows & columns size",
+    "textLtrTextDirection": "Left-to-right",
+    "textRtlTextDirection": "Right-to-left",
+    "textTextDirection": "Text Direction",
+    "textWrapText": "Wrap Text",
+    "txtHeight": "Height",
+    "txtWidth": "Width"
   },
   "Error": {
     "convertationTimeoutText": "S'ha superat el temps de conversió.",
@@ -468,7 +480,13 @@
     "uploadDocSizeMessage": "S'ha superat el límit màxim de mida del document.",
     "uploadImageExtMessage": "Format d'imatge desconegut.",
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
-    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB."
+    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "S'estan carregant les dades...",
@@ -506,13 +524,13 @@
     "txtEditingMode": "Establir el mode d'edició ...",
     "uploadImageTextText": "S'està carregant la imatge...",
     "uploadImageTitleText": "S'està carregant la imatge",
-    "waitText": "Espera..."
+    "waitText": "Espera...",
+    "savingText": "Submitting"
   },
   "Main": {
     "criticalErrorTitle": "Error",
     "errorAccessDeny": "No tens permís per realitzar aquesta acció. <br>Posa't en contacte amb l'administrador.",
     "errorOpensource": "Amb la versió gratuïta de la Comunitat, només pots obrir els documents en mode lectura. Per accedir als editors de web per a mòbils, cal una llicència comercial.",
-    "errorProcessSaveResult": "S'ha produït un error en desar.",
     "errorServerVersion": "S'ha actualitzat la versió de l'editor. Es tornarà a carregar la pàgina per aplicar els canvis.",
     "errorUpdateVersion": "S'ha canviat la versió del fitxer. La pàgina es tornarà a carregar.",
     "leavePageText": "Tens canvis sense desar. Fes clic a \"Mantingueu-vos en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Deixar aquesta pàgina\" per descartar tots els canvis no desats.",
@@ -520,7 +538,9 @@
     "SDK": {
       " -Section ": "—Secció",
       "above": "a dalt",
+      "Aspect": "Aspecte",
       "below": "A sota",
+      "Blue": "Blau",
       "Caption": "Llegenda",
       "Choose an item": "Triar un element",
       "Click to load image": "Fes clic per carregar la imatge",
@@ -536,6 +556,8 @@
       "First Page ": "Primera pàgina",
       "Footer": "Peu de pàgina",
       "footnote text": "Text de nota al peu de pàgina",
+      "Grayscale": "Escala de grisos",
+      "Green": "Verd",
       "Header": "Capçalera",
       "Heading 1": "Títol 1",
       "Heading 2": "Títol 2",
@@ -560,7 +582,9 @@
       "Normal": "Normal",
       "Number Too Large To Format": "El número és massa gran per atorgar-li format",
       "Odd Page ": "Pàgina senar",
+      "Orange": "Taronja",
       "Quote": "Cita",
+      "Red": "Vermell",
       "Same as Previous": "Igual a l'anterior",
       "Series": "Sèries",
       "Subtitle": "Subtítol",
@@ -574,12 +598,12 @@
       "Type equation here": "Escriu l'equació aquí",
       "Undefined Bookmark": "No hi ha cap marcador definit",
       "Unexpected End of Formula": "Final inesperat de la fórmula",
+      "Violet": "Violeta",
       "X Axis": "Eix X XAS",
       "Y Axis": "Eix Y",
+      "Yellow": "Groc",
       "Your text here": "El teu text aquí",
       "Zero Divide": "Divisió entre zero",
-      "Aspect": "Aspect",
-      "Blue": "Blue",
       "Blue Green": "Blue Green",
       "Blue II": "Blue II",
       "Blue Warm": "Blue Warm",
@@ -588,8 +612,6 @@
       "Emphasis": "Emphasis",
       "endnote reference": "Endnote reference",
       "footnote reference": "Footnote reference",
-      "Grayscale": "Grayscale",
-      "Green": "Green",
       "Green Yellow": "Green Yellow",
       "Intense Emphasis": "Intense emphasis",
       "Intense Reference": "Intense reference",
@@ -599,19 +621,15 @@
       "Office": "Office",
       "Office 2007 - 2010": "Office 2007 - 2010",
       "Office 2013 - 2022": "Office 2013 - 2022",
-      "Orange": "Orange",
       "Orange Red": "Orange Red",
       "Paper": "Paper",
-      "Red": "Red",
       "Red Orange": "Red Orange",
       "Red Violet": "Red Violet",
       "Slipstream": "Slipstream",
       "Strong": "Strong",
       "Subtle Emphasis": "Subtle emphasis",
       "Subtle Reference": "Subtle reference",
-      "Violet": "Violet",
       "Violet II": "Violet II",
-      "Yellow": "Yellow",
       "Yellow Orange": "Yellow Orange"
     },
     "textAnonymous": "Anònim",
@@ -648,14 +666,16 @@
     "warnDownloadAsPdf": "El {0} es convertirà a un format editable. Això pot trigar una estona. El document resultant s'optimitzarà perquè puguis editar el text, de manera que pot ser que no s'assembli a l'original {0}, sobretot si el fitxer original contenia molts gràfics.",
     "warnLicenseAnonymous": "Accés denegat a usuaris anònims.<br> Aquest document només s'obrirà en format lectura.",
     "warnLicenseBefore": "Llicència inactiva. <br> Contacta amb l'administrador.",
-    "warnLicenseExceeded": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'administrador per a més informació.",
     "warnLicenseExp": "La llicència ha caducat. Actualitza-la i recarrega la pàgina.",
     "warnLicenseLimitedNoAccess": "La llicència ha caducat. No tens accés a la funció d'edició de documents. Posa't en contacte amb l'administrador.",
     "warnLicenseLimitedRenewed": "Cal renovar la llicència. Tens accés limitat a la funció d'edició de documents. <br>Posa't en contacte amb l'administrador per obtenir accés total",
-    "warnLicenseUsersExceeded": "Has arribat al límit d'usuari per a %1 editors. Posa't en contacte amb l'administrador per a més informació.",
     "warnNoLicense": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'equip de vendes %1 per conèixer les condicions d'actualització personal.",
     "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Contacta amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels teus serveis.",
-    "warnProcessRightsChange": "No tens permís per editar aquest fitxer."
+    "warnProcessRightsChange": "No tens permís per editar aquest fitxer.",
+    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "titleReadOnly": "Read-Only Mode",
+    "txtSignedForm": "This document has been signed and cannot be edited."
   },
   "Settings": {
     "advDRMOptions": "El fitxer està protegit",
@@ -706,7 +726,6 @@
     "textEnableAllMacrosWithoutNotification": "Habilitar totes les macros sense notificació",
     "textEncoding": "Codificació",
     "textEncryptFile": "Encriptar el fitxer",
-    "textExplanationChangeDirection": "L'aplicació es reiniciarà per a l'activació de la interfície RTL",
     "textExport": "Exportar",
     "textExportAs": "Exportar com",
     "textFastWV": "Vista ràpida de la Web",
@@ -767,7 +786,6 @@
     "textRestartApplication": "Reiniciar l'aplicació perquè els canvis tinguin efecte.",
     "textRight": "Dreta",
     "textRightToLeft": "De dreta a esquerra",
-    "textRtlInterface": "Interfície RTL",
     "textSameAsSystem": "Igual que el sistema",
     "textSave": "Desar",
     "textSearch": "Cercar",
@@ -778,7 +796,6 @@
     "textSpellcheck": "Revisió ortogràfica",
     "textStatistic": "Estadístiques",
     "textSubject": "Assumpte",
-    "textSubmit": "Enviar",
     "textSymbols": "Símbols",
     "textTheme": "Tema",
     "textTitle": "Títol",
@@ -798,7 +815,10 @@
     "txtIncorrectPwd": "La contrasenya no és correcta",
     "txtOk": "D'acord",
     "txtProtected": "Un cop introdueixis la contrasenya i obris el fitxer, es restablirà la contrasenya actual",
-    "textClose": "Close"
+    "textClose": "Close",
+    "textDrawing": "Drawing",
+    "textHyphenation": "Hyphenation",
+    "textOpenLocation": "Open location"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tens canvis sense desar. Fes clic a \"Mantingueu-vos en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Deixar aquesta pàgina\" per descartar tots els canvis no desats.",
@@ -810,6 +830,16 @@
     "textOk": "D'acord",
     "textRenameFile": "Canvia el nom del fitxer",
     "textSwitchedMobileView": "S'ha canviat a visualització mòbil",
-    "textSwitchedStandardView": "S'ha canviat a visualització estàndard"
+    "textSwitchedStandardView": "S'ha canviat a visualització estàndard",
+    "warnEmptyRequiredField": "Emplena tots els camps necessaris per enviar el formulari.",
+    "btnRestartNow": "Restart now",
+    "btnSend": "Send",
+    "textSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

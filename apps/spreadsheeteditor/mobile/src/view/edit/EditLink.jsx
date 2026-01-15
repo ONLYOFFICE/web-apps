@@ -3,6 +3,10 @@ import {observer, inject} from "mobx-react";
 import {f7, List, ListItem, Page, Navbar, NavRight, Icon, ListButton, ListInput, Link, NavLeft, NavTitle} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconClose from '@common-android-icons/icon-close.svg';
+import IconDone from '@common-android-icons/icon-done.svg';
+import IconDoneDisabled from '@common-android-icons/icon-done-disabled.svg';
 
 const PageEditTypeLink = ({curType, changeType, storeFocusObjects}) => {
     const { t } = useTranslation();
@@ -116,7 +120,9 @@ const EditLink = props => {
                     <Link text={Device.ios ? t('View.Edit.textCancel') : ''} onClick={() => {
                         props.isNavigate ? f7.views.current.router.back() : props.closeModal();
                     }}>
-                        {Device.android && <Icon icon='icon-close' />}
+                        {Device.android && 
+                            <SvgIcon symbolId={IconClose.id} className={'icon icon-svg close'} />
+                        }
                     </Link>
                 </NavLeft>
                 <NavTitle>{t('View.Edit.textLinkSettings')}</NavTitle>
@@ -126,7 +132,11 @@ const EditLink = props => {
                             {type: 1, url: link, text: stateDisplayText, tooltip: screenTip} :
                             {type: 2, url: range, sheet: curSheet, text: stateDisplayText, tooltip: screenTip});
                     }} text={Device.ios ? t('View.Edit.textDone') : ''}>
-                        {Device.android && <Icon icon={link.length < 1 ? 'icon-done-disabled' : 'icon-done'} />}
+                        {Device.android && (
+                            link.length < 1 ? 
+                                <SvgIcon symbolId={IconDoneDisabled.id} className={'icon icon-svg inactive'} /> :
+                                <SvgIcon symbolId={IconDone.id} className={'icon icon-svg active'} />
+                        )}
                     </Link>
                 </NavRight>
             </Navbar>

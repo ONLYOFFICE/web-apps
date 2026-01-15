@@ -52,7 +52,7 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                contentStyle: 'padding: 0 5px;',
+                contentStyle: 'padding: 5px;',
                 contentTemplate: _.template([
                     '<div class="settings-panel active">',
                     '<div class="inner-content">',

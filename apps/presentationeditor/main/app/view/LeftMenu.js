@@ -124,28 +124,41 @@ define([
                 config && !!config.feedback && !!config.feedback.url ?
                     window.open(config.feedback.url) :
                     window.open('{{SUPPORT_URL}}');
+                Common.NotificationCenter.trigger('edit:complete', this);
             }, this));
 
             /** coauthoring begin **/
             this.btnComments = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-comments'),
-                hint: this.tipComments + Common.Utils.String.platformKey('Ctrl+Shift+H'),
+                hint: this.tipComments,
                 enableToggle: true,
                 disabled: true,
                 iconCls: 'btn-menu-comments',
                 toggleGroup: 'leftMenuGroup'
             });
             this.btnComments.on('click',        this.onBtnMenuClick.bind(this));
+            PE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                OpenCommentsPanel: {
+                    btn: this.btnComments,
+                    label: this.tipComments
+                }
+            });
 
             this.btnChat = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-chat'),
-                hint: this.tipChat + Common.Utils.String.platformKey('Alt+Q', ' (' + (Common.Utils.isMac ? Common.Utils.String.textCtrl + '+' : '') + '{0})'),
+                hint: this.tipChat,
                 enableToggle: true,
                 disabled: true,
                 iconCls: 'btn-menu-chat',
                 toggleGroup: 'leftMenuGroup'
             });
             this.btnChat.on('click',            this.onBtnMenuClick.bind(this));
+            PE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                OpenChatPanel: {
+                    btn: this.btnChat,
+                    label: this.tipChat
+                }
+            });
 
             this.btnComments.hide();
             this.btnChat.hide();
@@ -200,6 +213,7 @@ define([
                 this.onCoauthOptions();
             }
 
+            btn.options.type !== 'plugin' && $('.left-panel .plugin-panel').toggleClass('active', false);
             this.fireEvent('panel:show', [this, btn.options.action, btn.pressed]);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
@@ -265,12 +279,12 @@ define([
 
         /** coauthoring begin **/
         markCoauthOptions: function(opt, ignoreDisabled) {
-            if (opt=='chat' && this.btnChat.isVisible() &&
+            if (opt=='chat' && (this.btnChat.isVisible() || this.isButtonInMoreMenu(this.btnChat)) &&
                     !this.btnChat.isDisabled() && !this.btnChat.pressed) {
                 this.btnChat.$el.addClass('notify');
             }
-            if (opt=='comments' && this.btnComments.isVisible() && !this.btnComments.pressed &&
-                                (!this.btnComments.isDisabled() || ignoreDisabled) ) {
+            if (opt=='comments' && (this.btnComments.isVisible() || this.isButtonInMoreMenu(this.btnComments)) &&
+                    !this.btnComments.pressed && (!this.btnComments.isDisabled() || ignoreDisabled) ) {
                 this.btnComments.$el.addClass('notify');
             }
         },
@@ -278,19 +292,19 @@ define([
 
         close: function(menu) {
             this.btnAbout.toggle(false);
-            this.btnThumbs.toggle(false);
+            this.btnThumbs.toggle(false, !this.mode);
             if (!this._state.pluginIsRunning)
                 this.$el.width(SCALE_MIN);
             /** coauthoring begin **/
-            if (this.mode.canCoAuthoring) {
+            if (this.mode && this.mode.canCoAuthoring) {
                 if (this.mode.canViewComments) {
-                    this.panelComments['hide']();
+                    this.panelComments && this.panelComments['hide']();
                     if (this.btnComments.pressed)
                         this.fireEvent('comments:hide', this);
                     this.btnComments.toggle(false, true);
                 }
                 if (this.mode.canChat) {
-                    this.panelChat['hide']();
+                    this.panelChat && this.panelChat['hide']();
                     this.btnChat.toggle(false);
                 }
             }
@@ -329,7 +343,7 @@ define([
             } else {
                 /** coauthoring begin **/
                 if (menu == 'chat') {
-                    if (this.btnChat.isVisible() &&
+                    if ((this.btnChat.isVisible() || this.isButtonInMoreMenu(this.btnChat)) &&
                             !this.btnChat.isDisabled() && !this.btnChat.pressed) {
                         this.btnChat.toggle(true);
                         this.onBtnMenuClick(this.btnChat);
@@ -337,13 +351,13 @@ define([
                     }
                 } else
                 if (menu == 'comments') {
-                    if (this.btnComments.isVisible() &&
+                    if ((this.btnComments.isVisible() || this.isButtonInMoreMenu(this.btnComments)) &&
                             !this.btnComments.isDisabled() && !this.btnComments.pressed) {
                         this.btnComments.toggle(true);
                         this.onBtnMenuClick(this.btnComments);
                     }
                 } else if (menu == 'advancedsearch') {
-                    if (this.btnSearchBar.isVisible() &&
+                    if ((this.btnSearchBar.isVisible() || this.isButtonInMoreMenu(this.btnSearchBar)) &&
                         !this.btnSearchBar.isDisabled() && !this.btnSearchBar.pressed) {
                         this.btnSearchBar.toggle(true);
                         this.onBtnMenuClick(this.btnSearchBar);

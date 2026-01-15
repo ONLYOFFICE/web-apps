@@ -143,7 +143,8 @@ class MainController extends Component {
 
         this._state = {
             licenseType: false,
-            isDocModified: false
+            isDocModified: false,
+            requireUserAction: true
         };
         
         this.wsLockOptions = ['SelectLockedCells', 'SelectUnlockedCells', 'FormatCells', 'FormatColumns', 'FormatRows', 'InsertColumns', 'InsertRows', 'InsertHyperlinks', 'DeleteColumns',
@@ -230,6 +231,11 @@ class MainController extends Component {
 
                 value = LocalStorage.getItem("sse-mobile-allow-macros-request");
                 this.props.storeApplicationSettings.changeMacrosRequest((value !== null) ? parseInt(value)  : 0);
+
+                if (this.editorConfig.canRequestRefreshFile) {
+                    Common.Gateway.on('refreshfile', this.onRefreshFile.bind(this));
+                    this.api.asc_registerCallback('asc_onRequestRefreshFile', this.onRequestRefreshFile.bind(this));
+                }
             };
 
             const loadDocument = data => {
@@ -311,7 +317,15 @@ class MainController extends Component {
                         title: Asc.c_oLicenseResult.NotBefore === licType ? t('Controller.Main.titleLicenseNotActive') : t('Controller.Main.titleLicenseExp'),
                         text: Asc.c_oLicenseResult.NotBefore === licType ? t('Controller.Main.warnLicenseBefore') : t('Controller.Main.warnLicenseExp')
                     }).open();
+                    if (this._isDocReady || this._isPermissionsInited) { // receive after refresh file
+                        Common.Notifications.trigger('api:disconnect');
+                    }
+                    return;
+                }
 
+                if ( this.onServerVersion(params.asc_getBuildVersion()) ) return;
+                if ( this._isDocReady || this._isPermissionsInited ) {
+                    this.api.asc_LoadDocument();
                     return;
                 }
 
@@ -321,6 +335,8 @@ class MainController extends Component {
                 appOptions.setPermissionOptions(this.document, licType, params, this.permissions, EditorUIController.isSupportEditFeature());
 
                 this.applyMode(appOptions);
+
+                this._isPermissionsInited = true;
 
                 this.api.asc_LoadDocument();
 
@@ -343,7 +359,8 @@ class MainController extends Component {
                         'id-view': 'editor_sdk',
                         'id-input': 'idx-cell-content',
                         'mobile': true,
-                        'translate': _translate
+                        'translate': _translate,
+                        'isRtlInterface': Common.Locale.isCurrentLangRtl
                     });
 
                     Common.Notifications.trigger('engineCreated', this.api);
@@ -433,12 +450,12 @@ class MainController extends Component {
             this.api.asc_enableKeyEvents(false);
         });
 
+        this.api.asc_registerCallback('asc_onDocumentContentReady',       this.onDocumentContentReady.bind(this));
         this.api.asc_registerCallback('asc_onDocumentUpdateVersion',      this.onUpdateVersion.bind(this));
         this.api.asc_registerCallback('asc_onServerVersion',              this.onServerVersion.bind(this));
         this.api.asc_registerCallback('asc_onPrintUrl',                   this.onPrintUrl.bind(this));
         this.api.asc_registerCallback('asc_onPrint',                      this.onPrint.bind(this));
         this.api.asc_registerCallback('asc_onDocumentName',               this.onDocumentName.bind(this));
-        this.api.asc_registerCallback('asc_onEndAction',                  this._onLongActionEnd.bind(this));
 
         Common.Notifications.on('download:cancel', this.onDownloadCancel.bind(this));
 
@@ -470,6 +487,10 @@ class MainController extends Component {
             if(type == Asc.c_oAscAdvancedOptionsID.DRM) {
                 onAdvancedOptions(type, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose, this.isDRM);
                 this.isDRM = true;
+            }
+            if (this._state.requireUserAction) {
+                Common.Gateway.userActionRequired();
+                this._state.requireUserAction = false;
             }
         });
 
@@ -696,17 +717,12 @@ class MainController extends Component {
         }
     }
 
-    _onLongActionEnd(type, id) {
-        if ( type === Asc.c_oAscAsyncActionType.BlockInteraction && id == Asc.c_oAscAsyncAction.Open ) {
-            Common.Gateway.internalMessage('documentReady', {});
-            Common.Notifications.trigger('document:ready');
-            this.onDocumentContentReady();
-        }
-    }
-
     onDocumentContentReady() {
         if (this._isDocReady)
             return;
+
+        Common.Gateway.internalMessage('documentReady', {});
+        Common.Notifications.trigger('document:ready');
 
         const appOptions = this.props.storeAppOptions;
         const appSettings = this.props.storeApplicationSettings;
@@ -735,7 +751,6 @@ class MainController extends Component {
             Common.component.Analytics.initialize('UA-12442749-13', 'Spreadsheet Editor');
         }
 
-        Common.Gateway.on('processsaveresult',      this.onProcessSaveResult.bind(this));
         Common.Gateway.on('processrightschange',    this.onProcessRightsChange.bind(this));
         Common.Gateway.on('downloadas',             this.onDownloadAs.bind(this));
         Common.Gateway.on('requestclose',           this.onRequestClose.bind(this));
@@ -756,6 +771,7 @@ class MainController extends Component {
         f7.emit('resize');
 
         appOptions.changeDocReady(true);
+        this._state.requireUserAction = false;
     }
 
     insertImage (data) {
@@ -838,8 +854,6 @@ class MainController extends Component {
         const warnNoLicense = _t.warnNoLicense.replace(/%1/g, __COMPANY_NAME__);
         const warnNoLicenseUsers = _t.warnNoLicenseUsers.replace(/%1/g, __COMPANY_NAME__);
         const textNoLicenseTitle = _t.textNoLicenseTitle.replace(/%1/g, __COMPANY_NAME__);
-        const warnLicenseExceeded = _t.warnLicenseExceeded.replace(/%1/g, __COMPANY_NAME__);
-        const warnLicenseUsersExceeded = _t.warnLicenseUsersExceeded.replace(/%1/g, __COMPANY_NAME__);
 
         const appOptions = this.props.storeAppOptions;
         if (appOptions.config.mode !== 'view' && !EditorUIController.isSupportEditFeature()) {
@@ -851,7 +865,7 @@ class MainController extends Component {
                 f7.dialog.create({
                     title: _t.notcriticalErrorTitle,
                     text : _t.errorOpensource,
-                    buttons: [{text: 'OK'}]
+                    buttons: [{ text: _t.textOk }]
                 }).open();
             }
             Common.Notifications.trigger('toolbar:activatecontrols');
@@ -874,18 +888,20 @@ class MainController extends Component {
             f7.dialog.create({
                 title: _t.notcriticalErrorTitle,
                 text : _t.warnLicenseAnonymous,
-                buttons: [{text: 'OK'}]
+                buttons: [{ text: _t.textOk }]
             }).open();
         } else if (this._state.licenseType) {
             let license = this._state.licenseType;
-            let buttons = [{text: 'OK'}];
+            let buttons = [{ text: _t.textOk }];
+            let title = textNoLicenseTitle;
             if ((appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
                 (license === Asc.c_oLicenseResult.SuccessLimit ||
                     appOptions.permissionsLicense === Asc.c_oLicenseResult.SuccessLimit)
             ) {
                 license = _t.warnLicenseLimitedRenewed;
             } else if (license === Asc.c_oLicenseResult.Connections || license === Asc.c_oLicenseResult.UsersCount) {
-                license = (license===Asc.c_oLicenseResult.Connections) ? warnLicenseExceeded : warnLicenseUsersExceeded;
+                title = _t.titleReadOnly;
+                license = (license===Asc.c_oLicenseResult.Connections) ? _t.tipLicenseExceeded : _t.tipLicenseUsersExceeded;
             } else {
                 license = (license === Asc.c_oLicenseResult.ConnectionsOS) ? warnNoLicense : warnNoLicenseUsers;
                 buttons = [{
@@ -911,18 +927,11 @@ class MainController extends Component {
                 Common.Notifications.trigger('api:disconnect');
             }
 
-            let value = LocalStorage.getItem("sse-license-warning");
-            value = (value !== null) ? parseInt(value) : 0;
-            const now = (new Date).getTime();
-
-            if (now - value > 86400000) {
-                LocalStorage.setItem("sse-license-warning", now);
-                f7.dialog.create({
-                    title: textNoLicenseTitle,
-                    text : license,
-                    buttons: buttons
-                }).open();
-            }
+            f7.dialog.create({
+                title: title,
+                text : license,
+                buttons: buttons
+            }).open();
         } else {
             if (!appOptions.isDesktopApp && !appOptions.canBrandingExt &&
                 appOptions.config && appOptions.config.customization && (appOptions.config.customization.loaderName || appOptions.config.customization.loaderLogo)) {
@@ -1104,6 +1113,7 @@ class MainController extends Component {
 
         this.needToUpdateVersion = true;
         Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], Asc.c_oAscAsyncAction['Open']);
 
         f7.dialog.alert(
             _t.errorUpdateVersion,
@@ -1113,8 +1123,9 @@ class MainController extends Component {
                 if (callback) {
                     callback.call(this);
                 }
-                Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+                this.editorConfig && this.editorConfig.canUpdateVersion && Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
             });
+        Common.Notifications.trigger('api:disconnect');
     }
 
     onServerVersion (buildVersion) {
@@ -1130,6 +1141,9 @@ class MainController extends Component {
                 () => {
                     setTimeout(() => {Common.Gateway.updateVersion()}, 0);
                 });
+            if (this._isDocReady) { // receive after refresh file
+                Common.Notifications.trigger('api:disconnect');
+            }
             return true;
         }
         return false;
@@ -1200,19 +1214,6 @@ class MainController extends Component {
         if (this.api)
             this.api.asc_Print();
         Common.component.Analytics.trackEvent('Print');
-    }
-
-    onProcessSaveResult (data) {
-        this.api.asc_OnSaveEnd(data.result);
-
-        if (data && data.result === false) {
-            const { t } = this.props;
-            const _t = t('Controller.Main', {returnObjects:true});
-            f7.dialog.alert(
-                (!data.message) ? _t.errorProcessSaveResult : data.message,
-                _t.criticalErrorTitle
-            );
-        }
     }
 
     onProcessRightsChange (data) {
@@ -1309,6 +1310,63 @@ class MainController extends Component {
             }).open();
         } else {
             Common.Gateway.requestClose();
+        }
+    }
+
+    onRequestRefreshFile () {
+        Common.Gateway.requestRefreshFile();
+    }
+
+    onRefreshFile (data) {
+        if (data) {
+            let docInfo = new Asc.asc_CDocInfo();
+            if (data.document) {
+                docInfo.put_Id(data.document.key);
+                docInfo.put_Url(data.document.url);
+                docInfo.put_Title(data.document.title);
+                if (data.document.title) {
+                    const storeSpreadsheetInfo = this.props.storeSpreadsheetInfo;
+                    storeSpreadsheetInfo.changeTitle(data.document.title);
+                    this.document.title = data.document.title;
+                    Common.Notifications.trigger('setdoctitle', data.document.title);
+                }
+                data.document.referenceData && docInfo.put_ReferenceData(data.document.referenceData);
+            }
+            if (data.editorConfig) {
+                docInfo.put_CallbackUrl(data.editorConfig.callbackUrl);
+            }
+            if (data.token)
+                docInfo.put_Token(data.token);
+
+            const _userOptions = this.props.storeAppOptions.user;
+            const _user = new Asc.asc_CUserInfo();
+            _user.put_Id(_userOptions.id);
+            _user.put_FullName(_userOptions.fullname);
+            _user.put_IsAnonymousUser(_userOptions.anonymous);
+            docInfo.put_UserInfo(_user);
+
+            const _options = Object.assign({}, this.document.options, this.editorConfig.actionLink || {});
+            docInfo.put_Options(_options);
+
+            docInfo.put_Format(this.document.fileType);
+            docInfo.put_Lang(this.editorConfig.lang);
+            docInfo.put_Mode(this.editorConfig.mode);
+            docInfo.put_Permissions(this.document.permissions);
+            docInfo.put_DirectUrl(data.document && data.document.directUrl ? data.document.directUrl : this.document.directUrl);
+            docInfo.put_VKey(data.document && data.document.vkey ?  data.document.vkey : this.document.vkey);
+            docInfo.put_EncryptedInfo(data.editorConfig && data.editorConfig.encryptionKeys ? data.editorConfig.encryptionKeys : this.editorConfig.encryptionKeys);
+
+            const appOptions = this.props.storeAppOptions;
+            let enable = !appOptions.customization || (appOptions.customization.macros !== false);
+            docInfo.asc_putIsEnabledMacroses(!!enable);
+            enable = !appOptions.customization || (appOptions.customization.plugins!==false);
+            docInfo.asc_putIsEnabledPlugins(!!enable);
+
+            let coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
+                this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
+                    this.editorConfig.coEditing.mode || 'fast';
+            docInfo.put_CoEditingMode(coEditMode);
+            this.api.asc_refreshFile(docInfo);
         }
     }
 

@@ -109,7 +109,15 @@ define([
                     'leftmenu:hide': _.bind(this.onLeftMenuHide, this)
                 },
                 'SearchBar': {
-                    'search:show': _.bind(this.onShowHideSearch, this)
+                    'search:show': _.bind(this.onShowHideSearch, this),
+                    'search:showredact': _.bind(this.onShowHideRedactSearch, this)
+                },
+                'RedactTab': {
+                    'search:showredact': _.bind(this.onShowHideRedactSearch, this),
+                    'menu:hide': _.bind(this.clickToolbarTab, this, 'red')
+                },
+                'Common.Views.SearchPanel': {
+                    'search:showredact': _.bind(this.onShowHideRedactSearch, this)
                 }
             });
 
@@ -120,6 +128,7 @@ define([
                     this.clickMenuFileItem(null, 'history');
             }, this));
             Common.NotificationCenter.on('file:print', _.bind(this.clickToolbarPrint, this));
+            Common.NotificationCenter.on('search:resetmode', _.bind(this.onSetDefaultSearchMode, this));
         },
 
         onLaunch: function() {
@@ -269,6 +278,8 @@ define([
                 close_menu = !!isopts;
                 break;
             case 'close-editor': Common.NotificationCenter.trigger('close'); break;
+            case 'switch:mobile': Common.Gateway.switchEditorType('mobile', true); break;
+            case 'suggest': Common.NotificationCenter.trigger('suggest'); break;
                 case 'history':
                     if (!this.leftMenu.panelHistory.isVisible()) {
                         if (this.api.isDocumentModified()) {
@@ -396,20 +407,22 @@ define([
             var me = this,
                 defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
             !defFileName && (defFileName = me.txtUntitled);
-            var idx = defFileName.lastIndexOf('.');
+            var idx = defFileName.lastIndexOf('.'),
+                fileExt = format===undefined && ext==="true" ? (idx>0 ? defFileName.substring(idx) : '') : ext;
             if (idx>0)
                 defFileName = defFileName.substring(0, idx);
+
             (new Common.Views.TextInputDialog({
                 label: me.textSelectPath,
                 value: defFileName || '',
-                inputFixedConfig: {fixedValue: ext, fixedWidth: 40},
+                inputFixedConfig: {fixedValue: fileExt, fixedWidth: 40},
                 inputConfig: {
                     maxLength: me.mode.wopi.FileNameMaxLength
                 },
                 handler: function(result, value) {
                     if (result == 'ok') {
-                        if (typeof ext === 'string')
-                            value = value + ext;
+                        if (typeof fileExt === 'string')
+                            value = value + fileExt;
                         me.clickSaveAsFormat(menu, format, ext, value);
                     }
                 }
@@ -465,13 +478,13 @@ define([
             /** coauthoring begin **/
             if (this.mode.isEdit && this.mode.canCoAuthoring && canPDFSave && !this.mode.isOffline) {
                 if (this.mode.canChangeCoAuthoring) {
-                    // fast_coauth = Common.localStorage.getBool("pdfe-settings-coauthmode", true);
-                    fast_coauth = Common.Utils.InternalSettings.get("pdfe-settings-coauthmode");
+                    fast_coauth = Common.localStorage.getBool("pdfe-settings-coauthmode", false); // false by default!
+                    Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", fast_coauth);
                     this.api.asc_SetFastCollaborative(fast_coauth);
                 }
 
-                // value = Common.localStorage.getItem((fast_coauth) ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict");
-                value = Common.Utils.InternalSettings.get(fast_coauth ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict");
+                value = Common.localStorage.getItem((fast_coauth) ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict");
+                Common.Utils.InternalSettings.set((fast_coauth) ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict", value);
                 switch(value) {
                 case 'all': value = Asc.c_oAscCollaborativeMarksShowType.All; break;
                 case 'none': value = Asc.c_oAscCollaborativeMarksShowType.None; break;
@@ -506,8 +519,8 @@ define([
 
             if (this.mode.isEdit && canPDFSave) {
                 if (this.mode.canChangeCoAuthoring || !fast_coauth) {// can change co-auth. mode or for strict mode
-                    // value = parseInt(Common.localStorage.getItem("pdfe-settings-autosave"));
-                    value = Common.Utils.InternalSettings.get("pdfe-settings-autosave");
+                    value = parseInt(Common.localStorage.getItem("pdfe-settings-autosave"));
+                    Common.Utils.InternalSettings.set("pdfe-settings-autosave", value);
                     this.api.asc_setAutoSaveGap(value);
                 }
             }
@@ -657,6 +670,7 @@ define([
         SetDisabled: function(disable, options) {
             if (this.leftMenu._state.disabled !== disable) {
                 this.leftMenu._state.disabled = disable;
+                if (this.mode) {
                 if (disable) {
                     this.previsEdit = this.mode.isEdit;
                     this.prevcanEdit = this.mode.canEdit;
@@ -665,6 +679,7 @@ define([
                     this.mode.isEdit = this.previsEdit;
                     this.mode.canEdit = this.prevcanEdit;
                 }
+            }
             }
 
             if (disable) this.leftMenu.close();
@@ -939,10 +954,26 @@ define([
             }
         },
 
+        onShowHideRedactSearch: function (state) {
+            if (state) {
+                Common.UI.Menu.Manager.hideAll();
+                this.tryToShowLeftMenu();
+                this.leftMenu.showMenu('advancedsearch', undefined, true);
+                this.leftMenu.panelSearch.setSearchMode('redact');
+            } else {
+                this.leftMenu.btnSearchBar.toggle(false, true);
+                this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);
+            }
+        },
+
         onMenuSearchBar: function(obj, show) {
             if (show) {
-                this.leftMenu.panelSearch.setSearchMode('no-replace');
+                this.onSetDefaultSearchMode();
             }
+        },
+
+        onSetDefaultSearchMode: function () {
+            this.leftMenu.panelSearch.setSearchMode('no-replace');
         },
 
         isSearchPanelVisible: function () {

@@ -6,8 +6,8 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../common/mobile/utils/device';
 
-const StatusbarController = inject('storeWorksheets', 'storeFocusObjects', 'users')(observer(props => {
-    const {storeWorksheets, storeFocusObjects, users} = props;
+const StatusbarController = inject('storeWorksheets', 'storeFocusObjects', 'users', 'storeSpreadsheetSettings')(observer(props => {
+    const {storeWorksheets, storeFocusObjects, users, storeSpreadsheetSettings} = props;
  
     useEffect(() => {
         Common.Notifications.on('engineCreated', api => {
@@ -28,10 +28,16 @@ const StatusbarController = inject('storeWorksheets', 'storeFocusObjects', 'user
             api.asc_registerCallback('asc_onHidePopMenu', onApiHideTabContextMenu);
             api.asc_registerCallback('asc_onUpdateTabColor', onApiUpdateTabColor);
             api.asc_registerCallback('asc_onCoAuthoringDisconnect', onApiDisconnect);
+            api.asc_registerCallback('asc_onUpdateSheetViewSettings', onApiUpdateSheet);
         });
         Common.Notifications.on('document:ready', onApiSheetsChanged);
         Common.Notifications.on('api:disconnect', onApiDisconnect);
     });
+
+    const onApiUpdateSheet = () => {    
+        const api = Common.EditorApi.get();
+        storeSpreadsheetSettings.changeSheetRtl(api.asc_getSheetViewSettings().asc_getRightToLeft());
+    }
 
     const onApiEditCell = state => {
         let isDisable = state !== Asc.c_oAscCellEditorState.editEnd;
@@ -63,6 +69,7 @@ const StatusbarController = inject('storeWorksheets', 'storeFocusObjects', 'user
         }
 
         storeWorksheets.resetSheets(items);
+        onApiUpdateSheet();
     };
 
     const onApiActiveSheetChanged = (index) => {
@@ -70,6 +77,7 @@ const StatusbarController = inject('storeWorksheets', 'storeFocusObjects', 'user
             storeWorksheets.setActiveWorksheet(index);
             Common.Notifications.trigger('sheet:active', index);
         }
+        onApiUpdateSheet();
     };
 
     const onApiHideTabContextMenu = () => {
@@ -109,8 +117,8 @@ const StatusbarController = inject('storeWorksheets', 'storeFocusObjects', 'user
     return null;
 }));
 
-const Statusbar = inject('storeWorksheets', 'storeAppOptions', 'users')(observer(props => {
-    const {storeWorksheets, storeAppOptions, users} = props;
+const Statusbar = inject('storeWorksheets', 'storeAppOptions', 'users', 'storeSpreadsheetInfo')(observer(props => {
+    const {storeWorksheets, storeAppOptions, users, storeSpreadsheetInfo} = props;
     const {t} = useTranslation();
     const _t = t('Statusbar', {returnObjects: true});
     const isEdit = storeAppOptions.isEdit;
@@ -161,7 +169,26 @@ const Statusbar = inject('storeWorksheets', 'storeAppOptions', 'users')(observer
     const onAddTabClicked = () => {
         const api = Common.EditorApi.get();
         api.asc_closeCellEditor();
-        api.asc_addWorksheet(createSheetName());
+
+        if ((storeSpreadsheetInfo.dataDoc?.fileType ?? '').toLowerCase() === 'csv') {
+            f7.dialog.create({
+                title: _t.notcriticalErrorTitle,
+                text: _t.warnAddSheetCsv,
+                buttons: [
+                    {
+                        text: _t.textCancel
+                    },
+                    {
+                        text: _t.textContinue,
+                        onClick: () => {
+                            api.asc_addWorksheet(createSheetName());
+                        }
+                    }
+                ]
+            }).open();
+        } else {
+            api.asc_addWorksheet(createSheetName());
+        }
     };
 
     const onTabClick = (i, target) => {
@@ -231,7 +258,7 @@ const Statusbar = inject('storeWorksheets', 'storeAppOptions', 'users')(observer
                     '<div class="item-content item-input" style="margin-top: 15px; position: relative; padding-bottom: 10px;"><div class="item-inner"><div class="item-input-wrap" style="min-height: initial; width: 100%;"><input type="text" style="width: 100%;" name="modal-sheet-name" value="' + current + '" maxlength="31" placeholder="' + _t.textSheetName + '" /></div></div></div>',
                 buttons: [
                     {
-                        text: 'OK',
+                        text: _t.textOk,
                         bold: true,
                         onClick: function () {
                             let s = $$('input[name="modal-sheet-name"]').val(),

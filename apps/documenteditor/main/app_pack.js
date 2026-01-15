@@ -27,8 +27,17 @@ require([
     'common/main/lib/view/LanguageDialog',
     'common/main/lib/view/TextInputDialog',
     'common/main/lib/view/DocumentHolderExt',
+    'common/main/lib/view/ExternalLinksDlg',
+    'common/main/lib/view/FormatSettingsDialog',
+    'common/main/lib/view/PdfSignDialog',
     'common/main/lib/view/DocumentPropertyDialog',
+    'common/main/lib/view/MacrosDialog',
+    'common/main/lib/view/MacrosAiDialog',
+    'common/main/lib/view/ShortcutsDialog',
+    'common/main/lib/view/ShortcutsEditDialog',
+    'common/main/lib/component/MonacoEditor',
 
+    'documenteditor/main/app/controller/DocumentHolderExt',
     'documenteditor/main/app/view/FileMenuPanels',
     'documenteditor/main/app/view/DocumentHolderExt',
     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
@@ -64,6 +73,7 @@ require([
     'documenteditor/main/app/view/NumberingValueDialog',
     'documenteditor/main/app/view/ListIndentsDialog',
     'documenteditor/main/app/view/ProtectDialog',
+    'documenteditor/main/app/view/PageNumberingDlg',
     'documenteditor/main/app/view/MailMergeEmailDlg'
 ], function () {
     Common.NotificationCenter.trigger('app-pack:loaded');

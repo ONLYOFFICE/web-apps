@@ -46,7 +46,7 @@ define([
     DE.Views.ParagraphSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 370,
-            contentHeight: 330,
+            contentHeight: 340,
             toggleGroup: 'paragraph-adv-settings-group',
             storageName: 'de-para-settings-adv-category'
         },
@@ -186,6 +186,9 @@ define([
             }, this));
             this.spinners.push(this.numIndentsRight);
 
+            this.lblIndentsLeft = $('#paragraphadv-lbl-indent-left');
+            this.lblIndentsRight = $('#paragraphadv-lbl-indent-right');
+
             this.numSpacingBefore = new Common.UI.MetricSpinner({
                 el: $('#paragraphadv-spin-spacing-before'),
                 step: .1,
@@ -257,6 +260,11 @@ define([
                 el: $('#paragraphadv-checkbox-add-interval'),
                 labelText: this.strSomeParagraphSpace
             });
+            this.chAddInterval.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    this._changedProps.asc_putContextualSpacing(field.getValue()=='checked');
+                }
+            }, this));
 
             this.cmbSpecial = new Common.UI.ComboBox({
                 el: $('#paragraphadv-spin-special'),
@@ -293,6 +301,11 @@ define([
                 takeFocusOnClose: true
             });
             this.cmbTextAlignment.setValue('');
+            this.cmbTextAlignment.on('selected', _.bind(function(combo, record) {
+                if (this._changedProps) {
+                    this._changedProps.asc_putJc(record.value>-1 ? record.value: null);
+                }
+            }, this));
 
             this.cmbOutlinelevel = new Common.UI.ComboBox({
                 el: $('#paragraphadv-spin-outline-level'),
@@ -305,6 +318,22 @@ define([
             });
             this.cmbOutlinelevel.setValue(-1);
             this.cmbOutlinelevel.on('selected', _.bind(this.onOutlinelevelSelect, this));
+
+            this.rbDirLtr = new Common.UI.RadioBox({
+                el: $('#paragraphadv-dir-ltr'),
+                name        : 'text-dir',
+                labelText   : this.textDirLtr,
+                value: false
+            });
+            this.rbDirLtr.on('change', _.bind(this.onTextDirChange, this));
+
+            this.rbDirRtl = new Common.UI.RadioBox({
+                el: $('#paragraphadv-dir-rtl'),
+                name        : 'text-dir',
+                labelText   : this.textDirRtl,
+                value: true
+            });
+            this.rbDirRtl.on('change', _.bind(this.onTextDirChange, this));
 
             // Line & Page Breaks
 
@@ -716,7 +745,7 @@ define([
         getFocusedComponents: function() {
             return this.btnsCategory.concat([
                 this.cmbTextAlignment, this.cmbOutlinelevel, this.numIndentsLeft, this.numIndentsRight, this.cmbSpecial, this.numSpecialBy,
-                this.numSpacingBefore, this.numSpacingAfter, this.cmbLineRule, this.numLineHeight, this.chAddInterval, // 0 tab
+                this.numSpacingBefore, this.numSpacingAfter, this.cmbLineRule, this.numLineHeight, this.chAddInterval, this.rbDirLtr, this.rbDirRtl, // 0 tab
                 this.chBreakBefore, this.chKeepLines, this.chOrphan, this.chKeepNext, this.chLineNumbers, // 1 tab
                 this.cmbBorderSize, this.btnBorderColor]).concat(this._btnsBorderPosition).concat([this.btnBackColor,  // 2 tab
                 this.chStrike, this.chSubscript, this.chDoubleStrike, this.chSmallCaps, this.chSuperscript, this.chAllCaps, this.numSpacing, this.numPosition, // 3 tab
@@ -827,12 +856,6 @@ define([
                 this._changedProps.asc_putSpacing(this.Spacing);
             }
 
-            var spaceBetweenPrg = this.chAddInterval.getValue();
-            this._changedProps.asc_putContextualSpacing(spaceBetweenPrg == 'checked');
-
-            var horizontalAlign = this.cmbTextAlignment.getValue();
-            this._changedProps.asc_putJc((horizontalAlign !== undefined && horizontalAlign !== null) ? horizontalAlign : c_paragraphTextAlignment.LEFT);
-
             return { paragraphProps: this._changedProps, borderProps: {borderSize: this.BorderSize, borderColor: this.btnBorderColor.isAutoColor() ? 'auto' : this.btnBorderColor.color} };
         },
 
@@ -871,7 +894,15 @@ define([
                 this.cmbSpecial.setValue(this.CurSpecial);
                 this.numSpecialBy.setValue(this.FirstLine!== null ? Math.abs(Common.Utils.Metric.fnRecalcFromMM(this.FirstLine)) : '', true);
 
-                this.cmbTextAlignment.setValue((props.get_Jc() !== undefined && props.get_Jc() !== null) ? props.get_Jc() : c_paragraphTextAlignment.LEFT, true);
+                value = props.asc_getRtlDirection();
+                if (value !== undefined) {
+                    this.rbDirRtl.setValue(value, true);
+                    this.rbDirLtr.setValue(!value, true);
+                }
+                this.lblIndentsLeft.text(value ? this.strIndentsSpacingBefore : this.strIndentsLeftText);
+                this.lblIndentsRight.text(value ? this.strIndentsSpacingAfter : this.strIndentsRightText);
+
+                this.cmbTextAlignment.setValue((props.get_Jc() !== undefined && props.get_Jc() !== null) ? props.get_Jc() : '');
 
                 this.chKeepLines.setValue((props.get_KeepLines() !== null && props.get_KeepLines() !== undefined) ? props.get_KeepLines() : 'indeterminate', true);
                 this.chBreakBefore.setValue((props.get_PageBreakBefore() !== null && props.get_PageBreakBefore() !== undefined) ? props.get_PageBreakBefore() : 'indeterminate', true);
@@ -1474,6 +1505,14 @@ define([
         onLigaturesSelect: function(combo, record) {
             if (this._changedProps) {
                 this._changedProps.put_Ligatures(record.value);
+            }
+        },
+
+        onTextDirChange: function(field, newValue, eOpts) {
+            if (newValue && this._changedProps) {
+                this._changedProps.asc_putRtlDirection(field.options.value);
+                this.lblIndentsLeft.text(field.options.value ? this.strIndentsSpacingBefore : this.strIndentsLeftText);
+                this.lblIndentsRight.text(field.options.value ? this.strIndentsSpacingAfter : this.strIndentsRightText);
             }
         },
 

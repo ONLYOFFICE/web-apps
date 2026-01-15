@@ -24,7 +24,7 @@
     &:focus,
     &:active,
     &.active {
-      z-index: 2;
+      //z-index: 2;
     }
   }
 }
@@ -61,15 +61,15 @@
 }
 
 // Set corners individual because sometimes a single button can be in a .btn-group and we need :first-child and :last-child to both match
-.btn-group > .btn:first-child {
+.btn-group:not(.x-huge) > .btn:first-child {
   margin-left: 0;
   &:not(:last-child):not(.dropdown-toggle) {
     .border-right-radius(0);
   }
 }
 // Need .dropdown-toggle since :last-child doesn't apply, given that a .dropdown-menu is used immediately after it
-.btn-group > .btn:last-child:not(:first-child),
-.btn-group > .dropdown-toggle:not(:first-child) {
+.btn-group:not(.x-huge) > .btn:last-child:not(:first-child),
+.btn-group:not(.x-huge) > .dropdown-toggle:not(:first-child) {
   .border-left-radius(0);
 }
 

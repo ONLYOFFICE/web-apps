@@ -112,6 +112,16 @@
                         "text": "../vendor/requirejs-text/text"
                     }
                 }
+            },
+            "babel": {
+                "files": [
+                    {
+                        "expand": true,
+                        "cwd": "../deploy/web-apps/apps/pdfeditor/main/",
+                        "src": "*.js",
+                        "dest": "../deploy/web-apps/apps/pdfeditor/main/ie"
+                    }
+                ]
             }
         },
         "less": {
@@ -133,7 +143,7 @@
                     "cwd": "../apps/pdfeditor/main/resources/img/",
                     "src": [
                         "**/*.{png,jpg,gif,ico}",
-                        "!toolbar/*x/**/*"
+                        "!toolbar/**/*x/**/*"
                     ],
                     "dest": "../deploy/web-apps/apps/pdfeditor/main/resources/img/"
                 }
@@ -144,7 +154,7 @@
                     "cwd": "../apps/common/main/resources/img/",
                     "src": [
                         "**/*.{png,jpg,gif}",
-                        "!toolbar/*x/**/*"
+                        "!toolbar/**/*x/**/*"
                     ],
                     "dest": "../deploy/web-apps/apps/pdfeditor/main/resources/img/"
                 }
@@ -191,7 +201,10 @@
                 {
                     "expand": true,
                     "cwd": "../apps/pdfeditor/main/resources/img",
-                    "src": "**/*.svg",
+                    "src": [
+                        "**/*.svg",
+                        "!toolbar/**/*x/**/*"
+                    ],
                     "dest": "../deploy/web-apps/apps/pdfeditor/main/resources/img"
                 }
             ],

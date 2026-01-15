@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: blob:">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover, interactive-widget=resizes-content">
 
   <meta name="theme-color" content="#007aff">
   <meta name="format-detection" content="telephone=no">
@@ -14,6 +14,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="static/icons/apple-touch-icon.png">
   <link rel="icon" href="static/icons/favicon.png">
+
+  <link rel="stylesheet" href="../../../../sdkjs/cell/css/main-mobile.css">
 
     <% if (!htmlWebpackPlugin.options.skeleton.stylesheet) { %>
         <link rel="stylesheet" href="../../common/mobile/resources/css/skeleton.css">
@@ -33,9 +35,11 @@
         <%= htmlWebpackPlugin.options.skeleton.htmlscript %>
     </script>
     <% } %>
-    <section class="skl-container ">
-        <div class="skl-navbar skl-navbar--cell"></div>
-    </section>
+    <div id="app">
+        <section class="skl-container ">
+            <div class="skl-navbar skl-navbar--cell"></div>
+        </section>
+    </div>
     <script>
         const isAndroid = /Android/.test(navigator.userAgent);
         if ( isAndroid && navigator.platform == 'Win32' )

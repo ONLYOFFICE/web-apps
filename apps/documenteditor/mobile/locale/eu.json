@@ -65,7 +65,9 @@
     "textTableSize": "Taularen tamaina",
     "textWithBlueLinks": "Esteka urdinekin",
     "textWithPageNumbers": "Orri-zenbakiekin",
-    "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa"
+    "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
+    "textDrawing": "Drawing",
+    "textRemovePicture": "Remove picture"
   },
   "Common": {
     "Collaboration": {
@@ -408,7 +410,17 @@
     "textWe": "az.",
     "textWrap": "Doikuntza",
     "textWrappingStyle": "Egokitze-estiloa",
-    "textYourOption": "Zure aukera"
+    "textYourOption": "Zure aukera",
+    "textBaseline": "Baseline",
+    "textCapitalization": "Capitalization",
+    "textCellOptions": "Cell options",
+    "textCellSize": "Rows & columns size",
+    "textLtrTextDirection": "Left-to-right",
+    "textRtlTextDirection": "Right-to-left",
+    "textTextDirection": "Text Direction",
+    "textWrapText": "Wrap Text",
+    "txtHeight": "Height",
+    "txtWidth": "Width"
   },
   "Error": {
     "convertationTimeoutText": "Bihurketaren denbora-muga gainditu da.",
@@ -468,7 +480,13 @@
     "uploadDocSizeMessage": "Dokumentuaren gehienezko tamaina gainditu da.",
     "uploadImageExtMessage": "Irudi-formatu ezezaguna.",
     "uploadImageFileCountMessage": "Ez da irudirik kargatu.",
-    "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da."
+    "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "Datuak kargatzen...",
@@ -506,13 +524,13 @@
     "txtEditingMode": "Ezarri edizio modua...",
     "uploadImageTextText": "Irudia kargatzen...",
     "uploadImageTitleText": "Irudia kargatzen",
-    "waitText": "Mesedez, itxaron..."
+    "waitText": "Mesedez, itxaron...",
+    "savingText": "Submitting"
   },
   "Main": {
     "criticalErrorTitle": "Errorea",
     "errorAccessDeny": "Baimenik ez duzun ekintza bat egiten saiatzen ari zara.<br>Mesedez, jarri administratzailearekin harremanetan.",
     "errorOpensource": "Doako Community bertsioa erabiliz dokumentuak ikusteko bakarrik ireki ditzakezu. Mugikorreko web editoreetara sarbidea izateko lizentzia komertziala behar da.",
-    "errorProcessSaveResult": "Gordetzeak huts egin du.",
     "errorServerVersion": "Editorearen bertsioa eguneratu da. Orria berriz kargatuko da aldaketak aplikatzeko.",
     "errorUpdateVersion": "Fitxategiaren bertsioa aldatu da. Orria berriz kargatuko da.",
     "leavePageText": "Gorde gabeko aldaketak dituzu. Egin klik \"Jarraitu orri honetan\" gordetze-automatikoari itxaroteko. Egin klik \"Utzi orri hau\" gorde gabeko aldaketa guztiak baztertzeko.",
@@ -536,6 +554,7 @@
       "First Page ": "Lehen orria",
       "Footer": "Orri-oina",
       "footnote text": "Oin-oharraren testua",
+      "Grayscale": "Gris-eskala",
       "Header": "Goiburua",
       "Heading 1": "1. izenburua",
       "Heading 2": "2. izenburua",
@@ -588,7 +607,6 @@
       "Emphasis": "Emphasis",
       "endnote reference": "Endnote reference",
       "footnote reference": "Footnote reference",
-      "Grayscale": "Grayscale",
       "Green": "Green",
       "Green Yellow": "Green Yellow",
       "Intense Emphasis": "Intense emphasis",
@@ -644,18 +662,20 @@
     "warnDownloadAsPdf": "Zure {0} formatu editagarri batera bihurtuko da. Luze jo dezake. Sortutako dokumentua optimizatua egongo da testua editatzeko aukera izan dezazun, ondorioz baliteke jatorrizko {0}aren itxura berbera ez izatea, bereziki jatorrizkoak diagrama asko baditu.",
     "warnLicenseAnonymous": "Sarbidea debekatuta erabiltzaile anonimoentzat.<br>Irakurtzeko soilik irekiko da dokumentu hau.",
     "warnLicenseBefore": "Lizentzia ez dago aktibo.<br>Jarri zure administratzailearekin harremanetan.",
-    "warnLicenseExceeded": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau ikusteko bakarrik irekiko da. Jarri harremanetan administratzailearekin informazio gehiago lortzeko.",
     "warnLicenseExp": "Zure lizentzia iraungi da. Mesedez, eguneratu zure lizentzia eta freskatu orria.",
     "warnLicenseLimitedNoAccess": "Lizentzia iraungi da. Ez daukazu dokumentu-edizio funtzionalitaterako sarbidea. Mesedez, kontaktatu zure administratzailea.",
     "warnLicenseLimitedRenewed": "Lizentziak berritzea behar du. Dokumentu-edizioaren funtzionalitatera sarbide mugatua duzu.<br>Mesedez jarri harremanetan zure administratzailearekin sarbide osoa lortzeko",
-    "warnLicenseUsersExceeded": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan zure administratzailearekin informazio gehiagorako.",
     "warnNoLicense": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau ikusteko bakarrik irekiko da. Jarri harremanetan %1 salmenta taldearekin eguneraketa pertsonalaren baldintzak jakiteko.",
     "warnNoLicenseUsers": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan %1 salmenta taldearekin mailaz igotzeko baldintzak ezagutzeko.",
     "warnProcessRightsChange": "Ez duzu fitxategi hau editatzeko baimenik.",
     "textCancel": "Cancel",
     "textConvertForm": "Download file as PDF to save the form in the format ready for filling.",
     "textDownloadPdf": "Download PDF",
-    "textSaveAsPdf": "Save as PDF"
+    "textSaveAsPdf": "Save as PDF",
+    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+    "titleReadOnly": "Read-Only Mode",
+    "txtSignedForm": "This document has been signed and cannot be edited."
   },
   "Settings": {
     "advDRMOptions": "Babestutako fitxategia",
@@ -776,7 +796,6 @@
     "textSpellcheck": "Ortografia-egiaztapena",
     "textStatistic": "Estatistikak",
     "textSubject": "Gaia",
-    "textSubmit": "Bidali",
     "textSymbols": "Ikurrak",
     "textTheme": "Itxura",
     "textTitle": "Izenburua",
@@ -797,8 +816,9 @@
     "txtOk": "Ados",
     "txtProtected": "Behin pasahitza sartu eta fitxategia ireki duzula, uneko pasahitza berrezarri egingo da",
     "textClose": "Close",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-    "textRtlInterface": "RTL Interface"
+    "textDrawing": "Drawing",
+    "textHyphenation": "Hyphenation",
+    "textOpenLocation": "Open location"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Gorde gabeko aldaketak dituzu. Egin klik \"Jarraitu orri honetan\" gordetze-automatikoari itxaroteko. Egin klik \"Utzi orri hau\" gorde gabeko aldaketa guztiak baztertzeko.",
@@ -810,6 +830,16 @@
     "textOk": "Ados",
     "textRenameFile": "Berrizendatu fitxategia",
     "textSwitchedMobileView": "Mugikorreko ikuspegira aldatu da",
-    "textSwitchedStandardView": "Ikuspegi estandarrera aldatu da"
+    "textSwitchedStandardView": "Ikuspegi estandarrera aldatu da",
+    "warnEmptyRequiredField": "Bete derrigorrezko eremu guztiak formularioa bidaltzeko.",
+    "btnRestartNow": "Restart now",
+    "btnSend": "Send",
+    "textSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

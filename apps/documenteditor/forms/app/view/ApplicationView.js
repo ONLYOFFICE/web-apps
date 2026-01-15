@@ -107,7 +107,6 @@ define([
             this.btnOptions.menu.items[2].cmpEl.addClass('small-resolution');
             this.btnOptions.menu.items[4].cmpEl.addClass('small-resolution');
 
-
             this.btnClear = new Common.UI.Button({
                 cls: 'btn-toolbar',
                 iconCls: 'svg-icon clear-style',
@@ -133,29 +132,41 @@ define([
 
             this.btnUndo = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'svg-icon undo',
-                hint: this.tipUndo + Common.Utils.String.platformKey('Ctrl+Z'),
+                iconCls: 'svg-icon undo icon-rtl',
+                hint: this.tipUndo,
                 scaling: false
             });
             this.btnUndo.render($('#id-btn-undo'));
+            DE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                EditUndo: {
+                    btn: this.btnUndo,
+                    label: this.tipUndo
+                }
+            });
 
             this.btnRedo = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'svg-icon redo',
-                hint: this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'),
+                iconCls: 'svg-icon redo icon-rtl',
+                hint: this.tipRedo,
                 scaling: false
             });
             this.btnRedo.render($('#id-btn-redo'));
+            DE.getController('Common.Controllers.Shortcuts').updateShortcutHints({
+                EditRedo: {
+                    btn: this.btnRedo,
+                    label: this.tipRedo
+                }
+            });
 
             this.btnSubmit = new Common.UI.Button({
-                cls: 'btn-text-default auto colored back-color margin-left-small margin-right-small',
+                cls: 'btn-text-default auto colored back-color margin-x-8',
                 caption: this.textSubmit,
                 hint: this.tipSubmit
             });
             this.btnSubmit.render($('#id-submit-group'));
 
             this.btnDownload = new Common.UI.Button({
-                cls: 'btn-text-default auto colored yellow margin-left-small margin-right-small',
+                cls: 'btn-text-default auto colored yellow margin-x-8',
                 caption: this.txtDownload,
                 hint: this.txtDownloadPdf
             });
@@ -178,6 +189,14 @@ define([
                 scaling: false
             });
             this.btnClose.render($('#id-btn-close-editor'));
+
+            this.btnFillStatus = new Common.UI.Button({
+                cls: 'btn-toolbar margin-right-small',
+                iconCls: 'svg-icon filing-status',
+                hint: this.tipFillStatus,
+                scaling: false
+            });
+            this.btnFillStatus.render($('#id-btn-status'));
 
             return this;
         },
@@ -225,7 +244,8 @@ define([
         tipRedo: 'Redo',
         textClearField: 'Clear field',
         textClose: 'Close file',
-        tipSubmit: 'Submit form'
+        tipSubmit: 'Submit form',
+        tipFillStatus: 'Filling status'
 
     }, DE.Views.ApplicationView || {}));
 });

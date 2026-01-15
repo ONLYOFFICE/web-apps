@@ -39,13 +39,16 @@ SSE.ApplicationController = new(function(){
         appOptions = {},
         maxPages = 0,
         created = false,
-        iframePrint = null;
+        iframePrint = null,
+        isRtlSheet = false,
+        requireUserAction = true;
     var $ttEl,
         $tooltip,
         ttOffset = [6, -15],
         labelDocName;
 
-    var LoadingDocument = -256;
+    var LoadingDocument = -256,
+        WarningShown = false;
 
     // Initialize analytics
     // -------------------------
@@ -155,6 +158,13 @@ SSE.ApplicationController = new(function(){
             enable = !config.customization || (config.customization.plugins!==false);
             docInfo.asc_putIsEnabledPlugins(!!enable);
 
+            if (config.customization) {
+                if (config.customization.showVerticalScroll!==undefined && config.customization.showVerticalScroll!==null)
+                    docInfo.asc_putShowVerticalScroll(config.customization.showVerticalScroll);
+                if (config.customization.showHorizontalScroll!==undefined && config.customization.showHorizontalScroll!==null)
+                    docInfo.asc_putShowHorizontalScroll(config.customization.showHorizontalScroll);
+            }
+
             if (api) {
                 api.asc_registerCallback('asc_onGetEditorPermissions', onEditorPermissions);
                 api.asc_registerCallback('asc_onRunAutostartMacroses', onRunAutostartMacroses);
@@ -177,6 +187,7 @@ SSE.ApplicationController = new(function(){
         $box.find('#worksheet' + index).addClass('active');
 
         api.asc_showWorksheet(index);
+        updateRtlSheet();
     }
 
     function onSheetsChanged(){
@@ -235,6 +246,13 @@ SSE.ApplicationController = new(function(){
         setActiveWorkSheet(api.asc_getActiveWorksheetIndex());
     }
 
+    function updateRtlSheet() {
+        var $container = $('#worksheet-container');
+        isRtlSheet = api && !common.utils.isIE ? !!api.asc_getSheetViewSettings().asc_getRightToLeft() : false;
+        $container.toggleClass('rtl-sheet', isRtlSheet);
+        $container.attr({dir: isRtlSheet ? 'rtl' : 'ltr'});
+    }
+
     function setupScrollButtons() {
         var $container = $('#worksheet-container');
         var $prevButton = $('#worksheet-list-button-prev');
@@ -247,16 +265,29 @@ SSE.ApplicationController = new(function(){
                 var scrollWidth = $container[0].scrollWidth;
                 var containerWidth = $container.innerWidth();
 
-                if (scrollLeft === 0) {
-                    $prevButton.prop('disabled', true);
-                    $nextButton.prop('disabled', false);
-                } else if (scrollLeft + containerWidth >= scrollWidth) {
-                    $prevButton.prop('disabled', false);
-                    $nextButton.prop('disabled', true);
+                if (isRtlSheet) {
+                    if (Math.abs(scrollLeft) + containerWidth >= scrollWidth - 1) {
+                        $prevButton.prop('disabled', false);
+                        $nextButton.prop('disabled', true);
+                    } else if (scrollLeft >= 0 ) {
+                        $prevButton.prop('disabled', true);
+                        $nextButton.prop('disabled', false);
+                    } else {
+                        $prevButton.prop('disabled', false);
+                        $nextButton.prop('disabled', false);
+                    }
                 } else {
-                    $prevButton.prop('disabled', false);
-                    $nextButton.prop('disabled', false);
-                }
+                    if (scrollLeft === 0) {
+                        $prevButton.prop('disabled', true);
+                        $nextButton.prop('disabled', false);
+                    } else if (scrollLeft + containerWidth >= scrollWidth) {
+                        $prevButton.prop('disabled', false);
+                        $nextButton.prop('disabled', true);
+                    } else {
+                        $prevButton.prop('disabled', false);
+                        $nextButton.prop('disabled', false);
+                    }
+                } 
             } else {
                 $prevButton.prop('disabled', true);
                 $nextButton.prop('disabled', true);
@@ -271,28 +302,53 @@ SSE.ApplicationController = new(function(){
         var buttonWidth = $('.worksheet-list-buttons').outerWidth();
 
         $prevButton.on('click', function() {
-            $($box.children().get().reverse()).each(function () {
-                var $tab = $(this);
-                var left = common.utils.getPosition($tab).left - buttonWidth;
-
-                if (left < 0) {
-                    $container.scrollLeft($container.scrollLeft() + left - 26);
-                    return false;
-                }
-            });
+            if (isRtlSheet) {
+                var rightBound = $container.width();
+                $($box.children().get().reverse()).each(function () {
+                    var $tab = $(this);
+                    var right = common.utils.getPosition($tab).left + $tab.outerWidth() + buttonWidth;
+    
+                    if (right > rightBound ) {
+                        $container.scrollLeft($container.scrollLeft() + right - rightBound + ($container.width() > 400 ? 20 : 5));
+                        return false;
+                    }
+                });
+            } else {
+                $($box.children().get().reverse()).each(function () {
+                    var $tab = $(this);
+                    var left = common.utils.getPosition($tab).left - buttonWidth;
+    
+                    if (left < 0) {
+                        $container.scrollLeft($container.scrollLeft() + left - 26);
+                        return false;
+                    }
+                });
+            }
         });
 
         $nextButton.on('click', function() {
-            var rightBound = $container.width();
-            $box.children().each(function () {
-                var $tab = $(this);
-                var right = common.utils.getPosition($tab).left + $tab.outerWidth();
-
-                if (right > rightBound) {
-                    $container.scrollLeft($container.scrollLeft() + right - rightBound + ($container.width() > 400 ? 20 : 5));
-                    return false;
-                }
-            });
+            if (isRtlSheet) {
+                $($box.children()).each(function () {
+                    var $tab = $(this);
+                    var left = common.utils.getPosition($tab).left - buttonWidth;
+    
+                    if (left < 0) {
+                        $container.scrollLeft($container.scrollLeft() + left - 26);
+                        return false;
+                    }
+                });
+            } else {
+                var rightBound = $container.width();
+                $box.children().each(function () {
+                    var $tab = $(this);
+                    var right = common.utils.getPosition($tab).left + $tab.outerWidth();
+    
+                    if (right > rightBound) {
+                        $container.scrollLeft($container.scrollLeft() + right - rightBound + ($container.width() > 400 ? 20 : 5));
+                        return false;
+                    }
+                });
+            }
         });
     }
 
@@ -316,6 +372,12 @@ SSE.ApplicationController = new(function(){
     function onDocumentContentReady() {
         hidePreloader();
         onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+
+        if (api) {
+            api.asc_Resize();
+            var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom)/100 : 1);
+            api.asc_setZoom(zf>0 ? zf : 1);
+        }
 
         var dividers = $('#box-tools .divider');
         var itemsCount = $('#box-tools a').length;
@@ -372,8 +434,10 @@ SSE.ApplicationController = new(function(){
             embed: '#idt-embed'
         });
 
+        common.controller.Shortcuts.setApi(api);
+
         api.asc_registerCallback('asc_onMouseMove',             onApiMouseMove);
-        api.asc_registerCallback('asc_onHyperlinkClick',        common.utils.openLink);
+        api.asc_registerCallback('asc_onHyperlinkClick',       onHyperlinkClick);
         api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
         api.asc_registerCallback('asc_onPrint',                 onPrint);
         api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
@@ -491,6 +555,8 @@ SSE.ApplicationController = new(function(){
 
         $('#editor_sdk').on('click', function(e) {
             if ( e.target.localName == 'canvas' ) {
+                if (e.target.getAttribute && e.target.getAttribute("oo_no_focused"))
+                    return;
                 e.currentTarget.focus();
             }
         });
@@ -504,16 +570,23 @@ SSE.ApplicationController = new(function(){
 
         Common.Gateway.documentReady();
         Common.Analytics.trackEvent('Load', 'Complete');
+        requireUserAction = false;
+        onSheetsChanged();
+        setupScrollButtons();
     }
 
     function onEditorPermissions(params) {
         var licType = params.asc_getLicenseType();
         if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType ||
             Asc.c_oLicenseResult.NotBefore === licType || Asc.c_oLicenseResult.ExpiredLimited === licType) {
-            $('#id-critical-error-title').text(Asc.c_oLicenseResult.NotBefore === licType ? me.titleLicenseNotActive : me.titleLicenseExp);
-            $('#id-critical-error-message').html(Asc.c_oLicenseResult.NotBefore === licType ? me.warnLicenseBefore : me.warnLicenseExp);
-            $('#id-critical-error-close').parent().remove();
-            $('#id-critical-error-dialog').css('z-index', 20002).modal({backdrop: 'static', keyboard: false, show: true});
+                common.controller.modals.showWarning({
+                    title: Asc.c_oLicenseResult.NotBefore === licType ? me.titleLicenseNotActive : me.titleLicenseExp,
+                    message: Asc.c_oLicenseResult.NotBefore === licType ? me.warnLicenseBefore : me.warnLicenseExp,
+                    buttons: []
+                });
+        
+                $('#dlg-warning').css('z-index', 20002).modal({backdrop: 'static', keyboard: false, show: true});
+                $('#dlg-warning button.close, #dlg-warning .modal-footer').remove();
             return;
         }
 
@@ -564,20 +637,6 @@ SSE.ApplicationController = new(function(){
 
     function onLongActionEnd(type, id){
         if (type === Asc.c_oAscAsyncActionType.BlockInteraction) {
-            switch (id) {
-                case Asc.c_oAscAsyncAction.Open:
-                    if (api) {
-                        api.asc_Resize();
-                        var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom)/100 : 1);
-                        api.asc_setZoom(zf>0 ? zf : 1);
-                    }
-
-                    onDocumentContentReady();
-                    onSheetsChanged();
-                    setupScrollButtons();
-                    break;
-            }
-
             me.loadMask && me.loadMask.hide();
         }
     }
@@ -598,16 +657,49 @@ SSE.ApplicationController = new(function(){
             api && api.asc_setAdvancedOptions(Asc.c_oAscAdvancedOptionsID.CSV, advOptions.asc_getRecommendedSettings() || new Asc.asc_CTextOptions());
             onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
         }
+        if (requireUserAction) {
+            Common.Gateway.userActionRequired();
+            requireUserAction = false;
+        }
+    }
+
+    function onHyperlinkClick(url) {
+        var type = api.asc_getUrlType(url);
+        if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email) 
+            window.open(url, '_blank');  
+        else {
+            WarningShown = true; 
+            common.controller.modals.showWarning({
+                    title: me.notcriticalErrorTitle,
+                    message: me.txtOpenWarning.replace('%1', url || ''),
+                    buttons: [me.txtNo, me.txtYes],
+                    primary: me.txtNo,
+                    callback: function (btn) {
+                        WarningShown = false; 
+                        if (btn === me.txtYes) {
+                            window.open(url);
+                        }
+                    },
+                    closecallback: function() {
+                        WarningShown = false;
+                    }
+            }); 
+        }    
     }
 
     function onError(id, level, errData) {
         if (id == Asc.c_oAscError.ID.LoadingScriptError) {
-            $('#id-critical-error-title').text(me.criticalErrorTitle);
-            $('#id-critical-error-message').text(me.scriptLoadError);
-            $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
-                window.location.reload();
+            common.controller.modals.showWarning({
+                title: me.criticalErrorTitle,
+                message: me.scriptLoadError,
+                buttons: [me.txtClose],
+                callback: function(btn) {
+                    window.location.reload();
+                },
+                closecallback: function() {
+                    window.location.reload();
+                }
             });
-            $('#id-critical-error-dialog').css('z-index', 20002).modal('show');
             return;
         }
 
@@ -695,34 +787,37 @@ SSE.ApplicationController = new(function(){
                 message = me.errorEditingDownloadas;
                 break;
 
+            case Asc.c_oAscError.ID.CopyDisabled:
+                message= me.errorCopyDisabled;
+                break;
+
             default:
                 // message = me.errorDefaultMessage.replace('%1', id);
                 // break;
                 return;
         }
+    
+        common.controller.modals.showWarning({
+            title: (level == Asc.c_oAscError.Level.Critical) ? me.criticalErrorTitle : me.notcriticalErrorTitle,
+            message: message,
+            buttons: [me.txtClose],
+            callback: function(btn) {
+                if (level == Asc.c_oAscError.Level.Critical) {
+                    window.location.reload();
+                } 
+            },
+            closecallback: function() {
+                if (level == Asc.c_oAscError.Level.Critical) {
+                    window.location.reload();
+                }
+            }
+        });
 
         if (level == Asc.c_oAscError.Level.Critical) {
-
-            // report only critical errors
             Common.Gateway.reportError(id, message);
-
-            $('#id-critical-error-title').text(me.criticalErrorTitle);
-            $('#id-critical-error-message').html(message);
-            $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
-                window.location.reload();
-            });
-        }
-        else {
+        } else {
             Common.Gateway.reportWarning(id, message);
-
-            $('#id-critical-error-title').text(me.notcriticalErrorTitle);
-            $('#id-critical-error-message').html(message);
-            $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
-                $('#id-critical-error-dialog').modal('hide');
-            });
         }
-
-        $('#id-critical-error-dialog').modal('show');
 
         Common.Analytics.trackEvent('Internal Error', id.toString());
     }
@@ -766,6 +861,11 @@ SSE.ApplicationController = new(function(){
     }
 
     function onApiMouseMove(array) {
+        if (WarningShown) {
+            if ($tooltip) {
+                $tooltip.tooltip('hide');
+            }
+        }
         if ( array.length ) {
             var ttdata;
             for (var i = array.length; i > 0; i--) {
@@ -789,6 +889,7 @@ SSE.ApplicationController = new(function(){
 
                         $tooltip.find('.tooltip-arrow').css({left: 10});
                     });
+                    $ttEl.data('bs.tooltip').options.title = me.txtPressLink;
                 }
 
                 if (!$tooltip) {
@@ -827,7 +928,7 @@ SSE.ApplicationController = new(function(){
             }
 
             if (value.logo.image || value.logo.imageEmbedded) {
-                logo.html('<img src="'+(value.logo.image || value.logo.imageEmbedded)+'" style="max-width:100px; max-height:20px;"/>');
+                logo.html('<img src="'+(value.logo.image || value.logo.imageEmbedded)+'" style="max-width:300px; max-height:20px;"/>');
                 logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
 
                 value.logo.imageEmbedded && console.log("Obsolete: The 'imageEmbedded' parameter of the 'customization.logo' section is deprecated. Please use 'image' parameter instead.");
@@ -863,12 +964,14 @@ SSE.ApplicationController = new(function(){
         
         api = new Asc.spreadsheet_api({
             'id-view': 'editor_sdk',
-            'embedded' : true
+            'embedded' : true,
+            'isRtlInterface': window.isrtl
         });
 
         if (api){
             api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
             api.asc_registerCallback('asc_onError',                 onError);
+            api.asc_registerCallback('asc_onDocumentContentReady',  onDocumentContentReady);
             api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);
             api.asc_registerCallback('asc_onAdvancedOptions',       onAdvancedOptions);
             api.asc_registerCallback('asc_onSheetsChanged',         onSheetsChanged);
@@ -923,6 +1026,11 @@ SSE.ApplicationController = new(function(){
         warnLicenseBefore: 'License not active. Please contact your administrator.',
         warnLicenseExp: 'Your license has expired. Please update your license and refresh the page.',
         errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
-        errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.'
+        errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
+        txtPressLink: 'Click the link to open it',
+        txtOpenWarning: 'Clicking this link can be harmful to your device and data.To protect you computer, click only those hyperlinks from trusted sources. This location may be unsafe:<br>%1<br>Are you sure you want to continue?',
+        txtYes:'Yes',
+        txtNo: 'No',
+        errorCopyDisabled: 'For security reasons, the contents of this document cannot be copied to the clipboard.'
     }
 })();

@@ -48,22 +48,21 @@ var c_oHyperlinkType = {
 define([], function () { 'use strict';
 
     PDFE.Views.HyperlinkSettingsDialog = Common.UI.Window.extend(_.extend({
-        options: {
-            width: 350,
-            style: 'min-width: 230px;',
-            cls: 'modal-dlg',
-            id: 'window-hyperlink-settings',
-            buttons: ['ok', 'cancel']
-        },
 
         initialize : function(options) {
-            _.extend(this.options, {
-                title: this.textTitle
+            var _options = {};
+            _.extend(_options, {
+                title: this.textTitle,
+                width: 350,
+                style: 'min-width: 230px;',
+                cls: 'modal-dlg',
+                id: 'window-hyperlink-settings',
+                buttons: ['ok', 'cancel']
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 319px;">',
-                    '<div class="input-row" style="margin-bottom: 10px;">',
+                '<div class="box" style="height: ' + (options.isAnnotation ? 280 : 330) + 'px;">',
+                    '<div style="margin-bottom: 10px;">',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external">', this.textExternalLink,'</button>',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal">', this.textInternalLink,'</button>',
                     '</div>',
@@ -78,25 +77,27 @@ define([], function () { 'use strict';
                             '<label>' + this.strLinkTo + '</label>',
                         '</div>',
                         '<div id="id-dlg-hyperlink-list" style="width:100%; height: 171px;"></div>',
+                        '<div id="id-dlg-hyperlink-chb-page" class="input-row" style="margin-top: 15px;"></div>',
                     '</div>',
-                    '<div class="input-row">',
+                    '<div class="input-row not-annotation">',
                         '<label>' + this.strDisplay + '</label>',
                     '</div>',
-                    '<div id="id-dlg-hyperlink-display" class="input-row" style="margin-bottom: 5px;"></div>',
-                    '<div class="input-row">',
+                    '<div id="id-dlg-hyperlink-display" class="input-row not-annotation" style="margin-bottom: 5px;"></div>',
+                    '<div class="input-row not-annotation">',
                         '<label>' + this.textTipText + '</label>',
                     '</div>',
-                    '<div id="id-dlg-hyperlink-tip" class="input-row" style="margin-bottom: 5px;"></div>',
+                    '<div id="id-dlg-hyperlink-tip" class="input-row not-annotation" style="margin-bottom: 5px;"></div>',
                 '</div>'
             ].join('');
 
-            this.options.tpl = _.template(this.template)(this.options);
-            this.slides = this.options.slides;
-            this.api = this.options.api;
+            _options.tpl = _.template(this.template)(_options);
+            this.slides = _options.slides;
+            this.api = _options.api;
             this.urlType = AscCommon.c_oAscUrlType.Invalid;
-            this.appOptions = this.options.appOptions;
+            this.appOptions = _options.appOptions;
+            this.isAnnotation = !!_options.isAnnotation;
 
-            Common.UI.Window.prototype.initialize.call(this, this.options);
+            Common.UI.Window.prototype.initialize.call(this, _options);
         },
 
         render: function() {
@@ -121,6 +122,8 @@ define([], function () { 'use strict';
                 allowDepress: false
             });
             me.btnInternal.on('click', _.bind(me.onLinkTypeClick, me, c_oHyperlinkType.InternalLink));
+
+            Common.UI.GroupedButtons([me.btnExternal, me.btnInternal]);
 
             var config = {
                 el          : $('#id-dlg-hyperlink-url'),
@@ -178,6 +181,15 @@ define([], function () { 'use strict';
             });
             me.internalList.on('item:select', _.bind(this.onSelectItem, this));
 
+            me.chPageView = new Common.UI.CheckBox({
+                el: $window.find('#id-dlg-hyperlink-chb-page'),
+                labelText: this.txtPageView
+            }).on('change', function(field, newValue, oldValue, eOpts){
+                me.internalList.setDisabled(newValue==='checked');
+                var rec = me.internalList.getSelectedRec();
+                me.btnOk.setDisabled((!rec || rec.get('index')==4) && (newValue!=='checked'));
+            });
+
             me.btnOk = _.find(this.getFooterButtons(), function (item) {
                 return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
             }) || new Common.UI.Button({ el: $window.find('.primary') });
@@ -187,10 +199,15 @@ define([], function () { 'use strict';
             me.internalList.on('entervalue', _.bind(me.onPrimary, me));
             me.externalPanel = $window.find('#id-external-link');
             me.internalPanel = $window.find('#id-internal-link');
+
+            if (me.isAnnotation) {
+                $window.find('.not-annotation').addClass('hidden');
+            } else
+                me.chPageView.setVisible(false);
         },
 
         getFocusedComponents: function() {
-            return [this.btnExternal, this.btnInternal, this.inputUrl, this.internalList, this.inputDisplay, this.inputTip].concat(this.getFooterButtons());
+            return [this.btnExternal, this.btnInternal, this.inputUrl, this.internalList, this.inputDisplay, this.inputTip, this.chPageView].concat(this.getFooterButtons());
         },
 
         setSettings: function (props) {
@@ -212,7 +229,11 @@ define([], function () { 'use strict';
                 this.isTextChanged = false;
                 this.inputTip.setValue(props.get_ToolTip());
 
+                this.isAnnotation && this.chPageView.setValue(props.get_PageView());
                 me._originalProps = props;
+            } else {
+                this.btnExternal.toggle(true);
+                this.ShowHideElem(c_oHyperlinkType.WebLink);
             }
         },
 
@@ -231,7 +252,7 @@ define([], function () { 'use strict';
                     tip = rec.get('tiptext');
                 }
                 props.put_Value( url );
-                props.put_ToolTip(_.isEmpty(txttip) ? tip : txttip);
+                !this.isAnnotation && props.put_ToolTip(_.isEmpty(txttip) ? tip : txttip);
                 def_display = tip;
             } else {
                 var url = $.trim(me.inputUrl.getValue());
@@ -239,17 +260,17 @@ define([], function () { 'use strict';
                     url = ( (me.urlType==AscCommon.c_oAscUrlType.Email) ? 'mailto:' : 'http://' ) + url;
                 url = url.replace(new RegExp("%20",'g')," ");
                 props.put_Value( url );
-                props.put_ToolTip(me.inputTip.getValue());
+                !this.isAnnotation && props.put_ToolTip(me.inputTip.getValue());
                 def_display = url;
             }
 
             if (!me.inputDisplay.isDisabled() && (me.isTextChanged || _.isEmpty(me.inputDisplay.getValue()))) {
                 if (_.isEmpty(me.inputDisplay.getValue()) || type==c_oHyperlinkType.WebLink && me.isAutoUpdate)
                     me.inputDisplay.setValue(def_display);
-                props.put_Text(me.inputDisplay.getValue());
+                !this.isAnnotation && props.put_Text(me.inputDisplay.getValue());
             }
             else
-                props.put_Text(null);
+                !this.isAnnotation && props.put_Text(null);
 
             return props;
         },
@@ -265,20 +286,82 @@ define([], function () { 'use strict';
         },
 
         _handleInput: function(state) {
+            if (state === 'ok' && this.btnOk.isDisabled())
+                return;
+
             if (this.options.handler) {
                 if (state == 'ok') {
-                    var checkurl = (this.btnExternal.isActive()) ? this.inputUrl.checkValidate() : true,
-                        checkdisp = this.inputDisplay.checkValidate();
+                    if (this.isAnnotation && this.btnInternal.isActive() && this.chPageView.getValue()==='checked') {
+                        var me = this;
+                        me.hide();
+
+                        Common.NotificationCenter.trigger('editing:disable', true, {
+                            viewMode: true,
+                            allowSignature: false,
+                            statusBar: true,
+                            rightMenu: {clear: true, disable: true},
+                            leftMenu: {disable: true, previewMode: true},
+                            fileMenu: {protect: true},
+                            navigation: {disable: true, previewMode: true},
+                            comments: {disable: true, previewMode: true},
+                            chat: true,
+                            viewport: true,
+                            documentHolder: {clear: true, disable: true},
+                            toolbar: true,
+                            plugins: false,
+                            header: {docmode: true, search: true},
+                            shortcuts: true
+                        }, 'setlink');
+                        me.api.SetCanInteract(false);
+                        Common.UI.alert({
+                            modal: false,
+                            maxwidth: 400,
+                            title: this.txtCreateLink,
+                            msg: this.txtCreateDesc,
+                            buttons: [  {caption: this.txtSetLink, primary: true, value: 'ok'},
+                                'cancel'],
+                            callback: function(btn){
+                                if (btn === 'ok') {
+                                    me.options.handler.call(me, me, 'view');
+                                }
+                                me.close();
+                                Common.NotificationCenter.trigger('editing:disable', false, {
+                                    viewMode: false,
+                                    allowSignature: false,
+                                    statusBar: true,
+                                    rightMenu: {clear: true, disable: true},
+                                    leftMenu: {disable: true, previewMode: true},
+                                    fileMenu: {protect: true},
+                                    navigation: {disable: true, previewMode: true},
+                                    comments: {disable: true, previewMode: true},
+                                    chat: true,
+                                    viewport: true,
+                                    documentHolder: {clear: true, disable: true},
+                                    toolbar: true,
+                                    plugins: false,
+                                    header: {docmode: true, search: true},
+                                    shortcuts: true
+                                }, 'setlink');
+                                me.api.SetCanInteract(true);
+                            }
+                        });
+                        return;
+                    }
+
+                    var checkurl = (this.btnExternal.isActive()) ? this.inputUrl.checkValidate() : true;
                     if (checkurl !== true)  {
                         this.isInputFirstChange = true;
                         this.inputUrl.focus();
                         return;
                     }
-                    if (checkdisp !== true) {
-                        this.inputDisplay.focus();
-                        return;
+                    if (!this.isAnnotation) {
+                        var checkdisp = this.inputDisplay.checkValidate();
+                        if (checkdisp !== true) {
+                            this.inputDisplay.focus();
+                            return;
+                        }
+                        !this._originalProps.get_Value() &&  Common.Utils.InternalSettings.set("pdfe-settings-link-type", this.btnInternal.isActive());
                     }
-                    !this._originalProps.get_Value() &&  Common.Utils.InternalSettings.set("pdfe-settings-link-type", this.btnInternal.isActive());
                 }
                 this.options.handler.call(this, this, state);
             }
@@ -373,7 +456,7 @@ define([], function () { 'use strict';
                 }
                 var rec = this.internalList.getSelectedRec();
                 rec && this.internalList.scrollToRecord(rec);
-                this.btnOk.setDisabled(!rec || rec.get('index')==4);
+                this.btnOk.setDisabled((!rec || rec.get('index')==4) && !(this.isAnnotation && this.chPageView.getValue()==='checked'));
                 var me = this;
                 _.delay(function(){
                     me.inputDisplay.focus();
@@ -416,7 +499,7 @@ define([], function () { 'use strict';
 
         onSelectItem: function(picker, item, record, e){
             if (!record) return;
-            this.btnOk.setDisabled(record.get('index')==4);
+            this.btnOk.setDisabled(record.get('index')==4 && !(this.isAnnotation && this.chPageView.getValue()==='checked'));
             if (this.isAutoUpdate) {
                 this.inputDisplay.setValue((record.get('level') || record.get('index')<4) ? record.get('name') : '');
                 this.isTextChanged = true;

@@ -91,6 +91,11 @@ div {
         <div id="iframeEditor">
         </div>
     </div>
+    <div id="keyData" style="display:none;" data-json="<%= key %>"></div>
+    <div id="fileInfoJsonData" style="display:none;" data-json="<%= JSON.stringify(fileInfo) %>"></div>
+    <div id="userAuthJsonData" style="display:none;" data-json="<%= JSON.stringify(userAuth) %>"></div>
+    <div id="queryParamsJsonData" style="display:none;" data-json="<%= JSON.stringify(queryParams) %>"></div>
+    <div id="docsApiConfigJsonData" style="display:none;" data-json="<%= JSON.stringify(docs_api_config) %>"></div>
     <script type="text/javascript" src="../../../web-apps/apps/api/documents/api.js<%- apiQuery %>"></script>
     <script type="text/javascript" language="javascript">
 
@@ -250,6 +255,10 @@ div {
                 innerAlert(event.data);
         };
 
+        var onOutdatedVersion = function () {
+            window.location.reload();
+        };
+
         var getWopiFileUrl = function(fileInfo, userAuth) {
            let url;
            if (fileInfo.FileUrl) {
@@ -278,15 +287,20 @@ div {
         }
 
         var connectEditor = function () {
+            var statusCode = "<%= typeof statusCode !== 'undefined' ? statusCode : '' %>";
+            if (statusCode) {
+                handleWopiError(statusCode);
+                return;
+            }
 
-            fileInfo = <%- JSON.stringify(fileInfo) %>;
+            fileInfo = JSON.parse(document.getElementById('fileInfoJsonData').getAttribute('data-json'));
 
-			var key = "<%- key %>";
-            var documentType = "<%- documentType %>";
-			var userAuth = <%- JSON.stringify(userAuth) %>;
-			var token = "<%- token %>";
-			var queryParams = <%- JSON.stringify(queryParams) %>;
-			var docs_api_config = <%- JSON.stringify(docs_api_config) %>;
+            var key = document.getElementById('keyData').getAttribute('data-json');
+            var documentType = "<%= documentType %>";
+            var userAuth = JSON.parse(document.getElementById('userAuthJsonData').getAttribute('data-json'));
+            var token = "<%= token %>";
+            var queryParams = JSON.parse(document.getElementById('queryParamsJsonData').getAttribute('data-json'));
+            var docs_api_config = JSON.parse(document.getElementById('docsApiConfigJsonData').getAttribute('data-json'));
 
             if (!fileInfo.BaseFileName) {
                 showError();
@@ -304,10 +318,13 @@ div {
 			fileType = fileInfo.FileExtension ? fileInfo.FileExtension.substr(1) : fileType;
 			fileType = fileType.toLowerCase();
 			let customizationClose = !!(fileInfo.ClosePostMessage || fileInfo.CloseUrl);
+			const canEdit = (fileInfo.UserCanOnlyComment || fileInfo.UserCanWrite || fileInfo.UserCanReview);
 			//connector Nextcloud Office 8.4.5 (SupportsUpdate=undefined, UserCanWrite=true, UserCanNotWriteRelative=false)
-			let customizationSaveAs = (fileInfo.SupportsUpdate || fileInfo.UserCanWrite) && !fileInfo.UserCanNotWriteRelative;
+			let customizationSaveAs = (fileInfo.SupportsUpdate || canEdit) && !fileInfo.UserCanNotWriteRelative;
 			let customizationFormSubmit = queryParams.formsubmit === "1";
-			let permissionsEdit = !fileInfo.ReadOnly && fileInfo.UserCanWrite && !customizationFormSubmit;
+			let permissionsEdit = !fileInfo.ReadOnly && (!fileInfo.UserCanOnlyComment && fileInfo.UserCanWrite) && !customizationFormSubmit;
+			const permissionsReview = (fileInfo.UserCanOnlyComment || fileInfo.SupportsReviewing===false) ? false : (fileInfo.UserCanReview===false ? false : fileInfo.UserCanReview);
+			const permissionsComment = permissionsEdit || !!fileInfo.UserCanOnlyComment;
 			let permissionsFillForm = permissionsEdit || customizationFormSubmit;
 			sessionId = userAuth.userSessionId;
 			var config = {
@@ -337,7 +354,8 @@ div {
                     },
 					"permissions": {
                         "edit": permissionsEdit,
-                        "review": (fileInfo.SupportsReviewing===false) ? false : (fileInfo.UserCanReview===false ? false : fileInfo.UserCanReview),
+                        "review": permissionsReview,
+                        "comment": permissionsComment,
                         "copy": fileInfo.CopyPasteRestrictions!=="CurrentDocumentOnly" && fileInfo.CopyPasteRestrictions!=="BlockAll",
                         "print": !fileInfo.DisablePrint && !fileInfo.HidePrintOption,
                         "chat": queryParams.dchat!=="1",
@@ -382,6 +400,7 @@ div {
                     'onRequestEditRights': fileInfo.EditModePostMessage || fileInfo.HostEditUrl ? onRequestEditRights : undefined,
                     'onRequestSaveAs': customizationSaveAs ? onRequestSaveAs : undefined,
                     "onError": onError,
+                    "onOutdatedVersion": onOutdatedVersion,
                     "onRequestClose": customizationClose ? onRequestClose : undefined,
                     "onRequestRename": fileInfo.SupportsRename && fileInfo.UserCanRename ? onRequestRename : undefined,
                     "onRequestSharingSettings": fileInfo.FileSharingPostMessage || fileInfo.FileSharingUrl ? onRequestSharingSettings : undefined,
@@ -423,6 +442,55 @@ div {
                                 '</div>';
             document.body.appendChild(newDiv);
         };
+
+        /**
+         * Handle WOPI error status and show appropriate error message
+         * @param {number|string} statusCode - HTTP status code
+         * @returns {boolean} - Returns true if error was handled, false if no error
+         */
+        var handleWopiError = function (statusCode) {
+            if (!statusCode) {
+                return false;
+            }
+            const status = parseInt(statusCode, 10);
+            // WOPI spec-compliant error messages
+            // https://learn.microsoft.com/en-us/microsoft-365/cloud-storage-partner-program/rest/files/checkfileinfo#status-codes
+            var errorMessage;
+            switch (status) {
+                case 400:
+                    errorMessage = 'Bad Request - malformed or invalid request';
+                    break;
+                case 401:
+                    errorMessage = 'Invalid access token';
+                    break;
+                case 403:
+                    errorMessage = 'Access forbidden';
+                    break;
+                case 404:
+                    errorMessage = 'Resource not found or user unauthorized';
+                    break;
+                case 409:
+                    errorMessage = 'Conflict - lock mismatch or file version conflict';
+                    break;
+                case 412:
+                    errorMessage = 'Precondition Failed - lock token mismatch';
+                    break;
+                case 413:
+                    errorMessage = 'Payload Too Large - file size exceeds limits';
+                    break;
+                case 500:
+                    errorMessage = 'Internal server error or invalid proof keys';
+                    break;
+                case 501:
+                    errorMessage = 'Not Implemented - operation not supported';
+                    break;
+                case 507:
+                    errorMessage = 'Insufficient Storage - not enough storage space';
+                    break;
+            }
+            showError(errorMessage);
+            return true;
+        }
 
 		//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
 		if (typeof Object.assign !== 'function') {

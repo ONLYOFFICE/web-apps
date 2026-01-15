@@ -18,6 +18,13 @@
         }
     }
 
+    &.no-borders-item {
+        > .item,
+        .grouped-data .group-items-container .item {
+            .box-shadow(none);
+        }
+    }
+
     > .item {
         display: inline-block;
         .float-left();
@@ -30,7 +37,11 @@
         .box-shadow(0 0 0 @scaled-one-px-value-ie @border-regular-control-ie);
         .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
 
-        &:hover:not(.disabled),
+        &:hover:not(.disabled) {
+            .box-shadow(0 0 0 2px @border-preview-hover-ie);
+            .box-shadow(0 0 0 @scaled-two-px-value @border-preview-hover);
+        }
+
         &.selected:not(.disabled) {
             .box-shadow(0 0 0 2px @border-preview-select-ie);
             .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
@@ -38,6 +49,13 @@
 
         .options__icon {
             opacity: @component-normal-icon-opacity;
+        }
+
+        &,
+        canvas,
+        img {
+            border-radius: @border-radius-dataview-item-ie;
+            border-radius: @border-radius-dataview-item;
         }
     }
 
@@ -96,11 +114,24 @@
 
                 .box-shadow(0 0 0 @scaled-one-px-value-ie @border-regular-control-ie);
                 .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
+                border-radius: @border-radius-dataview-item-ie;
+                border-radius: @border-radius-dataview-item;
 
-                &:hover:not(.disabled),
+                &:hover:not(.disabled) {
+                    .box-shadow(0 0 0 2px @border-preview-hover-ie);
+                    .box-shadow(0 0 0 @scaled-two-px-value @border-preview-hover);
+                }
+
                 &.selected:not(.disabled) {
                     .box-shadow(0 0 0 2px @border-preview-select-ie);
                     .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
+                }
+
+                &,
+                canvas,
+                img {
+                    border-radius: @border-radius-dataview-item-ie;
+                    border-radius: @border-radius-dataview-item;
                 }
             }
         }
@@ -121,26 +152,14 @@
         .border-radius(@border-radius-small);
     }
 
-    &.classic {
-        .group-items-container {
-            .item {
-                &:hover:not(.disabled) {
-                    .box-shadow(0 0 0 2px @border-preview-hover-ie);
-                    .box-shadow(0 0 0 @scaled-two-px-value @border-preview-hover);
-                }
-
-                &.selected:not(.disabled) {
-                    .box-shadow(0 0 0 2px @border-preview-select-ie);
-                    .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
-                }
-            }
-        }
-    }
-
     &:not(.no-focus):focus:not(.disabled),
     &:not(.no-focus).focused:not(.disabled){
         border-color: @border-control-focus-ie;
         border-color: @border-control-focus;
+        &.bordered {
+            .box-shadow(@shadow-fill-input-ie);
+            .box-shadow(@shadow-fill-input);
+        }
     }
 }
 

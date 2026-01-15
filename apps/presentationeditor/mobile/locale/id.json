@@ -83,7 +83,8 @@
     "textDoNotShowAgain": "Jangan tampilkan lagi",
     "textOk": "OK",
     "textRows": "Baris",
-    "txtWarnUrl": "Mengklik tautan ini dapat membahayakan perangkat dan data Anda.<br>Apakah Anda yakin untuk melanjutkan?"
+    "txtWarnUrl": "Mengklik tautan ini dapat membahayakan perangkat dan data Anda.<br>Apakah Anda yakin untuk melanjutkan?",
+    "menuDuplicate": "Duplicate"
   },
   "Controller": {
     "Main": {
@@ -93,7 +94,6 @@
       "criticalErrorTitle": "Kesalahan",
       "errorAccessDeny": "Anda mencoba melakukan sesuatu yang tidak memiliki izin.<br>Silakan hubungi admin Anda.",
       "errorOpensource": "Menggunakan versi Komunitas gratis, Anda bisa membuka dokumen hanya untuk dilihat. Untuk mengakses editor web mobile, diperlukan lisensi komersial.",
-      "errorProcessSaveResult": "Gagal menyimpan.",
       "errorServerVersion": "Versi editor sudah di update. Halaman akan dimuat ulang untuk menerapkan perubahan.",
       "errorUpdateVersion": "Versi file telah diubah. Halaman tidak akan dimuat ulang.",
       "leavePageText": "Ada perubahan yang belum disimpan dalam dokumen ini. Klik 'Tetap di Halaman Ini' untuk menunggu simpan otomatis. Klik ‘Tinggalkan Halaman Ini’ untuk membatalkan semua perubahan yang belum disimpan.",
@@ -118,6 +118,7 @@
         "Header": "Header",
         "Image": "Gambar",
         "Loading": "Memuat",
+        "Marquee": "Marquee",
         "Media": "Media",
         "Median": "Median",
         "None": "Tidak ada",
@@ -136,6 +137,7 @@
         "Slide subtitle": "Subtitle Slide",
         "Slide text": "Teks Slide",
         "Slide title": "Judul Slide",
+        "Slipstream": "Slipstream",
         "Table": "Tabel",
         "Violet": "Ungu",
         "Violet II": "Ungu II",
@@ -143,9 +145,7 @@
         "Y Axis": "Sumbu Y",
         "Yellow": "Kuning",
         "Yellow Orange": "Kuning Jingga",
-        "Your text here": "Teks Anda di sini",
-        "Marquee": "Marquee",
-        "Slipstream": "Slipstream"
+        "Your text here": "Teks Anda di sini"
       },
       "textAnonymous": "Anonim",
       "textBuyNow": "Kunjungi website",
@@ -157,6 +157,7 @@
       "textNo": "Tidak",
       "textNoLicenseTitle": "Batas lisensi sudah tercapai",
       "textNoMatches": "Tidak Ada yamg Cocok",
+      "textOk": "Ok",
       "textOpenFile": "Masukkan kata sandi untuk buka file",
       "textPaidFeature": "Fitur berbayar",
       "textRemember": "Ingat pilihan saya",
@@ -172,15 +173,22 @@
       "txtProtected": "Jika Anda memasukkan password dan membuka file, password file saat ini akan di reset.",
       "warnLicenseAnonymous": "Akses ditolak untuk pengguna anonim.<br>Dokumen ini akan dibuka hanya untuk dilihat.",
       "warnLicenseBefore": "Lisensi tidak aktif.<br>Harap hubungi administrator Anda.",
-      "warnLicenseExceeded": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi admin Anda untuk mempelajari lebih lanjut.",
       "warnLicenseExp": "Lisensi Anda sudah kedaluwarsa. Silakan perbarui lisensi Anda dan muat ulang halaman.",
       "warnLicenseLimitedNoAccess": "Lisensi kadaluwarsa. Anda tidak memiliki akses untuk editing dokumen secara keseluruhan. Silakan hubungi admin Anda.",
       "warnLicenseLimitedRenewed": "Lisensi perlu diperbaharui. Anda memiliki akses terbatas untuk edit dokumen.<br>Silakan hubungi admin Anda untuk mendapatkan akses penuh",
-      "warnLicenseUsersExceeded": "Anda sudah mencapai batas user untuk %1 editor. Hubungi admin Anda untuk mempelajari lebih lanjut.",
       "warnNoLicense": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnNoLicenseUsers": "Anda sudah mencapai batas user untuk %1 editor. Hubungi %1 tim sales untuk syarat personal upgrade.",
-      "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini."
+      "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
+  },
+  "Draw": {
+    "textColor": "Warna",
+    "textCustomColor": "Warna ubahan",
+    "textLineSize": "Ukuran garis",
+    "textOpacity": "Opacity"
   },
   "Error": {
     "convertationTimeoutText": "Waktu konversi habis.",
@@ -209,6 +217,7 @@
     "errorKeyEncrypt": "Deskriptor kunci tidak dikenal",
     "errorKeyExpire": "Deskriptor kunci tidak berfungsi",
     "errorLoadingFont": "Font tidak bisa dimuat.<br>Silakan kontak admin Server Dokumen Anda.",
+    "errorSaveWatermark": "Berkas ini mengandung suatu gambar bertanda air yang ditaut ke domain lain.<br>Untuk membuatnya tampak dalam PDF, perbarui gambar tanda air sehingga itu menaut ke domain yang sama dengan dokumen Anda, atau unggah itu dari komputer Anda.",
     "errorSessionAbsolute": "Waktu edit dokumen sudah selesai. Silakan muat ulang halaman.",
     "errorSessionIdle": "Dokumen sudah lama tidak diedit. Silakan muat ulang halaman.",
     "errorSessionToken": "Koneksi ke server terganggu. Silakan muat ulang halaman.",
@@ -227,10 +236,13 @@
     "splitDividerErrorText": "Jumlah baris harus merupakan pembagi dari %1",
     "splitMaxColsErrorText": "Jumlah kolom harus kurang dari %1",
     "splitMaxRowsErrorText": "Jumlah baris harus kurang dari %1",
+    "textOk": "OK",
     "unknownErrorText": "Kesalahan tidak diketahui.",
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
-    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB."
+    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "Memuat data...",
@@ -247,7 +259,7 @@
     "loadImageTextText": "Memuat gambar...",
     "loadImageTitleText": "Memuat Gambar",
     "loadingDocumentTextText": "Memuat dokumen...",
-    "loadingDocumentTitleText": "Memuat dokumen",
+    "loadingDocumentTitleText": "Memuat",
     "loadThemeTextText": "Loading Tema...",
     "loadThemeTitleText": "Loading Tema",
     "openTextText": "Membuka Dokumen...",
@@ -259,7 +271,7 @@
     "saveTextText": "Menyimpan dokumen...",
     "saveTitleText": "Menyimpan Dokumen",
     "textContinue": "Lanjutkan",
-    "textLoadingDocument": "Memuat dokumen",
+    "textLoadingDocument": "Memuat",
     "textUndo": "Batalkan",
     "txtEditingMode": "Atur mode editing...",
     "uploadImageTextText": "Mengunggah gambar...",
@@ -267,13 +279,16 @@
     "waitText": "Silahkan menunggu"
   },
   "Toolbar": {
+    "btnRestartNow": "Restart sekarang",
     "dlgLeaveMsgText": "Ada perubahan yang belum disimpan dalam dokumen ini. Klik 'Tetap di Halaman Ini' untuk menunggu simpan otomatis. Klik ‘Tinggalkan Halaman Ini’ untuk membatalkan semua perubahan yang belum disimpan.",
     "dlgLeaveTitleText": "Anda meninggalkan aplikasi",
     "leaveButtonText": "Tinggalkan Halaman Ini",
     "stayButtonText": "Tetap di halaman ini",
     "textCloseHistory": "Tutup Riwayat",
     "textEnterNewFileName": "Masukkan nama file yang baru",
-    "textRenameFile": "Ganti Nama File"
+    "textOk": "OK",
+    "textRenameFile": "Ganti Nama File",
+    "textSwitchToDesktop": "Beralih ke Desktop"
   },
   "View": {
     "Add": {
@@ -316,7 +331,8 @@
       "textSlideNumber": "Nomor Slide",
       "textTable": "Tabel",
       "textTableSize": "Ukuran Tabel",
-      "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”"
+      "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Peringatan",
@@ -481,7 +497,17 @@
       "textZoom": "Pembesaran",
       "textZoomIn": "Perbesar",
       "textZoomOut": "Perkecil",
-      "textZoomRotate": "Zoom dan Rotasi"
+      "textZoomRotate": "Zoom dan Rotasi",
+      "textBackground": "Background",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textCellSize": "Cell size",
+      "textLtrTextDirection": "Left-to-right",
+      "textResetBackground": "Reset background",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction",
+      "txtHeight": "Height",
+      "txtWidth": "Width"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -511,7 +537,6 @@
       "textEmail": "email:",
       "textEnableAll": "Aktifkan Semua",
       "textEnableAllMacrosWithoutNotification": "Aktifkan semua macros tanpa notifikasi",
-      "textExplanationChangeDirection": "Aplikasi akan dijalankan ulang untuk aktivasi antar muka RTL",
       "textFeedback": "Masukan & Dukungan",
       "textFind": "Cari",
       "textFindAndReplace": "Cari dan Ganti",
@@ -537,8 +562,6 @@
       "textReplace": "Ganti",
       "textReplaceAll": "Ganti Semua",
       "textRestartApplication": "Silakan mulai ulang aplikasi untuk menerapkan perubahan",
-      "textRTL": "RTL",
-      "textRtlInterface": "Antar Muka RTL",
       "textSameAsSystem": "Sama Seperti Sistem",
       "textSearch": "Cari",
       "textSettings": "Pengaturan",
@@ -552,7 +575,9 @@
       "textUnitOfMeasurement": "Satuan Ukuran",
       "textUploaded": "Diunggah",
       "textVersion": "Versi",
-      "textVersionHistory": "Riwayat Versi"
+      "textVersionHistory": "Riwayat Versi",
+      "textLoopSlideshow": "Loop slideshow",
+      "textOpenLocation": "Open location"
     }
   }
 }

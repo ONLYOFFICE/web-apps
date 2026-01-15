@@ -251,11 +251,6 @@ define([
                 mouseup     : this.resize.eventStop
             });
 
-            Common.NotificationCenter.on({
-                'frame:mousemove': this.resize.eventMove,
-                'frame:mouseup': this.resize.eventStop
-            });
-
             var panel             = e.data.panel;
             this.resize.type      = e.data.type;
             this.resize.$el       = panel.el;
@@ -317,11 +312,6 @@ define([
             $(document).off({
                 mousemove   : this.resize.eventMove,
                 mouseup     : this.resize.eventStop
-            });
-
-            Common.NotificationCenter.off({
-                'frame:mousemove': this.resize.eventMove,
-                'frame:mouseup': this.resize.eventStop
             });
 
             if (!this.resize.$el) return;

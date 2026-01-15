@@ -47,5 +47,13 @@ export default class extends React.Component {
         f7ready(f7 => {
             Device.initDom();
         });
+
+        // clean duplicate of app's root element
+        const app = $$('#app');
+        if ( app.length ) {
+            for (let a of app)
+                if (!a.children.length)
+                    a.remove();
+        }
     }
 }

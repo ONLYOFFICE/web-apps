@@ -29,11 +29,11 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
  */
-const isIE = /msie|trident/i.test(navigator.userAgent);
 
 var checkLocalStorage = (function () {
     try {
-        var storage = window['localStorage'];
+        localStorage.setItem('test', 1);   // for WebView checking !!window.localStorage not enough
+        localStorage.removeItem('test');
         return true;
     }
     catch(e) {
@@ -48,7 +48,7 @@ if (!window.lang) {
 window.lang && (window.lang = window.lang.split(/[\-\_]/)[0].toLowerCase());
 
 var isLangRtl = function (lang) {
-    return lang.lastIndexOf('ar', 0) === 0 || lang.lastIndexOf('he', 0) === 0;
+    return lang && (/^(ar|he|ur)$/i.test(lang));
 }
 
 var ui_rtl = false;
@@ -56,12 +56,12 @@ if ( window.nativeprocvars && window.nativeprocvars.rtl !== undefined ) {
     ui_rtl = window.nativeprocvars.rtl;
 } else {
     if ( isLangRtl(lang) )
-        if ( checkLocalStorage && localStorage.getItem("ui-rtl") !== null )
-            ui_rtl = localStorage.getItem("ui-rtl") === '1';
+        if ( checkLocalStorage && localStorage.getItem("settings-ui-rtl") !== null )
+            ui_rtl = localStorage.getItem("settings-ui-rtl") === '1';
         else ui_rtl = true;
 }
 
-if ( ui_rtl && !isIE ) {
+if ( ui_rtl && window.isIEBrowser !== true ) {
     document.body.setAttribute('dir', 'rtl');
     document.body.classList.add('rtl');
 }
@@ -87,7 +87,7 @@ function checkScaling() {
         }
     }
 
-    if ( !isIE ) {
+    if ( window.isIEBrowser !== true ) {
         matches = {
             'pixel-ratio__2_5': 'screen and (-webkit-min-device-pixel-ratio: 2.25), screen and (min-resolution: 2.25dppx)',
         };
@@ -101,37 +101,64 @@ function checkScaling() {
     }
 }
 
-let svg_icons = ['./resources/img/iconssmall@2.5x.svg',
-    './resources/img/iconsbig@2.5x.svg', './resources/img/iconshuge@2.5x.svg'];
+let svg_icons = window.uitheme.svg_icons || [
+    './resources/img/iconssmall@2.5x.svg',
+    './resources/img/iconsbig@2.5x.svg',
+    './resources/img/iconshuge@2.5x.svg',
+    '../../common/main/resources/img/doc-formats/formats@2.5x.svg'
+];
 
 window.Common = {
     Utils: {
-        injectSvgIcons: function () {
-            if ( isIE ) return;
+        injectSvgIcons: function (svg_icons_array, force) {
+            if ( window.isIEBrowser === true ) return;
 
-            let runonce;
+            window.svgiconsrunonce;
             // const el = document.querySelector('div.inlined-svg');
             // if (!el || !el.innerHTML.firstChild) {
-            if ( !runonce ) {
-                runonce = true;
-                function htmlToElements(html) {
+            if ( !window.svgiconsrunonce || force === true ) {
+                window.svgiconsrunonce = true;
+                function htmlToElements(html, id) {
                     var template = document.createElement('template');
                     template.innerHTML = html;
                     // return template.content.childNodes;
+                    if ( !!id ) template.content.firstChild.id = id;
                     return template.content.firstChild;
                 }
 
-                svg_icons.map(function (url) {
+                const sprite_uid = getComputedStyle(document.body).getPropertyValue('--sprite-button-icons-uid');
+
+                !svg_icons_array && (svg_icons_array = svg_icons);
+                svg_icons_array.map(function (url) {
                             fetch(url)
                                 .then(function (r) {
                                     if (r.ok) return r.text();
                                     else {/* error */}
                                 }).then(function (text) {
-                                    const el = document.querySelector('div.inlined-svg')
-                                    el.appendChild(htmlToElements(text));
+                                    const btnMatch = /icons(\w+)(?:@2\.5x)\.svg$/.exec(url);
+                                    const formatMatch = /doc-formats\/(\w+)(?:@2\.5x)\.svg$/.exec(url);
+                                    const type = btnMatch ? btnMatch[1] : (formatMatch ? formatMatch[1] : null);
 
-                                    const i = svg_icons.findIndex(function (item) {return item == url});
-                                    if ( !(i < 0) ) svg_icons.splice(i, 1)
+                                    let el_id;
+                                    if ( type ) {
+                                        const prefix = btnMatch ? 'idx-sprite-btns-' : 'idx-sprite-formats-';
+                                        const el = document.getElementById((el_id = prefix  + type));
+                                        if ( el ) {
+                                            const idx = el.getAttribute('data-sprite-uid');
+                                            if ( idx != sprite_uid )
+                                                el.remove()
+                                            else return;
+                                        };
+                                    }
+
+                                    const el = document.querySelector('div.inlined-svg');
+                                    const child = htmlToElements(text, el_id);
+                                    if ( sprite_uid.length )
+                                        child.setAttribute('data-sprite-uid', sprite_uid);
+                                    el.appendChild(child);
+
+                                    const i = svg_icons_array.findIndex(function (item) {return item == url});
+                                    if ( !(i < 0) ) svg_icons_array.splice(i, 1)
                                 }).catch(console.error.bind(console))
                         })
             }
@@ -141,19 +168,23 @@ window.Common = {
 
 !params.skipScaling && checkScaling();
 
-if ( !!params.uitheme ) {
+if ( !window.uitheme.id && !!params.uitheme ) {
     if ( params.uitheme == 'default-dark' ) {
-        params.uitheme = 'theme-dark';
-        params.uithemetype = 'dark';
+        window.uitheme.id = window.uitheme.DEFAULT_DARK_THEME_ID;
+        window.uitheme.type = 'dark';
     } else
     if ( params.uitheme == 'default-light' ) {
-        params.uitheme = 'theme-classic-light';
-        params.uithemetype = 'light';
+        window.uitheme.id = window.uitheme.DEFAULT_LIGHT_THEME_ID;
+        window.uitheme.type = 'light';
     } else
-    if ( params.uitheme == 'theme-system' ) {}
+    if ( params.uitheme == 'theme-system' ) {
+        window.uitheme.adapt_to_system_theme();
+    } else {
+        window.uitheme.id = params.uitheme;
+        window.uitheme.type = params.uithemetype;
+    }
 }
 
-!window.uitheme.id && params.uitheme && (window.uitheme.id = params.uitheme);
 if ( !window.uitheme.id ) {
     window.uitheme.adapt_to_system_theme();
 } else {

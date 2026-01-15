@@ -88,10 +88,14 @@ require([
         window.attachEvent('onmessage', _msg_func); else
         window.addEventListener('message', _msg_func, false);
 
+    var lang = (/(?:&|^)lang=([^&]+)&?/i).exec(window.location.search.substring(1));
+    lang = lang && lang[1] ? lang[1].split(/[\-\_]/)[0].toLowerCase() : '';
+
     var api = new Asc.asc_docs_api({
         'id-view'  : 'editor_sdk',
         using      : 'reporter',
-        skin       : localStorage.getItem("ui-theme-id")
+        skin       : localStorage.getItem("ui-theme-id"),
+        'isRtlInterface': lang && (lang.lastIndexOf('ar', 0) === 0 || lang.lastIndexOf('he', 0) === 0)
     });
 
     var setDocumentTitle = function(title) {

@@ -25,11 +25,10 @@ class EditImageController extends Component {
     onDefaulSize () {
         const api = Common.EditorApi.get();
         if (api) {
-            const imgSize = api.get_OriginalSizeImage();
+            const imgSize = api.asc_getCropOriginalImageSize();
             const properties = new Asc.asc_CImgProperty();
             properties.put_Width(imgSize.get_ImageWidth());
             properties.put_Height(imgSize.get_ImageHeight());
-            properties.put_ResetCrop(true);
             properties.put_Rot(0);
             api.ImgApply(properties);
         }

@@ -95,7 +95,6 @@
       "criticalErrorTitle": "خطأ",
       "errorAccessDeny": "أنت تحاول تنفيذ اجراء ليس لديك صلاحيات القيام به.<br> الرجاء الاتصال بمسؤولك.",
       "errorOpensource": "باستخدام نسخة المجتمع المجانية, سيكون بمقدروك فتح الملفات للمشاهدة فقط. للوصول إلى محررات الويب للهاتف يجب استخدام ترخيص تجاري",
-      "errorProcessSaveResult": "فشل الحفظ",
       "errorServerVersion": "تم تحديث إصدار المحرر.سيتم اعادة تحميل الصفحة لتطبيق التغييرات",
       "errorUpdateVersion": "تم تغيير إصدار الملف. سيتم اعادة تحميل الصفحة",
       "leavePageText": "لديك تغييرات غير محفوظة. اضغط على 'البقاء في هذه الصفحة' لانتظار الحفظ التلقائي. اضغط على 'غادر هذه الصفحة' للتخلي عن كل التغييرات الغير محفوظة.",
@@ -238,15 +237,22 @@
       "titleUpdateVersion": "تم تغيير الإصدار",
       "warnLicenseAnonymous": "تم رفض الوصول للمستخدمين المجهولين.<br> هذا المستند سيكون مفتوحا للمشاهدة فقط",
       "warnLicenseBefore": "الترخيص ليس مفعلا.<br>برجاء التواصل مع مسئولك",
-      "warnLicenseExceeded": "لقد وصلت إلى الحد الأقصى من الاتصالات المتزامنة لـ %1 محررات.هذا. هذا المستند سيكون للقراءة فقط برجاء التواصل مع المسؤول الخاص بك لمعرفة المزيد",
       "warnLicenseExp": "الترخيص منتهي الصلاحية.برجاء تحديث الترخيص الخاص بك واعادة تحميل الصفحة",
       "warnLicenseLimitedNoAccess": "الترخيص منتهي الصلاحية.<br>ليس لديك صلاحية تعديل المستند. برجاء التواصل مع مسئولك",
       "warnLicenseLimitedRenewed": "يحتاج الترخيص إلى تجديد. لديك وصول محدود لخاصية تعديل المستند. <br> برجاء التواصل مع مسئولك للحصول على وصول كامل",
-      "warnLicenseUsersExceeded": "لقد وصلت إلى الحد الأقصى من عدد المستخدمين لـ %1محررات. تواصل مع مسئولك لمعرفة المزيد",
       "warnNoLicense": "لقد وصلت إلى الحد الأقصى من الاتصالات المتزامنة لـ%1محررات.هذا المستند سيكون للقراءة فقط. تواصل مع %1 فريق المبيعات لتطوير الشروط الشخصية",
       "warnNoLicenseUsers": "لقد وصلت إلى الحد الأقصى من عدد المستخدمين لـ %1. تواصل مع فريق المبيعات لتطوير الشروط الشخصية",
-      "warnProcessRightsChange": "ليس لديك الإذن بتعديل هذا الملف."
+      "warnProcessRightsChange": "ليس لديك الإذن بتعديل هذا الملف.",
+      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
+      "titleReadOnly": "Read-Only Mode"
     }
+  },
+  "Draw": {
+    "textColor": "اللون",
+    "textCustomColor": "لون مخصص",
+    "textLineSize": "حجم الخط",
+    "textOpacity": "معدل الشفافية"
   },
   "Error": {
     "convertationTimeoutText": "استغرق التحويل وقتا طويلا تم تجاوز المهلة",
@@ -266,6 +272,7 @@
     "errorChangeArray": "لا يمكنك تغيير جزء من مصفوفة",
     "errorChangeFilteredRange": "سيؤدي هذا إلى تغيير النطاق الذي تمت تصفيته في ورقة العمل الخاصة بك.<br>لإكمال هذه المهمة، يرجى إزالة عوامل التصفية التلقائية.",
     "errorChangeOnProtectedSheet": "الخلية أو المخطط الذي تحاول تغييره موجود في ورقة محمية. لإجراء تغيير ، قم بإلغاء حماية الورقة. قد يُطلب منك إدخال كلمة مرور.",
+    "errorCircularReference": "هناك واحد او أكثر من المراجع الدائرية حيث تشير الى خلية واحدة او أكثر بشكل مباشر او غير مباشر.\nحاول ازالة او تغيير الصيغ الى خلايا مختلفة،<br>",
     "errorComboSeries": "لإنشاء مخطط مختلط، حدد سلسلتين من البيانات على الأقل.",
     "errorConnectToServer": "لم يمكن حفظ هذا المستند. تحقق من اتصالك أو قم بالتواصل مع المسئول  .<br> عند ضغطك على موافق سيطلب منك تحميل المستند",
     "errorCopyMultiselectArea": "لا يمكن استخدام هذا الأمر مع تحديدات متعددة.<br> حدد نطاقًا واحدًا وحاول مرة أخرى.",
@@ -290,6 +297,7 @@
     "errorFileVKey": "خطأ خارجي. <br> مفتاح أمان غير صحيح. من فضلك ، تواصل مع الدعم.",
     "errorFillRange": "تعذر ملء نطاق الخلايا المحددة.<br> يجب أن تكون جميع الخلايا المدمجة بنفس الحجم.",
     "errorForceSave": "حدث خطأ أثناء حفظ الملف. يرجى استخدام خيار \"تنزيل باسم\" لحفظ الملف على القرص الصلب لجهاز الكمبيوتر الخاص بك أو حاول مرة أخرى لاحقًا.",
+    "errorFormulaInPivotFieldName": "لا يمكن إدخال صيغة لعنصر أو اسم حقل في تقرير جدول محوري",
     "errorFormulaName": "هناك خطأ في المعادلة.<br>اسم المعادلة غير صحيح",
     "errorFormulaParsing": "حدث خطأ داخلي أثناء تحليل الصيغة",
     "errorFrmlMaxLength": "لا يمكنك إضافة هذه الصيغة لأن طولها يتعدى العدد المسموح به من الأحرف.<br>رجاء قم بتعديلها ثم حاول مرة أخرى",
@@ -320,15 +328,18 @@
     "errorNoDataToParse": "لم يتم تحديد أية بيانات لتحليلها.",
     "errorOpenWarning": "تجاوز طول إحدى الصيغ في الملف <br> عدد الأحرف المسموح به وتمت إزالتها.",
     "errorOperandExpected": "بناء الجملة للدالة المدخلة غير صحيح. رجاء تحقق ما إذا نسيت أحد الأقواس '(' أو ')'",
+    "errorPasteInPivot": "لا يمكننا إجراء هذا التغيير على الخلايا المحددة لأنه سيؤثر على الجدول المحوري.<br>استخدم قائمة الحقول لتغيير التقرير.",
     "errorPasteMaxRange": "منطقة النسخ واللصق غير متطابقة. من فضلك ، حدد منطقة بنفس الحجم أو انقر فوق الخلية الأولى في صف للصق الخلايا المنسوخة.",
     "errorPasteMultiSelect": "لا يمكن تنفيذ هذا الإجراء على تحديد نطاق متعدد.<br>حدد نطاقًا واحدًا وحاول مرة أخرى.",
     "errorPasteSlicerError": "لا يمكن نسخ مقسمات طرق العرض من مصنف إلى آخر.",
+    "errorPivotFieldNameExists": "اسم حقل الجدول المحوري موجود بالفعل",
     "errorPivotGroup": "لا يمكن تجميع هذا التحديد.",
     "errorPivotOverlap": "لا يمكن لتقرير الجدول المحوري أن يتداخل مع جدول.",
     "errorPivotWithoutUnderlying": "تم حفظ تقرير الجدول المحوري بدون البيانات الأساسية.<br>استخدم الزر \"تحديث\" لتحديث التقرير.",
     "errorPrecedentsNoValidRef": "يتطلب أمر تتبع السابقين أن تحتوي الخلية النشطة على صيغة تتضمن مراجع صالحة.",
     "errorPrintMaxPagesCount": "للأسف ، لا يمكن طباعة أكثر من 1500 صفحة مرة واحدة في الإصدار الحالي من البرنامج. <br> سيتم التخلص من هذا التقييد في الإصدارات القادمة.",
     "errorProtectedRange": "هذا النطاق غير مسموح بتعديله",
+    "errorSaveWatermark": "يحتوي هذا الملف على صورة علامة مائية مرتبطة بنطاق آخر.<br>لجعلها مرئية في ملف PDF، قم بتحديث صورة العلامة المائية بحيث ترتبط من نفس النطاق مثل المستند الخاص بك، أو قم بتحميلها من جهاز الكمبيوتر الخاص بك",
     "errorSessionAbsolute": "تم انتهاء صلاحية جلسة تعديل المستند. برجاء اعد تحميل الصفحة",
     "errorSessionIdle": "لم يتم تعديل المستند لفترة طويلة.برجاء اعادة تحميل الصفحة",
     "errorSessionToken": "تم اعتراض الاتصال للخادم .برجاء اعادة تحميل الصفحة",
@@ -367,7 +378,9 @@
     "uploadImageExtMessage": "امتداد صورة غير معروف",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
     "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت",
-    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells."
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
+    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled."
   },
   "LongActions": {
     "advDRMPassword": "كملة السر",
@@ -388,7 +401,7 @@
     "loadImageTextText": "يتم تحميل الصورة...",
     "loadImageTitleText": "يتم تحميل الصورة",
     "loadingDocumentTextText": "يتم تحميل المستند...",
-    "loadingDocumentTitleText": " يتم تحميل المستند",
+    "loadingDocumentTitleText": "يتم التحميل",
     "notcriticalErrorTitle": "تحذير",
     "openTextText": "جار فتح المستند...",
     "openTitleText": "فتح مستند",
@@ -401,7 +414,7 @@
     "textCancel": "الغاء",
     "textContinue": "تابع",
     "textErrorWrongPassword": "كلمة المرور التي أدخلتها غير صحيحة.",
-    "textLoadingDocument": " يتم تحميل المستند",
+    "textLoadingDocument": "يتم التحميل",
     "textNo": "لا",
     "textOk": "موافق",
     "textUndo": "تراجع",
@@ -436,22 +449,28 @@
     "textSheetName": "اسم ورقة العمل",
     "textTabColor": "لون التبويبة",
     "textUnhide": "إظهار",
-    "textWarnDeleteSheet": "ربما تحتوي ورقة العمل على بيانات. هل تريد متابعة العملية؟"
+    "textWarnDeleteSheet": "ربما تحتوي ورقة العمل على بيانات. هل تريد متابعة العملية؟",
+    "textContinue": "Continue",
+    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
+    "btnRestartNow": "إعادة التشغيل الآن",
     "dlgLeaveMsgText": "لديك تغييرات غير محفوظة. اضغط على 'البقاء في هذه الصفحة' لانتظار الحفظ التلقائي. اضغط على 'غادر هذه الصفحة' للتخلي عن كل التغييرات الغير محفوظة.",
     "dlgLeaveTitleText": "انت تغادر التطبيق",
     "leaveButtonText": "اترك هذه الصفحة",
     "stayButtonText": "ابقى في هذه الصفحة",
     "textCloseHistory": "إغلاق السجل",
     "textEnterNewFileName": "ادخل اسم جديد للملف",
-    "textRenameFile": "إعادة تسمية الملف"
+    "textOk": "موافق",
+    "textRenameFile": "إعادة تسمية الملف",
+    "textSwitchToDesktop": "التحويل إلى وضع سطح المكتب"
   },
   "View": {
     "Add": {
       "errorMaxRows": "خطأ! الحد الأقصى لعدد سلاسل البيانات لكل مخطط هو 255.",
       "errorStockChart": "ترتيب الصف غير صحيح. لإنشاء مخطط أسهم، ضع البيانات في الجدول بهذا الترتيب:<br> سعر الافتتاح، أقصى سعر، أقل سعر، سعر الإغلاق",
       "notcriticalErrorTitle": "تحذير",
+      "sCatDatabase": "قاعدة بيانات",
       "sCatDateAndTime": "التاريخ و الوفت",
       "sCatEngineering": "الهندسة",
       "sCatFinancial": "مالي",
@@ -461,6 +480,7 @@
       "sCatMathematic": "الرياضيات و حساب المثلثات",
       "sCatStatistical": "إحصائي",
       "sCatTextAndData": "النص و البيانات",
+      "sCustom": "مخصص",
       "textAddLink": "إضافة رابط",
       "textAddress": "العنوان",
       "textAllTableHint": "ترجع محتويات الجدول بالكامل أو أعمدة الجدول المحدد بما في ذلك رؤوس الأعمدة والبيانات والصفوف الإجمالية",
@@ -471,6 +491,7 @@
       "textDataTableHint": "ترجع خلايا بيانات الجدول أو أعمدة الجدول المحدد",
       "textDisplay": "عرض",
       "textDone": "تم",
+      "textDrawing": "الرسم",
       "textEmptyImgUrl": "يجب تحديد رابط الصورة",
       "textExternalLink": "رابط خارجي",
       "textFilter": "تصفية",
@@ -508,8 +529,7 @@
       "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  ",
       "txtSorting": "الترتيب",
       "txtSortSelected": "الترتيب المحدد",
-      "txtYes": "نعم",
-      "sCustom": "Custom"
+      "txtYes": "نعم"
     },
     "Edit": {
       "notcriticalErrorTitle": "تحذير",
@@ -702,7 +722,22 @@
       "textYen": "ين",
       "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  ",
       "txtSortHigh2Low": "الترتيب من الأعلى إلى الأقل",
-      "txtSortLow2High": "الترتيب من الأقل إلى الأعلى"
+      "txtSortLow2High": "الترتيب من الأقل إلى الأعلى",
+      "textAdditional": "Additional",
+      "textAdditionalFormatting": "Additional formatting",
+      "textAllCaps": "All Caps",
+      "textBaseline": "Baseline",
+      "textCapitalization": "Capitalization",
+      "textContextTextDirection": "Context",
+      "textDoubleStrikethrough": "Double Strikethrough",
+      "textLetterSpacing": "Letter spacing",
+      "textLtrTextDirection": "Left-to-right",
+      "textRtlTextDirection": "Right-to-left",
+      "textSmallCaps": "Small Caps",
+      "textStrikethrough": "Strikethrough",
+      "textSubscript": "Subscript",
+      "textSuperscript": "Superscript",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "advCSVOptions": "اختر خيارات CSV",
@@ -750,7 +785,6 @@
       "textEnableAllMacrosWithoutNotification": "فعّل كل وحدات الماكرو بدون اشعارات",
       "textEncoding": "ترميز",
       "textExample": "مثال",
-      "textExplanationChangeDirection": "سيتم إعادة تشغيل البرنامج لتنشيط واجهة RTL",
       "textFeedback": "الملاحظات و الدعم",
       "textFind": "بحث",
       "textFindAndReplace": "بحث و استبدال",
@@ -792,9 +826,8 @@
       "textRestartApplication": "برجاء إعادة تشغيل التطبيق حتى يتم تطبيق التغييرات",
       "textRight": "اليمين",
       "textRightToLeft": "من اليمين إلى اليسار",
-      "textRtlInterface": "الواجهة بالاتجاه من اليمين لليسار",
       "textSameAsSystem": "نفس النظام",
-      "textSearch": "بحث",
+      "textSearch": "إيجاد",
       "textSearchBy": "بحث",
       "textSearchIn": "بحث في",
       "textSettings": "الإعدادات",
@@ -858,7 +891,14 @@
       "txtUk": "الأوكرانية",
       "txtVi": "الفيتمانية",
       "txtZh": "الصينية",
-      "warnDownloadAs": "اذا تابعت الحفظ بهذا التنسيق ستفقد كل الميزات عدا النص.<br> هل حقا تريد المتابعة؟ "
+      "warnDownloadAs": "اذا تابعت الحفظ بهذا التنسيق ستفقد كل الميزات عدا النص.<br> هل حقا تريد المتابعة؟ ",
+      "textSheetRtl": "Sheet Right to left",
+      "txtSr": "Serbian (Latin)",
+      "txtSrcyrl": "Serbian (Cyrillic)",
+      "txtZhtw": "Chinese (Traditional)",
+      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+      "textOpenLocation": "Open location",
+      "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
     }
   }
 }

@@ -344,7 +344,7 @@ define([
                         } else if (index === 0) {
                             menuRoot.prepend(item.render().el);
                         } else {
-                            menuRoot.children('li:nth-child(' + (index+1) + ')').before(item.render().el);
+                            menuRoot.children('li:nth-child(' + (index) + ')').after(item.render().el);
                         }
 
                         item.on('click',  _.bind(me.onItemClick, me));
@@ -353,8 +353,19 @@ define([
                 }
             },
 
-            addItem: function(item) {
-                this.insertItem(-1, item);
+            addItem: function(item, beforeCustom) { // if has custom items insert before first custom
+                if (!beforeCustom)
+                    this.insertItem(-1, item);
+                else {
+                    var customIdx = -1;
+                    for (var i=0; i<this.items.length; i++) {
+                        if (this.items[i].isCustomItem) {
+                            customIdx = i;
+                            break;
+                        }
+                    }
+                    this.insertItem(customIdx, item);
+                }
             },
 
             removeItem: function(item) {
@@ -380,15 +391,15 @@ define([
                 this.items.splice(from, len);
             },
 
-            removeAll: function() {
-                var me = this;
-
-                _.each(me.items, function(item){
-                    item.off('click').off('toggle');
-                    item.remove();
-                });
-
-                me.items = [];
+            removeAll: function(keepCustom) { // remove only not-custom items when keepCustom is true
+                for (var i=0; i<this.items.length; i++) {
+                    if (!keepCustom || !this.items[i].isCustomItem) {
+                        this.items[i].off('click').off('toggle');
+                        this.items[i].remove();
+                        this.items.splice(i, 1);
+                        i--;
+                    }
+                }
             },
 
             onBeforeShowMenu: function(e) {
@@ -400,15 +411,10 @@ define([
             onAfterShowMenu: function(e) {
                 this.trigger('show:after', this, e);
                 if (this.scroller && e && e.target===e.currentTarget) {
-                    var menuRoot = this.menuRoot;
-                    if (this.wheelSpeed===undefined) {
-                        var item = menuRoot.find('> li:first'),
-                            itemHeight = (item.length) ? item.outerHeight() : 1;
-                        this.wheelSpeed = Math.min((Math.floor(menuRoot.height()/itemHeight) * itemHeight)/10, 20);
-                    }
-                    this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible, wheelSpeed: this.wheelSpeed});
+                    this.updateScroller();
 
-                    var $selected = menuRoot.find('> li .checked');
+                    var menuRoot = this.menuRoot,
+                        $selected = menuRoot.find('> li .checked');
                     if ($selected.length) {
                         var itemTop = Common.Utils.getPosition($selected).top,
                             itemHeight = $selected.outerHeight(),
@@ -422,6 +428,18 @@ define([
                     }
                 }
                 this._search = {};
+            },
+
+            updateScroller: function() {
+                if (this.scroller && this.menuRoot) {
+                    var menuRoot = this.menuRoot;
+                    if (this.wheelSpeed===undefined || this.wheelSpeed===0) {
+                        var item = menuRoot.find('> li:first'),
+                            itemHeight = (item.length) ? item.outerHeight() : 1;
+                        this.wheelSpeed = Math.min((Math.floor(menuRoot.height()/itemHeight) * itemHeight)/10, 20);
+                    }
+                    this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible, wheelSpeed: this.wheelSpeed});
+                }
             },
 
             onBeforeHideMenu: function(e) {
@@ -613,12 +631,28 @@ define([
                 if (item.options.stopPropagation) {
                     e.stopPropagation();
                     var me = this;
-                    _.delay(function(){
-                        me.$el.parent().parent().find('[data-toggle=dropdown]').focus();
-                    }, 10);
+                    const _callback = function (records, observer) {
+                        if (records[0].oldValue && records[0].oldValue.indexOf('over') && !me.$el.hasClass('over')) {
+                            observer.disconnect();
+                            _.delay(function(){
+                                me.$el.parent().parent().find('[data-toggle=dropdown]').focus();
+                            }, 10);
+                        }
+                    };
+                    if ((this.menuAlignEl || this.menuRoot.parent()).is('li.dropdown-submenu')) { // for bug 24712, click from submenu
+                        (new MutationObserver(_callback)).observe(this.$el[0], {
+                            attributes : true,
+                            attributeFilter : ['class'],
+                            attributeOldValue: true
+                        });
+                    } else { // click from button menu, set focus to button
+                        _.delay(function(){
+                            me.$el.parent().find('[data-toggle=dropdown]').focus();
+                        }, 10);
+                    }
                     return;
                 }
-                this.trigger('item:click', this, item, e);
+                this.trigger(item.isCustomItem ? 'item:custom-click' : 'item:click', this, item, e);
             },
 
             onItemToggle: function(item, state, e) {
@@ -740,19 +774,35 @@ define([
                 }
             },
 
-            getChecked: function() {
+            getChecked: function(exceptCustom) { // check only not-custom items if exceptCustom is true
                 for (var i=0; i<this.items.length; i++) {
                     var item = this.items[i];
-                    if (item.isChecked && item.isChecked())
+                    if (item.isChecked && item.isChecked() && (!exceptCustom || !item.isCustomItem))
                         return item;
                 }
             },
 
-            clearAll: function() {
+            clearAll: function(keepCustom) { // clear only not-custom items when keepCustom is true
                 _.each(this.items, function(item){
-                    if (item.setChecked)
+                    if (item.setChecked && (!keepCustom || !item.isCustomItem))
                         item.setChecked(false, true);
                 });
+            },
+
+            getItems: function(exceptCustom) { // return only not-custom items when exceptCustom is true
+                if (!exceptCustom) return this.items;
+
+                return _.reject(this.items, function (item) {
+                    return !!item.isCustomItem;
+                });
+            },
+
+            getItemsLength: function(exceptCustom) { // return count of not-custom items when exceptCustom is true
+                if (!exceptCustom) return this.items.length;
+
+                return _.reject(this.items, function (item) {
+                    return !!item.isCustomItem;
+                }).length;
             }
 
         }), {
@@ -813,6 +863,8 @@ define([
             this.menuAlignEl    = this.options.menuAlignEl;
             this.scrollAlwaysVisible = this.options.scrollAlwaysVisible;
             this.search = this.options.search;
+
+            this.setRecent(options.recent);
 
             if (Common.UI.isRTL()) {
                 if (this.menuAlign === 'tl-tr') {
@@ -908,6 +960,9 @@ define([
 
             this.trigger('render:after', this);
 
+            this.recent && this.menuRoot.find('> li:first').addClass('border-top');
+            this.loadRecent();
+
             return this;
         },
 
@@ -926,6 +981,8 @@ define([
                 itemTemplate: this.itemTemplate,
                 options : this.options
             }));
+            this.recent && this.menuRoot && this.menuRoot.find('> li:first').addClass('border-top');
+            this.loadRecent();
         },
 
         isVisible: function() {
@@ -970,6 +1027,7 @@ define([
                 }, 10);
                 return;
             }
+            this.addItemToRecent(item);
             this.trigger('item:click', this, item, e);
         },
 
@@ -1023,6 +1081,7 @@ define([
         },
 
         onBeforeShowMenu: function(e) {
+            this.loadRecent();
             Common.NotificationCenter.trigger('menu:show');
             this.trigger('show:before', this, e);
             (e && e.target===e.currentTarget) && this.alignPosition();
@@ -1032,18 +1091,22 @@ define([
             this.trigger('show:after', this, e);
             if (this.scroller && e && e.target===e.currentTarget) {
                 this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
-                var menuRoot = this.menuRoot,
-                    $selected = menuRoot.find('> li .checked');
-                if ($selected.length) {
-                    var itemTop = Common.Utils.getPosition($selected).top,
-                        itemHeight = $selected.outerHeight(),
-                        listHeight = menuRoot.outerHeight();
-                    if (!!this.options.scrollToCheckedItem && (itemTop < 0 || itemTop + itemHeight > listHeight)) {
-                        var height = menuRoot.scrollTop() + itemTop + (itemHeight - listHeight)/2;
-                        height = (Math.floor(height/itemHeight) * itemHeight);
-                        menuRoot.scrollTop(height);
+                var menuRoot = this.menuRoot;
+                if (this.recent && this.recentArr && this.recentArr.length) {
+                    menuRoot.scrollTop(0);
+                } else {
+                    var $selected = menuRoot.find('> li .checked');
+                    if ($selected.length) {
+                        var itemTop = Common.Utils.getPosition($selected).top,
+                            itemHeight = $selected.outerHeight(),
+                            listHeight = menuRoot.outerHeight();
+                        if (!!this.options.scrollToCheckedItem && (itemTop < 0 || itemTop + itemHeight > listHeight)) {
+                            var height = menuRoot.scrollTop() + itemTop + (itemHeight - listHeight)/2;
+                            height = (Math.floor(height/itemHeight) * itemHeight);
+                            menuRoot.scrollTop(height);
+                        }
+                        !!this.options.focusToCheckedItem && setTimeout(function(){$selected.focus();}, 1);
                     }
-                    !!this.options.focusToCheckedItem && setTimeout(function(){$selected.focus();}, 1);
                 }
             }
             this._search = {};
@@ -1242,6 +1305,112 @@ define([
             _.each(this.items, function(item){
                 item.checked = false;
             });
+        },
+
+        setRecent: function(recent) {
+            var filter = Common.localStorage.getKeysFilter();
+            this.recent = !recent ? false : {
+                count: recent.count || 5,
+                key: recent.key || (filter && filter.length ? filter.split(',')[0] : '') + this.id,
+                offset: recent.offset || 0,
+                valueField: recent.valueField || 'caption'
+            };
+        },
+
+        loadRecent: function() {
+            if (this.recent && this.rendered) {
+                if (!this.recentArr) {
+                    this.recentArr = [];
+                }
+                var checkedItem = _.findWhere(this.items, {checked: true});
+
+                this.clearRecent();
+
+                var me = this,
+                    arr = Common.localStorage.getItem(this.recent.key);
+                arr = arr ? arr.split(';') : [];
+                arr.reverse().forEach(function(recent) {
+                    let mnu = _.find(me.items, function(item) {
+                        return item[me.recent.valueField] === recent;
+                    });
+
+                    mnu && me.addItemToRecent(mnu, true, 0);
+                });
+                this.recentArr = arr;
+
+                if (checkedItem) {
+                    let obj,
+                        index = _.findIndex(me.items, (obj={}, obj[me.recent.valueField]=checkedItem[me.recent.valueField], obj));
+                    (index>-1) && me.setChecked(index, true, true);
+                }
+            }
+        },
+
+        clearRecent: function() {
+            for (let i=0; i<this.items.length; i++) {
+                if (!this.items[i].isRecent) break;
+                this.onRemoveRecentItem(this.items[i]);
+                this.items.splice(i, 1);
+                i--;
+            }
+        },
+
+        addItemToRecent: function(mnu, silent, index) {
+            if (!mnu || !this.recent) return;
+
+            for (let i=0; i<this.items.length; i++) {
+                if (!this.items[i].isRecent) break;
+                if (this.items[i][this.recent.valueField] === mnu[this.recent.valueField]) {
+                    if (i<this.recent.offset) return;
+
+                    this.onRemoveRecentItem(this.items[i]);
+                    this.items.splice(i, 1);
+                    break;
+                }
+            }
+
+            let recentLen = 0;
+            for (let i=0; i<this.items.length; i++) {
+                if (!this.items[i].isRecent) break;
+                recentLen++;
+            }
+
+            if (!(recentLen<this.recent.count)) {
+                this.onRemoveRecentItem(this.items[this.recent.count - 1]);
+                this.items.splice(this.recent.count - 1, 1);
+            }
+
+            var new_record = Object.assign({}, mnu);
+            new_record.isRecent = true;
+            new_record.id = Common.UI.getId();
+            new_record.checked = false;
+            this.items.splice(index!==undefined ? index : this.recent.offset, 0, new_record);
+            this.onInsertRecentItem(new_record, index!==undefined ? index : this.recent.offset);
+
+            if (!silent) {
+                var arr = [];
+                for (let i=0; i<this.items.length; i++) {
+                    if (!this.items[i].isRecent) break;
+                    arr.push(this.items[i][this.recent.valueField]);
+                }
+                this.recentArr = arr;
+                Common.localStorage.setItem(this.recent.key, arr.join(';'));
+            }
+            this.$items = null;
+        },
+
+        onInsertRecentItem: function(item, index) {
+            if (!this.cmpEl) return;
+            var el = $(_.template('<li><%= itemTemplate(item) %></li>')({
+                itemTemplate: this.itemTemplate,
+                item: item
+            }));
+            this.cmpEl.find('> li').eq(index || 0).before(el);
+            el && (item.el = el.find('> a'));
+        },
+
+        onRemoveRecentItem: function(item) {
+            this.cmpEl && this.cmpEl.find('> li a#'+item.id).closest('li').remove();
         }
     });
 

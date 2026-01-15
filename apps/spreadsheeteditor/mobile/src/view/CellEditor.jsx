@@ -5,6 +5,9 @@ import {observer, inject} from "mobx-react";
 // import { __interactionsRef } from 'scheduler/tracing';
 import { Device } from '../../../../common/mobile/utils/device';
 import { useTranslation } from 'react-i18next';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconFunction from '@icons/icon-function.svg';
+import IconInfo from '@common-icons/icon-info.svg';
 
 const viewStyle = {
     height: 30
@@ -31,21 +34,49 @@ const CellEditorView = props => {
         setExpanded(!expanded);
     };
 
+    const FunctionHint = ({ funcHint }) => {
+        if (!funcHint || !funcHint.args) return null;
+        const separator = funcHint.separator;
+        return (
+            <div className="function-hint-card">
+                <div className="name">
+                    <span className={funcHint.nameIsActive ? 'contrast' : ''}>
+                        {funcHint.name}
+                    </span>
+                    (
+                    {funcHint.args.map((arg, i) => (
+                        <span key={i} className={arg.isActive ? "contrast" : ""}>
+                            {arg.name}
+                            {i < funcHint.args.length - 1 ? `${separator} ` : ""}
+                        </span>
+                    ))}
+                    )
+                </div>
+            </div>
+        );
+    };
+
     return (
         <>
             <View id="idx-celleditor" style={viewStyle} routes={routes} className={expanded ? 'cell-editor expanded' : 'cell-editor collapsed'}>
                 <div id="box-cell-name" className="ce-group">
                     <span id="idx-cell-name">{props.cellName}</span>
-                    <a href="#" id="idx-btn-function" className='link icon-only' disabled={(!isEdit && true) || props.stateFunctions || functionsDisable || wsLock} onClick={() => {props.onClickToOpenAddOptions('function', '#idx-btn-function');}}>
-                        <i className="icon icon-function" />
-                    </a>
+                    {storeAppOptions.isDocReady && (
+                        <a href="#" id="idx-btn-function" className='link icon-only'
+                           disabled={(!isEdit && true) || props.stateFunctions || functionsDisable || wsLock}
+                           onClick={() => {
+                               props.onClickToOpenAddOptions('function', '#idx-btn-function');
+                           }}>
+                            <SvgIcon symbolId={IconFunction.id} className={'icon icon-svg icon_function'}/>
+                        </a>)}
                 </div>
                 <div className="ce-group group--content" style={contentStyle}>
                     <div id="idx-list-target" className="target-function-list"></div>
                     <textarea id="idx-cell-content" spellCheck="false" />
+                    <FunctionHint funcHint={props.funcHint}/>
                 </div>
                 <div className="ce-group">
-                    <Link icon="caret" onClick={expandClick} />
+                    <Link icon="caret" onClick={expandClick} /> 
                 </div>
             </View>
             {
@@ -105,7 +136,7 @@ const FunctionsList = props => {
                                              f7.views.current.router.navigate('/function-info/', {props: {functionInfo, functionObj: elem, insertFormula: props.insertFormula}});
                                          }
                                      }}>
-                                    <Icon icon='icon-info'/>
+                                    <SvgIcon symbolId={IconInfo.id} className={'icon icon-svg'} />
                                 </div>
                             }
                         </ListItem>

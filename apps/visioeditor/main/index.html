@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html style="width:100%; height:100%;">
+<head>
+    <title>ONLYOFFICE Visio Editor</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=IE8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <link rel="icon" href="resources/img/favicon.ico" type="image/x-icon" />
+
+    <!-- splash -->
+    <style type="text/css">
+        /* .theme-dark, .theme-type-dark {
+            --toolbar-header-visio: #2a2a2a;
+            --background-toolbar: #404040;
+            --border-toolbar: #2a2a2a;
+            --highlight-button-hover: #606060;
+            --highlight-header-button-hover: rgba(255,255,255,.15);
+            --canvas-background: #666666;
+            /*--canvas-content-background: #fff;*/
+            /* --canvas-page-border: #555;
+        }
+
+        .theme-classic-light {
+        }
+
+        .theme-light {
+            --background-toolbar: #f1f1f1;
+            /*--border-toolbar: #cbcbcb;*/
+            /* --highlight-button-hover: #d8dadc;
+            --highlight-header-button-hover: rgba(0,0,0,.15);
+            --canvas-background: #eee;
+            --canvas-page-border: #ccc;
+        }  */
+
+        .loadmask {
+            --sk-height-toolbar-controls:84px;
+            --sk-layout-padding-toolbar:0 10px;
+            --sk-layout-padding-header: 0 10px;
+            --sk-shadow-toolbar: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+            --sk-border-radius-toolbar: 8px;
+            --sk-background-toolbar: #f3f3f3;
+            --sk-background-toolbar-controls: #fff;
+            --sk-canvas-background: #f3f3f3;
+            --sk-background-toolbar-header-pdf: #f3f3f3;
+            --sk-background-toolbar-tab: #eaeaea;
+            --sk-background-toolbar-button: #f9f9f9;
+            --sk-layout-padding-toolbar-controls: 0 8px;
+            --sk-canvas-content-background: #fff;
+            --sk-canvas-page-border: #dde0e5;
+            --sk-canvas-line: rgba(0,0,0,.05);
+        }
+
+        .theme-night .loadmask {
+            --sk-height-toolbar-controls: 84px; 
+            --sk-layout-padding-toolbar: 0 10px;
+            --sk-border-radius-toolbar: 8px;
+
+            /* --shadow-toolbar: 0px 1px 3px 0px rgba(0, 0, 0, 0.10), 0px 1px 2px 0px rgba(0, 0, 0, 0.06) */
+            --sk-shadow-toolbar: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+
+            /* --toolbar-header-document: #222222 */
+            --sk-background-toolbar-header-pdf: #222222;
+
+            /* --toolbar-header-document: #222222 */
+            --sk-background-toolbar: #222222;
+
+            /* --background-toolbar: #404040; */
+            --sk-background-toolbar-controls: #404040;
+
+            /* --highlight-header-button-hover: #585858; */
+            --sk-background-toolbar-tab: #585858;
+
+            /* --highlight-button-hover: #585858 */
+            --sk-background-toolbar-button: #585858;
+
+            --sk-layout-padding-toolbar-controls: 0 8px;
+            --sk-layout-padding-header: 0 10px;
+
+            /* --canvas-background: #222222; */
+            --sk-canvas-background: #222222;
+
+            /* --canvas-content-background: #fff; */
+            --sk-canvas-content-background: #fff;
+
+            --sk-canvas-page-border: #555;
+            --sk-canvas-line: rgba(0,0,0,.05);
+        }
+
+        .loadmask {
+            left: 0;
+            top: 0;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            border: none;
+            background: #e2e2e2;
+            background: var(--sk-canvas-background, #eee);
+            z-index: 1002;
+        }
+
+        .loadmask > .brendpanel {
+            /* width: 100%; */
+            min-height: 28px;
+            background: #444796;
+            background: var(--sk-background-toolbar-header-visio);
+            padding: var(--sk-layout-padding-header);
+        }
+
+        .loadmask > .brendpanel .underline {
+            background: #f1f1f1;
+            /* background: var(--background-toolbar, #f1f1f1); */
+            background: var(--sk-background-toolbar-header-visio);
+        }
+
+        .loadmask > .brendpanel > div {
+            display: flex;
+            align-items: center;
+            height: 28px;
+        }
+
+        .loadmask > .brendpanel .loading-logo {
+            padding: 0 24px 0 12px;
+            max-width: 200px;
+            height: 20px;
+        }
+
+        .rtl .loadmask > .brendpanel .loading-logo {
+            padding: 0 12px 0 24px;
+        }
+
+        .loadmask > .brendpanel .loading-logo > img {
+            display: inline-block;
+            max-width: 100px;
+            max-height: 20px;
+            opacity: 0;
+        }
+
+        .loadmask > .brendpanel .spacer {
+            /* margin-left: auto; */
+            flex-grow: 1;
+        }
+
+        .loadmask > .brendpanel .rect {
+            vertical-align: middle;
+            width: 50px;
+            height: 12px;
+            border-radius: 3px;
+            margin: 0 10px;
+            background: rgba(0,0,0,.15);
+            background: var(--sk-background-toolbar-tab);
+        }
+
+        .loadmask > .brendpanel .underline .rect {
+            background: #d8dadc;
+            background: var(--sk-background-toolbar-tab);
+            opacity: 0.4;
+        }
+
+        .loadmask > .sktoolbar {
+            background: #f1f1f1;
+            /*height: 66px;*/
+            /*height: var(--sk-height-toolbar-controls, 66px);*/
+            padding: 0;
+            padding: var(--sk-layout-padding-toolbar, 0);
+            
+            box-sizing: content-box;
+            background-color: var(--sk-background-toolbar, #f7f7f7);
+        }
+
+        .loadmask > .sktoolbar > .box-controls {
+            background: var(--sk-background-toolbar-controls, #f7f7f7);
+            border-radius: var(--sk-border-radius-toolbar, 0);
+            /*padding: 10px 7px;*/
+            /*padding: 0 7px;*/
+            padding: var(--sk-layout-padding-toolbar-controls);
+            box-shadow: var(--sk-shadow-toolbar);
+            height: 66px;
+            height: var(--sk-height-toolbar-controls);
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .loadmask > .sktoolbar ul {
+            margin: 0;
+            padding: 0;
+            white-space: nowrap;
+            position: relative;
+            height: 20px;
+        }
+
+        .loadmask > .sktoolbar ul:first-child {
+            margin-bottom: 5px;
+        }
+
+        .loadmask > .sktoolbar li {
+            background: #d8dadc;
+            background: var(--sk-background-toolbar-button, #d8dadc);
+            border-radius: 3px;
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        .loadmask > .sktoolbar li.space {
+            background: none;
+            width: 0;
+        }
+
+        .loadmask > .sktoolbar li.split {
+            width: 32px;
+        }
+
+        .loadmask > .sktoolbar li.big {
+            width: 40px;
+            height: 46px;
+            margin-top: -46px;
+        }
+
+        .loadmask > .sktoolbar li.fat {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            left: 795px;
+            width: inherit;
+            height: 44px;
+        }
+        .rtl .loadmask > .sktoolbar li.fat {
+            right: 795px;
+            left: 0;
+        }
+
+        .loadmask > .placeholder {
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+            margin: 0 100px;
+        }
+
+        .loadmask > .placeholder .slide-h {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex-grow: 1;
+            max-width: 1350px;
+            width: 100%;
+            margin: 0 auto 126px;
+        }
+
+        .loadmask > .placeholder .slide-v {
+            display: flex;
+            position: relative;
+            flex-direction: column;
+            padding-bottom: 56.1333%;
+        }
+
+        .loadmask > .placeholder .slide-container {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            background: #fff;
+            background: var(--sk-canvas-content-background, #fff);
+            border: 1px solid #bbbec2;
+            border: var(--scaled-one-px-value, 1px) solid var(--sk-canvas-page-border, #bbbec2);
+
+            -webkit-animation: flickerAnimation 2s infinite ease-in-out;
+            -moz-animation: flickerAnimation 2s infinite ease-in-out;
+            -o-animation: flickerAnimation 2s infinite ease-in-out;
+            animation: flickerAnimation 2s infinite ease-in-out;
+        }
+
+        .loadmask > .placeholder .slide-container > .line {
+            height: 20%;
+            margin: 0 120px;
+            border-radius: 6px;
+            background: #f5f5f5;
+        }
+
+        .loadmask > .placeholder .slide-container > .line.empty {
+            background: transparent;
+        }
+
+        .loadmask > .placeholder .slide-container > .line:nth-child(1) {
+            height: 30%;
+            margin: 10% 80px 0;
+        }
+
+        @keyframes flickerAnimation {
+            0%   { opacity:1; }
+            50%  { opacity:0.8; }
+            100% { opacity:1; }
+        }
+        @-o-keyframes flickerAnimation{
+            0%   { opacity:1; }
+            50%  { opacity:0.8; }
+            100% { opacity:1; }
+        }
+        @-moz-keyframes flickerAnimation{
+            0%   { opacity:1; }
+            50%  { opacity:0.8; }
+            100% { opacity:1; }
+        }
+        @-webkit-keyframes flickerAnimation{
+            0%   { opacity:1; }
+            50%  { opacity:0.8; }
+            100% { opacity:1; }
+        }
+
+        .pixel-ratio__1_5 {
+            --scaled-one-px-value: calc(1px / 1.5);
+        }
+    </style>
+
+    <script>
+        // don't add zoom for mobile devices
+        // if (!(/android|avantgo|playbook|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera)))
+            // document.getElementsByTagName('html')[0].setAttribute('style', 'zoom: ' + 1 / (window.devicePixelRatio < 2 ? window.devicePixelRatio : window.devicePixelRatio / 2) + ';');
+
+        var userAgent = navigator.userAgent.toLowerCase(),
+            check = function(regex){ return regex.test(userAgent); },
+            stopLoading = false,
+            isIEBrowser = !check(/opera/) && (check(/msie/) || check(/trident/)),
+            ieVer = /msie (\d+\.\d+)/.exec(userAgent);
+        if (isIEBrowser) {
+            if (ieVer && parseFloat(ieVer[1]) < 10.0) {
+                document.write(
+                    '<div class="app-error-panel">' +
+                        '<div class="message-block">' +
+                            '<div class="message-inner">' +
+                                '<div class="title">Your browser is not supported.</div>' +
+                                '<div class="text">Sorry, Visio Editor is currently only supported in the latest versions of the Chrome, Firefox, Safari or Internet Explorer web browsers.</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>');
+                stopLoading = true;
+            }
+        }
+
+        function getUrlParams() {
+            var e,
+                a = /\+/g,  // Regex for replacing addition symbol with a space
+                r = /([^&=]+)=?([^&]*)/g,
+                d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+                q = window.location.search.substring(1),
+                urlParams = {};
+
+            while (e = r.exec(q))
+                urlParams[d(e[1])] = d(e[2]);
+
+            return urlParams;
+        }
+
+        function encodeUrlParam(str) {
+            return str.replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;');
+        }
+
+        function isDarkColor(str) {
+            str = str.substring(1);
+            let rgb = parseInt(str, 16),
+                r = (rgb >> 16) & 0xff,
+                g = (rgb >>  8) & 0xff,
+                b = (rgb >>  0) & 0xff;
+            return Math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b))<140;
+        }
+
+        var params = getUrlParams(),
+            lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
+            hideLogo = params["headerlogo"]==='',
+            logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
+            logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null,
+            logoLight = params["headerlogolight"] ? encodeUrlParam(params["headerlogolight"]) : null;
+
+        window.frameEditorId = params["frameEditorId"];
+        window.parentOrigin = params["parentOrigin"];
+
+        if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
+            document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
+            document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>');
+        }
+    </script>
+
+    <!-- debug begin -->
+    <link rel="stylesheet/less" type="text/css" href="resources/less/app.less" />
+    <!-- debug end -->
+    <script src="../../common/main/lib/util/themeinit.js"></script>
+</head>
+<body role="application">
+    <script src="../../common/main/lib/util/htmlutils.js"></script>
+    <div id="loading-mask" class="loadmask">
+        <div class="brendpanel" style="display: none;">
+            <div>
+                <div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo_s.svg"></div>
+                <div class="spacer"></div>
+            </div>
+            <div>
+                <span class="rect"></span>
+                <span class="rect"></span>
+                <span class="rect"></span>
+                <span class="rect"></span>
+                <div class="spacer"></div>
+            </div>
+        </div>
+        <div class="sktoolbar" style="display: none;">
+            <section class="box-controls">
+                <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space" style="width: 54px;"/><li class="split" /><li class="space"/><li style="width: 236px;"/><li class="space"/><li style="width: 136px;"/><li class="space" style="width: 138px;"/><li class="space"/><li style="width: 70px;"/><li class="fat"/></ul>
+                <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"/><li class="big" style="width: 48px;"/><li class="split" /><li class="space"/><li style="width: 236px;"/><li class="space"/><li style="width: 136px;"/><li class="space"/><li class="big"/><li class="big"/><li class="big"/><li class="space"/><li style="width: 70px;"/></ul>
+            </section>
+        </div>
+        <div class="placeholder" style="display: none;">
+            <div class="slide-h"><div class="slide-v"><div class="slide-container"></div></div></div>
+        </div>
+    </div>
+
+    <script>
+        if ( !!window.skhtml ) {
+            var skl = document.getElementById("loading-mask");
+            if ( skl ) {
+                skl.innerHTML = window.skhtml;
+                delete skl;
+            }
+    
+            delete window.skhtml;
+        }
+    </script>
+
+    <div id="viewport" role="main"></div>
+
+    <script>
+        var params = getUrlParams(),
+            notoolbar = params["toolbar"] == 'false',
+            compact = params["compact"] == 'true',
+            view = params["mode"] == 'view',
+            tabBackground = params["tabBackground"],
+            visible = true;
+
+        if (compact || view || notoolbar) {
+            let child = document.querySelector('.brendpanel > :nth-child(2)');
+            child && child.parentNode && child.parentNode.removeChild(child);
+        }
+
+        if ( !tabBackground || /-ls$/.test(tabBackground)) {// try get tab background from localstorage
+            tabBackground = checkLocalStorage && localStorage.getItem("settings-tab-background") !== null ? localStorage.getItem("settings-tab-background") : tabBackground ? tabBackground.match(/(.*?)-ls/)[1] : 'header';
+        }
+
+        if (compact || view) {
+            if (notoolbar) {
+                let child = document.querySelector('.brendpanel > :nth-child(1)');
+                child && child.parentNode && child.parentNode.removeChild(child);
+                visible = false;
+            } else {
+                document.querySelector('.brendpanel > :nth-child(1)').style.height = '32px';
+                (tabBackground==='toolbar') && document.querySelector('.brendpanel > :nth-child(1)').classList.add('underline');
+            }
+        } else if (notoolbar) {
+            document.querySelector('.brendpanel > :nth-child(1)').style.height = '28px';
+        } else {
+            (tabBackground==='toolbar') && document.querySelector('.brendpanel > :nth-child(2)').classList.add('underline');
+        }
+
+        if (compact) {
+            var elements = document.querySelectorAll('.not-compact');
+            for (let i = 0; i < elements.length; i++) {
+                elements[i].parentNode.removeChild(elements[i]);
+            }
+            elements = document.querySelectorAll('.compact');
+            for (let i = 0; i < elements.length; i++) {
+                elements[i].style.display = 'inline-block';
+            }
+            if (document.body.classList.contains('rtl'))
+                document.querySelector('.fat').style.right = '865px';
+            else
+                document.querySelector('.fat').style.left = '865px';
+        }
+
+        visible && (document.querySelector('.brendpanel').style.display = 'block');
+        !(view || notoolbar) && (document.querySelector('.sktoolbar').style.display = 'block');
+        document.querySelector('.placeholder').style.display = 'flex';
+
+        if (stopLoading) {
+            document.body.removeChild(document.getElementById('loading-mask'));
+        } else {
+            if (hideLogo) {
+                var elem = document.querySelector('.loading-logo');
+                elem && (elem.style.display = 'none');
+            } else {
+                var elem = document.querySelector('.loading-logo img');
+                if (elem) {
+                    var isDarkTheme = /theme-(?:[a-z]+-)?dark(?:-[a-z]*)?/.test(document.body.className),
+                        image = logo || logoDark || logoLight,
+                        isDark = true;
+                    if (!(isIEBrowser && ieVer && parseFloat(ieVer[1]) < 11.0)) {
+                        var docstyle = getComputedStyle(document.body),
+                            header_color = docstyle.getPropertyValue('--toolbar-header-visio'),
+                            toolbar_color = docstyle.getPropertyValue('--background-toolbar');
+                        logo_type = (view || compact) && (tabBackground==='toolbar') ? toolbar_color : header_color;
+                        isDark = logo_type ? isDarkColor(logo_type) : isDarkTheme ? true : !((view || compact) && (tabBackground==='toolbar'));
+                        image = isDark ? logoDark || logo || logoLight : logoLight || logo || logoDark;
+                    }
+                    if (image) {
+                        elem.setAttribute('src', image);
+                    } else if (!isDark) {
+                        elem.setAttribute('src', "../../common/main/resources/img/header/dark-logo_s.svg");
+                    }
+                    elem.style.opacity = 1;
+                }
+            }
+        }
+    </script>
+
+    <script src="../../../vendor/svg-injector/svg-injector.min.js"></script>
+    <img class="inline-svg" src="../../common/main/resources/img/header/icons.svg">
+    <div class="inlined-svg"></div>
+    <script>
+        var svgpoints = document.querySelectorAll('img.inline-svg');
+        SVGInjector(svgpoints);
+    </script>
+
+    <script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../vendor/xregexp/xregexp-all-min.js"></script>
+
+    <script type="text/javascript">
+        window.g_debug_mode = true;
+    </script>
+
+    <!-- debug begin -->
+    <script type="text/javascript">var less=less||{};less.env='development';less.async=true;</script>
+    <script src="../../../vendor/less/dist/less.js" type="text/javascript"></script>
+    <!-- debug end -->
+
+    <script type="text/javascript" src="../../../../sdkjs/develop/sdkjs/visio/scripts.js"></script>
+    <script>
+        window.sdk_scripts.forEach(function(item){
+            document.write('<script type="text/javascript" src="' + item + '"><\/script>');
+        });
+
+        window.requireTimeourError = function(){
+            var reqerr;
+
+            if ( lang == 'de')      reqerr = 'Die Verbindung ist zu langsam, einige Komponenten konnten nicht geladen werden. Aktualisieren Sie bitte die Seite.';
+            else if ( lang == 'es') reqerr = 'La conexión es muy lenta, algunos de los componentes no han podido cargar. Por favor recargue la página.';
+            else if ( lang == 'fr') reqerr = 'La connexion est trop lente, certains des composants n\'ons pas pu être chargé. Veuillez recharger la page.';
+            else if ( lang == 'ru') reqerr = 'Слишком медленное соединение, не удается загрузить некоторые компоненты. Пожалуйста, обновите страницу.';
+            else if ( lang == 'tr') reqerr = 'Bağlantı çok yavaş, bileşenlerin bazıları yüklenemedi. Lütfen sayfayı yenileyin.';
+            else reqerr = 'The connection is too slow, some of the components could not be loaded. Please reload the page.';
+
+            return reqerr;
+        };
+    </script>
+
+    <!-- application -->
+    <script data-main="app_dev" src="../../../vendor/requirejs/require.js"></script>
+</body>
+</html>

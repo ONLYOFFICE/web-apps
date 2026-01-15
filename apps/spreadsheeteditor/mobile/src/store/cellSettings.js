@@ -15,11 +15,13 @@ export class storeCellSettings {
             isBold: observable, 
             isItalic: observable, 
             isUnderline: observable, 
+            isStrikethrough: observable,
             hAlignStr: observable, 
             vAlignStr: observable, 
             isWrapText: observable, 
             orientationStr: observable,
             colorAuto: observable,
+            textDirection: observable,
             initCellSettings: action, 
             initTextFormat: action, 
             initTextOrientation: action, 
@@ -62,6 +64,9 @@ export class storeCellSettings {
     isBold = false;
     isItalic = false;
     isUnderline = false;
+    isStrikethrough = false;
+
+    textDirection = undefined;
 
     hAlignStr = 'left';
     vAlignStr = 'bottom';
@@ -146,6 +151,8 @@ export class storeCellSettings {
         this.isBold = xfs.asc_getFontBold();
         this.isItalic = xfs.asc_getFontItalic();
         this.isUnderline = xfs.asc_getFontUnderline();
+        this.isStrikethrough = xfs.asc_getFontStrikeout();
+        this.textDirection = xfs.asc_getReadingOrder();
     }
 
     initEditorFonts(fonts, select) {

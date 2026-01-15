@@ -142,11 +142,11 @@ define([
                     cls: 'combo-transitions',
                     itemWidth: itemWidth,
                     itemHeight: itemHeight,
-                    style: 'min-width:108px;',
+                    style: 'min-width:115px;',
                     autoWidth:       true,
                     itemTemplate: _.template([
                         '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + itemWidth + 'px;height: ' + itemHeight + 'px;">',
-                        '<div class = "icon toolbar__icon <%= imageUrl %>"></div>',
+                        '<div class = "icon toolbar__icon options__icon <%= imageUrl %>"></div>',
                         '<div class = "caption"><%= title %></div>',
                         '</div>'
                     ].join('')),
@@ -196,10 +196,9 @@ define([
                 this.lockedControls.push(this.btnPreview);
 
                 this.btnParameters = new Common.UI.Button({
-                    cls: 'btn-toolbar  x-huge icon-top',
+                    cls: 'btn-toolbar x-huge icon-top',
                     caption: this.txtParameters,
-                    iconCls: 'toolbar__icon icon btn-transition-none',
-                    scaling: false,
+                    iconCls: 'toolbar__icon btn-transition-none',
                     menu: new Common.UI.Menu({
                         items: this.createParametersMenuItems()
                     }),
@@ -279,7 +278,7 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chDelay);
-
+                Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: this.lockedControls});
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
@@ -407,7 +406,7 @@ define([
 
                 var selectedElement;
 
-                _.each(this.btnParameters.menu.items, function (element, index) {
+                _.each(this.btnParameters.menu.getItems(), function (element, index) {
                     if ((index >= minMax[0]) && (index <= minMax[1])) {
                         element.setVisible(true);
                         if (value != undefined) {

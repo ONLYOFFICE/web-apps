@@ -126,6 +126,11 @@ define([
                 takeFocusOnClose: true
             });
             this.cmbTextAlignment.setValue('');
+            this.cmbTextAlignment.on('selected', _.bind(function(combo, record) {
+                if (this._changedProps) {
+                    this._changedProps.asc_putJc(record.value>-1 ? record.value: null);
+                }
+            }, this));
 
             this.numIndentsLeft = new Common.UI.MetricSpinner({
                 el: $('#paragraphadv-spin-indent-left'),
@@ -165,6 +170,9 @@ define([
                 }
             }, this));
             this.spinners.push(this.numIndentsRight);
+
+            this.lblIndentsLeft = $('#paragraphadv-lbl-indent-left');
+            this.lblIndentsRight = $('#paragraphadv-lbl-indent-right');
 
             this.cmbSpecial = new Common.UI.ComboBox({
                 el: $('#paragraphadv-spin-special'),
@@ -256,6 +264,22 @@ define([
             });
             this.spinners.push(this.numLineHeight);
             this.numLineHeight.on('change', _.bind(this.onNumLineHeightChange, this));
+
+            this.rbDirLtr = new Common.UI.RadioBox({
+                el: $('#paragraphadv-dir-ltr'),
+                name        : 'text-dir',
+                labelText   : this.textDirLtr,
+                value: false
+            });
+            this.rbDirLtr.on('change', _.bind(this.onTextDirChange, this));
+
+            this.rbDirRtl = new Common.UI.RadioBox({
+                el: $('#paragraphadv-dir-rtl'),
+                name        : 'text-dir',
+                labelText   : this.textDirRtl,
+                value: true
+            });
+            this.rbDirRtl.on('change', _.bind(this.onTextDirChange, this));
 
             // Font
 
@@ -403,7 +427,7 @@ define([
         getFocusedComponents: function() {
             return this.btnsCategory.concat([
                 this.cmbTextAlignment, this.numIndentsLeft, this.numIndentsRight, this.cmbSpecial, this.numSpecialBy,
-                this.numSpacingBefore, this.numSpacingAfter, this.cmbLineRule, this.numLineHeight, // 0 tab
+                this.numSpacingBefore, this.numSpacingAfter, this.cmbLineRule, this.numLineHeight, this.rbDirLtr, this.rbDirRtl,// 0 tab
                 this.chStrike, this.chSubscript, this.chDoubleStrike, this.chSmallCaps, this.chSuperscript, this.chAllCaps, this.numSpacing, // 1 tab
                 this.numDefaultTab, this.numTab, this.cmbAlign, this.tabList, this.btnAddTab, this.btnRemoveTab, this.btnRemoveAll // 2 tab
             ]).concat(this.getFooterButtons());
@@ -444,9 +468,6 @@ define([
                 }, this);
             }
 
-            var horizontalAlign = this.cmbTextAlignment.getValue();
-            this._changedProps.asc_putJc((horizontalAlign !== undefined && horizontalAlign !== null) ? horizontalAlign : c_paragraphTextAlignment.LEFT);
-
             if (this.Spacing !== null) {
                 this._changedProps.asc_putSpacing(this.Spacing);
             }
@@ -462,7 +483,7 @@ define([
                 this.numIndentsLeft.setValue((props.get_Ind() !== null && props.get_Ind().get_Left() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.get_Ind().get_Left()) : '', true);
                 this.numIndentsRight.setValue((props.get_Ind() !== null && props.get_Ind().get_Right() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.get_Ind().get_Right()) : '', true);
 
-                this.cmbTextAlignment.setValue((props.get_Jc() !== undefined && props.get_Jc() !== null) ? props.get_Jc() : c_paragraphTextAlignment.CENTERED, true);
+                this.cmbTextAlignment.setValue((props.get_Jc() !== undefined && props.get_Jc() !== null) ? props.get_Jc() : '');
 
                 if(this.CurSpecial === undefined) {
                     this.CurSpecial = (props.get_Ind().get_FirstLine() === 0) ? c_paragraphSpecial.NONE_SPECIAL : ((props.get_Ind().get_FirstLine() > 0) ? c_paragraphSpecial.FIRST_LINE : c_paragraphSpecial.HANGING);
@@ -483,6 +504,14 @@ define([
                 } else {
                     this.numLineHeight.setValue('', true);
                 }
+
+                value = props.asc_getRtlDirection();
+                if (value !== undefined) {
+                    this.rbDirRtl.setValue(value, true);
+                    this.rbDirLtr.setValue(!value, true);
+                }
+                this.lblIndentsLeft.text(value ? this.strIndentsSpacingBefore : this.strIndentsLeftText);
+                this.lblIndentsRight.text(value ? this.strIndentsSpacingAfter : this.strIndentsRightText);
 
                 // Font
                 this._noApply = true;
@@ -807,6 +836,14 @@ define([
                 this.Spacing = properties.get_Spacing();
             }
             this.Spacing.put_Line((this.cmbLineRule.getValue()==c_paragraphLinerule.LINERULE_AUTO) ? field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+        },
+
+        onTextDirChange: function(field, newValue, eOpts) {
+            if (newValue && this._changedProps) {
+                this._changedProps.asc_putRtlDirection(field.options.value);
+                this.lblIndentsLeft.text(field.options.value ? this.strIndentsSpacingBefore : this.strIndentsLeftText);
+                this.lblIndentsRight.text(field.options.value ? this.strIndentsSpacingAfter : this.strIndentsRightText);
+            }
         },
 
         textTitle:      'Paragraph - Advanced Settings',

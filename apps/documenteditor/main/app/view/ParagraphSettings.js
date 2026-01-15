@@ -236,6 +236,9 @@ define([
             this.spinners.push(this.numIndentsRight);
             this.lockedControls.push(this.numIndentsRight);
 
+            this.lblIndentsLeft = $markup.findById('#paragraph-lbl-indent-left');
+            this.lblIndentsRight = $markup.findById('#paragraph-lbl-indent-right');
+
             this.cmbSpecial = new Common.UI.ComboBox({
                 el: $markup.findById('#paragraph-combo-special'),
                 cls: 'input-group-nr',
@@ -538,6 +541,13 @@ define([
                     (this._state.RightIndent===null || value===null)&&(this._state.RightIndent!==value)) {
                     this.numIndentsRight.setValue(value!==null ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
                     this._state.RightIndent=value;
+                }
+
+                value = prop.asc_getRtlDirection();
+                if (this._state.rtlDir !== value) {
+                    this.lblIndentsLeft.text(value ? this.strSpacingBefore : this.strIndentsLeftText);
+                    this.lblIndentsRight.text(value ? this.strSpacingAfter : this.strIndentsRightText);
+                    this._state.rtlDir = value;
                 }
 
                 value = (first === 0) ? c_paragraphSpecial.NONE_SPECIAL : ((first > 0) ? c_paragraphSpecial.FIRST_LINE : c_paragraphSpecial.HANGING);

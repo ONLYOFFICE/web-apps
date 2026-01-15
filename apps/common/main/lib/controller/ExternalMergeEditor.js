@@ -98,6 +98,11 @@ define([
                         'resize': _.bind(function(o, state){
                             externalEditor && externalEditor.serviceCommand('window:resize', state == 'start');
                         },this),
+                        'animate:before': _.bind(function(){
+                            if(!this.isAppFirstOpened) {
+                                externalEditor && externalEditor.serviceCommand('reshow');
+                            }
+                        },this),
                         'show': _.bind(function(cmp){
                             var h = this.mergeEditorView.getHeight(),
                                 innerHeight = Common.Utils.innerHeight();
@@ -146,7 +151,6 @@ define([
             setApi: function(api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onCloseMergeEditor', _.bind(this.onMergeEditingDisabled, this));
-                this.api.asc_registerCallback('asc_sendFromGeneralToFrameEditor', _.bind(this.onSendFromGeneralToFrameEditor, this));
                 return this;
             },
 
@@ -259,10 +263,6 @@ define([
                 if (data.type == 'mouseup' && this.isExternalEditorVisible) {
                     externalEditor && externalEditor.serviceCommand('processmouse', data);
                 }
-            },
-
-            onSendFromGeneralToFrameEditor: function(data) {
-                externalEditor && externalEditor.serviceCommand('generalToFrameData', data);
             },
 
             warningTitle: 'Warning',
