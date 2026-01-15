@@ -10,9 +10,25 @@ class EditCellController extends Component {
         this.dateFormats = this.initFormats(Asc.c_oAscNumFormatType.Date, 38822);
         this.timeFormats = this.initFormats(Asc.c_oAscNumFormatType.Time, 1.534);
         this.initCustomFormats = this.initCustomFormats.bind(this);
+        this.memorizeCurrentFormat = this.memorizeCurrentFormat.bind(this);
         this.setCustomFormat = this.setCustomFormat.bind(this);
+        this.onCellFormat = this.onCellFormat.bind(this);
+        this.onAccountingCellFormat = this.onAccountingCellFormat.bind(this);
         this.onBorderStyle = this.onBorderStyle.bind(this);
         this.initCustomFormats();
+        this.memorizeCurrentFormat();
+    }
+
+    memorizeCurrentFormat() {
+        const api = Common.EditorApi.get();
+        const info = api.asc_getCellInfo();
+        const xfs = info.asc_getXfs();
+        const numFormat = xfs.asc_getNumFormat();
+        this.props.storeCellSettings.setCellFormat(numFormat);
+
+        const formatInfo = xfs.asc_getNumFormatInfo();
+        const formatType = formatInfo.asc_getType();
+        this.props.storeCellSettings.setCellFormatType(formatType);
     }
 
     initFormats(type, exampleVal) {
@@ -62,6 +78,9 @@ class EditCellController extends Component {
             format
         });
         api.asc_setCellFormat(format);
+
+        storeCellSettings.setCellFormat(format);
+        storeCellSettings.setCellFormatType(Asc.c_oAscNumFormatType.Custom);
     }
 
     toggleBold(value) {
@@ -178,6 +197,8 @@ class EditCellController extends Component {
     onCellFormat(format) {
         const api = Common.EditorApi.get();
         api.asc_setCellFormat(format);
+
+        this.memorizeCurrentFormat();
     }
 
     onAccountingCellFormat(value) {
@@ -190,8 +211,11 @@ class EditCellController extends Component {
 
         let format = api.asc_getFormatCells(info);
 
-        if (format && format.length > 0)
+        if (format && format.length > 0) {
             api.asc_setCellFormat(format[0]);
+            this.props.storeCellSettings.setCellFormat(format[0]);
+            this.props.storeCellSettings.setCellFormatType(Asc.c_oAscNumFormatType.Accounting);
+        }
     }
 
     onBorderStyle(type, borderInfo) {
