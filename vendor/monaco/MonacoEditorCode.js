@@ -160,7 +160,7 @@ var _postMessage = function(msg) {
         }
         //Calculate tooltip height(20px - height text row)
         var maxHeight = Math.min((window.innerHeight - 20) / 2, 250);
-        styleTag.textContent = `.monaco-hover { max-height: ${maxHeight}px !important; }`;
+        styleTag.textContent = '.monaco-hover { max-height:' + maxHeight + 'px !important; }';
     };
 
     _onResize();
