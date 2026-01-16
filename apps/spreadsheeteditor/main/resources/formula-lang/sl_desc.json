@@ -2408,5 +2408,20 @@
 	"IMPORTRANGE": {
 		"a": "(url_preglednice, niz_obsega)",
 		"d": "Uvozi obseg celic iz podane preglednice."
+	},
+	"REGEXTEST": {
+		"a": "(text; vzorec; [ločevanje_velike_male_črke])",
+		"d": "Preveri, ali se vnos ujema z vzorcem, in vrne TRUE ali FALSE",
+		"ad": "Ali je besedilo, ki ga iščete, znotraj!Regularni izraz, ki ga je treba uporabiti!Ali je ujemanje občutljivo na velikost črk"
+	},
+	"REGEXREPLACE": {
+		"a": "(text; vzorec; zamenjava; [pojavitev]; [ločevanje_velike_male_črke])",
+		"d": "Vrne 'text' z 'replacement' namesto zadetkov s 'pattern'",
+		"ad": "Besedilo, v katerem iščete!Regularni izraz, ki bo uporabljen!Niz, ki nadomesti ustrezni podniz v besedilu. Kjer se v nizu pojavi $n, pri čemer je $n celo število, se $n nadomesti z n-to posneto skupino!Katero pojavitev je treba nadomestiti. Če je vrednost 0, se nadomestijo vse pojavitve. Negativna vrednost pomeni, da je število pojavov od konca besedila manjše.!Ali je ujemanje občutljivo na velike in male črke"        
+	},
+	"REGEXEXTRACT": {
+		"a": "(text; vzorec; [način_rezultata]; [ločevanje_velike_male_črke])",
+		"d": "Izvleče podnize za »besedilo« na podlagi podanega REGEX-a »vzorca«",
+		"ad": "Ali je besedilo, ki ga iščete, znotraj!Regularni izraz, ki ga je treba uporabiti!Določite ujemanja, ki bodo pridobljena!Ali je ujemanje občutljivo na velikost črk"
 	}
 }

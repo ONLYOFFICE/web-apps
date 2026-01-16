@@ -423,7 +423,10 @@
     "textWrapText": "Ajustar texto",
     "textYourOption": "Su opción",
     "txtHeight": "Altura",
-    "txtWidth": "Ancho"
+    "txtWidth": "Ancho",
+    "textLtrTextDirection": "Left-to-right",
+    "textRtlTextDirection": "Right-to-left",
+    "textTextDirection": "Text Direction"
   },
   "Error": {
     "convertationTimeoutText": "Tiempo de conversión está superado.",
@@ -488,7 +491,8 @@
     "uploadDocSizeMessage": "Se ha excedido el límite de tamaño máximo del documento.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",
@@ -818,7 +822,9 @@
     "txtDownloadTxt": "Descargar TXT",
     "txtIncorrectPwd": "La contraseña es incorrecta",
     "txtOk": "OK",
-    "txtProtected": "Una vez que introduzca la contraseña y abra el archivo, se restablecerá la contraseña actual"
+    "txtProtected": "Una vez que introduzca la contraseña y abra el archivo, se restablecerá la contraseña actual",
+    "textHyphenation": "Hyphenation",
+    "textOpenLocation": "Open location"
   },
   "Toolbar": {
     "btnRestartNow": "Reiniciar ahora",

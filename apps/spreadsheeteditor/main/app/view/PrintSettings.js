@@ -354,8 +354,8 @@ define([
                     pagewidth = /^\d{3}\.?\d*/.exec(value),
                     pageheight = /\d{3}\.?\d*$/.exec(value);
 
-                item.set('displayValue', item.get('caption') + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
-                        parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ')');
+                item.set('displayValue', item.get('caption') + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ' ' +
+                        '\u2066x\u2069' + ' ' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ')');
             }
             this.cmbPaperSize.onResetItems();
             this.cmbPaperMargins.onResetItems();

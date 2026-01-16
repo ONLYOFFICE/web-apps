@@ -83,6 +83,7 @@
     "errorAccessDeny": "Nu aveți dreptul să efectuați acțiunea pe care doriți.<br>Contactați administratorul dvs.",
     "errorBadImageUrl": "URL-ul imaginii incorectă",
     "errorConnectToServer": "Salvarea documentului nu este posibilă. Verificați configurarea conexeunii sau contactaţi administratorul dumneavoastră de reţea<br>Când faceți clic pe OK, vi se va solicita să descărcați documentul.",
+    "errorCopyDisabled": "Din motive de securitate, conținutul acestui document nu poate fi copiat.",
     "errorDatabaseConnection": "Eroare externă.<br>Eroare de conectare la baza de date. Vă rugăm să contactați Serviciul de Asistență Clienți.",
     "errorDataEncrypted": "Modificările primite sunt criptate, decriptarea este imposibilă.",
     "errorDataRange": "Zonă de date incorectă.",
@@ -211,7 +212,8 @@
       "textVersion": "Versiune",
       "textVisioInfo": "Informații Vizualizator diagrame",
       "textVisioSettings": "Setări Vizualizator diagrame",
-      "textVisioTitle": "Titlu Vizualizator diagrame"
+      "textVisioTitle": "Titlu Vizualizator diagrame",
+      "textOpenLocation": "Open location"
     }
   }
 }

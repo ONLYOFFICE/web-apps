@@ -829,6 +829,11 @@ define([
                     this.disableEditing(false, 'reconnect');
                     Common.UI.TooltipManager.closeTip('disconnect');
                     this.getApplication().getController('Statusbar').setStatusCaption(this.textReconnect);
+                } else if ( id == Asc.c_oAscAsyncAction['BackgroundOpen']) {
+                    // this._state.timerDisconnect && clearTimeout(this._state.timerDisconnect);
+                    this.disableEditing(false, 'refresh-file');
+                    // Common.UI.TooltipManager.closeTip('disconnect');
+                    this.getApplication().getController('Statusbar').setStatusCaption('');
                 } else if (id === Asc.c_oAscAsyncAction['RefreshFile'])  {
                     this.disableEditing(false, 'refresh-file');
                     Common.UI.TooltipManager.closeTip('refreshFile');
@@ -924,6 +929,19 @@ define([
                         me._state.timerDisconnect = setTimeout(function(){
                             Common.UI.TooltipManager.showTip('disconnect');
                         }, me._state.unloadTimer || 0);
+                        this.getApplication().getController('Statusbar').setStatusCaption(text);
+                        return;
+
+                    case Asc.c_oAscAsyncAction['BackgroundOpen']:
+                        console.log("Asc.c_oAscAsyncAction['BackgroundOpen']");
+                        // title    = this.textDisconnect;
+                        text     = 'Continue opening...';//this.textDisconnect;
+                        Common.UI.Menu.Manager.hideAll();
+                        this.disableEditing(true, 'refresh-file');
+
+                        // this._state.timerDisconnect = setTimeout(function(){
+                        //     Common.UI.TooltipManager.showTip('disconnect');
+                        // }, this._state.unloadTimer || 0);
                         this.getApplication().getController('Statusbar').setStatusCaption(text);
                         return;
 

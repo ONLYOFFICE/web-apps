@@ -715,7 +715,7 @@ define([
                                 button.cmpEl.closest('.btn-slot').remove();
                                 if (group.children().length<1) {
                                     var in_more = group.closest('.more-container').length>0;
-                                    in_more ? group.next('.separator').remove() : group.prev('.separator').remove();
+                                    (in_more || group.prev().length===0) ? group.next('.separator').remove() : group.prev('.separator').remove(); // remove separator before empty group or after first empty group
                                     group.remove();
                                     if (in_more && $morepanel.children().filter('.group').length === 0) {
                                         btnsMore[tab.action] && btnsMore[tab.action].isActive() && btnsMore[tab.action].toggle(false);

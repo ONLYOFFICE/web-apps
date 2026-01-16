@@ -83,7 +83,8 @@
     "textDoNotShowAgain": "Jangan tampilkan lagi",
     "textOk": "OK",
     "textRows": "Baris",
-    "txtWarnUrl": "Mengklik tautan ini dapat membahayakan perangkat dan data Anda.<br>Apakah Anda yakin untuk melanjutkan?"
+    "txtWarnUrl": "Mengklik tautan ini dapat membahayakan perangkat dan data Anda.<br>Apakah Anda yakin untuk melanjutkan?",
+    "menuDuplicate": "Duplicate"
   },
   "Controller": {
     "Main": {
@@ -240,7 +241,8 @@
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
     "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "Memuat data...",
@@ -496,9 +498,14 @@
       "textZoomIn": "Perbesar",
       "textZoomOut": "Perkecil",
       "textZoomRotate": "Zoom dan Rotasi",
+      "textBackground": "Background",
       "textBaseline": "Baseline",
       "textCapitalization": "Capitalization",
       "textCellSize": "Cell size",
+      "textLtrTextDirection": "Left-to-right",
+      "textResetBackground": "Reset background",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction",
       "txtHeight": "Height",
       "txtWidth": "Width"
     },
@@ -568,7 +575,9 @@
       "textUnitOfMeasurement": "Satuan Ukuran",
       "textUploaded": "Diunggah",
       "textVersion": "Versi",
-      "textVersionHistory": "Riwayat Versi"
+      "textVersionHistory": "Riwayat Versi",
+      "textLoopSlideshow": "Loop slideshow",
+      "textOpenLocation": "Open location"
     }
   }
 }

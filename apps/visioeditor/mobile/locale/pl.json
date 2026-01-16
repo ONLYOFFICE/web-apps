@@ -95,6 +95,7 @@
     "criticalErrorTitle": "Error",
     "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your admin.",
     "errorBadImageUrl": "Image URL is incorrect",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
     "errorDatabaseConnection": "External error.<br>Database connection error. Please, contact support.",
     "errorDataRange": "Incorrect data range.",
     "errorDefaultMessage": "Error code: %1",
@@ -201,7 +202,8 @@
       "textTheme": "Theme",
       "textTitle": "Title",
       "textUploaded": "Uploaded",
-      "textVersion": "Version"
+      "textVersion": "Version",
+      "textOpenLocation": "Open location"
     }
   },
   "Toolbar": {

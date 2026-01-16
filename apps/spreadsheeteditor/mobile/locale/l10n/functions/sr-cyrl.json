@@ -481,6 +481,9 @@
 	"SORTBY": "СОРТИРАЈПО",
 	"GETPIVOTDATA": "ДОБИЈПИВОТПОДАТКЕ",
 	"IMPORTRANGE": "УВЕЗИОПСЕГ",
+	"REGEXTEST": "REGEXTEST",
+	"REGEXREPLACE": "REGEXREPLACE",
+	"REGEXEXTRACT": "REGEXEXTRACT",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Заглавља",

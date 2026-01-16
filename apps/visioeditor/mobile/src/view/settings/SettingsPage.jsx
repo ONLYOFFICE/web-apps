@@ -14,8 +14,10 @@ import IconHelp from '@common-icons/icon-help.svg';
 import IconAbout from '@common-icons/icon-about.svg';
 import IconFeedbackIos from '@common-ios-icons/icon-feedback.svg?ios';
 import IconFeedbackAndroid from '@common-android-icons/icon-feedback.svg';
+import IconReturnIos from '@common-ios-icons/icon-return.svg?ios';
+import IconReturnAndroid from '@common-android-icons/icon-return.svg';
 
-const SettingsPage = inject('storeAppOptions', 'storeVisioInfo')(observer(props => {
+const SettingsPage = inject('storeAppOptions', 'storeVisioInfo', 'storeToolbarSettings')(observer(props => {
     const { t } = useTranslation();
     const _t = t('View.Settings', {returnObjects: true});
     const {openOptions, isBranding} = useContext(MainContext);
@@ -25,6 +27,8 @@ const SettingsPage = inject('storeAppOptions', 'storeVisioInfo')(observer(props 
     const docTitle = storeVisioInfo.dataDoc ? storeVisioInfo.dataDoc.title : '';
     const canCloseEditor = appOptions.canCloseEditor;
     const closeButtonText = canCloseEditor && appOptions.customization.close.text;
+    const gobackTitle = appOptions.customization?.goback?.text || _t.textOpenLocation;
+    const isShowBack = props.storeToolbarSettings.isShowBack;
     const navbar =
         <Navbar>
             <div className="title" onClick={settingsContext.changeTitleHandler}>{docTitle}</div>
@@ -70,6 +74,14 @@ const SettingsPage = inject('storeAppOptions', 'storeVisioInfo')(observer(props 
         <Page>
             {navbar}
             <List>
+                {isShowBack &&
+                    <ListItem title={gobackTitle} link="#" className='no-indicator' onClick={() => Common.Notifications.trigger('goback')}>
+                        {Device.ios ? 
+                            <SvgIcon slot="media" symbolId={IconReturnIos.id} className={'icon icon-svg'} /> :
+                            <SvgIcon slot="media" symbolId={IconReturnAndroid.id} className={'icon icon-svg'} />
+                        }
+                    </ListItem>
+                }
                 <ListItem title={_t.textApplicationSettings} link="/application-settings/">
                     <SvgIcon slot="media" symbolId={IconAppSettings.id} className={'icon icon-svg'} />
                 </ListItem>

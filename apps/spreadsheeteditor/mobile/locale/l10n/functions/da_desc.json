@@ -2408,5 +2408,20 @@
 		"a": "(regneark_webadresse, område_streng)",
 		"d": "Importerer et celleområde fra et angivet regneark.",
 		"ad": "webadressen til regnearket, hvorfra data importeres!område, der skal importeres"
+	},
+	"REGEXTEST": {
+		"a": "(tekst; mønster; [skelner_store_og_små_bogstaver])",
+		"d": "Tjekker, om inputtet svarer til mønsteret, og returnerer SAND eller FALSK",
+		"ad": "Er teksten, du søger i!Det regulære udtryk, der skal anvendes!Om der skelnes mellem store og små bogstaver i matchet"
+	},
+	"REGEXREPLACE": {
+		"a": "(tekst; mønster; erstatning; [forekomst]; [skelner_store_og_små_bogstaver])",
+		"d": "Returnerer \"tekst\"' med \"erstatning\" i stedet for matches med \"mønster\"",
+		"ad": "Den tekst, du søger i!Det regulære udtryk, der skal anvendes!Strengen, der erstatter den tilsvarende understreng i teksten. Hvor $n vises i strengen, hvor $n er et heltal, hvor $n er et heltal, erstattes $n med n. registreringsgruppe!Hvilken forekomst der skal erstattes. Hvis 0, erstattes alle forekomster. En negativ værdi betyder, at antallet af forekomster fra slutningen af teksten.!Om match skelner mellem på store og små bogstaver"
+	},
+	"REGEXEXTRACT": {
+		"a": "(tekst; mønster; [returtilstand]; [skelner_store_og_små_bogstaver])",
+		"d": "Udtrækker understrenge af \"tekst\" baseret på det angivne REGEX-\"mønster\"",
+		"ad": "Er den tekst, du søger i!Det regulære udtryk, der skal anvendes!Angiver, hvilke forekomster der skal returneres!Om der skelnes mellem store og små bogstaver i matchet"
 	}
 }

@@ -423,7 +423,10 @@
     "textWrapText": "Szövegtördelés",
     "textYourOption": "Az Ön opciója",
     "txtHeight": "Magasság",
-    "txtWidth": "Szélesség"
+    "txtWidth": "Szélesség",
+    "textLtrTextDirection": "Left-to-right",
+    "textRtlTextDirection": "Right-to-left",
+    "textTextDirection": "Text Direction"
   },
   "Error": {
     "convertationTimeoutText": "A átalakítás időkorlátja lejárt.",
@@ -488,7 +491,8 @@
     "uploadDocSizeMessage": "A maximális dokumentum méret elérve.",
     "uploadImageExtMessage": "Ismeretlen képformátum.",
     "uploadImageFileCountMessage": "Nincsenek feltöltött képek.",
-    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB."
+    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "Adatok betöltése...",
@@ -818,7 +822,9 @@
     "txtDownloadTxt": "TXT letöltése",
     "txtIncorrectPwd": "Érvénytelen jelszó",
     "txtOk": "Rendben",
-    "txtProtected": "A jelszó megadása és a fájl megnyitása után az aktuális fájl jelszava visszaáll"
+    "txtProtected": "A jelszó megadása és a fájl megnyitása után az aktuális fájl jelszava visszaáll",
+    "textHyphenation": "Hyphenation",
+    "textOpenLocation": "Open location"
   },
   "Toolbar": {
     "btnRestartNow": "Újraindítás most",

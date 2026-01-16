@@ -2407,5 +2407,20 @@
 	"IMPORTRANGE": {
 		"a": "(izklājlapas_url, diapazona_virkne)",
 		"d": "Importē šūnu diapazonu no noteiktas izklājlapas."
+	},
+	"REGEXTEST": {
+		"a": "(teksts; modelis; [reģistrjutība])",
+		"d": "Pārbauda, vai ievade atbilst modelim, un atgriež TRUE vai FALSE",
+		"ad": "Ir teksts, kurā meklējat!Lietojamā regulārā izteiksme!Vai atbilstība ir reģistrjutīga"
+	},
+	"REGEXREPLACE": {
+		"a": "(teksts; modelis; aizstāšana; [gadījums]; [reģistrjutība])",
+		"d": "Atgriež tekstu \"teksts\" ar \"aizstāšana\" atbilstības ar \"modelis\" vietā",
+		"ad": "Teksts, kurā meklējat!Lietojamā regulārā izteiksme!Virkne, kas tekstā aizstāj atbilstošo apakšvirkni. Vietā, kur virknē parādās $n, kur $n ir vesels skaitlis, $n tiek aizstāts ar n-to tveršanas grupu!Kurš gadījums ir jāaizstāj. Ja 0, visi gadījumi tiek aizstāti. Negatīvā vērtība nozīmē gadījumu skaitu no teksta beigām.!Vai atbilstība ir reģistrjutīga"
+	},
+	"REGEXEXTRACT": {
+		"a": "(teksts; modelis; [atgriešanas_režīms]; [reģistrjutība])",
+		"d": "Izvelk “teksts” apakšvirknes, pamatojoties uz nodrošināto REGEX \"modeli\"",
+		"ad": "Teksts, kurā meklējat!Lietojamā regulārā izteiksme!Norādiet, kuras atbilstības jāatgriež!Vai atbilstība ir reģistrjutīga"
 	}
 }

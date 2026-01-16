@@ -481,6 +481,9 @@
 	"SORTBY": "SORTUJ.WEDŁUG",
 	"GETPIVOTDATA": "WEŹDANETABELI",
 	"IMPORTRANGE": "IMPORTRANGE",
+	"REGEXTEST": "REGEXTEST",
+	"REGEXREPLACE": "REGEXZASTĄP",
+	"REGEXEXTRACT": "REGEXWYODRĘBNIJ",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Wszystkie",

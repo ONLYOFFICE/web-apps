@@ -415,6 +415,9 @@
     "textCapitalization": "Capitalization",
     "textCellOptions": "Cell options",
     "textCellSize": "Rows & columns size",
+    "textLtrTextDirection": "Left-to-right",
+    "textRtlTextDirection": "Right-to-left",
+    "textTextDirection": "Text Direction",
     "textWrapText": "Wrap Text",
     "txtHeight": "Height",
     "txtWidth": "Width"
@@ -479,6 +482,7 @@
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
     "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
     "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
     "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
     "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
@@ -812,7 +816,9 @@
     "txtOk": "D'acord",
     "txtProtected": "Un cop introdueixis la contrasenya i obris el fitxer, es restablirà la contrasenya actual",
     "textClose": "Close",
-    "textDrawing": "Drawing"
+    "textDrawing": "Drawing",
+    "textHyphenation": "Hyphenation",
+    "textOpenLocation": "Open location"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tens canvis sense desar. Fes clic a \"Mantingueu-vos en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Deixar aquesta pàgina\" per descartar tots els canvis no desats.",

@@ -2408,5 +2408,20 @@
 		"a": "(kalkylarkets_webbadress; intervallsträng)",
 		"d": "Importerar ett cellområde från ett angivet kalkylark.",
 		"ad": "webbadressen till kalkylarket som data importeras från!intervallet som ska importeras"
+	},
+	"REGEXTEST": {
+		"a": "(text; mönster; [skiftlägeskänslighet])",
+		"d": "Kontrollerar om indata matchar mönstret och returnerar SANT eller FALSKT",
+		"ad": "Är texten du söker i!Det reguljära uttryck som ska tillämpas!Om matchningen är skiftlägeskänslig"
+	},
+	"REGEXREPLACE": {
+		"a": "(text; mönster; ersättning; [förekomst]; [skiftlägeskänslighet])",
+		"d": "Returnerar 'text', med 'replacement' i stället för matchningar med 'pattern'",
+		"ad": "Texten du söker i!Det reguljära uttryck som ska tillämpas!Strängen som ersätter matchande delsträng i text. Där $n visas i strängen, där $n är ett heltal, ersätts $n med den n:e infångningsgruppen!Vilken förekomst som ska ersättas. Om 0 ersätts alla förekomster. Ett negativt värde innebär antalet förekomster från slutet av texten.!Om matchningen är skiftlägeskänslig"        
+	},
+	"REGEXEXTRACT": {
+		"a": "(text; mönster; [retur_läge]; [skiftlägeskänslighet])",
+		"d": "Extraherar delsträngar av text baserat på det angivna REGEX-mönstret",
+		"ad": "Är texten du söker i!Det reguljära uttryck som ska tillämpas!Ange vilka matchningar som ska returneras!Om matchningen är skiftlägeskänslig"
 	}
 }

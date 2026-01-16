@@ -421,7 +421,10 @@
     "textCellOptions": "Cell options",
     "textBaseline": "Baseline",
     "textCapitalization": "Capitalization",
-    "textWrapText": "Wrap Text"
+    "textWrapText": "Wrap Text",
+    "textLtrTextDirection": "Left-to-right",
+    "textRtlTextDirection": "Right-to-left",
+    "textTextDirection": "Text Direction"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
@@ -486,7 +489,8 @@
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
     "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -849,7 +853,9 @@
     "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
     "textRtlInterface": "RTL Interface",
     "textClose": "Close",
-    "textDrawing": "Drawing"
+    "textDrawing": "Drawing",
+    "textHyphenation": "Hyphenation",
+    "textOpenLocation": "Open location"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",

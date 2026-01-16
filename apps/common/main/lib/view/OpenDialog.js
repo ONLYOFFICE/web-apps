@@ -106,8 +106,8 @@ define([
                         '<% if (type == Common.Utils.importTextType.Paste || type == Common.Utils.importTextType.Columns || type == Common.Utils.importTextType.Data) { %>',
                         '<div style="display: inline-block; <% if (codepages && codepages.length>0) { %>margin-top:15px;<% } %>width: 100%;">',
                             '<label class="header">' + t.txtDelimiter + '</label>',
-                            '<div class="controll-panel <% if (type == Common.Utils.importTextType.Columns) { %>margin-top<% } %>">',
-                                '<% if (type == Common.Utils.importTextType.Columns) { %>',
+                            '<div class="controll-panel <% if (type == Common.Utils.importTextType.Paste || type == Common.Utils.importTextType.Columns) { %>margin-top<% } %>">',
+                                '<% if (type == Common.Utils.importTextType.Paste || type == Common.Utils.importTextType.Columns) { %>',
                                     '<table id="id-delimiters-table">',
                                         '<tr>',
                                             '<td>',
@@ -456,7 +456,7 @@ define([
                     }
                 }
 
-                if(this.type == Common.Utils.importTextType.Columns) {
+                if(this.type == Common.Utils.importTextType.Paste || this.type == Common.Utils.importTextType.Columns) {
                     const me = this;
                     this.delimiterCheckboxes = [
                         {

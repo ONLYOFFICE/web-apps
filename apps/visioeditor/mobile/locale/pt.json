@@ -83,6 +83,7 @@
     "errorAccessDeny": "Você está tentando realizar uma ação para a qual não possui direitos. <br> Entre em contato com o seu administrador.",
     "errorBadImageUrl": "URL de imagem está incorreta",
     "errorConnectToServer": "Não é possível salvar este documento. Verifique as configurações de conexão ou entre em contato com o administrador. <br> Ao clicar no botão 'OK', você será solicitado a baixar o documento.",
+    "errorCopyDisabled": "Por motivos de segurança, o conteúdo deste documento não pode ser copiado.",
     "errorDatabaseConnection": "Erro externo. <br> Erro de conexão do banco de dados. Entre em contato com o suporte.",
     "errorDataEncrypted": "Alteração criptografadas foram recebidas, e não podem ser decifradas.",
     "errorDataRange": "Intervalo de dados incorreto.",
@@ -211,7 +212,8 @@
       "textVersion": "Versão",
       "textVisioInfo": "Informações do Visualizador de Diagramas",
       "textVisioSettings": "Configurações do Visualizador de Diagramas",
-      "textVisioTitle": "Título do Visualizador de Diagramas"
+      "textVisioTitle": "Título do Visualizador de Diagramas",
+      "textOpenLocation": "Open location"
     }
   }
 }

@@ -83,7 +83,8 @@
     "textDoNotShowAgain": "다시 표시하지 않음",
     "textOk": "확정",
     "textRows": "행",
-    "txtWarnUrl": "이 링크는 장치와 데이터에 손상을 줄 수 있습니다. <br> 계속하시겠습니까?"
+    "txtWarnUrl": "이 링크는 장치와 데이터에 손상을 줄 수 있습니다. <br> 계속하시겠습니까?",
+    "menuDuplicate": "Duplicate"
   },
   "Controller": {
     "Main": {
@@ -240,7 +241,8 @@
     "unknownErrorText": "알 수 없는 오류.",
     "uploadImageExtMessage": "알 수없는 이미지 형식입니다.",
     "uploadImageFileCountMessage": "이미지가 업로드되지 않았습니다.",
-    "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다."
+    "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "데이터로드 중 ...",
@@ -500,7 +502,12 @@
       "textZoomOut": "축소",
       "textZoomRotate": "확대 / 축소 및 회전",
       "txtHeight": "높이",
-      "txtWidth": "너비"
+      "txtWidth": "너비",
+      "textBackground": "Background",
+      "textLtrTextDirection": "Left-to-right",
+      "textResetBackground": "Reset background",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "mniSlideStandard": "표준 (4 : 3)",
@@ -568,7 +575,9 @@
       "textUnitOfMeasurement": "측정 단위",
       "textUploaded": "업로드 되었습니다",
       "textVersion": "버전",
-      "textVersionHistory": "버전 기록"
+      "textVersionHistory": "버전 기록",
+      "textLoopSlideshow": "Loop slideshow",
+      "textOpenLocation": "Open location"
     }
   }
 }

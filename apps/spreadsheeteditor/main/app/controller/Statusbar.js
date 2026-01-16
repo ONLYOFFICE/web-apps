@@ -68,6 +68,22 @@ define([
                 },
                 'ViewTab': {
                     'statusbar:setcompact': _.bind(this.onChangeViewMode, this)
+                },
+                'Toolbar': {
+                    'sheet:setcolor': _.bind(this.setWorksheetColor, this),
+                    'sheet:changename': _.bind(function(){
+                        this.api.asc_closeCellEditor();
+                        this.renameWorksheet();
+                    },this),
+                    'sheet:move': _.bind(function (obj, index) {
+                        this.moveWorksheet(index);
+                        }, this),
+                    'sheet:show': _.bind(function (obj, index) {
+                        this.hideWorksheet(false, index);
+                    }, this),
+                    'sheet:hide': _.bind(function (obj, index) {
+                        this.hideWorksheet(true, index);
+                    }, this)
                 }
             });
         },
