@@ -1353,7 +1353,6 @@ define([
                     console.log("Obsolete: The 'chat' parameter of the 'customization' section is deprecated. Please use 'chat' parameter in the permissions instead.");
                 }
                 this.appOptions.canPrint       = (this.permissions.print !== false);
-                this.appOptions.canPreviewPrint = this.appOptions.canPrint && !Common.Utils.isMac && this.appOptions.isDesktopApp;
                 this.appOptions.canQuickPrint = this.appOptions.canPrint && !Common.Utils.isMac && this.appOptions.isDesktopApp;
                 this.appOptions.canRename      = this.editorConfig.canRename;
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
@@ -1630,7 +1629,7 @@ define([
 
                 viewport.applyCommonMode();
 
-                if (this.appOptions.canPreviewPrint) {
+                if (this.appOptions.canPrint) {
                     var printController = app.getController('Print');
                     printController && this.api && printController.setApi(this.api).setMode(this.appOptions);
                 }
@@ -2334,7 +2333,7 @@ define([
                 Common.Utils.InternalSettings.set("pdfe-settings-unit", value);
                 this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
                 this.getApplication().getController('Toolbar').getView().updateMetricUnit();
-                this.appOptions.canPreviewPrint && this.getApplication().getController('Print').getView('PrintWithPreview').updateMetricUnit();
+                this.getApplication().getController('Print').getView('PrintWithPreview').updateMetricUnit();
             },
 
             onAdvancedOptions: function(type, advOptions, mode, formatOptions) {

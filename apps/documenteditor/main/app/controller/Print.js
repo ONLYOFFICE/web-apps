@@ -97,8 +97,6 @@ define([
                 if (!_.isEmpty(value) && /[0-9,\-]/.test(value)) {
                     var res = [],
                         arr = value.split(',');
-                    if (me._isPrint && arr.length>1)
-                        return me.txtPrintRangeSingleRange;
 
                     for (var i=0; i<arr.length; i++) {
                         var item = arr[i];
@@ -552,10 +550,17 @@ define([
                 this.isInputFirstChange = true;
                 return;
             }
-            if (this.printSettings.cmbRange.getValue()==='all')
+
+            let pages; 
+            if(this.printSettings.cmbRange.getValue() === -1) {
+                pages = this.printSettings.inputPages.getValue();
+            } else if (this.printSettings.cmbRange.getValue() === 'all') {
+                pages = 'all';
                 this._state.firstPrintPage = 0;
-            else if (this.printSettings.cmbRange.getValue()==='current')
+            } else if (this.printSettings.cmbRange.getValue() === 'current') {
+                pages = String(this._navigationPreview.currentPage + 1);
                 this._state.firstPrintPage = this._navigationPreview.currentPage;
+            }
 
             var size = this.api.asc_getPageSize(this._state.firstPrintPage);
             var printerOption = this.printSettings.cmbPrinter.getSelectedRecord();
@@ -563,7 +568,7 @@ define([
                 usesystemdialog: useSystemDialog,
                 printer: printerOption ? printerOption.value : null,
                 colorMode: this.printSettings.cmbColorPrinting.getValue() === 'color',
-                pages: this.printSettings.cmbRange.getValue()===-1 ? this.printSettings.inputPages.getValue() : this.printSettings.cmbRange.getValue(),
+                pages: pages,
                 paperSize: {
                     w: size ? size['W'] : undefined,
                     h: size ? size['H'] : undefined,
@@ -617,7 +622,6 @@ define([
 
         txtCustom: 'Custom',
         txtPrintRangeInvalid: 'Invalid print range',
-        textMarginsLast: 'Last Custom',
-        txtPrintRangeSingleRange: 'Enter either a single page number or a single page range (for example, 5-12). Or you can Print to PDF.'
+        textMarginsLast: 'Last Custom'
     }, DE.Controllers.Print || {}));
 });
