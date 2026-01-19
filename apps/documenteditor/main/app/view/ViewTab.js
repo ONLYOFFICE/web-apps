@@ -71,6 +71,14 @@ define([
                     '<span class="btn-slot text slot-btn-ftw" style="text-align: center;"></span>' +
                 '</div>' +
             '</div>' +
+            '<div class="group small">' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-btn-one-page"></span>' +
+                '</div>' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-btn-multiple-pages"></span>' +
+                '</div>' +
+            '</div>' +
             '<div class="separator long"></div>' +
             '<div class="group">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-interface-theme"></span>' +
@@ -293,6 +301,32 @@ define([
                 });
                 this.lockedControls.push(this.chRulers);
 
+                this.btnOnePage = new Common.UI.Button({
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-ic-zoomtowidth',
+                    lock: [_set.lostConnect, _set.disableOnStart],
+                    caption: this.textOnePage,
+                    toggleGroup: 'pages-in-row',
+                    enableToggle: true,
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'medium'
+                });
+                this.lockedControls.push(this.btnOnePage);
+
+                this.btnMultiplePages = new Common.UI.Button({
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-ic-zoomtowidth',
+                    lock: [_set.lostConnect, _set.disableOnStart],
+                    caption: this.textMultiplePages,
+                    toggleGroup: 'pages-in-row',
+                    enableToggle: true,
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'medium'
+                });
+                this.lockedControls.push(this.btnMultiplePages);
+
                 if (
                     this.appConfig.isEdit && 
                     !(this.appConfig.customization && this.appConfig.customization.macros===false) && 
@@ -411,6 +445,8 @@ define([
                 this.chStatusbar.render($host.find('#slot-chk-statusbar'));
                 this.chToolbar.render($host.find('#slot-chk-toolbar'));
                 this.chRulers.render($host.find('#slot-chk-rulers'));
+                this.btnOnePage.render($host.find('#slot-btn-one-page'));
+                this.btnMultiplePages.render($host.find('#slot-btn-multiple-pages'));
                 this.btnMacros && this.btnMacros.render($host.find('#slot-btn-macros'));
                 this.chLeftMenu.render($host.find('#slot-chk-leftmenu'));
                 this.chRightMenu.render($host.find('#slot-chk-rightmenu'));
@@ -448,6 +484,8 @@ define([
                 this.btnsFitToWidth.forEach(function (btn) {
                     btn.updateHint(me.tipFitToWidth);
                 });
+                this.btnOnePage.updateHint(this.tipOnePage);
+                this.btnMultiplePages.updateHint(this.tipMultiplePages);
                 this.btnMacros && this.btnMacros.updateHint(this.tipMacros);
                 this.btnRecMacro && this.btnRecMacro.updateHint(this.tipRecMacro);
                 this.btnPauseMacro && this.btnPauseMacro.updateHint(this.tipPauseMacro);
