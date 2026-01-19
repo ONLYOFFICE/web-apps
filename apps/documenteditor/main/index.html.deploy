@@ -68,6 +68,12 @@
             --sk-canvas-line: rgba(0,0,0,.05);
         }
 
+        .theme-type-dark.content-theme-dark .loadmask {
+            --sk-canvas-content-background: #3a3a3a;
+            --sk-canvas-page-border: #616161;
+            --sk-canvas-line: rgba(255,255,255,.05);
+        }
+
         .loadmask {
             left: 0;
             top: 0;

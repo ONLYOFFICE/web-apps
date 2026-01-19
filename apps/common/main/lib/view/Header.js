@@ -816,6 +816,7 @@ define([
                     cls: 'btn-header no-caret',
                     iconCls: 'toolbar__icon icon--inverse btn-menu-search',
                     enableToggle: true,
+                    lock: [Common.enumLock.lostConnect, Common.enumLock.fileMenuOpened],
                     dataHint: '0',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1393,10 +1394,6 @@ define([
                     if (me.btnUserName) {
                         me.btnUserName.setDisabled(lock);
                     }
-                } else if ( alias == 'search' ) {
-                    if (me.btnSearch) {
-                        me.btnSearch.setDisabled(lock);
-                    }
                 } else if ( alias == 'startfill' ) {
                     me.btnStartFill && me.btnStartFill.setDisabled(lock);
                 } else {
@@ -1406,6 +1403,7 @@ define([
                     switch ( alias ) {
                     case 'undo': _lockButton(me.btnUndo); break;
                     case 'redo': _lockButton(me.btnRedo); break;
+                    case 'search': _lockButton(me.btnSearch); break;
                     case 'mode': _lockButton(me.btnDocMode ? me.btnDocMode : me.btnPDFMode); break;
                     default: break;
                     }

@@ -16,9 +16,6 @@ const ToolbarView = props => {
     const isOpenModal = props.isOpenModal;
 
     useEffect(() => {
-        if ( $$('.skl-container').length ) {
-            $$('.skl-container').remove();
-        }
 
         return () => {
         }

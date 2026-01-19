@@ -270,6 +270,7 @@ define([
             me.header.lockHeaderBtns( 'redo', _need_disable, Common.enumLock.fileMenuOpened );
             me.header.lockHeaderBtns( 'users', _need_disable );
             me.header.lockHeaderBtns( 'mode', _need_disable, Common.enumLock.fileMenuOpened );
+            me.header.lockHeaderBtns( 'search', _need_disable, Common.enumLock.fileMenuOpened );
         },
 
         applySettings: function () {

@@ -511,6 +511,10 @@ const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({store
                 config.msg = t('Error.errorMacroUnavailableWarning').replace('%1', errData ? "'" + errData + "'" : '');
                 break;
 
+            case Asc.c_oAscError.ID.CopyDisabled:
+                config.msg = t('Error.errorCopyDisabled');
+                break;
+
             default:
                 config.msg = _t.errorDefaultMessage.replace('%1', id);
                 break;

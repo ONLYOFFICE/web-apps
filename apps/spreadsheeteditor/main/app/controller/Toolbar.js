@@ -206,7 +206,9 @@ define([
                 is_lockShape: false,
                 isUserProtected: false,
                 showPivotTab: false,
-                showTableDesignTab: false
+                showTableDesignTab: false,
+                showChartTab: false,
+                showSparklineTab: false
             };
             this.binding = {};
 
@@ -379,6 +381,9 @@ define([
                 toolbar.btnTextFormatting.menu.on('item:click',             _.bind(this.onTextFormattingMenu, this));
                 toolbar.btnHorizontalAlign.menu.on('item:click',            _.bind(this.onHorizontalAlignMenu, this));
                 toolbar.btnVerticalAlign.menu.on('item:click',              _.bind(this.onVerticalAlignMenu, this));
+            } if ( me.appConfig.isEditDiagram || me.appConfig.isEditOle ){
+                toolbar.btnTextDir.menu.on('item:click',                    _.bind(this.onTextDirClick, this));
+                toolbar.btnTextDir.menu.on('show:before',                    _.bind(this.onUpdateTextDir, this));
             } else {
                 toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
                 toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
@@ -650,7 +655,7 @@ define([
                 var res = (type === 'cut') ? me.api.asc_Cut() : ((type === 'copy') ? me.api.asc_Copy() : me.api.asc_Paste());
                 if (!res) {
                     var value = Common.localStorage.getItem("sse-hide-copywarning");
-                    if (!(value && parseInt(value) == 1)) {
+                    if (!(value && parseInt(value) == 1) && (type === 'paste' || me.toolbar.mode.canCopy)) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
                                 if (dontshow) Common.localStorage.setItem("sse-hide-copywarning", 1);
@@ -979,12 +984,22 @@ define([
         },
 
         onTextDirClick: function(menu, item) {
+            if (item.value === 'rtlSheet') {
+                this.api && this.api.asc_setRightToLeft(item.checked)
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                return; 
+            }
+    
             this.api && this.api.asc_setCellReadingOrder(item.value);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onTextDirShowAfter: function(menu, item) {
             Common.UI.TooltipManager.closeTip('rtlDirection');
+        },
+
+        onUpdateTextDir: function(menu, item) {
+           if (this.api) menu.items[4].setChecked(this.api.asc_getSheetViewSettings().asc_getRightToLeft());
         },
 
         onWrap: function(btn, e) {
@@ -1200,6 +1215,7 @@ define([
                         var range = props.getRange(),
                             isvalid = (!_.isEmpty(range)) ? me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, props.getInRows(), props.getType()) : Asc.c_oAscError.ID.No;
                         if (isvalid == Asc.c_oAscError.ID.No) {
+                            me._state.showChartTab = true;
                             me.api.asc_addChartDrawingObject(props);
                         } else {
                             var msg = me.txtInvalidRange;
@@ -1257,6 +1273,8 @@ define([
                                         me.view && me.view.fireEvent('insertspark', me.view);
                                         if (settings.destination)
                                             me.api.asc_addSparklineGroup(type, settings.source, settings.destination);
+
+                                        me.showSparklineTab = true;
                                     }
                                     Common.NotificationCenter.trigger('edit:complete', me);
                                 }
@@ -1772,7 +1790,7 @@ define([
                 });
 
                 if (!item) {
-                    value = /^\+?(\d*(\.|,)?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
+                    value = /^\+?(\d*(\.|,)?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value.trim());
 
                     if (!value) {
                         value = this._getApiTextSize();
@@ -2071,7 +2089,7 @@ define([
                         return false;
                     },
                     'shift+f3': function(e) {
-                        if (me.editMode && !me.toolbar.btnInsertFormula.isDisabled()) {
+                        if (me.editMode && !me.toolbar.btnInsertFormula.isDisabled() && !me.getApplication().getController('LeftMenu').leftMenu.menuFile.isVisible()) {
                             var controller = me.getApplication().getController('FormulaDialog');
                             if (controller) {
                                 controller.showDialog();
@@ -2908,7 +2926,7 @@ define([
                 toolbar.cmbFontSize.setValue((str_size !== undefined) ? str_size : '');
                 this._state.fontsize = str_size;
             }
-
+            toolbar.lockToolbar(Common.enumLock.sparkLocked, info.asc_getLockedSparkline()===true, {array: toolbar.btnsSparklineTab});
             toolbar.lockToolbar(Common.enumLock.cantHyperlink, (selectionType === Asc.c_oAscSelectionType.RangeShapeText) && (this.api.asc_canAddShapeHyperlink()===false), { array: [toolbar.btnInsertHyperlink]});
 
             /*
@@ -2959,6 +2977,32 @@ define([
             toolbar.lockToolbar(Common.enumLock.pageBreakLock, this.api.asc_GetPageBreaksDisableType(this.api.asc_getActiveWorksheetIndex())===Asc.c_oAscPageBreaksDisableType.all, {array: [toolbar.btnPageBreak]});
 
             // if (editOptionsDisabled) return;
+
+            var in_chart = (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText);
+
+            if (in_chart !== this._state.in_chart) {
+                toolbar.btnInsertChart.updateHint(
+                    in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart
+                );
+
+                if (!in_chart && this.toolbar.isTabActive('charttab'))
+                    this.toolbar.setTab('home');
+                this.toolbar.setVisible('charttab', !!in_chart);
+                if (in_chart && this._state.showChartTab)
+                    this.toolbar.setTab('charttab');
+
+                this._state.in_chart = in_chart;
+            }
+
+            var in_sparkline = !!info.asc_getSparklineInfo();
+            if (this._state.insparkline !== in_sparkline) {
+                if ( !in_sparkline && this.toolbar.isTabActive('sparklinetab') )
+                    this.toolbar.setTab('home');
+                this.toolbar.setVisible('sparklinetab', !!in_sparkline);
+                if (in_sparkline && this._state.showSparklineTab)
+                    this.toolbar.setTab('sparklinetab');
+                this._state.insparkline = in_sparkline;
+            }
 
             /* read font params */
             if (!editOptionsDisabled && !toolbar.mode.isEditMailMerge && !toolbar.mode.isEditDiagram && !toolbar.mode.isEditOle) {
@@ -3068,11 +3112,6 @@ define([
                 this._state.clrshd_asccolor = color;
             }
 
-            var in_chart = (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText);
-            if (in_chart !== this._state.in_chart) {
-                toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);
-                this._state.in_chart = in_chart;
-            }
             // if (in_chart) return;
 
             if (!toolbar.mode.isEditDiagram)
@@ -4598,6 +4637,31 @@ define([
                         me.toolbar.btnsTableDesign = tabledesignbuttons;
                     }
 
+                    tab = {caption: me.toolbar.textTabChart, action: 'charttab', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-charttab', dataHintTitle: 'A', aux: true};
+                    var charttab = me.getApplication().getController('ChartTab');
+                    charttab.setApi(me.api).setConfig({toolbar: me});
+                    var view = charttab.getView('ChartTab');
+                    var chartbuttons = view.getButtons();
+                    var $panel = charttab.createToolbarPanel();
+                    if ($panel) {
+                        me.toolbar.addTab(tab, $panel);
+                        me._state.inchart && me.toolbar.setVisible('charttab', true);
+                        Array.prototype.push.apply(me.toolbar.lockControls, chartbuttons);
+                    }
+
+                    tab = {caption: me.toolbar.textTabSparkline, action: 'sparklinetab', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-sparklinetab', dataHintTitle: 'A', aux: true};
+                    var sparklinetab = me.getApplication().getController('SparklineTab');
+                    sparklinetab.setApi(me.api).setConfig({toolbar: me});
+                    var view = sparklinetab.getView('SparklineTab');
+                    var sparklinebuttons = view.getButtons();
+                    var $panel = sparklinetab.createToolbarPanel();
+                    if ($panel) {
+                        me.toolbar.addTab(tab, $panel);
+                        me.toolbar.setVisible('sparklinetab', true);
+                        Array.prototype.push.apply(me.toolbar.lockControls, sparklinebuttons);
+                    }
+                    me.toolbar.btnsSparklineTab = sparklinebuttons
+
                     if (!config.compactHeader) {
                         // hide 'print' and 'save' buttons group and next separator
                         me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
@@ -5165,7 +5229,7 @@ define([
         },
 
         onShowProtectedChartPopup: function(value) {
-            this.toolbar.lockToolbar(Common.enumLock.externalChartProtected, value, {array: [this.toolbar.btnPaste, this.toolbar.btnInsertFormula, this.toolbar.btnDecDecimal,this.toolbar.btnIncDecimal,this.toolbar.cmbNumberFormat]});
+            this.toolbar.lockToolbar(Common.enumLock.externalChartProtected, value, {array: [this.toolbar.btnPaste, this.toolbar.btnInsertFormula, this.toolbar.btnDecDecimal,this.toolbar.btnIncDecimal,this.toolbar.cmbNumberFormat, this.toolbar.btnTextDir]});
         },
 
         onChartRecommendedClick: function() {
@@ -5189,6 +5253,7 @@ define([
                 isEdit: (seltype == Asc.c_oAscSelectionType.RangeChart || seltype == Asc.c_oAscSelectionType.RangeChartText),
                 handler: function(result, value) {
                     if (result == 'ok') {
+                        me._state.showChartTab = true;
                         me.api && me.api.asc_addChartSpace(value);
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -5274,6 +5339,8 @@ define([
         onClickTab: function(tab) {
             this._state.showPivotTab = tab === 'pivot';
             this._state.showTableDesignTab = tab ==='tabledesign';
+            this._state.showChartTab = tab ==='charttab';
+            this._state.showSparklineTab = tab ==='sparklinetab';
         },
 
         onTabCollapse: function(tab) {

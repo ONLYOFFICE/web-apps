@@ -15,6 +15,12 @@
             <div class="separator short"></div>
             <div class="group small">
                 <div class="elset">
+                    <span class="btn-slot split" id="slot-btn-direction"></span>
+                </div>
+            </div>
+            <div class="separator short"></div>
+            <div class="group small">
+                <div class="elset">
                     <span class="btn-slot split" id="slot-btn-formula"></span>
                 </div>
             </div>
@@ -100,6 +106,7 @@
                     <span class="btn-slot split" id="slot-btn-valign"></span>
                     <span class="btn-slot split-small" id="slot-btn-wrap"></span>
                     <span class="btn-slot split" id="slot-btn-merge"></span>
+                    <span class="btn-slot split" id="slot-btn-direction"></span>
                 </div>
             </div>
             <div class="separator short"></div>

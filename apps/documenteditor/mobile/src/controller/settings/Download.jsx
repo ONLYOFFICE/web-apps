@@ -30,58 +30,59 @@ class DownloadController extends Component {
         const isNeedDownload = !!format;
         const options = new Asc.asc_CDownloadOptions(format);
         options.asc_setIsSaveAs(isNeedDownload);
-       
-        if(/^pdf|xps|oxps|djvu$/.test(fileType)) {
+        const isPdfLike = /^pdf|xps|oxps|djvu$/.test(fileType);
+
+        if(isPdfLike) 
             this.closeModal();
 
-            if (format === Asc.c_oAscFileType.DJVU) {
-                api.asc_DownloadOrigin(options);
-            } else if(format === Asc.c_oAscFileType.PDF || format === Asc.c_oAscFileType.PDFA || format === Asc.c_oAscFileType.JPG || format === Asc.c_oAscFileType.PNG) {
-                api.asc_DownloadAs(options);
-            } else if (format === Asc.c_oAscFileType.TXT || format === Asc.c_oAscFileType.RTF) {
+        if (format === Asc.c_oAscFileType.DJVU && isPdfLike) { 
+            api.asc_DownloadOrigin(options);
+        } else if(format === Asc.c_oAscFileType.PDF || format === Asc.c_oAscFileType.PDFA || format === Asc.c_oAscFileType.JPG || format === Asc.c_oAscFileType.PNG) {
+            api.asc_DownloadAs(options);
+        } else if (format === Asc.c_oAscFileType.TXT || format === Asc.c_oAscFileType.RTF) {
+            if(isPdfLike) 
                 options.asc_setTextParams(new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine));
 
-                f7.dialog.create({
-                    title: _t.notcriticalErrorTitle,
-                    text: (format === Asc.c_oAscFileType.TXT) ? _t.textDownloadTxt : _t.textDownloadRtf,
-                    buttons: [
-                        {
-                            text: _t.textCancel
-                        },
-                        {
-                            text: _t.textOk,
-                            onClick: () => {
-                                if (format === Asc.c_oAscFileType.TXT) {
-                                    const advOptions = api.asc_getAdvancedOptions();
-                                    Common.Notifications.trigger('openEncoding', Asc.c_oAscAdvancedOptionsID.TXT, advOptions, 2, options);
-                                } else {
-                                    api.asc_DownloadAs(options);
-                                }
-                            }
-                        }
-                    ],
-                }).open();
-            } else {
-                f7.dialog.create({
-                    title: _t.notcriticalErrorTitle,
-                    text: t('Main.warnDownloadAsPdf').replaceAll('{0}', fileType.toUpperCase()), 
-                    buttons: [
-                        {
-                            text: _t.textCancel
-                        },
-                        {
-                            text: _t.textOk,
-                            onClick: () => {
-                                options.asc_setTextParams(new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine));
+            f7.dialog.create({
+                title: _t.notcriticalErrorTitle,
+                text: (format === Asc.c_oAscFileType.TXT) ? _t.textDownloadTxt : _t.textDownloadRtf,
+                buttons: [
+                    {
+                        text: _t.textCancel
+                    },
+                    {
+                        text: _t.textOk,
+                        onClick: () => {
+                            if (format === Asc.c_oAscFileType.TXT) {
+                                const advOptions = api.asc_getAdvancedOptions();
+                                Common.Notifications.trigger('openEncoding', Asc.c_oAscAdvancedOptionsID.TXT, advOptions, 2, options);
+                            } else {
                                 api.asc_DownloadAs(options);
                             }
                         }
-                    ],
-                }).open();
-            }
-        } else {
+                    }
+                ],
+            }).open();
+        } else if(isPdfLike) {
+            f7.dialog.create({
+                title: _t.notcriticalErrorTitle,
+                text: t('Main.warnDownloadAsPdf').replaceAll('{0}', fileType.toUpperCase()), 
+                buttons: [
+                    {
+                        text: _t.textCancel
+                    },
+                    {
+                        text: _t.textOk,
+                        onClick: () => {
+                            options.asc_setTextParams(new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine));
+                            api.asc_DownloadAs(options);
+                        }
+                    }
+                ],
+            }).open();
+        } else
             api.asc_DownloadAs(options);
-        }
+
     }
 
     render() {

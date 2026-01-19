@@ -165,7 +165,7 @@ define([
                     me.api.asc_enableKeyEvents(false);
                 },
                 'modal:close': function(dlg) {
-                    Common.Utils.ModalWindow.close();
+                    dlg && dlg.isVisible() && Common.Utils.ModalWindow.close(); // close can be called after hiding
                     if (!Common.Utils.ModalWindow.isVisible())
                         me.api.asc_enableKeyEvents(true);
                 },
@@ -351,6 +351,11 @@ define([
                         config.msg = this.errorInconsistentExtPptx.replace('%1', this.document.fileType || '');
                     else
                         config.msg = this.errorInconsistentExt;
+                    break;
+
+                case Asc.c_oAscError.ID.CopyDisabled:
+                    config.maxwidth = 450;
+                    config.msg = this.errorCopyDisabled;
                     break;
 
                 default:
@@ -673,6 +678,7 @@ define([
 
             this.appOptions.canDownload       = this.permissions.download !== false;
             this.appOptions.canPrint          = (this.permissions.print !== false);
+            this.appOptions.canCopy           = this.permissions.copy !== false;
 
             this.appOptions.fileKey = this.document.key;
             this.appOptions.isAnonymousSupport = !!this.api.asc_isAnonymousSupport();
@@ -1010,6 +1016,7 @@ define([
                     warningMsg: advOptions,
                     validatePwd: !!me._isDRM,
                     iconType: 'svg',
+                    autoPosOnResize : 'center',
                     handler: function (result, value) {
                         me.isShowOpenDialog = false;
                         if (result == 'ok') {
@@ -2112,7 +2119,7 @@ define([
                     if (this.api) {
                         var res =  (item.value == 'cut') ? this.api.Cut() : ((item.value == 'copy') ? this.api.Copy() : this.api.Paste());
                         if (!res) {
-                            if (!Common.localStorage.getBool("de-forms-hide-copywarning")) {
+                            if (!Common.localStorage.getBool("de-forms-hide-copywarning") && (item.value === 'paste' || this.appOptions.canCopy)) {
                                 (new Common.Views.CopyWarningDialog({
                                     handler: function(dontshow) {
                                         if (dontshow) Common.localStorage.setItem("de-forms-hide-copywarning", 1);
@@ -2393,6 +2400,7 @@ define([
         titleReadOnly: 'Read-Only Mode',
         textContinue: 'Continue',
         txtSignedForm: 'This document has been signed and cannot be edited.',
+        errorCopyDisabled: 'For security reasons, the contents of this document cannot be copied to the clipboard.'
 
     }, DE.Controllers.ApplicationController));
 });

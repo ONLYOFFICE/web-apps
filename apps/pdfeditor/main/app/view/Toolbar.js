@@ -105,7 +105,8 @@ define([
         cantAlign: 'cant-align',
         cantSave: 'cant-save',
         cantRotatePage: 'cant-rotate-page',
-        cantDelPage: 'cant-del-page'
+        cantDelPage: 'cant-del-page',
+        objectWithoutParagraph:  'object-without-paragraph',
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {

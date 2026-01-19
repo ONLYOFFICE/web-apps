@@ -845,6 +845,10 @@ define([
             switch (s) {
                 case 'replace':
                 case 'search':
+                    if ( this.leftMenu.menuFile.isVisible() ) {
+                        return false;
+                    }
+
                     this.leftMenu.btnAbout.toggle(false);
                     Common.UI.Menu.Manager.hideAll();
                     var selectedText = this.api.asc_GetSelectedText();

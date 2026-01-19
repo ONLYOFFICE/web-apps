@@ -379,7 +379,8 @@
     "uploadDocSizeMessage": "Maximum document size limit exceeded.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "advDRMPassword": "Password",
@@ -449,6 +450,7 @@
     "textSheetName": "Sheet Name",
     "textTabColor": "Tab Color",
     "textUnhide": "Unhide",
+    "textUnhideSheets": "Unhide sheets",
     "textWarnDeleteSheet": "The sheet maybe has data. Proceed operation?",
     "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },

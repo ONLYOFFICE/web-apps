@@ -244,9 +244,9 @@
 
     .view {
         .margin-right(-14px);
-        .margin-right(calc(-1 * @combo-dataview-button-width));
+        .margin-right(calc(-1 * (2*@scaled-one-px-value + @dd-button-size)));
         .padding-right(12px);
-        .padding-right(calc(@combo-dataview-button-width - @scaled-two-px-value));
+        .padding-right(calc((2*@scaled-one-px-value + @dd-button-size) - @scaled-two-px-value));
 
         .dataview {
             padding: 2px;
@@ -436,6 +436,42 @@
                 .rtl & {
                     padding: 3px 10px 3px 0;
                 }
+            }
+        }
+    }
+
+}
+
+.combo-chart-template {
+    .combo-template(62px);
+
+    top: -4px;
+    position: absolute;
+
+    .more-container & {
+        position: static;
+    }
+
+    .view .dataview, .dropdown-menu {
+        padding: 1px;
+    }
+
+    .dataview.inner {
+        padding: 1px 14px 1px 0px;
+
+        .rtl & {
+            padding: 1px 0px 1px 14px;
+        }
+    }
+
+    .dropdown-menu {
+        padding: 0px 0px 5px 0px;
+
+        .dataview.inner {
+            padding: 1px 12px 1px 0px;
+
+            .rtl & {
+                padding: 1px 0px 1px 12px;
             }
         }
     }

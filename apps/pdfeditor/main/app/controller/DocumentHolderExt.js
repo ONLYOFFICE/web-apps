@@ -162,6 +162,7 @@ define([], function () {
                 view.menuAddHyperlinkTable.on('click', _.bind(me.addHyperlink, me));
                 view.menuEditHyperlinkPara.on('click', _.bind(me.editHyperlink, me));
                 view.menuEditHyperlinkTable.on('click', _.bind(me.editHyperlink, me));
+                view.menuPDFEditHyperlink.on('click', _.bind(me.editHyperlink, me));
                 view.menuRemoveHyperlinkPara.on('click', _.bind(me.removeHyperlink, me));
                 view.menuRemoveHyperlinkTable.on('click', _.bind(me.removeHyperlink, me));
                 view.menuChartEdit.on('click', _.bind(me.editChartClick, me, undefined));
@@ -1368,7 +1369,7 @@ define([], function () {
             if (me.api) {
                 var res =  (item.value == 'cut') ? me.api.Cut() : ((item.value == 'copy') ? me.api.Copy() : me.api.Paste(item.value == 'paste-before'));
                 if (!res) {
-                    if (!Common.localStorage.getBool("pdfe-hide-copywarning")) {
+                    if (!Common.localStorage.getBool("pdfe-hide-copywarning") && (item.value === 'paste' || me.mode.canCopy)) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
                                 if (dontshow) Common.localStorage.setItem("pdfe-hide-copywarning", 1);
@@ -1963,7 +1964,8 @@ define([], function () {
         dh.editHyperlink = function(item, e){
             var win, me = this;
             if (me.api){
-                var _arr = [];
+                var _arr = [],
+                    isAnnotation = item.annotProps && item.annotProps.value;
                 for (var i=0; i<me.api.getCountPages(); i++) {
                     _arr.push({
                         displayValue: i+1,
@@ -1975,11 +1977,14 @@ define([], function () {
                     appOptions: me.mode,
                     handler: function(dlg, result) {
                         if (result == 'ok') {
-                            me.api.change_Hyperlink(win.getSettings());
+                            me.api.change_Hyperlink(win.getSettings(), isAnnotation ? item.annotProps.value.asc_getIds() : undefined );
+                        } else if (result === 'view') {
+                            me.api.SetLinkAnnotGoToAction(isAnnotation ? item.annotProps.value.asc_getIds() : undefined);
                         }
                         me.editComplete();
                     },
-                    slides: _arr
+                    slides: _arr,
+                    isAnnotation: isAnnotation
                 });
                 win.show();
                 win.setSettings(item.hyperProps.value);
@@ -2053,6 +2058,13 @@ define([], function () {
 
         dh.tableCellsVAlign = function(menu, item, e) {
             if (this.api) {
+
+                if (item.options.halign != null) {
+                    var type = item.options.halign;
+                    this.api.put_PrAlign(type);
+                    return;
+                }
+
                 var properties = new Asc.CTableProp();
                 properties.put_CellsVAlign(item.value);
                 this.api.tblApply(properties);
@@ -2373,6 +2385,13 @@ define([], function () {
         dh.onParagraphVAlign = function (menu, item) {
             var me = this;
             if (me.api) {
+                
+                if (item.options.halign != null) {
+                    var type = item.options.halign;
+                    me.api.put_PrAlign(type);
+                    return;
+                }
+                
                 var properties = new Asc.asc_CShapeProperty();
                 properties.put_VerticalTextAlign(item.value);
 
@@ -2483,7 +2502,7 @@ define([], function () {
         dh.onDialogAddHyperlink = function() {
             var win, props, text;
             var me = this;
-            if (me.api && me.mode.isEdit && !me._isDisabled && !PDFE.getController('LeftMenu').leftMenu.menuFile.isVisible()){
+            if (me.api && me.mode.isEdit && !me._isDisabled && !PDFE.getController('LeftMenu').leftMenu.menuFile.isVisible() && !this._state.no_paragraph){ // show dialog only for table/shape
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
                         props = dlg.getSettings();
@@ -2886,6 +2905,9 @@ define([], function () {
                 case 'bShowDataLabels':
                     chartProps.setDisplayDataLabels(false, false);
                     break;
+                case 'noneError':
+                    chartProps.setDisplayErrorBars(false);
+                    break;
                 case 'standardError':
                     chartProps.setDisplayErrorBars(true, 4);
                     break;
@@ -3070,12 +3092,13 @@ define([], function () {
             }
             
             const legendMenu = menu.items[6].menu;
-            legendMenu.items[0].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.top);
-            legendMenu.items[1].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.left);
-            legendMenu.items[2].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.right);
-            legendMenu.items[3].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.bottom);
-            legendMenu.items[4].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.leftOverlay);
-            legendMenu.items[5].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.rightOverlay);
+            legendMenu.items[0].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.none);
+            legendMenu.items[1].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.top);
+            legendMenu.items[2].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.left);
+            legendMenu.items[3].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.right);
+            legendMenu.items[4].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.bottom);
+            legendMenu.items[5].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.leftOverlay);
+            legendMenu.items[6].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.rightOverlay);
 
             const supportedElements = chartElementMap[type] || [];
             menu.items.forEach(function(item) {

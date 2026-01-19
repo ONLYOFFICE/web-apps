@@ -2139,7 +2139,7 @@ define([
                         '<span class="color" style="background: <%= color %>;"></span>',
                         '<% }) %>',
                         '</span>',
-                        '<span class="text"><%= caption %></span>',
+                        '<span class="text"><%- caption %></span>',
                         '</a>'
                     ].join(''));
 

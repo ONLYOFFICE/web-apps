@@ -120,7 +120,6 @@ class MainPage extends Component {
     }
 
     componentDidMount () {
-
         document.addEventListener('touchmove', this.touchMoveHandler);
 
         if (Device.ios) {

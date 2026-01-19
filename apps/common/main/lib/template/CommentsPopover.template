@@ -20,7 +20,7 @@
         <div oo_editor_input="true" tabindex="-1" class="user-message user-select"><%=scope.pickLink(comment)%></div>
     <% } else { %>
         <div class="inner-edit-ct">
-            <textarea class="msg-reply user-select" maxlength="maxCommLength" spellcheck="false" <% if (!!dummy) { %> placeholder="textMentionComment"<% } %> aria-label="textComment"><%=comment%></textarea>
+            <textarea class="msg-reply user-select" maxlength="maxCommLength" spellcheck="false" <% if (!!dummy) { %> placeholder="textMentionComment"<% } %> aria-label="textComment"><%-comment%></textarea>
             <% if (hideAddReply) { %>
                 <button class="btn normal dlg-btn primary btn-inner-edit" id="id-comments-change-popover">textAdd</button>
             <% } else { %>
@@ -67,7 +67,7 @@
                     <%}%>
                 <% } else { %>
                     <div class="inner-edit-ct">
-                        <textarea class="msg-reply textarea-fix user-select" maxlength="maxCommLength" spellcheck="false" aria-label="textReply"><%=item.get("reply")%></textarea>
+                        <textarea class="msg-reply textarea-fix user-select" maxlength="maxCommLength" spellcheck="false" aria-label="textReply"><%-item.get("reply")%></textarea>
                         <button class="btn normal dlg-btn primary btn-inner-edit btn-fix" id="id-comments-change-popover">textEdit</button>
                         <button class="btn normal dlg-btn btn-inner-close">textClose</button>
                     </div>

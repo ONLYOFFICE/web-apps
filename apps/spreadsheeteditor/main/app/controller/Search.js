@@ -599,7 +599,7 @@ define([
         },
 
         onSelectSearchingResults: function (val) {
-            if (!val && this.getApplication().getController('LeftMenu').isSearchPanelVisible()) return;
+            if (!val && (this.getApplication().getController('LeftMenu').isSearchPanelVisible() || this.getApplication().getController('Viewport').isSearchBarVisible())) return;
 
             if (this._state.isHighlightedResults !== val) {
                 this.api.asc_selectSearchingResults(val);

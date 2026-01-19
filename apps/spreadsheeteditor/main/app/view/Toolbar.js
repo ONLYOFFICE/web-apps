@@ -82,6 +82,7 @@ define([
         cantPrint:      'cant-print',
         multiselect:    'is-multiselect',
         cantHyperlink:  'cant-hyperlink',
+        sparkLocked:  'spark-locked',
         commentLock:    'can-comment',
         cantModifyFilter: 'cant-filter',
         disableOnStart: 'on-start',
@@ -118,7 +119,8 @@ define([
         fileMenuOpened: 'file-menu-opened',
         cantMergeShape: 'merge-shape-lock',
         cantSave: 'cant-save',
-        macrosStopped: 'macros-stopped'
+        macrosStopped: 'macros-stopped',
+        notLineType: 'not-line-type'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -357,6 +359,28 @@ define([
                         lock        : [_set.lostConnect],
                         enableToggle: true,
                         dataHint    : '1',
+                        dataHintDirection: 'bottom'
+                    });
+                }
+                if ( config.isEditDiagram || config.isEditOle ) {
+                    me.btnTextDir = new Common.UI.Button({
+                        id: 'id-toolbar-btn-direction',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-ltr',
+                        icls: 'btn-ltr',
+                        action: 'text-direction',
+                        lock: [_set.editCell, _set.selChart, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat, _set.userProtected, _set.externalChartProtected],
+                        menu: new Common.UI.Menu({
+                            cls: 'shifted-right',
+                            items: [
+                                {caption: this.textDirLtr, value: Asc.c_oReadingOrderTypes.LTR, iconCls: 'menu__icon btn-ltr'},
+                                {caption: this.textDirRtl, value: Asc.c_oReadingOrderTypes.RTL, iconCls: 'menu__icon btn-rtl'},
+                                {caption: this.textDirContext, value: Asc.c_oReadingOrderTypes.Context, iconCls: 'menu__icon btn-context'},
+                                {caption: '--'},
+                                {caption: this.textRtlSheet, value: 'rtlSheet', checkable: true}
+                            ]
+                        }),
+                        dataHint: '1',
                         dataHintDirection: 'bottom'
                     });
                 }
@@ -811,7 +835,7 @@ define([
                         ]
                     }),
                     dataHint: '1',
-                    dataHintDirection: 'top',
+                    dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
                 });
 
@@ -2650,7 +2674,8 @@ define([
         },
 
         updateHints: function() {
-            const me = this;
+            const me = this,
+                isDiagramOrOle = this.mode && (this.mode.isEditDiagram || this.mode.isEditOle);
             function _updateHint(cmp, hint) {
                 cmp && cmp.updateHint(hint);
             }
@@ -2663,7 +2688,7 @@ define([
             _updateHint(this.btnBackColor, this.tipPrColor);
             _updateHint(this.btnBorders, this.tipBorders);
             _updateHint(this.btnMerge, this.tipMerge);
-            _updateHint(this.btnTextDir, this.tipTextDirection);
+            _updateHint(this.btnTextDir, isDiagramOrOle ? this.tipTextDir : this.tipTextDirection);
             _updateHint(this.btnAlignTop, this.tipAlignTop);
             _updateHint(this.btnAlignMiddle, this.tipAlignMiddle);
             _updateHint(this.btnAlignBottom, this.tipAlignBottom);
@@ -3356,7 +3381,7 @@ define([
                             '<span class="color" style="background: <%= color %>;"></span>',
                         '<% }) %>',
                     '</span>',
-                    '<span class="text"><%= caption %></span>',
+                    '<span class="text"><%- caption %></span>',
                 '</a>'
             ].join(''));
 
