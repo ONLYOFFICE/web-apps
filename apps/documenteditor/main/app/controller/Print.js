@@ -225,8 +225,16 @@ define([
         onApiPageOrient: function(isportrait) {
             this._state.pgorient = !!isportrait;
             if (this.printSettings && this.printSettings.isVisible()) {
-                var item = this.printSettings.cmbPaperOrientation.store.findWhere({value: this._state.pgorient ? Asc.c_oAscPageOrientation.PagePortrait : Asc.c_oAscPageOrientation.PageLandscape});
-                if (item) this.printSettings.cmbPaperOrientation.setValue(item.get('value'));
+                let value;
+                if(this._state.pgorientAuto) {
+                    value = 'auto';
+                } else if(this._state.pgorient) {
+                    value = Asc.c_oAscPageOrientation.PagePortrait;
+                } else {
+                    value = Asc.c_oAscPageOrientation.PageLandscape;
+                }
+                var item = this.printSettings.cmbPaperOrientation.store.findWhere({ value: value });
+                item && this.printSettings.cmbPaperOrientation.setValue(item.get('value'));
             }
         },
 
@@ -288,6 +296,9 @@ define([
             if (this.printSettings && this.printSettings.isVisible()) {
                 this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
                 this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
+
+                const item = this.printSettings.cmbPaperOrientation.store.findWhere({ value: 'auto' });
+                item && this.printSettings.cmbPaperOrientation.setValue(item.get('value'));
             }
         },
 
@@ -295,6 +306,7 @@ define([
             var me = this;
             this.printSettings.$previewBox.removeClass('hidden');
 
+            this._state.pgorientAuto = true;
             this.onUpdateLastCustomMargins(this._state.lastmargins);
             this._state.pgsize && this.onApiPageSize(this._state.pgsize[0], this._state.pgsize[1]);
             this.onApiPageOrient(this._state.pgorient);
@@ -405,7 +417,10 @@ define([
         onPaperOrientSelect: function(combo, record) {
             this._state.pgorient = undefined;
             if (this.api) {
-                this.api.change_PageOrient(record.value === Asc.c_oAscPageOrientation.PagePortrait);
+                this._state.pgorientAuto = (record.value == 'auto');
+                if(record.value != 'auto') {
+                    this.api.change_PageOrient(record.value === Asc.c_oAscPageOrientation.PagePortrait);
+                } 
             }
 
             Common.NotificationCenter.trigger('edit:complete');
@@ -564,6 +579,13 @@ define([
 
             var size = this.api.asc_getPageSize(this._state.firstPrintPage);
             var printerOption = this.printSettings.cmbPrinter.getSelectedRecord();
+            const orientationOption = this.printSettings.cmbPaperOrientation.getSelectedRecord();
+            let paperOrientation = null;
+            if(orientationOption && orientationOption.value === 'auto') {
+                paperOrientation = 'auto';
+            } else if(size) {
+                paperOrientation = size['H'] > size['W'] ? 'portrait' : 'landscape';
+            }
             this.adjPrintParams.asc_setNativeOptions({
                 usesystemdialog: useSystemDialog,
                 printer: printerOption ? printerOption.value : null,
@@ -574,7 +596,7 @@ define([
                     h: size ? size['H'] : undefined,
                     preset: size ? this.findPagePreset(size['W'], size['H']) : undefined
                 },
-                paperOrientation: size ? (size['H'] > size['W'] ? 'portrait' : 'landscape') : null,
+                paperOrientation: paperOrientation,
                 copies: this.printSettings.spnCopies.getNumberValue() || 1,
                 sides: this.printSettings.cmbSides.getValue()
             });

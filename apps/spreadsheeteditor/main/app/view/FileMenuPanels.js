@@ -3100,7 +3100,8 @@ define([], function () {
                 cls         : 'input-group-nr',
                 data        : [
                     { value: Asc.c_oAscPageOrientation.PagePortrait, displayValue: this.txtPortrait },
-                    { value: Asc.c_oAscPageOrientation.PageLandscape, displayValue: this.txtLandscape }
+                    { value: Asc.c_oAscPageOrientation.PageLandscape, displayValue: this.txtLandscape },
+                    { value: 'auto', displayValue: this.txtAuto }
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
@@ -3703,6 +3704,7 @@ define([], function () {
         txtPageOrientation: 'Page orientation',
         txtPortrait: 'Portrait',
         txtLandscape: 'Landscape',
+        txtAuto: 'Auto',
         txtScaling: 'Scaling',
         txtActualSize: 'Actual Size',
         txtFitPage: 'Fit Sheet on One Page',

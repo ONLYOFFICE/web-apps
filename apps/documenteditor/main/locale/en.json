@@ -3561,6 +3561,7 @@
   "DE.Views.PrintWithPreview.txtCustom": "Custom",
   "DE.Views.PrintWithPreview.txtCustomPages": "Custom print",
   "DE.Views.PrintWithPreview.txtLandscape": "Landscape",
+  "DE.Views.PrintWithPreview.txtAuto": "Auto",
   "DE.Views.PrintWithPreview.txtLeft": "Left",
   "DE.Views.PrintWithPreview.txtMargins": "Margins",
   "DE.Views.PrintWithPreview.txtOf": "of {0}",
