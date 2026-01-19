@@ -118,7 +118,7 @@ define([
             });
         },
 
-        onActiveTabBefore: function () {
+        getIsMarked: function () {
             if (this.api)
                 var isMarked = this.api.HasRedact();
             Common.NotificationCenter.trigger('tab:redacted', isMarked)
@@ -233,6 +233,7 @@ define([
         },
 
         onShowRedactionsWarning: function (tab) {
+            var me = this;
             this.isFileMenuTab = tab === 'file';
 
             if (
@@ -254,12 +255,12 @@ define([
                             this.api.ApplyRedact();
                             this.api.SetRedactTool(false);
                             this.view.btnMarkForRedact.toggle(false);
-                            Common.NotificationCenter.trigger('tab:set-active', tab)
+                            this.isFileMenuTab ? me.view.fireEvent('file:open') : Common.NotificationCenter.trigger('tab:set-active', tab);
                         } else if (btn == 'doNotApply') {
                             this.api.RemoveAllRedact();
                             this.api.SetRedactTool(false);
                             this.view.btnMarkForRedact.toggle(false);
-                            Common.NotificationCenter.trigger('tab:set-active', tab)
+                            this.isFileMenuTab ? me.view.fireEvent('file:open') : Common.NotificationCenter.trigger('tab:set-active', tab);
                         } else {
                             if (this.isFileMenuTab) {
                                 this.view.fireEvent('menu:hide', [this]);
@@ -323,7 +324,7 @@ define([
                 'apply-redaction' : {name: 'help-tip-apply-redaction', placement: 'bottom-left', text: this.tipApplyRedaction, header: this.tipApplyRedactionHeader, target: '#slot-btn-apply-redactions',
                     automove: true, prev: 'mark-for-redaction', maxwidth: 270, closable: false, isNewFeature: false, noHighlight: true},
             });
-            Common.NotificationCenter.on('tab:active:before', _.bind(this.onActiveTabBefore, this));
+            Common.NotificationCenter.on('redact:getismarked', _.bind(this.getIsMarked, this));
         },
 
         onDocumentReady: function() {

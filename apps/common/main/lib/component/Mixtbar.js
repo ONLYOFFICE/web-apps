@@ -341,7 +341,7 @@ define([
 
                 if ( tab ) {
                     this.fireEvent('tab:active:before', [tab]);
-                    Common.NotificationCenter.trigger('tab:active:before', tab);
+                    Common.NotificationCenter.trigger('redact:getismarked', tab);
 
                     if(me.isMarked && tab !== 'red') {
                         Common.NotificationCenter.trigger('tab:redactwarning', tab);
