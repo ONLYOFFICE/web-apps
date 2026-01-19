@@ -2585,7 +2585,6 @@ define([], function () {
                 '</div>'
             ]).join(''));
 
-            // TODO: Выставить значение при открытии
             this.cmbPaperSize = new Common.UI.ComboBoxCustom({
                 el: $markup.findById('#print-combo-pages'),
                 menuStyle: 'max-height: 280px; width: 248px;',
