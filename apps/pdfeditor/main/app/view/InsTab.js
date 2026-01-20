@@ -62,6 +62,7 @@ define([
                     '<span class="btn-slot text x-huge slot-insertimg"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-insertchart"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-insertpdf"></span>' +
                 '</div>' +
                 '<div class="separator long invisible"></div>' +
                 '<div class="group small" id="slot-combo-insertshape"></div>' +
@@ -160,6 +161,19 @@ define([
                     dataHintOffset: 'small'
                 });
                 me.lockedControls.push(me.btnInsertChart);
+
+                me.btnInsertPDF = new Common.UI.Button({
+                    id: 'tlbtn-insertchart',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-insertchart',
+                    caption: me.capInsertPDF,
+                    lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
+                    menu: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                me.lockedControls.push(me.btnInsertPDF);
 
                 this.btnInsertSmartArt = new Common.UI.Button({
                     id: 'tlbtn-insertsmartart',
@@ -317,6 +331,7 @@ define([
                 _injectComponent('#slot-btn-insertlink', this.btnInsertHyperlink);
                 _injectComponent('#slot-btn-inserttable', this.btnInsertTable);
                 _injectComponent('#slot-btn-insertchart', this.btnInsertChart);
+                _injectComponent('#slot-btn-insertpdf', this.btnInsertPDF);
                 _injectComponent('#slot-btn-instextart', this.btnInsertTextArt);
                 // _injectComponent('#slot-btn-editheader', this.btnEditHeader);
                 // _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
@@ -427,6 +442,7 @@ define([
                 this.btnInsertTable.updateHint(this.tipInsertTable);
                 this.btnInsertSmartArt.updateHint(this.tipInsertSmartArt);
                 this.btnInsertChart.updateHint(this.tipInsertChart);
+                this.btnInsertPDF.updateHint(this.tipInsertPDF);
                 this.btnInsertEquation.updateHint(this.tipInsertEquation);
                 this.btnInsertSymbol.updateHint(this.tipInsertSymbol);
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
