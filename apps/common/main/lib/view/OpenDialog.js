@@ -67,7 +67,7 @@ define([
             }, options);
 
             this.txtOpenFile = options.txtOpenFile || this.txtOpenFile;
-
+            this.isTSV = options.isTSV || false;
             this.template = options.template || [
                 '<div class="box">',
                     '<div class="content-panel" >',
@@ -529,7 +529,7 @@ define([
                         editable: false,
                         takeFocusOnClose: true
                     });
-                    this.cmbDelimiter.setValue(delimiters[0]);
+                    this.cmbDelimiter.setValue(this.isTSV ? 1 : delimiters[0]);
                     this.cmbDelimiter.on('selected', _.bind(this.onCmbDelimiterSelect, this));
                 }
 
@@ -577,8 +577,9 @@ define([
             var delimiters = [],
                 delimiterChar,
                 encoding = (this.cmbEncoding && !this.cmbEncoding.isDisabled()) ? this.cmbEncoding.getValue() :
-                           ((this.settings && this.settings.asc_getCodePage()) ? this.settings.asc_getCodePage() : 0);
-            if (this.detectedDelimiter || this.type === Common.Utils.importTextType.TXT) {
+                        ((this.settings && this.settings.asc_getCodePage()) ? this.settings.asc_getCodePage() : 0);
+            
+            if (this.detectedDelimiter || this.type === Common.Utils.importTextType.TXT || this.isTSV) {
                 if(this.cmbDelimiter) {
                     delimiters = [this.cmbDelimiter.getValue()];
                 } else if(this.delimiterCheckboxes) {
