@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Device } from '../../../../../common/mobile/utils/device';
-import {f7, List, ListItem, Icon, Page, Navbar, Sheet} from 'framework7-react';
+import {f7, List, ListItem, Page, Navbar, Sheet, View} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { inject, observer } from "mobx-react";
 import { MainContext } from "../../page/main";
@@ -45,8 +45,9 @@ const NavigationPopover = inject('storeNavigation')(observer(props => {
     )
 }));
 
-const NavigationSheet = inject('storeNavigation')(observer(props => {
+const NavigationPage = inject('storeNavigation')(observer(props => {
     const { t } = useTranslation();
+    const _t = t('Settings', {returnObjects: true});
     const mainContext = useContext(MainContext);
     const api = Common.EditorApi.get();
     const storeNavigation = props.storeNavigation;
@@ -61,59 +62,13 @@ const NavigationSheet = inject('storeNavigation')(observer(props => {
         arrHeaders = props.updateViewerNavigation(bookmarks);
     }
 
-    const [stateHeight, setHeight] = useState('45%');
-    const [stateOpacity, setOpacity] = useState(1);
-
-    const [stateStartY, setStartY] = useState();
-    const [isNeedClose, setNeedClose] = useState(false);
-
-    const handleTouchStart = (event) => {
-        const touchObj = event.changedTouches[0];
-        setStartY(parseInt(touchObj.clientY));
+    const handleBack = () => {
+        f7.sheet.close('#view-navigation-sheet');
     };
-
-    const handleTouchMove = (event) => {
-        const touchObj = event.changedTouches[0];
-        const dist = parseInt(touchObj.clientY) - stateStartY;
-
-        if (dist < 0) { 
-            setHeight('90%');
-            setOpacity(1);
-            setNeedClose(false);
-        } else if (dist < 80) {
-            setHeight('45%');
-            setOpacity(1);
-            setNeedClose(false);
-        } else {
-            setNeedClose(true);
-            setOpacity(0.6);
-        }
-    };
-
-    const handleTouchEnd = (event) => {
-        const touchObj = event.changedTouches[0];
-        const swipeEnd = parseInt(touchObj.clientY);
-        const dist = swipeEnd - stateStartY;
-
-        if (isNeedClose) {
-            f7.sheet.close('#view-navigation-sheet');
-        } else if (stateHeight === '90%' && dist > 20) {
-            setHeight('45%');
-        }
-    };
-
-    useEffect(() => {
-        f7.sheet.open('#view-navigation-sheet', true);
-    }, []);
 
     return (
-        <Sheet id="view-navigation-sheet" className="navigation-sheet" backdrop={true} closeByBackdropClick={true} onSheetClosed={() => mainContext.closeOptions('navigation')} style={{height: `${stateHeight}`, opacity: `${stateOpacity}`}}>
-            <div id='swipe-handler' className='swipe-container' onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
-                <Icon icon='icon icon-swipe'/>
-            </div>
-            <div className="navigation-sheet__title">
-                <p>{t('Settings.textNavigation')}</p>
-            </div>
+        <Page>
+            <Navbar title={t('Settings.textNavigation')} backLink={_t.textBack} onBackClick={handleBack} />
             {!arrHeaders || !arrHeaders.length 
                 ?
                     <div className="empty-screens">
@@ -131,6 +86,47 @@ const NavigationSheet = inject('storeNavigation')(observer(props => {
                         })}
                     </List>
             }
+        </Page>
+    )
+}));
+
+const NavigationSheet = inject('storeNavigation')(observer(props => {
+    const mainContext = useContext(MainContext);
+
+    const routes = [
+        {
+            path: '/navigation-page/',
+            component: NavigationPage,
+            options: {
+                props: {
+                    onSelectItem: props.onSelectItem,
+                    updateNavigation: props.updateNavigation,
+                    updateViewerNavigation: props.updateViewerNavigation
+                }
+            }
+        }
+    ];
+
+    routes.forEach(route => {
+        route.options = {
+            ...route.options,
+            transition: 'f7-push'
+        };
+    });
+
+    useEffect(() => {
+        f7.sheet.open('#view-navigation-sheet', true);
+    }, []);
+
+    return (
+        <Sheet id="view-navigation-sheet" className="navigation-sheet" backdrop={true} closeByBackdropClick={true} onSheetClosed={() => {mainContext.closeOptions('navigation'); mainContext.openOptions('settings');}}>
+            <View routes={routes} url="/navigation-page/">
+                <NavigationPage 
+                    onSelectItem={props.onSelectItem}
+                    updateNavigation={props.updateNavigation}
+                    updateViewerNavigation={props.updateViewerNavigation}
+                />
+            </View>
         </Sheet>
     )
 }));
