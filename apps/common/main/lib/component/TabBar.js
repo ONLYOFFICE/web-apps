@@ -302,8 +302,12 @@ define([
                 elem.addEventListener ? elem.addEventListener( type, fn, false ) : elem.attachEvent( "on" + type, fn );
             };
 
-            var eventname=(/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
-            addEvent(this.$bar[0], eventname, _.bind(this._onMouseWheel,this));
+            if (Common.Utils.isMac) {
+                this.$bar[0].addEventListener('wheel', _.bind(this._onMouseWheelThrottled, this));
+            } else {
+                var eventname=(/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
+                addEvent(this.$bar[0], eventname, _.bind(this._onMouseWheel,this));
+            }
             addEvent(this.$bar[0], 'dragstart', _.bind(function (event) {
                 event.dataTransfer.effectAllowed = 'copyMove';
             }, this));
@@ -364,6 +368,33 @@ define([
                     this.setTabVisible('backward');
                 }
             }
+            Common.NotificationCenter.trigger('hints:clear');
+        },
+
+        _onMouseWheelThrottled: function(e) {
+            var delta = (e.detail && -e.detail) || e.wheelDelta;
+            if (Math.abs(delta) < 10) {
+                return;
+            }
+
+            var now = Date.now();
+            if (this._lastWheelTime && now - this._lastWheelTime < 50) {
+                return;
+            }
+            this._lastWheelTime = now;
+
+            var hidden = this.checkInvisible(true);
+
+            if (delta < 0) {
+                if (hidden.last) {
+                    this.setTabVisible('forward');
+                }
+            } else {
+                if (hidden.first) {
+                    this.setTabVisible('backward');
+                }
+            }
+
             Common.NotificationCenter.trigger('hints:clear');
         },
 
