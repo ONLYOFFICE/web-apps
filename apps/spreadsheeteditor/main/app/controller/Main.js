@@ -2611,14 +2611,18 @@ define([
 
                 var me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
+                    let fileName = me.api && me.api.asc_getDocumentName(),
+                        isTSV = fileName && fileName.toLowerCase().endsWith('.tsv'),
+                        fileType = isTSV ? 'TSV' : 'CSV';
                     me._state.openDlg = new Common.Views.OpenDialog({
-                        title: Common.Views.OpenDialog.prototype.txtTitle.replace('%1', 'CSV'),
+                        title: Common.Views.OpenDialog.prototype.txtTitle.replace('%1', fileType),
                         closable: (mode==2), // if save settings
                         type: Common.Utils.importTextType.CSV,
                         preview: advOptions.asc_getData(),
                         codepages: advOptions.asc_getCodePages(),
                         settings: advOptions.asc_getRecommendedSettings(),
                         api: me.api,
+                        isTSV: isTSV,
                         handler: function (result, settings) {
                             me.isShowOpenDialog = false;
                             if (result == 'ok') {
