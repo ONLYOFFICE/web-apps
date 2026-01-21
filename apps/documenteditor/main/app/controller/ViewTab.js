@@ -287,6 +287,7 @@ define([
 
         onMultiplePages: function (pressed) {
             if (this.api) {
+                this.api.zoomCustomMode();
                 this.api.SetMultipageViewMode(pressed);
                 this.view.fireEvent('pages:multiplechanged', [pressed]);
             }
@@ -299,6 +300,11 @@ define([
             this.view.btnsFitToWidth.forEach(function (btn) {
                 btn.toggle(type === 1, true);
             });
+
+            if (type === 2 || type === 1 && this.view.btnMultiplePages.pressed) {
+                this.api.SetMultipageViewMode(false);
+                this.view.btnMultiplePages.toggle(false);
+            };
 
             this.setZoomValue(percent);
 

@@ -246,6 +246,7 @@ define([
 
         onMultiplePages: function (pressed) {
             if (this.api) {
+                this.api.zoomCustomMode();
                 this.api.SetMultipageViewMode(pressed);
                 this.statusbar.fireEvent('pages:multiplechanged', [pressed]);
             }
@@ -258,6 +259,10 @@ define([
         _onZoomChange: function (percent, type) {
             this.statusbar.btnZoomToPage.toggle(type == 2, true);
             this.statusbar.btnZoomToWidth.toggle(type == 1, true);
+            if (type === 1 || type === 2 && this.statusbar.btnMultiplePages.pressed) {
+                this.api.SetMultipageViewMode(false);
+                this.statusbar.btnMultiplePages.toggle(false);
+            }
             $('.statusbar #label-zoom').text(Common.Utils.String.format(this.zoomText, percent));
             if (!this._isDocReady) return;
             var value = type == 2 ? -1 : (type == 1 ? -2 : percent);
