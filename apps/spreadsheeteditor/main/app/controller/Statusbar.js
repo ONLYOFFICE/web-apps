@@ -260,8 +260,15 @@ define([
             this.SetDisabled(true);
         },
 
-        SetDisabled: function(state) {
-            this.statusbar.setMode({isDisconnected: state});
+        SetDisabled: function(state, type) {
+            const mode = {};
+            if(type == 'background-open') {
+                mode.isBackgroundOpen = state;
+            } else {
+                mode.isDisconnected = state;
+            }
+
+            this.statusbar.setMode(mode);
             this.statusbar.update();
         },
 
