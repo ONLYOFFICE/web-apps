@@ -830,9 +830,8 @@ define([
                     Common.UI.TooltipManager.closeTip('disconnect');
                     this.getApplication().getController('Statusbar').setStatusCaption(this.textReconnect);
                 } else if ( id == Asc.c_oAscAsyncAction['BackgroundOpen']) {
-                    // this._state.timerDisconnect && clearTimeout(this._state.timerDisconnect);
-                    this.disableEditing(false, 'refresh-file');
-                    // Common.UI.TooltipManager.closeTip('disconnect');
+                    this.disableEditing(false, 'background-open');
+                    Common.UI.TooltipManager.closeTip('backgroundOpen');
                     this.getApplication().getController('Statusbar').setStatusCaption('');
                 } else if (id === Asc.c_oAscAsyncAction['RefreshFile'])  {
                     this.disableEditing(false, 'refresh-file');
@@ -933,15 +932,12 @@ define([
                         return;
 
                     case Asc.c_oAscAsyncAction['BackgroundOpen']:
-                        console.log("Asc.c_oAscAsyncAction['BackgroundOpen']");
-                        // title    = this.textDisconnect;
-                        text     = 'Continue opening...';//this.textDisconnect;
+                        title    = this.textContinuesOpening;
+                        text     = this.textContinuesOpening;
                         Common.UI.Menu.Manager.hideAll();
-                        this.disableEditing(true, 'refresh-file');
+                        this.disableEditing(true, 'background-open');
 
-                        // this._state.timerDisconnect = setTimeout(function(){
-                        //     Common.UI.TooltipManager.showTip('disconnect');
-                        // }, this._state.unloadTimer || 0);
+                        Common.UI.TooltipManager.showTip('backgroundOpen');
                         this.getApplication().getController('Statusbar').setStatusCaption(text);
                         return;
 
@@ -1348,7 +1344,7 @@ define([
                     options.rightMenu.disable && app.getController('RightMenu').SetDisabled(disable, options.allowSignature);
                 }
                 if (options.statusBar) {
-                    app.getController('Statusbar').SetDisabled(disable);
+                    app.getController('Statusbar').SetDisabled(disable, type);
                 }
                 if (options.review) {
                     app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
