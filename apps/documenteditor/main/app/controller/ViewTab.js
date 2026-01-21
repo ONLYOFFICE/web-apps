@@ -61,6 +61,7 @@ define([
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
             Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
+            Common.NotificationCenter.on('pages:multiple', this.onOuterMultiplePages.bind(this));
         },
 
         setApi: function (api) {
@@ -95,7 +96,8 @@ define([
                     'macros:record':  _.bind(this.onClickMacrosRec, this),
                     'macros:pause':  _.bind(this.onClickMacrosPause, this),
                     'pointer:select': _.bind(this.onPointerType, this, 'select'),
-                    'pointer:hand': _.bind(this.onPointerType, this, 'hand')
+                    'pointer:hand': _.bind(this.onPointerType, this, 'hand'),
+                    'pages:multiple': _.bind(this.onMultiplePages, this)
                 },
                 'Toolbar': {
                     'view:compact': _.bind(function (toolbar, state) {
@@ -279,6 +281,17 @@ define([
 
         onDocumentReady: function() {
             Common.Utils.lockControls(Common.enumLock.disableOnStart, false, {array: this.view.lockedControls});
+        },
+
+        onMultiplePages: function (pressed) {
+            if (this.api) {
+                this.api.SetMultipageViewMode(pressed);
+                Common.NotificationCenter.trigger('pages:multiple', pressed);
+            }
+        },
+
+        onOuterMultiplePages: function (isMultiple) {
+            this.view.btnMultiplePages.toggle(isMultiple);
         },
 
         onZoomChange: function (percent, type) {

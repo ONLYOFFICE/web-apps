@@ -60,7 +60,8 @@ define([
                     'zoom:value': function(value) {
                         this.api.zoom(value);
                         Common.NotificationCenter.trigger('edit:complete', this.statusbar);
-                    }.bind(this)
+                    }.bind(this),
+                    'pages:multiple': _.bind(me.onMultiplePages, me)
                 },
                 'ViewTab': {
                     'statusbar:hide': _.bind(me.onChangeCompactView, me)
@@ -120,6 +121,7 @@ define([
                     me.statusbar.$el.find('.hide-select-tools').removeClass('hide-select-tools');
                 }
             });
+            Common.NotificationCenter.on('pages:multiple', me.onOuterMultiplePages.bind(me));
             Common.NotificationCenter.on('app:ready', me.onAppReady.bind(me));
         },
 
@@ -238,6 +240,17 @@ define([
                 case 'down':    this.api.zoomOut(); break;
             }
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
+        },
+
+        onMultiplePages: function (pressed) {
+            if (this.api) {
+                this.api.SetMultipageViewMode(pressed);
+                Common.NotificationCenter.trigger('pages:multiple', pressed)
+            }
+        },
+
+        onOuterMultiplePages: function (isMultiple) {
+            this.statusbar.btnMultiplePages.toggle(isMultiple);
         },
 
         /*

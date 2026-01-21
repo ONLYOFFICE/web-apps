@@ -71,13 +71,8 @@ define([
                     '<span class="btn-slot text slot-btn-ftw" style="text-align: center;"></span>' +
                 '</div>' +
             '</div>' +
-            '<div class="group small">' +
-                '<div class="elset">' +
-                    '<span class="btn-slot text" id="slot-btn-one-page"></span>' +
-                '</div>' +
-                '<div class="elset">' +
-                    '<span class="btn-slot text" id="slot-btn-multiple-pages"></span>' +
-                '</div>' +
+            '<div class="group">' +
+                '<span class="btn-slot text x-huge" id="slot-btn-multiple-pages"></span>' +
             '</div>' +
             '<div class="separator long"></div>' +
             '<div class="group">' +
@@ -157,6 +152,9 @@ define([
                 }, me));
                 me.btnDarkDocument.on('click', _.bind(function (e) {
                     me.fireEvent('darkmode:change', [e.pressed]);
+                }, me));
+                me.btnMultiplePages.on('click', _.bind(function (e) {
+                    me.fireEvent('pages:multiple', [e.pressed]);
                 }, me));
                 me.cmbsZoom.forEach(function (cmb) {
                     cmb.on('combo:focusin', _.bind(me.onComboOpen, this, false));
@@ -301,29 +299,15 @@ define([
                 });
                 this.lockedControls.push(this.chRulers);
 
-                this.btnOnePage = new Common.UI.Button({
-                    cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-ic-zoomtowidth',
-                    lock: [_set.lostConnect, _set.disableOnStart],
-                    caption: this.textOnePage,
-                    toggleGroup: 'pages-in-row',
-                    enableToggle: true,
-                    dataHint: '1',
-                    dataHintDirection: 'left',
-                    dataHintOffset: 'medium'
-                });
-                this.lockedControls.push(this.btnOnePage);
-
                 this.btnMultiplePages = new Common.UI.Button({
-                    cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-ic-zoomtowidth',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-big-contents',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     caption: this.textMultiplePages,
-                    toggleGroup: 'pages-in-row',
                     enableToggle: true,
                     dataHint: '1',
-                    dataHintDirection: 'left',
-                    dataHintOffset: 'medium'
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small',
                 });
                 this.lockedControls.push(this.btnMultiplePages);
 
@@ -442,11 +426,10 @@ define([
                 this.btnsFitToWidth[0].render($host.find('.slot-btn-ftw'));
                 this.btnInterfaceTheme.render($host.find('#slot-btn-interface-theme'));
                 this.btnDarkDocument.render($host.find('#slot-btn-dark-document'));
+                this.btnMultiplePages.render($host.find('#slot-btn-multiple-pages'));
                 this.chStatusbar.render($host.find('#slot-chk-statusbar'));
                 this.chToolbar.render($host.find('#slot-chk-toolbar'));
                 this.chRulers.render($host.find('#slot-chk-rulers'));
-                this.btnOnePage.render($host.find('#slot-btn-one-page'));
-                this.btnMultiplePages.render($host.find('#slot-btn-multiple-pages'));
                 this.btnMacros && this.btnMacros.render($host.find('#slot-btn-macros'));
                 this.chLeftMenu.render($host.find('#slot-chk-leftmenu'));
                 this.chRightMenu.render($host.find('#slot-chk-rightmenu'));
@@ -478,14 +461,13 @@ define([
                 this.btnNavigation.updateHint(this.tipHeadings);
                 this.btnInterfaceTheme.updateHint(this.tipInterfaceTheme);
                 this.btnDarkDocument.updateHint(this.tipDarkDocument);
+                this.btnMultiplePages.updateHint(this.tipMultiplePages)
                 this.btnsFitToPage.forEach(function (btn) {
                     btn.updateHint(me.tipFitToPage);
                 });
                 this.btnsFitToWidth.forEach(function (btn) {
                     btn.updateHint(me.tipFitToWidth);
                 });
-                this.btnOnePage.updateHint(this.tipOnePage);
-                this.btnMultiplePages.updateHint(this.tipMultiplePages);
                 this.btnMacros && this.btnMacros.updateHint(this.tipMacros);
                 this.btnRecMacro && this.btnRecMacro.updateHint(this.tipRecMacro);
                 this.btnPauseMacro && this.btnPauseMacro.updateHint(this.tipPauseMacro);
