@@ -64,7 +64,10 @@ define([
                     'pages:multiple': _.bind(me.onMultiplePages, me)
                 },
                 'ViewTab': {
-                    'statusbar:hide': _.bind(me.onChangeCompactView, me)
+                    'statusbar:hide': _.bind(me.onChangeCompactView, me),
+                    'pages:multiplechanged': _.bind(function (isMultiple) {
+                        this.statusbar.btnMultiplePages.toggle(isMultiple);
+                    }, this)
                 }
             });
         },
@@ -121,7 +124,6 @@ define([
                     me.statusbar.$el.find('.hide-select-tools').removeClass('hide-select-tools');
                 }
             });
-            Common.NotificationCenter.on('pages:multiple', me.onToggleMultiplePagesBtn.bind(me));
             Common.NotificationCenter.on('app:ready', me.onAppReady.bind(me));
         },
 
@@ -245,12 +247,8 @@ define([
         onMultiplePages: function (pressed) {
             if (this.api) {
                 this.api.SetMultipageViewMode(pressed);
-                Common.NotificationCenter.trigger('pages:multiple', pressed)
+                this.statusbar.fireEvent('pages:multiplechanged', [pressed]);
             }
-        },
-
-        onToggleMultiplePagesBtn: function (isMultiple) {
-            this.statusbar.btnMultiplePages.toggle(isMultiple);
         },
 
         /*

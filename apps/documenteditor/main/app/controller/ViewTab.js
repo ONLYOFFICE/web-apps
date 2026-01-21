@@ -61,7 +61,6 @@ define([
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
             Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
-            Common.NotificationCenter.on('pages:multiple', this.onToggleMultiplePagesBtn.bind(this));
         },
 
         setApi: function (api) {
@@ -107,6 +106,9 @@ define([
                 'Statusbar': {
                     'view:hide': _.bind(function (statusbar, state) {
                         this.view.chStatusbar.setValue(!state, true);
+                    }, this),
+                    'pages:multiplechanged': _.bind(function (isMultiple) {
+                        this.view.btnMultiplePages.toggle(isMultiple);
                     }, this)
                 },
                 'LeftMenu': {
@@ -286,12 +288,8 @@ define([
         onMultiplePages: function (pressed) {
             if (this.api) {
                 this.api.SetMultipageViewMode(pressed);
-                Common.NotificationCenter.trigger('pages:multiple', pressed);
+                this.view.fireEvent('pages:multiplechanged', [pressed]);
             }
-        },
-
-        onToggleMultiplePagesBtn: function (isMultiple) {
-            this.view.btnMultiplePages.toggle(isMultiple);
         },
 
         onZoomChange: function (percent, type) {
