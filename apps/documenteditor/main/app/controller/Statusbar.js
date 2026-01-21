@@ -121,7 +121,7 @@ define([
                     me.statusbar.$el.find('.hide-select-tools').removeClass('hide-select-tools');
                 }
             });
-            Common.NotificationCenter.on('pages:multiple', me.onOuterMultiplePages.bind(me));
+            Common.NotificationCenter.on('pages:multiple', me.onToggleMultiplePagesBtn.bind(me));
             Common.NotificationCenter.on('app:ready', me.onAppReady.bind(me));
         },
 
@@ -249,7 +249,7 @@ define([
             }
         },
 
-        onOuterMultiplePages: function (isMultiple) {
+        onToggleMultiplePagesBtn: function (isMultiple) {
             this.statusbar.btnMultiplePages.toggle(isMultiple);
         },
 

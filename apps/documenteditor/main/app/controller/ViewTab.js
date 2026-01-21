@@ -61,7 +61,7 @@ define([
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
             Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
-            Common.NotificationCenter.on('pages:multiple', this.onOuterMultiplePages.bind(this));
+            Common.NotificationCenter.on('pages:multiple', this.onToggleMultiplePagesBtn.bind(this));
         },
 
         setApi: function (api) {
@@ -290,7 +290,7 @@ define([
             }
         },
 
-        onOuterMultiplePages: function (isMultiple) {
+        onToggleMultiplePagesBtn: function (isMultiple) {
             this.view.btnMultiplePages.toggle(isMultiple);
         },
 
