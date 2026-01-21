@@ -831,7 +831,6 @@ define([
                     this.getApplication().getController('Statusbar').setStatusCaption(this.textReconnect);
                 } else if ( id == Asc.c_oAscAsyncAction['BackgroundOpen']) {
                     this.disableEditing(false, 'background-open');
-                    Common.UI.TooltipManager.closeTip('backgroundOpen');
                     this.getApplication().getController('Statusbar').setStatusCaption('');
                 } else if (id === Asc.c_oAscAsyncAction['RefreshFile'])  {
                     this.disableEditing(false, 'refresh-file');
@@ -937,7 +936,6 @@ define([
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'background-open');
 
-                        Common.UI.TooltipManager.showTip('backgroundOpen');
                         this.getApplication().getController('Statusbar').setStatusCaption(text);
                         return;
 
