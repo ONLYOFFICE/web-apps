@@ -74,24 +74,35 @@ import IconTextUnderline from '@common-icons/icon-text-underline.svg'
 import IconTextStrikethrough from '@common-icons/icon-text-strikethrough.svg'
 
 const getFormatIcon = (cellFormat, cellFormatType) => {
-    if (!cellFormat) return IconFormatGeneral.id;
+    const exactFormatMap = {
+        'General': IconFormatGeneral.id,
+        '0.00': IconFormatNumber.id,
+        '# ?/?': IconFormatInteger.id,
+        '0.00E+00': IconFormatScientific.id,
+        '0.00%': IconFormatPercentage.id,
+        '@': IconFormatText.id
+    };
 
-    if (cellFormat === 'General') return IconFormatGeneral.id;
-    if (cellFormat === '0.00') return IconFormatNumber.id;
-    if (cellFormat === '# ?/?') return IconFormatInteger.id;
-    if (cellFormat === '0.00E+00') return IconFormatScientific.id;
-    if (cellFormat === '0.00%') return IconFormatPercentage.id;
-    if (cellFormat === '@') return IconFormatText.id;
+    if (exactFormatMap[cellFormat]) {
+        return exactFormatMap[cellFormat];
+    }
 
-    if (cellFormatType === Asc.c_oAscNumFormatType.Accounting) return IconFormatAccounting.id;
-    if (cellFormatType === Asc.c_oAscNumFormatType.Currency) return IconFormatCurrency.id;
-    if (cellFormatType === Asc.c_oAscNumFormatType.Date) return IconFormatDate.id;
-    if (cellFormatType === Asc.c_oAscNumFormatType.Time) return IconFormatTime.id;
-    if (cellFormatType === Asc.c_oAscNumFormatType.Custom) return IconAddCustomFormat.id;
+    const typeMap = {
+        [Asc.c_oAscNumFormatType.General]: IconFormatGeneral.id,
+        [Asc.c_oAscNumFormatType.Number]: IconFormatNumber.id,
+        [Asc.c_oAscNumFormatType.Scientific]: IconFormatScientific.id,
+        [Asc.c_oAscNumFormatType.Accounting]: IconFormatAccounting.id,
+        [Asc.c_oAscNumFormatType.Currency]: IconFormatCurrency.id,
+        [Asc.c_oAscNumFormatType.Date]: IconFormatDate.id,
+        [Asc.c_oAscNumFormatType.Time]: IconFormatTime.id,
+        [Asc.c_oAscNumFormatType.Percent]: IconFormatPercentage.id,
+        [Asc.c_oAscNumFormatType.Fraction]: IconFormatInteger.id,
+        [Asc.c_oAscNumFormatType.Text]: IconFormatText.id,
+        [Asc.c_oAscNumFormatType.Custom]: IconAddCustomFormat.id
+    };
 
-    return IconFormatGeneral.id;
+    return typeMap[cellFormatType] ?? IconAddCustomFormat.id;
 };
-
 
 const EditCell = props => {
     const isAndroid = Device.android;
@@ -124,7 +135,7 @@ const EditCell = props => {
         <span className="color-preview" style={{ background: `#${(typeof fillColor === "object" ? fillColor.color : fillColor)}`}}></span> :
         <span className="color-preview"></span>;
 
-    const formatIconId = getFormatIcon(storeCellSettings.cellFormat, storeCellSettings.cellFormatType);
+    const formatIconId = getFormatIcon(storeCellSettings.cellFormat, storeCellSettings.uiFormatType);
 
     return (
         <Fragment>
@@ -692,7 +703,6 @@ const PageTextFormatCell = props => {
 const PageTextOrientationCell = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const isAndroid = Device.android;
     const storeCellSettings = props.storeCellSettings;
     const orientationStr = storeCellSettings.orientationStr;
 
@@ -1037,7 +1047,7 @@ const PageBorderSizeCell = props => {
 const PageFormatCell = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const { cellFormat, cellFormatType } = props.storeCellSettings;
+    const { cellFormat, uiFormatType: cellFormatType } = props.storeCellSettings;
 
     return (
         <Page>

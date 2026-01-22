@@ -9,12 +9,15 @@ class EditCellController extends Component {
         super(props);
         this.dateFormats = this.initFormats(Asc.c_oAscNumFormatType.Date, 38822);
         this.timeFormats = this.initFormats(Asc.c_oAscNumFormatType.Time, 1.534);
+        this.knownFormats = this.initKnownFormats();
+
         this.initCustomFormats = this.initCustomFormats.bind(this);
         this.memorizeCurrentFormat = this.memorizeCurrentFormat.bind(this);
         this.setCustomFormat = this.setCustomFormat.bind(this);
         this.onCellFormat = this.onCellFormat.bind(this);
         this.onAccountingCellFormat = this.onAccountingCellFormat.bind(this);
         this.onBorderStyle = this.onBorderStyle.bind(this);
+
         this.initCustomFormats();
         this.memorizeCurrentFormat();
     }
@@ -29,6 +32,9 @@ class EditCellController extends Component {
         const formatInfo = xfs.asc_getNumFormatInfo();
         const formatType = formatInfo.asc_getType();
         this.props.storeCellSettings.setCellFormatType(formatType);
+
+        const uiFormatType = this.getUiFormatType(numFormat, formatType);
+        this.props.storeCellSettings.setUiFormatType(uiFormatType);
     }
 
     initFormats(type, exampleVal) {
@@ -67,6 +73,61 @@ class EditCellController extends Component {
 
         storeCellSettings.initCustomFormats(data);
     }
+
+    initKnownFormats() {
+        const api = Common.EditorApi.get();
+
+        const simpleFormats = {
+            [Asc.c_oAscNumFormatType.General]: ['General'],
+            [Asc.c_oAscNumFormatType.Number]: ['0.00'],
+            [Asc.c_oAscNumFormatType.Fraction]: ['# ?/?'],
+            [Asc.c_oAscNumFormatType.Scientific]: ['0.00E+00'],
+            [Asc.c_oAscNumFormatType.Percent]: ['0.00%'],
+            [Asc.c_oAscNumFormatType.Text]: ['@'],
+        };
+
+        const accountingSymbols = [1033, 1031, 2057, 1049, 1041]; // $, €, £, ₽, ¥
+        const accountingFormats = accountingSymbols.flatMap(symbol => {
+            const info = new Asc.asc_CFormatCellsInfo();
+            info.asc_setType(Asc.c_oAscNumFormatType.Accounting);
+            info.asc_setSeparator(false);
+            info.asc_setSymbol(symbol);
+            return api.asc_getFormatCells(info) || [];
+        });
+
+        const currencyFormats = [
+            '[$$-409]#,##0.00',
+            '#,##0.00\ [$€-407]',
+            '[$£-809]#,##0.00',
+            '#,##0.00\ [$₽-419]',
+            '[$¥-411]#,##0.00'
+        ];
+
+        const dateFormats = this.dateFormats.map(f => f.value);
+        const timeFormats = this.timeFormats.map(f => f.value);
+
+        return {
+            ...simpleFormats,
+            [Asc.c_oAscNumFormatType.Accounting]: accountingFormats,
+            [Asc.c_oAscNumFormatType.Currency]: currencyFormats,
+            [Asc.c_oAscNumFormatType.Date]: dateFormats,
+            [Asc.c_oAscNumFormatType.Time]: timeFormats,
+        };
+    }
+
+    getUiFormatType(cellFormat, cellFormatType) {
+        if (cellFormatType === Asc.c_oAscNumFormatType.Custom) {
+            return Asc.c_oAscNumFormatType.Custom;
+        }
+
+        const knownForType = this.knownFormats[cellFormatType];
+        if (!knownForType || !knownForType.includes(cellFormat)) {
+            return Asc.c_oAscNumFormatType.Custom;
+        }
+
+        return cellFormatType;
+    }
+
 
     setCustomFormat(value) {
         const api = Common.EditorApi.get();

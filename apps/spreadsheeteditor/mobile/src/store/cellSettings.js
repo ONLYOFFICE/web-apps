@@ -42,6 +42,8 @@ export class storeCellSettings {
             setCellFormat: action,
             cellFormatType: observable,
             setCellFormatType: action,
+            uiFormatType: observable,
+            setUiFormatType: action,
         });
     }
 
@@ -84,6 +86,7 @@ export class storeCellSettings {
 
     cellFormat = 'General';
     cellFormatType;
+    uiFormatType;
 
     setCellFormat(format) {
         this.cellFormat = format;
@@ -91,6 +94,10 @@ export class storeCellSettings {
 
     setCellFormatType(type) {
         this.cellFormatType = type;
+    }
+
+    setUiFormatType(type) {
+        this.uiFormatType = type;
     }
 
     initCustomFormats(formatsArr) {
