@@ -301,7 +301,7 @@ define([
 
                 this.btnMultiplePages = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-big-contents',
+                    iconCls: 'toolbar__icon btn-big-multiple-pages',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     caption: this.textMultiplePages,
                     enableToggle: true,
