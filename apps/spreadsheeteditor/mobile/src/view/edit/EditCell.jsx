@@ -1166,7 +1166,6 @@ const PageFormatCell = props => {
                     checked={cellFormatType === Asc.c_oAscNumFormatType.Custom}
                     link="/custom-format/"
                     routeProps={{
-                        cellFormat,
                         onCellFormat: props.onCellFormat,
                         setCustomFormat: props.setCustomFormat
                     }}
@@ -1224,7 +1223,7 @@ const PageCustomFormats = props => {
                             name="custom-format"
                             title={item.format}
                             value={item.value}
-                            checked={item.value === props.cellFormat}
+                            checked={item.value === storeCellSettings.cellFormat}
                             onChange={() => handleCellFormatClick(item.value)}
                         />
                     ))}
