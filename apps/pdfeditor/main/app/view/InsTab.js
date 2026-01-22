@@ -165,7 +165,7 @@ define([
                 me.btnInsertPDF = new Common.UI.Button({
                     id: 'tlbtn-insertchart',
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-insertchart',
+                    iconCls: 'toolbar__icon btn-insert-pdf',
                     caption: me.capInsertPDF,
                     lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
                     menu: true,
