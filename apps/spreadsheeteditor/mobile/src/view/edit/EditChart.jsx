@@ -171,7 +171,8 @@ const PageChartType = props => {
     const { t } = useTranslation();
     const storeChartSettings = props.storeChartSettings;
     const types = storeChartSettings.types;
-    const countSlides = Math.floor(types.length / 3);
+    const countTypesSlide = Device.phone ? 2 : 3;
+    const countSlides = Math.ceil(types.length / countTypesSlide);
     const arraySlides = Array(countSlides).fill(countSlides);
     const storeFocusObjects = props.storeFocusObjects;
     const chartProperties = storeFocusObjects.chartObject && storeFocusObjects.chartObject.get_ChartProperties();
@@ -185,7 +186,7 @@ const PageChartType = props => {
                     {types && types.length ? (
                         <Swiper pagination={true}>
                             {arraySlides.map((_, indexSlide) => {
-                                let typesSlide = types.slice(indexSlide * 3, (indexSlide * 3) + 3);
+                                let typesSlide = types.slice(indexSlide * countTypesSlide, (indexSlide * countTypesSlide) + countTypesSlide);
 
                                 return (
                                     <SwiperSlide key={indexSlide}>
