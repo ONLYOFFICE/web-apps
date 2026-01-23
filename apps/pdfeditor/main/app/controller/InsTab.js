@@ -111,6 +111,7 @@ define([
                     'insert:textart'    : this.onInsertTextart.bind(this),
                     'insert:shape'      : this.onInsertShape.bind(this),
                     'insert:page'       : this.onAddPage.bind(this),
+                    'insert:pdffile'    : this.onInsertFile.bind(this),
                     'insert:chart'      : this.onSelectChart,
                     // 'insert:header'     : this.onEditHeaderClick,
                     'insert:hyperlink'  : this.onHyperlinkClick,
@@ -614,6 +615,10 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', me.view);
             Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
+        },
+
+        onInsertFile: function (menu, item, e) {
+            var me = this;
         },
 
         onEditHeaderClick: function(type, e) {

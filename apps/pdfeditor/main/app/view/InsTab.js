@@ -116,6 +116,9 @@ define([
                 me.mnuInsertSymbolsPicker.on('item:click',_.bind(function (picker, item, record, e) {
                     me.fireEvent('insert:symbol', [record]);
                 }, this));
+                me.btnInsertPDF.menu.on('item:click',_.bind(function (menu, item, e) {
+                    me.fireEvent('insert:pdffile', [menu, item, e]);
+                }, this));
             },
 
             initialize: function (options) {
@@ -167,8 +170,14 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-insert-pdf',
                     caption: me.capInsertPDF,
-                    lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
-                    menu: true,
+                    lock: [_set.lostConnect, _set.disableOnStart],
+                    menu: new Common.UI.Menu({
+                        items: [
+                            {caption: me.mniDocFromFile, value: 'file'},
+                            {caption: me.mniDocFromUrl, value: 'url'},
+                            {caption: me.mniDocFromStorage, value: 'storage'}
+                        ]
+                    }),
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
