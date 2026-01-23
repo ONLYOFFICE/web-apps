@@ -635,9 +635,16 @@ define([
 
         editText: function() {
             var me = this;
-            this.mode && !this.mode.isPDFEdit && Common.NotificationCenter.trigger('pdf:mode-apply', 'edit', undefined, function() {
-                me.api && me.mode.isPDFEdit && me.api.asc_EditPage();
-            });
+
+            if (this.mode) {
+                if (this.mode.isPDFEdit) {
+                    me.api && me.api.asc_EditPage();
+                } else {
+                    Common.NotificationCenter.trigger('pdf:mode-apply', 'edit', undefined, function() {
+                        me.api && me.mode.isPDFEdit && me.api.asc_EditPage();
+                    });
+                }
+            }
         },
 
         clearSelection: function() {
