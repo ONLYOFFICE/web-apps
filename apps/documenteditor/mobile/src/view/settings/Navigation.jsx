@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, Fragment } from "react";
 import { Device } from '../../../../../common/mobile/utils/device';
-import {f7, List, ListItem, Page, Navbar, Sheet, View} from 'framework7-react';
+import {f7, List, ListItem, Page, Navbar, Sheet, NavTitle} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { inject, observer } from "mobx-react";
 import { MainContext } from "../../page/main";
@@ -45,10 +45,8 @@ const NavigationPopover = inject('storeNavigation')(observer(props => {
     )
 }));
 
-const NavigationPage = inject('storeNavigation')(observer(props => {
+const NavigationList = inject('storeNavigation')(observer(props => {
     const { t } = useTranslation();
-    const _t = t('Settings', {returnObjects: true});
-    const mainContext = useContext(MainContext);
     const api = Common.EditorApi.get();
     const storeNavigation = props.storeNavigation;
     const bookmarks = storeNavigation.bookmarks;
@@ -62,71 +60,99 @@ const NavigationPage = inject('storeNavigation')(observer(props => {
         arrHeaders = props.updateViewerNavigation(bookmarks);
     }
 
-    const handleBack = () => {
-        f7.sheet.close('#view-navigation-sheet');
-    };
-
     return (
-        <Page>
-            <Navbar title={t('Settings.textNavigation')} backLink={_t.textBack} onBackClick={handleBack} />
-            {!arrHeaders || !arrHeaders.length 
-                ?
-                    <div className="empty-screens">
-                        <p className="empty-screens__text">{t('Settings.textEmptyScreens')}</p>
-                    </div>
-                :
-                    <List className="navigation-list">
-                        {arrHeaders.map((header, index) => {
-                            return (
-                                <ListItem radio key={index} title={header.isEmptyItem ? t('Settings.textBeginningDocument') : header.name} checked={header.index === currentPosition} style={{paddingLeft: header.level * 16}} onClick={() => {
-                                    setCurrentPosition(header.index);
-                                    props.onSelectItem(header.index);
-                                }}></ListItem>
-                            )
-                        })}
-                    </List>
+        <Fragment>
+        {!arrHeaders || !arrHeaders.length 
+            ?
+                <div className="empty-screens">
+                    <p className="empty-screens__text">{t('Settings.textEmptyScreens')}</p>
+                </div>
+            :
+                <List className="navigation-list">
+                    {arrHeaders.map((header, index) => {
+                        return (
+                            <ListItem radio key={index} title={header.isEmptyItem ? t('Settings.textBeginningDocument') : header.name} checked={header.index === currentPosition} style={{paddingLeft: header.level * 16}} onClick={() => {
+                                setCurrentPosition(header.index);
+                                props.onSelectItem(header.index);
+                            }}></ListItem>
+                        )
+                    })}
+                </List>
             }
-        </Page>
+        </Fragment>
     )
 }));
 
 const NavigationSheet = inject('storeNavigation')(observer(props => {
     const mainContext = useContext(MainContext);
+    const { t } = useTranslation();
+    const _t = t('Settings', {returnObjects: true});
+    
+    const [stateHeight, setHeight] = useState('45%');
+    const [stateOpacity, setOpacity] = useState(1);
 
-    const routes = [
-        {
-            path: '/navigation-page/',
-            component: NavigationPage,
-            options: {
-                props: {
-                    onSelectItem: props.onSelectItem,
-                    updateNavigation: props.updateNavigation,
-                    updateViewerNavigation: props.updateViewerNavigation
-                }
-            }
+    const [stateStartY, setStartY] = useState();
+    const [isNeedClose, setNeedClose] = useState(false);
+
+    const handleBack = () => {
+        f7.sheet.close('#view-navigation-sheet');
+    };
+
+    const handleTouchStart = (event) => {
+        const touchObj = event.changedTouches[0];
+        setStartY(parseInt(touchObj.clientY));
+    };
+
+    const handleTouchMove = (event) => {
+        const touchObj = event.changedTouches[0];
+        const dist = parseInt(touchObj.clientY) - stateStartY;
+
+        if (dist < 0) { 
+            setHeight('90%');
+            setOpacity(1);
+            setNeedClose(false);
+        } else if (dist < 80) {
+            setHeight('45%');
+            setOpacity(1);
+            setNeedClose(false);
+        } else {
+            setNeedClose(true);
+            setOpacity(0.6);
         }
-    ];
+    };
 
-    routes.forEach(route => {
-        route.options = {
-            ...route.options,
-            transition: 'f7-push'
-        };
-    });
+    const handleTouchEnd = (event) => {
+        const touchObj = event.changedTouches[0];
+        const swipeEnd = parseInt(touchObj.clientY);
+        const dist = swipeEnd - stateStartY;
+
+        if (isNeedClose) {
+            f7.sheet.close('#view-navigation-sheet');
+        } else if (stateHeight === '90%' && dist > 20) {
+            setHeight('45%');
+        }
+    };
 
     useEffect(() => {
         f7.sheet.open('#view-navigation-sheet', true);
     }, []);
 
     return (
-        <Sheet id="view-navigation-sheet" className="navigation-sheet" backdrop={true} closeByBackdropClick={true} onSheetClosed={() => {mainContext.closeOptions('navigation'); mainContext.openOptions('settings');}}>
-            <View routes={routes} url="/navigation-page/">
-                <NavigationPage 
+        <Sheet id="view-navigation-sheet" className="navigation-sheet" backdrop={true} closeByBackdropClick={true} onSheetClosed={() => {mainContext.closeOptions('navigation')}} style={{height: `${stateHeight}`, opacity: `${stateOpacity}`}}>
+            <Page>
+                <Navbar backLink={_t.textBack} onBackClick={handleBack}>
+                    <NavTitle>
+                        <div id='swipe-handler' onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} >
+                            {t('Settings.textNavigation')}
+                        </div>
+                    </NavTitle>
+                </Navbar>
+                <NavigationList 
                     onSelectItem={props.onSelectItem}
                     updateNavigation={props.updateNavigation}
                     updateViewerNavigation={props.updateViewerNavigation}
                 />
-            </View>
+            </Page>
         </Sheet>
     )
 }));
