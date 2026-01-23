@@ -936,6 +936,7 @@ define([
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'background-open');
 
+                        this.getApplication().getController('Statusbar').showStatusCaption();
                         this.getApplication().getController('Statusbar').setStatusCaption(text);
                         return;
 
