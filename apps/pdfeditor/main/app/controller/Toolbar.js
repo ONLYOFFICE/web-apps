@@ -643,7 +643,7 @@ define([
                     if (annotPr && annotPr.asc_getCanEditText && annotPr.asc_getCanEditText()) {
                         in_text_annot = true;
                         no_text = false;
-                    }
+                }
                 } else if (type == Asc.c_oAscTypeSelectElement.PdfPage) {
                     page_deleted = pr.asc_getDeleteLock();
                     page_rotate_lock = pr.asc_getRotateLock();
@@ -654,7 +654,7 @@ define([
                     no_text = false;
                     in_text_form = ft===AscPDF.FIELD_TYPES.text || ft===AscPDF.FIELD_TYPES.combobox || ft===AscPDF.FIELD_TYPES.listbox;
                     in_check_form = ft===AscPDF.FIELD_TYPES.checkbox || ft===AscPDF.FIELD_TYPES.radiobutton;
-                }
+            }
             }
 
             if (this._state.prcontrolsdisable !== paragraph_locked) {
@@ -819,8 +819,8 @@ define([
                     options.asc_setIsSaveAs(false);
                     me.api.asc_DownloadOrigin(options);
                 } else {
-                    Common.UI.info({
-                        maxwidth: 500,
+                Common.UI.info({
+                    maxwidth: 500,
                         msg: this.errorAccessDeny,
                         callback: function(btn) {
                             Common.NotificationCenter.trigger('edit:complete', toolbar);
@@ -1555,6 +1555,13 @@ define([
                 }
                 me.getApplication().getController('Common.Controllers.ExternalLinks').setConfig({toolbar: me}).setApi(me.api);
                 !config.canComments && me.toolbar.setVisible('comment', false);
+
+                var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, dataHintTitle: 'U', layoutname: 'toolbar-collaboration'};
+                var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+                if ( $panel ) {
+                    me.toolbar.addTab(tab, $panel, 7);
+                    me.toolbar.setVisible('review', (config.isPDFAnnotate || config.isPDFEdit) && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration') ); // use config.canViewReview in review controller. set visible review tab in view mode only when asc_HaveRevisionsChanges
+                }
             }
 
             var tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
@@ -1600,7 +1607,7 @@ define([
                         me.toolbar.setVisible('forms', true);
 
                         Array.prototype.push.apply(me.toolbar.lockControls, forms.getView('FormsTab').getButtons());
-                    }
+            }
                 }
             }
         },
@@ -1712,6 +1719,30 @@ define([
                         me.requiredTooltip.show();
                     } else {
                         me.toolbar.btnSubmit.updateHint(me.textRequired);
+                    }
+                }
+
+                me.btnsComment = [];
+                if ( config.canComments ) {
+                    var _set = Common.enumLock;
+                    me.btnsComment = Common.Utils.injectButtons(me.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-big-add-comment', me.toolbar.capBtnComment, [_set.lostConnect], undefined, undefined, undefined, '1', 'bottom', 'small');
+
+                    if ( me.btnsComment.length ) {
+                        var _comments = PDFE.getController('Common.Controllers.Comments').getView();
+                        me.btnsComment.forEach(function (btn) {
+                            btn.updateHint( _comments.textHintAddComment );
+                            btn.on('click', function (btn, e) {
+                                Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
+                            });
+                            if (btn.cmpEl.closest('#review-changes-panel').length>0)
+                                btn.setCaption(me.toolbar.capBtnAddComment);
+                        }, me);
+                        if (_comments.buttonAddNew) {
+                            _comments.buttonAddNew.options.lock = [ _set.lostConnect ];
+                            me.btnsComment.add(_comments.buttonAddNew);
+                        }
+                        Array.prototype.push.apply(me.toolbar.lockControls, me.btnsComment);
+                        Array.prototype.push.apply(me.toolbar.toolbarControls, me.btnsComment);
                     }
                 }
             });
