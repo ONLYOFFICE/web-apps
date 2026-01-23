@@ -442,10 +442,10 @@ define([
             this.miAccess[isVisible?'show':'hide']();
 
             isVisible = this.mode.canUseHistory&&!this.mode.isDisconnected;
-            separatorVisible = separatorVisible || isVisible;
+            // separatorVisible = separatorVisible || isVisible;
             this.miHistory[isVisible?'show':'hide']();
-            this.miHistory.$el.find('+.devider')[separatorVisible?'show':'hide']();
-            separatorVisible && (lastSeparator = this.miHistory.$el.find('+.devider'));
+            // this.miHistory.$el.find('+.devider')[separatorVisible?'show':'hide']();
+            // separatorVisible && (lastSeparator = this.miHistory.$el.find('+.devider'));
 
             isVisible = Common.UI.LayoutManager.isElementVisible('toolbar-file-settings');
             this.miSettings[isVisible?'show':'hide']();
