@@ -629,6 +629,9 @@
         }
         .title, a {
             color: @text-normal;
+            .icon-svg.done {
+              fill: @brand-word;
+            }
         }
     }
 
@@ -764,5 +767,10 @@
         input[type="radio"]:checked + .icon-radio {
             display: inline-block;
         }
+    }
+
+    .sheet-modal.calendar, .dropdown-list-popup {
+        box-shadow:0 3.75px 11px 0 rgba(0, 0, 0, 0.19),
+                0 0.5px  5px  0 rgba(0, 0, 0, 0.039);
     }
 }
