@@ -71,6 +71,9 @@ define([
                     '<span class="btn-slot text slot-btn-ftw" style="text-align: center;"></span>' +
                 '</div>' +
             '</div>' +
+            '<div class="group">' +
+                '<span class="btn-slot text x-huge" id="slot-btn-multiple-pages"></span>' +
+            '</div>' +
             '<div class="separator long"></div>' +
             '<div class="group">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-interface-theme"></span>' +
@@ -149,6 +152,9 @@ define([
                 }, me));
                 me.btnDarkDocument.on('click', _.bind(function (e) {
                     me.fireEvent('darkmode:change', [e.pressed]);
+                }, me));
+                me.btnMultiplePages.on('click', _.bind(function (e) {
+                    me.fireEvent('pages:multiple', [e.pressed]);
                 }, me));
                 me.cmbsZoom.forEach(function (cmb) {
                     cmb.on('combo:focusin', _.bind(me.onComboOpen, this, false));
@@ -293,6 +299,18 @@ define([
                 });
                 this.lockedControls.push(this.chRulers);
 
+                this.btnMultiplePages = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-big-multiple-pages',
+                    lock: [_set.lostConnect, _set.disableOnStart],
+                    caption: this.textMultiplePages,
+                    enableToggle: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small',
+                });
+                this.lockedControls.push(this.btnMultiplePages);
+
                 if (
                     this.appConfig.isEdit && 
                     !(this.appConfig.customization && this.appConfig.customization.macros===false) && 
@@ -408,6 +426,7 @@ define([
                 this.btnsFitToWidth[0].render($host.find('.slot-btn-ftw'));
                 this.btnInterfaceTheme.render($host.find('#slot-btn-interface-theme'));
                 this.btnDarkDocument.render($host.find('#slot-btn-dark-document'));
+                this.btnMultiplePages.render($host.find('#slot-btn-multiple-pages'));
                 this.chStatusbar.render($host.find('#slot-chk-statusbar'));
                 this.chToolbar.render($host.find('#slot-chk-toolbar'));
                 this.chRulers.render($host.find('#slot-chk-rulers'));
@@ -442,6 +461,7 @@ define([
                 this.btnNavigation.updateHint(this.tipHeadings);
                 this.btnInterfaceTheme.updateHint(this.tipInterfaceTheme);
                 this.btnDarkDocument.updateHint(this.tipDarkDocument);
+                this.btnMultiplePages.updateHint(this.tipMultiplePages)
                 this.btnsFitToPage.forEach(function (btn) {
                     btn.updateHint(me.tipFitToPage);
                 });

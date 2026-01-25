@@ -95,7 +95,8 @@ define([
                     'macros:record':  _.bind(this.onClickMacrosRec, this),
                     'macros:pause':  _.bind(this.onClickMacrosPause, this),
                     'pointer:select': _.bind(this.onPointerType, this, 'select'),
-                    'pointer:hand': _.bind(this.onPointerType, this, 'hand')
+                    'pointer:hand': _.bind(this.onPointerType, this, 'hand'),
+                    'pages:multiple': _.bind(this.onMultiplePages, this)
                 },
                 'Toolbar': {
                     'view:compact': _.bind(function (toolbar, state) {
@@ -105,6 +106,9 @@ define([
                 'Statusbar': {
                     'view:hide': _.bind(function (statusbar, state) {
                         this.view.chStatusbar.setValue(!state, true);
+                    }, this),
+                    'pages:multiplechanged': _.bind(function (isMultiple) {
+                        this.view.btnMultiplePages.toggle(isMultiple);
                     }, this)
                 },
                 'LeftMenu': {
@@ -281,6 +285,14 @@ define([
             Common.Utils.lockControls(Common.enumLock.disableOnStart, false, {array: this.view.lockedControls});
         },
 
+        onMultiplePages: function (pressed) {
+            if (this.api) {
+                this.api.zoomCustomMode();
+                this.api.SetMultipageViewMode(pressed);
+                this.view.fireEvent('pages:multiplechanged', [pressed]);
+            }
+        },
+
         onZoomChange: function (percent, type) {
             this.view.btnsFitToPage.forEach(function (btn) {
                 btn.toggle(type === 2, true);
@@ -288,6 +300,11 @@ define([
             this.view.btnsFitToWidth.forEach(function (btn) {
                 btn.toggle(type === 1, true);
             });
+
+            if (type === 2 || type === 1 && this.view.btnMultiplePages.pressed) {
+                this.api.SetMultipageViewMode(false);
+                this.view.btnMultiplePages.toggle(false);
+            };
 
             this.setZoomValue(percent);
 
