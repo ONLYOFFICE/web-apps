@@ -89,6 +89,7 @@ define([
                 'ViewTab': {
                     'zoom:topage': _.bind(this.onBtnZoomTo, this, 'topage'),
                     'zoom:towidth': _.bind(this.onBtnZoomTo, this, 'towidth'),
+                    'zoom:100': _.bind(this.onZoomTo100, this),
                     'rulers:change': _.bind(this.onChangeRulers, this),
                     'darkmode:change': _.bind(this.onChangeDarkMode, this),
                     'macros:click':  _.bind(this.onClickMacros, this),
@@ -358,6 +359,10 @@ define([
             else
                 this.api[func]();
             Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onZoomTo100: function () {
+            this.api && this.api.zoom(100);
         },
 
         onChangeRulers: function (btn, checked) {
