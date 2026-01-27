@@ -128,9 +128,7 @@ define([
                     hint: this.tipListOfSheets,
                     hintAnchor: 'top'
                 });
-                this.btnSheetList = new Common.UI.Button({
-                    el: $('#status-btn-tabslist',this.$el)
-                });
+                this.btnSheetList = $('#status-btn-tabslist',this.$el);
                 this.sheetListMenu = new Common.UI.Menu({
                     style: 'margin-top:-3px;',
                     menuAlign: 'bl-tl',
@@ -433,7 +431,7 @@ define([
                     this.api && (this.api.asc_isWorkbookLocked() || this.api.isCellEdited) ||
                     this.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None || !!this.mode.isExternalChart
                 );
-                this.btnSheetList.setDisabled(this.mode.isBackgroundOpen);
+                this.btnSheetList[this.mode.isBackgroundOpen ? 'addClass' : 'removeClass']('disabled');
                 if (this.mode.isEditOle || this.mode.isEditDiagram) { // change hints order
                     this.btnAddWorksheet.$el.find('button').addBack().filter('button').attr('data-hint', '1');
                     this.btnScrollBack.$el.find('button').addBack().filter('button').attr('data-hint', '1');
@@ -550,7 +548,7 @@ define([
                         me.mode.isDisconnected || me.mode.isBackgroundOpen || me.api.asc_isWorkbookLocked() || 
                         wbprotected || me.api.isCellEdited ||  !!me.mode.isExternalChart
                     );
-                    this.btnSheetList.setDisabled(me.mode.isBackgroundOpen);
+                    this.btnSheetList[me.mode.isBackgroundOpen ? 'addClass' : 'removeClass']('disabled');
                     if (this.mode.isEdit) {
                         this.tabbar.addDataHint(_.findIndex(items, function (item) {
                             return item.sheetindex === sindex;
