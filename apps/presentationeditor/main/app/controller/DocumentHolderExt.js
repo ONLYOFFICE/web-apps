@@ -1181,7 +1181,7 @@ define([], function () {
                         elType = selectedElements[i].get_ObjectType();
 
                         if (elType === Asc.c_oAscTypeSelectElement.Chart) {
-                            return me.api.asc_getChartSettings();
+                            return me.api.asc_getChartSettings(true);
                         }
                     }
                 }
