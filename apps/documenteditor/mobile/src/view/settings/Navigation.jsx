@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useContext, Fragment } from "react";
 import { Device } from '../../../../../common/mobile/utils/device';
-import {f7, List, ListItem, Page, Navbar, Sheet, NavTitle} from 'framework7-react';
+import {f7, List, ListItem, Page, Navbar, Sheet, NavRight, Link} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { inject, observer } from "mobx-react";
 import { MainContext } from "../../page/main";
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
 
 const NavigationPopover = inject('storeNavigation')(observer(props => {
     const { t } = useTranslation();
@@ -86,66 +89,25 @@ const NavigationList = inject('storeNavigation')(observer(props => {
 const NavigationSheet = inject('storeNavigation')(observer(props => {
     const mainContext = useContext(MainContext);
     const { t } = useTranslation();
-    const _t = t('Settings', {returnObjects: true});
-    
-    const [stateHeight, setHeight] = useState('45%');
-    const [stateOpacity, setOpacity] = useState(1);
-
-    const [stateStartY, setStartY] = useState();
-    const [isNeedClose, setNeedClose] = useState(false);
-
-    const handleBack = () => {
-        f7.sheet.close('#view-navigation-sheet');
-    };
-
-    const handleTouchStart = (event) => {
-        const touchObj = event.changedTouches[0];
-        setStartY(parseInt(touchObj.clientY));
-    };
-
-    const handleTouchMove = (event) => {
-        const touchObj = event.changedTouches[0];
-        const dist = parseInt(touchObj.clientY) - stateStartY;
-
-        if (dist < 0) { 
-            setHeight('90%');
-            setOpacity(1);
-            setNeedClose(false);
-        } else if (dist < 80) {
-            setHeight('45%');
-            setOpacity(1);
-            setNeedClose(false);
-        } else {
-            setNeedClose(true);
-            setOpacity(0.6);
-        }
-    };
-
-    const handleTouchEnd = (event) => {
-        const touchObj = event.changedTouches[0];
-        const swipeEnd = parseInt(touchObj.clientY);
-        const dist = swipeEnd - stateStartY;
-
-        if (isNeedClose) {
-            f7.sheet.close('#view-navigation-sheet');
-        } else if (stateHeight === '90%' && dist > 20) {
-            setHeight('45%');
-        }
-    };
 
     useEffect(() => {
         f7.sheet.open('#view-navigation-sheet', true);
     }, []);
 
     return (
-        <Sheet id="view-navigation-sheet" className="navigation-sheet" backdrop={true} closeByBackdropClick={true} onSheetClosed={() => {mainContext.closeOptions('navigation')}} style={{height: `${stateHeight}`, opacity: `${stateOpacity}`}}>
+        <Sheet id="view-navigation-sheet" className="navigation-sheet" backdrop={true} closeByBackdropClick={true} onSheetClosed={() => {mainContext.closeOptions('navigation')}} style={{height: '45%', opacity: '1'}}>
             <Page>
-                <Navbar backLink={_t.textBack} onBackClick={handleBack}>
-                    <NavTitle>
-                        <div id='swipe-handler' onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} >
-                            {t('Settings.textNavigation')}
-                        </div>
-                    </NavTitle>
+                <Navbar title={t('Settings.textNavigation')}>
+                    {Device.phone &&
+                        <NavRight>
+                            <Link sheetClose="#view-navigation-sheet">
+                                {Device.ios ? 
+                                    <SvgIcon slot="media" symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                    <SvgIcon slot="media" symbolId={IconExpandDownAndroid.id} className={'icon icon-svg down'} />
+                                }
+                            </Link>
+                        </NavRight>
+                    }
                 </Navbar>
                 <NavigationList 
                     onSelectItem={props.onSelectItem}
