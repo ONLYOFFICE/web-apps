@@ -19,6 +19,11 @@ const f7params = {
     name: 'Desktop Editor', // App name
     theme: 'auto', // Automatic theme detection
     routes: routes, // App routes
+    params: {
+        touch: {
+            disableContextMenu: true,
+        },
+    },
 };
 
 export default class extends React.Component {
