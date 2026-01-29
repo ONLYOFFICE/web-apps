@@ -1097,11 +1097,6 @@ define([
                 this.statusbar.clearStatusMessage();
         },
 
-        showStatusCaption: function() {
-            this.statusbar.boxAction.show();
-            this.statusbar.updateTabbarBorders();
-        },
-
         protectWorksheet: function() {
             Common.NotificationCenter.trigger('protect:sheet', !this.api.asc_isProtectedSheet());
         },
