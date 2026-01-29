@@ -40,3 +40,6 @@ selenium-debug.log
 **/test/bin
 **/test/reports
 translation/exportfigmaconfig.py
+translation/exportfigmaconfig.py
+__pycache__/
+*.pyc
