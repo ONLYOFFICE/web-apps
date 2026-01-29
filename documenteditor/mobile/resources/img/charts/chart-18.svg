@@ -1,0 +1,19 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+<path d="M16 49L8 47V31L16 29L24 31V47L16 49Z" fill="#555555"/>
+<path d="M16 41L8 39V31L16 29L24 31L16 33V41Z" fill="white" fill-opacity="0.65"/>
+<path d="M24 39L16 41V49L24 47V39Z" fill="white" fill-opacity="0.35"/>
+<path d="M24 31L16 33V41L24 39V31Z" fill="white" fill-opacity="0.75"/>
+<path d="M26 53L18 51V23L26 21L34 23V51L26 53Z" fill="#555555"/>
+<path d="M26 39L18 37V23L26 21L34 23L26 25V39Z" fill="white" fill-opacity="0.65"/>
+<path d="M34 37L26 39V53L34 51V37Z" fill="white" fill-opacity="0.35"/>
+<path d="M34 23L26 25V39L34 37V23Z" fill="white" fill-opacity="0.75"/>
+<path d="M36 57L28 55V15L36 13L44 15V55L36 57Z" fill="#555555"/>
+<path d="M44 35L36 37V57L44 55V35Z" fill="white" fill-opacity="0.35"/>
+<path d="M44 15L36 17V37L44 35V15Z" fill="white" fill-opacity="0.75"/>
+<path d="M36 37L28 35V15L36 13L44 15L36 17V37Z" fill="white" fill-opacity="0.65"/>
+<path d="M46 61L38 59V5L46 3L54 5L46 7V61Z" fill="#555555"/>
+<path d="M54 5L46 7V27V61L54 59V5Z" fill="#555555"/>
+<path d="M54 5L46 7V27L54 25V5Z" fill="white" fill-opacity="0.75"/>
+<path d="M54 25L46 27V61L54 59V25Z" fill="white" fill-opacity="0.35"/>
+<path d="M46 27L38 25V5L46 3L54 5L46 7V27Z" fill="white" fill-opacity="0.65"/>
+</svg>
