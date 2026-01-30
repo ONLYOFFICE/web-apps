@@ -1,0 +1,25 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M6.99951 38.998L14.9995 36.998L57 51V61L49 63L7 49V39L49 53L6.99951 38.998Z" fill="#555555"/>
+<path d="M39 45L31 47L49 53L57 51L39 45Z" fill="white" fill-opacity="0.75"/>
+<path d="M15 36.998L7 38.998L49 53L57 51L15 36.998Z" fill="white" fill-opacity="0.35"/>
+<path d="M31 57V47L49 53V63L31 57Z" fill="white" fill-opacity="0.65"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M6.99951 26.998L14.9995 24.998L48 36V46L40 48L7 37V27L40 38L6.99951 26.998Z" fill="#555555"/>
+<path d="M33 31L25 33L40 38L48 36L33 31Z" fill="white" fill-opacity="0.75"/>
+<path d="M15 24.998L7 26.998L40 38L48 36L15 24.998Z" fill="white" fill-opacity="0.35"/>
+<path d="M25 43V33L40 38V48L25 43Z" fill="white" fill-opacity="0.65"/>
+<path d="M6.99927 14.998L14.9993 12.998L41.9998 22L33.9998 24L6.99927 14.998Z" fill="#555555"/>
+<path d="M6.99976 15L33.9998 24L41.9998 22V32L33.9998 34L6.99976 25V15Z" fill="#555555"/>
+<path d="M15 12.998L7 14.998L34 24L42 22L15 12.998Z" fill="white" fill-opacity="0.35"/>
+<path d="M22 30V20L34 24V34L22 30Z" fill="white" fill-opacity="0.65"/>
+<path d="M30 18L22 20L34 24L42 22L30 18Z" fill="white" fill-opacity="0.75"/>
+<path d="M26.4995 19.498V9.49805L34.4995 7.49805V17.498L26.4995 19.498Z" fill="#555555"/>
+<path d="M26.4995 9.49805L7 3V13L26.4995 19.498V9.49805Z" fill="#555555"/>
+<path d="M15 1L7 3L26.4995 9.49805L34.4995 7.49805L15 1Z" fill="#555555"/>
+<path d="M16 16V6L26.4995 9.49805V19.498L16 16Z" fill="white" fill-opacity="0.65"/>
+<path d="M15 1L7 3L16 6L24 4L15 1Z" fill="white" fill-opacity="0.35"/>
+<path d="M24 4L16 6L26.5 9.5L34.5 7.5L24 4Z" fill="white" fill-opacity="0.75"/>
+<path d="M48.9995 62.998V52.998L56.9995 50.998V60.998L48.9995 62.998Z" fill="white" fill-opacity="0.35"/>
+<path d="M39.9995 47.998V37.998L47.9995 35.998V45.998L39.9995 47.998Z" fill="white" fill-opacity="0.35"/>
+<path d="M33.9995 33.998V23.998L41.9995 21.998V31.998L33.9995 33.998Z" fill="white" fill-opacity="0.35"/>
+<path d="M26.4995 19.498V9.49805L34.4995 7.49805V17.498L26.4995 19.498Z" fill="white" fill-opacity="0.35"/>
+</svg>
