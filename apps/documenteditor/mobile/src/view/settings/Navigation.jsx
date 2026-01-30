@@ -66,7 +66,7 @@ const NavigationSheet = inject('storeNavigation')(observer(props => {
     }, []);
 
     return (
-        <Sheet id="view-navigation-sheet" className="navigation-sheet" onSheetClosed={() => mainContext.closeOptions('navigation')} backdrop swipeToClose breakpoints={[0.50]} style={{height: '90%'}}>
+        <Sheet id="view-navigation-sheet" className="navigation-sheet" onSheetClosed={() => mainContext.closeOptions('navigation')} backdrop closeByBackdropClick swipeToClose breakpoints={[0.50]} style={{height: '90%'}}>
             <div id='swipe-handler' className="swipe-container">
                <Icon icon='icon icon-swipe'/>
             </div>

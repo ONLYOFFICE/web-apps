@@ -1009,45 +1009,9 @@ const ViewCommentSheet = ({closeCurComments, onCommentMenuClick, onResolveCommen
         f7.sheet.open('#view-comment-sheet');
     });
 
-    const [stateHeight, setHeight] = useState('45%');
-    const [stateOpacity, setOpacity] = useState(1);
-
-    const [stateStartY, setStartY] = useState();
-    const [isNeedClose, setNeedClose] = useState(false);
-
-    const handleTouchStart = (event) => {
-        const touchObj = event.changedTouches[0];
-        setStartY(parseInt(touchObj.clientY));
-    };
-    const handleTouchMove = (event) => {
-        const touchObj = event.changedTouches[0];
-        const dist = parseInt(touchObj.clientY) - stateStartY;
-        if (dist < 0) { // to top
-            setHeight('90%');
-            setOpacity(1);
-            setNeedClose(false);
-        } else if (dist < 80) {
-            setHeight('45%');
-            setOpacity(1);
-            setNeedClose(false);
-        } else {
-            setNeedClose(true);
-            setOpacity(0.6);
-        }
-    };
-    const handleTouchEnd = (event) => {
-        const touchObj = event.changedTouches[0];
-        const swipeEnd = parseInt(touchObj.clientY);
-        const dist = swipeEnd - stateStartY;
-        if (isNeedClose) {
-            closeCurComments();
-        } else if (stateHeight === '90%' && dist > 20) {
-            setHeight('45%');
-        }
-    };
     return (
-        <Sheet id='view-comment-sheet' style={{height: `${stateHeight}`, opacity: `${stateOpacity}`}} backdrop={true} closeByBackdropClick={true}>
-            <div id='swipe-handler' className='swipe-container' onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
+        <Sheet id='view-comment-sheet' backdrop closeByBackdropClick swipeToClose breakpoints={[0.50]} style={{height: '90%'}}>
+            <div id='swipe-handler' className='swipe-container'>
                 <Icon icon='icon-swipe'/>
             </div>
             <CommentList wsProps={wsProps} onCommentMenuClick={onCommentMenuClick} onResolveComment={onResolveComment}/>
