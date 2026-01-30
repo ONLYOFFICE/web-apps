@@ -63,9 +63,6 @@ define([
                     '<span class="btn-slot text font-size-normal slot-lbl-zoom" style="text-align: center;margin-top: 4px;"></span>' +
                 '</div>' +
             '</div>' +
-            '<div class="group">' +
-                '<span class="btn-slot text x-huge" id="slot-btn-zoom-100"></span>' +
-            '</div>' +
             '<div class="group small">' +
                 '<div class="elset">' +
                     '<span class="btn-slot text slot-btn-ftp" style="text-align: center;"></span>' +
@@ -74,8 +71,13 @@ define([
                     '<span class="btn-slot text slot-btn-ftw" style="text-align: center;"></span>' +
                 '</div>' +
             '</div>' +
-            '<div class="group">' +
-                '<span class="btn-slot text x-huge" id="slot-btn-multiple-pages"></span>' +
+            '<div class="group small">' +
+                '<div class="elset">' +
+                   '<span class="btn-slot text" id="slot-btn-zoom-100" style="text-align: center;"></span>' +
+                '</div>' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-btn-multiple-pages" style="text-align: center;"></span>' +
+                '</div>' +
             '</div>' +
             '<div class="separator long"></div>' +
             '<div class="group">' +
@@ -306,8 +308,8 @@ define([
                 this.lockedControls.push(this.chRulers);
 
                 this.btnMultiplePages = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-big-multiple-pages',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-multiple-pages',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     caption: this.textMultiplePages,
                     enableToggle: true,
@@ -318,7 +320,7 @@ define([
                 this.lockedControls.push(this.btnMultiplePages);
 
                 this.btnZoom100 = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
+                    cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-zoom-100',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     caption: this.textZoom100,
