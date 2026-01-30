@@ -67,7 +67,7 @@ const NavigationSheet = inject('storeNavigation')(observer(props => {
 
     return (
         <Sheet id="view-navigation-sheet" className="navigation-sheet" onSheetClosed={() => mainContext.closeOptions('navigation')} backdrop closeByBackdropClick swipeToClose breakpoints={[0.50]} style={{height: '90%'}}>
-            <div id='swipe-handler' className="swipe-container">
+            <div id='swipe-handler' className='swipe-container'>
                <Icon icon='icon icon-swipe'/>
             </div>
             <div className="navigation-sheet__title">
@@ -75,11 +75,11 @@ const NavigationSheet = inject('storeNavigation')(observer(props => {
             </div>
             {!arrHeaders || !arrHeaders.length 
                 ?
-                    <div className="empty-screens sheet-modal-swipe-step">
+                    <div className="empty-screens">
                         <p className="empty-screens__text">{t('Settings.textEmptyScreens')}</p>
                     </div>
                 :
-                    <List className="navigation-list sheet-modal-swipe-step">
+                    <List className="navigation-list">
                         {arrHeaders.map((header, index) => {
                             return (
                                 <ListItem radio key={index} title={header.isEmptyItem ? t('Settings.textBeginningDocument') : header.name} checked={header.index === currentPosition} style={{paddingLeft: header.level * 16}} onClick={() => {
