@@ -438,6 +438,7 @@ define([
                 toolbar.btnWrap.on('click',                                 _.bind(this.onWrap, this));
                 toolbar.btnTextOrient.menu.on('item:click',                 _.bind(this.onTextOrientationMenu, this));
                 toolbar.btnInsertTable.on('click',                          _.bind(this.onBtnInsertTableClick, this));
+                toolbar.btnPasteOptions.on('click',                         _.bind(this.onBtnPasteOptionsClick, this));
                 toolbar.btnInsertImage.menu.on('item:click',                _.bind(this.onInsertImageMenu, this));
                 toolbar.btnInsertHyperlink.on('click',                      _.bind(this.onHyperlink, this));
                 toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
@@ -1048,6 +1049,175 @@ define([
                 this._setTableFormat(this.api.asc_getDefaultTableStyle());
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Table');
+        },
+
+        onBtnPasteOptionsClick: function (btn, e) {
+            var me = this;
+            this.api.asc_getPasteOptions(function (options) {
+                me.handlePasteOptions(options)
+            })
+        },
+
+        handlePasteOptions: function (options) {
+            var me = this;
+            var pasteItems = options.asc_getOptions(),
+                isTable = !!options.asc_getContainTables();
+            console.log(options, 'OPTIONS')
+            if (!pasteItems) return;
+
+            me._arrSpecialPaste = [];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = [me.txtPaste, 0];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormula] = [me.txtPasteFormulas, 0];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaNumberFormat] = [me.txtPasteFormulaNumFormat, 0];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaAllFormatting] = [me.txtPasteKeepSourceFormat, 0];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaWithoutBorders] = [me.txtPasteBorders, 0];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaColumnWidth] = [me.txtPasteColWidths, 0];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.mergeConditionalFormating] = [me.txtPasteMerge, 0];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyValues] = [me.txtPasteValues, 1];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.valueNumberFormat] = [me.txtPasteValNumFormat, 1];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.valueAllFormating] = [me.txtPasteValFormat, 1];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormating] = [me.txtPasteFormat, 2];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.link] = [me.txtPasteLink, 2];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.transpose] = [me.txtPasteTranspose, 2];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = [me.txtPastePicture, 2];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.linkedPicture] = [me.txtPasteLinkPicture, 2];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = [me.txtPasteSourceFormat, 2];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = [me.txtPasteDestFormat, 2];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = [me.txtKeepTextOnly, 2];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.useTextImport] = [me.txtUseTextImport, 3];
+
+            if (pasteItems.length>0) {
+                var menu = me.toolbar.btnPasteOptions.menu;
+                for (var i = 0; i < menu.items.length; i++) {
+                    menu.removeItem(menu.items[i]);
+                    i--;
+                }
+
+                var groups = [];
+                for (var i = 0; i < 3; i++) {
+                    groups[i] = [];
+                }
+
+                var importText, pasteItem;
+
+                _.each(pasteItems, function(menuItem, index) {
+                    if (me._arrSpecialPaste[menuItem]) {
+                        var mnu = new Common.UI.MenuItem({
+                            caption: me._arrSpecialPaste[menuItem][0],
+                            value: menuItem,
+                            checkable: true,
+                            toggleGroup: 'specialPasteGroup'
+                        }).on('click', _.bind(me.onSpecialPasteItemClick, me));
+                
+                        if (menuItem == Asc.c_oSpecialPasteProps.paste) {
+                            pasteItem = mnu;
+                        } else if (menuItem == Asc.c_oSpecialPasteProps.useTextImport) {
+                            importText = mnu;
+                        } else {
+                            groups[me._arrSpecialPaste[menuItem][1]].push(mnu);
+                        }
+                
+                        me._arrSpecialPaste[menuItem][2] = mnu;
+                    }
+                });
+                var groupTitles = [me.txtFormula, me.txtValue, me.txtOther];
+
+                if (pasteItem) {
+                    menu.addItem(pasteItem);
+                }
+
+                for (var i = 0; i < 3; i++) {
+                    if (groups[i].length > 0) {
+                        if (menu.items.length > 0) {
+                            menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
+                        }
+                        menu.addItem(new Common.UI.MenuItem({
+                            header: groupTitles[i],
+                            disabled: true,
+                            cls: 'menu-header'
+                        }));
+                        _.each(groups[i], function (menuItem, index) {
+                            menu.addItem(menuItem);
+                        });
+                    }
+                }
+
+                (menu.items.length>0) && menu.items[0].setChecked(true, true);
+                me._state.lastSpecPasteChecked = (menu.items.length>0) ? menu.items[0] : null;
+
+                if (importText) {
+                    menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
+                    menu.addItem(importText);
+                }
+                console.log(options.asc_getShowPasteSpecial(), 'SPECIAL')
+                if (menu.items.length>0 && options.asc_getShowPasteSpecial()) {
+                    menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
+                    var mnu = new Common.UI.MenuItem({
+                        caption: me.textPasteSpecial,
+                        value: 'special'
+                    }).on('click', function(item, e) {
+                        (new SSE.Views.SpecialPasteDialog({
+                            props: pasteItems,
+                            isTable: isTable,
+                            handler: function (result, settings) {
+                                if (result == 'ok') {
+                                    me._state.lastSpecPasteChecked && me._state.lastSpecPasteChecked.setChecked(false, true);
+                                    me._state.lastSpecPasteChecked = settings && me._arrSpecialPaste[settings.asc_getProps()] ? me._arrSpecialPaste[settings.asc_getProps()][2] : null;
+                                    me._state.lastSpecPasteChecked && me._state.lastSpecPasteChecked.setChecked(true, true);
+                                    if (me && me.api) {
+                                        me.api.asc_SpecialPaste(settings);
+                                    }
+                                }
+                            }
+                        })).show();
+                        setTimeout(function(){menu.hide();}, 100);
+                    });
+                    menu.addItem(mnu);
+                }
+             }
+        },
+
+        onSpecialPasteItemClick: function (item, e) {
+            var me = this,
+                menu = this.toolbar.btnPasteOptions.menu;
+            if (item.value == Asc.c_oSpecialPasteProps.useTextImport) {
+                (new Common.Views.OpenDialog({
+                    title: me.txtImportWizard,
+                    closable: true,
+                    type: Common.Utils.importTextType.Paste,
+                    preview: true,
+                    api: me.api,
+                    handler: function (result, settings) {
+                        if (result == 'ok') {
+                            if (me && me.api) {
+                                var props = new Asc.SpecialPasteProps();
+                                props.asc_setProps(Asc.c_oSpecialPasteProps.useTextImport);
+                                props.asc_setAdvancedOptions(settings.textOptions);
+                                me.api.asc_SpecialPaste(props);
+                            }
+                            me._state.lastSpecPasteChecked = item;
+                        } else if (item.cmpEl) {
+                            item.setChecked(false, true);
+                            // me._state.lastSpecPasteChecked && me._state.lastSpecPasteChecked.setChecked(true, true);
+                        }
+                    }
+                })).show();
+                setTimeout(function(){menu.hide();}, 100);
+            } else {
+                me._state.lastSpecPasteChecked = item;
+                var props = new Asc.SpecialPasteProps();
+                props.asc_setProps(item.value);
+                me.api.asc_SpecialPaste(props);
+                setTimeout(function(){menu.hide();}, 100);
+            }
+            if (!item.cmpEl && me._state.lastSpecPasteChecked) {
+                for (var i = 0; i < menu.items.length; i++) {
+                    menu.items[i].setChecked(menu.items[i].value===me._state.lastSpecPasteChecked.value, true);
+                    if (menu.items[i].value===me._state.lastSpecPasteChecked.value)
+                        me._state.lastSpecPasteChecked = menu.items[i];
+                }
+            }
+            return false;
         },
 
         onInsertImageMenu: function(menu, item, e) {

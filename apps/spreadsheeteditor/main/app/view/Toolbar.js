@@ -1554,6 +1554,18 @@ define([
                     dataHintOffset: 'small'
                 });
 
+                me.btnPasteOptions = new Common.UI.Button({
+                    id          : 'tlbtn-inserttable',
+                    cls         : 'btn-toolbar x-huge icon-top',
+                    iconCls     : 'toolbar__icon btn-freeze-panes',
+                    caption     : me.capPasteOptions,
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect, _set.cantModifyFilter, _set.ruleMerge, _set.editPivot, _set.wsLock, _set.userProtected],
+                    menu        : new Common.UI.Menu({items: []}),
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+
                 me.listStyles = new Common.UI.ComboDataView({
                     cls             : 'combo-cell-styles',
                     enableKeyEvents : true,
@@ -2453,7 +2465,7 @@ define([
                     me.cmbFontName, me.cmbFontSize, me.btnIncFontSize, me.btnDecFontSize, me.btnChangeCase, me.btnBold,
                     me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnAlignLeft,
                     me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnAlignTop,
-                    me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
+                    me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable, me.btnPasteOptions,
                     me.btnMerge, me.btnTextDir, me.btnInsertFormula, me.btnNamedRange, me.btnFillNumbers, me.btnIncDecimal, me.btnInsertShape, me.btnInsertSmartArt, me.btnInsertEquation, me.btnInsertSymbol, me.btnInsertSlicer,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
                     me.btnTableTemplate, me.btnCellStyle, me.btnPercentStyle, me.btnCommaStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnFormatCell, me.btnCondFormat,
@@ -2623,6 +2635,7 @@ define([
             _injectComponent('#slot-btn-text-orient',    this.btnTextOrient);
             _injectComponent('#slot-btn-insimage',       this.btnInsertImage);
             _injectComponent('#slot-btn-instable',       this.btnInsertTable);
+            _injectComponent('#slot-btn-paste-options',  this.btnPasteOptions);
             _injectComponent('#slot-btn-inshyperlink',   this.btnInsertHyperlink);
             _injectComponent('#slot-btn-insshape',       this.btnInsertShape);
             _injectComponent('#slot-btn-instext',        this.btnInsertText);
@@ -2711,6 +2724,7 @@ define([
             _updateHint(this.btnWrap, this.tipWrap);
             _updateHint(this.btnTextOrient, this.tipTextOrientation);
             _updateHint(this.btnInsertTable, this.tipInsertTable);
+            _updateHint(this.btnPasteOptions, this.tipPasteOptions);
             _updateHint(this.btnInsertImage, this.tipInsertImage);
             _updateHint(this.btnInsertChart, this.tipInsertChartSpark);
             _updateHint(this.btnInsertChartRecommend, this.tipInsertChartRecommend);

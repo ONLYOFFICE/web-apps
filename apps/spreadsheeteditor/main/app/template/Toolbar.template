@@ -144,6 +144,7 @@
             </section>
             <section class="panel" data-tab="ins" role="tabpanel" aria-labelledby="ins">
                 <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-paste-options"></span>
                     <span class="btn-slot text x-huge slot-add-pivot"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-instable"></span>
                 </div>
