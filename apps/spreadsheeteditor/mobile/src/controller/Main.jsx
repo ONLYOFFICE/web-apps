@@ -334,6 +334,8 @@ class MainController extends Component {
                 const appOptions = this.props.storeAppOptions;
                 appOptions.setPermissionOptions(this.document, licType, params, this.permissions, EditorUIController.isSupportEditFeature());
 
+                this.api.asc_setFilteringMode && this.api.asc_setFilteringMode(appOptions.canModifyFilter);
+
                 this.applyMode(appOptions);
 
                 this._isPermissionsInited = true;
@@ -602,9 +604,6 @@ class MainController extends Component {
         });
 
         this.api.asc_registerCallback('asc_onNeedUpdateExternalReferenceOnOpen', this.onNeedUpdateExternalReference.bind(this));
-
-        const storeAppOptions = this.props.storeAppOptions;
-        this.api.asc_setFilteringMode && this.api.asc_setFilteringMode(storeAppOptions.canModifyFilter);
     }
 
     insertImageFromStorage (data) {
