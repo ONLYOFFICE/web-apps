@@ -507,7 +507,9 @@
       "textZoomOut": "Zoom Out",
       "textZoomRotate": "Zoom and Rotate",
       "txtHeight": "Height",
-      "txtWidth": "Width"
+      "txtWidth": "Width",
+      "txtCustom": "Custom",
+      "textCurrentFont": "Main Text"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

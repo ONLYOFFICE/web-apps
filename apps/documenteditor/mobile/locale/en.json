@@ -426,7 +426,9 @@
     "textWrapText": "Wrap Text",
     "textYourOption": "Your option",
     "txtHeight": "Height",
-    "txtWidth": "Width"
+    "txtWidth": "Width",
+    "txtCustom": "Custom",
+    "textCurrentFont": "Main Text"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",

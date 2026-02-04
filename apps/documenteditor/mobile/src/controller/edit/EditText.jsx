@@ -288,11 +288,23 @@ class EditTextController extends Component {
         api.asc_setRtlTextDirection(direction);
     }
 
+    applyFontSize(size) {
+        const api = Common.EditorApi.get();
+        if (!api || typeof api.put_TextPrFontSize !== 'function') return;
+
+        let fontSize = Number(size);
+        if (!Number.isFinite(fontSize)) return;
+
+        fontSize = Math.max(1, Math.min(300, Math.round(fontSize)));
+        api.put_TextPrFontSize(fontSize);
+    }
+
     render() {
         return (
             <EditText 
                 changeFontSize={this.changeFontSize}
                 changeFontFamily={this.changeFontFamily}
+                applyFontSize={this.applyFontSize}
                 onTextColorAuto={this.onTextColorAuto}
                 onTextColor={this.onTextColor}
                 onHighlightColor={this.onHighlightColor}

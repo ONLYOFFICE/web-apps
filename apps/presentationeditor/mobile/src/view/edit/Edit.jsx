@@ -3,7 +3,7 @@ import { Popover, Sheet, View, f7 } from 'framework7-react';
 import { Device } from '../../../../../common/mobile/utils/device';
 import { EditLinkController } from "../../controller/edit/EditLink";
 import { Theme, Layout, Transition, Type, Effect, StyleFillColor, CustomFillColor } from './EditSlide';
-import { PageTextFonts, PageTextFontColor, PageTextHighlightColor, PageTextCustomFontColor, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextDirection, PageTextLineSpacing, PageTextBulletsLinkSettings, PageOrientationTextShape, PageOrientationTextTable } from './EditText';
+import { PageTextFonts, PageTextCustomFontSize, PageTextFontColor, PageTextHighlightColor, PageTextCustomFontColor, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextDirection, PageTextLineSpacing, PageTextBulletsLinkSettings, PageOrientationTextShape, PageOrientationTextTable } from './EditText';
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageAlignContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 import { PageImageReplace, PageImageReorder, PageImageAlign, PageLinkSettings } from './EditImage';
 import { PageTableStyle, PageTableStyleOptions, PageTableCustomFillColor, PageTableBorderColor, PageTableCustomBorderColor, PageTableReorder, PageTableAlign, PageTableSize } from './EditTable';
@@ -53,6 +53,10 @@ const routes = [
     {
         path: '/edit-text-fonts/',
         component: PageTextFonts
+    },
+    {
+        path: '/edit-text-size-custom/',
+        component: PageTextCustomFontSize,
     },
     {
         path: '/edit-text-font-color/',

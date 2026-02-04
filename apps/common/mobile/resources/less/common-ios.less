@@ -693,8 +693,77 @@
     .sheet-modal, .dropdown-list-popup {
         box-shadow: 0 8px 28px 0 rgba(0, 0, 0, 0.16);
     }
-    
+         
+    #edit-popover.edit-custom-font-size {
+        .navbar-inner { 
+            background-color: @background-tertiary; 
+        }
 
+        .view { 
+            height: 100px !important; 
+        }  
+
+        .item-input.item-content {
+            max-height: 20px;
+        }
+
+        li:last-child:after {
+            display: none !important;
+        }
+    }
+
+    .list .item-link.size-label {
+        padding: 5px 10px;
+        border-radius: 8px !important;
+        color: @text-normal;
+        background-color: @background-tertiary;
+    }
+
+    .list.font .item-after {
+        align-items: center;
+    }
+
+    .segmented.font-size-stepper {
+        .button {
+            border: none !important;
+            font-size: 24px;
+            color: @text-normal;
+            background-color: @background-tertiary;
+        }
+
+        .decrement.button { 
+            border-radius: 8px 0 0 8px; 
+        }
+
+        .increment.button { 
+            border-radius: 0 8px 8px 0; 
+        }
+
+        .button + .button::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 6px;
+            bottom: 6px;
+            width: 2px;
+            background-color: @background-menu-divider;
+        }
+    }
+
+    .page-custom-font-size .item-content.item-input {
+        .item-inner {
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .item-title.item-label {
+            font-size: initial;
+        }
+
+        .item-input-wrap input {
+            text-align: right; 
+        }
+    }
 }
 
 

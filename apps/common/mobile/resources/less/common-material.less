@@ -773,4 +773,32 @@
         box-shadow:0 3.75px 11px 0 rgba(0, 0, 0, 0.19),
                 0 0.5px  5px  0 rgba(0, 0, 0, 0.039);
     }
+
+    
+    #edit-popover.edit-custom-font-size {
+        .view {
+            height: 128px !important;
+        }
+
+        .item-input.item-content {
+            padding-bottom: 15px !important;
+        }
+
+        .item-input-with-value::after {
+            bottom: 15px !important;
+        }
+
+        .list .item-inner {
+            padding-top: 0 !important;
+        }
+    }
+
+    .list .item-link.size-label {
+        padding: 5px;
+        border-radius: 4px !important;
+        overflow: initial;
+        font-size: 16px;
+        color: @text-normal;
+        background-color: @background-tertiary;
+    }
 }

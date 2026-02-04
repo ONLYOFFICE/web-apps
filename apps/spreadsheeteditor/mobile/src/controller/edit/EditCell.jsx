@@ -242,6 +242,17 @@ class EditCellController extends Component {
         api.asc_setCellReadingOrder(direction);
     }
 
+    applyFontSize(size) {
+        const api = Common.EditorApi.get();
+        if (!api || typeof api.asc_setCellFontSize !== 'function') return;
+
+        let fontSize = Number(size);
+        if (!Number.isFinite(fontSize)) return;
+
+        fontSize = Math.max(1, Math.min(300, Math.round(fontSize)));
+        api.asc_setCellFontSize(fontSize);
+    }
+
     render () {
         return (
             <EditCell 
@@ -266,6 +277,7 @@ class EditCellController extends Component {
                 onTextColorAuto={this.onTextColorAuto}
                 setCustomFormat={this.setCustomFormat}
                 setRtlTextdDirection={this.setRtlTextdDirection}
+                applyFontSize={this.applyFontSize}
             />
         )
     }
