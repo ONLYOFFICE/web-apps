@@ -282,32 +282,43 @@ define([
                     }
                 }
             }
-            if (this.mode && this.mode.isEdit && this.mode.isPDFEdit) {
-                var i = -1,
-                    in_equation = false,
-                    in_chart = false,
-                    no_paragraph = true,
-                    locked = false;
-                while (++i < selectedElements.length) {
-                    var type = selectedElements[i].get_ObjectType();
-                    if (type === Asc.c_oAscTypeSelectElement.Math) {
-                        in_equation = true;
-                    } else if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
-                        var value = selectedElements[i].get_ObjectValue();
-                        value && (locked = locked || value.get_Locked());
-                        no_paragraph = false;
-                    } else if (type === Asc.c_oAscTypeSelectElement.Shape) { // shape
-                        var value = selectedElements[i].get_ObjectValue();
-                        if (value && value.get_FromChart()) {
-                            in_chart = true;
-                            locked = locked || value.get_Locked();
-                        }
-                        if (value && !value.get_FromImage() && !value.get_FromChart())
-                            no_paragraph = false;
-                    } else if (type == Asc.c_oAscTypeSelectElement.Table) {
-                        no_paragraph = false;
+
+            var i = -1,
+                in_equation = false,
+                in_chart = false,
+                no_paragraph = true,
+                page_edit_text = false,
+                locked = false;
+            while (++i < selectedElements.length) {
+                var type = selectedElements[i].get_ObjectType();
+                if (type === Asc.c_oAscTypeSelectElement.Math) {
+                    in_equation = true;
+                } else if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
+                    var value = selectedElements[i].get_ObjectValue();
+                    value && (locked = locked || value.get_Locked());
+                    no_paragraph = false;
+                } else if (type === Asc.c_oAscTypeSelectElement.Shape) { // shape
+                    var value = selectedElements[i].get_ObjectValue();
+                    if (value && value.get_FromChart()) {
+                        in_chart = true;
+                        locked = locked || value.get_Locked();
                     }
+                    if (value && !value.get_FromImage() && !value.get_FromChart())
+                        no_paragraph = false;
+                } else if (type == Asc.c_oAscTypeSelectElement.Table) {
+                    no_paragraph = false;
                 }
+                else if (type == Asc.c_oAscTypeSelectElement.PdfPage) {
+                    var value = selectedElements[i].get_ObjectValue();
+                    page_edit_text = value.asc_getEditLock();
+                }
+            }
+            if (page_edit_text && me.documentHolder.btnEditText && me.documentHolder.btnEditText.cmpEl) {
+                me.documentHolder.btnEditText.cmpEl.parent().hide().prev('.separator').hide();
+            } else if (!page_edit_text && me.documentHolder.btnEditText && me.documentHolder.btnEditText.cmpEl){
+                me.documentHolder.btnEditText.cmpEl.parent().show().prev('.separator').show();
+            }
+            if (this.mode && this.mode.isEdit && this.mode.isPDFEdit) {
                 if (in_equation) {
                     this._state.equationLocked = locked;
                     this.disableEquationBar();
