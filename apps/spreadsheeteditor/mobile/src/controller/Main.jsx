@@ -602,9 +602,6 @@ class MainController extends Component {
         });
 
         this.api.asc_registerCallback('asc_onNeedUpdateExternalReferenceOnOpen', this.onNeedUpdateExternalReference.bind(this));
-
-        const storeAppOptions = this.props.storeAppOptions;
-        this.api.asc_setFilteringMode && this.api.asc_setFilteringMode(storeAppOptions.canModifyFilter);
     }
 
     insertImageFromStorage (data) {
@@ -819,6 +816,8 @@ class MainController extends Component {
 
         Common.Notifications.trigger('preloader:close');
         Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.ApplyEditRights);
+
+        this.api.asc_setFilteringMode && this.api.asc_setFilteringMode(appOptions.canModifyFilter);
 
         if (!this._isDocReady) {
             Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
