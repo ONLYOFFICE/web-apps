@@ -180,8 +180,8 @@ define([
 
                     'hints:resolve-bounds': function (p) {
                         if (p && me.isMoreDropdownSection(p.section)) {
-                        p.top = 0;
-                        p.bottom = p.docH;
+                            p.top = 0;
+                            p.bottom = p.docH;
                         }
                     },
 
