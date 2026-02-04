@@ -334,8 +334,6 @@ class MainController extends Component {
                 const appOptions = this.props.storeAppOptions;
                 appOptions.setPermissionOptions(this.document, licType, params, this.permissions, EditorUIController.isSupportEditFeature());
 
-                this.api.asc_setFilteringMode && this.api.asc_setFilteringMode(appOptions.canModifyFilter);
-
                 this.applyMode(appOptions);
 
                 this._isPermissionsInited = true;
@@ -818,6 +816,8 @@ class MainController extends Component {
 
         Common.Notifications.trigger('preloader:close');
         Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.ApplyEditRights);
+
+        this.api.asc_setFilteringMode && this.api.asc_setFilteringMode(appOptions.canModifyFilter);
 
         if (!this._isDocReady) {
             Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
