@@ -185,7 +185,7 @@ define([], function () { 'use strict';
             var isvalid = true,
                 txtError = '',
                 value;
-            value = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtCellRef.getValue(), true);
+            value = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Solver_CellReference, this.txtCellRef.getValue(), true);
             if (value != Asc.c_oAscError.ID.No) {
                 txtError = this.txtNotValidRef;
                 isvalid = false;
@@ -204,6 +204,10 @@ define([], function () { 'use strict';
                 if (value !== Asc.c_oAscError.ID.No) {
                     if (value === Asc.c_oAscError.ID.DataConstraintError) {
                         txtError = this.textDataConstraint;
+                    } else if (value === Asc.c_oAscError.ID.TooManyCells) {
+                        txtError = this.textTooManyCells;
+                    } else if (value === Asc.c_oAscError.ID.UnequalCellsNumber) {
+                        txtError = this.textUnequalCellsNumber;
                     }
                     isvalid = false;
                 }

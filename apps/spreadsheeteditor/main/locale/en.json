@@ -2791,6 +2791,8 @@
   "SSE.Views.ConstraintDialog.txtNotValidRef": "Cell reference is empty or contents are not valid.",
   "SSE.Views.ConstraintDialog.txtTitle": "Add constraint",
   "SSE.Views.ConstraintDialog.txtTitleChange": "Change constraint",
+  "SSE.Views.ConstraintDialog.textTooManyCells": "Too many cells",
+  "SSE.Views.ConstraintDialog.textUnequalCellsNumber": "Unequal number of cells in Cell Reference and Constraint",
   "SSE.Views.CreatePivotDialog.textDataRange": "Source data range",
   "SSE.Views.CreatePivotDialog.textDestination": "Choose where to place the table",
   "SSE.Views.CreatePivotDialog.textExist": "Existing sheet",
