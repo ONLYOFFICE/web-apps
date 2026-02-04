@@ -963,7 +963,7 @@ define([
 
                     if (!this.isShowOpenDialog) {
                         this.api.asc_enableKeyEvents(false);
-                        this.loadMask.show();
+                        this.loadMask.show(action.id === Asc.c_oAscAsyncAction['Open']);
                     }
                 } else {
                     this.getApplication().getController('Statusbar').setStatusCaption(text, force, 0, statusCallback);
