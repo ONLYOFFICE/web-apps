@@ -107,12 +107,11 @@ class ContextMenuController extends Component {
             const subNav = document.querySelector('.subnavbar');
             const rect = subNav.getBoundingClientRect();
 
-            this.setState({
-                items: this.initMenuItems(),
-                extraItems: this.initExtraItems()
-            });
+            const items = this.initMenuItems();
+            const extraItems = this.initExtraItems();
+            this.setState({ items, extraItems });
 
-            if ( this.state.items.length > 0 ) {
+            if ( items.length > 0 ) {
                 const api = Common.EditorApi.get();
     
                 this.$targetEl.css({left: `${x}px`, top: y < rect.bottom ? `${rect.bottom}px` : `${y}px`});
