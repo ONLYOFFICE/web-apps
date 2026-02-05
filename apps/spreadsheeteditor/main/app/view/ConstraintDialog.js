@@ -187,7 +187,11 @@ define([], function () { 'use strict';
                 value;
             value = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Solver_CellReference, this.txtCellRef.getValue(), true);
             if (value != Asc.c_oAscError.ID.No) {
-                txtError = this.txtNotValidRef;
+                if (value === Asc.c_oAscError.ID.TooManyCells) {
+                    txtError = this.textTooManyCells;
+                } else {
+                    txtError = this.txtNotValidRef;
+                }
                 isvalid = false;
             }
             if (!isvalid) {
