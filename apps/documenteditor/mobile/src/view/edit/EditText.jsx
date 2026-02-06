@@ -206,7 +206,6 @@ const PageCustomFontSize = (props) => {
     const displaySize = props.initialValue ?? 0;
     const [value, setValue] = useState(String(displaySize));
 
-
     const valueRef = useRef(value);
     useEffect(() => { valueRef.current = value; }, [value]);
 
@@ -216,17 +215,21 @@ const PageCustomFontSize = (props) => {
         props.applyFontSize(size);
     };
 
-    useEffect(() => {
+    const toggleCustomClass = (on) => {
         const modalId = Device.phone ? '#edit-sheet' : '#edit-popover';
         const modalEl = document.querySelector(modalId);
         if (!modalEl) return;
+        modalEl.classList.toggle('edit-custom-font-size', on);
+    };
 
-        modalEl.classList.add('edit-custom-font-size');
-        return () => modalEl.classList.remove('edit-custom-font-size');
-    }, []);
+    const focusInput = () => {
+        const el = document.querySelector('.page-custom-font-size input');
+        if (!el) return;
+        el.focus();
+    };
 
     return (
-        <Page className="page-custom-font-size" onPageBeforeOut={() => apply(valueRef.current)}>
+        <Page className="page-custom-font-size"  onPageBeforeIn={() => toggleCustomClass(true)} onPageAfterIn={focusInput} onPageBeforeOut={() => { toggleCustomClass(false); apply(valueRef.current);}}>
             <Navbar title={t('Edit.txtCustom')} backLink="Back">
                 {Device.phone && 
                     <NavRight>
