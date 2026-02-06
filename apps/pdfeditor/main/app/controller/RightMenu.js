@@ -91,6 +91,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Chart] = {panelId: "id-chart-settings",          panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
             // this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: 1, props: {}, locked: false};
             this._settings[Common.Utils.documentSettingsType.Form] = {panelId: "id-form-settings",  panel: rightMenu.formSettings, btn: rightMenu.btnForm,  hidden: 1, props: {}, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Annotation] = {panelId: "id-annotation-settings",  panel: rightMenu.annotationSettings, btn: rightMenu.btnAnnotation,  hidden: 1, props: {}, locked: false};
         },
 
         setApi: function(api) {
@@ -253,6 +254,7 @@ define([
                 this.rightmenu.imageSettings.disableControls(disabled);
                 this.rightmenu.formSettings && this.rightmenu.formSettings.disableControls(disabled);
                 this.rightmenu.chartSettings.disableControls(disabled);
+                this.rightmenu.annotationSettings.disableControls(disabled);
 
                 // if (this.rightmenu.signatureSettings) {
                 //     !allowSignature && this.rightmenu.btnSignature.setDisabled(disabled);
@@ -267,6 +269,7 @@ define([
                     this.rightmenu.btnTextArt.setDisabled(disabled);
                     this.rightmenu.btnForm && this.rightmenu.btnForm.setDisabled(disabled);
                     this.rightmenu.btnChart.setDisabled(disabled);
+                    this.rightmenu.btnAnnotation.setDisabled(disabled);
                     this.rightmenu.setDisabledAllMoreMenuItems(disabled);
                 } else {
                     var selectedElements = this.api.getSelectedElements();
@@ -390,6 +393,8 @@ define([
                     return Common.Utils.documentSettingsType.Chart;
                 case Asc.c_oAscTypeSelectElement.Field:
                     return Common.Utils.documentSettingsType.Form;
+                case Asc.c_oAscTypeSelectElement.Annot:
+                    return Common.Utils.documentSettingsType.Annotation;
             }
         },
 

@@ -3032,5 +3032,14 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Fit to page",
   "PDFE.Views.ViewTab.tipFitToWidth": "Fit to width",
   "PDFE.Views.ViewTab.tipHeadings": "Headings",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface theme"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
+  "PDFE.Views.AnnotationSettings.textBorder": "Border",
+  "PDFE.Views.AnnotationSettings.textColor": "Color",
+  "PDFE.Views.AnnotationSettings.textThickness": "Thickness",
+  "PDFE.Views.AnnotationSettings.textStyle": "Style",
+  "PDFE.Views.AnnotationSettings.textBackgroundColor": "Background color",
+  "PDFE.Views.AnnotationSettings.textOpacity": "Opacity",
+  "PDFE.Views.AnnotationSettings.textLine": "Line",
+  "PDFE.Views.AnnotationSettings.textStart": "Start",
+  "PDFE.Views.AnnotationSettings.textEnd": "End"
 }

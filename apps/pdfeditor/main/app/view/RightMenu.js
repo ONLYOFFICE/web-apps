@@ -55,6 +55,7 @@ define([
     'pdfeditor/main/app/view/TableSettings',
     'pdfeditor/main/app/view/ShapeSettings',
     'pdfeditor/main/app/view/TextArtSettings',
+    'pdfeditor/main/app/view/AnnotationSettings',
     // 'pdfeditor/main/app/view/SignatureSettings',
     'common/main/lib/component/Scroller',
     'common/main/lib/component/ListView',
@@ -130,6 +131,16 @@ define([
                 allowMouseEventsOnDisabled: true
             });
 
+            this.btnAnnotation = new Common.UI.Button({
+                hint: this.txtAnnotationSettings,
+                asctype: Common.Utils.documentSettingsType.Annotation,
+                enableToggle: true,
+                disabled: true,
+                iconCls: 'btn-menu-textart',
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
+            });
+
             this._settings = [];
             this._settings[Common.Utils.documentSettingsType.Paragraph]   = {panel: "id-paragraph-settings",  btn: this.btnText};
             this._settings[Common.Utils.documentSettingsType.Table]       = {panel: "id-table-settings",      btn: this.btnTable};
@@ -137,6 +148,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Shape]       = {panel: "id-shape-settings",      btn: this.btnShape};
             this._settings[Common.Utils.documentSettingsType.Chart]       = {panel: "id-chart-settings",      btn: this.btnChart};
             this._settings[Common.Utils.documentSettingsType.TextArt]     = {panel: "id-textart-settings",    btn: this.btnTextArt};
+            this._settings[Common.Utils.documentSettingsType.Annotation]  = {panel: "id-annotation-settings", btn: this.btnAnnotation};
 
             return this;
         },
@@ -168,12 +180,13 @@ define([
             Common.UI.SideMenu.prototype.render.call(this);
             this.btnMore.menu.menuAlign = 'tr-tl';
 
-            this.btnText.setElement($('#id-right-menu-text'), false);           this.btnText.render();
-            this.btnTable.setElement($('#id-right-menu-table'), false);         this.btnTable.render();
-            this.btnImage.setElement($('#id-right-menu-image'), false);         this.btnImage.render();
-            this.btnChart.setElement($('#id-right-menu-chart'), false);         this.btnChart.render();
-            this.btnShape.setElement($('#id-right-menu-shape'), false);         this.btnShape.render();
-            this.btnTextArt.setElement($('#id-right-menu-textart'), false);     this.btnTextArt.render();
+            this.btnText.setElement($('#id-right-menu-text'), false);                   this.btnText.render();
+            this.btnTable.setElement($('#id-right-menu-table'), false);                 this.btnTable.render();
+            this.btnImage.setElement($('#id-right-menu-image'), false);                 this.btnImage.render();
+            this.btnChart.setElement($('#id-right-menu-chart'), false);                 this.btnChart.render();
+            this.btnShape.setElement($('#id-right-menu-shape'), false);                 this.btnShape.render();
+            this.btnTextArt.setElement($('#id-right-menu-textart'), false);             this.btnTextArt.render();
+            this.btnAnnotation.setElement($('#id-right-menu-annotation'), false);       this.btnAnnotation.render();
 
             this.btnText.on('click',            _.bind(this.onBtnMenuClick, this));
             this.btnTable.on('click',           _.bind(this.onBtnMenuClick, this));
@@ -181,6 +194,7 @@ define([
             this.btnChart.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnShape.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnTextArt.on('click',         _.bind(this.onBtnMenuClick, this));
+            this.btnAnnotation.on('click',         _.bind(this.onBtnMenuClick, this));
 
             this.paragraphSettings = new PDFE.Views.ParagraphSettings();
             this.imageSettings = new PDFE.Views.ImageSettings();
@@ -188,6 +202,7 @@ define([
             this.tableSettings = new PDFE.Views.TableSettings();
             this.shapeSettings = new PDFE.Views.ShapeSettings();
             this.textartSettings = new PDFE.Views.TextArtSettings();
+            this.annotationSettings = new PDFE.Views.AnnotationSettings();
 
             // if (mode && mode.isSignatureSupport) {
             //     this.btnSignature = new Common.UI.Button({
@@ -247,6 +262,7 @@ define([
             this.tableSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this));
             this.shapeSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
             this.textartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
+            this.annotationSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
             // if (this.signatureSettings) this.signatureSettings.setApi(api).on('editcomplete', _.bind( fire, this));
             if (this.formSettings) this.formSettings.setApi(api).on('editcomplete', fire).on('updatescroller', _updateScroller);
         },
@@ -256,6 +272,7 @@ define([
             this.shapeSettings && this.shapeSettings.setMode(mode);
             this.formSettings && this.formSettings.setMode(mode);
             this.chartSettings && this.chartSettings.setMode(mode);
+            this.annotationSettings && this.annotationSettings.setMode(mode);
         },
 
         onBtnMenuClick: function(btn, e) {
@@ -338,7 +355,7 @@ define([
         },
 
         setButtons: function () {
-            var allButtons = [this.btnShape, this.btnImage, this.btnText, this.btnTable, this.btnTextArt, this.btnChart/*, this.btnSignature*/, this.btnForm];
+            var allButtons = [this.btnShape, this.btnImage, this.btnText, this.btnTable, this.btnTextArt, this.btnChart/*, this.btnSignature*/, this.btnForm, this.btnAnnotation];
             Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 
@@ -361,7 +378,8 @@ define([
         txtTextArtSettings:         'Text Art Settings',
         txtChartSettings:           'Chart Settings',
         txtSignatureSettings:       'Signature Settings',
-        ariaRightMenu:               'Right menu',
-        txtFormSettings:            'Form Settings'
+        ariaRightMenu:              'Right menu',
+        txtFormSettings:            'Form Settings',
+        txtAnnotationSettings:      'Annotation Settings'
     }, PDFE.Views.RightMenu || {}));
 });
