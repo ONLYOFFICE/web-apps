@@ -837,6 +837,8 @@ define([
                     this.$window.show();
                 }
 
+                this.$window.find('.listview').parent().addClass('no-borders');
+
                 $(document).on('keydown.' + this.cid, this.binding.keydown);
                 if(this.initConfig.automove || this.initConfig.autoPosOnResize != 'none'){
                     this.binding.windowresize = _.bind(_onResizeWindow, this);
