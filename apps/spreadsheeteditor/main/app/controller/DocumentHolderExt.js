@@ -3961,6 +3961,8 @@ define([], function () {
         };
 
         dh.onShowSpecialPasteOptions = function(specialPasteShowOptions) {
+            console.log(specialPasteShowOptions)
+            console.log(specialPasteShowOptions.asc_getLastSelectedPasteProperty())
             if (this.permissions && !this.permissions.isEdit) return;
 
             var me                  = this,
@@ -3969,6 +3971,26 @@ define([], function () {
                 pasteContainer = documentHolderView.cmpEl.find('#special-paste-container'),
                 pasteItems = specialPasteShowOptions.asc_getOptions(),
                 isTable = !!specialPasteShowOptions.asc_getContainTables();
+
+            var lastSelected = specialPasteShowOptions.asc_getLastSelectedPasteProperty();
+            if (lastSelected) {
+                var foundItem = null;
+
+                if (me.btnSpecialPaste && me.btnSpecialPaste.menu && me.btnSpecialPaste.menu.items.length > 0) {
+                    for (var i = 0; i < me.btnSpecialPaste.menu.items.length; i++) {
+                        var menuItem = me.btnSpecialPaste.menu.items[i];
+                        if (menuItem.value === lastSelected) {
+                            foundItem = menuItem;
+                            break;
+                        }
+                    }
+                }
+
+                if (foundItem) {
+                    foundItem.setChecked(true, true);
+                    // me._state.lastSpecPasteChecked = foundItem;
+                }
+            }
             if (!pasteItems) return;
 
             // Prepare menu container
@@ -4177,6 +4199,7 @@ define([], function () {
                 setTimeout(function(){menu.hide();}, 100);
             } else {
                 me._state.lastSpecPasteChecked = item;
+                console.log(me._state.lastSpecPasteChecked)
                 var props = new Asc.SpecialPasteProps();
                 props.asc_setProps(item.value);
                 me.api.asc_SpecialPaste(props);

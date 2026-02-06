@@ -18,7 +18,7 @@
             <div class="group small">
                 <div class="elset">
                     <span class="btn-slot split" id="slot-btn-copy"></span>
-                    <span class="btn-slot" id="slot-btn-paste"></span>
+                    <span class="btn-slot split" id="slot-btn-paste"></span>
                 </div>
                 <div class="elset">
                     <span class="btn-slot split" id="slot-btn-undo"></span>
@@ -144,7 +144,6 @@
             </section>
             <section class="panel" data-tab="ins" role="tabpanel" aria-labelledby="ins">
                 <div class="group">
-                    <span class="btn-slot text x-huge" id="slot-btn-paste-options"></span>
                     <span class="btn-slot text x-huge slot-add-pivot"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-instable"></span>
                 </div>
