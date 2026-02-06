@@ -167,10 +167,10 @@ define([
             }
         },
 
-        setMode: function(mode) {
+        setMode: function(mode, tabOptions) {
             this.appConfig = mode;
             this.popoverChanges = new Common.Collections.ReviewChanges();
-            this.view = this.createView('Common.Views.ReviewChanges', { mode: mode });
+            this.view = this.createView('Common.Views.ReviewChanges', { mode: mode, tabOptions: (tabOptions || {}) });
 
             if (!!this.appConfig.sharingSettingsUrl && this.appConfig.sharingSettingsUrl.length || this.appConfig.canRequestSharingSettings) {
                 Common.Gateway.on('showsharingsettings', _.bind(this.changeAccessRights, this));

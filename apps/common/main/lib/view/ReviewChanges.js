@@ -271,6 +271,9 @@ define([
                 Common.UI.BaseView.prototype.initialize.call(this, options);
 
                 this.appConfig = options.mode;
+                this.tabOptions = {
+                    canCommentResolve: options?.tabOptions?.canCommentResolve ?? true
+                }
                 this.lockedControls = [];
                 var filter = Common.localStorage.getKeysFilter();
                 this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
@@ -499,18 +502,20 @@ define([
                         dataHintOffset: 'small'
                     });
                     this.lockedControls.push(this.btnCommentRemove);
-                    this.btnCommentResolve = new Common.UI.Button({
-                        cls: 'btn-toolbar x-huge icon-top',
-                        caption: this.txtCommentResolve,
-                        split: true,
-                        iconCls: 'toolbar__icon btn-resolve-all',
-                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.hideComments, _set['Objects'], _set.lostConnect, _set.docLockView, _set.docLockForms, _set.viewMode, _set.slideMasterMode],
-                        action: 'comment-resolve',
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    this.lockedControls.push(this.btnCommentResolve);
+                    if(this.tabOptions.canCommentResolve) {
+                        this.btnCommentResolve = new Common.UI.Button({
+                            cls: 'btn-toolbar x-huge icon-top',
+                            caption: this.txtCommentResolve,
+                            split: true,
+                            iconCls: 'toolbar__icon btn-resolve-all',
+                            lock: [_set.previewReviewMode, _set.viewFormMode, _set.hideComments, _set['Objects'], _set.lostConnect, _set.docLockView, _set.docLockForms, _set.viewMode, _set.slideMasterMode],
+                            action: 'comment-resolve',
+                            dataHint: '1',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'small'
+                        });
+                        this.lockedControls.push(this.btnCommentResolve);
+                    }
                 }
 
                 if (this.appConfig.isEdit && this.appConfig.canCoAuthoring && this.appConfig.canUseMailMerge) {
