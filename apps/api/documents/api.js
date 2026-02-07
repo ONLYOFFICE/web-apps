@@ -379,6 +379,16 @@
         var _self = this,
             _config = config || {};
 
+        const injected_json = '{{CUSTOMIZATION_OBJECT}}';
+        if (injected_json.substring(2, 22) != 'CUSTOMIZATION_OBJECT') {
+            try {
+                const obj = JSON.parse(injected_json);
+                if (obj) {
+                    extend(DocsAPI.DocEditor.defaultConfig, {editorConfig: {customization: obj}});
+                }
+            } catch (e) {}
+        }
+
         extend(_config, DocsAPI.DocEditor.defaultConfig);
         _config.editorConfig.canUseHistory = _config.events && !!_config.events.onRequestHistory;
         _config.editorConfig.canHistoryClose = _config.events && !!_config.events.onRequestHistoryClose;
