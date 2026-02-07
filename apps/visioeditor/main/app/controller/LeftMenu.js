@@ -382,7 +382,9 @@ define([
         },
 
         clickToolbarPrint: function () {
-            if (this.mode.canPrint)
+            if (this.mode.canPreviewPrint)
+                this.leftMenu.showMenu('file:printpreview');
+            else if (this.mode.canPrint)
                 this.clickMenuFileItem(null, 'print');
         },
 
