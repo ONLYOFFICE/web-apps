@@ -68,6 +68,8 @@ define([
                 this.api.asc_registerCallback('asc_onChangeProtectWorkbook',_.bind(this.onChangeProtectWorkbook, this));
                 this.api.asc_registerCallback('asc_onGoalSeekUpdate',       _.bind(this.onUpdateGoalSeekStatus, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
+                this.api.asc_registerCallback('asc_onSolverResultDlgOpen',_.bind(this.onSolverResultDlgOpen, this));
+                this.api.asc_registerCallback('asc_onSolverTrialDlgOpen',_.bind(this.onSolverTrialDlgOpen, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('protect:wslock',              _.bind(this.onChangeProtectSheet, this));
                 Common.NotificationCenter.on('document:ready',              _.bind(this.onDocumentReady, this));
@@ -92,7 +94,8 @@ define([
                     'data:remduplicates': this.onRemoveDuplicates,
                     'data:datavalidation': this.onDataValidation,
                     'data:fromtext': this.onDataFromText,
-                    'data:goalseek': this.onGoalSeek
+                    'data:goalseek': this.onGoalSeek,
+                    'data:solver': this.onSolver
                 },
                 'Statusbar': {
                     'sheet:changed': this.onApiSheetChanged
@@ -491,6 +494,80 @@ define([
                     Common.NotificationCenter.trigger('edit:complete');
                 }
             })).show();
+        },
+
+        onSolver: function() {
+            var me = this,
+                res;
+            (new SSE.Views.SolverDlg({
+                api: me.api,
+                lang: me.toolbar.mode.lang,
+                props: me.api.asc_GetSolverParams(),
+                handler: function(result, settings) {
+                    res = result;
+                    if (result == 'ok' && settings) {
+                        me.api.asc_StartSolver(settings);
+                    }
+                    Common.NotificationCenter.trigger('edit:complete');
+                }
+            })).on('close', function() {
+                if (res !== 'ok')
+                    me.api.asc_CloseSolver(false);
+            }).show();
+        },
+
+        onSolverResultDlgOpen: function(id) {
+            var me = this,
+                keepSolution = false,
+                openParams = false,
+                win = (new SSE.Views.SolverResultsDlg({
+                    handler: function(dlg, result) {
+                        if (result === 'ok') {
+                            let settings = dlg.getSettings();
+                            keepSolution = settings.keepSolution;
+                            openParams = settings.openParams;
+                        }
+                    }
+                })).on('close', function() {
+                    me.api.asc_CloseSolver(keepSolution);
+                    openParams ? me.onSolver() : Common.NotificationCenter.trigger('edit:complete');
+                });
+            win.show();
+            win.setSettings(id);
+        },
+
+        onSolverTrialDlgOpen: function(id) {
+            var me = this,
+                msg;
+            switch (id) {
+                case AscCommonExcel.c_oAscResultStatus.maxIterationsReached:
+                    msg = this.txtMaxIterations;
+                    break;
+                case AscCommonExcel.c_oAscResultStatus.maxTimeReached:
+                    msg = this.txtMaxTime;
+                    break;
+                case AscCommonExcel.c_oAscResultStatus.maxFeasibleSolutionReached:
+                    msg = this.txtMaxFeasible;
+                    break;
+                case AscCommonExcel.c_oAscResultStatus.maxSubproblemSolutionReached:
+                    msg = this.txtMaxSubproblem;
+                    break;
+            }
+            msg && Common.UI.alert({
+                title: this.txtTrialSolution,
+                msg: msg,
+                buttons: [{
+                    value: 'ok',
+                    caption: this.txtContinue
+                }, {
+                    value: 'cancel',
+                    caption: this.txtStop
+                }],
+                primary: 'ok',
+                callback: function (btn) {
+                    (btn === 'cancel') ? me.api.asc_StopSolver() : me.api.asc_ContinueSolver();
+                }
+            });
         },
 
         onUpdateGoalSeekStatus: function (targetValue, currentValue, iteration, cellName) {

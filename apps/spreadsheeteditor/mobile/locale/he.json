@@ -257,6 +257,7 @@
   "Error": {
     "convertationTimeoutText": "זמן ההמרה חרג מהמגבלה.",
     "criticalErrorExtText": "נא ללחוץ על 'אישור' כדי לחזור לרשימת המסמכים.",
+    "criticalErrorExtTextClose": "יש ללחוץ 'אישור' לסגירת העורך.",
     "criticalErrorTitle": "שגיאה",
     "downloadErrorText": "ההורדה נכשלה.",
     "errNoDuplicates": "לא נמצאו ערכים כפולים.",
@@ -378,7 +379,7 @@
     "uploadImageExtMessage": "פורמט תמונה לא ידוע.",
     "uploadImageFileCountMessage": "לא הועלו תמונות.",
     "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
     "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled."
   },
   "LongActions": {
@@ -428,6 +429,7 @@
   "Statusbar": {
     "notcriticalErrorTitle": "אזהרה",
     "textCancel": "ביטול",
+    "textContinue": "המשך",
     "textDelete": "מחיקה",
     "textDuplicate": "שכפול",
     "textErrNameExists": "גליון עבודה עם שם זה כבר קיים.",
@@ -449,7 +451,6 @@
     "textTabColor": "צבע הכרטיסייה",
     "textUnhide": "בטל הסתרה",
     "textWarnDeleteSheet": "אולי קיימים נתונים בגליון העבודה. להמשיך בפעולה?",
-    "textContinue": "Continue",
     "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
   "Toolbar": {
@@ -535,6 +536,8 @@
       "textAccounting": "חשבונאות",
       "textActualSize": "גודל בפועל",
       "textAddCustomColor": "הוספת צבע מותאם אישית",
+      "textAdditional": "תוספת",
+      "textAdditionalFormatting": "עיצוב נוסף",
       "textAddress": "כתובת",
       "textAlign": "יישור",
       "textAlignBottom": "יישר תחתון",
@@ -544,6 +547,7 @@
       "textAlignRight": "יישור ימינה",
       "textAlignTop": "יישר למעלה",
       "textAllBorders": "כל הגבולות",
+      "textAllCaps": "אותיות גדולות",
       "textAngleClockwise": "זווית בכיוון השעון",
       "textAngleCounterclockwise": "זווית נגד כיוון השעון",
       "textArrange": "סידור",
@@ -554,6 +558,7 @@
       "textAxisPosition": "מיקום ציר",
       "textAxisTitle": "כותרת הציר",
       "textBack": "חזרה",
+      "textBaseline": "קו הבסיס",
       "textBetweenTickMarks": "בין סימונים",
       "textBillions": "מיליארדים",
       "textBorder": "גבול",
@@ -591,6 +596,7 @@
       "textDisplayUnits": "יחידות תצוגה",
       "textDollar": "דולר",
       "textDone": "בוצע",
+      "textDoubleStrikethrough": "חוצה כפול",
       "textEditLink": "עריכת קישור",
       "textEffects": "אפקטים",
       "textEmptyImgUrl": "עליך לציין את כתובת ה-URL של התמונה.",
@@ -639,6 +645,7 @@
       "textLeftBorder": "גבול שמאל",
       "textLeftOverlay": "כיסוי שמאלי",
       "textLegend": "מקרא",
+      "textLetterSpacing": "ריווח אותיות",
       "textLink": "קישור",
       "textLinkSettings": "הגדרות קישור",
       "textLinkType": "סוג קישור",
@@ -696,7 +703,11 @@
       "textShape": "צורה",
       "textSheet": "גיליון",
       "textSize": "גודל",
+      "textSmallCaps": "רישיות קטנות",
+      "textStrikethrough": "חוצה דרך",
       "textStyle": "סגנון",
+      "textSubscript": "כתב תחתי",
+      "textSuperscript": "כתב עילי",
       "textTenMillions": "10 000 000",
       "textTenThousands": "10 000",
       "textText": "טקסט",
@@ -722,17 +733,11 @@
       "txtNotUrl": "שדה זה אמור להיות כתובת אתר בפורמט \"http://www.example.com\"",
       "txtSortHigh2Low": "מיון הגבוה ביותר לנמוך ביותר",
       "txtSortLow2High": "מיון מהנמוך לגבוה ביותר",
-      "textAdditional": "Additional",
-      "textAdditionalFormatting": "Additional formatting",
-      "textAllCaps": "All Caps",
-      "textBaseline": "Baseline",
       "textCapitalization": "Capitalization",
-      "textDoubleStrikethrough": "Double Strikethrough",
-      "textLetterSpacing": "Letter spacing",
-      "textSmallCaps": "Small Caps",
-      "textStrikethrough": "Strikethrough",
-      "textSubscript": "Subscript",
-      "textSuperscript": "Superscript"
+      "textContextTextDirection": "Context",
+      "textLtrTextDirection": "Left-to-right",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "advCSVOptions": "בחירת אפשרויות",
@@ -887,10 +892,12 @@
       "txtVi": "וייטנאמית",
       "txtZh": "סינית",
       "warnDownloadAs": "אם תימשך השמירה בפורמט זה כל התכונות מלבד הטקסט יאבדו.<br>האם להמשיך בוודאות?",
+      "textSheetRtl": "Sheet Right to left",
       "txtSr": "Serbian (Latin)",
       "txtSrcyrl": "Serbian (Cyrillic)",
       "txtZhtw": "Chinese (Traditional)",
       "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+      "textOpenLocation": "Open location",
       "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
     }
   }

@@ -14,6 +14,7 @@
   "PE.ApplicationController.downloadErrorText": "Descărcare eșuată.",
   "PE.ApplicationController.downloadTextText": "Descărcarea prezentării...",
   "PE.ApplicationController.errorAccessDeny": "Nu aveți dreptul să efectuați acțiunea pe care doriți.<br>Contactați administratorul dumneavoastră de Server Documente.",
+  "PE.ApplicationController.errorCopyDisabled": "Din motive de securitate, conținutul acestui document nu poate fi copiat.",
   "PE.ApplicationController.errorDefaultMessage": "Codul de eroare: %1",
   "PE.ApplicationController.errorEditingDownloadas": "S-a produs o eroare în timpul editării documentului.<br>Pentru copierea de rezervă pe PC utilizați opțiunea Descărcare ca",
   "PE.ApplicationController.errorFilePassProtect": "Fișierul este protejat cu parolă și deaceea nu poate fi deschis.",

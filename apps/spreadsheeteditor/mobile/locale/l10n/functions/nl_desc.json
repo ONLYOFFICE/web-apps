@@ -2408,5 +2408,20 @@
 		"a": "(spreadsheet_url; bereik_tekenreeks)",
 		"d": "Importeert een bereik van cellen uit een bepaalde spreadsheet.",
 		"ad": "de URL van de spreadsheet waaruit gegevens worden geïmporteerd!te importeren bereik"
+	},
+	"REGEXTEST": {
+		"a": "(tekst; patroon; [hoofdlettergevoeligheid])",
+		"d": "Controleert of de invoer overeenkomt met het patroon en retourneert WAAR of ONWAAR",
+		"ad": "Is de tekst die u zoekt?!De reguliere expressie die moet worden toegepast!Of de overeenkomst hoofdlettergevoelig is"
+	},
+	"REGEXREPLACE": {
+		"a": "(tekst; patroon; vervanging; [exemplaar]; [hoofdlettergevoeligheid])",
+		"d": "Retourneert 'tekst', met 'vervanging' in plaats van overeenkomsten met 'patroon’",
+		"ad": "' De tekst die u zoekt!De reguliere expressie die moet worden toegepast!De tekenreeks die de overeenkomende subtekenreeks in tekst vervangt. Waar $n wordt weergegeven in de tekenreeks, waarbij $n een geheel getal is, wordt $n vervangen door de nth capture-groep!Welk exemplaar moet worden vervangen. Als het 0 is, worden alle exemplaren vervangen. Een negatieve waarde betekent dat het aantal exemplaren vanaf het einde van de tekst.!Of de overeenkomst hoofdlettergevoelig is"
+	},
+	"REGEXEXTRACT": {
+		"a": "(tekst; patroon; [return_mode]; [hoofdlettergevoeligheid])",
+		"d": "Hiermee worden subtekenreeksen van 'text' geëxtraheerd op basis van het opgegeven REGEX-patroon",
+		"ad": "Is de tekst die u zoekt!De reguliere expressie die moet worden toegepast!Geef op welke overeenkomsten moeten worden geretourneerd!Of de overeenkomst hoofdlettergevoelig is"
 	}
 }

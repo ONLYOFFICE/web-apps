@@ -14,6 +14,7 @@
   "VE.ApplicationController.downloadErrorText": "Sharkimi dështoi.",
   "VE.ApplicationController.downloadTextText": "Dokumenti po shkarkohet...",
   "VE.ApplicationController.errorAccessDeny": "Ju po përpiqeni të kryeni një veprim për të cilin nuk keni të drejta.<br>Ju lutem, kontaktoni administratorin e serverit të dokumenteve. ",
+  "VE.ApplicationController.errorCopyDisabled": "Për arsye sigurie, përmbajtja e këtij dokumenti nuk mund të kopjohet.",
   "VE.ApplicationController.errorDefaultMessage": "Kodi gabim: %1",
   "VE.ApplicationController.errorEditingDownloadas": "Ndodhi një gabim gjatë punës me dokumentin.<br>Përdor opsionin 'Shkarko si' për të ruajtur kopjen rezervë të skedarit në një disk .",
   "VE.ApplicationController.errorFilePassProtect": "Skedari eshte i mbrojtuar me fjalëkalim dhe nuk mund të hapet.",

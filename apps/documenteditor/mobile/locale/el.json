@@ -423,7 +423,10 @@
     "textWrapText": "Αναδίπλωση κειμένου",
     "textYourOption": "Η επιλογή σας",
     "txtHeight": "Ύψος",
-    "txtWidth": "Πλάτος"
+    "txtWidth": "Πλάτος",
+    "textLtrTextDirection": "Left-to-right",
+    "textRtlTextDirection": "Right-to-left",
+    "textTextDirection": "Text Direction"
   },
   "Error": {
     "convertationTimeoutText": "Υπέρβαση χρονικού ορίου μετατροπής.",
@@ -488,7 +491,8 @@
     "uploadDocSizeMessage": "Ξεπεράστηκε το μέγιστο μέγεθος εγγράφου.",
     "uploadImageExtMessage": "Άγνωστη μορφή εικόνας.",
     "uploadImageFileCountMessage": "Δεν μεταφορτώθηκαν εικόνες.",
-    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB."
+    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "Γίνεται φόρτωση δεδομένων...",
@@ -818,7 +822,9 @@
     "txtDownloadTxt": "Λήψη TXT",
     "txtIncorrectPwd": "Το συνθηματικό είναι εσφαλμένο",
     "txtOk": "Εντάξει",
-    "txtProtected": "Μόλις βάλετε το συνθηματικό κι ανοίξετε το αρχείο, θα γίνει επαναφορά του τρέχοντος συνθηματικού."
+    "txtProtected": "Μόλις βάλετε το συνθηματικό κι ανοίξετε το αρχείο, θα γίνει επαναφορά του τρέχοντος συνθηματικού.",
+    "textHyphenation": "Hyphenation",
+    "textOpenLocation": "Open location"
   },
   "Toolbar": {
     "btnRestartNow": "Επανεκκίνηση τώρα",

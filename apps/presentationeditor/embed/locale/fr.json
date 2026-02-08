@@ -40,7 +40,7 @@
   "PE.ApplicationController.titleLicenseNotActive": "Licence non active",
   "PE.ApplicationController.txtClose": "Fermer",
   "PE.ApplicationController.txtNo": "Non",
-  "PE.ApplicationController.txtOpenWarning": "Cliquer sur ce lien peut endommager votre appareil et vos données. Pour protéger votre ordinateur, ne cliquez que sur les liens provenant de sources fiables. Cet emplacement peut être dangereux :<br>%1<br>Voulez-vous continuer ?",
+  "PE.ApplicationController.txtOpenWarning": "Accès via ce lien peut endommager votre appareil et vos données. Pour protéger votre ordinateur, ne cliquez que sur les liens provenant de sources fiables. Cet emplacement peut être dangereux :<br>%1<br>Voulez-vous continuer ?",
   "PE.ApplicationController.txtPressLink": "Cliquez sur le lien pour l'ouvrir",
   "PE.ApplicationController.txtYes": "Oui",
   "PE.ApplicationController.unknownErrorText": "Erreur inconnue.",

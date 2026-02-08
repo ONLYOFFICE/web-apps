@@ -789,6 +789,9 @@ define([
                     if ((!me.btnMailRecepients || !Common.UI.LayoutManager.isElementVisible('toolbar-collaboration-mailmerge')) && separator_last)
                         me.$el.find(separator_last).hide();
 
+//!                 NOTE: conflicted code from branch feature/pdf-history. remove if is not relevant and merge is successful
+//!                    Common.NotificationCenter.trigger('tab:visible', 'review', (window.PDFE && (config.isPDFAnnotate || config.isPDFEdit) || !window.PDFE && (config.isEdit || config.canViewReview || me.canComments))
+//!                                                                                && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration'));
                     var visible = (config.isEdit || config.canViewReview || me.canComments) && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration');
                     Common.NotificationCenter.trigger('tab:visible', 'review', visible);
                     if (Common.Utils.InternalSettings.get('toolbar-active-tab') && visible) { // collaboration tab has hign priority in view mode

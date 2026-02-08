@@ -14,6 +14,7 @@
   "VE.ApplicationController.downloadErrorText": "Загрузка не удалась.",
   "VE.ApplicationController.downloadTextText": "Загрузка документа...",
   "VE.ApplicationController.errorAccessDeny": "Вы пытаетесь выполнить действие, на которое у вас нет прав.<br>Пожалуйста, обратитесь к администратору Сервера документов.",
+  "VE.ApplicationController.errorCopyDisabled": "В целях безопасности содержимое этого документа нельзя скопировать.",
   "VE.ApplicationController.errorDefaultMessage": "Код ошибки: %1",
   "VE.ApplicationController.errorEditingDownloadas": "В ходе работы с документом произошла ошибка.<br>Используйте опцию 'Скачать как', чтобы сохранить резервную копию файла на диск.",
   "VE.ApplicationController.errorFilePassProtect": "Файл защищен паролем и не может быть открыт.",

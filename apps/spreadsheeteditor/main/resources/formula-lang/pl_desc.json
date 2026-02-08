@@ -2408,5 +2408,20 @@
 		"a": "(url_arkusza; ciąg_zakresu)",
 		"d": "Importuje zakres komórek z określonego arkusza kalkulacyjnego.",
 		"ad": "— adres URL arkusza kalkulacyjnego, z którego będą importowane dane!— zakres do zaimportowania"
+	},
+	"REGEXTEST": {
+		"a": "(tekst; wzorzec; [rozróżnianie_wielkości_liter])",
+		"d": "Sprawdza, czy dane wejściowe są zgodne ze wzorcem i zwraca wartość PRAWDA lub FAŁSZ",
+		"ad": "Czy to tekst, w którym wyszukujesz!Wyrażenie regularne do zastosowania!Czy dopasowanie uwzględnia wielkość liter"
+	},
+	"REGEXREPLACE": {
+		"a": "(tekst; wzorzec; zastąpienie; [wystąpienie]; [rozróżnianie_wielkości_liter])",
+		"d": "Zwraca „tekst” o wartości „zastąpienie” zamiast dopasowań ze „wzorcem”",
+		"ad": "Szukany tekst!Wyrażenie regularne do zastosowania!Ciąg, który zastępuje zgodny podciąg w tekście. Gdzie $n pojawia się w ciągu, gdzie $n jest liczbą całkowitą, $n jest zastępowana n-tą grupą przechwytywania!Które wystąpienie ma zostać zamienione. Jeśli wartość to 0, wszystkie wystąpienia zostaną zamienione. Wartość ujemna oznacza liczbę wystąpień od końca tekstu.!Czy w dopasowaniu jest uwzględniana wielkość liter"
+	},
+	"REGEXEXTRACT": {
+		"a": "(tekst; wzorzec; [tryb_zwrotu]; [rozróżnianie_wielkości_liter])",
+		"d": "Wyodrębnia podciągi „tekstu” na podstawie podanego „wzorca” wyrażenia REGEX",
+		"ad": "Czy to tekst, w którym wyszukujesz!Wyrażenie regularne do zastosowania!Określ, które dopasowania mają zostać zwrócone!Czy dopasowanie uwzględnia wielkość liter"
 	}
 }

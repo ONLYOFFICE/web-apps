@@ -179,18 +179,6 @@ define([
                 iconCls: 'menu__icon btn-print'
             });
 
-            this.miPrint = new Common.UI.MenuItem({
-                el      : $markup.elementById('#fm-btn-print'),
-                action  : 'print',
-                caption : this.btnPrintCaption,
-                canFocused: false,
-                dataHint: 1,
-                dataHintDirection: 'left-top',
-                dataHintOffset: [-2, 22],
-                dataHintTitle: 'P',
-                iconCls: 'menu__icon btn-print'
-            });
-
             this.miRename = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-rename'),
                 action  : 'rename',
@@ -266,6 +254,21 @@ define([
                 iconCls: 'menu__icon btn-users-share'
             });
 
+            this.miHistory = new Common.UI.MenuItem({
+                el      : $markup.elementById('#fm-btn-history'),
+                action  : 'history',
+                caption : this.btnHistoryCaption,
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [-2, 22],
+                iconCls: 'menu__icon btn-version-history'
+            });
+            if ( !!this.options.miHistory ) {
+                this.miHistory.setDisabled(this.options.miHistory.isDisabled());
+                delete this.options.miHistory;
+            }
+
             this.miSettings = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-settings'),
                 action  : 'opts',
@@ -318,7 +321,6 @@ define([
                 this.miDownload,
                 this.miSaveCopyAs,
                 this.miSaveAs,
-                this.miPrint,
                 this.miPrintWithPreview,
                 this.miRename,
                 this.miProtect,
@@ -326,6 +328,7 @@ define([
                 this.miNew,
                 this.miInfo,
                 this.miAccess,
+                this.miHistory,
                 this.miSettings,
                 this.miHelp,
                 this.miBack,
@@ -410,8 +413,7 @@ define([
             this.miSaveAs[((this.mode.canDownload || this.mode.canDownloadOrigin) && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
             this.miSave[this.mode.showSaveButton && this.mode.canSaveToFile && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') ?'show':'hide']();
             this.miEdit[!this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights ?'show':'hide']();
-            this.miPrint[this.mode.canPrint && !this.mode.canPreviewPrint ?'show':'hide']();
-            this.miPrintWithPreview[this.mode.canPreviewPrint?'show':'hide']();
+            this.miPrintWithPreview[this.mode.canPrint?'show':'hide']();
             this.miRename[(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
             this.miProtect[(this.mode.isSignatureSupport || this.mode.isPasswordSupport) ?'show':'hide']();
 
@@ -424,6 +426,12 @@ define([
                         (this.document.info.sharingSettings&&this.document.info.sharingSettings.length>0 ||
                         (this.mode.sharingSettingsUrl&&this.mode.sharingSettingsUrl.length || this.mode.canRequestSharingSettings));
             this.miAccess[isVisible?'show':'hide']();
+
+            isVisible = this.mode.canUseHistory&&!this.mode.isDisconnected;
+            // separatorVisible = separatorVisible || isVisible;
+            this.miHistory[isVisible?'show':'hide']();
+            // this.miHistory.$el.find('+.devider')[separatorVisible?'show':'hide']();
+            // separatorVisible && (lastSeparator = this.miHistory.$el.find('+.devider'));
 
             isVisible = Common.UI.LayoutManager.isElementVisible('toolbar-file-settings');
             this.miSettings[isVisible?'show':'hide']();
@@ -476,7 +484,7 @@ define([
                 this.panels['help'].setLangConfig(this.mode.lang);
             }
 
-            if (this.mode.canPreviewPrint) {
+            if (this.mode.canPrint) {
                 var printPanel = PDFE.getController('Print').getView('PrintWithPreview');
                 printPanel.menu = this;
                 !this.panels['printpreview'] && (this.panels['printpreview'] = printPanel.render(this.$el.find('#panel-print')));
@@ -658,9 +666,11 @@ define([
         },
 
         SetDisabled: function(disable, options) {
-            var _btn_protect = this.getButton('protect');
+            var _btn_protect = this.getButton('protect'),
+                _btn_history = this.getButton('history');
 
             options && options.protect && _btn_protect.setDisabled(disable);
+            options && options.history && _btn_history.setDisabled(disable);
             options && options.info && (this.panels ? this.panels['info'].setPreviewMode(disable) : this._state.infoPreviewMode = disable );
         },
 
@@ -678,6 +688,9 @@ define([
                 } else
                 if (type == 'protect') {
                     return this.options.miProtect ? this.options.miProtect : (this.options.miProtect = new Common.UI.MenuItem({}));
+                } else
+                if (type == 'history') {
+                    return this.options.miHistory ? this.options.miHistory : (this.options.miHistory = new Common.UI.MenuItem({}));
                 }
             } else {
                 if (type == 'save') {
@@ -688,6 +701,9 @@ define([
                 }else
                 if (type == 'protect') {
                     return this.miProtect;
+                }else
+                if (type == 'history') {
+                    return this.miHistory;
                 }
             }
         },
@@ -713,6 +729,7 @@ define([
         btnExitCaption          : 'Exit',
         btnFileOpenCaption      : 'Open...',
         btnCloseEditor          : 'Close File',
-        ariaFileMenu            : 'File menu'
+        ariaFileMenu            : 'File menu',
+        btnHistoryCaption       : 'Versions History'
     }, PDFE.Views.FileMenu || {}));
 });

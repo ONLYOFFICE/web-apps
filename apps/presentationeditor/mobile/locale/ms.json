@@ -83,6 +83,7 @@
     "textOk": "Okey",
     "textRows": "Baris",
     "txtWarnUrl": "Mengklik pautan ini boleh membahayakan peranti dan data anda.<br>Adakah anda mahu meneruskan?",
+    "menuDuplicate": "Duplicate",
     "menuEditLink": "Edit Link"
   },
   "Controller": {
@@ -222,6 +223,7 @@
     "uploadImageSizeMessage": "Imej terlalu besar. Saiz maksimum adalah 25 MB.",
     "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorComboSeries": "To create a combination chart, select at least two series of data.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
     "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorEmailClient": "No email client could be found",
     "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
@@ -473,6 +475,7 @@
       "textZoomOut": "Zum Keluar",
       "textZoomRotate": "Zum dan Putar",
       "textArrange": "Arrange",
+      "textBackground": "Background",
       "textBaseline": "Baseline",
       "textCancel": "Cancel",
       "textCapitalization": "Capitalization",
@@ -483,6 +486,7 @@
       "textHorizontalText": "Horizontal Text",
       "textInsertImage": "Insert Image",
       "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textLtrTextDirection": "Left-to-right",
       "textMorph": "Morph",
       "textMorphLetters": "Letters",
       "textMorphObjects": "Objects",
@@ -490,8 +494,11 @@
       "textNoMatches": "No Matches",
       "textRecommended": "Recommended",
       "textRequired": "Required",
+      "textResetBackground": "Reset background",
       "textRotateTextDown": "Rotate Text Down",
       "textRotateTextUp": "Rotate Text Up",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction",
       "textTextOrientation": "Text Orientation",
       "txtHeight": "Height",
       "txtWidth": "Width"
@@ -559,9 +566,11 @@
       "textClose": "Close",
       "textDark": "Dark",
       "textLight": "Light",
+      "textLoopSlideshow": "Loop slideshow",
       "textNoMatches": "No Matches",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
+      "textOpenLocation": "Open location",
       "textVersionHistory": "Version History"
     }
   },

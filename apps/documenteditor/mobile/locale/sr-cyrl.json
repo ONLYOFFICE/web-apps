@@ -415,6 +415,9 @@
     "textCapitalization": "Capitalization",
     "textCellOptions": "Cell options",
     "textCellSize": "Rows & columns size",
+    "textLtrTextDirection": "Left-to-right",
+    "textRtlTextDirection": "Right-to-left",
+    "textTextDirection": "Text Direction",
     "textWrapText": "Wrap Text",
     "txtHeight": "Height",
     "txtWidth": "Width"
@@ -482,6 +485,7 @@
     "uploadImageFileCountMessage": "Нема отпремљених слика.",
     "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ.",
     "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
     "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
   },
   "LongActions": {
@@ -812,7 +816,9 @@
     "txtIncorrectPwd": "Лозинка је нетачна",
     "txtOk": "OK",
     "txtProtected": "Када укуцате лозинку и отворите фајл, тренутна лозинка ће бити ресетована",
-    "textDrawing": "Drawing"
+    "textDrawing": "Drawing",
+    "textHyphenation": "Hyphenation",
+    "textOpenLocation": "Open location"
   },
   "Toolbar": {
     "btnSend": "Пошаљи",

@@ -83,7 +83,8 @@
     "textDoNotShowAgain": "אל תציג שוב",
     "textOk": "בסדר",
     "textRows": "שורות",
-    "txtWarnUrl": "לחיצה על קישור זה עלולה להזיק למכשיר ולנתונים שלך.<br>האם אתה בטוח שאתה רוצה להמשיך?"
+    "txtWarnUrl": "לחיצה על קישור זה עלולה להזיק למכשיר ולנתונים שלך.<br>האם אתה בטוח שאתה רוצה להמשיך?",
+    "menuDuplicate": "Duplicate"
   },
   "Controller": {
     "Main": {
@@ -192,6 +193,7 @@
   "Error": {
     "convertationTimeoutText": "זמן ההמרה חרג מהמגבלה.",
     "criticalErrorExtText": "לחץ על 'אישור' כדי לחזור לרשימת המסמכים.",
+    "criticalErrorExtTextClose": "יש ללחוץ 'אישור' לסגירת העורך.",
     "criticalErrorTitle": "שגיאה",
     "downloadErrorText": "ההורדה נכשלה.",
     "errorAccessDeny": "אתה מנסה לבצע פעולה ללא הרשאה.<br>אנא צור קשר עם מנהל המערכת שלך.",
@@ -240,7 +242,7 @@
     "uploadImageExtMessage": "פורמט תמונה לא ידוע.",
     "uploadImageFileCountMessage": "לא הועלו תמונות.",
     "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "טעינת נתונים...",
@@ -355,6 +357,7 @@
       "textBack": "חזרה",
       "textBandedColumn": "עמודות מקובצות",
       "textBandedRow": "שורות מקובצות",
+      "textBaseline": "קו הבסיס",
       "textBefore": "לפני",
       "textBlack": "דרך שחור",
       "textBorder": "גבול",
@@ -367,6 +370,7 @@
       "textCancel": "ביטול",
       "textCaseSensitive": "רגיש רישיות",
       "textCellMargins": "שולי תאים",
+      "textCellSize": "גודל תא",
       "textChangeShape": "שינוי צורה",
       "textChart": "תרשים",
       "textClock": "שעון",
@@ -496,11 +500,14 @@
       "textZoomIn": "התמקד פנימה",
       "textZoomOut": "התמקד החוצה",
       "textZoomRotate": "התמקד וסובב",
-      "textBaseline": "Baseline",
+      "txtHeight": "גובה",
+      "txtWidth": "רוחב",
+      "textBackground": "Background",
       "textCapitalization": "Capitalization",
-      "textCellSize": "Cell size",
-      "txtHeight": "Height",
-      "txtWidth": "Width"
+      "textLtrTextDirection": "Left-to-right",
+      "textResetBackground": "Reset background",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "mniSlideStandard": "סטנדרטי (4: 3)",
@@ -568,7 +575,9 @@
       "textUnitOfMeasurement": "יחידת מדידה",
       "textUploaded": "נטען",
       "textVersion": "גרסה",
-      "textVersionHistory": "היסטוריית גרסאות"
+      "textVersionHistory": "היסטוריית גרסאות",
+      "textLoopSlideshow": "Loop slideshow",
+      "textOpenLocation": "Open location"
     }
   }
 }

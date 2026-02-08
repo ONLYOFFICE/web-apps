@@ -83,7 +83,8 @@
     "textDoNotShowAgain": "Не показуј поново",
     "textOk": "OK",
     "textRows": "Редови",
-    "txtWarnUrl": "Кликнути на овај линк може бити штетно за ваш уређај и податке.<br>Да ли сте сигурни да желите да наставите?"
+    "txtWarnUrl": "Кликнути на овај линк може бити штетно за ваш уређај и податке.<br>Да ли сте сигурни да желите да наставите?",
+    "menuDuplicate": "Duplicate"
   },
   "Controller": {
     "Main": {
@@ -234,7 +235,8 @@
     "uploadImageExtMessage": "Непознати формат слике.",
     "uploadImageFileCountMessage": "Нема отпремљених слика.",
     "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "Учитавање података...",
@@ -490,9 +492,14 @@
       "textZoomIn": "Зумирај унутра",
       "textZoomOut": "Зумирај споља",
       "textZoomRotate": "Зумирај и ротирај",
+      "textBackground": "Background",
       "textBaseline": "Baseline",
       "textCapitalization": "Capitalization",
       "textCellSize": "Cell size",
+      "textLtrTextDirection": "Left-to-right",
+      "textResetBackground": "Reset background",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction",
       "txtHeight": "Height",
       "txtWidth": "Width"
     },
@@ -562,7 +569,9 @@
       "textUnitOfMeasurement": "Јединица мере",
       "textUploaded": "Отпремљено",
       "textVersion": "Верзија",
-      "textVersionHistory": "Историја верзија"
+      "textVersionHistory": "Историја верзија",
+      "textLoopSlideshow": "Loop slideshow",
+      "textOpenLocation": "Open location"
     }
   },
   "Draw": {

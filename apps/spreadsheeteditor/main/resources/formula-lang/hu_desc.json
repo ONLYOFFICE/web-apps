@@ -2407,5 +2407,20 @@
 	"IMPORTRANGE": {
 		"a": "(táblázat_url-címe, tartomány_karakterlánca)",
 		"d": "Cellatartományt importál a megadott táblázatból."
+	},
+	"REGEXTEST": {
+		"a": "(szöveg; minta; [kisbetűk_nagybetűk])",
+		"d": "Ellenőrzi, hogy a bemenet megfelel-e a mintának, és IGAZ vagy HAMIS értéket ad vissza",
+		"ad": "Ebben a szövegben keres!Az alkalmazandó reguláris kifejezés!Azt jelzi, hogy a találat megkülönbözteti-e a kis- és nagybetűt"
+	},
+	"REGEXREPLACE": {
+		"a": "(szöveg; minta; csere; [előfordulás]; [kisbetűk_nagybetűk])",
+		"d": "A „szöveg” értéket adja vissza a „pattern” találatai helyén a „csere” értékkel",
+		"ad": "A keresett szöveg!Az alkalmazandó reguláris kifejezés!Az a karakterlánc, amely lecseréli a megfelelő karakterlánc-részletet a szövegben. Ahol $n jelenik meg a karakterláncban, ahol $n egész szám, $n az nth rögzítési csoportra cseréli!Melyik előfordulást kell lecserélni. Ha 0, az összes előfordulás lecserélődik. A negatív érték azt jelenti, hogy az előfordulások száma a szöveg végéről számolandó.!Hogy az egyezés megkülönbözteti-e a kis- és nagybetűket"
+	},
+	"REGEXEXTRACT": {
+		"a": "(szöveg; minta; [vissza_mód]; [kisbetűk_nagybetűk])",
+		"d": "Kinyeri a \"text\" karakterláncrészeit a megadott REGEX \"minta\" alapján",
+		"ad": "Ebben a szövegben keres!Az alkalmazandó reguláris kifejezés!Adja meg a visszaadandó találatokat!Azt jelzi, hogy a találat megkülönbözteti-e a kis- és nagybetűt"
 	}
 }

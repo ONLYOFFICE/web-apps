@@ -92,14 +92,13 @@ define([
             this.printSettings.cmbPaperSize.on('selected', _.bind(this.onPaperSizeSelect, this));
             this.printSettings.cmbPaperOrientation.on('selected', _.bind(this.onPaperOrientSelect, this));
             this.printSettings.cmbPaperMargins.on('selected', _.bind(this.onPaperMarginsSelect, this));
+            this.printSettings.cmbContent.on('selected', _.bind(this.onContentSelect, this));
             this.printSettings.cmbRange.on('selected', _.bind(this.comboRangeChange, this));
             this.printSettings.inputPages.on('changing', _.bind(this.inputPagesChanging, this));
             this.printSettings.inputPages.validation = function(value) {
                 if (!_.isEmpty(value) && /[0-9,\-]/.test(value)) {
                     var res = [],
                         arr = value.split(',');
-                    if (me._isPrint && arr.length>1)
-                        return me.txtPrintRangeSingleRange;
 
                     for (var i=0; i<arr.length; i++) {
                         var item = arr[i];
@@ -134,9 +133,13 @@ define([
                 return me.txtPrintRangeInvalid;
             };
 
+            if(!this.printSettings.cmbPrinter) {
+                this.printSettings.setCmbPaperSizeOptions();
+            }
+
             Common.NotificationCenter.on('window:resize', _.bind(function () {
                 if (this._isPreviewVisible) {
-                    this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
+                    this.drawPrintPreview();
                 }
             }, this));
             Common.NotificationCenter.on('margins:update', _.bind(this.onUpdateLastCustomMargins, this));
@@ -280,7 +283,7 @@ define([
             if (this._navigationPreview.currentPreviewPage > count - 1) {
                 this._navigationPreview.currentPreviewPage = Math.max(0, count - 1);
                 if (this.printSettings && this.printSettings.isVisible()) {
-                    this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
+                    this.drawPrintPreview();
                     this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, count);
                 }
             }
@@ -289,7 +292,7 @@ define([
         onCurrentPage: function(number) {
             this._navigationPreview.currentPreviewPage = number;
             if (this.printSettings && this.printSettings.isVisible()) {
-                this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
+                this.drawPrintPreview();
                 this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
             }
         },
@@ -308,7 +311,8 @@ define([
             this.api.asc_initPrintPreview('print-preview', opts);
 
             this._navigationPreview.currentPreviewPage = this._navigationPreview.currentPage = this.api.getCurrentPage();
-            this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
+            this.adjPrintParams.asc_setPdfContent(this.printSettings.cmbContent.getValue());
+            this.drawPrintPreview();
             this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
             this.SetDisabled();
             this._isPreviewVisible = true;
@@ -385,6 +389,11 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete');
+        },
+
+        onContentSelect: function(combo, record) {
+            this.adjPrintParams.asc_setPdfContent(record.value);
+            this.drawPrintPreview();
         },
 
         onUpdateLastCustomMargins: function(props) {
@@ -526,6 +535,13 @@ define([
             this.onChangePreviewPage(forward);
         },
 
+        drawPrintPreview: function() {
+            this.api.asc_drawPrintPreview(
+                this._navigationPreview.currentPreviewPage, 
+                this.adjPrintParams.asc_getPdfContent()
+            );
+        },
+
         updateNavigationButtons: function (page, count) {
             this._navigationPreview.currentPage = page;
             this.printSettings.updateCurrentPage(page);
@@ -553,26 +569,37 @@ define([
                 this.isInputFirstChange = true;
                 return;
             }
-            if (this.printSettings.cmbRange.getValue()==='all')
-                this._state.firstPrintPage = 0;
-            else if (this.printSettings.cmbRange.getValue()==='current')
-                this._state.firstPrintPage = this._navigationPreview.currentPage;
 
-            var size = this.api.asc_getPageSize(this._state.firstPrintPage);
-            var printerOption = this.printSettings.cmbPrinter.getSelectedRecord();
+            let pages; 
+            if(this.printSettings.cmbRange.getValue() === -1) {
+                pages = this.printSettings.inputPages.getValue();
+            } else if (this.printSettings.cmbRange.getValue() === 'all') {
+                pages = 'all';
+                this._state.firstPrintPage = 0;
+            } else if (this.printSettings.cmbRange.getValue() === 'current') {
+                pages = String(this._navigationPreview.currentPage + 1);
+                this._state.firstPrintPage = this._navigationPreview.currentPage;
+            }
+
+            var size = this.api.asc_getPageSize(this._state.firstPrintPage),
+                printerOption = (this.printSettings.cmbPrinter ? this.printSettings.cmbPrinter.getSelectedRecord() : null),
+                colorPrintingValue = this.printSettings.cmbColorPrinting
+                    ? this.printSettings.cmbColorPrinting.getValue()
+                    : null;
+
             this.adjPrintParams.asc_setNativeOptions({
                 usesystemdialog: useSystemDialog,
                 printer: printerOption ? printerOption.value : null,
-                colorMode: this.printSettings.cmbColorPrinting.getValue() === 'color',
-                pages: this.printSettings.cmbRange.getValue()===-1 ? this.printSettings.inputPages.getValue() : this.printSettings.cmbRange.getValue(),
+                colorMode: colorPrintingValue === 'color',
+                pages: pages,
                 paperSize: {
                     w: size ? size['W'] : undefined,
                     h: size ? size['H'] : undefined,
                     preset: size ? this.findPagePreset(size['W'], size['H']) : undefined
                 },
                 paperOrientation: size ? (size['H'] > size['W'] ? 'portrait' : 'landscape') : null,
-                copies: this.printSettings.spnCopies.getNumberValue() || 1,
-                sides: this.printSettings.cmbSides.getValue()
+                copies: this.printSettings.spnCopies ? this.printSettings.spnCopies.getNumberValue() || 1 : 1,
+                sides: this.printSettings.cmbSides ? this.printSettings.cmbSides.getValue() : 'one'
             });
 
             this.printSettings.menu.hide();
@@ -619,7 +646,6 @@ define([
 
         txtCustom: 'Custom',
         txtPrintRangeInvalid: 'Invalid print range',
-        textMarginsLast: 'Last Custom',
-        txtPrintRangeSingleRange: 'Enter either a single page number or a single page range (for example, 5-12). Or you can Print to PDF.'
+        textMarginsLast: 'Last Custom'
     }, PDFE.Controllers.Print || {}));
 });
