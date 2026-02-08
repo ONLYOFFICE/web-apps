@@ -2408,5 +2408,20 @@
 		"a": "(spreadsheet_url, range_string)",
 		"d": "Imports a range of cells from a specified spreadsheet.",
 		"ad": "is the URL of the spreadsheet from where data will be imported!is the range to import"
+	},
+	"REGEXTEST": {
+		"a": "(text, pattern, [case_sensitivity])",
+		"d": "Checks whether the input matches the pattern, and returns TRUE or FALSE",
+		"ad": "Is the text you are searching within!The regular expression to be applied!Whether the match is case sensitive"
+	},
+	"REGEXREPLACE": {
+		"a": "(text, pattern, replacement, [occurrence], [case_sensitivity])",
+		"d": "Returns 'text', with 'replacement' in place of matches with 'pattern'",
+		"ad": "The text you are searching within!The regular expression to be applied!The string that replaces the matching substring in text. Where $n appears in the string, where $n is a whole number, $n is replaced with the nth capture group!Which occurrence to be replaced. If 0, all occurrences are replaced. A negative value means that number of occurrences from the end of the text.!Whether the match is case sensitive"
+	},
+	"REGEXEXTRACT": {
+		"a": "(text, pattern, [return_mode], [case_sensitivity])",
+		"d": "Extracts substrings of 'text' based on the provided REGEX 'pattern'",
+		"ad": "Is the text you are searching within!The regular expression to be applied!Specify which matches to return!Whether the match is case sensitive"
 	}
 }

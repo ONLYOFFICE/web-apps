@@ -206,7 +206,9 @@ define([
                 is_lockShape: false,
                 isUserProtected: false,
                 showPivotTab: false,
-                showTableDesignTab: false
+                showTableDesignTab: false,
+                showChartTab: false,
+                showSparklineTab: false
             };
             this.binding = {};
 
@@ -510,6 +512,16 @@ define([
 
                 if (toolbar.btnCondFormat.rendered) {
                     toolbar.btnCondFormat.menu.on('show:before',            _.bind(this.onShowBeforeCondFormat, this, this.toolbar, 'toolbar'));
+                }
+                if (toolbar.btnFormatCell.rendered) {
+                    toolbar.btnFormatCell.menu.on('show:before',            _.bind(this.onShowBeforeCellFormat, this, this.toolbar));
+                    toolbar.btnFormatCell.menu.on('item:click',             _.bind(this.onCellFormatMenu, this));
+                    toolbar.mnuRowHeight.menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+                    toolbar.mnuColumnWidth.menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+                    toolbar.mnuHide.menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+                    toolbar.mnuShow.menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+                    toolbar.mnuShowSheets.menu.on('item:click', _.bind(this.onCellFormatMenu, this));
+                    $('#id-toolbar-menu-new-color', this.toolbar.$el).on('click', _.bind(this.onNewTabColor, this)); 
                 }
                 toolbar.btnInsertChartRecommend.on('click',                 _.bind(this.onChartRecommendedClick, this));
                 toolbar.btnFillNumbers.menu.on('item:click',                _.bind(this.onFillNumMenu, this));
@@ -1213,6 +1225,7 @@ define([
                         var range = props.getRange(),
                             isvalid = (!_.isEmpty(range)) ? me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, props.getInRows(), props.getType()) : Asc.c_oAscError.ID.No;
                         if (isvalid == Asc.c_oAscError.ID.No) {
+                            me._state.showChartTab = true;
                             me.api.asc_addChartDrawingObject(props);
                         } else {
                             var msg = me.txtInvalidRange;
@@ -1270,6 +1283,8 @@ define([
                                         me.view && me.view.fireEvent('insertspark', me.view);
                                         if (settings.destination)
                                             me.api.asc_addSparklineGroup(type, settings.source, settings.destination);
+
+                                        me.showSparklineTab = true;
                                     }
                                     Common.NotificationCenter.trigger('edit:complete', me);
                                 }
@@ -1708,6 +1723,142 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Cell delete');
         },
 
+        onShowBeforeCellFormat: function(cmp, item, e) {
+            if (!(e && e.target===e.currentTarget) || !this.toolbar)
+                return;
+
+            let toolbar = this.toolbar,
+                color = null,
+                clr = null;
+
+            toolbar.mnuTabColorToolbarPicker.updateCustomColors();
+
+            color = this.api.asc_getWorksheetTabColor(this.api.asc_getActiveWorksheetIndex());
+            if (color) {
+                if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                    clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
+                } else {
+                    clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                }
+            } else
+                clr = 'transparent';
+            Common.Utils.ThemeColor.selectPickerColorByEffect(clr, toolbar.mnuTabColorToolbarPicker);
+
+            let _set = Common.enumLock,
+                seltype = this.api.asc_getCellInfo().asc_getSelectionType(),
+                type = seltype;
+
+            switch ( seltype ) {
+                case Asc.c_oAscSelectionType.RangeSlicer: type = _set.selSlicer; break;
+                case Asc.c_oAscSelectionType.RangeImage: type = _set.selImage; break;
+                case Asc.c_oAscSelectionType.RangeShape: type = _set.selShape; break;
+                case Asc.c_oAscSelectionType.RangeShapeText: type = _set.selShapeText; break;
+                case Asc.c_oAscSelectionType.RangeChart: type = _set.selChart; break;
+                case Asc.c_oAscSelectionType.RangeChartText: type = _set.selChartText; break;
+            }
+
+            toolbar.lockToolbar(type, type != seltype, {
+                array: [
+                    toolbar.mnuRowHeight,
+                    toolbar.mnuColumnWidth,
+                    toolbar.mniHideRows,
+                    toolbar.mniHideCols,
+                    toolbar.mniShowRows,
+                    toolbar.mniShowCols,
+                    toolbar.mniLockCell
+                ],
+                clear: [_set.selImage, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selSlicer]
+            });
+            toolbar.lockToolbar(_set['FormatRows'], !!this._state.wsProps['FormatRows'], {array: [toolbar.mnuRowHeight, toolbar.mniHideRows, toolbar.mniShowRows]});
+            toolbar.lockToolbar(_set['FormatColumns'], !!this._state.wsProps['FormatColumns'], {array: [toolbar.mnuColumnWidth, toolbar.mniHideCols, toolbar.mniShowCols]});
+            toolbar.lockToolbar(_set.wsLock, this._state.wsLock, {array: [toolbar.mniLockCell]});
+            toolbar.lockToolbar(_set.userProtected, this._state.isUserProtected, {array: [toolbar.mniLockCell]});
+
+            let isdoclocked     = this.api.asc_isWorkbookLocked(),
+                isdocprotected  = this.api.asc_isProtectedWorkbook(),
+                issheetlocked = false,
+                tabIndexes = this.getApplication().getController('Statusbar').getSelectTabs(),
+                me = this;
+            tabIndexes.forEach(function (item) {
+                if (me.api.asc_isWorksheetLockedOrDeleted(item))
+                    issheetlocked = true;
+            });
+
+            toolbar.mniHideSheets.setDisabled(issheetlocked || isdocprotected); // hide sheet
+            toolbar.mnuShowSheets.setDisabled(isdoclocked || isdocprotected); // show sheet
+            toolbar.btnFormatCell.menu.items[6].setDisabled(issheetlocked || isdocprotected); // rename sheet
+            toolbar.btnFormatCell.menu.items[7].setDisabled(issheetlocked || isdocprotected); // move/copy sheet
+            toolbar.btnFormatCell.menu.items[8].setDisabled(issheetlocked || isdocprotected); // tab color
+
+            toolbar.btnFormatCell.menu.items[9].setCaption(this.api.asc_isProtectedSheet() ? toolbar.textUnProtectSheet : toolbar.textProtectSheet); // protect sheet
+            toolbar.btnFormatCell.menu.items[11].setChecked(this.api.asc_getCellInfo().asc_getXfs().asc_getLocked()); // lock cell
+
+            let hiddenItems = SSE.getController('Statusbar').statusbar.getHiddenWorksheets();
+            toolbar.mnuShowSheets.menu.removeAll();
+            toolbar.mnuShowSheets.setVisible(hiddenItems.length);
+            if (hiddenItems.length) {
+                hiddenItems.forEach(item => {
+                    toolbar.mnuShowSheets.menu.addItem(new Common.UI.MenuItem({
+                        style: 'white-space: pre-wrap',
+                        caption: item.label,
+                        value: 'showSheet',
+                        sheetId: item.sheetindex
+                    }))
+                })
+            }
+
+            toolbar.mnuHide.setDisabled(toolbar.mniHideRows.isDisabled() && toolbar.mniHideCols.isDisabled() && toolbar.mniHideSheets.isDisabled());
+            toolbar.mnuShow.setDisabled(toolbar.mniShowRows.isDisabled() && toolbar.mniShowCols.isDisabled() && (hiddenItems.length<1 || toolbar.mnuShowSheets.isDisabled()));
+        },
+
+        onCellFormatMenu: function(menu, item, e) {
+            if (!this.api) return;
+
+            let tabIndex = SSE.getController('Statusbar').getSelectTabs();
+
+            switch (item.value) {
+                case 'row-height':
+                case 'column-width':
+                case 'auto-row-height':
+                case 'auto-column-width':
+                    this.toolbar.fireEvent('cell:size', [menu, item])
+                    break;
+                case 'hideCell':
+                    this.api[item.options.isRowMenu ? 'asc_hideRows' : 'asc_hideColumns']();
+                    break;
+                case 'showCell':
+                    this.api[item.options.isRowMenu ? 'asc_showRows' : 'asc_showColumns']();
+                    break;
+                case 'hideSheet':
+                    this.toolbar.fireEvent('sheet:hide', [this, tabIndex]);
+                    break;
+                case 'showSheet':
+                    this.toolbar.fireEvent('sheet:show', [this, item.options.sheetId]);
+                    break;
+                case 'renameSheet':
+                    this.toolbar.fireEvent('sheet:changename');
+                    break;
+                case 'moveCopySheet':
+                    this.toolbar.fireEvent('sheet:move', [this, tabIndex]);
+                    break;
+                case 'protectSheet':
+                    Common.NotificationCenter.trigger('protect:sheet', !this.api.asc_isProtectedSheet());
+                    break;
+                case 'lockedCell':
+                    this.api.asc_setCellLocked(item.checked);                    
+                    break;
+                case 'formatCells':
+                    this.toolbar.fireEvent('rightmenu:open', [Common.Utils.documentSettingsType.Cell]);
+                    break;
+            }
+        },
+
+        onNewTabColor: function() {
+            if (this.toolbar && this.toolbar.mnuTabColorToolbarPicker) {
+                this.toolbar.mnuTabColorToolbarPicker.addNewColor();
+            }
+        },
+
         onColorSchemaClick: function(menu, item) {
             if (this.api) {
                 this.api.asc_ChangeColorSchemeByIdx(item.value);
@@ -1785,7 +1936,7 @@ define([
                 });
 
                 if (!item) {
-                    value = /^\+?(\d*(\.|,)?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
+                    value = /^\+?(\d*(\.|,)?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value.trim());
 
                     if (!value) {
                         value = this._getApiTextSize();
@@ -2071,7 +2222,9 @@ define([
                             !me.getApplication().getController('LeftMenu').leftMenu.menuFile.isVisible() && !me._state.wsProps['InsertHyperlinks']) {
                             var cellinfo = me.api.asc_getCellInfo(),
                                 selectionType = cellinfo.asc_getSelectionType();
-                            if (selectionType !== Asc.c_oAscSelectionType.RangeShapeText || me.api.asc_canAddShapeHyperlink()!==false)
+                            if (selectionType !== Asc.c_oAscSelectionType.RangeChartText && selectionType !== Asc.c_oAscSelectionType.RangeChart && selectionType !== Asc.c_oAscSelectionType.RangeSlicer &&
+                               (selectionType !== Asc.c_oAscSelectionType.RangeShapeText && selectionType !== Asc.c_oAscSelectionType.RangeShape && selectionType !== Asc.c_oAscSelectionType.RangeImage ||
+                                   me.api.asc_canAddShapeHyperlink()!==false))
                                 me.onHyperlink();
                         }
                         e.preventDefault();
@@ -2084,7 +2237,7 @@ define([
                         return false;
                     },
                     'shift+f3': function(e) {
-                        if (me.editMode && !me.toolbar.btnInsertFormula.isDisabled()) {
+                        if (me.editMode && !me.toolbar.btnInsertFormula.isDisabled() && !me.getApplication().getController('LeftMenu').leftMenu.menuFile.isVisible()) {
                             var controller = me.getApplication().getController('FormulaDialog');
                             if (controller) {
                                 controller.showDialog();
@@ -2921,8 +3074,9 @@ define([
                 toolbar.cmbFontSize.setValue((str_size !== undefined) ? str_size : '');
                 this._state.fontsize = str_size;
             }
-
-            toolbar.lockToolbar(Common.enumLock.cantHyperlink, (selectionType === Asc.c_oAscSelectionType.RangeShapeText) && (this.api.asc_canAddShapeHyperlink()===false), { array: [toolbar.btnInsertHyperlink]});
+            toolbar.lockToolbar(Common.enumLock.sparkLocked, info.asc_getLockedSparkline()===true, {array: toolbar.btnsSparklineTab});
+            toolbar.lockToolbar(Common.enumLock.cantHyperlink, (selectionType === Asc.c_oAscSelectionType.RangeShapeText || selectionType === Asc.c_oAscSelectionType.RangeShape ||
+                                selectionType === Asc.c_oAscSelectionType.RangeImage) && (this.api.asc_canAddShapeHyperlink()===false), { array: [toolbar.btnInsertHyperlink]});
 
             /*
             need_disable = selectionType != Asc.c_oAscSelectionType.RangeCells && selectionType != Asc.c_oAscSelectionType.RangeCol &&
@@ -2972,6 +3126,32 @@ define([
             toolbar.lockToolbar(Common.enumLock.pageBreakLock, this.api.asc_GetPageBreaksDisableType(this.api.asc_getActiveWorksheetIndex())===Asc.c_oAscPageBreaksDisableType.all, {array: [toolbar.btnPageBreak]});
 
             // if (editOptionsDisabled) return;
+
+            var in_chart = (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText);
+
+            if (in_chart !== this._state.in_chart) {
+                toolbar.btnInsertChart.updateHint(
+                    in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart
+                );
+
+                if (!in_chart && this.toolbar.isTabActive('charttab'))
+                    this.toolbar.setTab('home');
+                this.toolbar.setVisible('charttab', !!in_chart);
+                if (in_chart && this._state.showChartTab)
+                    this.toolbar.setTab('charttab');
+
+                this._state.in_chart = in_chart;
+            }
+
+            var in_sparkline = !!info.asc_getSparklineInfo();
+            if (this._state.insparkline !== in_sparkline) {
+                if ( !in_sparkline && this.toolbar.isTabActive('sparklinetab') )
+                    this.toolbar.setTab('home');
+                this.toolbar.setVisible('sparklinetab', !!in_sparkline);
+                if (in_sparkline && this._state.showSparklineTab)
+                    this.toolbar.setTab('sparklinetab');
+                this._state.insparkline = in_sparkline;
+            }
 
             /* read font params */
             if (!editOptionsDisabled && !toolbar.mode.isEditMailMerge && !toolbar.mode.isEditDiagram && !toolbar.mode.isEditOle) {
@@ -3081,11 +3261,6 @@ define([
                 this._state.clrshd_asccolor = color;
             }
 
-            var in_chart = (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText);
-            if (in_chart !== this._state.in_chart) {
-                toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);
-                this._state.in_chart = in_chart;
-            }
             // if (in_chart) return;
 
             if (!toolbar.mode.isEditDiagram)
@@ -3903,6 +4078,8 @@ define([
                 this.toolbar.btnBorders.options.borderscolor = currentColor ? currentColor.color || currentColor : currentColor;
                 $('#id-toolbar-mnu-item-border-color > a .menu-item-icon').css('border-color', '#' + this.toolbar.btnBorders.options.borderscolor);
             }
+
+            updateColors(this.toolbar.mnuTabColorToolbarPicker, stdColors ? stdColors[0] : undefined);
         },
 
         hideElements: function(opts) {
@@ -4611,6 +4788,31 @@ define([
                         me.toolbar.btnsTableDesign = tabledesignbuttons;
                     }
 
+                    tab = {caption: me.toolbar.textTabChart, action: 'charttab', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-charttab', dataHintTitle: 'A', aux: true};
+                    var charttab = me.getApplication().getController('ChartTab');
+                    charttab.setApi(me.api).setConfig({toolbar: me});
+                    var view = charttab.getView('ChartTab');
+                    var chartbuttons = view.getButtons();
+                    var $panel = charttab.createToolbarPanel();
+                    if ($panel) {
+                        me.toolbar.addTab(tab, $panel);
+                        me._state.inchart && me.toolbar.setVisible('charttab', true);
+                        Array.prototype.push.apply(me.toolbar.lockControls, chartbuttons);
+                    }
+
+                    tab = {caption: me.toolbar.textTabSparkline, action: 'sparklinetab', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-sparklinetab', dataHintTitle: 'A', aux: true};
+                    var sparklinetab = me.getApplication().getController('SparklineTab');
+                    sparklinetab.setApi(me.api).setConfig({toolbar: me});
+                    var view = sparklinetab.getView('SparklineTab');
+                    var sparklinebuttons = view.getButtons();
+                    var $panel = sparklinetab.createToolbarPanel();
+                    if ($panel) {
+                        me.toolbar.addTab(tab, $panel);
+                        me.toolbar.setVisible('sparklinetab', true);
+                        Array.prototype.push.apply(me.toolbar.lockControls, sparklinebuttons);
+                    }
+                    me.toolbar.btnsSparklineTab = sparklinebuttons
+
                     if (!config.compactHeader) {
                         // hide 'print' and 'save' buttons group and next separator
                         me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
@@ -5202,6 +5404,7 @@ define([
                 isEdit: (seltype == Asc.c_oAscSelectionType.RangeChart || seltype == Asc.c_oAscSelectionType.RangeChartText),
                 handler: function(result, value) {
                     if (result == 'ok') {
+                        me._state.showChartTab = true;
                         me.api && me.api.asc_addChartSpace(value);
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -5287,6 +5490,8 @@ define([
         onClickTab: function(tab) {
             this._state.showPivotTab = tab === 'pivot';
             this._state.showTableDesignTab = tab ==='tabledesign';
+            this._state.showChartTab = tab ==='charttab';
+            this._state.showSparklineTab = tab ==='sparklinetab';
         },
 
         onTabCollapse: function(tab) {

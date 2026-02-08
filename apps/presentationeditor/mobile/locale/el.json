@@ -83,7 +83,8 @@
     "textDoNotShowAgain": "Να μην εμφανιστεί ξανά",
     "textOk": "Εντάξει",
     "textRows": "Γραμμές",
-    "txtWarnUrl": "Το κλικ σε αυτό το σύνδεσμο μπορεί να είναι επιβλαβές για τη συσκευή και τα δεδομένα σας. Αυτή η τοποθεσία μπορεί να είναι ανασφαλής:<br>{0}<br>Είστε σίγουροι ότι θέλετε να συνεχίσετε;"
+    "txtWarnUrl": "Το κλικ σε αυτό το σύνδεσμο μπορεί να είναι επιβλαβές για τη συσκευή και τα δεδομένα σας. Αυτή η τοποθεσία μπορεί να είναι ανασφαλής:<br>{0}<br>Είστε σίγουροι ότι θέλετε να συνεχίσετε;",
+    "menuDuplicate": "Duplicate"
   },
   "Controller": {
     "Main": {
@@ -240,7 +241,8 @@
     "unknownErrorText": "Άγνωστο σφάλμα.",
     "uploadImageExtMessage": "Άγνωστη μορφή εικόνας.",
     "uploadImageFileCountMessage": "Δεν μεταφορτώθηκαν εικόνες.",
-    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB."
+    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "Γίνεται φόρτωση δεδομένων...",
@@ -500,7 +502,12 @@
       "textZoomOut": "Σμίκρυνση",
       "textZoomRotate": "Εστίαση και Περιστροφή",
       "txtHeight": "Ύψος",
-      "txtWidth": "Πλάτος"
+      "txtWidth": "Πλάτος",
+      "textBackground": "Background",
+      "textLtrTextDirection": "Left-to-right",
+      "textResetBackground": "Reset background",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "mniSlideStandard": "Τυπικό (4:3)",
@@ -568,7 +575,9 @@
       "textUnitOfMeasurement": "Μονάδα μέτρησης",
       "textUploaded": "Μεταφορτώθηκε",
       "textVersion": "Έκδοση",
-      "textVersionHistory": "Ιστορικό εκδόσεων"
+      "textVersionHistory": "Ιστορικό εκδόσεων",
+      "textLoopSlideshow": "Loop slideshow",
+      "textOpenLocation": "Open location"
     }
   }
 }

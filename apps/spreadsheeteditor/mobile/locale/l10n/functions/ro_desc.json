@@ -2407,5 +2407,20 @@
 	"IMPORTRANGE": {
 		"a": "(adresă url_foaie de calcul)",
 		"d": "Importă o zonă de celule dintr-o foaie de calcul specificată."
+	},
+	"REGEXTEST": {
+		"a": "(text; model; [distincție_litere_mari_și_litere_mici])",
+		"d": "Verifică dacă intrarea se potrivește cu modelul și returnează TRUE sau FALSE",
+		"ad": "Este textul în care căutați!Expresia regulată de aplicat!Dacă potrivirea face distincția între litere mari și mici"
+	},
+	"REGEXREPLACE": {
+		"a": "(text; model; înlocuire; [ocurență]; [distincție_litere_mari_și_litere_mici])",
+		"d": "Returnează „text”, cu „înlocuire” în locul potrivirilor cu „model”",
+		"ad": "Textul în care căutați!Expresia regulată de aplicat!Șirul care înlocuiește subșirul care se potrivește în text. Unde $n apare în șir, unde $n este un număr întreg, $n este înlocuit cu al n-lea grup de captură!Care ocurență va fi înlocuită. Dacă este 0, toate ocurențele vor fi înlocuite. O valoare negativă înseamnă numărul respectiv de ocurențe de la sfârșitul textului.!Dacă potrivirea face distincția între litere mari și mici"        
+	},
+	"REGEXEXTRACT": {
+		"a": "(text; model; [mod_restituire]; [distincție_litere_mari_și_litere_mici])",
+		"d": "Extrage subșirurile de „text” pe baza „modelului” REGEX furnizat",
+		"ad": "Este textul în care căutați!Expresia regulată de aplicat!Specificați ce potriviri să se returneze!Dacă potrivirea face distincția între litere mari și mici"
 	}
 }

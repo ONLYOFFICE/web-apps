@@ -2408,5 +2408,20 @@
 		"a": "(spreadsheet_url, range_string)",
 		"d": "Imports a range of cells from a specified spreadsheet.",
 		"ad": "is the URL of the spreadsheet from where data will be imported!is the range to import"
+	},
+	"REGEXTEST": {
+		"a": "(text, pattern, [case_sensitivity])",
+		"d": "檢查輸入是否符合模式，並傳回 TRUE 或 FALSE",
+		"ad": "是您正在其內搜尋的文字!要套用的規則運算式!相符項目是否區分大小寫"
+	},
+	"REGEXREPLACE": {
+		"a": "(text, pattern, replacement, [occurrence], [case_sensitivity])",
+		"d": "傳回 'text'，用 'replacement' 代替與 'pattern' 相符的內容",
+		"ad": "您在當中搜尋的文字!要套用的規則運算式!取代文字中相符子字串的字串。當 $n 出現在字串中，其中 $n 是一個整數位，使用群組中擷取到的第 n 個來取代 $n! 要取代的項目。如果為 0，則取代所有項目。負值表示文字結尾的項目次數。!相符項目是否區分大小寫"
+	},
+	"REGEXEXTRACT": {
+		"a": "(text, pattern, [return_mode], [case_sensitivity])",
+		"d": "根據提供的 REGEX 'pattern' 擷取 'text' 的子字串",
+		"ad": "是您正在其內搜尋的文字!要套用的規則運算式!指定要傳回的相符項目!相符項目是否區分大小寫"
 	}
 }

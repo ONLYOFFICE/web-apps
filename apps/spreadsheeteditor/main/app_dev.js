@@ -136,6 +136,8 @@ require([
             'DataTab',
             'ViewTab',
             'TableDesignTab',
+            'ChartTab',
+            'SparklineTab',
             'Search',
             'WBProtection',
             'Common.Controllers.Fonts',
@@ -175,6 +177,8 @@ require([
             'spreadsheeteditor/main/app/controller/DataTab',
             'spreadsheeteditor/main/app/controller/ViewTab',
             'spreadsheeteditor/main/app/controller/TableDesignTab',
+            'spreadsheeteditor/main/app/controller/ChartTab',
+            'spreadsheeteditor/main/app/controller/SparklineTab',
             'spreadsheeteditor/main/app/controller/Search',
             'spreadsheeteditor/main/app/controller/WBProtection',
             // 'spreadsheeteditor/main/app/view/ParagraphSettings',
@@ -278,6 +282,7 @@ require([
                 'spreadsheeteditor/main/app/view/ShapeSettingsAdvanced',
                 'spreadsheeteditor/main/app/view/ProtectDialog',
                 'spreadsheeteditor/main/app/view/ProtectedRangesEditDlg',
+                'spreadsheeteditor/main/app/view/Charts3DDlg',
                 'spreadsheeteditor/main/app/view/CreatePivotDialog',
                 'spreadsheeteditor/main/app/view/SortOptionsDialog',
                 'spreadsheeteditor/main/app/view/SetValueDialog',
@@ -291,7 +296,11 @@ require([
                 'spreadsheeteditor/main/app/view/AutoFilterDialog',
                 'spreadsheeteditor/main/app/view/PivotGroupDialog',
                 'spreadsheeteditor/main/app/view/PivotCalculatedItemsDialog',
-                'spreadsheeteditor/main/app/view/PivotInsertCalculatedItemDialog'
+                'spreadsheeteditor/main/app/view/PivotInsertCalculatedItemDialog',
+                'spreadsheeteditor/main/app/view/SolverDlg',
+                'spreadsheeteditor/main/app/view/ConstraintDialog',
+                'spreadsheeteditor/main/app/view/SolverMethodDialog',
+                'spreadsheeteditor/main/app/view/SolverResultsDlg'
             ];
 
             window.compareVersions = true;

@@ -77,6 +77,7 @@
   "Error": {
     "convertationTimeoutText": "ההמרה חרגה מהזמן הקצוב.",
     "criticalErrorExtText": "נא ללחוץ על 'אישור' לחזרה לרשימת המסמכים.",
+    "criticalErrorExtTextClose": "יש ללחוץ 'אישור' לסגירת העורך.",
     "criticalErrorTitle": "שגיאה",
     "downloadErrorText": "ההורדה נכשלה.",
     "errorAccessDeny": "אין לך הרשאות לביצוע הפעולה.<br>נא ליצור קשר עם מנהל המערכת שלך.",
@@ -120,7 +121,7 @@
     "uploadImageExtMessage": "פורמט תמונה לא ידוע.",
     "uploadImageFileCountMessage": "לא הועלו תמונות.",
     "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "טעינת נתונים...",
@@ -211,7 +212,8 @@
       "textVersion": "גרסה ",
       "textVisioInfo": "מידע אודות מציג התרשימים",
       "textVisioSettings": "הגדרות מציג התרשימים",
-      "textVisioTitle": "כותרת מציג התרשימים"
+      "textVisioTitle": "כותרת מציג התרשימים",
+      "textOpenLocation": "Open location"
     }
   }
 }

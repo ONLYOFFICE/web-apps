@@ -2408,5 +2408,20 @@
 		"a": "(URL_der_Tabelle, Bereichszeichenfolge)",
 		"d": "Importiert einen Zellenbereich aus einer angegebenen Tabelle.",
 		"ad": "Die URL der Tabelle, aus der Daten importiert werden!eine Zeichenfolge die den zu importierenden Bereich definiert."
+	},
+	"REGEXTEST": {
+		"a": "(text; muster; [beachten_groß_klein])",
+		"d": "Prüft, ob die Eingabe mit dem Muster übereinstimmt und gibt WAHR oder FALSCH zurück",
+		"ad": "Ist der Text, in dem gesucht wird!Der reguläre Ausdruck, der angewendet werden soll!Gibt an, ob Groß-/Kleinschreibung beachtet wird"
+	},
+	"REGEXREPLACE": {
+		"a": "(text; muster; ersatz_text; [vorkommen]; [beachten_groß_klein])",
+		"d": "Gibt 'text' zurück, mit 'ersatz_text' anstelle von Übereinstimmungen mit 'muster'",
+		"ad": "Der Text, in dem gesucht wird!Der reguläre Ausdruck, der angewendet werden soll!Die Zeichenfolge, die die übereinstimmende Teilzeichenfolge in Text ersetzt. Wenn $n in der Zeichenfolge angezeigt wird, wobei $n eine ganze Zahl ist, wird $n durch die n-te Erfassungsgruppe ersetzt!Das zu ersetzende Vorkommen. Wenn der Wert 0 ist, werden alle Vorkommen ersetzt. Ein negativer Wert bedeutet, dass die Anzahl der Vorkommen ab dem Textende gezählt wird.!Gibt an, ob bei Groß-/Kleinschreibung beachtet wird"
+	},
+	"REGEXEXTRACT": {
+		"a": "(text; muster; [rückgabe_modus]; [beachten_groß_klein])",
+		"d": "Extrahiert Teilzeichenfolgen von 'text', basierend auf dem angegebenen regulären Ausdruck 'muster'",
+		"ad": "Ist der Text, in dem gesucht wird!Der reguläre Ausdruck, der angewendet werden soll!Gibt an, welche Übereinstimmungen zurückgegeben werden sollen!Gibt an, ob Groß-/Kleinschreibung beachtet wird"
 	}
 }

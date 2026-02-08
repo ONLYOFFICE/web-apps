@@ -481,6 +481,9 @@
 	"SORTBY": "СОРТПО",
 	"GETPIVOTDATA": "ПОЛУЧИТЬ.ДАННЫЕ.СВОДНОЙ.ТАБЛИЦЫ",
 	"IMPORTRANGE": "IMPORTRANGE",
+	"REGEXTEST": "РЕГТЕСТ",
+	"REGEXREPLACE": "РЕГЗАМЕНИТЬ",
+	"REGEXEXTRACT": "РЕГИЗВЛЕЧЬ",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Заголовки",

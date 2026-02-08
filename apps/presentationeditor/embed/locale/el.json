@@ -40,7 +40,7 @@
   "PE.ApplicationController.titleLicenseNotActive": "Η άδεια δεν είναι ενεργή",
   "PE.ApplicationController.txtClose": "Κλείσιμο",
   "PE.ApplicationController.txtNo": "Όχι",
-  "PE.ApplicationController.txtOpenWarning": "Το κλικ σε αυτόν τον σύνδεσμο μπορεί να είναι επιβλαβές για τη συσκευή και τα δεδομένα σας. Για να προστατεύσετε τον υπολογιστή σας, κάντε κλικ μόνο σε αυτούς τους υπερσυνδέσμους από αξιόπιστες πηγές. Αυτή η τοποθεσία μπορεί να είναι ανασφαλής:<br><br>%1<br><br>Είστε σίγουροι ότι θέλετε να συνεχίσετε;",
+  "PE.ApplicationController.txtOpenWarning": "Κάνοντας κλικ σε αυτόν τον σύνδεσμο μπορεί να βλάψει τη συσκευή και τα δεδομένα σας. Για να προστατεύσετε τον υπολογιστή σας, κάντε κλικ μόνο σε συνδέσμους από αξιόπιστες πηγές. Αυτή η τοποθεσία ενδέχεται να μην είναι ασφαλής:<br><br>{0}<br><br>Είστε σίγουροι ότι θέλετε να συνεχίσετε;",
   "PE.ApplicationController.txtPressLink": "Κάντε κλικ στον σύνδεσμο για να τον ανοίξετε",
   "PE.ApplicationController.txtYes": "Ναι",
   "PE.ApplicationController.unknownErrorText": "Άγνωστο σφάλμα.",

@@ -2404,5 +2404,20 @@
 	"IMPORTRANGE": {
 		"a": "(spreadsheet_url, cadena_interval)",
 		"d": "Importa un interval de cel·les d'un full de càlcul especificat."
+	},
+	"REGEXTEST": {
+		"a": "(text; patró; [distinció_majúscules_minúscules])",
+		"d": "Comprova si lentrada coincideix amb el patró i retorna TRUE o FALSE",
+		"ad": "És el text que cerqueu a dins!Lexpressió regular que saplicarà!Si la coincidència distingeix entre majúscules i minúscules"
+	},
+	"REGEXREPLACE": {
+		"a": "(text; patró; substitució; [aparició]; [distinció_majúscules_minúscules])",
+		"d": "Retorna \"text\" amb \"substitució\" en comptes de les coincidències amb \"pattern\"",
+		"ad": "El text que cerqueu a dins!Lexpressió regular que saplicarà!La cadena que substitueix la subcadena que coincideix amb el text. Quan $n apareix a la cadena, on $n és un nombre sencer, $n és substituït pel n.è grup de captura!Quina repetició se substituirà. Si és 0, se substitueixen totes les repeticions. Un valor negatiu fa referència al nombre de repeticions a partir del final del text.!Si la coincidència distingeix entre majúscules i minúscules"        
+	},
+	"REGEXEXTRACT": {
+		"a": "(text; patró; [mode_retorn]; [distinció_majúscules_minúscules])",
+		"d": "Extreu subcadenes de text a partir del patró de REGEX indicat",
+		"ad": "És el text que cerqueu a dins!Lexpressió regular que saplicarà!Especifiqueu quines coincidències shan de retornar!Si la coincidència distingeix entre majúscules i minúscules"
 	}
 }

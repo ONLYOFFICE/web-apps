@@ -53,7 +53,7 @@
   "DE.ApplicationController.txtClose": "Chiudi",
   "DE.ApplicationController.txtEmpty": "(Vuoto)",
   "DE.ApplicationController.txtNo": "No",
-  "DE.ApplicationController.txtOpenWarning": "Cliccare su questo link può danneggiare il tuo dispositivo e i tuoi dati. <br> Sei sicuro di voler continuare?",
+  "DE.ApplicationController.txtOpenWarning": "Cliccare su questo link può essere dannoso per il tuo dispositivo e i tuoi dati. Per proteggere il tuo computer, clicca solo sui link provenienti da fonti affidabili. Questa posizione potrebbe non essere sicura:<br>%1<br>Sei sicuro di voler continuare?",
   "DE.ApplicationController.txtPressLink": "Premi %1 e clicca sul collegamento",
   "DE.ApplicationController.txtSecurityWarningOpenFile": "Questo documento sta tentando di aprire la finestra di dialogo del file, premi \"OK\" per aprirla.",
   "DE.ApplicationController.txtYes": "Sì",

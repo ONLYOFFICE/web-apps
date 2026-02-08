@@ -953,7 +953,7 @@ define([
                     if (options.header.docmode)
                         app.getController('Toolbar').getView('Toolbar').fireEvent('docmode:disabled', [disable]);
                     if (options.header.search)
-                        appHeader && appHeader.lockHeaderBtns('search', disable);
+                        appHeader && appHeader.lockHeaderBtns('search', disable, Common.enumLock.lostConnect);
                     if (options.header.startfill)
                         appHeader && appHeader.lockHeaderBtns('startfill', disable);
                     appHeader && appHeader.lockHeaderBtns('undo', options.viewMode, Common.enumLock.lostConnect);

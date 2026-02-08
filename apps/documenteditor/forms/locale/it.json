@@ -164,7 +164,7 @@
   "DE.Controllers.ApplicationController.txtPressLink": "Premi CTRL e clicca sul collegamento",
   "DE.Controllers.ApplicationController.txtSignedForm": "Questo documento è stato firmato e non può essere modificato.",
   "DE.Controllers.ApplicationController.txtUntitled": "Senza titolo",
-  "DE.Controllers.ApplicationController.txtWarnUrl": "Cliccare su questo collegamento può danneggiare il tuo dispositivo e i dati.<br>Sei sicuro di voler continuare?",
+  "DE.Controllers.ApplicationController.txtWarnUrl": "Cliccare su questo link può essere dannoso per il tuo dispositivo e i tuoi dati. Per proteggere il tuo computer, clicca solo sui link provenienti da fonti affidabili. Questa posizione potrebbe non essere sicura:<br>%1<br>Sei sicuro di voler continuare?",
   "DE.Controllers.ApplicationController.unknownErrorText": "Errore sconosciuto.",
   "DE.Controllers.ApplicationController.unsupportedBrowserErrorText": "Il tuo browser non è supportato.",
   "DE.Controllers.ApplicationController.uploadImageExtMessage": "Formato dell'immagine sconosciuto.",

@@ -159,11 +159,7 @@ define([
                 Common.NotificationCenter.on('app:repaint', _.bind(function() {
                     this.repaintMoreBtns();
                 }, this));
-                Common.NotificationCenter.on('uitheme:changed', _.bind(function() {
-                    this.clearActiveData();
-                    this.processPanelVisible();
-                    this.repaintMoreBtns();
-                }, this));
+                Common.NotificationCenter.on('uitheme:changed', _.bind(this.onThemeChanged, this));
                 Common.NotificationCenter.on({
                     'hints:activate-control': function (p) {
                         if (p && p.exit && me.isMoreDropdownSection(p.section)) p.exit(true);
@@ -439,7 +435,7 @@ define([
                     }
 
                     this.fireEvent('tab:active', [tab]);
-                    Common.NotificationCenter.trigger('tab:active',[tab]);
+                    Common.NotificationCenter.trigger('tab:active', tab);
                 }
             },
 
@@ -793,7 +789,7 @@ define([
                                 button.cmpEl.closest('.btn-slot').remove();
                                 if (group.children().length<1) {
                                     var in_more = group.closest('.more-container').length>0;
-                                    in_more ? group.next('.separator').remove() : group.prev('.separator').remove();
+                                    (in_more || group.prev().length===0) ? group.next('.separator').remove() : group.prev('.separator').remove(); // remove separator before empty group or after first empty group
                                     group.remove();
                                     if (in_more && $morepanel.children().filter('.group').length === 0) {
                                         btnsMore[tab.action] && btnsMore[tab.action].isActive() && btnsMore[tab.action].toggle(false);
@@ -1132,6 +1128,12 @@ define([
                 for (var btn in btnsMore) {
                     btnsMore[btn] && btnsMore[btn].isActive() && btnsMore[btn].toggle(false);
                 }
+            },
+
+            onThemeChanged: function(e) {
+                this.clearActiveData();
+                this.processPanelVisible();
+                this.repaintMoreBtns();
             }
         };
     }()));

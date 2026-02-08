@@ -2408,5 +2408,20 @@
 		"a": "(url_spreadsheet; string_rentang)",
 		"d": "Mengimpor rentang sel dari spreadsheet tertentu.",
 		"ad": "URL spreadsheet tempat asal data yang akan diimpor!String yang menentukan rentang yang akan diimpor"
+	},
+	"REGEXTEST": {
+		"a": "(text; pattern; [case_sensitivity])",
+		"d": "Memeriksa apakah input cocok dengan pola, dan mengembalikan TRUE atau FALSE",
+		"ad": "Adalah teks yang Anda cari di dalamnya!Ekspresi reguler yang akan diterapkan!Apakah kecocokan peka huruf besar kecil"
+	},
+	"REGEXREPLACE": {
+		"a": "(text; pattern; replacement; [kemunculan]; [case_sensitivity])",
+		"d": "Mengembalikan 'text', dengan 'replacement' sebagai ganti kecocokan dengan 'pattern'",
+		"ad": "Teks yang Anda cari di dalamnya!Ekspresi reguler harus diterapkan!String yang menggantikan substring yang cocok dalam teks. Ketika $n muncul dalam string, di mana $n adalah bilangan bulat, $n diganti dengan grup tangkapan ke-n!Kemunculan mana yang akan diganti. Jika 0, semua kemunculan akan diganti. Nilai negatif berarti jumlah kemunculan dari akhir teks.!Apakah kecocokan peka huruf besar kecil"
+	},
+	"REGEXEXTRACT": {
+		"a": "(text; pattern; [return_mode]; [case_sensitivity])",
+		"d": "Mengekstrak substring 'text' berdasarkan 'pattern' REGEX yang disediakan",
+		"ad": "Adalah teks yang Anda cari di dalamnya!Ekspresi reguler yang akan diterapkan!Tentukan kecocokan mana yang akan dikembalikan!Apakah kecocokan peka huruf besar kecil"
 	}
 }

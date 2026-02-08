@@ -14,6 +14,7 @@
   "SSE.ApplicationController.downloadErrorText": "Sharkimi dështoi.",
   "SSE.ApplicationController.downloadTextText": "Fletëllogaritesja po shkarkohet",
   "SSE.ApplicationController.errorAccessDeny": "Ju po përpiqeni të kryeni një veprim për të cilin nuk keni të drejta.<br>Ju lutem, kontaktoni administratorin e serverit të dokumenteve. ",
+  "SSE.ApplicationController.errorCopyDisabled": "Për arsye sigurie, përmbajtja e këtij dokumenti nuk mund të kopjohet.",
   "SSE.ApplicationController.errorDefaultMessage": "Kodi gabim: %1",
   "SSE.ApplicationController.errorEditingDownloadas": "Ndodhi një gabim gjatë punës me dokumentin.<br>Përdor opsionin 'Shkarko si' për të ruajtur kopjen rezervë të skedarit në një disk .",
   "SSE.ApplicationController.errorFilePassProtect": "Skedari eshte i mbrojtuar me fjalëkalim dhe nuk mund të hapet.",

@@ -2408,5 +2408,20 @@
 		"a": "(nettadresse_til_regneark; områdestreng)",
 		"d": "Importerer et celleområde fra et angitt regneark.",
 		"ad": "nettadressen til regnearket dataene skal importeres fra!området som skal importeres"
+	},
+	"REGEXTEST": {
+		"a": "(tekst; mønster; [skille_store_små_bokstaver])",
+		"d": "Kontrollerer om inndataene samsvarer med mønsteret, og returnerer SANN eller USANN",
+		"ad": "s teksten du søker i!Det regulære uttrykket som skal brukes!Hvorvidt treffet skiller mellom store og små bokstaver"
+	},
+	"REGEXREPLACE": {
+		"a": "(tekst; mønster; erstatning; [forekomst]; [skille_store_små_bokstaver])",
+		"d": "Returnerer «tekst», med «erstatning» i stedet for treff med «mønster»",
+		"ad": "Teksten du søker i! Det regulære uttrykket som skal brukes! Strengen som erstatter den samsvarende delstrengen i teksten. Der $n vises i strengen, hvor $n er et heltall, blir $n erstattet med den n-te opptaksgruppen! Hvilken forekomst som skal erstattes. Hvis 0, blir alle forekomster erstattet. En negativ verdi betyr at antall forekomster regnes fra slutten av teksten.! Om treffet er følsomt for store og små bokstaver"
+	},
+	"REGEXEXTRACT": {
+		"a": "(tekst; mønster; [retur_modus]; [skille_store_små_bokstaver])",
+		"d": "Trekker ut delstrenger fra «tekst» basert på oppgitt «mønster» for regulært uttrykk",
+		"ad": "s teksten du søker i!Det regulære uttrykket som skal brukes!Spesifiserer hvilke treff som skal returneres!Hvorvidt treffet skiller mellom store og små bokstaver"
 	}
 }

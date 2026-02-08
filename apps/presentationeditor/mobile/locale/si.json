@@ -83,7 +83,8 @@
     "textDoNotShowAgain": "යළි නොපෙන්වන්න",
     "textOk": "හරි",
     "textRows": "පේළි",
-    "txtWarnUrl": "සබැඳිය එබීමෙන් ඔබගේ උපාංගයට හා දත්තවලට හානි විය හැකිය.<br>ඉදිරියට යාමට වුවමනාද?"
+    "txtWarnUrl": "සබැඳිය එබීමෙන් ඔබගේ උපාංගයට හා දත්තවලට හානි විය හැකිය.<br>ඉදිරියට යාමට වුවමනාද?",
+    "menuDuplicate": "Duplicate"
   },
   "Controller": {
     "Main": {
@@ -240,7 +241,8 @@
     "unknownErrorText": "නොදන්නා දෝෂයකි.",
     "uploadImageExtMessage": "නොදන්නා රූප ආකෘතියකි.",
     "uploadImageFileCountMessage": "රූප කිසිවක් උඩුගත කර නැත.",
-    "uploadImageSizeMessage": "රූපය ඉතා විශාලයි. උපරිම ප්‍රමාණය මෙ.බ. 25 කි."
+    "uploadImageSizeMessage": "රූපය ඉතා විශාලයි. උපරිම ප්‍රමාණය මෙ.බ. 25 කි.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "දත්ත පූරණය වෙමින්...",
@@ -496,9 +498,14 @@
       "textZoomIn": "විශාලනය",
       "textZoomOut": "කුඩාලනය",
       "textZoomRotate": "විශාලනය හා කරකවන්න",
+      "textBackground": "Background",
       "textBaseline": "Baseline",
       "textCapitalization": "Capitalization",
       "textCellSize": "Cell size",
+      "textLtrTextDirection": "Left-to-right",
+      "textResetBackground": "Reset background",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction",
       "txtHeight": "Height",
       "txtWidth": "Width"
     },
@@ -568,7 +575,9 @@
       "textUnitOfMeasurement": "මිනුම් ඒකකය",
       "textUploaded": "උඩුගත කෙරිණි",
       "textVersion": "අනුවාදය",
-      "textVersionHistory": "අනුවාද ඉතිහාසය"
+      "textVersionHistory": "අනුවාද ඉතිහාසය",
+      "textLoopSlideshow": "Loop slideshow",
+      "textOpenLocation": "Open location"
     }
   }
 }

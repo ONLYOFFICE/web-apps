@@ -120,7 +120,8 @@
     "unknownErrorText": "نامعلوم خرابی",
     "uploadImageExtMessage": "نامعلوم تصویر کا فارمیٹ۔",
     "uploadImageFileCountMessage": "کوئ تصاویر اپلوڈ نہیں کی گیئں",
-    "uploadImageSizeMessage": " تصویر بہت بڑی ہے۔ زیادہ سے زیادہ سائز ہے  پچیس ایم بی "
+    "uploadImageSizeMessage": " تصویر بہت بڑی ہے۔ زیادہ سے زیادہ سائز ہے  پچیس ایم بی ",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "ڈیٹا لوڈ ہو رہا ہے…",
@@ -211,7 +212,8 @@
       "textVersion": "ورژن",
       "textVisioInfo": "خاکہ دیکھنے والے کی معلومات",
       "textVisioSettings": "ڈایاگرام دیکھنے والے کی ترتیبات",
-      "textVisioTitle": "خاکہ دیکھنے والے کا عنوان"
+      "textVisioTitle": "خاکہ دیکھنے والے کا عنوان",
+      "textOpenLocation": "Open location"
     }
   }
 }

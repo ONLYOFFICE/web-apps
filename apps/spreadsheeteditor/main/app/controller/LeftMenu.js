@@ -815,6 +815,9 @@ define([
             switch (s) {
                 case 'replace':
                 case 'search':
+                    if ( this.leftMenu.menuFile.isVisible() ) {
+                        return false;
+                    }
                     if (this.mode.isEditMailMerge || this.mode.isEditOle) {
                         this.leftMenu.fireEvent('search:show');
                         return false;

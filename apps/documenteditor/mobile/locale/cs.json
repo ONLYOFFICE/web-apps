@@ -423,7 +423,10 @@
     "textWrapText": "Zalomit text",
     "textYourOption": "Váš výběr",
     "txtHeight": "Výška",
-    "txtWidth": "Šířka"
+    "txtWidth": "Šířka",
+    "textLtrTextDirection": "Left-to-right",
+    "textRtlTextDirection": "Right-to-left",
+    "textTextDirection": "Text Direction"
   },
   "Error": {
     "convertationTimeoutText": "Překročen časový limit pro provedení převodu.",
@@ -488,7 +491,8 @@
     "uploadDocSizeMessage": "Překročena maximální velikost dokumentu.",
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Nenahrány žádné obrázky.",
-    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB."
+    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "Načítání dat...",
@@ -818,7 +822,9 @@
     "txtDownloadTxt": "Stáhnout TXT",
     "txtIncorrectPwd": "Heslo je chybné",
     "txtOk": "OK",
-    "txtProtected": "Jakmile zadáte heslo a otevřete soubor, aktuální heslo bude obnoveno"
+    "txtProtected": "Jakmile zadáte heslo a otevřete soubor, aktuální heslo bude obnoveno",
+    "textHyphenation": "Hyphenation",
+    "textOpenLocation": "Open location"
   },
   "Toolbar": {
     "btnRestartNow": "Restartovat nyní",

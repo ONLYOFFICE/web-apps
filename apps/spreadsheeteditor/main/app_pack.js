@@ -78,6 +78,7 @@ require([
     'spreadsheeteditor/main/app/view/ShapeSettingsAdvanced',
     'spreadsheeteditor/main/app/view/ProtectDialog',
     'spreadsheeteditor/main/app/view/ProtectedRangesEditDlg',
+    'spreadsheeteditor/main/app/view/Charts3DDlg',
     'spreadsheeteditor/main/app/view/CreatePivotDialog',
     'spreadsheeteditor/main/app/view/SortOptionsDialog',
     'spreadsheeteditor/main/app/view/SetValueDialog',
@@ -91,7 +92,11 @@ require([
     'spreadsheeteditor/main/app/view/AutoFilterDialog',
     'spreadsheeteditor/main/app/view/PivotGroupDialog',
     'spreadsheeteditor/main/app/view/PivotCalculatedItemsDialog',
-    'spreadsheeteditor/main/app/view/PivotInsertCalculatedItemDialog'
+    'spreadsheeteditor/main/app/view/PivotInsertCalculatedItemDialog',
+    'spreadsheeteditor/main/app/view/SolverDlg',
+    'spreadsheeteditor/main/app/view/ConstraintDialog',
+    'spreadsheeteditor/main/app/view/SolverMethodDialog',
+    'spreadsheeteditor/main/app/view/SolverResultsDlg'
 ], function () {
     Common.NotificationCenter.trigger('app-pack:loaded');
 });

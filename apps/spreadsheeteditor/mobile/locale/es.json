@@ -379,7 +379,8 @@
     "uploadDocSizeMessage": "Se ha excedido el límite de tamaño máximo del documento.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "advDRMPassword": "Contraseña",
@@ -732,7 +733,11 @@
       "textYen": "Yen",
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Ordenar de mayor a menor",
-      "txtSortLow2High": "Ordenar de menor a mayor "
+      "txtSortLow2High": "Ordenar de menor a mayor ",
+      "textContextTextDirection": "Context",
+      "textLtrTextDirection": "Left-to-right",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "advCSVOptions": "Elegir los parámetros de CSV",
@@ -891,7 +896,9 @@
       "txtZhtw": "Chino (tradicional)",
       "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?",
       "warnDownloadCsv": "El formato CSV no permite guardar un archivo de varias hojas y todos los elementos, excepto el texto.<br>Para guardar solo la hoja seleccionada en CSV, pulse OK.<br>Para guardar toda la hoja de cálculo y todas las características, pulse Cancelar y seleccione otro formato.",
-      "warnDownloadOds": "Al guardar este archivo, es posible que se pierdan algunas fórmulas, el formato de las celdas u objetos incrustados debido a la compatibilidad limitada con determinados formatos.<br>¿Está seguro de que desea continuar?"
+      "warnDownloadOds": "Al guardar este archivo, es posible que se pierdan algunas fórmulas, el formato de las celdas u objetos incrustados debido a la compatibilidad limitada con determinados formatos.<br>¿Está seguro de que desea continuar?",
+      "textSheetRtl": "Sheet Right to left",
+      "textOpenLocation": "Open location"
     }
   }
 }

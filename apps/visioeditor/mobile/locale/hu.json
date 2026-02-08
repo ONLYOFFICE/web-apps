@@ -99,6 +99,7 @@
     "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your admin.",
     "errorConnectToServer": "Can't save this doc. Check your connection settings or contact your admin.<br>When you click the 'OK' button, you will be prompted to download the document.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
     "errorEditingDownloadas": "An error occurred during the work with the document.<br>Use the 'Download' option to save the file backup copy locally.",
     "errorFilePassProtect": "The file is password protected and could not be opened.",
     "errorFileSizeExceed": "The file size exceeds your server limitation.<br>Please, contact your admin.",
@@ -211,7 +212,8 @@
       "textVisioInfo": "Diagramnéző-információ",
       "textVisioSettings": "Diagramnéző-beállítások",
       "textVisioTitle": "Diagramnéző-cím",
-      "textPoweredBy": "Powered By"
+      "textPoweredBy": "Powered By",
+      "textOpenLocation": "Open location"
     }
   }
 }

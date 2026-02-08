@@ -1470,7 +1470,7 @@ define([
 
                 if (!item || isNaN(Common.Utils.String.parseFloat(record.value))) {
                     me._state.type_fontsize = 'number';
-                    value = /^\+?(\d*(\.|,)?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
+                    value = /^\+?(\d*(\.|,)?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value.trim());
 
                     if (!value) {
                         value = this._getApiTextSize();

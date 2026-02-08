@@ -647,6 +647,9 @@ define([
             switch (s) {
                 case 'replace':
                 case 'search':
+                    if ( this.leftMenu.menuFile.isVisible() ) {
+                        return false;
+                    }
                     if ((!previewPanel || !previewPanel.isVisible()) && !this._state.no_slides)  {
                         Common.UI.Menu.Manager.hideAll();
                         var full_menu_pressed = this.leftMenu.btnAbout.pressed;

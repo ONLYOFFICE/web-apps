@@ -442,6 +442,42 @@
 
 }
 
+.combo-chart-template {
+    .combo-template(62px);
+
+    top: -4px;
+    position: absolute;
+
+    .more-container & {
+        position: static;
+    }
+
+    .view .dataview, .dropdown-menu {
+        padding: 1px;
+    }
+
+    .dataview.inner {
+        padding: 1px 14px 1px 0px;
+
+        .rtl & {
+            padding: 1px 0px 1px 14px;
+        }
+    }
+
+    .dropdown-menu {
+        padding: 0px 0px 5px 0px;
+
+        .dataview.inner {
+            padding: 1px 12px 1px 0px;
+
+            .rtl & {
+                padding: 1px 0px 1px 12px;
+            }
+        }
+    }
+
+}
+
 .combo-slicer-style {
     .combo-textart(60px, 4px);
 }

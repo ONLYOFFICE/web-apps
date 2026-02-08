@@ -481,6 +481,9 @@
 	"SORTBY": "SIRALAÖLÇÜT",
 	"GETPIVOTDATA": "ÖZETVERİAL",
 	"IMPORTRANGE": "IMPORTRANGE",
+	"REGEXTEST": "NORMİFADESINA",
+	"REGEXREPLACE": "NORMİFADEDEĞİŞTİR",
+	"REGEXEXTRACT": "NORMİFADEAYIKLA",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

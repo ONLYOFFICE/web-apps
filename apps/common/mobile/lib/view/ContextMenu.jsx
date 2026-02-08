@@ -21,6 +21,7 @@ class ContextMenuView extends Component {
         return (
             <Popover id={idContextMenuElement}
                      className="document-menu"
+                     arrow={false}
                      backdrop={false}
                      closeByBackdropClick={false}
                      closeByOutsideClick={false}

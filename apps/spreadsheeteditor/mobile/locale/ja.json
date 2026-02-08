@@ -379,6 +379,7 @@
     "uploadImageExtMessage": "不明なイメージ形式",
     "uploadImageFileCountMessage": "アップロードしたイメージがない",
     "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
     "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled."
   },
   "LongActions": {
@@ -732,7 +733,11 @@
       "textYen": "円",
       "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
       "txtSortHigh2Low": " 大きい順に並べ替えます",
-      "txtSortLow2High": "小さい順に並べ替えます。"
+      "txtSortLow2High": "小さい順に並べ替えます。",
+      "textContextTextDirection": "Context",
+      "textLtrTextDirection": "Left-to-right",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "advCSVOptions": "CSVオプションを選択する",
@@ -888,9 +893,11 @@
       "txtZh": "中国語",
       "warnDownloadAs": "この形式で保存する続けば、テクスト除いて全てが失います。続けてもよろしいですか？",
       "warnDownloadCsv": "CSV形式は複数シートファイルおよびテキスト以外のすべての要素の保存をサポートしていません。<br>選択したシートのみをCSVに保存するには、OKを押してください。<br>スプレッドシート全体とすべての機能を保存するには、キャンセルをクリックして別の形式を選",
+      "textSheetRtl": "Sheet Right to left",
       "txtSr": "Serbian (Latin)",
       "txtSrcyrl": "Serbian (Cyrillic)",
       "txtZhtw": "Chinese (Traditional)",
+      "textOpenLocation": "Open location",
       "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
     }
   }

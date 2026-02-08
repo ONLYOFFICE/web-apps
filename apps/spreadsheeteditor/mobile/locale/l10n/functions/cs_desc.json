@@ -2408,5 +2408,20 @@
 		"a": "(url_tabulky; řetězec_rozsahu)",
 		"d": "Importuje rozsah buněk ze zadané tabulky.",
 		"ad": "adresa URL tabulky, ze které budou importována data!rozsah, který se má importovat"
+	},
+	"REGEXTEST": {
+		"a": "(text; vzor; [velikost_písmen])",
+		"d": "Zkontroluje, zda vstup odpovídá vzoru, a vrátí hodnotu PRAVDA nebo NEPRAVDA",
+		"ad": "Je text, ve kterém hledáte!Použitý regulární výraz!Zda se shoda rozlišuje malá a velká písmena"
+	},
+	"REGEXREPLACE": {
+		"a": "(text; vzor; náhrada; [výskyt]; [velikost_písmen])",
+		"d": "Vrátí „text“ s „náhrada“ na místě shod s „vzor“",
+		"ad": "Text, ve kterém hledáte!Regulární výraz, který má být použit!Řetězec, který nahradí shodný podřetězec v textu. Kde se v řetězci objeví $n, kde $n je celé číslo, $n je nahrazeno nth skupinou zachycení! Který výskyt má být nahrazen. Pokud je 0, budou nahrazeny všechny výskyty. Záporná hodnota znamená počet výskytů od konce textu.! Zda se ve shodě rozlišují malá a velká písmena"
+	},
+	"REGEXEXTRACT": {
+		"a": "(text; vzor; [režim_vrácení]; [velikost_písmen])",
+		"d": "Extrahuje podřetězce 'textu' na základě poskytnutého REGEX 'vzoru'",
+		"ad": "Je text, ve kterém hledáte!Regulární výraz, který má být použit!Upřesněte, které shody se mají vrátit!Zda se shoduje citlivý na velká písmena"
 	}
 }

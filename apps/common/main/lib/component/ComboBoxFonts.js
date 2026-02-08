@@ -486,6 +486,12 @@ define([
                 var val = $(e.target).val(),
                     record = {};
 
+                if(!this._selectedItem && val !== $(e.target).val().trim()) {
+                    val = $(e.target).val().trim();
+                    $(e.target).val(val);
+                    this.selectCandidate(true);
+                }
+                
                 if (this.lastValue === val && !(extra && extra.reapply)) {
                     if (extra && extra.onkeydown)
                         this.trigger('combo:blur', this, e);

@@ -379,7 +379,8 @@
     "uploadDocSizeMessage": "Il limite massimo delle dimensioni del documento è stato superato.",
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
-    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB."
+    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "advDRMPassword": "Password",
@@ -732,7 +733,11 @@
       "textYen": "Yen",
       "txtNotUrl": "Questo campo dev'essere un URL nel formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Ordina dal più alto al più basso",
-      "txtSortLow2High": "Ordina dal più basso al più alto"
+      "txtSortLow2High": "Ordina dal più basso al più alto",
+      "textContextTextDirection": "Context",
+      "textLtrTextDirection": "Left-to-right",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "advCSVOptions": "Scegli le opzioni CSV",
@@ -891,7 +896,9 @@
       "txtZhtw": "Cinese (tradizionale)",
       "warnDownloadAs": "Se continui a salvare in questo formato, tutte le funzioni tranne il testo saranno perse.<br>Sei sicuro di voler continuare?",
       "warnDownloadCsv": "Il formato CSV non supporta il salvataggio di file con più fogli e di tutti gli elementi, ad eccezione del testo.<br>Per salvare solo il foglio attivo in CSV, premi OK.<br>Per salvare l'intero foglio di calcolo e tutte le funzionalità, fai clicca su Annulla e seleziona un altro formato.",
-      "warnDownloadOds": "Il salvataggio di questo file potrebbe causare la perdita di alcune formule, formattazioni delle celle o oggetti incorporati a causa del supporto limitato del formato.<br>Sei sicuro di voler continuare?"
+      "warnDownloadOds": "Il salvataggio di questo file potrebbe causare la perdita di alcune formule, formattazioni delle celle o oggetti incorporati a causa del supporto limitato del formato.<br>Sei sicuro di voler continuare?",
+      "textSheetRtl": "Sheet Right to left",
+      "textOpenLocation": "Open location"
     }
   }
 }

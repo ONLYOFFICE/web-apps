@@ -2408,5 +2408,20 @@
 		"a": "(laskentataulukon_url, alueen_merkkijono)",
 		"d": "Tuo tiedot määritetyn laskentataulukon soluväliltä.",
 		"ad": "Sen laskentataulukon URL-osoite, josta tiedot tuodaan!Merkkijono muodossa, joka määrittää tuotavan alueen"
+	},
+	"REGEXTEST": {
+		"a": "(teksti; malli; [kirjainkokoasetus])",
+		"d": "Tarkistaa, vastaako syötetty teksti mallia, ja palauttaa TRUE tai FALSE",
+		"ad": "Onko teksti, jonka sisällä etsitään!Sovellettava säännöllinen lauseke!Onko vastaavuus isojen ja pienten kirjainten suhteen"
+	},
+	"REGEXREPLACE": {
+		"a": "(teksti; malli; korvaus; [esiintymä]; [kirjainkokoasetus])",
+		"d": "Palauttaa tekstin text, jossa pattern-osumien sijasta on replacement",
+		"ad": "Teksti, josta etsit!Sovellettava säännöllinen lauseke!Merkkijono, joka korvaa täsmäävän alimerkkijonon tekstissä. Kun merkkijonossa esiintyy $n ja $n on kokonaisluku, $n korvataan n:nnellä sieppausryhmällä!Mikä esiintymä korvataan. Jos arvo on 0, kaikki esiintymät korvataan. Negatiivinen arvo tarkoittaa kyseistä esiintymien määrää tekstin lopusta.!Määrittää, huomioidaanko osumissa kirjainkoko"
+	},
+	"REGEXEXTRACT": {
+		"a": "(teksti; malli; [palautustila]; [kirjainkokoasetus])",
+		"d": "Poimii 'tekstin' osajonoja annetun REGEX 'pattern':n perusteella",
+		"ad": "Onko teksti, jonka sisältä etsit!Sovellettava säännöllinen lauseke!Määritä, mitkä osumat palautetaan!Otetaanko huomioon isojen ja pienten kirjainten kirjaimet"
 	}
 }

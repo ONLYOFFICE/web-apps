@@ -90,10 +90,10 @@ define([
                 '<div class="group">' +
                     '<span id="btn-review-on" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="group no-group-mask review" style="padding-left: 0;padding-right:0;">' +
+                '<div class="group no-group-mask review padding-hor-zerro">' +
                     '<span id="btn-review-view" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="group move-changes" style="padding-left: 0;padding-right:0;">' +
+                '<div class="group move-changes padding-hor-zerro">' +
                     '<span id="btn-change-prev" class="btn-slot text x-huge"></span>' +
                     '<span id="btn-change-next" class="btn-slot text x-huge"></span>' +
                     '<span id="btn-change-accept" class="btn-slot text x-huge"></span>' +
@@ -789,6 +789,9 @@ define([
                     if ((!me.btnMailRecepients || !Common.UI.LayoutManager.isElementVisible('toolbar-collaboration-mailmerge')) && separator_last)
                         me.$el.find(separator_last).hide();
 
+//!                 NOTE: conflicted code from branch feature/pdf-history. remove if is not relevant and merge is successful
+//!                    Common.NotificationCenter.trigger('tab:visible', 'review', (window.PDFE && (config.isPDFAnnotate || config.isPDFEdit) || !window.PDFE && (config.isEdit || config.canViewReview || me.canComments))
+//!                                                                                && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration'));
                     var visible = (config.isEdit || config.canViewReview || me.canComments) && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration');
                     Common.NotificationCenter.trigger('tab:visible', 'review', visible);
                     if (Common.Utils.InternalSettings.get('toolbar-active-tab') && visible) { // collaboration tab has hign priority in view mode
