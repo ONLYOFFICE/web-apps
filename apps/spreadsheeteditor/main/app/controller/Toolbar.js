@@ -379,7 +379,8 @@ define([
                 toolbar.btnTextFormatting.menu.on('item:click',             _.bind(this.onTextFormattingMenu, this));
                 toolbar.btnHorizontalAlign.menu.on('item:click',            _.bind(this.onHorizontalAlignMenu, this));
                 toolbar.btnVerticalAlign.menu.on('item:click',              _.bind(this.onVerticalAlignMenu, this));
-            } if ( me.appConfig.isEditDiagram || me.appConfig.isEditOle ){
+            } else
+            if ( me.appConfig.isEditDiagram || me.appConfig.isEditOle ){
                 toolbar.btnTextDir.menu.on('item:click',                    _.bind(this.onTextDirClick, this));
                 toolbar.btnTextDir.menu.on('show:before',                    _.bind(this.onUpdateTextDir, this));
             } else {
