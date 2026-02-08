@@ -37,7 +37,13 @@ export class storeCellSettings {
             setAutoColor: action,
             customFormats: observable,
             initCustomFormats: action,
-            addCustomFormat: action
+            addCustomFormat: action,
+            cellFormat: observable,
+            setCellFormat: action,
+            cellFormatType: observable,
+            setCellFormatType: action,
+            uiFormatType: observable,
+            setUiFormatType: action,
         });
     }
 
@@ -77,6 +83,22 @@ export class storeCellSettings {
     colorAuto = 'auto';
 
     customFormats;
+
+    cellFormat = 'General';
+    cellFormatType;
+    uiFormatType;
+
+    setCellFormat(format) {
+        this.cellFormat = format;
+    }
+
+    setCellFormatType(type) {
+        this.cellFormatType = type;
+    }
+
+    setUiFormatType(type) {
+        this.uiFormatType = type;
+    }
 
     initCustomFormats(formatsArr) {
         this.customFormats = formatsArr;
