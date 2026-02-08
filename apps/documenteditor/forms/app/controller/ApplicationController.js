@@ -1752,6 +1752,8 @@ define([
                         this.api.GetMultipageViewMode() && this.api.SetMultipageViewMode(false);
                         this.api.zoomFitToWidth();
                         this.view.mnuZoom.items[2].setChecked(false);
+                    } else {
+                        this.api.zoomCustomMode();
                     }
                     break;
                 case 'zoom:multi':
