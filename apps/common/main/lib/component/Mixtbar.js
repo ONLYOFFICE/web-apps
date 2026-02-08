@@ -106,6 +106,8 @@ define([
             initialize : function(options) {
                 Common.UI.BaseView.prototype.initialize.call(this, options);
 
+                const me = this;
+
                 var _template_tabs =
                     !Common.UI.isRTL() ?
                     '<section class="tabs">' +
@@ -158,6 +160,79 @@ define([
                     this.repaintMoreBtns();
                 }, this));
                 Common.NotificationCenter.on('uitheme:changed', _.bind(this.onThemeChanged, this));
+                Common.NotificationCenter.on({
+                    'hints:activate-control': function (p) {
+                        if (p && p.exit && me.isMoreDropdownSection(p.section)) p.exit(true);
+                    },
+
+                    'hints:resolve-section': function (p) {
+                        if (!p || !p.set) return;
+
+                        const $more = me.getVisibleMoreContainer();
+                        if (!$more.length) return;
+                        if (p.level === 0) { p.cancel = true; return; }
+                        p.set($more, 1);
+                    },
+
+                    'hints:resolve-bounds': function (p) {
+                        if (p && me.isMoreDropdownSection(p.section)) {
+                            p.top = 0;
+                            p.bottom = p.docH;
+                        }
+                    },
+
+                    'hints:esc': function (p) {
+                        const handled = me.hasVisibleMoreDropdown();
+                        if (handled) me.closeVisibleMoreDropdown();
+                        if (p && p.handled) p.handled(handled);
+                    }
+                });
+            },
+
+            isMoreDropdownSection: function (section) {
+                return $(section).hasClass('more-container');
+            },
+
+            getVisibleMoreContainer: function () {
+                return $('.dropdown-menu.more-container:visible');
+            },
+
+            hasVisibleMoreDropdown: function () {
+                return this.getVisibleMoreContainer().length > 0;
+            },
+
+            closeVisibleMoreDropdown: function () {
+                const $more = this.getVisibleMoreContainer();
+                if (!$more.length) return null;
+                const tab = $more.attr('data-tab') || null;
+                this.closeMoreDropdown(tab);
+                $more.hide();
+                return tab;
+            },
+
+            closeMoreDropdown: function (tab) {
+                if (!btnsMore) return;
+                if (tab) {
+                    if (btnsMore[tab] && btnsMore[tab].pressed) {
+                        btnsMore[tab].toggle(false, true);
+                    }
+                    return;
+                }
+            },
+
+            prefillMore: function ($menu, level) {
+                if (!$menu || !$menu.length) return;
+
+                const prevDisplay = $menu[0].style.display,
+                    prevVisibility = $menu[0].style.visibility;
+                $menu.css({ display: 'block', visibility: 'hidden' });
+
+                Common.NotificationCenter.trigger('hints:prefill', {
+                    section: $('#toolbar'),   
+                    level: level
+                });
+
+                $menu.css({ display: prevDisplay, visibility: prevVisibility });
             },
 
             afterRender: function() {
@@ -627,7 +702,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top dropdown-manual',
                         caption: Common.Locale.get("textMoreButton",{name:"Common.Translation", default: "More"}),
                         iconCls: 'toolbar__icon btn-big-more',
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '1',              
+                        dataHintDirection: 'bottom', 
+                        dataHintTitle: 'MO' 
                     });
                     btnsMore[tab].render(box.find('.slot-btn-more'));
                     btnsMore[tab].on('toggle', function(btn, state, e) {
@@ -1042,6 +1120,7 @@ define([
 
                 var styles = Common.UI.isRTL() ? {left: '6px', right: 'auto', top : top, 'max-width': Common.Utils.innerWidth() + 'px'} : {right: right, left: 'auto', top : top, 'max-width': Common.Utils.innerWidth() + 'px'}
                 moreContainer.css(styles);
+                this.prefillMore(moreContainer, 1);
                 moreContainer.show();
             },
 
