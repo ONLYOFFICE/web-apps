@@ -1739,10 +1739,30 @@ define([
         onMenuZoomClick: function(menu, item, e){
             switch ( item.value ) {
                 case 'zoom:page':
-                    item.isChecked() ? this.api.zoomFitToPage() : this.api.zoomCustomMode();
+                    if (item.isChecked()) {
+                        this.api.GetMultipageViewMode() && this.api.SetMultipageViewMode(false);
+                        this.api.zoomFitToPage();
+                        this.view.mnuZoom.items[2].setChecked(false);
+                    } else {
+                        this.api.zoomCustomMode();
+                    }
                     break;
                 case 'zoom:width':
-                    item.isChecked() ? this.api.zoomFitToWidth() : this.api.zoomCustomMode();
+                    if (item.isChecked()) {
+                        this.api.GetMultipageViewMode() && this.api.SetMultipageViewMode(false);
+                        this.api.zoomFitToWidth();
+                        this.view.mnuZoom.items[2].setChecked(false);
+                    } else {
+                        this.api.zoomCustomMode();
+                    }
+                    break;
+                case 'zoom:multi':
+                    if (item.isChecked()) {
+                        this.api.zoomCustomMode();
+                        this.api.SetMultipageViewMode(true);
+                    } else {
+                        this.api.SetMultipageViewMode(false);
+                    }
                     break;
             }
 
