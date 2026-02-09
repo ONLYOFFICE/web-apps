@@ -272,7 +272,9 @@ define([
 
                 this.appConfig = options.mode;
                 this.tabOptions = {
-                    canCommentResolve: options?.tabOptions?.canCommentResolve ?? true
+                    canCommentResolve: options.tabOptions && options.tabOptions.canCommentResolve != undefined
+                        ? options.tabOptions.canCommentResolve
+                        : true
                 }
                 this.lockedControls = [];
                 var filter = Common.localStorage.getKeysFilter();
