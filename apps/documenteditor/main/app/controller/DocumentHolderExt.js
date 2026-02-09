@@ -245,10 +245,13 @@ define([], function () {
             view.menuStyleSaveInTable.on('click', _.bind(me.onMenuSaveStyle, me));
             view.menuStyleUpdateInTable.on('click', _.bind(me.onMenuUpdateStyle, me));
             view.menuParagraphAdvanced.on('click', _.bind(me.advancedParagraphClick, me));
+            view.menuEditHyperlinkPic.on('click', _.bind(me.editHyperlink, me));
             view.menuEditHyperlinkTable.on('click', _.bind(me.editHyperlink, me));
             view.menuEditHyperlinkPara.on('click', _.bind(me.editHyperlink, me));
+            view.menuRemoveHyperlinkPic.on('click', _.bind(me.onRemoveHyperlink, me));
             view.menuRemoveHyperlinkTable.on('click', _.bind(me.onRemoveHyperlink, me));
             view.menuRemoveHyperlinkPara.on('click', _.bind(me.onRemoveHyperlink, me));
+            view.menuAddHyperlinkPic.on('click', _.bind(me.addHyperlink, me));
             view.menuAddHyperlinkTable.on('click', _.bind(me.addHyperlink, me));
             view.menuAddHyperlinkPara.on('click', _.bind(me.addHyperlink, me));
             view.menuAddCommentTable.on('click', _.bind(me.addComment, me));
@@ -361,8 +364,7 @@ define([], function () {
                     menu_props.imgProps.locked = (elValue) ? elValue.get_Locked() : false;
 
                     noobject = false;
-                    if ( (shapeprops===undefined || shapeprops===null) && (chartprops===undefined || chartprops===null) )  // not shape and chart
-                        break;
+                    
                 } else if (Asc.c_oAscTypeSelectElement.Table == elType)
                 {
                     menu_to_show = documentHolder.tableMenu;

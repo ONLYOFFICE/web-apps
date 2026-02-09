@@ -185,6 +185,9 @@ define([], function () {
                 view.menuParagraphBullets.menu.on('show:after',     _.bind(me.onBulletMenuShowAfter, me));
                 view.menuAddHyperlinkShape.on('click',              _.bind(me.onInsHyperlink, me));
                 view.menuEditHyperlinkShape.on('click',             _.bind(me.onInsHyperlink, me));
+                view.menuAddHyperlinkPic.on('click',                _.bind(me.onInsHyperlink, me));
+                view.menuEditHyperlinkPic.on('click',               _.bind(me.onInsHyperlink, me));
+                view.menuRemoveHyperlinkPic.on('click',             _.bind(me.onDelHyperlink, me))
                 view.menuRemoveHyperlinkShape.on('click',           _.bind(me.onDelHyperlink, me));
                 view.pmiTextAdvanced.on('click',                    _.bind(me.onTextAdvanced, me));
                 view.mnuShapeAdvanced.on('click',                   _.bind(me.onShapeAdvanced, me));
@@ -2313,6 +2316,14 @@ define([], function () {
                         item.setDisabled(!documentHolder.api.asc_canMergeSelectedShapes(item.value));
                     });
                 }
+
+                var hyperinfo = cellinfo.asc_getHyperlink(),
+                    can_add_hyperlink = this.api.asc_canAddShapeHyperlink();
+                documentHolder.menuHyperlinkPic.setVisible((isimagemenu || isshapemenu) && can_add_hyperlink!==false && hyperinfo);
+                documentHolder.menuAddHyperlinkPic.setVisible((isimagemenu || isshapemenu) && can_add_hyperlink!==false && !hyperinfo);
+                documentHolder.menuHyperlinkPicSeparator.setVisible((isimagemenu || isshapemenu) && can_add_hyperlink!==false);
+                documentHolder.menuHyperlinkPic.setDisabled(isObjLocked || this._state.wsProps['InsertHyperlinks']);
+                documentHolder.menuAddHyperlinkPic.setDisabled(isObjLocked || this._state.wsProps['InsertHyperlinks']);
 
                 var objcount = this.api.asc_getSelectedDrawingObjectsCount();
                 documentHolder.menuImageAlign.menu.items[7].setDisabled(objcount<3);

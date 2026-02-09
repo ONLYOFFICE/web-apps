@@ -187,10 +187,13 @@ define([], function () {
             view.menuTableCut.on('click', _.bind(me.onCutCopyPaste, me));
             view.menuAddHyperlinkPara.on('click', _.bind(me.addHyperlink, me));
             view.menuAddHyperlinkTable.on('click', _.bind(me.addHyperlink, me));
+            view.menuAddHyperlinkPic.on('click', _.bind(me.addHyperlink, me));
             view.menuEditHyperlinkPara.on('click', _.bind(me.editHyperlink, me));
             view.menuEditHyperlinkTable.on('click', _.bind(me.editHyperlink, me));
+            view.menuEditHyperlinkPic.on('click', _.bind(me.editHyperlink, me));
             view.menuRemoveHyperlinkPara.on('click', _.bind(me.removeHyperlink, me));
             view.menuRemoveHyperlinkTable.on('click', _.bind(me.removeHyperlink, me));
+            view.menuRemoveHyperlinkPic.on('click', _.bind(me.removeHyperlink, me));
             view.menuChartEdit.on('click', _.bind(me.editChartClick, me, undefined));
             view.menuImgSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
             view.menuTableSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
