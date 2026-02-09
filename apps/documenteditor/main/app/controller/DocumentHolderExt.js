@@ -364,8 +364,7 @@ define([], function () {
                     menu_props.imgProps.locked = (elValue) ? elValue.get_Locked() : false;
 
                     noobject = false;
-                    if ( (shapeprops===undefined || shapeprops===null) && (chartprops===undefined || chartprops===null) )  // not shape and chart
-                        break;
+                    
                 } else if (Asc.c_oAscTypeSelectElement.Table == elType)
                 {
                     menu_to_show = documentHolder.tableMenu;
