@@ -1664,7 +1664,11 @@ define([
                 var me = this,
                     application         = this.getApplication(),
                     reviewController    = application.getController('Common.Controllers.ReviewChanges');
-                reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api).loadDocument({doc:me.document});
+
+                reviewController
+                    .setMode(me.appOptions, { canCommentResolve: false })
+                    .setConfig({config: me.editorConfig}, me.api)
+                    .loadDocument({doc:me.document});
 
                 if (this.appOptions.isEdit) {
                     if (me.appOptions.isSignatureSupport || me.appOptions.isPasswordSupport)
