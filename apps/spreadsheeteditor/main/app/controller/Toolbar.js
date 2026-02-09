@@ -317,6 +317,8 @@ define([
                 if (toolbar.cmbNumberFormat.cmpEl)
                     toolbar.cmbNumberFormat.cmpEl.on('click', '#id-toolbar-mnu-item-more-formats a', _.bind(this.onNumberFormatSelect, this));
                 toolbar.btnEditChartData.on('click',                        _.bind(this.onEditChartData, this));
+                toolbar.btnTextDir.menu.on('item:click',                    _.bind(this.onTextDirClick, this));
+                toolbar.btnTextDir.menu.on('show:before',                    _.bind(this.onUpdateTextDir, this));
             } else
             if ( me.appConfig.isEditMailMerge ) {
                 toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
@@ -379,8 +381,6 @@ define([
                 toolbar.btnTextFormatting.menu.on('item:click',             _.bind(this.onTextFormattingMenu, this));
                 toolbar.btnHorizontalAlign.menu.on('item:click',            _.bind(this.onHorizontalAlignMenu, this));
                 toolbar.btnVerticalAlign.menu.on('item:click',              _.bind(this.onVerticalAlignMenu, this));
-            } else
-            if ( me.appConfig.isEditDiagram || me.appConfig.isEditOle ){
                 toolbar.btnTextDir.menu.on('item:click',                    _.bind(this.onTextDirClick, this));
                 toolbar.btnTextDir.menu.on('show:before',                    _.bind(this.onUpdateTextDir, this));
             } else {
