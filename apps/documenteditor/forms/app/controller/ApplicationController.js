@@ -1286,8 +1286,9 @@ define([
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
+                    var signProps = obj.asc_getSignatureProps(me.api);
                     var win = (new Common.Views.PdfSignDialog({
-                        props: obj,
+                        props: signProps,
                         api: me.api,
                         disableNetworkFunctionality: me.appOptions.disableNetworkFunctionality,
                         storage: me.appOptions.canRequestInsertImage || me.appOptions.fileChoiceUrl && me.appOptions.fileChoiceUrl.indexOf("{documentType}")>-1,
@@ -1295,7 +1296,7 @@ define([
                         iconType: 'svg',
                         handler: function(result, value) {
                             if (result == 'ok') {
-                                me.api.asc_SetSignatureProps(value);
+                                me.api.asc_SetSignatureProps(signProps.getResult());
                             }
                         }
                         })).on('close', function(obj){

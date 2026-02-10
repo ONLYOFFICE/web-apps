@@ -330,9 +330,19 @@ define([], function () { 'use strict';
                 me.isImageLoaded = true;
                 me.uploadEmptyPnl.toggleClass('hidden', true);
                 me.uploadPreviewPnl.toggleClass('hidden', false);
+                me.props.updateView(0);
                 me.btnOk.setDisabled(!me.mode);
             };
             this.api.asc_registerCallback('asc_onSignatureImageLoaded', onApiImgLoaded);
+
+            var onCanUndoChanged = function(canUndo) {
+                me.btnUndo.setDisabled(!canUndo);
+            };
+            var onCanRedoChanged = function(canRedo) {
+                me.btnRedo.setDisabled(!canRedo);
+            };
+            this.api.asc_registerCallback('asc_CanUndoSignature', onCanUndoChanged);
+            this.api.asc_registerCallback('asc_CanRedoSignature', onCanRedoChanged);
 
             var insertImageFromStorage = function(data) {
                 if (data && data._urls && data.c==='signature') {
@@ -343,6 +353,8 @@ define([], function () { 'use strict';
 
             this.on('close', function(obj){
                 me.api.asc_unregisterCallback('asc_onSignatureImageLoaded', onApiImgLoaded);
+                me.api.asc_unregisterCallback('asc_CanUndoSignature', onCanUndoChanged);
+                me.api.asc_unregisterCallback('asc_CanRedoSignature', onCanRedoChanged);
                 Common.NotificationCenter.off('storage:image-insert', insertImageFromStorage);
             });
         },
@@ -363,6 +375,7 @@ define([], function () { 'use strict';
             this.btnOk.setDisabled(!mode && !this.isImageLoaded);
             var me = this;
             _.delay(function(){
+                me.props.updateView(mode);
                 mode===1 ? me.cmbLineSize.focus() : mode===2 ? me.inputName.focus() : me.btnSelectImage.focus();
             },50);
         },
@@ -400,9 +413,11 @@ define([], function () { 'use strict';
 
         _setDefaults: function (props) {
             if (props) {
-                // props.put_PreviewImgId('#pdf-sign-img-upload-preview');
-                // props.put_PreviewDrawId('#pdf-sign-img-draw-preview');
-                // props.put_PreviewTypeId('#pdf-sign-img-type-preview');
+                props.put_PreviewImgId('pdf-sign-img-upload-preview');
+                props.put_PreviewDrawId('pdf-sign-img-draw-preview');
+                props.put_PreviewTypeId('pdf-sign-img-type-preview');
+                this.btnUndo.setDisabled(!props.asc_canUndo());
+                this.btnRedo.setDisabled(!props.asc_canRedo());
             }
         },
 
@@ -453,7 +468,7 @@ define([], function () { 'use strict';
         },
 
         onRedo: function () {
-            this.props.undo();
+            this.props.redo();
         },
 
         onFontSizeChanged: function(before, combo, record, e) {
