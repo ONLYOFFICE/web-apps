@@ -1832,24 +1832,18 @@ define([], function () {
                             return;
                     }
                     if (me.mode.canSaveToFile) {
-                        // if (_.isUndefined(me.fontStore)) {
-                        //     me.fontStore = new Common.Collections.Fonts();
-                        //     var fonts = me.getApplication().getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
-                        //     var arr = [];
-                        //     _.each(fonts, function(font, index){
-                        //         if (!font.cloneid) {
-                        //             arr.push(_.clone(font));
-                        //         }
-                        //     });
-                        //     me.fontStore.add(arr);
-                        // }
+                        if (!me.fontStore) {
+                            me.fontStore = new Common.Collections.Fonts();
+                            const fonts = me.getApplication().getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
+                            me.fontStore.add(fonts.filter(font => !font.cloneid));
+                        }
                         var signProps = obj.asc_getSignatureProps(me.api);
                         var win = (new Common.Views.PdfSignDialog({
                             props: signProps,
                             api: me.api,
                             disableNetworkFunctionality: me.mode.disableNetworkFunctionality,
                             storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
-                            fontStore: new Common.Collections.Fonts(),
+                            fontStore: me.fontStore,
                             handler: function(result, value) {
                                 if (result == 'ok') {
                                     me.api.asc_SetSignatureProps(signProps.getResult());

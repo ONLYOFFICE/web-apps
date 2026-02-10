@@ -357,6 +357,13 @@ define([], function () { 'use strict';
                 me.api.asc_unregisterCallback('asc_CanRedoSignature', onCanRedoChanged);
                 Common.NotificationCenter.off('storage:image-insert', insertImageFromStorage);
             });
+
+            const $window = this.getChild();
+            $window.find('.dlg-btn').on('click', e => {
+                if ( me.options.handler )
+                    me.options.handler.call(me, event.currentTarget.attributes['result'].value);
+                me.close();
+            });
         },
 
         updateThemeColors: function() {
