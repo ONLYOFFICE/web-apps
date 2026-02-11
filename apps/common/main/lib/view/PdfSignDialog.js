@@ -368,7 +368,7 @@ define([], function () { 'use strict';
                 me.uploadEmptyPnl.toggleClass('hidden', true);
                 me.uploadPreviewPnl.toggleClass('hidden', false);
                 me.props.updateView(0);
-                me.btnOk.setDisabled(!me.mode);
+                me.btnOk.setDisabled(false);
             };
             this.api.asc_registerCallback('asc_onSignatureImageLoaded', onApiImgLoaded);
 
