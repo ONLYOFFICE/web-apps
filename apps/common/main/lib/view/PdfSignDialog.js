@@ -253,11 +253,48 @@ define([], function () { 'use strict';
                 additionalAlign: this.menuAddAlign,
                 color: 'auto',
                 auto: true,
+                menu: true,
                 takeFocusOnClose: true
             });
-            this.colorsLine = this.btnLineColor.getPicker();
-            this.btnLineColor.on('color:select', _.bind(this.onColorsLineSelect, this));
-            this.btnLineColor.on('auto:select', _.bind(this.onColorsAutoSelect, this));
+
+            this.btnLineColor.setMenu(new Common.UI.Menu({
+                style: 'min-width: 100px;',
+                items: [
+                    {
+                        template: _.template('<div id="id-sign-window-draw-line-color" style="width: 174px; display: inline-block;" class="palette-large"></div>'),
+                        stopPropagation: true
+                    },
+                    {
+                        id: 'sign-draw-line-color-new',
+                        template: _.template('<a tabindex="-1" type="menuitem" style="">' + this.btnLineColor.textNewColor + '</a>')
+                    },
+                ]
+            }), true);
+
+            // color
+            const currentColor = '000000';
+            this.btnLineColor.currentColor = currentColor;
+            this.btnLineColor.setColor(currentColor);
+            const picker = new Common.UI.ThemeColorPalette({
+                    el: $('#id-sign-window-draw-line-color'),
+                    colors: [
+                        '1755A0', 'D43230', 'F5C346', 'EA3368', '12A489', '552F8B', '9D1F87', 'BB2765', '479ED2', '67C9FA',
+                        '3D8A44', '80CA3D', '1C19B4', '7F4B0F', 'FF7E07', 'FFFFFF', 'D3D3D4', '879397', '575757', '000000'
+                    ],
+                    value: currentColor,
+                    dynamiccolors: 5,
+                    themecolors: 0,
+                    effects: 0,
+                    columns: 5,
+                    outerMenu: {menu: this.btnLineColor.menu, index: 0, focusOnShow: true},
+                    storageSuffix: '-sign'
+                });
+            this.btnLineColor.setPicker(picker);
+            picker.on('select', this.onColorsLineSelect.bind(this));
+            this.btnLineColor.menu.setInnerMenu([{menu: picker, index: 0}]);
+            this.btnLineColor.menu.cmpEl.find('#sign-draw-line-color-new').on('click',  function() {
+                picker.addNewColor(me.btnLineColor.currentColor);
+            });
 
             var data = [];
             for (var i=1; i<6; i++) {
@@ -367,7 +404,7 @@ define([], function () { 'use strict';
         },
 
         updateThemeColors: function() {
-            this.colorsLine.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            // this.colorsLine.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },
 
         onImgModeClick: function(mode, btn) {
@@ -409,13 +446,9 @@ define([], function () { 'use strict';
         },
 
         onColorsLineSelect: function(btn, color) {
-            this.isAutoColor = false;
+            Common.UI.Menu.Manager.hideAll();
+            this.btnLineColor.setColor(color);
             this.props && this.props.put_LineColor(Common.Utils.ThemeColor.getRgbColor(color));
-        },
-
-        onColorsAutoSelect: function(e) {
-            this.isAutoColor = true;
-            this.props && this.props.put_LineColor("#000000");
         },
 
         _setDefaults: function (props) {
