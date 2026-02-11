@@ -1833,32 +1833,40 @@ define([], function () {
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    if (false) {
-                        if (_.isUndefined(me.fontStore)) {
+                    if (me.mode.canSaveToFile) {
+                        if (!me.fontStore) {
                             me.fontStore = new Common.Collections.Fonts();
-                            var fonts = me.getApplication().getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
-                            var arr = [];
-                            _.each(fonts, function(font, index){
-                                if (!font.cloneid) {
-                                    arr.push(_.clone(font));
-                                }
-                            });
-                            me.fontStore.add(arr);
+
+                            const app = me.getApplication(),
+                                cmbFonts = me.getApplication().getController('Toolbar').getView('Toolbar').cmbFontName;
+                            if ( cmbFonts && cmbFonts.store ) {
+                                const fonts = cmbFonts.store.toJSON();
+                                me.fontStore.add(fonts.filter(font => !font.cloneid));
+                            } else {
+                                const fontsController = app.getController('Common.Controllers.Fonts');
+                                fontsController && (me.fontStore = fontsController.store());
+                            }
                         }
-                        (new Common.Views.PdfSignDialog({
-                            props: obj,
+                        var signProps = obj.asc_getSignatureProps(me.api);
+                        var win = (new Common.Views.PdfSignDialog({
+                            props: signProps,
                             api: me.api,
                             disableNetworkFunctionality: me.mode.disableNetworkFunctionality,
                             storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
                             fontStore: me.fontStore,
                             handler: function(result, value) {
                                 if (result == 'ok') {
-                                    me.api.asc_SetSignatureProps(value);
+                                    me.api.asc_SetSignatureProps(signProps.getResult());
                                 }
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             }
-                        })).show();
-                    } else {
+                        })).on('close', function(obj){
+                            setTimeout(function(){
+                                me.api.asc_UncheckContentControlButtons();
+                            }, 100);
+                        });
+                        win.show();
+                    } else { // select picture in viewer only from local file
                         this.api.asc_addImage(obj.pr);
                         setTimeout(function(){
                             me.api.asc_UncheckContentControlButtons();

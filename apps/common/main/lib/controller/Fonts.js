@@ -47,6 +47,7 @@ define([
 ], function () { 'use strict';
     Common.Controllers.Fonts = Backbone.Controller.extend((function() {
         var FONT_TYPE_RECENT = 4;
+        var cachedStore;
 
         function isFontSaved(store, rec) {
             var out = rec.get('type') == FONT_TYPE_RECENT,
@@ -117,10 +118,13 @@ define([
                 });
             });
 
-            var store = this.getCollection('Common.Collections.Fonts');
-            store && store.add(fontsArray);
+            cachedStore = this.getCollection('Common.Collections.Fonts');
+            cachedStore && cachedStore.add(fontsArray);
 
-            Common.NotificationCenter.trigger('fonts:load', store, select);
+            if ( Common.NotificationCenter._events['fonts:load'] ) {
+                Common.NotificationCenter.trigger('fonts:load', cachedStore, select);
+                cachedStore = null;
+            }
         }
 
         return {
@@ -131,6 +135,10 @@ define([
                 'Common.Collections.Fonts'
             ],
             views: [],
+
+            store: function () {
+                return cachedStore;
+            },
 
             initialize: function() {
                 Common.NotificationCenter.on('fonts:select', _.bind(onSelectFont, this))

@@ -131,6 +131,7 @@ require([
             'ApplicationController',
             'Plugins',
             'SearchBar',
+            'Common.Controllers.Fonts',
             'Common.Controllers.Shortcuts'
         ],
         features: {
@@ -148,6 +149,7 @@ require([
                 'documenteditor/forms/app/controller/SearchBar',
                 'documenteditor/forms/app/view/ApplicationView',
                 'common/main/lib/util/utils',
+                'common/main/lib/controller/Fonts',
                 'common/main/lib/util/LocalStorage',
                 'common/main/lib/controller/Scaling',
                 'common/main/lib/controller/Themes',
