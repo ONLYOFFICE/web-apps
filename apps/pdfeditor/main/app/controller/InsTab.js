@@ -430,8 +430,11 @@ define([
                     me.api.scrollToXY(stateBeforeOpenDlg.scroll.x, stateBeforeOpenDlg.scroll.y);
                 }
                 
-                (res === 'view') && me.api.asc_selectComment(arrIds);
-                (res!=='ok' && res!=='view') && me.api.asc_removeAnnots(arrIds);
+                const closedWithCreation = (res === 'ok' || res === 'view'); 
+                if(closedWithCreation) {
+                    me.api.asc_selectComment(arrIds);
+                }
+                me.api.EndLinkAnnotCreation(closedWithCreation);
             });
             win.show();
             win.setSettings();
