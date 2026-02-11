@@ -1834,8 +1834,16 @@ define([], function () {
                     if (me.mode.canSaveToFile) {
                         if (!me.fontStore) {
                             me.fontStore = new Common.Collections.Fonts();
-                            const fonts = me.getApplication().getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
-                            me.fontStore.add(fonts.filter(font => !font.cloneid));
+
+                            const app = me.getApplication(),
+                                cmbFonts = me.getApplication().getController('Toolbar').getView('Toolbar').cmbFontName;
+                            if ( cmbFonts && cmbFonts.store ) {
+                                const fonts = cmbFonts.store.toJSON();
+                                me.fontStore.add(fonts.filter(font => !font.cloneid));
+                            } else {
+                                const fontsController = app.getController('Common.Controllers.Fonts');
+                                fontsController && (me.fontStore = fontsController.store());
+                            }
                         }
                         var signProps = obj.asc_getSignatureProps(me.api);
                         var win = (new Common.Views.PdfSignDialog({
