@@ -1189,8 +1189,6 @@ define([
                                 props.asc_setAdvancedOptions(settings.textOptions);
                                 me.api.asc_SpecialPaste(props, true);
                             }
-                        } else if (item.cmpEl) {
-                            item.setChecked(false, true);
                         }
                     }
                 })).show();
@@ -1206,7 +1204,9 @@ define([
 
         initSpecialPasteEvents: function() {
             if (this.specialPasteEventsInited) return
+
             var me = this;
+
             me.hkSpecPaste = [];
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.paste] = 'P';
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormula] = 'F';
