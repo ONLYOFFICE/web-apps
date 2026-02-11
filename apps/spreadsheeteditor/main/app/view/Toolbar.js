@@ -203,6 +203,8 @@ define([
         applyLayout: function (config) {
             var me = this;
 
+            me.config = config;
+
             function dummyCmp() {
                 return {
                     isDummy : true,
@@ -231,8 +233,8 @@ define([
                 iconCls     : 'toolbar__icon btn-paste',
                 lock        : [/*_set.editCell,*/ _set.coAuth, _set.lostConnect, _set.editVisibleArea, _set.userProtected, _set.externalChartProtected],
                 dataHint    : '1',
-                menu: new Common.UI.Menu({items: []}),
-                split: true,
+                menu: config.isDesktopApp ? new Common.UI.Menu({items: []}) : false,
+                split: config.isDesktopApp,
                 dataHintDirection: (config.isEditDiagram || config.isEditMailMerge || config.isEditOle) ? 'bottom' : 'top',
                 dataHintTitle: 'V'
             });
@@ -2590,6 +2592,10 @@ define([
             var _injectComponent = function (id, cmp) {
                 Common.Utils.injectComponent($host.find(id), cmp);
             };
+
+            if (!this.config || !this.config.isDesktopApp) {
+                $host.find('#slot-btn-paste').removeClass('split');
+            }
 
             _injectComponent('#slot-field-fontname',     this.cmbFontName);
             _injectComponent('#slot-field-fontsize',     this.cmbFontSize);

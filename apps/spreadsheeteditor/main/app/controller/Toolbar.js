@@ -1085,6 +1085,8 @@ define([
             me._arrSpecialPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = [me.txtKeepTextOnly, 2];
             me._arrSpecialPaste[Asc.c_oSpecialPasteProps.useTextImport] = [me.txtUseTextImport, 3];
 
+            me.initSpecialPasteEvents();
+
             if (pasteItems.length>0) {
                 var menu = me.toolbar.btnPaste.menu;
                 for (var i = 0; i < menu.items.length; i++) {
@@ -1102,7 +1104,7 @@ define([
                 _.each(pasteItems, function(menuItem, index) {
                     if (me._arrSpecialPaste[menuItem]) {
                         var mnu = new Common.UI.MenuItem({
-                            caption: me._arrSpecialPaste[menuItem][0],
+                            caption: me._arrSpecialPaste[menuItem][0] + (me.hkSpecPaste[menuItem] ? ' (' + me.hkSpecPaste[menuItem] + ')' : ''),
                             value: menuItem,
                             checkable: true,
                             toggleGroup: 'specialPasteGroup'
@@ -1157,7 +1159,7 @@ define([
                             handler: function (result, settings) {
                                 if (result == 'ok') {
                                     if (me && me.api) {
-                                        me.api.asc_SpecialPaste(settings);
+                                        me.api.asc_SpecialPaste(settings, true);
                                     }
                                 }
                             }
@@ -1185,7 +1187,7 @@ define([
                                 var props = new Asc.SpecialPasteProps();
                                 props.asc_setProps(Asc.c_oSpecialPasteProps.useTextImport);
                                 props.asc_setAdvancedOptions(settings.textOptions);
-                                me.api.asc_SpecialPaste(props);
+                                me.api.asc_SpecialPaste(props, true);
                             }
                         } else if (item.cmpEl) {
                             item.setChecked(false, true);
@@ -1196,10 +1198,65 @@ define([
             } else {
                 var props = new Asc.SpecialPasteProps();
                 props.asc_setProps(item.value);
-                me.api.asc_SpecialPaste(props);
+                me.api.asc_SpecialPaste(props, true);
                 setTimeout(function(){menu.hide();}, 100);
             }
             return false;
+        },
+
+        initSpecialPasteEvents: function() {
+            if (this.specialPasteEventsInited) return
+            var me = this;
+            me.hkSpecPaste = [];
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.paste] = 'P';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormula] = 'F';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.formulaNumberFormat] = 'O';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.formulaAllFormatting] = 'K';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.formulaWithoutBorders] = 'B';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.formulaColumnWidth] = 'W';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.mergeConditionalFormating] = 'G';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.transpose] = 'T';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.pasteOnlyValues] = 'V';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.valueNumberFormat] = 'A';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.valueAllFormating] = 'E';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormating] = 'R';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.link] = 'N';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.picture] = 'U';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.linkedPicture] = 'I';
+
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceformatting] = 'K';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = 'M';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = 'T';
+            // me.hkSpecPaste[Asc.c_oSpecialPasteProps.useTextImport] = '';
+
+            var str = '';
+            for(var key in me.hkSpecPaste){
+                if(me.hkSpecPaste.hasOwnProperty(key)){
+                    if (str.indexOf(me.hkSpecPaste[key])<0)
+                        str += me.hkSpecPaste[key] + ',';
+                }
+            }
+            str = str.substring(0, str.length-1)
+            var keymap = {};
+            keymap[str + ' ' + 'special-paste-toolbar'] = _.bind(function(e) {
+                var menu = this.toolbar.btnPaste.menu;
+                for (var i = 0; i < menu.items.length; i++) {
+                    if (this.hkSpecPaste[menu.items[i].value] === String.fromCharCode(e.keyCode)) {
+                        return me.onSpecialPasteItemClick({value: menu.items[i].value});
+                    }
+                }
+            }, me);
+            Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
+            window.key.setScope('special-paste-toolbar');
+
+            me.toolbar.btnPaste.menu.on('show:after', function(menu) {
+                window.key.setScope('special-paste-toolbar');
+                Common.util.Shortcuts.resumeEvents(str);
+            }).on('hide:after', function(menu) {
+                window.key.setScope('all');
+                Common.util.Shortcuts.suspendEvents(str, undefined, true);
+            });
+            this.specialPasteEventsInited = true;
         },
 
         onInsertImageMenu: function(menu, item, e) {
