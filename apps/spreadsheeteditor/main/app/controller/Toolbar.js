@@ -1249,12 +1249,21 @@ define([
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
             window.key.setScope('special-paste-toolbar');
 
+            var closeMenuOnWindowBlur = function() {
+                if (me.toolbar.btnPaste.menu.$el && me.toolbar.btnPaste.menu.$el.is(':visible')) {
+                    me.toolbar.btnPaste.menu.hide();
+                }
+            };
+            $(window).on('blur.pastemenuhide', closeMenuOnWindowBlur);
+
             me.toolbar.btnPaste.menu.on('show:after', function(menu) {
                 window.key.setScope('special-paste-toolbar');
                 Common.util.Shortcuts.resumeEvents(str);
+                $(window).on('blur.pastemenuhide', closeMenuOnWindowBlur);
             }).on('hide:after', function(menu) {
                 window.key.setScope('all');
                 Common.util.Shortcuts.suspendEvents(str, undefined, true);
+                $(window).off('blur.pastemenuhide', closeMenuOnWindowBlur);
             });
             this.specialPasteEventsInited = true;
         },
