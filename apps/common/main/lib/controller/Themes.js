@@ -186,157 +186,10 @@ define([
             },
         }
 
-        var name_colors = [
-            "toolbar-header-document",
-            "toolbar-header-spreadsheet",
-            "toolbar-header-presentation",
-            "toolbar-header-pdf",
-            "toolbar-header-visio",
-
-            "text-toolbar-header-on-background-document",
-            "text-toolbar-header-on-background-spreadsheet",
-            "text-toolbar-header-on-background-presentation",
-            "text-toolbar-header-on-background-pdf",
-            "text-toolbar-header-on-background-visio",
-
-            "background-normal",
-            "background-toolbar",
-            "background-toolbar-additional",
-            "background-primary-dialog-button",
-            "background-notification-popover",
-            "background-notification-badge",
-            "background-scrim",
-            "background-loader",
-            "background-accent-button",
-            "background-contrast-popover",
-            "shadow-contrast-popover",
-
-            "highlight-button-hover",
-            "highlight-button-pressed",
-            "highlight-button-pressed-hover",
-            "highlight-primary-dialog-button-hover",
-            "highlight-header-button-hover",
-            "highlight-header-button-pressed",
-            "highlight-text-select",
-            "highlight-toolbar-tab-underline-document",
-            "highlight-toolbar-tab-underline-spreadsheet",
-            "highlight-toolbar-tab-underline-presentation",
-            "highlight-toolbar-tab-underline-pdf",
-            "highlight-toolbar-tab-underline-visio",
-            "highlight-header-tab-underline-document",
-            "highlight-header-tab-underline-spreadsheet",
-            "highlight-header-tab-underline-presentation",
-            "highlight-header-tab-underline-pdf",
-            "highlight-header-tab-underline-visio",
-
-            "border-toolbar",
-            "border-divider",
-            "border-regular-control",
-            "border-preview-hover",
-            "border-preview-select",
-            "border-control-focus",
-            "border-color-shading",
-            "border-contrast-popover",
-
-            "text-normal",
-            "text-normal-pressed",
-            "text-secondary",
-            "text-tertiary",
-            "text-link",
-            "text-link-hover",
-            "text-link-active",
-            "text-link-visited",
-            "text-inverse",
-            "text-toolbar-header",
-            "text-contrast-background",
-            "text-alt-key-hint",
-
-            "icon-normal",
-            "icon-normal-pressed",
-            "icon-toolbar-header",
-            "icon-success",
-
-            "canvas-background",
-            "canvas-content-background",
-            "canvas-page-border",
-
-            "canvas-ruler-background",
-            "canvas-ruler-border",
-            "canvas-ruler-margins-background",
-            "canvas-ruler-mark",
-            "canvas-ruler-handle-border",
-            "canvas-ruler-handle-border-disabled",
-
-            "canvas-high-contrast",
-            "canvas-high-contrast-disabled",
-
-            "canvas-cell-title-background",
-            "canvas-cell-title-background-hover",
-            "canvas-cell-title-background-selected",
-            "canvas-cell-title-border",
-            "canvas-cell-title-border-hover",
-            "canvas-cell-title-border-selected",
-            "canvas-cell-title-text",
-
-            "canvas-dark-cell-title",
-            "canvas-dark-cell-title-hover",
-            "canvas-dark-cell-title-selected",
-            "canvas-dark-cell-title-border",
-            "canvas-dark-cell-title-border-hover",
-            "canvas-dark-cell-title-border-selected",
-
-            "canvas-scroll-thumb",
-            "canvas-scroll-thumb-hover",
-            "canvas-scroll-thumb-pressed",
-            "canvas-scroll-thumb-border",
-            "canvas-scroll-thumb-border-hover",
-            "canvas-scroll-thumb-border-pressed",
-            "canvas-scroll-arrow",
-            "canvas-scroll-arrow-hover",
-            "canvas-scroll-arrow-pressed",
-            "canvas-scroll-thumb-target",
-            "canvas-scroll-thumb-target-hover",
-            "canvas-scroll-thumb-target-pressed",
-
-            "canvas-sheet-view-cell-background",
-            "canvas-sheet-view-cell-background-hover",
-            "canvas-sheet-view-cell-background-pressed",
-            "canvas-sheet-view-cell-title-label",
-
-            "canvas-select-all-icon",
-
-            "canvas-anim-pane-background",
-            "canvas-anim-pane-item-fill-selected",
-            "canvas-anim-pane-item-fill-hovered",
-            "canvas-anim-pane-button-fill",
-            "canvas-anim-pane-button-fill-hovered",
-            "canvas-anim-pane-button-fill-disabled",
-            "canvas-anim-pane-play-button-fill",
-            "canvas-anim-pane-play-button-outline",
-            "canvas-anim-pane-effect-bar-entrance-fill",
-            "canvas-anim-pane-effect-bar-entrance-outline",
-            "canvas-anim-pane-effect-bar-emphasis-fill",
-            "canvas-anim-pane-effect-bar-emphasis-outline",
-            "canvas-anim-pane-effect-bar-exit-fill",
-            "canvas-anim-pane-effect-bar-exit-outline",
-            "canvas-anim-pane-effect-bar-path-fill",
-            "canvas-anim-pane-effect-bar-path-outline",
-            "canvas-anim-pane-timeline-ruler-outline",
-            "canvas-anim-pane-timeline-ruler-tick",
-
-            "canvas-anim-pane-timeline-scroller-fill",
-            "canvas-anim-pane-timeline-scroller-outline",
-            "canvas-anim-pane-timeline-scroller-opacity",
-            "canvas-anim-pane-timeline-scroller-opacity-hovered",
-            "canvas-anim-pane-timeline-scroller-opacity-active",
-
-            "toolbar-height-controls",
-            "sprite-button-icons-uid",
-        ];
         var theme_props = {};
 
         var get_current_theme_colors = function (c) {
-            const colors = c || name_colors;
+            const colors = c || themeColorTokens;
             var out_object = {};
             if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) ) {
                 var style = getComputedStyle(document.body);
@@ -636,7 +489,7 @@ define([
                     apply_theme.call(this, window.uitheme.id);
                 }
 
-                const obj = get_current_theme_colors(name_colors);
+                const obj = get_current_theme_colors(themeColorTokens);
                 obj.type = window.uitheme.type ? window.uitheme.type : themes_map[theme_id] ? themes_map[theme_id].type : THEME_TYPE_LIGHT;
                 obj.name = theme_id;
                 api.asc_setSkin(obj);
@@ -795,4 +648,152 @@ define([
             }
         }
     })(Common.UI.Themes);
+
+    const themeColorTokens = [
+        "toolbar-header-document",
+        "toolbar-header-spreadsheet",
+        "toolbar-header-presentation",
+        "toolbar-header-pdf",
+        "toolbar-header-visio",
+
+        "text-toolbar-header-on-background-document",
+        "text-toolbar-header-on-background-spreadsheet",
+        "text-toolbar-header-on-background-presentation",
+        "text-toolbar-header-on-background-pdf",
+        "text-toolbar-header-on-background-visio",
+
+        "background-normal",
+        "background-toolbar",
+        "background-toolbar-additional",
+        "background-primary-dialog-button",
+        "background-notification-popover",
+        "background-notification-badge",
+        "background-scrim",
+        "background-loader",
+        "background-accent-button",
+        "background-contrast-popover",
+        "shadow-contrast-popover",
+
+        "highlight-button-hover",
+        "highlight-button-pressed",
+        "highlight-button-pressed-hover",
+        "highlight-primary-dialog-button-hover",
+        "highlight-header-button-hover",
+        "highlight-header-button-pressed",
+        "highlight-text-select",
+        "highlight-toolbar-tab-underline-document",
+        "highlight-toolbar-tab-underline-spreadsheet",
+        "highlight-toolbar-tab-underline-presentation",
+        "highlight-toolbar-tab-underline-pdf",
+        "highlight-toolbar-tab-underline-visio",
+        "highlight-header-tab-underline-document",
+        "highlight-header-tab-underline-spreadsheet",
+        "highlight-header-tab-underline-presentation",
+        "highlight-header-tab-underline-pdf",
+        "highlight-header-tab-underline-visio",
+
+        "border-toolbar",
+        "border-divider",
+        "border-regular-control",
+        "border-preview-hover",
+        "border-preview-select",
+        "border-control-focus",
+        "border-color-shading",
+        "border-contrast-popover",
+
+        "text-normal",
+        "text-normal-pressed",
+        "text-secondary",
+        "text-tertiary",
+        "text-link",
+        "text-link-hover",
+        "text-link-active",
+        "text-link-visited",
+        "text-inverse",
+        "text-toolbar-header",
+        "text-contrast-background",
+        "text-alt-key-hint",
+
+        "icon-normal",
+        "icon-normal-pressed",
+        "icon-toolbar-header",
+        "icon-success",
+
+        "canvas-background",
+        "canvas-content-background",
+        "canvas-page-border",
+
+        "canvas-ruler-background",
+        "canvas-ruler-border",
+        "canvas-ruler-margins-background",
+        "canvas-ruler-mark",
+        "canvas-ruler-handle-border",
+        "canvas-ruler-handle-border-disabled",
+
+        "canvas-high-contrast",
+        "canvas-high-contrast-disabled",
+
+        "canvas-cell-title-background",
+        "canvas-cell-title-background-hover",
+        "canvas-cell-title-background-selected",
+        "canvas-cell-title-border",
+        "canvas-cell-title-border-hover",
+        "canvas-cell-title-border-selected",
+        "canvas-cell-title-text",
+
+        "canvas-dark-cell-title",
+        "canvas-dark-cell-title-hover",
+        "canvas-dark-cell-title-selected",
+        "canvas-dark-cell-title-border",
+        "canvas-dark-cell-title-border-hover",
+        "canvas-dark-cell-title-border-selected",
+
+        "canvas-scroll-thumb",
+        "canvas-scroll-thumb-hover",
+        "canvas-scroll-thumb-pressed",
+        "canvas-scroll-thumb-border",
+        "canvas-scroll-thumb-border-hover",
+        "canvas-scroll-thumb-border-pressed",
+        "canvas-scroll-arrow",
+        "canvas-scroll-arrow-hover",
+        "canvas-scroll-arrow-pressed",
+        "canvas-scroll-thumb-target",
+        "canvas-scroll-thumb-target-hover",
+        "canvas-scroll-thumb-target-pressed",
+
+        "canvas-sheet-view-cell-background",
+        "canvas-sheet-view-cell-background-hover",
+        "canvas-sheet-view-cell-background-pressed",
+        "canvas-sheet-view-cell-title-label",
+
+        "canvas-select-all-icon",
+
+        "canvas-anim-pane-background",
+        "canvas-anim-pane-item-fill-selected",
+        "canvas-anim-pane-item-fill-hovered",
+        "canvas-anim-pane-button-fill",
+        "canvas-anim-pane-button-fill-hovered",
+        "canvas-anim-pane-button-fill-disabled",
+        "canvas-anim-pane-play-button-fill",
+        "canvas-anim-pane-play-button-outline",
+        "canvas-anim-pane-effect-bar-entrance-fill",
+        "canvas-anim-pane-effect-bar-entrance-outline",
+        "canvas-anim-pane-effect-bar-emphasis-fill",
+        "canvas-anim-pane-effect-bar-emphasis-outline",
+        "canvas-anim-pane-effect-bar-exit-fill",
+        "canvas-anim-pane-effect-bar-exit-outline",
+        "canvas-anim-pane-effect-bar-path-fill",
+        "canvas-anim-pane-effect-bar-path-outline",
+        "canvas-anim-pane-timeline-ruler-outline",
+        "canvas-anim-pane-timeline-ruler-tick",
+
+        "canvas-anim-pane-timeline-scroller-fill",
+        "canvas-anim-pane-timeline-scroller-outline",
+        "canvas-anim-pane-timeline-scroller-opacity",
+        "canvas-anim-pane-timeline-scroller-opacity-hovered",
+        "canvas-anim-pane-timeline-scroller-opacity-active",
+
+        "toolbar-height-controls",
+        "sprite-button-icons-uid",
+    ];
 });
