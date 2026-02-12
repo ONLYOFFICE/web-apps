@@ -483,7 +483,7 @@ define([
                 toolbar.btnCurrencyStyle.menu.on('item:click',              _.bind(this.onNumberFormatMenu, this));
                 $('#id-toolbar-menu-new-bordercolor').on('click',           _.bind(this.onNewBorderColor, this));
                 // $('#slot-btn-paste').on('click','.dropdown-toggle',         _.bind(this.onBtnPasteOptionsClick, this));
-                toolbar.btnPaste.menu.on('show:before',         _.bind(this.onBtnPasteOptionsClick, this));
+                toolbar.btnPaste.menu && toolbar.btnPaste.menu.on('show:before',         _.bind(this.onBtnPasteOptionsClick, this));
                 toolbar.btnPageOrient.menu.on('item:click',                 _.bind(this.onPageOrientSelect, this));
                 toolbar.btnPageMargins.menu.on('item:click',                _.bind(this.onPageMarginsSelect, this));
                 toolbar.mnuPageSize.on('item:click',                        _.bind(this.onPageSizeClick, this));
