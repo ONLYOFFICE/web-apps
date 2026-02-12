@@ -133,6 +133,126 @@ export class storeShapeSettings {
                 title: 'Cloud callout',
                 thumb: 'shape-24.svg',
                 type: 'cloudCallout'
+            },
+            {
+                title: 'New shape 25',
+                thumb: 'shape-25.svg',
+                type: 'New shape 30'
+            },
+            {
+                title: 'New shape 26',
+                thumb: 'shape-26.svg',
+                type: 'New shape 26'
+            },
+            {
+                title: 'Quad arrow',
+                thumb: 'shape-27.svg',
+                type: 'quadArrow'
+            },
+            {
+                title: 'Left right up arrow',
+                thumb: 'shape-28.svg',
+                type: 'leftRightUpArrow'
+            },
+            {
+                title: 'Bent arrow',
+                thumb: 'shape-29.svg',
+                type: 'bentArrow'
+            },
+            {
+                title: 'Uturn arrow',
+                thumb: 'shape-30.svg',
+                type: 'uturnArrow'
+            },
+            {
+                title: 'Left up arrow',
+                thumb: 'shape-31.svg',
+                type: 'leftUpArrow'
+            },
+            {
+                title: 'Curved right arrow',
+                thumb: 'shape-32.svg',
+                type: 'curvedRightArrow'
+            },
+            {
+                title: 'Curved left arrow',
+                thumb: 'shape-33.svg',
+                type: 'curvedLeftArrow'
+            },
+            {
+                title: 'Curved down arrow',
+                thumb: 'shape-34.svg',
+                type: 'curvedDownArrow'
+            },
+            {
+                title: 'Curved up arrow',
+                thumb: 'shape-35.svg',
+                type: 'curvedUpArrow'
+            },
+            {
+                title: 'Up down arrow',
+                thumb: 'shape-36.svg',
+                type: 'upDownArrow'
+            },
+            {
+                title: 'Chevron',
+                thumb: 'shape-37.svg',
+                type: 'chevron'
+            },
+            {
+                title: 'homePlate',
+                thumb: 'shape-38.svg',
+                type: 'homePlate'
+            },
+            {
+                title: 'Notched right arrow',
+                thumb: 'shape-39.svg',
+                type: 'notchedRightArrow'
+            },
+            {
+                title: 'Striped right arrow',
+                thumb: 'shape-40.svg',
+                type: 'stripedRightArrow'
+            },
+            {
+                title: 'Left right arrow callout',
+                thumb: 'shape-41.svg',
+                type: 'leftRightArrowCallout'
+            },
+            {
+                title: 'Left arrow Callout',
+                thumb: 'shape-42.svg',
+                type: 'leftArrowCallout'
+            },
+            {
+                title: 'Up arrow callout',
+                thumb: 'shape-43.svg',
+                type: 'upArrowCallout'
+            },
+            {
+                title: 'Down arrow callout',
+                thumb: 'shape-44.svg',
+                type: 'downArrowCallout'
+            },
+            {
+                title: 'Right arrow callout',
+                thumb: 'shape-45.svg',
+                type: 'rightArrowCallout'
+            },
+            {
+                title: 'Circular arrow',
+                thumb: 'shape-46.svg',
+                type: 'circularArrow'
+            },
+            {
+                title: 'Quad arrow callout',
+                thumb: 'shape-47.svg',
+                type: 'quadArrowCallout'
+            },
+            {
+                title: 'New shape 48',
+                thumb: 'shape-48.svg',
+                type: 'newShapeType48'
             }
         ];
         const groups = [];

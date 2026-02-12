@@ -197,7 +197,7 @@ const PageChartType = props => {
                                                             <li key={`${rowIndex}-${index}`}
                                                                 className={curType === type.type ? ' active' : ''}
                                                                 onClick={() => {props.onType(type.type)}}>
-                                                                <div className={'thumb' + ` ${type.thumb}`}></div>
+                                                                <SvgIcon symbolId={type.icon} className="icon icon-svg chart" />
                                                             </li>
                                                         )
                                                     })}

@@ -1,0 +1,12 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+<path d="M42 52.5L48 54L56 52V3L48 1L40 3V11.5L38 11L30 13V19.5L28 19L20 21V27.5L18 27L10 29V40L18 42L20 41.5V44L24 45V36L26 35.5V45.5L28 46L30 45.5V48L34 49V28L42 26V52.5Z"/>
+<path d="M48 5L56 3V52L48 54V5Z" fill="white" fill-opacity="0.35"/>
+<path d="M40 14.5L38 15V27L40 26.5V14.5Z" fill="white" fill-opacity="0.35"/>
+<path d="M28 23L30 22.5V45.5L28 46V23Z" fill="white" fill-opacity="0.35"/>
+<path d="M18 31L20 30.5V41.5L18 42V31Z" fill="white" fill-opacity="0.35"/>
+<path d="M26 62L34 64V28L42 26L34 24L26 26V32.5L24 32L16 34V40.5L14 40L6 42V54L14 56V44L16 43.5V58L24 60V36L26 35.5V62Z" fill="white" fill-opacity="0.65"/>
+<path opacity="0.92" d="M34 64L26 62V59.5L24 60L16 58V55.5L14 56L6 54V42L14 40L16 40.5V34L24 32L26 32.5V26L34 24L42 26V62L34 64Z"/>
+<path d="M34 28L42 26V62L34 64V28Z" fill="white" fill-opacity="0.35"/>
+<path d="M24 35.9998L26 35.5V59.5L24 59.9998V35.9998Z" fill="white" fill-opacity="0.35"/>
+<path d="M14 43.9998L16 43.5V55.5L14 55.9999V43.9998Z" fill="white" fill-opacity="0.35"/>
+</svg>

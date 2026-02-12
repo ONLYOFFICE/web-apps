@@ -15,7 +15,7 @@ const AddShape = props => {
                             return (
                                 <li key={'shape-' + indexRow + '-' + index} onClick={() => {props.onShapeClick(shape.type)}}>
                                     <div className="thumb"
-                                         style={{WebkitMaskImage: `url('resources/img/shapes/${shape.thumb}')`}}>
+                                         style={{WebkitMaskImage: `url('../../common/mobile/resources/img/shapes/${shape.thumb}')`}}>
                                     </div>
                                 </li>
                             )

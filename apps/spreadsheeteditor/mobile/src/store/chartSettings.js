@@ -1,4 +1,43 @@
 import {action, observable, computed, makeObservable} from 'mobx';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import Chart01 from '@common/resources/img/charts/chart-01.svg';
+import Chart02 from '@common/resources/img/charts/chart-02.svg';
+import Chart03 from '@common/resources/img/charts/chart-03.svg';
+import Chart04 from '@common/resources/img/charts/chart-04.svg';
+import Chart05 from '@common/resources/img/charts/chart-05.svg';
+import Chart06 from '@common/resources/img/charts/chart-06.svg';
+import Chart07 from '@common/resources/img/charts/chart-07.svg';
+import Chart08 from '@common/resources/img/charts/chart-08.svg';
+import Chart09 from '@common/resources/img/charts/chart-09.svg';
+import Chart10 from '@common/resources/img/charts/chart-10.svg';
+import Chart11 from '@common/resources/img/charts/chart-11.svg';
+import Chart12 from '@common/resources/img/charts/chart-12.svg';
+import Chart13 from '@common/resources/img/charts/chart-13.svg';
+import Chart14 from '@common/resources/img/charts/chart-14.svg';
+import Chart15 from '@common/resources/img/charts/chart-15.svg';
+import Chart16 from '@common/resources/img/charts/chart-16.svg';
+import Chart17 from '@common/resources/img/charts/chart-17.svg';
+import Chart18 from '@common/resources/img/charts/chart-18.svg';
+import Chart19 from '@common/resources/img/charts/chart-19.svg';
+import Chart20 from '@common/resources/img/charts/chart-20.svg';
+import Chart21 from '@common/resources/img/charts/chart-21.svg';
+import Chart22 from '@common/resources/img/charts/chart-22.svg';
+import Chart23 from '@common/resources/img/charts/chart-23.svg';
+import Chart24 from '@common/resources/img/charts/chart-24.svg';
+import Chart25 from '@common/resources/img/charts/chart-25.svg';
+import Chart26 from '@common/resources/img/charts/chart-26.svg';
+import Chart27 from '@common/resources/img/charts/chart-27.svg';
+import Chart28 from '@common/resources/img/charts/chart-28.svg';
+import Chart29 from '@common/resources/img/charts/chart-29.svg';
+import Chart30 from '@common/resources/img/charts/chart-30.svg';
+import Chart31 from '@common/resources/img/charts/chart-31.svg';
+import Chart32 from '@common/resources/img/charts/chart-32.svg';
+import Chart33 from '@common/resources/img/charts/chart-33.svg';
+import Chart34 from '@common/resources/img/charts/chart-34.svg';
+import Chart35 from '@common/resources/img/charts/chart-35.svg';
+import Chart36 from '@common/resources/img/charts/chart-36.svg';
+import Chart37 from '@common/resources/img/charts/chart-37.svg';
+import Chart38 from '@common/resources/img/charts/chart-38.svg';
 
 export class storeChartSettings {
     constructor() {
@@ -75,31 +114,44 @@ export class storeChartSettings {
 
     get types () {
         const _types = [
-            { type: Asc.c_oAscChartTypeSettings.barNormal,               thumb: 'bar-normal'},
-            { type: Asc.c_oAscChartTypeSettings.barStacked,              thumb: 'bar-stacked'},
-            { type: Asc.c_oAscChartTypeSettings.barStackedPer,           thumb: 'bar-pstacked'},
-            { type: Asc.c_oAscChartTypeSettings.barNormal3d,             thumb: 'bar3dnormal'},
-            { type: Asc.c_oAscChartTypeSettings.barStacked3d,            thumb: 'bar3dstack'},
-            { type: Asc.c_oAscChartTypeSettings.barStackedPer3d,         thumb: 'bar3dpstack'},
-            { type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,  thumb: 'bar3dpsnormal'},
-            { type: Asc.c_oAscChartTypeSettings.lineNormal,              thumb: 'line-normal'},
-            { type: Asc.c_oAscChartTypeSettings.lineStacked,             thumb: 'line-stacked'},
-            { type: Asc.c_oAscChartTypeSettings.lineStackedPer,          thumb: 'line-pstacked'},
-            { type: Asc.c_oAscChartTypeSettings.hBarNormal,              thumb: 'hbar-normal'},
-            { type: Asc.c_oAscChartTypeSettings.hBarStacked,             thumb: 'hbar-stacked'},
-            { type: Asc.c_oAscChartTypeSettings.hBarStackedPer,          thumb: 'hbar-pstacked'},
-            { type: Asc.c_oAscChartTypeSettings.hBarNormal3d,            thumb: 'hbar3dnormal'},
-            { type: Asc.c_oAscChartTypeSettings.hBarStacked3d,           thumb: 'hbar3dstack'},
-            { type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,        thumb: 'hbar3dpstack'},
-            { type: Asc.c_oAscChartTypeSettings.areaNormal,              thumb: 'area-normal'},
-            { type: Asc.c_oAscChartTypeSettings.areaStacked,             thumb: 'area-stacked'},
-            { type: Asc.c_oAscChartTypeSettings.areaStackedPer,          thumb: 'area-pstacked'},
-            { type: Asc.c_oAscChartTypeSettings.pie,                     thumb: 'pie'},
-            { type: Asc.c_oAscChartTypeSettings.doughnut,                thumb: 'doughnut'},
-            { type: Asc.c_oAscChartTypeSettings.pie3d,                   thumb: 'pie3d'},
-            { type: Asc.c_oAscChartTypeSettings.scatter,                 thumb: 'scatter'},
-            { type: Asc.c_oAscChartTypeSettings.stock,                   thumb: 'stock'},
-            { type: Asc.c_oAscChartTypeSettings.line3d,                  thumb: 'line3d'},
+            { type: Asc.c_oAscChartTypeSettings.barNormal,               icon: Chart03.id},
+            { type: Asc.c_oAscChartTypeSettings.barStacked,              icon: Chart02.id},
+            { type: Asc.c_oAscChartTypeSettings.barStackedPer,           icon: Chart01.id},
+            { type: Asc.c_oAscChartTypeSettings.barNormal3d,             icon: Chart17.id},
+            { type: Asc.c_oAscChartTypeSettings.barStacked3d,            icon: Chart18.id},
+            { type: Asc.c_oAscChartTypeSettings.barStackedPer3d,         icon: Chart19.id},
+            { type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,  icon: Chart20.id},
+            { type: Asc.c_oAscChartTypeSettings.lineNormal,              icon: Chart04.id},
+            { type: Asc.c_oAscChartTypeSettings.lineStacked,             icon: Chart05.id},
+            { type: Asc.c_oAscChartTypeSettings.lineStackedPer,          icon: Chart06.id},
+            { type: Asc.c_oAscChartTypeSettings.lineNormalMarker,        icon: Chart29.id},
+            { type: Asc.c_oAscChartTypeSettings.lineStackedMarker,       icon: Chart30.id},
+            { type: Asc.c_oAscChartTypeSettings.lineStackedPerMarker,    icon: Chart31.id},
+            { type: Asc.c_oAscChartTypeSettings.line3d,                  icon: Chart15.id},
+            { type: Asc.c_oAscChartTypeSettings.pie,                     icon: Chart13.id},
+            { type: Asc.c_oAscChartTypeSettings.doughnut,                icon: Chart14.id},
+            { type: Asc.c_oAscChartTypeSettings.pie3d,                   icon: Chart22.id},
+            { type: Asc.c_oAscChartTypeSettings.hBarNormal,              icon: Chart09.id},
+            { type: Asc.c_oAscChartTypeSettings.hBarStacked,             icon: Chart08.id},
+            { type: Asc.c_oAscChartTypeSettings.hBarStackedPer,          icon: Chart07.id},
+            { type: Asc.c_oAscChartTypeSettings.hBarNormal3d,            icon: Chart25.id},
+            { type: Asc.c_oAscChartTypeSettings.hBarStacked3d,           icon: Chart24.id},
+            { type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,        icon: Chart23.id},
+            { type: Asc.c_oAscChartTypeSettings.areaNormal,              icon: Chart12.id},
+            { type: Asc.c_oAscChartTypeSettings.areaStacked,             icon: Chart11.id},
+            { type: Asc.c_oAscChartTypeSettings.areaStackedPer,          icon: Chart10.id},
+            { type: Asc.c_oAscChartTypeSettings.stock,                   icon: Chart16.id},
+            { type: Asc.c_oAscChartTypeSettings.scatter,                 icon: Chart21.id},
+            { type: Asc.c_oAscChartTypeSettings.scatterSmoothMarker,     icon: Chart32.id},
+            { type: Asc.c_oAscChartTypeSettings.scatterSmooth,           icon: Chart33.id},
+            { type: Asc.c_oAscChartTypeSettings.scatterLineMarker,       icon: Chart34.id},
+            { type: Asc.c_oAscChartTypeSettings.scatterLine,             icon: Chart35.id},
+            { type: Asc.c_oAscChartTypeSettings.radar,                   icon: Chart26.id},
+            { type: Asc.c_oAscChartTypeSettings.radarMarker,             icon: Chart27.id},
+            { type: Asc.c_oAscChartTypeSettings.radarFilled,             icon: Chart28.id},
+            { type: Asc.c_oAscChartTypeSettings.comboBarLine,            icon: Chart36.id},
+            { type: Asc.c_oAscChartTypeSettings.comboBarLineSecondary,   icon: Chart37.id},
+            { type: Asc.c_oAscChartTypeSettings.comboAreaBar,            icon: Chart38.id},
         ];
         const columns = 3;
         let row = -1;
