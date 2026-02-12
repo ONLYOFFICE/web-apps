@@ -1054,9 +1054,17 @@ define([
 
         onBtnPasteOptionsClick: function (btn, e) {
             var me = this;
+            var menu = me.toolbar.btnPaste.menu;
+            if (menu && menu.items && menu.items.length > 0) {
+                for (var i = 0; i < menu.items.length; i++) {
+                    menu.removeItem(menu.items[i]);
+                    i--;
+                }
+            }
+
             this.api.asc_getPasteOptions(function (options) {
                 me.handlePasteOptions(options)
-            })
+            });
         },
 
         handlePasteOptions: function (options) {
@@ -1090,10 +1098,6 @@ define([
 
             if (pasteItems.length>0) {
                 var menu = me.toolbar.btnPaste.menu;
-                for (var i = 0; i < menu.items.length; i++) {
-                    menu.removeItem(menu.items[i]);
-                    i--;
-                }
 
                 var groups = [];
                 for (var i = 0; i < 3; i++) {
