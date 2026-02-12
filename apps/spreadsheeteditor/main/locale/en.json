@@ -2419,6 +2419,7 @@
   "SSE.Controllers.Toolbar.txtKeepTextOnly": "Keep text only",
   "SSE.Controllers.Toolbar.txtUseTextImport": "Use text import",
   "SSE.Controllers.Toolbar.txtPaste": "Paste",
+  "SSE.Controllers.Toolbar.txtPasteNoOptions": "Paste (P)",
   "SSE.Controllers.Toolbar.txtPasteBorders": "Formula without borders",
   "SSE.Controllers.Toolbar.txtPasteColWidths": "Formula + column width",
   "SSE.Controllers.Toolbar.txtPasteDestFormat": "Destination formatting",

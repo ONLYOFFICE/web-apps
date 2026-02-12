@@ -1069,6 +1069,19 @@ define([
 
         handlePasteOptions: function (options) {
             var me = this;
+
+            if (options === null) {
+                var menu = me.toolbar.btnPaste.menu;
+
+                var mnu = new Common.UI.MenuItem({
+                    caption: me.txtPasteNoOptions,
+                    disabled: true
+                });
+
+                menu.addItem(mnu)
+                return
+            }
+
             var pasteItems = options.asc_getOptions(),
                 isTable = !!options.asc_getContainTables();
             if (!pasteItems) return;
