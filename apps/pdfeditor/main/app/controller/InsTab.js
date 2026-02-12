@@ -423,8 +423,7 @@ define([
                 if(statusbarController.getZoom() != stateBeforeOpenDlg.zoom) {
                     me.api.zoom(stateBeforeOpenDlg.zoom);
                 }
-                if(
-                    Math.abs(currentScroll.x - stateBeforeOpenDlg.scroll.x) > 1 || 
+                if(Math.abs(currentScroll.x - stateBeforeOpenDlg.scroll.x) > 1 || 
                     Math.abs(currentScroll.y - stateBeforeOpenDlg.scroll.y) > 1
                 ) {
                     me.api.scrollToXY(stateBeforeOpenDlg.scroll.x, stateBeforeOpenDlg.scroll.y);
