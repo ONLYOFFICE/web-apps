@@ -233,12 +233,9 @@ define([
         },
 
         onShowRedactionsWarning: function (tab) {
-            var me = this;
             this.isFileMenuTab = tab === 'file';
 
-            if (
-                !this.redactionsWarning || !this.redactionsWarning.isVisible()
-            ) {
+            if (!this.redactionsWarning || !this.redactionsWarning.isVisible()) {
                 this.redactionsWarning = Common.UI.warning({
                     width: 500,
                     msg: this.textUnappliedRedactions,
@@ -255,12 +252,12 @@ define([
                             this.api.ApplyRedact();
                             this.api.SetRedactTool(false);
                             this.view.btnMarkForRedact.toggle(false);
-                            this.isFileMenuTab ? me.view.fireEvent('file:open') : Common.NotificationCenter.trigger('tab:set-active', tab);
+                            this.isFileMenuTab ? this.view.fireEvent('file:open') : Common.NotificationCenter.trigger('tab:set-active', tab);
                         } else if (btn == 'doNotApply') {
                             this.api.RemoveAllRedact();
                             this.api.SetRedactTool(false);
                             this.view.btnMarkForRedact.toggle(false);
-                            this.isFileMenuTab ? me.view.fireEvent('file:open') : Common.NotificationCenter.trigger('tab:set-active', tab);
+                            this.isFileMenuTab ? this.view.fireEvent('file:open') : Common.NotificationCenter.trigger('tab:set-active', tab);
                         } else {
                             if (this.isFileMenuTab) {
                                 this.view.fireEvent('menu:hide', [this]);
