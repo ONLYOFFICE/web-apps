@@ -107,15 +107,15 @@ require.config({
 });
 
 require([
+    'sdk',
     'backbone',
     'underscore',
     'core',
-    'sdk',
     'api',
     'analytics',
     'gateway',
     'locale'
-], function (Backbone, _, Core) {
+], function (Sdk, Backbone, _, Core) {
     if (Backbone.History && Backbone.History.started)
         return;
     Backbone.history.start();
