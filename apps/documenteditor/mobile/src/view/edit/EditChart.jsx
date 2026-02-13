@@ -177,6 +177,14 @@ const PageChartType = props => {
     const chartProperties = storeFocusObjects.chartObject && storeFocusObjects.chartObject.get_ChartProperties();
     const curType = chartProperties && chartProperties.getType();
 
+    let initialSlide = 0;
+    if (curType !== undefined && types && types.length) {
+        const rowIndex = types.findIndex(row => row.some(item => item.type === curType));
+        if (rowIndex >= 0) {
+            initialSlide = Math.min(Math.floor(rowIndex / countTypesSlide), countSlides - 1);
+        }
+    }
+
     return (
         <Page>
             <Navbar backLink={t('Edit.textBack')} title={t('Edit.textType')} />
@@ -184,7 +192,7 @@ const PageChartType = props => {
             <div id={"edit-chart-type"} className="page-content no-padding-top dataview">
                 <div className="chart-types">
                     {types && types.length ? (
-                        <Swiper pagination={true}>
+                        <Swiper pagination={true} initialSlide={initialSlide}>
                             {arraySlides.map((_, indexSlide) => {
                                 let typesSlide = types.slice(indexSlide * countTypesSlide, (indexSlide * countTypesSlide) + countTypesSlide);
 
