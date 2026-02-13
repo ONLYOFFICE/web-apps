@@ -532,8 +532,24 @@ DE.ApplicationController = new(function(){
 
         DE.ApplicationView.tools.get('#idt-print')
             .on('click', function(){
-                api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
-                Common.Analytics.trackEvent('Print');
+                var printCallback = function() {
+                    api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
+                    Common.Analytics.trackEvent('Print');
+                };
+
+                var submitPassword = function(val) {
+                    if(api.asc_CheckPrintPassword(val)) {
+                        printCallback();
+                    } else {
+                        common.controller.modals.createDlgPrintPassword(submitPassword, true);
+                    }
+                };
+
+                if(api && api.asc_CheckPrintPassword && api.asc_CheckPrintPassword() === false) {
+                    common.controller.modals.createDlgPrintPassword(submitPassword);
+                } else {
+                    printCallback();
+                }
             });
 
         DE.ApplicationView.tools.get('#idt-close')
