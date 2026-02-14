@@ -57,6 +57,7 @@ define([
                 '<span id="slot-btn-add-password" class="btn-slot text x-huge"></span>' +
                 '<span id="slot-btn-change-password" class="btn-slot text x-huge"></span>' +
                 '<span id="slot-btn-signature" class="btn-slot text x-huge"></span>' +
+                '<span id="slot-btn-mark-as-final" class="btn-slot text x-huge"></span>' +
             '</div>' +
             '</section>';
 
@@ -122,6 +123,7 @@ define([
 
                 this._state = {disabled: false, hasPassword: false, disabledPassword: false, invisibleSignDisabled: false};
 
+                const me = this;
                 var filter = Common.localStorage.getKeysFilter();
                 this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
@@ -163,6 +165,20 @@ define([
                         this.btnsInvisibleSignature.push(this.btnSignature);
                 }
 
+                if(this.appConfig.isPDFForm) {
+                    this.btnMarkAsFinal = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-ic-protect',
+                        caption: this.txtMarkAsFinal,
+                        enableToggle: true,
+                        dataHint    : '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.btnMarkAsFinal.on('toggle', function (btn, state) {
+                        me.fireEvent('protect:markAsFinal', [state]);
+                    });
+                }
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -231,6 +247,7 @@ define([
                     this.btnAddPwd && this.btnAddPwd.render(this.$el.find('#slot-btn-add-password'));
                     this.btnPwd && this.btnPwd.render(this.$el.find('#slot-btn-change-password'));
                     this.btnSignature && this.btnSignature.render(this.$el.find('#slot-btn-signature'));
+                    this.btnMarkAsFinal && this.btnMarkAsFinal.render(this.$el.find('#slot-btn-mark-as-final'));
                 }
                 return this.$el;
             },
@@ -353,6 +370,7 @@ define([
             },
 
             txtEncrypt: 'Encrypt',
+            txtMarkAsFinal: 'Mark as final',
             txtSignature: 'Signature',
             hintAddPwd: 'Encrypt with password',
             hintPwd: 'Change or delete password',

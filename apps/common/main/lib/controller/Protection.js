@@ -61,7 +61,8 @@ define([
             this.addListeners({
                 'Common.Views.Protection': {
                     'protect:password':      _.bind(this.onPasswordClick, this),
-                    'protect:signature':     _.bind(this.onSignatureClick, this)
+                    'protect:signature':     _.bind(this.onSignatureClick, this),
+                    'protect:markAsFinal':   _.bind(this.onMarkAsFinal, this),
                 }
             });
         },
@@ -132,6 +133,10 @@ define([
             }
         },
 
+        onMarkAsFinal: function(state) {
+            this.api && this.api.markAsFinal(state);
+        },
+
         createToolbarPanel: function() {
             return this.view.getPanel();
         },
@@ -147,6 +152,7 @@ define([
                 accept();
             })).then(function(){
                 me.onChangeProtectDocument();
+                me.view && me.view.btnMarkAsFinal && me.view.btnMarkAsFinal.toggle(me.api.isFinal(), true);
                 Common.NotificationCenter.on('protect:doclock', _.bind(me.onChangeProtectDocument, me));
             });
         },
