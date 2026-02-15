@@ -563,55 +563,58 @@ define([
         },
 
         onBtnPrint: function(print, useSystemDialog) {
-            this._isPrint = print;
-            if (this.printSettings.cmbRange.getValue()===-1 && this.printSettings.inputPages.checkValidate() !== true)  {
-                this.printSettings.inputPages.focus();
-                this.isInputFirstChange = true;
-                return;
-            }
+            const _main = this.getApplication().getController('Main');
+            _main.onTryPrint(function() {
+                this._isPrint = print;
+                if (this.printSettings.cmbRange.getValue()===-1 && this.printSettings.inputPages.checkValidate() !== true)  {
+                    this.printSettings.inputPages.focus();
+                    this.isInputFirstChange = true;
+                    return;
+                }
 
-            let pages; 
-            if(this.printSettings.cmbRange.getValue() === -1) {
-                pages = this.printSettings.inputPages.getValue();
-            } else if (this.printSettings.cmbRange.getValue() === 'all') {
-                pages = 'all';
-                this._state.firstPrintPage = 0;
-            } else if (this.printSettings.cmbRange.getValue() === 'current') {
-                pages = String(this._navigationPreview.currentPage + 1);
-                this._state.firstPrintPage = this._navigationPreview.currentPage;
-            }
+                let pages; 
+                if(this.printSettings.cmbRange.getValue() === -1) {
+                    pages = this.printSettings.inputPages.getValue();
+                } else if (this.printSettings.cmbRange.getValue() === 'all') {
+                    pages = 'all';
+                    this._state.firstPrintPage = 0;
+                } else if (this.printSettings.cmbRange.getValue() === 'current') {
+                    pages = String(this._navigationPreview.currentPage + 1);
+                    this._state.firstPrintPage = this._navigationPreview.currentPage;
+                }
 
-            var size = this.api.asc_getPageSize(this._state.firstPrintPage),
-                printerOption = (this.printSettings.cmbPrinter ? this.printSettings.cmbPrinter.getSelectedRecord() : null),
-                colorPrintingValue = this.printSettings.cmbColorPrinting
-                    ? this.printSettings.cmbColorPrinting.getValue()
-                    : null;
+                var size = this.api.asc_getPageSize(this._state.firstPrintPage),
+                    printerOption = (this.printSettings.cmbPrinter ? this.printSettings.cmbPrinter.getSelectedRecord() : null),
+                    colorPrintingValue = this.printSettings.cmbColorPrinting
+                        ? this.printSettings.cmbColorPrinting.getValue()
+                        : null;
 
-            this.adjPrintParams.asc_setNativeOptions({
-                usesystemdialog: useSystemDialog,
-                printer: printerOption ? printerOption.value : null,
-                colorMode: colorPrintingValue === 'color',
-                pages: pages,
-                paperSize: {
-                    w: size ? size['W'] : undefined,
-                    h: size ? size['H'] : undefined,
-                    preset: size ? this.findPagePreset(size['W'], size['H']) : undefined
-                },
-                paperOrientation: size ? (size['H'] > size['W'] ? 'portrait' : 'landscape') : null,
-                copies: this.printSettings.spnCopies ? this.printSettings.spnCopies.getNumberValue() || 1 : 1,
-                sides: this.printSettings.cmbSides ? this.printSettings.cmbSides.getValue() : 'one'
-            });
+                this.adjPrintParams.asc_setNativeOptions({
+                    usesystemdialog: useSystemDialog,
+                    printer: printerOption ? printerOption.value : null,
+                    colorMode: colorPrintingValue === 'color',
+                    pages: pages,
+                    paperSize: {
+                        w: size ? size['W'] : undefined,
+                        h: size ? size['H'] : undefined,
+                        preset: size ? this.findPagePreset(size['W'], size['H']) : undefined
+                    },
+                    paperOrientation: size ? (size['H'] > size['W'] ? 'portrait' : 'landscape') : null,
+                    copies: this.printSettings.spnCopies ? this.printSettings.spnCopies.getNumberValue() || 1 : 1,
+                    sides: this.printSettings.cmbSides ? this.printSettings.cmbSides.getValue() : 'one'
+                });
 
-            this.printSettings.menu.hide();
-            if ( print ) {
-                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
-                opts.asc_setAdvancedOptions(this.adjPrintParams);
-                this.api.asc_Print(opts);
-            } else {
-                var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF);
-                opts.asc_setAdvancedOptions(this.adjPrintParams);
-                this.api.asc_DownloadAs(opts);
-            }
+                this.printSettings.menu.hide();
+                if ( print ) {
+                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
+                    opts.asc_setAdvancedOptions(this.adjPrintParams);
+                    this.api.asc_Print(opts);
+                } else {
+                    var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF);
+                    opts.asc_setAdvancedOptions(this.adjPrintParams);
+                    this.api.asc_DownloadAs(opts);
+                }
+            }.bind(this));
         },
 
         inputPagesChanging: function (input, value) {
