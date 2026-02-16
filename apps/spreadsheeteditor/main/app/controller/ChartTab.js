@@ -99,7 +99,7 @@ define([
                 props = (me.isChart) ? me.api.asc_getChartSettings() : me._originalProps;
                 if (props) {
                     var oView3D = props.getView3d();
-                    (new SSE.Views.Charts3DDlg(
+                    (new Common.Views.Charts3DDlg(
                         {
                             oView3D: oView3D,
                             chartProps: props,

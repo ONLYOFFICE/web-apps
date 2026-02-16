@@ -32,122 +32,125 @@
 /**
  *  ChartTab.js
  *
- *  Created on 06.10.2025
+ *  Created on 02.12.2025
  *
  */
-
 define([
     'common/main/lib/util/utils',
     'common/main/lib/component/Button',
     'common/main/lib/component/BaseView',
-    'common/main/lib/component/Layout'
+    'common/main/lib/component/Layout',
+    'common/main/lib/component/Label'
 ], function () {
     'use strict';
-
-    SSE.Views.ChartTab = Common.UI.BaseView.extend(_.extend((function(){
+    Common.Views.ChartTab = Common.UI.BaseView.extend(_.extend((function(){
         var template = '<section id="chart-design-panel" class="panel" data-tab="charttab" role="tabpanel" aria-labelledby="view">' +
             '<div class="group">' +
-                '<span class="btn-slot text x-huge" id="slot-btn-chart-elements"></span>' +
-            '</div>' +
-            '<div class="separator long"></div>' +
-            '<div class="group">' +
-                '<span class="btn-slot text x-huge" id="slot-btn-select-data"></span>' +
-                '<span class="btn-slot text x-huge" id="slot-btn-switch-rowscols"></span>' +
-            '</div>' +
-            '<div class="separator long"></div>' +
-            '<div class="group flex small" id="slot-field-chart-styles" style="min-width: 100px; width: 448px;" data-group-width="448px">' +
-            '</div>' +
-            '<div class="separator long separator-chart-styles"></div>' +
-            '<div class="group small">' +
-                '<div class="elset">' +
-                    '<span class="btn-slot text font-size-normal" id="slot-btn-chart-type"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-chart-elements"></span>' +
                 '</div>' +
-                '<div class="elset">' +
-                    '<span class="btn-slot text font-size-normal" id="slot-btn-chart-advanced-settings"></span>' +
+                '<div class="separator long"></div>' +
+                '<div class="group">' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-edit-data"></span>' +
                 '</div>' +
-            '</div>' +
-            '<div class="separator long"></div>' +
-            '<div class="group small">' +
-                '<div class="elset" style="text-align: center;">' +
-                    '<span class="btn-slot text font-size-normal" id="slot-lbl-width" style="text-align: center;margin-top: 2px;"></span>' +
+                '<div class="group">' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-edit-data-ext"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-update-data"></span>' +
                 '</div>' +
-                '<div class="elset" style="text-align: center;">' +
-                    '<span class="btn-slot text font-size-normal" id="slot-lbl-height" style="text-align: center;margin-top: 2px;"></span>' +
+                '<div class="separator long"></div>' +
+                '<div class="group flex small" id="slot-field-chart-styles" style="min-width: 100px; width: 448px" data-group-width="448px">' +
                 '</div>' +
-            '</div>' +
-            '<div class="group small">' +
-                '<div class="elset">' +
-                    '<div id="slot-chart-spin-width"></div>' +
+                '<div class="separator long separator-chart-styles"></div>' +
+                '<div class="group small">' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text font-size-normal" id="slot-btn-chart-type"></span>' +
+                    '</div>' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text font-size-normal" id="slot-btn-chart-advanced-settings"></span>' +
+                    '</div>' +
                 '</div>' +
-                '<div class="elset">' +
-                    '<div id="slot-chart-spin-height"></div>' +
+                '<div class="separator long"></div>' +
+                (
+                    window.DE ?
+                        '<div class="group">' +
+                            '<span class="btn-slot text x-huge slot-img-wrapping"></span>' +
+                        '</div>' +
+                        '<div class="separator long"></div>'
+                        : ''
+                ) +
+                '<div class="group small">' +
+                    '<div class="elset" style="text-align: center;">' +
+                        '<span class="btn-slot text font-size-normal" id="slot-lbl-width" style="text-align: center;margin-top: 2px;"></span>' +
+                    '</div>' +
+                    '<div class="elset" style="text-align: center;">' +
+                        '<span class="btn-slot text font-size-normal" id="slot-lbl-height" style="text-align: center;margin-top: 2px;"></span>' +
+                    '</div>' +
                 '</div>' +
-            '</div>' +
-            '<div class="group small">' +
-                '<div class="elset">' +
-                    '<span class="btn-slot text" id="slot-chk-ratio"></span>' +
+                '<div class="group small">' +
+                    '<div class="elset">' +
+                        '<div id="id-chart-spin-width"></div>' +
+                    '</div>' +
+                    '<div class="elset">' +
+                        '<div id="id-chart-spin-height"></div>' +
+                    '</div>' +
                 '</div>' +
-                '<div class="elset">' +
+                '<div class="group small">' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="slot-chk-ratio"></span>' +
+                    '</div>' +
+                    '<div class="elset">' +
+                    '</div>' +
                 '</div>' +
-            '</div>' +
-            '<div class="separator long separator-chart-3d"></div>' +
-            '<div class="group">' +
-                '<span class="btn-slot text x-huge" id="slot-btn-chart-3d-settings"></span>' +
+                '<div class="separator long separator-chart-3d"></div>' +
+                '<div class="group">' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-chart-3d-settings"></span>' +
             '</div>' +
         '</section>';
-
         function setEvents() {
             var me = this;
-
             me.btnChartElements.on('click', function (btn, e) {
                 me.fireEvent('charttab:updatemenu', [me.menuChartElement.menu]);
             });
             me.menuChartElement.menu.items.forEach(item => {
-                    if (item.menu) {
-                        item.menu.items.forEach(item => {
-                            item.on('click', function() {
-                                me.fireEvent('charttab:elementselected', [item.menu, item]);
-                            });
+                if (item.menu) {
+                    item.menu.items.forEach(item => {
+                        item.on('click', function() {
+                            me.fireEvent('charttab:elementselected', [item.menu, item]);
                         });
-                    }
-                });
-            me.btnChartType.on('click', function (btn, e) {
-                me.fireEvent('charttab:type');
-            });
-            me.btnSelectData.on('click', function (btn, e) {
-                me.fireEvent('charttab:selectdata');
-            });
-            me.btnSwitchRowsCols.on('click', function (btn, e) {
-                me.fireEvent('charttab:rowscols');
+                    });
+                }
             });
             me.btn3DSettings.on('click', function (btn, e) {
                 me.fireEvent('charttab:3dsettings');
             });
-            me.btnAdvancedSettings.on('click', function (btn, e) {
-                me.fireEvent('charttab:advanced');
+            me.spnWidth.on('change', function (field, newValue, oldValue, eOpts) {
+                me.fireEvent('charttab:widthchange', [field, newValue, oldValue, eOpts]);
             });
-            me.spnWidth.on('change', function (field, oldvalue, newValue, eOpts) {
-                me.fireEvent('charttab:widthchange', [field, oldvalue, newValue, eOpts]);
-            });
-            me.spnHeight.on('change',function (field, oldvalue, newValue, eOpts) {
-                me.fireEvent('charttab:heightchange', [field, oldvalue, newValue, eOpts]);
+            me.spnHeight.on('change',function (field, newValue, oldValue, eOpts) {
+                me.fireEvent('charttab:heightchange', [field, newValue, oldValue, eOpts]);
             });
             me.chRatio.on('change',function (field, value) {
                 me.fireEvent('charttab:ratio', [value === 'checked']);
             });
+            me.btnAdvancedSettings.on('click', function (btn, e) {
+                me.fireEvent('charttab:advanced');
+            });
+            me.btnEditData.on('click', function (btn, e) {
+                me.fireEvent('charttab:editdata');
+            });
+            me.btnEditDataExt.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('charttab:editdataext', [menu, item, e]);
+            });
+            me.btnUpdateData.on('click', function (btn, e) {
+                me.fireEvent('charttab:updatedata');
+            });
             me.chartStyles.on('click', function (combo, record) {
-                me.fireEvent('charttab:selectstyle', [combo, record]);
+                 me.fireEvent('charttab:selectstyle', [combo, record]);
             })
         }
-
         return {
             initialize: function (options) {
-                var controller = SSE.getController('ChartTab');
-                this._state = controller._state;
                 Common.UI.BaseView.prototype.initialize.call(this);
-
                 this.lockedControls = [];
-
                 var me = this,
                     _set = Common.enumLock;
 
@@ -356,6 +359,12 @@ define([
                                     cls: 'shifted-right',  
                                     menuAlign: 'tl-tr',
                                     items: [
+                                        { 
+                                            caption: me.textNone, 
+                                            value: 'noneError',
+                                            stopPropagation: true, 
+                                            disabled: false
+                                        },
                                         {
                                             caption: me.textStandardError,
                                             value: 'standardError',
@@ -532,12 +541,13 @@ define([
                         ]
                     })
                 });
-                
+
                 this.btnChartElements = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-big-chart-elements',
                     caption: me.capChartElements,
-                    lock: [_set.lostConnect, _set.selRangeEdit, _set.coAuthText, _set.wsLockFormatFill],
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small',
@@ -545,38 +555,60 @@ define([
                 });
                 this.lockedControls.push(this.btnChartElements);
 
-                this.btnChartType = new Common.UI.Button({
-                    cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-menu-chart',
-                    caption: me.capChartType,
-                    lock        : [_set.lostConnect, _set.selRangeEdit, _set.coAuthText, _set.wsLockFormatFill],
-                    dataHint    : '1',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
-                });
-                this.lockedControls.push(this.btnChartType);
-                
-                this.btnSelectData = new Common.UI.Button({
+                this.btnEditData = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-big-select-range',
-                    caption: me.capSelectData,
-                    lock        : [_set.lostConnect, _set.selRangeEdit, _set.coAuthText, _set.wsLockFormatFill],
-                    dataHint    : '1',
+                    iconCls: 'toolbar__icon btn-allow-edit-ranges',
+                    caption: me.capEditData,
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
+                    dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
+                    dataHintOffset: 'small',
                 });
-                this.lockedControls.push(this.btnSelectData);
+                this.lockedControls.push(this.btnEditData);
 
-                this.btnSwitchRowsCols = new Common.UI.Button({
+                this.btnEditDataExt = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-big-switch-row-column',
-                    caption: me.capRowCol,
-                    lock        : [_set.lostConnect, _set.selRangeEdit, _set.noRange, _set.coAuthText, _set.wsLockFormatFill],
-                    dataHint    : '1',
+                    iconCls: 'toolbar__icon btn-allow-edit-ranges',
+                    caption: me.capEditData,
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
+                    dataHint: '1',
+                    menu: new Common.UI.Menu({
+                    items: [
+                            {
+                                caption: me.menuCapEditData,
+                                iconCls: 'menu__icon btn-edit',
+                                value: 'data'
+                            },
+                            {
+                                caption: me.menuCapEditLinks,
+                                iconCls: 'menu__icon btn-inserthyperlink',
+                                value: 'links'
+                            },
+                            {
+                                caption: me.menuCapOpen,
+                                iconCls: 'menu__icon btn-external',
+                                value: 'file'
+                            }
+                        ]
+                    }),
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
+                    dataHintOffset: 'small',
                 });
-                this.lockedControls.push(this.btnSwitchRowsCols);
+                this.lockedControls.push(this.btnEditDataExt);
+
+                this.btnUpdateData = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-update',
+                    caption: me.capUpdateData,
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode,_set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small',
+                });
+                this.lockedControls.push(this.btnUpdateData);
 
                 this.chartStyles = new Common.UI.ComboDataView({
                     cls             : 'combo-chart-template',
@@ -585,12 +617,13 @@ define([
                     delayRenderTips : true,
                     itemWidth       : 50,
                     itemHeight      : 50,
-                    menuMaxHeight   : 300,
                     minMenuColumn   : 4,
                     maxMenuColumn   : 7,
+                    menuMaxHeight   : 300,
                     groups          : new Common.UI.DataViewGroupStore(),
                     autoWidth       : true,
-                    lock: [_set.selRangeEdit, _set.lostConnect, _set.wsLockFormatFill, _set.noStyles, _set.coAuthText],
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                         _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.noStyles, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
                     beforeOpenHandler: function(e) {
                         var cmp = this,
                             menu = cmp.openButton.menu,
@@ -633,33 +666,52 @@ define([
                 });
                 this.lockedControls.push(this.chartStyles);
 
-                this.btn3DSettings = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-3d-rotation',
-                    caption: me.cap3DRotation,
-                    lock        : [_set.lostConnect, _set.selRangeEdit, _set.coAuthText, _set.wsLockFormatFill],
+                this.btnChartType = new Common.UI.Button({
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-menu-chart',
+                    caption: me.capChartType,
+                    lock        : [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.contentLock,
+                        _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
+                    menu: true,
+                    action: 'insert-chart',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
                 });
-                this.lockedControls.push(this.btn3DSettings);
+                this.lockedControls.push(this.btnChartType);
 
                 this.btnAdvancedSettings = new Common.UI.Button({
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-settings',
                     caption: me.capAdvancedSettings,
-                    lock        : [_set.lostConnect, _set.selRangeEdit, _set.SeveralCharts, _set.coAuthText, _set.wsLockFormatFill],
+                    lock        : [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                        _set.coAuth, _set.SeveralCharts, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnAdvancedSettings);
 
+                this.lblWidth = new Common.UI.Label({
+                    caption: me.textWidth,
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
+                });
+                this.lockedControls.push(this.lblWidth);
+
+                this.lblHeight = new Common.UI.Label({
+                    caption: me.textHeight,
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
+                });
+                this.lockedControls.push(this.lblHeight);
+
                 this.spnWidth = new Common.UI.MetricSpinner({
                     step: .1,
                     width: 78,
                     defaultUnit : "cm",
-                    lock: [_set.lostConnect, _set.selRangeEdit, _set.coAuthText, _set.wsLockFormatFill],
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
                     value: '3 cm',
                     maxValue: 55.88,
                     minValue: 0,
@@ -674,7 +726,8 @@ define([
                     step: .1,
                     width: 78,
                     defaultUnit : "cm",
-                    lock: [_set.lostConnect, _set.selRangeEdit, _set.coAuthText, _set.wsLockFormatFill],
+                    lock: [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
                     value: '3 cm',
                     maxValue: 55.88,
                     minValue: 0,
@@ -688,35 +741,35 @@ define([
                 this.chRatio = new Common.UI.CheckBox({
                     labelText: me.textLockRation,
                     value: true,
-                    lock        : [_set.lostConnect, _set.selRangeEdit, _set.coAuthText, _set.wsLockFormatFill],
+                    lock        : [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                        _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chRatio);
 
-                this.lblWidth = new Common.UI.Label({
-                    caption: me.textWidth,
-                    lock: [_set.lostConnect, _set.selRangeEdit, _set.coAuthText, _set.wsLockFormatFill],
+                this.btn3DSettings = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-3d-rotation',
+                    caption: me.cap3DRotation,
+                    lock        : [_set.paragraphLock, _set.imageLock, _set.headerLock, _set.viewFormMode, _set.lostConnect,
+                        _set.coAuth, _set.docLockView, _set.docLockForms, _set.docLockCommentsIns, _set.previewReviewMode, _set.coAuthText, _set.viewMode, _set.slideDeleted, _set.pageDeleted],
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
-                this.lockedControls.push(this.lblWidth);
-
-                this.lblHeight = new Common.UI.Label({
-                    caption: me.textHeight,
-                    lock: [_set.lostConnect, _set.selRangeEdit, _set.coAuthText, _set.wsLockFormatFill],
-                });
-                this.lockedControls.push(this.lblHeight);
+                this.lockedControls.push(this.btn3DSettings);
 
                 this.spnWidth.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
                 this.spnHeight.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
-
+                
                 Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
             render: function (el) {
                 if ( el ) el.html( this.getPanel() );
-
                 return this;
             },
 
@@ -729,33 +782,64 @@ define([
                     Common.Utils.injectComponent($host.findById(id), cmp);
                 };
 
-                _injectComponent('#slot-chart-spin-height', this.spnHeight);
-                _injectComponent('#slot-chart-spin-width', this.spnWidth);
+                _injectComponent('#id-chart-spin-width', this.spnWidth);
+                _injectComponent('#id-chart-spin-height', this.spnHeight);
                 this.btnChartElements && this.btnChartElements.render($host.find('#slot-btn-chart-elements'));
+                this.btnEditData && this.btnEditData.render($host.find('#slot-btn-edit-data'));
+                this.btnEditDataExt && this.btnEditDataExt.render($host.find('#slot-btn-edit-data-ext'));
+                this.btnUpdateData && this.btnUpdateData.render($host.find('#slot-btn-update-data'));
+                this.chartStyles && this.chartStyles.render(this.$el.find('#slot-field-chart-styles'));
                 this.btnChartType && this.btnChartType.render($host.find('#slot-btn-chart-type'));
-                this.btnSelectData && this.btnSelectData.render($host.find('#slot-btn-select-data'));
-                this.btnSwitchRowsCols && this.btnSwitchRowsCols.render($host.find('#slot-btn-switch-rowscols'));
-                this.btn3DSettings && this.btn3DSettings.render($host.find('#slot-btn-chart-3d-settings'));
                 this.btnAdvancedSettings && this.btnAdvancedSettings.render($host.find('#slot-btn-chart-advanced-settings'));
-                this.chRatio && this.chRatio.render($host.find('#slot-chk-ratio'));
                 this.lblWidth && this.lblWidth.render($host.find('#slot-lbl-width'));
                 this.lblHeight && this.lblHeight.render($host.find('#slot-lbl-height'));
-                this.chartStyles && this.chartStyles.render($host.find('#slot-field-chart-styles'));
+                this.chRatio && this.chRatio.render($host.find('#slot-chk-ratio'));
+                this.btn3DSettings && this.btn3DSettings.render($host.find('#slot-btn-chart-3d-settings'));
+
                 return this.$el;
             },
 
             onAppReady: function (config) {
                 var me = this;
+
+                this.btnChartType.setMenu( new Common.UI.Menu({
+                    style: 'width: 364px;padding-top: 12px;',
+                    items: [
+                        {template: _.template('<div id="id-chart-menu-insertchart" class="menu-insertchart"></div>')}
+                    ]
+                }));
+
+                var onShowBefore = function(menu) {
+                    var picker = new Common.UI.DataView({
+                        el: $('#id-chart-menu-insertchart'),
+                        parentMenu: menu,
+                        outerMenu: {menu: menu, index:0},
+                        showLast: false,
+                        restoreHeight: 535,
+                        groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
+                        store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
+                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                    });
+                    picker.on('item:click', function (picker, item, record, e) {
+                        if (record)
+                            me.fireEvent('add:chart', [record.get('type')]);
+                    });
+                    menu.off('show:before', onShowBefore);
+                    menu.setInnerMenu([{menu: picker, index: 0}]);
+                };
+
+                this.btnChartType.menu.on('show:before', onShowBefore);
+
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    me.btnAdvancedSettings.updateHint(me.tipAdvanced)
-                    me.btnChartElements.updateHint(me.tipChartElements)
-                    me.btnChartType.updateHint(me.tipChartType)
-                    me.btnSelectData.updateHint(me.tipSelectData)
-                    me.btnSwitchRowsCols.updateHint(me.tipSwitchRowCol)
-                    me.btn3DSettings.updateHint(me.tip3DRotation)
-                    me.btnAdvancedSettings.updateHint(me.tipAdvanced)
+                    me.btnChartElements.updateHint(me.tipChartElements);
+                    me.btnEditData && me.btnEditData.updateHint(me.tipEditData);
+                    me.btnEditDataExt && me.btnEditDataExt.updateHint(me.tipEditData);
+                    me.btnUpdateData && me.btnUpdateData.updateHint(me.tipUpdateData);
+                    me.btnChartType.updateHint(me.tipChartType);
+                    me.btnAdvancedSettings.updateHint(me.tipAdvanced);
+                    me.btn3DSettings.updateHint(me.tip3DRotation);
                     setEvents.call(me);
                 });
             },
@@ -793,5 +877,5 @@ define([
                 }
             },
         }
-    }()), SSE.Views.ChartTab || {}));
+    }()), Common.Views.ChartTab || {}));
 });

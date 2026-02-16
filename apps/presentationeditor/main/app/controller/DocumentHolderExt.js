@@ -65,6 +65,16 @@ define([], function () {
                     'equation:callback': this.equationCallback,
                     'layout:change': this.onLayoutChange,
                     'theme:change': this.onThemeChange
+                },
+                'Common.Views.ChartTab': {
+                    'charttab:updatemenu': function (menu) {
+                        if (me.chartProps) {
+                            this.updateChartElementMenu(menu, me.chartProps)
+                        }
+                    },
+                    'charttab:elementselected': function (menu, item) {
+                        me.onChartElement(menu, item)
+                    }
                 }
             });
 
@@ -111,6 +121,8 @@ define([], function () {
                 me.api.asc_registerCallback('asc_onHideForeignCursorLabel', _.bind(me.onHideForeignCursorLabel, me));
                 me.api.asc_registerCallback('asc_onFocusObject',            _.bind(me.onFocusObject, me));
                 me.api.asc_registerCallback('onPluginContextMenu',          _.bind(me.onPluginContextMenu, me));
+
+                Common.NotificationCenter.on('charttab:advanced', _.bind(this.onChartAdvanced, this));
             }
         };
 

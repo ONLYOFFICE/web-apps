@@ -2069,6 +2069,8 @@ define([
                         rightmenuView.setMode(me.appOptions);
                     }
 
+                    application.getController('Common.Controllers.ChartTab').setMode(me.appOptions);
+
                     var toolbarView = (toolbarController) ? toolbarController.getView() : null;
                     if (toolbarView) {
                         toolbarView.setApi(me.api);

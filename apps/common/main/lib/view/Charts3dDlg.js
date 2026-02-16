@@ -32,13 +32,13 @@
 /**
  *  Charts3DDlg.js
  *
- *  Created on 12.11.2025
+ *  Created on 02.12.2025
  *
  */
 define([], function () {
     'use strict';
     var nMaxRecent = 5;
-    SSE.Views.Charts3DDlg = Common.UI.Window.extend(_.extend({
+    Common.Views.Charts3DDlg = Common.UI.Window.extend(_.extend({
         initialize : function (options) {
             var t = this,
                 _options = {};
@@ -52,6 +52,7 @@ define([], function () {
                     caption: 'Ok'
                 }, 'cancel']
             }, options);
+
             this.recentNumTypes = [];
             this.handler = options.handler;
             this.props = options.props;
@@ -118,7 +119,7 @@ define([], function () {
                         '</tr>'+
                         '<tr>'+
                             '<td style="padding-bottom: 8px">'+
-                                '<label class="link canfocused" id="id-chart-def-rotate-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium">' + t.txtDefRotation + '</label>'+
+                                '<label class="link canfocused" id="id-chart-def-rotate-link">' + t.txtDefRotation + '</label>'+
                             '</td>'+
                         '</tr>'+
                     '</table>'+
@@ -127,6 +128,7 @@ define([], function () {
             _options.tpl        =   _.template(this.template)(_options);
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
+
         render: function () {
             Common.UI.Window.prototype.render.call(this);
             var me = this;
@@ -278,7 +280,6 @@ define([], function () {
 
             this.linkDefRotation = $('#id-chart-def-rotate-link');
             this.linkDefRotation.on('click', _.bind(this.onDefRotation, this));
-
             this.spnX.setValue((me.X!==null && me.X !== undefined) ? me.X : '', true);
             this.spnY.setValue((me.Y!==null && me.Y !== undefined) ? me.Y : '', true);
             this.chRightAngle.setValue((me.RightAngle !== null && me.RightAngle !== undefined) ? me.RightAngle : 'indeterminate', true);
@@ -334,19 +335,23 @@ define([], function () {
         },
 
         getFocusedComponents: function() {
-            return [this.spnX, this.btnRight, this.btnLeft, this.spnY, this.btnUp, this.btnDown, this.spnPerspective,
+            return [this.spnX, this.btnLeft, this.btnRight, this.spnY, this.btnUp, this.btnDown, this.spnPerspective,
                 this.btnNarrow, this.btnWiden, this.chRightAngle, this.chAutoscale, this.spn3DDepth, this.spn3DHeight].concat(this.getFooterButtons());
         },
+
         getDefaultFocusableComponent: function () {
             return this.spnX;
         },
+
         onPrimary: function(event) {
             this._handleInput('ok');
             return false;
         },
+
         onBtnClick: function(event) {
             this._handleInput(event.currentTarget.attributes['result'].value);
         },
+
         _handleInput: function(state) {
             var me = this;
             if (this.handler) {
@@ -354,5 +359,5 @@ define([], function () {
             }
             this.close();
         },
-    }, SSE.Views.Charts3DDlg || {}));
+    }, Common.Views.Charts3DDlg || {}));
 });

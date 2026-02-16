@@ -137,7 +137,8 @@ require([
             'Search',
             'Print',
             'FormsTab',
-            'Common.Controllers.Fonts'
+            'Common.Controllers.Fonts',
+            'Common.Controllers.ChartTab'
             ,'Common.Controllers.History'
             ,'Common.Controllers.Chat'
             ,'Common.Controllers.Comments'
@@ -180,6 +181,7 @@ require([
                 'pdfeditor/main/app/view/ChartSettings',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Fonts',
+                'common/main/lib/controller/ChartTab',
                 'common/main/lib/controller/History',
                 'common/main/lib/controller/Comments'
                 ,'common/main/lib/controller/Chat'
@@ -218,6 +220,7 @@ require([
                     'common/main/lib/view/ExternalLinksDlg',
                     'common/main/lib/view/CustomizeQuickAccessDialog',
                     'common/main/lib/view/PasswordDialog',
+                    'common/main/lib/view/Charts3DDlg',
                     'common/main/lib/component/TextareaField',
                     'common/main/lib/view/ShortcutsDialog',
                     'common/main/lib/view/ShortcutsEditDialog',

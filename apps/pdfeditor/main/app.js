@@ -148,6 +148,7 @@ require([
             'Print',
             'FormsTab',
             'Common.Controllers.Fonts',
+            'Common.Controllers.ChartTab',
             'Common.Controllers.History',
             'Common.Controllers.Chat',
             'Common.Controllers.Comments',
@@ -191,6 +192,7 @@ require([
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/History',
                 'common/main/lib/controller/Fonts',
+                'common/main/lib/controller/ChartTab',
                 'common/main/lib/controller/Comments',
                 'common/main/lib/controller/Chat',
                 /** coauthoring end **/

@@ -58,10 +58,23 @@ define([], function () {
         };
 
         dh.setEvents = function() {
+            var me = this;
+
             this.addListeners({
                 'DocumentHolder': {
                     'createdelayedelements': this.createDelayedElements,
                     'equation:callback': this.equationCallback
+                },
+                'Common.Views.ChartTab': {
+                    'charttab:updatemenu': function (menu) {
+                        me.chartProps = me.getCurrentChartProps();
+                        if (me.chartProps) {
+                            this.updateChartElementMenu(menu, me.chartProps)
+                        }
+                    },
+                    'charttab:elementselected': function (menu, item) {
+                        me.onChartElement(menu, item)
+                    }
                 }
             });
 
@@ -101,6 +114,7 @@ define([], function () {
                     Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this));
                     Common.NotificationCenter.on('forms:image-select', _.bind(this.selectFormImage, this));// select from right pane
                 }
+                Common.NotificationCenter.on('charttab:advanced', _.bind(this.onImgAdvanced, this));
                 this.api.asc_registerCallback('onPluginContextMenu',                 _.bind(this.onPluginContextMenu, this));
             }
         };
