@@ -76,21 +76,17 @@ define([
                                 items: [
                                     {caption: this.textFitToPage, value: 'zoom:page', toggleGroup: 'view-zoom', checkable: true},
                                     {caption: this.textFitToWidth, value: 'zoom:width', toggleGroup: 'view-zoom', checkable: true},
-                                    (new Common.UI.MenuItem({
-                                        template: _.template([
-                                            '<div id="id-menu-zoom" class="menu-zoom" style="height: 26px;" ',
-                                            '<% if(!_.isUndefined(options.stopPropagation)) { %>',
-                                            'data-stopPropagation="true"',
-                                            '<% } %>', '>',
-                                            '<label class="title">' + this.textZoom + '</label>',
-                                            '<button id="id-menu-zoom-in" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn btn-toolbar"><i class="mi-icon svg-icon zoom-in">&nbsp;</i></button>',
-                                            '<label class="zoom"><%= options.value %>%</label>',
-                                            '<button id="id-menu-zoom-out" type="button" style="float:right; margin-top: 2px;" class="btn btn-toolbar"><i class="mi-icon svg-icon zoom-out">&nbsp;</i></button>',
-                                            '</div>'
-                                        ].join('')),
-                                        stopPropagation: true,
-                                        value: 30
-                                    }))
+                                    {caption: '--'},
+                                    {caption: '50%', value: 50, toggleGroup: 'zoom-list', checkable: true},
+                                    {caption: '75%', value: 75, toggleGroup: 'zoom-list', checkable: true},
+                                    {caption: '100%', value: 100, toggleGroup: 'zoom-list', checkable: true},
+                                    {caption: '125%', value: 125, toggleGroup: 'zoom-list', checkable: true},
+                                    {caption: '150%', value: 150, toggleGroup: 'zoom-list', checkable: true},
+                                    {caption: '175%', value: 175, toggleGroup: 'zoom-list', checkable: true},
+                                    {caption: '200%', value: 200, toggleGroup: 'zoom-list', checkable: true},
+                                    {caption: '300%', value: 300, toggleGroup: 'zoom-list', checkable: true},
+                                    {caption: '400%', value: 400, toggleGroup: 'zoom-list', checkable: true},
+                                    {caption: '500%', value: 500, toggleGroup: 'zoom-list', checkable: true},
                                 ]
                             })
                         },
