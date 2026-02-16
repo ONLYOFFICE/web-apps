@@ -3929,16 +3929,20 @@ define([
                 }
                 Array.prototype.push.apply(me.toolbar.lockControls, headerfootertab.getView('HeaderFooterTab').getButtons());
 
-                if ( config.canProtect && !config.isPDFForm) {
+                if ( config.canProtect) {
                     tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
                     $panel = application.getController('Common.Controllers.Protection').createToolbarPanel();
                     if ($panel) {
-                        (config.isSignatureSupport || config.isPasswordSupport) && $panel.append($('<div class="separator long"></div>'));
-                        var doctab = application.getController('DocProtection');
-                        $panel.append(doctab.createToolbarPanel());
+                        const doctabController = application.getController('DocProtection');
+                        const doctabView = doctabController.getView('DocProtection');
+                        const doctabButtons = doctabView.getButtons();
+                        if(doctabButtons.length > 0 && (config.isSignatureSupport || config.isPasswordSupport)) {
+                            $panel.append($('<div class="separator long"></div>'));
+                        }
+                        $panel.append(doctabController.createToolbarPanel());
                         me.toolbar.addTab(tab, $panel, 7);
                         me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
-                        Array.prototype.push.apply(me.toolbar.lockControls, doctab.getView('DocProtection').getButtons());
+                        Array.prototype.push.apply(me.toolbar.lockControls, doctabButtons);
                     }
                 }
 
