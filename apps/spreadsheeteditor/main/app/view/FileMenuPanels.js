@@ -2877,6 +2877,7 @@ define([], function () {
                     menuStyle: 'width: 248px; max-height: 280px;',
                     editable: false,
                     takeFocusOnClose: true,
+                    restoreMenuHeightAndTop: true,
                     cls: 'input-group-nr',
                     placeHolder: this.txtPrinterNotSelected,
                     itemsTemplate:  _.template([
@@ -2904,6 +2905,7 @@ define([], function () {
                     menuStyle: 'width: 248px; max-height: 280px;',
                     editable: false,
                     takeFocusOnClose: true,
+                    restoreMenuHeightAndTop: true,
                     cls: 'input-group-nr',
                     disabled: true,
                     data: [
@@ -2926,6 +2928,7 @@ define([], function () {
                 menuStyle: 'min-width: 248px;max-height: 280px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls: 'input-group-nr',
                 data: [
                     { value: Asc.c_oAscPrintType.ActiveSheets, displayValue: this.txtActiveSheets },
@@ -2998,6 +3001,7 @@ define([], function () {
                 menuStyle   : 'width:100%;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 'one', displayValue: this.txtOneSide, descValue: this.txtOneSideDesc },
@@ -3023,6 +3027,7 @@ define([], function () {
                 cls: 'input-group-nr',
                 data: [],
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -3065,6 +3070,7 @@ define([], function () {
                 menuStyle: 'max-height: 280px; width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 template: paperSizeTemplate,
                 itemsTemplate: paperSizeItemsTemplate,
                 data: [].concat(this._defaultPaperSizeList),
@@ -3097,6 +3103,7 @@ define([], function () {
                 menuStyle   : 'min-width: 134px;',
                 editable    : false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: Asc.c_oAscPageOrientation.PagePortrait, displayValue: this.txtPortrait },
@@ -3121,6 +3128,7 @@ define([], function () {
                 menuStyle   : 'min-width: 248px;',
                 editable    : false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 0, displayValue: this.txtActualSize },
@@ -3190,6 +3198,7 @@ define([], function () {
                 menuStyle: 'max-height: 280px; min-width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls: 'input-group-nr',
                 data: [
                     { value: 0, displayValue: this.txtMarginsNormal, size: [19.1, 17.8, 19.1, 17.8]},

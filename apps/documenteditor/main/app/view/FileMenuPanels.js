@@ -2834,6 +2834,7 @@ define([], function () {
                 menuStyle: 'width: 248px; max-height: 280px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls: 'input-group-nr',
                 placeHolder: this.txtPrinterNotSelected,
                 itemsTemplate:  _.template([
@@ -2861,6 +2862,7 @@ define([], function () {
                 menuStyle: 'width: 248px; max-height: 280px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls: 'input-group-nr',
                 disabled: true,
                 data: [
@@ -2882,6 +2884,7 @@ define([], function () {
                 menuStyle: 'min-width: 248px;max-height: 280px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls: 'input-group-nr',
                 data: [
                     { value: 'all', displayValue: this.txtAllPages },
@@ -2925,6 +2928,7 @@ define([], function () {
                 menuStyle   : 'width:100%;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 'one', displayValue: this.txtOneSide, descValue: this.txtOneSideDesc },
@@ -2988,6 +2992,7 @@ define([], function () {
                 menuStyle: 'max-height: 280px; width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 template: paperSizeTemplate,
                 itemsTemplate: paperSizeItemsTemplate,
                 data: [].concat(this._defaultPaperSizeList, [{ value: -1, displayValue: this.txtCustom, caption: this.txtCustom, size: []}]),
@@ -3020,6 +3025,7 @@ define([], function () {
                 menuStyle   : 'min-width: 150px;',
                 editable    : false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: Asc.c_oAscPageOrientation.PagePortrait, displayValue: this.txtPortrait },
@@ -3036,6 +3042,7 @@ define([], function () {
                 menuStyle: 'max-height: 280px; min-width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls: 'input-group-nr',
                 data: [
                     { value: 0, displayValue: this.textMarginsNormal, size: (/^(ca|us)$/i.test(Common.Utils.InternalSettings.get("de-config-region"))) ? [25.4, 25.4, 25.4, 25.4] : [20, 30, 20, 15]},
