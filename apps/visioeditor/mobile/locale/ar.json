@@ -68,10 +68,7 @@
       "warnLicenseLimitedRenewed": "يحتاج الترخيص إلى تجديد. لديك وصول محدود لخاصية تعديل المستند. <br> برجاء التواصل مع مسئولك للحصول على وصول كامل",
       "warnNoLicense": "لقد وصلت إلى الحد الأقصى من الاتصالات المتزامنة لـ%1محررات.هذا المستند سيكون للقراءة فقط. تواصل مع %1 فريق المبيعات لتطوير الشروط الشخصية",
       "warnNoLicenseUsers": "لقد وصلت إلى الحد الأقصى لعدد المستخدمين المسموح به لـ %1 من المحررين. اتصل بفريق مبيعات %1 لمعرفة شروط الترقية الشخصية.",
-      "warnProcessRightsChange": "ليس لديك الإذن بتعديل هذا الملف.",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "ليس لديك الإذن بتعديل هذا الملف."
     }
   },
   "Error": {
@@ -119,9 +116,7 @@
     "unknownErrorText": "خطأ غير معروف.",
     "uploadImageExtMessage": "تنسيق الصورة غير معروف.",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
-    "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت."
   },
   "LongActions": {
     "applyChangesTextText": "جار تحميل البيانات...",
@@ -212,8 +207,7 @@
       "textVersion": "الإصدار",
       "textVisioInfo": "معلومات عارض المخططات",
       "textVisioSettings": "إعدادات عارض المخططات",
-      "textVisioTitle": "عنوان عارض المخططات",
-      "textOpenLocation": "Open location"
+      "textVisioTitle": "عنوان عارض المخططات"
     }
   }
 }

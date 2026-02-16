@@ -823,8 +823,7 @@
     "txtDownloadTxt": "Preuzmite TXT",
     "txtIncorrectPwd": "Lozinka je netačna",
     "txtOk": "OK",
-    "txtProtected": "Kada ukucate lozinku i otvorite fajl, trenutna lozinka će biti resetovana",
-    "textOpenLocation": "Open location"
+    "txtProtected": "Kada ukucate lozinku i otvorite fajl, trenutna lozinka će biti resetovana"
   },
   "Toolbar": {
     "btnRestartNow": "Ponovo pokreni sada",

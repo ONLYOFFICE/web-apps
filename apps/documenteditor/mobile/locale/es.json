@@ -316,7 +316,7 @@
     "textHeaderRow": "Fila de encabezado",
     "textHighlightColor": "Color de resaltado",
     "textHorizontalText": "Texto horizontal",
-    "textHyperlink": "Hiperenlace",
+    "textHyperlink": "Enlace",
     "textImage": "Imagen",
     "textImageURL": "URL de imagen",
     "textInFront": "Delante del texto",
@@ -335,6 +335,7 @@
     "textLink": "Enlace",
     "textLinkSettings": "Ajustes de enlace",
     "textLinkToPrevious": "Vincular al anterior",
+    "textLtrTextDirection": "De izquierda a derecha",
     "textMarch": "marzo",
     "textMay": "mayo",
     "textMo": "lu.",
@@ -379,6 +380,7 @@
     "textRightAlign": "Alinear a la derecha",
     "textRotateTextDown": "Girar texto hacia abajo",
     "textRotateTextUp": "Girar texto hacia arriba",
+    "textRtlTextDirection": "De derecha a izquierda",
     "textSa": "sá.",
     "textSameCreatedNewStyle": "Igual que el nuevo estilo creado",
     "textSave": "Guardar",
@@ -407,6 +409,7 @@
     "textTableOfCont": "TDC",
     "textTableOptions": "Opciones de tabla",
     "textText": "Texto",
+    "textTextDirection": "Dirección de texto",
     "textTextOrientation": "Orientación del texto",
     "textTextWrapping": "Ajuste de texto",
     "textTh": "ju.",
@@ -423,10 +426,7 @@
     "textWrapText": "Ajustar texto",
     "textYourOption": "Su opción",
     "txtHeight": "Altura",
-    "txtWidth": "Ancho",
-    "textLtrTextDirection": "Left-to-right",
-    "textRtlTextDirection": "Right-to-left",
-    "textTextDirection": "Text Direction"
+    "txtWidth": "Ancho"
   },
   "Error": {
     "convertationTimeoutText": "Tiempo de conversión está superado.",
@@ -439,6 +439,7 @@
     "errorComboSeries": "Para crear un gráfico combinado, seleccione al menos dos series de datos.",
     "errorCompare": "La función de comparación de documentos no está disponible en el modo de coedición.",
     "errorConnectToServer": "No se puede guardar este documento. Compruebe la configuración de su conexión o póngase en contacto con el administrador.<br>Cuando haga clic en OK, se le pedirá que descargue el documento.",
+    "errorCopyDisabled": "Por motivos de seguridad, el contenido de este documento no se puede copiar.",
     "errorDatabaseConnection": "Error externo.<br>Error de conexión a la base de datos. Por favor, contacte con el equipo de soporte técnico.",
     "errorDataEncrypted": "Se han recibido cambios cifrados, ellos no pueden ser descifrados.",
     "errorDataRange": "Rango de datos incorrecto.",
@@ -491,8 +492,7 @@
     "uploadDocSizeMessage": "Se ha excedido el límite de tamaño máximo del documento.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",
@@ -583,7 +583,7 @@
       "Heading 7": "Título 7",
       "Heading 8": "Título 8",
       "Heading 9": "Título 9",
-      "Hyperlink": "Hiperenlace",
+      "Hyperlink": "Enlace",
       "Index Too Large": "El índice es demasiado grande",
       "Intense Emphasis": "Énfasis intenso",
       "Intense Quote": "Cita destacada",
@@ -746,6 +746,7 @@
     "textHelp": "Ayuda",
     "textHiddenTableBorders": "Bordes de tabla escondidos",
     "textHighlightResults": "Resaltar resultados",
+    "textHyphenation": "Guiones",
     "textInch": "Pulgada",
     "textLandscape": "Horizontal",
     "textLastModified": "Última modificación",
@@ -822,9 +823,7 @@
     "txtDownloadTxt": "Descargar TXT",
     "txtIncorrectPwd": "La contraseña es incorrecta",
     "txtOk": "OK",
-    "txtProtected": "Una vez que introduzca la contraseña y abra el archivo, se restablecerá la contraseña actual",
-    "textHyphenation": "Hyphenation",
-    "textOpenLocation": "Open location"
+    "txtProtected": "Una vez que introduzca la contraseña y abra el archivo, se restablecerá la contraseña actual"
   },
   "Toolbar": {
     "btnRestartNow": "Reiniciar ahora",

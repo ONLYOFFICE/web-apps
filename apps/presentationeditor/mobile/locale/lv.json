@@ -53,15 +53,7 @@
       "textRestore": "Atjaunot",
       "textVersion": "Versija",
       "textVersionHistory": "Versiju vēsture",
-      "txtErrorLoadHistory": "Neizdevās ielādēt vēsturi",
-      "textWarningRestoreVersion": "Current file will be saved in version history.",
-      "titleWarningRestoreVersion": "Restore this version?"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
+      "txtErrorLoadHistory": "Neizdevās ielādēt vēsturi"
     }
   },
   "ContextMenu": {
@@ -83,8 +75,7 @@
     "textDoNotShowAgain": "Nerādīt vēlreiz",
     "textOk": "OK",
     "textRows": "Rindas",
-    "txtWarnUrl": "Noklikšķinot uz šīs saites var kaitēt jūsu ierīcei un datiem.<br>Vai tiešām vēlaties turpināt?",
-    "menuDuplicate": "Duplicate"
+    "txtWarnUrl": "Noklikšķinot uz šīs saites var kaitēt jūsu ierīcei un datiem.<br>Vai tiešām vēlaties turpināt?"
   },
   "Controller": {
     "Main": {
@@ -121,31 +112,7 @@
         "Table": "Tabula",
         "X Axis": "X ass XAS",
         "Y Axis": "Y ass",
-        "Your text here": "Ievadiet savu tekstu",
-        "Aspect": "Aspect",
-        "Blue": "Blue",
-        "Blue Green": "Blue Green",
-        "Blue II": "Blue II",
-        "Blue Warm": "Blue Warm",
-        "Grayscale": "Grayscale",
-        "Green": "Green",
-        "Green Yellow": "Green Yellow",
-        "Marquee": "Marquee",
-        "Median": "Median",
-        "Office": "Office",
-        "Office 2007 - 2010": "Office 2007 - 2010",
-        "Office 2013 - 2022": "Office 2013 - 2022",
-        "Orange": "Orange",
-        "Orange Red": "Orange Red",
-        "Paper": "Paper",
-        "Red": "Red",
-        "Red Orange": "Red Orange",
-        "Red Violet": "Red Violet",
-        "Slipstream": "Slipstream",
-        "Violet": "Violet",
-        "Violet II": "Violet II",
-        "Yellow": "Yellow",
-        "Yellow Orange": "Yellow Orange"
+        "Your text here": "Ievadiet savu tekstu"
       },
       "textAnonymous": "Anonīms",
       "textBuyNow": "Apmeklēt vietni",
@@ -173,15 +140,7 @@
       "warnLicenseLimitedRenewed": "Licence ir jāatjauno. Jums ir ierobežota piekļuve dokumentu rediģēšanas funkcionalitātei.<br>Sazinieties ar savu administratoru, lai iegūtu pilnu piekļuvi",
       "warnNoLicense": "Jūs sasniedzāt vienlaicīgu savienojumu ierobežojumu ar %1 redaktoriem. Šis dokuments tiks atvērts tikai skatīšanai. Sazinieties ar %1 pārdošanas komandu, lai uzzinātu personīgos jaunināšanas noteikumus.",
       "warnNoLicenseUsers": "Jūs sasniedzāt %1 redaktoru lietotāju ierobežojumu. Sazinieties ar %1 pārdošanas komandu, lai uzzinātu personīgos jaunināšanas noteikumus.",
-      "warnProcessRightsChange": "Jums nav atļaujas rediģēt failu.",
-      "textNoLicenseTitle": "License limit reached",
-      "textOk": "Ok",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleLicenseNotActive": "License not active",
-      "titleReadOnly": "Read-Only Mode",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnProcessRightsChange": "Jums nav atļaujas rediģēt failu."
     }
   },
   "Error": {
@@ -228,15 +187,7 @@
     "unknownErrorText": "Nezināma kļūda.",
     "uploadImageExtMessage": "Nezināms attēla formāts.",
     "uploadImageFileCountMessage": "Nav augšupielādēto attēlu.",
-    "uploadImageSizeMessage": "Attēls ir pārāk liels. Maksimālais izmērs ir 25 MB.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorComboSeries": "To create a combination chart, select at least two series of data.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
-    "errorEmailClient": "No email client could be found",
-    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "errorSetPassword": "Password could not be set.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "Attēls ir pārāk liels. Maksimālais izmērs ir 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Ielādē datus...",
@@ -277,12 +228,7 @@
     "dlgLeaveTitleText": "Jūs pametat lietotni",
     "leaveButtonText": "Pamest lapu",
     "stayButtonText": "Palikt šajā lapā",
-    "textCloseHistory": "Aizvērt vēsturi",
-    "btnRestartNow": "Restart now",
-    "textEnterNewFileName": "Enter a new file name",
-    "textOk": "OK",
-    "textRenameFile": "Rename File",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textCloseHistory": "Aizvērt vēsturi"
   },
   "View": {
     "Add": {
@@ -325,8 +271,7 @@
       "textSlideNumber": "Slaida numurs",
       "textTable": "Tabula",
       "textTableSize": "Tabulas izmērs",
-      "txtNotUrl": "Šim laukam ir jābūt URL formātā \"http://www.example.com\"",
-      "textDrawing": "Drawing"
+      "txtNotUrl": "Šim laukam ir jābūt URL formātā \"http://www.example.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "Brīdinājums",
@@ -485,23 +430,7 @@
       "textZoom": "Palielināšana",
       "textZoomIn": "Palielināt",
       "textZoomOut": "Samazināt",
-      "textZoomRotate": "Palielināt un rotēt",
-      "textBackground": "Background",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textCellSize": "Cell size",
-      "textHorizontalText": "Horizontal Text",
-      "textInvalidName": "The file name cannot contain any of the following characters: ",
-      "textLtrTextDirection": "Left-to-right",
-      "textMorph": "Morph",
-      "textResetBackground": "Reset background",
-      "textRotateTextDown": "Rotate Text Down",
-      "textRotateTextUp": "Rotate Text Up",
-      "textRtlTextDirection": "Right-to-left",
-      "textTextDirection": "Text Direction",
-      "textTextOrientation": "Text Orientation",
-      "txtHeight": "Height",
-      "txtWidth": "Width"
+      "textZoomRotate": "Palielināt un rotēt"
     },
     "Settings": {
       "mniSlideStandard": "Standarta (4:3)",
@@ -564,20 +493,7 @@
       "textUnitOfMeasurement": "Mērvienība",
       "textUploaded": "Augšupielādēts",
       "textVersion": "Versija",
-      "textVersionHistory": "Versiju vēsture",
-      "textClose": "Close",
-      "textDark": "Dark",
-      "textLight": "Light",
-      "textLoopSlideshow": "Loop slideshow",
-      "textSameAsSystem": "Same As System",
-      "textTheme": "Theme",
-      "textOpenLocation": "Open location"
+      "textVersionHistory": "Versiju vēsture"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

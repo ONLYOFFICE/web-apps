@@ -823,8 +823,7 @@
     "txtDownloadTxt": "TXT herunterladen",
     "txtIncorrectPwd": "Passwort ist falsch",
     "txtOk": "OK",
-    "txtProtected": "Wenn Sie das Password eingeben und die Datei öffnen, wird das aktive Password zurückgesetzt",
-    "textOpenLocation": "Open location"
+    "txtProtected": "Wenn Sie das Password eingeben und die Datei öffnen, wird das aktive Password zurückgesetzt"
   },
   "Toolbar": {
     "btnRestartNow": "Jetzt neu starten",

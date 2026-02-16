@@ -1,6 +1,6 @@
 {
   "About": {
-    "textAbout": "U vezi",
+    "textAbout": "O",
     "textAddress": "Adresa",
     "textBack": "Nazad",
     "textEditor": "Pregledač dijagrama",
@@ -173,7 +173,7 @@
     },
     "Settings": {
       "notcriticalErrorTitle": "Upozorenje",
-      "textAbout": "U vezi",
+      "textAbout": "O",
       "textAddress": "adresa:",
       "textApplication": "Aplikacija",
       "textApplicationSettings": "Podešavanja Aplikacije",
@@ -212,8 +212,7 @@
       "textVersion": "Verzija",
       "textVisioInfo": "Informacije o pregledaču dijagrama",
       "textVisioSettings": "Podešavanja pregledača dijagrama",
-      "textVisioTitle": "Naslov pregledača dijagrama",
-      "textOpenLocation": "Open location"
+      "textVisioTitle": "Naslov pregledača dijagrama"
     }
   }
 }

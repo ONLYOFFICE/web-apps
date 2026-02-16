@@ -14,6 +14,7 @@
   "VE.ApplicationController.downloadErrorText": "Échec du téléchargement.",
   "VE.ApplicationController.downloadTextText": "Téléchargement du document...",
   "VE.ApplicationController.errorAccessDeny": "Vous ne disposez pas des droits pour effectuer cette action.<br>Veuillez contacter l'administrateur de Document Server.",
+  "VE.ApplicationController.errorCopyDisabled": "Pour des raisons de sécurité, le contenu de ce document ne peut être copié.",
   "VE.ApplicationController.errorDefaultMessage": "Code d'erreur : %1",
   "VE.ApplicationController.errorEditingDownloadas": "Une erreur s'est produite lors du travail avec le document.<br>Utilisez l'option 'Télécharger comme' pour enregistrer une copie de sauvegarde du fichier sur le disque dur de votre ordinateur.",
   "VE.ApplicationController.errorFilePassProtect": "Le fichier est protégé par un mot de passe et ne peut pas être ouvert.",

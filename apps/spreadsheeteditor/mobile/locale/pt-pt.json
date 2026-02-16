@@ -87,8 +87,7 @@
     "textDoNotShowAgain": "Não mostrar novamente",
     "textOk": "Aceitar",
     "txtWarnUrl": "Clicar nesta ligação pode ser prejudicial ao seu dispositivo e dados.<br>Deseja continuar?",
-    "warnMergeLostData": "Apenas os dados da célula superior esquerda permanecerão na célula unida.<br>Tem a certeza de que deseja continuar? ",
-    "menuAutofill": "Autofill"
+    "warnMergeLostData": "Apenas os dados da célula superior esquerda permanecerão na célula unida.<br>Tem a certeza de que deseja continuar? "
   },
   "Controller": {
     "Main": {
@@ -179,36 +178,7 @@
         "Years": "Anos",
         "Yellow": "Amarelo",
         "Yellow Orange": "Amarelo alaranjado",
-        "Your text here": "O seu texto aqui",
-        "20% - Accent1": "20% - Accent1",
-        "20% - Accent2": "20% - Accent2",
-        "20% - Accent3": "20% - Accent3",
-        "20% - Accent4": "20% - Accent4",
-        "20% - Accent5": "20% - Accent5",
-        "20% - Accent6": "20% - Accent6",
-        "40% - Accent1": "40% - Accent1",
-        "40% - Accent2": "40% - Accent2",
-        "40% - Accent3": "40% - Accent3",
-        "40% - Accent4": "40% - Accent4",
-        "40% - Accent5": "40% - Accent5",
-        "40% - Accent6": "40% - Accent6",
-        "60% - Accent1": "60% - Accent1",
-        "60% - Accent2": "60% - Accent2",
-        "60% - Accent3": "60% - Accent3",
-        "60% - Accent4": "60% - Accent4",
-        "60% - Accent5": "60% - Accent5",
-        "60% - Accent6": "60% - Accent6",
-        "Accent1": "Accent1",
-        "Accent2": "Accent2",
-        "Accent3": "Accent3",
-        "Accent4": "Accent4",
-        "Accent5": "Accent5",
-        "Accent6": "Accent6",
-        "Aspect": "Aspect",
-        "Comma [0]": "Comma [0]",
-        "Currency [0]": "Currency [0]",
-        "Marquee": "Marquee",
-        "Slipstream": "Slipstream"
+        "Your text here": "O seu texto aqui"
       },
       "textAnonymous": "Anónimo",
       "textBuyNow": "Visitar site",
@@ -242,10 +212,7 @@
       "warnLicenseLimitedRenewed": "Tem que renovar a sua licença. A edição de documentos está com funcionalidades limitadas.<br>Contacte o administrador para obter acesso total.",
       "warnNoLicense": "Atingiu o limite de ligações simultâneas a %1 editores. Este documento será aberto apenas para visualização. Contacte a %1 equipa de vendas para consultar os termos de atualização para si.",
       "warnNoLicenseUsers": "Atingiu o limite de %1 editores. Contacte a equipa comercial %1 para obter mais informações.",
-      "warnProcessRightsChange": "Não tem permissão para editar este ficheiro.",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "Não tem permissão para editar este ficheiro."
     }
   },
   "Error": {
@@ -364,17 +331,7 @@
     "uploadDocSizeMessage": "Excedeu o limite de tamanho para o documento.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Nenhuma imagem foi carregada.",
-    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
-    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-    "errorLabledColumnsPivot": "To create a pivot table report, you must use data that is organized as a list with labeled columns.",
-    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled.",
-    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists.",
-    "errorPrecedentsNoValidRef": "The Trace Precedents command requires that the active cell contain a formula which includes a valid references.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Palavra-passe",
@@ -443,9 +400,7 @@
     "textSheetName": "Nome da folha",
     "textTabColor": "Cor do separador",
     "textUnhide": "Mostrar",
-    "textWarnDeleteSheet": "É possível que o livro escolhido tenha dados. Continuar?",
-    "textContinue": "Continue",
-    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
+    "textWarnDeleteSheet": "É possível que o livro escolhido tenha dados. Continuar?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Este documento tem alterações não guardadas. Clique 'Ficar na página' para que o documento seja guardado automaticamente. Clique 'Sair da página' para rejeitar todas as alterações.",
@@ -454,10 +409,7 @@
     "stayButtonText": "Ficar na página",
     "textCloseHistory": "Fechar histórico",
     "textEnterNewFileName": "Introduza o nome para o ficheiro",
-    "textRenameFile": "Mudar nome do ficheiro",
-    "btnRestartNow": "Restart now",
-    "textOk": "OK",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textRenameFile": "Mudar nome do ficheiro"
   },
   "View": {
     "Add": {
@@ -522,8 +474,7 @@
       "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\"",
       "txtSorting": "Ordenação",
       "txtSortSelected": "Ordenar seleção",
-      "txtYes": "Sim",
-      "textDrawing": "Drawing"
+      "txtYes": "Sim"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
@@ -716,22 +667,7 @@
       "textYen": "Iene",
       "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\"",
       "txtSortHigh2Low": "Ordenar do maior para o menor",
-      "txtSortLow2High": "Ordenar do menor para o maior",
-      "textAdditional": "Additional",
-      "textAdditionalFormatting": "Additional formatting",
-      "textAllCaps": "All Caps",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textContextTextDirection": "Context",
-      "textDoubleStrikethrough": "Double Strikethrough",
-      "textLetterSpacing": "Letter spacing",
-      "textLtrTextDirection": "Left-to-right",
-      "textRtlTextDirection": "Right-to-left",
-      "textSmallCaps": "Small Caps",
-      "textStrikethrough": "Strikethrough",
-      "textSubscript": "Subscript",
-      "textSuperscript": "Superscript",
-      "textTextDirection": "Text Direction"
+      "txtSortLow2High": "Ordenar do menor para o maior"
     },
     "Settings": {
       "advCSVOptions": "Escolher opções CSV",
@@ -885,20 +821,7 @@
       "txtUk": "Ucraniano",
       "txtVi": "Vietnamita",
       "txtZh": "Chinês",
-      "warnDownloadAs": "Se guardar o documento neste formato, perderá todos os atributos com exceção do texto.<br>Tem a certeza de que deseja continuar?",
-      "textSheetRtl": "Sheet Right to left",
-      "txtSr": "Serbian (Latin)",
-      "txtSrcyrl": "Serbian (Cyrillic)",
-      "txtZhtw": "Chinese (Traditional)",
-      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
-      "textOpenLocation": "Open location",
-      "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
+      "warnDownloadAs": "Se guardar o documento neste formato, perderá todos os atributos com exceção do texto.<br>Tem a certeza de que deseja continuar?"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

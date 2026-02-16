@@ -423,10 +423,7 @@
     "textWrapText": "Տեքստի ծալում",
     "textYourOption": "Ձեր տարբերակը",
     "txtHeight": "Բարձրություն",
-    "txtWidth": "Լայնք",
-    "textLtrTextDirection": "Left-to-right",
-    "textRtlTextDirection": "Right-to-left",
-    "textTextDirection": "Text Direction"
+    "txtWidth": "Լայնք"
   },
   "Error": {
     "convertationTimeoutText": "Փոխարկման սպասման ժամանակը սպառվել է։",
@@ -491,8 +488,7 @@
     "uploadDocSizeMessage": "Փաստաթղթի չափի առավելագույն սահմանաչափը գերազանցվել է:",
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
-    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:"
   },
   "LongActions": {
     "applyChangesTextText": "Տվյալների բեռնում...",
@@ -822,9 +818,7 @@
     "txtDownloadTxt": "Ներբեռնել TXT ձևաչափով",
     "txtIncorrectPwd": "Գաղտնաբառը սխալ է",
     "txtOk": "Լավ",
-    "txtProtected": "Գաղտնաբառը մուտքագրելուց և ֆայլը բացելուց հետո ընթացիկ գաղտնաբառը կզրոյացվի",
-    "textHyphenation": "Hyphenation",
-    "textOpenLocation": "Open location"
+    "txtProtected": "Գաղտնաբառը մուտքագրելուց և ֆայլը բացելուց հետո ընթացիկ գաղտնաբառը կզրոյացվի"
   },
   "Toolbar": {
     "btnRestartNow": "Վերագործարկել հիմա",
