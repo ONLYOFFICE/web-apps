@@ -92,6 +92,8 @@ define([
                     this.api.asc_registerCallback('asc_onUpdateSignatures', _.bind(this.onApiUpdateSignatures, this));
                 }
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
+
+                Common.NotificationCenter.on('doc:mode-changed',  _.bind(this.onChangeDocMode, this));
             }
         },
 
@@ -152,7 +154,6 @@ define([
                 accept();
             })).then(function(){
                 me.onChangeProtectDocument();
-                me.view && me.view.btnMarkAsFinal && me.view.btnMarkAsFinal.toggle(me.api.isFinal(), true);
                 Common.NotificationCenter.on('protect:doclock', _.bind(me.onChangeProtectDocument, me));
             });
         },
@@ -262,6 +263,12 @@ define([
 
         onCoAuthoringDisconnect: function() {
             this.SetDisabled(true);
+        },
+
+        onChangeDocMode: function () {
+            if(this.view && this.view.btnMarkAsFinal) {
+                this.view.btnMarkAsFinal.toggle(this.api.isFinal(), true);
+            }
         }
 
     }, Common.Controllers.Protection || {}));

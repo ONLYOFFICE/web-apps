@@ -370,7 +370,7 @@ define([
             },
 
             txtEncrypt: 'Encrypt',
-            txtMarkAsFinal: 'Mark as final',
+            txtMarkAsFinal: 'Protect Document',
             txtSignature: 'Signature',
             hintAddPwd: 'Encrypt with password',
             hintPwd: 'Change or delete password',
