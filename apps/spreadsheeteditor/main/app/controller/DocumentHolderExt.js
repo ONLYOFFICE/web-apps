@@ -918,7 +918,8 @@ define([], function () {
                     Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
                 };
 
-                var cell = me.api.asc_getCellInfo();
+                var cell = me.api.asc_getCellInfo(),
+                    seltype = cell.asc_getSelectionType();
                 props = cell.asc_getHyperlink();
 
                 win = new SSE.Views.HyperlinkSettingsDialog({
@@ -935,7 +936,7 @@ define([], function () {
                     props   : props,
                     text    : cell.asc_getText(),
                     isLock  : cell.asc_getLockText(),
-                    allowInternal: item.options.inCell
+                    allowInternal: (seltype!==Asc.c_oAscSelectionType.RangeChart && seltype!==Asc.c_oAscSelectionType.RangeChartText && seltype!==Asc.c_oAscSelectionType.RangeSlicer)
                 });
             }
 
