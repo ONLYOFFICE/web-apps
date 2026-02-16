@@ -14,6 +14,7 @@
   "PE.ApplicationController.downloadErrorText": "Tải về không thành công.",
   "PE.ApplicationController.downloadTextText": "Đang tải trình chiếu...",
   "PE.ApplicationController.errorAccessDeny": "Bạn đang cố gắng thực hiện hành động mà bạn không có quyền.<br>Vui lòng liên hệ với quản trị viên Server Tài liệu của bạn.",
+  "PE.ApplicationController.errorCopyDisabled": "Ví lý do bảo mật, nội dung trong tài liệu này không thể được sao chép.",
   "PE.ApplicationController.errorDefaultMessage": "Mã lỗi: %1",
   "PE.ApplicationController.errorEditingDownloadas": "Đã xảy ra lỗi trong quá trình làm việc với tài liệu.<br>Hãy sử dụng tùy chọn 'Tải xuống dưới dạng' để lưu bản sao lưu tệp vào ổ đĩa.",
   "PE.ApplicationController.errorFilePassProtect": "Tài liệu được bảo vệ bằng mật khẩu và không thể mở được.",

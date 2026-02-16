@@ -83,8 +83,7 @@
     "textDoNotShowAgain": "Não mostrar novamente",
     "textOk": "Aceitar",
     "textRows": "Linhas",
-    "txtWarnUrl": "Clicar nesta ligação pode ser prejudicial ao seu dispositivo e dados.<br>Deseja continuar?",
-    "menuDuplicate": "Duplicate"
+    "txtWarnUrl": "Clicar nesta ligação pode ser prejudicial ao seu dispositivo e dados.<br>Deseja continuar?"
   },
   "Controller": {
     "Main": {
@@ -143,9 +142,7 @@
         "Y Axis": "Eixo Y",
         "Yellow": "Amarelo",
         "Yellow Orange": "Amarelo alaranjado",
-        "Your text here": "O seu texto aqui",
-        "Marquee": "Marquee",
-        "Slipstream": "Slipstream"
+        "Your text here": "O seu texto aqui"
       },
       "textAnonymous": "Anónimo",
       "textBuyNow": "Visitar site",
@@ -178,10 +175,7 @@
       "warnLicenseLimitedRenewed": "Tem que renovar a sua licença. A edição de documentos está com funcionalidades limitadas.<br>Contacte o administrador para obter acesso total.",
       "warnNoLicense": "Atingiu o limite de ligações simultâneas aos editores %1. Este documento será aberto no modo de leitura.<br>Contacte a equipa comercial %1 para saber mais sobre os termos de licenciamento.",
       "warnNoLicenseUsers": "Atingiu o limite de utilizadores para os editores %1. Contacte a equipa comercial %1 para obter mais informações.",
-      "warnProcessRightsChange": "Não tem permissões para editar este ficheiro.",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "Não tem permissões para editar este ficheiro."
     }
   },
   "Error": {
@@ -233,10 +227,7 @@
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Nenhuma imagem foi carregada.",
-    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo permitido é de 25 MB.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo permitido é de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "A carregar dados...",
@@ -279,10 +270,7 @@
     "stayButtonText": "Ficar na página",
     "textCloseHistory": "Fechar histórico",
     "textEnterNewFileName": "Introduza um novo nome para o ficheiro",
-    "textRenameFile": "Renomear ficheiro",
-    "btnRestartNow": "Restart now",
-    "textOk": "OK",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textRenameFile": "Renomear ficheiro"
   },
   "View": {
     "Add": {
@@ -325,8 +313,7 @@
       "textSlideNumber": "Número do diapositivo",
       "textTable": "Tabela",
       "textTableSize": "Tamanho da tabela",
-      "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\"",
-      "textDrawing": "Drawing"
+      "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
@@ -491,17 +478,7 @@
       "textZoom": "Ampliação",
       "textZoomIn": "Ampliar",
       "textZoomOut": "Reduzir",
-      "textZoomRotate": "Ampliação e rotação",
-      "textBackground": "Background",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textCellSize": "Cell size",
-      "textLtrTextDirection": "Left-to-right",
-      "textResetBackground": "Reset background",
-      "textRtlTextDirection": "Right-to-left",
-      "textTextDirection": "Text Direction",
-      "txtHeight": "Height",
-      "txtWidth": "Width"
+      "textZoomRotate": "Ampliação e rotação"
     },
     "Settings": {
       "mniSlideStandard": "Padrão (4:3)",
@@ -569,15 +546,7 @@
       "textUnitOfMeasurement": "Unidade de medida",
       "textUploaded": "Carregado",
       "textVersion": "Versão",
-      "textVersionHistory": "Histórico de versões",
-      "textLoopSlideshow": "Loop slideshow",
-      "textOpenLocation": "Open location"
+      "textVersionHistory": "Histórico de versões"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

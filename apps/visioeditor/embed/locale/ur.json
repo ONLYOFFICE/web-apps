@@ -14,6 +14,7 @@
   "VE.ApplicationController.downloadErrorText": "ڈاؤن لوڈ ناکام ہوگیا۔",
   "VE.ApplicationController.downloadTextText": "۔۔۔دستاویزکو ڈاؤن لوڈ کیا جارہا ہے",
   "VE.ApplicationController.errorAccessDeny": "آپ ایک ایسی کارروائی کرنے کی کوشش کر رہے ہیں جس کا آپ کو حق نہیں ہے۔ براہ کرم اپنے دستاویز سرور کے منتظم سے رابطہ کریں۔",
+  "VE.ApplicationController.errorCopyDisabled": "سیکورٹی وجوہات کی بناء پر، اس دستاویز کے مواد کو کاپی نہیں کیا جا سکتا۔",
   "VE.ApplicationController.errorDefaultMessage": "خرابی کا کوڈ:٪ 1",
   "VE.ApplicationController.errorEditingDownloadas": "حدث خطأ اثناء العمل على المستند.<br>استخدم خيار 'التنزيل كـ' لحفظ نسخة احتياطية من الملف ",
   "VE.ApplicationController.errorFilePassProtect": "فائل پاس ورڈ سے محفوظ ہے اور اسے نہیں کھولا جاسکتا۔",

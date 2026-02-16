@@ -83,6 +83,7 @@
     "errorAccessDeny": "許可されていないアクションを実行しています。アドミニストレータを連絡してください。",
     "errorBadImageUrl": "画像のURLが正しくありません。",
     "errorConnectToServer": "この文書を保存できません。接続設定をチェックし、アドミニストレータを連絡してください。<br> 「OK」をクリックすると、文書をダウンロードするに提案されます。",
+    "errorCopyDisabled": "セキュリティ上の理由により、この文書の内容はコピーできません。",
     "errorDatabaseConnection": "外部エラーです。<br>データベース接続エラーです。サポートにお問い合わせください。",
     "errorDataEncrypted": "暗号化された変更を受信しましたが、復号化できません。",
     "errorDataRange": "データ範囲が正しくありません",
@@ -120,8 +121,7 @@
     "unknownErrorText": "不明なエラー",
     "uploadImageExtMessage": "不明な画像形式です。",
     "uploadImageFileCountMessage": "アップロードした画像なし",
-    "uploadImageSizeMessage": "画像サイズの上限を超えました。サイズの上限は25MBです。",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "画像サイズの上限を超えました。サイズの上限は25MBです。"
   },
   "LongActions": {
     "applyChangesTextText": "データを読み込んでいます...",
@@ -212,8 +212,7 @@
       "textVersion": "バージョン",
       "textVisioInfo": "図表ビューア情報",
       "textVisioSettings": "図表ビューアの設定",
-      "textVisioTitle": "図表ビューアのタイトル",
-      "textOpenLocation": "Open location"
+      "textVisioTitle": "図表ビューアのタイトル"
     }
   }
 }

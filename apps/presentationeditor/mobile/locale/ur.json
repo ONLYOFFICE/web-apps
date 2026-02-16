@@ -71,6 +71,7 @@
     "menuCancel": "منسوخ کریں",
     "menuDelete": "حذف کریں",
     "menuDeleteTable": "ٹیبل حذف کریں",
+    "menuDuplicate": "دوهرا",
     "menuEdit": "ترمیم کریں",
     "menuEditLink": "لنک میں ترمیم کریں",
     "menuMerge": "ضم",
@@ -83,8 +84,7 @@
     "textDoNotShowAgain": "دوبارہ مت دکھانا",
     "textOk": "او کے",
     "textRows": "قطاریں",
-    "txtWarnUrl": "اس لنک پر کلک کرنا آپ کے آلے اور ڈیٹا کے لیے نقصان دہ ہو سکتا ہے۔<br>کیا آپ واقعی جاری رکھنا چاہتے ہیں؟",
-    "menuDuplicate": "Duplicate"
+    "txtWarnUrl": "اس لنک پر کلک کرنا آپ کے آلے اور ڈیٹا کے لیے نقصان دہ ہو سکتا ہے۔<br>کیا آپ واقعی جاری رکھنا چاہتے ہیں؟"
   },
   "Controller": {
     "Main": {
@@ -200,6 +200,7 @@
     "errorBadImageUrl": "تصویر کا یو آر ایل غلط ہے",
     "errorComboSeries": "ایک مجموعہ چارٹ بنانے کے لیے، ڈیٹا کی کم از کم دو سیریز منتخب کریں۔",
     "errorConnectToServer": "اس دستاویز کو محفوظ نہیں کیا جا سکتا۔ اپنے کنکشن کی ترتیبات چیک کریں یا اپنے منتظم سے رابطہ کریں۔ جب آپ 'OK' بٹن پر کلک کریں گے، تو آپ کو دستاویز ڈاؤن لوڈ کرنے کے لیے کہا جائے گا۔",
+    "errorCopyDisabled": "سیکورٹی وجوہات کی بناء پر، اس دستاویز کے مواد کو کاپی نہیں کیا جا سکتا۔",
     "errorDatabaseConnection": "خارجی خرابی۔ ڈیٹا بیس کنکشن میں خرابی۔ براہ کرم ، سپورٹ سے رابطہ کریں۔",
     "errorDataEncrypted": "اینکرپٹ کردہ تبدیلیاں موصول ہوگئی ہیں ، ان کی وضاحت نہیں کی جاسکتی ہے۔",
     "errorDataRange": "ڈیٹا رینج غلط ہے",
@@ -241,8 +242,7 @@
     "unknownErrorText": "نامعلوم خرابی",
     "uploadImageExtMessage": "نامعلوم تصویر کا فارمیٹ۔",
     "uploadImageFileCountMessage": "کوئ تصاویر اپلوڈ نہیں کی گیئں",
-    "uploadImageSizeMessage": " تصویر بہت بڑی ہے۔ زیادہ سے زیادہ سائز ہے  پچیس ایم بی ",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": " تصویر بہت بڑی ہے۔ زیادہ سے زیادہ سائز ہے  پچیس ایم بی "
   },
   "LongActions": {
     "applyChangesTextText": "ڈیٹا لوڈ ہو رہا ہے…",
@@ -355,6 +355,7 @@
       "textAuto": "خود کار",
       "textAutomatic": "خود کار",
       "textBack": "پیچھے",
+      "textBackground": "پس منظر",
       "textBandedColumn": "بینڈڈ کالم",
       "textBandedRow": "بینڈڈ قتار",
       "textBaseline": "بیس لائن",
@@ -417,7 +418,7 @@
       "textHorizontalIn": "افقی میں",
       "textHorizontalOut": "افقی باہر",
       "textHorizontalText": "افقی متن",
-      "textHyperlink": "ہائپر لنک",
+      "textHyperlink": "لنک",
       "textImage": "تصویر",
       "textImageURL": "تصویر کا یو آر ایل",
       "textInsertImage": "تصویر داخل کریں",
@@ -432,6 +433,7 @@
       "textLinkSettings": "لنک کی ترتیبات",
       "textLinkTo": "کی طرف ربط",
       "textLinkType": "لنک کی قسم",
+      "textLtrTextDirection": "بائیں سے دائیں",
       "textMorph": "مورف",
       "textMorphLetters": "خطوط",
       "textMorphObjects": "اشیاء",
@@ -460,9 +462,11 @@
       "textReplaceAll": "تمام بدل دیں",
       "textReplaceImage": "تصویر بدل دیں",
       "textRequired": "ضروری ہے",
+      "textResetBackground": "پس منظر کو دوبارہ ترتیب دیں۔",
       "textRight": "دائیں",
       "textRotateTextDown": "متن کو نیچے گھمائیں",
       "textRotateTextUp": "متن کو اوپرگھمائیں",
+      "textRtlTextDirection": "دائیں سے بائیں",
       "textScreenTip": "اسکرین ٹپ",
       "textSearch": "تلاش کریں",
       "textSec": "ایس",
@@ -484,6 +488,7 @@
       "textSuperscript": "سپر اسکرپٹ",
       "textTable": "ٹیبل",
       "textText": "متن",
+      "textTextDirection": "متن کی سمت",
       "textTextOrientation": "متن اورینٹیشن",
       "textTheme": "تھیم",
       "textTop": "اوپر",
@@ -502,12 +507,7 @@
       "textZoomOut": "زوم آوّٹ",
       "textZoomRotate": "زوم اور گھمائیں",
       "txtHeight": "اونچائی",
-      "txtWidth": "چوڑائی",
-      "textBackground": "Background",
-      "textLtrTextDirection": "Left-to-right",
-      "textResetBackground": "Reset background",
-      "textRtlTextDirection": "Right-to-left",
-      "textTextDirection": "Text Direction"
+      "txtWidth": "چوڑائی"
     },
     "Settings": {
       "mniSlideStandard": "معیاری (۴: ۳)",
@@ -549,6 +549,7 @@
       "textLight": "روشنی",
       "textLoading": "لوڈ کیا جا رہا ہے۔۔۔",
       "textLocation": "مقام",
+      "textLoopSlideshow": "لوپ سلائیڈ شو",
       "textMacrosSettings": "میکرو ترتیبات",
       "textNoMatches": "کوئی میچ نہیں",
       "textOk": "او کے",
@@ -575,9 +576,7 @@
       "textUnitOfMeasurement": "پیما ئش کا یونٹ",
       "textUploaded": "اپ لوڈ کردہ",
       "textVersion": "ورژن",
-      "textVersionHistory": "ورژن کی تاریخ",
-      "textLoopSlideshow": "Loop slideshow",
-      "textOpenLocation": "Open location"
+      "textVersionHistory": "ورژن کی تاریخ"
     }
   }
 }

@@ -87,7 +87,7 @@
     "textCopyCutPasteActions": "コピー,切り取り,貼り付け",
     "textDoNotShowAgain": "再度表示しない",
     "textOk": "OK",
-    "txtWarnUrl": "このリンクをクリックすると、お使いの端末やデータに悪影響を与える可能性があります。<br>本当に続けてよろしいですか？",
+    "txtWarnUrl": "このリンクをクリックすると、デバイスやデータに損害を与える可能性があります。この場所は安全でない可能性があります：<br>{0}<br>続行しますか？",
     "warnMergeLostData": "セルを結合すると、左上の値のみが保持され、他のセルの値は破棄されます。<br>続行してもよろしいです？"
   },
   "Controller": {
@@ -276,6 +276,7 @@
     "errorCircularReference": "数式が自分のセルを直接または間接的に参照する循環参照が1つ以上あります。<br>これらの参照を削除または変更するか、数式を別のセルに移動してみてください。",
     "errorComboSeries": "組み合わせチャートを作成するには、最低2つのデータを選択してください。",
     "errorConnectToServer": "この文書を保存できません。接続設定をチェックし、アドミニストレータを連絡してください。<br> 「OK」をクリックすると、文書をダウンロードするに提案されます。",
+    "errorCopyDisabled": "セキュリティ上の理由により、この文書の内容はコピーできません。",
     "errorCopyMultiselectArea": "このコマンドを複数選択において使用することはできません。<br>単一の範囲を選択して、再ご試行ください。",
     "errorCountArg": "数式でエラーがあります。<br> 引数の数が無効です",
     "errorCountArgExceed": "数式でエラーがあります。<br> 引数の最大数が超えされました。",
@@ -321,6 +322,7 @@
     "errorLockedAll": "シートは他のユーザーによってロックされているので、操作を実行することができません。",
     "errorLockedCellPivot": "ピボット表内のデータを変更することはできません。",
     "errorLockedWorksheetRename": "他のユーザーによって名前が変更されているのでシートの名前を変更することはできません。",
+    "errorMacroUnavailableWarning": "マクロ %1 を実行できません。このワークブックでマクロが利用できないか、すべてのマクロが無効になっている可能性があります。",
     "errorMaxPoints": "グラフごとの直列のポイントの最大数は4096です。",
     "errorMaxRows": "エラー！ グラフごとのデータ列の最大数は255です。",
     "errorMoveRange": "結合したセルの一部は変更できません",
@@ -378,9 +380,7 @@
     "uploadDocSizeMessage": "文書の最大サイズ制限を超えています。",
     "uploadImageExtMessage": "不明なイメージ形式",
     "uploadImageFileCountMessage": "アップロードしたイメージがない",
-    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
-    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled."
+    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。"
   },
   "LongActions": {
     "advDRMPassword": "パスワード",
@@ -576,6 +576,7 @@
       "textChartTitle": "グラフの名",
       "textClearFilter": "フィルタをクリア",
       "textColor": "色",
+      "textContextTextDirection": "コンテキスト",
       "textCreateCustomFormat": "カスタムフォーマットの作成",
       "textCreateFormat": "フォーマットの作成",
       "textCross": "十字",
@@ -612,7 +613,7 @@
       "textFilterOptions": "フィルターの設定",
       "textFit": "幅に合わせる",
       "textFonts": "フォント",
-      "textFormat": "形式",
+      "textFormat": "数値の書式",
       "textFraction": "分数",
       "textFromLibrary": "ライブラリからのイメージ",
       "textFromURL": "URLからのイメージ",
@@ -625,7 +626,7 @@
       "textHundredMil": "100,000,000",
       "textHundreds": "百",
       "textHundredThousands": "100,000",
-      "textHyperlink": "ハイパーリンク",
+      "textHyperlink": "リンク",
       "textImage": "画像",
       "textImageURL": "画像のURL",
       "textIn": "中",
@@ -651,6 +652,7 @@
       "textLinkSettings": "リンク設定",
       "textLinkType": "リンクのタイプ",
       "textLow": "低い",
+      "textLtrTextDirection": "左から右へ",
       "textMajor": "メジャー",
       "textMajorAndMinor": "メジャーとマイナー",
       "textMajorType": "メジャータイプ",
@@ -694,6 +696,7 @@
       "textRotateTextDown": "右へ90度回転",
       "textRotateTextUp": "左へ90度回転",
       "textRouble": "ルーブル",
+      "textRtlTextDirection": "右から左へ",
       "textSave": "保存",
       "textScientific": "科学的",
       "textScreenTip": "ヒント",
@@ -713,6 +716,7 @@
       "textTenThousands": "10,000",
       "textText": "テキスト",
       "textTextColor": "文字の色",
+      "textTextDirection": "テキスト方向",
       "textTextFormat": "テキストの形式\n\t",
       "textTextOrientation": "テキストの方向",
       "textThick": "太い",
@@ -733,11 +737,7 @@
       "textYen": "円",
       "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
       "txtSortHigh2Low": " 大きい順に並べ替えます",
-      "txtSortLow2High": "小さい順に並べ替えます。",
-      "textContextTextDirection": "Context",
-      "textLtrTextDirection": "Left-to-right",
-      "textRtlTextDirection": "Right-to-left",
-      "textTextDirection": "Text Direction"
+      "txtSortLow2High": "小さい順に並べ替えます。"
     },
     "Settings": {
       "advCSVOptions": "CSVオプションを選択する",
@@ -832,6 +832,7 @@
       "textSearchIn": "検索する場所",
       "textSettings": "設定",
       "textSheet": "シート",
+      "textSheetRtl": "シート 右から左へ",
       "textShowNotification": " 通知を表示する",
       "textSpreadsheetFormats": "スプレッドシートの形式",
       "textSpreadsheetInfo": "スプレッドシートの情報",
@@ -885,20 +886,18 @@
       "txtSk": "スロバキア語",
       "txtSl": "スロベニア語",
       "txtSpace": "スペース",
+      "txtSr": "セルビア語（ラテン文字表記）",
+      "txtSrcyrl": "セルビア語（キリル文字）",
       "txtSv": "スウェーデン語",
       "txtTab": "タブ",
       "txtTr": "トルコ語",
       "txtUk": "ウクライナ語",
       "txtVi": "ベトナム語",
-      "txtZh": "中国語",
+      "txtZh": "中国語（簡体字）",
+      "txtZhtw": "中国語（繁体字）",
       "warnDownloadAs": "この形式で保存する続けば、テクスト除いて全てが失います。続けてもよろしいですか？",
-      "warnDownloadCsv": "CSV形式は複数シートファイルおよびテキスト以外のすべての要素の保存をサポートしていません。<br>選択したシートのみをCSVに保存するには、OKを押してください。<br>スプレッドシート全体とすべての機能を保存するには、キャンセルをクリックして別の形式を選",
-      "textSheetRtl": "Sheet Right to left",
-      "txtSr": "Serbian (Latin)",
-      "txtSrcyrl": "Serbian (Cyrillic)",
-      "txtZhtw": "Chinese (Traditional)",
-      "textOpenLocation": "Open location",
-      "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
+      "warnDownloadCsv": "CSV形式では、複数シートを含むファイルやテキスト以外の全要素の保存はサポートされていません。<br>アクティブなシートのみをCSVに保存するには、[OK]をクリックしてください。<br>スプレッドシート全体と全機能を保存するには、[キャンセル]をクリックし、別の形式を選択してください。",
+      "warnDownloadOds": "このファイルを保存すると、サポートされている形式の制限により、一部の数式、セルの書式設定、または埋め込みオブジェクトが失われる可能性があります。<br>続行してもよろしいですか？"
     }
   }
 }

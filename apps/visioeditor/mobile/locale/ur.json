@@ -83,6 +83,7 @@
     "errorAccessDeny": "آپ ایک ایسی کارروائی کرنے کی کوشش کر رہے ہیں جس کے آپ کو حقوق نہیں ہیں۔ براہ کرم اپنے منتظم سے رابطہ کریں۔",
     "errorBadImageUrl": "تصویر کا یو آر ایل غلط ہے",
     "errorConnectToServer": "اس دستاویز کو محفوظ نہیں کیا جا سکتا۔ اپنے کنکشن کی ترتیبات چیک کریں یا اپنے منتظم سے رابطہ کریں۔ جب آپ 'OK' بٹن پر کلک کریں گے، تو آپ کو دستاویز ڈاؤن لوڈ کرنے کے لیے کہا جائے گا۔",
+    "errorCopyDisabled": "سیکورٹی وجوہات کی بناء پر، اس دستاویز کے مواد کو کاپی نہیں کیا جا سکتا۔",
     "errorDatabaseConnection": "خارجی خرابی۔ ڈیٹا بیس کنکشن میں خرابی۔ براہ کرم ، سپورٹ سے رابطہ کریں۔",
     "errorDataEncrypted": "اینکرپٹ کردہ تبدیلیاں موصول ہوگئی ہیں ، ان کی وضاحت نہیں کی جاسکتی ہے۔",
     "errorDataRange": "ڈیٹا رینج غلط ہے",
@@ -120,8 +121,7 @@
     "unknownErrorText": "نامعلوم خرابی",
     "uploadImageExtMessage": "نامعلوم تصویر کا فارمیٹ۔",
     "uploadImageFileCountMessage": "کوئ تصاویر اپلوڈ نہیں کی گیئں",
-    "uploadImageSizeMessage": " تصویر بہت بڑی ہے۔ زیادہ سے زیادہ سائز ہے  پچیس ایم بی ",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": " تصویر بہت بڑی ہے۔ زیادہ سے زیادہ سائز ہے  پچیس ایم بی "
   },
   "LongActions": {
     "applyChangesTextText": "ڈیٹا لوڈ ہو رہا ہے…",
@@ -212,8 +212,7 @@
       "textVersion": "ورژن",
       "textVisioInfo": "خاکہ دیکھنے والے کی معلومات",
       "textVisioSettings": "ڈایاگرام دیکھنے والے کی ترتیبات",
-      "textVisioTitle": "خاکہ دیکھنے والے کا عنوان",
-      "textOpenLocation": "Open location"
+      "textVisioTitle": "خاکہ دیکھنے والے کا عنوان"
     }
   }
 }

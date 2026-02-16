@@ -71,6 +71,7 @@
     "menuCancel": "Cancelar",
     "menuDelete": "Eliminar",
     "menuDeleteTable": "Eliminar tabla",
+    "menuDuplicate": "Duplicar",
     "menuEdit": "Editar",
     "menuEditLink": "Editar enlace",
     "menuMerge": "Combinar",
@@ -83,8 +84,7 @@
     "textDoNotShowAgain": "No mostrar de nuevo",
     "textOk": "Aceptar",
     "textRows": "Filas",
-    "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos. Esta ubicación puede ser insegura:<br>{0}<br>¿Está seguro de que quiere continuar?",
-    "menuDuplicate": "Duplicate"
+    "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos. Esta ubicación puede ser insegura:<br>{0}<br>¿Está seguro de que quiere continuar?"
   },
   "Controller": {
     "Main": {
@@ -200,6 +200,7 @@
     "errorBadImageUrl": "URL de imagen es incorrecta",
     "errorComboSeries": "Para crear un gráfico combinado, seleccione al menos dos series de datos.",
     "errorConnectToServer": "No se puede guardar este documento. Compruebe la configuración de su conexión o póngase en contacto con el administrador.<br>Cuando haga clic en OK, se le pedirá que descargue el documento.",
+    "errorCopyDisabled": "Por motivos de seguridad, el contenido de este documento no se puede copiar.",
     "errorDatabaseConnection": "Error externo.<br>Error de conexión a la base de datos. Por favor, contacte con el equipo de soporte técnico.",
     "errorDataEncrypted": "Se han recibido cambios cifrados, ellos no pueden ser descifrados.",
     "errorDataRange": "Rango de datos incorrecto.",
@@ -241,8 +242,7 @@
     "unknownErrorText": "Error desconocido.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",
@@ -355,6 +355,7 @@
       "textAuto": "Auto",
       "textAutomatic": "Automático",
       "textBack": "Atrás",
+      "textBackground": "Fondo",
       "textBandedColumn": "Columna con bandas",
       "textBandedRow": "Fila con bandas",
       "textBaseline": "Línea de base",
@@ -417,7 +418,7 @@
       "textHorizontalIn": "Horizontal entrante",
       "textHorizontalOut": "Horizontal saliente",
       "textHorizontalText": "Texto horizontal",
-      "textHyperlink": "Hiperenlace",
+      "textHyperlink": "Enlace",
       "textImage": "Imagen",
       "textImageURL": "URL de imagen",
       "textInsertImage": "Insertar imagen",
@@ -432,6 +433,7 @@
       "textLinkSettings": "Ajustes de enlace",
       "textLinkTo": "Enlace a",
       "textLinkType": "Tipo de enlace",
+      "textLtrTextDirection": "De izquierda a derecha",
       "textMorph": "Transformación",
       "textMorphLetters": "Letras",
       "textMorphObjects": "Objetos",
@@ -460,9 +462,11 @@
       "textReplaceAll": "Reemplazar todo",
       "textReplaceImage": "Reemplazar imagen",
       "textRequired": "Necesario",
+      "textResetBackground": "Restablecer fondo",
       "textRight": "A la derecha",
       "textRotateTextDown": "Girar texto hacia abajo",
       "textRotateTextUp": "Girar texto hacia arriba",
+      "textRtlTextDirection": "De derecha a izquierda",
       "textScreenTip": "Consejo de pantalla",
       "textSearch": "Buscar",
       "textSec": "s",
@@ -484,6 +488,7 @@
       "textSuperscript": "Superíndice",
       "textTable": "Tabla",
       "textText": "Texto",
+      "textTextDirection": "Dirección de texto",
       "textTextOrientation": "Orientación del texto",
       "textTheme": "Tema",
       "textTop": "Arriba",
@@ -502,12 +507,7 @@
       "textZoomOut": "Alejar",
       "textZoomRotate": "Zoom y giro",
       "txtHeight": "Altura",
-      "txtWidth": "Ancho",
-      "textBackground": "Background",
-      "textLtrTextDirection": "Left-to-right",
-      "textResetBackground": "Reset background",
-      "textRtlTextDirection": "Right-to-left",
-      "textTextDirection": "Text Direction"
+      "txtWidth": "Ancho"
     },
     "Settings": {
       "mniSlideStandard": "Estándar (4:3)",
@@ -549,6 +549,7 @@
       "textLight": "Claro",
       "textLoading": "Cargando...",
       "textLocation": "Ubicación",
+      "textLoopSlideshow": "Repetir el ciclo de presentación",
       "textMacrosSettings": "Ajustes de macros",
       "textNoMatches": "No hay coincidencias",
       "textOk": "Aceptar",
@@ -575,9 +576,7 @@
       "textUnitOfMeasurement": "Unidad de medida",
       "textUploaded": "Cargado",
       "textVersion": "Versión ",
-      "textVersionHistory": "Historial de versiones",
-      "textLoopSlideshow": "Loop slideshow",
-      "textOpenLocation": "Open location"
+      "textVersionHistory": "Historial de versiones"
     }
   }
 }

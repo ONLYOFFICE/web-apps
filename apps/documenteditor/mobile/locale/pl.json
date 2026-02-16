@@ -6,8 +6,7 @@
     "textEditor": "Edytor dokumentów",
     "textEmail": "e-mail",
     "textTel": "Tel",
-    "textVersion": "Wersja",
-    "textPoweredBy": "Powered By"
+    "textVersion": "Wersja"
   },
   "Add": {
     "notcriticalErrorTitle": "Ostrzeżenie",
@@ -58,16 +57,7 @@
     "textShape": "Kształt",
     "textTable": "Tabela",
     "textTableContents": "Spis treści",
-    "txtNotUrl": "To pole powinno być w formacie adresu URL np.: \"http://www.example.com\"",
-    "textDrawing": "Drawing",
-    "textEmptyImgUrl": "You need to specify image URL.",
-    "textPasteImageUrl": "Paste an image URL",
-    "textPosition": "Position",
-    "textRemovePicture": "Remove picture",
-    "textStartAt": "Start At",
-    "textTableSize": "Table Size",
-    "textWithBlueLinks": "With Blue Links",
-    "textWithPageNumbers": "With Page Numbers"
+    "txtNotUrl": "To pole powinno być w formacie adresu URL np.: \"http://www.example.com\""
   },
   "Common": {
     "Collaboration": {
@@ -149,25 +139,7 @@
       "textTabs": "Zmień zakładki",
       "textUnderline": "Podkreślenie",
       "textUsers": "Użytkownicy",
-      "textWidow": "Kontrola okna",
-      "textEditUser": "Users who are editing the file:",
-      "textMultiple": "multiple",
-      "textParaDeleted": "Paragraph Deleted",
-      "textParaInserted": "Paragraph Inserted",
-      "textParaMoveFromDown": "Moved Down:",
-      "textParaMoveFromUp": "Moved Up:",
-      "textParaMoveTo": "Moved:",
-      "textPosition": "Position",
-      "textReject": "Reject",
-      "textReview": "Review",
-      "textReviewChange": "Review Change",
-      "textSharingSettings": "Sharing Settings",
-      "textSpacing": "Spacing",
-      "textTableChanged": "Table Settings Changed",
-      "textTableRowsAdd": "Table Rows Added",
-      "textTableRowsDel": "Table Rows Deleted",
-      "textTrackChanges": "Track Changes",
-      "textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode."
+      "textWidow": "Kontrola okna"
     },
     "HighlightColorPalette": {
       "textNoFill": "Brak wypełnienia"
@@ -194,8 +166,7 @@
       "textVersion": "Wersja",
       "textVersionHistory": "Historia wersji",
       "textWarningRestoreVersion": "Bieżący plik zostanie zapisany w historii wersji.",
-      "txtErrorLoadHistory": "Ładowanie historii nie powiodło się",
-      "titleWarningRestoreVersion": "Restore this version?"
+      "txtErrorLoadHistory": "Ładowanie historii nie powiodło się"
     }
   },
   "ContextMenu": {
@@ -226,15 +197,10 @@
     "textRefreshEntireTable": "Odśwież całą tabelę",
     "textRefreshPageNumbersOnly": "Odśwież wyłącznie numery stron",
     "textRows": "Wiersze",
-    "txtWarnUrl": "Kliknięcie tego linku może być szkodliwe dla urządzenia i danych.<br>Czy na pewno chcesz kontynuować?",
-    "menuReview": "Review",
-    "menuReviewChange": "Review Change"
+    "txtWarnUrl": "Kliknięcie tego linku może być szkodliwe dla urządzenia i danych.<br>Czy na pewno chcesz kontynuować?"
   },
   "Draw": {
-    "textOpacity": "Nieprzezroczystość",
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size"
+    "textOpacity": "Nieprzezroczystość"
   },
   "Edit": {
     "notcriticalErrorTitle": "Ostrzeżenie",
@@ -403,30 +369,7 @@
     "textTu": "Wto",
     "textWe": "Śro",
     "textWrap": "Zawijaj",
-    "textWrappingStyle": "Styl zawijania",
-    "textBaseline": "Baseline",
-    "textCapitalization": "Capitalization",
-    "textCellOptions": "Cell options",
-    "textCellSize": "Rows & columns size",
-    "textEmptyImgUrl": "You need to specify image URL.",
-    "textLeader": "Leader",
-    "textLtrTextDirection": "Left-to-right",
-    "textNoStyles": "No styles for this type of charts.",
-    "textRightAlign": "Right Align",
-    "textRtlTextDirection": "Right-to-left",
-    "textSelectObjectToEdit": "Select object to edit",
-    "textStartAt": "Start at",
-    "textStrikethrough": "Strikethrough",
-    "textStructure": "Structure",
-    "textTableOfCont": "TOC",
-    "textTextDirection": "Text Direction",
-    "textThrough": "Through",
-    "textTight": "Tight",
-    "textType": "Type",
-    "textWrapText": "Wrap Text",
-    "textYourOption": "Your option",
-    "txtHeight": "Height",
-    "txtWidth": "Width"
+    "textWrappingStyle": "Styl zawijania"
   },
   "Error": {
     "convertationTimeoutText": "Przekroczono limit czasu konwersji.",
@@ -473,26 +416,7 @@
     "uploadDocSizeMessage": "Przekroczono maksymalny rozmiar dokumentu.",
     "uploadImageExtMessage": "Nieznany format obrazu.",
     "uploadImageFileCountMessage": "Nie przesłano żadnych obrazów.",
-    "uploadImageSizeMessage": "Obraz jest za duży. Maksymalny rozmiar to 25 MB.",
-    "criticalErrorExtText": "Press 'OK' to go back to the document list.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please, contact your admin.",
-    "errorComboSeries": "To create a combination chart, select at least two series of data.",
-    "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
-    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
-    "errorFilePassProtect": "The file is password protected and could not be opened.",
-    "errorFileSizeExceed": "The file size exceeds your server limit.<br>Please, contact your admin.",
-    "errorKeyEncrypt": "Unknown key descriptor",
-    "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
-    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "errorSessionAbsolute": "The document editing session has expired. Please, reload the page.",
-    "errorSessionIdle": "The document has not been edited for quite a long time. Please, reload the page.",
-    "errorSessionToken": "The connection to the server has been interrupted. Please, reload the page.",
-    "errorUserDrop": "The file can't be accessed right now.",
-    "scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please, reload the page.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "Obraz jest za duży. Maksymalny rozmiar to 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Ładowanie danych...",
@@ -525,13 +449,7 @@
     "txtEditingMode": "Ustaw tryb edycji...",
     "uploadImageTextText": "Wysyłanie obrazu...",
     "uploadImageTitleText": "Wysyłanie obrazu",
-    "waitText": "Proszę czekać...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "savePreparingText": "Preparing to save",
-    "savingText": "Submitting",
-    "sendMergeText": "Sending Merge...",
-    "sendMergeTitle": "Sending Merge",
-    "textUndo": "Undo"
+    "waitText": "Proszę czekać..."
   },
   "Main": {
     "criticalErrorTitle": "Błąd",
@@ -627,12 +545,7 @@
       "Yellow": "Żółty",
       "Yellow Orange": "Żółto-pomarańczowy",
       "Your text here": "Twój tekst tutaj",
-      "Zero Divide": "Dzielenie przez zero",
-      "Slipstream": "Slipstream",
-      "TOC Heading": "TOC Heading",
-      "Type equation here": "Type equation here",
-      "X Axis": "X Axis XAS",
-      "Y Axis": "Y Axis"
+      "Zero Divide": "Dzielenie przez zero"
     },
     "textAnonymous": "Anonimowy",
     "textBuyNow": "Odwiedź stronę web",
@@ -654,34 +567,7 @@
     "titleLicenseExp": "Licencja wygasła",
     "titleServerVersion": "Zaktualizowano edytor",
     "titleUpdateVersion": "Wersja uległa zmianie",
-    "warnLicenseAnonymous": "Odmowa dostępu dla użytkowników anonimowych.<br>Ten dokument zostanie otwarty tylko do podglądu.",
-    "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please, contact your administrator.",
-    "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
-    "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
-    "leavePageText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
-    "textCustomLoader": "Sorry, you are not entitled to change the loader. Contact our sales department to get a quote.",
-    "textDialogProtectedChangesTracked": "You may edit this document, but all changes will be tracked",
-    "textDialogProtectedEditComments": "You may only insert comments to this document",
-    "textDialogProtectedFillForms": "You may only fill in forms in this document",
-    "textDialogProtectedOnlyView": "You may only view this document",
-    "textDocumentProtected": "The document is protected. Edit settings are not available",
-    "textHasMacros": "The file contains automatic macros.<br>Do you want to run macros?",
-    "textNoLicenseTitle": "License limit reached",
-    "textRemember": "Remember my choice",
-    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-    "titleDialogProtectedDocument": "The document is protected",
-    "titleLicenseNotActive": "License not active",
-    "titleReadOnly": "Read-Only Mode",
-    "txtSignedForm": "This document has been signed and cannot be edited.",
-    "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
-    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-    "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
-    "warnLicenseLimitedNoAccess": "License expired. You have no access to document editing functionality. Please, contact your admin.",
-    "warnLicenseLimitedRenewed": "License needs to be renewed. You have limited access to document editing functionality.<br>Please contact your administrator to get full access",
-    "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
-    "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-    "warnProcessRightsChange": "You don't have permission to edit this file."
+    "warnLicenseAnonymous": "Odmowa dostępu dla użytkowników anonimowych.<br>Ten dokument zostanie otwarty tylko do podglądu."
   },
   "Settings": {
     "advDRMOptions": "Plik chroniony",
@@ -805,26 +691,7 @@
     "titleDialogUnprotect": "Odblokuj dokument",
     "txtDownloadTxt": "Pobierz TXT",
     "txtIncorrectPwd": "Hasło jest nieprawidłowe",
-    "txtOk": "OK",
-    "textDrawing": "Drawing",
-    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appears in the table of contents.",
-    "textHyphenation": "Hyphenation",
-    "textMobileView": "Mobile View",
-    "textPasswordNotMatched": "Passwords DonвЂ™t Match",
-    "textPdfTagged": "Tagged PDF",
-    "textPortrait": "Portrait",
-    "textProtectTurnOff": "Protection is turned off",
-    "textRequirePassword": "Require Password",
-    "textResolvedComments": "Resolved Comments",
-    "textRestartApplication": "Please restart the application for the changes to take effect",
-    "textSpaces": "Spaces",
-    "textSubject": "Subject",
-    "textSymbols": "Symbols",
-    "textTrackedChanges": "Tracked changes",
-    "textTypeEditing": "Type Of Editing",
-    "textWords": "Words",
-    "textOpenLocation": "Open location",
-    "txtProtected": "Once you enter the password and open the file, the current password will be reset"
+    "txtOk": "OK"
   },
   "Toolbar": {
     "leaveButtonText": "Zostaw tę stronę",
@@ -832,14 +699,6 @@
     "textCloseHistory": "Zamknij historię",
     "textEnterNewFileName": "Wprowadź nową nazwę pliku",
     "textOk": "OK",
-    "warnEmptyRequiredField": "Wypełnij wszystkie wymagane pola, aby wysłać formularz.",
-    "btnRestartNow": "Restart now",
-    "btnSend": "Send",
-    "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
-    "dlgLeaveTitleText": "You leave the application",
-    "textRenameFile": "Rename File",
-    "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "warnEmptyRequiredField": "Wypełnij wszystkie wymagane pola, aby wysłać formularz."
   }
 }

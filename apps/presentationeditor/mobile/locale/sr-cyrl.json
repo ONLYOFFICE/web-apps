@@ -71,6 +71,7 @@
     "menuCancel": "Откажи",
     "menuDelete": "Избриши",
     "menuDeleteTable": "Избриши табелу",
+    "menuDuplicate": "Дуплицирај",
     "menuEdit": "Уреди",
     "menuEditLink": "Уреди линк",
     "menuMerge": "Споји",
@@ -83,8 +84,7 @@
     "textDoNotShowAgain": "Не показуј поново",
     "textOk": "OK",
     "textRows": "Редови",
-    "txtWarnUrl": "Кликнути на овај линк може бити штетно за ваш уређај и податке.<br>Да ли сте сигурни да желите да наставите?",
-    "menuDuplicate": "Duplicate"
+    "txtWarnUrl": "Кликнути на овај линк може бити штетно за ваш уређај и податке.<br>Да ли сте сигурни да желите да наставите?"
   },
   "Controller": {
     "Main": {
@@ -178,11 +178,13 @@
       "warnLicenseLimitedRenewed": "Лиценца треба да буде обновљена. Имате ограничен приступ функционалности уређивања документа.<br>Молимо контактирајте вашег администратора да добијете потпуни приступ",
       "warnNoLicense": "Достигли сте лимит за истовремене конекције за %1 уреднике. Овај документ ће бити отворен само за приказ. Контактирајте %1 тим за продају за личне услове надоградње.",
       "warnNoLicenseUsers": "Достигли сте кориснички лимит за %1 уреднике. Контактирајте %1 тим за продају за личне услове надоградње.",
-      "warnProcessRightsChange": "Немате дозволу да уређујете овај фајл.",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "Немате дозволу да уређујете овај фајл."
     }
+  },
+  "Draw": {
+    "textColor": "Боја",
+    "textCustomColor": "Прилагођена боја",
+    "textOpacity": "Непрозирност"
   },
   "Error": {
     "convertationTimeoutText": "Временско ограничење преобраћања прекорачено.",
@@ -234,9 +236,7 @@
     "unknownErrorText": "Непозната грешка.",
     "uploadImageExtMessage": "Непознати формат слике.",
     "uploadImageFileCountMessage": "Нема отпремљених слика.",
-    "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ."
   },
   "LongActions": {
     "applyChangesTextText": "Учитавање података...",
@@ -279,10 +279,8 @@
     "stayButtonText": "Остани на овој страници",
     "textCloseHistory": "Затвори Историју",
     "textEnterNewFileName": "Унеси ново име фајла",
-    "textRenameFile": "Преименуј фајл",
-    "btnRestartNow": "Restart now",
     "textOk": "OK",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textRenameFile": "Преименуј фајл"
   },
   "View": {
     "Add": {
@@ -325,8 +323,7 @@
       "textSlideNumber": "Број слајда",
       "textTable": "Табела",
       "textTableSize": "Табела величина",
-      "txtNotUrl": "Ово поље би требало да буде URL у \"http://www.example.com\" формату",
-      "textDrawing": "Drawing"
+      "txtNotUrl": "Ово поље би требало да буде URL у \"http://www.example.com\" формату"
     },
     "Edit": {
       "notcriticalErrorTitle": "Упозорење",
@@ -349,8 +346,10 @@
       "textAuto": "Ауто",
       "textAutomatic": "Аутоматски",
       "textBack": "Назад",
+      "textBackground": "Позадина",
       "textBandedColumn": "Обојена колона",
       "textBandedRow": "Обојени ред",
+      "textBaseline": "Полазна линија",
       "textBefore": "Пре",
       "textBlack": "Кроз црно",
       "textBorder": "Граница",
@@ -363,6 +362,7 @@
       "textCancel": "Откажи",
       "textCaseSensitive": "Осетљиво на велика и мала слова",
       "textCellMargins": "Маргине ћелије",
+      "textCellSize": "Величина ћелије",
       "textChangeShape": "Промени облик",
       "textChart": "Графикон",
       "textClock": "Сат",
@@ -423,6 +423,7 @@
       "textLinkSettings": "Подешавања линка",
       "textLinkTo": "Линк до",
       "textLinkType": "Тип линка",
+      "textLtrTextDirection": "С лева на десно",
       "textMorph": "Морф",
       "textMorphLetters": "Слова",
       "textMorphObjects": "Објекти",
@@ -454,6 +455,7 @@
       "textRight": "Десно",
       "textRotateTextDown": "Ротирај текст доле",
       "textRotateTextUp": "Ротирај текст горе",
+      "textRtlTextDirection": "С десна на лево",
       "textScreenTip": "Савет за екран",
       "textSearch": "Претрага",
       "textSec": "с",
@@ -475,6 +477,7 @@
       "textSuperscript": "Надиндекс",
       "textTable": "Табела",
       "textText": "Текст",
+      "textTextDirection": "Правац текста",
       "textTextOrientation": "Текст оријентација",
       "textTheme": "Тема",
       "textTop": "Врх",
@@ -492,16 +495,8 @@
       "textZoomIn": "Зумирај унутра",
       "textZoomOut": "Зумирај споља",
       "textZoomRotate": "Зумирај и ротирај",
-      "textBackground": "Background",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textCellSize": "Cell size",
-      "textLtrTextDirection": "Left-to-right",
-      "textResetBackground": "Reset background",
-      "textRtlTextDirection": "Right-to-left",
-      "textTextDirection": "Text Direction",
-      "txtHeight": "Height",
-      "txtWidth": "Width"
+      "txtHeight": "Висина",
+      "txtWidth": "Ширина"
     },
     "Settings": {
       "mniSlideStandard": "Стандардно (4:3)",
@@ -569,15 +564,7 @@
       "textUnitOfMeasurement": "Јединица мере",
       "textUploaded": "Отпремљено",
       "textVersion": "Верзија",
-      "textVersionHistory": "Историја верзија",
-      "textLoopSlideshow": "Loop slideshow",
-      "textOpenLocation": "Open location"
+      "textVersionHistory": "Историја верзија"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

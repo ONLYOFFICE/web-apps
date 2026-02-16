@@ -120,8 +120,7 @@
     "unknownErrorText": "Անհայտ սխալ։",
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
-    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:"
   },
   "LongActions": {
     "applyChangesTextText": "Տվյալների բեռնում...",
@@ -212,8 +211,7 @@
       "textVersion": "Տարբերակ",
       "textVisioInfo": "Դիագրամի Դիտողի Ինֆո․",
       "textVisioSettings": "Դիագրամի Դիտողի Կարգավորումներ",
-      "textVisioTitle": "Դիագրամի Դիտողի Վերնագիր",
-      "textOpenLocation": "Open location"
+      "textVisioTitle": "Դիագրամի Դիտողի Վերնագիր"
     }
   }
 }

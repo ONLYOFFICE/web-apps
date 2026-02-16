@@ -1,6 +1,6 @@
 {
   "About": {
-    "textAbout": "U vezi",
+    "textAbout": "O",
     "textAddress": "Adresa",
     "textBack": "Nazad",
     "textEditor": "Editor Prezentacije",
@@ -513,7 +513,7 @@
       "mniSlideStandard": "Standardno (4:3)",
       "mniSlideWide": "Široki ekran (16:9)",
       "notcriticalErrorTitle": "Upozorenje ",
-      "textAbout": "U vezi",
+      "textAbout": "O",
       "textAddress": "adresa:",
       "textApplication": "Aplikacija",
       "textApplicationSettings": "Podešavanja Aplikacije",
@@ -576,8 +576,7 @@
       "textUnitOfMeasurement": "Jedinica mere",
       "textUploaded": "Otpremljeno",
       "textVersion": "Verzija",
-      "textVersionHistory": "Istorija Verzija",
-      "textOpenLocation": "Open location"
+      "textVersionHistory": "Istorija Verzija"
     }
   }
 }

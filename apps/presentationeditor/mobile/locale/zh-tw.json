@@ -83,8 +83,7 @@
     "textDoNotShowAgain": "不再顯示",
     "textOk": "確定",
     "textRows": "列",
-    "txtWarnUrl": "點擊此連結可能會危害您的裝置與資料。此位置可能不安全：<br>{0}<br>您確定要繼續嗎？",
-    "menuDuplicate": "Duplicate"
+    "txtWarnUrl": "點擊此連結可能會危害您的裝置與資料。此位置可能不安全：<br>{0}<br>您確定要繼續嗎？"
   },
   "Controller": {
     "Main": {
@@ -241,8 +240,7 @@
     "unknownErrorText": "未知錯誤。",
     "uploadImageExtMessage": "未知圖片格式。",
     "uploadImageFileCountMessage": "沒有上傳圖片。",
-    "uploadImageSizeMessage": "圖片超出最大大小限制。最大大小為25MB。",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "圖片超出最大大小限制。最大大小為25MB。"
   },
   "LongActions": {
     "applyChangesTextText": "載入資料中...",
@@ -502,12 +500,7 @@
       "textZoomOut": "縮小",
       "textZoomRotate": "縮放和旋轉",
       "txtHeight": "\n高度",
-      "txtWidth": "寬度",
-      "textBackground": "Background",
-      "textLtrTextDirection": "Left-to-right",
-      "textResetBackground": "Reset background",
-      "textRtlTextDirection": "Right-to-left",
-      "textTextDirection": "Text Direction"
+      "txtWidth": "寬度"
     },
     "Settings": {
       "mniSlideStandard": "標準 (4:3)",
@@ -575,9 +568,7 @@
       "textUnitOfMeasurement": "測量單位",
       "textUploaded": "已上傳",
       "textVersion": "版本",
-      "textVersionHistory": "版本歷史",
-      "textLoopSlideshow": "Loop slideshow",
-      "textOpenLocation": "Open location"
+      "textVersionHistory": "版本歷史"
     }
   }
 }

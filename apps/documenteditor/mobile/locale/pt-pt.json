@@ -65,9 +65,7 @@
     "textTableSize": "Tamanho da tabela",
     "textWithBlueLinks": "Com ligações azuis",
     "textWithPageNumbers": "Com números de página",
-    "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\"",
-    "textDrawing": "Drawing",
-    "textRemovePicture": "Remove picture"
+    "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\""
   },
   "Common": {
     "Collaboration": {
@@ -232,9 +230,7 @@
   },
   "Draw": {
     "textColor": "Cor",
-    "textCustomColor": "Cor personalizada",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
+    "textCustomColor": "Cor personalizada"
   },
   "Edit": {
     "notcriticalErrorTitle": "Aviso",
@@ -416,17 +412,7 @@
     "textWe": "qua",
     "textWrap": "Moldar",
     "textWrappingStyle": "Estilo de moldagem",
-    "textYourOption": "A sua opção",
-    "textBaseline": "Baseline",
-    "textCapitalization": "Capitalization",
-    "textCellOptions": "Cell options",
-    "textCellSize": "Rows & columns size",
-    "textLtrTextDirection": "Left-to-right",
-    "textRtlTextDirection": "Right-to-left",
-    "textTextDirection": "Text Direction",
-    "textWrapText": "Wrap Text",
-    "txtHeight": "Height",
-    "txtWidth": "Width"
+    "textYourOption": "A sua opção"
   },
   "Error": {
     "convertationTimeoutText": "Excedeu o tempo limite de conversão.",
@@ -487,12 +473,7 @@
     "uploadDocSizeMessage": "Excedeu o limite de tamanho para o documento.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Nenhuma imagem foi carregada.",
-    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
-    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
-    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "A carregar dados...",
@@ -530,8 +511,7 @@
     "txtEditingMode": "Definir modo de edição…",
     "uploadImageTextText": "A carregar imagem...",
     "uploadImageTitleText": "A carregar imagem",
-    "waitText": "Aguarde...",
-    "savingText": "Submitting"
+    "waitText": "Aguarde..."
   },
   "Main": {
     "criticalErrorTitle": "Erro",
@@ -624,19 +604,7 @@
       "Yellow": "Amarelo",
       "Yellow Orange": "Amarelo alaranjado",
       "Your text here": "O seu texto aqui",
-      "Zero Divide": "Divisão por zero",
-      "Default Paragraph Font": "Default paragraph font",
-      "Emphasis": "Emphasis",
-      "endnote reference": "Endnote reference",
-      "footnote reference": "Footnote reference",
-      "Intense Emphasis": "Intense emphasis",
-      "Intense Reference": "Intense reference",
-      "Marquee": "Marquee",
-      "No List": "No list",
-      "Slipstream": "Slipstream",
-      "Strong": "Strong",
-      "Subtle Emphasis": "Subtle emphasis",
-      "Subtle Reference": "Subtle reference"
+      "Zero Divide": "Divisão por zero"
     },
     "textAnonymous": "Anónimo",
     "textBuyNow": "Visitar website",
@@ -676,12 +644,7 @@
     "warnLicenseLimitedRenewed": "Tem que renovar a sua licença. A edição de documentos está com funcionalidades limitadas.<br>Contacte o administrador para obter acesso total.",
     "warnNoLicense": "Atingiu o limite de ligações simultâneas a %1 editores. Este documento será aberto apenas para visualização. Contacte a %1 equipa de vendas para consultar os termos de atualização para si.",
     "warnNoLicenseUsers": "Atingiu o limite de %1 editores. Contacte a equipa comercial %1 para obter mais informações.",
-    "warnProcessRightsChange": "Não tem autorização para editar este ficheiro.",
-    "textConvertForm": "Download file as PDF to save the form in the format ready for filling.",
-    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-    "titleReadOnly": "Read-Only Mode",
-    "txtSignedForm": "This document has been signed and cannot be edited."
+    "warnProcessRightsChange": "Não tem autorização para editar este ficheiro."
   },
   "Settings": {
     "advDRMOptions": "Ficheiro protegido",
@@ -821,10 +784,7 @@
     "txtDownloadTxt": "Descarregar TXT",
     "txtIncorrectPwd": "A palavra-passe está incorreta",
     "txtOk": "OK",
-    "txtProtected": "Assim que introduzir uma palavra-passe e abrir o ficheiro, a palavra-passe atual será reposta",
-    "textDrawing": "Drawing",
-    "textHyphenation": "Hyphenation",
-    "textOpenLocation": "Open location"
+    "txtProtected": "Assim que introduzir uma palavra-passe e abrir o ficheiro, a palavra-passe atual será reposta"
   },
   "Toolbar": {
     "btnSend": "Enviar",
@@ -838,8 +798,6 @@
     "textRenameFile": "Mudar nome do ficheiro",
     "textSwitchedMobileView": "Alterado para vista móvel",
     "textSwitchedStandardView": "Alterado para a vista predefinida",
-    "warnEmptyRequiredField": "Preencha todos os campos obrigatórios para enviar o formulário.",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "warnEmptyRequiredField": "Preencha todos os campos obrigatórios para enviar o formulário."
   }
 }

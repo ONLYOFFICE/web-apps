@@ -324,7 +324,6 @@
   "VE.Controllers.Main.warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori pentru editoare %1. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
   "VE.Controllers.Main.warnProcessRightsChange": "Accesul la editarea fișierului refuzat.",
   "VE.Controllers.Print.txtPrintRangeInvalid": "Interval de imprimare incorect",
-  "VE.Controllers.Print.txtPrintRangeSingleRange": "Introduceți un număr de pagină sau un interval de pagini (ex. 5 - 12). Încă mai puteți utiliza opțiunea Imprimare în PDF.",
   "VE.Controllers.Search.notcriticalErrorTitle": "Avertisment",
   "VE.Controllers.Search.textNoTextFound": "Datele căutate nu au fost găsite. Alegeți alte opțiuni de căutare.",
   "VE.Controllers.Search.textReplaceSkipped": "A avut loc o înlocuire. {0} apariții ignorate.",
