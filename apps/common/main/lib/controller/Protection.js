@@ -62,7 +62,7 @@ define([
                 'Common.Views.Protection': {
                     'protect:password':      _.bind(this.onPasswordClick, this),
                     'protect:signature':     _.bind(this.onSignatureClick, this),
-                    'protect:markAsFinal':   _.bind(this.onMarkAsFinal, this),
+                    'protect:protectForm':   _.bind(this.onProtectForm, this),
                 }
             });
         },
@@ -135,8 +135,8 @@ define([
             }
         },
 
-        onMarkAsFinal: function(state) {
-            this.api && this.api.markAsFinal(state);
+        onProtectForm: function(state) {
+            this.api && this.api.asc_markAsFinal(state);
         },
 
         createToolbarPanel: function() {
@@ -267,7 +267,7 @@ define([
 
         onChangeDocMode: function () {
             if(this.view && this.view.btnProtectForm) {
-                this.view.btnProtectForm.toggle(this.api.isFinal(), true);
+                this.view.btnProtectForm.toggle(this.api.asc_isFinal(), true);
             }
         }
 

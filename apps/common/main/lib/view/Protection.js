@@ -179,7 +179,7 @@ define([
                         dataHintOffset: 'small'
                     });
                     this.btnProtectForm.on('toggle', function (btn, state) {
-                        me.fireEvent('protect:markAsFinal', [state]);
+                        me.fireEvent('protect:protectForm', [state]);
                     });
                 }
 
