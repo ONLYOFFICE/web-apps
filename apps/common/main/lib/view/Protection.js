@@ -57,7 +57,10 @@ define([
                 '<span id="slot-btn-add-password" class="btn-slot text x-huge"></span>' +
                 '<span id="slot-btn-change-password" class="btn-slot text x-huge"></span>' +
                 '<span id="slot-btn-signature" class="btn-slot text x-huge"></span>' +
-                '<span id="slot-btn-mark-as-final" class="btn-slot text x-huge"></span>' +
+            '</div>' +
+            '<div class="separator long protect-form"></div>' + 
+            '<div class="group">' +
+                '<span id="slot-btn-protect-form" class="btn-slot text x-huge"></span>' +
             '</div>' +
             '</section>';
 
@@ -166,16 +169,16 @@ define([
                 }
 
                 if(this.appConfig.isPDFForm) {
-                    this.btnMarkAsFinal = new Common.UI.Button({
+                    this.btnProtectForm = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-ic-protect',
-                        caption: this.txtMarkAsFinal,
+                        iconCls: 'toolbar__icon btn-restrict-editing',
+                        caption: this.txtProtectForm,
                         enableToggle: true,
                         dataHint    : '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
-                    this.btnMarkAsFinal.on('toggle', function (btn, state) {
+                    this.btnProtectForm.on('toggle', function (btn, state) {
                         me.fireEvent('protect:markAsFinal', [state]);
                     });
                 }
@@ -235,6 +238,7 @@ define([
                         }
                         Common.NotificationCenter.trigger('tab:visible', 'protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
                     }
+                    !me.btnProtectForm && (me.$el || $(me.el)).find('.separator.protect-form').hide();
 
                     setEvents.call(me);
                 });
@@ -247,7 +251,7 @@ define([
                     this.btnAddPwd && this.btnAddPwd.render(this.$el.find('#slot-btn-add-password'));
                     this.btnPwd && this.btnPwd.render(this.$el.find('#slot-btn-change-password'));
                     this.btnSignature && this.btnSignature.render(this.$el.find('#slot-btn-signature'));
-                    this.btnMarkAsFinal && this.btnMarkAsFinal.render(this.$el.find('#slot-btn-mark-as-final'));
+                    this.btnProtectForm && this.btnProtectForm.render(this.$el.find('#slot-btn-protect-form'));
                 }
                 return this.$el;
             },
@@ -370,7 +374,7 @@ define([
             },
 
             txtEncrypt: 'Encrypt',
-            txtMarkAsFinal: 'Protect Document',
+            txtProtectForm: 'Protect Form',
             txtSignature: 'Signature',
             hintAddPwd: 'Encrypt with password',
             hintPwd: 'Change or delete password',

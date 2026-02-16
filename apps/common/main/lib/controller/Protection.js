@@ -266,8 +266,8 @@ define([
         },
 
         onChangeDocMode: function () {
-            if(this.view && this.view.btnMarkAsFinal) {
-                this.view.btnMarkAsFinal.toggle(this.api.isFinal(), true);
+            if(this.view && this.view.btnProtectForm) {
+                this.view.btnProtectForm.toggle(this.api.isFinal(), true);
             }
         }
 

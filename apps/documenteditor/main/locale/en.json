@@ -1051,7 +1051,7 @@
   "Common.Views.Protection.txtChangePwd": "Change password",
   "Common.Views.Protection.txtDeletePwd": "Delete password",
   "Common.Views.Protection.txtEncrypt": "Encrypt",
-  "Common.Views.Protection.txtMarkAsFinal": "Protect Document",
+  "Common.Views.Protection.txtProtectForm": "Protect Form",
   "Common.Views.Protection.txtInvisibleSignature": "Add digital signature",
   "Common.Views.Protection.txtSignature": "Signature",
   "Common.Views.Protection.txtSignatureLine": "Add signature line",
