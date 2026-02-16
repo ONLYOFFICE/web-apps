@@ -379,6 +379,7 @@
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
     "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
     "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
     "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled."
   },
   "LongActions": {
@@ -727,12 +728,16 @@
       "textAllCaps": "All Caps",
       "textBaseline": "Baseline",
       "textCapitalization": "Capitalization",
+      "textContextTextDirection": "Context",
       "textDoubleStrikethrough": "Double Strikethrough",
       "textLetterSpacing": "Letter spacing",
+      "textLtrTextDirection": "Left-to-right",
+      "textRtlTextDirection": "Right-to-left",
       "textSmallCaps": "Small Caps",
       "textStrikethrough": "Strikethrough",
       "textSubscript": "Subscript",
-      "textSuperscript": "Superscript"
+      "textSuperscript": "Superscript",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "advCSVOptions": "Pilih Opsi CSV",
@@ -887,10 +892,12 @@
       "txtVi": "Vietnam",
       "txtZh": "China",
       "warnDownloadAs": "Jika Anda lanjut simpan dengan format ini, semua fitur kecuali teks akan hilang.<br>Apakah Anda ingin melanjutkan?",
+      "textSheetRtl": "Sheet Right to left",
       "txtSr": "Serbian (Latin)",
       "txtSrcyrl": "Serbian (Cyrillic)",
       "txtZhtw": "Chinese (Traditional)",
       "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+      "textOpenLocation": "Open location",
       "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
     }
   }

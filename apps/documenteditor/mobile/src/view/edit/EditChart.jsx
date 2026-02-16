@@ -170,11 +170,20 @@ const PageChartType = props => {
     const { t } = useTranslation();
     const storeChartSettings = props.storeChartSettings;
     const types = storeChartSettings.types;
-    const countSlides = Math.floor(types.length / 3);
+    const countTypesSlide = Device.phone ? 2 : 3;
+    const countSlides = Math.ceil(types.length / countTypesSlide);
     const arraySlides = Array(countSlides).fill(countSlides);
     const storeFocusObjects = props.storeFocusObjects;
     const chartProperties = storeFocusObjects.chartObject && storeFocusObjects.chartObject.get_ChartProperties();
     const curType = chartProperties && chartProperties.getType();
+
+    let initialSlide = 0;
+    if (curType !== undefined && types && types.length) {
+        const rowIndex = types.findIndex(row => row.some(item => item.type === curType));
+        if (rowIndex >= 0) {
+            initialSlide = Math.min(Math.floor(rowIndex / countTypesSlide), countSlides - 1);
+        }
+    }
 
     return (
         <Page>
@@ -183,9 +192,9 @@ const PageChartType = props => {
             <div id={"edit-chart-type"} className="page-content no-padding-top dataview">
                 <div className="chart-types">
                     {types && types.length ? (
-                        <Swiper>
+                        <Swiper pagination={true} initialSlide={initialSlide}>
                             {arraySlides.map((_, indexSlide) => {
-                                let typesSlide = types.slice(indexSlide * 3, (indexSlide * 3) + 3);
+                                let typesSlide = types.slice(indexSlide * countTypesSlide, (indexSlide * countTypesSlide) + countTypesSlide);
 
                                 return (
                                     <SwiperSlide key={indexSlide}>

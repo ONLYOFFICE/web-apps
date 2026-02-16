@@ -129,6 +129,7 @@ define([
             var pr, i = -1, type,
                 paragraph_locked = false,
                 header_locked = false,
+                image_locked = false,
                 in_header = false,
                 in_equation = false,
                 in_image = false,
@@ -153,6 +154,7 @@ define([
                     in_image = true;
                     in_image_inline = (pr.get_WrappingStyle() === Asc.c_oAscWrapStyle2.Inline);
                     object_type = type;
+                    image_locked = pr.get_Locked();
                 } else if (type === Asc.c_oAscTypeSelectElement.Math) {
                     in_equation = true;
                     object_type = type;
@@ -190,6 +192,7 @@ define([
             this.lockToolbar(Common.enumLock.inFootnote, this.api.asc_IsCursorInFootnote() || this.api.asc_IsCursorInEndnote(),   {array: [this.view.btnAddText]});
             this.lockToolbar(Common.enumLock.inHeader, in_header,   {array: [this.view.btnAddText]});
             this.lockToolbar(Common.enumLock.cantAddTextTOF, in_image && !in_image_inline && !in_para,   {array: [this.view.btnAddText]});
+            this.lockToolbar(Common.enumLock.imageLock, image_locked,   {array: this.view.btnsHyperlink});
 
             this.dlgCrossRefDialog && this.dlgCrossRefDialog.isVisible() && this.dlgCrossRefDialog.setLocked(this.view.btnCrossRef.isDisabled());
         },

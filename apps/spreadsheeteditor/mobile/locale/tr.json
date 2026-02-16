@@ -327,6 +327,7 @@
     "errorChangeFilteredRange": "This will change a filtered range on your sheet.<br>To complete this task, please remove AutoFilters.",
     "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
     "errorComboSeries": "To create a combination chart, select at least two series of data.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
     "errorDeleteColumnContainsLockedCell": "You are trying to delete a column that contains a locked cell. Locked cells cannot be deleted while the sheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.",
     "errorDeleteRowContainsLockedCell": "You are trying to delete a row that contains a locked cell. Locked cells cannot be deleted while the sheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.",
     "errorDependentsNoFormulas": "The Trace Dependents command found no formulas that refer to the active cell.",
@@ -713,6 +714,7 @@
       "textBaseline": "Baseline",
       "textCancel": "Cancel",
       "textCapitalization": "Capitalization",
+      "textContextTextDirection": "Context",
       "textCreateCustomFormat": "Create Custom Format",
       "textCreateFormat": "Create Format",
       "textCustomFormat": "Custom Format",
@@ -722,11 +724,14 @@
       "textEnterFormat": "Enter Format",
       "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textLetterSpacing": "Letter spacing",
+      "textLtrTextDirection": "Left-to-right",
+      "textRtlTextDirection": "Right-to-left",
       "textSave": "Save",
       "textSmallCaps": "Small Caps",
       "textStrikethrough": "Strikethrough",
       "textSubscript": "Subscript",
-      "textSuperscript": "Superscript"
+      "textSuperscript": "Superscript",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "advCSVOptions": "CSV Seçenekleri Belirle",
@@ -878,6 +883,7 @@
       "textNoMatches": "No Matches",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textSameAsSystem": "Same As System",
+      "textSheetRtl": "Sheet Right to left",
       "textTheme": "Theme",
       "textVersionHistory": "Version History",
       "txtDe": "German",
@@ -885,6 +891,7 @@
       "txtSrcyrl": "Serbian (Cyrillic)",
       "txtZhtw": "Chinese (Traditional)",
       "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
+      "textOpenLocation": "Open location",
       "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
     }
   },

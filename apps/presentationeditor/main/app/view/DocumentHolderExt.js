@@ -256,6 +256,7 @@ define([], function () {
                 initMenu: function(value) {
                     var selectedLast = me.api.asc_IsLastSlideSelected(),
                         selectedFirst = me.api.asc_IsFirstSlideSelected();
+                    me.slideMenu.options.fromThumbs = value.fromThumbs;
                     me.menuSlidePaste.setVisible(value.fromThumbs!==true);
                     me.mnuNewSlide.setVisible(value.fromThumbs===true); // New Slide
                     me.mnuDuplicateSlide.setVisible(value.isSlideSelect===true); // Duplicate Slide

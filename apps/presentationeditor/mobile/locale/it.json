@@ -83,7 +83,8 @@
     "textDoNotShowAgain": "Non mostrare di nuovo",
     "textOk": "Ok",
     "textRows": "Righe",
-    "txtWarnUrl": "Cliccando su questo collegamento il tuo dispositivo e i dati potrebbero essere danneggiati.<br>Sei sicuro di voler continuare?"
+    "txtWarnUrl": "Cliccando su questo collegamento il tuo dispositivo e i dati potrebbero essere danneggiati.<br>Sei sicuro di voler continuare?",
+    "menuDuplicate": "Duplicate"
   },
   "Controller": {
     "Main": {
@@ -240,7 +241,8 @@
     "unknownErrorText": "Errore sconosciuto.",
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
-    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB."
+    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "Caricamento dati in corso...",
@@ -500,7 +502,12 @@
       "textZoomOut": "Rimpicciolisci",
       "textZoomRotate": "Ingrandisci e ruota",
       "txtHeight": "Altezza",
-      "txtWidth": "Larghezza"
+      "txtWidth": "Larghezza",
+      "textBackground": "Background",
+      "textLtrTextDirection": "Left-to-right",
+      "textResetBackground": "Reset background",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -568,7 +575,9 @@
       "textUnitOfMeasurement": "Unità di misura",
       "textUploaded": "Caricato",
       "textVersion": "Versione",
-      "textVersionHistory": "Cronologia delle versioni"
+      "textVersionHistory": "Cronologia delle versioni",
+      "textLoopSlideshow": "Loop slideshow",
+      "textOpenLocation": "Open location"
     }
   }
 }

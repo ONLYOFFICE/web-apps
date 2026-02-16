@@ -90,7 +90,7 @@ class SearchView extends Component {
 
     componentDidMount() {
         this.$replace = $$('#idx-replace-val');
-        const $editor = $$('#editor_sdk');
+        const $editor = $$('#id_viewer_overlay, #ws-canvas-graphic-overlay');
 
         this.onEditorTouchStart = this.onEditorTouchStart.bind(this);
         this.onEditorTouchEnd = this.onEditorTouchEnd.bind(this);
@@ -132,7 +132,7 @@ class SearchView extends Component {
     }
 
     componentWillUnmount() {
-        $$('#editor_sdk')
+        $$('#id_viewer_overlay, #ws-canvas-graphic-overlay')
             .off('pointerdown', this.onEditorTouchStart)
             .off('pointerup', this.onEditorTouchEnd);
         

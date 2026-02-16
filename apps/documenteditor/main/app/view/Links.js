@@ -173,7 +173,7 @@ define([
                     [_set.paragraphLock, _set.inEquation, _set.inImage, _set.inHeader, _set.controlPlain, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                     true, true, undefined, '1', 'bottom', 'small', undefined, 'notes');
                 this.btnsHyperlink = Common.Utils.injectButtons($host.find('.btn-slot.slot-inshyperlink'), '', 'toolbar__icon btn-big-inserthyperlink', me.capBtnInsLink,
-                    [_set.paragraphLock, _set.headerLock, _set.hyperlinkLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
+                    [_set.paragraphLock, _set.headerLock, _set.imageLock, _set.hyperlinkLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                     undefined, undefined, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.paragraphControls, this.btnsContents.concat(this.btnsNotes, this.btnsHyperlink));
 

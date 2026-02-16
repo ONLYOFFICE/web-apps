@@ -421,6 +421,9 @@
     "textCapitalization": "Capitalization",
     "textCellOptions": "Cell options",
     "textCellSize": "Rows & columns size",
+    "textLtrTextDirection": "Left-to-right",
+    "textRtlTextDirection": "Right-to-left",
+    "textTextDirection": "Text Direction",
     "textWrapText": "Wrap Text",
     "txtHeight": "Height",
     "txtWidth": "Width"
@@ -486,6 +489,7 @@
     "uploadImageFileCountMessage": "Nenhuma imagem foi carregada.",
     "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB.",
     "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
     "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
     "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
@@ -818,7 +822,9 @@
     "txtIncorrectPwd": "A palavra-passe está incorreta",
     "txtOk": "OK",
     "txtProtected": "Assim que introduzir uma palavra-passe e abrir o ficheiro, a palavra-passe atual será reposta",
-    "textDrawing": "Drawing"
+    "textDrawing": "Drawing",
+    "textHyphenation": "Hyphenation",
+    "textOpenLocation": "Open location"
   },
   "Toolbar": {
     "btnSend": "Enviar",

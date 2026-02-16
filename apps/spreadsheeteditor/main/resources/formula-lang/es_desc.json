@@ -2408,5 +2408,20 @@
 		"a": "(url_hoja_cálculo; cadena_intervalo)",
 		"d": "Importa un intervalo de celdas de una hoja de cálculo específica.",
 		"ad": "URL de la hoja de la que se van a importar los datos!el intervalo que se desea importar"
+	},
+	"REGEXTEST": {
+		"a": "(texto; patrón; [sensibilidad_mayúsculas])",
+		"d": "Comprueba si una parte del texto coincide con una expresión regular. Devuelve TRUE si hay coincidencia.",
+		"ad": "texto: cadena o referencia!patrón: expresión regular!sensibilidad_mayúsculas (opcional): 0 = distingue mayúsculas (predeterminado), 1 = no distingue"
+	},
+	"REGEXREPLACE": {
+		"a": "(texto; patrón; reemplazo; [ocurrencia]; [mayúsculas])",
+		"d": "Devuelve el texto donde las coincidencias con el patrón han sido reemplazadas.",
+		"ad": "texto: donde se busca!patrón: expresión regular!reemplazo: cadena; $n = grupo!ocurrencia: 0 = todas, >0 = específica, <0 = desde el final!mayúsculas: 0 = sensible, 1 = no"
+	},
+	"REGEXEXTRACT": {
+		"a": "(texto; patrón; [modo]; [mayúsculas])",
+		"d": "Extrae subcadenas que coinciden con el patrón regex.",
+		"ad": "texto: base!patrón: regex!modo: qué coincidencias devolver!mayúsculas: 0 = sensible, 1 = no"
 	}
 }

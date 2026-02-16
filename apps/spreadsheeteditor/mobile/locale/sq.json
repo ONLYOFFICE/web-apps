@@ -276,6 +276,7 @@
     "errorCircularReference": "Ka një ose më shumë referenca rrethore ku një formulë i referohet qelizës së saj drejtpërdrejt ose tërthorazi.<br>Provoni të hiqni ose të ndryshoni këto referenca, ose të zhvendosni formulat në qeliza të ndryshme.",
     "errorComboSeries": "Për të krijuar një grafik kombinimi, zgjidhni të paktën dy seri të dhënash.",
     "errorConnectToServer": "Nuk mundesh ta ruash këtë dokument. Kontrrollo cilësimet e lidhjes tuaj dhe kontakto administratorin tuaj.<br>Kur shtypni butonin'OK', do të nxiteni të shkarkoni dokumentin. ",
+    "errorCopyDisabled": "Për arsye sigurie, përmbajtja e këtij dokumenti nuk mund të kopjohet.",
     "errorCopyMultiselectArea": "Kjo komandë nuk mund të përdoret me selektime të shumta.<br>Selektoni një shtrirje të vetëm dhe provoni përsëri.",
     "errorCountArg": "Një gabim në formulë.<br>Numër i pavlefshëm argumentesh.",
     "errorCountArgExceed": "Një gabim në formulë.<br>Numri mmaksimal i argumenteve është tejkaluar.",
@@ -575,6 +576,7 @@
       "textChartTitle": "Titulli grafikut",
       "textClearFilter": "Pastro filterin",
       "textColor": "Ngjyra",
+      "textContextTextDirection": "Kontekst",
       "textCreateCustomFormat": "Krijo format të personalizuar",
       "textCreateFormat": "Krijo format",
       "textCross": "Kryq",
@@ -650,6 +652,7 @@
       "textLinkSettings": "Cilësimet e lidhjes",
       "textLinkType": "Tipi i lidhjes",
       "textLow": "Poshtë",
+      "textLtrTextDirection": "Nga e majta në të djathtë",
       "textMajor": "Kryesor",
       "textMajorAndMinor": "Kryesor dhe më i vogël",
       "textMajorType": "Tipi kryesor",
@@ -693,6 +696,7 @@
       "textRotateTextDown": "Kthe tekstin poshtë",
       "textRotateTextUp": "Kthe tekstin lartë",
       "textRouble": "Rubël",
+      "textRtlTextDirection": "Nga e djathta në të majtë",
       "textSave": "Ruaj",
       "textScientific": "Shkencore",
       "textScreenTip": "Këshillë për ekranin",
@@ -712,6 +716,7 @@
       "textTenThousands": "10 000",
       "textText": "Tekst",
       "textTextColor": "Ngjyra e tekstit",
+      "textTextDirection": "Drejtimi i tekstit",
       "textTextFormat": "Formati i tekstit",
       "textTextOrientation": "Orientimi tekstit",
       "textThick": "I trashë",
@@ -827,6 +832,7 @@
       "textSearchIn": "Kërko në",
       "textSettings": "Cilësimet",
       "textSheet": "Fletë",
+      "textSheetRtl": "Fletë nga e djathta në të majtë",
       "textShowNotification": "Trego njoftimet",
       "textSpreadsheetFormats": "Formati i fletëllogaritjes",
       "textSpreadsheetInfo": "Info e fletëllogaritjes",
@@ -891,7 +897,8 @@
       "txtZhtw": "Kinezisht (Tradicionale)",
       "warnDownloadAs": "Në qoftë se vazhdoni të ruani në këtë format, të gjitha veçoritë përveç tekstit do të humbasin .<br>Jeni i sigurt që dëshironi të vazhdoni?",
       "warnDownloadCsv": "Formati CSV nuk mbështet ruajtjen e një skedari me shumë fletë dhe të të gjithë elementëve, përveç tekstit.<br>Për të ruajtur vetëm fletën e zgjedhur në CSV, shtypni OK.<br>Për të ruajtur të gjithë fletëllogaritësen dhe të gjitha veçoritë, klikoni Anulo dhe zgjidhni një format tjetër.",
-      "warnDownloadOds": "Ruajtja e këtij skedari mund te rezultojë në humbjen e disa formulave, formatimit të qelizave ose objekteve të integruara për shkak të mbështetjes së kufizuar të formateve.<br>Jeni të sigurt që dëshironi të vazhdoni?"
+      "warnDownloadOds": "Ruajtja e këtij skedari mund te rezultojë në humbjen e disa formulave, formatimit të qelizave ose objekteve të integruara për shkak të mbështetjes së kufizuar të formateve.<br>Jeni të sigurt që dëshironi të vazhdoni?",
+      "textOpenLocation": "Open location"
     }
   }
 }

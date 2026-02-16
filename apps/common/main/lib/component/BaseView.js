@@ -66,6 +66,7 @@ define([
             INSERT:     45,
             ZERO:       48,
             EQUALITY_FF:61,
+            META:       91,
             NUM_ZERO:   96,
             NUM_PLUS:   107,
             NUM_MINUS:  109,

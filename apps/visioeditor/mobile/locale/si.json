@@ -120,7 +120,8 @@
     "unknownErrorText": "නොදන්නා දෝෂයකි",
     "uploadImageExtMessage": "නොදන්නා රූප ආකෘතියකි.",
     "uploadImageFileCountMessage": "රූප කිසිවක් උඩුගත කර නැත.",
-    "uploadImageSizeMessage": "රූපය ඉතා විශාලයි. උපරිම ප්‍රමාණය මෙ.බ. 25 කි."
+    "uploadImageSizeMessage": "රූපය ඉතා විශාලයි. උපරිම ප්‍රමාණය මෙ.බ. 25 කි.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "දත්ත පූරණය වෙමින්...",
@@ -211,7 +212,8 @@
       "textVersion": "අනුවාදය",
       "textVisioInfo": "රූප සටහන් දක්වනයේ තොරතුරු",
       "textVisioSettings": "රූප සටහන් දක්වනයේ සැකසුම්",
-      "textVisioTitle": "රූප සටහන් දක්වනයේ සිරැසිය"
+      "textVisioTitle": "රූප සටහන් දක්වනයේ සිරැසිය",
+      "textOpenLocation": "Open location"
     }
   }
 }

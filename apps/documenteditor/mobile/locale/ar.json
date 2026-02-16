@@ -421,6 +421,9 @@
     "textCapitalization": "Capitalization",
     "textCellOptions": "Cell options",
     "textCellSize": "Rows & columns size",
+    "textLtrTextDirection": "Left-to-right",
+    "textRtlTextDirection": "Right-to-left",
+    "textTextDirection": "Text Direction",
     "textWrapText": "Wrap Text",
     "txtHeight": "Height",
     "txtWidth": "Width"
@@ -488,7 +491,8 @@
     "uploadImageExtMessage": "امتداد صورة غير معروف",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
     "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "جار تحميل البيانات...",
@@ -818,7 +822,9 @@
     "txtIncorrectPwd": "كلمة السر غير صحيحة",
     "txtOk": "موافق",
     "txtProtected": "بمجرد ادخالك كلمة المرور و فتح الملف ,سيتم اعادة انشاء كلمة المرور للملف",
-    "textDrawing": "Drawing"
+    "textDrawing": "Drawing",
+    "textHyphenation": "Hyphenation",
+    "textOpenLocation": "Open location"
   },
   "Toolbar": {
     "btnRestartNow": "إعادة التشغيل الآن",

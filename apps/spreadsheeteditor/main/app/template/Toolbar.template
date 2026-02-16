@@ -118,6 +118,10 @@
                         <span class="btn-slot split" id="slot-btn-cell-del"></span>
                     </div>
                 </div>
+                <div class="separator long invisible"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-cell-format"></span>
+                </div>
                 <div class="separator long"></div>
                 <div class="group small">
                     <div class="elset">
@@ -289,6 +293,7 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-goal-seek"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-solver"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">

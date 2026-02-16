@@ -40,7 +40,7 @@
   "VE.ApplicationController.titleLicenseNotActive": "Licenza non attiva",
   "VE.ApplicationController.txtClose": "Chiudi",
   "VE.ApplicationController.txtNo": "No",
-  "VE.ApplicationController.txtOpenWarning": "Cliccare su questo link può danneggiare il tuo dispositivo e i tuoi dati. <br> Sei sicuro di voler continuare?",
+  "VE.ApplicationController.txtOpenWarning": "Cliccare su questo link può essere dannoso per il tuo dispositivo e i tuoi dati. Per proteggere il tuo computer, clicca solo sui link provenienti da fonti affidabili. Questa posizione potrebbe non essere sicura:<br>%1<br>Sei sicuro di voler continuare?",
   "VE.ApplicationController.txtPage": "Pagina",
   "VE.ApplicationController.txtPressLink": "Clicca sul collegamento per aprirlo",
   "VE.ApplicationController.txtYes": "Sì",

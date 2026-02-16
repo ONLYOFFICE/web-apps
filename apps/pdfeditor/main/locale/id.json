@@ -3015,5 +3015,22 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Sesuaikan Halaman",
   "PDFE.Views.ViewTab.tipFitToWidth": "Sesuaikan Lebar",
   "PDFE.Views.ViewTab.tipHeadings": "Tajuk",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka",
+  "PDFE.Controllers.Main.errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
+  "PDFE.Controllers.Main.txtDocUnlockDescription": "Enter a password to unprotect document",
+  "PDFE.Controllers.Main.txtUnlockTitle": "Unprotect document",
+  "PDFE.Views.DocumentHolder.AlignBottom": "Bottom",
+  "PDFE.Views.DocumentHolder.AlignCenter": "Center",
+  "PDFE.Views.DocumentHolder.AlignJust": "Justify",
+  "PDFE.Views.DocumentHolder.AlignLeft": "Left",
+  "PDFE.Views.DocumentHolder.AlignMiddle": "Middle",
+  "PDFE.Views.DocumentHolder.AlignRight": "Right",
+  "PDFE.Views.DocumentHolder.AlignText": "Text alignment",
+  "PDFE.Views.DocumentHolder.AlignTop": "Top",
+  "PDFE.Views.DocumentHolder.textRedact": "Redact Text",
+  "PDFE.Views.DocumentHolder.tipRedact": "Redact text",
+  "PDFE.Views.HyperlinkSettingsDialog.txtCreateDesc": "Use the scrollbars, mouse, and zoom to select the target view, then press Set link to create the link destination.",
+  "PDFE.Views.HyperlinkSettingsDialog.txtCreateLink": "Create Go to view",
+  "PDFE.Views.HyperlinkSettingsDialog.txtPageView": "Go to a page view",
+  "PDFE.Views.HyperlinkSettingsDialog.txtSetLink": "Set link"
 }

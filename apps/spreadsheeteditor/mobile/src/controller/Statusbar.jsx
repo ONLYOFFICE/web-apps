@@ -330,7 +330,6 @@ const Statusbar = inject('storeWorksheets', 'storeAppOptions', 'users', 'storeSp
                 f7.dialog.alert(_t.textErrorLastSheet, _t.notcriticalErrorTitle) :
                 api['asc_hideWorksheet']([index]);
         } else {
-            f7.popover.close('#idx-hidden-sheets-popover');
             api['asc_showWorksheet'](index);
         }
     };
@@ -363,13 +362,14 @@ const Statusbar = inject('storeWorksheets', 'storeAppOptions', 'users', 'storeSp
                 }
                 break;
             case 'unhide':
-                f7.popover.open('#idx-hidden-sheets-popover', '.active');
+                Device.phone ? f7.sheet.open('.hidden-sheet') : f7.popover.open('.hidden-sheet', targetRef.current); 
                 break;
             case 'showMore':
                 f7.actions.open('#idx-tab-menu-actions');
                 break;
             default:
                 let _re = /reveal\:(\d+)/.exec(event);
+                f7.sheet.close('.hidden-sheet');
                 if (_re && !!_re[1]) {
                     hideWorksheet(false, parseInt(_re[1]));
                 }

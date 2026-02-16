@@ -93,7 +93,7 @@ define([
                         '<div id="id-review-popover"></div>',
                         '<div id="id-comments-popover"></div>',
                     '</div>',
-                    '<div id="id-comments-arrow" class="comments-arrow"></div>',
+                    //'<div id="id-comments-arrow" class="comments-arrow"></div>',
                     '</div>'
                 ].join('');
 

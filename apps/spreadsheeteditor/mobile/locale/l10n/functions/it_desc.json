@@ -2354,5 +2354,20 @@
 		"a": "(url_foglio_di_lavoro; stringa_intervallo)",
 		"d": "Importa un intervallo di celle da un foglio di lavoro specificato.",
 		"ad": "l'URL del foglio di lavoro da cui importare i dati!l'intervallo da importare"
+	},
+	"REGEXTEST": {
+		"a": "(testo; criterio; [distinzione_maiuscole_minuscole])",
+		"d": "Controlla se l'input corrisponde al criterio e restituisce VERO o FALSO",
+		"ad": "Testo in cui si esegue la ricerca!Espressione regolare (regex) da applicare!Indica se la corrispondenza fa distinzione tra maiuscole e minuscole"
+	},
+	"REGEXREPLACE": {
+		"a": "(testo; criterio; sostituzione; [occorrenza]; [distinzione_maiuscole_minuscole])",
+		"d": "Restituisce 'testo', con 'sostituzione' al posto delle corrispondenze con 'criterio'",
+		"ad": "Testo in cui si sta eseguendo la ricerca!Espressione regolare (regex) da applicare!Stringa che sostituisce la stringa secondaria corrispondente nel testo. Se compare $n nella stringa, dove $n è un numero intero, $n viene sostituito con il n° gruppo di acquisizione!Occorrenza da sostituire. Se 0, tutte le occorrenze vengono sostituite. Un valore negativo indica il numero di occorrenze dalla fine del testo!Indica se la corrispondenza fa distinzione tra maiuscole e minuscole"
+	},
+	"REGEXEXTRACT": {
+		"a": "(testo; criterio; [modalità_restituzione]; [distinzione_maiuscole_minuscole])",
+		"d": "Estrae le stringhe secondarie di 'testo' in base al 'criterio' REGEX specificato",
+		"ad": "Testo in cui si esegue la ricerca!Espressione regolare (regex) da applicare!Specifica le corrispondenze da restituire!Indica se la corrispondenza fa distinzione tra maiuscole e minuscole"
 	}
 }

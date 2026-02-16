@@ -423,7 +423,10 @@
     "textWrapText": "Avvolgi il testo",
     "textYourOption": "La tua opzione",
     "txtHeight": "Altezza",
-    "txtWidth": "Larghezza"
+    "txtWidth": "Larghezza",
+    "textLtrTextDirection": "Left-to-right",
+    "textRtlTextDirection": "Right-to-left",
+    "textTextDirection": "Text Direction"
   },
   "Error": {
     "convertationTimeoutText": "È stato superato il tempo massimo di conversione.",
@@ -488,7 +491,8 @@
     "uploadDocSizeMessage": "È stato superato il limite massimo delle dimensioni del documento.",
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
-    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB."
+    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "Caricamento dati in corso...",
@@ -818,7 +822,9 @@
     "txtDownloadTxt": "Scarica TXT",
     "txtIncorrectPwd": "Password non corretta",
     "txtOk": "OK",
-    "txtProtected": "Una volta inserita la password e aperto il file, la password corrente verrà resettata"
+    "txtProtected": "Una volta inserita la password e aperto il file, la password corrente verrà resettata",
+    "textHyphenation": "Hyphenation",
+    "textOpenLocation": "Open location"
   },
   "Toolbar": {
     "btnRestartNow": "Riavvia ora",

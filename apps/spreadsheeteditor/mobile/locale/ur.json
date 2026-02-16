@@ -379,7 +379,8 @@
     "uploadDocSizeMessage": "دستاویز کے سائز کی زیادہ سے زیادہ حد سے تجاوز کر گیا۔",
     "uploadImageExtMessage": "نامعلوم تصویر کا فارمیٹ۔",
     "uploadImageFileCountMessage": "کوئ تصاویر اپلوڈ نہیں کی گیئں",
-    "uploadImageSizeMessage": " تصویر بہت بڑی ہے۔ زیادہ سے زیادہ سائز ہے  پچیس ایم بی "
+    "uploadImageSizeMessage": " تصویر بہت بڑی ہے۔ زیادہ سے زیادہ سائز ہے  پچیس ایم بی ",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "advDRMPassword": "پاس ورڈ",
@@ -732,7 +733,11 @@
       "textYen": "یین",
       "txtNotUrl": "یہ فیلڈ \"http://www.example.com\" شکل میں ایک URL ہونا چاہئے۔",
       "txtSortHigh2Low": "سب سے اونچی سے نچلی ترتیب دیں۔",
-      "txtSortLow2High": "سب سے کم سے بلند ترین ترتیب دیں۔"
+      "txtSortLow2High": "سب سے کم سے بلند ترین ترتیب دیں۔",
+      "textContextTextDirection": "Context",
+      "textLtrTextDirection": "Left-to-right",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "advCSVOptions": "CSV اختیارات کا انتخاب کریں",
@@ -891,7 +896,9 @@
       "txtZhtw": "چینی (روایتی)",
       "warnDownloadAs": "اگر آپ اس شکل میں محفوظ کرنا جاری رکھیں گے تو اس کے علاوہ تمام خصوصیات ختم ہوجائیں گی۔ کیا آپ واقعی میں جاری رکھنا چاہتے ہیں؟",
       "warnDownloadCsv": "CSV فارمیٹ ایک ملٹی شیٹ فائل اور تمام عناصر کو محفوظ کرنے کی حمایت نہیں کرتا، سوائے متن کے۔ صرف منتخب کردہ شیٹ کو CSV میں محفوظ کرنے کے لیے، ٹھیک ہے دبائیں۔ پوری اسپریڈشیٹ اور تمام خصوصیات کو محفوظ کرنے کے لیے، منسوخ کریں پر کلک کریں اور دوسرا فارمیٹ منتخب کریں۔",
-      "warnDownloadOds": "اس فائل کو محفوظ کرنے کے نتیجے میں محدود فارمیٹ سپورٹ کی وجہ سے کچھ فارمولے، سیل فارمیٹنگ، یا ایمبیڈڈ اشیاء ضائع ہو سکتی ہیں۔ کیا آپ واقعی جاری رکھنا چاہتے ہیں؟"
+      "warnDownloadOds": "اس فائل کو محفوظ کرنے کے نتیجے میں محدود فارمیٹ سپورٹ کی وجہ سے کچھ فارمولے، سیل فارمیٹنگ، یا ایمبیڈڈ اشیاء ضائع ہو سکتی ہیں۔ کیا آپ واقعی جاری رکھنا چاہتے ہیں؟",
+      "textSheetRtl": "Sheet Right to left",
+      "textOpenLocation": "Open location"
     }
   }
 }

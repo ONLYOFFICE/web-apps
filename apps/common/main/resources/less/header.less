@@ -357,6 +357,11 @@
             margin-top: calc(-1 * @font-size-base-app + 1px);
             fill: @icon-toolbar-header-ie;
             fill: @icon-toolbar-header;
+
+            .safari & {
+                margin-top: 0;
+                transform: translateY(-50%);
+            }
         }
     }
 
@@ -370,6 +375,11 @@
         text-align: center;
         overflow: hidden;
         pointer-events: none;
+
+        .safari & {
+            margin-top: 0;
+            line-height: 1;
+        }
     }
 
     &:not(:disabled) {

@@ -2408,5 +2408,20 @@
 		"a": "(url_bảng_tính; chuỗi_dải_ô)",
 		"d": "Nhập một dải ô từ một bảng tính được chỉ định.",
 		"ad": "URL của bảng tính mà dữ liệu sẽ được nhập từ bảng tính đó!dải ô để nhập"
+	},
+	"REGEXTEST": {
+		"a": "(text; pattern; [case_sensitivity])",
+		"d": "Kiểm tra xem dữ liệu đầu vào có khớp với mẫu hình không và trả về TRUE hay FALSE",
+		"ad": "Là văn bản bạn đang tìm kiếm bên trong!Biểu thức chính quy sẽ được áp dụng!Dù kết quả khớp có phân biệt chữ hoa chữ thường hay không"
+	},
+	"REGEXREPLACE": {
+		"a": "(text; pattern; replacement; [occurrence]; [case_sensitivity])",
+		"d": "Trả về 'text', với 'replacement' thay cho các kết quả khớp với 'pattern'",
+		"ad": "Văn bản bạn đang tìm kiếm bên trong!Biểu thức chính quy sẽ được áp dụng!Chuỗi thay thế chuỗi con khớp trong văn bản. Ở vị trí $n xuất hiện trong chuỗi, trong đó $n là số nguyên, $n được thay thế bằng nhóm chụp thứ n! Lần xuất hiện nào cần thay thế. Nếu giá trị bằng 0, tất cả lần xuất hiện đều được thay thế. Giá trị âm có nghĩa là số lần xuất hiện tính từ cuối văn bản.!Kết quả khớp có phân biệt chữ hoa chữ thường hay không"        
+	},
+	"REGEXEXTRACT": {
+		"a": "(text; pattern; [return_mode]; [case_sensitivity])",
+		"d": "Trích xuất chuỗi con của \"text\" dựa trên \"pattern\" REGEX được cung cấp",
+		"ad": "Là văn bản bạn đang tìm kiếm bên trong!Biểu thức chính quy sẽ được áp dụng!Chỉ định kết quả khớp để trả về!Dù kết quả khớp có phân biệt chữ hoa chữ thường hay không"
 	}
 }

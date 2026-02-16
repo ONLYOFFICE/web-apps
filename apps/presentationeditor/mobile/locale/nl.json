@@ -82,6 +82,7 @@
     "textCopyCutPasteActions": "Acties Kopiëren, Knippen en Plakken",
     "textDoNotShowAgain": "Niet meer laten zien.",
     "textRows": "Rijen",
+    "menuDuplicate": "Duplicate",
     "textOk": "Ok",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?"
   },
@@ -233,6 +234,7 @@
     "uploadImageFileCountMessage": "Geen afbeeldingen geüpload.",
     "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grootte is 25MB.",
     "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
     "errorEmailClient": "No email client could be found",
     "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
@@ -486,6 +488,7 @@
       "textZoomIn": "Inzoomen",
       "textZoomOut": "Uitzoomen",
       "textZoomRotate": "Zoomen en draaien",
+      "textBackground": "Background",
       "textBaseline": "Baseline",
       "textCancel": "Cancel",
       "textCapitalization": "Capitalization",
@@ -495,10 +498,14 @@
       "textHorizontalText": "Horizontal Text",
       "textInsertImage": "Insert Image",
       "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textLtrTextDirection": "Left-to-right",
       "textMorph": "Morph",
       "textMorphLetters": "Letters",
       "textMorphObjects": "Objects",
       "textRequired": "Required",
+      "textResetBackground": "Reset background",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction",
       "txtHeight": "Height",
       "txtWidth": "Width"
     },
@@ -566,8 +573,10 @@
       "textVersion": "Versie",
       "textClose": "Close",
       "textFeedback": "Feedback & Support",
+      "textLoopSlideshow": "Loop slideshow",
       "textOk": "Ok",
       "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textOpenLocation": "Open location",
       "textVersionHistory": "Version History"
     }
   }

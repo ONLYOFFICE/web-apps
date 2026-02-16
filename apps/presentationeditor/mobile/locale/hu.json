@@ -83,7 +83,8 @@
     "textDoNotShowAgain": "Ne mutassa újra",
     "textOk": "Rendben",
     "textRows": "Sorok",
-    "txtWarnUrl": "A link megnyitása káros lehet az eszközére és adataira.<br>Biztosan folytatja?"
+    "txtWarnUrl": "A link megnyitása káros lehet az eszközére és adataira.<br>Biztosan folytatja?",
+    "menuDuplicate": "Duplicate"
   },
   "Controller": {
     "Main": {
@@ -240,7 +241,8 @@
     "unknownErrorText": "Ismeretlen hiba.",
     "uploadImageExtMessage": "Ismeretlen képformátum.",
     "uploadImageFileCountMessage": "Nincs kép feltöltve.",
-    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB."
+    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB.",
+    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
   },
   "LongActions": {
     "applyChangesTextText": "Adatok betöltése...",
@@ -500,7 +502,12 @@
       "textZoomOut": "Kicsinyítés",
       "textZoomRotate": "Zoom és elforgatás",
       "txtHeight": "Magasság",
-      "txtWidth": "Szélesség"
+      "txtWidth": "Szélesség",
+      "textBackground": "Background",
+      "textLtrTextDirection": "Left-to-right",
+      "textResetBackground": "Reset background",
+      "textRtlTextDirection": "Right-to-left",
+      "textTextDirection": "Text Direction"
     },
     "Settings": {
       "mniSlideStandard": "Sztenderd (4:3)",
@@ -568,7 +575,9 @@
       "textUnitOfMeasurement": "Mértékegység",
       "textUploaded": "Feltöltve",
       "textVersion": "Verzió",
-      "textVersionHistory": "Naplótörténet"
+      "textVersionHistory": "Naplótörténet",
+      "textLoopSlideshow": "Loop slideshow",
+      "textOpenLocation": "Open location"
     }
   }
 }

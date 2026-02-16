@@ -66,9 +66,9 @@
                 9: 'Tab',
                 12: 'Clear',
                 13: 'Enter',
-                16: 'Shift',
-                17: 'Ctrl',
-                18: 'Alt',
+                16: common.utils.isMac ? '⇧' : 'Shift',
+                17: common.utils.isMac ? '^' : 'Ctrl',
+                18: common.utils.isMac ? '⌥' : 'Alt',
                 19: 'Pause',
                 20: 'CapsLock',
                 27: 'Escape',
@@ -84,7 +84,7 @@
                 44: 'PrintScreen',
                 45: 'Insert',
                 46: 'Delete',
-                91: 'Meta',
+                91: common.utils.isMac ? '⌘' : 'Meta',
                 93: 'ContextMenu',
                 96: "Num 0",
                 97: "Num 1",
@@ -233,6 +233,10 @@
                         shortcuts[foundIndex].ascShortcut = copyAscShortcut;
                     }
                 }
+
+                if(actionsMap[actionType]) {
+                    actionsMap[actionType].shortcuts = shortcuts.sort(_sortComparator);
+                }
             }
         };
 
@@ -286,14 +290,48 @@
     
         var _getAscShortcutKeys = function(ascShortcut) {
             const keys = [];
-            ascShortcut.asc_IsCommand() && keys.push('⌘');
-            ascShortcut.asc_IsCtrl() && keys.push('Ctrl');
-            ascShortcut.asc_IsAlt() && keys.push('Alt');
-            ascShortcut.asc_IsShift() && keys.push('Shift');
+            ascShortcut.asc_IsCommand() && keys.push(_keyCodeToKeyName(91));
+            ascShortcut.asc_IsCtrl() && keys.push(_keyCodeToKeyName(17));
+            ascShortcut.asc_IsAlt() && keys.push(_keyCodeToKeyName(18));
+            ascShortcut.asc_IsShift() && keys.push(_keyCodeToKeyName(16));
             keys.push(_keyCodeToKeyName(ascShortcut.asc_GetKeyCode()));
             return keys;
         };
 
+        var _sortComparator = function(first, second) {
+            const priorityModifierKeys = ['asc_IsCommand', 'asc_IsCtrl', 'asc_IsAlt', 'asc_IsShift'];
+            function getWeight(ascShortcut) {
+                // Search for the first modifier key
+                let keyIndex = priorityModifierKeys.length;
+                for (let i = 0; i < priorityModifierKeys.length; i++) {
+                    if (ascShortcut[priorityModifierKeys[i]]()) {
+                        keyIndex = i;
+                        break;
+                    }
+                }
+
+                if (keyIndex === priorityModifierKeys.length) return -1;
+
+                // Count extra modifier keys
+                let extras = 0;
+                for (let j = 0; j < priorityModifierKeys.length; j++) {
+                    if (j !== keyIndex && ascShortcut[priorityModifierKeys[j]]()) extras++;
+                }
+
+                // weight = range for main key + “cost” of extra keys
+                return keyIndex * 100 + extras;
+            }
+
+            if (first.ascShortcut.asc_IsLocked() && !second.ascShortcut.asc_IsLocked()) return -1;
+            if (!first.ascShortcut.asc_IsLocked() && second.ascShortcut.asc_IsLocked()) return 1;
+
+            let wFirst = getWeight(first.ascShortcut);
+            let wSecond = getWeight(second.ascShortcut);
+
+            if (wFirst !== wSecond) return wFirst - wSecond;
+
+            return first.ascShortcut.asc_GetKeyCode() - second.ascShortcut.asc_GetKeyCode();
+        };
 
         // Utils
         var pairs = function(obj)  {

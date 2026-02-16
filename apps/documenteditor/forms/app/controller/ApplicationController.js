@@ -1728,12 +1728,23 @@ define([
             (item.value!==null) && Common.UI.Themes.setTheme(item.value);
         },
         onApiZoomChange: function(percent, type) {
+            var me = this;
+            var correspondingZoomFound = false;
+
             this.view.mnuZoom.items[0].setChecked(type == 2, true);
             this.view.mnuZoom.items[1].setChecked(type == 1, true);
-            this.view.mnuZoom.options.value = percent;
 
-            if ( this.view.mnuZoom.$el )
-                $('.menu-zoom label.zoom', this.view.mnuZoom.$el).html(percent + '%');
+            this.view.mnuZoom.items.forEach(function (item, index) {
+                if (percent === item.value) {
+                    me.view.mnuZoom.items[index].setChecked(true);
+                    correspondingZoomFound = true;
+                };
+            });
+
+            if (!correspondingZoomFound)
+                for (var i = 2; i < this.view.mnuZoom.items.length; i++) {
+                    this.view.mnuZoom.items[i].setChecked(false);
+                };
         },
 
         onMenuZoomClick: function(menu, item, e){
@@ -1744,12 +1755,9 @@ define([
                 case 'zoom:width':
                     item.isChecked() ? this.api.zoomFitToWidth() : this.api.zoomCustomMode();
                     break;
+                default:
+                    this.api.zoom(item.value);
             }
-
-        },
-        onBtnZoom: function (btn, e) {
-            btn == 'up' ? this.api.zoomIn() : this.api.zoomOut();
-            e.stopPropagation();
         },
 
         onDarkModeClick: function(item) {
@@ -1933,8 +1941,6 @@ define([
             // zoom
             $('#id-btn-zoom-in').on('click', this.api.zoomIn.bind(this.api));
             $('#id-btn-zoom-out').on('click', this.api.zoomOut.bind(this.api));
-            $('#id-menu-zoom-in').on('click', _.bind(this.onBtnZoom, this,'up'));
-            $('#id-menu-zoom-out').on('click', _.bind(this.onBtnZoom, this,'down'));
             this.view.btnOptions.menu.on('item:click', _.bind(this.onOptionsClick, this));
             this.view.mnuZoom.on('item:click', _.bind(this.onMenuZoomClick, this));
 

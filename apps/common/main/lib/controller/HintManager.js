@@ -127,6 +127,29 @@ Common.UI.HintManager = new(function() {
         };
 
     var _api;
+    
+    var _runPrefill = function (section, level) {
+        const prevSection = _currentSection,
+            prevLevel = _currentLevel,
+            prevControls = _currentControls.slice(),
+            prevUsed = _usedTitles.slice();
+
+        _currentSection = section || prevSection;
+        _currentLevel = (level !== undefined) ? level : prevLevel;
+
+        _currentControls.length = 0;
+        _usedTitles.length = 0;
+        _getControls();
+
+        _currentSection = prevSection;
+        _currentLevel = prevLevel;
+
+        _currentControls.length = 0;
+        _currentControls.push(prevControls);
+
+        _usedTitles.length = 0;
+        _usedTitles.push(prevUsed);
+    }
 
     var _setCurrentSection = function (btn, section) {
         if (section) {
@@ -155,8 +178,22 @@ Common.UI.HintManager = new(function() {
         }
     };
 
-    var _showHints = function () {
+    var _showHints = function (btnMore) {
         _inputLetters = '';
+        const p = {
+            level: _currentLevel,
+            section: _currentSection,
+            cancel: false,
+            set: function (section, level) {
+                if (section) _currentSection = section;
+                if (level !== undefined) _currentLevel = level;
+            }
+        };
+
+        Common.NotificationCenter.trigger('hints:resolve-section', p);
+
+        if (p.cancel) return;
+
         if (_currentLevel === 0) {
             Common.NotificationCenter.trigger('toolbar:collapse');
         }
@@ -347,7 +384,13 @@ Common.UI.HintManager = new(function() {
             docW = _isEditDiagram ? (window.parent.innerWidth * Common.Utils.zoom()) : (Common.Utils.innerWidth()),
             section = _isEditDiagram ? _currentSection[0] : _currentSection,
             topSection = _currentLevel !== 0 && $(section).length > 0 && !_isEditDiagram ? Common.Utils.getOffset($(section)).top : 0,
-            bottomSection = _currentLevel !== 0 && $(section).length > 0 && !_isEditDiagram ? topSection + $(section).height() : docH;
+            bottomSection = _currentLevel !== 0 && $(section).length > 0 && !_isEditDiagram ? topSection + $(section).height() : docH,
+            p = { section: section, docH: docH, top: topSection, bottom: bottomSection};
+
+        Common.NotificationCenter.trigger('hints:resolve-bounds', p);
+        if (p.top !== undefined && p.top !== topSection) topSection = p.top;
+        if (p.bottom !== undefined && p.bottom !== bottomSection) bottomSection = p.bottom;
+        
         if ($(section).prop('id') === 'toolbar' && $(section).outerHeight() < $(section).find('.box-controls').outerHeight()) {
             bottomSection += $(section).find('.box-controls').outerHeight();
         }
@@ -492,7 +535,11 @@ Common.UI.HintManager = new(function() {
                 _isDocReady = true;
             },
             'hints:clear': _clearHints,
-            'window:resize': _clearHints
+            'window:resize': _clearHints,
+            'hints:prefill': function (payload) {
+                if (!payload) return;
+                _runPrefill(payload.section, payload.level);
+            }
         });
         $('#editor_sdk').on('click', function () {
             _clearHints();
@@ -526,6 +573,26 @@ Common.UI.HintManager = new(function() {
                 e.preventDefault();
                 if (e.keyCode == Common.UI.Keys.ESC ) {
                     setTimeout(function () {
+                        const p = {
+                            level: _currentLevel,
+                            section: _currentSection,
+                            handledValue: false,
+                            handled: function (v) { this.handledValue = !!v; }
+                        };
+
+                        Common.NotificationCenter.trigger('hints:esc', p);
+
+                        if (p.handledValue) {
+                            _removeHints();
+                            _currentHints.length = 0;
+                            _currentControls.length = 0;
+
+                            _currentSection = $('#toolbar');
+                            _currentLevel = 1;
+                            _showHints();
+                            return;
+                        }
+
                         if (_currentLevel === 0) {
                             _hideHints();
                             _resetToDefault();
@@ -571,6 +638,27 @@ Common.UI.HintManager = new(function() {
                         if (curr) {
                             Common.UI.ScreenReaderFocusManager && Common.UI.ScreenReaderFocusManager.exitFocusMode();
                             var tag = curr.prop("tagName").toLowerCase();
+                            const p = {
+                                level: _currentLevel,
+                                section: _currentSection,
+                                control: curr,
+                                exitValue: false,
+                                exit: function (v) { this.exitValue = !!v; }
+                            };
+
+                            Common.NotificationCenter.trigger('hints:activate-control', p);
+
+                            if (p.exitValue) {
+                                _clearHints(true);
+                                _resetToDefault();
+                                _lockedKeyEvents(false);
+
+                                if (curr && curr.length) {
+                                    if (curr.attr('for')) $('#' + curr.attr('for')).trigger('click');
+                                    else curr.trigger('click');
+                                }
+                                return;
+                            }
                             if (window.SSE && curr.parent().prop('id') === 'statusbar_bottom') {
                                 _hideHints();
                                 curr.contextmenu();

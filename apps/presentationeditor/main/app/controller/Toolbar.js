@@ -1524,7 +1524,7 @@ define([
                 });
 
                 if (!item) {
-                    value = /^\+?(\d*(\.|,).?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
+                    value = /^\+?(\d*(\.|,).?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value.trim());
 
                     if (!value) {
                         value = this._getApiTextSize();

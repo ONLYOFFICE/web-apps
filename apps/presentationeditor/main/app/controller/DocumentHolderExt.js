@@ -472,6 +472,21 @@ define([], function () {
                     }
                     var recalc = false;
                     screenTip.isHidden = false;
+
+                    if (!me.screenTip.toolTip) {
+                        me.screenTip.toolTip = new Common.UI.Tooltip({
+                            owner: me,
+                            html: true,
+                            title: '<br><b>Press Ctrl and click link</b>'
+                        });
+                        me.screenTip.toolTip.on('tooltip:show', function () {
+                            $('#id_main_parent').on('mouseleave', me.wrapEvents.onMouseLeave);
+                        });
+                        me.screenTip.toolTip.on('tooltip:hide',function () {
+                            $('#id_main_parent').off('mouseleave', me.wrapEvents.onMouseLeave);
+                        });
+                    }
+
                     if (screenTip.tipType !== type || screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
                         screenTip.toolTip.setTitle((type===Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? (ToolTip + (me.isPreviewVisible ? '' : '<br><b>' + Common.Utils.String.platformKey('Ctrl', me.documentHolder.txtPressLink) + '</b>')) : ToolTip);
                         screenTip.tipLength = ToolTip.length;
@@ -1178,7 +1193,7 @@ define([], function () {
                         elType = selectedElements[i].get_ObjectType();
 
                         if (elType === Asc.c_oAscTypeSelectElement.Chart) {
-                            return me.api.asc_getChartSettings();
+                            return me.api.asc_getChartSettings(true);
                         }
                     }
                 }
