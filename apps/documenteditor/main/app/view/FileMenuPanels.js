@@ -57,6 +57,7 @@ define([], function () {
             {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA},
             {name: 'OTT',   imgCls: 'ott',   type: Asc.c_oAscFileType.OTT}
         ],[
+            {name: 'MD',    imgCls: 'md',   type: Asc.c_oAscFileType.MD},
             {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF},
             {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT},
             {name: 'FB2',   imgCls: 'fb2',  type: Asc.c_oAscFileType.FB2},
@@ -178,6 +179,7 @@ define([], function () {
             {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA, ext: '.pdf'},
             {name: 'OTT',   imgCls: 'ott',   type: Asc.c_oAscFileType.OTT, ext: '.ott'}
         ],[
+            {name: 'MD',   imgCls: 'md',   type: Asc.c_oAscFileType.MD, ext: '.md'},
             {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF, ext: '.rtf'},
             {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT, ext: '.txt'},
             {name: 'FB2',   imgCls: 'fb2',  type: Asc.c_oAscFileType.FB2, ext: '.fb2'},
