@@ -352,7 +352,7 @@ define([
                 if (this.appConfig.canViewReview) {
                     this.btnPrev = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-review-prev',
+                        iconCls: Common.UI.isRTL() ? 'toolbar__icon btn-review-next' : 'toolbar__icon btn-review-prev',
                         lock: [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode, _set.viewMode],
                         caption: this.txtPrev,
                         dataHint: '1',
@@ -363,7 +363,7 @@ define([
 
                     this.btnNext = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-review-next',
+                        iconCls:  Common.UI.isRTL() ? 'toolbar__icon btn-review-prev' : 'toolbar__icon btn-review-next',
                         lock: [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode, _set.viewMode],
                         caption: this.txtNext,
                         dataHint: '1',
