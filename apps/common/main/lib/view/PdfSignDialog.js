@@ -388,11 +388,35 @@ define([], function () { 'use strict';
             };
             Common.NotificationCenter.on('storage:image-insert', insertImageFromStorage);
 
+              
+            me.keydownHandler = function(e) {
+                if (!(me.$window && me.$window.is(':visible'))) return;
+                if (me.mode !== 1) return;
+
+                var ctrlKey = e.ctrlKey || e.metaKey;
+                if (!ctrlKey) return;
+
+                if (e.keyCode === 90 && !e.shiftKey) {
+                    if (!me.btnUndo.isDisabled()) {
+                        me.onUndo();
+                        e.preventDefault();
+                    }
+                } else if (e.keyCode === 89 || (e.keyCode === 90 && e.shiftKey)) {
+                    if (!me.btnRedo.isDisabled()) {
+                        me.onRedo();
+                        e.preventDefault();
+                    }
+                }
+            };
+
+            $(document).on('keydown', me.keydownHandler);
+
             this.on('close', function(obj){
                 me.api.asc_unregisterCallback('asc_onSignatureImageLoaded', onApiImgLoaded);
                 me.api.asc_unregisterCallback('asc_CanUndoSignature', onCanUndoChanged);
                 me.api.asc_unregisterCallback('asc_CanRedoSignature', onCanRedoChanged);
                 Common.NotificationCenter.off('storage:image-insert', insertImageFromStorage);
+                $(document).off('keydown', me.keydownHandler);
             });
 
             const $window = this.getChild();
