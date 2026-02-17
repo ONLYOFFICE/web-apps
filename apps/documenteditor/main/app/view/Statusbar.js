@@ -357,7 +357,7 @@ define([
 
                 this.fireEvent('render:before', [this.$layout]);
 
-                _btn_render(me.btnMultiplePages, $('#btn-multiple-pages', me.$layout));
+                _btn_render(me.btnMultiplePages, $('#status-btn-multiple-pages', me.$layout));
                 _btn_render(me.btnZoomToPage, $('#btn-zoom-topage', me.$layout));
                 _btn_render(me.btnZoomToWidth, $('#btn-zoom-towidth', me.$layout));
                 _btn_render(me.cntZoom, $('.cnt-zoom',me.$layout));
