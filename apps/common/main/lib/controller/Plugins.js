@@ -1223,7 +1223,8 @@ define([
                     help && window.open(help, '_blank');
                 },
                 'docked': function(frameId){
-                    me.api.asc_pluginButtonDockChanged(isPanel ? variation.type : 'panel', variation.guid, frameId, function(){
+                    const docked_place = isPanel ? variation.type : !!variation.dockedPlace ? variation.dockedPlace : 'panelRight';
+                    me.api.asc_pluginButtonDockChanged(docked_place, variation.guid, frameId, function(){
                         setTimeout(function () {
                             me.customPluginsDlg[frameId].close();
                             me.onPluginPanelShow(frameId, variation, lang);
