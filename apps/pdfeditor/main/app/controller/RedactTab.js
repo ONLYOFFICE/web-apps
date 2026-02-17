@@ -118,12 +118,6 @@ define([
             });
         },
 
-        getIsMarked: function () {
-            if (this.api)
-                var isMarked = this.api.HasRedact();
-            Common.NotificationCenter.trigger('tab:redacted', isMarked)
-        },
-
         onApplyRedact: function() {
             Common.UI.TooltipManager.closeTip('apply-redaction');
             Common.UI.warning({
@@ -321,7 +315,6 @@ define([
                 'apply-redaction' : {name: 'help-tip-apply-redaction', placement: 'bottom-left', text: this.tipApplyRedaction, header: this.tipApplyRedactionHeader, target: '#slot-btn-apply-redactions',
                     automove: true, prev: 'mark-for-redaction', maxwidth: 270, closable: false, isNewFeature: false, noHighlight: true},
             });
-            Common.NotificationCenter.on('redact:getismarked', _.bind(this.getIsMarked, this));
         },
 
         onDocumentReady: function() {

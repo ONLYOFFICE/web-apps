@@ -345,9 +345,6 @@ define([
                 Common.NotificationCenter.on('window:resize', function() {
                     me.scroller.update();
                 });
-                Common.NotificationCenter.on('tab:redacted', _.bind(function(isMarked) {
-                    this.isMarked = isMarked;
-                }, this));
             }
             this.applyMode();
 
@@ -375,12 +372,8 @@ define([
             var defPanel = (this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline)) ? 'saveas' : 'info';
             if (!panel)
                 panel = this.active || defPanel;
-            Common.NotificationCenter.trigger('redact:getismarked', 'file');
 
-            if (this.isMarked) {
-                this.isMarked = false;
-                return
-            }
+            if (this.api.HasRedact() && this.mode.isPDFEdit) return;
 
             this.$el.show();
             this.scroller.update();

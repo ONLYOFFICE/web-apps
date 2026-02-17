@@ -157,9 +157,6 @@ define([
                 Common.NotificationCenter.on('app:repaint', _.bind(function() {
                     this.repaintMoreBtns();
                 }, this));
-                Common.NotificationCenter.on('tab:redacted', _.bind(function(isMarked) {
-                    this.isMarked = isMarked;
-                }, this));
                 Common.NotificationCenter.on('uitheme:changed', _.bind(this.onThemeChanged, this));
             },
 
@@ -337,13 +334,6 @@ define([
 
                 if ( tab ) {
                     this.fireEvent('tab:active:before', [tab]);
-                    Common.NotificationCenter.trigger('redact:getismarked', tab);
-
-                    if(me.isMarked && tab !== 'red') {
-                        Common.NotificationCenter.trigger('tab:redactwarning', tab);
-                        me.isMarked = false;
-                        return
-                    }
 
                     me.$tabs.removeClass('active');
                     me.$panels.removeClass('active');
@@ -370,7 +360,6 @@ define([
                     }
 
                     this.fireEvent('tab:active', [tab]);
-                    me.isMarked = false;
                     Common.NotificationCenter.trigger('tab:active', tab);
                 }
             },

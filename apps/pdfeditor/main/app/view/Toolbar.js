@@ -1567,6 +1567,11 @@ define([
 
                 if (!me._isDocReady || tab === 'file' && !Common.Controllers.LaunchController.isScriptLoaded()) return;
 
+                if (tab !== 'red' && this.api.HasRedact() && this.mode.isPDFEdit) {
+                    Common.NotificationCenter.trigger('tab:redactwarning', tab);
+                    return
+                }
+
                 Common.UI.Mixtbar.prototype.onTabClick.apply(me, arguments);
 
                 if ( is_file_active ) {

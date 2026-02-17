@@ -1654,8 +1654,9 @@ define([
             }
             if (activeTab)
                 toolbar.setTab(activeTab);
-            else if (this.mode.isPDFEdit ||  toolbar.isTabActive('ins') || toolbar.isTabActive('forms') || toolbar.isTabActive('red'))
-                toolbar.setTab('home');
+            else if (this.mode.isPDFEdit ||  toolbar.isTabActive('ins') || toolbar.isTabActive('forms') || toolbar.isTabActive('red')) {
+                this.api.HasRedact() ? Common.NotificationCenter.trigger('tab:redactwarning', 'home') : toolbar.setTab('home');
+            }
 
             toolbar.setVisible('ins', this.mode.isPDFEdit);
             toolbar.setVisible('red', this.mode.isPDFEdit);
