@@ -11,8 +11,11 @@ const AddShape = props => {
                         {row.map((shape, index) => {
                             return (
                                 <li key={'shape-' + indexRow + '-' + index} onClick={() => {props.onShapeClick(shape.type)}}>
-                                    <div className="thumb"
+                                    {/* <div className="thumb"
                                          style={{WebkitMaskImage: `url('../../common/mobile/resources/img/shapes/${shape.thumb}')`}}>
+                                    </div> */}
+                                    <div className="thumb"
+                                        style={{backgroundImage: `url('../../common/mobile/resources/img/shapes/${shape.thumb}')`}}>
                                     </div>
                                 </li>
                             )
