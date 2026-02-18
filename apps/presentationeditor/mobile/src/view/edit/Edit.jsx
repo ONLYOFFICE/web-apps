@@ -10,6 +10,7 @@ import { PageTableStyle, PageTableStyleOptions, PageTableCustomFillColor, PageTa
 import { PageChartDesign, PageChartDesignType, PageChartDesignStyle, PageChartDesignFill, PageChartDesignBorder, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartAlign } from './EditChart'
 import EditingPage from './EditingPage';
 import { MainContext } from '../../page/main';
+import { customFont } from './EditText';
 
 const routes = [
     {
@@ -259,12 +260,14 @@ const EditView = () => {
 
     return (
         !Device.phone ?
-            <Popover id="edit-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => mainContext.closeOptions('edit')}>
+            <Popover id="edit-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => mainContext.closeOptions('edit')} onPopoverClose={() => {
+                if (customFont.current) customFont.current(); }}>
                 <View style={{ height: '410px' }} routes={routes} url='/editing-page/'>
                     <EditingPage />
                 </View>
             </Popover> :
-            <Sheet id="edit-sheet" onSheetClosed={() => mainContext.closeOptions('edit')}>
+            <Sheet id="edit-sheet" onSheetClosed={() => mainContext.closeOptions('edit')} onSheetClose={() => {
+                if (customFont.current) customFont.current(); }}>
                 <View routes={routes} url='/editing-page/'>
                     <EditingPage />
                 </View>

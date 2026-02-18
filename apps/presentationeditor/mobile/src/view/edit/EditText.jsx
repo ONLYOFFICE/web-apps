@@ -1,4 +1,4 @@
-import React, {Fragment, useState, useEffect, useRef, useMemo} from 'react';
+import React, {Fragment, useState, useEffect, useRef, useMemo, useCallback} from 'react';
 import {observer, inject} from "mobx-react";
 import {f7, View, List, ListItem, ListButton, ListInput, Icon,  Button, Page, Navbar, Segmented, BlockTitle, NavRight, Link, Range} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
@@ -499,7 +499,7 @@ const PageFonts = props => {
                         </Link>
                     </div>}
                     <div slot='after'>
-                        <Segmented className="font-size-stepper">
+                        <Segmented>
                             <Button outline className='decrement item-link' onClick={() => {props.changeFontSize(size, true)}}>
                                 {isAndroid ? 
                                     <SvgIcon symbolId={IconExpandDownAndroid.id} className='icon icon-svg' />
@@ -584,31 +584,36 @@ const PageCustomFontSize = (props) => {
     const valueRef = useRef(value);
     useEffect(() => { valueRef.current = value; }, [value]);
 
-    const apply = (size) => {
+    const apply = useCallback(() => {
+        const size = valueRef.current;
         if (size === '') return;
         if (String(size) === String(displaySize)) return;
         props.applyFontSize(size);
-    };
+    }, [displaySize, props.applyFontSize]);
 
     const toggleCustomClass = (on) => {
-        const modalId = Device.phone ? '#edit-sheet' : '#edit-popover';
-        const modalEl = document.querySelector(modalId);
-        if (!modalEl) return;
-        modalEl.classList.toggle('edit-custom-font-size', on);
+        const el = document.querySelector(Device.phone ? '#edit-sheet' : '#edit-popover');
+        if (el) el.classList.toggle('edit-custom-font-size', on);
     };
 
     const focusInput = () => {
         const el = document.querySelector('.page-custom-font-size input');
-        if (!el) return;
-        el.focus();
+        if (el) el.focus();
     };
 
+    useEffect(() => {
+        customFont.current = apply;
+        return () => {
+            if (customFont.current === apply)  customFont.current = null;
+        };
+    }, [apply]);
+
     return (
-        <Page className="page-custom-font-size"  onPageBeforeIn={() => toggleCustomClass(true)} onPageAfterIn={focusInput} onPageBeforeOut={() => { toggleCustomClass(false); apply(valueRef.current);}}>
+        <Page className="page-custom-font-size"  onPageBeforeIn={() => toggleCustomClass(true)} onPageAfterIn={focusInput} onPageBeforeOut={() => { toggleCustomClass(false); apply();}}>
             <Navbar title={_t.txtCustom} backLink="Back">
                 {Device.phone && 
                     <NavRight>
-                        <Link sheetClose="#edit-sheet">
+                        <Link sheetClose="#edit-sheet" onClick={apply}>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
                                 <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
@@ -618,9 +623,8 @@ const PageCustomFontSize = (props) => {
                 }
             </Navbar>
             <List className="input-list">
-                <ListInput label={_t.textSize} type="number" inputmode="numeric" min={1} max={300}value={value}
+                <ListInput label={_t.textSize} type="number" inputmode="numeric" min={1} max={300} value={value}
                     onChange={(e) => setValue(e.target.value)}
-                    onBlur={(e) => apply(e.target.value)}
                 />
             </List>
         </Page>
@@ -1130,6 +1134,7 @@ const PageTextDirection = inject("storeTextSettings", "storeFocusObjects")(obser
 const PageTextLineSpacing = inject("storeTextSettings", "storeFocusObjects")(observer(PageLineSpacing));
 const PageTextBulletsLinkSettings = inject("storeTextSettings", "storeFocusObjects")(observer(PageBulletLinkSettings));
 const PageTextCustomFontSize = inject('storeTextSettings')(observer(PageCustomFontSize));
+const customFont = { current: null };
 
 export {
     EditTextContainer as EditText,
@@ -1144,5 +1149,6 @@ export {
     PageTextLineSpacing,
     PageTextBulletsLinkSettings,
     PageOrientationTextShape,
-    PageOrientationTextTable
+    PageOrientationTextTable,
+    customFont
 };

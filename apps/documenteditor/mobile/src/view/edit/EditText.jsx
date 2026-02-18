@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState, useRef, useMemo} from 'react';
+import React, {Fragment, useEffect, useState, useRef, useMemo, useCallback} from 'react';
 import {observer, inject} from "mobx-react";
 import { f7, View, List, ListItem, Icon, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link, ListInput, Range } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
@@ -125,7 +125,7 @@ const PageFonts = props => {
                         </Link>
                     </div>}
                     <div slot='after'>
-                        <Segmented className="font-size-stepper">
+                        <Segmented>
                             <Button outline className='decrement item-link' onClick={() => {props.changeFontSize(size, true)}}>
                                 {isAndroid ? 
                                     <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
@@ -209,31 +209,36 @@ const PageCustomFontSize = (props) => {
     const valueRef = useRef(value);
     useEffect(() => { valueRef.current = value; }, [value]);
 
-    const apply = (size) => {
+    const apply = useCallback(() => {
+        const size = valueRef.current;
         if (size === '') return;
         if (String(size) === String(displaySize)) return;
         props.applyFontSize(size);
-    };
+    }, [displaySize, props.applyFontSize]);
 
     const toggleCustomClass = (on) => {
-        const modalId = Device.phone ? '#edit-sheet' : '#edit-popover';
-        const modalEl = document.querySelector(modalId);
-        if (!modalEl) return;
-        modalEl.classList.toggle('edit-custom-font-size', on);
+        const el = document.querySelector(Device.phone ? '#edit-sheet' : '#edit-popover');
+        if (el) el.classList.toggle('edit-custom-font-size', on);
     };
 
     const focusInput = () => {
         const el = document.querySelector('.page-custom-font-size input');
-        if (!el) return;
-        el.focus();
+        if (el) el.focus();
     };
 
+    useEffect(() => {
+        customFont.current = apply;
+        return () => {
+            if (customFont.current === apply)  customFont.current = null;
+        };
+    }, [apply]);
+
     return (
-        <Page className="page-custom-font-size"  onPageBeforeIn={() => toggleCustomClass(true)} onPageAfterIn={focusInput} onPageBeforeOut={() => { toggleCustomClass(false); apply(valueRef.current);}}>
+        <Page className="page-custom-font-size" onPageBeforeIn={() => toggleCustomClass(true)} onPageAfterIn={focusInput} onPageBeforeOut={() => { toggleCustomClass(false); apply();}}>
             <Navbar title={t('Edit.txtCustom')} backLink="Back">
                 {Device.phone && 
                     <NavRight>
-                        <Link sheetClose="#edit-sheet">
+                        <Link sheetClose="#edit-sheet" onClick={apply}>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
                                 <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
@@ -243,10 +248,7 @@ const PageCustomFontSize = (props) => {
                 }
             </Navbar>
             <List className="input-list">
-                <ListInput label={t('Edit.textSize')} type="number" inputmode="numeric" min={1} max={300}value={value}
-                    onChange={(e) => setValue(e.target.value)}
-                    onBlur={(e) => apply(e.target.value)}
-                />
+                <ListInput label={t('Edit.textSize')} type="number" inputmode="numeric" min={1} max={300} value={value} onChange={(e) => setValue(e.target.value)} />
             </List>
         </Page>
     );
@@ -974,6 +976,7 @@ const EditText = props => {
         )
 };
 
+const customFont = { current: null };
 const EditTextContainer = inject("storeTextSettings", "storeFocusObjects")(observer(EditText));
 const PageTextFonts = inject("storeTextSettings", "storeFocusObjects")(observer(PageFonts));
 const PageTextAddFormatting = inject("storeTextSettings", "storeFocusObjects")(observer(PageAdditionalFormatting));
@@ -1000,5 +1003,6 @@ export {
     PageOrientationTextShape,
     PageOrientationTextTable,
     // PageTextCustomBackColor,
-    PageTextDirection
+    PageTextDirection,
+    customFont
 };
