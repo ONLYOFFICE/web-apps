@@ -901,6 +901,8 @@ define([
                     btnSearch.pressed && btnSearch.toggle(false);
 
                     if ( this.leftMenu.menuFile.isVisible() ) {
+                        if (Common.Utils.ModalWindow.isVisible())
+                            return true;
                         if (Common.UI.HintManager.needCloseFileMenu())
                             this.leftMenu.menuFile.hide();
                         return false;
