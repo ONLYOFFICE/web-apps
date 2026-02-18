@@ -823,6 +823,7 @@
     "txtDownloadTxt": "Download TXT",
     "txtIncorrectPwd": "Password is incorrect",
     "txtOk": "Ok",
+    "textOpenLocation": "Open location",
     "txtProtected": "Once you enter the password and open the file, the current password will be reset"
   },
   "Toolbar": {
