@@ -61,7 +61,8 @@ define([
             this.addListeners({
                 'Common.Views.Protection': {
                     'protect:password':      _.bind(this.onPasswordClick, this),
-                    'protect:signature':     _.bind(this.onSignatureClick, this)
+                    'protect:signature':     _.bind(this.onSignatureClick, this),
+                    'protect:protectForm':   _.bind(this.onProtectForm, this),
                 }
             });
         },
@@ -91,6 +92,8 @@ define([
                     this.api.asc_registerCallback('asc_onUpdateSignatures', _.bind(this.onApiUpdateSignatures, this));
                 }
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
+
+                Common.NotificationCenter.on('doc:mode-changed',  _.bind(this.onChangeDocMode, this));
             }
         },
 
@@ -130,6 +133,10 @@ define([
                 case 'invisible': this.onSignatureRequest('unvisibleAdd'); break;
                 case 'visible': this.addVisibleSignature(signed, guid); break;
             }
+        },
+
+        onProtectForm: function(state) {
+            this.api && this.api.asc_markAsFinal(state);
         },
 
         createToolbarPanel: function() {
@@ -256,6 +263,12 @@ define([
 
         onCoAuthoringDisconnect: function() {
             this.SetDisabled(true);
+        },
+
+        onChangeDocMode: function () {
+            if(this.view && this.view.btnProtectForm) {
+                this.view.btnProtectForm.toggle(this.api.asc_isFinal(), true);
+            }
         }
 
     }, Common.Controllers.Protection || {}));

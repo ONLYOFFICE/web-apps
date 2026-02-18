@@ -823,8 +823,7 @@
     "txtDownloadTxt": "Încărcare TXT",
     "txtIncorrectPwd": "Parolă incorectă",
     "txtOk": "OK",
-    "txtProtected": "Parola curentă la fișierul va fi resetată de îndată ce este introdusă și fișierul este deschis",
-    "textOpenLocation": "Open location"
+    "txtProtected": "Parola curentă la fișierul va fi resetată de îndată ce este introdusă și fișierul este deschis"
   },
   "Toolbar": {
     "btnRestartNow": "Repornire acum",

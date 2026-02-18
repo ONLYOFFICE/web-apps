@@ -96,7 +96,7 @@ const PageDropdownList = props => {
                     <NavRight>
                         <Link text={Device.ios ? t('Edit.textDone') : ''} onClick={props.closeModal}>
                             {Device.android && 
-                                <SvgIcon slot="media" symbolId={IconDone.id} className={'icon icon-svg'} />
+                                <SvgIcon slot="media" symbolId={IconDone.id} className={'icon icon-svg done'} />
                             }
                         </Link>
                     </NavRight>

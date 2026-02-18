@@ -276,6 +276,7 @@
     "errorCircularReference": "하나 이상의 순환 참조가 있습니다. 수식이 직접 또는 간접적으로 자기 자신을 참조하고 있습니다.<br>이러한 참조를 제거하거나 변경하거나, 수식을 다른 셀로 이동해 보세요.",
     "errorComboSeries": "혼합형 차트를 만들려면 최소 2 개의 데이터를 선택합니다.",
     "errorConnectToServer": "저장하지 못했습니다. 네트워크 설정을 확인하거나 관리자에게 문의하세요. <br>이 문서는 \"확인\" 버튼을 누르면 다운로드할 수 있습니다.",
+    "errorCopyDisabled": "보안상의 이유로 이 문서의 내용은 복사할 수 없습니다.",
     "errorCopyMultiselectArea": "이 명령은 여러 선택 항목과 함께 사용할 수 없습니다. <br> 단일 범위를 선택하고 다시 시도하십시오.",
     "errorCountArg": "공식에 오류가 있습니다. <br>매개변수 수가 잘못되었습니다.",
     "errorCountArgExceed": "공식에 오류가 있습니다. <br>최대 허용 매개변수 제한을 초과했습니다.",
@@ -379,8 +380,7 @@
     "uploadDocSizeMessage": "최대 문서 크기 제한을 초과했습니다.",
     "uploadImageExtMessage": "알수 없는 이미지 형식입니다.",
     "uploadImageFileCountMessage": "이미지가 업로드되지 않았습니다.",
-    "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다."
   },
   "LongActions": {
     "advDRMPassword": "암호",
@@ -576,6 +576,7 @@
       "textChartTitle": "차트 제목",
       "textClearFilter": "필터선택 초기화",
       "textColor": "색상",
+      "textContextTextDirection": "문맥",
       "textCreateCustomFormat": "사용자 정의 형식 생성",
       "textCreateFormat": "형식 생성",
       "textCross": "교차",
@@ -651,6 +652,7 @@
       "textLinkSettings": "링크 설정",
       "textLinkType": "링크 유형",
       "textLow": "낮음",
+      "textLtrTextDirection": "왼쪽에서 오른쪽으로",
       "textMajor": "메이저",
       "textMajorAndMinor": "매이저 및 마이너",
       "textMajorType": "주요 유형",
@@ -694,6 +696,7 @@
       "textRotateTextDown": "텍스트 아래로 회전",
       "textRotateTextUp": "텍스트 회전",
       "textRouble": "루블",
+      "textRtlTextDirection": "오른쪽에서 왼쪽으로",
       "textSave": "저장",
       "textScientific": "지수",
       "textScreenTip": "화면 팁",
@@ -713,6 +716,7 @@
       "textTenThousands": "10,000",
       "textText": "텍스트",
       "textTextColor": "글꼴색",
+      "textTextDirection": "텍스트 방향",
       "textTextFormat": "텍스트 형식",
       "textTextOrientation": "텍스트 방향",
       "textThick": "두꺼운",
@@ -733,11 +737,7 @@
       "textYen": "엔",
       "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다.",
       "txtSortHigh2Low": "가장 높은 것부터 가장 낮은 것부터 정렬",
-      "txtSortLow2High": "오름차순 정렬",
-      "textContextTextDirection": "Context",
-      "textLtrTextDirection": "Left-to-right",
-      "textRtlTextDirection": "Right-to-left",
-      "textTextDirection": "Text Direction"
+      "txtSortLow2High": "오름차순 정렬"
     },
     "Settings": {
       "advCSVOptions": "CSV 옵션 선택",
@@ -832,6 +832,7 @@
       "textSearchIn": "검색 위치",
       "textSettings": "설정",
       "textSheet": "시트",
+      "textSheetRtl": "오른쪽 시트를 왼쪽으로",
       "textShowNotification": "알림 표시",
       "textSpreadsheetFormats": "스프레드시트 형식",
       "textSpreadsheetInfo": "스프레드시트 정보",
@@ -896,9 +897,7 @@
       "txtZhtw": "중국어 (번체)",
       "warnDownloadAs": "이 형식으로 저장을 계속하면 텍스트를 제외한 모든 기능이 손실됩니다. 계속 하시겠습니까?",
       "warnDownloadCsv": "CSV 형식은 여러 시트 파일과 텍스트 외의 모든 요소를 저장할 수 없습니다.<br>선택한 시트만 CSV로 저장하려면 확인을 누르세요.<br>전체 스프레드시트와 모든 기능을 저장하려면 취소를 클릭하고 다른 형식을 선택하세요.",
-      "warnDownloadOds": "이 파일을 저장하면 형식 지원의 제한으로 인해 일부 수식, 셀 서식 또는 포함된 개체가 손실될 수 있습니다.<br>계속하시겠습니까?",
-      "textSheetRtl": "Sheet Right to left",
-      "textOpenLocation": "Open location"
+      "warnDownloadOds": "이 파일을 저장하면 형식 지원의 제한으로 인해 일부 수식, 셀 서식 또는 포함된 개체가 손실될 수 있습니다.<br>계속하시겠습니까?"
     }
   }
 }

@@ -423,10 +423,7 @@
     "textWrapText": "包覆文字",
     "textYourOption": "您的選擇",
     "txtHeight": "\n高度",
-    "txtWidth": "寬度",
-    "textLtrTextDirection": "Left-to-right",
-    "textRtlTextDirection": "Right-to-left",
-    "textTextDirection": "Text Direction"
+    "txtWidth": "寬度"
   },
   "Error": {
     "convertationTimeoutText": "轉換逾時。",
@@ -491,8 +488,7 @@
     "uploadDocSizeMessage": "超出最大文檔大小限制。",
     "uploadImageExtMessage": "圖片格式未知。",
     "uploadImageFileCountMessage": "無上傳圖片。",
-    "uploadImageSizeMessage": "圖像超出最大大小限制。最大為25MB。",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "圖像超出最大大小限制。最大為25MB。"
   },
   "LongActions": {
     "applyChangesTextText": "載入資料中...",
@@ -822,9 +818,7 @@
     "txtDownloadTxt": "下載 TXT",
     "txtIncorrectPwd": "密碼錯誤",
     "txtOk": "確定",
-    "txtProtected": "在您輸入密碼並且開啟文件後，目前使用的密碼會被重設。",
-    "textHyphenation": "Hyphenation",
-    "textOpenLocation": "Open location"
+    "txtProtected": "在您輸入密碼並且開啟文件後，目前使用的密碼會被重設。"
   },
   "Toolbar": {
     "btnRestartNow": "立即重啟",

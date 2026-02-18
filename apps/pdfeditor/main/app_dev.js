@@ -138,6 +138,7 @@ require([
             'Print',
             'FormsTab',
             'Common.Controllers.Fonts'
+            ,'Common.Controllers.History'
             ,'Common.Controllers.Chat'
             ,'Common.Controllers.Comments'
             ,'Common.Controllers.Draw'
@@ -147,6 +148,7 @@ require([
             // ,'Common.Controllers.ExternalOleEditor'
             ,'Common.Controllers.Protection'
             ,'Common.Controllers.Shortcuts'
+            ,'Common.Controllers.ReviewChanges'
         ]
     });
 
@@ -178,6 +180,7 @@ require([
                 'pdfeditor/main/app/view/ChartSettings',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Fonts',
+                'common/main/lib/controller/History',
                 'common/main/lib/controller/Comments'
                 ,'common/main/lib/controller/Chat'
                 ,'common/main/lib/controller/Plugins'
@@ -187,6 +190,7 @@ require([
                 ,'common/main/lib/controller/Draw'
                 ,'common/main/lib/controller/Protection'
                 ,'common/main/lib/controller/Shortcuts'
+                ,'common/main/lib/controller/ReviewChanges'
             ], function() {
                 app.postLaunchScripts = [
                     'common/main/lib/controller/ScreenReaderFocus',

@@ -1,0 +1,12 @@
+{
+  "View": {
+    "Add": {
+      "textShape": "Figur"
+    },
+    "Edit": {
+      "textChangeShape": "Endre figur",
+      "textRemoveShape": "Slett figur",
+      "textShape": "Figur"
+    }
+  }
+}

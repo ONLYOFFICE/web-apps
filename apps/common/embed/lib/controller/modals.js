@@ -35,7 +35,7 @@
     !common.controller && (common.controller = {});
 
     common.controller.modals = new(function() {
-        var $dlgShare, $dlgEmbed, $dlgPassword, $dlgWarning;
+        var $dlgShare, $dlgEmbed, $dlgPassword, $dlgPrintPassword, $dlgWarning;
         var appConfig;
         var embedCode = '<iframe allowtransparency="true" frameborder="0" scrolling="no" src="{embed-url}" width="{width}" height="{height}"></iframe>',
             minEmbedWidth = 400,
@@ -131,10 +131,50 @@
                 $dlgPassword.modal('show');
                 $dlgPassword.find('#password-input').attr('disabled', false).addClass('error').val('');
                 $dlgPassword.find('#password-label-error').addClass('error');
-                $dlgPassword.find('#password-btn').attr('disabled', false)
+                $dlgPassword.find('#password-btn').attr('disabled', false);
             }
             setTimeout(function() {
                 $dlgPassword.find('#password-input').focus();
+            }, 500);
+        };
+
+        var createDlgPrintPassword = function (submitCallback, showError) {
+            if(!$dlgPrintPassword) {
+                var submit = function() {
+                    if (submitCallback) {
+                        $dlgPrintPassword.modal('hide');
+                        $dlgPrintPassword.find('#password-input').attr('disabled', true)
+                        $dlgPrintPassword.find('#password-btn').attr('disabled', true)
+                        setTimeout(function() {
+                            submitCallback($dlgPrintPassword.find('#password-input').val())
+                        }, 350);
+                    }
+                };
+                $dlgPrintPassword = common.view.modals.create('printPassword');
+                $dlgPrintPassword.modal({backdrop: 'static', keyboard: false})  
+                $dlgPrintPassword.modal('show');
+                $dlgPrintPassword.find('#password-btn').on('click', function() {
+                    submit();
+                });
+                $dlgPrintPassword.find('#password-input').keyup(function(e){ 
+                    if(e.key == "Enter") {
+                        submit();
+                    }
+                });
+                $dlgPrintPassword.on('keydown', function (e) {
+                    if (e.key === 'Escape') {
+                        $dlgPrintPassword.modal('hide');
+                    }
+                });
+            } else {
+                $dlgPrintPassword.modal('show');
+                $dlgPrintPassword.find('#password-input')[showError ? 'addClass' : 'removeClass']('error');
+                $dlgPrintPassword.find('#password-label-error')[showError ? 'addClass' : 'removeClass']('error');
+                $dlgPrintPassword.find('#password-input').attr('disabled', false).val('');
+                $dlgPrintPassword.find('#password-btn').attr('disabled', false);
+            }
+            setTimeout(function() {
+                $dlgPrintPassword.find('#password-input').focus();
             }, 500);
         };
 
@@ -213,6 +253,7 @@
             init: function(config) { appConfig = config; }, 
             attach: attachToView,
             createDlgPassword: createDlgPassword,
+            createDlgPrintPassword: createDlgPrintPassword,
             showWarning: showWarning
         };
     });

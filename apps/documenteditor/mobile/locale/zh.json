@@ -823,8 +823,7 @@
     "txtDownloadTxt": "下载TXT",
     "txtIncorrectPwd": "密码错误",
     "txtOk": "确定",
-    "txtProtected": "输入密码并打开文件后，将重置当前密码",
-    "textOpenLocation": "Open location"
+    "txtProtected": "输入密码并打开文件后，将重置当前密码"
   },
   "Toolbar": {
     "btnRestartNow": "立即重启",

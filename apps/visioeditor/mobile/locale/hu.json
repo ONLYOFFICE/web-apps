@@ -5,9 +5,9 @@
     "textBack": "Vissza",
     "textEditor": "Diagramnéző",
     "textEmail": "E-mail",
+    "textPoweredBy": "Üzemelteti",
     "textTel": "Tel.",
-    "textVersion": "Verzió",
-    "textPoweredBy": "Powered By"
+    "textVersion": "Verzió"
   },
   "Common": {
     "Collaboration": {
@@ -17,8 +17,7 @@
       "textCollaboration": "Együttműködés",
       "textOk": "OK",
       "textSharingSettings": "Megosztási beállítások",
-      "textUsers": "Felhasználók",
-      "textEditUser": "Users who are editing the file:"
+      "textUsers": "Felhasználók"
     },
     "Themes": {
       "dark": "Sötét",
@@ -29,8 +28,7 @@
   },
   "ContextMenu": {
     "menuCancel": "Mégse",
-    "textOk": "OK",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?"
+    "textOk": "OK"
   },
   "Controller": {
     "Main": {
@@ -43,6 +41,7 @@
       "textAnonymous": "Ismeretlen",
       "textBuyNow": "Weboldalt meglátogatása",
       "textClose": "Bezárás",
+      "textContactUs": "Vegye fel a kapcsolatot az értékesítési osztállyal",
       "textCustomLoader": "Nem jogosult a betöltő cseréjére. Árajánlatért kérjük, forduljon értékesítési osztályunkhoz.",
       "textGuest": "Vendég",
       "textNo": "Nem",
@@ -53,6 +52,7 @@
       "textYes": "Igen",
       "titleLicenseExp": "Lejárt licenc",
       "titleLicenseNotActive": "A licenc nem aktív",
+      "titleReadOnly": "Csak olvasható mód",
       "titleServerVersion": "Szerkesztő frissítve",
       "titleUpdateVersion": "A verzió megváltozott",
       "txtIncorrectPwd": "Érvénytelen jelszó",
@@ -61,22 +61,13 @@
       "warnLicenseLimitedNoAccess": "A licenc lejárt. Nincs hozzáférése a dokumentumszerkesztési funkciókhoz. Vegye fel a kapcsolatot a rendszergazdával.",
       "warnLicenseLimitedRenewed": "A licencet meg kell újítani. Korlátozott hozzáférése van a dokumentumszerkesztési funkciókhoz.<br>A teljes hozzáférés érdekében vegye fel a kapcsolatot rendszergazdával",
       "warnNoLicense": "Elérte a(z) %1 szerkesztővel való egyidejű kapcsolódási korlátot. Ez a dokumentum csak megtekintésre nyílik meg. Lépjen kapcsolatba a(z) %1 értékesítési csapatával a személyes bővíthető feltételekért.",
-      "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please, contact your admin.",
-      "errorServerVersion": "The editor version has been updated. The page will be reloaded to apply the changes.",
-      "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
-      "leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
-      "textContactUs": "Contact sales",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode",
-      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
-      "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-      "warnProcessRightsChange": "You don't have permission to edit the file."
+      "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért."
     }
   },
   "Error": {
     "convertationTimeoutText": "A átalakítás időkorlátja túllépve.",
     "criticalErrorExtText": "Nyomja meg az „OK” gombot a dokumentumlistához való visszatéréshez.",
+    "criticalErrorExtTextClose": "A szerkesztő bezárásához kattintson az „OK” gombra.",
     "criticalErrorTitle": "Hiba",
     "downloadErrorText": "Sikertelen letöltés.",
     "errorBadImageUrl": "A kép webcíme helytelen",
@@ -86,42 +77,21 @@
     "errorDefaultMessage": "Hibakód: %1",
     "errorDirectUrl": "Ellenőrizze a dokumentumra mutató hivatkozást.<br>Ennek a hivatkozásnak a letöltéshez közvetlen hivatkozásnak kell lennie.",
     "errorEmailClient": "Nem található e-mail kliens",
+    "errorInconsistentExtPdf": "Hiba történt a fájl megnyitásakor.<br>A fájl tartalma a következő formátumok egyikének felel meg: pdf/djvu/xps/oxps, de kiterjesztése nem egyezik meg: %1.",
+    "errorInconsistentExtPptx": "Hiba történt a fájl megnyitásakor.<br>A fájl tartalma megfelel a prezentációknak (pl. pptx), de kiterjesztése nem megfelelő: %1.",
+    "errorKeyExpire": "Kulcsleíró lejárt",
     "errorLoadingFont": "A betűtípusok nem töltődnek be.<br>Vegye fel a kapcsolatot a dokumentumkiszolgáló rendszergazdájával.",
     "errorSessionAbsolute": "A dokumentumszerkesztési munkamenet lejárt. Töltse újra az oldalt.",
+    "errorSessionIdle": "A dokumentumot hosszú ideje nem szerkesztették. Kérem, töltse újra az oldalt.",
     "errorSessionToken": "Megszakadt a kapcsolat a kiszolgálóval. Töltse újra az oldalt.",
     "errorSetPassword": "A jelszót nem lehet beállítani.",
     "errorUpdateVersionOnDisconnect": "Az internetkapcsolat helyreállt és a fájl verziója megváltozott.<br>Mielőtt folytatná a munkát, töltse le a fájlt vagy másolja át annak tartalmát megbizonyosodva arról, hogy semmi sem veszett el, végül töltse újra ezt az oldalt.",
     "errorViewerDisconnect": "A kapcsolat megszakadt. Továbbra is megtekintheti a dokumentumot,<br>de nem tudja letölteni vagy kinyomtatni, amíg a kapcsolat vissza nem áll és az oldal újra be nem töltődik.",
     "notcriticalErrorTitle": "Figyelmeztetés",
+    "openErrorText": "Hiba történt a fájl megnyitásakor",
     "scriptLoadError": "A kapcsolat túl lassú, egyes összetevőket nem sikerült betölteni. Töltse újra az oldalt.",
     "textOk": "OK",
-    "unknownErrorText": "Ismeretlen hiba.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your admin.",
-    "errorConnectToServer": "Can't save this doc. Check your connection settings or contact your admin.<br>When you click the 'OK' button, you will be prompted to download the document.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
-    "errorEditingDownloadas": "An error occurred during the work with the document.<br>Use the 'Download' option to save the file backup copy locally.",
-    "errorFilePassProtect": "The file is password protected and could not be opened.",
-    "errorFileSizeExceed": "The file size exceeds your server limitation.<br>Please, contact your admin.",
-    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
-    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorKeyEncrypt": "Unknown key descriptor",
-    "errorKeyExpire": "Key descriptor expired",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "errorSessionIdle": "The document has not been edited for quite a long time. Please, reload the page.",
-    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
-    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
-    "errorUserDrop": "The file cannot be accessed right now.",
-    "errorUsersExceed": "The number of users allowed by the pricing plan was exceeded",
-    "openErrorText": "An error has occurred while opening the file",
-    "saveErrorText": "An error has occurred while saving the file",
-    "uploadImageExtMessage": "Unknown image format.",
-    "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "unknownErrorText": "Ismeretlen hiba."
   },
   "LongActions": {
     "applyChangesTextText": "Adatok betöltése...",
@@ -160,16 +130,13 @@
     "stayButtonText": "Maradjon ezen az oldalon",
     "textEnterNewFileName": "Adjon meg egy új fájlnevet",
     "textRenameFile": "Fájl átnevezése",
-    "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
-    "dlgLeaveTitleText": "You leave the application",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Váltás asztali módra"
   },
   "View": {
     "Edit": {
       "notcriticalErrorTitle": "Figyelmeztetés",
       "textCancel": "Mégse",
-      "textOk": "OK",
-      "textInvalidName": "The file name cannot contain any of the following characters: "
+      "textOk": "OK"
     },
     "Settings": {
       "notcriticalErrorTitle": "Figyelmeztetés",
@@ -198,6 +165,7 @@
       "textLocation": "Hely",
       "textOk": "OK",
       "textOwner": "Tulajdonos",
+      "textPoweredBy": "Üzemelteti",
       "textPrint": "Nyomtatás",
       "textRestartApplication": "Kérjük, indítsa újra az alkalmazást, a módosítások érvénybe lépéséhez",
       "textSameAsSystem": "A rendszerrel megegyező",
@@ -211,9 +179,7 @@
       "textVersion": "Verzió",
       "textVisioInfo": "Diagramnéző-információ",
       "textVisioSettings": "Diagramnéző-beállítások",
-      "textVisioTitle": "Diagramnéző-cím",
-      "textPoweredBy": "Powered By",
-      "textOpenLocation": "Open location"
+      "textVisioTitle": "Diagramnéző-cím"
     }
   }
 }

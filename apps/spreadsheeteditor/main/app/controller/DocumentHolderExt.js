@@ -185,6 +185,9 @@ define([], function () {
                 view.menuParagraphBullets.menu.on('show:after',     _.bind(me.onBulletMenuShowAfter, me));
                 view.menuAddHyperlinkShape.on('click',              _.bind(me.onInsHyperlink, me));
                 view.menuEditHyperlinkShape.on('click',             _.bind(me.onInsHyperlink, me));
+                view.menuAddHyperlinkPic.on('click',                _.bind(me.onInsHyperlink, me));
+                view.menuEditHyperlinkPic.on('click',               _.bind(me.onInsHyperlink, me));
+                view.menuRemoveHyperlinkPic.on('click',             _.bind(me.onDelHyperlink, me))
                 view.menuRemoveHyperlinkShape.on('click',           _.bind(me.onDelHyperlink, me));
                 view.pmiTextAdvanced.on('click',                    _.bind(me.onTextAdvanced, me));
                 view.mnuShapeAdvanced.on('click',                   _.bind(me.onShapeAdvanced, me));
@@ -915,7 +918,8 @@ define([], function () {
                     Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
                 };
 
-                var cell = me.api.asc_getCellInfo();
+                var cell = me.api.asc_getCellInfo(),
+                    seltype = cell.asc_getSelectionType();
                 props = cell.asc_getHyperlink();
 
                 win = new SSE.Views.HyperlinkSettingsDialog({
@@ -932,7 +936,7 @@ define([], function () {
                     props   : props,
                     text    : cell.asc_getText(),
                     isLock  : cell.asc_getLockText(),
-                    allowInternal: item.options.inCell
+                    allowInternal: (seltype!==Asc.c_oAscSelectionType.RangeChart && seltype!==Asc.c_oAscSelectionType.RangeChartText && seltype!==Asc.c_oAscSelectionType.RangeSlicer)
                 });
             }
 
@@ -2313,6 +2317,14 @@ define([], function () {
                         item.setDisabled(!documentHolder.api.asc_canMergeSelectedShapes(item.value));
                     });
                 }
+
+                var hyperinfo = cellinfo.asc_getHyperlink(),
+                    can_add_hyperlink = this.api.asc_canAddShapeHyperlink();
+                documentHolder.menuHyperlinkPic.setVisible((isimagemenu || isshapemenu) && can_add_hyperlink!==false && hyperinfo);
+                documentHolder.menuAddHyperlinkPic.setVisible((isimagemenu || isshapemenu) && can_add_hyperlink!==false && !hyperinfo);
+                documentHolder.menuHyperlinkPicSeparator.setVisible((isimagemenu || isshapemenu) && can_add_hyperlink!==false);
+                documentHolder.menuHyperlinkPic.setDisabled(isObjLocked || this._state.wsProps['InsertHyperlinks']);
+                documentHolder.menuAddHyperlinkPic.setDisabled(isObjLocked || this._state.wsProps['InsertHyperlinks']);
 
                 var objcount = this.api.asc_getSelectedDrawingObjectsCount();
                 documentHolder.menuImageAlign.menu.items[7].setDisabled(objcount<3);
@@ -3969,6 +3981,7 @@ define([], function () {
                 pasteContainer = documentHolderView.cmpEl.find('#special-paste-container'),
                 pasteItems = specialPasteShowOptions.asc_getOptions(),
                 isTable = !!specialPasteShowOptions.asc_getContainTables();
+
             if (!pasteItems) return;
 
             // Prepare menu container
@@ -4061,8 +4074,26 @@ define([], function () {
                         });
                     }
                 }
-                (menu.items.length>0) && menu.items[0].setChecked(true, true);
+                var lastSelected = specialPasteShowOptions.asc_getLastSelectedPasteProperty();
+                (menu.items.length>0) && !lastSelected && menu.items[0].setChecked(true, true);
                 me._state.lastSpecPasteChecked = (menu.items.length>0) ? menu.items[0] : null;
+                if (lastSelected) {
+                    var foundItem = null;
+                    if (me.btnSpecialPaste && me.btnSpecialPaste.menu && me.btnSpecialPaste.menu.items.length > 0) {
+                        for (var i = 0; i < me.btnSpecialPaste.menu.items.length; i++) {
+                            var menuItem = me.btnSpecialPaste.menu.items[i];
+                            if (menuItem.value === lastSelected) {
+                                foundItem = menuItem;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (foundItem) {
+                        foundItem.setChecked(true, true);
+                        // me._state.lastSpecPasteChecked = foundItem;
+                    }
+                }
 
                 if (importText) {
                     menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
@@ -4225,7 +4256,7 @@ define([], function () {
             }
             str = str.substring(0, str.length-1)
             var keymap = {};
-            keymap[str] = _.bind(function(e) {
+            keymap[str + ' ' + 'special-paste-context'] = _.bind(function(e) {
                 var menu = this.btnSpecialPaste.menu;
                 for (var i = 0; i < menu.items.length; i++) {
                     if (this.hkSpecPaste[menu.items[i].value] === String.fromCharCode(e.keyCode)) {
@@ -4234,14 +4265,16 @@ define([], function () {
                 }
             }, me);
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
-            Common.util.Shortcuts.suspendEvents(str, undefined, true);
+            Common.util.Shortcuts.suspendEvents(str, 'special-paste-context', true);
 
             var pasteContainer = me.documentHolder.cmpEl.find('#special-paste-container');
             me.btnSpecialPaste.menu.on('show:after', function(menu) {
-                Common.util.Shortcuts.resumeEvents(str);
+                window.key.setScope('special-paste-context');
+                Common.util.Shortcuts.resumeEvents(str, 'special-paste-context');
                 pasteContainer.addClass('has-open-menu');
             }).on('hide:after', function(menu) {
-                Common.util.Shortcuts.suspendEvents(str, undefined, true);
+                window.key.setScope('all');
+                Common.util.Shortcuts.suspendEvents(str, 'special-paste-context', true);
                 pasteContainer.removeClass('has-open-menu');
             });
         };

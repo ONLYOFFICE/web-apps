@@ -823,8 +823,7 @@
     "txtDownloadTxt": "Baixar TXT",
     "txtIncorrectPwd": "A senha está incorreta",
     "txtOk": "OK",
-    "txtProtected": "Depois de inserir a senha e abrir o arquivo, a senha atual será redefinida",
-    "textOpenLocation": "Open location"
+    "txtProtected": "Depois de inserir a senha e abrir o arquivo, a senha atual será redefinida"
   },
   "Toolbar": {
     "btnRestartNow": "Reiniciar agora",

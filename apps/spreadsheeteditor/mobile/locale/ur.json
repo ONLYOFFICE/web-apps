@@ -276,6 +276,7 @@
     "errorCircularReference": "ایک یا زیادہ سرکلر حوالہ جات ہیں جہاں ایک فارمولہ براہ راست یا بالواسطہ طور پر اپنے سیل کا حوالہ دیتا ہے۔ ان حوالوں کو ہٹانے یا تبدیل کرنے کی کوشش کریں، یا فارمولوں کو مختلف سیلز میں منتقل کریں۔",
     "errorComboSeries": "ایک مجموعہ چارٹ بنانے کے لیے، ڈیٹا کی کم از کم دو سیریز منتخب کریں۔",
     "errorConnectToServer": "اس دستاویز کو محفوظ نہیں کیا جا سکتا۔ اپنے کنکشن کی ترتیبات چیک کریں یا اپنے منتظم سے رابطہ کریں۔ جب آپ 'OK' بٹن پر کلک کریں گے، تو آپ کو دستاویز ڈاؤن لوڈ کرنے کے لیے کہا جائے گا۔",
+    "errorCopyDisabled": "سیکورٹی وجوہات کی بناء پر، اس دستاویز کے مواد کو کاپی نہیں کیا جا سکتا۔",
     "errorCopyMultiselectArea": "یہ کمانڈ متعدد انتخابوں کے ساتھ استعمال نہیں ہوسکتا ہے۔ ایک حد منتخب کریں اور دوبارہ کوشش کریں۔",
     "errorCountArg": "فارمولے میں ایک غلطی۔<br>دلائل کی غلط تعداد۔",
     "errorCountArgExceed": "فارمولے میں ایک خرابی۔<br>دلائل کی زیادہ سے زیادہ تعداد سے تجاوز کر گیا۔",
@@ -379,8 +380,7 @@
     "uploadDocSizeMessage": "دستاویز کے سائز کی زیادہ سے زیادہ حد سے تجاوز کر گیا۔",
     "uploadImageExtMessage": "نامعلوم تصویر کا فارمیٹ۔",
     "uploadImageFileCountMessage": "کوئ تصاویر اپلوڈ نہیں کی گیئں",
-    "uploadImageSizeMessage": " تصویر بہت بڑی ہے۔ زیادہ سے زیادہ سائز ہے  پچیس ایم بی ",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": " تصویر بہت بڑی ہے۔ زیادہ سے زیادہ سائز ہے  پچیس ایم بی "
   },
   "LongActions": {
     "advDRMPassword": "پاس ورڈ",
@@ -576,6 +576,7 @@
       "textChartTitle": "عنوانِ چارٹ",
       "textClearFilter": "فلٹر صاف کریں",
       "textColor": "رنگ",
+      "textContextTextDirection": "سیاق و سباق",
       "textCreateCustomFormat": "حسب ضرورت فارمیٹ بنائیں",
       "textCreateFormat": "فارمیٹ بنائیں",
       "textCross": "کراس",
@@ -625,7 +626,7 @@
       "textHundredMil": "۱۰۰ ۰۰۰ ۰۰۰",
       "textHundreds": "سیکڑوں",
       "textHundredThousands": "۱۰۰ ۰۰۰",
-      "textHyperlink": "ہائپر لنک",
+      "textHyperlink": "لنک",
       "textImage": "تصویر",
       "textImageURL": "تصویر کا یو آر ایل",
       "textIn": "ان",
@@ -651,6 +652,7 @@
       "textLinkSettings": "لنک کی ترتیبات",
       "textLinkType": "لنک کی قسم",
       "textLow": "کم",
+      "textLtrTextDirection": "بائیں سے دائیں",
       "textMajor": "بڑا",
       "textMajorAndMinor": "اہم اور معمولی",
       "textMajorType": "اہم قسم",
@@ -694,6 +696,7 @@
       "textRotateTextDown": "متن کو نیچے گھمائیں",
       "textRotateTextUp": "متن کو اوپرگھمائیں",
       "textRouble": "روبل",
+      "textRtlTextDirection": "دائیں سے بائیں",
       "textSave": "محفوظ کریں۔",
       "textScientific": "سائنسی",
       "textScreenTip": "اسکرین ٹپ",
@@ -713,6 +716,7 @@
       "textTenThousands": "۱۰ ۰۰۰",
       "textText": "متن",
       "textTextColor": "متن کا رنگ",
+      "textTextDirection": "متن کی سمت",
       "textTextFormat": "متن کا فارمیٹ",
       "textTextOrientation": "متن اورینٹیشن",
       "textThick": "موٹا",
@@ -733,11 +737,7 @@
       "textYen": "یین",
       "txtNotUrl": "یہ فیلڈ \"http://www.example.com\" شکل میں ایک URL ہونا چاہئے۔",
       "txtSortHigh2Low": "سب سے اونچی سے نچلی ترتیب دیں۔",
-      "txtSortLow2High": "سب سے کم سے بلند ترین ترتیب دیں۔",
-      "textContextTextDirection": "Context",
-      "textLtrTextDirection": "Left-to-right",
-      "textRtlTextDirection": "Right-to-left",
-      "textTextDirection": "Text Direction"
+      "txtSortLow2High": "سب سے کم سے بلند ترین ترتیب دیں۔"
     },
     "Settings": {
       "advCSVOptions": "CSV اختیارات کا انتخاب کریں",
@@ -832,6 +832,7 @@
       "textSearchIn": "میں تلاش کریں",
       "textSettings": "ترتیبات",
       "textSheet": "شیٹ",
+      "textSheetRtl": "شیٹ دائیں سے بائیں",
       "textShowNotification": "اطلاع دکھائیں",
       "textSpreadsheetFormats": "اسپریڈشیٹ کے فارمیٹ",
       "textSpreadsheetInfo": "اسپریڈشیٹ کی معلومات",
@@ -896,9 +897,7 @@
       "txtZhtw": "چینی (روایتی)",
       "warnDownloadAs": "اگر آپ اس شکل میں محفوظ کرنا جاری رکھیں گے تو اس کے علاوہ تمام خصوصیات ختم ہوجائیں گی۔ کیا آپ واقعی میں جاری رکھنا چاہتے ہیں؟",
       "warnDownloadCsv": "CSV فارمیٹ ایک ملٹی شیٹ فائل اور تمام عناصر کو محفوظ کرنے کی حمایت نہیں کرتا، سوائے متن کے۔ صرف منتخب کردہ شیٹ کو CSV میں محفوظ کرنے کے لیے، ٹھیک ہے دبائیں۔ پوری اسپریڈشیٹ اور تمام خصوصیات کو محفوظ کرنے کے لیے، منسوخ کریں پر کلک کریں اور دوسرا فارمیٹ منتخب کریں۔",
-      "warnDownloadOds": "اس فائل کو محفوظ کرنے کے نتیجے میں محدود فارمیٹ سپورٹ کی وجہ سے کچھ فارمولے، سیل فارمیٹنگ، یا ایمبیڈڈ اشیاء ضائع ہو سکتی ہیں۔ کیا آپ واقعی جاری رکھنا چاہتے ہیں؟",
-      "textSheetRtl": "Sheet Right to left",
-      "textOpenLocation": "Open location"
+      "warnDownloadOds": "اس فائل کو محفوظ کرنے کے نتیجے میں محدود فارمیٹ سپورٹ کی وجہ سے کچھ فارمولے، سیل فارمیٹنگ، یا ایمبیڈڈ اشیاء ضائع ہو سکتی ہیں۔ کیا آپ واقعی جاری رکھنا چاہتے ہیں؟"
     }
   }
 }

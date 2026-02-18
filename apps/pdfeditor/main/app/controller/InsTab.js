@@ -386,6 +386,12 @@ define([
             $(document.body).off('mouseup', this.binding.checkInsertHyperlinkAnnot);
 
             if (!this.api) return;
+            
+            const statusbarController = this.getApplication().getController('Statusbar');
+            const stateBeforeOpenDlg = {
+                zoom: statusbarController.getZoom(),
+                scroll: this.api.getCurScroll()
+            };
 
             var me = this,
                 res;
@@ -412,7 +418,22 @@ define([
                 handler: handlerDlg,
                 slides: _arr
             }).on('close', function() {
-                (res!=='ok' && res!=='view') && me.api.asc_removeAnnots(arrIds);
+                //Restore zoom and scroll state 
+                const currentScroll = me.api.getCurScroll();
+                if(statusbarController.getZoom() != stateBeforeOpenDlg.zoom) {
+                    me.api.zoom(stateBeforeOpenDlg.zoom);
+                }
+                if (Math.abs(currentScroll.x - stateBeforeOpenDlg.scroll.x) > 1 || 
+                    Math.abs(currentScroll.y - stateBeforeOpenDlg.scroll.y) > 1) 
+                {
+                    me.api.scrollToXY(stateBeforeOpenDlg.scroll.x, stateBeforeOpenDlg.scroll.y);
+                }
+                
+                const closedWithCreation = (res === 'ok' || res === 'view'); 
+                if(closedWithCreation) {
+                    me.api.asc_selectComment(arrIds);
+                }
+                me.api.EndLinkAnnotCreation(closedWithCreation);
             });
             win.show();
             win.setSettings();

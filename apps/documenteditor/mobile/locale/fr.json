@@ -77,7 +77,7 @@
       "textAddComment": "Ajouter un commentaire",
       "textAddReply": "Ajouter une réponse",
       "textAllChangesAcceptedPreview": "Toutes les modifications acceptées (aperçu)",
-      "textAllChangesEditing": "Toutes les modifications (édition)",
+      "textAllChangesEditing": "Toutes les modifications (Modification)",
       "textAllChangesRejectedPreview": "Toutes les modifications rejetées (Aperçu)",
       "textAtLeast": "au moins ",
       "textAuto": "Auto",
@@ -543,7 +543,7 @@
     "notcriticalErrorTitle": "Avertissement",
     "SDK": {
       " -Section ": "- Section",
-      "above": "au-dessus",
+      "above": "Au-dessus",
       "Aspect": "Aspect",
       "below": "en dessous",
       "Blue": "Bleu",
@@ -558,7 +558,7 @@
       "Default Paragraph Font": "Police de paragraphe par défaut",
       "Diagram Title": "Titre du graphique",
       "Emphasis": "Accentuation",
-      "endnote reference": "Référence de la note de bas de page",
+      "endnote reference": "Référence de la note de fin",
       "endnote text": "Texte de note de fin",
       "Enter a date": "Entrer une date",
       "Error! Bookmark not defined": "Erreur! Marque-page non défini.",
@@ -823,8 +823,7 @@
     "txtDownloadTxt": "Télécharger le TXT",
     "txtIncorrectPwd": "Mot de passe incorrect",
     "txtOk": "Ok",
-    "txtProtected": "Une fois le mot de passe saisi et le fichier ouvert, le mot de passe actuel de fichier sera réinitialisé",
-    "textOpenLocation": "Open location"
+    "txtProtected": "Une fois le mot de passe saisi et le fichier ouvert, le mot de passe actuel de fichier sera réinitialisé"
   },
   "Toolbar": {
     "btnRestartNow": "Redémarrer maintenant",

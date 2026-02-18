@@ -549,8 +549,8 @@ define([
                 case 'eraser':
                     Common.NotificationCenter.trigger('draw-tool:eraser');
                     break;
-                case 'eraserAll':
-                    Common.NotificationCenter.trigger('draw-tool:eraser-all');
+                case 'eraseAll':
+                    Common.NotificationCenter.trigger('draw-tool:erase-all');
                     break;
                 case 'select':
                     Common.NotificationCenter.trigger('draw-tool:select');

@@ -43,6 +43,7 @@ define([
     'common/main/lib/util/Shortcuts',
     'common/main/lib/view/OpenDialog',
     'common/forms/lib/view/modals',
+    'common/main/lib/controller/Fonts',
     'documenteditor/forms/app/view/ApplicationView',
     'common/main/lib/controller/LaunchController'
 ], function (Viewport) {
@@ -501,6 +502,7 @@ define([
             this.appOptions.lang            = this.editorConfig.lang;
             this.appOptions.canPlugins      = false;
             this.appOptions.canRequestFillingStatus = this.editorConfig.canRequestFillingStatus;
+            this.appOptions.disableNetworkFunctionality = !!(window["AscDesktopEditor"] && window["AscDesktopEditor"]["isSupportNetworkFunctionality"] && false === window["AscDesktopEditor"]["isSupportNetworkFunctionality"]());
 
             Common.Controllers.Desktop.init(this.appOptions);
 
@@ -771,6 +773,8 @@ define([
                 this.api.asc_SetFastCollaborative(true);
                 this.api.asc_setAutoSaveGap(1);
                 this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
+
+                DE.getController('Common.Controllers.Fonts').setApi(this.api);
             }
 
             this.view.btnClose.setVisible(this.appOptions.canCloseEditor);
@@ -1282,10 +1286,29 @@ define([
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    me.api.asc_addImage(obj.pr);
-                    setTimeout(function(){
-                        me.api.asc_UncheckContentControlButtons();
-                    }, 500);
+                    var signProps = obj.asc_getSignatureProps(me.api);
+                    var win = (new Common.Views.PdfSignDialog({
+                        props: signProps,
+                        api: me.api,
+                        disableNetworkFunctionality: me.appOptions.disableNetworkFunctionality,
+                        storage: me.appOptions.canRequestInsertImage || me.appOptions.fileChoiceUrl && me.appOptions.fileChoiceUrl.indexOf("{documentType}")>-1,
+                        fontStore: this.getCollection('Common.Collections.Fonts'),
+                        iconType: 'svg',
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                me.api.asc_SetSignatureProps(signProps.getResult());
+                            }
+                        }
+                        })).on('close', function(obj){
+                            setTimeout(function(){
+                                me.api.asc_UncheckContentControlButtons();
+                            }, 100);
+                        });
+                    win.show();
+                    // me.api.asc_addImage(obj.pr);
+                    // setTimeout(function(){
+                    //     me.api.asc_UncheckContentControlButtons();
+                    // }, 500);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
@@ -1739,10 +1762,30 @@ define([
         onMenuZoomClick: function(menu, item, e){
             switch ( item.value ) {
                 case 'zoom:page':
-                    item.isChecked() ? this.api.zoomFitToPage() : this.api.zoomCustomMode();
+                    if (item.isChecked()) {
+                        this.api.GetMultipageViewMode() && this.api.SetMultipageViewMode(false);
+                        this.api.zoomFitToPage();
+                        this.view.mnuZoom.items[2].setChecked(false);
+                    } else {
+                        this.api.zoomCustomMode();
+                    }
                     break;
                 case 'zoom:width':
-                    item.isChecked() ? this.api.zoomFitToWidth() : this.api.zoomCustomMode();
+                    if (item.isChecked()) {
+                        this.api.GetMultipageViewMode() && this.api.SetMultipageViewMode(false);
+                        this.api.zoomFitToWidth();
+                        this.view.mnuZoom.items[2].setChecked(false);
+                    } else {
+                        this.api.zoomCustomMode();
+                    }
+                    break;
+                case 'zoom:multi':
+                    if (item.isChecked()) {
+                        this.api.zoomCustomMode();
+                        this.api.SetMultipageViewMode(true);
+                    } else {
+                        this.api.SetMultipageViewMode(false);
+                    }
                     break;
             }
 

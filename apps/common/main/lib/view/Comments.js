@@ -211,6 +211,7 @@ define([
                 replyId =  btn.attr('data-value');
 
                 if (btn.hasClass('btn-edit-common')) {
+                    me.fireEvent('comment:show', [commentId, false]);
                     if (!_.isUndefined(replyId)) {
                         me.fireEvent('comment:closeEditing', [commentId]);
                         me.fireEvent('comment:editReply', [commentId, replyId]);
@@ -237,7 +238,6 @@ define([
                             me.hookTextBox();
                         }
                     }
-                    me.fireEvent('comment:show', [commentId, false]);
                 } else if (btn.hasClass('btn-delete')) {
                     if (!_.isUndefined(replyId)) {
                         me.fireEvent('comment:removeReply', [commentId, replyId]);
@@ -250,6 +250,7 @@ define([
                     me.fireEvent('comment:closeEditing');
                     readdresolves();
                 } else if (btn.hasClass('user-reply')) {
+                    me.fireEvent('comment:show', [commentId, false]);
                     me.fireEvent('comment:closeEditing');
                     record.set('showReply', true);
 
@@ -260,7 +261,6 @@ define([
 
                     picker.autoScrollToEditButtons();
                     picker.setFocusToTextBox();
-                    me.fireEvent('comment:show', [commentId, false]);
                 } else if (btn.hasClass('btn-reply', false)) {
                     if (showReplyBox) {
                         me.fireEvent('comment:addReply', [commentId, picker.getActiveTextBoxVal()]);

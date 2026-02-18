@@ -335,6 +335,7 @@
     "textLink": "링크",
     "textLinkSettings": "링크 설정",
     "textLinkToPrevious": "이전 링크",
+    "textLtrTextDirection": "왼쪽에서 오른쪽으로",
     "textMarch": "3월",
     "textMay": "5월",
     "textMo": "월",
@@ -379,6 +380,7 @@
     "textRightAlign": "오른쪽 정렬",
     "textRotateTextDown": "텍스트 아래로 회전",
     "textRotateTextUp": "텍스트 위로 회전",
+    "textRtlTextDirection": "오른쪽에서 왼쪽으로",
     "textSa": "토",
     "textSameCreatedNewStyle": "새로 생성된 스타일과 동일하게",
     "textSave": "저장",
@@ -407,6 +409,7 @@
     "textTableOfCont": "TOC",
     "textTableOptions": "표 옵션",
     "textText": "텍스트",
+    "textTextDirection": "텍스트 방향",
     "textTextOrientation": "텍스트 방향",
     "textTextWrapping": "텍스트 줄 바꿈",
     "textTh": "목",
@@ -423,10 +426,7 @@
     "textWrapText": "텍스트 줄 바꾸기",
     "textYourOption": "선택한 옵션",
     "txtHeight": "높이",
-    "txtWidth": "너비",
-    "textLtrTextDirection": "Left-to-right",
-    "textRtlTextDirection": "Right-to-left",
-    "textTextDirection": "Text Direction"
+    "txtWidth": "너비"
   },
   "Error": {
     "convertationTimeoutText": "변환 시간을 초과했습니다.",
@@ -439,6 +439,7 @@
     "errorComboSeries": "혼합형 차트를 만들려면 최소 2 개의 데이터를 선택합니다.",
     "errorCompare": "공동 편집 모드에서는 문서 비교 기능을 사용할 수 없습니다.",
     "errorConnectToServer": "이 문서를 저장할 수 없습니다. 연결 설정을 확인하거나 관리자에게 문의하세요.<br>확인을 클릭하면 문서를 다운로드하라는 메시지가 표시됩니다.",
+    "errorCopyDisabled": "보안상의 이유로 이 문서의 내용은 복사할 수 없습니다.",
     "errorDatabaseConnection": "외부 오류입니다. <br> 데이터베이스 연결 오류입니다. 지원팀에 문의하십시오.",
     "errorDataEncrypted": "암호화 변경 사항이 수신되었으며 해독할 수 없습니다.",
     "errorDataRange": "잘못된 참조 대상 입니다.",
@@ -491,8 +492,7 @@
     "uploadDocSizeMessage": "최대 문서 크기 제한을 초과했습니다.",
     "uploadImageExtMessage": "알 수없는 이미지 형식입니다.",
     "uploadImageFileCountMessage": "이미지가 업로드되지 않았습니다.",
-    "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다."
   },
   "LongActions": {
     "applyChangesTextText": "데이터로드 중 ...",
@@ -746,6 +746,7 @@
     "textHelp": "도움말",
     "textHiddenTableBorders": "표 테두리 숨기기",
     "textHighlightResults": "결과 강조 표시",
+    "textHyphenation": "하이픈",
     "textInch": "인치",
     "textLandscape": "수평",
     "textLastModified": "최종 편집",
@@ -822,9 +823,7 @@
     "txtDownloadTxt": "TXT 다운로드",
     "txtIncorrectPwd": "잘못된 비밀번호",
     "txtOk": "확인",
-    "txtProtected": "암호를 입력하고 파일을 열면 현재 암호가 재설정됩니다.",
-    "textHyphenation": "Hyphenation",
-    "textOpenLocation": "Open location"
+    "txtProtected": "암호를 입력하고 파일을 열면 현재 암호가 재설정됩니다."
   },
   "Toolbar": {
     "btnRestartNow": "지금 다시 시작",

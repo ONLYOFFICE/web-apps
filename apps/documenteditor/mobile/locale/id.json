@@ -66,8 +66,7 @@
     "textTableSize": "Ukuran Tabel",
     "textWithBlueLinks": "Dengan Tautan Warna Biru",
     "textWithPageNumbers": "Dengan Nomor Halaman",
-    "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
-    "textRemovePicture": "Remove picture"
+    "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”"
   },
   "Common": {
     "Collaboration": {
@@ -416,17 +415,7 @@
     "textWe": "Rab",
     "textWrap": "Wrap",
     "textWrappingStyle": "Gaya Pembungkusan",
-    "textYourOption": "Opsi Anda",
-    "textBaseline": "Baseline",
-    "textCapitalization": "Capitalization",
-    "textCellOptions": "Cell options",
-    "textCellSize": "Rows & columns size",
-    "textLtrTextDirection": "Left-to-right",
-    "textRtlTextDirection": "Right-to-left",
-    "textTextDirection": "Text Direction",
-    "textWrapText": "Wrap Text",
-    "txtHeight": "Height",
-    "txtWidth": "Width"
+    "textYourOption": "Opsi Anda"
   },
   "Error": {
     "convertationTimeoutText": "Waktu konversi habis.",
@@ -490,9 +479,7 @@
     "uploadDocSizeMessage": "Batas ukuran maksimum dokumen terlampaui.",
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
-    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Memuat data...",
@@ -677,11 +664,7 @@
     "warnLicenseLimitedRenewed": "Lisensi perlu diperbaharui. Anda memiliki akses terbatas untuk edit dokumen.<br>Silakan hubungi admin Anda untuk mendapatkan akses penuh",
     "warnNoLicense": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi %1 tim sales untuk syarat personal upgrade.",
     "warnNoLicenseUsers": "Anda sudah mencapai batas user untuk %1 editor. Hubungi %1 tim sales untuk syarat personal upgrade.",
-    "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini.",
-    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-    "titleReadOnly": "Read-Only Mode",
-    "txtSignedForm": "This document has been signed and cannot be edited."
+    "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini."
   },
   "Settings": {
     "advDRMOptions": "File yang Diproteksi",
@@ -821,10 +804,7 @@
     "txtDownloadTxt": "Download TXT",
     "txtIncorrectPwd": "Password salah",
     "txtOk": "OK",
-    "txtProtected": "Jika Anda memasukkan password dan membuka file, password file saat ini akan di reset.",
-    "textDrawing": "Drawing",
-    "textHyphenation": "Hyphenation",
-    "textOpenLocation": "Open location"
+    "txtProtected": "Jika Anda memasukkan password dan membuka file, password file saat ini akan di reset."
   },
   "Toolbar": {
     "btnRestartNow": "Restart sekarang",

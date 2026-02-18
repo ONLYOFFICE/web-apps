@@ -14,6 +14,7 @@
   "PE.ApplicationController.downloadErrorText": "Échec du téléchargement.",
   "PE.ApplicationController.downloadTextText": "Téléchargement de la présentation...",
   "PE.ApplicationController.errorAccessDeny": "Vous tentez d’exécuter une action pour laquelle vous ne disposez pas des droits.<br>Veuillez contacter l'administrateur de Document Server.",
+  "PE.ApplicationController.errorCopyDisabled": "Pour des raisons de sécurité, le contenu de ce document ne peut être copié.",
   "PE.ApplicationController.errorDefaultMessage": "Code d'erreur: %1",
   "PE.ApplicationController.errorEditingDownloadas": "Une erreur s'est produite lors du travail avec le document.<br>Utilisez l'option 'Télécharger comme' pour enregistrer une copie de sauvegarde du fichier sur le disque dur de votre ordinateur.",
   "PE.ApplicationController.errorFilePassProtect": "Le fichier est protégé par un mot de passe et ne peut pas être ouvert.",

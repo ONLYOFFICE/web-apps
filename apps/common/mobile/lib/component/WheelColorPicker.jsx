@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useImperativeHandle } from 'react'
 import { f7 } from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
 import SvgIcon from '@common/lib/component/SvgIcon'
@@ -7,32 +7,45 @@ import IconPlusAndroid from '@common-android-icons/icon-plus.svg?android';
 
 export const WheelColorPicker = ({ initialColor = '#ffffff', onSelectColor, ref }) => {
     const [color, setColor] = useState(initialColor);
+    const pickerInstance = React.useRef(null);
+
+    useImperativeHandle(ref, () => ({
+        update: () => {
+            if (pickerInstance.current?.modules) {
+                pickerInstance.current.update();
+            }
+        },
+        setValue: (hex) => {
+            if (pickerInstance.current) {
+                pickerInstance.current.setValue({ hex });
+            }
+        }
+    }), []);
 
     useEffect(() => {
-        if (!document.getElementsByClassName('color-picker-wheel').length) {
-            const picker = f7.colorPicker.create({
-                containerEl: document.getElementsByClassName('color-picker-container')[0],
-                value: { hex: initialColor },
-                on: { change: (value) => setColor(value.getValue().hex) }
-            });
+        const container = document.querySelector('.color-picker-container');
+        if (!container || pickerInstance.current) return;
 
-            if (ref) {
-                if (typeof ref === 'function') {
-                    ref(picker);
-                } else {
-                    ref.current = picker;
-                }
+        pickerInstance.current = f7.colorPicker.create({
+            containerEl: container,
+            value: { hex: initialColor },
+            on: {
+                change: (value) => setColor(value.getValue().hex)
             }
-        }
+        });
 
         return () => {
-            if (ref.current) {
-                ref.current.destroy();
-            } else if (document.getElementsByClassName('color-picker-wheel').length) {
-                f7.colorPicker.destroy('.color-picker-wheel');
-            }
+            pickerInstance.current?.destroy();
+            pickerInstance.current = null;
+        };
+    }, []);
+
+    useEffect(() => {
+        if (pickerInstance.current) {
+            pickerInstance.current.setValue({ hex: initialColor });
+            setColor(initialColor);
         }
-    }, [ref, initialColor]);
+    }, [initialColor]);
 
     return (
         <div id='color-picker'>

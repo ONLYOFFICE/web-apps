@@ -335,6 +335,7 @@
     "textLink": "Σύνδεσμος",
     "textLinkSettings": "Ρυθμίσεις συνδέσμου",
     "textLinkToPrevious": "Σύνδεσμος προς το Προηγούμενο",
+    "textLtrTextDirection": "Από αριστερά προς τα δεξιά",
     "textMarch": "Μάρτιος",
     "textMay": "Μάιος",
     "textMo": "Δε",
@@ -379,6 +380,7 @@
     "textRightAlign": "Δεξιά στοίχιση",
     "textRotateTextDown": "Περιστροφή κειμένου κάτω",
     "textRotateTextUp": "Περιστροφή κειμένου επάνω",
+    "textRtlTextDirection": "Από δεξιά προς τα αριστερά",
     "textSa": "Σαβ",
     "textSameCreatedNewStyle": "Ίδια με τη νέα δημιουργημένη τεχνοτροπία",
     "textSave": "Αποθήκευση",
@@ -407,6 +409,7 @@
     "textTableOfCont": "ΠΠ",
     "textTableOptions": "Επιλογές πίνακα",
     "textText": "Κείμενο",
+    "textTextDirection": "Κατεύθυνση κειμένου",
     "textTextOrientation": "Προσανατολισμός κειμένου",
     "textTextWrapping": "Αναδίπλωση κειμένου",
     "textTh": "Πεμ",
@@ -423,10 +426,7 @@
     "textWrapText": "Αναδίπλωση κειμένου",
     "textYourOption": "Η επιλογή σας",
     "txtHeight": "Ύψος",
-    "txtWidth": "Πλάτος",
-    "textLtrTextDirection": "Left-to-right",
-    "textRtlTextDirection": "Right-to-left",
-    "textTextDirection": "Text Direction"
+    "txtWidth": "Πλάτος"
   },
   "Error": {
     "convertationTimeoutText": "Υπέρβαση χρονικού ορίου μετατροπής.",
@@ -439,6 +439,7 @@
     "errorComboSeries": "Για να δημιουργήσετε συνδυαστικό γράφημα, επιλέξτε τουλάχιστον δύο σειρές δεδομένων.",
     "errorCompare": "Η δυνατότητα Σύγκριση εγγράφων δεν είναι διαθέσιμη στη λειτουργία από κοινού επεξεργασίας.",
     "errorConnectToServer": "Αδύνατη η αποθήκευση αυτού του εγγράφου. Ελέγξτε τις ρυθμίσεις σύνδεσης ή επικοινωνήστε με τον διαχειριστή.<br>Όταν πατήσετε Εντάξει, θα σας ζητηθεί να μεταφορτώσετε το έγγραφο.",
+    "errorCopyDisabled": "Για λόγους ασφαλείας, τα περιεχόμενα αυτού του εγγράφου δεν μπορούν να αντιγραφούν",
     "errorDatabaseConnection": "Εξωτερικό σφάλμα<br>Σφάλμα σύνδεσης βάσης δεδομένων. Παρακαλούμε, επικοινωνήστε με την υποστήριξη.",
     "errorDataEncrypted": "Οι κρυπτογραφημένες αλλαγές έχουν ληφθεί, δεν μπορούν να αποκρυπτογραφηθούν.",
     "errorDataRange": "Εσφαλμένο εύρος δεδομένων.",
@@ -491,8 +492,7 @@
     "uploadDocSizeMessage": "Ξεπεράστηκε το μέγιστο μέγεθος εγγράφου.",
     "uploadImageExtMessage": "Άγνωστη μορφή εικόνας.",
     "uploadImageFileCountMessage": "Δεν μεταφορτώθηκαν εικόνες.",
-    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB."
   },
   "LongActions": {
     "applyChangesTextText": "Γίνεται φόρτωση δεδομένων...",
@@ -746,6 +746,7 @@
     "textHelp": "Βοήθεια",
     "textHiddenTableBorders": "Κρυμμένα περιγράμματα πίνακα",
     "textHighlightResults": "Επισήμανση Αποτελεσμάτων",
+    "textHyphenation": "Συλλαβισμός ",
     "textInch": "Ίντσα",
     "textLandscape": "Οριζόντιος",
     "textLastModified": "Τελευταίο Τροποποιημένο",
@@ -822,9 +823,7 @@
     "txtDownloadTxt": "Λήψη TXT",
     "txtIncorrectPwd": "Το συνθηματικό είναι εσφαλμένο",
     "txtOk": "Εντάξει",
-    "txtProtected": "Μόλις βάλετε το συνθηματικό κι ανοίξετε το αρχείο, θα γίνει επαναφορά του τρέχοντος συνθηματικού.",
-    "textHyphenation": "Hyphenation",
-    "textOpenLocation": "Open location"
+    "txtProtected": "Μόλις βάλετε το συνθηματικό κι ανοίξετε το αρχείο, θα γίνει επαναφορά του τρέχοντος συνθηματικού."
   },
   "Toolbar": {
     "btnRestartNow": "Επανεκκίνηση τώρα",

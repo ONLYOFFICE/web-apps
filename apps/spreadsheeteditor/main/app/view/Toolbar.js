@@ -203,6 +203,8 @@ define([
         applyLayout: function (config) {
             var me = this;
 
+            me.config = config;
+
             function dummyCmp() {
                 return {
                     isDummy : true,
@@ -231,6 +233,8 @@ define([
                 iconCls     : 'toolbar__icon btn-paste',
                 lock        : [/*_set.editCell,*/ _set.coAuth, _set.lostConnect, _set.editVisibleArea, _set.userProtected, _set.externalChartProtected],
                 dataHint    : '1',
+                menu: config.isDesktopApp ? new Common.UI.Menu({items: []}) : false,
+                split: config.isDesktopApp,
                 dataHintDirection: (config.isEditDiagram || config.isEditMailMerge || config.isEditOle) ? 'bottom' : 'top',
                 dataHintTitle: 'V'
             });
@@ -1374,7 +1378,7 @@ define([
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'toolbar__icon btn-big-inserthyperlink',
                     caption     : me.capInsertHyperlink,
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.cantHyperlink, _set.selSlicer, _set.multiselect, _set.lostConnect, _set.coAuth, _set.editPivot, _set['InsertHyperlinks'], _set.userProtected],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.cantHyperlink, _set.selSlicer, _set.multiselect, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.editPivot, _set['InsertHyperlinks'], _set.userProtected],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -2588,6 +2592,10 @@ define([
             var _injectComponent = function (id, cmp) {
                 Common.Utils.injectComponent($host.find(id), cmp);
             };
+
+            if (!this.config || !this.config.isDesktopApp) {
+                $host.find('#slot-btn-paste').removeClass('split');
+            }
 
             _injectComponent('#slot-field-fontname',     this.cmbFontName);
             _injectComponent('#slot-field-fontsize',     this.cmbFontSize);

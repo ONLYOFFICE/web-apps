@@ -58,6 +58,10 @@ define([
                 '<span id="slot-btn-change-password" class="btn-slot text x-huge"></span>' +
                 '<span id="slot-btn-signature" class="btn-slot text x-huge"></span>' +
             '</div>' +
+            '<div class="separator long protect-form"></div>' + 
+            '<div class="group">' +
+                '<span id="slot-btn-protect-form" class="btn-slot text x-huge"></span>' +
+            '</div>' +
             '</section>';
 
         function setEvents() {
@@ -122,6 +126,7 @@ define([
 
                 this._state = {disabled: false, hasPassword: false, disabledPassword: false, invisibleSignDisabled: false};
 
+                const me = this;
                 var filter = Common.localStorage.getKeysFilter();
                 this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
@@ -163,6 +168,20 @@ define([
                         this.btnsInvisibleSignature.push(this.btnSignature);
                 }
 
+                if(this.appConfig.isPDFForm) {
+                    this.btnProtectForm = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-restrict-editing',
+                        caption: this.txtProtectForm,
+                        enableToggle: true,
+                        dataHint    : '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.btnProtectForm.on('toggle', function (btn, state) {
+                        me.fireEvent('protect:protectForm', [state]);
+                    });
+                }
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -219,6 +238,7 @@ define([
                         }
                         Common.NotificationCenter.trigger('tab:visible', 'protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
                     }
+                    !me.btnProtectForm && (me.$el || $(me.el)).find('.separator.protect-form').hide();
 
                     setEvents.call(me);
                 });
@@ -231,6 +251,7 @@ define([
                     this.btnAddPwd && this.btnAddPwd.render(this.$el.find('#slot-btn-add-password'));
                     this.btnPwd && this.btnPwd.render(this.$el.find('#slot-btn-change-password'));
                     this.btnSignature && this.btnSignature.render(this.$el.find('#slot-btn-signature'));
+                    this.btnProtectForm && this.btnProtectForm.render(this.$el.find('#slot-btn-protect-form'));
                 }
                 return this.$el;
             },
@@ -353,6 +374,7 @@ define([
             },
 
             txtEncrypt: 'Encrypt',
+            txtProtectForm: 'Protect Form',
             txtSignature: 'Signature',
             hintAddPwd: 'Encrypt with password',
             hintPwd: 'Change or delete password',

@@ -57,6 +57,7 @@ define([], function () {
             {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA},
             {name: 'OTT',   imgCls: 'ott',   type: Asc.c_oAscFileType.OTT}
         ],[
+            {name: 'MD',    imgCls: 'md',   type: Asc.c_oAscFileType.MD},
             {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF},
             {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT},
             {name: 'FB2',   imgCls: 'fb2',  type: Asc.c_oAscFileType.FB2},
@@ -178,6 +179,7 @@ define([], function () {
             {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA, ext: '.pdf'},
             {name: 'OTT',   imgCls: 'ott',   type: Asc.c_oAscFileType.OTT, ext: '.ott'}
         ],[
+            {name: 'MD',   imgCls: 'md',   type: Asc.c_oAscFileType.MD, ext: '.md'},
             {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF, ext: '.rtf'},
             {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT, ext: '.txt'},
             {name: 'FB2',   imgCls: 'fb2',  type: Asc.c_oAscFileType.FB2, ext: '.fb2'},
@@ -2834,6 +2836,7 @@ define([], function () {
                 menuStyle: 'width: 248px; max-height: 280px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls: 'input-group-nr',
                 placeHolder: this.txtPrinterNotSelected,
                 itemsTemplate:  _.template([
@@ -2861,6 +2864,7 @@ define([], function () {
                 menuStyle: 'width: 248px; max-height: 280px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls: 'input-group-nr',
                 disabled: true,
                 data: [
@@ -2882,6 +2886,7 @@ define([], function () {
                 menuStyle: 'min-width: 248px;max-height: 280px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls: 'input-group-nr',
                 data: [
                     { value: 'all', displayValue: this.txtAllPages },
@@ -2925,6 +2930,7 @@ define([], function () {
                 menuStyle   : 'width:100%;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 'one', displayValue: this.txtOneSide, descValue: this.txtOneSideDesc },
@@ -2988,6 +2994,7 @@ define([], function () {
                 menuStyle: 'max-height: 280px; width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 template: paperSizeTemplate,
                 itemsTemplate: paperSizeItemsTemplate,
                 data: [].concat(this._defaultPaperSizeList, [{ value: -1, displayValue: this.txtCustom, caption: this.txtCustom, size: []}]),
@@ -3020,10 +3027,12 @@ define([], function () {
                 menuStyle   : 'min-width: 150px;',
                 editable    : false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: Asc.c_oAscPageOrientation.PagePortrait, displayValue: this.txtPortrait },
-                    { value: Asc.c_oAscPageOrientation.PageLandscape, displayValue: this.txtLandscape }
+                    { value: Asc.c_oAscPageOrientation.PageLandscape, displayValue: this.txtLandscape },
+                    { value: 'auto', displayValue: this.txtAuto }
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
@@ -3035,6 +3044,7 @@ define([], function () {
                 menuStyle: 'max-height: 280px; min-width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls: 'input-group-nr',
                 data: [
                     { value: 0, displayValue: this.textMarginsNormal, size: (/^(ca|us)$/i.test(Common.Utils.InternalSettings.get("de-config-region"))) ? [25.4, 25.4, 25.4, 25.4] : [20, 30, 20, 15]},
@@ -3375,6 +3385,7 @@ define([], function () {
         txtPageOrientation: 'Page orientation',
         txtPortrait: 'Portrait',
         txtLandscape: 'Landscape',
+        txtAuto: 'Auto',
         txtCustom: 'Custom',
         txtMargins: 'Margins',
         txtTop: 'Top',

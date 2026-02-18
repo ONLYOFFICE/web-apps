@@ -324,7 +324,6 @@
   "VE.Controllers.Main.warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
   "VE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
   "VE.Controllers.Print.txtPrintRangeInvalid": "Invalid print range",
-  "VE.Controllers.Print.txtPrintRangeSingleRange": "Enter either a single page number or a single page range (for example, 5-12). Or you can Print to PDF.",
   "VE.Controllers.Search.notcriticalErrorTitle": "Warning",
   "VE.Controllers.Search.textNoTextFound": "The data you have been searching for could not be found. Please adjust your search options.",
   "VE.Controllers.Search.textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",

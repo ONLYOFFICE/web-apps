@@ -829,6 +829,9 @@ define([
                     this.disableEditing(false, 'reconnect');
                     Common.UI.TooltipManager.closeTip('disconnect');
                     this.getApplication().getController('Statusbar').setStatusCaption(this.textReconnect);
+                } else if ( id == Asc.c_oAscAsyncAction['BackgroundOpen']) {
+                    this.disableEditing(false, 'background-open');
+                    this.getApplication().getController('Statusbar').setStatusCaption('');
                 } else if (id === Asc.c_oAscAsyncAction['RefreshFile'])  {
                     this.disableEditing(false, 'refresh-file');
                     Common.UI.TooltipManager.closeTip('refreshFile');
@@ -925,6 +928,16 @@ define([
                             Common.UI.TooltipManager.showTip('disconnect');
                         }, me._state.unloadTimer || 0);
                         this.getApplication().getController('Statusbar').setStatusCaption(text);
+                        return;
+
+                    case Asc.c_oAscAsyncAction['BackgroundOpen']:
+                        title    = this.textContinuesOpening;
+                        text     = this.textContinuesOpening;
+                        Common.UI.Menu.Manager.hideAll();
+                        this.disableEditing(true, 'background-open');
+
+                        this.getApplication().getController('Statusbar').setStatusCaption(text);
+                        this.getApplication().getController('Statusbar').statusbar.updateTabbarBorders();
                         return;
 
                     case Asc.c_oAscAsyncAction['RefreshFile']:
@@ -1330,7 +1343,7 @@ define([
                     options.rightMenu.disable && app.getController('RightMenu').SetDisabled(disable, options.allowSignature);
                 }
                 if (options.statusBar) {
-                    app.getController('Statusbar').SetDisabled(disable);
+                    app.getController('Statusbar').SetDisabled(disable, type);
                 }
                 if (options.review) {
                     app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
@@ -2593,14 +2606,18 @@ define([
 
                 var me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
+                    let fileName = me.api && me.api.asc_getDocumentName(),
+                        isTSV = fileName && fileName.toLowerCase().endsWith('.tsv'),
+                        fileType = isTSV ? 'TSV' : 'CSV';
                     me._state.openDlg = new Common.Views.OpenDialog({
-                        title: Common.Views.OpenDialog.prototype.txtTitle.replace('%1', 'CSV'),
+                        title: Common.Views.OpenDialog.prototype.txtTitle.replace('%1', fileType),
                         closable: (mode==2), // if save settings
                         type: Common.Utils.importTextType.CSV,
                         preview: advOptions.asc_getData(),
                         codepages: advOptions.asc_getCodePages(),
                         settings: advOptions.asc_getRecommendedSettings(),
                         api: me.api,
+                        isTSV: isTSV,
                         handler: function (result, settings) {
                             me.isShowOpenDialog = false;
                             if (result == 'ok') {

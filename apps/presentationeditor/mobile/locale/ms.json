@@ -32,8 +32,7 @@
       "textReopen": "Membuka semula",
       "textResolve": "Selesaikan",
       "textTryUndoRedo": "Fungsi Buat asal/Buat semula dinyahdayakan bagi mod pengeditan Bersama Pantas.",
-      "textUsers": "Pengguna",
-      "textSharingSettings": "Sharing Settings"
+      "textUsers": "Pengguna"
     },
     "HighlightColorPalette": {
       "textNoFill": "Tiada Isian"
@@ -42,26 +41,6 @@
       "textCustomColors": "Warna Tersuai",
       "textStandartColors": "Warna Standard",
       "textThemeColors": "Warna Tema"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
-    },
-    "VersionHistory": {
-      "notcriticalErrorTitle": "Warning",
-      "textAnonymous": "Anonymous",
-      "textBack": "Back",
-      "textCancel": "Cancel",
-      "textCurrent": "Current",
-      "textOk": "Ok",
-      "textRestore": "Restore",
-      "textVersion": "Version",
-      "textVersionHistory": "Version History",
-      "textWarningRestoreVersion": "Current file will be saved in version history.",
-      "titleWarningRestoreVersion": "Restore this version?",
-      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -82,9 +61,7 @@
     "textDoNotShowAgain": "Jangan tunjukkan semula",
     "textOk": "Okey",
     "textRows": "Baris",
-    "txtWarnUrl": "Mengklik pautan ini boleh membahayakan peranti dan data anda.<br>Adakah anda mahu meneruskan?",
-    "menuDuplicate": "Duplicate",
-    "menuEditLink": "Edit Link"
+    "txtWarnUrl": "Mengklik pautan ini boleh membahayakan peranti dan data anda.<br>Adakah anda mahu meneruskan?"
   },
   "Controller": {
     "Main": {
@@ -121,31 +98,7 @@
         "Table": "Jadual",
         "X Axis": "XAS Paksi X",
         "Y Axis": "Paksi X",
-        "Your text here": "Teks anda di sini",
-        "Aspect": "Aspect",
-        "Blue": "Blue",
-        "Blue Green": "Blue Green",
-        "Blue II": "Blue II",
-        "Blue Warm": "Blue Warm",
-        "Grayscale": "Grayscale",
-        "Green": "Green",
-        "Green Yellow": "Green Yellow",
-        "Marquee": "Marquee",
-        "Median": "Median",
-        "Office": "Office",
-        "Office 2007 - 2010": "Office 2007 - 2010",
-        "Office 2013 - 2022": "Office 2013 - 2022",
-        "Orange": "Orange",
-        "Orange Red": "Orange Red",
-        "Paper": "Paper",
-        "Red": "Red",
-        "Red Orange": "Red Orange",
-        "Red Violet": "Red Violet",
-        "Slipstream": "Slipstream",
-        "Violet": "Violet",
-        "Violet II": "Violet II",
-        "Yellow": "Yellow",
-        "Yellow Orange": "Yellow Orange"
+        "Your text here": "Teks anda di sini"
       },
       "textAnonymous": "Tanpa Nama",
       "textBuyNow": "Lihat laman web",
@@ -173,15 +126,7 @@
       "warnLicenseLimitedRenewed": "Lesen perlu untuk diperbaharui. Anda mempunyai akses terhad kepada fungi pengeditan dokumen.<br>Sila hubungi pentadbir anda untuk mendapatkan akses penuh",
       "warnNoLicense": "Anda telah mencapai had pengguna untuk sambungan serentak kepada editor %1. Dokumen ini akan dibuka untuk dilihat sahaja. Hubungi pasukan jualan %1 untuk naik taraf terma peribadi.",
       "warnNoLicenseUsers": "Anda telah mencapai had pengguna untuk editor %1. Hubungi pasukan jualan %1 untuk naik taraf terma peribadi.",
-      "warnProcessRightsChange": "Anda tidak mempunyai keizinan untuk edit fail ini.",
-      "textNoMatches": "No Matches",
-      "textOk": "Ok",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleLicenseNotActive": "License not active",
-      "titleReadOnly": "Read-Only Mode",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnProcessRightsChange": "Anda tidak mempunyai keizinan untuk edit fail ini."
     }
   },
   "Error": {
@@ -220,23 +165,7 @@
     "unknownErrorText": "Ralat tidak diketahui.",
     "uploadImageExtMessage": "Format imej yang tidak diketahui.",
     "uploadImageFileCountMessage": "Tiada Imej dimuat naik.",
-    "uploadImageSizeMessage": "Imej terlalu besar. Saiz maksimum adalah 25 MB.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorComboSeries": "To create a combination chart, select at least two series of data.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
-    "errorEmailClient": "No email client could be found",
-    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
-    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "errorSetPassword": "Password could not be set.",
-    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
-    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "Imej terlalu besar. Saiz maksimum adalah 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Data dimuatkan…",
@@ -267,22 +196,13 @@
     "txtEditingMode": "Tetapkan mod pengeditan…",
     "uploadImageTextText": "Imej dimuat naik…",
     "uploadImageTitleText": "Imej dimuat naik",
-    "waitText": "Sila, tunggu…",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textContinue": "Continue",
-    "textUndo": "Undo"
+    "waitText": "Sila, tunggu…"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Anda mempunyai perubahan yang tidak disimpan dalam dokumen ini. Klik 'Stay on this Page’ untuk menunggu autosimpan. Klik 'Leave this Page' untuk membuang semua perubahan yang tidak disimpan.",
     "dlgLeaveTitleText": "Anda meninggalkan aplikasi",
     "leaveButtonText": "Tinggalkan halaman ini",
-    "stayButtonText": "Kekal pada Halaman ini",
-    "btnRestartNow": "Restart now",
-    "textCloseHistory": "Close History",
-    "textEnterNewFileName": "Enter a new file name",
-    "textOk": "OK",
-    "textRenameFile": "Rename File",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "stayButtonText": "Kekal pada Halaman ini"
   },
   "View": {
     "Add": {
@@ -321,12 +241,7 @@
       "textSlideNumber": "Nombor Slaid",
       "textTable": "Jadual",
       "textTableSize": "Saiz Jadual",
-      "txtNotUrl": "Medan ini perlu sebagai URL dalam “http://www.example.com” formatnya",
-      "textDone": "Done",
-      "textDrawing": "Drawing",
-      "textPasteImageUrl": "Paste an image URL",
-      "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "txtNotUrl": "Medan ini perlu sebagai URL dalam “http://www.example.com” formatnya"
     },
     "Edit": {
       "notcriticalErrorTitle": "Amaran",
@@ -473,35 +388,7 @@
       "textZoom": "Zum",
       "textZoomIn": "Zum Masuk",
       "textZoomOut": "Zum Keluar",
-      "textZoomRotate": "Zum dan Putar",
-      "textArrange": "Arrange",
-      "textBackground": "Background",
-      "textBaseline": "Baseline",
-      "textCancel": "Cancel",
-      "textCapitalization": "Capitalization",
-      "textCellSize": "Cell size",
-      "textChangeShape": "Change Shape",
-      "textDeleteImage": "Delete Image",
-      "textDeleteLink": "Delete Link",
-      "textHorizontalText": "Horizontal Text",
-      "textInsertImage": "Insert Image",
-      "textInvalidName": "The file name cannot contain any of the following characters: ",
-      "textLtrTextDirection": "Left-to-right",
-      "textMorph": "Morph",
-      "textMorphLetters": "Letters",
-      "textMorphObjects": "Objects",
-      "textMorphWords": "Words",
-      "textNoMatches": "No Matches",
-      "textRecommended": "Recommended",
-      "textRequired": "Required",
-      "textResetBackground": "Reset background",
-      "textRotateTextDown": "Rotate Text Down",
-      "textRotateTextUp": "Rotate Text Up",
-      "textRtlTextDirection": "Right-to-left",
-      "textTextDirection": "Text Direction",
-      "textTextOrientation": "Text Orientation",
-      "txtHeight": "Height",
-      "txtWidth": "Width"
+      "textZoomRotate": "Zum dan Putar"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -562,22 +449,7 @@
       "textTitle": "Tajuk",
       "textUnitOfMeasurement": "Unit Pengukuran",
       "textUploaded": "Dimuat naik",
-      "textVersion": "Versi",
-      "textClose": "Close",
-      "textDark": "Dark",
-      "textLight": "Light",
-      "textLoopSlideshow": "Loop slideshow",
-      "textNoMatches": "No Matches",
-      "textSameAsSystem": "Same As System",
-      "textTheme": "Theme",
-      "textOpenLocation": "Open location",
-      "textVersionHistory": "Version History"
+      "textVersion": "Versi"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }
