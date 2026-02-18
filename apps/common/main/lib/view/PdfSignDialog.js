@@ -409,14 +409,14 @@ define([], function () { 'use strict';
                 }
             };
 
-            $(document).on('keydown', me.keydownHandler);
+            document.addEventListener('keydown', me.keydownHandler, true);
 
             this.on('close', function(obj){
                 me.api.asc_unregisterCallback('asc_onSignatureImageLoaded', onApiImgLoaded);
                 me.api.asc_unregisterCallback('asc_CanUndoSignature', onCanUndoChanged);
                 me.api.asc_unregisterCallback('asc_CanRedoSignature', onCanRedoChanged);
                 Common.NotificationCenter.off('storage:image-insert', insertImageFromStorage);
-                $(document).off('keydown', me.keydownHandler);
+                document.removeEventListener('keydown', me.keydownHandler, true);
             });
 
             const $window = this.getChild();
@@ -499,11 +499,11 @@ define([], function () { 'use strict';
         },
 
         _handleInput: function(state) {
-            if (this.handler) {
+            if (this.options.handler) {
                 if (state == 'ok' && this.btnOk.isDisabled()) {
                     return;
                 }
-                this.handler.call(this, state, this.getSettings());
+                this.options.handler.call(this, state, this.getSettings());
             }
 
             this.close();
