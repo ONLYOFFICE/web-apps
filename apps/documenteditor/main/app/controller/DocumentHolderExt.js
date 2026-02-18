@@ -236,6 +236,7 @@ define([], function () {
             view.menuImgControlSettings.on('click', _.bind(me.onControlsSelect, me));
             view.menuTableRemoveForm.on('click', _.bind(me.onControlsSelect, me));
             view.menuTableRemoveControl.on('click', _.bind(me.onControlsSelect, me));
+            view.menuTableStretchControl.on('click', _.bind(me.onControlsSelect, me));
             view.menuTableControlSettings.on('click', _.bind(me.onControlsSelect, me));
             view.menuParaRemoveControl.on('click', _.bind(me.onControlsSelect, me));
             view.menuParaControlSettings.on('click', _.bind(me.onControlsSelect, me));
@@ -2224,6 +2225,11 @@ define([], function () {
                             me.editComplete();
                         }
                     })).show();
+                } else if (item.value == 'stretch') {
+                    if ( me.api.asc_StretchFormToCell ) {
+                        me.api.asc_StretchFormToCell(me.api.asc_GetCurrentContentControl());
+                    } else
+                        console.log('no asc_StretchFormToCell found');
                 } else if (item.value == 'remove') {
                     props.get_FormPr() ? this.api.asc_RemoveContentControl(props.get_InternalId()) : this.api.asc_RemoveContentControlWrapper(props.get_InternalId());
                 }

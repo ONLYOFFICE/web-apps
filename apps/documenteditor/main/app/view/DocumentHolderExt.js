@@ -1260,6 +1260,12 @@ define([], function () {
                 value: 'settings'
             });
 
+            me.menuTableStretchControl = new Common.UI.MenuItem({
+                // iconCls: 'menu__icon',
+                caption: 'Stretch',
+                value: 'stretch'
+            });
+
             var menuTableControl = new Common.UI.MenuItem({
                 caption: me.textContentControls,
                 menu        : new Common.UI.Menu({
@@ -1879,6 +1885,7 @@ define([], function () {
                     me.menuTableFollow,
                     menuHyperlinkSeparator,
                     me.menuTableRemoveForm,
+                    me.menuTableStretchControl,
                     menuTableControl,
                     me.menuTableTOC,
                     me.menuParagraphAdvancedInTable,
