@@ -69,6 +69,12 @@
             width: @loadmask-small-image-width;
         }
 
+        @supports (-moz-appearance: none) {
+            .asc-loadmask-image {
+                width: @loadmask-image-width + 1px;
+            }
+          }    
+
         .asc-loadmask-title {
             margin: 0 8px;
         }
