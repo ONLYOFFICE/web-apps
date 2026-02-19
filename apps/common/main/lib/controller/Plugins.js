@@ -1250,7 +1250,7 @@ define([
                 var variationType = Asc.PluginType.getType(variation.type);
                 var isSystem = (true === variation.isSystem) || (Asc.PluginType.System === variationType),
                     isPanel = variationType === Asc.PluginType.Panel || variationType === Asc.PluginType.PanelRight;
-                var visible = (this.appOptions.isEdit || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !isSystem;
+                var visible = (this.appOptions.isEdit || this.appOptions.canSubmitForms || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !isSystem;
                 if (visible && isPanel) {
                     this.onPluginPanelShow(frameId, variation, lang);
                 } else if (visible && !variation.isInsideMode) {

@@ -172,6 +172,7 @@ define([
             this.previewData    =   _options.previewData;
             this.warning        =   _options.warning || false;
             this.closable       =   _options.closable;
+            this.fromToolbar    =   _options.fromToolbar;
             this.codepages      =   _options.codepages;
             this.settings       =   _options.settings;
             this.api            =   _options.api;
@@ -568,7 +569,7 @@ define([
                     break;
                 case Common.Utils.importTextType.Paste:
                 case Common.Utils.importTextType.Columns:
-                    this.api.asc_TextImport(encoding, _.bind(this.textCallback, this), this.type == Common.Utils.importTextType.Paste);
+                    this.api.asc_TextImport(encoding, _.bind(this.textCallback, this), this.type == Common.Utils.importTextType.Paste, this.fromToolbar);
                     break;
             }
         },
