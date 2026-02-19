@@ -2469,6 +2469,7 @@
   "DE.Views.DocumentHolder.textRemField": "Remove text field",
   "DE.Views.DocumentHolder.textRemove": "Remove",
   "DE.Views.DocumentHolder.textRemoveControl": "Remove content control",
+  "DE.Views.DocumentHolder.textStretchControl": "Stretch content control",
   "DE.Views.DocumentHolder.textRemPicture": "Remove image",
   "DE.Views.DocumentHolder.textRemRadioBox": "Remove Radio button",
   "DE.Views.DocumentHolder.textReplace": "Replace image",

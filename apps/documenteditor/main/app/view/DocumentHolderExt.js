@@ -861,6 +861,18 @@ define([], function () {
                 })
             });
 
+            me.menuImgStretchContentControl = new Common.UI.MenuItem({
+                // iconCls: 'menu__icon',
+                caption: me.textStretchControl,
+                value: 'stretch'
+            });
+
+            me.menuTableStretchContentControl = new Common.UI.MenuItem({
+                // iconCls: 'menu__icon',
+                caption: me.textStretchControl,
+                value: 'stretch'
+            });
+
             this.pictureMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
@@ -942,6 +954,7 @@ define([], function () {
                         content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked,
                         is_form = control_props && control_props.get_FormPr();
 
+                    me.menuImgStretchContentControl.setVisible(in_control);
                     me.menuImgRemoveControl.setVisible(in_control);
                     me.menuImgControlSettings.setVisible(in_control && me.mode.canEditContentControl && !is_form);
                     menuImgControlSeparator.setVisible(in_control);
@@ -1094,6 +1107,7 @@ define([], function () {
                     me.menuOriginalSize,
                     me.menuImgReplace,
                     me.menuChartEdit,
+                    me.menuImgStretchContentControl,
                     me.menuImgEditPoints,
                     me.menuImageAdvanced
                 ]
@@ -1258,12 +1272,6 @@ define([], function () {
             me.menuTableControlSettings = new Common.UI.MenuItem({
                 caption: me.textSettings,
                 value: 'settings'
-            });
-
-            me.menuTableStretchControl = new Common.UI.MenuItem({
-                // iconCls: 'menu__icon',
-                caption: 'Stretch',
-                value: 'stretch'
             });
 
             var menuTableControl = new Common.UI.MenuItem({
@@ -1806,6 +1814,7 @@ define([], function () {
                         !value.paraProps.value.can_DeleteInlineContentControl() || !value.paraProps.value.can_EditInlineContentControl()) : false;
                     var in_toc = me.api.asc_GetTableOfContentsPr(true),
                         in_control = !in_toc && me.api.asc_IsContentControl();
+                    me.menuTableStretchContentControl.setVisible(in_control);
                     if (in_control) {
                         var control_props = me.api.asc_GetContentControlProperties(),
                             lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
@@ -1884,8 +1893,8 @@ define([], function () {
                     menuHyperlinkTable,
                     me.menuTableFollow,
                     menuHyperlinkSeparator,
+                    me.menuTableStretchContentControl,
                     me.menuTableRemoveForm,
-                    me.menuTableStretchControl,
                     menuTableControl,
                     me.menuTableTOC,
                     me.menuParagraphAdvancedInTable,
@@ -2455,6 +2464,7 @@ define([], function () {
                     var control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
                         !value.paraProps.value.can_DeleteInlineContentControl() || !value.paraProps.value.can_EditInlineContentControl()) : false;
 
+                    // me.menuStretchContentControl.setVisible(in_control);
                     me.menuParaRemoveControl.setVisible(in_control);
                     me.menuParaControlSettings.setVisible(in_control && me.mode.canEditContentControl && !is_form);
                     menuParaControlSeparator.setVisible(in_control);
@@ -2531,6 +2541,7 @@ define([], function () {
                     me.menuEquationInsertCaption,
                     { caption: '--' },
                     menuEquationSeparator,
+                    // me.menuStretchContentControl,
                     me.menuParaRemoveControl,
                     me.menuParaControlSettings,
                     menuParaControlSeparator,
