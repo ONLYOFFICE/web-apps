@@ -127,7 +127,14 @@ define([
                 stretch: true
             }, { // right menu
                 el: $(items[2]).hide(),
-                rely: true
+                rely: true,
+                alias: 'right',
+                resize: {
+                    hidden: false,
+                    autohide: false,
+                    min: -600,
+                    max: -260
+                }
             }
             ];
 
