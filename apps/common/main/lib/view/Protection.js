@@ -168,7 +168,7 @@ define([
                         this.btnsInvisibleSignature.push(this.btnSignature);
                 }
 
-                if(this.appConfig.isPDFForm) {
+                if(0 && this.appConfig.isPDFForm) {
                     this.btnProtectForm = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-restrict-editing',
