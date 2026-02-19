@@ -2464,7 +2464,6 @@ define([], function () {
                     var control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
                         !value.paraProps.value.can_DeleteInlineContentControl() || !value.paraProps.value.can_EditInlineContentControl()) : false;
 
-                    // me.menuStretchContentControl.setVisible(in_control);
                     me.menuParaRemoveControl.setVisible(in_control);
                     me.menuParaControlSettings.setVisible(in_control && me.mode.canEditContentControl && !is_form);
                     menuParaControlSeparator.setVisible(in_control);
@@ -2541,7 +2540,6 @@ define([], function () {
                     me.menuEquationInsertCaption,
                     { caption: '--' },
                     menuEquationSeparator,
-                    // me.menuStretchContentControl,
                     me.menuParaRemoveControl,
                     me.menuParaControlSettings,
                     menuParaControlSeparator,
