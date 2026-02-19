@@ -247,11 +247,6 @@ class MainController extends Component {
                     }
                 }
 
-
-                if(/^(pdf|docxf|oform|djvu|xps|oxps)$/.test(data.doc.fileType)) {
-                    this.changeEditorBrandColorForPdf();
-                }
-
                 if(data.doc.fileType === 'pdf') {
                     if(this.permissions.fillForms === undefined) {
                         this.permissions.fillForms = this.permissions.edit !== false;
@@ -624,15 +619,6 @@ class MainController extends Component {
 
         if (/^(ca|us)$/i.test(region)) {
             Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
-        }
-    }
-
-    changeEditorBrandColorForPdf() {
-        const bodyElement = document.body;
-        bodyElement.classList.add('pdf-view');
-
-        if(Device.android) {
-            bodyElement.classList.add('pdf-view__android');
         }
     }
 
