@@ -1214,6 +1214,7 @@ define([
                     type: Common.Utils.importTextType.Paste,
                     preview: true,
                     api: me.api,
+                    fromToolbar: true,
                     handler: function (result, settings) {
                         if (result == 'ok') {
                             if (me && me.api) {
