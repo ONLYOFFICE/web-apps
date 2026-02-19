@@ -46,10 +46,16 @@
         .margin-left-8();
     }
 
+    @supports (-moz-appearance: none) {
+        .asc-loadmask-image {
+            width: @loadmask-image-width + 1px;
+        }
+    } 
+
     .asc-loadmask-title {
         //.fontsize(@font-size-large);
         .font-size-large();
-        margin: 0 8px 0 12px;
+        margin: 0 auto 0 12px;
         white-space: pre-wrap;
     }
 
@@ -67,13 +73,7 @@
             background-image: ~"url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PGNpcmNsZSBjeD0iMTAiIGN5PSIxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDQ0IiBzdHJva2Utd2lkdGg9IjEuNSIgcj0iNy4yNSIgc3Ryb2tlLWRhc2hhcnJheT0iMTYwJSwgNDAlIiAvPjwvc3ZnPg==)";
             height: @loadmask-small-image-height;
             width: @loadmask-small-image-width;
-        }
-
-        @supports (-moz-appearance: none) {
-            .asc-loadmask-image {
-                width: @loadmask-image-width + 1px;
-            }
-          }    
+        }   
 
         .asc-loadmask-title {
             margin: 0 8px;
