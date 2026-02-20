@@ -1059,6 +1059,7 @@
   "Common.Views.Protection.txtDeletePwd": "Izbriši lozinku",
   "Common.Views.Protection.txtEncrypt": "Enkriptovanje",
   "Common.Views.Protection.txtInvisibleSignature": "Dodaj digitalni potpis",
+  "Common.Views.Protection.txtProtectForm": "Zaštićena forma",
   "Common.Views.Protection.txtSignature": "Potpis",
   "Common.Views.Protection.txtSignatureLine": "Dodaj potpisnu liniju",
   "Common.Views.RecentFiles.txtOpenRecent": "Otvori skorašnje ",
