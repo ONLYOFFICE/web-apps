@@ -141,6 +141,7 @@ define([
             if ( Common.UI.isRTL() ) {
                 iarray[0].resize.min = -600;
                 iarray[0].resize.max = -300;
+                [iarray[3].resize.min, iarray[3].resize.max] = [260, 600];
                 [iarray[0], iarray[2]] = [iarray[2], iarray[0]];
             }
 
