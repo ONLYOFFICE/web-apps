@@ -375,7 +375,7 @@ define([], function () {
                     '</td>',
                 '</tr>',
                 '<tr>',
-                    '<td><label><%= scope.strKeyboardShortcuts %><span class="new-hint"><%= Common.UI.SynchronizeTip.prototype.textNew.toUpperCase() %></span></label></td>',
+                    '<td><label><%= scope.strKeyboardShortcuts %></label></td>',
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-keyboard-shortcuts" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomize %></button></div></td>',
                 '</tr>',
                 '<tr class ="divider-group"></tr>',
@@ -1243,8 +1243,6 @@ define([], function () {
                 this.chHScroll.setValue(this.api.asc_GetShowHorizontalScroll());
                 this.chVScroll.setValue(this.api.asc_GetShowVerticalScroll());
             }
-
-            Common.localStorage.getItem('help-tip-customize-shortcuts') && $('.new-hint', this.el).addClass('hidden');
         },
 
         isValid: function() {
