@@ -298,6 +298,17 @@ define([
                 target_pane_parent.find('.content-box > .active').removeClass('active');
                 target_pane && target_pane.addClass("active");
 
+                const viewport = SSE.getController('Viewport').getView('Viewport');
+                viewport.hlayout.hideItemResizer('right', !isPlugin);
+
+                const widthFromStorage = Common.localStorage.getItem('sse-rightmenu-width');
+                if(isPlugin && widthFromStorage) {
+                    this.$el.width(parseInt(widthFromStorage));
+                } else {
+                    this.setInnerWidth(MENU_BASE_WIDTH);
+                }
+                Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+
                 if (this.scroller) {
                     this.scroller.scrollTop(0);
                 }
@@ -367,11 +378,17 @@ define([
             this.$el.find('.side-panel .content-box').append($panel);
         },
 
+        setInnerWidth: function(value) {
+            const pane = $(this.el).find('.right-panel');
+            const paddings = parseInt(pane.css('padding-left')) + parseInt(pane.css('padding-right'));
+            MENU_SCALE_PART = value + paddings;
+            this.$el.css('width', (!Common.Utils.InternalSettings.get("sse-hide-right-settings") ? MENU_SCALE_PART : SCALE_MIN) + 'px');
+        },
+
         updateWidth: function() {
             var pane = $(this.el).find('.right-panel'),
                 paddings = parseInt(pane.css('padding-left')) + parseInt(pane.css('padding-right'));
-            pane.css('width', MENU_BASE_WIDTH + paddings + 'px');
-            MENU_SCALE_PART = SCALE_MIN + MENU_BASE_WIDTH + paddings;
+            MENU_SCALE_PART = MENU_BASE_WIDTH + paddings;
             this.$el.css('width', (!Common.Utils.InternalSettings.get("sse-hide-right-settings") ? MENU_SCALE_PART : SCALE_MIN) + 'px');
         },
 
