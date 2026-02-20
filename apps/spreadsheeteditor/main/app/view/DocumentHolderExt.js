@@ -1577,6 +1577,7 @@ define([], function () {
             });
 
             me.menuAddHyperlinkPic = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
                 caption: me.txtInsHyperlink
             });
 
