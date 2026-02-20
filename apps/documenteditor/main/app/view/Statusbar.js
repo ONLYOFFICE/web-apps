@@ -164,6 +164,7 @@ define([
             });
 
             me.btnMultiplePages.on('click', function (btn) {
+                Common.UI.TooltipManager.closeTip('multipageViewStatusbar');
                 me.fireEvent('pages:multiple', [btn.pressed])
             })
 

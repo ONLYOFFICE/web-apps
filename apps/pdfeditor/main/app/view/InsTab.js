@@ -98,6 +98,7 @@ define([
                 //     me.fireEvent('insert:header', ['slidenum']);
                 // }, me));
                 me.btnInsertHyperlink.on('click', _.bind(function () {
+                    Common.UI.TooltipManager.closeTip('createLink');
                     me.fireEvent('insert:hyperlink');
                 }, me));
                  me.mnuTablePicker.on('select', _.bind(function (picker, columns, rows, e) {
