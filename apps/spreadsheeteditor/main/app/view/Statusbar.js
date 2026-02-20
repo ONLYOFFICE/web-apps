@@ -1024,6 +1024,10 @@ define([
                 this.labelAction.text('');
                 this.statusMessage = undefined;
             },
+            
+            hideStatusMessage: function() {
+                this.boxAction.hide();
+            },
 
             getStatusLabel: function() {
                 return this.labelAction;

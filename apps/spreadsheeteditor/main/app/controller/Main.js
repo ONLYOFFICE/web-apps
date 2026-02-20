@@ -832,6 +832,7 @@ define([
                 } else if ( id == Asc.c_oAscAsyncAction['BackgroundOpen']) {
                     this.disableEditing(false, 'background-open');
                     this.getApplication().getController('Statusbar').setStatusCaption('');
+                    this.getApplication().getController('Statusbar').statusbar.hideStatusMessage();
                 } else if (id === Asc.c_oAscAsyncAction['RefreshFile'])  {
                     this.disableEditing(false, 'refresh-file');
                     Common.UI.TooltipManager.closeTip('refreshFile');
