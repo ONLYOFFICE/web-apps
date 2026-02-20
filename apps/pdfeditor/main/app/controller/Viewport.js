@@ -155,10 +155,20 @@ define([
             $(window).on('resize', _.bind(this.onWindowResize, this));
 
             var leftPanel = $('#left-menu'),
-                histPanel = $('#left-panel-history');
+                histPanel = $('#left-panel-history'),
+                rightPanel = $('#right-menu');
             this.viewport.hlayout.on('layout:resizedrag', function() {
                 this.api.Resize();
-                Common.localStorage.setItem('pdfe-mainmenu-width', histPanel.is(':visible') ? (histPanel.width()+SCALE_MIN) : leftPanel.width() );
+
+                const leftPanelWidth = histPanel.is(':visible') ? (histPanel.width()+SCALE_MIN) : leftPanel.width();
+                if(leftPanelWidth > SCALE_MIN) {
+                    Common.localStorage.setItem('pdfe-mainmenu-width', leftPanelWidth);
+                }
+
+                const rightPanelWidth = rightPanel.width();
+                if(rightPanelWidth > SCALE_MIN) {
+                    Common.localStorage.setItem('pdfe-rightmenu-width', rightPanelWidth);
+                }
             }, this);
 
             this.boxSdk = $('#editor_sdk');

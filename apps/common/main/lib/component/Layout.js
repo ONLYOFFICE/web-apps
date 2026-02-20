@@ -203,6 +203,14 @@ define([
             }
         },
 
+        hideItemResizer: function(alias, isHide) {
+            const panel = this.getItem(alias);
+            if(panel && panel.resize) {
+                panel.resize.hidden = isHide;
+                panel.resize.el && (panel.resize.el[isHide ? 'hide' : 'show']());
+            }
+        },
+
         onSelectStart: function(e) {
             if (e.preventDefault) e.preventDefault();
             return false;
