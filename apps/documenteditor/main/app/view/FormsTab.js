@@ -1006,7 +1006,7 @@ define([
             tipCreditCard: 'Insert credit card number',
             capDateTime: 'Date & Time',
             tipDateTime: 'Insert date and time',
-            tipCreateField: 'To create a field select the desired field type on the toolbar and click on it. The field will appear in the document.',
+            //tipCreateField: 'To create a field select the desired field type on the toolbar and click on it. The field will appear in the document.',
             tipFormKey: 'You can assign a key to a field or a group of fields. When a user fills in the data, it will be copied to all the fields with the same key.',
             tipFormGroupKey: 'Group radio buttons to make the filling process faster. Choices with the same names will be synchronized. Users can only tick one radio button from the group.',
             tipFieldSettings: 'You can configure selected fields on the right sidebar. Click this icon to open the field settings.',

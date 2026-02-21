@@ -279,10 +279,10 @@ define([
             var url = 'https://www.onlyoffice.com/blog/2025/10/docs-9-1-released';
 
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'rtlDirection' : {name: 'sse-help-tip-rtl-dir', placement: 'bottom', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', maxwidth: 300, automove: true,
-                                  closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
-                'commentFilter' : {name: 'help-tip-comment-filter', placement: 'bottom-right', text: this.helpCommentFilter, header: this.helpCommentFilterHeader, target: '#comments-btn-sort', maxwidth: 300,
-                                  closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
+                // 'rtlDirection' : {name: 'sse-help-tip-rtl-dir', placement: 'bottom', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', maxwidth: 300, automove: true,
+                                //   closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
+                // 'commentFilter' : {name: 'help-tip-comment-filter', placement: 'bottom-right', text: this.helpCommentFilter, header: this.helpCommentFilterHeader, target: '#comments-btn-sort', maxwidth: 300,
+                //                   closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
                 'tableTab' : {name: 'sse-help-tip-table-tab', placement: 'bottom', offset: {x: Common.UI.isRTL() ? -10 : 10, y: 0}, text: this.helpTableTab, header: this.helpTableTabHeader, target: 'li.ribtab #tabledesign',
                                 automove: true, maxwidth: 300, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
                 'chartElements' : {name: 'help-tip-chart-elements', placement: 'bottom', text: this.helpChartElements, header: this.helpChartElementsHeader, target: '#id-document-holder-btn-chart-element', maxwidth: 300,

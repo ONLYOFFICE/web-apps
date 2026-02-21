@@ -185,8 +185,8 @@ define([
             var url = 'https://www.onlyoffice.com/blog/2025/10/docs-9-1-released';
 
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'pdfCharts' : {name: 'pdfe-help-tip-pdf-charts', placement: 'bottom', offset: {x: Common.UI.isRTL() ? -30 : 30, y: 0}, text: this.helpPdfCharts, header: this.helpPdfChartsHeader,
-                              target: '#slot-btn-inssmartart', isNewFeature: true, maxwidth: 300, closable: false, link: {text: _main.textLearnMore, url: url}},
+                // 'pdfCharts' : {name: 'pdfe-help-tip-pdf-charts', placement: 'bottom', offset: {x: Common.UI.isRTL() ? -30 : 30, y: 0}, text: this.helpPdfCharts, header: this.helpPdfChartsHeader,
+                //               target: '#slot-btn-inssmartart', isNewFeature: true, maxwidth: 300, closable: false, link: {text: _main.textLearnMore, url: url}},
                 'annotRect' : {name: 'pdfe-help-tip-annot-rect', placement: 'bottom', text: this.helpAnnotRect, header: this.helpAnnotRectHeader,
                               target: '#slot-btn-shape-comment', isNewFeature: true, maxwidth: 300, closable: false, noHighlight: true, link: {text: _main.textLearnMore, url: url}},
                 'redactTab' : {name: 'help-tip-redact-tab', placement: 'bottom-right', offset: {x: Common.UI.isRTL() ? -10 : 10, y: 0}, text: this.helpRedactTab, header: this.helpRedactTabHeader, target: 'li.ribtab #red',
