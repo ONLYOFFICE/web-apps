@@ -1059,6 +1059,7 @@
   "Common.Views.Protection.txtDeletePwd": "پاس ورڈ حذف کریں۔",
   "Common.Views.Protection.txtEncrypt": "خفیہ کاری",
   "Common.Views.Protection.txtInvisibleSignature": "ڈیجیٹل دستخط شامل کریں",
+  "Common.Views.Protection.txtProtectForm": "فارم کی حفاظت کریں۔",
   "Common.Views.Protection.txtSignature": "دستخط",
   "Common.Views.Protection.txtSignatureLine": "دستخط لائن شامل کریں۔",
   "Common.Views.RecentFiles.txtOpenRecent": "حالیہ کھولیں۔",
