@@ -440,6 +440,7 @@
     "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
     "errorConnectToServer": "Can't save this doc. Check your connection settings or contact the admin.<br>When you click OK, you will be prompted to download the document.",
     "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
+    "errorFileNotAssembled": "This file is opened from a server backup copy and is not saved to storage.<br>Use the 'Save as...' option to save it to a drive.",
     "errorDatabaseConnection": "External error.<br>Database connection error. Please, contact support.",
     "errorDataEncrypted": "Encrypted changes have been received, they cannot be deciphered.",
     "errorDataRange": "Incorrect data range.",

@@ -15,6 +15,7 @@
   "DE.ApplicationController.downloadTextText": "Downloading document...",
   "DE.ApplicationController.errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.",
   "DE.ApplicationController.errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
+  "DE.ApplicationController.errorFileNotAssembled": "This file is opened from a server backup copy and is not saved to storage.<br>Use the 'Save as...' option to save it to a drive.",
   "DE.ApplicationController.errorDefaultMessage": "Error code: %1",
   "DE.ApplicationController.errorEditingDownloadas": "An error occurred during the work with the document.<br>Use the 'Download as...' option to save the file backup copy to your computer hard drive.",
   "DE.ApplicationController.errorFilePassProtect": "The file is password protected and cannot be opened.",

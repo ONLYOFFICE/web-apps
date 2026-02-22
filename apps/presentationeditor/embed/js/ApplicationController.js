@@ -746,6 +746,10 @@ PE.ApplicationController = new(function(){
                 message= me.errorCopyDisabled;
                 break;
 
+            case Asc.c_oAscError.ID.FileNotAssembled:
+                message = me.errorFileNotAssembled;
+                break;
+
             default:
                 // message = me.errorDefaultMessage.replace('%1', id);
                 // break;

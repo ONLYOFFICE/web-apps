@@ -1534,6 +1534,7 @@
   "SSE.Controllers.Main.errorConnectToServer": "The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.",
   "SSE.Controllers.Main.errorConvertXml": "The file has an unsupported format.<br>Only XML Spreadsheet 2003 format can be used.",
   "SSE.Controllers.Main.errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
+  "SSE.Controllers.Main.errorFileNotAssembled": "This file is opened from a server backup copy and is not saved to storage.<br>Use the 'Save as...' option to save it to a drive.",
   "SSE.Controllers.Main.errorCopyMultiselectArea": "This command cannot be used with multiple selections.<br>Select a single range and try again.",
   "SSE.Controllers.Main.errorCountArg": "An error in the entered formula.<br>Incorrect number of arguments is used.",
   "SSE.Controllers.Main.errorCountArgExceed": "An error in the entered formula.<br>Number of arguments is exceeded.",

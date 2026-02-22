@@ -15,6 +15,7 @@
   "VE.ApplicationController.downloadTextText": "Downloading document...",
   "VE.ApplicationController.errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.",
   "VE.ApplicationController.errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
+  "VE.ApplicationController.errorFileNotAssembled": "This file is opened from a server backup copy and is not saved to storage.<br>Use the 'Save as...' option to save it to a drive.",
   "VE.ApplicationController.errorDefaultMessage": "Error code: %1",
   "VE.ApplicationController.errorEditingDownloadas": "An error occurred during the work with the document.<br>Use the 'Download as' option to save the file backup copy to a drive.",
   "VE.ApplicationController.errorFilePassProtect": "The file is password protected and cannot be opened.",
