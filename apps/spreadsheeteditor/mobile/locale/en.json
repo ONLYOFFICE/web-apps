@@ -277,6 +277,7 @@
     "errorComboSeries": "To create a combination chart, select at least two series of data.",
     "errorConnectToServer": "Can't save this doc. Check your connection settings or contact your admin.<br>When you click the 'OK' button, you will be prompted to download the document.",
     "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
+    "errorFileNotAssembled": "This file is opened from a server backup copy and is not saved to storage.<br>Use the 'Save as...' option to save it to a drive.",
     "errorCopyMultiselectArea": "This command cannot be used with multiple selections.<br>Select a single range and try again.",
     "errorCountArg": "An error in the formula.<br>Invalid number of arguments.",
     "errorCountArgExceed": "An error in the formula.<br>Maximum number of arguments exceeded.",

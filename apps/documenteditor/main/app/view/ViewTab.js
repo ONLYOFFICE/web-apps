@@ -312,6 +312,7 @@ define([
                     iconCls: 'toolbar__icon btn-multiple-pages',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     caption: this.textMultiplePages,
+                    pressed: Common.localStorage.getBool("de-zoom-multipage", false),
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',

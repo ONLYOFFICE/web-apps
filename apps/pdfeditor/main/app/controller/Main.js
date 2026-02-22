@@ -1936,6 +1936,10 @@ define([
                         config.msg = this.errorCopyDisabled;
                         break;
 
+                    case Asc.c_oAscError.ID.FileNotAssembled:
+                        config.msg = this.errorFileNotAssembled;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         if (typeof id == 'string')
