@@ -224,6 +224,7 @@ define([
                     Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
                     this.api.setSpeechEnabled(value);
 
+
                     if ( !Common.Utils.isIE ) {
                         if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_DE}}') ) {
                             const _url_obj = new URL('{{HELP_CENTER_WEB_DE}}');
@@ -1339,7 +1340,13 @@ define([
                         this.api.zoomFitToWidth();
                     }
                 } else {
-                    this.api.zoom(zf > 0 ? zf : 100);
+                    if (Common.localStorage.getBool("de-zoom-multipage", false)) {
+                        this.api.zoomCustomMode();
+                        this.api.SetMultipageViewMode(true);
+
+                        if ( lastZoom > 0 ) this.api.zoom(lastZoom);
+                    } else
+                        this.api.zoom(zf > 0 ? zf : 100);
                 }
 
                 value = Common.localStorage.getItem("de-show-hiddenchars");

@@ -220,6 +220,7 @@ define([
                 this.btnMultiplePages = new Common.UI.Button({
                     hintAnchor: 'top',
                     toggleGroup: 'multiple-pages',
+                    pressed: Common.localStorage.getBool("de-zoom-multipage", false),
                     enableToggle: true
                 });
 

@@ -246,8 +246,6 @@ define([
 
         onMultiplePages: function (pressed) {
             if (this.api) {
-                this.api.zoomCustomMode();
-                this.api.SetMultipageViewMode(pressed);
                 this.statusbar.fireEvent('pages:multiplechanged', [pressed]);
             }
         },

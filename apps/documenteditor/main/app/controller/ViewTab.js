@@ -109,6 +109,9 @@ define([
                         this.view.chStatusbar.setValue(!state, true);
                     }, this),
                     'pages:multiplechanged': _.bind(function (isMultiple) {
+                        this.api.zoomCustomMode();
+                        this.api.SetMultipageViewMode(isMultiple);
+                        Common.localStorage.setBool("de-zoom-multipage", isMultiple);
                         this.view.btnMultiplePages.toggle(isMultiple);
                     }, this)
                 },
@@ -290,6 +293,7 @@ define([
             if (this.api) {
                 this.api.zoomCustomMode();
                 this.api.SetMultipageViewMode(pressed);
+                Common.localStorage.setBool("de-zoom-multipage", pressed);
                 this.view.fireEvent('pages:multiplechanged', [pressed]);
             }
         },
