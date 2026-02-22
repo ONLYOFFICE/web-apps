@@ -1693,6 +1693,8 @@
   "PDFE.Controllers.Toolbar.helpPdfChartsHeader": "Charts and SmartArt in PDF",
   "PDFE.Controllers.Toolbar.helpRedactTab": "Safeguard sensitive information with the Redact feature, allowing you to securely remove confidential content.",
   "PDFE.Controllers.Toolbar.helpRedactTabHeader": "Redact in PDF",
+  "PDFE.Controllers.Toolbar.helpCreateLink": "Easily add links to an external resource or a page within the current file.",
+  "PDFE.Controllers.Toolbar.helpCreateLinkHeader": "Create & edit links",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Warning",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",
   "PDFE.Controllers.Toolbar.textGotIt": "Got it",

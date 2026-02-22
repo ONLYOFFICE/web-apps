@@ -271,8 +271,18 @@ define([
                 'commentFilter' : {name: 'help-tip-comment-filter', placement: 'bottom-right', text: this.helpCommentFilter, header: this.helpCommentFilterHeader, target: '#comments-btn-sort', maxwidth: 300,
                                   closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
                 'chartElements' : {name: 'help-tip-chart-elements', placement: 'bottom', text: this.helpChartElements, header: this.helpChartElementsHeader, target: '#id-document-holder-btn-chart-element', maxwidth: 300,
-                                    automove: true, noHighlight: true, noArrow: true, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
+                                    automove: true, noHighlight: true, noArrow: true, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url},
+                                },
+                // 'multipageViewToolbar' : {name: 'de-help-tip-multipage-view-toolbar', placement: 'bottom-right', text: this.helpMultipageView, header: this.helpMultipageViewHeader, target: '#slot-btn-multiple-pages', maxwidth: 300,
+                //                     automove: true, closable: false, isNewFeature: true},
+                'multipageViewStatusbar' : {name: 'de-help-tip-multipage-view-statusbar', placement: 'top-left', text: this.helpMultipageView, header: this.helpMultipageViewHeader, target: '#status-btn-multiple-pages', maxwidth: 300,
+                                    automove: true, closable: false, isNewFeature: true},
+                'headerFooterTab' : {name:'de-help-tip-header-footer-tab', placement: 'bottom-left', text: this.helpHeaderFooterTab, header: this.helpHeaderFooterTabHeader, target: 'li.ribtab #headerfooter', maxwidth: 300,
+                                    automove: true, closable: false, isNewFeature: true},
+                'signature' : {name:'de-help-tip-signature', placement: 'bottom-right', text: this.helpSignature, header: this.helpSignatureHeader, target: '#slot-btn-form-signature', maxwidth: 300, 
+                                    automove: true, closable: false, isNewFeature: true}
             });
+            // TODO: Добавить name
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true},
                 'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true},
@@ -4291,12 +4301,45 @@ define([
                 me.onPluginToolbarCustomMenuItems(plugin.action, plugin.data);
             });
             this._state.customPluginData = null;
+            
+            if(this.mode.isPDFForm) {
+                const formsTabView = this.getApplication().getController('FormsTab').getView();
+                if(formsTabView && formsTabView.btnSignField && !formsTabView.btnSignField.isDisabled() && 
+                    this.toolbar.isTabActive('forms')
+                ) {
+                    Common.UI.TooltipManager.showTip('signature');
+                }
+            }
+
+            Common.UI.TooltipManager.showTip('multipageViewStatusbar');
         },
 
         onActiveTab: function(tab) {
+            if(tab !== 'forms') {
+                Common.UI.TooltipManager.closeTip('signature');
+            } else {
+                const formsTabView = this.getApplication().getController('FormsTab').getView();
+                if(formsTabView && formsTabView.btnSignField && !formsTabView.btnSignField.isDisabled()) {
+                    setTimeout(() => {
+                        Common.UI.TooltipManager.showTip('signature') 
+                    }, 10);
+                }
+            }
+
+            if(tab === 'view') {
+                Common.UI.TooltipManager.showTip('multipageViewToolbar');
+                Common.UI.TooltipManager.closeTip('multipageViewStatusbar');
+            } else {
+                Common.UI.TooltipManager.closeTip('multipageViewToolbar');
+            }
+
+            (tab === 'headerfooter') 
+                ? Common.UI.TooltipManager.showTip('headerFooterTab') 
+                : Common.UI.TooltipManager.closeTip('headerFooterTab');
         },
 
         onTabCollapse: function(tab) {
+            Common.UI.TooltipManager.closeTip('signature')
         }
 
     }, DE.Controllers.Toolbar || {}));

@@ -1785,6 +1785,8 @@
   "PE.Controllers.Toolbar.helpCommentFilterHeader": "Comment filters",
   "PE.Controllers.Toolbar.helpMasterTab": "Access the Slide Master settings in the dedicated toolbar tab for easier control.",
   "PE.Controllers.Toolbar.helpMasterTabHeader": "Slide Master tab",
+  "PE.Controllers.Toolbar.helpGifPlayback": "Bring your slides to life by playing GIF animations during slideshow mode.",
+  "PE.Controllers.Toolbar.helpGifPlaybackHeader": "GIF playback in slideshow mode",
   "PE.Controllers.Toolbar.textAccent": "Accents",
   "PE.Controllers.Toolbar.textBracket": "Brackets",
   "PE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",

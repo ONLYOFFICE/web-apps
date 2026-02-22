@@ -112,6 +112,7 @@ define([
             });
 
             me.btnSolver.on('click', function (b, e) {
+                Common.UI.TooltipManager.closeTip('solver');
                 me.fireEvent('data:solver');
             });
 
