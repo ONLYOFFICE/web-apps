@@ -208,6 +208,7 @@
   "VE.Controllers.Main.errorConnectToServer": "The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.",
   "VE.Controllers.Main.errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
   "VE.Controllers.Main.errorFileNotAssembled": "This file is opened from a server backup copy and is not saved to storage.<br>Use the 'Save as...' option to save it to a drive.",
+  "VE.Controllers.Main.errorForcedViewMode": "This file is opened in view mode.<br>The file is locked for editing or your access rights do not allow editing.",
   "VE.Controllers.Main.errorDatabaseConnection": "External error.<br>Database connection error. Please contact support in case the error persists.",
   "VE.Controllers.Main.errorDataEncrypted": "Encrypted changes have been received, they cannot be deciphered.",
   "VE.Controllers.Main.errorDataRange": "Incorrect data range.",

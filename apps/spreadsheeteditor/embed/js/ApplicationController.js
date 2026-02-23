@@ -795,6 +795,10 @@ SSE.ApplicationController = new(function(){
                 message = me.errorFileNotAssembled;
                 break;
 
+            case Asc.c_oAscError.ID.ForcedViewMode:
+                message = me.errorForcedViewMode;
+                break;
+
             default:
                 // message = me.errorDefaultMessage.replace('%1', id);
                 // break;

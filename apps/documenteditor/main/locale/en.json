@@ -1334,6 +1334,7 @@
   "DE.Controllers.Main.errorEmailClient": "No email client could be found.",
   "DE.Controllers.Main.errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
   "DE.Controllers.Main.errorFileNotAssembled": "This file is opened from a server backup copy and is not saved to storage.<br>Use the 'Save as...' option to save it to a drive.",
+  "DE.Controllers.Main.errorForcedViewMode": "This file is opened in view mode.<br>The file is locked for editing or your access rights do not allow editing.",
   "DE.Controllers.Main.errorFilePassProtect": "The file is password protected and cannot be opened.",
   "DE.Controllers.Main.errorFileSizeExceed": "The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.",
   "DE.Controllers.Main.errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to a drive or try again later.",
