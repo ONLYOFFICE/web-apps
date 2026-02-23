@@ -32,7 +32,7 @@
             z-index: 1001;
         }
 
-        .theme-night .loadmask {
+        .theme-night .loadmask, .theme-type-dark .loadmask {
             /* --toolbar-header-document: #222222 */
             --sk-background-toolbar: #222222;
 
