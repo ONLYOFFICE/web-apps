@@ -16,6 +16,7 @@
   "SSE.ApplicationController.errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.",
   "SSE.ApplicationController.errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
   "SSE.ApplicationController.errorFileNotAssembled": "This file is opened from a server backup copy and is not saved to storage.<br>Use the 'Save as...' option to save it to a drive.",
+  "SSE.ApplicationController.errorForcedViewMode": "This file is opened in view mode.<br>The file is locked for editing or your access rights do not allow editing.",
   "SSE.ApplicationController.errorDefaultMessage": "Error code: %1",
   "SSE.ApplicationController.errorEditingDownloadas": "An error occurred during the work with the document.<br>Use the 'Download as' option to save the file backup copy to a drive.",
   "SSE.ApplicationController.errorFilePassProtect": "The file is password protected and cannot be opened.",

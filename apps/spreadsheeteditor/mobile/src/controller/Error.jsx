@@ -519,6 +519,10 @@ const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({store
                 config.msg = t('Error.errorFileNotAssembled');
                 break;
 
+            case Asc.c_oAscError.ID.ForcedViewMode:
+                config.msg = t('Error.errorForcedViewMode');
+                break;
+
             default:
                 config.msg = _t.errorDefaultMessage.replace('%1', id);
                 break;
