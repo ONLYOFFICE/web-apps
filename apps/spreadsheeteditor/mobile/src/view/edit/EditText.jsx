@@ -383,8 +383,7 @@ const PageCustomFontSize = (props) => {
 
     const apply = useCallback(() => {
         const size = valueRef.current;
-        if (size === '') return;
-        if (String(size) === String(displaySize)) return;
+        if (size === '' || Number(size) === displaySize) return;
         props.applyFontSize(size);
     }, [displaySize, props.applyFontSize]);
 
@@ -410,7 +409,7 @@ const PageCustomFontSize = (props) => {
             <Navbar title={_t.txtCustom} backLink="Back">
                 {Device.phone && 
                     <NavRight>
-                        <Link sheetClose="#edit-sheet" onClick={apply}>
+                        <Link sheetClose="#edit-sheet">
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
                                 <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
