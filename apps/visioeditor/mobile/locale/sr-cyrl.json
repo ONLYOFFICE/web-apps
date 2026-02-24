@@ -68,10 +68,7 @@
       "warnLicenseLimitedRenewed": "Лиценца треба да буде обновљена. Имате ограничен приступ функционалности уређивања документа.<br>Молимо контактирајте вашег администратора да добијете потпуни приступ",
       "warnNoLicense": "Достигли сте лимит за истовремене конекције за %1 уреднике. Овај документ ће бити отворен само за приказ. Контактирајте %1 тим за продају за личне услове надоградње.",
       "warnNoLicenseUsers": "Достигли сте кориснички лимит за %1 уреднике. Контактирајте %1 тим за продају за личне услове надоградње.",
-      "warnProcessRightsChange": "Немате дозволу да уређујете овај фајл.",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "Немате дозволу да уређујете овај фајл."
     }
   },
   "Error": {
@@ -119,9 +116,7 @@
     "unknownErrorText": "Непозната грешка.",
     "uploadImageExtMessage": "Непознати формат слике.",
     "uploadImageFileCountMessage": "Нема отпремљених слика.",
-    "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ."
   },
   "LongActions": {
     "applyChangesTextText": "Учитавање података...",
@@ -160,9 +155,7 @@
     "leaveButtonText": "Напусти ову страницу",
     "stayButtonText": "Остани на овој страници",
     "textEnterNewFileName": "Унеси ново име фајла",
-    "textRenameFile": "Преименуј фајл",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textRenameFile": "Преименуј фајл"
   },
   "View": {
     "Edit": {
@@ -200,6 +193,7 @@
       "textOwner": "Власник",
       "textPoweredBy": "Покреће",
       "textPrint": "Штампај",
+      "textRestartApplication": "Молимо поново учитајте апликацију да би измене имале ефекта",
       "textSameAsSystem": "Исто као систем",
       "textSearch": "Претрага",
       "textSettings": "Подешавања",
@@ -211,9 +205,7 @@
       "textVersion": "Верзија ",
       "textVisioInfo": "Информације о прегледачу дијаграма",
       "textVisioSettings": "Подешавања прегледача дијаграма",
-      "textVisioTitle": "Наслов прегледача дијаграма",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textOpenLocation": "Open location"
+      "textVisioTitle": "Наслов прегледача дијаграма"
     }
   }
 }

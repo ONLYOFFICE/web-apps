@@ -231,8 +231,11 @@
       "textUpdate": "עדכון",
       "textWarnUpdateExternalData": "חוברת עבודה זו מכילה קישורים למקור חיצוני אחד או יותר שעלולים להיות לא בטוחים. אם ניתן לסמוך על הקישורים, נא לעדכן אותם כדי לקבל את הנתונים העדכניים ביותר.",
       "textYes": "כן",
+      "tipLicenseExceeded": "המסמך פתוח במצב קריאה בלבד מכיוון שהגעת למספר המרבי של חיבורים בו-זמניים המותר על פי הרישיון.<br><br>אנא נסה שוב מאוחר יותר או צור קשר עם בעל המסמך אם אתה זקוק לגישת עריכה.",
+      "tipLicenseUsersExceeded": "המסמך פתוח במצב קריאה בלבד מכיוון שהגעת למספר המרבי של משתמשים המורשים לערוך מסמכים באמצעות רישיון.<br><br>אנא נסה שוב מאוחר יותר או צור קשר עם בעל המסמך אם אתה זקוק לגישת עריכה.",
       "titleLicenseExp": "פג תוקפו של הרישיון",
       "titleLicenseNotActive": "רישיון לא פעיל",
+      "titleReadOnly": "מצב קריאה בלבד",
       "titleServerVersion": "עורך מעודכן",
       "titleUpdateVersion": "הגרסה השתנתה",
       "warnLicenseAnonymous": "הגישה נדחתה עבור משתמשים אנונימיים.<br>מסמך זה ייפתח לצפייה בלבד.",
@@ -242,10 +245,7 @@
       "warnLicenseLimitedRenewed": "יש לחדש את הרישיון. יש לך גישה מוגבלת לפונקציונליות של עריכת מסמכים.<br>נא ליצור קשר עם מנהל המערכת שלך כדי לקבל גישה מלאה",
       "warnNoLicense": "הגעת למגבלה של חיבורים סימולטניים לעורכי %1. מסמך זה ייפתח לצפייה בלבד. נא ליצור קשר עם צוות המכירות %1 לקבלת תנאי שדרוג אישיים.",
       "warnNoLicenseUsers": "הגעת למגבלת המשתמש עבור %1 עורכים. נא ליצור קשר עם צוות המכירות %1 לקבלת תנאי שדרוג אישיים.",
-      "warnProcessRightsChange": "אין לך הרשאה לערוך את הקובץ.",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "אין לך הרשאה לערוך את הקובץ."
     }
   },
   "Draw": {
@@ -276,6 +276,7 @@
     "errorCircularReference": "קיימת הפניה מעגלית אחת או יותר שבה נוסחה מפנה לתא משלה באופן ישיר או עקיף.<br>נסה להסיר או לשנות הפניות אלה, או להעביר את הנוסחאות לתאים שונים.",
     "errorComboSeries": "כדי ליצור תרשים שילוב נדרש לבחור לפחות שתי סדרות נתונים.",
     "errorConnectToServer": "לא ניתן לשמור את המסמך הזה. בדוק את הגדרות החיבור שלך או פנה למנהל המערכת שלך.<br>כאשר תלחץ על כפתור 'אישור', תתבקש להוריד את המסמך.",
+    "errorCopyDisabled": "לא ניתן להעתיק את התוכן של המסמך מסיבות אבטחה",
     "errorCopyMultiselectArea": "לא ניתן להשתמש בפקודה זו עם מספר בחירות.<br>נא לבחור טווח יחיד ונסה שוב.",
     "errorCountArg": "שגיאה בנוסחה.<br>מספר לא חוקי של טיעונים.",
     "errorCountArgExceed": "שגיאה בנוסחה.<br>מספר מרבי של טיעונים חרג.",
@@ -321,6 +322,7 @@
     "errorLockedAll": "לא ניתן היה לבצע את הפעולה מכיוון שהגיליון ננעל על ידי משתמש אחר.",
     "errorLockedCellPivot": "לא ניתן לשנות נתונים בטבלת ציר.",
     "errorLockedWorksheetRename": "לא ניתן לשנות את שם הגיליון כרגע מכיוון שהוא שונה על ידי משתמש אחר",
+    "errorMacroUnavailableWarning": "לא ניתן להפעיל את המאקרו %1. ייתכן שהמאקרו אינו זמין בחוברת עבודה זו או שכל המאקרו מושבתים.",
     "errorMaxPoints": "מספר הנקודות המרבי בסדרה לכל תרשים הוא 4096.",
     "errorMaxRows": "שגיאה! המספר המרבי של סדרות נתונים לכל תרשים הוא 255.",
     "errorMoveRange": "לא ניתן לשנות חלק מתא ממוזג",
@@ -378,9 +380,7 @@
     "uploadDocSizeMessage": "חריגה ממגבלת גודל המסמך המרבי.",
     "uploadImageExtMessage": "פורמט תמונה לא ידוע.",
     "uploadImageFileCountMessage": "לא הועלו תמונות.",
-    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
-    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled."
+    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט."
   },
   "LongActions": {
     "advDRMPassword": "סיסמה",
@@ -442,7 +442,7 @@
     "textMore": "עוד",
     "textMove": "הזזה",
     "textMoveBefore": "הזזה לפני גיליון",
-    "textMoveToEnd": "(העברה לסוף)",
+    "textMoveToEnd": "(העבר לסוף)",
     "textOk": "בסדר",
     "textRename": "שינוי שם",
     "textRenameSheet": "שינוי שם גיליון",
@@ -451,7 +451,7 @@
     "textTabColor": "צבע הכרטיסייה",
     "textUnhide": "בטל הסתרה",
     "textWarnDeleteSheet": "אולי קיימים נתונים בגליון העבודה. להמשיך בפעולה?",
-    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
+    "warnAddSheetCsv": "פורמט CSV אינו תומך בשמירת קובץ מרובה גיליונות. רק הגיליון הפעיל יישמר. כדי לשמור את כל הגיליונות, אנא שמור את הקובץ בפורמט אחר."
   },
   "Toolbar": {
     "btnRestartNow": "הפעל מחדש עכשיו",
@@ -567,6 +567,7 @@
       "textBottomBorder": "גבול תחתון",
       "textBringToForeground": "הזזה קדימה",
       "textCancel": "ביטול",
+      "textCapitalization": "אותיות גדולות",
       "textCell": "תא",
       "textCellStyle": "סגנון תא",
       "textCenter": "מרכז",
@@ -575,6 +576,7 @@
       "textChartTitle": "כותרת תרשים",
       "textClearFilter": "ניקוי מסנן",
       "textColor": "צבע",
+      "textContextTextDirection": "הקשר",
       "textCreateCustomFormat": "יצירת פורמט מותאם אישית",
       "textCreateFormat": "יצירת פורמט",
       "textCross": "חציה",
@@ -611,7 +613,7 @@
       "textFilterOptions": "אפשרויות סינון",
       "textFit": "התאמה לרוחב",
       "textFonts": "גופנים",
-      "textFormat": "פורמט",
+      "textFormat": "פורמט מספר",
       "textFraction": "שבר",
       "textFromLibrary": "תמונה מהספרייה",
       "textFromURL": "תמונה מכתובת אתר URL",
@@ -650,6 +652,7 @@
       "textLinkSettings": "הגדרות קישור",
       "textLinkType": "סוג קישור",
       "textLow": "נמוך",
+      "textLtrTextDirection": "משמאל לימין",
       "textMajor": "עיקרי",
       "textMajorAndMinor": "עיקרי ומשני",
       "textMajorType": "סוג עיקרי",
@@ -693,6 +696,7 @@
       "textRotateTextDown": "סיבוב טקסט למטה",
       "textRotateTextUp": "סיבוב טקסט למעלה",
       "textRouble": "רובל",
+      "textRtlTextDirection": "מימין לשמאל",
       "textSave": "שמירה",
       "textScientific": "מדעי",
       "textScreenTip": "קצה מסך",
@@ -712,6 +716,7 @@
       "textTenThousands": "10 000",
       "textText": "טקסט",
       "textTextColor": "צבע טקסט",
+      "textTextDirection": "כיוון טקסט",
       "textTextFormat": "פורמט טקסט",
       "textTextOrientation": "כיוון טקסט",
       "textThick": "עבה",
@@ -732,12 +737,7 @@
       "textYen": "ין",
       "txtNotUrl": "שדה זה אמור להיות כתובת אתר בפורמט \"http://www.example.com\"",
       "txtSortHigh2Low": "מיון הגבוה ביותר לנמוך ביותר",
-      "txtSortLow2High": "מיון מהנמוך לגבוה ביותר",
-      "textCapitalization": "Capitalization",
-      "textContextTextDirection": "Context",
-      "textLtrTextDirection": "Left-to-right",
-      "textRtlTextDirection": "Right-to-left",
-      "textTextDirection": "Text Direction"
+      "txtSortLow2High": "מיון מהנמוך לגבוה ביותר"
     },
     "Settings": {
       "advCSVOptions": "בחירת אפשרויות",
@@ -832,6 +832,7 @@
       "textSearchIn": "חיפוש ב",
       "textSettings": "הגדרות",
       "textSheet": "גיליון",
+      "textSheetRtl": "גיליון מימין לשמאל",
       "textShowNotification": "הצגת הודעה",
       "textSpreadsheetFormats": "תבניות גיליון אלקטרוני",
       "textSpreadsheetInfo": "מידע על גיליון אלקטרוני",
@@ -885,20 +886,18 @@
       "txtSk": "סלובקית",
       "txtSl": "סלובנית",
       "txtSpace": "רווח",
+      "txtSr": "סרבית (קירילית)",
+      "txtSrcyrl": "סרבית (קירילית)",
       "txtSv": "שוודית",
       "txtTab": "טאב",
       "txtTr": "טורקית",
       "txtUk": "אוקראינית",
       "txtVi": "וייטנאמית",
       "txtZh": "סינית",
+      "txtZhtw": "סינית (מסורתית)",
       "warnDownloadAs": "אם תימשך השמירה בפורמט זה כל התכונות מלבד הטקסט יאבדו.<br>האם להמשיך בוודאות?",
-      "textSheetRtl": "Sheet Right to left",
-      "txtSr": "Serbian (Latin)",
-      "txtSrcyrl": "Serbian (Cyrillic)",
-      "txtZhtw": "Chinese (Traditional)",
-      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
-      "textOpenLocation": "Open location",
-      "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
+      "warnDownloadCsv": "פורמט CSV אינו תומך בשמירת קובץ מרובה גיליונות וכל הרכיבים, למעט טקסט.<br>כדי לשמור רק את הגיליון הפעיל בפורמט CSV, לחץ על אישור.<br>כדי לשמור את כל הגיליון האלקטרוני וכל התכונות, לחץ על ביטול ובחר פורמט אחר.",
+      "warnDownloadOds": "שמירת קובץ זה עלולה לגרום לאובדן של נוסחאות, עיצוב תאים או אובייקטים מוטמעים עקב תמיכה מוגבלת בפורמטים.<br>האם אתה בטוח שברצונך להמשיך?"
     }
   }
 }

@@ -1664,7 +1664,11 @@ define([
                 var me = this,
                     application         = this.getApplication(),
                     reviewController    = application.getController('Common.Controllers.ReviewChanges');
-                reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api).loadDocument({doc:me.document});
+
+                reviewController
+                    .setMode(me.appOptions, { canCommentResolve: false })
+                    .setConfig({config: me.editorConfig}, me.api)
+                    .loadDocument({doc:me.document});
 
                 if (this.appOptions.isEdit) {
                     if (me.appOptions.isSignatureSupport || me.appOptions.isPasswordSupport)
@@ -1933,6 +1937,14 @@ define([
                     case Asc.c_oAscError.ID.CopyDisabled:
                         config.maxwidth = 450;
                         config.msg = this.errorCopyDisabled;
+                        break;
+
+                    case Asc.c_oAscError.ID.FileNotAssembled:
+                        config.msg = this.errorFileNotAssembled;
+                        break;
+
+                    case Asc.c_oAscError.ID.ForcedViewMode:
+                        config.msg = this.errorForcedViewMode;
                         break;
 
                     default:
@@ -2506,6 +2518,40 @@ define([
                 }
             },
 
+            onTryPrint: function(callback, pwd) {
+                if (!this.api.asc_CheckPrintPassword(pwd!==undefined ? pwd : null)) {
+                    let newPwd;
+                    const me = this;
+                    const win = new Common.Views.OpenDialog({
+                        title: me.txtUnlockTitle,
+                        closable: true,
+                        type: Common.Utils.importTextType.DRM,
+                        txtOpenFile: me.txtDocUnlockDescription,
+                        validatePwd: pwd!==undefined,
+                        handler: function (result, value) {
+                            if (result === 'ok' && value && value.drmOptions) {
+                                const currentPwd = value.drmOptions.asc_getPassword();
+                                if (me.api.asc_CheckPrintPassword(currentPwd)) {
+                                    callback && callback.call();
+                                } else {
+                                    newPwd = currentPwd;
+                                }
+                            }
+                        }
+                    }).on('close', function() {
+                        if (newPwd!==undefined)
+                            setTimeout(function() {
+                                me.onTryPrint(callback, newPwd);
+                            }, 100);
+                        else
+                            Common.NotificationCenter.trigger('pdf:mode-changed', me.appOptions);
+                    });
+                    win.show();
+                } else {
+                    callback && callback.call();
+                }
+            },
+
             onPrint: function() {
                 if (!this.appOptions.canPrint || Common.Utils.ModalWindow.isVisible()) return;
                 Common.NotificationCenter.trigger('file:print');
@@ -2543,35 +2589,36 @@ define([
 
             onPrintQuick: function() {
                 if (!this.appOptions.canQuickPrint) return;
+                this.onTryPrint(function() {
+                    var value = Common.localStorage.getBool("pdfe-hide-quick-print-warning"),
+                        me = this,
+                        handler = function () {
+                            var printopt = new Asc.asc_CAdjustPrint();
+                            printopt.asc_setNativeOptions({quickPrint: true});
+                            var opts = new Asc.asc_CDownloadOptions();
+                            opts.asc_setAdvancedOptions(printopt);
+                            me.api.asc_Print(opts);
+                            Common.component.Analytics.trackEvent('Print');
+                        };
 
-                var value = Common.localStorage.getBool("pdfe-hide-quick-print-warning"),
-                    me = this,
-                    handler = function () {
-                        var printopt = new Asc.asc_CAdjustPrint();
-                        printopt.asc_setNativeOptions({quickPrint: true});
-                        var opts = new Asc.asc_CDownloadOptions();
-                        opts.asc_setAdvancedOptions(printopt);
-                        me.api.asc_Print(opts);
-                        Common.component.Analytics.trackEvent('Print');
-                    };
-
-                if (value) {
-                    handler.call(this);
-                } else {
-                    Common.UI.warning({
-                        msg: this.textTryQuickPrint,
-                        buttons: ['yes', 'no'],
-                        primary: 'yes',
-                        dontshow: true,
-                        maxwidth: 500,
-                        callback: function(btn, dontshow){
-                            dontshow && Common.localStorage.setBool("pdfe-hide-quick-print-warning", true);
-                            if (btn === 'yes') {
-                                setTimeout(handler, 1);
+                    if (value) {
+                        handler.call(this);
+                    } else {
+                        Common.UI.warning({
+                            msg: this.textTryQuickPrint,
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            dontshow: true,
+                            maxwidth: 500,
+                            callback: function(btn, dontshow){
+                                dontshow && Common.localStorage.setBool("pdfe-hide-quick-print-warning", true);
+                                if (btn === 'yes') {
+                                    setTimeout(handler, 1);
+                                }
                             }
-                        }
-                    });
-                }
+                        });
+                    }
+                }.bind(this));
             },
 
             onClearDummyComment: function() {

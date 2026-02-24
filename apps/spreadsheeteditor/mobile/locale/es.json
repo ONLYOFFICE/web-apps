@@ -276,6 +276,7 @@
     "errorCircularReference": "Hay una o más referencias circulares en las que una fórmula hace referencia a su propia celda directa o indirectamente.<br>Intente eliminar o cambiar estas referencias, o mover las fórmulas a celdas diferentes.",
     "errorComboSeries": "Para crear un gráfico combinado, seleccione al menos dos series de datos.",
     "errorConnectToServer": "No se puede guardar este documento. Compruebe la configuración de su conexión o póngase en contacto con el administrador.<br>Cuando haga clic en OK, se le pedirá que descargue el documento.",
+    "errorCopyDisabled": "Por motivos de seguridad, el contenido de este documento no se puede copiar.",
     "errorCopyMultiselectArea": "No se puede usar este comando con varias selecciones.<br>Seleccione un solo rango e inténtelo de nuevo.",
     "errorCountArg": "Un error en la fórmula.<br>Número de argumentos no válido.",
     "errorCountArgExceed": "Un error en la fórmula.<br>Se ha superado el número máximo de argumentos.",
@@ -379,8 +380,7 @@
     "uploadDocSizeMessage": "Se ha excedido el límite de tamaño máximo del documento.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Contraseña",
@@ -576,6 +576,7 @@
       "textChartTitle": "Título del gráfico",
       "textClearFilter": "Borrar filtro",
       "textColor": "Color",
+      "textContextTextDirection": "Contexto",
       "textCreateCustomFormat": "Crear formato personalizado",
       "textCreateFormat": "Crear formato",
       "textCross": "Cruz",
@@ -612,7 +613,7 @@
       "textFilterOptions": "Opciones de filtro",
       "textFit": "Ajustar al ancho",
       "textFonts": "Fuentes",
-      "textFormat": "Formato",
+      "textFormat": "Formato de número",
       "textFraction": "Fracción",
       "textFromLibrary": "Imagen desde biblioteca",
       "textFromURL": "Imagen desde URL",
@@ -625,7 +626,7 @@
       "textHundredMil": "100.000.000",
       "textHundreds": "Cientos",
       "textHundredThousands": "100.000",
-      "textHyperlink": "Hiperenlace",
+      "textHyperlink": "Enlace",
       "textImage": "Imagen",
       "textImageURL": "URL de imagen",
       "textIn": "En",
@@ -651,6 +652,7 @@
       "textLinkSettings": "Ajustes de enlace",
       "textLinkType": "Tipo de enlace",
       "textLow": "Bajo",
+      "textLtrTextDirection": "De izquierda a derecha",
       "textMajor": "Principal",
       "textMajorAndMinor": "Principales y secundarios",
       "textMajorType": "Tipo principal",
@@ -694,6 +696,7 @@
       "textRotateTextDown": "Girar texto hacia abajo",
       "textRotateTextUp": "Girar texto hacia arriba",
       "textRouble": "Rublo",
+      "textRtlTextDirection": "De derecha a izquierda",
       "textSave": "Guardar",
       "textScientific": "Scientífico",
       "textScreenTip": "Consejo de pantalla",
@@ -713,6 +716,7 @@
       "textTenThousands": "10.000",
       "textText": "Texto",
       "textTextColor": "Color de texto",
+      "textTextDirection": "Dirección de texto",
       "textTextFormat": "Formato de texto",
       "textTextOrientation": "Orientación del texto",
       "textThick": "Grueso",
@@ -733,11 +737,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Ordenar de mayor a menor",
-      "txtSortLow2High": "Ordenar de menor a mayor ",
-      "textContextTextDirection": "Context",
-      "textLtrTextDirection": "Left-to-right",
-      "textRtlTextDirection": "Right-to-left",
-      "textTextDirection": "Text Direction"
+      "txtSortLow2High": "Ordenar de menor a mayor "
     },
     "Settings": {
       "advCSVOptions": "Elegir los parámetros de CSV",
@@ -832,6 +832,7 @@
       "textSearchIn": "Buscar en",
       "textSettings": "Ajustes",
       "textSheet": "Hoja",
+      "textSheetRtl": "Hoja de derecha a izquierda",
       "textShowNotification": "Mostrar notificación",
       "textSpreadsheetFormats": "Formatos de hoja de cálculo",
       "textSpreadsheetInfo": "Información sobre hoja de cálculo",
@@ -896,9 +897,7 @@
       "txtZhtw": "Chino (tradicional)",
       "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?",
       "warnDownloadCsv": "El formato CSV no permite guardar un archivo de varias hojas y todos los elementos, excepto el texto.<br>Para guardar solo la hoja seleccionada en CSV, pulse OK.<br>Para guardar toda la hoja de cálculo y todas las características, pulse Cancelar y seleccione otro formato.",
-      "warnDownloadOds": "Al guardar este archivo, es posible que se pierdan algunas fórmulas, el formato de las celdas u objetos incrustados debido a la compatibilidad limitada con determinados formatos.<br>¿Está seguro de que desea continuar?",
-      "textSheetRtl": "Sheet Right to left",
-      "textOpenLocation": "Open location"
+      "warnDownloadOds": "Al guardar este archivo, es posible que se pierdan algunas fórmulas, el formato de las celdas u objetos incrustados debido a la compatibilidad limitada con determinados formatos.<br>¿Está seguro de que desea continuar?"
     }
   }
 }

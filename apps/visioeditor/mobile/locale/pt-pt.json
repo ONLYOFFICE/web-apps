@@ -4,33 +4,22 @@
     "textAddress": "Endereço",
     "textBack": "Recuar",
     "textEmail": "Email",
-    "textVersion": "Versão",
-    "textEditor": "Diagram Viewer",
-    "textPoweredBy": "Powered By",
-    "textTel": "Tel"
+    "textVersion": "Versão"
   },
   "Common": {
     "Collaboration": {
       "textBack": "Recuar",
       "textCancel": "Cancelar",
-      "textCollaboration": "Colaboração",
-      "notcriticalErrorTitle": "Warning",
-      "textEditUser": "Users who are editing the file:",
-      "textOk": "Ok",
-      "textSharingSettings": "Sharing Settings",
-      "textUsers": "Users"
+      "textCollaboration": "Colaboração"
     },
     "Themes": {
       "dark": "Escuro",
-      "light": "Claro",
-      "system": "Same as system",
-      "textTheme": "Theme"
+      "light": "Claro"
     }
   },
   "ContextMenu": {
     "menuCancel": "Cancelar",
-    "txtWarnUrl": "Clicar nesta ligação pode ser prejudicial ao seu dispositivo e dados.<br>Deseja continuar?",
-    "textOk": "Ok"
+    "txtWarnUrl": "Clicar nesta ligação pode ser prejudicial ao seu dispositivo e dados.<br>Deseja continuar?"
   },
   "Controller": {
     "Main": {
@@ -47,31 +36,7 @@
       "titleUpdateVersion": "Versão alterada",
       "warnLicenseAnonymous": "Acesso negado a utilizadores anónimos.<br>Este documento será aberto apenas para visualização.",
       "warnLicenseExp": "A sua licença caducou. Renove a sua licença e recarregue a página.",
-      "warnLicenseLimitedNoAccess": "A licença caducou. Não tem acesso à edição de documentos. Por favor contacte o seu administrador.",
-      "advDRMPassword": "Password",
-      "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please, contact your admin.",
-      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
-      "errorServerVersion": "The editor version has been updated. The page will be reloaded to apply the changes.",
-      "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
-      "notcriticalErrorTitle": "Warning",
-      "textBuyNow": "Visit website",
-      "textCustomLoader": "Sorry, you are not entitled to change the loader. Please, contact our sales department to get a quote.",
-      "textNo": "No",
-      "textNoLicenseTitle": "License limit reached",
-      "textOk": "Ok",
-      "textPaidFeature": "Paid feature",
-      "textYes": "Yes",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleLicenseExp": "License expired",
-      "titleLicenseNotActive": "License not active",
-      "titleReadOnly": "Read-Only Mode",
-      "txtIncorrectPwd": "Password is incorrect",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "warnLicenseLimitedRenewed": "License needs to be renewed. You have limited access to document editing functionality.<br>Please contact your administrator to get full access",
-      "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
-      "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-      "warnProcessRightsChange": "You don't have permission to edit the file."
+      "warnLicenseLimitedNoAccess": "A licença caducou. Não tem acesso à edição de documentos. Por favor contacte o seu administrador."
     }
   },
   "Error": {
@@ -96,80 +61,20 @@
     "errorUpdateVersionOnDisconnect": "A ligação à Internet foi restaurada e a versão do ficheiro foi alterada.<br>Antes de continuar a trabalhar, descarregue o ficheiro ou copie o seu conteúdo para garantir que nada seja perdido e, depois, recarregue a página.",
     "errorViewerDisconnect": "Ligação perdida. Ainda pode ver o documento mas não será<br>possível descarregar ou imprimir o documento se a ligação não for restaurada e a página recarregada.",
     "openErrorText": "Ocorreu um erro ao abrir o ficheiro",
-    "saveErrorText": "Ocorreu um erro ao guardar o ficheiro",
-    "criticalErrorExtText": "Press 'OK' to go back to the document list.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
-    "errorDataRange": "Incorrect data range.",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
-    "errorFilePassProtect": "The file is password protected and could not be opened.",
-    "errorFileSizeExceed": "The file size exceeds your server limitation.<br>Please, contact your admin.",
-    "errorKeyEncrypt": "Unknown key descriptor",
-    "errorKeyExpire": "Key descriptor expired",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "errorSessionAbsolute": "The document editing session has expired. Please, reload the page.",
-    "errorSessionIdle": "The document has not been edited for quite a long time. Please, reload the page.",
-    "errorSessionToken": "The connection to the server has been interrupted. Please, reload the page.",
-    "errorSetPassword": "Password could not be set.",
-    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
-    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
-    "errorUserDrop": "The file cannot be accessed right now.",
-    "errorUsersExceed": "The number of users allowed by the pricing plan was exceeded",
-    "notcriticalErrorTitle": "Warning",
-    "scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please, reload the page.",
-    "textOk": "OK",
-    "unknownErrorText": "Unknown error.",
-    "uploadImageExtMessage": "Unknown image format.",
-    "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "saveErrorText": "Ocorreu um erro ao guardar o ficheiro"
   },
   "LongActions": {
     "downloadTextText": "A descarregar documento...",
-    "downloadTitleText": "A descarregar documento",
-    "applyChangesTextText": "Loading data...",
-    "applyChangesTitleText": "Loading Data",
-    "loadFontsTextText": "Loading data...",
-    "loadFontsTitleText": "Loading Data",
-    "loadFontTextText": "Loading data...",
-    "loadFontTitleText": "Loading Data",
-    "loadImagesTextText": "Loading images...",
-    "loadImagesTitleText": "Loading Images",
-    "loadImageTextText": "Loading image...",
-    "loadImageTitleText": "Loading Image",
-    "loadingDocumentTextText": "Loading document...",
-    "loadingDocumentTitleText": "Loading",
-    "loadThemeTextText": "Loading theme...",
-    "loadThemeTitleText": "Loading Theme",
-    "openTextText": "Opening document...",
-    "openTitleText": "Opening Document",
-    "printTextText": "Printing document...",
-    "printTitleText": "Printing Document",
-    "savePreparingText": "Preparing to save",
-    "savePreparingTitle": "Preparing to save. Please wait...",
-    "saveTextText": "Saving document...",
-    "saveTitleText": "Saving Document",
-    "textLoadingDocument": "Loading",
-    "txtEditingMode": "Set editing mode...",
-    "uploadImageTextText": "Uploading image...",
-    "uploadImageTitleText": "Uploading Image",
-    "waitText": "Please, wait..."
+    "downloadTitleText": "A descarregar documento"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Este documento tem alterações não guardadas. Clique 'Ficar na página' para que o documento seja guardado automaticamente. Clique 'Sair da página' para rejeitar todas as alterações.",
     "dlgLeaveTitleText": "Saiu da aplicação",
-    "textEnterNewFileName": "Introduza o nome para o ficheiro",
-    "btnRestartNow": "Restart now",
-    "leaveButtonText": "Leave this page",
-    "stayButtonText": "Stay on this Page",
-    "textRenameFile": "Rename File",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textEnterNewFileName": "Introduza o nome para o ficheiro"
   },
   "View": {
     "Edit": {
-      "textCancel": "Cancelar",
-      "notcriticalErrorTitle": "Warning",
-      "textInvalidName": "The file name cannot contain any of the following characters: ",
-      "textOk": "Ok"
+      "textCancel": "Cancelar"
     },
     "Settings": {
       "textAbout": "Sobre",
@@ -192,28 +97,7 @@
       "textHelp": "Ajuda",
       "textLight": "Claro",
       "textSearch": "Pesquisar",
-      "textVersion": "Versão",
-      "notcriticalErrorTitle": "Warning",
-      "textLastModified": "Last Modified",
-      "textLastModifiedBy": "Last Modified By",
-      "textLoading": "Loading...",
-      "textLocation": "Location",
-      "textOk": "Ok",
-      "textOwner": "Owner",
-      "textPoweredBy": "Powered By",
-      "textPrint": "Print",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textSameAsSystem": "Same As System",
-      "textSettings": "Settings",
-      "textSubject": "Subject",
-      "textTel": "tel:",
-      "textTheme": "Theme",
-      "textTitle": "Title",
-      "textUploaded": "Uploaded",
-      "textVisioInfo": "Diagram Viewer Info",
-      "textVisioSettings": "Diagram Viewer Settings",
-      "textOpenLocation": "Open location",
-      "textVisioTitle": "Diagram Viewer Title"
+      "textVersion": "Versão"
     }
   }
 }

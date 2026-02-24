@@ -375,7 +375,7 @@ define([], function () {
                     '</td>',
                 '</tr>',
                 '<tr>',
-                    '<td><label><%= scope.strKeyboardShortcuts %><span class="new-hint"><%= Common.UI.SynchronizeTip.prototype.textNew.toUpperCase() %></span></label></td>',
+                    '<td><label><%= scope.strKeyboardShortcuts %></label></td>',
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-keyboard-shortcuts" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomize %></button></div></td>',
                 '</tr>',
                 '<tr class ="divider-group"></tr>',
@@ -1243,8 +1243,6 @@ define([], function () {
                 this.chHScroll.setValue(this.api.asc_GetShowHorizontalScroll());
                 this.chVScroll.setValue(this.api.asc_GetShowVerticalScroll());
             }
-
-            Common.localStorage.getItem('help-tip-customize-shortcuts') && $('.new-hint', this.el).addClass('hidden');
         },
 
         isValid: function() {
@@ -2877,6 +2875,7 @@ define([], function () {
                     menuStyle: 'width: 248px; max-height: 280px;',
                     editable: false,
                     takeFocusOnClose: true,
+                    restoreMenuHeightAndTop: true,
                     cls: 'input-group-nr',
                     placeHolder: this.txtPrinterNotSelected,
                     itemsTemplate:  _.template([
@@ -2904,6 +2903,7 @@ define([], function () {
                     menuStyle: 'width: 248px; max-height: 280px;',
                     editable: false,
                     takeFocusOnClose: true,
+                    restoreMenuHeightAndTop: true,
                     cls: 'input-group-nr',
                     disabled: true,
                     data: [
@@ -2926,6 +2926,7 @@ define([], function () {
                 menuStyle: 'min-width: 248px;max-height: 280px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls: 'input-group-nr',
                 data: [
                     { value: Asc.c_oAscPrintType.ActiveSheets, displayValue: this.txtActiveSheets },
@@ -2998,6 +2999,7 @@ define([], function () {
                 menuStyle   : 'width:100%;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 'one', displayValue: this.txtOneSide, descValue: this.txtOneSideDesc },
@@ -3023,6 +3025,7 @@ define([], function () {
                 cls: 'input-group-nr',
                 data: [],
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -3065,6 +3068,7 @@ define([], function () {
                 menuStyle: 'max-height: 280px; width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 template: paperSizeTemplate,
                 itemsTemplate: paperSizeItemsTemplate,
                 data: [].concat(this._defaultPaperSizeList),
@@ -3097,6 +3101,7 @@ define([], function () {
                 menuStyle   : 'min-width: 134px;',
                 editable    : false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: Asc.c_oAscPageOrientation.PagePortrait, displayValue: this.txtPortrait },
@@ -3121,6 +3126,7 @@ define([], function () {
                 menuStyle   : 'min-width: 248px;',
                 editable    : false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 0, displayValue: this.txtActualSize },
@@ -3190,6 +3196,7 @@ define([], function () {
                 menuStyle: 'max-height: 280px; min-width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls: 'input-group-nr',
                 data: [
                     { value: 0, displayValue: this.txtMarginsNormal, size: [19.1, 17.8, 19.1, 17.8]},

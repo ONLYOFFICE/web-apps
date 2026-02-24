@@ -2194,6 +2194,36 @@ define([], function () {
                 caption: me.textEditObject
             });
 
+            var menuHyperlinkPicSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
+            me.menuAddHyperlinkPic = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
+                caption     : me.hyperlinkText
+            });
+
+            me.menuEditHyperlinkPic = new Common.UI.MenuItem({
+                caption     : me.editHyperlinkText
+            });
+
+            me.menuRemoveHyperlinkPic = new Common.UI.MenuItem({
+                caption     : me.removeHyperlinkText
+            });
+
+            var menuHyperlinkPic = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
+                caption     : me.hyperlinkText,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    items   : [
+                        me.menuEditHyperlinkPic,
+                        me.menuRemoveHyperlinkPic
+                    ]
+                })
+            });
+
             me.pictureMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
@@ -2296,6 +2326,23 @@ define([], function () {
                     me.menuImgCut.setDisabled(disabled || !cancopy);
                     me.menuImgPaste.setDisabled(disabled);
                     menuImgShapeArrange.setDisabled(disabled);
+
+                    var text = null;
+                    if (me.api) {
+                        text = me.api.can_AddHyperlink();
+                    }
+                    me.menuAddHyperlinkPic.setVisible(value.hyperProps===undefined && text!==false);
+                    menuHyperlinkPic.setVisible(value.hyperProps!==undefined);
+                    menuHyperlinkPicSeparator.setVisible(me.menuAddHyperlinkPic.isVisible() || menuHyperlinkPic.isVisible());
+                    me.menuEditHyperlinkPic.hyperProps = value.hyperProps;
+                    me.menuRemoveHyperlinkPic.hyperProps = value.hyperProps;
+                    if (text !== false) {
+                        me.menuAddHyperlinkPic.hyperProps = {};
+                        me.menuAddHyperlinkPic.hyperProps.value = new Asc.CHyperlinkProperty();
+                        me.menuAddHyperlinkPic.hyperProps.value.put_Text(text);
+                    }
+                    me.menuAddHyperlinkPic.setDisabled(disabled);
+                    menuHyperlinkPic.setDisabled(disabled || (value.hyperProps!==undefined && value.hyperProps.isSeveralLinks===true));
                 },
                 items: [
                     me.menuImgCut,
@@ -2311,6 +2358,9 @@ define([], function () {
                     menuImgShapeSeparator,          //Separator
                     me.menuImgSaveAsPicture,
                     menuImgSaveAsPictureSeparator,     //Separator
+                    me.menuAddHyperlinkPic,
+                    menuHyperlinkPic,
+                    menuHyperlinkPicSeparator,
                     me.menuImgCrop,
                     me.menuImgResetCrop,
                     me.menuImgOriginalSize,

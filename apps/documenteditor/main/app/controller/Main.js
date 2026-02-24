@@ -224,6 +224,7 @@ define([
                     Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
                     this.api.setSpeechEnabled(value);
 
+
                     if ( !Common.Utils.isIE ) {
                         if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_DE}}') ) {
                             const _url_obj = new URL('{{HELP_CENTER_WEB_DE}}');
@@ -1339,7 +1340,13 @@ define([
                         this.api.zoomFitToWidth();
                     }
                 } else {
-                    this.api.zoom(zf > 0 ? zf : 100);
+                    if (Common.localStorage.getBool("de-zoom-multipage", false)) {
+                        this.api.zoomCustomMode();
+                        this.api.SetMultipageViewMode(true);
+
+                        if ( lastZoom > 0 ) this.api.zoom(lastZoom);
+                    } else
+                        this.api.zoom(zf > 0 ? zf : 100);
                 }
 
                 value = Common.localStorage.getItem("de-show-hiddenchars");
@@ -1708,7 +1715,7 @@ define([
                 this.appOptions.canUseHistory  = this.appOptions.canLicense && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isOffline;
                 this.appOptions.canHistoryClose  = this.editorConfig.canHistoryClose;
                 this.appOptions.canHistoryRestore= this.editorConfig.canHistoryRestore;
-                this.appOptions.canUseMailMerge= this.appOptions.canLicense && this.appOptions.canEdit;
+                this.appOptions.canUseMailMerge= this.appOptions.canLicense && this.appOptions.canEdit && !this.appOptions.isOffline;
                 this.appOptions.canSendEmailAddresses  = this.appOptions.canLicense && this.editorConfig.canSendEmailAddresses && this.appOptions.canEdit && this.appOptions.canCoAuthoring;
                 this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comment===undefined ? this.appOptions.isEdit : this.permissions.comment) && (this.editorConfig.mode !== 'view');
                 this.appOptions.canComments    = !isPDFViewer && this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
@@ -2047,8 +2054,11 @@ define([
                 var toolbarController   = application.getController('Toolbar');
                 toolbarController   && toolbarController.setApi(me.api);
 
-                if (this.appOptions.isRestrictedEdit)
+                if (this.appOptions.isRestrictedEdit) {
                     application.getController('DocProtection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+                    const fontsControllers = application.getController('Common.Controllers.Fonts');
+                    fontsControllers && fontsControllers.setApi(me.api);
+                }
                 else if (this.appOptions.isEdit) {
                     var rightmenuController = application.getController('RightMenu'),
                         fontsControllers    = application.getController('Common.Controllers.Fonts');
@@ -2373,6 +2383,14 @@ define([
                     case Asc.c_oAscError.ID.CopyDisabled:
                         config.maxwidth = 450;
                         config.msg = this.errorCopyDisabled;
+                        break;
+
+                    case Asc.c_oAscError.ID.FileNotAssembled:
+                        config.msg = this.errorFileNotAssembled;
+                        break;
+
+                    case Asc.c_oAscError.ID.ForcedViewMode:
+                        config.msg = this.errorForcedViewMode;
                         break;
 
                     default:

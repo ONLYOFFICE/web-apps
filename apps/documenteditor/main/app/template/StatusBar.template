@@ -27,7 +27,7 @@
         <button id="status-btn-select-tool" type="button" class="btn small btn-toolbar hide-select-tools" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-select-tool">&nbsp;</i></button>
         <button id="status-btn-hand-tool" type="button" class="btn small btn-toolbar hide-select-tools" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-hand-tool">&nbsp;</i></button>
         <div class="separator short hide-select-tools"></div>
-        <button id="btn-multiple-pages" type="button" class="btn small btn-toolbar" aria-pressed="false" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-multiple-pages">&nbsp;</i></button>
+        <button id="status-btn-multiple-pages" type="button" class="btn small btn-toolbar" aria-pressed="false" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-multiple-pages">&nbsp;</i></button>
         <button id="btn-zoom-topage" type="button" class="btn small btn-toolbar" aria-pressed="false" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-ic-zoomtopage">&nbsp;</i></button>
         <button id="btn-zoom-towidth" type="button" class="btn small btn-toolbar" aria-pressed="false" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-ic-zoomtowidth">&nbsp;</i></button>
         <button id="btn-zoom-down" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomdown">&nbsp;</i></button>

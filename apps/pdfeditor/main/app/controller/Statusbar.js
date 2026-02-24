@@ -55,6 +55,8 @@ define([
 
         initialize: function() {
             var me = this;
+            this.zoomValue = 100;
+            
             this.addListeners({
                 'Statusbar': {
                     'zoom:value': function(value) {
@@ -158,6 +160,10 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
+        getZoom: function() {
+            return this.zoomValue;
+        },
+
         onGotoPage: function (next, btn, e) {
             this.api && this.api.goToPage(this.api.getCurrentPage() + (next ? 1 : -1));
         },
@@ -172,6 +178,7 @@ define([
             $('.statusbar #label-zoom').text(Common.Utils.String.format(this.zoomText, percent));
             if(!this._isDocReady) return;
             var value = type == 2 ? -1 : (type == 1 ? -2 : percent);
+            this.zoomValue = percent;
             Common.localStorage.setItem('pdfe-last-zoom', value);
             Common.Utils.InternalSettings.set('pdfe-last-zoom', value);
         },

@@ -591,7 +591,7 @@
       "textDeleteFilter": "Supprimer filtre",
       "textDeleteImage": "Supprimer l’image",
       "textDeleteLink": "Supprimer le lien",
-      "textDesign": "Stylique",
+      "textDesign": "Conception",
       "textDiagonalDownBorder": "Bordure diagonale bas",
       "textDiagonalUpBorder": "Bordure diagonale haut",
       "textDisplay": "Affichage",
@@ -613,7 +613,7 @@
       "textFilterOptions": "Options filtre",
       "textFit": "Ajuster au largeur",
       "textFonts": "Polices",
-      "textFormat": "Format",
+      "textFormat": "Format des chiffres",
       "textFraction": "Fraction",
       "textFromLibrary": "Image depuis la bibliothèque",
       "textFromURL": "Image à partir d'une URL",
@@ -897,8 +897,7 @@
       "txtZhtw": "Chinois (traditionnel)",
       "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?",
       "warnDownloadCsv": "Le format CSV ne prend pas en charge l'enregistrement d'un fichier à plusieurs feuilles et de tous les éléments, à l'exception du texte.<br>Pour enregistrer uniquement la feuille sélectionnée au format CSV, appuyez sur OK.<br>Pour enregistrer l'ensemble du classeur et toutes les fonctionnalités, cliquez sur Annuler et sélectionnez un autre format.",
-      "warnDownloadOds": "L'enregistrement de ce fichier peut entraîner la perte de certaines formules, de la mise en forme des cellules ou des objets intégrés en raison d'une prise en charge limitée des formats. Voulez-vous vraiment continuer ?",
-      "textOpenLocation": "Open location"
+      "warnDownloadOds": "L'enregistrement de ce fichier peut entraîner la perte de certaines formules, de la mise en forme des cellules ou des objets intégrés en raison d'une prise en charge limitée des formats. Voulez-vous vraiment continuer ?"
     }
   }
 }

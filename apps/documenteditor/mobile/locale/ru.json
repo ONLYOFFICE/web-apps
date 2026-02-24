@@ -823,8 +823,7 @@
     "txtDownloadTxt": "Скачать TXT",
     "txtIncorrectPwd": "Неверный пароль",
     "txtOk": "Ok",
-    "txtProtected": "Как только вы введете пароль и откроете файл, текущий пароль к файлу будет сброшен",
-    "textOpenLocation": "Open location"
+    "txtProtected": "Как только вы введете пароль и откроете файл, текущий пароль к файлу будет сброшен"
   },
   "Toolbar": {
     "btnRestartNow": "Перезапустить сейчас",

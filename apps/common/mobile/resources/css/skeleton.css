@@ -8,6 +8,7 @@ body.theme-type-light {
     --background-navbar-cell: #40865c;
     --background-navbar-slide: #BE664F;
     --background-navbar-visio: #444796;
+    --background-navbar-pdf: #AA5252;
 }
 
 body.theme-type-dark {
@@ -172,6 +173,11 @@ body.theme-type-dark {
     --f7-navbar-bg-color: var(--background-navbar-word, #446995);
     --f7-subnavbar-bg-color: var(--background-navbar-word, #446995);
     --f7-subnavbar-height: 56px;
+}
+
+.md .word-editor.pdf-view {
+    --f7-navbar-bg-color: var(--background-navbar-pdf, #AA5252);
+    --f7-subnavbar-bg-color: var(--background-navbar-pdf, #AA5252);
 }
 
 .cell-editor {

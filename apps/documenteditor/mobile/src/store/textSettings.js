@@ -53,7 +53,8 @@ export class storeTextSettings {
             listItemHeight: observable,
             spriteCols: observable,
             loadSprite: action,
-            addFontToRecent:action
+            addFontToRecent:action,
+            resetTextDirection: action
         });
     }
 

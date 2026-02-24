@@ -832,6 +832,7 @@ define([
                 } else if ( id == Asc.c_oAscAsyncAction['BackgroundOpen']) {
                     this.disableEditing(false, 'background-open');
                     this.getApplication().getController('Statusbar').setStatusCaption('');
+                    this.getApplication().getController('Statusbar').statusbar.hideStatusMessage();
                 } else if (id === Asc.c_oAscAsyncAction['RefreshFile'])  {
                     this.disableEditing(false, 'refresh-file');
                     Common.UI.TooltipManager.closeTip('refreshFile');
@@ -963,7 +964,7 @@ define([
 
                     if (!this.isShowOpenDialog) {
                         this.api.asc_enableKeyEvents(false);
-                        this.loadMask.show(action.id === Asc.c_oAscAsyncAction['Open']);
+                        this.loadMask.show();
                     }
                 } else {
                     this.getApplication().getController('Statusbar').setStatusCaption(text, force, 0, statusCallback);
@@ -2309,6 +2310,14 @@ define([
                     case Asc.c_oAscError.ID.CopyDisabled:
                         config.maxwidth = 450;
                         config.msg = this.errorCopyDisabled;
+                        break;
+
+                    case Asc.c_oAscError.ID.FileNotAssembled:
+                        config.msg = this.errorFileNotAssembled;
+                        break;
+
+                    case Asc.c_oAscError.ID.ForcedViewMode:
+                        config.msg = this.errorForcedViewMode;
                         break;
 
                     default:

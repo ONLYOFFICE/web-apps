@@ -71,6 +71,7 @@
     "menuCancel": "Zrušit",
     "menuDelete": "Smazat",
     "menuDeleteTable": "Smazat tabulku",
+    "menuDuplicate": "Duplikovat",
     "menuEdit": "Upravit",
     "menuEditLink": "Upravit odkaz",
     "menuMerge": "Sloučit",
@@ -83,8 +84,7 @@
     "textDoNotShowAgain": "Nezobrazovat znovu",
     "textOk": "OK",
     "textRows": "Řádky",
-    "txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data. Toto umístění může být nebezpečné:<br>{0}<br>Jste si jistí, že chcete pokračovat?",
-    "menuDuplicate": "Duplicate"
+    "txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data. Toto umístění může být nebezpečné:<br>{0}<br>Jste si jistí, že chcete pokračovat?"
   },
   "Controller": {
     "Main": {
@@ -200,6 +200,7 @@
     "errorBadImageUrl": "Adresa URL obrázku je nesprávná",
     "errorComboSeries": "Pro vytvoření kombinovaného grafu, zvolte alespoň dvě skupiny dat. ",
     "errorConnectToServer": "Není možné uložit dokument. Zkontrolujte nastavení připojení, nebo kontaktujte Vašeho správce.<br>Po kliknutí na tlačítko 'OK' budete vyzváni ke stažení dokumentu.",
+    "errorCopyDisabled": "Z bezpečnostních důvodů nemůže být obsah dokumentu zkopírován.",
     "errorDatabaseConnection": "Externí chyba.<br>Chyba připojení k databázi. Prosím, kontaktujte podporu.",
     "errorDataEncrypted": "Obdrženy šifrované změny – bez hesla je není možné zobrazit.",
     "errorDataRange": "Nesprávný datový rozsah.",
@@ -241,8 +242,7 @@
     "unknownErrorText": "Neznámá chyba.",
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Žádné obrázky nenahrány.",
-    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Načítání dat...",
@@ -312,7 +312,7 @@
       "textInsertImage": "Vložit obrázek",
       "textLastSlide": "Poslední snímek",
       "textLink": "Odkaz",
-      "textLinkSettings": "Nastavení odkazů",
+      "textLinkSettings": "Nastavení odkazu",
       "textLinkTo": "Odkaz na",
       "textLinkType": "Typ odkazu",
       "textNextSlide": "Další snímek",
@@ -355,6 +355,7 @@
       "textAuto": "Automaticky",
       "textAutomatic": "Automaticky",
       "textBack": "Zpět",
+      "textBackground": "Pozadí",
       "textBandedColumn": "Pruhované sloupce",
       "textBandedRow": "Pruhované řádky",
       "textBaseline": "Základ",
@@ -417,7 +418,7 @@
       "textHorizontalIn": "Vodorovně uvnitř",
       "textHorizontalOut": "Vodorovně vně",
       "textHorizontalText": "Vodorovný text",
-      "textHyperlink": "Hypertextový odkaz",
+      "textHyperlink": "Odkaz",
       "textImage": "Obrázek",
       "textImageURL": "URL obrázku",
       "textInsertImage": "Vložit obrázek",
@@ -429,9 +430,10 @@
       "textLetterSpacing": "Mezery mezi písmeny",
       "textLineSpacing": "Řádkování",
       "textLink": "Odkaz",
-      "textLinkSettings": "Nastavení odkazů",
+      "textLinkSettings": "Nastavení odkazu",
       "textLinkTo": "Odkaz na",
       "textLinkType": "Typ odkazu",
+      "textLtrTextDirection": "Zleva doprava",
       "textMorph": "Transformace",
       "textMorphLetters": "Písmena",
       "textMorphObjects": "Objekty",
@@ -460,9 +462,11 @@
       "textReplaceAll": "Nahradit vše",
       "textReplaceImage": "Nahradit obrázek",
       "textRequired": "Požadováno",
+      "textResetBackground": "Obnovit pozadí",
       "textRight": "Vpravo",
       "textRotateTextDown": "Otočit text dolů",
       "textRotateTextUp": "Otočit text nahoru",
+      "textRtlTextDirection": "Zprava doleva",
       "textScreenTip": "Nápověda",
       "textSearch": "Hledat",
       "textSec": "s",
@@ -484,6 +488,7 @@
       "textSuperscript": "Horní index",
       "textTable": "Tabulka",
       "textText": "Text",
+      "textTextDirection": "Směr textu",
       "textTextOrientation": "Orientace textu",
       "textTheme": "Prostředí",
       "textTop": "Nahoru",
@@ -502,12 +507,7 @@
       "textZoomOut": "Oddálit",
       "textZoomRotate": "Přiblížit a otočit",
       "txtHeight": "Výška",
-      "txtWidth": "Šířka",
-      "textBackground": "Background",
-      "textLtrTextDirection": "Left-to-right",
-      "textResetBackground": "Reset background",
-      "textRtlTextDirection": "Right-to-left",
-      "textTextDirection": "Text Direction"
+      "txtWidth": "Šířka"
     },
     "Settings": {
       "mniSlideStandard": "Standardní (4:3)",
@@ -549,6 +549,7 @@
       "textLight": "Světlé",
       "textLoading": "Načítání...",
       "textLocation": "Umístění",
+      "textLoopSlideshow": "Prezentace ve smyčce",
       "textMacrosSettings": "Nastavení maker",
       "textNoMatches": "Shoda nebyla nalezena",
       "textOk": "OK",
@@ -575,9 +576,7 @@
       "textUnitOfMeasurement": "Zobrazovat hodnoty v jednotkách",
       "textUploaded": "Nahráno",
       "textVersion": "Verze",
-      "textVersionHistory": "Historie verzí",
-      "textLoopSlideshow": "Loop slideshow",
-      "textOpenLocation": "Open location"
+      "textVersionHistory": "Historie verzí"
     }
   }
 }

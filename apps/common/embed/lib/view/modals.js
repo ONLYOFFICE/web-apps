@@ -126,6 +126,17 @@ common.view.modals = new(function() {
 
                 _$dlg.find('button.close').remove();
                 _$dlg.find('.modal-footer').remove();
+            } else if(name == 'printPassword') {
+                _$dlg = $(tplDialog
+                    .replace(/\{title}/, this.txtTitleProtectedPrint)
+                    .replace(/\{body}/, _tplbody_password)
+                    .replace(/\{label}/, this.txtPrintFile)
+                    .replace(/\{error}/, this.txtIncorrectPwd)
+                    .replace(/\{button}/, '<button id="password-btn" type="button" class="btn">OK</button>'))
+                        .appendTo(parent)
+                        .attr('id', 'dlg-password');
+
+                _$dlg.find('.modal-footer').remove();
             } else if (name == 'warning') {
                 var footerBtns = (config && config.buttons || ['ok']).map(btn => 
                     `<button type="button" class="btn ${config.primary === btn ? 'btn-primary' : ''}" 
@@ -150,5 +161,7 @@ common.view.modals = new(function() {
         txtTitleProtected: 'Protected file',
         txtOpenFile: 'Enter a password to open the file',
         txtIncorrectPwd: 'Password is incorrect',
+        txtTitleProtectedPrint: 'Protected print',
+        txtPrintFile: 'Enter a password to print the file',
     };
 })();

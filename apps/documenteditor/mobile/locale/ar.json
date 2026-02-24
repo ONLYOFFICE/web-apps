@@ -66,8 +66,7 @@
     "textTableSize": "حجم الجدول",
     "textWithBlueLinks": "بروابط زرقاء",
     "textWithPageNumbers": "مع أرقام الصفحات",
-    "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  ",
-    "textRemovePicture": "Remove picture"
+    "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  "
   },
   "Common": {
     "Collaboration": {
@@ -416,17 +415,7 @@
     "textWe": "أر",
     "textWrap": "التفاف",
     "textWrappingStyle": "نمط الالتفاف",
-    "textYourOption": "خيارك",
-    "textBaseline": "Baseline",
-    "textCapitalization": "Capitalization",
-    "textCellOptions": "Cell options",
-    "textCellSize": "Rows & columns size",
-    "textLtrTextDirection": "Left-to-right",
-    "textRtlTextDirection": "Right-to-left",
-    "textTextDirection": "Text Direction",
-    "textWrapText": "Wrap Text",
-    "txtHeight": "Height",
-    "txtWidth": "Width"
+    "textYourOption": "خيارك"
   },
   "Error": {
     "convertationTimeoutText": "استغرق التحويل وقتا طويلا تم تجاوز المهلة",
@@ -490,9 +479,7 @@
     "uploadDocSizeMessage": "تم تجاوز الحد الأقصى المسموح به لحجم الملف",
     "uploadImageExtMessage": "امتداد صورة غير معروف",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
-    "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت"
   },
   "LongActions": {
     "applyChangesTextText": "جار تحميل البيانات...",
@@ -677,11 +664,7 @@
     "warnLicenseLimitedRenewed": "يحتاج الترخيص إلى تجديد. لديك وصول محدود لخاصية \n                             تعديل المستند.\n <br> برجاء التواصل مع مسئولك للحصول على وصول كامل",
     "warnNoLicense": "لقد وصلت إلى الحد الأقصى من الاتصالات المتزامنة لـ%1محررات.هذا المستند سيكون للقراءة فقط. تواصل مع %1 فريق المبيعات لتطوير الشروط الشخصية",
     "warnNoLicenseUsers": "لقد وصلت إلى الحد الأقصى من عدد المستخدمين لـ %1. تواصل مع فريق المبيعات لتطوير الشروط الشخصية",
-    "warnProcessRightsChange": "ليس لديك إذن تعديل هذا الملف",
-    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-    "titleReadOnly": "Read-Only Mode",
-    "txtSignedForm": "This document has been signed and cannot be edited."
+    "warnProcessRightsChange": "ليس لديك إذن تعديل هذا الملف"
   },
   "Settings": {
     "advDRMOptions": "ملف محمي",
@@ -821,10 +804,7 @@
     "txtDownloadTxt": "تحميل النص",
     "txtIncorrectPwd": "كلمة السر غير صحيحة",
     "txtOk": "موافق",
-    "txtProtected": "بمجرد ادخالك كلمة المرور و فتح الملف ,سيتم اعادة انشاء كلمة المرور للملف",
-    "textDrawing": "Drawing",
-    "textHyphenation": "Hyphenation",
-    "textOpenLocation": "Open location"
+    "txtProtected": "بمجرد ادخالك كلمة المرور و فتح الملف ,سيتم اعادة انشاء كلمة المرور للملف"
   },
   "Toolbar": {
     "btnRestartNow": "إعادة التشغيل الآن",

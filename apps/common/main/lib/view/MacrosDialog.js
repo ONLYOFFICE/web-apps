@@ -649,7 +649,7 @@ define([], function () {
                     current: this.listMacros.store.indexOf(this.listMacros.getSelectedRec())
                 }));
                 if(this._state.isFunctionsSupport) {
-                    this.api.pluginMethod_SetCustomFunctions(JSON.stringify({
+                    this.api.SetCustomFunctions(JSON.stringify({
                         macrosArray: this.listFunctions.store.models.map(function(item) {
                             return {
                                 guid: item.get('guid'),

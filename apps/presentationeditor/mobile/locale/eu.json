@@ -83,8 +83,7 @@
     "textDoNotShowAgain": "Ez erakutsi berriro",
     "textOk": "Ados",
     "textRows": "Errenkadak",
-    "txtWarnUrl": "Esteka honetan klik egitea kaltegarria izan daiteke zure gailu eta datuentzat<br>Ziur zaude jarraitu nahi duzula?",
-    "menuDuplicate": "Duplicate"
+    "txtWarnUrl": "Esteka honetan klik egitea kaltegarria izan daiteke zure gailu eta datuentzat<br>Ziur zaude jarraitu nahi duzula?"
   },
   "Controller": {
     "Main": {
@@ -122,30 +121,7 @@
         "Table": "Taula",
         "X Axis": "X ardatza XAS",
         "Y Axis": "Y ardatza",
-        "Your text here": "Zure testua hemen",
-        "Aspect": "Aspect",
-        "Blue": "Blue",
-        "Blue Green": "Blue Green",
-        "Blue II": "Blue II",
-        "Blue Warm": "Blue Warm",
-        "Green": "Green",
-        "Green Yellow": "Green Yellow",
-        "Marquee": "Marquee",
-        "Median": "Median",
-        "Office": "Office",
-        "Office 2007 - 2010": "Office 2007 - 2010",
-        "Office 2013 - 2022": "Office 2013 - 2022",
-        "Orange": "Orange",
-        "Orange Red": "Orange Red",
-        "Paper": "Paper",
-        "Red": "Red",
-        "Red Orange": "Red Orange",
-        "Red Violet": "Red Violet",
-        "Slipstream": "Slipstream",
-        "Violet": "Violet",
-        "Violet II": "Violet II",
-        "Yellow": "Yellow",
-        "Yellow Orange": "Yellow Orange"
+        "Your text here": "Zure testua hemen"
       },
       "textAnonymous": "Anonimoa",
       "textBuyNow": "Bisitatu webgunea",
@@ -177,11 +153,7 @@
       "warnLicenseLimitedRenewed": "Lizentzia berritu behar da. Dokumentu-edizioaren funtzionalitatera sarbide mugatua duzu.<br>Mesedez jarri harremanetan zure administratzailearekin sarbide osoa lortzeko",
       "warnNoLicense": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau ikusteko bakarrik irekiko da. Jarri harremanetan %1 salmenta taldearekin eguneraketa pertsonalaren baldintzak jakiteko.",
       "warnNoLicenseUsers": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan %1 salmenta taldearekin mailaz igotzeko baldintzak ezagutzeko.",
-      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko.",
-      "textOk": "Ok",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko."
     }
   },
   "Error": {
@@ -232,11 +204,7 @@
     "unknownErrorText": "Errore ezezaguna.",
     "uploadImageExtMessage": "Irudi-formatu ezezaguna.",
     "uploadImageFileCountMessage": "Ez da irudirik kargatu.",
-    "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da."
   },
   "LongActions": {
     "applyChangesTextText": "Datuak kargatzen...",
@@ -279,10 +247,7 @@
     "stayButtonText": "Jarraitu orrian",
     "textCloseHistory": "Itxi historia",
     "textEnterNewFileName": "Idatzi fitxategi-izen berria",
-    "textRenameFile": "Berrizendatu fitxategia",
-    "btnRestartNow": "Restart now",
-    "textOk": "OK",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textRenameFile": "Berrizendatu fitxategia"
   },
   "View": {
     "Add": {
@@ -325,8 +290,7 @@
       "textSlideNumber": "Diapositiba zenbakia",
       "textTable": "Taula",
       "textTableSize": "Taularen tamaina",
-      "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
-      "textDrawing": "Drawing"
+      "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa"
     },
     "Edit": {
       "notcriticalErrorTitle": "Abisua",
@@ -491,17 +455,7 @@
       "textZoom": "Zooma",
       "textZoomIn": "Handiagotu",
       "textZoomOut": "Txikiagotu",
-      "textZoomRotate": "Zoom eta biratu",
-      "textBackground": "Background",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textCellSize": "Cell size",
-      "textLtrTextDirection": "Left-to-right",
-      "textResetBackground": "Reset background",
-      "textRtlTextDirection": "Right-to-left",
-      "textTextDirection": "Text Direction",
-      "txtHeight": "Height",
-      "txtWidth": "Width"
+      "textZoomRotate": "Zoom eta biratu"
     },
     "Settings": {
       "mniSlideStandard": "Estandarra (4:3)",
@@ -568,16 +522,7 @@
       "textUnitOfMeasurement": "Neurri-unitatea",
       "textUploaded": "Kargatuta",
       "textVersion": "Bertsioa",
-      "textVersionHistory": "Bertsioen historia",
-      "textClose": "Close",
-      "textLoopSlideshow": "Loop slideshow",
-      "textOpenLocation": "Open location"
+      "textVersionHistory": "Bertsioen historia"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

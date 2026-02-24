@@ -53,6 +53,7 @@
     "textPictureFromURL": "תמונה מכתובת אתר URL",
     "textPosition": "מיקום",
     "textRecommended": "מומלץ",
+    "textRemovePicture": "הסרת תמונה",
     "textRequired": "נדרש",
     "textRightBottom": "תחתון ימין",
     "textRightTop": "ימין עליון",
@@ -66,8 +67,7 @@
     "textTableSize": "גודל הטבלה",
     "textWithBlueLinks": "עם קישורים כחולים",
     "textWithPageNumbers": "עם מספרי עמודים",
-    "txtNotUrl": "שדה זה אמור להיות כתובת אתר בפורמט \"http://www.example.com\"",
-    "textRemovePicture": "Remove picture"
+    "txtNotUrl": "שדה זה אמור להיות כתובת אתר בפורמט \"http://www.example.com\""
   },
   "Common": {
     "Collaboration": {
@@ -160,8 +160,8 @@
       "textSubScript": "כתב תחתי",
       "textSuperScript": "כתב עילי",
       "textTableChanged": "הגדרות הטבלה השתנו",
-      "textTableRowsAdd": "נוספו שורות הטבלה ",
-      "textTableRowsDel": "נמחקו שורות טבלה",
+      "textTableRowsAdd": "נוספו שורות בטבלה ",
+      "textTableRowsDel": "נמחקו שורות בטבלה",
       "textTabs": "שינוי הכרטיסיות",
       "textTrackChanges": "מעקב אחר שינויים",
       "textTryUndoRedo": "פונקציות ביטול וביצוע-מחדש מושבתות במצב עריכה מהירה במשותף.",
@@ -267,6 +267,7 @@
     "textBullets": "תבליטים",
     "textBulletsAndNumbers": "תבליטים ומספרים",
     "textCancel": "ביטול",
+    "textCapitalization": "אותיות גדולות",
     "textCellMargins": "שולי התא",
     "textCellOptions": "אפשרויות תא",
     "textCellSize": "גודל שורות ועמודות",
@@ -334,6 +335,7 @@
     "textLink": "קישור",
     "textLinkSettings": "הגדרות הקישור",
     "textLinkToPrevious": "קישור לקודם",
+    "textLtrTextDirection": "משמאל לימין",
     "textMarch": "מרץ",
     "textMay": "מאי",
     "textMo": "ב'",
@@ -378,6 +380,7 @@
     "textRightAlign": "יישור ימינה",
     "textRotateTextDown": "סיבוב המלל למטה",
     "textRotateTextUp": "סיבוב המלל למעלה",
+    "textRtlTextDirection": "מימין לשמאל",
     "textSa": "ש'",
     "textSameCreatedNewStyle": "זהה לסגנון החדש שנוצר",
     "textSave": "שמירה",
@@ -406,6 +409,7 @@
     "textTableOfCont": "תוכן העניינים",
     "textTableOptions": "אפשרויות טבלה",
     "textText": "מלל",
+    "textTextDirection": "כיוון טקסט",
     "textTextOrientation": "כיוון המלל",
     "textTextWrapping": "גלישת המלל",
     "textTh": "ה'",
@@ -422,11 +426,7 @@
     "textWrapText": "גלישת טקסט",
     "textYourOption": "האפשרות שלך",
     "txtHeight": "גובה",
-    "txtWidth": "רוחב",
-    "textCapitalization": "Capitalization",
-    "textLtrTextDirection": "Left-to-right",
-    "textRtlTextDirection": "Right-to-left",
-    "textTextDirection": "Text Direction"
+    "txtWidth": "רוחב"
   },
   "Error": {
     "convertationTimeoutText": "ההמרה חרגה מהזמן הקצוב.",
@@ -439,6 +439,7 @@
     "errorComboSeries": "ליצירת תרשים משולב נדרש לבחור לפחות שתי סדרות נתונים.",
     "errorCompare": "תכונת ההשוואה בין מסמכים איננה זמינה במצב עריכה במשותף.",
     "errorConnectToServer": "לא ניתן לשמור את המסמך הזה. נא לבדוק את הגדרות החיבור או ליצור קשר עם מנהל המערכת.<br> לאחר לחיצה על אישור תוצג לך בקשה להורדת המסמך.",
+    "errorCopyDisabled": "לא ניתן להעתיק את התוכן של המסמך מסיבות אבטחה",
     "errorDatabaseConnection": "שגיאה חיצונית.<br> שגיאת חיבור מסד נתונים. נא ליצור קשר עם התמיכה.",
     "errorDataEncrypted": "התקבלו שינויים מוצפנים, לא ניתן לפענח אותם.",
     "errorDataRange": "טווח הנתונים שגוי.",
@@ -491,8 +492,7 @@
     "uploadDocSizeMessage": "חריגה ממגבלת הגודל המירבי של מסמך.",
     "uploadImageExtMessage": "פורמט תמונה לא ידוע.",
     "uploadImageFileCountMessage": "לא הועלו תמונות.",
-    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט."
   },
   "LongActions": {
     "applyChangesTextText": "טעינת נתונים...",
@@ -522,7 +522,7 @@
     "savePreparingTitle": "הכנת לשמירה. נא להמתין...",
     "saveTextText": "שמירת המסמך...",
     "saveTitleText": "שמירת המסמך",
-    "savingText": "שמירה",
+    "savingText": "שליחה",
     "sendMergeText": "שליחת המיזוג...",
     "sendMergeTitle": "שליחת המיזוג",
     "textContinue": "המשך",
@@ -616,13 +616,13 @@
       "Series": "סדרה",
       "Slipstream": "זרם סילון",
       "Strong": "חזק",
-      "Subtitle": "כתובית",
+      "Subtitle": "תת־כותרת",
       "Subtle Emphasis": "הדגשה עדינה",
       "Subtle Reference": "הפנייה עדינה",
       "Syntax Error": "שגיאת תחביר",
       "Table Index Cannot be Zero": "אינדקס הטבלה לא יכול להיות אפס",
       "Table of Contents": "תוכן העניינים",
-      "table of figures": "רשימת התמונות",
+      "table of figures": "טבלת איורים",
       "The Formula Not In Table": "הנוסחה לא קיימת בטבלה",
       "Title": "כותרת",
       "TOC Heading": "כותרת תוכן העניינים",
@@ -664,9 +664,12 @@
     "textRequestMacros": "פקודת מאקרו שולחת בקשה לכתובת אתר. האם ברצונך להתיר את הבקשה ל%1?",
     "textSaveAsPdf": "שמירה כ-PDF",
     "textYes": "כן",
+    "tipLicenseExceeded": "המסמך פתוח במצב קריאה בלבד מכיוון שהגעת למספר המרבי של חיבורים בו-זמניים המותר על פי הרישיון.<br><br>אנא נסה שוב מאוחר יותר או צור קשר עם בעל המסמך אם אתה זקוק לגישת עריכה.",
+    "tipLicenseUsersExceeded": "המסמך פתוח במצב קריאה בלבד מכיוון שהגעת למספר המרבי של משתמשים המורשים לערוך מסמכים באמצעות רישיון.<br><br>אנא נסה שוב מאוחר יותר או צור קשר עם בעל המסמך אם אתה זקוק לגישת עריכה.",
     "titleDialogProtectedDocument": "המסמך מוגן",
     "titleLicenseExp": "פג תוקפו של הרישיון",
     "titleLicenseNotActive": "הרישיון לא פעיל",
+    "titleReadOnly": "מצב קריאה בלבד",
     "titleServerVersion": "העורך עודכן",
     "titleUpdateVersion": "הגרסה השתנתה",
     "txtSignedForm": "מסמך זה נחתם ואי אפשר לעורכו.",
@@ -678,10 +681,7 @@
     "warnLicenseLimitedRenewed": "נדרש לחדש את הרישיון. יש לך הרשאה מוגבלת לעריכת מסמכים.<br> נא ליצור קשר עם מנהל המערכת שלך לקבלת הרשאות מלאות",
     "warnNoLicense": "הגעת למגבלה של התחברויות בו-זמניות של %1 עורכים. המסמך ייפתח לצפייה בלבד. נא ליצור קשר עם צוות המכירות %1 לשדרוג התנאים האישיים.",
     "warnNoLicenseUsers": "הגעת למגבלת המשתמש עבור %1 עורכים. נא ליצור קשר עם צוות המכירות %1 לשדרוג אישי של התנאים.",
-    "warnProcessRightsChange": "אין לך הרשאה לערוך קובץ זה.",
-    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-    "titleReadOnly": "Read-Only Mode"
+    "warnProcessRightsChange": "אין לך הרשאה לערוך קובץ זה."
   },
   "Settings": {
     "advDRMOptions": "קובץ מוגן",
@@ -746,6 +746,7 @@
     "textHelp": "עזרה",
     "textHiddenTableBorders": "גבולות טבלה מוסתרים",
     "textHighlightResults": "הדגשת התוצאות",
+    "textHyphenation": "קישור במקף",
     "textInch": "אינץ'",
     "textLandscape": "תצוגה לרוחב",
     "textLastModified": "שונה לאחרונה",
@@ -822,9 +823,7 @@
     "txtDownloadTxt": "הורדת TXT",
     "txtIncorrectPwd": "הסיסמה שגויה",
     "txtOk": "אישור",
-    "txtProtected": "לאחר הזנת הסיסמה ופתיחת הקובץ, הסיסמה הנוכחית תאופס",
-    "textHyphenation": "Hyphenation",
-    "textOpenLocation": "Open location"
+    "txtProtected": "לאחר הזנת הסיסמה ופתיחת הקובץ, הסיסמה הנוכחית תאופס"
   },
   "Toolbar": {
     "btnRestartNow": "הפעל מחדש עכשיו",

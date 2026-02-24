@@ -76,6 +76,7 @@ define([
                                 items: [
                                     {caption: this.textFitToPage, value: 'zoom:page', toggleGroup: 'view-zoom', checkable: true},
                                     {caption: this.textFitToWidth, value: 'zoom:width', toggleGroup: 'view-zoom', checkable: true},
+                                    {caption: this.textMultiplePages, value: 'zoom:multi', checkable: true},
                                     {caption: '--'},
                                     {caption: '50%', value: 50, toggleGroup: 'zoom-list', checkable: true},
                                     {caption: '75%', value: 75, toggleGroup: 'zoom-list', checkable: true},

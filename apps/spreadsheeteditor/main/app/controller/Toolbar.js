@@ -281,14 +281,18 @@ define([
             var url = 'https://www.onlyoffice.com/blog/2025/10/docs-9-1-released';
 
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'rtlDirection' : {name: 'sse-help-tip-rtl-dir', placement: 'bottom', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', maxwidth: 300, automove: true,
-                                  closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
-                'commentFilter' : {name: 'help-tip-comment-filter', placement: 'bottom-right', text: this.helpCommentFilter, header: this.helpCommentFilterHeader, target: '#comments-btn-sort', maxwidth: 300,
-                                  closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
+                // 'rtlDirection' : {name: 'sse-help-tip-rtl-dir', placement: 'bottom', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', maxwidth: 300, automove: true,
+                                //   closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
+                // 'commentFilter' : {name: 'help-tip-comment-filter', placement: 'bottom-right', text: this.helpCommentFilter, header: this.helpCommentFilterHeader, target: '#comments-btn-sort', maxwidth: 300,
+                //                   closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
                 'tableTab' : {name: 'sse-help-tip-table-tab', placement: 'bottom', offset: {x: Common.UI.isRTL() ? -10 : 10, y: 0}, text: this.helpTableTab, header: this.helpTableTabHeader, target: 'li.ribtab #tabledesign',
                                 automove: true, maxwidth: 300, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
                 'chartElements' : {name: 'help-tip-chart-elements', placement: 'bottom', text: this.helpChartElements, header: this.helpChartElementsHeader, target: '#id-document-holder-btn-chart-element', maxwidth: 300,
-                    automove: true, noHighlight: true, noArrow: true, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
+                    automove: true, noHighlight: true, noArrow: true, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
+                'solver' : {name:'sse-help-tip-solver', placement: 'bottom-left', text: this.helpSolver, header: this.helpSolverHeader, target: '#slot-btn-solver', maxwidth: 300,
+                                    automove: true, closable: false, isNewFeature: true},
+                'cellFormat' : {name:'sse-help-tip-cellFormat', placement: 'bottom-left', text: this.helpCellFormat, header: this.helpCellFormatHeader, target: '#slot-btn-cell-format', maxwidth: 300,
+                                    automove: true, closable: false, isNewFeature: true}
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true},
@@ -319,6 +323,8 @@ define([
                 if (toolbar.cmbNumberFormat.cmpEl)
                     toolbar.cmbNumberFormat.cmpEl.on('click', '#id-toolbar-mnu-item-more-formats a', _.bind(this.onNumberFormatSelect, this));
                 toolbar.btnEditChartData.on('click',                        _.bind(this.onEditChartData, this));
+                toolbar.btnTextDir.menu.on('item:click',                    _.bind(this.onTextDirClick, this));
+                toolbar.btnTextDir.menu.on('show:before',                    _.bind(this.onUpdateTextDir, this));
             } else
             if ( me.appConfig.isEditMailMerge ) {
                 toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
@@ -381,7 +387,6 @@ define([
                 toolbar.btnTextFormatting.menu.on('item:click',             _.bind(this.onTextFormattingMenu, this));
                 toolbar.btnHorizontalAlign.menu.on('item:click',            _.bind(this.onHorizontalAlignMenu, this));
                 toolbar.btnVerticalAlign.menu.on('item:click',              _.bind(this.onVerticalAlignMenu, this));
-            } if ( me.appConfig.isEditDiagram || me.appConfig.isEditOle ){
                 toolbar.btnTextDir.menu.on('item:click',                    _.bind(this.onTextDirClick, this));
                 toolbar.btnTextDir.menu.on('show:before',                    _.bind(this.onUpdateTextDir, this));
             } else {
@@ -484,6 +489,20 @@ define([
                     toolbar.cmbNumberFormat.cmpEl.on('click', '#id-toolbar-mnu-item-more-formats a', _.bind(this.onNumberFormatSelect, this));
                 toolbar.btnCurrencyStyle.menu.on('item:click',              _.bind(this.onNumberFormatMenu, this));
                 $('#id-toolbar-menu-new-bordercolor').on('click',           _.bind(this.onNewBorderColor, this));
+                $('#slot-btn-paste').on('click', '.dropdown-toggle', _.bind(function(e) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+
+                    var menu = this.toolbar.btnPaste.menu;
+
+                    if (menu && menu.isVisible && menu.isVisible()) {
+                        menu.hide();
+                        return;
+                    }
+
+                    this.onBtnPasteOptionsClick();
+                }, this));
+                // toolbar.btnPaste.menu && toolbar.btnPaste.menu.on('show:before',         _.bind(this.onBtnPasteOptionsClick, this));
                 toolbar.btnPageOrient.menu.on('item:click',                 _.bind(this.onPageOrientSelect, this));
                 toolbar.btnPageMargins.menu.on('item:click',                _.bind(this.onPageMarginsSelect, this));
                 toolbar.mnuPageSize.on('item:click',                        _.bind(this.onPageSizeClick, this));
@@ -1052,6 +1071,243 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Table');
         },
 
+        onBtnPasteOptionsClick: function (btn, e) {
+            var me = this;
+            var menu = me.toolbar.btnPaste.menu;
+            if (menu && menu.items && menu.items.length > 0) {
+                for (var i = 0; i < menu.items.length; i++) {
+                    menu.removeItem(menu.items[i]);
+                    i--;
+                }
+            }
+
+            this.api.asc_getPasteOptions(function (options) {
+                me.handlePasteOptions(options)
+            });
+        },
+
+        handlePasteOptions: function (options) {
+            var me = this;
+
+            if (options === null) {
+                var menu = me.toolbar.btnPaste.menu;
+
+                var mnu = new Common.UI.MenuItem({
+                    caption: me.txtPasteNoOptions,
+                    disabled: true
+                });
+
+                menu.addItem(mnu)
+                menu.show();
+                return
+            }
+
+            var pasteItems = options.asc_getOptions(),
+                isTable = !!options.asc_getContainTables();
+            if (!pasteItems) return;
+
+            me._arrSpecialPaste = [];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = [me.txtPaste, 0];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormula] = [me.txtPasteFormulas, 0];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaNumberFormat] = [me.txtPasteFormulaNumFormat, 0];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaAllFormatting] = [me.txtPasteKeepSourceFormat, 0];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaWithoutBorders] = [me.txtPasteBorders, 0];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaColumnWidth] = [me.txtPasteColWidths, 0];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.mergeConditionalFormating] = [me.txtPasteMerge, 0];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyValues] = [me.txtPasteValues, 1];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.valueNumberFormat] = [me.txtPasteValNumFormat, 1];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.valueAllFormating] = [me.txtPasteValFormat, 1];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormating] = [me.txtPasteFormat, 2];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.link] = [me.txtPasteLink, 2];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.transpose] = [me.txtPasteTranspose, 2];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = [me.txtPastePicture, 2];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.linkedPicture] = [me.txtPasteLinkPicture, 2];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = [me.txtPasteSourceFormat, 2];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = [me.txtPasteDestFormat, 2];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = [me.txtKeepTextOnly, 2];
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.useTextImport] = [me.txtUseTextImport, 3];
+
+            me.initSpecialPasteEvents();
+
+            if (pasteItems.length>0) {
+                var menu = me.toolbar.btnPaste.menu;
+
+                var groups = [];
+                for (var i = 0; i < 3; i++) {
+                    groups[i] = [];
+                }
+
+                var importText, pasteItem;
+
+                _.each(pasteItems, function(menuItem, index) {
+                    if (me._arrSpecialPaste[menuItem]) {
+                        var mnu = new Common.UI.MenuItem({
+                            caption: me._arrSpecialPaste[menuItem][0] + (me.hkSpecPaste[menuItem] ? ' (' + me.hkSpecPaste[menuItem] + ')' : ''),
+                            value: menuItem,
+                            checkable: true,
+                            toggleGroup: 'specialPasteGroup'
+                        }).on('click', _.bind(me.onSpecialPasteItemClick, me));
+                
+                        if (menuItem == Asc.c_oSpecialPasteProps.paste) {
+                            pasteItem = mnu;
+                        } else if (menuItem == Asc.c_oSpecialPasteProps.useTextImport) {
+                            importText = mnu;
+                        } else {
+                            groups[me._arrSpecialPaste[menuItem][1]].push(mnu);
+                        }
+                
+                        me._arrSpecialPaste[menuItem][2] = mnu;
+                    }
+                });
+                var groupTitles = [me.txtFormula, me.txtValue, me.txtOther];
+
+                if (pasteItem) {
+                    menu.addItem(pasteItem);
+                }
+
+                for (var i = 0; i < 3; i++) {
+                    if (groups[i].length > 0) {
+                        if (menu.items.length > 0) {
+                            menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
+                        }
+                        menu.addItem(new Common.UI.MenuItem({
+                            header: groupTitles[i],
+                            disabled: true,
+                            cls: 'menu-header'
+                        }));
+                        _.each(groups[i], function (menuItem, index) {
+                            menu.addItem(menuItem);
+                        });
+                    }
+                }
+
+                if (importText) {
+                    menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
+                    menu.addItem(importText);
+                }
+                if (menu.items.length>0 && options.asc_getShowPasteSpecial()) {
+                    menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
+                    var mnu = new Common.UI.MenuItem({
+                        caption: me.textPasteSpecial,
+                        value: 'special'
+                    }).on('click', function(item, e) {
+                        (new SSE.Views.SpecialPasteDialog({
+                            props: pasteItems,
+                            isTable: isTable,
+                            handler: function (result, settings) {
+                                if (result == 'ok') {
+                                    if (me && me.api) {
+                                        me.api.asc_SpecialPaste(settings, true);
+                                    }
+                                }
+                            }
+                        })).show();
+                        setTimeout(function(){menu.hide();}, 100);
+                    });
+                    menu.addItem(mnu);
+                }
+                menu.show();
+             }
+        },
+
+        onSpecialPasteItemClick: function (item, e) {
+            var me = this,
+                menu = this.toolbar.btnPaste.menu;
+            if (item.value == Asc.c_oSpecialPasteProps.useTextImport) {
+                (new Common.Views.OpenDialog({
+                    title: me.txtImportWizard,
+                    closable: true,
+                    type: Common.Utils.importTextType.Paste,
+                    preview: true,
+                    api: me.api,
+                    fromToolbar: true,
+                    handler: function (result, settings) {
+                        if (result == 'ok') {
+                            if (me && me.api) {
+                                var props = new Asc.SpecialPasteProps();
+                                props.asc_setProps(Asc.c_oSpecialPasteProps.useTextImport);
+                                props.asc_setAdvancedOptions(settings.textOptions);
+                                me.api.asc_SpecialPaste(props, true);
+                            }
+                        }
+                    }
+                })).show();
+                setTimeout(function(){menu.hide();}, 100);
+            } else {
+                var props = new Asc.SpecialPasteProps();
+                props.asc_setProps(item.value);
+                me.api.asc_SpecialPaste(props, true);
+                setTimeout(function(){menu.hide();}, 100);
+            }
+            return false;
+        },
+
+        initSpecialPasteEvents: function() {
+            if (this.specialPasteEventsInited) return
+
+            var me = this;
+
+            me.hkSpecPaste = [];
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.paste] = 'P';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormula] = 'F';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.formulaNumberFormat] = 'O';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.formulaAllFormatting] = 'K';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.formulaWithoutBorders] = 'B';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.formulaColumnWidth] = 'W';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.mergeConditionalFormating] = 'G';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.transpose] = 'T';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.pasteOnlyValues] = 'V';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.valueNumberFormat] = 'A';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.valueAllFormating] = 'E';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormating] = 'R';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.link] = 'N';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.picture] = 'U';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.linkedPicture] = 'I';
+
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceformatting] = 'K';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = 'M';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = 'T';
+            // me.hkSpecPaste[Asc.c_oSpecialPasteProps.useTextImport] = '';
+
+            var str = '';
+            for(var key in me.hkSpecPaste){
+                if(me.hkSpecPaste.hasOwnProperty(key)){
+                    if (str.indexOf(me.hkSpecPaste[key])<0)
+                        str += me.hkSpecPaste[key] + ',';
+                }
+            }
+            str = str.substring(0, str.length-1)
+            var keymap = {};
+            keymap[str + ' ' + 'special-paste-toolbar'] = _.bind(function(e) {
+                var menu = this.toolbar.btnPaste.menu;
+                for (var i = 0; i < menu.items.length; i++) {
+                    if (this.hkSpecPaste[menu.items[i].value] === String.fromCharCode(e.keyCode)) {
+                        return me.onSpecialPasteItemClick({value: menu.items[i].value});
+                    }
+                }
+            }, me);
+            Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
+            window.key.setScope('special-paste-toolbar');
+
+            var closeMenuOnWindowBlur = function() {
+                if (me.toolbar.btnPaste.menu.$el && me.toolbar.btnPaste.menu.$el.is(':visible')) {
+                    me.toolbar.btnPaste.menu.hide();
+                }
+            };
+            $(window).on('blur.pastemenuhide', closeMenuOnWindowBlur);
+
+            me.toolbar.btnPaste.menu.on('show:after', function(menu) {
+                window.key.setScope('special-paste-toolbar');
+                Common.util.Shortcuts.resumeEvents(str);
+                $(window).on('blur.pastemenuhide', closeMenuOnWindowBlur);
+            }).on('hide:after', function(menu) {
+                window.key.setScope('all');
+                Common.util.Shortcuts.suspendEvents(str, undefined, true);
+                $(window).off('blur.pastemenuhide', closeMenuOnWindowBlur);
+            });
+            this.specialPasteEventsInited = true;
+        },
+
         onInsertImageMenu: function(menu, item, e) {
             var me = this;
             if (item.value === 'file') {
@@ -1169,9 +1425,7 @@ define([
                     props   : props,
                     text    : cell.asc_getText(),
                     isLock  : cell.asc_getLockText(),
-                    allowInternal: (seltype!==Asc.c_oAscSelectionType.RangeImage && seltype!==Asc.c_oAscSelectionType.RangeShape &&
-                                    seltype!==Asc.c_oAscSelectionType.RangeShapeText && seltype!==Asc.c_oAscSelectionType.RangeChart &&
-                                    seltype!==Asc.c_oAscSelectionType.RangeChartText && seltype!==Asc.c_oAscSelectionType.RangeSlicer )
+                    allowInternal: (seltype!==Asc.c_oAscSelectionType.RangeChart && seltype!==Asc.c_oAscSelectionType.RangeChartText && seltype!==Asc.c_oAscSelectionType.RangeSlicer)
                 });
             }
 
@@ -1809,6 +2063,8 @@ define([
 
             toolbar.mnuHide.setDisabled(toolbar.mniHideRows.isDisabled() && toolbar.mniHideCols.isDisabled() && toolbar.mniHideSheets.isDisabled());
             toolbar.mnuShow.setDisabled(toolbar.mniShowRows.isDisabled() && toolbar.mniShowCols.isDisabled() && (hiddenItems.length<1 || toolbar.mnuShowSheets.isDisabled()));
+
+            Common.UI.TooltipManager.closeTip('cellFormat');
         },
 
         onCellFormatMenu: function(menu, item, e) {
@@ -3504,6 +3760,8 @@ define([
 
             if (toolbar.btnTextDir && !toolbar.btnTextDir.isDisabled() && toolbar.isTabActive('home'))
                 Common.UI.TooltipManager.showTip('rtlDirection');
+            if (toolbar.btnFormatCell && !toolbar.btnFormatCell.isDisabled() && toolbar.isTabActive('home'))
+                Common.UI.TooltipManager.showTip('cellFormat');
         },
 
         onApiSelectionChangedRestricted: function(info) {
@@ -4889,6 +5147,8 @@ define([
             if ( config.isEdit && !config.isEditDiagram  && !config.isEditMailMerge  && !config.isEditOle ) {
                 if (me.toolbar.btnTextDir && !me.toolbar.btnTextDir.isDisabled() && me.toolbar.isTabActive('home'))
                     Common.UI.TooltipManager.showTip('rtlDirection');
+                if(me.toolbar.btnFormatCell && !me.toolbar.btnFormatCell.isDisabled() && me.toolbar.isTabActive('home'))
+                    Common.UI.TooltipManager.showTip('cellFormat');
             }
         },
 
@@ -5484,6 +5744,14 @@ define([
                     Common.UI.TooltipManager.showTip('rtlDirection');
                 }, 10);
 
+            if (tab !== 'home')
+                Common.UI.TooltipManager.closeTip('cellFormat');
+            else if (this.toolbar && this.toolbar.btnFormatCell  && !this.toolbar.btnFormatCell.isDisabled())
+                setTimeout(function() {
+                    Common.UI.TooltipManager.showTip('cellFormat');
+                }, 10);
+
+            (tab === 'data') ? Common.UI.TooltipManager.showTip('solver') : Common.UI.TooltipManager.closeTip('solver');
             (tab === 'tabledesign') ? Common.UI.TooltipManager.showTip('tableTab') : Common.UI.TooltipManager.closeTip('tableTab');
         },
 
@@ -5496,6 +5764,8 @@ define([
 
         onTabCollapse: function(tab) {
             Common.UI.TooltipManager.closeTip('rtlDirection');
+            Common.UI.TooltipManager.closeTip('cellFormat');
+            Common.UI.TooltipManager.closeTip('solver');
         }
     }, SSE.Controllers.Toolbar || {}));
 });

@@ -54,7 +54,7 @@ define([
         function setEvents() {
             var me = this;
 
-            this.btnProtectDoc.on('click', function (btn, e) {
+            this.btnProtectDoc && this.btnProtectDoc.on('click', function (btn, e) {
                 me.fireEvent('protect:document', [btn.pressed]);
             });
             me._isSetEvents = true;
@@ -73,17 +73,20 @@ define([
                 this.lockedControls = [];
                 this._state = {disabled: false, currentProtectHint: this.hintProtectDoc };
 
-                this.btnProtectDoc = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-restrict-editing',
-                    enableToggle: true,
-                    caption: this.txtProtectDoc,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.previewReviewMode, _set.viewFormMode, _set.protectLock, _set.viewMode],
-                    dataHint    : '1',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
-                });
-                this.lockedControls.push(this.btnProtectDoc);
+                if(!this.appConfig.isPDFForm) {
+                    this.btnProtectDoc = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-restrict-editing',
+                        enableToggle: true,
+                        caption: this.txtProtectDoc,
+                        lock        : [_set.lostConnect, _set.coAuth, _set.previewReviewMode, _set.viewFormMode, _set.protectLock, _set.viewMode],
+                        dataHint    : '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.lockedControls.push(this.btnProtectDoc);
+                }
+
                 Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -97,7 +100,7 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    me.btnProtectDoc.updateHint(me._state.currentProtectHint, true);
+                    me.btnProtectDoc && me.btnProtectDoc.updateHint(me._state.currentProtectHint, true);
                     setEvents.call(me);
                 });
             },
@@ -105,7 +108,7 @@ define([
             getPanel: function () {
                 this.$el = $(_.template(template)( {} ));
 
-                this.btnProtectDoc.render(this.$el.find('#slot-btn-protect-doc'));
+                this.btnProtectDoc && this.btnProtectDoc.render(this.$el.find('#slot-btn-protect-doc'));
                 return this.$el;
             },
 
@@ -131,7 +134,7 @@ define([
                 } else if (type === Asc.c_oAscEDocProtect.TrackedChanges){ // none or tracked changes
                     str = this.txtDocProtectedTrack;
                 }
-                this.btnProtectDoc.updateHint(str, true);
+                this.btnProtectDoc && this.btnProtectDoc.updateHint(str, true);
                 this._state.currentProtectHint = str;
             },
             txtProtectDoc: 'Protect Document',

@@ -831,6 +831,48 @@ define([], function () {
                 caption: me.textEditObject
             });
 
+            var menuHyperlinkPicSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
+            me.menuAddHyperlinkPic = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
+                caption     : me.hyperlinkText
+            });
+
+            me.menuEditHyperlinkPic = new Common.UI.MenuItem({
+                caption     : me.editHyperlinkText
+            });
+
+            me.menuRemoveHyperlinkPic = new Common.UI.MenuItem({
+                caption     : me.removeHyperlinkText
+            });
+
+            var menuHyperlinkPic = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
+                caption     : me.hyperlinkText,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    items   : [
+                        me.menuEditHyperlinkPic,
+                        me.menuRemoveHyperlinkPic
+                    ]
+                })
+            });
+
+            me.menuImgStretchContentControl = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-resize-to-cell',
+                caption: me.textStretchControl,
+                value: 'stretch'
+            });
+
+            me.menuTableStretchContentControl = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-resize-to-cell',
+                caption: me.textStretchControl,
+                value: 'stretch'
+            });
+
             this.pictureMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
@@ -912,6 +954,7 @@ define([], function () {
                         content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked,
                         is_form = control_props && control_props.get_FormPr();
 
+                    me.menuImgStretchContentControl.setVisible(is_form);
                     me.menuImgRemoveControl.setVisible(in_control);
                     me.menuImgControlSettings.setVisible(in_control && me.mode.canEditContentControl && !is_form);
                     menuImgControlSeparator.setVisible(in_control);
@@ -1011,6 +1054,23 @@ define([], function () {
                     var canEditPoints = me.api && me.api.asc_canEditGeometry();
                     me.menuImgEditPoints.setVisible(canEditPoints);
                     canEditPoints && me.menuImgEditPoints.setDisabled(islocked);
+
+                    var text = null;
+                    if (me.api) {
+                        text = me.api.can_AddHyperlink();
+                    }
+                    me.menuAddHyperlinkPic.setVisible(value.hyperProps===undefined && text!==false);
+                    menuHyperlinkPic.setVisible(value.hyperProps!==undefined);
+                    menuHyperlinkPicSeparator.setVisible(me.menuAddHyperlinkPic.isVisible() || menuHyperlinkPic.isVisible());
+                    me.menuEditHyperlinkPic.hyperProps = value.hyperProps;
+                    me.menuRemoveHyperlinkPic.hyperProps = value.hyperProps;
+                    if (text !== false) {
+                        me.menuAddHyperlinkPic.hyperProps = {};
+                        me.menuAddHyperlinkPic.hyperProps.value = new Asc.CHyperlinkProperty();
+                        me.menuAddHyperlinkPic.hyperProps.value.put_Text(text);
+                    }
+                    me.menuAddHyperlinkPic.setDisabled(islocked);
+                    menuHyperlinkPic.setDisabled(islocked || (value.hyperProps!==undefined && value.hyperProps.isSeveralLinks===true));
                 },
                 items: [
                     me.menuImgCut,
@@ -1039,11 +1099,15 @@ define([], function () {
                     menuInsertCaptionSeparator,
                     me.menuSaveAsPicture,
                     menuSaveAsPictureSeparator,
+                    me.menuAddHyperlinkPic,
+                    menuHyperlinkPic,
+                    menuHyperlinkPicSeparator,
                     me.menuImgCrop,
                     me.menuImgResetCrop,
                     me.menuOriginalSize,
                     me.menuImgReplace,
                     me.menuChartEdit,
+                    me.menuImgStretchContentControl,
                     me.menuImgEditPoints,
                     me.menuImageAdvanced
                 ]
@@ -1755,6 +1819,7 @@ define([], function () {
                             lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
                             is_form = control_props && control_props.get_FormPr();
                         me.menuTableRemoveForm.setVisible(is_form);
+                        me.menuTableStretchContentControl.setVisible(is_form);
                         menuTableControl.setVisible(!is_form);
                         if (is_form) {
                             me.menuTableRemoveForm.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
@@ -1769,6 +1834,7 @@ define([], function () {
                     } else {
                         menuTableControl.setVisible(in_control);
                         me.menuTableRemoveForm.setVisible(in_control);
+                        me.menuTableStretchContentControl.setVisible(false);
                     }
                     me.menuTableTOC.setVisible(in_toc);
 
@@ -1828,6 +1894,7 @@ define([], function () {
                     menuHyperlinkTable,
                     me.menuTableFollow,
                     menuHyperlinkSeparator,
+                    me.menuTableStretchContentControl,
                     me.menuTableRemoveForm,
                     menuTableControl,
                     me.menuTableTOC,

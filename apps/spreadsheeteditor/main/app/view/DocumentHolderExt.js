@@ -1572,6 +1572,36 @@ define([], function () {
                 caption: '--'
             });
 
+            me.menuHyperlinkPicSeparator = new Common.UI.MenuItem({
+                caption: '--'
+            });
+
+            me.menuAddHyperlinkPic = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
+                caption: me.txtInsHyperlink
+            });
+
+            me.menuEditHyperlinkPic = new Common.UI.MenuItem({
+                caption: me.editHyperlinkText
+            });
+
+            me.menuRemoveHyperlinkPic = new Common.UI.MenuItem({
+                caption: me.removeHyperlinkText
+            });
+
+            me.menuHyperlinkPic = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
+                caption: me.txtInsHyperlink,
+                menu: new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    items: [
+                        me.menuEditHyperlinkPic, 
+                        me.menuRemoveHyperlinkPic
+                    ]
+                })
+            });
+
             this.imgMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
@@ -1594,6 +1624,9 @@ define([], function () {
                     menuSaveAsPictureSeparator,
                     me.menuSaveAsPicture,
                     me.mnuShapeSeparator,
+                    me.menuAddHyperlinkPic,
+                    me.menuHyperlinkPic,
+                    me.menuHyperlinkPicSeparator,
                     me.menuImgCrop,
                     me.menuImgResetCrop,
                     me.mnuChartData,

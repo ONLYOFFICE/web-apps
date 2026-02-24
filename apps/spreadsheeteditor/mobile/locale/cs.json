@@ -276,6 +276,7 @@
     "errorCircularReference": "Jeden nebo více kruhových odkazů, kde vzorec odkazuje na vlastní buňku přímo či nepřímo, je obsaženo.<br>Zkuste tyto odkazy odstranit, změnit, nebo přesunout vzorce do jiných buněk.",
     "errorComboSeries": "Pro vytvoření kombinovaného grafu, zvolte alespoň dvě skupiny dat. ",
     "errorConnectToServer": "Není možné uložit dokument. Zkontrolujte nastavení připojení, nebo kontaktujte Vašeho správce.<br>Po kliknutím na tlačítko 'OK' budete vyzváni ke stažení dokumentu.",
+    "errorCopyDisabled": "Z bezpečnostních důvodů nemůže být obsah dokumentu zkopírován.",
     "errorCopyMultiselectArea": "Tento příkaz nelze použít s více výběry.<br>Vyberte jeden z rozsahů a zkuste to znovu.",
     "errorCountArg": "Chyba ve vzorci.<br>Neplatný počet argumentů.",
     "errorCountArgExceed": "Chyba ve vzorci.<br>Maximální počet argumentů překročen.",
@@ -379,8 +380,7 @@
     "uploadDocSizeMessage": "Překročena maximální velikost dokumentu.",
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Nenahrány žádné obrázky.",
-    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Heslo",
@@ -505,7 +505,7 @@
       "textInternalDataRange": "Vnitřní rozsah dat",
       "textInvalidRange": "CHYBA! Neplatný rozsah buněk",
       "textLink": "Odkaz",
-      "textLinkSettings": "Nastavení odkazů",
+      "textLinkSettings": "Nastavení odkazu",
       "textLinkType": "Typ odkazu",
       "textOk": "OK",
       "textOther": "Jiné",
@@ -576,6 +576,7 @@
       "textChartTitle": "Název grafu",
       "textClearFilter": "Vyčistit filtr",
       "textColor": "Barva",
+      "textContextTextDirection": "Kontext",
       "textCreateCustomFormat": "Vytvořit vlastní formát",
       "textCreateFormat": "Vytvořit formát",
       "textCross": "Křížení",
@@ -612,7 +613,7 @@
       "textFilterOptions": "Možnosti filtrování",
       "textFit": "Přizpůsobit šířku",
       "textFonts": "Písma",
-      "textFormat": "Formát",
+      "textFormat": "Formát čísla",
       "textFraction": "Zlomek",
       "textFromLibrary": "Obrázek z knihovny",
       "textFromURL": "Obrázek z adresy URL",
@@ -625,7 +626,7 @@
       "textHundredMil": "100 000 000",
       "textHundreds": "Stovky",
       "textHundredThousands": "100 000",
-      "textHyperlink": "Hypertextový odkaz",
+      "textHyperlink": "Odkaz",
       "textImage": "Obrázek",
       "textImageURL": "URL obrázku",
       "textIn": "Dovnitř",
@@ -648,9 +649,10 @@
       "textLegend": "Legenda",
       "textLetterSpacing": "Mezery mezi písmeny",
       "textLink": "Odkaz",
-      "textLinkSettings": "Nastavení odkazů",
+      "textLinkSettings": "Nastavení odkazu",
       "textLinkType": "Typ odkazu",
       "textLow": "Nízký",
+      "textLtrTextDirection": "Zleva doprava",
       "textMajor": "Hlavní",
       "textMajorAndMinor": "Hlavní a vedlejší",
       "textMajorType": "Hlavní typ",
@@ -694,6 +696,7 @@
       "textRotateTextDown": "Otočit text dolů",
       "textRotateTextUp": "Otočit text nahoru",
       "textRouble": "Rubl",
+      "textRtlTextDirection": "Zprava doleva",
       "textSave": "Uložit",
       "textScientific": "Vědecké",
       "textScreenTip": "Nápověda",
@@ -713,6 +716,7 @@
       "textTenThousands": "10 000",
       "textText": "Text",
       "textTextColor": "Barva textu",
+      "textTextDirection": "Směr textu",
       "textTextFormat": "Formát textu",
       "textTextOrientation": "Orientace textu",
       "textThick": "Tučné",
@@ -733,11 +737,7 @@
       "textYen": "Jen",
       "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
       "txtSortHigh2Low": "Seřadit od nejvyššího po nejnižší",
-      "txtSortLow2High": "Seřadit od nejnižšího po nejvyšší",
-      "textContextTextDirection": "Context",
-      "textLtrTextDirection": "Left-to-right",
-      "textRtlTextDirection": "Right-to-left",
-      "textTextDirection": "Text Direction"
+      "txtSortLow2High": "Seřadit od nejnižšího po nejvyšší"
     },
     "Settings": {
       "advCSVOptions": "Vyberte možnosti CSV",
@@ -832,6 +832,7 @@
       "textSearchIn": "Hledat v",
       "textSettings": "Nastavení",
       "textSheet": "List",
+      "textSheetRtl": "List zprava do leva",
       "textShowNotification": "Zobrazit notifikace",
       "textSpreadsheetFormats": "Formáty sešitu",
       "textSpreadsheetInfo": "Informace o sešitu",
@@ -896,9 +897,7 @@
       "txtZhtw": "Čínština (Tradiční)",
       "warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?",
       "warnDownloadCsv": "Formát CSV nepodporuje ukládání souboru s více listy a všech prvků kromě textu.<br>Pro uložení pouze vybraného listu do CSV, klikněte na OK.<br>Pro uložení celého sešitu a všech jeho vlastností klikněte na Zrušit a vyberte jiný formát.",
-      "textSheetRtl": "Sheet Right to left",
-      "textOpenLocation": "Open location",
-      "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
+      "warnDownloadOds": "Uložení tohoto souboru může způsobit ztrátu některých vzorců, formátování buněk nebo vložených objektů kvůli omezené podpoře vybraného formátu.<br>Chcete pokračovat?"
     }
   }
 }

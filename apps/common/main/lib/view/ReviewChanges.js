@@ -271,6 +271,11 @@ define([
                 Common.UI.BaseView.prototype.initialize.call(this, options);
 
                 this.appConfig = options.mode;
+                this.tabOptions = {
+                    canCommentResolve: options.tabOptions && options.tabOptions.canCommentResolve != undefined
+                        ? options.tabOptions.canCommentResolve
+                        : true
+                }
                 this.lockedControls = [];
                 var filter = Common.localStorage.getKeysFilter();
                 this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
@@ -347,7 +352,7 @@ define([
                 if (this.appConfig.canViewReview) {
                     this.btnPrev = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-review-prev',
+                        iconCls: Common.UI.isRTL() ? 'toolbar__icon btn-review-next' : 'toolbar__icon btn-review-prev',
                         lock: [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode, _set.viewMode],
                         caption: this.txtPrev,
                         dataHint: '1',
@@ -358,7 +363,7 @@ define([
 
                     this.btnNext = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-review-next',
+                        iconCls:  Common.UI.isRTL() ? 'toolbar__icon btn-review-prev' : 'toolbar__icon btn-review-next',
                         lock: [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode, _set.viewMode],
                         caption: this.txtNext,
                         dataHint: '1',
@@ -499,18 +504,20 @@ define([
                         dataHintOffset: 'small'
                     });
                     this.lockedControls.push(this.btnCommentRemove);
-                    this.btnCommentResolve = new Common.UI.Button({
-                        cls: 'btn-toolbar x-huge icon-top',
-                        caption: this.txtCommentResolve,
-                        split: true,
-                        iconCls: 'toolbar__icon btn-resolve-all',
-                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.hideComments, _set['Objects'], _set.lostConnect, _set.docLockView, _set.docLockForms, _set.viewMode, _set.slideMasterMode],
-                        action: 'comment-resolve',
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    this.lockedControls.push(this.btnCommentResolve);
+                    if(this.tabOptions.canCommentResolve) {
+                        this.btnCommentResolve = new Common.UI.Button({
+                            cls: 'btn-toolbar x-huge icon-top',
+                            caption: this.txtCommentResolve,
+                            split: true,
+                            iconCls: 'toolbar__icon btn-resolve-all',
+                            lock: [_set.previewReviewMode, _set.viewFormMode, _set.hideComments, _set['Objects'], _set.lostConnect, _set.docLockView, _set.docLockForms, _set.viewMode, _set.slideMasterMode],
+                            action: 'comment-resolve',
+                            dataHint: '1',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'small'
+                        });
+                        this.lockedControls.push(this.btnCommentResolve);
+                    }
                 }
 
                 if (this.appConfig.isEdit && this.appConfig.canCoAuthoring && this.appConfig.canUseMailMerge) {

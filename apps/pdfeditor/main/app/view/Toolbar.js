@@ -1783,20 +1783,20 @@ define([
                     }
 
                     if (me.btnTextComment) {
-                        me.btnTextComment.options.textboxType = AscPDF.FREE_TEXT_INTENT_TYPE.FreeText;
+                        me.btnTextComment.options.textboxType = AscPDF.FREE_TEXT_INTENT_TYPE.freeText;
                         me.btnTextComment.setMenu(new Common.UI.Menu({
                             items: [
                                 {
                                     caption: me.tipInsertTextComment,
                                     iconCls     : 'menu__icon btn-text-comment',
-                                    value: AscPDF.FREE_TEXT_INTENT_TYPE.FreeText,
+                                    value: AscPDF.FREE_TEXT_INTENT_TYPE.freeText,
                                     iconClsForMainBtn: 'btn-big-text-comment',
                                     captionForMainBtn: me.capBtnTextComment
                                 },
                                 {
                                     caption: me.tipInsertTextCallout,
                                     iconCls     : 'menu__icon btn-text-callout',
-                                    value: AscPDF.FREE_TEXT_INTENT_TYPE.FreeTextCallout,
+                                    value: AscPDF.FREE_TEXT_INTENT_TYPE.freeTextCallout,
                                     iconClsForMainBtn: 'btn-big-text-callout',
                                     captionForMainBtn: me.capBtnTextCallout
                                 },

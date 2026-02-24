@@ -120,8 +120,7 @@
     "unknownErrorText": "未知錯誤。",
     "uploadImageExtMessage": "圖片格式未知。",
     "uploadImageFileCountMessage": "沒有上傳圖片。",
-    "uploadImageSizeMessage": "圖片超出最大大小限制。最大大小為25MB。",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "圖片超出最大大小限制。最大大小為25MB。"
   },
   "LongActions": {
     "applyChangesTextText": "加載數據中...",
@@ -212,8 +211,7 @@
       "textVersion": "版本",
       "textVisioInfo": "圖表檢視器資訊",
       "textVisioSettings": "圖表檢視器設定",
-      "textVisioTitle": "圖表檢視器標題",
-      "textOpenLocation": "Open location"
+      "textVisioTitle": "圖表檢視器標題"
     }
   }
 }

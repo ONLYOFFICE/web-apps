@@ -389,7 +389,7 @@ define([], function () {
                     '<td><span id="fms-cmb-font-render"></span></td>',
                 '</tr>',
                 '<tr>',
-                    '<td><label><%= scope.strKeyboardShortcuts %><span class="new-hint"><%= Common.UI.SynchronizeTip.prototype.textNew.toUpperCase() %></span></label></td>',
+                    '<td><label><%= scope.strKeyboardShortcuts %></label></td>',
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-keyboard-shortcuts" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomize %></button></div></td>',
                 '</tr>',
                 '<tr class ="divider-group"></tr>',
@@ -854,8 +854,6 @@ define([], function () {
             value = Common.Utils.InternalSettings.get("settings-tab-style");
             item = this.cmbTabStyle.store.findWhere({value: value});
             this.cmbTabStyle.setValue(item ? item.get('value') : 'fill');
-
-            Common.localStorage.getItem('help-tip-customize-shortcuts') && $('.new-hint', this.el).addClass('hidden');
         },
 
         applySettings: function() {
@@ -2362,7 +2360,7 @@ define([], function () {
                                 '<tr><td class="padding-large"><div id="print-combo-margins" style="width: 248px;"></div></td></tr>',
                                 '<tr><td><label class="font-weight-bold"><%= scope.txtContent %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-content" style="width: 248px;"></div></td></tr>',
-                                '<tr><td class="padding-large desktop-settings"><label id="print-btn-system-dialog" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><span class="link"><%= scope.txtPrintUsingSystemDialog %></span></label></td></tr>',
+                                '<tr><td class="padding-large desktop-settings not-macos"><label id="print-btn-system-dialog" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><span class="link"><%= scope.txtPrintUsingSystemDialog %></span></label></td></tr>',
                                 '<tr class="fms-btn-apply"><td>',
                                     '<div class="footer justify">',
                                         '<button id="print-btn-print" class="btn normal dlg-btn primary margin-right-8" result="print" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button>',
@@ -2435,6 +2433,7 @@ define([], function () {
                     menuStyle: 'width: 248px; max-height: 280px;',
                     editable: false,
                     takeFocusOnClose: true,
+                    restoreMenuHeightAndTop: true,
                     cls: 'input-group-nr',
                     placeHolder: this.txtPrinterNotSelected,
                     itemsTemplate:  _.template([
@@ -2462,6 +2461,7 @@ define([], function () {
                     menuStyle: 'width: 248px; max-height: 280px;',
                     editable: false,
                     takeFocusOnClose: true,
+                    restoreMenuHeightAndTop: true,
                     cls: 'input-group-nr',
                     disabled: true,
                     data: [
@@ -2484,6 +2484,7 @@ define([], function () {
                 menuStyle: 'min-width: 248px;max-height: 280px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls: 'input-group-nr',
                 data: [
                     { value: 'all', displayValue: this.txtAllPages },
@@ -2527,6 +2528,7 @@ define([], function () {
                 menuStyle   : 'width:100%;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 'one', displayValue: this.txtOneSide, descValue: this.txtOneSideDesc },
@@ -2590,6 +2592,7 @@ define([], function () {
                 menuStyle: 'max-height: 280px; width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 template: paperSizeTemplate,
                 itemsTemplate: paperSizeItemsTemplate,
                 data: [].concat(this._defaultPaperSizeList, [{ value: -1, displayValue: this.txtCustom, caption: this.txtCustom, size: []}]),
@@ -2622,6 +2625,7 @@ define([], function () {
                 menuStyle   : 'min-width: 150px;',
                 editable    : false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: Asc.c_oAscPageOrientation.PagePortrait, displayValue: this.txtPortrait },
@@ -2637,6 +2641,7 @@ define([], function () {
                 menuStyle: 'max-height: 280px; min-width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls: 'input-group-nr',
                 data: [
                     { value: 0, displayValue: this.textMarginsNormal, size: (/^(ca|us)$/i.test(Common.Utils.InternalSettings.get("pdfe-config-region"))) ? [25.4, 25.4, 25.4, 25.4] : [20, 30, 20, 15]},
@@ -2667,6 +2672,7 @@ define([], function () {
                 menuStyle: 'min-width: 248px; max-height: 280px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls: 'input-group-nr',
                 data: [
                     { value: AscPDF.PRINT_CONTENT_TYPES.doc, displayValue: this.txtDocument },
@@ -2929,6 +2935,7 @@ define([], function () {
         applyMode: function() {
             if (!this.mode || !this.$el) return;
             !this.mode.isDesktopApp && this.$el.find('.desktop-settings').hide();
+            (this.mode.isDesktopApp && Common.Utils.isMac) && this.$el.find('.desktop-settings.not-macos').hide();
         },
 
         setApi: function(api) {

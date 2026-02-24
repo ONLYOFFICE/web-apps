@@ -56,31 +56,40 @@ define([
         events: function() {
             return {
                 'click .fm-btn': _.bind(function(event){
-                    var $item = $(event.currentTarget);
-                    if (!$item.hasClass('active')) {
-                        $('.fm-btn',this.el).removeClass('active');
-                        $item.addClass('active');
-                    }
-
                     var item = _.findWhere(this.items, {el: event.currentTarget});
-                    if (item) {
-                        var panel = this.panels[item.options.action];
-                        if (item.options.action === 'help') {
-                            if ( panel.noHelpContents === true && navigator.onLine ) {
-                                this.fireEvent('item:click', [this, 'external-help', true]);
-                                const helpCenter = Common.Utils.InternalSettings.get('url-help-center');
-                                !!helpCenter && window.open(helpCenter, '_blank');
-                                return;
+
+                    const proceedOpening = function() {
+                        var $item = $(event.currentTarget);
+                        if (!$item.hasClass('active')) {
+                            $('.fm-btn',this.el).removeClass('active');
+                            $item.addClass('active');
+                        }
+
+                        if (item) {
+                            var panel = this.panels[item.options.action];
+                            if (item.options.action === 'help') {
+                                if ( panel.noHelpContents === true && navigator.onLine ) {
+                                    this.fireEvent('item:click', [this, 'external-help', true]);
+                                    const helpCenter = Common.Utils.InternalSettings.get('url-help-center');
+                                    !!helpCenter && window.open(helpCenter, '_blank');
+                                    return;
+                                }
+                            }
+
+                            this.fireEvent('item:click', [this, item.options.action, !!panel]);
+
+                            if (panel) {
+                                this.$el.find('.content-box:visible').hide();
+                                this.active = item.options.action;
+                                panel.show();
                             }
                         }
+                    }.bind(this);
 
-                        this.fireEvent('item:click', [this, item.options.action, !!panel]);
-
-                        if (panel) {
-                            this.$el.find('.content-box:visible').hide();
-                            this.active = item.options.action;
-                            panel.show();
-                        }
+                    if(item && item.options && typeof item.options.openInterceptor == 'function') {
+                        item.options.openInterceptor(proceedOpening);
+                    } else {
+                        proceedOpening();
                     }
                 }, this)
             };
@@ -170,6 +179,10 @@ define([
             this.miPrintWithPreview = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-print-with-preview'),
                 action  : 'printpreview',
+                openInterceptor: function(callback) {
+                    const mainController = PDFE.getController('Main');
+                    callback && mainController.onTryPrint(callback);
+                }.bind(this),
                 caption : this.btnPrintCaption,
                 canFocused: false,
                 dataHint: 1,
@@ -372,15 +385,24 @@ define([
             if ( !this.rendered )
                 this.render();
 
-            var defPanel = (this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline)) ? 'saveas' : 'info';
-            if (!panel)
-                panel = this.active || defPanel;
-            this.$el.show();
-            this.scroller.update();
-            this.selectMenu(panel, opts, defPanel);
-            this.api && this.api.asc_enableKeyEvents(false);
+            const proceedOpening = function() {
+                var defPanel = (this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline)) ? 'saveas' : 'info';
+                if (!panel)
+                    panel = this.active || defPanel;
+                this.$el.show();
+                this.scroller.update();
+                this.selectMenu(panel, opts, defPanel);
+                this.api && this.api.asc_enableKeyEvents(false);
 
-            this.fireEvent('menu:show', [this]);
+                this.fireEvent('menu:show', [this]);
+            }.bind(this);
+
+            const item = this._getMenuItem(panel);
+            if(item && item.options && typeof item.options.openInterceptor == 'function') {
+                item.options.openInterceptor(proceedOpening);
+            } else {
+                proceedOpening();
+            }
         },
 
         hide: function() {

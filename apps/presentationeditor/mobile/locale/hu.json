@@ -71,6 +71,7 @@
     "menuCancel": "Mégse",
     "menuDelete": "Törlés",
     "menuDeleteTable": "Táblázat törlése",
+    "menuDuplicate": "Kettőzés",
     "menuEdit": "Szerkesztés",
     "menuEditLink": "Link szerkesztése",
     "menuMerge": "Egyesítés",
@@ -83,12 +84,11 @@
     "textDoNotShowAgain": "Ne mutassa újra",
     "textOk": "Rendben",
     "textRows": "Sorok",
-    "txtWarnUrl": "A link megnyitása káros lehet az eszközére és adataira.<br>Biztosan folytatja?",
-    "menuDuplicate": "Duplicate"
+    "txtWarnUrl": "A link megnyitása káros lehet az eszközére és adataira.<br>Biztosan folytatja?"
   },
   "Controller": {
     "Main": {
-      "advDRMOptions": "Védett fájl",
+      "advDRMOptions": "Zárolt fájl",
       "advDRMPassword": "Jelszó",
       "closeButtonText": "Fájl bezárása",
       "criticalErrorTitle": "Hiba",
@@ -200,6 +200,7 @@
     "errorBadImageUrl": "Hibás kép URL",
     "errorComboSeries": "Kombinált diagram létrehozásához válasszon legalább két adatsort.",
     "errorConnectToServer": "Ezt a dokumentumot nem lehet menteni. Ellenőrizze a kapcsolat beállításait, vagy forduljon a rendszergazdához.<br>Ha az \"OK\" gombra kattint, a rendszer felkéri a dokumentum letöltésére.",
+    "errorCopyDisabled": "Biztonsági okokból a dokumentum tartalma nem másolható.",
     "errorDatabaseConnection": "Külső hiba.<br>Adatbázis kapcsolati hiba. Kérem vegye igénybe támogatásunkat.",
     "errorDataEncrypted": "Titkosított változások érkeztek, melyek feloldása sikertelen.",
     "errorDataRange": "Hibás adattartomány.",
@@ -241,8 +242,7 @@
     "unknownErrorText": "Ismeretlen hiba.",
     "uploadImageExtMessage": "Ismeretlen képformátum.",
     "uploadImageFileCountMessage": "Nincs kép feltöltve.",
-    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Adatok betöltése...",
@@ -355,6 +355,7 @@
       "textAuto": "Automatikus",
       "textAutomatic": "Automatikus",
       "textBack": "Vissza",
+      "textBackground": "Háttér",
       "textBandedColumn": "Sávos oszlop",
       "textBandedRow": "Sávos sor",
       "textBaseline": "Alapvonal",
@@ -432,6 +433,7 @@
       "textLinkSettings": "Hivatkozás beállítások",
       "textLinkTo": "Hivatkozás erre",
       "textLinkType": "Hivatkozás típusa",
+      "textLtrTextDirection": "Balról jobbra",
       "textMorph": "Gyurma",
       "textMorphLetters": "Betűk",
       "textMorphObjects": "Tárgyak",
@@ -460,9 +462,11 @@
       "textReplaceAll": "Mindent cserél",
       "textReplaceImage": "Kép cseréje",
       "textRequired": "Kötelező",
+      "textResetBackground": "Háttér visszaállítása",
       "textRight": "Jobb",
       "textRotateTextDown": "Szöveg elforgatása lefelé",
       "textRotateTextUp": "Szöveg elforgatása felfelé",
+      "textRtlTextDirection": "Jobbról balra",
       "textScreenTip": "Képernyőtipp",
       "textSearch": "Keresés",
       "textSec": "s",
@@ -484,6 +488,7 @@
       "textSuperscript": "Felső index",
       "textTable": "Táblázat",
       "textText": "Szöveg",
+      "textTextDirection": "Szövegirány",
       "textTextOrientation": "Szövegirány",
       "textTheme": "Téma",
       "textTop": "Felső",
@@ -502,12 +507,7 @@
       "textZoomOut": "Kicsinyítés",
       "textZoomRotate": "Zoom és elforgatás",
       "txtHeight": "Magasság",
-      "txtWidth": "Szélesség",
-      "textBackground": "Background",
-      "textLtrTextDirection": "Left-to-right",
-      "textResetBackground": "Reset background",
-      "textRtlTextDirection": "Right-to-left",
-      "textTextDirection": "Text Direction"
+      "txtWidth": "Szélesség"
     },
     "Settings": {
       "mniSlideStandard": "Sztenderd (4:3)",
@@ -549,6 +549,7 @@
       "textLight": "Világos",
       "textLoading": "Betöltés...",
       "textLocation": "Hely",
+      "textLoopSlideshow": "Diavetítés végtelenítése",
       "textMacrosSettings": "Makróbeállítások",
       "textNoMatches": "Nincs Találat",
       "textOk": "Rendben",
@@ -575,9 +576,7 @@
       "textUnitOfMeasurement": "Mértékegység",
       "textUploaded": "Feltöltve",
       "textVersion": "Verzió",
-      "textVersionHistory": "Naplótörténet",
-      "textLoopSlideshow": "Loop slideshow",
-      "textOpenLocation": "Open location"
+      "textVersionHistory": "Naplótörténet"
     }
   }
 }

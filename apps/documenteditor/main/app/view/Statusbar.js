@@ -164,6 +164,7 @@ define([
             });
 
             me.btnMultiplePages.on('click', function (btn) {
+                Common.UI.TooltipManager.closeTip('multipageViewStatusbar');
                 me.fireEvent('pages:multiple', [btn.pressed])
             })
 
@@ -219,6 +220,7 @@ define([
                 this.btnMultiplePages = new Common.UI.Button({
                     hintAnchor: 'top',
                     toggleGroup: 'multiple-pages',
+                    pressed: Common.localStorage.getBool("de-zoom-multipage", false),
                     enableToggle: true
                 });
 
@@ -357,7 +359,7 @@ define([
 
                 this.fireEvent('render:before', [this.$layout]);
 
-                _btn_render(me.btnMultiplePages, $('#btn-multiple-pages', me.$layout));
+                _btn_render(me.btnMultiplePages, $('#status-btn-multiple-pages', me.$layout));
                 _btn_render(me.btnZoomToPage, $('#btn-zoom-topage', me.$layout));
                 _btn_render(me.btnZoomToWidth, $('#btn-zoom-towidth', me.$layout));
                 _btn_render(me.cntZoom, $('.cnt-zoom',me.$layout));

@@ -324,7 +324,6 @@
   "VE.Controllers.Main.warnNoLicenseUsers": "Keni arritur kufirin e përdoruesit për redaktuesit %1. Kontakto ekipin e shitjeve %1 për kushtet e përmirësimit personal.",
   "VE.Controllers.Main.warnProcessRightsChange": "Juve ju është mohuar e drejta për të redaktuar skedarin.",
   "VE.Controllers.Print.txtPrintRangeInvalid": "Shtrirje e printimit e pavlefshme",
-  "VE.Controllers.Print.txtPrintRangeSingleRange": "Futni një numër të vetëm faqesh ose një gamë të vetme faqesh ose një shtrirje të vetme faqesh (për shembull, 5-12). Ose mund të printoni në PDF.",
   "VE.Controllers.Search.notcriticalErrorTitle": "Paralajmërim",
   "VE.Controllers.Search.textNoTextFound": "Të dhënat që keni kërkuar nuk u gjetën. Ju lutem rregulloni opsionet tuaja të kërkimit.",
   "VE.Controllers.Search.textReplaceSkipped": "Zëvëndësimi është bërë.. {0} ndodhi u anashkaluan.",

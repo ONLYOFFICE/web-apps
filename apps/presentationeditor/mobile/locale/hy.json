@@ -83,8 +83,7 @@
     "textDoNotShowAgain": "Այլևս ցույց չտալ",
     "textOk": "Լավ",
     "textRows": "Տողեր",
-    "txtWarnUrl": "Այս հղմանը հետևելը կարող է վնասել ձեր սարքավորումն ու տվյալները:<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:",
-    "menuDuplicate": "Duplicate"
+    "txtWarnUrl": "Այս հղմանը հետևելը կարող է վնասել ձեր սարքավորումն ու տվյալները:<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:"
   },
   "Controller": {
     "Main": {
@@ -241,8 +240,7 @@
     "unknownErrorText": "Անհայտ սխալ։",
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
-    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:"
   },
   "LongActions": {
     "applyChangesTextText": "Տվյալների բեռնում...",
@@ -502,12 +500,7 @@
       "textZoomOut": "Փոքրացնել",
       "textZoomRotate": "Դիտափոխում և պտտում",
       "txtHeight": "Բարձրություն",
-      "txtWidth": "Լայնք",
-      "textBackground": "Background",
-      "textLtrTextDirection": "Left-to-right",
-      "textResetBackground": "Reset background",
-      "textRtlTextDirection": "Right-to-left",
-      "textTextDirection": "Text Direction"
+      "txtWidth": "Լայնք"
     },
     "Settings": {
       "mniSlideStandard": "Ստանդարտ (4:3)",
@@ -575,9 +568,7 @@
       "textUnitOfMeasurement": "Չափման միավոր",
       "textUploaded": "Վերբեռնվել է",
       "textVersion": "Տարբերակ",
-      "textVersionHistory": "Տարբերակի պատմություն",
-      "textLoopSlideshow": "Loop slideshow",
-      "textOpenLocation": "Open location"
+      "textVersionHistory": "Տարբերակի պատմություն"
     }
   }
 }

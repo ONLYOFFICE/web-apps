@@ -1223,7 +1223,8 @@ define([
                     help && window.open(help, '_blank');
                 },
                 'docked': function(frameId){
-                    me.api.asc_pluginButtonDockChanged(isPanel ? variation.type : 'panel', variation.guid, frameId, function(){
+                    const docked_place = isPanel ? variation.type : !!variation.dockedPlace ? variation.dockedPlace : 'panelRight';
+                    me.api.asc_pluginButtonDockChanged(docked_place, variation.guid, frameId, function(){
                         setTimeout(function () {
                             me.customPluginsDlg[frameId].close();
                             me.onPluginPanelShow(frameId, variation, lang);
@@ -1250,7 +1251,7 @@ define([
                 var variationType = Asc.PluginType.getType(variation.type);
                 var isSystem = (true === variation.isSystem) || (Asc.PluginType.System === variationType),
                     isPanel = variationType === Asc.PluginType.Panel || variationType === Asc.PluginType.PanelRight;
-                var visible = (this.appOptions.isEdit || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !isSystem;
+                var visible = (this.appOptions.isEdit || this.appOptions.canSubmitForms || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !isSystem;
                 if (visible && isPanel) {
                     this.onPluginPanelShow(frameId, variation, lang);
                 } else if (visible && !variation.isInsideMode) {

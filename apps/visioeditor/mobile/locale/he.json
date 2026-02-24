@@ -56,8 +56,11 @@
       "textOpenFile": "נא להזין סיסמה לפתיחת הקובץ",
       "textPaidFeature": "תכונה בתשלום",
       "textYes": "כן",
+      "tipLicenseExceeded": "המסמך פתוח במצב קריאה בלבד מכיוון שהגעת למספר המרבי של חיבורים בו-זמניים המותר על פי הרישיון.<br><br>אנא נסה שוב מאוחר יותר או צור קשר עם בעל המסמך אם אתה זקוק לגישת עריכה.",
+      "tipLicenseUsersExceeded": "המסמך פתוח במצב קריאה בלבד מכיוון שהגעת למספר המרבי של משתמשים המורשים לערוך מסמכים באמצעות רישיון.<br><br>אנא נסה שוב מאוחר יותר או צור קשר עם בעל המסמך אם אתה זקוק לגישת עריכה.",
       "titleLicenseExp": "פג תוקפו של הרישיון",
       "titleLicenseNotActive": "הרישיון לא פעיל",
+      "titleReadOnly": "מצב קריאה בלבד",
       "titleServerVersion": "העורך עודכן",
       "titleUpdateVersion": "הגרסה שונתה",
       "txtIncorrectPwd": "הסיסמה שגויה",
@@ -68,10 +71,7 @@
       "warnLicenseLimitedRenewed": "נדרש לחדש את הרישיון. יש לך הרשאה מוגבלת לעריכת מסמכים.<br> נא ליצור קשר עם מנהל המערכת שלך לקבלת הרשאות מלאות",
       "warnNoLicense": "הגעת למגבלה של התחברויות בו-זמניות של %1 עורכים. המסמך ייפתח לצפייה בלבד. נא ליצור קשר עם צוות המכירות %1 לשדרוג התנאים האישיים.",
       "warnNoLicenseUsers": "הגעת למגבלת המשתמש עבור %1 עורכים. נא ליצור קשר עם צוות המכירות %1 לשדרוג אישי של התנאים.",
-      "warnProcessRightsChange": "אין לך הרשאה לערוך את הקובץ.",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "אין לך הרשאה לערוך את הקובץ."
     }
   },
   "Error": {
@@ -120,8 +120,7 @@
     "unknownErrorText": "שגיאה לא ידועה.",
     "uploadImageExtMessage": "פורמט תמונה לא ידוע.",
     "uploadImageFileCountMessage": "לא הועלו תמונות.",
-    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט."
   },
   "LongActions": {
     "applyChangesTextText": "טעינת נתונים...",
@@ -212,8 +211,7 @@
       "textVersion": "גרסה ",
       "textVisioInfo": "מידע אודות מציג התרשימים",
       "textVisioSettings": "הגדרות מציג התרשימים",
-      "textVisioTitle": "כותרת מציג התרשימים",
-      "textOpenLocation": "Open location"
+      "textVisioTitle": "כותרת מציג התרשימים"
     }
   }
 }

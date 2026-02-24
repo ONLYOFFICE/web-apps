@@ -83,6 +83,7 @@
     "errorAccessDeny": "Está intentando realizar una acción para la que no tiene derechos.<br>Póngase en contacto con su administrador.",
     "errorBadImageUrl": "La URL de la imagen es incorrecta",
     "errorConnectToServer": "No se puede guardar este documento. Compruebe la configuración de su conexión o póngase en contacto con el administrador.<br>Cuando haga clic en OK, se le pedirá que descargue el documento.",
+    "errorCopyDisabled": "Por motivos de seguridad, el contenido de este documento no se puede copiar.",
     "errorDatabaseConnection": "Error externo.<br>Error de conexión a la base de datos. Por favor, contacte con el equipo de soporte técnico.",
     "errorDataEncrypted": "Se han recibido cambios cifrados que no pueden descifrarse.",
     "errorDataRange": "Rango de datos incorrecto.",
@@ -120,8 +121,7 @@
     "unknownErrorText": "Error desconocido.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No se ha cargado ninguna imagen.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",
@@ -212,8 +212,7 @@
       "textVersion": "Versión ",
       "textVisioInfo": "Información del visor de diagramas",
       "textVisioSettings": "Configuración del visor de diagramas",
-      "textVisioTitle": "Título del visor de diagramas",
-      "textOpenLocation": "Open location"
+      "textVisioTitle": "Título del visor de diagramas"
     }
   }
 }

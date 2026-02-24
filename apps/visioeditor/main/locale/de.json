@@ -324,7 +324,6 @@
   "VE.Controllers.Main.warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1 Editoren erreicht. Kontaktieren Sie das %1 Vertriebsteam, um die Bedingungen für ein persönliches Upgrade zu erfahren.",
   "VE.Controllers.Main.warnProcessRightsChange": "Ihnen wurde das Recht zum Bearbeiten der Datei verweigert.",
   "VE.Controllers.Print.txtPrintRangeInvalid": "Ungültiger Druckbereich",
-  "VE.Controllers.Print.txtPrintRangeSingleRange": "Geben Sie entweder eine einzelne Seitenzahl oder einen einzelnen Seitenbereich ein (z. B. 5-12). Oder Sie können in PDF drucken.",
   "VE.Controllers.Search.notcriticalErrorTitle": "Achtung",
   "VE.Controllers.Search.textNoTextFound": "Die Daten, nach denen Sie gesucht haben, können nicht gefunden werden. Bitte ändern Sie die Suchparameter.",
   "VE.Controllers.Search.textReplaceSkipped": "Der Ersatzvorgang wurde durchgeführt. {0} Vorkommen wurden ausgelassen.",

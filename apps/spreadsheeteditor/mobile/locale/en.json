@@ -277,6 +277,8 @@
     "errorComboSeries": "To create a combination chart, select at least two series of data.",
     "errorConnectToServer": "Can't save this doc. Check your connection settings or contact your admin.<br>When you click the 'OK' button, you will be prompted to download the document.",
     "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied.",
+    "errorFileNotAssembled": "This file is opened from a server backup copy and is not saved to storage.<br>Use the 'Save as...' option to save it to a drive.",
+    "errorForcedViewMode": "This file is opened in view mode.<br>The file is locked for editing or your access rights do not allow editing.",
     "errorCopyMultiselectArea": "This command cannot be used with multiple selections.<br>Select a single range and try again.",
     "errorCountArg": "An error in the formula.<br>Invalid number of arguments.",
     "errorCountArgExceed": "An error in the formula.<br>Maximum number of arguments exceeded.",
@@ -898,7 +900,6 @@
       "txtZhtw": "Chinese (Traditional)",
       "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
       "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
-      "textOpenLocation": "Open location",
       "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
     }
   }

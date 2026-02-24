@@ -119,7 +119,7 @@ define([
         },
 
         onProtectDocClick: function(state) {
-            this.view.btnProtectDoc.toggle(!state, true);
+            this.view && this.view.btnProtectDoc && this.view.btnProtectDoc.toggle(!state, true);
             if (state) {
                 var me = this;
                     me._docProtectDlg  = new DE.Views.ProtectDialog({
@@ -183,7 +183,7 @@ define([
                     type = props ? props.asc_getEditType() : Asc.c_oAscEDocProtect.None,
                     isProtected = (type === Asc.c_oAscEDocProtect.ReadOnly || type === Asc.c_oAscEDocProtect.Comments ||
                                    type === Asc.c_oAscEDocProtect.TrackedChanges || type === Asc.c_oAscEDocProtect.Forms);
-                me.view && me.view.btnProtectDoc.toggle(!!isProtected, true);
+                me.view && me.view.btnProtectDoc && me.view.btnProtectDoc.toggle(!!isProtected, true);
 
                 if (isProtected) {
                     var str;
@@ -226,7 +226,7 @@ define([
 
             var props = this.getDocProps(true),
                 isProtected = props && (props.isReadOnly || props.isCommentsOnly || props.isFormsOnly || props.isReviewOnly);
-            this.view && this.view.btnProtectDoc.toggle(isProtected, true);
+            this.view && this.view.btnProtectDoc && this.view.btnProtectDoc.toggle(isProtected, true);
 
             // off preview forms
             var forms = this.getApplication().getController('FormsTab');
@@ -305,7 +305,9 @@ define([
 
         onLockDocumentProtection: function(state) {
             this._state.lockDocProtect = state;
-            this.view && Common.Utils.lockControls(Common.enumLock.protectLock, state, {array: [this.view.btnProtectDoc]});
+            if(this.view && this.view.btnProtectDoc) {
+                Common.Utils.lockControls(Common.enumLock.protectLock, state, {array: [this.view.btnProtectDoc]});
+            }
             if (this._docProtectDlg && this._docProtectDlg.isVisible())
                 this._docProtectDlg.SetDisabled(state || this._state.docProtection && (this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly ||
                                                                                     this._state.docProtection.isCommentsOnly || this._state.docProtection.isReviewOnly));
