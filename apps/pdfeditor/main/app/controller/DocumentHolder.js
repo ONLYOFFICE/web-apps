@@ -282,26 +282,43 @@ define([
                     }
                 }
             }
-            if (this.mode && this.mode.isEdit && this.mode.isPDFEdit) {
-                var i = -1,
-                    in_equation = false,
-                    in_chart = false,
-                    locked = false;
-                while (++i < selectedElements.length) {
-                    var type = selectedElements[i].get_ObjectType();
-                    if (type === Asc.c_oAscTypeSelectElement.Math) {
-                        in_equation = true;
-                    } else if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
-                        var value = selectedElements[i].get_ObjectValue();
-                        value && (locked = locked || value.get_Locked());
-                    } else if (type === Asc.c_oAscTypeSelectElement.Shape) { // shape
-                        var value = selectedElements[i].get_ObjectValue();
-                        if (value && value.get_FromChart()) {
-                            in_chart = true;
-                            locked = locked || value.get_Locked();
-                        }
+
+            var i = -1,
+                in_equation = false,
+                in_chart = false,
+                no_paragraph = true,
+                page_edit_text = false,
+                locked = false;
+            while (++i < selectedElements.length) {
+                var type = selectedElements[i].get_ObjectType();
+                if (type === Asc.c_oAscTypeSelectElement.Math) {
+                    in_equation = true;
+                } else if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
+                    var value = selectedElements[i].get_ObjectValue();
+                    value && (locked = locked || value.get_Locked());
+                    no_paragraph = false;
+                } else if (type === Asc.c_oAscTypeSelectElement.Shape) { // shape
+                    var value = selectedElements[i].get_ObjectValue();
+                    if (value && value.get_FromChart()) {
+                        in_chart = true;
+                        locked = locked || value.get_Locked();
                     }
+                    if (value && !value.get_FromImage() && !value.get_FromChart())
+                        no_paragraph = false;
+                } else if (type == Asc.c_oAscTypeSelectElement.Table) {
+                    no_paragraph = false;
                 }
+                else if (type == Asc.c_oAscTypeSelectElement.PdfPage) {
+                    var value = selectedElements[i].get_ObjectValue();
+                    page_edit_text = value.asc_getEditLock();
+                }
+            }
+            if (page_edit_text && me.documentHolder.btnEditText && me.documentHolder.btnEditText.cmpEl) {
+                me.documentHolder.btnEditText.cmpEl.parent().hide().prev('.separator').hide();
+            } else if (!page_edit_text && me.documentHolder.btnEditText && me.documentHolder.btnEditText.cmpEl){
+                me.documentHolder.btnEditText.cmpEl.parent().show().prev('.separator').show();
+            }
+            if (this.mode && this.mode.isEdit && this.mode.isPDFEdit) {
                 if (in_equation) {
                     this._state.equationLocked = locked;
                     this.disableEquationBar();
@@ -310,6 +327,7 @@ define([
                     this._state.chartLocked = locked;
                     this.disableChartElementButton();
                 }
+                this._state.no_paragraph = no_paragraph;
             }
         },
 
@@ -587,6 +605,23 @@ define([
             }
         },
 
+        redactText: function(item, e, eOpt){
+            if (this.mode) {
+                if (!this.mode.isPDFEdit) {
+                    var me = this;
+                    Common.NotificationCenter.trigger('pdf:mode-apply', 'edit', undefined, function() {
+                        if (me.mode.isPDFEdit) {
+                            Common.NotificationCenter.trigger('tab:set-active', 'red', false);
+                            me.api && me.api.AddRedactBySelect();
+                        }
+                    });
+                } else {
+                    Common.NotificationCenter.trigger('tab:set-active', 'red', false);
+                    this.api && this.api.AddRedactBySelect();
+                }
+            }
+        },
+
         onCountPages: function(count) {
             this.documentHolder && (this.documentHolder._pagesCount = count);
         },
@@ -610,8 +645,17 @@ define([
         onHideAnnotSelectBar: function() {},
 
         editText: function() {
-            this.mode && !this.mode.isPDFEdit && Common.NotificationCenter.trigger('pdf:mode-apply', 'edit');
-            this.api && this.api.asc_EditPage();
+            var me = this;
+
+            if (this.mode) {
+                if (this.mode.isPDFEdit) {
+                    me.api && me.api.asc_EditPage();
+                } else {
+                    Common.NotificationCenter.trigger('pdf:mode-apply', 'edit', undefined, function() {
+                        me.api && me.mode.isPDFEdit && me.api.asc_EditPage();
+                    });
+                }
+            }
         },
 
         clearSelection: function() {

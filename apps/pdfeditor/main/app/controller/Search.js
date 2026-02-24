@@ -286,6 +286,7 @@ define([
             if (this.resultItems[this._state.currentResult + 1]) {
                 this.api.asc_SelectSearchElement(this._state.currentResult + 1);
             } else {
+                this.api.asc_SelectSearchElement(this.resultItems[0].id);
                 this.view.disableRedactButtons(this.api.asc_GetRedactSearchInfo(this._state.currentResult))
             }
         },
@@ -486,7 +487,7 @@ define([
         },
 
         onSelectSearchingResults: function (val) {
-            if (!val && this.getApplication().getController('LeftMenu').isSearchPanelVisible()) return;
+            if (!val && (this.getApplication().getController('LeftMenu').isSearchPanelVisible() || this.getApplication().getController('Viewport').isSearchBarVisible())) return;
 
             if (this._state.isHighlightedResults !== val) {
                 this.api.asc_selectSearchingResults(val);

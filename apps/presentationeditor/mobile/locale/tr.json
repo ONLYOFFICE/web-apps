@@ -177,10 +177,7 @@
       "warnLicenseLimitedRenewed": "Lisansın yenilenmesi gerekiyor. Belge düzenleme işlevine sınırlı erişiminiz var.<br>Tam erişim için lütfen yöneticinizle iletişime geçin.",
       "warnNoLicense": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
       "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
-      "warnProcessRightsChange": "Dosyayı düzenleme izniniz yok.",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "Dosyayı düzenleme izniniz yok."
     }
   },
   "Error": {
@@ -232,9 +229,7 @@
     "unknownErrorText": "Bilinmeyen hata.",
     "uploadImageExtMessage": "Bilinmeyen resim formatı.",
     "uploadImageFileCountMessage": "Resim yüklenmedi.",
-    "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir."
   },
   "LongActions": {
     "applyChangesTextText": "Veri yükleniyor...",
@@ -277,10 +272,7 @@
     "stayButtonText": "Bu Sayfada Kal",
     "textCloseHistory": "Geçmişi kapat",
     "textEnterNewFileName": "Bir dosya ismi girin",
-    "textRenameFile": "Dosyayı yeniden adlandır.",
-    "btnRestartNow": "Restart now",
-    "textOk": "OK",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textRenameFile": "Dosyayı yeniden adlandır."
   },
   "View": {
     "Add": {
@@ -323,8 +315,7 @@
       "textSlideNumber": "Slayt numarası",
       "textTable": "Tablo",
       "textTableSize": "Tablo Boyutu",
-      "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır.",
-      "textDrawing": "Drawing"
+      "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır."
     },
     "Edit": {
       "notcriticalErrorTitle": "Uyarı",
@@ -489,12 +480,7 @@
       "textZoom": "Büyütme",
       "textZoomIn": "Yakınlaştır",
       "textZoomOut": "Uzaklaştır",
-      "textZoomRotate": "Büyüt ve Döndür",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textCellSize": "Cell size",
-      "txtHeight": "Height",
-      "txtWidth": "Width"
+      "textZoomRotate": "Büyüt ve Döndür"
     },
     "Settings": {
       "mniSlideStandard": "Standart (4:3)",
@@ -564,11 +550,5 @@
       "textVersion": "Sürüm",
       "textVersionHistory": "Sürüm Geçmişi "
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

@@ -247,11 +247,6 @@ class MainController extends Component {
                     }
                 }
 
-
-                if(/^(pdf|docxf|oform|djvu|xps|oxps)$/.test(data.doc.fileType)) {
-                    this.changeEditorBrandColorForPdf();
-                }
-
                 if(data.doc.fileType === 'pdf') {
                     if(this.permissions.fillForms === undefined) {
                         this.permissions.fillForms = this.permissions.edit !== false;
@@ -374,6 +369,8 @@ class MainController extends Component {
                 Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
 
                 appOptions.isRestrictedEdit && appOptions.canFillForms && this.api.asc_SetHighlightRequiredFields(true);
+
+                this.checkProtectDocumentOnAppReady();
 
                 let value = LocalStorage.getItem("de-settings-zoom");
                 const zf = (value !== null) ? parseInt(value) : (customization && customization.zoom ? parseInt(customization.zoom) : 100);
@@ -622,15 +619,6 @@ class MainController extends Component {
 
         if (/^(ca|us)$/i.test(region)) {
             Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
-        }
-    }
-
-    changeEditorBrandColorForPdf() {
-        const bodyElement = document.body;
-        bodyElement.classList.add('pdf-view');
-
-        if(Device.android) {
-            bodyElement.classList.add('pdf-view__android');
         }
     }
 
@@ -922,7 +910,13 @@ class MainController extends Component {
             storeTextSettings.resetTypeBaseline(typeBaseline);
         });
         this.api.asc_registerCallback('asc_onPrAlign', (align) => {
+            if (this.api.asc_isRtlTextDirection()) {
+                align = align === 0 ? 1 : align === 1 ? 0 : align;
+            }
             storeTextSettings.resetParagraphAlign(align);
+        });
+        this.api.asc_registerCallback('asc_onTextDirection', (isRtl) => {
+            storeTextSettings.resetTextDirection(isRtl);
         });
         this.api.asc_registerCallback('asc_onTextColor', (color) => {
             storeTextSettings.resetTextColor(color);
@@ -1068,7 +1062,16 @@ class MainController extends Component {
         }, 10);
     }
 
-    onChangeProtectDocument() {
+    checkProtectDocumentOnAppReady() {
+        const appOptions = this.props.storeAppOptions;
+        if ((appOptions.isRestrictedEdit || appOptions.isEdit) && !this._state.protectWarn) {
+            this._state.forceDocProtect = true;
+            this.onChangeProtectDocument();
+            this._state.forceDocProtect = false;
+        }
+    }
+
+    onChangeProtectDocument(userId) {
         const storeVersionHistory = this.props.storeVersionHistory;
         if (storeVersionHistory.isVersionHistoryMode) return;
         const props = this.getDocProps(true);
@@ -1078,7 +1081,6 @@ class MainController extends Component {
         const storeAppOptions = this.props.storeAppOptions;
         const isProtected = props && (props.isReadOnly || props.isCommentsOnly || props.isFormsOnly || props.isReviewOnly || props.isTrackedChanges);
         let textWarningDialog;
-
         if(!storeAppOptions.isReviewOnly) {
             if(props.isReviewOnly) {
                 this.api.asc_SetLocalTrackRevisions(true);
@@ -1108,15 +1110,26 @@ class MainController extends Component {
         Common.Notifications.trigger('protect:doclock', props);
 
         if(isProtected) {
-            f7.dialog.create({
-                title: t('Main.titleDialogProtectedDocument'),
-                text: textWarningDialog,
-                buttons: [
-                    {
-                        text: t('Main.textOk')
+            // userId is undefined if the current user has changed protection. in this case warning is not displayed.
+            // userId is undefined on docReady and you need to show warning, so use forceDocProtect!
+            const recUser = this.props.users.searchUserById(userId);
+            if (recUser && recUser.asc_getIdOriginal() !== this.props.users.currentUser.asc_getIdOriginal() || this._state.forceDocProtect) {
+                this._state.protectWarn && this._state.protectWarn.close();
+                this._state.protectWarn = f7.dialog.create({
+                    title: t('Main.titleDialogProtectedDocument'),
+                    text: textWarningDialog,
+                    buttons: [
+                        {
+                            text: t('Main.textOk')
+                        }
+                    ],
+                    on: {
+                        close: () => {
+                            this._state.protectWarn = null;
+                        }
                     }
-                ]
-            }).open();
+                }).open();
+            }
         }
     }
 

@@ -121,30 +121,7 @@
         "Table": "Taula",
         "X Axis": "Eix X XAS",
         "Y Axis": "Eix Y",
-        "Your text here": "El teu text aquí",
-        "Aspect": "Aspect",
-        "Blue": "Blue",
-        "Blue Green": "Blue Green",
-        "Blue II": "Blue II",
-        "Blue Warm": "Blue Warm",
-        "Green": "Green",
-        "Green Yellow": "Green Yellow",
-        "Marquee": "Marquee",
-        "Median": "Median",
-        "Office": "Office",
-        "Office 2007 - 2010": "Office 2007 - 2010",
-        "Office 2013 - 2022": "Office 2013 - 2022",
-        "Orange": "Orange",
-        "Orange Red": "Orange Red",
-        "Paper": "Paper",
-        "Red": "Red",
-        "Red Orange": "Red Orange",
-        "Red Violet": "Red Violet",
-        "Slipstream": "Slipstream",
-        "Violet": "Violet",
-        "Violet II": "Violet II",
-        "Yellow": "Yellow",
-        "Yellow Orange": "Yellow Orange"
+        "Your text here": "El teu text aquí"
       },
       "textAnonymous": "Anònim",
       "textBuyNow": "Visitar el lloc web",
@@ -176,11 +153,7 @@
       "warnLicenseLimitedRenewed": "Cal renovar la llicència. Tens accés limitat a la funció d'edició de documents. <br>Posa't en contacte amb l'administrador per obtenir accés total",
       "warnNoLicense": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'equip de vendes %1 per conèixer les condicions d'actualització personal.",
       "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Posa't en contacte amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels serveis.",
-      "warnProcessRightsChange": "No tens permís per editar el fitxer.",
-      "textOk": "Ok",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "No tens permís per editar el fitxer."
     }
   },
   "Error": {
@@ -231,10 +204,7 @@
     "unknownErrorText": "Error desconegut.",
     "uploadImageExtMessage": "Format d'imatge desconegut.",
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
-    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "S'estan carregant les dades...",
@@ -277,10 +247,7 @@
     "stayButtonText": "Queda't en aquesta Pàgina",
     "textCloseHistory": "Tanca l'historial",
     "textEnterNewFileName": "Introduïu un nom de fitxer nou",
-    "textRenameFile": "Canvia el nom del fitxer",
-    "btnRestartNow": "Restart now",
-    "textOk": "OK",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textRenameFile": "Canvia el nom del fitxer"
   },
   "View": {
     "Add": {
@@ -323,8 +290,7 @@
       "textSlideNumber": "Número de diapositiva",
       "textTable": "Taula",
       "textTableSize": "Mida de la taula",
-      "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
-      "textDrawing": "Drawing"
+      "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertiment",
@@ -489,12 +455,7 @@
       "textZoom": "Zoom",
       "textZoomIn": "Ampliar",
       "textZoomOut": "Reduir",
-      "textZoomRotate": "Ampliar i girar",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textCellSize": "Cell size",
-      "txtHeight": "Height",
-      "txtWidth": "Width"
+      "textZoomRotate": "Ampliar i girar"
     },
     "Settings": {
       "mniSlideStandard": "Estàndard (4:3)",
@@ -561,14 +522,7 @@
       "textUnitOfMeasurement": "Unitat de mesura",
       "textUploaded": "S'ha carregat",
       "textVersion": "Versió",
-      "textVersionHistory": "Historial de versions",
-      "textClose": "Close"
+      "textVersionHistory": "Historial de versions"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

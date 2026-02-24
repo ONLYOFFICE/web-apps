@@ -8,12 +8,16 @@
     if (currentScriptDirectoryIndex != -1)
         currentScriptDirectory = currentScriptDirectory.substr(0, currentScriptDirectoryIndex);
 
+    var userAgent = navigator && navigator.userAgent ? navigator.userAgent.toLowerCase() : "";
+    var isIE = /msie|trident/i.test(userAgent);
+
+    var monacoFolderName = isIE ? "monaco-for-ie" : "monaco";
     var LOADIND_LOCAL = {
-        URL : "./monaco/min/vs/loader.js",
+        URL : "./" + monacoFolderName + "/min/vs/loader.js",
         WORKER : function(moduleId, label) {
-            return currentScriptDirectory + "/monaco/min/vs/base/worker/workerMain.js";
+            return currentScriptDirectory + "/" + monacoFolderName + "/min/vs/base/worker/workerMain.js";
         },
-        BASE_VS : currentScriptDirectory + "/monaco/min/vs"
+        BASE_VS : currentScriptDirectory + "/" + monacoFolderName + "/min/vs"
     };
 
     var LOADING = LOADIND_LOCAL;

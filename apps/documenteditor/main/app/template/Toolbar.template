@@ -100,7 +100,7 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
-                    <span class="btn-slot text x-huge" id="slot-btn-insimage"></span>
+                    <span class="btn-slot text x-huge slot-insertimage"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-insshape"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-inschart"></span>
@@ -112,16 +112,17 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
-                    <span class="btn-slot text x-huge" id="slot-btn-editheader"></span>
+                    <span class="btn-slot text x-huge slot-headerfooter"></span>
+                    <span class="btn-slot text x-huge slot-pagenumbers"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-instext"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-instextart"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-dropcap"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-datetime"></span>
+                    <span class="btn-slot text x-huge slot-insertdatetime"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-text-from-file" data-layout-name="toolbar-insert-file"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-insfield" data-layout-name="toolbar-insert-field"></span>
+                    <span class="btn-slot text x-huge slot-insertfield" data-layout-name="toolbar-insert-field"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">

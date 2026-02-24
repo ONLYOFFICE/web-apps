@@ -481,6 +481,9 @@
 	"SORTBY": "SORTBY",
 	"GETPIVOTDATA": "GETPIVOTDATA",
 	"IMPORTRANGE": "IMPORTRANGE",
+	"REGEXTEST": "REGEXTEST",
+	"REGEXREPLACE": "REGEXREPLACE",
+	"REGEXEXTRACT": "REGEXEXTRACT",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

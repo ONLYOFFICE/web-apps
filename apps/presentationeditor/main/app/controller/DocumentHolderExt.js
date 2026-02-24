@@ -187,10 +187,13 @@ define([], function () {
             view.menuTableCut.on('click', _.bind(me.onCutCopyPaste, me));
             view.menuAddHyperlinkPara.on('click', _.bind(me.addHyperlink, me));
             view.menuAddHyperlinkTable.on('click', _.bind(me.addHyperlink, me));
+            view.menuAddHyperlinkPic.on('click', _.bind(me.addHyperlink, me));
             view.menuEditHyperlinkPara.on('click', _.bind(me.editHyperlink, me));
             view.menuEditHyperlinkTable.on('click', _.bind(me.editHyperlink, me));
+            view.menuEditHyperlinkPic.on('click', _.bind(me.editHyperlink, me));
             view.menuRemoveHyperlinkPara.on('click', _.bind(me.removeHyperlink, me));
             view.menuRemoveHyperlinkTable.on('click', _.bind(me.removeHyperlink, me));
+            view.menuRemoveHyperlinkPic.on('click', _.bind(me.removeHyperlink, me));
             view.menuChartEdit.on('click', _.bind(me.editChartClick, me, undefined));
             view.menuImgSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
             view.menuTableSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
@@ -460,6 +463,21 @@ define([], function () {
                     }
                     var recalc = false;
                     screenTip.isHidden = false;
+
+                    if (!me.screenTip.toolTip) {
+                        me.screenTip.toolTip = new Common.UI.Tooltip({
+                            owner: me,
+                            html: true,
+                            title: '<br><b>Press Ctrl and click link</b>'
+                        });
+                        me.screenTip.toolTip.on('tooltip:show', function () {
+                            $('#id_main_parent').on('mouseleave', me.wrapEvents.onMouseLeave);
+                        });
+                        me.screenTip.toolTip.on('tooltip:hide',function () {
+                            $('#id_main_parent').off('mouseleave', me.wrapEvents.onMouseLeave);
+                        });
+                    }
+
                     if (screenTip.tipType !== type || screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
                         screenTip.toolTip.setTitle((type===Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? (ToolTip + (me.isPreviewVisible ? '' : '<br><b>' + Common.Utils.String.platformKey('Ctrl', me.documentHolder.txtPressLink) + '</b>')) : ToolTip);
                         screenTip.tipLength = ToolTip.length;
@@ -949,6 +967,9 @@ define([], function () {
                 // case 'bShowLegendKeys':
                 //     chartProps.setDisplayDataTable(true, true);
                 //     break;
+                case 'noneError':
+                    chartProps.setDisplayErrorBars(false);
+                    break;
                 case 'standardError':
                     chartProps.setDisplayErrorBars(true, 4);
                     break;
@@ -1133,12 +1154,13 @@ define([], function () {
             }
             
             const legendMenu = menu.items[6].menu;
-            legendMenu.items[0].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.top);
-            legendMenu.items[1].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.left);
-            legendMenu.items[2].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.right);
-            legendMenu.items[3].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.bottom);
-            legendMenu.items[4].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.leftOverlay);
-            legendMenu.items[5].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.rightOverlay);
+            legendMenu.items[0].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.none);
+            legendMenu.items[1].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.top);
+            legendMenu.items[2].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.left);
+            legendMenu.items[3].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.right);
+            legendMenu.items[4].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.bottom);
+            legendMenu.items[5].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.leftOverlay);
+            legendMenu.items[6].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.rightOverlay);
 
             const supportedElements = chartElementMap[type] || [];
             menu.items.forEach(function(item) {
@@ -1157,13 +1179,12 @@ define([], function () {
             me.getCurrentChartProps = function () {
                 var selectedElements = me.api.getSelectedElements();
                 if (selectedElements && selectedElements.length > 0) {
-                    var elType, elValue;
+                    var elType;
                     for (var i = selectedElements.length - 1; i >= 0; i--) {
                         elType = selectedElements[i].get_ObjectType();
-                        elValue = selectedElements[i].get_ObjectValue();
 
                         if (elType === Asc.c_oAscTypeSelectElement.Chart) {
-                            return elValue.get_ChartProperties(); 
+                            return me.api.asc_getChartSettings(true);
                         }
                     }
                 }
@@ -1569,7 +1590,7 @@ define([], function () {
             if (me.api) {
                 var res =  (item.value == 'cut') ? me.api.Cut() : ((item.value == 'copy') ? me.api.Copy() : me.api.Paste());
                 if (!res) {
-                    if (!Common.localStorage.getBool("pe-hide-copywarning")) {
+                    if (!Common.localStorage.getBool("pe-hide-copywarning") && (item.value === 'paste' || me.mode.canCopy)) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
                                 if (dontshow) Common.localStorage.setItem("pe-hide-copywarning", 1);
@@ -2028,6 +2049,13 @@ define([], function () {
 
         dh.tableCellsVAlign = function(menu, item, e) {
             if (this.api) {
+
+                if (item.options.halign != null) {
+                    var type = item.options.halign;
+                    this.api.put_PrAlign(type);
+                    return;
+                }
+                
                 var properties = new Asc.CTableProp();
                 properties.put_CellsVAlign(item.value);
                 this.api.tblApply(properties);
@@ -2367,6 +2395,13 @@ define([], function () {
         dh.onParagraphVAlign = function (menu, item) {
             var me = this;
             if (me.api) {
+
+                if (item.options.halign != null) {
+                    var type = item.options.halign;
+                    me.api.put_PrAlign(type);
+                    return;
+                }
+
                 var properties = new Asc.asc_CShapeProperty();
                 properties.put_VerticalTextAlign(item.value);
 

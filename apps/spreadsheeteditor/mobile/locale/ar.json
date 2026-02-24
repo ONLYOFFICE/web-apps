@@ -242,10 +242,7 @@
       "warnLicenseLimitedRenewed": "يحتاج الترخيص إلى تجديد. لديك وصول محدود لخاصية تعديل المستند. <br> برجاء التواصل مع مسئولك للحصول على وصول كامل",
       "warnNoLicense": "لقد وصلت إلى الحد الأقصى من الاتصالات المتزامنة لـ%1محررات.هذا المستند سيكون للقراءة فقط. تواصل مع %1 فريق المبيعات لتطوير الشروط الشخصية",
       "warnNoLicenseUsers": "لقد وصلت إلى الحد الأقصى من عدد المستخدمين لـ %1. تواصل مع فريق المبيعات لتطوير الشروط الشخصية",
-      "warnProcessRightsChange": "ليس لديك الإذن بتعديل هذا الملف.",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "ليس لديك الإذن بتعديل هذا الملف."
     }
   },
   "Draw": {
@@ -377,9 +374,7 @@
     "uploadDocSizeMessage": "تم تجاوز الحد الأقصى المسموح به لحجم الملف",
     "uploadImageExtMessage": "امتداد صورة غير معروف",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
-    "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled."
+    "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت"
   },
   "LongActions": {
     "advDRMPassword": "كملة السر",
@@ -448,9 +443,7 @@
     "textSheetName": "اسم ورقة العمل",
     "textTabColor": "لون التبويبة",
     "textUnhide": "إظهار",
-    "textWarnDeleteSheet": "ربما تحتوي ورقة العمل على بيانات. هل تريد متابعة العملية؟",
-    "textContinue": "Continue",
-    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
+    "textWarnDeleteSheet": "ربما تحتوي ورقة العمل على بيانات. هل تريد متابعة العملية؟"
   },
   "Toolbar": {
     "btnRestartNow": "إعادة التشغيل الآن",
@@ -721,18 +714,7 @@
       "textYen": "ين",
       "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  ",
       "txtSortHigh2Low": "الترتيب من الأعلى إلى الأقل",
-      "txtSortLow2High": "الترتيب من الأقل إلى الأعلى",
-      "textAdditional": "Additional",
-      "textAdditionalFormatting": "Additional formatting",
-      "textAllCaps": "All Caps",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textDoubleStrikethrough": "Double Strikethrough",
-      "textLetterSpacing": "Letter spacing",
-      "textSmallCaps": "Small Caps",
-      "textStrikethrough": "Strikethrough",
-      "textSubscript": "Subscript",
-      "textSuperscript": "Superscript"
+      "txtSortLow2High": "الترتيب من الأقل إلى الأعلى"
     },
     "Settings": {
       "advCSVOptions": "اختر خيارات CSV",
@@ -886,12 +868,7 @@
       "txtUk": "الأوكرانية",
       "txtVi": "الفيتمانية",
       "txtZh": "الصينية",
-      "warnDownloadAs": "اذا تابعت الحفظ بهذا التنسيق ستفقد كل الميزات عدا النص.<br> هل حقا تريد المتابعة؟ ",
-      "txtSr": "Serbian (Latin)",
-      "txtSrcyrl": "Serbian (Cyrillic)",
-      "txtZhtw": "Chinese (Traditional)",
-      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
-      "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
+      "warnDownloadAs": "اذا تابعت الحفظ بهذا التنسيق ستفقد كل الميزات عدا النص.<br> هل حقا تريد المتابعة؟ "
     }
   }
 }

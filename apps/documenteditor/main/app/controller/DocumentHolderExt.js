@@ -237,16 +237,23 @@ define([], function () {
             view.menuTableRemoveForm.on('click', _.bind(me.onControlsSelect, me));
             view.menuTableRemoveControl.on('click', _.bind(me.onControlsSelect, me));
             view.menuTableControlSettings.on('click', _.bind(me.onControlsSelect, me));
+            view.menuImgStretchContentControl.on('click', _.bind(me.onControlsSelect, me));
+            view.menuTableStretchContentControl.on('click', _.bind(me.onControlsSelect, me));
             view.menuParaRemoveControl.on('click', _.bind(me.onControlsSelect, me));
             view.menuParaControlSettings.on('click', _.bind(me.onControlsSelect, me));
             view.menuTableCellAlign.menu.on('item:click', _.bind(me.tableCellsVAlign, me));
             view.menuTableAdvanced.on('click', _.bind(me.advancedTableClick, me));
             view.menuParagraphAdvancedInTable.on('click', _.bind(me.advancedParagraphClick, me));
+            view.menuStyleSaveInTable.on('click', _.bind(me.onMenuSaveStyle, me));
+            view.menuStyleUpdateInTable.on('click', _.bind(me.onMenuUpdateStyle, me));
             view.menuParagraphAdvanced.on('click', _.bind(me.advancedParagraphClick, me));
+            view.menuEditHyperlinkPic.on('click', _.bind(me.editHyperlink, me));
             view.menuEditHyperlinkTable.on('click', _.bind(me.editHyperlink, me));
             view.menuEditHyperlinkPara.on('click', _.bind(me.editHyperlink, me));
+            view.menuRemoveHyperlinkPic.on('click', _.bind(me.onRemoveHyperlink, me));
             view.menuRemoveHyperlinkTable.on('click', _.bind(me.onRemoveHyperlink, me));
             view.menuRemoveHyperlinkPara.on('click', _.bind(me.onRemoveHyperlink, me));
+            view.menuAddHyperlinkPic.on('click', _.bind(me.addHyperlink, me));
             view.menuAddHyperlinkTable.on('click', _.bind(me.addHyperlink, me));
             view.menuAddHyperlinkPara.on('click', _.bind(me.addHyperlink, me));
             view.menuAddCommentTable.on('click', _.bind(me.addComment, me));
@@ -359,8 +366,7 @@ define([], function () {
                     menu_props.imgProps.locked = (elValue) ? elValue.get_Locked() : false;
 
                     noobject = false;
-                    if ( (shapeprops===undefined || shapeprops===null) && (chartprops===undefined || chartprops===null) )  // not shape and chart
-                        break;
+                    
                 } else if (Asc.c_oAscTypeSelectElement.Table == elType)
                 {
                     menu_to_show = documentHolder.tableMenu;
@@ -994,6 +1000,9 @@ define([], function () {
                 // case 'bShowLegendKeys':
                 //     chartProps.setDisplayDataTable(true, true);
                 //     break;
+                case 'noneError':
+                    chartProps.setDisplayErrorBars(false);
+                    break;
                 case 'standardError':
                     chartProps.setDisplayErrorBars(true, 4);
                     break;
@@ -1178,12 +1187,13 @@ define([], function () {
             }
             
             const legendMenu = menu.items[6].menu;
-            legendMenu.items[0].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.top);
-            legendMenu.items[1].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.left);
-            legendMenu.items[2].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.right);
-            legendMenu.items[3].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.bottom);
-            legendMenu.items[4].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.leftOverlay);
-            legendMenu.items[5].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.rightOverlay);
+            legendMenu.items[0].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.none);
+            legendMenu.items[1].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.top);
+            legendMenu.items[2].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.left);
+            legendMenu.items[3].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.right);
+            legendMenu.items[4].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.bottom);
+            legendMenu.items[5].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.leftOverlay);
+            legendMenu.items[6].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.rightOverlay);
 
             const supportedElements = chartElementMap[type] || [];
             menu.items.forEach(function(item) {
@@ -1825,32 +1835,40 @@ define([], function () {
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    if (false) {
-                        if (_.isUndefined(me.fontStore)) {
+                    if (me.mode.canSaveToFile) {
+                        if (!me.fontStore) {
                             me.fontStore = new Common.Collections.Fonts();
-                            var fonts = me.getApplication().getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
-                            var arr = [];
-                            _.each(fonts, function(font, index){
-                                if (!font.cloneid) {
-                                    arr.push(_.clone(font));
-                                }
-                            });
-                            me.fontStore.add(arr);
+
+                            const app = me.getApplication(),
+                                cmbFonts = me.getApplication().getController('Toolbar').getView('Toolbar').cmbFontName;
+                            if ( cmbFonts && cmbFonts.store ) {
+                                const fonts = cmbFonts.store.toJSON();
+                                me.fontStore.add(fonts.filter(font => !font.cloneid));
+                            } else {
+                                const fontsController = app.getController('Common.Controllers.Fonts');
+                                fontsController && (me.fontStore = fontsController.store());
+                            }
                         }
-                        (new Common.Views.PdfSignDialog({
-                            props: obj,
+                        var signProps = obj.asc_getSignatureProps(me.api);
+                        var win = (new Common.Views.PdfSignDialog({
+                            props: signProps,
                             api: me.api,
                             disableNetworkFunctionality: me.mode.disableNetworkFunctionality,
                             storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
                             fontStore: me.fontStore,
                             handler: function(result, value) {
                                 if (result == 'ok') {
-                                    me.api.asc_SetSignatureProps(value);
+                                    me.api.asc_SetSignatureProps(signProps.getResult());
                                 }
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             }
-                        })).show();
-                    } else {
+                        })).on('close', function(obj){
+                            setTimeout(function(){
+                                me.api.asc_UncheckContentControlButtons();
+                            }, 100);
+                        });
+                        win.show();
+                    } else { // select picture in viewer only from local file
                         this.api.asc_addImage(obj.pr);
                         setTimeout(function(){
                             me.api.asc_UncheckContentControlButtons();
@@ -2140,7 +2158,7 @@ define([], function () {
             if (me.api) {
                 var res =  (item.value == 'cut') ? me.api.Cut() : ((item.value == 'copy') ? me.api.Copy() : me.api.Paste());
                 if (!res) {
-                    if (!Common.localStorage.getBool("de-hide-copywarning")) {
+                    if (!Common.localStorage.getBool("de-hide-copywarning") && (item.value === 'paste' || me.mode.canCopy)) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
                                 if (dontshow) Common.localStorage.setItem("de-hide-copywarning", 1);
@@ -2208,6 +2226,10 @@ define([], function () {
                             me.editComplete();
                         }
                     })).show();
+                } else if (item.value == 'stretch') {
+                    if ( me.api.asc_StretchFormToCell ) {
+                        me.api.asc_StretchFormToCell(me.api.asc_GetCurrentContentControl());
+                    }
                 } else if (item.value == 'remove') {
                     props.get_FormPr() ? this.api.asc_RemoveContentControl(props.get_InternalId()) : this.api.asc_RemoveContentControlWrapper(props.get_InternalId());
                 }
@@ -2360,6 +2382,13 @@ define([], function () {
 
         dh.tableCellsVAlign = function(menu, item, e) {
             if (this.api) {
+                
+                if (item.options.halign != null) {
+                    var type = item.options.halign;
+                    this.api.put_PrAlign(type);
+                    return;
+                }
+
                 var properties = new Asc.CTableProp();
                 properties.put_CellsVAlign(item.options.valign);
                 this.api.tblApply(properties);
@@ -2674,6 +2703,13 @@ define([], function () {
         dh.paragraphVAlign = function(menu, item, e) {
             var me = this;
             if (me.api) {
+
+                if (item.options.halign != null) {
+                    var type = item.options.halign;
+                    me.api.put_PrAlign(type);
+                    return;
+                }
+
                 var properties = new Asc.asc_CImgProperty();
                 properties.put_VerticalTextAlign(item.options.valign);
                 me.api.ImgApply(properties);

@@ -2408,5 +2408,20 @@
 		"a": "(url_da_planilha; string_do_intervalo)",
 		"d": "Importa um intervalo de células da planilha especificada.",
 		"ad": "o URL da planilha da qual os dados serão importados!o intervalo a ser importado"
+	},
+	"REGEXTEST": {
+		"a": "(texto; padrão; [sensível_maiúsculas_minúsculas])",
+		"d": "Verifica se a entrada corresponde ao padrão e retorna VERDADEIRO ou FALSO",
+		"ad": "É o texto que você está pesquisando!A expressão regular a ser aplicada! Se a correspondência diferencia maiúsculas de minúsculas"
+	},
+	"REGEXREPLACE": {
+		"a": "(texto; padrão; substituição; [ocorrência]; [sensível_maiúsculas_minúsculas])",
+		"d": "Retorna \"texto\", com \"substituição\" no lugar de correspondências com \"padrão\"",
+		"ad": "O texto que você está pesquisando!A expressão regular a ser aplicada!A cadeia de caracteres que substitui a substring correspondente no texto. Onde $n aparece na cadeia de caracteres, onde $n é um número inteiro, $n é substituído pelo enésimo grupo de captura!Qual ocorrência deve ser substituída. Se 0, todas as ocorrências serão substituídas. Um valor negativo significa o número de ocorrências a partir do final do texto.!Se a correspondência diferencia maiúsculas de minúsculas"
+	},
+	"REGEXEXTRACT": {
+		"a": "(texto; padrão; [modo_retorno]; [sensível_maiúsculas_minúsculas])",
+		"d": "Extrai subcadeias de caracteres de 'texto' com base no 'padrão' REGEX fornecido",
+		"ad": "É o texto que você está pesquisando!A expressão regular a ser aplicada! Especifique quais correspondências retornar!Se a correspondência diferencia maiúsculas de minúsculas"
 	}
 }

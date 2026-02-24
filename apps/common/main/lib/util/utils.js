@@ -1393,7 +1393,7 @@ define([], function () {
             theme-type - {string} theme type (light|dark|common)
             theme-name - {string} the name of theme
             state - {string} state of icons for different situations (normal|hover|active)
-            scale - {string} list of avaliable scales (100|125|150|175|200|default|extended)
+            scale - {string} list of avaliable scales (100|125|150|175|200|default|*)
             extension - {string} use it after symbol "." (png|jpeg|svg)
 
             Example: "resources/%theme-type%(light|dark)/icon%state%(normal|hover)%scale%(default).%extension%(png)"
@@ -1560,7 +1560,7 @@ define([], function () {
                 bestUrl;
             for (var key in current) {
                 if (current.hasOwnProperty(key)) {
-                    if (key == 'default') {
+                    if (key == 'default' || key == '*') {
                         defUrl = current[key];
                     } else if (!isNaN(parseInt(key))) {
                         currentDistance = Math.abs(ratio - parseInt(key));

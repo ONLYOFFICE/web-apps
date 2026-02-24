@@ -6,8 +6,7 @@
     "textEmail": "ອີເມລ",
     "textPoweredBy": "ສ້າງໂດຍ",
     "textTel": "ໂທ",
-    "textVersion": "ລຸ້ນ",
-    "textEditor": "Presentation Editor"
+    "textVersion": "ລຸ້ນ"
   },
   "Common": {
     "Collaboration": {
@@ -32,8 +31,7 @@
       "textReopen": "ເປີດຄືນ",
       "textResolve": "ແກ້ໄຂ",
       "textTryUndoRedo": "ໜ້າທີ່ ກັບຄືນ ຫຼື ທວນຄືນ ຖືກປິດໃຊ້ງານ ສຳລັບໂໝດການແກ້ໄຂຮ່ວມກັນດ່ວນ.",
-      "textUsers": "ຜຸ້ໃຊ້",
-      "textSharingSettings": "Sharing Settings"
+      "textUsers": "ຜຸ້ໃຊ້"
     },
     "HighlightColorPalette": {
       "textNoFill": "ບໍ່ມີການຕື່ມຂໍ້ມູນໃສ່"
@@ -42,26 +40,6 @@
       "textCustomColors": "ກຳນົດສີເອງ",
       "textStandartColors": "ສີມາດຕະຖານ",
       "textThemeColors": " ຮູບແບບສີ"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
-    },
-    "VersionHistory": {
-      "notcriticalErrorTitle": "Warning",
-      "textAnonymous": "Anonymous",
-      "textBack": "Back",
-      "textCancel": "Cancel",
-      "textCurrent": "Current",
-      "textOk": "Ok",
-      "textRestore": "Restore",
-      "textVersion": "Version",
-      "textVersionHistory": "Version History",
-      "textWarningRestoreVersion": "Current file will be saved in version history.",
-      "titleWarningRestoreVersion": "Restore this version?",
-      "txtErrorLoadHistory": "Loading history failed"
     }
   },
   "ContextMenu": {
@@ -80,10 +58,7 @@
     "textColumns": "ຖັນ",
     "textCopyCutPasteActions": "ປະຕິບັດການ ສໍາເນົາ, ຕັດ ແລະ ວາງ",
     "textDoNotShowAgain": "ບໍ່ສະແດງອີກ",
-    "textRows": "ແຖວ",
-    "menuEditLink": "Edit Link",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?"
+    "textRows": "ແຖວ"
   },
   "Controller": {
     "Main": {
@@ -120,31 +95,7 @@
         "Table": "ຕາຕະລາງ",
         "X Axis": "X Axis XAS",
         "Y Axis": "ແກນ Y",
-        "Your text here": "ເນື້ອຫາຂອງທ່ານຢູ່ນີ້",
-        "Aspect": "Aspect",
-        "Blue": "Blue",
-        "Blue Green": "Blue Green",
-        "Blue II": "Blue II",
-        "Blue Warm": "Blue Warm",
-        "Grayscale": "Grayscale",
-        "Green": "Green",
-        "Green Yellow": "Green Yellow",
-        "Marquee": "Marquee",
-        "Median": "Median",
-        "Office": "Office",
-        "Office 2007 - 2010": "Office 2007 - 2010",
-        "Office 2013 - 2022": "Office 2013 - 2022",
-        "Orange": "Orange",
-        "Orange Red": "Orange Red",
-        "Paper": "Paper",
-        "Red": "Red",
-        "Red Orange": "Red Orange",
-        "Red Violet": "Red Violet",
-        "Slipstream": "Slipstream",
-        "Violet": "Violet",
-        "Violet II": "Violet II",
-        "Yellow": "Yellow",
-        "Yellow Orange": "Yellow Orange"
+        "Your text here": "ເນື້ອຫາຂອງທ່ານຢູ່ນີ້"
       },
       "textAnonymous": "ບໍ່ລະບຸຊື່",
       "textBuyNow": "ເຂົ້າໄປຍັງເວັບໄຊ",
@@ -171,16 +122,7 @@
       "warnLicenseLimitedRenewed": "ໃບອະນຸຍາດຕ້ອງໄດ້ຮັບການຕໍ່ອາຍຸ. ທ່ານຈະຖືກຈຳກັດສິດໃນການເຂົ້າເຖິ່ງການແກ້ໄຂເອກະສານ.<br> ກະລຸນາຕິດຕໍ່ແອດມີນຂອງທ່ານເພື່ອຕໍ່ອາຍຸ",
       "warnNoLicense": "ທ່ານໄດ້ຖືກຈຳກັດສິດພຽງເທົ່ານີ້ສຳຫລັບການເຊື່່ອມພ້ອມກັນກັບເຄື່ອງມືແກ້ໄຂ %1 ແລ້ວເອກະສານນີ້ຈະເປີດໃຫ້ເບີ່ງເທົ່ານັ້ນ ຕິດຕໍ່ທີມຂາຍ %1 ສຳຫລັບເງື່ອນໄຂການອັບເກດສ່ວນບຸກຄົນ",
       "warnNoLicenseUsers": "ຈໍານວນການເຊື່ອມຕໍ່ພ້ອມກັນກັບບັນນາທິການ ແມ່ນເກີນກໍານົດ % 1. ຕິດຕໍ່ ທີມຂາຍ %1 ສຳລັບຂໍ້ກຳນົດການຍົກລະດັບສິດ",
-      "warnProcessRightsChange": "ທ່ານບໍ່ມີສິດໃນການແກ້ໄຂໄຟລ໌ນີ້.",
-      "textNoMatches": "No Matches",
-      "textOk": "Ok",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleLicenseNotActive": "License not active",
-      "titleReadOnly": "Read-Only Mode",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnProcessRightsChange": "ທ່ານບໍ່ມີສິດໃນການແກ້ໄຂໄຟລ໌ນີ້."
     }
   },
   "Error": {
@@ -219,22 +161,7 @@
     "unknownErrorText": "ມີຂໍ້ຜິດພາດທີ່ບໍ່ຮູ້ສາເຫດ",
     "uploadImageExtMessage": "ບໍ່ຮູ້ສາເຫດຂໍ້ຜິດຜາດຮູບແບບຂອງຮູບ",
     "uploadImageFileCountMessage": "ບໍ່ມີຮູບພາບອັບໂຫລດ",
-    "uploadImageSizeMessage": "ຮູບພາບໃຫຍ່ເກີນໄປ. ຂະຫນາດສູງສຸດແມ່ນ 25 MB.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorComboSeries": "To create a combination chart, select at least two series of data.",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
-    "errorEmailClient": "No email client could be found",
-    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
-    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "errorSetPassword": "Password could not be set.",
-    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
-    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "ຮູບພາບໃຫຍ່ເກີນໄປ. ຂະຫນາດສູງສຸດແມ່ນ 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "ກຳລັງດາວໂຫຼດຂໍ້ມູນ...",
@@ -265,22 +192,13 @@
     "txtEditingMode": "ຕັ້ງຄ່າຮູບແບບການແກ້ໄຂ...",
     "uploadImageTextText": "ກໍາລັງອັບໂຫລດຮູບພາບ...",
     "uploadImageTitleText": "ກໍາລັງອັບໂຫລດຮູບພາບ",
-    "waitText": "ກະລຸນາລໍຖ້າ...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textContinue": "Continue",
-    "textUndo": "Undo"
+    "waitText": "ກະລຸນາລໍຖ້າ..."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "ທ່ານມີການປ່ຽນແປງທີ່ຍັງບໍ່ໄດ້ບັນທຶກໄວ້ໃນເອກະສານນີ້. ຄລິກທີ່ 'ຢູ່ໃນໜ້ານີ້' ເພື່ອລໍຖ້າການບັນທຶກອັດຕະໂນມັດ. ຄລິກ 'ອອກຈາກໜ້ານີ້' ເພື່ອຍົກເລີກການປ່ຽນແປງທີ່ບໍ່ໄດ້ບັນທຶກໄວ້ທັງໝົດ.",
     "dlgLeaveTitleText": "ເຈົ້າອອກຈາກລະບົບ",
     "leaveButtonText": "ອອກຈາກໜ້ານີ້",
-    "stayButtonText": "ຢູ່ໃນໜ້ານີ້",
-    "btnRestartNow": "Restart now",
-    "textCloseHistory": "Close History",
-    "textEnterNewFileName": "Enter a new file name",
-    "textOk": "OK",
-    "textRenameFile": "Rename File",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "stayButtonText": "ຢູ່ໃນໜ້ານີ້"
   },
   "View": {
     "Add": {
@@ -319,12 +237,7 @@
       "textSlideNumber": "ຮູບແບບເລກສະໄລ້",
       "textTable": "ຕາຕະລາງ",
       "textTableSize": "ຂະໜາດຕາຕະລາງ",
-      "txtNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ \"http://www.example.com\"",
-      "textDone": "Done",
-      "textDrawing": "Drawing",
-      "textPasteImageUrl": "Paste an image URL",
-      "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "txtNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ \"http://www.example.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "ເຕືອນ",
@@ -471,30 +384,7 @@
       "textZoom": "ຂະຫຍາຍ ເຂົ້າ-ອອກ",
       "textZoomIn": "ຊຸມເຂົ້າ",
       "textZoomOut": "ຂະຫຍາຍອອກ",
-      "textZoomRotate": "ຂະຫຍາຍ ແລະ ໝຸນ",
-      "textArrange": "Arrange",
-      "textBaseline": "Baseline",
-      "textCancel": "Cancel",
-      "textCapitalization": "Capitalization",
-      "textCellSize": "Cell size",
-      "textChangeShape": "Change Shape",
-      "textDeleteImage": "Delete Image",
-      "textDeleteLink": "Delete Link",
-      "textHorizontalText": "Horizontal Text",
-      "textInsertImage": "Insert Image",
-      "textInvalidName": "The file name cannot contain any of the following characters: ",
-      "textMorph": "Morph",
-      "textMorphLetters": "Letters",
-      "textMorphObjects": "Objects",
-      "textMorphWords": "Words",
-      "textNoMatches": "No Matches",
-      "textRecommended": "Recommended",
-      "textRequired": "Required",
-      "textRotateTextDown": "Rotate Text Down",
-      "textRotateTextUp": "Rotate Text Up",
-      "textTextOrientation": "Text Orientation",
-      "txtHeight": "Height",
-      "txtWidth": "Width"
+      "textZoomRotate": "ຂະຫຍາຍ ແລະ ໝຸນ"
     },
     "Settings": {
       "mniSlideStandard": "ມາດຕະຖານ (4:3)",
@@ -551,24 +441,7 @@
       "textTitle": "ຫົວຂໍ້",
       "textUnitOfMeasurement": "ຫົວຫນ່ວຍວັດແທກ",
       "textUploaded": "ອັບໂຫລດສຳເລັດ",
-      "textVersion": "ລຸ້ນ",
-      "notcriticalErrorTitle": "Warning",
-      "textClose": "Close",
-      "textDark": "Dark",
-      "textFeedback": "Feedback & Support",
-      "textLight": "Light",
-      "textNoMatches": "No Matches",
-      "textOk": "Ok",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textSameAsSystem": "Same As System",
-      "textTheme": "Theme",
-      "textVersionHistory": "Version History"
+      "textVersion": "ລຸ້ນ"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

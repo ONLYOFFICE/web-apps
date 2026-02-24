@@ -18,6 +18,8 @@ import IconHelp from '@common-icons/icon-help.svg';
 import IconAbout from '@common-icons/icon-about.svg';
 import IconFeedbackIos from '@common-ios-icons/icon-feedback.svg?ios';
 import IconFeedbackAndroid from '@common-android-icons/icon-feedback.svg';
+import IconReturnIos from '@common-ios-icons/icon-return.svg?ios';
+import IconReturnAndroid from '@common-android-icons/icon-return.svg';
 
 const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings', 'storePresentationInfo')(observer(props => {
     const { t } = useTranslation();
@@ -32,6 +34,8 @@ const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings', 'storePre
     const docTitle = storePresentationInfo.dataDoc ? storePresentationInfo.dataDoc.title : '';
     const canCloseEditor = appOptions.canCloseEditor;
     const closeButtonText = canCloseEditor && appOptions.customization.close.text;
+    const gobackTitle = appOptions.customization?.goback?.text || _t.textOpenLocation;
+    const isShowBack = props.storeToolbarSettings.isShowBack;
     const navbar =
         <Navbar>
             <div className="title" onClick={settingsContext.changeTitleHandler}>{docTitle}</div>
@@ -80,6 +84,14 @@ const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings', 'storePre
         <Page>
             {navbar}
             <List>
+                {isShowBack &&
+                    <ListItem title={gobackTitle} link="#" className='no-indicator' onClick={() => Common.Notifications.trigger('goback')}>
+                        {Device.ios ? 
+                            <SvgIcon slot="media" symbolId={IconReturnIos.id} className={'icon icon-svg'} /> :
+                            <SvgIcon slot="media" symbolId={IconReturnAndroid.id} className={'icon icon-svg'} />
+                        }
+                    </ListItem>
+                }
                 {!props.inPopover &&
                     <ListItem disabled={appOptions.readerMode || disabledPreview ? true : false} title={!_isEdit ? _t.textFind : _t.textFindAndReplace} link="#" searchbarEnable='.searchbar' onClick={settingsContext.closeModal} className='no-indicator'>
                         <SvgIcon slot="media" symbolId={IconSearch.id} className={'icon icon-svg'} />

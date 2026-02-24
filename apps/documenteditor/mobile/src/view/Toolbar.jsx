@@ -34,12 +34,6 @@ const ToolbarView = props => {
     const docTitle = props.docTitle;
     const isOpenModal = props.isOpenModal;
 
-    useEffect(() => {
-        if ( $$('.skl-container').length ) {
-            $$('.skl-container').remove();
-        }
-    }, []);
-
     return (
         <Fragment>
             <NavLeft>

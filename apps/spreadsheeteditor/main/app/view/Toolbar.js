@@ -203,6 +203,8 @@ define([
         applyLayout: function (config) {
             var me = this;
 
+            me.config = config;
+
             function dummyCmp() {
                 return {
                     isDummy : true,
@@ -231,6 +233,8 @@ define([
                 iconCls     : 'toolbar__icon btn-paste',
                 lock        : [/*_set.editCell,*/ _set.coAuth, _set.lostConnect, _set.editVisibleArea, _set.userProtected, _set.externalChartProtected],
                 dataHint    : '1',
+                menu: config.isDesktopApp ? new Common.UI.Menu({items: []}) : false,
+                split: config.isDesktopApp,
                 dataHintDirection: (config.isEditDiagram || config.isEditMailMerge || config.isEditOle) ? 'bottom' : 'top',
                 dataHintTitle: 'V'
             });
@@ -357,6 +361,28 @@ define([
                         lock        : [_set.lostConnect],
                         enableToggle: true,
                         dataHint    : '1',
+                        dataHintDirection: 'bottom'
+                    });
+                }
+                if ( config.isEditDiagram || config.isEditOle ) {
+                    me.btnTextDir = new Common.UI.Button({
+                        id: 'id-toolbar-btn-direction',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-ltr',
+                        icls: 'btn-ltr',
+                        action: 'text-direction',
+                        lock: [_set.editCell, _set.selChart, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat, _set.userProtected, _set.externalChartProtected],
+                        menu: new Common.UI.Menu({
+                            cls: 'shifted-right',
+                            items: [
+                                {caption: this.textDirLtr, value: Asc.c_oReadingOrderTypes.LTR, iconCls: 'menu__icon btn-ltr'},
+                                {caption: this.textDirRtl, value: Asc.c_oReadingOrderTypes.RTL, iconCls: 'menu__icon btn-rtl'},
+                                {caption: this.textDirContext, value: Asc.c_oReadingOrderTypes.Context, iconCls: 'menu__icon btn-context'},
+                                {caption: '--'},
+                                {caption: this.textRtlSheet, value: 'rtlSheet', checkable: true}
+                            ]
+                        }),
+                        dataHint: '1',
                         dataHintDirection: 'bottom'
                     });
                 }
@@ -811,7 +837,7 @@ define([
                         ]
                     }),
                     dataHint: '1',
-                    dataHintDirection: 'top',
+                    dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
                 });
 
@@ -1352,7 +1378,7 @@ define([
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'toolbar__icon btn-big-inserthyperlink',
                     caption     : me.capInsertHyperlink,
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.cantHyperlink, _set.selSlicer, _set.multiselect, _set.lostConnect, _set.coAuth, _set.editPivot, _set['InsertHyperlinks'], _set.userProtected],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.cantHyperlink, _set.selSlicer, _set.multiselect, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.editPivot, _set['InsertHyperlinks'], _set.userProtected],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1932,6 +1958,23 @@ define([
                     label: me.tipDeleteOpt
                 };
 
+                me.btnFormatCell = new Common.UI.Button({
+                    id          : 'id-toolbar-btn-formatcell',
+                    cls         : 'btn-toolbar x-huge icon-top',
+                    iconCls     : 'toolbar__icon btn-menu-cell',
+                    lock        : [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
+                    caption     : me.textCellFormat,
+                    menu        : true,
+                    action: 'format-cell',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: '0, -6'
+                });
+                me.shortcutHints.OpenFormatCell = {
+                    btn: me.btnFormatCell,
+                    label: me.tipFormatCell
+                };
+
                 me.btnCondFormat = new Common.UI.Button({
                     id          : 'id-toolbar-btn-condformat',
                     cls         : 'btn-toolbar',
@@ -2417,7 +2460,7 @@ define([
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
                     me.btnMerge, me.btnTextDir, me.btnInsertFormula, me.btnNamedRange, me.btnFillNumbers, me.btnIncDecimal, me.btnInsertShape, me.btnInsertSmartArt, me.btnInsertEquation, me.btnInsertSymbol, me.btnInsertSlicer,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
-                    me.btnTableTemplate, me.btnCellStyle, me.btnPercentStyle, me.btnCommaStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
+                    me.btnTableTemplate, me.btnCellStyle, me.btnPercentStyle, me.btnCommaStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnFormatCell, me.btnCondFormat,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
                     me.btnInsertChart, me.btnInsertChartRecommend, me.btnColorSchemas, me.btnInsertSparkline,
                     me.btnCopy, me.btnPaste, me.btnCut, me.btnSelectAll, me.btnReplace, me.listStyles, me.btnPrint,
@@ -2550,6 +2593,10 @@ define([
                 Common.Utils.injectComponent($host.find(id), cmp);
             };
 
+            if (!this.config || !this.config.isDesktopApp) {
+                $host.find('#slot-btn-paste').removeClass('split');
+            }
+
             _injectComponent('#slot-field-fontname',     this.cmbFontName);
             _injectComponent('#slot-field-fontsize',     this.cmbFontSize);
             _injectComponent('#slot-btn-print',          this.btnPrint);
@@ -2610,6 +2657,7 @@ define([
             _injectComponent('#slot-btn-copystyle',      this.btnCopyStyle);
             _injectComponent('#slot-btn-cell-ins',       this.btnAddCell);
             _injectComponent('#slot-btn-cell-del',       this.btnDeleteCell);
+            _injectComponent('#slot-btn-cell-format',    this.btnFormatCell);
             _injectComponent('#slot-btn-colorschemas',   this.btnColorSchemas);
             _injectComponent('#slot-btn-search',         this.btnSearch);
             _injectComponent('#slot-btn-inschart',       this.btnInsertChart);
@@ -2650,7 +2698,8 @@ define([
         },
 
         updateHints: function() {
-            const me = this;
+            const me = this,
+                isDiagramOrOle = this.mode && (this.mode.isEditDiagram || this.mode.isEditOle);
             function _updateHint(cmp, hint) {
                 cmp && cmp.updateHint(hint);
             }
@@ -2663,7 +2712,7 @@ define([
             _updateHint(this.btnBackColor, this.tipPrColor);
             _updateHint(this.btnBorders, this.tipBorders);
             _updateHint(this.btnMerge, this.tipMerge);
-            _updateHint(this.btnTextDir, this.tipTextDirection);
+            _updateHint(this.btnTextDir, isDiagramOrOle ? this.tipTextDir : this.tipTextDirection);
             _updateHint(this.btnAlignTop, this.tipAlignTop);
             _updateHint(this.btnAlignMiddle, this.tipAlignMiddle);
             _updateHint(this.btnAlignBottom, this.tipAlignBottom);
@@ -3257,6 +3306,133 @@ define([
                         }
                     ]
                 }));
+            }
+            
+            if (this.btnFormatCell && this.btnFormatCell.rendered) {
+                var _set = Common.enumLock;
+                this.btnFormatCell.setMenu( new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    items: [
+                        this.mnuRowHeight = new Common.UI.MenuItem({
+                            caption     : this.textRowHeight,
+                            menu        : new Common.UI.Menu({
+                                menuAlign: 'tl-tr',
+                                items   : [
+                                    { caption: this.textAutoRowHeight, value: 'auto-row-height' },
+                                    { caption: this.textCustomRowHeight, value: 'row-height' }
+                                ]
+                            }),
+                            lock: [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set['FormatRows']]
+                        }),
+                        this.mnuColumnWidth = new Common.UI.MenuItem({
+                            caption     : this.textColumnWidth,
+                            menu        : new Common.UI.Menu({
+                                menuAlign: 'tl-tr',
+                                items   : [
+                                    { caption: this.textAutoColumnWidth, value: 'auto-column-width' },
+                                    { caption: this.textCustomColumnWidth, value: 'column-width' }
+                                ]
+                            }),
+                            lock: [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set['FormatColumns']]
+                        }),
+                        {caption: '--'},
+                        this.mnuHide = new Common.UI.MenuItem({
+                            caption   : this.textHide,
+                            menu      : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: [
+                                    this.mniHideRows = new Common.UI.MenuItem({ caption: this.textRows, type: Asc.c_oAscCFType.cellIs, value: 'hideCell', isRowMenu: true,
+                                      lock: [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set['FormatRows']]
+                                    }),
+                                    this.mniHideCols = new Common.UI.MenuItem({ caption: this.textColumns, type: Asc.c_oAscCFType.cellIs, value: 'hideCell', isRowMenu: false,
+                                      lock: [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set['FormatColumns']]
+                                    }),
+                                    this.mniHideSheets = new Common.UI.MenuItem({ caption: this.textSheet, type: Asc.c_oAscCFType.cellIs, value: 'hideSheet', isRowMenu: false })
+                                ]
+                            })
+                        }),
+                        this.mnuShow = new Common.UI.MenuItem({
+                            caption   : this.textShow,
+                            menu      : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: [
+                                    this.mniShowRows = new Common.UI.MenuItem({ caption: this.textRows, type: Asc.c_oAscCFType.cellIs, value: 'showCell', isRowMenu: true,
+                                      lock: [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set['FormatRows']]
+                                    }),
+                                    this.mniShowCols = new Common.UI.MenuItem({ caption: this.textColumns, type: Asc.c_oAscCFType.cellIs, value: 'showCell', isRowMenu: false,
+                                      lock: [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set['FormatColumns']]
+                                    }),
+                                    this.mnuShowSheets = new Common.UI.MenuItem({ 
+                                        caption: this.textSheets, 
+                                        type: Asc.c_oAscCFType.cellIs,
+                                        menu        : new Common.UI.Menu({
+                                            menuAlign   : 'tl-tr',
+                                            style: 'min-width: auto;',
+                                            items: []
+                                        })
+                                    })
+                                ]
+                            })
+                        }),
+                        {caption: '--'},
+                        {
+                            caption     : this.textRenameSheet,
+                            value       : 'renameSheet'
+                        },
+                        {
+                            caption     : this.textMoveCopySheet,
+                            value       : 'moveCopySheet'
+                        },
+                        this.mnuTabColorToolbar = new Common.UI.MenuItem({
+                            caption     : this.textTabColor,
+                            value       : 'fillColor',
+                            menu        : new Common.UI.Menu({
+                                menuAlign: 'tl-tr',
+                                cls: 'color-tab',
+                                items: [
+                                    { template: _.template('<div id="id-toolbar-menu-tab-color" style="width: 164px;display: inline-block;"></div>') },
+                                    { caption: '--' },
+                                    {
+                                        id: "id-toolbar-menu-new-color",
+                                        template: _.template('<a tabindex="-1" type="menuitem" style="' + (this.isRtlSheet ? 'padding-right: 12px;' : 'padding-left: 12px;') + '">' + this.textNewColor + '</a>')
+                                    }
+                                ]
+                            })
+                        }),
+                        {
+                            caption     : this.textProtectSheet,
+                            value       : 'protectSheet'
+                        },
+                        {caption: '--'},
+                        this.mniLockCell = new Common.UI.MenuItem({
+                            caption     : this.textLockedCell,
+                            iconCls     : 'menu__icon btn-lock',
+                            value       : 'lockedCell',
+                            checkable   : true,
+                            checkmark   : false,
+                            lock        : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.wsLock, _set.userProtected]
+                        })
+                    ].concat(this.mode.canBrandingExt && this.mode.customization && this.mode.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu') ? [] : [
+                        {caption: '--'},
+                        {
+                            caption     : this.textFormatCells,
+                            iconCls     : 'menu__icon btn-menu-cell',
+                            value       : 'formatCells',
+                        }
+                    ])
+                }));
+                this.mnuTabColorToolbarPicker = new Common.UI.ThemeColorPalette({
+                    el: $('#id-toolbar-menu-tab-color'),
+                    outerMenu: { menu: this.mnuTabColorToolbar.menu, index: 0, focusOnShow: true },
+                    transparent: true
+                });
+                this.mnuTabColorToolbar.menu.setInnerMenu([{ menu: this.mnuTabColorToolbarPicker, index: 0 }]);
+                this.mnuTabColorToolbarPicker.on('select', _.bind(function(picker, color) {
+                    this.fireEvent('sheet:setcolor', [color]);
+                    setTimeout(_.bind(function() {
+                        this.btnFormatCell.menu.hide();
+                    }, this), 1);
+                }, this));
             }
 
             if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram && !this.mode.isEditOle)

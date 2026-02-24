@@ -21,6 +21,7 @@ export class storeCellSettings {
             isWrapText: observable, 
             orientationStr: observable,
             colorAuto: observable,
+            textDirection: observable,
             initCellSettings: action, 
             initTextFormat: action, 
             initTextOrientation: action, 
@@ -36,7 +37,13 @@ export class storeCellSettings {
             setAutoColor: action,
             customFormats: observable,
             initCustomFormats: action,
-            addCustomFormat: action
+            addCustomFormat: action,
+            cellFormat: observable,
+            setCellFormat: action,
+            cellFormatType: observable,
+            setCellFormatType: action,
+            uiFormatType: observable,
+            setUiFormatType: action,
         });
     }
 
@@ -65,6 +72,8 @@ export class storeCellSettings {
     isUnderline = false;
     isStrikethrough = false;
 
+    textDirection = undefined;
+
     hAlignStr = 'left';
     vAlignStr = 'bottom';
     isWrapText;
@@ -74,6 +83,22 @@ export class storeCellSettings {
     colorAuto = 'auto';
 
     customFormats;
+
+    cellFormat = 'General';
+    cellFormatType;
+    uiFormatType;
+
+    setCellFormat(format) {
+        this.cellFormat = format;
+    }
+
+    setCellFormatType(type) {
+        this.cellFormatType = type;
+    }
+
+    setUiFormatType(type) {
+        this.uiFormatType = type;
+    }
 
     initCustomFormats(formatsArr) {
         this.customFormats = formatsArr;
@@ -149,6 +174,7 @@ export class storeCellSettings {
         this.isItalic = xfs.asc_getFontItalic();
         this.isUnderline = xfs.asc_getFontUnderline();
         this.isStrikethrough = xfs.asc_getFontStrikeout();
+        this.textDirection = xfs.asc_getReadingOrder();
     }
 
     initEditorFonts(fonts, select) {

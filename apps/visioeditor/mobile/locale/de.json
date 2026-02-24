@@ -83,6 +83,7 @@
     "errorAccessDeny": "Dieser Vorgang ist für Sie nicht verfügbar.<br>Bitte wenden Sie sich an den Administrator.",
     "errorBadImageUrl": "Bild-URL ist falsch",
     "errorConnectToServer": "Das Dokument kann nicht gespeichert werden. Überprüfen Sie Ihre Verbindungseinstellungen oder wenden Sie sich an den Administrator.<br>Mit einem Klick auf \"OK\" können Sie das Dokument herunterladen.",
+    "errorCopyDisabled": "Aus Sicherheitsgründen darf der Inhalt dieses Dokuments nicht kopiert werden.",
     "errorDatabaseConnection": "Externer Fehler.<br>Datenbank-Verbindungsfehler. Wenden Sie sich an den Support.",
     "errorDataEncrypted": "Verschlüsselte Änderungen wurden empfangen. Sie können nicht entschlüsselt werden.",
     "errorDataRange": "Falscher Datenbereich.",

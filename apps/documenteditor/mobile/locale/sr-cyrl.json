@@ -65,9 +65,7 @@
     "textTableSize": "Табела величина",
     "textWithBlueLinks": "Са плавим линковима",
     "textWithPageNumbers": "Са бројевима страница",
-    "txtNotUrl": "Ово поље би требало да буде URL у \"http://www.example.com\" формату",
-    "textDrawing": "Drawing",
-    "textRemovePicture": "Remove picture"
+    "txtNotUrl": "Ово поље би требало да буде URL у \"http://www.example.com\" формату"
   },
   "Common": {
     "Collaboration": {
@@ -230,6 +228,11 @@
     "textRows": "Редови",
     "txtWarnUrl": "Кликнути на овај линк може бити штетно за ваш уређај и податке.<br>Да ли сте сигурни да желите да наставите?"
   },
+  "Draw": {
+    "textColor": "Боја",
+    "textCustomColor": "Прилагођена боја",
+    "textOpacity": "Непрозирност"
+  },
   "Edit": {
     "notcriticalErrorTitle": "Упозорење",
     "textActualSize": "Стварна величина",
@@ -253,6 +256,7 @@
     "textBackground": "Позадина",
     "textBandedColumn": "Обојена колона",
     "textBandedRow": "Обојени ред",
+    "textBaseline": "Полазна линија",
     "textBefore": "Пре",
     "textBehind": "Иза текста",
     "textBorder": "Граница",
@@ -261,6 +265,8 @@
     "textBulletsAndNumbers": "Тачкице и Бројеви",
     "textCancel": "Откажи",
     "textCellMargins": "Маргине ћелије",
+    "textCellOptions": "Опције ћелије",
+    "textCellSize": "Величина редова и колона",
     "textCentered": "Центрирано",
     "textChangeShape": "Промени облик",
     "textChart": "Графикон",
@@ -325,6 +331,7 @@
     "textLink": "Линк",
     "textLinkSettings": "Подешавања линка",
     "textLinkToPrevious": "Линк до претходног",
+    "textLtrTextDirection": "С лева на десно",
     "textMarch": "Март",
     "textMay": "Мај",
     "textMo": "По",
@@ -369,6 +376,7 @@
     "textRightAlign": "Десно поравнање",
     "textRotateTextDown": "Ротирај текст доле",
     "textRotateTextUp": "Ротирај текст горе",
+    "textRtlTextDirection": "С десна на лево",
     "textSa": "Су",
     "textSameCreatedNewStyle": "Исто као креирани нови стил",
     "textSave": "Сачувај",
@@ -397,6 +405,7 @@
     "textTableOfCont": "Садржај",
     "textTableOptions": "Табела опција",
     "textText": "Текст",
+    "textTextDirection": "Правац текста",
     "textTextOrientation": "Текст оријентација",
     "textTextWrapping": "Обмотавање текста",
     "textTh": "Че",
@@ -410,14 +419,10 @@
     "textWe": "Ср",
     "textWrap": "Обмотај",
     "textWrappingStyle": "Стил обмотавања",
+    "textWrapText": "Упакуј текст",
     "textYourOption": "Твоја опција",
-    "textBaseline": "Baseline",
-    "textCapitalization": "Capitalization",
-    "textCellOptions": "Cell options",
-    "textCellSize": "Rows & columns size",
-    "textWrapText": "Wrap Text",
-    "txtHeight": "Height",
-    "txtWidth": "Width"
+    "txtHeight": "Висина",
+    "txtWidth": "Ширина"
   },
   "Error": {
     "convertationTimeoutText": "Временско ограничење преобраћања прекорачено.",
@@ -480,9 +485,7 @@
     "uploadDocSizeMessage": "Максимум лимит величине документа прекорачен.",
     "uploadImageExtMessage": "Непознати формат слике.",
     "uploadImageFileCountMessage": "Нема отпремљених слика.",
-    "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
+    "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ."
   },
   "LongActions": {
     "applyChangesTextText": "Учитавање података...",
@@ -667,11 +670,7 @@
     "warnLicenseLimitedRenewed": "Лиценца треба да буде обновљена. Имате ограничен приступ функционалности уређивања документа.<br>Молимо контактирајте вашег администратора да добијете потпуни приступ",
     "warnNoLicense": "Достигли сте лимит за истовремене конекције за %1 уреднике. Овај документ ће бити отворен само за приказ. Контактирајте %1 тим за продају за личне услове надоградње.",
     "warnNoLicenseUsers": "Достигли сте кориснички лимит за %1 уреднике. Контактирајте %1 тим за продају за личне услове надоградње.",
-    "warnProcessRightsChange": "Немате дозволу да уређујете овај фајл.",
-    "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-    "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-    "titleReadOnly": "Read-Only Mode",
-    "txtSignedForm": "This document has been signed and cannot be edited."
+    "warnProcessRightsChange": "Немате дозволу да уређујете овај фајл."
   },
   "Settings": {
     "advDRMOptions": "Заштићен фајл",
@@ -735,6 +734,7 @@
     "textHelp": "Помоћ",
     "textHiddenTableBorders": "Скривене табеларне границе",
     "textHighlightResults": "Истакни резултате",
+    "textHyphenation": "Подела речи",
     "textInch": "Инч",
     "textLandscape": "Пејзаж",
     "textLastModified": "Последње модификовано",
@@ -811,8 +811,7 @@
     "txtDownloadTxt": "Преузмите TXT",
     "txtIncorrectPwd": "Лозинка је нетачна",
     "txtOk": "OK",
-    "txtProtected": "Када укуцате лозинку и отворите фајл, тренутна лозинка ће бити ресетована",
-    "textDrawing": "Drawing"
+    "txtProtected": "Када укуцате лозинку и отворите фајл, тренутна лозинка ће бити ресетована"
   },
   "Toolbar": {
     "btnSend": "Пошаљи",
@@ -826,14 +825,6 @@
     "textRenameFile": "Преименуј фајл",
     "textSwitchedMobileView": "Пребачено на мобилни приказ",
     "textSwitchedStandardView": "Пребачено на стандардни приказ",
-    "warnEmptyRequiredField": "Попуни сва потребна поља за слање обрасца.",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
+    "warnEmptyRequiredField": "Попуни сва потребна поља за слање обрасца."
   }
 }

@@ -26,6 +26,8 @@ import IconHelp from '@common-icons/icon-help.svg';
 import IconAbout from '@common-icons/icon-about.svg';
 import IconFeedbackForIos from '@common-ios-icons/icon-feedback.svg?ios';
 import IconFeedbackForAndroid from '@common-android-icons/icon-feedback.svg';
+import IconReturnIos from '@common-ios-icons/icon-return.svg?ios';
+import IconReturnAndroid from '@common-android-icons/icon-return.svg';
 import IconDraw from '../../../../../common/mobile/resources/icons/draw.svg'
 
 const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo",  "storeToolbarSettings")(observer(props => {
@@ -63,6 +65,8 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
     const canCloseEditor = appOptions.canCloseEditor;
     const closeButtonText = canCloseEditor && appOptions.customization.close.text;
     const canUseHistory = appOptions.canUseHistory;
+    const gobackTitle = appOptions.customization?.goback?.text || _t.textOpenLocation;
+    const isShowBack = props.storeToolbarSettings.isShowBack;
 
     let _isEdit = false,
         _canDownload = false,
@@ -101,6 +105,14 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
         <Page>
             {navbar}
             <List>
+                {isShowBack &&
+                    <ListItem title={gobackTitle} link="#" className='no-indicator' onClick={() => Common.Notifications.trigger('goback')}>
+                        {Device.ios ? 
+                            <SvgIcon slot="media" symbolId={IconReturnIos.id} className={'icon icon-svg'} /> :
+                            <SvgIcon slot="media" symbolId={IconReturnAndroid.id} className={'icon icon-svg'} />
+                        }
+                    </ListItem>
+                }
                 {isEditableForms ? [
                     (isFavorite !== undefined && isFavorite !== null ?
                         <ListItem key='add-to-favorites-link' title={isFavorite ? t('Settings.textRemoveFromFavorites') : t('Settings.textAddToFavorites')} link='#' className='no-indicator' onClick={settingsContext.toggleFavorite}>

@@ -2408,5 +2408,20 @@
 		"a": "(url_folha_de_cálculo, string_intervalo)",
 		"d": "Importa um intervalo de células a partir de uma folha de cálculo especificada.",
 		"ad": "o URL da folha de cálculo a partir da qual os dados serão importados!o intervalo a importar"
+	},
+	"REGEXTEST": {
+		"a": "(texto; padrão; [sensível_maiúsculas_minúsculas])",
+		"d": "Verifica se a entrada corresponde ao padrão e devolve VERDADEIRO ou FALSO",
+		"ad": "É o texto em que está a procurar!A expressão regular a aplicar!Se a correspondência é sensível a maiúsculas e minúsculas"
+	},
+	"REGEXREPLACE": {
+		"a": "(texto; padrão; substituição; [ocorrência]; [sensível_maiúsculas_minúsculas])",
+		"d": "Devolve \"texto\", com \"substituição\" em vez de correspondências com \"padrão\"",
+		"ad": "O texto em que está a procurar!A expressão regular a aplicar!A cadeia que substitui a subcadeia correspondente no texto. Onde $n aparece na cadeia, onde $n é um número inteiro, $n é substituído pelo enésimo grupo de captura!Que ocorrência deve ser substituída. Se for 0, todas as ocorrências serão substituídas. Um valor negativo significa esse número de ocorrências do final do texto.!Indica se a correspondência é sensível a maiúsculas e minúsculas"
+	},
+	"REGEXEXTRACT": {
+		"a": "(texto; padrão; [modo_retorno]; [sensível_maiúsculas_minúsculas])",
+		"d": "Extrai subcadeias de \"texto\" com base no \"padrão\" REGEX fornecido",
+		"ad": "É o texto em que está a procurar!A expressão regular a aplicar! Especifique as correspondências a devolver!Se a correspondência é sensível a maiúsculas e minúsculas"
 	}
 }

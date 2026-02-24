@@ -177,10 +177,7 @@
       "warnLicenseLimitedRenewed": "يحتاج الترخيص إلى تجديد. لديك وصول محدود لخاصية تعديل المستند. <br> برجاء التواصل مع مسئولك للحصول على وصول كامل",
       "warnNoLicense": "لقد وصلت إلى الحد الأقصى من الاتصالات المتزامنة لـ%1محررات.هذا المستند سيكون للقراءة فقط. تواصل مع %1 فريق المبيعات لتطوير الشروط الشخصية",
       "warnNoLicenseUsers": "لقد وصلت إلى الحد الأقصى من عدد المستخدمين لـ %1. تواصل مع فريق المبيعات لتطوير الشروط الشخصية",
-      "warnProcessRightsChange": "ليس لديك الإذن بتعديل هذا الملف.",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "ليس لديك الإذن بتعديل هذا الملف."
     }
   },
   "Draw": {
@@ -239,8 +236,7 @@
     "unknownErrorText": "خطأ غير معروف.",
     "uploadImageExtMessage": "امتداد صورة غير معروف",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
-    "uploadImageSizeMessage": "الصورة كبيرة جدًا. الحد الأقصى للحجم هو 25 ميغابايت.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "uploadImageSizeMessage": "الصورة كبيرة جدًا. الحد الأقصى للحجم هو 25 ميغابايت."
   },
   "LongActions": {
     "applyChangesTextText": "جار تحميل البيانات...",
@@ -495,12 +491,7 @@
       "textZoom": "تكبير/تصغير",
       "textZoomIn": "تكبير",
       "textZoomOut": "تصغير",
-      "textZoomRotate": "التكبير و التدوير",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textCellSize": "Cell size",
-      "txtHeight": "Height",
-      "txtWidth": "Width"
+      "textZoomRotate": "التكبير و التدوير"
     },
     "Settings": {
       "mniSlideStandard": "القياسي (4:3)",

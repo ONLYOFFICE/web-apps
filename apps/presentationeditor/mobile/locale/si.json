@@ -142,9 +142,7 @@
         "Y Axis": "Y අක්‍ෂය",
         "Yellow": "කහ",
         "Yellow Orange": "කහ තැඹිලි",
-        "Your text here": "ඔබගේ පෙළ මෙතැන",
-        "Marquee": "Marquee",
-        "Slipstream": "Slipstream"
+        "Your text here": "ඔබගේ පෙළ මෙතැන"
       },
       "textAnonymous": "නිර්නාමික",
       "textBuyNow": "අඩවියට ගොඩවදින්න",
@@ -177,10 +175,7 @@
       "warnLicenseLimitedRenewed": "බලපත්‍රය අළුත් කළ යුතුයි. ඔබට ලේඛන සංස්කරණයට සීමිත ප්‍රවේශයක් තිබේ.<br>පූර්ණ ප්‍රවේශය ලබා ගැනීමට ඔබගේ පරිපාලක අමතන්න",
       "warnNoLicense": "%1 සංස්කරක සමකාල සම්බන්ධතා සීමාවට ළඟා වී ඇත. මෙම ලේඛනය දැකීමට පමණක් විවෘත වේ. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
       "warnNoLicenseUsers": "ඔබ %1 සංස්කරක වල පරිශ්‍රීලක සීමාවට ළඟා වී ඇත. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
-      "warnProcessRightsChange": "ඔබට ගොනුව සංස්කරණයට අවසර නැත.",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "ඔබට ගොනුව සංස්කරණයට අවසර නැත."
     }
   },
   "Draw": {
@@ -495,12 +490,7 @@
       "textZoom": "විශාල කරන්න",
       "textZoomIn": "විශාලනය",
       "textZoomOut": "කුඩාලනය",
-      "textZoomRotate": "විශාලනය හා කරකවන්න",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textCellSize": "Cell size",
-      "txtHeight": "Height",
-      "txtWidth": "Width"
+      "textZoomRotate": "විශාලනය හා කරකවන්න"
     },
     "Settings": {
       "mniSlideStandard": "සම්මත (4:3)",

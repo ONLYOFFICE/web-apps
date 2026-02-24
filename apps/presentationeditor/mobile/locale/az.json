@@ -6,8 +6,7 @@
     "textEmail": "E-poçt",
     "textPoweredBy": "ilə enerji ilə təmin olunur",
     "textTel": "Telefon",
-    "textVersion": "Versiya",
-    "textEditor": "Presentation Editor"
+    "textVersion": "Versiya"
   },
   "Common": {
     "Collaboration": {
@@ -52,16 +51,7 @@
       "textOk": "OK",
       "textRestore": "Bərpa et",
       "textVersion": "Versiya",
-      "textVersionHistory": "Versiya tarixçəsi",
-      "textWarningRestoreVersion": "Current file will be saved in version history.",
-      "titleWarningRestoreVersion": "Restore this version?",
-      "txtErrorLoadHistory": "Loading history failed"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
+      "textVersionHistory": "Versiya tarixçəsi"
     }
   },
   "ContextMenu": {
@@ -120,31 +110,7 @@
         "Table": "Cədvəl",
         "X Axis": "X Oxu XAS",
         "Y Axis": "Y Oxu",
-        "Your text here": "Mətniniz buradadır",
-        "Aspect": "Aspect",
-        "Blue": "Blue",
-        "Blue Green": "Blue Green",
-        "Blue II": "Blue II",
-        "Blue Warm": "Blue Warm",
-        "Grayscale": "Grayscale",
-        "Green": "Green",
-        "Green Yellow": "Green Yellow",
-        "Marquee": "Marquee",
-        "Median": "Median",
-        "Office": "Office",
-        "Office 2007 - 2010": "Office 2007 - 2010",
-        "Office 2013 - 2022": "Office 2013 - 2022",
-        "Orange": "Orange",
-        "Orange Red": "Orange Red",
-        "Paper": "Paper",
-        "Red": "Red",
-        "Red Orange": "Red Orange",
-        "Red Violet": "Red Violet",
-        "Slipstream": "Slipstream",
-        "Violet": "Violet",
-        "Violet II": "Violet II",
-        "Yellow": "Yellow",
-        "Yellow Orange": "Yellow Orange"
+        "Your text here": "Mətniniz buradadır"
       },
       "textAnonymous": "Anonim",
       "textBuyNow": "Veb sayta daxil olun",
@@ -172,15 +138,7 @@
       "warnLicenseLimitedRenewed": "Lisenziya yenilənməlidir. Sənəd redaktə funksiyasına girişiniz məhduddur.<br>Tam giriş əldə etmək üçün inzibatçınızla əlaqə saxlayın",
       "warnNoLicense": "Siz 1% redaktorlarına eyni vaxtda qoşulma limitinə çatdınız. Bu sənəd yalnız baxmaq üçün açılacaq. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
       "warnNoLicenseUsers": "1% redaktor üçün istifadəçi limitinə çatdınız. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
-      "warnProcessRightsChange": "Faylı redaktə etmək icazəniz yoxdur.",
-      "textOk": "Ok",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleLicenseNotActive": "License not active",
-      "titleReadOnly": "Read-Only Mode",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnProcessRightsChange": "Faylı redaktə etmək icazəniz yoxdur."
     }
   },
   "Error": {
@@ -224,17 +182,7 @@
     "unknownErrorText": "Naməlum xəta.",
     "uploadImageExtMessage": "Naməlum təsvir formatı.",
     "uploadImageFileCountMessage": "Heç bir təsvir yüklənməyib.",
-    "uploadImageSizeMessage": "Təsvir çox böyükdür. Maksimum ölçü 25 MB-dır.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorEmailClient": "No email client could be found",
-    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
-    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "Təsvir çox böyükdür. Maksimum ölçü 25 MB-dır."
   },
   "LongActions": {
     "applyChangesTextText": "Məlumat yüklənir...",
@@ -267,20 +215,14 @@
     "txtEditingMode": "Redaktə rejimini təyin edin...",
     "uploadImageTextText": "Təsvir yüklənir...",
     "uploadImageTitleText": "Təsvir Yüklənir",
-    "waitText": "Lütfən, gözləyin...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
+    "waitText": "Lütfən, gözləyin..."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Bu sənəddə saxlanmamış dəyişiklikləriniz var. Avtomatik saxlanmanı gözləmək üçün \"Bu Səhifədə Qalın\" hissəsinin üzərinə klikləyin. Bütün saxlanmamış dəyişiklikləri ləğv etmək üçün \"Bu səhifədən Çıxın\" hissəsinin üzərinə klikləyin.",
     "dlgLeaveTitleText": "Proqramdan çıxdınız",
     "leaveButtonText": "Bu səhifədən çıxın",
     "stayButtonText": "Bu Səhifədə Qalın",
-    "textCloseHistory": "Tarixçəni bağlayın",
-    "btnRestartNow": "Restart now",
-    "textEnterNewFileName": "Enter a new file name",
-    "textOk": "OK",
-    "textRenameFile": "Rename File",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textCloseHistory": "Tarixçəni bağlayın"
   },
   "View": {
     "Add": {
@@ -322,9 +264,7 @@
       "textSlideNumber": "Slayd nömrəsi",
       "textTable": "Cədvəl",
       "textTableSize": "Cədvəl Ölçüsü",
-      "txtNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır",
-      "textDrawing": "Drawing",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır"
     },
     "Edit": {
       "notcriticalErrorTitle": "Xəbərdarlıq",
@@ -479,22 +419,7 @@
       "textZoom": "Miqyası dəyişin",
       "textZoomIn": "Böyüdün",
       "textZoomOut": "Kiçilt",
-      "textZoomRotate": "Miqyası dəyiş və Fırlat",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textCellSize": "Cell size",
-      "textDeleteImage": "Delete Image",
-      "textDeleteLink": "Delete Link",
-      "textHorizontalText": "Horizontal Text",
-      "textInvalidName": "The file name cannot contain any of the following characters: ",
-      "textMorph": "Morph",
-      "textMorphLetters": "Letters",
-      "textMorphObjects": "Objects",
-      "textRotateTextDown": "Rotate Text Down",
-      "textRotateTextUp": "Rotate Text Up",
-      "textTextOrientation": "Text Orientation",
-      "txtHeight": "Height",
-      "txtWidth": "Width"
+      "textZoomRotate": "Miqyası dəyiş və Fırlat"
     },
     "Settings": {
       "mniSlideStandard": "Standart (4:3)",
@@ -555,20 +480,7 @@
       "textUnitOfMeasurement": "Ölçü Vahidi",
       "textUploaded": "Yükləndi",
       "textVersion": "Versiya",
-      "textVersionHistory": "Versiya tarixçəsi",
-      "textClose": "Close",
-      "textDark": "Dark",
-      "textDarkTheme": "Dark Theme",
-      "textLight": "Light",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "textVersionHistory": "Versiya tarixçəsi"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

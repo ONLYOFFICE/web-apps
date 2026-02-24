@@ -315,15 +315,14 @@ define([
             this.backgroundPlugins.forEach(function (model) {
                 var modes = model.get('variations'),
                     icons = modes[model.get('currentVariation')].get('icons'),
-                    parsedIcons = me.viewPlugins.parseIcons(icons),
-                    icon_url = model.get('baseUrl') + parsedIcons['normal'],
                     guid = model.get('guid'),
                     isRun = _.indexOf(usedPlugins, guid) !== -1;
-                model.set('parsedIcons', parsedIcons);
-                var menuItem = new Common.UI.MenuItem({
+                model.set('parsedIcons', me.viewPlugins.parseIcons(icons));
+                var menuItem = new Common.UI.MenuItemCustom({
                     value: guid,
                     caption: model.get('name'),
-                    iconImg: icon_url,
+                    iconsSet: me.viewPlugins.iconsStr2IconsObj(icons),
+                    baseUrl: model.get('baseUrl'), // icons have a relative path, so need to use the base url
                     template: _.template([
                         '<div id="<%= id %>" class="menu-item" <% if(!_.isUndefined(options.stopPropagation)) { %> data-stopPropagation="true" <% } %> >',
                             '<img class="menu-item-icon" src="<%= options.iconImg %>">',
@@ -1224,7 +1223,8 @@ define([
                     help && window.open(help, '_blank');
                 },
                 'docked': function(frameId){
-                    me.api.asc_pluginButtonDockChanged(isPanel ? variation.type : 'panel', variation.guid, frameId, function(){
+                    const docked_place = isPanel ? variation.type : !!variation.dockedPlace ? variation.dockedPlace : 'panelRight';
+                    me.api.asc_pluginButtonDockChanged(docked_place, variation.guid, frameId, function(){
                         setTimeout(function () {
                             me.customPluginsDlg[frameId].close();
                             me.onPluginPanelShow(frameId, variation, lang);
@@ -1251,7 +1251,7 @@ define([
                 var variationType = Asc.PluginType.getType(variation.type);
                 var isSystem = (true === variation.isSystem) || (Asc.PluginType.System === variationType),
                     isPanel = variationType === Asc.PluginType.Panel || variationType === Asc.PluginType.PanelRight;
-                var visible = (this.appOptions.isEdit || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !isSystem;
+                var visible = (this.appOptions.isEdit || this.appOptions.canSubmitForms || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !isSystem;
                 if (visible && isPanel) {
                     this.onPluginPanelShow(frameId, variation, lang);
                 } else if (visible && !variation.isInsideMode) {

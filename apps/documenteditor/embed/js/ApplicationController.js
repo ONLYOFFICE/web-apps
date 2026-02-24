@@ -532,8 +532,24 @@ DE.ApplicationController = new(function(){
 
         DE.ApplicationView.tools.get('#idt-print')
             .on('click', function(){
-                api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
-                Common.Analytics.trackEvent('Print');
+                var printCallback = function() {
+                    api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
+                    Common.Analytics.trackEvent('Print');
+                };
+
+                var submitPassword = function(val) {
+                    if(api.asc_CheckPrintPassword(val)) {
+                        printCallback();
+                    } else {
+                        common.controller.modals.createDlgPrintPassword(submitPassword, true);
+                    }
+                };
+
+                if(api && api.asc_CheckPrintPassword && api.asc_CheckPrintPassword() === false) {
+                    common.controller.modals.createDlgPrintPassword(submitPassword);
+                } else {
+                    printCallback();
+                }
             });
 
         DE.ApplicationView.tools.get('#idt-close')
@@ -912,6 +928,18 @@ DE.ApplicationController = new(function(){
             case Asc.c_oAscError.ID.SessionToken: // don't show error message
                 return;
 
+            case Asc.c_oAscError.ID.CopyDisabled:
+                message= me.errorCopyDisabled;
+                break;
+
+            case Asc.c_oAscError.ID.FileNotAssembled:
+                message = me.errorFileNotAssembled;
+                break;
+
+            case Asc.c_oAscError.ID.ForcedViewMode:
+                message = me.errorForcedViewMode;
+                break;
+
             default:
                 // message = me.errorDefaultMessage.replace('%1', id);
                 // break;
@@ -1201,6 +1229,7 @@ DE.ApplicationController = new(function(){
         textCancel: 'Cancel',
         txtSecurityWarningLink: 'This document is trying to connect to %1.<br>If you trust this site, press \"OK\" while holding down the ctrl key.',
         txtSecurityWarningOpenFile: 'This document is trying to open file dialog, press \"OK\" to open.',
-        txtSecurityWarningLinkOk: 'This document is trying to connect to %1.<br>If you trust this site, press \"OK\".'
+        txtSecurityWarningLinkOk: 'This document is trying to connect to %1.<br>If you trust this site, press \"OK\".',
+        errorCopyDisabled: 'For security reasons, the contents of this document cannot be copied to the clipboard.'
     }
 })();

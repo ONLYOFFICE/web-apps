@@ -389,7 +389,7 @@ define([], function () {
                     '<td><span id="fms-cmb-font-render"></span></td>',
                 '</tr>',
                 '<tr>',
-                    '<td><label><%= scope.strKeyboardShortcuts %><span class="new-hint"><%= Common.UI.SynchronizeTip.prototype.textNew.toUpperCase() %></span></label></td>',
+                    '<td><label><%= scope.strKeyboardShortcuts %></label></td>',
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-keyboard-shortcuts" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomize %></button></div></td>',
                 '</tr>',
                 '<tr class ="divider-group"></tr>',
@@ -854,8 +854,6 @@ define([], function () {
             value = Common.Utils.InternalSettings.get("settings-tab-style");
             item = this.cmbTabStyle.store.findWhere({value: value});
             this.cmbTabStyle.setValue(item ? item.get('value') : 'fill');
-
-            Common.localStorage.getItem('help-tip-customize-shortcuts') && $('.new-hint', this.el).addClass('hidden');
         },
 
         applySettings: function() {
@@ -2340,27 +2338,29 @@ define([], function () {
                             '<div class="main-header"><%= scope.txtPrint %></div>',
                             '<table style="width: 100%;">',
                             '<tbody>',
-                                '<tr><td><label class="font-weight-bold"><%= scope.txtPrinter %></label></td></tr>',
-                                '<tr><td class="padding-large"><div id="print-combo-printer" style="width: 248px;"></div></td></tr>',
-                                '<tr><td><label class="font-weight-bold"><%= scope.txtColorPrinting %></label></td></tr>',
-                                '<tr><td class="padding-large"><div id="print-combo-color-printing" style="width: 248px;"></div></td></tr>',
+                                '<tr class="desktop-settings"><td><label class="font-weight-bold"><%= scope.txtPrinter %></label></td></tr>',
+                                '<tr class="desktop-settings"><td class="padding-large"><div id="print-combo-printer" style="width: 248px;"></div></td></tr>',
+                                '<tr class="desktop-settings"><td><label class="font-weight-bold"><%= scope.txtColorPrinting %></label></td></tr>',
+                                '<tr class="desktop-settings"><td class="padding-large"><div id="print-combo-color-printing" style="width: 248px;"></div></td></tr>',
                                 '<tr><td><label class="font-weight-bold"><%= scope.txtPrintRange %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-range" style="width: 248px;"></div></td></tr>',
-                                '<tr><td class="padding-large">',
+                                '<tr><td>',
                                     '<table style="width: 100%;"><tbody>',
                                         '<tr><td class="padding-large"><%= scope.txtPages %>:</td><td class="padding-large" style="width: 100%;"><div id="print-txt-pages" class="padding-left-5" style="width: 100%;"></div></td></tr>',
-                                        '<tr><td><%= scope.txtCopies %>:</td><td style="width: 100%;"><div id="print-txt-copies" class="padding-left-5" style="width: 60px;"></div></td></tr>',
+                                        '<tr class="desktop-settings"><td class="padding-large"><%= scope.txtCopies %>:</td><td class="padding-large" style="width: 100%;"><div id="print-txt-copies" class="padding-left-5" style="width: 60px;"></div></td></tr>',
                                     '</tbody></table>',
                                 '</td></tr>',
-                                '<tr><td><label class="font-weight-bold"><%= scope.txtPrintSides %></label></td></tr>',
-                                '<tr><td class="padding-large"><div id="print-combo-sides" style="width: 248px;"></div></td></tr>',
+                                '<tr class="desktop-settings"><td><label class="font-weight-bold"><%= scope.txtPrintSides %></label></td></tr>',
+                                '<tr class="desktop-settings"><td class="padding-large"><div id="print-combo-sides" style="width: 248px;"></div></td></tr>',
                                 '<tr><td><label class="font-weight-bold"><%= scope.txtPageSize %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-pages" style="width: 248px;"></div></td></tr>',
                                 '<tr><td><label class="font-weight-bold"><%= scope.txtPageOrientation %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-orient" style="width: 150px;"></div></td></tr>',
                                 '<tr><td><label class="font-weight-bold"><%= scope.txtMargins %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-margins" style="width: 248px;"></div></td></tr>',
-                                '<tr><td class="padding-large"><label id="print-btn-system-dialog" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><span class="link"><%= scope.txtPrintUsingSystemDialog %></span></label></td></tr>',
+                                '<tr><td><label class="font-weight-bold"><%= scope.txtContent %></label></td></tr>',
+                                '<tr><td class="padding-large"><div id="print-combo-content" style="width: 248px;"></div></td></tr>',
+                                '<tr><td class="padding-large desktop-settings not-macos"><label id="print-btn-system-dialog" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><span class="link"><%= scope.txtPrintUsingSystemDialog %></span></label></td></tr>',
                                 '<tr class="fms-btn-apply"><td>',
                                     '<div class="footer justify">',
                                         '<button id="print-btn-print" class="btn normal dlg-btn primary margin-right-8" result="print" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button>',
@@ -2427,59 +2427,64 @@ define([], function () {
 
             var $markup = $(this.template({scope: this, isRTL: Common.UI.isRTL()}));
 
-            this.cmbPrinter = new Common.UI.ComboBox({
-                el: $markup.findById('#print-combo-printer'),
-                menuStyle: 'width: 248px; max-height: 280px;',
-                editable: false,
-                takeFocusOnClose: true,
-                cls: 'input-group-nr',
-                placeHolder: this.txtPrinterNotSelected,
-                itemsTemplate:  _.template([
-                    '<% if (items.length > 0) { %>',
-                        '<% _.each(items, function(item) { %>',
-                            '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
-                        '<% }); %>',
-                    '<% } %>',
-                    '<% if(scope.options.isWatingForPrinters) { %>',
-                        '<li><a id="print-waiting-for-printers" class="text-dropdown-item" onclick="event.stopPropagation();">' + this.txtWaitingForPrinters + '<div class="spiner-image"></div></a></li>',
-                    '<% } else if(items.length == 0) {%>',
-                        '<li><a class="text-dropdown-item" onclick="event.stopPropagation();">' + this.txtPrintersNotFound + '</a></li>',
-                    '<% } %>'
-                ].join('')),
-                isWatingForPrinters: true,
-                data: [],
-                dataHint: '2',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-            this.cmbPrinter.on('selected', _.bind(this.onPrinterSelected, this));
+            if(this.mode.isDesktopApp) {
+                this.cmbPrinter = new Common.UI.ComboBox({
+                    el: $markup.findById('#print-combo-printer'),
+                    menuStyle: 'width: 248px; max-height: 280px;',
+                    editable: false,
+                    takeFocusOnClose: true,
+                    restoreMenuHeightAndTop: true,
+                    cls: 'input-group-nr',
+                    placeHolder: this.txtPrinterNotSelected,
+                    itemsTemplate:  _.template([
+                        '<% if (items.length > 0) { %>',
+                            '<% _.each(items, function(item) { %>',
+                                '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
+                            '<% }); %>',
+                        '<% } %>',
+                        '<% if(scope.options.isWatingForPrinters) { %>',
+                            '<li><a id="print-waiting-for-printers" class="text-dropdown-item" onclick="event.stopPropagation();">' + this.txtWaitingForPrinters + '<div class="spiner-image"></div></a></li>',
+                        '<% } else if(items.length == 0) {%>',
+                            '<li><a class="text-dropdown-item" onclick="event.stopPropagation();">' + this.txtPrintersNotFound + '</a></li>',
+                        '<% } %>'
+                    ].join('')),
+                    isWatingForPrinters: true,
+                    data: [],
+                    dataHint: '2',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
+                });
+                this.cmbPrinter.on('selected', _.bind(this.onPrinterSelected, this));
 
-            this.cmbColorPrinting = new Common.UI.ComboBox({
-                el: $markup.findById('#print-combo-color-printing'),
-                menuStyle: 'width: 248px; max-height: 280px;',
-                editable: false,
-                takeFocusOnClose: true,
-                cls: 'input-group-nr',
-                disabled: true,
-                data: [
-                    { value: 'color', displayValue: this.txtColorPrinting },
-                    { value: 'black-and-white', displayValue: this.txtBlackAndWhitePrinting }
-                ],
-                dataHint: '2',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-            this.cmbColorPrinting.on('selected', _.bind(function(combo, record) { 
-                this._colorPrinting = record.value 
-            }, this));
-            this.cmbColorPrinting.setValue('black-and-white');
-            this._colorPrinting = 'black-and-white';
+                this.cmbColorPrinting = new Common.UI.ComboBox({
+                    el: $markup.findById('#print-combo-color-printing'),
+                    menuStyle: 'width: 248px; max-height: 280px;',
+                    editable: false,
+                    takeFocusOnClose: true,
+                    restoreMenuHeightAndTop: true,
+                    cls: 'input-group-nr',
+                    disabled: true,
+                    data: [
+                        { value: 'color', displayValue: this.txtColorPrinting },
+                        { value: 'black-and-white', displayValue: this.txtBlackAndWhitePrinting }
+                    ],
+                    dataHint: '2',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
+                });
+                this.cmbColorPrinting.on('selected', _.bind(function(combo, record) { 
+                    this._colorPrinting = record.value 
+                }, this));
+                this.cmbColorPrinting.setValue('black-and-white');
+                this._colorPrinting = 'black-and-white';
+            }
 
             this.cmbRange = new Common.UI.ComboBox({
                 el: $markup.findById('#print-combo-range'),
                 menuStyle: 'min-width: 248px;max-height: 280px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls: 'input-group-nr',
                 data: [
                     { value: 'all', displayValue: this.txtAllPages },
@@ -2523,6 +2528,7 @@ define([], function () {
                 menuStyle   : 'width:100%;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 'one', displayValue: this.txtOneSide, descValue: this.txtOneSideDesc },
@@ -2586,6 +2592,7 @@ define([], function () {
                 menuStyle: 'max-height: 280px; width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 template: paperSizeTemplate,
                 itemsTemplate: paperSizeItemsTemplate,
                 data: [].concat(this._defaultPaperSizeList, [{ value: -1, displayValue: this.txtCustom, caption: this.txtCustom, size: []}]),
@@ -2618,10 +2625,11 @@ define([], function () {
                 menuStyle   : 'min-width: 150px;',
                 editable    : false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: Asc.c_oAscPageOrientation.PagePortrait, displayValue: this.txtPortrait },
-                    { value: Asc.c_oAscPageOrientation.PageLandscape, displayValue: this.txtLandscape }
+                    { value: Asc.c_oAscPageOrientation.PageLandscape, displayValue: this.txtLandscape },
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
@@ -2633,6 +2641,7 @@ define([], function () {
                 menuStyle: 'max-height: 280px; min-width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls: 'input-group-nr',
                 data: [
                     { value: 0, displayValue: this.textMarginsNormal, size: (/^(ca|us)$/i.test(Common.Utils.InternalSettings.get("pdfe-config-region"))) ? [25.4, 25.4, 25.4, 25.4] : [20, 30, 20, 15]},
@@ -2658,6 +2667,25 @@ define([], function () {
                 dataHintOffset: 'big'
             });
 
+            this.cmbContent = new Common.UI.ComboBox({
+                el: $markup.findById('#print-combo-content'),
+                menuStyle: 'min-width: 248px; max-height: 280px;',
+                editable: false,
+                takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
+                cls: 'input-group-nr',
+                data: [
+                    { value: AscPDF.PRINT_CONTENT_TYPES.doc, displayValue: this.txtDocument },
+                    { value: AscPDF.PRINT_CONTENT_TYPES.docAndMarkups, displayValue: this.txtDocumentAndMarkups },
+                    { value: AscPDF.PRINT_CONTENT_TYPES.docAndStamps, displayValue: this.txtDocumentAndStamps },
+                    { value: AscPDF.PRINT_CONTENT_TYPES.formsOnly, displayValue: this.txtFormFieldsOnly }
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbContent.setValue(AscPDF.PRINT_CONTENT_TYPES.docAndMarkups);
+
             this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
             this.pnlTable = $(this.pnlSettings.find('table')[0]);
             this.trApply = $markup.find('.fms-btn-apply');
@@ -2665,7 +2693,7 @@ define([], function () {
             this.btnPrintSystemDialog = $markup.find('#print-btn-system-dialog > span');
             this.btnPrint = new Common.UI.Button({
                 el: $markup.findById('#print-btn-print'),
-                disabled: true
+                disabled: this.mode.isDesktopApp
             });
             this.btnPrintPdf = new Common.UI.Button({
                 el: $markup.findById('#print-btn-print-pdf')
@@ -2711,8 +2739,10 @@ define([], function () {
                 dataHintOffset: 'small'
             });
 
-           this.$el = $(node).html($markup);
+            this.$el = $(node).html($markup);
             this.$previewBox = $('#print-preview-box');
+
+            this.applyMode();
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
@@ -2746,6 +2776,8 @@ define([], function () {
         },
 
         updateCmbPrinter: function(currentPrinter, printers, isWaitingForPrinters) {
+            if(!this.cmbPrinter) return;
+
             const cmbPrinterOptions = (printers || []).map(function(printer) {
                 return {
                     value: printer.name,
@@ -2897,6 +2929,13 @@ define([], function () {
 
         setMode: function(mode) {
             this.mode = mode;
+            !this._initSettings && this.applyMode();
+        },
+
+        applyMode: function() {
+            if (!this.mode || !this.$el) return;
+            !this.mode.isDesktopApp && this.$el.find('.desktop-settings').hide();
+            (this.mode.isDesktopApp && Common.Utils.isMac) && this.$el.find('.desktop-settings.not-macos').hide();
         },
 
         setApi: function(api) {
@@ -2979,6 +3018,11 @@ define([], function () {
         txtLandscape: 'Landscape',
         txtCustom: 'Custom',
         txtMargins: 'Margins',
+        txtContent: 'Content',
+        txtDocument: 'Document',
+        txtDocumentAndMarkups: 'Document and Markups',
+        txtDocumentAndStamps: 'Document and Stamps',
+        txtFormFieldsOnly: 'Form fields only',
         txtTop: 'Top',
         txtBottom: 'Bottom',
         txtLeft: 'Left',

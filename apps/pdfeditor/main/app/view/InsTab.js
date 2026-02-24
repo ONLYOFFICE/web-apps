@@ -98,6 +98,7 @@ define([
                 //     me.fireEvent('insert:header', ['slidenum']);
                 // }, me));
                 me.btnInsertHyperlink.on('click', _.bind(function () {
+                    Common.UI.TooltipManager.closeTip('createLink');
                     me.fireEvent('insert:hyperlink');
                 }, me));
                  me.mnuTablePicker.on('select', _.bind(function (picker, columns, rows, e) {
@@ -218,7 +219,8 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-big-inserthyperlink',
                     caption: me.capInsertHyperlink,
-                    lock: [_set.hyperlinkLock, _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected],
+                    lock: [_set.hyperlinkLock, _set.paragraphLock, _set.lostConnect, _set.objectWithoutParagraph],
+                    enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'

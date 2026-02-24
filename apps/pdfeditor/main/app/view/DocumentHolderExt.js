@@ -136,6 +136,10 @@ define([], function () {
                 caption     : me.removeCommentText
             });
 
+            me.menuPDFEditHyperlink = new Common.UI.MenuItem({
+                caption     : me.editHyperlinkText
+            });
+
             this.editPDFModeMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function (value) {
@@ -145,10 +149,17 @@ define([], function () {
                     me.menuEditAddComment.setDisabled(disabled);
                     me.menuEditRemoveComment.setVisible(value && value.annotProps && value.annotProps.value);
                     me.menuEditRemoveComment.setDisabled(disabled);
+
+                    me.menuPDFEditHyperlink.setVisible(value.annotProps && value.annotProps.value && value.annotProps.value.asc_getType()===AscPDF.ANNOTATIONS_TYPES.Link && !_.isUndefined(value.hyperProps));
+                    me.menuPDFEditHyperlink.setDisabled(disabled);
+                    me.menuPDFEditHyperlink.hyperProps = value.hyperProps;
+                    me.menuPDFEditHyperlink.annotProps = value.annotProps;
+
                 },
                 items: [
                     me.menuPDFEditCopy,
                     me.menuEditAddComment,
+                    me.menuPDFEditHyperlink,
                     me.menuEditRemoveComment
                 ]
             }).on('hide:after', function (menu, e, isFromInputControl) {
@@ -173,15 +184,14 @@ define([], function () {
             });
 
             me.menuTableCellAlign = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-align-top',
-                caption  : me.cellAlignText,
+                caption  : me.AlignText,
                 menu    : new Common.UI.Menu({
                     cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         me.menuTableCellTop = new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-align-top',
-                            caption     : me.textShapeAlignTop,
+                            caption     : me.AlignTop,
                             checkable   : true,
                             checkmark   : false,
                             toggleGroup : 'popuptablecellalign',
@@ -189,7 +199,7 @@ define([], function () {
                         }),
                         me.menuTableCellCenter = new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-align-middle',
-                            caption     : me.textShapeAlignMiddle,
+                            caption     : me.AlignMiddle,
                             checkable   : true,
                             checkmark   : false,
                             toggleGroup : 'popuptablecellalign',
@@ -197,11 +207,44 @@ define([], function () {
                         }),
                         me.menuTableCellBottom = new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-align-bottom',
-                            caption     : me.textShapeAlignBottom,
+                            caption     : me.AlignBottom,
                             checkable   : true,
                             checkmark   : false,
                             toggleGroup : 'popuptablecellalign',
                             value       : Asc.c_oAscVertAlignJc.Bottom
+                        }),
+                        { caption: '--' },
+                        me.menuTableCellLeft = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-left',
+                            caption     : me.AlignLeft,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popuptablecellhalign',
+                            halign      : 1 
+                        }),
+                        me.menuTableCellHCenter = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-center',
+                            caption     : me.AlignCenter,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popuptablecellhalign',
+                            halign      : 2 
+                        }),
+                        me.menuTableCellRight = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-right',
+                            caption     : me.AlignRight,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popuptablecellhalign',
+                            halign      : 0
+                        }),
+                        me.menuTableCellJust = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-just',
+                            caption     : me.AlignJust,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popuptablecellhalign',
+                            halign      : 3 
                         })
                     ]
                 })
@@ -388,22 +431,14 @@ define([], function () {
                     }
 
                     var align = value.tableProps.value.get_CellsVAlign();
-                    var cls = '';
-                    switch (align) {
-                        case Asc.c_oAscVertAlignJc.Top:
-                            cls = 'menu__icon btn-align-top';
-                            break;
-                        case Asc.c_oAscVertAlignJc.Center:
-                            cls = 'menu__icon btn-align-middle';
-                            break;
-                        case Asc.c_oAscVertAlignJc.Bottom:
-                            cls = 'menu__icon btn-align-bottom';
-                            break;
-                    }
-                    me.menuTableCellAlign.setIconCls(cls);
+                    var halign = value.paraProps.value.get_Jc();
                     me.menuTableCellTop.setChecked(align == Asc.c_oAscVertAlignJc.Top);
                     me.menuTableCellCenter.setChecked(align == Asc.c_oAscVertAlignJc.Center);
                     me.menuTableCellBottom.setChecked(align == Asc.c_oAscVertAlignJc.Bottom);
+                    me.menuTableCellLeft.setChecked(halign == 1);
+                    me.menuTableCellHCenter.setChecked(halign == 2);
+                    me.menuTableCellRight.setChecked(halign == 0);
+                    me.menuTableCellJust.setChecked(halign == 3);     
 
                     if (me.api) {
                         me.mnuTableMerge.setDisabled(value.tableProps.locked || !me.api.CheckBeforeMergeCells());
@@ -871,6 +906,12 @@ define([], function () {
                                 cls: 'shifted-right',  
                                 menuAlign: 'tl-tr',
                                 items: [
+                                    { 
+                                        caption: me.textNone, 
+                                        value: 'noneError',
+                                        stopPropagation: true, 
+                                        disabled: false
+                                    },
                                     {
                                         caption: me.textStandardError,
                                         value: 'standardError',
@@ -1352,15 +1393,14 @@ define([], function () {
             });
 
             me.menuParagraphVAlign = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-align-top',
-                caption     : me.vertAlignText,
+                caption     : me.AlignText,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         me.menuParagraphTop = new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-align-top',
-                            caption     : me.textShapeAlignTop,
+                            caption     : me.AlignTop,
                             checkable   : true,
                             checkmark   : false,
                             toggleGroup : 'popupparagraphvalign',
@@ -1368,7 +1408,7 @@ define([], function () {
                         }),
                         me.menuParagraphCenter = new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-align-middle',
-                            caption     : me.textShapeAlignMiddle,
+                            caption     : me.AlignMiddle,
                             checkable   : true,
                             checkmark   : false,
                             toggleGroup : 'popupparagraphvalign',
@@ -1376,11 +1416,44 @@ define([], function () {
                         }),
                         me.menuParagraphBottom = new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-align-bottom',
-                            caption     : me.textShapeAlignBottom,
+                            caption     : me.AlignBottom,
                             checkable   : true,
                             checkmark   : false,
                             toggleGroup : 'popupparagraphvalign',
                             value       : Asc.c_oAscVAlign.Bottom
+                        }),
+                        { caption: '--' },
+                        me.menuParagraphLeft = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-left',
+                            caption     : me.AlignLeft,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popupparagraphhalign',
+                            halign      : 1 
+                        }),
+                        me.menuParagraphHCenter = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-center',
+                            caption     : me.AlignCenter,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popupparagraphhalign',
+                            halign      : 2 
+                        }),
+                        me.menuParagraphRight = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-right',
+                            caption     : me.AlignRight,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popupparagraphhalign',
+                            halign      : 0 
+                        }),
+                        me.menuParagraphJust = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-just',
+                            caption     : me.AlignJust,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popupparagraphhalign',
+                            halign      : 3 
                         })
                     ]
                 })
@@ -1473,25 +1546,17 @@ define([], function () {
                     me.menuParagraphDirection.setVisible(isInShape && !isInChart && !isEquation); // после того, как заголовок можно будет растягивать по вертикали, вернуть "|| isInChart" !!
                     if (isInShape || isInChart) {
                         var align = value.shapeProps.value.get_VerticalTextAlign();
-                        var cls = '';
-                        switch (align) {
-                            case Asc.c_oAscVAlign.Top:
-                                cls = 'menu__icon btn-align-top';
-                                break;
-                            case Asc.c_oAscVAlign.Center:
-                                cls = 'menu__icon btn-align-middle';
-                                break;
-                            case Asc.c_oAscVAlign.Bottom:
-                                cls = 'menu__icon btn-align-bottom';
-                                break;
-                        }
-                        me.menuParagraphVAlign.setIconCls(cls);
+                        var halign = value.paraProps.value.get_Jc();
                         me.menuParagraphTop.setChecked(align == Asc.c_oAscVAlign.Top);
                         me.menuParagraphCenter.setChecked(align == Asc.c_oAscVAlign.Center);
                         me.menuParagraphBottom.setChecked(align == Asc.c_oAscVAlign.Bottom);
+                        me.menuParagraphLeft.setChecked(halign == 1);
+                        me.menuParagraphHCenter.setChecked(halign == 2);
+                        me.menuParagraphRight.setChecked(halign == 0);
+                        me.menuParagraphJust.setChecked(halign == 3);
 
                         var dir = value.shapeProps.value.get_Vert();
-                        cls = '';
+                        var cls = '';
                         switch (dir) {
                             case Asc.c_oAscVertDrawingText.normal:
                                 cls = 'menu__icon btn-text-orient-hor';
@@ -2004,6 +2069,7 @@ define([], function () {
                     '<div id="annot-bar-highlight" style="display:inline-block;" class="margin-left-4"></div>' +
                     '<div id="annot-bar-underline" style="display:inline-block;" class="margin-left-4"></div>' +
                     '<div id="annot-bar-strikeout" style="display:inline-block;" class="margin-left-4"></div>' +
+                    '<div id="annot-bar-redact" style="display:inline-block;" class="margin-left-4"></div>' +
                     '<div class="separator margin-left-6"></div>' +
                     '<div id="annot-bar-edit-text" class="margin-left-13" style="display:inline-block;"></div>' +
                     '</div>'),
@@ -2088,6 +2154,15 @@ define([], function () {
                 type: AscPDF.ANNOTATIONS_TYPES.Strikeout
             });
             annotBarBtns.push(this.btnStrikeout);
+
+            this.btnRedact = new Common.UI.Button({
+                parentEl: $('#annot-bar-redact', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-redact-text',
+                caption: this.textRedact,
+                hint: toolbar.tipRedact
+            });
+            annotBarBtns.push(this.btnRedact);
 
             this.btnHighlight = new Common.UI.ButtonColored({
                 parentEl: $('#annot-bar-highlight', container),

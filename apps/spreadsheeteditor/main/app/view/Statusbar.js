@@ -208,9 +208,12 @@ define([
                     //'tab:manual'        : _.bind(this.onAddTabClick, this),
                     'tab:contextmenu'   : _.bind(this.onTabMenu, this),
                     'tab:dblclick'      : _.bind(function () {
-                        if (me.editMode && !(me.mode && me.mode.isDisconnected) && (me.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
-                                           (me.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable)&&
-                                           (me.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.PrintTitles)) {
+                        if (me.editMode && !(me.mode && me.mode.isDisconnected) &&
+                            !(me.mode && me.mode.isBackgroundOpen) && 
+                            (me.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
+                            (me.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable)&&
+                            (me.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.PrintTitles)
+                        ) {
                             me.fireEvent('sheet:changename');
                         }
                     }, this)
@@ -423,7 +426,12 @@ define([
                 $('#status-addtabs-box')[(this.mode.isEdit) ? 'show' : 'hide']();
                 this.tabBarDefPosition = parseInt($('#status-tabs-scroll').css('width')) + parseInt(this.cntStatusbar.css('padding-left'));
                 this.tabBarDefPosition += this.mode.isEdit ? parseFloat($('#status-addtabs-box').css('width')) : 0;
-                this.btnAddWorksheet.setDisabled(this.mode.isDisconnected || this.api && (this.api.asc_isWorkbookLocked() || this.api.isCellEdited) || this.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None || !!this.mode.isExternalChart);
+                this.btnAddWorksheet.setDisabled(
+                    this.mode.isDisconnected || this.mode.isBackgroundOpen || 
+                    this.api && (this.api.asc_isWorkbookLocked() || this.api.isCellEdited) ||
+                    this.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None || !!this.mode.isExternalChart
+                );
+                this.btnSheetList[this.mode.isBackgroundOpen ? 'addClass' : 'removeClass']('disabled');
                 if (this.mode.isEditOle || this.mode.isEditDiagram) { // change hints order
                     this.btnAddWorksheet.$el.find('button').addBack().filter('button').attr('data-hint', '1');
                     this.btnScrollBack.$el.find('button').addBack().filter('button').attr('data-hint', '1');
@@ -471,7 +479,8 @@ define([
                             label         : me.api.asc_getWorksheetName(i),
 //                          reorderable   : !locked,
                             cls           : locked ? 'coauth-locked':'',
-                            isLockTheDrag : locked || me.mode.isDisconnected || wbprotected,
+                            disabled      : me.mode.isBackgroundOpen,
+                            isLockTheDrag : locked || me.mode.isDisconnected || me.mode.isBackgroundOpen || wbprotected,
                             iconCls       : 'btn-sheet-view',
                             iconTitle     : name,
                             iconVisible   : name!==''
@@ -535,7 +544,11 @@ define([
 
                     this.updateRtlSheet(true);
 
-                    this.btnAddWorksheet.setDisabled(me.mode.isDisconnected || me.api.asc_isWorkbookLocked() || wbprotected || me.api.isCellEdited ||  !!me.mode.isExternalChart);
+                    this.btnAddWorksheet.setDisabled(
+                        me.mode.isDisconnected || me.mode.isBackgroundOpen || me.api.asc_isWorkbookLocked() || 
+                        wbprotected || me.api.isCellEdited ||  !!me.mode.isExternalChart
+                    );
+                    this.btnSheetList[me.mode.isBackgroundOpen ? 'addClass' : 'removeClass']('disabled');
                     if (this.mode.isEdit) {
                         this.tabbar.addDataHint(_.findIndex(items, function (item) {
                             return item.sheetindex === sindex;
@@ -663,10 +676,12 @@ define([
 
             onTabMenu: function (o, index, tab, select) {
                 var me = this;
-                if (this.mode.isEdit  && !this.isEditFormula && (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
-                                                               (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable) &&
-                                                               (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.PrintTitles) &&
-                    !this.mode.isDisconnected && !this.mode.isExternalChart) {
+                if (this.mode.isEdit && !this.isEditFormula && 
+                    (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
+                    (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable) &&
+                    (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.PrintTitles) &&
+                    !this.mode.isDisconnected && !this.mode.isBackgroundOpen && !this.mode.isExternalChart
+                ) {
                     if (tab && tab.sheetindex >= 0) {
                         if (!tab.isActive()) this.tabbar.setActive(tab);
 
@@ -1008,6 +1023,10 @@ define([
             clearStatusMessage: function() {
                 this.labelAction.text('');
                 this.statusMessage = undefined;
+            },
+            
+            hideStatusMessage: function() {
+                this.boxAction.hide();
             },
 
             getStatusLabel: function() {

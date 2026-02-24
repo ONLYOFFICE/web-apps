@@ -44,10 +44,7 @@
       "textThemeColors": "Cores do tema"
     },
     "Themes": {
-      "system": "Igual que o sistema",
-      "dark": "Dark",
-      "light": "Light",
-      "textTheme": "Theme"
+      "system": "Igual que o sistema"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Aviso",
@@ -58,10 +55,7 @@
       "textOk": "Aceptar",
       "textRestore": "Restaurar",
       "textVersion": "Versión",
-      "textVersionHistory": "Historial de versións",
-      "textWarningRestoreVersion": "Current file will be saved in version history.",
-      "titleWarningRestoreVersion": "Restore this version?",
-      "txtErrorLoadHistory": "Loading history failed"
+      "textVersionHistory": "Historial de versións"
     }
   },
   "ContextMenu": {
@@ -120,31 +114,7 @@
         "Table": "Táboa",
         "X Axis": "Eixo X XAS",
         "Y Axis": "Eixo Y",
-        "Your text here": "O teu texto aquí",
-        "Aspect": "Aspect",
-        "Blue": "Blue",
-        "Blue Green": "Blue Green",
-        "Blue II": "Blue II",
-        "Blue Warm": "Blue Warm",
-        "Grayscale": "Grayscale",
-        "Green": "Green",
-        "Green Yellow": "Green Yellow",
-        "Marquee": "Marquee",
-        "Median": "Median",
-        "Office": "Office",
-        "Office 2007 - 2010": "Office 2007 - 2010",
-        "Office 2013 - 2022": "Office 2013 - 2022",
-        "Orange": "Orange",
-        "Orange Red": "Orange Red",
-        "Paper": "Paper",
-        "Red": "Red",
-        "Red Orange": "Red Orange",
-        "Red Violet": "Red Violet",
-        "Slipstream": "Slipstream",
-        "Violet": "Violet",
-        "Violet II": "Violet II",
-        "Yellow": "Yellow",
-        "Yellow Orange": "Yellow Orange"
+        "Your text here": "O teu texto aquí"
       },
       "textAnonymous": "Anónimo",
       "textBuyNow": "Visitar sitio web",
@@ -173,14 +143,7 @@
       "warnLicenseLimitedRenewed": "A licenza necesita renovación. Ten acceso limitado á funcionalidade de edición de documentos.<br>Por favor, póñase en contacto co seu administrador para obter acceso completo",
       "warnNoLicense": "Alcanzou o límite de conexións simultáneas con %1 editores. Este documento abrirase para as úa visualización. Póñase en contacto co equipo de vendas de %1 para coñecer as condicións de actualización persoal.",
       "warnNoLicenseUsers": "Alcanzou o límite de usuarios para os editores de %1.<br>Contacte co equipo de vendas de %1 para coñecer os termos de actualización persoal.",
-      "warnProcessRightsChange": "Non ten permiso para editar o ficheiro.",
-      "textOk": "Ok",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleLicenseNotActive": "License not active",
-      "titleReadOnly": "Read-Only Mode",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator."
+      "warnProcessRightsChange": "Non ten permiso para editar o ficheiro."
     }
   },
   "Error": {
@@ -224,17 +187,7 @@
     "unknownErrorText": "Erro descoñecido.",
     "uploadImageExtMessage": "Formato de imaxe descoñecido.",
     "uploadImageFileCountMessage": "Non hai imaxes subidas.",
-    "uploadImageSizeMessage": "A imaxe é demasiado grande. O tamaño máximo é de 25 MB.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorEmailClient": "No email client could be found",
-    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
-    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "A imaxe é demasiado grande. O tamaño máximo é de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",
@@ -266,21 +219,14 @@
     "txtEditingMode": "Establecer o modo de edición...",
     "uploadImageTextText": "Cargando imaxe...",
     "uploadImageTitleText": "Cargando imaxe",
-    "waitText": "Agarde...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textContinue": "Continue"
+    "waitText": "Agarde..."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Ten cambios non gardados neste documento. Prema en \"Quedarse nesta páxina\" para esperar ata que se garden automaticamente. Prema en \"Saír desta pa´xina\" para descartar todos os cambios non gardados.",
     "dlgLeaveTitleText": "Saíu do aplicativo",
     "leaveButtonText": "Saír desta página",
     "stayButtonText": "Quedarse nesta páxina",
-    "textCloseHistory": "Pechar historial",
-    "btnRestartNow": "Restart now",
-    "textEnterNewFileName": "Enter a new file name",
-    "textOk": "OK",
-    "textRenameFile": "Rename File",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textCloseHistory": "Pechar historial"
   },
   "View": {
     "Add": {
@@ -322,9 +268,7 @@
       "textSlideNumber": "Número da diapositiva",
       "textTable": "Táboa",
       "textTableSize": "Tamaño da táboa",
-      "txtNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\"",
-      "textDrawing": "Drawing",
-      "textPasteImageUrl": "Paste an image URL"
+      "txtNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
@@ -479,22 +423,7 @@
       "textZoom": "Ampliar",
       "textZoomIn": "Ampliar",
       "textZoomOut": "Alonxar",
-      "textZoomRotate": "Ampliar e rotación",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textCellSize": "Cell size",
-      "textDeleteImage": "Delete Image",
-      "textDeleteLink": "Delete Link",
-      "textHorizontalText": "Horizontal Text",
-      "textInvalidName": "The file name cannot contain any of the following characters: ",
-      "textMorph": "Morph",
-      "textMorphLetters": "Letters",
-      "textMorphObjects": "Objects",
-      "textRotateTextDown": "Rotate Text Down",
-      "textRotateTextUp": "Rotate Text Up",
-      "textTextOrientation": "Text Orientation",
-      "txtHeight": "Height",
-      "txtWidth": "Width"
+      "textZoomRotate": "Ampliar e rotación"
     },
     "Settings": {
       "mniSlideStandard": "Estándar (4:3)",
@@ -558,17 +487,7 @@
       "textUnitOfMeasurement": "Unidade de medida",
       "textUploaded": "Subido",
       "textVersion": "Versión ",
-      "textVersionHistory": "Historial de versións",
-      "textClose": "Close",
-      "textDark": "Dark",
-      "textLight": "Light",
-      "textTheme": "Theme"
+      "textVersionHistory": "Historial de versións"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

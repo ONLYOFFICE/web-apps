@@ -511,6 +511,18 @@ const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({store
                 config.msg = t('Error.errorMacroUnavailableWarning').replace('%1', errData ? "'" + errData + "'" : '');
                 break;
 
+            case Asc.c_oAscError.ID.CopyDisabled:
+                config.msg = t('Error.errorCopyDisabled');
+                break;
+
+            case Asc.c_oAscError.ID.FileNotAssembled:
+                config.msg = t('Error.errorFileNotAssembled');
+                break;
+
+            case Asc.c_oAscError.ID.ForcedViewMode:
+                config.msg = t('Error.errorForcedViewMode');
+                break;
+
             default:
                 config.msg = _t.errorDefaultMessage.replace('%1', id);
                 break;

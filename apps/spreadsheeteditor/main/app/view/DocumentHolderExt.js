@@ -1331,6 +1331,12 @@ define([], function () {
                                 cls: 'shifted-right',  
                                 menuAlign: 'tl-tr',
                                 items: [
+                                    { 
+                                        caption: me.textNone, 
+                                        value: 'noneError',
+                                        stopPropagation: true, 
+                                        disabled: false
+                                    },
                                     {
                                         caption: me.textStandardError,
                                         value: 'standardError',
@@ -1566,6 +1572,36 @@ define([], function () {
                 caption: '--'
             });
 
+            me.menuHyperlinkPicSeparator = new Common.UI.MenuItem({
+                caption: '--'
+            });
+
+            me.menuAddHyperlinkPic = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
+                caption: me.txtInsHyperlink
+            });
+
+            me.menuEditHyperlinkPic = new Common.UI.MenuItem({
+                caption: me.editHyperlinkText
+            });
+
+            me.menuRemoveHyperlinkPic = new Common.UI.MenuItem({
+                caption: me.removeHyperlinkText
+            });
+
+            me.menuHyperlinkPic = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
+                caption: me.txtInsHyperlink,
+                menu: new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    items: [
+                        me.menuEditHyperlinkPic, 
+                        me.menuRemoveHyperlinkPic
+                    ]
+                })
+            });
+
             this.imgMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
@@ -1588,6 +1624,9 @@ define([], function () {
                     menuSaveAsPictureSeparator,
                     me.menuSaveAsPicture,
                     me.mnuShapeSeparator,
+                    me.menuAddHyperlinkPic,
+                    me.menuHyperlinkPic,
+                    me.menuHyperlinkPicSeparator,
                     me.menuImgCrop,
                     me.menuImgResetCrop,
                     me.mnuChartData,
@@ -1606,15 +1645,14 @@ define([], function () {
             });
 
             this.menuParagraphVAlign = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-align-top',
-                caption     : this.vertAlignText,
+                caption     : this.AlignText,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
                     menuAlign   : 'tl-tr',
                     items: [
                         me.menuParagraphTop = new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-align-top',
-                            caption     : me.topCellText,
+                            caption     : me.AlignTop,
                             checkable   : true,
                             checkmark   : false,
                             toggleGroup : 'popupparagraphvalign',
@@ -1622,7 +1660,7 @@ define([], function () {
                         }),
                         me.menuParagraphCenter = new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-align-middle',
-                            caption     : me.centerCellText,
+                            caption     : me.AlignMiddle,
                             checkable   : true,
                             checkmark   : false,
                             toggleGroup : 'popupparagraphvalign',
@@ -1630,11 +1668,44 @@ define([], function () {
                         }),
                         this.menuParagraphBottom = new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-align-bottom',
-                            caption     : me.bottomCellText,
+                            caption     : me.AlignBottom,
                             checkable   : true,
                             checkmark   : false,
                             toggleGroup : 'popupparagraphvalign',
                             value       : Asc.c_oAscVAlign.Bottom
+                        }),
+                        { caption: '--' },
+                        me.menuParagraphLeft = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-left',
+                            caption     : me.AlignLeft,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popupparagraphhalign',
+                            halign      : 1 
+                        }),
+                        me.menuParagraphHCenter = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-center',
+                            caption     : me.AlignCenter,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popupparagraphhalign',
+                            halign      : 2 
+                        }),
+                        me.menuParagraphRight = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-right',
+                            caption     : me.AlignRight,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popupparagraphhalign',
+                            halign      : 0 
+                        }),
+                        me.menuParagraphJust = new Common.UI.MenuItem({
+                            iconCls     : 'menu__icon btn-align-just',
+                            caption     : me.AlignJust,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popupparagraphhalign',
+                            halign      : 3 
                         })
                     ]
                 })

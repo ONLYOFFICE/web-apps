@@ -355,7 +355,7 @@ define([
                         me.api.asc_enableKeyEvents(false);
                     },
                     'modal:close': function(dlg) {
-                        Common.Utils.ModalWindow.close();
+                        dlg && dlg.isVisible() && Common.Utils.ModalWindow.close(); // close can be called after hiding
                         if (!Common.Utils.ModalWindow.isVisible())
                             me.api.asc_enableKeyEvents(true);
                     },
@@ -829,6 +829,10 @@ define([
                     this.disableEditing(false, 'reconnect');
                     Common.UI.TooltipManager.closeTip('disconnect');
                     this.getApplication().getController('Statusbar').setStatusCaption(this.textReconnect);
+                } else if ( id == Asc.c_oAscAsyncAction['BackgroundOpen']) {
+                    this.disableEditing(false, 'background-open');
+                    this.getApplication().getController('Statusbar').setStatusCaption('');
+                    this.getApplication().getController('Statusbar').statusbar.hideStatusMessage();
                 } else if (id === Asc.c_oAscAsyncAction['RefreshFile'])  {
                     this.disableEditing(false, 'refresh-file');
                     Common.UI.TooltipManager.closeTip('refreshFile');
@@ -910,6 +914,11 @@ define([
                         text    = this.loadingDocumentTitleText;
                         break;
 
+                    case Asc.c_oAscAsyncAction['SolverLookingSolution']:
+                        title   = this.txtSolverLookingSolution;
+                        text    = this.txtSolverLookingSolution;
+                        break;
+
                     case Asc.c_oAscAsyncAction['Disconnect']:
                         title    = this.textDisconnect;
                         text     = this.textDisconnect;
@@ -920,6 +929,16 @@ define([
                             Common.UI.TooltipManager.showTip('disconnect');
                         }, me._state.unloadTimer || 0);
                         this.getApplication().getController('Statusbar').setStatusCaption(text);
+                        return;
+
+                    case Asc.c_oAscAsyncAction['BackgroundOpen']:
+                        title    = this.textContinuesOpening;
+                        text     = this.textContinuesOpening;
+                        Common.UI.Menu.Manager.hideAll();
+                        this.disableEditing(true, 'background-open');
+
+                        this.getApplication().getController('Statusbar').setStatusCaption(text);
+                        this.getApplication().getController('Statusbar').statusbar.updateTabbarBorders();
                         return;
 
                     case Asc.c_oAscAsyncAction['RefreshFile']:
@@ -985,6 +1004,8 @@ define([
                     Common.UI.TooltipManager.showTip({ step: 'openCsv', text: me.warnOpenCsv, target: '#toolbar', maxwidth: 350, automove: true, noHighlight: true, noArrow: true, showButton: false});
                 if (me.appOptions.isEdit && !me.appOptions.canModifyFilter)
                     Common.UI.TooltipManager.showTip({ step: 'cantModifyFilter', text: me.warnModifyFilter, target: '#toolbar', maxwidth: 400, showButton: false, automove: true, noHighlight: true, noArrow: true});
+                if (!me.appOptions.canCopy)
+                    Common.UI.TooltipManager.showTip({ step: 'copyDisabled', text: me.errorCopyDisabled, target: '#toolbar', maxwidth: 350, automove: true, noHighlight: true, noArrow: true, showButton: false});
 
                 value = (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram || this.appOptions.isEditOle) ? 100 : Common.localStorage.getItem("sse-settings-zoom");
                 Common.Utils.InternalSettings.set("sse-settings-zoom", value);
@@ -1323,7 +1344,7 @@ define([
                     options.rightMenu.disable && app.getController('RightMenu').SetDisabled(disable, options.allowSignature);
                 }
                 if (options.statusBar) {
-                    app.getController('Statusbar').SetDisabled(disable);
+                    app.getController('Statusbar').SetDisabled(disable, type);
                 }
                 if (options.review) {
                     app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
@@ -1493,6 +1514,7 @@ define([
                 this.appOptions.canSaveToFile = this.appOptions.isEdit || this.appOptions.isRestrictedEdit;
                 this.appOptions.showSaveButton = this.appOptions.isEdit;
                 this.appOptions.canSuggest     = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.suggestFeature===false);
+                this.appOptions.canCopy        = this.permissions.copy !== false;
 
                 this.appOptions.compactHeader = this.appOptions.customization && (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compactHeader;
                 this.appOptions.twoLevelHeader = this.appOptions.isEdit; // when compactHeader=true some buttons move to toolbar
@@ -2270,9 +2292,26 @@ define([
                         config.msg = this.errorNotUniqueFieldWithCalculated;
                         break;
 
+                    case Asc.c_oAscError.ID.LockedCellSolver:
+                        config.msg = this.errorLockedCellSolver;
+                        break;
+
                     case Asc.c_oAscError.ID.MacroUnavailableWarning:
                         config.msg = this.errorMacroUnavailableWarning.replace('%1', errData ? "'" + errData + "'" : '');
                         config.maxwidth = 600;
+                        break;
+
+                    case Asc.c_oAscError.ID.CopyDisabled:
+                        config.maxwidth = 450;
+                        config.msg = this.errorCopyDisabled;
+                        break;
+
+                    case Asc.c_oAscError.ID.FileNotAssembled:
+                        config.msg = this.errorFileNotAssembled;
+                        break;
+
+                    case Asc.c_oAscError.ID.ForcedViewMode:
+                        config.msg = this.errorForcedViewMode;
                         break;
 
                     default:
@@ -2335,7 +2374,7 @@ define([
                     }, this);
                 }
 
-                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value="' + id + '"]').length<1)
                     setTimeout(function() {Common.UI.alert(config).$window.attr('data-value', id);}, 1);
 
                 (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
@@ -2576,14 +2615,18 @@ define([
 
                 var me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
+                    let fileName = me.api && me.api.asc_getDocumentName(),
+                        isTSV = fileName && fileName.toLowerCase().endsWith('.tsv'),
+                        fileType = isTSV ? 'TSV' : 'CSV';
                     me._state.openDlg = new Common.Views.OpenDialog({
-                        title: Common.Views.OpenDialog.prototype.txtTitle.replace('%1', 'CSV'),
+                        title: Common.Views.OpenDialog.prototype.txtTitle.replace('%1', fileType),
                         closable: (mode==2), // if save settings
                         type: Common.Utils.importTextType.CSV,
                         preview: advOptions.asc_getData(),
                         codepages: advOptions.asc_getCodePages(),
                         settings: advOptions.asc_getRecommendedSettings(),
                         api: me.api,
+                        isTSV: isTSV,
                         handler: function (result, settings) {
                             me.isShowOpenDialog = false;
                             if (result == 'ok') {
@@ -2607,6 +2650,7 @@ define([
                         warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline) && (typeof advOptions == 'string'),
                         warningMsg: advOptions,
                         validatePwd: !!me._state.isDRM,
+                        autoPosOnResize : 'center',
                         handler: function (result, value) {
                             me.isShowOpenDialog = false;
                             if (result == 'ok') {

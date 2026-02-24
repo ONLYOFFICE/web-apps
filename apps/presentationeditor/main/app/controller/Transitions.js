@@ -266,7 +266,7 @@ define([
             if (this._state.Effect !== undefined) {
                 var item = me.listEffects.store.findWhere({value: this._state.Effect});
                 me.listEffects.menuPicker.selectRecord(item ? item : me.listEffects.menuPicker.items[0]);
-                this.view.btnParameters.setIconCls('toolbar__icon icon ' + item.get('imageUrl'));
+                this.view.btnParameters.setIconCls('toolbar__icon ' + item.get('imageUrl'));
             }
 
             if (me.btnParameters.menu.getItemsLength() > 0 && this._state.EffectType !== undefined)

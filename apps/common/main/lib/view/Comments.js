@@ -176,6 +176,9 @@ define([
                         }
                     }
                 }
+            },
+            clearActive: function() {
+                this.cmpEl && this.cmpEl.find('.item.active').removeClass('active');
             }
         }
     })());
@@ -197,6 +200,9 @@ define([
                 me.update();
             }
 
+            picker.clearActive();
+            item.$el && item.$el.addClass('active');
+
             btn = $(e.target);
             if (btn) {
                 showEditBox = record.get('editText');
@@ -205,6 +211,7 @@ define([
                 replyId =  btn.attr('data-value');
 
                 if (btn.hasClass('btn-edit-common')) {
+                    me.fireEvent('comment:show', [commentId, false]);
                     if (!_.isUndefined(replyId)) {
                         me.fireEvent('comment:closeEditing', [commentId]);
                         me.fireEvent('comment:editReply', [commentId, replyId]);
@@ -234,6 +241,7 @@ define([
                 } else if (btn.hasClass('btn-delete')) {
                     if (!_.isUndefined(replyId)) {
                         me.fireEvent('comment:removeReply', [commentId, replyId]);
+                        me.fireEvent('comment:show', [commentId, false]);
                     } else {
                         me.fireEvent('comment:remove', [commentId]);
                         Common.NotificationCenter.trigger('edit:complete', me);
@@ -242,6 +250,7 @@ define([
                     me.fireEvent('comment:closeEditing');
                     readdresolves();
                 } else if (btn.hasClass('user-reply')) {
+                    me.fireEvent('comment:show', [commentId, false]);
                     me.fireEvent('comment:closeEditing');
                     record.set('showReply', true);
 
@@ -259,10 +268,11 @@ define([
 
                         readdresolves();
                     }
+                    me.fireEvent('comment:show', [commentId, false]);
                 } else if (btn.hasClass('btn-close', false)) {
 
                     me.fireEvent('comment:closeEditing', [commentId]);
-
+                    me.fireEvent('comment:show', [commentId, false]);
                 } else if (btn.hasClass('btn-inner-edit', false)) {
                     if (!_.isUndefined(me.commentsView.reply)) {
                         me.fireEvent('comment:changeReply', [commentId, me.commentsView.reply, picker.getActiveTextBoxVal()]);
@@ -274,13 +284,14 @@ define([
                     me.fireEvent('comment:closeEditing');
 
                     readdresolves();
-
+                    me.fireEvent('comment:show', [commentId, false]);
                 } else if (btn.hasClass('btn-inner-close', false)) {
                     me.fireEvent('comment:closeEditing');
 
                     me.commentsView.reply = undefined;
 
                     readdresolves();
+                    me.fireEvent('comment:show', [commentId, false]);
                 } else if (btn.hasClass('btn-resolve', false)) {
                     var tip = btn.data('bs.tooltip');
                     if (tip) tip.dontShow = true;
@@ -288,6 +299,7 @@ define([
                     me.fireEvent('comment:resolve', [commentId]);
 
                     readdresolves();
+                    me.fireEvent('comment:show', [commentId, false]);
                 } else if (!btn.hasClass('msg-reply') &&
                     !btn.hasClass('btn-resolve')) {
                     var isTextSelected = false;

@@ -242,11 +242,13 @@
       "warnLicenseLimitedRenewed": "Лиценца треба да буде обновљена. Имате ограничен приступ функционалности уређивања документа.<br>Молимо контактирајте вашег администратора да добијете потпуни приступ",
       "warnNoLicense": "Достигли сте лимит за истовремене конекције за %1 уреднике. Овај документ ће бити отворен само за приказ. Контактирајте %1 тим за продају за личне услове надоградње.",
       "warnNoLicenseUsers": "Достигли сте кориснички лимит за %1 уреднике. Контактирајте %1 тим за продају за личне услове надоградње.",
-      "warnProcessRightsChange": "Немате дозволу да уређујете овај фајл.",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "Немате дозволу да уређујете овај фајл."
     }
+  },
+  "Draw": {
+    "textColor": "Боја",
+    "textCustomColor": "Прилагођена боја",
+    "textOpacity": "Непрозирност"
   },
   "Error": {
     "convertationTimeoutText": "Временско ограничење преобраћања прекорачено.",
@@ -371,9 +373,7 @@
     "uploadDocSizeMessage": "Максимум лимит величине документа прекорачен.",
     "uploadImageExtMessage": "Непознати формат слике.",
     "uploadImageFileCountMessage": "Нема отпремљених слика.",
-    "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorMacroUnavailableWarning": "Cannot run the macro %1. The macro may not be available in this workbook or all macros may be disabled."
+    "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ."
   },
   "LongActions": {
     "advDRMPassword": "Лозинка",
@@ -422,6 +422,7 @@
   "Statusbar": {
     "notcriticalErrorTitle": "Упозорење",
     "textCancel": "Откажи",
+    "textContinue": "Настави",
     "textDelete": "Избриши",
     "textDuplicate": "Дуплицирај",
     "textErrNameExists": "Радни лист са овим именом већ постоји.",
@@ -442,9 +443,7 @@
     "textSheetName": "Лист име",
     "textTabColor": "Картица боја",
     "textUnhide": "Откриј",
-    "textWarnDeleteSheet": "Радни лист можда има податке. Настави операцију?",
-    "textContinue": "Continue",
-    "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
+    "textWarnDeleteSheet": "Радни лист можда има податке. Настави операцију?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Имате несачуване промене у овом документу. Кликните 'Остани на овој страници' да сачекате на ауточување. Кликните 'Напусти ову страницу' да одбаците све несачуване промене.",
@@ -453,10 +452,8 @@
     "stayButtonText": "Остани на овој страници",
     "textCloseHistory": "Затвори Историју",
     "textEnterNewFileName": "Унеси ново име фајла",
-    "textRenameFile": "Преименуј фајл",
-    "btnRestartNow": "Restart now",
     "textOk": "OK",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textRenameFile": "Преименуј фајл"
   },
   "View": {
     "Add": {
@@ -521,14 +518,15 @@
       "txtNotUrl": "Ово поље би требало да буде URL у \"http://www.example.com\" формату",
       "txtSorting": "Сортирање",
       "txtSortSelected": "Сортирај одабрано",
-      "txtYes": "Да",
-      "textDrawing": "Drawing"
+      "txtYes": "Да"
     },
     "Edit": {
       "notcriticalErrorTitle": "Упозорење",
       "textAccounting": "Рачуноводство",
       "textActualSize": "Стварна величина",
       "textAddCustomColor": "Додај прилагођену боју",
+      "textAdditional": "Додатно",
+      "textAdditionalFormatting": "Додатно форматирање",
       "textAddress": "Адреса",
       "textAlign": "Поравнај",
       "textAlignBottom": "Поравнај дно",
@@ -538,6 +536,7 @@
       "textAlignRight": "Поравнај десно",
       "textAlignTop": "Поравнај горе",
       "textAllBorders": "Све границе",
+      "textAllCaps": "Сва велика слова",
       "textAngleClockwise": "Угао у смеру казаљке на сату",
       "textAngleCounterclockwise": "Угао супротан смеру казаљке на сату",
       "textArrange": "Распореди",
@@ -548,6 +547,7 @@
       "textAxisPosition": "Положај осе",
       "textAxisTitle": "Наслов осе",
       "textBack": "Назад",
+      "textBaseline": "Полазна линија",
       "textBetweenTickMarks": "Између квачица",
       "textBillions": "Билиони",
       "textBorder": "Граница",
@@ -564,6 +564,7 @@
       "textChartTitle": "Графикон наслов",
       "textClearFilter": "Обриши филтер",
       "textColor": "Боја",
+      "textContextTextDirection": "Контекст",
       "textCreateCustomFormat": "Креирај прилагођени формат",
       "textCreateFormat": "Креирај формат",
       "textCross": "Крст",
@@ -585,6 +586,7 @@
       "textDisplayUnits": "Јединице екрана",
       "textDollar": "Долар",
       "textDone": "Готово",
+      "textDoubleStrikethrough": "Дупло прецртавање",
       "textEditLink": "Уреди линк",
       "textEffects": "Ефекти",
       "textEmptyImgUrl": "Морате да спецификујете URL слике.",
@@ -633,10 +635,12 @@
       "textLeftBorder": "Лева граница",
       "textLeftOverlay": "Лево преклапање",
       "textLegend": "Легенда",
+      "textLetterSpacing": "Размак између слова",
       "textLink": "Линк",
       "textLinkSettings": "Подешавања линка",
       "textLinkType": "Тип линка",
       "textLow": "Ниско",
+      "textLtrTextDirection": "С лева на десно",
       "textMajor": "Главно",
       "textMajorAndMinor": "Главни и нижи",
       "textMajorType": "Главни тип",
@@ -680,6 +684,7 @@
       "textRotateTextDown": "Ротирај текст доле",
       "textRotateTextUp": "Ротирај текст горе",
       "textRouble": "Рубља",
+      "textRtlTextDirection": "С десна на лево",
       "textSave": "Сачувај",
       "textScientific": "Научно",
       "textScreenTip": "Савет за екран",
@@ -690,11 +695,16 @@
       "textShape": "Облик",
       "textSheet": "Лист",
       "textSize": "Величина",
+      "textSmallCaps": "Мали капитални",
+      "textStrikethrough": "Прецртано",
       "textStyle": "Стил",
+      "textSubscript": "Доњи индекс",
+      "textSuperscript": "Надиндекс",
       "textTenMillions": "10 000 000",
       "textTenThousands": "10 000",
       "textText": "Текст",
       "textTextColor": "Текст боја",
+      "textTextDirection": "Правац текста",
       "textTextFormat": "Текст формат",
       "textTextOrientation": "Текст оријентација",
       "textThick": "Дебело",
@@ -715,18 +725,7 @@
       "textYen": "Јен",
       "txtNotUrl": "Ово поље би требало да буде URL у \"http://www.example.com\" формату",
       "txtSortHigh2Low": "Сортирај највише ка најнижем",
-      "txtSortLow2High": "Сортирај најниже ка највишем",
-      "textAdditional": "Additional",
-      "textAdditionalFormatting": "Additional formatting",
-      "textAllCaps": "All Caps",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textDoubleStrikethrough": "Double Strikethrough",
-      "textLetterSpacing": "Letter spacing",
-      "textSmallCaps": "Small Caps",
-      "textStrikethrough": "Strikethrough",
-      "textSubscript": "Subscript",
-      "textSuperscript": "Superscript"
+      "txtSortLow2High": "Сортирај најниже ка највишем"
     },
     "Settings": {
       "advCSVOptions": "Изаберите опције за CSV",
@@ -880,18 +879,7 @@
       "txtUk": "Украјински",
       "txtVi": "Вијетнамски",
       "txtZh": "Кинески",
-      "warnDownloadAs": "Ако наставите да чувате у овом формату све карактеристике осим текста ће бити изгубљене.<br>Да ли сте сигурни да желите да наставите?",
-      "txtSr": "Serbian (Latin)",
-      "txtSrcyrl": "Serbian (Cyrillic)",
-      "txtZhtw": "Chinese (Traditional)",
-      "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
-      "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
+      "warnDownloadAs": "Ако наставите да чувате у овом формату све карактеристике осим текста ће бити изгубљене.<br>Да ли сте сигурни да желите да наставите?"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

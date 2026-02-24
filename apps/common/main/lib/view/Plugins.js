@@ -252,14 +252,6 @@ define([
                 icons = modes[model.get('currentVariation')].get('icons');
             if (icons === '') return;
             model.set('parsedIcons', this.parseIcons(icons));
-            this.updatePluginButton(model);
-        },
-
-        updatePluginButton: function(model) {
-            if (!model.get('visible') || !model.get('parsedIcons'))
-                return null;
-            var menuItem = model.get('backgroundPlugin');
-            menuItem && menuItem.cmpEl && menuItem.cmpEl.find("img").attr("src", model.get('baseUrl') + model.get('parsedIcons')['normal']);
         },
 
         createBackgroundPluginsButton: function () {

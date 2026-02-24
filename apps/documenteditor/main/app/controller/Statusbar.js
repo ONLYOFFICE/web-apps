@@ -60,10 +60,14 @@ define([
                     'zoom:value': function(value) {
                         this.api.zoom(value);
                         Common.NotificationCenter.trigger('edit:complete', this.statusbar);
-                    }.bind(this)
+                    }.bind(this),
+                    'pages:multiple': _.bind(me.onMultiplePages, me)
                 },
                 'ViewTab': {
-                    'statusbar:hide': _.bind(me.onChangeCompactView, me)
+                    'statusbar:hide': _.bind(me.onChangeCompactView, me),
+                    'pages:multiplechanged': _.bind(function (isMultiple) {
+                        this.statusbar.btnMultiplePages.toggle(isMultiple);
+                    }, this)
                 }
             });
         },
@@ -240,6 +244,12 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
+        onMultiplePages: function (pressed) {
+            if (this.api) {
+                this.statusbar.fireEvent('pages:multiplechanged', [pressed]);
+            }
+        },
+
         /*
         *   api events
         * */
@@ -247,6 +257,10 @@ define([
         _onZoomChange: function (percent, type) {
             this.statusbar.btnZoomToPage.toggle(type == 2, true);
             this.statusbar.btnZoomToWidth.toggle(type == 1, true);
+            if (type === 1 || type === 2 && this.statusbar.btnMultiplePages.pressed) {
+                this.api.SetMultipageViewMode(false);
+                this.statusbar.btnMultiplePages.toggle(false);
+            }
             $('.statusbar #label-zoom').text(Common.Utils.String.format(this.zoomText, percent));
             if (!this._isDocReady) return;
             var value = type == 2 ? -1 : (type == 1 ? -2 : percent);

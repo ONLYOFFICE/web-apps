@@ -83,6 +83,7 @@
     "errorAccessDeny": "你正要执行一个你没有权限的操作。<br>请联系你的管理员。",
     "errorBadImageUrl": "图片URL地址不正确",
     "errorConnectToServer": "无法保存此文档。请检查您的连接设置或联系管理员。<br>单击“确定”按钮时，系统将提示您下载文档。",
+    "errorCopyDisabled": "出于安全原因，无法复制本文档中的内容。",
     "errorDatabaseConnection": "外部错误。<br>数据库连接错误。请联系客服支持。",
     "errorDataEncrypted": "已收到加密的更改，无法对其解密。",
     "errorDataRange": "数据范围不正确。",

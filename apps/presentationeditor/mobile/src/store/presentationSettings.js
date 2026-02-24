@@ -7,15 +7,18 @@ export class storePresentationSettings {
             currentPageSize: observable,
             slideSizeIndex: observable,
             allSchemes: observable,
+            isLoopSlideshow: observable,
             changeSizeIndex: action,
             addSchemes: action,
-            initSlideSizes: action
+            initSlideSizes: action,
+            setLoopSlideshow: action
         })
     }
 
     slideSizes = [];
     currentPageSize;
     slideSizeIndex;
+    isLoopSlideshow = false;
 
     changeSizeIndex(width, height) {
         this.currentPageSize = {width, height};
@@ -30,6 +33,19 @@ export class storePresentationSettings {
 
     initSlideSizes(value) {
         this.slideSizes = value;
+    }
+
+    setLoopSlideshow(value) {
+        this.isLoopSlideshow = value;
+    }
+
+    getLoopSlideshow(slideObject) {
+        let loop;
+        if (slideObject) {
+            loop = slideObject.get_transition().get_ShowLoop();
+            this.setLoopSlideshow(loop);
+        }
+        return this.isLoopSlideshow;
     }
 
     // Color Schemes

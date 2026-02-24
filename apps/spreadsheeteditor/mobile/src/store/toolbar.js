@@ -45,4 +45,10 @@ export class storeToolbarSettings {
     setCanRedo(can) {
         this.isCanRedo = can;
     }
+
+    isShowBack = false;
+
+    setShowBack = (value) => {
+        this.isShowBack = !!value;
+    };
 }

@@ -83,6 +83,7 @@
     "errorAccessDeny": "許可されていないアクションを実行しています。アドミニストレータを連絡してください。",
     "errorBadImageUrl": "画像のURLが正しくありません。",
     "errorConnectToServer": "この文書を保存できません。接続設定をチェックし、アドミニストレータを連絡してください。<br> 「OK」をクリックすると、文書をダウンロードするに提案されます。",
+    "errorCopyDisabled": "セキュリティ上の理由により、この文書の内容はコピーできません。",
     "errorDatabaseConnection": "外部エラーです。<br>データベース接続エラーです。サポートにお問い合わせください。",
     "errorDataEncrypted": "暗号化された変更を受信しましたが、復号化できません。",
     "errorDataRange": "データ範囲が正しくありません",

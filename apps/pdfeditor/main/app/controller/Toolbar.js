@@ -80,7 +80,8 @@ define([
                 can_decrease: undefined,
                 fontsize: undefined,
                 textclrhighlight: undefined,
-                initEditing: true
+                initEditing: true,
+                inDrawingMode: false,
             };
             this.editMode = true;
             this.binding = {
@@ -161,9 +162,9 @@ define([
                 this.toolbar.collapse();
             }, this));
             Common.NotificationCenter.on('comments:tryshowcomments', _.bind(this.turnOnShowComments, this));
-            Common.NotificationCenter.on('tab:set-active', _.bind(function(action){
+            Common.NotificationCenter.on('tab:set-active', _.bind(function(action, needUnfold){
                 this.toolbar.setTab(action);
-                this.onChangeCompactView(null, false, true);
+                needUnfold && this.onChangeCompactView(null, false, true);
             }, this));
         },
 
@@ -184,12 +185,14 @@ define([
             var url = 'https://www.onlyoffice.com/blog/2025/10/docs-9-1-released';
 
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'pdfCharts' : {name: 'pdfe-help-tip-pdf-charts', placement: 'bottom', offset: {x: Common.UI.isRTL() ? -30 : 30, y: 0}, text: this.helpPdfCharts, header: this.helpPdfChartsHeader,
-                              target: '#slot-btn-inssmartart', isNewFeature: true, maxwidth: 300, closable: false, link: {text: _main.textLearnMore, url: url}},
+                // 'pdfCharts' : {name: 'pdfe-help-tip-pdf-charts', placement: 'bottom', offset: {x: Common.UI.isRTL() ? -30 : 30, y: 0}, text: this.helpPdfCharts, header: this.helpPdfChartsHeader,
+                //               target: '#slot-btn-inssmartart', isNewFeature: true, maxwidth: 300, closable: false, link: {text: _main.textLearnMore, url: url}},
                 'annotRect' : {name: 'pdfe-help-tip-annot-rect', placement: 'bottom', text: this.helpAnnotRect, header: this.helpAnnotRectHeader,
                               target: '#slot-btn-shape-comment', isNewFeature: true, maxwidth: 300, closable: false, noHighlight: true, link: {text: _main.textLearnMore, url: url}},
                 'redactTab' : {name: 'help-tip-redact-tab', placement: 'bottom-right', offset: {x: Common.UI.isRTL() ? -10 : 10, y: 0}, text: this.helpRedactTab, header: this.helpRedactTabHeader, target: 'li.ribtab #red',
-                               automove: true, maxwidth: 300, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
+                               automove: true, maxwidth: 300, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
+                'createLink': {name:'pdfe-help-tip-create-link', placement: 'bottom-left', text: this.helpCreateLink, header: this.helpCreateLinkHeader, target: '#slot-btn-insertlink', maxwidth: 300,
+                                automove: true, closable: false, isNewFeature: true}
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true},
@@ -642,7 +645,7 @@ define([
                     if (annotPr && annotPr.asc_getCanEditText && annotPr.asc_getCanEditText()) {
                         in_text_annot = true;
                         no_text = false;
-                    }
+                }
                 } else if (type == Asc.c_oAscTypeSelectElement.PdfPage) {
                     page_deleted = pr.asc_getDeleteLock();
                     page_rotate_lock = pr.asc_getRotateLock();
@@ -653,7 +656,7 @@ define([
                     no_text = false;
                     in_text_form = ft===AscPDF.FIELD_TYPES.text || ft===AscPDF.FIELD_TYPES.combobox || ft===AscPDF.FIELD_TYPES.listbox;
                     in_check_form = ft===AscPDF.FIELD_TYPES.checkbox || ft===AscPDF.FIELD_TYPES.radiobutton;
-                }
+            }
             }
 
             if (this._state.prcontrolsdisable !== paragraph_locked) {
@@ -818,8 +821,8 @@ define([
                     options.asc_setIsSaveAs(false);
                     me.api.asc_DownloadOrigin(options);
                 } else {
-                    Common.UI.info({
-                        maxwidth: 500,
+                Common.UI.info({
+                    maxwidth: 500,
                         msg: this.errorAccessDeny,
                         callback: function(btn) {
                             Common.NotificationCenter.trigger('edit:complete', toolbar);
@@ -925,7 +928,7 @@ define([
             if (me.api) {
                 var res = (type === 'cut') ? me.api.Cut() : ((type === 'copy') ? me.api.Copy() : me.api.Paste());
                 if (!res) {
-                    if (!Common.localStorage.getBool("pdfe-hide-copywarning")) {
+                    if (!Common.localStorage.getBool("pdfe-hide-copywarning") && (type === 'paste' || me.toolbar.mode.canCopy)) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
                                 if (dontshow) Common.localStorage.setItem("pdfe-hide-copywarning", 1);
@@ -975,7 +978,7 @@ define([
         },
 
         updateSelectTools: function() {
-            if (this.toolbar && this.toolbar.btnSelectTool) {
+            if (this.toolbar && this.toolbar.btnSelectTool && !this._state.inDrawingMode && !this.toolbar.btnStrikeout.pressed && !this.toolbar.btnHighlight.pressed && !this.toolbar.btnUnderline.pressed) {
                 this.toolbar.btnSelectTool.toggle(!!this._state.select_tool, true);
                 this.toolbar.btnHandTool.toggle(!this._state.select_tool, true);
             }
@@ -1187,12 +1190,14 @@ define([
 
         onDrawStart: function() {
             this.api && this.api.SetMarkerFormat(undefined, false);
+            this._state.inDrawingMode = true;
             this.onClearHighlight();
             this.turnOnShowComments();
             this.clearSelectTools();
         },
 
         onDrawStop: function() {
+            this._state.inDrawingMode = false;
             this.onClearHighlight();
             this.turnOnShowComments();
             this.updateSelectTools();
@@ -1552,6 +1557,13 @@ define([
                 }
                 me.getApplication().getController('Common.Controllers.ExternalLinks').setConfig({toolbar: me}).setApi(me.api);
                 !config.canComments && me.toolbar.setVisible('comment', false);
+
+                var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, dataHintTitle: 'U', layoutname: 'toolbar-collaboration'};
+                var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+                if ( $panel ) {
+                    me.toolbar.addTab(tab, $panel, 7);
+                    me.toolbar.setVisible('review', (config.isPDFAnnotate || config.isPDFEdit) && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration') ); // use config.canViewReview in review controller. set visible review tab in view mode only when asc_HaveRevisionsChanges
+                }
             }
 
             var tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
@@ -1597,7 +1609,7 @@ define([
                         me.toolbar.setVisible('forms', true);
 
                         Array.prototype.push.apply(me.toolbar.lockControls, forms.getView('FormsTab').getButtons());
-                    }
+            }
                 }
             }
         },
@@ -1711,6 +1723,30 @@ define([
                         me.toolbar.btnSubmit.updateHint(me.textRequired);
                     }
                 }
+
+                me.btnsComment = [];
+                if ( config.canComments ) {
+                    var _set = Common.enumLock;
+                    me.btnsComment = Common.Utils.injectButtons(me.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-big-add-comment', me.toolbar.capBtnComment, [_set.lostConnect], undefined, undefined, undefined, '1', 'bottom', 'small');
+
+                    if ( me.btnsComment.length ) {
+                        var _comments = PDFE.getController('Common.Controllers.Comments').getView();
+                        me.btnsComment.forEach(function (btn) {
+                            btn.updateHint( _comments.textHintAddComment );
+                            btn.on('click', function (btn, e) {
+                                Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
+                            });
+                            if (btn.cmpEl.closest('#review-changes-panel').length>0)
+                                btn.setCaption(me.toolbar.capBtnAddComment);
+                        }, me);
+                        if (_comments.buttonAddNew) {
+                            _comments.buttonAddNew.options.lock = [ _set.lostConnect ];
+                            me.btnsComment.add(_comments.buttonAddNew);
+                        }
+                        Array.prototype.push.apply(me.toolbar.lockControls, me.btnsComment);
+                        Array.prototype.push.apply(me.toolbar.toolbarControls, me.btnsComment);
+                    }
+                }
             });
         },
 
@@ -1742,12 +1778,14 @@ define([
             } else
                 Common.UI.TooltipManager.closeTip('annotRect');
 
+            (tab === 'ins') ? Common.UI.TooltipManager.showTip('createLink') : Common.UI.TooltipManager.closeTip('createLink');
             (tab === 'red') && Common.UI.TooltipManager.closeTip('redactTab');
         },
 
         onTabCollapse: function(tab) {
             Common.UI.TooltipManager.closeTip('pdfCharts');
             Common.UI.TooltipManager.closeTip('annotRect');
+            Common.UI.TooltipManager.closeTip('createLink');
         },
 
         applySettings: function() {

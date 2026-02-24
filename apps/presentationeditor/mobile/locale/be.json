@@ -6,8 +6,7 @@
     "textEmail": "Электронная пошта",
     "textPoweredBy": "Распрацавана",
     "textTel": "Тэлефон",
-    "textVersion": "Версія",
-    "textEditor": "Presentation Editor"
+    "textVersion": "Версія"
   },
   "Common": {
     "Collaboration": {
@@ -32,8 +31,7 @@
       "textReopen": "Адкрыць зноў",
       "textResolve": "Вырашыць",
       "textTryUndoRedo": "Функцыі скасавання і паўтору дзеянняў выключаныя ў хуткім рэжыме сумеснага рэдагавання.",
-      "textUsers": "Карыстальнікі",
-      "textSharingSettings": "Sharing Settings"
+      "textUsers": "Карыстальнікі"
     },
     "HighlightColorPalette": {
       "textNoFill": "Без заліўкі"
@@ -44,24 +42,7 @@
       "textThemeColors": "Колеры тэмы"
     },
     "Themes": {
-      "system": "Сістэмная",
-      "dark": "Dark",
-      "light": "Light",
-      "textTheme": "Theme"
-    },
-    "VersionHistory": {
-      "notcriticalErrorTitle": "Warning",
-      "textAnonymous": "Anonymous",
-      "textBack": "Back",
-      "textCancel": "Cancel",
-      "textCurrent": "Current",
-      "textOk": "Ok",
-      "textRestore": "Restore",
-      "textVersion": "Version",
-      "textVersionHistory": "Version History",
-      "textWarningRestoreVersion": "Current file will be saved in version history.",
-      "titleWarningRestoreVersion": "Restore this version?",
-      "txtErrorLoadHistory": "Loading history failed"
+      "system": "Сістэмная"
     }
   },
   "ContextMenu": {
@@ -78,12 +59,7 @@
     "menuViewComment": "Праглядзець каментар",
     "textColumns": "Слупкі",
     "textCopyCutPasteActions": "Скапіяваць, выразаць, уставіць",
-    "textRows": "Радкі",
-    "menuEditLink": "Edit Link",
-    "menuSplit": "Split",
-    "textDoNotShowAgain": "Don't show again",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data. This location may be unsafe:<br>{0}<br>Are you sure you want to continue?"
+    "textRows": "Радкі"
   },
   "Controller": {
     "Main": {
@@ -115,33 +91,7 @@
         "Slide title": "Загаловак слайда",
         "Table": "Табліца",
         "Y Axis": "Вось Y",
-        "Your text here": "Увядзіце ваш тэкст",
-        "Aspect": "Aspect",
-        "Blue": "Blue",
-        "Blue Green": "Blue Green",
-        "Blue II": "Blue II",
-        "Blue Warm": "Blue Warm",
-        "Click to add first slide": "Click to add first slide",
-        "Click to add notes": "Click to add notes",
-        "Green": "Green",
-        "Green Yellow": "Green Yellow",
-        "Marquee": "Marquee",
-        "Median": "Median",
-        "Office": "Office",
-        "Office 2007 - 2010": "Office 2007 - 2010",
-        "Office 2013 - 2022": "Office 2013 - 2022",
-        "Orange": "Orange",
-        "Orange Red": "Orange Red",
-        "Paper": "Paper",
-        "Red": "Red",
-        "Red Orange": "Red Orange",
-        "Red Violet": "Red Violet",
-        "Slipstream": "Slipstream",
-        "Violet": "Violet",
-        "Violet II": "Violet II",
-        "X Axis": "X Axis XAS",
-        "Yellow": "Yellow",
-        "Yellow Orange": "Yellow Orange"
+        "Your text here": "Увядзіце ваш тэкст"
       },
       "textAnonymous": "Ананімны карыстальнік",
       "textBuyNow": "Наведаць сайт",
@@ -159,28 +109,7 @@
       "titleLicenseExp": "Тэрмін дзеяння ліцэнзіі сышоў",
       "titleServerVersion": "Рэдактар абноўлены",
       "titleUpdateVersion": "Версія змянілася",
-      "txtProtected": "Калі вы ўвядзеце пароль і адкрыеце файл, бягучы пароль да файла скінецца",
-      "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please, contact your admin.",
-      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
-      "leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
-      "textCustomLoader": "Sorry, you are not entitled to change the loader. Please, contact our sales department to get a quote.",
-      "textNoMatches": "No Matches",
-      "textOk": "Ok",
-      "textRemember": "Remember my choice",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleLicenseNotActive": "License not active",
-      "titleReadOnly": "Read-Only Mode",
-      "txtIncorrectPwd": "Password is incorrect",
-      "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
-      "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
-      "warnLicenseLimitedNoAccess": "License expired. You have no access to document editing functionality. Please, contact your administrator.",
-      "warnLicenseLimitedRenewed": "License needs to be renewed. You have limited access to document editing functionality.<br>Please contact your administrator to get full access",
-      "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
-      "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-      "warnProcessRightsChange": "You don't have permission to edit the file."
+      "txtProtected": "Калі вы ўвядзеце пароль і адкрыеце файл, бягучы пароль да файла скінецца"
     }
   },
   "Error": {
@@ -202,39 +131,7 @@
     "splitMaxRowsErrorText": "Колькасць радкоў павінна быць меншай за %1",
     "unknownErrorText": "Невядомая памылка.",
     "uploadImageExtMessage": "Невядомы фармат выявы.",
-    "uploadImageFileCountMessage": "Выяў не запампавана.",
-    "criticalErrorExtText": "Press 'OK' to go back to the document list.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
-    "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your admin.",
-    "errorComboSeries": "To create a combination chart, select at least two series of data.",
-    "errorConnectToServer": "Can't save this doc. Check your connection settings or contact your admin.<br>When you click the 'OK' button, you will be prompted to download the document.",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
-    "errorEditingDownloadas": "An error occurred during the work with the document.<br>Use the 'Download' option to save the file backup copy locally.",
-    "errorEmailClient": "No email client could be found",
-    "errorFilePassProtect": "The file is password protected and could not be opened.",
-    "errorFileSizeExceed": "The file size exceeds your server limitation.<br>Please, contact your admin.",
-    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
-    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "errorSessionAbsolute": "The document editing session has expired. Please, reload the page.",
-    "errorSessionIdle": "The document has not been edited for quite a long time. Please, reload the page.",
-    "errorSessionToken": "The connection to the server has been interrupted. Please, reload the page.",
-    "errorSetPassword": "Password could not be set.",
-    "errorStockChart": "Incorrect row order. To build a stock chart, place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.",
-    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
-    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
-    "errorUpdateVersionOnDisconnect": "Connection has been restored, and the file version has been changed.<br>Before you can continue working, download the file or copy its content to make sure nothing is lost, and then reload this page.",
-    "errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but you won't be able to download or print it until the connection is restored and the page is reloaded.",
-    "openErrorText": "An error has occurred while opening the file",
-    "saveErrorText": "An error has occurred while saving the file",
-    "scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please, reload the page.",
-    "textOk": "OK",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "uploadImageFileCountMessage": "Выяў не запампавана."
   },
   "LongActions": {
     "applyChangesTextText": "Загрузка даных…",
@@ -265,22 +162,11 @@
     "txtEditingMode": "Актывацыя рэжыму рэдагавання…",
     "uploadImageTextText": "Запампоўванне выявы…",
     "uploadImageTitleText": "Запампоўванне выявы",
-    "waitText": "Калі ласка, пачакайце...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textContinue": "Continue",
-    "textUndo": "Undo"
+    "waitText": "Калі ласка, пачакайце..."
   },
   "Toolbar": {
     "leaveButtonText": "Сысці са старонкі",
-    "stayButtonText": "Застацца на старонцы",
-    "btnRestartNow": "Restart now",
-    "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
-    "dlgLeaveTitleText": "You leave the application",
-    "textCloseHistory": "Close History",
-    "textEnterNewFileName": "Enter a new file name",
-    "textOk": "OK",
-    "textRenameFile": "Rename File",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "stayButtonText": "Застацца на старонцы"
   },
   "View": {
     "Add": {
@@ -318,13 +204,7 @@
       "textSlideNumber": "Нумар слайда",
       "textTable": "Табліца",
       "textTableSize": "Памеры табліцы",
-      "txtNotUrl": "Гэтае поле мусіць быць URL-адрасам фармату \"http://www.example.com\"",
-      "textDone": "Done",
-      "textDrawing": "Drawing",
-      "textEmptyImgUrl": "You need to specify the image URL.",
-      "textPasteImageUrl": "Paste an image URL",
-      "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "txtNotUrl": "Гэтае поле мусіць быць URL-адрасам фармату \"http://www.example.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "Увага",
@@ -466,35 +346,7 @@
       "textZoom": "Маштаб",
       "textZoomIn": "Павелічэнне",
       "textZoomOut": "Памяншэнне",
-      "textZoomRotate": "Павелічэнне і паварочванне",
-      "textArrange": "Arrange",
-      "textBaseline": "Baseline",
-      "textBulletsAndNumbers": "Bullets & Numbers",
-      "textCancel": "Cancel",
-      "textCapitalization": "Capitalization",
-      "textCellSize": "Cell size",
-      "textDeleteImage": "Delete Image",
-      "textDeleteLink": "Delete Link",
-      "textEmptyImgUrl": "You need to specify the image URL.",
-      "textHorizontalText": "Horizontal Text",
-      "textInsertImage": "Insert Image",
-      "textInvalidName": "The file name cannot contain any of the following characters: ",
-      "textMorph": "Morph",
-      "textMorphLetters": "Letters",
-      "textMorphObjects": "Objects",
-      "textMorphWords": "Words",
-      "textNoMatches": "No Matches",
-      "textNoStyles": "No styles for this type of chart.",
-      "textRecommended": "Recommended",
-      "textRequired": "Required",
-      "textRotateTextDown": "Rotate Text Down",
-      "textRotateTextUp": "Rotate Text Up",
-      "textSelectObjectToEdit": "Select object to edit",
-      "textSplit": "Split",
-      "textTextOrientation": "Text Orientation",
-      "textTransitions": "Transitions",
-      "txtHeight": "Height",
-      "txtWidth": "Width"
+      "textZoomRotate": "Павелічэнне і паварочванне"
     },
     "Settings": {
       "mniSlideStandard": "Стандартны (4:3)",
@@ -546,29 +398,7 @@
       "textTitle": "Назва",
       "textUnitOfMeasurement": "Адзінкі вымярэння",
       "textUploaded": "Запампавана",
-      "textVersion": "Версія",
-      "notcriticalErrorTitle": "Warning",
-      "textClose": "Close",
-      "textDark": "Dark",
-      "textDarkTheme": "Dark Theme",
-      "textDisableAllMacrosWithNotification": "Disable all macros with notification",
-      "textDisableAllMacrosWithoutNotification": "Disable all macros without notification",
-      "textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
-      "textFeedback": "Feedback & Support",
-      "textFindAndReplaceAll": "Find and Replace All",
-      "textLight": "Light",
-      "textNoMatches": "No Matches",
-      "textOk": "Ok",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textTel": "tel:",
-      "textTheme": "Theme",
-      "textVersionHistory": "Version History"
+      "textVersion": "Версія"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

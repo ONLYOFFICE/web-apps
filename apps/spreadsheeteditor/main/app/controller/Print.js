@@ -41,12 +41,10 @@ define([
         ],
 
         initialize: function() {
-            var value = Common.localStorage.getItem("sse-print-settings-range");
-            value = (value!==null) ? parseInt(value) : Asc.c_oAscPrintType.ActiveSheets;
-            this._currentPrintType = value;
+            this._currentPrintType = Asc.c_oAscPrintType.ActiveSheets;
 
             this.adjPrintParams = new Asc.asc_CAdjustPrint();
-            this.adjPrintParams.asc_setPrintType(value);
+            this.adjPrintParams.asc_setPrintType(this._currentPrintType);
 
             this._state = {
                 firstPrintPage: 0,
@@ -213,16 +211,13 @@ define([
             var opt = props.asc_getPageSetup();
             this._originalPageSettings = opt;
 
-            var item = panel.cmbPaperOrientation.store.findWhere({value: opt.asc_getOrientation()});
-            if (item) panel.cmbPaperOrientation.setValue(item.get('value'));
-
             var w = opt.asc_getWidth();
             var h = opt.asc_getHeight();
             if ( panel.setOriginalPageSize )
                 panel.setOriginalPageSize(w, h);
 
             var store = panel.cmbPaperSize.store;
-            item = null;
+            let item = null;
             for (var i=0; i<store.length; i++) {
                 var rec = store.at(i),
                     size = rec.get('size'),
@@ -252,8 +247,10 @@ define([
             this.fitScale = opt.asc_getScale();
             this.setScaling(panel, this.fitWidth, this.fitHeight, this.fitScale);
 
-            item = panel.cmbPaperOrientation.store.findWhere({value: opt.asc_getOrientation()});
-            if (item) panel.cmbPaperOrientation.setValue(item.get('value'));
+            this._state.pgorient = opt.asc_getOrientation();
+            item = panel.cmbPaperOrientation.store.findWhere({ value: 'auto' });
+            !item && (item = panel.cmbPaperOrientation.store.findWhere({ value: this._state.pgorient }));
+            item && panel.cmbPaperOrientation.setValue(item.get('value'));
 
             if (panel.spnFirstPage) {
                 value = opt.asc_getFirstPageNumber();
@@ -326,7 +323,7 @@ define([
             props.asc_setHeadings(panel.chPrintRows.getValue()==='checked');
 
             var opt = this._changedProps[sheet] ? this._changedProps[sheet].asc_getPageSetup() : new Asc.asc_CPageSetup();
-            opt.asc_setOrientation(panel.cmbPaperOrientation.getValue() == '-' ? undefined : panel.cmbPaperOrientation.getValue());
+            opt.asc_setOrientation(this._state.pgorient == '-' ? undefined : this._state.pgorient);
 
             var pagew, pageh;
             const cmbPaperSizeRecord = panel.cmbPaperSize.getSelectedRecord();
@@ -497,7 +494,6 @@ define([
                 }
                 this.adjPrintParams.asc_setStartPageIndex(pageFrom > 0 ? pageFrom - 1 : null);
                 this.adjPrintParams.asc_setEndPageIndex(pageTo > 0 ? pageTo - 1 : null);
-                Common.localStorage.setItem("sse-print-settings-range", printtype);
 
                 var sheetIndex = printtype === Asc.c_oAscPrintType.EntireWorkbook ? 0 : this.api.asc_getActiveWorksheetIndex(),
                     props = this._changedProps[sheetIndex] || this.api.asc_getPageOptions(sheetIndex),
@@ -554,13 +550,15 @@ define([
             }
             this.adjPrintParams.asc_setStartPageIndex(pageFrom > 0 ? pageFrom - 1 : null);
             this.adjPrintParams.asc_setEndPageIndex(pageTo > 0 ? pageTo - 1 : null);
-            Common.localStorage.setItem("sse-print-settings-range", printType);
 
             var sheetIndex = printType === Asc.c_oAscPrintType.EntireWorkbook ? 0 : this.api.asc_getActiveWorksheetIndex(),
                 props = this._changedProps[sheetIndex] || this.api.asc_getPageOptions(sheetIndex),
                 pageSetup = props.asc_getPageSetup(),
                 size = [pageSetup.asc_getWidth(), pageSetup.asc_getHeight()],
-                orientation = pageSetup.asc_getOrientation(),
+                orientationOption = (this.printSettings.cmbPaperOrientation ? this.printSettings.cmbPaperOrientation.getSelectedRecord() : null),
+                orientation = orientationOption && orientationOption.value === 'auto'
+                    ? 'auto'
+                    :  (!pageSetup.asc_getOrientation() ? 'portrait' : 'landscape'),
                 printerOption = (this.printSettings.cmbPrinter ? this.printSettings.cmbPrinter.getSelectedRecord() : null),
                 colorPrintingValue = this.printSettings.cmbColorPrinting
                     ? this.printSettings.cmbColorPrinting.getValue()
@@ -575,7 +573,7 @@ define([
                     h: size[1],
                     preset: this.findPagePreset(this.printSettings, size[0], size[1])
                 },
-                paperOrientation: !orientation ? 'portrait' : 'landscape',
+                paperOrientation: orientation,
                 copies: this.printSettings.spnCopies ? this.printSettings.spnCopies.getNumberValue() || 1 : 1,
                 sides: this.printSettings.cmbSides ? this.printSettings.cmbSides.getValue() : 'one'
             });
@@ -595,7 +593,7 @@ define([
 
         registerControlEvents: function(panel) {
             panel.cmbPaperSize.on('selected', _.bind(this.propertyChange, this, panel));
-            panel.cmbPaperOrientation.on('selected', _.bind(this.propertyChange, this, panel));
+            panel.cmbPaperOrientation.on('selected', _.bind(this.propertyChange, this, panel, 'orientation'));
             panel.cmbLayout.on('selected', _.bind(this.propertyChange, this, panel, 'scale'));
             panel.cmbPaperMargins.on('selected', _.bind(this.propertyChange, this, panel, 'margins'));
             panel.chPrintGrid.on('change', _.bind(this.propertyChange, this, panel));
@@ -620,6 +618,9 @@ define([
                     me.updatePreview();
                 }
             };
+            if(property === 'orientation' && record.value != 'auto') {
+                this._state.pgorient = record.value;
+            }
             if (property === 'scale' && record.value === 'customoptions') {
                 var props = (me._changedProps.length > 0 && me._changedProps[panel.cmbSheet.getValue()]) ? me._changedProps[panel.cmbSheet.getValue()] : me.api.asc_getPageOptions(panel.cmbSheet.getValue(), true);
                 var win = new SSE.Views.ScaleDialog({

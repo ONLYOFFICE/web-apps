@@ -640,7 +640,7 @@ define([
                     setEvents.call(me);
 
                     if (Common.Utils.InternalSettings.get('toolbar-active-tab')==='view')
-                        Common.NotificationCenter.trigger('tab:set-active', 'view');
+                        Common.NotificationCenter.trigger('tab:set-active', 'view', true);
                 });
             },
 

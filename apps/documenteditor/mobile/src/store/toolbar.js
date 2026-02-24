@@ -53,4 +53,10 @@ export class storeToolbarSettings {
     setIsSignatureForm(value) {
         this.isSignatureForm = value;
     }
+    
+    isShowBack = false;
+
+    setShowBack = (value) => {
+        this.isShowBack = !!value;
+    };
 }

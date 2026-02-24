@@ -76,6 +76,7 @@ define([
                                 items: [
                                     {caption: this.textFitToPage, value: 'zoom:page', toggleGroup: 'view-zoom', checkable: true},
                                     {caption: this.textFitToWidth, value: 'zoom:width', toggleGroup: 'view-zoom', checkable: true},
+                                    {caption: this.textMultiplePages, value: 'zoom:multi', checkable: true},
                                     (new Common.UI.MenuItem({
                                         template: _.template([
                                             '<div id="id-menu-zoom" class="menu-zoom" style="height: 26px;" ',

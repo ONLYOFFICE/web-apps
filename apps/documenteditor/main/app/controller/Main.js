@@ -56,6 +56,7 @@ define([
     'common/main/lib/controller/LaunchController',
     'common/main/lib/view/OpenDialog',
     'common/main/lib/view/UserNameDialog',
+    'common/main/lib/component/RadioBox',
 ], function () {
     'use strict';
 
@@ -98,6 +99,9 @@ define([
                     },
                     'Common.Views.ReviewChanges': {
                         'settings:apply': _.bind(this.applySettings, this)
+                    },
+                    'HeaderFooterTab': {
+                        'insertimage': _.bind(this.onInsertImage, this)
                     }
                 });
 
@@ -219,6 +223,7 @@ define([
                     value = Common.localStorage.getBool("app-settings-screen-reader");
                     Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
                     this.api.setSpeechEnabled(value);
+
 
                     if ( !Common.Utils.isIE ) {
                         if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_DE}}') ) {
@@ -352,7 +357,7 @@ define([
                             me.api.asc_enableKeyEvents(false);
                         },
                         'modal:close': function(dlg) {
-                            Common.Utils.ModalWindow.close();
+                            dlg && dlg.isVisible() && Common.Utils.ModalWindow.close(); // close can be called after hiding
                             if (!Common.Utils.ModalWindow.isVisible())
                                 me.api.asc_enableKeyEvents(true);
                         },
@@ -1303,6 +1308,9 @@ define([
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
+                if (!me.appOptions.canCopy)
+                    Common.UI.TooltipManager.showTip({ step: 'copyDisabled', text: me.errorCopyDisabled, target: '#toolbar', maxwidth: 350, automove: true, noHighlight: true, noArrow: true, showButton: false});
+
                 Common.Utils.InternalSettings.set("de-settings-datetime-default", Common.localStorage.getItem("de-settings-datetime-default"));
 
                 /** coauthoring begin **/
@@ -1332,7 +1340,13 @@ define([
                         this.api.zoomFitToWidth();
                     }
                 } else {
-                    this.api.zoom(zf > 0 ? zf : 100);
+                    if (Common.localStorage.getBool("de-zoom-multipage", false)) {
+                        this.api.zoomCustomMode();
+                        this.api.SetMultipageViewMode(true);
+
+                        if ( lastZoom > 0 ) this.api.zoom(lastZoom);
+                    } else
+                        this.api.zoom(zf > 0 ? zf : 100);
                 }
 
                 value = Common.localStorage.getItem("de-show-hiddenchars");
@@ -1750,6 +1764,7 @@ define([
                 this.appOptions.canDownload       = this.permissions.download !== false;
                 this.appOptions.showSaveButton = this.appOptions.isEdit || !this.appOptions.isRestrictedEdit && this.appOptions.isPDFForm && this.appOptions.canDownload; // save to file or save to file copy (for pdf-form viewer)
                 this.appOptions.canSuggest     = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.suggestFeature===false);
+                this.appOptions.canCopy        = this.permissions.copy !== false;
 
                 if (this.appOptions.isPDFForm && !this.appOptions.isEdit && !this.appOptions.isRestrictedEdit) {
                     if (!this.appOptions.isRestrictedEdit && !this.appOptions.canEdit)
@@ -2039,8 +2054,11 @@ define([
                 var toolbarController   = application.getController('Toolbar');
                 toolbarController   && toolbarController.setApi(me.api);
 
-                if (this.appOptions.isRestrictedEdit)
+                if (this.appOptions.isRestrictedEdit) {
                     application.getController('DocProtection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+                    const fontsControllers = application.getController('Common.Controllers.Fonts');
+                    fontsControllers && fontsControllers.setApi(me.api);
+                }
                 else if (this.appOptions.isEdit) {
                     var rightmenuController = application.getController('RightMenu'),
                         fontsControllers    = application.getController('Common.Controllers.Fonts');
@@ -2065,8 +2083,8 @@ define([
                     if (toolbarView) {
                         toolbarView.setApi(me.api);
                         toolbarView.on('editcomplete', _.bind(me.onEditComplete, me));
-                        toolbarView.on('insertimage', _.bind(me.onInsertImage, me));
                         toolbarView.on('inserttable', _.bind(me.onInsertTable, me));
+                        toolbarView.on('insertimage', _.bind(me.onInsertImage, me));
                         toolbarView.on('insertshape', _.bind(me.onInsertShape, me));
                         toolbarView.on('inserttextart', _.bind(me.onInsertTextArt, me));
                         toolbarView.on('insertchart', _.bind(me.onInsertChart, me));
@@ -2360,6 +2378,19 @@ define([
                             config.msg = this.errorInconsistentExt;
                         break;
 
+                    case Asc.c_oAscError.ID.CopyDisabled:
+                        config.maxwidth = 450;
+                        config.msg = this.errorCopyDisabled;
+                        break;
+
+                    case Asc.c_oAscError.ID.FileNotAssembled:
+                        config.msg = this.errorFileNotAssembled;
+                        break;
+
+                    case Asc.c_oAscError.ID.ForcedViewMode:
+                        config.msg = this.errorForcedViewMode;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         if (typeof id == 'string')
@@ -2435,7 +2466,7 @@ define([
                     }, this);
                 }
 
-                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value="' + id + '"]').length<1)
                     Common.UI.alert(config).$window.attr('data-value', id);
 
                 (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
@@ -2951,6 +2982,7 @@ define([
                         warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline) && (typeof advOptions == 'string'),
                         warningMsg: advOptions,
                         validatePwd: !!me._state.isDRM,
+                        autoPosOnResize : 'center',
                         handler: function (result, value) {
                             me.isShowOpenDialog = false;
                             if (result == 'ok') {

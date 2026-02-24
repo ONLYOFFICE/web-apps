@@ -71,6 +71,7 @@
     "menuCancel": "ביטול",
     "menuDelete": "מחק",
     "menuDeleteTable": "מחק טבלה",
+    "menuDuplicate": "שכפול",
     "menuEdit": "עריכה",
     "menuEditLink": "עריכת קישור",
     "menuMerge": "מזג",
@@ -164,8 +165,11 @@
       "textReplaceSuccess": "החיפוש נעשה. התרחשויות הוחלפו: {0}",
       "textRequestMacros": "מאקרו מגיש בקשה לכתובת אתר. האם ברצונך לאפשר את הבקשה ל - %1?",
       "textYes": "כן",
+      "tipLicenseExceeded": "המסמך פתוח במצב קריאה בלבד מכיוון שהגעת למספר המרבי של חיבורים בו-זמניים המותר על פי הרישיון.<br><br>אנא נסה שוב מאוחר יותר או צור קשר עם בעל המסמך אם אתה זקוק לגישת עריכה.",
+      "tipLicenseUsersExceeded": "המסמך פתוח במצב קריאה בלבד מכיוון שהגעת למספר המרבי של משתמשים המורשים לערוך מסמכים באמצעות רישיון.<br><br>אנא נסה שוב מאוחר יותר או צור קשר עם בעל המסמך אם אתה זקוק לגישת עריכה.",
       "titleLicenseExp": "פג תוקפו של הרישיון",
       "titleLicenseNotActive": "רישיון לא פעיל",
+      "titleReadOnly": "מצב קריאה בלבד",
       "titleServerVersion": "עורך מעודכן",
       "titleUpdateVersion": "הגרסה השתנתה",
       "txtIncorrectPwd": "הסיסמה שגויה",
@@ -177,10 +181,7 @@
       "warnLicenseLimitedRenewed": "יש לחדש את הרישיון. יש לך גישה מוגבלת לפונקציונליות של עריכת מסמכים.<br>אנא צור קשר עם מנהל המערכת שלך כדי לקבל גישה מלאה",
       "warnNoLicense": "הגעת למגבלה של חיבורים סימולטניים לעורכי %1. מסמך זה ייפתח לצפייה בלבד. צור קשר עם צוות המכירות %1 לקבלת תנאי שדרוג אישיים.",
       "warnNoLicenseUsers": "הגעת למגבלת המשתמש עבור עור. צור קשר עם צוות המכירות %1 לקבלת תנאי שדרוג אישיים.",
-      "warnProcessRightsChange": "אין לך הרשאה לערוך את הקובץ.",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "אין לך הרשאה לערוך את הקובץ."
     }
   },
   "Draw": {
@@ -192,6 +193,7 @@
   "Error": {
     "convertationTimeoutText": "זמן ההמרה חרג מהמגבלה.",
     "criticalErrorExtText": "לחץ על 'אישור' כדי לחזור לרשימת המסמכים.",
+    "criticalErrorExtTextClose": "יש ללחוץ 'אישור' לסגירת העורך.",
     "criticalErrorTitle": "שגיאה",
     "downloadErrorText": "ההורדה נכשלה.",
     "errorAccessDeny": "אתה מנסה לבצע פעולה ללא הרשאה.<br>אנא צור קשר עם מנהל המערכת שלך.",
@@ -239,8 +241,7 @@
     "unknownErrorText": "שגיאה לא ידועה.",
     "uploadImageExtMessage": "פורמט תמונה לא ידוע.",
     "uploadImageFileCountMessage": "לא הועלו תמונות.",
-    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט."
   },
   "LongActions": {
     "applyChangesTextText": "טעינת נתונים...",
@@ -353,8 +354,10 @@
       "textAuto": "אוטומטי",
       "textAutomatic": "אוטומטי",
       "textBack": "חזרה",
+      "textBackground": "רקע",
       "textBandedColumn": "עמודות מקובצות",
       "textBandedRow": "שורות מקובצות",
+      "textBaseline": "קו הבסיס",
       "textBefore": "לפני",
       "textBlack": "דרך שחור",
       "textBorder": "גבול",
@@ -365,8 +368,10 @@
       "textBullets": "נקודות",
       "textBulletsAndNumbers": "נקוודות ומספרים",
       "textCancel": "ביטול",
+      "textCapitalization": "אותיות גדולות",
       "textCaseSensitive": "רגיש רישיות",
       "textCellMargins": "שולי תאים",
+      "textCellSize": "גודל תא",
       "textChangeShape": "שינוי צורה",
       "textChart": "תרשים",
       "textClock": "שעון",
@@ -427,6 +432,7 @@
       "textLinkSettings": "הגדרות קישור",
       "textLinkTo": "קישור ל",
       "textLinkType": "סוג קישור",
+      "textLtrTextDirection": "משמאל לימין",
       "textMorph": "שינוי צורה",
       "textMorphLetters": "אותיות",
       "textMorphObjects": "אובייקטים",
@@ -455,9 +461,11 @@
       "textReplaceAll": "החלף הכל",
       "textReplaceImage": "החלף תמונה",
       "textRequired": "נדרש",
+      "textResetBackground": "איפוס רקע",
       "textRight": "ימין",
       "textRotateTextDown": "סובב טקסט למטה",
       "textRotateTextUp": "סובב טקסט למעלה",
+      "textRtlTextDirection": "מימין לשמאל",
       "textScreenTip": "קצה מסך",
       "textSearch": "חיפוש",
       "textSec": "s",
@@ -479,6 +487,7 @@
       "textSuperscript": "כתב עילי",
       "textTable": "טבלה",
       "textText": "טקסט",
+      "textTextDirection": "כיוון טקסט",
       "textTextOrientation": "כיוון טקסט",
       "textTheme": "ערכת נושא",
       "textTop": "עליון",
@@ -496,11 +505,8 @@
       "textZoomIn": "התמקד פנימה",
       "textZoomOut": "התמקד החוצה",
       "textZoomRotate": "התמקד וסובב",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textCellSize": "Cell size",
-      "txtHeight": "Height",
-      "txtWidth": "Width"
+      "txtHeight": "גובה",
+      "txtWidth": "רוחב"
     },
     "Settings": {
       "mniSlideStandard": "סטנדרטי (4: 3)",

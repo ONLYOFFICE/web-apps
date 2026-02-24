@@ -2408,5 +2408,20 @@
 		"a": "(url_feuille; chaîne_plage)",
 		"d": "Importe une plage de cellules depuis une feuille de calcul spécifiée.",
 		"ad": "URL de la feuille de calcul contenant les données à importer!la plage à importer"
+	},
+	"REGEXTEST": {
+		"a": "(text; modèle; [respect_casse])",
+		"d": "Vérifie si l'entrée correspond au modèle et renvoie VRAI ou FAUX",
+		"ad": "Est-ce le texte dans lequel vous recherchez !L'expression régulière à appliquer !Si la correspondance est sensible à la casse"
+	},
+	"REGEXREPLACE": {
+		"a": "(text; modèle; remplacement; [occurrence]; [respect_casse])",
+		"d": "Renvoie 'text', avec 'remplacement' à la place des correspondances avec 'modèle'",
+		"ad": "Texte dans lequel vous effectuez la recherche!Expression régulière à appliquer!Chaîne qui remplace la sous-chaîne correspondante dans le texte. Où $n apparaît dans la chaîne, où $n est un nombre entier, $n est remplacé par le nième groupe de capture!Occurrence à remplacer. Si la valeur est égale à 0, toutes les occurrences sont remplacées. Une valeur négative signifie le nombre d’occurrences à partir de la fin du texte.!Indique si la correspondance est sensible à la casse"
+	},
+	"REGEXEXTRACT": {
+		"a": "(text; modèle; [mode_renvoi]; [respect_casse])",
+		"d": "Extrait les sous-chaînes de « texte » en fonction du « modèle » REGEX fourni",
+		"ad": "Est-ce que le texte dans lequel vous recherchez !L'expression régulière à appliquer !Spécifiez les correspondances à renvoyer !Que la correspondance soit sensible aux majuscules et minuscules"
 	}
 }

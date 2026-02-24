@@ -112,18 +112,36 @@ define([
                     autohide: false,
                     min: 300,
                     max: 600
-                }}, { // sdk
+                }}, { // history versions
+                el: items[3],
+                rely: true,
+                alias: 'history',
+                resize: {
+                    hidden: true,
+                    autohide: false,
+                    min: 300,
+                    max: 600
+                }
+            }, { // sdk
                 el: items[1],
                 stretch: true
             }, {
                 el: $(items[2]).hide(),
-                rely: true
+                rely: true,
+                alias: 'right',
+                resize: {
+                    hidden: false,
+                    autohide: false,
+                    min: -600,
+                    max: -260
+                }
             }
             ];
 
             if ( Common.UI.isRTL() ) {
                 iarray[0].resize.min = -600;
                 iarray[0].resize.max = -300;
+                [iarray[3].resize.min, iarray[3].resize.max] = [260, 600];
                 [iarray[0], iarray[2]] = [iarray[2], iarray[0]];
             }
 

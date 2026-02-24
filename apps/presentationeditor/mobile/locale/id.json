@@ -177,17 +177,13 @@
       "warnLicenseLimitedRenewed": "Lisensi perlu diperbaharui. Anda memiliki akses terbatas untuk edit dokumen.<br>Silakan hubungi admin Anda untuk mendapatkan akses penuh",
       "warnNoLicense": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnNoLicenseUsers": "Anda sudah mencapai batas user untuk %1 editor. Hubungi %1 tim sales untuk syarat personal upgrade.",
-      "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini.",
-      "tipLicenseExceeded": "The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "tipLicenseUsersExceeded": "The document is open in read-only mode as the maximum number of users allowed to edit documents by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.",
-      "titleReadOnly": "Read-Only Mode"
+      "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini."
     }
   },
   "Draw": {
     "textColor": "Warna",
     "textCustomColor": "Warna ubahan",
-    "textLineSize": "Ukuran garis",
-    "textOpacity": "Opacity"
+    "textLineSize": "Ukuran garis"
   },
   "Error": {
     "convertationTimeoutText": "Waktu konversi habis.",
@@ -239,8 +235,7 @@
     "unknownErrorText": "Kesalahan tidak diketahui.",
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
-    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
-    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
+    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Memuat data...",
@@ -329,8 +324,7 @@
       "textSlideNumber": "Nomor Slide",
       "textTable": "Tabel",
       "textTableSize": "Ukuran Tabel",
-      "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
-      "textDrawing": "Drawing"
+      "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”"
     },
     "Edit": {
       "notcriticalErrorTitle": "Peringatan",
@@ -495,12 +489,7 @@
       "textZoom": "Pembesaran",
       "textZoomIn": "Perbesar",
       "textZoomOut": "Perkecil",
-      "textZoomRotate": "Zoom dan Rotasi",
-      "textBaseline": "Baseline",
-      "textCapitalization": "Capitalization",
-      "textCellSize": "Cell size",
-      "txtHeight": "Height",
-      "txtWidth": "Width"
+      "textZoomRotate": "Zoom dan Rotasi"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

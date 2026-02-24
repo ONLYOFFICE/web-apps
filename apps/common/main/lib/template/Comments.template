@@ -1,5 +1,5 @@
 <% if (!hide && !filtered) { %>
-    <div id="<%= id %>" class="user-comment-item">
+    <div id="<%= id %>" class="user-comment-item <% if (last) { %> last-item <% } %>">
 
         <!-- comment block -->
 
@@ -120,9 +120,6 @@
         <% if (lock) { %>
             <div class="lock-area"></div>
             <div class="lock-author"><%=lockuserid%></div>
-        <% } %>
-        <% if (!last) { %>
-            <div class="separator-cmt"></div>
         <% } %>
     </div>
 <% } %>

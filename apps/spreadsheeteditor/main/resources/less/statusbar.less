@@ -206,6 +206,8 @@
         .nav-tabs {
             height: 100%;
             display: flex;
+            overscroll-behavior-x: none;
+            scroll-behavior: auto;
 
             > li {
                 background-color: @background-pane-ie;
@@ -242,8 +244,8 @@
                     padding: 0 10px 0;
                     line-height: @statusbar-height-ie;
                     line-height: @statusbar-height;
-                    background-color: @background-pane-additional-ie;
-                    background-color: @background-pane-additional;
+                    background-color: @background-normal-ie;
+                    background-color: @background-normal;
                     outline: none;
                     border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
                     border-left: @scaled-one-px-value solid @border-toolbar;
@@ -259,6 +261,8 @@
                         border-bottom-color: @border-toolbar;
                         color: @text-normal-ie;
                         color: @text-normal;
+                        background-color: @background-pane-ie;
+                        background-color: @background-pane;
                     }
                 }
 
@@ -281,8 +285,8 @@
                     > span {
                         border-bottom-color: @highlight-header-button-hover-ie;
                         border-bottom-color: @highlight-header-button-hover;
-                        background-color: @background-normal-ie;
-                        background-color: @background-normal;
+                        background-color: @background-pane-ie;
+                        background-color: @background-pane;
                         box-shadow: 0px 4px 0 #49795d inset;
                         color: @text-normal-ie;
                         color: @text-normal;

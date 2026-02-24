@@ -375,7 +375,7 @@ define([], function () {
                     '</td>',
                 '</tr>',
                 '<tr>',
-                    '<td><label><%= scope.strKeyboardShortcuts %><span class="new-hint"><%= Common.UI.SynchronizeTip.prototype.textNew.toUpperCase() %></span></label></td>',
+                    '<td><label><%= scope.strKeyboardShortcuts %></label></td>',
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-keyboard-shortcuts" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomize %></button></div></td>',
                 '</tr>',
                 '<tr class ="divider-group"></tr>',
@@ -1243,8 +1243,6 @@ define([], function () {
                 this.chHScroll.setValue(this.api.asc_GetShowHorizontalScroll());
                 this.chVScroll.setValue(this.api.asc_GetShowVerticalScroll());
             }
-
-            Common.localStorage.getItem('help-tip-customize-shortcuts') && $('.new-hint', this.el).addClass('hidden');
         },
 
         isValid: function() {
@@ -2729,10 +2727,10 @@ define([], function () {
                             '<div class="main-header"><%= scope.txtPrint %></div>',
                             '<table style="width: 100%;">',
                                 '<tbody>',
-                                    '<tr class="hidden-for-webapp"><td><label class="font-weight-bold"><%= scope.txtPrinter %></label></td></tr>',
-                                    '<tr class="hidden-for-webapp"><td class="padding-large"><div id="print-combo-printer" style="width: 248px;"></div></td></tr>',
-                                    '<tr class="hidden-for-webapp"><td><label class="font-weight-bold"><%= scope.txtColorPrinting %></label></td></tr>',
-                                    '<tr class="hidden-for-webapp"><td class="padding-large"><div id="print-combo-color-printing" style="width: 248px;"></div></td></tr>',
+                                    '<tr class="desktop-settings"><td><label class="font-weight-bold"><%= scope.txtPrinter %></label></td></tr>',
+                                    '<tr class="desktop-settings"><td class="padding-large"><div id="print-combo-printer" style="width: 248px;"></div></td></tr>',
+                                    '<tr class="desktop-settings"><td><label class="font-weight-bold"><%= scope.txtColorPrinting %></label></td></tr>',
+                                    '<tr class="desktop-settings"><td class="padding-large"><div id="print-combo-color-printing" style="width: 248px;"></div></td></tr>',
                                     '<tr><td><label class="font-weight-bold"><%= scope.txtPrintRange %></label></td></tr>',
                                     '<tr><td class="padding-small"><div id="print-combo-range" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-chb-ignore" style="width: 248px;"></div></td></tr>',
@@ -2793,7 +2791,7 @@ define([], function () {
                                         '<label><%= scope.txtFirstPageNumber %></label>',
                                         '<div id="print-spin-first-page"></div>',
                                     '</td></tr>',
-                                    '<tr class="header-settings hidden-for-webapp"><td class="padding-large"><label id="print-btn-system-dialog" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><span class="link"><%= scope.txtPrintUsingSystemDialog %></span></label></td></tr>',
+                                    '<tr class="header-settings desktop-settings"><td class="padding-large"><label id="print-btn-system-dialog" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><span class="link"><%= scope.txtPrintUsingSystemDialog %></span></label></td></tr>',
                                     //'<tr><td class="padding-large"><button type="button" class="btn btn-text-default" id="print-apply-all" style="width: 118px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtApplyToAllSheets %></button></td></tr>',
                                     '<tr class="fms-btn-apply"><td>',
                                         '<div class="footer justify">',
@@ -2877,6 +2875,7 @@ define([], function () {
                     menuStyle: 'width: 248px; max-height: 280px;',
                     editable: false,
                     takeFocusOnClose: true,
+                    restoreMenuHeightAndTop: true,
                     cls: 'input-group-nr',
                     placeHolder: this.txtPrinterNotSelected,
                     itemsTemplate:  _.template([
@@ -2904,6 +2903,7 @@ define([], function () {
                     menuStyle: 'width: 248px; max-height: 280px;',
                     editable: false,
                     takeFocusOnClose: true,
+                    restoreMenuHeightAndTop: true,
                     cls: 'input-group-nr',
                     disabled: true,
                     data: [
@@ -2926,6 +2926,7 @@ define([], function () {
                 menuStyle: 'min-width: 248px;max-height: 280px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls: 'input-group-nr',
                 data: [
                     { value: Asc.c_oAscPrintType.ActiveSheets, displayValue: this.txtActiveSheets },
@@ -2998,6 +2999,7 @@ define([], function () {
                 menuStyle   : 'width:100%;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 'one', displayValue: this.txtOneSide, descValue: this.txtOneSideDesc },
@@ -3023,6 +3025,7 @@ define([], function () {
                 cls: 'input-group-nr',
                 data: [],
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -3065,6 +3068,7 @@ define([], function () {
                 menuStyle: 'max-height: 280px; width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 template: paperSizeTemplate,
                 itemsTemplate: paperSizeItemsTemplate,
                 data: [].concat(this._defaultPaperSizeList),
@@ -3097,10 +3101,12 @@ define([], function () {
                 menuStyle   : 'min-width: 134px;',
                 editable    : false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: Asc.c_oAscPageOrientation.PagePortrait, displayValue: this.txtPortrait },
-                    { value: Asc.c_oAscPageOrientation.PageLandscape, displayValue: this.txtLandscape }
+                    { value: Asc.c_oAscPageOrientation.PageLandscape, displayValue: this.txtLandscape },
+                    { value: 'auto', displayValue: this.txtAuto }
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
@@ -3120,6 +3126,7 @@ define([], function () {
                 menuStyle   : 'min-width: 248px;',
                 editable    : false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 0, displayValue: this.txtActualSize },
@@ -3189,6 +3196,7 @@ define([], function () {
                 menuStyle: 'max-height: 280px; min-width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls: 'input-group-nr',
                 data: [
                     { value: 0, displayValue: this.txtMarginsNormal, size: [19.1, 17.8, 19.1, 17.8]},
@@ -3287,8 +3295,6 @@ define([], function () {
                     disabled: this.mode.isDesktopApp
                 }));
             }
-
-            $markup.find('.hidden-for-webapp').toggleClass('hidden', !this.mode.isDesktopApp);
 
             this.btnPrevPage = new Common.UI.Button({
                 parentEl: $markup.findById('#print-prev-page'),
@@ -3705,6 +3711,7 @@ define([], function () {
         txtPageOrientation: 'Page orientation',
         txtPortrait: 'Portrait',
         txtLandscape: 'Landscape',
+        txtAuto: 'Auto',
         txtScaling: 'Scaling',
         txtActualSize: 'Actual Size',
         txtFitPage: 'Fit Sheet on One Page',

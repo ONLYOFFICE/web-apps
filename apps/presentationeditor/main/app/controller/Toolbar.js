@@ -206,9 +206,9 @@ define([
             Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
                 this.toolbar.collapse();
             }, this));
-            Common.NotificationCenter.on('tab:set-active', _.bind(function(action){
+            Common.NotificationCenter.on('tab:set-active', _.bind(function(action, needUnfold){
                 this.toolbar.setTab(action);
-                this.onChangeCompactView(null, false, true);
+                needUnfold && this.onChangeCompactView(null, false, true);
             }, this));
             
             var me = this;
@@ -302,7 +302,9 @@ define([
                 'masterTab' : {name: 'pe-help-tip-master-tab', placement: 'bottom-right', offset: {x: Common.UI.isRTL() ? -10 : 10, y: 0}, text: this.helpMasterTab, header: this.helpMasterTabHeader, target: 'li.ribtab #slideMaster',
                                 automove: true, maxwidth: 300, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
                 'chartElements' : {name: 'help-tip-chart-elements', placement: 'bottom', text: this.helpChartElements, header: this.helpChartElementsHeader, target: '#id-document-holder-btn-chart-element', maxwidth: 300,
-                    automove: true, noHighlight: true, noArrow: true, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
+                    automove: true, noHighlight: true, noArrow: true, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
+                'gifPlayback' : {name:'pe-help-tip-gif-payback', placement: 'bottom', text: this.helpGifPlayback, header: this.helpGifPlaybackHeader, target: '#toolbar', maxwidth: 300,
+                    automove: true, noArrow: true, noHighlight: true, closable: false, isNewFeature: true}
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true},
@@ -1242,7 +1244,7 @@ define([
             if (me.api) {
                 var res = (type === 'cut') ? me.api.Cut() : ((type === 'copy') ? me.api.Copy() : me.api.Paste());
                 if (!res) {
-                    if (!Common.localStorage.getBool("pe-hide-copywarning")) {
+                    if (!Common.localStorage.getBool("pe-hide-copywarning") && (type === 'paste' || me.toolbar.mode.canCopy)) {
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
                                 if (dontshow) Common.localStorage.setItem("pe-hide-copywarning", 1);
@@ -3035,6 +3037,8 @@ define([
                 me.onPluginToolbarCustomMenuItems(plugin.action, plugin.data);
             });
             this._state.customPluginData = null;
+
+            Common.UI.TooltipManager.showTip('gifPlayback');
         },
 
         onChangeViewMode: function (mode) { // master or normal

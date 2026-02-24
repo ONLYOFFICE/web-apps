@@ -43,6 +43,7 @@ define([
     'common/main/lib/util/Shortcuts',
     'common/main/lib/view/OpenDialog',
     'common/forms/lib/view/modals',
+    'common/main/lib/controller/Fonts',
     'documenteditor/forms/app/view/ApplicationView',
     'common/main/lib/controller/LaunchController'
 ], function (Viewport) {
@@ -165,7 +166,7 @@ define([
                     me.api.asc_enableKeyEvents(false);
                 },
                 'modal:close': function(dlg) {
-                    Common.Utils.ModalWindow.close();
+                    dlg && dlg.isVisible() && Common.Utils.ModalWindow.close(); // close can be called after hiding
                     if (!Common.Utils.ModalWindow.isVisible())
                         me.api.asc_enableKeyEvents(true);
                 },
@@ -353,6 +354,19 @@ define([
                         config.msg = this.errorInconsistentExt;
                     break;
 
+                case Asc.c_oAscError.ID.CopyDisabled:
+                    config.maxwidth = 450;
+                    config.msg = this.errorCopyDisabled;
+                    break;
+
+                case Asc.c_oAscError.ID.FileNotAssembled:
+                    config.msg = this.errorFileNotAssembled;
+                    break;
+
+                case Asc.c_oAscError.ID.ForcedViewMode:
+                    config.msg = this.errorForcedViewMode;
+                    break;
+
                 default:
                     config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                     if (typeof id == 'string')
@@ -414,7 +428,7 @@ define([
                 }, this);
             }
 
-            if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+            if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value="' + id + '"]').length<1)
                 Common.UI.alert(config).$window.attr('data-value', id);
 
             (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
@@ -496,6 +510,7 @@ define([
             this.appOptions.lang            = this.editorConfig.lang;
             this.appOptions.canPlugins      = false;
             this.appOptions.canRequestFillingStatus = this.editorConfig.canRequestFillingStatus;
+            this.appOptions.disableNetworkFunctionality = !!(window["AscDesktopEditor"] && window["AscDesktopEditor"]["isSupportNetworkFunctionality"] && false === window["AscDesktopEditor"]["isSupportNetworkFunctionality"]());
 
             Common.Controllers.Desktop.init(this.appOptions);
 
@@ -673,6 +688,7 @@ define([
 
             this.appOptions.canDownload       = this.permissions.download !== false;
             this.appOptions.canPrint          = (this.permissions.print !== false);
+            this.appOptions.canCopy           = this.permissions.copy !== false;
 
             this.appOptions.fileKey = this.document.key;
             this.appOptions.isAnonymousSupport = !!this.api.asc_isAnonymousSupport();
@@ -765,6 +781,8 @@ define([
                 this.api.asc_SetFastCollaborative(true);
                 this.api.asc_setAutoSaveGap(1);
                 this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
+
+                DE.getController('Common.Controllers.Fonts').setApi(this.api);
             }
 
             this.view.btnClose.setVisible(this.appOptions.canCloseEditor);
@@ -1010,6 +1028,7 @@ define([
                     warningMsg: advOptions,
                     validatePwd: !!me._isDRM,
                     iconType: 'svg',
+                    autoPosOnResize : 'center',
                     handler: function (result, value) {
                         me.isShowOpenDialog = false;
                         if (result == 'ok') {
@@ -1275,10 +1294,29 @@ define([
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    me.api.asc_addImage(obj.pr);
-                    setTimeout(function(){
-                        me.api.asc_UncheckContentControlButtons();
-                    }, 500);
+                    var signProps = obj.asc_getSignatureProps(me.api);
+                    var win = (new Common.Views.PdfSignDialog({
+                        props: signProps,
+                        api: me.api,
+                        disableNetworkFunctionality: me.appOptions.disableNetworkFunctionality,
+                        storage: me.appOptions.canRequestInsertImage || me.appOptions.fileChoiceUrl && me.appOptions.fileChoiceUrl.indexOf("{documentType}")>-1,
+                        fontStore: this.getCollection('Common.Collections.Fonts'),
+                        iconType: 'svg',
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                me.api.asc_SetSignatureProps(signProps.getResult());
+                            }
+                        }
+                        })).on('close', function(obj){
+                            setTimeout(function(){
+                                me.api.asc_UncheckContentControlButtons();
+                            }, 100);
+                        });
+                    win.show();
+                    // me.api.asc_addImage(obj.pr);
+                    // setTimeout(function(){
+                    //     me.api.asc_UncheckContentControlButtons();
+                    // }, 500);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
@@ -1732,10 +1770,30 @@ define([
         onMenuZoomClick: function(menu, item, e){
             switch ( item.value ) {
                 case 'zoom:page':
-                    item.isChecked() ? this.api.zoomFitToPage() : this.api.zoomCustomMode();
+                    if (item.isChecked()) {
+                        this.api.GetMultipageViewMode() && this.api.SetMultipageViewMode(false);
+                        this.api.zoomFitToPage();
+                        this.view.mnuZoom.items[2].setChecked(false);
+                    } else {
+                        this.api.zoomCustomMode();
+                    }
                     break;
                 case 'zoom:width':
-                    item.isChecked() ? this.api.zoomFitToWidth() : this.api.zoomCustomMode();
+                    if (item.isChecked()) {
+                        this.api.GetMultipageViewMode() && this.api.SetMultipageViewMode(false);
+                        this.api.zoomFitToWidth();
+                        this.view.mnuZoom.items[2].setChecked(false);
+                    } else {
+                        this.api.zoomCustomMode();
+                    }
+                    break;
+                case 'zoom:multi':
+                    if (item.isChecked()) {
+                        this.api.zoomCustomMode();
+                        this.api.SetMultipageViewMode(true);
+                    } else {
+                        this.api.SetMultipageViewMode(false);
+                    }
                     break;
             }
 
@@ -2112,7 +2170,7 @@ define([
                     if (this.api) {
                         var res =  (item.value == 'cut') ? this.api.Cut() : ((item.value == 'copy') ? this.api.Copy() : this.api.Paste());
                         if (!res) {
-                            if (!Common.localStorage.getBool("de-forms-hide-copywarning")) {
+                            if (!Common.localStorage.getBool("de-forms-hide-copywarning") && (item.value === 'paste' || this.appOptions.canCopy)) {
                                 (new Common.Views.CopyWarningDialog({
                                     handler: function(dontshow) {
                                         if (dontshow) Common.localStorage.setItem("de-forms-hide-copywarning", 1);
@@ -2393,6 +2451,7 @@ define([
         titleReadOnly: 'Read-Only Mode',
         textContinue: 'Continue',
         txtSignedForm: 'This document has been signed and cannot be edited.',
+        errorCopyDisabled: 'For security reasons, the contents of this document cannot be copied to the clipboard.'
 
     }, DE.Controllers.ApplicationController));
 });
