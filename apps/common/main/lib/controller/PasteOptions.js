@@ -117,27 +117,22 @@ define([
             if (!pasteItems) return;
 
             me._arrSpecialPaste = [];
-            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = documentHolder.textPaste;
-            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = documentHolder.txtPasteSourceFormat;
-            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = documentHolder.txtKeepTextOnly;
-            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.insertAsNestedTable] = documentHolder.textNest;
-            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.overwriteCells] = documentHolder.txtOverwriteCells;
-            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceFormattingEmbedding] = documentHolder.txtSourceEmbed;
-            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormattingEmbedding] = documentHolder.txtDestEmbed;
-            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceFormattingLink] = documentHolder.txtSourceLink;
-            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormattingLink] = documentHolder.txtDestLink;
-            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = documentHolder.txtPastePicture;
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = me.textPaste;
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = me.txtPasteSourceFormat;
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = me.txtKeepTextOnly;
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.insertAsNestedTable] = me.textNest;
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.overwriteCells] = me.txtOverwriteCells;
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceFormattingEmbedding] = me.txtSourceEmbed;
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormattingEmbedding] = me.txtDestEmbed;
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceFormattingLink] = me.txtSourceLink;
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormattingLink] = me.txtDestLink;
+            me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = me.txtPastePicture;
 
             me.initSpecialPasteEvents();
 
             if (pasteItems.length>0) {
                 var menu = me.btn.menu;
-                for (var i = 0; i < menu.items.length; i++) {
-                    menu.removeItem(menu.items[i]);
-                    i--;
-                }
 
-                var group_prev = -1;
                 _.each(pasteItems, function(menuItem, index) {
                     var mnu = new Common.UI.MenuItem({
                         caption: me._arrSpecialPaste[menuItem] + ' (' + me.hkSpecPaste[menuItem] + ')',
@@ -145,8 +140,10 @@ define([
                         checkable: true,
                         toggleGroup : 'specialPasteGroup'
                     }).on('click', _.bind(me.onSpecialPasteItemClick, me));
+                    console.log(mnu)
                     menu.addItem(mnu);
                 });
+                menu.show();
             }
         },
 
@@ -185,6 +182,13 @@ define([
             }, me);
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
             window.key.setScope('special-paste-toolbar');
+
+            var closeMenuOnWindowBlur = function() {
+                if (me.btn.menu.$el && me.btn.menu.$el.is(':visible')) {
+                    me.btn.menu.hide();
+                }
+            };
+            $(window).on('blur.pastemenuhide', closeMenuOnWindowBlur);
 
             me.btn.menu.on('show:after', function(menu) {
                 window.key.setScope('special-paste-toolbar');
