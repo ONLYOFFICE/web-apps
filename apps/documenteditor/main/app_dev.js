@@ -154,6 +154,7 @@ require([
             ,'Common.Controllers.ReviewChanges'
             ,'Common.Controllers.Protection'
             ,'Common.Controllers.Shortcuts'
+            ,'Common.Controllers.PasteOptions'
         ]
     });
 
@@ -200,6 +201,7 @@ require([
                 ,'common/main/lib/controller/Protection'
                 ,'common/main/lib/controller/Shortcuts'
                 ,'common/main/lib/controller/Draw'
+                ,'common/main/lib/controller/PasteOptions'
             ], function() {
                 app.postLaunchScripts = [
                     'common/main/lib/controller/ScreenReaderFocus',
