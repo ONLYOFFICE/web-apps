@@ -3041,5 +3041,16 @@
   "PDFE.Views.AnnotationSettings.textOpacity": "Opacity",
   "PDFE.Views.AnnotationSettings.textLine": "Line",
   "PDFE.Views.AnnotationSettings.textStart": "Start",
-  "PDFE.Views.AnnotationSettings.textEnd": "End"
+  "PDFE.Views.AnnotationSettings.textEnd": "End",
+  "PDFE.Views.AnnotationSettings.txtTransparent": "Transparent",
+  "PDFE.Views.AnnotationSettings.txtNone": "None",
+  "PDFE.Views.AnnotationSettings.txtOpen": "Open",
+  "PDFE.Views.AnnotationSettings.txtClosed": "Closed",
+  "PDFE.Views.AnnotationSettings.txtOpenReverse": "Open (Reverse)",
+  "PDFE.Views.AnnotationSettings.txtClosedReverse": "Closed (Reverse)",
+  "PDFE.Views.AnnotationSettings.txtButt": "Butt",
+  "PDFE.Views.AnnotationSettings.txtDiamond": "Diamond",
+  "PDFE.Views.AnnotationSettings.txtCircle": "Circle",
+  "PDFE.Views.AnnotationSettings.txtSquare": "Square",
+  "PDFE.Views.AnnotationSettings.txtSlash": "Slash"
 }

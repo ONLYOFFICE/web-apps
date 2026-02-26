@@ -61,9 +61,12 @@ define([
 
         initialize: function () {
             this._initSettings = true;
-            this._state = {};
+            this._state = {
+                DisabledControls: false
+            };
             this._originalProps = null;
-
+            this._locked = false;
+            this.lockedControls = [];
             this.spinners = [];
             
             this.render();
@@ -108,7 +111,7 @@ define([
             });
             this.mnuBorderColorPicker = this.btnBorderColor.getPicker();
             this.btnBorderColor.on('color:select', this.onBorderColorSelect.bind(this));
-            // this.lockedControls.push(this.btnColor);
+            this.lockedControls.push(this.btnBorderColor);
 
             this.cmbBorderStyle = new Common.UI.ComboBorderType({
                 el: $markup.findById('#annotation-combo-line-style'),
@@ -126,11 +129,10 @@ define([
                 ],
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big',
-                ariaLabel: '123'       //TODO: Добавить
+                dataHintOffset: 'big'
             });
             this.cmbBorderStyle.on('selected', this.onCmbBorderStyleChange.bind(this));
-            // this.lockedControls.push(this.cmbLineStyle);
+            this.lockedControls.push(this.cmbBorderStyle);
 
             this.numBorderWidth = new Common.UI.MetricSpinner({
                 el: $('#annotation-spin-border-width'),
@@ -142,16 +144,24 @@ define([
                 minValue: 1,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big',
-                ariaLabel: this.strTransparency //TODO: Добавить label
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.numBorderWidth);
             this.numBorderWidth.on('change', _.bind(this.onNumBorderWidthChange, this));
             this.numBorderWidth.on('inputleave', function(){ this.fireEvent('editcomplete', this);});
-            // this.lockedControls.push(this.numTransparency);
+            this.lockedControls.push(this.numBorderWidth);
 
             this.btnBackgroundColor = new Common.UI.ColorButton({
                 parentEl: $markup.findById('#annotation-background-color-btn'),
+                additionalItemsBefore: [
+                    this.mnuBackgroundColorTransparent = new Common.UI.MenuItem({
+                        style: Common.UI.isRTL() ? 'padding-right:20px;' : 'padding-left:20px;',
+                        caption: this.txtTransparent,
+                        toggleGroup: 'form-settings-no-border',
+                        checkable: true
+                    }), 
+                    {caption: '--'}
+                ],
                 colors: colorConfig.colors,
                 dynamiccolors: colorConfig.dynamiccolors,
                 themecolors: colorConfig.themecolors,
@@ -164,10 +174,10 @@ define([
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
+            this.mnuBackgroundColorTransparent.on('click', _.bind(this.onBackgroundColorTransparentClick, this));
             this.mnuBackgroundColorPicker = this.btnBackgroundColor.getPicker();
             this.btnBackgroundColor.on('color:select', this.onBackgroundColorSelect.bind(this));
-            // this.lockedControls.push(this.btnColor);
-            // this.btnColor.on('color:select', this.onColorPickerSelect.bind(this));
+            this.lockedControls.push(this.btnBackgroundColor);
 
 
             this.sldrOpacity = new Common.UI.SingleSlider({
@@ -179,7 +189,7 @@ define([
             });
             this.sldrOpacity.on('change', _.bind(this.onOpacityChange, this));
             this.sldrOpacity.on('changecomplete', _.bind(this.onOpacityChangeComplete, this));
-            // this.lockedControls.push(this.sldrTransparency);
+            this.lockedControls.push(this.sldrOpacity);
 
             this.lblOpacityStart = $(this.el).find('#annotation-lbl-opacity-start');
             this.lblOpacityEnd = $(this.el).find('#annotation-lbl-opacity-end');
@@ -194,25 +204,24 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big',
-                ariaLabel: this.strTransparency     //TODO: Добавить label
+                dataHintOffset: 'big'
             });
             this.numOpacity.on('change', _.bind(this.onNumOpacityChange, this));
             this.numOpacity.on('inputleave', function(){ this.fireEvent('editcomplete', this);});
-            // this.lockedControls.push(this.numTransparency);
+            this.lockedControls.push(this.numOpacity);
 
 
             const lineStyleOptions = [
-                { displayValue: this.txtNone,   value: AscPDF.LINE_END_TYPE.None },
-                { displayValue: this.txtOpen,   value: AscPDF.LINE_END_TYPE.OpenArrow },
-                { displayValue: this.txtClosed,   value: AscPDF.LINE_END_TYPE.ClosedArrow },
-                { displayValue: this.txtOpenReverse,   value: AscPDF.LINE_END_TYPE.ROpenArrow },
-                { displayValue: this.txtClosedReverse,   value: AscPDF.LINE_END_TYPE.RClosedArrow },
-                { displayValue: this.txtButt,   value: AscPDF.LINE_END_TYPE.Butt },
-                { displayValue: this.txtDiamond,   value: AscPDF.LINE_END_TYPE.Diamond },
-                { displayValue: this.txtCircle,   value: AscPDF.LINE_END_TYPE.Circle },
-                { displayValue: this.txtSquare,   value: AscPDF.LINE_END_TYPE.Square },
-                { displayValue: this.txtSlash,   value: AscPDF.LINE_END_TYPE.Slash }
+                { displayValue: this.txtNone,   value: AscPDF.LINE_END_TYPE.none },
+                { displayValue: this.txtOpen,   value: AscPDF.LINE_END_TYPE.openArrow },
+                { displayValue: this.txtClosed,   value: AscPDF.LINE_END_TYPE.closedArrow },
+                { displayValue: this.txtOpenReverse,   value: AscPDF.LINE_END_TYPE.rOpenArrow },
+                { displayValue: this.txtClosedReverse,   value: AscPDF.LINE_END_TYPE.rClosedArrow },
+                { displayValue: this.txtButt,   value: AscPDF.LINE_END_TYPE.butt },
+                { displayValue: this.txtDiamond,   value: AscPDF.LINE_END_TYPE.diamond },
+                { displayValue: this.txtCircle,   value: AscPDF.LINE_END_TYPE.circle },
+                { displayValue: this.txtSquare,   value: AscPDF.LINE_END_TYPE.square },
+                { displayValue: this.txtSlash,   value: AscPDF.LINE_END_TYPE.slash }
             ];         
             this.cmbLineStart = new Common.UI.ComboBox({
                 el: $markup.findById('#annotation-combo-line-start'),
@@ -225,6 +234,7 @@ define([
                 dataHintOffset: 'big'
             });
             this.cmbLineStart.on('selected', this.onLineStartChanged.bind(this));
+            this.lockedControls.push(this.cmbLineStart);
 
             this.cmbLineEnd = new Common.UI.ComboBox({
                 el: $markup.findById('#annotation-combo-line-end'),
@@ -237,6 +247,7 @@ define([
                 dataHintOffset: 'big'
             });
             this.cmbLineEnd.on('selected', this.onLineEndChanged.bind(this));
+            this.lockedControls.push(this.cmbLineEnd);
         },
 
         updateMetricUnit: function() {
@@ -260,46 +271,59 @@ define([
                 this.createDelayedElements();
             }
 
-            // this.disableControls(this._locked);
+            this.disableControls(this._locked);
 
             if (props) {
                 const getFormField = function(inputCmp) {
                     return inputCmp.$el.closest('.form-field');
                 };
                 let $formValue;
+                let value;
 
                 // If a property is not supported by this annotation type, 
                 // then this property will not be present in asc_getAnnotProps.
                 const annotProps = props.asc_getAnnotProps(); 
                 this._originalProps = props;
                 
-                console.log(props);
-
                 // Border color
-                let value = props.asc_getStroke();
-                if (value) {
-                    this._state.BorderColor = Common.Utils.ThemeColor.getHexColor(value.r, value.g, value.b);
+                value = props.asc_getStroke ? props.asc_getStroke() : null; // null - property is not supported 
+                $formValue = getFormField(this.btnBorderColor);
+                if(value !== null) {
+                    if (value) {
+                        this._state.BorderColor = Common.Utils.ThemeColor.getHexColor(value.r, value.g, value.b);
+                    } else {
+                        this._state.BorderColor = 'transparent';
+                    }
+                    this.btnBorderColor.setColor(this._state.BorderColor);
+                    this.mnuBorderColorPicker.clearSelection();
+                    if(this._state.BorderColor != 'transparent') {
+                        this.mnuBorderColorPicker.selectByRGB(this._state.BorderColor, true);
+                    }
+                    $formValue.show();
                 } else {
-                    this._state.BorderColor = 'transparent';
-                }
-                this.btnBorderColor.setColor(this._state.BorderColor);
-                this.mnuBorderColorPicker.clearSelection();
-                if(this._state.BorderColor != 'transparent') {
-                    this.mnuBorderColorPicker.selectByRGB(this._state.BorderColor, true);
+                    $formValue.hide();
                 }
 
                 // Background color
-                value = props.asc_getFill();
-                if (value) {
-                    this._state.BackgroundColor = Common.Utils.ThemeColor.getHexColor(value.r, value.g, value.b);
+                value = props.asc_getStroke ? props.asc_getFill() : null;   // null - property is not supported 
+                $formValue = getFormField(this.btnBackgroundColor);
+                if(value !== null) {
+                    if (value) {
+                        this._state.BackgroundColor = Common.Utils.ThemeColor.getHexColor(value.r, value.g, value.b);
+                    } else {
+                        this._state.BackgroundColor = 'transparent';
+                    }
+                    this.btnBackgroundColor.setColor(this._state.BackgroundColor);
+                    this.mnuBackgroundColorTransparent.setChecked(this._state.BackgroundColor == 'transparent', true);
+                    this.mnuBackgroundColorPicker.clearSelection();
+                    if(this._state.BackgroundColor != 'transparent') {
+                        this.mnuBackgroundColorPicker.selectByRGB(this._state.BackgroundColor, true);
+                    }
+                    $formValue.show();
                 } else {
-                    this._state.BackgroundColor = 'transparent';
+                    $formValue.hide();
                 }
-                this.btnBackgroundColor.setColor(this._state.BackgroundColor);
-                this.mnuBackgroundColorPicker.clearSelection();
-                if(this._state.BackgroundColor != 'transparent') {
-                    this.mnuBackgroundColorPicker.selectByRGB(this._state.BackgroundColor, true);
-                }
+                
 
                 //Border width
                 $formValue = getFormField(this.numBorderWidth);
@@ -341,7 +365,7 @@ define([
                 if(annotProps?.asc_getLineStart) {
                     value = annotProps.asc_getLineStart();
                     if (this._state.LineStart !== value) {
-                        this.cmbLineStart.setValue(value, '');
+                        this.cmbLineStart.setValue(value);
                         this._state.LineStart = value;
                     }
                     $formValue.show();
@@ -354,7 +378,7 @@ define([
                 if(annotProps?.asc_getLineEnd) {
                     value = annotProps.asc_getLineEnd();
                     if (this._state.LineEnd !== value) {
-                        this.cmbLineEnd.setValue(value, '');
+                        this.cmbLineEnd.setValue(value);
                         this._state.LineEnd = value;
                     }
                     $formValue.show();
@@ -397,10 +421,8 @@ define([
         
         //Event handlers
         onBorderColorSelect: function(btn, color) {
-            // this.BorderColor = color;
-            // this._state.BorderColor = undefined;
-
             if (this.api) {
+                this._state.BorderColor = undefined;
                 if (color == 'transparent') {
                     this.api.SetAnnotStrokeColor();
                 } else {
@@ -413,34 +435,36 @@ define([
         
         onNumBorderWidthChange: function(field) {
             if (this.api)  {
-                const value = field.getNumberValue();
                 this._state.BorderWidth = undefined;
+                const value = field.getNumberValue();
                 this.api.SetAnnotStrokeWidth(Common.Utils.Metric.fnRecalcToPt(value));
+                this.fireEvent('editcomplete', this);
             }
-            this.fireEvent('editcomplete', this);
         },
 
         onCmbBorderStyleChange: function(cmb, record) {
             if (this.api)  {
                 this._state.BorderStyle = undefined;
                 this.api.SetAnnotStrokeStyle(record.value);
+                this.fireEvent('editcomplete', this);
             }
-            this.fireEvent('editcomplete', this);
         },
 
         onBackgroundColorSelect: function(btn, color) {
-            // this.BorderColor = color;
-            this._state.BorderColor = undefined;
-
             if (this.api) {
+                this._state.BackgroundColor = undefined;
                 if (color == 'transparent') {
-                    this.api.SetAnnotFillColor();
+                    this.api.SetAnnotFillColor(undefined);
                 } else {
                     const clr = Common.Utils.ThemeColor.getRgbColor(color);
                     this.api.SetAnnotFillColor(clr.get_r(), clr.get_g(), clr.get_b());
                 }
                 this.fireEvent('editcomplete', this);
             }
+        },
+
+        onBackgroundColorTransparentClick: function(btn) {
+            this.onBackgroundColorSelect(btn, 'transparent');
         },
 
         onNumOpacityChange: function(field, newValue, oldValue, eOpts) {
@@ -490,17 +514,15 @@ define([
             }
         },
 
-        // TODO: Move to en.js 
-        txtNone: 'None',
-        txtOpen: 'Open',
-        txtClosed: 'Closed',
-        txtOpenReverse: 'Open (Reverse)',
-        txtClosedReverse: 'Closed (Reverse)',
-        txtButt: 'Butt',
-        txtDiamond: 'Diamond',
-        txtCircle: 'Circle',    //TODO: Вомзожно назвать Round (Как в adobe)
-        txtSquare: 'Square',
-        txtSlash: 'Slash'
-        
+        disableControls: function(disable) {
+            if (this._initSettings) return;
+            
+            if (this._state.DisabledControls!==disable) {
+                this._state.DisabledControls = disable;
+                _.each(this.lockedControls, function(item) {
+                    item.setDisabled(disable);
+                });
+            }
+        }
     }, PDFE.Views.AnnotationSettings || {}));
 });
