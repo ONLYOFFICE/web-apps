@@ -346,7 +346,7 @@ define([
                     return;
                 }
 
-                this.toolbar.fireEvent('paste:options', [toolbar.btnPaste, this.api])
+                this.toolbar.fireEvent('paste:options', [toolbar.btnPaste, this.api]);
             }, this));
             toolbar.btnCut.on('click',                                  _.bind(this.onCopyPaste, this, 'cut'));
             toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
