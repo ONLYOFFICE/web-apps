@@ -668,25 +668,31 @@ define([
             var requestObj = {},
                 comment = this.readSDKComment(id, data, requestObj);
             if (comment) {
-                if (comment.get('groupName')) {
-                    this.addCommentToGroupCollection(comment);
-                    (_.indexOf(this.collection.groups, comment.get('groupName'))>-1) && this.collection.push(comment);
-                } else
-                    this.collection.push(comment);
+                const guid = comment.get('guid');
+                const duplicateComment = (this.findCommentByGuid(guid) || this.findCommentInGroupByGuid(guid));
+                if(duplicateComment) {
+                    duplicateComment.set('uid', id);
+                } else {
+                    if (comment.get('groupName')) {
+                        this.addCommentToGroupCollection(comment);
+                        (_.indexOf(this.collection.groups, comment.get('groupName'))>-1) && this.collection.push(comment);
+                    } else
+                        this.collection.push(comment);
 
-                this.updateComments(true, this.getComparator() === 'position-asc' || this.getComparator() === 'position-desc'); // don't sort by position
+                    this.updateComments(true, this.getComparator() === 'position-asc' || this.getComparator() === 'position-desc'); // don't sort by position
 
-                if (this.showPopover) {
-                    if (null !== data.asc_getQuoteText()) {
-                        this.api.asc_selectComment(id);
-                        this._dontScrollToComment = true;
-                        this.api.asc_showComment(id, true);
+                    if (this.showPopover) {
+                        if (null !== data.asc_getQuoteText()) {
+                            this.api.asc_selectComment(id);
+                            this._dontScrollToComment = true;
+                            this.api.asc_showComment(id, true);
+                        }
+
+                        this.showPopover = undefined;
+                        this.editPopover = false;
                     }
-
-                    this.showPopover = undefined;
-                    this.editPopover = false;
+                    requestObj.arrIds && requestObj.arrIds.length && Common.UI.ExternalUsers.get('info', requestObj.arrIds);
                 }
-                requestObj.arrIds && requestObj.arrIds.length && Common.UI.ExternalUsers.get('info', requestObj.arrIds);
             }
         },
         onApiAddComments: function (data) {
@@ -1144,6 +1150,9 @@ define([
         findComment: function (uid) {
             return this.collection.findWhere({uid: uid});
         },
+        findCommentByGuid: function (guid) {
+            return this.collection.findWhere({guid: guid});
+        },
         findPopupComment: function (id) {
             return this.popoverComments.findWhere({id: id});
         },
@@ -1151,6 +1160,13 @@ define([
             for (var name in this.groupCollection) {
                 var store = this.groupCollection[name],
                     model = store.findWhere({uid: id});
+                if (model) return model;
+            }
+        },
+        findCommentInGroupByGuid: function (guid) {
+            for (var name in this.groupCollection) {
+                var store = this.groupCollection[name],
+                    model = store.findWhere({guid: guid});
                 if (model) return model;
             }
         },
