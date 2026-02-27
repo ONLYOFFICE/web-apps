@@ -3966,7 +3966,7 @@ define([
                     Array.prototype.push.apply(me.toolbar.lockControls, chartbuttons);
                 }
 
-                if ( config.canProtect && !config.isPDFForm) {
+                if ( config.canProtect) {
                     tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
                     $panel = application.getController('Common.Controllers.Protection').createToolbarPanel();
                     if ($panel) {
@@ -3981,14 +3981,14 @@ define([
                         me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
                         Array.prototype.push.apply(me.toolbar.lockControls, doctabButtons);
                     }
-
-                    var links = application.getController('Links');
-                    links.setApi(me.api).setConfig({toolbar: me});
-                    Array.prototype.push.apply(me.toolbar.lockControls, links.getView('Links').getButtons());
-
-                    me.getApplication().getController('Common.Controllers.ExternalLinks').setConfig({toolbar: me}).setApi(me.api);
-                    me.toolbar.lockControls.push(application.getController('Viewport').getView('Common.Views.Header').getButton('mode'));
                 }
+                
+                var links = application.getController('Links');
+                links.setApi(me.api).setConfig({toolbar: me});
+                Array.prototype.push.apply(me.toolbar.lockControls, links.getView('Links').getButtons());
+
+                me.getApplication().getController('Common.Controllers.ExternalLinks').setConfig({toolbar: me}).setApi(me.api);
+                me.toolbar.lockControls.push(application.getController('Viewport').getView('Common.Views.Header').getButton('mode'));
             } else if (config.isRestrictedEdit && config.canFillForms && config.isPDFForm) {
                 me.toolbar.setMode(config);
 
