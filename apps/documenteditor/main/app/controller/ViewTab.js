@@ -286,7 +286,8 @@ define([
         },
 
         onDocumentReady: function() {
-            Common.Utils.lockControls(Common.enumLock.disableOnStart, false, {array: this.view.lockedControls});
+            if ( this.view )
+                Common.Utils.lockControls(Common.enumLock.disableOnStart, false, {array: this.view.lockedControls});
         },
 
         onMultiplePages: function (pressed) {
