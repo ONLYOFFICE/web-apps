@@ -4027,20 +4027,20 @@ define([
                         }
                     }
                 }
-                config.isEdit && config.canFeatureContentControl && me.onChangeSdtGlobalSettings();
-
-                tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
-                var viewtab = application.getController('ViewTab');
-                viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
-                $panel = viewtab.createToolbarPanel();
-                if ($panel) {
-                    var visible = Common.UI.LayoutManager.isElementVisible('toolbar-view');
-                    me.toolbar.addTab(tab, $panel, 8);
-                    me.toolbar.setVisible('view', visible);
-                    !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
-                }
-                config.isEdit && Array.prototype.push.apply(me.toolbar.lockControls, viewtab.getView('ViewTab').getButtons());
             }
+            config.isEdit && config.canFeatureContentControl && me.onChangeSdtGlobalSettings();
+
+            tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
+            const viewtab = application.getController('ViewTab');
+            viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
+            $panel = viewtab.createToolbarPanel();
+            if ($panel) {
+                const visible = Common.UI.LayoutManager.isElementVisible('toolbar-view');
+                me.toolbar.addTab(tab, $panel, 8);
+                me.toolbar.setVisible('view', visible);
+                !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
+            }
+            config.isEdit && Array.prototype.push.apply(me.toolbar.lockControls, viewtab.getView('ViewTab').getButtons());
         },
 
         onAppReady: function (config) {
