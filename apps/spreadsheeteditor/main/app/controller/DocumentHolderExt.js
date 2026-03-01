@@ -1589,17 +1589,18 @@ define([], function () {
                     }
 
                     var data  = dataarray[index_hyperlink-1],
-                        props = data.asc_getHyperlink();
+                        props = data.asc_getHyperlink(),
+                        text = props.asc_getIsFromShape() ? me.textLinkShape : me.textCtrlClick;
 
                     if (props.asc_getType() == Asc.c_oAscHyperlinkType.WebLink) {
                         var linkstr = props.asc_getTooltip();
                         linkstr = (linkstr) ? linkstr : props.asc_getHyperlinkUrl();
                         if (linkstr.length>256)
                             linkstr = linkstr.substr(0, 256) + '...';
-                        linkstr = Common.Utils.String.htmlEncode(linkstr) + '<br><b>' + me.textCtrlClick + '</b>';
+                        linkstr = Common.Utils.String.htmlEncode(linkstr) + '<br><b>' +  text + '</b>';
                     } else {
                         linkstr = Common.Utils.String.htmlEncode(props.asc_getTooltip() || (props.asc_getLocation()));
-                        linkstr += '<br><b>' + me.textCtrlClick + '</b>';
+                        linkstr += '<br><b>' +  text + '</b>';
                     }
 
                     if (hyperlinkTip.ref && hyperlinkTip.ref.isVisible()) {

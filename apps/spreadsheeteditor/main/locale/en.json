@@ -1338,6 +1338,7 @@
   "SSE.Controllers.DocumentHolder.textChangeColumnWidth": "Column width {0} symbols ({1} pixels)",
   "SSE.Controllers.DocumentHolder.textChangeRowHeight": "Row Height {0} points ({1} pixels)",
   "SSE.Controllers.DocumentHolder.textCtrlClick": "Click the link to open it or click and hold the mouse button to select the cell.",
+  "SSE.Controllers.DocumentHolder.textLinkShape": "Click the link to open it or click and hold the mouse button.",
   "SSE.Controllers.DocumentHolder.textInsertLeft": "Insert column to the left",
   "SSE.Controllers.DocumentHolder.textInsertTop": "Insert row above",
   "SSE.Controllers.DocumentHolder.textPasteSpecial": "Paste special",
