@@ -95,10 +95,13 @@
             height: @x-small-btn-size;
             width: @x-small-btn-size-ie;
             width: @x-small-btn-size;
-            .margin-left(@celleditor-func-label-margin-left-ie);
-            .margin-left(@celleditor-func-label-margin-left);
+            margin-left: @celleditor-func-label-margin-left-ie;
+            margin-left: @celleditor-func-label-margin-left;
+            margin-right: @celleditor-func-label-margin-right-ie;
+            margin-right: @celleditor-func-label-margin-right;
 
-            .border-radius(0);
+            .border-radius(@celleditor-func-label-border-radius-ie);
+            .border-radius(@celleditor-func-label-border-radius);
 
             &.disabled {
                 opacity: 0.4;
