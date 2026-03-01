@@ -3966,7 +3966,6 @@ define([
                     Array.prototype.push.apply(me.toolbar.lockControls, chartbuttons);
                 }
 
-                if ( config.canProtect && !config.isPDFForm) {
                     if ( config.canProtect) {
                         tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
                         $panel = application.getController('Common.Controllers.Protection').createToolbarPanel();
