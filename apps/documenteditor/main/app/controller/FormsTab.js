@@ -161,7 +161,7 @@ define([
 
         getView: function(name) {
             return !name && this.view ?
-                this.view : Backbone.Controller.prototype.getView.call(this, name);
+                this.view : name ? Backbone.Controller.prototype.getView.call(this, name) : undefined;
         },
 
         onCoAuthoringDisconnect: function() {
