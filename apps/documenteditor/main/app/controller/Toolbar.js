@@ -3966,64 +3966,63 @@ define([
                     Array.prototype.push.apply(me.toolbar.lockControls, chartbuttons);
                 }
 
-                    if ( config.canProtect) {
-                        tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
-                        $panel = application.getController('Common.Controllers.Protection').createToolbarPanel();
-                        if ($panel) {
-                            const doctabController = application.getController('DocProtection');
-                            const doctabView = doctabController.getView('DocProtection');
-                            const doctabButtons = doctabView.getButtons();
-                            if(doctabButtons.length > 0 && (config.isSignatureSupport || config.isPasswordSupport)) {
-                                $panel.append($('<div class="separator long"></div>'));
-                            }
-                            $panel.append(doctabController.createToolbarPanel());
-                            me.toolbar.addTab(tab, $panel, 7);
-                            me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
-                            Array.prototype.push.apply(me.toolbar.lockControls, doctabButtons);
+                if ( config.canProtect) {
+                    tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
+                    $panel = application.getController('Common.Controllers.Protection').createToolbarPanel();
+                    if ($panel) {
+                        const doctabController = application.getController('DocProtection');
+                        const doctabView = doctabController.getView('DocProtection');
+                        const doctabButtons = doctabView.getButtons();
+                        if(doctabButtons.length > 0 && (config.isSignatureSupport || config.isPasswordSupport)) {
+                            $panel.append($('<div class="separator long"></div>'));
                         }
-                    }
-
-                    var links = application.getController('Links');
-                    links.setApi(me.api).setConfig({toolbar: me});
-                    Array.prototype.push.apply(me.toolbar.lockControls, links.getView('Links').getButtons());
-
-                    me.getApplication().getController('Common.Controllers.ExternalLinks').setConfig({toolbar: me}).setApi(me.api);
-                    me.toolbar.lockControls.push(application.getController('Viewport').getView('Common.Views.Header').getButton('mode'));
-                } else if (config.isRestrictedEdit && config.canFillForms && config.isPDFForm) {
-                    me.toolbar.setMode(config);
-
-                    me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
-
-                    // if (!(me.mode.canRequestEditRights && me.mode.isPDFForm && me.mode.canFillForms && me.mode.isRestrictedEdit))
-                    //     me.toolbar.btnEditMode && me.toolbar.btnEditMode.cmpEl.parents('.group').hide().next('.separator').hide();
-
-                    if (!config.compactHeader) {
-                        // hide 'print' and 'save' buttons group and next separator
-                        me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
-
-                        // hide 'undo' and 'redo' buttons and retrieve parent container
-                        var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
-
-                        // move 'paste' button to the container instead of 'undo' and 'redo'
-                        me.toolbar.btnPaste.$el.detach().appendTo($box);
-                        me.toolbar.btnPaste.$el.find('button').attr('data-hint-direction', 'bottom');
-                        me.toolbar.btnCopy.$el.removeClass('split');
-                        me.toolbar.processPanelVisible(null, true);
+                        $panel.append(doctabController.createToolbarPanel());
+                        me.toolbar.addTab(tab, $panel, 7);
+                        me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
+                        Array.prototype.push.apply(me.toolbar.lockControls, doctabButtons);
                     }
                 }
 
-                if ( config.isEdit && config.canFeatureContentControl && config.canFeatureForms || config.isRestrictedEdit && config.canFillForms ) {
-                    if (config.isFormCreator) {
-                        tab = {caption: config.isRestrictedEdit && config.canFillForms && config.isPDFForm ? me.toolbar.textTabHome : me.textTabForms, action: 'forms', dataHintTitle: 'M'};
-                        var forms = application.getController('FormsTab');
-                        forms.setApi(me.api).setConfig({toolbar: me, config: config});
-                        $panel = forms.createToolbarPanel();
-                        if ($panel) {
-                            me.toolbar.addTab(tab, $panel, 5);
-                            me.toolbar.setVisible('forms', true);
-                            Array.prototype.push.apply(me.toolbar.lockControls, forms.getView('FormsTab').getButtons());
-                            !compactview && (config.isFormCreator || config.isRestrictedEdit && config.canFillForms) && me.toolbar.setTab('forms');
-                        }
+                var links = application.getController('Links');
+                links.setApi(me.api).setConfig({toolbar: me});
+                Array.prototype.push.apply(me.toolbar.lockControls, links.getView('Links').getButtons());
+
+                me.getApplication().getController('Common.Controllers.ExternalLinks').setConfig({toolbar: me}).setApi(me.api);
+                me.toolbar.lockControls.push(application.getController('Viewport').getView('Common.Views.Header').getButton('mode'));
+            } else if (config.isRestrictedEdit && config.canFillForms && config.isPDFForm) {
+                me.toolbar.setMode(config);
+
+                me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
+
+                // if (!(me.mode.canRequestEditRights && me.mode.isPDFForm && me.mode.canFillForms && me.mode.isRestrictedEdit))
+                //     me.toolbar.btnEditMode && me.toolbar.btnEditMode.cmpEl.parents('.group').hide().next('.separator').hide();
+
+                if (!config.compactHeader) {
+                    // hide 'print' and 'save' buttons group and next separator
+                    me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
+
+                    // hide 'undo' and 'redo' buttons and retrieve parent container
+                    var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
+
+                    // move 'paste' button to the container instead of 'undo' and 'redo'
+                    me.toolbar.btnPaste.$el.detach().appendTo($box);
+                    me.toolbar.btnPaste.$el.find('button').attr('data-hint-direction', 'bottom');
+                    me.toolbar.btnCopy.$el.removeClass('split');
+                    me.toolbar.processPanelVisible(null, true);
+                }
+            }
+
+            if ( config.isEdit && config.canFeatureContentControl && config.canFeatureForms || config.isRestrictedEdit && config.canFillForms ) {
+                if (config.isFormCreator) {
+                    tab = {caption: config.isRestrictedEdit && config.canFillForms && config.isPDFForm ? me.toolbar.textTabHome : me.textTabForms, action: 'forms', dataHintTitle: 'M'};
+                    var forms = application.getController('FormsTab');
+                    forms.setApi(me.api).setConfig({toolbar: me, config: config});
+                    $panel = forms.createToolbarPanel();
+                    if ($panel) {
+                        me.toolbar.addTab(tab, $panel, 5);
+                        me.toolbar.setVisible('forms', true);
+                        Array.prototype.push.apply(me.toolbar.lockControls, forms.getView('FormsTab').getButtons());
+                        !compactview && (config.isFormCreator || config.isRestrictedEdit && config.canFillForms) && me.toolbar.setTab('forms');
                     }
                 }
             }
