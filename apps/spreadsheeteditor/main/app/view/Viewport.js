@@ -137,7 +137,7 @@ define([
                 rely: true,
                 alias: 'right',
                 resize: {
-                    hidden: false,
+                    hidden: true,
                     autohide: false,
                     min: -600,
                     max: -260
