@@ -114,7 +114,8 @@ window.Common = {
             if ( window.isIEBrowser === true ) return;
 
             window.svgiconsrunonce;
-            // const el = document.querySelector('div.inlined-svg');
+            const el = document.querySelector('div.inlined-svg');
+            if(!el) return;
             // if (!el || !el.innerHTML.firstChild) {
             if ( !window.svgiconsrunonce || force === true ) {
                 window.svgiconsrunonce = true;
@@ -151,10 +152,9 @@ window.Common = {
                                         };
                                     }
 
-                                    const el = document.querySelector('div.inlined-svg');
                                     const child = htmlToElements(text, el_id);
                                     if ( sprite_uid.length )
-                                        child.setAttribute('data-sprite-uid', sprite_uid);
+                                        child && child.setAttribute('data-sprite-uid', sprite_uid);
                                     el.appendChild(child);
 
                                     const i = svg_icons_array.findIndex(function (item) {return item == url});
