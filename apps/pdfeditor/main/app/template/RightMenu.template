@@ -23,7 +23,7 @@
         <button id="id-right-menu-textart" class="btn btn-category arrow-left" content-target="id-textart-settings" data-hint="0" data-hint-direction="left" data-hint-offset="big"><i class="icon toolbar__icon btn-menu-textart">&nbsp;</i></button>
 <!--        <button id="id-right-menu-signature" class="btn btn-category arrow-left hidden" content-target="id-signature-settings" data-hint="0" data-hint-direction="left" data-hint-offset="big"><i class="icon toolbar__icon btn-menu-signature">&nbsp;</i></button>-->
         <button id="id-right-menu-form" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-form-settings"><i class="icon toolbar__icon btn-field">&nbsp;</i></button>
-        <button id="id-right-menu-annotation" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-annotation-settings"><i class="icon toolbar__icon btn-menu-shape">&nbsp;</i></button>
+        <button id="id-right-menu-annotation" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-annotation-settings"><i class="icon toolbar__icon btn-menu-annotations">&nbsp;</i></button>
         <div id="slot-right-menu-more"></div>
     </div>
 </div>
