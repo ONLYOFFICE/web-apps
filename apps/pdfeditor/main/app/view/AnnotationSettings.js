@@ -61,6 +61,7 @@ define([
 
         initialize: function () {
             this._initSettings = true;
+            this._noApply = true;
             this._state = {
                 DisabledControls: false
             };
@@ -284,6 +285,8 @@ define([
                 // then this property will not be present in asc_getAnnotProps.
                 const annotProps = props.asc_getAnnotProps(); 
                 this._originalProps = props;
+
+                this._noApply = true;
                 
                 // Border color
                 value = props.asc_getStroke ? props.asc_getStroke() : null; // null - property is not supported 
@@ -305,7 +308,7 @@ define([
                 }
 
                 // Background color
-                value = props.asc_getStroke ? props.asc_getFill() : null;   // null - property is not supported 
+                value = props.asc_getFill ? props.asc_getFill() : null;   // null - property is not supported 
                 $formValue = getFormField(this.btnBackgroundColor);
                 if(value !== null) {
                     if (value) {
@@ -326,19 +329,18 @@ define([
                 
 
                 //Border width
+                value = annotProps.asc_getBorderWidth ? annotProps.asc_getBorderWidth() : null;   // null - property is not supported 
                 $formValue = getFormField(this.numBorderWidth);
-                if(annotProps?.asc_getBorderWidth) {
-                    value = annotProps.asc_getBorderWidth();
+                if(value !== null) {
+                    value = Common.Utils.Metric.fnRecalcFromPt(value);
                     if (
                         Math.abs(this._state.BorderWidth - value) > 0.001 || 
                         Math.abs(this.numBorderWidth.getNumberValue() - value) > 0.001 || 
                         (this._state.BorderWidth === null || value === null) && 
                         (this._state.BorderWidth !== value || this.numBorderWidth.getNumberValue() !== value)
                     ) {
-                        if (value !== undefined) {
-                            this.numBorderWidth.setValue(
-                                (value !== null) ? Common.Utils.Metric.fnRecalcFromPt(value) : '', true
-                            );
+                        if (value != undefined) {
+                            this.numBorderWidth.setValue(value, true);
                         }
                         this._state.BorderWidth = value;
                     }
@@ -361,9 +363,9 @@ define([
                 }
 
                 //Line start
+                value = annotProps.asc_getLineStart ? annotProps.asc_getLineStart() : null; 
                 $formValue = getFormField(this.cmbLineStart);
-                if(annotProps?.asc_getLineStart) {
-                    value = annotProps.asc_getLineStart();
+                if(value) {
                     if (this._state.LineStart !== value) {
                         this.cmbLineStart.setValue(value);
                         this._state.LineStart = value;
@@ -374,9 +376,9 @@ define([
                 }
 
                 //Line end
+                value = annotProps.asc_getLineEnd ? annotProps.asc_getLineEnd() : null; 
                 $formValue = getFormField(this.cmbLineEnd);
-                if(annotProps?.asc_getLineEnd) {
-                    value = annotProps.asc_getLineEnd();
+                if(value) {
                     if (this._state.LineEnd !== value) {
                         this.cmbLineEnd.setValue(value);
                         this._state.LineEnd = value;
@@ -401,6 +403,8 @@ define([
                     this._state.Opacity = value;
                 }
 
+                this._noApply = false;
+
                 this.showHideFormGroups();
             }
         },
@@ -421,7 +425,7 @@ define([
         
         //Event handlers
         onBorderColorSelect: function(btn, color) {
-            if (this.api) {
+            if (this.api && !this._noApply) {
                 this._state.BorderColor = undefined;
                 if (color == 'transparent') {
                     this.api.SetAnnotStrokeColor();
@@ -434,7 +438,7 @@ define([
         },
         
         onNumBorderWidthChange: function(field) {
-            if (this.api)  {
+            if (this.api && !this._noApply)  {
                 this._state.BorderWidth = undefined;
                 const value = field.getNumberValue();
                 this.api.SetAnnotStrokeWidth(Common.Utils.Metric.fnRecalcToPt(value));
@@ -443,7 +447,7 @@ define([
         },
 
         onCmbBorderStyleChange: function(cmb, record) {
-            if (this.api)  {
+            if (this.api && !this._noApply)  {
                 this._state.BorderStyle = undefined;
                 this.api.SetAnnotStrokeStyle(record.value);
                 this.fireEvent('editcomplete', this);
@@ -451,7 +455,7 @@ define([
         },
 
         onBackgroundColorSelect: function(btn, color) {
-            if (this.api) {
+            if (this.api && !this._noApply) {
                 this._state.BackgroundColor = undefined;
                 if (color == 'transparent') {
                     this.api.SetAnnotFillColor(undefined);
@@ -469,7 +473,7 @@ define([
 
         onNumOpacityChange: function(field, newValue, oldValue, eOpts) {
             this.sldrOpacity.setValue(field.getNumberValue(), true);
-            if (this.api)  {
+            if (this.api && !this._noApply)  {
                 const num = field.getNumberValue();
                 this.api.SetAnnotOpacity(num);
             }
@@ -478,7 +482,7 @@ define([
             this._sliderOpacityChanged = newValue;
             this.numOpacity.setValue(newValue, true);
 
-            if (this._sendUndoPoint) {
+            if (this.api && !this._noApply && this._sendUndoPoint) {
                 this.api.setStartPointHistory();
                 this._sendUndoPoint = false;
                 this.updateSliderOpacity = setInterval(_.bind(this._opacityApplyFunc, this), 100);
@@ -501,14 +505,14 @@ define([
         },
 
         onLineStartChanged: function(combo, record) {
-            if (this.api) {
+            if (this.api && !this._noApply) {
                 this.api.SetAnnotLineStart(record.value);
                 this.fireEvent('editcomplete', this);
             }
         },
 
         onLineEndChanged: function(combo, record) {
-            if (this.api ) {
+            if (this.api && !this._noApply) {
                 this.api.SetAnnotLineEnd(record.value);
                 this.fireEvent('editcomplete', this);
             }
