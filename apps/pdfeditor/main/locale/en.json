@@ -2707,6 +2707,8 @@
   "PDFE.Views.RedactTab.tipRedactPages": "Redact pages",
   "PDFE.Views.RedactTab.txtMarkCurrentPage": "Mark current page",
   "PDFE.Views.RedactTab.txtSelectRange": "Select range",
+  "PDFE.Views.RedactTab.txtRemoveForms": "Remove forms",
+  "PDFE.Views.RedactTab.txtRemoveAnnotations": "Remove annotations",
   "PDFE.Views.RightMenu.ariaRightMenu": "Right menu",
   "PDFE.Views.RightMenu.txtChartSettings": "Chart settings",
   "PDFE.Views.RightMenu.txtFormSettings": "Form settings",

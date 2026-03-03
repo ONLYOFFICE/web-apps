@@ -110,8 +110,8 @@ define([
                     'redact:apply'   : this.onApplyRedact.bind(this),
                     'redact:page'    : this.onRedactCurrentPage.bind(this),
                     'redact:pages'   : this.onRedactPages.bind(this),
-                    'redact:hide-forms': this.onHideForms.bind(this),
-                    'redact:hide-annots': this.onHideAnnots.bind(this),
+                    'redact:remove-forms': this.onRemoveForms.bind(this),
+                    'redact:remove-annots': this.onRemoveAnnots.bind(this),
                 },
                 'Toolbar': {
                     'tab:active': this.onActiveTab
@@ -215,12 +215,14 @@ define([
             })).show();
         },
 
-        onHideForms: function(hide) {
-            this.api && this.api.SetRedactDelForm(hide);
+        onRemoveForms: function(remove) {
+            this.api && this.api.SetRedactDelForm(remove);
+            Common.localStorage.setBool("pdfe-redact-remove-forms", remove);
         },
 
-        onHideAnnots: function(hide) {
-            this.api && this.api.SetRedactDelAnnots(hide);
+        onRemoveAnnots: function(remove) {
+            this.api && this.api.SetRedactDelAnnots(remove);
+            Common.localStorage.setBool("pdfe-redact-remove-annots", remove);
         },
 
         onActiveTab: function(tab) {
@@ -316,8 +318,8 @@ define([
                     }
 
                     if(me.api) {
-                        me.view.chHideAnnots.setValue(me.api.IsRedactDelAnnots(), true);
-                        me.view.chHideForms.setValue(me.api.IsRedactDelForms(), true);
+                        me.view.chRemoveForms.setValue(Common.localStorage.getBool("pdfe-redact-remove-forms"));
+                        me.view.chRemoveAnnots.setValue(Common.localStorage.getBool("pdfe-redact-remove-annots"));
                     }
                 });
             }
