@@ -33,6 +33,7 @@ const ToolbarView = props => {
     const isMobileView = props.isMobileView;
     const docTitle = props.docTitle;
     const isOpenModal = props.isOpenModal;
+    const disableForceDesktop = props.disableForceDesktop;
 
     return (
         <Fragment>
@@ -86,7 +87,7 @@ const ToolbarView = props => {
                     })
                 }
                 {!isEditableForms ? [
-                    !Device.phone && <Link key='desktop-link' iconOnly href={false}
+                    !Device.phone && !disableForceDesktop &&<Link key='desktop-link' iconOnly href={false}
                                            className={isOpenModal || props.disabledControls ? 'disabled' : ''}
                                            onClick={() => props.forceDesktopMode()}>
                                         <SvgIcon symbolId={IconSwitchToDesktop.id}
@@ -140,7 +141,7 @@ const ToolbarView = props => {
                            <SvgIcon symbolId={IconSettingsAndroid.id} className={'icon icon-svg'} />
                         }</Link>
                 ] : [
-                    !Device.phone && <Link key='desktop-link' iconOnly href={false} className={isOpenModal || props.disabledControls ? 'disabled' : ''} onClick={() => props.forceDesktopMode()}>
+                    !Device.phone && !disableForceDesktop && <Link key='desktop-link' iconOnly href={false} className={isOpenModal || props.disabledControls ? 'disabled' : ''} onClick={() => props.forceDesktopMode()}>
                         <SvgIcon symbolId={IconSwitchToDesktop.id} className={'icon icon-svg'} />
                     </Link>,
                     <Link iconOnly key='prev-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-prev-field' href={false} onClick={() => props.movePrevField()}><SvgIcon symbolId={IconPrevField.id} className={'icon icon-svg'} /></Link>,
