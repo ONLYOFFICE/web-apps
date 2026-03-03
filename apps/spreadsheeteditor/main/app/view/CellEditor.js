@@ -69,6 +69,10 @@ define([
             this.$cellname = $('#ce-cell-name', this.el);
             this.$btnexpand = $('#ce-btn-expand', this.el);
             this.$btnfunc = $('#ce-func-label', this.el);
+            this.btnfunc = new Common.UI.Button({
+                el: this.$btnfunc,
+            });
+
             this.$cellcontent = $('#ce-cell-content', this.el);
             this.$cellgroupname = this.$btnexpand.parent();
 
