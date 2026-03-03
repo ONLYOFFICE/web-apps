@@ -55,6 +55,15 @@ define([
                 '<div class="group">' +
                     '<span class="btn-slot text x-huge" id="slot-btn-apply-redactions"></span>' +
                 '</div>' +
+                '<div class="separator long"></div>' +
+                '<div class="group small">' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="slot-chk-hide-forms"></span>' +
+                    '</div>' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="slot-chk-hide-annots"></span>' +
+                    '</div>' +
+                '</div>' +
             '</section>';
 
         return {
@@ -70,7 +79,13 @@ define([
                 });
                 me.btnFindRedact && me.btnFindRedact.on('click', function (btn) {
                     me.fireEvent('search:showredact', [btn.pressed])
-                })
+                });
+                me.chHideForms.on('change', function (checkbox, state) {
+                    me.fireEvent('redact:hide-forms', [state === 'checked']);
+                });
+                 me.chHideAnnots.on('change', function (checkbox, state) {
+                    me.fireEvent('redact:hide-annots', [state === 'checked']);
+                });
             },
 
             initialize: function (options) {
@@ -132,6 +147,26 @@ define([
                 });
                 me.lockedControls.push(this.btnApplyRedactions);
 
+                this.chHideForms = new Common.UI.CheckBox({
+                    lock: [_set.lostConnect, _set.disableOnStart],
+                    labelText: 'Hide forms',
+                    value: false,
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                me.lockedControls.push(this.chHideForms);
+
+                this.chHideAnnots = new Common.UI.CheckBox({
+                    lock: [_set.lostConnect, _set.disableOnStart],
+                    labelText: 'Hide annotations',
+                    value: false,
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                me.lockedControls.push(this.chHideAnnots);
+
                 Common.UI.LayoutManager.addControls(me.lockedControls);
                 Common.Utils.lockControls(_set.disableOnStart, true, {array: this.lockedControls});
             },
@@ -156,6 +191,8 @@ define([
                 _injectComponent('#slot-btn-redactpages', this.btnRedactPages);
                 _injectComponent('#slot-btn-apply-redactions', this.btnApplyRedactions);
                 _injectComponent('#slot-btn-findredact', this.btnFindRedact);
+                _injectComponent('#slot-chk-hide-forms', this.chHideForms);
+                _injectComponent('#slot-chk-hide-annots', this.chHideAnnots);
 
                 return this.$el;
             },

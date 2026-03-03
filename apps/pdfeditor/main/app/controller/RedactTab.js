@@ -110,6 +110,8 @@ define([
                     'redact:apply'   : this.onApplyRedact.bind(this),
                     'redact:page'    : this.onRedactCurrentPage.bind(this),
                     'redact:pages'   : this.onRedactPages.bind(this),
+                    'redact:hide-forms': this.onHideForms.bind(this),
+                    'redact:hide-annots': this.onHideAnnots.bind(this),
                 },
                 'Toolbar': {
                     'tab:active': this.onActiveTab
@@ -213,6 +215,14 @@ define([
             })).show();
         },
 
+        onHideForms: function(hide) {
+            this.api && this.api.SetRedactDelForm(hide);
+        },
+
+        onHideAnnots: function(hide) {
+            this.api && this.api.SetRedactDelAnnots(hide);
+        },
+
         onActiveTab: function(tab) {
             if (tab == 'red') {
                 if (!this.toolbar.toolbar.isCompact()) {
@@ -303,6 +313,11 @@ define([
                         me.getApplication().getController('LeftMenu').leftMenu.btnSearchBar.on('toggle', function (btn, state) {
                             !state && me.view.turnFindRedact(state);
                         });
+                    }
+
+                    if(me.api) {
+                        me.view.chHideAnnots.setValue(me.api.IsRedactDelAnnots(), true);
+                        me.view.chHideForms.setValue(me.api.IsRedactDelForms(), true);
                     }
                 });
             }
