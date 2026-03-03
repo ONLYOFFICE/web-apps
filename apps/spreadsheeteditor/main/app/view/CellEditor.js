@@ -71,6 +71,8 @@ define([
             this.$btnfunc = $('#ce-func-label', this.el);
             this.btnfunc = new Common.UI.Button({
                 el: this.$btnfunc,
+                dataHint    : '1',
+                dataHintDirection: 'bottom'
             });
 
             this.$cellcontent = $('#ce-cell-content', this.el);
@@ -83,17 +85,8 @@ define([
                 txt.selectionEnd = txt.value.length;
                 txt.scrollLeft = txt.scrollWidth;
             });
-
-            this.$btnfunc.addClass('disabled');
-            this.$btnfunc.tooltip({
-                title       : this.tipFormula,
-                placement   : 'cursor'
-            });
-            this.$btnfunc.attr('ratio', 'ratio');
-            this.applyScaling(Common.UI.Scaling.currentRatio());
-            this.$btnfunc.on('app:scaling', function (e, info) {
-                me.applyScaling(info.ratio);
-            });
+            this.btnfunc.setDisabled(true)
+            this.btnfunc.updateHint(this.tipFormula)
 
             return this;
         },
@@ -113,14 +106,6 @@ define([
             if (this.mode && this.mode.isEditDiagram) disabled = true;
             (disabled) ? this.$cellname.attr('disabled', 'disabled') : this.$cellname.removeAttr('disabled');
             this.btnNamedRanges.setDisabled(disabled);
-        },
-
-        applyScaling: function (ratio) {
-            if (ratio > 2 && !this.$btnfunc.find('svg.icon').length) {
-                var icon_name = 'btn-function',
-                    svg_icon = '<svg class="icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
-                this.$btnfunc.find('i.icon').after(svg_icon);
-            }
         },
 
         cellEditorTextChange: function (){

@@ -96,7 +96,7 @@ define([
             this.mode = mode;
 
             this.editor.setMode(mode);
-            this.editor.$btnfunc[this.mode.isEdit?'removeClass':'addClass']('disabled');
+            this.editor.btnfunc.setDisabled(!this.mode.isEdit);
             this.editor.btnNamedRanges.setVisible(this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge && !this.mode.isEditOle);
 
             if ( this.mode.isEdit ) {
@@ -152,7 +152,7 @@ define([
                 this.api.isCEditorFocused = false;
                 this.editor.cellNameDisabled(false);
             }
-            this.editor.$btnfunc.toggleClass('disabled', state == Asc.c_oAscCellEditorState.editText || this.isUserProtected);
+            this.editor.btnfunc.setDisabled(state == Asc.c_oAscCellEditorState.editText || this.isUserProtected);
         },
 
         onApiCellSelection: function(info) {
@@ -173,7 +173,7 @@ define([
                 is_mode_2       = is_shape_text || is_shape || is_chart_text || is_chart;
 
             this.isUserProtected = !!info.asc_getUserProtected();
-            this.editor.$btnfunc.toggleClass('disabled', is_image || is_mode_2 || coauth_disable || this.isUserProtected);
+            this.editor.btnfunc.setDisabled(is_image || is_mode_2 || coauth_disable || this.isUserProtected);
         },
 
         onApiDisconnect: function() {
@@ -194,7 +194,7 @@ define([
 
         onCellsRange: function(status) {
             this.editor.cellNameDisabled(status != Asc.c_oAscSelectionDialogType.None);
-            this.editor.$btnfunc.toggleClass('disabled', status != Asc.c_oAscSelectionDialogType.None || this.isUserProtected);
+            this.editor.btnfunc.setDisabled(status != Asc.c_oAscSelectionDialogType.None || this.isUserProtected);
         },
 
         onLayoutResize: function(o, r) {
@@ -283,7 +283,7 @@ define([
         onInsertFunction: function() {
             if (this.viewmode) return; // signed file
 
-            if ( this.mode.isEdit && !this.editor.$btnfunc['hasClass']('disabled')) {
+            if ( this.mode.isEdit && !this.editor.btnfunc.isDisabled()) {
                 var controller = this.getApplication().getController('FormulaDialog');
                 if (controller) {
                     $('#ce-func-label', this.editor.el).blur();
@@ -355,14 +355,14 @@ define([
         },
 
         SetDisabled: function(disabled) {
-            this.editor.$btnfunc[!disabled && this.mode && this.mode.isEdit && !this.isUserProtected ?'removeClass':'addClass']('disabled');
+            this.editor.btnfunc.setDisabled(!(!disabled && this.mode && this.mode.isEdit && !this.isUserProtected));
             this.editor.btnNamedRanges.setVisible(!disabled && this.mode && this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge && !this.mode.isEditOle);
         },
 
         setPreviewMode: function(mode) {
             if (this.viewmode === mode) return;
             this.viewmode = mode;
-            this.editor.$btnfunc[!mode && this.mode && this.mode.isEdit && !this.isUserProtected?'removeClass':'addClass']('disabled');
+            this.editor.btnfunc.setDisabled(!(!mode && this.mode && this.mode.isEdit && !this.isUserProtected));
             this.editor.cellNameDisabled(mode && !(this.mode && this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge && !this.mode.isEditOle));
         }
     });
