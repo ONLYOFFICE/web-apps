@@ -3126,7 +3126,7 @@ define([], function () {
             if (menuContainer.length < 1) {
                 menuContainer = $(Common.Utils.String.format('<div id="menu-formula-selection" style="position: absolute; z-index: 10000;" class="no-stop-propagate"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>'));
                 documentHolderView.cmpEl.append(menuContainer);
-                }
+            }
 
             if (!menu.rendered) {
                 menu.onAfterKeydownMenu = function(e) {
