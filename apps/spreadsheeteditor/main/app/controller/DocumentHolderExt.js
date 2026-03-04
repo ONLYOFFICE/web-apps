@@ -3000,20 +3000,28 @@ define([], function () {
         dh.onFormulaCompleteMenu = function(funcarr, offset) {
             if (!this.documentHolder.funcMenu || Common.Utils.ModalWindow.isVisible() || this.rangeSelectionMode) return;
 
-            if (funcarr) {
-                var me                  = this,
-                    documentHolderView  = me.documentHolder,
-                    menu                = documentHolderView.funcMenu,
-                    menuContainer       = documentHolderView.cmpEl.find('#menu-formula-selection'),
-                    funcdesc = me.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale"));
+            var me                  = this,
+                documentHolderView  = me.documentHolder,
+                menu                = documentHolderView.funcMenu,
+                menuContainer       = documentHolderView.cmpEl.find('#menu-formula-selection'),
+                funcdesc = me.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
+                argConstList = this.argConstList;
 
-                for (var i = 0; i < menu.items.length; i++) {
-                    var tip = menu.items[i].cmpEl.data('bs.tooltip');
-                    if (tip)
-                        tip.hide();
-                    menu.removeItem(menu.items[i]);
-                    i--;
-                }
+            if (!funcarr && (!argConstList || !argConstList.length)) {
+                menu.hide();
+                this.formulaMenuType = null;
+                return;
+            }
+
+            for (var i = 0; i < menu.items.length; i++) {
+                var tip = menu.items[i].cmpEl.data('bs.tooltip');
+                if (tip)
+                    tip.hide();
+                menu.removeItem(menu.items[i]);
+                i--;
+            }
+
+            if (funcarr) {
                 funcarr.sort(function (a,b) {
                     var atype = a.asc_getType(),
                         btype = b.asc_getType();
@@ -3084,110 +3092,138 @@ define([], function () {
                     });
                     menu.addItem(mnu);
                 });
+                this.formulaMenuType = 'completion';
+            } else {
+                _.each(argConstList, function(helpItem) {
+                    if (!helpItem || helpItem.length < 1)
+                        return;
 
-                if (!menu.rendered) {
+                    var value = helpItem[0],
+                        name = helpItem.length > 1 ? helpItem[1] : '',
+                        localeName = name ? me.api.asc_getFormulaLocaleName(name) : '',
+                        caption = '(...) ' + value + (localeName ? ' - ' + localeName : '');
+
+                    var mnu = new Common.UI.MenuItem({
+                        caption: caption,
+                        value: value
+                    }).on('click', function(item) {
+                        me.keepFocus = me.focusInCellEditor || me.cellEditor.is(":focus");
+                        setTimeout(function() {
+                            me.api.asc_insertInCell(item.options.value, Asc.c_oAscPopUpSelectorType.None, false);
+                        }, 10);
+                    });
+                    menu.addItem(mnu);
+                });
+                this.formulaMenuType = 'arg-help';
+            }
+
+            if (menu.items.length < 1) {
+                menu.hide();
+                this.formulaMenuType = null;
+                return;
+            }
                     // Prepare menu container
-                    if (menuContainer.length < 1) {
-                        menuContainer = $(Common.Utils.String.format('<div id="menu-formula-selection" style="position: absolute; z-index: 10000;" class="no-stop-propagate"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>'));
-                        documentHolderView.cmpEl.append(menuContainer);
-                    }
+            if (menuContainer.length < 1) {
+                menuContainer = $(Common.Utils.String.format('<div id="menu-formula-selection" style="position: absolute; z-index: 10000;" class="no-stop-propagate"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>'));
+                documentHolderView.cmpEl.append(menuContainer);
+                }
 
-                    menu.onAfterKeydownMenu = function(e) {
-                        if (e.keyCode == Common.UI.Keys.RETURN && (e.ctrlKey || e.altKey)) return;
+            if (!menu.rendered) {
+                menu.onAfterKeydownMenu = function(e) {
+                    if (e.keyCode == Common.UI.Keys.RETURN && (e.ctrlKey || e.altKey)) return;
 //                        Common.UI.Menu.prototype.onAfterKeydownMenu.call(menu, e);
 
-                        var li;
-                        if (arguments.length>1 && arguments[1] instanceof KeyboardEvent) // when typing in cell editor
-                            e = arguments[1];
-                        if (menuContainer.hasClass('open')) {
-                            if (e.keyCode == Common.UI.Keys.TAB || e.keyCode == Common.UI.Keys.RETURN && !e.ctrlKey && !e.altKey)
-                                li = menuContainer.find('a.focus').closest('li');
-                            else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
-                                var innerEl = menu.cmpEl,
-                                    li_focused = menuContainer.find('a.focus').closest('li'),
-                                    innerHeight = innerEl.innerHeight(),
-                                    padding = (innerHeight - innerEl.height())/2,
-                                    pos = Common.Utils.getPosition(li_focused).top,
-                                    itemHeight = li_focused.outerHeight(),
-                                    newpos;
-                                if (pos<0)
-                                    newpos = innerEl.scrollTop() + pos - padding;
-                                else if (pos+itemHeight>innerHeight)
-                                    newpos = innerEl.scrollTop() + pos + itemHeight - innerHeight + padding;
-                                if (newpos!==undefined) {
-                                    menu.scroller ? menu.scroller.scrollTop(newpos, 0) : innerEl.scrollTop(newpos);
-                                }
+                    var li;
+                    if (arguments.length>1 && arguments[1] instanceof KeyboardEvent) // when typing in cell editor
+                        e = arguments[1];
+                    if (menuContainer.hasClass('open')) {
+                        if (e.keyCode == Common.UI.Keys.TAB || e.keyCode == Common.UI.Keys.RETURN && !e.ctrlKey && !e.altKey)
+                            li = menuContainer.find('a.focus').closest('li');
+                        else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
+                            var innerEl = menu.cmpEl,
+                                li_focused = menuContainer.find('a.focus').closest('li'),
+                                innerHeight = innerEl.innerHeight(),
+                                padding = (innerHeight - innerEl.height())/2,
+                                pos = Common.Utils.getPosition(li_focused).top,
+                                itemHeight = li_focused.outerHeight(),
+                                newpos;
+                            if (pos<0)
+                                newpos = innerEl.scrollTop() + pos - padding;
+                            else if (pos+itemHeight>innerHeight)
+                                newpos = innerEl.scrollTop() + pos + itemHeight - innerHeight + padding;
+                            if (newpos!==undefined) {
+                                menu.scroller ? menu.scroller.scrollTop(newpos, 0) : innerEl.scrollTop(newpos);
                             }
                         }
+                    }
 //                        } else if (e.keyCode == Common.UI.Keys.TAB)
 //                            li = $(e.target).closest('li');
 
-                        if (li) {
-                            if (li.length>0) li.click();
-                            Common.UI.Menu.Manager.hideAll();
-                        }
-                    };
-                    menu.on('hide:after', function(){
-                        for (var i = 0; i < menu.items.length; i++) {
-                            var tip = menu.items[i].cmpEl.data('bs.tooltip');
-                            if (tip)
-                                tip.hide();
-                        }
-                    });
-
-                    menu.render(menuContainer);
-                    menu.cmpEl.attr({tabindex: "-1"});
-                }
-
-                var infocus = me.cellEditor.is(":focus");
-                var isFunctipShow = this.tooltips.func_arg.isHidden === false;
-
-                if (infocus) {
-                    menu.menuAlignEl = me.cellEditor;
-                    menu.offset = [
-                        0,
-                        (offset ? offset[1] : 0) + (isFunctipShow ? this.tooltips.func_arg.ref.getBSTip().$tip.height() + 2 : 0)
-                    ];
-                    me.focusInCellEditor = true;
-                } else {
-                    menu.menuAlignEl = undefined;
-                    menu.offset = [0 ,0];
-                    me.focusInCellEditor = false;
-                    var coord  = me.api.asc_getActiveCellCoord(),
-                        showPoint = [
-                            coord.asc_getX() + (offset ? offset[0] : 0),
-                            (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + (offset ? offset[1] : 0) + (isFunctipShow ? this.tooltips.func_arg.ref.getBSTip().$tip.height() + 2 : 0)
-                        ];
-                    menuContainer.css({left: showPoint[0], top : showPoint[1]});
-                }
-                menu.alignPosition();
-
-                if (!menu.isVisible())
-                    Common.UI.Menu.Manager.hideAll();
-                _.delay(function() {
-                    if (!menu.isVisible()) menu.show();
-                    if (menu.scroller) {
-                        menu.scroller.update({alwaysVisibleY: true});
-                        menu.scroller.scrollTop(0);
+                    if (li) {
+                        if (li.length>0) li.click();
+                        Common.UI.Menu.Manager.hideAll();
                     }
-                    if (infocus)
-                        me.cellEditor.focus();
-                    menu.cmpEl.toggleClass('from-cell-edit', infocus);
-                    _.delay(function() {
-                        var a = menu.cmpEl.find('li:first a');
-                        a.addClass('focus');
-                        var tip = a.parent().data('bs.tooltip');
+                };
+                menu.on('hide:after', function(){
+                    for (var i = 0; i < menu.items.length; i++) {
+                        var tip = menu.items[i].cmpEl.data('bs.tooltip');
                         if (tip)
-                            tip.show();
-                    }, 10);
-                    if (!infocus)
-                        _.delay(function() {
-                            menu.cmpEl.focus();
-                        }, 10);
-                }, 1);
-            } else {
-                this.documentHolder.funcMenu.hide();
+                            tip.hide();
+                    }
+                });
+
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
             }
+
+            var keepFocus = me.keepFocus,
+                infocus = me.cellEditor.is(":focus") || keepFocus,
+                isFunctipShow = this.tooltips.func_arg.isHidden === false;
+            if (keepFocus) me.keepFocus = false;
+
+            if (infocus) {
+                menu.menuAlignEl = me.cellEditor;
+                menu.offset = [
+                    0,
+                    (offset ? offset[1] : 0) + (isFunctipShow ? this.tooltips.func_arg.ref.getBSTip().$tip.height() + 2 : 0)
+                ];
+                me.focusInCellEditor = true;
+            } else {
+                menu.menuAlignEl = undefined;
+                menu.offset = [0 ,0];
+                me.focusInCellEditor = false;
+                var coord  = me.api.asc_getActiveCellCoord(),
+                    showPoint = [
+                        coord.asc_getX() + (offset ? offset[0] : 0),
+                        (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + (offset ? offset[1] : 0) + (isFunctipShow ? this.tooltips.func_arg.ref.getBSTip().$tip.height() + 2 : 0)
+                    ];
+                menuContainer.css({left: showPoint[0], top : showPoint[1]});
+            }
+            menu.alignPosition();
+
+            if (!menu.isVisible())
+                Common.UI.Menu.Manager.hideAll();
+            _.delay(function() {
+                if (!menu.isVisible()) menu.show();
+                if (menu.scroller) {
+                    menu.scroller.update({alwaysVisibleY: true});
+                    menu.scroller.scrollTop(0);
+                }
+                if (infocus)
+                    me.cellEditor.focus();
+                menu.cmpEl.toggleClass('from-cell-edit', infocus);
+                _.delay(function() {
+                    var a = menu.cmpEl.find('li:first a');
+                    a.addClass('focus');
+                    var tip = a.parent().data('bs.tooltip');
+                    if (tip)
+                        tip.show();
+                }, 10);
+                if (!infocus)
+                    _.delay(function() {
+                        menu.cmpEl.focus();
+                    }, 10);
+            }, 1);
         };
 
         dh.parseArgsDesc = function(args) {
@@ -3265,7 +3301,10 @@ define([], function () {
                     hint = '',
                     argstype = funcInfo ? funcInfo.asc_getArgumentsType() : null,
                     activeArg = funcInfo ? funcInfo.asc_getActiveArgPos() : null,
-                    activeArgsCount = funcInfo ? funcInfo.asc_getActiveArgsCount() : null;
+                    activeArgsCount = funcInfo ? funcInfo.asc_getActiveArgsCount() : null,
+                    argConstList = funcInfo ? funcInfo.asc_getActiveArgHelpList() : null;
+
+                this.argConstList = argConstList && argConstList.length ? argConstList : null;
 
                 if (argstype && activeArgsCount) {
                     var args = '';
@@ -3378,7 +3417,18 @@ define([], function () {
                     top : showPoint[1] + 'px',
                     left: showPoint[0] + 'px'
                 });
+
+                if ((!this.argConstList || !this.argConstList.length) &&
+                    this.formulaMenuType === 'arg-help') {
+                    this.documentHolder.funcMenu.hide();
+                    this.formulaMenuType = null;
+                }
             } else {
+                this.argConstList = null;
+                if (this.formulaMenuType === 'arg-help' && this.documentHolder.funcMenu) {
+                    this.documentHolder.funcMenu.hide();
+                    this.formulaMenuType = null;
+                }
                 if (!functip.isHidden && functip.ref) {
                     functip.ref.hide();
                     functip.ref = undefined;
