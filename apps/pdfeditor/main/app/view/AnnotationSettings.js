@@ -126,7 +126,7 @@ define([
                     { value: AscPDF.ANNOT_COMPLEX_BORDER_TYPES.dash5, imgId: 'annotation-dash-dot' },
                     { value: AscPDF.ANNOT_COMPLEX_BORDER_TYPES.dash6, imgId: 'annotation-dash-dot-wide' },
                     { value: AscPDF.ANNOT_COMPLEX_BORDER_TYPES.cloud1, imgId: 'annotation-wave' },
-                    { value: AscPDF.ANNOT_COMPLEX_BORDER_TYPES.cloud2, imgId: 'annotation-wave' }
+                    { value: AscPDF.ANNOT_COMPLEX_BORDER_TYPES.cloud2, imgId: 'annotation-wave-2' }
                 ],
                 dataHint: '1',
                 dataHintDirection: 'bottom',
@@ -157,7 +157,7 @@ define([
                 additionalItemsBefore: [
                     this.mnuBackgroundColorTransparent = new Common.UI.MenuItem({
                         style: Common.UI.isRTL() ? 'padding-right:20px;' : 'padding-left:20px;',
-                        caption: this.txtTransparent,
+                        caption: this.txtNoFill,
                         toggleGroup: 'form-settings-no-border',
                         checkable: true
                     }), 
@@ -329,7 +329,7 @@ define([
                 
 
                 //Border width
-                value = annotProps.asc_getBorderWidth ? annotProps.asc_getBorderWidth() : null;   // null - property is not supported 
+                value = (annotProps && annotProps.asc_getBorderWidth) ? annotProps.asc_getBorderWidth() : null;   // null - property is not supported 
                 $formValue = getFormField(this.numBorderWidth);
                 if(value !== null) {
                     value = Common.Utils.Metric.fnRecalcFromPt(value);
@@ -350,8 +350,9 @@ define([
                 }
 
                 //Border style
+                value = (annotProps && annotProps.asc_getBorderStyle) ? annotProps.asc_getBorderStyle() : null; 
                 $formValue = getFormField(this.cmbBorderStyle);
-                if(annotProps?.asc_getBorderStyle) {
+                if(value !== null) {
                     value = annotProps.asc_getBorderStyle();
                     if (this._state.BorderStyle !== value) {
                         this.cmbBorderStyle.setValue(value, '');
@@ -363,9 +364,9 @@ define([
                 }
 
                 //Line start
-                value = annotProps.asc_getLineStart ? annotProps.asc_getLineStart() : null; 
+                value = (annotProps && annotProps.asc_getLineStart) ? annotProps.asc_getLineStart() : null; 
                 $formValue = getFormField(this.cmbLineStart);
-                if(value) {
+                if(value !== null) {
                     if (this._state.LineStart !== value) {
                         this.cmbLineStart.setValue(value);
                         this._state.LineStart = value;
@@ -376,9 +377,9 @@ define([
                 }
 
                 //Line end
-                value = annotProps.asc_getLineEnd ? annotProps.asc_getLineEnd() : null; 
+                value = (annotProps && annotProps.asc_getLineEnd) ? annotProps.asc_getLineEnd() : null; 
                 $formValue = getFormField(this.cmbLineEnd);
-                if(value) {
+                if(value !== null) {
                     if (this._state.LineEnd !== value) {
                         this.cmbLineEnd.setValue(value);
                         this._state.LineEnd = value;
@@ -389,18 +390,24 @@ define([
                 }
 
                 // Opacity
-                value = props.asc_getOpacity();
-                if (
-                    Math.abs(this._state.Opacity - value) > 0.001 || 
-                    Math.abs(this.numOpacity.getNumberValue() - value) > 0.001 || 
-                    (this._state.Opacity === null || value === null) && 
-                    (this._state.Opacity !== value || this.numOpacity.getNumberValue() !== value)
-                ) {
-                    if (value !== undefined) {
-                        this.sldrOpacity.setValue((value === null) ? 100 : value * 100, true);
-                        this.numOpacity.setValue(this.sldrOpacity.getValue(), true);
+                value = props.asc_getOpacity ? props.asc_getOpacity() : null; 
+                $formValue = getFormField(this.sldrOpacity);
+                if(value !== null) {
+                    if (
+                        Math.abs(this._state.Opacity - value) > 0.001 || 
+                        Math.abs(this.numOpacity.getNumberValue() - value) > 0.001 || 
+                        (this._state.Opacity === null || value === null) && 
+                        (this._state.Opacity !== value || this.numOpacity.getNumberValue() !== value)
+                    ) {
+                        if (value !== undefined) {
+                            this.sldrOpacity.setValue((value === null) ? 100 : value * 100, true);
+                            this.numOpacity.setValue(this.sldrOpacity.getValue(), true);
+                        }
+                        this._state.Opacity = value;
                     }
-                    this._state.Opacity = value;
+                    $formValue.show();
+                } else {
+                    $formValue.hide();
                 }
 
                 this._noApply = false;
