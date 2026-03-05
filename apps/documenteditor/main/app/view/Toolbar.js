@@ -170,6 +170,7 @@ define([
             applyLayout: function (config) {
                 var me = this;
                 me.lockControls = [];
+                me.config = config;
                 var _set = Common.enumLock;
                 if ( config.isEdit ) {
                     Common.UI.Mixtbar.prototype.initialize.call(this, {
@@ -279,6 +280,8 @@ define([
                         iconCls: 'toolbar__icon btn-paste',
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockCommentsIns, _set.viewMode],
                         dataHint: '1',
+                        menu: config.isDesktopApp ? new Common.UI.Menu({items: []}) : false,
+                        split: config.isDesktopApp,
                         dataHintDirection: 'top',
                         dataHintTitle: 'V'
                     });
@@ -2231,6 +2234,10 @@ define([
                 _injectComponent('#slot-lbl-space-before', this.lblSpacingBefore);
                 _injectComponent('#slot-lbl-space-after', this.lblSpacingAfter);
                 _injectComponent('#slot-btn-pagecolor', this.btnPageColor);
+
+                if (!this.config || !this.config.isDesktopApp) {
+                    $host.find('#slot-btn-paste').removeClass('split');
+                }
 
                 this.btnsPageBreak = Common.Utils.injectButtons($host.find('.btn-slot.btn-pagebreak'), '', 'toolbar__icon btn-pagebreak', this.capBtnInsPagebreak,
                     [Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.inEquation, Common.enumLock.richDelLock,

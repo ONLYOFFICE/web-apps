@@ -335,6 +335,19 @@ define([
             toolbar.btnRedo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'redo:disabled'));
             toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, 'copy'));
             toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, 'paste'));
+            $('#slot-btn-paste').on('click', '.dropdown-toggle', _.bind(function(e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+
+                var menu = this.toolbar.btnPaste.menu;
+
+                if (menu && menu.isVisible && menu.isVisible()) {
+                    menu.hide();
+                    return;
+                }
+
+                this.toolbar.fireEvent('paste:options', [toolbar.btnPaste, this.api]);
+            }, this));
             toolbar.btnCut.on('click',                                  _.bind(this.onCopyPaste, this, 'cut'));
             toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
             toolbar.btnReplace.on('click',                              _.bind(this.onReplace, this));

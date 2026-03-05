@@ -145,6 +145,7 @@ define([
 
             applyLayout: function (config) {
                 var me = this;
+                me.config = config;
                 me.lockControls = [];
                 me.nolockControls = [];
                 if ( config.isEdit ) {
@@ -263,6 +264,8 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-paste',
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides],
+                        menu: config.isDesktopApp ? new Common.UI.Menu({items: []}) : false,
+                        split: config.isDesktopApp,
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintTitle: 'V'
@@ -1565,6 +1568,10 @@ define([
                 _injectComponent('#slot-btn-editheader', this.btnEditHeader);
                 _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
                 _injectComponent('#slot-btn-slidenum', this.btnInsSlideNum);
+
+                if (!this.config || !this.config.isDesktopApp) {
+                    $host.find('#slot-btn-paste').removeClass('split');
+                }
 
                 this.cmbsInsertShape = [];
                 $host.find('.slot-combo-insertshape').each(function (index, el) {
