@@ -3092,22 +3092,19 @@ define([], function () {
                     });
                     menu.addItem(mnu);
                 });
-                this.formulaMenuType = 'completion';
             } else {
                 _.each(argConstList, function(helpItem) {
                     if (!helpItem || helpItem.length < 1)
                         return;
 
                     var value = helpItem[0],
-                        name = helpItem.length > 1 ? helpItem[1] : '',
-                        localeName = name ? me.api.asc_getFormulaLocaleName(name) : '',
-                        caption = '(...) ' + value + (localeName ? ' - ' + localeName : '');
+                        name = helpItem[1] || '',
+                        caption = '(...) ' + value + (name ? ' - ' + name : '');
 
                     var mnu = new Common.UI.MenuItem({
                         caption: caption,
                         value: value
                     }).on('click', function(item) {
-                        me.keepFocus = me.focusInCellEditor || me.cellEditor.is(":focus");
                         setTimeout(function() {
                             me.api.asc_insertInCell(item.options.value, Asc.c_oAscPopUpSelectorType.None, false);
                         }, 10);
@@ -3176,10 +3173,8 @@ define([], function () {
                 menu.cmpEl.attr({tabindex: "-1"});
             }
 
-            var keepFocus = me.keepFocus,
-                infocus = me.cellEditor.is(":focus") || keepFocus,
+            var infocus = me.cellEditor.is(":focus"),
                 isFunctipShow = this.tooltips.func_arg.isHidden === false;
-            if (keepFocus) me.keepFocus = false;
 
             if (infocus) {
                 menu.menuAlignEl = me.cellEditor;
