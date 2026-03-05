@@ -75,7 +75,6 @@ define([
         },
 
         onBtnPasteOptionsClick: function (btn, api, isSSE) {
-            console.log('onBtnPasteOptionsClick')
             this.api = api;
             this.btn = btn;
             this.isSSE = isSSE;
@@ -94,7 +93,6 @@ define([
         },
 
         handlePasteOptions: function(options) {
-            console.log('handlePasteOptions')
             var me = this;
 
             if (options === null) {
@@ -107,14 +105,12 @@ define([
 
                 menu.addItem(mnu)
                 menu.show();
-                console.log('options === null')
                 return
             }
 
             var pasteItems = options.asc_getOptions(),
                 isTable = !!options.asc_getContainTables();
 
-            console.log(pasteItems, 'Paste items')
             if (!pasteItems) return;
 
             me._arrSpecialPaste = [];

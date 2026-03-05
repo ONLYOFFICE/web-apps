@@ -1372,7 +1372,6 @@ define([], function () {
 
         dh.onShowSpecialPasteOptions = function(specialPasteShowOptions) {
             if (this.mode && !this.mode.isEdit) return;
-            console.log(this.api.asc_getPasteOptions)
 
             var me = this,
                 documentHolder = me.documentHolder;
@@ -1380,7 +1379,6 @@ define([], function () {
                 pasteContainer = documentHolder.cmpEl.find('#special-paste-container'),
                 pasteItems = specialPasteShowOptions.asc_getOptions();
             if (!pasteItems) return;
-            console.log(pasteItems, 'Paste items')
 
             // Prepare menu container
             if (pasteContainer.length < 1) {
