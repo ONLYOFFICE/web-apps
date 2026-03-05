@@ -453,7 +453,7 @@ define([
             if ( force || Common.localStorage.getItem('ui-theme-id') != window.uitheme.id ) {
                 let theme_id = Common.localStorage.getItem('ui-theme-id');
 
-                if ( theme_id && (force && (theme_id = 'theme-system')) ) {
+                if ( theme_id || (force && (theme_id = 'theme-system')) ) {
                     apply_theme.call(this, theme_id);
                     Common.NotificationCenter.trigger('uitheme:changed', theme_id, caller);
                 }
