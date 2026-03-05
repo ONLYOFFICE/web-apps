@@ -954,7 +954,7 @@ define([], function () {
                         content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked,
                         is_form = control_props && control_props.get_FormPr();
 
-                    me.menuImgStretchContentControl.setVisible(is_form && (!lock_type || lock_type == Asc.c_oAscSdtLockType.Unlocked));
+                    me.menuImgStretchContentControl.setVisible(is_form && !!value.imgProps.isTable && (!lock_type || lock_type == Asc.c_oAscSdtLockType.Unlocked));
                     is_form && console.log('menuImgStretch visible');
 
                     me.menuImgRemoveControl.setVisible(in_control);

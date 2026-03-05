@@ -378,6 +378,7 @@ define([], function () {
 
                     menu_props.imgProps.value = elValue;
                     menu_props.imgProps.locked = (elValue) ? elValue.get_Locked() : false;
+                    menu_props.imgProps.isTable = me.api.asc_IsTable();
 
                     noobject = false;
                     
