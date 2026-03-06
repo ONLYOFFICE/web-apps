@@ -196,6 +196,7 @@ define([
                     this.api.asc_registerCallback('asc_onOpenFilePdfForm',          _.bind(this.onOpenFilePdfForm, this));
                     this.api.asc_registerCallback('asc_onValidateErrorPdfForm',     _.bind(this.onValidateErrorPdfForm, this));
                     this.api.asc_registerCallback('asc_onFormatErrorPdfForm',       _.bind(this.onFormatErrorPdfForm, this));
+                    this.api.asc_registerCallback('asc_onAskEditPassword',          _.bind(this.onAskEditPassword, this));
 
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
@@ -2619,6 +2620,35 @@ define([
                         });
                     }
                 }.bind(this));
+            },
+
+            onAskEditPassword: function(pwd) {
+                if (!this.api.asc_CheckEditPassword(pwd!==undefined ? pwd : null)) {
+                    let newPwd;
+                    const me = this;
+                    const win = new Common.Views.OpenDialog({
+                        title: me.txtUnlockTitle,
+                        closable: true,
+                        type: Common.Utils.importTextType.DRM,
+                        txtOpenFile: me.txtDocUnlockDescription,
+                        validatePwd: pwd!==undefined,
+                        handler: function (result, value) {
+                            if (result === 'ok' && value && value.drmOptions) {
+                                const currentPwd = value.drmOptions.asc_getPassword();
+                                if (!me.api.asc_CheckEditPassword(currentPwd)) {
+                                    newPwd = currentPwd;
+                                }
+                            }
+                        }
+                    }).on('close', function() {
+                        if (newPwd!==undefined) {
+                            setTimeout(function() {
+                                me.onAskEditPassword(newPwd);
+                            }, 100);
+                        }
+                    });
+                    win.show();
+                }
             },
 
             onClearDummyComment: function() {
