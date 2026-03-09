@@ -132,6 +132,7 @@ define([
                                     for (var i in titlebuttons) {
                                         opts.title.buttons.push(_serializeHeaderButton(i, titlebuttons[i]));
                                     }
+                                    opts.title.qasectionwidth = $('#box-title-qa-btns').outerWidth();
                                 }
                             }
 
@@ -567,6 +568,7 @@ define([
         }
 
         const _onChangeQuickAccess = function (props) {
+            props.qasectionwidth = $('#box-title-qa-btns').outerWidth();;
             native.execCommand("quickaccess:changed", JSON.stringify(props));
         }
 
@@ -652,6 +654,11 @@ define([
                             'recent:open': _onOpenRecent.bind(this),
                             'render:after': _extend_menu_file,
                         },
+                        'Common.Views.Header': {
+                            'autosave:on': val => {
+                                native.execCommand('autosave', JSON.stringify({active: val}));
+                            },
+                        },
                     }, {id: 'desktop'});
 
                     $(document).on('keydown', _onKeyDown.bind(this));
@@ -733,6 +740,12 @@ define([
             },
             isHelpAvailable: function () {
                 return !!helpUrl;
+            },
+            isAutosaveAvailable: function () {
+                return this.isOffline();
+            },
+            isAutosaveTurnedOn: function () {
+                return nativevars && nativevars.autosave === true;
             },
             getDefaultPrinterName: function () {
                 return nativevars ? nativevars.defaultPrinterName : '';

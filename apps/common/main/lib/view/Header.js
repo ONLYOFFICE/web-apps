@@ -144,8 +144,9 @@ define([
 
             var templateTitleBox = '<section id="box-document-title">' +
                                 '<div class="extra"></div>' +
-                                '<div class="hedset" role="menubar" aria-label="<%= scope.ariaQuickAccessToolbar %>">' +
+                                '<div class="hedset" id="box-title-qa-btns" role="menubar" aria-label="<%= scope.ariaQuickAccessToolbar %>">' +
                                     '<div class="btn-slot" id="slot-btn-dt-home"></div>' +
+                                    '<div class="btn-slot" id="slot-btn-dt-autosave"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-save" data-layout-name="header-save"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-print"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-print-quick"></div>' +
@@ -337,6 +338,10 @@ define([
         }
 
         function onChangeQuickAccess(caller, props) {
+            if (props.autosave !== undefined) {
+                this.switcherAutosave[props.autosave ? 'show' : 'hide']();
+                Common.localStorage.setBool(props.lsselector, props.autosave);
+            }
             if (props.save !== undefined) {
                 this.btnSave[props.save ? 'show' : 'hide']();
                 Common.localStorage.setBool(this.appPrefix + 'quick-access-save', props.save);
@@ -492,6 +497,13 @@ define([
             if (me.btnQuickAccess) {
                 me.btnQuickAccess.updateHint(me.tipCustomizeQuickAccessToolbar);
                 var arr = [];
+                if (me.switcherAutosave) {
+                    arr.push({
+                        caption: 'AutoSave', //me.textStartOver,
+                        value: 'autosave',
+                        checkable: true
+                    });
+                }
                 if (me.btnSave && Common.UI.LayoutManager.isElementVisible('header-save')) {
                     arr.push({
                         caption: appConfig.canSaveToFile || appConfig.isDesktopApp && appConfig.isOffline ? me.tipSave : me.textDownload,
@@ -534,6 +546,7 @@ define([
                         checkable: true
                     });
                 }
+
                 me.btnQuickAccess.setMenu(new Common.UI.Menu({
                     cls: 'ppm-toolbar',
                     style: 'min-width: 110px;',
@@ -542,7 +555,9 @@ define([
                 }));
                 me.btnQuickAccess.menu.on('show:before', function (menu) {
                     menu.items.forEach(function (item) {
-                        if (item.value === 'save') {
+                        if (item.value === 'autosave') {
+                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-autosave', true), true);
+                        } else if (item.value === 'save') {
                             item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-save', true), true);
                         } else if (item.value === 'print') {
                             item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-print', true), true);
@@ -561,6 +576,10 @@ define([
                 me.btnQuickAccess.menu.on('item:click', function (menu, item) {
                     var props = {};
                     switch (item.value) {
+                        case 'autosave':
+                            props[item.value] = item.checked;
+                            props.lsselector = me.appPrefix + 'quick-access-autosave';
+                            break;
                         case 'save':
                             props.save = item.checked;
                             break;
@@ -1128,6 +1147,18 @@ define([
                         dataHintOffset: config.isDesktopApp ? '10, -18' : '10, 10'
                     });
                     me.btnQuickAccess.render($html.find('#slot-btn-dt-quick-access'));
+
+                    if (appConfig.isDesktopApp && Common.Controllers.Desktop.isAutosaveAvailable()) {
+                        me.switcherAutosave = new Common.UI.Switcher({
+                            el: $html.find('#slot-btn-dt-autosave'),
+                            value: Common.Controllers.Desktop.isAutosaveTurnedOn(),
+                            title: 'AutoSave',
+                        });
+                        me.switcherAutosave.on('change', function (element, value) {
+                            me.fireEvent('autosave:on', [value]);
+                        });
+                        !Common.localStorage.getBool(me.appPrefix + 'quick-access-autosave', true) && me.switcherAutosave.hide();
+                    }
 
                     return $html;
                 }
