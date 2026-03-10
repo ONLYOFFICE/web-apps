@@ -83,11 +83,18 @@ define([
                 this.cmpEl = $(this.template({
                 }));
 
+                let insertEl = this.cmpEl;
+                if ( me.options.title ) {
+                    me.titleEl = $('<span class="switcher-label"></span>').text(me.options.title);
+                    insertEl = $('<div class="switcher-labeled"></div>')
+                                        .append(me.titleEl).append(me.cmpEl);
+                }
+
                 if (parentEl) {
                     this.setElement(parentEl, false);
-                    parentEl.html(this.cmpEl);
+                    parentEl.html(insertEl);
                 } else {
-                    this.$el.html(this.cmpEl);
+                    this.$el.html(insertEl);
                 }
 
                 if (this.options.hint) {
@@ -174,6 +181,11 @@ define([
                 var el = me.cmpEl;
                 el.on('mousedown', '.thumb', onMouseDown);
                 el.on('click', onSwitcherClick);
+                if (me.titleEl) {
+                    me.titleEl.on('click', function() {
+                        me.cmpEl.trigger('click');
+                    });
+                }
             }
 
             if (me.disabled) {
@@ -192,7 +204,7 @@ define([
 
         setValue: function(value) {
             this.value = (value===true);
-            this.cmpEl.toggleClass('on', this.value);
+            this.cmpEl && this.cmpEl.toggleClass('on', this.value);
         },
 
         getValue: function() {
