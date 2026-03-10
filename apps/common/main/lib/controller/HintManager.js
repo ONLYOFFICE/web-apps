@@ -145,10 +145,10 @@ Common.UI.HintManager = new(function() {
         _currentLevel = prevLevel;
 
         _currentControls.length = 0;
-        _currentControls.push(prevControls);
+        if (prevControls.length) _currentControls.push(...prevControls);
 
         _usedTitles.length = 0;
-        _usedTitles.push(prevUsed);
+        if (prevUsed.length) _usedTitles.push(...prevUsed);
     }
 
     var _setCurrentSection = function (btn, section) {
