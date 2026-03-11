@@ -100,6 +100,9 @@ export class storeChartSettings {
             { type: Asc.c_oAscChartTypeSettings.scatter,                 thumb: 'scatter'},
             { type: Asc.c_oAscChartTypeSettings.stock,                   thumb: 'stock'},
             { type: Asc.c_oAscChartTypeSettings.line3d,                  thumb: 'line3d'},
+            { type: Asc.c_oAscChartTypeSettings.radar,                   thumb: 'radar'},
+            { type: Asc.c_oAscChartTypeSettings.radarMarker,             thumb: 'radarMarker'},
+            { type: Asc.c_oAscChartTypeSettings.radarFilled,             thumb: 'radarFilled'},
         ];
         const columns = 3;
         let row = -1;

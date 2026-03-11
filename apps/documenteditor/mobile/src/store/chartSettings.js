@@ -126,6 +126,9 @@ export class storeChartSettings {
             { type: Asc.c_oAscChartTypeSettings.scatter,                 thumb: 'chart-15.png'},
             { type: Asc.c_oAscChartTypeSettings.stock,                   thumb: 'chart-16.png'},
             { type: Asc.c_oAscChartTypeSettings.line3d,                  thumb: 'chart-21.png'},
+            { type: Asc.c_oAscChartTypeSettings.radar,                   thumb: 'chart-26.png'},
+            { type: Asc.c_oAscChartTypeSettings.radarMarker,             thumb: 'chart-27.png'},
+            { type: Asc.c_oAscChartTypeSettings.radarFilled,             thumb: 'chart-28.png'},
         ];
         const columns = 3;
         const arr = [];
