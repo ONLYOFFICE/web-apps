@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Zielwertsuche</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Set data validation parameters to control further spreadsheet editing" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Zielwertsuche</h1>
+        <p>ONLYOFFICE <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Tabellenkalkulationseditor</b></a> bietet eine <b>Zielwertsuche</b>-Funktion, mit der Sie bestimmen können, welche Zahlen in die Formel eingesetzt werden sollen, um das gewünschte und bereits bekannte Ergebnis zu erhalten.</p>
+        <ol>
+            <li>Öffnen Sie die Registerkarte <b>Daten</b> und klicken Sie in der oberen Symbolleiste auf das Symbol <b>Zielwertsuche</b>.</li>
+            <li>
+                Wählen Sie im geöffneten Fenster <b>Zielwertsuche</b> die erforderlichen Optionen aus:
+                <p><img alt="Zielwertsuche" src="../images/goal_seek.png" /></p>
+            <ul>
+                <li><b>In der Zelle einstellen</b> - Geben Sie den Verweis auf die Zelle ein, die eine Formel enthält. Sie können das Symbol <div class="icon icon-changerange"></div> verwenden, um die Zelle auszuwählen.</li>
+                <li><b>Wert</b> - Geben Sie das gewünschte Ergebnis in die Zelle mit der Formel ein.</li>
+                <li><b>Durch Veränderung der Zelle</b> - Geben Sie den Verweis auf die Zelle ein, die den Wert enthält, den Sie ändern möchten. Sie können das Symbol <div class="icon icon-changerange"></div> verwenden, um die Zelle auszuwählen. Auf diese Zelle muss durch die in der Zelle befindliche Formel verwiesen werden, die Sie im Feld <b>Zelle festlegen</b> angegeben haben.</li>
+            </ul>
+            </li>
+            <li>Klicken Sie auf <b>OK</b>.</li>
+    <li>
+        Das Fenster <b>Status der Parameterauswahl</b> zeigt das Ergebnis an.
+                <p><img alt="Zielwertsuche-Status" src="../images/goal_seek_status.png" /></p>
+            </li>
+            <li>Klicken Sie auf <b>OK</b>, um die Werte in den Zellen zu ersetzen, die in den Feldern <b>In der Zelle einstellen</b> und <b>Durch Veränderung der Zelle</b> angegeben sind.</li>
+        </ol>
+        
+    </div>
+</body>
+</html>

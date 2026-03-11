@@ -3,7 +3,7 @@
 <head>
     <title>Insérer des références</title>
     <meta charset="utf-8" />
-    <meta name="description" content="Description des modules complémentaires Mendeley zt Zotero pour les éditeurs ONLYOFFICE permettant d'insérer des références dans des documents" />
+    <meta name="description" content="Les plugins Mendeley et Zotero pour les éditeurs ONLYOFFICE sont des outils de gestion de références bibliographiques qui permettent d'insérer des citations et de générer automatiquement des bibliographies dans vos documents" />
     <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
     <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
     <script type="text/javascript" src="../callback.js"></script>
@@ -16,17 +16,15 @@
         </div>
         <h1>Insérer des références</h1>
         <p><a href="https://www.onlyoffice.com/fr/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>L'éditeur de documents</b></a> ONLYOFFICE prend en charge les logiciels de gestion de références <b>Mendeley</b> et <b>Zotero</b> pour insérer des références dans votre document.</p>
-        <p class="note">À partir de la version 8.2 ONLYOFFICE Docs, aucun module complémentaire n'est inclus dans l'éditeur par défaut. Il faut installer des modules complémentaires à l'aide du <a href="https://helpcenter.onlyoffice.com/ONLYOFFICE-Editors/Editors-User-Guides/AllEditors/Plugin-manager.aspx" target="_blank">Gestionnaire de plugins</a>.</p>
+        <p class="note">À partir de la version 8.2 ONLYOFFICE Docs, aucun module complémentaire n'est inclus dans l'éditeur par défaut. Il faut installer les modules complémentaires à l'aide du <b>Gestionnaire de plugins</b>.</p>
         <h3 id="Mendeley_block">Mendeley</h3>
         <h4>Connecter ONLYOFFICE à Mendeley</h4>
         <ol>
             <li>Connectez-vous à votre compte <b>Mendeley</b>.</li>
-            <li>Dans votre document, passez à l'onglet <b>Modules complémentaires</b> et choisissez <div class="icon icon-mendeley"></div> <b>Mendeley</b>, un panneau s'ouvrira à gauche de votre document.
-            <li>
-                Cliquez sur le bouton <b>Copier le lien et ouvrir le formulaire</b>.<br /> Le navigateur ouvre le formulaire sur le site Mendeley. Remplissez le formulaire et notez l'identifiant de l'application ONLYOFFICE.
-            </li>
+            <li>Dans votre document, passez à l'onglet <b>Modules complémentaires</b> et choisissez<div class="icon icon-mendeley"></div><b>Mendeley</b>, un panneau s'ouvrira à gauche de votre document.</li>
+            <li>Cliquez sur le bouton <b>Copier le lien et ouvrir le formulaire</b>.<br> Le navigateur ouvre le formulaire sur le site Mendeley. Remplissez le formulaire et notez <b>l'identifiant de l'application</b> ONLYOFFICE.</li>
             <li>Revenez à votre document.</li>
-            <li>Saisissez l'identifiant de l'application et cliquez sur le bouton <b>Enregistrer</b>.</li>
+            <li>Saisissez <b>l'identifiant de l'application</b> et cliquez sur le bouton <b>Enregistrer</b>.</li>
             <li>Cliquez sur <b>Se connecter</b>.</li>
             <li>Cliquez sur <b>Continuer</b>.</li>
         </ol>
@@ -34,35 +32,86 @@
         <h4>Insérer des références à l'aide de Mendeley</h4>
         <ol>
             <li>Accédez à votre document et placez le curseur à l'endroit où vous souhaitez insérer une ou plusieurs références.</li>
-            <li>Passez à l'onglet <b>Modules complémentaires</b> et sélectionnez <div class="icon icon-mendeley"></div> <b>Mendeley</b>.</li>
-            <li>Saisissez le texte à rechercher et appuyez sur la touche <b>Entrée</b> du clavier.</li>
+            <li>Passez à l'onglet <b>Modules complémentaires</b> et sélectionnez<div class="icon icon-mendeley"></div><b>Mendeley</b>.</li>
+            <li>Saisissez le texte à rechercher et appuyez sur la touche <kbd>Entrée</kbd> du clavier.</li>
             <li>Activez une ou plusieurs cases à cocher.</li>
-            <li>[Facultatif] Saisissez le nouveau texte à rechercher et activez une ou plusieurs cases à cocher.</li>
+            <li><em>(Facultatif)</em> Saisissez le nouveau texte à rechercher et activez une ou plusieurs cases à cocher.</li>
             <li>Sélectionnez le style de la référence de la liste déroulante <b>Style</b>.</li>
             <li>cliquez sur le bouton <b> Insérer la bibliographie</b>.</li>
         </ol>
 
         <h3 id="Zotero_block">Zotero</h3>
         <h4>Connecter ONLYOFFICE à Zotero</h4>
+        <p>Le module complémentaire  <span class="icon icon-zotero"></span> <b>Zotero</b> permet d'ajouter des citations et des références bibliographiques dans ONLYOFFICE Docs. Vous pouvez travailler sur votre bibliothèque Zotero en ligne ou utiliser vos données Zotero locales hors connexion.</p>
+
+        <h4>Nouveautés de la version 1.0.6</h4>
+        <ul>
+            <li>Interface actualisée pour une meilleure convivialité</li>
+            <li>Possibilité de choisir la bibliothèque à rechercher</li>
+            <li>Possibilité d'ajouter un préfixe et un suffixe</li>
+            <li>Fonctionnalité d'omission de l'auteur <b>Omit author</b></li>
+            <li>Prise en charge des localisateurs de citation : On a ajouté la possibilité d'inclure des numéros de page, des chapitres, des sections et d'autres références de localisation dans les citations</li>
+        </ul>
+        <p>Vous pouvez consulter le journal des modifications complet <a href="https://github.com/ONLYOFFICE/onlyoffice.github.io/blob/master/sdkjs-plugins/content/zotero/CHANGELOG.md" target="_blank" onclick="onhyperlinkclick(this)">ici</a>.</p>
+        
+        <h4>Comment connecter le module complémentaire</h4>
+        <p>Vous pouvez connecter le plugin de deux façons:</p>
+        <ul>
+            <li>en utilisant votre compte Zotero en ligne (clé API), ou</li>
+            <li>en utilisant Zotero Desktop pour un accès hors connexion.</li>
+        </ul>
+        
+        <h4>Connexion en ligne (méthode API)</h4>
+        <p>Utilisez cette méthode si vous souhaitez accéder à votre bibliothèque Zotero synchronisée dans le cloud :</p>
         <ol>
-            <li>Connectez-vous à votre compte <b>Zotero</b>.</li>
-            <li>Dans votre document, passez à l'onglet <b>Modules complémentaires</b> et choisissez <div class="icon icon-zotero"></div> <b>Zotero</b>, un panneau s'ouvrira à gauche de votre document.</li>
-            <li>Cliquez sur le lien <b>Paramètres de l'API Zotero</b>.</li>
-            <li>Sur le site Zotero, créez une nouvelle clé, copiez et conservez-la pour usage ultérieur.</li>
-            <li>Revenez à votre document et collez la clé API.</li>
-            <li>Cliquez sur <b>Enregistrer</b>.</li>
+            <li>Accédez à <b>Modules complémentaires</b> →<div class="icon icon-zotero"></div><b>Zotero</b>.</li>
+            <li>Cliquez sur le bouton <b>Se connecter avec une clé API</b>.</li>
+            <li>Si vous ne disposez pas de clé API, vous pouvez vous enregistrer <a href="https://www.zotero.org/user/register/" target="_blank">sur le site officiel Zotero</a> et générer la clé (<b>Paramètres</b> → <b>Sécurité</b> → <b>Nouvelle clé</b>).</li>
+            <li>Collez la clé dans le champ du <b>Module complémentaire</b>.</li>
+            <li>Votre bibliothèque Zotero en ligne se chargera dans le panneau de gauche.</li>
         </ol>
-        <p>Désormais, ONLYOFFICE est connecté à votre compte Zotero.</p>
+        
+        <h4>Connexion hors connexion (méthode Zotero locale)</h4>
+        <p>Utilisez cette méthode si vous souhaitez accéder à votre bibliothèque Zotero locale sans connexion Internet :</p>
+        <ol>
+            <li>Installez <b>Zotero Desktop</b>.</li>
+            <li>Dans Zotero, passez à <b>Modifier</b> → <b>Paramètres</b> → <b>Avancés</b>.</li>
+            <li>Activez l'option <b>Autoriser d'autres applications sur cet ordinateur à communiquer avec Zotero</b>.</li>
+            <li>Accédez à l'onglet <b>Synchronisation</b> dans le panneau de gauche → <b>connectez-vous</b> utilisant vos identifiants Zotero → cliquez sur <b>Configurer la synchronisation</b>.</li>
+            <li>Ouvrez l'éditeur de bureau ONLYOFFICE.</li>
+            <li>Passez à <b>Modules complémentaires</b> → <div class="icon icon-zotero"></div><b>Zotero</b>.</li>
+            <li>Cliquez sur Travailler avec Zotero local.</li>
+            <li>Assurez-vous que Zotero Desktop est en cours d'exécution.</li>
+        </ol>
+        <div class="notehelp">
+            <ul>
+                <li>La connexion Internet n'est pas requise une fois la bibliothèque locale disponible.</li>
+                <li>Tous les outils de citation et de bibliographie fonctionnent en mode hors connexion.</li>
+            </ul>
+        </div>
+        
         <h4>Insérer des références à l'aide de Zotero</h4>
         <ol>
             <li>Accédez à votre document et placez le curseur à l'endroit où vous souhaitez insérer une ou plusieurs références.</li>
-            <li>Passez à l'onglet <b>Modules complémentaires</b> et sélectionnez <div class="icon icon-zotero"></div> <b>Zotero</b>.</li>
-            <li>Saisissez le texte à rechercher et appuyez sur la touche <b>Entrée</b> du clavier.</li>
+            <li>Passez à l'onglet <b>Modules complémentaires</b> et sélectionnez<div class="icon icon-zotero"></div><b>Zotero</b>.</li>
+            <li>Saisissez le texte à rechercher et appuyez sur la touche <kbd>Entrée</kbd> du clavier. Cliquez sur le bouton <b>Rechercher</b> dans situé à côté du champ de recherche pour définir les bibliothèques.</li>
             <li>Activez une ou plusieurs cases à cocher.</li>
-            <li>[Facultatif] Saisissez le nouveau texte à rechercher et activez une ou plusieurs cases à cocher.</li>
-            <li>Sélectionnez le style de la référence de la liste déroulante <b>Style</b>.</li>
+            <li><em>(Facultatif)</em> Saisissez le nouveau texte à rechercher et activez une ou plusieurs cases à cocher.</li>
+            <li>Cliquez sur l'icône de l'outil <b>Paramètres</b> pour sélectionner le style de citation dans le menu déroulant et sélectionnez la langue. Cliquez sur <b>Terminé</b> pour valider.<p class="note">Sélectionnez l'élément de menu <b>Plus de styles</b> dans le menu déroulant pour ouvrir la liste de tous les styles disponibles.</p>
+            </li>
             <li>cliquez sur le bouton <b> Insérer la bibliographie</b>.</li>
         </ol>
+        
+        <h4>Ajouter des styles de citation personnalisés</h4>
+        <p>Pour installer un style personnalisé :</p>
+        <ol>
+            <li>Passez à l'onglet <b>Modules complémentaires</b> et choisissez<div class="icon icon-zotero"></div><b>Zotero</b>.</li>
+            <li>Cliquez sur <b>Paramètres</b> → ouvrez le menu déroulant → <b>Ajouter un style personnalisé</b>.</li>
+            <li>Importez votre fichier <code>.csl</code>.</li>
+            <li>Zotero ajoutera le style à la liste des formats de citation disponibles.</li>
+            <li>Redémarrez l'éditeur pour vous assurer que le style se charge correctement.</li>
+        </ol>
+        <p class="note">Si vous n'avez pas de fichier <code>.csl</code>disponible, vous pouvez choisir parmi plus de 10 000 styles supplémentaires disponibles dans le <a href="https://www.zotero.org/styles/" target="_blank">dépôt de styles Zotero</a>.</p>
     </div>
 </body>
 </html>

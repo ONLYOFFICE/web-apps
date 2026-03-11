@@ -3,7 +3,7 @@
 	<head>
 		<title>Formats des présentations électroniques pris en charge</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="La liste des formats de présentation pris en charge par l'éditeur de présentations'" />
+		<meta name="description" content="La liste des formats de présentation pris en charge par l'éditeur de présentations" />
 		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
 		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
@@ -15,7 +15,7 @@
             <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
         </div>
 		<h1>Formats des présentations électroniques pris en charge</h1>
-			<p>Une présentation est l'ensemble des diapositives qui peut inclure de différents types de contenu tels que des images, des fichiers multimédias, des textes, des effets etc. <a target="_blank" href="https://www.onlyoffice.com/fr/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>L'éditeur de présentations</b></a> prend en charge les formats suivants:</p>
+			<p>Une présentation est l'ensemble des diapositives qui peut inclure de différents types de contenu tels que des images, des fichiers multimédias, des textes, des effets etc. <a target="_blank" href="https://www.onlyoffice.com/fr/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b><b>L'éditeur de présentation</b></b></a> prend en charge les formats suivants:</p>
             <p class="note">Lors du téléchargement ou de l'ouverture d'un fichier, celui-ci sera converti au format Office Open XML (PPTX). Cette conversion permet d'accélérer le traitement des fichiers et d'améliorer l'interopérabilité des données.</p>
             <p>Le tableau ci-dessous présente les formats de fichiers pour l'affichage et/ou pour l'édition.</p>
             <table>
@@ -46,6 +46,30 @@
                 <tr>
                     <td>FODP</td>
                     <td>Format de Présentation OpenDocument Flat XML<br />Un format de fichier pour sauvegarder une présentation qu'on a enregistré dans le format OpenDocument XML sans aucune compression.</td>
+                    <td></td>
+                    <td>+</td>
+                    <td></td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>HEIF</td>
+                    <td>High Efficiency Image File (format d'image à haute efficacité)<br>Format de conteneur pour le stockage d'images fixes et de séquences d'images,</td>
+                    <td></td>
+                    <td>+</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>JPG/JPEG</td>
+                    <td>Joint Photographic Experts Group<br />Le format d'image raster qui compresse les rasters pour stocker des images.</td>
+                    <td>+</td>
+                    <td>+</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>ODG</td>
+                    <td>OpenDocument Graphic<br>Les éléments de dessin tels que lignes, points et courbe sous forme d'image vectorielle.</td>
                     <td></td>
                     <td>+</td>
                     <td></td>
@@ -140,7 +164,7 @@
                     <td></td>
                 </tr>
             </table>
-            <p>Le tableau ci-dessous présente les formats pris en charge pour le téléchargement d'une présentation dans le menu <b>Fichier</b> -> <b>Télécharger comme</b>.</p>
+            <p>Le tableau ci-dessous présente les formats pris en charge pour le téléchargement d'une présentation dans le menu <b>Fichier</b> → <b>Télécharger comme</b>.</p>
             <table>
                 <tr>
                     <td><b>Format en entrée</b></td>
@@ -196,14 +220,14 @@
                 </tr>
                 <tr>
                     <td>PPTX</td>
-                    <td>JPG, ODP, OTP, PDF, PDF/A, PNG, POTX, PPSM, PPSX, PsPTM</td>
+                    <td>JPG, ODP, OTP, PDF, PDF/A, PNG, POTX, PPSM, PPSX, PPTM</td>
                 </tr>
                 <tr>
                     <td>SXI</td>
                     <td>JPG, ODP, OTP, PDF, PDF/A, PNG, POTX, PPSM, PPSX, PPTM, PPTX</td>
                 </tr>
             </table>
-            <p>Veuillez consulter la matrice de conversion sur <a href="https://api.onlyoffice.com/docs/docs-api/additional-api/conversion-api/conversion-tables/#presentation-file-formats" target="_blank" onclick="onhyperlinkclick(this)"><b>api.onlyoffice.com</b></a> pour vérifier s'il est possible de convertir vos présentations dans des formats les plus populaires.</p>
+            <p>Veuillez consulter la matrice de conversion sur <a href="https://api.onlyoffice.com/editors/conversionapi#presentation-matrix" target="_blank" onclick="onhyperlinkclick(this)"><b>api.onlyoffice.com</b></a> pour vérifier s'il est possible de convertir vos présentations dans des formats les plus populaires.</p>
 		</div>
 	</body>
 </html>

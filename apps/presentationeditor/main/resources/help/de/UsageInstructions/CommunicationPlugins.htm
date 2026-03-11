@@ -17,23 +17,79 @@
         <h1>Kommunikation während der Bearbeitung</h1>
         <p>Im ONLYOFFICE <a href="https://www.onlyoffice.com/de/presentation-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Präsentationseditor</b></a> können Sie immer mit Kollegen in Kontakt bleiben und beliebte Online-Messenger wie Telegram und Rainbow nutzen.</p>
         <div class="note">Telegram- und Rainbow-Plugins werden standardmäßig nicht installiert. Informationen zur Installation finden Sie im entsprechenden Artikel: <span class="desktopDocumentFeatures"><a target="_blank" href="https://helpcenter.onlyoffice.com/installation/desktop-getting-started.aspx#AddingPlugins_block" onclick="onhyperlinkclick(this)">Hinzufügen von Plugins zu den ONLYOFFICE Desktop Editoren</a></span><span class="onlineDocumentFeatures"> <a target="_blank" href="https://api.onlyoffice.com/docs/plugin-and-macros/get-started/overview/" onclick="onhyperlinkclick(this)">Hinzufügen von Plugins zu ONLYOFFICE Cloud</a> oder <a target="_blank" href="https://helpcenter.onlyoffice.com/installation/docs-add-plugin.aspx" onclick="onhyperlinkclick(this)">Hinzufügen neuer Plugins zu Server-Editoren</a></span>, oder installieren Sie das Plugin mit der <a href="https://helpcenter.onlyoffice.com/ONLYOFFICE-Editors/Editors-User-Guides/AllEditors/Plugin-manager.aspx" target="_blank">Plugin-Verwaltung</a>.</div>
-        <h2>Telegram</h2>
-        <p>Um mit dem Chatten im Telegram-Plugin zu beginnen:</p>
-        <ul>
-            <li>wechseln Sie zum Tab <b>Plugins</b> und klicken Sie auf <div class = "icon icon-telegram_icon"></div> <b>Telegram</b>,</li>
-            <li>geben Sie Ihre Telefonnummer in das entsprechende Feld ein,</li>
-            <li>aktivieren Sie das Kontrollkästchen <b>Angemeldet bleiben</b>, wenn Sie die Anmeldeinformationen für die aktuelle Sitzung speichern möchten, und klicken Sie auf die Schaltfläche <b>Weiter</b>,</li>
+        <h2>Telegram-Bot</h2>
+        <p>Um ONLYOFFICE mit <span class = "icon icon-telegram_icon"></span> Telegram zu verbinden,</p>
+        <ol>
             <li>
-                geben Sie den Code, den Sie erhalten haben, in Ihre Telegram-App ein,
-                <p>oder</p>
+                Folgen Sie dem <a href="https://t.me/ONLYOFFICE_bot">Installationslink</a> und klicken Sie auf die Schaltfläche <b>START</b>.
+                <p class="note">Wenn Sie den Bot das nächste Mal starten, verwenden Sie einfach den Befehl <code>/start</code>, um auf das Startmenü mit den verfügbaren Optionen zuzugreifen.</p>
             </li>
-            <li>loggen Sie mit dem <b>QR-Code</b> ein,</li>
-            <li>öffnen Sie die Telegram-App auf Ihrem Telefon,</li>
-            <li>gehen Sie zu Einstellungen > Geräte > QR scannen,</li>
-            <li>scannen Sie das Bild, um sich anzumelden.</li>
+            <li>
+                Um Dateien zu <b>erstellen und zu bearbeiten</b>:
+                <p><img alt="ONLYOFFICE Telegram – Dateien erstellen und bearbeiten" src="../images/telegram_creatingfiles.png" /></p>
+                <ul>
+                    <li>Klicken Sie im Menü auf die Schaltfläche <b>Erstellen</b>.</li>
+                    <li>Wählen Sie das gewünschte Dateiformat: <em>Dokument</em>, <em>Tabellenkalkulation</em> oder <em>Präsentation</em>.</li>
+                    <li>Geben Sie den Dateinamen ein.</li>
+                    <li>Der Bot sendet eine Nachricht mit einem Link zur erstellten Datei. Klicken Sie auf den Link, um die Datei im entsprechenden ONLYOFFICE-Editor zu öffnen (abhängig vom gewählten Dateityp).</li>
+                    <li>
+                        Sobald die Bearbeitungssitzung abgeschlossen ist, sendet der Bot die Datei mit den gespeicherten Änderungen.
+                        <p class="notehelp">Der Bearbeitungslink wird <b>deaktiviert</b>, sobald die geänderte Datei gesendet wurde. Um die Datei erneut zu öffnen, antworten Sie einfach auf die Nachricht, die die Datei enthält, mit einem beliebigen Text.</p>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                Um an Dateien <b>zusammenzuarbeiten</b>:
+                <ul>
+                    <li>Um die erstellte Datei gemeinsam zu bearbeiten, leiten Sie die Nachricht mit dem Link an andere Telegram-Benutzer weiter.</li>
+                    <li>Der Link bleibt <b>24 Stunden</b> lang aktiv. Jedes Mal, wenn jemand innerhalb dieses Zeitraums darauf klickt, wird der Timer um weitere 24 Stunden zurückgesetzt.</li>
+                    <li>Wenn der Link abgelaufen ist, wird eine Fehlermeldung angezeigt. Sobald alle Teilnehmer, die auf den Link zugegriffen haben, den Editor geschlossen haben, wird die aktualisierte Datei (sofern Änderungen vorgenommen wurden) sofort an alle Beteiligten gesendet.</li>
+                </ul>
+            </li>
+            <li>
+                Um eine <b>lokale Datei zu öffnen</b>:
+                <ul>
+                    <li>Senden Sie eine Datei an den Chat, ohne einen Befehl auszuwählen.</li>
+                    <li>
+                        Wählen Sie die folgenden Optionen über das Bot-Menü: <code>/start</code> → <b>Öffnen</b> → <b>Datei vom Gerät hochladen</b>.
+                        <p>In beiden Fällen sendet der Bot eine Nachricht mit dem zu öffnenden Link.</p>
+                        <p class="notehelp">Wenn Sie mehrere Dateien in einer Nachricht senden, wird der Link <b>für die erste Datei</b> in der Nachricht generiert.</p>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                Um eine Datei zu <b>konvertieren</b>:
+                <ul>
+                    <li>Wählen Sie die folgenden Optionen über das Bot-Menü: <code>/start</code> → <b>Konvertieren</b>.</li>
+                    <li>Senden Sie die Datei von Ihrem Gerät an den Bot.</li>
+                    <li>
+                        Wählen Sie das Format, in das die hochgeladene Datei konvertiert werden soll. Die Liste der unterstützten Formate finden Sie auf der <a href="https://github.com/ONLYOFFICE/onlyoffice-telegram/?tab=readme-ov-file#opening-local-files" target="_blank">GitHub-Seite</a>.
+                        <p>Nach Abschluss sendet der Bot die konvertierte Datei direkt im ausgewählten Format an den Chat.</p>
+                    </li>
+                </ul>
+            </li>
+            <li>Um Hinweise zur Arbeit mit dem Bot zu erhalten, verwenden Sie den Befehl <code>/help</code>.</li>
+        </ol>
+
+        <h3>Verwendung des Telegram-Bots in Gruppenchats</h3>
+        <p>Die Funktionalität des Bots <b>unterscheidet sich bei der Verwendung in einer Gruppe</b> im Vergleich zu Einzelgesprächen:</p>
+        <ul>
+            <li>Die Dateierstellung wird über drei Befehle verwaltet: <code>/document</code>, <code>/spreadsheet</code> und <code>/presentation</code>. Benutzer legen den Dateinamen nicht manuell fest. Stattdessen wird er automatisch anhand der Vorlage generiert: <code>Neu [Format] Datum Uhrzeit UTC</code>.</li>
+            <li>Die Bot-Interaktion variiert je nach Administratorrechten. Ohne Administratorrechte müssen Sie direkt auf den Bot antworten, und er kann weitergeleitete Dateinachrichten (außer seinen eigenen) nicht abrufen. Mit Administratorrechten sieht der Bot alle Nachrichten, sodass Sie Dateien weiterleiten können, ohne direkt zu antworten.</li>
+            <li>Um einen Editor-Link für eine Datei neu zu generieren, antworten Sie auf die Nachricht, die die Datei enthält, und markieren Sie den Bot <code>@ONLYOFFICE_bot</code>. In einigen Fällen benötigt der Bot möglicherweise Administratorzugriffsrechte in der Gruppe.</li>
+            <li>Beim Öffnen von Dateien reagiert der Bot nicht auf Dateien, die einfach in den Chat gesendet werden. Um eine Datei zu öffnen, verwenden Sie den Befehl <code>/open</code> und antworten Sie dem Bot mit der angehängten Datei in einer Antwortnachricht.</li>
+            <li>
+                Die Sprache des Bots kann nicht universell für die Gruppe festgelegt werden. Stattdessen antwortet er in der Sprache, die jeder einzelne Benutzer gewählt hat.
+                <p class="notehelp">
+                    Standardmäßig verwendet der ONLYOFFICE-Bot die Sprache des Telegram-Benutzerprofils. Wenn diese Sprache in den Bot-Übersetzungen nicht verfügbar ist, wird <b>Englisch</b> verwendet. Wenn Sie die Bot-Sprache manuell ändern möchten, geben Sie den Befehl <code>/lang</code> ein.
+                    <p><img alt="ONLYOFFICE Telegram – Sprachen ändern" src="../images/telegram_language.png" /></p>
+                </p>
+            </li>
+            <li>Die Dateikonvertierung ist nicht verfügbar.</li>
         </ul>
-        <p>Jetzt können Sie Telegram für Instant Messaging innerhalb der Editor-Oberfläche von ONLYOFFICE verwenden.</p>
-        <img alt="Telegram gif" src="../../images/telegram.gif" width="600" />
+        <p><img alt="ONLYOFFICE Telegram – In Gruppenchats arbeiten" src="../images/telegram_group.png" /></p>
+    </div>
+    
         <h2>Rainbow</h2>
         <p>Um mit dem Chatten im Rainbow-Plugin zu beginnen:</p>
         <ol>
@@ -43,7 +99,6 @@
             <li>aktivieren Sie das Kontrollkästchen <b>Meine Sitzung am Leben erhalten</b>, wenn Sie die Anmeldeinformationen für die aktuelle Sitzung speichern möchten, und klicken Sie auf die Schaltfläche <b>Verbinden</b>.</li>
         </ol>
         <p>Jetzt sind Sie fertig und können gleichzeitig in Rainbow chatten und in der ONLYOFFICE-Editor-Oberfläche arbeiten.</p>
-        <img alt="Rainbow gif" src="../../images/rainbow.gif" />
     </div>
 </body>
 </html>

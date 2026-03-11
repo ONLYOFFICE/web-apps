@@ -3,7 +3,7 @@
 	<head>
 		<title>Tabellenblätter verwalten</title>
 		<meta charset="utf-8" />
-        <meta name="description" content="Manage sheets in Spreadsheet Editor: insert, delete, rename, copy and move." />
+        <meta name="description" content="Tabellenblätter im Tabellenkalkulationseditor verwalten: einfügen, löschen, umbenennen, kopieren und verschieben." />
 		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
 		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
@@ -12,99 +12,120 @@
 	<body>
 		<div class="mainpart">
 			<div class="search-field">
-				<input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
+				<input id="search" class="searchBar" placeholder="Suchen" type="text" onkeypress="doSearch(event)">
 			</div>
 			<h1>Tabellenblätter verwalten</h1>
-			<p>Standardmäßig hat eine erstellte Tabelle drei Blätter. Am einfachsten lassen sich neue Blätter im <a href="https://www.onlyoffice.com/de/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Tabelleneditor</b></a> hinzufügen, indem Sie auf Symbol <span class="icon icon-plus"></span> rechts neben den Schaltflächen <b>Blattnavigation</b> in der linken unteren Ecke klicken.</p>
-			<p>Alternativ können Sie ein <b>neues Blatt hinzufügen</b> wie folgt:</p>
+			<p>Standardmäßig enthält eine neu erstellte Tabellenkalkulation ein einzelnes Tabellenblatt. Die einfachste Möglichkeit, ein neues Tabellenblatt in den <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Tabellenkalkulationseditor</b></a> einzufügen, besteht darin, auf die Schaltfläche Plus <span class="icon icon-plus"></span> zu klicken, die sich rechts neben den <b>Blattnavigations</b>schaltflächen in der unteren linken Ecke befindet.</p>
+			<p>Eine weitere Möglichkeit, <b>ein neues Tabellenblatt hinzuzufügen</b>, ist:</p>
 			<ol>
-				<li>Klicken Sie mit der rechten Maustaste auf das Tabellenblatt, nach dem Sie ein neues einfügen möchten.</li>
-				<li>Wählen Sie die Option <b>Einfügen</b> im Rechtsklickmenü.</li>
+				<li>Klicken Sie mit der rechten Maustaste auf die Blattregisterkarte, nach der Sie ein neues einfügen möchten.</li>
+				<li>Wählen Sie die Option <b>Einfügen</b> aus dem Kontextmenü.</li>
 			</ol>
-			<p>Ein neues Blatt wird nach dem gewählten Blatt eingefügt.</p>
-			<p>Um <b>das gewünschte Blatt zu aktivieren</b>, nutzen Sie die Blattregisterkarten in der linken unteren Ecke jeder Tabelle.</p>
-			<p class="note">Wenn Sie mehrere Blätter haben, können Sie über die Schaltflächen für die <b>Blattnavigation</b> in der linken unteren Ecke navigieren, um das benötigte Blatt zu finden.</p>
-			<p><b>Ein überflüssiges Blatt löschen:</b></p>
+			<p>Ein neues Tabellenblatt wird nach dem ausgewählten eingefügt.</p>
+			<p><b>Um das gewünschte Tabellenblatt zu aktivieren</b>, verwenden Sie die Blattregisterkarten in der unteren linken Ecke jeder Tabellenkalkulation.</p>
+			<p class="notehelp">Wenn Sie viele Tabellenblätter haben, können Sie das gewünschte mithilfe der <b>Blattnavigations</b>schaltflächen in der unteren linken Ecke finden.</p>
+			<p><b>So löschen Sie ein nicht benötigtes Tabellenblatt:</b></p>
 			<ol>
-				<li>Klicken Sie mit der rechten Maustaste auf die Registerkarte des Blattes, das Sie entfernen möchten.</li>
-				<li>Wählen Sie die Option <b>Löschen</b> im Rechtsklickmenü.</li>
+				<li>Klicken Sie mit der rechten Maustaste auf die Blattregisterkarte, die Sie löschen möchten.</li>
+				<li>Wählen Sie die Option <b>Löschen</b> aus dem Kontextmenü.</li>
 			</ol>
-			<p>Das gewählte Blatt wird aus der aktuellen Tabelle entfernt.</p>
-			<p><b>Ein vorhandenes Blatt umbenennen:</b></p>
+			<p>Das ausgewählte Tabellenblatt wird aus der aktuellen Tabellenkalkulation gelöscht.</p>
+			<p><b>So benennen Sie ein vorhandenes Tabellenblatt um:</b></p>
 			<ol>
-				<li>Doppelklicken Sie auf die Registerkarte, die Sie umbenennen möchten.</li>
-				<li>Geben Sie einen neuen Namen ein und drücken Sie die <b>Eingabetaste</b>.</li>
+				<li>Doppelklicken Sie auf die Blattregisterkarte, die Sie umbenennen möchten.</li>
+				<li>Geben Sie einen neuen Namen ein und drücken Sie die <kbd>Eigabetaste</kbd>.</li>
 			</ol>
-			<p>Der Titel des gewählten Blatts wird geändert.</p>
-			<p><b>Ein vorhandenes Blatt kopieren:</b></p>
+			<p><b>oder</b></p>
 			<ol>
-				<li>Klicken Sie mit der rechten Maustaste auf die Registerkarte des Blattes, das Sie kopieren möchten.</li>
-				<li>Wählen Sie die Option <b>Kopieren</b> im Rechtsklickmenü.</li>
-				<li>Wählen Sie das Blatt, vor dem Sie das kopierte Blatt einfügen möchten, oder nutzen Sie die Option <b>Zum Ende kopieren</b>, um das kopierte Blatt nach allen vorhandenen Blättern einzufügen.</li>
-				<li>
-					klicken Sie auf die Schaltfläche <b>OK</b>, um Ihre Auswahl zu bestätigen.
-					<p>oder</p>
-					<p>halten Sie die <b>STRG</b>-Taste gedrückt und ziehen Sie den Tabellenreiter nach rechts, um ihn zu duplizieren und die Kopie an die gewünschte Stelle zu verschieben.</p>
-				</li>
+				<li>Wechseln Sie zu dem Tabellenblatt, das Sie umbenennen möchten.</li>
+				<li>Wechseln Sie zur Registerkarte <b>Startseite</b> und klicken Sie auf die Schaltfläche <b>Format</b>.</li>
+				<li>Wählen Sie die Option <b>Blatt umbenennen</b>.</li>
+				<li>Geben Sie einen neuen Namen ein und drücken Sie die <kbd>Eigabetaste</kbd>.</li>
 			</ol>
-			<p>Das gewählte Blatt wird kopiert und an der gewählten Stelle untergebracht.</p>
-			<p><b>Ein vorhandene Blatt verschieben:</b></p>
+			<p>Der Name des ausgewählten Tabellenblatts wird geändert.</p>
+			<p><b>So verschieben oder kopieren Sie ein vorhandenes Tabellenblatt:</b></p>
 			<ol>
-				<li>Klicken Sie mit der rechten Maustaste auf die Registerkarte des Blattes, das Sie verschieben möchten.</li>
-				<li>Wählen Sie im Rechtsklickmenü die Option <b>Verschieben oder kopieren</b>.</li>
+				<li>Klicken Sie mit der rechten Maustaste auf die Blattregisterkarte, die Sie verschieben möchten.</li>
+				<li>Wählen Sie die Option <b>Verschieben oder kopieren</b> aus dem Kontextmenü.</li>
 				<li>Wählen Sie die gewünschte Arbeitsmappe über das Dropdown-Menü <b>Tabellenkalkulation</b> aus.</li>
-				<li>Wählen Sie das Blatt aus, vor dem Sie das ausgewählte Blatt einfügen möchten, oder verwenden Sie die Option <b>Bis zum Ende verschieben</b>, um das ausgewählte Blatt hinter alle vorhandenen zu verschieben.</li>
-				<li>Aktivieren Sie das Kontrollkästchen <b>Eine Kopie erstellen</b>, wenn Sie eine Kopie des verschobenen Blattes erstellen möchten.</li>
-				<li>Klicken Sie auf <b>OK</b>.</li>
+				<li>
+					Wählen Sie das Tabellenblatt, vor dem Sie das ausgewählte einfügen möchten, oder verwenden Sie die Option <b>Bis zum Ende verschieben</b>, um das ausgewählte Tabellenblatt nach allen vorhandenen zu verschieben.
+					<p class="note">Oder <b>ziehen</b> Sie einfach die gewünschte Blattregisterkarte und <b>legen</b> Sie sie an einem neuen Ort ab. Das ausgewählte Tabellenblatt wird verschoben.</p>
+				</li>
+				<li>
+					Aktivieren Sie das Kontrollkästchen <b>Kopie erstellen</b>, wenn Sie eine Kopie des verschobenen Tabellenblatts erstellen möchten.
+					<p class="note">Alternativ können Sie die Taste <kbd>Strg</kbd> gedrückt halten und die Blattregisterkarte nach rechts ziehen, um sie zu duplizieren und die Kopie an den gewünschten Ort zu verschieben.</p>
+				</li>
 			</ol>
-			<p>Sie können das erforderliche Blatt auch mit dem Mauszeiger <b>ziehen</b> und an der gewünschten Position <b>loslassen</b>. Das gewählte Blatt wird verschoben.</p>
-			<p>Sie können ein Blatt auch manuell von einem Buch in ein anderes Buch <b>per Drag & Drop</b> ziehen. Wählen Sie dazu das Blatt aus, das Sie verschieben möchten, und ziehen Sie es auf die Seitenleiste eines anderen Buchs. Sie können beispielsweise ein Blatt aus dem Online-Editor-Buch auf das Desktop-Buch ziehen:</p>
-			<p><img alt="Move sheet gif" src="../images/move_sheet.gif" /></p>
-			<p>In diesem Fall wird das Blatt aus der ursprünglichen Kalkulationstabelle <b>gelöscht</b>.</p>
-			<p>Wenn Sie mit mehreren Blättern arbeiten, können Sie die Blätter, die aktuell nicht benötigt werden, ausblenden, um die Arbeit übersichtlicher zu gestalten. Blätter ausblenden:</p>
+			<p>Sie können ein Tabellenblatt auch manuell per <b>Drag-and-Drop</b> von einer Arbeitsmappe in eine andere verschieben. Wählen Sie dazu das Tabellenblatt aus, das Sie verschieben möchten, und ziehen Sie es in die Blattleiste einer anderen Arbeitsmappe. Sie können beispielsweise ein Tabellenblatt aus der Online-Editor-Arbeitsmappe in die Desktop-Arbeitsmappe ziehen:</p>
+			<p><img alt="Tabellenblatt verschieben GIF" src="../images/move_sheet.gif" /></p>
+			<p>In diesem Fall wird das Tabellenblatt aus der ursprünglichen Tabellenkalkulation <b>gelöscht</b>.</p>
+			<p class="notehelp">Derzeit ist es in Desktop Editors unter Linux nicht möglich, Tabellenblätter per Drag-and-Drop in eine neue Arbeitsmappe zu verschieben.</p>
+			<p><b>So blenden Sie Tabellenblätter aus</b>, die Sie momentan nicht benötigen:</p>
 			<ol>
-				<li>Klicken Sie mit der rechten Maustaste auf die Registerkarte des Blattes, das Sie ausblenden möchten.</li>
-				<li>Wählen Sie die Option <b>Ausblenden</b> im Rechtsklickmenü.</li>
+				<li>Klicken Sie mit der rechten Maustaste auf die Blattregisterkarte, die Sie ausblenden möchten.</li>
+				<li>Wählen Sie die Option <b>Ausblenden</b> aus dem Kontextmenü.</li>
 			</ol>
-			<p><b>Um die ausgeblendete Blattregisterkarte einzublenden</b>, klicken Sie mit der rechten Maustaste auf eine beliebige Registerkarte, öffnen Sie die Liste <b>Ausgeblendet</b> und wählen Sie die Blattregisterkarte aus, die Sie wieder einblenden möchten.</p>
-			<p>Um die Blätter zu unterscheiden, können Sie den Blattregistern <b>unterschiedliche Farben zuweisen</b>. Gehen Sie dazu vor wie folgt:</p>
+			<p><b>oder</b></p>
 			<ol>
-				<li>Klicken Sie mit der rechten Maustaste auf die Registerkarte des Blattes, das Sie farblich absetzen möchten.</li>
-				<li>Wählen Sie die Option <b>Registerfarbe</b> im Rechtsklickmenü.</li>
-				<li>Wählen Sie eine beliebige Farbe auf den verfügbaren Paletten aus.
-					<p><img alt="Palette" src="../images/palette.png" /></p>
+				<li>Wechseln Sie zur Registerkarte <b>Startseite</b> und klicken Sie auf die Schaltfläche <b>Format</b>.</li>
+				<li>Wählen Sie die Option <b>Ausblenden</b> → <b>Blatt</b>.</li>
+			</ol>
+			<p><b>So blenden Sie die ausgeblendete Blattregisterkarte wieder ein</b>:</p>
+			<ol>
+				<li>Klicken Sie mit der rechten Maustaste auf eine beliebige Blattregisterkarte.</li>
+				<li>Öffnen Sie die Liste <b>Ausgeblendet</b> und wählen Sie die Blattregisterkarte aus, die Sie einblenden möchten.</li>
+			</ol>
+			<p><b>oder</b></p>
+			<ol>
+				<li>Wechseln Sie zur Registerkarte <b>Startseite</b> und klicken Sie auf die Schaltfläche <b>Format</b>.</li>
+				<li>Wählen Sie die Option <b>Einblenden</b> → <b>Ausgeblendete Tabellenblätter</b> und wählen Sie die Blattregisterkarte aus, die Sie einblenden möchten.</li>
+			</ol>
+			<p>Um die Tabellenblätter zu unterscheiden, können Sie <b>den Blattregisterkarten verschiedene Farben zuweisen</b>. Gehen Sie dazu folgendermaßen vor:</p>
+			<ol>
+				<li>Klicken Sie mit der rechten Maustaste auf die Blattregisterkarte, der Sie eine Farbe zuweisen möchten.</li>
+				<li>
+					Wählen Sie die Option <b>Farbe des Tabulators</b> aus dem Kontextmenü.
+					<p class="note">Alternativ wechseln Sie zur Registerkarte <b>Startseite</b> → klicken Sie auf die Schaltfläche <b>Format</b> → <b>Registerkartenfarbe</b>.</p>
+				</li>
+				<li>
+					Wählen Sie eine Farbe aus den verfügbaren Paletten aus:
+					<p><img alt="Farbpalette" src="../images/palette.png" /></p>
 					<ul>
-						<li><b>Designfarben</b> - die Farben, die dem gewählten Farbschema der Tabelle entsprechen.</li>
-						<li><b>Standardfarben</b> - die voreingestellten Standardfarben.</li>
+						<li><b>Designfarben</b> – die Farben, die dem ausgewählten Farbschema der Tabellenkalkulation entsprechen.</li>
+						<li><b>Standardfarben</b> – der Standardfarbsatz.</li>
 						<li>
-							<b>Benutzerdefinierte Farbe</b> - klicken Sie auf diese Option, wenn Ihre gewünschte Farbe nicht in der Palette mit verfügbaren Farben enthalten ist. Wählen Sie den gewünschten Farbbereich mit dem vertikalen Schieberegler aus und legen Sie dann die gewünschte Farbe fest, indem Sie den Farbwähler innerhalb des großen quadratischen Farbfelds an die gewünschte Position ziehen. Sobald Sie eine Farbe mit dem Farbwähler bestimmt haben, werden die entsprechenden RGB- und sRGB-Farbwerte in den Feldern auf der rechten Seite angezeigt. Sie können auch anhand des RGB-Farbmodells eine Farbe bestimmen, geben Sie die gewünschten nummerischen Werte in den Feldern <b>R</b>, <b>G</b>, <b>B</b> (Rot, Grün, Blau) ein oder den sRGB-Hexadezimalcode in das Feld mit dem <b>#</b>-Zeichen. Die gewählte Farbe wird im Vorschaufeld <b>Neu</b> angezeigt. Wenn das Objekt vorher mit einer benutzerdefinierten Farbe gefüllt war, wird diese Farbe im Feld <b>Aktuell</b> angezeigt, so dass Sie die Originalfarbe und die Zielfarbe vergleichen könnten. Wenn Sie die Farbe festgelegt haben, klicken Sie auf <b>Hinzufügen</b>.<p><img alt="Palette - Benutzerdefinierte Farbe" src="../../../../../../common/main/resources/help/de/images/palette_custom.png" /></p>
-							<p>Die benutzerdefinierte Farbe wird auf die Daten angewandt und zur Palette <b>Benutzerdefinierte Farbe</b> hinzugefügt.</p>
+							<b>Benutzerdefinierte Farbe</b> – klicken Sie auf diese Beschriftung, wenn die benötigte Farbe nicht in den verfügbaren Paletten vorhanden ist. Wählen Sie den gewünschten Farbbereich, indem Sie den vertikalen Farbregler verschieben, und legen Sie die spezifische Farbe fest, indem Sie die Farbauswahl im großen quadratischen Farbfeld ziehen. Sobald Sie eine Farbe mit der Farbauswahl ausgewählt haben, werden die entsprechenden RGB- und sRGB-Farbwerte in den Feldern auf der rechten Seite angezeigt. Sie können auch eine Farbe auf der Grundlage des RGB-Farbmodells angeben, indem Sie die erforderlichen numerischen Werte in die Felder <b>R</b>, <b>G</b>, <b>B</b> (Rot, Grün, Blau) eingeben oder den sRGB-Hexadezimalcode in das mit dem <b>#</b>-Zeichen gekennzeichnete Feld eingeben. Die ausgewählte Farbe wird im Vorschaufeld <b>Neu</b> angezeigt. Wenn das Objekt zuvor mit einer benutzerdefinierten Farbe gefüllt wurde, wird diese Farbe im Feld <b>Aktuell</b> angezeigt, sodass Sie die ursprüngliche und die geänderte Farbe vergleichen können. Wenn die Farbe festgelegt ist, klicken Sie auf die Schaltfläche <b>Hinzufügen</b>:
+							<p><img alt="Farbpalette – Benutzerdefinierte Farbe" src="../../../../../../common/main/resources/help/en/images/palette_custom.png" /></p>
+							<p>Die benutzerdefinierte Farbe wird auf die ausgewählte Registerkarte angewendet und der Palette <b>Benutzerdefinierte Farbe</b> hinzugefügt.</p>
 						</li>
 					</ul>
 				</li>
 			</ol>
-			<p>Sie können <b>gleichzeitig mit mehreren Blättern arbeiten</b>:</p>
+			<p>Sie können <b>mit mehreren Tabellenblättern gleichzeitig arbeiten</b>:</p>
 			<ol>
-				<li>Wählen Sie das erste Blatt aus, das Sie in die Gruppe aufnehmen möchten.</li>
-				<li>Halten Sie die <em>Umschalttaste</em> gedrückt, um mehrere benachbarte Blätter auszuwählen, die Sie gruppieren möchten, oder verwenden Sie die <em>Strg</em>-Taste, um mehrere nicht benachbarte Blätter auszuwählen, die Sie gruppieren möchten.</li>
+				<li>Wählen Sie das erste Tabellenblatt aus, das Sie in die Gruppe aufnehmen möchten.</li>
+				<li>Halten Sie die Taste <kbd>Umschalt</kbd> gedrückt, um mehrere benachbarte Tabellenblätter auszuwählen, die Sie gruppieren möchten, oder verwenden Sie die Taste <kbd>Strg</kbd>, um mehrere nicht benachbarte Tabellenblätter auszuwählen, die Sie gruppieren möchten.</li>
 				<li>Klicken Sie mit der rechten Maustaste auf eine der ausgewählten Blattregisterkarten, um das Kontextmenü zu öffnen.</li>
-				<li>Wählen Sie die erforderliche Option aus dem Menü:
-					<p><img alt="Gleichzeitig mit mehreren Blättern arbeiten" src="../images/severalsheets.png" /></p>
+				<li>
+					Wählen Sie die gewünschte Option aus dem Menü:
+					<p><img alt="Mehrere Tabellenblätter verwalten" src="../images/severalsheets.png" /></p>
 					<ul>
-						<li><b>Einfügen</b> - um die gleiche Anzahl neuer leerer Blätter einzufügen, wie in der ausgewählten Gruppe,</li>
-						<li><b>Löschen</b> - um alle ausgewählten Blätter auf einmal zu löschen (Sie können nicht alle Blätter in der Arbeitsmappe löschen, da die Arbeitsmappe mindestens ein sichtbares Blatt enthalten muss),</li>
-						<li><b>Umbenennen</b> - diese Option kann nur auf jedes einzelne Blatt angewendet werden,</li>
-						<li><b>Kopieren</b> - um Kopien aller ausgewählten Blätter auf einmal zu erstellen und sie an der ausgewählten Stelle einzufügen,</li>
-						<li><b>Verschieben</b> - um alle ausgewählten Blätter auf einmal zu verschieben und sie an der ausgewählten Stelle einzufügen,</li>
-						<li><b>Verbergen</b> - um alle ausgewählten Blätter auf einmal auszublenden (Sie können nicht alle Blätter in der Arbeitsmappe ausblenden, da die Arbeitsmappe mindestens ein sichtbares Blatt enthalten muss),</li>
-						<li><b>Farbe des Tabulators</b> - um allen ausgewählten Blatt-Tabs auf einmal dieselbe Farbe zuzuweisen,</li>
-						<li><b>Alle Blätter auswählen</b> – um alle Blätter in der aktuellen Arbeitsmappe auszuwählen,</li>
-						<li><b>Gruppierung von Arbeitsblättern aufheben</b> - um die Gruppierung der ausgewählten Blätter aufzuheben.
-							<p class="note">Es ist auch möglich, die Gruppierung von Blättern aufzuheben, indem Sie auf ein Blatt doppelklicken, das in der Gruppe enthalten ist, oder indem Sie auf ein beliebiges Blatt klicken, das nicht in der Gruppe enthalten ist.</p>
+						<li><b>Einfügen</b> – um die gleiche Anzahl neuer leerer Tabellenblätter wie in der ausgewählten Gruppe einzufügen.</li>
+						<li><b>Löschen</b> – um alle ausgewählten Tabellenblätter auf einmal zu löschen (Sie können nicht alle Blätter in der Arbeitsmappe löschen, da die Arbeitsmappe mindestens ein sichtbares Blatt enthalten muss).</li>
+						<li><b>Umbenennen</b> – diese Option kann nur auf jedes einzelne Tabellenblatt angewendet werden.</li>
+						<li><b>Verschieben oder kopieren</b> – um alle ausgewählten Tabellenblätter auf einmal zu verschieben und an der ausgewählten Stelle einzufügen, oder um Kopien aller ausgewählten Tabellenblätter auf einmal zu erstellen und an der ausgewählten Stelle einzufügen.</li>
+						<li><b>Verbergen</b> – um alle ausgewählten Tabellenblätter auf einmal auszublenden (Sie können nicht alle Blätter in der Arbeitsmappe ausblenden, da die Arbeitsmappe mindestens ein sichtbares Blatt enthalten muss).</li>
+						<li><b>Farbe des Tabulators</b> – um allen ausgewählten Blattregisterkarten auf einmal dieselbe Farbe zuzuweisen.</li>
+						<li><b>Alle Blätter auswählen</b> – um alle Tabellenblätter in der aktuellen Arbeitsmappe auszuwählen.</li>
+						<li>
+							<b>Gruppierung von Arbeitsblättern aufheben</b> – um die Gruppierung der ausgewählten Tabellenblätter aufzuheben.
+							<p class="notehelp">Die Gruppierung von Tabellenblättern kann auch aufgehoben werden, indem Sie auf ein Tabellenblatt doppelklicken, das in der Gruppe enthalten ist, oder indem Sie auf ein Tabellenblatt klicken, das nicht in der Gruppe enthalten ist.</p>
 						</li>
 					</ul>
 				</li>
 			</ol>
+			<p>Weitere Informationen zum <b>Schutz von Tabellenblättern</b> finden Sie im <a href="../UsageInstructions/ProtectSpreadsheet.htm" target="_blank">folgenden Artikel</a>.</p>
 		</div>
 	</body>
 </html>
