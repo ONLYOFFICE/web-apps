@@ -56,6 +56,8 @@ define([
         },
         onLaunch: function () {
             this._state = {};
+            Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
+            Common.NotificationCenter.on('contenttheme:dark', this.onContentThemeChangedToDark.bind(this));
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
             Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
         },
@@ -104,6 +106,7 @@ define([
                     'viewtab:createview': this.onCreateView,
                     'viewtab:manager': this.onOpenManager,
                     'viewtab:viewmode': this.onPreviewMode,
+                    'darkmode:change': _.bind(this.onChangeDarkMode, this),
                     'macros:click':  this.onClickMacros,
                     'macros:record':  _.bind(this.onClickMacrosRec, this),
                     'macros:pause':  _.bind(this.onClickMacrosPause, this)
@@ -131,6 +134,16 @@ define([
                 }
             });
             Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));
+        },
+
+        onAppReady: function () {
+            if (this.view && Common.UI.Themes.available()) {
+                var me = this;
+                setTimeout(function () {
+                    me.onContentThemeChangedToDark(Common.UI.Themes.isContentThemeDark());
+                    Common.Utils.lockControls(Common.enumLock.inLightTheme, !Common.UI.Themes.isDarkTheme(), {array: [me.view.btnDarkDocument]});
+                }, 0);
+            }
         },
 
         SetDisabled: function(state) {
@@ -303,6 +316,7 @@ define([
                     this.view.btnInterfaceTheme.menu.clearAll(true);
                     menu_item.setChecked(true, true);
                 }
+                Common.Utils.lockControls(Common.enumLock.inLightTheme, !Common.UI.Themes.isDarkTheme(), {array: [this.view.btnDarkDocument]});
             }
         },
 
@@ -316,6 +330,21 @@ define([
 
         onPreviewMode: function(value) {
             this.api && this.api.asc_SetSheetViewType(value);
+        },
+
+        onChangeDarkMode: function (isdarkmode) {
+            if (!this._darkModeTimer) {
+                var me = this;
+                me._darkModeTimer = setTimeout(function() {
+                    me._darkModeTimer = undefined;
+                }, 500);
+                Common.UI.Themes.setContentTheme(isdarkmode ? 'dark' : 'light');
+            } else 
+                this.onContentThemeChangedToDark(Common.UI.Themes.isContentThemeDark());
+        },
+
+        onContentThemeChangedToDark: function (isdark) {
+            this.view && this.view.btnDarkDocument.toggle(isdark, true);
         },
 
         onClickMacros: function() {

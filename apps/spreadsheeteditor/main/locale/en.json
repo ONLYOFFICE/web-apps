@@ -5349,6 +5349,8 @@
   "SSE.Views.ViewTab.textTabStyle": "Tab style",
   "SSE.Views.ViewTab.textUnFreeze": "Unfreeze panes",
   "SSE.Views.ViewTab.textZeros": "Show Zeros",
+  "SSE.Views.ViewTab.textDarkDocument": "Dark Document",
+  "SSE.Views.ViewTab.tipDarkDocument": "Dark document",
   "SSE.Views.ViewTab.textZoom": "Zoom",
   "SSE.Views.ViewTab.tipClose": "Close sheet view",
   "SSE.Views.ViewTab.tipCreate": "Create sheet view",
