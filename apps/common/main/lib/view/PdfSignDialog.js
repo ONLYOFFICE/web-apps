@@ -215,8 +215,10 @@ define([], function () { 'use strict';
                 me.props && me.props.put_TypeFontSize(record.value);
             });
             this.cmbFontSize.setValue(this.font.size);
-            this.cmbFontSize.on('changed:before', _.bind(this.onFontSizeChanged, this, true));
-            this.cmbFontSize.on('changed:after',  _.bind(this.onFontSizeChanged, this, false));
+            this.cmbFontSize.on({
+                'changed:before': this.onFontSizeChanged.bind(this, true),
+                'changed:after': this.onFontSizeChanged.bind(this, false),
+            });
 
             this.btnBold = new Common.UI.Button({
                 parentEl: $window.find('#pdf-sign-bold'),
