@@ -371,11 +371,20 @@ define([
             Common.NotificationCenter.trigger('hints:clear');
         },
 
+        /** @param {WheelEvent} e */
         _onMouseWheelThrottled: function(e) {
-            var delta = (e.detail && -e.detail) || e.wheelDelta;
-            if (Math.abs(delta) < 10) {
+            var delta;
+            if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+                delta = e.deltaX;
+            } else {
+                delta = e.deltaY;
+            }
+
+            if (Math.abs(delta) < 1) {
                 return;
             }
+
+            e.preventDefault();
 
             var now = Date.now();
             if (this._lastWheelTime && now - this._lastWheelTime < 50) {
@@ -385,7 +394,7 @@ define([
 
             var hidden = this.checkInvisible(true);
 
-            if (delta < 0) {
+            if (delta > 0) {
                 if (hidden.last) {
                     this.setTabVisible('forward');
                 }
