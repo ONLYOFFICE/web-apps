@@ -312,8 +312,11 @@ define([], function () { 'use strict';
                 takeFocusOnClose: true
             });
             this.cmbLineSize.setValue(2);
-            this.cmbLineSize.on('selected', function(combo, record) {
-                me.props && me.props.put_LineSize(record.value);
+            this.cmbLineSize.on({
+                'selected': function(combo, record) {
+                                me.props && me.props.put_LineSize(record.value);
+                            },
+                'changed:before': this.onLineSizeChanged.bind(this),
             });
 
             this.btnUndo = new Common.UI.Button({
@@ -564,6 +567,23 @@ define([], function () { 'use strict';
                 combo.setRawValue(value);
                 this.font.size = value;
                 this.props && this.props.put_TypeFontSize(value);
+            }
+        },
+
+        onLineSizeChanged: function(combo, record, e) {
+            const item = combo.store.findWhere({
+                displayValue: record.value
+            });
+
+            if (!item) {
+                const value = /^\+?(\d*(\.|,)?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
+
+                if (!value) {
+                    let value = combo.getValue();
+                    combo.setRawValue(value + ' px');
+                    e.preventDefault();
+                    return false;
+                }
             }
         },
 
