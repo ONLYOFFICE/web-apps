@@ -394,7 +394,7 @@ define([
 
             var hidden = this.checkInvisible(true);
 
-            if (delta < 0) {
+            if (delta > 0) {
                 if (hidden.last) {
                     this.setTabVisible('forward');
                 }
