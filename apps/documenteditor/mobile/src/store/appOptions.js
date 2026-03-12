@@ -46,6 +46,9 @@ export class storeAppOptions {
             isFavorite: observable,
             setFavorite: action,
 
+            isAutosave: observable,
+            changeAutosave: action,
+
             customization: observable,
         });
     }
@@ -108,6 +111,11 @@ export class storeAppOptions {
     isDocReady = false;
     changeDocReady (value) {
         this.isDocReady = value;
+    }
+
+    isAutosave = true;
+    changeAutosave (value) {
+        this.isAutosave = value;
     }
 
     config = {};

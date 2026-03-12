@@ -744,6 +744,8 @@
     "textFind": "Find",
     "textFindAndReplace": "Find and Replace",
     "textFindAndReplaceAll": "Find and Replace All",
+    "textSaveDocument": "Save",
+    "textAutoSaveDocument": "Autosave",
     "textFormat": "Format",
     "textHelp": "Help",
     "textHiddenTableBorders": "Hidden Table Borders",

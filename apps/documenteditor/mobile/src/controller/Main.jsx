@@ -382,6 +382,10 @@ class MainController extends Component {
 
                 this.updateWindowTitle(true);
 
+                value = LocalStorage.getBool("de-mobile-autosave");
+                appOptions.changeAutosave(LocalStorage.itemExists('de-mobile-autosave') ? value : true);
+                this.api.asc_setAutoSaveGap(LocalStorage.itemExists('de-mobile-autosave') ? parseInt(LocalStorage.getItem("de-mobile-autosave")) : 1);
+
                 value = LocalStorage.getBool("de-mobile-no-characters");
                 appSettings.changeNoCharacters(value);
                 this.api.put_ShowParaMarks(value);
