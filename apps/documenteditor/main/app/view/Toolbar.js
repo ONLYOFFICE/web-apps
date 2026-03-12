@@ -2879,6 +2879,12 @@ define([
                             this.brdInnerVert,
                             { caption: '--' },
                             {
+                                id: 'id-toolbar-menu-item-horizontal-line',
+                                caption: this.textHorizontalLine,
+                                iconCls: 'menu__icon btn-horizontal-line',
+                            },
+                            { caption: '--' },
+                            {
                                 id: 'id-toolbar-menu-item-border-width',
                                 caption: this.textBordersStyle,
                                 iconCls: 'menu__icon btn-border-style',
