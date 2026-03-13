@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+        <title>Fonction REGEX.REMPLACER</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Fonction REGEX.REMPLACER</h1>
+            <p>La fonction <b>REGEX.REMPLACER</b><b> </b>est l'une des <a href="../UsageInstructions/InsertFunction.htm#textdata" onclick="onhyperlinkclick(this)">fonctions de texte et de données</a>. Cette fonction vous permet de remplacer le texte d'une chaîne par une autre chaîne, en fonction d'une expression régulière fournie.</p>
+            <h3>Syntaxe</h3>
+            <p><b><em>REGEX.REMPLACER(texte, modèle, remplacement, [occurrence], [respect_casse])</em></b></p>
+            <p>Les arguments de la fonction <b>REGEX.REMPLACER</b> sont les suivants:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Description</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>texte</em></b></td>
+                    <td>Texte ou référence à une cellule contenant le texte dans lequel vous souhaitez remplacer des chaînes.</td>
+                </tr>
+                <tr>
+                    <td><b><em>modèle</em></b></td>
+                    <td>Expression régulière (&quot;regex&quot;) qui décrit le modèle de texte à remplacer.</td>
+                </tr>
+                <tr>
+                    <td><b><em>remplacement</em></b></td>
+                    <td>Texte que vous souhaitez remplacer dans la correspondance modèle. Vous pouvez utiliser <b>$1</b>, <b>$2</b> pour faire référence aux groupes de capture qui font partie d'un modèle.</td>
+                </tr>
+                <tr>
+                    <td><b><em>occurrence</em></b></td>
+                    <td>Définit l'occurrence du modèle que vous voulez remplacer. C'est un argument facultatif. Si cet argument est omis, la valeur par défaut est 0, ce qui remplace toutes les occurrences. Un nombre positif remplace cette occurrence spécifique. Un nombre négatif remplace les occurrences en effectuant une recherche à partir de la fin.</td>
+                </tr>
+                <tr>
+                    <td><b><em>respect_casse</em></b></td>
+                    <td>Définit si la correspondance respecte la casse. C'est un argument facultatif. Si cet argument est omis, la correspondance respecte la casse (0). Saisissez <b>0</b> pour la correspondance respectant la casse ou <b>1</b> pour la correspondance non sensible à la casse.</td>
+                </tr>
+            </table>
+
+            <h3>Remarques</h3>
+            <p>Lors de l'écriture de modèles d'expression régulière, vous pouvez utiliser des symboles appelés jetons qui correspondent à une variété de caractères. Voici quelques jetons simples à référencer:</p>
+            <ul>
+                <li><b>[0-9]</b>: n'importe quel chiffre numérique</li>
+                <li><b>[a-z]:</b>: caractère dans la plage de a à z</li>
+                <li><b>[A-Z]</b>: caractère dans la plage de A à Z</li>
+                <li><b>.</b>: n'importe quel caractère</li>
+                <li><b>*</b>:  zéro ou plusieurs fois le caractère précédent</li>
+                <li><b>+</b>:  une ou plusieurs fois le caractère précédent</li>
+                <li><b>()</b>: groupe de capture - le texte capturé peut être référencé dans le remplacement par $1, $2, etc.</li>
+                <li><b>{n}</b>: exactement n fois le caractère précédent</li>
+                <li><b>\</b>:  caractère d'échappement pour les caractères spéciaux.</li>
+            </ul>
+            <p>Les<b> groupes de capture</b> sont des parties d'une expression régulière délimitées par des parenthèses &quot;(...)&quot;. <b><em>L'argument de remplacement</em></b> peut référencer les groupes capturés en utilisant :</p>
+            <ul>
+                <li><b>$1</b> - premier groupe de capture</li>
+                <li><b>$2</b> - deuxième groupe de capture</li>
+                <li><b>$n</b> - le nième groupe de capture.</li>
+            </ul>
+            <p>La fonction renvoie la chaîne de texte modifiée. Le texte d'origine dans la cellule source n'est pas modifié.</p>
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Comment utiliser</a> la fonction <b>REGEX.REMPLACER</b>.</p>
+
+            <h3>Exemples</h3>
+            <p>L'illustration ci-dessous présente le résultat renvoyé par la fonction REGEX.REMPLACER.</p>
+            <p><img alt="Fonction REGEX.REMPLACER" src="../images/regexreplace.png" /></p>
+        </div>
+	</body>
+</html>

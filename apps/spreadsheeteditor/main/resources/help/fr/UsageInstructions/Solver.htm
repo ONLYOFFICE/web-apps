@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Solveur</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Utiliser le Solveur pour trouver des solutions à des problèmes en ajustant les valeurs dans des cellules spécifiques." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Solveur</h1>
+            <p><a href="https://www.onlyoffice.com/spreadsheet-editor.aspx"><b>L'éditeur de classeurs</b></a> propose la fonction <b>Solveur</b> permettant de rechercher une solution optimale à un problème en ajustant les valeurs de cellules spécifiées. Le Solveur modifie les valeurs des  variables de décision pour maximiser, minimiser ou définir une valeur spécifique dans une cellule d'objectif tout en respectant les contraintes que vous définissez.</p>
+            <p>Le <b>Solveur</b> est particulièrement utile pour les problèmes de programmation linéaire dans lesquels vous devez optimiser l'allocation des ressources, la planification de la production, l'ordonnancement ou d'autres décisions métier soumises à diverses limitations.</p>
+            <p class="note">La fonction <b>Solveur</b> utilise la méthode <b>Simplex LP</b> conçue spécifiquement pour les problèmes de programmation linéaire. Cela signifie que votre fonction d'objectif et toutes les contraintes <b>doivent être des fonctions linéaires</b> des variables de décision.</p>
+
+            <h3>Comment utiliser le Solveur</h3>
+            <p>Pour utiliser la fonctionnalité <b>Solveur</b>, procédez comme suit:</p>
+            <ol>
+                <li>
+                    <p>Préparez votre feuille de calcul utilisant les éléments suivants:</p>
+                    <ul>
+                        <li><b>Cellules de variables</b> - les cellules contenant les valeurs que le <b>Solveur</b> va modifier pour obtenir la solution optimale. Ces cellules doivent contenir des valeurs initiales (les zéros sont acceptés).</li>
+                        <li><b>Cellule d'objectif</b> - une cellule contenant une formule qui dépend des cellules variables. C'est la valeur que vous souhaitez maximiser, minimiser ou fixer à une cible spécifique.</li>
+                        <li><b>Cellules de contraintes</b> - des cellules contenant des formules qui calculent des valeurs qui doivent répondre aux certaines conditions (facultatif, mais généralement nécessaire).</li>
+                    </ul>
+                </li>
+                <li>Passez à l'onglet <b>Données</b> et cliquez sur l'icône <b>Solveur</b> dans la barre d'outils supérieure.</li>
+                <li>Dans la fenêtre <b>Paramètres du Solveur</b> qui s'affiche, configurez les options suivantes.<p><img alt="Fenêtre Paramètres du Solveur" src="../images/solver_parameters.png" /></p>
+                    <ul>
+                        <li><b>Définir l'objectif</b> : saisissez la référence de la cellule contenant la <b>formule</b> à optimiser. Vous pouvez cliquer directement sur la cellule dans la feuille de calcul à l'aide du bouton <div class="icon icon-changerange"></div><b>Sélectionner des données</b> ou saisissez la référence manuellement. Sélectionnez l'une des options suivantes pour définir l'objectif de l'optimisation:<ul>
+                                <li><em>Max</em> - pour trouver la valeur maximale possible de la cellule d'objectif.</li>
+                                <li><em>Min</em> - pour trouver la valeur minimale possible de la cellule objectif.</li>
+                                <li><em>Valeur de</em> - pour que la cellule objectif soit égale à une valeur spécifique. Saisissez la valeur cible manuellement dans le champ prévu.</li>
+                            </ul>
+                        </li>
+                        <li><b>En modifiant les cellules de variables</b>: saisissez les références des cellules que le <b>Solveur</b> va modifier pour obtenir le résultat optimal. Ce sont vos variables de décision. Vous pouvez sélectionner plusieurs cellules ou plages de cellules à l'aide du<div class="icon icon-changerange"></div>bouton <b>Sélectionner données</b>. Pour sélectionner des cellules non adjacentes, séparez les références par des virgules (par exemple,  <code>B2,B3,B4</code> or <code>B2:B4,C2:C4</code>).</li>
+                        <li><b>Soumis aux contraintes</b>: cette section vous permet de définir les limitations que la solution doit respecter. Gérez les contraintes à l'aide des boutons suivants: Gérez les contraintes utilisant les boutons suivants:<ul>
+                                <li><b>Ajouter</b> - cliquez pour créer une nouvelle contrainte. Les paramètres suivants sont disponibles dans la boîte de dialogue des contraintes :<p><img alt="Fenêtre Ajouter des contraintes" src="../images/solver_addconstraint.png" /></p>
+                                    <ul>
+                                        <li><em>Référence de cellule</em> - saisissez ou <div class="icon icon-changerange"></div>sélectionnez  la cellule ou la plage contenant la valeur à contraindre.</li>
+                                        <li>Sélectionnez l'opérateur nécessaire: &lt;= (inférieur ou égal à), &gt;= (supérieur ou égal à), or = (égal à).</li>
+                                        <li><em>Contrainte</em> - saisissez la valeur limite ou<div class="icon icon-changerange"></div>la référence d'une cellule  contenant la valeur limite.</li>
+                                    </ul>
+                                    <p>Cliquez sur <b>OK</b> pour ajouter la contrainte et fermer la boîte de dialogue, ou sur <b>Ajouter</b> pour enregistrer la contrainte actuelle et en ajouter une autre.</p>
+                                </li>
+                                <li><b>Modifier</b> -  sélectionnez une contrainte existante dans la liste et cliquez sur ce bouton pour en modifier les paramètres. La boîte de dialogue s'ouvre avec les valeurs actuelles, vous permettant de modifier la référence de cellule, l'opérateur ou la valeur de contrainte.</li>
+                                <li><b>Supprimer</b> - sélectionnez une contrainte existante dans la liste et cliquez sur ce bouton pour la supprimer. La contrainte est immédiatement retirée de la liste.</li>
+                            </ul>
+                        </li>
+                        <li><b>Rendre les variables non contraintes non négatives </b>: activez cette option pour ajouter une contrainte implicite empêchant les cellules de variables de prendre des valeurs négatives. Lorsque cette option est activée, le <b>Solveur</b> ne prend en compte que les solutions dans lesquelles toutes les cellules de variables sont supérieures ou égales à zéro.</li>
+                        <li><b>Méthode de résolution</b>: sélectionnez l'algorithme que le <b>Solveur</b> utilisera pour trouver la solution optimale. La méthode disponible est:<ul>
+                                <li><em>Simplex LP</em> - la méthode Simplex pour les problèmes de programmation linéaire. Cette méthode est conçue pour les problèmes où la fonction objectif et toutes les contraintes sont des fonctions linéaires des variables.</li>
+                            </ul>
+                        </li>
+                        <li>Cliquez sur <b>Résoudre</b> pour lancer l'optimisation.</li>
+                    </ul>
+                </li>
+                <li>La fenêtre des <b>résultats du Solveur</b> affichera le résultat :<p><img alt="Fenêtre des résultats du Solveur" src="../images/solver_results.png" /></p>
+                    <ul>
+                        <li>Une fois la solution trouvée, un message indique que le <em>Solveur a trouvé une solution</em> satisfaisant toutes les contraintes.</li>
+                        <li>Choisissez si vous souhaitez <b>conserver la solution trouvée</b> (visible dans la feuille de calcul en arrière-plan) ou <b>restaurer les valeurs d'origine</b>.</li>
+                        <li>Vous pouvez <b>revenir à la boîte de dialogue des paramètres du Solveur</b> pour les configurer en activant les options correspondantes.</li>
+                        <li>Cliquez sur <b>OK</b> pour conserver les valeurs de la solution dans votre feuille de calcul,</li>
+                        <li>Cliquez sur <b>Annuler</b> pour restaurer les valeurs d'origine avant l'optimisation.</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>Solveur vs Valeur cible</h3>
+            <p>Bien que le <b>Solveur</b> et la <a href="../UsageInstructions/GoalSeek.htm" target="_blank">Valeur cible</a> soient tous deux des outils d'optimisation, ils répondent à des besoins différents.</p>
+            <ul>
+                <li>La <b>Valeur cible</b> recherche la valeur d'une seule entrée nécessaire pour obtenir un résultat spécifique dans une formule. Cette fonctionnalité ne modifie qu'une seule cellule pour atteindre une valeur cible.</li>
+                <li>Le Solveur peut modifier plusieurs cellules à la fois grâce à l'option <b>En modifiant les cellules de variables</b>, et vous permet d'ajouter des contraintes via <b>Soumis aux contraintes</b>. Le Solveur recherche des solutions optimales (maximum, minimum ou valeur spécifique) pour des problèmes plus complexes.</li>
+            </ul>
+            <p>Utilisez la fonctionnalité <b>Valeur cible</b> pour les problèmes simples à une seule variable, et utilisez le <b>Solveur</b> pour les problèmes d'optimisation à plusieurs variables avec contraintes.</p>
+
+            <h3>Limites</h3>
+            <p>L'implémentation actuelle du <b>Solveur</b> présente les limitations suivantes:</p>
+            <ul>
+                <li><b>Simplex LP</b> est la seule méthode de résolution disponible, ce qui exige que toutes les relations soient linéaires.</li>
+                <li>Les contraintes de type entier, binaire et différentiel <b>ne sont pas prises en charge.</b>. Toutes les variables sont traitées comme des valeurs continues.</li>
+            </ul>
+        </div>
+	</body>
+</html>

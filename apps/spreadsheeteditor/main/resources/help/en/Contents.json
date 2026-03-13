@@ -41,6 +41,7 @@
 	{"src": "UsageInstructions/UseNamedRanges.htm", "name": "Use named ranges"},
     { "src": "UsageInstructions/WatchWindow.htm", "name": "Watch window" },
     {"src": "UsageInstructions/GoalSeek.htm", "name": "Goal Seek" },
+    {"src": "UsageInstructions/Solver.htm", "name": "Solver"},
 	{"src": "UsageInstructions/InsertImages.htm", "name": "Insert images", "headername": "Operations on objects"},
     { "src": "UsageInstructions/InsertChart.htm", "name": "Insert charts" },
     {"src": "UsageInstructions/InsertSparklines.htm", "name": "Insert sparklines"},
@@ -69,6 +70,7 @@
     {"src": "UsageInstructions/CommunicationPlugins.htm", "name": "Communicate while editing"},
     { "src": "UsageInstructions/ChatGPT.htm", "name": "Use AI to write text" },
     {"src": "UsageInstructions/Pixabay.htm", "name": "Add pictures"},
+    {"src": "UsageInstructions/Icons.htm", "name": "Insert icons"},
     { "src": "UsageInstructions/ViewDocInfo.htm", "name": "View file information", "headername": "Tools and settings" },    
     {"src": "UsageInstructions/ScaleToFit.htm", "name": "Scale a worksheet"},
 	{"src": "UsageInstructions/SavePrintDownload.htm", "name": "Save/print/download your spreadsheet"},	
@@ -78,6 +80,7 @@
     {"src": "HelpfulHints/SpellChecking.htm", "name": "Spell-checking"},
 	{"src": "UsageInstructions/MathAutoCorrect.htm", "name": "AutoCorrect features" },
     {"src": "HelpfulHints/ImportData.htm", "name": "Get data from TXT/CSV file"},
+    {"src": "UsageInstructions/UsingMacros.htm", "name": "Use macros"},
 	{"src": "HelpfulHints/About.htm", "name": "About Spreadsheet Editor", "headername": "Helpful hints"},
 	{"src": "HelpfulHints/SupportedFormats.htm", "name": "Supported formats of spreadsheets"},
 	{"src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Keyboard shortcuts"}

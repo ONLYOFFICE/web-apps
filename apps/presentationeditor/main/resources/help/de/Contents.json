@@ -49,6 +49,7 @@
   {"src": "UsageInstructions/CommunicationPlugins.htm", "name": "Kommunikation während der Bearbeitung"},
   {"src": "UsageInstructions/ChatGPT.htm", "name": "KI verwenden"},
   {"src": "UsageInstructions/Pixabay.htm", "name": "Bilder hinzufügen"},
+  {"src": "UsageInstructions/Icons.htm", "name": "Symbole"},
   { "src": "UsageInstructions/ViewPresentationInfo.htm", "name": "Präsentationseigenschaften anzeigen", "headername": "Werkzeuge und Einstellungen" },
   { "src": "UsageInstructions/SavePrintDownload.htm", "name": "Präsentation speichern/drucken/herunterladen" },
   { "src": "HelpfulHints/AdvancedSettings.htm", "name": "Erweiterte Einstellungen des Präsentationseditors" },
@@ -58,6 +59,7 @@
   { "src": "HelpfulHints/SpellChecking.htm", "name": "Rechtschreibprüfung" },
   { "src": "UsageInstructions/MathAutoCorrect.htm", "name": "AutoKorrekturfunktionen" },    
   {"src": "HelpfulHints/Password.htm", "name": "Präsentationen mit einem Kennwort schützen"},
+  {"src": "UsageInstructions/UsingMacros.htm", "name": "Makros verwenden"},
   { "src": "HelpfulHints/About.htm", "name": "Über den Präsentationseditor", "headername": "Nützliche Hinweise" },
   { "src": "HelpfulHints/SupportedFormats.htm", "name": "Unterstützte Formate von elektronischen Präsentationen" },
   { "src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Tastenkombinationen" }

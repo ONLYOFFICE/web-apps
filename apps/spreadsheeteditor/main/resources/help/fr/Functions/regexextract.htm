@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+        <title>Fonction REGEX.EXTRAIRE</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Fonction REGEX.EXTRAIRE</h1>
+            <p>La fonction <b>REGEX.EXTRAIRE</b> est l'une des fonctions de <a href="../UsageInstructions/InsertFunction.htm#textdata" onclick="onhyperlinkclick(this)">texte et de données</a>. Cette fonction vous permet d'extraire du texte d'une chaîne en fonction d'une expression régulière fournie. La fonction peut renvoyer la première correspondance, toutes les correspondances ou captures de groupes à partir de la première correspondance.</p>
+            <h3>Syntaxe</h3>
+            <p><b><em>REGEX.EXTRAIRE(texte, modèle, [mode_renvoi], [respect_casse])</em></b></p>
+            <p>Les arguments de la fonction <b>REGEX.EXTRAIRE</b> sont les suivants:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Description</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>texte</em></b></td>
+                    <td>Texte ou référence à une cellule contenant le texte à partir duquel vous souhaitez extraire des chaînes correspondantes.</td>
+                </tr>
+                <tr>
+                    <td><b><em>modèle</em></b></td>
+                    <td>Expression régulière  (&quot;regex&quot;) qui décrit le modèle de texte que vous souhaitez extraire.</td>
+                </tr>
+                <tr>
+                    <td><b><em>mode_renvoi</em></b></td>
+                    <td>Nombre qui spécifie les chaînes que vous souhaitez extraire. es valeurs possibles sont les suivantes: C'est un argument facultatif. Par défaut, le mode de renvoi est 0. Les valeurs possibles sont énumérées dans le tableau ci-dessous.</td>
+                </tr>
+                <tr>
+                    <td><b><em>respect_casse</em></b></td>
+                    <td>Définit si la correspondance respecte la casse. C'est un argument facultatif. Si cet argument est omis, la correspondance respecte la casse (0). Saisissez <b>0</b> pour la correspondance respectant la casse ou <b>1</b> pour la correspondance non sensible à la casse.</td>
+                </tr>
+            </table>
+
+            <p>Les arguments de <b><em>mode_renvoi</em></b> sont les suivants:</p>
+            <table>
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Valeur</b></th>
+                    <th style="background-color: #f4f4f4"><b>Description</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>0</em></b></td>
+                    <td>La valeur par défaut Renvoyer la première chaîne qui correspond au modèle.</td>
+                </tr>
+                <tr>
+                    <td><b><em>1</em></b></td>
+                    <td>Renvoyer toutes les chaînes qui correspondent au modèle sous forme de tableau.</td>
+                </tr>
+                <tr>
+                    <td><b><em>2</em></b></td>
+                    <td>Renvoyer des groupes de capture à partir de la première correspondance sous forme de tableau</td>
+                </tr>
+            </table>
+
+            <h3>Remarques</h3>
+            <p>Lors de l'écriture de modèles d'expression régulière, vous pouvez utiliser des symboles appelés jetons qui correspondent à une variété de caractères. Voici quelques jetons simples à référencer:</p>
+            <ul>
+                <li><b>[0-9]</b>: n'importe quel chiffre numérique</li>
+                <li><b>[a-z]:</b>: caractère dans la plage de a à z</li>
+                <li><b>[A-Z]</b>: caractère dans la plage de A à Z</li>
+                <li><b>.</b>: n'importe quel caractère</li>
+                <li><b>*</b>:  zéro ou plusieurs fois le caractère précédent</li>
+                <li><b>+</b>:  une ou plusieurs fois le caractère précédent</li>
+                <li><b>()</b>: groupe de capture - pour capturer et renvoyer les fragments de la correspondance.</li>
+            </ul>
+            <p>Les <b>groupes de capture</b> sont des parties d'une expression régulière délimitées par des parenthèses &quot;(...)&quot;. Vous pouvez renvoyer fragment distincts d'une seule correspondance chaque à part.</p>
+            <p>La fonction <b>REGEX.EXTRAIRE</b> revoie toujours des valeurs de texte. Vous pouvez convertir ces résultats en nombre à l'aide de la fonction <a href="../functions/value.htm" target="_blank">VALEUR</a>.</p>
+            <p>Si aucune correspondance n'est trouvée, la fonction renvoie la valeur d'erreur <b>#N/A</b>.</p>
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Comment utiliser</a> la fonction <b>REGEX.EXTRAIRE</b>.</p>
+
+            <h3>Exemples</h3>
+            <p>L'illustration ci-dessous présente le résultat renvoyé par la fonction <b>REGEX.EXTRAIRE</b>.</p>
+            <p><img alt="Fonction REGEX.EXTRAIRE" src="../images/regexextract.png" /></p>
+        </div>
+	</body>
+</html>

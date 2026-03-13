@@ -49,6 +49,7 @@
     {"src": "UsageInstructions/CommunicationPlugins.htm", "name": "Communicate while editing"},
     { "src": "UsageInstructions/ChatGPT.htm", "name": "Use AI to write text" },
     {"src": "UsageInstructions/Pixabay.htm", "name": "Add pictures"},
+    {"src": "UsageInstructions/Icons.htm", "name": "Insert icons"},
     {"src": "UsageInstructions/ViewPresentationInfo.htm", "name": "View presentation information", "headername": "Tools and settings"},
     {"src": "UsageInstructions/SavePrintDownload.htm", "name": "Save/print/download your presentation" },
     {"src": "HelpfulHints/AdvancedSettings.htm", "name": "Advanced settings of Presentation Editor"},
@@ -58,6 +59,7 @@
 	{"src": "UsageInstructions/MathAutoCorrect.htm", "name": "AutoCorrect features" },
 	{"src": "HelpfulHints/Password.htm", "name": "Password protection"},
 	{"src": "UsageInstructions/PresentationViewer.htm", "name": "Presentation Viewer" },
+    {"src": "UsageInstructions/UsingMacros.htm", "name": "Use macros"},
 	{"src": "HelpfulHints/About.htm", "name": "About Presentation Editor", "headername": "Helpful hints"},
 	{"src": "HelpfulHints/SupportedFormats.htm", "name": "Supported formats of electronic presentations"},	
 	{"src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Keyboard shortcuts"}

@@ -82,6 +82,7 @@
   { "src": "UsageInstructions/WordCounter.htm", "name": "Wörter zählen"},
   { "src": "UsageInstructions/HTML.htm", "name": "HTML bearbeiten"},
   { "src": "UsageInstructions/Typograf.htm", "name": "Typografie korrigieren" },
+  { "src": "UsageInstructions/Icons.htm", "name": "Symbole" },
   { "src": "UsageInstructions/CommunicationPlugins.htm", "name": "Kommunikation während der Bearbeitung" },
   {"src": "UsageInstructions/Jitsi.htm", "name": "Audio- und Videoanrufe durchführen"},
     {"src": "UsageInstructions/Drawio.htm", "name": "Diagramme erstellen und einfügen"},
@@ -97,6 +98,7 @@
   { "src": "HelpfulHints/SpellChecking.htm", "name": "Rechtschreibprüfung" },
   { "src": "UsageInstructions/MathAutoCorrect.htm", "name": "AutoKorrekturfunktionen" },
   { "src": "HelpfulHints/Password.htm", "name": "Dokumente mit einem Kennwort schützen"},
+  {"src": "UsageInstructions/UsingMacros.htm", "name": "Makros verwenden"},
   { "src": "HelpfulHints/About.htm", "name": "Über den Dokumenteneditor", "headername": "Nützliche Hinweise" },
   { "src": "HelpfulHints/SupportedFormats.htm", "name": "Unterstützte Formate von elektronischen Dokumenten" },
   { "src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Tastaturkürzel" }

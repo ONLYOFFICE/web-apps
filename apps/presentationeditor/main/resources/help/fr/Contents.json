@@ -14,7 +14,7 @@
     {"src": "UsageInstructions/ManageSlides.htm", "name": "Gérer des diapositives", "headername": "Travailler avec des diapositives"},
     {"src": "UsageInstructions/SetSlideParameters.htm", "name": "Définir les paramètres de la diapositive"},
     {"src": "UsageInstructions/ApplyTransitions.htm", "name": "Appliquer des transitions"},
-    {"src": "UsageInstructions/InsertHeadersFooters.htm", "name": "Insert footers"},
+    {"src": "UsageInstructions/InsertHeadersFooters.htm", "name": "Insérer des pieds de page"},
     {"src": "UsageInstructions/PreviewPresentation.htm", "name": "Aperçu de la présentation"},
     {"src": "UsageInstructions/InsertText.htm", "name": "Insérer et mettre en forme votre texte", "headername": "Mise en forme du texte"},
     {"src": "UsageInstructions/AddHyperlinks.htm", "name": "Ajouter des liens hypertextes"},
