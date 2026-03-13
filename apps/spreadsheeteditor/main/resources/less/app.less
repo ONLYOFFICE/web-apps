@@ -207,6 +207,8 @@
 // Skeleton of workbook
 
 .doc-placeholder {
+    --doc-placeholder-grid-line: #d5d5d5;
+    --doc-placeholder-grid-fill: #f1f1f1;
     background: @canvas-content-background;
     display: flex;
     width: 100%;
@@ -224,15 +226,23 @@
         width: 100%;
         height: 100%;
         display: inline-block;
-        background: linear-gradient(90deg, #d5d5d5 0px, rgba(0,0,0,0) 1px) 0 0,
-                    linear-gradient(rgba(0,0,0,0) 19px, #d5d5d5 20px) 0 0,
-                    linear-gradient( #f1f1f1 0px, #f1f1f1 20px) 0 0 repeat-x;
+        background: linear-gradient(90deg, var(--doc-placeholder-grid-line) 0px, rgba(0,0,0,0) 1px) 0 0,
+                    linear-gradient(rgba(0,0,0,0) 19px, var(--doc-placeholder-grid-line) 20px) 0 0,
+                    linear-gradient( var(--doc-placeholder-grid-fill) 0px, var(--doc-placeholder-grid-fill) 20px) 0 0 repeat-x;
         background-size: 80px 20px;
 
         &:first-child {
-            background: linear-gradient(#f1f1f1 19px, #d5d5d5 20px) 0 0;
+            background: linear-gradient(var(--doc-placeholder-grid-fill) 19px, var(--doc-placeholder-grid-line) 20px) 0 0;
             background-size: 20px 20px;
             width: 25px;
         }
+    }
+    .content-theme-dark & {
+        @canvas-content-dark-background: #3a3a3a;
+        @canvas-content-dark-page-border: #616161;
+        background-color: @canvas-content-dark-background;
+        border-color: @canvas-content-dark-page-border;
+        --doc-placeholder-grid-line: @canvas-content-dark-page-border;
+        --doc-placeholder-grid-fill: var(--background-pane);
     }
 }
