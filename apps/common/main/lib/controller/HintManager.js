@@ -739,7 +739,15 @@ Common.UI.HintManager = new(function() {
             if (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && e.altKey && e.keyCode !== 115 && _isInternalEditorLoading) {
                 e.preventDefault();
             }
+
+
         });
+
+        // reset hint display state on focus loss, prevent showing hint during system shortcuts
+        $(window).on('blur', function() {
+            _needShow = false;
+        });
+        
     };
 
     var _getAlphabetLetters = function (lng) {
