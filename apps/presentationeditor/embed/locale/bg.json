@@ -16,6 +16,7 @@
   "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Интернет връзката е възстановена и версията на файла е променена.<br> Преди да продължите да работите, трябва да изтеглите файла или да копирате съдържанието му, за да сте сигурни, че нищо не е загубено, и след това да презаредите тази страница.",
   "PE.ApplicationController.errorUserDrop": "Файлът не може да бъде достъпен в момента.",
   "PE.ApplicationController.notcriticalErrorTitle": "Внимание",
+  "PE.ApplicationController.openErrorText": "Възникна грешка при отваряне на файла.",
   "PE.ApplicationController.scriptLoadError": "Връзката е твърде бавна, някои от компонентите не могат да бъдат заредени. Моля, презаредете страницата.",
   "PE.ApplicationController.textLoadingDocument": "Зареждане на презентацията",
   "PE.ApplicationController.textOf": "на",

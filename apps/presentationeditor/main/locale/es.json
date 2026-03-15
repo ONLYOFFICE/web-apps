@@ -1143,6 +1143,7 @@
   "Common.Views.Protection.txtDeletePwd": "Eliminar contraseña",
   "Common.Views.Protection.txtEncrypt": "Cifrar",
   "Common.Views.Protection.txtInvisibleSignature": "Añadir firma digital",
+  "Common.Views.Protection.txtProtectForm": "Proteger formulario",
   "Common.Views.Protection.txtSignature": "Firma",
   "Common.Views.Protection.txtSignatureLine": "Añadir línea de firma",
   "Common.Views.RecentFiles.txtOpenRecent": "Abrir reciente",

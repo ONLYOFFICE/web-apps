@@ -1143,6 +1143,7 @@
   "Common.Views.Protection.txtDeletePwd": "비밀번호 삭제",
   "Common.Views.Protection.txtEncrypt": "암호화",
   "Common.Views.Protection.txtInvisibleSignature": "디지털 서명을 추가",
+  "Common.Views.Protection.txtProtectForm": "양식 보호",
   "Common.Views.Protection.txtSignature": "서명",
   "Common.Views.Protection.txtSignatureLine": "서명란 추가",
   "Common.Views.RecentFiles.txtOpenRecent": "최근 열기",

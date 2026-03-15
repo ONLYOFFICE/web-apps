@@ -276,6 +276,7 @@
     "errorCircularReference": "有一個或多個循環參照，其中公式直接或間接參照其自身的儲存格。請嘗試移除或變更這些參照，或將公式移動到不同的儲存格。",
     "errorComboSeries": "要建立組合圖表，請選擇至少兩個資料系列。",
     "errorConnectToServer": "您已達到同時連接到 %1 編輯器的限制。此文件將只提供檢視。請聯繫您的管理員以了解更多資訊。",
+    "errorCopyDisabled": "出於安全原因，無法複製本文件中的內容。",
     "errorCopyMultiselectArea": "此命令無法與多個選擇一起使用。請選擇單一範圍並重試。",
     "errorCountArg": "公式中有錯誤。<br>無效的引數數字。",
     "errorCountArgExceed": "公式中有錯誤。<br>超過最大的引數數字。",

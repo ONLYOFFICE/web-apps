@@ -83,6 +83,7 @@
     "errorAccessDeny": "您正在嘗試執行一個無權限的操作。<br>請聯絡系統管理員。",
     "errorBadImageUrl": "不正確的圖像 URL",
     "errorConnectToServer": "無法儲存此文件。請檢查連線設定或聯絡系統管理員。<br>當您按下確定按鈕時，將會提示您下載文件。",
+    "errorCopyDisabled": "出於安全原因，無法複製本文件中的內容。",
     "errorDatabaseConnection": "外部錯誤<br> 資料庫連結錯誤, 請聯絡技術支援。",
     "errorDataEncrypted": "已加密更改有",
     "errorDataRange": "資料範圍不正確。",
