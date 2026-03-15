@@ -171,7 +171,7 @@
   "DE.Controllers.ApplicationController.uploadImageExtMessage": "Onbekende afbeeldingsindeling.",
   "DE.Controllers.ApplicationController.uploadImageSizeMessage": "De afbeelding is te groot. De maximale grootte is 25MB.",
   "DE.Controllers.ApplicationController.waitText": "Een moment geduld",
-  "DE.Controllers.ApplicationController.warnLicenseAnonymous": "Toegang geweigerd voor anonieme gebruikers.<br>Dit document zal alleen ter inzage worden geopend.",
+  "DE.Controllers.ApplicationController.warnLicenseAnonymous": "Toegang geweigerd voor anonieme gebruiker.<br>Dit document zal alleen ter inzage worden geopend.",
   "DE.Controllers.ApplicationController.warnLicenseBefore": "Licentie niet actief.<br>Neem contact op met uw beheerder.",
   "DE.Controllers.ApplicationController.warnLicenseExp": "Uw licentie is vervallen.<br>Werk uw licentie bij en vernieuw de pagina.",
   "DE.Controllers.ApplicationController.warnLicenseLimitedNoAccess": "Licentie verlopen.\nU heeft geen toegang tot documentbewerkingsfunctionaliteit.\nNeem contact op met uw beheerder.",

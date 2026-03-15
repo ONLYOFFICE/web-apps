@@ -436,6 +436,7 @@
     "errorComboSeries": "要建立組合圖表，請選擇至少兩個資料系列。",
     "errorCompare": "在共同編輯模式下，無法使用比較文件功能。",
     "errorConnectToServer": "儲存文件失敗。請檢查您的網路設定或聯絡您的帳號管理員。<br>點擊\"確定\"之後，可以下載該文件。",
+    "errorCopyDisabled": "出於安全原因，無法複製本文件中的內容。",
     "errorDatabaseConnection": "外部錯誤<br>資料庫連結錯誤, 請聯絡技術支援。",
     "errorDataEncrypted": "已收到加密的更改，無法解密。",
     "errorDataRange": "不正確的資料範圍",

@@ -199,6 +199,7 @@
     "errorBadImageUrl": "圖片網址不正確",
     "errorComboSeries": "要建立組合圖表，請選擇至少兩個資料系列。",
     "errorConnectToServer": "無法儲存此文件。請檢查連線設定或聯絡系統管理員。<br>當您按下確定按鈕時，將會提示您下載文件。",
+    "errorCopyDisabled": "出於安全原因，無法複製本文件中的內容。",
     "errorDatabaseConnection": "外部錯誤。<br>資料庫連線錯誤。請聯絡支援部門。",
     "errorDataEncrypted": "已接收到加密的更改，無法解密。",
     "errorDataRange": "資料範圍不正確。",

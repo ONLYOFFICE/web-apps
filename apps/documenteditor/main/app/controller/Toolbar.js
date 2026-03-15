@@ -416,6 +416,7 @@ define([
                     $('#id-toolbar-menu-auto-bordercolor').on('click',  _.bind(this.onAutoBorderColor, this));
                 }
             $('#id-toolbar-menu-new-bordercolor').on('click',           _.bind(this.onNewBorderColor, this));    
+            $('#id-toolbar-menu-item-horizontal-line').on('click',      _.bind(this.onHorizontalLine, this));
             this.mode.isEdit && Common.NotificationCenter.on('eyedropper:start', _.bind(this.eyedropperStart, this));
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
@@ -3215,6 +3216,14 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Border Color');
+        },
+
+        onHorizontalLine: function() {
+            if (this.api)
+                this.api.asc_addHorizontalRule();
+            
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Horizontal Line');
         },
 
         eyedropperStart: function () {

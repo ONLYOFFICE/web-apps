@@ -1153,6 +1153,7 @@
   "SSE.Controllers.Main.errorCoAuthoringDisconnect": "伺服器連線中斷，目前無法編輯文件。",
   "SSE.Controllers.Main.errorConnectToServer": "無法保存文件。請檢查連接設置或聯繫您的管理員。<br>單擊“確定”按鈕後，您將被提示下載文件。",
   "SSE.Controllers.Main.errorConvertXml": "文件具有不受支持的格式。&lt;br&gt;只能使用XML Spreadsheet 2003格式。",
+  "SSE.Controllers.Main.errorCopyDisabled": "出於安全原因，無法複製本文件中的內容。",
   "SSE.Controllers.Main.errorCopyMultiselectArea": "此命令無法與多個選擇一起使用。請選擇單一範圍並重試。",
   "SSE.Controllers.Main.errorCountArg": "輸入公式錯誤。使用了不正確的參數數目。",
   "SSE.Controllers.Main.errorCountArgExceed": "輸入公式錯誤。參數數目超出限制。",

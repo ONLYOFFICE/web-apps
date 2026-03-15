@@ -14,6 +14,7 @@
   "VE.ApplicationController.downloadErrorText": "下載失敗。",
   "VE.ApplicationController.downloadTextText": "文件下載中...",
   "VE.ApplicationController.errorAccessDeny": "您嘗試進行未被授權的動作<br> 請聯繫您的文件伺服器主機的管理者。",
+  "VE.ApplicationController.errorCopyDisabled": "出於安全原因，無法複製本文件中的內容。",
   "VE.ApplicationController.errorDefaultMessage": "錯誤編號：%1",
   "VE.ApplicationController.errorEditingDownloadas": "在處理文檔期間發生錯誤。<br>使用“下載為”選項將文件備份副本保存到計算機硬碟驅動器中。",
   "VE.ApplicationController.errorFilePassProtect": "該文件受密碼保護，無法打開。",
