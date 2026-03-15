@@ -14,6 +14,7 @@
   "VE.ApplicationController.downloadErrorText": "ההורדה נכשלה.",
   "VE.ApplicationController.downloadTextText": "הורדת מסמך...",
   "VE.ApplicationController.errorAccessDeny": "את/ה מנסה לבצע פעולה שאין לך זכויות עליה.<br> נא ליצור קשר עם מנהל שרת המסמכים שלך.",
+  "VE.ApplicationController.errorCopyDisabled": "לא ניתן להעתיק את התוכן של המסמך מסיבות אבטחה",
   "VE.ApplicationController.errorDefaultMessage": "קוד שגיאה: %1",
   "VE.ApplicationController.errorEditingDownloadas": "אירעה שגיאה במהלך העבודה עם המסמך.<br>נא להשתמש באפשרות 'הורדה כ' לשמירת עותק הגיבוי בכונן.",
   "VE.ApplicationController.errorFilePassProtect": "הקובץ מוגן בסיסמה ולא ניתן לפתוח אותו.",

@@ -97,6 +97,7 @@
   "DE.Controllers.ApplicationController.errorAccessDeny": "您正試圖執行您無權限的操作。<br>請聯繫您的文件伺服器管理員。",
   "DE.Controllers.ApplicationController.errorBadImageUrl": "圖片網址不正確",
   "DE.Controllers.ApplicationController.errorConnectToServer": "無法保存文件。請檢查連接設置或聯繫您的管理員。<br>單擊“確定”按鈕後，您將被提示下載文件。",
+  "DE.Controllers.ApplicationController.errorCopyDisabled": "出於安全原因，無法複製本文件中的內容。",
   "DE.Controllers.ApplicationController.errorDataEncrypted": "已接收到加密的更改，無法解密。",
   "DE.Controllers.ApplicationController.errorDefaultMessage": "錯誤碼：%1",
   "DE.Controllers.ApplicationController.errorEditingDownloadas": "在處理文件時發生錯誤。<br>使用「另存為...」選項將檔案備份保存到您的電腦硬碟。",

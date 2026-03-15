@@ -52,8 +52,10 @@
     "VersionHistory": {
       "notcriticalErrorTitle": "Waarschuwing",
       "textAnonymous": "Anoniem",
+      "textBack": "Terug",
       "textCancel": "Annuleren",
       "textCurrent": "Huidig",
+      "textOk": "OK",
       "textRestore": "Herstellen",
       "textVersion": "Versie",
       "textVersionHistory": "Versiegeschiedenis",
@@ -80,6 +82,7 @@
     "textColumns": "Kolommen",
     "textCopyCutPasteActions": "Acties Kopiëren, Knippen en Plakken",
     "textDoNotShowAgain": "Niet meer laten zien.",
+    "textOk": "OK",
     "textRows": "Rijen",
     "txtWarnUrl": "Het klikken op deze link kan schadelijk zijn voor je apparaat en data. Deze locatie kan onveilig zijn:<br>{0}<br>Weet je zeker dat je door wilt gaan?"
   },
@@ -154,6 +157,7 @@
       "textNo": "Nee",
       "textNoLicenseTitle": "Licentielimiet bereikt",
       "textNoMatches": "Geen overeenkomsten",
+      "textOk": "OK",
       "textOpenFile": "Voer een wachtwoord in om dit bestand te openen",
       "textPaidFeature": "Betaalde functie",
       "textRemember": "Bewaar mijn keuze",
@@ -183,7 +187,8 @@
   "Draw": {
     "textColor": "Kleur",
     "textCustomColor": "Aangepaste kleur",
-    "textLineSize": "Lijngrootte"
+    "textLineSize": "Lijngrootte",
+    "textOpacity": "Ondoorzichtigheid"
   },
   "Error": {
     "convertationTimeoutText": "Time-out voor conversie overschreden.",
@@ -233,6 +238,7 @@
     "splitDividerErrorText": "Het aantal rijen moet een deler zijn van %1",
     "splitMaxColsErrorText": "Aantal kolommen moet kleiner zijn dan %1",
     "splitMaxRowsErrorText": "Het aantal rijen moet kleiner zijn dan %1",
+    "textOk": "OK",
     "unknownErrorText": "Onbekende fout.",
     "uploadImageExtMessage": "Onbekende afbeeldingsindeling.",
     "uploadImageFileCountMessage": "Geen afbeeldingen geüpload.",
@@ -266,6 +272,7 @@
     "saveTitleText": "Document wordt opgeslagen",
     "textContinue": "Doorgaan",
     "textLoadingDocument": "Document wordt geladen",
+    "textUndo": "Ongedaan maken",
     "txtEditingMode": "Bewerkmodus instellen...",
     "uploadImageTextText": "Afbeelding wordt geüpload...",
     "uploadImageTitleText": "Afbeelding wordt geüpload",
@@ -279,6 +286,7 @@
     "stayButtonText": "Op deze pagina blijven",
     "textCloseHistory": "Sluit geschiedenis",
     "textEnterNewFileName": "Vul een nieuwe bestandsnaam in",
+    "textOk": "OK",
     "textRenameFile": "Bestand hernoemen",
     "textSwitchToDesktop": "Omschakelen naar desktopweergave"
   },
@@ -294,6 +302,7 @@
       "textDefault": "Geselecteerde tekst",
       "textDisplay": "Weergeven",
       "textDone": "Gereed",
+      "textDrawing": "Tekenen",
       "textEmptyImgUrl": "U moet de URL van de afbeelding opgeven.",
       "textExternalLink": "Externe koppeling",
       "textFirstSlide": "Eerste dia",
@@ -346,6 +355,7 @@
       "textAuto": "Automatisch",
       "textAutomatic": "Automatisch",
       "textBack": "Terug",
+      "textBackground": "Achtergrond",
       "textBandedColumn": "Gestreepte kolom",
       "textBandedRow": "Gestreepte rij",
       "textBaseline": "Basislijn",
@@ -359,6 +369,7 @@
       "textBullets": "Opsommingstekens",
       "textBulletsAndNumbers": "Opsommingstekens en nummers",
       "textCancel": "Annuleren",
+      "textCapitalization": "Hoofdletters",
       "textCaseSensitive": "Hoofdlettergevoelig",
       "textCellMargins": "Celmarges",
       "textCellSize": "Celgrootte",
@@ -494,7 +505,8 @@
       "textZoomIn": "Inzoomen",
       "textZoomOut": "Uitzoomen",
       "textZoomRotate": "Zoomen en draaien",
-      "txtHeight": "Hoogte"
+      "txtHeight": "Hoogte",
+      "txtWidth": "Breedte"
     },
     "Settings": {
       "mniSlideStandard": "Standaard (4:3)",
@@ -539,6 +551,7 @@
       "textLoopSlideshow": "Presentatie herhalen",
       "textMacrosSettings": "Macro instellingen",
       "textNoMatches": "Geen overeenkomsten",
+      "textOk": "OK",
       "textOwner": "Eigenaar",
       "textPoint": "Punt",
       "textPoweredBy": "Aangedreven door",

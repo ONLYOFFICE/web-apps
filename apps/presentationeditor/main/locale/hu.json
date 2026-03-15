@@ -1143,6 +1143,7 @@
   "Common.Views.Protection.txtDeletePwd": "Jelszó törlése",
   "Common.Views.Protection.txtEncrypt": "Titkosít",
   "Common.Views.Protection.txtInvisibleSignature": "Digitális aláírás hozzáadása",
+  "Common.Views.Protection.txtProtectForm": "Űrlap zárolása",
   "Common.Views.Protection.txtSignature": "Aláírás",
   "Common.Views.Protection.txtSignatureLine": "Aláíró sor hozzáadása",
   "Common.Views.RecentFiles.txtOpenRecent": "Utoljára megnyitott",

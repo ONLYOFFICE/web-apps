@@ -1076,6 +1076,7 @@
   "PE.Controllers.Main.errorCoAuthoringDisconnect": "伺服器連線中斷，目前無法編輯文件。",
   "PE.Controllers.Main.errorComboSeries": "要建立組合圖表，請選擇至少兩個資料系列。",
   "PE.Controllers.Main.errorConnectToServer": "無法保存文件。請檢查連接設置或聯繫您的管理員。<br>單擊“確定”按鈕後，您將被提示下載文件。",
+  "PE.Controllers.Main.errorCopyDisabled": "出於安全原因，無法複製本文件中的內容。",
   "PE.Controllers.Main.errorDatabaseConnection": "外部錯誤。<br>數據庫連接錯誤。如果錯誤仍然存在，請聯繫支持。",
   "PE.Controllers.Main.errorDataEncrypted": "已接收到加密的更改，無法解密。",
   "PE.Controllers.Main.errorDataRange": "資料範圍不正確。",
