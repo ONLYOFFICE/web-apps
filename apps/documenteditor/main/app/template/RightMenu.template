@@ -10,6 +10,7 @@
             <div id="id-textart-settings" class="settings-panel"></div>
             <div id="id-signature-settings" class="settings-panel"></div>
             <div id="id-form-settings" class="settings-panel"></div>
+            <div id="id-smartart-text-settings" class="settings-panel"></div>
         </div>
     </div>
     <div class="tool-menu-btns" role="menubar" aria-label="<%= scope.ariaRightMenu %>" aria-orientation="vertical">
@@ -23,6 +24,7 @@
         <button id="id-right-menu-mail-merge" class="btn btn-category arrow-left hidden" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-mail-merge-settings"><i class="icon toolbar__icon btn-mailmerge">&nbsp;</i></button>
         <button id="id-right-menu-signature" class="btn btn-category arrow-left hidden" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-signature-settings"><i class="icon toolbar__icon btn-menu-signature">&nbsp;</i></button>
         <button id="id-right-menu-form" class="btn btn-category arrow-left hidden" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-form-settings"><i class="icon toolbar__icon btn-field">&nbsp;</i></button>
+        <button id="id-right-menu-smartart-text" class="btn btn-category arrow-left hidden" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-smartart-text-settings"><i class="icon toolbar__icon btn-ins-smartart">&nbsp;</i></button>
         <div id="slot-right-menu-more"></div>
     </div>
 </div>
