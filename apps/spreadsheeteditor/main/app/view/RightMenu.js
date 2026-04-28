@@ -58,6 +58,7 @@ define([
     'spreadsheeteditor/main/app/view/SignatureSettings',
     'spreadsheeteditor/main/app/view/CellSettings',
     'spreadsheeteditor/main/app/view/SlicerSettings',
+    'common/main/lib/view/SmartArtTextPane',
     'common/main/lib/component/Scroller',
     'common/main/lib/component/ListView',
 ], function (menuTemplate, $, _, Backbone) {
@@ -237,6 +238,21 @@ define([
                 this.signatureSettings = new SSE.Views.SignatureSettings();
             }
 
+            // SmartArt Text Pane
+            this.btnSmartArtText = new Common.UI.Button({
+                hint: this.txtSmartArtTextSettings,
+                asctype: Common.Utils.documentSettingsType.SmartArtText,
+                enableToggle: true,
+                disabled: true,
+                iconCls: 'btn-smart-hierarchy',
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
+            });
+            this._settings[Common.Utils.documentSettingsType.SmartArtText] = {panel: "id-smartart-text-settings", btn: this.btnSmartArtText};
+            this.btnSmartArtText.setElement($('#id-right-menu-smartart-text'), false); this.btnSmartArtText.render().setVisible(true);
+            this.btnSmartArtText.on('click', _.bind(this.onBtnMenuClick, this));
+            this.smartArtTextSettings = new Common.Views.SmartArtTextPane({el: '#id-smartart-text-settings'});
+
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.right-panel > .content-box'),
@@ -269,6 +285,7 @@ define([
             this.cellSettings.setApi(api).on('eyedropper', _.bind(_isEyedropperStart, this));
             this.slicerSettings.setApi(api);
             if (this.signatureSettings) this.signatureSettings.setApi(api);
+            if (this.smartArtTextSettings) this.smartArtTextSettings.setApi(api);
             return this;
         },
 
@@ -370,7 +387,7 @@ define([
         },
 
         setButtons: function () {
-            var allButtons = [this.btnCell, this.btnShape, this.btnImage, this.btnChart, this.btnText, this.btnTextArt, this.btnSlicer, this.btnSignature, this.btnPivot];
+            var allButtons = [this.btnCell, this.btnShape, this.btnImage, this.btnChart, this.btnText, this.btnTextArt, this.btnSlicer, this.btnSignature, this.btnPivot, this.btnSmartArtText];
             Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 
@@ -402,6 +419,7 @@ define([
         txtSignatureSettings:       'Signature Settings',
         txtCellSettings:            'Cell Settings',
         txtSlicerSettings:          'Slicer Settings',
+        txtSmartArtTextSettings:    'SmartArt Text',
         ariaRightMenu:              'Right menu'
     }, SSE.Views.RightMenu || {}));
 });

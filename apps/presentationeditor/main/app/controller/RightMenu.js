@@ -92,6 +92,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.TextArt] =   {panelId: "id-textart-settings",    panel: rightMenu.textartSettings,  btn: rightMenu.btnTextArt,     hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Chart] = {panelId: "id-chart-settings",          panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: 1, props: {}, locked: false};
+            this._settings[Common.Utils.documentSettingsType.SmartArtText] = {panelId: "id-smartart-text-settings", panel: rightMenu.smartArtTextSettings, btn: rightMenu.btnSmartArtText, hidden: 1, props: {}, locked: false};
         },
 
         setApi: function(api) {
@@ -169,6 +170,12 @@ define([
                             this._settings[Common.Utils.documentSettingsType.TextArt].props = value;
                             this._settings[Common.Utils.documentSettingsType.TextArt].hidden = 0;
                             this._settings[Common.Utils.documentSettingsType.TextArt].locked = value.get_Locked();
+                        }
+                        // Show SmartArt text pane when a SmartArt shape is selected
+                        if (value.asc_getFromSmartArt && (value.asc_getFromSmartArt() || value.asc_getFromSmartArtInternal && value.asc_getFromSmartArtInternal())) {
+                            this._settings[Common.Utils.documentSettingsType.SmartArtText].props = value;
+                            this._settings[Common.Utils.documentSettingsType.SmartArtText].hidden = 0;
+                            this._settings[Common.Utils.documentSettingsType.SmartArtText].locked = value.get_Locked();
                         }
                     }
                 }

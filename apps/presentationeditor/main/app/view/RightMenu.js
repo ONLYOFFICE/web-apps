@@ -57,6 +57,7 @@ define([
     'presentationeditor/main/app/view/SlideSettings',
     'presentationeditor/main/app/view/TextArtSettings',
     'presentationeditor/main/app/view/SignatureSettings',
+    'common/main/lib/view/SmartArtTextPane',
     'common/main/lib/component/Scroller',
     'common/main/lib/component/ListView',
 ], function (menuTemplate, $, _, Backbone) {
@@ -148,6 +149,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Shape]       = {panel: "id-shape-settings",      btn: this.btnShape};
             this._settings[Common.Utils.documentSettingsType.Chart]       = {panel: "id-chart-settings",      btn: this.btnChart};
             this._settings[Common.Utils.documentSettingsType.TextArt]     = {panel: "id-textart-settings",    btn: this.btnTextArt};
+            this._settings[Common.Utils.documentSettingsType.SmartArtText] = {panel: "id-smartart-text-settings", btn: undefined};
 
             return this;
         },
@@ -220,6 +222,21 @@ define([
                 this.signatureSettings = new PE.Views.SignatureSettings();
             }
 
+            // SmartArt Text Pane
+            this.btnSmartArtText = new Common.UI.Button({
+                hint: this.txtSmartArtTextSettings,
+                asctype: Common.Utils.documentSettingsType.SmartArtText,
+                enableToggle: true,
+                disabled: true,
+                iconCls: 'btn-smart-hierarchy',
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
+            });
+            this._settings[Common.Utils.documentSettingsType.SmartArtText] = {panel: "id-smartart-text-settings", btn: this.btnSmartArtText};
+            this.btnSmartArtText.setElement($('#id-right-menu-smartart-text'), false); this.btnSmartArtText.render().setVisible(true);
+            this.btnSmartArtText.on('click', _.bind(this.onBtnMenuClick, this));
+            this.smartArtTextSettings = new Common.Views.SmartArtTextPane({el: '#id-smartart-text-settings'});
+
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.right-panel > .content-box'),
@@ -252,6 +269,7 @@ define([
             this.shapeSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
             this.textartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
             if (this.signatureSettings) this.signatureSettings.setApi(api).on('editcomplete', _.bind( fire, this));
+            if (this.smartArtTextSettings) this.smartArtTextSettings.setApi(api);
         },
 
         setMode: function(mode) {
@@ -358,7 +376,7 @@ define([
         },
 
         setButtons: function () {
-            var allButtons = [this.btnSlide, this.btnShape, this.btnImage, this.btnText, this.btnTable, this.btnChart, this.btnTextArt, this.btnSignature];
+            var allButtons = [this.btnSlide, this.btnShape, this.btnImage, this.btnText, this.btnTable, this.btnChart, this.btnTextArt, this.btnSignature, this.btnSmartArtText];
             Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 
@@ -388,6 +406,7 @@ define([
         txtSlideSettings:           'Slide Settings',
         txtChartSettings:           'Chart Settings',
         txtSignatureSettings:       'Signature Settings',
+        txtSmartArtTextSettings:    'SmartArt Text',
         ariaRightMenu:              'Right menu'
     }, PE.Views.RightMenu || {}));
 });

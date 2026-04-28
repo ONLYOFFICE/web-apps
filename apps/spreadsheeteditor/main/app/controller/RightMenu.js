@@ -103,6 +103,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: 1, props: {}, locked: false};
             this._settings[Common.Utils.documentSettingsType.Cell] =      {panelId: "id-cell-settings",       panel: rightMenu.cellSettings,     btn: rightMenu.btnCell,        hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Slicer] =    {panelId: "id-slicer-settings",     panel: rightMenu.slicerSettings,   btn: rightMenu.btnSlicer,      hidden: 1, locked: false};
+            this._settings[Common.Utils.documentSettingsType.SmartArtText] = {panelId: "id-smartart-text-settings", panel: rightMenu.smartArtTextSettings, btn: rightMenu.btnSmartArtText, hidden: 1, props: {}, locked: false};
         },
 
         setApi: function(api) {
@@ -205,6 +206,13 @@ define([
                             this._settings[Common.Utils.documentSettingsType.TextArt].props = value;
                             this._settings[Common.Utils.documentSettingsType.TextArt].hidden = 0;
                             this._settings[Common.Utils.documentSettingsType.TextArt].locked = value.asc_getLocked() || this._state.wsProps['Objects'] && value.asc_getProtectionLockText();
+                        }
+                        // Show SmartArt text pane when a SmartArt shape is selected
+                        var shapeProps = value.asc_getShapeProperties();
+                        if (shapeProps && ((shapeProps.asc_getFromSmartArt && shapeProps.asc_getFromSmartArt()) || (shapeProps.asc_getFromSmartArtInternal && shapeProps.asc_getFromSmartArtInternal()))) {
+                            this._settings[Common.Utils.documentSettingsType.SmartArtText].props = value;
+                            this._settings[Common.Utils.documentSettingsType.SmartArtText].hidden = 0;
+                            this._settings[Common.Utils.documentSettingsType.SmartArtText].locked = value.asc_getLocked() || this._state.wsProps['Objects'] && value.asc_getProtectionLocked();
                         }
                     } else if (value.asc_getSlicerProperties() !== null) {
                         settingsType = Common.Utils.documentSettingsType.Slicer;
