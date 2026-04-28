@@ -261,7 +261,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.SmartArtText,
                 enableToggle: true,
                 disabled: true,
-                iconCls: 'btn-ins-smartart',
+                iconCls: 'btn-smart-hierarchy',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
