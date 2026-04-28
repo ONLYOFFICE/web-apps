@@ -22,7 +22,7 @@
                 </div>
                 <div class="elset">
                     <span class="btn-slot split" id="slot-btn-undo"></span>
-                    <span class="btn-slot" id="slot-btn-redo"></span>
+                  <span class="btn-slot" id="slot-btn-redo"></span>
                 </div>
             </div>
             <div class="group small">
@@ -101,8 +101,8 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-insimage"></span>
-                    <!-- Not in use Now shapes , smartart and chart
                     <span class="btn-slot text x-huge" id="slot-btn-insshape"></span>
+                    <!-- Not in use Now smartart and chart
                     <span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-inschart"></span>
                     -->

@@ -150,7 +150,7 @@ define([
                                     // '<div class="btn-slot" id="slot-btn-dt-print"></div>' +
                                     // '<div class="btn-slot" id="slot-btn-dt-print-quick"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-undo"></div>' +
-                                    '<div class="btn-slot" id="slot-btn-dt-redo"></div>' +
+                                    // '<div class="btn-slot" id="slot-btn-dt-redo"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-start-over"></div>' +    
                                     // '<div class="btn-slot" id="slot-btn-dt-quick-access"></div>' +
                                 '</div>' +
