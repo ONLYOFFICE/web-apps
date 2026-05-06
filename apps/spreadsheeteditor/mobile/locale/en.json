@@ -540,7 +540,10 @@
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSorting": "Sorting",
       "txtSortSelected": "Sort selected",
-      "txtYes": "Yes"
+      "txtYes": "Yes",
+      "textSheets": "Sheets",
+      "textLinkTo": "Link to",
+      "textDefinedName": "Defined name"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warning",
@@ -748,7 +751,10 @@
       "textYen": "Yen",
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSortHigh2Low": "Sort Highest to Lowest",
-      "txtSortLow2High": "Sort Lowest to Highest"
+      "txtSortLow2High": "Sort Lowest to Highest",
+      "textSheets": "Sheets",
+      "textLinkTo": "Link to",
+      "textDefinedName": "Defined name"
     },
     "Settings": {
       "advCSVOptions": "Choose CSV options",

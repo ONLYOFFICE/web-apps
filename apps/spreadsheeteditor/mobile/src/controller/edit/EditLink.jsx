@@ -75,12 +75,25 @@ class EditLinkController extends Component {
                 if (!api.asc_isWorksheetHidden(wsc)) {
                     items.unshift({
                         value: wsc,
-                        caption: api.asc_getWorksheetName(wsc)
+                        caption: api.asc_getWorksheetName(wsc),
+                        type: 'sheet'
                     });
                 }
             }
-            this.sheets = items;
         }
+        const definedNames = api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.All, true) || [];
+        definedNames.forEach((definedName) => {
+            if (!definedName.asc_getIsHidden()) {
+                const scope = definedName.asc_getScope();
+                const name = (definedName.asc_getIsXlnm() && scope !== null ? api.asc_getWorksheetName(scope) + '!' : '') + definedName.asc_getName();
+                items.push({
+                    value: name,
+                    caption: name,
+                    type: 'name'
+                });
+            }
+        });
+        this.sheets = items;
     }
 
     closeModal () {
@@ -108,8 +121,11 @@ class EditLinkController extends Component {
             let range = args.url,
                 isValidRange = /^[A-Z]+[1-9]\d*:[A-Z]+[1-9]\d*$/.test(range);
 
-            if (!isValidRange)
+            if (args.isDefinedName) {
+                isValidRange = true;
+            } else if (!isValidRange) {
                 isValidRange = /^[A-Z]+[1-9]\d*$/.test(range);
+            }
 
             if (!isValidRange) {
                 f7.dialog.alert(_t.textInvalidRange, _t.notcriticalErrorTitle);
@@ -118,9 +134,14 @@ class EditLinkController extends Component {
 
             sheet = args.sheet;
 
-            linkProps.asc_setSheet(sheet);
-            linkProps.asc_setRange(range);
-            defaultDisplay = sheet + '!' + range;
+            if (args.isDefinedName) {
+                linkProps.asc_setSheet(null);
+                linkProps.asc_setLocation(range);
+            } else {
+                linkProps.asc_setSheet(sheet);
+                linkProps.asc_setRange(range);
+            }
+            defaultDisplay = args.isDefinedName ? range : sheet + '!' + range;
         } else {
             let url = args.url.replace(/^\s+|\s+$/g,'');
             let urltype = api.asc_getUrlType(url.trim());

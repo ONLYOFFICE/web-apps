@@ -35,7 +35,7 @@
 
 import React, {useState, useEffect, Fragment} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, List, ListItem, Page, Navbar, NavRight, Icon, ListButton, ListInput, Link, NavLeft, NavTitle} from 'framework7-react';
+import {f7, List, ListItem, Page, Navbar, NavRight, Icon, ListButton, ListInput, Link, NavLeft, NavTitle, BlockTitle} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
 import SvgIcon from '@common/lib/component/SvgIcon';
@@ -74,7 +74,16 @@ const PageEditTypeLink = ({curType, changeType, storeFocusObjects}) => {
 const PageEditSheet = ({curSheet, sheets, changeSheet, storeFocusObjects}) => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const [stateSheet, setSheet] = useState(curSheet);
+    const [stateSheet, setSheet] = useState(curSheet ? curSheet.type + '-' + curSheet.value : '');
+    const sheetItems = sheets.filter(item => item.type === 'sheet');
+    const definedNameItems = sheets.filter(item => item.type === 'name');
+    const getLinkItem = item => (
+        <ListItem key={`${item.type}-${item.value}`} title={item.caption} radio checked={stateSheet === item.type + '-' + item.value} onClick={() => {
+                setSheet(item.type + '-' + item.value);
+                changeSheet(item);
+            }}
+        />
+    );
 
     const settings = !storeFocusObjects.focusOn ? [] : (storeFocusObjects.focusOn === 'obj' ? storeFocusObjects.objects : storeFocusObjects.selections);
     if (storeFocusObjects.focusOn === 'obj' || settings.indexOf('hyperlink') === -1) {
@@ -84,30 +93,25 @@ const PageEditSheet = ({curSheet, sheets, changeSheet, storeFocusObjects}) => {
 
     return (
         <Page>
-            <Navbar className="navbar-link-settings" title={_t.textSheet} backLink={_t.textBack}>
+            <Navbar className="navbar-link-settings" title={_t.textLinkTo} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
                         <Link icon='icon-close' popupClose="#edit-link-popup"></Link>
                     </NavRight>
                 }
             </Navbar>
+            {sheetItems.length > 0 && <BlockTitle>{_t.textSheets}</BlockTitle>}
             <List>
-                {sheets.map(sheet => {
-                    return(
-                        <ListItem 
-                            key={`sheet-${sheet.value}`}
-                            title={sheet.caption}
-                            radio
-                            checked={stateSheet === sheet.caption}
-                            onChange={() => {
-                                setSheet(sheet.caption);
-                                changeSheet(sheet.caption);
-                            }}
-                        />
-                    )
-                })}
-
+                {sheetItems.map(getLinkItem)}
             </List>
+            {definedNameItems.length > 0 &&
+                <Fragment>
+                    <BlockTitle>{_t.textDefinedName}</BlockTitle>
+                    <List>
+                        {definedNameItems.map(getLinkItem)}
+                    </List>
+                </Fragment>
+            }
         </Page>
     )
 };
@@ -122,8 +126,11 @@ const EditLink = props => {
     const currentSheet = props.currentSheet;
     const valueTypeLink = linkInfo.asc_getType();
     const valueLinkSheet = linkInfo.asc_getSheet();
-    const getLinkSheet = () => sheets.find(sheet => sheet.caption === valueLinkSheet);
-    const linkSheet = (valueTypeLink == Asc.c_oAscHyperlinkType.RangeLink) ? getLinkSheet() ? getLinkSheet().caption : '' : currentSheet;
+    const valueLinkLocation = linkInfo.asc_getLocation();
+    const getLinkSheet = () => sheets.find(sheet => sheet.type === 'sheet' && sheet.caption === valueLinkSheet);
+    const getLinkName = () => sheets.find(sheet => sheet.type === 'name' && sheet.value === valueLinkLocation);
+    const getCurrentSheet = () => sheets.find(sheet => sheet.type === 'sheet' && sheet.caption === currentSheet);
+    const linkSheet = (valueTypeLink == Asc.c_oAscHyperlinkType.RangeLink) ? valueLinkSheet ? getLinkSheet() : getLinkName() : getCurrentSheet();
 
     const [typeLink, setTypeLink] = useState(valueTypeLink);
     const textType = typeLink != Asc.c_oAscHyperlinkType.RangeLink ? _t.textExternalLink : _t.textInternalDataRange;
@@ -145,8 +152,10 @@ const EditLink = props => {
         setSheet(sheet);
     };
 
-    const valueRange = linkInfo.asc_getRange();
+    const valueRange = valueLinkSheet ? linkInfo.asc_getRange() : '';
     const [range, setRange] = useState(valueRange || 'A1');
+    const isDefinedName = curSheet && curSheet.type === 'name';
+    const doneDisabled = typeLink === 1 && !link.length || typeLink === 2 && (!curSheet || (!isDefinedName && !range.length));
 
     return (
         <Page>
@@ -162,13 +171,13 @@ const EditLink = props => {
                 </NavLeft>
                 <NavTitle>{t('View.Edit.textLinkSettings')}</NavTitle>
                 <NavRight>
-                    <Link className={`${(typeLink === 1 && !link.length) || (typeLink === 2 && (!range.length || !curSheet.length)) && 'disabled'}`} onClick={() => {
+                    <Link className={`${doneDisabled && 'disabled'}`} onClick={() => {
                         props.onEditLink(typeLink === 1 ?
                             {type: 1, url: link, text: stateDisplayText, tooltip: screenTip} :
-                            {type: 2, url: range, sheet: curSheet, text: stateDisplayText, tooltip: screenTip});
+                            {type: 2, url: isDefinedName ? curSheet.value : range, sheet: isDefinedName ? null : curSheet.caption, text: stateDisplayText, tooltip: screenTip, isDefinedName});
                     }} text={Device.ios ? t('View.Edit.textDone') : ''}>
                         {Device.android && (
-                            link.length < 1 ? 
+                            doneDisabled ? 
                                 <SvgIcon symbolId={IconDoneDisabled.id} className={'icon icon-svg inactive'} /> :
                                 <SvgIcon symbolId={IconDone.id} className={'icon icon-svg active'} />
                         )}
@@ -191,19 +200,19 @@ const EditLink = props => {
                     />
                 }
                 {typeLink == Asc.c_oAscHyperlinkType.RangeLink &&
-                    <ListItem link={'/edit-link-sheet/'} title={_t.textSheet} after={curSheet} routeProps={{
+                    <ListItem link={'/edit-link-sheet/'} title={_t.textLinkTo} after={curSheet ? curSheet.caption : ''} routeProps={{
                         changeSheet,
                         sheets,
                         curSheet
                     }}/>
                 }
-                {typeLink == Asc.c_oAscHyperlinkType.RangeLink &&
+                {typeLink == Asc.c_oAscHyperlinkType.RangeLink && !isDefinedName &&
                     <ListInput label={_t.textRange}
                                type="text"
                                placeholder={_t.textRequired}
                                value={range}
                                onChange={(event) => {setRange(event.target.value)}}
-                               disabled={curSheet === '' && 'disabled'}
+                               disabled={!curSheet && 'disabled'}
                                className={isIos ? 'list-input-right' : ''}
                     />
                 }

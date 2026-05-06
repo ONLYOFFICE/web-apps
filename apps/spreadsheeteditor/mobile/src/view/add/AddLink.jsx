@@ -68,33 +68,38 @@ const PageTypeLink = ({curType, changeType, isNavigate}) => {
 const PageSheet = ({curSheet, sheets, changeSheet, isNavigate}) => {
     const { t } = useTranslation();
     const _t = t('View.Add', {returnObjects: true});
-    const [stateSheet, setSheet] = useState(curSheet.value);
+    const [stateSheet, setSheet] = useState(curSheet.type + '-' + curSheet.value);
+    const sheetItems = sheets.filter(item => item.type === 'sheet');
+    const definedNameItems = sheets.filter(item => item.type === 'name');
+    const getLinkItem = item => (
+        <ListItem key={`${item.type}-${item.value}`} title={item.caption} radio checked={stateSheet === item.type + '-' + item.value} onClick={() => {
+                setSheet(item.type + '-' + item.value);
+                changeSheet(item);
+            }}
+        />
+    );
 
     return (
         <Page>
-            <Navbar className="navbar-link-settings" title={_t.textSheet} backLink={_t.textBack}>
+            <Navbar className="navbar-link-settings" title={_t.textLinkTo} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
                         <Link icon='icon-close' popupClose={!isNavigate ? "#add-link-popup" : ".add-popup"}></Link>
                     </NavRight>
                 }
             </Navbar>
+            {sheetItems.length > 0 && <BlockTitle>{_t.textSheets}</BlockTitle>}
             <List>
-                {sheets.map((sheet) => {
-                    return (
-                        <ListItem key={`sheet-${sheet.value}`}
-                                  title={sheet.caption}
-                                  radio
-                                  checked={stateSheet === sheet.value}
-                                  onClick={() => {
-                                      setSheet(sheet.value);
-                                      changeSheet(sheet);
-                                  }}
-                        />
-                    )
-                })}
-
+                {sheetItems.map(getLinkItem)}
             </List>
+            {definedNameItems.length > 0 &&
+                <Fragment>
+                    <BlockTitle>{_t.textDefinedName}</BlockTitle>
+                    <List>
+                        {definedNameItems.map(getLinkItem)}
+                    </List>
+                </Fragment>
+            }
         </Page>
     )
 };
@@ -128,6 +133,8 @@ const AddLink = props => {
     };
 
     const [range, setRange] = useState('');
+    const isDefinedName = curSheet.type === 'name';
+    const doneDisabled = typeLink === 'ext' && link.length < 1 || typeLink === 'int' && !isDefinedName && range.length < 1;
 
     return (
         <Page routes={props.routes}>
@@ -143,13 +150,13 @@ const AddLink = props => {
                 </NavLeft>
                 <NavTitle>{t('View.Add.textLinkSettings')}</NavTitle>
                 <NavRight>
-                    <Link className={`${(typeLink === 'ext' && link.length < 1 || typeLink === 'int' && range.length < 1) && 'disabled'}`} onClick={() => {
+                    <Link className={`${doneDisabled && 'disabled'}`} onClick={() => {
                         props.onInsertLink(typeLink === 'ext' ?
                             {type: 'ext', url: link, text: stateDisplayText} :
-                            {type: 'int', url: range, sheet: curSheet.caption, text: stateDisplayText});
+                            {type: 'int', url: isDefinedName ? curSheet.value : range, sheet: isDefinedName ? null : curSheet.caption, text: stateDisplayText, isDefinedName});
                         }} text={Device.ios ? t('View.Add.textDone') : ''}>
                         {Device.android && ( 
-                            link.length < 1 ? 
+                            doneDisabled ? 
                                 <SvgIcon symbolId={IconDoneDisabled.id} className={'icon icon-svg inactive'} /> :
                                 <SvgIcon symbolId={IconDone.id} className={'icon icon-svg active'} />
                         )}
@@ -177,14 +184,14 @@ const AddLink = props => {
                     />
                 }
                 {typeLink === 'int' &&
-                    <ListItem link={'/add-link-sheet/'} title={_t.textSheet} after={curSheet.caption} routeProps={{
+                    <ListItem link={'/add-link-sheet/'} title={_t.textLinkTo} after={curSheet.caption} routeProps={{
                         changeSheet: changeSheet,
                         sheets: props.sheets,
                         curSheet: curSheet,
                         isNavigate
                     }}/>
                 }
-                {typeLink === 'int' &&
+                {typeLink === 'int' && !isDefinedName &&
                     <ListInput label={_t.textRange}
                                type="text"
                                placeholder={_t.textRequired}
