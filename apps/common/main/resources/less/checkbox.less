@@ -83,7 +83,7 @@
     }
 
     &:hover:not(.disabled) {
-        + label:before {
+        input[type=checkbox] + label:before {
             box-shadow: inset 0 0 0 @scaled-one-px-value-ie @chb-border-normal-hover-ie;
             box-shadow: inset 0 0 0 @scaled-one-px-value @chb-border-normal-hover;
         }
@@ -109,7 +109,7 @@
     }
 
     &:focus:not(.disabled) {
-        + label:before {
+        input[type=checkbox] + label:before {
             box-shadow: inset 0 0 0 @scaled-one-px-value-ie @chb-border-normal-focus-ie;
             box-shadow: inset 0 0 0 @scaled-one-px-value @chb-border-normal-focus;
         }
