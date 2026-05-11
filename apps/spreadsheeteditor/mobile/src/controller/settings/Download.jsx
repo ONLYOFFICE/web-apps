@@ -150,7 +150,18 @@ const onAdvancedOptions = (type, _t, isDocReady, canRequestClose, isDRM) => {
         text: _t.textOpenFile,
         content: Device.ios ?
             '<div class="input-field"><input type="password" class="modal-text-input" name="modal-password" placeholder="' + _t.advDRMPassword + '" id="modal-password"></div>' : '<div class="input-field"><div class="inputs-list list inline-labels"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="password" name="modal-password" id="modal-password" placeholder=' + _t.advDRMPassword + '></div></div></div></li></ul></div></div>',
-        buttons: buttons
+        buttons: buttons,
+        on: {
+            opened: () => {
+                const passwordField = document.querySelector('#modal-password');
+                passwordField.addEventListener('keyup', (e) => {
+                    if (e.key === 'Enter') {
+                        buttons[0].onClick();
+                        f7.dialog.close();
+                    }
+                });
+            },
+        }
     }).open();
     
 };
