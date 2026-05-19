@@ -1289,7 +1289,7 @@
         iframe.allowFullscreen = true;
         iframe.setAttribute("allowfullscreen",""); // for IE11
         iframe.setAttribute("onmousewheel",""); // for Safari on Mac
-        iframe.setAttribute("allow", "autoplay; camera; microphone; display-capture; clipboard-write;");
+        iframe.setAttribute("allow", "autoplay; camera; microphone; display-capture; clipboard-write; local-network-access;");
 
 		if (config.type == "mobile")
 		{
