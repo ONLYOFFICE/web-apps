@@ -397,6 +397,21 @@ define([], function () { 'use strict';
             };
             Common.NotificationCenter.on('storage:image-insert', insertImageFromStorage);
 
+            me.uploadEmptyPnl.parent().on({
+                dragover: function(e) {
+                    var event = e.originalEvent;
+                    event.preventDefault();
+                    event.dataTransfer.dropEffect = 'copy';
+                    return false;
+                },
+                drop: function(e) {
+                    var event = e.originalEvent;
+                    event.preventDefault();
+                    var files = event.dataTransfer.files;
+                    if (files && files.length > 0) me.props && me.props.putFile(files[0]);
+                    return false;
+                }
+            });
               
             me.keydownHandler = function(e) {
                 if (!(me.$window && me.$window.is(':visible'))) return;
