@@ -103,11 +103,12 @@ require([
     'underscore',
     'core',
     'api',
-    'analytics',
     'gateway',
     'locale',
     'socketio',
 ], function (Backbone, _, Core) {
+    require(['analytics'], function() {}, function() {});
+
     if (Backbone.History && Backbone.History.started)
         return;
     Backbone.history.start();
