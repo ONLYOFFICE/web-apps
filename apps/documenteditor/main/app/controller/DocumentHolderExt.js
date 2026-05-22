@@ -570,7 +570,6 @@ define([], function () {
                         win.setSettings(props);
                     }
                 }
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Add Hyperlink');
             }
         };
 
@@ -2086,8 +2085,6 @@ define([], function () {
 
                 win.show();
                 win.setSettings(item.hyperProps.value);
-
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Add Hyperlink');
             }
         };
 
@@ -2272,7 +2269,6 @@ define([], function () {
                 opts.asc_setAdvancedOptions(printopt);
                 this.api.asc_Print(opts);
                 this.editComplete();
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Print Selection');
             }
         };
 
@@ -2528,13 +2524,10 @@ define([], function () {
                     value = (alignto==1) ? Asc.c_oAscObjectsAlignType.Page : ((me.api.asc_getSelectedDrawingObjectsCount()<2 && !alignto || alignto==2) ? Asc.c_oAscObjectsAlignType.Margin : Asc.c_oAscObjectsAlignType.Selected);
                 if (item.value < 6) {
                     me.api.put_ShapesAlign(item.value, value);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Shape Align');
                 } else if (item.value == 6) {
                     me.api.DistributeHorizontally(value);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Horizontally');
                 } else if (item.value == 7){
                     me.api.DistributeVertically(value);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
                 }
             }
             me.editComplete();
@@ -2544,7 +2537,6 @@ define([], function () {
             var me = this;
             if (item && item.value) {
                 me.api.asc_mergeSelectedShapes(item.value);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Shapes Merge');
             }
             me.editComplete();
         };
@@ -2712,7 +2704,6 @@ define([], function () {
                             if (me.api) {
                                 me.api.SplitCell(value.columns, value.rows);
                             }
-                            Common.component.Analytics.trackEvent('DocumentHolder', 'Table');
                         }
                         me.editComplete();
                     }

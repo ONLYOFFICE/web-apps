@@ -439,8 +439,6 @@ define([
 
             if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value="' + id + '"]').length<1)
                 Common.UI.alert(config).$window.attr('data-value', id);
-
-            (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
         },
 
         hidePreloader: function() {
@@ -549,8 +547,6 @@ define([
             if (msg && msg.msg) {
                 msg.msg = (msg.msg).toString();
                 this.showTips([msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)]);
-
-                Common.component.Analytics.trackEvent('External Error');
             }
         },
 
@@ -643,8 +639,6 @@ define([
             this.api.asc_setDocInfo(docInfo);
             this.api.asc_getEditorPermissions();
             this.api.asc_enableKeyEvents(true);
-
-            Common.Analytics.trackEvent('Load', 'Start');
         },
 
         onRunAutostartMacroses: function() {
@@ -1196,7 +1190,6 @@ define([
 
             if (this.api)
                 this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isOpera == true use asc_onPrintUrl event
-            Common.component.Analytics.trackEvent('Print');
         },
 
         onPrintUrl: function(url) {
@@ -1710,7 +1703,6 @@ define([
 
             Common.Gateway.sendInfo({mode:'view'});
             Common.Gateway.documentReady();
-            Common.Analytics.trackEvent('Load', 'Complete');
             Common.NotificationCenter.trigger('document:ready');
             Common.UI.TooltipManager.showTip('showFillStatus');
             requireUserAction = false;
@@ -1736,11 +1728,9 @@ define([
                     } else if (this.api && this.appOptions.canPrint){
                         this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isOpera == true use asc_onPrintUrl event
                     }
-                    Common.Analytics.trackEvent('Save');
                     break;
                 case 'print':
                     this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isOpera == true use asc_onPrintUrl event
-                    Common.Analytics.trackEvent('Print');
                     break;
                 case 'close':
                     if (!Common.Controllers.Desktop.process('goback') &&
@@ -1759,11 +1749,9 @@ define([
                     break;
                 case 'download-docx':
                     this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX));
-                    Common.Analytics.trackEvent('Save');
                     break;
                 case 'download-pdf':
                     this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
-                    Common.Analytics.trackEvent('Save');
                     break;
                 case 'share':
                     (new Common.Views.ShareDialog({

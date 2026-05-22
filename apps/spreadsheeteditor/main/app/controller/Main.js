@@ -458,7 +458,6 @@ define([
                 this.appOptions.location        = (typeof (this.editorConfig.location) == 'string') ? this.editorConfig.location.toLowerCase() : '';
                 this.appOptions.region          = (typeof (this.editorConfig.region) == 'string') ? this.editorConfig.region.toLowerCase() : this.editorConfig.region;
                 this.appOptions.canAutosave     = false;
-                this.appOptions.canAnalytics    = false;
                 this.appOptions.sharingSettingsUrl = this.editorConfig.sharingSettingsUrl;
                 this.appOptions.saveAsUrl       = this.editorConfig.saveAsUrl;
                 this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
@@ -1177,9 +1176,6 @@ define([
                     setTimeout(function() { $(Common.Utils.String.format('.toolbar .lazy-{0}', dummyClass)).remove(); }, 10);
                 }
 
-                if (me.appOptions.canAnalytics && false)
-                    Common.component.Analytics.initialize('UA-12442749-13', 'Spreadsheet Editor');
-
                 Common.Gateway.on('applyeditrights', _.bind(me.onApplyEditRights, me));
                 Common.Gateway.on('processrightschange', _.bind(me.onProcessRightsChange, me));
                 Common.Gateway.on('processmouse', _.bind(me.onProcessMouse, me));
@@ -1442,7 +1438,6 @@ define([
 
                     this.appOptions.permissionsLicense = licType;
                     this.appOptions.canAutosave = true;
-                    this.appOptions.canAnalytics = params.asc_getIsAnalyticsEnable();
 
                     this.appOptions.isOffline      = this.api.asc_isOffline();
                     this.appOptions.isCrypted      = this.api.asc_isCrypto();
@@ -1793,8 +1788,6 @@ define([
                 if (msg && msg.msg) {
                     msg.msg = (msg.msg).toString();
                     this.showTips([msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)], options);
-
-                    Common.component.Analytics.trackEvent('External Error');
                 }
             },
 
@@ -2383,8 +2376,6 @@ define([
 
                 if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value="' + id + '"]').length<1)
                     setTimeout(function() {Common.UI.alert(config).$window.attr('data-value', id);}, 1);
-
-                (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
             },
 
             onCoAuthoringDisconnect: function() {
@@ -3423,7 +3414,6 @@ define([
                         var opts = new Asc.asc_CDownloadOptions();
                         opts.asc_setAdvancedOptions(printopt);
                         me.api.asc_Print(opts);
-                        Common.component.Analytics.trackEvent('Print');
                     };
 
                 if (value) {

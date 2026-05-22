@@ -38,8 +38,6 @@ import React from 'react';
 import {App,Views,View,Navbar,NavLeft,NavRight,Link} from 'framework7-react';
 import { f7ready } from 'framework7-react';
 
-import '../../../../common/Analytics.js';
-
 import '../../../../common/Gateway.js';
 
 import routes from '../router/routes.js';

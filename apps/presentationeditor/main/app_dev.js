@@ -60,7 +60,6 @@ require.config({
         keymaster       : 'common/main/lib/core/keymaster',
         tip             : 'common/main/lib/util/Tip',
         localstorage    : 'common/main/lib/util/LocalStorage',
-        analytics       : 'common/Analytics',
         gateway         : 'common/Gateway',
         locale          : 'common/locale',
         irregularstack  : 'common/IrregularStack'
@@ -95,11 +94,6 @@ require.config({
                 'jquery'
             ]
         },
-        analytics: {
-            deps: [
-                'jquery'
-            ]
-        }
     }
 });
 
@@ -107,7 +101,6 @@ require([
     'backbone',
     'underscore',
     'core',
-    'analytics',
     'gateway',
     'locale',
     'socketio',

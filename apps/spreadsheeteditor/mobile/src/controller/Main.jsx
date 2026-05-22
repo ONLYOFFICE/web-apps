@@ -780,10 +780,6 @@ class MainController extends Component {
             }
         }
 
-        if (appOptions.canAnalytics && false) {
-            Common.component.Analytics.initialize('UA-12442749-13', 'Spreadsheet Editor');
-        }
-
         Common.Gateway.on('processrightschange',    this.onProcessRightsChange.bind(this));
         Common.Gateway.on('downloadas',             this.onDownloadAs.bind(this));
         Common.Gateway.on('requestclose',           this.onRequestClose.bind(this));
@@ -1001,8 +997,6 @@ class MainController extends Component {
                 text: [msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)],
                 closeButton: true
             }).open();
-
-            Common.component.Analytics.trackEvent('External Error');
         }
     }
 
@@ -1264,7 +1258,6 @@ class MainController extends Component {
 
         if (this.api)
             this.api.asc_Print();
-        Common.component.Analytics.trackEvent('Print');
     }
 
     onProcessRightsChange (data) {
