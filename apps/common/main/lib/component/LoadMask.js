@@ -109,6 +109,8 @@ define([
                 this.ownerEl.append(this.loaderEl);
                 this.loaderEl.css('min-width', $('.asc-loadmask-title', this.loaderEl).width() + 105);
 
+                this.updatePosition();
+
                 if (this.ownerEl && this.ownerEl.closest('.asc-window.modal').length==0)
                     Common.util.Shortcuts.suspendEvents();
             },
