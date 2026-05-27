@@ -3106,7 +3106,7 @@
   "DE.Views.HorizontalLineSettings.textAlignRight": "Right",
   "DE.Views.HorizontalLineSettings.textColor": "Color",
   "DE.Views.HorizontalLineSettings.textHeight": "Height",
-  "DE.Views.HorizontalLineSettings.textNoShade": "Use a solid color",
+  "DE.Views.HorizontalLineSettings.textChkColor": "Use a solid color",
   "DE.Views.HorizontalLineSettings.textPct": "Percent",
   "DE.Views.HorizontalLineSettings.textTitle": "Horizontal Line Format",
   "DE.Views.HorizontalLineSettings.textUnits": "Units:",

@@ -137,8 +137,19 @@ define([
 
             this.chkColor = new Common.UI.CheckBox({
                 el: $('#hl-dlg-chk-color'),
-                labelText: me.textNoShade
+                labelText: me.textChkColor
             });
+
+            this.spnWidth._increase = function(suspend) {
+                if (!me.pctMode) return Common.UI.MetricSpinner.prototype._increase.call(this, suspend);
+                var next = Math.floor(this.getNumberValue()) + 1;
+                this.setValue((Math.min(next, this.options.maxValue) + ' %').trim(), suspend);
+            };
+            this.spnWidth._decrease = function(suspend) {
+                if (!me.pctMode) return Common.UI.MetricSpinner.prototype._decrease.call(this, suspend);
+                var next = Math.ceil(this.getNumberValue()) - 1;
+                this.setValue((Math.max(next, this.options.minValue) + ' %').trim(), suspend);
+            };
 
             this.spnHeight._increase = function(suspend) {
                 var next = Math.floor(this.getNumberValue()) + 1;
@@ -225,11 +236,13 @@ define([
             var noShade = props.asc_getNoShade();
             this.chkColor.setValue(noShade === true, true);
 
-            var color = props.asc_getColor();
-            if (color) {
-                this.color = (color.get_type && color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME)
-                    ? {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()}
-                    : Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+            if (noShade === true) {
+                var color = props.asc_getColor();
+                if (color) {
+                    this.color = (color.get_type && color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME)
+                        ? {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()}
+                        : Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                }
             }
             this.btnColor.setColor(this.color);
             Common.Utils.ThemeColor.selectPickerColorByEffect(this.color, this.colorPicker);
@@ -342,7 +355,7 @@ define([
         textWidth:       'Width',
         textHeight:      'Height',
         textColor:       'Color',
-        textNoShade:     'Use solid color',
+        textChkColor:    'Use a solid color',
         textAlignment:   'Alignment',
         textAlignLeft:   'Left',
         textAlignCenter: 'Center',
