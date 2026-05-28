@@ -25,19 +25,25 @@ define([
                             '<table style="width: 100%;">',
                                 '<tr>',
                                     '<td class="padding-small">',
-                                        '<label class="header">' + me.textWidth + '</label>',
+                                        '<div style="display: flex; align-items: center;">',
+                                            '<label class="header margin-right-8">' + me.textWidth + '</label>',
+                                            '<div class="separator horizontal"></div>',
+                                        '</div>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-large">',
                                         '<div id="hl-dlg-spn-width" style="display: inline-block;"></div>',
-                                        '<label class="input-label margin-left-10">' + me.textUnits + '</label>',
+                                        '<label class="input-label margin-left-10" style="vertical-align: initial">' + me.textUnits + '</label>',
                                         '<div id="hl-dlg-cmb-units" class="input-group-nr margin-left-5" style="display: inline-block; width: 100px;"></div>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-small">',
-                                        '<label class="header">' + me.textHeight + '</label>',
+                                        '<div style="display: flex; align-items: center;">',
+                                            '<label class="header margin-right-8">' + me.textHeight + '</label>',
+                                            '<div class="separator horizontal"></div>',
+                                        '</div>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
@@ -47,7 +53,10 @@ define([
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-small">',
-                                        '<label class="header">' + me.textColor + '</label>',
+                                        '<div style="display: flex; align-items: center;">',
+                                            '<label class="header margin-right-8">' + me.textColor + '</label>',
+                                            '<div class="separator horizontal"></div>',
+                                        '</div>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
@@ -58,7 +67,10 @@ define([
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-small">',
-                                        '<label class="header">' + me.textAlignment + '</label>',
+                                        '<div style="display: flex; align-items: center;">',
+                                            '<label class="header margin-right-8">' + me.textAlignment + '</label>',
+                                            '<div class="separator horizontal"></div>',
+                                        '</div>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
@@ -164,6 +176,7 @@ define([
 
             this.btnColor = new Common.UI.ColorButton({
                 parentEl: $('#hl-dlg-btn-color'),
+                additionalAlign: this.menuAddAlign,
                 color: this.color,
                 takeFocusOnClose: true
             });
@@ -178,8 +191,8 @@ define([
 
             this.btnAlignLeft = new Common.UI.Button({
                 parentEl: $('#hl-dlg-btn-align-left'),
-                cls: 'btn-options large',
-                iconCls: 'toolbar__icon btn-align-left',
+                cls: 'btn huge-1 btn-options',
+                iconCls: 'options__icon options__icon-huge btn-horizontal-line-left',
                 enableToggle: true,
                 toggleGroup: 'hl-align-group',
                 allowDepress: false
@@ -188,8 +201,8 @@ define([
 
             this.btnAlignCenter = new Common.UI.Button({
                 parentEl: $('#hl-dlg-btn-align-center'),
-                cls: 'btn-options large',
-                iconCls: 'toolbar__icon btn-align-center',
+                cls: 'btn huge-1 btn-options',
+                iconCls: 'options__icon options__icon-huge btn-horizontal-line-center',
                 enableToggle: true,
                 toggleGroup: 'hl-align-group',
                 allowDepress: false
@@ -198,8 +211,8 @@ define([
 
             this.btnAlignRight = new Common.UI.Button({
                 parentEl: $('#hl-dlg-btn-align-right'),
-                cls: 'btn-options large',
-                iconCls: 'toolbar__icon btn-align-right',
+                cls: 'btn huge-1 btn-options',
+                iconCls: 'options__icon options__icon-huge btn-horizontal-line-right',
                 enableToggle: true,
                 toggleGroup: 'hl-align-group',
                 allowDepress: false
@@ -306,7 +319,8 @@ define([
 
         normPct: function(value) {
             value = this.roundValue(value, 2);
-            return Math.abs(value - 100) < 0.05 ? 100 : value;
+            var rounded = Math.round(value);
+            return Math.abs(value - rounded) < 0.05 ? rounded : value;
         },
 
         pctToMM: function(pct) {
