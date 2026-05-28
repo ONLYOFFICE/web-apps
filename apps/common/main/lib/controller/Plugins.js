@@ -206,8 +206,8 @@ define([
                 this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.onPluginsInit, this));
                 this.api.asc_registerCallback('asc_onPluginShowButton', _.bind(this.onPluginShowButton, this));
                 this.api.asc_registerCallback('asc_onPluginHideButton', _.bind(this.onPluginHideButton, this));
-                this.api.asc_registerCallback('onPluginHeaderMenu', _.bind(this.onPluginHeaderMenu, this));
-                this.api.asc_registerCallback('onPluginUpdateHeaderMenu', _.bind(this.onPluginHeaderMenu, this, true));
+                this.api.asc_registerCallback('onPluginWindowHeaderMenu', _.bind(this.onPluginWindowHeaderMenu, this));
+                this.api.asc_registerCallback('onPluginUpdateWindowHeaderMenu', _.bind(this.onPluginWindowHeaderMenu, this, true));
 
                 this.api.asc_registerCallback("asc_onPluginWindowShow", _.bind(this.onApiPluginWindowShow, this));
                 this.api.asc_registerCallback("asc_onPluginWindowClose", _.bind(this.onPluginWindowClose, this));
@@ -921,7 +921,7 @@ define([
          *   }>
          * }>} data
          */
-        onPluginHeaderMenu: function(data, preventRemove) {
+        onPluginWindowHeaderMenu: function(data, preventRemove) {
             if (!data) return;
             const me = this;
             data.forEach(function(plugin) {
@@ -930,8 +930,8 @@ define([
 
                     const controlCallback = function(value, pressed) {
                         console.log(value, pressed);
-                        me.api && me.api.onPluginHeaderMenuItemClick && 
-                            me.api.onPluginHeaderMenuItemClick(plugin.guid, frame.id, value, pressed);
+                        me.api && me.api.onPluginWindowHeaderMenuItemClick && 
+                            me.api.onPluginWindowHeaderMenuItemClick(plugin.guid, frame.id, value, pressed);
                     };
                     me.addHeaderCustomControls(plugin.guid, frame.id, frame.items, controlCallback, preventRemove);
                 });
