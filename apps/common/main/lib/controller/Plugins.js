@@ -930,7 +930,8 @@ define([
 
                     const controlCallback = function(value, pressed) {
                         console.log(value, pressed);
-                        me.api && me.api.onPluginHeaderMenuItemClick(plugin.guid, frame.id, value, pressed);
+                        me.api && me.api.onPluginHeaderMenuItemClick && 
+                            me.api.onPluginHeaderMenuItemClick(plugin.guid, frame.id, value, pressed);
                     };
                     me.addHeaderCustomControls(plugin.guid, frame.id, frame.items, controlCallback, preventRemove);
                 });
