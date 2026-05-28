@@ -493,7 +493,7 @@ define([
             this.baseUrl = options.baseUrl || '';
             this.iconsSet = Common.UI.iconsStr2IconsObj(options.iconsSet || ['']);
             var icons = Common.UI.getSuitableIcons(this.iconsSet);
-            this.iconImg = this.baseUrl + icons['normal'];
+            options.iconsSet && (this.iconImg = this.baseUrl + icons['normal']);
         },
 
         render: function () {

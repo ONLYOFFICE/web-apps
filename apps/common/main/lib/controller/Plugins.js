@@ -115,6 +115,7 @@ define([
             this.pluginsWinToShow = [];
             this.startOnPostLoad = false;
             this.customPluginsDlg = [];
+            this.headerCustomControls = [];
 
             this.newInstalledBackgroundPlugins = [];
             this.customButtonsArr = [];
@@ -205,6 +206,8 @@ define([
                 this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.onPluginsInit, this));
                 this.api.asc_registerCallback('asc_onPluginShowButton', _.bind(this.onPluginShowButton, this));
                 this.api.asc_registerCallback('asc_onPluginHideButton', _.bind(this.onPluginHideButton, this));
+                this.api.asc_registerCallback('onPluginHeaderMenu', _.bind(this.onPluginHeaderMenu, this));
+                this.api.asc_registerCallback('onPluginUpdateHeaderMenu', _.bind(this.onPluginHeaderMenu, this, true));
 
                 this.api.asc_registerCallback("asc_onPluginWindowShow", _.bind(this.onApiPluginWindowShow, this));
                 this.api.asc_registerCallback("asc_onPluginWindowClose", _.bind(this.onPluginWindowClose, this));
@@ -230,7 +233,7 @@ define([
         onAfterRender: function(panel, guid, isActivated) {
             var me = this;
             isActivated && this.openUIPlugin(guid);
-            panel.pluginClose.on('click', _.bind(this.onToolClose, this, panel));
+            panel.pluginClose && panel.pluginClose.on('click', _.bind(this.onToolClose, this, panel));
             panel.pluginHide && panel.pluginHide.on('click', _.bind(this.onToolHide, this, panel));
             Common.NotificationCenter.on({
                 'layout:resizestart': function(e) {
@@ -656,13 +659,16 @@ define([
                 el: '#panel-plugins-' + name,
                 menu: menu,
                 sideMenuButton: button,
+                frameId: frameId,
                 isCanDocked: variation.get_IsCanDocked ? variation.get_IsCanDocked() : false
             });
             this.viewPlugins.pluginPanels[pluginGuid].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.pluginPanels[pluginGuid], pluginGuid, true));
             this.viewPlugins.pluginPanels[pluginGuid].on('docked', _.bind(function() {
-                this.onPluginClose(plugin);
+                this._detachHeaderCustomControls(frameId);
+                this.onPluginClose(plugin, true);
                 this.addPluginToWindow(plugin, variation, langName, menu, frameId, url);
                 this.savePluginDockedPosition(pluginGuid, Asc.PluginType.Window);
+                this._restoreHeaderCustomControls(pluginGuid, frameId);
             }, this));
            
             if (!this.viewPlugins.pluginPanels[plugin.get_Guid()].openInsideMode(langName, url, frameId, plugin.get_Guid()))
@@ -727,9 +733,11 @@ define([
                         help && window.open(help, '_blank');
                     },
                     'docked': function(){
-                        me.onPluginClose(plugin);
+                        me._detachHeaderCustomControls(frameId);
+                        me.onPluginClose(plugin, true);
                         me.addPluginToSideMenu(plugin, variation, langName, menu, frameId, url);
                         me.savePluginDockedPosition(plugin.get_Guid(), Asc.PluginType.Panel);
+                        me._restoreHeaderCustomControls(plugin.get_Guid(), frameId);
                     },
                     'header:click': function(type){
                         me.api.asc_pluginButtonClick(type, plugin.get_Guid());
@@ -810,17 +818,21 @@ define([
             }
         },
 
-        onPluginClose: function(plugin) {
+        onPluginClose: function(plugin, saveCustomControls) {
             var isIframePlugin = false,
-                guid = plugin.get_Guid();
-            if (this.pluginDlg && this.pluginDlg.guid === guid)
+                guid = plugin.get_Guid(),
+                frameId;
+            if (this.pluginDlg && this.pluginDlg.guid === guid) {
+                frameId = this.pluginDlg.frameId;
                 this.pluginDlg.close();
-            else {
+            } else {
+                frameId = this.viewPlugins.pluginPanels[guid].frameId;
                 var successClosed = this.closePluginInPanel(guid);
                 successClosed && (isIframePlugin = true);
             }
-            !this.turnOffBackgroundPlugin(guid) && this.viewPlugins.closedPluginMode(guid, isIframePlugin);
+            !saveCustomControls && frameId && delete this.headerCustomControls[frameId];
 
+            !this.turnOffBackgroundPlugin(guid) && this.viewPlugins.closedPluginMode(guid, isIframePlugin);
             this.runAutoStartPlugins();
 
             Common.UI.LayoutManager.clearCustomMenuItems(guid); // remove custom menu items in toolbar
@@ -856,6 +868,280 @@ define([
 
         onPluginHideButton: function(id) {
             this.pluginDlg && this.pluginDlg.hideButton(id);
+        },
+
+
+        /**
+         * @typedef {{
+         *   type: 'button',
+         *   id: string,
+         *   align?: 'left'|'right',
+         *   removed?: boolean
+         * }} BaseHeaderControl
+         */
+
+        /**
+         * @typedef {BaseHeaderControl & {
+         *   type: 'button',
+         *   text?: string,
+         *   enableToggle?: boolean,
+         *   hint?: string,
+         *   icons?: string,
+         *   split?: boolean,
+         *   isTitle?: boolean,
+         *   disabled?: boolean,
+         *   items?: ButtonMenuItemHeaderControl[]
+         * }} ButtonHeaderControl
+         */
+
+        /**
+         * @typedef {{
+         *   id?: string,
+         *   separator?: boolean,
+         *   text?: string,
+         *   icons?: string,
+         *   disabled?: boolean,
+         *   items?: ButtonMenuItemHeaderControl[]
+         * }} ButtonMenuItemHeaderControl
+         */
+
+        // Add new types here!
+        // @typedef { ButtonHeaderControl | ... } HeaderControl
+        /**
+         * @typedef { ButtonHeaderControl } HeaderControl
+         */
+
+
+        /**
+         * @param {Array<{
+         *   guid: string,
+         *   frames: Array<{
+         *     id: string,
+         *     items: HeaderControl[]
+         *   }>
+         * }>} data
+         */
+        onPluginHeaderMenu: function(data, preventRemove) {
+            if (!data) return;
+            const me = this;
+            data.forEach(function(plugin) {
+                plugin.frames.forEach(function(frame) {
+                    if(!plugin.guid || !frame.id) return;
+
+                    const controlCallback = function(value, pressed) {
+                        console.log(value, pressed);
+                        me.api && me.api.onPluginHeaderMenuItemClick(plugin.guid, frame.id, value, pressed);
+                    };
+                    me.addHeaderCustomControls(plugin.guid, frame.id, frame.items, controlCallback, preventRemove);
+                });
+            });
+        },
+
+        addHeaderCustomControls: function(guid, frameId, components, callback, preventRemove) {
+            if(!Array.isArray(components)) components = [];
+
+            const me = this;
+
+            let added = [],
+                removed = preventRemove ? [] : this._findHeaderRemovedControls(frameId, components),
+                existCustomTitle = (this.headerCustomControls[frameId] || []).some(function(cmp) {return cmp.isTitle});
+
+            const fillButtonMenu = function(items, toMenu) {
+                const me = this;
+                
+                if (toMenu)
+                    toMenu.removeAll();
+                else {
+                    toMenu = new Common.UI.Menu({
+                        menuAlign: 'tl-tr',
+                        items: []
+                    });
+                    toMenu.on('item:custom-click', function(menu, mi, e) {
+                        callback && callback(mi.value);
+                    });
+                }
+                var hasIcons = false;
+                items.forEach(function(/** @type {ButtonMenuItemHeaderControl} */menuItem) {
+                    if (menuItem.separator) toMenu.addItem(new Common.UI.MenuItemCustom({caption: '--'}));
+                    menuItem.text && toMenu.addItem(new Common.UI.MenuItemCustom({
+                        caption: menuItem.text || '',
+                        value: menuItem.id,
+                        menu: menuItem.items ? fillButtonMenu(menuItem.items) : false,
+                        baseUrl: '',    // base url is included in icon path
+                        iconsSet: menuItem.icons
+                    }));
+                    hasIcons = hasIcons || !!menuItem.icons;
+                });
+                hasIcons && (toMenu.cmpEl ? toMenu.cmpEl.toggleClass('shifted-right', true) : (toMenu.options.cls = 'shifted-right'));
+                return toMenu;
+            };
+
+            components.forEach(function(component) {
+                /** @type {HeaderControl} */
+                const commonOptions = _.extend({}, { 
+                    align: 'right'
+                }, component);
+
+                if (commonOptions.removed) { // need to remove button
+                    let cmp = me._findAndRemoveHeaderCustomControl(frameId, commonOptions.id);
+                    cmp && removed.push(cmp);
+                    return;
+                }
+
+                let cmp = me._findHeaderCustomControl(frameId, commonOptions.id);
+                if(cmp) { // change text, hint, disable state, menu items
+                    if (cmp instanceof Common.UI.Button) {
+                        /** @type {ButtonHeaderControl} */
+                        const options = commonOptions;
+                        let caption = options.text || '';
+                        if (cmp.options.caption !== (caption || ' ')) {
+                            cmp.setCaption(caption || ' ');
+                            cmp.options.caption = caption || ' ';
+                        }
+                        cmp.updateHint(options.hint || '');
+                        (options.disabled!==undefined) && cmp.setDisabled(!!options.disabled);
+                        if (cmp.menu && options.items && options.items.length > 0) {// update menu items
+                            if (typeof cmp.menu !== 'object') {
+                                cmp.setMenu(new Common.UI.Menu({items: []}));
+                                cmp.menu.on('item:custom-click', function(menu, mi, e) {
+                                    callback && callback(mi.value);
+                                });
+                            }
+                            fillButtonMenu(options.items, cmp.menu);
+                        }
+                    }
+                    return;
+                } else {
+                    if(commonOptions.type == 'button') {
+                        /** @type {ButtonHeaderControl} */
+                        let options = _.extend({}, { 
+                            text: '',
+                            enableToggle: false,
+                            hint: '',
+                            icons: '',
+                            split: false,
+                            isTitle: false,
+                            disabled: false,
+                            menu: false
+                        }, commonOptions);             
+                        
+                        if(options.isTitle) {
+                            (existCustomTitle) && (options.isTitle = false);
+                            existCustomTitle = true;
+                        }
+
+                        cmp = new Common.UI.ButtonCustom({
+                            caption: options.text,
+                            split: options.split,
+                            enableToggle: options.enableToggle,
+                            baseUrl: '',    // base url is included in icon path
+                            value: options.id,
+                            iconsSet: options.icons && me.viewPlugins.iconsStr2IconsObj(options.icons),
+                            menu: options.items,
+                            hint: options.hint,
+                            disabled: !!options.disabled,
+                            isTitle: options.isTitle,
+                            align: options.align,
+                            tabindex: -1,
+                            cls: 'btn-toolbar',
+                        });
+                        if (options.items && typeof options.items === 'object') {
+                            cmp.setMenu(new Common.UI.Menu({items: []}));
+                            cmp.menu.on('item:custom-click', function(menu, mi, e) {
+                                callback && callback(mi.value);
+                            });
+                            fillButtonMenu(options.items, cmp.menu);
+                        }
+                        if (!cmp.menu || cmp.split) {
+                            cmp.on('click', function(b, e) {
+                                callback && callback(b.options.value, b.pressed);
+                            });
+                        }
+                    }
+                    if(cmp) {
+                        cmp.render($('<div class="btn-slot"></div>'));
+                        cmp.cmpEl.addClass('no-focus');
+                        added.push(cmp);
+                    }
+                }
+            });
+
+            if (!this.headerCustomControls[frameId])
+                this.headerCustomControls[frameId] = [];
+            Array.prototype.push.apply(this.headerCustomControls[frameId], added);
+            const panel = (this.pluginDlg && this.pluginDlg.frameId == frameId && this.pluginDlg) ||
+                (this.viewPlugins.pluginPanels[guid] && this.viewPlugins.pluginPanels[guid].frameId == frameId && this.viewPlugins.pluginPanels[guid]) || 
+                this.viewPlugins.customPluginPanels[frameId] || this.customPluginsDlg[frameId];
+            panel && panel.addHeaderCustomControls(added, removed);
+        },
+
+        _restoreHeaderCustomControls: function(guid, frameId) {
+            const controls = this.headerCustomControls[frameId];
+            const panel = (this.pluginDlg && this.pluginDlg.frameId == frameId && this.pluginDlg) ||
+                (this.viewPlugins.pluginPanels[guid] && this.viewPlugins.pluginPanels[guid].frameId == frameId && this.viewPlugins.pluginPanels[guid]) || 
+                this.viewPlugins.customPluginPanels[frameId] || this.customPluginsDlg[frameId];
+            if(controls && panel) {
+                panel.addHeaderCustomControls(this.headerCustomControls[frameId]);
+            }
+        },
+
+        _findHeaderCustomControl: function(frameId, id) {
+            const controls = this.headerCustomControls[frameId];
+            if(!controls) return;
+
+            for (var i=0; i < controls.length; i++) {
+                const cmp = controls[i];
+                if (cmp.options.value === id) {
+                    return cmp;
+                }
+            }
+        },
+
+        _findAndRemoveHeaderCustomControl: function(frameId, id) {
+            const controls = this.headerCustomControls[frameId];
+            if(!controls) return;
+
+            for (var i=0; i < controls.length; i++) {
+                const cmp = controls[i];
+                if (cmp.options.value === id) {
+                    controls.splice(i, 1);
+                    return cmp;
+                }
+            }
+        },
+
+        _findHeaderRemovedControls: function(frameId, items) {
+            const controls = this.headerCustomControls[frameId];
+            if(!controls) return;
+
+            let arr = [];
+            if (!items || items.length<1) {
+                arr = controls;
+                this.headerCustomControls[frameId] = undefined;
+            } else {
+                for (var i=0; i < controls.length; i++) {
+                    const cmp = controls[i];
+                    if (!_.findWhere(items, {id: cmp.options.value})) {
+                        arr.push(cmp);
+                        controls.splice(i, 1);
+                        i--;
+                    }
+                }
+            }
+            return arr;
+        },
+
+        /**
+         * Moves header controls into a temporary detached container,
+         * preserving jQuery event handlers before removing the parent container.
+         */
+        _detachHeaderCustomControls: function(frameId) {
+            if (Array.isArray(this.headerCustomControls[frameId])) {
+                const $temp = $('<div></div>');
+                this.headerCustomControls[frameId].forEach(function(cmp) {
+                    $temp.append(cmp.$el);
+                });
+            }
         },
 
         runAutoStartPlugins: function() {
@@ -1241,8 +1527,10 @@ define([
                     const docked_place = isPanel ? variation.type : !!variation.dockedPlace ? variation.dockedPlace : 'panel';
                     me.api.asc_pluginButtonDockChanged(docked_place, variation.guid, frameId, function(){
                         setTimeout(function () {
-                            me.customPluginsDlg[frameId].close();
+                            me._detachHeaderCustomControls(frameId);
+                            me.onPluginWindowClose(frameId, true);
                             me.onPluginPanelShow(frameId, variation, lang);
+                            me._restoreHeaderCustomControls(variation.guid, frameId);
                         }, 0);
                     });                    
                 },
@@ -1279,7 +1567,7 @@ define([
             }
         },
 
-        onPluginWindowClose: function(frameId) {
+        onPluginWindowClose: function(frameId, saveCustomControls) {
             if (this.pluginsWinToShow.length>0) {
                 this.pluginsWinToShow = _.reject(this.pluginsWinToShow, function (item) {
                     return item.frameId === frameId;
@@ -1296,6 +1584,7 @@ define([
                     this.viewPlugins.fireEvent(panel.menu === 'right' ? 'pluginsright:close' : 'pluginsleft:close', [frameId]);
                 }
             }
+            !saveCustomControls && delete this.headerCustomControls[frameId];
         },
 
         onPluginWindowResize: function(frameId, size, minSize, maxSize, callback ) {
@@ -1367,8 +1656,10 @@ define([
                 var _plugins = this;
                 this.api.asc_pluginButtonDockChanged('window', variation.guid, frameId, function(){
                     setTimeout( _.bind(function() {
-                        _plugins.onPluginWindowClose(frameId);
+                        _plugins._detachHeaderCustomControls(frameId);
+                        _plugins.onPluginWindowClose(frameId, true);
                         _plugins.onPluginWindowShow(frameId, variation, lang);
+                        _plugins._restoreHeaderCustomControls(variation.guid, frameId);
                     }, this), 0);
                 });                
             }, this));
