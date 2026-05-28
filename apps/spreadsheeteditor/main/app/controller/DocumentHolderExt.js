@@ -165,6 +165,7 @@ define([], function () {
                 view.pmiInsFunction.on('click',                     _.bind(me.onInsFunction, me));
                 view.menuAddHyperlink.on('click',                   _.bind(me.onInsHyperlink, me));
                 view.menuEditHyperlink.on('click',                  _.bind(me.onInsHyperlink, me));
+                view.menuCopyHyperlink.on('click',                  _.bind(me.onCopyHyperlink, me));
                 view.menuRemoveHyperlink.on('click',                _.bind(me.onDelHyperlink, me));
                 view.pmiRowHeight.menu.on('item:click',             _.bind(me.onSetSize, me));
                 view.pmiColumnWidth.menu.on('item:click',           _.bind(me.onSetSize, me));
@@ -199,8 +200,10 @@ define([], function () {
                 view.menuParagraphBullets.menu.on('show:after',     _.bind(me.onBulletMenuShowAfter, me));
                 view.menuAddHyperlinkShape.on('click',              _.bind(me.onInsHyperlink, me));
                 view.menuEditHyperlinkShape.on('click',             _.bind(me.onInsHyperlink, me));
+                view.menuCopyHyperlinkShape.on('click',             _.bind(me.onCopyHyperlink, me));
                 view.menuAddHyperlinkPic.on('click',                _.bind(me.onInsHyperlink, me));
                 view.menuEditHyperlinkPic.on('click',               _.bind(me.onInsHyperlink, me));
+                view.menuCopyHyperlinkPic.on('click',               _.bind(me.onCopyHyperlink, me));
                 view.menuRemoveHyperlinkPic.on('click',             _.bind(me.onDelHyperlink, me))
                 view.menuRemoveHyperlinkShape.on('click',           _.bind(me.onDelHyperlink, me));
                 view.pmiTextAdvanced.on('click',                    _.bind(me.onTextAdvanced, me));
@@ -943,6 +946,15 @@ define([], function () {
                 });
             }
 
+        };
+
+        dh.onCopyHyperlink = function(item, e){
+            if (!this.api || !navigator.clipboard) return;
+            var info = this.api.asc_getCellInfo();
+            var hyperlink = info && info.asc_getHyperlink();
+            if (!hyperlink) return;
+            var url = hyperlink.asc_getHyperlinkUrl() || hyperlink.asc_getLocation();
+            if (url) navigator.clipboard.writeText(url);
         };
 
         dh.onDelHyperlink = function(item) {

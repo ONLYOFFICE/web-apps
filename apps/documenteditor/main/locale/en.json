@@ -2441,6 +2441,7 @@
   "DE.Views.DocumentHolder.editChartText": "Edit data",
   "DE.Views.DocumentHolder.editFooterText": "Edit footer",
   "DE.Views.DocumentHolder.editHeaderText": "Edit header",
+  "DE.Views.DocumentHolder.copyHyperlinkText": "Copy link",
   "DE.Views.DocumentHolder.editHyperlinkText": "Edit link",
   "DE.Views.DocumentHolder.eqToDisplayText": "Change to Display",
   "DE.Views.DocumentHolder.eqToInlineText": "Change to Inline",

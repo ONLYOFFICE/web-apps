@@ -3080,6 +3080,7 @@
   "SSE.Views.DocumentHolder.directHText": "Horizontal",
   "SSE.Views.DocumentHolder.directionText": "Text direction",
   "SSE.Views.DocumentHolder.editChartText": "Edit Data",
+  "SSE.Views.DocumentHolder.copyHyperlinkText": "Copy Link",
   "SSE.Views.DocumentHolder.editHyperlinkText": "Edit Link",
   "SSE.Views.DocumentHolder.hideEqToolbar": "Hide equation toolbar",
   "SSE.Views.DocumentHolder.insertColumnLeftText": "Column left",

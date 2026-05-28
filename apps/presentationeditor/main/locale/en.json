@@ -2415,6 +2415,7 @@
   "PE.Views.DocumentHolder.directHText": "Horizontal",
   "PE.Views.DocumentHolder.directionText": "Text direction",
   "PE.Views.DocumentHolder.editChartText": "Edit data",
+  "PE.Views.DocumentHolder.copyHyperlinkText": "Copy link",
   "PE.Views.DocumentHolder.editHyperlinkText": "Edit link",
   "PE.Views.DocumentHolder.hideEqToolbar": "Hide equation toolbar",
   "PE.Views.DocumentHolder.hyperlinkText": "Link",

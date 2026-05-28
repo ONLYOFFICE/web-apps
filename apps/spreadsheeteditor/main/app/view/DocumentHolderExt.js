@@ -585,6 +585,10 @@ define([], function () {
                 inCell      : true
             });
 
+            me.menuCopyHyperlink = new Common.UI.MenuItem({
+                caption     : me.copyHyperlinkText
+            });
+
             me.menuRemoveHyperlink = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
             });
@@ -597,6 +601,7 @@ define([], function () {
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuEditHyperlink,
+                        me.menuCopyHyperlink,
                         me.menuRemoveHyperlink
                     ]
                 })
@@ -1610,6 +1615,10 @@ define([], function () {
                 caption: me.editHyperlinkText
             });
 
+            me.menuCopyHyperlinkPic = new Common.UI.MenuItem({
+                caption: me.copyHyperlinkText
+            });
+
             me.menuRemoveHyperlinkPic = new Common.UI.MenuItem({
                 caption: me.removeHyperlinkText
             });
@@ -1621,7 +1630,8 @@ define([], function () {
                     cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
-                        me.menuEditHyperlinkPic, 
+                        me.menuEditHyperlinkPic,
+                        me.menuCopyHyperlinkPic,
                         me.menuRemoveHyperlinkPic
                     ]
                 })
@@ -1855,6 +1865,10 @@ define([], function () {
                 caption     : me.editHyperlinkText
             });
 
+            me.menuCopyHyperlinkShape = new Common.UI.MenuItem({
+                caption     : me.copyHyperlinkText
+            });
+
             me.menuRemoveHyperlinkShape = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
             });
@@ -1867,6 +1881,7 @@ define([], function () {
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuEditHyperlinkShape,
+                        me.menuCopyHyperlinkShape,
                         me.menuRemoveHyperlinkShape
                     ]
                 })

@@ -869,6 +869,10 @@ define([], function () {
                 caption     : me.editHyperlinkText
             });
 
+            me.menuCopyHyperlinkPic = new Common.UI.MenuItem({
+                caption     : me.copyHyperlinkText
+            });
+
             me.menuRemoveHyperlinkPic = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
             });
@@ -881,6 +885,7 @@ define([], function () {
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuEditHyperlinkPic,
+                        me.menuCopyHyperlinkPic,
                         me.menuRemoveHyperlinkPic
                     ]
                 })
@@ -1093,6 +1098,7 @@ define([], function () {
                     menuHyperlinkPic.setVisible(value.hyperProps!==undefined);
                     menuHyperlinkPicSeparator.setVisible(me.menuAddHyperlinkPic.isVisible() || menuHyperlinkPic.isVisible());
                     me.menuEditHyperlinkPic.hyperProps = value.hyperProps;
+                    me.menuCopyHyperlinkPic.hyperProps = value.hyperProps;
                     me.menuRemoveHyperlinkPic.hyperProps = value.hyperProps;
                     if (text !== false) {
                         me.menuAddHyperlinkPic.hyperProps = {};
@@ -1376,6 +1382,10 @@ define([], function () {
                 caption     : me.editHyperlinkText
             });
 
+            me.menuCopyHyperlinkTable = new Common.UI.MenuItem({
+                caption     : me.copyHyperlinkText
+            });
+
             me.menuRemoveHyperlinkTable = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
             });
@@ -1388,6 +1398,7 @@ define([], function () {
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuEditHyperlinkTable,
+                        me.menuCopyHyperlinkTable,
                         me.menuRemoveHyperlinkTable
                     ]
                 })
@@ -1866,6 +1877,7 @@ define([], function () {
                     menuHyperlinkTable.setVisible(value.hyperProps!==undefined);
 
                     me.menuEditHyperlinkTable.hyperProps = value.hyperProps;
+                    me.menuCopyHyperlinkTable.hyperProps = value.hyperProps;
                     me.menuRemoveHyperlinkTable.hyperProps = value.hyperProps;
 
                     if (text!==false) {
@@ -2217,6 +2229,10 @@ define([], function () {
                 caption     : me.editHyperlinkText
             });
 
+            me.menuCopyHyperlinkPara = new Common.UI.MenuItem({
+                caption     : me.copyHyperlinkText
+            });
+
             me.menuRemoveHyperlinkPara = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
             });
@@ -2229,6 +2245,7 @@ define([], function () {
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuEditHyperlinkPara,
+                        me.menuCopyHyperlinkPara,
                         me.menuRemoveHyperlinkPara
                     ]
                 })
@@ -2492,6 +2509,7 @@ define([], function () {
                     menuHyperlinkPara.setVisible(value.hyperProps!==undefined);
                     menuHyperlinkParaSeparator.setVisible(me.menuAddHyperlinkPara.isVisible() || menuHyperlinkPara.isVisible());
                     me.menuEditHyperlinkPara.hyperProps = value.hyperProps;
+                    me.menuCopyHyperlinkPara.hyperProps = value.hyperProps;
                     me.menuRemoveHyperlinkPara.hyperProps = value.hyperProps;
                     if (text!==false) {
                         me.menuAddHyperlinkPara.hyperProps = {};

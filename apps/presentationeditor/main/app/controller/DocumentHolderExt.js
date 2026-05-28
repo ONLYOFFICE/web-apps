@@ -206,6 +206,9 @@ define([], function () {
             view.menuEditHyperlinkPara.on('click', _.bind(me.editHyperlink, me));
             view.menuEditHyperlinkTable.on('click', _.bind(me.editHyperlink, me));
             view.menuEditHyperlinkPic.on('click', _.bind(me.editHyperlink, me));
+            view.menuCopyHyperlinkPara.on('click', _.bind(me.onCopyHyperlink, me));
+            view.menuCopyHyperlinkTable.on('click', _.bind(me.onCopyHyperlink, me));
+            view.menuCopyHyperlinkPic.on('click', _.bind(me.onCopyHyperlink, me));
             view.menuRemoveHyperlinkPara.on('click', _.bind(me.removeHyperlink, me));
             view.menuRemoveHyperlinkTable.on('click', _.bind(me.removeHyperlink, me));
             view.menuRemoveHyperlinkPic.on('click', _.bind(me.removeHyperlink, me));
@@ -1583,6 +1586,12 @@ define([], function () {
                 win.setSettings(item.hyperProps.value);
 
             }
+        };
+
+        dh.onCopyHyperlink = function(item, e){
+            var url = item.hyperProps && item.hyperProps.value && item.hyperProps.value.get_Value();
+            if (!url || !navigator.clipboard) return;
+            navigator.clipboard.writeText(url);
         };
 
         dh.removeHyperlink = function(item) {
