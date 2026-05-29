@@ -62,7 +62,7 @@ define([
                                 '<tr>',
                                     '<td class="padding-large">',
                                         '<div id="hl-dlg-chk-color" style="display: inline-block;"></div>',
-                                        '<div id="hl-dlg-btn-color" style="display: inline-block; margin-left: 8px;"></div>',
+                                        '<div id="hl-dlg-btn-color" class="margin-left-8" style="display: inline-block;"></div>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
