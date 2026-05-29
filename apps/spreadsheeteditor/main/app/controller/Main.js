@@ -1687,15 +1687,18 @@ define([
 
             applyModeEditorElements: function(prevmode) {
                 /** coauthoring begin **/
-                var commentsController  = this.getApplication().getController('Common.Controllers.Comments');
-                if (commentsController) {
-                    commentsController.setMode(this.appOptions);
-                    commentsController.setConfig({
-                            config      : this.editorConfig,
-                            sdkviewname : '#ws-canvas-outer',
-                            fullInfoHintMode : true,
-                            hintmode    : true},
-                        this.api);
+                if (!this.appOptions.isEditDiagram) {
+                    var commentsController = this.getApplication().getController('Common.Controllers.Comments');
+                    if (commentsController) {
+                        commentsController.setMode(this.appOptions);
+                        commentsController.setConfig({
+                                config: this.editorConfig,
+                                sdkviewname: '#ws-canvas-outer',
+                                fullInfoHintMode: true,
+                                hintmode: true
+                            },
+                            this.api);
+                    }
                 }
                 /** coauthoring end **/
                 var me = this,
