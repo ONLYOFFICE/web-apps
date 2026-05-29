@@ -949,12 +949,11 @@ define([], function () {
         };
 
         dh.onCopyHyperlink = function(item, e){
-            if (!this.api || !navigator.clipboard) return;
+            if (!this.api) return;
             var info = this.api.asc_getCellInfo();
             var hyperlink = info && info.asc_getHyperlink();
-            if (!hyperlink) return;
-            var url = hyperlink.asc_getHyperlinkUrl() || hyperlink.asc_getLocation();
-            if (url) navigator.clipboard.writeText(url);
+            var url = hyperlink && hyperlink.asc_getHyperlinkUrl();
+            if (url) navigator.clipboard && navigator.clipboard.writeText(url);
         };
 
         dh.onDelHyperlink = function(item) {
@@ -2322,6 +2321,7 @@ define([], function () {
                 var hyperinfo = cellinfo.asc_getHyperlink(),
                     can_add_hyperlink = this.api.asc_canAddShapeHyperlink();
                 documentHolder.menuHyperlinkPic.setVisible((isimagemenu || isshapemenu) && can_add_hyperlink!==false && hyperinfo);
+                documentHolder.menuCopyHyperlinkPic.setVisible(!!(hyperinfo && hyperinfo.asc_getHyperlinkUrl()));
                 documentHolder.menuAddHyperlinkPic.setVisible((isimagemenu || isshapemenu) && can_add_hyperlink!==false && !hyperinfo);
                 documentHolder.menuHyperlinkPicSeparator.setVisible((isimagemenu || isshapemenu) && can_add_hyperlink!==false);
                 documentHolder.menuHyperlinkPic.setDisabled(isObjLocked || this._state.wsProps['InsertHyperlinks']);
@@ -2515,6 +2515,7 @@ define([], function () {
 
                 documentHolder.menuParagraphBullets.setVisible(istextchartmenu!==true);
                 documentHolder.menuHyperlinkShape.setVisible(istextshapemenu && can_add_hyperlink!==false && hyperinfo);
+                documentHolder.menuCopyHyperlinkShape.setVisible(!!(hyperinfo && hyperinfo.asc_getHyperlinkUrl()));
                 documentHolder.menuAddHyperlinkShape.setVisible(istextshapemenu && can_add_hyperlink!==false && !hyperinfo);
                 documentHolder.menuParagraphVAlign.setVisible(istextchartmenu!==true && !isEquation); // remove it after the header can be stretched vertically!!
                 documentHolder.menuParagraphDirection.setVisible(istextchartmenu!==true && !isEquation); // remove it after the header can be stretched vertically!!
@@ -2661,6 +2662,7 @@ define([], function () {
 
                 var hyperinfo = cellinfo.asc_getHyperlink();
                 documentHolder.menuHyperlink.setVisible(iscellmenu && hyperinfo && !iscelledit && !ismultiselect && !diagramOrMergeEditor && !inPivot);
+                documentHolder.menuCopyHyperlink.setVisible(!!(iscellmenu && hyperinfo && !iscelledit && hyperinfo.asc_getHyperlinkUrl()));
                 documentHolder.menuAddHyperlink.setVisible(iscellmenu && !hyperinfo && !iscelledit && !ismultiselect && !diagramOrMergeEditor && !inPivot);
 
                 documentHolder.pmiRowHeight.setVisible(isrowmenu||isallmenu);

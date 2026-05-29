@@ -1096,6 +1096,7 @@ define([], function () {
                     }
                     me.menuAddHyperlinkPic.setVisible(value.hyperProps===undefined && text!==false);
                     menuHyperlinkPic.setVisible(value.hyperProps!==undefined);
+                    me.menuCopyHyperlinkPic.setVisible(!!(value.hyperProps && value.hyperProps.value && value.hyperProps.value.get_Value()));
                     menuHyperlinkPicSeparator.setVisible(me.menuAddHyperlinkPic.isVisible() || menuHyperlinkPic.isVisible());
                     me.menuEditHyperlinkPic.hyperProps = value.hyperProps;
                     me.menuCopyHyperlinkPic.hyperProps = value.hyperProps;
@@ -1875,6 +1876,7 @@ define([], function () {
                     }
                     me.menuAddHyperlinkTable.setVisible(value.hyperProps===undefined && text!==false);
                     menuHyperlinkTable.setVisible(value.hyperProps!==undefined);
+                    me.menuCopyHyperlinkTable.setVisible(!!(value.hyperProps && value.hyperProps.value && value.hyperProps.value.get_Value()));
 
                     me.menuEditHyperlinkTable.hyperProps = value.hyperProps;
                     me.menuCopyHyperlinkTable.hyperProps = value.hyperProps;
@@ -2507,6 +2509,7 @@ define([], function () {
                     }
                     me.menuAddHyperlinkPara.setVisible(value.hyperProps===undefined && text!==false);
                     menuHyperlinkPara.setVisible(value.hyperProps!==undefined);
+                    me.menuCopyHyperlinkPara.setVisible(!!(value.hyperProps && value.hyperProps.value && value.hyperProps.value.get_Value()));
                     menuHyperlinkParaSeparator.setVisible(me.menuAddHyperlinkPara.isVisible() || menuHyperlinkPara.isVisible());
                     me.menuEditHyperlinkPara.hyperProps = value.hyperProps;
                     me.menuCopyHyperlinkPara.hyperProps = value.hyperProps;

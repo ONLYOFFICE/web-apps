@@ -2132,12 +2132,8 @@ define([], function () {
         };
 
         dh.onCopyHyperlink = function(item, e){
-            if (!navigator.clipboard) return;
-            var props = item.hyperProps && item.hyperProps.value;
-            if (!props) return;
-            var bookmark = props.get_Bookmark();
-            var url = props.get_Value() || (bookmark && 'bookmark://' + bookmark);
-            if (url) navigator.clipboard.writeText(url);
+            var url = item.hyperProps && item.hyperProps.value && item.hyperProps.value.get_Value();
+            if (url) navigator.clipboard && navigator.clipboard.writeText(url);
         };
 
         dh.onRemoveHyperlink = function(item, e){
