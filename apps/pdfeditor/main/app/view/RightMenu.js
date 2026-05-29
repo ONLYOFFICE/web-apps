@@ -298,16 +298,7 @@ define([
                 target_pane_parent.find('.content-box > .active').removeClass('active');
                 target_pane && target_pane.addClass("active");
 
-                const viewport = PDFE.getController('Viewport').getView('Viewport');
-                viewport.hlayout.hideItemResizer('right', !isPlugin);
-
-                const widthFromStorage = Common.localStorage.getItem('pdfe-rightmenu-width');
-                if(isPlugin && widthFromStorage) {
-                    this.$el.width(parseInt(widthFromStorage));
-                } else {
-                    this.setInnerWidth(MENU_BASE_WIDTH);
-                }
-                Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+                this.updateResizable();
 
                 if (this.scroller) {
                     this.scroller.scrollTop(0);
@@ -341,6 +332,8 @@ define([
                 }
                 if (!this._settings[type].btn.isActive())
                     this._settings[type].btn.toggle(true, false);
+
+                this.updateResizable();
             }
         },
 
@@ -392,6 +385,20 @@ define([
             if ( !this.isPluginButtonPressed() ) {
                 this.$el.css('width', (!Common.Utils.InternalSettings.get("pdfe-hide-right-settings") ? MENU_SCALE_PART : SCALE_MIN) + 'px');
             }
+        },
+
+        updateResizable: function() {
+            const isPlugin = this.isPluginButtonPressed();
+            const viewport = PDFE.getController('Viewport').getView('Viewport');
+            viewport.hlayout.hideItemResizer('right', !isPlugin);
+
+            const widthFromStorage = Common.localStorage.getItem('pdfe-rightmenu-width');
+            if(isPlugin && widthFromStorage) {
+                this.$el.width(parseInt(widthFromStorage));
+            } else {
+                this.setInnerWidth(MENU_BASE_WIDTH);
+            }
+            Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
         },
 
         txtParagraphSettings:       'Text Settings',

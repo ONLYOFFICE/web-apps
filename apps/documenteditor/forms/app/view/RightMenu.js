@@ -177,13 +177,7 @@ define([
                 target_pane_parent.find('.content-box > .active').removeClass('active');
                 target_pane && target_pane.addClass("active");
 
-                const widthFromStorage = Common.localStorage.getItem('de-rightmenu-width');
-                if(isPlugin && widthFromStorage) {
-                    this.$el.width(parseInt(widthFromStorage));
-                } else {
-                    this.setInnerWidth(MENU_BASE_WIDTH);
-                }
-                Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+                this.updateResizable();
 
                 if (this.scroller) {
                     this.scroller.scrollTop(0);
@@ -220,6 +214,8 @@ define([
                 }
                 if (!this._settings[type].btn.isActive())
                     this._settings[type].btn.toggle(true, false);
+
+                this.updateResizable();
             }
         },
 
@@ -277,6 +273,17 @@ define([
                 paddings = parseInt(pane.css('padding-left')) + parseInt(pane.css('padding-right'));
             MENU_SCALE_PART = MENU_BASE_WIDTH + paddings;
             this.$el.css('width', (!Common.Utils.InternalSettings.get("de-hide-right-settings") ? MENU_SCALE_PART : SCALE_MIN) + 'px');
+        },
+
+        updateResizable: function() {
+            const isPlugin = this.isPluginButtonPressed();
+            const widthFromStorage = Common.localStorage.getItem('de-rightmenu-width');
+            if(isPlugin && widthFromStorage) {
+                this.$el.width(parseInt(widthFromStorage));
+            } else {
+                this.setInnerWidth(MENU_BASE_WIDTH);
+            }
+            Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
         },
 
         txtFillingStatus:           'Filling status',
