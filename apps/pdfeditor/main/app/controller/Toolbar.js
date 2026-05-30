@@ -939,7 +939,7 @@ define([
                             }
                         })).show();
                     }
-                } else
+                }
             }
             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
         },
