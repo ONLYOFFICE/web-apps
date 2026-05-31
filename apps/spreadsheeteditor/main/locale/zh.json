@@ -3405,7 +3405,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFast": "快速",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFontRender": "字体设置",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocale": "公式语言",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocaleEx": "示例：\b总和;  最小; 最大;计数",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocaleEx": "示例：总和;  最小; 最大;计数",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "显示功能提示",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strHScroll": "显示水平滚动条",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strIgnoreWordsInUPPERCASE": "忽略大写单词",
