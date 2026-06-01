@@ -105,7 +105,7 @@ define([], function () {
                     this.api.asc_registerCallback('asc_onHideEyedropper',           _.bind(this.hideEyedropper, this));
                     this.api.asc_SetMathInputType(Common.localStorage.getBool("de-equation-input-latex") ? Asc.c_oAscMathInputType.LaTeX : Asc.c_oAscMathInputType.Unicode);
                     this.api.asc_registerCallback('asc_onSingleChartSelectionChanged',  _.bind(this.onSingleChartSelectionChanged, this));
-                    this.api.asc_registerCallback('asc_onHorRuleDblClick',             _.bind(this.onDblClickHorLine, this));
+                    this.api.asc_registerCallback('asc_onHorRuleDblClick',             _.bind(this.onHLAdvanced, this));
                 }
                 this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
                 this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));
@@ -2620,11 +2620,6 @@ define([], function () {
                 me.api.ImgApply(properties);
             }
             me.editComplete();
-        };
-
-        dh.onDblClickHorLine = function() {
-            if (!this.api) return;
-            this.onHLAdvanced();
         };
 
         dh.onHLAdvanced = function() {
