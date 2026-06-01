@@ -92,6 +92,7 @@ require([
     'documenteditor/main/app/view/CaptionDialog',
     'documenteditor/main/app/view/NoteSettingsDialog',
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
+    'documenteditor/main/app/view/HorizontalLineSettings',
     'documenteditor/main/app/view/BookmarksDialog',
     'documenteditor/main/app/view/NotesRemoveDialog',
     'documenteditor/main/app/view/CrossReferenceDialog',
