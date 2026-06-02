@@ -1736,8 +1736,6 @@
   "PDFE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "Il font che stai per salvare non è disponibile sul dispositivo corrente.<br>Lo stile del testo verrà visualizzato utilizzando uno dei font del dispositivo, il font salvato verrà utilizzato quando sarà disponibile.<br>Vuoi continuare?",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Stai tentando di eseguire un'azione per la quale non disponi di permessi sufficienti.<br>Si prega di contattare l'amministratore del Server dei Documenti.",
-  "PDFE.Controllers.Toolbar.helpCreateLink": "Aggiungi facilmente dei collegamenti a una risorsa esterna o a una pagina all'interno del file corrente.",
-  "PDFE.Controllers.Toolbar.helpCreateLinkHeader": "Crea e modifica i collegamenti",
   "PDFE.Controllers.Toolbar.helpChartTab": "Tutte le impostazioni del grafico sono ora disponibili nella scheda dedicata Progettazione grafico nella barra degli strumenti.",
   "PDFE.Controllers.Toolbar.helpChartTabHeader": "Scheda Progettazione grafico",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Avvertimento",

@@ -194,8 +194,6 @@ define([
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
                 'tipChartTab' : {name: 'pdfe-help-tip-chart-tab', placement: 'bottom', text: this.helpChartTab, header: this.helpChartTabHeader, target: 'li.ribtab #charttab', maxwidth: 300,
                     automove: true, closable: false, isNewFeature: true},
-                'createLink': {name:'pdfe-help-tip-create-link', placement: 'bottom-left', text: this.helpCreateLink, header: this.helpCreateLinkHeader, target: '#slot-btn-insertlink', maxwidth: 300,
-                                automove: true, closable: false, isNewFeature: true}
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true},
@@ -1782,7 +1780,6 @@ define([
             if (tab == 'charttab')
                 Common.UI.TooltipManager.closeTip('tipChartTab');
 
-            (tab === 'ins') ? Common.UI.TooltipManager.showTip('createLink') : Common.UI.TooltipManager.closeTip('createLink');
         },
 
         onClickTab: function(tab) {
@@ -1790,7 +1787,6 @@ define([
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('createLink');
         },
 
         applySettings: function() {

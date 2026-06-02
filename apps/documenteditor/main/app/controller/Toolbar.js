@@ -280,12 +280,6 @@ define([
                 //                   closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
                 'tipChartTab' : {name: 'de-help-tip-chart-tab', placement: 'bottom', text: this.helpChartTab, header: this.helpChartTabHeader, target: 'li.ribtab #charttab', maxwidth: 300,
                                     automove: true, closable: false, isNewFeature: true},
-                'multipageViewStatusbar' : {name: 'de-help-tip-multipage-view-statusbar', placement: 'top-left', text: this.helpMultipageView, header: this.helpMultipageViewHeader, target: '#status-btn-multiple-pages', maxwidth: 300,
-                                    automove: true, closable: false, isNewFeature: true},
-                'headerFooterTab' : {name:'de-help-tip-header-footer-tab', placement: 'bottom-left', text: this.helpHeaderFooterTab, header: this.helpHeaderFooterTabHeader, target: 'li.ribtab #headerfooter', maxwidth: 300,
-                                    automove: true, closable: false, isNewFeature: true},
-                'signature' : {name:'de-help-tip-signature', placement: 'bottom-right', text: this.helpSignature, header: this.helpSignatureHeader, target: '#slot-btn-form-signature', maxwidth: 300,
-                                    automove: true, closable: false, isNewFeature: true},
                 'pasteOptions' : {name:'de-help-tip-pasteOptions', placement: 'bottom-right', text: this.helpPasteOptions, header: this.helpPasteOptionsHeader, target: '#slot-btn-paste', maxwidth: 300,
                                     automove: true, closable: false, isNewFeature: true}
             });
@@ -4286,42 +4280,10 @@ define([
 
             this.mode && this.mode.isDesktopApp && Common.UI.TooltipManager.showTip('pasteOptions');
 
-            if(this.mode.isPDFForm) {
-                const formsTabView = this.getApplication().getController('FormsTab').getView();
-                if(formsTabView && formsTabView.btnSignField && !formsTabView.btnSignField.isDisabled() && 
-                    this.toolbar.isTabActive('forms')
-                ) {
-                    Common.UI.TooltipManager.showTip('signature');
-                }
-            }
-
-            Common.UI.TooltipManager.showTip('multipageViewStatusbar');
         },
 
         onActiveTab: function(tab) {
-            if(tab !== 'forms') {
-                Common.UI.TooltipManager.closeTip('signature');
-            } else {
-                const formsTabView = this.getApplication().getController('FormsTab').getView();
-                if(formsTabView && formsTabView.btnSignField && !formsTabView.btnSignField.isDisabled()) {
-                    setTimeout(() => {
-                        Common.UI.TooltipManager.showTip('signature') 
-                    }, 10);
-                }
-            }
-
-            if(tab === 'view') {
-                Common.UI.TooltipManager.showTip('multipageViewToolbar');
-                Common.UI.TooltipManager.closeTip('multipageViewStatusbar');
-            } else if (tab == 'charttab') {
-                Common.UI.TooltipManager.closeTip('tipChartTab');
-            } else {
-                Common.UI.TooltipManager.closeTip('multipageViewToolbar');
-            }
-
-            (tab === 'headerfooter') 
-                ? Common.UI.TooltipManager.showTip('headerFooterTab') 
-                : Common.UI.TooltipManager.closeTip('headerFooterTab');
+            (tab == 'charttab') && Common.UI.TooltipManager.closeTip('tipChartTab');
             (tab !== 'home') && Common.UI.TooltipManager.closeTip('pasteOptions');
         },
 
@@ -4330,7 +4292,6 @@ define([
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('signature')
         }
 
     }, DE.Controllers.Toolbar || {}));

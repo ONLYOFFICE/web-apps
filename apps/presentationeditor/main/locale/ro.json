@@ -1877,8 +1877,6 @@
   "PE.Controllers.Toolbar.confirmAddFontName": "Fonturi pe care doriți să le salvați nu sunt disponibile pe acest dispozitiv.<br>Textul va apărea scris cu fontul și stilul disponibil pe sistem, fontul salvat va fi aplicat de îndată ce devine disponibil.<br>Doriți să continuați?",
   "PE.Controllers.Toolbar.helpChartElements": "Comutare ușoară a vizibilității elementelor de diagramă cu doar câteva clicuri.",
   "PE.Controllers.Toolbar.helpChartElementsHeader": "Afișare elemente de diagramă",
-  "PE.Controllers.Toolbar.helpGifPlayback": "Dați viață diapozitivelor dvs. cu ajutorul animațiilor GIF în expunerea de diapozitive.",
-  "PE.Controllers.Toolbar.helpGifPlaybackHeader": "Redare GIF în modul Expunere de diapozitive",
   "PE.Controllers.Toolbar.helpChartTab": "Toate setările graficului sunt acum disponibile în fila dedicată Proiectare grafic din bara de instrumente.",
   "PE.Controllers.Toolbar.helpChartTabHeader": "Fila Proiectare grafic",
   "PE.Controllers.Toolbar.helpPasteOptions": "Folosiți butonul Lipire cu săgeata derulantă pentru a alege cum să lipiți conținutul.",

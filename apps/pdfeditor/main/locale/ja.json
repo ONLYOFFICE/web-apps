@@ -1736,8 +1736,6 @@
   "PDFE.Controllers.Statusbar.zoomText": "ズーム{0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "保存しようとしているフォントは、現在のデバイスでは使用できません。<br>テキストスタイルは、デバイスのフォントのいずれかを使用して表示され、保存されたフォントは、それが使用可能になったときに使用されます。<br>続けますか？",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "利用権限がない操作をしようとしました。<br>文書サーバーの管理者までご連絡ください。",
-  "PDFE.Controllers.Toolbar.helpCreateLink": "外部リソースや現在のファイル内のページへのリンクを簡単に追加。",
-  "PDFE.Controllers.Toolbar.helpCreateLinkHeader": "リンクの作成と編集",
   "PDFE.Controllers.Toolbar.helpChartTab": "すべてのグラフ設定が、ツールバーの専用「グラフのデザイン」タブで利用可能になりました。",
   "PDFE.Controllers.Toolbar.helpChartTabHeader": "グラフのデザインタブ",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": " 警告",

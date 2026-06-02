@@ -1736,8 +1736,6 @@
   "PDFE.Controllers.Statusbar.zoomText": "Nagyítás {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "A menteni kívánt betűtípus nem érhető el az aktuális eszközön.<br>A szövegstílus az eszközön használt betűtípusok egyikével fog megjelenni, a mentett betűtípus pedig akkor lesz használva, amikor az elérhetővé válik.<br>Folytatja?",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Olyan műveletet próbál végrehajtani, melyre nincs jogosultsága.<br>Vegye fel a kapcsolatot a dokumentumkiszolgáló rendszergazdájával.",
-  "PDFE.Controllers.Toolbar.helpCreateLink": "Könnyedén adhat hozzá hivatkozásokat egy külső erőforráshoz vagy egy oldalhoz az aktuális fájlon belül.",
-  "PDFE.Controllers.Toolbar.helpCreateLinkHeader": "Hivatkozások létrehozása és szerkesztése",
   "PDFE.Controllers.Toolbar.helpChartTab": "Minden diagrambeállítás mostantól elérhető az eszköztár Diagramtervezés lapján.",
   "PDFE.Controllers.Toolbar.helpChartTabHeader": "Diagramtervezés lap",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Figyelmeztetés",

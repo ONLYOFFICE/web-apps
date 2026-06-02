@@ -1877,8 +1877,6 @@
   "PE.Controllers.Toolbar.confirmAddFontName": "Fonti që do të ruani nuk disponohet në pajisjen aktuale.<br>Stili i tekstit do të shfaqet duke përdorur një nga fontet e sistemit, fonti i ruajtur do të përdoret kur të jetë i disponueshëm.<br>Dëshironi të vazhdoni?",
   "PE.Controllers.Toolbar.helpChartElements": "Aktiviyoni lehtësisht dukshmërine e elementëve të grafikut me disa klikime.",
   "PE.Controllers.Toolbar.helpChartElementsHeader": "Shfaqja e elementeve të grafikut",
-  "PE.Controllers.Toolbar.helpGifPlayback": "Jepini jetë diapozitivave tuaja duke luajtur animacione GIF gjatë modalitetit të shfaqjes së diapozitivave.",
-  "PE.Controllers.Toolbar.helpGifPlaybackHeader": "Lëvizja e GIF-ve në modalitetin e shfaqjes së diapozitivave në formatin e prezantimit me diapozitivë.",
   "PE.Controllers.Toolbar.helpChartTab": "Të gjitha cilësimet e grafikut tani janë të disponueshme në skedën e dedikuar Dizajni i grafikut në shiritin e veglave.",
   "PE.Controllers.Toolbar.helpChartTabHeader": "Skeda Dizajni i grafikut",
   "PE.Controllers.Toolbar.textAccent": "Akcente",

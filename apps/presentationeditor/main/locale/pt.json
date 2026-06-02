@@ -1877,8 +1877,6 @@
   "PE.Controllers.Toolbar.confirmAddFontName": "The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?",
   "PE.Controllers.Toolbar.helpChartElements": "Alterne facilmente a visibilidade dos elementos do gráfico com alguns cliques.",
   "PE.Controllers.Toolbar.helpChartElementsHeader": "Exibição de elementos do gráfico",
-  "PE.Controllers.Toolbar.helpGifPlayback": "Dê vida aos seus slides reproduzindo animações GIF durante o modo de apresentação de slides.",
-  "PE.Controllers.Toolbar.helpGifPlaybackHeader": "Reprodução de GIFs em modo de apresentação de slides",
   "PE.Controllers.Toolbar.helpChartTab": "Todas as configurações do gráfico agora estão disponíveis na aba dedicada Design de gráfico na barra de ferramentas.",
   "PE.Controllers.Toolbar.helpChartTabHeader": "Aba Design de gráfico",
   "PE.Controllers.Toolbar.helpPasteOptions": "Use a seta suspensa no botão Colar para escolher como colar o conteúdo.",

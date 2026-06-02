@@ -1736,8 +1736,6 @@
   "PDFE.Controllers.Statusbar.zoomText": "Масштаб {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "Шрифт, который вы собираетесь сохранить, недоступен на текущем устройстве.<br>Стиль текста будет отображаться с использованием одного из шрифтов устройства, сохраненный шрифт будет использоваться, когда он станет доступен.<br>Вы хотите продолжить?",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Вы пытаетесь выполнить действие, на которое у вас нет прав.<br>Пожалуйста, обратитесь к администратору Сервера документов.",
-  "PDFE.Controllers.Toolbar.helpCreateLink": "Легко добавляйте ссылки на внешние ресурсы или страницы в текущий файл.",
-  "PDFE.Controllers.Toolbar.helpCreateLinkHeader": "Создавайте и редактируйте ссылки",
   "PDFE.Controllers.Toolbar.helpChartTab": "Все настройки диаграммы теперь доступны на специальной вкладке «Конструктор диаграмм» на панели инструментов.",
   "PDFE.Controllers.Toolbar.helpChartTabHeader": "Вкладка «Конструктор диаграмм»",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Внимание",

@@ -1877,8 +1877,6 @@
   "PE.Controllers.Toolbar.confirmAddFontName": "The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the system fonts, the saved font will be used when it is available.<br>Do you want to continue?",
   "PE.Controllers.Toolbar.helpChartElements": "Easily toggle the visibility of chart elements with several clicks.",
   "PE.Controllers.Toolbar.helpChartElementsHeader": "Chart elements display",
-  "PE.Controllers.Toolbar.helpGifPlayback": "Bring your slides to life by playing GIF animations during slideshow mode.",
-  "PE.Controllers.Toolbar.helpGifPlaybackHeader": "GIF playback in slideshow mode",
   "PE.Controllers.Toolbar.helpChartTab": "All chart settings are now available in the dedicated Chart design tab on the toolbar.",
   "PE.Controllers.Toolbar.helpChartTabHeader": "Chart design tab",
   "PE.Controllers.Toolbar.helpPasteOptions": "Use the dropdown arrow on the Paste button to choose how to paste content.",

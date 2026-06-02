@@ -1877,8 +1877,6 @@
   "PE.Controllers.Toolbar.confirmAddFontName": "Шрифт, который вы хотите сохранить, недоступен на этом устройстве.<br>Стиль текста будет отображаться с помощью одного из системных шрифтов. Сохраненный шрифт будет использоваться, когда он станет доступен.<br>Вы хотите продолжить?",
   "PE.Controllers.Toolbar.helpChartElements": "Легко переключайте видимость элементов диаграммы несколькими щелчками мыши.",
   "PE.Controllers.Toolbar.helpChartElementsHeader": "Отображение элементов диаграммы",
-  "PE.Controllers.Toolbar.helpGifPlayback": "Оживите слайды, воспроизводя GIF-анимации в режиме слайд-шоу.",
-  "PE.Controllers.Toolbar.helpGifPlaybackHeader": "Просмотр GIF в слайд-шоу",
   "PE.Controllers.Toolbar.helpChartTab": "Все настройки диаграммы теперь доступны на специальной вкладке «Конструктор диаграмм» на панели инструментов.",
   "PE.Controllers.Toolbar.helpChartTabHeader": "Вкладка «Конструктор диаграмм»",
   "PE.Controllers.Toolbar.helpPasteOptions": "Используйте стрелку раскрывающегося списка рядом с кнопкой Вставить, чтобы выбрать способ вставки содержимого.",

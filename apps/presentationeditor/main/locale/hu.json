@@ -1877,8 +1877,6 @@
   "PE.Controllers.Toolbar.confirmAddFontName": "A menteni kívánt betűkészlet nem érhető el az aktuális eszközön.<br>A szövegstílus a rendszer egyik betűkészletével jelenik meg, a mentett betűtípust akkor használja, ha elérhető.<br>Folytatni szeretné?",
   "PE.Controllers.Toolbar.helpChartElements": "A diagramelemek láthatóságát könnyedén, néhány kattintással átkapcsolhatja.",
   "PE.Controllers.Toolbar.helpChartElementsHeader": "Diagramelemek megjelenítése",
-  "PE.Controllers.Toolbar.helpGifPlayback": "Keltsd életre a diáidat GIF-animációk lejátszásával diavetítés módban.",
-  "PE.Controllers.Toolbar.helpGifPlaybackHeader": "GIF lejátszás diavetítés módban",
   "PE.Controllers.Toolbar.helpChartTab": "Minden diagrambeállítás mostantól elérhető az eszköztár Diagramtervezés lapján.",
   "PE.Controllers.Toolbar.helpChartTabHeader": "Diagramtervezés lap",
   "PE.Controllers.Toolbar.textAccent": "Akentus",

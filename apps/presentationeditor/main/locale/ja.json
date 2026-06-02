@@ -1877,8 +1877,6 @@
   "PE.Controllers.Toolbar.confirmAddFontName": "保存しようとしているフォントを現在のデバイスで使用することができません。<br>システムフォントを使って、テキストのスタイルが表示されます。利用可能になったとき、保存されたフォントが適用されます。<br>続行しますか。",
   "PE.Controllers.Toolbar.helpChartElements": "数回クリックするだけでグラフ要素の表示/非表示を簡単に切り替えられる。",
   "PE.Controllers.Toolbar.helpChartElementsHeader": "グラフ要素表示",
-  "PE.Controllers.Toolbar.helpGifPlayback": "スライドショーモード中に GIF アニメーションを再生して、スライドをより魅力的に。",
-  "PE.Controllers.Toolbar.helpGifPlaybackHeader": "スライドショーモードでの GIF 再生",
   "PE.Controllers.Toolbar.helpChartTab": "すべてのグラフ設定が、ツールバーの専用「グラフのデザイン」タブで利用可能になりました。",
   "PE.Controllers.Toolbar.helpChartTabHeader": "グラフのデザインタブ",
   "PE.Controllers.Toolbar.textAccent": "ダイアクリティカル・マーク",

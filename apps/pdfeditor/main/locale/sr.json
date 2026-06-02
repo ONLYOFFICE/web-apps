@@ -1736,8 +1736,6 @@
   "PDFE.Controllers.Statusbar.zoomText": "Zumiraj {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "Font koji pokušavate da sačuvate nije dostupan na trenutnom uređaju.<br>Stil teksta će biti prikazan koristeći jedan od fontova sa uređaja, sačuvani font će biti korišćen kada postane dostupan.<br>Da li želite da nastavite?",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Pokušavate da izvedete akciju na koju nemate prava.<br>Molimo vas kontaktirajte vašeg Dokument Server administratora.",
-  "PDFE.Controllers.Toolbar.helpCreateLink": "Lako dodajte veze ka spoljnom resursu ili stranici u okviru trenutne datoteke.",
-  "PDFE.Controllers.Toolbar.helpCreateLinkHeader": "Kreirajte i uredite veze",
   "PDFE.Controllers.Toolbar.helpChartTab": "Sva podešavanja grafikona sada su dostupna na namenskoj kartici Dizajn grafikona na traci sa alatkama.",
   "PDFE.Controllers.Toolbar.helpChartTabHeader": "Kartica Dizajn grafikona",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Upozorenje ",

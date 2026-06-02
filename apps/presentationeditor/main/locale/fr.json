@@ -1877,8 +1877,6 @@
   "PE.Controllers.Toolbar.confirmAddFontName": "La police que vous allez enregistrer n'est pas disponible sur l'appareil actuel.<br>Le style du texte sera affiché à l'aide de l'une des polices de système, la police sauvée sera utilisée lorsqu'elle est disponible.<br>Voulez-vous continuer?",
   "PE.Controllers.Toolbar.helpChartElements": "Basculez facilement la visibilité des éléments de graphique en quelques clics.",
   "PE.Controllers.Toolbar.helpChartElementsHeader": "Affichage des éléments de graphique",
-  "PE.Controllers.Toolbar.helpGifPlayback": "Donnez vie à vos diapositives en lisant les animations GIF en mode diaporama.",
-  "PE.Controllers.Toolbar.helpGifPlaybackHeader": "Lecture de GIF en mode diaporama",
   "PE.Controllers.Toolbar.helpChartTab": "Tous les paramètres du graphique sont désormais disponibles dans l'onglet dédié Conception du graphique de la barre d'outils.",
   "PE.Controllers.Toolbar.helpChartTabHeader": "Onglet Conception du graphique",
   "PE.Controllers.Toolbar.helpPasteOptions": "Utilisez la flèche déroulante à côté du bouton Coller pour choisir comment coller le contenu.",

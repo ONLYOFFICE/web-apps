@@ -285,10 +285,6 @@ define([
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
                 'tipChartTab' : {name: 'sse-help-tip-chart-tab', placement: 'bottom', text: this.helpChartTab, header: this.helpChartTabHeader, target: 'li.ribtab #charttab', maxwidth: 300,
                                     automove: true, closable: false, isNewFeature: true},
-                'solver' : {name:'sse-help-tip-solver', placement: 'bottom-left', text: this.helpSolver, header: this.helpSolverHeader, target: '#slot-btn-solver', maxwidth: 300,
-                                    automove: true, closable: false, isNewFeature: true},
-                'cellFormat' : {name:'sse-help-tip-cellFormat', placement: 'bottom-left', text: this.helpCellFormat, header: this.helpCellFormatHeader, target: '#slot-btn-cell-format', maxwidth: 300,
-                                    automove: true, closable: false, isNewFeature: true},
                 'darkDocument' : {name:'sse-help-tip-darkDocument', placement: 'bottom', text: this.helpDarkDocument, header: this.helpDarkDocumentHeader, target: '#slot-btn-dark-document', maxwidth: 300,
                                     automove: true, closable: false, isNewFeature: true}
             });
@@ -1770,8 +1766,6 @@ define([
 
             toolbar.mnuHide.setDisabled(toolbar.mniHideRows.isDisabled() && toolbar.mniHideCols.isDisabled() && toolbar.mniHideSheets.isDisabled());
             toolbar.mnuShow.setDisabled(toolbar.mniShowRows.isDisabled() && toolbar.mniShowCols.isDisabled() && (hiddenItems.length<1 || toolbar.mnuShowSheets.isDisabled()));
-
-            Common.UI.TooltipManager.closeTip('cellFormat');
         },
 
         onCellFormatMenu: function(menu, item, e) {
@@ -3464,8 +3458,6 @@ define([
 
             if (toolbar.btnTextDir && !toolbar.btnTextDir.isDisabled() && toolbar.isTabActive('home'))
                 Common.UI.TooltipManager.showTip('rtlDirection');
-            if (toolbar.btnFormatCell && !toolbar.btnFormatCell.isDisabled() && toolbar.isTabActive('home'))
-                Common.UI.TooltipManager.showTip('cellFormat');
         },
 
         onApiSelectionChangedRestricted: function(info) {
@@ -4848,8 +4840,6 @@ define([
             if ( config.isEdit && !config.isEditDiagram  && !config.isEditMailMerge  && !config.isEditOle ) {
                 if (me.toolbar.btnTextDir && !me.toolbar.btnTextDir.isDisabled() && me.toolbar.isTabActive('home'))
                     Common.UI.TooltipManager.showTip('rtlDirection');
-                if(me.toolbar.btnFormatCell && !me.toolbar.btnFormatCell.isDisabled() && me.toolbar.isTabActive('home'))
-                    Common.UI.TooltipManager.showTip('cellFormat');
             }
         },
 
@@ -5430,16 +5420,7 @@ define([
                     Common.UI.TooltipManager.showTip('rtlDirection');
                 }, 10);
 
-            if (tab !== 'home')
-                Common.UI.TooltipManager.closeTip('cellFormat');
-            else if (this.toolbar && this.toolbar.btnFormatCell  && !this.toolbar.btnFormatCell.isDisabled())
-                setTimeout(function() {
-                    Common.UI.TooltipManager.showTip('cellFormat');
-                }, 10);
-            else if (tab == 'charttab')
-                Common.UI.TooltipManager.closeTip('tipChartTab');
-
-            (tab === 'data') ? Common.UI.TooltipManager.showTip('solver') : Common.UI.TooltipManager.closeTip('solver');
+            (tab == 'charttab') && Common.UI.TooltipManager.closeTip('tipChartTab');
             (tab === 'view') ? Common.UI.TooltipManager.showTip('darkDocument') : Common.UI.TooltipManager.closeTip('darkDocument');
         },
 
@@ -5452,8 +5433,6 @@ define([
 
         onTabCollapse: function(tab) {
             Common.UI.TooltipManager.closeTip('rtlDirection');
-            Common.UI.TooltipManager.closeTip('cellFormat');
-            Common.UI.TooltipManager.closeTip('solver');
         }
     }, SSE.Controllers.Toolbar || {}));
 });

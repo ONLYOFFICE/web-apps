@@ -1736,8 +1736,6 @@
   "PDFE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "Die Schriftart, die Sie speichern möchten, ist auf dem aktuellen Gerät nicht verfügbar.<br>Der Textstil wird mit einer der Geräteschriften angezeigt, die gespeicherte Schriftart wird verwendet, wenn sie verfügbar ist.<br>Sollen Sie fortfahren?",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Sie haben versucht die Änderungen im Dokument, zu dem Sie keine Berechtigungen haben, vorzunehemen.<br>Wenden Sie sich an Ihren Serveradministrator.",
-  "PDFE.Controllers.Toolbar.helpCreateLink": "Fügen Sie ganz einfach Links zu externen Ressourcen oder zu Seiten innerhalb der aktuellen Datei hinzu.",
-  "PDFE.Controllers.Toolbar.helpCreateLinkHeader": "Links erstellen und bearbeiten",
   "PDFE.Controllers.Toolbar.helpChartTab": "Alle Diagrammeinstellungen sind jetzt auf der dedizierten Registerkarte Diagrammentwurf in der Symbolleiste verfügbar.",
   "PDFE.Controllers.Toolbar.helpChartTabHeader": "Registerkarte Diagrammentwurf",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Warnung",

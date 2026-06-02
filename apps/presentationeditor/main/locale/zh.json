@@ -1877,8 +1877,6 @@
   "PE.Controllers.Toolbar.confirmAddFontName": "您想要保存的字体在当前设备上不可用。<br>文本的样式将使用系统字体中的一种进行显示，保存的字体将在可用时被调用。<br>您想要继续吗？",
   "PE.Controllers.Toolbar.helpChartElements": "轻松切换图表元素显示。",
   "PE.Controllers.Toolbar.helpChartElementsHeader": "显示图表元素",
-  "PE.Controllers.Toolbar.helpGifPlayback": "在放映模式下播放 GIF 动图，让幻灯片更生动。",
-  "PE.Controllers.Toolbar.helpGifPlaybackHeader": "幻灯片放映时播放 GIF",
   "PE.Controllers.Toolbar.helpChartTab": "所有图表设置现已在工具栏上专用的图表设计选项卡中提供。",
   "PE.Controllers.Toolbar.helpChartTabHeader": "图表设计选项卡",
   "PE.Controllers.Toolbar.helpPasteOptions": "使用“粘贴”按钮的下拉箭头，选择粘贴内容的方式。",

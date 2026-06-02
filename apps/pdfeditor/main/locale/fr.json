@@ -1736,8 +1736,6 @@
   "PDFE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "La police que vous allez sauvegarder n'est pas disponible sur l'appareil actuel.<br>Le style de texte sera affiché en utilisant l'une des polices de l'appareil, la police sauvegardée sera utilisée lorsqu'elle sera disponible.<br>Voulez-vous continuer ?",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Vous tentez d'exéсuter une action pour laquelle vous ne disposez pas des droits.<br>Veuillez contacter l'administrateur de Document Server.",
-  "PDFE.Controllers.Toolbar.helpCreateLink": "Ajoutez facilement des liens vers une ressource externe ou une page dans le fichier actuel.",
-  "PDFE.Controllers.Toolbar.helpCreateLinkHeader": "Créer et modifier des liens",
   "PDFE.Controllers.Toolbar.helpChartTab": "Tous les paramètres du graphique sont désormais disponibles dans l'onglet dédié Conception du graphique de la barre d'outils.",
   "PDFE.Controllers.Toolbar.helpChartTabHeader": "Onglet Conception du graphique",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Avertissement",

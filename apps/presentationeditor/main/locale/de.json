@@ -1877,8 +1877,6 @@
   "PE.Controllers.Toolbar.confirmAddFontName": "Die Schriftart, die Sie verwenden wollen, ist auf diesem Gerät nicht verfügbar.<br>Der Textstil wird mit einer der Systemschriften angezeigt, die gespeicherte Schriftart wird verwendet, wenn sie verfügbar ist.<br>Wollen Sie fortsetzen?",
   "PE.Controllers.Toolbar.helpChartElements": "Schalten Sie die Sichtbarkeit von Diagrammelementen einfach mit mehreren Klicks um.",
   "PE.Controllers.Toolbar.helpChartElementsHeader": "Anzeige der Diagrammelemente",
-  "PE.Controllers.Toolbar.helpGifPlayback": "Erwecken Sie Ihre Präsentation zum Leben, indem Sie im Diashow-Modus GIF-Animationen abspielen.",
-  "PE.Controllers.Toolbar.helpGifPlaybackHeader": "GIF playback in slideshow mode",
   "PE.Controllers.Toolbar.helpChartTab": "Alle Diagrammeinstellungen sind jetzt auf der dedizierten Registerkarte Diagrammentwurf in der Symbolleiste verfügbar.",
   "PE.Controllers.Toolbar.helpChartTabHeader": "Registerkarte Diagrammentwurf",
   "PE.Controllers.Toolbar.helpPasteOptions": "Über den Dropdown-Pfeil neben der Schaltfläche \"Einfügen\" können Sie auswählen, wie der Inhalt eingefügt werden soll.",

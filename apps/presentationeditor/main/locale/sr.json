@@ -1877,8 +1877,6 @@
   "PE.Controllers.Toolbar.confirmAddFontName": "Font koji ćete sačuvati nije dostupan na trenutnom uređaju.<br>Stil teksta će biti prikazan koristeći jedan od sistemskih fontova, sačuvani font će biti korišćen kada bude dostupan.<br>Da li želite da nastavite?",
   "PE.Controllers.Toolbar.helpChartElements": "Lako uključite ili isključite vidljivost elemenata grafikona pomoću nekoliko klikova.",
   "PE.Controllers.Toolbar.helpChartElementsHeader": "Prikaz elemenata grafikona",
-  "PE.Controllers.Toolbar.helpGifPlayback": "Oživite svoje slajdove puštanjem GIF animacija tokom režima projekcije slajdova.",
-  "PE.Controllers.Toolbar.helpGifPlaybackHeader": "GIF reprodukcija u režimu projekcije slajdova",
   "PE.Controllers.Toolbar.helpChartTab": "Sva podešavanja grafikona sada su dostupna na namenskoj kartici Dizajn grafikona na traci sa alatkama.",
   "PE.Controllers.Toolbar.helpChartTabHeader": "Kartica Dizajn grafikona",
   "PE.Controllers.Toolbar.helpPasteOptions": "Koristite padajuću strelicu na dugmetu Nalepi da biste izabrali kako da nalepite sadržaj.",
