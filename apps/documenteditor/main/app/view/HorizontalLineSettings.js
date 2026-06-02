@@ -1,6 +1,5 @@
 define([
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ColorButton',
 ], function () { 'use strict';
 
     var _lastUnit = 'pct';
