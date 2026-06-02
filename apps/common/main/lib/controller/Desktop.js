@@ -414,6 +414,7 @@ define([
 
                     header.setDocumentReadOnly(true);
                     api.asc_setLocalRestrictions(Asc.c_oAscLocalRestrictionType.None);
+                    if (window.PDFE) api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
 
                     (new Common.UI.SynchronizeTip({
                         extCls: 'no-arrow',
