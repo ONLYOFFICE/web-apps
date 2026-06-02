@@ -323,6 +323,7 @@
   "VE.Controllers.Main.warnLicenseExp": "A licence lejárt.<br>Frissítse a licencét, majd az oldalt.",
   "VE.Controllers.Main.warnLicenseLimitedNoAccess": "A licenc lejárt.<br>Nincs hozzáférése a dokumentumszerkesztési funkciókhoz.<br>Vegye fel a kapcsolatot a rendszergazdával.",
   "VE.Controllers.Main.warnLicenseLimitedRenewed": "A licencet meg kell újítani.<br>Korlátozott hozzáférése van a dokumentumszerkesztési funkciókhoz.<br>A teljes hozzáférésért vegye fel a kapcsolatot rendszergazdával",
+  "VE.Controllers.Main.warnNoLicense": "Elérte a(z) %1 szerkesztőhöz tartozó egyidejű csatlakozás korlátját. Ez a dokumentum csak megtekintésre nyílik meg.<br>Vegye fel a kapcsolatot a(z) %1 értékesítési csapatával a személyes frissítési feltételekért.",
   "VE.Controllers.Main.warnNoResources": "A(z) %1 kiszolgálónak nincs elég erőforrása a dokumentum szerkesztésre való megnyitásához. A dokumentum csak megtekintésre lesz megnyitva.",
   "VE.Controllers.Main.warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználók számának korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
   "VE.Controllers.Main.warnProcessRightsChange": "Nincs joga szerkeszteni a fájlt.",

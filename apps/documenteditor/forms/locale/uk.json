@@ -150,6 +150,7 @@
   "DE.Controllers.ApplicationController.warnLicenseExp": "Закінчився термін дії ліцензії.<br>Оновіть ліцензію, а потім оновіть сторінку.",
   "DE.Controllers.ApplicationController.warnLicenseLimitedNoAccess": "Термін дії ліцензії закінчився.<br>Немає доступ до функцій редагування документів.<br>Будь ласка, зверніться до адміністратора.",
   "DE.Controllers.ApplicationController.warnLicenseLimitedRenewed": "Потрібно поновити ліцензію.<br>У вас обмежений доступ до функцій редагування документів.<br>Будь ласка, зверніться до свого адміністратора, щоб отримати повний доступ",
+  "DE.Controllers.ApplicationController.warnNoLicense": "Ви досягли ліміту на одночасне підключення до редакторів %1. Цей документ буде відкрито для перегляду.<br>Напишіть у відділ продажу %1, щоб обговорити індивідуальні умови ліцензування.",
   "DE.Controllers.ApplicationController.warnNoResources": "На сервері %1 недостатньо ресурсів для відкриття цього документа для редагування. Цей документ буде відкрито лише для перегляду.",
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "Ви досягли ліміту на одночасне підключення до редакторів %1.<br>Напишіть у відділ продаж %1, для обговорення індивідуальних умов ліцензування.",
   "DE.Views.ApplicationView.textClear": "Очистити всі поля",

@@ -180,6 +180,7 @@
       "warnLicenseExp": "A sua licença caducou. Renove a sua licença e recarregue a página.",
       "warnLicenseLimitedNoAccess": "A licença caducou. Não tem acesso à edição de documentos. Por favor contacte o seu administrador.",
       "warnLicenseLimitedRenewed": "Tem que renovar a sua licença. A edição de documentos está com funcionalidades limitadas.<br>Contacte o administrador para obter acesso total.",
+      "warnNoLicense": "Atingiu o limite de ligações simultâneas aos editores %1. Este documento será aberto no modo de leitura.<br>Contacte a equipa comercial %1 para saber mais sobre os termos de licenciamento.",
       "warnNoResources": "O servidor %1 não possui recursos suficientes para abrir este documento para edição. Este documento será aberto apenas para visualização.",
       "warnNoLicenseUsers": "Atingiu o limite de utilizadores para os editores %1. Contacte a equipa comercial %1 para obter mais informações.",
       "warnProcessRightsChange": "Não tem permissões para editar este ficheiro."

@@ -180,6 +180,7 @@
       "warnLicenseExp": "Vaša licenca je istekla. Molimo, ažurirajte vašu licencu i osvežite stranicu.",
       "warnLicenseLimitedNoAccess": "Licenca istekla. Nemate pristup funkcionalnosti uređivanja dokumenta. Molimo, kontaktirajte vašeg administratora.",
       "warnLicenseLimitedRenewed": "Licenca treba da bude obnovljena. Imate ograničen pristup funkcionalnosti uređivanja dokumenta.<br>Molimo kontaktirajte vašeg administratora da dobijete pun pristup",
+      "warnNoLicense": "Dostigli ste limit za istovremene veze sa %1 uređivačima. Ovaj dokument će biti otvoren samo za pregled. Kontaktirajte tim za prodaju %1 za uslove lične nadogradnje.",
       "warnNoResources": "Server %1 nema dovoljno resursa da otvori ovaj dokument za uređivanje. Ovaj dokument biće otvoren samo za pregledanje.",
       "warnNoLicenseUsers": "Dostigli ste korisnički limit za %1 urednike. Kontaktirajte %1 tim za prodaju za lične uslove nadogradnje.",
       "warnProcessRightsChange": "Nemate dozvolu da uređujete ovaj fajl."

@@ -434,6 +434,7 @@
   "SSE.Controllers.Main.warnBrowserZoom": "Hiện cài đặt thu phóng trình duyệt của bạn không được hỗ trợ đầy đủ. Vui lòng thiết lập lại chế độ thu phóng mặc định bằng cách nhấn Ctrl+0.",
   "SSE.Controllers.Main.warnLicenseAnonymous": "Truy cập bị từ chối cho người dùng ẩn danh.<br>Tải liệu này sẽ được mở ở dạng chỉ xem.",
   "SSE.Controllers.Main.warnLicenseExp": "Giấy phép của bạn đã hết hạn.<br>Vui lòng cập nhật giấy phép và làm mới trang.",
+  "SSE.Controllers.Main.warnNoLicense": "Bạn đang sử dụng phiên bản nguồn mở của %1. Phiên bản có giới hạn các kết nối đồng thời với server tài liệu (20 kết nối cùng một lúc).<br>Nếu bạn cần thêm, hãy cân nhắc mua giấy phép thương mại.",
   "SSE.Controllers.Main.warnNoResources": "Máy chủ %1 không có đủ tài nguyên để mở tài liệu này để chỉnh sửa. Tài liệu này sẽ được mở ở chế độ chỉ xem.",
   "SSE.Controllers.Main.warnProcessRightsChange": "Bạn đã bị từ chối quyền chỉnh sửa file này.",
   "SSE.Controllers.Print.strAllSheets": "Tất cả các trang tính",
