@@ -6,8 +6,8 @@
     @text-normal: var(--text-normal);
     @background-warning: #FF9F0A;
 
-    --f7-navbar-link-color: @brandColor;
-    --f7-subnavbar-link-color: @brandColor;
+    --f7-navbar-link-color: @toolbar-icons;
+    --f7-subnavbar-link-color: @toolbar-icons;
     --f7-navbar-text-color: @text-normal;
     --f7-navbar-title-line-height: 44px;
     --f7-navbar-link-line-height: 44px;
@@ -18,6 +18,7 @@
 
     --f7-tabbar-link-inactive-color: @toolbar-segment;
 
+    --f7-checkbox-active-color: @brandColor;
     --f7-radio-active-color: @brandColor;
     --f7-toggle-active-color: @brandColor;
     --f7-range-bar-active-bg-color: @brandColor;
@@ -90,6 +91,10 @@
             display: flex;
             justify-content: center;
         }
+
+        .popup-close, .sheet-close {
+            --icon-stroke-gray-primary: @toolbar-icons;
+        }
     }
 
     .title {
@@ -142,6 +147,10 @@
             &::after {
                 background: @background-menu-divider;
             }
+        }
+
+        .popover-arrow:after {
+            background: var(--f7-navbar-bg-color);
         }
 
         // .list:first-child {
@@ -289,7 +298,7 @@
             position: relative;
             overflow: hidden;
             -webkit-box-flex: 1;
-            border: 1px solid @toolbar-segment;
+            border: 1px solid @toolbar-icons;
             text-decoration: none;
             text-align: center;
             margin: 0;
@@ -302,7 +311,7 @@
             cursor: pointer;
             outline: 0;
             font-weight: 600;
-            color: @brandColor;
+            color: @toolbar-icons;
             &:first-child {
                 border-radius: 5px 0 0 5px;
                 border-left-width: 1px;
@@ -314,7 +323,7 @@
             &.tab-link-active {
                 // background: @brandColor;
                 // color: @fill-white;
-                background: @toolbar-segment;
+                background: @toolbar-icons;
                 color: @brand-text-on-brand;
                 i.icon {
                     background-color: @brand-text-on-brand;
@@ -696,15 +705,17 @@
         margin-left: 10px;
     }
 
-    .popover {
-        box-shadow: 0 10px 100px 0 rgba(0, 0, 0, 0.3);
+    .back span,
+    .icon-back {
+        color: @toolbar-icons;
     }
 
-    .sheet-modal, .dropdown-list-popup {
-        box-shadow: 0 8px 28px 0 rgba(0, 0, 0, 0.16);
+    .done.link,
+    .navbar-link-settings .right .link,
+    .navbar-dropdown-list .right .link {
+        color: @brandColor;
+        &.disabled {
+            color: @toolbar-icons;
+        }
     }
-    
-
 }
-
-

@@ -221,6 +221,7 @@
       "textNo": "否",
       "textNoChoices": "在填充單元格的選擇中沒有項目。<br>只能從列中選擇文字進行替換。",
       "textNoLicenseTitle": "達到許可限制",
+      "textNoResourcesTitle": "資源不足",
       "textNoMatches": "無匹配",
       "textOk": "好",
       "textPaidFeature": "付費功能",
@@ -243,7 +244,7 @@
       "warnLicenseExp": "您的授權已過期。請更新您的授權並重新整理頁面。",
       "warnLicenseLimitedNoAccess": "憑證已過期。您無法使用文件編輯功能。請聯絡您的帳號管理員",
       "warnLicenseLimitedRenewed": "憑證需要續約。您目前只有文件編輯的部份功能。<br>欲使用完整功能，請聯絡您的帳號管理員。",
-      "warnNoLicense": "您已達到同時連線 %1 編輯者的限制。此文件將僅以檢視模式開啟。",
+      "warnNoResources": "%1伺服器沒有足夠的資源來開啟此文件進行編輯。此文件將僅以檢視模式開啟。",
       "warnNoLicenseUsers": "您已達到編輯器的使用者限制。",
       "warnProcessRightsChange": "您無權編輯此檔案。"
     }

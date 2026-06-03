@@ -228,6 +228,339 @@
             .margin-right-2();
         }
     }
+
+    &#id-filling-status-settings {
+        .progress-item {
+            display: flex;
+            margin-bottom: 4px;
+
+            .progress-item-left {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                .margin-right(12px);
+
+                .progress-item-number {
+                    opacity: 0.4;
+                    min-width: 24px;
+                    min-height: 24px;
+                    margin-bottom: 4px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 100%;
+                    border: @scaled-one-px-value-ie solid @text-normal-ie;
+                    border: @scaled-one-px-value solid @text-normal;
+                    color: @text-normal-ie;
+                    color: @text-normal;
+                }
+
+                .progress-item-dashes {
+                    opacity: 0.4;
+                    width: @scaled-one-px-value-ie;
+                    width: @scaled-one-px-value;
+                    height: 100%;
+                    background: repeating-linear-gradient(
+                        to bottom,
+                        @text-normal-ie 0px,
+                        @text-normal-ie 3px,
+                        transparent 3px,
+                        transparent 6px
+                    );
+                    background: repeating-linear-gradient(
+                        to bottom,
+                        @text-normal 0px,
+                        @text-normal 3px,
+                        transparent 3px,
+                        transparent 6px
+                    );
+                }
+            }
+
+            .progress-item-content {
+                flex: 1;
+                color: @text-normal-ie;
+                color: @text-normal;
+                min-height: 43px;
+
+                .progress-item-header {
+                    display: flex;
+                    align-items: center;
+                    
+                    .progress-item-label {
+                        line-height: 24px;
+                        font-weight: 600;
+                        .margin-right(4px);
+                    }
+                } 
+            }
+
+            .progress-item-footer {
+                .progress-item-date {
+                    color: @text-secondary-ie;
+                    color: @text-secondary;
+                }
+            }
+
+            .progress-item-check {
+                display: block;
+
+                position: relative;
+                width: 24px;
+                height: 24px;
+
+                &::before,
+                &::after {
+                    content: "";
+                    position: absolute;
+                    background: #009900;
+                    // border-radius: 2px;
+                }
+
+                &::before {
+                    width: 4px;
+                    height: 2px;
+                    left: 7px;
+                    top: 12px;
+                    transform: rotate(45deg);
+                }
+
+                &::after {
+                    width: 10px;
+                    height: 2px;
+                    left: 9px;
+                    top: 11px;
+                    transform: rotate(-45deg);
+                }
+            }
+
+            &.active {
+                .progress-item-number {
+                    opacity: 1 !important;
+                    border-color: @background-accent-button-ie !important;
+                    border-color: @background-accent-button !important;
+                }
+                .progress-item-label {
+                    color: @border-fill-input-focused-ie !important;
+                    color: @border-fill-input-focused !important;
+                }
+            }
+
+            &.complete {
+                &:not(.all-done) {
+                    opacity: 0.4;
+                }
+                
+                .progress-item-number {
+                    opacity: 1 !important;
+                    border-color: #009900 !important;
+                }
+                .progress-item-content {
+                    min-height: auto !important;
+                }
+            }
+        }
+    }
+
+    &#id-send-for-signing-settings {
+        padding: 0;
+        &, table {
+            height: 100%;
+        }
+
+        .content-padding {
+            padding: @layout-padding-right-panel-content-ie;
+            padding: @layout-padding-right-panel-content;
+
+            .rtl & {
+                padding: @layout-padding-right-panel-content-rtl-ie;
+                padding: @layout-padding-right-panel-content-rtl;
+            }
+        }
+
+        .inner {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+
+            .content {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+            }
+
+            .footer {
+                padding: 12px 0;
+                display: flex;
+                justify-content: center;
+                
+                #id-send-for-signing-settings-send-btn {
+                    .margin-right(10px);
+                }
+            }
+
+            .description {
+                color: @text-secondary-ie;
+                color: @text-secondary;
+            }
+
+            .roles-list-wrapper {
+                flex: 1;
+                position: relative;
+            }
+
+            #id-send-for-signing-settings-roles-list {
+                width: 100%;
+                position: absolute;
+                overflow: hidden;
+                padding-top: 0;
+
+                .role-item {
+                    display: flex;
+                    margin-bottom: 4px;
+    
+                    .role-item-left {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        .margin-right(12px);
+    
+                        .role-item-number {
+                            min-width: 24px;
+                            min-height: 24px;
+                            margin-bottom: 4px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            border-radius: 100%;
+                            border: @scaled-one-px-value-ie solid rgba(0, 0, 0, 0.15);
+                            border: @scaled-one-px-value solid rgba(0, 0, 0, 0.15);
+                            color: #000000CC;
+                        }
+    
+                        .role-item-dashes {
+                            opacity: 0.4;
+                            width: @scaled-one-px-value-ie;
+                            width: @scaled-one-px-value;
+                            height: 100%;
+                            background: repeating-linear-gradient(
+                                to bottom,
+                                @text-normal-ie 0px,
+                                @text-normal-ie 3px,
+                                transparent 3px,
+                                transparent 6px
+                            );
+                            background: repeating-linear-gradient(
+                                to bottom,
+                                @text-normal 0px,
+                                @text-normal 3px,
+                                transparent 3px,
+                                transparent 6px
+                            );
+                        }
+                    }
+    
+                    .role-item-content {
+                        .role-item-user-cmb {
+                            margin-bottom: 8px;
+                        }
+                        .role-item-user-cmb-menu {
+                            width: 196px; 
+                            max-height: 343px;
+                            left: -36px;
+                            .rtl & {
+                                left: unset;
+                                right: -36px;
+                            }
+
+                            .item {
+                                a {
+                                    display: flex;
+                                    padding: 5px 7px;
+    
+                                    .avatar {
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        flex-shrink: 0;
+                                        width: 24px;
+                                        height: 24px;
+                                        border-radius: 24px;
+                                        background-color: @border-divider-ie;
+                                        background-color: @border-divider;
+                                        // color: @toolbar-header-text-on-background-ie;
+                                        // color: @toolbar-header-text-on-background;
+                                        vertical-align: middle;
+                                        background-size: cover;
+                                        background-position: center;
+                                        font-size: 10px;
+                                        line-height: 24px;
+                                        overflow: hidden;
+                                        text-align: center;
+                                        .margin-right(4px);
+
+                                        .icon {
+                                            display: block;
+                                            width: @x-small-btn-icon-size-ie;
+                                            width: @x-small-btn-icon-size;
+                                            height: @x-small-btn-icon-size-ie;
+                                            height: @x-small-btn-icon-size;
+                                        }
+                                    }
+
+                                    .content {
+                                        min-width: 0;
+                                        & > * {
+                                            white-space: nowrap;
+                                            overflow: hidden;
+                                            text-overflow: ellipsis;
+                                        }
+                                        .email {
+                                            color: @text-secondary-ie;
+                                            color: @text-secondary;
+                                        }
+                                    }
+                                }
+                            }
+
+                            .text-dropdown-item {
+                                background:none; 
+                                cursor: default;
+                            }
+                        }
+                    }
+    
+                    &.last {
+                        .role-item-dashes {
+                            display: none;
+                        }
+                    }
+    
+                    .role-item-content {
+                        flex: 1;
+                        color: @text-normal-ie;
+                        color: @text-normal;
+                        min-width: 0;
+    
+                        .role-item-label {
+                            line-height: 24px;
+                            font-weight: 600;
+
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+    
+                        .role-item-user-cmb {
+                            height: 24px;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 .ie {

@@ -1,3 +1,38 @@
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import {makeObservable, action, observable} from 'mobx';
 import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage.mjs';
 
@@ -164,14 +199,14 @@ export class storeAppOptions {
         this.fileChoiceUrl = config.fileChoiceUrl;
         this.mergeFolderUrl = config.mergeFolderUrl;
         this.saveAsUrl = config.saveAsUrl;
-        this.canAnalytics = false;
         this.canRequestClose = config.canRequestClose;
         this.canCloseEditor = false;
+        this.disableForceDesktop = false;
 
         let canBack = false;
 
         if (typeof config.customization === 'object' && config.customization !== null) {
-            const { goback, close } = config.customization;
+            const { goback, close, mobile } = config.customization;
 
             if (typeof goback === 'object' && config.canBackToFolder !== false) {
                 const hasUrl = !!goback.url;
@@ -187,6 +222,9 @@ export class storeAppOptions {
             if (typeof close === 'object' && close !== null) {
                 this.canCloseEditor = (close.visible!==false) && this.canRequestClose && !this.isDesktopApp;
             }
+
+            if (typeof mobile === 'object' && mobile.disableForceDesktop === true)
+                this.disableForceDesktop = true;
         }
 
         this.canBack = this.canBackToFolder = canBack;
@@ -201,7 +239,6 @@ export class storeAppOptions {
         if (params.asc_getRights() !== Asc.c_oRights.Edit)
             permissions.edit = permissions.review = false;
         this.review = (permissions.review === undefined) ? (permissions.edit !== false) : permissions.review;
-        this.canAnalytics = params.asc_getIsAnalyticsEnable();
         this.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
         this.isLightVersion = params.asc_getIsLight();
         this.buildVersion = params.asc_getBuildVersion();
@@ -226,11 +263,6 @@ export class storeAppOptions {
         this.canViewComments = this.canComments || !((typeof (this.customization) == 'object') && this.customization.comments===false);
         this.canEditComments = this.isOffline || !permissions.editCommentAuthorOnly;
         this.canDeleteComments= this.isOffline || !permissions.deleteCommentAuthorOnly;
-        if ((typeof (this.customization) == 'object') && this.customization.commentAuthorOnly===true) {
-            console.log("Obsolete: The 'commentAuthorOnly' parameter of the 'customization' section is deprecated. Please use 'editCommentAuthorOnly' and 'deleteCommentAuthorOnly' parameters in the permissions instead.");
-            if (permissions.editCommentAuthorOnly===undefined && permissions.deleteCommentAuthorOnly===undefined)
-                this.canEditComments = this.canDeleteComments = this.isOffline;
-        }
         this.canChat = this.canLicense && !this.isOffline && (permissions.chat !== false);
         this.canEditStyles = this.canLicense && this.canEdit;
         this.canPrint = (permissions.print !== false);
@@ -238,7 +270,7 @@ export class storeAppOptions {
         this.isXpsViewer = /^(?:(djvu|xps|oxps))$/.exec(document.fileType);
         this.typeForm = document.fileType === 'pdf'; // can fill forms only in pdf format
         this.isOForm = document.fileType === 'oform';
-        this.canFillForms = this.canLicense && this.typeForm && ((permissions.fillForms === undefined) ? this.isEdit : permissions.fillForms) && (this.config.mode !== 'view');
+        this.canFillForms = this.canLicense && ((permissions.fillForms === undefined) ? this.isEdit : permissions.fillForms) && (this.config.mode !== 'view');
         this.isForm = !this.isXpsViewer && !!window.isPDFForm;
         this.canProtect = permissions.protect !== false;
         this.canSubmitForms = this.canLicense && !this.isOffline && (typeof (this.customization) == 'object') && !!this.customization.submitForm &&

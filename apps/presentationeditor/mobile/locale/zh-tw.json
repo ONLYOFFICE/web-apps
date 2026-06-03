@@ -155,6 +155,7 @@
       "textHasMacros": "此檔案包含自動巨集程式。<br>是否要執行這些巨集？",
       "textNo": "否",
       "textNoLicenseTitle": "已達到授權人數限制",
+      "textNoResourcesTitle": "資源不足",
       "textNoMatches": "沒有符合的結果",
       "textOk": "確定",
       "textOpenFile": "請輸入用於開啟文件的密碼",
@@ -178,7 +179,7 @@
       "warnLicenseExp": "您的授權已過期。請更新您的授權並重新整理頁面。",
       "warnLicenseLimitedNoAccess": "授權過期。 因此無法編輯文件。 請聯繫您的管理員。",
       "warnLicenseLimitedRenewed": "授權需更新。您只有限制的文件編輯功能。<br>請聯絡您的管理員以取得完整存取權限。",
-      "warnNoLicense": "您已達到同時連線 %1 編輯者的限制。此文件將僅以檢視模式開啟。",
+      "warnNoResources": "%1伺服器沒有足夠的資源來開啟此文件進行編輯。此文件將僅以檢視模式開啟。",
       "warnNoLicenseUsers": "您已達到％1個編輯器的用戶限制。與％1銷售團隊聯繫以了解個人升級條款。",
       "warnProcessRightsChange": "您無權編輯此檔案。"
     }

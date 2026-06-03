@@ -132,6 +132,7 @@
       "textHasMacros": "El fitxer conté macros automàtiques. <br>Les vols executar?",
       "textNo": "No",
       "textNoLicenseTitle": "S'ha assolit el límit de llicència",
+      "textNoResourcesTitle": "Recursos insuficients",
       "textNoMatches": "No hi ha cap coincidència",
       "textOpenFile": "Introduir una contrasenya per obrir el fitxer",
       "textPaidFeature": "Funció de pagament",
@@ -151,7 +152,7 @@
       "warnLicenseExp": "La llicència ha caducat. Actualitza-la i recarrega la pàgina.",
       "warnLicenseLimitedNoAccess": "La llicència ha caducat. No pots editar documents. Posa't en contacte amb l'administrador.",
       "warnLicenseLimitedRenewed": "Cal renovar la llicència. Tens accés limitat a la funció d'edició de documents. <br>Posa't en contacte amb l'administrador per obtenir accés total",
-      "warnNoLicense": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Posa't en contacte amb l'equip de vendes %1 per conèixer les condicions d'actualització personal.",
+      "warnNoResources": "El servidor %1 no disposa de prou recursos per obrir aquest document per a l’edició. El document s’obrirà només en mode de visualització.",
       "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Posa't en contacte amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels serveis.",
       "warnProcessRightsChange": "No tens permís per editar el fitxer."
     }

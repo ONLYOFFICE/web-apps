@@ -125,6 +125,7 @@
       "textHasMacros": "O ficheiro contén macros automáticas.<br>Quere executar macros?",
       "textNo": "Non",
       "textNoLicenseTitle": "Alcanzouse o límite da licenza",
+      "textNoResourcesTitle": "Recursos insuficientes",
       "textNoMatches": "Non hai coincidencias",
       "textOpenFile": "Insira o contrasinal para abrir o ficheiro",
       "textPaidFeature": "Característica de pago",
@@ -141,7 +142,7 @@
       "warnLicenseExp": "A sáu licenza expirou. Por favor, actualícea e tamén a páxina.",
       "warnLicenseLimitedNoAccess": "A licenza expirou. Non ten acceso á funcionalidade de edición de documentos. Por favor, póñase en contacto co seu administrador.",
       "warnLicenseLimitedRenewed": "A licenza necesita renovación. Ten acceso limitado á funcionalidade de edición de documentos.<br>Por favor, póñase en contacto co seu administrador para obter acceso completo",
-      "warnNoLicense": "Alcanzou o límite de conexións simultáneas con %1 editores. Este documento abrirase para as úa visualización. Póñase en contacto co equipo de vendas de %1 para coñecer as condicións de actualización persoal.",
+      "warnNoResources": "O servidor %1 non ten recursos suficientes para abrir este documento para a súa edición. O documento abrirase só en modo de visualización.",
       "warnNoLicenseUsers": "Alcanzou o límite de usuarios para os editores de %1.<br>Contacte co equipo de vendas de %1 para coñecer os termos de actualización persoal.",
       "warnProcessRightsChange": "Non ten permiso para editar o ficheiro."
     }

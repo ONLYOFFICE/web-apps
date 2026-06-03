@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  DocumentHolderExt.js
@@ -331,8 +334,7 @@ define([], function () {
                             }
                         })).show();
                     }
-                } else
-                    Common.component.Analytics.trackEvent('ToolBar', 'Copy Warning');
+                }
             }
             Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
         };
@@ -349,7 +351,6 @@ define([], function () {
                 }
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Insert Entire');
             }
         };
 
@@ -358,7 +359,6 @@ define([], function () {
                 this.api.asc_insertCells(item.value);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Insert Cells');
             }
         };
 
@@ -374,7 +374,6 @@ define([], function () {
                 }
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Delete Entire');
             }
         };
 
@@ -383,7 +382,6 @@ define([], function () {
                 this.api.asc_deleteCells(item.value);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Delete Cells');
             }
         };
 
@@ -412,7 +410,6 @@ define([], function () {
                                     this.api.asc_sortColFilter(item.value, '', undefined, (item.value==Asc.c_oAscSortOptions.ByColorFill) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor, btn == 'expand');
                                 }
                                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                                Common.component.Analytics.trackEvent('DocumentHolder', 'Sort Cells');
                             }, this)
                         };
                         Common.UI.alert(config);
@@ -427,7 +424,6 @@ define([], function () {
                             callback: _.bind(function(btn){
                                 (btn == 'yes') && this.api.asc_sortColFilter(item.value, '', undefined, (item.value==Asc.c_oAscSortOptions.ByColorFill) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor, false);
                                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                                Common.component.Analytics.trackEvent('DocumentHolder', 'Sort Cells');
                             }, this)
                         };
                         Common.UI.alert(config);
@@ -436,7 +432,6 @@ define([], function () {
                     case Asc.c_oAscSelectionSortExpand.notExpandAndNotShowMessage:
                         this.api.asc_sortColFilter(item.value, '', undefined, (item.value==Asc.c_oAscSortOptions.ByColorFill) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor, res === Asc.c_oAscSelectionSortExpand.expandAndNotShowMessage);
                         Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                        Common.component.Analytics.trackEvent('DocumentHolder', 'Sort Cells');
                         break;
                 }
             }
@@ -469,7 +464,6 @@ define([], function () {
                 this.api.asc_applyAutoFilterByType(autoFilterObject);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Filter Cells');
             }
         };
 
@@ -864,7 +858,6 @@ define([], function () {
                     this.api.asc_emptyCells(item.value, item.value == Asc.c_oAscCleanOptions.All && !this.permissions.canDeleteComments);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Clear');
             }
         };
 
@@ -873,7 +866,6 @@ define([], function () {
                 this.api.asc_changeSelectionFormatTable(this.documentHolder.ssMenu.formatTableName, item.value);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Select Table');
             }
         };
 
@@ -882,7 +874,6 @@ define([], function () {
                 this.api.asc_insertCellsInTable(this.documentHolder.ssMenu.formatTableName, item.value);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Insert to Table');
             }
         };
 
@@ -891,7 +882,6 @@ define([], function () {
                 this.api.asc_deleteCellsInTable(this.documentHolder.ssMenu.formatTableName, item.value);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Delete from Table');
             }
         };
 
@@ -951,7 +941,6 @@ define([], function () {
                 });
             }
 
-            Common.component.Analytics.trackEvent('DocumentHolder', 'Add Hyperlink');
         };
 
         dh.onDelHyperlink = function(item) {
@@ -963,7 +952,6 @@ define([], function () {
                 this.api.asc_removeHyperlink();
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Remove Hyperlink');
             }
         };
 
@@ -1037,7 +1025,6 @@ define([], function () {
             var handlerDlg = function(result, settings) {
                 if (result == 'ok' && settings) {
                     me.api.asc_setDefinedNames(settings);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'New Named Range');
                 }
                 Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
             };
@@ -1058,19 +1045,16 @@ define([], function () {
                     this.api.asc_setSelectedDrawingObjectLayer(item.value);
 
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Arrange');
                 } else if (item.options.type == 'group') {
                     this.api[(item.value == 'grouping') ? 'asc_groupGraphicsObjects' : 'asc_unGroupGraphicsObjects']();
 
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                    Common.component.Analytics.trackEvent('DocumentHolder', (item.value == 'grouping') ? 'Grouping' : 'Ungrouping');
                 } else if (item.options.type == 'rotate') {
                     var properties = new Asc.asc_CImgProperty();
                     properties.asc_putRotAdd((item.value==1 ? 90 : 270) * 3.14159265358979 / 180);
                     this.api.asc_setGraphicObjectProps(properties);
 
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Rotate');
                 } else if (item.options.type == 'flip') {
                     var properties = new Asc.asc_CImgProperty();
                     if (item.value==1)
@@ -1080,7 +1064,6 @@ define([], function () {
                     this.api.asc_setGraphicObjectProps(properties);
 
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Flip');
                 }
             }
         };
@@ -1112,15 +1095,12 @@ define([], function () {
                 if (item.value>-1 && item.value < 6) {
                     this.api.asc_setSelectedDrawingObjectAlign(item.value);
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Objects Align');
                 } else if (item.value == 6) {
                     this.api.asc_DistributeSelectedDrawingObjectHor();
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute');
                 } else if (item.value == 7){
                     this.api.asc_DistributeSelectedDrawingObjectVer();
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute');
                 }
             }
         };
@@ -1130,7 +1110,6 @@ define([], function () {
             if (item && item.value) {
                 me.api.asc_mergeSelectedShapes(item.value);
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Shapes Merge');
             }
         };
 
@@ -1149,7 +1128,6 @@ define([], function () {
                 this.api.asc_setGraphicObjectProps(properties);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Paragraph Vertical Align');
             }
         };
 
@@ -1161,7 +1139,6 @@ define([], function () {
                 this.api.asc_setGraphicObjectProps(properties);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Text Direction');
             }
         };
 
@@ -1170,7 +1147,6 @@ define([], function () {
                 if (item.options.value == -1) {
                     this.api.asc_setListType(0, item.options.value);
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'List Type');
                 } else if (item.options.value == 'settings') {
                     var me      = this,
                         props;
@@ -1240,7 +1216,6 @@ define([], function () {
                 this.documentHolder.textInShapeMenu.hide();
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-            Common.component.Analytics.trackEvent('DocumentHolder', 'List Type');
         };
 
         dh.onTextAdvanced = function(item) {
@@ -1254,7 +1229,6 @@ define([], function () {
                         if (me.api) {
                             me.api.asc_setGraphicObjectProps(value.paragraphProps);
 
-                            Common.component.Analytics.trackEvent('DocumentHolder', 'Apply advanced paragraph settings');
                         }
                     }
                     Common.NotificationCenter.trigger('edit:complete', me);
@@ -1273,7 +1247,6 @@ define([], function () {
                         if (me.api) {
                             me.api.asc_setGraphicObjectProps(value.shapeProps);
 
-                            Common.component.Analytics.trackEvent('DocumentHolder', 'Apply advanced shape settings');
                         }
                     }
                     Common.NotificationCenter.trigger('edit:complete', me);
@@ -1292,7 +1265,6 @@ define([], function () {
                         if (me.api) {
                             me.api.asc_setGraphicObjectProps(value.imageProps);
 
-                            Common.component.Analytics.trackEvent('DocumentHolder', 'Apply advanced image settings');
                         }
                     }
                     Common.NotificationCenter.trigger('edit:complete', me);
@@ -1312,7 +1284,6 @@ define([], function () {
                         if (me.api) {
                             me.api.asc_setGraphicObjectProps(value.imageProps);
 
-                            Common.component.Analytics.trackEvent('DocumentHolder', 'Apply slicer settings');
                         }
                     }
                     Common.NotificationCenter.trigger('edit:complete', me);
@@ -3000,20 +2971,29 @@ define([], function () {
         dh.onFormulaCompleteMenu = function(funcarr, offset) {
             if (!this.documentHolder.funcMenu || Common.Utils.ModalWindow.isVisible() || this.rangeSelectionMode) return;
 
-            if (funcarr) {
-                var me                  = this,
-                    documentHolderView  = me.documentHolder,
-                    menu                = documentHolderView.funcMenu,
-                    menuContainer       = documentHolderView.cmpEl.find('#menu-formula-selection'),
-                    funcdesc = me.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale"));
+            var me                  = this,
+                documentHolderView  = me.documentHolder,
+                menu                = documentHolderView.funcMenu,
+                menuContainer       = documentHolderView.cmpEl.find('#menu-formula-selection'),
+                funcdesc = me.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
+                argConstList = this.argConstList;
 
-                for (var i = 0; i < menu.items.length; i++) {
-                    var tip = menu.items[i].cmpEl.data('bs.tooltip');
-                    if (tip)
-                        tip.hide();
-                    menu.removeItem(menu.items[i]);
-                    i--;
-                }
+            if (!funcarr && (!argConstList || !argConstList.length)) {
+                menu.hide();
+                this.formulaMenuType = null;
+                return;
+            }
+
+            for (var i = 0; i < menu.items.length; i++) {
+                var tip = menu.items[i].cmpEl.data('bs.tooltip');
+                if (tip)
+                    tip.hide();
+                menu.removeItem(menu.items[i]);
+                i--;
+            }
+
+            if (funcarr && !argConstList) {
+                this.formulaMenuType = null;
                 funcarr.sort(function (a,b) {
                     var atype = a.asc_getType(),
                         btype = b.asc_getType();
@@ -3084,110 +3064,132 @@ define([], function () {
                     });
                     menu.addItem(mnu);
                 });
+            } else {
+                _.each(argConstList, function(helpItem) {
+                    if (!helpItem || helpItem.length < 1) return;
 
-                if (!menu.rendered) {
+                    var value = helpItem[0],
+                        name = helpItem[1] || '',
+                        caption = '(...) ' + value + (name ? ' - ' + name : '');
+
+                    var mnu = new Common.UI.MenuItem({
+                        caption: caption,
+                        value: value
+                    }).on('click', function(item) {
+                        setTimeout(function() {
+                            me.api.asc_insertInCell(item.options.value, Asc.c_oAscPopUpSelectorType.FuncConstant, false);
+                        }, 10);
+                    });
+                    menu.addItem(mnu);
+                });
+                this.formulaMenuType = 'arg-help';
+            }
+
+            if (menu.items.length < 1) {
+                menu.hide();
+                this.formulaMenuType = null;
+                return;
+            }
                     // Prepare menu container
-                    if (menuContainer.length < 1) {
-                        menuContainer = $(Common.Utils.String.format('<div id="menu-formula-selection" style="position: absolute; z-index: 10000;" class="no-stop-propagate"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>'));
-                        documentHolderView.cmpEl.append(menuContainer);
-                    }
+            if (menuContainer.length < 1) {
+                menuContainer = $(Common.Utils.String.format('<div id="menu-formula-selection" style="position: absolute; z-index: 10000;" class="no-stop-propagate"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>'));
+                documentHolderView.cmpEl.append(menuContainer);
+            }
 
-                    menu.onAfterKeydownMenu = function(e) {
-                        if (e.keyCode == Common.UI.Keys.RETURN && (e.ctrlKey || e.altKey)) return;
+            if (!menu.rendered) {
+                menu.onAfterKeydownMenu = function(e) {
+                    if (e.keyCode == Common.UI.Keys.RETURN && (e.ctrlKey || e.altKey)) return;
 //                        Common.UI.Menu.prototype.onAfterKeydownMenu.call(menu, e);
 
-                        var li;
-                        if (arguments.length>1 && arguments[1] instanceof KeyboardEvent) // when typing in cell editor
-                            e = arguments[1];
-                        if (menuContainer.hasClass('open')) {
-                            if (e.keyCode == Common.UI.Keys.TAB || e.keyCode == Common.UI.Keys.RETURN && !e.ctrlKey && !e.altKey)
-                                li = menuContainer.find('a.focus').closest('li');
-                            else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
-                                var innerEl = menu.cmpEl,
-                                    li_focused = menuContainer.find('a.focus').closest('li'),
-                                    innerHeight = innerEl.innerHeight(),
-                                    padding = (innerHeight - innerEl.height())/2,
-                                    pos = Common.Utils.getPosition(li_focused).top,
-                                    itemHeight = li_focused.outerHeight(),
-                                    newpos;
-                                if (pos<0)
-                                    newpos = innerEl.scrollTop() + pos - padding;
-                                else if (pos+itemHeight>innerHeight)
-                                    newpos = innerEl.scrollTop() + pos + itemHeight - innerHeight + padding;
-                                if (newpos!==undefined) {
-                                    menu.scroller ? menu.scroller.scrollTop(newpos, 0) : innerEl.scrollTop(newpos);
-                                }
+                    var li;
+                    if (arguments.length>1 && arguments[1] instanceof KeyboardEvent) // when typing in cell editor
+                        e = arguments[1];
+                    if (menuContainer.hasClass('open')) {
+                        if (e.keyCode == Common.UI.Keys.TAB || e.keyCode == Common.UI.Keys.RETURN && !e.ctrlKey && !e.altKey)
+                            li = menuContainer.find('a.focus').closest('li');
+                        else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
+                            var innerEl = menu.cmpEl,
+                                li_focused = menuContainer.find('a.focus').closest('li'),
+                                innerHeight = innerEl.innerHeight(),
+                                padding = (innerHeight - innerEl.height())/2,
+                                pos = Common.Utils.getPosition(li_focused).top,
+                                itemHeight = li_focused.outerHeight(),
+                                newpos;
+                            if (pos<0)
+                                newpos = innerEl.scrollTop() + pos - padding;
+                            else if (pos+itemHeight>innerHeight)
+                                newpos = innerEl.scrollTop() + pos + itemHeight - innerHeight + padding;
+                            if (newpos!==undefined) {
+                                menu.scroller ? menu.scroller.scrollTop(newpos, 0) : innerEl.scrollTop(newpos);
                             }
                         }
+                    }
 //                        } else if (e.keyCode == Common.UI.Keys.TAB)
 //                            li = $(e.target).closest('li');
 
-                        if (li) {
-                            if (li.length>0) li.click();
-                            Common.UI.Menu.Manager.hideAll();
-                        }
-                    };
-                    menu.on('hide:after', function(){
-                        for (var i = 0; i < menu.items.length; i++) {
-                            var tip = menu.items[i].cmpEl.data('bs.tooltip');
-                            if (tip)
-                                tip.hide();
-                        }
-                    });
-
-                    menu.render(menuContainer);
-                    menu.cmpEl.attr({tabindex: "-1"});
-                }
-
-                var infocus = me.cellEditor.is(":focus");
-                var isFunctipShow = this.tooltips.func_arg.isHidden === false;
-
-                if (infocus) {
-                    menu.menuAlignEl = me.cellEditor;
-                    menu.offset = [
-                        0,
-                        (offset ? offset[1] : 0) + (isFunctipShow ? this.tooltips.func_arg.ref.getBSTip().$tip.height() + 2 : 0)
-                    ];
-                    me.focusInCellEditor = true;
-                } else {
-                    menu.menuAlignEl = undefined;
-                    menu.offset = [0 ,0];
-                    me.focusInCellEditor = false;
-                    var coord  = me.api.asc_getActiveCellCoord(),
-                        showPoint = [
-                            coord.asc_getX() + (offset ? offset[0] : 0),
-                            (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + (offset ? offset[1] : 0) + (isFunctipShow ? this.tooltips.func_arg.ref.getBSTip().$tip.height() + 2 : 0)
-                        ];
-                    menuContainer.css({left: showPoint[0], top : showPoint[1]});
-                }
-                menu.alignPosition();
-
-                if (!menu.isVisible())
-                    Common.UI.Menu.Manager.hideAll();
-                _.delay(function() {
-                    if (!menu.isVisible()) menu.show();
-                    if (menu.scroller) {
-                        menu.scroller.update({alwaysVisibleY: true});
-                        menu.scroller.scrollTop(0);
+                    if (li) {
+                        if (li.length>0) li.click();
+                        Common.UI.Menu.Manager.hideAll();
                     }
-                    if (infocus)
-                        me.cellEditor.focus();
-                    menu.cmpEl.toggleClass('from-cell-edit', infocus);
-                    _.delay(function() {
-                        var a = menu.cmpEl.find('li:first a');
-                        a.addClass('focus');
-                        var tip = a.parent().data('bs.tooltip');
+                };
+                menu.on('hide:after', function(){
+                    for (var i = 0; i < menu.items.length; i++) {
+                        var tip = menu.items[i].cmpEl.data('bs.tooltip');
                         if (tip)
-                            tip.show();
-                    }, 10);
-                    if (!infocus)
-                        _.delay(function() {
-                            menu.cmpEl.focus();
-                        }, 10);
-                }, 1);
-            } else {
-                this.documentHolder.funcMenu.hide();
+                            tip.hide();
+                    }
+                });
+
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
             }
+
+            var infocus = me.cellEditor.is(":focus"),
+                isFunctipShow = this.tooltips.func_arg.isHidden === false;
+
+            if (infocus) {
+                menu.menuAlignEl = me.cellEditor;
+                menu.offset = [
+                    0,
+                    (offset ? offset[1] : 0) + (isFunctipShow ? this.tooltips.func_arg.ref.getBSTip().$tip.height() + 2 : 0)
+                ];
+                me.focusInCellEditor = true;
+            } else {
+                menu.menuAlignEl = undefined;
+                menu.offset = [0 ,0];
+                me.focusInCellEditor = false;
+                var coord  = me.api.asc_getActiveCellCoord(),
+                    showPoint = [
+                        coord.asc_getX() + (offset ? offset[0] : 0),
+                        (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + (offset ? offset[1] : 0) + (isFunctipShow ? this.tooltips.func_arg.ref.getBSTip().$tip.height() + 2 : 0)
+                    ];
+                menuContainer.css({left: showPoint[0], top : showPoint[1]});
+            }
+            menu.alignPosition();
+
+            if (!menu.isVisible())
+                Common.UI.Menu.Manager.hideAll();
+            _.delay(function() {
+                if (!menu.isVisible()) menu.show();
+                if (menu.scroller) {
+                    menu.scroller.update({alwaysVisibleY: true});
+                    menu.scroller.scrollTop(0);
+                }
+                if (infocus)
+                    me.cellEditor.focus();
+                menu.cmpEl.toggleClass('from-cell-edit', infocus);
+                _.delay(function() {
+                    var a = menu.cmpEl.find('li:first a');
+                    a.addClass('focus');
+                    var tip = a.parent().data('bs.tooltip');
+                    if (tip)
+                        tip.show();
+                }, 10);
+                if (!infocus)
+                    _.delay(function() {
+                        menu.cmpEl.focus();
+                    }, 10);
+            }, 1);
         };
 
         dh.parseArgsDesc = function(args) {
@@ -3265,7 +3267,10 @@ define([], function () {
                     hint = '',
                     argstype = funcInfo ? funcInfo.asc_getArgumentsType() : null,
                     activeArg = funcInfo ? funcInfo.asc_getActiveArgPos() : null,
-                    activeArgsCount = funcInfo ? funcInfo.asc_getActiveArgsCount() : null;
+                    activeArgsCount = funcInfo ? funcInfo.asc_getActiveArgsCount() : null,
+                    argConstList = funcInfo ? funcInfo.asc_getActiveArgHelpList() : null;
+
+                this.argConstList = argConstList && argConstList.length ? argConstList : null;
 
                 if (argstype && activeArgsCount) {
                     var args = '';
@@ -3378,7 +3383,18 @@ define([], function () {
                     top : showPoint[1] + 'px',
                     left: showPoint[0] + 'px'
                 });
+
+                if ((!this.argConstList || !this.argConstList.length) &&
+                    this.formulaMenuType === 'arg-help') {
+                    this.documentHolder.funcMenu.hide();
+                    this.formulaMenuType = null;
+                }
             } else {
+                this.argConstList = null;
+                if (this.formulaMenuType === 'arg-help' && this.documentHolder.funcMenu) {
+                    this.documentHolder.funcMenu.hide();
+                    this.formulaMenuType = null;
+                }
                 if (!functip.isHidden && functip.ref) {
                     functip.ref.hide();
                     functip.ref = undefined;
@@ -3747,8 +3763,12 @@ define([], function () {
                 vertAxes = chartProps.getVertAxesProps && chartProps.getVertAxesProps(),
                 depthAxes = chartProps.getDepthAxesProps && chartProps.getDepthAxesProps(),
                 dataLabelsPos = chartProps.getDataLabelsPos && chartProps.getDataLabelsPos(),
+                errorBarType = chartProps.getErrorBarsValueType && chartProps.getErrorBarsValueType(),
                 title = chartProps.getTitle && chartProps.getTitle(),
                 legendPos = chartProps.getLegendPos && chartProps.getLegendPos(),
+                trendlineType = chartProps.getTrendlineType && chartProps.getTrendlineType(),
+                forecastForward = chartProps.getForecastForward && chartProps.getForecastForward(),
+                forecastBackward = chartProps.getForecastBackward && chartProps.getForecastBackward(),
                 GridMajor = Asc.c_oAscGridLinesSettings.major,
                 GridMinor = Asc.c_oAscGridLinesSettings.minor,
                 GridMajorMinor = Asc.c_oAscGridLinesSettings.majorMinor,
@@ -3764,7 +3784,15 @@ define([], function () {
                 LabelGroup2 = LabelGroup2Types.includes(comboType),
                 LabelGroup3 = LabelGroup3Types.includes(comboType),
                 LabelGroup4 = LabelGroup4Types.includes(comboType),
-                LabelGroup5 = LabelGroup5Types.includes(comboType);
+                LabelGroup5 = LabelGroup5Types.includes(comboType),
+                isMixedState = trendlineType === 1 && (forecastForward === undefined || forecastBackward === undefined),
+                trendlineState = {
+                    type: isMixedState ? undefined : trendlineType,
+                    isForecast: !!(trendlineType === 1 && (
+                        (forecastForward && forecastForward > 0) ||
+                        (forecastBackward && forecastBackward > 0)
+                    ))
+                };
 
             const axesMenu = menu.items[0].menu;
             axesMenu.items[0].setVisible(!RadarChart);
@@ -3829,6 +3857,18 @@ define([], function () {
             // highlightSubmenuItem(tableMenu.items[1], false, 'table');
             // highlightSubmenuItem(tableMenu.items[2], false,'table');
 
+            const errorBarsMenu = menu.items[4].menu;
+            errorBarsMenu.clearAll(true);
+            if (errorBarType === null) {
+                errorBarsMenu.items[0].setChecked(true);
+            } else if (errorBarType === AscFormat.st_errvaltypeSTDERR) {
+                errorBarsMenu.items[1].setChecked(true);
+            } else if (errorBarType === AscFormat.st_errvaltypePERCENTAGE) {
+                errorBarsMenu.items[2].setChecked(true);
+            } else if (errorBarType === AscFormat.st_errvaltypeSTDDEV) {
+                errorBarsMenu.items[3].setChecked(true);
+            }
+
             const gridMenu = menu.items[5].menu;
             gridMenu.items[0].setVisible(true);
             gridMenu.items[2].setVisible(true);
@@ -3854,6 +3894,20 @@ define([], function () {
             legendMenu.items[4].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.bottom);
             legendMenu.items[5].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.leftOverlay);
             legendMenu.items[6].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.rightOverlay);
+
+            const trendlinesMenu = menu.items[7].menu;
+            trendlinesMenu.clearAll(true);
+            if (trendlineState.type === null) {
+                trendlinesMenu.items[0].setChecked(true);
+            } else if (trendlineState.isForecast) {
+                trendlinesMenu.items[3].setChecked(true);
+            } else if (trendlineState.type === AscFormat.TRENDLINE_TYPE_LINEAR) {
+                trendlinesMenu.items[1].setChecked(true);
+            } else if (trendlineState.type === AscFormat.TRENDLINE_TYPE_EXP) {
+                trendlinesMenu.items[2].setChecked(true);
+            } else if (trendlineState.type === AscFormat.TRENDLINE_TYPE_MOVING_AVG) {
+                trendlinesMenu.items[4].setChecked(true);
+            }
 
             const supportedElements = chartElementMap[type] || [];
             menu.items.forEach(function(item) {
@@ -3907,7 +3961,6 @@ define([], function () {
                         if (me.chartProps) {
                             me.updateChartElementMenu(me.documentHolder.menuChartElement.menu, me.chartProps);
                         }
-                        Common.UI.TooltipManager.closeTip('chartElements');
                     });
                 }
 
@@ -3932,7 +3985,6 @@ define([], function () {
                         btnLeft = leftSide - 32; 
                     } else {
                         chartContainer.hide();
-                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 } else if (me.isRtl) {
@@ -3942,7 +3994,6 @@ define([], function () {
                         btnLeft = rightSide; 
                     } else {
                         chartContainer.hide();
-                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 } else {
@@ -3952,7 +4003,6 @@ define([], function () {
                         btnLeft = leftSide + 18; 
                     } else {
                         chartContainer.hide();
-                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 }
@@ -3963,7 +4013,6 @@ define([], function () {
                     var chartBottom = y + height;
                     if (chartBottom < 40) { 
                         chartContainer.hide();
-                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 }
@@ -3972,15 +4021,10 @@ define([], function () {
                     left: btnLeft + 'px',
                     top: btnTop + 'px'
                 }).show();
-                setTimeout(function (){
-                    Common.UI.TooltipManager.showTip('chartElements');
-                    Common.UI.TooltipManager.applyPlacement('chartElements');
-                }, 100);
         
                 me.disableChartElementButton();
             } else {
                 chartContainer.hide();
-                Common.UI.TooltipManager.closeTip('chartElements');
             }
         };
 
@@ -4487,7 +4531,6 @@ define([], function () {
                 this.api.asc_setGraphicObjectProps(properties);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Set Image Original Size');
             }
         };
 

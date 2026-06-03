@@ -1,40 +1,44 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 module.exports = function(grunt) {
     var _ = require('lodash'),
         defaultConfig,
         packageFile;
 
-    const copyrightHeader = 'Copyright (c) Ascensio System SIA <%= grunt.template.today("yyyy") %>. All rights reserved'
+    const copyrightHeader = 'Copyright (c) Ascensio System SIA 2009-<%= grunt.template.today("yyyy") %>. All rights reserved'
     var copyright = '/*!\n' +
                     ' * ' + (process.env['APP_COPYRIGHT'] || copyrightHeader) + '\n' +
                     ' *\n' +
@@ -181,10 +185,12 @@ module.exports = function(grunt) {
     }
 
     function doRegisterInitializeAppTask(name, appName, configFile) {
-        if (!!process.env['OO_BRANDING'] &&
-                grunt.file.exists('../../' + process.env['OO_BRANDING'] + '/web-apps-pro/build/' + configFile))
-        {
-            var _extConfig = require('../../' + process.env['OO_BRANDING'] + '/web-apps-pro/build/' + configFile);
+        if (!!process.env['OO_BRANDING']) {
+            global.brandingPath = `../../${process.env['OO_BRANDING']}/web-apps/build`;
+
+            if (grunt.file.exists(`${brandingPath}/${configFile}`)) {
+                var _extConfig = require(`${brandingPath}/${configFile}`);
+            }
         }
 
         function _merge(target, ...sources) {
@@ -349,13 +355,6 @@ module.exports = function(grunt) {
         return {
             terser: {
                 options: {
-                    format: {
-                        preamble: '/** vim: et:ts=4:sw=4:sts=4\n' +
-                            ' * @license RequireJS 2.1.2 Copyright (c) 2010-2012, The Dojo Foundation All Rights Reserved.\n' +
-                            ' * Available via the MIT or new BSD license.\n' +
-                            ' * see: http://github.com/jrburke/requirejs for details\n' +
-                            ' */\n',
-                    },
                 },
                 build: {
                     src:  packageFile['requirejs']['min']['src'],
@@ -416,8 +415,7 @@ module.exports = function(grunt) {
 
             replace: {
                 writeVersion: {
-                    src: ['<%= pkg.main.js.requirejs.options.out %>', '<%= pkg.main.js.postload.options.out %>',
-                                packageFile.main.js.babel.files[0].dest],
+                    src: ['../deploy/web-apps/apps/common/main/lib/**/*.js'],
                     overwrite: true,
                     replacements: [{
                         from: /\{\{PRODUCT_VERSION\}\}/g,
@@ -527,6 +525,19 @@ module.exports = function(grunt) {
             },
         });
 
+        let scriptspath;
+        if (!!packageFile.main.js.requirejs.options.out) {
+            scriptspath = path.dirname(packageFile.main.js.requirejs.options.out);
+        } else if (!!packageFile.main.js.requirejs.options.dir) {
+            scriptspath = packageFile.main.js.requirejs.options.dir;
+        }
+
+        if (!!scriptspath) {
+            const replace = grunt.config.get('replace');
+            replace.writeVersion.src.push(`${scriptspath}/**/*.js`);
+            grunt.config.set('replace', replace);
+
+        }
         // var replace = grunt.config.get('replace');
         // replace.writeVersion.replacements.push(...global.jsreplacements);
         // replace.prepareHelp.replacements.push(...helpreplacements);
@@ -805,6 +816,38 @@ module.exports = function(grunt) {
         grunt.file.write(defaultConfig, JSON.stringify(pkg, null, 4));
     });
 
+    const runMainTasks = function() {
+        if (packageFile) {
+            let maintasks = ['prebuild-icons-sprite', 'main-app-init', 'clean:prebuild',
+                                'requirejs', 'imagemin', 'less', 'copy', 'svgmin', 'inline', 'json-minify',
+                                'replace:writeVersion', 'replace:prepareHelp', 'clean:postbuild'];
+            const cfgpath = `../../${process.env['OO_BRANDING']}/web-apps/build/common.json`;
+            if (!!process.env['OO_BRANDING'] && grunt.file.exists(cfgpath)) {
+                const config = require(cfgpath);
+                const tasks = config["apps-common"].main?.tasks;
+                !!tasks && tasks.length && (maintasks = tasks);
+            }
+
+            grunt.task.run(maintasks);
+        } else {
+            grunt.log.error().writeln('Is not load configure file.'.red);
+        }
+    };
+
+    const runCommonRequireJSTasks = function() {
+        if (packageFile) {
+            let maintasks = ['requirejs-init', 'clean', 'copy'];
+            const cfgpath = `../../${process.env['OO_BRANDING']}/web-apps/build/common.json`;
+            if (!!process.env['OO_BRANDING'] && grunt.file.exists(cfgpath)) {
+                maintasks = ['requirejs-init', 'clean', 'terser'];
+            }
+
+            grunt.task.run(maintasks);
+        } else {
+            grunt.log.error().writeln('Is not load configure file.'.red);
+        }
+    };
+
     //quick workaround for build desktop version
     var copyTask = grunt.option('desktop')? "copy": "copy:script";
 
@@ -820,14 +863,12 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-iscroll',                ['iscroll-init', 'clean', 'copy']);
     grunt.registerTask('deploy-fetch',                  ['fetch-init', 'clean', 'copy']);
     grunt.registerTask('deploy-bootstrap',              ['bootstrap-init', 'clean', 'copy']);
-    grunt.registerTask('deploy-requirejs',              ['requirejs-init', 'clean', 'terser']);
+    grunt.registerTask('deploy-requirejs',              runCommonRequireJSTasks);
     grunt.registerTask('deploy-es6-promise',            ['es6-promise-init', 'clean', 'copy']);
     grunt.registerTask('deploy-monaco',                 ['monaco-init', 'clean', 'copy']);
     grunt.registerTask('deploy-common-embed',           ['common-embed-init', 'clean', 'copy']);
 
-    grunt.registerTask('deploy-app-main',               ['prebuild-icons-sprite', 'main-app-init', 'clean:prebuild', 'imagemin', 'less',
-                                                            'requirejs', 'babel', 'terser', 'concat', 'copy', 'svgmin', 'inline', 'json-minify',
-                                                            'replace:writeVersion', 'replace:prepareHelp', 'clean:postbuild']);
+    grunt.registerTask('deploy-app-main',               runMainTasks);
 
     grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', /*'cssmin',*/ /*'copy:template-backup',*/
                                                             'htmlmin', /*'requirejs',*/ 'exec:webpack_install', 'exec:webpack_app_build', /*'copy:template-restore',*/

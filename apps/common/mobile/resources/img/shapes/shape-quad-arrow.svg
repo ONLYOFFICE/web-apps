@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="none" viewBox="0 0 56 56">
+  <g class="shape-quad-arrow">
+    <path fill="#555" d="M38 13h-5v10h10v-5l9 10-9 10v-5H33v10h5l-10 9-10-9h5V33H13v5L4 28l9-10v5h10V13h-5l10-9 10 9Z" class="icon-fill-type-preview"/>
+  </g>
+</svg>

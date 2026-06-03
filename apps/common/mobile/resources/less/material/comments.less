@@ -98,4 +98,44 @@
     }
   }
 
+  .add-comment-popup, .edit-comment-popup, .add-reply-popup, .edit-reply-popup,
+  #add-comment-dialog, #edit-comment-dialog, #add-reply-dialog, #edit-reply-dialog {
+    .navbar {
+      .left a {
+        color: @brandColor;
+      }
+
+      .left a,
+      .right .done {
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+      }
+    }
+
+    .done {
+      .icon-svg {
+        --icon-stroke-gray-primary: @brandColor;
+      }
+
+      &.disabled {
+        opacity: .5;
+        .icon-svg {
+          --icon-stroke-gray-primary: @toolbar-icons;
+        }
+      }
+    }
+  }
+
+}
+
+.theme-type-dark {
+  .add-comment-popup, .edit-comment-popup, .add-reply-popup, .edit-reply-popup,
+  #add-comment-dialog, #edit-comment-dialog, #add-reply-dialog, #edit-reply-dialog {
+    .navbar {
+      .left a {
+        color: @toolbar-icons;
+      }
+    }
+  }
 }

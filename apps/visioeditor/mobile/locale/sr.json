@@ -1,6 +1,6 @@
 {
   "About": {
-    "textAbout": "O",
+    "textAbout": "U vezi",
     "textAddress": "Adresa",
     "textBack": "Nazad",
     "textEditor": "Pregledač dijagrama",
@@ -52,6 +52,7 @@
       "textGuest": "Gost",
       "textNo": "Ne",
       "textNoLicenseTitle": "Limit licence dostignut",
+      "textNoResourcesTitle": "Nedovoljno resursa",
       "textOk": "U redu",
       "textOpenFile": "Unesite lozinku za otvaranje datoteke",
       "textPaidFeature": "Plaćena funkcija ",
@@ -64,12 +65,12 @@
       "titleServerVersion": "Uređivač ažuriran",
       "titleUpdateVersion": "Verzija promenjena",
       "txtIncorrectPwd": "Lozinka je netačna",
-      "warnLicenseAnonymous": "Pristup odbijen za anonimne korisnike.<br>Ovaj dokument će biti otvoren samo za prikaz.",
+      "warnLicenseAnonymous": "Pristup odbijen za anonimne korisnike.<br>Ovaj dokument će biti otvoren samo za gledanje.",
       "warnLicenseBefore": "Licenca nije aktivna.<br>Molimo kontaktirajte vašeg administratora.",
       "warnLicenseExp": "Vaša licenca je istekla. Molimo, ažurirajte vašu licencu i osvežite stranicu.",
       "warnLicenseLimitedNoAccess": "Licenca je istekla. Nemate pristup funkcijama za uređivanje dokumenata. Molimo kontaktirajte svog administratora.",
       "warnLicenseLimitedRenewed": "Licenca mora biti obnovljena. Imate ograničen pristup funkcijama za uređivanje dokumenata.<br>Molimo kontaktirajte svog administratora da biste dobili puni pristup",
-      "warnNoLicense": "Dostigli ste limit za istovremene veze sa %1 uređivačima. Ovaj dokument će biti otvoren samo za pregled. Kontaktirajte prodajni tim %1 za personalizovane uslove nadogradnje.",
+      "warnNoResources": "Server %1 nema dovoljno resursa da otvori ovaj dokument za uređivanje. Ovaj dokument biće otvoren samo za pregledanje.",
       "warnNoLicenseUsers": "Dostigli ste limit korisnika za %1 uređivače. Kontaktirajte prodajni tim %1 za personalizovane uslove nadogradnje.",
       "warnProcessRightsChange": "Nemate dozvolu za uređivanje datoteke."
     }
@@ -175,7 +176,7 @@
     },
     "Settings": {
       "notcriticalErrorTitle": "Upozorenje",
-      "textAbout": "O",
+      "textAbout": "U vezi",
       "textAddress": "adresa:",
       "textApplication": "Aplikacija",
       "textApplicationSettings": "Podešavanja Aplikacije",

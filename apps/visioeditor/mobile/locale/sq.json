@@ -52,6 +52,7 @@
       "textGuest": "Vizitor",
       "textNo": "Jo",
       "textNoLicenseTitle": "Është arritur kufiri i lisensës",
+      "textNoResourcesTitle": "Burime të pamjaftueshme",
       "textOk": "Ok",
       "textOpenFile": "Futni një fjalëkalim për të hapur skedarin",
       "textPaidFeature": "Funksion i paguar",
@@ -69,7 +70,7 @@
       "warnLicenseExp": "Lisensa juaj ka skaduar. Ju lutem, përditësoni lisensën tuaj dhe rifresko faqen.",
       "warnLicenseLimitedNoAccess": "Lisensa ka skaduar. Ju nuk keni më akses në funksionalitetin për reduktimin e dokumentit . Ju lutem, kontaktoni adiministratorin tuaj.",
       "warnLicenseLimitedRenewed": "Lisensa duhet të rinovohet. Ju keni akses të kufizuar në funksionalitetin e redaktimit të dokumenteve.<br>Ju lutem, kontaktoni administratorin tuaj për të marrë akses të plotë",
-      "warnNoLicense": "Ju keni arritur limitin për lidhjet e njëkoheshme me %1 redaktorëve. Ky dokument do të hapet vetëm për tu shikuar. Kontakto %1 grupin e shitjeve për rritje të termave personal.",
+      "warnNoResources": "Serveri %1 nuk ka burime të mjaftueshme për të hapur këtë dokument për redaktim. Ky dokument do të hapet vetëm për shfaqje.",
       "warnNoLicenseUsers": "Keni arritur kufirin e përdoruesit për redaktuesit %1. Kontakto ekipin e shitjeve %1 për kushtet e përmirësimit personal.",
       "warnProcessRightsChange": "Ju nuk keni të drejtë të redaktoni skedarin."
     }

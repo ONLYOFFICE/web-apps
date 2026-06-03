@@ -231,11 +231,16 @@ div {
             docEditor.serviceCommand('wopi:saveAsComplete');
         };
 
+        var sharingRequestPending = false;
         var onRequestSharingSettings = function (event) {
-            if (fileInfo.FileSharingPostMessage)
+            if (fileInfo.FileSharingPostMessage) {
+                if (sharingRequestPending) return;
+                sharingRequestPending = true;
+                setTimeout(function () { sharingRequestPending = false; }, 1000);
                 _postMessage('UI_Sharing', {});
-            else if (fileInfo.FileSharingUrl)
+            } else if (fileInfo.FileSharingUrl) {
                 window.open(fileInfo.FileSharingUrl, "_blank");
+            }
         };
 
        var onRequestHistory = function (event) {

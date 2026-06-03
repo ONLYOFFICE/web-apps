@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64">
+  <g class="chart-stacked-markers">
+    <path fill="#555" d="M60 10h-6v4.066L41.228 24H36v.134l-8-4.572V16h-6v4.586L8.586 34H4v6h6v-4.586L23.414 22H28v-.134l8 4.571V30h6v-4.067L54.772 16H60v-6Z" class="icon-fill-type-preview" opacity=".6"/>
+    <path fill="#555" d="M8 6H6v28h2V6ZM6 48v-8h2v8h.87L22 36.329V32h6v4l10.667 8h3.278L54 27.425V22h6v6h-3.945L44 44.575V50h-6v-4l-10.667-8H23.13L10 49.671V54H8v4h52v2H6v-6H4v-6h2Z" class="icon-fill-type-preview"/>
+  </g>
+</svg>

@@ -221,6 +221,7 @@
       "textNo": "Tidak",
       "textNoChoices": "Tidak ada pilihan untuk mengisi sel.<br>Hanya nilai teks dari kolom yang bisa dipilih untuk diganti.",
       "textNoLicenseTitle": "Batas lisensi sudah tercapai",
+      "textNoResourcesTitle": "Sumber daya tidak cukup",
       "textNoMatches": "Tidak Ada yang Cocok",
       "textOk": "OK",
       "textPaidFeature": "Fitur berbayar",
@@ -240,7 +241,7 @@
       "warnLicenseExp": "Lisensi Anda sudah kedaluwarsa. Silakan perbarui dan muat ulang halaman.",
       "warnLicenseLimitedNoAccess": "Lisensi kadaluwarsa. Anda tidak memiliki akses untuk editing dokumen secara keseluruhan. Silakan hubungi admin Anda.",
       "warnLicenseLimitedRenewed": "Lisensi perlu diperbaharui. Anda memiliki akses terbatas untuk edit dokumen.<br>Silakan hubungi admin Anda untuk mendapatkan akses penuh",
-      "warnNoLicense": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi %1 tim sales untuk syarat personal upgrade.",
+      "warnNoResources": "Server %1 tidak memiliki cukup sumber daya untuk membuka dokumen ini untuk diedit. Dokumen ini akan dibuka hanya untuk dilihat.",
       "warnNoLicenseUsers": "Anda sudah mencapai batas user untuk %1 editor. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini."
     }

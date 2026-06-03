@@ -113,6 +113,7 @@
       "textNo": "Ez",
       "textNoChoices": "Ez dago aukerarik gelaxka betetzeko.<br>Zutabeko testu-balioak soilik aukera daitezke ordezkapenerako.",
       "textNoLicenseTitle": "Lizentziaren mugara iritsi zara",
+      "textNoResourcesTitle": "Baliabide nahikorik ez",
       "textNoMatches": "Ez dago bat datorrenik",
       "textOk": "Ados",
       "textPaidFeature": "Ordainpeko ezaugarria",
@@ -132,7 +133,7 @@
       "warnLicenseExp": "Zure lizentzia iraungi da. Mesedez, eguneratu zure lizentzia eta freskatu orria.",
       "warnLicenseLimitedNoAccess": "Lizentzia iraungi da. Ez daukazu dokumentu-edizio funtzionalitaterako sarbidea. Mesedez, kontaktatu zure administratzailea.",
       "warnLicenseLimitedRenewed": "Lizentziak berritzea behar du. Dokumentu-edizioaren funtzionalitatera sarbide mugatua duzu.<br>Mesedez jarri harremanetan zure administratzailearekin sarbide osoa lortzeko",
-      "warnNoLicense": "Aldibereko konexioen mugara iritsi zara %1 editorerekin. Dokumentu hau bere bistaratzerako bakarrik irekiko da. Jarri harremanetan  %1 salmenta taldearekin eguneraketa pertsonalaren baldintzak jakiteko.",
+      "warnNoResources": "%1 zerbitzariak ez du baliabide nahikorik dokumentu hau editatzeko irekitzeko. Dokumentu hau soilik ikusteko irekiko da.",
       "warnNoLicenseUsers": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan %1 salmenta taldearekin mailaz igotzeko baldintzak ezagutzeko.",
       "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko."
     }

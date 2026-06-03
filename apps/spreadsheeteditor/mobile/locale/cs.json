@@ -221,6 +221,7 @@
       "textNo": "Ne",
       "textNoChoices": "Neexistují žádné možnosti pro vyplnění buňky.<br>Jako náhradu je možné vybrat pouze textové hodnoty ze sloupce.",
       "textNoLicenseTitle": "Došlo k dosažení limitu licence",
+      "textNoResourcesTitle": "Nedostatek prostředků",
       "textNoMatches": "Shoda nebyla nalezena",
       "textOk": "OK",
       "textPaidFeature": "Placená funkce",
@@ -243,7 +244,7 @@
       "warnLicenseExp": "Platnost vaší licence skončila.<br>Obnovte si svou licenci a načtěte stránku znovu.",
       "warnLicenseLimitedNoAccess": "Platnost licence vypršela. Nemáte přístup k úpravě dokumentů. Prosím kontaktujete Vašeho správce.",
       "warnLicenseLimitedRenewed": "Licenci je nutné obnovit. Máte omezený přístup k možnostem editace.<br>Pro získání plného přístupu kontaktujte Vašeho správce.",
-      "warnNoLicense": "Došlo k dosažení limitu souběžného připojení %1 editorů. Tento dokument bude otevřen pouze pro náhled. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
+      "warnNoResources": "Server %1 nemá dostatek prostředků k otevření tohoto dokumentu pro úpravy. Dokument bude otevřen pouze pro čtení.",
       "warnNoLicenseUsers": "Došlo k dosažení limitu %1 editorů. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
       "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu."
     }

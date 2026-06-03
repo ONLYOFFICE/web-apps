@@ -116,7 +116,7 @@
       "warnLicenseExp": "Jūsu licencei ir beidzies derīguma termiņš. Atjauniniet savu licenci un atsvaidziniet lapu.",
       "warnLicenseLimitedNoAccess": "Licencei ir beidzies termiņš. Jums nav piekļuves dokumentu rediģēšanas funkcijai. Sazinieties ar savu administratoru.",
       "warnLicenseLimitedRenewed": "Licence ir jāatjauno. Jums ir ierobežota piekļuve dokumentu rediģēšanas funkcionalitātei.<br>Sazinieties ar savu administratoru, lai iegūtu pilnu piekļuvi",
-      "warnNoLicense": "Jūs sasniedzāt vienlaicīgu savienojumu ierobežojumu ar %1 redaktoriem. Šis dokuments tiks atvērts tikai skatīšanai. Sazinieties ar %1 pārdošanas komandu, lai uzzinātu personīgos jaunināšanas noteikumus.",
+      "warnNoResources": "%1 serverim nav pietiekami resursu, lai atvērtu šo dokumentu rediģēšanai. Šis dokuments tiks atvērts tikai skatīšanai.",
       "warnNoLicenseUsers": "Jūs sasniedzāt %1 redaktoru lietotāju ierobežojumu. Sazinieties ar %1 pārdošanas komandu, lai uzzinātu personīgos jaunināšanas noteikumus.",
       "warnProcessRightsChange": "Jums nav atļaujas rediģēt failu."
     }

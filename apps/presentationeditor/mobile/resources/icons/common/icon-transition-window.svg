@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="icon-transition-window">
+    <path fill="#BE6650" d="M13.75 10v4h-3.5v-4h3.5Z" class="icon-fill-red-brend-transition-primary" opacity=".8"/>
+    <path fill="#FBE4DE" d="M5.75 9.875v4.25l-2 2.125v-8.5l2 2.125Zm14.5 6.375-2-2.125v-4.25l2-2.125v8.5Z" class="icon-fill-red-brend-transition-secondary"/>
+    <path fill="#444" fill-rule="evenodd" d="M1.975 3.303a.75.75 0 0 1 .822.185l5 5.333c.13.138.203.322.203.512v5.334c0 .19-.073.374-.203.513l-5 5.333A.75.75 0 0 1 1.5 20V4a.75.75 0 0 1 .475-.697Zm19.228.185A.75.75 0 0 1 22.5 4v16a.75.75 0 0 1-1.297.513l-5-5.333a.751.751 0 0 1-.203-.513V9.333c0-.19.073-.374.203-.512l5-5.333ZM3 18.104l3.5-3.735V9.63L3 5.896v12.208ZM17.5 9.63v4.74l3.5 3.734V5.896L17.5 9.63ZM13.75 8.5a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-.75.75h-3.5a.75.75 0 0 1-.75-.75v-5.5a.75.75 0 0 1 .75-.75h3.5ZM11 14h2v-4h-2v4Z" class="icon-fill-gray-primary" clip-rule="evenodd"/>
+  </g>
+</svg>

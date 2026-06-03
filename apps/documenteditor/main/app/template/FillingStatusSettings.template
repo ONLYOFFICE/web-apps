@@ -1,0 +1,4 @@
+<div>
+    <label class="header padding-small"><%= scope.txtFillingStatus %></label>
+    <div id="id-filling-status-settings-roles-list" class="progress-list"></div>
+</div>

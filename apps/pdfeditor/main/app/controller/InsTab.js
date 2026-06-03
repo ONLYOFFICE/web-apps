@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 /**
@@ -381,8 +384,6 @@ define([
                     win.setSettings(props);
                 }
             }
-
-            Common.component.Analytics.trackEvent('ToolBar', 'Add Hyperlink');
         },
 
         onDialogAddAnnotLink: function(arrIds) {
@@ -473,8 +474,6 @@ define([
 
                                 me.api.put_Table(value.columns, value.rows);
                             }
-
-                            Common.component.Analytics.trackEvent('ToolBar', 'Table');
                         }
                         Common.NotificationCenter.trigger('edit:complete', me.view);
                     }
@@ -497,7 +496,6 @@ define([
                 setTimeout(function() {me.api.asc_addImage();}, 1);
 
                 Common.NotificationCenter.trigger('edit:complete', this.view);
-                Common.component.Analytics.trackEvent('ToolBar', 'Image');
             } else if (opts === 'url') {
                 (new Common.Views.ImageFromUrlDialog({
                     handler: function(result, value) {
@@ -507,8 +505,6 @@ define([
                                 if (!_.isEmpty(checkUrl)) {
                                     me.view.fireEvent('insertimage', me.view);
                                     me.api.AddImageUrl([checkUrl]);
-
-                                    Common.component.Analytics.trackEvent('ToolBar', 'Image');
                                 } else {
                                     Common.UI.warning({
                                         msg: this.textEmptyImgUrl
@@ -545,7 +541,6 @@ define([
             if (data && data._urls && (!data.c || data.c=='add')) {
                 this.view.fireEvent('insertimage', this.view);
                 (data._urls.length>0) && this.api.AddImageUrl(data._urls, undefined, data.token);// for loading from storage
-                Common.component.Analytics.trackEvent('ToolBar', 'Image');
             }
         },
 
@@ -603,7 +598,6 @@ define([
                 this.view.btnsInsertShape.toggle(false, true);
 
             Common.NotificationCenter.trigger('edit:complete', this.view);
-            Common.component.Analytics.trackEvent('ToolBar', 'Add Text');
         },
 
         onInsertShape: function (type) {
@@ -623,7 +617,6 @@ define([
                     me.view.btnsInsertText.toggle(false, true);
 
                 Common.NotificationCenter.trigger('edit:complete', me.view);
-                Common.component.Analytics.trackEvent('ToolBar', 'Add Shape');
             }
         },
 
@@ -637,7 +630,6 @@ define([
                 me.view.btnsInsertShape.toggle(false, true);
 
             Common.NotificationCenter.trigger('edit:complete', me.view);
-            Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
         },
 
         onEditHeaderClick: function(type, e) {
@@ -820,7 +812,6 @@ define([
                             if (e.type !== 'click')
                                 me.view.btnInsertEquation.menu.hide();
                             Common.NotificationCenter.trigger('edit:complete', me.view, me.view.btnInsertEquation);
-                            Common.component.Analytics.trackEvent('ToolBar', 'Add Equation');
                         }
                     });
                 }
@@ -848,7 +839,6 @@ define([
         onInsertEquationClick: function() {
             if (this.api) {
                 this.api.asc_AddMath();
-                Common.component.Analytics.trackEvent('ToolBar', 'Add Equation');
             }
             Common.NotificationCenter.trigger('edit:complete', this.view, this.view.btnInsertEquation);
         },
@@ -1059,11 +1049,6 @@ define([
                 this._state.pagecontrolsdisable = page_deleted;
                 Common.Utils.lockControls(Common.enumLock.pageDeleted, page_deleted, {array: this.view.lockedControls});
             }
-
-            if (!this.view.btnInsertChart.isDisabled() && this._state.onactivetab) {
-                Common.UI.TooltipManager.getNeedShow('pdfCharts') && Common.UI.TooltipManager.closeTip('redactTab');
-                Common.UI.TooltipManager.showTip('pdfCharts');
-            }
         },
 
         onApiCanAddHyperlink: function(value) {
@@ -1076,14 +1061,8 @@ define([
         onActiveTab: function(tab) {
             if (tab === 'ins') {
                 this._state.onactivetab = true;
-                if (this.view && !this.view.btnInsertChart.isDisabled())
-                    setTimeout(function() {
-                        Common.UI.TooltipManager.getNeedShow('pdfCharts') && Common.UI.TooltipManager.closeTip('redactTab');
-                        Common.UI.TooltipManager.showTip('pdfCharts');
-                    }, 10);
             } else {
                 this._state.onactivetab = false;
-                Common.UI.TooltipManager.closeTip('pdfCharts');
             }
         }
 

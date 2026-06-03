@@ -1,3 +1,5 @@
-<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M12 15.3166L4.82539 8L4 8.84172L12 17L20 8.84172L19.1746 8L12 15.3166Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="icon-expand-down">
+    <path stroke="#444" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m19.321 8.964-7.071 7.072-7.072-7.072" class="icon-stroke-gray-primary"/>
+  </g>
 </svg>

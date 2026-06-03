@@ -156,6 +156,7 @@
       "textHasMacros": "Soubor obsahuje automatická makra.<br>Opravdu chcete makra spustit?",
       "textNo": "Ne",
       "textNoLicenseTitle": "Došlo k dosažení limitu licence",
+      "textNoResourcesTitle": "Nedostatek prostředků",
       "textNoMatches": "Shoda nebyla nalezena",
       "textOk": "OK",
       "textOpenFile": "Zadejte heslo pro otevření souboru",
@@ -179,7 +180,7 @@
       "warnLicenseExp": "Platnost vaší licence skončila.<br>Obnovte si svou licenci a načtěte stránku znovu.",
       "warnLicenseLimitedNoAccess": "Platnost licence vypršela. Nemáte přístup k úpravě dokumentů. Prosím, kontaktujte Vašeho správce.",
       "warnLicenseLimitedRenewed": "Licence musí být obnovena. Máte omezený přístup k možnostem editace dokumentů.<br>Prosím kontaktujte Vašeho správce pro získání plného přístupu.",
-      "warnNoLicense": "Došlo k dosažení limitu souběžného připojení %1 editorů. Tento dokument bude otevřen pouze pro náhled. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
+      "warnNoResources": "Server %1 nemá dostatek prostředků k otevření tohoto dokumentu pro úpravy. Dokument bude otevřen pouze pro čtení.",
       "warnNoLicenseUsers": "Došlo k dosažení limitu %1 editorů. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
       "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu."
     }

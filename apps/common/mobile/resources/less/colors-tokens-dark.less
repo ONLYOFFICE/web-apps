@@ -1,0 +1,62 @@
+:root {
+    .theme-type-dark,
+    .theme-dark {
+        
+        // Icons
+        --icon-grey-primary: #FBFBFB;         
+        --icon-grey-secondary: #F2F2F2; 
+        --icon-blue-primary: #92B7F0; 
+        --icon-blue-secondary: #B7CFF5; 
+        --icon-red: #FCA5A5; 
+        --icon-green: #78B588; 
+        --icon-brend-document-primary: #208BFF; 
+        --icon-brend-document-secondary: fade(#3B92F3, 40%); 
+        --icon-brend-spreadsheets-primary: #34C759; 
+        --icon-brend-spreadsheets-secondary: fade(#00EF62, 40%); 
+        --icon-brend-presentation-primary: #D25A3C; 
+        --icon-brend-presentation-secondary: fade(#D25A3C, 40%); 
+        --icon-fill-red-brend-transition-primary: #FF987E; 
+        --icon-fill-red-brend-transition-secondary: fade(#FF987E, 50%); 
+        --icon-brend-pdf-primary: #FE8C33; 
+        --icon-brend-pdf-secondary: fade(#FE8C33, 40%); 
+
+
+         //Animation
+        --animation-grey-00: fade(#FFF, 60%); 
+        --animation-blue-00: #6F94F1; 
+        --animation-green-00: #00C255; 
+        --animation-orange-00: #FFAF49; 
+        --animation-red-00: #FF3B30; 
+        --animation-magenta-00: #B600D6; 
+        --animation-motion-grey-00: fade(#FFF, 87%); 
+
+         //Custom
+        --hint-background: #757575; 
+        --cta-text: #92B7F0; 
+        --object-selection: #555; 
+        --dark-object-selection: #B6B6B6; 
+        --form-fields: #FCEFC4; 
+        --dark-form-fields: #A67D00; 
+        --type-preview: #8E8E93; 
+        
+        // Canvas
+        --canvas-dark-content-background: #3A3A3A; 
+        --canvas-dark-page-border: #616161; 
+        --canvas-select-all-icon: #999; 
+        --canvas-dark-cell-title-text: #fff; 
+        --canvas-dark-cell-title-border: #d5d5d5; 
+        --canvas-dark-cell-title-border-selected: #afafaf; 
+        --canvas-slide-empty-placeholder-border: #7f7f7f; 
+        --canvas-slide-empty-placeholder-border-selected: #7f7f7f; 
+        --canvas-slide-demo-background: #000; 
+
+    }
+
+    .theme-type-dark.pdf-view, .theme-dark.pdf-view {
+        --brand-word: var(--brand-form);
+
+        &__android {
+            --toolbar-background: var(--background-primary);
+        }
+    }
+}

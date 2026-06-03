@@ -13,7 +13,7 @@ path_to_compare = "../apps"
 cmd_args = sys.argv[1:]
 for i in cmd_args:
     if i == '--check':
-	    merge_dicts = False
+        merge_dicts = False
     elif i == '--verbose':
         verbose_out = True
     elif i[:2] != '--' and os.path.isdir(i):
@@ -71,7 +71,8 @@ if os.path.exists(f'{path_to_compare}/en.json'):
     compareJsonInFolder(f'{path_to_compare}/en.json')
 else:
     for editor in ['documenteditor','spreadsheeteditor','presentationeditor','pdfeditor','visioeditor']:
-        path = f'{path_to_compare}/{editor}/main/locale/en.json'
-        if os.path.exists(path):
-            compareJsonInFolder(path)
-        else: print(f'wrong path: {path}')
+        for device in ['main','mobile']:
+            path = f'{path_to_compare}/{editor}/{device}/locale/en.json'
+            if os.path.exists(path):
+                compareJsonInFolder(path)
+            else: print(f'wrong path: {path}')

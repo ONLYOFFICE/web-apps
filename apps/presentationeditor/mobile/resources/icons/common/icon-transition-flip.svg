@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="icon-transition-flip">
+    <path stroke="#444" stroke-linecap="round" stroke-width="1.5" d="M8.5 7.237 3.294 8.333a1 1 0 0 0-.794.978v5.377a1 1 0 0 0 .794.98L8.5 16.762m6-10.79 5.794-1.22a1 1 0 0 1 1.206.98v12.534a1 1 0 0 1-1.206.979l-5.794-1.22M11.5 4.5v3m0 3v3m0 3v3" class="icon-stroke-gray-primary"/>
+    <path fill="#BE6650" d="M19.418 7.097A.5.5 0 0 1 20 7.59v8.82a.5.5 0 0 1-.582.493l-5-.833a.5.5 0 0 1-.418-.493V8.423a.5.5 0 0 1 .418-.493l5-.833ZM8.402 9.12A.5.5 0 0 1 9 9.61v4.78a.5.5 0 0 1-.598.49l-4-.8A.5.5 0 0 1 4 13.59v-3.18a.5.5 0 0 1 .402-.49l4-.8Z" class="icon-fill-red-brend-transition-primary" opacity=".8"/>
+  </g>
+</svg>

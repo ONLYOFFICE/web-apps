@@ -156,6 +156,7 @@
       "textHasMacros": "Het bestand bevat automatische macro's. <br> Wilt u macro's uitvoeren?",
       "textNo": "Nee",
       "textNoLicenseTitle": "Licentielimiet bereikt",
+      "textNoResourcesTitle": "Onvoldoende bronnen",
       "textNoMatches": "Geen overeenkomsten",
       "textOk": "OK",
       "textOpenFile": "Voer een wachtwoord in om dit bestand te openen",
@@ -179,7 +180,7 @@
       "warnLicenseExp": "Uw licentie is verlopen. Gelieve deze bij te werken en de pagina te vernieuwen.",
       "warnLicenseLimitedNoAccess": "Licentie verlopen. U hebt geen toegang tot de documentbewerking functionaliteit. Neem contact op met uw beheerder.",
       "warnLicenseLimitedRenewed": "De licentie moet worden vernieuwd. U heeft beperkte toegang tot de documentbewerking functionaliteit.<br>Neem contact op met uw administrator om volledige toegang te krijgen",
-      "warnNoLicense": "U hebt de limiet bereikt voor gelijktijdige verbindingen met %1 gelijktijdige gebruikers. Dit document wordt alleen geopend om te bekijken. Neem contact op met %1 verkoopteam voor persoonlijke upgradevoorwaarden.",
+      "warnNoResources": "De %1-server heeft onvoldoende bronnen om dit document te openen voor bewerking. Dit document wordt alleen ter inzage geopend.",
       "warnNoLicenseUsers": "U heeft de gebruikerslimiet voor %1 gelijktijdige gebruikers bereikt. Neem contact op met de verkoopafdeling voor persoonlijke upgradevoorwaarden.",
       "warnProcessRightsChange": "Je hebt geen toestemming om het bestand te bewerken."
     }

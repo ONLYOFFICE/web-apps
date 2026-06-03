@@ -145,6 +145,7 @@
   "DE.Controllers.ApplicationController.textGuest": "Gost",
   "DE.Controllers.ApplicationController.textLoadingDocument": "Učitavanje dokumenta ",
   "DE.Controllers.ApplicationController.textNoLicenseTitle": "Limit licence dostignut",
+  "DE.Controllers.ApplicationController.textNoResourcesTitle": "Nedovoljno resursa",
   "DE.Controllers.ApplicationController.textOf": "od",
   "DE.Controllers.ApplicationController.textRequired": "Popuni sva potrebna polja za slanje obrasca.",
   "DE.Controllers.ApplicationController.textSaveAs": "Sačuvaj kao PDF",
@@ -178,7 +179,7 @@
   "DE.Controllers.ApplicationController.warnLicenseExp": "Vaša licenca je istekla.<br>Molimo ažurirajte vašu licencu i osvežite stranicu.",
   "DE.Controllers.ApplicationController.warnLicenseLimitedNoAccess": "Licenca istekla.<br>Nemate pristup funkcionalnosti uređivanja dokumenta.<br>Molimo kontaktirajte vašeg administratora.",
   "DE.Controllers.ApplicationController.warnLicenseLimitedRenewed": "Licenca treba da bude obnovljena.<br>Imate ograničen pristup funkcionalnosti uređivanja dokumenta.<br>Molimo kontaktirajte vašeg administratora da dobijete potpuni pristup ",
-  "DE.Controllers.ApplicationController.warnNoLicense": "Dostigli ste limit za istovremene konekcije za %1 urednike. Ovaj dokument će biti otvoren samo za prikaz.<br>Kontaktirajte %1 tim za prodaju za lične uslove nadogradnje.",
+  "DE.Controllers.ApplicationController.warnNoResources": "Server %1 nema dovoljno resursa da otvori ovaj dokument za uređivanje. Ovaj dokument biće otvoren samo za pregledanje.",
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "Dostigli ste korisnički limit za %1 urednike. Kontaktirajte %1 tim za prodaju za lične uslove nadogradnje.",
   "DE.Controllers.ApplicationController.warnStartFilling": "Popunjavanje obrasca je u toku.<br>Izmena fajla trenutno nije dostupna.",
   "DE.Views.ApplicationView.textClear": "Ukloni sva polja",
@@ -210,5 +211,10 @@
   "DE.Views.ApplicationView.txtPrint": "Štampaj",
   "DE.Views.ApplicationView.txtSearch": "Pretraži",
   "DE.Views.ApplicationView.txtShare": "Podeli",
-  "DE.Views.ApplicationView.txtTheme": "Tema interfejsa"
+  "DE.Views.ApplicationView.txtTheme": "Tema interfejsa",
+  "DE.Views.FillingStatusSettings.txtComplete": "Završi",
+  "DE.Views.FillingStatusSettings.txtDocumentIsSigned": "Dokument je potpisan",
+  "DE.Views.FillingStatusSettings.txtFillingStatus": "Status popunjavanja",
+  "DE.Views.RightMenu.ariaRightMenu": "Desni meni",
+  "DE.Views.RightMenu.txtFillingStatus": "Status popunjavanja"
 }

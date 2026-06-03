@@ -1,7 +1,36 @@
-/**
- * Copyright (c) Ascensio System SIA 2013. All rights reserved
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
- * http://www.onlyoffice.com
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 ;(function(DocsAPI, window, document, undefined) {
@@ -80,8 +109,6 @@
                 callbackUrl: <url for connection between sdk and portal>,
                 mergeFolderUrl: 'folder for saving merged file', // must be deprecated, use saveAsUrl instead
                 saveAsUrl: 'folder for saving files'
-                licenseUrl: <url for license>,
-                customerId: <customer id>,
                 region: <regional settings> // can be 'en-us' or lang code
 
                 user: {
@@ -238,7 +265,6 @@
                     statusBar: true, // must be deprecated. use layout.statusBar instead
                     autosave: true,
                     forcesave: false,
-                    commentAuthorOnly: false, // must be deprecated. use permissions.editCommentAuthorOnly and permissions.deleteCommentAuthorOnly instead
                     showReviewChanges: false, // must be deprecated. use customization.review.showReviewChanges instead
                     help: true,
                     compactHeader: false,
@@ -352,8 +378,6 @@
                 isForm: 'pdf form' / false/true
             },
             editorConfig: {
-                licenseUrl: <url for license>,
-                customerId: <customer id>,
                 autostart: 'document',    // action for app's autostart. for presentations default value is 'player'
                 embedded: {
                      embedUrl: 'url',
@@ -377,7 +401,7 @@
 
     DocsAPI.DocEditor = function(placeholderId, config) {
         var _self = this,
-            _config = config || {};
+            _config = config ? Object.assign ? Object.assign({}, config) : config : {};
 
         extend(_config, DocsAPI.DocEditor.defaultConfig);
         _config.editorConfig.canUseHistory = _config.events && !!_config.events.onRequestHistory;
@@ -403,7 +427,8 @@
         _config.editorConfig.canRequestSelectSpreadsheet = _config.events && !!_config.events.onRequestSelectSpreadsheet;
         _config.editorConfig.canRequestReferenceSource = _config.events && !!_config.events.onRequestReferenceSource;
         _config.editorConfig.canSaveDocumentToBinary = _config.events && !!_config.events.onSaveDocument;
-        _config.editorConfig.canStartFilling = _config.events && !!_config.events.onRequestStartFilling;
+        _config.editorConfig.canRequestStartFilling = _config.events && !!_config.events.onRequestStartFilling;
+        _config.editorConfig.canStartFilling = _config.events && !!_config.events.onStartFilling;
         _config.editorConfig.canRequestRefreshFile = _config.events && !!_config.events.onRequestRefreshFile;
         _config.editorConfig.canUpdateVersion = _config.events && !!_config.events.onOutdatedVersion;
         _config.editorConfig.canRequestFillingStatus = _config.events && !!_config.events.onRequestFillingStatus;
@@ -480,8 +505,11 @@
 
         var _checkConfigParams = function() {
             if (_config.document) {
-                if (!_config.document.url || ((typeof _config.document.fileType !== 'string' || _config.document.fileType=='') &&
-                                              (typeof _config.documentType !== 'string' || _config.documentType==''))) {
+                if (!_config.document.url ||
+                    ((typeof _config.document.fileType !== 'string' || _config.document.fileType=='') &&
+                                              (typeof _config.documentType !== 'string' || _config.documentType=='')) ||
+                    (!_config.document.key || typeof _config.document.key !== 'string'))
+                {
                     window.alert("One or more required parameter for the config object is not set");
                     return false;
                 }
@@ -513,7 +541,7 @@
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
-                    var type = /^(?:(xls|xlsx|ods|csv|tsv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett|numbers)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt|key|odg)|(pdf|djvu|xps|oxps)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt|pages|hwp|hwpx|md|hml)|(vsdx|vssx|vstx|vsdm|vssm|vstm))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|tsv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett|numbers)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt|key|odg)|(pdf|djvu|xps|oxps|ofd)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt|pages|hwp|hwpx|md|hml)|(vsdx|vssx|vstx|vsdm|vssm|vstm))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
@@ -534,13 +562,6 @@
 
                 if (!_config.document.title || _config.document.title=='')
                     _config.document.title = 'Unnamed.' + _config.document.fileType;
-
-                if (!_config.document.key) {
-                    _config.document.key = 'xxxxxxxxxxxxxxxxxxxx'.replace(/[x]/g, function (c) {var r = Math.random() * 16 | 0; return r.toString(16);});
-                } else if (typeof _config.document.key !== 'string') {
-                    window.alert("The \"document.key\" parameter for the config object must be string. Please correct it.");
-                    return false;
-                }
 
                 if (_config.editorConfig.user && _config.editorConfig.user.id && (typeof _config.editorConfig.user.id == 'number')) {
                     _config.editorConfig.user.id = _config.editorConfig.user.id.toString();
@@ -615,7 +636,12 @@
             if (iframe) {
                 _msgDispatcher && _msgDispatcher.unbindEvents();
                 _detachMouseEvents();
+                _msgDispatcher = null;
+                _config = null;
+
+                iframe.src = 'about:blank';
                 iframe.parentNode && iframe.parentNode.replaceChild(target, iframe);
+                iframe = null;
             }
         };
 

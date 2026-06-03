@@ -9,13 +9,21 @@
             "prebuild": [
                 "../deploy/web-apps/apps/pdfeditor/main"
             ],
-            "postbuild": []
+            "postbuild": [
+                "../deploy/web-apps/apps/pdfeditor/main/app_dev.js",
+                "../deploy/web-apps/apps/pdfeditor/main/app_pack.js",
+                "../deploy/web-apps/apps/pdfeditor/main/index.html.deploy",
+                "../deploy/web-apps/apps/pdfeditor/main/index_loader.html",
+                "../deploy/web-apps/apps/pdfeditor/main/index_loader.html.deploy",
+                "../deploy/web-apps/apps/pdfeditor/main/resources/less",
+                "../deploy/web-apps/apps/pdfeditor/main/resources/img/toolbar/**/*"
+            ]
         },
         "js": {
             "requirejs": {
                 "options": {
-                    "name": "../apps/pdfeditor/main/app.js",
-                    "out": "../deploy/web-apps/apps/pdfeditor/main/app.js",
+                    "appDir": "../apps/pdfeditor/main",
+                    "dir": "../deploy/web-apps/apps/pdfeditor/main",
                     "baseUrl": "../apps/",
                     "inlineText": true,
                     "findNestedDependencies": true,

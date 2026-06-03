@@ -89,6 +89,7 @@
       "textNo": "Nie",
       "textNoChoices": "Neexistujú žiadne možnosti na vyplnenie bunky.<br>Len hodnoty textu zo stĺpca môžu byť vybrané na výmenu.",
       "textNoLicenseTitle": "Bol dosiahnutý limit licencie",
+      "textNoResourcesTitle": "Nedostatok prostriedkov",
       "textOk": "OK",
       "textPaidFeature": "Platená funkcia",
       "textRemember": "Zapamätaj si moju voľbu",
@@ -100,7 +101,7 @@
       "titleUpdateVersion": "Verzia bola zmenená",
       "warnLicenseLimitedNoAccess": "Platnosť licencie vypršala. Nemáte prístup k funkciám úpravy dokumentov. Prosím, kontaktujte svojho administrátora.",
       "warnLicenseLimitedRenewed": "Licenciu je potrebné obnoviť. Máte obmedzený prístup k funkciám úpravy dokumentov.<br>Ak chcete získať úplný prístup, kontaktujte svojho správcu",
-      "warnNoLicense": "Dosiahli ste limit pre simultánne pripojenia k %1 editorom. Tento dokument sa otvorí iba na prezeranie. Kontaktujte predajný tím %1 pre osobné podmienky inovácie.",
+      "warnNoResources": "Server %1 nemá dostatok prostriedkov na otvorenie tohto dokumentu na úpravu. Dokument bude otvorený iba na prezeranie.",
       "warnNoLicenseUsers": "Dosiahli ste limit %1 editora. Pre rozšírenie funkcií kontaktujte %1 obchodné oddelenie.",
       "warnProcessRightsChange": "Nemáte povolenie na úpravu súboru."
     }

@@ -52,6 +52,7 @@
       "textGuest": "访客",
       "textNo": "否",
       "textNoLicenseTitle": "已达到许可证最大连接数限制",
+      "textNoResourcesTitle": "资源不足",
       "textOk": "确定",
       "textOpenFile": "输入密码以打开文件",
       "textPaidFeature": "付费功能",
@@ -69,7 +70,7 @@
       "warnLicenseExp": "您的许可证已过期。请更新您的许可证并刷新页面。",
       "warnLicenseLimitedNoAccess": "许可证已过期。你现在不能使用文档编辑功能。请联系您的管理员。",
       "warnLicenseLimitedRenewed": "许可证需要更新。您现在只能使用受限的文档编辑功能。<br>请联系您的管理员以获取完整权限",
-      "warnNoLicense": "您已达到同时连接 %1 编辑器的限制。此文档将仅打开以供查看。有关个人升级条款，请与 %1 销售团队联系。",
+      "warnNoResources": "%1服务器没有足够的资源来打开此文档进行编辑。此文档将仅以查看模式打开。",
       "warnNoLicenseUsers": "您已达到%1编辑器的用户限制。有关个人升级条款，请与%1销售团队联系。",
       "warnProcessRightsChange": "您没有编辑文件的权限。"
     }

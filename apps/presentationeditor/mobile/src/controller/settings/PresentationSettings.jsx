@@ -1,3 +1,38 @@
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import React, {Component} from 'react';
 import { observer, inject } from "mobx-react";
 import {PresentationSettings} from '../../view/settings/PresentationSettings';
@@ -7,6 +42,7 @@ class PresentationSettingsController extends Component {
         super(props);
         this.initSlideSize = this.initSlideSize.bind(this);
         this.onSlideSize = this.onSlideSize.bind(this);
+        this.onSlideOrientation = this.onSlideOrientation.bind(this);
         this.onColorSchemeChange = this.onColorSchemeChange.bind(this);
         this.onToggleLoopSlideshow = this.onToggleLoopSlideshow.bind(this);
         this.slideObject = this.props.storeFocusObjects.slideObject;
@@ -34,11 +70,16 @@ class PresentationSettingsController extends Component {
         let ratio = slideSizeArr[1] / slideSizeArr[0];
         let currentHeight = this.props.storePresentationSettings.currentPageSize.height;
         let currentPageSize = {
-            width: ((currentHeight || slideSizeArr[1]) / ratio),
+            width: this.props.storePresentationSettings.slideOrientation ? ((currentHeight || slideSizeArr[1]) / ratio) : ((currentHeight || slideSizeArr[1]) * ratio),
             height: currentHeight
         };
         // api.changeSlideSize(slideSizeArr[0], slideSizeArr[1], slideSizeArr[2]);
         api.changeSlideSize(currentPageSize.width, currentPageSize.height, slideSizeArr[2]);
+    }
+
+    onSlideOrientation() {
+        const api = Common.EditorApi.get();
+        api.changeSlideSize(this.props.storePresentationSettings.currentPageSize.height, this.props.storePresentationSettings.currentPageSize.width);
     }
 
     // Color Schemes
@@ -70,6 +111,7 @@ class PresentationSettingsController extends Component {
             <PresentationSettings
                 initSlideSize={this.initSlideSize}
                 onSlideSize={this.onSlideSize}
+                onSlideOrientation={this.onSlideOrientation}
                 onColorSchemeChange={this.onColorSchemeChange}
                 initPageColorSchemes={this.initPageColorSchemes}
                 onToggleLoopSlideshow={this.onToggleLoopSlideshow}

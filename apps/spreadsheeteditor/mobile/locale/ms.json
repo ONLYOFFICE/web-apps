@@ -86,6 +86,7 @@
       "textNo": "Tidak",
       "textNoChoices": "Tidak ada pilihan untuk mengisi sel.<br>Hanya nilai teks dari lajur yang boleh dipilih untuk penggantian.",
       "textNoLicenseTitle": "Had lesen telah dicapai",
+      "textNoResourcesTitle": "Sumber tidak mencukupi",
       "textOk": "Okey",
       "textPaidFeature": "Ciri Berbayar",
       "textRemember": "Ingat pilihan saya",
@@ -97,7 +98,7 @@
       "titleUpdateVersion": "Perubahan versi",
       "warnLicenseLimitedNoAccess": "Lesen tamat tempoh. Anda tidak mempunyai akses terhadap fungsi pengeditan dokumen. Sila, hubungi pentadbir anda.",
       "warnLicenseLimitedRenewed": "Lesen perlu untuk diperbaharui. Anda mempunyai akses terhad kepada fungi pengeditan dokumen.<br>Sila hubungi pentadbir anda untuk mendapatkan akses penuh",
-      "warnNoLicense": "Anda telah mencapai had pengguna untuk sambungan serentak kepada editor %1. Dokumen ini akan dibuka untuk dilihat sahaja. Hubungi pasukan jualan %1 untuk naik taraf terma peribadi.",
+      "warnNoResources": "Pelayan %1 tidak mempunyai sumber yang mencukupi untuk membuka dokumen ini untuk diedit. Dokumen ini akan dibuka untuk tontonan sahaja.",
       "warnNoLicenseUsers": "Anda telah mencapai had pengguna untuk editor %1. Hubungi pasukan jualan %1 untuk naik taraf terma peribadi.",
       "warnProcessRightsChange": "Anda tidak mempunyai keizinan untuk edit fail ini."
     }

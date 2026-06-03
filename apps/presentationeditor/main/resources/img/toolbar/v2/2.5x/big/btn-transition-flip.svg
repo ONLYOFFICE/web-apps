@@ -1,4 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none">
-    <path d="m10.5 9.237-5.206 1.096a1 1 0 0 0-.794.979v5.377a1 1 0 0 0 .794.978l5.206 1.096m6-10.79 5.794-1.219a1 1 0 0 1 1.206.979v12.535a1 1 0 0 1-1.206.978l-5.794-1.22M13.5 6.5v3m0 3v3m0 3v3" class="icon-stroke-gray-primary"/>
-    <path d="M21.418 9.097A.5.5 0 0 1 22 9.59v8.82a.5.5 0 0 1-.582.493l-5-.833a.5.5 0 0 1-.418-.493v-7.154a.5.5 0 0 1 .418-.493l5-.833ZM10.402 11.12a.5.5 0 0 1 .598.49v4.78a.5.5 0 0 1-.598.49l-4-.8A.5.5 0 0 1 6 15.59v-3.18a.5.5 0 0 1 .402-.49l4-.8Z" fill="currentColor" stroke="none" class="icon-fill-blue-primary"/>
+    <path opacity=".8" d="M23.5 20.058a2 2 0 0 1-2.394 1.961L15 20.793V8.215l6.105-1.232a2 2 0 0 1 2.395 1.96zM12 20l-6.758-1.802a1 1 0 0 1-.742-.966V11.32a1 1 0 0 1 .804-.98L12 9z" fill="currentColor" stroke="none" class="icon-fill-blue-primary"/>
+    <path d="m15.5 20.893 5.606 1.126a2 2 0 0 0 2.394-1.96V8.943a2 2 0 0 0-2.395-1.96L15.5 8.113" class="icon-stroke-gray-primary"/>
+    <path d="M13.5 6.5v3m0 3v4m0 3v3" class="icon-stroke-gray-primary"/>
+    <path d="m11.5 9.1-6.196 1.24a1 1 0 0 0-.804.98v5.912a1 1 0 0 0 .742.966l6.258 1.669" class="icon-stroke-gray-primary"/>
 </svg>

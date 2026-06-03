@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64">
+  <g class="bullet-arrow">
+    <path fill="#444" fill-rule="evenodd" d="m26 38 3-6.5-3-6.5 11.5 6.5L26 38Zm9.468-6.5-7.26-4.103L30.1 31.5h5.367Z" class="icon-fill-gray-primary" clip-rule="evenodd"/>
+  </g>
+</svg>

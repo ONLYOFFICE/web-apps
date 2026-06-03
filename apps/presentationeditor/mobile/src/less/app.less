@@ -2,6 +2,8 @@
 @import '../../../../common/mobile/resources/less/_mixins.less';
 @import '../../../../common/mobile/resources/less/colors-table.less';
 @import '../../../../common/mobile/resources/less/colors-table-dark.less';
+@import '../../../../common/mobile/resources/less/color-tokens.less';
+@import '../../../../common/mobile/resources/less/colors-tokens-dark.less';
 @import '../../../../common/mobile/resources/less/draw.less';
 @import './app-rtl.less';
 
@@ -9,15 +11,6 @@
 
 .device-ios {
     --toolbar-background: var(--background-primary, #fff);
-    --toolbar-segment: var(--brand-slide, #BE664F);
-    --toolbar-icons: var(--brand-slide, #BE664F);
-}
-.device-android {
-    --toolbar-background: var(--brand-slide, #BE664F);
-
-    .theme-type-dark {
-        --toolbar-icons: var(--brand-slide, #BE664F);
-    }
 }
 
 @toolbar-background: var(--toolbar-background);
@@ -180,5 +173,42 @@
     
     li {
         display: inherit; 
+    }
+}
+
+.transition-effect-icon {
+    line-height: 0;
+}
+
+.transition-effect-preview {
+    display: inline-flex;
+    gap: 6px;
+}
+
+.transition-effect-icon .icon-svg,
+.transition-effect-preview .icon-svg {
+    width: 24px;
+    height: 24px;
+}
+
+.transition-effect-preview .icon-svg {
+    order: 1;
+}
+
+.style-effect {
+    .block-title {
+        margin: 16px 16px 10px;
+    }
+}
+
+.device-ios {
+    .style-effect {
+        .list .item-inner {
+            padding: 10px 0;;
+        }
+        
+        .block-title {
+            margin: 16px 16px 10px;
+        }
     }
 }

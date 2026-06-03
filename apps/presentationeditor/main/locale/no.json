@@ -29,6 +29,8 @@
   "PE.Controllers.Main.txtShape_diagStripe": "Diagonal linje",
   "PE.Controllers.Main.txtSldLtTCust": "Egendefinert",
   "PE.Controllers.Main.txtTheme_corner": "Hjørne",
+  "PE.Controllers.Toolbar.helpChartTab": "Alle diagraminnstillinger er nå tilgjengelige i den dedikerte Diagramdesign-fanen i verktøylinjen.",
+  "PE.Controllers.Toolbar.helpChartTabHeader": "Diagramdesign-fane",
   "PE.Controllers.Toolbar.textInsert": "Sett inn",
   "PE.Controllers.Toolbar.txtLargeOperator_Conjunction": "Kile",
   "PE.Controllers.Toolbar.txtMatrix_Dots_Diagonal": "Diagonale prikker",

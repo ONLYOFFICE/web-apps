@@ -483,6 +483,7 @@
     "textHasMacros": "Súbor obsahuje automatické makrá.<br>Naozaj chcete makra spustiť?",
     "textNo": "Nie",
     "textNoLicenseTitle": "Bol dosiahnutý limit licencie",
+    "textNoResourcesTitle": "Nedostatok prostriedkov",
     "textPaidFeature": "Platená funkcia",
     "textRemember": "Zapamätaj si moju voľbu",
     "textReplaceSkipped": "Nahradenie bolo uskutočnené. {0} výskytov bolo preskočených.",
@@ -494,7 +495,7 @@
     "warnLicenseExp": "Platnosť vašej licencie vypršala. Aktualizujte svoju licenciu a obnovte stránku.",
     "warnLicenseLimitedNoAccess": "Platnosť licencie vypršala. Nemáte prístup k funkciám úpravy dokumentov. Prosím, kontaktujte svojho administrátora.",
     "warnLicenseLimitedRenewed": "Licenciu je potrebné obnoviť. Máte obmedzený prístup k funkciám úpravy dokumentov.<br>Ak chcete získať úplný prístup, kontaktujte svojho správcu",
-    "warnNoLicense": "Dosiahli ste limit pre simultánne pripojenia k %1 editorom. Tento dokument sa otvorí iba na prezeranie. Kontaktujte predajný tím %1 pre osobné podmienky inovácie.",
+    "warnNoResources": "Server %1 nemá dostatok prostriedkov na otvorenie tohto dokumentu na úpravu. Dokument bude otvorený iba na prezeranie.",
     "warnNoLicenseUsers": "Dosiahli ste limit %1 editora. Pre rozšírenie funkcií kontaktujte %1 obchodné oddelenie.",
     "warnProcessRightsChange": "Nemáte povolenie na úpravu tohto súboru."
   },

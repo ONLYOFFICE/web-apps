@@ -52,6 +52,7 @@
       "textGuest": "Gast",
       "textNo": "Nein",
       "textNoLicenseTitle": "Lizenzlimit erreicht",
+      "textNoResourcesTitle": "Nicht genügend Ressourcen",
       "textOk": "OK",
       "textOpenFile": "Geben Sie ein Passwort ein, um die Datei zu öffnen",
       "textPaidFeature": "Kostenpflichtige Funktion",
@@ -69,7 +70,7 @@
       "warnLicenseExp": "Ihre Lizenz ist abgelaufen. Bitte erneuern Sie die Lizenz und laden Sie die Seite neu.",
       "warnLicenseLimitedNoAccess": "Lizenz abgelaufen. Keine Bearbeitung möglich. Bitte wenden Sie sich an den Administrator.",
       "warnLicenseLimitedRenewed": "Die Lizenz soll erneuert werden. Die Bearbeitungsfunktionen wurden eingeschränkt.<br>Bitte wenden Sie sich an Administrator für den vollen Zugriff",
-      "warnNoLicense": "Sie haben das Limit für gleichzeitige Verbindungen zu %1 Editoren erreicht. Dieses Dokument wird nur zur Ansicht geöffnet. Kontaktieren Sie das %1-Verkaufsteam, um die Bedingungen für ein persönliches Upgrade zu erfahren.",
+      "warnNoResources": "Der %1-Server verfügt nicht über genügend Ressourcen, um dieses Dokument zur Bearbeitung zu öffnen. Das Dokument wird nur zur Ansicht geöffnet.",
       "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1 Redakteure erreicht. Kontaktieren Sie das %1 Vertriebsteam, um die Bedingungen für ein persönliches Upgrade zu erfahren.",
       "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."
     }

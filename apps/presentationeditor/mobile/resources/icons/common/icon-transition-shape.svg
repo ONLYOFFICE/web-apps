@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="icon-transition-shape">
+    <path stroke="#444" stroke-linecap="round" stroke-width="1.5" d="M21.5 5v14a1 1 0 0 1-1 1h-17a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h17a1 1 0 0 1 1 1Z" class="icon-stroke-gray-primary"/>
+    <path fill="#BE6650" d="M11.999 6.25a5.75 5.75 0 1 1 0 11.498 5.75 5.75 0 0 1 0-11.498Zm0 2a3.749 3.749 0 1 0 0 7.498 3.749 3.749 0 0 0 0-7.498Z" class="icon-fill-red-brend-transition-primary" opacity=".8"/>
+    <path fill="#FBE4DE" d="M11.998 8.157a3.842 3.842 0 1 1 0 7.684 3.842 3.842 0 0 1 0-7.684Zm0 2A1.842 1.842 0 1 0 12 13.841a1.842 1.842 0 0 0-.002-3.684Z" class="icon-fill-red-brend-transition-secondary"/>
+  </g>
+</svg>

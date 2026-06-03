@@ -1,4 +1,6 @@
-<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M4.10547 3V5.11719H11.4736V3H12.5264V5.11719H19.8945V3H20.9473V5.11719H22V6.17676H20.9473V10.4121H19.8945V6.17676H12.5264V10.4121H11.4736V6.17676H4.10547V10.4121H3.05273V6.17676H2V5.11719H3.05273V3H4.10547Z"/>
-<path opacity="0.3" fill-rule="evenodd" clip-rule="evenodd" d="M3.05273 21H20.9473V11.4707H3.05273V21ZM4.10547 19.9414H11.4736V12.5293H4.10547V19.9414ZM12.5264 19.9414V12.5293H19.8945V19.9414H12.5264Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="icon-distribute-columns">
+    <path stroke="#444" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12.5 11.295h-8a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h8m0-8h8a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-8m0-8v8" class="icon-stroke-gray-primary"/>
+    <path stroke="#446ECA" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.5 6.296h16m-1 2v-4m-7 4v-4m-7 4v-4" class="icon-stroke-blue-primary"/>
+  </g>
 </svg>

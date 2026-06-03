@@ -373,6 +373,8 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>Povezava je prekinjena</b><br>Poskušam se povezatio. Preverite nastavitve povezave.",
   "PE.Controllers.Statusbar.zoomText": "Povečava {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?",
+  "PE.Controllers.Toolbar.helpChartTab": "Vse nastavitve grafikona so zdaj na voljo na namenskem zavihku Oblikovanje grafikona v orodni vrstici.",
+  "PE.Controllers.Toolbar.helpChartTabHeader": "Zavihek Oblikovanje grafikona",
   "PE.Controllers.Toolbar.textAccent": "Naglasi",
   "PE.Controllers.Toolbar.textBracket": "Oklepaji",
   "PE.Controllers.Toolbar.textFontSizeErr": "Vnesena vrednost je nepravilna.<br>Prosim vnesite numerično vrednost med 1 in 300",

@@ -94,6 +94,34 @@
                 "src": "../apps/common/main/resources/themes/themes.json",
                 "dest": "../deploy/web-apps/apps/common/main/resources/themes/themes.json"
             },
+            "scripts": {
+                "files": [
+                    {
+                        "expand": true,
+                        "cwd": "../apps/common",
+                        "src": "*.js",
+                        "dest": "../deploy/web-apps/apps/common"
+                    },
+                    {
+                        "expand": true,
+                        "cwd": "../apps/common/forms/lib",
+                        "src": [
+                            "**/*.js",
+                            "**/*.template"
+                        ],
+                        "dest": "../deploy/web-apps/apps/common/main/lib"
+                    },
+                    {
+                        "expand": true,
+                        "cwd": "../apps/common/main/lib",
+                        "src": [
+                            "**/*.js",
+                            "**/*.template"
+                        ],
+                        "dest": "../deploy/web-apps/apps/common/main/lib"
+                    }
+                ]
+            },
             "iecompat": {
                 "src": "../apps/common/main/lib/util/fix-ie-compat.js",
                 "dest": "../deploy/web-apps/apps/common/main/lib/util/fix-ie-compat.js"
@@ -156,6 +184,10 @@
                         "dest": "../deploy/web-apps/vendor/jquery/jquery.min.js"
                     },
                     {
+                        "src": "../vendor/jquery/jquery.js",
+                        "dest": "../deploy/web-apps/vendor/jquery/jquery.js"
+                    },
+                    {
                         "src": "../vendor/jquery.browser/dist/jquery.browser.min.js",
                         "dest": "../deploy/web-apps/vendor/jquery/jquery.browser.min.js"
                     }
@@ -202,8 +234,20 @@
         ],
         "copy": {
             "script": {
-                "src": "../vendor/underscore/underscore-min.js",
-                "dest": "../deploy/web-apps/vendor/underscore/underscore-min.js"
+                "files": [
+                    {
+                        "src": "../vendor/underscore/underscore-min.js",
+                        "dest": "../deploy/web-apps/vendor/underscore/underscore-min.js"
+                    },
+                    {
+                        "src": "../vendor/underscore/underscore-umd.js.map",
+                        "dest": "../deploy/web-apps/vendor/underscore/underscore-umd.js.map"
+                    },
+                    {
+                        "src": "../vendor/underscore/underscore.js",
+                        "dest": "../deploy/web-apps/vendor/underscore/underscore.js"
+                    }
+                ]
             }
         }
     },
@@ -244,6 +288,30 @@
         "clean": [
             "../deploy/web-apps/vendor/requirejs"
         ],
+        "copy": {
+            "script": {
+                "files": [
+                    {
+                        "src": "../vendor/requirejs/require.js",
+                        "dest": "../deploy/web-apps/vendor/requirejs/require.js"
+                    },
+                    {
+                        "src": "../vendor/requirejs-text/text.js",
+                        "dest": "../deploy/web-apps/vendor/requirejs-text/text.js"
+                    },
+                    {
+                        "src": "../vendor/backbone/backbone.js",
+                        "dest": "../deploy/web-apps/vendor/backbone/backbone.js"
+                    },
+                    {
+                        "expand": true,
+                        "cwd": "../vendor/perfect-scrollbar/src",
+                        "src": "**",
+                        "dest": "../deploy/web-apps/vendor/perfect-scrollbar/src"
+                    }
+                ]
+            }
+        },
         "min": {
             "src": "../vendor/requirejs/require.js",
             "dest": "../deploy/web-apps/vendor/requirejs/require.js"

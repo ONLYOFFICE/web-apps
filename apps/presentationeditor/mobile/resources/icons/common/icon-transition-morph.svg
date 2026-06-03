@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="icon-transition-morph">
+    <path stroke="#444" stroke-linecap="round" stroke-width="1.5" d="M21.5 5v14a1 1 0 0 1-1 1h-17a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h17a1 1 0 0 1 1 1Z" class="icon-stroke-gray-primary"/>
+    <rect width="5.25" height="5.25" fill="#FBE4DE" class="icon-fill-red-brend-transition-secondary" rx="2.625" transform="matrix(-1 0 0 1 9.21 9.994)"/>
+    <path fill="#BE6650" d="M4.96 12.619a1.625 1.625 0 1 1 1.625 1.625v1l.269-.014a2.626 2.626 0 0 0 2.342-2.343l.014-.268a2.625 2.625 0 0 0-2.625-2.625l-.269.014a2.625 2.625 0 0 0-2.356 2.61l.014.27a2.625 2.625 0 0 0 2.611 2.356v-1a1.625 1.625 0 0 1-1.625-1.625Z" class="icon-fill-red-brend-transition-primary"/>
+    <rect width="6.25" height="6.25" fill="#FBE4DE" class="icon-fill-red-brend-transition-secondary" rx="2" transform="matrix(-1 0 0 1 13.46 7.994)"/>
+    <path fill="#BE6650" d="M9.21 13.244v1h2.25v-1H9.21Zm-1-1v-2.25a1 1 0 0 1 1-1h2.25a1 1 0 0 1 1 1v2.25a1 1 0 0 1-1 1v1l.204-.01a2 2 0 0 0 1.796-1.99v-2.25a2 2 0 0 0-1.796-1.99l-.204-.01H9.21a2 2 0 0 0-2 2v2.25a2 2 0 0 0 2 2v-1a1 1 0 0 1-1-1Z" class="icon-fill-red-brend-transition-primary"/>
+    <rect width="8" height="8" fill="#FBE4DE" class="icon-fill-red-brend-transition-secondary" rx="1" transform="scale(-1 1) rotate(-15 24.682 81.576)"/>
+    <path fill="#BE6650" d="m11.7 14.117-.26.966 5.796 1.553.259-.966-5.796-1.553Zm1.552-5.795 5.796 1.553-1.812 6.761a1 1 0 0 0 1.225-.707l1.553-5.795a1 1 0 0 0-.707-1.225L13.51 7.356a1 1 0 0 0-1.225.707l-1.553 5.796a1 1 0 0 0 .707 1.224l1.812-6.761Z" class="icon-fill-red-brend-transition-primary"/>
+  </g>
+</svg>

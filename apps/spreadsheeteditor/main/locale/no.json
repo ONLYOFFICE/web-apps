@@ -5,6 +5,8 @@
   "SSE.Controllers.DocumentHolder.txtAll": "(alle)",
   "SSE.Controllers.DocumentHolder.txtBlanks": "(Tomme)",
   "SSE.Controllers.Main.textCloseTip": "Klikk for å lukke tipset",
+  "SSE.Controllers.Toolbar.helpChartTab": "Alle diagraminnstillinger er nå tilgjengelige i den dedikerte Diagramdesign-fanen i verktøylinjen.",
+  "SSE.Controllers.Toolbar.helpChartTabHeader": "Diagramdesign-fane",
   "SSE.Views.AutoFilterDialog.textEmptyItem": "{Blanks}",
   "SSE.Views.ChartSettingsDlg.textTenThousands": "10 000",
   "SSE.Views.FormatRulesEditDlg.textNewColor": "Legg til ny egendefinert farge",

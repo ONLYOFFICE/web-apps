@@ -642,6 +642,7 @@
     "textHasMacros": "Dosya otomatik makrolar içeriyor.<br>Makroları çalıştırmak istiyor musunuz?",
     "textNo": "Hayır",
     "textNoLicenseTitle": "Lisans limitine ulaşıldı.",
+    "textNoResourcesTitle": "Yetersiz kaynak",
     "textNoMatches": "Eşleşme yok",
     "textOk": "Tamam",
     "textPaidFeature": "Ücretli Özellik",
@@ -662,7 +663,7 @@
     "warnLicenseExp": "Lisansınızın süresi doldu. Lütfen lisansınızı güncelleyin ve sayfayı yenileyin.",
     "warnLicenseLimitedNoAccess": "Lisans süresi doldu. Doküman edit etme özelliğini kullanmaya izniniz bulunmamaktadır. Lütfen, yöneticinizle iletişime geçin.",
     "warnLicenseLimitedRenewed": "Lisansın yenilenmesi gerekiyor. Belge düzenleme işlevine sınırlı erişiminiz var.<br>Tam erişim için lütfen yöneticinizle iletişime geçin.",
-    "warnNoLicense": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
+    "warnNoResources": "%1 sunucusu bu belgeyi düzenleme için açacak yeterli kaynağa sahip değil. Bu belge yalnızca görüntüleme için açılacaktır.",
     "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
     "warnProcessRightsChange": "Bu dosyayı düzenleme izniniz yok."
   },

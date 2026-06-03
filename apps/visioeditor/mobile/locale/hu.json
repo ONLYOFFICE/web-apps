@@ -52,6 +52,7 @@
       "textGuest": "Vendég",
       "textNo": "Nem",
       "textNoLicenseTitle": "Elérte a licenckorlátot",
+      "textNoResourcesTitle": "Nincs elég erőforrás",
       "textOk": "OK",
       "textOpenFile": "Adjon meg egy jelszót a fájl megnyitáshoz",
       "textPaidFeature": "Fizetős funkció",
@@ -69,7 +70,7 @@
       "warnLicenseExp": "Az Ön licence lejárt. Kérjük, frissítse licencét majd frissítse az oldalt.",
       "warnLicenseLimitedNoAccess": "A licenc lejárt. Nincs hozzáférése a dokumentumszerkesztési funkciókhoz. Vegye fel a kapcsolatot a rendszergazdával.",
       "warnLicenseLimitedRenewed": "A licencet meg kell újítani. Korlátozott hozzáférése van a dokumentumszerkesztési funkciókhoz.<br>A teljes hozzáférés érdekében vegye fel a kapcsolatot rendszergazdával",
-      "warnNoLicense": "Elérte a(z) %1 szerkesztővel való egyidejű kapcsolódási korlátot. Ez a dokumentum csak megtekintésre nyílik meg. Lépjen kapcsolatba a(z) %1 értékesítési csapatával a személyes bővíthető feltételekért.",
+      "warnNoResources": "A(z) %1 kiszolgálónak nincs elég erőforrása a dokumentum szerkesztésre való megnyitásához. A dokumentum csak megtekintésre lesz megnyitva.",
       "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
       "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére."
     }

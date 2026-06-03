@@ -657,6 +657,7 @@
     "textHasMacros": "O arquivo contém macros automáticas.<br> Você quer executar macros?",
     "textNo": "Não",
     "textNoLicenseTitle": "Limite de licença atingido",
+    "textNoResourcesTitle": "Recursos insuficientes",
     "textNoMatches": "Nenhuma correspondência",
     "textOk": "OK",
     "textPaidFeature": "Recurso pago",
@@ -681,7 +682,7 @@
     "warnLicenseExp": "Sua licença expirou. Por favor, atualize sua licença e atualize a página.",
     "warnLicenseLimitedNoAccess": "A licença expirou. Você não tem acesso à funcionalidade de edição de documentos. Por favor, entre em contato com seu administrador.",
     "warnLicenseLimitedRenewed": "A licença precisa ser renovada. Você tem acesso limitado à funcionalidade de edição de documentos. <br> Entre em contato com o administrador para obter acesso total",
-    "warnNoLicense": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate a equipe de vendas% 1 para termos de atualização pessoal.",
+    "warnNoResources": "O servidor %1 não possui recursos suficientes para abrir este documento para edição. Este documento será aberto apenas para visualização.",
     "warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
     "warnProcessRightsChange": "Você não tem permissão para editar este arquivo."
   },

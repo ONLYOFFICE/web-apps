@@ -1,7 +1,7 @@
 {
   "Common.UI.Calendar.textApril": "abril",
   "Common.UI.Calendar.textAugust": "agosto",
-  "Common.UI.Calendar.textDecember": "dezembro",
+  "Common.UI.Calendar.textDecember": "Dezembro",
   "Common.UI.Calendar.textFebruary": "fevereiro",
   "Common.UI.Calendar.textJanuary": "janeiro",
   "Common.UI.Calendar.textJuly": "julho",
@@ -102,8 +102,10 @@
   "DE.Controllers.ApplicationController.errorDefaultMessage": "Código de erro: %1",
   "DE.Controllers.ApplicationController.errorEditingDownloadas": "Ocorreu um erro ao trabalhar no documento. Utilize a opção 'Descarregar como...' para guardar uma cópia do ficheiro no computador.",
   "DE.Controllers.ApplicationController.errorEditingSaveas": "Ocorreu um erro ao trabalhar no documento.<br>Utilize a opção 'Descarregar como...' para guardar uma cópia do ficheiro no computador.",
+  "DE.Controllers.ApplicationController.errorFileNotAssembled": "Este ficheiro foi aberto a partir de uma cópia de segurança do servidor e não foi guardado no armazenamento.<br>Utilize a opção 'Guardar como...' para o guardar numa unidade.",
   "DE.Controllers.ApplicationController.errorFilePassProtect": "O ficheiro está protegido por palavra-passe e não pode ser aberto.",
   "DE.Controllers.ApplicationController.errorFileSizeExceed": "O tamanho do documento excede o limite permitido pelo servidor.<br>Contacte o administrador do servidor de documentos para mais informações.",
+  "DE.Controllers.ApplicationController.errorForcedViewMode": "Este ficheiro está aberto no modo de visualização.<br>O ficheiro está bloqueado para edição ou os seus direitos de acesso não permitem a edição.",
   "DE.Controllers.ApplicationController.errorForceSave": "Ocorreu um erro ao trabalhar no documento. Utilize a opção 'Descarregar como...' para guardar uma cópia do ficheiro no computador ou, em alternativa, tente mais tarde.",
   "DE.Controllers.ApplicationController.errorInconsistentExt": "Ocorreu um erro ao abrir o ficheiro.<br>O conteúdo do ficheiro não coincide com a sua extensão.",
   "DE.Controllers.ApplicationController.errorInconsistentExtDocx": "Ocorreu um erro ao abrir o ficheiro.<br>O conteúdo do ficheiro corresponde a um documento de texto (doc, docx...), mas a extensão de ficheiro não é consistente: %1",
@@ -143,6 +145,7 @@
   "DE.Controllers.ApplicationController.textGuest": "Convidado",
   "DE.Controllers.ApplicationController.textLoadingDocument": "A carregar documento",
   "DE.Controllers.ApplicationController.textNoLicenseTitle": "Atingiu o limite da licença",
+  "DE.Controllers.ApplicationController.textNoResourcesTitle": "Recursos insuficientes",
   "DE.Controllers.ApplicationController.textOf": "de",
   "DE.Controllers.ApplicationController.textRequired": "Preencha todos os campos obrigatório para enviar o formulário.",
   "DE.Controllers.ApplicationController.textSaveAs": "Guardar como PDF",
@@ -176,7 +179,7 @@
   "DE.Controllers.ApplicationController.warnLicenseExp": "A sua licença expirou.<br>Deve atualizar a licença e recarregar a página.",
   "DE.Controllers.ApplicationController.warnLicenseLimitedNoAccess": "Licença expirada.<br>Não pode editar o documento.<br>Contacte o administrador de sistemas.",
   "DE.Controllers.ApplicationController.warnLicenseLimitedRenewed": "Tem que renovar a sua licença.<br>A edição de documentos está limitada.<br>Contacte o administrador de sistemas para obter acesso total.",
-  "DE.Controllers.ApplicationController.warnNoLicense": "Atingiu o limite de ligações simultâneas aos editores %1. Este documento será aberto no modo de leitura.<br>Contacte a equipa comercial %1 para saber mais sobre os termos de licenciamento.",
+  "DE.Controllers.ApplicationController.warnNoResources": "O servidor %1 não possui recursos suficientes para abrir este documento para edição. Este documento será aberto apenas para visualização.",
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "Atingiu o limite de utilizadores para os editores %1. Contacte a equipa comercial %1 para obter mais informações.",
   "DE.Controllers.ApplicationController.warnStartFilling": "O preenchimento do formulário está em curso.<br>A edição do ficheiro não está disponível de momento.",
   "DE.Views.ApplicationView.textClear": "Limpar todos os campos",
@@ -208,5 +211,10 @@
   "DE.Views.ApplicationView.txtPrint": "Imprimir",
   "DE.Views.ApplicationView.txtSearch": "Pesquisar",
   "DE.Views.ApplicationView.txtShare": "Partilhar",
-  "DE.Views.ApplicationView.txtTheme": "Tema da interface"
+  "DE.Views.ApplicationView.txtTheme": "Tema da interface",
+  "DE.Views.FillingStatusSettings.txtComplete": "Concluído",
+  "DE.Views.FillingStatusSettings.txtDocumentIsSigned": "O documento está assinado",
+  "DE.Views.FillingStatusSettings.txtFillingStatus": "Estado de preenchimento",
+  "DE.Views.RightMenu.ariaRightMenu": "Menu direito",
+  "DE.Views.RightMenu.txtFillingStatus": "Estado de preenchimento"
 }

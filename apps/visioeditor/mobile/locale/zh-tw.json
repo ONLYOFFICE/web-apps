@@ -52,6 +52,7 @@
       "textGuest": "來賓",
       "textNo": "否",
       "textNoLicenseTitle": "達到許可限制",
+      "textNoResourcesTitle": "資源不足",
       "textOk": "確定",
       "textOpenFile": "請輸入用於開啟文件的密碼",
       "textPaidFeature": "付費功能",
@@ -69,7 +70,7 @@
       "warnLicenseExp": "您的授權已過期。請更新您的授權並重新整理頁面。",
       "warnLicenseLimitedNoAccess": "授權過期。 因此無法編輯文件。 請聯繫您的管理員。",
       "warnLicenseLimitedRenewed": "憑證需要續約。您目前只有文件編輯的部份功能。<br>欲使用完整功能，請聯絡您的帳號管理員。",
-      "warnNoLicense": "您已達到同時連接到 %1 編輯器的限制。此文件將只提供檢視。有關個人升級條款，請聯繫 %1 業務團隊。",
+      "warnNoResources": "%1伺服器沒有足夠的資源來開啟此文件進行編輯。此文件將僅以檢視模式開啟。",
       "warnNoLicenseUsers": "您已達到％1個編輯器的用戶限制。與％1銷售團隊聯繫以了解個人升級條款。",
       "warnProcessRightsChange": "您無權編輯此檔案。"
     }

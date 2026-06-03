@@ -8,6 +8,86 @@
 @red: #f00;
 @autoColor: @black;
 
+.icon-fill-gray-primary {
+    fill: var(--icon-fill-gray-primary, #444444);
+}
+
+.icon-stroke-gray-primary {
+    stroke: var(--icon-stroke-gray-primary, #444444);
+}
+
+.icon-fill-gray-secondary {
+    fill: var(--icon-fill-gray-secondary, #8E8E93);
+}
+
+.icon-fill-blue-primary {
+    fill: var(--icon-fill-blue-primary, #446ECA);
+}
+
+.icon-stroke-blue-primary {
+    stroke: var(--icon-stroke-blue-primary, #446ECA);
+}
+
+.icon-fill-blue-secondary {
+    fill: var(--icon-fill-blue-secondary, #DCE7FA);
+}
+
+.icon-fill-red {
+    fill: var(--icon-fill-red, #FF3B30);
+}
+
+.icon-stroke-red {
+    stroke: var(--icon-stroke-red, #FF3B30);
+}
+
+.icon-fill-green {
+    fill: var(--icon-fill-green, #009900);
+}
+
+.icon-stroke-green {
+    stroke: var(--icon-stroke-green, #009900);
+}
+
+.icon-stroke-white-base {
+    stroke: var(--icon-stroke-white-base, #FFFFFF);
+}
+
+.icon-fill-blue-brend-primary {
+    fill: var(--icon-fill-blue-brend-primary, #446995);
+}
+
+.icon-stroke-blue-brend-primary {
+    stroke: var(--icon-stroke-blue-brend-primary, #446995);
+}
+
+.icon-fill-blue-brend-secondary {
+    fill: var(--icon-fill-blue-brend-secondary, #E5F0FF);
+}
+
+.icon-fill-green-brend-primary {
+    fill: var(--icon-fill-green-brend-primary, #40865C);
+}
+
+.icon-stroke-green-brend-primary {
+    stroke: var(--icon-stroke-green-brend-primary, #40865C);
+}
+
+.icon-fill-green-brend-secondary {
+    fill: var(--icon-fill-green-brend-secondary, #D9EFE2);
+}
+
+.icon-fill-red-brend-primary {
+    fill: var(--icon-fill-red-brend-primary, #BE6650);
+}
+
+.icon-fill-red-brend-secondary {
+    fill: var(--icon-fill-red-brend-secondary, #FBE4DE);
+}
+
+.icon-fill-type-preview {
+    fill: var(--icon-fill-type-preview, #555555);
+}
+
 .row {
     --f7-cols-per-row: 1;
     align-items: flex-start;
@@ -273,6 +353,8 @@
 }
 
 .popover {
+    box-shadow: 0 10px 100px 0 rgba(0, 0, 0, 0.3);
+
     .page .list:first-child:last-child {
         ul {
             border-radius: 0;
@@ -284,6 +366,10 @@
             }
         }
     }
+}
+
+.sheet-modal, .dropdown-list-popup {
+    box-shadow: 0 8px 28px 0 rgba(0, 0, 0, 0.16);
 }
 
 // .popover .list + .list {
@@ -303,7 +389,11 @@
         .thumb {
             width: 100%;
             height: 100%;
-            background-color: @brandColor;
+
+            .thumb-icon {
+                width: 100%;
+                height: 100%;
+            }
         }
     }
 }
@@ -321,8 +411,12 @@
         .thumb {
             width: 100%;
             height: 100%;
-            background-size: contain;
-            background-repeat: no-repeat;
+
+            .thumb-icon {
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
         }
     }
 }

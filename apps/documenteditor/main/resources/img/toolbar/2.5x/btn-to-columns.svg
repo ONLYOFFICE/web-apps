@@ -1,10 +1,1 @@
-<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="3" y="10" width="5" height="1" fill="black"/>
-<rect x="3" y="12" width="5" height="1" fill="black"/>
-<rect x="3" y="14" width="5" height="1" fill="black"/>
-<rect x="12" y="10" width="3" height="1" fill="black"/>
-<rect x="12" y="14" width="3" height="1" fill="black"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M16 9H11V12H16V9ZM10 9V12V13V16V17H17V13V12V9V8H16H11H10V9ZM16 16V13H11V16H16Z" fill="black"/>
-<path d="M13 3V6L10 6V7L14 7V3H13Z" fill="black"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M12.6817 7C12.5067 5.31433 11.0818 4 9.3498 4C7.61784 4 6.19286 5.31433 6.01786 7H5.01367C5.19191 4.76122 7.06518 3 9.3498 3C11.6344 3 13.5077 4.76122 13.6859 7H12.6817Z" fill="black"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"><path fill="#000" d="M15 15h-3v-1h3v1Zm0-4h-3v-1h3v1Z"/><path fill="#000" d="M17 17h-7V8h7v9Zm-6-1h5v-3h-5v3Zm0-4h5V9h-5v3Zm-3 3H3v-1h5v1Zm0-2H3v-1h5v1Zm0-2H3v-1h5v1Zm6-4h-4V6h2.413A3.348 3.348 0 0 0 6.02 7H5.016A4.349 4.349 0 0 1 13 4.986V3h1v4Z"/></svg>

@@ -1,4 +1,6 @@
-<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M1 3H23V20H8V16H1V3ZM15 4H9V7H15V4ZM9 8H15V11H9V8ZM15 12H9V15H15V12ZM9 16H15V19H9V16ZM22 4H16V7H22V4ZM16 8H22V11H16V8ZM22 12H16V15H22V12ZM16 16H22V19H16V16Z"/>
-<path d="M4 17H5V19H7V20H5V22H4V20H2V19H4V17Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="icon-table-add-column-left">
+    <path fill="#446ECA" d="M6 13.856a.75.75 0 0 1 1.5 0v3.25h3.25a.75.75 0 0 1 0 1.5H7.5v3.25a.75.75 0 1 1-1.5 0v-3.25H2.75a.75.75 0 0 1 0-1.5H6v-3.25Z" class="icon-fill-blue-primary"/>
+    <path fill="#444" fill-rule="evenodd" d="M21 3.546c.966 0 1.75.783 1.75 1.75v13a1.75 1.75 0 0 1-1.75 1.75h-7a.75.75 0 0 1 0-1.5h1.25v-3.5H9.5v-1.189a2.751 2.751 0 0 0-2.75-2.75 2.751 2.751 0 0 0-2.749 2.75H4v1.189a.75.75 0 0 1-.75-.75v-9c0-.967.784-1.75 1.75-1.75h16Zm-4.25 15H21a.25.25 0 0 0 .25-.25v-3.25h-4.5v3.5Zm-6-5h4.5v-3.5h-4.5v3.5Zm6 0h4.5v-3.5h-4.5v3.5Zm-6-5h4.5v-3.5h-4.5v3.5Zm6 0h4.5v-3.25a.25.25 0 0 0-.25-.25h-4.25v3.5Z" class="icon-fill-gray-primary" clip-rule="evenodd"/>
+  </g>
 </svg>

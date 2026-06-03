@@ -52,6 +52,7 @@
       "textGuest": "Invitat",
       "textNo": "Nu",
       "textNoLicenseTitle": "Ați atins limita stabilită de licență",
+      "textNoResourcesTitle": "Resurse insuficiente",
       "textOk": "OK",
       "textOpenFile": "Introduceți parola pentru a deschide fișierul",
       "textPaidFeature": "Funcția contra plată",
@@ -69,7 +70,7 @@
       "warnLicenseExp": "Licența dvs. a expirat. Licența urmează să fie reînnoită iar pagina reîmprospătată.",
       "warnLicenseLimitedNoAccess": "Licența dvs. a expirat. Nu aveți acces la funcții de editare a documentului.Contactați administratorul dvs. de rețeea.",
       "warnLicenseLimitedRenewed": "Licență urmează să fie reînnoită. Funcțiile de editare sunt cu acces limitat.<br>Pentru a obține acces nelimitat, contactați administratorul dvs. de rețea.",
-      "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
+      "warnNoResources": "Serverul %1 nu are suficiente resurse pentru a deschide acest document pentru editare. Acest document va fi deschis doar pentru vizualizare.",
       "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori pentru editoare %1. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
       "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
     }

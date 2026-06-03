@@ -1,4 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 28 28">
-    <path fill="currentColor" d="M22.75 7a.25.25 0 0 1 .25.25v13.5a.25.25 0 0 1-.25.25h-3.5a.25.25 0 0 1-.25-.25V7.25a.25.25 0 0 1 .25-.25h3.5Z" class="icon-fill-blue-secondary"/>
-    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M14.5 14.5h-8m0 0 3-3m-3 3 3 3m8-12h-13a1 1 0 0 0-1 1v15a1 1 0 0 0 1 1h13m0-17h6a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1h-6m0-17v17" class="icon-stroke-gray-primary"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path opacity=".8" d="M16 7h7v14h-7z" fill="currentColor" stroke="none" class="icon-fill-blue-primary"/>
+    <path d="M14.5 6.5h7a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-7" class="icon-stroke-gray-primary"/>
+    <path d="M7.5 14.5h5m-3-2-2 2 2 2" class="icon-stroke-gray-primary"/>
+    <path d="M5.5 21.5h9a2 2 0 0 0 2-2v-11a2 2 0 0 0-2-2h-9a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2Z" class="icon-stroke-gray-primary"/>
 </svg>

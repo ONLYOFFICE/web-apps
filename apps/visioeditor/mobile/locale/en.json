@@ -52,6 +52,7 @@
       "textGuest": "Guest",
       "textNo": "No",
       "textNoLicenseTitle": "License limit reached",
+      "textNoResourcesTitle": "Not enough resources",
       "textOk": "Ok",
       "textOpenFile": "Enter a password to open the file",
       "textPaidFeature": "Paid feature",
@@ -69,7 +70,7 @@
       "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
       "warnLicenseLimitedNoAccess": "License expired. You have no access to document editing functionality. Please, contact your administrator.",
       "warnLicenseLimitedRenewed": "License needs to be renewed. You have limited access to document editing functionality.<br>Please contact your administrator to get full access",
-      "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
+      "warnNoResources": "The %1 server does not have enough resources to open this document for editing. This document will be opened for viewing only.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
       "warnProcessRightsChange": "You don't have permission to edit the file."
     }
@@ -214,7 +215,8 @@
       "textVersion": "Version",
       "textVisioInfo": "Diagram Viewer Info",
       "textVisioSettings": "Diagram Viewer Settings",
-      "textVisioTitle": "Diagram Viewer Title"
+      "textVisioTitle": "Diagram Viewer Title",
+      "textOpenLocation": "Open location"
     }
   }
 }

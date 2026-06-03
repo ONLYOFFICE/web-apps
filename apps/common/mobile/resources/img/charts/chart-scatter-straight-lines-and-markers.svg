@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64">
+  <g class="chart-scatter-straight-lines-and-markers">
+      <path fill="#555" d="M6 6h2v52h52v2H6V6Z" class="icon-fill-type-preview"/>
+      <path fill="#555" d="M35.59 28.514a3 3 0 1 0-4.938.355L19.867 46.127a3 3 0 1 0 1.616 1.188L32.35 29.929a3.013 3.013 0 0 0 1.715-.123L56.41 56.214l-2.067-16.53a3 3 0 1 0-1.984.247l1.231 9.855-18-21.272Z" class="icon-fill-type-preview"/>
+    <path fill="#555" d="M15.16 15.083a3 3 0 1 0-1.789.895l14.45 28.9 21.222-27.682-6.405 28.826a3 3 0 1 0 1.952.433l6.773-30.477a3 3 0 1 0-2.878-1.341L28.18 41.123l-13.02-26.04Z" class="icon-fill-type-preview" opacity=".6"/>
+  </g>
+</svg>

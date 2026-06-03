@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64">
+  <g class="chart-area-stack">
+    <path fill="#555" d="m23.66 40 7.858 10L60 20v40H5l18.66-20Z" class="icon-fill-type-preview"/>
+    <path fill="#555" d="m23.66 26 7.858 10L60 6v14L31.518 50 23.66 40 5 60V46l18.66-20Z" class="icon-fill-type-preview" opacity=".4"/>
+  </g>
+</svg>

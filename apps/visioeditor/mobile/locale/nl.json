@@ -52,6 +52,7 @@
       "textGuest": "Gast",
       "textNo": "Nee",
       "textNoLicenseTitle": "Licentielimiet bereikt",
+      "textNoResourcesTitle": "Onvoldoende bronnen",
       "textOk": "OK",
       "textOpenFile": "Voer een wachtwoord in om het bestand te openen",
       "textPaidFeature": "Betaalde functie",
@@ -69,7 +70,7 @@
       "warnLicenseExp": "Je licentie is verlopen. Gelieve je licentie bij te werken en de pagina te vernieuwen.",
       "warnLicenseLimitedNoAccess": "Licentie verlopen. Je hebt geen toegang tot de functionaliteit om documenten te bewerken. Neem contact op met je beheerder.",
       "warnLicenseLimitedRenewed": "Licentie moet worden vernieuwd. Je hebt beperkte toegang tot de functionaliteit om documenten te bewerken.<br>Neem contact op met je beheerder om volledige toegang te krijgen",
-      "warnNoLicense": "U hebt de limiet bereikt voor gelijktijdige verbindingen met %1 bewerkers. Dit document wordt alleen geopend om te bekijken. Neem contact op met %1 verkoopteam voor persoonlijke upgradevoorwaarden.",
+      "warnNoResources": "De %1-server heeft onvoldoende bronnen om dit document te openen voor bewerking. Dit document wordt alleen ter inzage geopend.",
       "warnNoLicenseUsers": "U heeft de gebruikerslimiet voor %1 gelijktijdige gebruikers bereikt. Neem contact op met de verkoopafdeling voor persoonlijke upgradevoorwaarden.",
       "warnProcessRightsChange": "Je hebt geen rechten om het bestand te bewerken. "
     }

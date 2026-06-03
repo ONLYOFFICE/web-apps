@@ -10,14 +10,19 @@
                 "../deploy/web-apps/apps/documenteditor/forms"
             ],
             "postbuild": [
+                "../deploy/web-apps/apps/documenteditor/forms/app_dev.js",
+                "../deploy/web-apps/apps/documenteditor/forms/app_pack.js",
+                "../deploy/web-apps/apps/documenteditor/forms/index.html.deploy",
+                "../deploy/web-apps/apps/documenteditor/forms/resources/less",
+                "../deploy/web-apps/apps/documenteditor/forms/resources/img/toolbar/**/*",
                 "../deploy/web-apps/apps/documenteditor/forms/resources/img"
             ]
         },
         "js": {
             "requirejs": {
                 "options": {
-                    "name": "../apps/documenteditor/forms/app.js",
-                    "out": "../deploy/web-apps/apps/documenteditor/forms/app.js",
+                    "appDir": "../apps/documenteditor/forms",
+                    "dir": "../deploy/web-apps/apps/documenteditor/forms",
                     "baseUrl": "../apps/",
                     "inlineText": true,
                     "findNestedDependencies": true,

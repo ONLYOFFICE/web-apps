@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 define([], function () {
@@ -377,25 +380,33 @@ define([], function () {
                                         caption: me.textNone, 
                                         value: 'noneError',
                                         stopPropagation: true, 
-                                        disabled: false
+                                        disabled: false,
+                                        toggleGroup: 'errorBars',
+                                        checkable: true
                                     },
                                     {
                                         caption: me.textStandardError,
                                         value: 'standardError',
                                         stopPropagation: true, 
-                                        disabled: false
+                                        disabled: false,
+                                        toggleGroup: 'errorBars',
+                                        checkable: true
                                     },
                                     {
                                         caption: me.txtPercentage,
                                         value: 'percentage',
                                         stopPropagation: true, 
-                                        disabled: false
+                                        disabled: false,
+                                        toggleGroup: 'errorBars',
+                                        checkable: true
                                     },
                                     {
                                         caption: me.textStandardDeviation,
                                         value: 'standardDeviation',
                                         stopPropagation: true, 
-                                        disabled: false
+                                        disabled: false,
+                                        toggleGroup: 'errorBars',
+                                        checkable: true
                                     }
                                 ]
                             })
@@ -506,27 +517,37 @@ define([], function () {
                                     {
                                         caption: me.textNone, 
                                         stopPropagation: true, 
-                                        value: 'trendLineNone'
+                                        value: 'trendLineNone',
+                                        toggleGroup: 'trendLines',
+                                        checkable: true
                                     },
                                     {
                                         caption: me.textLinear,
                                         stopPropagation: true, 
-                                        value: 'trendLineLinear'
+                                        value: 'trendLineLinear',
+                                        toggleGroup: 'trendLines',
+                                        checkable: true
                                     },
                                     {
                                         caption: me.textExponential, 
                                         stopPropagation: true, 
-                                        value: 'trendLineExponential'
+                                        value: 'trendLineExponential',
+                                        toggleGroup: 'trendLines',
+                                        checkable: true
                                     },
                                     {
                                         caption: me.textLinearForecast,
                                         stopPropagation: true, 
-                                        value: 'trendLineForecast'
+                                        value: 'trendLineForecast',
+                                        toggleGroup: 'trendLines',
+                                        checkable: true
                                     },
                                     {
                                         caption: me.textMovingAverage, 
                                         stopPropagation: true, 
-                                        value: 'trendLineMovingAverage'
+                                        value: 'trendLineMovingAverage',
+                                        toggleGroup: 'trendLines',
+                                        checkable: true
                                     }
                                 ]
                             })
@@ -1111,6 +1132,111 @@ define([], function () {
                     me.menuImgStretchContentControl,
                     me.menuImgEditPoints,
                     me.menuImageAdvanced
+                ]
+            }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
+                me.currentMenu = null;
+            });
+
+            /* horizontal line menu */
+
+            me.menuHLCopy = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
+                caption: me.textCopy,
+                value: 'copy'
+            });
+            me.menuHLPaste = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-paste',
+                caption: me.textPaste,
+                value: 'paste'
+            });
+            me.menuHLCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
+                caption: me.textCut,
+                value: 'cut'
+            });
+            me.menuHLPrint = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-print',
+                caption: me.txtPrintSelection
+            });
+
+            me.menuHLInsertCaption = new Common.UI.MenuItem({
+                caption: me.txtInsertCaption
+            });
+
+            var menuHLInsertCaptionSeparator = new Common.UI.MenuItem({ caption: '--' });
+            var menuHLHyperlinkSeparator = new Common.UI.MenuItem({ caption: '--' });
+            var menuHLAdvancedSeparator = new Common.UI.MenuItem({ caption: '--' });
+
+            me.menuHLAdvanced = new Common.UI.MenuItem({
+                caption: me.textHorizontalLineSettings
+            });
+
+            me.menuAddHyperlinkHL = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
+                caption: me.hyperlinkText
+            });
+            me.menuEditHyperlinkHL = new Common.UI.MenuItem({
+                caption: me.editHyperlinkText
+            });
+            me.menuRemoveHyperlinkHL = new Common.UI.MenuItem({
+                caption: me.removeHyperlinkText
+            });
+            var menuHyperlinkHL = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
+                caption: me.hyperlinkText,
+                menu: new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    items: [
+                        me.menuEditHyperlinkHL,
+                        me.menuRemoveHyperlinkHL
+                    ]
+                })
+            });
+
+            this.hlMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
+                restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
+                initMenu: function(value) {
+                    var islocked = false; 
+                    var cancopy = me.api && me.api.can_CopyCut();
+                    me.menuHLCut.setDisabled(islocked || !cancopy);
+                    me.menuHLCopy.setDisabled(!cancopy);
+                    me.menuHLPaste.setDisabled(islocked);
+                    me.menuHLPrint.setVisible(me.mode.canPrint);
+                    me.menuHLPrint.setDisabled(!cancopy);
+
+                    var text = null;
+                    if (me.api) text = me.api.can_AddHyperlink();
+                    me.menuAddHyperlinkHL.setVisible(value.hyperProps === undefined && text !== false);
+                    menuHyperlinkHL.setVisible(value.hyperProps !== undefined);
+                    menuHLHyperlinkSeparator.setVisible(me.menuAddHyperlinkHL.isVisible() || menuHyperlinkHL.isVisible());
+                    me.menuEditHyperlinkHL.hyperProps = value.hyperProps;
+                    me.menuRemoveHyperlinkHL.hyperProps = value.hyperProps;
+                    if (text !== false) {
+                        me.menuAddHyperlinkHL.hyperProps = {};
+                        me.menuAddHyperlinkHL.hyperProps.value = new Asc.CHyperlinkProperty();
+                        me.menuAddHyperlinkHL.hyperProps.value.put_Text(text);
+                    }
+                    me.menuAddHyperlinkHL.setDisabled(islocked);
+                    menuHyperlinkHL.setDisabled(islocked || (value.hyperProps !== undefined && value.hyperProps.isSeveralLinks === true));
+                    me.menuHLAdvanced.setDisabled(islocked);
+                },
+                items: [
+                    me.menuHLCut,
+                    me.menuHLCopy,
+                    me.menuHLPaste,
+                    me.menuHLPrint,
+                    menuHLInsertCaptionSeparator,
+                    me.menuHLInsertCaption,
+                    menuHLHyperlinkSeparator,
+                    me.menuAddHyperlinkHL,
+                    menuHyperlinkHL,
+                    menuHLAdvancedSeparator,
+                    me.menuHLAdvanced
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
                 me.clearCustomItems(menu);

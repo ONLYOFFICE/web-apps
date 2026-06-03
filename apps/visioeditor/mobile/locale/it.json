@@ -52,6 +52,7 @@
       "textGuest": "Ospite",
       "textNo": "No",
       "textNoLicenseTitle": "Il limite della licenza è stato raggiunto",
+      "textNoResourcesTitle": "Risorse insufficienti",
       "textOk": "Ok",
       "textOpenFile": "Inserisci la password per aprire il file",
       "textPaidFeature": "Funzioni a pagamento",
@@ -69,7 +70,7 @@
       "warnLicenseExp": "La tua licenza è scaduta. Ti preghiamo di aggiornarla e ricaricare la pagina.",
       "warnLicenseLimitedNoAccess": "La licenza è scaduta. Non hai accesso alle funzionalità di modifica dei documenti. Per favore, contatta il tuo amministratore.",
       "warnLicenseLimitedRenewed": "La licenza dev'essere rinnovata. Hai l'accesso limitato alle funzionalità di modifiche dei documenti.<br>Ti preghiamo di contattare il tuo amministratore per ottenere l'accesso completo.",
-      "warnNoLicense": "Hai raggiunto il limite di connessioni simultanee a %1 editor. Questo documento sarà aperto solo in modalità di visualizzazione. Ti preghiamo di contattare il reparto vendite di %1 per i termini di aggiornamento personali.",
+      "warnNoResources": "Il server %1 non dispone di risorse sufficienti per aprire questo documento per la modifica. Il documento verrà aperto in modalità di sola lettura.",
       "warnNoLicenseUsers": "Hai raggiunto il limite di utenti per %1 editor. Contatta il team di vendita di %1 per i termini di aggiornamento personali.",
       "warnProcessRightsChange": "Non hai il permesso di modificare il file."
     }

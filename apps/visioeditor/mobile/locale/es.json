@@ -52,6 +52,7 @@
       "textGuest": "Invitado",
       "textNo": "No",
       "textNoLicenseTitle": "Se ha alcanzado el límite de la licencia",
+      "textNoResourcesTitle": "Recursos insuficientes",
       "textOk": "OK",
       "textOpenFile": "Introduzca la contraseña para abrir el archivo",
       "textPaidFeature": "Característica de pago",
@@ -69,7 +70,7 @@
       "warnLicenseExp": "Su licencia ha expirado. Por favor, actualice su licencia y actualice la página.",
       "warnLicenseLimitedNoAccess": "La licencia ha expirado. No tiene acceso a la funcionalidad de edición de documentos. Por favor, póngase en contacto con su administrador.",
       "warnLicenseLimitedRenewed": "La licencia necesita renovación. Tiene acceso limitado a la funcionalidad de edición de documentos.<br>Por favor, póngase en contacto con su administrador para obtener acceso completo",
-      "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
+      "warnNoResources": "El servidor %1 no tiene suficientes recursos para abrir este documento para su edición. El documento se abrirá solo en modo de visualización.",
       "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para los editores de %1. Contacte con el equipo de ventas de %1 para conocer los términos de actualización personal.",
       "warnProcessRightsChange": "No tiene permiso para editar el archivo."
     }
