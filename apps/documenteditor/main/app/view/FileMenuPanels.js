@@ -3233,19 +3233,15 @@ define([], function () {
                 value: this.cmbPaperSize.getValue()
             });
             var newSelectedOption = null;
-
-            function findOptionBySize(list, width, height) {
-                return _.find(list, function(option) {
-                    return Math.abs(option.size[0] - width) < 0.1 && Math.abs(option.size[1] - height) < 0.1;
-                });
-            }
+            const printController = DE.getController('Print');
 
             // If a previously selected option exists, search for a matching one in resultList
             if (prevSelectedOption) {
-                newSelectedOption = findOptionBySize(
-                    resultList, 
-                    Math.round(prevSelectedOption.get('size')[0]), 
-                    Math.round(prevSelectedOption.get('size')[1])
+                newSelectedOption = printController.findPaperSizeOptionBySize(
+                    resultList,
+                    prevSelectedOption.get('size')[0], 
+                    prevSelectedOption.get('size')[1],
+                    prevSelectedOption.get('caption')
                 );
             }
 
@@ -3265,7 +3261,7 @@ define([], function () {
                         _h = this._originalPageSize ? this._originalPageSize.h : 297;
                     // If no matching option is found, look for the default size 210x297 (A4)
                     if (!newSelectedOption) {
-                        newSelectedOption = findOptionBySize(resultList, _w, _h);
+                        newSelectedOption = printController.findPaperSizeOptionBySize(resultList, _w, _h);
                     }
 
                     if (!newSelectedOption) {

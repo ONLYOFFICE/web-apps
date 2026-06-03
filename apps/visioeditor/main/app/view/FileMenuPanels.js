@@ -1979,7 +1979,8 @@ define([], function () {
 
             function findOptionBySize(list, width, height) {
                 return _.find(list, function(option) {
-                    return Math.abs(option.size[0] - width) < 0.1 && Math.abs(option.size[1] - height) < 0.1;
+                    return Math.abs(Math.round(option.size[0]) - Math.round(width)) < 1 && 
+                        Math.abs(Math.round(option.size[1]) - Math.round(height)) < 1;
                 });
             }
 

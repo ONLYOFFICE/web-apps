@@ -4843,6 +4843,10 @@ define([
             }
         },
 
+        getView: function (name) {
+            return !name ? this.toolbar : Backbone.Controller.prototype.getView.apply(this, arguments);
+        },
+
         onFileMenu: function (opts) {
             if ( opts == 'show' ) {
                 if ( !this.toolbar.isTabActive('file') )

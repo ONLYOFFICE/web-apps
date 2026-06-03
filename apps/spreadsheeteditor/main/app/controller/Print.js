@@ -210,6 +210,95 @@ define([
             this.fillPageOptions(panel, this._changedProps[currentSheet] ? this._changedProps[currentSheet] : this.api.asc_getPageOptions(currentSheet, true), currentSheet);
         },
 
+        /**
+         * Finds the best matching paper size option by size and name hint.
+         *
+         * @param {Array<{size: [number, number], caption: string}>} list - List of available paper size options
+         * @param {number} width - Page width
+         * @param {number} height - Page height
+         * @param {string|undefined} currentName - Current size name used as a hint when multiple matches are found
+         * @returns {Object|undefined} The best matching paper size option, or undefined if nothing found
+         */
+        findPaperSizeOptionBySize: function(list, width, height, currentName) {
+            /** Picks the best match by name among candidates */ 
+            function findBestByName(candidates, currentName) {
+                /** Splits a string into tokens: separates camelCase, lowercases, splits by spaces/dashes/underscores */
+                function tokenize(name) {
+                    return name
+                        .replace(/([a-z])([A-Z])/g, '$1 $2')  // "AnsiA" → "Ansi A"
+                        .toLowerCase()
+                        .split(/[\s_\-]+/)
+                        .filter(Boolean);
+                }
+
+                /** Calculates similarity between two strings as the ratio of shared tokens to the longer token list */ 
+                function tokenSimilarity(source, target) {
+                    const sTokens = tokenize(source);
+                    const tTokens = tokenize(target);
+                    const commonTokens = sTokens.filter(function(tok){ return tTokens.includes(tok) }).length;
+                    return commonTokens / Math.max(sTokens.length, tTokens.length);
+                }
+
+                /** Sorts candidates by descending similarity score; on a tie, prefers the shorter caption */
+                return candidates
+                    .map(function(candidate){
+                        return {
+                            candidate,
+                            score: tokenSimilarity(currentName, candidate.caption)
+                        }
+                    })
+                    .sort(function(a, b) {
+                        if (b.score !== a.score) return b.score - a.score;
+                        return tokenize(a.candidate.caption).length - tokenize(b.candidate.caption).length;
+                    })[0].candidate;
+            }
+
+            width = Math.round(width);
+            height = Math.round(height);
+
+            const me = this;
+
+            // Filter the list to only options whose dimensions match within a tolerance of < 1
+            const matched = _.filter(list, function(option) {
+                const size = option.size;
+                return Math.abs(Math.round(size[0]) - width) < 1 && 
+                    Math.abs(Math.round(size[1]) - height) < 1;
+            });
+
+            let result = undefined;
+
+            if(matched.length === 0) {
+                result = undefined;
+            } else if(matched.length === 1) {
+                result = matched[0];
+            } else {
+                // Multiple matches — need to pick the best one by name
+                let nameToMatch;
+
+                if(currentName) {
+                    // Use the provided name as the reference for comparison
+                    nameToMatch = currentName;
+                } else {
+                    // Try to resolve a name from the toolbar's default size list
+                    const toolbarView = me.getApplication().getController('Toolbar').getView();
+                    const defaultSizes = toolbarView && toolbarView.btnPageSize && toolbarView.btnPageSize.menu.items;
+                    const defaultMatch = _.find((defaultSizes || []), function(option) {
+                        return Math.abs(Math.round(option.value[0]) - width) < 1 &&
+                            Math.abs(Math.round(option.value[1]) - height) < 1;
+                    });
+                    defaultMatch && (nameToMatch = defaultMatch.caption);
+                }
+                
+                if(nameToMatch) {
+                    result = findBestByName(matched, nameToMatch);
+                } else {
+                    result = matched[0];
+                }
+            }
+
+            return result;
+        },
+
         fillPageOptions: function(panel, props, sheet) {
             var opt = props.asc_getPageSetup();
             this._originalPageSettings = opt;
@@ -220,19 +309,10 @@ define([
                 panel.setOriginalPageSize(w, h);
 
             var store = panel.cmbPaperSize.store;
-            let item = null;
-            for (var i=0; i<store.length; i++) {
-                var rec = store.at(i),
-                    size = rec.get('size'),
-                    pagewidth = size[0],
-                    pageheight = size[1];
-                if (Math.abs(pagewidth - w) < 0.1 && Math.abs(pageheight - h) < 0.1) {
-                    item = rec;
-                    break;
-                }
-            }
+            let item = this.findPaperSizeOptionBySize(store.toJSON(), w, h);
+            
             if (item)
-                panel.cmbPaperSize.setValue(item.get('value'));
+                panel.cmbPaperSize.setValue(item.value);
             else {
                 if (panel.$el.prop('id') === 'panel-print') {
                     panel.cmbPaperSize.setValue(undefined, [this.txtCustom,
@@ -243,6 +323,8 @@ define([
                     panel.cmbPaperSize.setValue(this.txtCustom + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(w).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
                         parseFloat(Common.Utils.Metric.fnRecalcFromMM(h).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
                 }
+
+                if(panel.setCustomPageSize) panel.setCustomPageSize(w, h);
             }
 
             this.fitWidth = opt.asc_getFitToWidth();
