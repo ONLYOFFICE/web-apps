@@ -93,6 +93,7 @@ define([
 
             this.linkAdvanced = $('#image-advanced-link');
             this.ResetCrop = el.find('#image-button-reset-crop').closest('tr');
+            this.ConvertToShapeWrap = el.find('#image-convert-to-shape-wrap');
         },
 
         setApi: function(api) {
@@ -210,6 +211,14 @@ define([
                 el: $('#image-button-edit-object')
             });
             this.lockedControls.push(this.btnEditObject);
+
+            this.btnConvertToShape = new Common.UI.Button({
+                el: $('#image-button-convert-to-shape')
+            });
+            this.btnConvertToShape.on('click', _.bind(function() {
+                if (this.api)this.api.asc_convertImageToShapes();
+                Common.NotificationCenter.trigger('edit:complete', this);
+            }, this));
 
             this.spnWidth.on('change', _.bind(this.onWidthChange, this));
             this.spnHeight.on('change', _.bind(this.onHeightChange, this));
@@ -499,6 +508,11 @@ define([
                     this.btnEditObject.setVisible(value);
                     this._state.isOleObject=value;
                 }
+
+                var canConvert = this.api.asc_canConvertImageToShapes();
+                this.ConvertToShapeWrap.toggleClass('hidden', !canConvert);
+                if (canConvert) this.btnConvertToShape.setDisabled(this._locked);
+
                 this.btnRotate270.setDisabled(value || this._locked);
                 this.btnRotate90.setDisabled(value || this._locked);
                 this.btnFlipV.setDisabled(value || this._locked);

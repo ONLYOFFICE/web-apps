@@ -710,6 +710,10 @@ define([], function () {
                 caption : me.originalSizeText
             });
 
+            me.menuImgConvertToShape = new Common.UI.MenuItem({
+                caption: me.textConvertToShape
+            });
+
             me.menuImgReplace = new Common.UI.MenuItem({
                 caption     : me.textReplace,
                 menu        : new Common.UI.Menu({
@@ -1077,6 +1081,10 @@ define([], function () {
                     me.menuImgEditPoints.setVisible(canEditPoints);
                     canEditPoints && me.menuImgEditPoints.setDisabled(islocked);
 
+                    var canConvert = me.api && me.api.asc_canConvertImageToShapes();
+                    me.menuImgConvertToShape.setVisible(canConvert);
+                    canConvert && me.menuImgConvertToShape.setDisabled(islocked);
+
                     var text = null;
                     if (me.api) {
                         text = me.api.can_AddHyperlink();
@@ -1131,6 +1139,7 @@ define([], function () {
                     me.menuChartEdit,
                     me.menuImgStretchContentControl,
                     me.menuImgEditPoints,
+                    me.menuImgConvertToShape,
                     me.menuImageAdvanced
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {

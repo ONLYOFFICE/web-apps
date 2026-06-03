@@ -940,6 +940,10 @@ define([], function () {
                 caption     : me.originalSizeText
             });
 
+            me.menuImgConvertToShape = new Common.UI.MenuItem({
+                caption: me.textConvertToShape
+            });
+
             me.menuImgReplace = new Common.UI.MenuItem({
                 caption     : me.textReplace,
                 menu        : new Common.UI.Menu({
@@ -1657,6 +1661,7 @@ define([], function () {
                     me.mnuShapeAdvanced,
                     me.menuImgOriginalSize,
                     me.menuImgReplace,
+                    me.menuImgConvertToShape,
                     me.mnuImgAdvanced,
                     me.mnuSlicerSeparator,
                     me.mnuSlicerAdvanced

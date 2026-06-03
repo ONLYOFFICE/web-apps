@@ -311,6 +311,7 @@ define([], function () {
             view.menuHLAdvanced.on('click', _.bind(me.onHLAdvanced, me));
             view.menuImgReplace.menu.on('item:click', _.bind(me.onImgReplace, me));
             view.menuImgEditPoints.on('click', _.bind(me.onImgEditPoints, me));
+            view.menuImgConvertToShape.on('click', _.bind(me.onImgConvertToShape, me));
             view.mnuTableMerge.on('click', _.bind(me.onTableMerge, me));
             view.mnuTableSplit.on('click', _.bind(me.onTableSplit, me));
             view.menuIgnoreSpellTable.on('click', _.bind(me.onIgnoreSpell, me));
@@ -2731,6 +2732,11 @@ define([], function () {
 
         dh.onImgEditPoints = function(item) {
             this.api && this.api.asc_editPointsGeometry();
+        };
+
+        dh.onImgConvertToShape = function() {
+            this.api && this.api.asc_convertImageToShapes();
+            this.editComplete();
         };
 
         dh.onTableMerge = function(item) {

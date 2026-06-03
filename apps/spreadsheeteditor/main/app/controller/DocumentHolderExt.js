@@ -222,6 +222,7 @@ define([], function () {
                 view.tableTotalMenu.on('item:click',                _.bind(me.onTotalMenuClick, me));
                 view.menuImgMacro.on('click',                       _.bind(me.onImgMacro, me));
                 view.menuImgEditPoints.on('click',                  _.bind(me.onImgEditPoints, me));
+                view.menuImgConvertToShape.on('click',              _.bind(me.onImgConvertToShape, me));
                 view.pmiGetRangeList.on('click',                    _.bind(me.onGetLink, me));
                 view.menuParagraphEquation.menu.on('item:click',    _.bind(me.convertEquation, me));
                 view.menuSaveAsPicture.on('click',                  _.bind(me.saveAsPicture, me));
@@ -1399,6 +1400,10 @@ define([], function () {
             this.api && this.api.asc_editPointsGeometry();
         };
 
+        dh.onImgConvertToShape = function() {
+            this.api && this.api.asc_convertImageToShapes();
+        };
+
         dh.onGetLink = function(item) {
             if (this.api) {
                 var range = this.api.asc_getActiveRangeStr(Asc.referenceType.A, false, true),
@@ -2370,6 +2375,10 @@ define([], function () {
                 var canEditPoints = this.api && this.api.asc_canEditGeometry();
                 documentHolder.menuImgEditPoints.setVisible(canEditPoints);
                 canEditPoints && documentHolder.menuImgEditPoints.setDisabled(isObjLocked);
+
+                var canConvert = this.api && this.api.asc_canConvertImageToShapes();
+                documentHolder.menuImgConvertToShape.setVisible(canConvert);
+                canConvert && documentHolder.menuImgConvertToShape.setDisabled(isObjLocked);
 
                 if (showMenu) this.showPopupMenu(documentHolder.imgMenu, {}, event);
                 documentHolder.mnuShapeSeparator.setVisible(documentHolder.mnuShapeAdvanced.isVisible() || documentHolder.mnuChartEdit.isVisible() || documentHolder.mnuImgAdvanced.isVisible());

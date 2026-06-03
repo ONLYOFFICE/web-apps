@@ -251,6 +251,7 @@ define([], function () {
             view.menuImgCrop.menu.on('item:click', _.bind(me.onImgCrop, me));
             view.menuImgResetCrop.on('click', _.bind(me.onImgResetCrop, me));
             view.menuImgEditPoints.on('click', _.bind(me.onImgEditPoints, me));
+            view.menuImgConvertToShape.on('click', _.bind(me.onImgConvertToShape, me));
             view.menuShapeAdvanced.on('click', _.bind(me.onShapeAdvanced, me));
             view.menuParagraphAdvanced.on('click', _.bind(me.onParagraphAdvanced, me));
             view.menuChartAdvanced.on('click', _.bind(me.onChartAdvanced, me));
@@ -2270,6 +2271,11 @@ define([], function () {
 
         dh.onImgEditPoints = function(item) {
             this.api && this.api.asc_editPointsGeometry();
+        };
+
+        dh.onImgConvertToShape = function() {
+            this.api && this.api.asc_convertImageToShapes();
+            this.editComplete();
         };
 
         dh.onShapeAdvanced = function(item) {
