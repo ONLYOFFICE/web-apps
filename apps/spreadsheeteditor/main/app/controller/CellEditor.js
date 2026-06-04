@@ -205,12 +205,13 @@ define([
 
         onLayoutResize: function(o, r) {
             if (r == 'cell:edit') {
-                if (Math.floor(this.editor.$el.height()) > 19) {
+                if (Math.floor(this.editor.$el.height()) > 24) {
                     if (!this.editor.$btnexpand.hasClass('btn-collapse')) {
                         this.editor.$el.addClass('expanded');
                         this.editor.$btnexpand['addClass']('btn-collapse');
                     }
 
+                    this.editor.scroller.update();
                     o && Common.localStorage.setItem('sse-celleditor-height', this.editor.$el.height());
                     o && Common.localStorage.setBool('sse-celleditor-expand', true);
                 } else {
@@ -262,6 +263,7 @@ define([
                 this.editor.$el.height(this.editor.keep_height);
                 this.editor.$el.addClass('expanded');
                 this.editor.$btnexpand['addClass']('btn-collapse');
+                this.editor.scroller.update();
                 Common.localStorage.setBool('sse-celleditor-expand', true);
             }
             this.onCellEditorTextChange();
