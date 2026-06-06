@@ -383,6 +383,12 @@ define([
 
         const _onAppReady = function (opts) {
             _.extend(config, opts);
+
+            if (!!window.keepfeaturesjson) {
+                on_native_message('window:features', window.keepfeaturesjson);
+                delete window.keepfeaturesjson;
+            }
+
             !!native && native.execCommand('doc:onready', '');
             !!native && native.LocalFileRecents();
 
