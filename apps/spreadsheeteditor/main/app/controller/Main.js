@@ -398,6 +398,7 @@ define([
                 });
 
                 me.defaultTitleText = '{{APP_TITLE_TEXT}}';
+                me.warnNoLicense  = (me.warnNoLicense || '').replace(/%1/g, '{{COMPANY_NAME}}');
                 me.warnNoResources  = (me.warnNoResources || '').replace(/%1/g, '{{COMPANY_NAME}}');
                 me.warnNoLicenseUsers = (me.warnNoLicenseUsers || '').replace(/%1/g, '{{COMPANY_NAME}}');
                 me.textNoLicenseTitle = (me.textNoLicenseTitle || '').replace(/%1/g, '{{COMPANY_NAME}}');
@@ -1227,7 +1228,7 @@ define([
 
                 var licType = params.asc_getLicenseType();
                 if (licType !== undefined && (this.appOptions.canEdit || this.appOptions.isRestrictedEdit) && this.editorConfig.mode !== 'view' &&
-                    (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS
+                    (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS || licType===Asc.c_oLicenseResult.NotEnoughResources
                     || licType===Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
                     this._state.licenseType = licType;
 
@@ -1269,9 +1270,10 @@ define([
                         title = this.titleReadOnly;
                         license = (license===Asc.c_oLicenseResult.Connections) ? this.tipLicenseExceeded : this.tipLicenseUsersExceeded;
                     } else {
-                        if (license===Asc.c_oLicenseResult.ConnectionsOS)
+                        if (license===Asc.c_oLicenseResult.NotEnoughResources)
                             title = this.textNoResourcesTitle;
-                        license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoResources : this.warnNoLicenseUsers;
+                        license = (license===Asc.c_oLicenseResult.NotEnoughResources) ? this.warnNoResources :
+                                  (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
                         buttons = [{value: 'buynow', caption: this.textBuyNow}, {value: 'contact', caption: this.textContactUs}];
                         primary = 'buynow';
                         modal = true;
@@ -1692,15 +1694,18 @@ define([
 
             applyModeEditorElements: function(prevmode) {
                 /** coauthoring begin **/
-                var commentsController  = this.getApplication().getController('Common.Controllers.Comments');
-                if (commentsController) {
-                    commentsController.setMode(this.appOptions);
-                    commentsController.setConfig({
-                            config      : this.editorConfig,
-                            sdkviewname : '#ws-canvas-outer',
-                            fullInfoHintMode : true,
-                            hintmode    : true},
-                        this.api);
+                if (!this.appOptions.isEditDiagram) {
+                    var commentsController = this.getApplication().getController('Common.Controllers.Comments');
+                    if (commentsController) {
+                        commentsController.setMode(this.appOptions);
+                        commentsController.setConfig({
+                                config: this.editorConfig,
+                                sdkviewname: '#ws-canvas-outer',
+                                fullInfoHintMode: true,
+                                hintmode: true
+                            },
+                            this.api);
+                    }
                 }
                 /** coauthoring end **/
                 var me = this,

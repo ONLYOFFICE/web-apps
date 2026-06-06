@@ -1835,6 +1835,7 @@
   "DE.Controllers.Main.warnLicenseExp": "ライセンスの有効期限が切れています。<br>ライセンスを更新してページをリロードしてください。",
   "DE.Controllers.Main.warnLicenseLimitedNoAccess": "ライセンスの有効期限が切れています。<br>ドキュメント編集機能にアクセスできません。<br>管理者にご連絡ください。",
   "DE.Controllers.Main.warnLicenseLimitedRenewed": "ライセンスを更新する必要があります。<br>ドキュメント編集機能へのアクセスが制限されています。<br>フルアクセスを取得するには、管理者にご連絡ください。",
+  "DE.Controllers.Main.warnNoLicense": "％1エディターへの同時接続の制限に達しました。 このドキュメントは閲覧のみを目的として開かれます。<br>個人的なアップグレード条件については、％1セールスチームにお問い合わせください。",
   "DE.Controllers.Main.warnNoResources": "%1サーバーにはこのドキュメントを編集用に開くための十分なリソースがありません。このドキュメントは閲覧専用で開かれます。",
   "DE.Controllers.Main.warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1セールスチームにお問い合わせください。",
   "DE.Controllers.Main.warnProcessRightsChange": "ファイルを編集する権限を拒否されています。",

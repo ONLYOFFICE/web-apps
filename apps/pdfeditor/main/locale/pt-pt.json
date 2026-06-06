@@ -818,6 +818,7 @@
   "PDFE.Controllers.Main.warnLicenseExp": "A sua licença caducou.<br>Deve atualizar a licença e recarregar a página.",
   "PDFE.Controllers.Main.warnLicenseLimitedNoAccess": "Licença caducada.<br>Não pode editar o documento.<br>Por favor contacte o seu administrador.",
   "PDFE.Controllers.Main.warnLicenseLimitedRenewed": "Tem que renovar a sua licença.<br>A edição de documentos foi limitada.<br>Contacte o administrador para obter acesso completo.",
+  "PDFE.Controllers.Main.warnNoLicense": "Atingiu o limite de ligações simultâneas a %1 editores. Este documento será aberto no modo de leitura.<br>Contacte a equipa comercial %1 para saber mais sobre os termos de licenciamento.",
   "PDFE.Controllers.Main.warnNoResources": "O servidor %1 não possui recursos suficientes para abrir este documento para edição. Este documento será aberto apenas para visualização.",
   "PDFE.Controllers.Main.warnNoLicenseUsers": "Atingiu o limite de %1 editores. Contacte a equipa comercial %1 para obter mais informações.",
   "PDFE.Controllers.Main.warnProcessRightsChange": "Não tem permissões para editar o ficheiro.",

@@ -200,6 +200,7 @@ define([
 
             window.onbeforeunload = _.bind(this.onBeforeUnload, this);
 
+            this.warnNoLicense  = this.warnNoLicense.replace(/%1/g, '{{COMPANY_NAME}}');
             this.warnNoResources  = this.warnNoResources.replace(/%1/g, '{{COMPANY_NAME}}');
             this.warnNoLicenseUsers = this.warnNoLicenseUsers.replace(/%1/g, '{{COMPANY_NAME}}');
             this.textNoLicenseTitle = this.textNoLicenseTitle.replace(/%1/g, '{{COMPANY_NAME}}');
@@ -860,7 +861,7 @@ define([
         onLicenseChanged: function(params) {
             var licType = params.asc_getLicenseType();
             if (licType !== undefined && this.appOptions.canFillForms &&
-                (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS
+                (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS || licType===Asc.c_oLicenseResult.NotEnoughResources
                     || licType===Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
                 this._state.licenseType = licType;
 
@@ -890,9 +891,10 @@ define([
                     title = this.titleReadOnly;
                     license = (license===Asc.c_oLicenseResult.Connections) ? this.tipLicenseExceeded : this.tipLicenseUsersExceeded;
                 } else {
-                    if (license===Asc.c_oLicenseResult.ConnectionsOS)
+                    if (license===Asc.c_oLicenseResult.NotEnoughResources)
                         title = this.textNoResourcesTitle;
-                    license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoResources : this.warnNoLicenseUsers;
+                    license = (license===Asc.c_oLicenseResult.NotEnoughResources) ? this.warnNoResources :
+                              (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
                     buttons = [{value: 'buynow', caption: this.textBuyNow}, {value: 'contact', caption: this.textContactUs}];
                     primary = 'buynow';
                     modal = true;
@@ -2421,6 +2423,7 @@ define([
         errorUpdateVersion: 'The file version has been changed. The page will be reloaded.',
         warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
         warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
+        warnNoLicense: "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact %1 sales team for personal upgrade terms.",
         warnNoResources: "The %1 server does not have enough resources to open this document for editing. This document will be opened for viewing only.",
         warnNoLicenseUsers: "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
         textBuyNow: 'Visit website',

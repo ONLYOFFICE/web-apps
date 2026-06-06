@@ -179,6 +179,7 @@
   "DE.Controllers.ApplicationController.warnLicenseExp": "A sua licença expirou.<br>Deve atualizar a licença e recarregar a página.",
   "DE.Controllers.ApplicationController.warnLicenseLimitedNoAccess": "Licença expirada.<br>Não pode editar o documento.<br>Contacte o administrador de sistemas.",
   "DE.Controllers.ApplicationController.warnLicenseLimitedRenewed": "Tem que renovar a sua licença.<br>A edição de documentos está limitada.<br>Contacte o administrador de sistemas para obter acesso total.",
+  "DE.Controllers.ApplicationController.warnNoLicense": "Atingiu o limite de ligações simultâneas aos editores %1. Este documento será aberto no modo de leitura.<br>Contacte a equipa comercial %1 para saber mais sobre os termos de licenciamento.",
   "DE.Controllers.ApplicationController.warnNoResources": "O servidor %1 não possui recursos suficientes para abrir este documento para edição. Este documento será aberto apenas para visualização.",
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "Atingiu o limite de utilizadores para os editores %1. Contacte a equipa comercial %1 para obter mais informações.",
   "DE.Controllers.ApplicationController.warnStartFilling": "O preenchimento do formulário está em curso.<br>A edição do ficheiro não está disponível de momento.",

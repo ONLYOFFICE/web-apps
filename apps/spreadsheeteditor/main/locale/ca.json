@@ -1388,6 +1388,7 @@
   "SSE.Controllers.Main.warnLicenseExp": "La teva llicència ha caducat. <br>Actualitza la llicència i torna a carregar la pàgina.",
   "SSE.Controllers.Main.warnLicenseLimitedNoAccess": "La llicència ha caducat. <br>No tens accés a la funció d'edició de documents. <br>Posa't en contacte amb el teu administrador.",
   "SSE.Controllers.Main.warnLicenseLimitedRenewed": "Cal renovar la llicència. <br>Tens accés limitat a la funció d'edició de documents. <br>Posa't en contacte amb l'administrador per obtenir accés total",
+  "SSE.Controllers.Main.warnNoLicense": "Has arribat al límit de connexions simultànies per als editors %1. Aquest document s'obrirà al mode de només lectura. Contacta l'equip de vendes %1 per a les condicions personals de millora del servei.",
   "SSE.Controllers.Main.warnNoResources": "El servidor %1 no disposa de prou recursos per obrir aquest document per a l’edició. El document s’obrirà només en mode de visualització.",
   "SSE.Controllers.Main.warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Contacta amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels teus serveis.",
   "SSE.Controllers.Main.warnProcessRightsChange": "No tens permís per editar el fitxer.",

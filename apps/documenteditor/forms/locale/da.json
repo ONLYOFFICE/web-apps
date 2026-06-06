@@ -179,6 +179,7 @@
   "DE.Controllers.ApplicationController.warnLicenseExp": "Din licens er udløbet<br>Venligst opdatér din licens og genindlæs siden.",
   "DE.Controllers.ApplicationController.warnLicenseLimitedNoAccess": "Licens udløbet. <br>Du har ikke adgang til at redigere. <br>Kontakt venligst din administrator.",
   "DE.Controllers.ApplicationController.warnLicenseLimitedRenewed": "Licens skal fornyes.<br>Du har begrænset adgang til at redigere dokumenter.<br>Kontakt venligst din administrator for at få fuld adgang.",
+  "DE.Controllers.ApplicationController.warnNoLicense": "Du har nået grænsen for antal samtidige forbindelser til %1 værktøjer. Dokumentet åbnes for læsning.<br>Kontakt %1 salgsteamet for betingelser for opgradering.",
   "DE.Controllers.ApplicationController.warnNoResources": "Serveren %1 har ikke nok ressourcer til at åbne dette dokument til redigering. Dokumentet vil blive åbnet kun til visning.",
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "Denne version af %1 redigeringsværktøj har bestemte begrænsninger for samtidige brugere.<br>Overvej venligst at købe en kommerciel licens hvis du har brug for flere.",
   "DE.Controllers.ApplicationController.warnStartFilling": "Formularen arkiveres<br>Filen kan ikke redigeres i øjeblikket.",

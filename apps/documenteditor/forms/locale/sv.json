@@ -170,6 +170,7 @@
   "DE.Controllers.ApplicationController.warnLicenseExp": "Din licens har gått ut.<br>Förnya din licens och uppdatera sidan.",
   "DE.Controllers.ApplicationController.warnLicenseLimitedNoAccess": "Licensen har utgått.<br>Redigeringsfunktionerna är inte tillgängliga.<br>Vänligen kontakta din administratör.",
   "DE.Controllers.ApplicationController.warnLicenseLimitedRenewed": "Licensen måste förnyas.<br>Endast begränsad redigeringsfunktionalitet.<br>Vänligen kontakta din administratör för att få full funktionalitet",
+  "DE.Controllers.ApplicationController.warnNoLicense": "Gränsen är nådd för antalet %1 samtidiga anslutna redigerare. Dokumentet öppnas som skrivskyddat.<br>Kontakta %1 försäljningsteamet för personliga uppgraderings villkor.",
   "DE.Controllers.ApplicationController.warnNoResources": "%1-servern har inte tillräckligt med resurser för att öppna detta dokument för redigering. Dokumentet kommer att öppnas i skrivskyddat läge.",
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "Gränsen är nådd för antalet %1 redigerare.<br>Kontakta %1 försäljningsteamet för personliga uppgraderings villkor.",
   "DE.Views.ApplicationView.textClear": "Rensa alla fält",

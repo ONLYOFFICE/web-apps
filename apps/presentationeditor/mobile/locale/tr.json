@@ -176,6 +176,7 @@
       "warnLicenseExp": "Lisansınızın süresi doldu. Lütfen güncelleyiniz ve sayfayı yenileyiniz.",
       "warnLicenseLimitedNoAccess": "Lisans süresi doldu. Belge düzenleme işlevine erişiminiz yok. Lütfen yöneticinize başvurun.",
       "warnLicenseLimitedRenewed": "Lisansın yenilenmesi gerekiyor. Belge düzenleme işlevine sınırlı erişiminiz var.<br>Tam erişim için lütfen yöneticinizle iletişime geçin.",
+      "warnNoLicense": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
       "warnNoResources": "%1 sunucusu bu belgeyi düzenleme için açacak yeterli kaynağa sahip değil. Bu belge yalnızca görüntüleme için açılacaktır.",
       "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
       "warnProcessRightsChange": "Dosyayı düzenleme izniniz yok."

@@ -2005,6 +2005,7 @@
   "SSE.Controllers.Main.warnLicenseLimitedNoAccess": "Licenza scaduta.<br>Non puoi modificare il documento.<br>Contatta l'amministratore.",
   "SSE.Controllers.Main.warnLicenseLimitedRenewed": "La licenza dev'essere rinnovata<br>Hai un accesso limitato alle funzioni di modifica del documento<br>Contatta l'amministratore per ottenere l'accesso completo",
   "SSE.Controllers.Main.warnModifyFilter": "Sei in una modalità in cui i filtri sono visibili solo a te e non vengono salvati. Non puoi aggiungere o rimuovere filtri.<br>Per salvare la visualizzazione corrente, utilizza Visualizzazione foglio nella scheda Visualizzazione.",
+  "SSE.Controllers.Main.warnNoLicense": "Hai raggiunto il limite di connessioni simultanee a %1 editor. Questo documento verrà aperto in sola lettura.<br>Contatta il team di vendita di %1 per i termini di aggiornamento personali.",
   "SSE.Controllers.Main.warnNoResources": "Il server %1 non dispone di risorse sufficienti per aprire questo documento per la modifica. Il documento verrà aperto in modalità di sola lettura.",
   "SSE.Controllers.Main.warnNoLicenseUsers": "Hai raggiunto il limite di utenti per %1 editor. Contatta il team di vendita di %1 per i termini di aggiornamento personali.",
   "SSE.Controllers.Main.warnOpenCsv": "Il formato CSV non supporta il salvataggio di un file composto da più fogli o di qualsiasi elemento tranne il testo.<br>Verrà salvato solo il foglio attivo.",
