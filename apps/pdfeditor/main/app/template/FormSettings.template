@@ -346,7 +346,7 @@
             <div class="separator horizontal"></div>
         </td>
     </tr>
-    <tr class="form-text-combo">
+    <tr>
         <td align="center">
             <label class="link canfocused" id="form-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
         </td>

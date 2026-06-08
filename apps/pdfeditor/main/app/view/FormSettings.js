@@ -1849,6 +1849,7 @@ define([
                     }
                     this.fireEvent('editcomplete', this);
                 },
+                fieldType: this._originalProps.asc_getType(),
                 props: this._originalSpecProps,
                 actionsProps: this._originalActionsProps,
             });

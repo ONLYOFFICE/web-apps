@@ -62,15 +62,29 @@
                 </td>
             </tr>
             <tr class="format-custom">
-                <td colspan="2" class="padding-medium">
+                <td colspan="2">
                     <label class="header"><%= scope.textCustomFormatScript %></label>
-                    <div id="format-settings-textarea-format"></div>
                 </td>
             </tr>
             <tr class="format-custom">
-                <td colspan="2" class="padding-medium">
+                <td colspan="1" class="padding-medium">
+                    <div id="format-settings-textarea-format"></div>
+                </td>
+                <td colspan="1" class="padding-medium" style="vertical-align: top">
+                    <button id="format-settings-btn-format-script" type="button" class="btn btn-text-default margin-left-6" style="width: 100%;"><%= scope.textEdit %></button>
+                </td>
+            </tr>
+            <tr class="format-custom">
+                <td colspan="2">
                     <label class="header"><%= scope.textCustomKeystrokeScript %></label>
+                </td>
+            </tr>
+            <tr class="format-custom">
+                <td colspan="1" class="padding-medium">
                     <div id="format-settings-textarea-keystroke"></div>
+                </td>
+                <td colspan="1" class="padding-medium" style="vertical-align: top">
+                    <button id="format-settings-btn-keystroke-script" type="button" class="btn btn-text-default margin-left-6" style="width: 100%;"><%= scope.textEdit %></button>
                 </td>
             </tr>
         </table>
@@ -82,19 +96,19 @@
 </div>
 <div id="id-adv-form-validate" class="settings-panel">
     <div class="inner-content">
-        <table cols="1" width="100%">
+        <table cols="2" width="100%">
             <tr>
-                <td class="padding-large">
+                <td colspan="2" class="padding-large">
                     <div id="format-settings-radio-validate-none"></div>
                 </td>
             </tr>
             <tr>
-                <td class="padding-small">
+                <td colspan="2" class="padding-small">
                     <div id="format-settings-radio-validate-range"></div>
                 </td>
             </tr>
             <tr>
-                <td class="padding-large">
+                <td colspan="2" class="padding-large">
                     <div style="display: flex">
                         <div>
                             <label><%= scope.textFrom %></label>
@@ -108,13 +122,16 @@
                 </td>
             </tr>
             <tr>
-                <td class="padding-small">
+                <td colspan="2" class="padding-small">
                     <div id="format-settings-radio-validate-script"></div>
                 </td>
             </tr>
             <tr>
-                <td>
+                <td colspan="1">
                     <div id="format-settings-textarea-validate-script"></div>
+                </td>
+                <td colspan="1" style="vertical-align: top">
+                    <button id="format-settings-btn-validate-script" type="button" class="btn btn-text-default margin-left-6" style="width: 100%;"><%= scope.textEdit %></button>
                 </td>
             </tr>
         </table>
@@ -122,40 +139,102 @@
 </div>
 <div id="id-adv-form-calculate" class="settings-panel">
     <div class="inner-content">
-        <table cols="1" width="100%">
+        <table cols="2" width="100%">
             <tr>
-                <td class="padding-large">
+                <td colspan="2" class="padding-large">
                     <div id="format-settings-radio-calculate-none"></div>
                 </td>
             </tr>
             <tr>
-                <td class="padding-small">
+                <td colspan="2" class="padding-small">
                     <div id="format-settings-radio-calculate-operation"></div>
                 </td>
             </tr>
             <tr>
-                <td class="padding-small">
+                <td colspan="2" class="padding-small">
                     <label><%= scope.textOperation %></label>
                     <div id="format-settings-cmb-operation"></div>
                 </td>
             </tr>
             <tr>
-                <td class="padding-small">
+                <td colspan="2">
                     <label><%= scope.textFields %></label>
-                    <div style="display: flex">
-                        <div id="format-settings-textarea-calculate-operation" readonly style="pointer-events: none; flex: 1;"></div>
-                        <button id="format-settings-btn-calculate-select-fields" type="button" class="btn btn-text-default auto margin-left-6"><%= scope.textPick %></button>
-                    <div>
                 </td>
             </tr>
             <tr>
-                <td class="padding-small">
+                <td colspan="1" class="padding-small">
+                    <div id="format-settings-textarea-calculate-operation"></div>
+                </td>
+                <td colspan="1" class="padding-small" style="vertical-align: top">
+                    <button id="format-settings-btn-calculate-select-fields" type="button" class="btn btn-text-default margin-left-6" style="width: 100%;"><%= scope.textPick %></button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="padding-small">
                     <div id="format-settings-radio-calculate-script"></div>
                 </td>
             </tr>
-                <tr>
-                <td>
+            <tr>
+                <td colspan="1">
                     <div id="format-settings-textarea-calculate-script"></div>
+                </td>
+                <td colspan="1" style="vertical-align: top">
+                    <button id="format-settings-btn-calculate-script" type="button" class="btn btn-text-default margin-left-6" style="width: 100%;"><%= scope.textEdit %></button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="id-adv-form-actions" class="settings-panel">
+    <div class="inner-content">
+        <table cols="2" width="100%">
+            <tr>
+                <td colspan="2" class="padding-very-small">
+                    <label class="header"><%= scope.textAddAnAction %></label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1" class="padding-very-small">
+                    <label><%= scope.textSelectTrigger %></label>
+                </td>
+                <td colspan="1" class="padding-very-small">
+                    <div id="format-settings-cmb-actions-triggers"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1" class="padding-very-small">
+                    <label><%= scope.textSelectAction %></label>
+                </td>
+                <td colspan="1" class="padding-very-small">
+                    <div id="format-settings-cmb-actions"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1" ></td>
+                <td colspan="1" class="padding-large text-right">
+                    <button id="format-settings-btn-actions-add" type="button" class="btn btn-text-default auto" style="min-width: 80px;"><%= scope.textAdd %></button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1" class="padding-very-small">
+                    <label class="header"><%= scope.textActions %></label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="padding-very-small">
+                    <div id="format-settings-list-actions" style="width:100%; height: 160px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1" class="padding-very-small">
+                    <div id="format-settings-btn-actions-up" style="display: inline-block;"></div>
+                    <div id="format-settings-btn-actions-down" style="display: inline-block;"></div>
+                </td>
+                <td colspan="1" class="padding-very-small">
+                    <div class="text-right">
+                        <button id="format-settings-btn-actions-edit" type="button" class="btn btn-text-default auto" style="min-width: 80px;"><%= scope.textEdit %></button>
+                        <button id="format-settings-btn-actions-delete" type="button" class="btn btn-text-default auto" style="min-width: 80px;"><%= scope.textDelete %></button>
+                    </div>
                 </td>
             </tr>
         </table>
