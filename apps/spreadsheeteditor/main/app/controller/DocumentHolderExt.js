@@ -276,6 +276,7 @@ define([], function () {
                 addEvent(view.el, eventname, _.bind(this.onDocumentWheel,this), false);
 
                 me.cellEditor = $('#ce-cell-content');
+                me.cellEditorScrollBox = $('#ce-scroll-content', me.cellEditor);
             }
             Common.Utils.isChrome ? addEvent(document, 'mousewheel', _.bind(this.onDocumentWheel,this), { passive: false } ) :
                 $(document).on('mousewheel',    _.bind(this.onDocumentWheel, this));
@@ -2432,7 +2433,7 @@ define([], function () {
                         isObjLocked = isObjLocked || value.asc_getLocked();
                         isSmartArt = shapeProps ? shapeProps.asc_getFromSmartArt() : false;
                         isSmartArtInternal = shapeProps ? shapeProps.asc_getFromSmartArtInternal() : false;
-                      
+
                         documentHolder.menuParagraphTop.setChecked(align == Asc.c_oAscVAlign.Top);
                         documentHolder.menuParagraphCenter.setChecked(align == Asc.c_oAscVAlign.Center);
                         documentHolder.menuParagraphBottom.setChecked(align == Asc.c_oAscVAlign.Bottom);
@@ -3142,7 +3143,7 @@ define([], function () {
                     menu.cmpEl.attr({tabindex: "-1"});
                 }
 
-                var infocus = me.cellEditor.is(":focus");
+                const infocus = me.cellEditorScrollBox.is(":focus");
                 var isFunctipShow = this.tooltips.func_arg.isHidden === false;
 
                 if (infocus) {
@@ -3174,7 +3175,7 @@ define([], function () {
                         menu.scroller.scrollTop(0);
                     }
                     if (infocus)
-                        me.cellEditor.focus();
+                        me.cellEditorScrollBox.focus();
                     menu.cmpEl.toggleClass('from-cell-edit', infocus);
                     _.delay(function() {
                         var a = menu.cmpEl.find('li:first a');
@@ -3356,7 +3357,7 @@ define([], function () {
                     functip.isHidden = false;
                 }
 
-                var infocus = this.cellEditor.is(":focus"),
+                var infocus = this.cellEditorScrollBox.is(":focus"),
                     showPoint;
                 if (infocus || this.focusInCellEditor) {
                     var offset = Common.Utils.getOffset(this.cellEditor);
