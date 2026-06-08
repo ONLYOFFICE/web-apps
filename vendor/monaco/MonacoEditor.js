@@ -2,7 +2,7 @@
     /*
     * config = {
     *   editorType: 'cell'/'slide'/'word',
-    *   language: 'javascript'/'vba'
+    *   language: 'javascript'/'javascript-clear'/'vba'
     *   events: {
     *       onChangeValue // text in editor is changed
     *       onEditorReady // editor is ready for use
