@@ -140,9 +140,6 @@ define([
 
         onCellEditorTextChange:function (){
             this.editor.cellEditorTextChange();
-            if (this.api && this.api.wb && this.api.wb.cellEditor) {
-                this.api.wb.cellEditor._updateTopLineScroll();
-            }
         },
 
         onApiEditCell: function(state) {
