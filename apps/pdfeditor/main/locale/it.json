@@ -1708,6 +1708,7 @@
   "PDFE.Controllers.Main.warnLicenseExp": "La tua licenza è scaduta.<br>Ti preghiamo di aggiornarla e ricaricare la pagina.",
   "PDFE.Controllers.Main.warnLicenseLimitedNoAccess": "La licenza è scaduta. <br>Non hai accesso alle funzionalità di modifica dei documenti.<br>Ti preghiamo di contattare l'amministratore.",
   "PDFE.Controllers.Main.warnLicenseLimitedRenewed": "La licenza deve essere rinnovata. <br>Hai un accesso limitato alle funzionalità di modifica dei documenti.<br>Ti preghiamo di contattare l'amministratore per ottenere l'accesso completo",
+  "PDFE.Controllers.Main.warnNoLicense": "Hai raggiunto il limite di connessioni simultanee a %1 editor. Questo documento verrà aperto solo per la visualizzazione.<br>Ti preghiamo di contattare il team di vendite %1 per i termini di aggiornamento personali.",
   "PDFE.Controllers.Main.warnNoResources": "Il server %1 non dispone di risorse sufficienti per aprire questo documento per la modifica. Il documento verrà aperto in modalità di sola lettura.",
   "PDFE.Controllers.Main.warnNoLicenseUsers": "Hai raggiunto il limite di utenti per %1 editor. Ti preghiamo di contattare il team di vendite %1 per i termini di aggiornamento personali.",
   "PDFE.Controllers.Main.warnProcessRightsChange": "Ti è stato negato il diritto di accesso per modificare il file.",

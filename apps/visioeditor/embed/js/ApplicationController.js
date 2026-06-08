@@ -50,12 +50,6 @@ VE.ApplicationController = new(function(){
     var LoadingDocument = -256,
           WarningShown = false;
 
-    // Initialize analytics
-    // -------------------------
-
-//    Common.Analytics.initialize('UA-12442749-13', 'Embedded Draw Editor');
-
-
     // Check browser
     // -------------------------
 

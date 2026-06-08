@@ -680,6 +680,7 @@
   "PDFE.Controllers.Main.warnLicenseExp": "Lisenssisi on erääntynyt.<br>Ole hyvä ja päivitä lisenssisi ja virkistä sivu.",
   "PDFE.Controllers.Main.warnLicenseLimitedNoAccess": "Lisenssi erääntynyt.<br>Sinulla ei ole käyttöoikeutta asiakirjan muokkaustyökaluun.<br>Ota yhteyttä ylläpitäjään.",
   "PDFE.Controllers.Main.warnLicenseLimitedRenewed": "Lisenssi on uusittava.<br>Sinulla on rajoitettu käyttöoikeus asiakirjan muokkaustyökaluun.<br>Ota yhteyttä ylläpitäjään saadaksesi täydet käyttöoikeudet.",
+  "PDFE.Controllers.Main.warnNoLicense": "Olet käyttämässä %1 avoimen lähdekoodin versiota. Versiolla on rajoituksia yhtäaikaisten yhteyksien määrän suhteen asiakirjan palvelimelle (20 yhteyttä samaan aikaan).<br>Jos haluat lisää, niin voit harkita kaupallista lisenssiä.",
   "PDFE.Controllers.Main.warnNoResources": "%1-palvelimella ei ole tarpeeksi resursseja tämän asiakirjan avaamiseen muokkausta varten. Asiakirja avataan vain katselua varten.",
   "PDFE.Controllers.Main.warnNoLicenseUsers": "Olet saavuttanut käyttäjärajan %1 muokkaustyökalussa. Ota yhteyttä %1 myyntiosastoon käyttöoikeuden laajentamiseksi.",
   "PDFE.Controllers.Main.warnProcessRightsChange": "Sinula ei ole riittävästi oikeuksia muokata tiedostoa.",

@@ -1862,6 +1862,7 @@
   "PE.Controllers.Main.warnLicenseExp": "Votre licence a expiré.<br>Veuillez mettre à jour votre licence et actualisez la page.",
   "PE.Controllers.Main.warnLicenseLimitedNoAccess": "La licence est expirée.<br>Vous n'avez plus d'accès aux outils d'édition.<br>Veuillez contacter votre administrateur.",
   "PE.Controllers.Main.warnLicenseLimitedRenewed": "Il est indispensable de renouveler la licence.<br>Vous avez un accès limité aux outils d'édition des documents.<br>Veuillez contacter votre administrateur pour obtenir un accès complet",
+  "PE.Controllers.Main.warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert à la lecture seulement.<br>Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
   "PE.Controllers.Main.warnNoResources": "Le serveur %1 ne dispose pas de ressources suffisantes pour ouvrir ce document en mode édition. Ce document sera ouvert en mode lecture seule.",
   "PE.Controllers.Main.warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
   "PE.Controllers.Main.warnProcessRightsChange": "Le droit d'édition du fichier vous a été refusé.",

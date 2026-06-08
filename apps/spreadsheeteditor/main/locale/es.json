@@ -2055,6 +2055,7 @@
   "SSE.Controllers.Main.warnLicenseLimitedNoAccess": "Licencia expirada.<br>No tiene acceso a la funcionalidad de edición de documentos.<br>Por favor, póngase en contacto con su administrador.",
   "SSE.Controllers.Main.warnLicenseLimitedRenewed": "Se requiere que renueve su licencia.<br>Tiene un acceso limitado a la funcionalidad de edición de documentos.<br>Por favor, póngase en contacto con su administrador para obtener un acceso completo",
   "SSE.Controllers.Main.warnModifyFilter": "Está en un modo en el que los filtros son visibles solo para usted y no se guardan. No puede añadir ni eliminar filtros.<br>Para guardar la vista actual, utilice Vista de hoja en la pestaña Vista.",
+  "SSE.Controllers.Main.warnNoLicense": "Usted ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá en modo de solo lectura.<br>Contacte con el equipo de ventas de %1 para conocer las condiciones de una mejora de su plan.",
   "SSE.Controllers.Main.warnNoResources": "El servidor %1 no tiene suficientes recursos para abrir este documento para su edición. El documento se abrirá solo en modo de visualización.",
   "SSE.Controllers.Main.warnNoLicenseUsers": "Usted ha alcanzado el límite de usuarios para los editores de %1. Contacte con el equipo de ventas de %1 para conocer las condiciones de una mejora de su plan.",
   "SSE.Controllers.Main.warnOpenCsv": "El formato CSV no permite guardar un archivo de varias hojas, ni ningún elemento excepto el texto.<br>Solo se guardará la hoja activa.",

@@ -1064,6 +1064,7 @@
   "PE.Controllers.Main.warnLicenseExp": "Twoja licencja wygasła.<br>Zaktualizuj licencję i odśwież stronę.",
   "PE.Controllers.Main.warnLicenseLimitedNoAccess": "Licencja wygasła.<br>Nie masz dostępu do edycji dokumentu.<br>Proszę skontaktować się ze swoim administratorem.",
   "PE.Controllers.Main.warnLicenseLimitedRenewed": "Licencja musi zostać odnowiona.<br>Masz ograniczony dostęp do edycji dokumentu.<br>Skontaktuj się ze swoim administratorem, aby uzyskać pełny dostęp.",
+  "PE.Controllers.Main.warnNoLicense": "Używasz wersji %1 w wersji open source. Wersja ma ograniczenia dla jednoczesnych połączeń z serwerem dokumentów (po 20 połączeń naraz). Jeśli potrzebujesz więcej, rozważ zakup licencji komercyjnej.",
   "PE.Controllers.Main.warnNoResources": "Serwer %1 nie ma wystarczających zasobów, aby otworzyć ten dokument do edycji. Dokument zostanie otwarty tylko do podglądu.",
   "PE.Controllers.Main.warnNoLicenseUsers": "Osiągnąłeś limit dla użytkownika. Skontaktuj się z zespołem sprzedaży %1 w celu uzyskania osobistych warunków aktualizacji.",
   "PE.Controllers.Main.warnProcessRightsChange": "Nie masz prawa edytować tego pliku.",

@@ -344,6 +344,7 @@
   "PDFE.Controllers.Main.warnLicenseExp": "Lesen anda telah tamat tempoh.<br>Sila kemas kini lesen anda dan segarkan halaman.",
   "PDFE.Controllers.Main.warnLicenseLimitedNoAccess": "Lesen tamat tempoh.<br>Anda tidak mempunyai akses terhadap fungsi pengeditan dokumen.<br>Sila hubungi pentadbir anda.",
   "PDFE.Controllers.Main.warnLicenseLimitedRenewed": "Lesen perlu untuk diperbaharui.<br>Anda mempunyai akses terhad kepada fungi pengeditan dokumen.<br>Sila hubungi pentadbir anda untuk mendapatkan akses penuh",
+  "PDFE.Controllers.Main.warnNoLicense": "Anda telah mencapai had pengguna untuk sambungan serentak kepada editor %1. Dokumen ini akan dibuka untuk dilihat sahaja.<br>Hubungi pasukan jualan %1 untuk naik taraf terma peribadi.",
   "PDFE.Controllers.Main.warnNoResources": "Pelayan %1 tidak mempunyai sumber yang mencukupi untuk membuka dokumen ini untuk diedit. Dokumen ini akan dibuka untuk tontonan sahaja.",
   "PDFE.Controllers.Main.warnNoLicenseUsers": "Anda telah mencapai had pengguna untuk editor %1. Hubungi pasukan jualan %1 untuk naik taraf terma peribadi.",
   "PDFE.Controllers.Main.warnProcessRightsChange": "Anda telah ditolak hak untuk edit fail.",

@@ -1036,6 +1036,7 @@
   "SSE.Controllers.Main.warnLicenseExp": "Lisenziyanızın vaxtı bitib.<br>Lisenziyanızı yeniləyin və səhifəni yeniləyin.",
   "SSE.Controllers.Main.warnLicenseLimitedNoAccess": "Lisenziyanın müddəti bitdi.<br>Sənəd redaktə funksiyasına girişiniz yoxdur.<br>Lütfən, inzibatçınızla əlaqə saxlayın.",
   "SSE.Controllers.Main.warnLicenseLimitedRenewed": "Lisenziya yenilənməlidir.<br>Sənəd redaktə funksiyasına məhdud girişiniz var.<br>Tam giriş əldə etmək üçün inzibatçınızla əlaqə saxlayın.",
+  "SSE.Controllers.Main.warnNoLicense": "Siz %1 redaktorlarına eyni vaxtda qoşulma limitinə çatdınız. Bu sənəd yalnız baxmaq üçün açılacaq.<br>Şəxsi təkmilləşdirmə şərtləri üçün %1 satış komandası ilə əlaqə saxlayın.",
   "SSE.Controllers.Main.warnNoResources": "%1 serveri bu sənədi redaktə üçün açmaq üçün kifayət qədər resurslara malik deyil. Bu sənəd yalnız baxış üçün açılacaq.",
   "SSE.Controllers.Main.warnNoLicenseUsers": "%1 redaktor üçün istifadəçi limitinə çatdınız. Şəxsi təkmilləşdirmə şərtləri üçün %1 satış komandası ilə əlaqə saxlayın.",
   "SSE.Controllers.Main.warnProcessRightsChange": "Siz faylı redaktə etmək hüququnuzdan məhrum oldunuz.",

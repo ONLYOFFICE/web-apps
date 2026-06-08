@@ -1835,6 +1835,7 @@
   "DE.Controllers.Main.warnLicenseExp": "Vaša licenca je istekla.<br>Molimo ažurirajte licencu i učitajte stranicu ponovno.",
   "DE.Controllers.Main.warnLicenseLimitedNoAccess": "Licenca je istekla.<br>Nemate pristup funkcionalnostima za uređivanje dokumenta.<br>Molimo kontaktirajte administratora.",
   "DE.Controllers.Main.warnLicenseLimitedRenewed": "Licenca treba biti obnovljena.<br>Imate ograničen pristup funkcionalnostima ua uređivanje teksta.<br>Molimo kontaktirajte administratora kako bi dobili puni pristup",
+  "DE.Controllers.Main.warnNoLicense": "Dosegnuli ste granicu simultanih veza prema %1 editoru dokumenata. Ovaj dokument će biti otvoren samo za pregled.<br>Kontaktirajte %1 prodajni odjel za uvjete nadogradnje.",
   "DE.Controllers.Main.warnNoResources": "Poslužitelj %1 nema dovoljno resursa za otvaranje ovog dokumenta za uređivanje. Ovaj dokument bit će otvoren samo za pregledavanje.",
   "DE.Controllers.Main.warnNoLicenseUsers": "Dosegnuli ste granicu simultanih veza prema %1 editoru dokumenata. Ovaj dokument će biti otvoren samo za pregled.<br>Kontaktirajte %1 prodajni odjel za uvjete nadogradnje.",
   "DE.Controllers.Main.warnProcessRightsChange": "Uskraćeno vam je pravo na uređivanje datoteke.",

@@ -2055,6 +2055,7 @@
   "SSE.Controllers.Main.warnLicenseLimitedNoAccess": "许可证已过期。<br>您现在不能使用文档编辑功能。<br>请联系您的管理员。",
   "SSE.Controllers.Main.warnLicenseLimitedRenewed": "许可证需要续订<br>您只有部分的文档编辑功能的访问权限<br>请与管理员联系以获得完全访问权限",
   "SSE.Controllers.Main.warnModifyFilter": "您当前处于仅自己可见且不会保存筛选条件的模式。您无法添加或删除筛选条件。<br>要保存当前视图，请使用“视图”选项卡上的“工作表视图”功能。",
+  "SSE.Controllers.Main.warnNoLicense": "您已达到同时连接到%1编辑器的限制。此文档将仅打开以供查看<br>有关个人升级条款，请与%1销售团队联系。",
   "SSE.Controllers.Main.warnNoResources": "%1服务器没有足够的资源来打开此文档进行编辑。此文档将仅以查看模式打开。",
   "SSE.Controllers.Main.warnNoLicenseUsers": "您已达到%1编辑器的用户限制。有关个人升级条款，请与%1销售团队联系。",
   "SSE.Controllers.Main.warnOpenCsv": "CSV格式不支持保存有多个工作表的文件，以及除文本之外的任何元素。<br>只有活动工作表会被保存。",
