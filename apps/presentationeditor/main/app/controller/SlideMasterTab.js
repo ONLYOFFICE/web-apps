@@ -279,11 +279,11 @@ define([
         },
 
         onTitleHide: function (view, status) {
-            this.api.asc_setLayoutTitle(status);
+            this.api.asc_setTitle(status);
         },
 
         onFootersHide: function (view, status) {
-            this.api.asc_setLayoutFooter(status);
+            this.api.asc_setFooter(status);
         },
 
         onBtnInsertPlaceholder: function (btn, e) {
