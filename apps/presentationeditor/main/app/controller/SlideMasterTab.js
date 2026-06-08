@@ -43,6 +43,8 @@
 define([
     'core',
     'presentationeditor/main/app/view/SlideMasterTab',
+    'presentationeditor/main/app/view/HandoutMasterTab',
+    'presentationeditor/main/app/view/NotesMasterTab',
 ], function () {
     'use strict';
 
@@ -51,7 +53,9 @@ define([
         collections : [
         ],
         views : [
-            'SlideMasterTab'
+            'SlideMasterTab',
+            'HandoutMasterTab',
+            'NotesMasterTab'
         ],
         sdkViewName : '#id_main',
 
@@ -81,6 +85,8 @@ define([
         onLaunch: function () {
             this._state = {
                 slideMasterMode: false,
+                handoutMasterMode: false,
+                notesMasterMode: false
             };
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
@@ -107,6 +113,16 @@ define([
                 mode: mode,
                 compactToolbar: this.toolbar.toolbar.isCompactView
             });
+            this.handoutMaster = this.createView('HandoutMasterTab', {
+                toolbar: this.toolbar.toolbar,
+                mode: mode,
+                compactToolbar: this.toolbar.toolbar.isCompactView
+            });
+            this.notesMaster = this.createView('NotesMasterTab', {
+                toolbar: this.toolbar.toolbar,
+                mode: mode,
+                compactToolbar: this.toolbar.toolbar.isCompactView
+            });
             this.addListeners({
                 'SlideMasterTab': {
                     'mode:normal': _.bind(this.onChangeViewMode, this, 'normal'),
@@ -117,7 +133,64 @@ define([
                     'insert:placeholder-btn': _.bind(this.onBtnInsertPlaceholder, this),
                     'insert:placeholder-menu': _.bind(this.onMenuInsertPlaceholder, this),
                 },
+                'HandoutMasterTab': {
+                    'mode:normal': _.bind(this.onChangeViewMode, this, 'normal'),
+                    'handout:orientation': _.bind(this.onChangeHandoutOrientation, this),
+                    'handout:slides': _.bind(this.onSlidesPerPage, this),
+                    'handout:headerchange': _.bind(this.onHeaderChange, this),
+                    'handout:footerchange': _.bind(this.onFooterChange, this),
+                    'handout:datechange': _.bind(this.onDateChange, this),
+                    'handout:pagenumchange': _.bind(this.onPageNumChange, this),
+                },
+                'NotesMasterTab': {
+                    'mode:normal': _.bind(this.onChangeViewMode, this, 'normal'),
+                    'notes:orientation': _.bind(this.onChangeNotesOrientation, this),
+                    'notes:headerchange': _.bind(this.onHeaderChange, this),
+                    'notes:footerchange': _.bind(this.onFooterChange, this),
+                    'notes:datechange': _.bind(this.onDateChange, this),
+                    'notes:pagenumchange': _.bind(this.onPageNumChange, this),
+                    'notes:imagechange': _.bind(this.onSlideImageChange, this),
+                    'notes:bodychange': _.bind(this.onBodyChange, this),
+                },
             });
+        },
+
+        onSlideImageChange: function (value) {
+            this.api.asc_setSlideImage(value);
+        },
+
+        onBodyChange: function (value) {
+            this.api.asc_setBody(value);
+        },
+
+        onChangeNotesOrientation: function (value) {
+            if (value === 'portrait') this.api.asc_setPageOrientation(Asc.c_oAscPageOrientation.PagePortrait)
+            else this.api.asc_setPageOrientation(Asc.c_oAscPageOrientation.PageLandscape)
+        },
+
+        onDateChange: function (value) {
+            this.api.asc_setDate(value);
+        },
+
+        onPageNumChange: function (value) {
+            this.api.asc_setPageNumber(value);
+        },
+
+        onFooterChange: function (value) {
+            this.api.asc_setFooter(value);
+        },
+
+        onHeaderChange: function (value) {
+            this.api.asc_setTitle(value);
+        },
+
+        onSlidesPerPage: function (value) {
+            if (value < 10) this.api.asc_setHandoutPageCount(value)
+        },
+
+        onChangeHandoutOrientation: function (value) {
+            if (value === 'portrait') this.api.asc_setPageOrientation(Asc.c_oAscPageOrientation.PagePortrait)
+            else this.api.asc_setPageOrientation(Asc.c_oAscPageOrientation.PageLandscape)
         },
 
         _addAutoshape:  function(isstart, type) {
@@ -160,7 +233,12 @@ define([
             this.view && this.view.SetDisabled(state);
         },
 
-        createToolbarPanel: function() {
+        createToolbarPanel: function(name) {
+            if (name === 'handout') {
+                return this.handoutMaster.getPanel();
+            } else if (name === 'notes') {
+                return this.notesMaster.getPanel();
+            }
             return this.view.getPanel();
         },
 
@@ -285,17 +363,30 @@ define([
 
         changeViewMode: function (mode) {
             var isMaster = mode === 'master';
-
+            var isHandout = mode === 'handout';
+            var isNotes = mode === 'notes';
             if (this._state.slideMasterMode !== isMaster) {
                 this._state.slideMasterMode = isMaster;
                 this.view.fireEvent('viewmode:change', [isMaster ? 'master' : 'normal']);
                 this.api.asc_changePresentationViewMode(isMaster ? Asc.c_oAscPresentationViewMode.masterSlide : Asc.c_oAscPresentationViewMode.normal);
             }
+            if (this._state.handoutMasterMode !== isHandout) {
+                this._state.handoutMasterMode = isHandout;
+                this.view.fireEvent('viewmode:change', [isHandout ? 'handout' : 'normal']);
+                this.api.asc_changePresentationViewMode(isHandout ? Asc.c_oAscPresentationViewMode.handoutMaster : Asc.c_oAscPresentationViewMode.normal);
+            }
+            if (this._state.notesMasterMode !== isNotes) {
+                this._state.notesMasterMode = isNotes;
+                this.view.fireEvent('viewmode:change', [isNotes ? 'notes' : 'normal']);
+                this.api.asc_changePresentationViewMode(isNotes ? Asc.c_oAscPresentationViewMode.notesMaster : Asc.c_oAscPresentationViewMode.normal);
+            }
         },
 
         onApiChangeViewMode: function (mode) {
             var isMaster = mode === Asc.c_oAscPresentationViewMode.masterSlide;
-            this.changeViewMode(isMaster ? 'master' : 'normal');
+            var isHandout = mode === Asc.c_oAscPresentationViewMode.handoutMaster;
+            var isNotes = mode === Asc.c_oAscPresentationViewMode.notesMaster;
+            this.changeViewMode(isMaster ? 'master' : isHandout ? 'handout' : isNotes ? 'notes' : 'normal');
         },
 
         onChangeViewMode: function (mode) {

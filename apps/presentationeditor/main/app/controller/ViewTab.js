@@ -64,7 +64,11 @@ define([
                 zoom_percent: undefined,
                 unitsChanged: true,
                 lock_viewProps: false,
-                slideMasterMode: false
+                slideMasterMode: false,
+                handoutMasterMode: false,
+                notesMasterMode: false,
+                outlineViewMode: false,
+                notesPageMode: false
             };
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
@@ -102,7 +106,11 @@ define([
             this.addListeners({
                 'ViewTab': {
                     'mode:normal': _.bind(this.onChangeViewMode, this, 'normal'),
+                    'mode:outline': _.bind(this.onChangeViewMode, this, 'outline'),
+                    'mode:notespage': _.bind(this.onChangeViewMode, this, 'notespage'),
                     'mode:master': _.bind(this.onChangeViewMode, this, 'master'),
+                    'mode:handoutmaster': _.bind(this.onChangeViewMode, this, 'handout'),
+                    'mode:notesmaster': _.bind(this.onChangeViewMode, this, 'notes'),
                     'zoom:selected': _.bind(this.onSelectedZoomValue, this),
                     'zoom:changedbefore': _.bind(this.onZoomChanged, this),
                     'zoom:changedafter': _.bind(this.onZoomChanged, this),
@@ -456,18 +464,52 @@ define([
             if (!this.view.btnSlideMaster || !this.view.btnNormal) return;
             
             var isMaster = mode === 'master';
+            var isHandout = mode === 'handout';
+            var isNotes = mode === 'notes';
+            var isOutline = mode === 'outline';
+            var isNotesPage = mode === 'notespage'
             this.view.btnSlideMaster.toggle(isMaster, true);
-            this.view.btnNormal.toggle(!isMaster, true);
+            this.view.btnNormal.toggle(!isMaster && !isHandout && !isNotes && !isOutline && !isNotesPage, true);
+            this.view.btnHandoutMaster.toggle(isHandout, true);
+            this.view.btnNotesMaster.toggle(isNotes, true);
+            this.view.btnOutlineView.toggle(isOutline, true);
+            this.view.btnNotesPage.toggle(isNotesPage, true);
             if (this._state.slideMasterMode !== isMaster) {
                 this._state.slideMasterMode = isMaster;
                 this.view.fireEvent('viewmode:change', [isMaster ? 'master' : 'normal']);
                 this.api.asc_changePresentationViewMode(isMaster ? Asc.c_oAscPresentationViewMode.masterSlide : Asc.c_oAscPresentationViewMode.normal);
             } // Asc.c_oAscPresentationViewMode.sorter;
+            if (this._state.handoutMasterMode !== isHandout) {
+                console.log(isHandout, 'HANDOUT')
+                this._state.handoutMasterMode = isHandout;
+                this.view.fireEvent('viewmode:change', [isHandout ? 'handout' : 'normal']);
+                this.api.asc_changePresentationViewMode(isHandout ? Asc.c_oAscPresentationViewMode.handoutMaster : Asc.c_oAscPresentationViewMode.normal);
+            }
+            if (this._state.notesMasterMode !== isNotes) {
+                this._state.notesMasterMode = isNotes;
+                this.view.fireEvent('viewmode:change', [isNotes ? 'notes' : 'normal']);
+                this.api.asc_changePresentationViewMode(isNotes ? Asc.c_oAscPresentationViewMode.notesMaster : Asc.c_oAscPresentationViewMode.normal);
+            }
+            if (this._state.outlineViewMode !== isOutline) {
+                this._state.outlineViewMode = isOutline;
+                // this.view.fireEvent('viewmode:change', [isNotes ? 'notes' : 'normal']);
+                this.api.asc_changePresentationViewMode(isOutline ? Asc.c_oAscPresentationViewMode.outline : Asc.c_oAscPresentationViewMode.normal);
+            }
+            if (this._state.notesPageMode !== isNotesPage) {
+                console.log(isNotesPage, 'NOTES')
+                this._state.notesPageMode = isNotesPage;
+                // this.view.fireEvent('viewmode:change', [isNotes ? 'notes' : 'normal']);
+                this.api.asc_changePresentationViewMode(isNotesPage ? Asc.c_oAscPresentationViewMode.notesPage : Asc.c_oAscPresentationViewMode.normal);
+            }
         },
 
         onApiChangeViewMode: function (mode) {
             var isMaster = mode === Asc.c_oAscPresentationViewMode.masterSlide;
-            this.changeViewMode(isMaster ? 'master' : 'normal');
+            var isHandout = mode === Asc.c_oAscPresentationViewMode.handoutMaster;
+            var isNotes = mode === Asc.c_oAscPresentationViewMode.notesMaster;
+            var isOutline = mode === Asc.c_oAscPresentationViewMode.outline;
+            var isNotesPage = mode === Asc.c_oAscPresentationViewMode.notesPage;
+            this.changeViewMode(isMaster ? 'master' : isHandout ? 'handout' : isNotes ? 'notes' : isOutline ? 'outline' : isNotesPage ? 'notespage' : 'normal');
         },
 
         onChangeViewMode: function (mode) {
