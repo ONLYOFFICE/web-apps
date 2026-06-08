@@ -209,6 +209,7 @@ define([
                     if (!this.editor.$btnexpand.hasClass('btn-collapse')) {
                         this.editor.$el.addClass('expanded');
                         this.editor.$btnexpand['addClass']('btn-collapse');
+                        this.editor.$scrollcontent.css({height: '', display: ''});
                     }
 
                     this.editor.scroller.update();
@@ -264,6 +265,7 @@ define([
                 this.editor.$el.addClass('expanded');
                 this.editor.$btnexpand['addClass']('btn-collapse');
                 this.editor.scroller.update();
+                this.editor.$scrollcontent.css({height: '', display: ''});
                 Common.localStorage.setBool('sse-celleditor-expand', true);
             }
             this.onCellEditorTextChange();
