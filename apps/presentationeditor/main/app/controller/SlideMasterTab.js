@@ -97,12 +97,57 @@ define([
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onChangeViewMode', _.bind(this.onApiChangeViewMode, this));
-                this.api.asc_registerCallback('asc_onLayoutTitle', _.bind(this.onApiLayoutTitle, this));
-                this.api.asc_registerCallback('asc_onLayoutFooter', _.bind(this.onApiLayoutFooter, this));
+                this.api.asc_registerCallback('asc_onTitle', _.bind(this.onApiTitle, this));
+                this.api.asc_registerCallback('asc_onFooter', _.bind(this.onApiFooter, this));
+                this.api.asc_registerCallback('asc_onHeader', _.bind(this.onApiHeader, this));
+                this.api.asc_registerCallback('asc_onDate', _.bind(this.onApiDate, this));
+                this.api.asc_registerCallback('asc_onSlideImage', _.bind(this.onApiSlideImage, this));
+                this.api.asc_registerCallback('asc_onPageNumber', _.bind(this.onApiPageNumber, this));
+                this.api.asc_registerCallback('asc_onBody', _.bind(this.onApiBody, this));
                 this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObject, this));
                 this.api.asc_registerCallback('asc_onEndAddShape', _.bind(this.onApiEndAddShape, this));
             }
             return this;
+        },
+
+        onApiBody: function (status) {
+            if ((this.notesMaster.chBody.getValue() === 'checked') !== status)
+                this.notesMaster.chBody.setValue(status, true);
+        },
+
+        onApiPageNumber: function (status) {
+            if (this.api.asc_IsHandoutMasterMode()) {
+                if ((this.handoutMaster.chPageNumber.getValue() === 'checked') !== status)
+                this.handoutMaster.chPageNumber.setValue(status, true);
+            } else if (this.api.asc_IsNotesMasterMode()) {
+                if ((this.notesMaster.chPageNumber.getValue() === 'checked') !== status)
+                this.notesMaster.chPageNumber.setValue(status, true);
+            }
+        },
+
+        onApiSlideImage: function (status) {
+            if ((this.notesMaster.chSlideImage.getValue() === 'checked') !== status)
+                this.notesMaster.chSlideImage.setValue(status, true);
+        },
+
+        onApiHeader: function (status) {
+            if (this.api.asc_IsHandoutMasterMode()) {
+                if ((this.handoutMaster.chHeader.getValue() === 'checked') !== status)
+                this.handoutMaster.chHeader.setValue(status, true);
+            } else if (this.api.asc_IsNotesMasterMode()) {
+                if ((this.notesMaster.chHeader.getValue() === 'checked') !== status)
+                this.notesMaster.chHeader.setValue(status, true);
+            }
+        },
+
+        onApiDate: function (status) {
+            if (this.api.asc_IsHandoutMasterMode()) {
+                if ((this.handoutMaster.chDate.getValue() === 'checked') !== status)
+                this.handoutMaster.chDate.setValue(status, true);
+            } else if (this.api.asc_IsNotesMasterMode()) {
+                if ((this.notesMaster.chDate.getValue() === 'checked') !== status)
+                this.notesMaster.chDate.setValue(status, true);
+            }
         },
 
         setConfig: function(config) {
@@ -261,7 +306,7 @@ define([
             this.api.asc_AddMasterSlide();
         },
 
-        onApiLayoutTitle: function (status) {
+        onApiTitle: function (status) {
             const currentValue = this.view.chTitle.getValue();
 
             if (currentValue !== status) {
@@ -269,9 +314,17 @@ define([
             }
         },
 
-        onApiLayoutFooter: function (status) {
-            if ((this.view.chFooters.getValue() === 'checked') !== status)
+        onApiFooter: function (status) {
+            if (this.api.asc_IsMasterSlideMode()) {
+                if ((this.view.chFooters.getValue() === 'checked') !== status)
                 this.view.chFooters.setValue(status, true);
+            } else if (this.api.asc_IsHandoutMasterMode()) {
+                if ((this.handoutMaster.chFooter.getValue() === 'checked') !== status)
+                this.handoutMaster.chFooter.setValue(status, true);
+            } else if (this.api.asc_IsNotesMasterMode()) {
+                if ((this.notesMaster.chFooter.getValue() === 'checked') !== status)
+                this.notesMaster.chFooter.setValue(status, true);
+            }
         },
 
         onInsertLayout: function () {
