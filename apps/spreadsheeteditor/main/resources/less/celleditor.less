@@ -114,6 +114,20 @@
             border-bottom: @celleditor-border-width-ie solid @border-toolbar-ie;
             border-bottom: @celleditor-border-width solid @border-toolbar;
         }
+
+        #ce-cell-content {
+            .ps-scrollbar-y-rail {
+                display: none !important;
+            }
+        }
+    }
+
+    #ce-cell-content.ps-container {
+        overflow: hidden;
+
+        .ps-scrollbar-y-rail {
+            margin-top: 24px;
+        }
     }
 
     .ce-group-expand {
@@ -149,6 +163,14 @@
             height: 100%;
             resize: none;
             min-height: 19px;
+            &::-ms-selection, & *::-ms-selection {
+                background-color: rgba(0, 0, 0, 0.15);
+                color: inherit;
+            }
+            &::selection, & *::selection {
+                background-color: rgba(0, 0, 0, 0.15);
+                color: inherit;
+            }
             border: @celleditor-input-border-ie;
             border: @celleditor-input-border;
             box-shadow: none;

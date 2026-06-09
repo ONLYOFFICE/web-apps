@@ -276,6 +276,7 @@ define([], function () {
                 addEvent(view.el, eventname, _.bind(this.onDocumentWheel,this), false);
 
                 me.cellEditor = $('#ce-cell-content');
+                me.cellEditorScrollBox = $('#ce-scroll-content', me.cellEditor);
             }
             Common.Utils.isChrome ? addEvent(document, 'mousewheel', _.bind(this.onDocumentWheel,this), { passive: false } ) :
                 $(document).on('mousewheel',    _.bind(this.onDocumentWheel, this));
@@ -334,7 +335,7 @@ define([], function () {
                             }
                         })).show();
                     }
-                }
+            }
             }
             Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
         };
@@ -2400,7 +2401,7 @@ define([], function () {
                         isObjLocked = isObjLocked || value.asc_getLocked();
                         isSmartArt = shapeProps ? shapeProps.asc_getFromSmartArt() : false;
                         isSmartArtInternal = shapeProps ? shapeProps.asc_getFromSmartArtInternal() : false;
-                      
+
                         documentHolder.menuParagraphTop.setChecked(align == Asc.c_oAscVAlign.Top);
                         documentHolder.menuParagraphCenter.setChecked(align == Asc.c_oAscVAlign.Center);
                         documentHolder.menuParagraphBottom.setChecked(align == Asc.c_oAscVAlign.Bottom);
@@ -2971,10 +2972,10 @@ define([], function () {
         dh.onFormulaCompleteMenu = function(funcarr, offset) {
             if (!this.documentHolder.funcMenu || Common.Utils.ModalWindow.isVisible() || this.rangeSelectionMode) return;
 
-            var me                  = this,
-                documentHolderView  = me.documentHolder,
-                menu                = documentHolderView.funcMenu,
-                menuContainer       = documentHolderView.cmpEl.find('#menu-formula-selection'),
+                var me                  = this,
+                    documentHolderView  = me.documentHolder,
+                    menu                = documentHolderView.funcMenu,
+                    menuContainer       = documentHolderView.cmpEl.find('#menu-formula-selection'),
                 funcdesc = me.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
                 argConstList = this.argConstList;
 
@@ -2984,13 +2985,13 @@ define([], function () {
                 return;
             }
 
-            for (var i = 0; i < menu.items.length; i++) {
-                var tip = menu.items[i].cmpEl.data('bs.tooltip');
-                if (tip)
-                    tip.hide();
-                menu.removeItem(menu.items[i]);
-                i--;
-            }
+                for (var i = 0; i < menu.items.length; i++) {
+                    var tip = menu.items[i].cmpEl.data('bs.tooltip');
+                    if (tip)
+                        tip.hide();
+                    menu.removeItem(menu.items[i]);
+                    i--;
+                }
 
             if (funcarr && !argConstList) {
                 this.formulaMenuType = null;
@@ -3091,105 +3092,105 @@ define([], function () {
                 return;
             }
                     // Prepare menu container
-            if (menuContainer.length < 1) {
-                menuContainer = $(Common.Utils.String.format('<div id="menu-formula-selection" style="position: absolute; z-index: 10000;" class="no-stop-propagate"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>'));
-                documentHolderView.cmpEl.append(menuContainer);
-            }
+                    if (menuContainer.length < 1) {
+                        menuContainer = $(Common.Utils.String.format('<div id="menu-formula-selection" style="position: absolute; z-index: 10000;" class="no-stop-propagate"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>'));
+                        documentHolderView.cmpEl.append(menuContainer);
+                    }
 
             if (!menu.rendered) {
-                menu.onAfterKeydownMenu = function(e) {
-                    if (e.keyCode == Common.UI.Keys.RETURN && (e.ctrlKey || e.altKey)) return;
+                    menu.onAfterKeydownMenu = function(e) {
+                        if (e.keyCode == Common.UI.Keys.RETURN && (e.ctrlKey || e.altKey)) return;
 //                        Common.UI.Menu.prototype.onAfterKeydownMenu.call(menu, e);
 
-                    var li;
-                    if (arguments.length>1 && arguments[1] instanceof KeyboardEvent) // when typing in cell editor
-                        e = arguments[1];
-                    if (menuContainer.hasClass('open')) {
-                        if (e.keyCode == Common.UI.Keys.TAB || e.keyCode == Common.UI.Keys.RETURN && !e.ctrlKey && !e.altKey)
-                            li = menuContainer.find('a.focus').closest('li');
-                        else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
-                            var innerEl = menu.cmpEl,
-                                li_focused = menuContainer.find('a.focus').closest('li'),
-                                innerHeight = innerEl.innerHeight(),
-                                padding = (innerHeight - innerEl.height())/2,
-                                pos = Common.Utils.getPosition(li_focused).top,
-                                itemHeight = li_focused.outerHeight(),
-                                newpos;
-                            if (pos<0)
-                                newpos = innerEl.scrollTop() + pos - padding;
-                            else if (pos+itemHeight>innerHeight)
-                                newpos = innerEl.scrollTop() + pos + itemHeight - innerHeight + padding;
-                            if (newpos!==undefined) {
-                                menu.scroller ? menu.scroller.scrollTop(newpos, 0) : innerEl.scrollTop(newpos);
+                        var li;
+                        if (arguments.length>1 && arguments[1] instanceof KeyboardEvent) // when typing in cell editor
+                            e = arguments[1];
+                        if (menuContainer.hasClass('open')) {
+                            if (e.keyCode == Common.UI.Keys.TAB || e.keyCode == Common.UI.Keys.RETURN && !e.ctrlKey && !e.altKey)
+                                li = menuContainer.find('a.focus').closest('li');
+                            else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
+                                var innerEl = menu.cmpEl,
+                                    li_focused = menuContainer.find('a.focus').closest('li'),
+                                    innerHeight = innerEl.innerHeight(),
+                                    padding = (innerHeight - innerEl.height())/2,
+                                    pos = Common.Utils.getPosition(li_focused).top,
+                                    itemHeight = li_focused.outerHeight(),
+                                    newpos;
+                                if (pos<0)
+                                    newpos = innerEl.scrollTop() + pos - padding;
+                                else if (pos+itemHeight>innerHeight)
+                                    newpos = innerEl.scrollTop() + pos + itemHeight - innerHeight + padding;
+                                if (newpos!==undefined) {
+                                    menu.scroller ? menu.scroller.scrollTop(newpos, 0) : innerEl.scrollTop(newpos);
+                                }
                             }
                         }
-                    }
 //                        } else if (e.keyCode == Common.UI.Keys.TAB)
 //                            li = $(e.target).closest('li');
 
-                    if (li) {
-                        if (li.length>0) li.click();
-                        Common.UI.Menu.Manager.hideAll();
-                    }
-                };
-                menu.on('hide:after', function(){
-                    for (var i = 0; i < menu.items.length; i++) {
-                        var tip = menu.items[i].cmpEl.data('bs.tooltip');
-                        if (tip)
-                            tip.hide();
-                    }
-                });
+                        if (li) {
+                            if (li.length>0) li.click();
+                            Common.UI.Menu.Manager.hideAll();
+                        }
+                    };
+                    menu.on('hide:after', function(){
+                        for (var i = 0; i < menu.items.length; i++) {
+                            var tip = menu.items[i].cmpEl.data('bs.tooltip');
+                            if (tip)
+                                tip.hide();
+                        }
+                    });
 
-                menu.render(menuContainer);
-                menu.cmpEl.attr({tabindex: "-1"});
-            }
-
-            var infocus = me.cellEditor.is(":focus"),
-                isFunctipShow = this.tooltips.func_arg.isHidden === false;
-
-            if (infocus) {
-                menu.menuAlignEl = me.cellEditor;
-                menu.offset = [
-                    0,
-                    (offset ? offset[1] : 0) + (isFunctipShow ? this.tooltips.func_arg.ref.getBSTip().$tip.height() + 2 : 0)
-                ];
-                me.focusInCellEditor = true;
-            } else {
-                menu.menuAlignEl = undefined;
-                menu.offset = [0 ,0];
-                me.focusInCellEditor = false;
-                var coord  = me.api.asc_getActiveCellCoord(),
-                    showPoint = [
-                        coord.asc_getX() + (offset ? offset[0] : 0),
-                        (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + (offset ? offset[1] : 0) + (isFunctipShow ? this.tooltips.func_arg.ref.getBSTip().$tip.height() + 2 : 0)
-                    ];
-                menuContainer.css({left: showPoint[0], top : showPoint[1]});
-            }
-            menu.alignPosition();
-
-            if (!menu.isVisible())
-                Common.UI.Menu.Manager.hideAll();
-            _.delay(function() {
-                if (!menu.isVisible()) menu.show();
-                if (menu.scroller) {
-                    menu.scroller.update({alwaysVisibleY: true});
-                    menu.scroller.scrollTop(0);
+                    menu.render(menuContainer);
+                    menu.cmpEl.attr({tabindex: "-1"});
                 }
-                if (infocus)
-                    me.cellEditor.focus();
-                menu.cmpEl.toggleClass('from-cell-edit', infocus);
+
+                const infocus = me.cellEditorScrollBox.is(":focus");
+                var isFunctipShow = this.tooltips.func_arg.isHidden === false;
+
+                if (infocus) {
+                    menu.menuAlignEl = me.cellEditor;
+                    menu.offset = [
+                        0,
+                        (offset ? offset[1] : 0) + (isFunctipShow ? this.tooltips.func_arg.ref.getBSTip().$tip.height() + 2 : 0)
+                    ];
+                    me.focusInCellEditor = true;
+                } else {
+                    menu.menuAlignEl = undefined;
+                    menu.offset = [0 ,0];
+                    me.focusInCellEditor = false;
+                    var coord  = me.api.asc_getActiveCellCoord(),
+                        showPoint = [
+                            coord.asc_getX() + (offset ? offset[0] : 0),
+                            (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + (offset ? offset[1] : 0) + (isFunctipShow ? this.tooltips.func_arg.ref.getBSTip().$tip.height() + 2 : 0)
+                        ];
+                    menuContainer.css({left: showPoint[0], top : showPoint[1]});
+                }
+                menu.alignPosition();
+
+                if (!menu.isVisible())
+                    Common.UI.Menu.Manager.hideAll();
                 _.delay(function() {
-                    var a = menu.cmpEl.find('li:first a');
-                    a.addClass('focus');
-                    var tip = a.parent().data('bs.tooltip');
-                    if (tip)
-                        tip.show();
-                }, 10);
-                if (!infocus)
+                    if (!menu.isVisible()) menu.show();
+                    if (menu.scroller) {
+                        menu.scroller.update({alwaysVisibleY: true});
+                        menu.scroller.scrollTop(0);
+                    }
+                    if (infocus)
+                        me.cellEditorScrollBox.focus();
+                    menu.cmpEl.toggleClass('from-cell-edit', infocus);
                     _.delay(function() {
-                        menu.cmpEl.focus();
+                        var a = menu.cmpEl.find('li:first a');
+                        a.addClass('focus');
+                        var tip = a.parent().data('bs.tooltip');
+                        if (tip)
+                            tip.show();
                     }, 10);
-            }, 1);
+                    if (!infocus)
+                        _.delay(function() {
+                            menu.cmpEl.focus();
+                        }, 10);
+                }, 1);
         };
 
         dh.parseArgsDesc = function(args) {
@@ -3358,7 +3359,7 @@ define([], function () {
                     functip.isHidden = false;
                 }
 
-                var infocus = this.cellEditor.is(":focus"),
+                var infocus = this.cellEditorScrollBox.is(":focus"),
                     showPoint;
                 if (infocus || this.focusInCellEditor) {
                     var offset = Common.Utils.getOffset(this.cellEditor);

@@ -157,9 +157,11 @@
       var updateScrollbarCss = function () {
         $scrollbarXRail.css({left: Common.UI.isRTL() ? 'auto' : $this.scrollLeft(), right: !Common.UI.isRTL() ? 'auto' : -$this.scrollLeft(), bottom: scrollbarXBottom - $this.scrollTop(), width: scrollbarXRailWidth, display: scrollbarXActive ? "inherit": "none"});
 
-        if ($scrollbarYRail.hasClass('in-scrolling'))
+        if ($scrollbarYRail.hasClass('in-scrolling')) {
             $scrollbarYRail.css({/*top: $this.scrollTop(),*/ right: scrollbarYRight - $this.scrollLeft(), height: scrollbarYRailHeight, display: scrollbarYActive ? "inherit": "none"});
-        else {
+        } else if (settings.staticPosition) {
+          $scrollbarYRail.css({top: 0, right: scrollbarYRight - $this.scrollLeft(), height: scrollbarYRailHeight, display: scrollbarYActive ? "inherit": "none"});
+        } else {
           $scrollbarYRail.css({top: $this.scrollTop(), right: scrollbarYRight - $this.scrollLeft(), height: scrollbarYRailHeight, display: scrollbarYActive ? "inherit": "none"});
           Common.UI.isRTL() && canScrollX && $scrollbarYRail.css({left: $this.scrollLeft() + 1});
         }

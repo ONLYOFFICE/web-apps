@@ -7,5 +7,7 @@
     <button id="ce-btn-expand" type="button" class="btn"><span class="caret">&nbsp;</span></button>
 </div>
 <div class="ce-group-content">
-    <textarea id="ce-cell-content" class="form-control" spellcheck="false" rows="1" cols="20"></textarea>
+    <div id="ce-cell-content" class="form-control">
+        <div id="ce-scroll-content" contenteditable="true" spellcheck="false" rows="1" cols="20"></div>
+    </div>
 </div>

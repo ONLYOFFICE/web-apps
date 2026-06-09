@@ -1102,7 +1102,7 @@ define([
 
                 statusbarView.update();
 
-                this.formulaInput = celleditorController.getView('CellEditor').$el.find('textarea');
+                this.formulaInput = celleditorController.getView('CellEditor').$el.find('#ce-cell-content');
 
                 SSE.getController('Common.Controllers.Shortcuts').setApi(me.api);
 
