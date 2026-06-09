@@ -335,8 +335,7 @@ define([], function () {
                             }
                         })).show();
                     }
-                } else
-                    Common.component.Analytics.trackEvent('ToolBar', 'Copy Warning');
+            }
             }
             Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
         };
@@ -353,7 +352,6 @@ define([], function () {
                 }
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Insert Entire');
             }
         };
 
@@ -362,7 +360,6 @@ define([], function () {
                 this.api.asc_insertCells(item.value);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Insert Cells');
             }
         };
 
@@ -378,7 +375,6 @@ define([], function () {
                 }
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Delete Entire');
             }
         };
 
@@ -387,7 +383,6 @@ define([], function () {
                 this.api.asc_deleteCells(item.value);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Delete Cells');
             }
         };
 
@@ -416,7 +411,6 @@ define([], function () {
                                     this.api.asc_sortColFilter(item.value, '', undefined, (item.value==Asc.c_oAscSortOptions.ByColorFill) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor, btn == 'expand');
                                 }
                                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                                Common.component.Analytics.trackEvent('DocumentHolder', 'Sort Cells');
                             }, this)
                         };
                         Common.UI.alert(config);
@@ -431,7 +425,6 @@ define([], function () {
                             callback: _.bind(function(btn){
                                 (btn == 'yes') && this.api.asc_sortColFilter(item.value, '', undefined, (item.value==Asc.c_oAscSortOptions.ByColorFill) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor, false);
                                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                                Common.component.Analytics.trackEvent('DocumentHolder', 'Sort Cells');
                             }, this)
                         };
                         Common.UI.alert(config);
@@ -440,7 +433,6 @@ define([], function () {
                     case Asc.c_oAscSelectionSortExpand.notExpandAndNotShowMessage:
                         this.api.asc_sortColFilter(item.value, '', undefined, (item.value==Asc.c_oAscSortOptions.ByColorFill) ? this.documentHolder.ssMenu.cellColor : this.documentHolder.ssMenu.fontColor, res === Asc.c_oAscSelectionSortExpand.expandAndNotShowMessage);
                         Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                        Common.component.Analytics.trackEvent('DocumentHolder', 'Sort Cells');
                         break;
                 }
             }
@@ -473,7 +465,6 @@ define([], function () {
                 this.api.asc_applyAutoFilterByType(autoFilterObject);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Filter Cells');
             }
         };
 
@@ -868,7 +859,6 @@ define([], function () {
                     this.api.asc_emptyCells(item.value, item.value == Asc.c_oAscCleanOptions.All && !this.permissions.canDeleteComments);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Clear');
             }
         };
 
@@ -877,7 +867,6 @@ define([], function () {
                 this.api.asc_changeSelectionFormatTable(this.documentHolder.ssMenu.formatTableName, item.value);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Select Table');
             }
         };
 
@@ -886,7 +875,6 @@ define([], function () {
                 this.api.asc_insertCellsInTable(this.documentHolder.ssMenu.formatTableName, item.value);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Insert to Table');
             }
         };
 
@@ -895,7 +883,6 @@ define([], function () {
                 this.api.asc_deleteCellsInTable(this.documentHolder.ssMenu.formatTableName, item.value);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Delete from Table');
             }
         };
 
@@ -955,7 +942,6 @@ define([], function () {
                 });
             }
 
-            Common.component.Analytics.trackEvent('DocumentHolder', 'Add Hyperlink');
         };
 
         dh.onDelHyperlink = function(item) {
@@ -967,7 +953,6 @@ define([], function () {
                 this.api.asc_removeHyperlink();
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Remove Hyperlink');
             }
         };
 
@@ -1041,7 +1026,6 @@ define([], function () {
             var handlerDlg = function(result, settings) {
                 if (result == 'ok' && settings) {
                     me.api.asc_setDefinedNames(settings);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'New Named Range');
                 }
                 Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
             };
@@ -1062,19 +1046,16 @@ define([], function () {
                     this.api.asc_setSelectedDrawingObjectLayer(item.value);
 
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Arrange');
                 } else if (item.options.type == 'group') {
                     this.api[(item.value == 'grouping') ? 'asc_groupGraphicsObjects' : 'asc_unGroupGraphicsObjects']();
 
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                    Common.component.Analytics.trackEvent('DocumentHolder', (item.value == 'grouping') ? 'Grouping' : 'Ungrouping');
                 } else if (item.options.type == 'rotate') {
                     var properties = new Asc.asc_CImgProperty();
                     properties.asc_putRotAdd((item.value==1 ? 90 : 270) * 3.14159265358979 / 180);
                     this.api.asc_setGraphicObjectProps(properties);
 
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Rotate');
                 } else if (item.options.type == 'flip') {
                     var properties = new Asc.asc_CImgProperty();
                     if (item.value==1)
@@ -1084,7 +1065,6 @@ define([], function () {
                     this.api.asc_setGraphicObjectProps(properties);
 
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Flip');
                 }
             }
         };
@@ -1116,15 +1096,12 @@ define([], function () {
                 if (item.value>-1 && item.value < 6) {
                     this.api.asc_setSelectedDrawingObjectAlign(item.value);
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Objects Align');
                 } else if (item.value == 6) {
                     this.api.asc_DistributeSelectedDrawingObjectHor();
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute');
                 } else if (item.value == 7){
                     this.api.asc_DistributeSelectedDrawingObjectVer();
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute');
                 }
             }
         };
@@ -1134,7 +1111,6 @@ define([], function () {
             if (item && item.value) {
                 me.api.asc_mergeSelectedShapes(item.value);
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Shapes Merge');
             }
         };
 
@@ -1153,7 +1129,6 @@ define([], function () {
                 this.api.asc_setGraphicObjectProps(properties);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Paragraph Vertical Align');
             }
         };
 
@@ -1165,7 +1140,6 @@ define([], function () {
                 this.api.asc_setGraphicObjectProps(properties);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Text Direction');
             }
         };
 
@@ -1174,7 +1148,6 @@ define([], function () {
                 if (item.options.value == -1) {
                     this.api.asc_setListType(0, item.options.value);
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'List Type');
                 } else if (item.options.value == 'settings') {
                     var me      = this,
                         props;
@@ -1244,7 +1217,6 @@ define([], function () {
                 this.documentHolder.textInShapeMenu.hide();
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-            Common.component.Analytics.trackEvent('DocumentHolder', 'List Type');
         };
 
         dh.onTextAdvanced = function(item) {
@@ -1258,7 +1230,6 @@ define([], function () {
                         if (me.api) {
                             me.api.asc_setGraphicObjectProps(value.paragraphProps);
 
-                            Common.component.Analytics.trackEvent('DocumentHolder', 'Apply advanced paragraph settings');
                         }
                     }
                     Common.NotificationCenter.trigger('edit:complete', me);
@@ -1277,7 +1248,6 @@ define([], function () {
                         if (me.api) {
                             me.api.asc_setGraphicObjectProps(value.shapeProps);
 
-                            Common.component.Analytics.trackEvent('DocumentHolder', 'Apply advanced shape settings');
                         }
                     }
                     Common.NotificationCenter.trigger('edit:complete', me);
@@ -1296,7 +1266,6 @@ define([], function () {
                         if (me.api) {
                             me.api.asc_setGraphicObjectProps(value.imageProps);
 
-                            Common.component.Analytics.trackEvent('DocumentHolder', 'Apply advanced image settings');
                         }
                     }
                     Common.NotificationCenter.trigger('edit:complete', me);
@@ -1316,7 +1285,6 @@ define([], function () {
                         if (me.api) {
                             me.api.asc_setGraphicObjectProps(value.imageProps);
 
-                            Common.component.Analytics.trackEvent('DocumentHolder', 'Apply slicer settings');
                         }
                     }
                     Common.NotificationCenter.trigger('edit:complete', me);
@@ -3004,12 +2972,18 @@ define([], function () {
         dh.onFormulaCompleteMenu = function(funcarr, offset) {
             if (!this.documentHolder.funcMenu || Common.Utils.ModalWindow.isVisible() || this.rangeSelectionMode) return;
 
-            if (funcarr) {
                 var me                  = this,
                     documentHolderView  = me.documentHolder,
                     menu                = documentHolderView.funcMenu,
                     menuContainer       = documentHolderView.cmpEl.find('#menu-formula-selection'),
-                    funcdesc = me.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale"));
+                funcdesc = me.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
+                argConstList = this.argConstList;
+
+            if (!funcarr && (!argConstList || !argConstList.length)) {
+                menu.hide();
+                this.formulaMenuType = null;
+                return;
+            }
 
                 for (var i = 0; i < menu.items.length; i++) {
                     var tip = menu.items[i].cmpEl.data('bs.tooltip');
@@ -3018,6 +2992,9 @@ define([], function () {
                     menu.removeItem(menu.items[i]);
                     i--;
                 }
+
+            if (funcarr && !argConstList) {
+                this.formulaMenuType = null;
                 funcarr.sort(function (a,b) {
                     var atype = a.asc_getType(),
                         btype = b.asc_getType();
@@ -3088,14 +3065,39 @@ define([], function () {
                     });
                     menu.addItem(mnu);
                 });
+            } else {
+                _.each(argConstList, function(helpItem) {
+                    if (!helpItem || helpItem.length < 1) return;
 
-                if (!menu.rendered) {
+                    var value = helpItem[0],
+                        name = helpItem[1] || '',
+                        caption = '(...) ' + value + (name ? ' - ' + name : '');
+
+                    var mnu = new Common.UI.MenuItem({
+                        caption: caption,
+                        value: value
+                    }).on('click', function(item) {
+                        setTimeout(function() {
+                            me.api.asc_insertInCell(item.options.value, Asc.c_oAscPopUpSelectorType.FuncConstant, false);
+                        }, 10);
+                    });
+                    menu.addItem(mnu);
+                });
+                this.formulaMenuType = 'arg-help';
+            }
+
+            if (menu.items.length < 1) {
+                menu.hide();
+                this.formulaMenuType = null;
+                return;
+            }
                     // Prepare menu container
                     if (menuContainer.length < 1) {
                         menuContainer = $(Common.Utils.String.format('<div id="menu-formula-selection" style="position: absolute; z-index: 10000;" class="no-stop-propagate"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>'));
                         documentHolderView.cmpEl.append(menuContainer);
                     }
 
+            if (!menu.rendered) {
                     menu.onAfterKeydownMenu = function(e) {
                         if (e.keyCode == Common.UI.Keys.RETURN && (e.ctrlKey || e.altKey)) return;
 //                        Common.UI.Menu.prototype.onAfterKeydownMenu.call(menu, e);
@@ -3189,9 +3191,6 @@ define([], function () {
                             menu.cmpEl.focus();
                         }, 10);
                 }, 1);
-            } else {
-                this.documentHolder.funcMenu.hide();
-            }
         };
 
         dh.parseArgsDesc = function(args) {
@@ -3269,7 +3268,10 @@ define([], function () {
                     hint = '',
                     argstype = funcInfo ? funcInfo.asc_getArgumentsType() : null,
                     activeArg = funcInfo ? funcInfo.asc_getActiveArgPos() : null,
-                    activeArgsCount = funcInfo ? funcInfo.asc_getActiveArgsCount() : null;
+                    activeArgsCount = funcInfo ? funcInfo.asc_getActiveArgsCount() : null,
+                    argConstList = funcInfo ? funcInfo.asc_getActiveArgHelpList() : null;
+
+                this.argConstList = argConstList && argConstList.length ? argConstList : null;
 
                 if (argstype && activeArgsCount) {
                     var args = '';
@@ -3382,7 +3384,18 @@ define([], function () {
                     top : showPoint[1] + 'px',
                     left: showPoint[0] + 'px'
                 });
+
+                if ((!this.argConstList || !this.argConstList.length) &&
+                    this.formulaMenuType === 'arg-help') {
+                    this.documentHolder.funcMenu.hide();
+                    this.formulaMenuType = null;
+                }
             } else {
+                this.argConstList = null;
+                if (this.formulaMenuType === 'arg-help' && this.documentHolder.funcMenu) {
+                    this.documentHolder.funcMenu.hide();
+                    this.formulaMenuType = null;
+                }
                 if (!functip.isHidden && functip.ref) {
                     functip.ref.hide();
                     functip.ref = undefined;
@@ -4519,7 +4532,6 @@ define([], function () {
                 this.api.asc_setGraphicObjectProps(properties);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Set Image Original Size');
             }
         };
 

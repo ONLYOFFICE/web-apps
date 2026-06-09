@@ -1139,6 +1139,111 @@ define([], function () {
                 me.currentMenu = null;
             });
 
+            /* horizontal line menu */
+
+            me.menuHLCopy = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
+                caption: me.textCopy,
+                value: 'copy'
+            });
+            me.menuHLPaste = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-paste',
+                caption: me.textPaste,
+                value: 'paste'
+            });
+            me.menuHLCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
+                caption: me.textCut,
+                value: 'cut'
+            });
+            me.menuHLPrint = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-print',
+                caption: me.txtPrintSelection
+            });
+
+            me.menuHLInsertCaption = new Common.UI.MenuItem({
+                caption: me.txtInsertCaption
+            });
+
+            var menuHLInsertCaptionSeparator = new Common.UI.MenuItem({ caption: '--' });
+            var menuHLHyperlinkSeparator = new Common.UI.MenuItem({ caption: '--' });
+            var menuHLAdvancedSeparator = new Common.UI.MenuItem({ caption: '--' });
+
+            me.menuHLAdvanced = new Common.UI.MenuItem({
+                caption: me.textHorizontalLineSettings
+            });
+
+            me.menuAddHyperlinkHL = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
+                caption: me.hyperlinkText
+            });
+            me.menuEditHyperlinkHL = new Common.UI.MenuItem({
+                caption: me.editHyperlinkText
+            });
+            me.menuRemoveHyperlinkHL = new Common.UI.MenuItem({
+                caption: me.removeHyperlinkText
+            });
+            var menuHyperlinkHL = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
+                caption: me.hyperlinkText,
+                menu: new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    items: [
+                        me.menuEditHyperlinkHL,
+                        me.menuRemoveHyperlinkHL
+                    ]
+                })
+            });
+
+            this.hlMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
+                restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
+                initMenu: function(value) {
+                    var islocked = false; 
+                    var cancopy = me.api && me.api.can_CopyCut();
+                    me.menuHLCut.setDisabled(islocked || !cancopy);
+                    me.menuHLCopy.setDisabled(!cancopy);
+                    me.menuHLPaste.setDisabled(islocked);
+                    me.menuHLPrint.setVisible(me.mode.canPrint);
+                    me.menuHLPrint.setDisabled(!cancopy);
+
+                    var text = null;
+                    if (me.api) text = me.api.can_AddHyperlink();
+                    me.menuAddHyperlinkHL.setVisible(value.hyperProps === undefined && text !== false);
+                    menuHyperlinkHL.setVisible(value.hyperProps !== undefined);
+                    menuHLHyperlinkSeparator.setVisible(me.menuAddHyperlinkHL.isVisible() || menuHyperlinkHL.isVisible());
+                    me.menuEditHyperlinkHL.hyperProps = value.hyperProps;
+                    me.menuRemoveHyperlinkHL.hyperProps = value.hyperProps;
+                    if (text !== false) {
+                        me.menuAddHyperlinkHL.hyperProps = {};
+                        me.menuAddHyperlinkHL.hyperProps.value = new Asc.CHyperlinkProperty();
+                        me.menuAddHyperlinkHL.hyperProps.value.put_Text(text);
+                    }
+                    me.menuAddHyperlinkHL.setDisabled(islocked);
+                    menuHyperlinkHL.setDisabled(islocked || (value.hyperProps !== undefined && value.hyperProps.isSeveralLinks === true));
+                    me.menuHLAdvanced.setDisabled(islocked);
+                },
+                items: [
+                    me.menuHLCut,
+                    me.menuHLCopy,
+                    me.menuHLPaste,
+                    me.menuHLPrint,
+                    menuHLInsertCaptionSeparator,
+                    me.menuHLInsertCaption,
+                    menuHLHyperlinkSeparator,
+                    me.menuAddHyperlinkHL,
+                    menuHyperlinkHL,
+                    menuHLAdvancedSeparator,
+                    me.menuHLAdvanced
+                ]
+            }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
+                me.currentMenu = null;
+            });
+
             /* table menu*/
 
             me.menuTableInsertCaption = new Common.UI.MenuItem({

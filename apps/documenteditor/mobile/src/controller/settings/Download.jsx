@@ -189,6 +189,13 @@ const onAdvancedOptions = (type, _t, isDocReady, canRequestClose, isDRM) => {
                     passwordIcon.classList.toggle('icon-hide-password');
                     passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
                 });
+
+                passwordField.addEventListener('keyup', (e) => {
+                    if (e.key === 'Enter') {
+                        buttons[0].onClick();
+                        f7.dialog.close();
+                    }
+                });
             },
         }
     }).open();

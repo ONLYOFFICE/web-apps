@@ -168,17 +168,21 @@ define([
 
         var template = '<div class="asc-window<%= modal?" modal":"" %><%= cls?" "+cls:"" %>" id="<%= id %>" style="width:<%= width %>px;" role="<%= role %>" aria-modal="<%= modal %>">' +
                             '<% if (header==true) { %>' +
-                                '<div class="header">' +
-                                    '<div class="tools">' +
-                                    '<% if (closable!==false) %>' +
-                                        '<div class="tool close"></div>' +
-                                    '<% %>' +
-                                    '<% if (help===true) %>' +
-                                        '<div class="tool help">?</div>' +
-                                    '<% %>' +
+                                '<% if (tplHeader) { %>' +
+                                    '<%= tplHeader %>' +
+                                '<% } else { %>' +
+                                    '<div class="header">' +
+                                        '<div class="tools">' +
+                                        '<% if (closable!==false) %>' +
+                                            '<div class="tool close"></div>' +
+                                        '<% %>' +
+                                        '<% if (help===true) %>' +
+                                            '<div class="tool help">?</div>' +
+                                        '<% %>' +
+                                        '</div>' +
+                                        '<div class="title"><%= title %></div> ' +
                                     '</div>' +
-                                    '<div class="title"><%= title %></div> ' +
-                                '</div>' +
+                                '<% } %>' +
                             '<% } %>' +
                             '<div class="body"><%= tpl %>' +
                                 '<% if (typeof (buttonsParsed) !== "undefined" && _.size(buttonsParsed) > 0) { %>' +
@@ -312,7 +316,11 @@ define([
 
         /* window drag's functions */
         function _dragstart(event) {
-            if ( $(event.target).hasClass('close') || $(event.target).hasClass('help') ) return;
+            if ($(event.target).hasClass('close') || $(event.target).hasClass('help') || 
+                $(event.target).closest('.drag-ignore').length
+            ) {
+                return;
+            }
             Common.UI.Menu.Manager.hideAll();
             var zoom = (event instanceof jQuery.Event) ? Common.Utils.zoom() : 1;
             this.dragging.enabled = true;
@@ -711,6 +719,7 @@ define([
                 _.extend(this.initConfig, config, options || {});
 
                 !this.initConfig.id && (this.initConfig.id = 'window-' + this.cid);
+                !this.initConfig.tplHeader && (this.initConfig.tplHeader = '');
                 !this.initConfig.tpl && (this.initConfig.tpl = '');
 
                 Common.UI.BaseView.prototype.initialize.call(this, this.initConfig);

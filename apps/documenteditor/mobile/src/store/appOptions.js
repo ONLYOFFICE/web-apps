@@ -199,7 +199,6 @@ export class storeAppOptions {
         this.fileChoiceUrl = config.fileChoiceUrl;
         this.mergeFolderUrl = config.mergeFolderUrl;
         this.saveAsUrl = config.saveAsUrl;
-        this.canAnalytics = false;
         this.canRequestClose = config.canRequestClose;
         this.canCloseEditor = false;
         this.disableForceDesktop = false;
@@ -240,7 +239,6 @@ export class storeAppOptions {
         if (params.asc_getRights() !== Asc.c_oRights.Edit)
             permissions.edit = permissions.review = false;
         this.review = (permissions.review === undefined) ? (permissions.edit !== false) : permissions.review;
-        this.canAnalytics = params.asc_getIsAnalyticsEnable();
         this.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
         this.isLightVersion = params.asc_getIsLight();
         this.buildVersion = params.asc_getBuildVersion();

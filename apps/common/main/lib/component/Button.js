@@ -1060,7 +1060,7 @@ define([
 
     Common.UI.ButtonCustom = Common.UI.Button.extend(_.extend({
         initialize : function(options) {
-            options.iconCls = 'icon-custom ' + (options.iconCls || '');
+            options.iconsSet && (options.iconCls = 'icon-custom ' + (options.iconCls || ''));
             Common.UI.Button.prototype.initialize.call(this, options);
 
             this.baseUrl = options.baseUrl || '';

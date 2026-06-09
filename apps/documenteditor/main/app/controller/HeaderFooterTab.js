@@ -96,7 +96,6 @@ define([
                     setTimeout(function() {me.api.asc_addImage();}, 1);
 
                 Common.NotificationCenter.trigger('edit:complete', me.view);
-                // Common.component.Analytics.trackEvent('ToolBar', 'Image');
             } else if (item.value === 'url') {
                 (new Common.Views.ImageFromUrlDialog({
                     handler: function(result, value) {
@@ -106,8 +105,6 @@ define([
                                 if (!_.isEmpty(checkUrl)) {
                                     me.view.fireEvent('insertimage');
                                     me.api.AddImageUrl([checkUrl]);
-
-                                    // Common.component.Analytics.trackEvent('ToolBar', 'Image');
                                 }
                             }
 

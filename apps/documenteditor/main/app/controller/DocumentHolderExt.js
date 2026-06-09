@@ -105,6 +105,7 @@ define([], function () {
                     this.api.asc_registerCallback('asc_onHideEyedropper',           _.bind(this.hideEyedropper, this));
                     this.api.asc_SetMathInputType(Common.localStorage.getBool("de-equation-input-latex") ? Asc.c_oAscMathInputType.LaTeX : Asc.c_oAscMathInputType.Unicode);
                     this.api.asc_registerCallback('asc_onSingleChartSelectionChanged',  _.bind(this.onSingleChartSelectionChanged, this));
+                    this.api.asc_registerCallback('asc_onHorRuleDblClick',             _.bind(this.onHLAdvanced, this));
                 }
                 this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
                 this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));
@@ -299,6 +300,15 @@ define([], function () {
             view.menuImageWrap.menu.on('item:click', _.bind(me.onImgWrap, me));
             view.menuImageAdvanced.on('click', _.bind(me.onImgAdvanced, me));
             view.menuOriginalSize.on('click', _.bind(me.onImgOriginalSize, me));
+            view.menuHLCut.on('click', _.bind(me.onCutCopyPaste, me));
+            view.menuHLCopy.on('click', _.bind(me.onCutCopyPaste, me));
+            view.menuHLPaste.on('click', _.bind(me.onCutCopyPaste, me));
+            view.menuHLPrint.on('click', _.bind(me.onPrintSelection, me));
+            view.menuHLInsertCaption.on('click', _.bind(me.onInsertCaption, me));
+            view.menuAddHyperlinkHL.on('click', _.bind(me.addHyperlink, me));
+            view.menuEditHyperlinkHL.on('click', _.bind(me.editHyperlink, me));
+            view.menuRemoveHyperlinkHL.on('click', _.bind(me.onRemoveHyperlink, me));
+            view.menuHLAdvanced.on('click', _.bind(me.onHLAdvanced, me));
             view.menuImgReplace.menu.on('item:click', _.bind(me.onImgReplace, me));
             view.menuImgEditPoints.on('click', _.bind(me.onImgEditPoints, me));
             view.mnuTableMerge.on('click', _.bind(me.onTableMerge, me));
@@ -418,6 +428,10 @@ define([], function () {
                     menu_props.mathProps = {};
                     menu_props.mathProps.value = elValue;
                     me.documentHolder._currentMathObj = elValue;
+                } else if (Asc.c_oAscTypeSelectElement.HorizontalLine == elType) {
+                    menu_to_show = documentHolder.hlMenu;
+                    menu_props.horizontalRuleProps = elValue;
+                    noobject = false;
                 }
             }
             return (!noobject) ? {menu_to_show: menu_to_show, menu_props: menu_props} : null;
@@ -570,7 +584,6 @@ define([], function () {
                         win.setSettings(props);
                     }
                 }
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Add Hyperlink');
             }
         };
 
@@ -2086,8 +2099,6 @@ define([], function () {
 
                 win.show();
                 win.setSettings(item.hyperProps.value);
-
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Add Hyperlink');
             }
         };
 
@@ -2272,7 +2283,6 @@ define([], function () {
                 opts.asc_setAdvancedOptions(printopt);
                 this.api.asc_Print(opts);
                 this.editComplete();
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Print Selection');
             }
         };
 
@@ -2528,13 +2538,10 @@ define([], function () {
                     value = (alignto==1) ? Asc.c_oAscObjectsAlignType.Page : ((me.api.asc_getSelectedDrawingObjectsCount()<2 && !alignto || alignto==2) ? Asc.c_oAscObjectsAlignType.Margin : Asc.c_oAscObjectsAlignType.Selected);
                 if (item.value < 6) {
                     me.api.put_ShapesAlign(item.value, value);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Shape Align');
                 } else if (item.value == 6) {
                     me.api.DistributeHorizontally(value);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Horizontally');
                 } else if (item.value == 7){
                     me.api.DistributeVertically(value);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
                 }
             }
             me.editComplete();
@@ -2544,7 +2551,6 @@ define([], function () {
             var me = this;
             if (item && item.value) {
                 me.api.asc_mergeSelectedShapes(item.value);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Shapes Merge');
             }
             me.editComplete();
         };
@@ -2606,6 +2612,35 @@ define([], function () {
                 me.api.ImgApply(properties);
             }
             me.editComplete();
+        };
+
+        dh.onHLAdvanced = function() {
+            var me = this;
+            if (!me.api) return;
+            var selectedElements = me.api.getSelectedElements();
+            if (!selectedElements || !_.isArray(selectedElements)) return;
+            for (var i = selectedElements.length - 1; i >= 0; i--) {
+                var elType  = selectedElements[i].get_ObjectType();
+                var elValue = selectedElements[i].get_ObjectValue();
+                if (Asc.c_oAscTypeSelectElement.HorizontalLine === elType) {
+                    var section = me.api.asc_GetSectionProps ? me.api.asc_GetSectionProps() : null;
+                    var colWidth = me.api.asc_GetCurrentColumnWidth
+                        ? me.api.asc_GetCurrentColumnWidth()
+                        : (section ? section.get_W() - section.get_LeftMargin() - section.get_RightMargin() : null);
+                    var win = new DE.Views.HorizontalLineSettings({
+                        hrProps: elValue,
+                        colWidth: colWidth,
+                        handler: function(state, settings) {
+                            if (state === 'ok' && me.api) {
+                                me.api.asc_SetHorizontalRuleProperties(settings);
+                            }
+                            me.editComplete();
+                        }
+                    });
+                    win.show();
+                    return;
+                }
+            }
         };
 
         dh.onImgAdvanced = function(item, e) {
@@ -2712,7 +2747,6 @@ define([], function () {
                             if (me.api) {
                                 me.api.SplitCell(value.columns, value.rows);
                             }
-                            Common.component.Analytics.trackEvent('DocumentHolder', 'Table');
                         }
                         me.editComplete();
                     }

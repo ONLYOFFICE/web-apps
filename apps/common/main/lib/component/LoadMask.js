@@ -109,6 +109,11 @@ define([
                 this.ownerEl.append(this.loaderEl);
                 this.loaderEl.css('min-width', $('.asc-loadmask-title', this.loaderEl).width() + 105);
 
+                this.updatePosition();
+
+                this._resizeHandler = this.updatePosition.bind(this);
+                 $(window).on('resize', this._resizeHandler);
+
                 if (this.ownerEl && this.ownerEl.closest('.asc-window.modal').length==0)
                     Common.util.Shortcuts.suspendEvents();
             },
@@ -152,6 +157,11 @@ define([
                 if (this.timerId) {
                     clearTimeout(this.timerId);
                     this.timerId = 0;
+                }
+
+                if (this._resizeHandler) {
+                    $(window).off('resize', this._resizeHandler);
+                    this._resizeHandler = null;
                 }
 
                 ownerEl && ownerEl.ismasked && this.maskeEl && this.maskeEl.remove();

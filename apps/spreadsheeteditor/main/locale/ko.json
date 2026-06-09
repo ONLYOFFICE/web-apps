@@ -2055,6 +2055,7 @@
   "SSE.Controllers.Main.warnLicenseLimitedNoAccess": "라이선스가 만료되었습니다.<br>더 이상 파일을 수정할 수 있는 권한이 없습니다.<br> 관리자에게 문의하세요.",
   "SSE.Controllers.Main.warnLicenseLimitedRenewed": "라이선스를 갱신해야합니다. <br> 문서 편집 기능에 대한 액세스가 제한되어 있습니다. <br> 전체 액세스 권한을 얻으려면 관리자에게 문의하십시오",
   "SSE.Controllers.Main.warnModifyFilter": "현재 핀이 사용자에게만 표시되지 않는 모드입니다. 필터를 추가하거나 제거할 수 없습니다.<br>현재 보기를 저장하려면 탭에서 시트 보기를 사용하세요.",
+  "SSE.Controllers.Main.warnNoLicense": "이 버전의 %1 편집자는 문서 서버에 대한 동시 연결에 특정 제한 사항이 있습니다. <br> 더 많은 정보가 필요하면 현재 라이센스를 업그레이드하거나 상업용 라이센스를 구입하십시오.",
   "SSE.Controllers.Main.warnNoResources": "%1 서버에 이 문서를 편집용으로 열기 위한 리소스가 부족합니다. 이 문서는 보기 전용으로 열립니다.",
   "SSE.Controllers.Main.warnNoLicenseUsers": "이 버전의 %1 편집자에게는 동시 사용자에게 특정 제한 사항이 있습니다. <br> 더 필요한 것이 있으면 현재 라이센스를 업그레이드하거나 상업용 라이센스를 구입하십시오.",
   "SSE.Controllers.Main.warnOpenCsv": "CSV 형식은 다중 시트 파일 또는 텍스트 이외의 요소를 저장할 수 없습니다.<br>활성 시트만 저장됩니다.",

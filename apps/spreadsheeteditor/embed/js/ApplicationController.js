@@ -53,12 +53,6 @@ SSE.ApplicationController = new(function(){
     var LoadingDocument = -256,
         WarningShown = false;
 
-    // Initialize analytics
-    // -------------------------
-
-//    Common.Analytics.initialize('UA-12442749-13', 'Embedded Spreadsheet Editor');
-
-
     // Check browser
     // -------------------------
 
@@ -174,8 +168,6 @@ SSE.ApplicationController = new(function(){
                 api.asc_setDocInfo(docInfo);
                 api.asc_getEditorPermissions();
                 api.asc_enableKeyEvents(true);
-
-                Common.Analytics.trackEvent('Load', 'Start');
             }
 
             embedConfig.docTitle = docConfig.title;
@@ -460,14 +452,11 @@ SSE.ApplicationController = new(function(){
                 if ( !!embedConfig.saveUrl && permissions.download !== false){
                     common.utils.openLink(embedConfig.saveUrl);
                 }
-
-                Common.Analytics.trackEvent('Save');
             });
 
         SSE.ApplicationView.tools.get('#idt-print')
             .on('click', function(){
                 api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
-                Common.Analytics.trackEvent('Print');
             });
 
         SSE.ApplicationView.tools.get('#idt-close')
@@ -572,7 +561,6 @@ SSE.ApplicationController = new(function(){
         });
 
         Common.Gateway.documentReady();
-        Common.Analytics.trackEvent('Load', 'Complete');
         requireUserAction = false;
         onSheetsChanged();
         setupScrollButtons();
@@ -829,8 +817,6 @@ SSE.ApplicationController = new(function(){
         } else {
             Common.Gateway.reportWarning(id, message);
         }
-
-        Common.Analytics.trackEvent('Internal Error', id.toString());
     }
 
     function onExternalMessage(error) {
@@ -839,8 +825,6 @@ SSE.ApplicationController = new(function(){
             $('#id-error-mask-title').text(me.criticalErrorTitle);
             $('#id-error-mask-text').text(error.msg);
             $('#id-error-mask').css('display', 'block');
-
-            Common.Analytics.trackEvent('External Error');
         }
     }
 

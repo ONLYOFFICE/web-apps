@@ -323,6 +323,7 @@
   "VE.Controllers.Main.warnLicenseExp": "您的许可证已过期。<br>请更新您的许可证并刷新页面。",
   "VE.Controllers.Main.warnLicenseLimitedNoAccess": "许可证已过期。<br>您现在不能使用文档编辑功能。<br>请联系您的管理员。",
   "VE.Controllers.Main.warnLicenseLimitedRenewed": "许可证需要更新。<br>您现在只能使用受限的文档编辑功能。<br>请联系您的管理员以获取完整权限",
+  "VE.Controllers.Main.warnNoLicense": "您已达到同时连接到%1编辑器的限制。此文档将仅打开以供查看。<br>有关个人升级条款，请联系%1销售团队。",
   "VE.Controllers.Main.warnNoResources": "%1服务器没有足够的资源来打开此文档进行编辑。此文档将仅以查看模式打开。",
   "VE.Controllers.Main.warnNoLicenseUsers": "您已达到%1编辑器的用户限制。有关个人升级条款，请联系%1销售团队。",
   "VE.Controllers.Main.warnProcessRightsChange": "您被拒绝了编辑文件的权限。",

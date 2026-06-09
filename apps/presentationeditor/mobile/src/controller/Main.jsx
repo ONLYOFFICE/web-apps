@@ -701,7 +701,7 @@ class MainController extends Component {
         const appOptions = this.props.storeAppOptions;
         const licType = params.asc_getLicenseType();
         if (licType !== undefined && (appOptions.canEdit || appOptions.isRestrictedEdit) && appOptions.config.mode !== 'view' &&
-            (licType === Asc.c_oLicenseResult.Connections || licType === Asc.c_oLicenseResult.UsersCount || licType === Asc.c_oLicenseResult.ConnectionsOS || licType === Asc.c_oLicenseResult.UsersCountOS
+            (licType === Asc.c_oLicenseResult.Connections || licType === Asc.c_oLicenseResult.UsersCount || licType === Asc.c_oLicenseResult.ConnectionsOS || licType === Asc.c_oLicenseResult.UsersCountOS || licType === Asc.c_oLicenseResult.NotEnoughResources
                 || licType === Asc.c_oLicenseResult.SuccessLimit && (appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
             this._state.licenseType = licType;
 
@@ -717,6 +717,7 @@ class MainController extends Component {
         const { t } = this.props;
         const _t = t('Controller.Main', {returnObjects:true});
 
+        const warnNoLicense = _t.warnNoLicense.replace(/%1/g, __COMPANY_NAME__);
         const warnNoResources  = _t.warnNoResources.replace(/%1/g, __COMPANY_NAME__);
         const warnNoLicenseUsers = _t.warnNoLicenseUsers.replace(/%1/g, __COMPANY_NAME__);
         const textNoLicenseTitle = _t.textNoLicenseTitle.replace(/%1/g, __COMPANY_NAME__);
@@ -770,9 +771,10 @@ class MainController extends Component {
                 title = _t.titleReadOnly;
                 license = (license===Asc.c_oLicenseResult.Connections) ? _t.tipLicenseExceeded : _t.tipLicenseUsersExceeded;
             } else {
-                if (license === Asc.c_oLicenseResult.ConnectionsOS)
+                if (license === Asc.c_oLicenseResult.NotEnoughResources)
                     title = textNoResourcesTitle;
-                license = (license === Asc.c_oLicenseResult.ConnectionsOS) ? warnNoResources : warnNoLicenseUsers;
+                license = (license === Asc.c_oLicenseResult.NotEnoughResources) ? warnNoResources :
+                          (license === Asc.c_oLicenseResult.ConnectionsOS) ? warnNoLicense : warnNoLicenseUsers;
                 buttons = [{
                     text: _t.textBuyNow,
                     bold: true,
@@ -910,7 +912,18 @@ class MainController extends Component {
                 content: Device.ios ?
                 '<div class="input-field"><input type="password" class="modal-text-input" name="modal-password" placeholder="' + _t.advDRMPassword + '" id="modal-password"></div>' : '<div class="input-field"><div class="inputs-list list inline-labels"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="password" name="modal-password" id="modal-password" placeholder=' + _t.advDRMPassword + '></div></div></div></li></ul></div></div>',
                 buttons: buttons,
-                cssClass: 'dlg-adv-options'
+                cssClass: 'dlg-adv-options',
+                on: {
+                    opened: () => {
+                        const passwordField = document.querySelector('#modal-password');
+                        passwordField.addEventListener('keyup', (e) => {
+                            if (e.key === 'Enter') {
+                                buttons[0].onClick();
+                                f7.dialog.close();
+                            }
+                        });
+                    },
+                }
             }).open();
             this.isDRM = true;
         }
@@ -946,7 +959,6 @@ class MainController extends Component {
 
         if (this.api)
             this.api.asc_Print();
-        Common.component.Analytics.trackEvent('Print');
     }
 
     onPrintUrl (url) {
@@ -990,8 +1002,6 @@ class MainController extends Component {
                 text: [msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)],
                 closeButton: true
             }).open();
-
-            Common.component.Analytics.trackEvent('External Error');
         }
     }
 

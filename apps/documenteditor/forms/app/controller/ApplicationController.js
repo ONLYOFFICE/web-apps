@@ -200,6 +200,7 @@ define([
 
             window.onbeforeunload = _.bind(this.onBeforeUnload, this);
 
+            this.warnNoLicense  = this.warnNoLicense.replace(/%1/g, '{{COMPANY_NAME}}');
             this.warnNoResources  = this.warnNoResources.replace(/%1/g, '{{COMPANY_NAME}}');
             this.warnNoLicenseUsers = this.warnNoLicenseUsers.replace(/%1/g, '{{COMPANY_NAME}}');
             this.textNoLicenseTitle = this.textNoLicenseTitle.replace(/%1/g, '{{COMPANY_NAME}}');
@@ -439,8 +440,6 @@ define([
 
             if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value="' + id + '"]').length<1)
                 Common.UI.alert(config).$window.attr('data-value', id);
-
-            (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
         },
 
         hidePreloader: function() {
@@ -549,8 +548,6 @@ define([
             if (msg && msg.msg) {
                 msg.msg = (msg.msg).toString();
                 this.showTips([msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)]);
-
-                Common.component.Analytics.trackEvent('External Error');
             }
         },
 
@@ -643,8 +640,6 @@ define([
             this.api.asc_setDocInfo(docInfo);
             this.api.asc_getEditorPermissions();
             this.api.asc_enableKeyEvents(true);
-
-            Common.Analytics.trackEvent('Load', 'Start');
         },
 
         onRunAutostartMacroses: function() {
@@ -866,7 +861,7 @@ define([
         onLicenseChanged: function(params) {
             var licType = params.asc_getLicenseType();
             if (licType !== undefined && this.appOptions.canFillForms &&
-                (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS
+                (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS || licType===Asc.c_oLicenseResult.NotEnoughResources
                     || licType===Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
                 this._state.licenseType = licType;
 
@@ -896,9 +891,10 @@ define([
                     title = this.titleReadOnly;
                     license = (license===Asc.c_oLicenseResult.Connections) ? this.tipLicenseExceeded : this.tipLicenseUsersExceeded;
                 } else {
-                    if (license===Asc.c_oLicenseResult.ConnectionsOS)
+                    if (license===Asc.c_oLicenseResult.NotEnoughResources)
                         title = this.textNoResourcesTitle;
-                    license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoResources : this.warnNoLicenseUsers;
+                    license = (license===Asc.c_oLicenseResult.NotEnoughResources) ? this.warnNoResources :
+                              (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
                     buttons = [{value: 'buynow', caption: this.textBuyNow}, {value: 'contact', caption: this.textContactUs}];
                     primary = 'buynow';
                     modal = true;
@@ -1196,7 +1192,6 @@ define([
 
             if (this.api)
                 this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isOpera == true use asc_onPrintUrl event
-            Common.component.Analytics.trackEvent('Print');
         },
 
         onPrintUrl: function(url) {
@@ -1710,7 +1705,6 @@ define([
 
             Common.Gateway.sendInfo({mode:'view'});
             Common.Gateway.documentReady();
-            Common.Analytics.trackEvent('Load', 'Complete');
             Common.NotificationCenter.trigger('document:ready');
             Common.UI.TooltipManager.showTip('showFillStatus');
             requireUserAction = false;
@@ -1736,11 +1730,9 @@ define([
                     } else if (this.api && this.appOptions.canPrint){
                         this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isOpera == true use asc_onPrintUrl event
                     }
-                    Common.Analytics.trackEvent('Save');
                     break;
                 case 'print':
                     this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isOpera == true use asc_onPrintUrl event
-                    Common.Analytics.trackEvent('Print');
                     break;
                 case 'close':
                     if (!Common.Controllers.Desktop.process('goback') &&
@@ -1759,11 +1751,9 @@ define([
                     break;
                 case 'download-docx':
                     this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX));
-                    Common.Analytics.trackEvent('Save');
                     break;
                 case 'download-pdf':
                     this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
-                    Common.Analytics.trackEvent('Save');
                     break;
                 case 'share':
                     (new Common.Views.ShareDialog({
@@ -2433,6 +2423,7 @@ define([
         errorUpdateVersion: 'The file version has been changed. The page will be reloaded.',
         warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
         warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
+        warnNoLicense: "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact %1 sales team for personal upgrade terms.",
         warnNoResources: "The %1 server does not have enough resources to open this document for editing. This document will be opened for viewing only.",
         warnNoLicenseUsers: "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
         textBuyNow: 'Visit website',

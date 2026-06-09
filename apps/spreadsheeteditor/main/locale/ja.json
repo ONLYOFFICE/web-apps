@@ -2055,6 +2055,7 @@
   "SSE.Controllers.Main.warnLicenseLimitedNoAccess": "ライセンスの有効期限が切れています。<br>ドキュメント編集機能にアクセスできません。<br>管理者にご連絡ください。",
   "SSE.Controllers.Main.warnLicenseLimitedRenewed": "ライセンスを更新する必要があります。<br>ドキュメント編集機能へのアクセスが制限されています。<br>フルアクセスを取得するには、管理者にご連絡ください",
   "SSE.Controllers.Main.warnModifyFilter": "現在、フィルターが自分にのみ表示され、保存されないモードにいます。フィルターを追加または削除することはできません。<br>現在の表示を保存するには、「表示」タブのシートビューを使用してください。",
+  "SSE.Controllers.Main.warnNoLicense": "％1エディターへの同時接続の制限に達しました。 このドキュメントは閲覧のみを目的として開かれます。<br>個人的なアップグレード条件については、％1セールスチームにお問い合わせください。",
   "SSE.Controllers.Main.warnNoResources": "%1サーバーにはこのドキュメントを編集用に開くための十分なリソースがありません。このドキュメントは閲覧専用で開かれます。",
   "SSE.Controllers.Main.warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームにお問い合わせください。",
   "SSE.Controllers.Main.warnOpenCsv": "CSV形式は複数シートファイルやテキスト以外の要素の保存をサポートしていません。<br>アクティブなシートのみが保存されます。",

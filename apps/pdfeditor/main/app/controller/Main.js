@@ -348,6 +348,7 @@ define([
                 }
 
                 me.defaultTitleText = '{{APP_TITLE_TEXT}}';
+                me.warnNoLicense  = (me.warnNoLicense || '').replace(/%1/g, '{{COMPANY_NAME}}');
                 me.warnNoResources  = (me.warnNoResources || '').replace(/%1/g, '{{COMPANY_NAME}}');
                 me.warnNoLicenseUsers = (me.warnNoLicenseUsers || '').replace(/%1/g, '{{COMPANY_NAME}}');
                 me.textNoLicenseTitle = (me.textNoLicenseTitle || '').replace(/%1/g, '{{COMPANY_NAME}}');
@@ -407,7 +408,6 @@ define([
                 this.appOptions.sharingSettingsUrl = this.editorConfig.sharingSettingsUrl;
                 this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
                 this.appOptions.saveAsUrl       = this.editorConfig.saveAsUrl;
-                this.appOptions.canAnalytics    = false;
                 this.appOptions.canPlugins      = false;
                 this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
                 this.appOptions.canRequestUsers = this.editorConfig.canRequestUsers;
@@ -1174,9 +1174,6 @@ define([
                 $('.toolbar').prepend(Common.Utils.String.format('<div class="lazy-{0} x-huge"><div class="toolbar__icon" style="position: absolute; width: 1px; height: 1px;"></div>', dummyClass));
                 setTimeout(function() { $(Common.Utils.String.format('.toolbar .lazy-{0}', dummyClass)).remove(); }, 10);
 
-                if (this.appOptions.canAnalytics && false)
-                    Common.component.Analytics.initialize('UA-12442749-13', 'Document Editor');
-
                 Common.Gateway.on('applyeditrights',        _.bind(me.onApplyEditRights, me));
                 Common.Gateway.on('processrightschange',    _.bind(me.onProcessRightsChange, me));
                 Common.Gateway.on('processmouse',           _.bind(me.onProcessMouse, me));
@@ -1213,7 +1210,7 @@ define([
             onLicenseChanged: function(params) {
                 var licType = params.asc_getLicenseType();
                 if (licType !== undefined && (this.appOptions.isPDFAnnotate || this.appOptions.isPDFFill || this.appOptions.isRestrictedEdit) &&
-                   (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS
+                   (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS || licType===Asc.c_oLicenseResult.NotEnoughResources
                    || licType===Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
                     this._state.licenseType = licType;
 
@@ -1255,9 +1252,10 @@ define([
                         title = this.titleReadOnly;
                         license = (license===Asc.c_oLicenseResult.Connections) ? this.tipLicenseExceeded : this.tipLicenseUsersExceeded;
                     } else {
-                        if (license===Asc.c_oLicenseResult.ConnectionsOS)
+                        if (license===Asc.c_oLicenseResult.NotEnoughResources)
                             title = this.textNoResourcesTitle;
-                        license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoResources : this.warnNoLicenseUsers;
+                        license = (license===Asc.c_oLicenseResult.NotEnoughResources) ? this.warnNoResources :
+                                  (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
                         buttons = [{value: 'buynow', caption: this.textBuyNow}, {value: 'contact', caption: this.textContactUs}];
                         primary = 'buynow';
                         modal = true;
@@ -1336,7 +1334,6 @@ define([
                 this.appOptions.isXpsViewer = /^(?:(djvu|xps|oxps))$/.test(this.document.fileType) || Common.Locale.getDefaultLanguage() === 'ru';
                 this.appOptions.isForm = !this.appOptions.isXpsViewer && !!window.isPDFForm;
                 this.appOptions.permissionsLicense = licType;
-                this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
                 this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
                 this.appOptions.isLightVersion = params.asc_getIsLight();
                 this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
@@ -1714,8 +1711,6 @@ define([
                 if (msg && msg.msg) {
                     msg.msg = (msg.msg).toString();
                     this.showTips([msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)], options);
-
-                    Common.component.Analytics.trackEvent('External Error');
                 }
             },
 
@@ -2014,8 +2009,6 @@ define([
 
                 if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value="' + id + '"]').length<1)
                     Common.UI.alert(config).$window.attr('data-value', id);
-
-                (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
             },
 
             onOpenLinkPdfForm: function(sURI, onAllow, onCancel) {
@@ -2559,7 +2552,6 @@ define([
             onPrint: function() {
                 if (!this.appOptions.canPrint || Common.Utils.ModalWindow.isVisible()) return;
                 Common.NotificationCenter.trigger('file:print');
-                Common.component.Analytics.trackEvent('Print');
             },
 
             onPrintUrl: function(url) {
@@ -2602,7 +2594,6 @@ define([
                             var opts = new Asc.asc_CDownloadOptions();
                             opts.asc_setAdvancedOptions(printopt);
                             me.api.asc_Print(opts);
-                            Common.component.Analytics.trackEvent('Print');
                         };
 
                     if (value) {

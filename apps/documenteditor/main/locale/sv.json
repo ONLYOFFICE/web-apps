@@ -1215,6 +1215,7 @@
   "DE.Controllers.Main.warnLicenseExp": "Din licens har gått ut.<br>Förnya din licens och uppdatera sidan.",
   "DE.Controllers.Main.warnLicenseLimitedNoAccess": "Licensen ogiltig.<br>Ingen access till redigeringsfunktioner.<br>Kontakta din administratör.",
   "DE.Controllers.Main.warnLicenseLimitedRenewed": "Licensen måste förnyas.<br>Endast begränsad funktionalitet.<br>Kontakta din administratör för full funktionalitet.",
+  "DE.Controllers.Main.warnNoLicense": "Gränsen är nådd för antalet %1 samtidiga anslutna redigerare. Dokumentet öppnas som skrivskyddat.<br>Kontakta %1 försäljningsteamet för personliga uppgraderings villkor.",
   "DE.Controllers.Main.warnNoResources": "%1-servern har inte tillräckligt med resurser för att öppna detta dokument för redigering. Dokumentet kommer att öppnas i skrivskyddat läge.",
   "DE.Controllers.Main.warnNoLicenseUsers": "Gränsen är nådd för antalet %1 redigerare.<br>Kontakta %1 försäljningsteamet för personliga uppgraderings villkor.",
   "DE.Controllers.Main.warnProcessRightsChange": "Du har nekats rätten att redigera filen.",

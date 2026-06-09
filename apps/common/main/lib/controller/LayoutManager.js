@@ -304,7 +304,7 @@ Common.UI.LayoutManager = new(function() {
                                 menu: item.items,
                                 split: item.items && !!item.split,
                                 enableToggle: item.enableToggle && (!item.items || !!item.split),
-                                pressed: item.pressed,
+                                pressed: !!item.pressed,
                                 value: item.id,
                                 guid: plugin.guid,
                                 tabid: tab.id,

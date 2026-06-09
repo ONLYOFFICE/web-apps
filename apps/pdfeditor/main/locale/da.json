@@ -466,6 +466,7 @@
   "PDFE.Controllers.Main.warnLicenseExp": "Din licens er udløbet.<br>Opdater venligst din licens og genindlæs siden.",
   "PDFE.Controllers.Main.warnLicenseLimitedNoAccess": "Licens udløbet. <br>Du har ikke adgang til at redigere. <br>Kontakt venligst din administrator.",
   "PDFE.Controllers.Main.warnLicenseLimitedRenewed": "Licens skal fornyes.<br>Du har begrænset adgang til at redigere dokumenter.<br>Kontakt venligst din administrator for at få fuld adgang.",
+  "PDFE.Controllers.Main.warnNoLicense": "Du har nået grænsen for antal samtidige forbindelser til %1 værktøjer. Dokumentet åbnes for læsning.<br>Kontakt %1 salgsteamet for betingelser for opgradering.",
   "PDFE.Controllers.Main.warnNoResources": "Serveren %1 har ikke nok ressourcer til at åbne dette dokument til redigering. Dokumentet vil blive åbnet kun til visning.",
   "PDFE.Controllers.Main.warnNoLicenseUsers": "Du har nået grænsen for brugere af %1 redigeringsværktøj. Kontakt %1 salgsafdeling for at høre om dine opgraderingsmuligheder.",
   "PDFE.Controllers.Main.warnProcessRightsChange": "Du er blevet nægtet rettighederne til at redigere denne fil.",
