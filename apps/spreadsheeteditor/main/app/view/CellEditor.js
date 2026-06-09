@@ -79,7 +79,8 @@ define([
             });
 
             this.$cellcontent = $('#ce-cell-content', this.el);
-            this.$cellgroupname = this.$btnexpand.parent();
+            // this.$cellgroupname = this.$btnexpand.parent();
+            this.$scrollcontent = $('#ce-scroll-content', this.el);
 
             var me = this;
             this.$cellname.on('focus', function(e){
@@ -90,6 +91,15 @@ define([
             });
             this.btnfunc.setDisabled(true)
             this.btnfunc.updateHint(this.tipFormula)
+
+            this.scroller = new Common.UI.Scroller({
+                el                 : this.$cellcontent,
+                minScrollbarLength : 20,
+                includePadding     : true,
+                wheelSpeed         : 10,
+                alwaysVisibleY     : true,
+                staticPosition     : true,
+            });
 
             return this;
         },
@@ -112,25 +122,32 @@ define([
         },
 
         cellEditorTextChange: function (){
-            if (!this.$cellcontent) return;
+            // if (!this.$cellcontent) return;
+            if (!this.$scrollcontent) return;
 
-            var cellcontent = this.$cellcontent[0];
+            // var cellcontent = this.$cellcontent[0];
+            const cellcontent = this.$scrollcontent[0];
 
-            if (cellcontent.clientHeight != cellcontent.scrollHeight) {
-                if ( !this._isScrollShow ) {
-                    this._isScrollShow = true;
-                    var scrollBarWidth = cellcontent.offsetWidth - cellcontent.clientWidth;
-                    this.$cellgroupname.css({
-                        'right': Common.UI.isRTL() ? '' : scrollBarWidth + "px",
-                        'left': Common.UI.isRTL() ? scrollBarWidth + "px" : ''
-                    });
-                }
-            } else {
-                if ( this._isScrollShow ) {
-                    this._isScrollShow = false;
-                    this.$cellgroupname.css({'right': '', 'left': ''});
-                }
+            if ( cellcontent.clientHeight !== this.editheight ) {
+                this.editheight = cellcontent.clientHeight;
+                this.scroller.update();
             }
+
+            // if (cellcontent.clientHeight != cellcontent.scrollHeight) {
+                // if ( !this._isScrollShow ) {
+                    // this._isScrollShow = true;
+                    // var scrollBarWidth = cellcontent.offsetWidth - cellcontent.clientWidth;
+                    // this.$cellgroupname.css({
+                    //     'right': Common.UI.isRTL() ? '' : scrollBarWidth + "px",
+                    //     'left': Common.UI.isRTL() ? scrollBarWidth + "px" : ''
+                    // });
+                // }
+            // } else {
+                // if ( this._isScrollShow ) {
+                    // this._isScrollShow = false;
+                    // this.$cellgroupname.css({'right': '17px', 'left': ''});
+                // }
+            // }
         },
 
         tipFormula: 'Insert Function',

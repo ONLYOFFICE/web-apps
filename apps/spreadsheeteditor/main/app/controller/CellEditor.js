@@ -55,8 +55,8 @@ define([
         events: function() {
             return {
                 'keyup input#ce-cell-name': _.bind(this.onCellName,this),
-                'keyup textarea#ce-cell-content': _.bind(this.onKeyupCellEditor,this),
-                'blur textarea#ce-cell-content': _.bind(this.onBlurCellEditor,this),
+                'keyup #ce-cell-content': _.bind(this.onKeyupCellEditor,this),
+                'blur #ce-cell-content': _.bind(this.onBlurCellEditor,this),
                 'click button#ce-btn-expand': _.bind(this.expandEditorField,this),
                 'click button#ce-func-label': _.bind(this.onInsertFunction, this)
             };
@@ -202,12 +202,14 @@ define([
 
         onLayoutResize: function(o, r) {
             if (r == 'cell:edit') {
-                if (Math.floor(this.editor.$el.height()) > 19) {
+                if (Math.floor(this.editor.$el.height()) > 24) {
                     if (!this.editor.$btnexpand.hasClass('btn-collapse')) {
                         this.editor.$el.addClass('expanded');
                         this.editor.$btnexpand['addClass']('btn-collapse');
+                        this.editor.$scrollcontent.css({height: '', display: ''});
                     }
 
+                    this.editor.scroller.update();
                     o && Common.localStorage.setItem('sse-celleditor-height', this.editor.$el.height());
                     o && Common.localStorage.setBool('sse-celleditor-expand', true);
                 } else {
@@ -259,6 +261,8 @@ define([
                 this.editor.$el.height(this.editor.keep_height);
                 this.editor.$el.addClass('expanded');
                 this.editor.$btnexpand['addClass']('btn-collapse');
+                this.editor.scroller.update();
+                this.editor.$scrollcontent.css({height: '', display: ''});
                 Common.localStorage.setBool('sse-celleditor-expand', true);
             }
             this.onCellEditorTextChange();
