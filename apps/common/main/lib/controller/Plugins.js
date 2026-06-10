@@ -826,7 +826,8 @@ define([
                 frameId = this.pluginDlg.frameId;
                 this.pluginDlg.close();
             } else {
-                frameId = this.viewPlugins.pluginPanels[guid].frameId;
+                if (this.viewPlugins.pluginPanels && this.viewPlugins.pluginPanels[guid])
+                    frameId = this.viewPlugins.pluginPanels[guid].frameId;
                 var successClosed = this.closePluginInPanel(guid);
                 successClosed && (isIframePlugin = true);
             }
