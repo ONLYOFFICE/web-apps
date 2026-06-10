@@ -789,7 +789,7 @@ define([
 
         getActionsNames: function() {
             return {
-                [AscPDF.ACTIONS_TYPES.Named]: this.textExecuteMenuItem,
+                [AscPDF.ACTIONS_TYPES.Named]: this.textNavigation,
                 [AscPDF.ACTIONS_TYPES.GoTo]: this.textGoToPageView,
                 [AscPDF.ACTIONS_TYPES.URI]: this.textOpenWebLink,
                 [AscPDF.ACTIONS_TYPES.ResetForm]: this.textResetForm,
@@ -1478,7 +1478,7 @@ define([
             this.btnActionsDown.setDisabled(!record || isTrigger || (record && record.get('isLastAtParent')));
         },
 
-        textTitle: 'Format Settings',
+        textTitle: 'Advanced Settings',
         textCategory: 'Category',
         textDecimal: 'Decimal places',
         textSeparator: 'Separator style',
@@ -1507,7 +1507,6 @@ define([
         textBefore: 'Before no space',
         textAfter: 'After no space',
         textCustom: 'Custom',
-        textFormat: 'Format',
         textValidate: 'Validate',
         textCalculate: 'Calculate',
         textCustomFormatScript: 'Custom format script',
@@ -1534,7 +1533,6 @@ define([
         textSelectTrigger: 'Select trigger',
         textSelectAction: 'Select action',
         textAdd: 'Add',
-        textEdit: 'Edit',
         textDelete: 'Delete',
         textMouseUp: 'Mouse up',
         textMouseDown: 'Mouse down',
@@ -1547,7 +1545,7 @@ define([
         textShowHideField: 'Show/hide a field',
         textResetForm: 'Reset a form',
         textRunJavaScript: 'Run a JavaScript',
-        textExecuteMenuItem: 'Execute a menu item',
+        textNavigation: 'Navigation',
         textSelectFieldsForCalc: 'Select fields for calculation',
         textSelectFieldsToReset: 'Select fields to reset',
         textSelectFieldsToShowHide: 'Select fields to show/hide',
