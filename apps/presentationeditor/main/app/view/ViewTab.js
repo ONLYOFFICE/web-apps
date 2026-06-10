@@ -263,7 +263,7 @@ define([
 
                     this.btnOutlineView = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-slide-master',
+                        iconCls: 'toolbar__icon btn-outline-view',
                         caption: this.textOutlineView,
                         lock: [_set.disableOnStart],
                         enableToggle: true,
@@ -277,7 +277,7 @@ define([
 
                     this.btnNotesPage = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-slide-master',
+                        iconCls: 'toolbar__icon btn-notes-page',
                         caption: this.textNotesPage,
                         lock: [_set.disableOnStart],
                         enableToggle: true,
@@ -305,7 +305,7 @@ define([
 
                     this.btnHandoutMaster = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-slide-master',
+                        iconCls: 'toolbar__icon btn-handout-master',
                         caption: this.textHandoutMaster,
                         lock: [_set.disableOnStart],
                         enableToggle: true,
@@ -319,7 +319,7 @@ define([
 
                     this.btnNotesMaster = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-slide-master',
+                        iconCls: 'toolbar__icon btn-notes-master',
                         caption: this.textNotesMaster,
                         lock: [_set.disableOnStart],
                         enableToggle: true,

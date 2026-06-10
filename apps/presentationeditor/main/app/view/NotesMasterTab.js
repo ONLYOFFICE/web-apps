@@ -121,9 +121,8 @@ define([
 
                 if (this.appConfig.isEdit) {
                     this.btnNotesPageOrientation = new Common.UI.Button({
-                        id: 'id-toolbar-btn-add-layout',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-add-layout',
+                        iconCls: 'toolbar__icon btn-notes-orient',
                         caption: this.capNotesPageOrientation,
                         lock: [_set.menuFileOpen, _set.lostConnect, _set.disableOnStart],
                         menu: new Common.UI.Menu({
@@ -193,7 +192,6 @@ define([
                     this.lockedControls.push(this.chBody);
 
                     this.btnCloseNotesMaster = new Common.UI.Button({
-                        id: 'slot-btn-closeslidemaster',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-close-tab',
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],

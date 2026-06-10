@@ -112,9 +112,8 @@ define([
 
                 if (this.appConfig.isEdit) {
                     this.btnHandoutOrientation = new Common.UI.Button({
-                        id: 'id-toolbar-btn-add-layout',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-add-layout',
+                        iconCls: 'toolbar__icon btn-handout-orient',
                         caption: this.capHandoutOrientation,
                         lock: [_set.menuFileOpen, _set.lostConnect, _set.disableOnStart],
                         menu: new Common.UI.Menu({
@@ -130,9 +129,8 @@ define([
                     this.lockedControls.push(this.btnHandoutOrientation);
 
                     this.btnSlidesPerPage = new Common.UI.Button({
-                        id: 'id-toolbar-btn-add-layout',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-add-layout',
+                        iconCls: 'toolbar__icon btn-slides-per-page',
                         caption: this.capSlidesPerPage,
                         lock: [_set.menuFileOpen, _set.lostConnect, _set.disableOnStart],
                         menu: new Common.UI.Menu({

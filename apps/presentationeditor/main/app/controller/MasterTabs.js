@@ -34,7 +34,7 @@
  */
 
 /**
- *  SlideMasterTab.js
+ *  MasterTabs.js
  *
  *  Created on 01.06.2025
  *
@@ -48,7 +48,7 @@ define([
 ], function () {
     'use strict';
 
-    PE.Controllers.SlideMasterTab = Backbone.Controller.extend(_.extend({
+    PE.Controllers.MasterTabs = Backbone.Controller.extend(_.extend({
         models : [],
         collections : [
         ],
@@ -446,5 +446,5 @@ define([
             this.changeViewMode(mode);
         },
 
-    }, PE.Controllers.SlideMasterTab || {}));
+    }, PE.Controllers.MasterTabs || {}));
 });

@@ -2796,7 +2796,7 @@ define([
                 Array.prototype.push.apply(me.toolbar.slideOnlyControls,animationController.getView().getButtons());
 
                 tab = {caption: me.toolbar.textTabSlideMaster, action: 'slideMaster', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-slidemaster', dataHintTitle: 'M'};
-                var slideMasterTab = me.getApplication().getController('SlideMasterTab');
+                var slideMasterTab = me.getApplication().getController('MasterTabs');
                 slideMasterTab.setApi(me.api).setConfig({toolbar: me, mode: config});
                 $panel = slideMasterTab.createToolbarPanel();
                 if ($panel) {
@@ -2809,7 +2809,7 @@ define([
                 }
 
                 tab = {caption: me.toolbar.textTabHandoutMaster, action: 'handoutMaster', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-handoutmaster', dataHintTitle: 'M'};
-                var handoutMasterTab = me.getApplication().getController('SlideMasterTab');
+                var handoutMasterTab = me.getApplication().getController('MasterTabs');
                 handoutMasterTab.setApi(me.api);
                 $panel = handoutMasterTab.createToolbarPanel('handout');
                 if ($panel) {
@@ -2822,7 +2822,7 @@ define([
                 }
 
                 tab = {caption: me.toolbar.textTabNotesMaster, action: 'notesMaster', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-notesmaster', dataHintTitle: 'M'};
-                var notesMasterTab = me.getApplication().getController('SlideMasterTab');
+                var notesMasterTab = me.getApplication().getController('MasterTabs');
                 notesMasterTab.setApi(me.api);
                 $panel = notesMasterTab.createToolbarPanel('notes');
                 if ($panel) {
