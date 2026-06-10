@@ -3073,7 +3073,7 @@ define([
             var isNotes = mode === 'notes'
             this.toolbar.$el.find('.master-slide-mode')[isMaster?'show':'hide']();
             this.toolbar.$el.find('.normal-mode')[!isMaster?'show':'hide']();
-            this.toolbar.lockToolbar(Common.enumLock.slideMasterMode, isMaster, { array:  this.btnsComment.concat([this.toolbar.btnInsertHyperlink]) });
+            this.toolbar.lockToolbar(Common.enumLock.slideMasterMode, isMaster || isHandout || isNotes, { array:  this.btnsComment.concat([this.toolbar.btnInsertHyperlink]) });
 
             this._state.viewMode = mode;
             if (isMaster) {
