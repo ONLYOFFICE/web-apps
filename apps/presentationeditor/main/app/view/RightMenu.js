@@ -366,7 +366,7 @@ define([
             const pane = $(this.el).find('.right-panel');
             const paddings = parseInt(pane.css('padding-left')) + parseInt(pane.css('padding-right'));
             MENU_SCALE_PART = value + paddings;
-            this.$el.css('width', (!Common.Utils.InternalSettings.get("pe-hide-right-settings") ? MENU_SCALE_PART : SCALE_MIN) + 'px');
+            this.$el.css('width', (this.minimizedMode ? SCALE_MIN : MENU_SCALE_PART) + 'px');
         },
 
         updateWidth: function() {
@@ -374,7 +374,7 @@ define([
                 paddings = parseInt(pane.css('padding-left')) + parseInt(pane.css('padding-right'));
             MENU_SCALE_PART = MENU_BASE_WIDTH + paddings;
             if ( !this.isPluginButtonPressed() ) {
-                this.$el.css('width', (!Common.Utils.InternalSettings.get("pe-hide-right-settings") ? MENU_SCALE_PART : SCALE_MIN) + 'px');
+                this.$el.css('width', (this.minimizedMode ? SCALE_MIN : MENU_SCALE_PART) + 'px');
             }
         },
 
@@ -384,12 +384,15 @@ define([
             viewport.hlayout.hideItemResizer('right', !isPlugin);
 
             const widthFromStorage = Common.localStorage.getItem('pe-rightmenu-width');
+            const oldWidth = this.$el.width();
             if(isPlugin && widthFromStorage) {
                 this.$el.width(parseInt(widthFromStorage));
             } else {
                 this.setInnerWidth(MENU_BASE_WIDTH);
             }
-            Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+            if(oldWidth != this.$el.width()) {
+                Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+            }
         },
 
         txtParagraphSettings:       'Text Settings',
