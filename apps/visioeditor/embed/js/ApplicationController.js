@@ -158,6 +158,10 @@ VE.ApplicationController = new(function(){
         }
     }
 
+    function loadBinary(data) {
+        data && api.asc_openDocumentFromBytes(new Uint8Array(data));
+    }
+
     function onCurrentPage(number) {
         currentPage = number;
         setActivePage(number);
@@ -916,6 +920,7 @@ VE.ApplicationController = new(function(){
             Common.Gateway.on('init',               loadConfig);
             Common.Gateway.on('opendocument',       loadDocument);
             Common.Gateway.on('showmessage',        onExternalMessage);
+            Common.Gateway.on('opendocumentfrombinary', loadBinary);
             Common.Gateway.appReady();
 
             // common.controller.SearchBar.setApi(api);

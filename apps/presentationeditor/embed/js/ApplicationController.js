@@ -160,6 +160,10 @@ PE.ApplicationController = new(function(){
         }
     }
 
+    function loadBinary(data) {
+        data && api.asc_openDocumentFromBytes(new Uint8Array(data));
+    }
+
     function onCountPages(count) {
         maxPages = count;
         $('#pages').text(me.textOf + " " + count);
@@ -886,6 +890,7 @@ PE.ApplicationController = new(function(){
             Common.Gateway.on('init',               loadConfig);
             Common.Gateway.on('opendocument',       loadDocument);
             Common.Gateway.on('showmessage',        onExternalMessage);
+            Common.Gateway.on('opendocumentfrombinary', loadBinary);
             Common.Gateway.appReady();
 
             common.controller.SearchBar.setApi(api);
