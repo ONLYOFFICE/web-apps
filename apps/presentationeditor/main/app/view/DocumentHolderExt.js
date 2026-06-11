@@ -198,6 +198,18 @@ define([], function () {
                 caption: me.txtMoveSlidesToEnd
             });
 
+            me.menuSlideCopy = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
+                caption : me.textCopy,
+                value : 'copy'
+            });
+
+            me.menuSlideCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
+                caption : me.textCut,
+                value : 'cut'
+            });
+
             me.menuSlidePaste = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-paste',
                 caption : me.textPaste,
@@ -260,31 +272,33 @@ define([], function () {
                     var selectedLast = me.api.asc_IsLastSlideSelected(),
                         selectedFirst = me.api.asc_IsFirstSlideSelected();
                     me.slideMenu.options.fromThumbs = value.fromThumbs;
-                    me.menuSlidePaste.setVisible(value.fromThumbs!==true);
+                    me.menuSlideCopy.setVisible(value.fromThumbs===true && value.isSlideSelect===true);
+                    me.menuSlideCut.setVisible(value.fromThumbs===true && value.isSlideSelect===true);
+                    me.slideMenu.items[3].setVisible(value.fromThumbs===true);
                     me.mnuNewSlide.setVisible(value.fromThumbs===true); // New Slide
                     me.mnuDuplicateSlide.setVisible(value.isSlideSelect===true); // Duplicate Slide
                     me.mnuDeleteSlide.setVisible(value.isSlideSelect===true);
                     me.mnuSlideHide.setVisible(value.isSlideSelect===true);
                     me.mnuSlideHide.setChecked(value.isSlideHidden===true);
-                    me.slideMenu.items[5].setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
+                    me.slideMenu.items[8].setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     me.mnuChangeSlide.setVisible(!me.api.asc_IsMasterMode() && (value.isSlideSelect===true || value.fromThumbs!==true));
                     me.mnuResetSlide.setVisible(!me.api.asc_IsMasterMode() && (value.isSlideSelect===true || value.fromThumbs!==true));
                     mnuChangeTheme.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     me.menuSlideSettings.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     me.menuSlideSettings.options.value = null;
 
-                    me.slideMenu.items[10].setVisible(!value.fromThumbs); // guides separator
+                    me.slideMenu.items[13].setVisible(!value.fromThumbs); // guides separator
                     me.mnuGuides.setVisible(!value.fromThumbs);
                     me.mnuGridlines.setVisible(!value.fromThumbs);
                     me.mnuRulers.setVisible(!value.fromThumbs);
-                    me.slideMenu.items[14].setVisible(value.fromThumbs===true);
+                    me.slideMenu.items[17].setVisible(value.fromThumbs===true);
                     me.mnuSelectAll.setVisible(value.fromThumbs===true);
 
                     me.mnuPrintSelection.setVisible(me.mode.canPrint && value.fromThumbs===true);
-                    me.slideMenu.items[17].setVisible((!selectedLast || !selectedFirst) && value.isSlideSelect===true);
+                    me.slideMenu.items[20].setVisible((!selectedLast || !selectedFirst) && value.isSlideSelect===true);
                     me.mnuMoveSlideToEnd.setVisible(!selectedLast && value.isSlideSelect===true);
                     me.mnuMoveSlideToStart.setVisible(!selectedFirst && value.isSlideSelect===true);
-                    me.slideMenu.items[20].setVisible(value.fromThumbs===true);
+                    me.slideMenu.items[23].setVisible(value.fromThumbs===true);
                     me.mnuPreview.setVisible(value.fromThumbs===true);
 
                     if (!value.fromThumbs) {
@@ -356,11 +370,14 @@ define([], function () {
                             }
                         });
                     }
-                    for (var i = 0; i < 3; i++) {
-                        me.slideMenu.items[i].setDisabled(locked);
-                    }
+                    let cancopy = me.api && me.api.can_CopyCut();
+                    me.menuSlideCopy.setDisabled(!cancopy);
+                    me.menuSlideCut.setDisabled(!cancopy || locked);
                     me.mnuPreview.setDisabled(me.slidesCount<1);
                     me.mnuSelectAll.setDisabled(me.slidesCount<2);
+                    me.menuSlidePaste.setDisabled(locked);
+                    me.mnuNewSlide.setDisabled(locked);
+                    me.mnuDuplicateSlide.setDisabled(locked);
                     me.mnuDeleteSlide.setDisabled(lockedDeleted || locked);
                     me.mnuChangeSlide.setDisabled(lockedLayout || locked);
                     me.mnuResetSlide.setDisabled(lockedLayout || locked);
@@ -369,7 +386,10 @@ define([], function () {
                     me.mnuPrintSelection.setDisabled(me.slidesCount<1);
                 },
                 items: [
+                    me.menuSlideCut,
+                    me.menuSlideCopy,
                     me.menuSlidePaste,
+                    {caption: '--'},
                     me.mnuNewSlide,
                     me.mnuDuplicateSlide,
                     me.mnuDeleteSlide,
@@ -465,6 +485,25 @@ define([], function () {
                 }
             });
 
+
+            me.mnuSlideMasterCopy = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
+                caption : me.textCopy,
+                value : 'copy'
+            });
+
+            me.mnuSlideMasterCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
+                caption : me.textCut,
+                value : 'cut'
+            });
+
+            me.mnuSlideMasterPaste = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-paste',
+                caption : me.textPaste,
+                value : 'paste'
+            });
+
             me.mnuInsertMaster = new Common.UI.MenuItem({
                 caption : me.textInsertSlideMaster,
                 value : 'ins-master'
@@ -518,7 +557,6 @@ define([], function () {
                 initMenu: function(value) {
                     var isMaster = value.isMaster;
                     var currentName = ''; 
-
                     var selectedElements = me.api.getSelectedElements();
                     if (selectedElements && _.isArray(selectedElements)) {
                         _.each(selectedElements, function(element) {
@@ -541,10 +579,19 @@ define([], function () {
                     me.mnuDeleteLayout.setVisible(!isMaster);
                     me.mnuRenameLayout.setVisible(!isMaster);
 
-                    isMaster && me.mnuDeleteMaster.setDisabled(!me.api.asc_CanDeleteMaster());
-                    !isMaster && me.mnuDeleteLayout.setDisabled(!me.api.asc_CanDeleteLayout());
+                    var cancopy = me.api && me.api.can_CopyCut(),
+                        canDelete = isMaster ? me.api.asc_CanDeleteMaster() : me.api.asc_CanDeleteLayout();
+                    
+                    me.mnuSlideMasterCut.setDisabled(!cancopy || !canDelete);
+                    me.mnuSlideMasterCopy.setDisabled(!cancopy);
+                    isMaster && me.mnuDeleteMaster.setDisabled(!canDelete);
+                    !isMaster && me.mnuDeleteLayout.setDisabled(!canDelete);
                 },
                 items: [
+                    me.mnuSlideMasterCut,
+                    me.mnuSlideMasterCopy,
+                    me.mnuSlideMasterPaste,
+                    {caption: '--'},
                     me.mnuInsertMaster,
                     me.mnuInsertLayout,
                     me.mnuDuplicateMaster,

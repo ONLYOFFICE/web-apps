@@ -400,7 +400,7 @@ define([
                             }
                         });
 
-                        currentMenu.options.initMenu({isSlideSelect: me.documentHolder.slideMenu.items[2].isVisible(), isSlideHidden: isHidden, fromThumbs: true});
+                        currentMenu.options.initMenu({isSlideSelect: me.documentHolder.mnuDuplicateSlide.isVisible(), isSlideHidden: isHidden, fromThumbs: true});
                         currentMenu.alignPosition();
                     }
                 } else {

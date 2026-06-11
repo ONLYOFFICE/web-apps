@@ -190,6 +190,8 @@ define([], function () {
             }
 
             view.menuEditObject.on('click', _.bind(me.onEditObject, me));
+            view.menuSlideCopy.on('click', _.bind(me.onCutCopyPaste, me));
+            view.menuSlideCut.on('click', _.bind(me.onCutCopyPaste, me));
             view.menuSlidePaste.on('click', _.bind(me.onCutCopyPaste, me));
             view.menuParaCopy.on('click', _.bind(me.onCutCopyPaste, me));
             view.menuParaPaste.on('click', _.bind(me.onCutCopyPaste, me));
@@ -273,6 +275,9 @@ define([], function () {
             view.menuTableEquationSettings.menu.on('item:click', _.bind(me.convertEquation, me));
             view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
             view.animEffectMenu.on('item:click', _.bind(me.onAnimEffect, me));
+            view.mnuSlideMasterCopy.on('click', _.bind(me.onCutCopyPaste, me));
+            view.mnuSlideMasterCut.on('click', _.bind(me.onCutCopyPaste, me));
+            view.mnuSlideMasterPaste.on('click', _.bind(me.onCutCopyPaste, me));
             view.mnuInsertMaster.on('click', _.bind(me.onInsertMaster, me));
             view.mnuInsertLayout.on('click', _.bind(me.onInsertLayout, me));
             view.mnuDuplicateMaster.on('click', _.bind(me.onDuplicateMaster, me));
