@@ -222,7 +222,11 @@ define([
 
         var create_colors_css = function (id, colors) {
             if ( !!colors && !!id ) {
-                var _css_array = [':root .', id, '{'];
+                // Repeat the theme class (`:root .id.id`) to raise specificity above
+                // the base per-type rules (`:root .theme-type-dark { ... }`), which a
+                // single `:root .id` only ties — so a dark/light custom theme's tokens
+                // (e.g. --background-toolbar) would otherwise lose to the base value.
+                var _css_array = [':root .', id, '.', id, '{'];
                 for (var c in colors) {
                     if (c==='highlight-toolbar-tab-underline') {
                         _css_array.push('--', c + '-document', ':', colors[c], ';');
@@ -290,6 +294,20 @@ define([
             let theme_id = window.uitheme.id;
             if ( themes_map[theme_id] ) {
                 if ( themes_map[theme_id].source != 'static') {
+                    // A custom theme preset via customization.uiTheme arrives here as
+                    // an id only; its colors live in themes.json and are loaded async.
+                    // apply_theme() (runtime selection) is what normally turns those
+                    // colors into CSS vars, so on a fresh load with a preset theme the
+                    // vars are never written and the editor falls back to the base
+                    // dark/light theme. Write them here, once, the first time the
+                    // launched theme is resolved.
+                    let t = themes_map[theme_id];
+                    if ( t.src && t.src.colors ) {
+                        write_theme_css(t.src.id, create_colors_css(t.src.id, t.src.colors));
+                        normalize_theme_icons(t);
+                        delete t.src; // mirror apply_theme: writing once consumes src
+                    }
+
                     const m = document.body.className.match('theme-type-' + themes_map[theme_id].type);
                     if ( !m )
                         document.body.classList.add('theme-type-' + themes_map[theme_id].type);
