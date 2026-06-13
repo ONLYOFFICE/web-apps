@@ -427,7 +427,8 @@
     "txtEditingMode": "Definir modo de edição...",
     "uploadImageTextText": "Carregando imagem...",
     "uploadImageTitleText": "Carregando imagem",
-    "waitText": "Por favor, aguarde..."
+    "waitText": "Por favor, aguarde...",
+    "changesSaved": "Todas as alterações foram salvas"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Aviso",
@@ -467,7 +468,12 @@
     "textEnterNewFileName": "Digite um novo nome para o arquivo",
     "textOk": "OK",
     "textRenameFile": "Renomear arquivo",
-    "textSwitchToDesktop": "Mudar para o desktop"
+    "textSwitchToDesktop": "Mudar para o desktop",
+    "textSave": "Salvar",
+    "textDontSave": "Não salvar",
+    "textCancel": "Cancelar",
+    "textSaveData": "Salve suas alterações antes de sair",
+    "textUnsavedData": "Dados não salvos"
   },
   "View": {
     "Add": {
@@ -816,7 +822,7 @@
       "textNoMatches": "Nenhuma correspondência",
       "textOk": "OK",
       "textOpenFile": "Inserir a Senha para Abrir o Arquivo",
-      "textOpenLocation": "Abrir a localização",
+      "textOpenLocation": "Localização disponível",
       "textOrientation": "Orientação",
       "textOwner": "Proprietário",
       "textPoint": "Ponto",
@@ -902,7 +908,10 @@
       "txtZhtw": "Chinês (tradicional)",
       "warnDownloadAs": "Se você continuar salvando neste formato, todos os recursos com exceção do texto serão perdidos.<Br>Você tem certeza que quer continuar?",
       "warnDownloadCsv": "O formato CSV não suporta salvar um arquivo com várias planilhas e todos os elementos, exceto o texto.<br>Para salvar apenas a planilha ativa em CSV, clique em OK.<br>Para salvar a planilha inteira com todos os seus elementos, clique em Cancelar e selecione outro formato.",
-      "warnDownloadOds": "Salvar este arquivo pode resultar na perda de algumas fórmulas, formatação de células ou objetos incorporados devido ao suporte limitado a formatos.<br>Tem certeza de que deseja continuar?"
+      "warnDownloadOds": "Salvar este arquivo pode resultar na perda de algumas fórmulas, formatação de células ou objetos incorporados devido ao suporte limitado a formatos.<br>Tem certeza de que deseja continuar?",
+      "textAutoSaveDocument": "Salvamento automático",
+      "textSaveDocument": "Salvar",
+      "textDarkDocument": "Documento Escuro"
     }
   }
 }
