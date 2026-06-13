@@ -533,7 +533,8 @@
     "txtEditingMode": "Definir modo de edição...",
     "uploadImageTextText": "Carregando imagem...",
     "uploadImageTitleText": "Carregando imagem",
-    "waitText": "Por favor, aguarde..."
+    "waitText": "Por favor, aguarde...",
+    "changesSaved": "Todas as alterações foram salvas"
   },
   "Main": {
     "criticalErrorTitle": "Erro",
@@ -827,7 +828,10 @@
     "txtDownloadTxt": "Baixar TXT",
     "txtIncorrectPwd": "A senha está incorreta",
     "txtOk": "OK",
-    "txtProtected": "Depois de inserir a senha e abrir o arquivo, a senha atual será redefinida"
+    "txtProtected": "Depois de inserir a senha e abrir o arquivo, a senha atual será redefinida",
+    "textAutoSaveDocument": "Salvamento automático",
+    "textDarkDocument": "Documento Escuro",
+    "textSaveDocument": "Salvar"
   },
   "Toolbar": {
     "btnRestartNow": "Reiniciar agora",
@@ -843,6 +847,11 @@
     "textSwitchedMobileView": "Alterado para a visualização móvel",
     "textSwitchedStandardView": "Alterado para a visualização padrão",
     "textSwitchToDesktop": "Mudar para o desktop",
-    "warnEmptyRequiredField": "Preencha todos os campos obrigatórios para enviar o formulário."
+    "warnEmptyRequiredField": "Preencha todos os campos obrigatórios para enviar o formulário.",
+    "textSave": "Salvar",
+    "textDontSave": "Não salvar",
+    "textCancel": "Cancelar",
+    "textSaveData": "Salve suas alterações antes de sair",
+    "textUnsavedData": "Dados não salvos"
   }
 }
