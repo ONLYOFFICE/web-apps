@@ -59,7 +59,8 @@ define([
         },
 
         options: {
-            alias: 'ImageSettings'
+            alias: 'ImageSettings',
+            sizeMax: {width: 55.88, height: 55.88},
         },
 
         initialize: function () {
@@ -72,16 +73,15 @@ define([
                 isOleObject: false,
                 cropMode: false
             };
+            this._nRatio = 1;
             this.lockedControls = [];
             this._locked = false;
+            this.spinners = [];
 
             this._noApply = false;
             this._originalProps = null;
 
             this.render();
-
-            this.labelWidth = $(this.el).find('#image-label-width');
-            this.labelHeight = $(this.el).find('#image-label-height');
         },
 
         render: function () {
@@ -106,11 +106,21 @@ define([
         },
 
         updateMetricUnit: function() {
-            var value = Common.Utils.Metric.fnRecalcFromMM(this._state.Width);
-            this.labelWidth[0].innerHTML = this.textWidth + ': ' + value.toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName();
-
-            value = Common.Utils.Metric.fnRecalcFromMM(this._state.Height);
-            this.labelHeight[0].innerHTML = this.textHeight + ': ' + value.toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+            if (this.spinners) {
+                for (var i=0; i<this.spinners.length; i++) {
+                    var spinner = this.spinners[i];
+                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
+                }
+                this.spnWidth && this.spnWidth.setValue((this._state.Width!==null) ? Common.Utils.Metric.fnRecalcFromMM(this._state.Width) : '', true);
+                this.spnHeight && this.spnHeight.setValue((this._state.Height!==null) ? Common.Utils.Metric.fnRecalcFromMM(this._state.Height) : '', true);
+            }
+            this.sizeMax = {
+                width: Common.Utils.Metric.fnRecalcFromMM(this.options.sizeMax.width*10),
+                height: Common.Utils.Metric.fnRecalcFromMM(this.options.sizeMax.height*10)
+            };
+            this.spnWidth.setMaxValue(this.sizeMax.width);
+            this.spnHeight.setMaxValue(this.sizeMax.height);
         },
 
         createDelayedControls: function() {
@@ -118,6 +128,96 @@ define([
                 el: $('#image-button-original-size')
             });
             this.lockedControls.push(this.btnOriginalSize);
+
+            this.spnWidth = new Common.UI.MetricSpinner({
+                el: $('#image-spin-width'),
+                step: .1,
+                width: 78,
+                defaultUnit : "cm",
+                value: '3 cm',
+                maxValue: 55.88,
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big',
+                ariaLabel: this.textWidth
+            });
+            this.lockedControls.push(this.spnWidth);
+            this.spinners.push(this.spnWidth);
+            this.spnWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this.btnRatio.pressed) {
+                    var w = field.getNumberValue();
+                    var h = w/this._nRatio;
+                    if (h>this.sizeMax.height) {
+                        h = this.sizeMax.height;
+                        w = h * this._nRatio;
+                        this.spnWidth.setValue(w, true);
+                    }
+                    this.spnHeight.setValue(h, true);
+                }
+                var props = new Asc.asc_CImgProperty()
+                props.put_Width(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                props.put_Height(Common.Utils.Metric.fnRecalcToMM(this.spnHeight.getNumberValue()));
+                props.put_ResetCrop(false);
+                this.api.ImgApply(props)
+            }, this));
+
+            this.spnHeight = new Common.UI.MetricSpinner({
+                el: $('#image-spin-height'),
+                step: .1,
+                width: 78,
+                defaultUnit : "cm",
+                value: '3 cm',
+                maxValue: 55.88,
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big',
+                ariaLabel: this.textHeight
+            });
+            this.lockedControls.push(this.spnHeight);
+            this.spinners.push(this.spnHeight);
+            this.spnHeight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                var h = field.getNumberValue(), w = null;
+                if (this.btnRatio.pressed) {
+                    w = h * this._nRatio;
+                    if (w>this.sizeMax.width) {
+                        w = this.sizeMax.width;
+                        h = w/this._nRatio;
+                        this.spnHeight.setValue(h, true);
+                    }
+                    this.spnWidth.setValue(w, true);
+                }
+                var props = new Asc.asc_CImgProperty()
+                props.put_Height(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                props.put_Width(Common.Utils.Metric.fnRecalcToMM(this.spnWidth.getNumberValue()));
+                props.put_ResetCrop(false);
+                this.api.ImgApply(props)
+            }, this));
+
+            this.btnRatio = new Common.UI.Button({
+                parentEl: $('#image-button-ratio'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-advanced-ratio',
+                style: 'margin-bottom: 1px;',
+                enableToggle: true,
+                hint: this.textKeepRatio,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.lockedControls.push(this.btnRatio);
+            this.btnRatio.on('click', _.bind(function(btn, e) {
+                if (btn.pressed && this.spnHeight.getNumberValue()>0) {
+                    this._nRatio = this.spnWidth.getNumberValue()/this.spnHeight.getNumberValue();
+                }
+                var props = new Asc.asc_CImgProperty()
+                props.asc_putLockAspect(btn.pressed);
+                this.api.ImgApply(props);
+            }, this));
+
+            this.spnWidth.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
+            this.spnHeight.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
 
             this.btnSelectImage = new Common.UI.Button({
                 parentEl: $('#image-button-replace'),
@@ -377,14 +477,16 @@ define([
                 this._originalProps = new Asc.asc_CImgProperty(props);
 
                 var value = props.get_Width();
-                if ( Math.abs(this._state.Width-value)>0.001 ) {
-                    this.labelWidth[0].innerHTML = this.textWidth + ': ' + Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+                if ( Math.abs(this._state.Width-value)>0.001 ||
+                    (this._state.Width===null || value===null)&&(this._state.Width!==value)) {
+                    this.spnWidth.setValue((value!==null) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
                     this._state.Width = value;
                 }
 
                 value = props.get_Height();
-                if ( Math.abs(this._state.Height-value)>0.001 ) {
-                    this.labelHeight[0].innerHTML = this.textHeight + ': ' + Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+                if ( Math.abs(this._state.Height-value)>0.001 ||
+                    (this._state.Height===null || value===null)&&(this._state.Height!==value)) {
+                    this.spnHeight.setValue((value!==null) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
                     this._state.Height = value;
                 }
 
@@ -433,9 +535,6 @@ define([
                 var imgsize = this.api.asc_getCropOriginalImageSize();
                 var w = imgsize.get_ImageWidth();
                 var h = imgsize.get_ImageHeight();
-
-                this.labelWidth[0].innerHTML = this.textWidth + ': ' + Common.Utils.Metric.fnRecalcFromMM(w).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName();
-                this.labelHeight[0].innerHTML = this.textHeight + ': ' + Common.Utils.Metric.fnRecalcFromMM(h).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName();
 
                 var properties = new Asc.asc_CImgProperty();
                 properties.put_Width(w);

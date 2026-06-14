@@ -5,11 +5,16 @@
         </td>
     </tr>
     <tr>
-        <td class="padding-small" width="50%">
-            <label id="image-label-width" class="input-label"><%= scope.textWidth %></label>
+        <td class="padding-small" width="88px">
+            <label class="input-label"><%= scope.textWidth %></label>
+            <div id="image-spin-width"></div>
         </td>
-        <td class="padding-small" width="50%">
-            <label id="image-label-height" class="input-label"><%= scope.textHeight %></label>
+        <td class="padding-small" width="28px" style="vertical-align: bottom;">
+            <div id="image-button-ratio"></div>
+        </td>
+        <td class="padding-small" width="88px">
+            <label class="input-label"><%= scope.textHeight %></label>
+            <div id="image-spin-height"></div>
         </td>
     </tr>
     <tr>
