@@ -162,7 +162,6 @@ define([
             this.api.asc_registerCallback('asc_onPageOrient', _.bind(this.onApiPageOrient, this));
             this.api.asc_registerCallback('asc_onSectionProps', _.bind(this.onSectionProps, this));
             this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onCountPages, this));
-            this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(this.onCurrentPage, this));
             this.api.asc_registerCallback('asc_onLockDocumentProps', _.bind(this.onApiLockDocumentProps, this));
             this.api.asc_registerCallback('asc_onUnLockDocumentProps', _.bind(this.onApiUnLockDocumentProps, this));
 
@@ -282,21 +281,16 @@ define([
         },
 
         onCountPages: function(count) {
+            let newPreviewPage = this._navigationPreview.currentPreviewPage;
             this._navigationPreview.pageCount = count;
             if (this._navigationPreview.currentPreviewPage > count - 1) {
-                this._navigationPreview.currentPreviewPage = Math.max(0, count - 1);
-                if (this.printSettings && this.printSettings.isVisible()) {
-                    this.drawPrintPreview();
-                    this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, count);
-                }
+                newPreviewPage = Math.max(0, count - 1);
             }
-        },
-
-        onCurrentPage: function(number) {
-            this._navigationPreview.currentPreviewPage = number;
             if (this.printSettings && this.printSettings.isVisible()) {
-                this.drawPrintPreview();
-                this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
+                if(newPreviewPage != this._navigationPreview.currentPreviewPage) {
+                    this.changeCurrentPreviewPage(newPreviewPage);
+                }
+                this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, count);
             }
         },
 
@@ -313,9 +307,8 @@ define([
             opts.asc_setAdvancedOptions(this.adjPrintParams);
             this.api.asc_initPrintPreview('print-preview', opts);
 
-            this._navigationPreview.currentPreviewPage = this._navigationPreview.currentPage = this.api.getCurrentPage();
             this.adjPrintParams.asc_setPdfContent(this.printSettings.cmbContent.getValue());
-            this.drawPrintPreview();
+            this.changeCurrentPreviewPage(this.api.getCurrentPage());
             this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
             this.SetDisabled();
             this._isPreviewVisible = true;
@@ -492,7 +485,10 @@ define([
                 index--;
                 index = Math.max(index, 0);
             }
-            this.api.goToPage(index);
+            if(index != this._navigationPreview.currentPreviewPage) {
+                this.changeCurrentPreviewPage(index);
+                this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
+            }
         },
 
         onKeypressPageNumber: function (input, e) {
@@ -508,7 +504,7 @@ define([
 
                 box.focus(); // for IE
 
-                this.api.goToPage(page-1);
+                this.changeCurrentPreviewPage(page - 1);
                 return false;
             }
         },
@@ -538,6 +534,14 @@ define([
             this.onChangePreviewPage(forward);
         },
 
+        changeCurrentPreviewPage: function(page) {
+            this._navigationPreview.currentPreviewPage = page;
+            this.drawPrintPreview();
+
+            const item = this.printSettings.cmbPaperOrientation.store.findWhere({ value: 'auto' });
+            item && this.printSettings.cmbPaperOrientation.setValue(item.get('value'));
+        },
+
         drawPrintPreview: function() {
             this.api.asc_drawPrintPreview(
                 this._navigationPreview.currentPreviewPage, 
@@ -546,7 +550,7 @@ define([
         },
 
         updateNavigationButtons: function (page, count) {
-            this._navigationPreview.currentPage = page;
+            this._navigationPreview.currentPreviewPage = page;
             this.printSettings.updateCurrentPage(page);
             this._navigationPreview.pageCount = count;
             this.printSettings.updateCountOfPages(count);
@@ -559,7 +563,7 @@ define([
                 this.printSettings.btnNextPage.setDisabled(true);
                 return;
             }
-            var curPage = this._navigationPreview.currentPage,
+            var curPage = this._navigationPreview.currentPreviewPage,
                 pageCount = this._navigationPreview.pageCount;
             this.printSettings.btnPrevPage.setDisabled(curPage < 1);
             this.printSettings.btnNextPage.setDisabled(curPage > pageCount - 2);
@@ -582,8 +586,8 @@ define([
                     pages = 'all';
                     this._state.firstPrintPage = 0;
                 } else if (this.printSettings.cmbRange.getValue() === 'current') {
-                    pages = String(this._navigationPreview.currentPage + 1);
-                    this._state.firstPrintPage = this._navigationPreview.currentPage;
+                    pages = String(this._navigationPreview.currentPreviewPage + 1);
+                    this._state.firstPrintPage = this._navigationPreview.currentPreviewPage;
                 }
 
                 var size = this.api.asc_getPageSize(this._state.firstPrintPage),
