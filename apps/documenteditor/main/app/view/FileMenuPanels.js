@@ -3233,11 +3233,10 @@ define([], function () {
                 value: this.cmbPaperSize.getValue()
             });
             var newSelectedOption = null;
-            const printController = DE.getController('Print');
 
             // If a previously selected option exists, search for a matching one in resultList
             if (prevSelectedOption) {
-                newSelectedOption = printController.findPaperSizeOptionBySize(
+                newSelectedOption = Common.util.Print.findPaperSizeOptionBySize(
                     resultList,
                     prevSelectedOption.get('size')[0], 
                     prevSelectedOption.get('size')[1],
@@ -3261,7 +3260,10 @@ define([], function () {
                         _h = this._originalPageSize ? this._originalPageSize.h : 297;
                     // If no matching option is found, look for the default size 210x297 (A4)
                     if (!newSelectedOption) {
-                        newSelectedOption = printController.findPaperSizeOptionBySize(resultList, _w, _h);
+                        // Try to resolve a name from the toolbar's default size list
+                        const toolbarView = DE.getController('Toolbar').getView();
+                        const defaultSizes = toolbarView && toolbarView.btnPageSize && toolbarView.btnPageSize.menu.items;
+                        newSelectedOption = Common.util.Print.findPaperSizeOptionBySize(resultList, _w, _h, '', defaultSizes);
                     }
 
                     if (!newSelectedOption) {
