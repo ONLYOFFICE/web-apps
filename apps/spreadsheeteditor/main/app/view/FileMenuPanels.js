@@ -263,6 +263,9 @@ define([], function () {
                 '<tr class="edit">',
                     '<td colspan = "2"><div id="fms-chb-function-tooltip"></div></td>',
                 '</tr>',
+                '<tr class="edit">',
+                    '<td colspan = "2"><div id="fms-chb-cell-autocomplete"></div></td>',
+                '</tr>',
                 '<tr class ="editsave divider-group"></tr>',
                 '<tr class="collaboration" >',
                     '<td class="group-name" colspan="2"><label><%= scope.txtCollaboration %></label></td>',
@@ -839,6 +842,14 @@ define([], function () {
                 dataHintOffset: 'small'
             });
 
+            this.chCellAutoComplete = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-cell-autocomplete'),
+                labelText: this.strCellAutoComplete,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
             this.btnCustomizeQuickAccess = new Common.UI.Button({
                 el: $markup.findById('#fms-btn-customize-quick-access')
             });
@@ -1190,6 +1201,7 @@ define([], function () {
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("sse-settings-paste-button"));
             this.chTooltip.setValue(Common.Utils.InternalSettings.get("sse-settings-function-tooltip"));
+            this.chCellAutoComplete.setValue(Common.Utils.InternalSettings.get("sse-settings-cell-autocomplete"));
             this.chImageCopying.setValue(Common.Utils.InternalSettings.get("sse-settings-image-copying"));
             //this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("sse-settings-quick-print-button"));
 
@@ -1332,6 +1344,8 @@ define([], function () {
 
             Common.localStorage.setItem("sse-settings-function-tooltip", this.chTooltip.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("sse-settings-function-tooltip", this.chTooltip.isChecked() ? 1 : 0);
+
+            Common.localStorage.setItem("sse-settings-cell-autocomplete", this.chCellAutoComplete.isChecked() ? 1 : 0);
 
             Common.localStorage.setItem("sse-settings-image-copying", this.chImageCopying.isChecked() ? 1 : 0);
 

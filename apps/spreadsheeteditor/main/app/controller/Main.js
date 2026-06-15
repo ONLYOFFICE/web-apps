@@ -1124,6 +1124,10 @@ define([
                     if (value===null) value = '1';
                     Common.Utils.InternalSettings.set("sse-settings-function-tooltip", parseInt(value));
 
+                    value = Common.localStorage.getBool("sse-settings-cell-autocomplete", true);
+                    Common.Utils.InternalSettings.set("sse-settings-cell-autocomplete", value);
+                    me.api.asc_setAutoCompleteEnabled(value);
+
                     me.loadAutoCorrectSettings();
 
                     if (me.needToUpdateVersion) {

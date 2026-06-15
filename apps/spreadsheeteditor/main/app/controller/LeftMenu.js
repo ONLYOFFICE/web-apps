@@ -549,6 +549,10 @@ define([
                 Common.Utils.InternalSettings.set("sse-settings-paste-button", value);
                 this.api.asc_setVisiblePasteButton(!!value);
 
+                value = Common.localStorage.getBool("sse-settings-cell-autocomplete", true);
+                Common.Utils.InternalSettings.set("sse-settings-cell-autocomplete", value);
+                this.api.asc_setAutoCompleteEnabled(value);
+
                 value = Common.localStorage.getBool("sse-settings-def-sheet-rtl");
                 Common.Utils.InternalSettings.set("sse-settings-def-sheet-rtl", value);
                 this.api.asc_setDefaultDirection(value);
