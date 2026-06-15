@@ -1,5 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none">
-    <path d="m9.842 9.72-5 1.666a.5.5 0 0 0-.342.474v4.28a.5.5 0 0 0 .342.474l5 1.666a.5.5 0 0 0 .658-.474v-7.613a.5.5 0 0 0-.658-.474Zm13.037-3.065-9 2.25a.5.5 0 0 0-.379.485v9.22a.5.5 0 0 0 .379.485l9 2.25a.5.5 0 0 0 .621-.485V7.14a.5.5 0 0 0-.621-.485Z" class="icon-stroke-gray-primary"/>
-    <path d="M20.5 14c0 1.38-.895 2.5-2 2.5s-2-1.12-2-2.5.895-2.5 2-2.5 2 1.12 2 2.5Z" class="icon-stroke-gray-primary"/>
-    <path d="M8.342 11.72a.5.5 0 0 1 .658.474v3.612a.5.5 0 0 1-.658.475l-2-.667A.5.5 0 0 1 6 15.14v-2.28a.5.5 0 0 1 .342-.474l2-.667Z" fill="currentColor" stroke="none" class="icon-fill-blue-primary"/>
+    <path opacity=".8" d="m11.217 7.955 10-1.429a2 2 0 0 1 2.283 1.98v9.988a2 2 0 0 1-2.283 1.98l-10-1.429a2 2 0 0 1-1.717-1.98v-7.13a2 2 0 0 1 1.717-1.98" fill="currentColor" stroke="none" class="icon-fill-blue-primary"/>
+    <path opacity=".4" d="m6.934 22.46 5.811-1.292a.964.964 0 0 0 .056-1.868l-1.515-.433a2 2 0 0 1-1.437-1.696l-.188-1.643a2 2 0 0 0-1.553-1.726l-1.174-.261A2 2 0 0 0 4.5 15.493v5.014a2 2 0 0 0 2.434 1.952" fill="currentColor" stroke="none" class="icon-fill-blue-primary"/>
+    <path d="m9.5 14.111-2.566-.57A2 2 0 0 0 4.5 15.493v5.014a2 2 0 0 0 2.434 1.952l5.102-1.134A1.87 1.87 0 0 0 13.5 19.5" class="icon-stroke-gray-primary"/>
+    <path d="m11.217 7.955 10-1.429a2 2 0 0 1 2.283 1.98v9.988a2 2 0 0 1-2.283 1.98l-10-1.429a2 2 0 0 1-1.717-1.98v-7.13a2 2 0 0 1 1.717-1.98Z" class="icon-stroke-gray-primary"/>
 </svg>

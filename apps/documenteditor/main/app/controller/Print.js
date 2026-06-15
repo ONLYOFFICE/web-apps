@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 define([
     'core'
@@ -133,7 +136,7 @@ define([
 
             Common.NotificationCenter.on('window:resize', _.bind(function () {
                 if (this._isPreviewVisible) {
-                    this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
+                    this.drawPrintPreview();
                 }
             }, this));
             Common.NotificationCenter.on('margins:update', _.bind(this.onUpdateLastCustomMargins, this));
@@ -153,7 +156,6 @@ define([
             this.api.asc_registerCallback('asc_onPageOrient', _.bind(this.onApiPageOrient, this));
             this.api.asc_registerCallback('asc_onSectionProps', _.bind(this.onSectionProps, this));
             this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onCountPages, this));
-            this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(this.onCurrentPage, this));
             this.api.asc_registerCallback('asc_onLockDocumentProps', _.bind(this.onApiLockDocumentProps, this));
             this.api.asc_registerCallback('asc_onUnLockDocumentProps', _.bind(this.onApiUnLockDocumentProps, this));
 
@@ -281,24 +283,16 @@ define([
         },
 
         onCountPages: function(count) {
+            let newPreviewPage = this._navigationPreview.currentPreviewPage;
             this._navigationPreview.pageCount = count;
             if (this._navigationPreview.currentPreviewPage > count - 1) {
-                this._navigationPreview.currentPreviewPage = Math.max(0, count - 1);
-                if (this.printSettings && this.printSettings.isVisible()) {
-                    this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
-                    this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, count);
-                }
+                newPreviewPage = Math.max(0, count - 1);
             }
-        },
-
-        onCurrentPage: function(number) {
-            this._navigationPreview.currentPreviewPage = number;
             if (this.printSettings && this.printSettings.isVisible()) {
-                this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
-                this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
-
-                const item = this.printSettings.cmbPaperOrientation.store.findWhere({ value: 'auto' });
-                item && this.printSettings.cmbPaperOrientation.setValue(item.get('value'));
+                if(newPreviewPage != this._navigationPreview.currentPreviewPage) {
+                    this.changeCurrentPreviewPage(newPreviewPage);
+                }
+                this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, count);
             }
         },
 
@@ -316,8 +310,7 @@ define([
             opts.asc_setAdvancedOptions(this.adjPrintParams);
             this.api.asc_initPrintPreview('print-preview', opts);
 
-            this._navigationPreview.currentPreviewPage = this._navigationPreview.currentPage = this.api.getCurrentPage();
-            this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
+            this.changeCurrentPreviewPage(this.api.getCurrentPage());
             this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
             this.SetDisabled();
             this._isPreviewVisible = true;
@@ -492,7 +485,10 @@ define([
                 index--;
                 index = Math.max(index, 0);
             }
-            this.api.goToPage(index);
+            if(index != this._navigationPreview.currentPreviewPage) {
+                this.changeCurrentPreviewPage(index);
+                this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
+            }
         },
 
         onKeypressPageNumber: function (input, e) {
@@ -508,7 +504,7 @@ define([
 
                 box.focus(); // for IE
 
-                this.api.goToPage(page-1);
+                this.changeCurrentPreviewPage(page - 1);
                 return false;
             }
         },
@@ -538,8 +534,17 @@ define([
             this.onChangePreviewPage(forward);
         },
 
+        changeCurrentPreviewPage: function(page) {
+            this._navigationPreview.currentPreviewPage = page;
+            this.drawPrintPreview();
+        },
+
+        drawPrintPreview: function() {
+            this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage)
+        },
+
         updateNavigationButtons: function (page, count) {
-            this._navigationPreview.currentPage = page;
+            this._navigationPreview.currentPreviewPage = page;
             this.printSettings.updateCurrentPage(page);
             this._navigationPreview.pageCount = count;
             this.printSettings.updateCountOfPages(count);
@@ -552,7 +557,7 @@ define([
                 this.printSettings.btnNextPage.setDisabled(true);
                 return;
             }
-            var curPage = this._navigationPreview.currentPage,
+            var curPage = this._navigationPreview.currentPreviewPage,
                 pageCount = this._navigationPreview.pageCount;
             this.printSettings.btnPrevPage.setDisabled(curPage < 1);
             this.printSettings.btnNextPage.setDisabled(curPage > pageCount - 2);
@@ -573,8 +578,8 @@ define([
                 pages = 'all';
                 this._state.firstPrintPage = 0;
             } else if (this.printSettings.cmbRange.getValue() === 'current') {
-                pages = String(this._navigationPreview.currentPage + 1);
-                this._state.firstPrintPage = this._navigationPreview.currentPage;
+                pages = String(this._navigationPreview.currentPreviewPage + 1);
+                this._state.firstPrintPage = this._navigationPreview.currentPreviewPage;
             }
 
             var size = this.api.asc_getPageSize(this._state.firstPrintPage);

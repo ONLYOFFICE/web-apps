@@ -221,6 +221,7 @@
       "textNo": "Nem",
       "textNoChoices": "Nincs lehetőség a cellának kitöltésére.<br>Csak az oszlopból származó szövegértékek választhatók ki cserére.",
       "textNoLicenseTitle": "Elérte a licenckorlátot",
+      "textNoResourcesTitle": "Nincs elég erőforrás",
       "textNoMatches": "Nincs Találat",
       "textOk": "OK",
       "textPaidFeature": "Fizetett funkció",
@@ -244,6 +245,7 @@
       "warnLicenseLimitedNoAccess": "Licenc lejárt. Nincs hozzáférése a dokumentumszerkesztési funkciókhoz. Kérjük, forduljon a rendszergazdához.",
       "warnLicenseLimitedRenewed": "A licencet meg kell újítani. Korlátozott hozzáférése van a dokumentumszerkesztési funkciókhoz.<br>A teljes hozzáférés érdekében forduljon rendszergazdájához",
       "warnNoLicense": "Elérte a(z) %1 szerkesztővel való egyidejű kapcsolódási korlátot. Ez a dokumentum csak megtekintésre nyílik meg. Lépjen kapcsolatba a(z) %1 értékesítési csapatával a személyes bővíthető feltételekért.",
+      "warnNoResources": "A(z) %1 kiszolgálónak nincs elég erőforrása a dokumentum szerkesztésre való megnyitásához. A dokumentum csak megtekintésre lesz megnyitva.",
       "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes bővíthető feltételekért.",
       "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére."
     }

@@ -658,6 +658,7 @@
     "textHasMacros": "Diese Datei beinhaltet Makros.<br>Möchten Sie Makros ausführen?",
     "textNo": "Nein",
     "textNoLicenseTitle": "Lizenzlimit erreicht",
+    "textNoResourcesTitle": "Nicht genügend Ressourcen",
     "textNoMatches": "Keine Treffer",
     "textOk": "OK",
     "textPaidFeature": "Kostenpflichtige Funktion",
@@ -683,6 +684,7 @@
     "warnLicenseLimitedNoAccess": "Lizenz abgelaufen. Keine Bearbeitung möglich. Bitte wenden Sie sich an Administratoren.",
     "warnLicenseLimitedRenewed": "Die Lizenz soll erneuert werden. Die Bearbeitungsfunktionen wurden eingeschränkt.<br>Bitte wenden Sie sich an Administratoren für den vollen Zugriff",
     "warnNoLicense": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
+    "warnNoResources": "Der %1-Server verfügt nicht über genügend Ressourcen, um dieses Dokument zur Bearbeitung zu öffnen. Das Dokument wird nur zur Ansicht geöffnet.",
     "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
     "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."
   },

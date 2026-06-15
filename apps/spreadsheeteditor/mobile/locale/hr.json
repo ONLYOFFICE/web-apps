@@ -221,6 +221,7 @@
       "textNo": "Ne",
       "textNoChoices": "Nema izbora za ispunu ćelije.<br>Samo tekstualne vrijednosti iz stupca mogu se odabrati za zamjenu.",
       "textNoLicenseTitle": "Dosegnuto je ograničenje licence",
+      "textNoResourcesTitle": "Nedovoljno resursa",
       "textNoMatches": "Nema podudaranja",
       "textOk": "U redu",
       "textPaidFeature": "Plaćena značajka",
@@ -244,6 +245,7 @@
       "warnLicenseLimitedNoAccess": "Licenca je istekla. Nemate pristup funkcionalnosti uređivanja dokumenata. Molim kontaktirajte svog administratora.",
       "warnLicenseLimitedRenewed": "Licencu je potrebno obnoviti. Imate ograničen pristup funkciji uređivanja dokumenta.<br>Molimo kontaktirajte svog administratora da bi dobili potpuni pristup",
       "warnNoLicense": "Dosegli ste ograničenje za istovremene veze s %1 uređivačima. Ovaj će dokument biti otvoren samo za pregled. Kontaktirajte %1 prodajni tim za osobne uvjete nadogradnje.",
+      "warnNoResources": "Poslužitelj %1 nema dovoljno resursa za otvaranje ovog dokumenta za uređivanje. Ovaj dokument bit će otvoren samo za pregledavanje.",
       "warnNoLicenseUsers": "Dosegli ste ograničenje korisnika %1 uređivača. Kontaktirajte %1 prodajni tim za osobne uvjete nadogradnje.",
       "warnProcessRightsChange": "Nemate dozvolu za uređivanje datoteke."
     }

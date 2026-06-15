@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  DocumentHolderExt.js
@@ -248,6 +251,7 @@ define([], function () {
             view.menuImgCrop.menu.on('item:click', _.bind(me.onImgCrop, me));
             view.menuImgResetCrop.on('click', _.bind(me.onImgResetCrop, me));
             view.menuImgEditPoints.on('click', _.bind(me.onImgEditPoints, me));
+            view.menuImgConvertToShape.on('click', _.bind(me.onImgConvertToShape, me));
             view.menuShapeAdvanced.on('click', _.bind(me.onShapeAdvanced, me));
             view.menuParagraphAdvanced.on('click', _.bind(me.onParagraphAdvanced, me));
             view.menuChartAdvanced.on('click', _.bind(me.onChartAdvanced, me));
@@ -718,7 +722,6 @@ define([], function () {
                     }
                 }
             }
-            Common.component.Analytics.trackEvent('DocumentHolder', 'Add Hyperlink');
         };
 
         dh.onPaintSlideNum = function (slideNum) {
@@ -1266,7 +1269,6 @@ define([], function () {
                         if (me.chartProps) {
                             me.updateChartElementMenu(me.documentHolder.menuChartElement.menu, me.chartProps);
                         }
-                        Common.UI.TooltipManager.closeTip('chartElements');
                     });
                 }
 
@@ -1291,7 +1293,6 @@ define([], function () {
                         btn = rightSide;
                     } else {
                         chartContainer.hide();
-                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 } else {
@@ -1301,7 +1302,6 @@ define([], function () {
                         btn = leftSide;
                     } else {
                         chartContainer.hide();
-                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 }
@@ -1312,7 +1312,6 @@ define([], function () {
                     var chartBottom = y + height;
                     if (chartBottom < 20) { 
                         chartContainer.hide();
-                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 }
@@ -1321,15 +1320,10 @@ define([], function () {
                     left: btn + 'px',
                     top: btnTop + 'px'
                 }).show();
-                setTimeout(function (){
-                    Common.UI.TooltipManager.showTip('chartElements');
-                    Common.UI.TooltipManager.applyPlacement('chartElements');
-                }, 100);
         
                  me.disableChartElementButton();
             } else {
                 chartContainer.hide();
-                 Common.UI.TooltipManager.closeTip('chartElements');
             }
         };
 
@@ -1338,7 +1332,6 @@ define([], function () {
             var chartContainer = this.documentHolder.cmpEl.find('#chart-element-container');
             if (chartContainer.is(':visible')) {
                 chartContainer.hide();
-                Common.UI.TooltipManager.closeTip('chartElements');
             }
         };
 
@@ -1555,7 +1548,6 @@ define([], function () {
                 win.show();
                 win.setSettings(item.hyperProps.value);
 
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Add Hyperlink');
             }
         };
 
@@ -1583,7 +1575,6 @@ define([], function () {
                 win.show();
                 win.setSettings(item.hyperProps.value);
 
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Edit Hyperlink');
             }
         };
 
@@ -1593,7 +1584,6 @@ define([], function () {
             }
 
             this.editComplete();
-            Common.component.Analytics.trackEvent('DocumentHolder', 'Remove Hyperlink');
         };
 
         dh.saveAsPicture = function() {
@@ -1993,7 +1983,6 @@ define([], function () {
                 this.api.SelectAllSlides();
 
                 this.editComplete();
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Select All Slides');
             }
         };
 
@@ -2005,7 +1994,6 @@ define([], function () {
                 opts.asc_setAdvancedOptions(printopt);
                 this.api.asc_Print(opts);
                 this.editComplete();
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Print Selection');
             }
         };
 
@@ -2015,7 +2003,6 @@ define([], function () {
                 this.api.AddSlide();
 
                 this.editComplete();
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Add Slide');
             }
         };
 
@@ -2025,7 +2012,6 @@ define([], function () {
                 this.api.DublicateSlide();
 
                 this.editComplete();
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Dublicate Slide');
             }
         };
 
@@ -2035,7 +2021,6 @@ define([], function () {
                 this.api.DeleteSlide();
 
                 this.editComplete();
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Delete Slide');
             }
         };
 
@@ -2044,7 +2029,6 @@ define([], function () {
                 this.api.ResetSlide();
 
                 this.editComplete();
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Reset Slide');
             }
         };
 
@@ -2053,7 +2037,6 @@ define([], function () {
                 this.api.asc_moveSelectedSlidesToStart();
 
                 this.editComplete();
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Move Slide to Start');
             }
         };
 
@@ -2062,7 +2045,6 @@ define([], function () {
                 this.api.asc_moveSelectedSlidesToEnd();
 
                 this.editComplete();
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Move Slide to End');
             }
         };
 
@@ -2075,7 +2057,6 @@ define([], function () {
                 this.api.asc_HideSlides(item.checked);
 
                 this.editComplete();
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Hide Slides');
             }
         };
 
@@ -2083,7 +2064,6 @@ define([], function () {
             if (this.api) {
                 this.api.ChangeLayout(record.get('data').idx);
                 this.editComplete();
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Change Layout');
             }
         };
 
@@ -2091,7 +2071,6 @@ define([], function () {
             if (this.api) {
                 this.api.ChangeTheme(record.get('themeId'), true);
                 this.editComplete();
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Change Layout');
             }
         };
 
@@ -2109,7 +2088,6 @@ define([], function () {
                             if (me.api) {
                                 me.api.SplitCell(value.columns, value.rows);
                             }
-                            Common.component.Analytics.trackEvent('DocumentHolder', 'Table Split');
                         }
                         me.editComplete();
                     }
@@ -2132,7 +2110,6 @@ define([], function () {
             }
 
             this.editComplete();
-            Common.component.Analytics.trackEvent('DocumentHolder', 'Table Cell Align');
         };
 
         dh.onTableDistRows = function () {
@@ -2187,7 +2164,6 @@ define([], function () {
                                             }
                                         }
                                         me.editComplete();
-                                        Common.component.Analytics.trackEvent('DocumentHolder', 'Table Settings Advanced');
                                     }
                                 })).show();
                             break;
@@ -2229,7 +2205,6 @@ define([], function () {
                                             }
                                         }
                                         me.editComplete();
-                                        Common.component.Analytics.trackEvent('DocumentHolder', 'Image Settings Advanced');
                                     }
                                 })).show();
                             break;
@@ -2254,7 +2229,6 @@ define([], function () {
                 }
 
                 me.editComplete();
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Set Image Original Size');
             }
         };
 
@@ -2299,6 +2273,11 @@ define([], function () {
             this.api && this.api.asc_editPointsGeometry();
         };
 
+        dh.onImgConvertToShape = function() {
+            this.api && this.api.asc_convertImageToShapes();
+            this.editComplete();
+        };
+
         dh.onShapeAdvanced = function(item) {
             var me = this;
             if (me.api){
@@ -2320,7 +2299,6 @@ define([], function () {
                                             }
                                         }
                                         me.editComplete();
-                                        Common.component.Analytics.trackEvent('DocumentHolder', 'Image Shape Advanced');
                                     }
                                 })).show();
                             break;
@@ -2353,7 +2331,6 @@ define([], function () {
                                             }
                                         }
                                         me.editComplete();
-                                        Common.component.Analytics.trackEvent('DocumentHolder', 'Image Paragraph Advanced');
                                     }
                                 })).show();
                             break;
@@ -2388,7 +2365,6 @@ define([], function () {
                                             }
                                         }
                                         me.editComplete();
-                                        Common.component.Analytics.trackEvent('DocumentHolder', 'Chart Settings Advanced');
                                     }
                                 })).show();
                             break;
@@ -2401,37 +2377,31 @@ define([], function () {
         dh.onGroupImg = function(item) {
             this.api && this.api.groupShapes();
             this.editComplete();
-            Common.component.Analytics.trackEvent('DocumentHolder', 'Group Image');
         };
 
         dh.onUnGroupImg = function(item) {
             this.api && this.api.unGroupShapes();
             this.editComplete();
-            Common.component.Analytics.trackEvent('DocumentHolder', 'UnGroup Image');
         };
 
         dh.onArrangeFront = function(item) {
             this.api && this.api.shapes_bringToFront();
             this.editComplete();
-            Common.component.Analytics.trackEvent('DocumentHolder', 'Bring To Front');
         };
 
         dh.onArrangeBack = function(item) {
             this.api && this.api.shapes_bringToBack();
             this.editComplete();
-            Common.component.Analytics.trackEvent('DocumentHolder', 'Bring To Back');
         };
 
         dh.onArrangeForward = function(item) {
             this.api && this.api.shapes_bringForward();
             this.editComplete();
-            Common.component.Analytics.trackEvent('DocumentHolder', 'Send Forward');
         };
 
         dh.onArrangeBackward = function(item) {
             this.api && this.api.shapes_bringBackward();
             this.editComplete();
-            Common.component.Analytics.trackEvent('DocumentHolder', 'Send Backward');
         };
 
         dh.onImgShapeAlign = function (menu, item) {
@@ -2441,13 +2411,10 @@ define([], function () {
                 value = value ? Asc.c_oAscObjectsAlignType.Slide : Asc.c_oAscObjectsAlignType.Selected;
                 if (item.value < 6) {
                     me.api.put_ShapesAlign(item.value, value);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Shape Align');
                 } else if (item.value == 6) {
                     me.api.DistributeHorizontally(value);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Horizontally');
                 } else if (item.value == 7){
                     me.api.DistributeVertically(value);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
                 }
                 me.editComplete();
             }
@@ -2457,7 +2424,6 @@ define([], function () {
             var me = this;
             if (item && item.value) {
                 me.api.asc_mergeSelectedShapes(item.value);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Shapes Merge');
             }
             me.editComplete();
         };
@@ -2479,7 +2445,6 @@ define([], function () {
             }
 
             me.editComplete();
-            Common.component.Analytics.trackEvent('DocumentHolder', 'Text Vertical Align');
         };
 
         dh.onParagraphDirection = function(menu, item) {
@@ -2490,7 +2455,6 @@ define([], function () {
                 me.api.ShapeApply(properties);
             }
             me.editComplete();
-            Common.component.Analytics.trackEvent('DocumentHolder', 'Text Direction');
         };
 
         dh.tableSelectText = function(menu, item) {

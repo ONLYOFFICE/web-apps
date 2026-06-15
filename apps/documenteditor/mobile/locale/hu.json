@@ -658,6 +658,7 @@
     "textHasMacros": "Ez a fájl makrókat tartalmaz.<br>Kíván makrókat futtatni?",
     "textNo": "Nem",
     "textNoLicenseTitle": "Elérte a licenckorlátot",
+    "textNoResourcesTitle": "Nincs elég erőforrás",
     "textNoMatches": "Nincs Egyezés",
     "textOk": "Rendben",
     "textPaidFeature": "Díjköteles funkció",
@@ -683,6 +684,7 @@
     "warnLicenseLimitedNoAccess": "Licenc lejárt. Nincs hozzáférése a dokumentumszerkesztési funkciókhoz. Kérjük, forduljon a rendszergazdához.",
     "warnLicenseLimitedRenewed": "A licencet meg kell újítani. Korlátozott hozzáféréssel rendelkezik a dokumentumszerkesztési funkciókhoz.<br>Kérjük, lépjen kapcsolatba a rendszergazdával a teljes hozzáférés megszerzéséhez",
     "warnNoLicense": "Elérte a(z) %1 szerkesztővel való egyidejű kapcsolódási korlátot. Ez a dokumentum csak megtekintésre nyílik meg. Lépjen kapcsolatba a(z) %1 értékesítési csapatával a személyes bővíthető feltételekért.",
+    "warnNoResources": "A(z) %1 kiszolgálónak nincs elég erőforrása a dokumentum szerkesztésre való megnyitásához. A dokumentum csak megtekintésre lesz megnyitva.",
     "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
     "warnProcessRightsChange": "Nincs jogosultsága a fájl szerkesztéséhez."
   },

@@ -41,7 +41,7 @@
     --f7-dialog-bg-color: @background-secondary;
     --f7-dialog-text-color: @text-secondary;
     --f7-dialog-title-text-color: @text-normal;
-    --f7-dialog-button-text-color: @fill-white;
+    --f7-dialog-button-text-color: @brandColor;
 
     --f7-picker-item-text-color: rgba(var(--text-normal), 0.45);
     --f7-picker-item-selected-text-color: @text-normal;
@@ -466,7 +466,7 @@
             appearance: none;
             border-radius: 0;
             font-family: inherit;
-            color: @fill-white;
+            color: @text-normal;
             font-size: 16px;
             font-weight: 400;
             padding: 0;
@@ -480,7 +480,7 @@
             transition-duration: .3s;
             // .encoded-svg-background('<svg xmlns="http://www.w3.org/2000/svg" fill="@{white}" height="24" viewBox="0 0 24 24" width="24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
             &::placeholder {
-                color: @fill-white;
+                color: @text-tertiary;
                  opacity: 0.5
             }
         }
@@ -492,7 +492,7 @@
             right: 0; 
             bottom: 0;
             height: 1px;
-            background: @fill-white;
+            background: @text-tertiary;
             opacity: 0.5;
         }
 
@@ -511,7 +511,7 @@
             margin: 0;
 
             &:after {
-                color: @fill-white;
+                color: @text-tertiary;
                 font-size: 19px;
                 line-height: 19px;
             }
@@ -842,6 +842,24 @@
     .app-layout {
         --f7-input-focused-border-color: @text-normal;
         --f7-label-focused-text-color: @text-normal;
+
+        .searchbar {
+            input {
+                &::placeholder {
+                    color: @fill-white;
+                }
+            }
+
+            .searchbar-input-wrap::after {
+                background: @fill-white;
+            }
+
+            .input-clear-button {
+                &:after {
+                    color: @fill-white;
+                }
+            }
+        }
 
         .popup-close, .sheet-close {
             --icon-stroke-gray-primary: @toolbar-icons; 

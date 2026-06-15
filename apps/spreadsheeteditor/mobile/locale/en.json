@@ -221,6 +221,7 @@
       "textNo": "No",
       "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
       "textNoLicenseTitle": "License limit reached",
+      "textNoResourcesTitle": "Not enough resources",
       "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textPaidFeature": "Paid feature",
@@ -244,6 +245,7 @@
       "warnLicenseLimitedNoAccess": "License expired. You have no access to document editing functionality. Please, contact your admin.",
       "warnLicenseLimitedRenewed": "License needs to be renewed. You have limited access to document editing functionality.<br>Please contact your administrator to get full access",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
+      "warnNoResources": "The %1 server does not have enough resources to open this document for editing. This document will be opened for viewing only.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
       "warnProcessRightsChange": "You don't have permission to edit the file."
     }
@@ -466,6 +468,11 @@
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
     "textOk": "OK",
+    "textSave": "Save",
+    "textDontSave": "Don't save",
+    "textCancel": "Cancel",
+    "textSaveData": "Save your changes before leave",
+    "textUnsavedData": "Unsaved data",
     "textRenameFile": "Rename File",
     "textSwitchToDesktop": "Switch to Desktop"
   },
@@ -533,7 +540,10 @@
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSorting": "Sorting",
       "txtSortSelected": "Sort selected",
-      "txtYes": "Yes"
+      "txtYes": "Yes",
+      "textSheets": "Sheets",
+      "textLinkTo": "Link to",
+      "textDefinedName": "Defined name"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warning",
@@ -741,7 +751,10 @@
       "textYen": "Yen",
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSortHigh2Low": "Sort Highest to Lowest",
-      "txtSortLow2High": "Sort Lowest to Highest"
+      "txtSortLow2High": "Sort Lowest to Highest",
+      "textSheets": "Sheets",
+      "textLinkTo": "Link to",
+      "textDefinedName": "Defined name"
     },
     "Settings": {
       "advCSVOptions": "Choose CSV options",

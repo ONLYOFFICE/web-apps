@@ -156,6 +156,7 @@
       "textHasMacros": "Datoteka sadrži automatske makronaredbe.<br>Želite li pokrenuti makronaredbe?",
       "textNo": "Ne",
       "textNoLicenseTitle": "Dosegnuto je ograničenje licence",
+      "textNoResourcesTitle": "Nedovoljno resursa",
       "textNoMatches": "Nema podudaranja",
       "textOk": "Ok",
       "textOpenFile": "Unesite lozinku za otvaranje datoteke",
@@ -180,6 +181,7 @@
       "warnLicenseLimitedNoAccess": "Licenca je istekla. Nemate pristup funkciji uređivanja dokumenta. Molimo, kontaktirajte svog administratora.",
       "warnLicenseLimitedRenewed": "Licencu je potrebno obnoviti. Imate ograničen pristup funkciji uređivanja dokumenta.<br>Molimo kontaktirajte svog administratora da bi dobili potpuni pristup",
       "warnNoLicense": "Dosegli ste ograničenje za istovremene veze s %1 uređivačima. Ovaj će dokument biti otvoren samo za pregled. Kontaktirajte %1 prodajni tim za osobne uvjete nadogradnje.",
+      "warnNoResources": "Poslužitelj %1 nema dovoljno resursa za otvaranje ovog dokumenta za uređivanje. Ovaj dokument bit će otvoren samo za pregledavanje.",
       "warnNoLicenseUsers": "Dosegli ste ograničenje korisnika %1 uređivača. Kontaktirajte %1 prodajni tim za osobne uvjete nadogradnje.",
       "warnProcessRightsChange": "Nemate dozvolu za uređivanje datoteke."
     }

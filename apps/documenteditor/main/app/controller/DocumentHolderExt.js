@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  DocumentHolderExt.js
@@ -102,6 +105,7 @@ define([], function () {
                     this.api.asc_registerCallback('asc_onHideEyedropper',           _.bind(this.hideEyedropper, this));
                     this.api.asc_SetMathInputType(Common.localStorage.getBool("de-equation-input-latex") ? Asc.c_oAscMathInputType.LaTeX : Asc.c_oAscMathInputType.Unicode);
                     this.api.asc_registerCallback('asc_onSingleChartSelectionChanged',  _.bind(this.onSingleChartSelectionChanged, this));
+                    this.api.asc_registerCallback('asc_onHorRuleDblClick',             _.bind(this.onHLAdvanced, this));
                 }
                 this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
                 this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));
@@ -296,8 +300,18 @@ define([], function () {
             view.menuImageWrap.menu.on('item:click', _.bind(me.onImgWrap, me));
             view.menuImageAdvanced.on('click', _.bind(me.onImgAdvanced, me));
             view.menuOriginalSize.on('click', _.bind(me.onImgOriginalSize, me));
+            view.menuHLCut.on('click', _.bind(me.onCutCopyPaste, me));
+            view.menuHLCopy.on('click', _.bind(me.onCutCopyPaste, me));
+            view.menuHLPaste.on('click', _.bind(me.onCutCopyPaste, me));
+            view.menuHLPrint.on('click', _.bind(me.onPrintSelection, me));
+            view.menuHLInsertCaption.on('click', _.bind(me.onInsertCaption, me));
+            view.menuAddHyperlinkHL.on('click', _.bind(me.addHyperlink, me));
+            view.menuEditHyperlinkHL.on('click', _.bind(me.editHyperlink, me));
+            view.menuRemoveHyperlinkHL.on('click', _.bind(me.onRemoveHyperlink, me));
+            view.menuHLAdvanced.on('click', _.bind(me.onHLAdvanced, me));
             view.menuImgReplace.menu.on('item:click', _.bind(me.onImgReplace, me));
             view.menuImgEditPoints.on('click', _.bind(me.onImgEditPoints, me));
+            view.menuImgConvertToShape.on('click', _.bind(me.onImgConvertToShape, me));
             view.mnuTableMerge.on('click', _.bind(me.onTableMerge, me));
             view.mnuTableSplit.on('click', _.bind(me.onTableSplit, me));
             view.menuIgnoreSpellTable.on('click', _.bind(me.onIgnoreSpell, me));
@@ -415,6 +429,10 @@ define([], function () {
                     menu_props.mathProps = {};
                     menu_props.mathProps.value = elValue;
                     me.documentHolder._currentMathObj = elValue;
+                } else if (Asc.c_oAscTypeSelectElement.HorizontalLine == elType) {
+                    menu_to_show = documentHolder.hlMenu;
+                    menu_props.horizontalRuleProps = elValue;
+                    noobject = false;
                 }
             }
             return (!noobject) ? {menu_to_show: menu_to_show, menu_props: menu_props} : null;
@@ -567,7 +585,6 @@ define([], function () {
                         win.setSettings(props);
                     }
                 }
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Add Hyperlink');
             }
         };
 
@@ -1300,7 +1317,6 @@ define([], function () {
                         if (me.chartProps) {
                             me.updateChartElementMenu(me.documentHolder.menuChartElement.menu, me.chartProps);
                         }
-                        Common.UI.TooltipManager.closeTip('chartElements');
                     });
                 }
 
@@ -1324,7 +1340,6 @@ define([], function () {
                         btn = rightSide + 5;
                     } else {
                         chartContainer.hide();
-                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 } else {
@@ -1334,7 +1349,6 @@ define([], function () {
                         btn = leftSide;
                     } else {
                         chartContainer.hide();
-                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 }
@@ -1345,7 +1359,6 @@ define([], function () {
                     var chartBottom = y + height;
                     if (chartBottom < 45) { 
                         chartContainer.hide();
-                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 }
@@ -1354,15 +1367,10 @@ define([], function () {
                     left: btn + 'px',
                     top: btnTop + 'px'
                 }).show();
-                setTimeout(function (){
-                    Common.UI.TooltipManager.showTip('chartElements');
-                    Common.UI.TooltipManager.applyPlacement('chartElements');
-                }, 100);
 
                 me.disableChartElementButton();
             } else {
                 chartContainer.hide();
-                Common.UI.TooltipManager.closeTip('chartElements');
             }
 
              var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
@@ -1395,7 +1403,6 @@ define([], function () {
             var chartContainer = this.documentHolder.cmpEl.find('#chart-element-container');
             if (chartContainer.is(':visible')) {
                 chartContainer.hide();
-                Common.UI.TooltipManager.closeTip('chartElements');
             }
         };
 
@@ -2093,8 +2100,6 @@ define([], function () {
 
                 win.show();
                 win.setSettings(item.hyperProps.value);
-
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Add Hyperlink');
             }
         };
 
@@ -2279,7 +2284,6 @@ define([], function () {
                 opts.asc_setAdvancedOptions(printopt);
                 this.api.asc_Print(opts);
                 this.editComplete();
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Print Selection');
             }
         };
 
@@ -2535,13 +2539,10 @@ define([], function () {
                     value = (alignto==1) ? Asc.c_oAscObjectsAlignType.Page : ((me.api.asc_getSelectedDrawingObjectsCount()<2 && !alignto || alignto==2) ? Asc.c_oAscObjectsAlignType.Margin : Asc.c_oAscObjectsAlignType.Selected);
                 if (item.value < 6) {
                     me.api.put_ShapesAlign(item.value, value);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Shape Align');
                 } else if (item.value == 6) {
                     me.api.DistributeHorizontally(value);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Horizontally');
                 } else if (item.value == 7){
                     me.api.DistributeVertically(value);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
                 }
             }
             me.editComplete();
@@ -2551,7 +2552,6 @@ define([], function () {
             var me = this;
             if (item && item.value) {
                 me.api.asc_mergeSelectedShapes(item.value);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Shapes Merge');
             }
             me.editComplete();
         };
@@ -2613,6 +2613,35 @@ define([], function () {
                 me.api.ImgApply(properties);
             }
             me.editComplete();
+        };
+
+        dh.onHLAdvanced = function() {
+            var me = this;
+            if (!me.api) return;
+            var selectedElements = me.api.getSelectedElements();
+            if (!selectedElements || !_.isArray(selectedElements)) return;
+            for (var i = selectedElements.length - 1; i >= 0; i--) {
+                var elType  = selectedElements[i].get_ObjectType();
+                var elValue = selectedElements[i].get_ObjectValue();
+                if (Asc.c_oAscTypeSelectElement.HorizontalLine === elType) {
+                    var section = me.api.asc_GetSectionProps ? me.api.asc_GetSectionProps() : null;
+                    var colWidth = me.api.asc_GetCurrentColumnWidth
+                        ? me.api.asc_GetCurrentColumnWidth()
+                        : (section ? section.get_W() - section.get_LeftMargin() - section.get_RightMargin() : null);
+                    var win = new DE.Views.HorizontalLineSettings({
+                        hrProps: elValue,
+                        colWidth: colWidth,
+                        handler: function(state, settings) {
+                            if (state === 'ok' && me.api) {
+                                me.api.asc_SetHorizontalRuleProperties(settings);
+                            }
+                            me.editComplete();
+                        }
+                    });
+                    win.show();
+                    return;
+                }
+            }
         };
 
         dh.onImgAdvanced = function(item, e) {
@@ -2705,6 +2734,11 @@ define([], function () {
             this.api && this.api.asc_editPointsGeometry();
         };
 
+        dh.onImgConvertToShape = function() {
+            this.api && this.api.asc_convertImageToShapes();
+            this.editComplete();
+        };
+
         dh.onTableMerge = function(item) {
             this.api && this.api.MergeCells();
         };
@@ -2719,7 +2753,6 @@ define([], function () {
                             if (me.api) {
                                 me.api.SplitCell(value.columns, value.rows);
                             }
-                            Common.component.Analytics.trackEvent('DocumentHolder', 'Table');
                         }
                         me.editComplete();
                     }

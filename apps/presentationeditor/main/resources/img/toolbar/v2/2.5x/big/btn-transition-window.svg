@@ -1,5 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none">
-    <path d="M15.5 11.5h-3v5h3v-5Z" fill="currentColor" stroke="none" class="icon-fill-blue-primary"/>
-    <path d="M20 16v-4l2-2v8l-2-2ZM8 16v-4l-2-2v8l2-2Z" fill="currentColor" stroke="none" class="icon-fill-blue-secondary"/>
-    <path d="M18.5 16.5v-5l5-5v15l-5-5Zm-9 0v-5l-5-5v15l5-5Zm6-5h-3v5h3v-5Z" class="icon-stroke-gray-primary"/>
+    <path opacity=".4" d="M19 19v-9l4-3.5v16z" fill="currentColor" stroke="none"class="icon-fill-blue-primary"/>
+    <path opacity=".8" d="M16 11h-5v7h5z" fill="currentColor" stroke="none"class="icon-fill-blue-primary"/>
+    <path opacity=".4" d="M8 19v-9L4 6.5v16z" fill="currentColor" stroke="none"class="icon-fill-blue-primary"/>
+    <path d="M18.793 18.793a1 1 0 0 1-.293-.707v-7.172a1 1 0 0 1 .293-.707l3-3c.63-.63 1.707-.184 1.707.707v13.172c0 .89-1.077 1.337-1.707.707zM16.5 11.5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1zm-8.293 7.293a1 1 0 0 0 .293-.707v-7.172a1 1 0 0 0-.293-.707l-3-3c-.63-.63-1.707-.184-1.707.707v13.172c0 .89 1.077 1.337 1.707.707z" class="icon-stroke-gray-primary"/>
 </svg>
