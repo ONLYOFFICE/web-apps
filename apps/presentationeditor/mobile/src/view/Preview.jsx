@@ -33,7 +33,14 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconMediaPrevious from '@icons/icon-media-previous.svg';
+import IconMediaPause from '@icons/icon-media-pause.svg';
+import IconMediaPlay from '@icons/icon-media-play.svg';
+import IconMediaNext from '@icons/icon-media-next.svg';
+import IconClose from '@common-android-icons/icon-close.svg';
+import {Device} from "../../../../common/mobile/utils/device";
 
 const NavControls = ({ t, isPlaying, onPrev, onNext, onTogglePlay }) => (
     <>
