@@ -226,6 +226,9 @@ define([
                 this.chSlideImage && this.chSlideImage.render($host.find('#id-slot-chk-slide-image'));
                 this.chBody && this.chBody.render($host.find('#id-slot-chk-body'));
                 this.btnCloseNotesMaster && this.btnCloseNotesMaster.render($host.find('#slot-btn-closenotesmaster'));
+
+                this.btnCloseNotesMaster && this.btnCloseNotesMaster.updateHint(this.tipCloseMaster);
+                this.btnNotesPageOrientation && this.btnNotesPageOrientation.updateHint(this.tipNotesPageOrientation);
                 return this.$el;
             },
 

@@ -223,6 +223,10 @@ define([
                 this.chFooter && this.chFooter.render($host.find('#slot-chk-footer'));
                 this.chPageNumber && this.chPageNumber.render($host.find('#slot-chk-page-number'));
                 this.btnCloseHandoutMaster && this.btnCloseHandoutMaster.render($host.find('#slot-btn-closehandoutmaster'));
+
+                this.btnCloseHandoutMaster && this.btnCloseHandoutMaster.updateHint(this.tipCloseMaster)
+                this.btnHandoutOrientation && this.btnHandoutOrientation.updateHint(this.tipHandoutOrientation);
+                this.btnSlidesPerPage && this.btnSlidesPerPage.updateHint(this.tipSlidesPerPage);
                 return this.$el;
             },
 
