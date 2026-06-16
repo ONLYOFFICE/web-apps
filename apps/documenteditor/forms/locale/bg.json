@@ -180,5 +180,18 @@
   "DE.Controllers.ApplicationController.errorCopyDisabled": "От съображения за сигурност съдържанието на този документ не може да бъде копирано.",
   "DE.Controllers.ApplicationController.errorDataEncrypted": "Получени са криптирани промени, които не могат да бъдат дешифрирани.",
   "DE.Controllers.ApplicationController.errorLoadingFont": "Шрифтовете не са заредени.<br>Моля, свържете се с администратора на вашия документен сървър.",
-  "DE.Controllers.ApplicationController.errorServerVersion": "Версията на редактора е актуализирана. Страницата ще бъде презаредена, за да приложи промените."
+  "DE.Controllers.ApplicationController.errorServerVersion": "Версията на редактора е актуализирана. Страницата ще бъде презаредена, за да приложи промените.",
+  "DE.Controllers.ApplicationController.errorSessionAbsolute": "Сесията за редактиране на документ изтегли. Моля, презаредете страницата.",
+  "DE.Controllers.ApplicationController.errorSessionIdle": "Документът не е редактиран дълго време. Моля, презаредете страницата.",
+  "DE.Controllers.ApplicationController.errorTextFormWrongFormat": "Въведената стойност не съответства на формата на полето.",
+  "DE.Controllers.ApplicationController.errorToken": "Токенът за сигурност на документа не е правилно формиран.<br>Моля, свържете се с администратора на вашия сървър за документи.",
+  "DE.Controllers.ApplicationController.errorTokenExpire": "Токенът за сигурност на документа е изтекъл.<br>Моля, свържете се с администратора на вашия сървър за документи.",
+  "DE.Controllers.ApplicationController.errorUpdateVersion": "Версията на файла е променена. Страницата ще бъде презаредена.",
+  "DE.Controllers.ApplicationController.errorViewerDisconnect": "Връзката е загубена. Все още можете да преглеждате документа,<br>но няма да можете да го изтеглите или отпечатате, докато връзката бъде възстановена.",
+  "DE.Controllers.ApplicationController.helpTextFillStatus": "Този формуляр е готов за попълване според ролите. Щракнете върху бутона за статус, за да проверите етапа на попълване.",
+  "DE.Controllers.ApplicationController.mniImageFromFile": "Изображение от файла",
+  "DE.Controllers.ApplicationController.mniImageFromStorage": "Изображение от хранилището",
+  "DE.Controllers.ApplicationController.mniImageFromUrl": "Изображение от URL адрес",
+  "DE.Controllers.ApplicationController.saveErrorTextDesktop": "Този файл не може да бъде запазен или създаден.<br>Възможните причини са: <br>1. Файлът е само за четене. <br>2. Файлът се редактира от други потребители. <br>3. Дискът е пълен или повреден.",
+  "DE.Controllers.ApplicationController.textRequired": "За да изпратите формуляра, трябва да попълните всички задължителни полета"
 }
