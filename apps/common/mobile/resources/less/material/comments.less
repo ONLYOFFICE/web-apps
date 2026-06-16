@@ -12,29 +12,8 @@
       height: calc(100% - 56px);
     }
   }
-  .wrap-comment, .comment-list, .reply-list {
-    .comment-header, .reply-header {
-      display: flex;
-      .initials {
-        border-radius: 50px;
-        color: @fill-white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-right: 10px;
-        font-size: 14px;
-      }
-    }
-  }
 
   .wrap-comment {
-    .comment-header {
-      align-items: center;
-      .initials {
-        height: 30px;
-        width: 30px;
-      }
-    }
     .wrap-textarea {
       .input:not(.input-outline):after {
         content: none;
@@ -54,30 +33,6 @@
   .comment-list {
     ul:after, .item-inner:after, li:last-child li .item-inner:after {
       content: none;
-    }
-    .comment-header {
-      .left {
-        display: flex;
-        align-items: center;
-        .initials {
-          width: 40px;
-          height: 40px;
-          font-size: 18px;
-        }
-      }
-    }
-  }
-  .reply-list {
-    .reply-header {
-      .left {
-        display: flex;
-        .initials {
-          margin-top: 5px;
-          width: 24px;
-          height: 24px;
-          font-size: 11px;
-        }
-      }
     }
   }
 

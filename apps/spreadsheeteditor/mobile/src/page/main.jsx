@@ -240,7 +240,7 @@ class MainPage extends Component {
                             </Subnavbar>
                         </Navbar>
                     
-                        <CellEditor onClickToOpenAddOptions={(panels, button) => this.handleClickToOpenOptions('add', {panels: panels, button: button})} />
+                        <CellEditor isOpenModal={this.state.isOpenModal} onClickToOpenAddOptions={(panels, button) => this.handleClickToOpenOptions('add', {panels: panels, button: button})} />
                         {/* Page content */}
                         <View id="editor_sdk" />
                         <Navbar id='drawbar' style={{ display: !appOptions.isDrawMode && 'none' }}>

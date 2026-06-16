@@ -33,7 +33,8 @@
       "textResolve": "Resolve",
       "textSharingSettings": "Sharing Settings",
       "textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode.",
-      "textUsers": "Users"
+      "textUsers": "Users",
+      "textEnterComment": "Enter comment"
     },
     "HighlightColorPalette": {
       "textNoFill": "No Fill"

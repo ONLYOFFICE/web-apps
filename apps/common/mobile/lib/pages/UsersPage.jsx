@@ -64,8 +64,8 @@ const UsersPage = inject("users")(observer(props => {
             <List className="coauth__list">
                 {storeUsers.editUsers.map((user, i) => (
                     <ListItem title={user.name + (user.count > 1 ? ` (${user.count})` : '')} key={i}>
-                        <div slot="media" className='color' style={{backgroundColor: user.color}}>
-                            {user.initials}
+                        <div slot="media" className='color' style={{backgroundColor: user.avatar ? '' : user.color, backgroundImage: user.avatar ? `url(${user.avatar})` : 'none'}}>
+                            {!user.avatar && user.initials}
                         </div>
                     </ListItem>
                 ))}

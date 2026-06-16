@@ -71,6 +71,14 @@ function svgIcon(symbolId) {
     </svg>`;
 };
 
+const getUserBadgeTemplate = (userInfo) => {
+    const avatar = userInfo.avatar ? Common.Utils.String.htmlEncode(userInfo.avatar) : '';
+    const style = avatar ? `background-image: url(${avatar});` : `background-color: ${userInfo.color};`;
+    return `<div class="initials" style="${style}">${avatar ? '' : (userInfo.initials || '')}</div>`;
+};
+
+const getUserBadgeStyle = (color, avatar) => ({ backgroundColor: avatar ? '' : color, backgroundImage: avatar ? `url(${avatar})` : 'none'});
+
 // Add comment
 
 const AddCommentPopup = inject("storeComments")(observer(props => {
@@ -115,13 +123,11 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
             </Navbar>
             <div className='wrap-comment'>
                 <div className="comment-header">
-                    {Device.android &&
-                    <div className='initials' style={{backgroundColor: `${userInfo.color}`}}>{userInfo.initials}</div>
-                    }
+                    <div className='initials' style={getUserBadgeStyle(userInfo.color, userInfo.avatar)}>{!userInfo.avatar && userInfo.initials}</div>
                     <div className='name'>{userInfo.name}</div>
                 </div>
                 <div className='wrap-textarea'>
-                    <textarea autoFocus placeholder={_t.textAddComment} value={stateText} onChange={(event) => {setText(event.target.value);}} ref={el => refInputComment = el}></textarea>
+                    <textarea autoFocus placeholder={_t.textEnterComment} value={stateText} onChange={(event) => {setText(event.target.value);}} ref={el => refInputComment = el}></textarea>
                 </div>
             </div>
         </Popup>
@@ -132,7 +138,7 @@ const AddCommentDialog = inject("storeComments")(observer(props => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const userInfo = props.userInfo;
-    const templateInitials = `<div class="initials" style="background-color: ${userInfo.color};">${userInfo.initials}</div>`;
+    const templateInitials = getUserBadgeTemplate(userInfo);
     let refContainerDialog = useRef(null);
 
     useEffect(() => {
@@ -152,13 +158,13 @@ const AddCommentDialog = inject("storeComments")(observer(props => {
                         </div>
                     </div>
                 </div>
-                <div class='wrap-comment'>
-                    <div class="comment-header">
-                        ${Device.android ? templateInitials : ''}
-                        <div class='name'>${userInfo.name}</div>
-                    </div>
-                    <div class='wrap-textarea'>
-                        <textarea id='comment-text' placeholder='${_t.textAddComment}'></textarea>
+                    <div class='wrap-comment'>
+                        <div class="comment-header">
+                            ${templateInitials}
+                            <div class='name'>${userInfo.name}</div>
+                        </div>
+                        <div class='wrap-textarea'>
+                        <textarea id='comment-text' placeholder='${_t.textEnterComment}'></textarea>
                     </div>
                 </div>`,
             on: {
@@ -218,12 +224,12 @@ const CommentActions = ({comment, onCommentMenuClick, opened, openActionComment}
         <Actions id='comment-menu' opened={opened} onActionsClosed={() => openActionComment(false)}>
             <ActionsGroup>
                 {comment && <Fragment>
-                    {comment.editable && <ActionsButton onClick={() => {onCommentMenuClick('editComment', comment);}}>{_t.textEdit}</ActionsButton>}
+                    <ActionsButton onClick={() => {onCommentMenuClick('addReply', comment);}}>{_t.textAddReply}</ActionsButton>
                     {!comment.resolved && comment.editable ?
                         <ActionsButton onClick={() => {onCommentMenuClick('resolve', comment);}}>{_t.textResolve}</ActionsButton> :
                        comment.editable && <ActionsButton onClick={() => {onCommentMenuClick('resolve', comment);}}>{_t.textReopen}</ActionsButton>
                     }
-                    <ActionsButton onClick={() => {onCommentMenuClick('addReply', comment);}}>{_t.textAddReply}</ActionsButton>
+                    {comment.editable && <ActionsButton onClick={() => {onCommentMenuClick('editComment', comment);}}>{_t.textEdit}</ActionsButton>}
                     {comment.removable && <ActionsButton color='red' onClick={() => {onCommentMenuClick('deleteComment', comment);}}>{_t.textDeleteComment}</ActionsButton>}
                 </Fragment>
                 }
@@ -297,9 +303,7 @@ const EditCommentPopup = inject("storeComments")(observer(({storeComments, comme
             </Navbar>
             <div className='wrap-comment'>
                 <div className="comment-header">
-                    {Device.android &&
-                    <div className='initials' style={{backgroundColor: `${comment.userColor}`}}>{comment.userInitials}</div>
-                    }
+                    <div className='initials' style={getUserBadgeStyle(comment.userColor, comment.userAvatar)}>{!comment.userAvatar && comment.userInitials}</div>
                     <div>
                         <div className='name'>{comment.parsedName}</div>
                         <div className='comment-date'>{comment.date}</div>
@@ -316,7 +320,11 @@ const EditCommentPopup = inject("storeComments")(observer(({storeComments, comme
 const EditCommentDialog = inject("storeComments")(observer(({storeComments, comment, onEditComment}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
-    const templateInitials = `<div class="initials" style="background-color: ${comment.userColor};">${comment.userInitials}</div>`;
+    const templateInitials = getUserBadgeTemplate({
+        avatar: comment.userAvatar,
+        color: comment.userColor,
+        initials: comment.userInitials
+    });
     let refContainerDialog = useRef(null);
 
     useEffect(() => {
@@ -338,7 +346,7 @@ const EditCommentDialog = inject("storeComments")(observer(({storeComments, comm
                 </div>
                 <div class='wrap-comment'>
                     <div class="comment-header">
-                        ${Device.android ? templateInitials : ''}
+                        ${templateInitials}
                         <div>
                             <div class='name'>${comment.parsedName}</div>
                             <div class='comment-date'>${comment.date}</div>
@@ -442,9 +450,7 @@ const AddReplyPopup = inject("storeComments")(observer(({storeComments, userInfo
             </Navbar>
             <div className='wrap-comment'>
                 <div className="comment-header">
-                    {Device.android &&
-                    <div className='initials' style={{backgroundColor: `${userInfo.color}`}}>{userInfo.initials}</div>
-                    }
+                    <div className='initials' style={getUserBadgeStyle(userInfo.color, userInfo.avatar)}>{!userInfo.avatar && userInfo.initials}</div>
                     <div className='name'>{userInfo.name}</div>
                 </div>
                 <div className='wrap-textarea'>
@@ -458,7 +464,7 @@ const AddReplyPopup = inject("storeComments")(observer(({storeComments, userInfo
 const AddReplyDialog = inject("storeComments")(observer(({storeComments, userInfo, comment, onAddReply}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
-    const templateInitials = `<div class="initials" style="background-color: ${userInfo.color};">${userInfo.initials}</div>`;
+    const templateInitials = getUserBadgeTemplate(userInfo);
     let refContainerDialog = useRef(null);
 
     useEffect(() => {
@@ -480,7 +486,7 @@ const AddReplyDialog = inject("storeComments")(observer(({storeComments, userInf
                 </div>
                 <div class='wrap-comment'>
                     <div class="comment-header">
-                        ${Device.android ? templateInitials : ''}
+                        ${templateInitials}
                         <div class='name'>${userInfo.name}</div>
                     </div>
                     <div class='wrap-textarea'>
@@ -583,9 +589,7 @@ const EditReplyPopup = inject("storeComments")(observer(({storeComments, comment
             </Navbar>
             <div className='wrap-comment'>
                 <div className="comment-header">
-                    {Device.android &&
-                    <div className='initials' style={{backgroundColor: `${reply.userColor}`}}>{reply.userInitials}</div>
-                    }
+                    <div className='initials' style={getUserBadgeStyle(reply.userColor, reply.userAvatar)}>{!reply.userAvatar && reply.userInitials}</div>
                     <div>
                         <div className='name'>{reply.parsedName}</div>
                         <div className='reply-date'>{reply.date}</div>
@@ -602,7 +606,11 @@ const EditReplyPopup = inject("storeComments")(observer(({storeComments, comment
 const EditReplyDialog = inject("storeComments")(observer(({storeComments, comment, reply, onEditReply}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
-    const templateInitials = `<div class="initials" style="background-color: ${reply.userColor};">${reply.userInitials}</div>`;
+    const templateInitials = getUserBadgeTemplate({
+        avatar: reply.userAvatar,
+        color: reply.userColor,
+        initials: reply.userInitials
+    });
     let refContainerDialog = useRef(null);
 
     useEffect(() => {
@@ -624,7 +632,7 @@ const EditReplyDialog = inject("storeComments")(observer(({storeComments, commen
                 </div>
                 <div class='wrap-comment'>
                     <div class="comment-header">
-                        ${Device.android ? templateInitials : ''}
+                        ${templateInitials}
                         <div>
                             <div class='name'>${reply.parsedName}</div>
                             <div class='reply-date'>${reply.date}</div>
@@ -790,7 +798,7 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                                     !e.target.closest('.comment-menu') && !e.target.closest('.reply-menu') ? showComment(comment) : null}}>
                                 <div slot='header' className='comment-header'>
                                     <div className='left'>
-                                        {isAndroid && <div className='initials' style={{backgroundColor: `${comment.userColor ? comment.userColor : '#cfcfcf'}`}}>{comment.userInitials}</div>}
+                                        <div className='initials' style={getUserBadgeStyle(comment.userColor, comment.userAvatar)}>{!comment.userAvatar && comment.userInitials}</div>
                                         <div>
                                             <div className='user-name'>{comment.parsedName}</div>
                                             <div className='comment-date'>{comment.date}</div>
@@ -837,7 +845,7 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                                                             <div className='item-title'>
                                                                 <div slot='header' className='reply-header'>
                                                                     <div className='left'>
-                                                                        {isAndroid && <div className='initials' style={{backgroundColor: `${reply.userColor ? reply.userColor : '#cfcfcf'}`}}>{reply.userInitials}</div>}
+                                                                        <div className='initials' style={getUserBadgeStyle(reply.userColor, reply.userAvatar)}>{!reply.userAvatar && reply.userInitials}</div>
                                                                         <div>
                                                                             <div className='user-name'>{reply.parsedName}</div>
                                                                             <div className='reply-date'>{reply.date}</div>
@@ -880,7 +888,7 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
     )
 }));
 
-const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(observer(({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment, storeReview, wsProps}) => {
+const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(observer(({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment, storeReview, wsProps, showComment}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const isAndroid = Device.android;
@@ -889,7 +897,10 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
     const canEditComments = storeAppOptions.canEditComments;
     const viewMode = !storeAppOptions.canComments;
     const isEdit = storeAppOptions.isEdit || storeAppOptions.isRestrictedEdit;
-    const comments = storeComments.showComments;
+    const activeCommentId = storeComments.showComments.length > 0 ? storeComments.showComments[0].uid : null;
+    const visibleComments = (storeComments.groupCollectionFilter || storeComments.collectionComments).filter(comment => !comment.hide);
+    const sortedComments = visibleComments.length > 0 ? [...visibleComments].sort((a, b) => a.time > b.time ? -1 : 1) : [];
+    const comments = (storeComments.showComments.length > 1 ? storeComments.showComments : sortedComments);
     const isProtected = storeAppOptions.isProtected;
     const typeProtection = storeAppOptions.typeProtection;
     const isAvailableCommenting = !isProtected || typeProtection === Asc.c_oAscEDocProtect.TrackedChanges || typeProtection === Asc.c_oAscEDocProtect.Comments;
@@ -902,28 +913,42 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
     const [reply, setReply] = useState();
     const [replyActionsOpened, openActionReply] = useState(false);
 
-    const onViewPrevComment = () => {
-        if (currentIndex - 1 < 0) {
-            setCurrentIndex(comments.length - 1);
-        } else {
-            setCurrentIndex(currentIndex - 1);
+    useEffect(() => {
+        if (!comments.length) return;
+        
+        if (!activeCommentId) {
+            setCurrentIndex(0);
+            return;
         }
+
+        const index = comments.findIndex(item => item.uid === activeCommentId);
+        setCurrentIndex(index >= 0 ? index : 0);
+    }, [activeCommentId, comments.length]);
+
+    const openCommentByIndex = (index) => {
+        const nextComment = comments[index];
+        if (!nextComment) return;
+
+        setCurrentIndex(index);
+        showComment && showComment(nextComment);
     };
 
-    const onViewNextComment = () => {
-        if (currentIndex + 1 >= comments.length) {
-            setCurrentIndex(0);
-        } else {
-            setCurrentIndex(currentIndex + 1);
-        }
+    const moveComment = (step) => {
+        const nextIndex = currentIndex + step;
+        if (nextIndex < 0 || nextIndex >= comments.length) return;
+
+        openCommentByIndex(nextIndex);
     };
 
     if(!comment) {
         if (comments.length > 0) {
-            onViewNextComment();
+            setCurrentIndex(0)
         }
         return null;
     }
+
+    const isPrevDisabled = comments.length <= 1 || currentIndex <= 0;
+    const isNextDisabled = comments.length <= 1 || currentIndex >= comments.length - 1;
 
     return (
         <Fragment>
@@ -931,22 +956,20 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                 {isEdit && !viewMode &&
                     <Link className={`btn-add-reply${((wsProps?.Objects || isViewer) && !canEditComments || !isAvailableCommenting) ? ' disabled' : ''}`} href='#' onClick={() => {onCommentMenuClick('addReply', comment);}}>{_t.textAddReply}</Link>
                 }
-                {comments.length > 1 &&
-                    <div className='comment-navigation row'>
-                        <Link href='#' onClick={onViewPrevComment}>
-                            {Device.ios ? 
-                                <SvgIcon slot='media' symbolId={IconPrevIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon slot='media' symbolId={IconPrevAndroid.id} className={'icon icon-svg'} />
-                            }
-                        </Link>
-                        <Link href='#' onClick={onViewNextComment}>
-                            {Device.ios ? 
-                                <SvgIcon slot='media' symbolId={IconNextIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon slot='media' symbolId={IconNextAndroid.id} className={'icon icon-svg'} />
-                            }
-                        </Link>
-                    </div>
-                }
+                <div className='comment-navigation row'>
+                    <Link href='#' className={isPrevDisabled ? 'disabled' : ''} onClick={() => {moveComment(-1);}}>
+                        {Device.ios ? 
+                            <SvgIcon slot='media' symbolId={IconPrevIos.id} className={'icon icon-svg'} /> :
+                            <SvgIcon slot='media' symbolId={IconPrevAndroid.id} className={'icon icon-svg'} />
+                        }
+                    </Link>
+                    <Link href='#' className={isNextDisabled ? 'disabled' : ''} onClick={() => {moveComment(1);}}>
+                        {Device.ios ? 
+                            <SvgIcon slot='media' symbolId={IconNextIos.id} className={'icon icon-svg'} /> :
+                            <SvgIcon slot='media' symbolId={IconNextAndroid.id} className={'icon icon-svg'} />
+                        }
+                    </Link>
+                </div>
             </Toolbar>
             <div className='pages'>
                 <Page className='page-current-comment'>
@@ -954,7 +977,7 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                         <ListItem>
                             <div slot='header' className='comment-header'>
                                 <div className='left'>
-                                    {isAndroid && <div className='initials' style={{backgroundColor: `${comment.userColor ? comment.userColor : '#cfcfcf'}`}}>{comment.userInitials}</div>}
+                                    <div className='initials' style={getUserBadgeStyle(comment.userColor, comment.userAvatar)}>{!comment.userAvatar && comment.userInitials}</div>
                                     <div>
                                         <div className='user-name'>{comment.parsedName}</div>
                                         <div className='comment-date'>{comment.date}</div>
@@ -997,7 +1020,7 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                                                             <div className='item-title'>
                                                                 <div slot='header' className='reply-header'>
                                                                     <div className='left'>
-                                                                        {isAndroid && <div className='initials' style={{backgroundColor: `${reply.userColor ? reply.userColor : '#cfcfcf'}`}}>{reply.userInitials}</div>}
+                                                                        <div className='initials' style={getUserBadgeStyle(reply.userColor, reply.userAvatar)}>{!reply.userAvatar && reply.userInitials}</div>
                                                                         <div>
                                                                             <div className='user-name'>{reply.parsedName}</div>
                                                                             <div className='reply-date'>{reply.date}</div>
@@ -1039,10 +1062,10 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
 
 }));
 
-const ViewCommentSheet = ({closeCurComments, onCommentMenuClick, onResolveComment, wsProps}) => {
+const ViewCommentSheet = ({closeCurComments, onCommentMenuClick, onResolveComment, wsProps, showComment}) => {
     useEffect(() => {
         f7.sheet.open('#view-comment-sheet');
-    });
+    }, []);
 
     const [stateHeight, setHeight] = useState('45%');
     const [stateOpacity, setOpacity] = useState(1);
@@ -1081,23 +1104,23 @@ const ViewCommentSheet = ({closeCurComments, onCommentMenuClick, onResolveCommen
         }
     };
     return (
-        <Sheet id='view-comment-sheet' style={{height: `${stateHeight}`, opacity: `${stateOpacity}`}} backdrop={true} closeByBackdropClick={true}>
+        <Sheet id='view-comment-sheet' style={{height: `${stateHeight}`, opacity: `${stateOpacity}`}} backdrop={true} closeByBackdropClick={true} onSheetClosed={closeCurComments}>
             <div id='swipe-handler' className='swipe-container' onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
                 <Icon icon='icon-swipe'/>
             </div>
-            <CommentList wsProps={wsProps} onCommentMenuClick={onCommentMenuClick} onResolveComment={onResolveComment}/>
+            <CommentList wsProps={wsProps} onCommentMenuClick={onCommentMenuClick} onResolveComment={onResolveComment} showComment={showComment}/>
         </Sheet>
     )
 };
 
-const ViewCommentPopover = ({onCommentMenuClick, onResolveComment, wsProps}) => {
+const ViewCommentPopover = ({closeCurComments, onCommentMenuClick, onResolveComment, wsProps, showComment}) => {
     useEffect(() => {
         f7.popover.open('#view-comment-popover', '#btn-coauth');
-    });
+    }, []);
 
     return (
-        <Popover id='view-comment-popover' style={{height: '410px'}} closeByOutsideClick={false}>
-            <CommentList wsProps={wsProps} onCommentMenuClick={onCommentMenuClick} onResolveComment={onResolveComment} />
+        <Popover id='view-comment-popover' style={{height: '410px'}} closeByOutsideClick={false} onPopoverClosed={closeCurComments}>
+            <CommentList wsProps={wsProps} onCommentMenuClick={onCommentMenuClick} onResolveComment={onResolveComment} showComment={showComment} />
         </Popover>
     )
 };

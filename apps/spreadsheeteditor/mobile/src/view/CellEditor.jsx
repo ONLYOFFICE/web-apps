@@ -42,6 +42,8 @@ import { useTranslation } from 'react-i18next';
 import SvgIcon from '@common/lib/component/SvgIcon';
 import IconFunction from '@icons/icon-function.svg';
 import IconInfo from '@common-icons/icon-info.svg';
+import IconInsertCommentIos from '@common-ios-icons/icon-insert-comment.svg?ios';
+import IconInsertCommentAndroid from '@common-android-icons/icon-insert-comment.svg';
 
 const viewStyle = {
     height: 30
@@ -144,6 +146,11 @@ const CellEditorView = props => {
                         </View>
                     : null}
                 </Popover>
+            }
+            {props.commentButton && props.commentButton.visible &&
+                <button type='button' className='sse-comment-button' style={{left: `${props.commentButton.left}px`, top: `${props.commentButton.top}px`}} onClick={props.onCommentButtonClick}>
+                    <SvgIcon symbolId={Device.ios ? IconInsertCommentIos.id : IconInsertCommentAndroid.id} className='icon icon-svg' />
+                </button>
             }
         </>
     );
