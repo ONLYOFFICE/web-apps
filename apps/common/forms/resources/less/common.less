@@ -60,6 +60,11 @@
 @import "../../../../common/main/resources/less/opendialog.less";
 @import "../../../../common/main/resources/less/advanced-settings-window.less";
 @import "../../../../common/main/resources/less/searchdialog.less";
+@import "../../../../common/main/resources/less/colorpalette.less";
+@import "../../../../common/main/resources/less/theme-colorpalette.less";
+
+@import "../../../../documenteditor/main/resources/less/rightmenu.less";
+@import "../../../../documenteditor/main/resources/less/leftmenu.less";
 
 @toolbarFontSize:               12px;
 
@@ -84,6 +89,19 @@
 
 // Document Viewer
 // -------------------------
+#viewport {
+    display: flex;
+    position: absolute;
+    left: 0;
+    top:40px;
+    right: 0;
+    bottom: 0;
+    background-color: @background-pane-ie;
+    background-color: @background-pane;
+    overflow: hidden;
+    scroll-behavior: smooth; // chromium bug890248 (Bug 39614)
+}
+
 .viewer {
     position: absolute;
     margin: 0;
@@ -92,7 +110,7 @@
     right: 0;
 
     &.top {
-        top: 40px;
+        top: 0px;
         bottom: 0;
     }
 
@@ -100,6 +118,17 @@
         top: 0;
         bottom: 46px;
     }
+}
+
+#editor-container {
+    flex: 1;
+    position: relative;
+}
+
+#right-menu {
+    height: 100%;
+    padding-top:0;
+    padding-top:var(--content-padding-top, 0);
 }
 
 // Toolbar
@@ -424,8 +453,8 @@
 
 .svg-icon {
     background: data-uri('../../../../common/forms/resources/img/icon-menu-sprite.svg') no-repeat;
-    background-size: @icon-width*30 @icon-height*2;
-    background-size: calc(@x-small-btn-icon-size * 30) auto;
+    background-size: @icon-width*32 @icon-height*2;
+    background-size: calc(@x-small-btn-icon-size * 32) auto;
 
     .theme-icons-cls-mod2 & {
         background-image: data-uri('../../../../common/forms/resources/img/icon-menu-sprite-v2.svg');
@@ -555,6 +584,14 @@
     &.filing-status {
         background-position: -@icon-width*29 0;
         background-position: calc(@x-small-btn-icon-size * -29) @icon-normal-top;
+    }
+    &.bold {
+        background-position: -@icon-width*30 0;
+        background-position: calc(@x-small-btn-icon-size * -30) @icon-normal-top;
+    }
+    &.italic {
+        background-position: -@icon-width*31 0;
+        background-position: calc(@x-small-btn-icon-size * -31) @icon-normal-top;
     }
 }
 

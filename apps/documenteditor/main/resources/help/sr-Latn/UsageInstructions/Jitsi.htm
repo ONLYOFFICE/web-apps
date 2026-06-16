@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Audio i video pozivi</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Opis plugin-a Jitsi za ONLYOFFICE editore, koji omogućava audio i video pozive direktno iz Document Editor-a." />
+    <link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Audio i video pozivi</h1>
+        <p>Audio i video pozivi dostupni su direktno iz ONLYOFFICE <a href="https://www.onlyoffice.com/en/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor-a</b></a> korišćenjem dodatka Jitsi. Jitsi obezbeđuje bezbedne i lako primenljive mogućnosti video konferencija.</p>
+        <p class="note"><b>Napomena</b>: dodatak Jitsi nije podrazumevano instaliran i mora se dodati ručno. Molimo vas da pogledate odgovarajući članak kako biste pronašli uputstvo za ručnu instalaciju: <a href="https://api.onlyoffice.com/docs/plugin-and-macros/tutorials/installing/onlyoffice-cloud/" target="_blank">Dodavanje dodataka u ONLYOFFICE Cloud</a> ili <a href="https://helpcenter.onlyoffice.com/installation/docs-add-plugin.aspx">Dodavanje novih dodataka u server editore</a>, ili instalirajte dodatak pomoću <a href="https://helpcenter.onlyoffice.com/ONLYOFFICE-Editors/Editors-User-Guides/AllEditors/Plugin-manager.aspx" target="_blank">Plugin Manager-a</a>.</p>
+        <ol>
+            <li>Prebacite se na karticu <b>Plugins</b> i kliknite na ikonu <b>Jitsi</b> na gornjoj traci sa alatkama.</li>
+            <li>
+                Pre početka poziva popunite polja na dnu leve bočne trake:
+                <p><b>Domen</b> – unesite naziv domena ako želite da povežete sopstveni domen.</p>
+                <p><b>Naziv sobe</b> – unesite naziv sobe za sastanak. Ovo polje je obavezno i ne možete započeti poziv ako ga ne popunite.</p>
+            </li>
+            <li>Kliknite na dugme <b>Start</b> da biste otvorili <b>Jitsi Meet iframe</b>.</li>
+            <li>Unesite svoje ime i dozvolite pregledaču pristup kameri i mikrofonu.</li>
+            <li>Ako želite da zatvorite Jitsi Meet iframe, kliknite na dugme <b>Stop</b> na dnu leve bočne trake.</li>
+            <li>Kliknite na dugme <b>Join the meeting</b> da biste započeli poziv sa zvukom ili kliknite na strelicu da biste se pridružili bez zvuka.</li>
+        </ol>
+        <p>Elementi interfejsa <b>Jitsi Meet iframe</b>-a pre pokretanja sastanka:</p>
+        <p>
+            <div class="icon icon-jitsi_micro"></div>
+            <b>Audio podešavanja i uključenje/isključenje mikrofona</b>
+        </p>
+        <ul>
+            <li>Kliknite na strelicu da biste pristupili pregledu audio podešavanja.</li>
+            <li>Kliknite na ikonu mikrofona da biste uključili ili isključili mikrofon.</li>
+        </ul>
+        <p>
+            <div class="icon icon-jitsi_camera"></div>
+            <b>Video podešavanja i pokretanje/zaustavljanje videa</b>
+        </p>
+        <ul>
+            <li>Kliknite na strelicu da biste pristupili pregledu videa.</li>
+            <li>Kliknite na ikonu kamere da biste pokrenuli ili zaustavili video.</li>
+        </ul>
+        <p>
+            <div class="icon icon-jitsi_invite"></div>
+            <b>Pozivanje učesnika</b>
+        </p>
+        <ul>
+            <li>Kliknite na ovo dugme da biste pozvali još učesnika na sastanak.</li>
+            <li>
+                Podelite sastanak kopiranjem linka za sastanak ili <br>
+                podelite pozivnicu kopiranjem teksta pozivnice, ili putem podrazumevane e-pošte, Google mail-a, Outlook mail-a ili Yahoo mail-a.
+            </li>
+            <li>Ugradite sastanak kopiranjem linka.</li>
+            <li>Koristite neki od dostupnih telefonskih brojeva za pridruživanje sastanku.</li>
+        </ul>
+        <p>
+            <div class="icon icon-jitsi_background"></div>
+            <b>Izbor pozadine</b>
+        </p>
+        <ul>
+            <li>Izaberite ili dodajte virtuelnu pozadinu za sastanak.</li>
+            <li>Podelite svoj ekran izborom odgovarajuće opcije: <b>Ekran</b>, <b>Prozor</b> ili <b>Kartica</b>.</li>
+        </ul>
+        <p>
+            <div class="icon icon-jitsi_settings"></div>
+            <b>Podešavanja</b>
+        </p>
+        <p>Podesite napredna podešavanja koja su organizovana u sledeće kategorije:</p>
+        <ul>
+            <li><b>Uređaji</b> – za podešavanje mikrofona, kamere i audio izlaza, kao i reprodukciju testnog zvuka.</li>
+            <li><b>Profil</b> – za podešavanje imena koje se prikazuje, e-mail adrese za Gravatar, kao i prikaz/sakrivanje sopstvenog video prikaza.</li>
+            <li><b>Kalendar</b> – za integraciju sa Google ili Microsoft kalendarom.</li>
+            <li><b>Zvuci</b> – za izbor radnji za koje će se reprodukovati zvuk.</li>
+            <li><b>Više</b> – za podešavanje dodatnih opcija: uključivanje/isključivanje ekrana pre sastanka i prečica na tastaturi, izbor jezika i brzine kadrova pri deljenju ekrana.</li>
+        </ul>
+        <p>
+            Elementi interfejsa koji se pojavljuju tokom video konferencije:
+        </p>
+        <img alt="Jitsi konferencija" src="../images/jitsi_conference.png" />
+        <p>Kliknite na bočnu strelicu sa desne strane da biste prikazali umanjene prikaze učesnika na vrhu.</p>
+        <p>
+            <img alt="Jitsi tajmer" src="../images/jitsi_timer.png" />
+            Tajmer na vrhu iframe-a prikazuje trajanje sastanka.
+        </p>
+        <p>
+            <div class="icon icon-jitsi_openchat"></div>
+            <b>Otvori ćaskanje</b>
+        </p>
+        <ul>
+            <li>Unesite tekstualnu poruku ili kreirajte anketu.</li>
+        </ul>
+        <p>
+            <div class="icon icon-jitsi_participants"></div>
+            <b>Učesnici</b>
+        </p>
+        <ul>
+            <li>Prikažite listu učesnika sastanka, pozovite nove učesnike i pretražite učesnike.</li>
+        </ul>
+        <p>
+            <div class="icon icon-jitsi_more"></div>
+            <b>Više radnji</b>
+        </p>
+        <ul>
+            <li>Pronađite niz opcija koje vam omogućavaju da u potpunosti iskoristite sve dostupne Jitsi funkcije. Skrolujte kroz opcije da biste ih sve videli.</li>
+        </ul>
+        <details class="details-example">
+            <summary>Dostupne opcije,</summary>
+            <ul>
+                <li>Pokreni deljenje ekrana</li>
+                <li>Pozovi učesnike</li>
+                <li>Uključi/isključi pločasti prikaz</li>
+                <li>Podešavanja performansi za prilagođavanje kvaliteta</li>
+                <li>Prikaži preko celog ekrana</li>
+                <li>
+                    Bezbednosne opcije
+                    <ul>
+                        <li><b>Režim čekaonice</b> – učesnici se mogu pridružiti sastanku tek nakon odobrenja moderatora;</li>
+                        <li><b>Režim sa lozinkom</b> – učesnici se pridružuju sastanku uz lozinku;</li>
+                        <li><b>End-to-end enkripcija</b> – eksperimentalni način obezbeđivanja poziva (obratite pažnju na ograničenja, kao što su onemogućavanje serverskih servisa i korišćenje pregledača koji podržavaju insertable streams).</li>
+                    </ul>
+                </li>
+                <li>Pokreni prenos uživo</li>
+                <li>Isključi zvuk svima</li>
+                <li>Onemogući kamere svim učesnicima</li>
+                <li>Podeli video</li>
+                <li>Izaberi pozadinu</li>
+                <li>Statistika govornika</li>
+                <li>Podešavanja</li>
+                <li>Prikaži prečice</li>
+                <li>Ugradi sastanak</li>
+                <li>Ostavi povratnu informaciju</li>
+                <li>Pomoć</li>
+            </ul>
+        </details>
+        <p>
+            <div class="icon icon-jitsi_leave"></div>
+            <b>Napusti sastanak</b>
+        </p>
+        <ul>
+            <li>Kliknite na ovu opciju kada želite da završite poziv.</li>
+        </ul>
+    </div>
+</body>
+</html>

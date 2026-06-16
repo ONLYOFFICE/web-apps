@@ -78,6 +78,10 @@
                     <span class="btn-slot text slot-btn-ftw" style="text-align: center;"></span>
                     </div>
                 </div>
+                <div class="separator long annotate"></div>
+                <div class="group annotate">
+                    <span class="btn-slot text x-huge" id="slot-btn-rotate-annotate"></span>
+                </div>
                 <% if ( config.isRestrictedEdit) { %>
                 <div class="separator long"></div>
                 <div class="group" style="">
@@ -134,7 +138,7 @@
                 <div class="separator long pdfedit"></div>
                 <div class="group pdfedit">
                     <span class="btn-slot text x-huge slot-inspage"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-rotate"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-rotate-edit"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-deletepage"></span>
                 </div>
                 <div class="separator long pdfedit"></div>

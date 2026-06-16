@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Umetanje sparkline grafikona</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Dodajte grafikon u svoju tabelu i prilagodite njegov položaj, veličinu i svojstva" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Umetanje sparkline grafikona</h1>
+        <h3>Korišćenje sparkline grafikona</h3>
+        <p>Sparkline je mali grafikon koji staje u jednu ćeliju i služi za prikaz trendova ili varijacija podataka. Sparklines imaju ograničenu funkcionalnost u poređenju sa klasičnim grafikonima, ali su odličan alat za brzu analizu podataka i kreiranje sažetog vizuelnog prikaza. Veličina sparkline grafikona zavisi od veličine ćelije – promenite širinu i visinu ćelije da biste prilagodili veličinu. Nakon dodavanja sparkline grafikona, i dalje možete unositi tekst ili dodavati uslovno formatiranje u ćeliju. ONLYOFFICE <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor</b></a> nudi tri tipa sparkline grafikona:</p>
+        <p><div class = "big big-sparklines_types"></div> </p>
+        <ul>
+            <li><b>Column</b> je sličan standardnom <b>Column Chart</b> grafikonu.</li>
+            <li><b>Line</b> je sličan standardnom <b>Line Chart</b> grafikonu.</li>
+            <li><b>Win/Loss</b> je pogodan za prikaz podataka koji uključuju i pozitivne i negativne vrednosti.</li>
+        </ul>
+        <h3>Umetanje sparkline grafikona</h3>
+        <p>Da biste umetnuli <b>Sparkline</b> grafikon, izaberite opseg podataka koji želite da uključite u sparkline, ili kliknite na praznu ćeliju u koju želite da ga smestite, zatim idite na karticu <b>Insert</b> i kliknite na dugme <b>Sparkline</b> <span class="icon icon-sparklines_button"></span> na gornjoj traci sa alatkama. Izaberite sparkline koji odgovara vašoj nameni. Otvoriće se prozor <b>Create Sparklines</b> – kliknite na ikonu <b>Select data</b> da biste odredili opseg podataka i lokaciju sparkline grafikona, a zatim kliknite <b>OK</b> da potvrdite.</p>
+		<p><img alt="Prozor Create Sparkline" src="../images/createsparkline_window.png" /></p>
+        <h3>Izmena i formatiranje sparkline grafikona</h3>
+        <p>Nakon umetanja sparkline grafikona, možete ga prilagoditi i urediti. Kliknite na ćeliju koja sadrži sparkline da biste aktivirali karticu <b>Sparkline settings</b> na desnoj bočnoj traci.</p>
+        <p><img alt="Kartica Sparkline Settings" src="../images/sparklinesettings_tab.png" /></p>
+        <ul>
+            <li>U odeljku <b>Type</b> možete izabrati jedan od dostupnih tipova sparkline grafikona iz padajuće liste:
+                <p><b>Column</b> – ovaj tip je sličan standardnom <b>Column Chart</b> grafikonu.</p>
+                <p><b>Line</b> – ovaj tip je sličan standardnom <b>Line Chart</b> grafikonu.</p>
+                <p><b>Win/Loss</b> – ovaj tip je pogodan za prikaz podataka koji uključuju i pozitivne i negativne vrednosti.</p>
+            </li>
+            <li>U odeljku <b>Style</b> možete izabrati stil koji vam najviše odgovara iz padajuće liste <b>Template</b>, potrebnu <b>Color</b> (boju) za sparkline, kao i <b>Line Weight</b> (debljinu linije) (dostupno samo za sparkline tipa <b>Line</b>).</li>
+            <li>U odeljku <b>Show</b> možete istaći ili označiti određene podatke u sparkline grafikonu:
+                <p><i>High Point</i> – koristi se za isticanje maksimalne vrednosti.</p>
+                <p><i>Low Point</i> – koristi se za isticanje minimalne vrednosti.</p>
+                <p><i>Negative Point</i> – koristi se za isticanje negativnih vrednosti.</p>
+                <p><i>First Point</i> – koristi se za isticanje početne tačke u opsegu podataka.</p>
+                <p><i>Last Point</i> – koristi se za isticanje završne tačke u opsegu podataka.</p>
+                <p><i>Markers</i> – dostupno samo za Line sparklines; koristi se za uključivanje markera za sve tačke.</p>
+            </li>
+        </ul>
+        <p>Kliknite na strelicu nadole u polju sa bojom da biste izabrali boju za svaku tačku.</p>
+        <p>Ako želite da sparkline bude precizniji i čitljiviji, kliknite na opciju <b>Show advanced settings</b> da biste otvorili prozor <b>Sparkline – Advanced Settings</b>.</p>
+        <p><img alt="Prozor Sparkline Advanced Settings" src="../images/sparkline_advancedsettings1.png" /> </p>
+        <p></p>
+        <p>Kartica <b>Type &amp Data</b> omogućava da promenite <b>Type</b> i <b>Style</b> sparkline grafikona, kao i da podesite prikaz <b>Hidden and Empty cells</b> (skrivenih i praznih ćelija):</p>
+        <ul>
+            <li>
+                <b>Show empty cells as</b> – ova opcija omogućava kontrolu načina prikaza sparklines grafikona ukoliko su neke ćelije u opsegu podataka prazne. Izaberite potrebnu opciju sa liste:
+                <ul>
+                    <li><b>Gaps</b> – da se sparkline prikaže sa prazninama na mestima gde nedostaju podaci,</li>
+                    <li><b>Zero</b> – da se sparkline prikaže kao da je vrednost u praznoj ćeliji nula,</li>
+                    <li><b>Connect data points with line</b> (dostupno samo za tip <b>Line</b>) – da se prazne ćelije ignorišu i prikaže linija koja povezuje tačke podataka.</li>
+                </ul>
+            </li>
+            <li><b>Show data in hidden rows and columns</b> – označite ovo polje ako želite da uključite vrednosti iz skrivenih ćelija u sparklines grafikone.</li>
+        </ul>
+        <p><img alt="Prozor Sparkline Advanced Settings" src="../images/sparkline_advancedsettings2.png" /></p>
+        <p>Kartica <b>Axis Options</b> omogućava da podesite sledeće parametre <b>Horizontal/Vertical Axis</b> (horizontalne/vertikalne ose):</p>
+        <ul>
+            <li>
+                U odeljku <b>Horizontal Axis</b> dostupni su sledeći parametri:
+                <ul>
+                    <li><b>Show axis</b> – označite ovo polje da biste prikazali horizontalnu osu. Ako izvorni podaci sadrže negativne vrednosti, ova opcija pomaže da se one jasnije prikažu.</li>
+                    <li><b>Reverse order</b> – označite ovo polje da biste prikazali podatke obrnutim redosledom.</li>
+                </ul>
+            </li>
+            <li>
+                U odeljku <b>Vertical Axis</b> dostupni su sledeći parametri za definisanje <b>Minimum/Maximum Value</b> (minimalne/maksimalne vrednosti):
+                <ul>
+                    <li>
+                        <b>Minimum/Maximum Value</b>
+                        <ul>
+                            <li><b>Auto for Each</b> – ova opcija je podrazumevano izabrana. Omogućava da svaka sparkline ima sopstvene minimalne/maksimalne vrednosti. Minimalne/maksimalne vrednosti uzimaju se iz zasebnih serija podataka koje se koriste za crtanje svake sparkline. Maksimalna vrednost biće na vrhu ćelije, a minimalna na dnu.
+                                <p><span class="big big-autoforeach"></span></p>
+                            </li>
+                            <li><b>Same for All</b> – ova opcija omogućava da se koriste iste minimalne/maksimalne vrednosti za celu grupu sparklines grafikona. Minimalne/maksimalne vrednosti uzimaju se iz celog opsega podataka koji se koristi za crtanje grupe. Maksimalne/minimalne vrednosti za svaku sparkline biće skalirane u odnosu na najveću/najmanju vrednost u opsegu. Ova opcija olakšava poređenje više sparklines grafikona.
+                                <p><span class="big big-sameforall"></span></p>
+                            </li><li><b>Fixed</b> – ova opcija omogućava podešavanje prilagođene minimalne/maksimalne vrednosti. Vrednosti koje su niže ili više od definisanih neće biti prikazane u sparklines grafikonima.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <h3>Brisanje sparkline grafikona</h3>
+        <p>Da biste obrisali sparklines, izaberite ćeliju(e) sa sparkline grafikonima koje želite da uklonite i kliknite desnim tasterom miša. Iz padajućeg menija izaberite <b>Sparklines</b>, a zatim kliknite <b>Clear Selected Sparklines</b> ili <b>Clear the Selected Sparkline Groups</b>.</p>
+    </div>
+</body>
+</html>

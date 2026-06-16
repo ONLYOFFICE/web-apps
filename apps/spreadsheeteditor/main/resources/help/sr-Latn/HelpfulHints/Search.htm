@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Funkcije pretrage i zamene</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Opis funkcija pretrage i zamene u Spreadsheet Editor-u" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+		<h1>Funkcije pretrage i zamene</h1>
+		<p>Da biste pretraživali potrebne karaktere, reči ili fraze u <a href="https://www.onlyoffice.com/en/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor-u</b></a>, kliknite na ikonu Pretrage <span class="icon icon-searchicon"></span> koja se nalazi na levoj bočnoj traci, ikonu <span class="icon icon-search_icon_header"></span> koja se nalazi u gornjem desnom uglu, ili koristite kombinaciju tastera <em>Ctrl+F</em> (<em>Command+F</em> za macOS) da biste otvorili mali panel za pronalaženje ili kombinaciju tastera <em>Ctrl+H</em> da biste otvorili kompletan panel za pronalaženje.</p>
+		<p>Mali <b>Find</b> panel će se otvoriti u gornjem desnom uglu radne površine. Panel sadrži polje za unos teksta za pretragu, broj rezultata pretrage i kontrole za prelazak na prethodni ili sledeći rezultat, kao i dugme za zatvaranje trake.</p>
+			<p><img alt="Mali panel za pretragu" src="../../../../../../common/main/resources/help/en/images/find_small.png" /></p>
+			<p>Da biste pristupili naprednim podešavanjima, kliknite na ikonu <span class="icon icon-search_advanced"></span>.</p>
+			<p>Otvoriće se panel <b>Find and replace</b>:</p>
+			<img alt="Prozor za pronalaženje i zamenu" src="../images/search_window.png" />
+			<ol>
+				<li>Unesite upit u odgovarajuće polje za unos podataka <b>Find</b>.</li>
+				<li>Da biste se kretali između pronađenih pojavljivanja, kliknite na jedno od dugmadi sa strelicama. Dugme <div class="icon icon-searchdownbutton"></div> prikazuje sledeće pojavljivanje, dok dugme <div class="icon icon-searchupbutton"></div> prikazuje prethodno.</li>
+				<li>Ako je potrebno da zamenite jedno ili više pojavljivanja pronađenih karaktera, unesite tekst za zamenu u odgovarajuće polje <b>Replace with</b>. Možete izabrati da zamenite samo trenutno izabrano pojavljivanje ili da zamenite sva pojavljivanja klikom na odgovarajuća dugmad <b>Replace</b> i <b>Replace All</b>. Dugme <div class="icon icon-replace"></div> <b>Replace</b> se takođe može pronaći na kartici <b>Home</b>.</li>
+				<li>
+					Navedite opcije pretrage označavanjem potrebnih opcija:
+					<ul>
+						<li><b>Within</b> – koristi se za pretragu samo unutar aktivnog <em>Sheet</em>-a, celog <em>Workbook</em>-a ili <em>Specific range</em>. U poslednjem slučaju, polje <b>Select Data range</b> će postati aktivno, gde možete navesti potrebni opseg.</li>
+						<li><b>Search</b> – koristi se za određivanje pravca pretrage: udesno <b>by rows</b> ili nadole <b>by columns</b>.</li>
+						<li><b>Look in</b> – koristi se za određivanje da li želite da pretražujete <b>Value</b> ćelija ili njihove osnovne <b>Formulas</b>.</li>
+					</ul>
+				</li>
+				<li>
+					Navedite parametre pretrage označavanjem potrebnih opcija ispod polja za unos:
+					<ul>
+						<li><b>Case sensitive</b> – koristi se za pronalaženje samo onih pojavljivanja koja su uneta sa istim velikim/malim slovima kao vaš upit (npr. ako je vaš upit „Editor“ i ova opcija je izabrana, reči kao što su „editor“ ili „EDITOR“ neće biti pronađene).</li>
+						<li><b>Entire cell contents</b> – koristi se za pronalaženje samo onih ćelija koje ne sadrže nikakve druge karaktere osim onih navedenih u vašem upitu (npr. ako je vaš upit „56“ i ova opcija je izabrana, ćelije koje sadrže podatke kao što su „0.56“ ili „156“ neće biti pronađene).</li>
+					</ul>
+				</li>
+			</ol>
+			<p>Sva pojavljivanja će biti istaknuta u fajlu i prikazana kao lista u <b>Find</b> panelu sa leve strane. Koristite listu da biste prešli na željeno pojavljivanje ili koristite dugmad za navigaciju <span class="icon icon-searchupbutton"></span> i <span class="icon icon-searchdownbutton"></span>.</p> 
+		</div>
+	</body>
+</html>

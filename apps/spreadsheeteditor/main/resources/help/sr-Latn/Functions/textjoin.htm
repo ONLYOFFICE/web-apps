@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>TEXTJOIN Funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="TEXTJOIN funkcija se koristi za spajanje teksta iz više opsega i/ili nizova, sa opcionalnim razdelnikom." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>TEXTJOIN Funkcija</h1>
+			<p><b>TEXTJOIN</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#textdata" onclick="onhyperlinkclick(this)">tekstualnih i podataka funkcija</a>. Koristi se za spajanje teksta iz više opsega i/ili nizova, i uključuje razdelnik koji navedete između svake tekstualne vrednosti koja se spaja; ako je razdelnik prazan tekst, funkcija efektivno samo spaja opsege. Ova funkcija je slična <b>CONCAT</b> funkciji, ali se razlikuje po tome što <b>CONCAT</b> ne prihvata razdelnik.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>TEXTJOIN(delimiter, ignore_empty, text1, [text2], ...)</em></b></p> 
+			<p><b>TEXTJOIN</b> funkcija ima sledeće argumente:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>delimiter</em></b></td>
+                    <td>Razdelnik koji se ubacuje između tekstualnih vrednosti. Može se navesti kao tekstualni niz u dvostrukim navodnicima (npr. <b>","</b> (zarez), <b>" "</b> (razmak), <b>"\"</b> (backslash) itd.) ili kao referenca na ćeliju ili opseg ćelija.</td>
+                </tr>
+				<tr>
+                    <td><b><em>ignore_empty</em></b></td>
+                    <td>Logička vrednost koja određuje da li se prazne ćelije ignorišu. Ako je postavljena na TRUE, prazne ćelije se preskaču.</td>
+                </tr>
+				<tr>
+                    <td><b><em>text1/2/n</em></b></td>
+                    <td>Do 253 podatkovne vrednosti. Svaka vrednost može biti tekstualni niz ili referenca na opseg ćelija.</td>
+                </tr>
+            </table>
+			<h3>Napomene</h3>
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> <b>TEXTJOIN</b> funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća <b>TEXTJOIN</b> funkcija.</p>
+			<p><img alt="TEXTJOIN Funkcija" src="../images/textjoin.png" /></p>
+		</div>
+	</body>
+</html>

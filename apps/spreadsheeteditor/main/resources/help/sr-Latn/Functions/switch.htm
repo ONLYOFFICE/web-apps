@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>SWITCH Funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="SWITCH funkcija je jedna od logičkih funkcija. Koristi se za evaluaciju jedne vrednosti (nazvane izraz) u odnosu na listu vrednosti i vraća rezultat koji odgovara prvoj podudarajućoj vrednosti. Ako nema podudaranja, može se vratiti opcioni podrazumevani rezultat." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>SWITCH Funkcija</h1>
+			<p><b>SWITCH</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#logical" onclick="onhyperlinkclick(this)">logičkih funkcija</a>. Koristi se za evaluaciju jedne vrednosti (nazvane izraz) u odnosu na listu vrednosti i vraća rezultat koji odgovara prvoj podudarajućoj vrednosti. Ako nema podudaranja, može se vratiti opcioni podrazumevani rezultat.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>SWITCH(expression, value1, result1, [default_or_value2, result2], ...)</em></b></p> 
+            <p><b>SWITCH</b> funkcija ima sledeće argumente:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>expression</em></b></td>
+                    <td>Vrednost koja će se uporediti sa <b><em>value1 ...value126</em></b>.</td>
+                </tr>
+				<tr>
+                    <td><b><em>value1 ...value126</em></b></td>
+                    <td>Vrednost koja će se uporediti sa <b><em>expression</em></b>.</td>
+                </tr>
+				<tr>
+                    <td><b><em>result1 ...result126</em></b></td>
+                    <td>Rezultat koji će biti vraćen ako <b><em>value1 ...value126</em></b> odgovara <b><em>expression</em></b>.</td>
+                </tr>
+				<tr>
+                    <td><b><em>default</em></b></td>
+                    <td>Rezultat koji će biti vraćen ako nema podudaranja. Ako <b><em>default</em></b> argument nije specificiran i nema podudaranja, funkcija vraća #N/A grešku.</td>
+                </tr>
+            </table>
+			<h3>Napomene</h3>
+            <p>Možete uneti do <b>254</b> argumenata, odnosno do 126 parova vrednosti i rezultata.</p>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> <b>SWITCH</b> funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća <b>SWITCH</b> funkcija.</p>
+			<p><img alt="SWITCH Funkcija" src="../images/switch.png" /></p>
+		</div>
+	</body>
+</html>

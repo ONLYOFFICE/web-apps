@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Provera pravopisa</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Provera pravopisa teksta na vašem jeziku tokom uređivanja prezentacije" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+			<div class="search-field">
+				<input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+			</div>
+			<h1>Provera pravopisa</h1>
+			<p>The <a target="_blank" href="https://www.onlyoffice.com/en/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>Presentation Editor</b></a> omogućava vam da proverite pravopis teksta na određenom jeziku i ispravite greške tokom uređivanja. U <em>desktop verziji</em>, takođe je moguće dodavati reči u prilagođeni rečnik koji je zajednički za sva tri editora.</p>
+			<p class="note">Počevši od <b>verzije 6.3</b>, ONLYOFFICE editori podržavaju <b>SharedWorker</b> interfejs za stabilniji rad bez značajne potrošnje memorije. Ako vaš pregledač ne podržava SharedWorker, tada će biti aktivan samo <b>Worker</b>. Više informacija o SharedWorker interfejsu možete pronaći u <a href="https://javascript.plainenglish.io/introduction-to-shared-workers-533d9abe9de3">ovom članku</a>.</p>
+			<p>Pre svega, <b>izaberite jezik</b> za vašu prezentaciju. Kliknite na ikonu <span class="icon icon-document_language"></span> sa desne strane statusne trake. U otvorenom prozoru izaberite željeni jezik i kliknite na <b>OK</b>. Izabrani jezik će biti primenjen na celu prezentaciju. Kasnije će biti prikazan kao nedavno korišćen jezik i biće dostupan za brzi pristup u istom meniju. U <em>desktop verziji</em>, jezici instalirani zajedno sa operativnim sistemom biće prikazani na vrhu liste jezika za proveru pravopisa.</p>
+			<p><img alt="Prozor za podešavanje jezika prezentacije" src="../../../../../../common/main/resources/help/en/images/document_language_window.png" /></p>
+			<p>Da biste <b>izabrali drugačiji jezik</b> za bilo koji deo teksta u prezentaciji, označite željeni deo teksta mišem i koristite <img alt="Provera pravopisa – izbor jezika teksta" src="../images/spellchecking_language.png" /> meni na statusnoj traci.</p>
+			<p>Da biste <b>uključili</b> proveru pravopisa, možete:</p>
+			<ul>
+				<li>kliknuti na ikonu <div class = "icon icon-spellcheckdeactivated"></div> <b>Provera pravopisa</b> na statusnoj traci, ili</li>
+				<li>otvoriti karticu <b>Datoteka</b> na gornjoj traci sa alatkama, izabrati opciju <b>Napredna podešavanja</b>, označiti polje <b>Uključi proveru pravopisa</b> i kliknuti na dugme <b>Primeni</b>.</li>
+			</ul>
+			<p>Pogrešno napisane reči biće podvučene crvenom linijom.</p>
+			<p>Desnim klikom na potrebnu reč aktivira se meni i možete:</p>
+			<ul>
+				<li>izabrati jednu od predloženih ispravno napisanih reči kako biste zamenili pogrešno napisanu reč. Ako postoji veliki broj varijanti, u meniju će se pojaviti opcija <b>Još varijanti...</b>;</li>
+				<li>koristiti opciju <b>Ignoriši</b> da preskočite samo tu reč i uklonite podvlačenje ili <b>Ignoriši sve</b> da preskočite sve iste reči koje se ponavljaju u tekstu;</li>
+				<li>ako trenutna reč ne postoji u rečniku, možete je dodati u prilagođeni rečnik. Ova reč se ubuduće neće smatrati greškom. Ova opcija je dostupna u <em>desktop verziji</em>;</li>
+				<li>izabrati drugi jezik za ovu reč.</li>
+			</ul>
+			<p><img alt="Provera pravopisa" src="../images/spellchecking_presentation.png" /></p>
+			<p>Da biste <b>isključili</b> proveru pravopisa, možete:</p>
+			<ul>
+				<li>kliknuti na ikonu <div class = "icon icon-spellcheckactivated"></div> <b>Provera pravopisa</b> na statusnoj traci, ili</li>
+				<li>otvoriti karticu <b>Datoteka</b> na gornjoj traci sa alatkama, izabrati opciju <b>Napredna podešavanja</b>, poništiti izbor polja <b>Uključi proveru pravopisa</b> i kliknuti na dugme <b>Primeni</b>.</li>
+			</ul>
+		</div>
+	</body>
+</html>

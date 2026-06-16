@@ -239,8 +239,8 @@
     --layout-padding-toolbar: 0;
     --layout-padding-right-panel-content: 7px 10px 0 15px;
     --layout-padding-right-panel-content-rtl: 7px 15px 0 10px;
-    --layout-padding-right-panel: 0;
-    --layout-padding-right-panel-rtl: 0;
+    --layout-padding-right-panel: 0 40px 0 0;
+    --layout-padding-right-panel-rtl: 0 0 0 40px;
     --layout-padding-left-panel: 0 0 0 40px;
     --layout-padding-left-panel-rtl: 0 40px 0 0;
     --layout-padding-x-side-panel: 0;
@@ -254,6 +254,8 @@
     --celleditor-cell-name-height: calc(var(--celleditor-height) - var(--celleditor-border-width) + (1px - 1px/var(--pixel-ratio-factor,1)));
     --celleditor-cell-name-border-right: var(--scaled-one-pixel, 1px) solid var(--border-toolbar);
     --celleditor-func-label-margin-left: -3px;
+    --celleditor-func-label-margin-right: 0;
+    --celleditor-func-label-border-radius: 0;
 
     --x-small-btn-size: 20px;
     --x-small-btn-icon-size: 20px;
@@ -368,7 +370,7 @@
     --rb-border-checked: var(--border-regular-control);
     --rb-border-checked-hover: var(--border-regular-control);
     --rb-border-checked-focus: var(--border-control-focus);
-    --rb-check-mark-size: 4px;
+    --rb-check-mark-size: 3px;
     --rb-check-mark-background: var(--text-normal);
 
     //
@@ -514,6 +516,8 @@
 @celleditor-cell-name-height: var(--celleditor-cell-name-height);
 @celleditor-cell-name-border-right: var(--celleditor-cell-name-border-right); 
 @celleditor-func-label-margin-left: var(--celleditor-func-label-margin-left);
+@celleditor-func-label-margin-right: var(--celleditor-func-label-margin-right);
+@celleditor-func-label-border-radius: var(--celleditor-func-label-border-radius);
 
 @x-small-btn-size: var(--x-small-btn-size, 20px);
 @x-small-btn-icon-size: var(--x-small-btn-icon-size, 20px);

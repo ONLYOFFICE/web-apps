@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Pixabay</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Description du plugin Pixabay pour les éditeurs ONLYOFFICE permettant d'ajouter des images gratuites à votre présentation depuis le service Pixabay" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Pixabay</h1>
+        <p>Le module complémentaire <b>Pixabay</b> permet d'ajouter des images à votre présentation depuis une collection d'images gratuites et libres de droits du service Pixabay.</p>
+        <p class="note">Le module complémentaire est compatible avec la version <a href="https://git.onlyoffice.com/ONLYOFFICE/DocumentServer" target="_blank" onclick="onhyperlinkclick(this)">auto-hébergée</a> et la version de <a href="https://git.onlyoffice.com/ONLYOFFICE/DesktopEditors" target="_blank" onclick="onhyperlinkclick(this)">bureau</a> des éditeurs ONLYOFFICE et peut être ajouté manuellement aux instances ONLYOFFICE à l'aide du <a href="https://helpcenter.onlyoffice.com/ONLYOFFICE-Editors/Editors-User-Guides/AllEditors/Plugin-manager.aspx" target="_blank" onclick="onhyperlinkclick(this)">Gestionnaire de plugins</a>.</p>
+
+        <h3>Installation</h3>
+        <p>Pour installer le module complémentaire <b>Pixabay</b>,</p>
+        <ol>
+            <li>Passez à l'onglet <b>Modules complémentaires</b>.</li>
+            <li>Ouvrez le <b>Gestionnaire de plugins</b>.</li>
+            <li>Rechercher<div class="icon icon-pixabay_store_icon"></div>sur marketplace et cliquez sur le bouton <b>Installer</b> au-dessous.</li>
+            <li>Cliquez sur<div class="icon icon-pixabay_icon"></div>l'icône <b>Pixabay</b> sous l'onglet <b>Modules complémentaires</b>.</li>
+            <li>Poursuivez la configuration du module complémentaire.</li>
+        </ol>
+        <p class="note">Pour en savoir plus, veuillez consulter <a href="https://api.onlyoffice.com/docs/plugin-and-macros/get-started/overview/" target="_blank" onclick="onhyperlinkclick(this)">la documentation API ONLYOFFICE</a>.</p>
+
+        <h3>Configuration</h3>
+        <ol>
+            <li>Connectez-vous à votre compte <b>Pixabay</b> ou créer un nouveau compte.</li>
+            <li>Passez à la section <b>Search Images</b> (Rechercher des images) sur la page <a href="https://pixabay.com/api/docs" target="_blank" onclick="onhyperlinkclick(this)"><b>Pixabay API</b></a>.</li>
+            <li>Faites défiler la page vers le bas jusqu'à la liste des <b>Paramètres</b> et copiez la clé indiquée en tant que paramètre <b>Key</b> (Clé). Si vous n'êtes pas connecté, appuyez sur Login (Se connecter) à côté du paramètre <b>Key</b> (Clé).<p><img alt="Clé API Pixabay" src="../../../../../../common/main/resources/help/en/images/pixabay_apikey.png" /></p>
+            </li>
+            <li>Collez la clé dans le champ <b>Clé API</b> dans le panneau gauche sous l'onglet <b>Modules complémentaires</b> de <b>l'éditeur de présentations</b>.</li>
+            <li>Cliquez sur <b>Enregistrer</b>.</li>
+        </ol>
+        <p><img alt="Panneau Pixabay" src="../../../../../../common/main/resources/help/en/images/pixabay_left.png" /></p>
+
+        <h3>Utilisation</h3>
+        <ol>
+            <li>Passez à l'onglet <b>Modules complémentaires</b>.</li>
+            <li>Cliquez sur<div class="icon icon-pixabay_icon"></div>l'icône <b>Pixabay</b>.</li>
+            <li>Sur le panneau gauche qui s'affiche, saisissez le mot clé associé à l'image recherchée.</li>
+            <li>Utilisez le bouton Afficher les paramètres pour affiner votre requête utilisant les options suivantes: <b>Langue</b>, <b>Type d'image</b>, <b>Orientation</b> et <b>Catégorie</b>. Cliquez sur Masquer les paramètres pour diminuer la section de recherche.<p><img alt="Paramètres Pixabay" src="../../../../../../common/main/resources/help/en/images/pixabay_settings.png" /></p>
+            </li>
+            <li>Cliquer sur <b>Chercher</b>.</li>
+            <li>Parcourez les résultats de recherche et cliquez sur l'image à ajouter à votre présentation.</li>
+        </ol>
+        <p><img alt="Résultats Pixabay" src="../images/pixabay_results.png" /></p>
+    </div>
+</body>
+</html>

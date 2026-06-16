@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>HEX2BIN Funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>HEX2BIN Funkcija</h1>
+			<p>Funkcija <b>HEX2BIN</b> je jedna od <a href="../UsageInstructions/InsertFunction.htm#engineering" onclick="onhyperlinkclick(this)">inženjerskih funkcija</a>. Koristi se za konvertovanje šesnaestog broja u binarni broj.</p>
+			<h3>Sinaksa</h3> 
+			<p><b><em>HEX2BIN(broj, [cifre])</em></b></p> 
+			<p>Funkcija <b>HEX2BIN</b> ima sledeće argumente:</p> 
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>broj</em></b></td>
+                    <td>Šesnaesterocifreni broj koji unesete ručno ili se nalazi u ćeliji na koju se referencirate.</td>
+                </tr>
+				<tr>
+                    <td><b><em>cifre</em></b></td>
+                    <td>Broj cifara za prikaz. Ako se izostavi, funkcija koristi minimalni broj cifara.</td>
+                </tr>
+            </table>
+			
+			<h3>Napomene</h3>
+            <p>Ako argument nije prepoznat kao šesnaesterocifreni broj, sadrži više od 10 karaktera, binarni broj zahteva više cifara nego što ste naveli, ili je naveden broj <b><em>cifre</em></b> manji ili jednak 0, funkcija vraća grešku <b>#NUM!</b>.</p>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> funkciju <b>HEX2BIN</b>.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća funkcija <b>HEX2BIN</b>.</p>
+			<p><img alt="HEX2BIN Funkcija" src="../images/hex2bin.png" /></p>
+		</div>
+	</body>
+</html>

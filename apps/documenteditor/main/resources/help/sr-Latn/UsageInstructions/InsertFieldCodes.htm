@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Umetni kodove polja</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Umetnite dinamička polja u dokument" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+		<h1>Umetni kodove polja</h1>
+			<p>U Document Editor-u možete dodati polja sa dinamičkim sadržajem koji zavisi od informacija o sistemu ili drugog sadržaja. Nemojte mešati polja sa kontrolama sadržaja, jer su to dve različite funkcionalnosti.</p>
+			<p>Da biste umetnuli polje,</p>
+			<ol>
+				<li>Idite na karticu <b>Umetanje</b>.</li>
+				<li>Kliknite na dugme <b>Polje</b>.</li>
+				<li>U otvorenom dijaloškom prozoru unesite kod polja koji želite da se prikaže i kliknite <b>OK</b>.</li>
+			</ol>
+			<p>Kodovi polja su sledeći:</p>
+			<div>
+				<table>
+					<thead>
+						<tr>
+							<th>Kod polja u ONLYOFFICE-u</th>
+							<th>Opis</th>
+							<th>Sintaksa</th>
+							<th>Prekidači</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>MERGEFIELD</td>
+							<td style="width: 40%">Kod umeće vezu ka polju podataka iz drugog izvora u trenutni dokument. Prilikom spajanja, podaci iz drugog izvora zameniće trenutnu vrednost polja.</td>
+							<td>{ MERGEFIELD FieldName [ Switches ]}</td>
+							<td>
+								<ol>
+									<li>\b - određuje tekst koji će se umetnuti pre polja MergeField, ako ono nije prazno.</li>
+									<li>\f - određuje tekst koji će se umetnuti posle polja MergeField, ako ono nije prazno.</li>
+									<li>\m - određuje da je polje MergeField mapirano.</li>
+									<li>\v - omogućava konverziju znakova za vertikalno formatiranje.</li>
+								</ol>
+							</td>
+						</tr>
+						<tr>
+							<td>PAGENUM</td>
+							<td>Kod umeće broj trenutne stranice.</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>PAGECOUNT</td>
+							<td>Kod umeće ukupan broj stranica u trenutnom dokumentu.</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>FORMTEXT</td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>TOC</td>
+							<td>Kod kreira sadržaj dokumenta. Sadržaj se zasniva na primenjenim stilovima naslova, nivoima strukture, natpisima itd., koji su definisani poljima za unos u sadržaj (Table of Contents Entry).</td>
+							<td>{ TOC [Switches ] }</td>
+							<td>
+								<ol>
+									<li>\a - kreira listu objekata koja ne uključuje oznake i brojeve.</li>
+									<li>\b - kreira sadržaj za deo dokumenta koji je obeležen oznakom (bookmark).</li>
+									<li>\с - kreira listu objekata određenog tipa.</li>
+									<li>\d - određuje tip razdvajača za brojeve stranica.</li>
+									<li>\f - kreira sadržaj na osnovu TC polja, a ne nivoa strukture dokumenta.</li>
+									<li>\h - primenjuje formatiranje hiperveze na sadržaj.</li>
+									<li>\l - određuje potrebne nivoe TC polja. Nivoi koji nisu uključeni u navedeni opseg biće izostavljeni.</li>
+									<li>\n - kreira sadržaj u potpunosti ili koristeći samo elemente iz navedenog opsega (npr. „1-9“), bez prikaza brojeva stranica.</li>
+									<li>\o - kreira sadržaj koristeći samo strukturne nivoe dokumenta, a ne TC polja.</li>
+									<li>\p - određuje razdvajač između elementa i odgovarajućeg broja stranice.</li>
+									<li>\s - dodaje redni broj broju stranice.</li>
+									<li>\t - kreira sadržaj koristeći samo prilagođene stilove umesto podrazumevanih stilova.</li>
+									<li>\u - kreira sadržaj koristeći samo primenjeni nivo strukture formatiranja pasusa.</li>
+									<li>\w - zadržava tabulacije u unosima sadržaja.</li>
+									<li>\x - zadržava prelome redova u unosima sadržaja.</li>
+									<li>\z - skriva brojeve stranica prilikom prikaza sadržaja u rasporedu veb dokumenta.</li>
+								</ol>
+							</td>
+						</tr>
+						<tr>
+							<td>PAGEREF</td>
+							<td>Kod umeće broj stranice kao oznaku za unakrsnu referencu.</td>
+							<td>{ PAGEREF Bookmark [\* Format Switch ] }</td>
+							<td>
+								<ol>
+									<li>\h - kreira hipervezu ka navedenom pasusu.</li>
+									<li>\p - umeće poziciju navedenog pasusa u odnosu na oznaku.</li>
+								</ol>
+							</td>
+						</tr>
+						<tr>
+							<td>PAGE</td>
+							<td>Kod umeće broj trenutne stranice.</td>
+							<td>{ PAGE [\* Format Switch ] }</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>NUMPAGES</td>
+							<td>Kod umeće ukupan broj stranica u dokumentu.</td>
+							<td>{ NUMPAGES }</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>ASK</td>
+							<td>Kod umeće polje koje traži od korisnika da unese podatke koji se zatim čuvaju kao oznaka (bookmark). Uređivač će tražiti unos svaki put kada se ovo polje osveži ili tokom spajanja dokumenata.</td>
+							<td>{ ASK Bookmark "Prompt" [Optional switches ] }</td>
+							<td>
+								<ol>
+									<li>\d - umeće podrazumevani zamenski tekst kao oznaku.</li>
+									<li>\o - traži unos samo jednom tokom spajanja dokumenata.</li>
+								</ol>								
+							</td>
+						</tr>
+						<tr>
+							<td>REF</td>
+							<td>Kod umeće sadržaj oznake (bookmark). Oznaka mora biti prethodno umetnuta u dokument.</td>
+							<td>{ [REF] Bookmark [Switches ] }</td>
+							<td>
+								<ol>
+									<li>\d - određuje razdvajač za broj stranice.</li>
+									<li>\f - uvećava brojeve fusnota ili napomena i umeće ih u dokument.</li>
+									<li>\h - kreira hipervezu ka navedenom pasusu.</li>
+									<li>\n - dodaje brojeve pasusa, ako postoje.</li>
+									<li>\p - umeće poziciju navedenog pasusa u odnosu na oznaku.</li>
+									<li>\r - umeće relativni broj navedenog pasusa.</li>
+									<li>\t - izostavlja simbole koji nisu numerički ili razdvajači.</li>
+									<li>\w - umeće puni broj navedenog pasusa.</li>
+								</ol>
+							</td>
+						</tr>
+						<tr>
+							<td>HYPERLINK</td>
+							<td>Kod umeće hipervezu ka elementu u dokumentu, dokumentu na vašem hard disku, portalu ili resursu treće strane.</td>
+							<td>{ HYPERLINK "Filename" [Switches ] }</td>
+							<td>
+								<ol>
+									<li>\l - određuje element unutar dokumenta na koji se prelazi.</li>
+									<li>\m - određuje koordinate hiperveze za mapu slike na serverskoj strani.</li>
+									<li>\n - otvara odredišni dokument u novom prozoru.</li>
+									<li>\o - određuje tekst oblačića (ScreenTip).</li>
+									<li>\t - određuje cilj hiperveze.</li>
+								</ol>
+							</td>
+						</tr>
+						<tr>
+							<td>TIME</td>
+							<td>Kod umeće trenutno vreme u dokument na osnovu korisničkih sistemskih podešavanja.</td>
+							<td>{ TIME [\@ "Date-Time Picture"] }</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>DATE</td>
+							<td>Kod umeće trenutni datum u dokument na osnovu korisničkih sistemskih podešavanja.</td>
+							<td>{ DATE [ \@ "Date-Time Picture"] [Switches] }</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>FORMULA</td>
+							<td>Kod izvršava izračunavanje prema unetoj formuli.</td>
+							<td>{ = Formula [Bookmark ] [\# Numeric Picture ] }</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>SEQ</td>
+							<td>Kod omogućava numerisanje poglavlja, tabela, slika i drugih elemenata u dokumentu redom. Ako dodate, uklonite ili premestite stavku zajedno sa njenim SEQ poljem, možete ažurirati ostala SEQ polja u dokumentu kako bi prikazala izmenjeni redosled.</td>
+							<td>{ SEQ Identifier [Bookmark ] [Switches ] }</td>
+							<td>
+								<ol>
+									<li>\c - umeće najbliži prethodni redni broj sekvence.</li>
+									<li>\h - skriva rezultat polja (koristi se za unakrsne reference).</li>
+									<li>\n - umeće sledeći redni broj sekvence.</li>
+									<li>\r - numeracija počinje navedenim brojem.</li>
+									<li>\s - numeracija počinje od navedenog nivoa strukture.</li>
+								</ol>
+							</td>
+						</tr>
+						<tr>
+							<td>STYLEREF</td>
+							<td>Kod dodaje tekst koji je formatiran pomoću određenog stila. Kada se koristi u zaglavlju ili podnožju, prikazuje prvu ili poslednju pojavu teksta formatiranog tim stilom iz glavnog sadržaja trenutne stranice, omogućavajući kreiranje zaglavlja ili podnožja u stilu rečnika.</td>
+							<td>{ STYLEREF StyleIdentifier [Switches ] }</td>
+							<td>
+								<ol>
+									<li>\l - započinje pretragu od dna trenutne stranice.</li>
+									<li>\n - umeće numeraciju iz navedenog pasusa.</li>
+									<li>\p - umeće poziciju navedenog pasusa u odnosu na oznaku.</li>
+									<li>\r - umeće relativni broj navedenog pasusa.</li>
+									<li>\t - izostavlja simbole koji nisu numerički ili razdvajači.</li>
+									<li>\w - umeće puni broj navedenog pasusa.</li>
+								</ol>								
+							</td>
+						</tr>
+						<tr>
+							<td>NOTEREF</td>
+							<td>Kod umeće oznaku reference fusnote ili krajnje napomene koja je obeležena oznakom (bookmark), kako bi se omogućile reference na istu napomenu ili unakrsne reference između fusnota i krajnjih napomena. Ako se redosled napomena promeni, rezultat polja će odražavati novu numeraciju.</td>
+							<td>{ NOTEREF Bookmark [Switches] }</td>
+							<td>
+								<ol>
+									<li>\f - umeće oznaku reference formatiranu stilom <em>Footnote reference</em> ili <em>Endnote reference</em>.</li>
+									<li>\h - kreira hipervezu ka navedenoj fusnoti ili krajnjoj napomeni.</li>
+									<li>\p - umeće relativnu poziciju fusnote ili krajnje napomene.</li>
+								</ol>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<p>Kodovi polja mogu se uređivati i ažurirati u hodu:</p>
+			<ol>
+				<li>Izaberite željeno polje i kliknite desnim tasterom miša da biste otvorili kontekstni meni.</li>
+				<li>
+					<ul>
+						<li><em>Ažuriraj polje</em> - ažurira informacije u polju.</li>
+						<li><em>Uredi polje</em> - otvara prozor za uređivanje polja.</li>
+						<li><em>Prikaži/sakrij kodove polja</em> - prikazuje kod polja.</li>
+					</ul>
+				</li>
+			</ol>
+		</div>
+	</body>
+</html>

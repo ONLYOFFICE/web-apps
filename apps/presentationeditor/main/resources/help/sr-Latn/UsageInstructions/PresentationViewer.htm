@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Pregledač prezentacija</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Pregledač prezentacija" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Pregledač prezentacija</h1>
+        <p>Kada otvorite <b>ONLYOFFICE Presentation Editor</b> sa pravima za pregled, možete se slobodno kretati kroz prezentaciju koristeći dostupne alate za pregled.</p>
+        <p><img alt="Prozor pregledača prezentacija" src="../images/presentation_viewer.png" /></p>
+        <ol>
+            <li>
+                Gornja traka sa alatkama sadrži sledeće kartice i dugmad za brzi pristup:
+                <ul>
+                    <li>
+                        Dostupne kartice: kartica <a href="../ProgramInterface/FileTab.htm" target="_blank">File</a>, kartica <a href="../ProgramInterface/ViewTab.htm" target="_blank">View</a>, kartica <a href="../ProgramInterface/PluginsTab.htm" target="_blank">Plugins</a>, kartica <a href="https://helpcenter.onlyoffice.com/ONLYOFFICE-Editors/Editors-User-Guides/AllEditors/AIconfiguration.aspx" target="_blank" onclick="onhyperlinkclick(this)">AI</a>.
+                        <p>Kartica <b>View</b> omogućava promenu stila pokazivača. Koristite alat <b>Hand</b> za kretanje po slajdu i alat <b>Select</b> za izbor objekata na slajdu.</p>
+                    </li>
+                    <li>
+                        Dugmad za brzi pristup:
+                        <ul>
+                            <li><b>Edit current file</b> – zatvara režim pregleda i prebacuje u režim uređivanja.</li>
+                            <li><b>Print</b> – štampa trenutnu prezentaciju.</li>
+                            <li><div class="icon icon-gotodocuments"></div> <b>Open file location</b> – <span class="desktopDocumentFeatures">u <em>desktop verziji</em> omogućava otvaranje fascikle u kojoj je fajl sačuvan u prozoru <b>File Explorer</b>.</span> <span class="onlineDocumentFeatures"> U <em>onlajn verziji</em> omogućava otvaranje fascikle modula <b>Documents</b>, u kojoj je fajl sačuvan, u novoj kartici pregledača.</span></li>
+                            <li><b>Download file</b> – preuzima trenutnu prezentaciju na hard disk.</li>
+                            <li><div class="icon icon-search_icon_header"></div> <b>Search</b> – omogućava pretragu prezentacije po određenoj reči ili simbolu itd.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                Levi panel sadrži sledeća dugmad:
+                <ul>
+                    <li><div class="icon icon-searchicon"></div> – omogućava korišćenje alata <a href="../HelpfulHints/Search.htm" onclick="onhyperlinkclick(this)">Search and Replace</a>,</li>
+                    <li><div class="icon icon-slides"></div> – omogućava pregled slajdova i navigaciju kroz njih,</li>
+                    <li><div class="icon icon-commentsicon"></div> – omogućava otvaranje panela <a href="../HelpfulHints/CollaborativeEditing.htm#comments" onclick="onhyperlinkclick(this)">Comments</a>,</li>
+                    <li class="onlineDocumentFeatures"><div class="icon icon-chaticon"></div> – (dostupno samo u <em>onlajn verziji</em>) omogućava otvaranje panela <a href="../HelpfulHints/CollaborativeEditing.htm#chat" onclick="onhyperlinkclick(this)">Chat</a>,</li>
+                    <li class="onlineDocumentFeatures"><div class="icon icon-feedbackicon"></div> – (dostupno samo u <em>onlajn verziji</em>) omogućava kontaktiranje našeg tima za podršku,</li>
+                    <li class="onlineDocumentFeatures"><div class="icon icon-about"></div> – (dostupno samo u <em>onlajn verziji</em>) omogućava pregled informacija o programu.</li>
+                </ul>
+            </li>
+            <li><b>Lista slajdova</b> sadrži sve slajdove prezentacije dostupne za brzi pristup.</li>
+            <li><b>Statusna traka</b> na dnu prozora editora sadrži ikonu <a href="../UsageInstructions/PreviewPresentation.htm" onclick="onhyperlinkclick(this)">Start slideshow</a>, kao i neke <a href="../HelpfulHints/Navigation.htm" onclick="onhyperlinkclick(this)">navigacione alate</a>: indikator broja slajda i dugmad za uvećanje/smanjenje prikaza. <b>Statusna traka</b> takođe prikazuje određena obaveštenja (kao što su "All changes saved", „Connection is lost“ kada nema veze i editor pokušava ponovo da se poveže itd.).</li>
+            <li><b>Klizač</b> sa desne strane omogućava pomeranje prezentacije nagore i nadole.</li>
+        </ol>
+    </div>
+</body>
+</html>

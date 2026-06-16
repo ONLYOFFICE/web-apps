@@ -1,0 +1,709 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>CONVERT funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>CONVERT funkcija</h1>
+            <p>Funkcija <b>CONVERT</b> je jedna od <a href="../UsageInstructions/InsertFunction.htm#engineering" onclick="onhyperlinkclick(this)">inženjerskih funkcija</a>. Koristi se za konvertovanje broja iz jednog mernog sistema u drugi. Na primer, CONVERT može da pretvori tabelu rastojanja izraženih u miljama u tabelu rastojanja izraženih u kilometrima.</p>
+            <h3>Sintaksa</h3>
+            <p><b><em>CONVERT(number, from_unit, to_unit)</em></b></p>
+            <p>Funkcija <b>CONVERT</b> ima sledeće argumente:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>number</em></b></td>
+                    <td>Vrednost koju je potrebno konvertovati.</td>
+                </tr>
+				<tr>
+                    <td><b><em>from_unit</em></b></td>
+                    <td>Originalna merna jedinica. Tekstualni niz u navodnicima. Moguće vrednosti su navedene u tabeli ispod.</td>
+                </tr>
+				<tr>
+                    <td><b><em>to_unit</em></b></td>
+                    <td>Merna jedinica u koju treba konvertovati vrednost <b><em>number</em></b>. Tekstualni niz u navodnicima. Moguće vrednosti su navedene u tabeli ispod.</td>
+                </tr>
+            </table>
+            <h3>Težina i masa</h3>
+            <table style="width: 40%">
+                <tr>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Jedinica</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Tekstualna vrednost</b></th>
+                </tr>
+                <tr>
+                    <td>Gram</td>
+                    <td>"g"</td>
+                </tr>
+                <tr>
+                    <td>Slug</td>
+                    <td>"sg"</td>
+                </tr>
+                <tr>
+                    <td>Funta mase (avoirdupois)</td>
+                    <td>"lbm"</td>
+                </tr>
+                <tr>
+                    <td>U (atomska jedinica mase)</td>
+                    <td>"u"</td>
+                </tr>
+                <tr>
+                    <td>Unca mase (avoirdupois)</td>
+                    <td>"ozm"</td>
+                </tr>
+                <tr>
+                    <td>Gran</td>
+                    <td>"grain"</td>
+                </tr>
+                <tr>
+                    <td>Američki (kratki) hundredweight</td>
+                    <td>"cwt" ili "shweight"</td>
+                </tr>
+                <tr>
+                    <td>Imperijalni hundredweight</td>
+                    <td>"uk_cwt" ili "lcwt" ("hweight")</td>
+                </tr>
+                <tr>
+                    <td>Stone</td>
+                    <td>"stone"</td>
+                </tr>
+                <tr>
+                    <td>Ton</td>
+                    <td>"ton"</td>
+                </tr>
+                <tr>
+                    <td>Imperijalni ton</td>
+                    <td>"uk_ton" ili "LTON" ("brton")</td>
+                </tr>
+            </table>
+            <h3>Rastojanje</h3>
+            <table style="width: 40%">
+                <tr>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Jedinica</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Tekstualna vrednost</b></th>
+                </tr>
+                <tr>
+                    <td>Metar</td>
+                    <td>"m"</td>
+                </tr>
+                <tr>
+                    <td>Statutarna milja</td>
+                    <td>"mi"</td>
+                </tr>
+                <tr>
+                    <td>Nautička milja</td>
+                    <td>"Nmi"</td>
+                </tr>
+                <tr>
+                    <td>Inč</td>
+                    <td>"in"</td>
+                </tr>
+                <tr>
+                    <td>Stopa</td>
+                    <td>"ft"</td>
+                </tr>
+                <tr>
+                    <td>Jard</td>
+                    <td>"yd"</td>
+                </tr>
+                <tr>
+                    <td>Angstrem</td>
+                    <td>"ang"</td>
+                </tr>
+                <tr>
+                    <td>Ell</td>
+                    <td>"ell"</td>
+                </tr>
+                <tr>
+                    <td>Svetlosna godina</td>
+                    <td>"ly"</td>
+                </tr>
+                <tr>
+                    <td>Parsek</td>
+                    <td>"parsec" ili "pc"</td>
+                </tr>
+                <tr>
+                    <td>Pica (1/72 inča)</td>
+                    <td>"Picapt" ili "Pica"</td>
+                </tr>
+                <tr>
+                    <td>Pica (1/6 inča)</td>
+                    <td>"pica"</td>
+                </tr>
+                <tr>
+                    <td>Američka geodetska milja (statutarna milja)</td>
+                    <td>"survey_mi"</td>
+                </tr>
+            </table>
+            <h3>Vreme</h3>
+            <table style="width: 40%">
+                <tr>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Jedinica</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Tekstualna vrednost</b></th>
+                </tr>
+                <tr>
+                    <td>Godina</td>
+                    <td>"yr"</td>
+                </tr>
+                <tr>
+                    <td>Dan</td>
+                    <td>"day" ili "d"</td>
+                </tr>
+                <tr>
+                    <td>Sat</td>
+                    <td>"hr"</td>
+                </tr>
+                <tr>
+                    <td>Minut</td>
+                    <td>"mn" ili "min"</td>
+                </tr>
+                <tr>
+                    <td>Sekunda</td>
+                    <td>"sec" ili "s"</td>
+                </tr>
+            </table>
+            <h3>Pritisak</h3>
+            <table style="width: 40%">
+                <tr>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Jedinica</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Tekstualna vrednost</b></th>
+                </tr>
+                <tr>
+                    <td>Paskal</td>
+                    <td>"Pa" (ili "p")</td>
+                </tr>
+                <tr>
+                    <td>Atmosfera</td>
+                    <td>"atm" (ili "at")</td>
+                </tr>
+                <tr>
+                    <td>mm živinog stuba</td>
+                    <td>"mmHg"</td>
+                </tr>
+                <tr>
+                    <td>PSI</td>
+                    <td>"psi"</td>
+                </tr>
+                <tr>
+                    <td>Torr</td>
+                    <td>"Torr"</td>
+                </tr>
+            </table>
+            <h3>Sila</h3>
+            <table style="width: 40%">
+                <tr>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Jedinica</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Tekstualna vrednost</b></th>
+                </tr>
+                <tr>
+                    <td>Njutn</td>
+                    <td>"N"</td>
+                </tr>
+                <tr>
+                    <td>Dina</td>
+                    <td>"dyn" (ili "dy")</td>
+                </tr>
+                <tr>
+                    <td>Funta sile</td>
+                    <td>"lbf"</td>
+                </tr>
+                <tr>
+                    <td>Pond</td>
+                    <td>"pond"</td>
+                </tr>
+            </table>
+            <h3>Energija</h3>
+            <table style="width: 40%">
+                <tr>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Jedinica</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Tekstualna vrednost</b></th>
+                </tr>
+                <tr>
+                    <td>Džul</td>
+                    <td>"J"</td>
+                </tr>
+                <tr>
+                    <td>Erg</td>
+                    <td>"e"</td>
+                </tr>
+                <tr>
+                    <td>Termodinamička kalorija</td>
+                    <td>"c"</td>
+                </tr>
+                <tr>
+                    <td>IT kalorija</td>
+                    <td>"cal"</td>
+                </tr>
+                <tr>
+                    <td>Elektronvolt</td>
+                    <td>"eV" (ili "ev")</td>
+                </tr>
+                <tr>
+                    <td>Konjska snaga-sat</td>
+                    <td>"HPh" (ili "hh")</td>
+                </tr>
+                <tr>
+                    <td>Vat-sat</td>
+                    <td>"Wh" (ili "wh")</td>
+                </tr>
+                <tr>
+                    <td>Stopa-funta</td>
+                    <td>"flb"</td>
+                </tr>
+                <tr>
+                    <td>BTU</td>
+                    <td>"BTU" (ili "btu")</td>
+                </tr>
+            </table>
+            <h3>Snaga</h3>
+            <table style="width: 40%">
+                <tr>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Jedinica</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Tekstualna vrednost</b></th>
+                </tr>
+                <tr>
+                    <td>Konjska snaga</td>
+                    <td>"HP" (ili "h")</td>
+                </tr>
+                <tr>
+                    <td>Pferdestärke</td>
+                    <td>"PS"</td>
+                </tr>
+                <tr>
+                    <td>Vat</td>
+                    <td>"W" (ili "w")</td>
+                </tr>
+            </table>
+            <h3>Magnetizam</h3>
+            <table style="width: 40%">
+                <tr>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Jedinica</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Tekstualna vrednost</b></th>
+                </tr>
+                <tr>
+                    <td>Tesla</td>
+                    <td>"T"</td>
+                </tr>
+                <tr>
+                    <td>Gaus</td>
+                    <td>"ga"</td>
+                </tr>
+            </table>
+            <h3>Temperatura</h3>
+            <table style="width: 40%">
+                <tr>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Jedinica</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Tekstualna vrednost</b></th>
+                </tr>
+                <tr>
+                    <td>Stepen Celzijusa</td>
+                    <td>"C" (ili "cel")</td>
+                </tr>
+                <tr>
+                    <td>Stepen Farenhajta</td>
+                    <td>"F" (ili "fah")</td>
+                </tr>
+                <tr>
+                    <td>Kelvin</td>
+                    <td>"K" (ili "kel")</td>
+                </tr>
+                <tr>
+                    <td>Stepen Rankina</td>
+                    <td>"Rank"</td>
+                </tr>
+                <tr>
+                    <td>Stepen Reomira</td>
+                    <td>"Reau"</td>
+                </tr>
+            </table>
+            <h3>Zapremina (ili mere za tečnosti)</h3>
+            <table style="width: 40%">
+                <tr>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Jedinica</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Tekstualna vrednost</b></th>
+                </tr>
+                <tr>
+                    <td>Kašičica</td>
+                    <td>"tsp"</td>
+                </tr>
+                <tr>
+                    <td>Moderna kašičica</td>
+                    <td>"tspm"</td>
+                </tr>
+                <tr>
+                    <td>Kašika</td>
+                    <td>"tbs"</td>
+                </tr>
+                <tr>
+                    <td>Tečna unca</td>
+                    <td>"oz"</td>
+                </tr>
+                <tr>
+                    <td>Šolja</td>
+                    <td>"cup"</td>
+                </tr>
+                <tr>
+                    <td>Američka pinta</td>
+                    <td>"pt" (ili "us_pt")</td>
+                </tr>
+                <tr>
+                    <td>Britanska pinta</td>
+                    <td>"uk_pt"</td>
+                </tr>
+                <tr>
+                    <td>Kvart</td>
+                    <td>"qt"</td>
+                </tr>
+                <tr>
+                    <td>Imperijalni kvart (U.K.)</td>
+                    <td>"uk_qt"</td>
+                </tr>
+                <tr>
+                    <td>Galon</td>
+                    <td>"gal"</td>
+                </tr>
+                <tr>
+                    <td>Imperijalni galon (U.K.)</td>
+                    <td>"uk_gal"</td>
+                </tr>
+                <tr>
+                    <td>Litar</td>
+                    <td>"l" ili "L" ("lt")</td>
+                </tr>
+                <tr>
+                    <td>Kubni angstrom</td>
+                    <td>"ang3" ili "ang^3"</td>
+                </tr>
+                <tr>
+                    <td>Američka naftna burad</td>
+                    <td>"barrel"</td>
+                </tr>
+                <tr>
+                    <td>Američki bušel</td>
+                    <td>"bushel"</td>
+                </tr>
+                <tr>
+                    <td>Kubne stope</td>
+                    <td>"ft3" ili "ft^3"</td>
+                </tr>
+                <tr>
+                    <td>Kubni inč</td>
+                    <td>"in3" ili "in^3"</td>
+                </tr>
+                <tr>
+                    <td>Kubna svetlosna godina</td>
+                    <td>"ly3" ili "ly^3"</td>
+                </tr>
+                <tr>
+                    <td>Kubni metar</td>
+                    <td>"m3" ili "m^3"</td>
+                </tr>
+                <tr>
+                    <td>Kubna milja</td>
+                    <td>"mi3" ili "mi^3"</td>
+                </tr>
+                <tr>
+                    <td>Kubni jard</td>
+                    <td>"yd3" ili "yd^3"</td>
+                </tr>
+                <tr>
+                    <td>Kubna nautička milja</td>
+                    <td>"Nmi3" ili "Nmi^3"</td>
+                </tr>
+                <tr>
+                    <td>Kubna pika</td>
+                    <td>"Picapt3", "Picapt^3", "Pica3" ili "Pica^3"</td>
+                </tr>
+                <tr>
+                    <td>Bruto registrovana tona</td>
+                    <td>"GRT" ("regton")</td>
+                </tr>
+                <tr>
+                    <td>Merna tona (transportna tona)</td>
+                    <td>"MTON"</td>
+                </tr>
+            </table>
+            <h3>Površina</h3>
+            <table style="width: 40%">
+                <tr>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Jedinica</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Tekstualna vrednost</b></th>
+                </tr>
+                <tr>
+                    <td>Međunarodni aker</td>
+                    <td>"uk_acre"</td>
+                </tr>
+                <tr>
+                    <td>Američki geodetski/statutarni aker</td>
+                    <td>"us_acre"</td>
+                </tr>
+                <tr>
+                    <td>Kvadratni angstrom</td>
+                    <td>"ang2" ili "ang^2"</td>
+                </tr>
+                <tr>
+                    <td>Ar</td>
+                    <td>"ar"</td>
+                </tr>
+                <tr>
+                    <td>Kvadratne stope</td>
+                    <td>"ft2" ili "ft^2"</td>
+                </tr>
+                <tr>
+                    <td>Hektar</td>
+                    <td>"ha"</td>
+                </tr>
+                <tr>
+                    <td>Kvadratni inči</td>
+                    <td>"in2" ili "in^2"</td>
+                </tr>
+                <tr>
+                    <td>Kvadratna svetlosna godina</td>
+                    <td>"ly2" ili "ly^2"</td>
+                </tr>
+                <tr>
+                    <td>Kvadratni metri</td>
+                    <td>"m2" ili "m^2"</td>
+                </tr>
+                <tr>
+                    <td>Morgen</td>
+                    <td>"Morgen"</td>
+                </tr>
+                <tr>
+                    <td>Kvadratne milje</td>
+                    <td>"mi2" ili "mi^2"</td>
+                </tr>
+                <tr>
+                    <td>Kvadratne nautičke milje</td>
+                    <td>"Nmi2" ili "Nmi^2"</td>
+                </tr>
+                <tr>
+                    <td>Kvadratna pika</td>
+                    <td>"Picapt2", "Pica2", "Pica^2" ili "Picapt^2"</td>
+                </tr>
+                <tr>
+                    <td>Kvadratni jardi</td>
+                    <td>"yd2" ili "yd^2"</td>
+                </tr>
+            </table>
+            <h3>Informacije</h3>
+            <table style="width: 40%">
+                <tr>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Jedinica</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Tekstualna vrednost</b></th>
+                </tr>
+                <tr>
+                    <td>Bit</td>
+                    <td>"bit"</td>
+                </tr>
+                <tr>
+                    <td>Bajt</td>
+                    <td>"byte"</td>
+                </tr>
+            </table>
+            <h3>Brzina</h3>
+            <table style="width: 40%">
+                <tr>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Jedinica</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Tekstualna vrednost</b></th>
+                </tr>
+                <tr>
+                    <td>Admiralski čvor</td>
+                    <td>"admkn"</td>
+                </tr>
+                <tr>
+                    <td>Čvor</td>
+                    <td>"kn"</td>
+                </tr>
+                <tr>
+                    <td>Metri na sat</td>
+                    <td>"m/h" ili "m/hr"</td>
+                </tr>
+                <tr>
+                    <td>Metri u sekundi</td>
+                    <td>"m/s" ili "m/sec"</td>
+                </tr>
+                <tr>
+                    <td>Milje na sat</td>
+                    <td>"mph"</td>
+                </tr>
+            </table>
+            <p>Takođe je moguće koristiti prefikse sa vrednostima <b><em>from_unit</em></b> i <b><em>to_unit</em></b>, npr. ako dodate prefiks "k" ispred jedinice "g", dobićete vrednost "kg" koja označava kilograme.</p>
+            <h3>Prefiksi</h3>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4"><b>Prefiks</b></th>
+                    <th style="background-color: #f4f4f4"><b>Množilac</b></th>
+                    <th style="background-color: #f4f4f4"><b>Tekstualna vrednost</b></th>
+                </tr>
+                <tr>
+                    <td>yotta</td>
+                    <td>1E+24</td>
+                    <td>"Y"</td>
+                </tr>
+                <tr>
+                    <td>zetta</td>
+                    <td>1E+21</td>
+                    <td>"Z"</td>
+                </tr>
+                <tr>
+                    <td>exa</td>
+                    <td>1E+18</td>
+                    <td>"E"</td>
+                </tr>
+                <tr>
+                    <td>peta</td>
+                    <td>1E+15</td>
+                    <td>"P"</td>
+                </tr>
+                <tr>
+                    <td>tera</td>
+                    <td>1E+12</td>
+                    <td>"T"</td>
+                </tr>
+                <tr>
+                    <td>giga</td>
+                    <td>1E+09</td>
+                    <td>"G"</td>
+                </tr>
+                <tr>
+                    <td>mega</td>
+                    <td>1E+06</td>
+                    <td>"M"</td>
+                </tr>
+                <tr>
+                    <td>kilo</td>
+                    <td>1E+03</td>
+                    <td>"k"</td>
+                </tr>
+                <tr>
+                    <td>hekto</td>
+                    <td>1E+02</td>
+                    <td>"h"</td>
+                </tr>
+                <tr>
+                    <td>dekao</td>
+                    <td>1E+01</td>
+                    <td>"da" ili "e"</td>
+                </tr>
+                <tr>
+                    <td>deci</td>
+                    <td>1E-01</td>
+                    <td>"d"</td>
+                </tr>
+                <tr>
+                    <td>centi</td>
+                    <td>1E-02</td>
+                    <td>"c"</td>
+                </tr>
+                <tr>
+                    <td>mili</td>
+                    <td>1E-03</td>
+                    <td>"m"</td>
+                </tr>
+                <tr>
+                    <td>mikro</td>
+                    <td>1E-06</td>
+                    <td>"u"</td>
+                </tr>
+                <tr>
+                    <td>nano</td>
+                    <td>1E-09</td>
+                    <td>"n"</td>
+                </tr>
+                <tr>
+                    <td>piko</td>
+                    <td>1E-12</td>
+                    <td>"p"</td>
+                </tr>
+                <tr>
+                    <td>femto</td>
+                    <td>1E-15</td>
+                    <td>"f"</td>
+                </tr>
+                <tr>
+                    <td>atto</td>
+                    <td>1E-18</td>
+                    <td>"a"</td>
+                </tr>
+                <tr>
+                    <td>zepto</td>
+                    <td>1E-21</td>
+                    <td>"z"</td>
+                </tr>
+                <tr>
+                    <td>yocto</td>
+                    <td>1E-24</td>
+                    <td>"y"</td>
+                </tr>
+            </table>
+            <h3>Binarni prefiksi</h3>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4"><b>Prefiks</b></th>
+                    <th style="background-color: #f4f4f4"><b>Vrednost prefiksa</b></th>
+                    <th style="background-color: #f4f4f4"><b>Tekstualna vrednost</b></th>
+                </tr>
+                <tr>
+                    <td>yobi</td>
+                    <td>2^80 = 1 208 925 819 614 629 174 706 176</td>
+                    <td>"Yi"</td>
+                </tr>
+                <tr>
+                    <td>zebi</td>
+                    <td>2^70 = 1 180 591 620 717 411 303 424</td>
+                    <td>"Zi"</td>
+                </tr>
+                <tr>
+                    <td>exbi</td>
+                    <td>2^60 = 1 152 921 504 606 846 976</td>
+                    <td>"Ei"</td>
+                </tr>
+                <tr>
+                    <td>pebi</td>
+                    <td>2^50 = 1 125 899 906 842 624</td>
+                    <td>"Pi"</td>
+                </tr>
+                <tr>
+                    <td>tebi</td>
+                    <td>2^40 = 1 099 511 627 776</td>
+                    <td>"Ti"</td>
+                </tr>
+                <tr>
+                    <td>gibi</td>
+                    <td>2^30 = 1 073 741 824</td>
+                    <td>"Gi"</td>
+                </tr>
+                <tr>
+                    <td>mebi</td>
+                    <td>2^20 = 1 048 576</td>
+                    <td>"Mi"</td>
+                </tr>
+                <tr>
+                    <td>kibi</td>
+                    <td>2^10 = 1024</td>
+                    <td>"ki"</td>
+                </tr>
+            </table>
+            <h3>Napomene</h3>
+            <p>Argumenti <b><em>from_unit</em></b> i <b><em>to_unit</em></b> moraju biti kompatibilni, tj. treba da pripadaju istoj vrsti mere.</p>
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> funkciju <b>CONVERT</b>.</p>
+            
+            <h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća funkcija <b>CONVERT</b>.</p>
+            <p><img alt="CONVERT Function" src="../images/convert.png" /></p>
+        </div>
+	</body>
+</html>

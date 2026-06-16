@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>RATE funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>RATE funkcija</h1>
+			<p><b>RATE</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#financial" onclick="onhyperlinkclick(this)">finansijskih funkcija</a>. Koristi se za izračunavanje kamatne stope za investiciju na osnovu konstantnog rasporeda uplata.</p>			
+			<h3>Sintaksa</h3> 
+			<p><b><em>RATE(nper, pmt, pv, [fv], [type], [guess])</em></b></p> 
+			<p><b>RATE</b> funkcija ima sledeće argumente:</p> 
+			<table style="width: 40%">
+				<tr>
+					<th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+					<th style="background-color: #f4f4f4"><b>Opis</b></th>
+				</tr>
+				<tr>
+					<td><b><em>nper</em></b></td>
+					<td>Broj uplata.</td>
+				</tr>
+				<tr>
+					<td><b><em>pmt</em></b></td>
+					<td>Iznos uplate.</td>
+				</tr>
+				<tr>
+					<td><b><em>pv</em></b></td>
+					<td>Trenutna vrednost uplata.</td>
+				</tr>
+				<tr>
+					<td><b><em>fv</em></b></td>
+					<td>Buduća vrednost (npr. stanje novca nakon poslednje uplate). Opcioni argument. Ako se izostavi, funkcija pretpostavlja da je <b><em>fv</em></b> 0.</td>
+				</tr>
+				<tr>
+					<td><b><em>type</em></b></td>
+					<td>Period kada su uplate dospele. Opcioni argument. Ako je 0 ili izostavljen, funkcija pretpostavlja da su uplate na kraju perioda. Ako je <b><em>type</em></b> 1, uplate su na početku perioda.</td>
+				</tr>
+				<tr>
+					<td><b><em>guess</em></b></td>
+					<td>Procena kolika će biti kamatna stopa. Opcioni argument. Ako se izostavi, funkcija pretpostavlja da je <b><em>guess</em></b> 10%.</td>
+				</tr>
+			</table>			
+			<h3>Napomene</h3>
+			<p>Isplate (kao što su depoziti na štednju) predstavljaju negativne brojeve; primljeni novac (kao što su dividende) predstavljaju pozitivne brojeve. Jedinice za <em>guess</em> i <em>nper</em> moraju biti konzistentne: koristiti N%/12 za <em>guess</em> i N*12 za <em>nper</em> kod mesečnih uplata, N%/4 za <em>guess</em> i N*4 za <em>nper</em> kod kvartalnih uplata, N% za <em>guess</em> i N za <em>nper</em> kod godišnjih uplata.</p>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> <b>RATE</b> funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća <b>RATE</b> funkcija.</p>
+			<p><img alt="RATE funkcija" src="../images/rate.png" /></p>
+		</div>
+	</body>
+</html>

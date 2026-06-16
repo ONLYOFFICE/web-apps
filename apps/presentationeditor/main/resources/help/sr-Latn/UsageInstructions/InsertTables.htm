@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Umetnite i formatirajte tabele</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Dodajte tabelu u prezentaciju i prilagodite njena svojstva" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+			<div class="search-field">
+				<input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+			</div>
+			<h1>Umetnite i formatirajte tabele</h1>
+			<h3>Umetnite tabelu</h3>
+			<p>Da biste umetnuli tabelu u slajd u <a target="_blank" href="https://www.onlyoffice.com/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>Presentation Editor</b></a>-u,</p>
+			<ol>
+				<li>izaberite slajd na koji treba dodati tabelu,</li>
+				<li>prebacite se na tab <b>Insert</b> na gornjoj alatnoj traci,</li>
+				<li>kliknite na ikonicu <div class="icon icon-inserttable"></div> <b>Table</b> na gornjoj alatnoj traci,</li>
+				<li>
+					izaberite jednu od sledećih opcija za kreiranje tabele:
+					<ul>
+						<li>
+							<p>bilo tabelu sa unapred definisanim brojem ćelija (maksimalno 10 x 8 ćelija)</p>
+							<p>Ako želite brzo da dodate tabelu, samo izaberite broj redova (maksimalno 8) i kolona (maksimalno 10).</p>
+						</li>
+						<li>
+							<p>ili prilagođenu tabelu</p>
+							<p>Ako vam je potrebno više od 10 x 8 ćelija, izaberite opciju <b>Insert Custom Table</b> koja će otvoriti prozor u kojem možete uneti potreban broj redova i kolona, a zatim kliknite na dugme <b>OK</b>.</p>
+						</li>
+					</ul>
+				</li>
+				<li>
+					ako želite da umetnete tabelu kao OLE objekat:
+					<ol>
+						<li>Izaberite opciju <b>Insert Spreadsheet</b> u meniju <b>Table</b> na tabu <b>Insert</b>.</li>
+						<li>
+							Pojaviće se odgovarajući prozor u kojem možete uneti potrebne podatke i formatirati ih koristeći alate za formatiranje Spreadsheet Editor-a, kao što su <a href="../../../../../../spreadsheeteditor/main/resources/help/en/UsageInstructions/FontTypeSizeStyle.htm">izbor fonta, tipa i stila</a>, <a href="../../../../../../spreadsheeteditor/main/resources/help/en/UsageInstructions/ChangeNumberFormat.htm">podešavanje formata brojeva</a>, <a href="../../../../../../spreadsheeteditor/main/resources/help/en/UsageInstructions/InsertFunction.htm">umetanje funkcija</a>, <a href="../../../../../../spreadsheeteditor/main/resources/help/en/UsageInstructions/FormattedTables.htm">formatiranje tabela</a> itd.
+							<p><img alt="OLE tabela" src="../../../../../../common/main/resources/help/en/images/ole_table.png" /></p>
+						</li>
+						<li>Zaglavlje sadrži dugme <span class="icon icon-visible_area"></span> <b>Visible area</b> u gornjem desnom uglu prozora. Izaberite opciju <b>Edit Visible Area</b> da biste odabrali oblast koja će biti prikazana kada se objekat umetne u prezentaciju; ostali podaci se ne gube, već su samo sakriveni. Kliknite <b>Done</b> kada završite.</li>
+						<li>Kliknite na dugme <b>Show Visible Area</b> da biste videli izabranu oblast koja će imati plavi okvir.</li>
+						<li>Kada završite, kliknite na dugme <b>Save & Exit</b>.</li>
+					</ol>
+				</li>
+				<li>kada se tabela doda, možete promeniti njena svojstva i položaj.</li>
+			</ol>
+			<p>Tabelu možete dodati i u držač teksta pritiskom na ikonicu <span class="icon icon-placeholder_table"></span> <b>Table</b> u okviru njega i izborom potrebnog broja ćelija ili korišćenjem opcije <b>Insert Custom Table</b>:</p>
+			<p><img alt="Dodavanje tabele u držač" src="../images/placeholder_object.png" /></p>
+			<p>Da biste promenili veličinu tabele, prevucite ručice <span class="icon icon-resize_square"></span> koje se nalaze na njenim ivicama dok tabela ne dostigne željenu veličinu.</p>
+			<p><span class="big big-resizetable"></span></p>
+			<p>Takođe možete ručno promeniti širinu određene kolone ili visinu reda. Postavite kursor miša iznad desne ivice kolone tako da kursor postane dvosmerna strelica <span class="icon icon-changecolumnwidth"></span> i prevucite ivicu ulevo ili udesno da biste podesili željenu širinu. Da biste ručno promenili visinu jednog reda, postavite kursor miša iznad donje ivice reda dok kursor ne postane dvosmerna strelica <span class="icon icon-changerowheight"></span> i prevucite ivicu nagore ili nadole.</p>
+			<p>Možete odrediti <a href="../UsageInstructions/ManipulateObjects.htm" onclick="onhyperlinkclick(this)">položaj tabele</a> na slajdu prevlačenjem vertikalno ili horizontalno.</p>
+			<p class="note">
+				<b>Napomena</b>: za kretanje unutar tabele možete koristiti <a href="../HelpfulHints/KeyboardShortcuts.htm#workwithtables" onclick="onhyperlinkclick(this)">prečice na tastaturi</a>.
+			</p>
+			<p>Takođe je moguće dodati tabelu u raspored slajda. Da biste saznali više, pogledajte ovaj <a href="../UsageInstructions/SetSlideParameters.htm#addtolayout" onclick="onhyperlinkclick(this)">članak</a>.</p>
+			<hr />
+			<h3>Podesite podešavanja tabele</h3>
+			<img class="floatleft" alt="Kartica podešavanja tabele" src="../images/tablesettingstab.png" />
+			<p>Većina svojstava tabele, kao i njena struktura, mogu se menjati korišćenjem desne bočne trake. Da biste je aktivirali, kliknite na tabelu i izaberite ikonicu <b>Table settings</b> <span class="icon icon-table_settings_icon"></span> sa desne strane.</p>
+			<p>Odeljci <b>Rows</b> i <b>Columns</b> na vrhu omogućavaju da naglasite određene redove/kolone primenom posebnog formatiranja ili da istaknete različite redove/kolone različitim bojama pozadine kako bi se jasnije razlikovali. Dostupne su sledeće opcije:</p>
+			<ul style="margin-left: 280px;">
+				<li><b>Header</b> - naglašava gornji red u tabeli posebnim formatiranjem.</li>
+				<li><b>Total</b> - naglašava donji red u tabeli posebnim formatiranjem.</li>
+				<li><b>Banded</b> - omogućava naizmenično menjanje boje pozadine za neparne i parne redove.</li>
+				<li><b>First</b> - naglašava krajnju levu kolonu u tabeli posebnim formatiranjem.</li>
+				<li><b>Last</b> - naglašava krajnju desnu kolonu u tabeli posebnim formatiranjem.</li>
+				<li><b>Banded</b> - omogućava naizmenično menjanje boje pozadine za neparne i parne kolone.</li>
+			</ul>
+			<p>
+				Odeljak <b>Select From Template</b> omogućava izbor jednog od unapred definisanih stilova tabela. Svaki šablon kombinuje određene parametre formatiranja, kao što su boja pozadine, stil ivica, naizmenično bojenje redova/kolona itd.
+				U zavisnosti od opcija označenih u odeljcima <b>Rows</b> i/ili <b>Columns</b> iznad, skup prikazanih šablona će se razlikovati. Na primer, ako ste označili opciju <b>Header</b> u odeljku <b>Rows</b> i opciju <b>Banded</b> u odeljku <b>Columns</b>, prikazana lista šablona će uključivati samo šablone sa uključenim zaglavljem i naizmeničnim kolonama:
+			</p>
+			<p><span class="big big-templateslist"></span></p>
+			<p>Odeljak <b>Borders Style</b> omogućava da promenite primenjeno formatiranje koje odgovara izabranom šablonu. Možete izabrati celu tabelu ili određeni opseg ćelija i ručno podesiti sve parametre.</p>
+			<ul>
+				<li>
+					Parametri <b>Border</b> - podesite debljinu ivice koristeći listu <div class="big big-bordersize"></div> (ili izaberite opciju <b>No borders</b>), odaberite <b>Color</b> iz dostupnih paleta i odredite način prikaza u ćelijama klikom na ikonice:
+					<p><span class="big big-bordertype"></span></p>
+				</li>
+				<li><b>Background color</b> - izaberite boju pozadine unutar izabranih ćelija.</li>
+			</ul>
+			<p>Odeljak <b>Rows & Columns</b> <span class="icon icon-rowsandcolumns"></span> omogućava sledeće operacije:</p>
+			<ul>
+				<li><b>Select</b> red, kolonu, ćeliju (u zavisnosti od pozicije kursora) ili celu tabelu.</li>
+				<li><b>Insert</b> novi red iznad ili ispod izabranog, kao i novu kolonu levo ili desno od izabrane.</li>
+				<li><b>Delete</b> red, kolonu (u zavisnosti od pozicije kursora ili izbora) ili celu tabelu.</li>
+				<li><b>Merge Cells</b> - spaja prethodno izabrane ćelije u jednu.</li>
+				<li>
+					<b>Split Cell...</b> - deli prethodno izabranu ćeliju na određeni broj redova i kolona. Ova opcija otvara sledeći prozor:
+					<p><img alt="Prozor Split Cells" src="../images/split_cells.png" /></p>
+					<p>Unesite <b>Number of Columns</b> i <b>Number of Rows</b> na koje treba podeliti izabranu ćeliju i pritisnite <b>OK</b>.</p>
+				</li>
+			</ul>
+			<p class="note"><b>Napomena</b>: opcije iz odeljka <b>Rows & Columns</b> dostupne su i iz <b>menija desnog klika</b>.</p>
+			<p>Odeljak <b>Cell Size</b> koristi se za podešavanje širine i visine trenutno izabrane ćelije. U ovom odeljku takođe možete <b>Distribute rows</b> tako da sve izabrane ćelije imaju jednaku visinu ili <b>Distribute columns</b> tako da sve izabrane ćelije imaju jednaku širinu. Opcije <b>Distribute rows/columns</b> dostupne su i iz <b>menija desnog klika</b>.</p>
+			<hr />
+			<h3>Podesite napredna podešavanja tabele</h3>
+			<p>Da biste promenili napredna podešavanja tabele, kliknite desnim tasterom miša na tabelu i izaberite opciju <b>Table Advanced Settings</b> iz menija desnog klika ili kliknite na vezu <b>Show advanced settings</b> na desnoj bočnoj traci. Otvoriće se prozor sa svojstvima tabele:</p>
+			<p><img alt="Svojstva tabele" src="../images/table_properties2.png" /></p>
+			<p>Kartica <b>Placement</b> omogućava da podesite sledeća svojstva tabele:</p>
+			<ul>
+				<li><b>Size</b> - koristite ovu opciju da promenite širinu i/ili visinu tabele. Ako je dugme <b>Constant proportions</b> <div class="icon icon-constantproportions"></div> uključeno (u tom slučaju izgleda ovako <div class="icon icon-constantproportionsactivated"></div>), širina i visina će se menjati zajedno uz zadržavanje originalnih proporcija.</li>
+				<li><b>Position</b> - podesite tačan položaj koristeći polja <b>Horizontal</b> i <b>Vertical</b>, kao i polje <b>From</b> gde možete pristupiti podešavanjima kao što su <b>Top Left Corner</b> i <b>Center</b>.</li>
+			</ul>
+			<p><img alt="Svojstva tabele" src="../images/table_properties.png" /></p>
+			<p>Kartica <b>Margins</b> omogućava podešavanje razmaka između teksta u ćelijama i ivice ćelije:</p>
+			<ul>
+				<li>unesite potrebne vrednosti <b>Cell Margins</b> ručno, ili</li>
+				<li>označite polje <b>Use default margins</b> da biste primenili unapred definisane vrednosti (po potrebi se mogu dodatno prilagoditi).</li>
+			</ul>
+			<p><img alt="Svojstva tabele" src="../images/table_properties1.png" /></p>
+			<p>Kartica <b>Alternative Text</b> omogućava navođenje <b>Title</b> i <b>Description</b> koji će se čitati osobama sa oštećenjima vida ili kognitivnim poteškoćama kako bi lakše razumele sadržaj tabele.</p>
+			<hr />
+			<p>Za <b>formatiranje unetog teksta</b> u ćelijama tabele možete koristiti <a href="../UsageInstructions/InsertText.htm#formatfont" onclick="onhyperlinkclick(this)">ikonice na tabu <b>Home</b> na gornjoj alatnoj traci</a>. <b>Meni desnog klika</b>, koji se pojavljuje kada kliknete desnim tasterom miša na tabelu, sadrži još dve dodatne opcije: </p>
+			<ul>
+				<li><b>Cell vertical alignment</b> - omogućava da podesite željeni tip vertikalnog poravnanja teksta u izabranim ćelijama: <b>Align Top</b>, <b>Align Center</b> ili <b>Align Bottom</b>.</li>
+				<li><b>Hyperlink</b> - omogućava umetanje hiperveze u izabranu ćeliju.</li>
+			</ul>
+		</div>
+	</body>
+</html>

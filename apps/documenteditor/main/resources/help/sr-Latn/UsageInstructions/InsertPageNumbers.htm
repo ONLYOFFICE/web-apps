@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Ubaci brojeve stranica</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Ubaci brojeve stranica kako biste lakše navigirali kroz dokument" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraži" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Ubaci brojeve stranica</h1>
+			<p>Da biste ubacili brojeve stranica u <a href="https://www.onlyoffice.com/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor</b></a>,</p>
+			<ol>
+                <li>prebacite se na <b>Ubaci</b> tab na gornjoj alatnoj traci,</li>
+                <li>kliknite na <b>Zaglavlje/Podnožje</b> <div class = "icon icon-headerfooter"></div> ikonu na gornjoj alatnoj traci,</li>
+				<li>izaberite podmeni <b>Ubaci broj stranice</b>,</li>
+				<li>izaberite jednu od sledećih opcija:
+					<ul>
+						<li>Da dodate broj stranice na svaku stranicu dokumenta, izaberite poziciju broja na stranici.</li>
+						<li>Da ubacite broj stranice na trenutnu poziciju kursora, izaberite opciju <b>Na trenutnoj poziciji</b>.
+                            <p class="note">
+                                <b>Napomena</b>: za ubacivanje broja trenutne stranice na trenutnoj poziciji kursora, možete koristiti i kombinaciju tastera <em>Ctrl+Shift+P</em>.
+                            </p>
+                        </li>
+					</ul>
+				</li>
+			</ol>
+			<p>ILI</p>
+			<ol>
+				<li>prebacite se na <b>Ubaci</b> tab na gornjoj alatnoj traci,</li>
+				<li>kliknite na <b>Zaglavlje/Podnožje</b> <div class="icon icon-headerfooter"></div> ikonu na gornjoj alatnoj traci,</li>
+				<li>kliknite opciju <b>Ubaci broj stranice</b> u meniju i izaberite poziciju broja stranice.</li>
+			</ol>
+            <p>Da biste ubacili ukupan broj stranica u dokumentu (npr. za unos <em>Strana X od Y</em>):</p>
+            <ol>
+                <li>postavite kursor na mesto gde želite ukupan broj stranica,</li>
+                <li>kliknite na <b>Zaglavlje/Podnožje</b> <div class = "icon icon-headerfooter"></div> ikonu na gornjoj alatnoj traci,</li>
+                <li>izaberite opciju <b>Ubaci broj stranica</b>.</li>
+            </ol>
+			<hr />
+			<p>Da biste uredili podešavanja brojeva stranica,</p>
+			<ol>
+				<li>dvostruko kliknite na dodat broj stranice,</li>
+				<li>
+					izmenite trenutne parametre na desnoj bočnoj traci: 
+					<p><img alt="Desna bočna traka - podešavanja zaglavlja i podnožja" src="../images/right_headerfooter.png" /></p>
+					<ul>
+						<li>Podesite <b>Poziciju</b> brojeva stranica na stranici u odnosu na vrh i dno stranice.</li>
+						<li>Označite <b>Različita prva stranica</b> da biste primenili drugačiji broj na prvu stranicu ili ako ne želite da je numerišete.</li>
+						<li>Koristite opciju <b>Različite neparne i parne stranice</b> da ubacite različite brojeve stranica za neparne i parne stranice.</li>
+						<li>
+							<b>Poveži sa prethodnom</b> opcija je dostupna ako ste prethodno dodali <a href="../UsageInstructions/SectionBreaks.htm" onclick="onhyperlinkclick(this)">sekcije</a> u dokument. 
+							U suprotnom, biće zasivljena. Takođe, opcija nije dostupna za prvu sekciju. 
+							Po podrazumevanju, opcija je čekirana za jedinstvenu numeraciju svih sekcija. Ako izaberete zaglavlje ili podnožje, videćete oznaku <b>Isto kao prethodno</b>. 
+							Uklonite ček sa <b>Poveži sa prethodnom</b> da koristite različitu numeraciju po sekcijama. Oznaka <b>Isto kao prethodno</b> više neće biti prikazana.
+							<p><img alt="Oznaka isto kao prethodno" src="../images/sameasprevious_label.png" /></p>
+						</li>				
+						<li>
+							<p>Odeljak <b>Numeracija stranica</b> omogućava podešavanje opcija numeracije kroz različite <a href="../UsageInstructions/SectionBreaks.htm" onclick="onhyperlinkclick(this)">sekcije</a> dokumenta.</p>
+							<p>Opcija <b>Nastavi iz prethodne sekcije</b> je podrazumevano izabrana i omogućava kontinualnu numeraciju nakon prekida sekcije.</p>
+							<p>Ako želite da numeraciju započnete sa određenim brojem u trenutnoj sekciji, izaberite radio dugme <b>Počni od</b> i unesite željeni broj u polje desno.</p>
+							<p>Koristite padajući meni <b>Format broja</b> da brzo promenite format brojeva stranica, npr. <em>"I, II, III, IV..."</em></p>
+						</li>
+					</ul>
+				</li>
+			</ol>
+			<p>Da se vratite na uređivanje dokumenta, dvostruko kliknite unutar radne površine.</p>
+		</div>
+	</body>
+</html>

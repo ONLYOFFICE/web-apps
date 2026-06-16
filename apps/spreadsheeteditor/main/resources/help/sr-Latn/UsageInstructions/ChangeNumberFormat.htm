@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Promena formata brojeva</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Promenite format brojeva da biste brojeve prikazali na najpraktičniji način" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Promena formata brojeva</h1>
+            <h3>Primena formata brojeva</h3>
+			<p>U <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor-u</b></a> možete lako promeniti format brojeva, tj. način na koji se brojevi prikazuju u tabeli. Da biste to uradili, </p>
+			<ol>
+				<li>izaberite ćeliju, opseg ćelija pomoću miša ili ceo radni list pritiskom na kombinaciju tastera <b>Ctrl+A</b>,
+                <p class="note"><b>Napomena</b>: možete izabrati i više nepovezanih ćelija ili opsega ćelija držeći pritisnut taster <b>Ctrl</b> dok birate ćelije/opsege pomoću miša.</p>
+                </li>
+				<li>otvorite padajuću listu dugmeta <b>Number format</b> <img alt="General format button" src="../images/generalformat.png" /> koja se nalazi na kartici <b>Home</b> gornje trake sa alatkama ili kliknite desnim tasterom miša na izabrane ćelije i koristite opciju <b>Number Format</b> iz kontekstnog menija. Izaberite format broja koji želite da primenite:
+					<ul>
+						<li><b>General</b> - koristi se za prikaz podataka kao običnih brojeva u najkompaktnijem obliku bez dodatnih znakova,</li>
+						<li><b>Number</b> - koristi se za prikaz brojeva sa 0-30 cifara posle decimalnog zareza, pri čemu se razdvajač hiljada dodaje između svake grupe od tri cifre pre decimalnog zareza,</li>
+						<!--<li><b>Integer</b> - koristi se za prikaz brojeva kao celog broja,</li>-->
+						<li><b>Scientific</b> (exponential) - koristi se da bi brojevi bili kraći konverzijom u niz tipa <em>d.dddE+ddd</em> ili <em>d.dddE-ddd</em> gde je svako <em>d</em> cifra od 0 do 9,</li>
+                        <li><b>Accounting</b> - koristi se za prikaz novčanih vrednosti sa podrazumevanim simbolom valute i dve decimale. Da biste primenili drugi simbol valute ili broj decimala, pratite <a href="../UsageInstructions/ChangeNumberFormat.htm#customize" onclick="onhyperlinkclick(this)">uputstva ispod</a>. Za razliku od formata <b>Currency</b>, format <b>Accounting</b> poravnava simbole valuta uz levu stranu ćelije, prikazuje nulte vrednosti kao crtice i prikazuje negativne vrednosti u zagradama.
+                            <p><img alt="Accounting and Currency number formats" src="../images/accounting_currency.png" /></p>
+                            <p class="note"><b>Napomena</b>: da biste brzo primenili format <b>Accounting</b> na izabrane podatke, možete kliknuti i na ikonu <b>Accounting style</b> <span class = "icon icon-accountingstyle"></span> na kartici <b>Home</b> gornje trake sa alatkama i izabrati jedan od sledećih simbola valuta: <b>&#36;</b> Dollar, <b>&euro;</b> Euro, <b>&pound</b> Pound, <b>&#8381;</b> Rouble, <b>&yen</b> Yen, <b>kn</b> Croatian Kuna.</p>
+                        </li>
+                        <li><b>Currency</b> - koristi se za prikaz novčanih vrednosti sa podrazumevanim simbolom valute i dve decimale. Da biste primenili drugi simbol valute ili broj decimala, pratite <a href="../UsageInstructions/ChangeNumberFormat.htm#customize" onclick="onhyperlinkclick(this)">uputstva ispod</a>. Za razliku od formata <b>Accounting</b>, format <b>Currency</b> postavlja simbol valute neposredno pre prve cifre i prikazuje negativne vrednosti sa negativnim znakom (-).</li>
+						<li><b>Short Date</b> - koristi se za prikaz datuma u formatu <em>DD.MM.YYYY</em>,</li>
+                        <li><b>Long Date</b> - koristi se za prikaz datuma u formatu <em>DD.puni naziv meseca.YYYY</em>,</li>
+						<li><b>Time</b> - koristi se za prikaz vremena<!--. Možete izabrati jedan od sledećih formata vremena: <em>HH:mm</em>, <em>HH:MM:ss</em>, <em>hh:mm tt</em>, <em>hh:mm:ss tt</em>, <em>[h]:mm:ss</em>-->,</li>
+						<li><b>Percentage</b> - koristi se za prikaz podataka kao procenta uz znak procenta <b>%</b>,
+							<p class="note"><b>Napomena</b>: da biste brzo primenili procenat na podatke, možete koristiti i ikonu <b>Percent style</b> <span class="icon icon-percentstyle"></span> na kartici <b>Home</b> gornje trake sa alatkama.</p>
+						</li>
+                        <li><b>Fraction</b> - koristi se za prikaz brojeva kao običnih razlomaka umesto decimala.</li>
+						<li><b>Text</b> - koristi se za prikaz numeričkih vrednosti kao običnog teksta sa što većom preciznošću.</li>
+                        <li><b>More formats</b> - koristi se za kreiranje <b>prilagođenog formata brojeva</b> ili za prilagođavanje već primenjenih formata brojeva navođenjem dodatnih parametara (pogledajte opis ispod).</li>
+                        <li><b>Custom</b> - koristi se za kreiranje prilagođenog formata:
+                        <ul>
+                            <li>izaberite ćeliju, opseg ćelija ili ceo radni list za vrednosti koje želite da formatirate,</li>
+                            <li>izaberite opciju <b>Custom</b> iz menija <b>More formats</b>,</li>
+                            <li>unesite potrebne kodove i proverite rezultat u oblasti za pregled ili izaberite jedan od šablona i/ili ih kombinujte. Ako želite da kreirate format na osnovu postojećeg, prvo primenite postojeći format, a zatim prilagodite kodove po želji,</li>
+                            <li>kliknite <b>OK</b>.</li>
+                        </ul>
+                        </li>
+					</ul>
+				</li>
+				<li>promenite broj decimalnih mesta po potrebi:
+				    <ul>
+				        <li>koristite ikonu <b>Increase decimal</b> <div class = "icon icon-increasedecimal"></div> koja se nalazi na kartici <b>Home</b> gornje trake sa alatkama da biste prikazali više cifara posle decimalnog zareza,</li>
+				        <li>koristite ikonu <b>Decrease decimal</b> <div class = "icon icon-decreasedecimal"></div> koja se nalazi na kartici <b>Home</b> gornje trake sa alatkama da biste prikazali manje cifara posle decimalnog zareza.</li>
+                        <li>koristite ikonu <b>Comma style</b> <div class="icon icon-commastyle"></div> koja se nalazi na kartici <b>Home</b> gornje trake sa alatkama da biste prikazali brojeve sa dve decimale i hiljadama razdvojenim zarezom.</li>
+				    </ul>
+				 </li>
+			</ol>
+            <p class="note">
+                <b>Napomena</b>: za promenu formata brojeva možete koristiti i <a href="../HelpfulHints/KeyboardShortcuts.htm#dataformats" onclick="onhyperlinkclick(this)">prečice na tastaturi</a>.
+            </p>
+            <h3 id="customize">Prilagođavanje formata brojeva</h3>
+            <p>Možete prilagoditi primenjeni format brojeva na sledeći način:</p>
+			<ol>
+                <li>izaberite ćelije čiji format brojeva želite da prilagodite,</li>
+                <li>otvorite padajuću listu dugmeta <b>Number format</b> <img alt="General format button" src="../images/generalformat.png" /> na kartici <b>Home</b> gornje trake sa alatkama ili kliknite desnim tasterom miša na izabrane ćelije i koristite opciju <b>Number Format</b> iz kontekstnog menija,</li>
+                <li>izaberite opciju <b>More formats</b>,</li>
+                <li>u otvorenom prozoru <b>Number Format</b> prilagodite dostupne parametre. Opcije se razlikuju u zavisnosti od formata brojeva koji je primenjen na izabrane ćelije. Možete koristiti listu <b>Category</b> za promenu formata brojeva.
+                <p><img alt="Number Format window" src="../images/numberformatwindow.png" /></p>  
+                <ul>
+                    <li>za format <b>Number</b>, možete podesiti broj <b>Decimal</b> mesta, odrediti da li želite da <b>Use 1000 separator</b> bude uključen ili ne i izabrati jedan od dostupnih <b>Formats</b> za prikaz negativnih vrednosti.</li>
+                    <li>za formate <b>Scientific</b> i <b>Percentage</b>, možete podesiti broj <b>Decimal</b> mesta.</li>
+                    <li>za formate <b>Accounting</b> i <b>Currency</b>, možete podesiti broj <b>Decimal</b> mesta, izabrati jedan od dostupnih simbola valuta (<b>Symbols</b>) i jedan od dostupnih <b>Formats</b> za prikaz negativnih vrednosti.</li>
+                    <li>za format <b>Date</b>, možete izabrati jedan od dostupnih formata datuma: <em>4/15</em>, <em>04/15</em>, <em>4/15/06</em>, <em>04/15/06</em>, <em>4/15/2006</em>, <em>04/15/2006</em>, <em>4/15/06 0:00</em>, <em>04/15/06 0:00</em>, <em>4/15/06 12:00 AM</em>, <em>A</em>, <em>April 15 2006</em>, <em>15-Apr</em>, <em>15-Apr-06</em>, <em>Apr-06</em>, <em>April-06</em>, <em>A-06</em>, <em>06-Apr</em>, <em>15-Apr-2006</em>, <em>2006-Apr-15</em>, <em>06-Apr-15</em>,  <em>06-4-15</em>, <em>06-04-15</em>, <em>2006-4-15</em>, <em>2006-04-15</em>, <em>15/Apr</em>, <em>15/Apr/06</em>, <em>Apr/06</em>, <em>April/06</em>, <em>A/06</em>, <em>06/Apr</em>, <em>15/Apr/2006</em>, <em>2006/Apr/15</em>, <em>06/Apr/15</em>, <em>06/4/15</em>, <em>06/04/15</em>, <em>2006/4/15</em>, <em>2006/04/15</em>, <em>15 Apr</em>, <em>15 Apr 06</em>, <em>Apr 06</em>, <em>April 06</em>, <em>A 06</em>, <em>06 Apr</em>, <em>15 Apr 2006</em>, <em>2006 Apr 15</em>, <em>06 Apr 15</em>, <em>06 4 15</em>, <em>06 04 15</em>, <em>2006 4 15</em>, <em>2006 04 15</em>.</li>
+                    <li>za format <b>Time</b>, možete izabrati jedan od dostupnih formata vremena: <em>12:48:58 PM</em>, <em>12:48</em>, <em>12:48 PM</em>, <em>12:48:58</em>, <em>48:57.6</em>, <em>36:48:58</em>.</li>
+                    <li>za format <b>Fraction</b>, možete izabrati jedan od dostupnih formata: <em>Up to one digit (1/3)</em>, <em>Up to two digits (12/25)</em>, <em>Up to three digits (131/135)</em>, <em>As halves (1/2)</em>, <em>As fourths (2/4)</em>, <em>As eighths (4/8)</em>, <em>As sixteenths (8/16)</em>, <em>As tenths (5/10)</em> , <em>As hundredths (50/100)</em>.</li>
+                </ul>
+                </li>
+                <li>kliknite dugme <b>OK</b> da biste primenili izmene.</li>
+            </ol>
+		</div>
+	</body>
+</html>

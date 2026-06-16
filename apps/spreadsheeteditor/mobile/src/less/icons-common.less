@@ -1,84 +1,136 @@
 .icon-svg {
     fill: @brand-cell;
     color: @brand-cell;
+    
+    &.dark {
+        stroke: @brand-cell;
+    }
 }
 
 .chart-types .thumb {
     //@relativepath: '../../resources/img';
-    &.bar-normal {
-        background-image: url('@{app-image-path}/charts/chart-03.png');
+    &.chart-column-normal {
+        background-image: url('@{common-image-path}/charts/chart-column-normal.svg');
     }
-    &.bar-stacked {
-        background-image: url('@{app-image-path}/charts/chart-02.png');
+    &.chart-column-stack {
+        background-image: url('@{common-image-path}/charts/chart-column-stack.svg');
     }
-    &.bar-pstacked {
-        background-image: url('@{app-image-path}/charts/chart-01.png');
+    &.chart-column-pstack {
+        background-image: url('@{common-image-path}/charts/chart-column-pstack.svg');
     }
-    &.line-normal {
-        background-image: url('@{app-image-path}/charts/chart-06.png');
+    &.chart-line-normal {
+        background-image: url('@{common-image-path}/charts/chart-line-normal.svg');
     }
-    &.line-stacked {
-        background-image: url('@{app-image-path}/charts/chart-05.png');
+    &.chart-line-stacked {
+        background-image: url('@{common-image-path}/charts/chart-line-stacked.svg');
     }
-    &.line-pstacked {
-        background-image: url('@{app-image-path}/charts/chart-04.png');
+    &.chart-line-100-stacked {
+        background-image: url('@{common-image-path}/charts/chart-line-100-stacked.svg');
     }
-    &.hbar-normal {
-        background-image: url('@{app-image-path}/charts/chart-09.png');
+    &.chart-bar-normal {
+        background-image: url('@{common-image-path}/charts/chart-bar-normal.svg');
     }
-    &.hbar-stacked {
-        background-image: url('@{app-image-path}/charts/chart-08.png');
+    &.chart-bar-stack {
+        background-image: url('@{common-image-path}/charts/chart-bar-stack.svg');
     }
-    &.hbar-pstacked {
-        background-image: url('@{app-image-path}/charts/chart-07.png');
+    &.chart-bar-pstack {
+        background-image: url('@{common-image-path}/charts/chart-bar-pstack.svg');
     }
-    &.area-normal {
-        background-image: url('@{app-image-path}/charts/chart-12.png');
+    &.chart-area-normal {
+        background-image: url('@{common-image-path}/charts/chart-area-normal.svg');
     }
-    &.area-stacked {
-        background-image: url('@{app-image-path}/charts/chart-11.png');
+    &.chart-area-stack {
+        background-image: url('@{common-image-path}/charts/chart-area-stack.svg');
     }
-    &.area-pstacked {
-        background-image: url('@{app-image-path}/charts/chart-10.png');
+    &.chart-area-pstack {
+        background-image: url('@{common-image-path}/charts/chart-area-pstack.svg');
     }
-    &.pie {
-        background-image: url('@{app-image-path}/charts/chart-13.png');
+    &.chart-pie-normal {
+        background-image: url('@{common-image-path}/charts/chart-pie-normal.svg');
     }
-    &.doughnut {
-        background-image: url('@{app-image-path}/charts/chart-14.png');
+    &.chart-pie-doughnut {
+        background-image: url('@{common-image-path}/charts/chart-pie-doughnut.svg');
     }
-    &.pie3d {
-        background-image: url('@{app-image-path}/charts/chart-22.png');
+    &.chart-pie-3d-normal {
+        background-image: url('@{common-image-path}/charts/chart-pie-3d-normal.svg');
     }
-    &.scatter {
-    background-image: url('@{app-image-path}/charts/chart-15.png');
+    &.chart-scatter-normal {
+        background-image: url('@{common-image-path}/charts/chart-scatter-normal.svg');
     }
-    &.stock {
-        background-image: url('@{app-image-path}/charts/chart-16.png');
+    &.chart-stock-normal {
+        background-image: url('@{common-image-path}/charts/chart-stock-normal.svg');
     }
-    &.line3d {
-        background-image: url('@{app-image-path}/charts/chart-21.png');
+    &.chart-line-3d {
+        background-image: url('@{common-image-path}/charts/chart-line-3d.svg');
     }
-    &.bar3dnormal {
-        background-image: url('@{app-image-path}/charts/chart-17.png');
+    &.chart-column-3d-normal {
+        background-image: url('@{common-image-path}/charts/chart-column-3d-normal.svg');
     }
-    &.bar3dstack {
-        background-image: url('@{app-image-path}/charts/chart-18.png');
+    &.chart-column-3d-stack {
+        background-image: url('@{common-image-path}/charts/chart-column-3d-stack.svg');
     }
-    &.bar3dpstack {
-        background-image: url('@{app-image-path}/charts/chart-19.png');
+    &.chart-column-3d-pstack {
+        background-image: url('@{common-image-path}/charts/chart-column-3d-pstack.svg');
     }
-    &.hbar3dnormal {
-        background-image: url('@{app-image-path}/charts/chart-25.png');
+    &.chart-bar-3d-normal {
+        background-image: url('@{common-image-path}/charts/chart-bar-3d-normal.svg');
     }
-    &.hbar3dstack {
-        background-image: url('@{app-image-path}/charts/chart-24.png');
+    &.chart-bar-3d-stack {
+        background-image: url('@{common-image-path}/charts/chart-bar-3d-stack.svg');
     }
-    &.hbar3dpstack {
-        background-image: url('@{app-image-path}/charts/chart-23.png');
+    &.chart-bar-3d-pstack {
+        background-image: url('@{common-image-path}/charts/chart-bar-3d-pstack.svg');
     }
-    &.bar3dpsnormal {
-        background-image: url('@{app-image-path}/charts/chart-20.png');
+    &.chart-column-3d-normal-per {
+        background-image: url('@{common-image-path}/charts/chart-column-3d-normal-per.svg');
+    }
+    &.chart-line-markers {
+        background-image: url('@{common-image-path}/charts/chart-line-markers.svg');
+    }
+    &.chart-stacked-markers {
+        background-image: url('@{common-image-path}/charts/chart-stacked-markers.svg');
+    }
+    &.chart-100-stacked-markers {
+        background-image: url('@{common-image-path}/charts/chart-100-stacked-markers.svg');
+    }
+    &.chart-scatter-smooth-lines-and-markers {
+        background-image: url('@{common-image-path}/charts/chart-scatter-smooth-lines-and-markers.svg');
+    }
+    &.chart-scatter-smooth-lines {
+        background-image: url('@{common-image-path}/charts/chart-scatter-smooth-lines.svg');
+    }
+    &.chart-scatter-straight-lines-and-markers {
+        background-image: url('@{common-image-path}/charts/chart-scatter-straight-lines-and-markers.svg');
+    }
+    &.chart-scatter-straight-lines {
+        background-image: url('@{common-image-path}/charts/chart-scatter-straight-lines.svg');
+    }
+    &.chart-radar-1 {
+        background-image: url('@{common-image-path}/charts/chart-radar-1.svg');
+    }
+    &.chart-radar-2 {
+        background-image: url('@{common-image-path}/charts/chart-radar-2.svg');
+    }
+    &.chart-radar-3 {
+        background-image: url('@{common-image-path}/charts/chart-radar-3.svg');
+    }
+    &.chart-combo-column-line {
+        background-image: url('@{common-image-path}/charts/chart-combo-column-line.svg');
+    }
+    &.chart-combo-column-line-secondary-axis {
+        background-image: url('@{common-image-path}/charts/chart-combo-column-line-secondary-axis.svg');
+    }
+    &.chart-combo-column-area-stack {
+        background-image: url('@{common-image-path}/charts/chart-combo-column-area-stack.svg');
+    }
+    &.radar {
+        background-image: url('@{app-image-path}/charts/chart-26.png');
+    }
+    &.radarMarker {
+        background-image: url('@{app-image-path}/charts/chart-27.png');
+    }
+    &.radarFilled {
+        background-image: url('@{app-image-path}/charts/chart-28.png');
     }
 }
 

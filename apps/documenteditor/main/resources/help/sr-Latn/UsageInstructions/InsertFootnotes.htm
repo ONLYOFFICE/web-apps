@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Umetanje fusnota</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Umetnite fusnote radi objašnjenja određenih termina ili za reference na izvore" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Umetanje fusnota</h1>
+        <p>U <a href="https://www.onlyoffice.com/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor</b></a> možete umetati fusnote da dodate objašnjenja ili komentare za određene rečenice ili termine, pravite reference na izvore itd.</p>
+        <h2>Umetanje fusnota</h2>
+        <p>Da biste umetnuli fusnotu u dokument,</p>
+        <ol>
+            <li>postavite tačku umetanja na kraj teksta na koji želite dodati fusnotu,</li>
+            <li>prebacite se na karticu <b>References</b> na gornjoj alatnoj traci,</li>
+            <li>
+                kliknite ikonu <div class = "icon icon-addfootnote"></div> <b>Fusnota</b> na gornjoj alatnoj traci, ili<br />
+                kliknite strelicu pored ikone <div class = "icon icon-addfootnote"></div> <b>Fusnota</b> i izaberite opciju <b>Insert Footnote</b>,
+                <p>Oznaka fusnote (tj. superskript koji označava fusnotu) pojaviće se u tekstu dokumenta, a tačka umetanja će se pomeriti na dno trenutne stranice.</p>
+            </li>
+            <li>upišite tekst fusnote.</li>
+        </ol>
+        <p>Ponavljajte ove korake da dodate fusnote za druge delove teksta u dokumentu. Fusnote se numerišu automatski.</p>
+        <p><img alt="Fusnote" src="../images/footnotesadded.png" /></p>
+        <h2>Prikaz fusnota u dokumentu</h2>
+        <p>Ako postavite kursor miša na oznaku fusnote u tekstu, pojaviće se mali iskačući prozor sa tekstom fusnote.</p>
+        <p><img alt="Tekst fusnote" src="../images/footnotetext.png" /></p>
+        <h2>Navigacija kroz fusnote</h2>
+        <p>Da lako pređete kroz dodate fusnote u tekstu,</p>
+        <ol>
+            <li>kliknite strelicu pored ikone <div class = "icon icon-addfootnote"></div> <b>Fusnota</b> na kartici <b>References</b>,</li>
+            <li>u odeljku <b>Go to Footnotes</b> koristite strelicu <div class = "icon icon-previousfootnote"></div> da odete na prethodnu fusnotu ili strelicu <div class = "icon icon-nextfootnote"></div> za sledeću fusnotu.</li>
+        </ol>
+        <h2>Uređivanje fusnota</h2>
+        <p>Da uredite podešavanja fusnota,</p>
+        <ol>
+            <li>kliknite strelicu pored ikone <div class = "icon icon-addfootnote"></div> <b>Fusnota</b> na kartici <b>References</b>,</li>
+            <li>izaberite opciju <b>Notes Settings</b> iz menija,</li>
+            <li>
+                promenite parametre u prozoru <b>Notes Settings</b> koji će se pojaviti:
+                <p><img alt="Prozor za podešavanje fusnota" src="../images/footnotes_settings.png" /></p>
+                <ul>
+                    <li>Označite <b>Footnote</b> polje da biste uređivali samo fusnote.</li>
+                    <li>
+                        Postavite <b>Lokaciju</b> fusnota na stranici izborom opcije iz padajućeg menija:
+                        <ul>
+                            <li><b>Bottom of page</b> - postavlja fusnote na dno stranice (podrazumevana opcija).</li>
+                            <li><b>Below text</b> - postavlja fusnote bliže tekstu, što je korisno za stranice sa kraćim tekstom.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Podesite <b>Format</b> fusnota:
+                        <ul>
+                            <li><b>Number Format</b> - izaberite format brojeva: <em>1, 2, 3,...</em>, <em>a, b, c,...</em>, <em>A, B, C,...</em>, <em>i, ii, iii,...</em>, <em>I, II, III,...</em>.</li>
+                            <li><b>Start at</b> - pomoću strelica postavite broj ili slovo od kojeg počinje numeracija.</li>
+                            <li>
+                                <b>Numbering</b> - izaberite način numerisanja fusnota:
+                                <ul>
+                                    <li><b>Continuous</b> - numeriše fusnote sekvencijalno kroz ceo dokument,</li>
+                                    <li><b>Restart each section</b> - počinje numeraciju fusnota od 1 (ili drugog karaktera) na početku svake sekcije,</li>
+                                    <li><b>Restart each page</b> - počinje numeraciju fusnota od 1 (ili drugog karaktera) na početku svake stranice.</li>
+                                </ul>
+                            </li>
+                            <li><b>Custom Mark</b> - postavite specijalan karakter ili reč kao oznaku fusnote (npr. * ili Napomena1). Unesite karakter/reč u polje i kliknite <b>Insert</b>.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Upotrebite padajući meni <b>Apply changes to</b> ako želite da primenite podešavanja na <b>Ceо dokument</b> ili samo na <b>Trenutnu sekciju</b>.
+                        <p class="note"><b>Napomena</b>: za različito formatiranje fusnota u različitim delovima dokumenta, prvo dodajte <a href="../UsageInstructions/SectionBreaks.htm" onclick="onhyperlinkclick(this)">prelome sekcija</a>.</p>
+                    </li>
+                </ul>
+            </li>
+            <li>Kada završite, kliknite <b>Apply</b>.</li>
+        </ol>
+
+        <h2>Brisanje fusnota</h2>
+        <p>Da uklonite pojedinačnu fusnotu, postavite tačku umetanja odmah pre oznake fusnote u tekstu i pritisnite <b>Delete</b>. Ostale fusnote će se automatski renumerisati.</p>
+        <p>Da obrišete sve fusnote u dokumentu,</p>
+        <ol>
+            <li>kliknite strelicu pored ikone <div class = "icon icon-addfootnote"></div> <b>Fusnota</b> na kartici <b>References</b>,</li>
+            <li>izaberite opciju <b>Delete All Notes</b> iz menija,</li>
+            <li>u pojavljenom prozoru izaberite <b>Delete All Footnotes</b> i kliknite <b>OK</b>.</li>
+        </ol>
+    </div>
+</body>
+</html>

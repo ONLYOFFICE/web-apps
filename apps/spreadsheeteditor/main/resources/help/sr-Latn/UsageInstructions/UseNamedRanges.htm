@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Koristite imenovane opsege</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Koristite imenovane opsege da biste pojednostavili rad sa formulama" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Koristite imenovane opsege</h1>
+            <p>Nazivi su smislene oznake koje se mogu dodeliti ćeliji ili opsegu ćelija i koristiti za pojednostavljivanje rada sa formulama u <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor</b></a>-u. Prilikom kreiranja formule možete ubaciti naziv kao njen argument umesto korišćenja reference na opseg ćelija. Na primer, ako dodelite naziv <em>Annual_Income</em> opsegu ćelija, biće moguće uneti <em>=SUM(Annual_Income)</em> umesto <em>=SUM(B1:B12)</em>. Na taj način formule postaju preglednije. Ova funkcija je takođe korisna ako se veliki broj formula odnosi na isti opseg ćelija. Ako se adresa opsega promeni, možete izvršiti ispravku jednom koristeći Menadžer naziva umesto da uređujete sve formule pojedinačno.</p>
+			<p>Postoje dve vrste naziva koje se mogu koristiti:</p>
+            <ul>
+                <li><b>Definisani naziv</b> – proizvoljan naziv koji možete navesti za određeni opseg ćelija. Definisani nazivi takođe uključuju nazive koji se automatski kreiraju prilikom podešavanja <a href="SavePrintDownload.htm#printarea" onclick="onhyperlinkclick(this)">oblasti štampe</a>.</li>
+                <li><b>Naziv tabele</b> – podrazumevani naziv koji se automatski dodeljuje <a href="FormattedTables.htm" onclick="onhyperlinkclick(this)">novoj formatiranoj tabeli</a> (<em>Table1</em>, <em>Table2</em> itd.). Ovaj naziv možete kasnije izmeniti.</li>
+            </ul>
+            <p>Ako ste kreirali <a href="Slicers.htm" onclick="onhyperlinkclick(this)">sekač za formatiranu tabelu</a>, automatski dodeljen naziv sekača takođe će biti prikazan u <b>Menadžeru naziva</b> (<em>Slicer_Column1</em>, <em>Slicer_Column2</em> itd. Ovaj naziv se sastoji od dela <em>Slicer_</em> i naziva polja koji odgovara zaglavlju kolone iz izvornog skupa podataka). Ovaj naziv možete kasnije izmeniti.</p>
+            <p>Nazivi se takođe klasifikuju prema <b>Opsegu</b>, odnosno lokaciji na kojoj je naziv prepoznat. Naziv može biti dodeljen celoj radnoj svesci (biće prepoznat na svim radnim listovima u toj svesci) ili pojedinačnom radnom listu (biće prepoznat samo na navedenom radnom listu). Svaki naziv mora biti jedinstven unutar jednog opsega, ali se isti nazivi mogu koristiti u različitim opsezima.</p>
+            <h3>Kreiranje novih naziva</h3>
+			<p>Da biste kreirali novi definisani naziv za izabrani opseg:</p>
+			<ol>
+			<li>Izaberite ćeliju ili opseg ćelija kojem želite da dodelite naziv.</li>
+			<li>Otvorite prozor za novi naziv na jedan od sledećih načina:
+                <ul>
+                    <li>Kliknite desnim tasterom miša na izbor i izaberite opciju <b>Definiši naziv</b> iz kontekstnog menija,</li>
+                    <li>ili kliknite na ikonu <b>Imenovani opsezi</b> <div class="icon icon-namedranges"></div> na kartici <b>Home</b> na gornjoj traci sa alatkama i izaberite opciju <b>Definiši naziv</b> iz menija.</li>
+                    <li>ili kliknite na dugme <div class="icon icon-namedrangesicon"></div> <b>Imenovani opsezi</b> na kartici <b>Formula</b> na gornjoj traci sa alatkama i izaberite opciju <b>Menadžer naziva</b> iz menija. U otvorenom prozoru izaberite opciju <b>Novo</b>.</li>
+                </ul>
+                <p>Otvoriće se prozor <b>Novi naziv</b>:</p>
+                <p><img alt="Prozor Novi naziv" src="../images/newnamewindow.png" /></p>
+            </li>
+            <li>Unesite potreban <b>Naziv</b> u polje za unos teksta.
+            <p class="note"><b>Napomena</b>: naziv ne može početi brojem, sadržati razmake ili znakove interpunkcije. Donje crte (_) su dozvoljene. Velika i mala slova se ne razlikuju.</p>   
+            </li>
+            <li>Odredite <b>Opseg</b> naziva. Podrazumevano je izabran opseg <em>Radna sveska</em>, ali možete navesti i pojedinačni radni list izborom sa liste.</li>
+            <li>Proverite izabranu adresu <b>Opsega podataka</b>. Po potrebi je možete promeniti. Kliknite na ikonu <div class="icon icon-changerange"></div> – otvoriće se prozor <b>Izaberi opseg podataka</b>.
+            <p><img alt="Prozor Izaberi opseg podataka" src="../images/selectdatarange.png" /></p>   
+            <p>Promenite vezu ka opsegu ćelija u polju za unos ili izaberite novi opseg na radnom listu pomoću miša i kliknite <b>OK</b>.</p> 
+            </li>
+            <li>Kliknite <b>OK</b> da biste sačuvali novi naziv.</li>
+			</ol>
+            <p>Da biste brzo kreirali novi naziv za izabrani opseg ćelija, možete uneti željeni naziv u polje za naziv koje se nalazi levo od trake sa formulama i pritisnuti <b>Enter</b>. Na ovaj način kreirani naziv biće dodeljen opsegu <em>Radna sveska</em>.</p>
+            <p><img alt="Polje za naziv" src="../images/namefield.png" /></p>
+			<h3>Upravljanje nazivima</h3>
+            <p>Svim postojećim nazivima možete pristupiti putem <b>Menadžera naziva</b>. Da biste ga otvorili:</p>
+            <ul>
+                <li>kliknite na ikonu <b>Imenovani opsezi</b> <div class="icon icon-namedranges"></div> na kartici <b>Home</b> na gornjoj traci sa alatkama i izaberite opciju <b>Menadžer naziva</b> iz menija,</li>
+                <li>ili kliknite na strelicu u polju za naziv i izaberite opciju <b>Menadžer naziva</b>.</li>
+            </ul>
+            <p>Otvoriće se prozor <b>Menadžer naziva</b>:</p>
+            <p><img alt="Prozor Menadžer naziva" src="../images/namemanagerwindow.png" /></p>
+            <p>Radi lakšeg korišćenja, možete filtrirati nazive izborom kategorije koju želite da prikažete: <b>Svi</b>, <b>Definisani nazivi</b>, <b>Nazivi tabela</b>, <b>Nazivi sa opsegom radnog lista</b> ili <b>Nazivi sa opsegom radne sveske</b>. Nazivi koji pripadaju izabranoj kategoriji biće prikazani, dok će ostali biti sakriveni.</p>
+            <p>Da biste promenili redosled sortiranja prikazane liste, možete kliknuti na naslove <b>Imenovani opsezi</b> ili <b>Opseg</b> u ovom prozoru.</p>
+            <p><b>Za izmenu naziva</b>, izaberite ga sa liste i kliknite na dugme <b>Izmeni</b>. Otvoriće se prozor <b>Izmeni naziv</b>:</p>
+            <p><img alt="Prozor Izmeni naziv" src="../images/editnamewindow.png" /></p>
+            <p>Kod definisanog naziva možete promeniti naziv i opseg podataka na koji se odnosi. Kod naziva tabele možete promeniti samo naziv. Kada izvršite sve potrebne izmene, kliknite <b>OK</b> da biste ih primenili. Da biste odbacili izmene, kliknite <b>Otkaži</b>. Ako se izmenjeni naziv koristi u formuli, formula će se automatski ažurirati.</p>
+            <p><b>Za brisanje naziva</b>, izaberite ga sa liste i kliknite na dugme <b>Obriši</b>.</p>
+            <p class="note"><b>Napomena</b>: ako obrišete naziv koji se koristi u formuli, formula više neće funkcionisati (vratiće grešku <em>#NAME?</em>).</p>  
+            <p>Takođe možete kreirati novi naziv u prozoru <b>Menadžer naziva</b> klikom na dugme <b>Novo</b>.</p>
+			<h3 id="usingnames">Korišćenje naziva pri radu sa tabelom</h3>
+            <p><b>Za brzo kretanje kroz opsege ćelija</b>, možete kliknuti na strelicu u polju za naziv i izabrati željeni naziv sa liste – opseg podataka koji odgovara tom nazivu biće izabran na radnom listu.</p>
+            <p><img alt="Lista naziva" src="../images/namelist.png" /></p>
+            <p class="note"><b>Napomena</b>: lista naziva prikazuje definisane nazive i nazive tabela dodeljene trenutnom radnom listu i celoj radnoj svesci.</p>
+            <p><b>Za dodavanje naziva kao argumenta formule</b>:</p>
+            <ol>
+                <li>Postavite kursor na mesto gde želite da dodate naziv.</li>
+                <li>Izvršite jedan od sledećih koraka:
+                    <ul>
+                        <li>unesite naziv željenog imenovanog opsega ručno pomoću tastature. Kada unesete početna slova, prikazaće se lista <b>Automatskog dovršavanja formula</b>. Kako kucate, stavke (formule i nazivi) koje odgovaraju unetim karakterima biće prikazane. Možete izabrati željeni <b>definisani naziv</b> ili <b>naziv tabele</b> sa liste i ubaciti ga u formulu dvoklikom ili pritiskom na taster <b>Tab</b>.</li>
+                        <li>
+                            ili kliknite na ikonu <b>Imenovani opsezi</b> <div class="icon icon-namedranges"></div> na kartici <b>Home</b> na gornjoj traci sa alatkama, izaberite opciju <b>Nalepi naziv</b> iz menija, izaberite željeni naziv u prozoru <b>Nalepi naziv</b> i kliknite <b>OK</b>:
+                            <p><img alt="Prozor Nalepi naziv" src="../images/pastenamewindow.png" /></p>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+            <p class="note"><b>Napomena</b>: prozor <b>Nalepi naziv</b> prikazuje definisane nazive i nazive tabela dodeljene trenutnom radnom listu i celoj radnoj svesci.</p>  
+            <p id="internallink"><b>Za korišćenje naziva kao internog hiperveze</b>:</p>
+            <ol>
+                <li>Postavite kursor na mesto gde želite da dodate hipervezu.</li>
+                <li>Idite na karticu <b>Insert</b> i kliknite na dugme <div class="icon icon-addhyperlink"></div> <b>Hyperlink</b>.</li>
+                <li>U otvorenom prozoru <b>Podešavanja hiperveze</b> izaberite karticu <b>Interni opseg podataka</b> i izaberite imenovani opseg.
+                    <p><img alt="Podešavanja hiperveze" src="../images/name_hyperlink.png" /></p>
+                </li>
+                <li>Kliknite <b>OK</b>.</li>
+            </ol>
+		</div>
+	</body>
+</html>

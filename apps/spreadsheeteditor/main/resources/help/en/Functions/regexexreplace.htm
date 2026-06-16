@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+        <title>REGEXREPLACE Function</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>REGEXREPLACE Function</h1>
+            <p>The <b>REGEXREPLACE</b> function is one of the  <a href="../UsageInstructions/InsertFunction.htm#textdata" onclick="onhyperlinkclick(this)">text and data functions</a>. It is used to replace text within a string that matches a regular expression pattern with specified replacement text.</p>
+            <h3>Syntax</h3>
+            <p><b><em>REGEXREPLACE(text, pattern, replacement, [occurrence], [case_sensitivity])</em></b></p>
+            <p>The <b>REGEXREPLACE</b> function has the following arguments:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Description</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>text</em></b></td>
+                    <td>The text string or reference to a cell containing the text in which you want to perform replacements.</td>
+                </tr>
+                <tr>
+                    <td><b><em>pattern</em></b></td>
+                    <td>The regular expression ("regex") that describes the pattern of text you want to replace.</td>
+                </tr>
+                <tr>
+                    <td><b><em>replacement</em></b></td>
+                    <td>The text you want to substitute for the matching pattern. You can use <b>$1</b>, <b>$2</b>, etc. to reference capturing groups from the pattern.</td>
+                </tr>
+                <tr>
+                    <td><b><em>occurrence</em></b></td>
+                    <td>Specifies which instance of the pattern you want to replace. It is an optional argument. If omitted, the default value is 0, which replaces all instances. A positive number replaces that specific occurrence. A negative number replaces occurrences counting from the end.</td>
+                </tr>
+                <tr>
+                    <td><b><em>case_sensitivity</em></b></td>
+                    <td>Determines whether the match is case-sensitive. It is an optional argument. If omitted, the match is case-sensitive (0). Enter <b>0</b> for case-sensitive matching or <b>1</b> for case-insensitive matching.</td>
+                </tr>
+            </table>
+
+            <h3>Notes</h3>
+            <p>When writing regex patterns, symbols called "tokens" can be used that match with a variety of characters. These are some simple tokens for reference:</p>
+            <ul>
+                <li><b>[0-9]</b>: any numerical digit</li>
+                <li><b>[a-z]</b>: a character in the range of a to z</li>
+                <li><b>[A-Z]</b>: a character in the range of A to Z</li>
+                <li><b>.</b>: any single character</li>
+                <li><b>*</b>: zero or more of the preceding character</li>
+                <li><b>+</b>: one or more of the preceding character</li>
+                <li><b>()</b>: capturing group - captured text can be referenced in replacement as $1, $2, etc.</li>
+                <li><b>{n}</b>: exactly n occurrences of the preceding character</li>
+                <li><b>\</b>: escape character for special characters</li>
+            </ul>
+            <p><b>Capturing groups</b> are parts of a regex pattern surrounded by parentheses "(...)". In the <b><em>replacement</em></b> argument, you can reference captured groups using:</p>
+            <ul>
+                <li><b>$1</b> - first capturing group</li>
+                <li><b>$2</b> - second capturing group</li>
+                <li><b>$n</b> - the nth capturing group</li>
+            </ul>
+            <p>The function returns the modified text string. The original text in the source cell is not changed.</p>
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">How to apply</a> the <b>REGEXREPLACE</b> function.</p>
+
+            <h3>Examples</h3>
+            <p>The figure below displays the result returned by the <b>REGEXREPLACE</b> function.</p>
+            <p><img alt="REGEXREPLACE Function" src="../images/regexreplace.png" /></p>
+        </div>
+	</body>
+</html>

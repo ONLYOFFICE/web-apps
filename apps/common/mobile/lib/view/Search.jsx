@@ -1,3 +1,37 @@
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 
 import React, { Component } from 'react';
 import { Popover, Popup, View, f7 } from 'framework7-react';
@@ -6,7 +40,6 @@ import { observable, runInAction } from "mobx";
 import { observer } from "mobx-react";
 import SvgIcon from '@common/lib/component/SvgIcon';
 import IconSettingsIos from '@common-ios-icons/icon-settings.svg?ios';
-import IconSettingsAndroid from '@common-android-icons/icon-settings.svg';
 import IconPrevIos from '@common-ios-icons/icon-prev.svg?ios';
 import IconPrevAndroid from '@common-android-icons/icon-prev.svg';
 import IconNextIos from '@common-ios-icons/icon-next.svg?ios';
@@ -299,10 +332,7 @@ class SearchView extends Component {
                 <div className="searchbar-inner">
                     <div className="buttons-row searchbar-inner__left">
                         <a id="idx-btn-search-settings" className="link icon-only no-fastclick" onClick={this.onSettingsClick}>
-                            {Device.ios ? 
-                                <SvgIcon symbolId={IconSettingsIos.id} className='icon icon-svg' /> :
-                                <SvgIcon symbolId={IconSettingsAndroid.id} className='icon icon-svg' />
-                            }
+                            <SvgIcon symbolId={IconSettingsIos.id} className='icon icon-svg' />
                         </a>
                     </div>
                     <div className="searchbar-inner__center">
@@ -311,7 +341,6 @@ class SearchView extends Component {
                                 onKeyDown={e => this.onSearchKeyDown(e)}
                                 onInput={e => this.onSearchInput(e)}
                                 onChange={e => {this.changeSearchQuery(e.target.value)}} ref={el => this.refSearchbarInput = el} />
-                            {isIos ? <i className="searchbar-icon" /> : null}
                             <span className="input-clear-button" onClick={() => this.changeSearchQuery('')} />
                             {numberSearchResults !== null ? 
                                 <span className="number-search-results">{numberSearchResults}</span> 
@@ -320,7 +349,6 @@ class SearchView extends Component {
                         <div className="searchbar-input-wrap" style={(usereplace || isReplaceAll) && !isViewer ? null : hidden}>
                             <input value={replaceQuery} placeholder={_t.textReplace} type="text" maxLength="255" id="idx-replace-val"
                                 onChange={e => {this.changeReplaceQuery(e.target.value)}} />
-                            {isIos ? <i className="searchbar-icon" /> : null}
                             <span className="input-clear-button" onClick={() => this.changeReplaceQuery('')} />
                         </div>
                     </div>
@@ -328,9 +356,9 @@ class SearchView extends Component {
                         {!isViewer &&
                             <div className="buttons-row buttons-row-replace">
                                 {isReplaceAll ? (
-                                    <a id="replace-all-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceAllClick()}>{_t.textReplaceAll}</a>
+                                    <a id="replace-all-link" className={"link " + ((searchQuery.trim().length && replaceQuery.trim().length)? "" : "disabled")} onClick={() => this.onReplaceAllClick()}>{_t.textReplaceAll}</a>
                                 ) : usereplace ? (
-                                    <a id="replace-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceClick()}>{_t.textReplace}</a>
+                                    <a id="replace-link" className={"link " + ((searchQuery.trim().length && replaceQuery.trim().length)? "" : "disabled")} onClick={() => this.onReplaceClick()}>{_t.textReplace}</a>
                                 ) : null}
                             </div>
                         }

@@ -14,6 +14,7 @@
   "PE.ApplicationController.downloadErrorText": "ڈاوّنلوڈ ناکام",
   "PE.ApplicationController.downloadTextText": "پریزینٹیشن ڈاوّنلوڈ ہو رہی ہے۔۔۔",
   "PE.ApplicationController.errorAccessDeny": "آپ ایک ایسی کارروائی کرنے کی کوشش کر رہے ہیں جس کا آپ کو حق نہیں ہے۔ براہ کرم اپنے دستاویز سرور کے منتظم سے رابطہ کریں۔",
+  "PE.ApplicationController.errorCopyDisabled": "سیکورٹی وجوہات کی بناء پر، اس دستاویز کے مواد کو کاپی نہیں کیا جا سکتا۔",
   "PE.ApplicationController.errorDefaultMessage": "خرابی کا کوڈ:٪ 1",
   "PE.ApplicationController.errorEditingDownloadas": "حدث خطأ اثناء العمل على المستند.<br>استخدم خيار 'التنزيل كـ' لحفظ نسخة احتياطية من الملف ",
   "PE.ApplicationController.errorFilePassProtect": "فائل پاس ورڈ سے محفوظ ہے اور اسے نہیں کھولا جاسکتا۔",

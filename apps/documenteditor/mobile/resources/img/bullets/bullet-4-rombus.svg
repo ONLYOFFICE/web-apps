@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64">
+  <g class="bullet-4-rombus">
+    <path fill="#444" d="m29 27.5 2.5-2.5 2.5 2.5-2.5 2.5-2.5-2.5Zm0 8 2.5-2.5 2.5 2.5-2.5 2.5-2.5-2.5Zm4-4 2.5-2.5 2.5 2.5-2.5 2.5-2.5-2.5Zm-8 0 2.5-2.5 2.5 2.5-2.5 2.5-2.5-2.5Z" class="icon-fill-gray-primary"/>
+  </g>
+</svg>

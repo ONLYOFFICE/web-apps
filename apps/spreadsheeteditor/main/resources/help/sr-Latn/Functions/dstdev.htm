@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>DSTDEV funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>DSTDEV funkcija</h1>
+			<p><b>DSTDEV</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#database" onclick="onhyperlinkclick(this)">funkcija baze podataka</a>. Koristi se za procenu standardne devijacije populacije na osnovu uzorka, koristeći brojeve u polju (koloni) zapisa u listi ili bazi podataka koji zadovoljavaju uslove koje navedete.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>DSTDEV(database, field, criteria)</em></b></p> 
+            <p><b>DSTDEV</b> funkcija ima sledeće argumente:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>database</em></b></td>
+                    <td>Opseg ćelija koji čini bazu podataka. Mora da sadrži zaglavlja kolona u prvom redu.</td>
+                </tr>
+				<tr>
+                    <td><b><em>field</em></b></td>
+                    <td>Argument koji određuje koje polje (tj. kolona) treba koristiti. Može se navesti kao broj odgovarajuće kolone ili kao zaglavlje kolone u navodnicima.</td>
+                </tr>
+				<tr>
+                    <td><b><em>criteria</em></b></td>
+                    <td>Opseg ćelija koji sadrži uslove. Mora da sadrži najmanje jedno ime polja (zaglavlje kolone) i najmanje jednu ćeliju ispod koja određuje uslov koji se primenjuje na ovo polje u bazi podataka. Opseg ćelija <b><em>criteria</em></b> ne bi trebalo da se preklapa sa opsegom <b><em>database</em></b>.</td>
+                </tr>
+            </table>
+			<h3>Napomene</h3>
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> <b>DSTDEV</b> funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća <b>DSTDEV</b> funkcija.</p>
+			<p><img alt="DSTDEV funkcija" src="../images/dstdev.png" /></p>
+		</div>
+	</body>
+</html>

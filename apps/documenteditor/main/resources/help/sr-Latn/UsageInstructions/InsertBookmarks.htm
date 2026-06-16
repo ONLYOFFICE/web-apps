@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dodavanje oznaka</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Oznake omogućavaju brz skok na određenu poziciju u dokumentu ili dodavanje linka ka toj lokaciji." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+			<div class="search-field">
+				<input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+			</div>
+			<h1>Dodavanje oznaka</h1>
+			<p>Oznake omogućavaju brz pristup određenom delu teksta ili dodavanje linka ka toj lokaciji u dokumentu.</p>
+			<p>Da biste dodali oznaku u <a href="https://www.onlyoffice.com/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor</b></a>:</p>
+			<ol>
+				<li>odredite mesto gde želite da se oznaka doda:
+					<ul>
+						<li>postavite kursor na početak potrebnog pasusa teksta, ili</li>
+						<li>selektujte odgovarajući pasus teksta,</li>
+					</ul>
+				</li>
+				<li>prebacite se na <b>Referencije</b> karticu u gornjoj alatnoj traci,</li>
+				<li>kliknite na <div class="icon icon-bookmark"></div> <b>Oznaka</b> ikonu u gornjoj alatnoj traci,</li>
+				<li>u <b>Prozor za oznake</b> unesite <b>Naziv oznake</b> i kliknite <b>Dodaj</b> - oznaka će biti dodata u listu oznaka ispod,
+					<p class="note"><b>Napomena</b>: naziv oznake treba da počinje slovom, ali može sadržati i brojeve. Naziv oznake ne može sadržati razmake, ali može uključiti znak donje crte "_".</p>
+					<p><img alt="Prozor za oznake" src="../images/bookmark_window.png" /></p>
+				</li>
+			</ol>
+			<p>Da biste pristupili jednoj od dodatih oznaka u tekstu:</p>
+			<ol>
+				<li>kliknite na <div class="icon icon-bookmark"></div> <b>Oznaka</b> ikonu na <b>Referencije</b> kartici gornje alatne trake,</li>
+				<li>u <b>Prozoru za oznake</b> izaberite oznaku kojoj želite da pristupite. Da biste lakše pronašli željenu oznaku u listi, možete sortirati listu po <b>Nazivu</b> ili <b>Lokaciji</b> u tekstu,</li>
+				<li>čekirajte opciju <b>Skriveni bookmarkovi</b> da bi se prikazale skrivene oznake u listi (tj. oznake koje program automatski kreira prilikom dodavanja referenci na određeni deo dokumenta. Na primer, ako napravite hiperlink ka određenom naslovu u dokumentu, editor automatski kreira skriveni bookmark ka ciljanoj lokaciji).</li>
+				<li>kliknite <b>Idi na</b> dugme - kursor će biti postavljen tamo gde je izabrana oznaka dodata ili će biti selektovan odgovarajući pasus teksta,</li>
+				<li>
+					kliknite <b>Preuzmi link</b> dugme - otvoriće se novi prozor gde možete kliknuti <b>Kopiraj</b> da biste kopirali link do fajla koji određuje lokaciju oznake u dokumentu. Kada nalepite ovaj link u adresnu liniju pretraživača i pritisnete Enter, dokument će biti otvoren na mestu gde je dodata odabrana oznaka.
+					<p><img alt="Prozor za oznake" src="../images/bookmark_window2.png" /></p>
+					<p class="note"><b>Napomena</b>: ako želite da podelite ovaj link sa drugim korisnicima, potrebno je da im obezbedite odgovarajuća prava pristupa koristeći opciju <b>Deljenje</b> na <b>Saradnja</b> kartici.</p>
+				</li>
+				<li>kliknite <b>Zatvori</b> dugme da zatvorite prozor.</li>
+			</ol>
+			<p>Da obrišete oznaku, izaberite je u listi i kliknite <b>Obriši</b>.</p>
+			<p>Da biste saznali kako koristiti oznake prilikom kreiranja linkova, pogledajte odeljak <a href="../UsageInstructions/AddHyperlinks.htm" onclick="onhyperlinkclick(this)">Dodavanje hiperlinkova</a>.</p>
+		
+        </div>
+	</body>
+</html>

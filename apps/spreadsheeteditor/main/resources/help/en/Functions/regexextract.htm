@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+        <title>REGEXEXTRACT Function</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>REGEXEXTRACT Function</h1>
+            <p>The <b>REGEXEXTRACT</b> function is one of the  <a href="../UsageInstructions/InsertFunction.htm#textdata" onclick="onhyperlinkclick(this)">text and data functions</a>. It is used to extract text from a string based on a supplied regular expression pattern. The function can return the first match, all matches, or capturing groups from the first match.</p>
+            <h3>Syntax</h3>
+            <p><b><em>REGEXEXTRACT(text, pattern, [return_mode], [case_sensitivity])</em></b></p>
+            <p>The <b>REGEXEXTRACT</b> function has the following arguments:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Description</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>text</em></b></td>
+                    <td>The text string or reference to a cell containing the text from which you want to extract matching substrings.</td>
+                </tr>
+                <tr>
+                    <td><b><em>pattern</em></b></td>
+                    <td>The regular expression ("regex") that describes the pattern of text you want to extract.</td>
+                </tr>
+                <tr>
+                    <td><b><em>return_mode</em></b></td>
+                    <td>A number that specifies what strings to extract. It is an optional argument. If omitted, the default value is 0. The possible values are listed in the table below.</td>
+                </tr>
+                <tr>
+                    <td><b><em>case_sensitivity</em></b></td>
+                    <td>Determines whether the match is case-sensitive. It is an optional argument. If omitted, the match is case-sensitive (0). Enter <b>0</b> for case-sensitive matching or <b>1</b> for case-insensitive matching.</td>
+                </tr>
+            </table>
+
+            <p>The <b><em>return_mode</em></b> argument can be one of the following:</p>
+            <table>
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Value</b></th>
+                    <th style="background-color: #f4f4f4"><b>Description</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>0</em></b></td>
+                    <td>Set by default. Return the first string that matches the pattern.</td>
+                </tr>
+                <tr>
+                    <td><b><em>1</em></b></td>
+                    <td>Return all strings that match the pattern as an array.</td>
+                </tr>
+                <tr>
+                    <td><b><em>2</em></b></td>
+                    <td>Return capturing groups from the first match as an array.</td>
+                </tr>
+            </table>
+
+            <h3>Notes</h3>
+            <p>When writing regex patterns, symbols called "tokens" can be used that match with a variety of characters. These are some simple tokens for reference:</p>
+            <ul>
+                <li><b>[0-9]</b>: any numerical digit</li>
+                <li><b>[a-z]</b>: a character in the range of a to z</li>
+                <li><b>[A-Z]</b>: a character in the range of A to Z</li>
+                <li><b>.</b>: any single character</li>
+                <li><b>*</b>: zero or more of the preceding character</li>
+                <li><b>+</b>: one or more of the preceding character</li>
+                <li><b>()</b>: capturing group - used to capture and return parts of the match</li>
+            </ul>
+            <p><b>Capturing groups</b> are parts of a regex pattern surrounded by parentheses "(...)". They allow you to return separate parts of a single match individually.</p>
+            <p>The <b>REGEXEXTRACT</b> function always returns text values. You can convert numeric results back to numbers using the <a href="../functions/value.htm" target="_blank">VALUE</a> function.</p>
+            <p>If no match is found, the function returns a <b>#N/A</b> error.</p>
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">How to apply</a> the <b>REGEXEXTRACT</b> function.</p>
+
+            <h3>Examples</h3>
+            <p>The figure below displays the result returned by the <b>REGEXEXTRACT</b> function.</p>
+            <p><img alt="REGEXEXTRACT Function" src="../images/regexextract.png" /></p>
+        </div>
+	</body>
+</html>

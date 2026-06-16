@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Upravljanje listovima</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Upravljajte listovima u Uređivaču tabela: umetanje, brisanje, preimenovanje, kopiranje i premeštanje." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Upravljanje listovima</h1>
+			<p>Podrazumevano, novokreirana tabela ima samo jedan list. Najjednostavniji način da dodate novi list u <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Uređivač tabela</b></a> jeste da kliknete na dugme Plus <span class="icon icon-plus"></span> koje se nalazi desno od dugmadi za <b>Navigaciju listovima</b> u levom donjem uglu.</p>
+			<p>Drugi način da <b>dodate novi list</b> je sledeći:</p>
+			<ol>
+			<li>kliknite desnim tasterom miša na karticu lista posle koje želite da umetnete novi list,</li>
+			<li>izaberite opciju <b>Umetni</b> iz menija desnog klika.</li>
+			</ol>
+			<p>Novi list će biti umetnut posle izabranog.</p>
+			<p><b>Da biste aktivirali željeni list</b>, koristite kartice listova u levom donjem uglu svake tabele.</p>
+			<p class="note"><b>Napomena</b>: ako imate mnogo listova, možete pronaći potrebni pomoću dugmadi za <b>Navigaciju listovima</b> koja se nalaze u levom donjem uglu.</p>
+			<p><b>Da biste obrisali nepotreban list:</b></p>
+			<ol>
+				<li>kliknite desnim tasterom miša na karticu lista koji želite da obrišete,</li>
+				<li>izaberite opciju <b>Obriši</b> iz menija desnog klika.</li>
+			</ol>
+			<p>Izabrani list će biti obrisan iz trenutne tabele.</p>
+			<p><b>Da biste preimenovali postojeći list:</b></p>
+			<ol>
+				<li>kliknite desnim tasterom miša na karticu lista koji želite da preimenujete,</li>
+				<li>izaberite opciju <b>Preimenuj</b> iz menija desnog klika,</li>
+				<li>unesite <b>Naziv lista</b> u dijalog prozoru i kliknite na <b>OK</b>.</li>
+			</ol>
+			<p>Naziv izabranog lista će biti promenjen.</p>
+			<p><b>Da biste kopirali postojeći list:</b></p>
+			<ol>
+				<li>kliknite desnim tasterom miša na karticu lista koji želite da kopirate,</li>
+				<li>izaberite opciju <b>Kopiraj</b> iz menija desnog klika,</li>
+				<li>izaberite list ispred kog želite da umetnete kopiju ili koristite opciju <b>Kopiraj na kraj</b> da biste umetnuli kopirani list posle svih postojećih,</li>
+				<li>
+					kliknite na dugme <b>OK</b> da biste potvrdili izbor.
+					<p>ili</p>
+					<p>pritisnite i držite taster <b>CTRL</b> i prevucite karticu lista udesno da biste ga duplirali i premestili kopiju na željenu lokaciju.</p>
+				</li>
+			</ol>
+			<p>Izabrani list će biti kopiran i umetnut na izabrano mesto.</p>
+			<p><b>Da biste premestili postojeći list:</b></p>
+			<ol>
+				<li>kliknite desnim tasterom miša na karticu lista koji želite da premestite,</li>
+				<li>izaberite opciju <b>Premesti ili kopiraj</b> iz menija desnog klika,</li>
+				<li>izaberite želenu radnu svesku koristeći padajući meni <b>Tabela</b>,</li>
+				<li>izaberite list ispred kog želite da umetnete izabrani list ili koristite opciju <b>Premesti na kraj</b> da biste premestili izabrani list posle svih postojećih,</li>
+				<li>označite polje za potvrdu <b>Napravi kopiju</b> ako želite da napravite kopiju premestenog lista,</li>
+				<li>kliknite na dugme <b>OK</b> da biste potvrdili izbor.</li>
+			</ol>
+			<p>Ili jednostavno <b>prevucite</b> potrebnu karticu lista i <b>spustite</b> je na novu lokaciju. Izabrani list će biti premešten.</p>
+			<p>Takođe možete ručno <b>prevući i pustiti</b> list iz jedne radne sveske u drugu. Da biste to uradili, izaberite list koji želite da premestite i prevucite ga na traku sa listovima druge radne sveske. Na primer, možete prevući list iz radne sveske u onlajn uređivaču u desktop uređivač:</p>
+			<p><img alt="GIF premeštanja lista" src="../images/move_sheet.webp" /></p>
+			<p>U ovom slučaju, list iz originalne tabele će biti <b>obrisan</b>.</p>
+            <p class="note">Trenutno nije moguće prevući i pustiti listove u novu radnu svesku u Desktop Editors na Linux-u.</p>
+			<p>Ako imate mnogo listova, možete sakriti neke od njih koje vam nisu potrebne kako biste olakšali rad. Da biste to uradili,</p>
+			<ol>
+				<li>kliknite desnim tasterom miša na karticu lista koji želite da sakrijete,</li>
+				<li>izaberite opciju <b>Sakrij</b> iz menija desnog klika,</li>
+			</ol>
+			<p><b>Da biste prikazali karticu skrivenog lista</b>, kliknite desnim tasterom miša na bilo koju karticu lista, otvorite listu <b>Skriveno</b> i izaberite karticu lista koju želite da prikažete.</p>
+			<p>Da biste razlikovali listove, možete <b>dodeliti različite boje karticama listova</b>. Da biste to uradili,</p>
+			<ol>
+				<li>kliknite desnim tasterom miša na karticu lista koji želite da obojite,</li>
+                <li>izaberite opciju <b>Boja kartice</b> iz menija desnog klika,</li>
+				<li>izaberite bilo koju boju iz dostupnih paleta
+					<p><img alt="Paleta" src="../images/palette.png" /></p>
+					<ul>
+						<li><b>Boje teme</b> – boje koje odgovaraju izabranoj šemi boja tabele.</li>
+						<li><b>Standardne boje</b> – podrazumevani skup boja.</li>
+						<li><b>Prilagođena boja</b> – kliknite na ovaj natpis ako u dostupnim paletama ne postoji potrebna boja. Izaberite odgovarajući opseg boja pomeranjem vertikalnog klizača boja i zatim odredite konkretnu boju prevlačenjem birača boja unutar velikog kvadratnog polja boja. Kada izaberete boju pomoću birača boja, odgovarajuće RGB i sRGB vrednosti boje biće prikazane u poljima sa desne strane. Takođe možete odrediti boju na osnovu RGB modela boja unosom potrebnih numeričkih vrednosti u polja <b>R</b>, <b>G</b>, <b>B</b> (crvena, zelena, plava) ili uneti sRGB heksadecimalni kod u polje označeno znakom <b>#</b>. Izabrana boja će se prikazati u polju za pregled <b>Novo</b>. Ako je objekat prethodno bio popunjen nekom prilagođenom bojom, ta boja se prikazuje u polju <b>Trenutno</b>, tako da možete uporediti originalne i izmenjene boje. Kada je boja određena, kliknite na dugme <b>Dodaj</b>:
+						<p><img alt="Paleta – Prilagođena boja" src="../../../../../../common/main/resources/help/en/images/palette_custom.png" /></p>
+						<p>Prilagođena boja će biti primenjena na izabranu karticu i dodata u paletu <b>Prilagođene boje</b>.</p>
+						</li>
+						</ul>
+					</li>
+			</ol>
+			<p>Možete <b>raditi sa više listova istovremeno</b>:</p>
+			<ol>
+				<li>izaberite prvi list koji želite da uključite u grupu,</li>
+				<li>pritisnite i držite taster <em>Shift</em> da biste izabrali nekoliko susednih listova koje želite da grupišete ili koristite taster <em>Ctrl</em> da biste izabrali nekoliko nesusednih listova koje želite da grupišete,</li>
+				<li>kliknite desnim tasterom miša na karticu jednog od izabranih listova da biste otvorili kontekstni meni,</li>
+				<li>izaberite potrebnu opciju iz menija: 
+				<p><img alt="Upravljanje sa više listova" src="../images/severalsheets.png" /></p>
+				<ul>					
+					<li><b>Umetni</b> – za umetanje istog broja novih praznih listova kao u izabranoj grupi,</li>
+					<li><b>Obriši</b> – za brisanje svih izabranih listova odjednom (ne možete obrisati sve listove u radnoj svesci, jer radna sveska mora da sadrži najmanje jedan vidljiv list),</li>
+					<li><b>Preimenuj</b> – ovu opciju je moguće primeniti samo na svaki list zasebno,</li>
+					<li><b>Kopiraj</b> – za kreiranje kopija svih izabranih listova odjednom i njihovo umetanje na izabrano mesto,</li>
+					<li><b>Premesti</b> – za premeštanje svih izabranih listova odjednom i njihovo umetanje na izabrano mesto,</li>
+					<li><b>Sakrij</b> – za sakrivanje svih izabranih listova odjednom (ne možete sakriti sve listove u radnoj svesci, jer radna sveska mora da sadrži najmanje jedan vidljiv list),</li>
+					<li><b>Boja kartice</b> – za dodeljivanje iste boje svim izabranim karticama listova odjednom,</li>
+					<li><b>Izaberi sve listove</b> – za izbor svih listova u trenutnoj radnoj svesci,</li>
+					<li><b>Razgrupiši listove</b> – za razgrupisanje izabranih listova.
+                        <p class="note">listove je takođe moguće razgrupisati dvoklikom na list koji je uključen u grupu ili klikom na bilo koji list koji nije uključen u grupu.</p>
+                    </li>
+				</ul>
+				</li>
+			</ol>
+		</div>
+	</body>
+</html>

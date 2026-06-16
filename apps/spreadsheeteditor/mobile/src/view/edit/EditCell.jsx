@@ -1,9 +1,44 @@
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import React, {Fragment, useState, useEffect, useMemo} from 'react';
 import {observer, inject} from "mobx-react";
 import {f7, List, ListItem, Icon, Button, Page, Navbar, Segmented, BlockTitle, NavRight, Link, Toggle, ListInput, Block, Range} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
-import {Device} from '../../../../../common/mobile/utils/device';
-import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
+import { Device } from '../../../../../common/mobile/utils/device';
+import { CustomColorPicker, ThemeColorPalette } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage.mjs';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SvgIcon from '@common/lib/component/SvgIcon';
@@ -39,7 +74,6 @@ import IconTextOrientationRotateup from '@common-icons/icon-text-orientation-rot
 import IconTextOrientationRotatedown from '@common-icons/icon-text-orientation-rotatedown.svg';
 import IconTextOrientationAngleclock from '@common-icons/icon-text-orientation-angleclock.svg'; 
 import IconTextOrientationVertical from '@common-icons/icon-text-orientation-vertical.svg';
-import IconPlus from '@common-ios-icons/icon-plus.svg';
 import IconAddCustomFormat from '@android-icons/icon-add-custom-format.svg';
 import IconFormatAccounting from '@icons/icon-format-accounting.svg';
 import IconFormatCurrency from '@icons/icon-format-currency.svg';
@@ -55,10 +89,41 @@ import IconCheck from '@common-android-icons/icon-check.svg';
 import IconTextDirectionContext from '@common-icons/icon-text-direction-context.svg';
 import IconTextDirectionRtl from '@common-icons/icon-text-direction-rtl.svg';
 import IconTextDirectionLtr from '@common-icons/icon-text-direction-ltr.svg';
-import IconTextBold from '@common-icons/icon-text-bold.svg'
-import IconTextItalic from '@common-icons/icon-text-italic.svg'
-import IconTextUnderline from '@common-icons/icon-text-underline.svg'
-import IconTextStrikethrough from '@common-icons/icon-text-strikethrough.svg'
+import IconTextBold from '@common-icons/icon-bold.svg'
+import IconTextItalic from '@common-icons/icon-italic.svg'
+import IconTextUnderline from '@common-icons/icon-underline.svg'
+import IconTextStrikethrough from '@common-icons/icon-strikethrough.svg'
+
+const getFormatIcon = (cellFormat, cellFormatType) => {
+    const exactFormatMap = {
+        'General': IconFormatGeneral.id,
+        '0.00': IconFormatNumber.id,
+        '# ?/?': IconFormatInteger.id,
+        '0.00E+00': IconFormatScientific.id,
+        '0.00%': IconFormatPercentage.id,
+        '@': IconFormatText.id
+    };
+
+    if (exactFormatMap[cellFormat]) {
+        return exactFormatMap[cellFormat];
+    }
+
+    const typeMap = {
+        [Asc.c_oAscNumFormatType.General]: IconFormatGeneral.id,
+        [Asc.c_oAscNumFormatType.Number]: IconFormatNumber.id,
+        [Asc.c_oAscNumFormatType.Scientific]: IconFormatScientific.id,
+        [Asc.c_oAscNumFormatType.Accounting]: IconFormatAccounting.id,
+        [Asc.c_oAscNumFormatType.Currency]: IconFormatCurrency.id,
+        [Asc.c_oAscNumFormatType.Date]: IconFormatDate.id,
+        [Asc.c_oAscNumFormatType.Time]: IconFormatTime.id,
+        [Asc.c_oAscNumFormatType.Percent]: IconFormatPercentage.id,
+        [Asc.c_oAscNumFormatType.Fraction]: IconFormatInteger.id,
+        [Asc.c_oAscNumFormatType.Text]: IconFormatText.id,
+        [Asc.c_oAscNumFormatType.Custom]: IconAddCustomFormat.id
+    };
+
+    return typeMap[cellFormatType] ?? IconAddCustomFormat.id;
+};
 
 const normalizeFontSize = value => {
     const size = Number(value);
@@ -97,6 +162,8 @@ const EditCell = props => {
     const fillColorPreview = fillColor !== 'transparent' ?
         <span className="color-preview" style={{ background: `#${(typeof fillColor === "object" ? fillColor.color : fillColor)}`}}></span> :
         <span className="color-preview"></span>;
+
+    const formatIconId = getFormatIcon(storeCellSettings.cellFormat, storeCellSettings.uiFormatType);
 
     return (
         <Fragment>
@@ -178,9 +245,7 @@ const EditCell = props => {
                             timeFormats: props.timeFormats,
                             setCustomFormat: props.setCustomFormat
                         }}>
-                            {!isAndroid ?
-                                <SvgIcon slot="media" symbolId={IconFormatGeneral.id} className={'icon icon-svg'} /> : null
-                            }
+                            <SvgIcon slot="media" symbolId={formatIconId} className={'icon icon-svg'} />
                         </ListItem>
                     </List>
                     <List>
@@ -711,7 +776,6 @@ const PageTextFormatCell = props => {
 const PageTextOrientationCell = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const isAndroid = Device.android;
     const storeCellSettings = props.storeCellSettings;
     const orientationStr = storeCellSettings.orientationStr;
 
@@ -1056,7 +1120,7 @@ const PageBorderSizeCell = props => {
 const PageFormatCell = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const isIos = Device.ios;
+    const { cellFormat, uiFormatType: cellFormatType } = props.storeCellSettings;
 
     return (
         <Page>
@@ -1073,55 +1137,112 @@ const PageFormatCell = props => {
                 }
             </Navbar>
             <List>
-                <ListItem link='/custom-format/' className='no-indicator' title={t('View.Edit.textCustomFormat')} routeProps={{
-                    setCustomFormat: props.setCustomFormat,
-                    onCellFormat: props.onCellFormat
-                }}>
-                    {isIos ? 
-                        <SvgIcon slot="media" symbolId={IconPlus.id} className={'icon icon-svg'} /> : 
-                        <SvgIcon slot="media" symbolId={IconAddCustomFormat.id} className={'icon icon-svg'} />
-                    }
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title={_t.textGeneral} onClick={() => props.onCellFormat('General')}>
-                    <SvgIcon slot="media" symbolId={IconFormatGeneral.id} className={'icon icon-svg'} />
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title={_t.textNumber} onClick={() => props.onCellFormat('0.00')}>
-                    <SvgIcon slot="media" symbolId={IconFormatNumber.id} className={'icon icon-svg'} /> 
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title={_t.textFraction} onClick={() => props.onCellFormat('# ?/?')}>
-                    <SvgIcon slot="media" symbolId={IconFormatInteger.id} className={'icon icon-svg'} />
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title={_t.textScientific} onClick={() => props.onCellFormat('0.00E+00')}>
-                    <SvgIcon slot="media" symbolId={IconFormatScientific.id} className={'icon icon-svg'} />
-                </ListItem>
-                <ListItem title={_t.textAccounting} link="/edit-accounting-format-cell/" routeProps={{
-                    onAccountingCellFormat: props.onAccountingCellFormat
-                }}>
-                    <SvgIcon slot="media" symbolId={IconFormatAccounting.id} className={'icon icon-svg'} />
-                </ListItem>
-                <ListItem title={_t.textCurrency} link="/edit-currency-format-cell/" routeProps={{
-                    onCellFormat: props.onCellFormat
-                }}>
-                    <SvgIcon slot="media" symbolId={IconFormatCurrency.id} className={'icon icon-svg'} />
-                </ListItem>
-                <ListItem title={_t.textDate} link='/edit-date-format-cell/' routeProps={{
-                    onCellFormat: props.onCellFormat,
-                    dateFormats: props.dateFormats
-                }}>
-                    <SvgIcon slot="media" symbolId={IconFormatDate.id} className={'icon icon-svg'} />
-                </ListItem>
-                <ListItem title={_t.textTime} link='/edit-time-format-cell/' routeProps={{
-                    onCellFormat: props.onCellFormat,
-                    timeFormats: props.timeFormats
-                }}>
-                    <SvgIcon slot="media" symbolId={IconFormatTime.id} className={'icon icon-svg'} />
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title={_t.textPercentage} onClick={() => props.onCellFormat('0.00%')}>
-                    <SvgIcon slot="media" symbolId={IconFormatPercentage.id} className={'icon icon-svg'} />
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title={_t.textText} onClick={() => props.onCellFormat('@')}>
-                <SvgIcon slot="media" symbolId={IconFormatText.id} className={'icon icon-svg'} />
-                </ListItem>
+                <ListItem
+                    radio
+                    radioIcon="start"
+                    name="cell-format"
+                    title={_t.textGeneral}
+                    checked={cellFormat === 'General'}
+                    onChange={() => props.onCellFormat('General')}
+                />
+                <ListItem
+                    radio
+                    radioIcon="start"
+                    name="cell-format"
+                    title={_t.textNumber}
+                    checked={cellFormat === '0.00'}
+                    onChange={() => props.onCellFormat('0.00')}
+                />
+                <ListItem
+                    radio
+                    radioIcon="start"
+                    name="cell-format"
+                    title={_t.textFraction}
+                    checked={cellFormat === '# ?/?'}
+                    onChange={() => props.onCellFormat('# ?/?')}
+                />
+                <ListItem
+                    radio
+                    radioIcon="start"
+                    name="cell-format"
+                    title={_t.textScientific}
+                    checked={cellFormat === '0.00E+00'}
+                    onChange={() => props.onCellFormat('0.00E+00')}
+                />
+                <ListItem
+                    radio
+                    radioIcon="start"
+                    name="cell-format"
+                    title={_t.textAccounting}
+                    checked={cellFormatType === Asc.c_oAscNumFormatType.Accounting}
+                    link="/edit-accounting-format-cell/"
+                    routeProps={{
+                        onAccountingCellFormat: props.onAccountingCellFormat
+                    }}
+                />
+                <ListItem
+                    radio
+                    radioIcon="start"
+                    name="cell-format"
+                    title={_t.textCurrency}
+                    checked={cellFormatType === Asc.c_oAscNumFormatType.Currency}
+                    link="/edit-currency-format-cell/"
+                    routeProps={{
+                        onCellFormat: props.onCellFormat
+                    }}
+                />
+                <ListItem
+                    radio
+                    radioIcon="start"
+                    name="cell-format"
+                    title={_t.textDate}
+                    checked={cellFormatType === Asc.c_oAscNumFormatType.Date}
+                    link="/edit-date-format-cell/"
+                    routeProps={{
+                        onCellFormat: props.onCellFormat,
+                        dateFormats: props.dateFormats
+                    }}
+                />
+                <ListItem
+                    radio
+                    radioIcon="start"
+                    name="cell-format"
+                    title={_t.textTime}
+                    checked={cellFormatType === Asc.c_oAscNumFormatType.Time}
+                    link="/edit-time-format-cell/"
+                    routeProps={{
+                        onCellFormat: props.onCellFormat,
+                        timeFormats: props.timeFormats
+                    }}
+                />
+                <ListItem
+                    radio
+                    radioIcon="start"
+                    name="cell-format"
+                    title={_t.textPercentage}
+                    checked={cellFormat === '0.00%'}
+                    onChange={() => props.onCellFormat('0.00%')}
+                />
+                <ListItem
+                    radio
+                    radioIcon="start"
+                    name="cell-format"
+                    title={_t.textText}
+                    checked={cellFormat === '@'}
+                    onChange={() => props.onCellFormat('@')}
+                />
+                <ListItem
+                    radio
+                    radioIcon="start"
+                    name="cell-format"
+                    title={_t.textCustomFormat}
+                    checked={cellFormatType === Asc.c_oAscNumFormatType.Custom}
+                    link="/custom-format/"
+                    routeProps={{
+                        onCellFormat: props.onCellFormat,
+                        setCustomFormat: props.setCustomFormat
+                    }}
+                />
             </List>
         </Page>
     )
@@ -1163,18 +1284,20 @@ const PageCustomFormats = props => {
                 <ListItem title={t('View.Edit.textCreateCustomFormat')} link="/create-custom-format/" className='no-indicator' routeProps={{
                     setCustomFormat: props.setCustomFormat,
                     customFormats: props.customFormats
-                }}></ListItem>
+                }}/>
             </List>
             {renderList && (
                 <List>
                     {customFormats.map((item, idx) => (
                         <ListItem
-                            link='#'
-                            className='no-indicator'
                             key={idx}
+                            radio
+                            radioIcon="start"
+                            name="custom-format"
                             title={item.format}
                             value={item.value}
-                            onClick={() => handleCellFormatClick(item.value)}
+                            checked={item.value === storeCellSettings.cellFormat}
+                            onChange={() => handleCellFormatClick(item.value)}
                         />
                     ))}
                 </List>
@@ -1221,9 +1344,23 @@ const PageCreationCustomFormat = observer(props => {
     )
 });
 
-const PageAccountingFormatCell = observer(props => {
+const PageAccountingFormatCell = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const { cellFormat } = props.storeCellSettings;
+
+    // todo: number type
+
+    const isAccountingFormat = (symbol) => {
+        const symbolMap = {
+            1033: '$',
+            1031: '€',
+            2057: '£',
+            1049: '₽',
+            1041: '¥'
+        };
+        return cellFormat.includes(symbolMap[symbol]);
+    };
 
     return (
         <Page>
@@ -1240,29 +1377,55 @@ const PageAccountingFormatCell = observer(props => {
                 }
             </Navbar>
             <List>
-                <ListItem link='#' className='no-indicator' title={_t.textDollar} after='$'
-                    onClick={() => props.onAccountingCellFormat(1033)}>
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title={_t.textEuro} after='€'
-                    onClick={() => props.onAccountingCellFormat(1031)}>
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title={_t.textPound} after='£'
-                    onClick={() => props.onAccountingCellFormat(2057)}> 
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title={_t.textRouble} after='₽'
-                    onClick={() => props.onAccountingCellFormat(1049)}>
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title={_t.textYen} after='¥'
-                    onClick={() => props.onAccountingCellFormat(1041)}>
-                </ListItem>
+                <ListItem
+                    radio
+                    radioIcon="start"
+                    name="accounting-format"
+                    title={_t.textDollar}
+                    checked={isAccountingFormat(1033)}
+                    onChange={() => props.onAccountingCellFormat(1033)}
+                />
+                <ListItem
+                    radio
+                    radioIcon="start"
+                    name="accounting-format"
+                    title={_t.textEuro}
+                    checked={isAccountingFormat(1031)}
+                    onChange={() => props.onAccountingCellFormat(1031)}
+                />
+                <ListItem
+                    radio
+                    radioIcon="start"
+                    name="accounting-format"
+                    title={_t.textPound}
+                    checked={isAccountingFormat(2057)}
+                    onChange={() => props.onAccountingCellFormat(2057)}
+                />
+                <ListItem
+                    radio
+                    radioIcon="start"
+                    name="accounting-format"
+                    title={_t.textRouble}
+                    checked={isAccountingFormat(1049)}
+                    onChange={() => props.onAccountingCellFormat(1049)}
+                />
+                <ListItem
+                    radio
+                    radioIcon="start"
+                    name="accounting-format"
+                    title={_t.textYen}
+                    checked={isAccountingFormat(1041)}
+                    onChange={() => props.onAccountingCellFormat(1041)}
+                />
             </List>
         </Page>
     )
-});
+}
 
 const PageCurrencyFormatCell = props => {
     const { t } = useTranslation();
-    const _t = t('View.Edit', {returnObjects: true});
+    const _t = t('View.Edit', { returnObjects: true });
+    const { cellFormat } = props.storeCellSettings;
 
     return (
         <Page>
@@ -1279,21 +1442,46 @@ const PageCurrencyFormatCell = props => {
                 }
             </Navbar>
             <List>
-                <ListItem link='#' className='no-indicator' title={_t.textDollar} after='$'
-                    onClick={() => props.onCellFormat('[$$-409]#,##0.00')}>
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title={_t.textEuro} after='€'
-                    onClick={() => props.onCellFormat('#,##0.00\ [$€-407]')}>
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title={_t.textPound} after='£'
-                    onClick={() => props.onCellFormat('[$£-809]#,##0.00')}>
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title={_t.textRouble} after='₽'
-                    onClick={() => props.onCellFormat('#,##0.00\ [$₽-419]')}>
-                </ListItem>
-                <ListItem link='#' className='no-indicator' title={_t.textYen} after='¥'
-                    onClick={() => props.onCellFormat('[$¥-411]#,##0.00')}>
-                </ListItem>
+                <ListItem
+                    title={_t.textDollar}
+                    radio
+                    radioIcon="start"
+                    name="currency-format"
+                    checked={cellFormat === '[$$-409]#,##0.00'}
+                    onChange={() => props.onCellFormat('[$$-409]#,##0.00')}
+                />
+                <ListItem
+                    title={_t.textEuro}
+                    radio
+                    radioIcon="start"
+                    name="currency-format"
+                    checked={cellFormat === '#,##0.00\ [$€-407]'}
+                    onChange={() => props.onCellFormat('#,##0.00\ [$€-407]')}
+                />
+                <ListItem
+                    title={_t.textPound}
+                    radio
+                    radioIcon="start"
+                    name="currency-format"
+                    checked={cellFormat === '[$£-809]#,##0.00'}
+                    onChange={() => props.onCellFormat('[$£-809]#,##0.00')}
+                />
+                <ListItem
+                    title={_t.textRouble}
+                    radio
+                    radioIcon="start"
+                    name="currency-format"
+                    checked={cellFormat === '#,##0.00\ [$₽-419]'}
+                    onChange={() => props.onCellFormat('#,##0.00\ [$₽-419]')}
+                />
+                <ListItem
+                    title={_t.textYen}
+                    radio
+                    radioIcon="start"
+                    name="currency-format"
+                    checked={cellFormat === '[$¥-411]#,##0.00'}
+                    onChange={() => props.onCellFormat('[$¥-411]#,##0.00')}
+                />
             </List>
         </Page>
     )
@@ -1303,6 +1491,7 @@ const PageDateFormatCell = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const dateFormats = props.dateFormats;
+    const { cellFormat } = props.storeCellSettings;
 
     return (
         <Page>
@@ -1321,8 +1510,15 @@ const PageDateFormatCell = props => {
             <List>
                 {dateFormats.map((format, index) => {
                     return (
-                        <ListItem link='#' key={index} className='no-indicator' title={format.displayValue}
-                            onClick={() => props.onCellFormat(format.value)}></ListItem>
+                        <ListItem
+                            key={index}
+                            radio
+                            radioIcon='start'
+                            name='cell-format-date'
+                            title={format.displayValue}
+                            checked={cellFormat === format.value}
+                            onChange={() => props.onCellFormat(format.value)}
+                        />
                     )
                 })}
             </List>
@@ -1334,6 +1530,7 @@ const PageTimeFormatCell = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const timeFormats = props.timeFormats;
+    const { cellFormat } = props.storeCellSettings;
 
     return (
         <Page>
@@ -1352,8 +1549,15 @@ const PageTimeFormatCell = props => {
             <List>
                 {timeFormats.map((format, index) => {
                     return (
-                        <ListItem link='#' key={index} className='no-indicator' title={format.displayValue}
-                            onClick={() => props.onCellFormat(format.value)}></ListItem>
+                        <ListItem
+                            key={index}
+                            radio
+                            radioIcon='start'
+                            name='cell-format-time'
+                            title={format.displayValue}
+                            checked={cellFormat === format.value}
+                            onChange={() => props.onCellFormat(format.value)}
+                        />
                     )
                 })}
             </List>
@@ -1426,6 +1630,11 @@ const BorderSizeCell = inject("storeCellSettings")(observer(PageBorderSizeCell))
 const CellStyle = inject("storeCellSettings")(observer(PageCellStyle));
 const CustomFormats = inject("storeCellSettings")(observer(PageCustomFormats));
 const PageCellTextDirection = inject("storeCellSettings")(observer(PageCellDirection));
+const FormatCell = inject("storeCellSettings")(observer(PageFormatCell));
+const AccountingFormatCell = inject("storeCellSettings")(observer(PageAccountingFormatCell));
+const CurrencyFormatCell = inject("storeCellSettings")(observer(PageCurrencyFormatCell));
+const DateFormatCell = inject("storeCellSettings")(observer(PageDateFormatCell));
+const TimeFormatCell = inject("storeCellSettings")(observer(PageTimeFormatCell));
 
 export {
     PageEditCell as EditCell,
@@ -1440,11 +1649,11 @@ export {
     BorderColorCell,
     CustomBorderColorCell,
     BorderSizeCell,
-    PageFormatCell,
-    PageAccountingFormatCell,
-    PageCurrencyFormatCell,
-    PageDateFormatCell,
-    PageTimeFormatCell,
+    FormatCell as PageFormatCell,
+    AccountingFormatCell as PageAccountingFormatCell,
+    CurrencyFormatCell as PageCurrencyFormatCell,
+    DateFormatCell as PageDateFormatCell,
+    TimeFormatCell as PageTimeFormatCell,
     CellStyle,
     CustomFormats,
     PageCreationCustomFormat,

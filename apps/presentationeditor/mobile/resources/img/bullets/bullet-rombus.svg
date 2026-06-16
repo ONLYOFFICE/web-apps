@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64">
+  <g class="bullet-rombus">
+    <path fill="#444" d="M31.5 36 27 31.5l4.5-4.5 4.5 4.5-4.5 4.5Z" class="icon-fill-gray-primary"/>
+  </g>
+</svg>

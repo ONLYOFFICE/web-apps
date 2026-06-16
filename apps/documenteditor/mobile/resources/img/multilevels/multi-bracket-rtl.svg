@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64">
+  <g class="multi-bracket-rtl">
+    <path fill="#444" d="M8 13h35v1H8v-1Zm0 18h24v1H8v-1Zm0 18h9v1H8v-1Z" class="icon-fill-gray-primary" opacity=".3"/>
+    <path fill="#444" d="M40.605 36v-6.725h-.022l-2.052 1.477v-1.02l2.063-1.482h.945V36h-.934Zm10 0v-6.725h-.022l-2.052 1.477v-1.02l2.063-1.482h.945V36h-.934Zm-25 17v-6.725h-.022l-2.052 1.477v-1.02l2.063-1.483h.945V53h-.934ZM45 35h1v1h-1v-1ZM30 52h1v1h-1v-1Zm5.605 1v-6.725h-.022l-2.052 1.477v-1.02l2.063-1.483h.945V53h-.934Zm10 0v-6.725h-.022l-2.052 1.477v-1.02l2.063-1.483h.945V53h-.934ZM40 52h1v1h-1v-1Zm14.605-34v-6.725h-.022l-2.052 1.477v-1.02l2.063-1.482h.945V18h-.934ZM48 17h1v1h-1v-1Z" class="icon-fill-gray-primary"/>
+  </g>
+</svg>

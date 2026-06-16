@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 /**
@@ -186,157 +189,10 @@ define([
             },
         }
 
-        var name_colors = [
-            "toolbar-header-document",
-            "toolbar-header-spreadsheet",
-            "toolbar-header-presentation",
-            "toolbar-header-pdf",
-            "toolbar-header-visio",
-
-            "text-toolbar-header-on-background-document",
-            "text-toolbar-header-on-background-spreadsheet",
-            "text-toolbar-header-on-background-presentation",
-            "text-toolbar-header-on-background-pdf",
-            "text-toolbar-header-on-background-visio",
-
-            "background-normal",
-            "background-toolbar",
-            "background-toolbar-additional",
-            "background-primary-dialog-button",
-            "background-notification-popover",
-            "background-notification-badge",
-            "background-scrim",
-            "background-loader",
-            "background-accent-button",
-            "background-contrast-popover",
-            "shadow-contrast-popover",
-
-            "highlight-button-hover",
-            "highlight-button-pressed",
-            "highlight-button-pressed-hover",
-            "highlight-primary-dialog-button-hover",
-            "highlight-header-button-hover",
-            "highlight-header-button-pressed",
-            "highlight-text-select",
-            "highlight-toolbar-tab-underline-document",
-            "highlight-toolbar-tab-underline-spreadsheet",
-            "highlight-toolbar-tab-underline-presentation",
-            "highlight-toolbar-tab-underline-pdf",
-            "highlight-toolbar-tab-underline-visio",
-            "highlight-header-tab-underline-document",
-            "highlight-header-tab-underline-spreadsheet",
-            "highlight-header-tab-underline-presentation",
-            "highlight-header-tab-underline-pdf",
-            "highlight-header-tab-underline-visio",
-
-            "border-toolbar",
-            "border-divider",
-            "border-regular-control",
-            "border-preview-hover",
-            "border-preview-select",
-            "border-control-focus",
-            "border-color-shading",
-            "border-contrast-popover",
-
-            "text-normal",
-            "text-normal-pressed",
-            "text-secondary",
-            "text-tertiary",
-            "text-link",
-            "text-link-hover",
-            "text-link-active",
-            "text-link-visited",
-            "text-inverse",
-            "text-toolbar-header",
-            "text-contrast-background",
-            "text-alt-key-hint",
-
-            "icon-normal",
-            "icon-normal-pressed",
-            "icon-toolbar-header",
-            "icon-success",
-
-            "canvas-background",
-            "canvas-content-background",
-            "canvas-page-border",
-
-            "canvas-ruler-background",
-            "canvas-ruler-border",
-            "canvas-ruler-margins-background",
-            "canvas-ruler-mark",
-            "canvas-ruler-handle-border",
-            "canvas-ruler-handle-border-disabled",
-
-            "canvas-high-contrast",
-            "canvas-high-contrast-disabled",
-
-            "canvas-cell-title-background",
-            "canvas-cell-title-background-hover",
-            "canvas-cell-title-background-selected",
-            "canvas-cell-title-border",
-            "canvas-cell-title-border-hover",
-            "canvas-cell-title-border-selected",
-            "canvas-cell-title-text",
-
-            "canvas-dark-cell-title",
-            "canvas-dark-cell-title-hover",
-            "canvas-dark-cell-title-selected",
-            "canvas-dark-cell-title-border",
-            "canvas-dark-cell-title-border-hover",
-            "canvas-dark-cell-title-border-selected",
-
-            "canvas-scroll-thumb",
-            "canvas-scroll-thumb-hover",
-            "canvas-scroll-thumb-pressed",
-            "canvas-scroll-thumb-border",
-            "canvas-scroll-thumb-border-hover",
-            "canvas-scroll-thumb-border-pressed",
-            "canvas-scroll-arrow",
-            "canvas-scroll-arrow-hover",
-            "canvas-scroll-arrow-pressed",
-            "canvas-scroll-thumb-target",
-            "canvas-scroll-thumb-target-hover",
-            "canvas-scroll-thumb-target-pressed",
-
-            "canvas-sheet-view-cell-background",
-            "canvas-sheet-view-cell-background-hover",
-            "canvas-sheet-view-cell-background-pressed",
-            "canvas-sheet-view-cell-title-label",
-
-            "canvas-select-all-icon",
-
-            "canvas-anim-pane-background",
-            "canvas-anim-pane-item-fill-selected",
-            "canvas-anim-pane-item-fill-hovered",
-            "canvas-anim-pane-button-fill",
-            "canvas-anim-pane-button-fill-hovered",
-            "canvas-anim-pane-button-fill-disabled",
-            "canvas-anim-pane-play-button-fill",
-            "canvas-anim-pane-play-button-outline",
-            "canvas-anim-pane-effect-bar-entrance-fill",
-            "canvas-anim-pane-effect-bar-entrance-outline",
-            "canvas-anim-pane-effect-bar-emphasis-fill",
-            "canvas-anim-pane-effect-bar-emphasis-outline",
-            "canvas-anim-pane-effect-bar-exit-fill",
-            "canvas-anim-pane-effect-bar-exit-outline",
-            "canvas-anim-pane-effect-bar-path-fill",
-            "canvas-anim-pane-effect-bar-path-outline",
-            "canvas-anim-pane-timeline-ruler-outline",
-            "canvas-anim-pane-timeline-ruler-tick",
-
-            "canvas-anim-pane-timeline-scroller-fill",
-            "canvas-anim-pane-timeline-scroller-outline",
-            "canvas-anim-pane-timeline-scroller-opacity",
-            "canvas-anim-pane-timeline-scroller-opacity-hovered",
-            "canvas-anim-pane-timeline-scroller-opacity-active",
-
-            "toolbar-height-controls",
-            "sprite-button-icons-uid",
-        ];
         var theme_props = {};
 
         var get_current_theme_colors = function (c) {
-            const colors = c || name_colors;
+            const colors = c || themeColorTokens;
             var out_object = {};
             if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) ) {
                 var style = getComputedStyle(document.body);
@@ -598,9 +454,9 @@ define([
 
         const refresh_theme = function (force, caller) {
             if ( force || Common.localStorage.getItem('ui-theme-id') != window.uitheme.id ) {
-                const theme_id = Common.localStorage.getItem('ui-theme-id');
+                let theme_id = Common.localStorage.getItem('ui-theme-id');
 
-                if ( theme_id ) {
+                if ( theme_id || (force && (theme_id = 'theme-system')) ) {
                     apply_theme.call(this, theme_id);
                     Common.NotificationCenter.trigger('uitheme:changed', theme_id, caller);
                 }
@@ -636,7 +492,7 @@ define([
                     apply_theme.call(this, window.uitheme.id);
                 }
 
-                const obj = get_current_theme_colors(name_colors);
+                const obj = get_current_theme_colors(themeColorTokens);
                 obj.type = window.uitheme.type ? window.uitheme.type : themes_map[theme_id] ? themes_map[theme_id].type : THEME_TYPE_LIGHT;
                 obj.name = theme_id;
                 api.asc_setSkin(obj);
@@ -795,4 +651,166 @@ define([
             }
         }
     })(Common.UI.Themes);
+
+    const themeColorTokens = [
+        "toolbar-header-document",
+        "toolbar-header-spreadsheet",
+        "toolbar-header-presentation",
+        "toolbar-header-pdf",
+        "toolbar-header-visio",
+
+        "text-toolbar-header-on-background-document",
+        "text-toolbar-header-on-background-spreadsheet",
+        "text-toolbar-header-on-background-presentation",
+        "text-toolbar-header-on-background-pdf",
+        "text-toolbar-header-on-background-visio",
+
+        "background-normal",
+        "background-toolbar",
+        "background-toolbar-tab",
+        "background-toolbar-additional",
+        "background-primary-dialog-button",
+        "background-notification-popover",
+        "background-notification-badge",
+        "background-scrim",
+        "background-loader",
+        "background-accent-button",
+        "background-contrast-popover",
+        "background-alt-key-hint",
+        "shadow-contrast-popover",
+        "background-fill-button",
+        "background-pane",
+        "background-pane-additional",
+
+        "highlight-button-hover",
+        "highlight-button-pressed",
+        "highlight-button-pressed-hover",
+        "highlight-primary-dialog-button-hover",
+        "highlight-primary-dialog-button-pressed",
+        "highlight-header-button-hover",
+        "highlight-header-button-pressed",
+        "highlight-text-select",
+        "highlight-fill-button-hover",
+        "highlight-fill-button-pressed",
+        "highlight-toolbar-tab-underline-document",
+        "highlight-toolbar-tab-underline-spreadsheet",
+        "highlight-toolbar-tab-underline-presentation",
+        "highlight-toolbar-tab-underline-pdf",
+        "highlight-toolbar-tab-underline-visio",
+        "highlight-header-tab-underline-document",
+        "highlight-header-tab-underline-spreadsheet",
+        "highlight-header-tab-underline-presentation",
+        "highlight-header-tab-underline-pdf",
+        "highlight-header-tab-underline-visio",
+        "highlight-comment-hover",
+        "highlight-comment-pressed",
+
+        "border-toolbar",
+        "border-toolbar-active-panel-top",
+        "border-toolbar-active-tab",
+        "border-divider",
+        "border-regular-control",
+        "border-preview-hover",
+        "border-preview-select",
+        "border-control-focus",
+        "border-color-shading",
+        "border-contrast-popover",
+        "border-button-pressed-focus",
+
+        "text-normal",
+        "text-normal-pressed",
+        "text-secondary",
+        "text-tertiary",
+        "text-link",
+        "text-link-hover",
+        "text-link-active",
+        "text-link-visited",
+        "text-inverse",
+        "text-toolbar-header",
+        "text-contrast-background",
+        "text-alt-key-hint",
+
+        "icon-normal",
+        "icon-normal-pressed",
+        "icon-toolbar-header",
+        "icon-success",
+
+        "canvas-background",
+        "canvas-content-background",
+        "canvas-page-border",
+
+        "canvas-ruler-background",
+        "canvas-ruler-border",
+        "canvas-ruler-margins-background",
+        "canvas-ruler-mark",
+        "canvas-ruler-handle-border",
+        "canvas-ruler-handle-border-disabled",
+
+        "canvas-high-contrast",
+        "canvas-high-contrast-disabled",
+
+        "canvas-cell-title-background",
+        "canvas-cell-title-background-hover",
+        "canvas-cell-title-background-selected",
+        "canvas-cell-title-border",
+        "canvas-cell-title-border-hover",
+        "canvas-cell-title-border-selected",
+        "canvas-cell-title-text",
+
+        "canvas-dark-cell-title",
+        "canvas-dark-cell-title-hover",
+        "canvas-dark-cell-title-selected",
+        "canvas-dark-cell-title-border",
+        "canvas-dark-cell-title-border-hover",
+        "canvas-dark-cell-title-border-selected",
+
+        "canvas-scroll-thumb",
+        "canvas-scroll-thumb-hover",
+        "canvas-scroll-thumb-pressed",
+        "canvas-scroll-thumb-border",
+        "canvas-scroll-thumb-border-hover",
+        "canvas-scroll-thumb-border-pressed",
+        "canvas-scroll-arrow",
+        "canvas-scroll-arrow-hover",
+        "canvas-scroll-arrow-pressed",
+        "canvas-scroll-thumb-target",
+        "canvas-scroll-thumb-target-hover",
+        "canvas-scroll-thumb-target-pressed",
+
+        "canvas-sheet-view-cell-background",
+        "canvas-sheet-view-cell-background-hover",
+        "canvas-sheet-view-cell-background-pressed",
+        "canvas-sheet-view-cell-title-label",
+        "canvas-sheet-view-select-all-icon",
+
+        "canvas-select-all-icon",
+
+        "canvas-anim-pane-background",
+        "canvas-anim-pane-item-fill-selected",
+        "canvas-anim-pane-item-fill-hovered",
+        "canvas-anim-pane-button-fill",
+        "canvas-anim-pane-button-fill-hovered",
+        "canvas-anim-pane-button-fill-disabled",
+        "canvas-anim-pane-play-button-fill",
+        "canvas-anim-pane-play-button-outline",
+        "canvas-anim-pane-effect-bar-entrance-fill",
+        "canvas-anim-pane-effect-bar-entrance-outline",
+        "canvas-anim-pane-effect-bar-emphasis-fill",
+        "canvas-anim-pane-effect-bar-emphasis-outline",
+        "canvas-anim-pane-effect-bar-exit-fill",
+        "canvas-anim-pane-effect-bar-exit-outline",
+        "canvas-anim-pane-effect-bar-path-fill",
+        "canvas-anim-pane-effect-bar-path-outline",
+        "canvas-anim-pane-timeline-ruler-outline",
+        "canvas-anim-pane-timeline-ruler-tick",
+
+        "canvas-anim-pane-timeline-scroller-fill",
+        "canvas-anim-pane-timeline-scroller-outline",
+        "canvas-anim-pane-timeline-scroller-opacity",
+        "canvas-anim-pane-timeline-scroller-opacity-hovered",
+        "canvas-anim-pane-timeline-scroller-opacity-active",
+
+        "toolbar-height-controls",
+        "sprite-button-icons-uid",
+    ];
 });

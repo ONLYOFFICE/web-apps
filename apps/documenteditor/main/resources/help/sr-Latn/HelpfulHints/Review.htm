@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pregled dokumenata</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Saveti o opciji pregleda dokumenata" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Pregled dokumenata</h1>
+        <p><a href="https://www.onlyoffice.com/en/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Uređivač dokumenata</b></a> omogućava vam da održite jedinstven timski pristup radu: <a href="https://helpcenter.onlyoffice.com/userguides/groups-guides-documents-share-documents.aspx" target="_blank" onclick="onhyperlinkclick(this)">delite</a> fajlove i foldere, <a href="../HelpfulHints/CollaborativeEditing.htm" onclick="onhyperlinkclick(this)">saradnički uređujete</a> dokumente u realnom vremenu, <a href="../HelpfulHints/Communicating.htm" onclick="onhyperlinkclick(this)">komunicirate</a> direktno u uređivaču, <a href="../HelpfulHints/Commenting.htm" onclick="onhyperlinkclick(this)">komentarišete</a> određene delove dokumenata koji zahtevaju dodatni uvid, čuvate <a href="../HelpfulHints/VersionHistory.htm" onclick="onhyperlinkclick(this)">verzije dokumenata</a> za buduću upotrebu, <a href="../HelpfulHints/Comparison.htm" onclick="onhyperlinkclick(this)">upoređujete i spajate</a> dokumente radi lakše obrade i uređivanja.</p>
+        <p>Kada vam neko podeli fajl sa dozvolom za pregled, potrebno je da primenite opciju <b>Pregled</b>.</p>
+        <p>U <a href="https://www.onlyoffice.com/en/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Uređivaču dokumenata</b></a>, kao recenzent, možete koristiti opciju Pregled da pregledate dokument, menjate rečenice, fraze i druge elemente stranice, ispravljate pravopis itd., a da ga zapravo ne uređujete. Sve vaše izmene biće zabeležene i prikazane osobi koja vam je poslala dokument.</p>
+        <p>Ako vi pošaljete fajl na pregled, potrebno je da prikažete sve izmene koje su napravljene, pregledate ih i prihvatite ili odbijete.</p>
+        <h3>Omogućavanje funkcije Praćenje izmena</h3>
+        <p>Da biste videli izmene koje je predložio recenzent, omogućite opciju <b>Praćenje izmena</b> na jedan od sledećih načina:</p>
+        <ul>
+            <li>kliknite na dugme <div class = "icon icon-trackchangesstatusbar"></div> u donjem desnom uglu statusne trake, ili</li>
+            <li>
+                pređite na karticu <b>Saradnja</b> u gornjoj alatnoj traci i pritisnite <div class = "icon icon-trackchangestoptoolbar"></div> dugme <b>Praćenje izmena</b>.
+                <p class="note">Nije potrebno da recenzent omogući opciju <b>Praćenje izmena</b>. Ona je podrazumevano omogućena i ne može se isključiti kada je dokument podeljen sa pravima pristupa <em>Samo pregled</em>.</p>
+            </li>
+            <li>
+                u otvorenom iskačućem meniju dostupne su sledeće opcije:
+                <ul>
+                    <li><b>Uključeno za mene</b> – praćenje izmena je omogućeno samo za trenutnog korisnika. Opcija ostaje uključena tokom tekuće sesije uređivanja, tj. biće isključena kada ponovo učitate ili otvorite dokument. Ne zavisi od drugih korisnika.</li>
+                    <li><b>Isključeno za mene</b> – praćenje izmena je isključeno samo za trenutnog korisnika. Opcija ostaje isključena tokom tekuće sesije i ne zavisi od drugih korisnika.</li>
+                    <li>
+                        <b>Uključeno za mene i sve</b> – praćenje izmena je omogućeno i ostaće uključeno čak i kada ponovo učitate ili otvorite dokument (svi korisnici će imati praćenje omogućeno). Ako drugi korisnik isključi opšte praćenje izmena, opcija će biti prebačena na <b>Isključeno za mene i sve</b> za sve korisnike.
+                        <p><img alt="upozorenje o režimu praćenja izmena" src="../images/track_changes_alert.png" /></p>
+                    </li>
+                    <li>
+                        <b>Isključeno za mene i sve</b> – praćenje izmena je isključeno i ostaće isključeno čak i kada ponovo učitate ili otvorite dokument (svi korisnici će imati praćenje isključeno). Ako drugi korisnik omogući praćenje, opcija će se automatski promeniti na <b>Uključeno za mene i sve</b>. Svakom koautoru biće prikazana odgovarajuća poruka.
+                        <p><img alt="praćenje izmena omogućeno" src="../images/track_changes_enabled.png" /></p>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <h3>Pregled izmena</h3>
+        <p>Izmene koje napravi korisnik označene su posebnom bojom u tekstu dokumenta. Kada kliknete na izmenjeni tekst, otvara se oblačić koji prikazuje korisničko ime, datum i vreme izmene, kao i njen opis. Oblačić sadrži i ikone za prihvatanje ili odbijanje izmene.</p>
+        <p><img alt="oblačić" src="../images/review_popup.png" /></p>
+        <p>Ako prevučete i otpustite deo teksta na drugo mesto u dokumentu, tekst na novoj poziciji biće podvučen duplom linijom. Tekst na originalnoj poziciji biće precrtan duplom linijom. To se računa kao jedna izmena.</p>
+        <p>Kliknite na dvostruko precrtani tekst na originalnoj poziciji i koristite strelicu <span class = "icon icon-follow_move"></span> u oblačiću da pređete na novu lokaciju teksta.</p>
+        <p>Kliknite na dvostruko podvučeni tekst na novoj poziciji i koristite strelicu <span class = "icon icon-follow_move"></span> u oblačiću da pređete na originalnu lokaciju.</p>
+        <h3 id="displaymode">Izbor režima prikaza izmena</h3>
+        <p>Kliknite na dugme <span class = "icon icon-review_displaymode"></span> <b>Režim prikaza</b> u gornjoj alatnoj traci i odaberite jedan od dostupnih režima sa liste:</p>
+        <ul>
+            <li><b>Označeno i u oblačićima</b> – ova opcija je podrazumevano izabrana. Omogućava istovremeno pregled predloženih izmena i uređivanje dokumenta. Izmene su označene u tekstu i prikazane u oblačićima.</li>
+            <li><b>Samo označeno</b> – ovaj režim omogućava pregled predloženih izmena i uređivanje dokumenta, ali su izmene prikazane samo u tekstu, dok su oblačići sakriveni.</li>
+            <li><b>Konačno</b> – prikazuje sve izmene kao da su prihvaćene. Ova opcija ne prihvata stvarno sve izmene, već omogućava da vidite kako će dokument izgledati nakon prihvatanja. U ovom režimu ne možete uređivati dokument.</li>
+            <li><b>Original</b> – prikazuje sve izmene kao da su odbijene. Ova opcija ne odbacuje stvarno izmene, već samo omogućava pregled dokumenta bez izmena. U ovom režimu ne možete uređivati dokument.</li>
+        </ul>
+        <h3 id="managechanges">Prihvatanje ili odbijanje izmena</h3>
+        <p>Koristite dugmad <span class = "icon icon-review_previous"></span> <b>Prethodno</b> i <span class = "icon icon-review_next"></span> <b>Sledeće</b> u gornjoj alatnoj traci da se krećete kroz izmene.</p>
+        <p>Da biste prihvatili trenutno izabranu izmenu, možete:</p>
+        <ul>
+            <li>kliknuti na dugme <div class = "icon icon-review_accepttoptoolbar"></div> <b>Prihvati</b> u gornjoj alatnoj traci, ili</li>
+            <li>kliknuti na strelicu ispod dugmeta <b>Prihvati</b> i izabrati opciju <b>Prihvati trenutnu izmenu</b> (u tom slučaju izmena će biti prihvaćena, a vi ćete preći na sledeću dostupnu izmenu prema poziciji kursora), ili</li>
+            <li>kliknuti na dugme <b>Prihvati</b> <div class = "icon icon-review_accept"></div> u oblačiću izmene.</li>
+        </ul>
+        <p>Prihvatanje ili odbijanje izmene vodi vas na sledeću izmenu prema poziciji kursora.</p>
+        <p>Da biste brzo prihvatili sve izmene, kliknite na strelicu ispod dugmeta <span class = "icon icon-review_accepttoptoolbar"></span> <b>Prihvati</b> i izaberite opciju <b>Prihvati sve izmene</b>.</p>
+        <p>Da biste odbili trenutnu izmenu, možete:</p>
+        <ul>
+            <li>kliknuti na dugme <div class = "icon icon-review_rejecttoptoolbar"></div> <b>Odbij</b> u gornjoj alatnoj traci, ili</li>
+            <li>kliknuti na strelicu ispod dugmeta <b>Odbij</b> i izabrati opciju <b>Odbij trenutnu izmenu</b> (u tom slučaju izmena će biti odbačena, a vi ćete preći na sledeću dostupnu izmenu prema poziciji kursora), ili</li>
+            <li>kliknuti na dugme <b>Odbij</b> <div class = "icon icon-review_reject"></div> u oblačiću izmene.</li>
+        </ul>
+        <p>Da biste brzo odbili sve izmene, kliknite na strelicu ispod dugmeta <span class = "icon icon-review_rejecttoptoolbar"></span> <b>Odbij</b> i izaberite opciju <b>Odbij sve izmene</b>.</p>
+        <p>Ako treba da prihvatite ili odbijete samo jednu izmenu, kliknite desnim tasterom miša i izaberite <b>Prihvati izmenu</b> ili <b>Odbij izmenu</b> iz kontekstualnog menija.</p>
+        <p><img alt="meni za prihvatanje/odbijanje" src="../images/acceptreject_dropdown.png" /></p>
+        <p class="note">Ako pregledate dokument, opcije <b>Prihvati</b> i <b>Odbij</b> nisu dostupne za vas. Možete obrisati svoje izmene pomoću ikone <span class = "icon icon-review_delete"></span> u oblačiću izmene.</p>
+    </div>
+</body>
+</html>

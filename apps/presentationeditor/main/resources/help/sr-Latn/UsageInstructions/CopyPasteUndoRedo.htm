@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Kopiranje/lepljenje podataka, poništavanje/ponavljanje radnji</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Izvođenje osnovnih operacija sa prezentacijom: kopiranje, lepljenje, poništavanje, ponavljanje" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Kopiranje/lepljenje podataka, poništavanje/ponavljanje radnji</h1>
+            <h3>Korišćenje osnovnih operacija ostave</h3>
+            <p>Da biste isekli, kopirali i nalepili izabrane objekte (slajdove, delove teksta, automatske oblike) u <a target="_blank" href="https://www.onlyoffice.com/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>Uređivaču prezentacija</b></a> ili poništili/ponovili svoje radnje, koristite odgovarajuće opcije iz kontekstnog menija, prečice na tastaturi ili ikone dostupne na bilo kojoj kartici gornje trake sa alatkama:</p>
+            <ul>
+                <li><b>Iseci</b> – izaberite objekat i koristite opciju <b>Iseci</b> iz kontekstnog menija ili ikonu <b>Iseci</b> <div class="icon icon-cut"></div> na gornjoj traci sa alatkama da biste uklonili izbor i poslali ga u privremenu memoriju računara. <span class="onlineDocumentFeatures">Isečeni podaci se kasnije mogu umetnuti na drugo mesto u istoj prezentaciji.</span></li>
+                <li><b>Kopiraj</b> – izaberite objekat i koristite opciju <b>Kopiraj</b> iz kontekstnog menija ili ikonu <b>Kopiraj</b> <div class = "icon icon-copy"></div> na gornjoj traci sa alatkama da biste kopirali izbor u privremenu memoriju računara. <span class="onlineDocumentFeatures">Kopirani objekat se kasnije može umetnuti na drugo mesto u istoj prezentaciji.</span></li>
+                <li><b>Nalepi</b> – pronađite mesto u prezentaciji gde želite da nalepite prethodno kopirani objekat i koristite opciju <b>Nalepi</b> iz kontekstnog menija ili ikonu <b>Nalepi</b> <div class = "icon icon-paste"></div> na gornjoj traci sa alatkama. Objekat će biti umetnut na trenutnu poziciju kursora. <span class="onlineDocumentFeatures">Objekat može biti prethodno kopiran iz iste prezentacije, iz druge prezentacije, iz drugog editora ili iz nekog drugog programa.</span></li>
+            </ul>
+            <p><span class="onlineDocumentFeatures">U <em>onlajn verziji</em>, sledeće kombinacije tastera koriste se samo za kopiranje ili lepljenje podataka iz/u drugu prezentaciju ili neki drugi program,</span> <span class="desktopDocumentFeatures">dok se u <em>desktop verziji</em> i odgovarajuća dugmad/opcije menija i kombinacije tastera mogu koristiti za sve operacije kopiranja/lepljenja:</span></p>
+            <ul>
+                <li>kombinacija tastera <b>Ctrl+X</b> za isecanje (<b>Cmd+X</b> za macOS);</li>
+                <li>kombinacija tastera <b>Ctrl+C</b> za kopiranje (<b>Cmd+C</b> za macOS);</li>
+                <li>kombinacija tastera <b>Ctrl+V</b> za lepljenje (<b>Cmd+V</b> za macOS).</li>
+            </ul>
+            <h3>Korišćenje funkcije Posebno lepljenje</h3>
+            <p class="note"><b>Napomena</b>: za zajedničko uređivanje, funkcija <b>Posebno lepljenje</b> dostupna je samo u režimu zajedničkog uređivanja <b>Strogi</b>.</p>
+            <p>Kada se kopirani podaci nalepe, dugme <b>Posebno lepljenje</b> <span class="icon icon-pastespecialbutton"></span> pojavljuje se pored umetnutog dela teksta/objekta. Kliknite na ovo dugme da biste izabrali potrebnu opciju lepljenja ili koristite taster <em>Ctrl</em> da biste otvorili meni <b>Posebno lepljenje</b>, a zatim pritisnite taster slova naveden u zagradi pored opcije.</p>
+            <p>Prilikom lepljenja delova teksta dostupne su sledeće opcije:</p>
+            <ul>
+                <li><em>Koristi temu odredišta (Ctrl zatim H)</em> – omogućava primenu formatiranja definisanog temom trenutne prezentacije. Ova opcija se koristi podrazumevano.</li>
+                <li><em>Zadrži izvorno formatiranje (Ctrl zatim K)</em> – omogućava zadržavanje izvornog formatiranja kopiranog teksta.</li>
+                <li><em>Slika (Ctrl zatim U)</em> – omogućava lepljenje teksta kao slike tako da se ne može uređivati.</li>
+                <li><em>Zadrži samo tekst (Ctrl zatim T)</em> – omogućava lepljenje teksta bez njegovog originalnog formatiranja.</li>
+            </ul>
+            <p><img alt="Opcije lepljenja" src="../images/pastespecial.png" /></p>
+            <p>Prilikom lepljenja objekata (automatski oblici, grafikoni, tabele) dostupne su sledeće opcije:</p>
+            <ul>
+                <li><em>Koristi temu odredišta (Ctrl zatim H)</em> – omogućava primenu formatiranja definisanog temom trenutne prezentacije. Ova opcija se koristi podrazumevano.</li>
+                <li><em>Slika (Ctrl zatim U)</em> – omogućava lepljenje objekta kao slike tako da se ne može uređivati.</li>
+            </ul>
+            <p>Da biste omogućili/onemogućili automatsko pojavljivanje dugmeta <b>Posebno lepljenje</b> nakon lepljenja, idite na karticu <b>Datoteka</b> &gt; <b>Napredna podešavanja</b> i označite/poništite izbor u polju <b>Prikaži dugme Opcije lepljenja kada se sadržaj nalepi</b>.</p>
+            <h3>Korišćenje operacija Poništi/Ponovi</h3>
+            <p>Da biste poništili/ponovili svoje radnje, koristite odgovarajuće ikone na levoj strani zaglavlja editora ili prečice na tastaturi:</p>
+            <ul>
+                <li><b>Poništi</b> – koristite ikonu <b>Poništi</b> <div class = "icon icon-undo"></div> da biste poništili poslednju izvršenu operaciju.</li>
+                <li>
+                    <b>Ponovi</b> – koristite ikonu <b>Ponovi</b> <div class = "icon icon-redo"></div> da biste ponovili poslednju poništenu operaciju.
+                    <p>Takođe možete koristiti kombinaciju tastera <b>Ctrl+Z</b> za poništavanje ili <b>Ctrl+Y</b> za ponavljanje.</p>
+                </li>
+            </ul>
+            <p class="note">
+                <b>Napomena</b>: kada zajednički uređujete prezentaciju u režimu <b>Brzi</b>, mogućnost <b>Ponovi</b> poslednju poništenu operaciju nije dostupna.
+            </p>
+
+        </div>
+	</body>
+</html>

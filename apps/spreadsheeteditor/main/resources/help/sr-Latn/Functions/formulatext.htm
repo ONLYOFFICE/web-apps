@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>FORMULATEXT funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>FORMULATEXT funkcija</h1>
+			<p>Funkcija <b>FORMULATEXT</b> je jedna od <a href="../UsageInstructions/InsertFunction.htm#lookupreference" onclick="onhyperlinkclick(this)">funkcija za pretragu i reference</a>. Koristi se za vraćanje formule kao niza znakova (tj. tekstualnog niza koji se prikazuje u traci za formule kada izaberete ćeliju koja sadrži formulu).</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>FORMULATEXT(reference)</em></b></p> 
+			<p>Funkcija <b>FORMULATEXT</b> ima sledeći argument:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>reference</em></b></td>
+                    <td>Referenca na jednu ćeliju ili opseg ćelija.</td>
+                </tr>
+            </table>
+			<h3>Napomene</h3>
+            <p>Ako referencirani opseg ćelija sadrži više od jedne formule, funkcija <b>FORMULATEXT</b> vraća vrednost iz gornje leve ćelije tog opsega. Ako referencirana ćelija ne sadrži formulu, funkcija <b>FORMULATEXT</b> vraća vrednost greške <b>N/A</b>.</p>
+			<p>Imajte u vidu da je ovo formula niza. Da biste saznali više, pročitajte članak <a href="../UsageInstructions/InsertArrayFormulas.htm" onclick="onhyperlinkclick(this)">Umetanje formula niza</a>.</p>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> funkciju <b>FORMULATEXT</b>.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća funkcija <b>FORMULATEXT</b>.</p>
+			<p><img alt="FORMULATEXT funkcija" src="../images/formulatext.png" /></p>
+		</div>
+	</body>
+</html>

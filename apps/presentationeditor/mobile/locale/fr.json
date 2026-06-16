@@ -156,6 +156,7 @@
       "textHasMacros": "Le fichier contient des macros automatiques.<br>Voulez-vous exécuter les macros?",
       "textNo": "Non",
       "textNoLicenseTitle": "La limite de la licence est atteinte",
+      "textNoResourcesTitle": "Ressources insuffisantes",
       "textNoMatches": "Aucune correspondance",
       "textOk": "OK",
       "textOpenFile": "Entrer le mot de passe pour ouvrir le fichier",
@@ -180,6 +181,7 @@
       "warnLicenseLimitedNoAccess": "La licence est expirée. Vous n'avez plus d'accès aux outils d'édition. Veuillez contacter votre administrateur.",
       "warnLicenseLimitedRenewed": "Il est indispensable de renouveler la licence. Vous avez un accès limité aux outils d'édition des documents.<br>Veuillez contacter votre administrateur pour obtenir un accès complet",
       "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
+      "warnNoResources": "Le serveur %1 ne dispose pas de ressources suffisantes pour ouvrir ce document en mode édition. Ce document sera ouvert en mode lecture seule.",
       "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
       "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
     }
@@ -208,8 +210,10 @@
     "errorDirectUrl": "Veuillez vérifier le lien vers le document.<br>Ce lien doit être un lien direct vers le fichier à télécharger.",
     "errorEditingDownloadas": "Une erreur s'est produite pendant le travail sur le document. Utilisez l'option \"Télécharger\" pour enregistrer une sauvegarde locale",
     "errorEmailClient": "Aucun client d'email ne peut être trouvé",
+    "errorFileNotAssembled": "Ce fichier est ouvert depuis une copie de sauvegarde du serveur et n'est pas enregistré dans le stockage.<br>Utilisez l'option « Enregistrer sous... » pour l'enregistrer sur un lecteur.",
     "errorFilePassProtect": "Le fichier est protégé par le mot de passe et ne peut être ouvert.",
     "errorFileSizeExceed": "La taille du fichier dépasse les limites établies sur votre serveur.<br>Veuillez contacter votre administrateur.",
+    "errorForcedViewMode": "Ce fichier est ouvert en mode lecture seule.<br>Le fichier est verrouillé pour modification ou vos droits d'accès ne permettent pas la modification.",
     "errorForceSave": "Une erreur est survenue lors de l'enregistrement du fichier. Veuillez utiliser l'option «Télécharger en tant que» pour enregistrer le fichier sur le disque dur de votre ordinateur ou réessayer plus tard.",
     "errorInconsistentExt": "Une erreur s'est produite lors de l'ouverture du fichier.<br>Le contenu du fichier ne correspond pas à l'extension du fichier.",
     "errorInconsistentExtDocx": "Une erreur s'est produite lors de l'ouverture du fichier.<br>Le contenu du fichier correspond à des documents texte (par exemple docx), mais le fichier a une extension incohérente : %1.",
@@ -370,7 +374,7 @@
       "textBulletsAndNumbers": "Puces et numérotation",
       "textCancel": "Annuler",
       "textCapitalization": "Casse",
-      "textCaseSensitive": "Respecter la casse",
+      "textCaseSensitive": "Sensible à la casse",
       "textCellMargins": "Marges de la cellule",
       "textCellSize": "Taille de la cellule",
       "textChangeShape": "Modifier la forme",
@@ -401,6 +405,7 @@
       "textEmptyImgUrl": "Spécifiez l'URL de l'image",
       "textExternalLink": "Lien externe",
       "textFade": "Fondu",
+      "textFerris": "Grande roue",
       "textFill": "Remplissage",
       "textFinalMessage": "La fin de l'aperçu de la diapositive. Cliquez pour quitter.",
       "textFind": "Recherche",
@@ -519,7 +524,7 @@
       "textApplicationSettings": "Paramètres de l'application",
       "textAuthor": "Auteur",
       "textBack": "Retour",
-      "textCaseSensitive": "Respecter la casse",
+      "textCaseSensitive": "Sensible à la casse",
       "textCentimeter": "Centimètre",
       "textClose": "Fermer",
       "textCollaboration": "Collaboration",
@@ -553,6 +558,7 @@
       "textMacrosSettings": "Réglages macros",
       "textNoMatches": "Aucune correspondance",
       "textOk": "OK",
+      "textOpenLocation": "Ouvrir l'emplacement ",
       "textOwner": "Propriétaire",
       "textPoint": "Point",
       "textPoweredBy": "Réalisation",
@@ -576,8 +582,7 @@
       "textUnitOfMeasurement": "Unité de mesure",
       "textUploaded": "Chargé",
       "textVersion": "Version",
-      "textVersionHistory": "Historique des versions",
-      "textOpenLocation": "Open location"
+      "textVersionHistory": "Historique des versions"
     }
   }
 }

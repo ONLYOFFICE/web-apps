@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Umetanje simbola i znakova</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Umetanje simbola i znakova" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Umetanje simbola i znakova</h1>
+        <p>U <a href="https://www.onlyoffice.com/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor</b></a>-u, da biste ubacili specijalni simbol koji ne može da se unese pomoću tastature, koristite opciju <span class="icon icon-insert_symbol_icon"></span> <b>Umetni simbol</b> i pratite sledeće jednostavne korake:</p>
+        <ol>
+            <li>Postavite kursor na mesto gde treba da se ubaci specijalni simbol.</li>
+            <li>Pređite na karticu <b>Insert</b> na gornjoj traci sa alatkama.</li>
+            <li>Kliknite na ikonu <div class="icon icon-insert_symbol_icon"></div> <b>Symbol</b>.</li>
+            <li>
+                Kliknite na opciju <b>More symbols</b>.
+                <p><img alt="Prozor za umetanje simbola" src="../images/insert_symbol_window.png" /></p>
+            </li>
+            <li>Pojaviće se dijalog <b>Symbol</b>, u kojem možete izabrati željeni simbol.</li>
+            <li>Koristite odeljak <b>Range</b> da biste brzo pronašli potreban simbol. Svi simboli su podeljeni u posebne grupe, na primer, izaberite „Currency Symbols“ ako želite da ubacite simbol valute.
+            <ul>
+                <li>Ako se traženi znak ne nalazi u skupu, izaberite drugi font. Mnogi fontovi sadrže znakove koji se razlikuju od standardnog skupa.</li>
+                <li>Takođe možete uneti Unicode heksadecimalnu vrednost željenog simbola u polje <b>Unicode hex value</b>. Ovaj kod možete pronaći u <b>Character map</b>.</li>
+                <li>
+                    Takođe možete koristiti karticu <b>Special characters</b> da biste izabrali specijalni znak sa liste.
+                    <p>Prethodno korišćeni simboli se takođe prikazuju u polju <b>Recently used symbols</b>.</p>
+                    <p><img alt="Prozor za umetanje simbola" src="../images/insert_symbol_window2.png" /></p>
+                </li>
+            </ul>
+            </li>
+            <li>Kliknite na <b>Insert</b>. Izabrani znak će biti dodat u dokument.</li>
+            <li>Da biste ubacili često korišćen ili nedavno korišćen simbol, kliknite na strelicu ispod ikone <div class="icon icon-insert_symbol_icon"></div> <b>Symbol</b>. Najnoviji simboli će se pojaviti na početku liste.</li>
+        </ol>
+
+        <h2>Umetanje ASCII simbola</h2>
+        <p>ASCII tabela se takođe koristi za dodavanje znakova.</p>
+        <p>Da biste to uradili, držite pritisnut taster ALT i koristite numeričku tastaturu da unesete kod znaka.</p>
+        <p class="note"><b>Napomena</b>: obavezno koristite numeričku tastaturu, a ne brojeve na glavnoj tastaturi. Da biste omogućili numeričku tastaturu, pritisnite taster <code>Num Lock</code>.</p>
+        <p>Na primer, da biste dodali znak paragrafa (§), pritisnite i držite ALT dok kucate 789, a zatim otpustite taster ALT.</p>
+
+        <h2>Umetanje simbola pomoću Unicode tabele</h2>
+        <p>Dodatni znakovi i simboli mogu se pronaći i u Windows tabeli simbola. Da biste otvorili ovu tabelu, uradite sledeće:</p>
+        <ul>
+            <li>u polje <b>Search</b> upišite „Character table“ i otvorite je,</li>
+            <li>
+                istovremeno pritisnite <code>Win</code>+<code>R</code>, a zatim u prozoru koji se pojavi upišite <code>charmap.exe</code> i kliknite na OK.
+                <p><img alt="Windows tabela simbola" src="../images/insert_symbols_windows.png" /></p>
+            </li>
+        </ul>
+        <p>U otvorenom prozoru <b>Character Map</b>, izaberite jedan od <b>Character sets</b>, <b>Groups</b> i <b>Fonts</b>. Zatim kliknite na željene znakove, kopirajte ih u međuspremnik i nalepite gde je potrebno.</p>
+    </div>
+</body>
+</html>

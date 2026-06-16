@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>DOLLARDE funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>DOLLARDE funkcija</h1>
+			<p><b>DOLLARDE</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#financial" onclick="onhyperlinkclick(this)">finansijskih funkcija</a>. Koristi se za konvertovanje cene u dolarima izražene kao razlomak u cenu u dolarima izraženu kao decimalni broj.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>DOLLARDE(fractional_dollar, fraction)</em></b></p> 
+			<p><b>DOLLARDE</b> funkcija ima sledeće argumente:</p> 
+			<table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>fractional_dollar</em></b></td>
+                    <td>Celobrojni deo i razlomljeni deo razdvojeni decimalnim simbolom.</td>
+                </tr>
+				<tr>
+                    <td><b><em>fraction</em></b></td>
+                    <td>Celobrojna vrednost koju želite da koristite kao imenilac za razlomljeni deo vrednosti <b><em>fractional_dollar</em></b>.</td>
+                </tr>
+            </table>
+			<h3>Napomene</h3>
+            <p>Na primer, vrednost <b><em>fractional_dollar</em></b> izražena kao <b>1.03</b> tumači se kao <b>1 + 3/n</b>, gde je <b>n</b> vrednost argumenta <b><em>fraction</em></b>.</p>            
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> <b>DOLLARDE</b> funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća <b>DOLLARDE</b> funkcija.</p>
+			<p><img alt="DOLLARDE funkcija" src="../images/dollarde.png" /></p>
+		</div>
+	</body>
+</html>

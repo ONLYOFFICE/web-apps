@@ -1,0 +1,52 @@
+﻿	<!DOCTYPE html>
+	<html>
+	<head>
+		<title>Kreiranje animacije putanje kretanja</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Opis kako dodati i upravljati animacijama putanje kretanja za objekte." />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<script type="text/javascript" src="../callback.js"></script>
+		<script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Kreiranje animacije putanje kretanja</h1>
+            <p><b>Putanja kretanja</b> je deo efekata u galeriji animacija koji određuje kretanje objekta i putanju kojom se on kreće. Ikone u galeriji predstavljaju predložene putanje. <b>Galerija animacija</b> dostupna je na kartici <b>Animation</b> na gornjoj traci sa alatkama.</p>
+            <h3 id="applyanimation">Primena efekta animacije putanje kretanja</h3>
+            <ol>
+                <li>pređite na karticu <b>Animation</b> na gornjoj traci sa alatkama,</li>
+                <li>izaberite tekst, objekat ili grafički element na koji želite da primenite efekat animacije,</li>
+                <li>izaberite jedan od unapred definisanih obrazaca putanje kretanja iz odeljka <b>Motion Paths</b> u galeriji animacija (<em>Lines</em>, <em>Arcs</em> itd.) ili izaberite opciju <b>Custom Path</b> ako želite da kreirate sopstvenu putanju.</li>
+            </ol>
+            <p>Efekte animacije možete pregledati na trenutnom slajdu. Podrazumevano, efekti animacije će se automatski reprodukovati kada ih dodate na slajd, ali to možete isključiti. Kliknite na padajući meni <b>Preview</b> na kartici <b>Animation</b> i izaberite režim pregleda:</p>
+            <ul>
+                <li><b>Preview</b> za prikaz pregleda kada kliknete na dugme <b>Preview</b>,</li>
+                <li><b>AutoPreview</b> za automatski prikaz pregleda kada dodate animaciju na slajd ili zamenite postojeću.</li>
+            </ul>
+
+            <h3>Dodavanje prilagođene animacije putanje</h3> 
+            <p>Da biste nacrtali prilagođenu putanju,</p> 
+            <ol>
+                <li>Kliknite na objekat kojem želite da dodelite prilagođenu animaciju putanje.</li>
+                <li>Označite tačke putanje levim tasterom miša. Jedan klik levim tasterom miša crta pravu liniju, dok držanje levog tastera miša omogućava crtanje bilo koje krive linije.
+                    <p>Početna tačka putanje biće označena zelenom strelicom, dok će završna tačka biti označena crvenom.</p>
+                <p><div class="big big-custom_path"></div></p></li>
+                <li>Kada završite, kliknite dva puta levim tasterom miša ili pritisnite taster <b>Esc</b> da biste zaustavili crtanje putanje.</li>
+            </ol>
+
+            <h3>Uređivanje tačaka putanje kretanja</h3>
+            <ol>
+                <li>
+                    Da biste uredili tačke putanje kretanja, izaberite objekat putanje, kliknite desnim tasterom miša da biste otvorili kontekstni meni i izaberite opciju <b>Edit Points</b>.
+                    <p><div class="big big-edit_points"></div></p>
+                    <p>Prevucite <b>crne</b> kvadrate da biste prilagodili položaj čvorova tačaka putanje; prevucite <b>bele</b> kvadrate da biste prilagodili smer na ulaznim i izlaznim tačkama čvora. Pritisnite <b>Esc</b> ili kliknite bilo gde van objekta putanje da biste izašli iz režima uređivanja.</p>
+                </li>
+                <li>Možete promeniti veličinu putanje kretanja klikom na nju i prevlačenjem kvadratnih tačaka na ivicama objekta.</li>
+            </ol>
+        </div>
+		</body>
+	</html>

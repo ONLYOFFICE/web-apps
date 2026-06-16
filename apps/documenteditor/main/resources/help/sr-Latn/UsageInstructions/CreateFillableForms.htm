@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kreiranje popunjivih formulara</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Kreiranje popunjivih formulara za napredno iskustvo interakcije sa formularima" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+
+        <h1>Kreiranje popunjivih formulara</h1>
+        <p>ONLYOFFICE Document Editor omogućava vam da lako kreirate <b>popunjive formulare</b> u vašim dokumentima, npr. nacrte ugovora ili ankete.</p>
+        <p>Sačuvajte kreirani formular kao <b>PDF</b> fajl i imaćete formular koji i dalje možete uređivati, revidirati ili deliti za saradnju. Da biste formular učinili popunjivim i ograničili uređivanje fajla od strane drugih korisnika, sačuvajte ga kao <b>PDF</b> fajl. Za više detalja, pogledajte <a href="https://helpcenter.onlyoffice.com/ONLYOFFICE-Editors/ONLYOFFICE-PDF-Editor/UsageInstructions/FillingOutForm.aspx" target="_blank" onclick="onhyperlinkclick(this)">uputstvo za popunjavanje formulara</a>.</p>
+        <p>Možete takođe sačuvati bilo koji postojeći <b>DOCX</b> fajl kao <b>PDF</b> i koristiti ga kao formular. Idite na <b>File</b> tab, kliknite na opciju <b>Download as...</b> ili <b>Save as...</b> u levom meniju i izaberite <b>PDF</b> ikonu. Sada možete koristiti sve dostupne funkcije za uređivanje formulara da biste kreirali formular.</p>
+        <p>Nisu samo polja formulara ona koja možete uređivati u <b>PDF</b> fajlu, možete i dalje dodavati, uređivati i formatirati tekst ili koristiti druge funkcije <b>Document Editor</b>.</p>
+        <p class="note">Od verzije 9.0, ONLYOFFICE podržava uređivanje formulara kreiranih od strane trećih lica u <b>ONLYOFFICE PDF Editor</b>.</p>
+        <p>Kreiranje popunjivih formulara omogućeno je kroz objekte koje korisnik može uređivati, što osigurava ukupnu konzistentnost rezultujućih dokumenata i omogućava napredno iskustvo interakcije sa formularima.</p>
+        <p>Trenutno možete ubaciti uređiva polja <em>plain text</em>, <em>combo boxes</em>, <em>dropdown lists</em>, <em>checkboxes</em>, <em>radio buttons</em>, dodeliti određena mesta za <em>images</em>, kao i kreirati polja za <em>email address</em>, <em>phone number</em>, <em>date and time</em>, <em>zip code</em>, <em>credit card</em> i <em>complex</em>. Ove funkcije se nalaze na <b>Forms</b> tabu koji je dostupan samo za <b>PDF</b> fajlove.</p>
+        <div class="note">Postoje saveti za svako polje formulara kako bi olakšali kreiranje popunjivog formulara.</div>
+
+        <h2 id="textfield">Kreiranje novog polja za običan tekst</h2>
+        <p><em>Polja za tekst</em> su korisnikom uređiva polja u koja se može unositi običan tekst; nijedan drugi objekat se ne može dodati.</p>
+        <div class="forms">
+            <details class="details-example">
+                <summary>Da biste umetnuli polje za tekst,</summary>
+                <ol>
+                    <li>postavite tačku umetanja unutar linije teksta gde želite da se polje doda,</li>
+                    <li>prebacite se na <b>Forms</b> tab u gornjoj alatnoj traci,</li>
+                    <li>
+                        kliknite na ikonu <div class="icon icon-text_field_icon"></div> <b>Text Field</b>
+                        <p>ili</p>
+                        <p>kliknite strelicu pored <span class="icon icon-text_field_icon"></span> <b>Text Field</b> ikone i izaberite da li želite da umetnete <b>inline text field</b> ili <b>fixed text field</b>. Za više informacija o fiksnom polju, pročitajte pasus <b>Fixed size field</b> u nastavku ovog odeljka.</p>
+                    </li>
+                </ol>
+                <p><img alt="text field inserted" src="../images/text_field_inserted.png" /></p>
+                <p>Polje formulara će se pojaviti na mestu umetanja unutar postojeće linije teksta. Meni <b>Form Settings</b> će se otvoriti sa desne strane.</p>
+                <div id="text_field_settings">
+                    <img alt="text field settings" src="../images/text_field_settings.png" />
+                    <ul>
+                        <li><b>Ko treba da popuni ovo polje?</b>: izaberite primaoca putem padajuće liste da odredite grupu korisnika sa pristupom ovom polju. Za više informacija o dodeljivanju primaoca, pogledajte odeljak <a href="../UsageInstructions/CreateFillableForms.htm#managing_recipients">Managing Recipients</a> ovog vodiča.</li>
+                        <li><b>Key</b>: ključ za grupisanje polja koja se popunjavaju istovremeno. Da biste kreirali novi ključ, unesite njegovo ime u polje i pritisnite <b>Enter</b>, zatim dodelite odgovarajući ključ svakom polju koristeći padajuću listu. Biće prikazana poruka <em>Fields connected: 2/3/...</em>. Da biste odvojili polja, kliknite na dugme <b>Disconnect</b>.</li>
+                        <li><b>Placeholder</b>: unesite tekst koji će se prikazivati u umetnutom polju; <em>“Your text here”</em> je podrazumevano podešeno.</li>
+                        <li><b>Tag</b>: unesite tekst koji će se koristiti kao oznaka za internu upotrebu, tj. prikazuje se samo ko-editorima.</li>
+                        <li>
+                            <b>Tip</b>: unesite tekst koji će se prikazivati kao savet kada korisnik postavi pokazivač miša iznad polja.
+                            <br /> <img alt="tip inserted" src="../images/text_field_tip.png" />
+                        </li>
+                        <li><b>Default value</b>: unesite vrednost koja će biti prikazana u polju po defaultu.</li>
+                        <li>
+                            <b>Format</b>: izaberite format sadržaja polja, tj. biće dozvoljen samo odabrani karakter format: <em>None</em>, <em>Digits</em>, <em>Letters</em>, <em>Arbitrary Mask</em> (tekst mora odgovarati prilagođenoj maski, npr. (999) 999 99 99), <em>Regular Expression</em> (tekst mora odgovarati prilagođenom izrazu).
+                            <p>Kada izaberete <em>Arbitrary Mask</em> ili <em>Regular Expression</em>, ispod polja <b>Format</b> pojaviće se dodatno polje.</p>
+                        </li>
+                        <li><b>Allowed Symbols</b>: unesite simbole koji su dozvoljeni u polju.</li>
+                        <li>
+                            <b>Fixed size field</b>: čekirajte ovu opciju da biste kreirali polje fiksne veličine. Kada je ova opcija omogućena, možete koristiti i <b>AutoFit</b> i/ili <b>Multiline field</b> podešavanja.<br />
+                            Polje fiksne veličine izgleda kao autoshape. Možete podesiti stil obavijanja i prilagoditi njegovu poziciju.
+                        </li>
+                        <li><b>AutoFit</b>: ova opcija se može omogućiti kada je odabrano <b>Fixed size field</b>, čekirajte da se veličina fonta automatski prilagodi veličini polja.</li>
+                        <li><b>Multiline field</b>: ova opcija se može omogućiti kada je odabrano <b>Fixed size field</b>, čekirajte da polje ima više linija, inače će tekst zauzeti samo jednu liniju.</li>
+                        <li><b>Characters limit</b>: nema ograničenja po defaultu; čekirajte da biste postavili maksimalan broj karaktera u polju.</li>
+                        <li>
+                            <b>Comb of characters</b>: rasporedite tekst ravnomerno unutar umetnutog polja i podesite njegov izgled. Ostavite nečekirano da zadržite podrazumevana podešavanja, ili čekirajte da biste podesili sledeće parametre:
+                            <ul>
+                                <li><b>Cell width</b>: izaberite da li širina treba biti <em>Auto</em> (širina se računa automatski), <em>At least</em> (širina nije manja od ručno unete vrednosti), ili <em>Exactly</em> (širina odgovara ručno unetoj vrednosti). Tekst unutar će biti poravnat u skladu sa tim.</li>
+                            </ul>
+                        </li>
+                        <li><b>Border color</b>: kliknite na ikonu <div class="icon icon-nofill"></div> da biste postavili boju ivica umetnutog polja. Izaberite željenu boju iz palete. Možete <b>dodati novu prilagođenu boju</b> po potrebi.</li>
+                        <li><b>Background color</b>: kliknite na ikonu <div class="icon icon-nofill"></div> da primenite boju pozadine na umetnuto polje. Izaberite boju iz <b>Theme Colors</b>, <b>Standard Colors</b> ili <b>dodajte novu prilagođenu boju</b> po potrebi.</li>
+                        <li><b>Required</b>: čekirajte ovu opciju da polje bude obavezno za popunjavanje.</li>
+                    </ul>
+                </div>
+                <p><img alt="comb of characters" src="../images/comb_of_characters.png" /></p>
+                <p>Kliknite unutar umetnutog polja i <a href="../UsageInstructions/FontTypeSizeColor.htm">podesite tip, veličinu i boju fonta</a>, primenite <a href="../UsageInstructions/DecorationStyles.htm">stilove dekoracije</a> i <a href="../UsageInstructions/FormattingPresets.htm">formatiranje unapred podešenih stilova</a>. Formatiranje će biti primenjeno na sav tekst unutar polja.</p>
+            </details>
+        </div>
+
+
+        <h2 id="combobox">Kreiranje novog Combo box-a</h2>
+        <p><em>Combo box-ovi</em> sadrže padajuću listu sa skupom izbora koje korisnici mogu uređivati.</p>
+        <div class="forms">
+            <details class="details-example">
+                <summary>Da biste umetnuli combo box,</summary>
+                <ol>
+                    <li>postavite tačku umetanja unutar linije teksta gde želite da dodate polje,</li>
+                    <li>prebacite se na <b>Forms</b> tab u gornjoj alatnoj traci,</li>
+                    <li>
+                        kliknite na ikonu <div class="icon icon-combo_box_icon"></div> <b>Combo box</b>.
+                    </li>
+                </ol>
+                <p><img alt="combo box inserted" src="../images/combo_box_inserted.png" /></p>
+                <p>Polje formulara će se pojaviti na mestu umetanja unutar postojeće linije teksta. Meni <b>Form Settings</b> će se otvoriti sa desne strane.</p>
+                <div id="combo_box_settings">
+                    <img alt="combo box settings" src="../images/combo_box_settings.png" />
+                    <ul>
+                        <li><b>Ko treba da popuni ovo polje?</b>: izaberite primaoca putem padajuće liste da odredite grupu korisnika sa pristupom ovom polju. Za više informacija o dodeljivanju primaoca, pogledajte odeljak <a href="../UsageInstructions/CreateFillableForms.htm#managing_recipients">Managing Recipients</a> ovog vodiča.</li>
+                        <li><b>Key</b>: ključ za grupisanje combo box-ova koji se popunjavaju istovremeno. Da biste kreirali novi ključ, unesite njegovo ime u polje i pritisnite <b>Enter</b>, zatim dodelite ključ svakom combo box-u koristeći padajuću listu. Biće prikazana poruka <em>Fields connected: 2/3/...</em>. Da biste odvojili polja, kliknite na dugme <b>Disconnect</b>.</li>
+                        <li><b>Placeholder</b>: unesite tekst koji će biti prikazan u umetnutom combo box-u; <em>“Choose an item”</em> je podrazumevano podešeno.</li>
+                        <li><b>Tag</b>: unesite tekst koji će se koristiti kao oznaka za internu upotrebu, tj. prikazuje se samo ko-editorima.</li>
+                        <li>
+                            <b>Tip</b>: unesite tekst koji će se prikazati kao savet kada korisnik postavi pokazivač miša iznad polja formulara.
+                            <br /> <img alt="tip inserted" src="../images/combo_box_tip.png" />
+                        </li>
+                        <li><b>Default value</b>: unesite vrednost koja će se prikazivati u polju po defaultu.</li>
+                        <li><b>Value Options</b>: dodajte <div class="icon icon-combo_add_values"></div> nove vrednosti, obrišite <div class="icon icon-combo_delete_values"></div> ih, ili ih pomerite gore <div class="icon icon-combo_values_up"></div> i dole <div class="icon icon-combo_values_down"></div> na listi.</li>
+                        <li>
+                            <b>Fixed size field</b>: čekirajte ovu opciju da kreirate polje fiksne veličine.<br />
+                            Polje fiksne veličine izgleda kao autoshape. Možete podesiti stil obavijanja i prilagoditi njegovu poziciju.
+                        </li>
+                        <li><b>Border color</b>: kliknite na ikonu <div class="icon icon-nofill"></div> da postavite boju ivica umetnutog combo box-a. Izaberite željenu boju iz palete. Možete <b>dodati novu prilagođenu boju</b> po potrebi.</li>
+                        <li><b>Background color</b>: kliknite na ikonu <div class="icon icon-nofill"></div> da primenite boju pozadine na umetnuti combo box. Izaberite boju iz <b>Theme Colors</b>, <b>Standard Colors</b> ili <b>dodajte novu prilagođenu boju</b> po potrebi.</li>
+                        <li><b>Required</b>: čekirajte ovu opciju da polje combo box bude obavezno za popunjavanje.</li>
+                    </ul>
+                </div>
+                <p>Možete kliknuti na dugme sa strelicom u desnom delu dodatog <b>Combo box</b>-a da otvorite listu stavki i izaberete potrebnu. Kada izaberete stavku, možete u potpunosti ili delimično izmeniti prikazani tekst zamenjujući ga svojim.</p>
+                <p><img alt="combo box opened" src="../images/combo_box_opened.png" /></p>
+                <p>Možete promeniti dekoraciju fonta, boju i veličinu. Kliknite unutar umetnutog combo box-a i nastavite prema <a href="../UsageInstructions/FontTypeSizeColor.htm">uputstvima</a>. Formatiranje će biti primenjeno na sav tekst unutar polja.</p>
+            </details>
+        </div>
+
+
+        <h2 id="dropdownlist">Kreiranje novog polja Dropdown liste</h2>
+        <p><em>Dropdown liste</em> sadrže listu sa skupom izbora koje korisnici ne mogu uređivati.</p>
+        <div class="forms">
+            <details class="details-example">
+                <summary>Da biste umetnuli dropdown listu,</summary>
+                <ol>
+                    <li>postavite tačku umetanja unutar linije teksta gde želite da dodate polje,</li>
+                    <li>prebacite se na <b>Forms</b> tab u gornjoj alatnoj traci,</li>
+                    <li>
+                        kliknite na ikonu <div class="icon icon-dropdown_list_icon"></div> <b>Dropdown</b>.
+                    </li>
+                </ol>
+                <p><img alt="dropdown list inserted" src="../images/combo_box_inserted.png" /></p>
+                <p>Polje formulara će se pojaviti na mestu umetanja unutar postojeće linije teksta. Meni <b>Form Settings</b> će se otvoriti sa desne strane.</p>
+                <div id="dropdown_list_settings">
+                    <img alt="dropdown list settings" src="../images/dropdown_list_settings.png" />
+                    <ul>
+                        <li><b>Ko treba da popuni ovo polje?</b>: izaberite primaoca putem padajuće liste da odredite grupu korisnika sa pristupom ovom polju. Za više informacija o dodeljivanju primaoca, pogledajte odeljak <a href="../UsageInstructions/CreateFillableForms.htm#managing_recipients">Managing Recipients</a> ovog vodiča.</li>
+                        <li><b>Key</b>: ključ za grupisanje dropdown listi koje se popunjavaju istovremeno. Da biste kreirali novi ključ, unesite njegovo ime u polje i pritisnite <b>Enter</b>, zatim dodelite ključ svakoj listi koristeći padajuću listu. Biće prikazana poruka <em>Fields connected: 2/3/...</em>. Da biste odvojili polja, kliknite na dugme <b>Disconnect</b>.</li>
+                        <li><b>Placeholder</b>: unesite tekst koji će biti prikazan u umetnutoj dropdown listi; <em>“Choose an item”</em> je podrazumevano podešeno.</li>
+                        <li><b>Tag</b>: unesite tekst koji će se koristiti kao oznaka za internu upotrebu, tj. prikazuje se samo ko-editorima.</li>
+                        <li>
+                            <b>Tip</b>: unesite tekst koji će se prikazati kao savet kada korisnik postavi pokazivač miša iznad polja formulara.
+                            <br /> <img alt="tip inserted" src="../images/combo_box_tip.png" />
+                        </li>
+                        <li><b>Default value</b>: unesite vrednost koja će se prikazivati u polju po defaultu.</li>
+                        <li><b>Value Options</b>: dodajte <div class="icon icon-combo_add_values"></div> nove vrednosti, obrišite <div class="icon icon-combo_delete_values"></div> ih, ili ih pomerite gore <div class="icon icon-combo_values_up"></div> i dole <div class="icon icon-combo_values_down"></div> na listi.</li>
+                        <li>
+                            <b>Fixed size field</b>: čekirajte ovu opciju da kreirate polje fiksne veličine.<br />
+                            Polje fiksne veličine izgleda kao autoshape. Možete podesiti stil obavijanja i prilagoditi njegovu poziciju.
+                        </li>
+                        <li><b>Border color</b>: kliknite na ikonu <div class="icon icon-nofill"></div> da postavite boju ivica umetnute dropdown liste. Izaberite željenu boju iz palete. Možete <b>dodati novu prilagođenu boju</b> po potrebi.</li>
+                        <li><b>Background color</b>: kliknite na ikonu <div class="icon icon-nofill"></div> da primenite boju pozadine na umetnutu dropdown listu. Izaberite boju iz <b>Theme Colors</b>, <b>Standard Colors</b> ili <b>dodajte novu prilagođenu boju</b> po potrebi.</li>
+                        <li><b>Required</b>: čekirajte ovu opciju da polje dropdown liste bude obavezno za popunjavanje.</li>
+                    </ul>
+                </div>
+                <p>Možete kliknuti na dugme sa strelicom u desnom delu dodatog <b>Dropdown list</b> polja da otvorite listu stavki i izaberete potrebnu.</p>
+                <p><img alt="dropdown list opened" src="../images/dropdown_list_opened.png" /></p>
+            </details>
+        </div>
+
+
+        <h2 id="checkbox">Pravljenje nove kućice za potvrdu (Checkbox)</h2>
+        <p><em>Kućice za potvrdu</em> se koriste da bi se korisnicima ponudilo više opcija, od kojih se bilo koji broj može odabrati. One rade nezavisno, pa svaka može biti označena ili neoznačena nezavisno od drugih.</p>
+        <div class="forms">
+            <details class="details-example">
+                <summary>Da umetnete kućicu za potvrdu,</summary>
+                <ol>
+                    <li>postavite kursor unutar reda teksta gde želite da dodate polje,</li>
+                    <li>prebacite se na karticu <b>Obrasci</b> na gornjoj alatnoj traci,</li>
+                    <li>
+                        kliknite na ikonu <div class="icon icon-checkbox_icon"></div> <b>Kućica za potvrdu</b>.
+                    </li>
+                </ol>
+                <p><span class="big big-checkbox_inserted"></span></p>
+                <p>Polje obrasca će se pojaviti na mestu kursora u postojećem redu teksta. Sa desne strane će se otvoriti meni <b>Podešavanja obrasca</b>.</p>
+                <div id="checkbox_settings">
+                    <img alt="podešavanja kućice za potvrdu" src="../images/checkbox_settings.png" />
+                    <ul>
+                        <li><b>Ko treba da popuni ovo?</b>: izaberite primaoca putem padajuće liste da odredite grupu korisnika koja ima pristup ovom polju. Da biste saznali više o dodeljivanju primalaca, pročitajte odeljak <a href="../UsageInstructions/CreateFillableForms.htm#managing_recipients">Upravljanje primaocima</a> ovog vodiča.</li>
+                        <li><b>Ključ</b>: ključ za grupisanje kućica za potvrdu koje se popunjavaju istovremeno. Da biste napravili novi ključ, unesite njegovo ime u polje i pritisnite <b>Enter</b>, zatim dodelite željeni ključ svakoj kućici pomoću padajuće liste. Pojaviće se poruka <em>Povezana polja: 2/3/...</em>. Da biste prekinuli povezivanje, kliknite na dugme <b>Prekini vezu</b>.</li>
+                        <li><b>Oznaka</b>: unesite tekst koji će se koristiti kao oznaka za internu upotrebu, tj. prikazuje se samo za koautore.</li>
+                        <li>
+                            <b>Savet</b>: unesite tekst koji će se prikazati kao savet kada korisnik pređe mišem preko kućice za potvrdu.
+                            <br /> <img alt="dodat savet" src="../images/checkbox_tip.png" />
+                        </li>
+                        <li><b>Kućica je označena podrazumevano</b>: označite ovo polje da bi kućica bila aktivirana podrazumevano.</li>
+                        <li>
+                            <b>Polje fiksne veličine</b>: označite ovo da biste napravili polje sa fiksnom veličinom.<br />
+                            Polje fiksne veličine izgleda kao autoshape. Možete mu podesiti stil oblivanja kao i poziciju.
+                        </li>
+                        <li><b>Boja ivice</b>: kliknite na ikonu <div class="icon icon-nofill"></div> da postavite boju ivica umetnute kućice za potvrdu. Izaberite željenu boju ivice iz palete. Možete <b>dodata novu prilagođenu boju</b> ako je potrebno.</li>
+                        <li><b>Boja pozadine</b>: kliknite na ikonu <div class="icon icon-nofill"></div> da primenite boju pozadine na umetnutu kućicu. Izaberite željenu boju iz <b>Tema boja</b>, <b>Standardnih boja</b>, ili <b>dodata novu prilagođenu boju</b> ako je potrebno.</li>
+                        <li><b>Obavezno</b>: označite ovo da bi kućica za potvrdu bila obavezna za popunjavanje.</li>
+                    </ul>
+                </div>
+                <p>Da označite kućicu, kliknite na nju jednom.</p>
+                <p><span class="big big-checkbox_checked"></span></p>
+            </details>
+        </div>
+
+
+        <h2 id="radiobutton">Pravljenje novog radio dugmeta</h2>
+        <p><em>Radio dugmad</em> se koriste da bi se korisnicima ponudilo više opcija, od kojih se može izabrati samo jedna. Radio dugmad se mogu grupisati tako da nije moguće odabrati više njih u istoj grupi.</p>
+        <div class="forms">
+            <details class="details-example">
+                <summary>Da umetnete radio dugme,</summary>
+                <ol>
+                    <li>postavite kursor unutar reda teksta gde želite da dodate polje,</li>
+                    <li>prebacite se na karticu <b>Obrasci</b> na gornjoj alatnoj traci,</li>
+                    <li>
+                        kliknite na ikonu <div class="icon icon-radio_button_icon"></div> <b>Radio dugme</b>.
+                    </li>
+                </ol>
+                <p><span class="big big-radio_button_inserted"></span></p>
+                <p>Polje obrasca će se pojaviti na mestu kursora u postojećem redu teksta. Sa desne strane će se otvoriti meni <b>Podešavanja obrasca</b>.</p>
+                <div id="radio_button_settings">
+                    <img alt="podešavanja radio dugmeta" src="../images/radio_button_settings.png" />
+                    <ul>
+                        <li><b>Ko treba da popuni ovo?</b>: izaberite primaoca putem padajuće liste da odredite grupu korisnika koja ima pristup ovom polju. Da biste saznali više o dodeljivanju primalaca, pročitajte odeljak <a href="../UsageInstructions/CreateFillableForms.htm#managing_recipients">Upravljanje primaocima</a> ovog vodiča.</li>
+                        <li><b>Grupni ključ</b>: da biste napravili novu grupu radio dugmadi, unesite ime grupe u polje i pritisnite <b>Enter</b>, zatim dodelite željenu grupu svakom radio dugmetu.</li>
+                        <li><b>Oznaka</b>: unesite tekst koji će se koristiti kao oznaka za internu upotrebu, tj. prikazuje se samo za koautore.</li>
+                        <li>
+                            <b>Savet</b>: unesite tekst koji će se prikazati kao savet kada korisnik pređe mišem preko radio dugmeta.
+                            <br /> <img alt="dodat savet" src="../images/radio_button_tip.png" />
+                        </li>
+                        <li><b>Opcija radio dugmeta</b>: unesite tekst koji se koristi kao naziv za element.</li>
+                        <li><b>Dugme je označeno podrazumevano</b>: označite ovo polje da bi radio dugme bilo aktivirano podrazumevano.</li>
+                        <li>
+                            <b>Polje fiksne veličine</b>: označite ovo da biste napravili polje sa fiksnom veličinom.<br />
+                            Polje fiksne veličine izgleda kao autoshape. Možete mu podesiti stil oblivanja kao i poziciju.
+                        </li>
+                        <li><b>Boja ivice</b>: kliknite na ikonu <div class="icon icon-nofill"></div> da postavite boju za ivice umetnutog radio dugmeta. Izaberite željenu boju ivice iz palete. Možete <b>dodata novu prilagođenu boju</b> ako je potrebno.</li>
+                        <li><b>Boja pozadine</b>: kliknite na ikonu <div class="icon icon-nofill"></div> da primenite boju pozadine na umetnuto radio dugme. Izaberite željenu boju iz <b>Tema boja</b>, <b>Standardnih boja</b>, ili <b>dodata novu prilagođenu boju</b> ako je potrebno.</li>
+                        <li><b>Obavezno</b>: označite ovo da bi radio dugme bilo obavezno za popunjavanje.</li>
+                    </ul>
+                </div>
+                <p>Da označite radio dugme, kliknite na njega jednom.</p>
+                <p><span class="big big-radio_button_checked"></span></p>
+            </details>
+        </div>
+
+
+        <h2 id="image">Pravljenje novog polja za sliku</h2>
+        <p><em>Slike</em> su polja obrasca koja se koriste da bi se omogućilo umetanje slike uz ograničenja koja postavite, tj. lokaciju slike ili njenu veličinu.</p>
+        <div class="forms">
+            <details class="details-example">
+                <summary>Da umetnete polje za sliku,</summary>
+                <ol>
+                    <li>postavite kursor unutar reda teksta gde želite da dodate polje,</li>
+                    <li>prebacite se na karticu <b>Obrasci</b> na gornjoj alatnoj traci,</li>
+                    <li>
+                        kliknite na ikonu <div class="icon icon-image"></div> <b>Slika</b>.
+                    </li>
+                </ol>
+                <p><span class="big big-image_form_inserted"></span></p>
+                <p>Polje obrasca će se pojaviti na mestu kursora u postojećem redu teksta. Sa desne strane će se otvoriti meni <b>Podešavanja obrasca</b>.</p>
+                <div id="image_form_settings">
+                    <img alt="podešavanja polja za sliku" src="../images/image_form_settings.png" />
+                    <ul>
+                        <li><b>Ko treba da popuni ovo?</b>: izaberite primaoca putem padajuće liste da odredite grupu korisnika koja ima pristup ovom polju. Da biste saznali više o dodeljivanju primalaca, pročitajte odeljak <a href="../UsageInstructions/CreateFillableForms.htm#managing_recipients">Upravljanje primaocima</a> ovog vodiča.</li>
+                        <li><b>Ključ</b>: ključ za grupisanje slika koje se popunjavaju istovremeno. Da biste napravili novi ključ, unesite njegovo ime u polje i pritisnite <b>Enter</b>, zatim dodelite željeni ključ svakom polju obrasca pomoću padajuće liste. Pojaviće se poruka <em>Povezana polja: 2/3/...</em>. Da biste prekinuli povezivanje, kliknite na dugme <b>Prekini vezu</b>.</li>
+                        <li><b>Mesto za unos</b>: unesite tekst koji će biti prikazan u umetnutom polju za sliku; podrazumevano je postavljeno <em>„Kliknite da učitate sliku“</em>.</li>
+                        <li><b>Oznaka</b>: unesite tekst koji će se koristiti kao oznaka za internu upotrebu, tj. prikazuje se samo za koautore.</li>
+                        <li>
+                            <b>Savet</b>: unesite tekst koji će se prikazati kao savet kada korisnik pređe mišem preko donje ivice slike.
+                        </li>
+                        <li><b>Kada skalirati</b>: kliknite na padajući meni i izaberite odgovarajuću opciju za veličinu slike: <b>Uvek</b>, <b>Nikad</b>, kada je <b>Slika prevelika</b>, ili kada je <b>Slika premala</b>. Izabrana slika će se skalirati unutar polja shodno odabranoj opciji.</li>
+                        <li><b>Zadrži razmeru</b>: označite ovo polje da biste zadržali razmeru slike bez izobličenja. Kada je polje označeno, koristite vertikalni i horizontalni klizač da pozicionirate sliku unutar umetnutog polja. Klizači za pozicioniranje su neaktivni kada polje nije označeno.</li>
+                        <li><b>Izaberi sliku</b>: kliknite na ovo dugme da biste otpremili sliku bilo <b>Iz datoteke</b>, <b>Sa URL-a</b>, ili <b>Iz skladišta</b>.</li>
+                        <li><b>Boja ivice</b>: kliknite na ikonu <div class="icon icon-nofill"></div> da postavite boju ivica umetnutog polja za sliku. Izaberite željenu boju iz palete. Možete <b>dodata novu prilagođenu boju</b> ako je potrebno.</li>
+                        <li><b>Boja pozadine</b>: kliknite na ikonu <div class="icon icon-nofill"></div> da primenite boju pozadine na umetnuto polje za sliku. Izaberite željenu boju iz <b>Tema boja</b>, <b>Standardnih boja</b>, ili <b>dodata novu prilagođenu boju</b> ako je potrebno.</li>
+                        <li><b>Obavezno</b>: označite ovo polje da bi umetanje slike bilo obavezno.</li>
+                    </ul>
+                </div>
+                <p>Da zamenite sliku, kliknite na <span class="icon icon-image"></span> ikonu slike iznad ivice polja obrasca i izaberite drugu.</p>
+                <p>Da <b>podesite</b> opcije slike, otvorite karticu <b>Podešavanja slike</b> na desnoj alatnoj traci. Da biste saznali više, pročitajte vodič o <a href="../UsageInstructions/InsertImages.htm">podešavanjima slika</a>.</p>
+            </details>
+        </div>
+
+        <h2 id="signature">Pravljenje novog polja za potpis</h2>
+        <p><em>Polja za potpis</em> se koriste za umetanje polja za potpisivanje dokumenta.</p>
+        <div class="forms">
+            <details class="details-example">
+                <summary>Da umetnete polje za potpis,</summary>
+                <ol>
+                    <li>postavite kursor unutar reda teksta gde želite da dodate polje,</li>
+                    <li>prebacite se na karticu <b>Obrasci</b> na gornjoj alatnoj traci,</li>
+                    <li>
+                        kliknite na ikonu <div class="icon icon-signature"></div> <b>Potpis</b>.
+                    </li>
+                </ol>
+                <p><span class="big big-signature_form_inserted"></span></p>
+                <p>Polje obrasca će se pojaviti na mestu kursora u postojećem redu teksta. Sa desne strane će se otvoriti meni <b>Podešavanja obrasca</b>.</p>
+                <div id="signature_form_settings">
+                    <img alt="podešavanja polja za potpis" src="../images/signature_form_settings.png" />
+                    <ul>
+                        <li><b>Ko treba da popuni ovo?</b>: izaberite primaoca putem padajuće liste da odredite grupu korisnika koja ima pristup ovom polju. Da biste saznali više o dodeljivanju primalaca, pročitajte odeljak <a href="../UsageInstructions/CreateFillableForms.htm#managing_recipients">Upravljanje primaocima</a> ovog vodiča.</li>
+                        <li><b>Ključ</b>: ključ za grupisanje potpisa koji se popunjavaju istovremeno. Da biste napravili novi ključ, unesite njegovo ime u polje i pritisnite <b>Enter</b>, zatim dodelite željeni ključ svakom polju obrasca pomoću padajuće liste. Pojaviće se poruka <em>Povezana polja: 2/3/...</em>. Da biste prekinuli povezivanje, kliknite na dugme <b>Prekini vezu</b>.</li>
+                        <li><b>Mesto za unos</b>: unesite tekst koji će biti prikazan u umetnutom polju za potpis; podrazumevano je postavljeno <em>„Potpis“</em>.</li>
+                        <li><b>Oznaka</b>: unesite tekst koji će se koristiti kao oznaka za internu upotrebu, tj. prikazuje se samo za koautore.</li>
+                        <li><b>Savet</b>: unesite tekst koji će se prikazati kao savet kada korisnik pređe mišem preko donje ivice potpisa.</li>
+                        <li><b>Boja ivice</b>: kliknite na ikonu <div class="icon icon-nofill"></div> da postavite boju ivica umetnutog polja za potpis. Izaberite željenu boju iz palete. Možete <b>dodata novu prilagođenu boju</b> ako je potrebno.</li>
+                        <li><b>Boja pozadine</b>: kliknite na ikonu <div class="icon icon-nofill"></div> da primenite boju pozadine na umetnuto polje za potpis. Izaberite željenu boju iz <b>Tema boja</b>, <b>Standardnih boja</b>, ili <b>dodata novu prilagođenu boju</b> ako je potrebno.</li>
+                        <li><b>Obavezno</b>: ovo polje je obavezno, tj. dokument mora biti potpisan korišćenjem polja za potpis.</li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+
+        <h2 id="emailaddress">Kreiranje novog polja za Email adresu</h2>
+        <p>Polje <em>Email adresa</em> koristi se za unos email adrese koja odgovara regularnom izrazu \S+@\S+\.\S+.</p>
+        <div class="forms">
+            <details class="details-example">
+                <summary>Da biste umetnuli polje za email adresu,</summary>
+                <ol>
+                    <li>postavite kursor unutar reda teksta gde želite da dodate polje,</li>
+                    <li>prebacite se na karticu <b>Forms</b> na gornjoj alatnoj traci,</li>
+                    <li>
+                        kliknite na ikonicu <div class="icon icon-email_address_icon"></div> <b>Email adresa</b>.
+                    </li>
+                </ol>
+                <p><span class="big big-email_address_inserted"></span></p>
+                <p>Polje obrasca će se pojaviti na mestu kursora unutar postojećeg reda teksta. Meni <b>Form Settings</b> će se otvoriti sa desne strane.</p>
+                <div id="email_address_settings">
+                    <img alt="email address settings" src="../images/email_address_settings.png" />
+                    <ul>
+                        <li><b>Ko treba da popuni?</b>: izaberite primaoca preko padajuće liste da biste podesili grupu korisnika sa pristupom ovom polju. Da biste saznali više o dodeli primaoca, pročitajte odeljak <a href="../UsageInstructions/CreateFillableForms.htm#managing_recipients">Upravljanje primaocima</a> u ovom vodiču.</li>
+                        <li><b>Ključ</b>: da biste kreirali novu grupu email adresa, unesite naziv grupe u polje i pritisnite <b>Enter</b>, zatim dodelite odgovarajuću grupu svakom polju za email adresu.</li>
+                        <li><b>Rezervisano mesto</b>: unesite tekst koji će biti prikazan u umetnutom polju za email adresu; podrazumevano je postavljeno <em>“user_name@email.com”</em>.</li>
+                        <li><b>Oznaka</b>: unesite tekst koji će se koristiti kao oznaka za internu upotrebu, tj. vidljiv samo ko-urednicima.</li>
+                        <li>
+                            <b>Savet</b>: unesite tekst koji će se prikazati kao savet kada korisnik zadrži pokazivač miša iznad polja za email adresu.
+                            <br /> <img alt="tip inserted" src="../images/email_address_tip.png" />
+                        </li>
+                        <li><b>Podrazumevana vrednost</b>: unesite vrednost koja će biti prikazana u polju podrazumevano.</li>
+                        <li><b>Format</b>: izaberite format sadržaja polja, tj. <em>None</em>, <em>Digits</em>, <em>Letters</em>, <em>Arbitrary Mask</em> ili <em>Regular Expression</em>. Polje je podrazumevano podešeno na <em>Regular Expression</em> kako bi se očuvao format email adrese <code>\S+@\S+\.\S+</code>.</li>
+                        <li><b>Dozvoljeni simboli</b>: unesite simbole koji su dozvoljeni u polju za email adresu.</li>
+                        <li>
+                            <b>Polje fiksne veličine</b>: označite ovu kućicu da biste kreirali polje fiksne veličine. Kada je ova opcija omogućena, možete koristiti i podešavanja <b>Autofit</b> i/ili <b>Višelinijsko polje</b>.<br />
+                            Polje fiksne veličine izgleda kao automatski oblik. Možete podesiti stil obavijanja teksta kao i prilagoditi njegov položaj.
+                        </li>
+                        <li><b>Autofit</b>: ova opcija može biti omogućena kada je izabrano <b>Polje fiksne veličine</b>, označite je da biste automatski prilagodili veličinu fonta veličini polja.</li>
+                        <li><b>Višelinijsko polje</b>: ova opcija može biti omogućena kada je izabrano <b>Polje fiksne veličine</b>, označite je da biste kreirali polje sa više redova, u suprotnom tekst će zauzimati jedan red.</li>
+                        <li><b>Ograničenje karaktera</b>: podrazumevano nema ograničenja; označite ovu kućicu da biste podesili maksimalan broj karaktera u polju desno.</li>
+                        <li>
+                            <b>Kombinacija karaktera</b>: rasporedite tekst ravnomerno unutar umetnutog polja za email adresu i podesite njegov opšti izgled. Ostavite polje neoznačeno da biste zadržali podrazumevana podešavanja ili ga označite da biste postavili sledeće parametre:
+                            <ul>
+                                <li><b>Širina ćelije</b>: izaberite da li širina treba da bude <em>Auto</em> (računa se automatski), <em>Najmanje</em> (nije manja od ručno unete vrednosti) ili <em>Tačno</em> (odgovara ručno unetoj vrednosti). Tekst će biti raspoređen u skladu s tim.</li>
+                            </ul>
+                        </li>
+                        <li><b>Boja ivice</b>: kliknite na ikonicu <div class="icon icon-nofill"></div> da biste podesili boju ivica umetnutog polja za email adresu. Izaberite željenu boju iz palete. Možete <b>dodati novu prilagođenu boju</b> ako je potrebno.</li>
+                        <li><b>Boja pozadine</b>: kliknite na ikonicu <div class="icon icon-nofill"></div> da biste primenili boju pozadine na umetnuto polje za email adresu. Izaberite željenu boju iz <b>Boje teme</b>, <b>Standardne boje</b> ili <b>dodajte novu prilagođenu boju</b> ako je potrebno.</li>
+                        <li><b>Obavezno</b>: označite ovu kućicu da biste učinili polje za email adresu obaveznim za popunjavanje.</li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+
+        <h2 id="phonenumber">Kreiranje novog polja za Broj telefona</h2>
+        <p>Polje <em>Broj telefona</em> koristi se za unos broja telefona koji odgovara proizvoljnoj maski zadatoj od strane kreatora obrasca. Podrazumevano je postavljeno na <code>(999)999-9999</code>.</p>
+        <div class="forms">
+            <details class="details-example">
+                <summary>Da biste umetnuli polje za broj telefona,</summary>
+                <ol>
+                    <li>postavite kursor unutar reda teksta gde želite da dodate polje,</li>
+                    <li>prebacite se na karticu <b>Forms</b> na gornjoj alatnoj traci,</li>
+                    <li>
+                        kliknite na ikonicu <div class="icon icon-phone_number_icon"></div> <b>Broj telefona</b>.
+                    </li>
+                </ol>
+                <p><span class="big big-phone_number_inserted"></span></p>
+                <p>Polje obrasca će se pojaviti na mestu kursora unutar postojećeg reda teksta. Meni <b>Form Settings</b> će se otvoriti sa desne strane.</p>
+                <div id="phone_number_settings">
+                    <img alt="phone number settings" src="../images/phone_number_settings.png" />
+                    <ul>
+                        <li><b>Ko treba da popuni?</b>: izaberite primaoca preko padajuće liste da biste podesili grupu korisnika sa pristupom ovom polju. Da biste saznali više o dodeli primaoca, pročitajte odeljak <a href="../UsageInstructions/CreateFillableForms.htm#managing_recipients">Upravljanje primaocima</a> u ovom vodiču.</li>
+                        <li><b>Ključ</b>: da biste kreirali novu grupu brojeva telefona, unesite naziv grupe u polje i pritisnite <b>Enter</b>, zatim dodelite odgovarajuću grupu svakom broju telefona.</li>
+                        <li><b>Rezervisano mesto</b>: unesite tekst koji će biti prikazan u umetnutom polju za broj telefona; podrazumevano je postavljeno <em>“(999)999-9999”</em>.</li>
+                        <li><b>Oznaka</b>: unesite tekst koji će se koristiti kao oznaka za internu upotrebu, tj. vidljiv samo ko-urednicima.</li>
+                        <li>
+                            <b>Savet</b>: unesite tekst koji će se prikazati kao savet kada korisnik zadrži pokazivač miša iznad polja za broj telefona.
+                            <br /> <img alt="tip inserted" src="../images/phone_number_tip.png" />
+                        </li>
+                        <li><b>Podrazumevana vrednost</b>: unesite vrednost koja će biti prikazana u polju podrazumevano.</li>
+                        <li><b>Format</b>: izaberite format sadržaja polja, tj. <em>None</em>, <em>Digits</em>, <em>Letters</em>, <em>Arbitrary Mask</em> ili <em>Regular Expression</em>. Polje je podrazumevano podešeno na <em>Arbitrary Mask</em>. Da biste promenili format, unesite željenu masku u polje ispod.</li>
+                        <li><b>Dozvoljeni simboli</b>: unesite simbole koji su dozvoljeni u polju za broj telefona.</li>
+                        <li>
+                            <b>Polje fiksne veličine</b>: označite ovu kućicu da biste kreirali polje fiksne veličine. Kada je ova opcija omogućena, možete koristiti i podešavanja <b>Autofit</b> i/ili <b>Višelinijsko polje</b>.<br />
+                            Polje fiksne veličine izgleda kao automatski oblik. Možete podesiti stil obavijanja teksta kao i prilagoditi njegov položaj.
+                        </li>
+                        <li><b>Autofit</b>: ova opcija može biti omogućena kada je izabrano <b>Polje fiksne veličine</b>, označite je da biste automatski prilagodili veličinu fonta veličini polja.</li>
+                        <li><b>Višelinijsko polje</b>: ova opcija može biti omogućena kada je izabrano <b>Polje fiksne veličine</b>, označite je da biste kreirali polje sa više redova, u suprotnom tekst će zauzimati jedan red.</li>
+                        <li><b>Ograničenje karaktera</b>: podrazumevano nema ograničenja; označite ovu kućicu da biste podesili maksimalan broj karaktera u polju desno.</li>
+                        <li>
+                            <b>Kombinacija karaktera</b>: rasporedite tekst ravnomerno unutar umetnutog polja za broj telefona i podesite njegov opšti izgled. Ostavite polje neoznačeno da biste zadržali podrazumevana podešavanja ili ga označite da biste postavili sledeće parametre:
+                            <ul>
+                                <li><b>Širina ćelije</b>: izaberite da li širina treba da bude <em>Auto</em> (računa se automatski), <em>Najmanje</em> (nije manja od ručno unete vrednosti) ili <em>Tačno</em> (odgovara ručno unetoj vrednosti). Tekst će biti raspoređen u skladu s tim.</li>
+                            </ul>
+                        </li>
+                        <li><b>Boja ivice</b>: kliknite na ikonicu <div class="icon icon-nofill"></div> da biste podesili boju ivica umetnutog polja za broj telefona. Izaberite željenu boju iz palete. Možete <b>dodati novu prilagođenu boju</b> ako je potrebno.</li>
+                        <li><b>Boja pozadine</b>: kliknite na ikonicu <div class="icon icon-nofill"></div> da biste primenili boju pozadine na umetnuto polje za broj telefona. Izaberite željenu boju iz <b>Boje teme</b>, <b>Standardne boje</b> ili <b>dodajte novu prilagođenu boju</b> ako je potrebno.</li>
+                        <li><b>Obavezno</b>: označite ovu kućicu da biste učinili polje za broj telefona obaveznim za popunjavanje.</li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+
+        <h2 id="datetime">Kreiranje novog polja za Datum i vreme</h2>
+        <p>Polje <em>Datum i vreme</em> koristi se za unos datuma. Podrazumevano je postavljeno na DD/MM/YYYY.</p>
+        <div class="forms">
+            <details class="details-example">
+                <summary>Da biste umetnuli polje za datum i vreme,</summary>
+                <ol>
+                    <li>postavite kursor unutar reda teksta gde želite da dodate polje,</li>
+                    <li>prebacite se na karticu <b>Forms</b> na gornjoj alatnoj traci,</li>
+                    <li>
+                        kliknite na ikonicu <div class="icon icon-date_time_icon"></div> <b>Datum i vreme</b>.
+                    </li>
+                </ol>
+                <p><span class="big big-date_time_inserted"></span></p>
+                <p>Polje obrasca će se pojaviti na mestu kursora unutar postojećeg reda teksta. Da unesete datum, kliknite na strelicu padajućeg menija u okviru polja i izaberite željeni datum putem kalendara. Meni <b>Form Settings</b> će se otvoriti sa desne strane.</p>
+                <div id="datetime_settings">
+                    <img alt="date and time settings" src="../images/date_time_settings.png" />
+                    <ul>
+                        <li><b>Ko treba da popuni?</b>: izaberite primaoca preko padajuće liste da biste podesili grupu korisnika sa pristupom ovom polju. Da biste saznali više o dodeli primaoca, pročitajte odeljak <a href="../UsageInstructions/CreateFillableForms.htm#managing_recipients">Upravljanje primaocima</a> u ovom vodiču.</li>
+                        <li><b>Ključ</b>: da biste kreirali novu grupu polja za datum i vreme, unesite naziv grupe u polje i pritisnite <b>Enter</b>, zatim dodelite odgovarajuću grupu svakom polju za datum i vreme.</li>
+                        <li><b>Rezervisano mesto</b>: unesite tekst koji će biti prikazan u umetnutom polju za datum i vreme; podrazumevano se prikazuje današnji datum.</li>
+                        <li><b>Oznaka</b>: unesite tekst koji će se koristiti kao oznaka za internu upotrebu, tj. vidljiv samo ko-urednicima.</li>
+                        <li>
+                            <b>Savet</b>: unesite tekst koji će se prikazati kao savet kada korisnik zadrži pokazivač miša iznad polja za datum i vreme.
+                            <br /> <img alt="tip inserted" src="../images/date_time_tip.png" />
+                        </li>
+                        <li><b>Podrazumevana vrednost</b>: unesite vrednost koja će biti prikazana u polju podrazumevano.</li>
+                        <li><b>Prikaz datuma ovako</b>: izaberite format prikaza polja, npr. <em>MM/DD/YYYY</em>, <em>Ponedeljak, MM DD, YYYY</em>, itd. Podrazumevano je postavljeno na DD/MM/YYYY.</li>
+                        <li><b>Jezik</b>: izaberite željeni jezik za prikaz datuma i vremena.</li>
+                        <li>
+                            <b>Polje fiksne veličine</b>: označite ovu kućicu da biste kreirali polje fiksne veličine.<br />
+                            Polje fiksne veličine izgleda kao automatski oblik. Možete podesiti stil obavijanja teksta kao i prilagoditi njegov položaj.
+                        </li>
+                        <li><b>Boja ivice</b>: kliknite na ikonicu <div class="icon icon-nofill"></div> da biste podesili boju ivica umetnutog polja za datum i vreme. Izaberite željenu boju iz palete. Možete <b>dodati novu prilagođenu boju</b> ako je potrebno.</li>
+                        <li><b>Boja pozadine</b>: kliknite na ikonicu <div class="icon icon-nofill"></div> da biste primenili boju pozadine na umetnuto polje za datum i vreme. Izaberite željenu boju iz <b>Boje teme</b>, <b>Standardne boje</b> ili <b>dodajte novu prilagođenu boju</b> ako je potrebno.</li>
+                        <li><b>Obavezno</b>: označite ovu kućicu da biste učinili polje za datum i vreme obaveznim za popunjavanje.</li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+
+        <h2 id="zipcode">Kreiranje novog polja za Poštanski broj</h2>
+        <p>Polje <em>Poštanski broj</em> koristi se za unos poštanskog broja koji odgovara proizvoljnoj maski zadatoj od strane kreatora obrasca. Podrazumevano je postavljeno na <code>99999-9999</code>.</p>
+        <div class="forms">
+            <details class="details-example">
+                <summary>Da biste umetnuli polje za poštanski broj,</summary>
+                <ol>
+                    <li>postavite kursor unutar reda teksta gde želite da dodate polje,</li>
+                    <li>prebacite se na karticu <b>Forms</b> na gornjoj alatnoj traci,</li>
+                    <li>
+                        kliknite na ikonicu <div class="icon icon-zip_code_icon"></div> <b>Poštanski broj</b>.
+                    </li>
+                </ol>
+                <p><span class="big big-zip_code_inserted"></span></p>
+                <p>Polje obrasca će se pojaviti na mestu kursora unutar postojećeg reda teksta. Meni <b>Form Settings</b> će se otvoriti sa desne strane.</p>
+                <div id="zip_code_settings">
+                    <img alt="zip code settings" src="../images/zip_code_settings.png" />
+                    <ul>
+                        <li><b>Ko treba da popuni?</b>: izaberite primaoca preko padajuće liste da biste podesili grupu korisnika sa pristupom ovom polju. Da biste saznali više o dodeli primaoca, pročitajte odeljak <a href="../UsageInstructions/CreateFillableForms.htm#managing_recipients">Upravljanje primaocima</a> u ovom vodiču.</li>
+                        <li><b>Ključ</b>: da biste kreirali novu grupu poštanskih brojeva, unesite naziv grupe u polje i pritisnite <b>Enter</b>, zatim dodelite odgovarajuću grupu svakom poštanskom broju.</li>
+                        <li><b>Rezervisano mesto</b>: unesite tekst koji će biti prikazan u umetnutom polju za poštanski broj; podrazumevano je postavljeno <em>“99999-9999”</em>.</li>
+                        <li><b>Oznaka</b>: unesite tekst koji će se koristiti kao oznaka za internu upotrebu, tj. vidljiv samo ko-urednicima.</li>
+                        <li>
+                            <b>Savet</b>: unesite tekst koji će se prikazati kao savet kada korisnik zadrži pokazivač miša iznad polja za poštanski broj.
+                            <br /> <img alt="tip inserted" src="../images/zip_code_tip.png" />
+                        </li>
+                        <li><b>Podrazumevana vrednost</b>: unesite vrednost koja će biti prikazana u polju podrazumevano.</li>
+                        <li><b>Format</b>: izaberite format sadržaja polja, tj. <em>None</em>, <em>Digits</em>, <em>Letters</em>, <em>Arbitrary Mask</em> ili <em>Regular Expression</em>. Polje je podrazumevano podešeno na <em>Arbitrary Mask</em>. Da biste promenili format, unesite željenu masku u polje ispod.</li>
+                        <li><b>Dozvoljeni simboli</b>: unesite simbole koji su dozvoljeni u polju za poštanski broj.</li>
+                        <li>
+                            <b>Polje fiksne veličine</b>: označite ovu kućicu da biste kreirali polje fiksne veličine. Kada je ova opcija omogućena, možete koristiti i podešavanja <b>Autofit</b> i/ili <b>Višelinijsko polje</b>.<br />
+                            Polje fiksne veličine izgleda kao automatski oblik. Možete podesiti stil obavijanja teksta kao i prilagoditi njegov položaj.
+                        </li>
+                        <li><b>Autofit</b>: ova opcija može biti omogućena kada je izabrano <b>Polje fiksne veličine</b>, označite je da biste automatski prilagodili veličinu fonta veličini polja.</li>
+                        <li><b>Višelinijsko polje</b>: ova opcija može biti omogućena kada je izabrano <b>Polje fiksne veličine</b>, označite je da biste kreirali polje sa više redova, u suprotnom tekst će zauzimati jedan red.</li>
+                        <li><b>Ograničenje karaktera</b>: podrazumevano nema ograničenja; označite ovu kućicu da biste podesili maksimalan broj karaktera u polju desno.</li>
+                        <li>
+                            <b>Kombinacija karaktera</b>: rasporedite tekst ravnomerno unutar umetnutog polja za poštanski broj i podesite njegov opšti izgled. Ostavite polje neoznačeno da biste zadržali podrazumevana podešavanja ili ga označite da biste postavili sledeće parametre:
+                            <ul>
+                                <li><b>Širina ćelije</b>: izaberite da li širina treba da bude <em>Auto</em> (računa se automatski), <em>Najmanje</em> (nije manja od ručno unete vrednosti) ili <em>Tačno</em> (odgovara ručno unetoj vrednosti). Tekst će biti raspoređen u skladu s tim.</li>
+                            </ul>
+                        </li>
+                        <li><b>Boja ivice</b>: kliknite na ikonicu <div class="icon icon-nofill"></div>  da biste podesili boju ivica umetnutog polja za poštanski broj. Izaberite željenu boju iz palete. Možete <b>dodati novu prilagođenu boju</b> ako je potrebno.</li>
+                        <li><b>Boja pozadine</b>: kliknite na ikonicu <div class="icon icon-nofill"></div> da biste primenili boju pozadine na umetnuto polje za poštanski broj. Izaberite željenu boju iz <b>Boje teme</b>, <b>Standardne boje</b> ili <b>dodajte novu prilagođenu boju</b> ako je potrebno.</li>
+                        <li><b>Obavezno</b>: označite ovu kućicu da biste učinili polje za poštanski broj obaveznim za popunjavanje.</li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+
+        <h2 id="creditcard">Kreiranje novog polja za Kreditnu karticu</h2>
+        <p><em>Kreditna kartica</em> polje se koristi za unos broja kreditne kartice u skladu sa proizvoljnom maskom koju odredi kreator obrasca. Podrazumevano je postavljeno na <code>9999-9999-9999-9999</code>.</p>
+        <div class="forms">
+            <details class="details-example">
+                <summary>Da umetnete polje za kreditnu karticu,</summary>
+                <ol>
+                    <li>postavite kursor unutar reda teksta gde želite da dodate polje,</li>
+                    <li>prebacite se na karticu <b>Forms</b> u gornjoj alatnoj traci,</li>
+                    <li>
+                        kliknite na ikonu <div class="icon icon-credit_card_icon"></div> <b>Kreditna kartica</b>.
+                    </li>
+                </ol>
+                <p><span class="big big-credit_card_inserted"></span></p>
+                <p>Polje obrasca će se pojaviti na mestu kursora unutar postojećeg reda teksta. Meni <b>Podešavanja obrasca</b> će se otvoriti sa desne strane.</p>
+                <div id="credit_card_settings">
+                    <img alt="podešavanja kreditne kartice" src="../images/credit_card_settings.png" />
+                    <ul>
+                        <li><b>Ko treba da popuni?</b>: odaberite primaoca putem padajuće liste da biste odredili grupu korisnika sa pristupom ovom polju. Da saznate više o dodeljivanju primalaca, pročitajte odeljak <a href="../UsageInstructions/CreateFillableForms.htm#managing_recipients">Upravljanje primaocima</a> ovog vodiča.</li>
+                        <li><b>Ključ</b>: da kreirate novu grupu brojeva kreditnih kartica, unesite naziv grupe u polje i pritisnite <b>Enter</b>, zatim dodelite odgovarajuću grupu svakom polju za kreditnu karticu.</li>
+                        <li><b>Rezervisano mesto</b>: unesite tekst koji će se prikazivati u umetnutom polju za kreditnu karticu; podrazumevano je postavljeno na <em>“9999-9999-9999-9999”</em>.</li>
+                        <li><b>Oznaka</b>: unesite tekst koji će se koristiti kao oznaka za internu upotrebu, tj. prikazivaće se samo koeditorima.</li>
+                        <li>
+                            <b>Savet</b>: unesite tekst koji će se prikazivati kao savet kada korisnik zadrži pokazivač miša iznad polja za kreditnu karticu.
+                            <br /> <img alt="savet umetnut" src="../images/credit_card_tip.png" />
+                        </li>
+                        <li><b>Podrazumevana vrednost</b>: unesite vrednost koja će se prikazivati u polju po podrazumevanim podešavanjima.</li>
+                        <li><b>Format</b>: odaberite format sadržaja polja, npr. <em>None</em>, <em>Cifre</em>, <em>Slova</em>, <em>Proizvoljna maska</em> ili <em>Regularni izraz</em>. Polje je podrazumevano postavljeno na <em>Proizvoljna maska</em>. Da promenite format, unesite željenu masku u polje ispod.</li>
+                        <li><b>Dozvoljeni simboli</b>: unesite simbole koji su dozvoljeni u polju za kreditnu karticu.</li>
+                        <li>
+                            <b>Polje fiksne veličine</b>: označite ovo polje da biste kreirali polje fiksne veličine. Kada je ova opcija omogućena, možete takođe koristiti podešavanja <b>AutoFit</b> i/ili <b>Višelinijsko polje</b>.<br />
+                            Polje fiksne veličine izgleda kao autoshape. Možete mu podesiti stil obavijanja teksta kao i poziciju.
+                        </li>
+                        <li><b>AutoFit</b>: ova opcija može biti omogućena kada je izabrano podešavanje <b>Polje fiksne veličine</b>; označite je da biste automatski prilagodili veličinu fonta veličini polja.</li>
+                        <li><b>Višelinijsko polje</b>: ova opcija može biti omogućena kada je izabrano podešavanje <b>Polje fiksne veličine</b>; označite je da kreirate polje obrasca sa više redova, u suprotnom, tekst će zauzimati samo jedan red.</li>
+                        <li><b>Ograničenje znakova</b>: podrazumevano nema ograničenja; označite ovo polje da biste podesili maksimalan broj znakova u polju sa desne strane.</li>
+                        <li>
+                            <b>Razdeljeno polje</b>: ravnomerno rasporedite tekst unutar umetnutog polja za kreditnu karticu i podesite njegov izgled. Ostavite opciju neoznačenu da biste zadržali podrazumevana podešavanja, ili je označite da podesite sledeće parametre:
+                            <ul>
+                                <li><b>Širina ćelije</b>: odaberite da li vrednost širine treba da bude <em>Auto</em> (računa se automatski), <em>Najmanje</em> (nije manja od unete vrednosti) ili <em>Tačno</em> (odgovara unetoj vrednosti). Tekst će se poravnavati u skladu sa tim.</li>
+                            </ul>
+                        </li>
+                        <li><b>Boja ivice</b>: kliknite na ikonu <div class="icon icon-nofill"></div> da podesite boju ivica umetnutog polja za kreditnu karticu. Izaberite željenu boju iz palete. Možete <b>dodati novu prilagođenu boju</b> ako je potrebno.</li>
+                        <li><b>Boja pozadine</b>: kliknite na ikonu <div class="icon icon-nofill"></div> da primenite boju pozadine na umetnuto polje za kreditnu karticu. Izaberite boju iz <b>Tema boja</b>, <b>Standardne boje</b> ili <b>dodajte novu prilagođenu boju</b> ako je potrebno.</li>
+                        <li><b>Obavezno</b>: označite ovo polje da biste polje za kreditnu karticu učinili obaveznim za popunjavanje.</li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+
+        <h2 id="complexfield">Kreiranje novog Složenog polja</h2>
+        <p><em>Složeno polje</em> kombinuje nekoliko tipova polja, npr. tekstualno polje i padajuću listu. Možete kombinovati polja po potrebi.</p>
+        <div class="forms">
+            <details class="details-example">
+                <summary>Da umetnete složeno polje,</summary>
+                <ol>
+                    <li>postavite kursor unutar reda teksta gde želite da dodate polje,</li>
+                    <li>prebacite se na karticu <b>Forms</b> u gornjoj alatnoj traci,</li>
+                    <li>
+                        kliknite na ikonu <div class="icon icon-complex_field_icon"></div> <b>Složeno polje</b>.
+                    </li>
+                </ol>
+                <p><img alt="složeno polje umetnuto" src="../images/complex_field_inserted.png"></p>
+                <p>Polje obrasca će se pojaviti na mestu kursora unutar postojećeg reda teksta. Meni <b>Podešavanja obrasca</b> će se otvoriti sa desne strane.</p>
+                <div id="complex_field_settings">
+                    <img alt="podešavanja složenog polja" src="../images/complex_field_settings.png" />
+                    <ul>
+                        <li><b>Ko treba da popuni?</b>: odaberite primaoca putem padajuće liste da biste odredili grupu korisnika sa pristupom ovom polju. Da saznate više o dodeljivanju primalaca, pročitajte odeljak <a href="../UsageInstructions/CreateFillableForms.htm#managing_recipients">Upravljanje primaocima</a> ovog vodiča.</li>
+                        <li><b>Ključ</b>: da kreirate novu grupu složenih polja, unesite naziv grupe u polje i pritisnite <b>Enter</b>, zatim dodelite odgovarajuću grupu svakom složenom polju.</li>
+                        <li><b>Rezervisano mesto</b>: unesite tekst koji će se prikazivati u umetnutom složenom polju; podrazumevano je postavljeno na <em>“Unesite tekst ovde”</em>.</li>
+                        <li><b>Oznaka</b>: unesite tekst koji će se koristiti kao oznaka za internu upotrebu, tj. prikazivaće se samo koeditorima.</li>
+                        <li>
+                            <b>Savet</b>: unesite tekst koji će se prikazivati kao savet kada korisnik zadrži pokazivač miša iznad složenog polja.
+                            <br /> <img alt="savet umetnut" src="../images/complex_field_tip.png" />
+                        </li>
+                        <li>
+                            <b>Polje fiksne veličine</b>: označite ovo polje da biste kreirali polje fiksne veličine.<br />
+                            Polje fiksne veličine izgleda kao autoshape. Možete mu podesiti stil obavijanja teksta kao i poziciju.
+                        </li>
+                        <li><b>Boja ivice</b>: kliknite na ikonu <div class="icon icon-nofill"></div> da podesite boju ivica umetnutog složenog polja. Izaberite željenu boju iz palete. Možete <b>dodati novu prilagođenu boju</b> ako je potrebno.</li>
+                        <li><b>Boja pozadine</b>: kliknite na ikonu <div class="icon icon-nofill"></div> da primenite boju pozadine na umetnuto složeno polje. Izaberite boju iz <b>Tema boja</b>, <b>Standardne boje</b>, ili <b>dodajte novu prilagođenu boju</b> ako je potrebno.</li>
+                        <li><b>Obavezno</b>: označite ovo polje da biste složeno polje učinili obaveznim za popunjavanje.</li>
+                    </ul>
+                    <p>Da umetnete različita polja obrasca u složeno polje, kliknite unutar njega i izaberite željeno polje u gornjoj alatnoj traci na kartici <b>Forms</b>, zatim ga podesite po potrebi. Da saznate više o svakom tipu polja, pročitajte odgovarajuće odeljke iznad.</p>
+                    <p class="note">Imajte na umu da ne možete koristiti <em>Image</em> polje u okviru složenih polja.</p>
+                </div>
+            </details>
+        </div>
+
+        <h2 id="editing_fields">Uređivanje polja</h2>
+        <ol>
+            <li>Izaberite potrebno polje i kliknite desnim tasterom miša da otvorite kontekstni meni.</li>
+            <li>
+                <ul>
+                    <li><em>Ažuriraj polje</em> - ažurirajte informacije u polju.</li>
+                    <li><em>Uredi polje</em> - otvorite prozor za uređivanje polja.</li>
+                    <li><em>Prikaži kodove polja</em> - prikažite kod polja.</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2 id="managing_recipients">Upravljanje primaocima</h2>
+        <p>Možete kreirati nove primaoce koji će odrediti ko može popunjavati određena polja obrasca.</p>
+        <div class="forms">
+            <details class="details-example">
+                <summary>Da biste upravljali primaocima,</summary>
+                <div id="managing_recipients">
+                    <img alt="upravljanje primaocima" src="../images/managing_roles.png" />
+                    <ul>
+                        <li>idite na karticu <b>Forms</b> u gornjoj traci sa alatkama,</li>
+                        <li>kliknite na ikonicu <div class="icon icon-sharingicon"></div> <b>Upravljanje primaocima</b>,</li>
+                        <li>
+                            kliknite na dugme <b>Novi</b> da biste kreirali novog primaoca,
+                            <p><img alt="novi primalac" src="../images/edit_role.png" /></p>
+                        </li>
+                        <li>unesite ime primaoca i po potrebi odaberite njegovu boju. Takođe možete kreirati prilagođenu boju klikom na odgovarajuću stavku menija,</li>
+                        <li>kliknite <b>OK</b> da kreirate novog primaoca,</li>
+                        <li>podesite redosled u kojem korisnici dobijaju i potpisuju dokument pomoću dugmića <div class="icon icon-role_up"></div> i <div class="icon icon-role_down"></div>,</li>
+                        <li>koristite dugmad <b>Uredi</b> ili <b>Obriši</b> da promenite primaoce ili ih izbrišete,</li>
+                        <li>kliknite <b>Zatvori</b> da se vratite na uređivanje obrasca.</li>
+                    </ul>
+                    <p>Kada sačuvate obrazac kao .pdf datoteku, možete videti sve primaoce kreirane za obrazac.</p>
+                </div>
+
+            </details>
+        </div>
+
+        <!--<h2>Isticanje obrazaca</h2>
+    <p>Možete istaći umetnuta polja obrasca određenom bojom.</p>
+    <div class="forms">
+        <details class="details-example">
+            <summary>Da biste istakli polja,</summary>
+            <div id="highlight_settings">
+                <img alt="podešavanja isticanja" src="../images/highlight_settings.png" />
+                <ul>
+                    <li>otvorite <b>Podešavanja isticanja</b> na kartici <b>Forms</b> u gornjoj traci sa alatkama,</li>
+                    <li>izaberite boju iz <b>Standard Colors</b>. Takođe možete <b>dodati novu prilagođenu boju</b>,</li>
+                    <li>da uklonite prethodno primenjeno isticanje boje, koristite opciju <b>No highlighting</b>.</li>
+                </ul>
+            </div>
+            <p>Izabrane opcije isticanja biće primenjene na sva polja obrasca u dokumentu.</p>
+            <p class="note">Granice polja obrasca vidljive su samo kada je polje izabrano. Granice se ne pojavljuju u odštampanoj verziji.</p>
+        </details>
+    </div>-->
+
+        <h2>Omogućavanje pregleda</h2>
+        <p class="note">
+            <b>Napomena</b>: Kada uđete u režim <b>Pregleda</b>, sve opcije uređivanja postaće nedostupne.
+        </p>
+        <p>Kliknite na dugme <span class="icon icon-view_form_icon"></span> <b>Pregled</b> na kartici <b>Forms</b> u gornjoj traci sa alatkama da biste videli kako će svi umetnuti obrasci biti prikazani u dokumentu.</p>
+        <p><img alt="Pregled aktivan" src="../images/view_form_active2.png" /></p>
+        <p>Možete pregledati obrazac iz ugla svakog kreiranog primaoca. Da biste to uradili, kliknite na strelicu ispod dugmeta <span class="icon icon-view_form_icon"></span> <b>Pregled</b> i izaberite potrebnog primaoca.</p>
+        <p><img alt="Pregled primaoca" src="../images/view_form_role.png" /></p>
+        <p>Krećite se kroz polja obrasca pomoću dugmadi <span class="icon icon-previous_field_icon"></span> <b>Prethodno polje</b> i <span class="icon icon-next_field_icon"></span> <b>Sledeće polje</b> u gornjoj traci sa alatkama.</p>
+        <p><img alt="panel za popunjavanje obrasca" src="../images/fill_form.png" /></p>
+        <p>Da obrišete sva polja i resetujete obrazac, kliknite na dugme <span class="icon icon-clear_fields_icon"></span> <b>Obriši polja</b> u gornjoj traci sa alatkama.</p>
+        <p>Da <b>izađete</b> iz režima pregleda, ponovo kliknite na istu ikonicu.</p>
+
+        <h2>Pomeranje polja obrasca</h2>
+        <p>Polja obrasca se mogu premestiti na drugo mesto u dokumentu: kliknite na dugme levo od ivice kontrole da izaberete polje i prevucite ga, bez puštanja tastera miša, na drugu poziciju u tekstu.</p>
+        <p><img alt="pomeranje polja obrasca" src="../images/moving_form_fields.png" /></p>
+        <p>Takođe možete <b>kopirati i nalepiti</b> polja obrasca: izaberite potrebno polje i koristite kombinacije tastera <b>Ctrl+C/Ctrl+V</b>.</p>
+
+        <h2>Kreiranje obaveznih polja</h2>
+        <p>Da biste <b>učinili polje obaveznim</b>, označite opciju <b>Required</b>. Obavezna polja biće označena crvenim okvirom.</p>
+
+        <h2>Zaključavanje polja obrasca</h2>
+        <p>Da biste <b>sprečili dalje uređivanje</b> umetnutog polja obrasca, kliknite na ikonicu <span class="icon icon-lock_form_icon"></span> <b>Zaključaj</b>. Popunjavanje polja ostaje dostupno.</p>
+
+        <h2>Uklanjanje polja obrasca</h2>
+        <p>Da uklonite polje obrasca i zadržite sav njegov sadržaj, izaberite ga i kliknite na ikonicu <span class="icon icon-combo_delete_values"></span> <b>Obriši</b> (proverite da polje nije zaključano) ili pritisnite taster <b>Delete</b> na tastaturi.</p>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Validacija podataka</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Podesite parametre validacije podataka da biste kontrolisali dalje uređivanje tabele" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Validacija podataka</h1>
+        <p>ONLYOFFICE <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Uređivač tabela</b></a> nudi funkciju <b>validacije podataka</b> koja kontroliše parametre informacija koje korisnici unose u ćelije.</p>
+        <p>Da biste pristupili funkciji validacije podataka, izaberite ćeliju, opseg ćelija ili celu tabelu na koju želite da primenite ovu funkciju, otvorite karticu <b>Podaci</b> i kliknite na ikonu <b>Validacija podataka</b> na gornjoj traci sa alatkama. Otvoreni prozor <b>Validacija podataka</b> sadrži tri kartice: <em>Podešavanja</em>, <em>Poruka za unos</em> i <em>Obaveštenje o grešci</em>.</p>
+        <h2>Podešavanja</h2>
+        <p>Odeljak <b>Podešavanja</b> omogućava da odredite tip podataka koji može da se unosi:</p>
+        <p class="note"><b>Napomena</b>: Označite polje <b>Primeni ove promene na sve ostale ćelije sa istim podešavanjima</b> da biste primenili ista podešavanja na izabrani opseg ćelija ili celu radnu tabelu.</p>
+        <p><img alt="Validacija podataka - prozor podešavanja" src="../images/dataval_settings.png" /></p>
+        <ul>
+            <li>
+                izaberite željenu opciju u meniju <b>Dozvoli</b>:
+                <ul>
+                    <li><b>Bilo koja vrednost</b>: nema ograničenja u pogledu tipa informacija.</li>
+                    <li><b>Ceo broj</b>: dozvoljeni su samo celi brojevi.</li>
+                    <li><b>Decimalni</b>: dozvoljeni su samo brojevi sa decimalnim zarezom/tačkom.</li>
+                    <li>
+                        <b>Lista</b>: dozvoljene su samo opcije iz padajuće liste koju ste kreirali. Opozovite izbor polja <b>Prikaži padajuću listu u ćeliji</b> da biste sakrili strelicu padajuće liste.
+                        <p><img alt="Lista - podešavanja" src="../images/dataval_list.png" /></p>
+                    </li>
+                    <li><b>Datum</b>: dozvoljene su samo ćelije sa formatom datuma.</li>
+                    <li><b>Vreme</b>: dozvoljene su samo ćelije sa formatom vremena.</li>
+                    <li><b>Dužina teksta</b>: postavlja ograničenje broja karaktera.</li>
+                    <li><b>Ostalo</b>: postavlja neophodni parametar validacije zadat formulom.</li>
+                </ul>
+                <p class="note"><b>Napomena</b>: Označite polje <b>Primeni ove promene na sve ostale ćelije sa istim podešavanjima</b> da biste primenili ista podešavanja na izabrani opseg ćelija ili celu radnu tabelu.</p>
+            </li>
+            <li>
+                odredite uslov validacije u meniju <b>Podaci</b>:
+                <ul>
+                    <li><b>između</b>: podaci u ćelijama treba da budu u okviru opsega koji je postavljen pravilom validacije.</li>
+                    <li><b>nije između</b>: podaci u ćelijama ne treba da budu u okviru opsega koji je postavljen pravilom validacije.</li>
+                    <li><b>jednako</b>: podaci u ćelijama treba da budu jednaki vrednosti postavljenoj pravilom validacije.</li>
+                    <li><b>nije jednako</b>: podaci u ćelijama ne treba da budu jednaki vrednosti postavljenoj pravilom validacije.</li>
+                    <li><b>veće od</b>: podaci u ćelijama treba da budu veći od vrednosti postavljene pravilom validacije.</li>
+                    <li><b>manje od</b>: podaci u ćelijama treba da budu manji od vrednosti postavljene pravilom validacije.</li>
+                    <li><b>veće od ili jednako</b>: podaci u ćelijama treba da budu veći ili jednaki vrednosti postavljenoj pravilom validacije.</li>
+                    <li><b>manje od ili jednako</b>: podaci u ćelijama treba da budu manji ili jednaki vrednosti postavljenoj pravilom validacije.</li>
+                </ul>
+            </li>
+            <li>
+                kreirajte pravilo validacije u zavisnosti od dozvoljenog tipa informacija:
+                <div class="tg-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Uslov validacije</th>
+                                <th>Pravilo validacije</th>
+                                <th>Opis</th>
+                                <th>Dostupno za</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="3">Između / nije između</td>
+                                <td>Minimum / Maksimum</td>
+                                <td>Postavlja opseg vrednosti</td>
+                                <td>Ceo broj / Decimalni / Dužina teksta</td>
+                            </tr>
+                            <tr>
+                                <td>Početni datum / Krajnji datum</td>
+                                <td>Postavlja opseg datuma</td>
+                                <td>Datum</td>
+                            </tr>
+                            <tr>
+                                <td>Početno vreme / Krajnje vreme</td>
+                                <td>Postavlja vremenski period</td>
+                                <td>Vreme</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="4"> <br> <br>Jednako / nije jednako</td>
+                                <td>Uporedi sa</td>
+                                <td>Postavlja vrednost za poređenje</td>
+                                <td>Ceo broj / Decimalni</td>
+                            </tr>
+                            <tr>
+                                <td>Datum</td>
+                                <td>Postavlja datum za poređenje</td>
+                                <td>Datum</td>
+                            </tr>
+                            <tr>
+                                <td>Proteklo vreme</td>
+                                <td>Postavlja vreme za poređenje</td>
+                                <td>Vreme</td>
+                            </tr>
+                            <tr>
+                                <td>Dužina</td>
+                                <td>Postavlja vrednost dužine teksta za poređenje</td>
+                                <td>Dužina teksta</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="3">Veće od / veće od ili jednako</td>
+                                <td>Minimum</td>
+                                <td>Postavlja donju granicu</td>
+                                <td>Ceo broj / Decimalni / Dužina teksta</td>
+                            </tr>
+                            <tr>
+                                <td>Početni datum</td>
+                                <td>Postavlja početni datum</td>
+                                <td>Datum</td>
+                            </tr>
+                            <tr>
+                                <td>Početno vreme</td>
+                                <td>Postavlja početno vreme</td>
+                                <td>Vreme</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="3">Manje od / manje od ili jednako</td>
+                                <td>Maksimum </td>
+                                <td>Postavlja gornju granicu</td>
+                                <td>Ceo broj / Decimalni / Dužina teksta</td>
+                            </tr>
+                            <tr>
+                                <td>Krajnji datum</td>
+                                <td>Postavlja krajnji datum</td>
+                                <td>Datum</td>
+                            </tr>
+                            <tr>
+                                <td>Krajnje vreme</td>
+                                <td>Postavlja krajnje vreme</td>
+                                <td>Vreme </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                Kao i:
+                <ul>
+                    <li><b>Izvor</b>: navedite izvor informacija za tip informacija <em>Lista</em>.</li>
+                    <li><b>Formula</b>: unesite potrebnu formulu da biste kreirali prilagođeno pravilo validacije za tip informacija <em>Ostalo</em>.</li>
+                </ul>
+            </li>
+        </ul>
+        <h2>Poruka za unos</h2>
+        <p>Odeljak <b>Poruka za unos</b> omogućava vam da kreirate prilagođenu poruku koja se prikazuje kada korisnik pređe pokazivačem miša preko ćelije.</p>
+        <p><img alt="Validacija podataka - podešavanja poruke za unos" src="../images/dataval_inputmessage.png" /></p>
+        <ul>
+            <li>Navedite <b>Naslov</b> i sadržaj vaše <b>Poruke za unos</b>.</li>
+            <li>Opozovite izbor opcije <b>Prikaži poruku za unos kada je ćelija izabrana</b> da biste onemogućili prikaz poruke. Ostavite označeno da biste prikazali poruku.</li>
+        </ul>
+        <p><img alt="Poruka za unos - primer" src="../images/dataval_inputmessage_example.png" /></p>
+        <h2>Obaveštenje o grešci</h2>
+        <p>Odeljak <b>Obaveštenje o grešci</b> omogućava vam da odredite poruku koja se prikazuje kada podaci koje unesu korisnici ne ispunjavaju pravila validacije.</p>
+        <p><img alt="Validacija podataka - podešavanja obaveštenja o grešci" src="../images/dataval_erroralert.png" /></p>
+        <ul>
+            <li><b>Stil</b>: izaberite jedan od dostupnih unapred definisanih stilova, <em>Zaustavi</em>, <em>Upozorenje</em> ili <em>Poruka</em>.</li>
+            <li><b>Naslov</b>: navedite naslov poruke upozorenja.</li>
+            <li><b>Poruka o grešci</b>: unesite tekst poruke upozorenja.</li>
+            <li>Opozovite izbor polja <b>Prikaži obaveštenje o grešci nakon unosa nevažećih podataka</b> da biste onemogućili prikaz poruke upozorenja.</li>
+        </ul>
+        <p><img alt="Obaveštenje o grešci - primer" src="../images/dataval_erroralert_example.png" /></p>
+    </div>
+</body>
+</html>

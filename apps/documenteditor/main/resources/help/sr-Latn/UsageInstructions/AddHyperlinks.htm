@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dodavanje hiperveza</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Dodavanje hiperveza na reč ili tekstualni fragment koji vodi ka eksternom sajtu" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Dodavanje hiperveza</h1>
+			<p>Da biste dodali hipervezu u <a href="https://www.onlyoffice.com/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor</b></a>,</p>
+			<ol>
+				<li>postavite kursor na tekst koji želite da bude prikazan kao hiperveza,</li>
+                <li>prebacite se na karticu <b>Umetni</b> ili <b>Reference</b> na vrhu trake sa alatkama,</li>
+				<li>kliknite na ikonu <div class="icon icon-addhyperlink"></div> <b>Hiperveza</b> na vrhu trake sa alatkama,</li>
+				<li>Nakon toga će se otvoriti prozor <b>Podešavanja hiperveze</b>, gde ćete moći da podesite parametre hiperveze:
+					<ul>
+						<li>
+							Izaberite tip veze koji želite da umetnete:
+							<p>Koristite opciju <b>Eksterna veza</b> i unesite URL u formatu <em>http://www.example.com</em> u polje <b>Poveži sa</b> ako želite da dodate hipervezu koja vodi ka <b>eksternom</b> sajtu. Ako želite da dodate hipervezu ka <b>lokalnom</b> fajlu, unesite URL u formatu <em>file://putanja/Document.docx</em> (za Windows) ili <em>file:///putanja/Document.docx</em> (za macOS i Linux) u polje <b>Poveži sa</b>.</p>
+							<p class="note">Hiperveze u formatu <em>file://putanja/Document.docx</em> ili <em>file:///putanja/Document.docx</em> mogu se otvoriti samo u desktop verziji editora. U web editoru možete samo dodati vezu bez mogućnosti njenog otvaranja.</p>
+							<p><img alt="Prozor podešavanja hiperveze" src="../../../../../../common/main/resources/help/en/images/hyperlinkwindow.png" /></p>
+							<p>Koristite opciju <b>Postavi u dokument</b> i izaberite jedan od postojećih <a href="../UsageInstructions/FormattingPresets.htm" onclick="onhyperlinkclick(this)">naslova</a> u tekstu dokumenta ili jedan od prethodno dodatih <a href="../UsageInstructions/InsertBookmarks.htm" onclick="onhyperlinkclick(this)">obeleživača</a> ako želite da dodate hipervezu ka određenom mestu u istom dokumentu.</p>
+							<p><img alt="Prozor podešavanja hiperveze" src="../images/hyperlinkwindow1.png" /></p>
+						</li>
+						<li><b>Prikaz</b> - unesite tekst koji će biti klikabilan i voditi ka adresi navednoj u gornjem polju.</li>
+						<li><b>Tekst pomoćnog obaveštenja</b> - unesite tekst koji će biti prikazan u malom iskačućem prozoru sa kratkom napomenom ili oznakom vezanom za hipervezu.</li>
+					</ul>
+				</li>
+				<li>Kliknite na dugme <b>OK</b>.</li>
+			</ol>
+            <p>Za dodavanje hiperveze možete takođe koristiti kombinaciju tastera <b>Ctrl+K</b> ili kliknuti desnim tasterom miša na mesto gde će hiperveza biti dodata i izabrati opciju <b>Hiperveza</b> iz menija.</p>
+			<p class="note"><b>Napomena</b>: moguće je izabrati karakter, reč, kombinaciju reči ili deo teksta pomoću miša ili <a href="../HelpfulHints/KeyboardShortcuts.htm#textselection" onclick="onhyperlinkclick(this)">korišćenjem tastature</a> i 
+			zatim otvoriti prozor <b>Podešavanja hiperveze</b> kao što je opisano. U tom slučaju polje <b>Prikaz</b> će biti popunjeno izabranim tekstom.</p>
+			<p>Postavljanjem kursora na dodatu hipervezu pojaviće se pomoćni tekst sa sadržajem koji ste uneli. 
+			Na vezu možete kliknuti držeći taster <b>CTRL</b>.</p>
+			<p>Da biste izmenili ili obrisali dodatu hipervezu, kliknite desnim tasterom miša na hipervezu, izaberite opciju <b>Hiperveza</b> i potom željenu akciju - <b>Izmeni hipervezu</b> ili <b>Ukloni hipervezu</b>.</p>
+		</div>
+	</body>
+</html>

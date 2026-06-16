@@ -1,3 +1,38 @@
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import React, {Component} from 'react';
 import { EditCell } from '../../view/edit/EditCell';
 import { f7 } from 'framework7-react';
@@ -9,10 +44,32 @@ class EditCellController extends Component {
         super(props);
         this.dateFormats = this.initFormats(Asc.c_oAscNumFormatType.Date, 38822);
         this.timeFormats = this.initFormats(Asc.c_oAscNumFormatType.Time, 1.534);
+        this.knownFormats = this.initKnownFormats();
+
         this.initCustomFormats = this.initCustomFormats.bind(this);
+        this.memorizeCurrentFormat = this.memorizeCurrentFormat.bind(this);
         this.setCustomFormat = this.setCustomFormat.bind(this);
+        this.onCellFormat = this.onCellFormat.bind(this);
+        this.onAccountingCellFormat = this.onAccountingCellFormat.bind(this);
         this.onBorderStyle = this.onBorderStyle.bind(this);
+
         this.initCustomFormats();
+        this.memorizeCurrentFormat();
+    }
+
+    memorizeCurrentFormat() {
+        const api = Common.EditorApi.get();
+        const info = api.asc_getCellInfo();
+        const xfs = info.asc_getXfs();
+        const numFormat = xfs.asc_getNumFormat();
+        this.props.storeCellSettings.setCellFormat(numFormat);
+
+        const formatInfo = xfs.asc_getNumFormatInfo();
+        const formatType = formatInfo.asc_getType();
+        this.props.storeCellSettings.setCellFormatType(formatType);
+
+        const uiFormatType = this.getUiFormatType(numFormat, formatType);
+        this.props.storeCellSettings.setUiFormatType(uiFormatType);
     }
 
     initFormats(type, exampleVal) {
@@ -52,6 +109,61 @@ class EditCellController extends Component {
         storeCellSettings.initCustomFormats(data);
     }
 
+    initKnownFormats() {
+        const api = Common.EditorApi.get();
+
+        const simpleFormats = {
+            [Asc.c_oAscNumFormatType.General]: ['General'],
+            [Asc.c_oAscNumFormatType.Number]: ['0.00'],
+            [Asc.c_oAscNumFormatType.Fraction]: ['# ?/?'],
+            [Asc.c_oAscNumFormatType.Scientific]: ['0.00E+00'],
+            [Asc.c_oAscNumFormatType.Percent]: ['0.00%'],
+            [Asc.c_oAscNumFormatType.Text]: ['@'],
+        };
+
+        const accountingSymbols = [1033, 1031, 2057, 1049, 1041]; // $, €, £, ₽, ¥
+        const accountingFormats = accountingSymbols.flatMap(symbol => {
+            const info = new Asc.asc_CFormatCellsInfo();
+            info.asc_setType(Asc.c_oAscNumFormatType.Accounting);
+            info.asc_setSeparator(false);
+            info.asc_setSymbol(symbol);
+            return api.asc_getFormatCells(info) || [];
+        });
+
+        const currencyFormats = [
+            '[$$-409]#,##0.00',
+            '#,##0.00\ [$€-407]',
+            '[$£-809]#,##0.00',
+            '#,##0.00\ [$₽-419]',
+            '[$¥-411]#,##0.00'
+        ];
+
+        const dateFormats = this.dateFormats.map(f => f.value);
+        const timeFormats = this.timeFormats.map(f => f.value);
+
+        return {
+            ...simpleFormats,
+            [Asc.c_oAscNumFormatType.Accounting]: accountingFormats,
+            [Asc.c_oAscNumFormatType.Currency]: currencyFormats,
+            [Asc.c_oAscNumFormatType.Date]: dateFormats,
+            [Asc.c_oAscNumFormatType.Time]: timeFormats,
+        };
+    }
+
+    getUiFormatType(cellFormat, cellFormatType) {
+        if (cellFormatType === Asc.c_oAscNumFormatType.Custom) {
+            return Asc.c_oAscNumFormatType.Custom;
+        }
+
+        const knownForType = this.knownFormats[cellFormatType];
+        if (!knownForType || !knownForType.includes(cellFormat)) {
+            return Asc.c_oAscNumFormatType.Custom;
+        }
+
+        return cellFormatType;
+    }
+
+
     setCustomFormat(value) {
         const api = Common.EditorApi.get();
         const format = api.asc_convertNumFormatLocal2NumFormat(value);
@@ -62,6 +174,9 @@ class EditCellController extends Component {
             format
         });
         api.asc_setCellFormat(format);
+
+        storeCellSettings.setCellFormat(format);
+        storeCellSettings.setCellFormatType(Asc.c_oAscNumFormatType.Custom);
     }
 
     toggleBold(value) {
@@ -178,6 +293,8 @@ class EditCellController extends Component {
     onCellFormat(format) {
         const api = Common.EditorApi.get();
         api.asc_setCellFormat(format);
+
+        this.memorizeCurrentFormat();
     }
 
     onAccountingCellFormat(value) {
@@ -190,8 +307,11 @@ class EditCellController extends Component {
 
         let format = api.asc_getFormatCells(info);
 
-        if (format && format.length > 0)
+        if (format && format.length > 0) {
             api.asc_setCellFormat(format[0]);
+            this.props.storeCellSettings.setCellFormat(format[0]);
+            this.props.storeCellSettings.setCellFormatType(Asc.c_oAscNumFormatType.Accounting);
+        }
     }
 
     onBorderStyle(type, borderInfo) {

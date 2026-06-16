@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  DocumentHolderExt.js
@@ -58,10 +61,23 @@ define([], function () {
         };
 
         dh.setEvents = function() {
+            var me = this;
+
             this.addListeners({
                 'DocumentHolder': {
                     'createdelayedelements': this.createDelayedElements,
                     'equation:callback': this.equationCallback
+                },
+                'Common.Views.ChartTab': {
+                    'charttab:updatemenu': function (menu) {
+                        me.chartProps = me.getCurrentChartProps();
+                        if (me.chartProps) {
+                            this.updateChartElementMenu(menu, me.chartProps)
+                        }
+                    },
+                    'charttab:elementselected': function (menu, item) {
+                        me.onChartElement(menu, item)
+                    }
                 }
             });
 
@@ -89,6 +105,7 @@ define([], function () {
                     this.api.asc_registerCallback('asc_onHideEyedropper',           _.bind(this.hideEyedropper, this));
                     this.api.asc_SetMathInputType(Common.localStorage.getBool("de-equation-input-latex") ? Asc.c_oAscMathInputType.LaTeX : Asc.c_oAscMathInputType.Unicode);
                     this.api.asc_registerCallback('asc_onSingleChartSelectionChanged',  _.bind(this.onSingleChartSelectionChanged, this));
+                    this.api.asc_registerCallback('asc_onHorRuleDblClick',             _.bind(this.onHLAdvanced, this));
                 }
                 this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
                 this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));
@@ -101,6 +118,7 @@ define([], function () {
                     Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this));
                     Common.NotificationCenter.on('forms:image-select', _.bind(this.selectFormImage, this));// select from right pane
                 }
+                Common.NotificationCenter.on('charttab:advanced', _.bind(this.onImgAdvanced, this));
                 this.api.asc_registerCallback('onPluginContextMenu',                 _.bind(this.onPluginContextMenu, this));
             }
         };
@@ -237,6 +255,8 @@ define([], function () {
             view.menuTableRemoveForm.on('click', _.bind(me.onControlsSelect, me));
             view.menuTableRemoveControl.on('click', _.bind(me.onControlsSelect, me));
             view.menuTableControlSettings.on('click', _.bind(me.onControlsSelect, me));
+            view.menuImgStretchContentControl.on('click', _.bind(me.onControlsSelect, me));
+            view.menuTableStretchContentControl.on('click', _.bind(me.onControlsSelect, me));
             view.menuParaRemoveControl.on('click', _.bind(me.onControlsSelect, me));
             view.menuParaControlSettings.on('click', _.bind(me.onControlsSelect, me));
             view.menuTableCellAlign.menu.on('item:click', _.bind(me.tableCellsVAlign, me));
@@ -245,10 +265,13 @@ define([], function () {
             view.menuStyleSaveInTable.on('click', _.bind(me.onMenuSaveStyle, me));
             view.menuStyleUpdateInTable.on('click', _.bind(me.onMenuUpdateStyle, me));
             view.menuParagraphAdvanced.on('click', _.bind(me.advancedParagraphClick, me));
+            view.menuEditHyperlinkPic.on('click', _.bind(me.editHyperlink, me));
             view.menuEditHyperlinkTable.on('click', _.bind(me.editHyperlink, me));
             view.menuEditHyperlinkPara.on('click', _.bind(me.editHyperlink, me));
+            view.menuRemoveHyperlinkPic.on('click', _.bind(me.onRemoveHyperlink, me));
             view.menuRemoveHyperlinkTable.on('click', _.bind(me.onRemoveHyperlink, me));
             view.menuRemoveHyperlinkPara.on('click', _.bind(me.onRemoveHyperlink, me));
+            view.menuAddHyperlinkPic.on('click', _.bind(me.addHyperlink, me));
             view.menuAddHyperlinkTable.on('click', _.bind(me.addHyperlink, me));
             view.menuAddHyperlinkPara.on('click', _.bind(me.addHyperlink, me));
             view.menuAddCommentTable.on('click', _.bind(me.addComment, me));
@@ -277,8 +300,18 @@ define([], function () {
             view.menuImageWrap.menu.on('item:click', _.bind(me.onImgWrap, me));
             view.menuImageAdvanced.on('click', _.bind(me.onImgAdvanced, me));
             view.menuOriginalSize.on('click', _.bind(me.onImgOriginalSize, me));
+            view.menuHLCut.on('click', _.bind(me.onCutCopyPaste, me));
+            view.menuHLCopy.on('click', _.bind(me.onCutCopyPaste, me));
+            view.menuHLPaste.on('click', _.bind(me.onCutCopyPaste, me));
+            view.menuHLPrint.on('click', _.bind(me.onPrintSelection, me));
+            view.menuHLInsertCaption.on('click', _.bind(me.onInsertCaption, me));
+            view.menuAddHyperlinkHL.on('click', _.bind(me.addHyperlink, me));
+            view.menuEditHyperlinkHL.on('click', _.bind(me.editHyperlink, me));
+            view.menuRemoveHyperlinkHL.on('click', _.bind(me.onRemoveHyperlink, me));
+            view.menuHLAdvanced.on('click', _.bind(me.onHLAdvanced, me));
             view.menuImgReplace.menu.on('item:click', _.bind(me.onImgReplace, me));
             view.menuImgEditPoints.on('click', _.bind(me.onImgEditPoints, me));
+            view.menuImgConvertToShape.on('click', _.bind(me.onImgConvertToShape, me));
             view.mnuTableMerge.on('click', _.bind(me.onTableMerge, me));
             view.mnuTableSplit.on('click', _.bind(me.onTableSplit, me));
             view.menuIgnoreSpellTable.on('click', _.bind(me.onIgnoreSpell, me));
@@ -359,10 +392,10 @@ define([], function () {
 
                     menu_props.imgProps.value = elValue;
                     menu_props.imgProps.locked = (elValue) ? elValue.get_Locked() : false;
+                    menu_props.imgProps.isTable = me.api.asc_IsTable();
 
                     noobject = false;
-                    if ( (shapeprops===undefined || shapeprops===null) && (chartprops===undefined || chartprops===null) )  // not shape and chart
-                        break;
+                    
                 } else if (Asc.c_oAscTypeSelectElement.Table == elType)
                 {
                     menu_to_show = documentHolder.tableMenu;
@@ -396,6 +429,10 @@ define([], function () {
                     menu_props.mathProps = {};
                     menu_props.mathProps.value = elValue;
                     me.documentHolder._currentMathObj = elValue;
+                } else if (Asc.c_oAscTypeSelectElement.HorizontalLine == elType) {
+                    menu_to_show = documentHolder.hlMenu;
+                    menu_props.horizontalRuleProps = elValue;
+                    noobject = false;
                 }
             }
             return (!noobject) ? {menu_to_show: menu_to_show, menu_props: menu_props} : null;
@@ -548,7 +585,6 @@ define([], function () {
                         win.setSettings(props);
                     }
                 }
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Add Hyperlink');
             }
         };
 
@@ -1083,8 +1119,12 @@ define([], function () {
                 vertAxes = chartProps.getVertAxesProps && chartProps.getVertAxesProps(),
                 depthAxes = chartProps.getDepthAxesProps && chartProps.getDepthAxesProps(),
                 dataLabelsPos = chartProps.getDataLabelsPos && chartProps.getDataLabelsPos(),
+                errorBarType = chartProps.getErrorBarsValueType && chartProps.getErrorBarsValueType(),
                 title = chartProps.getTitle && chartProps.getTitle(),
                 legendPos = chartProps.getLegendPos && chartProps.getLegendPos(),
+                trendlineType = chartProps.getTrendlineType && chartProps.getTrendlineType(),
+                forecastForward = chartProps.getForecastForward && chartProps.getForecastForward(),
+                forecastBackward = chartProps.getForecastBackward && chartProps.getForecastBackward(),
                 GridMajor = Asc.c_oAscGridLinesSettings.major,
                 GridMinor = Asc.c_oAscGridLinesSettings.minor,
                 GridMajorMinor = Asc.c_oAscGridLinesSettings.majorMinor,
@@ -1100,7 +1140,15 @@ define([], function () {
                 LabelGroup2 = LabelGroup2Types.includes(comboType),
                 LabelGroup3 = LabelGroup3Types.includes(comboType),
                 LabelGroup4 = LabelGroup4Types.includes(comboType),
-                LabelGroup5 = LabelGroup5Types.includes(comboType);
+                LabelGroup5 = LabelGroup5Types.includes(comboType),
+                isMixedState = trendlineType === 1 && (forecastForward === undefined || forecastBackward === undefined),
+                trendlineState = {
+                    type: isMixedState ? undefined : trendlineType,
+                    isForecast: !!(trendlineType === 1 && (
+                        (forecastForward && forecastForward > 0) ||
+                        (forecastBackward && forecastBackward > 0)
+                    ))
+                };
 
             const axesMenu = menu.items[0].menu;
             axesMenu.items[0].setVisible(!RadarChart);
@@ -1165,6 +1213,18 @@ define([], function () {
             // highlightSubmenuItem(tableMenu.items[1], false, 'table');
             // highlightSubmenuItem(tableMenu.items[2], false,'table');
 
+            const errorBarsMenu = menu.items[4].menu;
+            errorBarsMenu.clearAll(true);
+            if (errorBarType === null) {
+                errorBarsMenu.items[0].setChecked(true);
+            } else if (errorBarType === AscFormat.st_errvaltypeSTDERR) {
+                errorBarsMenu.items[1].setChecked(true);
+            } else if (errorBarType === AscFormat.st_errvaltypePERCENTAGE) {
+                errorBarsMenu.items[2].setChecked(true);
+            } else if (errorBarType === AscFormat.st_errvaltypeSTDDEV) {
+                errorBarsMenu.items[3].setChecked(true);
+            }
+
             const gridMenu = menu.items[5].menu;
             gridMenu.items[0].setVisible(true);
             gridMenu.items[2].setVisible(true);
@@ -1190,6 +1250,20 @@ define([], function () {
             legendMenu.items[4].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.bottom);
             legendMenu.items[5].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.leftOverlay);
             legendMenu.items[6].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.rightOverlay);
+
+            const trendlinesMenu = menu.items[7].menu;
+            trendlinesMenu.clearAll(true);
+            if (trendlineState.type === null) {
+                trendlinesMenu.items[0].setChecked(true);
+            } else if (trendlineState.isForecast) {
+                trendlinesMenu.items[3].setChecked(true);
+            } else if (trendlineState.type === AscFormat.TRENDLINE_TYPE_LINEAR) {
+                trendlinesMenu.items[1].setChecked(true);
+            } else if (trendlineState.type === AscFormat.TRENDLINE_TYPE_EXP) {
+                trendlinesMenu.items[2].setChecked(true);
+            } else if (trendlineState.type === AscFormat.TRENDLINE_TYPE_MOVING_AVG) {
+                trendlinesMenu.items[4].setChecked(true);
+            }
 
             const supportedElements = chartElementMap[type] || [];
             menu.items.forEach(function(item) {
@@ -1243,7 +1317,6 @@ define([], function () {
                         if (me.chartProps) {
                             me.updateChartElementMenu(me.documentHolder.menuChartElement.menu, me.chartProps);
                         }
-                        Common.UI.TooltipManager.closeTip('chartElements');
                     });
                 }
 
@@ -1267,7 +1340,6 @@ define([], function () {
                         btn = rightSide + 5;
                     } else {
                         chartContainer.hide();
-                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 } else {
@@ -1277,7 +1349,6 @@ define([], function () {
                         btn = leftSide;
                     } else {
                         chartContainer.hide();
-                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 }
@@ -1288,7 +1359,6 @@ define([], function () {
                     var chartBottom = y + height;
                     if (chartBottom < 45) { 
                         chartContainer.hide();
-                        Common.UI.TooltipManager.closeTip('chartElements');
                         return;
                     }
                 }
@@ -1297,15 +1367,10 @@ define([], function () {
                     left: btn + 'px',
                     top: btnTop + 'px'
                 }).show();
-                setTimeout(function (){
-                    Common.UI.TooltipManager.showTip('chartElements');
-                    Common.UI.TooltipManager.applyPlacement('chartElements');
-                }, 100);
 
                 me.disableChartElementButton();
             } else {
                 chartContainer.hide();
-                Common.UI.TooltipManager.closeTip('chartElements');
             }
 
              var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
@@ -1338,7 +1403,6 @@ define([], function () {
             var chartContainer = this.documentHolder.cmpEl.find('#chart-element-container');
             if (chartContainer.is(':visible')) {
                 chartContainer.hide();
-                Common.UI.TooltipManager.closeTip('chartElements');
             }
         };
 
@@ -1406,7 +1470,25 @@ define([], function () {
                     }).on('click', _.bind(me.onSpecialPasteItemClick, me));
                     menu.addItem(mnu);
                 });
-                (menu.items.length>0) && menu.items[0].setChecked(true, true);
+                var lastSelected = specialPasteShowOptions.asc_getLastSelectedPasteProperty();
+                (menu.items.length>0) && !lastSelected && menu.items[0].setChecked(true, true);
+
+                if (lastSelected) {
+                    var foundItem = null;
+                    if (me.btnSpecialPaste && me.btnSpecialPaste.menu && me.btnSpecialPaste.menu.items.length > 0) {
+                        for (var i = 0; i < me.btnSpecialPaste.menu.items.length; i++) {
+                            var menuItem = me.btnSpecialPaste.menu.items[i];
+                            if (menuItem.value === lastSelected) {
+                                foundItem = menuItem;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (foundItem) {
+                        foundItem.setChecked(true, true);
+                    }
+                }
             }
 
             var showPoint = [coord.asc_getX() + coord.asc_getWidth() + 3, coord.asc_getY() + coord.asc_getHeight() + 3];
@@ -1474,7 +1556,7 @@ define([], function () {
             }
             str = str.substring(0, str.length-1)
             var keymap = {};
-            keymap[str] = _.bind(function(e) {
+            keymap[str + ' ' + 'special-paste-context'] = _.bind(function(e) {
                 var menu = this.btnSpecialPaste.menu;
                 for (var i = 0; i < menu.items.length; i++) {
                     if (this.hkSpecPaste[menu.items[i].value] === String.fromCharCode(e.keyCode)) {
@@ -1483,12 +1565,14 @@ define([], function () {
                 }
             }, me);
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
-            Common.util.Shortcuts.suspendEvents(str, undefined, true);
+            Common.util.Shortcuts.suspendEvents(str, 'special-paste-context', true);
 
             me.btnSpecialPaste.menu.on('show:after', function(menu) {
-                Common.util.Shortcuts.resumeEvents(str);
+                window.key.setScope('special-paste-context');
+                Common.util.Shortcuts.resumeEvents(str, 'special-paste-context');
             }).on('hide:after', function(menu) {
-                Common.util.Shortcuts.suspendEvents(str, undefined, true);
+                window.key.setScope('all');
+                Common.util.Shortcuts.suspendEvents(str, 'special-paste-context', true);
             });
         };
 
@@ -1831,32 +1915,40 @@ define([], function () {
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    if (false) {
-                        if (_.isUndefined(me.fontStore)) {
+                    if (me.mode.canSaveToFile) {
+                        if (!me.fontStore) {
                             me.fontStore = new Common.Collections.Fonts();
-                            var fonts = me.getApplication().getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
-                            var arr = [];
-                            _.each(fonts, function(font, index){
-                                if (!font.cloneid) {
-                                    arr.push(_.clone(font));
-                                }
-                            });
-                            me.fontStore.add(arr);
+
+                            const app = me.getApplication(),
+                                cmbFonts = me.getApplication().getController('Toolbar').getView('Toolbar').cmbFontName;
+                            if ( cmbFonts && cmbFonts.store ) {
+                                const fonts = cmbFonts.store.toJSON();
+                                me.fontStore.add(fonts.filter(font => !font.cloneid));
+                            } else {
+                                const fontsController = app.getController('Common.Controllers.Fonts');
+                                fontsController && (me.fontStore = fontsController.store());
+                            }
                         }
-                        (new Common.Views.PdfSignDialog({
-                            props: obj,
+                        var signProps = obj.asc_getSignatureProps(me.api);
+                        var win = (new Common.Views.PdfSignDialog({
+                            props: signProps,
                             api: me.api,
                             disableNetworkFunctionality: me.mode.disableNetworkFunctionality,
                             storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
                             fontStore: me.fontStore,
                             handler: function(result, value) {
                                 if (result == 'ok') {
-                                    me.api.asc_SetSignatureProps(value);
+                                    me.api.asc_SetSignatureProps(signProps.getResult());
                                 }
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             }
-                        })).show();
-                    } else {
+                        })).on('close', function(obj){
+                            setTimeout(function(){
+                                me.api.asc_UncheckContentControlButtons();
+                            }, 100);
+                        });
+                        win.show();
+                    } else { // select picture in viewer only from local file
                         this.api.asc_addImage(obj.pr);
                         setTimeout(function(){
                             me.api.asc_UncheckContentControlButtons();
@@ -2008,8 +2100,6 @@ define([], function () {
 
                 win.show();
                 win.setSettings(item.hyperProps.value);
-
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Add Hyperlink');
             }
         };
 
@@ -2194,7 +2284,6 @@ define([], function () {
                 opts.asc_setAdvancedOptions(printopt);
                 this.api.asc_Print(opts);
                 this.editComplete();
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Print Selection');
             }
         };
 
@@ -2214,6 +2303,10 @@ define([], function () {
                             me.editComplete();
                         }
                     })).show();
+                } else if (item.value == 'stretch') {
+                    if ( me.api.asc_StretchFormToCell ) {
+                        me.api.asc_StretchFormToCell(me.api.asc_GetCurrentContentControl());
+                    }
                 } else if (item.value == 'remove') {
                     props.get_FormPr() ? this.api.asc_RemoveContentControl(props.get_InternalId()) : this.api.asc_RemoveContentControlWrapper(props.get_InternalId());
                 }
@@ -2446,13 +2539,10 @@ define([], function () {
                     value = (alignto==1) ? Asc.c_oAscObjectsAlignType.Page : ((me.api.asc_getSelectedDrawingObjectsCount()<2 && !alignto || alignto==2) ? Asc.c_oAscObjectsAlignType.Margin : Asc.c_oAscObjectsAlignType.Selected);
                 if (item.value < 6) {
                     me.api.put_ShapesAlign(item.value, value);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Shape Align');
                 } else if (item.value == 6) {
                     me.api.DistributeHorizontally(value);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Horizontally');
                 } else if (item.value == 7){
                     me.api.DistributeVertically(value);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
                 }
             }
             me.editComplete();
@@ -2462,7 +2552,6 @@ define([], function () {
             var me = this;
             if (item && item.value) {
                 me.api.asc_mergeSelectedShapes(item.value);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Shapes Merge');
             }
             me.editComplete();
         };
@@ -2524,6 +2613,35 @@ define([], function () {
                 me.api.ImgApply(properties);
             }
             me.editComplete();
+        };
+
+        dh.onHLAdvanced = function() {
+            var me = this;
+            if (!me.api) return;
+            var selectedElements = me.api.getSelectedElements();
+            if (!selectedElements || !_.isArray(selectedElements)) return;
+            for (var i = selectedElements.length - 1; i >= 0; i--) {
+                var elType  = selectedElements[i].get_ObjectType();
+                var elValue = selectedElements[i].get_ObjectValue();
+                if (Asc.c_oAscTypeSelectElement.HorizontalLine === elType) {
+                    var section = me.api.asc_GetSectionProps ? me.api.asc_GetSectionProps() : null;
+                    var colWidth = me.api.asc_GetCurrentColumnWidth
+                        ? me.api.asc_GetCurrentColumnWidth()
+                        : (section ? section.get_W() - section.get_LeftMargin() - section.get_RightMargin() : null);
+                    var win = new DE.Views.HorizontalLineSettings({
+                        hrProps: elValue,
+                        colWidth: colWidth,
+                        handler: function(state, settings) {
+                            if (state === 'ok' && me.api) {
+                                me.api.asc_SetHorizontalRuleProperties(settings);
+                            }
+                            me.editComplete();
+                        }
+                    });
+                    win.show();
+                    return;
+                }
+            }
         };
 
         dh.onImgAdvanced = function(item, e) {
@@ -2616,6 +2734,11 @@ define([], function () {
             this.api && this.api.asc_editPointsGeometry();
         };
 
+        dh.onImgConvertToShape = function() {
+            this.api && this.api.asc_convertImageToShapes();
+            this.editComplete();
+        };
+
         dh.onTableMerge = function(item) {
             this.api && this.api.MergeCells();
         };
@@ -2630,7 +2753,6 @@ define([], function () {
                             if (me.api) {
                                 me.api.SplitCell(value.columns, value.rows);
                             }
-                            Common.component.Analytics.trackEvent('DocumentHolder', 'Table');
                         }
                         me.editComplete();
                     }

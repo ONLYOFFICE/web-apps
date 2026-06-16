@@ -82,7 +82,7 @@
     "menuUnmerge": "Annuler la fusion",
     "menuUnwrap": "Annuler le renvoi à la ligne",
     "menuViewComment": "Voir le commentaire",
-    "menuWrap": "Habillage du texte",
+    "menuWrap": "Renvoyer à la ligne",
     "notcriticalErrorTitle": "Avertissement",
     "textCopyCutPasteActions": "Fonctions de Copier, Couper et Coller",
     "textDoNotShowAgain": "Ne plus afficher",
@@ -221,6 +221,7 @@
       "textNo": "Non",
       "textNoChoices": "Il n'y a pas de choix pour remplir la cellule.<br>Seules les valeurs de texte de la colonne peuvent être sélectionnées pour le remplacement.",
       "textNoLicenseTitle": "La limite de la licence est atteinte",
+      "textNoResourcesTitle": "Ressources insuffisantes",
       "textNoMatches": "Aucune correspondance",
       "textOk": "Accepter",
       "textPaidFeature": "Fonction payante",
@@ -244,6 +245,7 @@
       "warnLicenseLimitedNoAccess": "La licence est expirée. Vous n'avez plus d'accès aux outils d'édition. Veuillez contacter votre administrateur.",
       "warnLicenseLimitedRenewed": "Il est indispensable de renouveler la licence. Vous avez un accès limité aux outils d'édition des documents.<br>Veuillez contacter votre administrateur pour obtenir un accès complet",
       "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
+      "warnNoResources": "Le serveur %1 ne dispose pas de ressources suffisantes pour ouvrir ce document en mode édition. Ce document sera ouvert en mode lecture seule.",
       "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
       "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
     }
@@ -293,11 +295,13 @@
     "errorEditingDownloadas": "Une erreur s'est produite pendant le travail sur le document. Utilisez l'option \"Télécharger\" pour enregistrer une sauvegarde locale",
     "errorEditView": "Il est impossible de modifier le mode Feuille actuel et de créer de nouveaux modes pour le moment parce que certains modes sont en cours d'édition.",
     "errorEmailClient": "Aucun client d'email ne peut être trouvé",
+    "errorFileNotAssembled": "Ce fichier est ouvert depuis une copie de sauvegarde du serveur et n'est pas enregistré dans le stockage.<br>Utilisez l'option « Enregistrer sous... » pour l'enregistrer sur un lecteur.",
     "errorFilePassProtect": "Le fichier est protégé par le mot de passe et ne peut être ouvert.",
     "errorFileRequest": "Erreur externe.<br>Erreur de demande du fichier. Contactez l'assistance technique.",
     "errorFileSizeExceed": "La taille du fichier dépasse les limites établies sur votre serveur.<br>Pour en savoir plus, veuillez contacter votre administrateur.  ",
     "errorFileVKey": "Erreur externe.<br>Clé de sécurité incorrecte. Contactez l'assistance technique.",
     "errorFillRange": "Il est impossible de remplir la plage de cellules sélectionnée.<br>Toutes les cellules unies doivent être de la même taille.",
+    "errorForcedViewMode": "Ce fichier est ouvert en mode lecture seule.<br>Le fichier est verrouillé pour modification ou vos droits d'accès ne permettent pas la modification.",
     "errorForceSave": "Une erreur est survenue lors de l'enregistrement du fichier. Veuillez utiliser l'option «Télécharger en tant que» pour enregistrer le fichier sur le disque dur de votre ordinateur ou réessayer plus tard.",
     "errorFormulaInPivotFieldName": "Impossible de saisir une formule pour un nom d'élément ou de champ dans un rapport de tableau croisé dynamique.",
     "errorFormulaName": "Il y a une erreur dans la formule : nom de la formule incorrecte.",
@@ -450,6 +454,7 @@
     "textSheetName": "Nom de la feuille",
     "textTabColor": "Couleur d'onglet",
     "textUnhide": "Afficher",
+    "textUnhideSheets": "Afficher les feuilles",
     "textWarnDeleteSheet": "La feuille de calcul peut contenir des données. Êtes-vous sûr de vouloir continuer?",
     "warnAddSheetCsv": "Le format CSV ne prend pas en charge l'enregistrement d'un fichier à plusieurs feuilles. Seule la feuille active sera enregistrée. Pour conserver toutes les feuilles, veuillez enregistrer le fichier dans un autre format."
   },
@@ -591,7 +596,7 @@
       "textDeleteFilter": "Supprimer filtre",
       "textDeleteImage": "Supprimer l’image",
       "textDeleteLink": "Supprimer le lien",
-      "textDesign": "Stylique",
+      "textDesign": "Conception",
       "textDiagonalDownBorder": "Bordure diagonale bas",
       "textDiagonalUpBorder": "Bordure diagonale haut",
       "textDisplay": "Affichage",
@@ -613,7 +618,7 @@
       "textFilterOptions": "Options filtre",
       "textFit": "Ajuster au largeur",
       "textFonts": "Polices",
-      "textFormat": "Format",
+      "textFormat": "Format des chiffres",
       "textFraction": "Fraction",
       "textFromLibrary": "Image depuis la bibliothèque",
       "textFromURL": "Image à partir d'une URL",
@@ -804,7 +809,7 @@
       "textLeftToRight": "De gauche à droite",
       "textLight": "Clair",
       "textLocation": "Emplacement",
-      "textLookIn": "Rechercher dans",
+      "textLookIn": "Regarder dans",
       "textMacrosSettings": "Réglages macros",
       "textMargins": "Marges",
       "textMatchCase": "Respecter la casse",
@@ -812,6 +817,7 @@
       "textNoMatches": "Aucune correspondance",
       "textOk": "OK",
       "textOpenFile": "Entrer le mot de passe pour ouvrir le fichier",
+      "textOpenLocation": "Ouvrir l'emplacement ",
       "textOrientation": "Orientation",
       "textOwner": "Propriétaire",
       "textPoint": "Point",
@@ -897,8 +903,7 @@
       "txtZhtw": "Chinois (traditionnel)",
       "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?",
       "warnDownloadCsv": "Le format CSV ne prend pas en charge l'enregistrement d'un fichier à plusieurs feuilles et de tous les éléments, à l'exception du texte.<br>Pour enregistrer uniquement la feuille sélectionnée au format CSV, appuyez sur OK.<br>Pour enregistrer l'ensemble du classeur et toutes les fonctionnalités, cliquez sur Annuler et sélectionnez un autre format.",
-      "warnDownloadOds": "L'enregistrement de ce fichier peut entraîner la perte de certaines formules, de la mise en forme des cellules ou des objets intégrés en raison d'une prise en charge limitée des formats. Voulez-vous vraiment continuer ?",
-      "textOpenLocation": "Open location"
+      "warnDownloadOds": "L'enregistrement de ce fichier peut entraîner la perte de certaines formules, de la mise en forme des cellules ou des objets intégrés en raison d'une prise en charge limitée des formats. Voulez-vous vraiment continuer ?"
     }
   }
 }

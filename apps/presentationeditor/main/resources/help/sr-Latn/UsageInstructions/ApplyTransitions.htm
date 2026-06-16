@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Primena prelaza</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Dodavanje animacionih efekata između slajdova" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Primena prelaza</h1>
+			<p><b>Prelaz</b> je efekat koji se pojavljuje kada jedan slajd prelazi na sledeći tokom prezentacije. U <a target="_blank" href="https://www.onlyoffice.com/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>Uređivaču prezentacija</b></a> možete primeniti isti prelaz na sve slajdove ili različite prelaze na svaki pojedinačni slajd i prilagoditi parametre prelaza.</p>
+			<p><b>Da biste primenili prelaz</b> na jedan slajd ili više izabranih slajdova:</p>
+			<ol>
+				<li>Prebacite se na karticu <b>Prelazi</b> na gornjoj traci sa alatkama.
+				<p><img alt="Kartica Prelazi" src="../images/interface/transitionstab.png" /></p>
+				</li>
+				<li>Izaberite slajd (ili više slajdova u listi slajdova) na koji želite da primenite prelaz.</li>
+				<li>
+					Izaberite jedan od dostupnih efekata prelaza na kartici <b>Prelazi</b>: <b>Nijedan</b>, <b>Morf</b>, <b>Bledenje</b>, <b>Guranje</b>, <b>Brisanje</b>, <b>Podela</b>, <b>Otkrivanje</b>, <b>Pokrivanje</b>, <b>Sat</b>, <b>Zumiranje</b> i <b>Nasumično</b>.
+					<p class="note">Možete dodeliti ime objektu na slajdu koji se koristi u prelazu <b>Morf</b>. Da biste to uradili, kliknite desnim tasterom miša na objekat, izaberite <b>Napredna podešavanja oblika</b> &gt; <b>Opšte</b> &gt; <b>Naziv oblika</b>. Naziv objekta se koristi za uparivanje dva objekta i prisiljavanje prvog da se transformiše u drugi. Naziv mora odgovarati šablonu <code>!!Name</code> i ostati isti za oba morfirana objekta.</p>
+				</li>
+				<li>Kliknite na dugme <b>Parametri</b> da biste izabrali jednu od dostupnih opcija efekta koje tačno definišu kako se efekat prikazuje. Na primer, opcije dostupne za efekat <b>Zumiranje</b> su <b>Zumiranje unutra</b>, <b>Zumiranje spolja</b> i <b>Zumiranje i rotacija</b>.</li>
+				<li>Odredite koliko dugo želite da prelaz traje. U polju <b>Trajanje</b> unesite ili izaberite potrebnu vremensku vrednost, izraženu u sekundama.</li>
+				<li>Pritisnite dugme <b>Pregled</b> da biste videli slajd sa primenjenim prelazom u oblasti za uređivanje slajda.</li>
+				<li>Odredite koliko dugo želite da se slajd prikazuje pre nego što pređe na sledeći:
+				    <ul>
+				    <li><b>Pokreni na klik</b> – označite ovo polje ako ne želite da ograničite vreme prikaza izabranog slajda. Slajd će preći na sledeći tek kada kliknete na njega mišem.</li>
+				    <li><b>Kašnjenje</b> – koristite ovu opciju ako želite da se izabrani slajd prikazuje tokom određenog vremenskog perioda pre nego što pređe na sledeći. Označite ovo polje i unesite ili izaberite potrebnu vremensku vrednost, izraženu u sekundama.
+				    <p class="note"><b>Napomena</b>: ako označite samo polje <b>Kašnjenje</b>, slajdovi će se automatski menjati u određenom vremenskom intervalu. Ako označite i polja <b>Pokreni na klik</b> i <b>Kašnjenje</b> i postavite vrednost kašnjenja, slajdovi će se takođe automatski menjati, ali ćete moći i da klikom na slajd pređete na sledeći.</p>
+					</li>
+				    </ul>
+			</ol>
+			<p><b>Da biste primenili prelaz na sve slajdove</b> u prezentaciji, kliknite na dugme <b>Primeni na sve slajdove</b> na kartici <b>Prelazi</b>.</p>
+			<p><b>Da biste obrisali prelaz</b>, izaberite odgovarajući slajd i izaberite <b>Nijedan</b> među opcijama efekata prelaza na kartici <b>Prelazi</b>.</p>
+			<p><b>Da biste obrisali sve prelaze</b>, izaberite bilo koji slajd, izaberite <b>Nijedan</b> među opcijama efekata prelaza i pritisnite dugme <b>Primeni na sve slajdove</b> na kartici <b>Prelazi</b>.</p>
+		</div>
+	</body>
+</html>

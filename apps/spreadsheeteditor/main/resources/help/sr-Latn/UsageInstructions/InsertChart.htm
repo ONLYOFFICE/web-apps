@@ -1,0 +1,407 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Umetanje grafikona</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Dodajte grafikon u svoju tabelu i prilagodite njegov položaj, veličinu i svojstva" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Umetanje grafikona</h1>
+            <h3>Umetnite preporučeni grafikon</h3>
+            <p>Najlakši način da umetnete grafikon u <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor</b></a> je korišćenjem alata <b>Preporučeni grafikon</b> koji predlaže određene tipove grafikona u zavisnosti od izabranih podataka, kao i prikazuje pregled svih tipova grafikona.</p>
+            <ol>
+                <li>Izaberite opseg ćelija koji sadrži podatke koje želite da koristite za grafikon.</li>
+                <li>Pređite na karticu <b>Insert</b> na gornjoj traci sa alatkama.</li>
+                <li>Kliknite na ikonu <b>Preporučeni grafikon</b> na gornjoj traci sa alatkama.</li>
+                <li>Prebacujte se između preporučenih tipova grafikona da biste videli kako će grafikon izgledati. Takođe možete koristiti kartice sa leve strane za pregled drugih tipova grafikona.</li>
+                <li>Kada izaberete tip grafikona, kliknite na <b>OK</b>.</li>
+            </ol>
+            <p><img alt="Preporučeni grafikon" src="../images/recommendedchart.png" /></p>
+            <h3>Ručno umetnite i prilagodite grafikon</h3>
+            <p>Da biste umetnuli grafikon i ručno prilagodili njegove parametre,</p>
+            <ol>
+                <li>Izaberite opseg ćelija koji sadrži podatke koje želite da koristite za grafikon.</li>
+                <li>Pređite na karticu <b>Insert</b> na gornjoj traci sa alatkama.</li>
+                <li>Kliknite na <div class="icon icon-chart"></div> ikonu <b>Grafikon</b> na gornjoj traci sa alatkama.</li>
+                <li>
+                    Izaberite potreban tip grafikona iz dostupnih opcija:
+                    <details class="details-example">
+                        <summary>Stubičasti grafikoni</summary>
+                        <ul>
+                            <li>Grupisani stubičasti</li>
+                            <li>Složeni stubičasti</li>
+                            <li>100% složeni stubičasti</li>
+                            <li>3-D grupisani stubičasti</li>
+                            <li>3-D složeni stubičasti</li>
+                            <li>3-D 100% složeni stubičasti</li>
+                            <li>3-D stubičasti</li>
+                        </ul>
+                    </details>
+                    <details class="details-example">
+                        <summary>Linijski grafikoni</summary>
+                        <ul>
+                            <li>Linijski</li>
+                            <li>Složeni linijski</li>
+                            <li>100% složeni linijski</li>
+                            <li>Linijski sa markerima</li>
+                            <li>Složeni linijski sa markerima</li>
+                            <li>100% složeni linijski sa markerima</li>
+                            <li>3-D linijski</li>
+                        </ul>
+                    </details>
+                    <details class="details-example">
+                        <summary>Kružni grafikoni</summary>
+                        <ul>
+                            <li>Kružni</li>
+                            <li>Prstenasti</li>
+                            <li>3-D kružni</li>
+                        </ul>
+                    </details>
+                    <details class="details-example">
+                        <summary>Trakasti grafikoni</summary>
+                        <ul>
+                            <li>Grupisani trakasti</li>
+                            <li>Složeni trakasti</li>
+                            <li>100% složeni trakasti</li>
+                            <li>3-D grupisani trakasti</li>
+                            <li>3-D složeni trakasti</li>
+                            <li>3-D 100% složeni trakasti</li>
+                        </ul>
+                    </details>
+                    <details class="details-example">
+                        <summary>Površinski grafikoni</summary>
+                        <ul>
+                            <li>Površinski</li>
+                            <li>Složeni površinski</li>
+                            <li>100% složeni površinski</li>
+                        </ul>
+                    </details>
+                    <details class="details-example">
+                        <summary>Berzanski grafikoni</summary>
+                    </details>
+                    <details class="details-example">
+                        <summary>XY (Raspršeni) grafikoni</summary>
+                        <ul>
+                            <li>Raspršeni</li>
+                            <li>Složeni trakasti</li>
+                            <li>Raspršeni sa glatkim linijama i markerima</li>
+                            <li>Raspršeni sa glatkim linijama</li>
+                            <li>Raspršeni sa pravim linijama i markerima</li>
+                            <li>Raspršeni sa pravim linijama</li>
+                        </ul>
+                    </details>
+                    <details class="details-example">
+                        <summary>Radarski grafikoni</summary>
+                        <ul>
+                            <li>Radarski</li>
+                            <li>Radarski sa markerima</li>
+                            <li>Popunjeni radarski</li>
+                        </ul>
+                    </details>
+                    <details class="details-example">
+                        <summary>Kombinovani grafikoni</summary>
+                        <ul>
+                            <li>Grupisani stubičasti - linijski</li>
+                            <li>Grupisani stubičasti - linijski na sekundarnoj osi</li>
+                            <li>Složeni površinski - grupisani stubičasti</li>
+                            <li>Prilagođena kombinacija</li>
+                        </ul>
+                    </details>
+                </li>
+            </ol>
+            <p>Nakon toga, grafikon će biti dodat na radni list.</p>
+            <p class="note"><b>Napomena</b>: <b>ONLYOFFICE Spreadsheet Editor</b> podržava sledeće tipove grafikona koji su kreirani u urednicima trećih strana: <b>Piramida</b>, <b>Trake (Piramida)</b>, <b>Horizontalni/Vertikalni cilindri</b>, <b>Horizontalni/Vertikalni konusi</b>. Možete otvoriti fajl koji sadrži takav grafikon i izmeniti ga koristeći dostupne alate za uređivanje grafikona. Sledeći tipovi su podržani samo za otvaranje: <b>Histogram</b>, <b>Vodopad</b>, <b>Levaks</b>.</p>
+            <h3>Podesite podešavanja grafikona</h3>
+            <p>Sada možete promeniti podešavanja umetnutog grafikona. Da biste promenili tip grafikona,</p>
+            <ol>
+                <li>Izaberite grafikon mišem.</li>
+                <li>
+                    Kliknite na ikonu <b>Podešavanja grafikona</b> <div class="icon icon-chartsettingsicon"></div> na desnoj bočnoj traci.
+                    <p><img alt="Prozor Podešavanja grafikona na desnom panelu" src="../images/chartsettings.png" /></p>
+                </li>
+                <li>Otvorite padajuću listu <b>Stil</b> ispod i izaberite stil koji vam najviše odgovara.</li>
+                <li>Otvorite padajuću listu <b>Promeni tip</b> i izaberite tip koji vam je potreban.</li>
+                <li>Kliknite na opciju <b>Zameni red/kolonu</b> da biste promenili raspored redova i kolona na grafikonu.</li>
+            </ol>
+            <p>Izabrani tip i stil grafikona će biti promenjeni.</p>
+            <p>Pored toga, dostupna su podešavanja <b>3D rotacije</b> za 3D grafikone:</p>
+            <p><img class="floatleft" alt="Kartica Podešavanja grafikona" src="../../../../../../common/main/resources/help/en/images/right_chart_3d.png" /></p>
+            <ul style="margin-left: 280px;">
+                <li><b>X rotacija</b> – podesite potrebnu vrednost rotacije X ose pomoću tastature ili putem strelica <em>Levo</em> i <em>Desno</em> sa desne strane.</li>
+                <li><b>Y rotacija</b> – podesite potrebnu vrednost rotacije Y ose pomoću tastature ili putem strelica <em>Gore</em> i <em>Dole</em> sa desne strane.</li>
+                <li><b>Perspektiva</b> – podesite potrebnu vrednost dubinske rotacije pomoću tastature ili putem strelica <em>Uži ugao gledanja</em> i <em>Širi ugao gledanja</em> sa desne strane.</li>
+                <li><b>Osa pod pravim uglom</b> – koristi se za podešavanje prikaza ose pod pravim uglom.</li>
+                <li><b>Automatsko skaliranje</b> – označite ovo polje da automatski skalirate vrednosti dubine i visine grafikona ili ga poništite da biste dubinu i visinu podesili ručno.</li>
+                <li><b>Dubina (% od osnove)</b> – podesite potrebnu vrednost dubine pomoću tastature ili strelica.</li>
+                <li><b>Visina (% od osnove)</b> – podesite potrebnu vrednost visine pomoću tastature ili strelica.</li>
+                <li>
+                    <b>Podrazumevana rotacija</b> – vratite 3D parametre na podrazumevane vrednosti.
+                    <p class="note">Imajte u vidu da ne možete uređivati svaki element grafikona pojedinačno; podešavanja će biti primenjena na grafikon u celini.</p>
+                </li>
+            </ul>
+            <hr />
+            <p>Da biste uredili podatke grafikona:</p>
+            <ol>
+                <li>Kliknite na dugme <b>Izaberi podatke</b> na desnom panelu.</li>
+                <li>
+                    Koristite dijalog <b>Podaci grafikona</b> za upravljanje opcijama <b>Opseg podataka grafikona</b>, <b>Stavke legende (serije)</b>, <b>Oznake horizontalne ose (kategorija)</b> i <b>Zameni red/kolonu</b>.
+                    <p><img alt="Prozor Podaci grafikona" src="../../../../../../common/main/resources/help/en/images/chartdata.png" /></p>
+                    <ul>
+                        <li>
+                            <b>Opseg podataka grafikona</b> – izaberite podatke za grafikon.
+                            <ul>
+                                <li>
+                                    Kliknite na ikonu <div class="icon icon-changerange"></div> desno od polja <b>Opseg podataka grafikona</b> da biste izabrali opseg podataka.
+                                    <p><img alt="Prozor Izaberi opseg podataka" src="../images/pivot_selectdata.png" /></p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>Stavke legende (serije)</b> – dodajte, izmenite ili uklonite stavke legende. Unesite ili izaberite naziv serije za stavke legende.
+                            <ul>
+                                <li>U odeljku <b>Stavke legende (serije)</b> kliknite na dugme <b>Dodaj</b>.</li>
+                                <li>
+                                    U prozoru <b>Uredi seriju</b> unesite novu stavku legende ili kliknite na ikonu <div class="icon icon-changerange"></div> desno od polja <b>Naziv serije</b>.
+                                    <p><img alt="Prozor Uredi seriju" src="../../../../../../common/main/resources/help/en/images/editseries.png" /></p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>Oznake horizontalne ose (kategorija)</b> – promenite tekst oznaka kategorija.
+                            <ul>
+                                <li>U odeljku <b>Oznake horizontalne ose (kategorija)</b> kliknite na <b>Uredi</b>.</li>
+                                <li>
+                                    U polju <b>Opseg oznaka ose</b> unesite oznake koje želite da dodate ili kliknite na ikonu <div class="icon icon-changerange"></div> desno od polja <b>Opseg oznaka ose</b> da biste izabrali opseg podataka.
+                                    <p><img alt="Prozor Oznake ose" src="../images/axislabels.png" /></p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><b>Zameni red/kolonu</b> – preuredite podatke radnog lista koji su konfigurisani u grafikonu ako nisu prikazani onako kako želite. Zamenite redove i kolone da biste prikazali podatke na drugačijoj osi.</li>
+                    </ul>
+                </li>
+                <li>Kliknite na dugme <b>OK</b> da biste primenili promene i zatvorili prozor.</li>
+            </ol>
+            <p>Kliknite na <b>Prikaži napredna podešavanja</b> da biste promenili druga podešavanja kao što su <b>Raspored</b>, <b>Vertikalna osa</b>, <b>Sekundarna vertikalna osa</b>, <b>Horizontalna osa</b>, <b>Sekundarna horizontalna osa</b>, <b>Prijanjanje uz ćelije</b> i <b>Alternativni tekst</b>.</p>
+            <p><img alt="Prozor Grafikon - Napredna podešavanja" src="../../../../../../common/main/resources/help/en/images/chartsettings_layout.png" /></p>
+            <p>Kartica <b>Raspored</b> omogućava da promenite raspored elemenata grafikona.</p>
+            <ul>
+                <li>
+                    Odredite poziciju <b>Naslova grafikona</b> u odnosu na grafikon izborom potrebne opcije iz padajuće liste:
+                    <ul>
+                        <li><b>Nijedno</b> za prikaz bez naslova grafikona,</li>
+                        <li><b>Preklapanje</b> za preklapanje i centriranje naslova u području iscrtavanja,</li>
+                        <li><b>Bez preklapanja</b> za prikaz naslova iznad područja iscrtavanja.</li>
+                    </ul>
+                </li>
+                <li>
+                    Odredite poziciju <b>Legende</b> u odnosu na grafikon izborom potrebne opcije iz padajuće liste:
+                    <ul>
+                        <li><b>Nijedno</b> za prikaz bez legende,</li>
+                        <li><b>Dole</b> za prikaz legende i poravnanje pri dnu područja iscrtavanja,</li>
+                        <li><b>Gore</b> za prikaz legende i poravnanje pri vrhu područja iscrtavanja,</li>
+                        <li><b>Desno</b> za prikaz legende i poravnanje desno od područja iscrtavanja,</li>
+                        <li><b>Levo</b> za prikaz legende i poravnanje levo od područja iscrtavanja,</li>
+                        <li><b>Levo preklapanje</b> za preklapanje i centriranje legende levo u području iscrtavanja,</li>
+                        <li><b>Desno preklapanje</b> za preklapanje i centriranje legende desno u području iscrtavanja.</li>
+                    </ul>
+                </li>
+                <li>
+                    Navedite parametre za <b>Oznake podataka</b> (tj. tekstualne oznake koje predstavljaju tačne vrednosti tačaka podataka):<br />
+                    <ul>
+                        <li>
+                            Odredite poziciju <b>Oznaka podataka</b> u odnosu na tačke podataka izborom odgovarajuće opcije iz padajuće liste. Dostupne opcije se razlikuju u zavisnosti od izabranog tipa grafikona.
+                            <ul>
+                                <li>Za <b>Stubičaste/Trakaste</b> grafikone možete izabrati sledeće opcije: <b>Nijedno</b>, <b>Centar</b>, <b>Unutra dole</b>, <b>Unutra gore</b>, <b>Spolja gore</b>.</li>
+                                <li>Za <b>Linijske/XY (Raspršene)/Berzanske</b> grafikone možete izabrati sledeće opcije: <b>Nijedno</b>, <b>Centar</b>, <b>Levo</b>, <b>Desno</b>, <b>Gore</b>, <b>Dole</b>.</li>
+                                <li>Za <b>Kružne</b> grafikone možete izabrati sledeće opcije: <b>Nijedno</b>, <b>Centar</b>, <b>Prilagodi širini</b>, <b>Unutra gore</b>, <b>Spolja gore</b>.</li>
+                                <li>Za <b>Površinske</b> grafikone kao i za <b>3D</b> <b>Stubičaste</b>, <b>Linijske</b>, <b>Radarske</b> i <b>Trakaste</b> grafikone možete izabrati sledeće opcije: <b>Nijedno</b>, <b>Centar</b>.</li>
+                            </ul>
+                        </li>
+                        <li>Izaberite podatke koje želite da uključite u oznake označavanjem odgovarajućih polja: <b>Naziv serije</b>, <b>Naziv kategorije</b>, <b>Vrednost</b>,</li>
+                        <li>Unesite znak (zarez, tačka-zarez itd.) koji želite da koristite za razdvajanje više oznaka u polje <b>Razdvajač oznaka podataka</b>.</li>
+                    </ul>
+                </li>
+                <li><b>Linije</b> – koristi se za izbor stila linije za <b>Linijske/XY (Raspršene) grafikone</b>. Možete izabrati jednu od sledećih opcija: <b>Prave</b> za korišćenje pravih linija između tačaka podataka, <b>Glatke</b> za korišćenje glatkih krivih između tačaka podataka ili <b>Nijedno</b> za neprikazivanje linija.</li>
+                <li>
+                    <b>Markeri</b> – koristi se za određivanje da li će markeri biti prikazani (ako je polje označeno) ili ne (ako polje nije označeno) za <b>Linijske/XY (Raspršene) grafikone</b>.
+                    <p class="note"><b>Napomena</b>: opcije <b>Linije</b> i <b>Markeri</b> dostupne su samo za <b>Linijske</b> i <b>XY (Raspršene)</b> grafikone.</p>
+                </li>
+                <li>
+                    <b>Opcije linije trenda</b> – koristite opciju <em>Prikaži jednačinu na grafikonu</em> da bi se jednačine prikazale na dijagramu.
+                    <p class="note">Ova opcija je dostupna za dijagrame koji uključuju linije trenda.</p>
+                </li>
+            </ul>
+            <p><img alt="Grafikon - Prozor naprednih podešavanja" src="../../../../../../common/main/resources/help/en/images/chartsettings_verticalaxis.png" /></p>
+            <p>Kartica <b>Vertikalna osa</b> omogućava da promenite parametre vertikalne ose, koja se naziva i osa vrednosti ili y-osa, i prikazuje numeričke vrednosti. Imajte u vidu da će vertikalna osa biti osa kategorija koja prikazuje tekstualne oznake za <b>Trakaste grafikone</b>, pa će u tom slučaju opcije kartice <b>Vertikalna osa</b> odgovarati onima koje su opisane u sledećem odeljku. Za <b>XY (Raspršene) grafikone</b>, obe ose su ose vrednosti.</p>
+            <p class="note"><b>Napomena</b>: odeljci <b>Podešavanja ose</b> i <b>Mrežne linije</b> biće onemogućeni za <b>Kružne grafikone</b> jer grafikoni ovog tipa nemaju ose ni mrežne linije.</p>
+            <ul>
+                <li>Izaberite <b>Sakrij</b> da biste sakrili vertikalnu osu na grafikonu, ostavite neoznačeno da bi vertikalna osa bila prikazana.</li>
+                <li>
+                    Odredite orijentaciju <b>Naslova</b> izborom odgovarajuće opcije iz padajuće liste:
+                    <ul>
+                        <li><b>Nijedno</b> za neprikazivanje naslova vertikalne ose,</li>
+                        <li><b>Rotirano</b> za prikaz naslova odozdo nagore sa leve strane vertikalne ose,</li>
+                        <li><b>Horizontalno</b> za prikaz naslova horizontalno sa leve strane vertikalne ose.</li>
+                    </ul>
+                </li>
+                <li><b>Minimalna vrednost</b> – koristi se za određivanje najniže vrednosti prikazane na početku vertikalne ose. Opcija <b>Auto</b> je podrazumevano izabrana, pri čemu se minimalna vrednost automatski izračunava u zavisnosti od izabranog opsega podataka. Možete izabrati opciju <b>Fiksno</b> iz padajuće liste i navesti drugu vrednost u polju sa desne strane.</li>
+                <li><b>Maksimalna vrednost</b> – koristi se za određivanje najviše vrednosti prikazane na kraju vertikalne ose. Opcija <b>Auto</b> je podrazumevano izabrana, pri čemu se maksimalna vrednost automatski izračunava u zavisnosti od izabranog opsega podataka. Možete izabrati opciju <b>Fiksno</b> iz padajuće liste i navesti drugu vrednost u polju sa desne strane.</li>
+                <li><b>Presecanje osa</b> – koristi se za određivanje tačke na vertikalnoj osi gde horizontalna osa treba da je preseče. Opcija <b>Auto</b> je podrazumevano izabrana, pri čemu se vrednost preseka osa automatski izračunava u zavisnosti od izabranog opsega podataka. Možete izabrati opciju <b>Vrednost</b> iz padajuće liste i navesti drugu vrednost u polju sa desne strane ili postaviti tačku preseka osa na <b>Minimalnu/Maksimalnu vrednost</b> vertikalne ose.</li>
+                <li><b>Jedinice prikaza</b> – koristi se za određivanje prikaza numeričkih vrednosti duž vertikalne ose. Ova opcija može biti korisna ako radite sa velikim brojevima i želite da vrednosti na osi budu prikazane na kompaktniji i čitljiviji način (npr. možete prikazati 50 000 kao 50 korišćenjem jedinica prikaza <b>Hiljade</b>). Izaberite željene jedinice iz padajuće liste: <b>Stotine</b>, <b>Hiljade</b>, <b>10 000</b>, <b>100 000</b>, <b>Milioni</b>, <b>10 000 000</b>, <b>100 000 000</b>, <b>Milijarde</b>, <b>Bilioni</b> ili izaberite opciju <b>Nijedno</b> da biste se vratili na podrazumevane jedinice.</li>
+                <li><b>Vrednosti obrnutim redosledom</b> – koristi se za prikaz vrednosti u suprotnom smeru. Kada polje nije označeno, najniža vrednost je na dnu, a najviša na vrhu ose. Kada je polje označeno, vrednosti su poređane odozgo nadole.</li>
+                <li><b>Logaritamska skala</b> – koristi se za omogućavanje logaritamskog skaliranja sa <b>Osnovom</b> koju određuje korisnik.</li>
+                <li>
+                    Odeljak <b>Opcije oznaka podeoka</b> omogućava podešavanje izgleda oznaka podeoka na vertikalnoj skali. Glavne oznake podeoka su veće podele skale koje mogu imati oznake sa numeričkim vrednostima. Sporedne oznake podeoka su podele skale koje se nalaze između glavnih oznaka podeoka i nemaju oznake. Oznake podeoka takođe određuju gde se mogu prikazati mrežne linije ako je odgovarajuća opcija podešena na kartici <b>Raspored</b>. Padajuće liste <b>Glavni/Sporedni tip</b> sadrže sledeće opcije postavljanja:
+                    <ul>
+                        <li><b>Nijedno</b> za neprikazivanje glavnih/sporednih oznaka podeoka,</li>
+                        <li><b>Presek</b> za prikaz glavnih/sporednih oznaka podeoka sa obe strane ose,</li>
+                        <li><b>Unutra</b> za prikaz glavnih/sporednih oznaka podeoka unutar ose,</li>
+                        <li><b>Spolja</b> za prikaz glavnih/sporednih oznaka podeoka spolja od ose.</li>
+                    </ul>
+                </li>
+                <li>
+                    Odeljak <b>Opcije oznaka</b> omogućava podešavanje izgleda oznaka glavnih podeoka koje prikazuju vrednosti. Da biste odredili <b>Poziciju oznake</b> u odnosu na vertikalnu osu, izaberite odgovarajuću opciju iz padajuće liste:
+                    <ul>
+                        <li><b>Nijedno</b> za neprikazivanje oznaka podeoka,</li>
+                        <li><b>Nisko</b> za prikaz oznaka podeoka levo od područja iscrtavanja,</li>
+                        <li><b>Visoko</b> za prikaz oznaka podeoka desno od područja iscrtavanja,</li>
+                        <li><b>Pored ose</b> za prikaz oznaka podeoka pored ose.</li>
+                    </ul>
+                    <ul>
+                        <li>
+                            Da biste odredili <b>Format oznake</b>, kliknite na dugme Format oznake i izaberite odgovarajuću kategoriju.
+                            <p>Dostupne kategorije formata oznaka:</p>
+                            <ul>
+                                <li>Opšte</li>
+                                <li>Broj</li>
+                                <li>Naučni</li>
+                                <li>Računovodstveni</li>
+                                <li>Valuta</li>
+                                <li>Datum</li>
+                                <li>Vreme</li>
+                                <li>Procenat</li>
+                                <li>Razlomak</li>
+                                <li>Tekst</li>
+                                <li>Prilagođeno</li>
+                            </ul>
+                            <p>Opcije formata oznaka se razlikuju u zavisnosti od izabrane kategorije. Za više informacija o promeni formata brojeva, posetite <a href="../UsageInstructions/ChangeNumberFormat.htm" onclick="onhyperlinkclick(this)">ovu stranicu</a>.</p>
+                        </li>
+                        <li>
+                            Označite <b>Povezano sa izvorom</b> da biste zadržali formatiranje brojeva iz izvora podataka u grafikonu.
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <p>
+                <img alt="Grafikon - Prozor naprednih podešavanja" src="../../../../../../common/main/resources/help/en/images/chartsettings_secondaryaxis1.png" />
+            </p>
+            <p class="note"><b>Napomena</b>: Sekundarne ose su podržane samo u kombinovanim grafikonima.</p>
+            <p><b>Sekundarne ose</b> su korisne u kombinovanim grafikonima kada se serije podataka znatno razlikuju ili kada se koriste mešoviti tipovi podataka za iscrtavanje grafikona. Sekundarne ose olakšavaju čitanje i razumevanje kombinovanog grafikona.</p>
+            <p>Kartica <b>Sekundarna vertikalna/horizontalna osa</b> se pojavljuje kada izaberete odgovarajuću seriju podataka za kombinovani grafikon. Sva podešavanja i opcije na kartici <b>Sekundarna vertikalna/horizontalna osa</b> ista su kao podešavanja na kartici Vertikalna/Horizontalna osa. Za detaljan opis opcija <b>Vertikalne/horizontalne ose</b>, pogledajte opis iznad/ispod.</p>
+            <p><img alt="Grafikon - Prozor naprednih podešavanja" src="../../../../../../common/main/resources/help/en/images/chartsettings_horizontalaxis.png" /></p>
+            <p>Kartica <b>Horizontalna osa</b> omogućava da promenite parametre horizontalne ose, koja se naziva i osa kategorija ili x-osa, i prikazuje tekstualne oznake. Imajte u vidu da će horizontalna osa biti osa vrednosti koja prikazuje numeričke vrednosti za <b>Trakaste grafikone</b>, pa će u tom slučaju opcije kartice <b>Horizontalna osa</b> odgovarati onima koje su opisane u prethodnom odeljku. Za <b>XY (Raspršene) grafikone</b>, obe ose su ose vrednosti.</p>
+            <ul>
+                <li>Izaberite <b>Sakrij</b> da biste sakrili horizontalnu osu na grafikonu, ostavite neoznačeno da bi horizontalna osa bila prikazana.</li>
+                <li>
+                    Odredite orijentaciju <b>Naslova</b> izborom odgovarajuće opcije iz padajuće liste:
+                    <ul>
+                        <li><b>Nijedno</b> ako ne želite da prikažete naslov horizontalne ose,</li>
+                        <li><b>Bez preklapanja</b> za prikaz naslova ispod horizontalne ose,</li>
+                    </ul>
+                </li>
+                <li><b>Mrežne linije</b> se koriste za određivanje koje <b>Horizontalne mrežne linije</b> će biti prikazane izborom odgovarajuće opcije iz padajuće liste: <b>Nijedno</b>, <b>Glavne</b>, <b>Sporedne</b> ili <b>Glavne i sporedne</b>.</li>
+                <li><b>Presecanje osa</b> – koristi se za određivanje tačke na horizontalnoj osi gde vertikalna osa treba da je preseče. Opcija <b>Auto</b> je podrazumevano izabrana; u tom slučaju se vrednost preseka osa automatski izračunava u zavisnosti od izabranog opsega podataka. Možete izabrati opciju <b>Vrednost</b> iz padajuće liste i navesti drugu vrednost u polju sa desne strane ili postaviti tačku preseka osa na <b>Minimalnu/maksimalnu vrednost</b> (što odgovara prvoj i poslednjoj kategoriji) na horizontalnoj osi.</li>
+                <li><b>Položaj ose</b> – koristi se za određivanje gde će tekstualne oznake ose biti postavljene: <b>Na oznakama podeoka</b> ili <b>Između oznaka podeoka</b>.</li>
+                <li><b>Vrednosti obrnutim redosledom</b> – koristi se za prikaz kategorija u suprotnom smeru. Kada polje nije označeno, kategorije se prikazuju sleva nadesno. Kada je polje označeno, kategorije su poređane zdesna nalevo.</li>
+                <li>
+                    Odeljak <b>Opcije oznaka podeoka</b> omogućava podešavanje izgleda oznaka podeoka na horizontalnoj skali. Glavne oznake podeoka su veće podele koje mogu imati oznake sa vrednostima kategorija. Sporedne oznake podeoka su manje podele koje se nalaze između glavnih oznaka podeoka i nemaju oznake. Oznake podeoka takođe određuju gde se mogu prikazati mrežne linije ako je odgovarajuća opcija podešena na kartici <b>Raspored</b>. Možete podesiti sledeće parametre oznaka podeoka:
+                    <ul>
+                        <li><b>Glavni/sporedni tip</b> – koristi se za određivanje sledećih opcija postavljanja: <b>Nijedno</b> za neprikazivanje glavnih/sporednih oznaka podeoka, <b>Presek</b> za prikaz glavnih/sporednih oznaka podeoka sa obe strane ose, <b>Unutra</b> za prikaz glavnih/sporednih oznaka podeoka unutar ose, <b>Spolja</b> za prikaz glavnih/sporednih oznaka podeoka spolja od ose.</li>
+                        <li><b>Interval između oznaka</b> – koristi se za određivanje koliko kategorija treba da bude prikazano između dve susedne oznake podeoka.</li>
+                    </ul>
+                </li>
+                <li>
+                    Odeljak <b>Opcije oznaka</b> omogućava podešavanje izgleda oznaka koje prikazuju kategorije.
+                    <ul>
+                        <li><b>Pozicija oznake</b> – koristi se za određivanje gde će oznake biti postavljene u odnosu na horizontalnu osu. Izaberite odgovarajuću opciju iz padajuće liste: <b>Nijedno</b> za neprikazivanje oznaka kategorija, <b>Nisko</b> za prikaz oznaka kategorija pri dnu područja iscrtavanja, <b>Visoko</b> za prikaz oznaka kategorija pri vrhu područja iscrtavanja, <b>Pored ose</b> za prikaz oznaka kategorija pored ose.</li>
+                        <li><b>Udaljenost oznaka ose</b> – koristi se za određivanje koliko blizu osi treba da budu postavljene oznake. Potrebnu vrednost možete navesti u polju za unos. Što je vrednost veća, veća je udaljenost između ose i oznaka.</li>
+                        <li><b>Interval između oznaka</b> – koristi se za određivanje koliko često će oznake biti prikazane. Opcija <b>Auto</b> je podrazumevano izabrana; u tom slučaju se oznake prikazuju za svaku kategoriju. Možete izabrati opciju <b>Ručno</b> iz padajuće liste i navesti potrebnu vrednost u polju sa desne strane. Na primer, unesite 2 da biste prikazali oznake za svaku drugu kategoriju itd.</li>
+                        <li>
+                            Da biste odredili <b>Format oznake</b>, kliknite na dugme Format oznake i izaberite odgovarajuću kategoriju.
+                            <p>Dostupne kategorije formata oznaka:</p>
+                            <ul>
+                                <li>Opšte</li>
+                                <li>Broj</li>
+                                <li>Naučni</li>
+                                <li>Računovodstveni</li>
+                                <li>Valuta</li>
+                                <li>Datum</li>
+                                <li>Vreme</li>
+                                <li>Procenat</li>
+                                <li>Razlomak</li>
+                                <li>Tekst</li>
+                                <li>Prilagođeno</li>
+                            </ul>
+                            <p>Opcije formata oznaka se razlikuju u zavisnosti od izabrane kategorije. Za više informacija o promeni formata brojeva, posetite <a href="../UsageInstructions/ChangeNumberFormat.htm" onclick="onhyperlinkclick(this)">ovu stranicu</a>.</p>
+                        </li>
+                        <li>
+                            Označite <b>Povezano sa izvorom</b> da biste zadržali formatiranje brojeva iz izvora podataka u grafikonu.
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <p>Kartica <b>Prijanjanje uz ćelije</b> sadrži sledeće parametre:</p>
+            <ul>
+                <li><b>Pomeraj i promeni veličinu sa ćelijama</b> – ova opcija omogućava da grafikon „prijanja“ uz ćeliju iza njega. Ako se ćelija pomeri (npr. kada ubacite ili obrišete redove/kolone), grafikon će se pomeriti zajedno sa ćelijom. Ako povećate ili smanjite širinu ili visinu ćelije, grafikon će takođe promeniti svoju veličinu.</li>
+                <li><b>Pomeraj, ali ne menjaj veličinu sa ćelijama</b> – ova opcija omogućava da grafikon „prijanja“ uz ćeliju iza njega, ali sprečava promenu veličine grafikona. Ako se ćelija pomeri, grafikon će se pomeriti zajedno sa ćelijom, ali ako promenite veličinu ćelije, dimenzije grafikona ostaju nepromenjene.</li>
+                <li><b>Ne pomeraj niti menjaj veličinu sa ćelijama</b> – ova opcija omogućava da sprečite pomeranje ili promenu veličine grafikona ako su položaj ili veličina ćelije promenjeni.</li>
+            </ul>
+            <p><img alt="Grafikon - Napredna podešavanja: Prijanjanje uz ćelije" src="../images/chartwindow5.png" /></p>
+            <p>Kartica <b>Alternativni tekst</b> omogućava da navedete <b>Naslov</b> i <b>Opis</b> koji će biti pročitani osobama sa oštećenjem vida ili kognitivnim smetnjama kako bi lakše razumele koje informacije grafikon sadrži.</p>
+            <p><img alt="Grafikon - Napredna podešavanja" src="../images/chartwindow4.png" /></p>
+            <h3>Uređivanje elemenata grafikona</h3>
+            <p>Da biste uredili <b>Naslov</b> grafikona, izaberite podrazumevani tekst mišem i umesto njega unesite svoj.</p>
+            <p>Da biste promenili formatiranje fonta unutar tekstualnih elemenata, kao što su naslov grafikona, naslovi osa, stavke legende, oznake podataka itd., izaberite željeni tekstualni element levim klikom. Zatim koristite ikone na kartici <b>Home</b> na gornjoj traci sa alatkama da promenite font <a href="../UsageInstructions/FontTypeSizeStyle.htm" onclick="onhyperlinkclick(this)">tip, stil, veličinu ili boju</a>.</p>
+            <p>Kada je grafikon izabran, dostupna je i ikona <b>Podešavanja oblika</b> <span class="icon icon-shape_settings_icon"></span> sa desne strane, pošto se oblik koristi kao pozadina za grafikon. Možete kliknuti na ovu ikonu da otvorite karticu <a href="InsertAutoshapes.htm" onclick="onhyperlinkclick(this)">Podešavanja oblika</a> na desnoj bočnoj traci i podesite <b>Ispunu</b> i <b>Liniju</b> oblika. Imajte u vidu da ne možete promeniti tip oblika.</p>
+            <p>
+                Korišćenjem kartice <b>Podešavanja oblika</b> na desnom panelu možete ne samo podesiti samu oblast grafikona, već i promeniti elemente grafikona, kao što su <em>područje iscrtavanja</em>, <em>serije podataka</em>, <em>naslov grafikona</em>, <em>legenda</em> itd., i primeniti različite tipove ispune na njih. Izaberite element grafikona klikom levim tasterom miša i odaberite željeni tip ispune: <em>puna boja</em>, <em>gradijent</em>, <em>tekstura</em> ili <em>slika</em>, <em>šara</em>. Navedite parametre ispune i po potrebi podesite nivo <em>Neprozirnosti</em>.
+                Kada izaberete vertikalnu ili horizontalnu osu ili mrežne linije, podešavanja poteza su dostupna samo na kartici <b>Podešavanja oblika</b>: <em>boja</em>, <em>širina</em>, <em>tip</em> i <em>neprozirnost</em>. Za više detalja o radu sa bojama oblika, ispunama i potezom, pogledajte <a href="../UsageInstructions/InsertAutoshapes.htm" onclick="onhyperlinkclick(this)">ovu stranicu</a>.
+            </p>
+            <p class="note"><b>Napomena</b>: opcija <b>Prikaži senku</b> je takođe dostupna na kartici <b>Podešavanja oblika</b>, ali je onemogućena za elemente grafikona.</p>
+            <p>Ako je potrebno da promenite veličinu elemenata grafikona, levim klikom izaberite željeni element i prevucite jedan od 8 belih kvadratića <span class="icon icon-resize_square"></span> koji se nalaze duž oboda elementa.</p>
+            <p><span class="big big-resizeelement"></span></p>
+            <p>Da biste promenili položaj elementa, kliknite levim tasterom na njega, proverite da li se kursor promenio u <span class="icon icon-arrow"></span>, držite levi taster miša i prevucite element na željenu poziciju.</p>
+            <p><span class="big big-moveelement"></span></p>
+            <p>Da biste obrisali element grafikona, izaberite ga levim klikom i pritisnite taster <b>Delete</b> na tastaturi.</p>
+            <p>Takođe možete rotirati 3D grafikone pomoću miša. Kliknite levim tasterom unutar područja iscrtavanja i držite taster miša. Prevucite kursor bez puštanja tastera miša da biste promenili orijentaciju 3D grafikona.</p>
+            <p><img alt="3D grafikon" src="../../../../../../common/main/resources/help/en/images/3dchart.png" /></p>
+            <p>Ako je potrebno, možete <a href="ManipulateObjects.htm" onclick="onhyperlinkclick(this)">promeniti veličinu i položaj grafikona</a>.</p>
+            <p>Da biste obrisali umetnuti grafikon, kliknite na njega i pritisnite taster <b>Delete</b>.</p>
+            <h3>Dodeljivanje makroa grafikonu</h3>
+            <p>Možete obezbediti brz i jednostavan pristup makrou u tabeli dodeljivanjem makroa bilo kom grafikonu. Kada dodelite makro, grafikon se prikazuje kao kontrola dugmeta i možete pokrenuti makro kad god kliknete na njega.</p>
+            <p>Da biste dodelili makro:</p>
+            <ul type="circle">
+                <li>
+                    Desnim klikom na grafikon kome dodeljujete makro izaberite opciju <b>Dodeli makro</b> iz padajućeg menija.
+                    <p><img alt="Dodeli makro u meniju" src="../images/assignmacro_rightclickchart.png" /></p>
+                </li>
+                <li>Otvoriće se dijalog <b>Dodeli makro</b></li>
+                <li>
+                    Izaberite makro sa liste ili unesite naziv makroa i kliknite na <b>OK</b> da potvrdite.
+                    <p><img alt="Dodeli makro" src="../images/assignmacro.png" /></p>
+                </li>
+            </ul>
+            <p>Kada je makro dodeljen, i dalje možete izabrati grafikon radi drugih operacija levim klikom na površinu grafikona.</p>
+            <h3>Korišćenje mini-grafikona</h3>
+            <p>ONLYOFFICE Spreadsheet Editor podržava <b>Mini-grafikone</b>. <b>Mini-grafikoni</b> su mali grafikoni koji staju u jednu ćeliju i predstavljaju efikasan alat za vizualizaciju podataka. Za više informacija o tome kako da kreirate, uređujete i formatirate mini-grafikone, pogledajte naša uputstva <a href="../UsageInstructions/InsertSparklines.htm" onclick="onhyperlinkclick(this)"><b>Umetanje mini-grafikona</b></a>.</p>
+        </div>
+	</body>
+</html>

@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Čuvanje/štampanje/preuzimanje tabele</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Sačuvajte, odštampajte i preuzmite vašu tabelu u različitim formatima" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Čuvanje/štampanje/preuzimanje tabele</h1>
+            <h3>Čuvanje</h3>
+            <p class="onlineDocumentFeatures">Podrazumevano, online <a href="https://www.onlyoffice.com/en/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor</b></a> automatski čuva vašu datoteku na svake 2 sekunde dok radite na njoj, sprečavajući gubitak podataka u slučaju neočekivanog zatvaranja programa. Ako zajednički uređujete datoteku u režimu <b>Fast</b>, tajmer zahteva ažuriranja 25 puta u sekundi i čuva izmene ako su napravljene. Kada se datoteka zajednički uređuje u režimu <b>Strict</b>, izmene se automatski čuvaju na svakih 10 minuta. Ako je potrebno, lako možete izabrati željeni režim zajedničkog uređivanja ili onemogućiti opciju <b>Autosave</b> na stranici <a href="../HelpfulHints/AdvancedSettings.htm" onclick="onhyperlinkclick(this)">Advanced Settings</a>.</p>
+            <p>Da biste ručno sačuvali trenutnu tabelu u postojećem formatu i lokaciji,</p>
+            <ul>
+                <li>kliknite na ikonu <b>Save</b> <div class = "icon icon-save"></div> na levoj strani zaglavlja editora, ili</li>
+                <li>koristite kombinaciju tastera <b>Ctrl+S</b>, ili</li>
+                <li>kliknite na karticu <b>File</b> na gornjoj alatnoj traci i izaberite opciju <b>Save</b>.</li>
+            </ul>
+            <p class="note desktopDocumentFeatures">U <em>desktop verziji</em>, kako biste sprečili gubitak podataka u slučaju neočekivanog zatvaranja programa, možete uključiti opciju <b>Autorecover</b> na stranici <a href="../HelpfulHints/AdvancedSettings.htm" onclick="onhyperlinkclick(this)">Advanced Settings</a>. </p>
+            <div class="desktopDocumentFeatures">
+                <p>U <em>desktop verziji</em>, možete sačuvati tabelu pod drugim imenom, na novoj lokaciji ili u drugom formatu,</p>
+                <ol>
+                    <li>kliknite na karticu <b>File</b> na gornjoj alatnoj traci,</li>
+                    <li>izaberite opciju <b>Save as</b>,</li>
+                    <li>izaberite jedan od dostupnih formata u skladu sa vašim potrebama: XLSX, XLTX, ODS, OTS, CSV, PDF, PDF/A, XLTM, JPG, PNG.</li>
+                </ol>
+            </div>
+            <div class="onlineDocumentFeatures">
+                <h3>Preuzimanje</h3>
+                <p>U <em>online verziji</em>, možete preuzeti rezultujuću tabelu na hard disk vašeg računara,</p>
+                <ol>
+                    <li>kliknite na karticu <b>File</b> na gornjoj alatnoj traci,</li>
+                    <li>izaberite opciju <b>Download as</b>,</li>
+                    <li>
+                        izaberite jedan od dostupnih formata u skladu sa vašim potrebama: XLSX, ODS, CSV, PDF, XLTX, OTS, PDF/A, JPG, PNG.
+                        <p class="note"><b>Napomena</b>: ako izaberete CSV format, sve funkcije (formatiranje fonta, formule itd.) osim običnog teksta neće biti sačuvane u CSV datoteci. Ako nastavite sa čuvanjem, otvoriće se prozor <b>Choose CSV Options</b>. Podrazumevano se koristi <em>Unicode (UTF-8)</em> kao tip <b>Encoding</b>. Podrazumevani <b>Delimiter</b> je <em>zarez</em> (,), ali su dostupne i sledeće opcije: <em>tačka-zarez</em> (;), <em>dve tačke</em> (:), <em>Tab</em>, <em>Razmak</em> i <em>Other</em> (ova opcija omogućava postavljanje prilagođenog znaka za razdvajanje).</p>
+                    </li>
+                </ol>
+                <h3>Čuvanje kopije</h3>
+                <p>U <em>online verziji</em>, možete sačuvati kopiju datoteke na vašem portalu,</p>
+                <ol>
+                    <li>kliknite na karticu <b>File</b> na gornjoj alatnoj traci,</li>
+                    <li>izaberite opciju <b>Save Copy as</b>,</li>
+                    <li>izaberite jedan od dostupnih formata u skladu sa vašim potrebama: XLSX, ODS, CSV, PDF, XLTX, OTS, PDF/A, JPG, PNG,</li>
+                    <li>izaberite lokaciju datoteke na portalu i kliknite na <b>Save</b>.</li>
+                </ol>
+            </div>
+            <h3 id="print">Štampanje</h3>
+            <p>Da biste odštampali trenutnu tabelu,</p>
+            <ul>
+                <li>kliknite na ikonu <b>Print</b> <div class = "icon icon-print"></div> na levoj strani zaglavlja editora, ili</li>
+                <li>koristite kombinaciju tastera <b>Ctrl+P</b>, ili</li>
+                <li>kliknite na karticu <b>File</b> na gornjoj alatnoj traci i izaberite opciju <b>Print</b>.</li>
+            </ul>
+            <div class="note">
+                Firefox pregledač omogućava štampanje bez prethodnog preuzimanja dokumenta kao .pdf datoteke.
+            </div>
+            <p>Otvoriće se <b>Preview</b> prikaz tabele i dostupne opcije za štampanje.</p>
+            <p class="note">Neka od ovih podešavanja (stranične <b>Margins</b>, <b>Orientation</b>, <b>Size</b>, <b>Print Area</b> kao i <a href="ScaleToFit.htm" onclick="onhyperlinkclick(this)"><b>Scale to Fit</b></a>) dostupna su i na kartici <b>Layout</b> na gornjoj alatnoj traci.</p>
+            <p><img class="floatleft" alt="Print Settings window" src="../images/printsettingswindow.png" /></p>
+            <p>Ovde možete podesiti sledeće parametre:</p>
+            <ul id="printtitles">
+                <li>
+                    <b>Print range</b> – odredite šta će se štampati: <b>Active sheets</b>, <b>All sheets</b> ili <b>Selection</b>.
+                    <p>Ako ste prethodno postavili fiksnu oblast za štampanje, ali želite da odštampate ceo list, označite opciju <b>Ignore print area</b>.</p>
+                </li>
+                <li><b>Stranice</b> – navedite opseg stranica za štampanje. Brojeve možete uneti ručno ili koristiti odgovarajuće strelice.</li>
+                <li><b>Podešavanja lista</b> – navedite pojedinačna podešavanja štampe za svaki zasebni list, ako ste izabrali opciju <b>Svi listovi</b> u padajućoj listi <b>Opseg štampanja</b>.</li>
+                <li><b>Veličina stranice</b> – izaberite jednu od dostupnih veličina iz padajuće liste:
+                    <ul>
+                        <li>US Letter (21,59cm x 27,94cm)</li>
+                        <li>US Legal (21,59cm x 35,56cm)</li>
+                        <li>A4 (21cm x 29,7cm)</li>
+                        <li>A5 (14,81cm x 20,99cm)</li>
+                        <li>B5 (17,6cm x 25,01cm)</li>
+                        <li>Envelope #10 (10,48cm x 24,13cm)</li>
+                        <li>Envelope DL (11,01cm x 22,01cm)</li>
+                        <li>Tabloid (27,94cm x 43,17cm)</li>
+                        <li>A3 (29,7cm x 42,01cm)</li>
+                        <li>Tabloid Oversize (29,69cm x 45,72cm)</li>
+                        <li>ROC 16K (19,68cm x 27,3cm)</li>
+                        <li>Envelope Choukei 3 (12cm x 23,5cm)</li>
+                        <li>Super B/A3 (30,5cm x 48,7cm)</li>
+                    </ul>
+                </li>
+                <li><b>Orijentacija stranice</b> – izaberite opciju <b>Portrait</b> ako želite vertikalno štampanje, ili koristite opciju <b>Landscape</b> za horizontalno štampanje.</li>
+                <li><b>Margine</b> – izaberite jedan od dostupnih unapred definisanih profila: <em>Normal</em>, <em>Narrow</em> ili <em>Wide</em>, ili izaberite opciju <b>Custom</b> i navedite rastojanje između podataka na listu i ivica odštampane stranice menjajući podrazumevane vrednosti u poljima <b>Top</b>, <b>Bottom</b>, <b>Left</b> i <b>Right</b>.
+                <p>Da biste centrirali podatke na odštampanoj stranici, izaberite opciju <b>Custom</b> iz menija <b>Margins</b>, označite polje <b>Vertically</b>/<b>Horizontally</b> u odeljku <b>Center on page</b> i kliknite na <b>OK</b>.</p>
+                    <p><img alt="Margins window" src="../images/margins.png" /></p>
+                </li>
+                <li>
+                    <b>Skaliranje</b> – ako ne želite da se neke kolone ili redovi štampaju na drugoj stranici, možete smanjiti sadržaj lista kako bi stao na jednu stranicu izborom odgovarajuće opcije: <b>Actual Size</b>, <b>Fit Sheet on One Page</b>, <b>Fit All Columns on One Page</b> ili <b>Fit All Rows on One Page</b>. Ostavite opciju <b>Actual Size</b> da biste štampali list bez prilagođavanja.
+                    <p>Ako izaberete stavku <b>Custom Options</b> iz menija, otvoriće se prozor <b>Scale Settings</b>:</p>
+                    <p><img alt="Scale Settings window" src="../images/scalesettings.png" /></p>
+                    <ol>
+                        <li><b>Fit To</b>: omogućava da izaberete potreban broj stranica na koje želite da prilagodite odštampani radni list. Izaberite potreban broj stranica iz lista <b>Width</b> i <b>Height</b>.</li>
+                        <li><b>Scale To</b>: omogućava da uvećate ili smanjite razmeru radnog lista kako bi odgovarao odštampanim stranicama ručnim navođenjem procenta u odnosu na normalnu veličinu.</li>
+                    </ol>
+                </li>
+                <li><b>Naslovi za štampu</b> – ako želite da štampate naslove redova ili kolona na svakoj stranici, koristite <b>Repeat rows at top</b> i/ili <b>Repeat columns at left</b> da navedete red i kolonu sa naslovom za ponavljanje, ili izaberite jednu od dostupnih opcija iz padajuće liste: Frozen rows/columns, First row/column ili Don't repeat.</li>
+                <li><b>Mrežne linije i zaglavlja</b> – navedite elemente radnog lista za štampanje označavanjem odgovarajućih polja: <b>Print gridlines</b> i <b>Print row and column headings</b>.</li>
+                <li>
+                    <a href="../UsageInstructions/InsertHeadersFooters.htm" onclick="onhyperlinkclick(this)"><b>Podešavanja zaglavlja/podnožja</b></a> – omogućavaju dodavanje dodatnih informacija na odštampani radni list, kao što su datum i vreme, broj stranice, naziv lista itd.
+                </li>
+                <li><b>Broj prve stranice</b> – navedite broj prve stranice za štampanje.</li>
+                <li>Uključite ili isključite prekidač <b>Zoom to page</b> u donjem desnom uglu ekrana da biste prikazali stvarnu veličinu listova kada je isključen ili smanjili prikaz kada je uključen.</li>
+            </ul>
+            <p>Nakon što podesite opcije štampanja, kliknite na dugme <b>Print</b> da biste sačuvali izmene i odštampali tabelu ili na dugme <b>Save</b> da biste sačuvali izmene podešavanja štampanja.</p>
+            <p class="note">Sve izmene koje ste napravili biće izgubljene ako ne odštampate tabelu ili ne sačuvate izmene.</p>
+            <p><b>Preview</b> prikaz tabele omogućava vam da se krećete kroz tabelu pomoću strelica na dnu kako biste videli kako će vaši podaci biti prikazani na listu prilikom štampanja i da ispravite eventualne greške pomoću podešavanja štampe iznad.</p>
+            <p><span class="onlineDocumentFeatures">U <em>online verziji</em>, PDF datoteka će biti generisana na osnovu dokumenta. Možete je otvoriti i odštampati ili sačuvati na hard disk računara ili prenosivi medij za kasnije štampanje. Neki pregledači (npr. Chrome i Opera) podržavaju direktno štampanje.</span></p>
+            <p><span class="desktopDocumentFeatures">Opcije štampanja u <em>desktop verziji</em> su sledeće: izaberite štampač iz liste <b>Printer</b>, izaberite <b>Print range</b>, <b>Ignore print area</b>, unesite <b>Pages</b> i broj <b>Copies</b> za štampanje, izaberite <b>Print sides</b>, <b>Page size</b>, <b>Page orientation</b>, <b>Margins</b>, <b>Scaling</b> i <b>First page number</b>. Opcije <b>Print titles</b>, <b>Gridlines and headings</b> i <b>Header/footer settings</b> omogućavaju štampanje opsežne višestranične tabele i definisanje elemenata za štampu. Da biste podesili dodatna svojstva štampača, pristupite sistemskom dijalogu za štampanje pomoću opcije <b>Print using the system dialog</b>. Da biste završili proces podešavanja, koristite dugme <b>Print</b>, <b>Print to PDF</b> ili <b>Save</b>. Dugme <b>Quick print</b> na gornjoj alatnoj traci omogućava štampanje datoteke koristeći poslednji izbor štampača ili podrazumevani štampač.</span></p>           
+            
+            <h4 id="printarea">Podešavanje oblasti za štampu</h4>
+            <p>Ako želite da štampate samo izabrani opseg ćelija umesto celog radnog lista, možete koristiti opciju <b>Selection</b> iz padajuće liste <b>Print range</b>. Kada se radna sveska sačuva, ovo podešavanje se ne čuva i namenjeno je jednokratnoj upotrebi. </p>
+            <p>Ako je potrebno često štampati određeni opseg ćelija, možete postaviti stalnu oblast za štampu na radnom listu. Kada se radna sveska sačuva, oblast za štampu se takođe čuva i može se koristiti prilikom sledećeg otvaranja tabele. Takođe je moguće postaviti više stalnih oblasti za štampu na jednom listu, u tom slučaju će se svaka oblast štampati na posebnoj stranici.</p>
+            <p>Da biste postavili oblast za štampu:</p>
+            <ol>
+                <li>izaberite potreban opseg ćelija na radnom listu. Da biste izabrali više opsega ćelija, držite pritisnut taster <em>Ctrl</em>,</li>
+                <li>prebacite se na karticu <b>Layout</b> na gornjoj alatnoj traci,</li>
+                <li>kliknite na strelicu pored dugmeta <div class = "icon icon-printareabutton"></div> <b>Print Area</b> i izaberite opciju <b>Set Print Area</b>.</li>
+            </ol>
+            <p>Kreirana oblast za štampu se čuva kada se radna sveska sačuva. Kada sledeći put otvorite datoteku, navedena oblast za štampu biće odštampana.</p>
+            <p class="note">Kada kreirate oblast za štampu, automatski se kreira i <em>Print_Area</em> <a href="UseNamedRanges.htm" onclick="onhyperlinkclick(this)">imenovani opseg</a>, koji se prikazuje u <b>Name Manager</b>-u. Da biste istakli ivice svih oblasti za štampu na trenutnom radnom listu, možete kliknuti na strelicu u polju za naziv koje se nalazi levo od trake sa formulama i izabrati naziv <em>Print_Area</em> iz liste naziva. </p>
+            <p>Da biste dodali ćelije u oblast za štampu:</p>
+            <ol>
+                <li>otvorite potreban radni list na kojem je oblast za štampu dodata,</li>
+                <li>izaberite potreban opseg ćelija na radnom listu,</li>
+                <li>prebacite se na karticu <b>Layout</b> na gornjoj alatnoj traci,</li>
+                <li>kliknite na strelicu pored dugmeta <div class = "icon icon-printareabutton"></div> <b>Print Area</b> i izaberite opciju <b>Add to Print Area</b>.</li>
+            </ol>
+            <p>Nova oblast za štampu biće dodata. Svaka oblast za štampu biće odštampana na posebnoj stranici.</p>
+            <p>Da biste uklonili oblast za štampu:</p>
+            <ol>
+                <li>otvorite potreban radni list na kojem je oblast za štampu dodata,</li>
+                <li>prebacite se na karticu <b>Layout</b> na gornjoj alatnoj traci,</li>
+                <li>kliknite na strelicu pored dugmeta <div class = "icon icon-printareabutton"></div> <b>Print Area</b> i izaberite opciju <b>Clear Print Area</b>.</li>
+            </ol>
+            <p>Sve postojeće oblasti za štampu na ovom listu biće uklonjene. Nakon toga će se štampati ceo list.</p>
+        </div>
+	</body>
+</html>

@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Kreiranje lista</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Kreiranje listi sa oznakama i numerisanih listi u dokumentu uz promenu strukture liste" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Kreiranje lista</h1>
+            <p>Da biste kreirali listu u <a target="_blank" href="https://www.onlyoffice.com/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>Uređivaču prezentacija</b></a>,</p>
+            <ol>
+                <li>postavite kursor na mesto gde lista treba da počne (to može biti novi red ili već uneti tekst),</li>
+                <li>prebacite se na karticu <b>Početna</b> na gornjoj traci sa alatkama,</li>
+                <li>
+                    izaberite tip liste koji želite da započnete:
+                    <ul>
+                        <li><b>Nenumerisana lista</b> sa oznakama se kreira pomoću ikone <b>Oznake</b> <div class = "icon icon-bullets"></div> koja se nalazi na gornjoj traci sa alatkama</li>
+                        <li>
+                            <b>Numerisana lista</b> sa brojevima ili slovima se kreira pomoću ikone <b>Numerisanje</b> <div class = "icon icon-numbering"></div> koja se nalazi na gornjoj traci sa alatkama
+                            <p class="note"><b>Napomena</b>: kliknite na strelicu nadole pored ikone <b>Oznake</b> ili <b>Numerisanje</b> da biste izabrali kako će lista izgledati.</p>
+                        </li>
+                    </ul>
+                </li>
+                <li>sada, svaki put kada pritisnete taster <b>Enter</b> na kraju reda, pojaviće se nova stavka numerisane ili nenumerisane liste. Da biste to zaustavili, pritisnite taster <b>Backspace</b> i nastavite sa običnim pasusom teksta.</li>
+            </ol>
+            <p>Takođe možete promeniti uvlačenje teksta u listama i njihovo ugnježđivanje koristeći ikone <b>Smanji uvlačenje</b> <span class="icon icon-decreaseindent"></span> i <b>Povećaj uvlačenje</b> <span class="icon icon-increaseindent"></span> na kartici <b>Početna</b> gornje trake sa alatkama.</p>
+            <p class="note"><b>Napomena</b>: dodatni parametri uvlačenja i razmaka mogu se menjati na desnoj bočnoj traci i u prozoru naprednih podešavanja. Da biste saznali više o tome, pročitajte odeljak <a href="../UsageInstructions/InsertText.htm" onclick="onhyperlinkclick(this)">Umetanje i formatiranje teksta</a>.</p>
+
+            <h3>Promena podešavanja liste</h3>
+            <p>Da biste promenili podešavanja liste sa oznakama ili numerisane liste, kao što su tip oznake, veličina i boja:</p>
+            <ol>
+                <li>kliknite na postojeću stavku liste ili izaberite tekst koji želite da formatirate kao listu,</li>
+                <li>kliknite na ikonu <b>Oznake</b> <div class = "icon icon-bullets"></div> ili <b>Numerisanje</b> <div class = "icon icon-numbering"></div> na kartici <b>Početna</b> gornje trake sa alatkama,</li>
+                <li>izaberite opciju <b>Podešavanja liste</b>,</li>
+                <li>
+                    otvoriće se prozor <b>Podešavanja liste</b>. Prozor podešavanja <b>liste sa oznakama</b> izgleda ovako:
+                    <p><img alt="Prozor podešavanja liste sa oznakama" src="../images/bulletedlistsettings.png" /></p>
+                    <ul>
+                        <li><b>Tip</b> – omogućava izbor odgovarajućeg znaka koji se koristi za listu. Kada kliknete na opciju <b>Nova oznaka</b>, otvara se prozor <b>Simbol</b> u kojem možete izabrati jedan od dostupnih znakova. Takođe možete dodati novi simbol. Da biste saznali više o radu sa simbolima, pogledajte <a href="../UsageInstructions/InsertSymbols.htm" onclick="onhyperlinkclick(this)">ovaj članak</a>.
+                        <p>Kada kliknete na opciju <b>Nova slika</b>, pojavljuje se novo polje <b>Uvoz</b> gde možete izabrati nove slike za oznake <em>Iz datoteke</em>, <em>Sa URL-a</em> ili <em>Iz skladišta</em>.</p></li>
+                        <li><b>Veličina</b> – omogućava izbor odgovarajuće veličine oznake u zavisnosti od trenutne veličine teksta. Vrednost može biti u rasponu od 25% do 400%.</li>
+                        <li><b>Boja</b> – omogućava izbor odgovarajuće boje oznake. Možete izabrati jednu od <em>boja teme</em> ili <em>standardnih boja</em> na paleti, ili odrediti <em>prilagođenu</em> boju.</li>
+                    </ul>
+                    <p>Prozor podešavanja <b>numerisane</b> liste izgleda ovako:</p>
+                    <p><img alt="Prozor podešavanja numerisane liste" src="../images/orderedlistsettings.png" /></p>
+                    <ul>
+                        <li><b>Tip</b> – omogućava izbor odgovarajućeg formata brojeva koji se koristi za listu.</li>
+                        <li><b>Veličina</b> – omogućava izbor odgovarajuće veličine brojeva u zavisnosti od trenutne veličine teksta. Vrednost može biti u rasponu od 25% do 400%.</li>
+                        <li><b>Počni od</b> – omogućava izbor rednog broja od kog numerisana lista počinje.</li>
+                        <li><b>Boja</b> – omogućava izbor odgovarajuće boje brojeva. Možete izabrati jednu od <em>boja teme</em> ili <em>standardnih boja</em> na paleti, ili odrediti <em>prilagođenu</em> boju.</li>
+                    </ul>
+                </li>
+                <li>kliknite na <b>U redu</b> da biste primenili izmene i zatvorili prozor sa podešavanjima.</li>
+            </ol>        
+        </div>
+	</body>
+</html>

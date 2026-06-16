@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+        <title>Predstavljanje korisničkog interfejsa Presentation Editor-a</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Predstavljanje korisničkog interfejsa Presentation Editor-a" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Predstavljanje korisničkog interfejsa Presentation Editor-a</h1>
+        <p><a target="_blank" href="https://www.onlyoffice.com/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>Presentation Editor</b></a> koristi interfejs sa karticama u kojem su komande za uređivanje grupisane u kartice prema njihovoj funkcionalnosti.</p>
+            <div class="onlineDocumentFeatures">
+                <p>Glavni prozor Online Presentation Editor-a:</p>
+                <p><img alt="Prozor Online Presentation Editor-a" src="../images/interface/editorwindow.png" /></p>
+            </div>
+            <div class="desktopDocumentFeatures">
+                <p>Glavni prozor Desktop Presentation Editor-a:</p>
+                <p><img alt="Prozor Desktop Presentation Editor-a" src="../images/interface/desktop_editorwindow.png" /></p>
+            </div>
+            <p>Interfejs editora sastoji se od sledećih glavnih elemenata:</p>
+            <ol>
+                <li>
+                    <b>Zaglavlje editora</b> prikazuje logo, <span class="desktopDocumentFeatures">kartice svih otvorenih prezentacija sa njihovim nazivima</span> i kartice menija.
+                    <p>Sa leve strane <b>zaglavlja editora</b> nalaze se dugmad <b>Sačuvaj</b>, <b>Odštampaj datoteku</b>, <b>Poništi</b>, <b>Ponovi</b> i <b>Pokreni projekciju slajdova od početka</b>. Kliknite na ikonu sa tačkama desno da biste prilagodili koja dugmad će biti sakrivena, ukoliko je potrebno.</p>
+                    <p><span class="big big-leftpart"></span></p>
+                    <p>Sa desne strane <b>zaglavlja editora</b>, pored korisničkog imena, prikazane su sledeće ikone:</p>
+                    <ul>
+                        <li><div class="icon icon-gotodocuments"></div> <b>Otvori lokaciju datoteke</b> - <span class="desktopDocumentFeatures">u <em>desktop verziji</em> omogućava otvaranje fascikle u kojoj je datoteka sačuvana u prozoru <b>File Explorer</b>-a.</span> <span class="onlineDocumentFeatures"> U <em>online verziji</em> omogućava otvaranje fascikle modula <b>Dokumenti</b> u kojoj je datoteka sačuvana, u novoj kartici pregledača.</span></li>
+                        <li class="onlineDocumentFeatures"><div class="icon icon-access_rights"></div> <b>Deli</b> - (dostupno samo u <em>online verziji</em>) omogućava <a href="https://helpcenter.onlyoffice.com/de/userguides/groups-guides-documents-share-documents.aspx" onclick="onhyperlinkclick(this)">podešavanje prava pristupa</a> dokumentima sačuvanim u oblaku.</li>
+                        <li><div class="icon icon-favorites_icon"></div> <b>Označi kao omiljeno</b> - kliknite na zvezdicu da biste dodali datoteku u omiljene radi lakšeg pronalaženja. Dodata datoteka predstavlja samo prečicu, dok sama datoteka ostaje sačuvana na originalnoj lokaciji. Uklanjanje datoteke iz omiljenih ne briše datoteku sa originalne lokacije.</li>
+                        <li><div class="icon icon-search_icon_header"></div> <b>Pretraga</b> - omogućava pretragu prezentacije po određenoj reči, simbolu itd.</li>
+                    </ul>
+                </li>
+                <li>
+                    <b>Gornja alatna traka</b> prikazuje skup komandi za uređivanje u zavisnosti od izabrane kartice menija. Trenutno su dostupne sledeće kartice: <a href="../ProgramInterface/FileTab.htm" onclick="onhyperlinkclick(this)">Datoteka</a>, <a href="../ProgramInterface/HomeTab.htm" onclick="onhyperlinkclick(this)">Početna</a>, <a href="../ProgramInterface/InsertTab.htm" onclick="onhyperlinkclick(this)">Umetanje</a>, <a href="../ProgramInterface/DrawTab.htm" onclick="onhyperlinkclick(this)">Crtanje</a>, <a href="../ProgramInterface/DesignTab.htm" onclick="onhyperlinkclick(this)">Dizajn</a>, <a href="../ProgramInterface/TransitionsTab.htm" onclick="onhyperlinkclick(this)">Prelazi</a>, <a href="../ProgramInterface/AnimationTab.htm" onclick="onhyperlinkclick(this)">Animacije</a>, <a href="../ProgramInterface/CollaborationTab.htm" onclick="onhyperlinkclick(this)">Saradnja</a>, <span class="desktopDocumentFeatures">Zaštita,</span> <a href="../ProgramInterface/PluginsTab.htm" onclick="onhyperlinkclick(this)">Dodaci</a>.
+                    <p>Opcije <span class="icon icon-copy"></span> <b>Kopiraj</b>, <span class="icon icon-paste"></span> <b>Nalepi</b>, <span class="icon icon-cut"></span> <b>Iseci</b> i <span class="icon icon-selectall"></span> <b>Izaberi sve</b> uvek su dostupne sa leve strane <b>gornje alatne trake</b>, bez obzira na izabranu karticu.</p>
+                </li>
+                <li><b>Statusna traka</b> na dnu prozora editora sadrži ikonu <a href="../UsageInstructions/PreviewPresentation.htm" onclick="onhyperlinkclick(this)">Pokreni projekciju slajdova</a>, kao i neke <a href="../HelpfulHints/Navigation.htm" onclick="onhyperlinkclick(this)">alate za navigaciju</a>: indikator broja slajda i dugmad za uvećanje. <b>Statusna traka</b> takođe prikazuje određena obaveštenja (kao što su „Sve izmene su sačuvane“, „Veza je prekinuta“ kada nema konekcije i editor pokušava ponovno povezivanje itd.) i omogućava <a href="../HelpfulHints/SpellChecking.htm" onclick="onhyperlinkclick(this)">podešavanje jezika teksta i uključivanje provere pravopisa</a>.</li>
+                <li>
+                    <b>Leva bočna traka</b> sadrži sledeće ikone:
+                        <ul>
+                            <li><div class="icon icon-searchicon"></div> - omogućava korišćenje alata <a href="../HelpfulHints/Search.htm" onclick="onhyperlinkclick(this)">Pretraga i zamena</a>,</li>
+                            <li><div class="icon icon-slides"></div> - omogućava prikaz slajdova i navigaciju kroz njih,</li>
+                            <li><div class="icon icon-commentsicon"></div> - omogućava otvaranje panela <a href="../HelpfulHints/CollaborativeEditing.htm#comments" onclick="onhyperlinkclick(this)">Komentari</a>,</li>
+                            <li class="onlineDocumentFeatures"><div class="icon icon-chaticon"></div> - (dostupno samo u <em>online verziji</em>) omogućava otvaranje panela <a href="../HelpfulHints/CollaborativeEditing.htm#chat" onclick="onhyperlinkclick(this)">Čet</a>,</li>
+                            <li class="onlineDocumentFeatures"><div class="icon icon-feedbackicon"></div> - (dostupno samo u <em>online verziji</em>) omogućava kontaktiranje našeg tima za podršku,</li>
+                            <li class="onlineDocumentFeatures"><div class="icon icon-about"></div> - (dostupno samo u <em>online verziji</em>) omogućava prikaz informacija o programu.</li>
+                        </ul>
+                </li>
+                <li><b>Desna bočna traka</b> omogućava podešavanje dodatnih parametara različitih objekata. Kada izaberete određeni objekat na slajdu, odgovarajuća ikona se aktivira na desnoj bočnoj traci. Kliknite na ovu ikonu da biste proširili desnu bočnu traku.</li>
+                <li>Horizontalni i vertikalni <b>Lenjiri</b> pomažu pri postavljanju objekata na slajd i omogućavaju podešavanje tabulatora i uvlačenja pasusa unutar tekstualnih okvira.</li>
+                <li><b>Radna površina</b> omogućava pregled sadržaja prezentacije, unos i uređivanje podataka.</li>
+                <li><b>Klizač</b> sa desne strane omogućava pomeranje prezentacije gore i dole.</li>
+            </ol>
+            <p>Radi vaše pogodnosti, možete sakriti neke komponente i ponovo ih prikazati kada je potrebno. Da biste saznali više o podešavanju prikaza, pogledajte <a href="../HelpfulHints/Navigation.htm" onclick="onhyperlinkclick(this)">ovu stranicu</a>.</p>
+            <p>Kada ima mnogo ikona na levim i desnim panelima, one koje se nalaze ispod biće skrivene i mogu se otvoriti pomoću dugmeta <b>Više</b>.</p>
+		</div>
+	</body>
+</html>

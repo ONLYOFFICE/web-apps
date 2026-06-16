@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>ChatGPT</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Opis ChatGPT dodatka za ONLYOFFICE editore, koji vam omogućava da koristite OpenAI chatbot za obavljanje zadataka koji podrazumevaju razumevanje ili generisanje prirodnog jezika ili koda" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>ChatGPT</h1>
+        <p><b>ChatGPT</b> dodatak vam omogućava da koristite OpenAI chatbot za obavljanje zadataka koji podrazumevaju razumevanje ili generisanje prirodnog jezika ili koda.</p>
+        <p class="note">Počevši od ONLYOFFICE Docs 8.2 verzije, nijedan dodatak ne dolazi podrazumevano uz editore. Dodaci se instaliraju putem <a href="https://helpcenter.onlyoffice.com/ONLYOFFICE-Editors/Editors-User-Guides/AllEditors/Plugin-manager.aspx" target="_blank" onclick="onhyperlinkclick(this)">Plugin Manager-a</a>.</p>
+
+        <h3>Instalacija</h3>
+        <p>Da biste instalirali <b>ChatGPT</b> dodatak,</p>
+        <ol>
+            <li>Idite na karticu <b>Plugins</b>.</li>
+            <li>Otvorite <b>Plugin Manager</b>.</li>
+            <li>
+                Pronađite <div class="icon icon-chatgpt_icon"></div> <b>ChatGPT</b> na marketplace-u i kliknite dugme <b>Install</b> ispod.
+                <p><img alt="ChatGPT Installation" src="../images/chatgpt_installation.png" /></p>
+            </li>
+            <li>Kliknite desnim tasterom miša bilo gde u dokumentu i pronađite <div class="icon icon-chatgpt_icon"></div> <b>ChatGPT</b> u kontekstnom meniju.</li>
+            <li>
+                Kliknite <b>Settings</b> da biste nastavili sa konfiguracijom dodatka.
+                <p><img alt="ChatGPT Context Menu" src="../images/chatgpt_contextmenu.png" /></p>
+            </li>
+        </ol>
+
+        <h3>Konfiguracija</h3>
+        <ol>
+            <li>Kreirajte svoj <b>API ključ</b> na stranici <a href="https://platform.openai.com/account/api-keys" target="_blank" onclick="onhyperlinkclick(this)">OpenAI API key</a>.</li>
+            <li>Kopirajte generisani <b>API ključ</b> u odgovarajuće polje u prozoru <b>Settings</b>.</li>
+        </ol>
+        <p><img alt="ChatGPT API Key" src="../../../../../../common/main/resources/help/en/images/chatgpt_apikey.png" /></p>
+
+        <h3>Kako koristiti</h3>
+        <p class="note"><b>ONLYOFFICE ne preuzima odgovornost</b> za bilo koje ChatGPT odgovore koji mogu sadržati greške ili propuste, kao ni za bilo kakav uvredljiv ili neprikladan sadržaj. Informacije sadržane u odgovorima dodatka generiše ChatGPT i pružaju se po principu „kakve jesu“, bez dodatnog filtriranja od strane ONLYOFFICE-a.</p>
+        <p>Nakon instalacije, <b>ChatGPT</b> će biti dodat u kontekstni meni, a svim <b>ChatGPT</b> funkcijama pristupa se desnim klikom miša. Izaberite deo teksta ili reč da biste otvorili kontekstni meni i izabrali jednu od <b>ChatGPT</b> funkcija: <b>Text Analysis</b>, <b>Word Analysis</b>, <b>Translation</b>, <b>Image Generation</b>, <b>Thesaurus</b>, <b>Chat</b> i <b>Custom Request</b>.</p>
+        <h4>Chat</h4>
+        <p>Integracija <b>ChatGPT</b>-a u kontekstni meni omogućava vam da pokrenete <b>Chat</b> sa bilo kog mesta u dokumentu. Koristite chatbot za interakciju i vođenje razgovora, postavljanje pitanja i dobijanje odgovora na vaše zahteve.</p>
+        <p>Idite na opciju <b>Chat</b> iz <b>ChatGPT</b> kontekstnog menija i započnite razgovor u polju za unos teksta na dnu <b>ChatGPT</b> prozora.</p>
+        <p><img alt="ChatGPT Chat" src="../../../../../../common/main/resources/help/en/images/chatgpt_chat.png" /></p>
+
+        <h4>Custom Request</h4>
+        <p>Funkcija <b>Custom Request</b> vam omogućava da tokenizujete prirodni jezik ili kod. Alat pretvara ulazni tekst u listu tokena, obrađuje zahtev, pretvara generisane tokene nazad u tekst i vraća rezultat u dokument.</p>
+        <ol>
+            <li>Da biste poslali prilagođeni zahtev, idite u <b>ChatGPT</b> kontekstni meni i kliknite <b>Custom request</b>.</li>
+            <li>
+                U tekstualno polje <b>Open AI</b> unesite tekst koji želite da tokenizujete. Alat prikazuje ukupan broj tokena u tekstu.
+                <p><img alt="ChatGPT Custom" src="../../../../../../common/main/resources/help/en/images/chatgpt_custom.png" /></p>
+            </li>
+            <li>
+                Kliknite <b>Show advanced settings</b> da biste konfigurisali podešavanja zahteva:
+                <p><img alt="ChatGPT Custom Model" src="../../../../../../common/main/resources/help/en/images/chatgpt_custom_advanced.png" /></p>
+                <ul>
+                    <li><b>Model</b> – model koji će generisati rezultat. Neki modeli su pogodniji za zadatke prirodnog jezika, dok su drugi specijalizovani za kod. Za više informacija o ovim modelima, pogledajte <a href="https://platform.openai.com/docs/models/overview" target="_blank" onclick="onhyperlinkclick(this)">zvaničnu ChatGPT veb stranicu</a>.</li>
+                    <li><b>Maximum length</b> – maksimalan broj tokena koji će biti generisan u rezultatu.</li>
+                    <li><b>Temperature</b> – ovaj parametar kontroliše nasumičnost, npr. smanjenje vrednosti rezultira manje nasumičnim odgovorima. Kako se temperatura približava nuli, izlaz postaje deterministički i ponavljajući.</li>
+                    <li><b>Top P</b> – alternativa uzorkovanju pomoću temperature, poznata kao nucleus sampling, gde model razmatra rezultate tokena sa top_p verovatnoćom.</li>
+                    <li><b>Stop sequences</b> – do četiri sekvence na kojima će API zaustaviti dalje generisanje tokena. Vraćeni tekst neće sadržati stop sekvencu.</li>
+                </ul>
+            </li>
+            <li>Kliknite dugme <b>Submit</b> da biste obradili tekst ili kliknite dugme <b>Clear</b> da biste obrisali zahtev i uneli novi.</li>
+        </ol>
+    </div>
+</body>
+</html>

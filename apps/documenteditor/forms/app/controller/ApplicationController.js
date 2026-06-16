@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 define([
     'core',
@@ -43,6 +46,7 @@ define([
     'common/main/lib/util/Shortcuts',
     'common/main/lib/view/OpenDialog',
     'common/forms/lib/view/modals',
+    'common/main/lib/controller/Fonts',
     'documenteditor/forms/app/view/ApplicationView',
     'common/main/lib/controller/LaunchController'
 ], function (Viewport) {
@@ -108,6 +112,7 @@ define([
             Common.UI.Themes.init(this.api);
             Common.Controllers.LaunchController.init(this.api);
 
+            Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));
             $(window).on('resize', this.onDocumentResize.bind(this));
 
             this.boxSdk = $('#editor_sdk');
@@ -196,12 +201,18 @@ define([
             window.onbeforeunload = _.bind(this.onBeforeUnload, this);
 
             this.warnNoLicense  = this.warnNoLicense.replace(/%1/g, '{{COMPANY_NAME}}');
+            this.warnNoResources  = this.warnNoResources.replace(/%1/g, '{{COMPANY_NAME}}');
             this.warnNoLicenseUsers = this.warnNoLicenseUsers.replace(/%1/g, '{{COMPANY_NAME}}');
             this.textNoLicenseTitle = this.textNoLicenseTitle.replace(/%1/g, '{{COMPANY_NAME}}');
+            this.textNoResourcesTitle = this.textNoResourcesTitle.replace(/%1/g, '{{COMPANY_NAME}}');
+        },
+
+        onLayoutChanged: function(area) {
+            this.api && this.api.Resize();
         },
 
         onDocumentResize: function() {
-            this.api && this.api.Resize();
+            this.onLayoutChanged('window');
             bodyWidth = $('body').width();
         },
 
@@ -358,6 +369,14 @@ define([
                     config.msg = this.errorCopyDisabled;
                     break;
 
+                case Asc.c_oAscError.ID.FileNotAssembled:
+                    config.msg = this.errorFileNotAssembled;
+                    break;
+
+                case Asc.c_oAscError.ID.ForcedViewMode:
+                    config.msg = this.errorForcedViewMode;
+                    break;
+
                 default:
                     config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                     if (typeof id == 'string')
@@ -421,8 +440,6 @@ define([
 
             if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value="' + id + '"]').length<1)
                 Common.UI.alert(config).$window.attr('data-value', id);
-
-            (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
         },
 
         hidePreloader: function() {
@@ -501,6 +518,7 @@ define([
             this.appOptions.lang            = this.editorConfig.lang;
             this.appOptions.canPlugins      = false;
             this.appOptions.canRequestFillingStatus = this.editorConfig.canRequestFillingStatus;
+            this.appOptions.disableNetworkFunctionality = !!(window["AscDesktopEditor"] && window["AscDesktopEditor"]["isSupportNetworkFunctionality"] && false === window["AscDesktopEditor"]["isSupportNetworkFunctionality"]());
 
             Common.Controllers.Desktop.init(this.appOptions);
 
@@ -530,8 +548,6 @@ define([
             if (msg && msg.msg) {
                 msg.msg = (msg.msg).toString();
                 this.showTips([msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)]);
-
-                Common.component.Analytics.trackEvent('External Error');
             }
         },
 
@@ -622,10 +638,8 @@ define([
             this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
             this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
             this.api.asc_setDocInfo(docInfo);
-            this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
+            this.api.asc_getEditorPermissions();
             this.api.asc_enableKeyEvents(true);
-
-            Common.Analytics.trackEvent('Load', 'Start');
         },
 
         onRunAutostartMacroses: function() {
@@ -771,6 +785,8 @@ define([
                 this.api.asc_SetFastCollaborative(true);
                 this.api.asc_setAutoSaveGap(1);
                 this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
+
+                DE.getController('Common.Controllers.Fonts').setApi(this.api);
             }
 
             this.view.btnClose.setVisible(this.appOptions.canCloseEditor);
@@ -783,6 +799,15 @@ define([
 
             if (this.appOptions.canFillForms) {
                 this.api.asc_registerCallback('asc_onUpdateSignatures', _.bind(this.onApiUpdateSignatures, this));
+            }
+
+            const rightMenuController = DE.getController('RightMenu');
+            const rightMenuView = rightMenuController.getView('RightMenu');
+            rightMenuView.render(this.appOptions);
+            rightMenuView.setApi(this.api);
+            rightMenuView.setMode(this.appOptions);
+            if(rightMenuView.$el.find('.tool-menu-btns > button').length == 0) {
+                rightMenuController.onRightMenuHide(null, false, true);
             }
 
             this._isPermissionsInited = true;
@@ -836,7 +861,7 @@ define([
         onLicenseChanged: function(params) {
             var licType = params.asc_getLicenseType();
             if (licType !== undefined && this.appOptions.canFillForms &&
-                (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS
+                (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS || licType===Asc.c_oLicenseResult.NotEnoughResources
                     || licType===Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
                 this._state.licenseType = licType;
 
@@ -866,7 +891,10 @@ define([
                     title = this.titleReadOnly;
                     license = (license===Asc.c_oLicenseResult.Connections) ? this.tipLicenseExceeded : this.tipLicenseUsersExceeded;
                 } else {
-                    license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
+                    if (license===Asc.c_oLicenseResult.NotEnoughResources)
+                        title = this.textNoResourcesTitle;
+                    license = (license===Asc.c_oLicenseResult.NotEnoughResources) ? this.warnNoResources :
+                              (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
                     buttons = [{value: 'buynow', caption: this.textBuyNow}, {value: 'contact', caption: this.textContactUs}];
                     primary = 'buynow';
                     modal = true;
@@ -994,6 +1022,11 @@ define([
                     }
                     this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View, this.api.asc_getRestrictionSettings());
                     this.onApiServerDisconnect(true);
+
+                    const rightMenuController = DE.getController('RightMenu');
+                    const rightMenuView = rightMenuController && rightMenuController.getView('RightMenu');
+                    const fillingStatusSettings = rightMenuView && rightMenuView.fillingStatusSettings;
+                    fillingStatusSettings && fillingStatusSettings.updateRoles();
                 } else
                     this.disableFillingForms(false);
             }
@@ -1159,7 +1192,6 @@ define([
 
             if (this.api)
                 this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isOpera == true use asc_onPrintUrl event
-            Common.component.Analytics.trackEvent('Print');
         },
 
         onPrintUrl: function(url) {
@@ -1282,10 +1314,29 @@ define([
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    me.api.asc_addImage(obj.pr);
-                    setTimeout(function(){
-                        me.api.asc_UncheckContentControlButtons();
-                    }, 500);
+                    var signProps = obj.asc_getSignatureProps(me.api);
+                    var win = (new Common.Views.PdfSignDialog({
+                        props: signProps,
+                        api: me.api,
+                        disableNetworkFunctionality: me.appOptions.disableNetworkFunctionality,
+                        storage: me.appOptions.canRequestInsertImage || me.appOptions.fileChoiceUrl && me.appOptions.fileChoiceUrl.indexOf("{documentType}")>-1,
+                        fontStore: this.getCollection('Common.Collections.Fonts'),
+                        iconType: 'svg',
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                me.api.asc_SetSignatureProps(signProps.getResult());
+                            }
+                        }
+                        })).on('close', function(obj){
+                            setTimeout(function(){
+                                me.api.asc_UncheckContentControlButtons();
+                            }, 100);
+                        });
+                    win.show();
+                    // me.api.asc_addImage(obj.pr);
+                    // setTimeout(function(){
+                    //     me.api.asc_UncheckContentControlButtons();
+                    // }, 500);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
@@ -1652,8 +1703,8 @@ define([
 
             this.attachUIEvents();
 
+            Common.Gateway.sendInfo({mode:'view'});
             Common.Gateway.documentReady();
-            Common.Analytics.trackEvent('Load', 'Complete');
             Common.NotificationCenter.trigger('document:ready');
             Common.UI.TooltipManager.showTip('showFillStatus');
             requireUserAction = false;
@@ -1679,11 +1730,9 @@ define([
                     } else if (this.api && this.appOptions.canPrint){
                         this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isOpera == true use asc_onPrintUrl event
                     }
-                    Common.Analytics.trackEvent('Save');
                     break;
                 case 'print':
                     this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isOpera == true use asc_onPrintUrl event
-                    Common.Analytics.trackEvent('Print');
                     break;
                 case 'close':
                     if (!Common.Controllers.Desktop.process('goback') &&
@@ -1702,11 +1751,9 @@ define([
                     break;
                 case 'download-docx':
                     this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX));
-                    Common.Analytics.trackEvent('Save');
                     break;
                 case 'download-pdf':
                     this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
-                    Common.Analytics.trackEvent('Save');
                     break;
                 case 'share':
                     (new Common.Views.ShareDialog({
@@ -1728,28 +1775,56 @@ define([
             (item.value!==null) && Common.UI.Themes.setTheme(item.value);
         },
         onApiZoomChange: function(percent, type) {
+            var me = this;
+            var correspondingZoomFound = false;
+
             this.view.mnuZoom.items[0].setChecked(type == 2, true);
             this.view.mnuZoom.items[1].setChecked(type == 1, true);
-            this.view.mnuZoom.options.value = percent;
 
-            if ( this.view.mnuZoom.$el )
-                $('.menu-zoom label.zoom', this.view.mnuZoom.$el).html(percent + '%');
+            this.view.mnuZoom.items.forEach(function (item, index) {
+                if (percent === item.value) {
+                    me.view.mnuZoom.items[index].setChecked(true);
+                    correspondingZoomFound = true;
+                };
+            });
+
+            if (!correspondingZoomFound)
+                for (var i = 2; i < this.view.mnuZoom.items.length; i++) {
+                    this.view.mnuZoom.items[i].setChecked(false);
+                };
         },
 
         onMenuZoomClick: function(menu, item, e){
             switch ( item.value ) {
                 case 'zoom:page':
-                    item.isChecked() ? this.api.zoomFitToPage() : this.api.zoomCustomMode();
+                    if (item.isChecked()) {
+                        this.api.GetMultipageViewMode() && this.api.SetMultipageViewMode(false);
+                        this.api.zoomFitToPage();
+                        this.view.mnuZoom.items[2].setChecked(false);
+                    } else {
+                        this.api.zoomCustomMode();
+                    }
                     break;
                 case 'zoom:width':
-                    item.isChecked() ? this.api.zoomFitToWidth() : this.api.zoomCustomMode();
+                    if (item.isChecked()) {
+                        this.api.GetMultipageViewMode() && this.api.SetMultipageViewMode(false);
+                        this.api.zoomFitToWidth();
+                        this.view.mnuZoom.items[2].setChecked(false);
+                    } else {
+                        this.api.zoomCustomMode();
+                    }
                     break;
+                case 'zoom:multi':
+                    if (item.isChecked()) {
+                        this.api.zoomCustomMode();
+                        this.api.SetMultipageViewMode(true);
+                    } else {
+                        this.api.SetMultipageViewMode(false);
+                    }
+                    break;
+                default:
+                    this.api.zoom(item.value);
             }
-
-        },
-        onBtnZoom: function (btn, e) {
-            btn == 'up' ? this.api.zoomIn() : this.api.zoomOut();
-            e.stopPropagation();
         },
 
         onDarkModeClick: function(item) {
@@ -1933,8 +2008,6 @@ define([
             // zoom
             $('#id-btn-zoom-in').on('click', this.api.zoomIn.bind(this.api));
             $('#id-btn-zoom-out').on('click', this.api.zoomOut.bind(this.api));
-            $('#id-menu-zoom-in').on('click', _.bind(this.onBtnZoom, this,'up'));
-            $('#id-menu-zoom-out').on('click', _.bind(this.onBtnZoom, this,'down'));
             this.view.btnOptions.menu.on('item:click', _.bind(this.onOptionsClick, this));
             this.view.mnuZoom.on('item:click', _.bind(this.onMenuZoomClick, this));
 
@@ -2351,9 +2424,11 @@ define([
         warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
         warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
         warnNoLicense: "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact %1 sales team for personal upgrade terms.",
+        warnNoResources: "The %1 server does not have enough resources to open this document for editing. This document will be opened for viewing only.",
         warnNoLicenseUsers: "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
         textBuyNow: 'Visit website',
         textNoLicenseTitle: 'License limit reached',
+        textNoResourcesTitle: 'Not enough resources',
         textContactUs: 'Contact sales',
         errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
         errorConnectToServer: 'The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.',
@@ -2392,7 +2467,7 @@ define([
         warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
         titleLicenseNotActive: 'License not active',
         warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
-        textSubmitOk: 'Your PDF form has been saved in the Complete section. You can fill out this form again and send another result.',
+        textSubmitOk: 'Your PDF form has been successfully filled.',
         textFilled: 'Filled',
         savingText: 'Saving',
         tipLicenseExceeded: 'The document is open in read-only mode as the maximum number of simultaneous connections allowed by license has been reached.<br><br>Please try again later or contact the document owner if you need editing access.',

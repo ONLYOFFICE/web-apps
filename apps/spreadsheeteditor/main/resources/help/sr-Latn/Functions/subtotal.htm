@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>SUBTOTAL Funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>SUBTOTAL Funkcija</h1>
+			<p><b>SUBTOTAL</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#mathtrigonometry" onclick="onhyperlinkclick(this)">funkcija za matematiku i trigonometriju</a>. Funkcija se koristi za vraćanje delimičnog zbira (subtotal) u listi ili bazi podataka.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>SUBTOTAL(function_num, ref1, [ref2], ...)</em></b></p> 
+			<p><b>SUBTOTAL</b> funkcija ima sledeće argumente:</p> 
+			<table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>function_num</em></b></td>
+                    <td>Brojčana vrednost koja određuje koju funkciju koristiti za delimični zbir. Moguće vrednosti su navedene u tabeli ispod. Za argumente <em>function_num</em> od 1 do 11, <b>SUBTOTAL</b> funkcija uključuje vrednosti redova koji su ručno sakriveni. Za argumente <em>function_num</em> od 101 do 111, <b>SUBTOTAL</b> funkcija ignoriše vrednosti redova koji su ručno sakriveni. Vrednosti sakrivene filterom se uvek isključuju.</td>
+                </tr>
+				<tr>
+                    <td><b><em>ref1/2/n</em></b></td>
+                    <td>Do 255 referenci na opsege ćelija koje sadrže vrednosti za koje želite delimični zbir.</td>
+                </tr>
+            </table>
+            <p>Argument <b><em>function_num</em></b> može biti jedan od sledećih:</p>
+			<table style="width: 40%">
+				<tr>
+					<th style="background-color: #f4f4f4"><b>broj funkcije (uključuje sakrivene vrednosti)</b></th>
+					<th style="background-color: #f4f4f4"><b>broj funkcije (isključuje sakrivene vrednosti)</b></th>
+                    <th style="background-color: #f4f4f4"><b>Funkcija</b></th>
+				</tr>
+				<tr>
+					<td><b><em>1</em></b></td>
+                    <td>101</td>
+					<td><a href="../Functions/average.htm" onclick="onhyperlinkclick(this)">AVERAGE</a></td>
+				</tr>
+                <tr>
+                    <td><b><em>2</em></b></td>
+                    <td>102</td>
+                    <td><a href="../Functions/count.htm" onclick="onhyperlinkclick(this)">COUNT</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>3</em></b></td>
+                    <td>103</td>
+                    <td><a href="../Functions/counta.htm" onclick="onhyperlinkclick(this)">COUNTA</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>4</em></b></td>
+                    <td>104</td>
+                    <td><a href="../Functions/max.htm" onclick="onhyperlinkclick(this)">MAX</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>5</em></b></td>
+                    <td>105</td>
+                    <td><a href="../Functions/min.htm" onclick="onhyperlinkclick(this)">MIN</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>6</em></b></td>
+                    <td>106</td>
+                    <td><a href="../Functions/product.htm" onclick="onhyperlinkclick(this)">PRODUCT</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>7</em></b></td>
+                    <td>107</td>
+                    <td><a href="../Functions/stdev.htm" onclick="onhyperlinkclick(this)">STDEV</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>8</em></b></td>
+                    <td>108</td>
+                    <td><a href="../Functions/stdevp.htm" onclick="onhyperlinkclick(this)">STDEVP</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>9</em></b></td>
+                    <td>109</td>
+                    <td><a href="../Functions/sum.htm" onclick="onhyperlinkclick(this)">SUM</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>10</em></b></td>
+                    <td>110</td>
+                    <td><a href="../Functions/var.htm" onclick="onhyperlinkclick(this)">VAR</a></td>
+                </tr>
+                <tr>
+                    <td><b><em>11</em></b></td>
+                    <td>111</td>
+                    <td><a href="../Functions/varp.htm" onclick="onhyperlinkclick(this)">VARP</a></td>
+                </tr>
+			</table>
+            <h3>Napomene</h3>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> <b>SUBTOTAL</b> funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća <b>SUBTOTAL</b> funkcija.</p>
+			<p><img alt="SUBTOTAL Funkcija" src="../images/subtotal.png" /></p>
+            <p>Slika ispod prikazuje rezultat koji vraća <b>SUBTOTAL</b> funkcija kada je nekoliko redova sakriveno.</p>
+            <p><img alt="SUBTOTAL Funkcija" src="../images/subtotal2.png" /></p>
+		</div>
+	</body>
+</html>

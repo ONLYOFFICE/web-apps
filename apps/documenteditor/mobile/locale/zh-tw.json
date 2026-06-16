@@ -423,10 +423,7 @@
     "textWrapText": "包覆文字",
     "textYourOption": "您的選擇",
     "txtHeight": "\n高度",
-    "txtWidth": "寬度",
-    "textLtrTextDirection": "Left-to-right",
-    "textRtlTextDirection": "Right-to-left",
-    "textTextDirection": "Text Direction"
+    "txtWidth": "寬度"
   },
   "Error": {
     "convertationTimeoutText": "轉換逾時。",
@@ -439,6 +436,7 @@
     "errorComboSeries": "要建立組合圖表，請選擇至少兩個資料系列。",
     "errorCompare": "在共同編輯模式下，無法使用比較文件功能。",
     "errorConnectToServer": "儲存文件失敗。請檢查您的網路設定或聯絡您的帳號管理員。<br>點擊\"確定\"之後，可以下載該文件。",
+    "errorCopyDisabled": "出於安全原因，無法複製本文件中的內容。",
     "errorDatabaseConnection": "外部錯誤<br>資料庫連結錯誤, 請聯絡技術支援。",
     "errorDataEncrypted": "已收到加密的更改，無法解密。",
     "errorDataRange": "不正確的資料範圍",
@@ -491,8 +489,7 @@
     "uploadDocSizeMessage": "超出最大文檔大小限制。",
     "uploadImageExtMessage": "圖片格式未知。",
     "uploadImageFileCountMessage": "無上傳圖片。",
-    "uploadImageSizeMessage": "圖像超出最大大小限制。最大為25MB。",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "圖像超出最大大小限制。最大為25MB。"
   },
   "LongActions": {
     "applyChangesTextText": "載入資料中...",
@@ -655,6 +652,7 @@
     "textHasMacros": "此檔案包含自動巨集程式。<br>是否要執行這些巨集？",
     "textNo": "否",
     "textNoLicenseTitle": "已達到憑證的最高限制",
+    "textNoResourcesTitle": "資源不足",
     "textNoMatches": "無匹配",
     "textOk": "好",
     "textPaidFeature": "付費功能",
@@ -680,6 +678,7 @@
     "warnLicenseLimitedNoAccess": "憑證已過期。您無法使用文件編輯功能。請聯絡您的帳號管理員",
     "warnLicenseLimitedRenewed": "憑證需要續約。您目前只有文件編輯的部份功能。<br>欲使用完整功能，請聯絡您的帳號管理員。",
     "warnNoLicense": "您已達到同時連接到 %1 編輯器的限制。此文件將只提供檢視。有關個人升級條款，請聯繫 %1 業務團隊。",
+    "warnNoResources": "%1伺服器沒有足夠的資源來開啟此文件進行編輯。此文件將僅以檢視模式開啟。",
     "warnNoLicenseUsers": "您已達到％1個編輯器的用戶限制。與％1銷售團隊聯繫以了解個人升級條款。",
     "warnProcessRightsChange": "您沒有編輯這個文件的權限。"
   },
@@ -822,9 +821,7 @@
     "txtDownloadTxt": "下載 TXT",
     "txtIncorrectPwd": "密碼錯誤",
     "txtOk": "確定",
-    "txtProtected": "在您輸入密碼並且開啟文件後，目前使用的密碼會被重設。",
-    "textHyphenation": "Hyphenation",
-    "textOpenLocation": "Open location"
+    "txtProtected": "在您輸入密碼並且開啟文件後，目前使用的密碼會被重設。"
   },
   "Toolbar": {
     "btnRestartNow": "立即重啟",

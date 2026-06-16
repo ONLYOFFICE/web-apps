@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Umetanje SmartArt objekata</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Umetanje SmartArt objekata" />
+    <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Umetanje SmartArt objekata</h1>
+            <p><b>SmartArt grafika</b> se koristi za kreiranje vizuelnog prikaza hijerarhijske strukture izborom rasporeda (layout) koji najbolje odgovara. Umetnite SmartArt objekte ili uređujte one koji su dodati u editorima trećih strana.</p>
+            <p>Da biste <b>umetnuli</b> SmartArt objekat,</p>
+            <ol>
+                <li>idite na karticu <b>Insert</b>,</li>
+                <li>kliknite na dugme <b>SmartArt</b>,</li>
+                <li>pređite kursorom preko jednog od dostupnih stilova rasporeda, npr. <em>List</em> ili <em>Process</em>,</li>
+                <li>izaberite jedan od dostupnih tipova rasporeda sa liste koja se pojavi desno od označene stavke menija,</li>
+                <li>SmartArt objekat možete sačuvati kao sliku na hard disku koristeći opciju <b>Save as picture</b> iz menija na desni klik.</li>
+            </ol>
+            <p>SmartArt podešavanja možete <b>prilagoditi</b> u desnom panelu:</p>
+            <p class="note">Napomena: Podešavanja boje, stila i tipa oblika mogu se prilagođavati pojedinačno.</p>
+            <img alt="" src="../images/smartart_settings.png" />
+            <ul>
+                <li>
+                    <b>Fill</b> – koristite ovaj odeljak da izaberete popunu SmartArt objekta. Možete izabrati sledeće opcije:
+                    <ul>
+                        <li>
+                            <b>Color Fill</b> – izaberite ovu opciju da odredite jednobojnu (punu) boju kojom će biti popunjen unutrašnji prostor izabranog SmartArt objekta.
+                            <p><img alt="Color Fill" src="../images/fill_color.png" /></p>
+                        </li>
+                        <li>
+                            <b>Gradient Fill</b> – koristite ovu opciju da popunite oblik sa dve ili više boja koje postepeno prelaze jedna u drugu. Prilagodite gradijent bez ograničenja. Kliknite na ikonu <b>Shape settings</b> <div class="icon icon-shape_settings_icon"></div> da biste otvorili meni <b>Fill</b> na desnoj bočnoj traci:
+                            <p><img alt="Gradient Fill" src="../images/fill_gradient.png" /></p>
+                            <p>Dostupne opcije menija:</p>
+                            <ul>
+                                <li>
+                                    <b>Style</b> – izaberite između <b>Linear</b> ili <b>Radial</b>:
+                                    <ul>
+                                        <li><b>Linear</b> se koristi kada želite da boje teku s leva na desno, odozgo nadole ili pod bilo kojim uglom koji izaberete u jednom smeru. Prozor za pregled <b>Direction</b> prikazuje izabrane gradijent boje; kliknite na strelicu da izaberete unapred definisan smer gradijenta. Koristite podešavanje <b>Angle</b> za precizan ugao gradijenta.</li>
+                                        <li><b>Radial</b> se koristi za prelaz iz centra – počinje u jednoj tački i širi se ka spolja.</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <b>Gradient Point</b> je tačka prelaza sa jedne boje na drugu.
+                                    <ul>
+                                        <li>Koristite dugme <div class="icon icon-addgradientpoint"></div> <b>Add Gradient Point</b> ili klizač (slider bar) da dodate tačku gradijenta. Možete dodati do 10 tačaka gradijenta. Svaka nova dodata tačka ni na koji način ne utiče na trenutni izgled gradijent popune. Koristite dugme <div class="icon icon-removegradientpoint"></div> <b>Remove Gradient Point</b> da obrišete određenu tačku gradijenta.</li>
+                                        <li>Koristite klizač da promenite položaj tačke gradijenta ili unesite <b>Position</b> u procentima za precizno pozicioniranje.</li>
+                                        <li>Da biste primenili boju na tačku gradijenta, kliknite na tačku na klizaču, a zatim kliknite na <b>Color</b> da izaberete željenu boju.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>Picture or Texture</b> – izaberite ovu opciju da koristite sliku ili unapred definisanu teksturu kao pozadinu SmartArt objekta.
+                            <p><img alt="Picture or Texture Fill" src="../images/fill_picture.png" /></p>
+                            <ul>
+                                <li>Ako želite da koristite sliku kao pozadinu SmartArt objekta, možete dodati sliku <b>From File</b> izborom fajla sa hard diska računara, <b>From URL</b> unosom odgovarajuće URL adrese u otvoreni prozor, ili <b>From Storage</b> izborom potrebne slike koja je sačuvana na vašem portalu.</li>
+                                <li>
+                                    Ako želite da koristite teksturu kao pozadinu SmartArt objekta, otvorite meni <b>From Texture</b> i izaberite odgovarajući unapred definisani uzorak teksture.
+                                    <p>Trenutno su dostupne sledeće teksture: canvas, carton, dark fabric, grain, granite, grey paper, knit, leather, brown paper, papyrus, wood.</p>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    Ako izabrana <b>Picture</b> ima manje ili veće dimenzije od SmartArt objekta, možete izabrati podešavanje <b>Stretch</b> ili <b>Tile</b> iz padajuće liste.
+                                    <p>Opcija <b>Stretch</b> omogućava prilagođavanje veličine slike tako da odgovara veličini SmartArt objekta i potpuno popuni prostor.</p>
+                                    <p>Opcija <b>Tile</b> omogućava prikaz samo dela veće slike uz zadržavanje originalnih dimenzija ili ponavljanje manje slike uz zadržavanje originalnih dimenzija preko površine SmartArt objekta kako bi se prostor potpuno popunio.</p>
+                                    <p class="note"><b>Napomena</b>: bilo koji izabrani unapred definisani <b>Texture</b> popunjava prostor u potpunosti, ali po potrebi možete primeniti efekat <b>Stretch</b>.</p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>Pattern</b> – izaberite ovu opciju da popunite SmartArt objekat dvobojnim dizajnom sastavljenim od pravilno ponavljanih elemenata.
+                            <p><img alt="Pattern Fill" src="../images/fill_pattern.png" /></p>
+                            <ul>
+                                <li><b>Pattern</b> – izaberite jedan od unapred definisanih dizajna iz menija.</li>
+                                <li><b>Foreground color</b> – kliknite na polje boje da promenite boju elemenata uzorka.</li>
+                                <li><b>Background color</b> – kliknite na polje boje da promenite boju pozadine uzorka.</li>
+                            </ul>
+                        </li>
+                        <li><b>No Fill</b> – izaberite ovu opciju ako ne želite da koristite nikakvu popunu.</li>
+                        <li>
+                            <b>Line</b> – koristite ovaj odeljak da promenite širinu, boju ili tip linije SmartArt objekta.
+                            <ul>
+                                <li>Da biste promenili <b>width</b> (širinu) linije, izaberite jednu od dostupnih opcija iz padajuće liste <b>Size</b>. Dostupne opcije su: 0.5 pt, 1 pt, 1.5 pt, 2.25 pt, 3 pt, 4.5 pt, 6 pt. Alternativno, izaberite opciju <b>No Line</b> ako ne želite da koristite liniju.</li>
+                                <li>Da biste promenili <b>color</b> (boju) linije, kliknite na obojeno polje ispod i izaberite potrebnu boju.</li>
+                                <li>Da biste promenili <b>type</b> (tip) linije, izaberite odgovarajuću opciju iz padajuće liste (podrazumevano se koristi puna linija, a možete je promeniti u jednu od dostupnih isprekidanih linija).</li>
+                                <li>Da biste promenili <b>opacity</b> (neprozirnost) linije, unesite potrebnu vrednost ručno ili koristite odgovarajući klizač.</li>
+                            </ul>
+                        </li>
+                        <li><b>Show shadow</b> – označite ovo polje da SmartArt objekat baca senku.</li>
+                    </ul>
+                </li>
+            </ul>
+            <p>Kliknite na link <b>Show advanced settings</b> da biste otvorili <a href="../UsageInstructions/InsertAutoshapes.htm#autoshape_advanced" onclick="onhyperlinkclick(this)">napredna podešavanja</a>.</p>
+        </div>
+	</body>
+</html>

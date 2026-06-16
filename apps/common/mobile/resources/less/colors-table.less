@@ -13,7 +13,9 @@
     --background-secondary: #FFF;
     --background-tertiary: #EFF0F5;
     --background-menu-divider: fade(#3C3C43, 15%);
+    --background-notification-badge: #F4D804;
     --background-button: #EFF0F5;
+    --background-notification-badge: #F4D804;
 
     --text-normal: #000000;
     --text-secondary: fade(#000, 60%);
@@ -23,9 +25,29 @@
 
     --fill-black: #000;
     --fill-white: #FFF;
+    --icon-fill-gray-primary: #444444;
+    --icon-stroke-gray-primary: #444444;
+    --icon-fill-gray-secondary: #8E8E93;
+    --icon-fill-blue-primary: #446ECA;
+    --icon-stroke-blue-primary: #446ECA;
+    --icon-fill-blue-secondary: #DCE7FA;
+    --icon-fill-red: #FF3B30;
+    --icon-stroke-red: #FF3B30;
+    --icon-fill-green: #009900;
+    --icon-stroke-green: #009900;
+    --icon-stroke-white-base: #FFFFFF;
+    --icon-fill-blue-brend-primary: #446995;
+    --icon-stroke-blue-brend-primary: #446995;
+    --icon-fill-blue-brend-secondary: #E5F0FF;
+    --icon-fill-green-brend-primary: #40865C;
+    --icon-stroke-green-brend-primary: #40865C;
+    --icon-fill-green-brend-secondary: #D9EFE2;
+    --icon-fill-red-brend-primary: #BE6650;
+    --icon-fill-red-brend-secondary: #FBE4DE;
+    --icon-fill-type-preview: #555555;
 
-    --toolbar-background: #446995;
-    --toolbar-icons: #FFF;
+    --toolbar-background:#FFF;
+    --toolbar-icons: #444;
     --toolbar-segment: #446995;
     --toolbar-tab-normal:fade(#FFF, 50%);
 
@@ -76,10 +98,6 @@
     //--canvas-scroll-thumb-target-pressed: #f7f7f7;
     .pdf-view {
         --brand-word: var(--brand-form);
-
-        &__android {
-            --toolbar-background: var(--brand-word);
-        }
     }
 }
 
@@ -97,6 +115,7 @@
 @background-tertiary: var(--background-tertiary);
 @background-menu-divider: var(--background-menu-divider);
 @background-button: var(--background-button);
+@background-notification-badge: var(--background-notification-badge);
 
 @text-normal: var(--text-normal);
 @text-secondary: var(--text-secondary);
@@ -106,6 +125,26 @@
 
 @fill-black: var(--fill-black);
 @fill-white: var(--fill-white);
+@icon-fill-gray-primary: var(--icon-fill-gray-primary);
+@icon-stroke-gray-primary: var(--icon-stroke-gray-primary);
+@icon-fill-gray-secondary: var(--icon-fill-gray-secondary);
+@icon-fill-blue-primary: var(--icon-fill-blue-primary);
+@icon-stroke-blue-primary: var(--icon-stroke-blue-primary);
+@icon-fill-blue-secondary: var(--icon-fill-blue-secondary);
+@icon-fill-red: var(--icon-fill-red);
+@icon-stroke-red: var(--icon-stroke-red);
+@icon-fill-green: var(--icon-fill-green);
+@icon-stroke-green: var(--icon-stroke-green);
+@icon-stroke-white-base: var(--icon-stroke-white-base);
+@icon-fill-blue-brend-primary: var(--icon-fill-blue-brend-primary);
+@icon-stroke-blue-brend-primary: var(--icon-stroke-blue-brend-primary);
+@icon-fill-blue-brend-secondary: var(--icon-fill-blue-brend-secondary);
+@icon-fill-green-brend-primary: var(--icon-fill-green-brend-primary);
+@icon-stroke-green-brend-primary: var(--icon-stroke-green-brend-primary);
+@icon-fill-green-brend-secondary: var(--icon-fill-green-brend-secondary);
+@icon-fill-red-brend-primary: var(--icon-fill-red-brend-primary);
+@icon-fill-red-brend-secondary: var(--icon-fill-red-brend-secondary);
+@icon-fill-type-preview: var(--icon-fill-type-preview);
 
 @toolbar-icons: var(--toolbar-icons);
 @toolbar-segment: var(--toolbar-segment);

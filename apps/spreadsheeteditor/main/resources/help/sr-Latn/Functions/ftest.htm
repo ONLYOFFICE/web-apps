@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>FTEST funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>FTEST funkcija</h1>
+			<p>Funkcija <b>FTEST</b> je jedna od <a href="../UsageInstructions/InsertFunction.htm#statistical" onclick="onhyperlinkclick(this)">statističkih funkcija</a>. Koristi se za vraćanje rezultata F-testa. F-test vraća dvostranu verovatnoću da varijanse u <b><em>array1</em></b> i <b><em>array2</em></b> nisu značajno različite. Koristite ovu funkciju da biste utvrdili da li dva uzorka imaju različite varijanse.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>FTEST(array1, array2)</em></b></p> 
+			<p>Funkcija <b>FTEST</b> ima sledeće argumente:</p> 
+			<table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>array1</em></b></td>
+                    <td>Prvi opseg vrednosti.</td>
+                </tr>
+				<tr>
+                    <td><b><em>array2</em></b></td>
+                    <td>Drugi opseg vrednosti.</td>
+                </tr>
+            </table>
+            <h3>Napomene</h3>
+			<p>Tekst, logičke vrednosti i prazne ćelije se ignorišu, ćelije koje sadrže nulte vrednosti se uključuju. Ako je broj vrednosti u opsegu podataka manji od 2 ili je varijansa niza 0, funkcija vraća vrednost greške #DIV/0!.</p>
+ 			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> funkciju <b>FTEST</b>.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća funkcija <b>FTEST</b>.</p>
+			<p><img alt="FTEST funkcija" src="../images/ftest.png" /></p>
+		</div>
+	</body>
+</html>

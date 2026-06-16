@@ -1,0 +1,348 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Kreiranje i uređivanje pivot tabela</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Kreiranje i uređivanje pivot tabela. Primena filtera, promena izgleda pivot tabela u tabeli." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Kreiranje i uređivanje pivot tabela</h1>
+            <p>Pivot tabele vam omogućavaju da grupišete i organizujete podatke iz velikih skupova podataka kako biste dobili sažete informacije. U <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor</b></a>-u možete reorganizovati podatke na mnogo različitih načina kako biste prikazali samo potrebne informacije i fokusirali se na važne aspekte.</p>
+            <h3>Kreiranje nove pivot tabele</h3>
+            <p>Da biste kreirali pivot tabelu,</p>
+            <ol>
+                <li>Pripremite izvorni skup podataka koji želite da koristite za kreiranje pivot tabele. Treba da sadrži zaglavlja kolona. Skup podataka ne sme da sadrži prazne redove ili kolone.</li>
+                <li>Izaberite bilo koju ćeliju unutar opsega izvornih podataka.</li>
+                <li>
+                    Pređite na karticu <b>Pivot Table</b> na gornjoj alatnoj traci i kliknite na ikonu <b>Insert Table</b> <div class = "icon icon-insert_pivot"></div>.
+                    <p>Ako želite da kreirate pivot tabelu na osnovu <a href="FormattedTables.htm" onclick="onhyperlinkclick(this)">formatirane tabele</a>, možete koristiti i opciju <span class="icon icon-insertpivot"></span> <b>Insert pivot table</b> na kartici <b>Table settings</b> na desnoj bočnoj traci.</p>
+                </li>
+                <li>
+                    Pojaviće se prozor <b>Create Pivot Table</b>.
+                    <p><img alt="Create Pivot Table window" src="../images/create_pivot.png" /></p>
+                    <ul>
+                        <li>
+                            <b>Source data range</b> je već naveden. U ovom slučaju biće korišćeni svi podaci iz izvornog opsega podataka. Ako želite da promenite opseg podataka (npr. da uključite samo deo izvornih podataka), kliknite na ikonu <div class = "icon icon-changerange"></div>. U prozoru <b>Select Data Range</b> unesite potrebni opseg podataka u sledećem formatu: <em>Sheet1!$A$1:$E$10</em>. Takođe možete mišem izabrati potreban opseg ćelija na radnom listu. Kada završite, kliknite na <b>OK</b>.
+                        </li>
+                        <li>
+                            Odredite gde želite da postavite pivot tabelu.
+                            <ul>
+                                <li>Opcija <b>New worksheet</b> je podrazumevano izabrana. Omogućava vam da postavite pivot tabelu na novi radni list.</li>
+                                <li>
+                                    Takođe možete izabrati opciju <b>Existing worksheet</b> i odabrati određenu ćeliju. U tom slučaju, izabrana ćelija će biti gornja desna ćelija kreirane pivot tabele. Da biste izabrali ćeliju, kliknite na ikonu <div class = "icon icon-changerange"></div>.
+                                    <p><img alt="Select Data Range window" src="../images/pivot_selectdata2.png" /></p>
+                                    <p>U prozoru <b>Select Data Range</b> unesite adresu ćelije u sledećem formatu: <em>Sheet1!$G$2</em>. Takođe možete kliknuti na potrebnu ćeliju na radnom listu. Kada završite, kliknite na <b>OK</b>. </p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Kada izaberete lokaciju pivot tabele, kliknite na <b>OK</b> u prozoru <b>Create Table</b>.</li>
+                    </ul>
+                </li>
+            </ol>
+            <p>Prazna pivot tabela će biti ubačena na izabranu lokaciju.</p>
+            <p>Kartica <b>Pivot table settings</b> na desnoj bočnoj traci će biti otvorena. Ovu karticu možete sakriti ili prikazati klikom na ikonu <span class="icon icon-pivot_settings"></span>. Podešavanja pivot tabele su takođe dostupna u kontekstnom meniju koji se pojavljuje kada kliknete desnim tasterom miša na tabelu. Opcije kontekstnog menija zavise od polja na koje kliknete.</p>
+            <p><img alt="Pivot table settings tab" src="../images/right_pivot.png" /></p>
+
+            <h4>Izaberite polja za prikaz</h4>
+            <p>Odeljak <b>Select Fields</b> sadrži polja nazvana prema zaglavljima kolona u vašem izvornom skupu podataka. Svako polje sadrži vrednosti iz odgovarajuće kolone izvorne tabele. Sledeća četiri odeljka su dostupna ispod: <b>Filters</b>, <b>Columns</b>, <b>Rows</b> i <b>Values</b>.</p>
+            <p>Označite polja koja želite da prikažete u pivot tabeli. Kada označite polje, ono će biti dodato u jedan od dostupnih odeljaka na desnoj bočnoj traci u zavisnosti od tipa podataka i biće prikazano u pivot tabeli. Polja koja sadrže tekstualne vrednosti biće dodata u odeljak <b>Rows</b>, dok će polja koja sadrže numeričke vrednosti biti dodata u odeljak <b>Values</b>.</p>
+            <p>Možete jednostavno prevlačiti polja u potrebni odeljak, kao i prevlačiti ih između odeljaka radi brze reorganizacije pivot tabele. Da biste uklonili polje iz trenutnog odeljka, prevucite ga van tog odeljka.</p>
+            <p>Da biste dodali polje u potrebni odeljak, možete i kliknuti na crnu strelicu desno od polja u odeljku <b>Select Fields</b> i izabrati odgovarajuću opciju iz menija: <b>Add to Filters</b>, <b>Add to Rows</b>, <b>Add to Columns</b>, <b>Add to Values</b>.</p>
+            <p><img alt="Pivot table settings tab" src="../images/pivot_selectfields.png" /></p>
+            <p>Ispod možete videti nekoliko primera korišćenja odeljaka <b>Filters</b>, <b>Columns</b>, <b>Rows</b> i <b>Values</b>.</p>
+            <ul>
+                <li>
+                    Ako dodate polje u odeljak <b>Filters</b>, iznad pivot tabele biće dodat poseban filter. On će biti primenjen na celu pivot tabelu. Ako kliknete na padajuću strelicu <div class = "icon icon-dropdownarrow"></div> u dodatom filteru, videćete vrednosti iz izabranog polja. Kada isključite (odčekirate) neke vrednosti u prozoru opcija filtera i kliknete na <b>OK</b>, odčekirane vrednosti neće biti prikazane u pivot tabeli.
+                    <p><img alt="Pivot Filters" src="../images/pivot_filter_field.png" /></p>
+                </li>
+                <li>
+                    Ako dodate polje u odeljak <b>Columns</b>, pivot tabela će sadržati broj kolona jednak broju vrednosti iz izabranog polja. Takođe će biti dodata i kolona <b>Grand Total</b>.
+                    <p><img alt="Pivot Columns" src="../images/pivot_columns.png" /></p>
+                </li>
+                <li>
+                    Ako dodate polje u odeljak <b>Rows</b>, pivot tabela će sadržati broj redova jednak broju vrednosti iz izabranog polja. Takođe će biti dodat i red <b>Grand Total</b>.
+                    <p><img alt="Pivot Rows" src="../images/pivot_rows.png" /></p>
+                </li>
+                <li>
+                    Ako dodate polje u odeljak <b>Values</b>, pivot tabela će prikazati zbirnu vrednost za sve numeričke vrednosti iz izabranog polja. Ako polje sadrži tekstualne vrednosti, biće prikazan broj vrednosti. Funkcija koja se koristi za izračunavanje zbirne vrednosti može se promeniti u podešavanjima polja.
+                    <p><img alt="Pivot Values" src="../images/pivot_values.png" /></p>
+                </li>
+            </ul>
+        <p>Da biste videli više informacija o bilo kom polju vrednosti, kliknite na njega desnim tasterom miša da otvorite kontekstni meni i izaberite opciju <b>Show details</b>, ili dvaput kliknite na traženo polje vrednosti levim tasterom miša. Podaci na kojima se zasniva polje vrednosti otvoriće se na novom listu.</p>
+
+            <h4>Preuređivanje polja i podešavanje njihovih svojstava</h4>
+            <p>Kada su polja dodata u potrebne odeljke, možete njima upravljati kako biste promenili raspored i format pivot tabele. Kliknite na crnu strelicu desno od polja u odeljcima <b>Filters</b>, <b>Columns</b>, <b>Rows</b> ili <b>Values</b> da biste otvorili kontekstni meni polja.</p>
+            <p><img alt="Pivot table menu" src="../images/pivot_menu.png" /></p>
+            <p>Omogućava vam da:</p>
+            <ul>
+                <li><b>Premestite</b> izabrano polje <b>Gore</b>, <b>Dole</b>, na <b>Početak</b> ili na <b>Kraj</b> trenutnog odeljka, ako ste u taj odeljak dodali više od jednog polja.</li>
+                <li><b>Premestite</b> izabrano polje u drugi odeljak — u <b>Filters</b>, <b>Columns</b>, <b>Rows</b> ili <b>Values</b>. Opcija koja odgovara trenutnom odeljku biće onemogućena.</li>
+                <li><b>Uklonite</b> izabrano polje iz trenutnog odeljka.</li>
+                <li>Podesite <b>settings</b> (podešavanja) izabranog polja.</li>
+            </ul>
+            <p><b>Podešavanja polja Filters, Columns</b> i <b>Rows</b> izgledaju slično:</p>
+            <p><img alt="Pivot table Filters field settings" src="../images/pivot_filter_field_layout.png" /></p>
+            <p>Kartica <b>Layout</b> sadrži sledeće opcije:</p>
+            <ul>
+                <li>Opcija <b>Source name</b> omogućava da vidite naziv polja koji odgovara zaglavlju kolone iz izvornog skupa podataka.</li>
+                <li>Opcija <b>Custom name</b> omogućava da promenite naziv izabranog polja prikazan u pivot tabeli.</li>
+                <li>
+                    Odeljak <b>Report Form</b> omogućava da promenite način na koji se izabrano polje prikazuje u pivot tabeli:
+                        <ul>
+                            <li>
+                                Izaberite potreban raspored za izabrano polje u pivot tabeli:
+                                <ul>
+                                    <li>
+                                        Oblik <b>Tabular</b> prikazuje jednu kolonu za svako polje i obezbeđuje prostor za zaglavlja polja.
+                                        <!--<p><img alt="Pivot table Tabular form" src="../images/pivot_tabular.png" /></p>-->
+                                    </li>
+                                    <li>
+                                        Oblik <b>Outline</b> prikazuje jednu kolonu za svako polje i obezbeđuje prostor za zaglavlja polja. Takođe omogućava prikaz međuzbirova na vrhu grupa.
+                                        <!--<p><img alt="Pivot table Outline form" src="../images/pivot_outline.png" /></p>-->
+                                    </li>
+                                    <li>
+                                        Oblik <b>Compact</b> prikazuje stavke iz različitih polja odeljka Rows u jednoj koloni.
+                                        <!--<p><img alt="Pivot table Compact form" src="../images/pivot_compact.png" /></p>-->
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>Opcija <b>Number format</b> omogućava da izaberete potreban format broja za polje vrednosti. Kliknite na ovo dugme, izaberite željeni format sa liste <b>Category</b>, a zatim kliknite na <b>OK</b> kada završite. Da biste saznali više o formatima brojeva, pogledajte <a href="../UsageInstructions/ChangeNumberFormat.htm" onclick="onhyperlinkclick(this)">sledeći članak</a>.</li>
+                            <li>Opcija <b>Repeat items labels at each row</b> omogućava da vizuelno grupišete redove ili kolone zajedno ako imate više polja u tabularnom prikazu.</li>
+                            <li>Opcija <b>Insert blank rows after each item</b> omogućava da dodate prazne redove nakon stavki izabranog polja.</li>
+                            <li>Opcija <b>Show subtotals</b> omogućava da izaberete da li želite da prikažete međuzbirove za izabrano polje. Možete izabrati jednu od opcija: <em>Show at top of group</em> ili <em>Show at bottom of group</em>.</li>
+                            <li>Opcija <b>Show items with no data</b> omogućava da prikažete ili sakrijete prazne stavke u izabranom polju.</li>
+                        </ul>
+                </li>
+            </ul>
+            <p><img alt="Pivot table Filters field settings" src="../images/pivot_filter_field_subtotals.png" /></p>
+            <p>Kartica <b>Subtotals</b> omogućava da izaberete <b>Functions for Subtotals</b>. Označite potrebne funkcije na listi: <em>Sum</em>, <em>Count</em>, <em>Average</em>, <em>Max</em>, <em>Min</em>, <em>Product</em>, <em>Count Numbers</em>, <em>StdDev</em>, <em>StdDevp</em>, <em>Var</em>, <em>Varp</em>.</p>
+            <p><b>Podešavanja polja Values</b></p>
+            <p><img alt="Pivot table Values field settings" src="../images/pivot_values_field_settings.png" /></p>
+            <ul>
+                <li>Opcija <b>Source name</b> omogućava da vidite naziv polja koji odgovara zaglavlju kolone iz izvornog skupa podataka.</li>
+                <li>Opcija <b>Custom name</b> omogućava da promenite naziv izabranog polja prikazan u pivot tabeli.</li>
+                <li>Opcija <b>Summarize value field by</b> omogućava da izaberete funkciju koja se koristi za izračunavanje zbirne vrednosti za sve vrednosti iz ovog polja. Podrazumevano, <em>Sum</em> se koristi za numeričke vrednosti, a <em>Count</em> se koristi za tekstualne vrednosti. Dostupne funkcije su <em>Sum</em>, <em>Count</em>, <em>Average</em>, <em>Max</em>, <em>Min</em>, <em>Product</em>, <em>Count Numbers</em>, <em>StdDev</em>, <em>StdDevp</em>, <em>Var</em>, <em>Varp</em>.</li>
+                <li>Opcija <b>Show values as </b> omogućava da prikažete trenutne prilagođene proračune umesto dodavanja formule i kreiranja izračunatog polja. <b>No calculation</b> je podrazumevana opcija koja prikazuje stvarnu vrednost u polju. Ostale opcije proračuna: <em>% of grand total</em>, <em>% of column total</em>, <em>% of row total</em>, <em>% of</em>, <em>% of parent row total</em>, <em>% of parent column total</em>, <em>% of parent total</em>, <em>Difference from</em>, <em>% difference from</em>, <em>Running total in</em>, <em>% running total in</em>, <em>Rank smallest to largest</em>, <em>Rank largest to smallest</em>, <em>Index</em>. Koristite <b>Base field</b> i <b>Base item</b> kada su ove opcije dostupne za proračun koji ste izabrali (<em>% of</em>, <em>% of parent total</em>, <em>Difference from</em>, <em>% difference from</em>, <em>Running total in</em>, <em>% running total in</em>).</li>
+                <li>Opcija <b>Number format</b> omogućava da izaberete potreban format broja za polje vrednosti. Kliknite na ovo dugme, izaberite željeni format sa liste <b>Category</b>, a zatim kliknite na <b>OK</b> kada završite. Da biste saznali više o formatima brojeva, pogledajte <a href="../UsageInstructions/ChangeNumberFormat.htm" onclick="onhyperlinkclick(this)">sledeći članak</a>.</li>
+            </ul>
+
+            <h3>Grupisanje i razgrupisanje podataka</h3>
+            <p>Podaci u pivot tabelama mogu se grupisati prema prilagođenim zahtevima. Grupisanje je dostupno za datume i osnovne brojeve.</p>
+            <h4>Grupisanje datuma</h4>
+            <p>Da biste grupisali datume, kreirajte pivot tabelu koja uključuje skup potrebnih datuma. Kliknite desnim tasterom miša na bilo koju ćeliju u pivot tabeli koja sadrži datum, izaberite opciju <b>Group</b> u iskačućem meniju i podesite potrebne parametre u otvorenom prozoru.</p>
+            <p><img alt="group dates" src="../images/group_dates.png" /></p>
+            <ul>
+                <li><b>Starting at</b> - podrazumevano je izabran prvi datum u izvornim podacima. Da biste ga promenili, unesite potrebni datum u ovo polje. Deaktivirajte ovo polje da biste ignorisali početnu tačku.</li>
+                <li><b>Ending at</b> -  podrazumevano je izabran poslednji datum u izvornim podacima. Da biste ga promenili, unesite potrebni datum u ovo polje. Deaktivirajte ovo polje da biste ignorisali krajnju tačku.</li>
+                <li><b>By</b> - opcije <b>Seconds</b>, <b>Minutes</b> i <b>Hours</b> grupišu podatke prema vremenu navedenom u izvornim podacima. Opcija <b>Months</b> uklanja dane i ostavlja samo mesece. Opcija <b>Quarters</b> radi po uslovu: četiri meseca čine jedan kvartal, čime se dobijaju <em>Qtr1</em>, <em>Qtr2</em> itd. Opcija <b>Years</b> grupiše datume po godinama navedenim u izvornim podacima. Kombinujte opcije da biste postigli željeni rezultat.</li>
+                <li><b>Number of days</b> - podesite potrebnu vrednost da biste odredili opseg datuma.</li>
+                <li>Kliknite na <b>OK</b> kada završite.</li>
+            </ul>
+            <h4>Grupisanje brojeva</h4>
+            <p>Da biste grupisali brojeve, kreirajte pivot tabelu koja uključuje skup potrebnih brojeva. Kliknite desnim tasterom miša na bilo koju ćeliju u pivot tabeli koja sadrži broj, izaberite opciju <b>Group</b> u iskačućem meniju i podesite potrebne parametre u otvorenom prozoru.</p>
+            <p><img alt="group numbers" src="../images/group_numbers.png" /></p>
+            <ul>
+                <li><b>Starting at</b> - podrazumevano je izabran najmanji broj u izvornim podacima. Da biste ga promenili, unesite potrebni broj u ovo polje. Deaktivirajte ovo polje da biste ignorisali najmanji broj.</li>
+                <li><b>Ending at</b> - podrazumevano je izabran najveći broj u izvornim podacima. Da biste ga promenili, unesite potrebni broj u ovo polje. Deaktivirajte ovo polje da biste ignorisali najveći broj.</li>
+                <li><b>By</b> - podesite potreban interval za grupisanje brojeva. Npr., <em>„2”</em> će grupisati skup brojeva od 1 do 10 kao <em>„1-2”</em>, <em>„3-4”</em> itd.</li>
+                <li>Kliknite na <b>OK</b> kada završite.</li>
+            </ul>
+            <h4>Razgrupisanje podataka</h4>
+            <p>Da biste razgrupisali prethodno grupisane podatke,</p>
+            <ol>
+                <li>kliknite desnim tasterom miša na bilo koju ćeliju koja se nalazi u grupi,</li>
+                <li>izaberite opciju <b>Ungroup</b> u kontekstnom meniju.</li>
+            </ol>
+
+            <h3>Promena izgleda pivot tabela</h3>
+            <p>Možete koristiti opcije dostupne na gornjoj alatnoj traci da biste prilagodili način prikaza pivot tabele. Ove opcije se primenjuju na celu pivot tabelu.</p>
+            <p>Mišem izaberite najmanje jednu ćeliju unutar pivot tabele da biste aktivirali alate za uređivanje na gornjoj alatnoj traci.</p>
+            <p><img alt="Pivot table toop toolbar" src="../images/pivot_top.png" /></p>
+            <ul>
+                <li>
+                    Padajuća lista <b>Report Layout</b> omogućava da izaberete potreban raspored za vašu pivot tabelu:
+                    <ul>
+                        <li>
+                            <em>Show in Compact Form</em> - omogućava prikaz stavki iz različitih polja odeljka Rows u jednoj koloni.
+                            <p><img alt="Pivot table Compact form" src="../images/pivot_compact.png" /></p>
+                        </li>
+                        <li>
+                            <em>Show in Outline Form</em> - omogućava da prikažete pivot tabelu u klasičnom stilu pivot tabela. Prikazuje jednu kolonu za svako polje i obezbeđuje prostor za zaglavlja polja. Takođe omogućava prikaz međuzbirova na vrhu grupa.
+                            <p><img alt="Pivot table Outline form" src="../images/pivot_outline.png" /></p>
+                        </li>
+                        <li>
+                            <em>Show in Tabular Form</em> – omogućava prikaz pivot tabele u tradicionalnom tabelarnom formatu. Prikazuje jednu kolonu za svako polje i obezbeđuje prostor za zaglavlja polja.
+                            <p><img alt="Pivot table Tabular form" src="../images/pivot_tabular.png" /></p>
+                        </li>
+                        <li><em>Repeat All Item Labels</em> – omogućava vizuelno grupisanje redova ili kolona ako imate više polja u tabularnom prikazu.</li>
+                        <li><em>Don't Repeat All Item Labels</em> – omogućava skrivanje oznaka stavki ako imate više polja u tabularnom prikazu.</li>
+                    </ul>
+                </li>
+                <li>
+                    Padajuća lista <b>Blank Rows</b> omogućava da izaberete da li želite da prikažete prazne redove nakon stavki:
+                    <ul>
+                        <li><em>Insert Blank Line after Each Item</em> – omogućava dodavanje praznih redova nakon stavki.</li>
+                        <li><em>Remove Blank Line after Each Item</em> – omogućava uklanjanje dodatih praznih redova.</li>
+                    </ul>
+                </li>
+                <li>
+                    Padajuća lista <b>Subtotals</b> omogućava da izaberete da li želite da prikažete međuzbirove u pivot tabeli:
+                    <ul>
+                        <li><em>Don't Show Subtotals</em> – omogućava skrivanje međuzbirova za sve stavke.</li>
+                        <li><em>Show all Subtotals at Bottom of Group</em> – omogućava prikaz međuzbirova ispod redova za koje se izračunavaju međuzbirovi.</li>
+                        <li><em>Show all Subtotals at Top of Group</em> – omogućava prikaz međuzbirova iznad redova za koje se izračunavaju međuzbirovi.</li>
+                    </ul>
+                </li>
+                <li>
+                    Padajuća lista <b>Grand Totals</b> omogućava da izaberete da li želite da prikažete ukupne zbirove u pivot tabeli:
+                    <ul>
+                        <li><em>Off for Rows and Columns</em> – omogućava skrivanje ukupnih zbirova za redove i kolone.</li>
+                        <li><em>On for Rows and Columns</em> – omogućava prikaz ukupnih zbirova za redove i kolone.</li>
+                        <li><em>On for Rows Only</em> – omogućava prikaz ukupnih zbirova samo za redove.</li>
+                        <li><em>On for Columns Only</em> – omogućava prikaz ukupnih zbirova samo za kolone.</li>
+                    </ul>
+                    <p class="note"><b>Napomena</b>: slična podešavanja su takođe dostupna u prozoru naprednih podešavanja pivot tabele u odeljku <b>Grand Totals</b> na kartici <b>Name and Layout</b>.</p>
+                </li>
+            </ul>
+            <p>Dugme <span class = "icon icon-pivotselecticon"></span> <b>Select</b> omogućava izbor cele pivot tabele.</p>
+            <p>Ako promenite podatke u izvornom skupu podataka, izaberite pivot tabelu i kliknite na dugme <span class="icon icon-pivot_refresh"></span> <b>Refresh</b> da biste ažurirali pivot tabelu.</p>
+            
+            <h3>Proširivanje ili skupljanje polja</h3>
+            <p>Da biste proširili ili skupili detalje podataka, kliknite desnim tasterom miša na polje da biste otvorili kontekstni meni, izaberite stavku <b>Expand/Collapse</b>, a zatim izaberite potrebnu opciju:</p>
+            <ul>
+                <li><b>Expand</b> – za prikaz detalja za trenutno izabranu stavku.</li>
+                <li><b>Collapse</b> – za sakrivanje detalja za trenutno izabranu stavku.</li>
+                <li><b>Expand Entire Field</b> – za prikaz detalja za sve stavke u polju. Slično podešavanje je dostupno i na gornjoj alatnoj traci.</li>
+                <li><b>Collapse Entire Field</b> – za sakrivanje detalja za sve stavke u polju. Slično podešavanje je dostupno i na gornjoj alatnoj traci.</li>
+            </ul>
+            <p>Grupe su skrivene iza ikona plus/minus. Takođe možete proširivati/sakupljati polja dvostrukim klikom na zaglavlja pivot tabele.</p>
+            <p>Opcija <b>Expand</b>, kada je izabrano poslednje polje redova ili kolona, otvara dijalog prozor za dodavanje novog polja u red ili kolonu. Izaberite potrebno polje i kliknite na <b>OK</b>.</p>
+            <p><img alt="Pivot Table" src="../images/expand_last.png" /></p>
+
+            <h3>Promena stila pivot tabela</h3>
+            <p>Možete promeniti izgled pivot tabela u radnom listu koristeći alate za uređivanje stilova dostupne na gornjoj alatnoj traci.</p>
+            <p>Mišem izaberite najmanje jednu ćeliju unutar pivot tabele da biste aktivirali alate za uređivanje na gornjoj alatnoj traci.</p>
+            <p><img alt="Pivot Table tab" src="../images/pivottoptoolbar.png" /></p>
+            <p>Opcije za redove i kolone omogućavaju da naglasite određene redove/kolone primenom posebnog formatiranja ili da istaknete različite redove/kolone različitim bojama pozadine radi jasnijeg razlikovanja. Dostupne su sledeće opcije:</p>
+            <ul>
+                <li><b>Row Headers</b> – omogućava isticanje zaglavlja redova posebnim formatiranjem.</li>
+                <li><b>Column Headers</b> – omogućava isticanje zaglavlja kolona posebnim formatiranjem.</li>
+                <li><b>Banded Rows</b> – omogućava naizmenično menjanje boje pozadine neparnih i parnih redova.</li>
+                <li><b>Banded Columns</b> – omogućava naizmenično menjanje boje pozadine neparnih i parnih kolona.</li>
+            </ul>
+            <p>
+                Lista šablona omogućava vam da izaberete jedan od unapred definisanih stilova pivot tabela. Svaki šablon kombinuje određene parametre formatiranja, kao što su boja pozadine, stil ivica, naizmenično bojenje redova/kolona itd.
+                U zavisnosti od izabranih opcija za redove i kolone, skup šablona će se prikazivati drugačije. Na primer, ako ste označili opcije <b>Row Headers</b> i <b>Banded Columns</b>, vidljivi deo liste šablona će uključivati šablone sa istaknutim zaglavljima redova i uključenim naizmeničnim kolonama, ali možete proširiti kompletnu listu klikom na strelicu kako biste videli sve dostupne šablone.
+            </p>
+
+            <h3>Filtriranje, sortiranje i dodavanje sekača (slicers) u pivot tabele</h3>
+            <p>Možete filtrirati pivot tabele prema oznakama ili vrednostima i koristiti dodatne parametre sortiranja.</p>
+            <h4>Filtriranje</h4>
+            <p>Kliknite na padajuću strelicu <span class="icon icon-dropdownarrow"></span> u <b>Row Labels</b> ili <b>Column Labels</b> delu pivot tabele. Otvoriće se lista opcija <b>Filter</b>:</p>
+            <p><img alt="Filter window" src="../images/pivot_filterwindow.png" /></p>
+            <p>Podesite parametre filtera. Možete nastaviti na jedan od sledećih načina: izabrati podatke za prikaz ili filtrirati podatke prema određenim kriterijumima.</p>
+            <ul>
+                <li>
+                    <b>Izaberite podatke za prikaz</b>
+                    <p>Odznačite polja pored podataka koje želite da sakrijete. Radi vaše pogodnosti, svi podaci u listi opcija <b>Filter</b> su sortirani rastućim redosledom.</p>
+                    <p class="note"><b>Napomena</b>: polje za potvrdu <b>(blank)</b> odgovara praznim ćelijama. Dostupno je ako izabrani opseg ćelija sadrži bar jednu praznu ćeliju.</p>
+                    <p>Da biste olakšali proces, koristite polje za pretragu na vrhu. Unesite upit, u celosti ili delimično – vrednosti koje sadrže ove karaktere biće prikazane u listi ispod. Sledeće dve opcije će takođe biti dostupne:</p>
+                    <ul>
+                        <li><b>Select All Search Results</b> – podrazumevano je uključena. Omogućava izbor svih vrednosti koje odgovaraju vašem upitu u listi.</li>
+                        <li><b>Add current selection to filter</b> – ako označite ovu opciju, izabrane vrednosti neće biti skrivene kada primenite filter.</li>
+                    </ul>
+                    <p>Nakon što izaberete sve potrebne podatke, kliknite na dugme <b>OK</b> u listi opcija <b>Filter</b> da biste primenili filter.</p>
+                </li>
+                <li>
+                    <b>Filtriranje podataka prema određenim kriterijumima</b>
+                    <p>Možete izabrati opciju <b>Label filter</b> ili <b>Value filter</b> sa desne strane liste opcija <b>Filter</b>, a zatim izabrati jednu od opcija iz podmenija:</p>
+                    <ul>
+                        <li>
+                            Za <b>Label filter</b> dostupne su sledeće opcije:
+                            <ul>
+                                <li>Za tekst: <em>Equals...</em>, <em>Does not equal...</em>, <em>Begins with...</em>, <em>Does not begin with...</em>, <em>Ends with...</em>, <em>Does not end with...</em>, <em>Contains...</em>, <em>Does not contain...</em></li>
+                                <li>Za brojeve: <em>Greater than...</em>, <em>Greater than or equal to...</em>, <em>Less than...</em>, <em>Less than or equal to...</em>, <em>Between</em>, <em>Not between</em>.</li>
+                            </ul>
+                        </li>
+                        <li>Za <b>Value filter</b> dostupne su sledeće opcije: <em>Equals...</em>, <em>Does not equal...</em>, <em>Greater than...</em>, <em>Greater than or equal to...</em>, <em>Less than...</em>, <em>Less than or equal to...</em>, <em>Between</em>, <em>Not between</em>, <em>Top 10</em>.</li>
+                    </ul>
+                    <p>Nakon što izaberete jednu od gore navedenih opcija (osim <em>Top 10</em>), otvoriće se prozor <b>Label/Value Filter</b>. Odgovarajuće polje i kriterijum biće izabrani u prvoj i drugoj padajućoj listi. Unesite potrebnu vrednost u polje sa desne strane.</p>
+                    <p>Kliknite na <b>OK</b> da biste primenili filter.</p>
+                    <p><img alt="Value Filter window" src="../images/pivot_filter.png" /></p>
+                    <p>Ako izaberete opciju <em>Top 10</em> iz liste opcija <b>Value filter</b>, otvoriće se novi prozor:</p>
+                    <p><img alt="Top 10 AutoFilter window" src="../images/pivot_topten.png" /></p>
+                    <p>Prva padajuća lista omogućava izbor da li želite da prikažete najveće (<b>Top</b>) ili najmanje (<b>Bottom</b>) vrednosti. Drugo polje omogućava da odredite koliko stavki sa liste ili koji procenat ukupnog broja stavki želite da prikažete (možete uneti broj od 1 do 500). Treća padajuća lista omogućava izbor jedinica mere: <b>Item</b>, <b>Percent</b> ili <b>Sum</b>. Četvrta padajuća lista prikazuje naziv izabranog polja. Kada podesite potrebne parametre, kliknite na <b>OK</b> da biste primenili filter.</p>
+                </li>
+            </ul>
+            <p>Dugme <b>Filter</b> <span class="icon icon-filterbutton"></span> pojaviće se u <b>Row Labels</b> ili <b>Column Labels</b> delu pivot tabele. To znači da je filter primenjen.</p>
+
+            <h4>Sortiranje</h4>
+            <p>Možete sortirati podatke pivot tabele koristeći opcije <b>sort</b>. Kliknite na padajuću strelicu <span class="icon icon-dropdownarrow"></span> u <b>Row Labels</b> ili <b>Column Labels</b> delu pivot tabele, a zatim izaberite opciju <b>Sort Lowest to Highest</b> ili <b>Sort Highest to Lowest</b> iz podmenija.</p>
+            <p>Opcija <b>More Sort Options</b> omogućava otvaranje prozora <b>Sort</b> u kojem možete izabrati potreban redosled sortiranja – <em>Ascending</em> ili <em>Descending</em> – i zatim izabrati određeno polje po kojem želite da sortirate.</p>
+            <p><img alt="Pivot table sort options" src="../images/pivot_sort.png" /></p>
+
+            <h4>Dodavanje sekača (slicers)</h4>
+            <p>Možete dodati sekače radi lakšeg filtriranja podataka tako što ćete prikazati samo ono što je potrebno. Da biste saznali više o sekačima, pročitajte <a href="Slicers.htm" onclick="onhyperlinkclick(this)">vodič za kreiranje sekača</a>.</p>
+
+            <h3>Podešavanje naprednih opcija pivot tabele</h3>
+            <p id="pivot_advanced">Da biste promenili <b>napredna podešavanja</b> pivot tabele, koristite vezu <b>Show advanced settings</b> na desnoj bočnoj traci. Otvoriće se prozor „Pivot Table - Advanced Settings“:</p>
+            <p><img alt="Pivot table advanced settings" src="../images/pivot_advanced.png" /></p>
+            <p>Kartica <b>Name and Layout</b> omogućava promenu opštih svojstava pivot tabele.</p>
+            <ul>
+                <li>Opcija <b>Name</b> omogućava promenu naziva pivot tabele.</li>
+                <li>
+                    Odeljak <b>Grand Totals</b> omogućava izbor da li želite da prikažete ukupne zbirove u pivot tabeli. Opcije <em>Show for rows</em> i <em>Show for columns</em> su podrazumevano označene. Možete odznačiti jednu od njih ili obe kako biste sakrili odgovarajuće ukupne zbirove iz pivot tabele.
+                    <p class="note"><b>Napomena</b>: slična podešavanja su dostupna i na gornjoj alatnoj traci u meniju <b>Grand Totals</b>.</p>
+                </li>
+                <li>
+                    Odeljak <b>Display fields in report filter area</b> omogućava podešavanje filtera izveštaja koji se pojavljuju kada dodate polja u odeljak <b>Filters</b>:
+                    <ul>
+                        <li>Opcija <em>Down, then over</em> koristi se za raspored po kolonama. Omogućava prikaz filtera izveštaja preko kolona.</li>
+                        <li>Opcija <em>Over, then down</em> koristi se za raspored po redovima. Omogućava prikaz filtera izveštaja preko redova.</li>
+                        <li>Opcija <em>Report filter fields per column</em> omogućava izbor broja filtera koji će se prikazivati u svakoj koloni. Podrazumevana vrednost je <em>0</em>. Možete postaviti željenu numeričku vrednost.</li>
+                    </ul>
+                </li>
+                <li>Opcija <b>Show field headers for rows and columns</b> omogućava izbor da li želite da prikažete zaglavlja polja u pivot tabeli. Opcija je podrazumevano uključena. Odznačite je da biste sakrili zaglavlja polja iz pivot tabele.</li>
+                <li>Opcija <b>Autofit column widths on update</b> omogućava uključivanje/isključivanje automatskog prilagođavanja širine kolona. Opcija je podrazumevano uključena.</li>
+            </ul>
+            <p><img alt="Pivot table advanced settings" src="../images/pivot_advanced2.png" /></p>
+            <p>Kartica <b>Data Source</b> omogućava promenu podataka koje želite da koristite za kreiranje pivot tabele.</p>
+            <p>Proverite izabrani <b>Data Range</b> i po potrebi ga izmenite. Da biste to uradili, kliknite na ikonu <span class="icon icon-changerange"></span>. </p>
+            <p><img alt="Select Data Range window" src="../images/pivot_selectdata.png" /></p>
+            <p>U prozoru <b>Select Data Range</b> unesite potreban opseg podataka u sledećem formatu: <em>Sheet1!$A$1:$E$10</em>. Takođe možete izabrati potreban opseg ćelija na listu pomoću miša. Kada završite, kliknite na <b>OK</b>.</p>
+            <p><img alt="Pivot table advanced settings" src="../images/pivot_advanced3.png" /></p>
+            <p>Kartica <b>Alternative Text</b> omogućava definisanje <b>Title</b> i <b>Description</b> vrednosti koje će biti pročitane osobama sa oštećenjem vida ili kognitivnim poteškoćama kako bi im se olakšalo razumevanje informacija koje pivot tabela sadrži.</p>
+            <h3>Brisanje pivot tabele</h3>
+            <p>Da biste obrisali pivot tabelu,</p>
+            <ol>
+                <li>Izaberite celu pivot tabelu pomoću dugmeta <div class = "icon icon-pivotselecticon"></div> <b>Select</b> na gornjoj alatnoj traci.</li>
+                <li>Pritisnite taster <b>Delete</b>.</li>
+            </ol>
+
+            <h3>Izračunate stavke</h3>
+        <p><b>Izračunate stavke</b> koriste se za osnovne proračune između različitih stavki unutar jednog polja.</p>
+        <p>Da biste dodali izračunatu stavku:</p>
+        <ol>
+            <li>Izaberite potrebno polje.</li>
+            <li>Idite na karticu <b>Pivot Table</b> i kliknite na dugme <b>Calculated Items</b> na gornjoj alatnoj traci.</li>
+            <li>
+                Unesite <b>Item Name</b>, koji će kasnije biti prikazan kao naziv polja u pivot tabeli.
+                <p><img alt="Calculated Items window" src="../images/calculateditems_new.png" /></p>
+            </li>
+            <li>Izmenite polje <b>Formula</b> unosom potrebnih polja sa donje liste ili klikom na dugme plus sa njihove desne strane, i unosom potrebnih matematičkih simbola, npr. „+“ ili „-“.</li>
+            <li>
+                Kliknite na <b>OK</b>. Za dodatno upravljanje kreiranim izračunatim stavkama, koristite odgovarajuća dugmad na vrhu prozora: dodavanje <b>nove</b>, <b>dupliranje</b>, <b>izmena</b> ili <b>brisanje</b> trenutno izabrane stavke.
+                <p><img alt="Calculated Items window for editing" src="../images/calculateditems_edit.png" /></p>
+            </li>
+        </ol>
+        </div>
+	</body>
+</html>

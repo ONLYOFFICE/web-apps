@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Funkcija pretrage i zamene</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Opis funkcije pretrage i zamene u Presentation Editor-u" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Funkcija pretrage i zamene</h1>
+            <p>
+                <b>Da biste pretraživali</b> potrebne karaktere, reči ili fraze u
+                <a target="_blank" href="https://www.onlyoffice.com/en/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>Presentation Editor</b></a>-u,
+                kliknite na ikonu <span class="icon icon-searchicon"></span> koja se nalazi na levom bočnom panelu, ikonu <span class="icon icon-search_icon_header"></span> koja se nalazi u gornjem desnom uglu ili koristite kombinaciju tastera <em>Ctrl+F</em> (<em>Command+F</em> za macOS) da biste otvorili mali panel za pretragu ili kombinaciju tastera <em>Ctrl+H</em> da biste otvorili puni panel za pretragu.
+            </p>
+            <p>Mali panel <b>Pronađi</b> će se otvoriti u gornjem desnom uglu radne površine. Panel sadrži polje za unos teksta za pretragu, broj rezultata pretrage i kontrole za prelazak na prethodni ili sledeći rezultat, kao i za zatvaranje panela.</p>
+            <p><img alt="Mali panel za pretragu" src="../../../../../../common/main/resources/help/en/images/find_small.png" /></p>
+            <p>Da biste pristupili naprednim podešavanjima, kliknite na ikonu <span class="icon icon-search_advanced"></span>.</p>
+            <p>Otvoriće se panel <b>Pronađi i zameni</b>:</p>
+            <img alt="Prozor za pretragu i zamenu" src="../images/search_window.png" />
+            <ol>
+                <li>Unesite pojam za pretragu u odgovarajuće polje <b>Pronađi</b>.</li>
+                <li>Ako je potrebno da zamenite jednu ili više pronađenih pojava, unesite tekst za zamenu u odgovarajuće polje <b>Zameni sa</b>. Možete izabrati da zamenite samo trenutno označenu pojavu ili sve pojave klikom na odgovarajuća dugmad <b>Zameni</b> i <b>Zameni sve</b>. Dugme <div class="icon icon-replace"></div> <b>Zameni</b> se takođe nalazi na kartici <b>Početna</b>.</li>
+                <li>Za kretanje između pronađenih pojava kliknite na jedno od dugmadi sa strelicama. Dugme <div class="icon icon-searchdownbutton"></div> prikazuje sledeću pojavu, dok dugme <div class="icon icon-searchupbutton"></div> prikazuje prethodnu.</li>
+                <li>
+                    Podesite parametre pretrage označavanjem potrebnih opcija ispod polja za unos:
+                    <ul>
+                        <li><b>Razlikuj velika i mala slova</b> – koristi se za pronalaženje samo onih pojava koje su unete sa istim velikim/malim slovima kao pojam za pretragu (npr. ako je pojam „Editor“ i ova opcija je uključena, reči poput „editor“ ili „EDITOR“ neće biti pronađene).</li>
+                        <li><b>Samo cele reči</b> – koristi se za označavanje isključivo celih reči.</li>
+                    </ul>
+                </li>
+            </ol>
+            <p>Prvi slajd u izabranom smeru koji sadrži unete karaktere biće označen na listi slajdova i prikazan u radnoj površini sa obeleženim traženim karakterima. Ako to nije slajd koji tražite, ponovo kliknite na izabrano dugme da biste pronašli sledeći slajd koji sadrži unete karaktere.</p>
+        </div>
+	</body>
+</html>

@@ -1260,6 +1260,11 @@
     border: @scaled-one-px-value solid @border-regular-control;
     .border-radius(@border-radius-button-normal-ie);
     .border-radius(@border-radius-button-normal);
+    padding-right: 17px;
+    .rtl & {
+        padding-right: 1px;
+        padding-left: 17px;
+    }
 
     button {
         width: 100%;
@@ -1422,7 +1427,7 @@
 }
 
 .asc-window.modal {
-    .btn-toolbar:not(.bg-white):not(.disabled) {
+    .btn-toolbar:not(.bg-white):not(.disabled):not(.no-focus) {
         &:focus {
             .box-shadow(@shadow-control-focus-ie);
             .box-shadow(@shadow-control-focus);
@@ -1433,7 +1438,7 @@
             }
         }
     }
-    .btn-group:not(.split) {
+    .btn-group:not(.split):not(.no-focus) {
         &.open,
         &.active,
         &:active {
@@ -1456,7 +1461,7 @@
         }
     }
 
-    .btn-group.split.no-borders:not(.disabled) {
+    .btn-group.split.no-borders:not(.disabled):not(.no-focus) {
         &:focus,
         &.open,
         &.active,

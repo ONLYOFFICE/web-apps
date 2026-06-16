@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dobijanje podataka iz TXT/CSV datoteke</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Kako uvesti podatke iz TXT/CSV datoteke" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+			<div class="search-field">
+				<input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+			</div>
+			<h1>Dobijanje podataka iz TXT/CSV datoteke</h1>
+			<p>Ako vam je potrebno da brzo preuzmete podatke iz .txt/.csv datoteke i pravilno ih rasporedite u tabeli, koristite opciju <b>Dobijanje podataka iz TXT/CSV datoteke</b> dostupnu na kartici <b>Podaci</b>.</p>
+			<h2 id="step1">Korak 1. Uvoz datoteke</h2>
+			<ol>
+				<li>Kliknite na opciju <b>Dobijanje podataka</b> na kartici <b>Podaci</b>.</li>
+				<li>Izaberite jednu od opcija za uvoz:
+				<ul>
+					<li><b>Iz lokalne TXT/CSV datoteke</b>: pronađite potrebnu datoteku na hard disku, izaberite je i kliknite na <b>Otvori</b>.</li>
+					<li><b>Sa TXT/CSV veb adrese</b>: nalepite link do datoteke ili veb stranice u polje <b>Nalepi URL podataka</b> i kliknite na <b>OK</b>.
+                        <p class="note">
+                            Link za pregled ili uređivanje datoteke koja se nalazi na ONLYOFFICE portalu ili u skladištu treće strane ne može se koristiti u ovom slučaju. Molimo vas da koristite link za <b>preuzimanje</b> datoteke.
+                        </p>
+                    </li>
+					<li><b>Iz lokalne XML datoteke</b>: pronađite potrebnu datoteku na hard disku, izaberite je i kliknite na <b>Otvori</b>.
+						<p class="note">Trenutno je podržan samo XML Spreadsheet 2003 format.</p>
+					</li>
+				</ul>
+				</li>
+			</ol>
+			<h2 id="step2">Korak 2. Podešavanje postavki</h2>
+			<p><b>Čarobnjak za uvoz teksta</b> obuhvata četiri odeljka: <b>Kodiranje</b>, <b>Razdvajač</b>, <b>Pregled</b> i <b>Izaberite gde da smestite podatke</b>.</p>
+			<p><img alt="Čarobnjak za uvoz teksta" src="../images/textimport.png" /></p>
+			<ol>
+				<li><b>Kodiranje</b>. Parametar je podrazumevano postavljen na <em>UTF-8</em>. Ostavite ovu vrednost ili izaberite odgovarajući tip iz padajućeg menija.</li>
+                <li>
+                    <b>Razdvajač</b>. Ovaj parametar određuje tip razdvajača koji se koristi za raspodelu običnog teksta u različite ćelije. Dostupni razdvajači su <em>Zarez</em>, <em>Tačka-zarez</em>, <em>Dvotačka</em>, <em>Tabulator</em>, <em>Razmak</em> i <em>Drugo</em> (ručni unos).
+                    <p>Kliknite na dugme <b>Napredno</b> koje se nalazi sa desne strane da biste podesili postavke za podatke koji se prepoznaju kao numerički:</p>
+                    <p><img alt="Napredna podešavanja uvoza podataka" src="../images/dataimport_advanced.png" /></p>
+                    <ul>
+                        <li>Podesite <b>Decimalni razdvajač</b> i <b>Razdvajač hiljada</b>. Podrazumevani razdvajači su <b>„.“</b> za decimalni i <b>„,“</b> za hiljade.</li>
+                        <li>
+                            Izaberite <b>Kvalifikator teksta</b>. <b>Kvalifikator teksta</b> je znak koji se koristi za prepoznavanje početka i kraja teksta prilikom uvoza podataka. Dostupne opcije su: <b>(nema)</b>, <b>dvostruki navodnici</b> i <b>jednostruki navodnik</b>.
+                        </li>
+                    </ul>
+                </li>
+				<li><b>Pregled</b>. Ovaj odeljak prikazuje kako će tekst biti raspoređen u ćelijama tabele.</li>
+				<li><b>Izaberite gde da smestite podatke</b>. Unesite potreban opseg u polje ili ga izaberite pomoću dugmeta <b>Izaberi podatke</b> sa desne strane.</li>
+				<li>Kliknite na <b>OK</b> da biste uvezli datoteku i zatvorili <b>Čarobnjak za uvoz teksta</b>.</li>
+			</ol>
+		</div>
+	</body>
+</html>

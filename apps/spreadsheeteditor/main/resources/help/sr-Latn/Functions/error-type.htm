@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>ERROR.TYPE funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>ERROR.TYPE funkcija</h1>
+			<p><b>ERROR.TYPE</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#information" onclick="onhyperlinkclick(this)">informacionih funkcija</a>. Koristi se za vraćanje numeričke reprezentacije jednog od postojećih tipova grešaka.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>ERROR.TYPE(error_val)</em></b></p> 
+			<p><b>ERROR.TYPE</b> funkcija ima sledeći argument:</p>
+			<table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>error_val</em></b></td>
+                    <td>Vrednost greške. Moguće vrednosti su prikazane u tabeli ispod.</td>
+                </tr>
+            </table>
+			<p><b><em>error_val</em></b> argument može biti jedna od sledećih vrednosti:</p>
+			<table style="width: 40%">
+				<tr>
+					<th style="background-color: #f4f4f4"><b>Vrednost greške</b></th>
+					<th style="background-color: #f4f4f4"><b>Numerička reprezentacija</b></th>
+				</tr>
+				<tr>
+					<td><b><em>#NULL!</em></b></td>
+					<td>1</td>
+				</tr>
+				<tr>
+					<td><b><em>#DIV/0!</em></b></td>
+					<td>2</td>
+				</tr>
+				<tr>
+					<td><b><em>#VALUE!</em></b></td>
+					<td>3</td>
+				</tr>
+				<tr>
+					<td><b><em>#REF!</em></b></td>
+					<td>4</td>
+				</tr>
+				<tr>
+					<td><b><em>#NAME?</em></b></td>
+					<td>5</td>
+				</tr>
+				<tr>
+					<td><b><em>#NUM!</em></b></td>
+					<td>6</td>
+				</tr>
+				<tr>
+					<td><b><em>#N/A</em></b></td>
+					<td>7</td>
+				</tr>
+				<tr>
+					<td><b><em>#GETTING_DATA</em></b></td>
+					<td>8</td>
+				</tr>
+				<tr>
+					<td><b><em>Ostalo</em></b></td>
+					<td>#N/A</td>
+				</tr>
+			</table>
+            <h3>Napomene</h3>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> <b>ERROR.TYPE</b> funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća <b>ERROR.TYPE</b> funkcija.</p>
+			<p><img alt="ERROR.TYPE funkcija" src="../images/error.type.png" /></p>
+		</div>
+	</body>
+</html>

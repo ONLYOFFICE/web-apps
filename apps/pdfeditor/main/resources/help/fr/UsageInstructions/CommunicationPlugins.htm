@@ -3,7 +3,7 @@
 <head>
     <title>Communiquer lors de l'édition</title>
     <meta charset="utf-8" />
-    <meta name="description" content="In ONLYOFFICE PDF Editor, you can always keep in touch with colleagues and use popular online messengers, such as Telegram" />
+    <meta name="description" content="Dans l'éditeur de PDF ONLYOFFICE, vous pouvez rester en permanence en contact avec vos collègues et utiliser des messageries en ligne populaires, telles que Telegram et Rainbow." />
     <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
     <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
     <script type="text/javascript" src="../callback.js"></script>
@@ -16,34 +16,57 @@
         </div>
         <h1>Communiquer lors de l'édition</h1>
         <p>Dans <!--<a href="https://www.onlyoffice.com/fr/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)">--><b>l'éditeur de PDF</b><!--</a>--> ONLYOFFICE, vous pouvez toujours rester en contact avec vos collègues et utiliser des messageries en ligne populaires, telles que Telegram.</p>
-        <div class="note">Le module complémentaire Telegram n'est pas installé par défaut. Pour en savoir plus sur l'installation, veuillez consulter le guide approprié: <span class="desktopDocumentFeatures"><a target="_blank" href="https://helpcenter.onlyoffice.com/fr/installation/desktop-getting-started.aspx#AddingPlugins_block" onclick="onhyperlinkclick(this)">Ajouter des modules complémentaires à l'éditeur de bureau ONLYOFFICE</a></span><span class="onlineDocumentFeatures"> <a target="_blank" href="https://api.onlyoffice.com/docs/plugin-and-macros/get-started/overview/" onclick="onhyperlinkclick(this)">Ajouter des modules complémentaires au cloud ONLYOFFICE</a></span><!--, or <a target="_blank" href="https://helpcenter.onlyoffice.com/fr/installation/docs-add-plugin.aspx" onclick="onhyperlinkclick(this)">Adding new plugins to server editors</a></span>--> ou installer les modules complémentaires à l'aide du <a href="https://helpcenter.onlyoffice.com/fr/ONLYOFFICE-Editors/Editors-User-Guides/AllEditors/Plugin-manager.aspx" target="_blank">Gestionnaire de plugins</a>.</div>
-        <h2>Telegram</h2>
-        <p>Pour démarrer une nouvelle conversation sur Telegram à l'aide du module complémentaire,</p>
-        <ul>
-            <li>Passez à l'onglet <b>Modules complémentaires</b> et cliquez sur <div class="icon icon-telegram_icon"></div> <b>Telegram</b>,</li>
-            <li>saisissez votre numéro de téléphone dans le champ correspondant,</li>
-            <li>cochez la case <b>Rester connecté</b> si vous souhaitez sauvegarder les informations d'identification pour la session en cours et cliquez sur le bouton <b>Suivant</b>,</li>
-            <li>
-                saisissez le code que vous avez reçu dans votre application Telegram,
-                <p>ou</p>
+        <div class="note">Le module complémentaire Telegram n'est pas installé par défaut. Pour en savoir plus sur l'installation, veuillez consulter le guide approprié: <span class="desktopDocumentFeatures"><a target="_blank" href="https://helpcenter.onlyoffice.com/installation/desktop-getting-started.aspx#AddingPlugins_block" onclick="onhyperlinkclick(this)">Ajouter des modules complémentaires à l'éditeur de bureau ONLYOFFICE</a></span><span class="onlineDocumentFeatures"> <a target="_blank" href="https://api.onlyoffice.com/docs/plugin-and-macros/get-started/overview/" onclick="onhyperlinkclick(this)">Ajouter des modules complémentaires au cloud ONLYOFFICE</a></span><!--, or <a target="_blank" href="https://helpcenter.onlyoffice.com/installation/docs-add-plugin.aspx" onclick="onhyperlinkclick(this)">Adding new plugins to server editors</a></span>--> ou installer les modules complémentaires à l'aide du <a href="https://helpcenter.onlyoffice.com/ONLYOFFICE-Editors/Editors-User-Guides/AllEditors/Plugin-manager.aspx" target="_blank">Gestionnaire de plugins</a>.</div>
+        <h2>Bot</h2>
+        <p>Pour connecter ONLYOFFICE à <span class = "icon icon-telegram_icon"></span> Telegram,</p>
+        <ol>
+            <li>Utilisez le <a href="https://t.me/ONLYOFFICE_bot">lien d'installation</a> et cliquer sur le bouton <b>COMMENCER</b>.<p class="note">La prochaine fois que vous démariez le bot, utilisez la commande <code>/start</code> pour accéder au menu de démarrage et les options disponibles.</p>
             </li>
-            <li>connectez-vous par <b>code QR</b>,</li>
-            <li>ouvrez l'application Telegram sur votre téléphone,</li>
-            <li>passez à Paramètres > Appareils > Scanner QR,</li>
-            <li>scannez l'image pour vous connecter.</li>
+            <li>Pour <b>créer et modifier</b> des fichiers:<p><img alt="ONLYOFFICE Telegram - Créer et modifier des fichiers" src="../images/telegram_creatingfiles.png" /></p>
+                <ul>
+                    <li>Cliquez sur le bouton <b>Créer</b> dans le menu.</li>
+                    <li>Sélectionnez le format de fichier nécessaire: <em>Document</em>, <em>Classeur</em> ou <em>Présentation</em>.</li>
+                    <li>Saisissez le nom du fichier.</li>
+                    <li>Le bot enverra un message contenant un lien vers le fichier créé. Cliquez sur le lien pour ouvrir le fichier dans l'éditeur ONLYOFFICE correspondant (selon le type de fichier choisi).</li>
+                    <li>Une fois la session d'édition terminée, le bot enverra le fichier avec les modifications enregistrées.<p class="notehelp">Le lien d'édition sera <b>désactivé</b> une fois le fichier modifié envoyé. Pour rouvrir le fichier, répondez simplement au message contenant le fichier avec n'importe quel texte.</p>
+                    </li>
+                </ul>
+            </li>
+            <li>Pour <b>collaborer</b> sur des fichiers :<ul>
+                    <li>Pour collaborer sur le fichier créé, transférez le message contenant le lien à d'autres utilisateurs Telegram.</li>
+                    <li>Le lien reste actif pendant <b>24 heures</b>. Chaque fois on fait on clic dessus durant cette période, le minuteur se réinitialise pour 24 heures supplémentaires.</li>
+                    <li>Si le lien a expiré, un message d'erreur s'affichera. Une fois que tous les participants ayant accédé au lien ont fermé l'éditeur, le fichier mis à jour (si des modifications ont été apportées) sera instantanément envoyé à toutes les personnes concernées.</li>
+                </ul>
+            </li>
+            <li>Pour <b>ouvrir un fichier local</b>:<ul>
+                    <li>Envoyez un fichier dans le chat sans sélectionner de commande.</li>
+                    <li>Sélectionnez les options suivantes dans le menu du bot: <code>/start</code> → <b> Ouvrir</b> → <b>Télécharger un fichier depuis l'appareil</b>.<p>Dans les deux cas, le bot enverra un message avec le lien d'ouverture.</p>
+                        <p class="notehelp">Si vous envoyez plusieurs fichiers dans un même message, le lien sera généré <b>pour le premier fichier</b> du message.</p>
+                    </li>
+                </ul>
+            </li>
+            <li>Pour <b>convertir</b> un fichier :<ul>
+                    <li>Sélectionnez les options suivantes dans le menu du bot: <code>/start</code> → <b>Convertir</b>.</li>
+                    <li>Envoyez le fichier depuis votre appareil au bot.</li>
+                    <li>Choisissez le format vers lequel vous souhaitez convertir le fichier téléchargé. Consultez la liste des formats pris en charge sur la <a href="https://github.com/ONLYOFFICE/onlyoffice-telegram/?tab=readme-ov-file#opening-local-files" target="_blank">page GitHub</a>.<p>Une fois terminé, le bot enverra le fichier converti directement dans le chat dans le format sélectionné.</p>
+                    </li>
+                </ul>
+            </li>
+            <li>Pour obtenir des conseils sur l'utilisation du bot, utilisez la commande<code>/help</code>.</li>
+        </ol>
+
+        <h3>Utiliser le bot Telegram dans les discussions de groupe</h3>
+        <p>Les fonctionnalités du bot lors de <b>l'utilisation dans un groupe</b> diffèrent de celles en conversation individuelle:</p>
+        <ul>
+            <li>La création de fichiers est réalisée via trois commandes : <code>/document</code>, <code>/feuille de calcul</code> et <code>/présentation</code>. Les utilisateurs ne définissent pas manuellement le nom du fichier. Il est automatiquement généré selon le modèle suivant: <code>Nouveau [format] Date Heure UTC</code>.</li>
+            <li>L'interaction avec le bot varie selon les permissions d'administration. Sans permissions d'administrateur, vous devez répondre directement au bot, qui ne peut pas accéder aux messages de fichiers transférés (sauf les siens). Avec les permissions d'administrateur, le bot voit tous les messages, ce qui vous permet de transférer des fichiers sans répondre directement.</li>
+            <li>Pour générer un nouveau lien d'édition pour un fichier, répondez au message contenant le fichier et mentionnez le bot <code>@ONLYOFFICE_bot</code>. Dans certains cas, le bot peut nécessiter des permissions d'accès administrateur dans le groupe.</li>
+            <li>Lors de l'ouverture de fichiers, le bot ne répondra pas aux fichiers simplement envoyés dans le chat. Pour ouvrir un fichier, utilisez la commande <code>/open</code> et répondez au bot avec le fichier joint dans un message de réponse.</li>
+            <li>La langue du bot ne peut pas être définie de manière universelle pour le groupe. Il répondra plutôt dans la langue choisie par chaque utilisateur individuellement.<p class="notehelp">Par défaut, le bot ONLYOFFICE utilise la langue du profil Telegram de l'utilisateur. Si cette langue n'est pas disponible dans les traductions du bot, la langue <b>anglaise</b> est utilisée. Si vous souhaitez changer manuellement la langue du bot, entrez la commande <code>/lang</code>.<p><img alt="ONLYOFFICE Telegram - Changement de langue" src="../images/telegram_language.png" /></p>
+            </li>
+            <li>La conversion de fichiers n'est pas disponible.</li>
         </ul>
-        <p>Vous pouvez désormais utiliser Telegram pour la messagerie instantanée dans l'interface des éditeurs ONLYOFFICE.</p>
-        <p><img alt="Module complémentaire Telegram" src="../images/telegram_plugin.png" /></p>
-        <!--<img alt="Telegram gif" src="../../images/telegram.gif" />--> <!--<h2>Rainbow</h2>
-    <p>To start chatting in the Rainbow plugin,</p>
-    <ol>
-        <li>Switch to the <b>Plugins</b> tab and click <div class = "icon icon-rainbow_icon"></div> <b>Rainbow</b>,</li>
-        <li>register a new account by clicking the <b>Sign up</b> button, or log into an already created one. To do this, enter your email into the corresponding field and click <b>Continue</b>,</li>
-        <li>then enter your account password,</li>
-        <li>check the <b>Keep my session alive</b> checkbox if you want to save credentials for the current session, and click the <b>Connect</b> button.</li>
-    </ol>
-    <p>Now you're all set and can simultaneously chat in Rainbow and work within ONLYOFFICE editors interface.</p>
-    <img alt="Rainbow gif" src="../../images/rainbow.gif" />-->
+        <p><img alt="ONLYOFFICE Telegram - Travail dans des chats de groupe" src="../images/telegram_group.png" /></p>
     </div>
 </body>
 </html>

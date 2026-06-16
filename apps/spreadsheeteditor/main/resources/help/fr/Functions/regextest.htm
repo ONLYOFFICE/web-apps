@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+        <title>Fonction REGEX.TEST</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Fonction REGEX.TEST</h1>
+            <p>La fonction <b>REGEX.TEST</b> est l'une des fonctions de <a href="../UsageInstructions/InsertFunction.htm#textdata" onclick="onhyperlinkclick(this)">texte et de données</a>. La fonction REGEX.TEST vous permet de vérifier si une partie du texte fourni correspond à une expression régulière en renvoyant VRAI ou FAUX.</p>
+            <h3>Syntaxe</h3>
+            <p><b><em>REGEX.TEST (texte, modèle, [respect_casse])</em></b></p>
+            <p>Les arguments de la fonction <b>REGEXTEST</b> sont les suivants:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Description</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>texte</em></b></td>
+                    <td>Texte ou référence à une cellule contenant le texte auquel vous souhaitez faire correspondre.</td>
+                </tr>
+                <tr>
+                    <td><b><em>modèle</em></b></td>
+                    <td>Expression régulière (&quot;regex&quot;) qui décrit le modèle de texte que vous souhaitez faire correspondre.</td>
+                </tr>
+                <tr>
+                    <td><b><em>respect_casse</em></b></td>
+                    <td>Définit si la correspondance respecte la casse. C'est un argument facultatif. Si cet argument est omis, la correspondance respecte la casse (0). Saisissez <b>0</b> pour la correspondance respectant la casse ou <b>1</b> pour la correspondance non sensible à la casse.</td>
+                </tr>
+            </table>
+
+            <h3>Remarques</h3>
+            <p>Lors de l'écriture de modèles d'expression régulière, vous pouvez utiliser des symboles appelés jetons qui correspondent à une variété de caractères. Voici quelques jetons simples à référencer:</p>
+            <ul>
+                <li><b>[0-9]</b>: n'importe quel chiffre numérique</li>
+                <li><b>[a-z]:</b>: caractère dans la plage de a à z</li>
+                <li><b>[A-Z]</b>: caractère dans la plage de A à Z</li>
+                <li><b>.</b>: n'importe quel caractère</li>
+                <li><b>*</b>:  zéro ou plusieurs fois le caractère précédent</li>
+                <li><b>+</b>:  une ou plusieurs fois le caractère précédent</li>
+                <li><b>^</b>: début de la chaîne</li>
+                <li><b>$</b>: fin de la chaîne</li>
+                <li><b>\</b>: caractère d'échappement (par exemple,<b>\(</b> correspond à une parenthèse littéral</li>
+                <li><b>{n}</b>: exactement n fois le caractère précédent</li>
+            </ul>
+            <p>La fonction renvoie <b>VRAI</b> si le motif correspond à une partie du texte, et <b>FAUX</b> si aucune correspondance n'est trouvée.</p>
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Comment utiliser la fonction</a> la fonction <b>REGEX.TEST</b>.</p>
+
+            <h3>Exemples</h3>
+            <p>L'illustration ci-dessous présente le résultat renvoyé par la fonction <b>REGEX.TEST</b>.</p>
+            <p><img alt="Fonction REGEX.TEST" src="../images/regextest.png" /></p>
+        </div>
+	</body>
+</html>

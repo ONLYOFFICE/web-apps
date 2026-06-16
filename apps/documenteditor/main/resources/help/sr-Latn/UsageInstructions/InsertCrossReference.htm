@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Umetanje unakrsnih referenci</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Koristite unakrsne reference da biste kreirali linkove koji vode na druge delove istog dokumenta" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Umetanje unakrsnih referenci</h1>
+        <p>U <a href="https://www.onlyoffice.com/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Editoru dokumenata</b></a>, unakrsne reference se koriste za kreiranje linkova koji vode na druge delove istog dokumenta, npr. naslove ili objekte poput grafikona ili tabela. Takve reference se pojavljuju u obliku hiperveze.</p>
+        <h2>Kreiranje unakrsne reference</h2>
+        <ol>
+            <li>Pozicionirajte kursor na mesto gde želite da umetnete unakrsnu referencu.</li>
+            <li>Idite na karticu <b>Reference</b> i kliknite na ikonu <b>Unakrsna referenca</b>.</li>
+            <li>
+                Podesite potrebne parametre u otvorenom prozoru <b>Unakrsna referenca</b>:
+                <p><img alt="Prozor unakrsne reference" src="../images/cross_refference_window.png" /></p>
+                <ul>
+                    <li>Meni <b>Tip reference</b> određuje stavku na koju želite da se pozovete, tj. numerisanu stavku (podrazumevano), <em>naslov, obeleživač, fusnotu, završnu napomenu, jednačinu, sliku</em> ili <em>tabelu</em>. Izaberite željeni tip stavke.</li>
+                    <li>
+                        Padajući meni <b>Umetni referencu na</b> određuje tekst ili numeričku vrednost reference koju želite da umetnete, u zavisnosti od stavke koju ste izabrali u meniju <b>Tip reference</b>. Na primer, ako ste izabrali opciju <b>Naslov</b>, možete navesti sledeći sadržaj: <em>Tekst naslova, Broj strane, Broj naslova, Broj naslova (bez konteksta), Broj naslova (ceo kontekst), Iznad/ispod</em>.
+                        <details class="details-example">
+                            <summary>Kompletan spisak opcija u zavisnosti od izabranog tipa reference</summary>
+                            <table class="cross-reference">
+                                <tr>
+                                    <th>Tip reference</th>
+                                    <th>Umetni referencu na</th>
+                                    <th style="text-align: left;">Opis</th>
+                                </tr>
+                                <tr>
+                                    <td rowspan="6">Numerisana stavka</td>
+                                    <td style="text-align: left;">Broj strane</td>
+                                    <td style="text-align: left;">Umeće broj strane numerisane stavke</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Broj pasusa</td>
+                                    <td style="text-align: left;">Umeće broj pasusa numerisane stavke</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Broj pasusa (bez konteksta)</td>
+                                    <td style="text-align: left;">Umeće skraćen broj pasusa. Referenca se odnosi samo na konkretnu stavku numerisane liste, npr. umesto „4.1.1“ dobijate „1“</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Broj pasusa (ceo kontekst)</td>
+                                    <td style="text-align: left;">Umeće ceo broj pasusa, npr. „4.1.1“</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Tekst pasusa</td>
+                                    <td style="text-align: left;">Umeće tekst pasusa, npr. ako imate „4.1.1. Uslovi korišćenja“, dobićete samo „Uslovi korišćenja“</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Iznad/ispod</td>
+                                    <td style="text-align: left;">Umeće reči „iznad“ ili „ispod“ u zavisnosti od pozicije stavke</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="6">Naslov</td>
+                                    <td style="text-align: left;">Tekst naslova</td>
+                                    <td style="text-align: left;">Umeće ceo tekst naslova</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Broj strane</td>
+                                    <td style="text-align: left;">Umeće broj strane naslova</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Broj naslova</td>
+                                    <td style="text-align: left;">Umeće redni broj naslova</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Broj naslova (bez konteksta)</td>
+                                    <td style="text-align: left;">Umeće skraćen broj naslova. Npr. ako ste u odeljku 4 i želite da se pozovete na naslov 4.B, umesto „4.B“ dobićete samo „B“</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Broj naslova (ceo kontekst)</td>
+                                    <td style="text-align: left;">Umeće ceo broj naslova čak i ako se kursor nalazi u istom odeljku</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Iznad/ispod</td>
+                                    <td style="text-align: left;">Umeće reči „iznad“ ili „ispod“ u zavisnosti od pozicije stavke</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="6">Obeleživač</td>
+                                    <td style="text-align: left;">Tekst obeleživača</td>
+                                    <td style="text-align: left;">Umeće ceo tekst obeleživača</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Broj strane</td>
+                                    <td style="text-align: left;">Umeće broj strane obeleživača</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Broj pasusa</td>
+                                    <td style="text-align: left;">Umeće broj pasusa obeleživača</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Broj pasusa (bez konteksta)</td>
+                                    <td style="text-align: left;">Umeće skraćen broj pasusa. Referenca se odnosi samo na konkretnu stavku, npr. umesto „4.1.1“ dobijate „1“</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Broj pasusa (ceo kontekst)</td>
+                                    <td style="text-align: left;">Umeće ceo broj pasusa, npr. „4.1.1“</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Iznad/ispod</td>
+                                    <td style="text-align: left;">Umeće reči „iznad“ ili „ispod“ u zavisnosti od pozicije stavke</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="4">Fusnota</td>
+                                    <td style="text-align: left;">Broj fusnote</td>
+                                    <td style="text-align: left;">Umeće broj fusnote</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Broj strane</td>
+                                    <td style="text-align: left;">Umeće broj strane fusnote</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Iznad/ispod</td>
+                                    <td style="text-align: left;">Umeće reči „iznad“ ili „ispod“ u zavisnosti od pozicije stavke</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Broj fusnote (formatiran)</td>
+                                    <td style="text-align: left;">Umeće broj fusnote formatiran kao fusnota. Numeracija stvarnih fusnota ostaje nepromenjena</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="4">Završna napomena</td>
+                                    <td style="text-align: left;">Broj završne napomene</td>
+                                    <td style="text-align: left;">Umeće broj završne napomene</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Broj strane</td>
+                                    <td style="text-align: left;">Umeće broj strane završne napomene</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Iznad/ispod</td>
+                                    <td style="text-align: left;">Umeće reči „iznad“ ili „ispod“ u zavisnosti od pozicije stavke</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Broj završne napomene (formatiran)</td>
+                                    <td style="text-align: left;">Umeće broj završne napomene formatiran kao završna napomena. Numeracija stvarnih završnih napomena ostaje nepromenjena</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="5">Jednačina / Slika / Tabela</td>
+                                    <td style="text-align: left;">Ceo natpis</td>
+                                    <td style="text-align: left;">Umeće ceo tekst natpisa</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Samo oznaka i broj</td>
+                                    <td style="text-align: left;">Umeće samo oznaku i broj objekta, npr. „Tabela 1.1“</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Samo tekst natpisa</td>
+                                    <td style="text-align: left;">Umeće samo tekst natpisa</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Broj strane</td>
+                                    <td style="text-align: left;">Umeće broj strane na kojoj se nalazi referencirani objekat</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;">Iznad/ispod</td>
+                                    <td style="text-align: left;">Umeće reči „iznad“ ili „ispod“ u zavisnosti od pozicije stavke</td>
+                                </tr>
+                            </table>
+                        </details>
+                        <br />
+                    </li>
+
+                    <li>Označite polje <b>Umetni kao hipervezu</b> da biste referencu pretvorili u aktivni link.</li>
+                    <li>Označite polje <b>Uključi iznad/ispod</b> (ako je dostupno) da biste naveli poziciju stavke na koju se pozivate. ONLYOFFICE Editor dokumenata će automatski umetnuti reči „<em>iznad</em>“ ili „<em>ispod</em>“ u zavisnosti od pozicije stavke.</li>
+                    <li>Označite polje <b>Razdvoji brojeve sa</b> da biste naveli separator u polju desno. Separatori su potrebni za reference sa celim kontekstom.</li>
+                    <li>Polje <b>Za koje</b> prikazuje stavke dostupne prema tipu reference koji ste izabrali, npr. ako ste izabrali opciju <b>Naslov</b>, videćete kompletnu listu naslova u dokumentu.</li>
+                </ul>
+            </li>
+            <li>Kliknite <b>Umetni</b> da biste kreirali unakrsnu referencu.</li>
+        </ol>
+        <h2>Uklanjanje unakrsne reference</h2>
+        <p>Da biste obrisali unakrsnu referencu, izaberite je i pritisnite taster <b>Delete</b>.</p>
+    </div>
+</body>
+</html>

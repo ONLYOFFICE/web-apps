@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64">
+  <g class="chart-line-100-stacked">
+    <path fill="#555" d="M6 6h2v42.586l14.873-14.873 17.883 11.922L56.19 24.412l1.618 1.176-16.565 22.777-18.117-12.078L8 51.414V58h52v2H6V6Z" class="icon-fill-type-preview"/>
+    <path fill="#555" fill-rule="evenodd" d="M58 12H8v-2h50v2Z" class="icon-fill-type-preview" clip-rule="evenodd" opacity=".6"/>
+  </g>
+</svg>

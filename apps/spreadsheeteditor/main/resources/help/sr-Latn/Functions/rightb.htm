@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>RIGHT/RIGHTB funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>RIGHT/RIGHTB funkcija</h1>
+			<p><b>RIGHT/RIGHTB</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#textdata" onclick="onhyperlinkclick(this)">funkcija za tekst i podatke</a>. Koristi se za izdvajanje podstringa iz stringa počevši od desnog kraja, u zavisnosti od broja karaktera koje navedete. <b>RIGHT</b> funkcija je namenjena jezicima koji koriste jednobajtni karakter set (SBCS), dok je <b>RIGHTB</b> namenjena jezicima koji koriste dvobajtni karakter set (DBCS) poput japanskog, kineskog, korejskog itd.</p>			
+			<h3>Sintaksa</h3> 
+            <p><b><em>RIGHT(text, [num_chars])</em></b></p>
+            <p><b>RIGHT</b> funkcija ima sledeće argumente:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>text</em></b></td>
+                    <td>String iz kojeg želite da izdvojite podstring.</td>
+                </tr>
+                <tr>
+                    <td><b><em>num_chars</em></b></td>
+                    <td>Broj karaktera podstringa. Mora biti veće ili jednako 0. Opcioni argument; ako se izostavi, podrazumevana vrednost je 1.</td>
+                </tr>
+            </table>
+
+            <p><b><em>RIGHTB(text, [num_bytes])</em></b></p>
+            <p><b>RIGHTB</b> funkcija ima sledeće argumente:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>text</em></b></td>
+                    <td>String iz kojeg želite da izdvojite podstring.</td>
+                </tr>
+                <tr>
+                    <td><b><em>num_bytes</em></b></td>
+                    <td>Broj karaktera podstringa, zasnovan na bajtovima. Opcioni argument.</td>
+                </tr>
+            </table>			
+			<h3>Napomene</h3>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> <b>RIGHT/RIGHTB</b> funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća <b>RIGHT</b> funkcija.</p>
+            <p><img alt="RIGHTB funkcija" src="../images/right.png" /></p>
+		</div>
+	</body>
+</html>

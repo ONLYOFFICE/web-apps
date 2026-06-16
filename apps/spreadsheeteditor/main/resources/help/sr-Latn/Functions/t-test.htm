@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>T.TEST Funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="T.TEST funkcija je jedna od statističkih funkcija. Vraća verovatnoću povezanú sa Studentovim t-testom." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>T.TEST Funkcija</h1>
+			<p><b>T.TEST</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#statistical" onclick="onhyperlinkclick(this)">statističkih funkcija</a>. Koristi se da vrati verovatnoću povezanú sa Studentovim t-testom. Koristite <b>T.TEST</b> da odredite da li dve uzorke verovatno potiču iz istih populacija sa istom srednjom vrednošću.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>T.TEST(array1, array2, tails, type)</em></b></p> 
+            <p><b>T.TEST</b> funkcija ima sledeće argumente:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>array1</em></b></td>
+                    <td>Prvi opseg numeričkih vrednosti.</td>
+                </tr>
+				<tr>
+                    <td><b><em>array2</em></b></td>
+                    <td>Drugi opseg numeričkih vrednosti.</td>
+                </tr>
+				<tr>
+                    <td><b><em>tails</em></b></td>
+                    <td>Broj repova distribucije. Ako je 1, funkcija koristi jednoropnu distribuciju. Ako je 2, funkcija koristi dvostruku distribuciju.</td>
+                </tr>
+                <tr>
+                    <td><b><em>type</em></b></td>
+                    <td>Numerička vrednost koja određuje tip t-testa koji će se izvršiti. Moguće vrednosti su navedene u tabeli ispod.</td>
+                </tr>
+            </table>
+            <p>Argument <b><em>type</em></b> može biti jedna od sledećih vrednosti:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4"><b>Numerička vrednost</b></th>
+                    <th style="background-color: #f4f4f4"><b>Tip t-testa</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>1</em></b></td>
+                    <td>Povezani (paired)</td>
+                </tr>
+                <tr>
+                    <td><b><em>2</em></b></td>
+                    <td>Dva uzorka sa jednakom varijansom (homoscedastic)</td>
+                </tr>
+                <tr>
+                    <td><b><em>3</em></b></td>
+                    <td>Dva uzorka sa nejednakom varijansom (heteroscedastic)</td>
+                </tr>
+            </table>
+            <h3>Napomene</h3>
+            
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> <b>T.TEST</b> funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća <b>T.TEST</b> funkcija.</p>
+			<p><img alt="T.TEST Funkcija" src="../images/t-test.png" /></p>
+		</div>
+	</body>
+</html>

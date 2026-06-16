@@ -9,13 +9,21 @@
             "prebuild": [
                 "../deploy/web-apps/apps/visioeditor/main"
             ],
-            "postbuild": []
+            "postbuild": [
+                "../deploy/web-apps/apps/visioeditor/main/app_dev.js",
+                "../deploy/web-apps/apps/visioeditor/main/app_pack.js",
+                "../deploy/web-apps/apps/visioeditor/main/index.html.deploy",
+                "../deploy/web-apps/apps/visioeditor/main/index_loader.html",
+                "../deploy/web-apps/apps/visioeditor/main/index_loader.html.deploy",
+                "../deploy/web-apps/apps/visioeditor/main/resources/less",
+                "../deploy/web-apps/apps/visioeditor/main/resources/img/toolbar/**/*"
+            ]
         },
         "js": {
             "requirejs": {
                 "options": {
-                    "name": "../apps/visioeditor/main/app.js",
-                    "out": "../deploy/web-apps/apps/visioeditor/main/app.js",
+                    "appDir": "../apps/visioeditor/main",
+                    "dir": "../deploy/web-apps/apps/visioeditor/main",
                     "baseUrl": "../apps/",
                     "inlineText": true,
                     "findNestedDependencies": true,

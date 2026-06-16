@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  Toolbar.js
@@ -81,6 +84,7 @@ define([
                 fontsize: undefined,
                 textclrhighlight: undefined,
                 initEditing: true,
+                showChartTab: false,
                 inDrawingMode: false,
             };
             this.editMode = true;
@@ -93,6 +97,7 @@ define([
                     'change:compact'    : this.onClickChangeCompact,
                     'home:open'         : this.onHomeOpen,
                     'tab:active'        : this.onActiveTab,
+                    'tab:click'         : this.onClickTab,
                     'tab:collapse'      : this.onTabCollapse,
                     'shapeannot:size'   : this.onShapeCommentSizeClick
                 },
@@ -155,7 +160,10 @@ define([
                 },
                 'DocumentHolder': {
                     'annotbar:create': this.onCreateAnnotBar.bind(this)
-                }
+                },
+                'InsTab': {
+                    'insert:chart': this.onSelectChart.bind(this)
+                },
             });
 
             Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
@@ -182,15 +190,10 @@ define([
             var _main = this.getApplication().getController('Main');
             this.mode = mode;
             this.toolbar.applyLayout(mode);
-            var url = 'https://www.onlyoffice.com/blog/2025/10/docs-9-1-released';
 
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'pdfCharts' : {name: 'pdfe-help-tip-pdf-charts', placement: 'bottom', offset: {x: Common.UI.isRTL() ? -30 : 30, y: 0}, text: this.helpPdfCharts, header: this.helpPdfChartsHeader,
-                              target: '#slot-btn-inssmartart', isNewFeature: true, maxwidth: 300, closable: false, link: {text: _main.textLearnMore, url: url}},
-                'annotRect' : {name: 'pdfe-help-tip-annot-rect', placement: 'bottom', text: this.helpAnnotRect, header: this.helpAnnotRectHeader,
-                              target: '#slot-btn-shape-comment', isNewFeature: true, maxwidth: 300, closable: false, noHighlight: true, link: {text: _main.textLearnMore, url: url}},
-                'redactTab' : {name: 'help-tip-redact-tab', placement: 'bottom-right', offset: {x: Common.UI.isRTL() ? -10 : 10, y: 0}, text: this.helpRedactTab, header: this.helpRedactTabHeader, target: 'li.ribtab #red',
-                               automove: true, maxwidth: 300, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
+                'tipChartTab' : {name: 'pdfe-help-tip-chart-tab', placement: 'bottom', text: this.helpChartTab, header: this.helpChartTabHeader, target: 'li.ribtab #charttab', maxwidth: 300,
+                    automove: true, closable: false, isNewFeature: true},
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, noArrow: true, multiple: true},
@@ -269,6 +272,8 @@ define([
             toolbar.btnStamp.on('click',                                _.bind(this.onBtnStampClick, this));
             toolbar.btnStamp.menu.on('item:click',                      _.bind(this.onMenuStampClick, this));
             toolbar.btnStamp.menu.on('show:after',                      _.bind(this.onStampShowAfter, this));
+            toolbar.btnsRotatePage[0].menu.on('item:click',             _.bind(this.onRotatePageMenu, this));
+            toolbar.btnsRotatePage[0].on('click',                       _.bind(this.onRotatePage, this));
             // toolbar.btnRotate.on('click',                               _.bind(this.onRotateClick, this));
             Common.NotificationCenter.on('leftmenu:save', _.bind(this.tryToSave, this));
             Common.NotificationCenter.on('draw:start', _.bind(this.onDrawStart, this));
@@ -357,8 +362,8 @@ define([
             toolbar.btnShapesMerge.menu.on('item:click',                 _.bind(this.onClickMenuShapesMerge, this));
             toolbar.btnShapesMerge.menu.on('show:before',                _.bind(this.onBeforeShapesMerge, this));
             toolbar.btnShapeArrange.menu.on('item:click',               _.bind(this.onShapeArrange, this));
-            toolbar.btnRotatePage.menu.on('item:click',                 _.bind(this.onRotatePageMenu, this));
-            toolbar.btnRotatePage.on('click',                           _.bind(this.onRotatePage, this));
+            toolbar.btnsRotatePage[1].menu.on('item:click',             _.bind(this.onRotatePageMenu, this));
+            toolbar.btnsRotatePage[1].on('click',                       _.bind(this.onRotatePage, this));
             toolbar.btnDelPage.on('click',                              _.bind(this.onDelPage, this));
 
         },
@@ -570,8 +575,6 @@ define([
                 if (this._state.activated) this._state.pagecontrolsdisable = page_deleted;
                 this.toolbar.lockToolbar(Common.enumLock.pageDeleted, page_deleted);
             }
-            if (this.toolbar.btnShapeComment && !this.toolbar.btnShapeComment.isDisabled() && this.toolbar.isTabActive('comment'))
-                Common.UI.TooltipManager.showTip('annotRect');
         },
 
         onApiFocusObject: function(selectedObjects) {
@@ -596,7 +599,8 @@ define([
                 page_edit_text = false,
                 in_form = false,
                 in_check_form = false,
-                in_text_form = false;
+                in_text_form = false,
+                in_chart = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -620,6 +624,7 @@ define([
                     }
                     if (type == Asc.c_oAscTypeSelectElement.Chart) {
                         no_columns = true;
+                        in_chart = true;
                     }
                     if (type == Asc.c_oAscTypeSelectElement.Shape) {
                         var shapetype = pr.asc_getType();
@@ -657,6 +662,19 @@ define([
             }
             }
 
+            if (this._state.in_chart !== in_chart) {
+                if ( !in_chart && this.toolbar.isTabActive('charttab') )
+                    this.toolbar.setTab('home');
+                this.toolbar.setVisible('charttab', !!in_chart);
+                if (in_chart && this._state.showChartTab)
+                    this.toolbar.setTab('charttab');
+
+                if (in_chart) Common.UI.TooltipManager.showTip('tipChartTab');
+                else Common.UI.TooltipManager.closeTip('tipChartTab');
+
+                this._state.in_chart = in_chart;
+            }
+
             if (this._state.prcontrolsdisable !== paragraph_locked) {
                 if (this._state.activated) this._state.prcontrolsdisable = paragraph_locked;
                 if (paragraph_locked!==undefined)
@@ -691,7 +709,7 @@ define([
 
             let cant_align = no_paragraph && !in_text_form && !in_text_annot;
             toolbar.lockToolbar(Common.enumLock.cantAlign, cant_align, {array: [toolbar.btnHorizontalAlign]});
-            !cant_align && toolbar.btnHorizontalAlign.menu.items[3].setDisabled(in_text_form || in_text_annot);
+            !cant_align && toolbar.btnHorizontalAlign.menu.items[3].setDisabled(in_text_form);
 
             if (this._state.no_object !== no_object ) {
                 if (this._state.activated) this._state.no_object = no_object;
@@ -743,15 +761,10 @@ define([
                 if (this._state.activated) this._state.pagecontrolsdisable = page_deleted;
                 toolbar.lockToolbar(Common.enumLock.pageDeleted, page_deleted);
             }
-            toolbar.lockToolbar(Common.enumLock.pageRotateLock, page_rotate_lock, {array: [toolbar.btnRotatePage]});
-            toolbar.lockToolbar(Common.enumLock.cantRotatePage, !this.api.asc_CanRotatePages([this.api.getCurrentPage()]), {array: [toolbar.btnRotatePage]});
+            toolbar.lockToolbar(Common.enumLock.pageRotateLock, page_rotate_lock, {array: toolbar.btnsRotatePage});
+            toolbar.lockToolbar(Common.enumLock.cantRotatePage, !this.api.asc_CanRotatePages([this.api.getCurrentPage()]), {array: toolbar.btnsRotatePage});
             toolbar.lockToolbar(Common.enumLock.pageEditText, page_edit_text, {array: [toolbar.btnEditText]});
             toolbar.lockToolbar(Common.enumLock.cantDelPage, !this.api.asc_CanRemovePages([this.api.getCurrentPage()]), {array: [toolbar.btnDelPage]});
-
-            if (toolbar.btnShapeComment && !toolbar.btnShapeComment.isDisabled() && toolbar.isTabActive('comment')) {
-                Common.UI.TooltipManager.getNeedShow('annotRect') && Common.UI.TooltipManager.closeTip('redactTab');
-                Common.UI.TooltipManager.showTip('annotRect');
-            }
         },
 
         onApiZoomChange: function(percent, type) {},
@@ -761,7 +774,6 @@ define([
                 this.api.OpenNewDocument();
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'New Document');
         },
 
         onOpenDocument: function(btn, e) {
@@ -769,7 +781,6 @@ define([
                 this.api.LoadDocumentFromDisk();
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Open Document');
         },
 
         onPrint: function(e) {
@@ -780,8 +791,6 @@ define([
                 var _main = this.getApplication().getController('Main');
                 _main.onPrintQuick();
             }
-            Common.component.Analytics.trackEvent('Print');
-            Common.component.Analytics.trackEvent('ToolBar', 'Print');
 
         },
 
@@ -860,8 +869,6 @@ define([
                 this.api.asc_Save();
                 toolbar.btnSave && toolbar.lockToolbar(Common.enumLock.cantSave, !toolbar.mode.forcesave && toolbar.mode.canSaveToFile && !toolbar.mode.canSaveDocumentToBinary || !toolbar.mode.showSaveButton,
                                                         {array: [toolbar.btnSave]});
-                Common.component.Analytics.trackEvent('Save');
-                Common.component.Analytics.trackEvent('ToolBar', 'Save');
                 Common.NotificationCenter.trigger('edit:complete', toolbar);
             }
         },
@@ -909,7 +916,6 @@ define([
                 this.api.Undo();
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Undo');
         },
 
         onRedo: function(btn, e) {
@@ -918,7 +924,6 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
 
-            Common.component.Analytics.trackEvent('ToolBar', 'Redo');
         },
 
         onCopyPaste: function(type, e) {
@@ -934,8 +939,7 @@ define([
                             }
                         })).show();
                     }
-                } else
-                    Common.component.Analytics.trackEvent('ToolBar', 'Copy Warning');
+                }
             }
             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
         },
@@ -945,7 +949,6 @@ define([
                 this.api.asc_EditSelectAll();
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Select All');
         },
 
         onSelectTool: function (type, btn, state, e) {
@@ -965,6 +968,10 @@ define([
                 this.toolbar.btnSelectTool.toggle(true, true);
                 this.toolbar.btnHandTool.toggle(false, true);
             }
+        },
+
+        onSelectChart: function () {
+            this._state.showChartTab = true;
         },
 
         clearSelectTools: function() {
@@ -1243,12 +1250,9 @@ define([
             this.api && this.api.AddFreeTextAnnot(type);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnTextComment);
-            Common.component.Analytics.trackEvent('ToolBar', 'Add Text');
         },
 
          onBtnShapeCommentClick: function(btn, e) {
-            Common.UI.TooltipManager.closeTip('annotRect');
-
             btn.menu.getItems(true).filter(function(item) {
                 return item.value == btn.options.shapeType
             })[0].setChecked(true);
@@ -1276,7 +1280,6 @@ define([
         },
 
         onMenuShapeCommentShowAfter: function(menu) {
-            Common.UI.TooltipManager.closeTip('annotRect');
         },
 
         onShapeCommentSizeClick: function (direction) {
@@ -1313,7 +1316,6 @@ define([
                 $(document.body).off('mouseup', this.binding.checkInsertShapeComment);
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnShapeComment);
-            Common.component.Analytics.trackEvent('ToolBar', 'Add Shape Annotation');
         },
 
         onStartAddShapeChanged: function() {
@@ -1358,7 +1360,6 @@ define([
             this.api && this.api.AddStampAnnot(type);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnStamp);
-            Common.component.Analytics.trackEvent('ToolBar', 'Add Stamp');
         },
 
         onStampShowAfter: function(menu) {
@@ -1564,6 +1565,18 @@ define([
                 }
             }
 
+            tab = {caption: me.textTabChart, action: 'charttab', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-charttab', dataHintTitle: 'B', aux: true};
+            var charttab = me.getApplication().getController('Common.Controllers.ChartTab');
+            charttab.setApi(me.api).setConfig({toolbar: me});
+            var view = charttab.getView('Common.Views.ChartTab');
+            var chartbuttons = view.getButtons();
+            var $panel = charttab.createToolbarPanel();
+            if ($panel) {
+                me.toolbar.addTab(tab, $panel);
+                me._state.inchart && me.toolbar.setVisible('charttab', true);
+                Array.prototype.push.apply(me.toolbar.lockControls, chartbuttons);
+            }
+
             var tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
             var viewtab = me.getApplication().getController('ViewTab');
             viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
@@ -1679,8 +1692,6 @@ define([
             toolbar.processPanelVisible(null, true, true);
             $host.find('.annotate').removeClass('transparent');
             $host.find('.pdfedit').removeClass('transparent');
-
-            this.mode.isPDFEdit ? Common.UI.TooltipManager.showTip('redactTab') : Common.UI.TooltipManager.closeTip('redactTab');
         },
         
         onAppReady: function (config) {
@@ -1767,21 +1778,17 @@ define([
                 this.requiredTooltip.close();
                 this.requiredTooltip = undefined;
             }
-            if (tab === 'comment') {
-                if (this.toolbar && !this.toolbar.btnShapeComment.isDisabled())
-                    setTimeout(function() {
-                        Common.UI.TooltipManager.getNeedShow('annotRect') && Common.UI.TooltipManager.closeTip('redactTab');
-                        Common.UI.TooltipManager.showTip('annotRect')
-                    }, 10);
-            } else
-                Common.UI.TooltipManager.closeTip('annotRect');
 
-            (tab === 'red') && Common.UI.TooltipManager.closeTip('redactTab');
+            if (tab == 'charttab')
+                Common.UI.TooltipManager.closeTip('tipChartTab');
+
+        },
+
+        onClickTab: function(tab) {
+            this._state.showChartTab = tab ==='charttab';
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('pdfCharts');
-            Common.UI.TooltipManager.closeTip('annotRect');
         },
 
         applySettings: function() {
@@ -2099,7 +2106,6 @@ define([
                 this.api.FontSizeIn();
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Font Size');
         },
 
         onDecrease: function(e) {
@@ -2107,7 +2113,6 @@ define([
                 this.api.FontSizeOut();
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Font Size');
         },
 
         onBold: function(btn, e) {
@@ -2116,7 +2121,6 @@ define([
                 this.api.put_TextPrBold(btn.pressed);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Bold');
         },
 
         onItalic: function(btn, e) {
@@ -2125,7 +2129,6 @@ define([
                 this.api.put_TextPrItalic(btn.pressed);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Italic');
         },
 
         onTextUnderline: function(btn, e) {
@@ -2134,7 +2137,6 @@ define([
                 this.api.put_TextPrUnderline(btn.pressed);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Underline');
         },
 
         onTextStrikeout: function(btn, e) {
@@ -2143,7 +2145,6 @@ define([
                 this.api.put_TextPrStrikeout(btn.pressed);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Strikeout');
         },
 
         onSuperscript: function(btn, e) {
@@ -2153,7 +2154,6 @@ define([
                     this.api.put_TextPrBaseline(btn.pressed ? Asc.vertalign_SuperScript : Asc.vertalign_Baseline);
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-                Common.component.Analytics.trackEvent('ToolBar', 'Superscript');
             }
         },
 
@@ -2164,7 +2164,6 @@ define([
                     this.api.put_TextPrBaseline(btn.pressed ? Asc.vertalign_SubScript : Asc.vertalign_Baseline);
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-                Common.component.Analytics.trackEvent('ToolBar', 'Subscript');
             }
         },
 
@@ -2173,7 +2172,6 @@ define([
                 this.api.DecreaseIndent();
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Indent');
         },
 
         onIncOffset: function(btn, e) {
@@ -2181,7 +2179,6 @@ define([
                 this.api.IncreaseIndent();
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Indent');
         },
 
         onChangeCase: function(menu, item, e) {
@@ -2202,7 +2199,6 @@ define([
                 this.api.put_PrAlign(item.value);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Horizontal Align');
         },
 
         onMenuVerticalAlignSelect: function(menu, item) {
@@ -2217,7 +2213,6 @@ define([
                 this.api.setVerticalAlign(item.value);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Vertical Align');
         },
 
         onMarkers: function(btn, e) {
@@ -2295,7 +2290,6 @@ define([
                         callback: _.bind(function(btn) {
                             if (btn == 'yes') {
                                 this.api.put_TextPrFontName(record.name);
-                                Common.component.Analytics.trackEvent('ToolBar', 'Font Name');
                             } else {
                                 this.toolbar.cmbFontName.setValue(this.api.get_TextProps().get_TextPr().get_FontFamily().get_Name());
                             }
@@ -2304,7 +2298,6 @@ define([
                     });
                 } else {
                     this.api.put_TextPrFontName(record.name);
-                    Common.component.Analytics.trackEvent('ToolBar', 'Font Name');
                 }
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
@@ -2325,7 +2318,6 @@ define([
                 this.api.put_TextPrFontSize(record.value);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Font Size');
         },
 
         onFontSizeChanged: function(before, combo, record, e) {
@@ -2338,7 +2330,7 @@ define([
                 });
 
                 if (!item) {
-                    value = /^\+?(\d*(\.|,).?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
+                    value = /^\+?(\d*(\.|,).?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value.trim());
 
                     if (!value) {
                         value = this._getApiTextSize();
@@ -2427,7 +2419,6 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'List Type');
         },
 
         onLineSpaceToggle: function(menu, item, state, e) {
@@ -2437,7 +2428,6 @@ define([
                     this.api.put_PrLineSpacing(c_paragraphLinerule.LINERULE_AUTO, item.value);
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-                Common.component.Analytics.trackEvent('ToolBar', 'Line Spacing');
             }
         },
 
@@ -2486,7 +2476,6 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Insert Columns');
         },
 
         onBeforeColumns: function() {
@@ -2535,13 +2524,10 @@ define([
                 var value = this.toolbar.mniAlignToSlide.isChecked() ? Asc.c_oAscObjectsAlignType.Page : Asc.c_oAscObjectsAlignType.Selected;
                 if (item.value>-1 && item.value < 6) {
                     this.api.put_ShapesAlign(item.value, value);
-                    Common.component.Analytics.trackEvent('ToolBar', 'Shape Align');
                 } else if (item.value == 6) {
                     this.api.DistributeHorizontally(value);
-                    Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
                 } else if (item.value == 7){
                     this.api.DistributeVertically(value);
-                    Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
                 }
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             }
@@ -2552,27 +2538,21 @@ define([
                 switch (item.value) {
                     case 1:
                         this.api.shapes_bringToFront();
-                        Common.component.Analytics.trackEvent('ToolBar', 'Shape Arrange');
                         break;
                     case 2:
                         this.api.shapes_bringToBack();
-                        Common.component.Analytics.trackEvent('ToolBar', 'Shape Arrange');
                         break;
                     case 3:
                         this.api.shapes_bringForward();
-                        Common.component.Analytics.trackEvent('ToolBar', 'Shape Arrange');
                         break;
                     case 4:
                         this.api.shapes_bringBackward();
-                        Common.component.Analytics.trackEvent('ToolBar', 'Shape Arrange');
                         break;
                     case 5:
                         this.api.groupShapes();
-                        Common.component.Analytics.trackEvent('ToolBar', 'Shape Group');
                         break;
                     case 6:
                         this.api.unGroupShapes();
-                        Common.component.Analytics.trackEvent('ToolBar', 'Shape UnGroup');
                         break;
                 }
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
@@ -2588,7 +2568,6 @@ define([
         onClickMenuShapesMerge: function (menu, item) {
             if (item && item.value) {
                 this.api.asc_mergeSelectedShapes(item.value); 
-                Common.component.Analytics.trackEvent('ToolBar', 'Shapes Merge'); 
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -2637,7 +2616,6 @@ define([
             if (this.api)
                 this.api.put_TextColor(Common.Utils.ThemeColor.getRgbColor(color));
 
-            Common.component.Analytics.trackEvent('ToolBar', 'Text Color');
         },
 
         onBtnFontColor: function() {
@@ -2728,13 +2706,11 @@ define([
                 me.api.SetMarkerFormat(undefined, true, true, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
             }
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnTextHighlightColor);
-            Common.component.Analytics.trackEvent('ToolBar', 'Highlight Color');
         },
 
         onBtnTextHighlightColor: function(btn) {
             if (btn.pressed) {
                 this._setMarkerColor(btn.currentColor);
-                Common.component.Analytics.trackEvent('ToolBar', 'Highlight Color');
             }
             else {
                 this.api.SetMarkerFormat(undefined, false);
@@ -2817,7 +2793,7 @@ define([
 
         textWarning: 'Warning',
         notcriticalErrorTitle: 'Warning',
-        txtNeedCommentMode: 'To save changes to the file, switch to Сommenting mode. Or you can download a copy of the modified file.',
+        txtNeedCommentMode: 'To save changes to the file, switch to Commenting mode. Or you can download a copy of the modified file.',
         txtNeedDownload: 'At the moment, PDF viewer can only save new changes in separate file copies. It doesn\'t support co-editing and other users won\'t see your changes unless you share a new file version.',
         txtDownload: 'Download',
         txtSaveCopy: 'Save copy',

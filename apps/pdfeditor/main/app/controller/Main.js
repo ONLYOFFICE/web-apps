@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  Main.js
@@ -196,6 +199,7 @@ define([
                     this.api.asc_registerCallback('asc_onOpenFilePdfForm',          _.bind(this.onOpenFilePdfForm, this));
                     this.api.asc_registerCallback('asc_onValidateErrorPdfForm',     _.bind(this.onValidateErrorPdfForm, this));
                     this.api.asc_registerCallback('asc_onFormatErrorPdfForm',       _.bind(this.onFormatErrorPdfForm, this));
+                    this.api.asc_registerCallback('asc_onAskEditPassword',          _.bind(this.onAskEditPassword, this));
 
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
@@ -346,8 +350,10 @@ define([
 
                 me.defaultTitleText = '{{APP_TITLE_TEXT}}';
                 me.warnNoLicense  = (me.warnNoLicense || '').replace(/%1/g, '{{COMPANY_NAME}}');
+                me.warnNoResources  = (me.warnNoResources || '').replace(/%1/g, '{{COMPANY_NAME}}');
                 me.warnNoLicenseUsers = (me.warnNoLicenseUsers || '').replace(/%1/g, '{{COMPANY_NAME}}');
                 me.textNoLicenseTitle = (me.textNoLicenseTitle || '').replace(/%1/g, '{{COMPANY_NAME}}');
+                me.textNoResourcesTitle = (me.textNoResourcesTitle || '').replace(/%1/g, '{{COMPANY_NAME}}');
             },
 
             loadConfig: function(data) {
@@ -403,7 +409,6 @@ define([
                 this.appOptions.sharingSettingsUrl = this.editorConfig.sharingSettingsUrl;
                 this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
                 this.appOptions.saveAsUrl       = this.editorConfig.saveAsUrl;
-                this.appOptions.canAnalytics    = false;
                 this.appOptions.canPlugins      = false;
                 this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
                 this.appOptions.canRequestUsers = this.editorConfig.canRequestUsers;
@@ -521,7 +526,7 @@ define([
                 this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
                 this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
                 this.api.asc_setDocInfo(docInfo);
-                this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
+                this.api.asc_getEditorPermissions();
 
                 if (data.doc) {
                     appHeader.setDocumentCaption(data.doc.title);
@@ -692,7 +697,7 @@ define([
                     if (options.header.docmode)
                         app.getController('Toolbar').getView('Toolbar').fireEvent('docmode:disabled', [disable]);
                     if (options.header.search)
-                        appHeader && appHeader.lockHeaderBtns('search', disable);
+                        appHeader && appHeader.lockHeaderBtns('search', disable, Common.enumLock.lostConnect);
                     appHeader && appHeader.lockHeaderBtns('undo', options.viewMode, Common.enumLock.lostConnect);
                     appHeader && appHeader.lockHeaderBtns('redo', options.viewMode, Common.enumLock.lostConnect);
                 }
@@ -1104,10 +1109,14 @@ define([
                     statusbarController         = application.getController('Statusbar'),
                     documentHolderController    = application.getController('DocumentHolder'),
                     leftmenuController          = application.getController('LeftMenu'),
+                    rightmenuController         = application.getController('RightMenu'),
                     chatController              = application.getController('Common.Controllers.Chat'),
                     pluginsController           = application.getController('Common.Controllers.Plugins'),
                     navigationController        = application.getController('Navigation');
 
+
+                rightmenuController.getView('RightMenu').setApi(this.api);
+                rightmenuController.getView('RightMenu').setMode(this.appOptions);
 
                 leftmenuController.getView('LeftMenu').getMenu('file').loadDocument({doc:me.document});
                 leftmenuController.createDelayedElements().setApi(me.api);
@@ -1166,9 +1175,6 @@ define([
                 $('.toolbar').prepend(Common.Utils.String.format('<div class="lazy-{0} x-huge"><div class="toolbar__icon" style="position: absolute; width: 1px; height: 1px;"></div>', dummyClass));
                 setTimeout(function() { $(Common.Utils.String.format('.toolbar .lazy-{0}', dummyClass)).remove(); }, 10);
 
-                if (this.appOptions.canAnalytics && false)
-                    Common.component.Analytics.initialize('UA-12442749-13', 'Document Editor');
-
                 Common.Gateway.on('applyeditrights',        _.bind(me.onApplyEditRights, me));
                 Common.Gateway.on('processrightschange',    _.bind(me.onProcessRightsChange, me));
                 Common.Gateway.on('processmouse',           _.bind(me.onProcessMouse, me));
@@ -1205,7 +1211,7 @@ define([
             onLicenseChanged: function(params) {
                 var licType = params.asc_getLicenseType();
                 if (licType !== undefined && (this.appOptions.isPDFAnnotate || this.appOptions.isPDFFill || this.appOptions.isRestrictedEdit) &&
-                   (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS
+                   (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS || licType===Asc.c_oLicenseResult.NotEnoughResources
                    || licType===Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
                     this._state.licenseType = licType;
 
@@ -1247,7 +1253,10 @@ define([
                         title = this.titleReadOnly;
                         license = (license===Asc.c_oLicenseResult.Connections) ? this.tipLicenseExceeded : this.tipLicenseUsersExceeded;
                     } else {
-                        license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
+                        if (license===Asc.c_oLicenseResult.NotEnoughResources)
+                            title = this.textNoResourcesTitle;
+                        license = (license===Asc.c_oLicenseResult.NotEnoughResources) ? this.warnNoResources :
+                                  (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
                         buttons = [{value: 'buynow', caption: this.textBuyNow}, {value: 'contact', caption: this.textContactUs}];
                         primary = 'buynow';
                         modal = true;
@@ -1326,7 +1335,6 @@ define([
                 this.appOptions.isXpsViewer = /^(?:(djvu|xps|oxps))$/.test(this.document.fileType) || Common.Locale.getDefaultLanguage() === 'ru';
                 this.appOptions.isForm = !this.appOptions.isXpsViewer && !!window.isPDFForm;
                 this.appOptions.permissionsLicense = licType;
-                this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
                 this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
                 this.appOptions.isLightVersion = params.asc_getIsLight();
                 this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
@@ -1367,11 +1375,6 @@ define([
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !this.permissions.editCommentAuthorOnly;
                 this.appOptions.canDeleteComments= this.appOptions.isOffline || !this.permissions.deleteCommentAuthorOnly;
-                if ((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.commentAuthorOnly===true) {
-                    console.log("Obsolete: The 'commentAuthorOnly' parameter of the 'customization' section is deprecated. Please use 'editCommentAuthorOnly' and 'deleteCommentAuthorOnly' parameters in the permissions instead.");
-                    if (this.permissions.editCommentAuthorOnly===undefined && this.permissions.deleteCommentAuthorOnly===undefined)
-                        this.appOptions.canEditComments = this.appOptions.canDeleteComments = this.appOptions.isOffline;
-                }
 
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
                 this.appOptions.isBeta         = params.asc_getIsBeta();
@@ -1591,7 +1594,6 @@ define([
                     toolbar = app.getController('Toolbar');
                 toolbar.applyMode(activeTab);
                 app.getController('Viewport').applyEditorMode();
-                app.getController('ViewTab').applyEditorMode();
                 app.getController('DocumentHolder').applyEditorMode();
                 app.getController('LeftMenu').leftMenu.getMenu('file').applyMode();
                 callback && callback.call();
@@ -1664,7 +1666,11 @@ define([
                 var me = this,
                     application         = this.getApplication(),
                     reviewController    = application.getController('Common.Controllers.ReviewChanges');
-                reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api).loadDocument({doc:me.document});
+
+                reviewController
+                    .setMode(me.appOptions, { canCommentResolve: false })
+                    .setConfig({config: me.editorConfig}, me.api)
+                    .loadDocument({doc:me.document});
 
                 if (this.appOptions.isEdit) {
                     if (me.appOptions.isSignatureSupport || me.appOptions.isPasswordSupport)
@@ -1682,6 +1688,9 @@ define([
                     me.api.asc_registerCallback('asc_OnTryUndoInFastCollaborative',_.bind(me.onTryUndoInFastCollaborative, me));
                     me.appOptions.canSaveDocumentToBinary && me.api.asc_registerCallback('asc_onSaveDocument',_.bind(me.onSaveDocumentBinary, me));
                     /** coauthoring end **/
+
+                    if (me.appOptions.isPDFEdit)
+                        application.getController('Common.Controllers.ChartTab').setMode(me.appOptions);
 
                     if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
                         me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], ApplyEditRights);
@@ -1703,8 +1712,6 @@ define([
                 if (msg && msg.msg) {
                     msg.msg = (msg.msg).toString();
                     this.showTips([msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)], options);
-
-                    Common.component.Analytics.trackEvent('External Error');
                 }
             },
 
@@ -1932,6 +1939,14 @@ define([
                         config.msg = this.errorCopyDisabled;
                         break;
 
+                    case Asc.c_oAscError.ID.FileNotAssembled:
+                        config.msg = this.errorFileNotAssembled;
+                        break;
+
+                    case Asc.c_oAscError.ID.ForcedViewMode:
+                        config.msg = this.errorForcedViewMode;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         if (typeof id == 'string')
@@ -1995,8 +2010,6 @@ define([
 
                 if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value="' + id + '"]').length<1)
                     Common.UI.alert(config).$window.attr('data-value', id);
-
-                (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
             },
 
             onOpenLinkPdfForm: function(sURI, onAllow, onCancel) {
@@ -2503,10 +2516,43 @@ define([
                 }
             },
 
+            onTryPrint: function(callback, pwd) {
+                if (!this.api.asc_CheckPrintPassword(pwd!==undefined ? pwd : null)) {
+                    let newPwd;
+                    const me = this;
+                    const win = new Common.Views.OpenDialog({
+                        title: me.txtUnlockTitle,
+                        closable: true,
+                        type: Common.Utils.importTextType.DRM,
+                        txtOpenFile: me.txtDocUnlockDescription,
+                        validatePwd: pwd!==undefined,
+                        handler: function (result, value) {
+                            if (result === 'ok' && value && value.drmOptions) {
+                                const currentPwd = value.drmOptions.asc_getPassword();
+                                if (me.api.asc_CheckPrintPassword(currentPwd)) {
+                                    callback && callback.call();
+                                } else {
+                                    newPwd = currentPwd;
+                                }
+                            }
+                        }
+                    }).on('close', function() {
+                        if (newPwd!==undefined)
+                            setTimeout(function() {
+                                me.onTryPrint(callback, newPwd);
+                            }, 100);
+                        else
+                            Common.NotificationCenter.trigger('pdf:mode-changed', me.appOptions);
+                    });
+                    win.show();
+                } else {
+                    callback && callback.call();
+                }
+            },
+
             onPrint: function() {
                 if (!this.appOptions.canPrint || Common.Utils.ModalWindow.isVisible()) return;
                 Common.NotificationCenter.trigger('file:print');
-                Common.component.Analytics.trackEvent('Print');
             },
 
             onPrintUrl: function(url) {
@@ -2540,34 +2586,63 @@ define([
 
             onPrintQuick: function() {
                 if (!this.appOptions.canQuickPrint) return;
+                this.onTryPrint(function() {
+                    var value = Common.localStorage.getBool("pdfe-hide-quick-print-warning"),
+                        me = this,
+                        handler = function () {
+                            var printopt = new Asc.asc_CAdjustPrint();
+                            printopt.asc_setNativeOptions({quickPrint: true});
+                            var opts = new Asc.asc_CDownloadOptions();
+                            opts.asc_setAdvancedOptions(printopt);
+                            me.api.asc_Print(opts);
+                        };
 
-                var value = Common.localStorage.getBool("pdfe-hide-quick-print-warning"),
-                    me = this,
-                    handler = function () {
-                        var printopt = new Asc.asc_CAdjustPrint();
-                        printopt.asc_setNativeOptions({quickPrint: true});
-                        var opts = new Asc.asc_CDownloadOptions();
-                        opts.asc_setAdvancedOptions(printopt);
-                        me.api.asc_Print(opts);
-                        Common.component.Analytics.trackEvent('Print');
-                    };
+                    if (value) {
+                        handler.call(this);
+                    } else {
+                        Common.UI.warning({
+                            msg: this.textTryQuickPrint,
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            dontshow: true,
+                            maxwidth: 500,
+                            callback: function(btn, dontshow){
+                                dontshow && Common.localStorage.setBool("pdfe-hide-quick-print-warning", true);
+                                if (btn === 'yes') {
+                                    setTimeout(handler, 1);
+                                }
+                            }
+                        });
+                    }
+                }.bind(this));
+            },
 
-                if (value) {
-                    handler.call(this);
-                } else {
-                    Common.UI.warning({
-                        msg: this.textTryQuickPrint,
-                        buttons: ['yes', 'no'],
-                        primary: 'yes',
-                        dontshow: true,
-                        maxwidth: 500,
-                        callback: function(btn, dontshow){
-                            dontshow && Common.localStorage.setBool("pdfe-hide-quick-print-warning", true);
-                            if (btn === 'yes') {
-                                setTimeout(handler, 1);
+            onAskEditPassword: function(pwd) {
+                if (!this.api.asc_CheckEditPassword(pwd!==undefined ? pwd : null)) {
+                    let newPwd;
+                    const me = this;
+                    const win = new Common.Views.OpenDialog({
+                        title: me.txtUnlockTitle,
+                        closable: true,
+                        type: Common.Utils.importTextType.DRM,
+                        txtOpenFile: me.txtDocUnlockDescription,
+                        validatePwd: pwd!==undefined,
+                        handler: function (result, value) {
+                            if (result === 'ok' && value && value.drmOptions) {
+                                const currentPwd = value.drmOptions.asc_getPassword();
+                                if (!me.api.asc_CheckEditPassword(currentPwd)) {
+                                    newPwd = currentPwd;
+                                }
                             }
                         }
+                    }).on('close', function() {
+                        if (newPwd!==undefined) {
+                            setTimeout(function() {
+                                me.onAskEditPassword(newPwd);
+                            }, 100);
+                        }
                     });
+                    win.show();
                 }
             },
 
@@ -2653,6 +2728,7 @@ define([
                             if (apiCallback)  {
                                 apiCallback(btn === 'ok');
                             }
+                            Common.Gateway.reportWarning(id, btn === 'ok' ? 'undo' : 'continue');
                             me.onEditComplete();
                         }, this)
                     });

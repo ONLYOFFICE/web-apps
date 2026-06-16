@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Kartica Dodaci</title>
+        <meta charset="utf-8" />
+        <meta name="description" content="Uvod u korisnički interfejs Uređivača dokumenata - kartica Dodaci" />
+        <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+        <link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+    </head>
+    <body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Kartica Dodaci</h1>
+            <p>Kartica <b>Dodaci</b> u <a href="https://www.onlyoffice.com/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Uređivaču dokumenata</b></a> omogućava pristup naprednim funkcijama uređivanja koristeći dostupne dodatke trećih strana.</p>
+            <div class="onlineDocumentFeatures">
+                <p>Odgovarajući prozor u Online Uređivaču dokumenata:</p>
+                <p><img alt="Kartica Dodaci" src="../images/interface/pluginstab.png" /></p>
+            </div>
+            <div class="desktopDocumentFeatures">
+                <p>Odgovarajući prozor u Desktop Uređivaču dokumenata:</p>
+                <p><img alt="Kartica Dodaci" src="../images/interface/desktop_pluginstab.png" /></p>
+            </div>
+            <p>Dugme <b>Upravljač dodacima</b> omogućava prikaz i upravljanje svim instaliranim dodacima, kao i dodavanje novih.</p>
+            <p>Dugme <b>Dodaci u pozadini</b> omogućava prikaz liste dodataka koji rade u pozadini. Ovde možete aktivirati ili deaktivirati dodatke pomoću odgovarajućih prekidača i podesiti njihova podešavanja klikom na dugme <b>Više</b> pored željenog dodatka.</p>
+            <p class="note">Počevši od ONLYOFFICE Docs verzije 8.2, urednici ne dolaze sa dodacima po defaultu. Dodaci se instaliraju putem <a href="https://helpcenter.onlyoffice.com/ONLYOFFICE-Editors/Editors-User-Guides/AllEditors/Plugin-manager.aspx" target="_blank">Upravljač dodacima</a>.</p>
+            <p>Trenutno su sledeći dodaci dostupni po defaultu:</p>
+            <ul>
+                <li class="desktopDocumentFeatures"><b>Slanje</b> omogućava slanje dokumenta putem e-pošte koristeći podrazumevani desktop mejl klijent (dostupno samo u <em>desktop verziji</em>),</li>
+                <li><a href="../UsageInstructions/HighlightedCode.htm" onclick="onhyperlinkclick(this)">Isticanje koda</a> omogućava isticanje sintakse koda biranjem odgovarajućeg jezika, stila i boje pozadine,</li>
+                <li><a href="../UsageInstructions/OCR.htm" onclick="onhyperlinkclick(this)">OCR</a> omogućava prepoznavanje teksta sa slike i njegovo umetanje u tekst dokumenta,</li>
+                <li><a href="../UsageInstructions/PhotoEditor.htm" onclick="onhyperlinkclick(this)">Uređivač fotografija</a> omogućava uređivanje slika: sečenje, okretanje, crtanje linija i oblika, dodavanje ikona i teksta, upotrebu maski i filtera kao što su sivilo, inverzija, sepija, zamućenje, oštrenje, reljef, itd.,</li>
+                <li class="onlineDocumentFeatures"><a href="../UsageInstructions/Speech.htm" onclick="onhyperlinkclick(this)">Govorna konverzija</a> omogućava pretvaranje izabranog teksta u govor (dostupno samo u <em>online verziji</em>),</li>
+                <li><a href="../UsageInstructions/Thesaurus.htm" onclick="onhyperlinkclick(this)">Sinonimi i antonimi</a> omogućava pronalaženje sinonima i antonima reči i njihovu zamenu,</li>
+                <li>
+                    <a href="../UsageInstructions/Translator.htm" onclick="onhyperlinkclick(this)">Prevodilac</a> omogućava prevođenje izabranog teksta na druge jezike,
+                    <p class="note">Ovaj dodatak ne radi u Internet Exploreru.</p>
+                </li>
+                <li><a href="../UsageInstructions/YouTube.htm" onclick="onhyperlinkclick(this)">YouTube</a> omogućava ugrađivanje YouTube video snimaka u dokument,</li>
+                <li class="onlineDocumentFeatures"><a href="../UsageInstructions/InsertReferences.htm#Mendeley_block" onclick="onhyperlinkclick(this)">Mendeley</a> omogućava upravljanje naučnim radovima i generisanje bibliografija za naučne članke (dostupno samo u <em>online verziji</em>),</li>
+                <li class="onlineDocumentFeatures"><a href="../UsageInstructions/InsertReferences.htm#Zotero_block" onclick="onhyperlinkclick(this)">Zotero</a> omogućava upravljanje bibliografskim podacima i istraživačkim materijalima (dostupno samo u <em>online verziji</em>).</li>
+            </ul>
+            <p class="onlineDocumentFeatures">Dodatak <a href="../UsageInstructions/Wordpress.htm" onclick="onhyperlinkclick(this)">WordPress</a> može se koristiti ako povežete odgovarajuće servise u podešavanjima portala. Možete koristiti sledeća uputstva za <a target="_blank" href="https://helpcenter.onlyoffice.com/server/windows/community/authorization-keys.aspx" onclick="onhyperlinkclick(this)">server verziju</a> ili za <a target="_blank" href="https://helpcenter.onlyoffice.com/tipstricks/authorization-keys-saas.aspx" onclick="onhyperlinkclick(this)">SaaS verziju</a>.</p>
+            <p class="note">Dodatak WordPress nije uključen u besplatnu verziju urednika.</p>
+            <p>U vaš dokument mogu se dodati i nekoliko vizuelnih dodataka. Dodaci će biti prikazani kao odgovarajuće ikone na levom panelu.</p>
+            <p>Za više informacija o dodacima, pogledajte našu <a target="_blank" href="https://api.onlyoffice.com/docs/plugin-and-macros/get-started/overview/" onclick="onhyperlinkclick(this)">API dokumentaciju</a>. Svi postojeći primeri dodataka otvorenog koda dostupni su na <a target="_blank" href="https://github.com/ONLYOFFICE/sdkjs-plugins" onclick="onhyperlinkclick(this)">GitHub-u</a>.</p>
+        </div>
+    </body>
+</html>

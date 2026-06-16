@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  SlideSettings.js
@@ -98,7 +101,7 @@ define([
             };
 
             this.OriginalFillType = undefined;
-            this.SlideColor = {Value: 1, Color: 'ffffff'};  // value=1 - цвет определен - прозрачный или другой, value=0 - цвет не определен, рисуем прозрачным
+            this.SlideColor = {Value: 1, Color: 'ffffff'};  // value=1 - color is defined (transparent or other), value=0 - color is undefined, draw as transparent
             this.BlipFillType = Asc.c_oAscFillBlipType.STRETCH;
             this.Effect = Asc.c_oAscSlideTransitionTypes.None;
             this.EffectType = undefined;
@@ -107,8 +110,8 @@ define([
             this.GradRadialDirectionIdx = 0;
             this.GradLinearDirectionType = 0;
             this.PatternFillType = 0;
-            this.FGColor = {Value: 1, Color: '000000'};  // value=1 - цвет определен - прозрачный или другой, value=0 - цвет не определен, рисуем прозрачным
-            this.BGColor = {Value: 1, Color: 'ffffff'};  // value=1 - цвет определен - прозрачный или другой, value=0 - цвет не определен, рисуем прозрачным
+            this.FGColor = {Value: 1, Color: '000000'};  // value=1 - color is defined (transparent or other), value=0 - color is undefined, draw as transparent
+            this.BGColor = {Value: 1, Color: 'ffffff'};  // value=1 - color is defined (transparent or other), value=0 - color is undefined, draw as transparent
 
             this.textureNames = [this.txtCanvas, this.txtCarton, this.txtDarkFabric, this.txtGrain, this.txtGranite, this.txtGreyPaper,
                 this.txtKnit, this.txtLeather, this.txtBrownPaper, this.txtPapyrus, this.txtWood];
@@ -1232,7 +1235,7 @@ define([
                     this._state.Transparency=transparency;
                 }
 
-                if (fill===null || fill_type===null || fill_type==Asc.c_oAscFill.FILL_TYPE_NOFILL) { // заливки нет или не совпадает у неск. фигур
+                if (fill===null || fill_type===null || fill_type==Asc.c_oAscFill.FILL_TYPE_NOFILL) { // no fill or fill doesn't match across multiple shapes
                     this.OriginalFillType = null;
                 } else if (fill_type==Asc.c_oAscFill.FILL_TYPE_SOLID) {
                     fill = fill.get_fill();
@@ -1253,7 +1256,7 @@ define([
                     this.GradColor.colors[this.GradColor.colors.length-1] = 'ffffff';
                 }  else if (fill_type==Asc.c_oAscFill.FILL_TYPE_BLIP) {
                     fill = fill.get_fill();
-                    this.BlipFillType = fill.get_type(); // null - не совпадают у нескольких фигур
+                    this.BlipFillType = fill.get_type(); // null - values don't match across multiple shapes
                     if (this._state.BlipFillType !== this.BlipFillType) {
                         if (this.BlipFillType == Asc.c_oAscFillBlipType.STRETCH || this.BlipFillType == Asc.c_oAscFillBlipType.TILE) {
                             this.cmbFillType.setValue(this.BlipFillType);
@@ -1264,7 +1267,7 @@ define([
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_BLIP;
                 } else if (fill_type==Asc.c_oAscFill.FILL_TYPE_PATT) {
                     fill = fill.get_fill();
-                    this.PatternFillType = fill.get_pattern_type(); // null - не совпадают у нескольких фигур
+                    this.PatternFillType = fill.get_pattern_type(); // null - values don't match across multiple shapes
                     if (this._state.PatternFillType !== this.PatternFillType) {
                         this.cmbPattern.suspendEvents();
                         var rec = this.cmbPattern.menuPicker.store.findWhere({
@@ -1301,7 +1304,7 @@ define([
                     this.GradColor.colors[this.GradColor.colors.length-1] = 'ffffff';
                 } else if (fill_type==Asc.c_oAscFill.FILL_TYPE_GRAD) {
                     fill = fill.get_fill();
-                    var gradfilltype = fill.get_grad_type();  // null - не совпадают у нескольких фигур
+                    var gradfilltype = fill.get_grad_type();  // null - values don't match across multiple shapes
                     if (this._state.GradFillType !== gradfilltype || this.GradFillType !== gradfilltype) {
                         this.GradFillType = gradfilltype;
                         rec = undefined;

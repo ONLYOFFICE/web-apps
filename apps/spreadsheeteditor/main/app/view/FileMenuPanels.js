@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 define([], function () {
     'use strict';
@@ -258,10 +261,10 @@ define([], function () {
                     '<td colspan="2"><span id="fms-chb-forcesave"></span></td>',
                 '</tr>',
                 '<tr class="edit">',
-                    '<td colspan = "2"><div id="fms-chb-paste-settings"></div></td>',
+                    '<td colspan = "2"><div id="fms-chb-function-tooltip"></div></td>',
                 '</tr>',
                 '<tr class="edit">',
-                    '<td colspan = "2"><div id="fms-chb-function-tooltip"></div></td>',
+                    '<td colspan = "2"><div id="fms-chb-cell-autocomplete"></div></td>',
                 '</tr>',
                 '<tr class ="editsave divider-group"></tr>',
                 '<tr class="collaboration" >',
@@ -375,7 +378,7 @@ define([], function () {
                     '</td>',
                 '</tr>',
                 '<tr>',
-                    '<td><label><%= scope.strKeyboardShortcuts %><span class="new-hint"><%= Common.UI.SynchronizeTip.prototype.textNew.toUpperCase() %></span></label></td>',
+                    '<td><label><%= scope.strKeyboardShortcuts %></label></td>',
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-keyboard-shortcuts" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomize %></button></div></td>',
                 '</tr>',
                 '<tr class ="divider-group"></tr>',
@@ -423,6 +426,16 @@ define([], function () {
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtAutoCorrect %></button></div></td>',
                 '</tr>',
                 '<tr class ="edit divider-group"></tr>',
+                '<tr>',
+                    '<td colspan="2" class="group-name"><label><%= scope.txtCutCopyPaste %></label></td>',
+                '</tr>',
+                '<tr>',
+                    '<td colspan = "2"><span id="fms-chb-image-copying"></span></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td colspan = "2"><div id="fms-chb-paste-settings"></div></td>',
+                '</tr>',
+                '<tr class ="divider-group"></tr>',
                 '<tr class="edit">',
                     '<td colspan="2" class="group-name"><label><%= scope.txtCalculating %></label></td>',
                 '</tr>',
@@ -633,6 +646,14 @@ define([], function () {
                 }
             });
 
+            this.chImageCopying = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-image-copying'),
+                labelText: this.textImageCopying,
+                dataHint    : '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
             this.chForcesave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-forcesave'),
                 labelText: this.textForceSave,
@@ -816,6 +837,14 @@ define([], function () {
             this.chTooltip = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-function-tooltip'),
                 labelText: this.strFunctionTooltip,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.chCellAutoComplete = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-cell-autocomplete'),
+                labelText: this.strCellAutoComplete,
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -1172,6 +1201,8 @@ define([], function () {
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("sse-settings-paste-button"));
             this.chTooltip.setValue(Common.Utils.InternalSettings.get("sse-settings-function-tooltip"));
+            this.chCellAutoComplete.setValue(Common.Utils.InternalSettings.get("sse-settings-cell-autocomplete"));
+            this.chImageCopying.setValue(Common.Utils.InternalSettings.get("sse-settings-image-copying"));
             //this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("sse-settings-quick-print-button"));
 
             value = this.api.asc_GetCalcSettings();
@@ -1243,8 +1274,6 @@ define([], function () {
                 this.chHScroll.setValue(this.api.asc_GetShowHorizontalScroll());
                 this.chVScroll.setValue(this.api.asc_GetShowVerticalScroll());
             }
-
-            Common.localStorage.getItem('help-tip-customize-shortcuts') && $('.new-hint', this.el).addClass('hidden');
         },
 
         isValid: function() {
@@ -1315,6 +1344,10 @@ define([], function () {
 
             Common.localStorage.setItem("sse-settings-function-tooltip", this.chTooltip.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("sse-settings-function-tooltip", this.chTooltip.isChecked() ? 1 : 0);
+
+            Common.localStorage.setItem("sse-settings-cell-autocomplete", this.chCellAutoComplete.isChecked() ? 1 : 0);
+
+            Common.localStorage.setItem("sse-settings-image-copying", this.chImageCopying.isChecked() ? 1 : 0);
 
             this.mode.isEdit && Common.localStorage.setBool("sse-settings-def-sheet-rtl", this.rbSheetRtl.getValue());
 
@@ -2862,6 +2895,7 @@ define([], function () {
 
             this._initSettings = true;
             this._originalPageSize = undefined;
+            this._customPageSize = undefined;
             this._colorPrinting = '';
             this.extendedPrintTitles = Common.localStorage.getBool('sse-print-titles-extended', true);
         },
@@ -2877,6 +2911,7 @@ define([], function () {
                     menuStyle: 'width: 248px; max-height: 280px;',
                     editable: false,
                     takeFocusOnClose: true,
+                    restoreMenuHeightAndTop: true,
                     cls: 'input-group-nr',
                     placeHolder: this.txtPrinterNotSelected,
                     itemsTemplate:  _.template([
@@ -2904,6 +2939,7 @@ define([], function () {
                     menuStyle: 'width: 248px; max-height: 280px;',
                     editable: false,
                     takeFocusOnClose: true,
+                    restoreMenuHeightAndTop: true,
                     cls: 'input-group-nr',
                     disabled: true,
                     data: [
@@ -2926,6 +2962,7 @@ define([], function () {
                 menuStyle: 'min-width: 248px;max-height: 280px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls: 'input-group-nr',
                 data: [
                     { value: Asc.c_oAscPrintType.ActiveSheets, displayValue: this.txtActiveSheets },
@@ -2998,6 +3035,7 @@ define([], function () {
                 menuStyle   : 'width:100%;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 'one', displayValue: this.txtOneSide, descValue: this.txtOneSideDesc },
@@ -3023,6 +3061,7 @@ define([], function () {
                 cls: 'input-group-nr',
                 data: [],
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -3065,6 +3104,7 @@ define([], function () {
                 menuStyle: 'max-height: 280px; width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 template: paperSizeTemplate,
                 itemsTemplate: paperSizeItemsTemplate,
                 data: [].concat(this._defaultPaperSizeList),
@@ -3097,6 +3137,7 @@ define([], function () {
                 menuStyle   : 'min-width: 134px;',
                 editable    : false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: Asc.c_oAscPageOrientation.PagePortrait, displayValue: this.txtPortrait },
@@ -3121,6 +3162,7 @@ define([], function () {
                 menuStyle   : 'min-width: 248px;',
                 editable    : false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 0, displayValue: this.txtActualSize },
@@ -3190,6 +3232,7 @@ define([], function () {
                 menuStyle: 'max-height: 280px; min-width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
                 cls: 'input-group-nr',
                 data: [
                     { value: 0, displayValue: this.txtMarginsNormal, size: [19.1, 17.8, 19.1, 17.8]},
@@ -3462,18 +3505,13 @@ define([], function () {
             });
             var newSelectedOption = null;
 
-            function findOptionBySize(list, width, height) {
-                return _.find(list, function(option) {
-                    return Math.abs(option.size[0] - width) < 0.1 && Math.abs(option.size[1] - height) < 0.1;
-                });
-            }
-
             // If a previously selected option exists, search for a matching one in resultList
             if (prevSelectedOption) {
-                newSelectedOption = findOptionBySize(
-                    resultList, 
-                    Math.round(prevSelectedOption.get('size')[0]), 
-                    Math.round(prevSelectedOption.get('size')[1])
+                newSelectedOption = Common.util.Print.findPaperSizeOptionBySize(
+                    resultList,
+                    prevSelectedOption.get('size')[0], 
+                    prevSelectedOption.get('size')[1],
+                    prevSelectedOption.get('caption')
                 );
             }
 
@@ -3486,14 +3524,19 @@ define([], function () {
                             parseFloat(Common.Utils.Metric.fnRecalcFromMM(prevSelectedOption.get('size')[0]).toFixed(2)),
                             parseFloat(Common.Utils.Metric.fnRecalcFromMM(prevSelectedOption.get('size')[1]).toFixed(2)),
                             Common.Utils.Metric.getCurrentMetricName()
-                        ]
+                        ],
+                        size: [prevSelectedOption.get('size')[0], prevSelectedOption.get('size')[1]]
                     }
                 } else {
-                    const _w = this._originalPageSize ? this._originalPageSize.w : 210,
-                        _h = this._originalPageSize ? this._originalPageSize.h : 297;
                     // If no matching option is found, look for the default size 210x297 (A4)
+                    const size = this._customPageSize || this._originalPageSize || {w: 210, h:297};
+                    const _w = size.w,
+                        _h = size.h;
                     if (!newSelectedOption) {
-                        newSelectedOption = findOptionBySize(resultList, _w, _h);
+                        // Try to resolve a name from the toolbar's default size list
+                        const toolbarView = SSE.getController('Toolbar').getView();
+                        const defaultSizes = toolbarView && toolbarView.btnPageSize && toolbarView.btnPageSize.menu.items;
+                        newSelectedOption = Common.util.Print.findPaperSizeOptionBySize(resultList, _w, _h, '', defaultSizes);
                     }
 
                     if (!newSelectedOption) {
@@ -3504,7 +3547,8 @@ define([], function () {
                                 parseFloat(Common.Utils.Metric.fnRecalcFromMM(_w).toFixed(2)),
                                 parseFloat(Common.Utils.Metric.fnRecalcFromMM(_h).toFixed(2)),
                                 Common.Utils.Metric.getCurrentMetricName()
-                            ]
+                            ],
+                            size: [_w, _h]
                         };
                     }
 
@@ -3522,6 +3566,12 @@ define([], function () {
                 this.cmbPaperSize.setValue(undefined, newSelectedOption.value);
             } else {
                 this.cmbPaperSize.setValue(newSelectedOption.value);
+            }
+
+            if(newSelectedOption && newSelectedOption.custom && newSelectedOption.size) {
+                this.setCustomPageSize(newSelectedOption.size[0], newSelectedOption.size[1]);
+            } else {
+                this._customPageSize = null;
             }
         },
 
@@ -3674,6 +3724,10 @@ define([], function () {
 
         setOriginalPageSize: function (w, h) {
             this._originalPageSize = {w: w, h: h};
+        },
+
+        setCustomPageSize: function (w, h) {
+            this._customPageSize = {w: w, h: h};
         },
 
         expandPrintTitles: function () {

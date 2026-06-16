@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 /**
@@ -109,6 +112,9 @@ define([
                         this.view.chStatusbar.setValue(!state, true);
                     }, this),
                     'pages:multiplechanged': _.bind(function (isMultiple) {
+                        this.api.zoomCustomMode();
+                        this.api.SetMultipageViewMode(isMultiple);
+                        Common.localStorage.setBool("de-zoom-multipage", isMultiple);
                         this.view.btnMultiplePages.toggle(isMultiple);
                     }, this)
                 },
@@ -168,7 +174,13 @@ define([
                         emptyGroup.shift().append(me.view.chLeftMenu.$el[0]);
                     }
 
-                    if (!config.isEdit || config.canBrandingExt && config.customization && config.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu')) {
+                    const rightmenuController = me.getApplication().getController('RightMenu');
+                    const rightmenuView = rightmenuController.getView('RightMenu');
+                    const isPdfWithButtons = config.isPDFForm && rightmenuView && rightmenuView.getVisibleButtons().length > 0;
+                    if (!config.isEdit && !isPdfWithButtons || 
+                        config.canBrandingExt && config.customization && config.customization.rightMenu === false || 
+                        !Common.UI.LayoutManager.isElementVisible('rightMenu')
+                    ) {
                         emptyGroup.push(me.view.chRightMenu.$el.closest('.elset'));
                         me.view.chRightMenu.$el.remove();
                     } else if (emptyGroup.length>0) {
@@ -283,13 +295,15 @@ define([
         },
 
         onDocumentReady: function() {
-            Common.Utils.lockControls(Common.enumLock.disableOnStart, false, {array: this.view.lockedControls});
+            if ( this.view )
+                Common.Utils.lockControls(Common.enumLock.disableOnStart, false, {array: this.view.lockedControls});
         },
 
         onMultiplePages: function (pressed) {
             if (this.api) {
                 this.api.zoomCustomMode();
                 this.api.SetMultipageViewMode(pressed);
+                Common.localStorage.setBool("de-zoom-multipage", pressed);
                 this.view.fireEvent('pages:multiplechanged', [pressed]);
             }
         },
@@ -374,11 +388,10 @@ define([
         },
 
         onClickMacros: function() {
-            var me = this;
-            var macrosWindow = new Common.Views.MacrosDialog({
-                api: this.api,
-            });
-            macrosWindow.show();
+            if ( typeof Common.Views.MacrosDialog == "function" )
+                (new Common.Views.MacrosDialog({
+                    api: this.api,
+                })).show();
         },
 
         onClickMacrosRec: function() {
@@ -414,19 +427,21 @@ define([
             }
         },
 
-        onChangeDarkMode: function (isdarkmode) {
+        onChangeDarkMode: function () {
             if (!this._darkModeTimer) {
                 var me = this;
                 me._darkModeTimer = setTimeout(function() {
                     me._darkModeTimer = undefined;
                 }, 500);
-                Common.UI.Themes.setContentTheme(isdarkmode?'dark':'light');
+                var isdarkmode = Common.UI.Themes.isContentThemeDark();
+                Common.UI.Themes.setContentTheme(isdarkmode ? 'light' : 'dark');
+                me.view.btnDarkDocument.setIconCls(isdarkmode ? 'toolbar__icon btn-day' : 'toolbar__icon btn-night');
             } else
                 this.onContentThemeChangedToDark(Common.UI.Themes.isContentThemeDark());
         },
 
         onContentThemeChangedToDark: function (isdark) {
-            this.view && this.view.btnDarkDocument.toggle(isdark, true);
+            this.view && this.view.btnDarkDocument.setIconCls(isdark ? 'toolbar__icon btn-night' : 'toolbar__icon btn-day', true);
         },
 
         onThemeChanged: function () {

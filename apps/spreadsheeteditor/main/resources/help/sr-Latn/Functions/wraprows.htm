@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>WRAPROWS funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+			<div class="search-field">
+				<input id="search" class="searchBar" placeholder="Pretraži" type="text" onkeypress="doSearch(event)">
+			</div>
+			<h1>WRAPROWS funkcija</h1>
+			<p>Funkcija <b>WRAPROWS</b> je jedna od <a href="../UsageInstructions/InsertFunction.htm#lookupreference" onclick="onhyperlinkclick(this)">funkcija za pretragu i reference</a>. Koristi se za raspoređivanje vektora reda ili kolone po redovima nakon određenog broja vrednosti.</p>
+			<h3>Sintaksa</h3>
+			<p><b><em>WRAPROWS(vector, wrap_count, [pad_with])</em></b></p>
+			<p>WRAPROWS funkcija ima sledeće argumente:</p>
+			<table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>vector</em></b></td>
+                    <td>Koristi se za određivanje vektora ili reference koja se raspoređuje.</td>
+                </tr>
+				<tr>
+                    <td><b><em>wrap_count</em></b></td>
+                    <td>Koristi se za određivanje maksimalnog broja vrednosti po redu.</td>
+                </tr>
+				<tr>
+                    <td><b><em>pad_with</em></b></td>
+                    <td>Koristi se za određivanje vrednosti kojom će se popunjavati. Podrazumevano je #N/A.</td>
+                </tr>
+            </table>
+            <h3>Napomene</h3>
+			<p>Napomena: ovo je formula niza. Za više informacija, pročitajte članak <a href="../UsageInstructions/InsertArrayFormulas.htm" onclick="onhyperlinkclick(this)">Umetanje formula niza</a>.</p>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> WRAPROWS funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Na slici ispod prikazan je rezultat koji vraća WRAPROWS funkcija. Ona raspoređuje red u opsegu A1:F1 u niz u opsegu A3:C5 po redovima.</p>
+			<p><img alt="WRAPROWS funkcija" src="../images/wraprows.png" /></p>
+		</div>
+	</body>
+</html>

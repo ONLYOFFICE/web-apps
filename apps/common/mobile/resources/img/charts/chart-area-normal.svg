@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64">
+  <g class="chart-area-normal">
+    <path fill="#555" d="m23 40 8 10 29-30v40H4l19-20Z" class="icon-fill-type-preview"/>
+    <path fill="#555" d="M33 36h11.533L31 50l-8-10L3.999 60 23 22l10 14Z" class="icon-fill-type-preview" opacity=".4"/>
+  </g>
+</svg>

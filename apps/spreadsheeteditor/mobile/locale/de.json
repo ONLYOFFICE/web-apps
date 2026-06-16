@@ -221,6 +221,7 @@
       "textNo": "Nein",
       "textNoChoices": "Es gibt keine Möglichkeit zum Füllung der Zelle.<br>Nur die Textwerte aus der Spalte kann für den Ersatz gewählt werden. ",
       "textNoLicenseTitle": "Lizenzlimit erreicht",
+      "textNoResourcesTitle": "Nicht genügend Ressourcen",
       "textNoMatches": "Keine Treffer",
       "textOk": "OK",
       "textPaidFeature": "Kostenpflichtige Funktion",
@@ -244,6 +245,7 @@
       "warnLicenseLimitedNoAccess": "Lizenz abgelaufen. Keine Bearbeitung möglich. Bitte wenden Sie sich an Administratoren.",
       "warnLicenseLimitedRenewed": "Die Lizenz soll aktualisiert werden. Die Bearbeitungsfunktionen sind eingeschränkt.<br>Bitte wenden Sie sich an Ihrem Administrator für vollen Zugriff",
       "warnNoLicense": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
+      "warnNoResources": "Der %1-Server verfügt nicht über genügend Ressourcen, um dieses Dokument zur Bearbeitung zu öffnen. Das Dokument wird nur zur Ansicht geöffnet.",
       "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
       "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."
     }
@@ -293,11 +295,13 @@
     "errorEditingDownloadas": "Fehler bei der Arbeit an diesem Dokument.<br>Laden Sie die Datei herunter, um sie lokal zu speichern.",
     "errorEditView": "Die aktuelle Tabellenansicht kann nicht editiert werden und die neuen können nicht erstellt werden, weil manche Ansichten derzeitig bearbeitet werden.",
     "errorEmailClient": "Kein E-Mail Program verfügbar",
+    "errorFileNotAssembled": "Diese Datei wurde aus einer Server-Sicherungskopie geöffnet und nicht lokal gespeichert.<br>Verwenden Sie die 'Option Speichern als…', um sie auf einem Laufwerk zu speichern.",
     "errorFilePassProtect": "Die Datei ist mit Passwort geschützt und kann nicht geöffnet werden.",
     "errorFileRequest": "Externer Fehler.<br>Fehler bei der Dateianfrage. Bitte wenden Sie sich an den Support.",
     "errorFileSizeExceed": "Die Dateigröße ist zu hoch für Ihren Server.<br>Bitte wenden Sie sich an Administratoren.",
     "errorFileVKey": "Externer Fehler.<br>Ungültiger Sicherheitsschlüssel. Bitte wenden Sie sich an den Support.",
     "errorFillRange": "Der gewählte Zellbereich kann nicht ausgefüllt werden.<br>Alle verbundenen Zellen müssen die gleiche Größe haben.",
+    "errorForcedViewMode": "Diese Datei ist im Ansichtsmodus geöffnet.<br>Die Datei ist für die Bearbeitung gesperrt oder Ihre Zugriffsrechte erlauben keine Bearbeitung.",
     "errorForceSave": "Beim Speichern der Datei ist ein Fehler aufgetreten. Bitte verwenden Sie die Option „Herunterladen als“, um die Datei auf der Festplatte Ihres Computers zu speichern, oder versuchen Sie es später erneut.",
     "errorFormulaInPivotFieldName": "Es kann keine Formel für ein Element oder einen Feldnamen in einem Pivot-Tabellenbericht eingegeben werden.",
     "errorFormulaName": "Die Formel enthält einen Fehler.<br>Falscher Formelname.",
@@ -386,6 +390,7 @@
     "advDRMPassword": "Passwort",
     "applyChangesTextText": "Daten werden geladen...",
     "applyChangesTitleText": "Daten werden geladen",
+    "changesSaved": "Alle Änderungen gespeichert",
     "confirmMaxChangesSize": "Die Anzahl der Aktionen überschreitet die für Ihren Server festgelegte Grenze.<br>Drücken Sie \"Rückgängig\", um Ihre letzte Aktion abzubrechen, oder drücken Sie \"Weiter\", um die Aktion lokal fortzusetzen (Sie müssen die Datei herunterladen oder ihren Inhalt kopieren, um sicherzustellen, dass nichts verloren geht).",
     "confirmMoveCellRange": "Der Zielzellenbereich kann Daten enthalten. Möchten Sie fortsetzen?",
     "confirmPutMergeRange": "Die Quelldaten enthalten verbundene Zellen. <br> Vor dem Einfügen dieser Zellen in die Tabelle, wird die Zusammenführung aufgehoben. ",
@@ -450,6 +455,7 @@
     "textSheetName": "Blattname",
     "textTabColor": "Registerfarbe",
     "textUnhide": "Einblenden",
+    "textUnhideSheets": "Blätter einblenden",
     "textWarnDeleteSheet": "Das Arbeitsblatt kann Daten enthalten. Möchten Sie fortsetzen?",
     "warnAddSheetCsv": "Das CSV-Format unterstützt das Speichern einer Datei mit mehreren Blättern nicht. Nur das aktive Blatt wird gespeichert. Um alle Blätter zu behalten, speichern Sie die Datei bitte in einem anderen Format."
   },
@@ -753,6 +759,7 @@
       "textApplication": "App",
       "textApplicationSettings": "Anwendungseinstellungen",
       "textAuthor": "Verfasser",
+      "textAutoSaveDocument": "Automatisches Speichern",
       "textBack": "Zurück",
       "textBottom": "Unten",
       "textByColumns": "Nach Spalten",
@@ -771,6 +778,7 @@
       "textCreated": "Erstellt",
       "textCustomSize": "Benutzerdefinierte Größe",
       "textDark": "Dunkel",
+      "textDarkDocument": "Dunkles Dokument",
       "textDarkTheme": "Dunkelmodus",
       "textDelimeter": "Trennzeichen",
       "textDirection": "Richtung",
@@ -812,6 +820,7 @@
       "textNoMatches": "Keine Treffer",
       "textOk": "OK",
       "textOpenFile": "Kennwort zum Öffnen der Datei eingeben",
+      "textOpenLocation": "Ordner öffnen",
       "textOrientation": "Orientierung",
       "textOwner": "Besitzer",
       "textPoint": "Punkt",
@@ -827,6 +836,7 @@
       "textRight": "Rechts",
       "textRightToLeft": "Von rechts nach links",
       "textSameAsSystem": "Wie im System",
+      "textSaveDocument": "Speichern",
       "textSearch": "Suche",
       "textSearchBy": "Suche",
       "textSearchIn": "Suchen in",
@@ -897,8 +907,7 @@
       "txtZhtw": "Chinesisch (traditionell)",
       "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
       "warnDownloadCsv": "Das CSV-Format unterstützt nicht das Speichern einer Datei mit mehreren Blättern und allen Elementen außer Text.<br>Um nur das aktive Blatt als CSV zu speichern, drücken Sie OK.<br>Um die gesamte Tabelle und alle Funktionen zu speichern, klicken Sie auf Abbrechen und wählen Sie ein anderes Format aus.",
-      "warnDownloadOds": "Das Speichern dieser Datei kann aufgrund eingeschränkter Formatunterstützung zum Verlust einiger Formeln, Zellformatierungen oder eingebetteter Objekte führen.<br>Möchten Sie fortfahren?",
-      "textOpenLocation": "Open location"
+      "warnDownloadOds": "Das Speichern dieser Datei kann aufgrund eingeschränkter Formatunterstützung zum Verlust einiger Formeln, Zellformatierungen oder eingebetteter Objekte führen.<br>Möchten Sie fortfahren?"
     }
   }
 }

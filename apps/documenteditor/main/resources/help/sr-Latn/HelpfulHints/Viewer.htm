@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ONLYOFFICE Pregledač dokumenata</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Opis navigacionih alata u ONLYOFFICE Pregledaču dokumenata" />
+    <link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>ONLYOFFICE Pregledač dokumenata</h1>
+        <p>Možete koristiti <b>ONLYOFFICE Pregledač dokumenata</b> za otvaranje i navigaciju kroz PDF, XPS i DjVu fajlove.</p>
+        <p><b>ONLYOFFICE Pregledač dokumenata</b> omogućava:</p>
+        <ul>
+            <li>pregled PDF, XPS i DjVu fajlova,</li>
+            <li>dodavanje anotacija korišćenjem chat alata,</li>
+            <li>navigaciju kroz fajlove pomoću panela za navigaciju sadržaja i sličica stranica,</li>
+            <li>korišćenje alata za selektovanje i ruku,</li>
+            <li>štampanje i preuzimanje fajlova,</li>
+            <li>korišćenje unutrašnjih i spoljašnjih linkova,</li>
+            <li>
+                pristup naprednim podešavanjima editora i pregled sledećih informacija o dokumentu preko kartica <b>Fajl</b> i <b>Prikaz</b>:
+                <ul>
+                    <li class="onlineDocumentFeatures"><b>Lokacija</b> (dostupno samo u <em>online verziji</em>) - folder u <b>Documents</b> modulu gde je fajl smešten.</li>
+                    <li class="onlineDocumentFeatures"><b>Vlasnik</b> (dostupno samo u <em>online verziji</em>) - ime korisnika koji je kreirao fajl.</li>
+                    <li class="onlineDocumentFeatures"><b>Postavljeno</b> (dostupno samo u <em>online verziji</em>) - datum i vreme kada je fajl postavljen na portal.</li>
+                    <li><b>Statistika</b> - broj stranica, pasusa, reči, simbola, simbola sa razmacima.</li>
+                    <li><b>Veličina stranice</b> - dimenzije stranica u fajlu.</li>
+                    <li><b>Poslednja izmena</b> - datum i vreme poslednje izmene dokumenta.</li>
+                    <li><b>Kreirano</b> - datum i vreme kreiranja dokumenta.</li>
+                    <li><b>Aplikacija</b> - aplikacija kojom je dokument kreiran.</li>
+                    <li><b>Autor</b> - osoba koja je kreirala dokument.</li>
+                    <li><b>PDF proizvođač</b> - aplikacija korišćena za konvertovanje dokumenta u PDF.</li>
+                    <li><b>PDF verzija</b> - verzija PDF fajla.</li>
+                    <li><b>Označeni PDF</b> - pokazuje da li PDF fajl sadrži oznake.</li>
+                    <li><b>Fast Web View</b> - pokazuje da li je Fast Web View omogućen za dokument.</li>
+                </ul>
+            </li>
+            <li>Korišćenje dodataka (plugins):
+                <ul>
+                    <li>Dostupni u desktop verziji: <b>Translator</b>, <b>Send</b>, <b>Thesaurus</b>.</li>
+                    <li>Dostupni u online verziji: <b>Controls example</b>, <b>Get and paste html</b>, <b>Telegram</b>, <b>Typograf</b>, <b>Count word</b>, <b>Speech</b>, <b>Thesaurus</b>, <b>Translator</b>.</li>
+                </ul>
+            </li>
+        </ul>
+        <p><b>ONLYOFFICE Pregledač dokumenata</b> interfejs:</p>
+        <p><img alt="ONLYOFFICE Pregledač dokumenata" src="../images/pdfviewer.png" /></p>
+        <ol>
+            <li>
+                <b>Gornja alatna traka</b> omogućava pristup <a href="../ProgramInterface/FileTab.htm" onclick="onhyperlinkclick(this)">Fajl</a>, <a href="../ProgramInterface/ViewTab.htm" onclick="onhyperlinkclick(this)">Prikaz</a> i <a href="../ProgramInterface/PluginsTab.htm" onclick="onhyperlinkclick(this)">Dodaci</a> karticama, kao i sledećim ikonama:
+                <p><span class="icon icon-print"></span> <b>Štampaj</b> omogućava štampanje fajla;</p>
+                <p><span class="icon icon-downloadicon"></span> <b>Preuzmi</b> omogućava preuzimanje fajla na računar;</p>
+                <p><span class="icon icon-access_rights"></span> <b>Deljenje</b> (dostupno u <em>online verziji</em>) omogućava upravljanje korisnicima koji imaju pristup fajlu: pozivanje novih korisnika sa pravima uređivanja, čitanja, komentarisanja, popunjavanja obrazaca ili pregleda dokumenta, ili ograničavanje pristupa.</p>
+                <p><span class="icon icon-gotodocuments"></span> <b>Otvori lokaciju fajla</b> u <em>desktop verziji</em> otvara folder gde je fajl smešten u <b>File explorer</b>. U <em>online verziji</em> otvara folder u <b>Documents</b> modulu u novoj kartici pregledača;</p>
+                <p><span class="icon icon-favorites_icon"></span> <b>Označi kao omiljeno / Ukloni iz omiljenih</b> (dostupno u <em>online verziji</em>) klikom na praznu zvezdu dodajete fajl u omiljene radi lakšeg pronalaženja, ili klikom na popunjenu zvezdu uklanjate fajl iz omiljenih. Fajl ostaje na originalnoj lokaciji;</p>
+                <p><span class="icon icon-usericon"></span> <b>Korisnik</b> prikazuje ime korisnika kada pređete mišem preko ikone.</p>
+                <p><span class="icon icon-search_icon_header"></span> <b>Pretraga</b> omogućava pretragu dokumenta po rečima ili simbolima.</p>
+            </li>
+            <li><b>Status bar</b> na dnu <b>ONLYOFFICE Pregledača dokumenata</b> prikazuje broj stranica i statusne poruke. Sadrži sledeće alate:
+                <p><span class="icon icon-selectiontool"></span> <b>Selektovanje</b> omogućava selektovanje teksta u fajlu.</p>
+                <p><span class="icon icon-handtool"></span> <b>Ruka</b> omogućava pomeranje i skrolovanje stranica.</p>
+                <p><span class="icon icon-fitpage"></span> <b>Prilagodi stranici</b> menja veličinu stranice tako da cela bude vidljiva na ekranu.</p>
+                <p><span class="icon icon-fitwidth"></span> <b>Prilagodi širini</b> menja veličinu stranice tako da se uklopi u širinu ekrana.</p>
+                <p><img alt="Zoom" src="../images/zoomadjusting.png" /> <a href="../HelpfulHints/Navigation.htm#navigationtools" onclick="onhyperlinkclick(this)"><b>Zumiranje</b></a> omogućava uvećavanje i smanjivanje stranice.</p>
+            </li>
+            <li>
+                <b>Levi panel</b> sadrži sledeće ikone:
+                <ul>
+                    <li><div class="icon icon-searchicon"></div> - omogućava korišćenje <a href="../HelpfulHints/Search.htm" onclick="onhyperlinkclick(this)">Alata za pretragu i zamenu</a>,</li>
+                    <li class="onlineDocumentFeatures"><div class="icon icon-chaticon"></div> - (dostupno u <em>online verziji</em>) otvara <a href="../HelpfulHints/Communicating.htm" onclick="onhyperlinkclick(this)">Chat</a> panel,</li>
+                    <li>
+                        <div class="icon icon-navigationicon"></div> - otvara panel <b>Naslovi</b> sa listom svih naslova i njihovim nivoima. Klikom na naslov prelazite direktno na određenu stranicu.
+                        <p><img alt="NavigationPanel" src="../images/navigationpanel_viewer.png" /></p>
+                        <p>Klikom na ikonu <b>Podešavanja</b> desno od panela <b>Naslovi</b> birate opcije:</p>
+                        <ul>
+                            <li><b>Proširi sve</b> - proširuje sve nivoe naslova u panelu.</li>
+                            <li><b>Sakrij sve</b> - skuplja sve nivoe naslova osim <em>nivo 1</em>.</li>
+                            <li><b>Proširi do nivoa</b> - proširuje strukturu naslova do izabranog nivoa.</li>
+                            <li><b>Veličina fonta</b> – podešava veličinu fonta teksta u panelu <b>Naslovi</b> sa preset opcijama: <em>Mali</em>, <em>Srednji</em>, <em>Veliki</em>.</li>
+                            <li><b>Prelomi dugačke naslove</b> – prelama dugačke naslove.</li>
+                        </ul>
+                        <p>Za ručno proširivanje ili skupljanje pojedinačnih nivoa, koristite strelice levo od naslova.</p>
+                        <p>Za zatvaranje panela <b>Naslovi</b>, kliknite ponovo na ikonu <span class="icon icon-navigationicon"></span> <b>Naslovi</b> u levom panelu.</p>
+                    </li>
+                    <li>
+                        <div class="icon icon-pagethumbnails"></div> - prikazuje sličice stranica za brzu navigaciju. Klikom na <div class="icon icon-search_options"></div> u panelu <b>Sličice stranica</b> pristupate <b>Podešavanjima sličica</b>:
+                        <p><img alt="Podešavanja sličica stranica" src="../images/pagethumbnails_settings.png" /></p>
+                        <ul>
+                            <li>Pomerite klizač da odaberete veličinu sličica,</li>
+                            <li><b>Istakni vidljivi deo stranice</b> je aktivno po defaultu da označi deo stranice trenutno prikazan na ekranu. Klikom se isključuje.</li>
+                        </ul>
+                        <p>Za zatvaranje panela <b>Sličice stranica</b>, kliknite ponovo na ikonu <span class="icon icon-pagethumbnails"></span> <b>Sličice stranica</b> u levom panelu.</p>
+                    </li>
+                    <li><div class="icon icon-feedbackicon"></div> - omogućava kontakt sa podrškom,</li>
+                    <li class="onlineDocumentFeatures"><div class="icon icon-abouticon"></div> - (dostupno u <em>online verziji</em>) prikazuje informacije o programu.</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+</body>
+</html>

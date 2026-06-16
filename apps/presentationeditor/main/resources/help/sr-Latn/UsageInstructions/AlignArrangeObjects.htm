@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Poravnaj i rasporedi objekte na slajdu</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Poravnajte i rasporedite tekstualna polja, automatske oblike, slike i grafikone na slajdu." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Poravnaj i rasporedi objekte na slajdu</h1>
+            <p>U <a target="_blank" href="https://www.onlyoffice.com/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>Uređivaču prezentacija</b></a>, dodati <b>automatski oblici, slike, grafikoni</b> ili <b>tekstualna polja</b> mogu se poravnati, grupisati, rasporediti po slojevima, kao i ravnomerno raspodeliti horizontalno i vertikalno na slajdu. Da biste izvršili bilo koju od ovih radnji, prvo izaberite pojedinačni objekat ili više objekata u oblasti za uređivanje slajda. Da biste izabrali više objekata, držite pritisnut taster <b>Ctrl</b> i kliknite levim tasterom miša na potrebne objekte. Da biste izabrali tekstualno polje, kliknite na njegov okvir, a ne na tekst unutar njega. Nakon toga možete koristiti ikone na kartici <b>Početna</b> gornje trake sa alatkama opisane u nastavku ili odgovarajuće opcije iz kontekstnog menija.</p>
+
+            <h3>Poravnanje objekata</h3>
+            <p>Da biste <b>poravnali</b> <em>dva ili više</em> izabranih objekata, </p>
+            <ol>
+                <li>
+                    Kliknite na ikonu <b>Poravnaj oblik</b> <div class="icon icon-alignshape"></div> na kartici <b>Početna</b> gornje trake sa alatkama i izaberite jednu od sledećih opcija:
+                    <ul>
+                        <li><b>Poravnaj sa slajdom</b> da biste poravnali objekte u odnosu na ivice slajda,</li>
+                        <li><b>Poravnaj izabrane objekte</b> (ova opcija je izabrana podrazumevano) da biste poravnali objekte međusobno,</li>
+                    </ul>
+                </li>
+                <li>
+                    Ponovo kliknite na ikonu <b>Poravnaj oblik</b> <div class="icon icon-alignshape"></div> i izaberite potreban tip poravnanja sa liste:
+                    <ul>
+                        <li><b>Poravnaj levo</b> <div class="icon icon-alignobjectleft"></div> - za horizontalno poravnanje objekata uz levu stranu krajnje levog objekta/levu ivicu slajda,</li>
+                        <li><b>Poravnaj centar</b> <div class="icon icon-alignobjectcenter"></div> - za horizontalno poravnanje objekata po sredini/centru slajda,</li>
+                        <li><b>Poravnaj desno</b> <div class="icon icon-alignobjectright"></div> - za horizontalno poravnanje objekata uz desnu stranu krajnje desnog objekta/desnu ivicu slajda,</li>
+                        <li><b>Poravnaj gore</b> <div class="icon icon-alignobjecttop"></div> - za vertikalno poravnanje objekata uz gornju ivicu najvišeg objekta/gornju ivicu slajda,</li>
+                        <li><b>Poravnaj sredinu</b> <div class="icon icon-alignobjectmiddle"></div> - za vertikalno poravnanje objekata po sredini/sredini slajda,</li>
+                        <li><b>Poravnaj dole</b> <div class="icon icon-alignobjectbottom"></div>  - za vertikalno poravnanje objekata uz donju ivicu najnižeg objekta/donju ivicu slajda.</li>
+                    </ul>
+                </li>
+            </ol>
+            <p>Alternativno, možete kliknuti desnim tasterom miša na izabrane objekte, izabrati opciju <b>Poravnaj</b> iz kontekstnog menija, a zatim koristiti jednu od dostupnih opcija poravnanja.</p>
+            <p>Ako želite da poravnate jedan objekat, on se može poravnati u odnosu na ivice slajda. U tom slučaju je opcija <b>Poravnaj sa slajdom</b> izabrana podrazumevano.</p>
+            <h3>Ravnomerna raspodela objekata</h3>
+            <p>Da biste <b>ravnomerno raspodelili</b> <em>tri ili više</em> izabranih objekata horizontalno ili vertikalno tako da se između njih pojavi jednako rastojanje, </p>
+            <ol>
+                <li>
+                    Kliknite na ikonu <b>Poravnaj</b> <div class="icon icon-alignshape"></div> na kartici <b>Početna</b> gornje trake sa alatkama i izaberite jednu od sledećih opcija:
+                    <ul>
+                        <li><b>Poravnaj sa slajdom</b> da biste rasporedili objekte između ivica slajda,</li>
+                        <li><b>Poravnaj izabrane objekte</b> (ova opcija je izabrana podrazumevano) da biste rasporedili objekte između dva krajnja izabrana objekta,</li>
+                    </ul>
+                </li>
+                <li>
+                    Ponovo kliknite na ikonu <b>Poravnaj oblik</b> <div class="icon icon-alignshape"></div> i izaberite potreban tip raspodele sa liste:
+                    <ul>
+                        <li><b>Ravnomerno rasporedi horizontalno</b> <div class="icon icon-distributehorizontally"></div> - za ravnomerno raspoređivanje objekata između krajnje levog i krajnje desnog izabranog objekta/leve i desne ivice slajda.</li>
+                        <li><b>Ravnomerno rasporedi vertikalno</b> <div class="icon icon-distributevertically"></div> - za ravnomerno raspoređivanje objekata između najvišeg i najnižeg izabranog objekta/gornje i donje ivice slajda.</li>
+                    </ul>
+                </li>
+            </ol>
+            <p>Alternativno, možete kliknuti desnim tasterom miša na izabrane objekte, izabrati opciju <b>Poravnaj</b> iz kontekstnog menija, a zatim koristiti jednu od dostupnih opcija raspodele.</p>
+            <p class="note"><b>Napomena</b>: opcije raspodele su onemogućene ako izaberete manje od tri objekta.</p>
+
+            <h3>Grupisanje objekata</h3>
+            <p>Da biste <b>grupisali</b> <em>dva ili više</em> izabranih objekata ili ih <b>razgrupisali</b>, kliknite na ikonu <b>Rasporedi oblik</b> <span class="icon icon-arrangeshape"></span> na kartici <b>Početna</b> gornje trake sa alatkama i izaberite potrebnu opciju sa liste:</p>
+            <ul>
+                <li><b>Grupiši</b> <div class="icon icon-group"></div> - za objedinjavanje više objekata u jednu grupu kako bi se mogli istovremeno rotirati, pomerati, menjati veličinu, poravnavati, raspoređivati, kopirati, lepiti i formatirati kao jedan objekat.</li>
+                <li><b>Razgrupiši</b> <div class="icon icon-ungroup"></div> - za razgrupisavanje izabrane grupe prethodno spojenih objekata.</li>
+            </ul>
+            <p>Alternativno, možete kliknuti desnim tasterom miša na izabrane objekte, izabrati opciju <b>Rasporedi</b> iz kontekstnog menija, a zatim koristiti opciju <b>Grupiši</b> ili <b>Razgrupiši</b>.</p>
+            <p class="note"><b>Napomena</b>: opcija <b>Grupiši</b> je onemogućena ako izaberete manje od dva objekta. Opcija <b>Razgrupiši</b> je dostupna samo kada je izabrana grupa prethodno spojenih objekata.</p>
+            <h3>Raspoređivanje objekata</h3>
+            <p>Da biste <b>rasporedili</b> izabrani objekat(e) (tj. promenili njihov redosled kada se više objekata preklapa), kliknite na ikonu <b>Rasporedi oblik</b> <span class="icon icon-arrangeshape"></span> na kartici <b>Početna</b> gornje trake sa alatkama i izaberite potreban tip raspoređivanja sa liste.</p>
+            <ul>
+                <li><b>Premesti u prvi plan</b> <div class="icon icon-bringtofront"></div> - za pomeranje objekta(ata) ispred svih ostalih objekata,</li>
+                <li><b>Premesti u pozadinu</b> <div class="icon icon-sendtoback"></div> - za pomeranje objekta(ata) iza svih ostalih objekata,</li>
+                <li><b>Pomeri napred</b> <div class="icon icon-bringforward"></div> - za pomeranje izabranog objekta(ata) jedan nivo unapred u odnosu na ostale objekte.</li>
+                <li><b>Pomeri nazad</b> <div class="icon icon-sendbackward"></div> - za pomeranje izabranog objekta(ata) jedan nivo unazad u odnosu na ostale objekte.</li>
+            </ul>
+            <p>Alternativno, možete kliknuti desnim tasterom miša na izabrani objekat(e), izabrati opciju <b>Rasporedi</b> iz kontekstnog menija, a zatim koristiti jednu od dostupnih opcija raspoređivanja.</p>
+            <h3 id="boolean">Booleove operacije nad oblicima</h3>
+            <p>Da biste pristupili logičkim operacijama nad oblicima, izaberite stavku <b>Spoji oblike</b> u kontekstnom meniju. Booleove operacije uključuju sledeće:</p>
+            <ul>
+                <li><b>Unija</b> - oblici će biti spojeni u jednu grupu i deliće jednu oblast.</li>
+                <li><b>Kombinuj</b> - oblici će biti spojeni u jednu grupu, ali će zajednička oblast biti istaknuta.</li>
+                <li><b>Fragmentiraj</b> - oblici će biti spojeni u jednu grupu, ali će zajednička oblast biti oivičena.</li>
+                <li><b>Presek</b> - kreira novi oblik od oblasti u kojima se izabrani oblici preklapaju.</li>
+                <li><b>Oduzmi</b> - uklanja oblast jednog oblika iz oblika koji se nalazi ispod njega.</li>
+            </ul>
+        </div>
+	</body>
+</html>

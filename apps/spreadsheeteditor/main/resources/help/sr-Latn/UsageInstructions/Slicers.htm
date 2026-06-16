@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Kreiranje segmentatora za tabele</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Kreirajte segmentatore za formatirane tabele i pivot tabele radi brzog filtriranja podataka." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Kreiranje segmentatora za tabele</h1>
+            <h3>Kreiranje novog segmentatora</h3>
+			<p>Nakon što kreirate novu <a href="FormattedTables.htm" onclick="onhyperlinkclick(this)">formatiranu tabelu</a> u <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor</b></a>-u ili <a href="PivotTables.htm" onclick="onhyperlinkclick(this)">pivot tabelu</a>, možete kreirati segmentatore za brzo filtriranje podataka. Da biste to uradili,</p>
+			<ol>
+				<li>izaberite najmanje jednu ćeliju unutar tabele pomoću miša i kliknite na ikonu <b>Table settings</b> <div class = "icon icon-table_settings_icon"></div> sa desne strane.</li>
+				<li>kliknite na opciju <div class = "icon icon-insertslicer"></div> <b>Insert slicer</b> na kartici <b>Table settings</b> na desnoj bočnoj traci. Alternativno, možete preći na karticu <b>Insert</b> na gornjoj alatnoj traci i kliknuti na dugme <div class = "icon icon-slicer_icon"></div> <b>Slicer</b>. Otvoriće se prozor <b>Insert Slicers</b>:
+                <p><img alt="Insert Slicers" src="../images/insertslicer_window.png" /></p>
+                </li>
+				<li>označite potrebne kolone u prozoru <b>Insert Slicers</b>.</li>
+				<li>kliknite na dugme <b>OK</b>.</li>
+			</ol>
+            <p>Segmentator će biti dodat za svaku izabranu kolonu. Ako dodate više segmentatora, oni će se preklapati. Nakon što je segmentator dodat, možete <a href="ManipulateObjects.htm" onclick="onhyperlinkclick(this)">promeniti njegovu veličinu i poziciju</a>, kao i njegova podešavanja.</p>
+            <p><img alt="Slicer" src="../images/slicer.png" /></p>
+            <p>Segmentator sadrži dugmad na koja možete kliknuti da biste filtrirali tabelu. Dugmad koja odgovaraju praznim ćelijama označena su oznakom <em>(blank)</em>. Kada kliknete dugme segmentatora, ostala dugmad će biti poništena, a odgovarajuća kolona u izvornoj tabeli biće filtrirana tako da prikazuje samo izabranu stavku:</p>
+            <p><img alt="Slicer" src="../images/slicer_filter.png" /></p>
+            <p>Ako ste dodali više segmentatora, promene napravljene u jednom segmentatoru mogu uticati na stavke u drugom segmentatoru. Kada se jedan ili više filtera primeni na segmentator, stavke bez podataka mogu se pojaviti u drugom segmentatoru (svetlije boje):</p>
+            <p><img alt="Slicer - items with no data" src="../images/slicer_nodata.png" /></p>
+            <p>Način prikaza stavki bez podataka možete podesiti u podešavanjima segmentatora.</p>
+            <p>Da biste izabrali više dugmadi segmentatora, koristite ikonu <span class = "icon icon-multiselect"></span> <b>Multi-Select</b> u gornjem desnom uglu segmentatora ili pritisnite <em>Alt+S</em>. Izaberite potrebna dugmad segmentatora klikom na njih jedno po jedno.</p>
+            <p>Da biste obrisali filter segmentatora, koristite ikonu <span class="icon icon-slicer_clearfilter"></span> <b>Clear Filter</b> u gornjem desnom uglu segmentatora ili pritisnite <em>Alt+C</em>.</p>
+            
+            <h3>Uređivanje segmentatora</h3>
+            <p>Neka podešavanja segmentatora mogu se promeniti pomoću kartice <b>Slicer settings</b> na desnoj bočnoj traci, koja će se otvoriti kada izaberete segmentator pomoću miša.</p>
+            <p>Možete sakriti ili prikazati ovu karticu klikom na ikonu <span class="icon icon-slicer_settings"></span> sa desne strane.</p>
+            <p><img alt="Slicer settings tab" src="../images/right_slicer.png" /></p>
+            <h4>Promena veličine i pozicije segmentatora</h4>
+            <p>Opcije <b>Width</b> i <b>Height</b> omogućavaju promenu širine i/ili visine segmentatora. Ako je dugme <b>Constant proportions</b> <span class="icon icon-constantproportions"></span> aktivirano (u tom slučaju izgleda ovako <span class="icon icon-constantproportionsactivated"></span>), širina i visina će se menjati zajedno uz zadržavanje originalnog odnosa stranica segmentatora.</p>
+            <p>Odeljak <b>Position</b> omogućava promenu <b>Horizontal</b> i/ili <b>Vertical</b> pozicije segmentatora.</p>
+            <p>Opcija <b>Disable resizing or moving</b> omogućava da sprečite pomeranje ili promenu veličine segmentatora. Kada je ova opcija označena, opcije <b>Width</b>, <b>Height</b>, <b>Position</b> i <b>Buttons</b> su onemogućene.</p>            
+            <h4>Promena rasporeda i stila segmentatora</h4>
+            <p>Odeljak <b>Buttons</b> omogućava da odredite potreban broj <b>Columns</b> i da podesite <b>Width</b> i <b>Height</b> dugmadi. Podrazumevano, segmentator sadrži jednu kolonu. Ako vaše stavke sadrže kratak tekst, možete promeniti broj kolona na 2 ili više:</p>
+            <p><img alt="Slicer - two columns" src="../images/slicer_columns.png" /></p>
+            <p>Ako povećate širinu dugmeta, širina segmentatora će se proporcionalno promeniti. Ako povećate visinu dugmeta, na segmentator će biti dodat klizač:</p>
+            <p><img alt="Slicer - scroll bar" src="../images/slicer_scroll.png" /></p>
+            <p>Odeljak <b>Style</b> omogućava izbor jednog od unapred definisanih stilova segmentatora.</p>
+                        
+            <h4>Primena parametara sortiranja i filtriranja</h4>
+            <ul>
+                <li><b>Ascending (A to Z)</b> koristi se za sortiranje podataka rastućim redosledom – od A do Z abecedno ili od najmanjeg ka najvećem broju za numeričke podatke.</li>
+                <li><b>Descending (Z to A)</b> koristi se za sortiranje podataka opadajućim redosledom – od Z do A abecedno ili od najvećeg ka najmanjem broju za numeričke podatke.</li>
+            </ul>
+            <p>Opcija <b>Hide items with no data</b> omogućava sakrivanje stavki bez podataka iz segmentatora. Kada je ova opcija označena, opcije <b>Visually indicate items with no data</b> i <b>Show items with no data last</b> su onemogućene.</p>
+            <p>Kada opcija <b>Hide items with no data</b> nije označena, možete koristiti sledeće opcije:</p>
+            <ul>
+                <li>Opcija <b>Visually indicate items with no data</b> omogućava prikaz stavki bez podataka uz drugačije formatiranje (svetlija boja).</li>
+                <li>Opcija <b>Show items with no data last</b> omogućava prikaz stavki bez podataka na kraju liste.</li>
+            </ul>
+                        
+            <h3>Podešavanje naprednih podešavanja segmentatora</h3>
+            <p>Da biste promenili napredna svojstva segmentatora, koristite link <b>Show advanced settings</b> na desnoj bočnoj traci. Otvoriće se prozor „Slicer - Advanced Settings“:</p>
+            <p><img alt="Slicer - Advanced Settings" src="../images/slicer_properties.png" /></p>
+            <p>Kartica <b>Style &amp; Size</b> sadrži sledeće parametre:</p>
+            <ul>
+                <li>Opcija <b>Header</b> omogućava promenu zaglavlja segmentatora. Poništite opciju <b>Display header</b> ako ne želite da se zaglavlje segmentatora prikazuje.</li>
+                <li>Odeljak <b>Style</b> omogućava izbor jednog od unapred definisanih stilova segmentatora.</li>
+                <li>Opcije <b>Width</b> i <b>Height</b> omogućavaju promenu širine i/ili visine segmentatora. Ako je dugme <b>Constant proportions</b> <div class = "icon icon-constantproportions"></div> aktivirano (u tom slučaju izgleda ovako <div class = "icon icon-constantproportionsactivated"></div>), širina i visina će se menjati zajedno uz zadržavanje originalnog odnosa stranica segmentatora.</li>
+                <li>Odeljak <b>Buttons</b> omogućava da odredite potreban broj <b>Columns</b> i da podesite <b>Height</b> dugmadi.</li>
+            </ul>
+            <p><img alt="Slicer - Advanced Settings" src="../images/slicer_properties2.png" /></p>
+            <p>Kartica <b>Sorting &amp; Filtering</b> sadrži sledeće parametre:</p>
+            <ul>
+                <li><b>Ascending (A to Z)</b> koristi se za sortiranje podataka rastućim redosledom.</li>
+                <li><b>Descending (Z to A)</b> koristi se za sortiranje podataka opadajućim redosledom.</li>
+            </ul>
+            <p>Opcija <b>Hide items with no data</b> omogućava sakrivanje stavki bez podataka iz segmentatora. Kada je ova opcija označena, opcije <b>Visually indicate items with no data</b> i <b>Show items with no data last</b> su onemogućene.</p>
+            <p>Kada opcija <b>Hide items with no data</b> nije označena, možete koristiti sledeće opcije:</p>
+            <ul>
+                <li>Opcija <b>Visually indicate items with no data</b> omogućava prikaz stavki bez podataka uz drugačije formatiranje.</li>
+                <li>Opcija <b>Show items with no data last</b> omogućava prikaz stavki bez podataka na kraju liste.</li>
+            </ul>
+            <p><img alt="Slicer - Advanced Settings" src="../images/slicer_properties3.png" /></p>
+            <p>Kartica <b>References</b> sadrži sledeće parametre:</p>
+            <ul>
+                <li>Opcija <b>Source name</b> omogućava prikaz naziva polja koji odgovara zaglavlju kolone iz izvornog skupa podataka.</li>
+                <li>Opcija <b>Name to use in formulas</b> omogućava prikaz naziva segmentatora koji se prikazuje u <a href="UseNamedRanges.htm" onclick="onhyperlinkclick(this)"><b>Name manager</b></a>-u.</li>
+                <li>Opcija <b>Name</b> omogućava postavljanje prilagođenog naziva segmentatora kako bi bio jasniji i smisleniji.</li>
+            </ul>
+            <p><img alt="Slicer - Advanced Settings" src="../images/slicer_properties4.png" /></p>
+            <p>Kartica <b>Cell Snapping</b> sadrži sledeće parametre:</p>
+            <ul>
+                <li><b>Move and size with cells</b> – omogućava da segmentator bude vezan za ćeliju iza njega. Ako se ćelija pomeri, segmentator će se pomeriti zajedno sa njom. Ako se promeni širina ili visina ćelije, promeniće se i veličina segmentatora.</li>
+                <li><b>Move but don't size with cells</b> – omogućava pomeranje segmentatora zajedno sa ćelijom, ali bez promene njegove veličine.</li>
+                <li><b>Don't move or size with cells</b> – sprečava pomeranje ili promenu veličine segmentatora kada se promeni pozicija ili veličina ćelije.</li>
+            </ul>
+            <p><img alt="Slicer - Advanced Settings" src="../images/slicer_properties5.png" /></p>
+            <p>Kartica <b>Alternative Text</b> omogućava definisanje <b>Title</b> i <b>Description</b> koji će biti pročitani osobama sa oštećenim vidom ili kognitivnim poteškoćama kako bi bolje razumele koje informacije segmentator sadrži.</p>
+            
+            <h3>Brisanje segmentatora</h3>
+            <p>Da biste obrisali segmentator,</p>
+            <ol>
+                <li>Izaberite segmentator klikom na njega.</li>
+                <li>Pritisnite taster <b>Delete</b>.</li>
+            </ol>
+		</div>
+	</body>
+</html>

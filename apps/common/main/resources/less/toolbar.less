@@ -416,12 +416,13 @@
     .more-container {
         background-color: @background-toolbar-ie;
         background-color: @background-toolbar;
-        min-width:auto;
+        min-width: auto;
         padding: 12px 10px 7px 0;
         border-radius: 0;
         z-index:999;
         .rtl & {
             padding: 12px 0 7px 10px;
+            text-align: right;
         }
         .compactwidth:not(.emptycaption), .nocaption {
             .btn-group, .btn-toolbar {
@@ -458,6 +459,18 @@
             .separator {
                 margin-top: 4px;
                 margin-bottom: 4px;
+            }
+        }
+        &[data-tab=plugins] {
+            padding: 12px 10px 7px 6px;
+            .rtl & {
+                padding: 12px 6px 7px 10px;
+            }
+            div .group:first-child {
+                .padding-left(0);
+            }
+            div .separator:first-child + .group {
+                .padding-left(0);
             }
         }
     }
@@ -506,6 +519,12 @@
         //        position: relative;
         //    }
         //}
+        	
+        &.padding-hor-zerro {
+            &:not(:first-child) {
+                .padding-hor-zerro();
+            }
+        }
     }
 
     .elset {

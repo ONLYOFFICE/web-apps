@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>BASE funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>BASE funkcija</h1>
+			<p>Funkcija <b>BASE</b> je jedna od <a href="../UsageInstructions/InsertFunction.htm#mathtrigonometry" onclick="onhyperlinkclick(this)">matematičkih i trigonometrijskih funkcija</a>. Koristi se za konvertovanje broja u tekstualni prikaz sa zadatom osnovom.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>BASE(number, radix, [min_length])</em></b></p> 
+			<p>Funkcija <b>BASE</b> ima sledeće argumente:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>number</em></b></td>
+                    <td>Broj koji želite da konvertujete. Ceo broj veći ili jednak 0 i manji od 2^53.</td>
+                </tr>
+				<tr>
+                    <td><b><em>radix</em></b></td>
+                    <td>Osnova u koju želite da konvertujete broj. Ceo broj veći ili jednak 2 i manji ili jednak 36.</td>
+                </tr>
+				<tr>
+                    <td><b><em>min_length</em></b></td>
+                    <td>Minimalna dužina vraćenog niza. Ceo broj veći ili jednak 0 i manji od 256. Ovo je opcioni parametar. Ako je rezultat kraći od zadate minimalne dužine, vodeće nule se dodaju u niz.</td>
+                </tr>
+            </table>
+			
+			<h3>Napomene</h3>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> funkciju <b>BASE</b>.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća funkcija <b>BASE</b>.</p>
+			<p><img alt="BASE Function" src="../images/base.png" /></p>
+		</div>
+	</body>
+</html>

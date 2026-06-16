@@ -1,0 +1,9 @@
+{
+  "Common.Views.OpenDialog.txtIncorrectPwd": "Adgangskoden er forkert.",
+  "Common.Views.OpenDialog.txtOpenFile": "Indtast en adgangskode for at åbne filen",
+  "Common.Views.OpenDialog.txtPassword": "Adgangskode",
+  "Common.Views.OpenDialog.txtProtected": "Når du først indtaster adgangskoden og åbner filen, nulstilles den aktuelle adgangskode til filen.",
+  "VE.Controllers.Main.errorFilePassProtect": "Dokumentet er beskyttet af en adgangskode og kunne ikke åbnes.",
+  "VE.Controllers.Main.errorPasswordIsNotCorrect": "Den adgangskode du har angivet er ikke korrekt.<br>Bekræft at CAPS LOCK-tasten er slået fra og sørg for at bruge den korrekte brug af store bogstaver.",
+  "VE.Controllers.Main.errorSetPassword": "Adgangskoden kunne ikke gemmes."
+}

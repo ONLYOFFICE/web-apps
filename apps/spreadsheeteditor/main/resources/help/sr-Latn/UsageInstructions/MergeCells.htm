@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Spajanje ćelija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Spojite neke ćelije u jednu i razdvojte prethodno spojenu ćeliju" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+			<div class="search-field">
+				<input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+			</div>
+				<h1>Spajanje ćelija</h1>
+						<p>Ako je potrebno da spojite ćelije kako biste bolje pozicionirali tekst (npr. naziv tabele ili dugačak tekstualni fragment unutar tabele), koristite alat <b>Merge</b> u <b>ONLYOFFICE Spreadsheet Editor</b>-u.</p>
+					
+			<h3>Tip 1. Spoji i centriraj</h3>
+					<ol>
+						<li>
+							Kliknite na ćeliju na početku potrebnog opsega, držite levi taster miša i prevlačite dok ne izaberete željeni opseg ćelija.
+							<p><img alt="select cell range" src="../images/select_cell_range.png" /></p>
+							<p class="note">Izabrane ćelije <b>moraju</b> biti susedne. Samo podaci iz <b>gornje leve ćelije izabranog opsega</b> biće sačuvani u spojenoj ćeliji. Podaci iz ostalih ćelija izabranog opsega biće obrisani.</p>
+						</li>
+						<li>
+							Idite na karticu <b>Home</b> i kliknite na ikonu <b>Merge and center</b> <div class = "icon icon-merge"></div>.
+							<p><img alt="merge and center - result" src="../images/merge_and_center.png" /></p>
+						</li>
+					</ol>
+
+			<h3>Tip 2. Spoji po redovima</h3>
+					<ol>
+						<li>
+							Kliknite na ćeliju na početku potrebnog opsega, držite levi taster miša i prevlačite dok ne izaberete željeni opseg ćelija.
+							<p><img alt="select cell range" src="../images/select_cell_range_type2.png" /></p>
+						</li>
+						<li>
+							Idite na karticu <b>Home</b> i kliknite na strelicu pored ikone <b>Merge and center</b> <div class = "icon icon-merge"></div> da biste otvorili padajući meni.
+							<p><img alt="merge and center - menu" src="../images/merge_across_menu.png" /></p>
+						</li>
+						<li>
+							Izaberite opciju <b>Merge Across</b> da biste poravnali tekst ulevo i sačuvali redove bez njihovog spajanja.
+							<p><img alt="merge across" src="../images/merge_across.png" /></p>
+						</li>
+					</ol>
+
+			<h3>Tip 3. Spoji ćelije</h3>
+					<ol>
+						<li>
+							Kliknite na ćeliju na početku potrebnog opsega, držite levi taster miša i prevlačite dok ne izaberete željeni opseg ćelija.
+							<p><img alt="select cell range" src="../images/select_cell_range.png" /></p>
+						</li>
+						<li>
+							Idite na karticu <b>Home</b> i kliknite na strelicu pored ikone <b>Merge and center</b> <div class = "icon icon-merge"></div> da biste otvorili padajući meni.
+							<p><img alt="merge cells - menu" src="../images/merge_menu.png" /></p>
+						</li>
+						<li>Izaberite opciju <b>Merge Cells</b> da biste sačuvali prethodno podešeno poravnanje.</li>
+					</ol>
+
+			<h3>Razdvajanje ćelija</h3>
+					<ol>
+						<li>
+							Kliknite na spojeno područje.
+							<p><img alt="merged area" src="../images/merged_area.png" /></p>
+						</li>
+						<li>
+							Idite na karticu <b>Home</b> i kliknite na strelicu pored ikone <b>Merge and center</b> <div class = "icon icon-merge"></div> da biste otvorili padajući meni.
+							<p><img alt="unmerge" src="../images/unmerge.png" /></p>
+						</li>
+						<li>Izaberite opciju <b>Unmerge Cells</b> da biste vratili ćelije u njihovo originalno stanje.</li>
+					</ol>
+		</div>
+	</body>
+</html>

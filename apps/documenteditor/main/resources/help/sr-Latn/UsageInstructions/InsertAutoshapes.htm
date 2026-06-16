@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Umetanje autoshape oblika</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Dodajte autoshape oblik u vaš dokument i podesite njegove osobine." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+			<div class="search-field">
+				<input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+			</div>
+			<h1>Umetanje autoshape oblika</h1>
+			<h3>Umetanje autoshape oblika</h3>
+			<p>Da biste dodali autoshape oblik u <a href="https://www.onlyoffice.com/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor</b></a>,</p>
+			<ol>
+				<li>prebacite se na karticu <b>Insert</b> u gornjoj traci sa alatkama,</li>
+				<li>kliknite na ikonicu <div class="icon icon-insertautoshape"></div> <b>Oblik</b> u gornjoj traci sa alatkama,</li>
+				<li>izaberite jednu od dostupnih grupa autoshape oblika iz <b>Galerije oblika</b>: <em>Nedavno korišćeno</em>, <em>Osnovni oblici</em>, <em>Figurisane strelice</em>, <em>Matematika</em>, <em>Grafikoni</em>, <em>Zvezde i trake</em>, <em>Oznake</em>, <em>Dugmad</em>, <em>Pravougaonici</em>, <em>Linije</em>,</li>
+				<li>kliknite na potreban autoshape unutar izabrane grupe,</li>
+				<li>postavite kursor miša na mesto gde oblik treba da se doda,</li>
+				<li>
+					kada je autoshape dodat, možete promeniti njegovu veličinu, poziciju i osobine.
+					<p class="note"><b>Napomena</b>: da biste dodali natpis autoshape obliku, proverite da li je odgovarajući oblik izabran na stranici i počnite da kucate tekst. Dodati tekst postaje deo autoshape oblika (kada pomerate ili rotirate oblik, tekst se pomera ili rotira zajedno sa njim).</p>
+				</li>
+			</ol>
+			<p>Možete takođe dodati natpis autoshape obliku. Za više informacija o radu sa natpisima, pogledajte <a href="../UsageInstructions/AddCaption.htm" onclick="onhyperlinkclick(this)">ovaj članak</a>.</p>
+			<h3>Pomeranje i promena veličine autoshape oblika</h3>
+			<p id="shape_resize">Da biste promenili veličinu autoshape oblika, prevucite male kvadrate <span class="icon icon-resize_square"></span> koji se nalaze na ivicama oblika. Da biste zadržali originalne proporcije izabranog oblika dok ga menjate, držite <b>Shift</b> taster i prevucite jedan od uglova.</p>
+			<p><span class="big big-reshaping"></span></p>
+			<p>Kod nekih oblika, na primer figurisane strelice ili oznake, dostupan je i žuti dijamantski <span class="icon icon-yellowdiamond"></span> indikator. On omogućava podešavanje određenih aspekata oblika, na primer dužine glave strelice.</p>
+			<p>
+				Da biste promenili poziciju autoshape oblika, koristite ikonu <span class="icon icon-arrow"></span> koja se pojavljuje kada pređete mišem preko oblika. Prevucite oblik na željenu poziciju bez puštanja tastera miša.
+				Kada pomerate oblik, linije vodiči se prikazuju kako bi vam pomogle da precizno pozicionirate objekat na stranici (ako izabrani stil umotavanja nije inline).
+				Da biste pomerali oblik po jednom pikselu, držite <b>Ctrl</b> taster i koristite strelice na tastaturi.
+				Da biste pomerali oblik striktno horizontalno/vertikalno i sprečili kretanje u suprotnoj osi, držite <b>Shift</b> taster dok prevlačite.
+			</p>
+			<p>Da biste rotirali autoshape oblik, pređite mišem preko ručice za rotaciju <span class="icon icon-greencircle"></span> i prevucite u smeru kazaljke na satu ili suprotno od nje. Da biste ograničili ugao rotacije na korake od 15 stepeni, držite <b>Shift</b> taster dok rotirate.</p>
+			<p class="note">
+				<b>Napomena</b>: lista prečica na tastaturi koje možete koristiti prilikom rada sa objektima dostupna je <a href="../HelpfulHints/KeyboardShortcuts.htm#workwithobjects" onclick="onhyperlinkclick(this)">ovde</a>.
+			</p>
+			<hr />
+			<h3>Kopiranje formata autoshape oblika</h3>
+			<p>Da biste <b>kopirali</b> određeni format autoshape oblika,</p>
+			<ol>
+				<li>izaberite autoshape čiji format želite da kopirate pomoću miša ili <a href="../HelpfulHints/KeyboardShortcuts.htm#textselection" onclick="onhyperlinkclick(this)">tastature</a>,</li>
+				<li>kliknite na ikonu <b>Kopiraj format</b> <div class="icon icon-copystyle"></div> na kartici <b>Home</b> u gornjoj traci sa alatkama (kursor će izgledati ovako <div class="icon icon-paste_style"></div>),</li>
+				<li>izaberite autoshape na koji želite da primenite isti format.</li>
+			</ol>
+			<!--<p>Da biste <b>primenili kopirani format</b> na više autoshape oblika,</p>
+			<ol>
+				<li>izaberite autoshape čiji format želite da kopirate pomoću miša ili <a href="../HelpfulHints/KeyboardShortcuts.htm#textselection" onclick="onhyperlinkclick(this)">koristite tastaturu</a>,</li>
+				<li>dvokliknite na ikonu <b>Kopiraj format</b> <div class="icon icon-copystyle"></div> na kartici <b>Home</b> u gornjoj traci sa alatkama (kursor će izgledati ovako <div class="icon icon-paste_style"></div> i ikona <b>Kopiraj format</b> će ostati selektovana: <div class="icon icon-copystyle_selected"></div>),</li>
+				<li>izaberite potrebne autoshape oblike jedan po jedan da biste primenili isti format na svaki od njih,</li>
+				<li>da biste izašli iz ovog režima, kliknite ponovo na ikonu <b>Kopiraj format</b> <div class="icon icon-copystyle_selected"></div> ili pritisnite <b>Esc</b> na tastaturi.</li>
+			</ol>
+			<p>Da biste <b>brzo uklonili primenjeni format</b> sa oblika,</p>
+			<ol>
+				<li>izaberite autoshape čiji format želite da uklonite,</li>
+				<li>kliknite na ikonu <b>Obriši format</b> <div class="icon icon-clearstyle"></div> na kartici <b>Home</b> u gornjoj traci sa alatkama.</li>
+			</ol>-->
+			<hr />
+			<h3>Podešavanje autoshape oblika</h3>
+			<p id="shape_rightclickmenu">Da biste poravnali i rasporedili autoshape oblike, koristite <b>desni klik meni</b>. Opcije u meniju su:</p>
+			<ul>
+				<li><b>Iseci, Kopiraj, Nalepi</b> - standardne opcije koje služe za sečenje ili kopiranje izabranog teksta/objekta i lepljenje prethodno isečenog/kopiranog teksta ili objekta na trenutnu poziciju kursora.</li>
+				<li><b>Štampaj selekciju</b> - koristi se za štampanje samo izabranog dela dokumenta.</li>
+				<li><b>Prihvati / Odbaci izmene</b> - koristi se za prihvatanje ili odbacivanje praćenih izmena u deljenom dokumentu.</li>
+				<li>
+					<b>Uredi tačke</b> - koristi se za prilagođavanje ili promenu zakrivljenosti oblika.
+					<ol>
+						<li>Da biste aktivirali tačke za uređivanje oblika, kliknite desnim tasterom na oblik i izaberite <b>Uredi tačke</b> iz menija ili kliknite na opciju <b>Uredi oblik</b> > <b>Uredi tačke</b> u desnom panelu. Crni kvadrati koji postanu aktivni označavaju mesta gde se spajaju dve linije, a crvena linija obeležava oblik. Kliknite i prevucite kvadrat da biste promenili poziciju tačke i oblik linije.</li>
+						<li>
+							Kada kliknete na tačku, pojaviće se dve plave linije sa belim kvadratima na krajevima. To su Bezier ručke koje omogućavaju kreiranje krivina i promenu glatkoće krivine.
+							<p><img alt="Uredi tačke" src="../images/editpoints_example.png" /></p>
+						</li>
+						<li>
+							Dok su tačke aktivne, možete dodavati ili brisati tačke.
+							<p><b>Da dodate tačku na oblik</b>, držite <b>Ctrl</b> i kliknite na mesto gde želite da dodate tačku.</p>
+							<p><b>Da obrišete tačku</b>, držite <b>Ctrl</b> i kliknite na nepotrebnu tačku.</p>
+						</li>
+					</ol>
+				</li>
+				<li><b>Rasporedi</b> - koristi se za slanje izabranog oblika u prvi plan, u pozadinu, pomeranje unapred ili unazad, kao i grupisanje ili razgrupisavanje oblika kako biste mogli da radite sa više njih odjednom. Za više informacija o raspoređivanju objekata pogledajte <a href="../UsageInstructions/AlignArrangeObjects.htm" onclick="onhyperlinkclick(this)">ovu stranicu</a>.</li>
+				<li><b>Poravnaj</b> - koristi se za poravnanje oblika levo, centar, desno, na vrh, sredinu, dno. Za više informacija o poravnanju objekata pogledajte <a href="../UsageInstructions/AlignArrangeObjects.htm" onclick="onhyperlinkclick(this)">ovu stranicu</a>.</li>
+				<li><b>Stil omotavanja</b> - koristi se za izbor stila omotavanja teksta iz dostupnih opcija: inline, kvadrat, čvrsto, kroz, gore-dole, ispred, iza - ili za uređivanje granica omotavanja. Opcija <b>Uredi granicu omotavanja</b> je dostupna samo ako izaberete stil omotavanja različit od Inline. Prevucite tačke omotavanja da prilagodite granicu. Da biste kreirali novu tačku omotavanja, kliknite bilo gde na crvenoj liniji i prevucite je na željenu poziciju. <div class="big big-wrap_boundary"></div></li>
+				<li><b>Rotiraj</b> - koristi se za rotiranje oblika za 90 stepeni u smeru kazaljke na satu ili suprotno, kao i za horizontalno ili vertikalno preklapanje oblika.</li>
+				<li><b>Sačuvaj kao sliku</b> - koristi se za čuvanje oblika kao slike na vašem disku.</li>
+				<li><b>Napredne postavke oblika</b> - koristi se za otvaranje prozora 'Oblik - Napredne postavke'.</li>
+			</ul>
+			<hr />
+			<p>Neke od postavki autoshape oblika mogu se menjati preko kartice <b>Postavke oblika</b> u desnom bočnom panelu. Da biste je aktivirali, kliknite na oblik i izaberite ikonu <b>Postavke oblika</b> <span class="icon icon-shape_settings_icon"></span> sa desne strane. Ovde možete promeniti sledeće osobine:</p>
+			<ul>
+				<li id="shape_fill">
+					<b>Popuna</b> - koristite ovaj odeljak da izaberete popunu autoshape oblika. Možete izabrati sledeće opcije:
+					<ul>
+						<li>
+							<b>Boja popune</b> - izaberite ovu opciju da odredite čvrstu boju kojom ćete popuniti unutrašnji prostor izabranog autoshape oblika.
+							<p><img alt="Boja popune" src="../images/fill_color.png" /></p>
+							<p id="color">Kliknite na obojeni kvadrat ispod i izaberite potrebnu boju iz dostupnih <a href="../UsageInstructions/ChangeColorScheme.htm" onclick="onhyperlinkclick(this)">skupova boja</a> ili odredite bilo koju boju po želji.</p>
+						</li>
+						<li>
+							<b>Gradijentna popuna</b> - koristite ovu opciju da popunite oblik sa dve ili više boja koje prelaze jedna u drugu. Prilagodite gradijent bez ograničenja. Kliknite na ikonu <b>Postavke oblika</b> <div class="icon icon-shape_settings_icon"></div> da otvorite meni <b>Popuna</b> u desnom panelu:
+							<p><img alt="Gradijentna popuna" src="../images/fill_gradient.png" /></p>
+							<p>Dostupne opcije u meniju:</p>
+							<ul>
+								<li>
+									<b>Stil</b> - izaberite između <b>Linearni</b> ili <b>Radijalni</b>:
+									<ul>
+										<li><b>Linearni</b> se koristi kada želite da boje prelaze sa leve na desnu, sa vrha na dno ili pod bilo kojim uglom u jednom pravcu. Prozor pregleda <b>Smer</b> prikazuje izabrani gradijent, kliknite na strelicu da izaberete unapred podešen pravac gradijenta. Koristite <b>Ugao</b> za precizno podešavanje ugla gradijenta.</li>
+										<li><b>Radijalni</b> se koristi da boje zrače iz centra počevši od jedne tačke ka spolja.</li>
+									</ul>
+								</li>
+								<li>
+									<b>Tačke gradijenta</b> su specifične tačke za prelaz između boja.
+									<ul>
+										<li>Koristite dugme <div class="icon icon-addgradientpoint"></div> <b>Dodaj tačku gradijenta</b> ili klizač da biste dodali tačku gradijenta. Možete dodati do 10 tačaka. Svaka sledeća tačka ne menja postojeći izgled gradijenta. Koristite dugme <div class="icon icon-removegradientpoint"></div> <b>Ukloni tačku gradijenta</b> za brisanje određene tačke.</li>
+										<li>Koristite klizač da promenite poziciju tačke gradijenta ili precizno unesite <b>Poziciju</b> u procentima.</li>
+										<li>Da biste primenili boju na tačku gradijenta, kliknite na tačku na klizaču, a zatim kliknite <b>Boja</b> da izaberete željenu boju.</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<b>Slika ili tekstura</b> - izaberite ovu opciju da koristite sliku ili unapred definisanu teksturu kao pozadinu oblika.
+							<p><img alt="Popuna slikom ili teksturom" src="../images/fill_picture.png" /></p>
+							<ul>
+								<li>Ako želite da koristite sliku kao pozadinu oblika, otvorite padajući meni <b>Izaberi sliku</b>; ovde možete dodati sliku <b>Iz fajla</b> birajući je sa hard diska, <b>Iz URL-a</b> unošenjem odgovarajuće URL adrese u otvoreni prozor, ili <b>Iz skladišta</b> biranjem slike sa vašeg portala.</li>
+								<li>
+									Ako želite da koristite teksturu kao pozadinu oblika, otvorite meni <b>Iz teksture</b> i izaberite željeni unapred definisani predložak teksture.
+									<p>Trenutno su dostupne sledeće teksture: canvas, karton, tamna tkanina, zrno, granit, sivi papir, pleteno, koža, braon papir, papirus, drvo.</p>
+								</li>
+							</ul>
+							<ul>
+								<li>
+									Ako izabrana <b>Slika</b> ima manje ili veće dimenzije od samog oblika, možete iz padajućeg menija izabrati opciju <b>Proširi</b> ili <b>Ponovi</b>.
+									<p>Opcija <b>Proširi</b> omogućava prilagođavanje veličine slike tako da potpuno popuni oblik.</p>
+									<p>Opcija <b>Ponovi</b> omogućava prikaz samo dela veće slike zadržavajući njene originalne dimenzije ili ponavljanje manje slike po površini oblika tako da prostor bude potpuno popunjen.</p>
+									<p class="note"><b>Napomena</b>: bilo koji izabrani predložak <b>Tekstura</b> potpuno popunjava prostor, ali možete primeniti efekat <b>Proširi</b> ako je potrebno.</p>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<b>Šablon</b> - izaberite ovu opciju da popunite oblik dvobojnim dizajnom sa redovno ponovljenim elementima.
+							<p><img alt="Popuna šablonom" src="../images/fill_pattern.png" /></p>
+							<ul>
+								<li><b>Šablon</b> - izaberite jedan od unapred definisanih dizajna iz menija.</li>
+								<li><b>Boja prednjeg plana</b> - kliknite na ovu kutiju da promenite boju elemenata šablona.</li>
+								<li><b>Boja pozadine</b> - kliknite na ovu kutiju da promenite boju pozadine šablona.</li>
+							</ul>
+						</li>
+						<li><b>Bez popune</b> - izaberite ovu opciju ako ne želite da koristite popunu.</li>
+					</ul>
+				</li>
+			</ul>
+			<p><img class="floatleft" alt="Tab podešavanja oblika" src="../images/right_autoshape.png" /></p>
+			<ul style="margin-left: 280px;">
+				<li><b>Prozirnost</b> - koristite ovu sekciju da podesite nivo <b>prozirnosti</b> prevlačenjem klizača ili unosom procenta ručno. Podrazumevana vrednost je <b>100%</b>, što odgovara potpunoj neprozirnosti. Vrednost <b>0%</b> odgovara potpunoj transparentnosti.</li>
+				<li id="shape_stroke">
+					<b>Linija</b> - koristite ovu sekciju da promenite širinu, boju ili tip linije oblika.
+					<ul>
+						<li>Za promenu <b>širine</b> linije, izaberite jednu od dostupnih opcija iz padajućeg menija <b>Veličina</b>. Dostupne opcije su: 0.5 pt, 1 pt, 1.5 pt, 2.25 pt, 3 pt, 4.5 pt, 6 pt. Alternativno, izaberite opciju <b>Bez linije</b> ako ne želite koristiti liniju.</li>
+						<li>Za promenu <b>boje</b> linije, kliknite na kutiju sa bojom i <a href="../UsageInstructions/ChangeColorScheme.htm" onclick="onhyperlinkclick(this)">izaberite željenu boju</a>.</li>
+						<li>Za promenu <b>tipa</b> linije, izaberite željenu opciju iz odgovarajućeg padajućeg menija (po defaultu je primenjena puna linija, možete je promeniti u neku od dostupnih isprekidanih linija).</li>
+						<li>Za promenu <b>prozirnosti</b> linije, unesite željenu vrednost ručno ili koristite klizač.</li>
+					</ul>
+				</li>
+				<li>
+					<b>Rotacija</b> - koristi se za rotiranje oblika za 90 stepeni u smeru kazaljke ili suprotno, kao i za horizontalno ili vertikalno okretanje oblika. Kliknite na jedan od dugmadi:
+					<ul>
+						<li><div class="icon icon-rotatecounterclockwise"></div> za rotiranje oblika 90° suprotno od kazaljke na satu</li>
+						<li><div class="icon icon-rotateclockwise"></div> za rotiranje oblika 90° u smeru kazaljke na satu</li>
+						<li><div class="icon icon-fliplefttoright"></div> za horizontalno okretanje oblika (levo-desno)</li>
+						<li><div class="icon icon-flipupsidedown"></div> za vertikalno okretanje oblika (gore-dole)</li>
+					</ul>
+				</li>
+				<li><b>Stil omotavanja teksta</b> - koristite ovu sekciju da izaberete stil omotavanja teksta od dostupnih opcija: u liniji, kvadrat, zategnuto, kroz, gore i dole, ispred, iza (za više informacija pogledajte opis naprednih podešavanja).</li>
+				<li><b>Izmeni oblik</b> - koristite ovu sekciju za uređivanje tačaka oblika ili zamenu trenutnog oblika drugim iz padajućeg menija.
+					<ul>
+						<li>
+							<b>Izmeni tačke</b> - koristi se za prilagođavanje ili promenu krivine oblika.
+							<ol>
+								<li>
+									Kada kliknete na tačku sidra, pojaviće se dve plave linije sa belim kvadratima na krajevima. Ovo su Bezier ručke koje omogućavaju kreiranje krive i promenu njene glatkoće.
+									<p><img alt="Izmeni tačke" src="../images/editpoints_example.png" /></p>
+								</li>
+								<li>
+									Dok su tačke sidra aktivne, možete ih dodavati i brisati.
+									<p><b>Za dodavanje tačke</b>, držite <b>Ctrl</b> i kliknite na poziciju gde želite da dodate tačku.</p>
+									<p><b>Za brisanje tačke</b>, držite <b>Ctrl</b> i kliknite na nepotrebnu tačku.</p>
+								</li>
+							</ol>
+						</li>
+						<li><b>Promeni oblik</b> - koristi se za zamenu trenutnog oblika. Izaberite drugi oblik iz padajućeg menija.</li>
+					</ul>
+				</li>
+				<li>
+					<b>Sena</b> - otvorite ovaj meni da izaberete jedan od unapred definisanih stilova senke za oblik.
+						<ul>
+							<li><b>Bez senke</b> - poništite ovu opciju da prikažete senku, ili obrnuto.</li>
+							<li><b>Boja</b> - izaberite jednu od dostupnih boja sa palete <b>Tema boja</b> ili <b>Standardne boje</b>; koristite alatku <b>Kap po kap</b> da kopirate boju sa drugih objekata u dokumentu; ili kliknite na <b>Više boja</b> da kreirate prilagođenu boju.</li>
+							<li>
+								<b>Podesi senku</b> - kreirajte prilagođenu senku koristeći sledeće klizače:
+								<p><img alt="Podesi senku" src="../../../../../../common/main/resources/help/en/images/adjust_shadow.png" /></p>
+									<ul>
+										<li><b>Prozirnost</b> - prilagodite prozirnost senke.</li>
+										<li><b>Veličina</b> - prilagodite veličinu senke.</li>
+										<li><b>Ugao</b> - prilagodite ugao senke u odnosu na objekat.</li>
+										<li><b>Razdaljina</b> - prilagodite razdaljinu senke od objekta.</li>
+									</ul>
+							</li>
+						</ul>
+				</li>
+			</ul>
+			<hr />
+			<h3 id="autoshape_advanced">Podešavanje naprednih opcija autobloka</h3>
+			<p>Da biste promenili <b>napredna podešavanja</b> autobloka, kliknite desnim tasterom miša na njega i izaberite opciju <b>Napredna podešavanja</b> u meniju, ili koristite link <b>Prikaži napredna podešavanja</b> na desnoj bočnoj traci. Otvoriće se prozor 'Oblik – Napredna podešavanja':</p>
+			<p><img alt="Oblik - Napredna podešavanja" src="../images/shape_properties.png" /></p>
+			<p>Tab <b>Veličina</b> sadrži sledeće parametre:</p>
+			<ul>
+				<li>
+					<b>Širina</b> - koristite jednu od opcija za promenu širine autobloka.
+					<ul>
+						<li><b>Apsolutna</b> - navedite tačnu vrednost u apsolutnim jedinicama, npr. <b>centimetri</b>/<b>poeni</b>/<b>inci</b> (zavisno od podešavanja na <b>Fajl</b> -> <b>Napredna podešavanja...</b> tabu).</li>
+						<li><b>Relativna</b> - navedite procenat <b>u odnosu na</b> <em>levi margin</em>, <em>marginu</em> (udaljenost između levog i desnog margina), <em>stranicu</em> ili <em>desni margin</em>.</li>
+					</ul>
+				</li>
+				<li>
+					<b>Visina</b> - koristite jednu od opcija za promenu visine autobloka.
+					<ul>
+						<li><b>Apsolutna</b> - navedite tačnu vrednost u apsolutnim jedinicama, npr. <b>centimetri</b>/<b>poeni</b>/<b>inci</b> (zavisno od podešavanja na <b>Fajl</b> -> <b>Napredna podešavanja...</b> tabu).</li>
+						<li><b>Relativna</b> - navedite procenat <b>u odnosu na</b> <em>marginu</em> (udaljenost između gornjeg i donjeg margina), <em>donji margin</em>, visinu <em>stranice</em> ili <em>gornji margin</em>.</li>
+					</ul>
+				</li>
+				<li>Ako je opcija <b>Zaključaj odnos širine i visine</b> čekirana, širina i visina će se menjati zajedno, zadržavajući originalni odnos dimenzija.</li>
+			</ul>
+			<p><img alt="Oblik - Napredna podešavanja" src="../images/shape_properties_6.png" /></p>
+			<p>Tab <b>Rotacija</b> sadrži sledeće parametre:</p>
+			<ul>
+				<li><b>Ugao</b> - koristite ovu opciju da rotirate oblik za tačno određeni ugao. Unesite potrebnu vrednost u stepene u polje ili podesite strelicama sa desne strane.</li>
+				<li><b>Obrnuto</b> - čekirajte polje <b>Horizontalno</b> da biste preokrenuli oblik horizontalno (levo-desno) ili polje <b>Vertikalno</b> da biste ga preokrenuli vertikalno (naopako).</li>
+			</ul>
+			<p id="shape_wrapping"><img alt="Oblik - Napredna podešavanja" src="../images/shape_properties_1.png" /></p>
+			<p>Tab <b>Prelamanje teksta</b> sadrži sledeće parametre:</p>
+			<ul>
+				<li>
+					<b>Stil prelamanja</b> - koristite ovu opciju da promenite način pozicioniranja oblika u odnosu na tekst: oblik može biti deo teksta (ako izaberete inline stil) ili se tekst omotava oko njega sa svih strana (ako izaberete jedan od ostalih stilova).
+					<ul>
+						<li>
+							<p><div class="icon icon-wrappingstyle_inline"></div> <b>Inline</b> - oblik se smatra delom teksta, kao karakter, pa kada se tekst pomera, oblik se takođe pomera. U ovom slučaju opcije pozicioniranja nisu dostupne.</p>
+							<p>Ako je izabran jedan od sledećih stilova, oblik se može pomerati nezavisno od teksta i precizno pozicionirati na stranici:</p>
+						</li>
+						<li><p><div class="icon icon-wrappingstyle_square"></div> <b>Square</b> - tekst se omotava oko pravougaonog okvira koji obuhvata oblik.</p></li>
+						<li><p><div class="icon icon-wrappingstyle_tight"></div> <b>Tight</b> - tekst se omotava oko stvarnih ivica oblika.</p></li>
+						<li><p><div class="icon icon-wrappingstyle_through"></div> <b>Through</b> - tekst se omotava oko ivica oblika i popunjava otvoreni prazan prostor unutar oblika. Da bi efekat bio vidljiv, koristite opciju <b>Izmeni granicu omotavanja</b> iz desnog klika.</p></li>
+						<li><p><div class="icon icon-wrappingstyle_topandbottom"></div> <b>Gore i dole</b> - tekst je samo iznad i ispod oblika.</p></li>
+						<li><p><div class="icon icon-wrappingstyle_infront"></div> <b>Ispred</b> - oblik preklapa tekst.</p></li>
+						<li><p><div class="icon icon-wrappingstyle_behind"></div> <b>Iza</b> - tekst preklapa oblik.</p></li>
+					</ul>
+				</li>
+			</ul>
+			<p>Ako izaberete stilove square, tight, through ili top and bottom, moći ćete da podesite dodatne parametre - <b>udaljenost od teksta</b> sa svih strana (gore, dole, levo, desno).</p>
+			<p id="position"><img alt="Oblik - Napredna podešavanja" src="../images/shape_properties_2.png" /></p>
+			<p>Tab <b>Pozicija</b> je dostupan samo ako izabrani stil prelamanja nije inline. Ovaj tab sadrži sledeće parametre, koji se razlikuju u zavisnosti od izabranog stila prelamanja:</p>
+			<ul>
+				<li>
+					<b>Horizontalno</b> - omogućava izbor jednog od sledećih tipova pozicioniranja autobloka:
+					<ul>
+						<li><b>Poravnanje</b> (levo, centar, desno) <b>u odnosu na</b> karakter, kolonu, levi margin, marginu, stranicu ili desni margin,</li>
+						<li>Apsolutna <b>Pozicija</b> u apsolutnim jedinicama, npr. <b>centimetri</b>/<b>poeni</b>/<b>inci</b> (zavisno od podešavanja na <b>Fajl</b> -> <b>Napredna podešavanja...</b> tabu) <b>desno od</b> karaktera, kolone, levog margina, margine, stranice ili desnog margina,</li>
+						<li><b>Relativna pozicija</b> u procentima <b>u odnosu na</b> levi margin, marginu, stranicu ili desni margin.</li>
+					</ul>
+				</li>
+				<li>
+					<b>Vertikalno</b> - omogućava izbor jednog od sledećih tipova pozicioniranja autobloka:
+					<ul>
+						<li><b>Poravnanje</b> (gore, centar, dole) <b>u odnosu na</b> liniju, marginu, donji margin, pasus, stranicu ili gornji margin,</li>
+						<li>Apsolutna <b>Pozicija</b> u apsolutnim jedinicama, npr. <b>centimetri</b>/<b>poeni</b>/<b>inci</b> (zavisno od podešavanja na <b>Fajl</b> -> <b>Napredna podešavanja...</b> tabu) <b>ispod</b> linije, margine, donjeg margina, pasusa, stranice ili gornjeg margina,</li>
+						<li><b>Relativna pozicija</b> u procentima <b>u odnosu na</b> marginu, donji margin, stranicu ili gornji margin.</li>
+					</ul>
+				</li>
+				<li><b>Pomeraj objekat sa tekstom</b> osigurava da se autoblok pomera zajedno sa tekstom na koji je vezan.</li>
+				<li><b>Dopusti preklapanje</b> omogućava da se dva autobloka preklapaju ako ih povučete blizu jedan drugom na stranici.</li>
+			</ul>
+			<p><img alt="Oblik - Napredna podešavanja" src="../images/shape_properties_3.png" /></p>
+			<p>Tab <b>Težine i strelice</b> sadrži sledeće parametre:</p>
+			<ul>
+				<li>
+					<b>Stil linije</b> - ova grupa opcija omogućava podešavanje sledećih parametara:
+					<ul>
+						<li>
+							<b>Tip kraja</b> - omogućava definisanje stila kraja linije, primenjuje se samo na oblike sa otvorenim obrisom, kao što su linije, polilinije itd.:
+							<ul>
+								<li><b>Ravan</b> - krajevi linije će biti ravni.</li>
+								<li><b>Zaobljen</b> - krajevi linije će biti zaobljeni.</li>
+								<li><b>Kvadrat</b> - krajevi linije će biti kvadratni.</li>
+							</ul>
+						</li>
+						<li>
+							<b>Tip spoja</b> - omogućava definisanje stila spoja dve linije, npr. utiče na poliliniju ili uglove trougla/pravougaonika:
+							<ul>
+								<li><b>Zaobljen</b> - ugao će biti zaobljen.</li>
+								<li><b>Urezan</b> - ugao će biti sečen pod uglom.</li>
+								<li><b>Mitra</b> - ugao će biti oštar. Pogodno za oblike sa oštrim uglovima.</li>
+							</ul>
+							<p class="note"><b>Napomena</b>: efekat je primetniji kod većeg obrisa linije.</p>
+						</li>
+					</ul>
+				</li>
+				<li><b>Strelice</b> - ova grupa opcija je dostupna ako je izabran oblik iz grupe <b>Linije</b>. Omogućava podešavanje <b>Početnog</b> i <b>Krajnjeg</b> stila strelice i <b>Veličine</b> izborom iz padajućih menija.</li>
+			</ul>
+			<p><img alt="Oblik - Napredna podešavanja" src="../images/shape_properties_4.png" /></p>
+			<p>Tab <b>Unutrašnji razmak teksta</b> omogućava promenu unutrašnjih margina <b>Gore</b>, <b>Dole</b>, <b>Levo</b> i <b>Desno</b> autobloka (udaljenost između teksta unutar oblika i njegovih granica).</p>
+			<p class="note"><b>Napomena</b>: ovaj tab je dostupan samo ako je tekst dodat unutar oblika, u suprotnom je on onemogućen.</p>
+			<p><img alt="Oblik - Napredna podešavanja" src="../images/shape_properties_5.png" /></p>
+			<p>Tab <b>Alternativni tekst</b> omogućava definisanje <b>Naslova</b> i <b>Opisa</b> koji će biti pročitan osobama sa oštećenjem vida ili kognitivnim smetnjama, kako bi bolje razumeli informacije koje oblik sadrži.</p>
+		</div>
+	</body>
+</html>

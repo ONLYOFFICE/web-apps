@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Sačuvajte/odštampajte/preuzmite vašu prezentaciju</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Sačuvajte, odštampajte i preuzmite vašu prezentaciju u različitim formatima" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Sačuvajte/odštampajte/preuzmite vašu prezentaciju</h1>
+            <h3>Sačuvajte</h3>
+            <p class="onlineDocumentFeatures">Podrazumevano, onlajn <a target="_blank" href="https://www.onlyoffice.com/en/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>Presentation Editor</b></a> automatski čuva vaš fajl na svake 2 sekunde dok radite na njemu, čime se sprečava gubitak podataka u slučaju neočekivanog zatvaranja programa. Ako zajednički uređujete fajl u <b>Fast</b> režimu, tajmer zahteva ažuriranja 25 puta u sekundi i čuva izmene ako ih ima. Kada se fajl zajednički uređuje u <b>Strict</b> režimu, izmene se automatski čuvaju u intervalima od 10 minuta. Ako je potrebno, možete lako izabrati željeni režim zajedničkog uređivanja ili onemogućiti funkciju <b>Autosave</b> na stranici <a href="../HelpfulHints/AdvancedSettings.htm" onclick="onhyperlinkclick(this)">Advanced Settings</a>.</p>
+            <p>Da biste ručno sačuvali vašu prezentaciju u trenutnom formatu i na trenutnoj lokaciji,</p>
+            <ul>
+                <li>pritisnite ikonu <b>Save</b> <div class="icon icon-save"></div> sa leve strane zaglavlja editora, ili</li>
+                <li>koristite kombinaciju tastera <b>Ctrl+S</b>, ili</li>
+                <li>kliknite na karticu <b>File</b> na gornjoj traci sa alatkama i izaberite opciju <b>Save</b>.</li>
+            </ul>
+            <p class="note desktopDocumentFeatures">U <em>desktop verziji</em>, da biste sprečili gubitak podataka u slučaju neočekivanog zatvaranja programa, možete uključiti opciju <b>Autorecover</b> na stranici <a href="../HelpfulHints/AdvancedSettings.htm" onclick="onhyperlinkclick(this)">Advanced Settings</a>. </p>
+            <div class="desktopDocumentFeatures">
+                <p>U <em>desktop verziji</em>, možete sačuvati vašu prezentaciju pod drugim imenom, na novoj lokaciji ili u drugom formatu,</p>
+                <ol>
+                    <li>kliknite na karticu <b>File</b> na gornjoj traci sa alatkama,</li>
+                    <li>izaberite opciju <b>Save as</b>,</li>
+                    <li>izaberite jedan od dostupnih formata u skladu sa vašim potrebama: PPTX, ODP, PDF, PDF/A, PNG, JPG. Takođe možete izabrati opciju <b>Presentation template</b> (POTX ili OTP).</li>
+                </ol>
+            </div>
+            <div class="onlineDocumentFeatures">
+                <h3>Preuzmite</h3>
+                <p>U <em>onlajn verziji</em>, možete preuzeti završnu prezentaciju na hard disk vašeg računara,</p>
+                <ol>
+                    <li>kliknite na karticu <b>File</b> na gornjoj traci sa alatkama,</li>
+                    <li>izaberite opciju <b>Download as</b>,</li>
+                    <li>izaberite jedan od dostupnih formata u skladu sa vašim potrebama: PPTX, PDF, ODP, POTX, PDF/A, OTP, PNG, JPG.</li>
+                </ol>
+                <h3>Sačuvajte kopiju</h3>
+                <p>U <em>onlajn verziji</em>, možete sačuvati kopiju fajla na vašem portalu,</p>
+                <ol>
+                    <li>kliknite na karticu <b>File</b> na gornjoj traci sa alatkama,</li>
+                    <li>izaberite opciju <b>Save Copy as</b>,</li>
+                    <li>izaberite jedan od dostupnih formata u skladu sa vašim potrebama: PPTX, PDF, ODP, POTX, PDF/A, OTP, PNG, JPG.</li>
+                    <li>izaberite lokaciju fajla na portalu i pritisnite <b>Save</b>.</li>
+                </ol>
+            </div>
+            <h3 id="print">Odštampajte</h3>
+            <p>Da biste odštampali trenutnu prezentaciju,</p>
+            <ul>
+                <li>kliknite na ikonu <b>Print</b> <div class="icon icon-print"></div> sa leve strane zaglavlja editora, ili</li>
+                <li>koristite kombinaciju tastera <b>Ctrl+P</b>, ili</li>
+                <li>kliknite na karticu <b>File</b> na gornjoj traci sa alatkama i izaberite opciju <b>Print</b>.</li>
+            </ul>
+            <div class="note">
+                Firefox pregledač omogućava štampanje bez prethodnog preuzimanja dokumenta kao .pdf fajla.
+            </div>
+            <p><img alt="Prozor sa podešavanjima štampe" src="../images/printsettingswindow.png" /></p>
+            <p>Podesite sledeće parametre u prozoru <b>Print</b> koji se otvori:</p>
+            <ul id="printtitles">
+                <li><b>Destination</b> – izaberite odredište štampe, npr. <b>Save to PDF</b>, <b>Microsoft XPS Document Writer</b>, <b>Microsoft Print to PDF</b>, <b>Fax</b> itd.</li>
+                <li><b>Orientation</b> – izaberite <b>Portrait</b> za vertikalno ili <b>Landscape</b> za horizontalno štampanje.</li>
+                <li><b>Pages</b> – izaberite opciju <b>All</b>, <b>Current</b>, <b>Odd</b>, <b>Even</b> ili <b>Custom</b>. U poslednjem slučaju unesite brojeve stranica ručno.</li>
+                <li>
+                    <b>Colour mode</b> – izaberite da li želite štampanje u <b>Colour</b> ili <b>Black and white</b> režimu. Ova opcija je dostupna kada je kao <b>Destination</b> izabran <em>Microsoft XPS Document Writer</em>. Za <em>Fax</em> je režim boja podrazumevano <b>black and white</b>.
+                    <p>Kliknite na natpis <b>More settings</b> da biste otvorili napredna podešavanja.</p>
+                </li>
+                <li><b>Paper size</b> – izaberite veličinu papira sa liste ili postavite prilagođenu.</li>
+                <li><b>Scale</b> – podesite razmeru štampanja; možete prilagoditi širini stranice ili ručno podesiti razmeru.</li>
+                <li><b>Pages per sheet</b> – podesite broj stranica po listu (npr. dve, šest, devet).</li>
+                <li><b>Margins</b> – podesite margine stranice (podrazumevane ili prilagođene).</li>
+                <li><b>Options</b> – uključite ili isključite štampanje zaglavlja i podnožja.</li>
+                <li><b>Print using the system dialogue</b> – otvorite sistemski dijalog za podešavanje štampe.</li>
+            </ul>
+            <p>Moguće je i štampanje izabranih slajdova korišćenjem opcije <b>Print Selection</b> iz kontekstnog menija u režimima <b>Edit</b> i <b>View</b> (desni klik miša na izabrane slajdove i izbor opcije <b>Print selection</b>).</p>
+            <p><span class="onlineDocumentFeatures">U <em>onlajn verziji</em> biće generisan PDF fajl na osnovu vaše prezentacije. Možete ga otvoriti i odštampati ili sačuvati na hard disk računara ili prenosivi medij za kasnije štampanje. Neki pregledači (npr. Chrome i Opera) podržavaju direktno štampanje.</span></p>
+            <p><span class="desktopDocumentFeatures">Opcije štampanja u <em>desktop verziji</em> su sledeće: izaberite štampač sa liste <b>Printer</b>, izaberite <b>Print range</b>, unesite <b>Slides</b> i broj <b>Copies</b>, izaberite <b>Print sides</b>, <b>Paper size</b> i <b>Header/footer settings</b>. Za dodatna podešavanja koristite sistemski dijalog štampe putem opcije <b>Print using the system dialog</b>. Proces završite klikom na <b>Print</b> ili <b>Print to PDF</b>. Dugme <b>Quick print</b> na gornjoj traci sa alatkama omogućava štampanje koristeći poslednji ili podrazumevani štampač.</span></p>
+        </div>
+	</body>
+</html>

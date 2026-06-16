@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>HLOOKUP Funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Funkcija HLOOKUP je jedna od funkcija za pretragu i referencu. Naučite kako da koristite HLOOKUP u Excel tabelama i kompatibilnim fajlovima sa ONLYOFFICE." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>HLOOKUP Funkcija</h1>
+			<p>Funkcija <b>HLOOKUP</b> je jedna od <a href="../UsageInstructions/InsertFunction.htm#lookupreference" onclick="onhyperlinkclick(this)">funkcija za pretragu i referencu</a>. Koristi se za horizontalnu pretragu vrednosti u gornjem redu tabele ili niza i vraća vrednost u istoj koloni na osnovu navedenog broja reda.</p>			
+			<h3>Sinaksa</h3> 
+			<p><b><em>HLOOKUP(pretrazi_vrednost, tabela_niz, broj_indexa_reda, [opseg_pretrage])</em></b></p> 
+			<p>Funkcija <b>HLOOKUP</b> ima sledeće argumente:</p> 
+			<table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>pretrazi_vrednost</em></b></td>
+                    <td>Vrednost koju tražite.</td>
+                </tr>
+				<tr>
+                    <td><b><em>tabela_niz</em></b></td>
+                    <td>Dva ili više redova koji sadrže podatke, sortirane u rastućem redosledu.</td>
+                </tr>
+				<tr>
+                    <td><b><em>broj_indexa_reda</em></b></td>
+                    <td>Broj reda u istoj koloni <b><em>tabela_niz</em></b>, numerička vrednost veća ili jednaka 1, ali manja od broja redova u <b>tabela_niz</b>.</td>
+                </tr>
+				<tr>
+                    <td><b><em>opseg_pretrage</em></b></td>
+                    <td>Opcioni argument. Logička vrednost: TRUE ili FALSE. Unesite FALSE za tačno podudaranje. Unesite TRUE za približno podudaranje. U tom slučaju, ako ne postoji vrednost koja tačno odgovara <b><em>pretrazi_vrednost</em></b>, funkcija bira najveću vrednost manju od <b><em>pretrazi_vrednost</em></b>. Ako je argument izostavljen, funkcija vrši približno podudaranje.</td>
+                </tr>
+            </table>
+			
+			<h3>Napomene</h3>
+            <p>Ako je <b><em>opseg_pretrage</em></b> postavljen na FALSE, ali nije pronađeno tačno podudaranje, funkcija vraća grešku <b>#N/A</b>.</p>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> funkciju <b>HLOOKUP</b>.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća funkcija <b>HLOOKUP</b>.</p>
+			<p><img class="gif" alt="HLOOKUP funkcija gif" src="../images/hlookup_function.webp" /></p>
+		</div>
+	</body>
+</html>

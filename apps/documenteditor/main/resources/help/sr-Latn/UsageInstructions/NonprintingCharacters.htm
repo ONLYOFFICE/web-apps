@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Show/hide nonprinting characters</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Show or hide nonprinting characters while formatting text, creating tables, and editing documents" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Prikaz/skrivanje neštampajućih znakova</h1>
+			<p>U <a href="https://www.onlyoffice.com/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor-u</b></a> možete uključiti prikaz neštampajućih znakova koji vam pomažu pri uređivanju dokumenta. Oni označavaju prisustvo različitih elemenata formatiranja, ali se ne štampaju zajedno sa dokumentom, čak i kada su prikazani na ekranu.</p>
+			<p>Da biste prikazali ili sakrili neštampajuće znakove, kliknite na ikonu <b>Neštampajući znakovi</b> <span class="icon icon-nonprintingcharacters"></span> na kartici <b>Home</b> gornje trake sa alatkama. Alternativno, možete koristiti kombinaciju tastera <em>Ctrl+Shift+Num8</em>.</p>
+			<p>Neštampajući znakovi uključuju:</p>
+			<table>
+				<tr>
+					<td>Razmaci</td>
+					<td><div class="icon icon-space"></div></td>
+					<td>Umeću se kada pritisnete taster <b>Space</b> na tastaturi. Koriste se za razdvajanje znakova.</td>
+				</tr>
+				<tr>
+					<td>Tabulatori</td>
+					<td><div class="icon icon-tab"></div></td>
+					<td>Umeću se kada pritisnete taster <b>Tab</b>. Koriste se za pomeranje kursora do sledeće tabulatorske pozicije.</td>
+				</tr>
+				<tr>
+					<td>Oznake pasusa (tzv. tvrdi prelomi)</td>
+					<td><div class="icon icon-hard"></div></td>
+					<td>Umeću se kada pritisnete taster <b>Enter</b>. Završavaju pasus i dodaju malo razmaka nakon njega. Takođe sadrže informacije o formatiranju pasusa.</td>
+				</tr>
+				<tr>
+					<td>Prelomi reda (tzv. meki prelomi)</td>
+					<td><div class="icon icon-soft"></div></td>
+					<td>Umeću se kada koristite kombinaciju tastera <b>Shift+Enter</b>. Prelamaju trenutni red i zbijaju linije teksta. Meki prelomi se uglavnom koriste u naslovima i zaglavljima.</td>
+				</tr>
+				<tr>
+					<td>Neprijelomivi razmaci</td>
+					<td><div class="icon icon-nonbreakspace"></div></td>
+					<td>Umeću se kada koristite kombinaciju tastera <b>Ctrl+Shift+Space</b>. Prave razmak između znakova koji se ne može koristiti za započinjanje novog reda.</td>
+				</tr>
+				<tr>
+					<td>Prelomi stranice</td>
+					<td><div class="big big-pagebreak"></div></td>
+					<td>Umeću se kada koristite ikonu <div class="icon icon-pagebreak1"></div> <b>Breaks</b> na karticama <b>Insert</b> ili <b>Layout</b> gornje trake sa alatkama, a zatim izaberete neku od opcija iz podmenija <b>Insert Page Break</b> (oznaka preloma odeljka razlikuje se u zavisnosti od izabrane opcije: Next Page, Continuous Page, Even Page ili Odd Page).</td>
+				</tr>
+				<tr>
+					<td>Prelomi odeljaka</td>
+					<td><div class="big big-sectionbreak"></div></td>
+					<td>Umeću se kada koristite ikonu <div class="icon icon-pagebreak1"></div> <b>Breaks</b> na kartici <b>Insert</b> ili <b>Layout</b> gornje trake sa alatkama, a zatim izaberete neku od opcija iz podmenija <b>Insert Section Break</b> (oznaka preloma odeljka razlikuje se u zavisnosti od izabrane opcije: Next Page, Continuous Page, Even Page ili Odd Page).</td>
+				</tr>
+                <tr>
+                    <td>Prelomi kolona</td>
+                    <td><div class="big big-columnbreak"></div></td>
+                    <td>Umeću se kada koristite ikonu <div class="icon icon-pagebreak1"></div> <b>Breaks</b> na kartici <b>Insert</b> ili <b>Layout</b> gornje trake sa alatkama, a zatim izaberete opciju <b>Insert Column Break</b>.</td>
+                </tr>
+				<tr>
+					<td>Oznake kraja ćelije i kraja reda u tabelama</td>
+					<td><div class="icon icon-cellrow"></div></td>
+					<td>Sadrže kodove formatiranja za pojedinačnu ćeliju, odnosno red.</td>
+				</tr>
+				<tr>
+					<td>Mali crni kvadrat u margini levo od pasusa</td>
+					<td><div class="icon icon-square"></div></td>
+					<td>Označava da je primenjena bar jedna opcija pasusa, na primer <b>Zadrži redove zajedno</b> ili <b>Prelom stranice pre</b>.</td>
+				</tr>
+				<tr>
+					<td>Sidreni simboli</td>
+					<td><div class="icon icon-anchor"></div></td>
+					<td>Označavaju poziciju plutajućih objekata (objekata čiji stil prelamanja nije <b>Inline</b>), kao što su slike, automatski oblici i grafikoni. Potrebno je da izaberete objekat kako bi se prikazalo njegovo sidro.</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>

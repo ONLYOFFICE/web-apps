@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Sečenje/kopiranje/lepljenje podataka</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Sečenje/kopiranje/lepljenje podataka korišćenjem prečica na tastaturi" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Sečenje/kopiranje/lepljenje podataka</h1>
+            <h3>Korišćenje osnovnih operacija međuspremnika</h3>
+            <p>Da biste isekli, kopirali i nalepili podatke u trenutnoj tabeli, koristite meni desnog klika ili odgovarajuće ikonice <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor</b></a> dostupne na bilo kojoj kartici gornje trake alatki,</p>
+            <ul>
+                <li><b>Cut</b> - izaberite podatke i koristite opciju <b>Cut</b> iz menija desnog klika, ili ikonicu <b>Cut</b> <span class="icon icon-cut"></span> na gornjoj traci alatki da obrišete izabrane podatke i pošaljete ih u memoriju međuspremnika računara. <span class="onlineDocumentFeatures">Isečeni podaci se kasnije mogu ubaciti na drugo mesto u istoj tabeli.</span></li>
+                <li><b>Copy</b> - izaberite podatke i koristite ikonicu <b>Copy</b> <span class="icon icon-copy"></span> na gornjoj traci alatki ili kliknite desnim tasterom miša i izaberite opciju <b>Copy</b> iz menija da pošaljete izabrane podatke u memoriju međuspremnika računara. <span class="onlineDocumentFeatures">Kopirani podaci se kasnije mogu ubaciti na drugo mesto u istoj tabeli.</span></li>
+                <li><b>Paste</b> - izaberite mesto i koristite ikonicu <b>Paste</b> <span class="icon icon-paste"></span> na gornjoj traci alatki ili kliknite desnim tasterom miša i izaberite opciju <b>Paste</b> da ubacite prethodno kopirane/isečene podatke iz memorije međuspremnika računara na trenutnu poziciju kursora. <span class="onlineDocumentFeatures">Podaci mogu prethodno biti kopirani iz iste tabele.</span></li>
+            </ul>
+            <p><span class="onlineDocumentFeatures">U <em>online verziji</em>, sledeće kombinacije tastera koriste se samo za kopiranje ili lepljenje podataka iz/u drugu tabelu ili neki drugi program,</span> <span class="desktopDocumentFeatures">u <em>desktop verziji</em>, i odgovarajuća dugmad/opcije menija i kombinacije tastera mogu se koristiti za sve operacije kopiranja/lepljenja:</span></p>
+            <ul>
+                <li>kombinacija tastera <b>Ctrl+X</b> za sečenje (<b>Cmd+X</b> za macOS);</li>
+                <li>kombinacija tastera <b>Ctrl+C</b> za kopiranje (<b>Cmd+C</b> za macOS);</li>
+                <li>kombinacija tastera <b>Ctrl+V</b> za lepljenje (<b>Cmd+V</b> za macOS).</li>
+            </ul>
+            <p class="note"><b>Napomena</b>: umesto sečenja i lepljenja podataka unutar iste radne tabele, možete izabrati potrebnu ćeliju/opseg ćelija, preći kursorom miša preko ivice izbora tako da se pretvori u ikonicu strelice <span class="icon icon-arrow"></span> i prevući (drag-and-drop) izbor na željenu poziciju.</p>
+            <p>Da biste omogućili / onemogućili automatsko pojavljivanje dugmeta <b>Paste Special</b> nakon lepljenja, idite na karticu <b>File</b> &gt; <b>Advanced Settings</b> i označite / poništite izbor u polju <b>Show the Paste Options button when the content is pasted</b>.</p>
+            <h3>Korišćenje funkcije Paste Special</h3>
+            <p class="note"><b>Napomena</b>: Za kolaborativno uređivanje, funkcija <b>Paste Special</b> dostupna je samo u <b>Strict</b> režimu zajedničkog uređivanja.</p>
+            <p>Nakon što se kopirani podaci nalepe, dugme <b>Paste Special</b> <span class="icon icon-pastespecialbutton"></span> pojavljuje se pored donjeg desnog ugla ubačene ćelije/opsega ćelija. Kliknite ovo dugme da izaberete željenu opciju lepljenja ili koristite taster <em>Ctrl</em> da otvorite meni <b>Paste Special</b>, zatim pritisnite slovo koje je dato u zagradama pored potrebne opcije.</p>
+            <p>Kada lepíte ćeliju/opseg ćelija sa formatiranim podacima, dostupne su sledeće opcije:</p>
+            <ul>
+                <li><em>Paste (Ctrl then P)</em> - omogućava lepljenje celokupnog sadržaja ćelije uključujući formatiranje podataka. Ova opcija je podrazumevano izabrana.</li>
+                <li>
+                    Sledeće opcije mogu se koristiti ako kopirani podaci sadrže formule:
+                    <ul>
+                        <li><em>Paste only formula (Ctrl then F)</em> - omogućava lepljenje formula bez lepljenja formatiranja podataka.</li>
+                        <li><em>Formula + number format (Ctrl then O)</em> - omogućava lepljenje formula sa formatiranjem koje je primenjeno na brojeve.</li>
+                        <li><em>Formula + all formatting (Ctrl then K)</em> - omogućava lepljenje formula sa svim formatiranjem podataka.</li>
+                        <li><em>Formula without borders (Ctrl then B)</em> - omogućava lepljenje formula sa svim formatiranjem podataka osim ivica ćelija.</li>
+                        <li><em>Formula + column width (Ctrl then W)</em> - omogućava lepljenje formula sa svim formatiranjem podataka i postavljanje širine kolona iz izvora za opseg ćelija.</li>
+                        <li><em>Transpose (Ctrl then T)</em> - omogućava lepljenje podataka uz zamenu kolona i redova, ili obrnuto. Ova opcija je dostupna za uobičajene opsege podataka, ali ne i za formatirane tabele.</li>
+                    </ul>
+                </li>
+                <li>
+                    Sledeće opcije omogućavaju lepljenje rezultata koji kopirana formula vraća, bez lepljenja same formule:
+                    <ul>
+                        <li><em>Paste only value (Ctrl then +V)</em> - omogućava lepljenje rezultata formula bez lepljenja formatiranja podataka.</li>
+                        <li><em>Value + number format (Ctrl then A)</em> - omogućava lepljenje rezultata formula sa formatiranjem primenjenim na brojeve.</li>
+                        <li><em>Value + all formatting (Ctrl then E)</em> - omogućava lepljenje rezultata formula sa svim formatiranjem podataka.</li>
+                    </ul>
+                </li>
+                <li><em>Paste only formatting (Ctrl then R)</em> - omogućava lepljenje samo formatiranja ćelija, bez lepljenja sadržaja ćelija.</li>
+                <li>
+                    <em>Paste link (Ctrl then N)</em> - omogućava lepljenje <a href="../UsageInstructions/AddExternalLinks.htm" onclick="onhyperlinkclick(this)">eksterne veze ka ćeliji ili opsegu ćelija</a> u drugoj tabeli unutar trenutnog portala (u online editoru) ili u lokalnom fajlu (u desktop editoru).
+                    <p><img alt="Paste options" src="../images/pastespecial.png" /></p>
+                    <ol>
+                        <li>
+                            <b>Paste</b>
+                            <ul>
+                                <li><em>Formulas</em> - omogućava lepljenje formula bez lepljenja formatiranja podataka.</li>
+                                <li><em>Values</em> - omogućava lepljenje rezultata formula bez lepljenja formatiranja podataka.</li>
+                                <li><em>Formats</em> - omogućava primenu formatiranja kopirane oblasti.</li>
+                                <li><em>Comments</em> - omogućava dodavanje komentara kopirane oblasti.</li>
+                                <li><em>Column widths</em> - omogućava postavljanje određenih širina kolona kopirane oblasti.</li>
+                                <li><em>All except borders</em> - omogućava lepljenje formula, rezultata formula sa svim formatiranjem osim ivica.</li>
+                                <li><em>Formulas &#38; formatting</em> - omogućava lepljenje formula i primenu formatiranja na njih iz kopirane oblasti.</li>
+                                <li><em>Formulas &#38; column widths</em> - omogućava lepljenje formula i postavljanje određenih širina kolona kopirane oblasti.</li>
+                                <li><em>Formulas &#38; number formulas</em> - omogućava lepljenje formula i formata brojeva.</li>
+                                <li><em>Values &#38; number formats</em> - omogućava lepljenje rezultata formula i primenu formatiranja brojeva kopirane oblasti.</li>
+                                <li><em>Values &#38; formatting</em> - omogućava lepljenje rezultata formula i primenu formatiranja kopirane oblasti.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>Operation</b>
+                            <ul>
+                                <li><em>Add</em> - omogućava automatsko sabiranje numeričkih vrednosti u svakoj ubačenoj ćeliji.</li>
+                                <li><em>Subtract</em> - omogućava automatsko oduzimanje numeričkih vrednosti u svakoj ubačenoj ćeliji.</li>
+                                <li><em>Multiply</em> - omogućava automatsko množenje numeričkih vrednosti u svakoj ubačenoj ćeliji.</li>
+                                <li><em>Divide</em> - omogućava automatsko deljenje numeričkih vrednosti u svakoj ubačenoj ćeliji.</li>
+                            </ul>
+                        </li>
+                        <li><b>Transpose</b> - omogućava lepljenje podataka uz zamenu kolona i redova, ili obrnuto.</li>
+                        <li><b>Skip blanks</b> - omogućava preskakanje lepljenja praznih ćelija i njihovog formatiranja.</li>
+                    </ol>
+                    <p><img alt="Paste Special window" src="../images/pastespecial_window.png" /></p>
+                </li>
+            </ul>
+
+            <p>Kada lepíte sadržaj jedne ćelije ili neki tekst unutar autoshape objekata, dostupne su sledeće opcije:</p>
+            <ul>
+                <li><em>Source formatting (Ctrl+K)</em> - omogućava da zadržite izvorno formatiranje kopiranih podataka.</li>
+                <li><em>Destination formatting (Ctrl+M)</em> - omogućava da primenite formatiranje koje se već koristi za ćeliju/autoshape u koji se podaci ubacuju.</li>
+            </ul>
+            <h5 id="delimiteddata">Lepljenje teksta sa razdvajačima</h5>
+            <p>Kada lepíte tekst sa razdvajačima kopiran iz <b>.txt</b> fajla, dostupne su sledeće opcije:</p>
+            <p class="note">Tekst sa razdvajačima može da sadrži više zapisa, a svaki zapis odgovara jednom redu tabele. Svaki zapis može da sadrži više tekstualnih vrednosti razdvojenih razdvajačem (kao što su zarez, tačka-zarez, dvotačka, tabulator, razmak ili drugi karakteri). Fajl treba da bude sačuvan kao običan tekstualni <b>.txt</b> fajl.</p>
+            <ul>
+                <li><em>Keep text only (Ctrl+T)</em> - omogućava da nalepite tekstualne vrednosti u jednu kolonu, gde sadržaj svake ćelije odgovara jednom redu u izvornom tekstualnom fajlu.</li>
+                <li>
+                    <em>Use text import wizard</em> - omogućava da otvorite <b>Text Import Wizard</b> koji pomaže da se tekstualne vrednosti lako podele u više kolona, pri čemu će svaka vrednost razdvojena razdvajačem biti smeštena u zasebnu ćeliju.
+                    <p>Kada se otvori prozor <b>Text Import Wizard</b>, izaberite razdvajač teksta koji se koristi u podacima sa razdvajačima iz padajuće liste <b>Delimiter</b>. Podaci podeljeni u kolone biće prikazani u polju <b>Preview</b> ispod. Ako ste zadovoljni rezultatom, kliknite dugme <b>OK</b>.</p>
+                </li>
+            </ul>
+            <p><img alt="Text import wizard" src="../images/textimportwizard.png" /></p>
+            <p>Ako ste nalepili podatke sa razdvajačima iz izvora koji nije običan tekstualni fajl (npr. tekst kopiran sa web stranice itd.), ili ako ste primenili funkciju <em>Keep text only</em> i sada želite da podelite podatke iz jedne kolone u više kolona, možete koristiti opciju <b>Text to Columns</b>. </p>
+            <p>Da biste podelili podatke u više kolona:</p>
+            <ol>
+                <li>Izaberite potrebnu ćeliju ili kolonu koja sadrži podatke sa razdvajačima.</li>
+                <li>Pređite na karticu <b>Data</b>.</li>
+                <li>Kliknite dugme <b>Text to columns</b> na gornjoj traci alatki. Otvara se <b>Text to Columns Wizard</b>.</li>
+                <li>U padajućoj listi <b>Delimiter</b> izaberite razdvajač koji se koristi u podacima sa razdvajačima.</li>
+                <li>
+                    Kliknite dugme <b>Advanced</b> da otvorite prozor <b>Advanced Settings</b> u kojem možete da navedete razdvajače za <b>Decimal</b> i <b>Thousands</b>.
+                    <p><img alt="Separator settings window" src="../images/separator.png" /></p>
+                </li>
+                <li>Pregledajte rezultat u polju ispod i kliknite <b>OK</b>.</li>
+            </ol>
+            <p>Nakon toga, svaka tekstualna vrednost razdvojena razdvajačem biće smeštena u zasebnu ćeliju.</p>
+            <p class="note">Ako postoje podaci u ćelijama desno od kolone koju želite da podelite, ti podaci će biti prepisani.</p>
+            <h3>Korišćenje opcije Auto Fill</h3>
+            <p>Da biste brzo popunili više ćelija istim podacima, koristite opciju <b>Auto Fill</b>:</p>
+            <ol>
+                <li>izaberite ćeliju/opseg ćelija koji sadrži potrebne podatke,</li>
+                <li>
+                    pomerite kursor miša preko ručice za popunjavanje u donjem desnom uglu ćelije. Kursor će se pretvoriti u crni krstić:
+                    <p><div class="big big-autofill"></div></p>
+                </li>
+                <li>prevucite ručicu preko susednih ćelija da biste ih popunili izabranim podacima.</li>
+            </ol>
+            <p class="note"><b>Napomena</b>: ako treba da napravite niz brojeva (kao što su 1, 2, 3, 4...; 2, 4, 6, 8... itd.) ili datuma, unesite najmanje dve početne vrednosti i brzo proširite niz tako što ćete izabrati te ćelije i prevući ručicu za popunjavanje. Za niz dana u nedelji ili meseci unesite početnu vrednost i prevucite ručicu za popunjavanje. </p>
+            <p>Da biste dodatno prilagodili automatsko popunjavanje ćelija, prevucite opseg desnim tasterom miša kako biste otvorili kontekstni meni Auto Fill:</p>
+            <p><img alt="Series - context menu" src="../images/series_context_menu.png" /></p>
+            <ul>
+                <li><b>Copy cells</b> - sadržaj opsega ćelija biće kopiran u vaš međuspremnik.</li>
+                <li><b>Fill series</b> - automatsko popunjavanje na osnovu uspostavljenog šablona u izabranom opsegu ćelija.</li>
+                <li><b>Fill days</b> - samo dani će pratiti uspostavljeni šablon, npr. 01/01/2025, 02/01/2025 ... (DD-MM-YYYY).</li>
+                <li><b>Fill weekdays</b> - samo radni dani će pratiti uspostavljeni šablon, vikendi će biti izostavljeni.</li>
+                <li><b>Fill months</b> - samo meseci će pratiti uspostavljeni šablon, npr. 01/01/2025, 01/02/2025 ... (DD-MM-YYYY).</li>
+                <li><b>Fill years</b> - samo godine će pratiti uspostavljeni šablon, npr. 01/01/2025, 01/01/2026 ... (DD-MM-YYYY).</li>
+                <li><b>Linear trend</b> - automatsko popunjavanje će pratiti linearni trend (1, 2, 3 ...).</li>
+                <li><b>Growth trend</b> - automatsko popunjavanje će pratiti eksponencijalni trend rasta (1, 2, 4, 8, 16 ...).</li>
+                <li><b>Series</b> - otvara meni <b>Series</b>, gde možete dodatno <a href="#series">prilagoditi podešavanja</a>.</li>
+            </ul>
+            <h3>Popunjavanje ćelija u koloni tekstualnim vrednostima</h3>
+            <p>Ako kolona u vašoj tabeli sadrži neke tekstualne vrednosti, možete lako zameniti bilo koju vrednost u toj koloni ili popuniti sledeću praznu ćeliju izborom jedne od već postojećih tekstualnih vrednosti.</p>
+            <p>Kliknite desnim tasterom miša na potrebnu ćeliju i izaberite opciju <b>Select from drop-down list</b> u kontekstnom meniju.</p>
+            <p><img alt="Select from drop-down list" src="../images/selectfromlist.png" /></p>
+            <p>Izaberite jednu od dostupnih tekstualnih vrednosti da biste zamenili trenutnu ili popunili praznu ćeliju.</p>
+
+            <h3 id="series">Popunjavanje ćelija korišćenjem alata Series</h3>
+            <ol>
+                <li>
+                    Izaberite ćeliju/opseg ćelija koji sadrži početne podatke i neke prazne ćelije u potrebnom smeru. Kliknite ikonicu <b>Fill</b> na kartici <b>Home</b> gornje trake alatki i izaberite opciju <b>Series</b>.
+                    <p>Možete koristiti i opcije <b>Down</b>, <b>Right</b>, <b>Up</b>, <b>Left</b> da popunite izabrane prazne ćelije.</p>
+                    <p><img alt="Series - menu" src="../images/series_menu.png" /></p>
+                    <p>Postoji i drugi način da pristupite prozoru <b>Series</b>. Možete izabrati početne podatke, pomeriti kursor miša preko ručice za popunjavanje u donjem desnom uglu ćelije, kliknuti i držati <b>desni taster miša</b> na ručici za popunjavanje, zatim prevući nadole, nagore, udesno ili ulevo i otpustiti desni taster miša - pojaviće se kontekstni meni sa opcijom <b>Series</b>.</p>
+                </li>
+                <li>
+                    U dijalogu <b>Series</b> izaberite potrebne opcije i kliknite <b>OK</b>:
+                    <p><img alt="Series - window" src="../images/series_window.png" /></p>
+                    <ul>
+                        <li><b>Series in</b>: <em>Rows</em>, <em>Columns</em> - izaberite smer popunjavanja ćelija.</li>
+                        <li><b>Type</b>: <em>Linear</em> se koristi da se vrednost koraka (step) doda početnoj vrednosti, a zatim svakoj sledećoj vrednosti; <em>Growth</em> se koristi da se početna vrednost množi vrednošću koraka; <em>Date</em> se koristi za popunjavanje ćelija nizom datuma; <em>AutoFill</em> se koristi za popunjavanje ćelija podacima na osnovu drugih ćelija.</li>
+                        <li><b>Date unit</b>: <em>Day</em>, <em>Weekday</em>, <em>Month</em>, <em>Year</em> - izaberite jedinicu datuma za koju želite da se niz uvećava.</li>
+                        <li><b>Trend</b> - označite ovo polje ako u nizu postoji više od jedne početne vrednosti.</li>
+                        <li><b>Step value</b> - izaberite numeričku vrednost za koju želite da se niz uvećava. Podrazumevano je 1.</li>
+                        <li><b>Stop value</b> - navedite poslednju vrednost u nizu.</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+	</body>
+</html>

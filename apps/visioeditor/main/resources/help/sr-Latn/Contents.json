@@ -1,0 +1,13 @@
+[
+    {"src": "ProgramInterface/ProgramInterface.htm", "name": "Uvod u korisnički interfejs Prikazivača dijagrama", "headername": "Korisnički interfejs"},
+	{"src": "ProgramInterface/FileTab.htm", "name": "Kartica Datoteka"},
+	{"src": "ProgramInterface/ViewTab.htm", "name": "Kartica Prikaz"},
+	{"src": "HelpfulHints/About.htm", "name": "O Prikazivaču dijagrama", "headername": "Korisni saveti"},
+	{"src": "HelpfulHints/AdvancedSettings.htm", "name": "Napredna podešavanja Prikazivača dijagrama"},
+	{"src": "HelpfulHints/Communicating.htm", "name": "Komunikacija u realnom vremenu"},
+	{"src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Prečice na tastaturi"},
+    { "src": "HelpfulHints/Navigation.htm", "name": "Podešavanja prikaza i alati za navigaciju" },
+    {"src": "HelpfulHints/SupportedFormats.htm", "name": "Podržani formati elektronskih dijagrama"},
+	{"src": "UsageInstructions/SavePrintDownload.htm", "name": "Preuzimanje i štampanje dijagrama", "headername": "Uputstva za korišćenje"},
+	{"src": "UsageInstructions/ViewDiagramViewerInfo.htm", "name": "Pregled informacija o dijagramu"}
+]

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="icon-create-style">
+    <path fill="#444" d="M18.984 12c0 .544-.44.984-.984.984h-5.016V18a.984.984 0 1 1-1.968 0v-5.016H6a.984.984 0 1 1 0-1.968h5.016V6a.984.984 0 1 1 1.968 0v5.016H18c.544 0 .984.44.984.984Z" class="icon-fill-gray-primary"/>
+  </g>
+</svg>

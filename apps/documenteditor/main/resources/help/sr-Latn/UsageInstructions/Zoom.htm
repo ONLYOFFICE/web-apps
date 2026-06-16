@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Zoom</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Opis Zoom dodatka za ONLYOFFICE editor-e, koji vam omogućava da organizujete i pridružite se sastancima direktno u urednicima" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Zoom</h1>
+        <p> <b>Zoom</b> plugin vam omogućava da organizujete ili zakažete Zoom sastanke direktno u editoru u samo nekoliko klikova.</p>
+        <p class="note">Plugin je kompatibilan sa <a href="https://git.onlyoffice.com/ONLYOFFICE/DocumentServer" target="_blank" onclick="onhyperlinkclick(this)">self-hosted</a> verzijom ONLYOFFICE editor-a i može se ručno dodati u ONLYOFFICE instance korišćenjem <a href="https://helpcenter.onlyoffice.com/ONLYOFFICE-Editors/Editors-User-Guides/AllEditors/Plugin-manager.aspx" target="_blank" onclick="onhyperlinkclick(this)">Plugin Manager-a</a>.</p>
+
+        <h3>Instalacija</h3>
+        <p>Da biste instalirali <b>Zoom</b> plugin,</p>
+        <ol>            
+            <li>Idite <b>Plugins</b> karticu.</li>
+            <li>Otvorite <b>Plugin Manager</b>.</li>
+            <li>Pronađite <div class="icon icon-zoom_icon"></div> <b>Zoom</b> na marketplace-u i kliknite <b>Install</b> dugme ispod.</li>
+            <li>Kliknite na <div class="icon icon-zoom_icon"></div> <b>Zoom</b> ikonu u kartici <b>Plugins</b>.</li>
+            <li>Nastavite sa konfiguracijom plugin-a.</li>
+
+        </ol>
+        <p class="note">Za više detalja, molimo pogledajte <a href="https://api.onlyoffice.com/docs/plugin-and-macros/tutorials/installing/" target="_blank" onclick="onhyperlinkclick(this)">ONLYOFFICE API dokumentaciju</a>.</p>
+
+        <h3>Konfiguracija</h3>
+        <ol>
+            <li>
+                Registrujte editor kao <b>JWT</b> aplikaciju na stranici <a href="https://marketplace.zoom.us/develop/create" target="_blank" onclick="onhyperlinkclick(this)">Zoom Develop</a> da biste koristili zakazivanje sastanaka. Popunite sva potrebna polja i aktivirajte aplikaciju. <b>JWT token</b> biće dodeljen aplikaciji.
+                <p>Ako vam je potrebna pomoć pri popunjavanju polja, pogledajte <a href="https://marketplace.zoom.us/docs/guides/build/jwt-app/" target="_blank" onclick="onhyperlinkclick(this)">zvaničnu Zoom dokumentaciju</a>.</p>
+            </li>
+            <li>
+                Kreirajte <b>Meeting SDK</b> aplikaciju na stranici <a href="https://marketplace.zoom.us/develop/create" target="_blank" onclick="onhyperlinkclick(this)">Zoom Develop</a> da biste mogli da pristupate sastancima. Popunite sva potrebna polja i aktivirajte aplikaciju. <b>SDK akreditivi</b> biće dodeljeni aplikaciji.
+                <p>Ako vam je potrebna pomoć pri popunjavanju polja, pogledajte <a href="https://marketplace.zoom.us/docs/guides/build/sdk-app/" target="_blank" onclick="onhyperlinkclick(this)">zvaničnu Zoom dokumentaciju</a>.</p>
+            </li>
+            <li>Unesite generisane <b>SDK Key</b>, <b>SDK Secret</b> i <b>JWT Token</b> u odgovarajuća polja u levom panelu ONLYOFFICE editora i kliknite na <b>Save</b>.</li>
+        </ol>
+        <p><img alt="Zoom settings" src="../../../../../../common/main/resources/help/en/images/zoom_left.png" /></p>
+
+        <h3>Kako koristiti</h3>
+        <ol>
+            <li>Idite na <b>Plugins</b> karticu.</li>
+            <li>Kliknite <div class="icon icon-zoom_icon"></div> <b>Zoom</b> ikonu.</li>
+            <li>
+                Dodajte temu sastanka i izaberite da li želite da <b>Započnete sastanak</b> ili <b>Zakažete sastanak</b>.
+                <ul>
+                    <li><b>Počni sastanak</b> - biće kreiran novi sastanak. Svi detalji se prikazuju u ćaskanju editor-a. Pritisnite kombinaciju tastera <code>Alt + Q</code> da biste brzo pristupili ćaskanju.</li>
+                    <li><b>Zakaži sastanak</b> - podesite sve potrebne parametre za predstojeći sastanak, kao što su vreme, datum, trajanje. Pristupite <b>Naprednim podešavanjima</b> za više parametara. Kliknite na <b>Sačuvaj</b> kada budete spremni.</li>
+                </ul>
+                <p class="note">Obaveštenja o sastanku se šalju u <b>Chat</b> za onlajn editore i u <b>Comments</b> za desktop editore.</p>
+            </li>
+            <li>Kliknite na dugme <b>Reconfigure</b> da ponovo podesite parametre.</li>
+            <li>Kliknite na dugme <b>Meeting mode</b> da uđete u meni sastanka, gde možete podesiti parametre kao što su <b>Name</b>, <b>Meeting ID</b>, <b>Email</b> i <b>Password</b>. Izaberite svoju <b>ulogu</b>, <b>region sastanka</b> i <b>jezik sastanka</b>.</li>
+            <li>Kliknite na <b>Join</b> da uđete u sastanak ili kliknite na <b>Copy direct join link</b> da kopirate direktan link za pristup u svoj clipboard.</li>
+            <li>Kada uđete u sastanak, Zoom prozor će se otvoriti unutar panela dodatka. Kao i u uobičajenom Zoom pozivu, ovde možete uključiti ili isključiti mikrofon i kameru, izvršavati razne radnje i uključiti režim celog ekrana.</li>
+        </ol>
+        <p class="note">Crni prozor se može pojaviti u <b>Safari</b> pregledaču prilikom pristupanja sastanku. Da bi problem nestao, potrebno je promeniti veličinu prozora dodatka ili uvećati stranicu u pregledaču.</p>
+    </div>
+</body>
+</html>

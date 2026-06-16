@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>EXPAND funkcija</title>
+	<meta charset="utf-8" />
+	<meta name="description" content="EXPAND funkcija je jedna od funkcija za pretragu i reference. Naučite kako koristiti EXPAND funkciju u Excel tabelama i kompatibilnim datotekama sa ONLYOFFICE." />
+	<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+	<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+	<script type="text/javascript" src="../callback.js"></script>
+	<script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>EXPAND funkcija</h1>
+        <p><b>EXPAND</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#lookupreference" onclick="onhyperlinkclick(this)">funkcija za pretragu i reference</a>. Koristi se za proširenje opsega podataka (niza) dodavanjem redova i kolona.</p>
+        <h3>Sintaksa</h3>
+        <p><b><em>EXPAND(niz, redovi, [kolone], [popuni_sa])</em></b></p>
+        <p><b>EXPAND</b> funkcija ima sledeće argumente:</p>
+        <table style="width: 40%">
+            <tr>
+                <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                <th style="background-color: #f4f4f4"><b>Opis</b></th>
+            </tr>
+            <tr>
+                <td><b><em>niz</em></b></td>
+                <td>Opseg ćelija koji treba proširiti.</td>
+            </tr>
+            <tr>
+                <td><b><em>redovi</em></b></td>
+                <td>Broj redova u vraćenom nizu. Iako je obavezan argument, ako se izostavi, redovi neće biti dodati i mora se navesti broj kolona.</td>
+            </tr>
+            <tr>
+                <td><b><em>kolone</em></b></td>
+                <td>Opcioni argument koji određuje broj kolona u vraćenom nizu. Ako se izostavi, kolone neće biti dodate i mora se navesti broj redova.</td>
+            </tr>
+            <tr>
+                <td><b><em>popuni_sa</em></b></td>
+                <td>Vrednost kojom se popunjavaju dodate ćelije. Podrazumevana vrednost je #N/A.</td>
+            </tr>
+        </table>
+        <h3>Napomene</h3>
+        <p>Napomena: ovo je formula niza. Za više informacija pročitajte <a href="../UsageInstructions/InsertArrayFormulas.htm" onclick="onhyperlinkclick(this)">Članak o unosu formula niza</a>.</p>
+        <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> <b>EXPAND</b> funkciju.</p>        
+        
+        <h3>Primeri</h3>
+        <p>Slika ispod prikazuje rezultat koji vraća <b>EXPAND</b> funkcija.</p>
+        <p><img alt="EXPAND funkcija" src="../images/expand.png" /></p>
+    </div>
+</body>
+</html>

@@ -1,10 +1,45 @@
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import React, {useState, useEffect, Fragment, useRef} from 'react';
 import {observer, inject} from "mobx-react";
 import { f7, Popup, Sheet, Popover, Page, Toolbar, Navbar, NavLeft, NavRight, NavTitle, Link, Input, Icon, List, ListItem, Actions, ActionsGroup, ActionsButton } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../utils/device';
 import SvgIcon from '@common/lib/component/SvgIcon';
-import IconDoneCommentWhite from '@common-android-icons/icon-done-comment-white.svg';
+import IconDoneComment from '@common-android-icons/icon-done-comment.svg';
 import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
 import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
 import IconResolveCommentAndroid from '@common-android-icons/icon-resolve-comment.svg';
@@ -31,7 +66,7 @@ const sliceQuote = (text) => {
 };
 
 function svgIcon(symbolId) {
-    return `<svg class="icon icon-svg icon-svg__white">
+    return `<svg class="icon icon-svg">
         <use href="#${symbolId}"></use>
     </svg>`;
 };
@@ -66,7 +101,7 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
                 </NavLeft>
                 <NavTitle>{_t.textAddComment}</NavTitle>
                 <NavRight>
-                    <Link className={stateText.length === 0 && 'disabled'}
+                    <Link className={`done${stateText.length === 0 ? ' disabled' : ''}`}
                           onClick={() => {
                               f7.popup.close('.add-comment-popup');
                               setTimeout(() => {
@@ -74,7 +109,7 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
                                   props.onAddNewComment(stateText, false)
                               }, 500);
                     }}>
-                        {Device.android ? <SvgIcon symbolId={IconDoneCommentWhite.id} className={'icon icon-svg icon icon-svg__white'} /> : _t.textDone}
+                        {Device.android ? <SvgIcon symbolId={IconDoneComment.id} className={'icon icon-svg'} /> : _t.textDone}
                     </Link>
                 </NavRight>
             </Navbar>
@@ -113,7 +148,7 @@ const AddCommentDialog = inject("storeComments")(observer(props => {
                         </div>
                         <div class="title">${_t.textAddComment}</div>
                         <div class="right">
-                            <a href="#" class="done" id="comment-done">${ Device.android ? svgIcon(IconDoneCommentWhite.id)  : _t.textDone}</a>
+                            <a href="#" class="done" id="comment-done">${ Device.android ? svgIcon(IconDoneComment.id)  : _t.textDone}</a>
                         </div>
                     </div>
                 </div>
@@ -247,7 +282,7 @@ const EditCommentPopup = inject("storeComments")(observer(({storeComments, comme
                 </NavLeft>
                 <NavTitle>{_t.textEditComment}</NavTitle>
                 <NavRight>
-                    <Link className={stateText.length === 0 && 'disabled'}
+                    <Link className={`done${stateText.length === 0 ? ' disabled' : ''}`}
                           onClick={() => {
                               f7.popup.close('.edit-comment-popup');
                               setTimeout(() => {
@@ -256,7 +291,7 @@ const EditCommentPopup = inject("storeComments")(observer(({storeComments, comme
                               }, 500);
                           }}
                     >
-                        {Device.android ? <SvgIcon symbolId={IconDoneCommentWhite.id} className={'icon icon-svg icon icon-svg__white'} /> : _t.textDone}
+                        {Device.android ? <SvgIcon symbolId={IconDoneComment.id} className={'icon icon-svg'} /> : _t.textDone}
                     </Link>
                 </NavRight>
             </Navbar>
@@ -297,7 +332,7 @@ const EditCommentDialog = inject("storeComments")(observer(({storeComments, comm
                         </div>
                         <div class="title">${_t.textEditComment}</div>
                         <div class="right">
-                            <a href="#" class="done" id="comment-done">${ Device.android ? svgIcon(IconDoneCommentWhite.id) : _t.textDone}</a>
+                            <a href="#" class="done" id="comment-done">${ Device.android ? svgIcon(IconDoneComment.id) : _t.textDone}</a>
                         </div>
                     </div>
                 </div>
@@ -393,7 +428,7 @@ const AddReplyPopup = inject("storeComments")(observer(({storeComments, userInfo
                 </NavLeft>
                 <NavTitle>{_t.textAddReply}</NavTitle>
                 <NavRight>
-                    <Link className={stateText.length === 0 && 'disabled'}
+                    <Link className={`done${stateText.length === 0 ? ' disabled' : ''}`}
                           onClick={() => {
                               f7.popup.close('.add-reply-popup');
                               setTimeout(() => {
@@ -401,7 +436,7 @@ const AddReplyPopup = inject("storeComments")(observer(({storeComments, userInfo
                                   onAddReply(comment, stateText);
                               }, 500);
                           }}>
-                        {Device.android ? <SvgIcon symbolId={IconDoneCommentWhite.id} className={'icon icon-svg icon icon-svg__white'} /> : _t.textDone}
+                        {Device.android ? <SvgIcon symbolId={IconDoneComment.id} className={'icon icon-svg'} /> : _t.textDone}
                     </Link>
                 </NavRight>
             </Navbar>
@@ -439,7 +474,7 @@ const AddReplyDialog = inject("storeComments")(observer(({storeComments, userInf
                         </div>
                         <div class="title">${_t.textAddReply}</div>
                         <div class="right">
-                            <a href="#" class="done" id="reply-done">${ Device.android ? svgIcon(IconDoneCommentWhite.id) : _t.textDone}</a>
+                            <a href="#" class="done" id="reply-done">${ Device.android ? svgIcon(IconDoneComment.id) : _t.textDone}</a>
                         </div>
                     </div>
                 </div>
@@ -533,7 +568,7 @@ const EditReplyPopup = inject("storeComments")(observer(({storeComments, comment
                 </NavLeft>
                 <NavTitle>{_t.textEditReply}</NavTitle>
                 <NavRight>
-                    <Link className={stateText.length === 0 && 'disabled'}
+                    <Link className={`done${stateText.length === 0 ? ' disabled' : ''}`}
                           onClick={() => {
                               f7.popup.close('.edit-reply-popup');
                               setTimeout(() => {
@@ -542,7 +577,7 @@ const EditReplyPopup = inject("storeComments")(observer(({storeComments, comment
                               }, 500);
                           }}
                     >
-                        {Device.android ? <SvgIcon symbolId={IconDoneCommentWhite.id} className={'icon icon-svg icon icon-svg__white'} /> : _t.textDone}
+                        {Device.android ? <SvgIcon symbolId={IconDoneComment.id} className={'icon icon-svg'} /> : _t.textDone}
                     </Link>
                 </NavRight>
             </Navbar>
@@ -583,7 +618,7 @@ const EditReplyDialog = inject("storeComments")(observer(({storeComments, commen
                         </div>
                         <div class="title">${_t.textEditReply}</div>
                         <div class="right">
-                            <a href="#" class="done" id="reply-done">${ Device.android ? svgIcon(IconDoneCommentWhite.id) : _t.textDone}</a>
+                            <a href="#" class="done" id="reply-done">${ Device.android ? svgIcon(IconDoneComment.id) : _t.textDone}</a>
                         </div>
                     </div>
                 </div>

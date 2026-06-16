@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Umetanje tabela</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Dodajte tabelu u dokument i prilagodite njena svojstva" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Umetanje tabela</h1>
+            <h3>Umetanje tabele</h3>
+			<p>Da biste umetnuli tabelu u <a href="https://www.onlyoffice.com/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor</b></a>-u,</p>
+			<ol>
+                <li>postavite kursor na mesto gde treba dodati tabelu,</li>
+                <li>pređite na karticu <b>Insert</b> na gornjoj traci sa alatkama,</li>
+				<li>kliknite na ikonu <div class="icon icon-table"></div> <b>Table</b> na gornjoj traci sa alatkama,</li>
+				<li>izaberite opciju za kreiranje tabele:
+					<ul>
+						<li><p>ili tabelu sa unapred definisanim brojem ćelija (maksimalno 10 × 8 ćelija)</p>
+						<p>Ako želite brzo da dodate tabelu, samo izaberite broj redova (najviše 8) i kolona (najviše 10).</p></li>
+						<li><p>ili prilagođenu tabelu</p>
+						<p>Ako vam je potrebna tabela veća od 10 × 8 ćelija, izaberite opciju <b>Insert Custom Table</b> koja će otvoriti prozor u kome možete uneti potreban broj redova i kolona, a zatim kliknite na dugme <b>OK</b>.</p>
+						<p><img alt="Prilagođena tabela" src="../images/customtable.png" /></p>
+						</li>
+                        <li>Ako želite da nacrtate tabelu pomoću miša, izaberite opciju <b>Draw Table</b>. Ovo može biti korisno ako želite da kreirate tabelu sa redovima i kolonama različitih veličina. Kursor miša će se pretvoriti u olovku <div class="icon icon-pencil_tool"></div>. Nacrtajte pravougaoni oblik na mestu gde želite da dodate tabelu, zatim dodajte redove crtanjem horizontalnih linija i kolone crtanjem vertikalnih linija unutar granica tabele.</li>
+                        <li>
+                            Ako želite da pretvorite postojeći tekst u tabelu, izaberite opciju <b>Convert Text to Table</b>. Ova funkcija može biti korisna kada već imate tekst koji želite da rasporedite u tabelu. Prozor <b>Convert Text to Table</b> sastoji se od 3 odeljka:
+                            <p><img alt="Pretvori tekst u tabelu" src="../images/converttotable.png" /></p>
+                            <ul>
+                                <li><b>Table Size</b>. Izaberite potreban broj kolona/redova u koje želite da rasporedite tekst. Možete koristiti dugmad sa strelicama gore/dole ili uneti broj ručno preko tastature.</li>
+                                <li><b>Autofit Behavior</b>. Izaberite potrebnu opciju za način uklapanja teksta: <b>Fixed column width</b> (podrazumevano je <em>Auto</em>. Možete koristiti dugmad sa strelicama gore/dole ili uneti broj ručno preko tastature), <b>Autofit to contents</b> (širina kolone odgovara dužini teksta), <b>Autofit to window</b> (širina kolone odgovara širini stranice).</li>
+                                <li><b>Separate Text at</b>. Izaberite potrebnu opciju za tip razdvajača u tekstu: <b>Paragraphs</b>, <b>Tabs</b>, <b>Semicolons</b> i <b>Other</b> (unesite željeni razdvajač ručno).</li>
+                                <li>Kliknite na <b>OK</b> da biste pretvorili tekst u tabelu.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Ako želite da umetnete tabelu kao OLE objekat:
+                            <ol>
+                                <li>Izaberite opciju <b>Insert Spreadsheet</b>.</li>
+                                <li>Pojaviće se odgovarajući prozor u kome možete uneti potrebne podatke i formatirati ih koristeći alate za formatiranje iz Spreadsheet Editor-a, kao što su <a href="../../../../../../spreadsheeteditor/main/resources/help/en/UsageInstructions/FontTypeSizeStyle.htm">izbor fonta, tipa i stila</a>, <a href="../../../../../../spreadsheeteditor/main/resources/help/en/UsageInstructions/ChangeNumberFormat.htm">podešavanje formata brojeva</a>, <a href="../../../../../../spreadsheeteditor/main/resources/help/en/UsageInstructions/InsertFunction.htm">umetanje funkcija</a>, <a href="../../../../../../spreadsheeteditor/main/resources/help/en/UsageInstructions/FormattedTables.htm">formatiranje tabela</a> itd.
+                                <p><img alt="OLE tabela" src="../../../../../../common/main/resources/help/en/images/ole_table.png" /></p></li>
+                                <li>Zaglavlje sadrži dugme <span class="icon icon-visible_area"></span> <b>Visible area</b> u gornjem desnom uglu prozora. Izaberite opciju <b>Edit Visible Area</b> da biste odabrali oblast koja će biti prikazana kada se objekat ubaci u dokument; ostali podaci se ne gube, već su samo sakriveni. Kliknite na <b>Done</b> kada završite.</li>
+                                <li>Kliknite na dugme <b>Show Visible Area</b> da biste videli izabranu oblast koja će imati plavu ivicu.</li>
+                                <li>Kada završite, kliknite na dugme <b>Save & Exit</b>.</li>
+                            </ol>
+                        </li>
+					</ul>
+				</li>
+				<li>kada je tabela dodata, možete promeniti njena svojstva, veličinu i poziciju.</li>
+			</ol>
+            <p>Da biste promenili veličinu tabele, postavite kursor miša preko hvataljke <span class="icon icon-resizetable_handle"></span> u donjem desnom uglu tabele i prevucite je dok tabela ne dostigne željenu veličinu.</p>
+            <p><span class="big big-resizetable"></span></p>
+            <p>Takođe možete ručno promeniti širinu određene kolone ili visinu reda. Postavite kursor miša na desnu ivicu kolone tako da se kursor pretvori u dvosmernu strelicu <span class="icon icon-changecolumnwidth"></span> i prevucite ivicu ulevo ili udesno da biste podesili potrebnu širinu. Da biste ručno promenili visinu jednog reda, postavite kursor miša na donju ivicu reda tako da se kursor pretvori u dvosmernu strelicu <span class="icon icon-changerowheight"></span> i prevucite ivicu nagore ili nadole.</p>
+            <p>Da biste premestili tabelu, držite hvataljku <span class="icon icon-movetable_handle"></span> u gornjem levom uglu i prevucite tabelu na željeno mesto u dokumentu.</p>
+            <p>Takođe je moguće dodati natpis tabeli. Više informacija o radu sa natpisima za tabele možete pronaći u <a href="../UsageInstructions/AddCaption.htm" onclick="onhyperlinkclick(this)">ovom članku</a>.</p>
+            <hr />
+            <h3>Izbor tabele ili njenog dela</h3>
+            <p>Da biste izabrali celu tabelu, kliknite na hvataljku <span class="icon icon-movetable_handle"></span> u njenom gornjem levom uglu.</p>
+            <p>Da biste izabrali određenu ćeliju, pomerite kursor miša na levu stranu željene ćelije tako da se kursor pretvori u crnu strelicu <span class="icon icon-selectcellpointer"></span>, a zatim kliknite levim tasterom miša.</p>
+            <p>Da biste izabrali određeni red, pomerite kursor miša na levu ivicu tabele pored željenog reda tako da se kursor pretvori u horizontalnu crnu strelicu <span class="icon icon-selectrowpointer"></span>, a zatim kliknite levim tasterom miša.</p>
+            <p>Da biste izabrali određenu kolonu, pomerite kursor miša na gornju ivicu željene kolone tako da se kursor pretvori u crnu strelicu okrenutu nadole <span class="icon icon-selectcolumnpointer"></span>, a zatim kliknite levim tasterom miša.</p>
+            <p>Takođe je moguće izabrati ćeliju, red, kolonu ili tabelu koristeći opcije iz kontekstnog menija ili iz odeljka <b>Rows & Columns</b> na desnoj bočnoj traci.</p>
+            <p class="note">
+                <b>Napomena</b>: za kretanje unutar tabele možete koristiti <a href="../HelpfulHints/KeyboardShortcuts.htm#workwithtables" onclick="onhyperlinkclick(this)">prečice na tastaturi</a>.
+            </p>
+            <hr />
+            <h3>Podešavanje opcija tabele</h3>
+			<p>Neka svojstva tabele, kao i njena struktura, mogu se menjati pomoću menija koji se otvara desnim klikom. Opcije menija su:</p>
+			<ul>
+                <li><b>Cut, Copy, Paste</b> – standardne opcije koje se koriste za isecanje ili kopiranje izabranog teksta/objekta i lepljenje prethodno isečenog/kopiranog dela teksta ili objekta na trenutnu poziciju kursora.</li>
+                <li><b>Select</b> se koristi za izbor reda, kolone, ćelije ili cele tabele.</li>
+				<li><b>Insert</b> se koristi za umetanje reda iznad ili ispod reda u kome se nalazi kursor, kao i za umetanje kolone levo ili desno od kolone u kojoj se nalazi kursor.
+                    <p>Takođe je moguće umetnuti više redova ili kolona. Ako izaberete opciju <b>Several Rows/Columns</b>, pojaviće se prozor <b>Insert Several</b>. Izaberite opciju <b>Rows</b> ili <b>Columns</b> sa liste, navedite broj redova/kolona koje želite da dodate, izaberite gde treba da budu dodati: <b>Above the cursor</b> ili <b>Below the cursor</b> i kliknite na <b>OK</b>.</p>
+                </li>
+				<li><b>Delete</b> se koristi za brisanje reda, kolone, tabele ili ćelija. Ako izaberete opciju <b>Cells</b>, otvoriće se prozor <b>Delete Cells</b>, gde možete izabrati da li želite <b>Shift cells left</b>, <b>Delete entire row</b> ili <b>Delete entire column</b>.</li>
+				<li><b>Merge Cells</b> je dostupno kada su izabrane dve ili više ćelija i koristi se za njihovo spajanje.
+                    <p>
+                        Ćelije je moguće spojiti i brisanjem granice između njih pomoću gumice. Da biste to uradili, kliknite na ikonu <span class="icon icon-table"></span> <b>Table</b> na gornjoj traci sa alatkama i izaberite opciju <b>Erase Table</b>. Kursor miša će se pretvoriti u gumicu <span class="icon icon-eraser_tool"></span>. Pomerite kursor preko granice između ćelija koje želite da spojite i obrišite je.
+                    </p>
+                </li>
+				<li><b>Split Cell...</b> se koristi za otvaranje prozora u kome možete izabrati potreban broj kolona i redova na koje će ćelija biti podeljena.
+                    <p>
+                        Ćeliju je moguće podeliti i crtanjem redova ili kolona pomoću olovke. Da biste to uradili, kliknite na ikonu <span class="icon icon-table"></span> <b>Table</b> na gornjoj traci sa alatkama i izaberite opciju <b>Draw Table</b>. Kursor miša će se pretvoriti u olovku <span class="icon icon-pencil_tool"></span>. Nacrtajte horizontalnu liniju da biste napravili red ili vertikalnu liniju da biste napravili kolonu.
+                    </p>
+                </li>
+				<li><b>Distribute rows</b> se koristi za podešavanje izabranih ćelija tako da imaju istu visinu, bez promene ukupne visine tabele.</li>
+                <li><b>Distribute columns</b> se koristi za podešavanje izabranih ćelija tako da imaju istu širinu, bez promene ukupne širine tabele.</li>
+                <li><b>Cell Vertical Alignment</b> se koristi za poravnanje teksta pri vrhu, po sredini ili pri dnu u izabranoj ćeliji.</li>
+                <li><b>Text Direction</b> – koristi se za promenu orijentacije teksta u ćeliji. Tekst možete postaviti horizontalno, vertikalno od vrha ka dnu (<b>Rotate Text Down</b>) ili vertikalno od dna ka vrhu (<b>Rotate Text Up</b>).</li>
+				<li><b>Table Advanced Settings</b> se koristi za otvaranje prozora „Table - Advanced Settings“.</li>
+				<li><b>Hyperlink</b> se koristi za umetanje hiperveze.</li>
+				<li><b>Paragraph Advanced Settings</b> se koristi za otvaranje prozora „Paragraph - Advanced Settings“.</li>
+			</ul>
+			<hr />
+			<p><img class="floatleft" alt="Desna bočna traka – Podešavanja tabele" src="../images/right_table.png" /></p>
+            <p>Takođe možete menjati svojstva tabele na desnoj bočnoj traci:</p>
+			<ul style="margin-left: 280px;">
+				<li><p><b>Rows</b> i <b>Columns</b> se koriste za izbor delova tabele koje želite da budu istaknuti.</p>
+					<p>Za redove:</p>
+					<ul>
+						<li><i>Header</i> – za isticanje prvog reda</li>
+						<li><i>Total</i> – za isticanje poslednjeg reda</li>
+						<li><i>Banded</i> – za isticanje svakog drugog reda</li>
+					</ul>
+					<p>Za kolone:</p>
+					<ul>
+						<li><i>First</i> – za isticanje prve kolone</li>
+						<li><i>Last</i> – za isticanje poslednje kolone</li>
+						<li><i>Banded</i> – za isticanje svake druge kolone</li>
+					</ul>
+				</li>
+				<li><p><b>Select from template</b> se koristi za izbor šablona tabele iz dostupnih.</p></li>
+				<li><p><b>Borders style</b> se koristi za izbor veličine ivica, boje, stila, kao i boje pozadine.</p></li>
+				<li><p><b>Rows &amp; columns</b> se koristi za izvršavanje određenih operacija nad tabelom: izbor, brisanje, umetanje redova i kolona, spajanje ćelija, deljenje ćelije.</p></li>
+                <li><p><b>Rows &amp; columns size</b> se koristi za podešavanje širine i visine trenutno izabrane ćelije. U ovom odeljku takođe možete <b>Distribute rows</b> tako da sve izabrane ćelije imaju jednaku visinu ili <b>Distribute columns</b> tako da sve izabrane ćelije imaju jednaku širinu.</p></li>
+                <li><p><b>Add formula</b> se koristi za <a href="../UsageInstructions/AddFormulasInTables.htm" onclick="onhyperlinkclick(this)">umetanje formule</a> u izabranu ćeliju tabele.</p></li>
+                <li><p><b>Repeat as header row at the top of each page</b> se koristi za ponavljanje istog reda zaglavlja na vrhu svake stranice u dugim tabelama.</p></li>
+                <li><p><b>Convert table to text</b> se koristi za pretvaranje tabele u običan tekst. Prozor <b>Convert Table to Text</b> podešava tip razdvajača za konverziju: <b>Paragraph marks</b>, <b>Tabs</b>, <b>Semicolons</b> i <b>Other</b> (unesite željeni razdvajač ručno). Tekst u svakoj ćeliji tabele smatra se zasebnim i pojedinačnim elementom budućeg teksta.</p></li>
+				<li><p><b>Show advanced settings</b> se koristi za otvaranje prozora „Table - Advanced Settings“.</p></li>
+			</ul>
+			<hr />
+            <h3>Podešavanje naprednih opcija tabele</h3>
+            <p>Da biste promenili napredna svojstva tabele, kliknite desnim tasterom miša na tabelu i izaberite opciju <b>Table Advanced Settings</b> iz menija desnog klika ili koristite link <b>Show advanced settings</b> na desnoj bočnoj traci. Otvoriće se prozor sa svojstvima tabele:</p>
+            <p><img alt="Tabela – napredna podešavanja" src="../images/table_properties_1.png" /></p>
+            <p>Kartica <b>Table</b> omogućava promenu svojstava cele tabele.</p>
+            <ul>
+                <li>Odeljak <b>Table Size</b> sadrži sledeće parametre:
+                <ul>
+                    <li>
+                        <b>Width</b> – podrazumevano se širina tabele automatski prilagođava tako da odgovara širini stranice, tj. tabela zauzima sav prostor između leve i desne margine stranice. Možete označiti ovo polje i ručno navesti potrebnu širinu tabele.
+                    </li>
+                    <li><b>Measure in</b> omogućava navođenje širine tabele u apsolutnim jedinicama, tj. <b>Centimeters</b>/<b>Points</b>/<b>Inches</b> (u zavisnosti od opcije izabrane na kartici <b>File</b> -> <b>Advanced Settings...</b>) ili u <b>Percent</b> od ukupne širine stranice.
+                        <p class="note"><b>Napomena</b>: veličinu tabele možete prilagoditi i ručno menjanjem visine reda i širine kolone. Pomerite kursor miša preko ivice reda/kolone dok se ne pretvori u dvosmernu strelicu i prevucite ivicu. Takođe možete koristiti markere <span class="icon icon-columnwidthmarker"></span> na horizontalnom lenjiru za promenu širine kolone i markere <span class="icon icon-rowheightmarker"></span> na vertikalnom lenjiru za promenu visine reda.</p>
+                    </li>
+                    <li><b>Automatically resize to fit contents</b> – omogućava automatsku promenu širine svake kolone u skladu sa tekstom u njenim ćelijama.</li>
+                </ul>
+                </li>
+                <li>Odeljak <b>Default Cell Margins</b> omogućava promenu razmaka između teksta unutar ćelija i ivice ćelije koji se koristi podrazumevano.</li>
+                <li>Odeljak <b>Options</b> omogućava promenu sledećeg parametra:
+                    <ul>
+                        <li><b>Spacing between cells</b> – razmak između ćelija koji će biti popunjen bojom <b>Table Background</b>.</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><img alt="Tabela – napredna podešavanja" src="../images/table_properties_5.png" /></p>
+            <p>Kartica <b>Cell</b> omogućava promenu svojstava pojedinačnih ćelija. Najpre je potrebno da izaberete željenu ćeliju ili da izaberete celu tabelu kako biste promenili svojstva svih njenih ćelija.</p>
+            <ul>
+                <li>
+                    Odeljak <b>Cell Size</b> sadrži sledeće parametre:
+                    <ul>
+                        <li><b>Preferred width</b> – omogućava podešavanje željene širine ćelije. Ovo je veličina kojoj ćelija teži da se prilagodi, ali u nekim slučajevima nije moguće zadržati tačno tu vrednost. Na primer, ako tekst unutar ćelije premašuje zadatu širinu, biće prelomljen u sledeći red tako da željena širina ćelije ostane nepromenjena, ali ako umetnete novu kolonu, željena širina će biti smanjena.</li>
+                        <li><b>Measure in</b> – omogućava navođenje širine ćelije u apsolutnim jedinicama, tj. <b>Centimeters</b>/<b>Points</b>/<b>Inches</b> (u zavisnosti od opcije izabrane na kartici <b>File</b> -> <b>Advanced Settings...</b>) ili u <b>Percent</b> od ukupne širine tabele.
+                            <p class="note"><b>Napomena</b>: širinu ćelije možete podesiti i ručno. Da biste pojedinačnu ćeliju u koloni učinili širom ili užom u odnosu na ukupnu širinu kolone, izaberite željenu ćeliju i pomerite kursor miša preko njene desne ivice dok se ne pretvori u dvosmernu strelicu, a zatim prevucite ivicu. Da biste promenili širinu svih ćelija u koloni, koristite markere <span class="icon icon-columnwidthmarker"></span> na horizontalnom lenjiru za promenu širine kolone.</p>
+                        </li>
+                    </ul>
+                </li>
+                <li><b>Cell Margins</b> omogućava podešavanje razmaka između teksta unutar ćelija i ivice ćelije. Podrazumevano se koriste standardne vrednosti (ove vrednosti se mogu promeniti i na kartici <b>Table</b>), ali možete poništiti izbor opcije <b>Use default margins</b> i ručno uneti potrebne vrednosti.</li>
+                <li>
+                    Odeljak <b>Cell Options</b> omogućava promenu sledećeg parametra:
+                    <ul>
+                        <li>Opcija <b>Wrap text</b> je podrazumevano uključena. Omogućava prelamanje teksta unutar ćelije koji premašuje njenu širinu u sledeći red, čime se povećava visina reda, dok širina kolone ostaje nepromenjena.</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><img alt="Tabela – napredna podešavanja" src="../images/table_properties_3.png" /></p>
+            <p>Kartica <b>Borders &amp; Background</b> sadrži sledeće parametre:</p>
+            <ul>
+                <li>
+                    Parametri <b>Border</b> (veličina, boja i prisustvo ili odsustvo) – podešavanje veličine ivice, izbor njene boje i način na koji će biti prikazana u ćelijama.
+                    <p class="note">
+                        <b>Napomena</b>: ukoliko odlučite da ne prikazujete ivice tabele klikom na dugme <span class="icon icon-noborders"></span> ili ručnim uklanjanjem svih ivica na dijagramu, one će u dokumentu biti označene isprekidanom linijom.
+                        Da biste ih u potpunosti sakrili, kliknite na ikonu <b>Nonprinting characters</b> <span class="icon icon-nonprintingcharacters"></span> na kartici <b>Home</b> gornje trake sa alatkama i izaberite opciju <b>Hidden Table Borders</b>.
+                    </p>
+                </li>
+                <li><b>Cell Background</b> – boja pozadine unutar ćelija (dostupno samo ako je izabrana jedna ili više ćelija ili ako je opcija <b>Allow spacing between cells</b> izabrana na kartici <b>Table</b>).</li>
+                <li><b>Table Background</b> – boja pozadine tabele ili pozadine prostora između ćelija ukoliko je opcija <b>Allow spacing between cells</b> izabrana na kartici <b>Table</b>.</li>
+            </ul>
+            <p id="position"><img alt="Tabela – napredna podešavanja" src="../images/table_properties_4.png" /></p>
+			<p>Kartica <b>Table Position</b> je dostupna samo ako je na kartici <b>Text Wrapping</b> izabrana opcija <b>Flow table</b> i sadrži sledeće parametre:</p>
+			<ul>
+				<li>Parametri <b>Horizontal</b> uključuju <b>poravnanje</b> tabele (levo, centar, desno) <b>u odnosu na</b> marginu, stranicu ili tekst, kao i <b>poziciju tabele desno od</b> margine, stranice ili teksta.</li>
+				<li>Parametri <b>Vertical</b> uključuju <b>poravnanje</b> tabele (gore, centar, dole) <b>u odnosu na</b> marginu, stranicu ili tekst, kao i <b>poziciju tabele ispod</b> margine, stranice ili teksta.</li>
+				<li>Odeljak <b>Options</b> omogućava promenu sledećih parametara: 
+                <ul>
+                    <li><b>Move object with text</b> – obezbeđuje da se tabela pomera zajedno sa tekstom.</li>
+                    <li><b>Allow overlap</b> – kontroliše da li će se dve tabele spojiti u jednu veliku tabelu ili preklapati ukoliko ih prevučete blizu jednu drugoj na stranici.</li>
+                </ul>
+                </li>                
+			</ul>            
+            <p><img alt="Tabela – napredna podešavanja" src="../images/table_properties_2.png" /></p>
+            <p>Kartica <b>Text Wrapping</b> sadrži sledeće parametre:</p>
+            <ul>
+                <li>Stil <b>prelamanja teksta</b> – <b>Inline table</b> ili <b>Flow table</b>. Izaberite odgovarajuću opciju da biste promenili način na koji je tabela pozicionirana u odnosu na tekst: tabela će biti deo teksta (ako izaberete inline tabelu) ili će tekst obilaziti tabelu sa svih strana (ako izaberete flow tabelu).</li>
+                <li>
+                    Nakon izbora stila prelamanja, dodatni parametri prelamanja mogu se podesiti i za inline i za flow tabele:
+                    <ul>
+                        <li>Za inline tabelu možete navesti <b>poravnanje</b> tabele i <b>uvlačenje sa leve strane</b>.</li>
+                        <li>Za flow tabelu možete navesti <b>udaljenost od teksta</b> i <b>poziciju</b> tabele na kartici <b>Table Position</b>.</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><img alt="Tabela – napredna podešavanja" src="../images/table_properties_6.png" /></p>
+            <p>Kartica <b>Alternative Text</b> omogućava navođenje <b>Title</b> i <b>Description</b> koji će biti pročitani osobama sa oštećenjima vida ili kognitivnim poteškoćama kako bi im se olakšalo razumevanje sadržaja tabele.</p>
+                        
+		</div>
+	</body>
+</html>

@@ -18,7 +18,7 @@
             <div class="group small">
                 <div class="elset">
                     <span class="btn-slot split" id="slot-btn-copy"></span>
-                    <span class="btn-slot" id="slot-btn-paste"></span>
+                    <span class="btn-slot split" id="slot-btn-paste"></span>
                 </div>
                 <div class="elset">
                     <span class="btn-slot split" id="slot-btn-undo"></span>
@@ -167,7 +167,7 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
-                    <span class="btn-slot text x-huge" id="slot-img-wrapping"></span>
+                    <span class="btn-slot text x-huge slot-img-wrapping"></span>
                     <span class="btn-slot text x-huge" id="slot-img-movefrwd"></span>
                     <span class="btn-slot text x-huge" id="slot-img-movebkwd"></span>
                     <span class="btn-slot text x-huge" id="slot-img-align"></span>

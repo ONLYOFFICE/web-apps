@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Popunjavanje objekata i izbor boja</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Popunite dodate objekte bojom, slikom ili teksturom, izaberite boje za pozadinu slajda, popunu i liniju automatskih oblika, font." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Popunjavanje objekata i izbor boja</h1>
+			<p>U <a target="_blank" href="https://www.onlyoffice.com/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>Uređivaču prezentacija</b></a> možete primeniti različite vrste popune za slajd, automatski oblik i pozadinu fonta Tekstualne umetnosti.</p>
+			<ol>
+			<li>Izaberite objekat
+                <ul>
+                    <li>Da biste promenili popunu pozadine slajda, izaberite potrebne slajdove u listi slajdova. Kartica <div class = "icon icon-slide_settings_icon"></div> <b>Podešavanja slajda</b> biće aktivirana na desnoj bočnoj traci.</li>
+                    <li>Da biste promenili popunu automatskog oblika, kliknite levim tasterom miša na željeni automatski oblik. Kartica <div class = "icon icon-shape_settings_icon"></div> <b>Podešavanja oblika</b> biće aktivirana na desnoj bočnoj traci.</li>
+                    <li>Da biste promenili popunu fonta Tekstualne umetnosti, kliknite levim tasterom miša na željeni tekstualni objekat. Kartica <div class = "icon icon-textart_settings_icon"></div> <b>Podešavanja Tekstualne umetnosti</b> biće aktivirana na desnoj bočnoj traci.</li>
+                </ul>
+			</li>
+			<li>Podesite potrebnu vrstu popune</li>
+			<li>Podesite svojstva izabrane popune (pogledajte detaljan opis ispod za svaku vrstu popune)
+			<p class="note">Za automatske oblike i font Tekstualne umetnosti, bez obzira na izabranu vrstu popune, možete podesiti i nivo <b>Neprozirnosti</b> povlačenjem klizača ili ručnim unosom procentualne vrednosti. Podrazumevana vrednost je <b>100%</b>. Ona odgovara punoj neprozirnosti. Vrednost <b>0%</b> odgovara potpunoj providnosti.</p>
+			</li>
+			</ol>			
+			<p><b>Dostupne su sledeće vrste popune:</b></p>
+			<ul>
+				<li><b>Popuna bojom</b> – izaberite ovu opciju da biste odredili punu boju za popunjavanje unutrašnjeg prostora izabranog oblika/slajda.
+				<p><img alt="Popuna bojom" src="../images/fill_color.png" /></p>
+				<p>Kliknite na obojeno polje ispod i izaberite potrebnu boju iz dostupnih setova boja ili odredite bilo koju boju po želji:</p>
+			        <p><img alt="Palete" src="../images/palettes.png" /></p>
+			        <ul>
+			        <li><b>Boje teme</b> – boje koje odgovaraju izabranoj temi/šemi boja prezentacije. Kada primenite drugu temu ili šemu boja, skup <b>Boje teme</b> će se promeniti.</li>
+			        <li><b>Standardne boje</b> – podrazumevani skup boja.</li>
+					<li>
+						Takođe možete primeniti <b>prilagođenu boju</b> koristeći dve različite opcije:
+						<ul>
+							<li>
+								<b>Pipeta</b> – koristite ovu opciju da biste izabrali potrebnu boju klikom na nju u prezentaciji.
+							</li>
+							<li>
+								<b>Više boja</b> – kliknite na ovaj natpis ako potrebna boja ne postoji među dostupnim paletama. Izaberite potreban raspon boja pomeranjem vertikalnog klizača boja i podesite konkretnu boju povlačenjem birača boja unutar velikog kvadratnog polja za boje. Kada izaberete boju pomoću birača boja, odgovarajuće RGB i sRGB vrednosti boja biće prikazane u poljima sa desne strane. Takođe možete definisati boju na osnovu RGB modela boja unosom odgovarajućih numeričkih vrednosti u polja <b>R</b>, <b>G</b>, <b>B</b> (crvena, zelena, plava) ili unosom sRGB heksadecimalnog koda u polje označeno znakom <b>#</b>. Izabrana boja se prikazuje u polju za pregled <b>Novo</b>. Ako je objekat prethodno bio popunjen nekom prilagođenom bojom, ta boja će biti prikazana u polju <b>Trenutno</b> kako biste mogli da uporedite originalnu i izmenjenu boju. Kada je boja definisana, kliknite na dugme <b>Dodaj</b>:
+								<p><img alt="Paleta – Prilagođena boja" src="../../../../../../common/main/resources/help/en/images/palette_custom.png" /></p>
+								<p>Prilagođena boja će biti primenjena na izabrani element i dodata u paletu <b>Nedavne boje</b>.</p>
+							</li>
+						</ul>
+					</li>
+			        </ul>
+			    <p class="note">Iste vrste boja možete koristiti i prilikom izbora <b>boje linije automatskog oblika</b>, podešavanja <b>boje fonta</b> ili promene <b>pozadine ili boje ivice tabele</b>.</p>
+				</li>
+			</ul>
+				<hr />
+			<ul>				
+				<li>
+					<b>Gradijentna popuna</b> – izaberite ovu opciju da biste popunili slajd/oblik sa dve boje koje se postepeno prelaze jedna u drugu. Kliknite na ikonu <div class = "icon icon-shape_settings_icon"></div> <b>Podešavanja oblika</b> da biste otvorili meni <b>Popuna</b>:
+					<p><img class="floatleft" alt="Gradijentna popuna" src="../images/fill_gradient.png" /></p>
+					<ul style="margin-left: 280px;">
+						<li><b>Stil</b> – izaberite jednu od dostupnih opcija: <b>Linearni</b> (boje se menjaju u pravoj liniji, tj. duž horizontalne/vertikalne ose ili dijagonalno pod uglom od 45 stepeni) ili <b>Radijalni</b> (boje se menjaju kružno od centra ka ivicama).</li>
+						<li><b>Smer</b> – prozor za pregled smera prikazuje izabranu gradijentnu boju, kliknite na strelicu da biste izabrali šablon iz menija. Ako je izabran <b>Linearni</b> gradijent, dostupni su sledeći smerovi: od gore-levo ka dole-desno, od gore ka dole, od gore-desno ka dole-levo, s desna na levo, od dole-desno ka gore-levo, od dole ka gore, od dole-levo ka gore-desno, s leva na desno. Ako je izabran <b>Radijalni</b> gradijent, dostupan je samo jedan šablon.</li>
+						<li><b>Ugao</b> – postavite numeričku vrednost za precizan ugao prelaza boja.</li>
+						<li><b>Gradijentne tačke</b> su specifične tačke prelaza boja.
+						<ol>
+							<li>Koristite dugme <b>Dodaj gradijentnu tačku</b> ili klizač da biste dodali gradijentnu tačku, a dugme <b>Ukloni gradijentnu tačku</b> da biste je obrisali. Možete dodati do 10 gradijentnih tačaka. Svaka sledeća dodata gradijentna tačka ne utiče na trenutni izgled gradijenta.</li>
+							<li>Koristite klizač da biste promenili položaj gradijentne tačke ili odredite <b>Poziciju</b> u procentima za precizno pozicioniranje.</li>
+							<li>Da biste primenili boju na gradijentnu tačku, kliknite na željenu tačku na klizaču, a zatim kliknite na <b>Boja</b> da biste izabrali željenu boju.</li>
+							</ol>
+						</li>
+					</ul>
+				</li>
+			</ul>
+				<hr />
+			<ul>
+				<li><b>Slika ili tekstura</b> – izaberite ovu opciju da biste koristili sliku ili unapred definisanu teksturu kao pozadinu oblika/slajda.
+				<p><img class="floatleft"alt="Popuna slikom ili teksturom" src="../images/fill_picture.png" /></p>
+				    <ul style="margin-left: 280px;">
+						<li>
+							Ako želite da koristite sliku kao pozadinu oblika/slajda, kliknite na dugme <b>Izaberi sliku</b> i dodajte sliku <b>Iz datoteke</b> birajući je sa čvrstog diska računara, <b>Sa URL-a</b> unošenjem odgovarajuće URL adrese u otvoreni prozor ili <b>Iz skladišta</b> izborom potrebne slike sačuvane na vašem portalu.
+						</li>
+				    <li>Ako želite da koristite teksturu kao pozadinu oblika/slajda, otvorite padajući meni <b>Iz teksture</b> i izaberite željeni unapred definisani uzorak teksture.
+				    <p>Trenutno su dostupne sledeće teksture: Platno, Karton, Tamna tkanina, Zrno, Granit, Sivi papir, Pleteno, Koža, Braon papir, Papirus, Drvo.</p>
+				    </li>
+				    </ul>
+			        <ul style="margin-left: 280px;">
+			        <li>U slučaju da izabrana <b>Slika</b> ima manje ili veće dimenzije od automatskog oblika ili slajda, možete izabrati podešavanje <b>Razvuci</b> ili <b>Poploči</b> iz padajuće liste.
+			        <p>Opcija <b>Razvuci</b> omogućava prilagođavanje veličine slike kako bi odgovarala veličini slajda ili automatskog oblika tako da potpuno popuni prostor.</p>
+			        <p>Opcija <b>Poploči</b> omogućava prikaz samo dela veće slike uz zadržavanje njenih originalnih dimenzija ili ponavljanje manje slike uz zadržavanje njenih originalnih dimenzija preko površine slajda ili automatskog oblika kako bi se prostor potpuno popunio.</p>
+			        <p class="note">Svaki izabrani unapred definisani <b>Uzorak teksture</b> potpuno popunjava prostor, ali po potrebi možete primeniti efekat <b>Razvuci</b>.</p>
+			        </li>
+			        </ul>			
+				</li>
+			</ul>
+				<hr />
+			<ul>
+				<li><b>Šablon</b> – izaberite ovu opciju da biste popunili slajd/oblik dvobojnim dizajnom sastavljenim od pravilno ponavljanih elemenata.
+				<p><img class="floatleft"alt="Popuna šablonom" src="../images/fill_pattern.png" /></p>
+				    <ul style="margin-left: 280px;">
+				        <li><b>Šablon</b> – izaberite jedan od unapred definisanih dizajna iz menija.</li>
+				        <li><b>Boja prvog plana</b> – kliknite na ovo polje boje da biste promenili boju elemenata šablona.</li>
+				        <li><b>Boja pozadine</b> – kliknite na ovo polje boje da biste promenili boju pozadine šablona.</li>
+				    </ul>			
+				</li>
+			</ul>
+				<hr />
+			<ul>
+				<li><b>Bez popune</b> – izaberite ovu opciju ako ne želite da koristite popunu.</li>
+			</ul>
+		</div>
+	</body>
+</html>

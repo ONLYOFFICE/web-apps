@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64">
+  <g class="chart-line-3d">
+    <path fill="#555" d="M13 45h49v2H12.34l-8.926 8.926L2 54.512l9-9V8h2v37Z" class="icon-fill-type-preview"/>
+    <path fill="#555" d="M38.385 11C31.923 16.595 19.646 26.346 19 26.986l17.814-7.972L46.506 35H56.2l4.8-6.416-9.692-1.598L38.385 11Z" class="icon-fill-type-preview" opacity=".6"/>
+    <path fill="#555" d="m3 39.684 8-4.342 1.6-.868L19 31l15.026 14.21 1.67 1.58 2.504 2.368 4.267-2.369 2.844-1.578L51 42.053l-2.8 3.158-1.4 1.578L34.2 61 22.371 46.79l-1.314-1.58-5.257-6.315-3.2.197-1.6.099-8 .493Z" class="icon-fill-type-preview"/>
+  </g>
+</svg>

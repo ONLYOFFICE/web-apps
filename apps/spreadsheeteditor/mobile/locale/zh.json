@@ -221,6 +221,7 @@
       "textNo": "否",
       "textNoChoices": "无法选择要填充单元格的内容。<br>只能选择列中的文本值进行替换。",
       "textNoLicenseTitle": "已达到许可证最大连接数限制",
+      "textNoResourcesTitle": "资源不足",
       "textNoMatches": "找不到匹配信息",
       "textOk": "确定",
       "textPaidFeature": "付费功能",
@@ -244,6 +245,7 @@
       "warnLicenseLimitedNoAccess": "许可证已过期。您现在不能使用文档编辑功能。请联系您的管理员。",
       "warnLicenseLimitedRenewed": "许可证需要更新。您现在只能使用受限的文档编辑功能。<br>请联系您的管理员以获取完整权限",
       "warnNoLicense": "您已达到同时连接到 %1 编辑器的限制。此文档将仅打开以供查看。有关个人升级条款，请与 %1 销售团队联系。",
+      "warnNoResources": "%1服务器没有足够的资源来打开此文档进行编辑。此文档将仅以查看模式打开。",
       "warnNoLicenseUsers": "您已达到%1编辑器的用户限制。有关个人升级条款，请与%1销售团队联系。",
       "warnProcessRightsChange": "你没有编辑文件的权限。"
     }
@@ -293,11 +295,13 @@
     "errorEditingDownloadas": "在处理此文档时发生了错误。<br>请利用“下载”选项将文件备份存储到本地端。",
     "errorEditView": "当前无法编辑现有工作表视图，也无法创建新的工作表视图，因为其中一些工作表视图正在编辑中。",
     "errorEmailClient": "找不到电子邮件客户端",
+    "errorFileNotAssembled": "该文件已从服务器备份副本打开，尚未保存到存储位置。<br>请使用“另存为…”将文件保存到本地或其他驱动器。",
     "errorFilePassProtect": "该文件已启动密码保护，无法打开。",
     "errorFileRequest": "外部错误<br>文件请求。请联系支持人员。",
     "errorFileSizeExceed": "文件大小超过了您的服务器限制<br>请联系您的管理员以获取详细信息。",
     "errorFileVKey": "外部错误<br>安全密钥不正确。请联系支持人员。",
     "errorFillRange": "无法填充所选范围的单元格。<br>所有合并的单元格的大小必须相同。",
+    "errorForcedViewMode": "该文件当前以只读模式打开。<br>文件已被锁定，或您的权限不允许编辑。",
     "errorForceSave": "保存文件时出错。请使用“下载为”选项将文件保存到计算机硬盘驱动器，或稍后再试。",
     "errorFormulaInPivotFieldName": "无法在数据透视表报告中输入项目或字段名称的公式。",
     "errorFormulaName": "公式中有错误<br>公式名称不正确。",
@@ -450,6 +454,7 @@
     "textSheetName": "工作表名称",
     "textTabColor": "标签颜色",
     "textUnhide": "取消隐藏",
+    "textUnhideSheets": "取消隐藏工作表",
     "textWarnDeleteSheet": "工作表可能有数据。是否继续操作？",
     "warnAddSheetCsv": "CSV格式不支持保存有多个工作表的文件。只有活动工作表会被保存。如需保留所有工作表，请将文件保存为其他格式。"
   },
@@ -812,6 +817,7 @@
       "textNoMatches": "找不到匹配信息",
       "textOk": "确定",
       "textOpenFile": "输入密码来打开文件",
+      "textOpenLocation": "打开所在位置",
       "textOrientation": "方向",
       "textOwner": "创建者",
       "textPoint": "点",
@@ -897,8 +903,7 @@
       "txtZhtw": "中文（繁体）",
       "warnDownloadAs": "如果您继续以此格式保存，除文本之外的所有功能将丢失。<br>您确定要继续吗？",
       "warnDownloadCsv": "CSV格式不支持保存有多个工作表的文件和除文本之外的所有元素。<br>若只要将选择的工作表保存为CSV，请点击“确定”。<br>要保存整个电子表格和所有功能，请单击“取消”并选择其他格式。",
-      "warnDownloadOds": "由于格式支持有限，保存此文件可能会导致部分公式、单元格格式或嵌入对象丢失。<br>您确定要继续吗？",
-      "textOpenLocation": "Open location"
+      "warnDownloadOds": "由于格式支持有限，保存此文件可能会导致部分公式、单元格格式或嵌入对象丢失。<br>您确定要继续吗？"
     }
   }
 }

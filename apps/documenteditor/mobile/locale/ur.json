@@ -335,6 +335,7 @@
     "textLink": "لنک",
     "textLinkSettings": "لنک کی ترتیبات",
     "textLinkToPrevious": "پچھلے سے جوڑیں",
+    "textLtrTextDirection": "بائیں سے دائیں",
     "textMarch": "مارچ",
     "textMay": "مئی",
     "textMo": "مو",
@@ -379,6 +380,7 @@
     "textRightAlign": "دائیں سیدھ کریں۔",
     "textRotateTextDown": "متن کو نیچے گھمائیں",
     "textRotateTextUp": "متن کو اوپرگھمائیں",
+    "textRtlTextDirection": "دائیں سے بائیں",
     "textSa": "ص",
     "textSameCreatedNewStyle": "جیسا کہ نیا انداز بنایا گیا ہے۔",
     "textSave": "محفوظ کریں۔",
@@ -407,6 +409,7 @@
     "textTableOfCont": "ٹی او سی",
     "textTableOptions": "ٹیبل کے اختیارات",
     "textText": "متن",
+    "textTextDirection": "متن کی سمت",
     "textTextOrientation": "متن اورینٹیشن",
     "textTextWrapping": "ٹیکسٹ ریپنگ",
     "textTh": "ٹی ۔",
@@ -423,10 +426,7 @@
     "textWrapText": "متن لپیٹیں",
     "textYourOption": "آپ کا اختیار",
     "txtHeight": "اونچائی",
-    "txtWidth": "چوڑائی",
-    "textLtrTextDirection": "Left-to-right",
-    "textRtlTextDirection": "Right-to-left",
-    "textTextDirection": "Text Direction"
+    "txtWidth": "چوڑائی"
   },
   "Error": {
     "convertationTimeoutText": "تبادلوں کا وقت ختم ہو گیا۔",
@@ -439,6 +439,7 @@
     "errorComboSeries": "ایک مجموعہ چارٹ بنانے کے لیے، ڈیٹا کی کم از کم دو سیریز منتخب کریں۔",
     "errorCompare": "موازنہ دستاویزات کی خصوصیت کو ایڈیٹنگ موڈ میں دستیاب نہیں ہے۔",
     "errorConnectToServer": "اس دستاویز کو محفوظ نہیں کیا جا سکتا۔ اپنے کنکشن کی ترتیبات چیک کریں یا منتظم سے رابطہ کریں۔<br>جب آپ ٹھیک پر کلک کریں گے، تو آپ کو دستاویز ڈاؤن لوڈ کرنے کا اشارہ کیا جائے گا۔",
+    "errorCopyDisabled": "سیکورٹی وجوہات کی بناء پر، اس دستاویز کے مواد کو کاپی نہیں کیا جا سکتا۔",
     "errorDatabaseConnection": "خارجی خرابی۔ ڈیٹا بیس کنکشن میں خرابی۔ براہ کرم ، سپورٹ سے رابطہ کریں۔",
     "errorDataEncrypted": "اینکرپٹ کردہ تبدیلیاں موصول ہوگئی ہیں ، ان کی وضاحت نہیں کی جاسکتی ہے۔",
     "errorDataRange": "ڈیٹا رینج غلط ہے",
@@ -491,8 +492,7 @@
     "uploadDocSizeMessage": "دستاویز کے سائز کی زیادہ سے زیادہ حد سے تجاوز کر گیا۔",
     "uploadImageExtMessage": "نامعلوم تصویر کا فارمیٹ۔",
     "uploadImageFileCountMessage": "کوئ تصاویر اپلوڈ نہیں کی گیئں",
-    "uploadImageSizeMessage": " تصویر بہت بڑی ہے۔ زیادہ سے زیادہ سائز ہے  پچیس ایم بی ",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": " تصویر بہت بڑی ہے۔ زیادہ سے زیادہ سائز ہے  پچیس ایم بی "
   },
   "LongActions": {
     "applyChangesTextText": "ڈیٹا لوڈ ہو رہا ہے…",
@@ -655,6 +655,7 @@
     "textHasMacros": "فائل میں خودکار میکرو ہے۔ کیا آپ میکرو کو چلانا چاہتے ہیں؟",
     "textNo": "نہیں",
     "textNoLicenseTitle": "لائسنس کی حد عبور ہوگئی",
+    "textNoResourcesTitle": "وسائل ناکافی ہیں",
     "textNoMatches": "کوئی میچ نہیں",
     "textOk": "او کے",
     "textPaidFeature": "قابلِ خرید خصوصیت",
@@ -680,6 +681,7 @@
     "warnLicenseLimitedNoAccess": "لائسنس کی میعاد ختم ہوگئی۔ آپ کو دستاویز میں ترمیم کی فعالیت تک رسائی نہیں ہے۔ براہ کرم، اپنے منتظم سے رابطہ کریں۔",
     "warnLicenseLimitedRenewed": "لائسنس کی تجدید کی ضرورت ہے۔ آپ کے پاس دستاویز میں ترمیم کی فعالیت تک محدود رسائی ہے۔<br>مکمل رسائی حاصل کرنے کے لیے براہ کرم اپنے منتظم سے رابطہ کریں",
     "warnNoLicense": "آپ %1 ایڈیٹرز سے بیک وقت رابطوں کی حد کو پہنچ گئے ہیں۔ یہ دستاویز صرف دیکھنے کے لیے کھولی جائے گی۔ ذاتی اپ گریڈ کی شرائط کے لیے %1 سیلز ٹیم سے رابطہ کریں۔",
+    "warnNoResources": "%1 سرور کے پاس اس دستاویز کو ترمیم کے لیے کھولنے کے لیے کافی وسائل نہیں ہیں۔ یہ دستاویز صرف دیکھنے کے لیے کھولی جائے گی۔",
     "warnNoLicenseUsers": "آپ٪ 1 ایڈیٹرز کے لئے صارف کی حد کو پہنچ چکے ہیں۔ ذاتی اپ گریڈ کی شرائط کیلئے٪ 1 فروخت ٹیم سے رابطہ کریں۔",
     "warnProcessRightsChange": "آپ کو اس فائل میں ترمیم کرنے کی اجازت نہیں ہے۔"
   },
@@ -746,6 +748,7 @@
     "textHelp": "مدد",
     "textHiddenTableBorders": "پوشیدہ ٹیبل بارڈرز",
     "textHighlightResults": "نتائج نمایاں کریں",
+    "textHyphenation": "ہائفینیشن",
     "textInch": "انچ",
     "textLandscape": "لینڈ اسکیپ ",
     "textLastModified": "آخری بار ترمیم",
@@ -822,9 +825,7 @@
     "txtDownloadTxt": "متن ڈاؤن لوڈ کریں۔",
     "txtIncorrectPwd": "پاس ورڈ غلط ہے۔",
     "txtOk": "او کے",
-    "txtProtected": "ایک بار جب آپ پاس ورڈ درج کریں گے اور فائل کو کھولیں گے، موجودہ پاس ورڈ دوبارہ ترتیب دیا جائے گا۔",
-    "textHyphenation": "Hyphenation",
-    "textOpenLocation": "Open location"
+    "txtProtected": "ایک بار جب آپ پاس ورڈ درج کریں گے اور فائل کو کھولیں گے، موجودہ پاس ورڈ دوبارہ ترتیب دیا جائے گا۔"
   },
   "Toolbar": {
     "btnRestartNow": "ابھی دوبارہ شروع کریں۔",

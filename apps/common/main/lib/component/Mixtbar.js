@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  Mixtbar.js
@@ -106,6 +109,8 @@ define([
             initialize : function(options) {
                 Common.UI.BaseView.prototype.initialize.call(this, options);
 
+                const me = this;
+
                 var _template_tabs =
                     !Common.UI.isRTL() ?
                     '<section class="tabs">' +
@@ -157,11 +162,79 @@ define([
                 Common.NotificationCenter.on('app:repaint', _.bind(function() {
                     this.repaintMoreBtns();
                 }, this));
-                Common.NotificationCenter.on('uitheme:changed', _.bind(function() {
-                    this.clearActiveData();
-                    this.processPanelVisible();
-                    this.repaintMoreBtns();
-                }, this));
+                Common.NotificationCenter.on('uitheme:changed', _.bind(this.onThemeChanged, this));
+                Common.NotificationCenter.on({
+                    'hints:activate-control': function (p) {
+                        if (p && p.exit && me.isMoreDropdownSection(p.section)) p.exit(true);
+                    },
+
+                    'hints:resolve-section': function (p) {
+                        if (!p || !p.set) return;
+
+                        const $more = me.getVisibleMoreContainer();
+                        if (!$more.length) return;
+                        p.set($more, 1);
+                    },
+
+                    'hints:resolve-bounds': function (p) {
+                        if (p && me.isMoreDropdownSection(p.section)) {
+                            p.top = 0;
+                            p.bottom = p.docH;
+                        }
+                    },
+
+                    'hints:esc': function (p) {
+                        const handled = me.hasVisibleMoreDropdown();
+                        if (handled) me.closeVisibleMoreDropdown();
+                        if (p && p.handled) p.handled(handled);
+                    }
+                });
+            },
+
+            isMoreDropdownSection: function (section) {
+                return $(section).hasClass('more-container');
+            },
+
+            getVisibleMoreContainer: function () {
+                return $('.dropdown-menu.more-container:visible');
+            },
+
+            hasVisibleMoreDropdown: function () {
+                return this.getVisibleMoreContainer().length > 0;
+            },
+
+            closeVisibleMoreDropdown: function () {
+                const $more = this.getVisibleMoreContainer();
+                if (!$more.length) return null;
+                const tab = $more.attr('data-tab') || null;
+                this.closeMoreDropdown(tab);
+                $more.hide();
+                return tab;
+            },
+
+            closeMoreDropdown: function (tab) {
+                if (!btnsMore) return;
+                if (tab) {
+                    if (btnsMore[tab] && btnsMore[tab].pressed) {
+                        btnsMore[tab].toggle(false, true);
+                    }
+                    return;
+                }
+            },
+
+            prefillMore: function ($menu, level) {
+                if (!$menu || !$menu.length) return;
+
+                const prevDisplay = $menu[0].style.display,
+                    prevVisibility = $menu[0].style.visibility;
+                $menu.css({ display: 'block', visibility: 'hidden' });
+
+                Common.NotificationCenter.trigger('hints:prefill', {
+                    section: $('#toolbar'),   
+                    level: level
+                });
+
+                $menu.css({ display: prevDisplay, visibility: prevVisibility });
             },
 
             afterRender: function() {
@@ -364,7 +437,7 @@ define([
                     }
 
                     this.fireEvent('tab:active', [tab]);
-                    Common.NotificationCenter.trigger('tab:active',[tab]);
+                    Common.NotificationCenter.trigger('tab:active', tab);
                 }
             },
 
@@ -631,7 +704,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top dropdown-manual',
                         caption: Common.Locale.get("textMoreButton",{name:"Common.Translation", default: "More"}),
                         iconCls: 'toolbar__icon btn-big-more',
-                        enableToggle: true
+                        enableToggle: true,
+                        dataHint: '1',              
+                        dataHintDirection: 'bottom', 
+                        dataHintTitle: 'MO' 
                     });
                     btnsMore[tab].render(box.find('.slot-btn-more'));
                     btnsMore[tab].on('toggle', function(btn, state, e) {
@@ -1046,6 +1122,7 @@ define([
 
                 var styles = Common.UI.isRTL() ? {left: '6px', right: 'auto', top : top, 'max-width': Common.Utils.innerWidth() + 'px'} : {right: right, left: 'auto', top : top, 'max-width': Common.Utils.innerWidth() + 'px'}
                 moreContainer.css(styles);
+                this.prefillMore(moreContainer, 1);
                 moreContainer.show();
             },
 
@@ -1053,6 +1130,12 @@ define([
                 for (var btn in btnsMore) {
                     btnsMore[btn] && btnsMore[btn].isActive() && btnsMore[btn].toggle(false);
                 }
+            },
+
+            onThemeChanged: function(e) {
+                this.clearActiveData();
+                this.processPanelVisible();
+                this.repaintMoreBtns();
             }
         };
     }()));

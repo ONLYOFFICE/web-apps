@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Hyperlink einfügen</title>
+		<title>Link einfügen</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Add hyperlinks to a word or text fragment leading to an external website" />
+		<meta name="description" content="Fügen Sie Links zu einem Wort oder Textfragment hinzu, die zu einer externen Website führen." />
 		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
 		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
@@ -14,34 +14,33 @@
         <div class="search-field">
             <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
         </div>
-			<h1>Hyperlink einfügen</h1>
-			<p>Einfügen eines Hyperlinks im <a target="_blank" href="https://www.onlyoffice.com/de/document-editor.aspx" onclick="onhyperlinkclick(this)"><b>Dokumenteneditor</b></a>:</p>
+			<h1>Link einfügen</h1>
+			<p>Um einen Link im <a target="_blank" href="https://www.onlyoffice.com/de/document-editor.aspx" onclick="onhyperlinkclick(this)"><b>Dokumenteneditor</b></a> hinzuzufügen:</p>
 			<ol>
-				<li>Platzieren Sie Ihren Mauszeiger an der Position, wo der Hyperlink eingefügt werden soll.</li>
+				<li>Wählen Sie das Objekt aus, das Sie als Link anzeigen möchten, z. B. einen Textausschnitt, ein Bild oder eine Gruppe von Objekten.</li>
                 <li>Wechseln Sie in der oberen Symbolleiste auf die Registerkarte <b>Einfügen</b> oder <b>Verweise</b>.</li>
-				<li>Klicken Sie auf das Symbol <div class = "icon icon-addhyperlink"></div> <b>Hyperlink</b> in der oberen Symbolleiste.</li>
-				<li>Im sich nun öffnenden Fenster <b>Einstellungen Hyperlink</b> können Sie die Parameter für den Hyperlink festlegen:
+				<li>Klicken Sie auf das Symbol <div class = "icon icon-addhyperlink"></div> <b>Link</b> in der oberen Symbolleiste.</li>
+				<li>
+					Das Fenster <b>Linkeinstellungen</b> wird angezeigt, in dem Sie die Link-Parameter festlegen können:
 					<ul>
 						<li>
 							Wählen Sie den gewünschten Linktyp aus:
-							<p>Verwenden Sie die Option <b>Externer Link</b> und geben Sie eine URL im Format <em>http://www.example.com</em> in das Feld <b>Verknüpfen mit</b> unten ein, wenn Sie möchten einen Hyperlink hinzufügen, der zu einer <b>externen</b> Website führt. Wenn Sie einen Hyperlink zu einer <b>lokalen</b> Datei hinzufügen müssen, geben Sie die URL in den <em>Datei://Pfad/Dokument.docx</em> (für Windows) oder <em>Datei:///Pfad/Dokument.docx</em> (für macOS und Linux) Format in das Feld <b>Verknüpfen mit</b> unten ein.</p>
-							<p class="note">Der Hyperlink <em>Datei://Pfad/Dokument.docx</em> oder <em>Datei:///Pfad/Dokument.docx</em> kann nur in der Desktop-Version des Editors geöffnet werden. Im Web-Editor können Sie den Link nur hinzufügen, ohne ihn öffnen zu können.</p>
-							<p><img alt="Fenster Einstellungen Hyperlink" src="../../../../../../common/main/resources/help/de/images/hyperlinkwindow.png" /></p>
-							<p>Wenn Sie einen Hyperlink einfügen möchten, der zu einer bestimmten Stelle im gleichen Dokument führt, dann wählen Sie die Option <b>Stelle im Dokument</b>, wählen Sie dann eine der vorhandenen <a href="../UsageInstructions/FormattingPresets.htm" onclick="onhyperlinkclick(this)">Überschriften</a> im Dokumenttext oder eines der zuvor hinzugefügten <a href="../UsageInstructions/InsertBookmarks.htm" onclick="onhyperlinkclick(this)">Lesezeichen</a> aus.</p>
-							<p><img alt="Fenster Einstellungen Hyperlink" src="../images/hyperlinkwindow1.png" /></p>
+							<p>Verwenden Sie die Option <b>Externer Link</b> und geben Sie eine URL im Format <code>http://www.example.com</code> in das Feld <b>Verknüpfen mit</b> unten ein, wenn Sie einen Link hinzufügen, der zu einer <b>externen</b> Website führt. Wenn Sie einen Link zu einer <b>lokalen</b> Datei hinzufügen müssen, geben Sie die URL im <code>Datei://Pfad/Dokument.docx</code> (für Windows) oder <code>Datei:///Pfad/Dokument.docx</code> (für macOS und Linux) Format in das Feld <b>Verknüpfen mit</b> unten ein.</p>
+							<p class="note">Der Link <code>Datei://Pfad/Dokument.docx</code> oder <code>Datei:///Pfad/Dokument.docx</code> kann nur in der Desktop-Version des Editors geöffnet werden. Im Web-Editor können Sie den Link nur hinzufügen, ohne ihn öffnen zu können.</p>
+							<p><img alt="Fenster Einstellungen Link" src="../../../../../../common/main/resources/help/de/images/hyperlinkwindow.png" /></p>
+							<p>Wenn Sie einen Link einfügen möchten, der zu einer bestimmten Stelle im gleichen Dokument führt, dann wählen Sie die Option <b>Stelle im Dokument</b>, wählen Sie dann eine der vorhandenen <a href="../UsageInstructions/FormattingPresets.htm" onclick="onhyperlinkclick(this)">Überschriften</a> im Dokumenttext oder eines der zuvor hinzugefügten <a href="../UsageInstructions/InsertBookmarks.htm" onclick="onhyperlinkclick(this)">Lesezeichen</a> aus.</p>
+							<p><img alt="Fenster Einstellungen Link" src="../images/hyperlinkwindow1.png" /></p>
 						</li>
-						<li><b>Anzeigen</b> - geben Sie den klickbaren Text ein, der zu der im oberen Feld angegebenen Webadresse führt.</li>
-                        <li><b>QuickInfo-Text</b> - geben Sie einen Text ein, der in einem Dialogfenster angezeigt wird und den Nutzer über den Inhalt des Verweises informiert.</li>
-                    </ul>
+						<li><b>Anzeigen</b> — geben Sie den klickbaren Text ein, der zu der im oberen Feld angegebenen Webadresse führt.</li>
+						<li><b>QuickInfo-Text</b> — geben Sie einen Text ein, der in einem Dialogfenster angezeigt wird und den Nutzer über den Inhalt des Verweises informiert.</li>
+					</ul>
 				</li>
 				<li>Klicken Sie auf <b>OK</b>.</li>
 			</ol>
-            <p>Um einen Hyperlink einzufügen, können Sie auch die Tastenkombination <b>STRG+K</b> nutzen oder klicken Sie mit der rechten Maustaste an die Stelle, an der Sie den Hyperlink einfügen möchten und wählen Sie die Option <b>Hyperlink</b> im Rechtsklickmenü aus.</p>
-			<p class="note">Es ist auch möglich, ein Zeichen, Wort, eine Wortverbindung oder einen Textabschnitt mit der Maus oder über die <a href="../HelpfulHints/KeyboardShortcuts.htm#textselection" onclick="onhyperlinkclick(this)">Tastatur</a> auszuwählen. Öffnen Sie anschließend das Menü 
-			für die <b>Hyperlink-Einstellungen</b>, wie zuvor beschrieben. In diesem Fall erscheint im Feld <b>Anzeigen</b> der ausgewählte Textabschnitt.</p>
-			<p>Wenn Sie den Mauszeiger über den eingefügten Hyperlink bewegen, wird der von Ihnen im Feld <b>QuickInfo</b> eingegebenen Text angezeigt. 
-			Sie können den Link öffnen, indem Sie die Taste <b>STRG</b> drücken und dann auf den Link in Ihrem Dokument klicken.</p>
-			<p>Um den hinzugefügten Hyperlink zu bearbeiten oder zu entfernen, klicken Sie mit der rechten Maustaste auf den Link, wählen Sie dann das Optionsmenü für den <b>Hyperlink</b> aus und klicken Sie anschließend auf <b>Hyperlink bearbeiten</b> oder <b>Hyperlink entfernen</b>.</p>
+            <p>Um einen Link hinzuzufügen, können Sie auch die Tastenkombination <kbd>Strg</kbd>+<kbd>K</kbd> verwenden oder mit der rechten Maustaste auf die Stelle klicken, an der ein Link hinzugefügt werden soll, und im Kontextmenü die Option <b>Link</b> auswählen.</p>
+			<p class="note">Es ist auch möglich, ein Zeichen, ein Wort, eine Wortverbindung oder einen Textabschnitt mit der Maus oder über die <a href="../HelpfulHints/KeyboardShortcuts.htm#textselection" onclick="onhyperlinkclick(this)">Tastatur</a> auszuwählen. Öffnen Sie anschließend das Menü für die <b>Linkeinstellungen</b>, wie zuvor beschrieben. In diesem Fall erscheint im Feld <b>Anzeigen</b> der ausgewählte Textabschnitt.</p>
+			<p>Bewegen Sie den Mauszeiger über den hinzugefügten Link, um den <b>QuickInfo</b> anzuzeigen, der den von Ihnen angegebenen Text enthält. Sie können den Link öffnen, indem Sie die Taste <kbd>STRG</kbd> drücken und dann auf den Link in Ihrem Dokument klicken.</p>
+			<p>Um den hinzugefügten Link zu bearbeiten oder zu entfernen, klicken Sie mit der rechten Maustaste auf den Link, wählen Sie dann das Optionsmenü für den <b>Link</b> aus und klicken Sie anschließend auf <b>Link bearbeiten</b> oder <b>Link entfernen</b>.</p>
 		</div>
 	</body>
 </html>

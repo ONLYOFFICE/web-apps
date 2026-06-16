@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>TDIST Funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="TDIST funkcija vraća procentualne tačke (verovatnoću) za Studentovu t-distribuciju." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>TDIST Funkcija</h1>
+			<p><b>TDIST</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#statistical" onclick="onhyperlinkclick(this)">statističkih funkcija</a>. Vraća procentualne tačke (verovatnoću) za Studentovu t-distribuciju gde je numerička vrednost (<b><em>x</em></b>) izračunata vrednost t za koju se računaju procentualne tačke. T-distribucija se koristi u testiranju hipoteza za male uzorke. Koristite ovu funkciju umesto tabele kritičnih vrednosti za t-distribuciju.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>TDIST(x, deg_freedom, tails)</em></b></p> 
+			<p><b>TDIST</b> funkcija ima sledeće argumente:</p> 
+			<table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>x</em></b></td>
+                    <td>Vrednost na kojoj se funkcija izračunava. Numerička vrednost veća od 0.</td>
+                </tr>
+				<tr>
+                    <td><b><em>deg_freedom</em></b></td>
+                    <td>Broj stepeni slobode, ceo broj veći ili jednak 1.</td>
+                </tr>
+				<tr>
+                    <td><b><em>tails</em></b></td>
+                    <td>Numerička vrednost koja određuje broj repova distribucije. Ako je postavljeno na 1, funkcija vraća jednopojasnu distribuciju. Ako je postavljeno na 2, funkcija vraća dvopojasnu distribuciju.</td>
+                </tr>
+            </table>
+            <h3>Napomene</h3>
+ 			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> <b>TDIST</b> funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća <b>TDIST</b> funkcija.</p>
+			<p><img alt="TDIST Funkcija" src="../images/tdist.png" /></p>
+		</div>
+	</body>
+</html>

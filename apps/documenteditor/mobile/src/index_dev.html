@@ -67,9 +67,12 @@
             return urlParams;
         };
         let params = getUrlParams();
-        if ( /pdf|djvu|xps|oxps/.test(params['fileType']) ) {
+        if ( /pdf|docxf|oform|djvu|xps|oxps/.test(params['fileType']) ) {
             const toolbar = document.getElementsByClassName('skl-navbar--word')[0];
             toolbar.classList.add('pdf-view');
+
+            document.body && document.body.classList.add('pdf-view');
+            if (isAndroid) document.body.classList.add('pdf-view__android');
         }
 
         const element_add_class = (el, cls) => (el && el.classList.add(cls));

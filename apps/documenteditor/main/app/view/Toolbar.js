@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  Toolbar.js
@@ -170,6 +173,7 @@ define([
             applyLayout: function (config) {
                 var me = this;
                 me.lockControls = [];
+                me.config = config;
                 var _set = Common.enumLock;
                 if ( config.isEdit ) {
                     Common.UI.Mixtbar.prototype.initialize.call(this, {
@@ -279,6 +283,8 @@ define([
                         iconCls: 'toolbar__icon btn-paste',
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockCommentsIns, _set.viewMode],
                         dataHint: '1',
+                        menu: config.isDesktopApp ? new Common.UI.Menu({items: []}) : false,
+                        split: config.isDesktopApp,
                         dataHintDirection: 'top',
                         dataHintTitle: 'V'
                     });
@@ -1670,17 +1676,6 @@ define([
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
-                    me.btnImgWrapping = new Common.UI.Button({
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-img-wrap',
-                        lock: [_set.cantWrap, _set.imageLock, _set.contentLock, _set.noObjectSelected, _set.lostConnect, _set.previewReviewMode, _set.viewFormMode, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
-                        caption: me.capImgWrapping,
-                        menu: true,
-                        action: 'object-wrap',
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
 
                     me.btnWatermark = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
@@ -1728,7 +1723,7 @@ define([
                     });
 
                     me.toolbarControls.push(me.btnImgAlign,
-                        me.btnImgGroup, me.btnImgForward, me.btnImgBackward, me.btnImgWrapping, me.btnWatermark, me.btnPageColor, me.btnShapesMerge);
+                        me.btnImgGroup, me.btnImgForward, me.btnImgBackward, me.btnWatermark, me.btnPageColor, me.btnShapesMerge);
 
                     //
                     // Menus
@@ -2136,7 +2131,6 @@ define([
                 } else
                 if ( tab == 'file' ) {
                     me.fireEvent('file:open');
-                    me.setTab(tab);
                 }
 
                 if ( me.isTabActive('home'))
@@ -2230,7 +2224,6 @@ define([
                 _injectComponent('#slot-img-group', this.btnImgGroup); 
                 _injectComponent('#slot-img-movefrwd', this.btnImgForward);
                 _injectComponent('#slot-img-movebkwd', this.btnImgBackward);
-                _injectComponent('#slot-img-wrapping', this.btnImgWrapping);
                 _injectComponent('#slot-shapes-merge', this.btnShapesMerge);
                 _injectComponent('#slot-btn-watermark', this.btnWatermark);
                 _injectComponent('#slot-btn-hyphenation', this.btnHyphenation);
@@ -2243,6 +2236,10 @@ define([
                 _injectComponent('#slot-lbl-space-before', this.lblSpacingBefore);
                 _injectComponent('#slot-lbl-space-after', this.lblSpacingAfter);
                 _injectComponent('#slot-btn-pagecolor', this.btnPageColor);
+
+                if (!this.config || !this.config.isDesktopApp) {
+                    $host.find('#slot-btn-paste').removeClass('split');
+                }
 
                 this.btnsPageBreak = Common.Utils.injectButtons($host.find('.btn-slot.btn-pagebreak'), '', 'toolbar__icon btn-pagebreak', this.capBtnInsPagebreak,
                     [Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.inEquation, Common.enumLock.richDelLock,
@@ -2332,6 +2329,13 @@ define([
                     }
                     me.cmbFontSize.setData(fontSizeData);
                 }
+
+                var _set = Common.enumLock;
+
+                this.btnsImgWrapping = Common.Utils.injectButtons(me.$el.find('.btn-slot.slot-img-wrapping'), '', 'toolbar__icon btn-img-wrap', this.capImgWrapping,
+                    [_set.cantWrap, _set.imageLock, _set.contentLock, _set.noObjectSelected, _set.lostConnect, _set.previewReviewMode, _set.viewFormMode, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode], undefined, true, undefined, '1', 'bottom', 'small', undefined, 'object-wrap');
+                Array.prototype.push.apply(me.toolbarControls, this.btnsImgWrapping);
+
                 (new Promise( function(resolve, reject) {
                     resolve();
                 })).then(function () {
@@ -2533,70 +2537,73 @@ define([
                         }]
                     }));
 
-                    me.btnImgWrapping.updateHint(me.tipImgWrapping);
-                    me.btnImgWrapping.setMenu(new Common.UI.Menu({
-                        cls: 'ppm-toolbar shifted-right',
-                        items: [{
-                                caption     : _holder_view.txtInline,
-                                iconCls     : 'menu__icon btn-small-wrap-inline',
-                                toggleGroup : 'imgwrapping',
-                                wrapType    : Asc.c_oAscWrapStyle2.Inline,
-                                checkmark   : false,
-                                checkable   : true
-                            },
-                            { caption: '--' },
-                            {
-                                caption     : _holder_view.txtSquare,
-                                iconCls     : 'menu__icon btn-small-wrap-square',
-                                toggleGroup : 'imgwrapping',
-                                wrapType    : Asc.c_oAscWrapStyle2.Square,
-                                checkmark   : false,
-                                checkable   : true
-                            }, {
-                                caption     : _holder_view.txtTight,
-                                iconCls     : 'menu__icon btn-small-wrap-tight',
-                                toggleGroup : 'imgwrapping',
-                                wrapType    : Asc.c_oAscWrapStyle2.Tight,
-                                checkmark   : false,
-                                checkable   : true
-                            }, {
-                                caption     : _holder_view.txtThrough,
-                                iconCls     : 'menu__icon btn-small-wrap-through',
-                                toggleGroup : 'imgwrapping',
-                                wrapType    : Asc.c_oAscWrapStyle2.Through,
-                                checkmark   : false,
-                                checkable   : true
-                            }, {
-                                caption     : _holder_view.txtTopAndBottom,
-                                iconCls     : 'menu__icon btn-small-wrap-topandbottom',
-                                toggleGroup : 'imgwrapping',
-                                wrapType    : Asc.c_oAscWrapStyle2.TopAndBottom,
-                                checkmark   : false,
-                                checkable   : true
-                            },
-                            { caption: '--' },
-                            {
-                                caption     : _holder_view.txtInFront,
-                                iconCls     : 'menu__icon btn-small-wrap-infront',
-                                toggleGroup : 'imgwrapping',
-                                wrapType    : Asc.c_oAscWrapStyle2.InFront,
-                                checkmark   : false,
-                                checkable   : true
-                            }, {
-                                caption     : _holder_view.txtBehind,
-                                iconCls     : 'menu__icon btn-small-wrap-behind',
-                                toggleGroup : 'imgwrapping',
-                                wrapType    : Asc.c_oAscWrapStyle2.Behind,
-                                checkmark   : false,
-                                checkable   : true
-                            },
-                            { caption: '--' },
-                            {
-                                caption     : _holder_view.textEditWrapBoundary,
-                                wrapType    : 'edit'
-                            }
-                        ]
-                    }));
+                    me.btnsImgWrapping.forEach( function (btn, index) {
+                        btn.updateHint(me.tipImgWrapping);
+
+                        btn.setMenu(new Common.UI.Menu({
+                            cls: 'ppm-toolbar shifted-right',
+                            items: [{
+                                    caption     : _holder_view.txtInline,
+                                    iconCls     : 'menu__icon btn-small-wrap-inline',
+                                    toggleGroup : `imgwrapping + ${index}`,
+                                    wrapType    : Asc.c_oAscWrapStyle2.Inline,
+                                    checkmark   : false,
+                                    checkable   : true
+                                },
+                                { caption: '--' },
+                                {
+                                    caption     : _holder_view.txtSquare,
+                                    iconCls     : 'menu__icon btn-small-wrap-square',
+                                    toggleGroup : `imgwrapping + ${index}`,
+                                    wrapType    : Asc.c_oAscWrapStyle2.Square,
+                                    checkmark   : false,
+                                    checkable   : true
+                                }, {
+                                    caption     : _holder_view.txtTight,
+                                    iconCls     : 'menu__icon btn-small-wrap-tight',
+                                    toggleGroup : `imgwrapping + ${index}`,
+                                    wrapType    : Asc.c_oAscWrapStyle2.Tight,
+                                    checkmark   : false,
+                                    checkable   : true
+                                }, {
+                                    caption     : _holder_view.txtThrough,
+                                    iconCls     : 'menu__icon btn-small-wrap-through',
+                                    toggleGroup : `imgwrapping + ${index}`,
+                                    wrapType    : Asc.c_oAscWrapStyle2.Through,
+                                    checkmark   : false,
+                                    checkable   : true
+                                }, {
+                                    caption     : _holder_view.txtTopAndBottom,
+                                    iconCls     : 'menu__icon btn-small-wrap-topandbottom',
+                                    toggleGroup : `imgwrapping + ${index}`,
+                                    wrapType    : Asc.c_oAscWrapStyle2.TopAndBottom,
+                                    checkmark   : false,
+                                    checkable   : true
+                                },
+                                { caption: '--' },
+                                {
+                                    caption     : _holder_view.txtInFront,
+                                    iconCls     : 'menu__icon btn-small-wrap-infront',
+                                    toggleGroup : `imgwrapping + ${index}`,
+                                    wrapType    : Asc.c_oAscWrapStyle2.InFront,
+                                    checkmark   : false,
+                                    checkable   : true
+                                }, {
+                                    caption     : _holder_view.txtBehind,
+                                    iconCls     : 'menu__icon btn-small-wrap-behind',
+                                    toggleGroup : `imgwrapping + ${index}`,
+                                    wrapType    : Asc.c_oAscWrapStyle2.Behind,
+                                    checkmark   : false,
+                                    checkable   : true
+                                },
+                                { caption: '--' },
+                                {
+                                    caption     : _holder_view.textEditWrapBoundary,
+                                    wrapType    : 'edit'
+                                }
+                            ]
+                        }))
+                    });
 
                     me.btnWatermark.updateHint(me.tipWatermark);
 
@@ -2817,6 +2824,13 @@ define([
                     borderId: 'inner',
                 });
                                            
+                this.horizontalLine = new Common.UI.MenuItem({
+                    id: 'id-toolbar-menu-item-horizontal-line',
+                    caption: this.textHorizontalLine,
+                    iconCls: 'menu__icon btn-horizontal-line',
+                    lock: [Common.enumLock.inEquation]
+                });
+
                 if (this.btnBorders && this.btnBorders.rendered) {
                     this.btnBorders.setMenu(new Common.UI.Menu({
                         cls: 'shifted-right',
@@ -2872,6 +2886,8 @@ define([
                                 borderId: 'innerHor'
                             },
                             this.brdInnerVert,
+                            { caption: '--' },
+                            this.horizontalLine,
                             { caption: '--' },
                             {
                                 id: 'id-toolbar-menu-item-border-width',

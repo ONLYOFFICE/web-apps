@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>PPMT funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>PPMT funkcija</h1>
+			<p><b>PPMT</b> funkcija je jedna od <a href="../UsageInstructions/InsertFunction.htm#financial" onclick="onhyperlinkclick(this)">finansijskih funkcija</a>. Koristi se za izračunavanje dela otplate glavnice za investiciju na osnovu određene kamatne stope i konstantnog rasporeda plaćanja.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>PPMT(rate, per, nper, pv, [fv] ,[type])</em></b></p> 
+			<p><b>PPMT</b> funkcija ima sledeće argumente:</p> 
+			<table style="width: 40%">
+				<tr>
+					<th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+					<th style="background-color: #f4f4f4"><b>Opis</b></th>
+				</tr>
+				<tr>
+					<td><b><em>rate</em></b></td>
+					<td>Kamatna stopa za investiciju.</td>
+				</tr>
+				<tr>
+					<td><b><em>per</em></b></td>
+					<td>Period za koji želite da izračunate otplatu glavnice. Vrednost mora biti u rasponu od <b><em>1</em></b> do <b><em>nper</em></b>.</td>
+				</tr>
+				<tr>
+					<td><b><em>nper</em></b></td>
+					<td>Broj uplata.</td>
+				</tr>
+				<tr>
+					<td><b><em>pv</em></b></td>
+					<td>Sadašnja vrednost uplata.</td>
+				</tr>
+				<tr>
+					<td><b><em>fv</em></b></td>
+					<td>Buduća vrednost (tj. gotovinski saldo koji ostaje nakon izvršene poslednje uplate). Ovo je opcioni argument. Ako je izostavljen, funkcija će pretpostaviti da je <b><em>fv</em></b> jednako 0.</td>
+				</tr>
+				<tr>
+					<td><b><em>type</em></b></td>
+					<td>Period kada dospevaju uplate. Ovo je opcioni argument. Ako je postavljen na 0 ili izostavljen, funkcija će pretpostaviti da uplate dospevaju na kraju perioda. Ako je <b><em>type</em></b> postavljen na 1, uplate dospevaju na početku perioda.</td>
+				</tr>
+			</table>
+			
+			<h3>Napomene</h3>
+            <p>Isplate gotovine (kao što su uplate na štednju) predstavljene su negativnim brojevima; primici gotovine (kao što su isplate dividendi) predstavljeni su pozitivnim brojevima. Jedinice za <em>rate</em> i <em>nper</em> moraju biti usklađene: koristite N%/12 za <em>rate</em> i N*12 za <em>nper</em> u slučaju mesečnih uplata, N%/4 za <em>rate</em> i N*4 za <em>nper</em> u slučaju tromesečnih uplata, N% za <em>rate</em> i N za <em>nper</em> u slučaju godišnjih uplata.</p>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> <b>PPMT</b> funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Slika ispod prikazuje rezultat koji vraća <b>PPMT</b> funkcija.</p>
+			<p><img alt="PPMT funkcija" src="../images/ppmt.png" /></p>
+		</div>
+	</body>
+</html>

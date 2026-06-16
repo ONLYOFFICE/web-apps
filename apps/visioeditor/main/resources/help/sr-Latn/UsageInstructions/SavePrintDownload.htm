@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Preuzimanje i štampanje dijagrama</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="Preuzimanje i štampanje dijagrama" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+			<div class="search-field">
+				<input id="search" class="searchBar" placeholder="Pretraži" type="text" onkeypress="doSearch(event)">
+			</div>
+			<h1>Preuzimanje i štampanje dijagrama</h1>
+			<div class="onlineDocumentFeatures">
+				<h3>Preuzimanje</h3>
+				<p>Možete preuzeti dijagram na hard disk svog računara,</p>
+				<ol>
+					<li>kliknite na karticu <b>File</b> na gornjoj alatnoj traci,</li>
+					<li>izaberite opciju <b>Download as</b>,</li>
+					<li>odaberite jedan od dostupnih formata u zavisnosti od potrebe: VSDX, PDF, PDF/A, JPG, PNG.</li>
+				</ol>
+				<h3>Čuvanje kopije</h3>
+				<p>Možete sačuvati kopiju fajla na svom portalu,</p>
+				<ol>
+					<li>kliknite na karticu <b>File</b> na gornjoj alatnoj traci,</li>
+					<li>izaberite opciju <b>Save Copy as</b>,</li>
+					<li>odaberite jedan od dostupnih formata u zavisnosti od potrebe: VSDX, PDF, PDF/A, JPG, PNG.</li>
+					<li>izaberite lokaciju fajla na portalu i pritisnite <b>Save</b>.</li>
+				</ol>
+			</div>
+			<h3 id="print">Štampanje</h3>
+			<p>Da biste odštampali trenutni dijagram,</p>
+			<ul>
+				<li>kliknite na ikonicu <b>Print</b> <div class="icon icon-print"></div> u levom delu zaglavlja editora, ili</li>
+				<li>koristite kombinaciju tastera <b>Ctrl+P</b>, ili</li>
+				<li>kliknite na karticu <b>File</b> na gornjoj alatnoj traci i izaberite opciju <b>Print</b>.</li>
+			</ul>
+			<div class="note">
+				Firefox pregledač omogućava štampanje bez prethodnog preuzimanja dokumenta kao .pdf fajla.
+			</div>
+			<p><img alt="Prozor podešavanja štampe" src="../images/printsettingswindow.png" /></p>
+			<p>Podesite sledeće parametre u prozoru <b>Print</b> koji se otvara:</p>
+			<ul id="printtitles">
+				<li><b>Destination</b> – izaberite odredište za štampanje fajla, npr. <b>Save to PDF</b>, <b>Microsoft XPS Document Writer</b>, <b>Microsoft Print to PDF</b>, <b>Fax</b>, itd.</li>
+				<li><b>Pages</b> – izaberite jednu od opcija za štampanje stranica: <b>All</b>, <b>Current</b>, <b>Odd</b>, <b>Even</b> ili <b>Custom</b>. U poslednjem slučaju, potrebno je ručno uneti brojeve stranica.</li>
+				<li>
+					<b>Colour mode</b> – odaberite da li želite da fajl bude odštampan u <b>Colour</b> ili <b>Black and white</b>. Imajte u vidu da je ovo podešavanje dostupno kada je izabrana opcija <em>Microsoft XPS Document Writer</em> za <b>Destination</b>. Za opciju <em>Fax</em> u okviru <b>Destination</b>, režim boja je podrazumevano <b>black and white</b>.
+					<p>Kliknite na natpis <b>More settings</b> da otvorite napredna podešavanja.</p>
+				</li>
+				<li><b>Paper size</b> – odaberite jednu od dostupnih veličina sa padajuće liste ili definišite prilagođenu veličinu.</li>
+				<li><b>Scale</b> – podesite razmeru pri štampanju; možete <b>fit it to page width</b> ili ručno podesiti skaliranje preko <b>Scale</b> polja i odgovarajućeg unosa.</li>
+				<li><b>Pages per sheet</b> – podesite broj stranica koje se štampaju na jednom listu, npr. <b>dve</b>, <b>šest</b>, <b>devet</b>, itd.</li>
+				<li><b>Margins</b> – definišite margine stranice. Možete izabrati <b>default</b> margine ili prilagođene u inčima. Za prilagođene margine, ručno unesite vrednosti za gornju, donju, levu i desnu marginu. Takođe možete odabrati opciju <b>None</b> da biste uklonili margine.</li>
+				<li><b>Options</b> – označite polje <b>Print headers and footers</b> da biste ih odštampali, ili uklonite oznaku da se ne štampaju.</li>
+				<li><b>Print using the system dialogue</b> – kliknite na ovaj natpis da otvorite sistemski dijalog za podešavanje procesa štampanja.</li>
+			</ul>
+			<p>U <em>desktop verziji</em> za sada je dostupno samo podešavanje preko <b>System Print Dialogue</b>.</p>
+		</div>
+	</body>
+</html>

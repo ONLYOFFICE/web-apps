@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Grupisanje podataka</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Grupišite redove i kolone da biste strukturirali podatke u tabeli." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Grupisanje podataka</h1>
+            <p>Mogućnost grupisanja redova i kolona, kao i kreiranja strukture (outline), omogućava vam da lakše radite sa tabelom koja sadrži veliku količinu podataka. U <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Uređivaču tabela</b></a> možete skupljati ili proširivati grupisane redove i kolone kako biste prikazali samo potrebne podatke. Takođe je moguće kreirati višeslojnu strukturu grupisanih redova/kolona. Po potrebi možete razgrupisati prethodno grupisane redove ili kolone.</p>
+            <h3>Grupisanje redova i kolona</h3>
+            <p>Da biste grupisali redove ili kolone:</p>
+            <ol>
+                <li>Izaberite opseg ćelija koji želite da grupišete.</li>
+                <li>Pređite na karticu <b>Podaci</b> i koristite jednu od odgovarajućih opcija na gornjoj traci sa alatkama:
+                <ul>
+                    <li>kliknite na dugme <div class = "icon icon-groupicon"></div> <b>Grupiši</b>, zatim izaberite opciju <b>Redovi</b> ili <b>Kolone</b> u prozoru <b>Grupiši</b> koji se pojavi i kliknite na <b>OK</b>,
+                        <p><img alt="Prozor Grupiši" src="../images/groupewindow.png" /></p>
+                    </li>
+                    <li>kliknite na strelicu nadole ispod dugmeta <div class = "icon icon-groupicon"></div> <b>Grupiši</b> i izaberite opciju <b>Grupiši redove</b> iz menija,</li>
+                    <li>kliknite na strelicu nadole ispod dugmeta <div class = "icon icon-groupicon"></div> <b>Grupiši</b> i izaberite opciju <b>Grupiši kolone</b> iz menija.</li>
+                </ul>
+                </li>
+            </ol>            
+            <p>Izabrani redovi ili kolone biće grupisani, a kreirana struktura (outline) biće prikazana sa leve strane redova i/ili iznad kolona.</p>
+            <p><img alt="Grupisani redovi i kolone" src="../images/groupedrows.png" /></p>
+            <p>Da biste sakrili grupisane redove/kolone, kliknite na ikonu <span class = "icon icon-collapserowsicon"></span> <b>Sažmi</b>. Da biste prikazali sažene redove/kolone, kliknite na ikonu <span class="icon icon-expandrowsicon"></span> <b>Proširi</b>.</p>
+            <h5>Promena strukture (outline)</h5>
+            <p>Da biste promenili strukturu grupisanih redova ili kolona, možete koristiti opcije iz padajućeg menija <b>Grupiši</b>. Opcije <b>Redovi sažetka ispod detalja</b> i <b>Kolone sažetka desno od detalja</b> su podrazumevano označene. One omogućavaju promenu položaja dugmadi <b>Sažmi</b> <span class="icon icon-collapserowsicon"></span> i <b>Proširi</b> <span class="icon icon-expandrowsicon"></span>:</p>
+            <ul>
+                <li>Opozovite izbor opcije <b>Redovi sažetka ispod detalja</b> ako želite da se redovi sažetka prikazuju iznad detalja.</li>
+                <li>Opozovite izbor opcije <b>Kolone sažetka desno od detalja</b> ako želite da se kolone sažetka prikazuju levo od detalja.</li>
+            </ul>
+            <h5>Kreiranje višeslojnih grupa</h5>
+            <p>Da biste kreirali višeslojnu strukturu, izaberite opseg ćelija unutar prethodno kreirane grupe redova/kolona i grupišite novi opseg na način opisan iznad. Nakon toga možete sakrivati i prikazivati grupe po nivoima koristeći ikone sa brojevima nivoa: <span class="icon icon-levelnumbericons"></span>.</p>
+            <p>Na primer, ako kreirate ugnježdenu grupu unutar nadređene grupe, biće dostupna tri nivoa. Moguće je kreirati do 8 nivoa.</p>
+            <p><img alt="Višeslojna struktura" src="../images/multilevelstructure.png" /></p>
+            <ul>
+                <li>Kliknite na ikonu prvog nivoa <div class = "icon icon-firstlevelicon"></div> da biste prešli na nivo koji skriva sve grupisane podatke:
+                    <p><img alt="Prvi nivo" src="../images/firstlevel.png" /></p>
+                </li>
+                <li>Kliknite na ikonu drugog nivoa <div class = "icon icon-secondlevelicon"></div> da biste prešli na nivo koji prikazuje detalje nadređene grupe, ali skriva podatke ugnježdene grupe:
+                    <p><img alt="Drugi nivo" src="../images/secondlevel.png" /></p>
+                </li>
+                <li>Kliknite na ikonu trećeg nivoa <div class = "icon icon-thirdlevelicon"></div> da biste prešli na nivo koji prikazuje sve detalje:
+                    <p><img alt="Treći nivo" src="../images/thirdlevel.png" /></p>
+                </li>
+            </ul>
+            <p>Takođe je moguće koristiti ikone <span class="icon icon-collapserowsicon"></span> <b>Sažmi</b> i <span class="icon icon-expandrowsicon"></span> <b>Proširi</b> unutar strukture (outline) da biste prikazali ili sakrili podatke koji odgovaraju određenom nivou.</p>
+            <h3>Razgrupisanje prethodno grupisanih redova i kolona</h3>
+            <p>Da biste razgrupisali prethodno grupisane redove ili kolone:</p>
+            <ol>
+                <li>Izaberite opseg grupisanih ćelija koji želite da razgrupišete.</li>
+                <li>
+                    Pređite na karticu <b>Podaci</b> i koristite jednu od potrebnih opcija na gornjoj traci sa alatkama:
+                    <ul>
+                        <li>kliknite na dugme <div class = "icon icon-ungroupicon"></div> <b>Razgrupiši</b>, zatim izaberite opciju <b>Redovi</b> ili <b>Kolone</b> u prozoru <b>Grupiši</b> koji se pojavi i kliknite na <b>OK</b>,
+                        <p><img alt="Prozor Grupiši" src="../images/groupewindow.png" /></p>
+                        </li>
+                        <li>kliknite na strelicu nadole ispod dugmeta <div class = "icon icon-ungroupicon"></div> <b>Razgrupiši</b>, zatim izaberite opciju <b>Razgrupiši redove</b> iz menija da biste razgrupisali redove i obrisali strukturu redova,</li>
+                        <li>kliknite na strelicu nadole ispod dugmeta <div class = "icon icon-ungroupicon"></div> <b>Razgrupiši</b> i izaberite opciju <b>Razgrupiši kolone</b> iz menija da biste razgrupisali kolone i obrisali strukturu kolona,</li>
+                        <li>kliknite na strelicu nadole ispod dugmeta <div class = "icon icon-ungroupicon"></div> <b>Razgrupiši</b> i izaberite opciju <b>Obriši strukturu</b> iz menija da biste obrisali strukturu redova i kolona bez uklanjanja postojećih grupa.</li>
+                    </ul>
+                </li>
+            </ol>
+		</div>
+	</body>
+</html>

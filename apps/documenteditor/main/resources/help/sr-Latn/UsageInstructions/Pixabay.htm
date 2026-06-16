@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Pixabay</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Opis Pixabay plugin-a za ONLYOFFICE editore, koji omogućava dodavanje besplatnih slika u dokumente iz Pixabay servisa" />
+    <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+    <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Pixabay</h1>
+        <p>Dodatak <b>Pixabay</b> omogućava vam da dodajete slike u dokument iz otvorene kolekcije servisa Pixabay, koji nudi slike bez autorskih prava.</p>
+        <p class="note">Dodatak je kompatibilan sa <a href="https://git.onlyoffice.com/ONLYOFFICE/DocumentServer" target="_blank" onclick="onhyperlinkclick(this)">self-hosted</a> i <a href="https://git.onlyoffice.com/ONLYOFFICE/DesktopEditors" target="_blank" onclick="onhyperlinkclick(this)">desktop</a> verzijama ONLYOFFICE editora i može se ručno dodati u ONLYOFFICE instance pomoću <a href="https://helpcenter.onlyoffice.com/ONLYOFFICE-Editors/Editors-User-Guides/AllEditors/Plugin-manager.aspx" target="_blank" onclick="onhyperlinkclick(this)">Plugin Manager-a</a>.</p>
+
+        <h3>Instalacija</h3>
+        <p>Da biste instalirali dodatak <b>Pixabay</b>,</p>
+        <ol>
+            <li>Idite na karticu <b>Plugins</b>.</li>
+            <li>Otvorite <b>Plugin Manager</b>.</li>
+            <li>Pronađite <div class="icon icon-pixabay_store_icon"></div> na marketplace-u i kliknite na dugme <b>Install</b> ispod.</li>
+            <li>Kliknite na ikonu <div class="icon icon-pixabay_icon"></div> <b>Pixabay</b> na kartici <b>Plugins</b>.</li>
+            <li>Nastavite sa podešavanjem dodatka.</li>
+        </ol>
+        <p class="note">Za više detalja pogledajte <a href="https://api.onlyoffice.com/docs/plugin-and-macros/get-started/overview/" target="_blank" onclick="onhyperlinkclick(this)">ONLYOFFICE API dokumentaciju</a>.</p>
+
+        <h3>Podešavanje</h3>
+        <ol>
+            <li>Prijavite se na svoj <b>Pixabay</b> nalog ili registrujte novi.</li>
+            <li>Idite na odeljak <b>Search Images</b> na <a href="https://pixabay.com/api/docs" target="_blank" onclick="onhyperlinkclick(this)"><b>Pixabay API stranici</b></a>.</li>
+            <li>
+                Skrolujte nadole do liste <b>Parameters</b> i kopirajte link ispod parametra <b>Key</b>. Ako niste prijavljeni, kliknite na <b>Login</b> pored parametra <b>Key</b>.
+                <p><img alt="Pixabay API key" src="../../../../../../common/main/resources/help/en/images/pixabay_apikey.png" /></p>
+            </li>
+            <li>Nalepite ključ u polje <b>API key</b> na levom panelu kartice <b>Plugins</b> u <b>Document Editor-u</b>.</li>
+            <li>Kliknite na <b>Save</b>.</li>
+        </ol>
+        </ol>
+        <p><img alt="Pixabay Panel" src="../../../../../../common/main/resources/help/en/images/pixabay_left.png" /></p>
+
+        <h3>Kako se koristi</h3>
+        <ol>
+            <li>Idite na karticu <b>Plugins</b>.</li>
+            <li>Kliknite na ikonu <div class="icon icon-pixabay_icon"></div> <b>Pixabay</b>.</li>
+            <li>Na levom panelu koji se otvori unesite ključnu reč koju povezujete sa slikom koju tražite.</li>
+            <li>
+                Koristite dugme <b>Show settings</b> da biste precizirali pretragu po kriterijumima <b>Language</b>, <b>Image type</b>, <b>Orientation</b> i <b>Category</b>. Kliknite na <b>Hide settings</b> da biste smanjili deo za pretragu.
+                <p><img alt="Pixabay settings" src="../../../../../../common/main/resources/help/en/images/pixabay_settings.png" /></p>
+            </li>
+            <li>Kliknite na <b>Search</b>.</li>
+            <li>Skrolujte kroz rezultate pretrage i kliknite na sliku da biste je dodali u dokument.</li>
+        </ol>
+        <p><img alt="Pixabay results" src="../images/pixabay_results.png" /></p>
+    </div>
+</body>
+</html>

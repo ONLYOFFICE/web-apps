@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Umetanje slika</title>
+<meta charset="utf-8" />
+<meta name="description" content="Dodajte sliku u svoju tabelu i prilagodite njen položaj i veličinu" />
+<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+<script type="text/javascript" src="../callback.js"></script>
+<script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Pretraga" type="text" onkeypress="doSearch(event)">
+        </div>
+        <h1>Umetanje slika</h1>
+        <p><a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor</b></a> vam omogućava da umetnete slike u najpopularnijim formatima u svoj radni list. Podržani su sledeći formati slika: <b>BMP</b>, <b>GIF</b>, <b>JPEG</b>, <b>JPG</b>, <b>PNG</b>.</p>
+        <h3>Umetanje slike</h3>
+        <p>Da biste umetnuli sliku u tabelu,</p>
+        <ol>
+            <li>postavite kursor na mesto gde želite da dodate sliku,</li>
+            <li>pređite na karticu <b>Insert</b> na gornjoj traci sa alatkama,</li>
+            <li>kliknite na ikonu <div class="icon icon-image"></div> <b>Image</b> na gornjoj traci sa alatkama,</li>
+            <li>
+                izaberite jednu od sledećih opcija za učitavanje slike:
+                <ul>
+                    <li>
+                        opcija <b>Image from File</b> otvara standardni dijalog za izbor fajla. Pregledajte hard disk vašeg računara, pronađite željeni fajl i kliknite na dugme <b>Open</b>
+                        <p class="note">U <em>online editoru</em> možete izabrati više slika odjednom.</p>
+                    </li>
+                    <li>opcija <b>Image from URL</b> otvara prozor u koji možete uneti web adresu željene slike i kliknuti na dugme <b>OK</b></li>
+                    <li class="onlineDocumentFeatures">opcija <b>Image from Storage</b> otvara prozor <b>Select data source</b>. Izaberite sliku sa vašeg portala i kliknite na dugme <b>OK</b></li>
+                </ul>
+            </li>
+        </ol>
+        <p>Nakon toga, slika će biti dodata u radni list. Sliku možete sačuvati kao zasebnu datoteku na hard disku koristeći opciju <b>Save as picture</b> iz kontekstnog menija (desni klik).</p>
+        <h3>Podešavanje postavki slike</h3>
+        <p>Kada je slika dodata, možete <a href="ManipulateObjects.htm" onclick="onhyperlinkclick(this)">promeniti njenu veličinu i položaj</a>.</p>
+        <p>Da biste precizno definisali dimenzije slike:</p>
+        <ol>
+            <li>izaberite željenu sliku mišem,</li>
+            <li>
+                kliknite na ikonu <b>Image settings</b> <div class="icon icon-image_settings_icon"></div> na desnoj bočnoj traci,
+                <p><img alt="Prozor Image Settings na desnoj bočnoj traci" src="../images/imagesettings.png" /></p>
+            </li>
+            <li>u odeljku <b>Size</b> podesite potrebne vrednosti za <b>Width</b> i <b>Height</b>. Ako je dugme <b>Constant proportions</b> <div class="icon icon-constantproportions"></div> aktivirano (u tom slučaju izgleda ovako <div class="icon icon-constantproportionsactivated"></div>), širina i visina će se menjati istovremeno uz zadržavanje originalnog odnosa stranica slike. Da biste vratili stvarnu veličinu slike, kliknite na dugme <b>Actual Size</b>.</li>
+        </ol>
+        <p>Da biste isekli (crop) sliku:</p>
+        <p>Kliknite na dugme <b>Crop</b> da biste aktivirali ručke za isecanje koje se pojavljuju na uglovima slike i na sredini svake ivice. Ručno prevlačite ručke da biste podesili oblast isecanja. Možete pomeriti kursor miša preko ivice oblasti za isecanje tako da se pretvori u ikonu strelice <span class="icon icon-arrow"></span> i prevući oblast.</p>
+        <ul>
+            <li>Da biste isekli jednu stranu, prevucite ručku koja se nalazi na sredini te strane.</li>
+            <li>Da biste istovremeno isekli dve susedne strane, prevucite jednu od ugaonih ručki.</li>
+            <li>Da biste podjednako isekli dve suprotne strane slike, držite taster <em>Ctrl</em> dok prevlačite ručku na sredini jedne od tih strana.</li>
+            <li>Da biste podjednako isekli sve strane slike, držite taster <em>Ctrl</em> dok prevlačite bilo koju od ugaonih ručki.</li>
+        </ul>
+        <p>Kada definišete oblast isecanja, kliknite ponovo na dugme <b>Crop</b>, pritisnite taster <em>Esc</em> ili kliknite bilo gde van oblasti isecanja da biste primenili izmene.</p>
+        <p>Nakon izbora oblasti isecanja, moguće je koristiti i opcije <b>Crop to shape</b>, <b>Fill</b> i <b>Fit</b> iz padajućeg menija <b>Crop</b>. Kliknite ponovo na dugme <b>Crop</b> i izaberite željenu opciju:</p>
+        <ul>
+            <li>Ako izaberete opciju <b>Crop to shape</b>, slika će popuniti određeni oblik. Možete izabrati oblik iz galerije koja se otvara kada pređete mišem preko opcije <b>Crop to Shape</b>. I dalje možete koristiti opcije <b>Fill</b> i <b>Fit</b> da biste izabrali način na koji se slika uklapa u oblik.</li>
+            <li>Ako izaberete opciju <b>Fill</b>, centralni deo originalne slike biće zadržan i korišćen za popunjavanje izabrane oblasti, dok će ostali delovi slike biti uklonjeni.</li>
+            <li>Ako izaberete opciju <b>Fit</b>, slika će biti prilagođena tako da se uklopi po visini ili širini oblasti isecanja. Nijedan deo originalne slike neće biti uklonjen, ali se mogu pojaviti prazni prostori unutar izabrane oblasti.</li>
+        </ul>
+        <p>Da biste vratili sliku na podrazumevane dimenzije u pikselima, kliknite na dugme <b>Reset crop</b>.</p>
+        <p><b>Opacity</b> – koristite ovaj odeljak da podesite nivo <b>Opacity</b> prevlačenjem klizača ili ručnim unosom procentualne vrednosti. Podrazumevana vrednost je <b>100%</b>, što odgovara punoj neprozirnosti. Vrednost <b>0%</b> odgovara potpunoj providnosti.</p>
+        <p>Da biste rotirali sliku:</p>
+        <ol>
+            <li>izaberite željenu sliku mišem,</li>
+            <li>kliknite na ikonu <b>Image settings</b> <div class="icon icon-image_settings_icon"></div> na desnoj bočnoj traci,</li>
+            <li>
+                u odeljku <b>Rotation</b> kliknite na jedno od dugmadi:
+                <ul>
+                    <li><div class="icon icon-rotatecounterclockwise"></div> za rotaciju slike za 90 stepeni ulevo</li>
+                    <li><div class="icon icon-rotateclockwise"></div> za rotaciju slike za 90 stepeni udesno</li>
+                    <li><div class="icon icon-fliplefttoright"></div> za horizontalno okretanje slike (sleva nadesno)</li>
+                    <li><div class="icon icon-flipupsidedown"></div> za vertikalno okretanje slike (odozgo nadole)</li>
+                </ul>
+                <p class="note">Alternativno, možete kliknuti desnim tasterom miša na sliku i koristiti opciju <b>Rotate</b> iz kontekstnog menija.</p>
+            </li>
+        </ol>
+        <p>Da biste zamenili umetnutu sliku,</p>
+        <ol>
+            <li>izaberite željenu sliku mišem,</li>
+            <li>kliknite na ikonu <b>Image settings</b> <div class="icon icon-image_settings_icon"></div> na desnoj bočnoj traci,</li>
+            <li>kliknite na dugme <b>Replace Image</b>,</li>
+            <li>
+                izaberite potrebnu opciju: <b>From File</b>, <b>From Storage</b> ili <b>From URL</b> i odaberite željenu sliku.
+                <p class="note">Alternativno, možete kliknuti desnim tasterom miša na sliku i koristiti opciju <b>Replace image</b> iz kontekstnog menija.</p>
+            </li>
+        </ol>
+        <p>Izabrana slika će biti zamenjena.</p>
+        <p>Kada je slika izabrana, dostupna je i ikona <b>Shape settings</b> <span class="icon icon-shape_settings_icon"></span> sa desne strane. Klikom na ovu ikonu možete otvoriti karticu <b>Shape settings</b> na desnoj bočnoj traci i podesiti tip, veličinu, boju i neprozirnost <a href="../UsageInstructions/InsertAutoshapes.htm#shape_stroke" onclick="onhyperlinkclick(this)"><b>linije</b></a>, kao i promeniti tip oblika izborom drugog oblika iz menija <b>Change Autoshape</b>. Oblik slike će se shodno tome promeniti.</p>
+        <p>Na kartici <b>Shape Settings</b> takođe možete koristiti opciju <b>Show shadow</b> da biste dodali senku slici.</p>
+        <p><img alt="Kartica Shape Settings" src="../images/right_image_shape.png" /></p>
+        <h3>Podešavanje naprednih postavki slike</h3>
+        <p>Da biste promenili napredne postavke, kliknite desnim tasterom miša na sliku i izaberite opciju <b>Image Advanced Settings</b> iz kontekstnog menija ili kliknite na link <b>Show advanced settings</b> na desnoj bočnoj traci. Otvoriće se prozor sa svojstvima slike:</p>
+        <p><img alt="Image - Advanced Settings: Rotation" src="../images/imageadvancedsettings1.png" /></p>
+        <p>Kartica <b>Rotation</b> sadrži sledeće parametre:</p>
+        <ul>
+            <li><b>Angle</b> – koristite ovu opciju da rotirate sliku za tačno određeni ugao. Unesite potrebnu vrednost u stepenima ili je prilagodite pomoću strelica sa desne strane.</li>
+            <li><b>Flipped</b> – označite polje <b>Horizontally</b> da biste horizontalno okrenuli sliku (sleva nadesno) ili polje <b>Vertically</b> da biste je vertikalno okrenuli (odozgo nadole).</li>
+        </ul>
+        <p><img alt="Image - Advanced Settings: Cell Snapping" src="../images/imageadvancedsettings2.png" /></p>
+        <p>Kartica <b>Cell Snapping</b> sadrži sledeće parametre:</p>
+        <ul>
+            <li><b>Move and size with cells</b> – ova opcija omogućava da se slika veže za ćeliju iza nje. Ako se ćelija pomeri (npr. ako ubacite ili obrišete redove/kolone), slika će se pomeriti zajedno sa ćelijom. Ako promenite širinu ili visinu ćelije, slika će takođe promeniti svoju veličinu.</li>
+            <li><b>Move but don't size with cells</b> – ova opcija omogućava da se slika veže za ćeliju, ali sprečava promenu njene veličine. Ako se ćelija pomeri, slika će se pomeriti zajedno sa njom, ali dimenzije slike ostaju nepromenjene.</li>
+            <li><b>Don't move or size with cells</b> – ova opcija sprečava pomeranje ili promenu veličine slike kada se promeni položaj ili veličina ćelije.</li>
+        </ul>
+        <p><img alt="Image - Advanced Settings: Alternative Text" src="../images/imageadvancedsettings.png" /></p>
+        <p>Kartica <b>Alternative Text</b> omogućava da definišete <b>Title</b> i <b>Description</b> koji će biti pročitani osobama sa oštećenjem vida ili kognitivnim poteškoćama kako bi bolje razumele koju informaciju slika sadrži.</p>
+        <p>Da biste obrisali umetnutu sliku, kliknite na nju i pritisnite taster <b>Delete</b>.</p>
+        <h3>Dodela makroa slici</h3>
+        <p>Možete omogućiti brz i jednostavan pristup makrou u tabeli dodeljivanjem makroa bilo kojoj slici. Kada dodelite makro, slika se ponaša kao dugme i možete pokrenuti makro klikom na nju.</p>
+        <p>Da biste dodelili makro:</p>
+        <ul type="circle">
+            <li>
+                Kliknite desnim tasterom miša na sliku kojoj želite da dodelite makro i izaberite opciju <b>Assign Macro</b> iz padajućeg menija.
+                <p><img alt="Assign Macro u meniju" src="../images/assignmacro_rightclickimage.png" /></p>
+            </li>
+            <li>Otvoriće se dijalog <b>Assign Macro</b></li>
+            <li>
+                Izaberite makro sa liste ili unesite naziv makroa i kliknite na <b>OK</b> da biste potvrdili.
+                <p><img alt="Assign Macro" src="../images/assignmacro.png" /></p>
+            </li>
+            </ul>
+        </div>
+	</body>
+</html>

@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Z.TEST funkcija</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Pretraži" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>Z.TEST funkcija</h1>
+			<p>Funkcija <b>Z.TEST</b> je jedna od <a href="../UsageInstructions/InsertFunction.htm#statistical" onclick="onhyperlinkclick(this)">statističkih funkcija</a>. Koristi se za vraćanje P-vrednosti sa jednom repom za Z-test. Za zadatu hipotetičku populacionu srednju vrednost <em>x</em>, <b>Z.TEST</b> vraća verovatnoću da bi srednja vrednost uzorka bila veća od proseka posmatranih vrednosti u skupu podataka (nizu) — odnosno, posmatrana srednja vrednost uzorka.</p>
+			<h3>Sintaksa</h3> 
+			<p><b><em>Z.TEST(array, x, [sigma])</em></b></p> 
+            <p>Funkcija <b>Z.TEST</b> ima sledeće argumente:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Opis</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>array</em></b></td>
+                    <td>Opseg numeričkih vrednosti protiv kojih se testira <b><em>x</em></b>.</td>
+                </tr>
+				<tr>
+                    <td><b><em>x</em></b></td>
+                    <td>Vrednost koja se testira.</td>
+                </tr>
+				<tr>
+                    <td><b><em>sigma</em></b></td>
+                    <td>Standardna devijacija populacije. Opcioni argument. Ako nije naveden, koristi se standardna devijacija uzorka.</td>
+                </tr>
+            </table>
+			<h3>Napomene</h3>                        
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">Kako primeniti</a> Z.TEST funkciju.</p>
+			
+			<h3>Primeri</h3>
+            <p>Na slici ispod prikazan je rezultat koji vraća <b>Z.TEST</b> funkcija.</p>
+			<p><img alt="Z.TEST funkcija" src="../images/z-test.png" /></p>
+		</div>
+	</body>
+</html>

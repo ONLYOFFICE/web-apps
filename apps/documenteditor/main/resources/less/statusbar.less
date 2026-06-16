@@ -20,7 +20,7 @@
         text-align: center;
     }
 
-    #btn-zoom-topage, #btn-zoom-towidth, #btn-multiple-pages {
+    #btn-zoom-topage, #btn-zoom-towidth, #status-btn-multiple-pages {
         .margin-right-8();
     }
 
@@ -111,5 +111,33 @@
 
     .hide-select-tools {
         display: none;
+    }
+
+    @media (max-width: 920px) {
+        #slot-status-btn-info {
+            display: none !important;
+        }
+    }
+
+    @media (max-width: 770px) {
+        #btn-zoom-down,
+        .cnt-zoom,
+        #btn-zoom-up {
+            display: none;
+        }
+    }
+
+    @media (max-width: 625px) {
+        #btn-zoom-towidth,
+        #btn-zoom-topage,
+        #status-btn-multiple-pages {
+            display: none;
+        }
+    }
+
+    @media (max-width: 520px) {
+        #label-action {
+            display: none;
+        }
     }
 }

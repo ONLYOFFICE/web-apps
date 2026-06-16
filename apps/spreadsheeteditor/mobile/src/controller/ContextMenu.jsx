@@ -1,3 +1,38 @@
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import { f7 } from 'framework7-react';
 import { inject, observer } from "mobx-react";
 import { withTranslation} from 'react-i18next';
@@ -6,6 +41,7 @@ import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage.mjs';
 import ContextMenuController from '../../../../common/mobile/lib/controller/ContextMenu';
 import { idContextMenuElement } from '../../../../common/mobile/lib/view/ContextMenu';
 import EditorUIController from '../lib/patch';
+import { Device } from '../../../../common/mobile/utils/device';
 
 @inject(stores => ({
     isEdit: stores.storeAppOptions.isEdit,
@@ -94,6 +130,27 @@ class ContextMenu extends ContextMenuController {
         }
     }
 
+    sortMenuItems(items) {
+        if (!Device.phone || !items.some(i => i.event === 'openlink') || !items.some(i => i.event === 'showActionSheet')) return items;
+
+        const isWrapItem = i => i.event === 'wrap' || i.event === 'unwrap';
+        const isCellItem = i => i.event === 'edit';
+
+        const wrapItems = items.filter(isWrapItem);
+        const filtered = items.filter(i => !isWrapItem(i));
+        this.extraItems = wrapItems.concat((this.extraItems || []).filter(i => i.event !== 'openlink'));
+
+        if ($$(window).width() < 400) {
+            const cellIdx = filtered.findIndex(isCellItem);
+            if (cellIdx > -1) {
+                const cellItem = filtered.splice(cellIdx, 1)[0];
+                this.extraItems = [cellItem].concat(this.extraItems);
+            }
+        }
+
+        return filtered;
+    }
+
     onMenuItemClick(action) {
         const { t } = this.props;
         const _t = t("ContextMenu", { returnObjects: true });
@@ -127,6 +184,7 @@ class ContextMenu extends ContextMenuController {
                 break;
             case 'openlink':
                 const linkinfo = info.asc_getHyperlink();
+                if (!linkinfo) break;
 
                 if ( linkinfo.asc_getType() == Asc.c_oAscHyperlinkType.RangeLink ) {
                     const { storeWorksheets } = this.props;
@@ -246,31 +304,44 @@ class ContextMenu extends ContextMenuController {
 
     initMenuItems() {
         if ( !Common.EditorApi ) return [];
+        this.extraItems = [];
 
         const { t } = this.props;
         const _t = t("ContextMenu", { returnObjects: true });
 
         const { isEdit, isRestrictedEdit, isDisconnected, isVersionHistoryMode } = this.props;
+        const api = Common.EditorApi.get();
+        const cellinfo = api.asc_getCellInfo();
+        const seltype = cellinfo.asc_getSelectionType();
+        const iscellmenu = seltype === Asc.c_oAscSelectionType.RangeCells;
+        const hyperlink = cellinfo.asc_getHyperlink();
+        const isMultiselect = !!api.asc_getActiveRangeStr(Asc.referenceType.A, null, null, true);
 
         if (isEdit && EditorUIController.ContextMenu) {
-            return EditorUIController.ContextMenu.mapMenuItems(this);
+            const items = EditorUIController.ContextMenu.mapMenuItems(this) || [];
+            if (isMultiselect) return items;
+
+            if (iscellmenu && hyperlink) {
+                const insertIndex = items.findIndex(item => !item.icon);
+                items.splice(insertIndex > -1 ? insertIndex : items.length, 0, {
+                    caption: _t.menuOpenLink,
+                    event: 'openlink'
+                });
+            }
+            return this.sortMenuItems(items);
         } else {
             const {canViewComments, canCoAuthoring, canComments, isResolvedComments} = this.props;
 
-            const api = Common.EditorApi.get();
-            const cellinfo = api.asc_getCellInfo();
             const isCanFillHandle = api.asc_canFillHandle();
 
             const itemsIcon = [];
             const itemsText = [];
 
-            let iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu;
-            const seltype = cellinfo.asc_getSelectionType();
+            let isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu;
             const comments = cellinfo.asc_getComments(); //prohibit adding multiple comments in one cell;
             const isSolvedComment = comments?.length && comments[0].asc_getSolved();
 
             switch (seltype) {
-                case Asc.c_oAscSelectionType.RangeCells:     iscellmenu  = true;     break;
                 case Asc.c_oAscSelectionType.RangeRow:       isrowmenu   = true;     break;
                 case Asc.c_oAscSelectionType.RangeCol:       iscolmenu   = true;     break;
                 case Asc.c_oAscSelectionType.RangeMax:       isallmenu   = true;     break;
@@ -286,7 +357,7 @@ class ContextMenu extends ContextMenuController {
                     icon: 'icon-copy'
                 });
     
-                if (iscellmenu && cellinfo.asc_getHyperlink()) {
+                if (iscellmenu && hyperlink && !isMultiselect) {
                     itemsText.push({
                         caption: _t.menuOpenLink,
                         event: 'openlink'
@@ -323,7 +394,7 @@ class ContextMenu extends ContextMenuController {
                     });
                 }
 
-            return itemsIcon.concat(itemsText);
+            return this.sortMenuItems(itemsIcon.concat(itemsText));
         }
     }
 

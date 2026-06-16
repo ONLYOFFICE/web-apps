@@ -221,6 +221,7 @@
       "textNo": "No",
       "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
       "textNoLicenseTitle": "License limit reached",
+      "textNoResourcesTitle": "Not enough resources",
       "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textPaidFeature": "Paid feature",
@@ -244,6 +245,7 @@
       "warnLicenseLimitedNoAccess": "License expired. You have no access to document editing functionality. Please, contact your admin.",
       "warnLicenseLimitedRenewed": "License needs to be renewed. You have limited access to document editing functionality.<br>Please contact your administrator to get full access",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
+      "warnNoResources": "The %1 server does not have enough resources to open this document for editing. This document will be opened for viewing only.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
       "warnProcessRightsChange": "You don't have permission to edit the file."
     }
@@ -293,11 +295,13 @@
     "errorEditingDownloadas": "An error occurred during the work with the document.<br>Use the 'Download' option to save the file backup copy locally.",
     "errorEditView": "The existing sheet view cannot be edited and the new ones cannot be created at the moment as some of them are being edited.",
     "errorEmailClient": "No email client could be found",
+    "errorFileNotAssembled": "This file is opened from a server backup copy and is not saved to storage.<br>Use the 'Save as...' option to save it to a drive.",
     "errorFilePassProtect": "The file is password protected and could not be opened.",
     "errorFileRequest": "External error.<br>File Request. Please, contact support.",
     "errorFileSizeExceed": "The file size exceeds your server limitation.<br>Please, contact your admin for details.",
     "errorFileVKey": "External error.<br>Incorrect security key. Please, contact support.",
     "errorFillRange": "Could not fill the selected range of cells.<br>All the merged cells need to be the same size.",
+    "errorForcedViewMode": "This file is opened in view mode.<br>The file is locked for editing or your access rights do not allow editing.",
     "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
     "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
     "errorFormulaName": "An error in the formula.<br>Incorrect formula name.",
@@ -386,6 +390,7 @@
     "advDRMPassword": "Password",
     "applyChangesTextText": "Loading data...",
     "applyChangesTitleText": "Loading Data",
+    "changesSaved": "All changes saved",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
     "confirmMoveCellRange": "The destination cells range can contain data. Continue the operation?",
     "confirmPutMergeRange": "The source data contains merged cells.<br>They will be unmerged before they are pasted into the table.",
@@ -450,6 +455,7 @@
     "textSheetName": "Sheet Name",
     "textTabColor": "Tab Color",
     "textUnhide": "Unhide",
+    "textUnhideSheets": "Unhide sheets",
     "textWarnDeleteSheet": "The sheet maybe has data. Proceed operation?",
     "warnAddSheetCsv": "The CSV format does not support saving a multi-sheet file. Only the active sheet will be saved. To keep all sheets, please save the file in a different format."
   },
@@ -462,6 +468,11 @@
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
     "textOk": "OK",
+    "textSave": "Save",
+    "textDontSave": "Don't save",
+    "textCancel": "Cancel",
+    "textSaveData": "Save your changes before leave",
+    "textUnsavedData": "Unsaved data",
     "textRenameFile": "Rename File",
     "textSwitchToDesktop": "Switch to Desktop"
   },
@@ -529,7 +540,10 @@
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSorting": "Sorting",
       "txtSortSelected": "Sort selected",
-      "txtYes": "Yes"
+      "txtYes": "Yes",
+      "textSheets": "Sheets",
+      "textLinkTo": "Link to",
+      "textDefinedName": "Defined name"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warning",
@@ -546,7 +560,7 @@
       "textAlignMiddle": "Align Middle",
       "textAlignRight": "Align Right",
       "textAlignTop": "Align Top",
-      "textAllBorders": "All Borders",
+      "textAllBorders": "All borders",
       "textAllCaps": "All Caps",
       "textAngleClockwise": "Angle Clockwise",
       "textAngleCounterclockwise": "Angle Counterclockwise",
@@ -739,7 +753,10 @@
       "txtSortHigh2Low": "Sort Highest to Lowest",
       "txtSortLow2High": "Sort Lowest to Highest",
       "txtCustom": "Custom",
-      "textCurrentFont": "Main Text"
+      "textCurrentFont": "Main Text",
+      "textSheets": "Sheets",
+      "textLinkTo": "Link to",
+      "textDefinedName": "Defined name"
     },
     "Settings": {
       "advCSVOptions": "Choose CSV options",
@@ -755,6 +772,7 @@
       "textApplication": "Application",
       "textApplicationSettings": "Application Settings",
       "textAuthor": "Author",
+      "textAutoSaveDocument": "Autosave",
       "textBack": "Back",
       "textBottom": "Bottom",
       "textByColumns": "By columns",
@@ -773,6 +791,7 @@
       "textCreated": "Created",
       "textCustomSize": "Custom Size",
       "textDark": "Dark",
+      "textDarkDocument": "Dark Document",
       "textDarkTheme": "Dark Theme",
       "textDelimeter": "Delimiter",
       "textDirection": "Direction",
@@ -814,6 +833,7 @@
       "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textOpenFile": "Enter a password to open the file",
+      "textOpenLocation": "Open location",
       "textOrientation": "Orientation",
       "textOwner": "Owner",
       "textPoint": "Point",
@@ -829,6 +849,7 @@
       "textRight": "Right",
       "textRightToLeft": "Right To Left",
       "textSameAsSystem": "Same As System",
+      "textSaveDocument": "Save",
       "textSearch": "Find",
       "textSearchBy": "Search",
       "textSearchIn": "Search In",
@@ -899,7 +920,6 @@
       "txtZhtw": "Chinese (Traditional)",
       "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
       "warnDownloadCsv": "The CSV format does not support saving a multi-sheet file and all elements, except text.<br>To save only the active sheet to CSV, press OK.<br>To save the whole spreadsheet and all features, click Cancel and select another format.",
-      "textOpenLocation": "Open location",
       "warnDownloadOds": "Saving this file may result in the loss of some formulas, cell formatting, or embedded objects due to limited format support.<br>Are you sure you want to continue?"
     }
   }

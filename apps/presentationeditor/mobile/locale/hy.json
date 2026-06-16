@@ -71,6 +71,7 @@
     "menuCancel": "Չեղարկել",
     "menuDelete": "Ջնջել",
     "menuDeleteTable": "Ջնջել աղյուսակը",
+    "menuDuplicate": "Կրկնօրինակել",
     "menuEdit": "Խմբագրել",
     "menuEditLink": "Խմբագրել հղումը",
     "menuMerge": "Միաձուլել",
@@ -83,8 +84,7 @@
     "textDoNotShowAgain": "Այլևս ցույց չտալ",
     "textOk": "Լավ",
     "textRows": "Տողեր",
-    "txtWarnUrl": "Այս հղմանը հետևելը կարող է վնասել ձեր սարքավորումն ու տվյալները:<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:",
-    "menuDuplicate": "Duplicate"
+    "txtWarnUrl": "Այս հղմանը հետևելը կարող է վնասել ձեր սարքավորումն ու տվյալները:<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:"
   },
   "Controller": {
     "Main": {
@@ -156,6 +156,7 @@
       "textHasMacros": "Ֆայլում կան ինքնաշխատ մակրոներ։<br>Գործարկե՞լ դրանք։",
       "textNo": "Ոչ",
       "textNoLicenseTitle": "Լիցենզիայի սահմանաչափը հասել է",
+      "textNoResourcesTitle": "Ռեսուրսները բավարար չեն",
       "textNoMatches": "Համընկնում չկա",
       "textOk": "Լավ",
       "textOpenFile": "Մուտքագրել գաղտնաբառ՝ ֆայլը բացելու համար",
@@ -180,6 +181,7 @@
       "warnLicenseLimitedNoAccess": "Լիցենզիայի ժամկետը լրացել է։Փաստաթղթերի խմբագրման գործառույթից օգտվելու հնարավորություն չունեք:Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ:",
       "warnLicenseLimitedRenewed": "Լիցենզիան պետք է երկարաձգվի։Փաստաթղթերի խմբագրման գործառույթի հասանելիությունը սահմանափակ է:Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ՝ լիարժեք մուտք ստանալու համար․",
       "warnNoLicense": "Դուք հասել եք %1 խմբագիրների հետ միաժամանակյա միացումների սահմանաչափին:Այս փաստաթուղթը կբացվի միայն դիտելու համար:նձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
+      "warnNoResources": "%1 սերվերը բավարար ռեսուրսներ չունի այս փաստաթուղթը խմբագրման համար բացելու համար: Փաստաթուղթը կբացվի միայն դիտման համար:",
       "warnNoLicenseUsers": "Դուք հասել եք %1 խմբագիրների օգտվողի սահմանաչափին:Անձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
       "warnProcessRightsChange": "Դուք ֆայլը խմբագրելու թույլտվություն չունեք:"
     }
@@ -200,6 +202,7 @@
     "errorBadImageUrl": "Նկարի URL-ը սխալ է",
     "errorComboSeries": "Համակցված աղյուսակ ստեղծելու համար ընտրել տվյալների առնվազն երկու շարք:",
     "errorConnectToServer": "Չհաջողվեց պահել այս փաստաթուղթը:Ստուգեք կապի կարգավորումները կամ կապվեք Ձեր ադմինիստրատորի հետ:Երբ սեղմեք «Լավ» կոճակը, Ձեզ կառաջարկվի ներբեռնել փաստաթուղթը:",
+    "errorCopyDisabled": "Անվտանգության նկատառումներից ելնելով, այս փաստաթղթի բովանդակությունը չի կարող պատճենվել։",
     "errorDatabaseConnection": "Արտաքին սխալ։<br>Տվյալաշտեմարանի միացման սխալ։ Դիմեք տեխսպասարկմանը։",
     "errorDataEncrypted": "Ընդունվել են գաղտնագրված փոփոխությունները. դրանք չեն կարող վերծանվել։",
     "errorDataRange": "Տվյալների սխալ ընդգրկույթ։",
@@ -207,8 +210,10 @@
     "errorDirectUrl": "Խնդրում ենք ստուգել փաստաթղթի հղումը:<br> Այս հղումը պետք է լինի ուղիղ հղում դեպի ներբեռնելու ֆայլը:",
     "errorEditingDownloadas": "Փաստաթղթի հետ աշխատանքի ընթացքում սխալ է տեղի ունեցել:<br>Օգտագործեք «Ներբեռնում» տարբերակը՝ ֆայլի կրկնօրինակը տեղում պահելու համար:",
     "errorEmailClient": "Էլփոստի հաճախորդ չի գտնվել",
+    "errorFileNotAssembled": "Այս ֆայլը բացվել է սերվերի պահուստային պատճենից և չի պահպանվել պահեստում։<br>Օգտագործեք «Պահպանել որպես...» տարբերակը՝ այն սկավառակի վրա պահպանելու համար։",
     "errorFilePassProtect": "Ֆայլը պաշտպանված է գաղտնաբառով և հնարավոր չէ բացել:",
     "errorFileSizeExceed": "Ֆայլի չափը գերազանցում է Ձեր սերվերի սահմանափակումը:Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ:",
+    "errorForcedViewMode": "Այս ֆայլը բացված է դիտման ռեժիմում։<br>Ֆայլը կողպված է խմբագրման համար կամ ձեր հասանելիության իրավունքները թույլ չեն տալիս խմբագրում։",
     "errorForceSave": "Սխալ է տեղի ունեցել ֆայլը պահելիս:Խնդրում ենք օգտագործել «Ներբեռնել որպես» տարբերակը՝ ֆայլը ձեր համակարգչի կոշտ սկավառակում պահելու համար կամ ավելի ուշ նորից փորձեք:",
     "errorInconsistentExt": "Ֆայլը բացելիս սխալ է տեղի ունեցել:<br>Ֆայլի բովանդակությունը չի համապատասխանում ֆայլի ընդլայնմանը:",
     "errorInconsistentExtDocx": "Ֆայլը բացելիս սխալ է տեղի ունեցել:<br>Ֆայլի բովանդակությունը համապատասխանում է տեքստային փաստաթղթերին (օրինակ՝ docx), սակայն ֆայլն ունի անհամապատասխան ընդլայնում՝ %1:",
@@ -241,8 +246,7 @@
     "unknownErrorText": "Անհայտ սխալ։",
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
-    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
-    "errorCopyDisabled": "For security reasons, the contents of this document cannot be copied."
+    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:"
   },
   "LongActions": {
     "applyChangesTextText": "Տվյալների բեռնում...",
@@ -355,6 +359,7 @@
       "textAuto": "Ինքնաշխատ",
       "textAutomatic": "Ինքնաշխատ",
       "textBack": "Հետ",
+      "textBackground": "Խորք",
       "textBandedColumn": "Միջարկվող սյունակներ",
       "textBandedRow": "Միջարկվող տողեր",
       "textBaseline": "Հիմնագիծ",
@@ -417,7 +422,7 @@
       "textHorizontalIn": "Հորիզոնական դեպի ներս",
       "textHorizontalOut": "Հորիզոնական դեպի դուրս",
       "textHorizontalText": "Հորիզոնական տեքստ",
-      "textHyperlink": "Գերհղում",
+      "textHyperlink": "Հղում",
       "textImage": "Նկար",
       "textImageURL": "Նկարի URL",
       "textInsertImage": "Զետեղել նկար",
@@ -432,6 +437,7 @@
       "textLinkSettings": "Հղման կարգավորումներ",
       "textLinkTo": "Հղում դեպի՝",
       "textLinkType": "Հղման տեսակ",
+      "textLtrTextDirection": "Ձախից աջ",
       "textMorph": "Մորֆ",
       "textMorphLetters": "Նամակներ",
       "textMorphObjects": "Օբյեկտներ",
@@ -460,9 +466,11 @@
       "textReplaceAll": "Փոխարինել բոլորը",
       "textReplaceImage": "Փոխարինել նկարը",
       "textRequired": "Պարտադիր",
+      "textResetBackground": "Վերականգնել ֆոնը",
       "textRight": "Աջ",
       "textRotateTextDown": "Տեքստը պտտել ներքև",
       "textRotateTextUp": "Տեքստը պտտել վեր",
+      "textRtlTextDirection": "Աջից ձախ",
       "textScreenTip": "Հուշակի գրվածք",
       "textSearch": "Որոնել",
       "textSec": "Կրկ",
@@ -484,6 +492,7 @@
       "textSuperscript": "Վերգիր",
       "textTable": "Աղյուսակ",
       "textText": "Տեքստ",
+      "textTextDirection": "Տեքստի ուղղություն",
       "textTextOrientation": "Տեքստի կողմնորոշում",
       "textTheme": "Ոճ",
       "textTop": "Վերին",
@@ -502,12 +511,7 @@
       "textZoomOut": "Փոքրացնել",
       "textZoomRotate": "Դիտափոխում և պտտում",
       "txtHeight": "Բարձրություն",
-      "txtWidth": "Լայնք",
-      "textBackground": "Background",
-      "textLtrTextDirection": "Left-to-right",
-      "textResetBackground": "Reset background",
-      "textRtlTextDirection": "Right-to-left",
-      "textTextDirection": "Text Direction"
+      "txtWidth": "Լայնք"
     },
     "Settings": {
       "mniSlideStandard": "Ստանդարտ (4:3)",
@@ -549,9 +553,11 @@
       "textLight": "Բաց",
       "textLoading": "Բեռնում...",
       "textLocation": "Տեղ",
+      "textLoopSlideshow": "Կրկնել սլայդշոուն",
       "textMacrosSettings": "Մակրոների կարգավորումներ",
       "textNoMatches": "Համընկնում չկա",
       "textOk": "Լավ",
+      "textOpenLocation": "Բացել լոկացիան",
       "textOwner": "Տնօրինող",
       "textPoint": "Կետ",
       "textPoweredBy": "Օժանդակող՝",
@@ -575,9 +581,7 @@
       "textUnitOfMeasurement": "Չափման միավոր",
       "textUploaded": "Վերբեռնվել է",
       "textVersion": "Տարբերակ",
-      "textVersionHistory": "Տարբերակի պատմություն",
-      "textLoopSlideshow": "Loop slideshow",
-      "textOpenLocation": "Open location"
+      "textVersionHistory": "Տարբերակի պատմություն"
     }
   }
 }

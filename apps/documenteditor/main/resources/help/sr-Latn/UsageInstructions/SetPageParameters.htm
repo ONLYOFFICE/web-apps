@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Podešavanje parametara stranice</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Podesite parametre stranice: promenite orijentaciju i veličinu stranice, podesite margine i umetnite kolone" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Podešavanje parametara stranice</h1>
+            <p>Da biste promenili izgled stranice u <a href="https://www.onlyoffice.com/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor-u</b></a>, odnosno podesili orijentaciju i veličinu stranice, prilagodili margine i ubacili kolone, koristite odgovarajuće ikone na kartici <b>Layout</b> gornje trake sa alatkama.</p>
+            <p class="note"><b>Napomena</b>: svi ovi parametri primenjuju se na ceo dokument. Ako je potrebno da podesite različite margine, orijentaciju, veličinu stranice ili broj kolona za pojedinačne delove dokumenta, pogledajte <a href="../UsageInstructions/SectionBreaks.htm" onclick="onhyperlinkclick(this)">ovu stranicu</a>.</p>
+            <h3 id="orientation">Orijentacija stranice</h3>
+            <p>Promenite trenutnu orijentaciju klikom na ikonu <span class="icon icon-orientation"></span> <b>Orientation</b>. Podrazumevana orijentacija je <b>Portrait</b>, koja se može promeniti u <b>Album</b>.</p>
+            <h3 id="size">Veličina stranice</h3>
+            <p>Promenite podrazumevani format A4 klikom na ikonu <span class="icon icon-pagesize"></span> <b>Size</b> i izborom željenog formata sa liste. Dostupne su sledeće unapred definisane veličine:</p>
+            <ul>
+                <li>US Pismo (21,59cm x 27,94cm)</li>
+                <li>US Legalno (21,59cm x 35,56cm)</li>
+                <li>A4 (21cm x 29,7cm)</li>
+                <li>A5 (14,81cm x 20,99cm)</li>
+                <li>B5 (17,6cm x 25,01cm)</li>
+                <li>Koverta #10 (10,48cm x 24,13cm)</li>
+                <li>Koverta DL (11,01cm x 22,01cm)</li>
+                <li>Tabloid (27,94cm x 43,17cm)</li>
+                <li>AЗ (29,7cm x 42,01cm)</li>
+                <li>Tabloid Oversize (29,69cm x 45,72cm)</li>
+                <li>ROC 16K (19,68cm x 27,3cm)</li>
+                <li>Envelope Choukei 3 (12cm x 23,5cm)</li>
+                <li>Super B/A3 (30,5cm x 48,7cm)</li>
+            </ul>
+            <p>Takođe možete podesiti posebnu veličinu stranice izborom opcije <b>Custom Page Size</b> sa liste. Otvoriće se prozor Page Size u kojem ćete moći da izaberete željeni <b>Preset</b> (US Letter, US Legal, A4, A5, B5, Envelope #10, Envelope DL, Tabloid, A3, Tabloid Oversize, ROC 16K, Envelope Choukei 3, Super B/A3, A0, A1, A2, A6) ili da podesite prilagođene vrednosti za <b>Width</b> i <b>Height</b>. Unesite nove vrednosti u polja za unos ili prilagodite postojeće vrednosti pomoću dugmadi sa strelicama. Kada završite, kliknite na <b>OK</b> da biste primenili izmene.</p>
+            <p><img alt="Custom Page Size" src="../images/custompagesize.png" /></p>
+            <h3 id="margins">Margine stranice</h3>
+            <p>Promenite podrazumevane margine, odnosno prazan prostor između leve, desne, gornje i donje ivice stranice i teksta pasusa, klikom na ikonu <span class="icon icon-pagemargins"></span> <b>Margins</b> i izborom jednog od dostupnih unapred definisanih podešavanja: <b>Normal</b>, <b>US Normal</b>, <b>Narrow</b>, <b>Moderate</b>, <b>Wide</b>. Takođe možete koristiti opciju <b>Custom Margins</b> da biste podesili sopstvene vrednosti u prozoru Margins. Unesite potrebne vrednosti margina <b>Top</b>, <b>Bottom</b>, <b>Left</b> i <b>Right</b> u polja za unos ili prilagodite postojeće vrednosti pomoću dugmadi sa strelicama.</p>
+            <p><img alt="Custom Margins" src="../images/custommargins.png" /></p>
+            <p><b>Gutter position</b> se koristi za podešavanje dodatnog prostora sa leve strane dokumenta ili na njegovom vrhu. Opcija <b>Gutter</b> je korisna kako bi se obezbedilo da povezivanje knjige ne prekriva tekst. U okviru <b>Margins</b> unesite željenu poziciju žleba u polja za unos i izaberite gde će biti postavljen.</p>
+            <p class="note"><b>Napomena</b>: opcija <b>Gutter position</b> ne može se koristiti kada je označena opcija <b>Mirror margins</b>.</p>
+            <p>U padajućem meniju <b>Multiple pages</b> izaberite opciju <b>Mirror margins</b> da biste podesili naspramne stranice za dvostrano štampane dokumente. Kada je ova opcija uključena, margine <b>Left</b> i <b>Right</b> postaju margine <b>Inside</b> i <b>Outside</b>.</p>
+            <p>U padajućem meniju <b>Orientation</b> izaberite opciju <b>Portrait</b> ili <b>Landscape</b>.</p>
+            <p>Sve primenjene izmene u dokumentu biće prikazane u prozoru <b>Preview</b>.</p>
+            <p>Kada završite, kliknite na <b>OK</b>. Prilagođene margine biće primenjene na trenutni dokument, a opcija <b>Last Custom</b> sa navedenim parametrima pojaviće se u listi <span class="icon icon-pagemargins"></span> <b>Margins</b>, tako da ćete moći da ih primenite i na druge dokumente.</p>
+            <p>Takođe možete ručno promeniti margine prevlačenjem granice između sivih i belih oblasti na lenjirima (sive oblasti na lenjirima označavaju margine stranice):</p>
+            <p><span class="big big-margins"></span></p>
+            <h3 id="pagecolor">Boja stranice</h3>
+            <p>Promenite boju stranice na kartici <b>Layout</b> pomoću dugmeta <b>Page Color</b>. Izaberite neku od <b>Theme</b> ili <b>Standard</b> boja ili kliknite na stavku <b>More colors</b> da biste kreirali prilagođenu boju.</p>
+            <h3 id="columns">Kolone</h3>
+            <p>Primeni raspored sa više kolona klikom na ikonu <span class="icon icon-insertcolumns"></span> <b>Columns</b> i izborom potrebnog tipa kolona iz padajuće liste. Dostupne su sledeće opcije:</p>
+            <ul>
+                <li><b>Dve</b> <div class="icon icon-twocolumns"></div> – za dodavanje dve kolone iste širine,</li>
+                <li><b>Tri</b> <div class="icon icon-threecolumns"></div> – za dodavanje tri kolone iste širine,</li>
+                <li><b>Levo</b> <div class="icon icon-leftcolumn"></div> – za dodavanje dve kolone: uska kolona levo i široka kolona desno,</li>
+                <li><b>Desno</b> <div class="icon icon-rightcolumn"></div> – za dodavanje dve kolone: uska kolona desno i široka kolona levo.</li>
+            </ul>
+            <p>Ako želite da prilagodite podešavanja kolona, izaberite opciju <b>Custom Columns</b> sa liste. Pojaviće se prozor <b>Columns</b>, u kojem ćete moći da podesite potreban <b>Number of columns</b>, <b>Width</b> kolona i <b>Spacing</b>. Unesite nove vrednosti u polja za unos ili prilagodite postojeće vrednosti pomoću dugmadi sa strelicama. Označite polje <b>Equal column width</b> da bi sve kolone imale istu širinu. Označite polje <b>Column divider</b> da biste dodali vertikalnu liniju između kolona. Kada završite, kliknite na <b>OK</b> da biste primenili izmene.</p>
+            <p><img alt="Custom Columns" src="../images/customcolumns.png" /></p>
+            <p>Da biste precizno odredili gde nova kolona treba da počne, postavite kursor ispred teksta koji želite da premestite u novu kolonu, kliknite na ikonu <span class="icon icon-pagebreak1"></span> <b>Breaks</b> na gornjoj traci sa alatkama, a zatim izaberite opciju <b>Insert Column Break</b>. Tekst će biti premešten u sledeću kolonu.</p>
+            <p>Umetnuti prelomi kolona označeni su u dokumentu isprekidanom linijom: <span class="big big-columnbreak"></span>. Ako ne vidite umetnute prelome kolona, kliknite na ikonu <span class="icon icon-nonprintingcharacters"></span> na kartici <b>Home</b> na gornjoj traci sa alatkama da biste ih učinili vidljivim. Da biste uklonili prelom kolone, izaberite ga mišem i pritisnite taster <b>Delete</b>.</p>
+            <p>Za ručno menjanje širine i razmaka između kolona možete koristiti horizontalni lenjir.</p>
+            <p><div class="big big-columnspacing"></div></p>
+            <p>Da biste uklonili kolone i vratili se na standardni raspored sa jednom kolonom, kliknite na ikonu <span class="icon icon-insertcolumns"></span> <b>Columns</b> na gornjoj traci sa alatkama i izaberite opciju <b>One</b> <span class="icon icon-onecolumn"></span> sa liste.</p>
+        </div>
+	</body>
+</html>

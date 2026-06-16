@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>Podešavanja pregleda i alati za navigaciju</title>
+	<meta charset="utf-8" />
+	<meta name="description" content="The description of view settings and navigation tools such as zoom, previous/next page buttons" />
+	<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+	<link type="text/css" rel="stylesheet" href="../../images/sprite.css" />
+	<script type="text/javascript" src="../callback.js"></script>
+	<script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
+</head>
+<body>
+	<div class="mainpart">
+		<div class="search-field">
+			<input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+		</div>
+		<h1>Podešavanja pregleda i alati za navigaciju</h1>
+		<p> <!--<a href="https://www.onlyoffice.com/en/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)">--><b>Diagram Viewer</b><!--</a>--> nudi nekoliko alata koji vam pomažu da pregledate i navigirate kroz svoj dijagram: zumiranje, podešavanje teme interfejsa itd.</p>
+		<h3>Podesite podešavanja pregleda</h3>
+		<p>
+			Da biste prilagodili podrazumevana podešavanja pregleda i postavili najpogodniji režim za rad sa dijagramom, idite na <b>View</b> karticu i izaberite koje elemente interfejsa želite da sakrijete ili prikažete.
+			Na kartici <b>View</b> možete izabrati sledeće opcije:
+		</p>
+		<ul>
+			<li><b>Zoom</b> – da postavite željeni nivo zumiranja od 50% do 500% iz padajuće liste.</li>
+			<li><b>Fit to Page</b> - da prilagodite celu stranicu dijagrama vidljivom delu radnog prostora.</li>
+			<li><b>Fit to Width</b> - da prilagodite širinu stranice dijagrama vidljivom delu radnog prostora.</li>
+			<li><b>Interface Theme</b> – izaberite jednu od dostupnih tema interfejsa iz padajućeg menija: <em>Isto kao sistem</em>, <em>Light</em>, <em>Classic Light</em>, <em>Dark</em>, <em>Contrast Dark</em>, <em>Gray</em>.</li>
+			<li>
+				<b>Uvek prikaži alatnu traku</b> – kada je ova opcija onemogućena, gornja traka sa komandama biće sakrivena, dok nazivi kartica ostaju vidljivi.
+				<p class="note">Alternativno, možete samo dvokliknuti bilo koju karticu da sakrijete gornju traku sa alatima ili je ponovo prikažete.</p>
+			</li>
+			<li><b>Status Bar</b> – kada je ova opcija onemogućena, donja traka gde se nalaze dugmad <b>Zoom</b>, <b>Fit to page</b>, <b>Fit to width</b> biće sakrivena. Da biste prikazali sakrivenu <b>Status Bar</b>, omogućite ovu opciju.</li>
+			<li><b>Left Panel</b> - kada je onemogućena, skriva levi panel gde se nalaze <b>Chat</b>, <b>About</b>, itd. dugmad. Da biste prikazali levi panel, označite ovo polje.</li>
+		</ul>
+		<p>
+			Kada je <b>Chat</b> panel otvoren, širina leve bočne trake podešava se jednostavnim prevlačenjem:
+			pomerite kursor preko ivice leve bočne trake dok se ne pretvori u dvosmernu strelicu i prevucite ivicu udesno da proširite širinu bočne trake. Da biste vratili originalnu širinu, pomerite ivicu ulevo.
+		</p>
+		<h3 id="navigationtools">Koristite alate za navigaciju</h3>
+		<h4>Navigacija stranicama</h4>
+		<p>Dugmad za navigaciju kroz stranice nalaze se na dnu ekrana.</p>
+		<ul>
+			<li><div class="icon icon-nextpage"></div> - idite na sledeću stranicu dijagrama.</li>
+			<li><div class="icon icon-previouspage"></div> - idite na prethodnu stranicu dijagrama.</li>
+		</ul>
+		<h4>Zoom</h4>
+		<p> <b>Zoom</b> dugmići se nalaze u donjem desnom uglu i koriste se za uvećavanje i umanjivanje trenutnog dijagrama.</p>
+		<p>
+			Da biste promenili trenutno izabranu vrednost zumiranja prikazanu u procentima, kliknite na nju i izaberite jednu od dostupnih opcija zuma sa liste (50% / 75% / 100% / 125% / 150% / 175% / 200% / 300% / 400% / 500%) ili koristite dugmad <b>Zoom in</b> <span class="icon icon-zoomin"></span> ili <b>Zoom out</b> <span class="icon icon-zoomout"></span>. Postavljeno skaliranje zadržava se za sve fajlove tokom trenutne sesije.
+		</p>
+		<p>Kliknite na <b>Fit to width</b> <span class="icon icon-fitwidth"></span> ikonu da prilagodite širinu stranice dokumenta vidljivom delu radnog prostora.</p>
+		<p>Da biste prilagodili celu stranicu dokumenta vidljivom delu radnog prostora, kliknite na <b>Fit to page</b> <span class="icon icon-fitpage"></span> ikonu.</p>
+		<p>Podešavanja zumiranja takođe su dostupna na <a href="../ProgramInterface/ViewTab.htm" onclick="onhyperlinkclick(this)">View</a> kartici.</p>
+	</div>
+</body>
+</html>

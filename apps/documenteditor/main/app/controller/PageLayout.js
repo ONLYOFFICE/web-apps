@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 /**
@@ -71,7 +74,9 @@ define([
 
                 toolbar.btnImgAlign.menu.on('item:click', me.onClickMenuAlign.bind(me));
                 toolbar.btnImgAlign.menu.on('show:before', me.onBeforeShapeAlign.bind(me));
-                toolbar.btnImgWrapping.menu.on('item:click', me.onClickMenuWrapping.bind(me));
+                toolbar.btnsImgWrapping.forEach(function (btn) {
+                    btn.menu.on('item:click', me.onClickMenuWrapping.bind(me))
+                });
                 toolbar.btnImgGroup.menu.on('item:click', me.onClickMenuGroup.bind(me));
                 toolbar.btnImgForward.menu.on('item:click', me.onClickMenuForward.bind(me));
                 toolbar.btnImgBackward.menu.on('item:click', me.onClickMenuForward.bind(me));
@@ -117,19 +122,21 @@ define([
             },
 
             onApiWrappingStyleChanged: function (type) {
-                var menu = this.toolbar.btnImgWrapping.menu;
+                this.toolbar.btnsImgWrapping.forEach(function (btn) {
+                    var menu = btn.menu;
 
-                switch ( type ) {
-                case Asc.c_oAscWrapStyle2.Inline:       menu.items[0].setChecked(true); break;
-                case Asc.c_oAscWrapStyle2.Square:       menu.items[2].setChecked(true); break;
-                case Asc.c_oAscWrapStyle2.Tight:        menu.items[3].setChecked(true); break;
-                case Asc.c_oAscWrapStyle2.Through:      menu.items[4].setChecked(true); break;
-                case Asc.c_oAscWrapStyle2.TopAndBottom: menu.items[5].setChecked(true); break;
-                case Asc.c_oAscWrapStyle2.Behind:       menu.items[8].setChecked(true); break;
-                case Asc.c_oAscWrapStyle2.InFront:      menu.items[7].setChecked(true); break;
-                default:
-                    menu.clearAll(true);
-                }
+                    switch ( type ) {
+                    case Asc.c_oAscWrapStyle2.Inline:       menu.items[0].setChecked(true); break;
+                    case Asc.c_oAscWrapStyle2.Square:       menu.items[2].setChecked(true); break;
+                    case Asc.c_oAscWrapStyle2.Tight:        menu.items[3].setChecked(true); break;
+                    case Asc.c_oAscWrapStyle2.Through:      menu.items[4].setChecked(true); break;
+                    case Asc.c_oAscWrapStyle2.TopAndBottom: menu.items[5].setChecked(true); break;
+                    case Asc.c_oAscWrapStyle2.Behind:       menu.items[8].setChecked(true); break;
+                    case Asc.c_oAscWrapStyle2.InFront:      menu.items[7].setChecked(true); break;
+                    default:
+                        menu.clearAll(true);
+                    }
+                });
             },
 
             onApiFocusObject: function(objects) {
@@ -157,10 +164,13 @@ define([
                         no_object = false;
                         me.onApiWrappingStyleChanged(notflow ? -1 : wrapping);
 
-                        _.each(me.toolbar.btnImgWrapping.menu.getItems(true), function(item) {
-                            item.setDisabled(notflow);
+                        me.toolbar.btnsImgWrapping.forEach(function (btn) {
+                            btn.menu.getItems(true).forEach(function (item) {
+                                item.setDisabled(notflow);
+                            });
+
+                            btn.menu.items[10].setDisabled(!me.api.CanChangeWrapPolygon())
                         });
-                        me.toolbar.btnImgWrapping.menu.items[10].setDisabled(!me.api.CanChangeWrapPolygon());
 
                         var control_props = me.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
                             lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
@@ -183,13 +193,13 @@ define([
                     }
                 }
                 me.toolbar.lockToolbar(Common.enumLock.cantMergeShape, !me.api.asc_canMergeSelectedShapes(), { array: [me.toolbar.btnShapesMerge] });
-                me.toolbar.lockToolbar(Common.enumLock.noObjectSelected, no_object, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgWrapping, me.toolbar.btnImgForward, me.toolbar.btnImgBackward, me.toolbar.btnShapesMerge]});
-                me.toolbar.lockToolbar(Common.enumLock.imageLock, islocked, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgWrapping, me.toolbar.btnShapesMerge]});
-                me.toolbar.lockToolbar(Common.enumLock.contentLock, content_locked, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgWrapping, me.toolbar.btnImgForward, me.toolbar.btnImgBackward, me.toolbar.btnShapesMerge]});
+                me.toolbar.lockToolbar(Common.enumLock.noObjectSelected, no_object, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgForward, me.toolbar.btnImgBackward, me.toolbar.btnShapesMerge].concat(...me.toolbar.btnsImgWrapping)});
+                me.toolbar.lockToolbar(Common.enumLock.imageLock, islocked, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnShapesMerge].concat(...me.toolbar.btnsImgWrapping)});
+                me.toolbar.lockToolbar(Common.enumLock.contentLock, content_locked, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgForward, me.toolbar.btnImgBackward, me.toolbar.btnShapesMerge].concat(...me.toolbar.btnsImgWrapping)});
                 me.toolbar.lockToolbar(Common.enumLock.inImageInline, wrapping == Asc.c_oAscWrapStyle2.Inline, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnShapesMerge]});
                 me.toolbar.lockToolbar(Common.enumLock.inSmartartInternal, shapeProps && shapeProps.asc_getFromSmartArtInternal(), {array: [me.toolbar.btnImgForward, me.toolbar.btnImgBackward]});
                 me.toolbar.lockToolbar(Common.enumLock.cantGroup, !canGroupUngroup, {array: [me.toolbar.btnImgGroup]});
-                me.toolbar.lockToolbar(Common.enumLock.cantWrap, disable.wrapping, {array: [me.toolbar.btnImgWrapping]});
+                me.toolbar.lockToolbar(Common.enumLock.cantWrap, disable.wrapping, {array: me.toolbar.btnsImgWrapping});
                 me.toolbar.lockToolbar(Common.enumLock.cantArrange, disable.arrange, {array: [me.toolbar.btnImgForward, me.toolbar.btnImgBackward]});
                 me.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, !in_para, {array: [me.toolbar.numIndentsLeft, me.toolbar.numIndentsRight, me.toolbar.lblIndentsLeft, me.toolbar.lblIndentsRight,
                                                                                                me.toolbar.numSpacingAfter, me.toolbar.numSpacingBefore, me.toolbar.lblSpacingAfter, me.toolbar.lblSpacingBefore ]});
@@ -215,13 +225,10 @@ define([
                 var value = this.toolbar.mniAlignToPage.isChecked() ? Asc.c_oAscObjectsAlignType.Page : (this.toolbar.mniAlignToMargin.isChecked() ? Asc.c_oAscObjectsAlignType.Margin : Asc.c_oAscObjectsAlignType.Selected);
                 if (item.value>-1 && item.value < 6) {
                     this.api.put_ShapesAlign(item.value, value);
-                    Common.component.Analytics.trackEvent('ToolBar', 'Shape Align');
                 } else if (item.value == 6) {
                     this.api.DistributeHorizontally(value);
-                    Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
                 } else if (item.value == 7){
                     this.api.DistributeVertically(value);
-                    Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
                 }
                 this.toolbar.fireEvent('editcomplete', this.toolbar);
             },
@@ -235,7 +242,6 @@ define([
             onClickMenuShapesMerge: function (menu, item, e) {
                 if (item && item.value) {
                     this.api.asc_mergeSelectedShapes(item.value); 
-                    Common.component.Analytics.trackEvent('ToolBar', 'Shapes Merge'); 
                 }
                 this.toolbar.fireEvent('editcomplete', this.toolbar);
             },
