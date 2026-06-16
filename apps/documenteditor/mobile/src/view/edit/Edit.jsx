@@ -36,7 +36,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Popover, Sheet, View, f7 } from 'framework7-react';
 import { Device } from '../../../../../common/mobile/utils/device';
-import { PageTextFonts, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextLineSpacing, PageTextFontColor, PageTextCustomFontColor, PageTextHighlightColor, PageOrientationTextShape, PageOrientationTextTable, PageTextDirection  } from "./EditText";
+import { PageTextFonts, PageTextCustomFontSize, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextLineSpacing, PageTextFontColor, PageTextCustomFontColor, PageTextHighlightColor, PageOrientationTextShape, PageOrientationTextTable, PageTextDirection  } from "./EditText";
 import { ParagraphAdvSettings, PageParagraphBackColor, PageParagraphCustomColor, PageParagraphStyle, PageCreateTextStyle, PageChangeNextParagraphStyle } from "./EditParagraph";
 import { PageShapeStyleNoFill, PageShapeStyle, PageShapeCustomFillColor, PageShapeBorderColor, PageShapeCustomBorderColor, PageWrap, PageReorder, PageReplace } from "./EditShape";
 import { PageImageReorder, PageImageReplace, PageImageWrap, PageLinkSettings, PageWrappingStyle } from "./EditImage";
@@ -45,6 +45,7 @@ import { PageChartDesign,  PageChartDesignType, PageChartDesignStyle, PageChartD
 import { PageEditLeaderTableContents, PageEditStylesTableContents, PageEditStructureTableContents } from './EditTableContents';
 import EditingPage from './EditingPage';
 import { MainContext } from '../../page/main';
+import { customFont } from './EditText';
 
 const routes = [
     {
@@ -56,6 +57,13 @@ const routes = [
     {
         path: '/edit-text-fonts/',
         component: PageTextFonts,
+    },
+    {
+        path: '/edit-text-size-custom/',
+        component: PageTextCustomFontSize,
+        options: {
+            animate: false,
+        },
     },
     {
         path: '/edit-text-add-formatting/',
@@ -288,12 +296,14 @@ const EditView = () => {
 
     return (
         !Device.phone ?
-            <Popover id="edit-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => mainContext.closeOptions('edit')}>
+            <Popover id="edit-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => mainContext.closeOptions('edit')} onPopoverClose={() => {
+                if (customFont.current) customFont.current(); }}>
                 <View style={{ height: '410px' }} routes={routes} url='/editing-page/'>
                     <EditingPage />
                 </View>
             </Popover> :
-            <Sheet id="edit-sheet" closeByOutsideClick={false} onSheetClosed={() =>  mainContext.closeOptions('edit')}>
+            <Sheet id="edit-sheet" closeByOutsideClick={false} onSheetClosed={() =>  mainContext.closeOptions('edit')} onSheetClose={() => {
+                if (customFont.current) customFont.current(); }}>
                 <View routes={routes} url='/editing-page/'>
                     <EditingPage />
                 </View>

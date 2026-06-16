@@ -41,11 +41,12 @@ import { Device } from '../../../../../common/mobile/utils/device';
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 import { PageImageReplace, PageImageReorder, PageLinkSettings } from './EditImage';
 import { TextColorCell, FillColorCell, CustomTextColorCell, CustomFillColorCell, FontsCell, TextFormatCell, TextOrientationCell, BorderStyleCell, BorderColorCell, CustomBorderColorCell, BorderSizeCell, PageFormatCell, PageAccountingFormatCell, PageCurrencyFormatCell, PageDateFormatCell, PageTimeFormatCell, CellStyle, PageCreationCustomFormat, CustomFormats, PageCellTextDirection } from './EditCell';
-import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor, PageOrientationTextShape, PageTextAdditionalFormatting, PageTextDirection } from './EditText';
+import { PageTextFonts, PageTextCustomFontSize, PageTextFontColor, PageTextCustomFontColor, PageOrientationTextShape, PageTextAdditionalFormatting, PageTextDirection } from './EditText';
 import { PageChartDesign,  PageChartDesignType, PageChartDesignStyle, PageChartDesignFill, PageChartDesignBorder, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartLayout, PageLegend, PageChartTitle, PageHorizontalAxisTitle, PageVerticalAxisTitle, PageHorizontalGridlines, PageVerticalGridlines, PageDataLabels, PageChartVerticalAxis, PageVertAxisCrosses, PageDisplayUnits, PageVertMajorType, PageVertMinorType, PageVertLabelPosition, PageChartHorizontalAxis, PageHorAxisCrosses, PageHorAxisPosition, PageHorMajorType, PageHorMinorType, PageHorLabelPosition } from './EditChart';
 import { PageEditTypeLink, PageEditSheet } from './EditLink';
 import EditingPage from './EditingPage';
 import { MainContext } from '../../page/main';
+import { customFont } from './EditText';
 
 const routes = [
     {
@@ -186,6 +187,13 @@ const routes = [
     {
         path: '/edit-text-fonts/',
         component: PageTextFonts
+    },
+    {
+        path: '/edit-text-size-custom/',
+        component: PageTextCustomFontSize,
+        options: {
+            animate: false,
+        },
     },
     {
         path: '/edit-text-font-color/',
@@ -370,12 +378,14 @@ const EditView = () => {
 
     return (
         !Device.phone ?
-            <Popover id="edit-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => mainContext.closeOptions('edit')}>
+            <Popover id="edit-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => mainContext.closeOptions('edit')} onPopoverClose={() => {
+                if (customFont.current) customFont.current(); }}>
                 <View style={{ height: '410px' }} routes={routes} url='/editing-page/'>
                     <EditingPage />
                 </View>
             </Popover> :
-            <Sheet id="edit-sheet" onSheetClosed={() => mainContext.closeOptions('edit')}>
+            <Sheet id="edit-sheet" onSheetClosed={() => mainContext.closeOptions('edit')}  onSheetClose={() => {
+                if (customFont.current) customFont.current(); }}>
                 <View routes={routes} url='/editing-page/'>
                     <EditingPage />
                 </View>

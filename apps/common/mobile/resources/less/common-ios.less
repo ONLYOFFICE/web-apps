@@ -718,4 +718,54 @@
             color: @toolbar-icons;
         }
     }
+
+    #edit-popover.edit-custom-font-size {
+        .navbar-inner { 
+            background-color: @background-tertiary; 
+        }
+
+        .view { 
+            height: 100px !important; 
+        }  
+
+        .item-input.item-content {
+            max-height: 20px;
+        }
+
+        li:last-child:after {
+            display: none !important;
+        }
+    }
+
+
+    .list .item-link.size-label {
+        padding: 5px 10px;
+        border-radius: 8px !important;
+        color: @text-normal;
+        background-color: @background-tertiary;
+    }
+
+    .theme-type-dark .list .item-link.size-label {
+        color: @brandColor;
+        background-color: @background-menu-divider;
+    }
+
+    .list.font .item-after {
+        align-items: center;
+    }
+
+    .page-custom-font-size .item-content.item-input {
+        .item-inner {
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .item-title.item-label {
+            font-size: initial;
+        }
+
+        .item-input-wrap input {
+            text-align: right; 
+        }
+    }
 }

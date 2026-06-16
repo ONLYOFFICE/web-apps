@@ -38,13 +38,14 @@ import { Popover, Sheet, View, f7 } from 'framework7-react';
 import { Device } from '../../../../../common/mobile/utils/device';
 import { EditLinkController } from "../../controller/edit/EditLink";
 import { Theme, Layout, Transition, Type, Effect, StyleFillColor, CustomFillColor } from './EditSlide';
-import { PageTextFonts, PageTextFontColor, PageTextHighlightColor, PageTextCustomFontColor, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextDirection, PageTextLineSpacing, PageTextBulletsLinkSettings, PageOrientationTextShape, PageOrientationTextTable } from './EditText';
+import { PageTextFonts, PageTextCustomFontSize, PageTextFontColor, PageTextHighlightColor, PageTextCustomFontColor, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextDirection, PageTextLineSpacing, PageTextBulletsLinkSettings, PageOrientationTextShape, PageOrientationTextTable } from './EditText';
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageAlignContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 import { PageImageReplace, PageImageReorder, PageImageAlign, PageLinkSettings } from './EditImage';
 import { PageTableStyle, PageTableStyleOptions, PageTableCustomFillColor, PageTableBorderColor, PageTableCustomBorderColor, PageTableReorder, PageTableAlign, PageTableSize } from './EditTable';
 import { PageChartDesign, PageChartDesignType, PageChartDesignStyle, PageChartDesignFill, PageChartDesignBorder, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartAlign } from './EditChart'
 import EditingPage from './EditingPage';
 import { MainContext } from '../../page/main';
+import { customFont } from './EditText';
 
 const routes = [
     {
@@ -88,6 +89,13 @@ const routes = [
     {
         path: '/edit-text-fonts/',
         component: PageTextFonts
+    },
+    {
+        path: '/edit-text-size-custom/',
+        component: PageTextCustomFontSize,
+        options: {
+            animate: false,
+        },
     },
     {
         path: '/edit-text-font-color/',
@@ -290,12 +298,14 @@ const EditView = () => {
 
     return (
         !Device.phone ?
-            <Popover id="edit-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => mainContext.closeOptions('edit')}>
+            <Popover id="edit-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => mainContext.closeOptions('edit')} onPopoverClose={() => {
+                if (customFont.current) customFont.current(); }}>
                 <View style={{ height: '410px' }} routes={routes} url='/editing-page/'>
                     <EditingPage />
                 </View>
             </Popover> :
-            <Sheet id="edit-sheet" onSheetClosed={() => mainContext.closeOptions('edit')}>
+            <Sheet id="edit-sheet" onSheetClosed={() => mainContext.closeOptions('edit')} onSheetClose={() => {
+                if (customFont.current) customFont.current(); }}>
                 <View routes={routes} url='/editing-page/'>
                     <EditingPage />
                 </View>

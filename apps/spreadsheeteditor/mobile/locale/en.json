@@ -753,6 +753,8 @@
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSortHigh2Low": "Sort Highest to Lowest",
       "txtSortLow2High": "Sort Lowest to Highest",
+      "txtCustom": "Custom",
+      "textCurrentFont": "Main Text",
       "textSheets": "Sheets",
       "textLinkTo": "Link to",
       "textDefinedName": "Defined name"
