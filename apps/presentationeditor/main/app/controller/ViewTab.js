@@ -462,6 +462,7 @@ define([
 
         changeViewMode: function (mode) {
             if (!this.view.btnSlideMaster || !this.view.btnNormal) return;
+            this.view.fireEvent('mastertab:create', [mode])
             
             var isMaster = mode === 'master';
             var isHandout = mode === 'handout';

@@ -49,30 +49,30 @@ define([
     PE.Views.HandoutMasterTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
             '<section class="panel" data-tab="handoutMaster" role="tabpanel" aria-labelledby="view">' +
-            '<div class="group">' +
-            '<span class="btn-slot text x-huge" id="id-toolbar-btn-handout-orientation"></span>' +
-            '<span class="btn-slot text x-huge" id="id-toolbar-btn-slides-per-page"></span>' +
-            '</div>' +
-            '<div class="separator long"></div>' +
-            '<div class="group small">' +
-            '<div class="elset">' +
-            '<span class="btn-slot text" id="slot-chk-header"></span>' +
-            '</div>' +
-            '<div class="elset">' +
-            '<span class="btn-slot text" id="slot-chk-date"></span>' +
-            '</div>' +
-            '</div>' +
-            '<div class="group small">' +
-            '<div class="elset">' +
-            '<span class="btn-slot text" id="slot-chk-footer"></span>' +
-            '</div>' +
-            '<div class="elset">' +
-            '<span class="btn-slot text" id="slot-chk-page-number"></span>' +
-            '</div>' +
-            '</div>' +
-            '<div class="group">' +
-            '<span class="btn-slot text x-huge" id="slot-btn-closehandoutmaster"></span>' +
-            '</div>' +
+                '<div class="group">' +
+                    '<span class="btn-slot text x-huge" id="id-toolbar-btn-handout-orientation"></span>' +
+                    '<span class="btn-slot text x-huge" id="id-toolbar-btn-slides-per-page"></span>' +
+                '</div>' +
+                '<div class="separator long"></div>' +
+                '<div class="group small">' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="slot-chk-header"></span>' +
+                    '</div>' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="slot-chk-date"></span>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="group small">' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="slot-chk-footer"></span>' +
+                    '</div>' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="slot-chk-page-number"></span>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="group">' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-closehandoutmaster"></span>' +
+                '</div>' +
             '</section>';
         return {
             options: {},
@@ -214,6 +214,7 @@ define([
             getPanel: function () {
                 this.$el = $(_.template(template)( {} ));
                 var $host = this.$el;
+                this.setEvents();
 
                 this.btnHandoutOrientation && this.btnHandoutOrientation.render($host.find('#id-toolbar-btn-handout-orientation'));
                 this.btnSlidesPerPage && this.btnSlidesPerPage.render($host.find('#id-toolbar-btn-slides-per-page'));
@@ -230,8 +231,6 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function () {
-
-                    me.setEvents();
                 });
             },
 

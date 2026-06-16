@@ -49,36 +49,36 @@ define([
     PE.Views.NotesMasterTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
             '<section class="panel" data-tab="notesMaster" role="tabpanel" aria-labelledby="view">' +
-            '<div class="group">' +
-            '<span class="btn-slot text x-huge" id="id-toolbar-btn-notes-page-orientation"></span>' +
-            '</div>' +
-            '<div class="group small">' +
-            '<div class="elset">' +
-            '<span class="btn-slot text" id="id-slot-chk-header"></span>' +
-            '</div>' +
-            '<div class="elset">' +
-            '<span class="btn-slot text" id="id-slot-chk-date"></span>' +
-            '</div>' +
-            '</div>' +
-            '<div class="group small">' +
-            '<div class="elset">' +
-            '<span class="btn-slot text" id="id-slot-chk-footer"></span>' +
-            '</div>' +
-            '<div class="elset">' +
-            '<span class="btn-slot text" id="id-slot-chk-body"></span>' +
-            '</div>' +
-            '</div>' +
-            '<div class="group small">' +
-            '<div class="elset">' +
-            '<span class="btn-slot text" id="id-slot-chk-slide-image"></span>' +
-            '</div>' +
-            '<div class="elset">' +
-            '<span class="btn-slot text" id="id-slot-chk-page-number"></span>' +
-            '</div>' +
-            '</div>' +
-            '<div class="group">' +
-            '<span class="btn-slot text x-huge" id="slot-btn-closenotesmaster"></span>' +
-            '</div>' +
+                '<div class="group">' +
+                    '<span class="btn-slot text x-huge" id="id-toolbar-btn-notes-page-orientation"></span>' +
+                '</div>' +
+                '<div class="group small">' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="id-slot-chk-header"></span>' +
+                    '</div>' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="id-slot-chk-date"></span>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="group small">' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="id-slot-chk-footer"></span>' +
+                    '</div>' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="id-slot-chk-body"></span>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="group small">' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="id-slot-chk-slide-image"></span>' +
+                    '</div>' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="id-slot-chk-page-number"></span>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="group">' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-closenotesmaster"></span>' +
+                '</div>' +
             '</section>';
         return {
             options: {},
@@ -216,6 +216,7 @@ define([
             getPanel: function () {
                 this.$el = $(_.template(template)( {} ));
                 var $host = this.$el;
+                this.setEvents();
 
                 this.btnNotesPageOrientation && this.btnNotesPageOrientation.render($host.find('#id-toolbar-btn-notes-page-orientation'));
                 this.chHeader && this.chHeader.render($host.find('#id-slot-chk-header'));
@@ -233,8 +234,6 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function () {
-
-                    me.setEvents();
                 });
             },
 

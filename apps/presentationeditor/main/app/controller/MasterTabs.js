@@ -48,7 +48,7 @@ define([
 ], function () {
     'use strict';
 
-    PE.Controllers.MasterTabs = Backbone.Controller.extend(_.extend({
+    PE.Controllers.MasterTabs = Backbone.Controller.extend({
         models : [],
         collections : [
         ],
@@ -94,18 +94,18 @@ define([
         setApi: function (api) {
             if (api) {
                 this.api = api;
-                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect, this));
-                Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
-                this.api.asc_registerCallback('asc_onChangeViewMode', _.bind(this.onApiChangeViewMode, this));
-                this.api.asc_registerCallback('asc_onTitle', _.bind(this.onApiTitle, this));
-                this.api.asc_registerCallback('asc_onFooter', _.bind(this.onApiFooter, this));
-                this.api.asc_registerCallback('asc_onHeader', _.bind(this.onApiHeader, this));
-                this.api.asc_registerCallback('asc_onDate', _.bind(this.onApiDate, this));
-                this.api.asc_registerCallback('asc_onSlideImage', _.bind(this.onApiSlideImage, this));
-                this.api.asc_registerCallback('asc_onPageNumber', _.bind(this.onApiPageNumber, this));
-                this.api.asc_registerCallback('asc_onBody', _.bind(this.onApiBody, this));
-                this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObject, this));
-                this.api.asc_registerCallback('asc_onEndAddShape', _.bind(this.onApiEndAddShape, this));
+                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', this.onCoAuthoringDisconnect.bind(this));
+                Common.NotificationCenter.on('api:disconnect', this.onCoAuthoringDisconnect.bind(this));
+                this.api.asc_registerCallback('asc_onChangeViewMode', this.onApiChangeViewMode.bind(this));
+                this.api.asc_registerCallback('asc_onTitle', this.onApiTitle.bind(this));
+                this.api.asc_registerCallback('asc_onFooter', this.onApiFooter.bind(this));
+                this.api.asc_registerCallback('asc_onHeader', this.onApiHeader.bind(this));
+                this.api.asc_registerCallback('asc_onDate', this.onApiDate.bind(this));
+                this.api.asc_registerCallback('asc_onSlideImage', this.onApiSlideImage.bind(this));
+                this.api.asc_registerCallback('asc_onPageNumber', this.onApiPageNumber.bind(this));
+                this.api.asc_registerCallback('asc_onBody', this.onApiBody.bind(this));
+                this.api.asc_registerCallback('asc_onFocusObject', this.onApiFocusObject.bind(this));
+                this.api.asc_registerCallback('asc_onEndAddShape', this.onApiEndAddShape.bind(this));
             }
             return this;
         },
@@ -118,10 +118,10 @@ define([
         onApiPageNumber: function (status) {
             if (this.api.asc_IsHandoutMasterMode()) {
                 if ((this.handoutMaster.chPageNumber.getValue() === 'checked') !== status)
-                this.handoutMaster.chPageNumber.setValue(status, true);
+                    this.handoutMaster.chPageNumber.setValue(status, true);
             } else if (this.api.asc_IsNotesMasterMode()) {
                 if ((this.notesMaster.chPageNumber.getValue() === 'checked') !== status)
-                this.notesMaster.chPageNumber.setValue(status, true);
+                    this.notesMaster.chPageNumber.setValue(status, true);
             }
         },
 
@@ -133,20 +133,20 @@ define([
         onApiHeader: function (status) {
             if (this.api.asc_IsHandoutMasterMode()) {
                 if ((this.handoutMaster.chHeader.getValue() === 'checked') !== status)
-                this.handoutMaster.chHeader.setValue(status, true);
+                    this.handoutMaster.chHeader.setValue(status, true);
             } else if (this.api.asc_IsNotesMasterMode()) {
                 if ((this.notesMaster.chHeader.getValue() === 'checked') !== status)
-                this.notesMaster.chHeader.setValue(status, true);
+                    this.notesMaster.chHeader.setValue(status, true);
             }
         },
 
         onApiDate: function (status) {
             if (this.api.asc_IsHandoutMasterMode()) {
                 if ((this.handoutMaster.chDate.getValue() === 'checked') !== status)
-                this.handoutMaster.chDate.setValue(status, true);
+                    this.handoutMaster.chDate.setValue(status, true);
             } else if (this.api.asc_IsNotesMasterMode()) {
                 if ((this.notesMaster.chDate.getValue() === 'checked') !== status)
-                this.notesMaster.chDate.setValue(status, true);
+                    this.notesMaster.chDate.setValue(status, true);
             }
         },
 
@@ -446,5 +446,5 @@ define([
             this.changeViewMode(mode);
         },
 
-    }, PE.Controllers.MasterTabs || {}));
+    });
 });
