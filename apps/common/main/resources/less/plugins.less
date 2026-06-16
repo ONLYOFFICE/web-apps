@@ -159,17 +159,34 @@
 
             .tools {
                 display: flex;
+                align-items: center;
                 position: relative;
                 padding: 0 !important;
                 justify-content: flex-end;
-                height: @x-small-btn-icon-size-ie;
-                height: @x-small-btn-icon-size;
                 
                 &.right {
                     .margin-right(2px);
                 }
                 &.left {
                     justify-content: flex-start;
+                }
+
+                .tool.close{
+                    &:before, &:after {
+                        left: calc((20px - @scaled-one-px-value-ie) / 2);   //width container - width icon
+                        left: calc((20px - @scaled-one-px-value) / 2);   //width container - width icon
+                        top: calc((@x-small-btn-icon-size-ie - 14px) / 2);   //height container - height icon
+                        top: calc((@x-small-btn-icon-size - 14px) / 2);   //height container - height icon
+                        margin: 0;
+                    }
+                }
+
+                .tool {
+                    width: 20px;
+                    height: @x-small-btn-icon-size-ie;
+                    height: @x-small-btn-icon-size;
+                    margin-top: 0;
+                    margin-bottom: 0;
                 }
             }
 
@@ -283,10 +300,8 @@
         align-items: center;
 
         .icon-custom {
-            width: 20px !important;
-            height: 20px !important;
-            margin: calc((@x-small-btn-icon-size-ie - 20px) / 2);
-            margin: calc((@x-small-btn-icon-size - 20px) / 2);
+            width: 24px !important;
+            height: 24px !important;
         }
     }
 }

@@ -660,7 +660,8 @@ define([
                 menu: menu,
                 sideMenuButton: button,
                 frameId: frameId,
-                isCanDocked: variation.get_IsCanDocked ? variation.get_IsCanDocked() : false
+                isCanDocked: variation.get_IsCanDocked ? variation.get_IsCanDocked() : false,
+                hiddenHeaderButtons: variation.get_HiddenHeaderButtons ? variation.get_HiddenHeaderButtons() : null
             });
             this.viewPlugins.pluginPanels[pluginGuid].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.pluginPanels[pluginGuid], pluginGuid, true));
             this.viewPlugins.pluginPanels[pluginGuid].on('docked', _.bind(function() {
@@ -709,7 +710,8 @@ define([
                     help: !!help,
                     loader: plugin.get_Loader(),
                     modal: isModal!==undefined ? isModal : true,
-                    isCanDocked: variation.get_IsCanDocked ? variation.get_IsCanDocked() : false
+                    isCanDocked: variation.get_IsCanDocked ? variation.get_IsCanDocked() : false,
+                    hiddenHeaderButtons: variation.get_HiddenHeaderButtons ? variation.get_HiddenHeaderButtons() : null
                 });
                 me.pluginDlg.on({
                     'render:after': function(obj){
@@ -1502,6 +1504,7 @@ define([
                 },
                 help: !!help,
                 isCanDocked: variation.isCanDocked,
+                hiddenHeaderButtons: variation.hiddenHeaderButtons,
                 modal: isModal!==undefined ? isModal : true
             });
             me.customPluginsDlg[frameId].on({
@@ -1651,7 +1654,8 @@ define([
                 baseUrl: baseUrl,
                 icons: icons,
                 sideMenuButton: button,
-                isCanDocked: variation.isCanDocked
+                isCanDocked: variation.isCanDocked,
+                hiddenHeaderButtons: variation.hiddenHeaderButtons
             });
             this.viewPlugins.customPluginPanels[frameId].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.customPluginPanels[frameId], frameId, isActivated));
             this.viewPlugins.customPluginPanels[frameId].on('docked',  _.bind(function(frameId) {

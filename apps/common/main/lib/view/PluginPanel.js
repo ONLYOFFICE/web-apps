@@ -85,15 +85,16 @@ define([], function () {
             this.$el.html(this.template({scope: this}));
 
             /**
-             * @type {{ close?: boolean, docked?: boolean, collapse?: boolean }}
+             * @type {Array<'close' | 'docked' | 'collapse'>}
              */
-            const hideHeaderButtons = this.hideHeaderDefaultButtons;
+            let hiddenHeaderButtons = this.hiddenHeaderButtons;
+            !Array.isArray(hiddenHeaderButtons) && (hiddenHeaderButtons = []);
 
             this.pluginsMask = $('#plugins-mask', this.$el);
             this.currentPluginPanel = $('.current-plugin-box', this.$el);
             this.currentPluginFrame = $('.current-plugin-frame', this.$el);
 
-            if(!(hideHeaderButtons && hideHeaderButtons.close == true)) {
+            if(!hiddenHeaderButtons.includes('close')) {
                 this.pluginClose = new Common.UI.Button({
                     parentEl: this.$el.find('.plugin-close'),
                     cls: 'btn-toolbar',
@@ -119,7 +120,7 @@ define([], function () {
             this.$el.find('.more').append(moreContainer);
             this.btnMore.$panel = moreContainer.find('.inner'); 
 
-            if (this.sideMenuButton && !(hideHeaderButtons && hideHeaderButtons.collapse == true)) {
+            if (this.sideMenuButton && !hiddenHeaderButtons.includes('collapse')) {
                 this.pluginHide = new Common.UI.Button({
                     parentEl: this.$el.find('.plugin-hide'),
                     cls: 'btn-toolbar' + (this.menu==='right' ^ Common.UI.isRTL() ? ' icon-mirrored' : ''),
@@ -130,7 +131,7 @@ define([], function () {
                 this.$el.find('.plugin-hide').remove();
             }
 
-            if(this.isCanDocked && !(hideHeaderButtons && hideHeaderButtons.docked == true)) {
+            if(this.isCanDocked && !hiddenHeaderButtons.includes('docked')) {
                 this.btnUndock = new Common.UI.Button({
                     parentEl: this.$el.find('.plugin-undock'),
                     cls: 'btn-toolbar',

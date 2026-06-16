@@ -111,9 +111,10 @@ define([], function () {
             this.boxEl = this.$window.find('.body > .box');
 
             /**
-             * @type {{ close?: boolean, docked?: boolean, collapse?: boolean }}
+             * @type {Array<'close' | 'docked' | 'collapse'>}
              */
-            const hideHeaderButtons = this.options.hideHeaderDefaultButtons;
+            let hiddenHeaderButtons = this.options.hiddenHeaderButtons;
+            !Array.isArray(hiddenHeaderButtons) && (hiddenHeaderButtons = []);
 
             this._headerFooterHeight = this.options.header ? parseInt(this.$window.find('.header').css('height')) : 0;
             if (this.options.buttons && _.size(this.options.buttons)>0)
@@ -126,7 +127,7 @@ define([], function () {
                 this.boxEl.css('height', this.options.contentHeight);
             }
 
-            if(hideHeaderButtons && hideHeaderButtons.close === true) {
+            if(hiddenHeaderButtons.includes('close')) {
                 this.$window.find('.header .close').remove();
             }
 
@@ -193,7 +194,7 @@ define([], function () {
                 me.onMoreHide();
             });
 
-            if(this.options.isCanDocked && !(hideHeaderButtons && hideHeaderButtons.docked == true)) {
+            if(this.options.isCanDocked && !hiddenHeaderButtons.includes('docked')) {
                 this.showDockedButton();
             } else {
                 this.$window.find('.plugin-dock').parent().remove();
