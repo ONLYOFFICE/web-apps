@@ -299,12 +299,12 @@
   "Common.Views.MacrosDialog.tipAI": "ИИ",
   "Common.Views.MacrosDialog.tipMacrosAdd": "Добави макрота",
   "Common.Views.MacrosDialog.tipMacrosCopy": "Копиране на макроси",
-  "Common.Views.OpenDialog.closeButtonText": "Затвори файла",
+  "Common.Views.OpenDialog.closeButtonText": "Затвори файл",
   "Common.Views.OpenDialog.txtAdvanced": "Допълнително",
   "Common.Views.OpenDialog.txtColon": "Дебело черво",
   "Common.Views.OpenDialog.txtComma": "Запетая",
   "Common.Views.OpenDialog.txtDelimiter": "Разделител",
-  "Common.Views.OpenDialog.txtEncoding": "Кодиране",
+  "Common.Views.OpenDialog.txtEncoding": "Кодиране ",
   "Common.Views.OpenDialog.txtIncorrectPwd": "Паролата е неправилна.",
   "Common.Views.OpenDialog.txtOpenFile": "Въведете парола, за да отворите файла",
   "Common.Views.OpenDialog.txtOther": "Друг",
@@ -2937,5 +2937,8 @@
   "SSE.Views.WatchDialog.textDeleteAll": "Изтриване на всички",
   "SSE.Views.WatchDialog.textFormula": "Формула",
   "SSE.Views.WatchDialog.textName": "Име",
-  "SSE.Views.WatchDialog.textValue": "Стойност"
+  "SSE.Views.WatchDialog.textValue": "Стойност",
+  "Common.UI.Calendar.textSeptember": "Септември",
+  "Common.UI.SearchBar.tipNextResult": "Следващ резултат",
+  "Common.UI.SearchBar.tipPreviousResult": "Предишен резултат"
 }
