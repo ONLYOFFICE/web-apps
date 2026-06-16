@@ -66,7 +66,7 @@ define([], function () {
             {name: 'FB2',   imgCls: 'fb2',  type: Asc.c_oAscFileType.FB2},
             {name: 'EPUB',  imgCls: 'epub',  type: Asc.c_oAscFileType.EPUB},
             {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML},
-            {name: 'HWP',   imgCls: 'hwp',  type: Asc.c_oAscFileType.HWP}
+            // {name: 'HWP',   imgCls: 'hwp',  type: Asc.c_oAscFileType.HWP}
         ], [
             {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG},
             {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG}
@@ -189,7 +189,7 @@ define([], function () {
             {name: 'FB2',   imgCls: 'fb2',  type: Asc.c_oAscFileType.FB2, ext: '.fb2'},
             {name: 'EPUB',  imgCls: 'epub',  type: Asc.c_oAscFileType.EPUB, ext: '.epub'},
             {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML, ext: '.html'},
-            {name: 'HWP',   imgCls: 'hwp',  type: Asc.c_oAscFileType.HWP,  ext: '.hwp'}
+            // {name: 'HWP',   imgCls: 'hwp',  type: Asc.c_oAscFileType.HWP,  ext: '.hwp'}
         ], [
             {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG, ext: '.zip'},
             {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG, ext: '.zip'}
