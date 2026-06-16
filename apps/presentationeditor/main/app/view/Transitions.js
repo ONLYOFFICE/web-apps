@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  Transitions.js
@@ -128,11 +131,9 @@ define([
                     {group: 'subtle', title: this.textSplit, imageUrl: "btn-transition-split", value: Asc.c_oAscSlideTransitionTypes.Split, id: Common.UI.getId()},
                     {group: 'subtle', title: this.textCut, imageUrl: "btn-transition-cut", value: Asc.c_oAscSlideTransitionTypes.Cut, id: Common.UI.getId()},
                     {group: 'subtle', title: this.textRandomBars, imageUrl: "btn-transition-randombars", value: Asc.c_oAscSlideTransitionTypes.RandomBar, id: Common.UI.getId()},
+                    {group: 'subtle', title: this.textShape, imageUrl: "btn-transition-shape", value: Asc.c_oAscSlideTransitionTypes.Circle, id: Common.UI.getId()},
                     {group: 'subtle', title: this.textUnCover, imageUrl: "btn-transition-uncover", value: Asc.c_oAscSlideTransitionTypes.UnCover, id: Common.UI.getId()},
                     {group: 'subtle', title: this.textCover, imageUrl: "btn-transition-cover", value: Asc.c_oAscSlideTransitionTypes.Cover, id: Common.UI.getId()},
-                    {group: 'subtle', title: this.textCircle, imageUrl: "btn-transition-circle", value: Asc.c_oAscSlideTransitionTypes.Circle, id: Common.UI.getId()},
-                    {group: 'subtle', title: this.textDiamond, imageUrl: "btn-transition-diamond", value: Asc.c_oAscSlideTransitionTypes.Diamond, id: Common.UI.getId()},
-                    {group: 'subtle', title: this.textPlus, imageUrl: "btn-transition-plus", value: Asc.c_oAscSlideTransitionTypes.Plus, id: Common.UI.getId()},
                     {group: 'exciting', title: this.textDissolve, imageUrl: "btn-transition-dissolve", value: Asc.c_oAscSlideTransitionTypes.Dissolve, id: Common.UI.getId()},
                     {group: 'exciting', title: this.textChecker, imageUrl: "btn-transition-checker", value: Asc.c_oAscSlideTransitionTypes.Checker, id: Common.UI.getId()},
                     {group: 'exciting', title: this.textBlinds, imageUrl: "btn-transition-blinds", value: Asc.c_oAscSlideTransitionTypes.Blinds, id: Common.UI.getId()},
@@ -144,7 +145,6 @@ define([
                     {group: 'exciting', title: this.textFlip, imageUrl: "btn-transition-flip", value: Asc.c_oAscSlideTransitionTypes.Flip, id: Common.UI.getId()},
                     {group: 'exciting', title: this.textGallery, imageUrl: "btn-transition-gallery", value: Asc.c_oAscSlideTransitionTypes.Gallery, id: Common.UI.getId()},
                     {group: 'exciting', title: this.textCube, imageUrl: "btn-transition-cube", prismId: 'prism-cube', value: Asc.c_oAscSlideTransitionTypes.Prism, id: Common.UI.getId()},
-                    {group: 'exciting', title: this.textBoxZoom, imageUrl: "btn-transition-boxzoom", value: Asc.c_oAscSlideTransitionTypes.BoxZoom, id: Common.UI.getId()},
                     {group: 'exciting', title: this.textDoors, imageUrl: "btn-transition-doors", value: Asc.c_oAscSlideTransitionTypes.Doors, id: Common.UI.getId()},
                     {group: 'exciting', title: this.textBox, imageUrl: "btn-transition-box", prismId: 'prism-box', value: Asc.c_oAscSlideTransitionTypes.Prism, id: Common.UI.getId()},
                     {group: 'exciting', title: this.textComb, imageUrl: "btn-transition-comb", value: Asc.c_oAscSlideTransitionTypes.Comb, id: Common.UI.getId()},
@@ -344,7 +344,7 @@ define([
                     {caption: this.textMorphObjects, value: Asc.c_oAscSlideTransitionParams.Morph_Objects},
                     {caption: this.textMorphWord, value: Asc.c_oAscSlideTransitionParams.Morph_Words},
                     {caption: this.textMorphLetters, value: Asc.c_oAscSlideTransitionParams.Morph_Letters},
-                    {caption: this.textSmoothly, value: Asc.c_oAscSlideTransitionParams.Cut_Default},
+                    {caption: this.textNone, value: Asc.c_oAscSlideTransitionParams.Cut_Default},
                     {caption: this.textBlack, value: Asc.c_oAscSlideTransitionParams.Cut_ThroughBlack},
                     {caption: this.textHorizontal, value: Asc.c_oAscSlideTransitionParams.Blinds_Horizontal},
                     {caption: this.textVertical, value: Asc.c_oAscSlideTransitionParams.Blinds_Vertical},
@@ -352,6 +352,10 @@ define([
                     {caption: this.textVertical, value: Asc.c_oAscSlideTransitionParams.Checker_Vertical},
                     {caption: this.textHorizontal, value: Asc.c_oAscSlideTransitionParams.Comb_Horizontal},
                     {caption: this.textVertical, value: Asc.c_oAscSlideTransitionParams.Comb_Vertical},
+                    {caption: this.textCircle, value: Asc.c_oAscSlideTransitionParams.Circle_Default},
+                    {caption: this.textDiamond, value: Asc.c_oAscSlideTransitionParams.Diamond_Default},
+                    {caption: this.textDissolve, value: Asc.c_oAscSlideTransitionParams.Dissolve_Default},
+                    {caption: this.textPlus, value: Asc.c_oAscSlideTransitionParams.Plus_Default},
                     {caption: this.textHorizontal, value: Asc.c_oAscSlideTransitionParams.RandomBar_Horizontal},
                     {caption: this.textVertical, value: Asc.c_oAscSlideTransitionParams.RandomBar_Vertical},
                     {caption: this.textIn, value: Asc.c_oAscSlideTransitionParams.BoxZoom_In},
@@ -369,6 +373,7 @@ define([
                     {caption: this.textTopRight, value: Asc.c_oAscSlideTransitionParams.Ripple_RightUp},
                     {caption: this.textBottomLeft, value: Asc.c_oAscSlideTransitionParams.Ripple_LeftDown},
                     {caption: this.textBottomRight, value: Asc.c_oAscSlideTransitionParams.Ripple_RightDown},
+                    {caption: this.textHoneycomb, value: Asc.c_oAscSlideTransitionParams.Honeycomb_Default},
                     {caption: this.textLeft, value: Asc.c_oAscSlideTransitionParams.Prism_Left},
                     {caption: this.textRight, value: Asc.c_oAscSlideTransitionParams.Prism_Right},
                     {caption: this.textTop, value: Asc.c_oAscSlideTransitionParams.Prism_Up},
@@ -389,8 +394,8 @@ define([
                     {caption: this.textVertical, value: Asc.c_oAscSlideTransitionParams.Doors_Vertical},
                     {caption: this.textHorizontal, value: Asc.c_oAscSlideTransitionParams.Window_Horizontal},
                     {caption: this.textVertical, value: Asc.c_oAscSlideTransitionParams.Window_Vertical},
-                    {caption: this.textLeftShort, value: Asc.c_oAscSlideTransitionParams.Ferris_Left},
-                    {caption: this.textRightShort, value: Asc.c_oAscSlideTransitionParams.Ferris_Right},
+                    {caption: this.textLeft, value: Asc.c_oAscSlideTransitionParams.Ferris_Left},
+                    {caption: this.textRight, value: Asc.c_oAscSlideTransitionParams.Ferris_Right},
                     {caption: this.textLeftShort, value: Asc.c_oAscSlideTransitionParams.Gallery_Left},
                     {caption: this.textRightShort, value: Asc.c_oAscSlideTransitionParams.Gallery_Right}
                 ];
@@ -461,16 +466,37 @@ define([
                 return prismId;
             },
 
+            getShapeType: function (value) {
+                if (value === Asc.c_oAscSlideTransitionParams.Diamond_Default)
+                    return Asc.c_oAscSlideTransitionTypes.Diamond;
+                if (value === Asc.c_oAscSlideTransitionParams.Plus_Default)
+                    return Asc.c_oAscSlideTransitionTypes.Plus;
+                if (value === Asc.c_oAscSlideTransitionParams.BoxZoom_In || value === Asc.c_oAscSlideTransitionParams.BoxZoom_Out)
+                    return Asc.c_oAscSlideTransitionTypes.BoxZoom;
+                return Asc.c_oAscSlideTransitionTypes.Circle;
+            },
+
             getEffect: function (effect, value) {
                 if (effect === Asc.c_oAscSlideTransitionTypes.Prism) {
                     var prism = this.getPrismId(value);
                     return this.listEffects.store.findWhere({prismId: prism});
                 }
+                if (this.isShape(effect))
+                    return this.listEffects.store.findWhere({value: Asc.c_oAscSlideTransitionTypes.Circle});
                 return this.listEffects.store.findWhere({value: effect});
             },
 
+            isShape: function (effect) {
+                return effect === Asc.c_oAscSlideTransitionTypes.Circle ||
+                    effect === Asc.c_oAscSlideTransitionTypes.Diamond ||
+                    effect === Asc.c_oAscSlideTransitionTypes.Plus ||
+                    effect === Asc.c_oAscSlideTransitionTypes.BoxZoom;
+            },
+
+
             setMenuParameters: function (effect, value, prismId) {
                 var minMax = [-1, -1];
+                var shapeItems;
                 switch (effect) {
                     case Asc.c_oAscSlideTransitionTypes.Fade:
                         minMax = [0, 1];
@@ -512,58 +538,62 @@ define([
                         minMax = [29, 30];
                         break;
                     case Asc.c_oAscSlideTransitionTypes.RandomBar:
-                        minMax = [31, 32];
+                        minMax = [35, 36];
                         break;
+                    case Asc.c_oAscSlideTransitionTypes.Circle:
+                    case Asc.c_oAscSlideTransitionTypes.Diamond:
+                    case Asc.c_oAscSlideTransitionTypes.Plus:
                     case Asc.c_oAscSlideTransitionTypes.BoxZoom:
-                        minMax = [33, 34];
+                        shapeItems = [31, 32, 34, 37, 38];
                         break;
                     case Asc.c_oAscSlideTransitionTypes.Vortex:
-                        minMax = [35, 38];
+                        minMax = [39, 42];
                         break;
                     case Asc.c_oAscSlideTransitionTypes.Switch:
-                        minMax = [39, 40];
+                        minMax = [43, 44];
                         break;
                     case Asc.c_oAscSlideTransitionTypes.Flip:
-                        minMax = [41, 42];
+                        minMax = [45, 46];
                         break;
                     case Asc.c_oAscSlideTransitionTypes.Ripple:
-                        minMax = [43, 47];
+                        minMax = [47, 51];
                         break;
                     case Asc.c_oAscSlideTransitionTypes.Prism:
                         var prism = prismId || this.getPrismId(value);
                         switch (prism) {
                             case 'prism-box':
-                                minMax = [52, 55];
+                                minMax = [57, 60];
                                 break;
                             case 'prism-rotate':
-                                minMax = [56, 59];
+                                minMax = [61, 64];
                                 break;
                             case 'prism-orbit':
-                                minMax = [60, 63];
+                                minMax = [65, 68];
                                 break;
                             default:
-                                minMax = [48, 51];
+                                minMax = [53, 56];
                                 break;
                         }
                         break;
                     case Asc.c_oAscSlideTransitionTypes.Doors:
-                        minMax = [64, 65];
+                        minMax = [69, 70];
                         break;
                     case Asc.c_oAscSlideTransitionTypes.Window:
-                        minMax = [66, 67];
+                        minMax = [71, 72];
                         break;
                     case Asc.c_oAscSlideTransitionTypes.Ferris:
-                        minMax = [68, 69];
+                        minMax = [73, 74];
                         break;
                     case Asc.c_oAscSlideTransitionTypes.Gallery:
-                        minMax = [70, 71];
+                        minMax = [75, 76];
                         break;
                 }
 
                 var selectedElement;
 
                 _.each(this.btnParameters.menu.getItems(), function (element, index) {
-                    if ((index >= minMax[0]) && (index <= minMax[1])) {
+                    var itemVisible = shapeItems ? _.contains(shapeItems, index) : ((index >= minMax[0]) && (index <= minMax[1]));
+                    if (itemVisible) {
                         element.setVisible(true);
                         if (value != undefined) {
                             if (value == element.value) selectedElement = element;
@@ -573,7 +603,7 @@ define([
                 });
 
                 if (selectedElement == undefined)
-                    selectedElement = this.btnParameters.menu.items[minMax[0]];
+                    selectedElement = shapeItems ? this.btnParameters.menu.items[shapeItems[0]] : this.btnParameters.menu.items[minMax[0]];
 
                 if (effect != Asc.c_oAscSlideTransitionTypes.None && selectedElement)
                     selectedElement.setChecked(true);
@@ -581,10 +611,7 @@ define([
                 if (!this.listEffects.isDisabled()) {
                     var noParameters = effect === Asc.c_oAscSlideTransitionTypes.None ||
                         effect === Asc.c_oAscSlideTransitionTypes.Random ||
-                        effect === Asc.c_oAscSlideTransitionTypes.Circle ||
-                        effect === Asc.c_oAscSlideTransitionTypes.Diamond ||
                         effect === Asc.c_oAscSlideTransitionTypes.Dissolve ||
-                        effect === Asc.c_oAscSlideTransitionTypes.Plus ||
                         effect === Asc.c_oAscSlideTransitionTypes.Honeycomb;
 
                     this.numDelay.setDisabled(this.chDelay.getValue() !== 'checked');

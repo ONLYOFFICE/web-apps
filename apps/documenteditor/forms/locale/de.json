@@ -145,6 +145,7 @@
   "DE.Controllers.ApplicationController.textGuest": "Gast",
   "DE.Controllers.ApplicationController.textLoadingDocument": "Dokument wird geladen...",
   "DE.Controllers.ApplicationController.textNoLicenseTitle": "Lizenzlimit erreicht",
+  "DE.Controllers.ApplicationController.textNoResourcesTitle": "Nicht genügend Ressourcen",
   "DE.Controllers.ApplicationController.textOf": "von",
   "DE.Controllers.ApplicationController.textRequired": "Füllen Sie alle erforderlichen Felder aus, um das Formular abzusenden.",
   "DE.Controllers.ApplicationController.textSaveAs": "Als PDF speichern",
@@ -179,6 +180,7 @@
   "DE.Controllers.ApplicationController.warnLicenseLimitedNoAccess": "Die Lizenz ist abgelaufen.<br>Die Bearbeitungsfunktionen sind nicht verfügbar.<br>Bitte wenden Sie sich an Ihrem Administrator.",
   "DE.Controllers.ApplicationController.warnLicenseLimitedRenewed": "Die Lizenz soll aktualisiert werden.<br>Die Bearbeitungsfunktionen sind eingeschränkt.<br>Bitte wenden Sie sich an Ihrem Administrator für vollen Zugriff",
   "DE.Controllers.ApplicationController.warnNoLicense": "Sie haben das Limit für gleichzeitige Verbindungen in %1-Editoren erreicht. Dieses Dokument wird nur zum Anzeigen geöffnet.<br>Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
+  "DE.Controllers.ApplicationController.warnNoResources": "Der %1-Server verfügt nicht über genügend Ressourcen, um dieses Dokument zur Bearbeitung zu öffnen. Das Dokument wird nur zur Ansicht geöffnet.",
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
   "DE.Controllers.ApplicationController.warnStartFilling": "Das Formular wird ausgefüllt.<br>Die Dateibearbeitung ist derzeit nicht möglich.",
   "DE.Views.ApplicationView.textClear": "Alle Felder leeren",
@@ -210,5 +212,10 @@
   "DE.Views.ApplicationView.txtPrint": "Drucken",
   "DE.Views.ApplicationView.txtSearch": "Suche",
   "DE.Views.ApplicationView.txtShare": "Freigeben",
-  "DE.Views.ApplicationView.txtTheme": "Thema der Benutzeroberfläche"
+  "DE.Views.ApplicationView.txtTheme": "Thema der Benutzeroberfläche",
+  "DE.Views.FillingStatusSettings.txtComplete": "Fertig",
+  "DE.Views.FillingStatusSettings.txtDocumentIsSigned": "Dokument ist unterzeichnet",
+  "DE.Views.FillingStatusSettings.txtFillingStatus": "Status der Formularausfüllung",
+  "DE.Views.RightMenu.ariaRightMenu": "Rechtes Menü",
+  "DE.Views.RightMenu.txtFillingStatus": "Status der Formularausfüllung"
 }

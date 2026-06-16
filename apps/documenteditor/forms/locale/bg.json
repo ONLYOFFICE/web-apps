@@ -115,6 +115,7 @@
   "DE.Controllers.ApplicationController.textGuest": "Гост",
   "DE.Controllers.ApplicationController.textLoadingDocument": "Зареждане на документ",
   "DE.Controllers.ApplicationController.textNoLicenseTitle": "Лимитът на лиценза е достигнат",
+  "DE.Controllers.ApplicationController.textNoResourcesTitle": "Недостатъчно ресурси",
   "DE.Controllers.ApplicationController.textOf": "на",
   "DE.Controllers.ApplicationController.textSaveAs": "Запиши като PDF",
   "DE.Controllers.ApplicationController.textSaveAsDesktop": "Запиши като...",

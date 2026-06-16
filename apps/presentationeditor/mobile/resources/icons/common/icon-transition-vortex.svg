@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="icon-transition-vortex">
+    <path stroke="#444" stroke-linecap="round" stroke-width="1.5" d="M21.5 5v14a1 1 0 0 1-1 1h-17a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h17a1 1 0 0 1 1 1Z" class="icon-stroke-gray-primary"/>
+    <path fill="#BE6650" fill-rule="evenodd" d="M19.75 5.496a.25.25 0 0 1 .25.25v12.5a.25.25 0 0 1-.25.25H4.25a.25.25 0 0 1-.25-.25v-12.5a.25.25 0 0 1 .25-.25h15.5ZM5.875 15.318v1.637l3.5.545v-2.728l-3.5.546Zm4.375.363V17.5l3.5-.91v-1.818l-3.5.91Zm4.375-5.817v4.363L19 15.681V8.41l-4.375 1.455Zm-9.625 4 3.5-.546v-1.637L5 11.137v2.727Zm5.25-2.183v1.637l2.625.546v-2.728l-2.625.545ZM5.875 8.046V9.68l3.5.546V7.5l-3.5.546Zm4.375.363v1.818l3.5-.909V7.5l-3.5.909Z" class="icon-fill-red-brend-transition-primary" clip-rule="evenodd"/>
+    <path fill="#FBE4DE" d="m9.375 17.5-3.5-.546v-1.636l3.5-.545V17.5Zm4.375-.91-3.5.91v-1.818l3.5-.91v1.819Zm5.25-.908-4.375-1.455V9.863L19 8.41v7.273Zm-10.5-4v1.636l-3.5.545v-2.726l3.5.545Zm4.375 2.181-2.625-.545v-1.636l2.625-.545v2.726Zm-3.5-3.636-3.5-.545V8.046l3.5-.546v2.727Zm4.375-.909-3.5.91V8.409l3.5-.909v1.818Z" class="icon-fill-red-brend-transition-secondary"/>
+  </g>
+</svg>

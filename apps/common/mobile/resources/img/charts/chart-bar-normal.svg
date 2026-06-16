@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64">
+  <g class="chart-bar-normal">
+    <path fill="#555" d="M60 58H4V46h56v12ZM44 44H4V32h40v12ZM32 30H4V18h28v12ZM22 16H4V4h18v12Z" class="icon-fill-type-preview"/>
+  </g>
+</svg>

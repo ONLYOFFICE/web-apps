@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64">
+  <g class="chart-scatter-straight-lines">
+    <path fill="#555" fill-rule="evenodd" d="M49.057 16.827 27.767 44.64 12 13.06l1.795-.898 14.33 28.705L50.226 12l1.775.83L43.974 49l-1.959-.436 7.042-31.737Z" class="icon-fill-type-preview" clip-rule="evenodd" opacity=".6"/>
+      <path fill="#555" d="M6 6h2v52h52v2H6V6Z" class="icon-fill-type-preview"/>
+      <path fill="#555" d="M53.59 49.786 32.879 25.308 17.152 50.47l1.696 1.06 14.274-22.838L56.41 56.214l-2.418-19.338-1.984.248 1.582 12.662Z" class="icon-fill-type-preview"/>
+  </g>
+</svg>

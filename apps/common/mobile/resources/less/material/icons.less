@@ -1,6 +1,15 @@
 // @common-image-path - defined in webpack config
 
 .device-android {
+    .theme-type-dark {
+        i.icon {
+            &.icon-logo {
+                background: ~"url(@{common-image-path}/header/logo-android.svg) no-repeat center";
+                background-size: contain;
+            }
+        }
+    }
+
     i.icon {
         &.icon_mask {
             background-color: @text-normal;
@@ -8,7 +17,7 @@
         &.icon-logo {
             width: 100px;
             height: 20px;
-            background: ~"url(@{common-image-path}/header/logo-android.svg) no-repeat center";
+            background: ~"url(@{common-image-path}/header/logo-ios.svg) no-repeat center";
             background-size: contain;
         }
     }
@@ -36,18 +45,40 @@
             }
             &.inactive {
                 fill: @text-tertiary;
+                --icon-stroke-gray-primary: @brandColor;
+                opacity: 0.5;
             }
             &.active {
                 fill: @brandColor;
+                --icon-stroke-gray-primary: @brandColor;
             }
             &.close {
                 fill: @brandColor;
+                --icon-stroke-gray-primary: @brandColor;
             }
         }
 
         i.icon {
             &.icon-back {
-                color: @toolbar-icons;
+                color: @brandColor;
+            }
+        }
+    }
+
+    .theme-type-dark {
+        .navbar {
+            .icon-svg {
+                &.inactive,
+                &.close {
+                    fill: @toolbar-icons;
+                    --icon-stroke-gray-primary: @toolbar-icons;
+                }
+            }
+
+            i.icon {
+                &.icon-back {
+                    color: @toolbar-icons;
+                }
             }
         }
     }

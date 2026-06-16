@@ -1,3 +1,38 @@
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import React, { createContext, useEffect } from 'react';
 import { LocalStorage } from "../../utils/LocalStorage.mjs";
 import { inject, observer } from "mobx-react";
@@ -35,6 +70,7 @@ export const ThemesProvider = props => {
         const editorConfig = window.native?.editorConfig;
 
         storeThemes.setConfigSelectTheme(editorConfig?.theme?.select != false);
+        storeThemes.setContentThemeDark(LocalStorage.getItem('content-theme') === 'dark');
         setUITheme(theme ? theme.type : editorConfig?.theme?.type);
 
         applyTheme();
@@ -60,6 +96,10 @@ export const ThemesProvider = props => {
         storeThemes.setSystemColorTheme(theme);
     }
 
+    const getCurrentTheme = () => storeThemes.systemColorTheme || storeThemes.colorTheme || themes.light;
+
+    const isDarkTheme = () => getCurrentTheme().type === 'dark';
+
     const getCurrentThemeColors = colors => {
         let outObject = {};
         const style = getComputedStyle(document.body);
@@ -69,6 +109,22 @@ export const ThemesProvider = props => {
         });
 
         return outObject;
+    }
+
+    const applyContentTheme = () => {
+        const isContentThemeDark = isDarkTheme() && storeThemes.isContentThemeDark;
+        const $body = $$('body');
+        const api = Common.EditorApi ? Common.EditorApi.get() : undefined;
+
+        if (isContentThemeDark) {
+            $body.addClass('content-theme-dark');
+        } else {
+            $body.removeClass('content-theme-dark');
+        }
+
+        if (api && api.asc_setContentDarkMode) {
+            api.asc_setContentDarkMode(isContentThemeDark);
+        }
     }
 
     const changeTheme = key => {
@@ -87,14 +143,19 @@ export const ThemesProvider = props => {
         applyTheme();
     }
 
+    const changeContentTheme = isDark => {
+        storeThemes.setContentThemeDark(isDark);
+        LocalStorage.setItem('content-theme', isDark ? 'dark' : 'light');
+        applyContentTheme();
+    }
+
     const applyTheme = () => {
         const $body = $$('body');
+        const theme = getCurrentTheme();
 
-        let theme = storeThemes.systemColorTheme;
-        if(!theme) theme = storeThemes.colorTheme;
-    
         $body.attr('class') && $body.attr('class', $body.attr('class').replace(/\s?theme-type-(?:dark|light)/, ''));
         $body.addClass(`theme-type-${theme.type}`);
+        applyContentTheme();
 
         const onEngineCreated = api => {
             let obj = getCurrentThemeColors(nameColors);
@@ -102,6 +163,7 @@ export const ThemesProvider = props => {
             obj.name = theme.id;
 
             api.asc_setSkin(obj);
+            applyContentTheme();
         };
 
         const api = Common.EditorApi ? Common.EditorApi.get() : undefined;
@@ -110,7 +172,12 @@ export const ThemesProvider = props => {
     }
 
     return (
-        <ThemesContext.Provider value={{ changeTheme }}>
+        <ThemesContext.Provider value={{
+            changeTheme,
+            changeContentTheme,
+            isDarkTheme: isDarkTheme(),
+            isContentThemeDark: storeThemes.isContentThemeDark
+        }}>
             {props.children}
         </ThemesContext.Provider>
     )

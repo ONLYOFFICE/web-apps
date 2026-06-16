@@ -205,14 +205,18 @@
             } 
         </script>
 
-      <div id="editor_sdk" class="viewer" style="overflow: hidden;" tabindex="-1"></div>
-
-      <div class="overlay-controls" style="margin-left: -32px">
-          <ul class="left">
-              <li id="id-btn-zoom-in"><button class="overlay svg-icon zoom-up"></button></li>
-              <li id="id-btn-zoom-out"><button class="overlay svg-icon zoom-down"></button></li>
-          </ul>
-      </div>
+        <div id="viewport">
+            <div id="editor-container">
+                <div id="editor_sdk" class="viewer" style="overflow: hidden;" tabindex="-1"></div>
+                <div class="overlay-controls" style="margin-left: -32px">
+                    <ul class="left">
+                        <li id="id-btn-zoom-in"><button class="overlay svg-icon zoom-up"></button></li>
+                        <li id="id-btn-zoom-out"><button class="overlay svg-icon zoom-down"></button></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="right-menu" class="layout-item hint-section" data-layout-name="rightMenu"></div>
+        </div>
 
       <div class="toolbar style-off-tabs" id="toolbar">
           <div class="group left">

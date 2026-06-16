@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="icon-transition-ripple">
+    <g class="icon-fill-red-brend-transition-secondary">
+      <path fill="#FBE4DE" d="M12.005 10.125a1.875 1.875 0 1 1 0 3.75 1.875 1.875 0 0 1 0-3.75Z"/>
+      <path fill="#FBE4DE" fill-rule="evenodd" d="M12.005 7.281a4.719 4.719 0 1 1 0 9.438 4.719 4.719 0 0 1 0-9.438Zm0 1a3.719 3.719 0 1 0 0 7.438 3.719 3.719 0 0 0 0-7.438Z" clip-rule="evenodd"/>
+    </g>
+    <g class="icon-fill-red-brend-transition-primary" opacity=".8">
+      <path fill="#BE6650" fill-rule="evenodd" d="M12.005 8.219a3.781 3.781 0 1 1 0 7.562 3.781 3.781 0 0 1 0-7.562Zm0 1a2.781 2.781 0 1 0 0 5.562 2.781 2.781 0 0 0 0-5.562Z" clip-rule="evenodd"/>
+      <path fill="#BE6650" fill-rule="evenodd" d="M12.005 6.344a5.656 5.656 0 1 1 0 11.312 5.656 5.656 0 0 1 0-11.312Zm0 1a4.656 4.656 0 1 0 0 9.312 4.656 4.656 0 0 0 0-9.312Z" clip-rule="evenodd"/>
+      <path fill="#BE6650" fill-rule="evenodd" d="M20.75 19.25H3.5a.25.25 0 0 1-.25-.25V5a.25.25 0 0 1 .25-.25h17.25v14.5ZM12.005 5.437a6.563 6.563 0 1 0 0 13.126 6.563 6.563 0 0 0 0-13.125Z" clip-rule="evenodd"/>
+    </g>
+    <path stroke="#444" stroke-linecap="round" stroke-width="1.5" d="M21.5 5v14a1 1 0 0 1-1 1h-17a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h17a1 1 0 0 1 1 1Z" class="icon-stroke-gray-primary"/>
+  </g>
+</svg>

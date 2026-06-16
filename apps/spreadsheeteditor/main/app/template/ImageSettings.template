@@ -101,6 +101,16 @@
         </td>
     </tr>
     <tr>
+        <td colspan=2>
+            <div id="image-convert-to-shape-wrap" class="hidden">
+                <div class="padding-small">
+                    <button type="button" class="btn btn-text-default" id="image-button-convert-to-shape" style="width:100%;"><%= scope.textConvertToShape %></button>
+                </div>
+                <div class="separator horizontal padding-small"></div>
+            </div>
+        </td>
+    </tr>
+    <tr>
         <td align="center" colspan=2>
             <label class="link canfocused" id="image-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
         </td>

@@ -405,6 +405,8 @@
   "DE.Controllers.Search.notcriticalErrorTitle": "Advarsel",
   "DE.Controllers.Search.warnReplaceString": "{0} er ikke et gyldig spesialtegn for \"erstatt med\"-boksen.",
   "DE.Controllers.Statusbar.textDisconnect": "<b>Forbindelsen er brutt</b><br>Prøver å koble til. Sjekk tilkoblingsinnstillingene.",
+  "DE.Controllers.Toolbar.helpChartTab": "Alle diagraminnstillinger er nå tilgjengelige i den dedikerte Diagramdesign-fanen i verktøylinjen.",
+  "DE.Controllers.Toolbar.helpChartTabHeader": "Diagramdesign-fane",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Advarsel",
   "DE.Controllers.Toolbar.textAccent": "Aksenter",
   "DE.Controllers.Toolbar.textBracket": "Klammeparantes",

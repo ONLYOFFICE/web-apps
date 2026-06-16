@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64">
+  <g class="icon-numbers-lower-case-roman-numeral-rtl">
+    <path fill="#444" d="M43 13H8v1h35v-1Zm0 18H8v1h35v-1Zm0 18H8v1h35v-1Z" class="icon-fill-gray-primary" opacity=".3"/>
+    <path fill="#444" d="M57 12h-1v6h1v-6Zm0-2h-1v1h1v-1Zm-3 7h-1v1h1v-1Zm3 13h-1v6h1v-6Zm-3 0h-1v6h1v-6Zm0-2h-1v1h1v-1Zm3 0h-1v1h1v-1Zm-6 7h-1v1h1v-1Zm6 12h-1v6h1v-6Zm-3 0h-1v6h1v-6Zm-3 0h-1v6h1v-6Zm6-2h-1v1h1v-1Zm-3 0h-1v1h1v-1Zm-3 0h-1v1h1v-1Zm-3 7h-1v1h1v-1Z" class="icon-fill-gray-primary"/>
+  </g>
+</svg>

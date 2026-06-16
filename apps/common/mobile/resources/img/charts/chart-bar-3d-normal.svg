@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64">
+  <g class="chart-bar-3d-normal">
+    <path fill="#555" d="M50 53v10L8 49V39l42 14Zm-6-14v10L8 37V27l36 12Zm-6-14v10L8 25V15l30 10Zm-6-14v10L8 13V3l24 8Z" class="icon-fill-type-preview"/>
+    <path fill="#555" d="m58.001 61-8 2V53l8-2v10ZM52 47l-8 2V39l8-2v10Zm-6-14-8 2V25l8-2v10Zm-6-14-8 2V11l8-2v10Z" class="icon-fill-type-preview" opacity=".6"/>
+    <path fill="#555" d="m16 1 24 8-8 2L8 3l8-2Z" class="icon-fill-type-preview" opacity=".4"/>
+  </g>
+</svg>

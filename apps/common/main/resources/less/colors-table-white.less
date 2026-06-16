@@ -1,76 +1,85 @@
+@import "color-tokens.less";
 
 :root {
     .theme-white {
-        //--toolbar-header-document: #d3d3d3;
-        --toolbar-header-document: #f3f3f3;
-        --toolbar-header-spreadsheet: #f3f3f3;
-        --toolbar-header-presentation: #f3f3f3;
-        --toolbar-header-pdf: #f3f3f3;
-        --toolbar-header-visio: #f3f3f3;
+        //--toolbar-header-document: @neutral-50;
+        --toolbar-header-document: @neutral-50;
+        --toolbar-header-spreadsheet: @neutral-50;
+        --toolbar-header-presentation: @neutral-50;
+        --toolbar-header-pdf: @neutral-50;
+        --toolbar-header-visio: @neutral-50;
 
-        --text-toolbar-header-on-background-document: #FFFFFF;
-        --text-toolbar-header-on-background-spreadsheet: #FFFFFF;
-        --text-toolbar-header-on-background-presentation: #FFFFFF;
-        --text-toolbar-header-on-background-pdf: #FFFFFF;
-        --text-toolbar-header-on-background-visio: #FFFFFF;
+        --text-toolbar-header-on-background-document: @neutral-white;
+        --text-toolbar-header-on-background-spreadsheet: @neutral-white;
+        --text-toolbar-header-on-background-presentation: @neutral-white;
+        --text-toolbar-header-on-background-pdf: @neutral-white;
+        --text-toolbar-header-on-background-visio: @neutral-white;
 
-        --background-normal: #fff;
-        --background-toolbar: #FFFFFF;
-        --background-toolbar-tab: #fff;
-        --background-toolbar-additional: #efefef;
-        --background-primary-dialog-button: #4473ca;
-        --background-accent-button: #4473ca;
-        --background-notification-popover: #fcfed7;
-        --background-notification-badge: #ffd112;
-        --background-scrim: fade(#000, 20%);
-        --background-loader: fade(#181818, 90%);
-        --background-alt-key-hint: #FFD938;
-        --background-contrast-popover: #fff;
-        --shadow-contrast-popover: rgba(0, 0, 0, 0.3);
-        --background-fill-button: #ffd112;
-        --background-pane: #f3f3f3;
-        --background-pane-additional: var(--background-pane);
+        --background-normal: @neutral-white;
+        --background-toolbar: @neutral-white;
+        --background-toolbar-tab: @neutral-white;
+        --background-statusbar: @neutral-white;
+        --background-toolbar-additional: @neutral-100;
+        --background-primary-dialog-button: @blue-500;
+        --background-accent-button: @blue-500;
+        --background-notification-popover: @yellow-50;
+        --background-notification-badge: @yellow-200;
+        --background-scrim: @alpha-500;
+        --background-loader: @alpha-900;
+        --background-alt-key-hint: @yellow-200;
+        --background-contrast-popover: @neutral-white;
+        --shadow-contrast-popover: @alpha-600;
+        --background-fill-button: @yellow-200;
+        --background-pane: @neutral-50;
+        --background-pane-additional: @neutral-50;
 
-        --highlight-button-hover: #EAEAEA;
-        --highlight-button-pressed: #E1E1E1;
-        --highlight-button-pressed-hover: #bababa;
-        --highlight-primary-dialog-button-hover: #2A5BB9;
-        --highlight-primary-dialog-button-pressed: #1D4FAF;
-        --highlight-header-button-hover: #eaeaea;
-        --highlight-header-button-pressed: #e1e1e1;
-        --highlight-text-select: #3494fb;
-        --highlight-fill-button-hover: #ffe165;
-        --highlight-fill-button-pressed: #dfb500;
+        --highlight-button-hover: @alpha-300;
+        --highlight-button-pressed: @alpha-400;
+        --highlight-button-pressed-hover: @neutral-300;
+        --highlight-primary-dialog-button-hover: @blue-600;
+        --highlight-primary-dialog-button-pressed: @blue-700;
+        --highlight-header-button-hover: @alpha-300;
+        --highlight-header-button-pressed: @alpha-400;
+        --highlight-text-select: @blue-500;
+        --highlight-fill-button-hover: @yellow-100;
+        --highlight-fill-button-pressed: @yellow-300;
+        --highlight-comment-hover: @alpha-300;
+        --highlight-comment-pressed: @alpha-400;
 
-        --border-toolbar: #cbcbcb;
-        --border-toolbar-active-panel-top: #f3f3f3;
+        --border-toolbar: @neutral-200;
+        --border-toolbar-active-panel-top: @neutral-50;
         --border-toolbar-active-tab: var(--background-toolbar-tab);
-        --border-divider: #EAEAEA;
-        --border-regular-control: #E1E1E1;
-        --border-preview-hover: #92B7F0;
-        --border-preview-select: #4473CA;
-        --border-control-focus: #4473CA;
-        --border-color-shading: fade(#000, 15%);
-        --border-contrast-popover: #fff;
-        --border-button-pressed-focus: #4473CA;
+        --border-divider: @neutral-150;
+        --border-regular-control: @neutral-150;
+        --border-preview-hover: @blue-300;
+        --border-preview-select: @blue-500;
+        --border-control-focus: @blue-500;
+        --border-color-shading: @alpha-500;
+        --border-contrast-popover: @neutral-white;
+        --border-button-pressed-focus: @blue-600;
 
-        --text-normal: fade(#000, 80%);
-        --text-normal-pressed: fade(#000, 80%);
-        --text-secondary: fade(#000, 60%);
-        --text-tertiary: fade(#000, 40%);
-        --text-link: #445799;
-        --text-link-hover: #445799;
-        --text-link-active: #445799;
-        --text-link-visited: #445799;
-        --text-inverse: #fff;
-        --text-toolbar-header: fade(#000, 80%);
-        --text-contrast-background: #fff;
-        --text-alt-key-hint: fade(#000, 80%);
+        --text-normal: @neutral-800;
+        --text-normal-pressed: @neutral-800;
+        --text-secondary: @neutral-550;
+        --text-tertiary: @neutral-500;
+        --text-link: @blue-500;
+        --text-link-hover: @blue-600;
+        --text-link-active: @blue-600;
+        --text-link-visited: @blue-500;
+        --text-inverse: @neutral-white;
+        --text-toolbar-header: @neutral-800;
+        --text-contrast-background: @neutral-white;
+        --text-alt-key-hint: @neutral-800;
 
-        --icon-normal: #444;
-        --icon-normal-pressed: #444;
-        --icon-toolbar-header: #444;
-        --icon-success: #090;
+        --icon-normal: @neutral-800;
+        --icon-normal-pressed: @neutral-800;
+        --icon-toolbar-header: @neutral-800;
+        --icon-gray-primary: @neutral-800;
+        --icon-gray-secondary: @neutral-400;
+        --icon-blue-primary: @blue-500;
+        --icon-blue-secondary: @blue-100;
+        --icon-red: @red-500;
+        --icon-success: @green-500;
 
         --highlight-header-tab-underline-document: #446995;
         --highlight-header-tab-underline-spreadsheet: #3A8056;
@@ -86,55 +95,55 @@
 
         // Canvas
 
-        --canvas-background: #f3f3f3;
-        --canvas-content-background: #fff;
-        --canvas-page-border: #ccc;
+        --canvas-background: @neutral-50;
+        --canvas-content-background: @neutral-white;
+        --canvas-page-border: @neutral-200;
 
-        --canvas-ruler-background: #fff;
-        --canvas-ruler-border: #cbcbcb;
-        --canvas-ruler-margins-background: #d9d9d9;
-        --canvas-ruler-mark: #555;
-        --canvas-ruler-handle-border: #555;
-        --canvas-ruler-handle-border-disabled: #aaa;
+        --canvas-ruler-background: @neutral-white;
+        --canvas-ruler-border: @neutral-200;
+        --canvas-ruler-margins-background: @neutral-150;
+        --canvas-ruler-mark: @neutral-600;
+        --canvas-ruler-handle-border: @neutral-600;
+        --canvas-ruler-handle-border-disabled: @neutral-300;
 
-        --canvas-high-contrast: #000;
-        --canvas-high-contrast-disabled: #666;
+        --canvas-high-contrast: @neutral-900;
+        --canvas-high-contrast-disabled: @neutral-550;
 
-        --canvas-cell-title-text: #444;
-        --canvas-cell-title-background: #f7f7f7;
-        --canvas-cell-title-background-hover: #dfdfdf;
-        --canvas-cell-title-background-selected: #cfcfcf;
-        --canvas-cell-title-border: #d8d8d8;
-        --canvas-cell-title-border-hover: #c9c9c9;
-        --canvas-cell-title-border-selected: #bbb;
+        --canvas-cell-title-text: @neutral-700;
+        --canvas-cell-title-background: @neutral-50;
+        --canvas-cell-title-background-hover: @neutral-150;
+        --canvas-cell-title-background-selected: @neutral-150;
+        --canvas-cell-title-border: @neutral-150;
+        --canvas-cell-title-border-hover: @neutral-200;
+        --canvas-cell-title-border-selected: @neutral-300;
 
-        --canvas-dark-cell-title: #666666;
-        --canvas-dark-cell-title-hover: #999;
-        --canvas-dark-cell-title-selected: #333;
-        --canvas-dark-cell-title-border: #3d3d3d;
-        --canvas-dark-cell-title-border-hover: #5c5c5c;
-        --canvas-dark-cell-title-border-selected: #0f0f0f;
+        --canvas-dark-cell-title: @neutral-550;
+        --canvas-dark-cell-title-hover: @neutral-400;
+        --canvas-dark-cell-title-selected: @neutral-800;
+        --canvas-dark-cell-title-border: @neutral-700;
+        --canvas-dark-cell-title-border-hover: @neutral-600;
+        --canvas-dark-cell-title-border-selected: @neutral-900;
 
-        --canvas-scroll-thumb: #f7f7f7;
-        --canvas-scroll-thumb-hover: #c0c0c0;
-        --canvas-scroll-thumb-pressed: #adadad;
-        --canvas-scroll-thumb-border: #cbcbcb;
-        --canvas-scroll-thumb-border-hover: #cbcbcb;
-        --canvas-scroll-thumb-border-pressed: #adadad;
-        --canvas-scroll-arrow: #adadad;
-        --canvas-scroll-arrow-hover: #f7f7f7;
-        --canvas-scroll-arrow-pressed: #f7f7f7;
-        --canvas-scroll-thumb-target: #c0c0c0;
-        --canvas-scroll-thumb-target-hover: #f7f7f7;
-        --canvas-scroll-thumb-target-pressed: #f7f7f7;
+        --canvas-scroll-thumb: @neutral-50;
+        --canvas-scroll-thumb-hover: @alpha-300;
+        --canvas-scroll-thumb-pressed: @alpha-400;
+        --canvas-scroll-thumb-border: @neutral-200;
+        --canvas-scroll-thumb-border-hover: @neutral-300;
+        --canvas-scroll-thumb-border-pressed: @neutral-400;
+        --canvas-scroll-arrow: @neutral-400;
+        --canvas-scroll-arrow-hover: @neutral-500;
+        --canvas-scroll-arrow-pressed: @neutral-550;
+        --canvas-scroll-thumb-target: @neutral-400;
+        --canvas-scroll-thumb-target-hover: @neutral-500;
+        --canvas-scroll-thumb-target-pressed: @neutral-550;
 
-        --canvas-sheet-view-cell-background: #73bf91;
-        --canvas-sheet-view-cell-background-hover: #97e3b6;
-        --canvas-sheet-view-cell-background-pressed: #aaffcc;
-        --canvas-sheet-view-cell-title-label: #121212;
-        --canvas-sheet-view-select-all-icon: #3d664e;
+        --canvas-sheet-view-cell-background: @green-400;
+        --canvas-sheet-view-cell-background-hover: @green-300;
+        --canvas-sheet-view-cell-background-pressed: @green-200;
+        --canvas-sheet-view-cell-title-label: @neutral-900;
+        --canvas-sheet-view-select-all-icon: @green-600;
 
-        --canvas-select-all-icon: #999;
+        --canvas-select-all-icon: @neutral-400;
 
         // Others
 
@@ -175,7 +184,6 @@
         --toolbar-tab-line-height: 3px;
         --toolbar-tab-line-bottom: 4px;
         --toolbar-tab-text-margin: 7px;
-        --background-statusbar: var(--background-toolbar);
         --border-toolbar-z-clear: transparent;
         --shadow-toolbar: 0px 1px 3px 0px rgba(0, 0, 0, 0.10), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
         --shadow-toolbar-style-off: 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
@@ -235,14 +243,14 @@
         --background-fill-input-disabled: var(--background-normal);
         --background-fill-input-readonly: var(--background-normal);
 
-        --highlight-category-button-hover: #EAEAEA;
-        --highlight-category-button-pressed: #d8d8d8;
+        --highlight-category-button-hover: @alpha-300;
+        --highlight-category-button-pressed: @alpha-400;
         --highlight-header-input-hover: var(--highlight-header-button-hover);
         --highlight-header-input-pressed: var(--background-fill-input);
 
         --border-fill-input: var(--border-regular-control);
         //--border-fill-input-focused: var(--border-control-focus);
-        --border-fill-input-focused: #4473CA;
+        --border-fill-input-focused: @blue-600;
         --border-fill-input-disabled: var(--border-regular-control);
         --border-fill-input-readonly: var(--border-regular-control);
 
@@ -265,43 +273,43 @@
         --chb-border-radius: 4px;
         --chb-check-mark-background: var(--icon-gray-primary);
         --chb-background-normal: var(--background-normal);
-        --chb-background-normal-hover: #f3f3f3;
-        --chb-border-normal: #7f7f7f;
-        --chb-border-normal-hover: #686868;
-        --chb-border-normal-focus: #4473CA;
+        --chb-background-normal-hover: @neutral-50;
+        --chb-border-normal: @neutral-500;
+        --chb-border-normal-hover: @neutral-550;
+        --chb-border-normal-focus: @blue-600;
         --chb-background-checked: var(--background-normal);
-        --chb-background-checked-hover: #f3f3f3;
-        --chb-border-checked: #7f7f7f;
-        --chb-border-checked-hover: #686868;
-        --chb-border-checked-focus: #4473CA;
+        --chb-background-checked-hover: @neutral-50;
+        --chb-border-checked: @neutral-500;
+        --chb-border-checked-hover: @neutral-550;
+        --chb-border-checked-focus: @blue-600;
 
         // radio
         --rb-size: 14px;
         --rb-check-mark-size: 3px;
         --rb-check-mark-background: var(--icon-gray-primary);
         --rb-background-normal: var(--background-normal);
-        --rb-background-normal-hover: #f3f3f3;
-        --rb-border-normal: #7f7f7f;
-        --rb-border-normal-hover: #686868;
-        --rb-border-normal-focus: #4473CA;
+        --rb-background-normal-hover: @neutral-50;
+        --rb-border-normal: @neutral-500;
+        --rb-border-normal-hover: @neutral-550;
+        --rb-border-normal-focus: @blue-600;
         --rb-background-checked: var(--background-normal);
-        --rb-background-checked-hover: #f3f3f3;
-        --rb-border-checked: #7f7f7f;
-        --rb-border-checked-hover: #686868;
-        --rb-border-checked-focus: #4473CA;
+        --rb-background-checked-hover: @neutral-50;
+        --rb-border-checked: @neutral-500;
+        --rb-border-checked-hover: @neutral-550;
+        --rb-border-checked-focus: @blue-600;
 
         // slider
         --slider-track-height: 4px;
         --slider-border-radius: 2px;
-        --slider-track-background-normal: #EAEAEA;
-        --slider-track-background-filled: #4473CA;
+        --slider-track-background-normal: @neutral-150;
+        --slider-track-background-filled: @blue-600;
         --slider-thumb-size: 18px;
         --slider-thumb-border-size: 3px;
         --slider-thumb-border-radius: 50%;
-        --slider-thumb-background-normal: #4473CA;
-        --slider-thumb-border-normal: #fff;
-        --slider-thumb-background-hover: #2A5BB9;
-        --slider-thumb-background-active: #1D4FAF;
+        --slider-thumb-background-normal: @blue-600;
+        --slider-thumb-border-normal: @neutral-white;
+        --slider-thumb-background-hover: @blue-700;
+        --slider-thumb-background-active: @blue-800;
         --slider-thumb-shadow: 0 1px 2px 0 #0000000F, 0 1px 3px 0 #0000001A;
 
         --sprite-button-small-width: 48px;
@@ -331,15 +339,5 @@
         --border-editor-sdk: none;
 
         --content-padding-top: 8px;
-
-        --icon-gray-primary: #383838;
-        --icon-blue-primary: #446eca;
-        --icon-gray-secondary: #969696;
-        --icon-blue-secondary: #dce7fa;
-        --icon-red: #ef4444;
-        --icon-success: #2e8b57;
-
-        --highlight-comment-hover: #F3F3F3;
-        --highlight-comment-pressed: #F0F4FC;
     }
 }

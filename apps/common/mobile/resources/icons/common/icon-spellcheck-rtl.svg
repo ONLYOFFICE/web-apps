@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="icon-spellcheck-rtl">
+    <path fill="#444" d="m13.5 7.5.702-.263a.75.75 0 0 0-1.404 0l.702.263Zm-3.702 7.737a.75.75 0 1 0 1.404.526L10.5 15.5l-.702-.263Zm6 .526a.75.75 0 1 0 1.404-.526l-.702.263-.702.263ZM10.5 18.75a.75.75 0 0 0 0 1.5v-1.5ZM4.75 13.5a.75.75 0 0 0 1.5 0h-1.5Zm8.75-6-.702-.263-3 8 .702.263.702.263 3-8L13.5 7.5Zm3 8 .702-.263-3-8-.702.263-.702.263 3 8 .702-.263Zm-.75-2v-.75h-4.5v1.5h4.5v-.75Zm4.5-10v-.75H6.75v1.5h13.5V3.5Zm1.25 14.75h.75V4.75h-1.5v13.5h.75Zm-11 1.25v.75h9.75v-1.5H10.5v.75Zm-5-14.75h-.75v8.75h1.5V4.75H5.5Zm16 13.5h-.75a.5.5 0 0 1-.5.5v1.5a2 2 0 0 0 2-2h-.75ZM6.75 3.5v-.75a2 2 0 0 0-2 2h1.5a.5.5 0 0 1 .5-.5V3.5Zm13.5 0v.75a.5.5 0 0 1 .5.5h1.5a2 2 0 0 0-2-2v.75Z" class="icon-stroke-gray-primary"/>
+    <path stroke="#446ECA" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.414" stroke-width="1.5" d="m8 15-3.5 5.5L2 18" class="icon-stroke-blue-primary"/>
+  </g>
+</svg>

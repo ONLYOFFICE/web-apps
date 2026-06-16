@@ -500,6 +500,7 @@
   "LongActions": {
     "applyChangesTextText": "Loading data...",
     "applyChangesTitleText": "Loading Data",
+    "changesSaved": "All changes saved",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
     "downloadMergeText": "Downloading...",
     "downloadMergeTitle": "Downloading",
@@ -534,8 +535,7 @@
     "txtEditingMode": "Set editing mode...",
     "uploadImageTextText": "Uploading image...",
     "uploadImageTitleText": "Uploading Image",
-    "waitText": "Please, wait...",
-    "changesSaved": "All changes saved"
+    "waitText": "Please, wait..."
   },
   "Main": {
     "criticalErrorTitle": "Error",
@@ -659,6 +659,7 @@
     "textHasMacros": "The file contains automatic macros.<br>Do you want to run macros?",
     "textNo": "No",
     "textNoLicenseTitle": "License limit reached",
+    "textNoResourcesTitle": "Not enough resources",
     "textNoMatches": "No Matches",
     "textOk": "Ok",
     "textPaidFeature": "Paid feature",
@@ -684,6 +685,7 @@
     "warnLicenseLimitedNoAccess": "License expired. You have no access to document editing functionality. Please, contact your admin.",
     "warnLicenseLimitedRenewed": "License needs to be renewed. You have limited access to document editing functionality.<br>Please contact your administrator to get full access",
     "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
+    "warnNoResources": "The %1 server does not have enough resources to open this document for editing. This document will be opened for viewing only.",
     "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
     "warnProcessRightsChange": "You don't have permission to edit this file."
   },
@@ -698,6 +700,7 @@
     "textApplication": "Application",
     "textApplicationSettings": "Application Settings",
     "textAuthor": "Author",
+    "textAutoSaveDocument": "Autosave",
     "textBack": "Back",
     "textBeginningDocument": "Beginning of document",
     "textBottom": "Bottom",
@@ -717,6 +720,7 @@
     "textCreated": "Created",
     "textCustomSize": "Custom Size",
     "textDark": "Dark",
+    "textDarkDocument": "Dark Document",
     "textDarkTheme": "Dark Theme",
     "textDialogUnprotect": "Enter a password to unprotect document",
     "textDirection": "Direction",
@@ -746,8 +750,6 @@
     "textFind": "Find",
     "textFindAndReplace": "Find and Replace",
     "textFindAndReplaceAll": "Find and Replace All",
-    "textSaveDocument": "Save",
-    "textAutoSaveDocument": "Autosave",
     "textFormat": "Format",
     "textHelp": "Help",
     "textHiddenTableBorders": "Hidden Table Borders",
@@ -804,6 +806,7 @@
     "textRightToLeft": "Right To Left",
     "textSameAsSystem": "Same as system",
     "textSave": "Save",
+    "textSaveDocument": "Save",
     "textSearch": "Find",
     "textSetPassword": "Set Password",
     "textSettings": "Settings",
@@ -830,7 +833,6 @@
     "txtDownloadTxt": "Download TXT",
     "txtIncorrectPwd": "Password is incorrect",
     "txtOk": "Ok",
-    "textOpenLocation": "Open location",
     "txtProtected": "Once you enter the password and open the file, the current password will be reset"
   },
   "Toolbar": {
@@ -843,6 +845,11 @@
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
     "textOk": "OK",
+    "textSave": "Save",
+    "textDontSave": "Don't save",
+    "textCancel": "Cancel",
+    "textSaveData": "Save your changes before leave",
+    "textUnsavedData": "Unsaved data",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
     "textSwitchedStandardView": "Switched to Standard view",

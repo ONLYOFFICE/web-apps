@@ -11,15 +11,6 @@
 
 .device-ios {
     --toolbar-background: var(--background-primary, #fff);
-    --toolbar-segment: var(--brand-cell, #40865C);
-    --toolbar-icons: var(--brand-cell, #40865C);
-}
-.device-android {
-    --toolbar-background: var(--brand-cell, #40865C);
-
-    .theme-type-dark {
-        --toolbar-icons: var(--brand-cell, #40865C);
-    }
 }
 
 @toolbar-background: var(--toolbar-background);
@@ -80,12 +71,16 @@
 // Skeleton of workbook
 
 .doc-placeholder {
+    --doc-placeholder-background: #fbfbfb;
+    --doc-placeholder-border: #dfdfdf;
+    --doc-placeholder-grid-line: #d5d5d5;
+    --doc-placeholder-grid-fill: #f1f1f1;
     padding-top: calc(var(--f7-page-navbar-offset, 0px) + var(--f7-page-subnavbar-offset, 0px));
     overflow: hidden;
-    background: #fbfbfb;
+    background: var(--doc-placeholder-background);
     width: 100%;
     height: 100%;
-    border: 1px solid #dfdfdf;
+    border: 1px solid var(--doc-placeholder-border);
     white-space: nowrap;
     position: absolute;
     top: 0;
@@ -98,9 +93,9 @@
         height: 100%;
         overflow: hidden;
         display: inline-block;
-        background: linear-gradient(90deg, #d5d5d5 0px, rgba(0,0,0,0) 1px) 0 0,
-        linear-gradient(rgba(0,0,0,0) 19px, #d5d5d5 20px) 0 0,
-        linear-gradient( #f1f1f1 0px, #f1f1f1 20px) 0 0 repeat-x;
+        background: linear-gradient(90deg, var(--doc-placeholder-grid-line) 0px, rgba(0,0,0,0) 1px) 0 0,
+        linear-gradient(rgba(0,0,0,0) 19px, var(--doc-placeholder-grid-line) 20px) 0 0,
+        linear-gradient(var(--doc-placeholder-grid-fill) 0px, var(--doc-placeholder-grid-fill) 20px) 0 0 repeat-x;
         background-size: 80px 20px;
 
         -webkit-animation: flickerAnimation 2s infinite ease-in-out;
@@ -109,10 +104,19 @@
         animation: flickerAnimation 2s infinite ease-in-out;
 
         &:first-child {
-            background: linear-gradient(#f1f1f1 19px, #d5d5d5 20px) 0 0;
+            background: linear-gradient(var(--doc-placeholder-grid-fill) 19px, var(--doc-placeholder-grid-line) 20px) 0 0;
             background-size: 20px 20px;
             width: 25px;
         }
+    }
+}
+
+.theme-type-dark.content-theme-dark {
+    .doc-placeholder {
+        --doc-placeholder-background: #3a3a3a;
+        --doc-placeholder-border: #616161;
+        --doc-placeholder-grid-line: #616161;
+        --doc-placeholder-grid-fill: var(--background-pane, #4a4a4a);
     }
 }
 

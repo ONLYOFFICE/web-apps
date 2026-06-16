@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 define([], function () {
     'use strict';
@@ -259,6 +262,9 @@ define([], function () {
                 '</tr>',
                 '<tr class="edit">',
                     '<td colspan = "2"><div id="fms-chb-function-tooltip"></div></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td colspan = "2"><div id="fms-chb-cell-autocomplete"></div></td>',
                 '</tr>',
                 '<tr class ="editsave divider-group"></tr>',
                 '<tr class="collaboration" >',
@@ -836,6 +842,14 @@ define([], function () {
                 dataHintOffset: 'small'
             });
 
+            this.chCellAutoComplete = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-cell-autocomplete'),
+                labelText: this.strCellAutoComplete,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
             this.btnCustomizeQuickAccess = new Common.UI.Button({
                 el: $markup.findById('#fms-btn-customize-quick-access')
             });
@@ -1187,6 +1201,7 @@ define([], function () {
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("sse-settings-paste-button"));
             this.chTooltip.setValue(Common.Utils.InternalSettings.get("sse-settings-function-tooltip"));
+            this.chCellAutoComplete.setValue(Common.Utils.InternalSettings.get("sse-settings-cell-autocomplete"));
             this.chImageCopying.setValue(Common.Utils.InternalSettings.get("sse-settings-image-copying"));
             //this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("sse-settings-quick-print-button"));
 
@@ -1329,6 +1344,8 @@ define([], function () {
 
             Common.localStorage.setItem("sse-settings-function-tooltip", this.chTooltip.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("sse-settings-function-tooltip", this.chTooltip.isChecked() ? 1 : 0);
+
+            Common.localStorage.setItem("sse-settings-cell-autocomplete", this.chCellAutoComplete.isChecked() ? 1 : 0);
 
             Common.localStorage.setItem("sse-settings-image-copying", this.chImageCopying.isChecked() ? 1 : 0);
 
@@ -2878,6 +2895,7 @@ define([], function () {
 
             this._initSettings = true;
             this._originalPageSize = undefined;
+            this._customPageSize = undefined;
             this._colorPrinting = '';
             this.extendedPrintTitles = Common.localStorage.getBool('sse-print-titles-extended', true);
         },
@@ -3487,18 +3505,13 @@ define([], function () {
             });
             var newSelectedOption = null;
 
-            function findOptionBySize(list, width, height) {
-                return _.find(list, function(option) {
-                    return Math.abs(option.size[0] - width) < 0.1 && Math.abs(option.size[1] - height) < 0.1;
-                });
-            }
-
             // If a previously selected option exists, search for a matching one in resultList
             if (prevSelectedOption) {
-                newSelectedOption = findOptionBySize(
-                    resultList, 
-                    Math.round(prevSelectedOption.get('size')[0]), 
-                    Math.round(prevSelectedOption.get('size')[1])
+                newSelectedOption = Common.util.Print.findPaperSizeOptionBySize(
+                    resultList,
+                    prevSelectedOption.get('size')[0], 
+                    prevSelectedOption.get('size')[1],
+                    prevSelectedOption.get('caption')
                 );
             }
 
@@ -3511,14 +3524,19 @@ define([], function () {
                             parseFloat(Common.Utils.Metric.fnRecalcFromMM(prevSelectedOption.get('size')[0]).toFixed(2)),
                             parseFloat(Common.Utils.Metric.fnRecalcFromMM(prevSelectedOption.get('size')[1]).toFixed(2)),
                             Common.Utils.Metric.getCurrentMetricName()
-                        ]
+                        ],
+                        size: [prevSelectedOption.get('size')[0], prevSelectedOption.get('size')[1]]
                     }
                 } else {
-                    const _w = this._originalPageSize ? this._originalPageSize.w : 210,
-                        _h = this._originalPageSize ? this._originalPageSize.h : 297;
                     // If no matching option is found, look for the default size 210x297 (A4)
+                    const size = this._customPageSize || this._originalPageSize || {w: 210, h:297};
+                    const _w = size.w,
+                        _h = size.h;
                     if (!newSelectedOption) {
-                        newSelectedOption = findOptionBySize(resultList, _w, _h);
+                        // Try to resolve a name from the toolbar's default size list
+                        const toolbarView = SSE.getController('Toolbar').getView();
+                        const defaultSizes = toolbarView && toolbarView.btnPageSize && toolbarView.btnPageSize.menu.items;
+                        newSelectedOption = Common.util.Print.findPaperSizeOptionBySize(resultList, _w, _h, '', defaultSizes);
                     }
 
                     if (!newSelectedOption) {
@@ -3529,7 +3547,8 @@ define([], function () {
                                 parseFloat(Common.Utils.Metric.fnRecalcFromMM(_w).toFixed(2)),
                                 parseFloat(Common.Utils.Metric.fnRecalcFromMM(_h).toFixed(2)),
                                 Common.Utils.Metric.getCurrentMetricName()
-                            ]
+                            ],
+                            size: [_w, _h]
                         };
                     }
 
@@ -3547,6 +3566,12 @@ define([], function () {
                 this.cmbPaperSize.setValue(undefined, newSelectedOption.value);
             } else {
                 this.cmbPaperSize.setValue(newSelectedOption.value);
+            }
+
+            if(newSelectedOption && newSelectedOption.custom && newSelectedOption.size) {
+                this.setCustomPageSize(newSelectedOption.size[0], newSelectedOption.size[1]);
+            } else {
+                this._customPageSize = null;
             }
         },
 
@@ -3699,6 +3724,10 @@ define([], function () {
 
         setOriginalPageSize: function (w, h) {
             this._originalPageSize = {w: w, h: h};
+        },
+
+        setCustomPageSize: function (w, h) {
+            this._customPageSize = {w: w, h: h};
         },
 
         expandPrintTitles: function () {

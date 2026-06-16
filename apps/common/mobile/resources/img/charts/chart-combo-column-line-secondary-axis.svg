@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64">
+  <g class="chart-combo-column-line-secondary-axis">
+    <path fill="#555" d="M16 60H3.999V44H16v16Zm14 0H18V20h12v40Zm14 0H32V12h12v48Zm14 0H46V34h12v26Z" class="icon-fill-type-preview" opacity=".4"/>
+      <path fill="#555" d="m2 45 21-21 16 16 18-18 2 2-20 20-16-16L4 47l-2-2Z" class="icon-fill-type-preview"/>
+      <path fill="#555" d="M2 2h2v58h58v2H2V2Z" class="icon-fill-type-preview"/>
+      <path fill="#555" d="M60 56h2v2h-2v-2Zm0-4h2v2h-2v-2Zm0-4h2v2h-2v-2Zm0-4h2v2h-2v-2Zm0-4h2v2h-2v-2Zm0-4h2v2h-2v-2Zm0-4h2v2h-2v-2Zm0-4h2v2h-2v-2Zm0-4h2v2h-2v-2Zm0-4h2v2h-2v-2Zm0-4h2v2h-2v-2Zm0-4h2v2h-2v-2Zm0-4h2v2h-2V8Zm0-4h2v2h-2V4Z" class="icon-fill-type-preview"/>
+  </g>
+</svg>

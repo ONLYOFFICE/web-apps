@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  HyperlinkSettingsDialog.js
@@ -140,7 +143,7 @@ define([], function () { 'use strict';
                 placeHolder: me.appOptions.isDesktopApp ? me.txtUrlPlaceholder : '',
                 btnHint: me.textSelectFile,
                 validation  : function(value) {
-                    var trimmed = $.trim(value);
+                    var trimmed = value.trim();
                     if (me.api.asc_getFullHyperlinkLength(trimmed)>2083) return me.txtSizeLimit;
 
                     me.urlType = me.api.asc_getUrlType(trimmed);
@@ -153,7 +156,7 @@ define([], function () { 'use strict';
                 me.isInputFirstChange_url = false;
                 var val = $(e.target).val();
                 me.isAutoUpdate && me.inputDisplay.setValue(val);
-                me.btnOk.setDisabled($.trim(val)=='');
+                me.btnOk.setDisabled(val.trim()=='');
             });
             me.appOptions.isDesktopApp && me.inputUrl.on('button:click', _.bind(me.onSelectFile, me));
 
@@ -182,7 +185,7 @@ define([], function () { 'use strict';
                 me.isInputFirstChange_range = false;
                 var val = $(e.target).val();
                 me.isAutoUpdate && me.inputDisplay.setValue(me.internalList.getSelectedRec().get('name') + (val!=='' ? '!' + val : ''));
-                me.btnOk.setDisabled($.trim(val)=='');
+                me.btnOk.setDisabled(val.trim()=='');
             });
             me.inputRange.on('button:click', _.bind(me.onSelectData, me));
 
@@ -294,7 +297,7 @@ define([], function () { 'use strict';
                         }
                     } else {
                         this.inputUrl.setValue(settings.props.asc_getHyperlinkUrl().replace(new RegExp(" ",'g'), "%20"));
-                        this.btnOk.setDisabled($.trim(this.inputUrl.getValue())=='');
+                        this.btnOk.setDisabled(this.inputUrl.getValue().trim()=='');
                     }
                     this.inputDisplay.setValue(settings.isLock ? this.textDefault : settings.props.asc_getText());
                     this.inputTip.setValue(settings.props.asc_getTooltip());
@@ -456,7 +459,7 @@ define([], function () { 'use strict';
                     }
                 }
                 var rec = this.internalList.getSelectedRec();
-                this.btnOk.setDisabled(!rec || rec.get('level')==0 || rec.get('type')==0 && $.trim(this.inputRange.getValue())=='');
+                this.btnOk.setDisabled(!rec || rec.get('level')==0 || rec.get('type')==0 && this.inputRange.getValue().trim()=='');
                 var me = this;
                 _.delay(function(){
                     if (me.inputRange.isDisabled())
@@ -465,7 +468,7 @@ define([], function () { 'use strict';
                         me.inputRange.focus();
                 },50);
             } else {
-                this.btnOk.setDisabled($.trim(this.inputUrl.getValue())=='');
+                this.btnOk.setDisabled(this.inputUrl.getValue().trim()=='');
                 var me = this;
                 _.delay(function(){
                     me.inputUrl.focus();
@@ -493,7 +496,7 @@ define([], function () { 'use strict';
         },
 
         onSelectItem: function(picker, item, record, e){
-            this.btnOk.setDisabled(record.get('level')==0 || record.get('type')==0 && $.trim(this.inputRange.getValue())=='');
+            this.btnOk.setDisabled(record.get('level')==0 || record.get('type')==0 && this.inputRange.getValue().trim()=='');
             this.inputRange.setDisabled(record.get('type')==1 || record.get('level')==0);
             if (this.isAutoUpdate) {
                 var list = record.get('level') ? record.get('name') : '';
@@ -544,7 +547,7 @@ define([], function () { 'use strict';
                         me.inputRange.setValue(me.dataRangeValid);
                         me.inputRange.checkValidate();
                         me.isAutoUpdate && me.inputDisplay.setValue(me.internalList.getSelectedRec().get('name') + (me.dataRangeValid!=='' ? '!' + me.dataRangeValid : ''));
-                        me.btnOk.setDisabled($.trim(me.dataRangeValid)=='');
+                        me.btnOk.setDisabled(me.dataRangeValid.trim()=='');
                     }
                 };
 
@@ -582,7 +585,7 @@ define([], function () { 'use strict';
                         if (me.inputUrl.checkValidate() !== true)
                             me.isInputFirstChange_url = true;
                         me.isAutoUpdate && me.inputDisplay.setValue(result);
-                        me.btnOk.setDisabled($.trim(result)=='');
+                        me.btnOk.setDisabled(result.trim()=='');
                     }
                 };
 
