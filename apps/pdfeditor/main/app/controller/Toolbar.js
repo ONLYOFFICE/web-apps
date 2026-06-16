@@ -272,6 +272,8 @@ define([
             toolbar.btnStamp.on('click',                                _.bind(this.onBtnStampClick, this));
             toolbar.btnStamp.menu.on('item:click',                      _.bind(this.onMenuStampClick, this));
             toolbar.btnStamp.menu.on('show:after',                      _.bind(this.onStampShowAfter, this));
+            toolbar.btnsRotatePage[0].menu.on('item:click',             _.bind(this.onRotatePageMenu, this));
+            toolbar.btnsRotatePage[0].on('click',                       _.bind(this.onRotatePage, this));
             // toolbar.btnRotate.on('click',                               _.bind(this.onRotateClick, this));
             Common.NotificationCenter.on('leftmenu:save', _.bind(this.tryToSave, this));
             Common.NotificationCenter.on('draw:start', _.bind(this.onDrawStart, this));
@@ -360,8 +362,8 @@ define([
             toolbar.btnShapesMerge.menu.on('item:click',                 _.bind(this.onClickMenuShapesMerge, this));
             toolbar.btnShapesMerge.menu.on('show:before',                _.bind(this.onBeforeShapesMerge, this));
             toolbar.btnShapeArrange.menu.on('item:click',               _.bind(this.onShapeArrange, this));
-            toolbar.btnRotatePage.menu.on('item:click',                 _.bind(this.onRotatePageMenu, this));
-            toolbar.btnRotatePage.on('click',                           _.bind(this.onRotatePage, this));
+            toolbar.btnsRotatePage[1].menu.on('item:click',             _.bind(this.onRotatePageMenu, this));
+            toolbar.btnsRotatePage[1].on('click',                       _.bind(this.onRotatePage, this));
             toolbar.btnDelPage.on('click',                              _.bind(this.onDelPage, this));
 
         },
@@ -759,8 +761,8 @@ define([
                 if (this._state.activated) this._state.pagecontrolsdisable = page_deleted;
                 toolbar.lockToolbar(Common.enumLock.pageDeleted, page_deleted);
             }
-            toolbar.lockToolbar(Common.enumLock.pageRotateLock, page_rotate_lock, {array: [toolbar.btnRotatePage]});
-            toolbar.lockToolbar(Common.enumLock.cantRotatePage, !this.api.asc_CanRotatePages([this.api.getCurrentPage()]), {array: [toolbar.btnRotatePage]});
+            toolbar.lockToolbar(Common.enumLock.pageRotateLock, page_rotate_lock, {array: toolbar.btnsRotatePage});
+            toolbar.lockToolbar(Common.enumLock.cantRotatePage, !this.api.asc_CanRotatePages([this.api.getCurrentPage()]), {array: toolbar.btnsRotatePage});
             toolbar.lockToolbar(Common.enumLock.pageEditText, page_edit_text, {array: [toolbar.btnEditText]});
             toolbar.lockToolbar(Common.enumLock.cantDelPage, !this.api.asc_CanRemovePages([this.api.getCurrentPage()]), {array: [toolbar.btnDelPage]});
         },

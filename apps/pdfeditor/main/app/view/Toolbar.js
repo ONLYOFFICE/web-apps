@@ -899,25 +899,11 @@ define([
                 });
                 arr.push(this.btnDelPage);
 
-                this.btnRotatePage = new Common.UI.Button({
-                    id: 'tlbtn-rotate',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    caption: this.capBtnRotatePage,
-                    split: true,
-                    iconCls: 'toolbar__icon btn-update',
-                    lock: [_set.pageDeleted, _set.pageRotateLock, _set.cantRotatePage, _set.lostConnect, _set.disableOnStart],
-                    dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'small',
-                    menu: new Common.UI.Menu({
-                        items: [
-                            {caption: this.txtRotateRight, iconCls: 'menu__icon btn-rotate-90', value: 90},
-                            {caption: this.txtRotateLeft, iconCls: 'menu__icon btn-rotate-270', value: -90}
-                        ]
-                    }),
-                    action: 'rotate-page',
-                });
-                arr.push(this.btnRotatePage);
+                !this.btnsRotatePage && (this.btnsRotatePage = []);
+                const btnRotatePage = this.createRotatePageButton();
+                this.btnsRotatePage[1] = btnRotatePage;
+                arr.push(btnRotatePage);
+
                 Common.UI.LayoutManager.addControls(arr);
 
                 PDFE.getController('Common.Controllers.Shortcuts').updateShortcutHints(shortcutHints);
@@ -1201,6 +1187,11 @@ define([
                         dataHintOffset: 'small'
                     });
                     this.toolbarControls.push(this.btnShapeComment);
+
+                    !this.btnsRotatePage && (this.btnsRotatePage = []);
+                    const btnRotatePage = this.createRotatePageButton();
+                    this.btnsRotatePage[0] = btnRotatePage;
+                    this.toolbarControls.push(btnRotatePage);
 
                     if (config.isPDFAnnotate && config.canPDFEdit || config.isPDFEdit) {
                         this.btnEditMode = new Common.UI.Button({
@@ -1563,6 +1554,28 @@ define([
                 return this;
             },
 
+            createRotatePageButton() {
+                const _set = Common.enumLock;
+                return new Common.UI.Button({
+                    id: 'tlbtn-rotate',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    caption: this.capBtnRotatePage,
+                    split: true,
+                    iconCls: 'toolbar__icon btn-update',
+                    lock: [_set.pageDeleted, _set.pageRotateLock, _set.cantRotatePage, _set.lostConnect, _set.disableOnStart],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small',
+                    menu: new Common.UI.Menu({
+                        items: [
+                            {caption: this.txtRotateRight, iconCls: 'menu__icon btn-rotate-90', value: 90},
+                            {caption: this.txtRotateLeft, iconCls: 'menu__icon btn-rotate-270', value: -90}
+                        ]
+                    }),
+                    action: 'rotate-page',
+                });
+            },
+
             onTabClick: function (e) {
                 var me = this,
                     tab = $(e.currentTarget).find('> a[data-tab]').data('tab'),
@@ -1624,7 +1637,7 @@ define([
                 _injectComponent('#slot-btn-direction', this.btnTextDir);
                 _injectComponent('#slot-btn-arrange-shape', this.btnShapeArrange);
                 _injectComponent('#slot-btn-align-shape', this.btnShapeAlign);
-                _injectComponent('#slot-btn-rotate', this.btnRotatePage);
+                _injectComponent('#slot-btn-rotate-edit', this.btnsRotatePage[1]);
                 _injectComponent('#slot-btn-shapes-merge', this.btnShapesMerge);
                 _injectComponent('#slot-btn-deletepage', this.btnDelPage);
             },
@@ -1640,6 +1653,7 @@ define([
                 _injectComponent('#slot-btn-text-comment', this.btnTextComment);
                 _injectComponent('#slot-btn-shape-comment', this.btnShapeComment);
                 _injectComponent('#slot-btn-stamp', this.btnStamp);
+                _injectComponent('#slot-btn-rotate-annotate', this.btnsRotatePage[0]);
                 this.btnEditMode ? _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode) : $host.findById('#slot-btn-tb-edit-mode').parents('.group').hide().next('.separator').hide();
             },
 
@@ -1875,6 +1889,7 @@ define([
                 this.btnTextComment.updateHint(this.tipInsertTextComment);
                 this.btnShapeComment.updateHint(this.tipInsertRectComment);
                 this.btnStamp.updateHint(this.tipInsertStamp);
+                this.btnsRotatePage[0].updateHint([this.txtRotatePageRight, this.txtRotatePage]);
                 this.btnEditMode && this.btnEditMode.updateHint(this.tipEditMode);
             },
 
@@ -1898,7 +1913,7 @@ define([
                 this.btnShapeAlign.updateHint(this.tipShapeAlign);
                 this.btnShapeArrange.updateHint(this.tipShapeArrange);
                 this.btnShapesMerge.updateHint(this.tipShapeMerge);
-                this.btnRotatePage.updateHint([this.txtRotatePageRight, this.txtRotatePage]);
+                this.btnsRotatePage[1].updateHint([this.txtRotatePageRight, this.txtRotatePage]);
                 this.btnDelPage.updateHint(this.tipDelPage);
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
