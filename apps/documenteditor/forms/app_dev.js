@@ -157,7 +157,8 @@ require([
                     'common/main/lib/view/SaveAsDlg',
                     'common/main/lib/view/SignDialog',
                     'common/main/lib/view/SignSettingsDialog',
-                    'common/main/lib/view/PdfSignDialog'
+                    'common/main/lib/view/PdfSignDialog',
+                    'common/main/lib/view/PdfSavedSignatureMenu'
                 ];
 
                 window.compareVersions = true;

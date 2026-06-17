@@ -103,6 +103,7 @@ define([], function () { 'use strict';
                         '<div style="flex-grow: 1;display: flex; justify-content: center;"><div id="btn-sign-undo" class="img-draw margin-right-5 hidden"></div><div id="btn-sign-redo" class="img-draw hidden"></div></div>',
                         '<button type="button" class="btn btn-text-default auto" id="pdf-sign-btn-clear">' + this.textClear + '</button>',
                     '</div>',
+                    '<div id="pdf-sign-ch-save" class="input-row" style="margin: 0 0 5px;"></div>',
                 '</div>',
             ].join('');
 
@@ -171,6 +172,12 @@ define([], function () { 'use strict';
             });
             this.chRemBack.on('change', function(field, newValue, oldValue, eOpts){
                 me.props && me.props.put_RemoveBackground(field.getValue()==='checked');
+            });
+
+            this.chSave = new Common.UI.CheckBox({
+                el: $window.find('#pdf-sign-ch-save'),
+                labelText: this.txtSaveSignature,
+                value: 'checked'
             });
 
             this.cmbFonts = new Common.UI.ComboBoxFonts({
@@ -357,7 +364,7 @@ define([], function () { 'use strict';
 
         getFocusedComponents: function() {
             return [this.btnUpload, this.btnDraw, this.btnType, this.btnSelectImage, this.chRemBack, this.cmbLineSize, this.btnLineColor,
-                    this.inputName, this.cmbFonts, this.cmbFontSize, this.btnBold, this.btnItalic, this.btnUndo, this.btnRedo, this.btnClear].concat(this.getFooterButtons());
+                    this.inputName, this.cmbFonts, this.cmbFontSize, this.btnBold, this.btnItalic, this.btnUndo, this.btnRedo, this.chSave, this.btnClear].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -450,6 +457,7 @@ define([], function () { 'use strict';
                     const serialized = me.props.serialize();
                     serialized.mode = me.mode;
                     Common.localStorage.setItem(me.getKey(), JSON.stringify(serialized));
+                    if (me.chSave.getValue() === 'checked') Common.localStorage.setItem('dialog-signature-saved', JSON.stringify(serialized));
                 }
                 if ( me.options.handler )
                     me.options.handler.call(me, result);
@@ -692,7 +700,8 @@ define([], function () { 'use strict';
         tipUndo: 'Undo',
         tipRedo: 'Redo',
         textBold: 'Bold',
-        textItalic: 'Italic'
+        textItalic: 'Italic',
+        txtSaveSignature: 'Save signature'
 
     }, Common.Views.PdfSignDialog || {}))
 });

@@ -1720,9 +1720,67 @@ define([], function () {
         dh.onHideContentControlsActions = function() {
             this.listControlMenu && this.listControlMenu.isVisible() && this.listControlMenu.hide();
             this.imageControlMenu && this.imageControlMenu.isVisible() && this.imageControlMenu.hide();
+            this.signatureControlMenu && this.signatureControlMenu.isVisible() && this.signatureControlMenu.hide();
             var controlsContainer = this.documentHolder.cmpEl.find('#calendar-control-container');
             if (controlsContainer.is(':visible'))
                 controlsContainer.hide();
+        };
+
+        dh.openSignatureDialog = function(signProps) {
+            Common.Views.PdfSavedSignatureMenu.hideMenu(this.documentHolder.cmpEl, this.signatureControlMenu);
+
+            if (!this.fontStore) {
+                this.fontStore = new Common.Collections.Fonts();
+
+                const app = this.getApplication(),
+                    toolbar = app.getController('Toolbar'),
+                    toolbarView = toolbar && toolbar.getView('Toolbar'),
+                    cmbFonts = toolbarView && toolbarView.cmbFontName;
+                if ( cmbFonts && cmbFonts.store ) {
+                    const fonts = cmbFonts.store.toJSON();
+                    this.fontStore.add(fonts.filter(font => !font.cloneid));
+                } else {
+                    const fontsController = app.getController('Common.Controllers.Fonts');
+                    fontsController && (this.fontStore = fontsController.store());
+                }
+            }
+
+            var me = this,
+                win = (new Common.Views.PdfSignDialog({
+                    props: signProps,
+                    api: me.api,
+                    disableNetworkFunctionality: me.mode.disableNetworkFunctionality,
+                    storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
+                    fontStore: me.fontStore,
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            me.api.asc_SetSignatureProps(signProps.getResult());
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                })).on('close', function(obj){
+                    setTimeout(function(){
+                        me.api.asc_UncheckContentControlButtons();
+                    }, 100);
+                });
+            win.show();
+        };
+
+        dh.applyStoredSignature = function(signProps, data) {
+            var signatureId = signProps && signProps.get_FormId ? signProps.get_FormId() : '';
+            if (data && data.signatureImage && signatureId) {
+                Common.localStorage.setItem('dialog-signature-' + signatureId, JSON.stringify(data));
+                this.api.asc_SetSignatureProps({imageData: data.signatureImage, internalId: signatureId});
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        };
+
+        dh.onShowSignatureActions = function(obj, x, y) {
+            Common.Views.PdfSavedSignatureMenu.showActions(this, obj, x, y, {
+                rootEl: this.documentHolder.cmpEl,
+                openDialog: this.openSignatureDialog,
+                applySignature: this.applyStoredSignature
+            });
         };
 
         dh.onShowDateActions = function(obj, x, y) {
@@ -1916,38 +1974,9 @@ define([], function () {
                             return;
                     }
                     if (me.mode.canSaveToFile) {
-                        if (!me.fontStore) {
-                            me.fontStore = new Common.Collections.Fonts();
-
-                            const app = me.getApplication(),
-                                cmbFonts = me.getApplication().getController('Toolbar').getView('Toolbar').cmbFontName;
-                            if ( cmbFonts && cmbFonts.store ) {
-                                const fonts = cmbFonts.store.toJSON();
-                                me.fontStore.add(fonts.filter(font => !font.cloneid));
-                            } else {
-                                const fontsController = app.getController('Common.Controllers.Fonts');
-                                fontsController && (me.fontStore = fontsController.store());
-                            }
-                        }
-                        var signProps = obj.asc_getSignatureProps(me.api);
-                        var win = (new Common.Views.PdfSignDialog({
-                            props: signProps,
-                            api: me.api,
-                            disableNetworkFunctionality: me.mode.disableNetworkFunctionality,
-                            storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
-                            fontStore: me.fontStore,
-                            handler: function(result, value) {
-                                if (result == 'ok') {
-                                    me.api.asc_SetSignatureProps(signProps.getResult());
-                                }
-                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                            }
-                        })).on('close', function(obj){
-                            setTimeout(function(){
-                                me.api.asc_UncheckContentControlButtons();
-                            }, 100);
-                        });
-                        win.show();
+                        setTimeout(function() {
+                            me.onShowSignatureActions(obj, x, y);
+                        }, 1);
                     } else { // select picture in viewer only from local file
                         this.api.asc_addImage(obj.pr);
                         setTimeout(function(){
