@@ -128,7 +128,19 @@ define([
                 if (result === 'ok') {
                     var props = dlg.getSettings();
                     if (me.api) {
-                        me.api.RedactMeta(props[0], props[1], props[2], props[3], props[4], props[5], props[6], props[7], props[8], props[9], props[10])
+                        me.api.RedactMeta({
+                            metadata: props[0],
+                            fileAttachments: props[1],
+                            bookmarks: props[2],
+                            embedSearchIdx: props[3],
+                            comments: props[4],
+                            fields: props[5],
+                            hiddenText: props[6],
+                            hiddenLayers: props[7],
+                            delCropContent: props[8],
+                            linksAndActions: props[9],
+                            overlapping: props[10]
+                        });
                     }
                     if (!Common.localStorage.getBool("pdfe-hide-metadata-info")) {
                         Common.UI.info({
