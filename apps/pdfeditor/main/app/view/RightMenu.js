@@ -42,6 +42,7 @@
 var SCALE_MIN = 40;
 var MENU_SCALE_PART = 260;
 var MENU_BASE_WIDTH = 220;
+var PLUGIN_MENU_DEFAULT_WIDTH = 450;
 
 define([
     'text!pdfeditor/main/app/template/RightMenu.template',
@@ -392,7 +393,7 @@ define([
             const viewport = PDFE.getController('Viewport').getView('Viewport');
             viewport.hlayout.hideItemResizer('right', !isPlugin);
 
-            const widthFromStorage = Common.localStorage.getItem('pdfe-rightmenu-width');
+            const widthFromStorage = Common.localStorage.getItem('pdfe-rightmenu-width') || PLUGIN_MENU_DEFAULT_WIDTH;
             const oldWidth = this.$el.width();
             if(isPlugin && widthFromStorage) {
                 this.$el.width(parseInt(widthFromStorage));

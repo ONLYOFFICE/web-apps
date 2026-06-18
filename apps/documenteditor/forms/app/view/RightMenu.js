@@ -42,6 +42,7 @@
 var SCALE_MIN = 40;
 var MENU_SCALE_PART = 260;
 var MENU_BASE_WIDTH = 220;
+var PLUGIN_MENU_DEFAULT_WIDTH = 450;
 
 define([
     'text!documenteditor/forms/app/template/RightMenu.template',
@@ -277,7 +278,7 @@ define([
 
         updateResizable: function() {
             const isPlugin = this.isPluginButtonPressed();
-            const widthFromStorage = Common.localStorage.getItem('de-rightmenu-width');
+            const widthFromStorage = Common.localStorage.getItem('de-rightmenu-width') || PLUGIN_MENU_DEFAULT_WIDTH;
             const oldWidth = this.$el.width();
             if(isPlugin && widthFromStorage) {
                 this.$el.width(parseInt(widthFromStorage));
