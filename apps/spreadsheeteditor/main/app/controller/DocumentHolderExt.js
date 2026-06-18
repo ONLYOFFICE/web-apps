@@ -953,7 +953,7 @@ define([], function () {
             var info = this.api.asc_getCellInfo();
             var hyperlink = info && info.asc_getHyperlink();
             var url = hyperlink && hyperlink.asc_getHyperlinkUrl();
-            if (url) navigator.clipboard && navigator.clipboard.writeText(url);
+            if (url) this.api.asc_CopyData(url);
         };
 
         dh.onDelHyperlink = function(item) {

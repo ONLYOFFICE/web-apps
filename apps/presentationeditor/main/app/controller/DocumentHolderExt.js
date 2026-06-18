@@ -1590,7 +1590,7 @@ define([], function () {
 
         dh.onCopyHyperlink = function(item, e){
             var url = item.hyperProps && item.hyperProps.value && item.hyperProps.value.get_Value();
-            if (url) navigator.clipboard && navigator.clipboard.writeText(url);
+            if (url) this.api && this.api.asc_CopyData(url);
         };
 
         dh.removeHyperlink = function(item) {

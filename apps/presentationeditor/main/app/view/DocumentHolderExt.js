@@ -136,6 +136,10 @@ define([], function () {
 
         dh.createDelayedElements = function(){
             var me = this;
+            var isExternalHyperlink = function(hyperProps) {
+                var url = hyperProps && hyperProps.value && hyperProps.value.get_Value();
+                return !!(url && url.indexOf('ppaction://hlink') !== 0);
+            };
 
             if (me.mnuDeleteSlide || !window.styles_loaded) return; // menu is already inited or editor styles are not loaded
 
@@ -1934,7 +1938,7 @@ define([], function () {
 
                     me.menuAddHyperlinkPara.setVisible(value.hyperProps===undefined && text!==false);
                     menuHyperlinkPara.setVisible(value.hyperProps!==undefined);
-                    me.menuCopyHyperlinkPara.setVisible(!!(value.hyperProps && value.hyperProps.value && value.hyperProps.value.get_Value()));
+                    me.menuCopyHyperlinkPara.setVisible(isExternalHyperlink(value.hyperProps));
 
                     me.menuEditHyperlinkPara.hyperProps = value.hyperProps;
                     me.menuCopyHyperlinkPara.hyperProps = value.hyperProps;
@@ -2121,7 +2125,7 @@ define([], function () {
 
                     me.menuAddHyperlinkTable.setVisible(!_.isUndefined(value.paraProps) && _.isUndefined(value.hyperProps) && text!==false);
                     menuHyperlinkTable.setVisible(!_.isUndefined(value.paraProps) && !_.isUndefined(value.hyperProps));
-                    me.menuCopyHyperlinkTable.setVisible(!!(value.hyperProps && value.hyperProps.value && value.hyperProps.value.get_Value()));
+                    me.menuCopyHyperlinkTable.setVisible(isExternalHyperlink(value.hyperProps));
 
                     me.menuEditHyperlinkTable.hyperProps = value.hyperProps;
                     me.menuCopyHyperlinkTable.hyperProps = value.hyperProps;
@@ -2381,7 +2385,7 @@ define([], function () {
                     }
                     me.menuAddHyperlinkPic.setVisible(value.hyperProps===undefined && text!==false);
                     menuHyperlinkPic.setVisible(value.hyperProps!==undefined);
-                    me.menuCopyHyperlinkPic.setVisible(!!(value.hyperProps && value.hyperProps.value && value.hyperProps.value.get_Value()));
+                    me.menuCopyHyperlinkPic.setVisible(isExternalHyperlink(value.hyperProps));
                     menuHyperlinkPicSeparator.setVisible(me.menuAddHyperlinkPic.isVisible() || menuHyperlinkPic.isVisible());
                     me.menuEditHyperlinkPic.hyperProps = value.hyperProps;
                     me.menuCopyHyperlinkPic.hyperProps = value.hyperProps;
