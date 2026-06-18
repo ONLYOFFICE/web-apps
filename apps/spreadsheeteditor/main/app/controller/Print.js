@@ -523,8 +523,6 @@ define([
                     this.downloadWopiPath && opts.asc_setWopiSaveAsPath(this.downloadWopiPath);
                     this.api.asc_DownloadAs(opts);
                 }
-                Common.component.Analytics.trackEvent((this.printSettingsDlg.type=='print') ? 'Print' : 'DownloadAs');
-                Common.component.Analytics.trackEvent('ToolBar', (this.printSettingsDlg.type=='print') ? 'Print' : 'DownloadAs');
                 Common.NotificationCenter.trigger('edit:complete', view);
             } else {
                 this.asUrl && Common.NotificationCenter.trigger('download:cancel');

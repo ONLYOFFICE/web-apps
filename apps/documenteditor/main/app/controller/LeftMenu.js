@@ -607,8 +607,6 @@ define([
             var recentDocPage = window.open(url);
             if (recentDocPage)
                 recentDocPage.focus();
-
-            Common.component.Analytics.trackEvent('Open Recent');
         },
 
         clickToolbarSettings: function(obj) {

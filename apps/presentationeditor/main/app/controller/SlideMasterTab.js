@@ -281,7 +281,6 @@ define([
             this._addPlaceHolder(btn.pressed, value, isVertical);
 
             Common.NotificationCenter.trigger('edit:complete', this.view);
-            Common.component.Analytics.trackEvent('SlideMasterTab', 'Add Placeholder');
         },
 
         changeViewMode: function (mode) {

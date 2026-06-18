@@ -225,13 +225,10 @@ define([
                 var value = this.toolbar.mniAlignToPage.isChecked() ? Asc.c_oAscObjectsAlignType.Page : (this.toolbar.mniAlignToMargin.isChecked() ? Asc.c_oAscObjectsAlignType.Margin : Asc.c_oAscObjectsAlignType.Selected);
                 if (item.value>-1 && item.value < 6) {
                     this.api.put_ShapesAlign(item.value, value);
-                    Common.component.Analytics.trackEvent('ToolBar', 'Shape Align');
                 } else if (item.value == 6) {
                     this.api.DistributeHorizontally(value);
-                    Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
                 } else if (item.value == 7){
                     this.api.DistributeVertically(value);
-                    Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
                 }
                 this.toolbar.fireEvent('editcomplete', this.toolbar);
             },
@@ -245,7 +242,6 @@ define([
             onClickMenuShapesMerge: function (menu, item, e) {
                 if (item && item.value) {
                     this.api.asc_mergeSelectedShapes(item.value); 
-                    Common.component.Analytics.trackEvent('ToolBar', 'Shapes Merge'); 
                 }
                 this.toolbar.fireEvent('editcomplete', this.toolbar);
             },

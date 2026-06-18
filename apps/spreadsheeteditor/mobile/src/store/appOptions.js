@@ -139,7 +139,6 @@ export class storeAppOptions {
         this.isEditDiagram = config.mode == 'editdiagram';
         this.isEditMailMerge = config.mode == 'editmerge';
         this.mergeFolderUrl = config.mergeFolderUrl;
-        this.canAnalytics = false;
         this.canRequestClose = config.canRequestClose;
         this.canCloseEditor = false;
         
@@ -178,7 +177,6 @@ export class storeAppOptions {
         this.canBrandingExt = params.asc_getCanBranding() && (typeof this.customization == 'object' || this.config.plugins);
         this.canModifyFilter = permissions.modifyFilter !== false;
         this.canAutosave = true;
-        this.canAnalytics = params.asc_getIsAnalyticsEnable();
         this.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
         this.isLightVersion = params.asc_getIsLight();
         this.buildVersion = params.asc_getBuildVersion();

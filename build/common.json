@@ -109,7 +109,7 @@
                             "**/*.js",
                             "**/*.template"
                         ],
-                        "dest": "../deploy/web-apps/apps/common/main/lib"
+                        "dest": "../deploy/web-apps/apps/common/forms/lib"
                     },
                     {
                         "expand": true,

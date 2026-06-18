@@ -288,6 +288,11 @@ module.exports = function(grunt) {
                           from: /\{\{APP_CUSTOMER_NAME\}\}/g,
                           to: process.env['APP_CUSTOMER_NAME'] || 'ONLYOFFICE'
                       },{
+                            from: /(var\scustomization\s=\s)[\w\.;]+/,
+                            to: (w, i, t, matches) => {
+                                return !!matches && !process.env['OO_BRANDING'] ?`${matches[0]}undefined;` : w;
+                            }
+                      },{
                           from: /\/\*\*[\s\S]+\.com\s+\*\//,
                           to: copyright
                       }]

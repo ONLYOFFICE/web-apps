@@ -1199,6 +1199,7 @@
   "SSE.Controllers.Main.warnLicenseExp": "A sua licença caducou.<br>Deve atualizar a licença e recarregar a página.",
   "SSE.Controllers.Main.warnLicenseLimitedNoAccess": "Licença caducada.<br>Não pode editar o documento.<br>Por favor contacte o seu administrador.",
   "SSE.Controllers.Main.warnLicenseLimitedRenewed": "Tem que renovar a sua licença.<br>A edição de documentos está limitada.<br>Contacte o administrador de sistemas para obter acesso completo.",
+  "SSE.Controllers.Main.warnNoLicense": "Atingiu o limite de ligações simultâneas a %1 editores. Este documento será aberto no modo de leitura.<br>Contacte a equipa comercial %1 para saber mais sobre os termos de licenciamento.",
   "SSE.Controllers.Main.warnNoResources": "O servidor %1 não possui recursos suficientes para abrir este documento para edição. Este documento será aberto apenas para visualização.",
   "SSE.Controllers.Main.warnNoLicenseUsers": "Atingiu o limite de %1 editores. Contacte a equipa comercial %1 para obter mais informações.",
   "SSE.Controllers.Main.warnProcessRightsChange": "Você não tem permissões para editar o ficheiro.",

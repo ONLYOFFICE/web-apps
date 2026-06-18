@@ -359,6 +359,7 @@
   "PDFE.Controllers.Main.warnLicenseExp": "A túa licenza caducou.<br>Actualiza a túa licenza e actualiza a páxina.",
   "PDFE.Controllers.Main.warnLicenseLimitedNoAccess": "Licenza expirada.<br>Non ten acceso á funcionalidade de edición de documentos.<br>por favor, póñase en contacto co seu administrador.",
   "PDFE.Controllers.Main.warnLicenseLimitedRenewed": "A licenza precisa ser renovada.<br>Ten un acceso limitado á funcionalidade de edición de documentos.<br>Por favor, póñase en contacto co seu administrador para obter un acceso completo",
+  "PDFE.Controllers.Main.warnNoLicense": "Alcanzou o límite de conexións simultáneas con %1 editores. Este documento abrirase só para as úa visualización.<br>Contacte co equipo de vendas de %1 para coñecer os termos de actualización persoal.",
   "PDFE.Controllers.Main.warnNoResources": "O servidor %1 non ten recursos suficientes para abrir este documento para a súa edición. O documento abrirase só en modo de visualización.",
   "PDFE.Controllers.Main.warnNoLicenseUsers": "Alcanzou o límite de usuarios para os editores de %1.<br>Contacte co equipo de vendas de %1 para coñecer os termos de actualización persoal.",
   "PDFE.Controllers.Main.warnProcessRightsChange": "O dereito de edición do ficheiro é denegado.",

@@ -1835,6 +1835,7 @@
   "DE.Controllers.Main.warnLicenseExp": "פג תוקפו של הרישיון שלך.<br> נא לעדכן את הרישיון שלך ולרענן את הדף.",
   "DE.Controllers.Main.warnLicenseLimitedNoAccess": "פג תוקפו של הרישיון.<br>אין לך גישה לפונקציונליות של עריכת מסמכים.<br> נא ליצור קשר עם מנהל המערכת שלך.",
   "DE.Controllers.Main.warnLicenseLimitedRenewed": "נא לחדש את הרישיון. <br>יש לך גישה מוגבלת לפונקציונליות של עריכת מסמכים.<br> נא ליצור קשר עם מנהל המערכת שלך כדי לקבל גישה מלאה",
+  "DE.Controllers.Main.warnNoLicense": "הגעת למגבלה של חיבורים סימולטניים לעורכי %1. מסמך זה ייפתח לצפייה בלבד. <br>נא ליצור קשר עם צוות המכירות %1 לקבלת תנאי שדרוג אישיים.",
   "DE.Controllers.Main.warnNoResources": "לשרת %1 אין מספיק משאבים לפתיחת מסמך זה לעריכה. מסמך זה ייפתח לצפייה בלבד.",
   "DE.Controllers.Main.warnNoLicenseUsers": "הגעת למגבלת המשתמש עבור עורכים נא ליצור קשר עם צוות המכירות %1 לקבלת תנאי שדרוג אישיים.",
   "DE.Controllers.Main.warnProcessRightsChange": "נשללה ממך הזכות לערוך את הקובץ.",

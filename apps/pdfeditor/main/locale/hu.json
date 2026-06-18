@@ -1708,6 +1708,7 @@
   "PDFE.Controllers.Main.warnLicenseExp": "A licence lejárt.<br>Kérem frissítse a licencét, majd az oldalt.",
   "PDFE.Controllers.Main.warnLicenseLimitedNoAccess": "A licenc lejárt.<br>Nincs hozzáférése a dokumentumszerkesztő funkciókhoz.<br>Kérjük, lépjen kapcsolatba a rendszergazdával.",
   "PDFE.Controllers.Main.warnLicenseLimitedRenewed": "A licencet meg kell újítani.<br>Korlátozott hozzáférése van a dokumentumszerkesztési funkciókhoz.<br>A teljes hozzáférésért forduljon rendszergazdájához",
+  "PDFE.Controllers.Main.warnNoLicense": "Elérte a(z) %1 szerkesztőhöz tartozó egyidejű csatlakozás korlátját. Ez a dokumentum csak megtekintésre nyílik meg.<br>Vegye fel a kapcsolatot a(z) %1 értékesítési csapatával a személyes frissítési feltételekért.",
   "PDFE.Controllers.Main.warnNoResources": "A(z) %1 kiszolgálónak nincs elég erőforrása a dokumentum szerkesztésre való megnyitásához. A dokumentum csak megtekintésre lesz megnyitva.",
   "PDFE.Controllers.Main.warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
   "PDFE.Controllers.Main.warnProcessRightsChange": "Nincs joga szerkeszteni a fájl-t.",

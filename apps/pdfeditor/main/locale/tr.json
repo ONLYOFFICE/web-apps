@@ -402,6 +402,7 @@
   "PDFE.Controllers.Main.warnLicenseExp": "Lisansınızın süresi doldu.<br>Lütfen lisansınızı güncelleyin ve sayfayı yenileyin.",
   "PDFE.Controllers.Main.warnLicenseLimitedNoAccess": "Lisansın süresi doldu.<br>Belge düzenleme işlevine erişiminiz yok.<br>Lütfen yöneticinizle iletişime geçin.",
   "PDFE.Controllers.Main.warnLicenseLimitedRenewed": "Lisansın yenilenmesi gerekiyor.<br>Belge düzenleme işlevine sınırlı erişiminiz var.<br>Tam erişim için lütfen yöneticinizle iletişime geçin.",
+  "PDFE.Controllers.Main.warnNoLicense": "Düzenleyiciler %1 eşzamanlı bağlantı sınırına ulaştı. Bu belge yalnızca görüntüleme için açılacaktır.<br>Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
   "PDFE.Controllers.Main.warnNoResources": "%1 sunucusu bu belgeyi düzenleme için açacak yeterli kaynağa sahip değil. Bu belge yalnızca görüntüleme için açılacaktır.",
   "PDFE.Controllers.Main.warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
   "PDFE.Controllers.Main.warnProcessRightsChange": "Dosyayı düzenleme hakkınız reddedildi",

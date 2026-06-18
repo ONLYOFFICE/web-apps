@@ -1586,6 +1586,7 @@
   "DE.Controllers.Main.warnLicenseExp": "您的授權已過期。<br>請更新您的授權並重新整理頁面。",
   "DE.Controllers.Main.warnLicenseLimitedNoAccess": "授權過期<br>您已沒有編輯文件功能的授權<br> 請與您的管理者聯繫。",
   "DE.Controllers.Main.warnLicenseLimitedRenewed": "授權證書已過期。因此無法編輯文件。請聯繫您的管理員。",
+  "DE.Controllers.Main.warnNoLicense": "您已達到同時連線 %1 編輯者的限制。此文件將僅以檢視模式開啟。",
   "DE.Controllers.Main.warnNoResources": "%1伺服器沒有足夠的資源來開啟此文件進行編輯。此文件將僅以檢視模式開啟。",
   "DE.Controllers.Main.warnNoLicenseUsers": "您已達到編輯器的使用者限制。",
   "DE.Controllers.Main.warnProcessRightsChange": "您被拒絕了編輯文件的權限。",

@@ -147,6 +147,8 @@ Common.UI.ExternalUsers = new( function() {
 
     var _getColor = function(id, intValue) {
         if (!userColors[id]) {
+            if ( !api ) return "#fff";
+
             var color = api.asc_getUserColorById(id);
             userColors[id] = ["#"+("000000"+color.toString(16)).substr(-6), color];
         }
