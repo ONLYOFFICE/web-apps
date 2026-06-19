@@ -50,7 +50,7 @@ define([
 ], function (Backbone) { 'use strict';
 
     Common.Views.Header =  Backbone.View.extend(_.extend(function(){
-        var storeUsers, appConfig;
+        var storeUsers, appConfig, btnMode;
         var $userList, $panelUsers, $btnUsers, $btnUserName, $labelDocName;
         var _readonlyRights = false;
         var _tabStyle = 'fill', _logoImage = '';
@@ -319,6 +319,8 @@ define([
         }
 
         function onResize() {
+            btnMode && btnMode.menu && btnMode.menu.hide && btnMode.menu.hide();
+
             if (appConfig && appConfig.twoLevelHeader && !appConfig.compactHeader)
                 updateDocNamePosition();
         }
@@ -997,6 +999,7 @@ define([
                             dataHintOffset: 'big'
                         });
                         me.btnPDFMode.render($html.find('#slot-btn-edit-mode'));
+                        btnMode = me.btnPDFMode;
                         changePDFMode.call(me, config);
                         Common.NotificationCenter.on('pdf:mode-changed', _.bind(changePDFMode, me));
                     } else if (isDocEditor && config.isEdit && config.canSwitchMode) {
@@ -1013,10 +1016,13 @@ define([
                             dataHintOffset: 'big'
                         });
                         me.btnDocMode.render($html.find('#slot-btn-edit-mode'));
+                        btnMode = me.btnDocMode;
                         changeDocMode.call(me);
                         Common.NotificationCenter.on('doc:mode-changed', _.bind(changeDocMode, me));
-                    } else
+                    } else {
                         $html.find('#slot-btn-edit-mode').hide();
+                        btnMode = null;
+                    }
 
                     if (config.showStartFillingButton) {
                         me.btnStartFill = new Common.UI.Button({
