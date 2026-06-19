@@ -932,7 +932,6 @@ define([
                     if(!plugin.guid || !frame.id) return;
 
                     const controlCallback = function(value, pressed) {
-                        console.log(value, pressed);
                         me.api && me.api.onPluginWindowHeaderMenuItemClick && 
                             me.api.onPluginWindowHeaderMenuItemClick(plugin.guid, frame.id, value, pressed);
                     };
