@@ -24,69 +24,44 @@ define([
                             '<table style="width: 100%;">',
                                 '<tr>',
                                     '<td class="padding-small">',
-                                        '<div style="display: flex; align-items: center;">',
-                                            '<label class="header margin-right-8">' + me.textWidth + '</label>',
-                                            '<div class="separator horizontal"></div>',
-                                        '</div>',
+                                        '<label class="header">' + me.textSize + '</label>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-large">',
+                                        '<label class="input-label" style="display: block;">' + me.textWidth + '</label>',
                                         '<div id="hl-dlg-spn-width" style="display: inline-block;"></div>',
-                                        '<label class="input-label margin-left-10" style="vertical-align: initial">' + me.textUnits + '</label>',
-                                        '<div id="hl-dlg-cmb-units" class="input-group-nr margin-left-5" style="display: inline-block; width: 100px;"></div>',
-                                    '</td>',
-                                '</tr>',
-                                '<tr>',
-                                    '<td class="padding-small">',
-                                        '<div style="display: flex; align-items: center;">',
-                                            '<label class="header margin-right-8">' + me.textHeight + '</label>',
-                                            '<div class="separator horizontal"></div>',
-                                        '</div>',
+                                        '<div id="hl-dlg-cmb-units" class="input-group-nr margin-left-5" style="display: inline-block; width: 50px;"></div>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-large">',
+                                        '<label class="input-label" style="display: block;">' + me.textHeight + '</label>',
                                         '<div id="hl-dlg-spn-height"></div>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-small">',
-                                        '<div style="display: flex; align-items: center;">',
-                                            '<label class="header margin-right-8">' + me.textColor + '</label>',
-                                            '<div class="separator horizontal"></div>',
-                                        '</div>',
+                                        '<label class="header">' + me.textColor + '</label>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-large">',
                                         '<div id="hl-dlg-chk-color" style="display: inline-block;"></div>',
-                                        '<div id="hl-dlg-btn-color" class="margin-left-8" style="display: inline-block;"></div>',
+                                        '<div id="hl-dlg-btn-color" class="margin-left-22" style="display: inline-block;"></div>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-small">',
-                                        '<div style="display: flex; align-items: center;">',
-                                            '<label class="header margin-right-8">' + me.textAlignment + '</label>',
-                                            '<div class="separator horizontal"></div>',
-                                        '</div>',
+                                        '<label class="header">' + me.textAlignment + '</label>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-large">',
-                                        '<div style="display: flex; gap: 12px;">',
-                                            '<div style="text-align: center;">',
-                                                '<div id="hl-dlg-btn-align-left"></div>',
-                                                '<label class="input-label" style="margin-top: 4px;">' + me.textAlignLeft + '</label>',
-                                            '</div>',
-                                            '<div style="text-align: center;">',
-                                                '<div id="hl-dlg-btn-align-center"></div>',
-                                                '<label class="input-label" style="margin-top: 4px;">' + me.textAlignCenter + '</label>',
-                                            '</div>',
-                                            '<div style="text-align: center;">',
-                                                '<div id="hl-dlg-btn-align-right"></div>',
-                                                '<label class="input-label" style="margin-top: 4px;">' + me.textAlignRight + '</label>',
-                                            '</div>',
+                                        '<div style="display: flex; gap: 4px;">',
+                                            '<div id="hl-dlg-btn-align-left"></div>',
+                                            '<div id="hl-dlg-btn-align-center"></div>',
+                                            '<div id="hl-dlg-btn-align-right"></div>',
                                         '</div>',
                                     '</td>',
                                 '</tr>',
@@ -109,17 +84,15 @@ define([
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
             var me = this;
 
-            var metricName = Common.Utils.Metric.getCurrentMetricName();
-
             this.cmbUnits = new Common.UI.ComboBox({
                 el: $('#hl-dlg-cmb-units'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 100px;',
+                menuStyle: 'min-width: 50px; width: 50px;',
                 editable: false,
                 takeFocusOnClose: true,
                 data: [
                     {value: 'pct',    displayValue: this.textPct},
-                    {value: 'metric', displayValue: metricName}
+                    {value: 'metric', displayValue: this.textCm}
                 ]
             });
             this.cmbUnits.on('selected', _.bind(this.onUnitsChanged, this));
@@ -128,8 +101,8 @@ define([
                 el: $('#hl-dlg-spn-width'),
                 step: 1,
                 width: 70,
-                defaultUnit: '%',
-                value: '100 %',
+                defaultUnit: '',
+                value: '100',
                 maxValue: 100,
                 minValue: 0,
                 takeFocusOnClose: true
@@ -190,8 +163,8 @@ define([
 
             this.btnAlignLeft = new Common.UI.Button({
                 parentEl: $('#hl-dlg-btn-align-left'),
-                cls: 'btn huge-1 btn-options',
-                iconCls: 'options__icon options__icon-huge btn-horizontal-line-left',
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-align-left',
                 enableToggle: true,
                 toggleGroup: 'hl-align-group',
                 allowDepress: false
@@ -200,8 +173,8 @@ define([
 
             this.btnAlignCenter = new Common.UI.Button({
                 parentEl: $('#hl-dlg-btn-align-center'),
-                cls: 'btn huge-1 btn-options',
-                iconCls: 'options__icon options__icon-huge btn-horizontal-line-center',
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-align-center',
                 enableToggle: true,
                 toggleGroup: 'hl-align-group',
                 allowDepress: false
@@ -210,8 +183,8 @@ define([
 
             this.btnAlignRight = new Common.UI.Button({
                 parentEl: $('#hl-dlg-btn-align-right'),
-                cls: 'btn huge-1 btn-options',
-                iconCls: 'options__icon options__icon-huge btn-horizontal-line-right',
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-align-right',
                 enableToggle: true,
                 toggleGroup: 'hl-align-group',
                 allowDepress: false
@@ -285,16 +258,15 @@ define([
             if (unit === 'pct') {
                 this.pctMode = true;
                 this.widthUnit = 'pct';
-                this.spnWidth.setDefaultUnit('%');
+                this.spnWidth.setDefaultUnit('');
                 this.spnWidth.setMinValue(1);
                 this.spnWidth.setMaxValue(100);
                 this.spnWidth.setStep(1);
             } else {
                 this.pctMode = false;
                 this.widthUnit = 'metric';
-                var metricName = Common.Utils.Metric.getCurrentMetricName();
                 var maxW = this.normMetric(Common.Utils.Metric.fnRecalcFromMM(this.colWidthMM));
-                this.spnWidth.setDefaultUnit(metricName);
+                this.spnWidth.setDefaultUnit('');
                 this.spnWidth.setMinValue(0);
                 this.spnWidth.setMaxValue(maxW);
                 this.spnWidth.setStep(Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
@@ -364,17 +336,18 @@ define([
             return props;
         },
 
-        textTitle:       'Horizontal Line Format',
+        textTitle:       'Horizontal line settings',
+        textSize:        'Size',
         textWidth:       'Width',
         textHeight:      'Height',
         textColor:       'Color',
-        textChkColor:    'Use a solid color',
+        textChkColor:    'Use solid color',
         textAlignment:   'Alignment',
         textAlignLeft:   'Left',
         textAlignCenter: 'Center',
         textAlignRight:  'Right',
-        textUnits:       'Units:',
-        textPct:         'Percent'
+        textPct:         '%',
+        textCm:          'cm'
 
     }, DE.Views.HorizontalLineSettings || {}));
 });
