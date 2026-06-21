@@ -3536,6 +3536,13 @@ define([], function () {
                 [_set.radar]:                  ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
                 [_set.radarMarker]:            ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
                 [_set.radarFilled]:            ['axes', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
+                [_set.funnel]:                 ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'legend'],
+                [_set.histogram]:              ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
+                [_set.waterfall]:              ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
+                [_set.boxWhisker]:             ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'gridLines', 'legend'],
+                [_set.sunburst]:               ['chartTitle', 'dataLabels', 'legend'],
+                [_set.treemap]:                ['chartTitle', 'dataLabels', 'legend'],
+                [_set.regionMap]:              ['chartTitle', 'dataLabels', 'legend'],
                 [_set.unknown]:                ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars']
             };
 
