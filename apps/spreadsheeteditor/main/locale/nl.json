@@ -3503,5 +3503,20 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Voer een wachtwoord in om de beveiliging voor het blad op te heffen",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Beveiliging van blad opheffen",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Voer een wachtwoord in om de beveiliging voor het werkboek op te heffen",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Beveiliging van werkboek opheffen"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Beveiliging van werkboek opheffen",
+  "Common.Controllers.Desktop.hintBtnHome": "Hoofdvenster tonen",
+  "Common.Controllers.ExternalLinks.textAddExternalData": "De koppeling naar een externe bron is toegevoegd. U kunt dergelijke koppelingen bijwerken op het tabblad Gegevens.",
+  "Common.Controllers.ExternalLinks.textUpdate": "Bijwerken",
+  "Common.Controllers.ExternalLinks.txtErrorExternalLink": "Fout: bijwerken is mislukt",
+  "Common.Controllers.ExternalLinks.warnUpdateExternalData": "Deze werkmap bevat koppelingen naar een of meer externe bronnen die mogelijk onveilig zijn.<br>Als u de koppelingen vertrouwt, werkt u ze bij om de meest recente gegevens op te halen.",
+  "Common.Controllers.ExternalLinks.warnUpdateExternalDataDE": "Dit document bevat koppelingen naar een of meer externe bronnen die mogelijk onveilig zijn.<br>Als u de koppelingen vertrouwt, werkt u ze bij om de meest recente gegevens op te halen.",
+  "Common.Controllers.ExternalLinks.warnUpdateExternalDataPE": "Deze presentatie bevat koppelingen naar een of meer externe bronnen die mogelijk onveilig zijn.<br>Als u de koppelingen vertrouwt, werkt u ze bij om de meest recente gegevens op te halen.",
+  "Common.Controllers.History.txtErrorLoadHistory": "Geschiedenis laden mislukt",
+  "Common.Controllers.Plugins.helpMoveMacros": "Om met macro's aan de slag te gaan, schakelt u over naar het tabblad Beeld.",
+  "Common.Controllers.Plugins.helpMoveMacrosHeader": "De verplaatste knop Macro's",
+  "Common.Controllers.Plugins.helpUseMacros": "De Macro’s button vind je hier",
+  "Common.Controllers.Plugins.helpUseMacrosHeader": "Bijgewerkte toegang tot macro's",
+  "Common.Controllers.Plugins.textPluginsSuccessfullyInstalled": "Plug-Ins zin. Succesvol geïnstalleerd. Je kunt alle achtergrond plug-ins hier benaderen.",
+  "Common.Controllers.Plugins.textRunInstalledPlugins": "Geïnstalleerde plug-ins uitvoeren",
+  "Common.Controllers.Plugins.textRunPlugin": "Plug-in uitvoeren"
 }
