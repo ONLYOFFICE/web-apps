@@ -1597,6 +1597,10 @@ define([
                 app.getController('DocumentHolder').applyEditorMode();
                 app.getController('LeftMenu').leftMenu.getMenu('file').applyMode();
                 callback && callback.call();
+
+                const selectedElements = this.api.getSelectedElements();
+                if (selectedElements.length > 0)
+                    toolbar.onApiFocusObject(selectedElements);
             },
 
             onPdfModeCoAuthApply: function() {
