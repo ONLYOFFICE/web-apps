@@ -309,8 +309,8 @@ define([
                 }
             } else {
                 target_pane_parent.css("display", "none" );
-                $(this.el).width(SCALE_MIN);
                 this.minimizedMode = true;
+                this.updateResizable();
                 Common.localStorage.setItem("sse-hide-right-settings", 1);
                 Common.Utils.InternalSettings.set("sse-hide-right-settings", true);
             }
@@ -349,13 +349,17 @@ define([
         clearSelection: function() {
             var target_pane = $(".right-panel");
             target_pane.find('.content-box > .active').removeClass('active');
-            this._settings.forEach(function(item){
-                if (item.btn.isActive())
-                    item.btn.toggle(false, true);
-            });
+            let btn = this.getPluginButtonPressed();
+            if(!btn) {
+                this._settings.forEach(function(item){
+                    if (item.btn.isActive())
+                        btn = item.btn;
+                });
+            }
+            btn && btn.toggle(false, true);
             target_pane.css("display", "none" );
-            $(this.el).width(SCALE_MIN);
             this.minimizedMode = true;
+            this.updateResizable();
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
         },
 
@@ -394,17 +398,21 @@ define([
         updateResizable: function() {
             const isPlugin = this.isPluginButtonPressed();
             const viewport = SSE.getController('Viewport').getView('Viewport');
-            viewport.hlayout.hideItemResizer('right', !isPlugin);
+            viewport.hlayout.hideItemResizer('right', this.minimizedMode || !isPlugin);
 
-            const widthFromStorage = Common.localStorage.getItem('sse-rightmenu-width') || PLUGIN_MENU_DEFAULT_WIDTH;
-            const oldWidth = this.$el.width();
-            if(isPlugin && widthFromStorage) {
-                this.$el.width(parseInt(widthFromStorage));
+            if(this.minimizedMode) {
+                $(this.el).width(SCALE_MIN);
             } else {
-                this.setInnerWidth(MENU_BASE_WIDTH);
-            }
-            if(oldWidth != this.$el.width()) {
-                Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+                const widthFromStorage = Common.localStorage.getItem('sse-rightmenu-width') || PLUGIN_MENU_DEFAULT_WIDTH;
+                const oldWidth = this.$el.width();
+                if(isPlugin && widthFromStorage) {
+                    this.$el.width(parseInt(widthFromStorage));
+                } else {
+                    this.setInnerWidth(MENU_BASE_WIDTH);
+                }
+                if(oldWidth != this.$el.width()) {
+                    Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+                }
             }
         },
 

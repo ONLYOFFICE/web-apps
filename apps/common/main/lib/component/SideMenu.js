@@ -289,6 +289,17 @@ define([
                 return pressed;
             },
 
+            getPluginButtonPressed: function () {
+                let button = null;
+                for (var i=0; i<this.buttons.length; i++) {
+                    if (this.buttons[i].options.type === 'plugin' && this.buttons[i].pressed) {
+                        button = this.buttons[i];
+                        break;
+                    }
+                }
+                return button;
+            },
+
             toggleActivePluginButton: function (toggle) {
                 for (var i=0; i<this.buttons.length; i++) {
                     if (this.buttons[i].options.type === 'plugin' && this.buttons[i].pressed) {
