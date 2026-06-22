@@ -1,7 +1,7 @@
 {
   "cancelButtonText": "Cancel",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Warning",
-  "Common.Controllers.Desktop.hintBtnHome": "Show Main window",
+  "Common.Controllers.Desktop.hintBtnHome": "Show main window",
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Create from template",
   "Common.Controllers.ExternalLinks.textAddExternalData": "The link to an external source has been added. You can update such links in the Data tab.",
   "Common.Controllers.ExternalLinks.textContinue": "Continue",
