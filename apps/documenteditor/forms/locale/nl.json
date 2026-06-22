@@ -209,5 +209,7 @@
   "DE.Views.ApplicationView.txtPrint": "Afdrukken",
   "DE.Views.ApplicationView.txtSearch": "Zoeken",
   "DE.Views.ApplicationView.txtShare": "Delen",
-  "DE.Views.ApplicationView.txtTheme": "Interfacethema"
+  "DE.Views.ApplicationView.txtTheme": "Interfacethema",
+  "DE.Controllers.ApplicationController.errorFileNotAssembled": "Dit bestand is geopend vanuit een back-upkopie op de server en is niet opgeslagen in de opslag.<br>Gebruik de optie 'Opslaan als...' om het op een schijf op te slaan.",
+  "DE.Controllers.ApplicationController.errorForcedViewMode": "Dit bestand is geopend in de weergavemodus.<br>Het bestand is vergrendeld voor bewerking of uw toegangsrechten staan bewerking niet toe."
 }
