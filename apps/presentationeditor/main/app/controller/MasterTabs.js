@@ -106,8 +106,46 @@ define([
                 this.api.asc_registerCallback('asc_onBody', this.onApiBody.bind(this));
                 this.api.asc_registerCallback('asc_onFocusObject', this.onApiFocusObject.bind(this));
                 this.api.asc_registerCallback('asc_onEndAddShape', this.onApiEndAddShape.bind(this));
+                this.api.asc_registerCallback('asc_onNotePageOrientation', this.onNotePageOrientation.bind(this));
+                this.api.asc_registerCallback('asc_onSlidesPerPage', this.onApiSlidesPerPage.bind(this));
+                this.api.asc_registerCallback('asc_onLockDocumentNoteProps', this.onLockDocumentNoteProps.bind(this));
+                this.api.asc_registerCallback('asc_onUnLockDocumentNoteProps', this.onUnLockDocumentNoteProps.bind(this));
             }
             return this;
+        },
+
+        onLockDocumentNoteProps: function () {
+            Common.Utils.lockControls(Common.enumLock.lockDocumentNoteProps, true, {
+                array: [
+                    this.handoutMaster.btnHandoutOrientation,
+                    this.notesMaster.btnNotesPageOrientation
+                ]
+            });
+        },
+
+        onUnLockDocumentNoteProps: function () {
+            Common.Utils.lockControls(Common.enumLock.lockDocumentNoteProps, false, {
+                array: [
+                    this.handoutMaster.btnHandoutOrientation,
+                    this.notesMaster.btnNotesPageOrientation
+                ]
+            });
+        },
+
+        onApiSlidesPerPage: function (slides) {
+            this.handoutMaster.btnSlidesPerPage.menu.items.forEach(function (item) {
+                if (item.value === slides) item.setChecked(true);
+            })
+        },
+
+        onNotePageOrientation: function (orientation) {
+            if (this.api.asc_IsHandoutMasterMode()) {
+                this.handoutMaster.btnHandoutOrientation.menu.items[0].setChecked(orientation === Asc.c_oAscPageOrientation.PagePortrait);
+                this.handoutMaster.btnHandoutOrientation.menu.items[1].setChecked(orientation === Asc.c_oAscPageOrientation.PageLandscape);
+            } else if (this.api.asc_IsNotesMasterMode()) {
+                this.notesMaster.btnNotesPageOrientation.menu.items[0].setChecked(orientation === Asc.c_oAscPageOrientation.PagePortrait);
+                this.notesMaster.btnNotesPageOrientation.menu.items[1].setChecked(orientation === Asc.c_oAscPageOrientation.PageLandscape);
+            }
         },
 
         onApiBody: function (status) {
@@ -226,11 +264,11 @@ define([
         },
 
         onHeaderChange: function (value) {
-            this.api.asc_setTitle(value);
+            this.api.asc_setHeader(value);
         },
 
         onSlidesPerPage: function (value) {
-            if (value < 10) this.api.asc_setHandoutPageCount(value)
+            this.api.asc_setHandoutPageCount(value)
         },
 
         onChangeHandoutOrientation: function (value) {

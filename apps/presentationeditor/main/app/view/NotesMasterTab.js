@@ -124,7 +124,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-notes-orient',
                         caption: this.capNotesPageOrientation,
-                        lock: [_set.menuFileOpen, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.menuFileOpen, _set.lostConnect, _set.disableOnStart, _set.lockDocumentNoteProps],
                         menu: new Common.UI.Menu({
                             items: [
                                 {value: 'portrait', caption: me.textPortrait, checkable: true, toggleGroup: 'notesorientation'},
@@ -138,7 +138,7 @@ define([
                     this.lockedControls.push(this.btnNotesPageOrientation);
 
                     this.chHeader = new Common.UI.CheckBox({
-                        // lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.inSlideMaster],
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         labelText: this.textHeader,
                         dataHint    : '1',
                         dataHintDirection: 'left',
@@ -147,7 +147,7 @@ define([
                     this.lockedControls.push(this.chHeader);
 
                     this.chDate = new Common.UI.CheckBox({
-                        // lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.inSlideMaster],
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         labelText: this.textDate,
                         dataHint    : '1',
                         dataHintDirection: 'left',
@@ -156,7 +156,7 @@ define([
                     this.lockedControls.push(this.chDate);
 
                     this.chFooter = new Common.UI.CheckBox({
-                        // lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.inSlideMaster],
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         labelText: this.textFooter,
                         dataHint    : '1',
                         dataHintDirection: 'left',
@@ -165,7 +165,7 @@ define([
                     this.lockedControls.push(this.chFooter);
 
                     this.chPageNumber = new Common.UI.CheckBox({
-                        // lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.inSlideMaster],
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         labelText: this.textPageNumber,
                         dataHint    : '1',
                         dataHintDirection: 'left',
@@ -174,7 +174,7 @@ define([
                     this.lockedControls.push(this.chPageNumber);
 
                     this.chSlideImage = new Common.UI.CheckBox({
-                        // lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.inSlideMaster],
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         labelText: this.textSlideImage,
                         dataHint    : '1',
                         dataHintDirection: 'left',
@@ -183,7 +183,7 @@ define([
                     this.lockedControls.push(this.chSlideImage);
 
                     this.chBody = new Common.UI.CheckBox({
-                        // lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.inSlideMaster],
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         labelText: this.textBody,
                         dataHint    : '1',
                         dataHintDirection: 'left',

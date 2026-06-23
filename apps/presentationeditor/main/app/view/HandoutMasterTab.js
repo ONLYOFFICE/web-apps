@@ -115,7 +115,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-handout-orient',
                         caption: this.capHandoutOrientation,
-                        lock: [_set.menuFileOpen, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.menuFileOpen, _set.lostConnect, _set.disableOnStart, _set.lockDocumentNoteProps],
                         menu: new Common.UI.Menu({
                             items: [
                                 {value: 'portrait', caption: me.textPortrait, checkable: true, toggleGroup: 'handoutorientation'},
@@ -139,12 +139,9 @@ define([
                                 {value: 2, caption: '2 ' + me.textSlides, checkable: true, toggleGroup: 'handoutslides'},
                                 {value: 3, caption: '3 ' + me.textSlides, checkable: true, toggleGroup: 'handoutslides'},
                                 {value: 4, caption: '4 ' + me.textSlides, checkable: true, toggleGroup: 'handoutslides'},
-                                {value: 5, caption: '5 ' + me.textSlides, checkable: true, toggleGroup: 'handoutslides'},
                                 {value: 6, caption: '6 ' + me.textSlides, checkable: true, toggleGroup: 'handoutslides'},
-                                {value: 7, caption: '7 ' + me.textSlides, checkable: true, toggleGroup: 'handoutslides'},
-                                {value: 8, caption: '8 ' + me.textSlides, checkable: true, toggleGroup: 'handoutslides'},
                                 {value: 9, caption: '9 ' + me.textSlides, checkable: true, toggleGroup: 'handoutslides'},
-                                {value: 10, caption: me.textSlideStructure, checkable: true, toggleGroup: 'handoutslides'},
+                                {value: -1, caption: me.textSlideStructure, checkable: true, toggleGroup: 'handoutslides'},
                             ]
                         }),
                         dataHint: '1',
@@ -154,7 +151,7 @@ define([
                     this.lockedControls.push(this.btnSlidesPerPage);
 
                     this.chHeader = new Common.UI.CheckBox({
-                        // lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.inSlideMaster],
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         labelText: this.textHeader,
                         dataHint    : '1',
                         dataHintDirection: 'left',
@@ -163,7 +160,7 @@ define([
                     this.lockedControls.push(this.chHeader);
 
                     this.chDate = new Common.UI.CheckBox({
-                        // lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.inSlideMaster],
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         labelText: this.textDate,
                         dataHint    : '1',
                         dataHintDirection: 'left',
@@ -172,7 +169,7 @@ define([
                     this.lockedControls.push(this.chDate);
 
                     this.chFooter = new Common.UI.CheckBox({
-                        // lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.inSlideMaster],
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         labelText: this.textFooter,
                         dataHint    : '1',
                         dataHintDirection: 'left',
@@ -181,7 +178,7 @@ define([
                     this.lockedControls.push(this.chFooter);
 
                     this.chPageNumber = new Common.UI.CheckBox({
-                        // lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.inSlideMaster],
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         labelText: this.textPageNumber,
                         dataHint    : '1',
                         dataHintDirection: 'left',
