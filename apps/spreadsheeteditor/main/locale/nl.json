@@ -3518,5 +3518,9 @@
   "Common.Controllers.Plugins.helpUseMacrosHeader": "Bijgewerkte toegang tot macro's",
   "Common.Controllers.Plugins.textPluginsSuccessfullyInstalled": "Plug-Ins zin. Succesvol geïnstalleerd. Je kunt alle achtergrond plug-ins hier benaderen.",
   "Common.Controllers.Plugins.textRunInstalledPlugins": "Geïnstalleerde plug-ins uitvoeren",
-  "Common.Controllers.Plugins.textRunPlugin": "Plug-in uitvoeren"
+  "Common.Controllers.Plugins.textRunPlugin": "Plug-in uitvoeren",
+  "Common.Controllers.Shortcuts.txtDescriptionEditRedo": "De laatste ongedaan gemaakte actie herhalen.",
+  "Common.Controllers.Shortcuts.txtDescriptionEditShape": "Wanneer de vorm is geselecteerd en geen inhoud bevat, inhoud aanmaken en de cursor naar het begin van de regel verplaatsen. Als de inhoud leeg is, de cursor erheen verplaatsen, anders de volledige inhoud selecteren.",
+  "Common.Controllers.Shortcuts.txtDescriptionEditUndo": "De laatste uitgevoerde actie ongedaan maken.",
+  "Common.Controllers.Shortcuts.txtDescriptionInsertHyperlink": "Een koppeling invoegen die kan worden gebruikt om naar een webadres te gaan."
 }
