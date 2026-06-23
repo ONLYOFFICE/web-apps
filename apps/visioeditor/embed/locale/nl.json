@@ -15,6 +15,8 @@
   "VE.ApplicationController.downloadTextText": "Document wordt gedownload...",
   "VE.ApplicationController.errorAccessDeny": "Je probeert een actie uit te voeren waarvoor je geen rechten hebt.<br>Neem contact op met de beheerder van je documentserver.",
   "VE.ApplicationController.errorCopyDisabled": "Om veiligheidsredenen kan de inhoud van dit document niet worden gekopieerd.",
+  "VE.ApplicationController.errorFileNotAssembled": "Dit bestand is geopend vanuit een back-upkopie op de server en is niet opgeslagen in de opslag.<br>Gebruik de optie 'Opslaan als...' om het op een schijf op te slaan.",
+  "VE.ApplicationController.errorForcedViewMode": "Dit bestand is geopend in de weergavemodus.<br>Het bestand is vergrendeld voor bewerking of uw toegangsrechten staan bewerking niet toe.",
   "VE.ApplicationController.errorDefaultMessage": "Foutcode: %1",
   "VE.ApplicationController.errorEditingDownloadas": "Er is een fout ontstaan tijdens het werken met het document.<br>Gebruik de 'Opslaan als' optie om het bestand als backup op te slaan op je computer.",
   "VE.ApplicationController.errorFilePassProtect": "Het bestand is beschermd met een wachtwoord en kan niet worden geopend.",

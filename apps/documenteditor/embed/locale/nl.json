@@ -15,6 +15,8 @@
   "DE.ApplicationController.downloadTextText": "Document wordt gedownload...",
   "DE.ApplicationController.errorAccessDeny": "U probeert een actie uit te voeren waarvoor u geen rechten hebt.<br>Neem alstublieft contact op met de beheerder van de documentserver.",
   "DE.ApplicationController.errorCopyDisabled": "Om veiligheidsredenen kan de inhoud van dit document niet worden gekopieerd.",
+  "DE.ApplicationController.errorFileNotAssembled": "Dit bestand is geopend vanuit een back-upkopie op de server en is niet opgeslagen in de opslag.<br>Gebruik de optie 'Opslaan als...' om het op een schijf op te slaan.",
+  "DE.ApplicationController.errorForcedViewMode": "Dit bestand is geopend in de weergavemodus.<br>Het bestand is vergrendeld voor bewerking of uw toegangsrechten staan bewerking niet toe.",
   "DE.ApplicationController.errorDefaultMessage": "Foutcode: %1",
   "DE.ApplicationController.errorEditingDownloadas": "Er is een fout ontstaan tijdens het werken met het document.<br>Gebruik de 'Opslaan als...' optie om het bestand als back-upkopie op te slaan op uw computer.",
   "DE.ApplicationController.errorFilePassProtect": "Het bestand is beschermd met een wachtwoord en kan niet worden geopend.",
