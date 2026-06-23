@@ -3086,7 +3086,6 @@ define([
                 }
                 this.masterTabsConfigSetted = true;
             } else if (mode === 'handout' && !this.toolbar.getTab('handoutMaster')) {
-                console.log('handout')
                 var tab = {caption: me.toolbar.textTabHandoutMaster, action: 'handoutMaster', extcls: me.appOptions.isEdit ? 'canedit' : '', layoutname: 'toolbar-handoutmaster', dataHintTitle: 'M'};
                 var handoutMasterTab = me.getApplication().getController('MasterTabs');
                 handoutMasterTab.setApi(me.api);
