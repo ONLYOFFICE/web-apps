@@ -1538,7 +1538,8 @@ define([
                 documentHolder.setMode(this.appOptions);
                 viewport.applyCommonMode();
 
-                if (this.appOptions.canPreviewPrint) {
+                // TODO: For test!
+                if (this.appOptions.canPreviewPrint || true) {
                     var printController = app.getController('Print');
                     printController && this.api && printController.setApi(this.api).setMode(this.appOptions);
                 }

@@ -44,6 +44,19 @@
 define([], function () {
     'use strict';
 
+    if (!Common.enumLock)
+    Common.enumLock = {};
+
+    var enumLock = {
+        fullPageSlidesActive: 'full-page-slides-active',
+        docNotePropsLock: 'doc-note-props-lock'
+    };
+    for (var key in enumLock) {
+        if (enumLock.hasOwnProperty(key)) {
+            Common.enumLock[key] = enumLock[key];
+        }
+    }
+
     !PE.Views.FileMenuPanels && (PE.Views.FileMenuPanels = {});
 
     PE.Views.FileMenuPanels.ViewSaveAs = Common.UI.BaseView.extend({
@@ -2153,10 +2166,16 @@ define([], function () {
                                         '<tr><td><%= scope.txtCopies %>:</td><td style="width: 100%;"><div id="print-txt-copies" class="padding-left-5" style="width: 60px;"></div></td></tr>',
                                         '</tr></tbody></table>',
                                     '</td></tr>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtSlidesOnPage %></label></td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-slides-on-page" style="width: 248px;"></div></td></tr>',
                                     '<tr><td><label class="font-weight-bold"><%= scope.txtPrintSides %></label></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-combo-sides" style="width: 248px;"></div></td></tr>',
                                     '<tr><td><label class="font-weight-bold"><%= scope.txtPaperSize %></label></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-combo-pages" style="width: 248px;"></div></td></tr>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtPageOrientation %></label></td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-combo-orient" style="width: 150px;"></div></td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-chb-slide-background"></div></td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-chb-hidden-slides"></div></td></tr>',
                                     '<tr class="header-settings"><td class="padding-large"><label id="print-header-footer-settings" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><span class="link"><%= scope.txtHeaderFooterSettings %></span></label></td></tr>',
                                     '<tr><td class="padding-large"><label id="print-btn-system-dialog" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><span class="link"><%= scope.txtPrintUsingSystemDialog %></span></label></td></tr>',
                                     '<tr class="fms-btn-apply"><td>',
@@ -2278,6 +2297,159 @@ define([], function () {
             this.cmbColorPrinting.setValue('black-and-white');
             this._colorPrinting = 'black-and-white';
 
+            this.cmbSlidesOnPage = new Common.UI.ComboBox({
+                el: $markup.findById('#print-slides-on-page'),
+                menuStyle: 'min-width: 248px;',
+                editable: false,
+                takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
+                cls: 'input-group-nr',
+                menuCls: 'shifted-right',
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<% if (item.divider) { %>',
+                            '<li class="divider"></li>',
+                        '<% } else if (item.title) { %>',
+                            '<li class="group-header"><label class="font-weight-bold padding-left-32"><%= item.title %></label></li>',
+                        '<% } else { %>',
+                            '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.disabled) { %> class="disabled" <% } %>>',
+                                '<a tabindex="-1" type="menuitem" class="<%= item.checked ? "checked" : "" %>">',
+                                    '<div style="position: relative;">',
+                                        '<div class="display-value"><%= item.displayValue %></div>',
+                                    '</div>',
+                                '</a>',
+                            '</li>',
+                        '<% } %>',
+                    '<% }); %>',
+                ].join('')),
+                data: [
+                    { title: this.txtPrintLayout },
+                    { displayValue: this.txtFullPageSlides, value: 1, printType: Asc.c_oAscSlidesOnPagePrintType.FullPageSlides },
+                    { displayValue:  this.txt1SlideWithNotes, value: 2, printType: Asc.c_oAscSlidesOnPagePrintType.SlideWithNotes },
+                    { displayValue: this.txtOutline, value: 3, printType: Asc.c_oAscSlidesOnPagePrintType.Outline },
+                    { divider: true },
+                    { title: this.txtHandouts },
+                    { 
+                        displayValue: this.txt1Slide, value: 4, printType: Asc.c_oAscSlidesOnPagePrintType.Handouts,
+                        slidesCount: 1, arrangmentType: Asc.c_oAscSlidesOnPageArrangmentType.Horizontal 
+                    },
+                    { 
+                        displayValue: this.txt2Slides, value: 5, printType: Asc.c_oAscSlidesOnPagePrintType.Handouts, 
+                        slidesCount: 2, arrangmentType: Asc.c_oAscSlidesOnPageArrangmentType.Horizontal 
+                    },
+                    { 
+                        displayValue: this.txt3Slides, value: 6, printType: Asc.c_oAscSlidesOnPagePrintType.Handouts, 
+                        slidesCount: 3, arrangmentType: Asc.c_oAscSlidesOnPageArrangmentType.Horizontal 
+                    },
+                    { 
+                        displayValue: this.txt4SlidesHorizontal, value: 7, printType: Asc.c_oAscSlidesOnPagePrintType.Handouts,
+                        slidesCount: 4, arrangmentType: Asc.c_oAscSlidesOnPageArrangmentType.Horizontal 
+                    },
+                    { 
+                        displayValue: this.txt4SlidesVertical, value: 8, printType: Asc.c_oAscSlidesOnPagePrintType.Handouts, 
+                        slidesCount: 4, arrangmentType: Asc.c_oAscSlidesOnPageArrangmentType.Vertical 
+                    },
+                    { 
+                        displayValue: this.txt6SlidesHorizontal, value: 9, printType: Asc.c_oAscSlidesOnPagePrintType.Handouts,
+                        slidesCount: 6, arrangmentType: Asc.c_oAscSlidesOnPageArrangmentType.Horizontal 
+                    },
+                    { 
+                        displayValue: this.txt6SlidesVertical, value: 10, printType: Asc.c_oAscSlidesOnPagePrintType.Handouts,
+                        slidesCount: 6, arrangmentType: Asc.c_oAscSlidesOnPageArrangmentType.Vertical 
+                    },
+                    { 
+                        displayValue: this.txt9SlidesHorizontal, value: 11, printType: Asc.c_oAscSlidesOnPagePrintType.Handouts,
+                        slidesCount: 9, arrangmentType: Asc.c_oAscSlidesOnPageArrangmentType.Horizontal 
+                    },
+                    { 
+                        displayValue: this.txt9SlidesVertical, value: 12, printType: Asc.c_oAscSlidesOnPagePrintType.Handouts,
+                        slidesCount: 9, arrangmentType: Asc.c_oAscSlidesOnPageArrangmentType.Vertical 
+                    },
+                    { divider: true },
+                    { 
+                        displayValue: this.txtPrintSlideNumbersOnHandouts, value: 'isPrintSlideNumbersOnHandouts', 
+                        checkable: true, checked: true, disabled: true
+                    },
+                    { 
+                        displayValue: this.txtFrameSlides, value: 'isFrameSlides', 
+                        checkable: true, checked: false
+                    },
+                    { 
+                        displayValue: this.txtScaleToFitPaper, value: 'isScaleToFitPaper', 
+                        checkable: true, checked: true 
+                    },
+                    { 
+                        displayValue: this.txtPrintComments, value: 'isPrintComments', 
+                        checkable: true, checked: false
+                    }
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbSlidesOnPage.$el.find('.dropdown-menu li').on('click', function(e) {
+                const cmb = me.cmbSlidesOnPage;
+                const $el = $(e.target).closest('li');
+                const selectedItem = cmb.store.findWhere({
+                    id: $el.attr('id')
+                });
+
+                if(!selectedItem) {
+                    e.stopPropagation();
+                    return;
+                }
+
+                if(selectedItem.get('disabled')) {
+                    e.stopPropagation();
+                    return;
+                }
+
+                if(selectedItem.get('checkable')) {
+                    // const $selectedMenuItem = cmb.$el.find('li.selected [type="menuitem"]');
+                    // $selectedMenuItem && $selectedMenuItem.focus();
+                    
+                    cmb.trigger('checked', cmb, _.extend({}, selectedItem.toJSON()), e);
+                    e.stopPropagation();
+                }
+            });
+            this.cmbSlidesOnPage.on('checked', function(combo, record) {
+                const item = combo.store.findWhere({value: record.value});
+                record.checked = !record.checked;
+                item && item.set('checked', record.checked);
+                combo.cmpEl.find('#' + record.id + ' a').toggleClass('checked', record.checked);
+                combo.setValue(me._slidesOnPage);
+                this.trigger('change:option', combo, record);
+            });
+            this.cmbSlidesOnPage.on('selected', function(combo, record) {
+                const itemNumbersOnHandouts = combo.store.findWhere({value: 'isPrintSlideNumbersOnHandouts'});
+                if(itemNumbersOnHandouts && record.printType) {
+                    const disabled = record.printType != Asc.c_oAscSlidesOnPagePrintType.Handouts;
+                    itemNumbersOnHandouts.set('disabled', disabled);
+                    
+                    const $el = combo.cmpEl.find('#' + itemNumbersOnHandouts.get('id')); 
+                    $el.toggleClass('disabled', disabled);
+                }
+
+                Common.Utils.lockControls(
+                    Common.enumLock.fullPageSlidesActive, 
+                    record.printType == Asc.c_oAscSlidesOnPagePrintType.FullPageSlides, 
+                    {array: [me.cmbPaperOrientation]}
+                );
+
+                me._slidesOnPage = combo.getValue();
+                this.trigger('change:type', combo, record);
+            });
+            this.cmbSlidesOnPage.getCheckedState = function() {
+                const result = {};
+                me.cmbSlidesOnPage.store.each(function(item) {
+                    if(!item.get('checkable')) return;
+                    result[item.get('value')] = !!item.get('checked')
+                });
+                return result;
+            };
+            this.cmbSlidesOnPage.setValue(1);
+            this._slidesOnPage = this.cmbSlidesOnPage.getValue();
+
             this.cmbRange = new Common.UI.ComboBox({
                 el: $markup.findById('#print-combo-range'),
                 menuStyle: 'min-width: 248px;max-height: 280px;',
@@ -2390,6 +2562,7 @@ define([], function () {
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big',
+                lock: [Common.enumLock.docNotePropsLock],
                 updateFormControl: function (record, customValue){
                     var formcontrol = $(this.el).find('.form-control');
                     if (record || customValue) {
@@ -2411,6 +2584,42 @@ define([], function () {
                 }
             });
             this.cmbPaperSize.setValue(2);
+
+            this.cmbPaperOrientation = new Common.UI.ComboBox({
+                el          : $markup.findById('#print-combo-orient'),
+                menuStyle   : 'min-width: 150px;',
+                editable    : false,
+                takeFocusOnClose: true,
+                restoreMenuHeightAndTop: true,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: Asc.c_oAscPageOrientation.PagePortrait, displayValue: this.txtPortrait },
+                    { value: Asc.c_oAscPageOrientation.PageLandscape, displayValue: this.txtLandscape }
+                ],
+                lock: [Common.enumLock.fullPageSlidesActive, Common.enumLock.docNotePropsLock],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbPaperOrientation.setValue(Asc.c_oAscPageOrientation.PagePortrait);
+
+            this.chSlideBackground = new Common.UI.CheckBox({
+                el: $markup.findById('#print-chb-slide-background'),
+                labelText: this.txtPrintSlideBackground,
+                value: true,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.chHiddenSlides = new Common.UI.CheckBox({
+                el: $markup.findById('#print-chb-hidden-slides'),
+                labelText: this.txtPrintHiddenSlides,
+                value: true,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
 
             this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
             this.pnlTable = $(this.pnlSettings.find('table')[0]);
@@ -2489,6 +2698,8 @@ define([], function () {
             this.updateMetricUnit();
 
             this.fireEvent('render:after', this);
+
+            this.cmbSlidesOnPage.trigger('selected', this.cmbSlidesOnPage, this.cmbSlidesOnPage.getSelectedRecord());
 
             return this;
         },
@@ -2745,6 +2956,30 @@ define([], function () {
         txtPages: 'Slides',
         txtPaperSize: 'Paper size',
         txtCopies: 'Copies',
+        txtSlidesOnPage: 'Slides on Page',
+        txtPrintSlideBackground: 'Print slide background',
+        txtPrintHiddenSlides: 'Print hidden slides',
+        txtPageOrientation: 'Page orientation',
+        txtPortrait: 'Portrait',
+        txtLandscape: 'Landscape',
+        txtPrintLayout: 'Print Layout',
+        txtFullPageSlides: 'Full Page Slides',
+        txt1SlideWithNotes: '1 Slide with Notes',
+        txtOutline: 'Outline',
+        txtHandouts: 'Handouts',
+        txt1Slide: '1 Slide',
+        txt2Slides: '2 Slides',
+        txt3Slides: '3 Slides',
+        txt4SlidesHorizontal: '4 Slides Horizontal',
+        txt4SlidesVertical: '4 Slides Vertical',
+        txt6SlidesHorizontal: '6 Slides Horizontal',
+        txt6SlidesVertical: '6 Slides Vertical',
+        txt9SlidesHorizontal: '9 Slides Horizontal',
+        txt9SlidesVertical: '9 Slides Vertical',
+        txtPrintSlideNumbersOnHandouts: 'Print slide numbers on handouts',
+        txtFrameSlides: 'Frame Slides',
+        txtScaleToFitPaper: 'Scale to fit Paper',
+        txtPrintComments: 'Print comments',
         txtPrintSides: 'Print sides',
         txtOneSide: 'Print one sided',
         txtOneSideDesc: 'Only print on one side of the page',
