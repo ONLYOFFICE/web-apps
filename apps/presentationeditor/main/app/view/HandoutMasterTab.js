@@ -135,12 +135,12 @@ define([
                         lock: [_set.menuFileOpen, _set.lostConnect, _set.disableOnStart],
                         menu: new Common.UI.Menu({
                             items: [
-                                {value: 1, caption: '1 ' + me.textSlide, checkable: true, toggleGroup: 'handoutslides'},
-                                {value: 2, caption: '2 ' + me.textSlides, checkable: true, toggleGroup: 'handoutslides'},
-                                {value: 3, caption: '3 ' + me.textSlides, checkable: true, toggleGroup: 'handoutslides'},
-                                {value: 4, caption: '4 ' + me.textSlides, checkable: true, toggleGroup: 'handoutslides'},
-                                {value: 6, caption: '6 ' + me.textSlides, checkable: true, toggleGroup: 'handoutslides'},
-                                {value: 9, caption: '9 ' + me.textSlides, checkable: true, toggleGroup: 'handoutslides'},
+                                {value: 1, caption: '1 ' + me.textOneSlide, checkable: true, toggleGroup: 'handoutslides'},
+                                {value: 2, caption: '2 ' + me.textFewSlides, checkable: true, toggleGroup: 'handoutslides'},
+                                {value: 3, caption: '3 ' + me.textFewSlides, checkable: true, toggleGroup: 'handoutslides'},
+                                {value: 4, caption: '4 ' + me.textFewSlides, checkable: true, toggleGroup: 'handoutslides'},
+                                {value: 6, caption: '6 ' + me.textManySlides, checkable: true, toggleGroup: 'handoutslides'},
+                                {value: 9, caption: '9 ' + me.textManySlides, checkable: true, toggleGroup: 'handoutslides'},
                                 {value: -1, caption: me.textSlideStructure, checkable: true, toggleGroup: 'handoutslides'},
                             ]
                         }),
