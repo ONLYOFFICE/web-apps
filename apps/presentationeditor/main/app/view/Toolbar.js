@@ -107,6 +107,7 @@ define([
         noParagraphObject:  'no-paragraph-obj',
         inSlideMaster: 'in-slide-master',
         slideMasterMode: 'slide-master-mode',
+        lockDocumentNoteProps: 'lock-document-note-props',
         cantMergeShape: 'merge-shape-lock',
         cantSave: 'cant-save',
         macrosStopped: 'macros-stopped'

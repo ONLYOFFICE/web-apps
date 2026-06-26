@@ -51,7 +51,11 @@ define([
             '<section class="panel" data-tab="view" role="tabpanel" aria-labelledby="view">' +
                 '<div class="group">' +
                     '<span class="btn-slot text x-huge" id="slot-btn-normal"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-outline-view"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-notes-page"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-slide-master"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-handout-master"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-notes-master"></span>' +
                 '</div>' +
                 '<div class="separator long"></div>' +
                 '<div class="group">' +
@@ -130,8 +134,20 @@ define([
                 me.btnNormal && me.btnNormal.on('toggle', _.bind(function(btn, state) {
                     me.fireEvent('mode:normal', [state]);
                 }, me));
+                me.btnOutlineView && me.btnOutlineView.on('toggle', _.bind(function(btn, state) {
+                    me.fireEvent('mode:outline', [state]);
+                }, me));
+                me.btnNotesPage && me.btnNotesPage.on('toggle', _.bind(function(btn, state) {
+                    me.fireEvent('mode:notespage', [state]);
+                }, me));
                 me.btnSlideMaster && me.btnSlideMaster.on('toggle', _.bind(function(btn, state) {
                     me.fireEvent('mode:master', [state]);
+                }, me));
+                me.btnHandoutMaster && me.btnHandoutMaster.on('toggle', _.bind(function(btn, state) {
+                    me.fireEvent('mode:handoutmaster', [state]);
+                }, me));
+                me.btnNotesMaster && me.btnNotesMaster.on('toggle', _.bind(function(btn, state) {
+                    me.fireEvent('mode:notesmaster', [state]);
                 }, me));
                 me.btnFitToSlide && me.btnFitToSlide.on('click', function () {
                     me.fireEvent('zoom:toslide', [me.btnFitToSlide]);
@@ -245,6 +261,34 @@ define([
                     });
                     this.lockedControls.push(this.btnNormal);
 
+                    this.btnOutlineView = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-outline-view',
+                        caption: this.textOutlineView,
+                        lock: [_set.disableOnStart],
+                        enableToggle: true,
+                        allowDepress: true,
+                        pressed: false,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.lockedControls.push(this.btnOutlineView);
+
+                    this.btnNotesPage = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-notes-page',
+                        caption: this.textNotesPage,
+                        lock: [_set.disableOnStart],
+                        enableToggle: true,
+                        allowDepress: true,
+                        pressed: false,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.lockedControls.push(this.btnNotesPage);
+
                     this.btnSlideMaster = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-slide-master',
@@ -258,6 +302,34 @@ define([
                         dataHintOffset: 'small'
                     });
                     this.lockedControls.push(this.btnSlideMaster);
+
+                    this.btnHandoutMaster = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-handout-master',
+                        caption: this.textHandoutMaster,
+                        lock: [_set.disableOnStart],
+                        enableToggle: true,
+                        allowDepress: true,
+                        pressed: false,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.lockedControls.push(this.btnHandoutMaster);
+
+                    this.btnNotesMaster = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-notes-master',
+                        caption: this.textNotesMaster,
+                        lock: [_set.disableOnStart],
+                        enableToggle: true,
+                        allowDepress: true,
+                        pressed: false,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.lockedControls.push(this.btnNotesMaster);
                 }
                 this.cmbZoom = new Common.UI.ComboBox({
                     cls: 'input-group-nr',
@@ -497,7 +569,11 @@ define([
                 var $host = this.$el;
 
                 this.btnNormal && this.btnNormal.render($host.find('#slot-btn-normal'));
+                this.btnOutlineView && this.btnOutlineView.render($host.find('#slot-btn-outline-view'));
+                this.btnNotesPage && this.btnNotesPage.render($host.find('#slot-btn-notes-page'));
                 this.btnSlideMaster && this.btnSlideMaster.render($host.find('#slot-btn-slide-master'));
+                this.btnHandoutMaster && this.btnHandoutMaster.render($host.find('#slot-btn-handout-master'));
+                this.btnNotesMaster && this.btnNotesMaster.render($host.find('#slot-btn-notes-master'));
                 this.cmbZoom.render($host.find('#slot-field-zoom'));
                 $host.find('#slot-lbl-zoom').text(this.textZoom);
                 this.btnFitToSlide.render($host.find('#slot-btn-fts'));
@@ -526,7 +602,11 @@ define([
                     accept();
                 })).then(function () {
                     me.btnNormal && me.btnNormal.updateHint(me.tipNormal);
+                    me.btnOutlineView && me.btnOutlineView.updateHint(me.tipOutlineView);
+                    me.btnNotesPage && me.btnNotesPage.updateHint(me.tipNotesPage);
                     me.btnSlideMaster && me.btnSlideMaster.updateHint(me.tipSlideMaster);
+                    me.btnHandoutMaster && me.btnHandoutMaster.updateHint(me.tipHandoutMaster);
+                    me.btnNotesMaster && me.btnNotesMaster.updateHint(me.tipNotesMaster);
                     me.btnFitToSlide.updateHint(me.tipFitToSlide);
                     me.btnFitToWidth.updateHint(me.tipFitToWidth);
                     me.btnInterfaceTheme.updateHint(me.tipInterfaceTheme);

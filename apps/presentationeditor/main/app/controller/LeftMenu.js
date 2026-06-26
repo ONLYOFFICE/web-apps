@@ -880,12 +880,12 @@ define([
         },
 
         onChangeViewMode: function (mode) {
-            if (mode === 'master') {
+            if (mode === 'master' || mode === 'handout' || mode === 'notes') {
                 if (this.leftMenu.btnComments && this.leftMenu.btnComments.pressed) {
                     this.leftMenu.close();
                 }
             }
-            this.leftMenu.btnComments.setDisabled(mode === 'master');
+            this.leftMenu.btnComments.setDisabled(mode === 'master' || mode === 'handout' || mode === 'notes');
         },
 
         textNoTextFound         : 'Text not found',

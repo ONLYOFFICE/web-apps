@@ -205,7 +205,8 @@ define([
                 },
                 'ViewTab': {
                     'toolbar:setcompact': this.onChangeCompactView.bind(this),
-                    'viewmode:change': this.onChangeViewMode.bind(this)
+                    'viewmode:change': this.onChangeViewMode.bind(this),
+                    'mastertab:create': this.onCreateMasterTabs.bind(this)
                 },
                 'Common.Views.ChartTab': {
                     'add:chart': this.onSelectChart.bind(this)
@@ -2792,19 +2793,6 @@ define([
                 animationController.setApi(me.api).setConfig({toolbar: me,mode:config}).createToolbarPanel();
                 Array.prototype.push.apply(me.toolbar.slideOnlyControls,animationController.getView().getButtons());
 
-                tab = {caption: me.toolbar.textTabSlideMaster, action: 'slideMaster', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-slidemaster', dataHintTitle: 'M'};
-                var slideMasterTab = me.getApplication().getController('SlideMasterTab');
-                slideMasterTab.setApi(me.api).setConfig({toolbar: me, mode: config});
-                $panel = slideMasterTab.createToolbarPanel();
-                if ($panel) {
-                    var visible = Common.UI.LayoutManager.isElementVisible('toolbar-slidemaster');
-                    me.toolbar.addTab(tab, $panel, 6);
-                    me.toolbar.setVisible('slideMaster', !visible);
-                    !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
-                    Array.prototype.push.apply(me.toolbar.lockControls, slideMasterTab.getView('SlideMasterTab').getButtons());
-                    Array.prototype.push.apply(me.toolbar.slideOnlyControls, slideMasterTab.getView('SlideMasterTab').getButtons());
-                }
-
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
                 if (!config.compactHeader) {
@@ -3039,22 +3027,91 @@ define([
 
         onChangeViewMode: function (mode) { // master or normal
             var isMaster = mode==='master';
+            var isHandout = mode === 'handout';
+            var isNotes = mode === 'notes'
             this.toolbar.$el.find('.master-slide-mode')[isMaster?'show':'hide']();
             this.toolbar.$el.find('.normal-mode')[!isMaster?'show':'hide']();
-            this.toolbar.lockToolbar(Common.enumLock.slideMasterMode, isMaster, { array:  this.btnsComment.concat([this.toolbar.btnInsertHyperlink]) });
+            this.toolbar.lockToolbar(Common.enumLock.slideMasterMode, isMaster || isHandout || isNotes, { array:  this.btnsComment.concat([this.toolbar.btnInsertHyperlink]) });
 
             this._state.viewMode = mode;
             if (isMaster) {
+                Common.NotificationCenter.trigger('tab:visible', 'handoutMaster', false);
+                Common.NotificationCenter.trigger('tab:visible', 'notesMaster', false);
                 Common.NotificationCenter.trigger('tab:visible', 'slideMaster', true);
                 this.toolbar.setTab('slideMaster');
+            } else if (isHandout) {
+                Common.NotificationCenter.trigger('tab:visible', 'slideMaster', false);
+                Common.NotificationCenter.trigger('tab:visible', 'notesMaster', false);
+                Common.NotificationCenter.trigger('tab:visible', 'handoutMaster', true);
+                this.toolbar.setTab('handoutMaster');
+            } else if (isNotes) {
+                Common.NotificationCenter.trigger('tab:visible', 'slideMaster', false);
+                Common.NotificationCenter.trigger('tab:visible', 'handoutMaster', false);
+                Common.NotificationCenter.trigger('tab:visible', 'notesMaster', true);
+                this.toolbar.setTab('notesMaster');
             } else {
                 Common.NotificationCenter.trigger('tab:visible', 'slideMaster', false);
+                Common.NotificationCenter.trigger('tab:visible', 'handoutMaster', false);
+                Common.NotificationCenter.trigger('tab:visible', 'notesMaster', false);
                 this.toolbar.setTab('home');
                 this.showStaticElements();
             }
 
-            Common.NotificationCenter.trigger('tab:visible', 'transit', !isMaster);
-            Common.NotificationCenter.trigger('tab:visible', 'animate', !isMaster);
+            Common.NotificationCenter.trigger('tab:visible', 'transit', !isMaster && !isHandout && !isNotes);
+            Common.NotificationCenter.trigger('tab:visible', 'animate', !isMaster && !isHandout && !isNotes);
+        },
+
+        onCreateMasterTabs: function(mode) {
+            var me = this;
+            var editmode = me.appOptions.isEdit,
+                compactview = !editmode;
+
+            if (mode === 'master' && !this.toolbar.getTab('slideMaster')) {
+                tab = {caption: me.toolbar.textTabSlideMaster, action: 'slideMaster', extcls: me.appOptions.isEdit ? 'canedit' : '', layoutname: 'toolbar-slidemaster', dataHintTitle: 'M'};
+                var slideMasterTab = me.getApplication().getController('MasterTabs');
+                slideMasterTab.setApi(me.api);
+                !this.masterTabsConfigSetted && slideMasterTab.setConfig({toolbar: me, mode: me.appOptions});
+                $panel = slideMasterTab.createToolbarPanel();
+                if ($panel) {
+                    var visible = Common.UI.LayoutManager.isElementVisible('toolbar-slidemaster');
+                    me.toolbar.addTab(tab, $panel, 6);
+                    me.toolbar.setVisible('slideMaster', !visible);
+                    !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
+                    Array.prototype.push.apply(me.toolbar.lockControls, slideMasterTab.getView('SlideMasterTab').getButtons());
+                    Array.prototype.push.apply(me.toolbar.slideOnlyControls, slideMasterTab.getView('SlideMasterTab').getButtons());
+                }
+                this.masterTabsConfigSetted = true;
+            } else if (mode === 'handout' && !this.toolbar.getTab('handoutMaster')) {
+                var tab = {caption: me.toolbar.textTabHandoutMaster, action: 'handoutMaster', extcls: me.appOptions.isEdit ? 'canedit' : '', layoutname: 'toolbar-handoutmaster', dataHintTitle: 'M'};
+                var handoutMasterTab = me.getApplication().getController('MasterTabs');
+                handoutMasterTab.setApi(me.api);
+                !this.masterTabsConfigSetted && handoutMasterTab.setConfig({toolbar: me, mode: me.appOptions});
+                var $panel = handoutMasterTab.createToolbarPanel('handout');
+                if ($panel) {
+                    var visible = Common.UI.LayoutManager.isElementVisible('toolbar-handoutmaster');
+                    me.toolbar.addTab(tab, $panel, 6);
+                    me.toolbar.setVisible('handoutMaster', !visible);
+                    !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
+                    Array.prototype.push.apply(me.toolbar.lockControls, handoutMasterTab.getView('HandoutMasterTab').getButtons());
+                    Array.prototype.push.apply(me.toolbar.slideOnlyControls, handoutMasterTab.getView('HandoutMasterTab').getButtons());
+                }
+                this.masterTabsConfigSetted = true;
+            } else if (mode === 'notes' && !this.toolbar.getTab('notesMaster')) {
+                var tab = {caption: me.toolbar.textTabNotesMaster, action: 'notesMaster', extcls: me.appOptions.isEdit ? 'canedit' : '', layoutname: 'toolbar-notesmaster', dataHintTitle: 'M'};
+                var notesMasterTab = me.getApplication().getController('MasterTabs');
+                notesMasterTab.setApi(me.api);
+                !this.masterTabsConfigSetted && notesMasterTab.setConfig({toolbar: me, mode: me.appOptions});
+                var $panel = notesMasterTab.createToolbarPanel('notes');
+                if ($panel) {
+                    var visible = Common.UI.LayoutManager.isElementVisible('toolbar-notesmaster');
+                    me.toolbar.addTab(tab, $panel, 6);
+                    me.toolbar.setVisible('notesMaster', !visible);
+                    !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
+                    Array.prototype.push.apply(me.toolbar.lockControls, notesMasterTab.getView('NotesMasterTab').getButtons());
+                    Array.prototype.push.apply(me.toolbar.slideOnlyControls, notesMasterTab.getView('NotesMasterTab').getButtons());
+                }
+                this.masterTabsConfigSetted = true;
+            }
         },
 
         onActiveTab: function(tab) {

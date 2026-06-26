@@ -49,25 +49,25 @@ define([
     PE.Views.SlideMasterTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
             '<section class="panel" data-tab="slideMaster" role="tabpanel" aria-labelledby="view">' +
-            '<div class="group">' +
-            '<span class="btn-slot text x-huge" id="id-toolbar-btn-add-slide-master"></span>' +
-            '<span class="btn-slot text x-huge" id="id-toolbar-btn-add-layout"></span>' +
-            '</div>' +
-            '<div class="separator long"></div>' +
-            '<div class="group master-slide-mode">' +
-            '<span class="btn-slot text x-huge" id="tlbtn-insertplaceholder"></span>' +
-            '</div>' +
-            '<div class="group master-slide-mode">' +
-            '<div class="elset">' +
-            '<span class="btn-slot text x-huge" id="slot-chk-title"></span>' +
-            '</div>' +
-            '<div class="elset">' +
-            '<span class="btn-slot text x-huge" id="slot-chk-footers"></span>' +
-            '</div>' +
-            '</div>' +
-            '<div class="group master-slide-mode">' +
-            '<span class="btn-slot text x-huge" id="slot-btn-closeslidemaster"></span>' +
-            '</div>' +
+                '<div class="group">' +
+                    '<span class="btn-slot text x-huge" id="id-toolbar-btn-add-slide-master"></span>' +
+                    '<span class="btn-slot text x-huge" id="id-toolbar-btn-add-layout"></span>' +
+                '</div>' +
+                '<div class="separator long"></div>' +
+                '<div class="group master-slide-mode">' +
+                    '<span class="btn-slot text x-huge" id="tlbtn-insertplaceholder"></span>' +
+                '</div>' +
+                '<div class="group master-slide-mode">' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text x-huge" id="slot-chk-title"></span>' +
+                    '</div>' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text x-huge" id="slot-chk-footers"></span>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="group master-slide-mode">' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-closeslidemaster"></span>' +
+                '</div>' +
             '</section>';
         return {
             options: {},
@@ -256,6 +256,7 @@ define([
             getPanel: function () {
                 this.$el = $(_.template(template)( {} ));
                 var $host = this.$el;
+                this.setEvents();
 
                 this.btnAddLayout && this.btnAddLayout.render($host.find('#id-toolbar-btn-add-layout'));
                 this.btnInsertPlaceholder && this.btnInsertPlaceholder.render($host.find('#tlbtn-insertplaceholder'))
@@ -264,6 +265,11 @@ define([
                 this.chFooters && this.chFooters.render($host.find('#slot-chk-footers'));
                 this.btnCloseSlideMaster && this.btnCloseSlideMaster.render($host.find('#slot-btn-closeslidemaster'));
                 $host.find('#slot-lbl-zoom').text(this.textZoom);
+
+                this.btnAddLayout && this.btnAddLayout.updateHint(this.tipAddLayout);
+                this.btnAddSlideMaster && this.btnAddSlideMaster.updateHint(this.tipAddSlideMaster);
+                this.btnInsertPlaceholder && this.btnInsertPlaceholder.updateHint(this.tipInsertPlaceholder);
+                this.btnCloseSlideMaster && this.btnCloseSlideMaster.updateHint(this.tipCloseMaster)
                 return this.$el;
             },
 
@@ -272,12 +278,6 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function () {
-                    me.btnAddLayout && me.btnAddLayout.updateHint(me.tipAddLayout);
-                    me.btnAddSlideMaster && me.btnAddSlideMaster.updateHint(me.tipAddSlideMaster);
-                    me.btnInsertPlaceholder && me.btnInsertPlaceholder.updateHint(me.tipInsertPlaceholder);
-                    me.btnCloseSlideMaster && me.btnCloseSlideMaster.updateHint(me.tipCloseMaster)
-
-                    me.setEvents();
                 });
             },
 
