@@ -613,8 +613,6 @@ define([
                     this.mode.canPrint = this.mode.canDownload = false;
             } else {
                 this.mode = mode;
-                // TODO: For test!
-                this.mode.canPreviewPrint = true;
             }
 
             if (!delay) {

@@ -146,8 +146,8 @@ define([
             this.printSettings.chSlideBackground.on('change', this.onChangeSlideBackground.bind(this));
             this.printSettings.chHiddenSlides.on('change', this.onChangeHiddenSlides.bind(this));
             this._changedProps.slidePrintOptions = {
-                isPrintSlideBackground: this.printSettings.chSlideBackground.getValue(),
-                isPrintHiddenSlides: this.printSettings.chHiddenSlides.getValue()
+                isPrintSlideBackground: this.printSettings.chSlideBackground.getValue() == 'checked',
+                isPrintHiddenSlides: this.printSettings.chHiddenSlides.getValue() == 'checked'
             };
 
             const sizeRec = this.printSettings.cmbPaperSize.getSelectedRecord();
