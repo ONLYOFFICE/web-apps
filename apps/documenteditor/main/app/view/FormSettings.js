@@ -1612,7 +1612,7 @@ define([
                     var disableSliders = this._state.scaleFlag === Asc.c_oAscPictureFormScaleFlag.Always && !this._state.Aspect || this._state.DisabledControls;
                     this.sldrPreviewPositionX.setDisabled(disableSliders);
                     this.sldrPreviewPositionY.setDisabled(disableSliders);
-                    this.chRequired.setDisabled(isSignature || this._state.DisabledControls);
+                    this.chRequired.setDisabled(this._state.DisabledControls);
                 }
 
                 var formTextPr = props.get_TextFormPr();
@@ -1841,7 +1841,7 @@ define([
             this.sldrPreviewPositionY.setDisabled(disableSliders || this._state.DisabledControls);
             this.btnListAdd.setDisabled(this.txtNewValue.length<1 || this._state.DisabledControls);
             this.btnLockForm.setDisabled(disable);
-            this.chRequired.setDisabled(this.isSignature || this._state.DisabledControls);
+            this.chRequired.setDisabled(this._state.DisabledControls);
         },
 
         showHideControls: function(type, textProps, specProps, isSimpleInsideComplex, isSignature) {
