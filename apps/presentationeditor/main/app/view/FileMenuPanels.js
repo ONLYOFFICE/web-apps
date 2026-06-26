@@ -2331,39 +2331,39 @@ define([], function () {
                     { title: this.txtHandouts },
                     { 
                         displayValue: this.txt1Slide, value: 4, printType: Asc.c_oAscSlidesOnPagePrintType.Handouts,
-                        slidesCount: 1, arrangmentType: Asc.c_oAscSlidesOnPageArrangmentType.Horizontal 
+                        slidesCount: 1, arrangmentType: Asc.c_oAscSlidesOnPageArrangementType.Horizontal 
                     },
                     { 
                         displayValue: this.txt2Slides, value: 5, printType: Asc.c_oAscSlidesOnPagePrintType.Handouts, 
-                        slidesCount: 2, arrangmentType: Asc.c_oAscSlidesOnPageArrangmentType.Horizontal 
+                        slidesCount: 2, arrangmentType: Asc.c_oAscSlidesOnPageArrangementType.Horizontal 
                     },
                     { 
                         displayValue: this.txt3Slides, value: 6, printType: Asc.c_oAscSlidesOnPagePrintType.Handouts, 
-                        slidesCount: 3, arrangmentType: Asc.c_oAscSlidesOnPageArrangmentType.Horizontal 
+                        slidesCount: 3, arrangmentType: Asc.c_oAscSlidesOnPageArrangementType.Horizontal 
                     },
                     { 
                         displayValue: this.txt4SlidesHorizontal, value: 7, printType: Asc.c_oAscSlidesOnPagePrintType.Handouts,
-                        slidesCount: 4, arrangmentType: Asc.c_oAscSlidesOnPageArrangmentType.Horizontal 
+                        slidesCount: 4, arrangmentType: Asc.c_oAscSlidesOnPageArrangementType.Horizontal 
                     },
                     { 
                         displayValue: this.txt4SlidesVertical, value: 8, printType: Asc.c_oAscSlidesOnPagePrintType.Handouts, 
-                        slidesCount: 4, arrangmentType: Asc.c_oAscSlidesOnPageArrangmentType.Vertical 
+                        slidesCount: 4, arrangmentType: Asc.c_oAscSlidesOnPageArrangementType.Vertical 
                     },
                     { 
                         displayValue: this.txt6SlidesHorizontal, value: 9, printType: Asc.c_oAscSlidesOnPagePrintType.Handouts,
-                        slidesCount: 6, arrangmentType: Asc.c_oAscSlidesOnPageArrangmentType.Horizontal 
+                        slidesCount: 6, arrangmentType: Asc.c_oAscSlidesOnPageArrangementType.Horizontal 
                     },
                     { 
                         displayValue: this.txt6SlidesVertical, value: 10, printType: Asc.c_oAscSlidesOnPagePrintType.Handouts,
-                        slidesCount: 6, arrangmentType: Asc.c_oAscSlidesOnPageArrangmentType.Vertical 
+                        slidesCount: 6, arrangmentType: Asc.c_oAscSlidesOnPageArrangementType.Vertical 
                     },
                     { 
                         displayValue: this.txt9SlidesHorizontal, value: 11, printType: Asc.c_oAscSlidesOnPagePrintType.Handouts,
-                        slidesCount: 9, arrangmentType: Asc.c_oAscSlidesOnPageArrangmentType.Horizontal 
+                        slidesCount: 9, arrangmentType: Asc.c_oAscSlidesOnPageArrangementType.Horizontal 
                     },
                     { 
                         displayValue: this.txt9SlidesVertical, value: 12, printType: Asc.c_oAscSlidesOnPagePrintType.Handouts,
-                        slidesCount: 9, arrangmentType: Asc.c_oAscSlidesOnPageArrangmentType.Vertical 
+                        slidesCount: 9, arrangmentType: Asc.c_oAscSlidesOnPageArrangementType.Vertical 
                     },
                     { divider: true },
                     { 

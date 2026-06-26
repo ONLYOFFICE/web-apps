@@ -378,7 +378,7 @@ define([
                 pageOptions.asc_setHeight(this._changedProps.paperSize[isPortait ? 1 : 0]);
                 
                 const slidesOnPagePrintOptions = this.adjPrintParams.asc_getSlidesOnPagePrintOptions();
-                slidesOnPagePrintOptions.asc_setArrangmentType(this._changedProps.slidesOnPage.arrangmentType);
+                slidesOnPagePrintOptions.asc_setArrangementType(this._changedProps.slidesOnPage.arrangmentType);
                 slidesOnPagePrintOptions.asc_setPrintType(this._changedProps.slidesOnPage.printType);
                 slidesOnPagePrintOptions.asc_setSlidesCount(this._changedProps.slidesOnPage.slidesCount);
             
