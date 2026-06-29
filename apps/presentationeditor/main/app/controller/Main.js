@@ -2562,9 +2562,9 @@ define([
                 var value = Common.localStorage.getBool("pe-hide-quick-print-warning"),
                     me = this,
                     handler = function () {
-                        const printСontroller = me.getApplication().getController('Print');
+                        const printController = me.getApplication().getController('Print');
                         var printopt = new Asc.CAscPresentationPrintOptions();
-                        printСontroller && printСontroller.updatePrintOptions(printopt);
+                        printController && printController.updatePrintOptions(printopt);
                         printopt.asc_setNativeOptions({quickPrint: true});
                         var opts = new Asc.asc_CDownloadOptions();
                         opts.asc_setAdvancedOptions(printopt);
