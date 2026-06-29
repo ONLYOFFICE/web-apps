@@ -2458,15 +2458,15 @@ define([], function () {
                 restoreMenuHeightAndTop: true,
                 cls: 'input-group-nr',
                 data: [
-                    { value: 'all', displayValue: this.txtAllPages },
-                    { value: 'current', displayValue: this.txtCurrentPage },
-                    { value: -1, displayValue: this.txtCustomPages }
+                    { value: Asc.c_oAscPresentationRangeType.AllSlides, displayValue: this.txtAllPages },
+                    { value: Asc.c_oAscPresentationRangeType.ActiveSlide, displayValue: this.txtCurrentPage },
+                    { value: Asc.c_oAscPresentationRangeType.CustomRange, displayValue: this.txtCustomPages }
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
-            this.cmbRange.setValue('all');
+            this.cmbRange.setValue(Asc.c_oAscPresentationRangeType.AllSlides);
 
             this.inputPages = new Common.UI.InputField({
                 el: $markup.findById('#print-txt-pages'),

@@ -229,6 +229,7 @@ define([
                 this.printSettings.inputPages.setValue('');
             }
             this.printSettings.inputPages.showError();
+            this.updatePreview();
         },
 
         onCountPages: function(count) {
@@ -368,31 +369,51 @@ define([
             }
         },
 
+        updatePrintOptions: function(adjPrintParams) {
+            if(!adjPrintParams) return;
+            
+            const isPortait = this._changedProps.pageOrientation == Asc.c_oAscPageOrientation.PagePortrait;
+            const pageOptions = adjPrintParams.asc_getPageOptions();
+            pageOptions.asc_setWidth(this._changedProps.paperSize[isPortait ? 0 : 1]);
+            pageOptions.asc_setHeight(this._changedProps.paperSize[isPortait ? 1 : 0]);
+            
+            const slidesOnPagePrintOptions = adjPrintParams.asc_getSlidesOnPagePrintOptions();
+            slidesOnPagePrintOptions.asc_setArrangementType(this._changedProps.slidesOnPage.arrangmentType);
+            slidesOnPagePrintOptions.asc_setPrintType(this._changedProps.slidesOnPage.printType);
+            slidesOnPagePrintOptions.asc_setSlidesCount(this._changedProps.slidesOnPage.slidesCount);
+        
+            const slidesOnPageOptions = adjPrintParams.asc_getSlidesOnPageOptions(); 
+            slidesOnPageOptions.asc_setIsPrintSlideNumbersOnHandouts(
+                this._changedProps.slidesOnPage.options.isPrintSlideNumbersOnHandouts
+            );
+            slidesOnPageOptions.asc_setIsFrameSlides(this._changedProps.slidesOnPage.options.isFrameSlides);
+            slidesOnPageOptions.asc_setIsScaleToFitPaper(this._changedProps.slidesOnPage.options.isScaleToFitPaper);
+            slidesOnPageOptions.asc_setIsPrintComments(this._changedProps.slidesOnPage.options.isPrintComments);
+
+            const slidePrintOptions = adjPrintParams.asc_getSlidePrintOptions();
+            slidePrintOptions.asc_setIsPrintSlideBackground(this._changedProps.slidePrintOptions.isPrintSlideBackground);
+            slidePrintOptions.asc_setIsPrintHiddenSlides(this._changedProps.slidePrintOptions.isPrintHiddenSlides);
+
+            const rangeType = this.printSettings.cmbRange.getValue();
+            if(rangeType) {
+                const rangeOptions = adjPrintParams.asc_getRangeOptions();
+                const rangeValue = this.printSettings.inputPages.getValue();
+                rangeOptions.asc_setRangeType(rangeType);
+                if(rangeType === Asc.c_oAscPresentationRangeType.CustomRange) {
+                    rangeOptions.asc_setCustomRange(rangeValue);
+                } else if (rangeType === Asc.c_oAscPresentationRangeType.AllSlides) {
+                    rangeOptions.asc_setCustomRange('');
+                } else if (rangeType === Asc.c_oAscPresentationRangeType.ActiveSlide) {
+                    rangeOptions.asc_setCustomRange(String(this._navigationPreview.currentPreviewPage + 1));
+                }
+            }
+        },
+
         updatePreview: function (needUpdate) {
             if (this._isPreviewVisible) {
                 this.printSettings.$previewBox.removeClass('hidden');
 
-                const isPortait = this._changedProps.pageOrientation == Asc.c_oAscPageOrientation.PagePortrait;
-                const pageOptions = this.adjPrintParams.asc_getPageOptions();
-                pageOptions.asc_setWidth(this._changedProps.paperSize[isPortait ? 0 : 1]);
-                pageOptions.asc_setHeight(this._changedProps.paperSize[isPortait ? 1 : 0]);
-                
-                const slidesOnPagePrintOptions = this.adjPrintParams.asc_getSlidesOnPagePrintOptions();
-                slidesOnPagePrintOptions.asc_setArrangementType(this._changedProps.slidesOnPage.arrangmentType);
-                slidesOnPagePrintOptions.asc_setPrintType(this._changedProps.slidesOnPage.printType);
-                slidesOnPagePrintOptions.asc_setSlidesCount(this._changedProps.slidesOnPage.slidesCount);
-            
-                const slidesOnPageOptions = this.adjPrintParams.asc_getSlidesOnPageOptions(); 
-                slidesOnPageOptions.asc_setIsPrintSlideNumbersOnHandouts(
-                    this._changedProps.slidesOnPage.options.isPrintSlideNumbersOnHandouts
-                );
-                slidesOnPageOptions.asc_setIsFrameSlides(this._changedProps.slidesOnPage.options.isFrameSlides);
-                slidesOnPageOptions.asc_setIsScaleToFitPaper(this._changedProps.slidesOnPage.options.isScaleToFitPaper);
-                slidesOnPageOptions.asc_setIsPrintComments(this._changedProps.slidesOnPage.options.isPrintComments);
-
-                const slidePrintOptions = this.adjPrintParams.asc_getSlidePrintOptions();
-                slidePrintOptions.asc_setIsPrintSlideBackground(this._changedProps.slidePrintOptions.isPrintSlideBackground);
-                slidePrintOptions.asc_setIsPrintHiddenSlides(this._changedProps.slidePrintOptions.isPrintHiddenSlides);
+                this.updatePrintOptions(this.adjPrintParams);
 
                 var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
                 opts.asc_setAdvancedOptions(this.adjPrintParams);
@@ -483,23 +504,16 @@ define([
             if (this._navigationPreview.pageCount<1)
                 return;
 
-            let pages; 
-            if(this.printSettings.cmbRange.getValue() === -1) {
-                pages = this.printSettings.inputPages.getValue();
-            } else if (this.printSettings.cmbRange.getValue() === 'all') {
-                pages = 'all';
-            } else if (this.printSettings.cmbRange.getValue() === 'current') {
-                pages = String(this._navigationPreview.currentPreviewPage + 1);
-            }
-
+            const adjPrintParams = new Asc.CAscPresentationPrintOptions();
+            this.updatePrintOptions(adjPrintParams);
             var rec = this.printSettings.cmbPaperSize.getSelectedRecord();
             var printerOption = this.printSettings.cmbPrinter.getSelectedRecord();
             var size = rec ? rec.size : this._changedProps.paperSize; 
-            this.adjPrintParams.asc_setNativeOptions({
+            adjPrintParams.asc_setNativeOptions({
                 usesystemdialog: useSystemDialog,
                 printer: printerOption ? printerOption.value : null,
                 colorMode: this.printSettings.cmbColorPrinting.getValue() === 'color',
-                pages: pages,
+                pages: 'all',   //Stub property. The pages range settings are configured in CAscPresentationPrintOptions.asc_getRangeOptions
                 paperSize: {
                     w: size ? size[0] : undefined,
                     h: size ? size[1] : undefined,
@@ -511,11 +525,11 @@ define([
 
             if ( print ) {
                 var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
-                opts.asc_setAdvancedOptions(this.adjPrintParams);
+                opts.asc_setAdvancedOptions(adjPrintParams);
                 this.api.asc_Print(opts);
             } else {
                 var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF);
-                opts.asc_setAdvancedOptions(this.adjPrintParams);
+                opts.asc_setAdvancedOptions(adjPrintParams);
                 this.api.asc_DownloadAs(opts);
             }
             this.printSettings.menu.hide();
@@ -526,9 +540,10 @@ define([
             this.isInputFirstChange = false;
 
             if (value.length<1)
-                this.printSettings.cmbRange.setValue('all');
+                this.printSettings.cmbRange.setValue(Asc.c_oAscPresentationRangeType.AllSlides);
             else if (this.printSettings.cmbRange.getValue()!==-1)
-                this.printSettings.cmbRange.setValue(-1);
+                this.printSettings.cmbRange.setValue(Asc.c_oAscPresentationRangeType.CustomRange);
+            this.updatePreview();
         },
 
         onPaperSizeSelect: function(combo, record) {
