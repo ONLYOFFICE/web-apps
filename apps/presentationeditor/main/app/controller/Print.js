@@ -155,6 +155,10 @@ define([
             this._changedProps.paperSize = sizeRec.size;
             this.api.asc_setNoteSizesByPrinter(sizeRec.size[0], sizeRec.size[1]);
 
+            if(!this.printSettings.cmbPrinter) {
+                this.printSettings.setCmbPaperSizeOptions();
+            }
+
             Common.NotificationCenter.on('window:resize', _.bind(function () {
                 if (this._isPreviewVisible) {
                     this.drawPrintPreview();
@@ -507,20 +511,23 @@ define([
             const adjPrintParams = new Asc.CAscPresentationPrintOptions();
             this.updatePrintOptions(adjPrintParams);
             var rec = this.printSettings.cmbPaperSize.getSelectedRecord();
-            var printerOption = this.printSettings.cmbPrinter.getSelectedRecord();
+            const printerOption = (this.printSettings.cmbPrinter ? this.printSettings.cmbPrinter.getSelectedRecord() : null);
+            const colorPrintingValue = this.printSettings.cmbColorPrinting
+                ? this.printSettings.cmbColorPrinting.getValue()
+                : null;
             var size = rec ? rec.size : this._changedProps.paperSize; 
             adjPrintParams.asc_setNativeOptions({
                 usesystemdialog: useSystemDialog,
                 printer: printerOption ? printerOption.value : null,
-                colorMode: this.printSettings.cmbColorPrinting.getValue() === 'color',
+                colorMode: colorPrintingValue === 'color',
                 pages: 'all',   //Stub property. The pages range settings are configured in CAscPresentationPrintOptions.asc_getRangeOptions
                 paperSize: {
                     w: size ? size[0] : undefined,
                     h: size ? size[1] : undefined,
                     preset: rec ? rec.caption : undefined
                 },
-                copies: this.printSettings.spnCopies.getNumberValue() || 1,
-                sides: this.printSettings.cmbSides.getValue()
+                copies: this.printSettings.spnCopies ? this.printSettings.spnCopies.getNumberValue() || 1 : 1,
+                sides: this.printSettings.cmbSides ? this.printSettings.cmbSides.getValue() : 'one'
             });
 
             if ( print ) {
