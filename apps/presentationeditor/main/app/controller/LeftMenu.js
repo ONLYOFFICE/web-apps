@@ -885,7 +885,13 @@ define([
                     this.leftMenu.close();
                 }
             }
+            if (mode === 'notes' || mode === 'notespage' || mode === 'handout') {
+                if (this.leftMenu.btnThumbs && this.leftMenu.btnThumbs.pressed) {
+                    this.leftMenu.close();
+                }
+            }
             this.leftMenu.btnComments.setDisabled(mode === 'master' || mode === 'handout' || mode === 'notes');
+            this.leftMenu.btnThumbs.setDisabled(mode === 'notes' || mode === 'notespage' || mode === 'handout');
         },
 
         textNoTextFound         : 'Text not found',

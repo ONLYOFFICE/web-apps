@@ -496,9 +496,11 @@ define([
             }
             if (this._state.outlineViewMode !== isOutline) {
                 this._state.outlineViewMode = isOutline;
+                this.view.fireEvent('viewmode:change', [isOutline ? 'outline' : 'normal']);
             }
             if (this._state.notesPageMode !== isNotesPage) {
                 this._state.notesPageMode = isNotesPage;
+                this.view.fireEvent('viewmode:change', [isNotesPage ? 'notespage' : 'normal']);
             }
 
             this.api.asc_changePresentationViewMode(presentationMode);
