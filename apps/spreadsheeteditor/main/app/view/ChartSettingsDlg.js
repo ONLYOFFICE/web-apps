@@ -75,6 +75,9 @@ define([
                 })
             }, options);
             this.options.handler = function(result, value) {
+                if (result == 'ok' && this.isTime && !this.isAxisValuesValid()) {
+                    return true;
+                }
                 if ( result != 'ok' || this.isRangeValid() ) {
                     if (options.handler)
                         options.handler.call(this, result, value);
@@ -624,6 +627,35 @@ define([
             return text;
         },
 
+        timeToString: function (value) {
+            var text = '';
+
+            if (value) {
+                value = new Date(value);
+
+                var lang = (this.options.lang || 'en').replace('_', '-').toLowerCase();
+
+                try {
+                    if (lang === 'ar-sa')
+                        lang += '-u-nu-latn-ca-gregory';
+
+                    text = value.toLocaleTimeString(lang, {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit'
+                    });
+                } catch (e) {
+                    text = value.toLocaleTimeString('en', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit'
+                    });
+                }
+            }
+
+            return text;
+        },
+
         addControlsV: function(parentEl) {
             var me = this,
                 i = me.chVertHide.length,
@@ -687,7 +719,7 @@ define([
                 if (me.currentAxisProps[i]) {
                     me.currentAxisProps[i].putMinValRule(record.value);
                     if (record.value == Asc.c_oAscValAxisRule.auto) {
-                        me.spnMinValue[i].setValue(me._originalAxisVValues[i].minAuto, true);
+                        me.spnMinValue[i].setValue(me.isDate ? me.dateToString(me._originalAxisVValues[i].minAuto) : me.isTime ? me.timeToString(me._originalAxisVValues[i].minAuto) : me._originalAxisVValues[i].minAuto, true);
                     }
                 }
             }, me));
@@ -700,6 +732,7 @@ define([
                     blankError  : 'error',
                     validateOnBlur: false,
                     value       : '',
+                    editable: false,
                     hideErrorOnInput: true,
                     dataHint    : '1',
                     dataHintDirection: 'left',
@@ -715,13 +748,23 @@ define([
                         me.currentAxisProps[i].putMinValDate(me.spnMinValue[i].getDate());
                     }
                 }.bind(this));
+            } else if (this.vertAxisProps[i] && this.vertAxisProps[i].getFormatType() === 7) {
+                me.spnMinValue[i] = new Common.UI.InputField({
+                    el          : $('#chart-dlg-input-min-value-' + i),
+                    validateOnBlur: true,
+                    validateOnChange: true,
+                    style       : 'width: 100%;',
+                    validation  : this.checkTimeValidation.bind(this)
+                })
                 me.spnMinValue[i].on('changed:after', function (input, newValue, oldValue, e) {
                     me.cmbMinType[i].suspendEvents();
                     me.cmbMinType[i].setValue(Asc.c_oAscValAxisRule.fixed);
                     me.cmbMinType[i].resumeEvents();
                     if (me.currentAxisProps[i]) {
+                        var [hours, minutes, seconds] = me.spnMinValue[i].getValue().split(' ')[0].split(':');
+                        me.minDate.setHours(+hours, +minutes, +seconds)
                         me.currentAxisProps[i].putMinValRule(Asc.c_oAscValAxisRule.fixed);
-                        me.currentAxisProps[i].putMinValDate(me.spnMinValue[i].getDate());
+                        me.currentAxisProps[i].putMinValDate(me.minDate);
                     }
                 });
             } else {
@@ -759,7 +802,7 @@ define([
                 if (me.currentAxisProps[i]) {
                     me.currentAxisProps[i].putMaxValRule(record.value);
                     if (record.value == Asc.c_oAscValAxisRule.auto) {
-                        me.spnMaxValue[i].setValue(me._originalAxisVValues[i].maxAuto, true);
+                        me.spnMaxValue[i].setValue(me.isDate ? me.dateToString(me._originalAxisVValues[i].maxAuto) : me.isTime ? me.timeToString(me._originalAxisVValues[i].maxAuto) : me._originalAxisVValues[i].maxAuto , true);
                     }
                 }
             }, me));
@@ -772,6 +815,7 @@ define([
                     blankError  : 'error',
                     validateOnBlur: false,
                     value       : '',
+                    editable: false,
                     hideErrorOnInput: true,
                     dataHint    : '1',
                     dataHintDirection: 'left',
@@ -787,13 +831,23 @@ define([
                         me.currentAxisProps[i].putMaxValDate(me.spnMaxValue[i].getDate());
                     }
                 }.bind(this));
+            } else if (this.vertAxisProps[i] && this.vertAxisProps[i].getFormatType() === 7) {
+                me.spnMaxValue[i] = new Common.UI.InputField({
+                    el          : $('#chart-dlg-input-max-value-' + i),
+                    validateOnBlur: true,
+                    validateOnChange: true,
+                    style       : 'width: 100%;',
+                    validation  : this.checkTimeValidation.bind(this)
+                });
                 me.spnMaxValue[i].on('changed:after', function (input, newValue, oldValue, e) {
                     me.cmbMaxType[i].suspendEvents();
                     me.cmbMaxType[i].setValue(Asc.c_oAscValAxisRule.fixed);
                     me.cmbMaxType[i].resumeEvents();
                     if (me.currentAxisProps[i]) {
+                        var [hours, minutes, seconds] = me.spnMaxValue[i].getValue().split(' ')[0].split(':');
+                        me.maxDate.setHours(hours, minutes, seconds)
                         me.currentAxisProps[i].putMaxValRule(Asc.c_oAscValAxisRule.fixed);
-                        me.currentAxisProps[i].putMaxValDate(me.spnMaxValue[i].getDate());
+                        me.currentAxisProps[i].putMaxValDate(me.maxDate);
                     }
                 });
             } else {
@@ -838,6 +892,8 @@ define([
                             if (this.isDate) {
                                 me.spnVAxisCrosses[i].setValue(me.spnMinValue[i].getValue(), true);
                                 me.spnVAxisCrosses[i].setDate(me.spnMinValue[i].getDate(), true)
+                            } else if (this.isTime) {
+                                me.spnVAxisCrosses[i].setValue(me.spnMinValue[i].getValue(), true);
                             } else {
                                 me.spnVAxisCrosses[i].setValue(me.spnMinValue[i].getNumberValue(), true);
                             }
@@ -846,12 +902,14 @@ define([
                             if (this.isDate) {
                                 me.spnVAxisCrosses[i].setValue(me.spnMaxValue[i].getValue(), true);
                                 me.spnVAxisCrosses[i].setDate(me.spnMaxValue[i].getDate(), true);
+                            } else if (this.isTime) {
+                                me.spnVAxisCrosses[i].setValue(me.spnMaxValue[i].getValue(), true);
                             } else {
                                 me.spnVAxisCrosses[i].setValue(me.spnMaxValue[i].getNumberValue(), true);
                             }
                             break;
                         case Asc.c_oAscCrossesRule.auto:
-                            me.spnVAxisCrosses[i].setValue(me._originalAxisVValues[i].crossesAuto, true);
+                            me.spnVAxisCrosses[i].setValue(me.isDate ? me.dateToString(me._originalAxisVValues[i].crossesAuto) : me.isTime ? me.timeToString(me._originalAxisVValues[i].crossesAuto) : me._originalAxisVValues[i].crossesAuto, true);
                             break;
                     }
                 }
@@ -865,6 +923,7 @@ define([
                     blankError  : 'error',
                     validateOnBlur: false,
                     value       : '',
+                    editable: false,
                     hideErrorOnInput: true,
                     dataHint    : '1',
                     dataHintDirection: 'left',
@@ -880,13 +939,23 @@ define([
                         me.currentAxisProps[i].putCrossesDate(me.spnVAxisCrosses[i].getDate());
                     }
                 }.bind(this));
+            } else if (this.vertAxisProps[i] && this.vertAxisProps[i].getFormatType() === 7) {
+                me.spnVAxisCrosses[i] = new Common.UI.InputField({
+                    el          : $('#chart-dlg-input-v-axis-crosses-' + i),
+                    validateOnBlur: true,
+                    validateOnChange: true,
+                    style       : 'width: 100%;',
+                    validation  : this.checkTimeValidation.bind(this)
+                });
                 me.spnVAxisCrosses[i].on('changed:after', function (input, newValue, oldValue, e) {
                     me.cmbVCrossType[i].suspendEvents();
                     me.cmbVCrossType[i].setValue(Asc.c_oAscCrossesRule.value);
                     me.cmbVCrossType[i].resumeEvents();
                     if (me.currentAxisProps[i]) {
+                        var [hours, minutes, seconds] = me.spnVAxisCrosses[i].getValue().split(' ')[0].split(':');
+                        me.crossesDate.setHours(hours, minutes, seconds)
                         me.currentAxisProps[i].putCrossesRule(Asc.c_oAscCrossesRule.value);
-                        me.currentAxisProps[i].putCrossesDate(me.spnVAxisCrosses[i].getDate());
+                        me.currentAxisProps[i].putCrossesDate(me.crossesDate);
                     }
                 });
             } else {
@@ -1405,16 +1474,22 @@ define([
 
         fillVProps: function(props, index, hor) {
             if (props.getAxisType() !== Asc.c_oAscAxisType.val) return;
+
+            this.isDate = props.getFormatType() === 5;
+            this.isTime = props.getFormatType() === 7;
+            this.minDate = props.getMinValDate();
+            this.maxDate = props.getMaxValDate();
+            this.crossesDate = props.getCrossesDate();
+
             if (this._originalAxisVValues==undefined)
                 this._originalAxisVValues = [];
             if (this._originalAxisVValues[index]==undefined) {
                 this._originalAxisVValues[index] = {
-                    minAuto: (props.getMinVal()==null) ? 0 : props.getMinVal(),
-                    maxAuto: (props.getMaxVal()==null) ? 10 : props.getMaxVal(),
-                    crossesAuto: (props.getCrosses()==null) ? 0 : props.getCrosses()
+                    minAuto: (props.getMinVal()==null) ? 0 : this.isDate || this.isTime ? props.getMinValDate() : props.getMinVal(),
+                    maxAuto: (props.getMaxVal()==null) ? 10 : this.isDate || this.isTime ? props.getMaxValDate() : props.getMaxVal(),
+                    crossesAuto: (props.getCrosses()==null) ? 0 : this.isDate || this.isTime ? props.getCrossesDate() : props.getCrosses(),
                 };
             }
-            this.isDate = props.getFormatType() === 5;
 
             this.chVertHide[index].setValue(!props.getShow());
             this.cmbVertGrid[index].setValue(props.getGridlines());
@@ -1426,31 +1501,31 @@ define([
 
             this.cmbMinType[index].setValue(props.getMinValRule());
             var value = (props.getMinValRule()==Asc.c_oAscValAxisRule.auto) ? this._originalAxisVValues[index].minAuto : props.getMinVal();
-            var date = this.isDate ? props.getMinValDate() : null;
+            var date = this.isDate || this.isTime ? props.getMinValDate() : null;
             this.isDate && this.spnMinValue[index].setDate(date);
-            this.spnMinValue[index].setValue((value==null) ? '' : value, true);
+            this.spnMinValue[index].setValue((value==null) ? '' : this.isDate ? this.dateToString(date) : this.isTime ? this.timeToString(date) : value, true);
 
             this.cmbMaxType[index].setValue(props.getMaxValRule());
             value = (props.getMaxValRule()==Asc.c_oAscValAxisRule.auto) ? this._originalAxisVValues[index].maxAuto : props.getMaxVal();
-            date = this.isDate ? props.getMaxValDate() : null;
+            date = this.isDate || this.isTime ? props.getMaxValDate() : null;
             this.isDate && this.spnMaxValue[index].setDate(date);
-            this.spnMaxValue[index].setValue((value==null) ? '' : value, true);
+            this.spnMaxValue[index].setValue((value==null) ? '' : this.isDate ? this.dateToString(date) : this.isTime ? this.timeToString(date) : value, true);
 
             value = props.getCrossesRule();
-            date = this.isDate ? props.getCrossesDate() : null;
+            date = this.isDate || this.isTime ? props.getCrossesDate() : null;
             this.cmbVCrossType[index].setValue(value);
             switch (value) {
                 case Asc.c_oAscCrossesRule.minValue:
-                    value = this.isDate ? this.spnMinValue[index].getValue() : this.spnMinValue[index].getNumberValue();
+                    value = this.isDate || this.isTime ? this.spnMinValue[index].getValue() : this.spnMinValue[index].getNumberValue();
                 break;
                 case Asc.c_oAscCrossesRule.maxValue:
-                    value = this.isDate ? this.spnMaxValue[index].getValue() : this.spnMaxValue[index].getNumberValue();
+                    value = this.isDate || this.isTime ? this.spnMaxValue[index].getValue() : this.spnMaxValue[index].getNumberValue();
                 break;
                 case Asc.c_oAscCrossesRule.auto:
-                    value = this._originalAxisVValues[index].crossesAuto;
+                    value = this.isDate ? this.dateToString(this._originalAxisVValues[index].crossesAuto) : this.isTime ? this.timeToString(this._originalAxisVValues[index].crossesAuto) : this._originalAxisVValues[index].crossesAuto;
                 break;
                 default:
-                    value = props.getCrosses();
+                    value = this.isDate ? this.dateToString(props.getCrossesDate()) : this.isTime ? this.timeToString(props.getCrossesDate()) : props.getCrosses();
                 break;
             }
             this.isDate && this.spnVAxisCrosses[index].setDate(date);
@@ -1835,6 +1910,21 @@ define([
             }
         },
 
+        isAxisValuesValid: function() {
+            var fields = [this.spnMinValue, this.spnMaxValue, this.spnVAxisCrosses];
+            for (var i = 0; i < fields.length; i++) {
+                var arr = fields[i];
+                for (var j = 0; j < arr.length; j++) {
+                    var field = arr[j];
+                    if (field && field.checkValidate && field.checkValidate() !== true) {
+                        field.focus();
+                        return false;
+                    }
+                }
+            }
+            return true;
+        },
+
         isRangeValid: function() {
             if (this.isChart) {
                 var isvalid,
@@ -1863,6 +1953,110 @@ define([
                 return false;
             } else
                 return true;
+        },
+
+        checkTimeValidation: function(value) {
+            value = value.trim();
+            if (!value) {
+                return true;
+            }
+            var lang = (this.options.lang || 'en').replace('_', '-').toLowerCase();
+
+            if (lang === 'ar-sa') {
+                lang += '-u-nu-latn-ca-gregory';
+            }
+
+            var is12HourLocale = new Intl.DateTimeFormat(lang, {
+                hour: 'numeric'
+            }).resolvedOptions().hour12;
+            var parts = value.split(' ');
+            if (is12HourLocale) {
+                if (parts.length !== 2) {
+                    return 'Time must be in the format HH:mm:ss AM/PM';
+                }
+
+                var [time, period] = parts;
+
+                if (!/^(AM|PM)$/.test(period)) {
+                    return 'AM or PM is expected';
+                }
+
+                var timeParts = time.split(':');
+                if (timeParts.length !== 3) {
+                    return 'Time must be in the format HH:mm:ss';
+                }
+
+                var [hours, minutes, seconds] = timeParts;
+
+                if (!/^\d{2}$/.test(hours)) {
+                    return 'Hours must contain exactly 2 digits';
+                }
+
+                var h = Number(hours);
+                if (h < 1 || h > 12) {
+                    return 'Hours must be between 01 and 12';
+                }
+
+                if (!/^\d{2}$/.test(minutes)) {
+                    return 'Minutes must contain exactly 2 digits';
+                }
+
+                var m = Number(minutes);
+                if (m > 59) {
+                    return 'Minutes must be between 00 and 59';
+                }
+
+                if (!/^\d{2}$/.test(seconds)) {
+                    return 'Seconds must contain exactly 2 digits';
+                }
+
+                var s = Number(seconds);
+                if (s > 59) {
+                    return 'Seconds must be between 00 and 59';
+                }
+
+                return true;
+            }
+
+            if (parts.length > 1) {
+                return 'AM/PM is not allowed in 24-hour format';
+            }
+
+            var timeParts = value.split(':');
+            if (timeParts.length !== 3) {
+                return 'Time must be in the format HH:mm:ss';
+            }
+
+            var [hours, minutes, seconds] = timeParts;
+
+            if (!/^\d{2}$/.test(hours)) {
+                return 'Hours must contain exactly 2 digits';
+            }
+
+            var h = Number(hours);
+            if (h > 23) {
+                return 'Hours must be between 00 and 23';
+            }
+
+            if (!/^\d{2}$/.test(minutes)) {
+                return 'Minutes must contain exactly 2 digits';
+            }
+
+            var m = Number(minutes);
+            if (m > 59) {
+                return 'Minutes must be between 00 and 59';
+            }
+
+            if (!/^\d{2}$/.test(seconds)) {
+                return 'Seconds must contain exactly 2 digits';
+            }
+
+            var s = Number(seconds);
+            if (s > 59) {
+                return 'Seconds must be between 00 and 59';
+            }
+
+            return true;
         },
 
         // onSelectData: function() {
