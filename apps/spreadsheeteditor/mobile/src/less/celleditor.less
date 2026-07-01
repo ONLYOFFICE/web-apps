@@ -112,6 +112,16 @@
     #idx-cell-content {
         padding: 3px 3px;
         line-height: 1.428571429;
+        outline: 0;
+        overflow: hidden;
+        &::-ms-selection, & *::-ms-selection {
+            background-color: rgba(0, 0, 0, 0.15);
+            color: inherit;
+        }
+        &::selection, & *::selection {
+            background-color: rgba(0, 0, 0, 0.15);
+            color: inherit;
+        }
         // color: #000;
         color: @text-normal;
         vertical-align: middle;
@@ -119,6 +129,25 @@
         min-height: @cellEditorHeight;
         height: 100%;
         width: 100%;
+
+        white-space: pre-wrap;
+        white-space: -moz-pre-wrap;
+        white-space: -o-pre-wrap;
+        white-space: -webkit-pre-wrap;
+        word-wrap: break-word;
+        overflow-wrap: anywhere;
+        overflow-x: hidden;
+        overflow-y: auto;
+        max-height: 100%;
+    }
+
+    #idx-cell-content > div {
+        line-height: 22px !important;
+        width: 100%;
+    }
+
+    #idx-cell-content > div > span {
+        line-height: 22px !important;
     }
 
     .caret {
