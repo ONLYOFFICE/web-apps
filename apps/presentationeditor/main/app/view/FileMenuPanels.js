@@ -2635,7 +2635,7 @@ define([], function () {
             this.btnPrintSystemDialog = $markup.find('#print-btn-system-dialog > span');
             this.btnPrint = new Common.UI.Button({
                 el: $markup.findById('#print-btn-print'),
-               disabled: this.mode.isDesktopApp
+                disabled: this.mode.isDesktopApp
             });
             this.btnPrintPdf = new Common.UI.Button({
                 el: $markup.findById('#print-btn-print-pdf')
