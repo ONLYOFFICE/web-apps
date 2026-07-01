@@ -2466,7 +2466,8 @@ define([], function () {
                 data: [
                     { value: Asc.c_oAscPresentationRangeType.AllSlides, displayValue: this.txtAllPages },
                     { value: Asc.c_oAscPresentationRangeType.ActiveSlide, displayValue: this.txtCurrentPage },
-                    { value: Asc.c_oAscPresentationRangeType.CustomRange, displayValue: this.txtCustomPages }
+                    { value: Asc.c_oAscPresentationRangeType.CustomRange, displayValue: this.txtCustomPages },
+                    { value: Asc.c_oAscPresentationRangeType.SelectedSlides, displayValue: this.txtSelectedSlides }
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
@@ -2958,6 +2959,7 @@ define([], function () {
         txtAllPages: 'All slides',
         txtCustom: 'Custom',
         txtCustomPages: 'Custom print',
+        txtSelectedSlides: 'Selected slides',
         txtPage: 'Slide',
         txtOf: 'of {0}',
         txtPageNumInvalid: 'Slide number invalid',

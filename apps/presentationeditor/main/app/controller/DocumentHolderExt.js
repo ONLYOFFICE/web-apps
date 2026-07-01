@@ -2002,14 +2002,13 @@ define([], function () {
         };
 
         dh.onPrintSelection = function () {
-            if (this.api){
-                var printopt = new Asc.asc_CAdjustPrint();
-                printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
-                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86); // if isChrome or isOpera == true use asc_onPrintUrl event
-                opts.asc_setAdvancedOptions(printopt);
-                this.api.asc_Print(opts);
-                this.editComplete();
-            }
+            setTimeout(function(){
+                const app = this.getApplication();
+                const mainController = app.getController('Main');
+                mainController.onPrint();
+                const printController = app.getController('Print');
+                printController && printController.setCmbRangeValue(Asc.c_oAscPresentationRangeType.SelectedSlides);
+            }.bind(this), 0);
         };
 
         dh.onNewSlide = function () {

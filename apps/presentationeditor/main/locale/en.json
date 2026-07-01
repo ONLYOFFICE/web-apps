@@ -3014,6 +3014,7 @@
   "PE.Views.PrintWithPreview.txtCurrentPage": "Current slide",
   "PE.Views.PrintWithPreview.txtCustom": "Custom",
   "PE.Views.PrintWithPreview.txtCustomPages": "Custom print",
+  "PE.Views.PrintWithPreview.txtSelectedSlides": "Selected slides",
   "PE.Views.PrintWithPreview.txtEmptyTable": "There is nothing to print because the presentation is empty",
   "PE.Views.PrintWithPreview.txtHeaderFooterSettings": "Header/footer settings",
   "PE.Views.PrintWithPreview.txtOf": "of {0}",

@@ -223,6 +223,11 @@ define([
             }
         },
         
+        setCmbRangeValue: function(value) {
+            this.printSettings.cmbRange.setValue(value);
+            this.comboRangeChange(this.printSettings.cmbRange, this.printSettings.cmbRange.getSelectedRecord());
+        },
+
         comboRangeChange: function(combo, record) {
             if (record.value === -1) {
                 var me = this;
