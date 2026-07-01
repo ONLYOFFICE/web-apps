@@ -73,20 +73,22 @@ class InitReview extends Component {
                 if (viewReviewMode === null) {
                     viewReviewMode = appOptions.customization && appOptions.customization.review ? appOptions.customization.review.reviewDisplay : undefined;
                     !viewReviewMode && (viewReviewMode = appOptions.customization ? appOptions.customization.reviewDisplay : undefined);
-                    viewReviewMode = /^(original|final|markup|simple)$/i.test(viewReviewMode) ? viewReviewMode.toLocaleLowerCase() : ( appOptions.isEdit || appOptions.isRestrictedEdit ? 'markup' : 'original');
+                    viewReviewMode = /^(original|final|markup|simple)$/i.test(viewReviewMode) ? viewReviewMode.toLocaleLowerCase() : undefined;
                 }
-                let displayMode = viewReviewMode.toLocaleLowerCase();
-                let type = Asc.c_oAscDisplayModeInReview.Edit;
-                switch (displayMode) {
-                    case 'final':
-                        type = Asc.c_oAscDisplayModeInReview.Final;
-                        break;
-                    case 'original':
-                        type = Asc.c_oAscDisplayModeInReview.Original;
-                        break;
+                if(viewReviewMode) {
+                    let displayMode = viewReviewMode.toLocaleLowerCase();
+                    let type = Asc.c_oAscDisplayModeInReview.Edit;
+                    switch (displayMode) {
+                        case 'final':
+                            type = Asc.c_oAscDisplayModeInReview.Final;
+                            break;
+                        case 'original':
+                            type = Asc.c_oAscDisplayModeInReview.Original;
+                            break;
+                    }
+                    api.asc_SetDisplayModeInReview(type);
+                    props.storeReview.changeDisplayMode(displayMode);
                 }
-                api.asc_SetDisplayModeInReview(type);
-                props.storeReview.changeDisplayMode(displayMode);
             }
         });
     }

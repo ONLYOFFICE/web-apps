@@ -834,6 +834,20 @@ define([
             }
         },
 
+        getDisplayModeNameByType: function(type) {
+            switch (type) {
+                case Asc.c_oAscDisplayModeInReview.Edit:
+                    return 'markup';
+                case Asc.c_oAscDisplayModeInReview.Final:
+                    return 'final';
+                case Asc.c_oAscDisplayModeInReview.Original:
+                    return 'original';
+                case Asc.c_oAscDisplayModeInReview.Simple:
+                    return 'simple';
+            }
+            return '';
+        },
+
         turnDisplayMode: function(mode) {
             if (this.api) {
                 var type = Asc.c_oAscDisplayModeInReview.Edit;
@@ -859,17 +873,7 @@ define([
             this.disableEditing(type===Asc.c_oAscDisplayModeInReview.Final || type===Asc.c_oAscDisplayModeInReview.Original);
             this._state.displayMode = type;
             var mode = 'markup';
-            switch (type) {
-                case Asc.c_oAscDisplayModeInReview.Final:
-                    mode = 'final';
-                    break;
-                case Asc.c_oAscDisplayModeInReview.Original:
-                    mode = 'original';
-                    break;
-                case Asc.c_oAscDisplayModeInReview.Simple:
-                    mode = 'simple';
-                    break;
-            }
+            mode = this.getDisplayModeNameByType(type) || 'markup';
             this.view && this.view.turnDisplayMode(mode);
             this._state.previewMode = (type===Asc.c_oAscDisplayModeInReview.Final || type===Asc.c_oAscDisplayModeInReview.Original);
         },
@@ -968,11 +972,14 @@ define([
                     if (val===null) {
                         val = me.appConfig.customization && me.appConfig.customization.review ? me.appConfig.customization.review.reviewDisplay : undefined;
                         !val && (val = me.appConfig.customization ? me.appConfig.customization.reviewDisplay : undefined);
-                        val = /^(original|final|markup|simple)$/i.test(val) ? val.toLocaleLowerCase() : 'markup';
+                        val = /^(original|final|markup|simple)$/i.test(val) ? val.toLocaleLowerCase() : undefined;
                     }
-                    Common.Utils.InternalSettings.set(me.appPrefix + "review-mode-editor", val);
-                    me.turnDisplayMode(val); // load display mode for all modes (viewer or editor)
-                    me.view.turnDisplayMode(val);
+                    Common.Utils.InternalSettings.set(
+                        me.appPrefix + "review-mode-editor", 
+                        val || me.getDisplayModeNameByType(me._state.displayMode)
+                    );
+                    val && me.turnDisplayMode(val); // load display mode for all modes (viewer or editor)
+                    val && me.view.turnDisplayMode(val);
 
                     if ( typeof (me.appConfig.customization) == 'object' && (me.appConfig.customization.review && me.appConfig.customization.review.showReviewChanges==true ||
                         (!me.appConfig.customization.review || me.appConfig.customization.review.showReviewChanges===undefined) && me.appConfig.customization.showReviewChanges==true) ) {
@@ -992,10 +999,10 @@ define([
                         if (val===null) {
                             val = me.appConfig.customization && me.appConfig.customization.review ? me.appConfig.customization.review.reviewDisplay : undefined;
                             !val && (val = me.appConfig.customization ? me.appConfig.customization.reviewDisplay : undefined);
-                            val = /^(original|final|markup|simple)$/i.test(val) ? val.toLocaleLowerCase() : (config.isEdit || config.isRestrictedEdit ? 'markup' : 'original');
+                            val = /^(original|final|markup|simple)$/i.test(val) ? val.toLocaleLowerCase() : undefined;
                         }
-                        me.turnDisplayMode(val);
-                        me.view.turnDisplayMode(val);
+                        val && me.turnDisplayMode(val);
+                        val && me.view.turnDisplayMode(val);
                     }
                 }
 
