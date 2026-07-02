@@ -281,6 +281,8 @@ define([
         },
 
         onNotePageOrientation: function(orient) {
+            if(!this.printSettings || !this.printSettings.cmbPaperOrientation) return;
+
             const record = this.printSettings.cmbPaperOrientation.store.findWhere({value:orient});
             record && this.printSettings.cmbPaperOrientation.selectRecord(record);
             this._changedProps.pageOrientation = orient;
