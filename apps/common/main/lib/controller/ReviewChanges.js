@@ -684,7 +684,9 @@ define([
             this.turnDisplayMode(item.value);
             if (!this.appConfig.isEdit && !this.appConfig.isRestrictedEdit)
                 Common.localStorage.setItem(this.appPrefix + "review-mode", item.value); // for viewer
-            else if (item.value=='markup' || item.value=='simple') {
+            else if (item.value==Asc.c_oAscDisplayModeInReview.Edit || 
+                item.value==Asc.c_oAscDisplayModeInReview.Simple
+            ) {
                 Common.localStorage.setItem(this.appPrefix + "review-mode-editor", item.value); // for editor save only markup modes
                 Common.Utils.InternalSettings.set(this.appPrefix + "review-mode-editor", item.value);
             }
@@ -834,47 +836,21 @@ define([
             }
         },
 
-        getDisplayModeNameByType: function(type) {
-            switch (type) {
-                case Asc.c_oAscDisplayModeInReview.Edit:
-                    return 'markup';
-                case Asc.c_oAscDisplayModeInReview.Final:
-                    return 'final';
-                case Asc.c_oAscDisplayModeInReview.Original:
-                    return 'original';
-                case Asc.c_oAscDisplayModeInReview.Simple:
-                    return 'simple';
-            }
-            return '';
-        },
-
         turnDisplayMode: function(mode) {
             if (this.api) {
-                var type = Asc.c_oAscDisplayModeInReview.Edit;
-                switch (mode) {
-                    case 'final':
-                        type = Asc.c_oAscDisplayModeInReview.Final;
-                        break;
-                    case 'original':
-                        type = Asc.c_oAscDisplayModeInReview.Original;
-                        break;
-                    case 'simple':
-                        type = Asc.c_oAscDisplayModeInReview.Simple;
-                        break;
-                }
-                this._state.displayMode = type;
-                this.api.asc_SetDisplayModeInReview(type);
+                this._state.displayMode = mode;
+                this.api.asc_SetDisplayModeInReview(mode);
             }
-            this.disableEditing(mode == 'final' || mode == 'original');
-            this._state.previewMode = (mode == 'final' || mode == 'original');
+            this._state.previewMode = (mode == Asc.c_oAscDisplayModeInReview.Final || 
+                mode == Asc.c_oAscDisplayModeInReview.Original
+            );
+            this.disableEditing(this._state.previewMode);
         },
 
         onChangeDisplayModeInReview: function(type) {
             this.disableEditing(type===Asc.c_oAscDisplayModeInReview.Final || type===Asc.c_oAscDisplayModeInReview.Original);
             this._state.displayMode = type;
-            var mode = 'markup';
-            mode = this.getDisplayModeNameByType(type) || 'markup';
-            this.view && this.view.turnDisplayMode(mode);
+            this.view && this.view.turnDisplayMode(type);
             this._state.previewMode = (type===Asc.c_oAscDisplayModeInReview.Final || type===Asc.c_oAscDisplayModeInReview.Original);
         },
 
@@ -974,12 +950,40 @@ define([
                         !val && (val = me.appConfig.customization ? me.appConfig.customization.reviewDisplay : undefined);
                         val = /^(original|final|markup|simple)$/i.test(val) ? val.toLocaleLowerCase() : undefined;
                     }
+                    if(val) {
+                        switch (val) {
+                            case 'markup':
+                                val = Asc.c_oAscDisplayModeInReview.Edit;
+                                break;
+                            case 'final':
+                                val = Asc.c_oAscDisplayModeInReview.Final;
+                                break;
+                            case 'original':
+                                val = Asc.c_oAscDisplayModeInReview.Original;
+                                break;
+                            case 'simple':
+                                val = Asc.c_oAscDisplayModeInReview.Simple;
+                                break;
+                        }   
+                    }
+
+                    if (typeof val === "string") {
+                        const trimmed = val.trim();
+                        if (trimmed !== "") {
+                            const num = Number(trimmed);
+                            if (!Number.isNaN(num)) {
+                                val = num;
+                            }
+                        }
+                    }
                     Common.Utils.InternalSettings.set(
                         me.appPrefix + "review-mode-editor", 
-                        val || me.getDisplayModeNameByType(me._state.displayMode)
+                        val || me._state.displayMode
                     );
-                    val && me.turnDisplayMode(val); // load display mode for all modes (viewer or editor)
-                    val && me.view.turnDisplayMode(val);
+                    if(val != null) {
+                        me.turnDisplayMode(val); // load display mode for all modes (viewer or editor)
+                        me.view.turnDisplayMode(val);
+                    }
 
                     if ( typeof (me.appConfig.customization) == 'object' && (me.appConfig.customization.review && me.appConfig.customization.review.showReviewChanges==true ||
                         (!me.appConfig.customization.review || me.appConfig.customization.review.showReviewChanges===undefined) && me.appConfig.customization.showReviewChanges==true) ) {

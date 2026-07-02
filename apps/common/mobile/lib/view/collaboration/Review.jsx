@@ -140,25 +140,25 @@ const DisplayMode = props => {
                 <ListItem title={_t.textMarkup}
                           subtitle={_t.textAllChangesEditing}
                           radio
-                          checked={mode === 'markup'}
+                          checked={mode === Asc.c_oAscDisplayModeInReview.Edit}
                           onClick={() => {
-                              props.onDisplayMode('markup');
+                              props.onDisplayMode(Asc.c_oAscDisplayModeInReview.Edit);
                           }}
                 ></ListItem>
                 <ListItem title={_t.textFinal}
                           subtitle={_t.textAllChangesAcceptedPreview}
                           radio
-                          checked={mode === 'final'}
+                          checked={mode === Asc.c_oAscDisplayModeInReview.Final}
                           onClick={() => {
-                              props.onDisplayMode('final');
+                              props.onDisplayMode(Asc.c_oAscDisplayModeInReview.Final);
                           }}
                 ></ListItem>
                 <ListItem title={_t.textOriginal}
                           subtitle={_t.textAllChangesRejectedPreview}
                           radio
-                          checked={mode === 'original'}
+                          checked={mode === Asc.c_oAscDisplayModeInReview.Original}
                           onClick={() => {
-                              props.onDisplayMode('original');
+                              props.onDisplayMode(Asc.c_oAscDisplayModeInReview.Original);
                           }}
                 ></ListItem>
             </List>

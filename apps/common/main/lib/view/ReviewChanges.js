@@ -393,7 +393,7 @@ define([
                                         checkable: true,
                                         toggleGroup: 'menuReviewView',
                                         checked: true,
-                                        value: 'markup',
+                                        value: Asc.c_oAscDisplayModeInReview.Edit,
                                         template: menuTemplate,
                                         description: Common.Utils.String.format(this.txtMarkup, !this.appConfig.isEdit && !this.appConfig.isRestrictedEdit ? '' : '(' + this.txtEditing + ')')
                                     },
@@ -402,7 +402,7 @@ define([
                                         checkable: true,
                                         toggleGroup: 'menuReviewView',
                                         checked: false,
-                                        value: 'simple',
+                                        value: Asc.c_oAscDisplayModeInReview.Simple,
                                         template: menuTemplate,
                                         description: Common.Utils.String.format(this.txtMarkupSimple, !this.appConfig.isEdit && !this.appConfig.isRestrictedEdit ? '' : '(' + this.txtEditing + ')')
                                     },
@@ -413,7 +413,7 @@ define([
                                         checked: false,
                                         template: menuTemplate,
                                         description: Common.Utils.String.format(this.txtFinal, !this.appConfig.isEdit && !this.appConfig.isRestrictedEdit ? '' : '(' + this.txtPreview + ')'),
-                                        value: 'final'
+                                        value: Asc.c_oAscDisplayModeInReview.Final
                                     },
                                     {
                                         caption: this.txtOriginalCap,
@@ -422,7 +422,7 @@ define([
                                         checked: false,
                                         template: menuTemplate,
                                         description: Common.Utils.String.format(this.txtOriginal, !this.appConfig.isEdit && !this.appConfig.isRestrictedEdit ? '' : '(' + this.txtPreview + ')'),
-                                        value: 'original'
+                                        value: Asc.c_oAscDisplayModeInReview.Original
                                     }
                                 ]
                             }),
@@ -981,10 +981,10 @@ define([
 
             turnDisplayMode: function(mode) {
                 if (this.btnReviewView) {
-                    this.btnReviewView.menu.items[0].setChecked(mode=='markup', true);
-                    this.btnReviewView.menu.items[1].setChecked(mode=='simple', true);
-                    this.btnReviewView.menu.items[2].setChecked(mode=='final', true);
-                    this.btnReviewView.menu.items[3].setChecked(mode=='original', true);
+                    this.btnReviewView.menu.items[0].setChecked(mode==Asc.c_oAscDisplayModeInReview.Edit, true);
+                    this.btnReviewView.menu.items[1].setChecked(mode==Asc.c_oAscDisplayModeInReview.Simple, true);
+                    this.btnReviewView.menu.items[2].setChecked(mode==Asc.c_oAscDisplayModeInReview.Final, true);
+                    this.btnReviewView.menu.items[3].setChecked(mode==Asc.c_oAscDisplayModeInReview.Original, true);
                 }
             },
 

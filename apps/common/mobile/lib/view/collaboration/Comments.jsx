@@ -806,7 +806,7 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                                     </div>
                                     {isEdit && !viewMode &&
                                         <div className='right'>
-                                            {(comment.editable && displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}>
+                                            {(comment.editable && displayMode === Asc.c_oAscDisplayModeInReview.Edit && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}>
                                                     {Device.ios ? 
                                                         comment.resolved ? 
                                                             <SvgIcon symbolId={IconResolveCommentCheckIos.id} className={'icon icon-svg'} /> :
@@ -818,7 +818,7 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                                                     }
                                                 </div> 
                                             }
-                                            {(displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) &&
+                                            {(displayMode === Asc.c_oAscDisplayModeInReview.Edit && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) &&
                                                 <div className='comment-menu'
                                                     onClick={() => {setComment(comment); openActionComment(true);}}>
                                                     {Device.ios ?
@@ -985,7 +985,7 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                                 </div>
                                 {isEdit && !viewMode &&
                                     <div className='right'>
-                                        {(comment.editable && displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}>
+                                        {(comment.editable && displayMode === Asc.c_oAscDisplayModeInReview.Edit && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}>
                                             {Device.ios ? 
                                                 comment.resolved ? 
                                                     <SvgIcon symbolId={IconResolveCommentCheckIos.id} className={'icon icon-svg'} /> :
@@ -996,7 +996,7 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                                                     <SvgIcon symbolId={IconResolveCommentAndroid.id} className={'icon icon-svg'} />
                                             }
                                         </div>}
-                                        {(displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) &&
+                                        {(displayMode === Asc.c_oAscDisplayModeInReview.Edit && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) &&
                                             <div className='comment-menu'
                                                 onClick={() => {openActionComment(true);}}>
                                                 <Icon icon='icon-menu-comment'/>

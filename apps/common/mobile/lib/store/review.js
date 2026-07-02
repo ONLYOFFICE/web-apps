@@ -45,7 +45,7 @@ export class storeReview {
         });
     }
 
-    displayMode = 'markup';
+    displayMode;
 
     changeDisplayMode (mode) {
         this.displayMode = mode;
