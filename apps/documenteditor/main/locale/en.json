@@ -2939,6 +2939,7 @@
   "DE.Views.FormSettings.textCheckbox": "Checkbox",
   "DE.Views.FormSettings.textCheckDefault": "Checkbox is checked by default",
   "DE.Views.FormSettings.textColor": "Border color",
+  "DE.Views.FormSettings.textSpellcheck": "Check spelling",
   "DE.Views.FormSettings.textComb": "Comb of characters",
   "DE.Views.FormSettings.textCombobox": "Combo box",
   "DE.Views.FormSettings.textComplex": "Complex field",
