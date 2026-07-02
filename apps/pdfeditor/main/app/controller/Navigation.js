@@ -225,6 +225,8 @@ define([
                 this.getApplication().getCollection('Navigation').reset(arr);
                 if (this.panelNavigation && this.panelNavigation.viewNavigationList && this.panelNavigation.viewNavigationList.scroller)
                     this.panelNavigation.viewNavigationList.scroller.update({alwaysVisibleY: true});
+            } else {
+                this.getApplication().getCollection('Navigation').reset([]);
             }
         },
 
