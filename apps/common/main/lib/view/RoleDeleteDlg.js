@@ -41,7 +41,7 @@
 
 define([], function () { 'use strict';
 
-    DE.Views.RoleDeleteDlg = Common.UI.Window.extend(_.extend({
+    Common.Views.RoleDeleteDlg = Common.UI.Window.extend(_.extend({
         options: {
             width: 300,
             cls: 'modal-dlg',
@@ -143,5 +143,5 @@ define([], function () { 'use strict';
         textLabel: 'To delete this role, you  need to move the fields associated with it to another role.',
         textSelect: 'Select for field merger role'
 
-    }, DE.Views.RoleDeleteDlg || {}));
+    }, Common.Views.RoleDeleteDlg || {}));
 });

@@ -2003,7 +2003,7 @@ define([
 
                     const formManager = this.api.asc_GetOForm();
 
-                    new DE.Views.RoleEditDlg({
+                    new Common.Views.RoleEditDlg({
                         oformManager: formManager,
                         colors: [],
                         isEdit: false,

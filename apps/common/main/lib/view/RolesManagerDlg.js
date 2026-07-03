@@ -41,14 +41,14 @@
  */
 
 define([
-    'text!documenteditor/main/app/template/RolesManagerDlg.template',
+    'text!common/main/lib/template/RolesManagerDlg.template',
     'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate) {
     'use strict';
 
-    DE.Views = DE.Views || {};
+    Common.Views = Common.Views || {};
 
-    DE.Views.RolesManagerDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
+    Common.Views.RolesManagerDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'RolesManagerDlg',
             contentWidth: 500,
@@ -215,7 +215,7 @@ define([
                 xy = Common.Utils.getOffset(me.$window),
                 rec = this.rolesList.getSelectedRec();
 
-            var win = new DE.Views.RoleEditDlg({
+            var win = new Common.Views.RoleEditDlg({
                 oformManager: me.oformManager,
                 props   : (isEdit && rec) ? {name: rec.get('name'), color: rec.get('color')} : null,
                 colors  : me.arrColors,
@@ -271,7 +271,7 @@ define([
                 });
             } else {
                 var xy = Common.Utils.getOffset(me.$window);
-                var win = new DE.Views.RoleDeleteDlg({
+                var win = new Common.Views.RoleDeleteDlg({
                     props   : {roles: this.rolesList.store, excludeName: rec.get('name')},
                     handler : function(result, settings) {
                         if (result == 'ok' && settings) {
@@ -361,5 +361,5 @@ define([
         textAnyone: 'Anyone',
         textDeleteLast: 'Are you sure you want to delete the role {0}?<br>Once deleted, the default role will be created.'
 
-    }, DE.Views.RolesManagerDlg || {}));
+    }, Common.Views.RolesManagerDlg || {}));
 });
