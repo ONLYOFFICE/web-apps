@@ -85,7 +85,8 @@ define([
             this.addListeners({
                 'FormsTab': {
                     'forms:insert': this.onControlsSelect,
-                    'forms:clear': this.onClearClick
+                    'forms:clear': this.onClearClick,
+                    'forms:manager': this.onManagerClick
                 },
                 'Toolbar': {
                     'tab:active': this.onActiveTab,
@@ -173,6 +174,17 @@ define([
                 this.api.asc_ClearAllSpecialForms();
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onManagerClick: function() {
+            const me = this;
+            (new Common.Views.RolesManagerDlg({
+                api: me.api,
+                handler: function(result, settings) {
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                },
+                props : undefined
+            })).show();
         },
 
         onDownloadUrl: function(url, fileType) {

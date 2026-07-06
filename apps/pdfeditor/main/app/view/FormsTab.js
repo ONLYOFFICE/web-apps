@@ -76,6 +76,10 @@ define([
                 '<span class="btn-slot text x-huge" id="slot-btn-form-zipcode"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-credit"></span>' +
             '</div>' +
+            '<div class="separator long forms-buttons" style="display: none;"></div>' +
+            '<div class="group forms-buttons" style="display: none;">' +
+                '<span class="btn-slot text x-huge" id="slot-btn-manager"></span>' +
+            '</div>' +
             '<div class="separator long fill-buttons" style="display: none;"></div>' +
             '<div class="group no-group-mask" style="display: none;">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-prev"></span>' +
@@ -133,6 +137,9 @@ define([
             });
             this.btnSaveForm && this.btnSaveForm.on('click', function (b, e) {
                 me.fireEvent('forms:save');
+            });
+            this.btnManager && this.btnManager.on('click', function (b, e) {
+                me.fireEvent('forms:manager');
             });
         }
 
@@ -309,6 +316,18 @@ define([
                 });
                 this.paragraphControls.push(this.btnNextForm);
 
+                this.btnManager = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-ic-sharing',
+                    lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.viewMode],
+                    caption: this.capBtnManager,
+                    visible: Common.UI.FeaturesManager.isFeatureEnabled('roles', true),
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.paragraphControls.push(this.btnManager);
+
                 Common.UI.LayoutManager.addControls(this.paragraphControls);
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: this.paragraphControls});
                 this._state = {disabled: false};
@@ -338,6 +357,7 @@ define([
                         me.btnZipCode.updateHint(me.tipZipCode);
                         me.btnCreditCard.updateHint(me.tipCreditCard);
                         me.btnDateTime.updateHint(me.tipDateTime);
+                        me.btnManager.updateHint(me.tipManager);
                     }
                     me.btnClear.updateHint(me.textClearFields);
                     me.btnPrevForm.updateHint(me.tipPrevForm);
@@ -366,6 +386,7 @@ define([
                 this.btnClear.render($host.find('#slot-btn-form-clear'));
                 this.btnPrevForm.render($host.find('#slot-btn-form-prev'));
                 this.btnNextForm.render($host.find('#slot-btn-form-next'));
+                this.btnManager.render($host.find('#slot-btn-manager'));
 
                 return this.$el;
             },
@@ -419,7 +440,9 @@ define([
             tipZipCode: 'Insert zip code',
             tipCreditCard: 'Insert credit card number',
             capDateTime: 'Date & Time',
-            tipDateTime: 'Insert date and time'
+            tipDateTime: 'Insert date and time',
+            capBtnManager: 'Manage Recipient Roles',
+            tipManager: 'Manage Roles'
         }
     }()), PDFE.Views.FormsTab || {}));
 });

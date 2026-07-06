@@ -223,6 +223,8 @@ require([
                     'common/main/lib/view/ShortcutsDialog',
                     'common/main/lib/view/ShortcutsEditDialog',
                     'common/main/lib/component/MonacoEditor',
+                    'common/main/lib/view/RolesManagerDlg',
+                    'common/main/lib/view/RoleEditDlg',
 
                     'pdfeditor/main/app/controller/DocumentHolderExt',
                     'pdfeditor/main/app/view/FileMenuPanels',

@@ -67,7 +67,11 @@ define([
             this.api        = options.api;
             this.handler    = options.handler;
             this.props      = options.props;
-            this.oformManager = this.api.asc_GetOForm();
+            if(window.DE) {
+                this.oformManager = this.api.asc_GetOForm(); 
+            } else if(window.PDFE) {
+                this.oformManager = this.api;
+            }
 
             this.wrapEvents = {
                 onRefreshRolesList: _.bind(this.onRefreshRolesList, this)
@@ -170,17 +174,31 @@ define([
             if (roles) {
                 var arr = [];
                 for (var i=0; i<roles.length; i++) {
-                    var role = roles[i].asc_getSettings(),
-                        color = role.asc_getColor();
-                    color && (color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()));
-                    arr.push({
-                        name: role.asc_getName() || this.textAnyone,
-                        color: color,
-                        fields: role.asc_getFieldCount() || 0,
-                        index: i,
-                        scope: this
-                    });
-                    color && this.arrColors.push(color.toUpperCase());
+                    if(window.DE) {
+                        let role = roles[i].asc_getSettings(),
+                            color = role.asc_getColor();
+                        color && (color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()));
+                        arr.push({
+                            name: role.asc_getName() || this.textAnyone,
+                            color: color,
+                            fields: role.asc_getFieldCount() || 0,
+                            index: i,
+                            scope: this
+                        });
+                        color && this.arrColors.push(color.toUpperCase());
+                    } else if(window.PDFE) {
+                        const role = roles[i];
+                        let color = role.GetColor();
+                        color && (color = color.replace('#', '')); 
+                        arr.push({
+                            name: role.GetName() || this.textAnyone,
+                            color: color,
+                            fields: role.GetFieldCount() || 0,
+                            index: i,
+                            scope: this
+                        });
+                        color && this.arrColors.push(color.toUpperCase());
+                    }
                 }
                 this.rolesList.store.reset(arr);
             }
@@ -224,13 +242,24 @@ define([
                     if (result == 'ok' && settings) {
                         me.lastSelectedRole = settings.name;
 
-                        var role = new AscCommon.CRoleSettings();
-                        role.asc_putName(settings.name);
-                        role.asc_putColor(settings.color);
-                        if (isEdit && rec) {
-                            me.oformManager.asc_editRole(rec.get('name'), role);
-                        } else {
-                            me.oformManager.asc_addRole(role);
+                        if(window.DE) {
+                            const role = new AscCommon.CRoleSettings();
+                            role.asc_putName(settings.name);
+                            role.asc_putColor(settings.color);
+                            if (isEdit && rec) {
+                                me.oformManager.asc_editRole(rec.get('name'), role);
+                            } else {
+                                me.oformManager.asc_addRole(role);
+                            }
+                        } else if(window.PDFE) {
+                            if (isEdit && rec) {
+                                const role = me.oformManager.asc_getRole(rec.get('name'));
+                                role.asc_putName(settings.name);
+                                role.asc_putColor(settings.color);
+                                me.oformManager.asc_editRole(rec.get('name'), role);
+                            } else {
+                                me.oformManager.asc_addRole(settings.name, settings.color);
+                            }
                         }
                     }
                 }
