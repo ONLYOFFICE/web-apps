@@ -43,8 +43,6 @@ require([
     'common/main/lib/view/SaveAsDlg',
     'common/main/lib/view/CopyWarningDialog',
     'common/main/lib/view/SelectFileDlg',
-    'common/main/lib/view/PdfSignDialog',
-    'common/main/lib/view/PdfSavedSignatureMenu',
     'common/main/lib/view/SymbolTableDialog',
     'common/main/lib/view/InsertTableDialog',
     'common/main/lib/view/SearchDialog',
