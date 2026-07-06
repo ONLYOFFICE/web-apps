@@ -50,6 +50,7 @@ define([
             return {
                 id      : Common.UI.getId(),
                 name    : null,
+                displayName : null,
                 cloneid : null,
                 imgidx  : 0,
                 type    : 0

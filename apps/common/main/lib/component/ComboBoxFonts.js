@@ -323,7 +323,7 @@ define([
 
             initialize : function(options) {
                 Common.UI.ComboBox.prototype.initialize.call(this, _.extend(options, {
-                    displayField: 'name',
+                    displayField: 'displayName',
                     scroller: {
                         wheelSpeed: 20,
                         alwaysVisibleY: true,
@@ -486,6 +486,16 @@ define([
                 var val = $(e.target).val(),
                     record = {};
 
+                // make sure the typed value is resolved to an exact font before applying,
+                // so the font that gets applied always matches the one selected in the dropdown
+                if (!this._selectedItem || this._selectedItem.get(this.displayField) !== val.trim()) {
+                    if (val !== val.trim()) {
+                        val = val.trim();
+                        $(e.target).val(val);
+                    }
+                    this.selectCandidate(true);
+                }
+
                 if (this.lastValue === val && !(extra && extra.reapply)) {
                     if (extra && extra.onkeydown)
                         this.trigger('combo:blur', this, e);
@@ -501,8 +511,9 @@ define([
                     return;
 
                 if (this._selectedItem) {
-                    record[this.valueField] = this._selectedItem.get(this.displayField);
-                    this.setRawValue(record[this.valueField]);
+                    record[this.valueField] = this._selectedItem.get('name');
+                    this.setRawValue(this._selectedItem.get(this.displayField));
+                    this.markPendingFontApply(this._selectedItem);
                     this.trigger('selected', this, _.extend({}, this._selectedItem.toJSON()), e);
                     this.addItemToRecent(this._selectedItem);
                     this.closeMenu();
@@ -539,9 +550,84 @@ define([
                 return listItemHeight;
             },
 
+            // resolve duplicate font names (e.g. recent + main list) to the correct store record
+            findFontByName: function(name, ignoreCase) {
+                if (!name) return null;
+
+                var compareName = ignoreCase ? name.toLowerCase() : name;
+
+                if (this._selectedItem) {
+                    var selectedName = this._selectedItem.get(this.displayField);
+                    var selectedCompare = ignoreCase ? selectedName.toLowerCase() : selectedName;
+                    if (selectedCompare === compareName) {
+                        return this._selectedItem;
+                    }
+                }
+
+                var matches = this.store.filter(function(rec) {
+                    var displayName = rec.get('displayName') || rec.get('name');
+                    var internalName = rec.get('name');
+                    if (ignoreCase) {
+                        return (displayName && displayName.toLowerCase() === compareName) ||
+                            (internalName && internalName.toLowerCase() === compareName);
+                    }
+                    return displayName === name || internalName === name;
+                });
+                if (!matches || !matches.length) return null;
+                if (matches.length === 1) return matches[0];
+
+                for (var i = matches.length - 1; i >= 0; i--) {
+                    if (matches[i].get('type') !== FONT_TYPE_RECENT) {
+                        return matches[i];
+                    }
+                }
+                return matches[matches.length - 1];
+            },
+
+            resolveFontFromMatches: function(matches) {
+                if (!matches || !matches.length) return null;
+                if (matches.length === 1) return matches[0];
+
+                if (this._selectedItem) {
+                    var selectedId = this._selectedItem.get('id');
+                    var selected = _.find(matches, function(font) {
+                        return font.id === selectedId;
+                    });
+                    if (selected) return selected;
+                }
+
+                for (var i = matches.length - 1; i >= 0; i--) {
+                    if (matches[i].type !== FONT_TYPE_RECENT) {
+                        return matches[i];
+                    }
+                }
+                return matches[matches.length - 1];
+            },
+
             loadSprite: function(callback) {
                 this.spriteThumbs = new CThumbnailLoader();
                 this.spriteThumbs.load(thumbs[thumbIdx].path, callback);
+            },
+
+            dedupeFonts: function(fonts) {
+                var seen = {},
+                    uniqueFonts = [];
+
+                _.each(fonts, function(font) {
+                    if (!font.displayName) {
+                        font.displayName = font.name;
+                    }
+                    if (font.type === FONT_TYPE_RECENT) {
+                        uniqueFonts.push(font);
+                        return;
+                    }
+                    if (!seen[font.name]) {
+                        seen[font.name] = true;
+                        uniqueFonts.push(font);
+                    }
+                });
+
+                return uniqueFonts;
             },
 
             fillFonts: function(store, select) {
@@ -549,7 +635,7 @@ define([
 
                 this.loadSprite(function() {
                     spriteCols = Math.floor(me.spriteThumbs.width / (thumbs[thumbIdx].width)) || 1;
-                    me.store.set(store.toJSON());
+                    me.store.set(me.dedupeFonts(store.toJSON()));
 
                     me.rendered = false;
                     if (!_.isUndefined(me.scroller)) {
@@ -562,17 +648,49 @@ define([
                     me._fontsArray = me.store.toJSON();
 
                     if (me.recent > 0) {
-                        me.store.on('add', me.onInsertItem, me);
-                        me.store.on('remove', me.onRemoveItem, me);
+                        if (!me._recentEventsBound) {
+                            me.store.on('add', me.onInsertItem, me);
+                            me.store.on('remove', me.onRemoveItem, me);
+                            me._recentEventsBound = true;
+                        }
 
                         Common.Utils.InternalSettings.set(me.appPrefix + "-settings-recent-fonts", Common.localStorage.getItem(me.appPrefix + "-settings-recent-fonts"));
                         var arr = Common.Utils.InternalSettings.get(me.appPrefix + "-settings-recent-fonts");
                         arr = arr ? arr.split(';') : [];
                         arr.reverse().forEach(function(item) {
-                            item && me.addItemToRecent(me.store.findWhere({name: item}), true);
+                            item && me.addItemToRecent(me.findFontByName(item), true);
                         });
                     }
                 });
+            },
+
+            markPendingFontApply: function(record) {
+                if (!record) return;
+
+                var me = this;
+                this._pendingFontName = record.get ? record.get('name') : record.name;
+                this._pendingFontDisplay = record.get ? (record.get('displayName') || this._pendingFontName) : (record.displayName || this._pendingFontName);
+                if (this._pendingFontTimer) {
+                    clearTimeout(this._pendingFontTimer);
+                }
+                this._pendingFontTimer = setTimeout(function() {
+                    me._pendingFontName = null;
+                    me._pendingFontDisplay = null;
+                    me._pendingFontTimer = null;
+                }, 3000);
+            },
+
+            clearPendingFontApply: function(name) {
+                if (!this._pendingFontName) return;
+
+                if (!name || name === this._pendingFontName || name === this._pendingFontDisplay) {
+                    this._pendingFontName = null;
+                    this._pendingFontDisplay = null;
+                    if (this._pendingFontTimer) {
+                        clearTimeout(this._pendingFontTimer);
+                        this._pendingFontTimer = null;
+                    }
+                }
             },
 
             onApiChangeFont: function(font) {
@@ -593,10 +711,13 @@ define([
             onApiChangeFontInternal: function(name) {
                 if (this.inFormControl) return;
 
+                if (this._pendingFontName && name !== this._pendingFontName && name !== this._pendingFontDisplay) {
+                    return;
+                }
+                this.clearPendingFontApply(name);
+
                 if (this.getRawValue() !== name) {
-                    var record = this.store.findWhere({
-                        name: name
-                    });
+                    var record = this.findFontByName(name);
 
                     var $selectedItems = $('.selected', $(this.el));
                     $selectedItems.removeClass('selected');
@@ -630,6 +751,7 @@ define([
 
                 var el = $(e.target).closest('li');
                 var record = this.store.findWhere({id: el.attr('id')});
+                this.markPendingFontApply(record);
                 this.addItemToRecent(record);
             },
 
@@ -656,9 +778,9 @@ define([
                 Common.UI.ComboBox.prototype.onBeforeShowMenu.apply(this, arguments);
 
                 if (!this.getSelectedRecord() && !!this.getRawValue()) {
-                    var record = this.store.where({name: this.getRawValue()});
-                    if (record && record.length) {
-                        this.selectRecord(record[record.length - 1]);
+                    var record = this.findFontByName(this.getRawValue());
+                    if (record) {
+                        this.selectRecord(record);
                     }
                 }
             },
@@ -707,7 +829,7 @@ define([
                 if (!silent) {
                     var arr = [];
                     this.store.where({type:FONT_TYPE_RECENT}).forEach(function(item){
-                        arr.push(item.get('name'));
+                        arr.push(item.get('displayName') || item.get('name'));
                     });
                     arr = arr.join(';');
                     Common.localStorage.setItem(this.appPrefix + "-settings-recent-fonts", arr);
@@ -719,12 +841,20 @@ define([
                 var me = this,
                     inputVal = this._input.val().toLowerCase();
 
-                if (!this._fontsArray)
-                    this._fontsArray = this.store.toJSON();
+                this._fontsArray = this.store.toJSON();
 
-                var font = _.find(this._fontsArray, function(font) {
-                    return (full) ? (font[me.displayField].toLowerCase() == inputVal) : (font[me.displayField].toLowerCase().indexOf(inputVal) == 0)
+                // always prefer an exact match so the selected font is applied as-is;
+                // only fall back to prefix matching (type-ahead) when no exact match exists
+                var exactMatches = _.filter(this._fontsArray, function(font) {
+                    return font[me.displayField].toLowerCase() == inputVal;
                 });
+                var font = this.resolveFontFromMatches(exactMatches);
+                if (!font && !full) {
+                    var prefixMatches = _.filter(this._fontsArray, function(font) {
+                        return font[me.displayField].toLowerCase().indexOf(inputVal) == 0;
+                    });
+                    font = this.resolveFontFromMatches(prefixMatches);
+                }
 
                 if (font) {
                     this._selectedItem = this.store.findWhere({
