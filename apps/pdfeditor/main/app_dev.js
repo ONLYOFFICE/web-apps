@@ -225,6 +225,7 @@ require([
                     'common/main/lib/component/MonacoEditor',
                     'common/main/lib/view/RolesManagerDlg',
                     'common/main/lib/view/RoleEditDlg',
+                    'common/main/lib/view/RoleDeleteDlg',
 
                     'pdfeditor/main/app/controller/DocumentHolderExt',
                     'pdfeditor/main/app/view/FileMenuPanels',

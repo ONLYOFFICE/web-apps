@@ -113,6 +113,62 @@ define([
             $markup.findById('#form-advanced-link').on('click', _.bind(this.openAdvancedSettings, this));
 
             // Common props
+            var itemsTemplate =
+                [
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= Common.Utils.String.htmlEncode(item.value) %>"<% if (item.value === 0) { %> class="border-top"<% } %>>',
+                            '<% if (item.value === 0) { %>',
+                                '<a tabindex="-1" type="menuitem" style="display: block; padding: ' + (Common.UI.isRTL() ? '5px 24px 5px 20px' : '5px 20px 5px 24px') + ';">',
+                                    '<span class="menu-item-icon menu__icon btn-zoomup"></span>',
+                                    '<%= Common.Utils.String.htmlEncode(item.displayValue) %>',
+                                '</a>',
+                            '<% } else { %>',
+                                '<a tabindex="-1" type="menuitem" style="padding-' + (Common.UI.isRTL() ? 'right' : 'left') + ': 10px;">',
+                                    '<span class="color" style="background: <%= item.color %>;"></span>',
+                                    '<div style="overflow: hidden; text-overflow: ellipsis;"><%= Common.Utils.String.htmlEncode(item.displayValue) %></div>',
+                                '</a>',
+                            '<% } %>',
+                        '</li>',
+                    '<% }); %>'
+                ];
+
+            var template = [
+                '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
+                    '<div class="form-control" style="display: flex; align-items: center; line-height: 14px; cursor: pointer; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>"></div>',
+                    '<div style="display: table-cell;"></div>',
+                    '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
+                    '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">'].concat(itemsTemplate).concat([
+                    '</ul>',
+                '</div>'
+            ]);
+            this.cmbRoles = new Common.UI.ComboBoxCustom({
+                el: $markup.findById('#form-combo-roles'),
+                cls: 'menu-roles',
+                menuCls: 'menu-absolute',
+                menuStyle: 'min-width: 194px; max-height: 205px;max-width: 400px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
+                style: 'width: ' + $markup.width() + 'px;',
+                editable: false,
+                template    : _.template(template.join('')),
+                itemsTemplate: _.template(itemsTemplate.join('')),
+                data: [],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big',
+                updateFormControl: function(record) {
+                    var formcontrol = $(this.el).find('.form-control');
+                    if (record) {
+                        formcontrol[0].innerHTML =
+                            `<span class="color" style="background: ${record.get('color')};"></span><div style="overflow: hidden; text-overflow: ellipsis;">${Common.Utils.String.htmlEncode(record.get('displayValue'))}</div>`;
+                    } else
+                        formcontrol[0].innerHTML = '';
+                }
+            });
+            this.onRefreshRolesList(this.roles);
+            this.lockedControls.push(this.cmbRoles);
+            this.cmbRoles.on('selected', this.onRolesChanged.bind(this));
+
             this.cmbName = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-name'),
                 cls: 'input-group-nr',
@@ -844,6 +900,9 @@ define([
 
         setApi: function(api) {
             this.api = api;
+            if(this.api) {
+                this.api.asc_registerCallback('asc_onUpdateOFormRoles', _.bind(this.onRefreshRolesList, this));
+            }
             return this;
         },
 
@@ -1278,6 +1337,76 @@ define([
             }
         },
 
+        onRefreshRolesList: function(roles) {
+            if (this._initSettings) {
+                this.roles = roles;
+                return;
+            }
+
+            if (!roles) {
+                this.api && (roles = this.api.asc_getAllRoles());
+
+                // change to event asc_onRefreshRolesList
+                // roles = [
+                //     {name: 'employee 1', color: Common.Utils.ThemeColor.getRgbColor('ff0000'), fields: 5},
+                //     {name: 'employee 2', color: Common.Utils.ThemeColor.getRgbColor('00ff00'), fields: 1},
+                //     {name: 'manager', color: null, fields: 10}
+                // ];
+            }
+
+            var lastrole = this.cmbRoles.getSelectedRecord();
+            lastrole = lastrole ? lastrole.value : '';
+
+            var arr = [];
+            var me = this;
+            roles && roles.forEach(function(role) {
+                arr.push({
+                    displayValue: role.GetName() || me.textAnyone,
+                    value: role.GetName(),
+                    color: role.GetColor() || 'transparent'
+                });
+            });
+
+            arr.push({ displayValue: this.textAddRole, value: 0 });
+
+            this.cmbRoles.setData(arr);
+            this.cmbRoles.setValue(lastrole);
+        },
+
+        onRolesChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.Role = undefined;
+
+                var me = this;
+                if (record.value === 0) {
+                    const currentRole = me._originalProps.asc_getRole();
+                    combo.setValue(currentRole);
+
+                    new Common.Views.RoleEditDlg({
+                        oformManager: me.api,
+                        colors: [],
+                        isEdit: false,
+                        handler: function (result, settings) {
+                            if (result === 'ok' && settings) {
+                                me.api.asc_addRole(settings.name, settings.color);
+
+                                me.api.asc_assignFieldToRole(settings.name);
+                                Common.Utils.InternalSettings.set('de-last-form-role', settings.name);
+                                me.fireEvent('forms:currentrole');
+                            }
+                        }
+                    }).on('close', () => {
+                        me.fireEvent('editcomplete', this);
+                    }).show();
+                } else {
+                    this.api.asc_assignFieldToRole(record.value);
+                    Common.Utils.InternalSettings.set('de-last-form-role', record.value)
+                    this.fireEvent('editcomplete', this);
+                    this.fireEvent('forms:currentrole');
+                }
+            }
+        },
+
         applyFormatSettings: function(_p) {
             switch (_p.FormatType) {
                 case AscPDF.FormatType.NONE:
@@ -1365,6 +1494,12 @@ define([
                 this._originalSpecProps = specProps;
 
                 // common props
+                val = props.asc_getRole();
+                if (this._state.Role!==val) {
+                    this.cmbRoles.setValue(val ? val : '');
+                    this._state.Role=val;
+                }
+
                 var data = this.api.GetAvailableFieldsNames(type);
                 if (!this._state.arrName || this._state.arrName.length!==data.length || _.difference(this._state.arrName, data).length>0) {
                     var arr = [];
