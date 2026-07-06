@@ -734,6 +734,7 @@ define([
                     if (me.currentAxisProps[i]) {
                         me.currentAxisProps[i].putMinValRule(Asc.c_oAscValAxisRule.fixed);
                         me.minTimeValidated = me.currentAxisProps[i].putMinVal(input.getValue());
+                        console.log(input.getValue())
                     }
                 });
             } else {
@@ -808,7 +809,7 @@ define([
                     style       : 'width: 100%;',
                     validation  : this.checkTimeValidation.bind(this, 'max')
                 });
-                me.spnMaxValue[i].on('changing', function (input, newValue, oldValue, e) {
+                me.spnMaxValue[i].on('changed:after', function (input, newValue, oldValue, e) {
                     me.cmbMaxType[i].suspendEvents();
                     me.cmbMaxType[i].setValue(Asc.c_oAscValAxisRule.fixed);
                     me.cmbMaxType[i].resumeEvents();
@@ -914,7 +915,7 @@ define([
                     style       : 'width: 100%;',
                     validation  : this.checkTimeValidation.bind(this, 'crosses')
                 });
-                me.spnVAxisCrosses[i].on('changing', function (input, newValue, oldValue, e) {
+                me.spnVAxisCrosses[i].on('changed:after', function (input, newValue, oldValue, e) {
                     me.cmbVCrossType[i].suspendEvents();
                     me.cmbVCrossType[i].setValue(Asc.c_oAscCrossesRule.value);
                     me.cmbVCrossType[i].resumeEvents();
@@ -1452,7 +1453,7 @@ define([
                 this._originalAxisVValues[index] = {
                     minAuto: (props.getMinVal()==null) ? 0 : this.isDate ? props.getMinValDate() : props.getMinVal(),
                     maxAuto: (props.getMaxVal()==null) ? 10 : this.isDate ? props.getMaxValDate() : props.getMaxVal(),
-                    crossesAuto: (props.getCrosses()==null) ? 0 : this.isDate ? props.getCrossesDate() : props.getCrosses(),
+                    crossesAuto: (props.getCrosses()==null) ? 0 : this.isDate ? props.getCrossesDate() : this.isTime ? props.getCrossesVal() : props.getCrosses(),
                 };
             }
 
@@ -1490,7 +1491,7 @@ define([
                     value = this.isDate ? this.dateToString(this._originalAxisVValues[index].crossesAuto) : this._originalAxisVValues[index].crossesAuto;
                 break;
                 default:
-                    value = this.isDate ? this.dateToString(props.getCrossesDate()) : props.getCrosses();
+                    value = this.isDate ? this.dateToString(props.getCrossesDate()) : this.isTime ? props.getCrossesVal() : props.getCrosses();
                 break;
             }
             this.isDate && this.spnVAxisCrosses[index].setDate(date);
@@ -1922,7 +1923,6 @@ define([
 
         checkTimeValidation: function(type, value) {
             var me = this;
-
             switch (type) {
                 case 'min':
                     if (me.minTimeValidated !== false) {
@@ -1931,13 +1931,13 @@ define([
                     break;
 
                 case 'max':
-                    if (this.maxTimeValidated !== false) {
+                    if (me.maxTimeValidated !== false) {
                         return true;
                     }
                     break;
 
                 case 'crosses':
-                    if (this.crossesTimeValidated !== false) {
+                    if (me.crossesTimeValidated !== false) {
                         return true;
                     }
                     break;
