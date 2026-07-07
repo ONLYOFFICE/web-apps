@@ -796,6 +796,10 @@ body {
     height: 60px;
     border: @scaled-one-px-value solid @border-regular-control;
     background-color: @canvas-content-background;
+
+    &.pdf-saved-signature-selected {
+        .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
+    }
 }
 
 .pdf-saved-signature-img {

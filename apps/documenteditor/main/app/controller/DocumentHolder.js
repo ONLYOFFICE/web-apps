@@ -370,6 +370,8 @@ define([
             var me = this;
             if (!me.api) return;
 
+            me.signatureControlMenu && me.signatureControlMenu.isVisible() && me.signatureControlMenu.hide();
+
             if (!me._isScrolling) {
                 me._isScrolling = true;
                 me._ctrlPressedAtScrollStart = event.ctrlKey;

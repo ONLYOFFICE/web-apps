@@ -44,14 +44,48 @@ define([], function () { 'use strict';
 
         getSavedSignature: function() {
             var storedJson = Common.localStorage.getItem('dialog-signature-saved');
+            if (!storedJson) return [];
+
+            var data = JSON.parse(storedJson);
+            return _.isArray(data) ? data : [];
+        },
+
+        addSavedSignature: function(data) {
+            if (!data || !data.signatureImage) return;
+
+            var signatures = this.getSavedSignature();
+            signatures = _.filter(signatures, function(signature) {
+                return signature.signatureImage !== data.signatureImage;
+            });
+            signatures.unshift(data);
+            signatures = signatures.slice(0, 3);
+            Common.localStorage.setItem('dialog-signature-saved', JSON.stringify(signatures));
+        },
+
+        getCurrentSignature: function(signProps) {
+            var signatureId = signProps && signProps.get_FormId ? signProps.get_FormId() : '',
+                storedJson = signatureId ? Common.localStorage.getItem('dialog-signature-' + signatureId) : null;
+
             if (!storedJson) return null;
 
             var data = JSON.parse(storedJson);
             return data && data.signatureImage ? data : null;
         },
 
-        removeSavedSignature: function() {
-            Common.localStorage.removeItem('dialog-signature-saved');
+        isSelectedSignature: function(data, currentSignature) {
+            return !!(data && currentSignature && data.signatureImage === currentSignature.signatureImage);
+        },
+
+        removeSavedSignature: function(data) {
+            if (!data || !data.signatureImage) return;
+
+            var signatures = this.getSavedSignature();
+            signatures = _.filter(signatures, function(signature) {
+                return signature.signatureImage !== data.signatureImage;
+            });
+
+            if (signatures.length) Common.localStorage.setItem('dialog-signature-saved', JSON.stringify(signatures));
+            else Common.localStorage.removeItem('dialog-signature-saved');
         },
 
         getMenuContainer: function(rootEl, menu) {
@@ -76,42 +110,65 @@ define([], function () { 'use strict';
             menuContainer && menuContainer.hide();
         },
 
-        syncMenu: function(menu, storedSignature) {
-            menu.items[0].options.signatureData = storedSignature;
-            menu.items[0].options.signatureImage = storedSignature ? storedSignature.signatureImage : '';
-            menu.items[0].cmpEl && menu.items[0].cmpEl.find('img').attr('src', storedSignature ? storedSignature.signatureImage : '');
+        syncMenu: function(menu, storedSignature, currentSignature) {
+            var me = this,
+                index = 0;
+
+            _.each(menu.items, function(item) {
+                if (item.value !== 'saved') return;
+
+                var signature = storedSignature[index++];
+                item.options.signatureData = signature || null;
+                item.options.signatureImage = signature ? signature.signatureImage : '';
+
+                if (!item.cmpEl) return;
+
+                if (signature) item.cmpEl.show();
+                else item.cmpEl.hide();
+
+                item.cmpEl.find('img').attr('src', item.options.signatureImage);
+                item.cmpEl.find('.pdf-saved-signature-preview').toggleClass(
+                    'pdf-saved-signature-selected',
+                    me.isSelectedSignature(signature, currentSignature)
+                );
+            });
         },
 
         createMenu: function(rootEl, options) {
+            var me = this,
+                items = [];
+
+            for (var i = 0; i < 3; i++) {
+                items.push({
+                    cls: 'pdf-saved-signature-menu-item',
+                    value: 'saved',
+                    signatureData: null,
+                    signatureImage: '',
+                    deleteCaption: this.txtDeleteSavedSignature,
+                    template: _.template([
+                        '<a id="<%= id %>" class="menu-item pdf-saved-signature-item" data-no-icon tabindex="-1" type="menuitem">',
+                            '<div class="pdf-saved-signature-preview">',
+                                '<img class="pdf-saved-signature-img" src="<%- options.signatureImage %>">',
+                            '</div>',
+                        '</a>',
+                        '<span class="signature-delete pdf-saved-signature-delete" role="button" tabindex="-1" data-toggle="tooltip" aria-label="<%- options.deleteCaption %>"></span>'
+                    ].join(''))
+                });
+            }
+            items.push({
+                caption: this.txtCreateNewSignature,
+                value: 'new',
+                template: _.template([
+                    '<a id="<%= id %>" class="menu-item signature-create-new pdf-saved-signature-create" data-no-icon tabindex="-1" type="menuitem">',
+                        '<span class="pdf-saved-signature-create-icon"></span><%- caption %>',
+                    '</a>'
+                ].join(''))
+            });
+
             var menu = new Common.UI.Menu({
                 menuAlign: 'tl-bl',
                 style: 'width: 200px;',
-                items: [
-                    {
-                        cls: 'pdf-saved-signature-menu-item',
-                        value: 'saved',
-                        signatureData: options.storedSignature,
-                        signatureImage: options.storedSignature ? options.storedSignature.signatureImage : '',
-                        deleteCaption: this.txtDeleteSavedSignature,
-                        template: _.template([
-                            '<a id="<%= id %>" class="menu-item pdf-saved-signature-item" data-no-icon tabindex="-1" type="menuitem">',
-                                '<div class="pdf-saved-signature-preview">',
-                                    '<img class="pdf-saved-signature-img" src="<%- options.signatureImage %>">',
-                                '</div>',
-                            '</a>',
-                            '<span class="signature-delete pdf-saved-signature-delete" role="button" tabindex="-1" data-toggle="tooltip" aria-label="<%- options.deleteCaption %>"></span>'
-                        ].join(''))
-                    },
-                    {
-                        caption: this.txtCreateNewSignature,
-                        value: 'new',
-                        template: _.template([
-                            '<a id="<%= id %>" class="menu-item signature-create-new pdf-saved-signature-create" data-no-icon tabindex="-1" type="menuitem">',
-                                '<span class="pdf-saved-signature-create-icon"></span><%- caption %>',
-                            '</a>'
-                        ].join(''))
-                    }
-                ]
+                items: items
             });
             var menuContainer = this.createMenuContainer(rootEl, menu);
 
@@ -125,19 +182,29 @@ define([], function () { 'use strict';
 
             menu.render(menuContainer);
             menu.cmpEl.attr({tabindex: "-1"});
-            var deleteButton = menu.items[0].cmpEl.find('.signature-delete');
-            deleteButton.tooltip({ title: this.txtDeleteSavedSignature, placement: 'cursor', zIndex: 10001});
-            deleteButton.on('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
+            _.each(menu.items, function(item) {
+                if (item.value !== 'saved')
+                    return;
 
-                deleteButton.tooltip('hide');
-                options.onDelete && options.onDelete(menu);
+                var deleteButton = item.cmpEl.find('.signature-delete');
+                deleteButton.tooltip({ title: me.txtDeleteSavedSignature, placement: 'cursor', zIndex: 10001});
+                deleteButton.on('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    deleteButton.tooltip('hide');
+                    options.onDelete && options.onDelete(item.options.signatureData, menu);
+                });
             });
             menu.on('hide:after', function() {
-                deleteButton.tooltip('hide');
+                _.each(menu.items, function(item) {
+                    if (item.value === 'saved')
+                        item.cmpEl.find('.signature-delete').tooltip('hide');
+                });
                 options.onHideAfter && options.onHideAfter(menu);
             });
+
+            this.syncMenu(menu, options.storedSignature, options.currentSignature);
 
             return {
                 menu: menu,
@@ -159,6 +226,7 @@ define([], function () { 'use strict';
             var rootEl = options.rootEl,
                 signProps = obj.asc_getSignatureProps(scope.api),
                 storedSignature = this.getSavedSignature(),
+                currentSignature = this.getCurrentSignature(signProps),
                 menu = scope.signatureControlMenu,
                 me = this,
                 uncheck = function() {
@@ -169,7 +237,7 @@ define([], function () { 'use strict';
                     uncheck();
                 };
 
-            if (!storedSignature) {
+            if (!storedSignature.length) {
                 options.openDialog && options.openDialog.call(scope, signProps);
                 return;
             }
@@ -181,12 +249,13 @@ define([], function () { 'use strict';
             if (!menu) {
                 menu = this.createMenu(rootEl, {
                     storedSignature: storedSignature,
+                    currentSignature: currentSignature,
                     onApply: function(data, menu) {
                         options.applySignature && options.applySignature.call(scope, scope.currentSignatureProps, data);
                         closeMenu(menu);
                     },
-                    onDelete: function(menu) {
-                        me.removeSavedSignature();
+                    onDelete: function(data, menu) {
+                        me.removeSavedSignature(data);
                         closeMenu(menu);
                     },
                     onCreateNew: function(menu) {
@@ -202,7 +271,7 @@ define([], function () { 'use strict';
                 }).menu;
                 scope.signatureControlMenu = menu;
             } else {
-                this.syncMenu(menu, storedSignature);
+                this.syncMenu(menu, storedSignature, currentSignature);
             }
 
             var menuContainer = this.getMenuContainer(rootEl, menu);

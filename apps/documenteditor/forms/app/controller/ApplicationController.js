@@ -131,6 +131,9 @@ define([
                 if (e.target.localName == 'canvas')
                     Common.UI.Menu.Manager.hideAll();
             });
+            this.boxSdk.on('mousewheel DOMMouseScroll', function(){
+                me.signatureControlMenu && me.signatureControlMenu.isVisible() && me.signatureControlMenu.hide();
+            });
 
             this.editorConfig = {};
             this.embedConfig = {};
