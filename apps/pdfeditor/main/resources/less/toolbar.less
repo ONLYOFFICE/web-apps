@@ -88,3 +88,25 @@
 
     }
 }
+
+.dropdown-menu.menu-roles,
+.input-group-nr.menu-roles {
+    li > a {
+      display: flex;
+      align-items: center;
+    }
+
+    span.color {
+        flex-shrink: 0;
+        display: inline-block;
+        vertical-align: text-top;
+        width: 12px;
+        height: 12px;
+        margin: 0 8px 0 2px;
+        border: @scaled-one-px-value-ie solid @border-color-shading-ie;
+        border: @scaled-one-px-value solid @border-color-shading;
+        .rtl & {
+            margin: 0 2px 0 8px;
+        }
+    }
+}
