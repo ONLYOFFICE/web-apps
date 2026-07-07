@@ -1389,9 +1389,8 @@ define([
                         handler: function (result, settings) {
                             if (result === 'ok' && settings) {
                                 me.api.asc_addRole(settings.name, settings.color);
-
                                 me.api.asc_assignFieldToRole(settings.name);
-                                Common.Utils.InternalSettings.set('de-last-form-role', settings.name);
+                                Common.Utils.InternalSettings.set('pdfe-last-form-role', settings.name);
                                 me.fireEvent('forms:currentrole');
                             }
                         }
@@ -1400,7 +1399,7 @@ define([
                     }).show();
                 } else {
                     this.api.asc_assignFieldToRole(record.value);
-                    Common.Utils.InternalSettings.set('de-last-form-role', record.value)
+                    Common.Utils.InternalSettings.set('pdfe-last-form-role', record.value)
                     this.fireEvent('editcomplete', this);
                     this.fireEvent('forms:currentrole');
                 }

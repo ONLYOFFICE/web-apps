@@ -77,6 +77,14 @@ define([
                 '<span class="btn-slot text x-huge" id="slot-btn-form-credit"></span>' +
             '</div>' +
             '<div class="separator long forms-buttons" style="display: none;"></div>' +
+            '<div class="group forms-buttons small" style="display: none;">' +
+                '<div class="elset" style="text-align: center;">' +
+                    '<span class="btn-slot text font-size-normal" id="slot-lbl-fill-for" style="text-align: center;margin-top: 4px;"></span>' +
+                '</div>' +
+                '<div class="elset" style="display: flex;">' +
+                    '<span id="form-combo-roles-current" style="flex-grow: 1;"></span>' +
+                '</div>' +
+            '</div>' +
             '<div class="group forms-buttons" style="display: none;">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-manager"></span>' +
             '</div>' +
@@ -137,6 +145,9 @@ define([
             });
             this.btnSaveForm && this.btnSaveForm.on('click', function (b, e) {
                 me.fireEvent('forms:save');
+            });
+            this.cmbRoles && this.cmbRoles.on('selected', function(combo, record) {
+                me.fireEvent('forms:currentrole', [combo, record]);
             });
             this.btnManager && this.btnManager.on('click', function (b, e) {
                 me.fireEvent('forms:manager');
@@ -316,6 +327,66 @@ define([
                 });
                 this.paragraphControls.push(this.btnNextForm);
 
+                const itemsTemplate = [
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%= Common.Utils.String.htmlEncode(item.value) %>"<% if (item.value === 0) { %> class="border-top"<% } %>>',
+                        '<% if (item.value === 0) { %>',
+                        '<a tabindex="-1" type="menuitem" style="display: block; padding: ' + (Common.UI.isRTL() ? '5px 24px 5px 20px' : '5px 20px 5px 24px') + ';">',
+                            '<span class="menu-item-icon menu__icon btn-zoomup"></span>',
+                            '<%= Common.Utils.String.htmlEncode(item.displayValue) %>',
+                        '</a>',
+                        '<% } else { %>',
+                        '<a tabindex="-1" type="menuitem" style="padding-' + (Common.UI.isRTL() ? 'right' : 'left') + ': 10px;">',
+                            '<span class="color" style="background: <%= item.color %>;"></span>',
+                            '<div style="overflow: hidden; text-overflow: ellipsis;"><%= Common.Utils.String.htmlEncode(item.displayValue) %></div>',
+                        '</a>',
+                        '<% } %>',
+                    '</li>',
+                    '<% }); %>'
+                ];
+
+                const template = [
+                    '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
+                        '<div class="form-control" style="display: flex; align-items: center; line-height: 14px; cursor: pointer; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>"></div>',
+                        '<div style="display: table-cell;"></div>',
+                        '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
+                        '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">'].concat(itemsTemplate).concat([
+                        '</ul>',
+                    '</div>'
+                ]);
+
+                this.cmbRoles = new Common.UI.ComboBoxCustom({
+                    cls: 'menu-roles',
+                    menuCls: 'menu-absolute',
+                    menuStyle: 'min-width: 130px; max-height: 205px;max-width: 400px;',
+                    // menuAlignEl: $(this.el).parent(),
+                    restoreMenuHeightAndTop: 85,
+                    style: 'width: 130px;',
+                    lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.viewMode],
+                    editable: false,
+                    template    : _.template(template.join('')),
+                    itemsTemplate: _.template(itemsTemplate.join('')),
+                    data: [],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small',
+                    updateFormControl: function(record) {
+                        var formcontrol = $(this.el).find('.form-control');
+                        if (record) {
+                            formcontrol[0].innerHTML =
+                                `<span class="color" style="background: ${record.get('color')};"></span><div style="overflow: hidden; text-overflow: ellipsis;">${Common.Utils.String.htmlEncode(record.get('displayValue'))}</div>`;
+                        } else
+                            formcontrol[0].innerHTML = '';
+                    }
+                });
+                this.paragraphControls.push(this.cmbRoles);
+
+                this.lblRoles = new Common.UI.Label({
+                    caption: this.textFillFor,
+                    lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.viewMode]
+                });
+                this.paragraphControls.push(this.lblRoles);
+
                 this.btnManager = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-ic-sharing',
@@ -386,9 +457,34 @@ define([
                 this.btnClear.render($host.find('#slot-btn-form-clear'));
                 this.btnPrevForm.render($host.find('#slot-btn-form-prev'));
                 this.btnNextForm.render($host.find('#slot-btn-form-next'));
+                this.lblRoles.render($host.find('#slot-lbl-fill-for'));
+                this.cmbRoles.render($host.find('#form-combo-roles-current'));
                 this.btnManager.render($host.find('#slot-btn-manager'));
 
                 return this.$el;
+            },
+
+            fillFillForCombo: function(roles, lastRoleInList) {
+                if (!this.cmbRoles) return;
+                
+                let lastrole = this.cmbRoles.getSelectedRecord();
+                lastrole = lastrole ? lastrole.value : '';
+
+                let arr = [];
+                let me = this;
+                roles && roles.forEach(function(role) {
+                    arr.push({
+                        displayValue: role.GetName() || me.textAnyone,
+                        value: role.GetName(),
+                        color: role.GetColor() || 'transparent'
+                    });
+                });
+
+                arr.push({ displayValue: this.textAddRole, value: 0 });
+
+                this.cmbRoles.setData(arr);
+                let rec = this.cmbRoles.store.findWhere({ value: lastrole });
+                this.cmbRoles.setValue(rec ? lastrole : lastRoleInList);
             },
 
             show: function () {
@@ -442,7 +538,9 @@ define([
             capDateTime: 'Date & Time',
             tipDateTime: 'Insert date and time',
             capBtnManager: 'Manage Recipient Roles',
-            tipManager: 'Manage Roles'
+            tipManager: 'Manage Roles',
+            textFillFor: 'Insert fields for',
+            textAddRole: 'Add recipient'
         }
     }()), PDFE.Views.FormsTab || {}));
 });
