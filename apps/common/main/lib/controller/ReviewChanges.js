@@ -1197,7 +1197,7 @@ define([
         },
 
         onChangeViewMode: function (mode) {
-            this.lockToolbar(Common.enumLock.slideMasterMode, mode==='master');
+            this.lockToolbar(Common.enumLock.slideMasterMode, mode==='master' || mode==='notes' || mode==='handout' || mode==='notespage');
         },
 
         textInserted: '<b>Inserted:</b>',

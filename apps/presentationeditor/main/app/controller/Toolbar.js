@@ -3028,10 +3028,11 @@ define([
         onChangeViewMode: function (mode) { // master or normal
             var isMaster = mode==='master';
             var isHandout = mode === 'handout';
-            var isNotes = mode === 'notes'
+            var isNotes = mode === 'notes';
+            var isNotesPage = mode === 'notespage'
             this.toolbar.$el.find('.master-slide-mode')[isMaster?'show':'hide']();
             this.toolbar.$el.find('.normal-mode')[!isMaster?'show':'hide']();
-            this.toolbar.lockToolbar(Common.enumLock.slideMasterMode, isMaster || isHandout || isNotes, { array:  this.btnsComment.concat([this.toolbar.btnInsertHyperlink]) });
+            this.toolbar.lockToolbar(Common.enumLock.slideMasterMode, isMaster || isHandout || isNotes || isNotesPage, { array:  this.btnsComment.concat([this.toolbar.btnInsertHyperlink]) });
 
             this._state.viewMode = mode;
             if (isMaster) {
@@ -3065,8 +3066,8 @@ define([
                 this.showStaticElements();
             }
 
-            Common.NotificationCenter.trigger('tab:visible', 'transit', !isMaster && !isHandout && !isNotes);
-            Common.NotificationCenter.trigger('tab:visible', 'animate', !isMaster && !isHandout && !isNotes);
+            Common.NotificationCenter.trigger('tab:visible', 'transit', !isMaster && !isHandout && !isNotes && !isNotesPage);
+            Common.NotificationCenter.trigger('tab:visible', 'animate', !isMaster && !isHandout && !isNotes && !isNotesPage);
         },
 
         onCreateMasterTabs: function(mode) {
