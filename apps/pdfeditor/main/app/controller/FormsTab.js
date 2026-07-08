@@ -160,7 +160,7 @@ define([
             if (!roles) {
                 this.api && (roles = this.api.asc_getAllRoles());
             }
-            this._state.lastRoleInList = (roles && roles.length>0) ? roles[roles.length-1].GetName() : undefined;
+            this._state.lastRoleInList = (roles && roles.length>0) ? roles[roles.length-1].asc_getSettings().asc_getName() : undefined;
             if (this.view) {
                 this.view.fillFillForCombo(roles, this._state.lastRoleInList);
             }

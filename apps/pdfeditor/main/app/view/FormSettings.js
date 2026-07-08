@@ -1359,11 +1359,13 @@ define([
 
             var arr = [];
             var me = this;
-            roles && roles.forEach(function(role) {
+            roles && roles.forEach(function(item) {
+                let role = item.asc_getSettings(),
+                    color = role.asc_getColor();
                 arr.push({
-                    displayValue: role.GetName() || me.textAnyone,
-                    value: role.GetName(),
-                    color: role.GetColor() || 'transparent'
+                    displayValue: role.asc_getName() || me.textAnyone,
+                    value: role.asc_getName(),
+                    color: color ? '#' + Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()) : 'transparent'
                 });
             });
 

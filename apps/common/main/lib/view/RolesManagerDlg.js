@@ -174,31 +174,17 @@ define([
             if (roles) {
                 var arr = [];
                 for (var i=0; i<roles.length; i++) {
-                    if(window.DE) {
-                        let role = roles[i].asc_getSettings(),
-                            color = role.asc_getColor();
-                        color && (color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()));
-                        arr.push({
-                            name: role.asc_getName() || this.textAnyone,
-                            color: color,
-                            fields: role.asc_getFieldCount() || 0,
-                            index: i,
-                            scope: this
-                        });
-                        color && this.arrColors.push(color.toUpperCase());
-                    } else if(window.PDFE) {
-                        const role = roles[i];
-                        let color = role.GetColor();
-                        color && (color = color.replace('#', '')); 
-                        arr.push({
-                            name: role.GetName() || this.textAnyone,
-                            color: color,
-                            fields: role.GetFieldCount() || 0,
-                            index: i,
-                            scope: this
-                        });
-                        color && this.arrColors.push(color.toUpperCase());
-                    }
+                    let role = roles[i].asc_getSettings(),
+                        color = role.asc_getColor();
+                    color && (color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()));
+                    arr.push({
+                        name: role.asc_getName() || this.textAnyone,
+                        color: color,
+                        fields: role.asc_getFieldCount() || 0,
+                        index: i,
+                        scope: this
+                    });
+                    color && this.arrColors.push(color.toUpperCase());
                 }
                 this.rolesList.store.reset(arr);
             }
