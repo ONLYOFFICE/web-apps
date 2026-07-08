@@ -64,11 +64,6 @@ define([
                 zoom_percent: undefined,
                 unitsChanged: true,
                 lock_viewProps: false,
-                slideMasterMode: false,
-                handoutMasterMode: false,
-                notesMasterMode: false,
-                outlineViewMode: false,
-                notesPageMode: false
             };
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
@@ -482,27 +477,7 @@ define([
                 : isNotesPage ? Asc.c_oAscPresentationViewMode.notesPage
                 : Asc.c_oAscPresentationViewMode.normal;
 
-            if (this._state.slideMasterMode !== isMaster) {
-                this._state.slideMasterMode = isMaster;
-                this.view.fireEvent('viewmode:change', [isMaster ? 'master' : 'normal']);
-            }
-            if (this._state.handoutMasterMode !== isHandout) {
-                this._state.handoutMasterMode = isHandout;
-                this.view.fireEvent('viewmode:change', [isHandout ? 'handout' : 'normal']);
-            }
-            if (this._state.notesMasterMode !== isNotes) {
-                this._state.notesMasterMode = isNotes;
-                this.view.fireEvent('viewmode:change', [isNotes ? 'notes' : 'normal']);
-            }
-            if (this._state.outlineViewMode !== isOutline) {
-                this._state.outlineViewMode = isOutline;
-                this.view.fireEvent('viewmode:change', [isOutline ? 'outline' : 'normal']);
-            }
-            if (this._state.notesPageMode !== isNotesPage) {
-                this._state.notesPageMode = isNotesPage;
-                this.view.fireEvent('viewmode:change', [isNotesPage ? 'notespage' : 'normal']);
-            }
-
+            this.view.fireEvent('viewmode:change', [isMaster ? 'master' : isHandout ? 'handout' : isNotes ? 'notes' : isNotesPage ? 'notespage' : isOutline ? 'outline' : 'normal']);
             this.api.asc_changePresentationViewMode(presentationMode);
         },
 
