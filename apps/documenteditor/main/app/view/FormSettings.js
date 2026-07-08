@@ -1054,7 +1054,7 @@ define([
             if (this.api && !this._noApply) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
-                formPr.SetSpellCheck(checked);
+                formPr.put_SpellCheck(checked);
                 props.put_FormPr(formPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
                 this.fireEvent('editcomplete', this);
@@ -1456,7 +1456,7 @@ define([
                         this._state.Key = undefined;
                     }
 
-                    val = formPr.GetSpellCheck();
+                    val = formPr.get_SpellCheck();
                     if (this._state.SpellCheck!=val) {
                         this.chSpellcheck.setValue(val !== false, true);
                         this._state.SpellCheck=val;
