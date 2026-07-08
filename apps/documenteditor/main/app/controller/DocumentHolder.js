@@ -370,7 +370,9 @@ define([
             var me = this;
             if (!me.api) return;
 
-            Common.Views.PdfSavedSignatureMenu && Common.Views.PdfSavedSignatureMenu.updateMenuPosition(me, me.documentHolder.cmpEl);
+            _.defer(function() {
+                Common.Views.PdfSavedSignatureMenu && Common.Views.PdfSavedSignatureMenu.updateMenuPosition(me, me.documentHolder.cmpEl);
+            });
 
             if (!me._isScrolling) {
                 me._isScrolling = true;
