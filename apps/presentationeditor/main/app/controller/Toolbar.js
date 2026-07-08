@@ -3038,22 +3038,30 @@ define([
                 Common.NotificationCenter.trigger('tab:visible', 'handoutMaster', false);
                 Common.NotificationCenter.trigger('tab:visible', 'notesMaster', false);
                 Common.NotificationCenter.trigger('tab:visible', 'slideMaster', true);
+                this.isSlideMasterTab = true;
                 this.toolbar.setTab('slideMaster');
             } else if (isHandout) {
                 Common.NotificationCenter.trigger('tab:visible', 'slideMaster', false);
                 Common.NotificationCenter.trigger('tab:visible', 'notesMaster', false);
                 Common.NotificationCenter.trigger('tab:visible', 'handoutMaster', true);
+                this.isHandoutMasterTab = true;
                 this.toolbar.setTab('handoutMaster');
             } else if (isNotes) {
                 Common.NotificationCenter.trigger('tab:visible', 'slideMaster', false);
                 Common.NotificationCenter.trigger('tab:visible', 'handoutMaster', false);
                 Common.NotificationCenter.trigger('tab:visible', 'notesMaster', true);
+                this.isNotesMasterTab = true;
                 this.toolbar.setTab('notesMaster');
             } else {
                 Common.NotificationCenter.trigger('tab:visible', 'slideMaster', false);
                 Common.NotificationCenter.trigger('tab:visible', 'handoutMaster', false);
                 Common.NotificationCenter.trigger('tab:visible', 'notesMaster', false);
-                this.toolbar.setTab('home');
+                if (this.isSlideMasterTab || this.isHandoutMasterTab || this.isNotesMasterTab) {
+                    this.toolbar.setTab('home');
+                }
+                this.isSlideMasterTab = false;
+                this.isHandoutMasterTab = false;
+                this.isNotesMasterTab = false;
                 this.showStaticElements();
             }
 
