@@ -734,7 +734,6 @@ define([
                     if (me.currentAxisProps[i]) {
                         me.currentAxisProps[i].putMinValRule(Asc.c_oAscValAxisRule.fixed);
                         me.minTimeValidated = me.currentAxisProps[i].putMinVal(input.getValue());
-                        console.log(input.getValue())
                     }
                 });
             } else {
@@ -1440,12 +1439,12 @@ define([
 
         fillVProps: function(props, index, hor) {
             if (props.getAxisType() !== Asc.c_oAscAxisType.val) return;
-
             this.isDate = props.getFormatType() === Asc.c_oAscNumFormatType.Date;
             this.isTime = props.getFormatType() === Asc.c_oAscNumFormatType.Time;
             this.minDate = props.getMinValDate();
             this.maxDate = props.getMaxValDate();
             this.crossesDate = props.getCrossesDate();
+            if (this.isTime) this.timeFormatExample = this.api.asc_getLocaleExample(props.getNumFmt().getFormatCode(), 13/24 + 45/1440 + 30/86400);
 
             if (this._originalAxisVValues==undefined)
                 this._originalAxisVValues = [];
@@ -1943,7 +1942,7 @@ define([
                     break;
             }
 
-            return me.textInvalidTimeFormat;
+            return me.textInvalidTimeFormat + `${this.timeFormatExample}`;
         },
 
         // onSelectData: function() {
