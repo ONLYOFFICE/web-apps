@@ -63,7 +63,7 @@ define([], function () { 'use strict';
         },
 
         getCurrentSignature: function(signProps) {
-            var signatureId = signProps && signProps.get_FormId ? signProps.get_FormId() : '',
+            var signatureId = signProps ? signProps.get_FormId() : '',
                 storedJson = signatureId ? Common.localStorage.getItem('dialog-signature-' + signatureId) : null;
 
             if (!storedJson) return null;
@@ -212,15 +212,74 @@ define([], function () { 'use strict';
             };
         },
 
-        showMenu: function(menuContainer, menu, x, y) {
+        getFieldRect: function(scope, signProps) {
+            return signProps ? scope.api.asc_GetContentControlBoundingRect(signProps.get_FormId()) : null;
+        },
+
+        showMenu: function(rootEl, menuContainer, menu, fieldBounds) {
+            var bounds = Common.Utils.getBoundingClientRect(rootEl.get(0)),
+                height = bounds.height,
+                bottom = bounds.bottom,
+                menuOffset = 4,
+                menuTolerance = 8,
+                x = fieldBounds[0],
+                y = fieldBounds[3],
+                left = bounds.left + x,
+                top = bounds.top + y;
+
+            if (height && (fieldBounds[3] <= 0 || fieldBounds[1] >= height)) {
+                menu.hide();
+                menuContainer.hide();
+                return false;
+            }
+
+            menu.menuAlign = 'tl-bl';
             menuContainer.css({left: x, top : y}).show();
             menu.show();
+            var menuHeight = menu.cmpEl.outerHeight(),
+                menuWidth = menu.cmpEl.outerWidth();
+
+            if (top + menuHeight > bottom + menuTolerance) {
+                top = bounds.top + fieldBounds[1] - menuOffset - menuHeight;
+                if (top >= bounds.top) {
+                    menu.menuAlign = 'bl-tl';
+                } else {
+                    menu.hide();
+                    menuContainer.hide();
+                    return false;
+                }
+            }
+
+            if (left + menuWidth > bounds.right) left = bounds.right - menuWidth;
+            if (left < bounds.left) left = bounds.left;
+
+            menu.cmpEl.css({left: left, top: top});
+
             _.delay(function() {
                 menu.cmpEl.focus();
             }, 10);
+            return true;
         },
 
-        showActions: function(scope, obj, x, y, options) {
+        updateMenuPosition: function(scope, rootEl) {
+            var menu = scope.signatureControlMenu;
+            if (!menu || (!menu.isVisible() && !scope.menuHidden)) return;
+
+            var signProps = scope.currentSignatureProps,
+                fieldBounds = this.getFieldRect(scope, signProps),
+                menuContainer = this.getMenuContainer(rootEl, menu);
+
+            if (!fieldBounds) {
+                this.hideMenu(rootEl, menu);
+                scope.menuHidden = true;
+                return;
+            }
+
+            var menuShown = this.showMenu(rootEl, menuContainer, menu, fieldBounds);
+            scope.menuHidden = !menuShown;
+        },
+
+        showActions: function(scope, obj, options) {
             options = options || {};
 
             var rootEl = options.rootEl,
@@ -233,6 +292,7 @@ define([], function () { 'use strict';
                     scope.api.asc_UncheckContentControlButtons();
                 },
                 closeMenu = function(currentMenu) {
+                    scope.menuHidden = false;
                     me.hideMenu(rootEl, currentMenu);
                     uncheck();
                 };
@@ -274,10 +334,13 @@ define([], function () { 'use strict';
                 this.syncMenu(menu, storedSignature, currentSignature);
             }
 
-            var menuContainer = this.getMenuContainer(rootEl, menu);
+            var menuContainer = this.getMenuContainer(rootEl, menu),
+                fieldBounds = this.getFieldRect(scope, signProps),
+                menuShown;
             menuContainer.attr('data-value', 'prevent-canvas-click');
             scope._preventClick = true;
-            this.showMenu(menuContainer, menu, x, y);
+            menuShown = fieldBounds ? this.showMenu(rootEl, menuContainer, menu, fieldBounds) : false;
+            scope.menuHidden = !menuShown;
             scope._fromShowContentControls = false;
         },
 

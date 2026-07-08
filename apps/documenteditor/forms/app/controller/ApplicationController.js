@@ -131,8 +131,8 @@ define([
                 if (e.target.localName == 'canvas')
                     Common.UI.Menu.Manager.hideAll();
             });
-            this.boxSdk.on('mousewheel DOMMouseScroll', function(){
-                me.signatureControlMenu && me.signatureControlMenu.isVisible() && me.signatureControlMenu.hide();
+            this.boxSdk.on('wheel mousewheel DOMMouseScroll', function(){
+                Common.Views.PdfSavedSignatureMenu && Common.Views.PdfSavedSignatureMenu.updateMenuPosition(me, me.boxSdk);
             });
 
             this.editorConfig = {};
@@ -1318,7 +1318,7 @@ define([
                             return;
                     }
                     setTimeout(function() {
-                        me.onShowSignatureActions(obj, x, y);
+                        me.onShowSignatureActions(obj);
                     }, 1);
                     // me.api.asc_addImage(obj.pr);
                     // setTimeout(function(){
@@ -1375,8 +1375,8 @@ define([
             }
         },
 
-        onShowSignatureActions: function(obj, x, y) {
-            Common.Views.PdfSavedSignatureMenu.showActions(this, obj, x, y, {
+        onShowSignatureActions: function(obj) {
+            Common.Views.PdfSavedSignatureMenu.showActions(this, obj, {
                 rootEl: this.boxSdk,
                 openDialog: this.openSignatureDialog,
                 applySignature: this.applyStoredSignature

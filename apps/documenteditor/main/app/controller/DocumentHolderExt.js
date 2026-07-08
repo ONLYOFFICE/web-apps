@@ -1775,8 +1775,8 @@ define([], function () {
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         };
 
-        dh.onShowSignatureActions = function(obj, x, y) {
-            Common.Views.PdfSavedSignatureMenu.showActions(this, obj, x, y, {
+        dh.onShowSignatureActions = function(obj) {
+            Common.Views.PdfSavedSignatureMenu.showActions(this, obj, {
                 rootEl: this.documentHolder.cmpEl,
                 openDialog: this.openSignatureDialog,
                 applySignature: this.applyStoredSignature
@@ -1975,7 +1975,7 @@ define([], function () {
                     }
                     if (me.mode.canSaveToFile) {
                         setTimeout(function() {
-                            me.onShowSignatureActions(obj, x, y);
+                            me.onShowSignatureActions(obj);
                         }, 1);
                     } else { // select picture in viewer only from local file
                         this.api.asc_addImage(obj.pr);

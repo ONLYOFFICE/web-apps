@@ -370,7 +370,7 @@ define([
             var me = this;
             if (!me.api) return;
 
-            me.signatureControlMenu && me.signatureControlMenu.isVisible() && me.signatureControlMenu.hide();
+            Common.Views.PdfSavedSignatureMenu && Common.Views.PdfSavedSignatureMenu.updateMenuPosition(me, me.documentHolder.cmpEl);
 
             if (!me._isScrolling) {
                 me._isScrolling = true;
