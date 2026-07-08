@@ -53,6 +53,9 @@ define([
                     '<span class="btn-slot text x-huge" id="slot-btn-normal"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-outline-view"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-notes-page"></span>' +
+                '</div>' +
+                '<div class="separator long"></div>' +
+                '<div class="group">' +
                     '<span class="btn-slot text x-huge" id="slot-btn-slide-master"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-handout-master"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-notes-master"></span>' +
@@ -675,6 +678,7 @@ define([
                         me.chRulers.hide();
                         me.btnGuides.$el.closest('.group').remove();
                         me.$el.find('#slot-btn-slide-master').closest('.group').next().addBack().remove();
+                        me.$el.find('#slot-btn-outline-view').closest('.group').next().addBack().remove();
                     }
                     if (
                         !config.isEdit || 
