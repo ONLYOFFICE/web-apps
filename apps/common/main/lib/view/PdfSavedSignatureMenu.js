@@ -229,7 +229,7 @@ define([], function () { 'use strict';
 
             if (height && (fieldBounds[3] <= 0 || fieldBounds[1] >= height)) {
                 menu.hide();
-                menuContainer.hide();
+                menuContainer.attr('data-value', '').hide();
                 return false;
             }
 
@@ -245,7 +245,7 @@ define([], function () { 'use strict';
                     menu.menuAlign = 'bl-tl';
                 } else {
                     menu.hide();
-                    menuContainer.hide();
+                    menuContainer.attr('data-value', '').hide();
                     return false;
                 }
             }
