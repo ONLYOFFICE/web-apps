@@ -65,6 +65,7 @@ require([
     'common/main/lib/view/ExternalLinksDlg',
     'common/main/lib/view/FormatSettingsDialog',
     'common/main/lib/view/PdfSignDialog',
+    'common/main/lib/view/PdfSavedSignatureMenu',
     'common/main/lib/view/DocumentPropertyDialog',
     'common/main/lib/view/MacrosDialog',
     'common/main/lib/view/MacrosAiDialog',

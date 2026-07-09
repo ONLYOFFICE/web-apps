@@ -780,3 +780,91 @@ body {
     padding-left: 0;
     padding-right: 0;
 }
+
+.dropdown-menu li > a.pdf-saved-signature-item {
+    padding: 5px 10px;
+}
+
+.dropdown-menu li.pdf-saved-signature-menu-item {
+    position: relative;
+}
+
+.pdf-saved-signature-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    border: @scaled-one-px-value solid @border-regular-control;
+    background-color: @canvas-content-background;
+
+    &.pdf-saved-signature-selected {
+        .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
+    }
+}
+
+.pdf-saved-signature-img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.pdf-saved-signature-delete {
+    position: absolute;
+    right: 14px;
+    top: 8px;
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    background-color: @text-tertiary;
+
+    &:before,
+    &:after {
+        content: "";
+        position: absolute;
+        left: 4px;
+        top: 7px;
+        width: 8px;
+        height: 1px;
+        background-color: @text-contrast-background;
+    }
+
+    &:before {
+        transform: rotate(45deg);
+    }
+
+    &:after {
+        transform: rotate(-45deg);
+    }
+
+    &:hover {
+        background-color: @text-secondary;
+    }
+}
+
+.dropdown-menu li > a.pdf-saved-signature-create {
+    display: flex;
+    border-top: @scaled-one-px-value solid @border-divider;
+    padding: 5px 8px;
+}
+
+.pdf-saved-signature-create-icon {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+
+    &:before,
+    &:after {
+        content: "";
+        position: absolute;
+        left: 3px;
+        top: 7px;
+        width: 10px;
+        height: 1px;
+        background-color: currentColor;
+    }
+
+    &:after {
+        transform: rotate(90deg);
+    }
+}

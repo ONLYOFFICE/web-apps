@@ -131,6 +131,9 @@ define([
                 if (e.target.localName == 'canvas')
                     Common.UI.Menu.Manager.hideAll();
             });
+            this.boxSdk.on('wheel mousewheel DOMMouseScroll', function(){
+                Common.Views.PdfSavedSignatureMenu && Common.Views.PdfSavedSignatureMenu.updateMenuPosition(me, me.boxSdk);
+            });
 
             this.editorConfig = {};
             this.embedConfig = {};
@@ -1314,25 +1317,9 @@ define([
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    var signProps = obj.asc_getSignatureProps(me.api);
-                    var win = (new Common.Views.PdfSignDialog({
-                        props: signProps,
-                        api: me.api,
-                        disableNetworkFunctionality: me.appOptions.disableNetworkFunctionality,
-                        storage: me.appOptions.canRequestInsertImage || me.appOptions.fileChoiceUrl && me.appOptions.fileChoiceUrl.indexOf("{documentType}")>-1,
-                        fontStore: this.getCollection('Common.Collections.Fonts'),
-                        iconType: 'svg',
-                        handler: function(result, value) {
-                            if (result == 'ok') {
-                                me.api.asc_SetSignatureProps(signProps.getResult());
-                            }
-                        }
-                        })).on('close', function(obj){
-                            setTimeout(function(){
-                                me.api.asc_UncheckContentControlButtons();
-                            }, 100);
-                        });
-                    win.show();
+                    setTimeout(function() {
+                        me.onShowSignatureActions(obj);
+                    }, 1);
                     // me.api.asc_addImage(obj.pr);
                     // setTimeout(function(){
                     //     me.api.asc_UncheckContentControlButtons();
@@ -1350,9 +1337,50 @@ define([
         onHideContentControlsActions: function() {
             this.listControlMenu && this.listControlMenu.isVisible() && this.listControlMenu.hide();
             this.imageControlMenu && this.imageControlMenu.isVisible() && this.imageControlMenu.hide();
+            this.signatureControlMenu && this.signatureControlMenu.isVisible() && this.signatureControlMenu.hide();
             var controlsContainer = this.boxSdk.find('#calendar-control-container');
             if (controlsContainer.is(':visible'))
                 controlsContainer.hide();
+        },
+
+        openSignatureDialog: function(signProps) {
+            Common.Views.PdfSavedSignatureMenu.hideMenu(this.boxSdk, this.signatureControlMenu);
+
+            var me = this,
+                win = (new Common.Views.PdfSignDialog({
+                    props: signProps,
+                    api: me.api,
+                    disableNetworkFunctionality: me.appOptions.disableNetworkFunctionality,
+                    storage: me.appOptions.canRequestInsertImage || me.appOptions.fileChoiceUrl && me.appOptions.fileChoiceUrl.indexOf("{documentType}")>-1,
+                    fontStore: this.getCollection('Common.Collections.Fonts'),
+                    iconType: 'svg',
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            me.api.asc_SetSignatureProps(signProps.getResult());
+                        }
+                    }
+                })).on('close', function(obj){
+                    setTimeout(function(){
+                        me.api.asc_UncheckContentControlButtons();
+                    }, 100);
+                });
+            win.show();
+        },
+
+        applyStoredSignature: function(signProps, data) {
+            var signatureId = signProps && signProps.get_FormId ? signProps.get_FormId() : '';
+            if (data && data.signatureImage && signatureId) {
+                Common.localStorage.setItem('dialog-signature-' + signatureId, JSON.stringify(data));
+                this.api.asc_SetSignatureProps({imageData: data.signatureImage, internalId: signatureId});
+            }
+        },
+
+        onShowSignatureActions: function(obj) {
+            Common.Views.PdfSavedSignatureMenu.showActions(this, obj, {
+                rootEl: this.boxSdk,
+                openDialog: this.openSignatureDialog,
+                applySignature: this.applyStoredSignature
+            });
         },
 
         onShowImageActions: function(obj, x, y) {
