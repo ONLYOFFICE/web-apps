@@ -95,6 +95,7 @@ define([
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onApiFocusObject, this));
                 this.api.asc_registerCallback('asc_onRedactState',          _.bind(this.onRedactionStateToggle, this));
+                this.api.asc_registerCallback('asc_onCanRedact',          _.bind(this.onCanRedactaction, this));
             }
             return this;
         },
@@ -307,6 +308,10 @@ define([
             this.view.btnMarkForRedact.toggle(isRedaction);
             if (this.toolbar)
                 isRedaction ? this.toolbar.clearSelectTools() : this.toolbar.updateSelectTools();
+        },
+
+        onCanRedactaction: function(isActive) {
+            Common.Utils.lockControls(Common.enumLock.canRedact, !isActive, {array: [this.view.btnApplyRedactions]});
         },
 
         SetDisabled: function(state) {
