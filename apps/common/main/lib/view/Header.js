@@ -417,7 +417,6 @@ define([
             if (me.btnFillStatus) {
                 me.btnFillStatus.updateHint(me.tipFillStatus);
                 me.btnFillStatus && me.btnFillStatus.on('click', function (e) {
-                    Common.UI.TooltipManager.closeTip('showFillStatus');
                     Common.Gateway.requestFillingStatus(appConfig.user.roles && appConfig.user.roles.length>0 ? appConfig.user.roles[0] : undefined);
                 });
             }
