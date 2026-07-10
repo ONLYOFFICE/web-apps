@@ -123,7 +123,6 @@
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "انٹرنیٹ کنکشن کو بحال کردیا گیا ہے ، اور فائل کا ورژن تبدیل کردیا گیا ہے۔ اس سے پہلے کہ آپ کام جاری رکھیں ، آپ کو فائل ڈاؤن لوڈ کرنے یا اس کے مواد کو کاپی کرنے کی ضرورت ہے تاکہ اس بات کا یقین کریں کہ کچھ بھی ضائع نہیں ہوا ہے ، اور پھر اس صفحے کو دوبارہ لوڈ کریں۔",
   "DE.Controllers.ApplicationController.errorUserDrop": "ابھی فائل تک رسائی نہیں ہوسکتی ہے۔",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "لیکن کنکشن بحال ہونے اور صفحہ دوبارہ لوڈ ہونے تک اسے ڈاؤن لوڈ یا پرنٹ نہیں کر سکیں گے۔ <br> رابطہ منقطع ہے۔ آپ اب بھی دستاویز دیکھ ",
-  "DE.Controllers.ApplicationController.helpTextFillStatus": "یہ فارم رول بیسڈ فلنگ کے لیے تیار ہے۔ بھرنے کا مرحلہ چیک کرنے کے لیے اسٹیٹس بٹن پر کلک کریں۔",
   "DE.Controllers.ApplicationController.mniImageFromFile": "فائل سے تصویر",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "اسٹوریج سے تصویر",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "یو آر ایل سے تصویر",

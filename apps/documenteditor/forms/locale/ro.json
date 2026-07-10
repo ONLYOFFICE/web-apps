@@ -125,7 +125,6 @@
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "Conexiunea s-a restabilit și versiunea fișierului s-a schimbat.<br>Înainte de a continua, fișierul trebuie descărcat sau conținutul fișierului copiat ca să vă asigurați că nimic nu e pierdut, apoi reîmprospătați această pagină.",
   "DE.Controllers.ApplicationController.errorUserDrop": "Fișierul nu poate fi accesat deocamdată.",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "Conexiunea a fost pierdută. Încă mai puteți vizualiza documentul,<br>dar nu și să-l descărcați sau imprimați până când conexiunea se restabilește și pagina se reîmprospătează.",
-  "DE.Controllers.ApplicationController.helpTextFillStatus": "Formularul este gata să fie completat pe bază de roluri. Faceți clic pe butonul stare pentru a verifica etapele de completare.",
   "DE.Controllers.ApplicationController.mniImageFromFile": "Imaginea din fișier",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "Imaginea din serviciul stocare",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "Imaginea prin URL",

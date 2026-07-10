@@ -3015,7 +3015,6 @@
   "DE.Views.FormsTab.capCreditCard": "신용 카드",
   "DE.Views.FormsTab.capDateTime": "날짜 및 시간",
   "DE.Views.FormsTab.capZipCode": "우편 번호",
-  "DE.Views.FormsTab.helpTextFillStatus": "이 양식은 역할 기반 작성이 가능합니다. 상태 버튼을 클릭하여 작성 단계를 확인하세요.",
   "DE.Views.FormsTab.textAddRole": "수신자 추가",
   "DE.Views.FormsTab.textAnyone": "누구나",
   "DE.Views.FormsTab.textClear": "필드 지우기",

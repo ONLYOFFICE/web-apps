@@ -3015,7 +3015,6 @@
   "DE.Views.FormsTab.capCreditCard": "クレジットカード",
   "DE.Views.FormsTab.capDateTime": "日付と時間",
   "DE.Views.FormsTab.capZipCode": "郵便番号",
-  "DE.Views.FormsTab.helpTextFillStatus": "このフォームは役割ベースの入力が可能です。ステータスボタンをクリックして入力段階を確認してください。",
   "DE.Views.FormsTab.textAddRole": "受取人を追加",
   "DE.Views.FormsTab.textAnyone": "誰でも",
   "DE.Views.FormsTab.textClear": "フィールドをクリアする",

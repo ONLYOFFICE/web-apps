@@ -125,7 +125,6 @@
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "החיבור שוחזר, וגרסת הקובץ השתנתה.\nלפני שאתה יכול להמשיך לעובד, אתה צריך להוריד קובץ או להעתיק את התוכן שלו כדי לוודא ששום דבר לא נאבד, ואז לרענן את העמוד.",
   "DE.Controllers.ApplicationController.errorUserDrop": "לא ניתן לגשת לקובץ כעת.",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "החיבור אבד. אתה עדיין יכול להציג את המסמך,<br>אך לא תוכל להוריד או להדפיס אותו עד שהחיבור ישוחזר והעמוד ייטען מחדש.",
-  "DE.Controllers.ApplicationController.helpTextFillStatus": "טופס זה מוכן למילוי בהתאם לתפקיד. לבדיקת התקדמות המילוי יש ללחוץ על מקש המצב.",
   "DE.Controllers.ApplicationController.mniImageFromFile": "תמונה מקובץ",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "תמונה מאחסון",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "תמונה מURL",

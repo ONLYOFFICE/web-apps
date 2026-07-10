@@ -122,7 +122,6 @@
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "Yhteys on palautettu, ja tiedoston versio on muuttunut.<br>Ennen kuin voit jatkaa työskentelyä, sinun on ladattava tämä tiedosto tai kopioitava sen sisältö ja tarkistettava, että se on ennallaan ja sitten päivitettävä tämä sivu.",
   "DE.Controllers.ApplicationController.errorUserDrop": "Tiedostoon ei tällä hetkellä pääse.",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "Yhteys on katkennut. Voit vielä selata asiakirjaa,<br>mutta et voi ladata tai tulostaa sitä ennen kuin yhteys on palautettu.",
-  "DE.Controllers.ApplicationController.helpTextFillStatus": "Tämä lomake on valmis roolipohjaiselle täyttämiselle. Napsauta tila-painiketta tarkastaaksesi täyttämisen vaiheen.",
   "DE.Controllers.ApplicationController.mniImageFromFile": "Kuva tiedostosta",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "Kuva tallennusvälineestä",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "Kuva verkko-osoitteesta",

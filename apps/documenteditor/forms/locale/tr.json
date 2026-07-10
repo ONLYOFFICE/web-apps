@@ -120,7 +120,6 @@
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "Internet bağlantısı sağlandı, dosya versiyonu değiştirildi.<br>Çalışmaya devam etmeden önce, dosyayı indirin veya içeriğini kopyalayıp herhangi bir kayıp olmadığından emin olun ve sayfayı yenileyin.",
   "DE.Controllers.ApplicationController.errorUserDrop": "Belgeye şu an erişilemiyor.",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "Bağlantı kesildi. Belgeyi yine de görüntüleyebilirsiniz,<br>ancak bağlantı yeniden kurulana ve sayfa yeniden yüklenene kadar indiremez veya yazdıramazsınız.",
-  "DE.Controllers.ApplicationController.helpTextFillStatus": "Bu form rol tabanlı doldurma için hazır. Doldurma aşamasını kontrol etmek için durum düğmesine tıklayın.",
   "DE.Controllers.ApplicationController.mniImageFromFile": "Dosyadan resim",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "Depolamadan Resim",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "URL'den resim",

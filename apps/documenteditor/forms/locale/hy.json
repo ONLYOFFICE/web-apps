@@ -125,7 +125,6 @@
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "Կապը վերահաստատվել է,և ֆայլի տարբերակը փոխվել է։<br>Նախքան աշխատանքը շարունակելը ներբեռնեք ֆայլը կամ պատճենեք դրա պարունակությունը՝ վստահ լինելու, որ ոչինչ չի կորել, և ապա նորից բեռնեք այս էջը։",
   "DE.Controllers.ApplicationController.errorUserDrop": "Այս պահին ֆայլն անհասանելի է։",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "Միացումն ընդհատվել է։ Դուք կարող եք շարունակել դիտել փաստաթուղթը,<br>բայց չեք կարողանա ներբեռնել կամ տպել, մինչև միացումը չվերականգնվի։",
-  "DE.Controllers.ApplicationController.helpTextFillStatus": "Այս ձևը պատրաստ է դերերի վրա հիմնված լրացման համար: Սեղմեք կարգավիճակի կոճակը՝ լրացման փուլը ստուգելու համար:",
   "DE.Controllers.ApplicationController.mniImageFromFile": "Նկար նիշքից",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "Պատկեր պահեստից",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "Պատկերը URL-ից",

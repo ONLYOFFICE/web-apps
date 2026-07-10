@@ -125,7 +125,6 @@
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "A ligação foi restaurada e a versão do ficheiro alterada.<br>Antes de poder trabalhar, deve descarregar o ficheiro ou copiar o seu conteúdo para garantir que nada se perde e, depois, recarregar esta página.",
   "DE.Controllers.ApplicationController.errorUserDrop": "De momento, não é possível aceder ao ficheiro.",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "Ligação perdida. Ainda pode ver o documento mas não o<br>conseguirá descarregar até que a ligação seja restaurada e a página recarregada.",
-  "DE.Controllers.ApplicationController.helpTextFillStatus": "Este formulário está pronto para ser preenchido com base na função. Clique no botão de estado para verificar a fase de preenchimento.",
   "DE.Controllers.ApplicationController.mniImageFromFile": "Imagem de um ficheiro",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "Imagem de um armazenamento",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "Imagem de um URL",
