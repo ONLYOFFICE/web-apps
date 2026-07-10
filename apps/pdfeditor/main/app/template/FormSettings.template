@@ -317,6 +317,12 @@
     </tr>
     <tr>
         <td class="padding-small">
+            <label class="input-label"><%= scope.textDisplay %></label>
+            <div id="form-combo-visibility" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
             <label class="input-label" style="margin-top: 4px;"><%= scope.textOrientation %></label>
             <div id="form-combo-orient" style="display: inline-block;" class="float-right"></div>
         </td>

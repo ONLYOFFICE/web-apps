@@ -244,6 +244,26 @@ define([
                 }
             }, this));
 
+            this.cmbVisibility = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-visibility'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
+                editable: false,
+                data: [
+                    {displayValue: this.textVisible, value: AscPDF.Api.Types.display.visible},
+                    {displayValue: this.textHidden, value: AscPDF.Api.Types.display.hidden},
+                    {displayValue: this.textVisibleButDoesntPrint, value: AscPDF.Api.Types.display.noPrint},
+                    {displayValue: this.textHiddenButPrintable, value: AscPDF.Api.Types.display.noView}
+                ],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.lockedControls.push(this.cmbVisibility);
+            this.cmbVisibility.on('selected', this.onVisibilitySelect.bind(this));
+
             //Spec props
             // combobox & text field
             this.txtPlaceholder = new Common.UI.InputField({
@@ -972,6 +992,14 @@ define([
             }
         },
 
+        onVisibilitySelect: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.Display = undefined;
+                this.api.SetFieldDisplayType(record.value);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
         onSelectItem: function(listView, itemView, record) {
             if (!record) return;
             this.txtNewValue.setValue(record.get('name'));
@@ -1465,6 +1493,12 @@ define([
                     this._state.StokeStyle=val;
                 }
                 this.cmbLineStyle.setDisabled(this._state.DisabledControls || this._state.BorderColor==='transparent');
+
+                val = props.asc_getDisplay();
+                if (this._state.Display!==val) {
+                    this.cmbVisibility.setValue(val, '');
+                    this._state.Display=val;
+                }
 
                 if (type===AscPDF.FIELD_TYPES.text && specProps) {
                     this.labelFormName.text(this.textField);
