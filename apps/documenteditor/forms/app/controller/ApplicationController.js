@@ -1368,10 +1368,11 @@ define([
         },
 
         applyStoredSignature: function(signProps, data) {
-            var signatureId = signProps && signProps.get_FormId ? signProps.get_FormId() : '';
-            if (data && data.signatureImage && signatureId) {
+            var signatureId = signProps && signProps.get_FormId ? signProps.get_FormId() : '',
+                imageData = data && (data['vectorImage'] || data.signatureImage);
+            if (imageData && signatureId) {
                 Common.localStorage.setItem('dialog-signature-' + signatureId, JSON.stringify(data));
-                this.api.asc_SetSignatureProps({imageData: data.signatureImage, internalId: signatureId});
+                this.api.asc_SetSignatureProps({imageData: imageData, internalId: signatureId});
             }
         },
 

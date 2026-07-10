@@ -456,6 +456,7 @@ define([], function () { 'use strict';
                     const serialized = me.props.serialize();
                     serialized.mode = me.mode;
                     if (me.chSave.getValue() === 'checked') {
+                        serialized['vectorImage'] = me.props.getVectorImage();
                         Common.localStorage.setItem(me.getKey(), JSON.stringify(serialized));
                         Common.Views.PdfSavedSignatureMenu.addSavedSignature(serialized);
                     } else {
