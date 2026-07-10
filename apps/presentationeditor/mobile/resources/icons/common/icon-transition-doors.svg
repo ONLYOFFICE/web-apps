@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="icon-transition-doors">
+    <path fill="#BE6650" d="M5.75 8.833v6.334l-2 1.583v-9.5l2 1.583Zm14.5 7.917-2-1.583V8.833l2-1.583v9.5Z" class="icon-fill-red-brend-transition-primary" opacity=".8"/>
+    <path fill="#FBE4DE" d="M13.5 8.5v7h-3v-7h3Z" class="icon-fill-red-brend-transition-secondary"/>
+    <path fill="#444" fill-rule="evenodd" d="M1.936 3.32a.751.751 0 0 1 .801.11l5 4.267a.75.75 0 0 1 .263.57v7.467c0 .22-.096.428-.263.57l-5 4.267a.752.752 0 0 1-1.237-.57V4a.75.75 0 0 1 .436-.681Zm19.327.11A.751.751 0 0 1 22.5 4v16a.75.75 0 0 1-1.237.571l-5-4.267a.75.75 0 0 1-.263-.57V8.267a.75.75 0 0 1 .263-.57l5-4.267ZM3 18.374l3.5-2.987V8.613L3 5.627v12.747Zm14.5-9.761v6.774l3.5 2.987V5.627l-3.5 2.986ZM14 7.5a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-.75.75h-4a.75.75 0 0 1-.75-.75v-7.5A.75.75 0 0 1 10 7.5h4ZM10.75 15h2.5V9h-2.5v6Z" class="icon-fill-gray-primary" clip-rule="evenodd"/>
+  </g>
+</svg>

@@ -1,6 +1,41 @@
-import React, {Fragment, useEffect, useState } from 'react';
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+import React, {Fragment, useEffect, useState, useRef, useMemo, useCallback} from 'react';
 import {observer, inject} from "mobx-react";
-import { f7, View, List, ListItem, Icon, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link } from 'framework7-react';
+import { f7, View, List, ListItem, Icon, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link, ListInput, Range } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
@@ -27,17 +62,25 @@ import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
 import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
 import IconTextDirectionRtl from '@common-icons/icon-text-direction-rtl.svg';
 import IconTextDirectionLtr from '@common-icons/icon-text-direction-ltr.svg';
-import IconTextBold from '@common-icons/icon-text-bold.svg'
-import IconTextItalic from '@common-icons/icon-text-italic.svg'
-import IconTextUnderline from '@common-icons/icon-text-underline.svg'
-import IconTextStrikethrough from '@common-icons/icon-text-strikethrough.svg'
+import IconTextBold from '@common-icons/icon-bold.svg'
+import IconTextItalic from '@common-icons/icon-italic.svg'
+import IconTextUnderline from '@common-icons/icon-underline.svg'
+import IconTextStrikethrough from '@common-icons/icon-strikethrough.svg'
+
+const normalizeFontSize = value => {
+    const size = Number(value);
+    return Number.isFinite(size) && size > 0 ? size : 0;
+};
+
+const formatFontSize = (size, ptText) => `${normalizeFontSize(size)} ${ptText}`;
 
 const PageFonts = props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
     const storeTextSettings = props.storeTextSettings;
     const size = storeTextSettings.fontSize;
-    const displaySize = typeof size === 'undefined' ? t('Edit.textAuto') : size + ' ' + t('Edit.textPt');
+    const currentSize = normalizeFontSize(size);
+    const [displaySize, setDisplaySize] = useState(currentSize);
     const curFontName = storeTextSettings.fontName;
     const fonts = storeTextSettings.fontsArray;
     const iconWidth = storeTextSettings.iconWidth;
@@ -49,6 +92,10 @@ const PageFonts = props => {
     const spriteCols = storeTextSettings.spriteCols;
     const spriteThumbs = storeTextSettings.spriteThumbs;
     const arrayRecentFonts = storeTextSettings.arrayRecentFonts;
+    
+    useEffect(() => {
+        setDisplaySize(currentSize);
+    }, [currentSize]);
 
     const addRecentStorage = () => {
         setRecent(getImageUri(arrayRecentFonts));
@@ -87,6 +134,16 @@ const PageFonts = props => {
         });
     };
 
+    const currentFont = useMemo(
+        () => (curFontName ? fonts.find(f => f.name === curFontName) : null),
+        [curFontName, fonts]
+    );
+
+    const currentFontImage = useMemo(
+        () => (currentFont ? getImageUri([currentFont])[0] : null),
+        [currentFont]
+    );
+
     return (
         <Page>
             <Navbar title={t('Edit.textFonts')} backLink={t('Edit.textBack')}>
@@ -101,9 +158,15 @@ const PageFonts = props => {
                     </NavRight>
                 }
             </Navbar>
-            <List>
+            <List className ="font">
                 <ListItem title={t('Edit.textSize')}>
-                    {!isAndroid && <div slot='after-start'>{displaySize}</div>}
+                    {!isAndroid && <div slot="after-start">
+                        <Link className="item-link size-label" onClick={() => props.f7router.navigate('/edit-text-size-custom/', {props: {
+                            initialValue: displaySize,
+                            applyFontSize: props.applyFontSize},})}>
+                            {formatFontSize(displaySize, t('Edit.textPt'))}
+                        </Link>
+                    </div>}
                     <div slot='after'>
                         <Segmented>
                             <Button outline className='decrement item-link' onClick={() => {props.changeFontSize(size, true)}}>
@@ -111,7 +174,13 @@ const PageFonts = props => {
                                     <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
                                 : ' - '}
                             </Button>
-                            {isAndroid && <label>{displaySize}</label>}
+                                {isAndroid && 
+                                    <Link outline className="item-link size-label" onClick={() => props.f7router.navigate('/edit-text-size-custom/', { props: {
+                                        initialValue: displaySize,              
+                                        applyFontSize: props.applyFontSize},})}>
+                                        {formatFontSize(displaySize, t('Edit.textPt'))}
+                                    </Link>
+                                }
                             <Button outline className='increment item-link' onClick={() => {props.changeFontSize(size, false)}}>
                                 {isAndroid ? 
                                     <SvgIcon symbolId={IconExpandUp.id} className={'icon icon-svg'} />
@@ -120,7 +189,24 @@ const PageFonts = props => {
                         </Segmented>
                     </div>
                 </ListItem>
+                <ListItem>
+                    <div slot="inner" style={{ width: '100%' }}>
+                        <Range min={0} max={300} step={1} value={displaySize} onRangeChange={(value) => setDisplaySize(value)} 
+                            onRangeChanged={(value) => {if (value > 0 && value !== currentSize) props.applyFontSize(value);}}
+                        />
+                    </div>
+                </ListItem>
             </List>
+            {!!currentFont && !!currentFontImage && 
+                <>
+                    <BlockTitle>{t('Edit.textCurrentFont')}</BlockTitle>
+                    <List>
+                        <ListItem className="font-item" key={`current-${currentFont.name}`}>
+                            <img src={currentFontImage} style={{ width: `${iconWidth}px`, height: `${iconHeight}px` }} />
+                        </ListItem>
+                    </List>
+                </>
+            }
             <BlockTitle>{t('Edit.textFonts')}</BlockTitle>
             {!!arrayRecentFonts.length &&
                 <List>
@@ -156,6 +242,54 @@ const PageFonts = props => {
             </List>
         </Page>
     )
+};
+
+const PageCustomFontSize = (props) => {
+    const { t } = useTranslation();
+    const displaySize = normalizeFontSize(props.initialValue);
+    const [value, setValue] = useState(String(displaySize));
+
+    const valueRef = useRef(value);
+    useEffect(() => { valueRef.current = value; }, [value]);
+
+    const apply = useCallback(() => {
+        const size = valueRef.current;
+        if (size === '' || Number(size) === displaySize) return;
+        props.applyFontSize(size);
+    }, [displaySize, props.applyFontSize]);
+
+    const toggleCustomClass = (on) => {
+        const el = document.querySelector(Device.phone ? '#edit-sheet' : '#edit-popover');
+        if (el) el.classList.toggle('edit-custom-font-size', on);
+    };
+
+
+    useEffect(() => {
+        customFont.current = apply;
+        return () => {
+            if (customFont.current === apply)  customFont.current = null;
+        };
+    }, [apply]);
+
+    return (
+        <Page className="page-custom-font-size" onPageBeforeIn={() => toggleCustomClass(true)} onPageBeforeOut={() => { toggleCustomClass(false); apply();}}>
+            <Navbar title={t('Edit.txtCustom')} backLink="Back">
+                {Device.phone && 
+                    <NavRight>
+                        <Link sheetClose="#edit-sheet">
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <List className="input-list">
+                <ListInput autofocus label={t('Edit.textSize')} type="number" inputmode="numeric" min={1} max={300} value={value} onChange={(e) => setValue(e.target.value)} />
+            </List>
+        </Page>
+    );
 };
 
 const PageAdditionalFormatting = props => {
@@ -710,7 +844,7 @@ const EditText = props => {
     const fontSize = storeTextSettings.fontSize;
     const fontColor = storeTextSettings.textColor;
     const highlightColor = storeTextSettings.highlightColor;
-    const displaySize = typeof fontSize === 'undefined' ? t('Edit.textAuto') : fontSize + ' ' + t('Edit.textPt');
+    const displaySize = formatFontSize(fontSize, t('Edit.textPt'));
     const isBold = storeTextSettings.isBold;
     const isItalic = storeTextSettings.isItalic;
     const isUnderline = storeTextSettings.isUnderline;
@@ -748,7 +882,8 @@ const EditText = props => {
             <List>
                 <ListItem title={fontName} link="/edit-text-fonts/" after={displaySize} routeProps={{
                     changeFontSize: props.changeFontSize,
-                    changeFontFamily: props.changeFontFamily
+                    changeFontFamily: props.changeFontFamily,
+                    applyFontSize: props.applyFontSize
                 }}/>
                 <ListItem className='buttons'>
                     <div className='row'>
@@ -879,6 +1014,7 @@ const EditText = props => {
         )
 };
 
+const customFont = { current: null };
 const EditTextContainer = inject("storeTextSettings", "storeFocusObjects")(observer(EditText));
 const PageTextFonts = inject("storeTextSettings", "storeFocusObjects")(observer(PageFonts));
 const PageTextAddFormatting = inject("storeTextSettings", "storeFocusObjects")(observer(PageAdditionalFormatting));
@@ -888,11 +1024,13 @@ const PageTextFontColor = inject("storeTextSettings", "storePalette")(observer(P
 const PageTextCustomFontColor = inject("storeTextSettings", "storePalette")(observer(PageCustomFontColor));
 const PageTextHighlightColor = inject("storeTextSettings")(observer(PageHighlightColor));
 const PageTextDirection = inject("storeTextSettings")(observer(PageDirection));
+const PageTextCustomFontSize = inject('storeTextSettings')(observer(PageCustomFontSize));
 // const PageTextOrientation = observer(TextOrientation);
 
 export {
     EditTextContainer as EditText,
-    PageTextFonts,
+    PageTextFonts, 
+    PageTextCustomFontSize,
     PageTextAddFormatting,
     PageTextBulletsAndNumbers,
     PageTextLineSpacing,
@@ -903,5 +1041,7 @@ export {
     PageOrientationTextShape,
     PageOrientationTextTable,
     // PageTextCustomBackColor,
-    PageTextDirection
+    PageTextDirection,
+    customFont
 };
+

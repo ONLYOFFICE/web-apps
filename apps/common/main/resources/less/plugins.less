@@ -86,37 +86,31 @@
         right: 0;
         padding: 12px;
         overflow: hidden;
+        display: flex;
+        justify-content: space-between;
         border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-bottom: @scaled-one-px-value solid @border-toolbar;
+        
+        .custom-controls {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
 
-        label {
-            width: 100%;
-            margin-top: 2px;
-            .padding-right(@x-small-btn-size-ie);
-            .padding-right(@x-small-btn-size);
-            .font-size-medium();
-            .font-weight-bold();
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            .left, .right {
+                display: flex;
+                & > * {
+                    & {
+                        .margin-left-4();
+                    }
+                } 
+            }
         }
 
         .tools {
             display: flex;
-            flex-direction: row-reverse;
-            position: absolute;
-            right: 0;
-            .padding-right-12();
-
-            .rtl & {
-                right: auto;
-                left: 0;
-            }
 
             & > * {
-                &:not(:first-child) {
-                    .margin-right-4();
-                }
+                .margin-left-4();
             }
         }
     }
@@ -125,6 +119,190 @@
         width: 100%;
         height: 100%;
         padding-top: 45px;
+    }
+}
+
+.plugin-dialog {
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 0;
+        padding-bottom: 0;
+
+        .side-block {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+
+            &.right {
+                justify-content: flex-end;
+            }
+
+            .more > button {
+                background: none;
+                opacity: 0.6;
+                
+                &:hover {
+                    opacity: 0.8;
+                }
+
+                &.active {
+                    opacity: 1;
+                }
+            }
+
+            .custom-controls {
+                display: flex;
+                align-items: center;
+            }
+
+            .tools {
+                display: flex;
+                align-items: center;
+                position: relative;
+                padding: 0 !important;
+                justify-content: flex-end;
+                
+                &.right {
+                    .margin-right(2px);
+                }
+                &.left {
+                    justify-content: flex-start;
+                }
+
+                .tool.close{
+                    &:before, &:after {
+                        left: calc((20px - @scaled-one-px-value-ie) / 2);   //width container - width icon
+                        left: calc((20px - @scaled-one-px-value) / 2);   //width container - width icon
+                        top: calc((@x-small-btn-icon-size-ie - 14px) / 2);   //height container - height icon
+                        top: calc((@x-small-btn-icon-size - 14px) / 2);   //height container - height icon
+                        margin: 0;
+                    }
+                }
+
+                .tool {
+                    width: 20px;
+                    height: @x-small-btn-icon-size-ie;
+                    height: @x-small-btn-icon-size;
+                    margin-top: 0;
+                    margin-bottom: 0;
+                }
+            }
+
+            .custom-controls, .tools {
+                &.left {
+                    & > *:not(:first-child) {
+                        .margin-left-4();
+                    }
+                }
+                &.right {
+                    & > * {
+                        .margin-left-4();
+                    }
+                }
+            }
+        }
+
+        .title {
+            display: flex;
+            padding: 0 !important;
+            margin: 0 10px;
+            label {
+                pointer-events: none;
+            }
+        }
+
+        .btn-slot {
+            display: flex;
+        }
+    }
+}
+
+.plugin-dialog, .current-plugin-box {
+    .more {
+        .more-container {
+            display: none;
+            position: fixed;
+            background-color: @background-toolbar-ie;
+            background-color: @background-toolbar;
+            min-width: auto;
+            padding: 6px;
+            border-radius: 0;
+            z-index:999;
+            
+
+            .inner {
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                
+                & > * {
+                    &:not(:first-child) {
+                        .margin-left-4();
+                    }
+                }
+
+                & > .separator {
+                    &:first-child,
+                    &:last-child {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.plugin-dialog .header, .current-plugin-header {
+    .separator {
+        height: @x-small-btn-icon-size-ie;
+        height: @x-small-btn-icon-size;
+        border-left: @scaled-one-px-value-ie solid @border-divider-ie;
+        border-left: @scaled-one-px-value solid @border-divider;
+    }
+
+    .title {
+        .btn-group {
+            max-width: 100%;
+        }
+        
+        button {
+            max-width: 100%;
+            display: flex;
+            .caption {
+                // margin-top: 2px;
+                .font-size-medium();
+                .font-weight-bold();
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+
+        label {
+            margin-top: 2px;
+            .font-size-medium();
+            .font-weight-bold();
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    .btn-group {
+        display: flex;
+        align-items: center;
+    }
+
+    button {
+        display: flex;
+        align-items: center;
+
+        .icon-custom {
+            width: 24px !important;
+            height: 24px !important;
+        }
     }
 }
 

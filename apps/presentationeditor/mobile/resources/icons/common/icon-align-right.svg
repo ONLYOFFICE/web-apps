@@ -1,1 +1,5 @@
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 22 22" style="enable-background:new 0 0 22 22;" xml:space="preserve"><style type="text/css">.st0{fill-rule:evenodd;clip-rule:evenodd;}</style><g id="XMLID_5_"><g id="XMLID_42_"><path id="XMLID_44_" class="st0" d="M20,1v20h1V1H20z M2,17h16v-4H2V17z M10,9h8V5h-8V9z"/></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="icon-align-right">
+    <path stroke="#444" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.5 4.046v17m-3.5-3.5v-2a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1Zm0-7v-2a1 1 0 0 0-1-1h-5a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1Z" class="icon-stroke-gray-primary"/>
+  </g>
+</svg>

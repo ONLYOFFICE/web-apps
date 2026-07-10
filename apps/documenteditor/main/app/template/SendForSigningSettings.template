@@ -1,0 +1,18 @@
+<div class="inner" role="presentation">
+    <div class="content">
+        <div class="content-padding">
+            <label class="header padding-small"><%= scope.txtTitle %></label>
+            <label class="description padding-large"><%= scope.txtDescription %></label>
+        </div>
+        <div class="roles-list-wrapper">
+            <div id="id-send-for-signing-settings-roles-list" class="content-padding"></div>
+        </div>
+    </div>
+    <div>
+        <div class="separator horizontal"></div>
+        <div class="footer">
+            <button id="id-send-for-signing-settings-send-btn" class="btn normal dlg-btn primary" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%=scope.txtSend%></button>
+            <button id="id-send-for-signing-settings-cancel-btn" class="btn normal dlg-btn" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%=scope.txtCancel%></button>
+        </div>
+    </div>
+</div>

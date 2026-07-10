@@ -275,6 +275,7 @@
   "VE.Controllers.Main.textLoadingDocument": "Document wordt geladen",
   "VE.Controllers.Main.textLongName": "Voer een naam in die uit minder dan 128 tekens bestaat.",
   "VE.Controllers.Main.textNoLicenseTitle": "Licentielimiet bereikt",
+  "VE.Controllers.Main.textNoResourcesTitle": "Onvoldoende bronnen",
   "VE.Controllers.Main.textPaidFeature": "Betaalde functie",
   "VE.Controllers.Main.textReconnect": "Verbinding is hersteld",
   "VE.Controllers.Main.textRemember": "Onthoud voorkeur voor alle bestanden",

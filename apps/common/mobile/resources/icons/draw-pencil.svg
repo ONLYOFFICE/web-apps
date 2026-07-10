@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="draw-pencil">
+    <path fill="#444" d="M10 7.5h4L12 2l-2 5.5Z" class="icon-fill-gray-primary"/>
+    <path stroke="#444" stroke-linejoin="round" stroke-miterlimit="1.414" d="M14 15v6.5M10 15v6.5" class="icon-stroke-gray-primary"/>
+    <path stroke="#444" stroke-linejoin="round" stroke-width="1.5" d="M7.5 21.5V14L12 2l4.5 12v7.5m-9.036-7.302 1.296.51a2 2 0 0 0 1.476-.003l1.02-.408a2 2 0 0 1 1.485 0l1.017.407a2 2 0 0 0 1.481.002l1.278-.508" class="icon-stroke-gray-primary"/>
+  </g>
+</svg>

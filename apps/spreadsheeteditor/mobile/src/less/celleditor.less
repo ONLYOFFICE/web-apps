@@ -68,6 +68,16 @@
         font-weight: bold;
     }
 
+    .formula-hints-overlay {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+
+        .function-hint-card {
+            position: static;
+        }
+    }
+
     #idx-cell-name {
         display: inline-block;
         width: 90px;
@@ -148,5 +158,22 @@
     .group--content {
         position: relative;
         .hairline(left, @background-menu-divider);
+    }
+
+    .arg-const-list {
+        max-height: 200px;
+        margin-top: 4px;
+        overflow-y: auto;
+        border: 1px solid @text-tertiary;
+        background: @background-secondary;
+        border-radius: 6px;
+
+        .list {
+            margin: 0;
+        }
+
+        .item-content {
+            background: @background-secondary;
+        }
     }
 }

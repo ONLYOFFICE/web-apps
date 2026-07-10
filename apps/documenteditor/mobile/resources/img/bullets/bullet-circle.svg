@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64">
+  <g class="bullet-circle">
+    <path fill="#444" fill-rule="evenodd" d="M31.5 34a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Zm0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" class="icon-fill-gray-primary" clip-rule="evenodd"/>
+  </g>
+</svg>

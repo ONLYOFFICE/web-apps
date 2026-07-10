@@ -1,1 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M2 12.9825V11.0175H16.9926V12.9825H2ZM2 18.9708V17.0058H16.9926V18.9708H2ZM2 5.02924H16.9926V6.99415H2V5.02924ZM19.0049 11.0175V9.9883H22V10.924L20.1749 12.9825H22V14.0117H19.0049V13.076L20.7833 11.0175H19.0049ZM19.9877 8.02339V5.02924H19.0049V4H20.9704V8.02339H19.9877ZM19.0049 17.0058V15.9766H22V20H19.0049V18.9708H20.9704V18.5029H19.9877V17.4737H20.9704V17.0058H19.0049Z"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="icon-table-contents">
+    <path stroke="#446ECA" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.414" stroke-width="1.5" d="M3.724 6.522 5.895 4.5v5.392m.724 9.16H4.235c-.282 0-.511-.212-.511-.476a.46.46 0 0 1 .15-.337l2.32-2.162c.272-.253.425-.596.425-.953v-.116c0-.744-.648-1.348-1.448-1.348-.8 0-1.447.604-1.447 1.348" class="icon-stroke-blue-primary"/>
+    <path stroke="#444" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 6H10m0 6h10m-10 6h10" class="icon-stroke-gray-primary"/>
+  </g>
+</svg>

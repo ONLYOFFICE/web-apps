@@ -1,5 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none">
-    <path d="M22.5 9.5h1a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1v-1m13-14a1 1 0 0 0-1-1h-15a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h15a1 1 0 0 0 1-1v-11Z" class="icon-stroke-gray-primary"/>
-    <path d="M22.5 11a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1 0-1H20a2 2 0 0 0 2-2v-6.5a.5.5 0 0 1 .5-.5Z" fill="currentColor" stroke="none" class="icon-fill-blue-secondary"/>
-    <path d="M18.75 7a.25.25 0 0 1 .25.25v9.5a.25.25 0 0 1-.25.25H5.25a.25.25 0 0 1-.25-.25v-9.5A.25.25 0 0 1 5.25 7h13.5Z" fill="currentColor" stroke="none" class="icon-fill-blue-primary"/>
+    <path opacity=".4" d="M23 22V12h-5v5H9v5z" fill="currentColor" stroke="none" class="icon-fill-blue-primary"/>
+    <path opacity=".8" d="M4 7v10h14V7z" fill="currentColor" stroke="none" class="icon-fill-blue-primary"/>
+    <path d="M8.5 17.5v3a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-3" class="icon-stroke-gray-primary"/>
+    <path d="M3.5 8.5v7a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-11a2 2 0 0 0-2 2Z" class="icon-stroke-gray-primary"/>
 </svg>

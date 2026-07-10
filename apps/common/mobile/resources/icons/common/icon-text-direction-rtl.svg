@@ -1,3 +1,6 @@
-<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M6.12988 16.5547L5.75 16.8799L3.85547 18.501H21.999V19.501H3.85547L5.75 21.1221L6.12988 21.4473L5.47949 22.207L5.09961 21.8818L2.17676 19.3809C2.06603 19.2859 2.00195 19.1469 2.00195 19.001C2.00212 18.8551 2.06595 18.716 2.17676 18.6211L5.09961 16.1201L5.47949 15.7949L6.12988 16.5547ZM18.9951 3H14.6328V15.9971H13.6328V3H10.2705V15.9971H9.27051V10.2207H6.11035C3.84032 10.2207 2.00013 8.38035 2 6.11035C2.00002 3.84026 3.84026 2 6.11035 2H18.9951V3ZM6.11035 3C4.39254 3 3.00002 4.39255 3 6.11035C3.00013 7.82806 4.39261 9.2207 6.11035 9.2207H9.27051V3H6.11035Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="icon-text-direction-rtl">
+    <path stroke="#446ECA" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.25 18.5h-13m0 0 2-2m-2 2 2 2" class="icon-stroke-blue-primary"/>
+    <path stroke="#444" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.414" stroke-width="1.5" d="M11.5 10.5H9a2.5 2.5 0 0 1 0-5h2.5m0 5v-5m0 5v4m0-9h3m0 0h3m-3 0v9" class="icon-stroke-gray-primary"/>
+  </g>
 </svg>

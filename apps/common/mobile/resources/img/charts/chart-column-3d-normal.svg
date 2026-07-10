@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64">
+  <g class="chart-column-3d-normal">
+    <path fill="#555" d="M46 7v54l-8-2V5l8 2Zm-10 8v42l-8-2V13l8 2ZM26 25v28l-8-2V23l8 2Zm-10 8v16l-8-2V31l8 2Z" class="icon-fill-type-preview"/>
+    <path fill="#555" d="M18 29.5v3l-2 .5-8-2 8-2 2 .5Zm10-8v3l-2 .5-8-2 8-2 2 .5Zm10-10v3l-2 .5-8-2 8-2 2 .5ZM54 5l-8 2-8-2 8-2 8 2Z" class="icon-fill-type-preview" opacity=".6"/>
+    <path fill="#555" d="m54 5-8 2v54l8-2V5Z" class="icon-fill-type-preview" opacity=".4"/>
+  </g>
+</svg>

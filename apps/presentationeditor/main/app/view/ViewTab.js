@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  ViewTab.js
@@ -48,7 +51,14 @@ define([
             '<section class="panel" data-tab="view" role="tabpanel" aria-labelledby="view">' +
                 '<div class="group">' +
                     '<span class="btn-slot text x-huge" id="slot-btn-normal"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-outline-view"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-notes-page"></span>' +
+                '</div>' +
+                '<div class="separator long"></div>' +
+                '<div class="group">' +
                     '<span class="btn-slot text x-huge" id="slot-btn-slide-master"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-handout-master"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-notes-master"></span>' +
                 '</div>' +
                 '<div class="separator long"></div>' +
                 '<div class="group">' +
@@ -127,8 +137,20 @@ define([
                 me.btnNormal && me.btnNormal.on('toggle', _.bind(function(btn, state) {
                     me.fireEvent('mode:normal', [state]);
                 }, me));
+                me.btnOutlineView && me.btnOutlineView.on('toggle', _.bind(function(btn, state) {
+                    me.fireEvent('mode:outline', [state]);
+                }, me));
+                me.btnNotesPage && me.btnNotesPage.on('toggle', _.bind(function(btn, state) {
+                    me.fireEvent('mode:notespage', [state]);
+                }, me));
                 me.btnSlideMaster && me.btnSlideMaster.on('toggle', _.bind(function(btn, state) {
                     me.fireEvent('mode:master', [state]);
+                }, me));
+                me.btnHandoutMaster && me.btnHandoutMaster.on('toggle', _.bind(function(btn, state) {
+                    me.fireEvent('mode:handoutmaster', [state]);
+                }, me));
+                me.btnNotesMaster && me.btnNotesMaster.on('toggle', _.bind(function(btn, state) {
+                    me.fireEvent('mode:notesmaster', [state]);
                 }, me));
                 me.btnFitToSlide && me.btnFitToSlide.on('click', function () {
                     me.fireEvent('zoom:toslide', [me.btnFitToSlide]);
@@ -242,6 +264,34 @@ define([
                     });
                     this.lockedControls.push(this.btnNormal);
 
+                    this.btnOutlineView = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-outline-view',
+                        caption: this.textOutlineView,
+                        lock: [_set.disableOnStart],
+                        enableToggle: true,
+                        allowDepress: true,
+                        pressed: false,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.lockedControls.push(this.btnOutlineView);
+
+                    this.btnNotesPage = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-notes-page',
+                        caption: this.textNotesPage,
+                        lock: [_set.disableOnStart],
+                        enableToggle: true,
+                        allowDepress: true,
+                        pressed: false,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.lockedControls.push(this.btnNotesPage);
+
                     this.btnSlideMaster = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-slide-master',
@@ -255,6 +305,34 @@ define([
                         dataHintOffset: 'small'
                     });
                     this.lockedControls.push(this.btnSlideMaster);
+
+                    this.btnHandoutMaster = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-handout-master',
+                        caption: this.textHandoutMaster,
+                        lock: [_set.disableOnStart],
+                        enableToggle: true,
+                        allowDepress: true,
+                        pressed: false,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.lockedControls.push(this.btnHandoutMaster);
+
+                    this.btnNotesMaster = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-notes-master',
+                        caption: this.textNotesMaster,
+                        lock: [_set.disableOnStart],
+                        enableToggle: true,
+                        allowDepress: true,
+                        pressed: false,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.lockedControls.push(this.btnNotesMaster);
                 }
                 this.cmbZoom = new Common.UI.ComboBox({
                     cls: 'input-group-nr',
@@ -308,7 +386,7 @@ define([
 
                 this.btnInterfaceTheme = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-day',
+                    iconCls: 'toolbar__icon btn-theme',
                     caption: this.textInterfaceTheme,
                     lock: [_set.disableOnStart],
                     menu: true,
@@ -494,7 +572,11 @@ define([
                 var $host = this.$el;
 
                 this.btnNormal && this.btnNormal.render($host.find('#slot-btn-normal'));
+                this.btnOutlineView && this.btnOutlineView.render($host.find('#slot-btn-outline-view'));
+                this.btnNotesPage && this.btnNotesPage.render($host.find('#slot-btn-notes-page'));
                 this.btnSlideMaster && this.btnSlideMaster.render($host.find('#slot-btn-slide-master'));
+                this.btnHandoutMaster && this.btnHandoutMaster.render($host.find('#slot-btn-handout-master'));
+                this.btnNotesMaster && this.btnNotesMaster.render($host.find('#slot-btn-notes-master'));
                 this.cmbZoom.render($host.find('#slot-field-zoom'));
                 $host.find('#slot-lbl-zoom').text(this.textZoom);
                 this.btnFitToSlide.render($host.find('#slot-btn-fts'));
@@ -523,7 +605,11 @@ define([
                     accept();
                 })).then(function () {
                     me.btnNormal && me.btnNormal.updateHint(me.tipNormal);
+                    me.btnOutlineView && me.btnOutlineView.updateHint(me.tipOutlineView);
+                    me.btnNotesPage && me.btnNotesPage.updateHint(me.tipNotesPage);
                     me.btnSlideMaster && me.btnSlideMaster.updateHint(me.tipSlideMaster);
+                    me.btnHandoutMaster && me.btnHandoutMaster.updateHint(me.tipHandoutMaster);
+                    me.btnNotesMaster && me.btnNotesMaster.updateHint(me.tipNotesMaster);
                     me.btnFitToSlide.updateHint(me.tipFitToSlide);
                     me.btnFitToWidth.updateHint(me.tipFitToWidth);
                     me.btnInterfaceTheme.updateHint(me.tipInterfaceTheme);
@@ -592,6 +678,7 @@ define([
                         me.chRulers.hide();
                         me.btnGuides.$el.closest('.group').remove();
                         me.$el.find('#slot-btn-slide-master').closest('.group').next().addBack().remove();
+                        me.$el.find('#slot-btn-outline-view').closest('.group').next().addBack().remove();
                     }
                     if (
                         !config.isEdit || 

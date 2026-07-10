@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64">
+  <g class="bullet-disk">
+    <circle cx="31.5" cy="31.5" r="3.5" fill="#444" class="icon-fill-gray-primary"/>
+  </g>
+</svg>

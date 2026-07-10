@@ -1,7 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none">
-    <path d="M15 8a1 1 0 0 1-1 1H4V6h11v2Z" fill="currentColor" stroke="none" opacity="100%" class="icon-fill-blue-primary"/>
-    <path d="M14 16a1 1 0 1 1 0 2H4v-2h10Z" fill="currentColor" stroke="none" opacity="60%" class="icon-fill-blue-primary"/>
-    <path d="M24 22H13v-1a1 1 0 0 1 1-1h10v2Z" fill="currentColor" stroke="none" opacity="40%" class="icon-fill-blue-primary"/>
-    <path d="M24 14H14a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1h10v3Z" fill="currentColor" stroke="none" opacity="80%" class="icon-fill-blue-primary"/>
-    <path d="M24.5 21.5v-15a1 1 0 0 0-1-1h-19a1 1 0 0 0-1 1v15a1 1 0 0 0 1 1h19a1 1 0 0 0 1-1Z" class="icon-stroke-gray-primary"/>
+    <path opacity=".8" d="M15 22H4v-3h8v-3H4v-3h8v-3H4V7h11v3h8v3h-8v3h8v3h-8z" fill="currentColor" stroke="none" class="icon-fill-blue-primary"/>
+    <path d="M3.5 8.5v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-12a2 2 0 0 0-2-2h-16a2 2 0 0 0-2 2Z" class="icon-stroke-gray-primary"/>
 </svg>

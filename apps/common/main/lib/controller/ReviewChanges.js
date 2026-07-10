@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 /**
  *  ReviewChanges.js
@@ -681,7 +684,9 @@ define([
             this.turnDisplayMode(item.value);
             if (!this.appConfig.isEdit && !this.appConfig.isRestrictedEdit)
                 Common.localStorage.setItem(this.appPrefix + "review-mode", item.value); // for viewer
-            else if (item.value=='markup' || item.value=='simple') {
+            else if (item.value==Asc.c_oAscDisplayModeInReview.Edit || 
+                item.value==Asc.c_oAscDisplayModeInReview.Simple
+            ) {
                 Common.localStorage.setItem(this.appPrefix + "review-mode-editor", item.value); // for editor save only markup modes
                 Common.Utils.InternalSettings.set(this.appPrefix + "review-mode-editor", item.value);
             }
@@ -833,41 +838,19 @@ define([
 
         turnDisplayMode: function(mode) {
             if (this.api) {
-                var type = Asc.c_oAscDisplayModeInReview.Edit;
-                switch (mode) {
-                    case 'final':
-                        type = Asc.c_oAscDisplayModeInReview.Final;
-                        break;
-                    case 'original':
-                        type = Asc.c_oAscDisplayModeInReview.Original;
-                        break;
-                    case 'simple':
-                        type = Asc.c_oAscDisplayModeInReview.Simple;
-                        break;
-                }
-                this._state.displayMode = type;
-                this.api.asc_SetDisplayModeInReview(type);
+                this._state.displayMode = mode;
+                this.api.asc_SetDisplayModeInReview(mode);
             }
-            this.disableEditing(mode == 'final' || mode == 'original');
-            this._state.previewMode = (mode == 'final' || mode == 'original');
+            this._state.previewMode = (mode == Asc.c_oAscDisplayModeInReview.Final || 
+                mode == Asc.c_oAscDisplayModeInReview.Original
+            );
+            this.disableEditing(this._state.previewMode);
         },
 
         onChangeDisplayModeInReview: function(type) {
             this.disableEditing(type===Asc.c_oAscDisplayModeInReview.Final || type===Asc.c_oAscDisplayModeInReview.Original);
             this._state.displayMode = type;
-            var mode = 'markup';
-            switch (type) {
-                case Asc.c_oAscDisplayModeInReview.Final:
-                    mode = 'final';
-                    break;
-                case Asc.c_oAscDisplayModeInReview.Original:
-                    mode = 'original';
-                    break;
-                case Asc.c_oAscDisplayModeInReview.Simple:
-                    mode = 'simple';
-                    break;
-            }
-            this.view && this.view.turnDisplayMode(mode);
+            this.view && this.view.turnDisplayMode(type);
             this._state.previewMode = (type===Asc.c_oAscDisplayModeInReview.Final || type===Asc.c_oAscDisplayModeInReview.Original);
         },
 
@@ -965,11 +948,42 @@ define([
                     if (val===null) {
                         val = me.appConfig.customization && me.appConfig.customization.review ? me.appConfig.customization.review.reviewDisplay : undefined;
                         !val && (val = me.appConfig.customization ? me.appConfig.customization.reviewDisplay : undefined);
-                        val = /^(original|final|markup|simple)$/i.test(val) ? val.toLocaleLowerCase() : 'markup';
+                        val = /^(original|final|markup|simple)$/i.test(val) ? val.toLocaleLowerCase() : undefined;
                     }
-                    Common.Utils.InternalSettings.set(me.appPrefix + "review-mode-editor", val);
-                    me.turnDisplayMode(val); // load display mode for all modes (viewer or editor)
-                    me.view.turnDisplayMode(val);
+                    if(val) {
+                        switch (val) {
+                            case 'markup':
+                                val = Asc.c_oAscDisplayModeInReview.Edit;
+                                break;
+                            case 'final':
+                                val = Asc.c_oAscDisplayModeInReview.Final;
+                                break;
+                            case 'original':
+                                val = Asc.c_oAscDisplayModeInReview.Original;
+                                break;
+                            case 'simple':
+                                val = Asc.c_oAscDisplayModeInReview.Simple;
+                                break;
+                        }   
+                    }
+
+                    if (typeof val === "string") {
+                        const trimmed = val.trim();
+                        if (trimmed !== "") {
+                            const num = Number(trimmed);
+                            if (!Number.isNaN(num)) {
+                                val = num;
+                            }
+                        }
+                    }
+                    Common.Utils.InternalSettings.set(
+                        me.appPrefix + "review-mode-editor", 
+                        val || me._state.displayMode
+                    );
+                    if(val != null) {
+                        me.turnDisplayMode(val); // load display mode for all modes (viewer or editor)
+                        me.view.turnDisplayMode(val);
+                    }
 
                     if ( typeof (me.appConfig.customization) == 'object' && (me.appConfig.customization.review && me.appConfig.customization.review.showReviewChanges==true ||
                         (!me.appConfig.customization.review || me.appConfig.customization.review.showReviewChanges===undefined) && me.appConfig.customization.showReviewChanges==true) ) {
@@ -989,10 +1003,10 @@ define([
                         if (val===null) {
                             val = me.appConfig.customization && me.appConfig.customization.review ? me.appConfig.customization.review.reviewDisplay : undefined;
                             !val && (val = me.appConfig.customization ? me.appConfig.customization.reviewDisplay : undefined);
-                            val = /^(original|final|markup|simple)$/i.test(val) ? val.toLocaleLowerCase() : (config.isEdit || config.isRestrictedEdit ? 'markup' : 'original');
+                            val = /^(original|final|markup|simple)$/i.test(val) ? val.toLocaleLowerCase() : undefined;
                         }
-                        me.turnDisplayMode(val);
-                        me.view.turnDisplayMode(val);
+                        val && me.turnDisplayMode(val);
+                        val && me.view.turnDisplayMode(val);
                     }
                 }
 
@@ -1183,7 +1197,7 @@ define([
         },
 
         onChangeViewMode: function (mode) {
-            this.lockToolbar(Common.enumLock.slideMasterMode, mode==='master');
+            this.lockToolbar(Common.enumLock.slideMasterMode, mode==='master' || mode==='notes' || mode==='handout' || mode==='notespage');
         },
 
         textInserted: '<b>Inserted:</b>',

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64">
+  <g class="chart-bar-stack">
+    <path fill="#555" d="M38 58H4V46h34v12ZM28 44H4V32h24v12Zm-8-14H4V18h16v12Zm-6-14H4V4h10v12Z" class="icon-fill-type-preview"/>
+    <path fill="#555" d="M60 58H38V46h22v12ZM44 44H28V32h16v12ZM32.001 30h-12V18h12v12ZM22 16h-8V4h8v12Z" class="icon-fill-type-preview" opacity=".4"/>
+  </g>
+</svg>

@@ -1,3 +1,37 @@
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 
 import React, { Fragment, useState, useEffect } from 'react';
 import { Input, View, Button, Link, Popover, ListItem, List, Icon, f7, Page, Navbar, NavRight } from 'framework7-react';
@@ -8,6 +42,8 @@ import { useTranslation } from 'react-i18next';
 import SvgIcon from '@common/lib/component/SvgIcon';
 import IconFunction from '@icons/icon-function.svg';
 import IconInfo from '@common-icons/icon-info.svg';
+import IconInsertCommentIos from '@common-ios-icons/icon-insert-comment.svg?ios';
+import IconInsertCommentAndroid from '@common-android-icons/icon-insert-comment.svg';
 
 const viewStyle = {
     height: 30
@@ -29,6 +65,7 @@ const CellEditorView = props => {
     const isEdit = storeAppOptions.isEdit;
     const funcArr = props.funcArr;
     const hintArr = props.hintArr;
+    const argConstList = props.argConstList;
 
     const expandClick = e => {
         setExpanded(!expanded);
@@ -73,7 +110,15 @@ const CellEditorView = props => {
                 <div className="ce-group group--content" style={contentStyle}>
                     <div id="idx-list-target" className="target-function-list"></div>
                     <textarea id="idx-cell-content" spellCheck="false" />
-                    <FunctionHint funcHint={props.funcHint}/>
+                    <div className="formula-hints-overlay">
+                        <FunctionHint funcHint={props.funcHint}/>
+                        {argConstList && argConstList.length ?
+                            <ArgConstList
+                                argConstList={argConstList}
+                                insertConstant={props.insertConstant}
+                            />
+                        : null}
+                    </div>
                 </div>
                 <div className="ce-group">
                     <Link icon="caret" onClick={expandClick} /> 
@@ -102,7 +147,31 @@ const CellEditorView = props => {
                     : null}
                 </Popover>
             }
+            {props.commentButton && props.commentButton.visible &&
+                <button type='button' className='sse-comment-button' style={{left: `${props.commentButton.left}px`, top: `${props.commentButton.top}px`}} onClick={props.onCommentButtonClick}>
+                    <SvgIcon symbolId={Device.ios ? IconInsertCommentIos.id : IconInsertCommentAndroid.id} className='icon icon-svg' />
+                </button>
+            }
         </>
+    );
+};
+
+const ArgConstList = props => {
+    const argConstList = props.argConstList;
+    return (
+        <div className="arg-const-list">
+            <List>
+                {argConstList.map((item, index) => {
+                    const value = item[0],
+                          name  = item[1] || '',
+                          caption = '(...) ' + value + (name ? ' - ' + name : '');
+                    return (
+                        <ListItem key={index} title={caption} className="no-indicator"
+                            onClick={() => props.insertConstant(value)} />
+                    );
+                })}
+            </List>
+        </div>
     );
 };
 

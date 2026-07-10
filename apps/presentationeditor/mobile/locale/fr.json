@@ -156,6 +156,7 @@
       "textHasMacros": "Le fichier contient des macros automatiques.<br>Voulez-vous exécuter les macros?",
       "textNo": "Non",
       "textNoLicenseTitle": "La limite de la licence est atteinte",
+      "textNoResourcesTitle": "Ressources insuffisantes",
       "textNoMatches": "Aucune correspondance",
       "textOk": "OK",
       "textOpenFile": "Entrer le mot de passe pour ouvrir le fichier",
@@ -180,6 +181,7 @@
       "warnLicenseLimitedNoAccess": "La licence est expirée. Vous n'avez plus d'accès aux outils d'édition. Veuillez contacter votre administrateur.",
       "warnLicenseLimitedRenewed": "Il est indispensable de renouveler la licence. Vous avez un accès limité aux outils d'édition des documents.<br>Veuillez contacter votre administrateur pour obtenir un accès complet",
       "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
+      "warnNoResources": "Le serveur %1 ne dispose pas de ressources suffisantes pour ouvrir ce document en mode édition. Ce document sera ouvert en mode lecture seule.",
       "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
       "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
     }
@@ -403,6 +405,7 @@
       "textEmptyImgUrl": "Spécifiez l'URL de l'image",
       "textExternalLink": "Lien externe",
       "textFade": "Fondu",
+      "textFerris": "Grande roue",
       "textFill": "Remplissage",
       "textFinalMessage": "La fin de l'aperçu de la diapositive. Cliquez pour quitter.",
       "textFind": "Recherche",

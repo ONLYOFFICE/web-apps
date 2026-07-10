@@ -1438,7 +1438,7 @@
 }
 
 .asc-window.modal {
-    .btn-toolbar:not(.bg-white):not(.disabled) {
+    .btn-toolbar:not(.bg-white):not(.disabled):not(.no-focus) {
         &:focus {
             .box-shadow(@shadow-control-focus-ie);
             .box-shadow(@shadow-control-focus);
@@ -1449,7 +1449,7 @@
             }
         }
     }
-    .btn-group:not(.split) {
+    .btn-group:not(.split):not(.no-focus) {
         &.open,
         &.active,
         &:active {
@@ -1472,7 +1472,7 @@
         }
     }
 
-    .btn-group.split.no-borders:not(.disabled) {
+    .btn-group.split.no-borders:not(.disabled):not(.no-focus) {
         &:focus,
         &.open,
         &.active,

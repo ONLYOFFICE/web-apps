@@ -387,6 +387,8 @@
   "SSE.Controllers.Statusbar.warnDeleteSheet": "Delovni list morda vsebuje podatke. Ali ste prepričani, da želite nadaljevati?",
   "SSE.Controllers.Statusbar.zoomText": "Povečava {0}%",
   "SSE.Controllers.Toolbar.confirmAddFontName": "The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?",
+  "SSE.Controllers.Toolbar.helpChartTab": "Vse nastavitve grafikona so zdaj na voljo na namenskem zavihku Oblikovanje grafikona v orodni vrstici.",
+  "SSE.Controllers.Toolbar.helpChartTabHeader": "Zavihek Oblikovanje grafikona",
   "SSE.Controllers.Toolbar.textAccent": "Naglasi",
   "SSE.Controllers.Toolbar.textBracket": "Oklepaji",
   "SSE.Controllers.Toolbar.textFontSizeErr": "Vnesena vrednost je nepravilna.<br>Prosim vnesite numerično vrednost med 1 in 409",

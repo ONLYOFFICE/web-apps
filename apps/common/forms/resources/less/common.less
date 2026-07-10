@@ -63,6 +63,9 @@
 @import "../../../../common/main/resources/less/colorpalette.less";
 @import "../../../../common/main/resources/less/theme-colorpalette.less";
 
+@import "../../../../documenteditor/main/resources/less/rightmenu.less";
+@import "../../../../documenteditor/main/resources/less/leftmenu.less";
+
 @toolbarFontSize:               12px;
 
 @iconSpriteCommonPath:          "../../../../common/forms/resources/img/glyphicons.png";
@@ -86,6 +89,19 @@
 
 // Document Viewer
 // -------------------------
+#viewport {
+    display: flex;
+    position: absolute;
+    left: 0;
+    top:40px;
+    right: 0;
+    bottom: 0;
+    background-color: @background-pane-ie;
+    background-color: @background-pane;
+    overflow: hidden;
+    scroll-behavior: smooth; // chromium bug890248 (Bug 39614)
+}
+
 .viewer {
     position: absolute;
     margin: 0;
@@ -94,7 +110,7 @@
     right: 0;
 
     &.top {
-        top: 40px;
+        top: 0px;
         bottom: 0;
     }
 
@@ -102,6 +118,17 @@
         top: 0;
         bottom: 46px;
     }
+}
+
+#editor-container {
+    flex: 1;
+    position: relative;
+}
+
+#right-menu {
+    height: 100%;
+    padding-top:0;
+    padding-top:var(--content-padding-top, 0);
 }
 
 // Toolbar

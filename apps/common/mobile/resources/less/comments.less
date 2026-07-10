@@ -4,9 +4,46 @@
 @import './ios/comments';
 @import './material/comments';
 
+.sse-comment-button {
+  position: fixed;
+  z-index: 6500;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+
+.wrap-comment, .comment-list, .reply-list {
+  .comment-header, .reply-header {
+    display: flex;
+
+    .initials {
+      border-radius: 50px;
+      color: @fill-white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      margin-right: 10px;
+      font-size: 14px;
+    }
+  }
+}
+
 .wrap-comment {
   padding: 16px 24px 0 16px;
   background-color: @background-tertiary;
+
+  .comment-header {
+    align-items: center;
+    .initials {
+      width: 30px;
+      height: 30px;
+    }
+  }
   
   .comment-date {
     color: @text-secondary;
@@ -61,6 +98,18 @@
 }
 
 .comment-list {
+  .comment-header {
+    .left {
+      display: flex;
+      align-items: center;
+      .initials {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+      }
+    }
+  }
+
   .item-content .item-inner {
     padding-right: 0;
     padding-bottom: 0;
@@ -129,8 +178,30 @@
   }
 }
 
+.reply-list {
+  .reply-header {
+    .left {
+      display: flex;
+      .initials {
+        margin-top: 5px;
+        width: 24px;
+        height: 24px;
+        font-size: 11px;
+      }
+    }
+  }
+}
+
 .edit-comment-popup, .add-reply-popup, .edit-reply-popup {
   z-index: 20000;
+}
+
+#comment-menu, #reply-menu {
+  .actions-button.color-red {
+    .actions-button-text {
+      color: var(--text-error);
+    }
+  }
 }
 
 #view-comment-sheet {

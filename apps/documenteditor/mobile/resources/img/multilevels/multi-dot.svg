@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 64 64">
+  <g class="multi-dot">
+    <path fill="#444" d="M24 13h32v1H24v-1Zm8 18h24v1H32v-1Zm8 18h16v1H40v-1Z" class="icon-fill-gray-primary" opacity=".3"/>
+    <g class="icon-fill-gray-primary">
+      <path fill="#444" fill-rule="evenodd" d="m15 38 3-6.5-3-6.5 11.5 6.5L15 38Zm9.468-6.5-7.26-4.104 1.894 4.104h5.366Z" clip-rule="evenodd"/>
+      <path fill="#444" d="M24 46h7v7h-7v-7ZM10 9.5 12.5 7 15 9.5 12.5 12 10 9.5Zm0 8 2.5-2.5 2.5 2.5-2.5 2.5-2.5-2.5Zm4-4 2.5-2.5 2.5 2.5-2.5 2.5-2.5-2.5Zm-8 0L8.5 11l2.5 2.5L8.5 16 6 13.5Z"/>
+    </g>
+  </g>
+</svg>

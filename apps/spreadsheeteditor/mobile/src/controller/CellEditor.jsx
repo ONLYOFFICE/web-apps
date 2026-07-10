@@ -1,18 +1,71 @@
-import React, { useEffect, useState } from 'react';
+/*
+ * Copyright (C) Ascensio System SIA, 2009-2026
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
+ *
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * No trademark rights are granted under this License.
+ *
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+import React, { useEffect, useState, useRef } from 'react';
 import CellEditorView from '../view/CellEditor';
 import { f7 } from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
 import { useTranslation } from 'react-i18next';
 import {observer, inject} from "mobx-react";
+import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage.mjs';
 
 const CellEditor = inject("storeFunctions")(observer(props => {
     useEffect(() => {
+        const onDocumentReady = () => {
+            setIsDocumentReady(true);
+        };
+
         Common.Notifications.on('engineCreated', api => {
             api.asc_registerCallback('asc_onSelectionNameChanged', onApiCellSelection.bind(this));
             api.asc_registerCallback('asc_onSelectionChanged', onApiSelectionChanged.bind(this));
+            api.asc_registerCallback('asc_onDocumentPlaceChanged', refreshCommentButton);
             api.asc_registerCallback('asc_onFormulaCompleteMenu', onApiFormulaCompleteMenu.bind(this));
             api.asc_registerCallback('asc_onFormulaInfo', onFormulaInfo.bind(this));
         });
+
+        Common.Notifications.on('sheet:active', refreshCommentButton);
+        Common.Notifications.on('viewcomment', hideCommentButton);
+        Common.Notifications.on('viewcomment:closed', refreshCommentButton);
+        Common.Notifications.on('document:ready', onDocumentReady);
+
+        return () => {
+            Common.Notifications.off('sheet:active', refreshCommentButton);
+            Common.Notifications.off('viewcomment', hideCommentButton);
+            Common.Notifications.off('viewcomment:closed', refreshCommentButton);
+            Common.Notifications.off('document:ready', onDocumentReady);
+        };
     }, []);
 
     const { t } = useTranslation();
@@ -21,6 +74,114 @@ const CellEditor = inject("storeFunctions")(observer(props => {
     const [stateFuncArr, setFuncArr] = useState('');
     const [stateHintArr, setHintArr] = useState('');
     const [funcHint, setFuncHint] = useState('');
+    const [commentButton, setCommentButton] = useState({visible: false, left: 0, top: 0});
+    const [isTrackingDocumentPlace, setIsTrackingDocumentPlace] = useState(false);
+    const [isDocumentReady, setIsDocumentReady] = useState(false);
+
+    const getCellCommentId = (api) => {
+        if (!api) return null;
+        
+        const cellInfo = api.asc_getCellInfo ? api.asc_getCellInfo() : null;
+        const comments = cellInfo && cellInfo.asc_getComments ? cellInfo.asc_getComments() : null;
+        if (!comments || !comments.length || !comments[0]) return null;
+
+        const firstComment = comments[0];
+        const resolved = LocalStorage.getBool('sse-settings-resolvedcomment');
+        if (!resolved && firstComment.asc_getSolved()) return null;
+
+        return firstComment.asc_getId();
+    };
+
+    const hideCommentButton = () => {
+        setCommentButton((prev) => prev.visible ? {
+            visible: false,
+            left: prev.left,
+            top: prev.top
+        } : prev);
+    };
+
+    const updateCommentButton = (selectionType) => {
+        if (props.isOpenModal) {
+            setIsTrackingDocumentPlace(false);
+            hideCommentButton();
+            return;
+        }
+
+        if (selectionType !== undefined && selectionType !== Asc.c_oAscSelectionType.RangeCells) {
+            setIsTrackingDocumentPlace(false);
+            hideCommentButton();
+            return;
+        }
+
+        const api = Common.EditorApi.get();
+        if (!api) {
+            setIsTrackingDocumentPlace(false);
+            hideCommentButton();
+            return;
+        }
+
+        const cellCommentId = getCellCommentId(api);
+        if (!cellCommentId) {
+            setIsTrackingDocumentPlace(false);
+            hideCommentButton();
+            return;
+        }
+
+        setIsTrackingDocumentPlace(true);
+
+        const coord = api.asc_getActiveCellCoord ? api.asc_getActiveCellCoord() : null;
+        const editorEl = document.querySelector('#editor_sdk');
+        if (!coord || !editorEl) {
+            hideCommentButton();
+            return;
+        }
+
+        const editorRect = editorEl.getBoundingClientRect();
+        const buttonSize = 24;
+
+        const left = editorRect.left + coord.asc_getX() + coord.asc_getWidth() - 3;
+        const top = editorRect.top + coord.asc_getY() - buttonSize + 4;
+
+        if (left < editorRect.left || left > editorRect.right - buttonSize || top < editorRect.top - 20 || top > editorRect.bottom - buttonSize) {
+            hideCommentButton();
+            return;
+        }
+
+        setCommentButton({visible: true, left: Math.round(left), top: Math.round(top)});
+    };
+
+    const refreshCommentButton = () => {
+        updateCommentButton();
+    };
+
+    const handleCommentButtonClick = () => {
+        Common.Notifications.trigger('viewcomment');
+        hideCommentButton();
+    };
+
+    useEffect(() => {
+        if (props.isOpenModal) {
+            hideCommentButton();
+            return;
+        }
+
+        updateCommentButton();
+    }, [props.isOpenModal]);
+
+    useEffect(() => {
+        const api = Common.EditorApi.get();
+        if (!isDocumentReady || !api || !api.asc_SetDocumentPlaceChangedEnabled) return;
+        
+
+        api.asc_SetDocumentPlaceChangedEnabled(isTrackingDocumentPlace);
+
+        return () => {
+             api.asc_SetDocumentPlaceChangedEnabled(false);
+        };
+    }, [isDocumentReady, isTrackingDocumentPlace]);
+
+    const [stateArgConstList, setArgConstList] = useState(null);
+    const argConstListRef = useRef(null);
 
     const onApiCellSelection = info => {
         setCellName(typeof(info)=='string' ? info : info.asc_getName());
@@ -38,6 +199,7 @@ const CellEditor = inject("storeFunctions")(observer(props => {
             is_mode_2       = is_shape_text || is_shape || is_chart_text || is_chart;
 
         setFunctionshDisabled(is_image || is_mode_2 || coauth_disable);
+        updateCommentButton(seltype);
     }
 
     const onApiFormulaCompleteMenu = (funcarr) => {
@@ -49,6 +211,8 @@ const CellEditor = inject("storeFunctions")(observer(props => {
     const onFormulaInfo = (name, shiftpos, funcInfo) => {
         if (!name) {
             setFuncHint(null);
+            argConstListRef.current = null;
+            setArgConstList(null);
             return;
         }
         
@@ -59,7 +223,11 @@ const CellEditor = inject("storeFunctions")(observer(props => {
             separator = api.asc_getFunctionArgumentSeparator(),
             argstype = funcInfo ? funcInfo.asc_getArgumentsType() : null,
             activeArg = funcInfo ? funcInfo.asc_getActiveArgPos() : null,
-            activeArgsCount = funcInfo ? funcInfo.asc_getActiveArgsCount() : null;
+            activeArgsCount = funcInfo ? funcInfo.asc_getActiveArgsCount() : null,
+            argConstList = funcInfo ? funcInfo.asc_getActiveArgHelpList() : null;
+
+        argConstListRef.current = argConstList && argConstList.length ? argConstList : null;
+        setArgConstList(argConstListRef.current);
         let funcName = api.asc_getFormulaLocaleName(name);
 
         const parseArgsDesc = (args) => {
@@ -220,8 +388,9 @@ const CellEditor = inject("storeFunctions")(observer(props => {
         const api = Common.EditorApi.get();
         const storeFunctions = props.storeFunctions;
         const functions = storeFunctions.functions;
+        const argConstList = argConstListRef.current;
 
-        if(funcArr) {
+        if(funcArr && !argConstList) {
             funcArr.sort(function (a, b) {
                 let atype = a.asc_getType(),
                     btype = b.asc_getType();
@@ -289,6 +458,9 @@ const CellEditor = inject("storeFunctions")(observer(props => {
             setHintArr(hintArr);
 
             await f7.popover.open('#idx-functions-list', '#idx-list-target');
+        } else if (argConstList && argConstList.length) {
+            setFuncArr('');
+            setHintArr('');
         } else {
             await f7.popover.close('#idx-functions-list');
 
@@ -302,6 +474,13 @@ const CellEditor = inject("storeFunctions")(observer(props => {
         api.asc_insertInCell(name, type, false);
         f7.popover.close('#idx-functions-list');
     }
+
+    const insertConstant = (value) => {
+        const api = Common.EditorApi.get();
+        api.asc_insertInCell(value, Asc.c_oAscPopUpSelectorType.FuncConstant, false);
+        argConstListRef.current = null;
+        setArgConstList(null);
+    }
     
     return (
         <CellEditorView 
@@ -312,6 +491,10 @@ const CellEditor = inject("storeFunctions")(observer(props => {
             hintArr={stateHintArr}
             insertFormula={insertFormula}
             funcHint={funcHint} 
+            commentButton={commentButton}
+            onCommentButtonClick={handleCommentButtonClick}
+            argConstList={stateArgConstList}
+            insertConstant={insertConstant}
         />
     )
 }));

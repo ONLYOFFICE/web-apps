@@ -1,3 +1,6 @@
-<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M16 11L15.3496 11.7998L13 9.83008V20H12V9.83008L9.65039 11.7998L9 10.9404L12.5 8L16 11ZM22 7H3V6H22V7ZM22 5H3V4H22V5Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="icon-text-valign-top">
+    <path fill="#446ECA" d="M11.25 19.796a.75.75 0 0 0 1.5 0h-1.5Zm2.738-7.118a.75.75 0 1 0 1.024-1.097l-.512.548-.512.549Zm-5-1.097a.75.75 0 0 0 1.024 1.097l-.512-.549-.512-.548Zm3.183-1.626-.512.548.512-.548Zm-.342 0 .512.548-.512-.548Zm.171.424h-.75v9.417h1.5v-9.417H12Zm.17-.424-.511.548 2.33 2.175.511-.549.512-.548-2.33-2.174-.511.548Zm-.34 0-.512-.548-2.33 2.174.512.548.512.549 2.33-2.175-.513-.548Zm.34 0 .512-.548a1 1 0 0 0-1.364 0l.511.548.512.548a.5.5 0 0 1-.682 0l.512-.548Z" class="icon-stroke-blue-primary"/>
+    <path stroke="#444" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.414" stroke-width="1.5" d="M2.75 7.296h18.52m-18.52-3h18.52" class="icon-stroke-gray-primary"/>
+  </g>
 </svg>

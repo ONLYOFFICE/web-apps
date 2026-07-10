@@ -1,4 +1,6 @@
-<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path opacity="0.3" d="M12 12L12 21L11 21L11 12L2 12L2 11L11 11L11 2L12 2L12 11L21 11L21 12L12 12Z"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M21 2H2V21H21V2ZM1 1V22H22V1H1Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <g class="icon-table-borders-outer">
+    <path stroke="#446ECA" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21.5 20.296v-18a1 1 0 0 0-1-1h-18a1 1 0 0 0-1 1v18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1Z" class="icon-stroke-blue-primary"/>
+    <path stroke="#444" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.5 9.296v4m2-2h-4m-3 0h-2m14 0h-2m-5-5v-2m0 14v-2" class="icon-stroke-gray-primary" opacity=".4"/>
+  </g>
 </svg>

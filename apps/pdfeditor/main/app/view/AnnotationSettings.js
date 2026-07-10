@@ -198,6 +198,34 @@ define([
             this.btnBackgroundColor.on('color:select', this.onBackgroundColorSelect.bind(this));
             this.lockedControls.push(this.btnBackgroundColor);
 
+            this.btnTextIcon = new Common.UI.ComboBox({
+                el: $markup.findById('#annotation-text-icon-btn'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                editable: false,
+                data: [
+                    { displayValue: this.textCheck, value: AscPDF.TEXT_ICONS_TYPES.check1 },
+                    { displayValue: this.textCircle, value: AscPDF.TEXT_ICONS_TYPES.circle },
+                    { displayValue: this.textComment, value: AscPDF.TEXT_ICONS_TYPES.comment },
+                    { displayValue: this.textCross, value: AscPDF.TEXT_ICONS_TYPES.cross },
+                    { displayValue: this.textCrossH, value: AscPDF.TEXT_ICONS_TYPES.crossH },
+                    { displayValue: this.textHelp, value: AscPDF.TEXT_ICONS_TYPES.help },
+                    { displayValue: this.textInsert, value: AscPDF.TEXT_ICONS_TYPES.insert },
+                    { displayValue: this.textKey, value: AscPDF.TEXT_ICONS_TYPES.key },
+                    { displayValue: this.textNewParagraph, value: AscPDF.TEXT_ICONS_TYPES.newParagraph },
+                    { displayValue: this.textNote, value: AscPDF.TEXT_ICONS_TYPES.note },
+                    { displayValue: this.textParagraph, value: AscPDF.TEXT_ICONS_TYPES.paragraph },
+                    { displayValue: this.textRightArrow, value: AscPDF.TEXT_ICONS_TYPES.rightArrow },
+                    { displayValue: this.textRightPointer, value: AscPDF.TEXT_ICONS_TYPES.rightPointer },
+                    { displayValue: this.textStar, value: AscPDF.TEXT_ICONS_TYPES.star },
+                    { displayValue: this.textUpArrow, value: AscPDF.TEXT_ICONS_TYPES.upArrow },
+                    { displayValue: this.textUpLeftArrow, value: AscPDF.TEXT_ICONS_TYPES.upLeftArrow },
+                ],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.btnTextIcon.on('selected', this.onTextIconChange.bind(this));
 
             this.sldrOpacity = new Common.UI.SingleSlider({
                 el: $('#annotation-slider-opacity'),
@@ -350,7 +378,20 @@ define([
                 } else {
                     $formValue.hide();
                 }
-                
+
+                // Text icon
+                value = (annotProps && annotProps.asc_getIconType) ? annotProps.asc_getIconType() : null;
+                $formValue = getFormField(this.btnTextIcon);
+                if(value !== null) {
+                    value == AscPDF.TEXT_ICONS_TYPES.check2 && (value = AscPDF.TEXT_ICONS_TYPES.check1);
+                    if (this._state.TextIcon !== value) {
+                        this.btnTextIcon.setValue(value);
+                        this._state.TextIcon = value;
+                    }
+                    $formValue.show();
+                } else {
+                    $formValue.hide();
+                }
 
                 //Border width
                 value = (annotProps && annotProps.asc_getBorderWidth) ? annotProps.asc_getBorderWidth() : null;   // null - property is not supported 
@@ -513,6 +554,14 @@ define([
 
         onBackgroundColorTransparentClick: function(btn) {
             this.onBackgroundColorSelect(btn, 'transparent');
+        },
+
+        onTextIconChange: function(cmb, record) {
+            if (this.api && !this._noApply)  {
+                this._state.TextIcon = undefined;
+                this.api.SetTextAnnotIconType(record.value);
+                this.fireEvent('editcomplete', this);
+            }
         },
 
         onNumOpacityChange: function(field, newValue, oldValue, eOpts) {

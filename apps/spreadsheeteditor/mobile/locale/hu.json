@@ -221,6 +221,7 @@
       "textNo": "Nem",
       "textNoChoices": "Nincs lehetőség a cellának kitöltésére.<br>Csak az oszlopból származó szövegértékek választhatók ki cserére.",
       "textNoLicenseTitle": "Elérte a licenckorlátot",
+      "textNoResourcesTitle": "Nincs elég erőforrás",
       "textNoMatches": "Nincs Találat",
       "textOk": "OK",
       "textPaidFeature": "Fizetett funkció",
@@ -244,6 +245,7 @@
       "warnLicenseLimitedNoAccess": "Licenc lejárt. Nincs hozzáférése a dokumentumszerkesztési funkciókhoz. Kérjük, forduljon a rendszergazdához.",
       "warnLicenseLimitedRenewed": "A licencet meg kell újítani. Korlátozott hozzáférése van a dokumentumszerkesztési funkciókhoz.<br>A teljes hozzáférés érdekében forduljon rendszergazdájához",
       "warnNoLicense": "Elérte a(z) %1 szerkesztővel való egyidejű kapcsolódási korlátot. Ez a dokumentum csak megtekintésre nyílik meg. Lépjen kapcsolatba a(z) %1 értékesítési csapatával a személyes bővíthető feltételekért.",
+      "warnNoResources": "A(z) %1 kiszolgálónak nincs elég erőforrása a dokumentum szerkesztésre való megnyitásához. A dokumentum csak megtekintésre lesz megnyitva.",
       "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes bővíthető feltételekért.",
       "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére."
     }
@@ -388,6 +390,7 @@
     "advDRMPassword": "Jelszó",
     "applyChangesTextText": "Adatok betöltése...",
     "applyChangesTitleText": "Adatok betöltése",
+    "changesSaved": "Minden módosítás elmentve",
     "confirmMaxChangesSize": "A műveletek mérete meghaladja a kiszolgálóra beállított korlátozást.<br> Nyomja meg a „Mégse” gombot az utolsó művelet törléséhez, vagy nyomja meg a „Folytatás” gombot a művelet helyben tartásához (a fájl letöltése vagy tartalmának másolása szükséges, hogy biztosan ne vesszen el semmi).",
     "confirmMoveCellRange": "A cél cellatartomány adatokat tartalmazhat. Folytatja a műveletet?",
     "confirmPutMergeRange": "A forrásadatok egyesített cellákat tartalmaznak.<br>A táblázatba való beillesztés előtt a rendszer szétbontja őket.",
@@ -452,6 +455,7 @@
     "textSheetName": "Munkalap neve",
     "textTabColor": "Lap Színe",
     "textUnhide": "Megmutat",
+    "textUnhideSheets": "Táblázatok felfedése",
     "textWarnDeleteSheet": "A munkalap lehet hogy tartalmaz adatok. Folytatja a műveletet?",
     "warnAddSheetCsv": "A CSV formátum nem támogatja a többlapos fájlok mentését. Csak az aktív munkalap kerül mentésre. Az összes munkalap megőrzéséhez kérjük, mentse el a fájlt más formátumban."
   },
@@ -755,6 +759,7 @@
       "textApplication": "Applikáció",
       "textApplicationSettings": "Alkalmazás beállítások",
       "textAuthor": "Szerző",
+      "textAutoSaveDocument": "Automatikus mentés",
       "textBack": "Vissza",
       "textBottom": "Alsó",
       "textByColumns": "Oszlopoktól",
@@ -830,6 +835,7 @@
       "textRight": "Jobb",
       "textRightToLeft": "Jobbról balra",
       "textSameAsSystem": "A rendszerrel megegyező",
+      "textSaveDocument": "Mentés",
       "textSearch": "Keresés",
       "textSearchBy": "Keresés",
       "textSearchIn": "Keresés ebben:",

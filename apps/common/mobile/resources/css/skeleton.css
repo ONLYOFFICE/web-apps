@@ -4,20 +4,14 @@ body {
 
 body.theme-type-light {
     --background-navbar-ios: #ffffff;
-    --background-navbar-word: #446995;
-    --background-navbar-cell: #40865c;
-    --background-navbar-slide: #BE664F;
+    --background-navbar-android: #ffffff;
     --background-navbar-visio: #444796;
-    --background-navbar-pdf: #AA5252;
 }
 
 body.theme-type-dark {
     --background-navbar-ios: #232323;
-    --background-navbar-word: #232323;
-    --background-navbar-cell: #232323;
-    --background-navbar-slide: #232323;
+    --background-navbar-android: #232323;
     --background-navbar-visio: #232323;
-    --background-navbar-pdf: #232323;
 
     background-color: var(--background-primary, #232323);
 }
@@ -48,26 +42,11 @@ body.theme-type-dark {
 
 .skl-navbar.skl-navbar--md {
     /*height: calc(56px + 26px);*/
+     background-color: var(--background-navbar-android, #ffffff);
 }
 
 .skl-navbar.skl-navbar--ios {
     background-color: var(--background-navbar-ios, #f7f7f8);
-}
-
-.skl-navbar.skl-navbar--word.skl-navbar--md {
-    background-color: var(--background-navbar-word, #446995);
-}
-
-.skl-navbar.skl-navbar--word.skl-navbar--md.pdf-view {
-    background-color: var(--background-navbar-pdf, #AA5252);
-}
-
-.skl-navbar.skl-navbar--cell.skl-navbar--md {
-    background-color: var(--background-navbar-cell, #40865c);
-}
-
-.skl-navbar.skl-navbar--slide.skl-navbar--md {
-    background-color: var(--background-navbar-slide, #BE664F);
 }
 
 .skl-navbar.skl-navbar--visio.skl-navbar--md {
@@ -91,16 +70,6 @@ body.theme-type-dark {
     height: 1px;
     transform-origin: 50% 100%;
     transform: scaleY(calc(1 / var(--skl-pixel-ratio)));
-}
-
-.skl-navbar.skl-navbar--md::before {
-    right: 0;
-    width: 100%;
-    top: 100%;
-    bottom: auto;
-    height: 8px;
-    pointer-events: none;
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.08) 40%, rgba(0, 0, 0, 0.04) 50%, rgba(0, 0, 0, 0) 90%, rgba(0, 0, 0, 0) 100%)
 }
 
 .skl-lines {
@@ -165,39 +134,22 @@ body.theme-type-dark {
     --f7-bars-translucent-opacity: 1;
 }
 
-.word-editor {
-    --skl-toolbar-icons: var(--toolbar-icons, #446995);
-}
-
-.md .word-editor {
-    --f7-navbar-bg-color: var(--background-navbar-word, #446995);
-    --f7-subnavbar-bg-color: var(--background-navbar-word, #446995);
+.md {
+    --f7-navbar-bg-color: var(--background-navbar-android, #ffffff);
+    --f7-subnavbar-bg-color: var(--background-navbar-android, #ffffff);
     --f7-subnavbar-height: 56px;
 }
 
-.md .word-editor.pdf-view {
-    --f7-navbar-bg-color: var(--background-navbar-pdf, #AA5252);
-    --f7-subnavbar-bg-color: var(--background-navbar-pdf, #AA5252);
+.word-editor {
+    --skl-toolbar-icons: var(--toolbar-icons, #446995);
 }
 
 .cell-editor {
     --skl-toolbar-icons: var(--toolbar-icons, #40865c);
 }
 
-.md .cell-editor {
-    --f7-navbar-bg-color: var(--background-navbar-cell, #40865c);
-    --f7-subnavbar-bg-color: var(--background-navbar-cell, #40865c);
-    --f7-subnavbar-height: 56px;
-}
-
 .slide-editor {
     --skl-toolbar-icons: var(--toolbar-icons, #BE664F);
-}
-
-.md .slide-editor {
-    --f7-navbar-bg-color: var(--background-navbar-slide, #BE664F);
-    --f7-subnavbar-bg-color: var(--background-navbar-slide, #BE664F);
-    --f7-subnavbar-height: 56px;
 }
 
 .visio-editor {

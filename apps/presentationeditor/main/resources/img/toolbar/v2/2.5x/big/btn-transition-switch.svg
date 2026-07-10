@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none">
-    <path d="M12.5 18.5v-9l11-3v15l-11-3Zm-3-1v-7l-5-4v15l5-4Z" class="icon-stroke-gray-primary"/>
-    <path d="M8 11v6l-2 1.5v-9L8 11Z" fill="currentColor" stroke="none" class="icon-fill-blue-secondary"/>
-    <path d="M22 19.5 14 17v-6l8-2.5v11Z" fill="currentColor" stroke="none" class="icon-fill-blue-primary"/>
+    <path opacity=".8" d="M23.5 21.19a1 1 0 0 1-1.263.966l-9-2.455a1 1 0 0 1-.737-.965v-8.472a1 1 0 0 1 .737-.965l9-2.454a1 1 0 0 1 1.263.964z" fill="currentColor" stroke="none" class="icon-fill-blue-primary"/>
+    <path opacity=".4" d="M10.14 11.2a1 1 0 0 1 .36.768v5.064a1 1 0 0 1-.36.768l-4 3.333a1 1 0 0 1-1.64-.768V8.635a1 1 0 0 1 1.64-.768z" fill="currentColor" stroke="none" class="icon-fill-blue-primary"/>
+    <path d="M13.237 19.7a1 1 0 0 1-.737-.964v-8.472a1 1 0 0 1 .737-.965l9-2.455a1 1 0 0 1 1.263.965V21.19a1 1 0 0 1-1.263.965zm-3.097-1.9a1 1 0 0 0 .36-.768v-5.064a1 1 0 0 0-.36-.768l-4-3.333a1 1 0 0 0-1.64.768v11.73a1 1 0 0 0 1.64.768z" class="icon-stroke-gray-primary"/>
 </svg>

@@ -48,7 +48,7 @@
     {"src": "UsageInstructions/InsertImages.htm", "name": "Umetanje slika"},
     {"src": "UsageInstructions/InsertAutoshapes.htm", "name": "Umetanje autolikovа"},
     {"src": "UsageInstructions/InsertCharts.htm", "name": "Umetanje grafikona" },
-    { "src": "UsageInstructions/InsertTextObjects.htm", "name": "Umetanje tekstualnih objekata" }
+    { "src": "UsageInstructions/InsertTextObjects.htm", "name": "Umetanje tekstualnih objekata" },
     {"src": "UsageInstructions/InsertFieldCodes.htm", "name": "Umetanje kodova polja" },
     { "src": "UsageInstructions/InsertSmartArt.htm", "name": "Umetanje SmartArt objekata" },
     { "src": "UsageInstructions/InsertTextFromFile.htm", "name": "Umetanje teksta iz fajla" },

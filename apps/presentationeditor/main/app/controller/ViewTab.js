@@ -1,33 +1,36 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2024
+ * Copyright (C) Ascensio System SIA, 2009-2026
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
- * version 3 as published by the Free Software Foundation. In accordance with
- * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
- * that Ascensio System SIA expressly excludes the warranty of non-infringement
- * of any third-party rights.
+ * version 3 as published by the Free Software Foundation, together with the
+ * additional terms provided in the LICENSE file.
  *
  * This program is distributed WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
- * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. For
+ * details, see the GNU AGPL at: https://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
- * street, Riga, Latvia, EU, LV-1050.
+ * You can contact Ascensio System SIA by email at info@onlyoffice.com
+ * or by postal mail at 20A-6 Ernesta Birznieka-Upisha Street, Riga,
+ * LV-1050, Latvia, European Union.
  *
- * The  interactive user interfaces in modified source and object code versions
- * of the Program must display Appropriate Legal Notices, as required under
+ * The interactive user interfaces in modified versions of the Program
+ * are required to display Appropriate Legal Notices in accordance with
  * Section 5 of the GNU AGPL version 3.
  *
- * Pursuant to Section 7(b) of the License you must retain the original Product
- * logo when distributing the program. Pursuant to Section 7(e) we decline to
- * grant you any rights under trademark law for use of our trademarks.
+ * No trademark rights are granted under this License.
  *
- * All the Product's GUI elements, including illustrations and icon sets, as
- * well as technical writing content are licensed under the terms of the
- * Creative Commons Attribution-ShareAlike 4.0 International. See the License
- * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ * All non-code elements of the Product, including illustrations,
+ * icon sets, and technical writing content, are licensed under the
+ * Creative Commons Attribution-ShareAlike 4.0 International License:
+ * https://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
+ * This license applies only to such non-code elements and does not
+ * modify or replace the licensing terms applicable to the Program's
+ * source code, which remains licensed under the GNU Affero General
+ * Public License v3.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 /**
@@ -61,7 +64,6 @@ define([
                 zoom_percent: undefined,
                 unitsChanged: true,
                 lock_viewProps: false,
-                slideMasterMode: false
             };
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
@@ -99,7 +101,11 @@ define([
             this.addListeners({
                 'ViewTab': {
                     'mode:normal': _.bind(this.onChangeViewMode, this, 'normal'),
+                    'mode:outline': _.bind(this.onChangeViewMode, this, 'outline'),
+                    'mode:notespage': _.bind(this.onChangeViewMode, this, 'notespage'),
                     'mode:master': _.bind(this.onChangeViewMode, this, 'master'),
+                    'mode:handoutmaster': _.bind(this.onChangeViewMode, this, 'handout'),
+                    'mode:notesmaster': _.bind(this.onChangeViewMode, this, 'notes'),
                     'zoom:selected': _.bind(this.onSelectedZoomValue, this),
                     'zoom:changedbefore': _.bind(this.onZoomChanged, this),
                     'zoom:changedafter': _.bind(this.onZoomChanged, this),
@@ -395,11 +401,10 @@ define([
         },
 
         onClickMacros: function() {
-            var me = this;
-            var macrosWindow = new Common.Views.MacrosDialog({
-                api: this.api,
-            });
-            macrosWindow.show();
+            if ( typeof Common.Views.MacrosDialog == "function" )
+                (new Common.Views.MacrosDialog({
+                    api: this.api,
+                })).show();
         },
 
         onClickMacrosRec: function() {
@@ -452,20 +457,37 @@ define([
 
         changeViewMode: function (mode) {
             if (!this.view.btnSlideMaster || !this.view.btnNormal) return;
+            this.view.fireEvent('mastertab:create', [mode])
             
             var isMaster = mode === 'master';
+            var isHandout = mode === 'handout';
+            var isNotes = mode === 'notes';
+            var isOutline = mode === 'outline';
+            var isNotesPage = mode === 'notespage'
             this.view.btnSlideMaster.toggle(isMaster, true);
-            this.view.btnNormal.toggle(!isMaster, true);
-            if (this._state.slideMasterMode !== isMaster) {
-                this._state.slideMasterMode = isMaster;
-                this.view.fireEvent('viewmode:change', [isMaster ? 'master' : 'normal']);
-                this.api.asc_changePresentationViewMode(isMaster ? Asc.c_oAscPresentationViewMode.masterSlide : Asc.c_oAscPresentationViewMode.normal);
-            } // Asc.c_oAscPresentationViewMode.sorter;
+            this.view.btnNormal.toggle(!isMaster && !isHandout && !isNotes && !isOutline && !isNotesPage, true);
+            this.view.btnHandoutMaster.toggle(isHandout, true);
+            this.view.btnNotesMaster.toggle(isNotes, true);
+            this.view.btnOutlineView.toggle(isOutline, true);
+            this.view.btnNotesPage.toggle(isNotesPage, true);
+            var presentationMode = isMaster ? Asc.c_oAscPresentationViewMode.masterSlide
+                : isHandout ? Asc.c_oAscPresentationViewMode.handoutMaster
+                : isNotes ? Asc.c_oAscPresentationViewMode.notesMaster
+                : isOutline ? Asc.c_oAscPresentationViewMode.outline
+                : isNotesPage ? Asc.c_oAscPresentationViewMode.notesPage
+                : Asc.c_oAscPresentationViewMode.normal;
+
+            this.view.fireEvent('viewmode:change', [isMaster ? 'master' : isHandout ? 'handout' : isNotes ? 'notes' : isNotesPage ? 'notespage' : isOutline ? 'outline' : 'normal']);
+            this.api.asc_changePresentationViewMode(presentationMode);
         },
 
         onApiChangeViewMode: function (mode) {
             var isMaster = mode === Asc.c_oAscPresentationViewMode.masterSlide;
-            this.changeViewMode(isMaster ? 'master' : 'normal');
+            var isHandout = mode === Asc.c_oAscPresentationViewMode.handoutMaster;
+            var isNotes = mode === Asc.c_oAscPresentationViewMode.notesMaster;
+            var isOutline = mode === Asc.c_oAscPresentationViewMode.outline;
+            var isNotesPage = mode === Asc.c_oAscPresentationViewMode.notesPage;
+            this.changeViewMode(isMaster ? 'master' : isHandout ? 'handout' : isNotes ? 'notes' : isOutline ? 'outline' : isNotesPage ? 'notespage' : 'normal');
         },
 
         onChangeViewMode: function (mode) {

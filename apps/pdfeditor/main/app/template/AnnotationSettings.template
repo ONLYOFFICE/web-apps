@@ -15,23 +15,41 @@
         </td>
     </tr>
     <tr class="form-field">
-        <td class="padding-large" width="50%"></td>
-        <td class="padding-large" width="50%">
+        <td class="padding-small" width="50%"></td>
+        <td class="padding-small" width="50%">
             <label class="input-label"><%= scope.textStyle %></label>
             <div id="annotation-combo-line-style"></div>
         </td>
     </tr>
     <tr class="form-field">
-        <td class="padding-large" width="50%"></td>
-        <td class="padding-large" width="50%">
+        <td class="padding-small" width="50%"></td>
+        <td class="padding-small" width="50%">
             <label class="input-label"><%= scope.textStyle %></label>
             <div id="annotation-combo-line-style-for-link"></div>
+        </td>
+    </tr>
+</table>
+<table cols="2" class="form-group">
+    <tr>
+        <td colspan=2>
+            <div class="separator horizontal padding-small"></div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label class="header padding-small"><%= scope.textBackground %></label>
         </td>
     </tr>
     <tr class="form-field">
         <td colspan=2 class="padding-small">
             <label class="input-label" style="margin-top: 4px;"><%= scope.textFillColor %></label>
             <div id="annotation-background-color-btn" style="display: inline-block;" class="float-right"></div>
+        </td>
+    </tr>
+    <tr class="form-field">
+        <td colspan=2 class="padding-small">
+            <label class="input-label"><%= scope.textIcon %></label>
+            <div id="annotation-text-icon-btn"></div>
         </td>
     </tr>
 </table>
