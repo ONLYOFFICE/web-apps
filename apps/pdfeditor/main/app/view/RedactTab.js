@@ -62,6 +62,15 @@ define([
                 '<div class="group">' +
                     '<span class="btn-slot text x-huge" id="slot-btn-apply-redactions"></span>' +
                 '</div>' +
+                '<div class="separator long"></div>' +
+                '<div class="group small">' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="slot-chk-remove-forms"></span>' +
+                    '</div>' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="slot-chk-remove-annots"></span>' +
+                    '</div>' +
+                '</div>' +
             '</section>';
 
         return {
@@ -80,7 +89,13 @@ define([
                 });
                 me.btnFindRedact && me.btnFindRedact.on('click', function (btn) {
                     me.fireEvent('search:showredact', [btn.pressed])
-                })
+                });
+                me.chRemoveForms.on('change', function (checkbox, state) {
+                    me.fireEvent('redact:remove-forms', [state === 'checked']);
+                });
+                 me.chRemoveAnnots.on('change', function (checkbox, state) {
+                    me.fireEvent('redact:remove-annots', [state === 'checked']);
+                });
             },
 
             initialize: function (options) {
@@ -154,6 +169,26 @@ define([
                 });
                 me.lockedControls.push(this.btnApplyRedactions);
 
+                this.chRemoveForms = new Common.UI.CheckBox({
+                    lock: [_set.lostConnect, _set.disableOnStart],
+                    labelText: this.txtRemoveForms,
+                    value: false,
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                me.lockedControls.push(this.chRemoveForms);
+
+                this.chRemoveAnnots = new Common.UI.CheckBox({
+                    lock: [_set.lostConnect, _set.disableOnStart],
+                    labelText: this.txtRemoveAnnotations,
+                    value: false,
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                me.lockedControls.push(this.chRemoveAnnots);
+
                 Common.UI.LayoutManager.addControls(me.lockedControls);
                 Common.Utils.lockControls(_set.disableOnStart, true, {array: this.lockedControls});
             },
@@ -179,6 +214,8 @@ define([
                 _injectComponent('#slot-btn-redactpages', this.btnRedactPages);
                 _injectComponent('#slot-btn-apply-redactions', this.btnApplyRedactions);
                 _injectComponent('#slot-btn-findredact', this.btnFindRedact);
+                _injectComponent('#slot-chk-remove-forms', this.chRemoveForms);
+                _injectComponent('#slot-chk-remove-annots', this.chRemoveAnnots);
 
                 return this.$el;
             },

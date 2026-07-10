@@ -114,6 +114,8 @@ define([
                     'redact:apply'   : this.onApplyRedact.bind(this),
                     'redact:page'    : this.onRedactCurrentPage.bind(this),
                     'redact:pages'   : this.onRedactPages.bind(this),
+                    'redact:remove-forms': this.onRemoveForms.bind(this),
+                    'redact:remove-annots': this.onRemoveAnnots.bind(this),
                 },
                 'Toolbar': {
                     'tab:active': this.onActiveTab
@@ -241,6 +243,16 @@ define([
             })).show();
         },
 
+        onRemoveForms: function(remove) {
+            this.api && this.api.SetRedactDelForm(remove);
+            Common.localStorage.setBool("pdfe-redact-remove-forms", remove);
+        },
+
+        onRemoveAnnots: function(remove) {
+            this.api && this.api.SetRedactDelAnnots(remove);
+            Common.localStorage.setBool("pdfe-redact-remove-annots", remove);
+        },
+
         onActiveTab: function(tab) {
             if (tab == 'red') {
                 if (!this.toolbar.toolbar.isCompact()) {
@@ -327,6 +339,11 @@ define([
                         me.getApplication().getController('LeftMenu').leftMenu.btnSearchBar.on('toggle', function (btn, state) {
                             !state && me.view.turnFindRedact(state);
                         });
+                    }
+
+                    if(me.api) {
+                        me.view.chRemoveForms.setValue(Common.localStorage.getBool("pdfe-redact-remove-forms"));
+                        me.view.chRemoveAnnots.setValue(Common.localStorage.getBool("pdfe-redact-remove-annots"));
                     }
                 });
             }
