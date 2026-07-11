@@ -1675,6 +1675,10 @@ define([], function () {
                 this.cellsList.onKeyDown = _.bind(this.onListKeyDown, this);
             }
 
+            this.on('close', function() {
+                me.currentCellsListInsertId = 0;
+            });
+
             this.setupDataCells();
             this._setDefaults();
 
@@ -2098,12 +2102,18 @@ define([], function () {
                     me = this,
                     idxs = (me.filter) ? me.filteredIndexes : me.throughIndexes;
                 if ('0' == record.get('groupid')) {
-                    this.cells.each(function(cell) {
+                    const setCheckCell = function(cell, value) {
                         if ('2' !== cell.get('groupid')) {
-                            cell.set('check', check);
+                            cell.set('check', value);
                             if (cell.get('throughIndex')>1)
-                                idxs[parseInt(cell.get('throughIndex'))] = check;
+                                idxs[parseInt(cell.get('throughIndex'))] = value;
                         }
+                    };
+                    this.cells.each(function(cell) {
+                        setCheckCell(cell, check);
+                    });
+                    (this.currentCellsListPendingItems || []).forEach(function(cell) {
+                        setCheckCell(cell, check);
                     });
                 } else {
                     record.set('check', check);
@@ -2534,7 +2544,47 @@ define([], function () {
                 }));
             }
 
-            this.cells.reset(arr);
+            this.currentCellsListInsertId = this.currentCellsListInsertId || 0;
+            function addItemsInChunks(store, items, firstChunkSize, chunkSize, onComplete) {
+                const insertId = ++me.currentCellsListInsertId;
+                const sorted = items.slice().sort(store.comparator);
+
+                store.reset([]);
+                me.currentCellsListPendingItems = sorted.slice(firstChunkSize);
+                store.add(sorted.slice(0, firstChunkSize), { sort: false });
+
+                let offset = firstChunkSize;
+
+                function addNextChunk() {
+                    // If there is another insertion, we stop the current insertion
+                    if (insertId !== me.currentCellsListInsertId) return;
+
+                    if (offset >= sorted.length) {
+                        me.currentCellsListPendingItems = [];
+                        onComplete && onComplete();
+                        return;
+                    }
+
+                    const chunk = sorted.slice(offset, offset + chunkSize);
+                    offset += chunkSize;
+
+                    me.currentCellsListPendingItems = sorted.slice(offset);
+                    store.add(chunk, { sort: false });
+
+                    setTimeout(addNextChunk, 5);
+                }
+
+                setTimeout(addNextChunk, 10);
+            }
+
+            addItemsInChunks(this.cellsList.store, arr, 25, 50, function() {
+                me.cellsList.scroller.update({
+                    minScrollbarLength: me.cellsList.minScrollbarLength,
+                    alwaysVisibleY: true,
+                    suppressScrollX: true
+                });
+            });
+
             this.filterExcludeCells.reset(arrEx);
 
             if (this.cells.length) {
