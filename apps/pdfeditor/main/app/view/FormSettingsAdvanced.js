@@ -953,7 +953,8 @@ define([
                 const transform = $el.css('transform');
                 if (!transform || transform === 'none') return { x: 1, y: 1 };
 
-                const values = transform.match(/matrix\((.+)\)/)?.[1].split(', ').map(parseFloat);
+                const m = transform.match(/matrix\((.+)\)/);
+                const values = !!m ? m[1].split(', ').map(parseFloat) : null;
                 if (!values) return { x: 1, y: 1 };
 
                 return {
