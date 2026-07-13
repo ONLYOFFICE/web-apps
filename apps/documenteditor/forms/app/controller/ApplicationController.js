@@ -980,7 +980,7 @@ define([
 
             if (action.type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
                 if (!this.loadMask)
-                    this.loadMask = new Common.UI.LoadMask({owner: $(document.body)});
+                    this.loadMask = new Common.UI.LoadMask({owner: $('#viewport')});
 
                 this.loadMask.setTitle(text);
                 this.loadMask.show();
