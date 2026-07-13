@@ -602,6 +602,10 @@ define([
                     this.reviewChangesView.on('item:remove', addtooltip);
                     this.reviewChangesView.on('item:change', addtooltip);
 
+                    $('#id-review-popover').on('mousewheel', '.user-message.limit-height', function (e) {
+                        if (this.scrollHeight > this.clientHeight) e.stopPropagation();
+                    });
+
                     this.reviewChangesView.on('item:click', function (picker, item, record, e) {
                         var btn = $(e.target);
                         if (btn) {
