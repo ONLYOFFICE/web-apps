@@ -320,7 +320,10 @@ define([
 
         function onResize() {
             btnMode && btnMode.menu && btnMode.menu.hide && btnMode.menu.hide();
+            updatePosition();
+        }
 
+        function updatePosition() {
             if (appConfig && appConfig.twoLevelHeader && !appConfig.compactHeader)
                 updateDocNamePosition();
         }
@@ -1319,7 +1322,7 @@ define([
                     this.imgCrypted.toggleClass('hidden', false);
                     this._showImgCrypted = false;
                 }
-                (width>=0) && onResize();
+                (width>=0) && updatePosition();
             },
 
             getTextWidth: function(text) {
