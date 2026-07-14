@@ -1114,9 +1114,10 @@ define([
                     pluginsController           = application.getController('Common.Controllers.Plugins'),
                     navigationController        = application.getController('Navigation');
 
-
-                rightmenuController.getView('RightMenu').setApi(this.api);
-                rightmenuController.getView('RightMenu').setMode(this.appOptions);
+                if (this.appOptions.isEdit) {
+                    rightmenuController.getView('RightMenu').setApi(this.api);
+                    rightmenuController.getView('RightMenu').setMode(this.appOptions);
+                }
 
                 leftmenuController.getView('LeftMenu').getMenu('file').loadDocument({doc:me.document});
                 leftmenuController.createDelayedElements().setApi(me.api);
