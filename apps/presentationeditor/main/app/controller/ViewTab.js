@@ -86,8 +86,16 @@ define([
                 this.api.asc_registerCallback('asc_onMacroRecordingStop', _.bind(this.updateMacroState, this, false));
                 this.api.asc_registerCallback('asc_onMacroRecordingPause', _.bind(this.updateMacroState, this, true, true));
                 this.api.asc_registerCallback('asc_onMacroRecordingResume', _.bind(this.updateMacroState, this, true, false));
+                this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPages, this));
             }
             return this;
+        },
+
+        onApiCountPages: function (count) {
+            if (this._state.no_slides !== (count<=0)) {
+                this._state.no_slides = (count<=0);
+                Common.Utils.lockControls(Common.enumLock.disableOnStart,  this._state.no_slides, {array: [this.view.btnReadingView]});
+            }
         },
 
         setConfig: function(config) {
@@ -496,9 +504,7 @@ define([
         },
 
         onStartReadingView: function () {
-            if (this.api) {
-                this.api.StartReadingView('presentation-preview')
-            }
+            Common.NotificationCenter.trigger('preview:start', 0, false, false, false, true);
         },
 
         onPointerType: function (type) {

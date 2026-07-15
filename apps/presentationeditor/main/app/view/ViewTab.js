@@ -343,7 +343,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-reading-view',
                     caption: this.textReadingView,
-                    lock: [_set.disableOnStart],
+                    lock: [_set.disableOnStart, _set.slideDeleted, _set.noSlides],
                     allowDepress: true,
                     pressed: false,
                     dataHint: '1',
@@ -790,6 +790,9 @@ define([
             getButtons: function(type) {
                 if (type===undefined)
                     return this.lockedControls;
+                else if (type === 'readingView') {
+                    return [this.btnReadingView]
+                }
                 return [];
             },
 
