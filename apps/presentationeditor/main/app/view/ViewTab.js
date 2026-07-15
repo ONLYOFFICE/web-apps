@@ -296,19 +296,6 @@ define([
                     });
                     this.lockedControls.push(this.btnNotesPage);
 
-                    this.btnReadingView = new Common.UI.Button({
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-reading-view',
-                        caption: this.textReadingView,
-                        lock: [_set.disableOnStart],
-                        allowDepress: true,
-                        pressed: false,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    this.lockedControls.push(this.btnReadingView);
-
                     this.btnSlideMaster = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-slide-master',
@@ -351,6 +338,20 @@ define([
                     });
                     this.lockedControls.push(this.btnNotesMaster);
                 }
+
+                this.btnReadingView = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-reading-view',
+                    caption: this.textReadingView,
+                    lock: [_set.disableOnStart],
+                    allowDepress: true,
+                    pressed: false,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnReadingView);
+
                 this.cmbZoom = new Common.UI.ComboBox({
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 55px;',
@@ -697,7 +698,6 @@ define([
                         me.chRulers.hide();
                         me.btnGuides.$el.closest('.group').remove();
                         me.$el.find('#slot-btn-slide-master').closest('.group').next().addBack().remove();
-                        me.$el.find('#slot-btn-outline-view').closest('.group').next().addBack().remove();
                     }
                     if (
                         !config.isEdit || 
