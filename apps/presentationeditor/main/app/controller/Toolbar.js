@@ -2835,6 +2835,7 @@ define([
                 me.toolbar.setVisible('view', visible);
                 !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
             }
+            Array.prototype.push.apply(me.toolbar.slideOnlyControls, viewtab.getView('ViewTab').getButtons('readingView'));
         },
 
         onAppReady: function (config) {

@@ -86,8 +86,16 @@ define([
                 this.api.asc_registerCallback('asc_onMacroRecordingStop', _.bind(this.updateMacroState, this, false));
                 this.api.asc_registerCallback('asc_onMacroRecordingPause', _.bind(this.updateMacroState, this, true, true));
                 this.api.asc_registerCallback('asc_onMacroRecordingResume', _.bind(this.updateMacroState, this, true, false));
+                this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPages, this));
             }
             return this;
+        },
+
+        onApiCountPages: function (count) {
+            if (this._state.no_slides !== (count<=0)) {
+                this._state.no_slides = (count<=0);
+                Common.Utils.lockControls(Common.enumLock.disableOnStart,  this._state.no_slides, {array: [this.view.btnReadingView]});
+            }
         },
 
         setConfig: function(config) {
@@ -106,6 +114,7 @@ define([
                     'mode:master': _.bind(this.onChangeViewMode, this, 'master'),
                     'mode:handoutmaster': _.bind(this.onChangeViewMode, this, 'handout'),
                     'mode:notesmaster': _.bind(this.onChangeViewMode, this, 'notes'),
+                    'readingview:start': _.bind(this.onStartReadingView, this),
                     'zoom:selected': _.bind(this.onSelectedZoomValue, this),
                     'zoom:changedbefore': _.bind(this.onZoomChanged, this),
                     'zoom:changedafter': _.bind(this.onZoomChanged, this),
@@ -492,6 +501,10 @@ define([
 
         onChangeViewMode: function (mode) {
             this.changeViewMode(mode);
+        },
+
+        onStartReadingView: function () {
+            Common.NotificationCenter.trigger('preview:start', 0, false, false, false, true);
         },
 
         onPointerType: function (type) {
