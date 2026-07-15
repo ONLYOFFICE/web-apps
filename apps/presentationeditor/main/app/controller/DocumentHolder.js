@@ -667,7 +667,7 @@ define([
             me.onMouseMoveStart();
         },
 
-        onApiStartDemonstration: function(isReadingView) {
+        onApiStartDemonstration: function() {
             if (this.documentHolder.slidesCount>0) {
                 Common.NotificationCenter.trigger('preview:start', 0, null, true);
             }
