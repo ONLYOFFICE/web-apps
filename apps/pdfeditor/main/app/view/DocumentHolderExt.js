@@ -1283,8 +1283,8 @@ define([], function () {
 
                     me.menuImageAdvanced.setVisible(isimage);
                     me.menuShapeAdvanced.setVisible(_.isUndefined(value.imgProps) && (_.isUndefined(value.chartProps) && !(value.shapeProps && value.shapeProps.isChart)));
-                    me.menuChartEdit.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
-                    me.menuChartAdvanced.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
+                    me.menuChartEdit.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart) && !!me.api.asc_getChartSettings());
+                    me.menuChartAdvanced.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart) && !!me.api.asc_getChartSettings());
                     menuImgShapeSeparator.setVisible(me.menuImageAdvanced.isVisible() || me.menuShapeAdvanced.isVisible() || me.menuChartEdit.isVisible() || me.menuChartAdvanced.isVisible());
                     menuAdvancedSettingsSeparator.setVisible(
                         me.menuImgCrop.isVisible() || me.menuImgOriginalSize.isVisible() ||

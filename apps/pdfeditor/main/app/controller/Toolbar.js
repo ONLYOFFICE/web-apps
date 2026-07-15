@@ -624,7 +624,7 @@ define([
                     }
                     if (type == Asc.c_oAscTypeSelectElement.Chart) {
                         no_columns = true;
-                        in_chart = true;
+                        in_chart = !!this.api.asc_getChartSettings();
                     }
                     if (type == Asc.c_oAscTypeSelectElement.Shape) {
                         var shapetype = pr.asc_getType();

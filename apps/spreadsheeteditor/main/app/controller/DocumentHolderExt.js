@@ -2333,7 +2333,9 @@ define([], function () {
 
                 documentHolder.mnuShapeAdvanced.setVisible(isshapemenu && !isimagemenu && !ischartmenu);
                 documentHolder.mnuShapeAdvanced.setDisabled(isObjLocked);
-                documentHolder.mnuChartEdit.setVisible(ischartmenu && !isimagemenu && !isshapemenu && has_chartprops);
+                var chartSettings = this.api.asc_getChartSettings(),
+                    isChart = !!(chartSettings && chartSettings.getSeries().length>0);
+                documentHolder.mnuChartEdit.setVisible(ischartmenu && !isimagemenu && !isshapemenu && isChart);
                 documentHolder.mnuChartEdit.setDisabled(isObjLocked);
                 documentHolder.mnuChartData.setVisible(this.permissions.isEditOle && ischartmenu && !isimagemenu && !isshapemenu && has_chartprops);
                 documentHolder.mnuChartData.setDisabled(isObjLocked);

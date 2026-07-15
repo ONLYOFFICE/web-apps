@@ -903,7 +903,7 @@ define([
                         no_paragraph = false;
                     }
                     if (type == Asc.c_oAscTypeSelectElement.Chart) {
-                        in_chart = true;
+                        in_chart = !!this.api.asc_getChartSettings();
                         no_columns = true;
                     }
                     if (type == Asc.c_oAscTypeSelectElement.Shape) {
