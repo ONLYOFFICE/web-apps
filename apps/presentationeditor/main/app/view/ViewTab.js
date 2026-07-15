@@ -298,7 +298,7 @@ define([
 
                     this.btnReadingView = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-notes-page',
+                        iconCls: 'toolbar__icon btn-reading-view',
                         caption: this.textReadingView,
                         lock: [_set.disableOnStart],
                         allowDepress: true,
