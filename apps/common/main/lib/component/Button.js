@@ -1058,7 +1058,7 @@ define([
         }
     });
 
-    Common.UI.ButtonCustom = Common.UI.Button.extend(_.extend({
+    Common.UI.ButtonCustom = Common.UI.Button.extend({
         initialize : function(options) {
             options.iconsSet && (options.iconCls = 'icon-custom ' + (options.iconCls || ''));
             Common.UI.Button.prototype.initialize.call(this, options);
@@ -1128,7 +1128,7 @@ define([
                 this.updateIcons();
             }
         }
-    }, Common.UI.ButtonCustom || {}));
+    });
 
     Common.UI.GroupedButtons = function (buttons, opts) {
         let _buttons = buttons,
