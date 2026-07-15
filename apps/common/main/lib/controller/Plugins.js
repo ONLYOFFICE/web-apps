@@ -935,7 +935,10 @@ define([
                         me.api && me.api.onPluginWindowHeaderMenuItemClick && 
                             me.api.onPluginWindowHeaderMenuItemClick(plugin.guid, frame.id, value, pressed);
                     };
-                    me.addHeaderCustomControls(plugin.guid, frame.id, frame.items, controlCallback, preventRemove);
+                    const panel = me.addHeaderCustomControls(plugin.guid, frame.id, frame.items, controlCallback, preventRemove);
+                    if (!!panel && frame.title === false) {
+                        panel.$el.find('.current-plugin-header .title label').hide();
+                    }
                 });
             });
         },
@@ -1060,10 +1063,21 @@ define([
                                 callback && callback(b.options.value, b.pressed);
                             });
                         }
+                    } else
+                    if(commonOptions.type == 'label') {
+                        cmp = new Common.UI.Label({
+                            caption: commonOptions.text,
+                            align: commonOptions.align,
+                        });
                     }
+
                     if(cmp) {
-                        cmp.render($('<div class="btn-slot"></div>'));
-                        cmp.cmpEl.addClass('no-focus');
+                        if (cmp instanceof Common.UI.Label) {
+                            cmp.render($('<span class="label-slot"></span>'));
+                        } else {
+                            cmp.render($('<div class="btn-slot"></div>'));
+                            cmp.cmpEl.addClass('no-focus');
+                        }
                         added.push(cmp);
                     }
                 }
@@ -1076,6 +1090,7 @@ define([
                 (this.viewPlugins.pluginPanels[guid] && this.viewPlugins.pluginPanels[guid].frameId == frameId && this.viewPlugins.pluginPanels[guid]) || 
                 this.viewPlugins.customPluginPanels[frameId] || this.customPluginsDlg[frameId];
             panel && panel.addHeaderCustomControls(added, removed);
+            return panel;
         },
 
         _restoreHeaderCustomControls: function(guid, frameId) {

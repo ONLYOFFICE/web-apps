@@ -236,11 +236,11 @@ define([], function () {
 
         updateTitle: function() {
             if(this.customControls.some(function(el) { return el.isTitle })) {
-                this.$el.find('.current-plugin-header label').hide();
+                this.$el.find('.current-plugin-header .title label').hide();
                 this.$el.find('.current-plugin-header .custom-plugin').show();
             } else {
                 const label = (this.header && this.header.title) || this._labelName;
-                this.$el.find('.current-plugin-header label').text(label).show();
+                this.$el.find('.current-plugin-header .title label').text(label).show();
                 this.$el.find('.current-plugin-header .custom-plugin').hide();
             }
         },
