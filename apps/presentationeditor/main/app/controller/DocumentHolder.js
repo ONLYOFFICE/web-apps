@@ -669,7 +669,7 @@ define([
 
         onApiStartDemonstration: function(isReadingView) {
             if (this.documentHolder.slidesCount>0) {
-                Common.NotificationCenter.trigger('preview:start', 0, null, true, false, isReadingView);
+                Common.NotificationCenter.trigger('preview:start', 0, null, true);
             }
         },
 
