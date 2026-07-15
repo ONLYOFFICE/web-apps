@@ -3740,6 +3740,7 @@
   "PE.Views.ViewTab.textShowGuides": "Show guides",
   "PE.Views.ViewTab.textOutlineView": "Outline View",
   "PE.Views.ViewTab.textNotesPage": "Notes Page",
+  "PE.Views.ViewTab.textReadingView": "Reading View",
   "PE.Views.ViewTab.textSlideMaster": "Slide Master",
   "PE.Views.ViewTab.textHandoutMaster": "Handout Master",
   "PE.Views.ViewTab.textNotesMaster": "Notes Master",
@@ -3766,5 +3767,6 @@
   "PE.Views.ViewTab.tipSlideMaster": "Slide master",
   "PE.Views.ViewTab.tipHandoutMaster": "Handout master",
   "PE.Views.ViewTab.tipNotesMaster": "Notes master",
+  "PE.Views.ViewTab.tipReadingView": "Reading view",
   "PE.Views.ViewTab.tipStopMacro": "Stop recording"
 }

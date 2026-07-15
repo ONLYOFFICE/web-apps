@@ -106,6 +106,7 @@ define([
                     'mode:master': _.bind(this.onChangeViewMode, this, 'master'),
                     'mode:handoutmaster': _.bind(this.onChangeViewMode, this, 'handout'),
                     'mode:notesmaster': _.bind(this.onChangeViewMode, this, 'notes'),
+                    'readingview:start': _.bind(this.onStartReadingView, this),
                     'zoom:selected': _.bind(this.onSelectedZoomValue, this),
                     'zoom:changedbefore': _.bind(this.onZoomChanged, this),
                     'zoom:changedafter': _.bind(this.onZoomChanged, this),
@@ -492,6 +493,12 @@ define([
 
         onChangeViewMode: function (mode) {
             this.changeViewMode(mode);
+        },
+
+        onStartReadingView: function () {
+            if (this.api) {
+                this.api.StartReadingView('presentation-preview')
+            }
         },
 
         onPointerType: function (type) {

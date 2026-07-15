@@ -667,9 +667,9 @@ define([
             me.onMouseMoveStart();
         },
 
-        onApiStartDemonstration: function() {
+        onApiStartDemonstration: function(isReadingView) {
             if (this.documentHolder.slidesCount>0) {
-                Common.NotificationCenter.trigger('preview:start', 0, null, true);
+                Common.NotificationCenter.trigger('preview:start', 0, null, true, false, isReadingView);
             }
         },
 

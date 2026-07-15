@@ -53,6 +53,7 @@ define([
                     '<span class="btn-slot text x-huge" id="slot-btn-normal"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-outline-view"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-notes-page"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-reading-view"></span>' +
                 '</div>' +
                 '<div class="separator long"></div>' +
                 '<div class="group">' +
@@ -151,6 +152,9 @@ define([
                 }, me));
                 me.btnNotesMaster && me.btnNotesMaster.on('toggle', _.bind(function(btn, state) {
                     me.fireEvent('mode:notesmaster', [state]);
+                }, me));
+                me.btnReadingView && me.btnReadingView.on('click', _.bind(function(btn, state) {
+                    me.fireEvent('readingview:start');
                 }, me));
                 me.btnFitToSlide && me.btnFitToSlide.on('click', function () {
                     me.fireEvent('zoom:toslide', [me.btnFitToSlide]);
@@ -291,6 +295,19 @@ define([
                         dataHintOffset: 'small'
                     });
                     this.lockedControls.push(this.btnNotesPage);
+
+                    this.btnReadingView = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-notes-page',
+                        caption: this.textReadingView,
+                        lock: [_set.disableOnStart],
+                        allowDepress: true,
+                        pressed: false,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.lockedControls.push(this.btnReadingView);
 
                     this.btnSlideMaster = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
@@ -574,6 +591,7 @@ define([
                 this.btnNormal && this.btnNormal.render($host.find('#slot-btn-normal'));
                 this.btnOutlineView && this.btnOutlineView.render($host.find('#slot-btn-outline-view'));
                 this.btnNotesPage && this.btnNotesPage.render($host.find('#slot-btn-notes-page'));
+                this.btnReadingView && this.btnReadingView.render($host.find('#slot-btn-reading-view'));
                 this.btnSlideMaster && this.btnSlideMaster.render($host.find('#slot-btn-slide-master'));
                 this.btnHandoutMaster && this.btnHandoutMaster.render($host.find('#slot-btn-handout-master'));
                 this.btnNotesMaster && this.btnNotesMaster.render($host.find('#slot-btn-notes-master'));
@@ -610,6 +628,7 @@ define([
                     me.btnSlideMaster && me.btnSlideMaster.updateHint(me.tipSlideMaster);
                     me.btnHandoutMaster && me.btnHandoutMaster.updateHint(me.tipHandoutMaster);
                     me.btnNotesMaster && me.btnNotesMaster.updateHint(me.tipNotesMaster);
+                    me.btnReadingView && me.btnReadingView.updateHint(me.tipReadingView);
                     me.btnFitToSlide.updateHint(me.tipFitToSlide);
                     me.btnFitToWidth.updateHint(me.tipFitToWidth);
                     me.btnInterfaceTheme.updateHint(me.tipInterfaceTheme);
