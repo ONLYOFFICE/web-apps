@@ -1720,7 +1720,7 @@
   "PDFE.Controllers.RedactTab.applyButtonText": "Apply",
   "PDFE.Controllers.RedactTab.doNotApplyButtonText": "Dont't apply",
   "PDFE.Controllers.RedactTab.textApplyRedact": "Redacted information will be permanently removed from this document. Once you save it, information couldn't be retrieved anymore",
-  "PDFE.Controllers.RedactTab.textCommentsFieldsEdited": "Comments, corrections, form fields, links, actions or JavaScript scripts are edited by another user.",
+  "PDFE.Controllers.RedactTab.textCommentsFieldsEdited": "Comments, corrections, form fields, links, actions or JavaScript scripts are edited by another user. Continue?",
   "PDFE.Controllers.RedactTab.textEnterPageRange": "Enter page range for redaction",
   "PDFE.Controllers.RedactTab.textEnterRangeDescription": "e.g. 1, 2, 8-11",
   "PDFE.Controllers.RedactTab.textRedactPages": "Redact pages",
