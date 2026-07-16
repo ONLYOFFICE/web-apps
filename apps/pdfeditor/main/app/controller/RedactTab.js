@@ -143,9 +143,9 @@ define([
                 Common.UI.info({
                     msg: me.textHiddenInfoWarn,
                     dontshow: true,
-                    callback: _.bind(function (btn, dontshow) {
+                    callback: function (btn, dontshow) {
                         if (dontshow) Common.localStorage.setItem("pdfe-hide-metadata-info", 1);
-                    })
+                    }
                 })
             }
         },
@@ -164,11 +164,11 @@ define([
                                 msg: me.textCommentsFieldsEdited,
                                 buttons: ['yes', 'no'],
                                 primary: 'yes',
-                                callback: _.bind(function(btn) {
+                                callback: function(btn) {
                                     if (btn == 'yes') {
                                         me.onRemoveMeta(props);
                                     }
-                                }, this)
+                                }
                             });
                         } else {
                             me.onRemoveMeta(props);
