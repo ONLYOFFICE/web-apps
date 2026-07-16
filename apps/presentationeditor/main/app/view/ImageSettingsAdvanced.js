@@ -112,7 +112,7 @@ define([
                         w = h * this._nRatio;
                         this.spnWidth.setValue(w, true);
                     }
-                    this.spnHeight.setValue(h, true);
+                    this.spnHeight.getValue() !== '' && this.spnHeight.setValue(h, true);
                 }
                 this._isDefaultSize = false;
             }, this));
@@ -136,7 +136,7 @@ define([
                         h = w/this._nRatio;
                         this.spnHeight.setValue(h, true);
                     }
-                    this.spnWidth.setValue(w, true);
+                    this.spnWidth.getValue() !== '' && this.spnWidth.setValue(w, true);
                 }
                 this._isDefaultSize = false;
             }, this));
