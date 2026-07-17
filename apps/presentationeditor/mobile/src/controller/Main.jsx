@@ -65,7 +65,8 @@ import '../../../../common/main/lib/util/LanguageInfo.js'
     "storeChartSettings",
     "storeLinkSettings",
     "storeApplicationSettings",
-    "storeToolbarSettings"
+    "storeToolbarSettings",
+    "storeReview"
     )
 class MainController extends Component {
     constructor (props) {
@@ -618,6 +619,8 @@ class MainController extends Component {
 
         const appOptions = this.props.storeAppOptions;
         const appSettings = this.props.storeApplicationSettings;
+
+        this.props.storeReview.changeDisplayMode(Asc.c_oAscDisplayModeInReview.Edit);
 
         this.api.SetDrawingFreeze(false);
 
