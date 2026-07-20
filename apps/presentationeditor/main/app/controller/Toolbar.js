@@ -3151,17 +3151,17 @@ define([
                 {
                     el: this.toolbar.btnAddSlide ? this.toolbar.btnAddSlide.$el.closest('.group') : null,
                     tabs: ['home', 'design', 'ins'],
-                    viewMode: 'normal'
+                    viewMode: ['normal', 'outline', 'notespage', 'master']
                 },
                 {
                     el: this.toolbar.btnChangeSlide ? this.toolbar.btnChangeSlide.$el.closest('.group') : null,
                     tabs: ['home', 'design'],
-                    viewMode: 'normal'
+                    viewMode: ['normal', 'outline', 'notespage', 'master']
                 },
                 {
                     el: this.toolbar.btnAddSlideMaster ? this.toolbar.btnAddSlideMaster.$el.closest('.group') : null,
                     tabs: ['home', 'design', 'ins'],
-                    viewMode: 'master'
+                    viewMode: ['master']
                 }
             ];
             var countShowingButtons = 0;
@@ -3169,7 +3169,7 @@ define([
             showingStaticElements.forEach(function(item) {
                 if(!item.el) return;
                 
-                if(item.tabs.includes(me._state.activeTab) && (item.viewMode === me._state.viewMode || !item.viewMode)) {
+                if(item.tabs.includes(me._state.activeTab) && (item.viewMode.includes(me._state.viewMode) || !item.viewMode)) {
                     item.el.show();
                     countShowingButtons += 1;
                 }
