@@ -369,12 +369,11 @@ define([
                     Common.Utils.lockControls(Common.enumLock.noAnimationParam, false, {array: [this.view.btnParameters]});
                 }
                 var view = this.view;
-                setTimeout(function () {
-                    view.listEffects &&
-                        view.listEffects.openButton &&
-                        view.listEffects.openButton.menu &&
+                if (view.listEffects && view.listEffects.openButton && view.listEffects.openButton.menu) {
+                    setTimeout(function () {
                         view.listEffects.openButton.menu.hide();
-                }, 0);
+                    }, 0);
+                }
             }
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
@@ -535,12 +534,11 @@ define([
                 }
                 this.setTriggerList();
             } else {
-                setTimeout(function () {
-                    view.listEffects &&
-                        view.listEffects.openButton &&
-                        view.listEffects.openButton.menu &&
+                if (view.listEffects && view.listEffects.openButton && view.listEffects.openButton.menu) {
+                    setTimeout(function () {
                         view.listEffects.openButton.menu.hide();
-                }, 0);
+                    }, 0);
+                }
                 this._state.Effect = this._state.EffectGroup = this._state.EffectOption = undefined;
                 if (this.view && this.view.listEffects)
                     this.view.listEffects.fieldPicker.deselectAll();
