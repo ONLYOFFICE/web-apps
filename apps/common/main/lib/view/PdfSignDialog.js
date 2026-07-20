@@ -452,21 +452,25 @@ define([], function () { 'use strict';
             const $window = this.getChild();
             $window.find('.dlg-btn').on('click', e => {
                 const result = e.currentTarget.getAttribute('result');
-                if (result === 'ok' && me.props) {
-                    const serialized = me.props.serialize();
-                    serialized.mode = me.mode;
-                    if (me.chSave.getValue() === 'checked') {
-                        serialized['vectorImage'] = me.props.getVectorImage();
-                        Common.localStorage.setItem(me.getKey(), JSON.stringify(serialized));
-                        Common.Views.PdfSavedSignatureMenu.addSavedSignature(serialized);
-                    } else {
-                        Common.localStorage.removeItem(me.getKey());
-                    }
-                }
+                me.saveSignature(result);
                 if ( me.options.handler )
                     me.options.handler.call(me, result);
                 me.close();
             });
+        },
+
+        saveSignature: function(result) {
+            if (result === 'ok' && this.props) {
+                const serialized = this.props.serialize();
+                serialized.mode = this.mode;
+                if (this.chSave.getValue() === 'checked') {
+                    serialized['vectorImage'] = this.props.getVectorImage();
+                    Common.localStorage.setItem(this.getKey(), JSON.stringify(serialized));
+                    Common.Views.PdfSavedSignatureMenu.addSavedSignature(serialized);
+                } else {
+                    Common.localStorage.removeItem(this.getKey());
+                }
+            }
         },
 
         updateThemeColors: function() {
@@ -553,6 +557,7 @@ define([], function () { 'use strict';
                 if (state == 'ok' && this.btnOk.isDisabled()) {
                     return;
                 }
+                this.saveSignature(state);
                 this.options.handler.call(this, state, this.getSettings());
             }
 
