@@ -1015,9 +1015,21 @@ define([
                             }
                             fillButtonMenu(options.items, cmp.menu);
                         }
+                    } else
+                    if (cmp instanceof Common.UI.Label) {
+                        cmp.setCaption(commonOptions.text);
                     }
+
                     return;
                 } else {
+                    if((commonOptions.type == 'button' && commonOptions.isLabel === true) ||
+                            commonOptions.type == 'label')
+                    {
+                        cmp = new Common.UI.Label({
+                            caption: commonOptions.text,
+                            align: commonOptions.align,
+                        });
+                    } else
                     if(commonOptions.type == 'button') {
                         /** @type {ButtonHeaderControl} */
                         let options = _.extend({}, { 
@@ -1063,12 +1075,6 @@ define([
                                 callback && callback(b.options.value, b.pressed);
                             });
                         }
-                    } else
-                    if(commonOptions.type == 'label') {
-                        cmp = new Common.UI.Label({
-                            caption: commonOptions.text,
-                            align: commonOptions.align,
-                        });
                     }
 
                     if(cmp) {
