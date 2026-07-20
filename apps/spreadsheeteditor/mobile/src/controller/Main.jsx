@@ -780,6 +780,9 @@ class MainController extends Component {
         var zf = (value !== null) ? parseInt(value)/100 : (appOptions.customization && appOptions.customization.zoom ? parseInt(appOptions.customization.zoom)/100 : 1);
         this.api.asc_setZoom(zf>0 ? zf : 1);
 
+        this.appOptions.forcesave = appOptions.isEdit && !appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
+        this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
+
         this.updateWindowTitle(true);
 
         if (appOptions.isEdit) {
