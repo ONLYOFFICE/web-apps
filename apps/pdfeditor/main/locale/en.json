@@ -1961,6 +1961,8 @@
   "PDFE.Views.DocumentHolder.textCustom": "Custom",
   "PDFE.Views.DocumentHolder.textCut": "Cut",
   "PDFE.Views.DocumentHolder.textDataLabels": "Data labels",
+  "PDFE.Views.DocumentHolder.textDataTable": "Data Table",
+  "PDFE.Views.DocumentHolder.textShowDataTable": "Show Data Table",
   "PDFE.Views.DocumentHolder.textDistributeCols": "Distribute columns",
   "PDFE.Views.DocumentHolder.textDistributeRows": "Distribute rows",
   "PDFE.Views.DocumentHolder.textEditPoints": "Edit points",
