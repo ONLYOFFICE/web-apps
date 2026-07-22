@@ -58,6 +58,7 @@ define([], function () { 'use strict';
             this.api = this.options.api;
             this.props = this.options.props;
             this.fontStore = this.options.fontStore;
+            this.hasField = this.options.hasField !== false;
             this.mode = 0; // 0 - upload, 1 - draw, 2 - type
             this.storage    = !!this.options.storage;
             this.isImageLoaded = false;
@@ -465,9 +466,9 @@ define([], function () { 'use strict';
                 serialized.mode = this.mode;
                 if (this.chSave.getValue() === 'checked') {
                     serialized['vectorImage'] = this.props.getVectorImage();
-                    Common.localStorage.setItem(this.getKey(), JSON.stringify(serialized));
+                    if (this.hasField) Common.localStorage.setItem(this.getKey(), JSON.stringify(serialized));
                     Common.Views.PdfSavedSignatureMenu.addSavedSignature(serialized);
-                } else {
+                } else if (this.hasField) {
                     Common.localStorage.removeItem(this.getKey());
                 }
             }
@@ -478,7 +479,7 @@ define([], function () { 'use strict';
         },
 
         getSignatureId: function() {
-            return this.props ? this.props.get_FormId() : '';
+            return (this.props && this.hasField) ? this.props.get_FormId() : '';
         },
 
         getKey: function() {
@@ -583,7 +584,7 @@ define([], function () { 'use strict';
             }
             var signatureId = this.getSignatureId();
             if (this.api && signatureId) this.api.asc_ClearContentControl(signatureId);
-            Common.localStorage.removeItem(this.getKey());
+            if (this.hasField) Common.localStorage.removeItem(this.getKey());
         },
 
         onUndo: function () {

@@ -134,9 +134,8 @@ define([], function () { 'use strict';
             });
         },
 
-        createMenu: function(rootEl, options) {
-            var me = this,
-                items = [];
+        getMenuItems: function() {
+            var items = [];
 
             for (var i = 0; i < 3; i++) {
                 items.push({
@@ -165,14 +164,15 @@ define([], function () { 'use strict';
                 ].join(''))
             });
 
-            var menu = new Common.UI.Menu({
-                menuAlign: 'tl-bl',
-                style: 'width: 200px;',
-                items: items
-            });
-            var menuContainer = this.createMenuContainer(rootEl, menu);
+            return items;
+        },
 
-            menu.on('item:click', function(menu, item) {
+        bindMenuEvents: function(menu, options) {
+            var me = this;
+
+            menu.on('item:click', function(menu, item, e) {
+                e && e.stopImmediatePropagation();
+
                 if (item.value === 'saved' && item.options.signatureData) {
                     options.onApply && options.onApply(item.options.signatureData, menu);
                 } else if (item.value === 'new') {
@@ -180,8 +180,6 @@ define([], function () { 'use strict';
                 }
             });
 
-            menu.render(menuContainer);
-            menu.cmpEl.attr({tabindex: "-1"});
             _.each(menu.items, function(item) {
                 if (item.value !== 'saved')
                     return;
@@ -203,6 +201,20 @@ define([], function () { 'use strict';
                 });
                 options.onHideAfter && options.onHideAfter(menu);
             });
+        },
+
+        createMenu: function(rootEl, options) {
+            var menu = new Common.UI.Menu({
+                menuAlign: 'tl-bl',
+                style: 'width: 200px;',
+                items: this.getMenuItems()
+            });
+            var menuContainer = this.createMenuContainer(rootEl, menu);
+
+            menu.render(menuContainer);
+            menu.cmpEl.attr({tabindex: "-1"});
+
+            this.bindMenuEvents(menu, options);
 
             this.syncMenu(menu, options.storedSignature, options.currentSignature);
 

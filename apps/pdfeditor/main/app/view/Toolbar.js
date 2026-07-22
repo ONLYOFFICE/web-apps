@@ -994,6 +994,20 @@ define([
                     });
                     this.toolbarControls.push(this.btnStamp);
 
+                    this.btnSignature = new Common.UI.Button({
+                        id: 'tlbtn-signature',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        caption: this.capBtnSignature,
+                        iconCls: 'toolbar__icon btn-ic-signature',
+                        lock: [_set.pageDeleted, _set.disableOnStart],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small',
+                        menu: true,
+                        action: 'insert-signature'
+                    });
+                    this.toolbarControls.push(this.btnSignature);
+
                     var colorsconfig = Common.UI.simpleColorsConfig;
                     this.btnStrikeout = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-strikeout',
@@ -1652,6 +1666,7 @@ define([
                 _injectComponent('#slot-btn-highlight', this.btnHighlight);
                 _injectComponent('#slot-btn-text-comment', this.btnTextComment);
                 _injectComponent('#slot-btn-shape-comment', this.btnShapeComment);
+                _injectComponent('#slot-btn-signature', this.btnSignature);
                 _injectComponent('#slot-btn-stamp', this.btnStamp);
                 _injectComponent('#slot-btn-rotate-annotate', this.btnsRotatePage[0]);
                 this.btnEditMode ? _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode) : $host.findById('#slot-btn-tb-edit-mode').parents('.group').hide().next('.separator').hide();
@@ -1840,6 +1855,12 @@ define([
                         btn.menu.on('show:after', onShowAfter);
                         me.mnuShapeCommentColorPicker = btn.getPicker();
                     }
+                    if (me.btnSignature) {
+                        me.btnSignature.setMenu(new Common.UI.Menu({
+                            menuAlign: 'tl-bl',
+                            style: 'width: 200px;'
+                        }));
+                    }
                     if (me.btnStamp) {
                         me.btnStamp.setMenu(new Common.UI.Menu({
                             restoreHeight: 500
@@ -1888,6 +1909,7 @@ define([
                 // this.btnTextComment.updateHint([this.tipInsertTextComment, this.tipInsertText]);
                 this.btnTextComment.updateHint(this.tipInsertTextComment);
                 this.btnShapeComment.updateHint(this.tipInsertRectComment);
+                this.btnSignature.updateHint(this.tipInsertSignature);
                 this.btnStamp.updateHint(this.tipInsertStamp);
                 this.btnsRotatePage[0].updateHint([this.txtRotatePageRight, this.txtRotatePage]);
                 this.btnEditMode && this.btnEditMode.updateHint(this.tipEditMode);

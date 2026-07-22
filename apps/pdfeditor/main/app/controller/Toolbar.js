@@ -272,6 +272,8 @@ define([
             toolbar.btnStamp.on('click',                                _.bind(this.onBtnStampClick, this));
             toolbar.btnStamp.menu.on('item:click',                      _.bind(this.onMenuStampClick, this));
             toolbar.btnStamp.menu.on('show:after',                      _.bind(this.onStampShowAfter, this));
+            toolbar.btnSignature.on('click',                            this.onBtnSignatureClick.bind(this));
+            toolbar.btnSignature.menu.on('show:after',                  this.onSignatureShowAfter.bind(this));
             toolbar.btnsRotatePage[0].menu.on('item:click',             _.bind(this.onRotatePageMenu, this));
             toolbar.btnsRotatePage[0].on('click',                       _.bind(this.onRotatePage, this));
             // toolbar.btnRotate.on('click',                               _.bind(this.onRotateClick, this));
@@ -1393,6 +1395,79 @@ define([
 
         onApiStampsReady: function() {
             this.toolbar.btnStamp.menu.isVisible() && this.onStampShowAfter(this.toolbar.btnStamp.menu);
+        },
+
+        onBtnSignatureClick: function(btn, e) {
+            if (Common.Views.PdfSavedSignatureMenu && !Common.Views.PdfSavedSignatureMenu.getSavedSignature().length) {
+                e && e.preventDefault();
+                e && e.stopPropagation();
+                this.createSignature(btn.menu);
+            }
+        },
+
+        onSignatureShowAfter: function(menu) {
+            var me = this;
+
+            if (!this.signatureMenuReady) {
+                this.signatureMenuReady = true;
+
+                Common.Views.PdfSavedSignatureMenu.getMenuItems().forEach(function(item) {menu.addItem(item, true);});
+
+                Common.Views.PdfSavedSignatureMenu.bindMenuEvents(menu, {
+                    onApply: function(data) {
+                        me.api && me.api.AddSignatureImage({imageData: data['vectorImage'] || data.signatureImage});
+                        menu.hide();
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnSignature);
+                    },
+                    onDelete: function(data) {
+                        Common.Views.PdfSavedSignatureMenu.removeSavedSignature(data);
+                        menu.hide();
+                    },
+                    onCreateNew: function(menu) { me.createSignature(menu); }
+                });
+            }
+
+            Common.Views.PdfSavedSignatureMenu.syncMenu(menu, Common.Views.PdfSavedSignatureMenu.getSavedSignature(), null);
+        },
+
+        createSignature: function(menu) {
+            var me = this;
+            menu.hide();
+
+            setTimeout(function() {
+                me.openSignatureDialog();
+            }, 0);
+        },
+
+        openSignatureDialog: function() {
+            var me = this;
+
+            if (!this.fontStore) {
+                this.fontStore = new Common.Collections.Fonts();
+                var cmbFonts = this.toolbar.cmbFontName;
+                if (cmbFonts && cmbFonts.store) {
+                    this.fontStore.add(cmbFonts.store.toJSON().filter(function(font) { return !font.cloneid; }));
+                } else {
+                    var fontsController = this.getApplication().getController('Common.Controllers.Fonts');
+                    fontsController && (this.fontStore = fontsController.store());
+                }
+            }
+
+            var signProps = this.api.GetSignatureImageProps();
+            (new Common.Views.PdfSignDialog({
+                api: this.api,
+                props: signProps,
+                hasField: false,
+                disableNetworkFunctionality: this.mode.disableNetworkFunctionality,
+                storage: this.mode.canRequestInsertImage || this.mode.fileChoiceUrl && this.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
+                fontStore: this.fontStore,
+                handler: function(result) {
+                    if (result === 'ok') {
+                        me.api && me.api.AddSignatureImage({imageData: signProps.getVectorImage() || signProps.getSignatureImage()});
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnSignature);
+                }
+            })).show();
         },
 
         onFillRequiredFields: function(isFilled) {
