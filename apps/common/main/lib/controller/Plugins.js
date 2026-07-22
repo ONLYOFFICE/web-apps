@@ -927,7 +927,21 @@ define([
         onPluginWindowHeaderMenu: function(data, preventRemove) {
             if (!data) return;
             const me = this;
-            data.forEach(function(plugin) {
+
+            /* call this method gets wrong arguments order
+             * because bind with true argument for onPluginUpdateWindowHeaderMenu,
+             */
+            let d = [];
+            if (data instanceof Array)
+                d = data;
+            else if (preventRemove instanceof Array) {
+                d = preventRemove.slice();
+                preventRemove = data;
+            }
+            /**/
+
+            // data.forEach(function(plugin) {
+            d.forEach(function(plugin) {
                 plugin.frames.forEach(function(frame) {
                     if(!plugin.guid || !frame.id) return;
 
