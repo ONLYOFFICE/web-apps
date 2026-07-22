@@ -847,7 +847,7 @@ define([
                     in_image = true;
                     image_locked = pr.get_Locked();
                     if (pr && pr.get_ChartProperties())
-                        in_chart = !!this.api.asc_getChartSettings(); 
+                        in_chart = !!this.api.asc_getChartSettings(true);
                     if (pr && pr.get_ShapeProperties())
                         shape_pr = pr.get_ShapeProperties();
                 } else if (type === Asc.c_oAscTypeSelectElement.Math) {

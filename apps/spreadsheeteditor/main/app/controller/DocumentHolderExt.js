@@ -2333,7 +2333,7 @@ define([], function () {
 
                 documentHolder.mnuShapeAdvanced.setVisible(isshapemenu && !isimagemenu && !ischartmenu);
                 documentHolder.mnuShapeAdvanced.setDisabled(isObjLocked);
-                var chartSettings = this.api.asc_getChartSettings(),
+                var chartSettings = this.api.asc_getChartSettings(true),
                     isChart = !!(chartSettings && chartSettings.getSeries().length>0);
                 documentHolder.mnuChartEdit.setVisible(ischartmenu && !isimagemenu && !isshapemenu  && has_chartprops && isChart);
                 documentHolder.mnuChartEdit.setDisabled(isObjLocked);

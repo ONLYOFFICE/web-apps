@@ -974,8 +974,8 @@ define([], function () {
                         me.menuImageAdvanced.setCaption((value.imgProps.isImg) ? me.imageText : ((value.imgProps.isChart) ? me.chartText : me.shapeText));
                         me.menuImageAdvanced.setIconCls('menu__icon ' + (value.imgProps.isImg ? 'btn-menu-image' : (value.imgProps.isChart ? 'btn-menu-chart' : 'btn-menu-shape')));
                     }
-                    me.menuImageAdvanced.setVisible(!value.imgProps.isChart || !!me.api.asc_getChartSettings());
-                    me.menuChartEdit.setVisible(!_.isNull(value.imgProps.value.get_ChartProperties()) && !onlyCommonProps && !!me.api.asc_getChartSettings());
+                    me.menuImageAdvanced.setVisible(!value.imgProps.isChart || !!me.api.asc_getChartSettings(true));
+                    me.menuChartEdit.setVisible(!_.isNull(value.imgProps.value.get_ChartProperties()) && !onlyCommonProps && !!me.api.asc_getChartSettings(true));
                     me.menuOriginalSize.setVisible(value.imgProps.isOnlyImg || !value.imgProps.isChart && !value.imgProps.isShape);
 
                     var in_control = me.api.asc_IsContentControl(),
