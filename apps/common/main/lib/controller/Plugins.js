@@ -206,8 +206,8 @@ define([
                 this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.onPluginsInit, this));
                 this.api.asc_registerCallback('asc_onPluginShowButton', _.bind(this.onPluginShowButton, this));
                 this.api.asc_registerCallback('asc_onPluginHideButton', _.bind(this.onPluginHideButton, this));
-                this.api.asc_registerCallback('onPluginWindowHeaderMenu', _.bind(this.onPluginWindowHeaderMenu, this));
-                this.api.asc_registerCallback('onPluginUpdateWindowHeaderMenu', _.bind(this.onPluginWindowHeaderMenu, this, true));
+                this.api.asc_registerCallback('onPluginWindowHeaderMenu', this.onPluginWindowHeaderMenu.bind(this));
+                this.api.asc_registerCallback('onPluginUpdateWindowHeaderMenu', this.onPluginWindowHeaderMenu.bind(this, true));
 
                 this.api.asc_registerCallback("asc_onPluginWindowShow", _.bind(this.onApiPluginWindowShow, this));
                 this.api.asc_registerCallback("asc_onPluginWindowClose", _.bind(this.onPluginWindowClose, this));
