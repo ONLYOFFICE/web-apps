@@ -1031,7 +1031,8 @@ define([
                         }
                     } else
                     if (cmp instanceof Common.UI.Label) {
-                        cmp.setCaption(commonOptions.text);
+                        if ( !!options.text )
+                            cmp.setCaption(commonOptions.text);
                     }
 
                     return;
