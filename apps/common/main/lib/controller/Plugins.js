@@ -1035,6 +1035,10 @@ define([
                             cmp.setCaption(commonOptions.text);
                     }
 
+                    if (options.visible !== undefined) {
+                        cmp.setVisible(options.visible);
+                    }
+
                     return;
                 } else {
                     if((commonOptions.type == 'button' && commonOptions.isLabel === true) ||
