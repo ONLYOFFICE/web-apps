@@ -1042,6 +1042,7 @@ define([
                         cmp = new Common.UI.Label({
                             caption: commonOptions.text,
                             align: commonOptions.align,
+                            cls: commonOptions.isTitle ? 'title' : '',
                         });
                     } else
                     if(commonOptions.type == 'button') {
