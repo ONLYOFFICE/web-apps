@@ -3976,6 +3976,7 @@
   "DE.Views.TableSettings.textAddFormula": "Add formula",
   "DE.Views.TableSettings.textAdvanced": "Show advanced settings",
   "DE.Views.TableSettings.textAutofit": "Automaticaly resize to fit content",
+  "DE.Views.TableSettings.textSplitRow": "Allow row to break across pages",
   "DE.Views.TableSettings.textBackColor": "Background Color",
   "DE.Views.TableSettings.textBanded": "Banded",
   "DE.Views.TableSettings.textBorderColor": "Color",
