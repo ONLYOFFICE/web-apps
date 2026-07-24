@@ -308,7 +308,7 @@ define([
             if (!this._settings[Common.Utils.documentSettingsType.Signature].hidden)
                 this._settings[Common.Utils.documentSettingsType.Signature].panel.setProtected(isProtected);
 
-            if (!this.rightmenu.minimizedMode || open) {
+            if (!this.rightmenu.minimizedMode || open || this._openRightMenu) {
                 var active;
 
                 if (priorityactive<0 && !this._settings[Common.Utils.documentSettingsType.Form].hidden &&
@@ -337,17 +337,18 @@ define([
                 else if (forceSignature && !this._settings[Common.Utils.documentSettingsType.Signature].hidden) active = Common.Utils.documentSettingsType.Signature;
                 else if (!this.rightmenu.GetActivePluginPane() && !this._settings[Common.Utils.documentSettingsType.MailMerge].hidden) active = Common.Utils.documentSettingsType.MailMerge;
 
-                if (active == undefined && open && lastactive>=0)
+                if (active == undefined && (open || this._openRightMenu) && lastactive>=0)
                     active = lastactive;
-                
+
                 if (active !== undefined) {
-                    this.rightmenu.SetActivePane(active, open);
+                    this.rightmenu.SetActivePane(active, open || this._openRightMenu);
                     if (active === Common.Utils.documentSettingsType.Form)
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props, isShape);
                     else if (active!=Common.Utils.documentSettingsType.MailMerge && active!=Common.Utils.documentSettingsType.Signature)
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel, this._settings[active].props);
                     else
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel);
+                    this._openRightMenu = false;
                     (active !== currentactive) && this.rightmenu.updateScroller();
                 } else if (activePane) { // lock active pane if no selected objects (ex. drawing)
                     for (var i=0; i<this._settings.length; i++) {
@@ -361,21 +362,9 @@ define([
                 }
             }
 
-            if (this._openFormOnInsert) {
-                this._openFormOnInsert = false;
-                var formType = Common.Utils.documentSettingsType.Form;
-                if (!Common.Utils.InternalSettings.get("de-hidden-rightmenu") &&
-                    this._settings[formType] && !this._settings[formType].hidden &&
-                    this._settings[formType].btn && !this._settings[formType].btn.isDisabled() &&
-                    this._settings[formType].panelId !== this.rightmenu.GetActivePane()) {
-                    this.rightmenu.SetActivePane(formType, true);
-                    this._settings[formType].panel.ChangeSettings.call(this._settings[formType].panel, this._settings[formType].props, isShape);
-                    this.rightmenu.updateScroller();
-                }
-            }
-
             this._settings[Common.Utils.documentSettingsType.Image].needShow = false;
             // this._settings[Common.Utils.documentSettingsType.Chart].needShow = false;
+            this._openRightMenu = false;
         },
 
         onCoAuthoringDisconnect: function() {
@@ -405,7 +394,7 @@ define([
         onInsertControl:  function() {
             if (this._settings[Common.Utils.documentSettingsType.Form]) {
                 this._settings[Common.Utils.documentSettingsType.Form].needShow = true;
-                this._openFormOnInsert = true;
+                this._openRightMenu = true;
             }
         },
 
