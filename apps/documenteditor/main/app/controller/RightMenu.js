@@ -361,6 +361,19 @@ define([
                 }
             }
 
+            if (this._openFormOnInsert) {
+                this._openFormOnInsert = false;
+                var formType = Common.Utils.documentSettingsType.Form;
+                if (!Common.Utils.InternalSettings.get("de-hidden-rightmenu") &&
+                    this._settings[formType] && !this._settings[formType].hidden &&
+                    this._settings[formType].btn && !this._settings[formType].btn.isDisabled() &&
+                    this._settings[formType].panelId !== this.rightmenu.GetActivePane()) {
+                    this.rightmenu.SetActivePane(formType, true);
+                    this._settings[formType].panel.ChangeSettings.call(this._settings[formType].panel, this._settings[formType].props, isShape);
+                    this.rightmenu.updateScroller();
+                }
+            }
+
             this._settings[Common.Utils.documentSettingsType.Image].needShow = false;
             // this._settings[Common.Utils.documentSettingsType.Chart].needShow = false;
         },
@@ -390,8 +403,10 @@ define([
         },
 
         onInsertControl:  function() {
-            if (this._settings[Common.Utils.documentSettingsType.Form])
+            if (this._settings[Common.Utils.documentSettingsType.Form]) {
                 this._settings[Common.Utils.documentSettingsType.Form].needShow = true;
+                this._openFormOnInsert = true;
+            }
         },
 
         UpdateThemeColors:  function() {
