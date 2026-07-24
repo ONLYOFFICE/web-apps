@@ -524,7 +524,7 @@ define([], function () {
                     setTimeout(function() {
                         Common.UI.warning({
                             maxwidth: 500,
-                            msg: Common.Utils.String.format(me.documentHolder.txtWarnUrl, url),
+                            msg: Common.Utils.String.format(me.documentHolder.txtWarnUrl, Common.Utils.String.htmlEncode(url)),
                             buttons: ['no', 'yes'],
                             primary: 'no',
                             callback: function(btn) {
