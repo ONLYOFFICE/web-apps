@@ -2437,6 +2437,8 @@
   "PDFE.Views.FormsTab.tipDateTime": "Insert date and time",
   "PDFE.Views.FormsTab.capBtnManager": "Manage Recipient Roles",
   "PDFE.Views.FormsTab.tipManager": "Manage Roles",
+  "PDFE.Views.FormsTab.capBtnView": "Preview",
+  "PDFE.Views.FormsTab.tipViewForm": "Preview",
   "PDFE.Views.FormsTab.tipDropDown": "Insert list box",
   "PDFE.Views.FormsTab.tipEmailField": "Insert email address",
   "PDFE.Views.FormsTab.tipImageField": "Insert image",

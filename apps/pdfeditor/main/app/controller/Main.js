@@ -1588,15 +1588,28 @@ define([
                 } else if (mode==='view') {
                     this.appOptions.isPDFEdit = this.appOptions.isPDFAnnotate = false;
                 }
-                this.api.asc_setRestriction(this.appOptions.isRestrictedEdit ? Asc.c_oAscRestrictionType.OnlyForms : this.appOptions.isPDFEdit ? Asc.c_oAscRestrictionType.None : Asc.c_oAscRestrictionType.View);
                 Common.NotificationCenter.trigger('pdf:mode-changed', this.appOptions);
-                var app = this.getApplication(),
-                    toolbar = app.getController('Toolbar');
+                const app = this.getApplication();
+                const toolbar = app.getController('Toolbar');
                 toolbar.applyMode(activeTab);
                 app.getController('Viewport').applyEditorMode();
                 app.getController('DocumentHolder').applyEditorMode();
                 app.getController('LeftMenu').leftMenu.getMenu('file').applyMode();
                 callback && callback.call();
+
+                const formsTabController = app.getController('FormsTab');
+                const role = new AscCommon.CRestrictionSettings();
+                role.put_OFormRole(formsTabController.getCurrentViewRole());
+                let restrictionType;
+                if (this.appOptions.isRestrictedEdit) {
+                    restrictionType = Asc.c_oAscRestrictionType.OnlyForms;
+                } else if (this.appOptions.isPDFEdit) {
+                    restrictionType = Asc.c_oAscRestrictionType.None;
+                } else {
+                    restrictionType = Asc.c_oAscRestrictionType.View;
+                }
+                this.api.asc_setRestriction(restrictionType, role);
+                formsTabController.view.btnViewFormRoles.toggle(mode != 'edit', true);
 
                 const selectedElements = this.api.getSelectedElements();
                 if (selectedElements.length > 0)
