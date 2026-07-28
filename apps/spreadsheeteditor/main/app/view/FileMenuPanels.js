@@ -118,7 +118,7 @@ define([], function () {
         },
 
         updateFormats: function() {
-            var allowed = this.api && this.api.getSaveFormats ? this.api.getSaveFormats() : undefined;
+            var allowed = this.api && this.api.getSaveFormats();
             !_.isArray(allowed) && (allowed = undefined);
 
             var isVisibleFormat = function (type) {
@@ -243,7 +243,7 @@ define([], function () {
         },
 
         updateFormats: function() {
-            var allowed = this.api && this.api.getSaveFormats ? this.api.getSaveFormats() : undefined;
+            var allowed = this.api && this.api.getSaveFormats();
             !_.isArray(allowed) && (allowed = undefined);
 
             var isVisibleFormat = function (type) {
