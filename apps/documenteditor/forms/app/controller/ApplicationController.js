@@ -1376,7 +1376,7 @@ define([
         },
 
         onShowSignatureActions: function(obj) {
-            Common.Views.PdfSavedSignatureMenu.showActions(this, obj, {
+            Common.Views.PdfSavedSignatureMenu.showFormField(this, obj, {
                 rootEl: this.boxSdk,
                 openDialog: this.openSignatureDialog,
                 applySignature: this.applyStoredSignature

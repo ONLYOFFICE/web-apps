@@ -1797,7 +1797,7 @@ define([], function () {
         };
 
         dh.onShowSignatureActions = function(obj) {
-            Common.Views.PdfSavedSignatureMenu.showActions(this, obj, {
+            Common.Views.PdfSavedSignatureMenu.showFormField(this, obj, {
                 rootEl: this.documentHolder.cmpEl,
                 openDialog: this.openSignatureDialog,
                 applySignature: this.applyStoredSignature

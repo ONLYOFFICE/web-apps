@@ -67,6 +67,7 @@ define([
                 '<span class="btn-slot text x-huge" id="slot-btn-form-checkbox"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-radiobox"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-image"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-signature"></span>' +
             '</div>' +
             '<div class="separator long forms-buttons" style="display: none;"></div>' +
             '<div class="group forms-buttons" style="display: none;">' +
@@ -103,6 +104,9 @@ define([
             });
             this.btnImageField && this.btnImageField.on('click', function (b, e) {
                 me.fireEvent('forms:insert', ['picture']);
+            });
+            this.btnSignatureField && this.btnSignatureField.on('click', function (b, e) {
+                me.fireEvent('forms:insert', ['signature']);
             });
             this.btnEmailField && this.btnEmailField.on('click', function (b, e) {
                 me.fireEvent('forms:insert', ['text', {reg: "\\S+@\\S+\\.\\S+", placeholder: 'user_name@email.com'}]);
@@ -217,6 +221,17 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.paragraphControls.push(this.btnImageField);
+
+                this.btnSignatureField = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-ic-signature',
+                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
+                    caption: this.capBtnSignatureField,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.paragraphControls.push(this.btnSignatureField);
 
                 this.btnEmailField = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
@@ -333,6 +348,7 @@ define([
                         me.btnCheckBox.updateHint(me.tipCheckBox);
                         me.btnRadioBox.updateHint(me.tipRadioBox);
                         me.btnImageField.updateHint(me.tipImageField);
+                        me.btnSignatureField.updateHint(me.tipSignatureField);
                         me.btnEmailField.updateHint(me.tipEmailField);
                         me.btnPhoneField.updateHint(me.tipPhoneField);
                         me.btnZipCode.updateHint(me.tipZipCode);
@@ -357,6 +373,7 @@ define([
                 this.btnCheckBox.render($host.find('#slot-btn-form-checkbox'));
                 this.btnRadioBox.render($host.find('#slot-btn-form-radiobox'));
                 this.btnImageField.render($host.find('#slot-btn-form-image'));
+                this.btnSignatureField.render($host.find('#slot-btn-form-signature'));
                 this.btnEmailField.render($host.find('#slot-btn-form-email'));
                 this.btnPhoneField.render($host.find('#slot-btn-form-phone'));
                 this.btnZipCode.render($host.find('#slot-btn-form-zipcode'));
@@ -400,6 +417,7 @@ define([
             capBtnCheckBox: 'Checkbox',
             capBtnRadioBox: 'Radio Button',
             capBtnImage: 'Image',
+            capBtnSignatureField: 'Signature',
             textClearFields: 'Clear All Fields',
             tipTextField: 'Insert text field',
             tipComboBox: 'Insert combo box',
@@ -407,6 +425,7 @@ define([
             tipCheckBox: 'Insert checkbox',
             tipRadioBox: 'Insert radio button',
             tipImageField: 'Insert image',
+            tipSignatureField: 'Insert signature',
             textClear: 'Clear Fields',
             capBtnPrev: 'Previous Field',
             capBtnNext: 'Next Field',

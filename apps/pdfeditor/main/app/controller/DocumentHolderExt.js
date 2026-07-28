@@ -91,6 +91,7 @@ define([], function () {
                     this.api.asc_registerCallback('asc_onHideEyedropper',               _.bind(this.hideEyedropper, this));
                     this.api.asc_registerCallback('asc_onShowPDFFormsActions',          _.bind(this.onShowFormsPDFActions, this));
                     this.api.asc_registerCallback('asc_onHidePdfFormsActions',          _.bind(this.onHidePdfFormsActions, this));
+                    this.api.asc_registerCallback('asc_onShowFieldSignature',           _.bind(this.onShowSignatureActions, this));
                     if (this.mode.canComments) {
                         // for text
                         this.api.asc_registerCallback('asc_onShowAnnotTextPrTrack',         _.bind(this.onShowTextBar, this));
@@ -1490,6 +1491,60 @@ define([], function () {
                     }, 1);
                     break;
             }
+        };
+
+        dh.onShowSignatureActions = function(rect, fieldId) {
+            Common.Views.PdfSavedSignatureMenu.showPdfField(this, rect, fieldId, {
+                rootEl: this.documentHolder.cmpEl,
+                openDialog: this.openSignatureDialog,
+                applySignature: this.applyStoredSignature
+            });
+        };
+
+        dh.openSignatureDialog = function(fieldId) {
+            Common.Views.PdfSavedSignatureMenu.hideMenu(this.documentHolder.cmpEl, this.signatureControlMenu);
+
+            if (!this.fontStore) {
+                this.fontStore = new Common.Collections.Fonts();
+                var cmbFonts = this.documentHolder.cmbFontName;
+                if (cmbFonts && cmbFonts.store) {
+                    this.fontStore.add(cmbFonts.store.toJSON().filter(function(font) { return !font.cloneid; }));
+                } else {
+                    var fontsController = this.getApplication().getController('Common.Controllers.Fonts');
+                    fontsController && (this.fontStore = fontsController.store());
+                }
+            }
+
+            var me = this,
+                signProps = this.api.GetSignatureImageProps();
+            (new Common.Views.PdfSignDialog({
+                api: me.api,
+                props: signProps,
+                hasField: false,
+                signatureId: fieldId,
+                disableNetworkFunctionality: me.mode.disableNetworkFunctionality,
+                storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
+                fontStore: me.fontStore,
+                handler: function(result) {
+                    if (result == 'ok') {
+                        me.api.SetSignatureToField({imageData: signProps.getVectorImage() || signProps.getSignatureImage()}, fieldId);
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            })).on('close', function(obj){
+                setTimeout(function(){
+                    me.api.asc_UncheckContentControlButtons();
+                }, 100);
+            }).show();
+        };
+
+        dh.applyStoredSignature = function(fieldId, data) {
+            var imageData = data && (data['vectorImage'] || data.signatureImage);
+            if (imageData && fieldId) {
+                Common.localStorage.setItem('dialog-signature-' + fieldId, JSON.stringify(data));
+                this.api.SetSignatureToField({imageData: imageData}, fieldId);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         };
 
         dh.onShowListActionsPDF = function(obj) {

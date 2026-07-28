@@ -464,12 +464,13 @@ define([], function () { 'use strict';
             if (result === 'ok' && this.props) {
                 const serialized = this.props.serialize();
                 serialized.mode = this.mode;
+                var key = this.getKey();
                 if (this.chSave.getValue() === 'checked') {
                     serialized['vectorImage'] = this.props.getVectorImage();
-                    if (this.hasField) Common.localStorage.setItem(this.getKey(), JSON.stringify(serialized));
+                    if (key) Common.localStorage.setItem(key, JSON.stringify(serialized));
                     Common.Views.PdfSavedSignatureMenu.addSavedSignature(serialized);
-                } else if (this.hasField) {
-                    Common.localStorage.removeItem(this.getKey());
+                } else if (key) {
+                    Common.localStorage.removeItem(key);
                 }
             }
         },
@@ -483,7 +484,8 @@ define([], function () { 'use strict';
         },
 
         getKey: function() {
-            return 'dialog-signature-' + this.getSignatureId();
+            var id = this.options.signatureId || this.getSignatureId();
+            return id ? 'dialog-signature-' + id : null;
         },
 
         onImgModeClick: function(mode, btn) {
@@ -583,8 +585,9 @@ define([], function () { 'use strict';
                     break;
             }
             var signatureId = this.getSignatureId();
-            if (this.api && signatureId) this.api.asc_ClearContentControl(signatureId);
-            if (this.hasField) Common.localStorage.removeItem(this.getKey());
+            if (this.api && signatureId) this.api.asc_ClearContentControl(signatureId),
+                key = this.getKey();
+            if (key) Common.localStorage.removeItem(key);
         },
 
         onUndo: function () {

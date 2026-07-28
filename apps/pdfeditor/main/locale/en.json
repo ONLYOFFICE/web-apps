@@ -2472,6 +2472,8 @@
   "PDFE.Views.FormsTab.capBtnPhone": "Phone Number",
   "PDFE.Views.FormsTab.capBtnPrev": "Previous Field",
   "PDFE.Views.FormsTab.capBtnRadioBox": "Radio Button",
+  "PDFE.Views.FormsTab.capBtnSignatureField": "Signature",
+  "PDFE.Views.FormsTab.tipSignatureField": "Insert signature",
   "PDFE.Views.FormsTab.capBtnText": "Text Field",
   "PDFE.Views.FormsTab.capCreditCard": "Credit Card",
   "PDFE.Views.FormsTab.capDateTime": "Date & Time",

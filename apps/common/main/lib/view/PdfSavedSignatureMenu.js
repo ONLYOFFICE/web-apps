@@ -62,9 +62,8 @@ define([], function () { 'use strict';
             Common.localStorage.setItem('dialog-signature-saved', JSON.stringify(signatures));
         },
 
-        getCurrentSignature: function(signProps) {
-            var signatureId = signProps ? signProps.get_FormId() : '',
-                storedJson = signatureId ? Common.localStorage.getItem('dialog-signature-' + signatureId) : null;
+        getCurrentSignature: function(id) {
+            var storedJson = id ? Common.localStorage.getItem('dialog-signature-' + id) : null;
 
             if (!storedJson) return null;
 
@@ -291,13 +290,23 @@ define([], function () { 'use strict';
             scope.menuHidden = !menuShown;
         },
 
-        showActions: function(scope, obj, options) {
+
+        updatePdfFieldMenuPosition: function(scope, rootEl) {
+            var menu = scope.signatureControlMenu;
+            if (!menu || (!menu.isVisible() && !scope.menuHidden)) return;
+
+            this.hideMenu(rootEl, menu);
+            scope.menuHidden = true;
+        },
+
+        showActions: function(scope, options) {
             options = options || {};
 
             var rootEl = options.rootEl,
-                signProps = obj.asc_getSignatureProps(scope.api),
+                rect = options.rect,
+                target = options.target,
                 storedSignature = this.getSavedSignature(),
-                currentSignature = this.getCurrentSignature(signProps),
+                currentSignature = this.getCurrentSignature(options.currentId),
                 menu = scope.signatureControlMenu,
                 me = this,
                 uncheck = function() {
@@ -310,11 +319,11 @@ define([], function () { 'use strict';
                 };
 
             if (!storedSignature.length) {
-                options.openDialog && options.openDialog.call(scope, signProps);
+                options.openDialog && options.openDialog.call(scope, target);
                 return;
             }
 
-            scope.currentSignatureProps = signProps;
+            scope.currentSignatureProps = target;
             scope._fromShowContentControls = true;
             Common.UI.Menu.Manager.hideAll();
 
@@ -347,13 +356,30 @@ define([], function () { 'use strict';
             }
 
             var menuContainer = this.getMenuContainer(rootEl, menu),
-                fieldBounds = this.getFieldRect(scope, signProps),
                 menuShown;
             menuContainer.attr('data-value', 'prevent-canvas-click');
             scope._preventClick = true;
-            menuShown = fieldBounds ? this.showMenu(rootEl, menuContainer, menu, fieldBounds) : false;
+            menuShown = rect ? this.showMenu(rootEl, menuContainer, menu, rect) : false;
             scope.menuHidden = !menuShown;
             scope._fromShowContentControls = false;
+        },
+
+        showFormField: function(scope, obj, options) {
+            var signProps = obj.asc_getSignatureProps(scope.api);
+
+            options = options || {};
+            options.rect = this.getFieldRect(scope, signProps);
+            options.currentId = signProps ? signProps.get_FormId() : '';
+            options.target = signProps;
+            this.showActions(scope, options);
+        },
+
+        showPdfField: function(scope, rect, fieldId, options) {
+            options = options || {};
+            options.rect = rect;
+            options.currentId = fieldId;
+            options.target = fieldId;
+            this.showActions(scope, options);
         },
 
         txtDeleteSavedSignature: 'Delete saved signature',
