@@ -38,7 +38,7 @@ import { Page, Navbar, List, ListItem, BlockTitle, Icon } from "framework7-react
 import { useTranslation } from "react-i18next";
 import SvgIcon from '@common/lib/component/SvgIcon';
 import IconFormatXlsx from '@icons/formats/icon-format-xlsx.svg';
-import IconFormatXls from '@icons/formats/icon-format-xlsx.svg'; // TODO: replace with icon-format-xls.svg
+import IconFormatXls from '@icons/formats/icon-format-xls.svg';
 import IconFormatPdf from '@common-icons/formats/pdf.svg'; 
 import IconFormatPdfa from '@common-icons/formats/pdfa.svg';
 import IconFormatOds from '@icons/formats/icon-format-ods.svg';
