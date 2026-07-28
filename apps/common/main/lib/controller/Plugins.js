@@ -207,7 +207,7 @@ define([
                 this.api.asc_registerCallback('asc_onPluginShowButton', _.bind(this.onPluginShowButton, this));
                 this.api.asc_registerCallback('asc_onPluginHideButton', _.bind(this.onPluginHideButton, this));
                 this.api.asc_registerCallback('onPluginWindowHeaderMenu', this.onPluginWindowHeaderMenu.bind(this));
-                this.api.asc_registerCallback('onPluginUpdateWindowHeaderMenu', this.onPluginWindowHeaderMenu.bind(this, true));
+                this.api.asc_registerCallback('onPluginUpdateWindowHeaderMenu', this.onPluginUpdateWindowHeaderMenu.bind(this));
 
                 this.api.asc_registerCallback("asc_onPluginWindowShow", _.bind(this.onApiPluginWindowShow, this));
                 this.api.asc_registerCallback("asc_onPluginWindowClose", _.bind(this.onPluginWindowClose, this));
@@ -873,6 +873,13 @@ define([
             this.pluginDlg && this.pluginDlg.hideButton(id);
         },
 
+        onPluginWindowHeaderMenu: function(data) {
+            this.updateHeaderMenu(data, false);
+        },
+
+        onPluginUpdateWindowHeaderMenu: function(data) {
+            this.updateHeaderMenu(data, true);
+        },
 
         /**
          * @typedef {{
@@ -893,6 +900,7 @@ define([
          *   split?: boolean,
          *   isTitle?: boolean,
          *   disabled?: boolean,
+         *   visible?: boolean,
          *   items?: ButtonMenuItemHeaderControl[]
          * }} ButtonHeaderControl
          */
@@ -908,10 +916,18 @@ define([
          * }} ButtonMenuItemHeaderControl
          */
 
+        /**
+         * @typedef {BaseHeaderControl & {
+         *   type: 'button',
+         *   text: string,
+         *   isTitle?: boolean
+         * }} LabelHeaderControl
+         */
+
         // Add new types here!
         // @typedef { ButtonHeaderControl | ... } HeaderControl
         /**
-         * @typedef { ButtonHeaderControl } HeaderControl
+         * @typedef { ButtonHeaderControl | LabelHeaderControl } HeaderControl
          */
 
 
@@ -923,25 +939,13 @@ define([
          *     items: HeaderControl[]
          *   }>
          * }>} data
-         */
-        onPluginWindowHeaderMenu: function(data, preventRemove) {
+         * @param {boolean} [preventRemove] - if true, prevents removal of existing custom controls
+        */
+        updateHeaderMenu: function(data, preventRemove) {
             if (!data) return;
             const me = this;
 
-            /* call this method gets wrong arguments order
-             * because bind with true argument for onPluginUpdateWindowHeaderMenu,
-             */
-            let d = [];
-            if (data instanceof Array)
-                d = data;
-            else if (preventRemove instanceof Array) {
-                d = preventRemove.slice();
-                preventRemove = data;
-            }
-            /**/
-
-            // data.forEach(function(plugin) {
-            d.forEach(function(plugin) {
+            data.forEach(function(plugin) {
                 plugin.frames.forEach(function(frame) {
                     if(!plugin.guid || !frame.id) return;
 
@@ -1013,13 +1017,15 @@ define([
                     if (cmp instanceof Common.UI.Button) {
                         /** @type {ButtonHeaderControl} */
                         const options = commonOptions;
-                        let caption = options.text || '';
-                        if (cmp.options.caption !== (caption || ' ')) {
-                            cmp.setCaption(caption || ' ');
-                            cmp.options.caption = caption || ' ';
+
+                        if(options.text !== undefined) {
+                            const caption = options.text || '';
+                            cmp.setCaption(caption);
+                            cmp.options.caption = caption;
                         }
-                        cmp.updateHint(options.hint || '');
-                        (options.disabled!==undefined) && cmp.setDisabled(!!options.disabled);
+                        (options.hint !== undefined) && cmp.updateHint(options.hint || '');
+                        (options.disabled !== undefined) && cmp.setDisabled(!!options.disabled);
+                        (options.visible !== undefined) && cmp.setVisible(options.visible);
                         if (cmp.menu && options.items && options.items.length > 0) {// update menu items
                             if (typeof cmp.menu !== 'object') {
                                 cmp.setMenu(new Common.UI.Menu({items: []}));
@@ -1029,14 +1035,11 @@ define([
                             }
                             fillButtonMenu(options.items, cmp.menu);
                         }
-                    } else
-                    if (cmp instanceof Common.UI.Label) {
+                    } else if (cmp instanceof Common.UI.Label) {
+                        /** @type {LabelHeaderControl} */
+                        const options = commonOptions;
                         if ( !!options.text )
                             cmp.setCaption(commonOptions.text);
-                    }
-
-                    if (options.visible !== undefined) {
-                        cmp.setVisible(options.visible);
                     }
 
                     return;
@@ -1044,13 +1047,23 @@ define([
                     if((commonOptions.type == 'button' && commonOptions.isLabel === true) ||
                             commonOptions.type == 'label')
                     {
+                        /** @type {LabelHeaderControl} */
+                        let options = _.extend({}, { 
+                            text: '',
+                            isTitle: false
+                        }, commonOptions);    
+
+                        if(options.isTitle) {
+                            (existCustomTitle) && (options.isTitle = false);
+                            existCustomTitle = true;
+                        } 
+
                         cmp = new Common.UI.Label({
-                            caption: commonOptions.text,
-                            align: commonOptions.align,
-                            cls: commonOptions.isTitle ? 'title' : '',
+                            caption: options.text,
+                            align: options.align,
+                            cls: options.isTitle ? 'title' : '',
                         });
-                    } else
-                    if(commonOptions.type == 'button') {
+                    } else if(commonOptions.type == 'button') {
                         /** @type {ButtonHeaderControl} */
                         let options = _.extend({}, { 
                             text: '',
