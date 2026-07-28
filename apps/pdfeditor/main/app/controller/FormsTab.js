@@ -85,7 +85,8 @@ define([
             this.addListeners({
                 'FormsTab': {
                     'forms:insert': this.onControlsSelect,
-                    'forms:clear': this.onClearClick
+                    'forms:clear': this.onClearClick,
+                    'forms:preview': this.onPreviewClick
                 },
                 'Toolbar': {
                     'tab:active': this.onActiveTab,
@@ -174,6 +175,11 @@ define([
             if (this.api) {
                 this.api.asc_ClearAllSpecialForms();
             }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onPreviewClick: function(isPreview) {
+            Common.NotificationCenter.trigger('pdf:mode-apply', isPreview ? 'comment' : 'edit');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 

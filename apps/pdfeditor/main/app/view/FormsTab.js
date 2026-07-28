@@ -77,8 +77,9 @@ define([
                 '<span class="btn-slot text x-huge" id="slot-btn-form-zipcode"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-credit"></span>' +
             '</div>' +
-            '<div class="separator long fill-buttons" style="display: none;"></div>' +
-            '<div class="group no-group-mask" style="display: none;">' +
+            '<div class="separator long fill-buttons forms-buttons" style="display: none;"></div>' +
+            '<div class="group no-group-mask forms-buttons" style="display: none;">' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-preview"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-prev"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-next"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-clear"></span>' +
@@ -125,6 +126,9 @@ define([
             });
             this.btnClear && this.btnClear.on('click', function (b, e) {
                 me.fireEvent('forms:clear');
+            });
+            this.btnPreview && this.btnPreview.on('click', function (b, e) {
+                me.fireEvent('forms:preview', [b.pressed]);
             });
             this.btnPrevForm && this.btnPrevForm.on('click', function (b, e) {
                 me.fireEvent('forms:goto', ['prev']);
@@ -300,6 +304,18 @@ define([
                 });
                 this.paragraphControls.push(this.btnClear);
 
+                this.btnPreview = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-print-preview',
+                    caption: this.capBtnPreview,
+                    enableToggle: true,
+                    lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.paragraphControls.push(this.btnPreview);
+
                 this.btnPrevForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-previous-field icon-rtl',
@@ -356,6 +372,7 @@ define([
                         me.btnDateTime.updateHint(me.tipDateTime);
                     }
                     me.btnClear.updateHint(me.textClearFields);
+                    me.btnPreview.updateHint(me.tipPreview);
                     me.btnPrevForm.updateHint(me.tipPrevForm);
                     me.btnNextForm.updateHint(me.tipNextForm);
 
@@ -381,6 +398,7 @@ define([
                 this.btnDateTime.render($host.find('#slot-btn-form-datetime'));
                 $host.find('.forms-buttons').show();
                 this.btnClear.render($host.find('#slot-btn-form-clear'));
+                this.btnPreview.render($host.find('#slot-btn-form-preview'));
                 this.btnPrevForm.render($host.find('#slot-btn-form-prev'));
                 this.btnNextForm.render($host.find('#slot-btn-form-next'));
 
@@ -418,6 +436,7 @@ define([
             capBtnRadioBox: 'Radio Button',
             capBtnImage: 'Image',
             capBtnSignatureField: 'Signature',
+            capBtnPreview: 'Preview',
             textClearFields: 'Clear All Fields',
             tipTextField: 'Insert text field',
             tipComboBox: 'Insert combo box',
@@ -426,6 +445,7 @@ define([
             tipRadioBox: 'Insert radio button',
             tipImageField: 'Insert image',
             tipSignatureField: 'Insert signature',
+            tipPreview: 'Preview form',
             textClear: 'Clear Fields',
             capBtnPrev: 'Previous Field',
             capBtnNext: 'Next Field',

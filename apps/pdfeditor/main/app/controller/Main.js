@@ -1599,6 +1599,9 @@ define([
                 app.getController('LeftMenu').leftMenu.getMenu('file').applyMode();
                 callback && callback.call();
 
+                var formsTabView = app.getController('FormsTab').view;
+                formsTabView && formsTabView.btnPreview.toggle(mode !== 'edit', true);
+
                 const selectedElements = this.api.getSelectedElements();
                 if (selectedElements.length > 0)
                     toolbar.onApiFocusObject(selectedElements);
