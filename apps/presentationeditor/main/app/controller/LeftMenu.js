@@ -534,7 +534,12 @@ define([
 
         onThumbnailsShow: function(isShow) {
             if (isShow && !this.isThumbsShown) {
+                var isPanelOpened = this.leftMenu.isOpened();
                 this.leftMenu.btnThumbs.toggle(true, false);
+                if (isPanelOpened) {
+                    this.leftMenu.onBtnMenuClick(this.leftMenu.btnThumbs);
+                    this.leftMenu.onCoauthOptions();
+                }
             } else if (!isShow && this.isThumbsShown)
                 this.leftMenu.btnThumbs.toggle(false, false);
             this.isThumbsShown = isShow;
