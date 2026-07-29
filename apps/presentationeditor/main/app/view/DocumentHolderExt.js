@@ -262,7 +262,11 @@ define([], function () {
                 scrollToCheckedItem: false,
                 initMenu: function(value) {
                     var selectedLast = me.api.asc_IsLastSlideSelected(),
-                        selectedFirst = me.api.asc_IsFirstSlideSelected();
+                        selectedFirst = me.api.asc_IsFirstSlideSelected(),
+                        isSlideMaster = me.api.asc_IsMasterSlideMode(),
+                        isNotesMaster = me.api.asc_IsNotesMasterMode(),
+                        isHandoutMaster = me.api.asc_IsHandoutMasterMode(),
+                        isNotesPage = me.api.asc_IsNotesPageMode();
                     me.slideMenu.options.fromThumbs = value.fromThumbs;
                     me.menuSlidePaste.setVisible(value.fromThumbs!==true);
                     me.mnuNewSlide.setVisible(value.fromThumbs===true); // New Slide
@@ -271,9 +275,9 @@ define([], function () {
                     me.mnuSlideHide.setVisible(value.isSlideSelect===true);
                     me.mnuSlideHide.setChecked(value.isSlideHidden===true);
                     me.slideMenu.items[5].setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
-                    me.mnuChangeSlide.setVisible(!me.api.asc_IsMasterSlideMode() && (value.isSlideSelect===true || value.fromThumbs!==true));
-                    me.mnuResetSlide.setVisible(!me.api.asc_IsMasterSlideMode() && (value.isSlideSelect===true || value.fromThumbs!==true));
-                    mnuChangeTheme.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
+                    me.mnuChangeSlide.setVisible(!isSlideMaster && !isNotesMaster && !isNotesPage && !isHandoutMaster && (value.isSlideSelect===true || value.fromThumbs!==true));
+                    me.mnuResetSlide.setVisible(!isSlideMaster && !isNotesMaster && !isNotesPage && !isHandoutMaster && (value.isSlideSelect===true || value.fromThumbs!==true));
+                    mnuChangeTheme.setVisible(!isNotesMaster && !isNotesPage && !isHandoutMaster && (value.isSlideSelect===true || value.fromThumbs!==true));
                     me.menuSlideSettings.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     me.menuSlideSettings.options.value = null;
 
