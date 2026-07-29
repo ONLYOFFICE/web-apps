@@ -153,7 +153,6 @@ define([
             const sizeRec = this.printSettings.cmbPaperSize.getSelectedRecord();
             this.printSettings.cmbPaperSize.on('selected', _.bind(this.onPaperSizeSelect, this));
             this._changedProps.paperSize = sizeRec.size;
-            this.api.asc_setNoteSizesByPrinter(sizeRec.size[0], sizeRec.size[1]);
 
             if(!this.printSettings.cmbPrinter) {
                 this.printSettings.setCmbPaperSizeOptions();
