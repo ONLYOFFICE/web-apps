@@ -306,7 +306,7 @@ define([
 
                 this.btnPreview = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-print-preview',
+                    iconCls: 'toolbar__icon btn-big-sheet-view',
                     caption: this.capBtnPreview,
                     enableToggle: true,
                     lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
