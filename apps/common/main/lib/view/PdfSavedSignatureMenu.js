@@ -272,31 +272,23 @@ define([], function () { 'use strict';
             return true;
         },
 
-        updateMenuPosition: function(scope, rootEl) {
+        updateMenuPosition: function(scope, rootEl, rect) {
             var menu = scope.signatureControlMenu;
             if (!menu || (!menu.isVisible() && !scope.menuHidden)) return;
 
-            var signProps = scope.currentSignatureProps,
-                fieldBounds = this.getFieldRect(scope, signProps),
-                menuContainer = this.getMenuContainer(rootEl, menu);
-
-            if (!fieldBounds) {
+            if (!rect) {
                 this.hideMenu(rootEl, menu);
                 scope.menuHidden = true;
                 return;
             }
 
-            var menuShown = this.showMenu(rootEl, menuContainer, menu, fieldBounds);
+            var menuContainer = this.getMenuContainer(rootEl, menu),
+                menuShown = this.showMenu(rootEl, menuContainer, menu, rect);
             scope.menuHidden = !menuShown;
         },
 
-
-        updatePdfFieldMenuPosition: function(scope, rootEl) {
-            var menu = scope.signatureControlMenu;
-            if (!menu || (!menu.isVisible() && !scope.menuHidden)) return;
-
-            this.hideMenu(rootEl, menu);
-            scope.menuHidden = true;
+        updateFormPosition: function(scope, rootEl) {
+            this.updateMenuPosition(scope, rootEl, this.getFieldRect(scope, scope.currentSignatureProps));
         },
 
         showActions: function(scope, options) {

@@ -132,7 +132,7 @@ define([
                     Common.UI.Menu.Manager.hideAll();
             });
             this.boxSdk.on('wheel mousewheel DOMMouseScroll', function(){
-                Common.Views.PdfSavedSignatureMenu && Common.Views.PdfSavedSignatureMenu.updateMenuPosition(me, me.boxSdk);
+                Common.Views.PdfSavedSignatureMenu && Common.Views.PdfSavedSignatureMenu.updateFormPosition(me, me.boxSdk);
             });
 
             this.editorConfig = {};

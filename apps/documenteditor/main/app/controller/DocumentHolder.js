@@ -371,7 +371,7 @@ define([
             if (!me.api) return;
 
             _.defer(function() {
-                Common.Views.PdfSavedSignatureMenu && typeof Common.Views.PdfSavedSignatureMenu.updateMenuPosition === 'function' && Common.Views.PdfSavedSignatureMenu.updateMenuPosition(me, me.documentHolder.cmpEl);
+                Common.Views.PdfSavedSignatureMenu && typeof Common.Views.PdfSavedSignatureMenu.updateFormPosition === 'function' && Common.Views.PdfSavedSignatureMenu.updateFormPosition(me, me.documentHolder.cmpEl);
             });
 
             if (!me._isScrolling) {
