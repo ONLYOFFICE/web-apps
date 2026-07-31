@@ -93,6 +93,7 @@ define([], function () {
                     this.api.asc_registerCallback('asc_onHidePdfFormsActions',          _.bind(this.onHidePdfFormsActions, this));
                     this.api.asc_registerCallback('asc_onShowFieldSignature',           _.bind(this.onShowSignatureActions, this));
                     this.api.asc_registerCallback('asc_onHideFieldSignature',           _.bind(this.onHideSignatureActions, this));
+                    this.api.asc_registerCallback('asc_onUpdateFieldSignature',         _.bind(this.onUpdateSignatureActions, this));
                     if (this.mode.canComments) {
                         // for text
                         this.api.asc_registerCallback('asc_onShowAnnotTextPrTrack',         _.bind(this.onShowTextBar, this));
@@ -1495,16 +1496,6 @@ define([], function () {
         };
 
         dh.onShowSignatureActions = function(rect, fieldId) {
-            if (this.signatureControlMenu && this.signatureControlMenu.isVisible()) {
-                Common.Views.PdfSavedSignatureMenu.updateMenuPosition(this, this.documentHolder.cmpEl, rect);
-                return;
-            }
-
-            if (this.skipFieldId === fieldId) {
-                this.skipFieldId = null;
-                return;
-            }
-
             Common.Views.PdfSavedSignatureMenu.showPdfField(this, rect, fieldId, {
                 rootEl: this.documentHolder.cmpEl,
                 openDialog: this.openSignatureDialog,
@@ -1514,6 +1505,10 @@ define([], function () {
 
         dh.onHideSignatureActions = function() {
             Common.Views.PdfSavedSignatureMenu.hideMenu(this.documentHolder.cmpEl, this.signatureControlMenu);
+        };
+
+        dh.onUpdateSignatureActions = function(rect, fieldId) {
+            Common.Views.PdfSavedSignatureMenu.updateMenuPosition(this, this.documentHolder.cmpEl, rect);
         };
 
         dh.openSignatureDialog = function(fieldId) {
@@ -1542,7 +1537,6 @@ define([], function () {
                 fontStore: me.fontStore,
                 handler: function(result) {
                     if (result == 'ok') {
-                        me.skipFieldId = fieldId;
                         me.api.SetSignatureToField({imageData: signProps.getVectorImage() || signProps.getSignatureImage()}, fieldId);
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -1558,7 +1552,6 @@ define([], function () {
             var imageData = data && (data['vectorImage'] || data.signatureImage);
             if (imageData && fieldId) {
                 Common.localStorage.setItem('dialog-signature-' + fieldId, JSON.stringify(data));
-                this.skipFieldId = fieldId;
                 this.api.SetSignatureToField({imageData: imageData}, fieldId);
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
