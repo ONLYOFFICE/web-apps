@@ -91,9 +91,9 @@ define([], function () {
                     this.api.asc_registerCallback('asc_onHideEyedropper',               _.bind(this.hideEyedropper, this));
                     this.api.asc_registerCallback('asc_onShowPDFFormsActions',          _.bind(this.onShowFormsPDFActions, this));
                     this.api.asc_registerCallback('asc_onHidePdfFormsActions',          _.bind(this.onHidePdfFormsActions, this));
-                    this.api.asc_registerCallback('asc_onShowFieldSignature',           _.bind(this.onShowSignatureActions, this));
-                    this.api.asc_registerCallback('asc_onHideFieldSignature',           _.bind(this.onHideSignatureActions, this));
-                    this.api.asc_registerCallback('asc_onUpdateFieldSignature',         _.bind(this.onUpdateSignatureActions, this));
+                    this.api.asc_registerCallback('asc_onShowFieldSignature',           this.onShowSignatureActions.bind(this));
+                    this.api.asc_registerCallback('asc_onHideFieldSignature',           this.onHideSignatureActions.bind(this));
+                    this.api.asc_registerCallback('asc_onUpdateFieldSignature',         this.onUpdateSignatureActions.bind(this));
                     if (this.mode.canComments) {
                         // for text
                         this.api.asc_registerCallback('asc_onShowAnnotTextPrTrack',         _.bind(this.onShowTextBar, this));
