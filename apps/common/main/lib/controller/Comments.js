@@ -754,14 +754,14 @@ define([
             var requestObj = {};
             for (var i = 0; i < data.length; ++i) {
                 const comment = this.readSDKComment(data[i].asc_getId(), data[i], requestObj);
-
                 var text = this.getAnnotText(data.asc_getAnnotType());
+
                 comment && text && comment.set('comment', text) && comment.set('isAnnotation', true);
                 const guid = comment.get('guid');
                 const duplicateComment = (this.findCommentByGuid(guid) || this.findCommentInGroupByGuid(guid));
                 if(duplicateComment) {
                     duplicateComment.set('uid', comment.get('uid'));
-                        text && duplicateComment.set('comment', text) && duplicateComment.set('isAnnotation', true);
+                    text && duplicateComment.set('comment', text) && duplicateComment.set('isAnnotation', true);
                 } else {
                     comment.get('groupName') ? this.addCommentToGroupCollection(comment) : this.collection.push(comment);
                 }
