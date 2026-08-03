@@ -273,7 +273,7 @@ define([
                 const win = new PDFE.Views.FormSettingsCodeEditor({
                     defaultValue: format && format.asc_getScript() || '',
                     handler: function(state, result) {
-                        if(state == 'ok' && result) {
+                        if(state == 'ok') {
                             me.putFormatPropValue('asc_putScript', result, 'format');
                             me.textareaFormat.setValue(result);
                         }
@@ -296,7 +296,7 @@ define([
                 const win = new PDFE.Views.FormSettingsCodeEditor({
                     defaultValue: keystroke && keystroke.asc_getScript() || '',
                     handler: function(state, result) {
-                        if(state == 'ok' && result) {
+                        if(state == 'ok') {
                             me.putFormatPropValue('asc_putScript', result, 'keystroke');
                             me.textareaKeystroke.setValue(result);
                         }
@@ -366,7 +366,7 @@ define([
                 const win = new PDFE.Views.FormSettingsCodeEditor({
                     defaultValue: validate && validate.asc_getScript() || '',
                     handler: function(state, result) {
-                        if(state == 'ok' && result) {
+                        if(state == 'ok') {
                             validate && validate.asc_putScript(result);
                             me.textareaValidateScript.setValue(result);
                         }
@@ -466,7 +466,7 @@ define([
                 const win = new PDFE.Views.FormSettingsCodeEditor({
                     defaultValue: calculate && calculate.asc_getScript() || '',
                     handler: function(state, result) {
-                        if(state == 'ok' && result) {
+                        if(state == 'ok') {
                             calculate && calculate.asc_putScript(result);
                             me.textareaCalculateScript.setValue(result);
                         }
