@@ -906,6 +906,8 @@ define([
             },
 
             close: function(suppressevent) {
+                suppressevent!==true && this.fireEvent('close:before', this);
+
                 $(document).off('keydown.' + this.cid);
                 this.binding.windowresize && $(window).off('resize', this.binding.windowresize);
                 if ( this.initConfig.header ) {

@@ -1675,6 +1675,10 @@ define([], function () {
                 this.cellsList.onKeyDown = _.bind(this.onListKeyDown, this);
             }
 
+            this.on('close:before', function() {
+                me.cellsList.$el.remove();
+            });
+
             this.on('close', function() {
                 me.currentCellsListInsertId = 0;
             });
