@@ -252,7 +252,7 @@ define([
                                     '<div class="avatar" style="background-image: url(<%= image %>); background-color: transparent;"></div>' +
                                 '<% } else { %>' +
                                     '<div class="avatar">' +
-                                        '<i class="icon toolbar__icon btn-user">&nbsp;</i>' +
+                                        '<i class="icon toolbar__icon btn-user" aria-hidden="true">&nbsp;</i>' +
                                     '</div>' +
                                 '<% } %>' +     
                                 '<div class="content">' + 

@@ -245,9 +245,9 @@ define([
                     '<div class="item ' + (index == 0 ? 'first' : '') + '">' +
                         '<div class="keys-input"></div>' +
                         (isLocked
-                            ? '<i class="lock-info-icon icon toolbar__icon btn-menu-about">&nbsp;</i>'
+                            ? '<i class="lock-info-icon icon toolbar__icon btn-menu-about" aria-hidden="true">&nbsp;</i>'
                             : '<button type="button" class="btn-toolbar remove-btn">' +
-                                '<i class="icon toolbar__icon btn-cc-remove">&nbsp;</i>' +
+                                '<i class="icon toolbar__icon btn-cc-remove" aria-hidden="true">&nbsp;</i>' +
                             '</button>'
                         ) +
                     '</div>'

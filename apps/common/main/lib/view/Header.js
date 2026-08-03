@@ -108,7 +108,7 @@ define([
                                     '<section id="tlb-box-users" class="box-cousers dropdown">' +
                                         '<div class="btn-users dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="bottom" data-hint-offset="big">' +
                                             '<div class="inner-box-icon">' +
-                                                '<svg class=""><use xlink:href="#svg-icon-users"></use></svg>' +
+                                                '<svg class="" aria-hidden="true"><use xlink:href="#svg-icon-users"></use></svg>' +
                                             '</div>' +
                                             '<label class="caption"></label>' +
                                         '</div>' +
@@ -334,7 +334,7 @@ define([
                 if ( config.isCrypted ) {
                     $labelDocName.before(
                         '<div class="inner-box-icon crypted hidden">' +
-                            '<svg class="icon"><use xlink:href="#svg-icon-crypted"></use></svg>' +
+                            '<svg class="icon" aria-hidden="true"><use xlink:href="#svg-icon-crypted"></use></svg>' +
                         '</div>');
                     this.imgCrypted = $labelDocName.parent().find('.crypted');
                     this._showImgCrypted = true;

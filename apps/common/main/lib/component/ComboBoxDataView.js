@@ -93,7 +93,7 @@ define([
                 this.options.data && me.store.add(this.options.data);
                 this.formTemplate   = this.options.formTemplate || _.template([
                     '<div class="form-control" style="width: 100px;" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
-                        '<i class="img-arrows"><svg><use xlink:href=""></use></svg></i>',
+                        '<i class="img-arrows" aria-hidden="true"><svg><use xlink:href=""></use></svg></i>',
                     '</div>'
                 ].join(''));
 

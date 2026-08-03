@@ -188,9 +188,9 @@ define([
                 '<img src="<%= iconImg %>">' +
             '<% } else { %>' +
                 '<% if (/svgicon/.test(iconCls)) {' +
-                    'print(\'<svg class=\"icon uni-scale\"><use class=\"zoom-int\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use></svg>\');' +
+                    'print(\'<svg class=\"icon uni-scale\" aria-hidden=\"true\"><use class=\"zoom-int\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use></svg>\');' +
             '} else ' +
-                    'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); %>' +
+                    'print(\'<i class=\"icon \' + iconCls + \'\" aria-hidden=\"true\">&nbsp;</i>\'); %>' +
             '<% } %>';
 
     var templateBtnCaption =
@@ -291,9 +291,9 @@ define([
                 // '<% if (iconCls != "") { print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); }} %>',
                 '<% if (iconCls != "") { ' +
                     ' if (/svgicon/.test(iconCls)) {' +
-                        'print(\'<svg class=\"icon uni-scale\"><use class=\"zoom-int\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use></svg>\');' +
+                        'print(\'<svg class=\"icon uni-scale\" aria-hidden=\"true\"><use class=\"zoom-int\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use></svg>\');' +
                     '} else ' +
-                        'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); ' +
+                        'print(\'<i class=\"icon \' + iconCls + \'\" aria-hidden=\"true\">&nbsp;</i>\'); ' +
                 '}} %>',
             '<% } %>',
             '<% if ( !menu && onlyIcon ) { %>',
@@ -1013,12 +1013,12 @@ define([
                         const re_icon_name = /btn-[^\s]+/.exec(iconCls);
                         const icon_name = re_icon_name ? re_icon_name[0] : "null";
                         const rtlCls = (iconCls ? iconCls.indexOf('icon-rtl') : -1) > -1 ? 'icon-rtl' : '';
-                        const svg_icon = '<svg class="icon %rtlCls"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name).replace('%rtlCls', rtlCls);
+                        const svg_icon = '<svg class="icon %rtlCls" aria-hidden="true"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name).replace('%rtlCls', rtlCls);
                         $el.find('i.icon').after(svg_icon);
                     }
                 } else {
                     if (!me.$el.find('i.icon')) {
-                        const png_icon = '<i class="icon %cls">&nbsp;</i>'.replace('%cls', me.iconCls);
+                        const png_icon = '<i class="icon %cls" aria-hidden="true">&nbsp;</i>'.replace('%cls', me.iconCls);
                         me.$el.find('svg.icon').after(png_icon);
                     }
                 }

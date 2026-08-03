@@ -86,7 +86,7 @@ define([
                 emptyText: this.textEmpty,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="">',
-                    '<div class="listitem-icon" style="flex-shrink: 0;"><svg class=""><use xlink:href="#svg-icon-<%= scope.getIconCls(index) %>"></use></svg></div>',
+                    '<div class="listitem-icon" style="flex-shrink: 0;"><svg class="" aria-hidden="true"><use xlink:href="#svg-icon-<%= scope.getIconCls(index) %>"></use></svg></div>',
                     '<div class="padding-right-5" style="width: 25px;text-align:center;flex-shrink: 0;"><%= index+1 %></div>',
                     '<div style="width: 25px;flex-shrink: 0;">',
                         '<span class="color" style="background: <% if (color) { %>#<%= color %><% } else { %> transparent <% } %>;"></span>',
