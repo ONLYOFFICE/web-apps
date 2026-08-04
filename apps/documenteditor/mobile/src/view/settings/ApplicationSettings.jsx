@@ -70,7 +70,7 @@ const PageApplicationSettings = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textApplicationSettings} backLink={_t.textBack} />
+            <Navbar title={_t.textPreferences} backLink={_t.textBack} />
             {_isEdit && !isViewer &&
                 <>
                     <BlockTitle>{_t.textUnitOfMeasurement}</BlockTitle>
