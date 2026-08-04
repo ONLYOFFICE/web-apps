@@ -90,8 +90,7 @@ define([
                     'forms:insert': this.onControlsSelect,
                     'forms:clear': this.onClearClick,
                     'forms:manager': this.onManagerClick,
-                    'forms:currentrole': this.onCurrentRole,
-                    'forms:preview': this.onPreviewClick,
+                    'forms:currentrole': this.onCurrentRole
                 },
                 'Toolbar': {
                     'tab:active': this.onActiveTab,
@@ -117,11 +116,6 @@ define([
         getView: function(name) {
             return !name && this.view ?
                 this.view : Backbone.Controller.prototype.getView.call(this, name);
-        },
-
-        getCurrentViewRole: function() {
-            const record = this.view && this.view.btnViewFormRoles && this.view.btnViewFormRoles.menu.getChecked();
-            return record && record.caption;
         },
 
         onCoAuthoringDisconnect: function() {
@@ -168,7 +162,6 @@ define([
             }
             this._state.lastRoleInList = (roles && roles.length>0) ? roles[roles.length-1].asc_getSettings().asc_getName() : undefined;
             if (this.view) {
-                this.view.fillRolesMenu(roles, this._state.lastViewRole);
                 this.view.fillFillForCombo(roles, this._state.lastRoleInList);
             }
         },
@@ -224,10 +217,6 @@ define([
             this.api.asc_assignFieldToRole(Common.Utils.InternalSettings.get('pdfe-last-form-role') || this._state.lastRoleInList);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onPreviewClick: function(state) {
-            Common.NotificationCenter.trigger('pdf:mode-apply', state ? 'comment' : 'edit');
         },
 
         onClearClick: function() {
@@ -288,8 +277,8 @@ define([
             (new Promise(function (accept, reject) {
                 accept();
             })).then(function(){
+                me.onRefreshRolesList();
             });
-            me.onRefreshRolesList();
         },
 
         onActiveTab: function(tab) {
