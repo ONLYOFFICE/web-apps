@@ -457,7 +457,9 @@ const CellEditor = inject("storeFunctions")(observer(props => {
             setFuncArr(funcArr);
             setHintArr(hintArr);
 
-            await f7.popover.open('#idx-functions-list', '#idx-list-target');
+            requestAnimationFrame(() => {
+                f7.popover.open('#idx-functions-list', '#idx-list-target');
+            });
         } else if (argConstList && argConstList.length) {
             setFuncArr('');
             setHintArr('');

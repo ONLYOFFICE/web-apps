@@ -524,7 +524,7 @@ define([], function () {
                     setTimeout(function() {
                         Common.UI.warning({
                             maxwidth: 500,
-                            msg: Common.Utils.String.format(me.documentHolder.txtWarnUrl, url),
+                            msg: Common.Utils.String.format(me.documentHolder.txtWarnUrl, Common.Utils.String.htmlEncode(url)),
                             buttons: ['no', 'yes'],
                             primary: 'no',
                             callback: function(btn) {
@@ -873,8 +873,8 @@ define([], function () {
                 [_set.scatterLineMarker]:      ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
                 [_set.scatterMarker]:          ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
                 [_set.scatterNone]:            ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines'],
-                [_set.scatterSmooth]:          ['axes', 'axisTitles', 'chartTitle', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
-                [_set.scatterSmoothMarker]:    ['axes', 'axisTitles', 'chartTitle', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+                [_set.scatterSmooth]:          ['axes', 'axisTitles', 'chartTitle', 'errorBars', 'gridLines', 'legend', 'trendLines'],
+                [_set.scatterSmoothMarker]:    ['axes', 'axisTitles', 'chartTitle', 'errorBars', 'gridLines', 'legend', 'trendLines'],
                 [_set.surfaceNormal]:          ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
                 [_set.surfaceWireframe]:       ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
                 [_set.contourNormal]:          ['axes', 'axisTitles', 'chartTitle', 'gridLines', 'legend'],
@@ -893,7 +893,7 @@ define([], function () {
                 [_set.sunburst]:               ['chartTitle', 'dataLabels', 'legend'],
                 [_set.treemap]:                ['chartTitle', 'dataLabels', 'legend'],
                 [_set.regionMap]:              ['chartTitle', 'dataLabels', 'legend'],
-                [_set.unknown]:                ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'dataTable', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars']
+                [_set.unknown]:                ['axes', 'axisTitles', 'chartTitle', 'dataLabels', 'errorBars', 'gridLines', 'legend', 'trendLines', 'upDownBars']
             };
 
         dh.onChartElement = function(menu, item) {
@@ -1033,15 +1033,15 @@ define([], function () {
                 case 'bShowDataLabels':
                     chartProps.setDisplayDataLabels(false, false);
                     break;
-                // case 'bShowDataNone':
-                //     chartProps.setDisplayDataTable(false, false);
-                //     break;
-                // case 'bShowDataTable':
-                //     chartProps.setDisplayDataTable(true, false);
-                //     break;
-                // case 'bShowLegendKeys':
-                //     chartProps.setDisplayDataTable(true, true);
-                //     break;
+                case 'bShowDataNone':
+                    chartProps.setDisplayDataTable(false, false);
+                    break;
+                case 'bShowDataTable':
+                    chartProps.setDisplayDataTable(true, false);
+                    break;
+                case 'bShowLegendKeys':
+                    chartProps.setDisplayDataTable(true, true);
+                    break;
                 case 'noneError':
                     chartProps.setDisplayErrorBars(false);
                     break;
@@ -1218,12 +1218,18 @@ define([], function () {
                 labelsMenu.items[9].setVisible(LabelGroup5);
             }
             
-            // const tableMenu = menu.items[4].menu;
-            // highlightSubmenuItem(tableMenu.items[0], false, 'table');
-            // highlightSubmenuItem(tableMenu.items[1], false, 'table');
-            // highlightSubmenuItem(tableMenu.items[2], false,'table');
+            const tableMenu = menu.items[4].menu;
+            const dataTableState = chartProps.getDataTable && chartProps.getDataTable();
+            tableMenu.clearAll(true);
+            if (dataTableState === true) {
+                tableMenu.items[2].setChecked(true);
+            } else if (dataTableState === false) {
+                tableMenu.items[1].setChecked(true);
+            } else {
+                tableMenu.items[0].setChecked(true);
+            }
 
-            const errorBarsMenu = menu.items[4].menu;
+            const errorBarsMenu = menu.items[5].menu;
             errorBarsMenu.clearAll(true);
             if (errorBarType === null) {
                 errorBarsMenu.items[0].setChecked(true);
@@ -1235,7 +1241,7 @@ define([], function () {
                 errorBarsMenu.items[3].setChecked(true);
             }
 
-            const gridMenu = menu.items[5].menu;
+            const gridMenu = menu.items[6].menu;
             gridMenu.items[0].setVisible(true);
             gridMenu.items[2].setVisible(true);
             if (RadarChart) {
@@ -1252,7 +1258,7 @@ define([], function () {
                 gridMenu.items[3].setChecked(horAxes && horAxes[0] && (horAxes[0].getGridlines() === GridMinor || horAxes[0].getGridlines() === GridMajorMinor));
             }
             
-            const legendMenu = menu.items[6].menu;
+            const legendMenu = menu.items[7].menu;
             legendMenu.items[0].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.none);
             legendMenu.items[1].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.top);
             legendMenu.items[2].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.left);
@@ -1261,7 +1267,7 @@ define([], function () {
             legendMenu.items[5].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.leftOverlay);
             legendMenu.items[6].setChecked(legendPos === Asc.c_oAscChartLegendShowSettings.rightOverlay);
 
-            const trendlinesMenu = menu.items[7].menu;
+            const trendlinesMenu = menu.items[8].menu;
             trendlinesMenu.clearAll(true);
             if (trendlineState.type === null) {
                 trendlinesMenu.items[0].setChecked(true);
@@ -1449,6 +1455,8 @@ define([], function () {
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceFormattingLink] = documentHolder.txtSourceLink;
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormattingLink] = documentHolder.txtDestLink;
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = documentHolder.txtPastePicture;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.uniteList] = documentHolder.txtUniteList;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.doNotUniteList] = documentHolder.txtDoNotUniteList;
 
                 pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
                 documentHolder.cmpEl.find('#id_main_view').append(pasteContainer);
@@ -1556,6 +1564,8 @@ define([], function () {
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceFormattingLink] = 'F';
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormattingLink] = 'L';
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.picture] = 'U';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.uniteList] = 'E';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.doNotUniteList] = 'A';
 
             var str = '';
             for(var key in me.hkSpecPaste){
@@ -1730,9 +1740,68 @@ define([], function () {
         dh.onHideContentControlsActions = function() {
             this.listControlMenu && this.listControlMenu.isVisible() && this.listControlMenu.hide();
             this.imageControlMenu && this.imageControlMenu.isVisible() && this.imageControlMenu.hide();
+            this.signatureControlMenu && this.signatureControlMenu.isVisible() && this.signatureControlMenu.hide();
             var controlsContainer = this.documentHolder.cmpEl.find('#calendar-control-container');
             if (controlsContainer.is(':visible'))
                 controlsContainer.hide();
+        };
+
+        dh.openSignatureDialog = function(signProps) {
+            Common.Views.PdfSavedSignatureMenu.hideMenu(this.documentHolder.cmpEl, this.signatureControlMenu);
+
+            if (!this.fontStore) {
+                this.fontStore = new Common.Collections.Fonts();
+
+                const app = this.getApplication(),
+                    toolbar = app.getController('Toolbar'),
+                    toolbarView = toolbar && toolbar.getView('Toolbar'),
+                    cmbFonts = toolbarView && toolbarView.cmbFontName;
+                if ( cmbFonts && cmbFonts.store ) {
+                    const fonts = cmbFonts.store.toJSON();
+                    this.fontStore.add(fonts.filter(font => !font.cloneid));
+                } else {
+                    const fontsController = app.getController('Common.Controllers.Fonts');
+                    fontsController && (this.fontStore = fontsController.store());
+                }
+            }
+
+            var me = this,
+                win = (new Common.Views.PdfSignDialog({
+                    props: signProps,
+                    api: me.api,
+                    disableNetworkFunctionality: me.mode.disableNetworkFunctionality,
+                    storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
+                    fontStore: me.fontStore,
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            me.api.asc_SetSignatureProps(signProps.getResult());
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                })).on('close', function(obj){
+                    setTimeout(function(){
+                        me.api.asc_UncheckContentControlButtons();
+                    }, 100);
+                });
+            win.show();
+        };
+
+        dh.applyStoredSignature = function(signProps, data) {
+            var signatureId = signProps && signProps.get_FormId ? signProps.get_FormId() : '',
+                imageData = data && (data['vectorImage'] || data.signatureImage);
+            if (imageData && signatureId) {
+                Common.localStorage.setItem('dialog-signature-' + signatureId, JSON.stringify(data));
+                this.api.asc_SetSignatureProps({imageData: imageData, internalId: signatureId});
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        };
+
+        dh.onShowSignatureActions = function(obj) {
+            Common.Views.PdfSavedSignatureMenu.showFormField(this, obj, {
+                rootEl: this.documentHolder.cmpEl,
+                openDialog: this.openSignatureDialog,
+                applySignature: this.applyStoredSignature
+            });
         };
 
         dh.onShowDateActions = function(obj, x, y) {
@@ -1926,38 +1995,9 @@ define([], function () {
                             return;
                     }
                     if (me.mode.canSaveToFile) {
-                        if (!me.fontStore) {
-                            me.fontStore = new Common.Collections.Fonts();
-
-                            const app = me.getApplication(),
-                                cmbFonts = me.getApplication().getController('Toolbar').getView('Toolbar').cmbFontName;
-                            if ( cmbFonts && cmbFonts.store ) {
-                                const fonts = cmbFonts.store.toJSON();
-                                me.fontStore.add(fonts.filter(font => !font.cloneid));
-                            } else {
-                                const fontsController = app.getController('Common.Controllers.Fonts');
-                                fontsController && (me.fontStore = fontsController.store());
-                            }
-                        }
-                        var signProps = obj.asc_getSignatureProps(me.api);
-                        var win = (new Common.Views.PdfSignDialog({
-                            props: signProps,
-                            api: me.api,
-                            disableNetworkFunctionality: me.mode.disableNetworkFunctionality,
-                            storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
-                            fontStore: me.fontStore,
-                            handler: function(result, value) {
-                                if (result == 'ok') {
-                                    me.api.asc_SetSignatureProps(signProps.getResult());
-                                }
-                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                            }
-                        })).on('close', function(obj){
-                            setTimeout(function(){
-                                me.api.asc_UncheckContentControlButtons();
-                            }, 100);
-                        });
-                        win.show();
+                        setTimeout(function() {
+                            me.onShowSignatureActions(obj);
+                        }, 1);
                     } else { // select picture in viewer only from local file
                         this.api.asc_addImage(obj.pr);
                         setTimeout(function(){

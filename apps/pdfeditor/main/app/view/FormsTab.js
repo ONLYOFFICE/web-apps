@@ -67,6 +67,7 @@ define([
                 '<span class="btn-slot text x-huge" id="slot-btn-form-checkbox"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-radiobox"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-image"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-signature"></span>' +
             '</div>' +
             '<div class="separator long forms-buttons" style="display: none;"></div>' +
             '<div class="group forms-buttons" style="display: none;">' +
@@ -88,8 +89,9 @@ define([
             '<div class="group forms-buttons" style="display: none;">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-manager"></span>' +
             '</div>' +
-            '<div class="separator long fill-buttons" style="display: none;"></div>' +
-            '<div class="group no-group-mask" style="display: none;">' +
+            '<div class="separator long fill-buttons forms-buttons" style="display: none;"></div>' +
+            '<div class="group no-group-mask forms-buttons" style="display: none;">' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-preview"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-prev"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-next"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-clear"></span>' +
@@ -116,6 +118,9 @@ define([
             this.btnImageField && this.btnImageField.on('click', function (b, e) {
                 me.fireEvent('forms:insert', ['picture']);
             });
+            this.btnSignatureField && this.btnSignatureField.on('click', function (b, e) {
+                me.fireEvent('forms:insert', ['signature']);
+            });
             this.btnEmailField && this.btnEmailField.on('click', function (b, e) {
                 me.fireEvent('forms:insert', ['text', {reg: "\\S+@\\S+\\.\\S+", placeholder: 'user_name@email.com'}]);
             });
@@ -133,6 +138,9 @@ define([
             });
             this.btnClear && this.btnClear.on('click', function (b, e) {
                 me.fireEvent('forms:clear');
+            });
+            this.btnPreview && this.btnPreview.on('click', function (b, e) {
+                me.fireEvent('forms:preview', [b.pressed]);
             });
             this.btnPrevForm && this.btnPrevForm.on('click', function (b, e) {
                 me.fireEvent('forms:goto', ['prev']);
@@ -236,6 +244,17 @@ define([
                 });
                 this.paragraphControls.push(this.btnImageField);
 
+                this.btnSignatureField = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-ic-signature',
+                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
+                    caption: this.capBtnSignatureField,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.paragraphControls.push(this.btnSignatureField);
+
                 this.btnEmailField = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-email',
@@ -302,6 +321,18 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.paragraphControls.push(this.btnClear);
+
+                this.btnPreview = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-big-sheet-view',
+                    caption: this.capBtnPreview,
+                    enableToggle: true,
+                    lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.paragraphControls.push(this.btnPreview);
 
                 this.btnPrevForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
@@ -423,6 +454,7 @@ define([
                         me.btnCheckBox.updateHint(me.tipCheckBox);
                         me.btnRadioBox.updateHint(me.tipRadioBox);
                         me.btnImageField.updateHint(me.tipImageField);
+                        me.btnSignatureField.updateHint(me.tipSignatureField);
                         me.btnEmailField.updateHint(me.tipEmailField);
                         me.btnPhoneField.updateHint(me.tipPhoneField);
                         me.btnZipCode.updateHint(me.tipZipCode);
@@ -431,6 +463,7 @@ define([
                         me.btnManager.updateHint(me.tipManager);
                     }
                     me.btnClear.updateHint(me.textClearFields);
+                    me.btnPreview.updateHint(me.tipPreview);
                     me.btnPrevForm.updateHint(me.tipPrevForm);
                     me.btnNextForm.updateHint(me.tipNextForm);
 
@@ -448,6 +481,7 @@ define([
                 this.btnCheckBox.render($host.find('#slot-btn-form-checkbox'));
                 this.btnRadioBox.render($host.find('#slot-btn-form-radiobox'));
                 this.btnImageField.render($host.find('#slot-btn-form-image'));
+                this.btnSignatureField.render($host.find('#slot-btn-form-signature'));
                 this.btnEmailField.render($host.find('#slot-btn-form-email'));
                 this.btnPhoneField.render($host.find('#slot-btn-form-phone'));
                 this.btnZipCode.render($host.find('#slot-btn-form-zipcode'));
@@ -455,6 +489,7 @@ define([
                 this.btnDateTime.render($host.find('#slot-btn-form-datetime'));
                 $host.find('.forms-buttons').show();
                 this.btnClear.render($host.find('#slot-btn-form-clear'));
+                this.btnPreview.render($host.find('#slot-btn-form-preview'));
                 this.btnPrevForm.render($host.find('#slot-btn-form-prev'));
                 this.btnNextForm.render($host.find('#slot-btn-form-next'));
                 this.lblRoles.render($host.find('#slot-lbl-fill-for'));
@@ -519,6 +554,8 @@ define([
             capBtnCheckBox: 'Checkbox',
             capBtnRadioBox: 'Radio Button',
             capBtnImage: 'Image',
+            capBtnSignatureField: 'Signature',
+            capBtnPreview: 'Preview',
             textClearFields: 'Clear All Fields',
             tipTextField: 'Insert text field',
             tipComboBox: 'Insert combo box',
@@ -526,6 +563,8 @@ define([
             tipCheckBox: 'Insert checkbox',
             tipRadioBox: 'Insert radio button',
             tipImageField: 'Insert image',
+            tipSignatureField: 'Insert signature',
+            tipPreview: 'Preview form',
             textClear: 'Clear Fields',
             capBtnPrev: 'Previous Field',
             capBtnNext: 'Next Field',

@@ -50,30 +50,41 @@
         background: linear-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
     }
 
-    .cnt-hb-arrow {
+    .cnt-hb-arrow,
+    .cnt-sat-arrow {
         display:  block;
-        width: 14px;
-        height: 14px;
+        width: 16px;
+        width: calc(16px * @pixel-ratio-factor);
+        height: 16px;
+        height: calc(16px * @pixel-ratio-factor);
         margin: -8px;
+        margin: calc(-8px * @pixel-ratio-factor);
         position: absolute;
-        background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxNCAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xIDdhNiA2IDAgMSAxIDEyIDBBNiA2IDAgMCAxIDEgN202LTdhNyA3IDAgMSAwIDAgMTRBNyA3IDAgMCAwIDcgMCIgZmlsbD0iIzAwMCIvPgogICAgPHBhdGggZD0iTTcgMTJBNSA1IDAgMSAxIDcgMmE1IDUgMCAwIDEgMCAxMG0wIDFBNiA2IDAgMSAwIDcgMWE2IDYgMCAwIDAgMCAxMiIgZmlsbD0iI2ZmZiIvPgo8L3N2Zz4K");
+        padding: 4px;
+        background-color: currentColor;
         background-clip: content-box;
         .border-radius(50%);
+
+        .pixel-ratio__2 & {
+            width: 32px;
+            height: 32px;
+            margin: -16px;
+        }
+
+        &:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSI5IiBjeT0iOSIgcj0iOC41IiBzdHJva2U9ImJsYWNrIiBzdHJva2Utb3BhY2l0eT0iMC4xNiIvPjxjaXJjbGUgY3g9IjkiIGN5PSI5IiByPSI2LjUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMyIvPjxjaXJjbGUgY3g9IjkiIGN5PSI5IiByPSI0LjUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS1vcGFjaXR5PSIwLjE2Ii8+PC9zdmc+");
+            background-size: contain;
+        }
     }
 
     .cnt-sat-arrow {
-        width: 20px;
-        height: 12px;
-        margin-top: -6px;
-        margin-left: -4px;
-        position: absolute;
-        background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCAyMCAxMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xLjU4NiAxMUgxVjFoLjU4Nmw1IDV6bTE2LjgyOCAwSDE5VjFoLS41ODZsLTUgNXoiIGZpbGw9IiMwMDAiLz4KICAgIDxwYXRoIGQ9Im0yIDAgNiA2LTYgNkgxYTEgMSAwIDAgMS0xLTFWMWExIDEgMCAwIDEgMS0xek0xIDExaC41ODZsNS01LTUtNUgxek0xOCAwbC02IDYgNiA2aDFhMSAxIDAgMCAwIDEtMVYxYTEgMSAwIDAgMC0xLTF6bTEgMTFoLS41ODZsLTUtNSA1LTVIMTl6IiBmaWxsPSIjZmZmIi8+Cjwvc3ZnPgo=");
-
-        .rtl & {
-            margin-left: 0;
-            margin-right: -4px;
-            margin-right: calc(-3px - @scaled-one-px-value);
-        }
+        left: 50%;
     }
 
     .empty-color {

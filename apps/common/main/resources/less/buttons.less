@@ -148,10 +148,19 @@
 
     .icon {
         &.caret-up, &.caret-down {
+            position: relative;
+            //Center container horizontally and vertically inside the button:
+            // (button size - borders - icon container size) / 2 
+            margin-top: calc((@form-control-size-ie - (@scaled-one-px-value-ie * 2) - @x-small-btn-icon-size-ie) / 2);
+            margin-top: calc((@form-control-size - (@scaled-one-px-value * 2) - @x-small-btn-icon-size) / 2);
+            .margin-left(calc((@form-control-size-ie - (@scaled-one-px-value-ie * 2) - @x-small-btn-icon-size-ie) / 2));
+            .margin-left(calc((@form-control-size - (@scaled-one-px-value * 2) - @x-small-btn-icon-size) / 2));
+
             &::after {
                 content: '';
                 position: absolute;
-                left: 6px;
+                left: calc((@x-small-btn-icon-size-ie - 8px) / 2);
+                left: calc((@x-small-btn-icon-size - 8px) / 2);
                 width: 8px;
                 height: 8px;
                 background-color: transparent;
@@ -164,7 +173,8 @@
 
         &.caret-up {
             &::after {
-                top: 8px;
+                top: calc(@x-small-btn-icon-size-ie / 2 - 6px + 4px);
+                top: calc(@x-small-btn-icon-size / 2 - 6px + 4px);
                 -moz-transform: rotate(45deg);
                 -ms-transform: rotate(45deg);
                 -webkit-transform: rotate(45deg);
@@ -174,7 +184,8 @@
         }
         &.caret-down {
             &::after {
-                top: 4px;
+                top: calc(@x-small-btn-icon-size-ie / 2 - 6px);
+                top: calc(@x-small-btn-icon-size / 2 - 6px);
                 -moz-transform: rotate(225deg);
                 -ms-transform: rotate(225deg);
                 -webkit-transform: rotate(225deg);

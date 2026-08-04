@@ -67,8 +67,7 @@ class DownloadController extends Component {
         options.asc_setIsSaveAs(isNeedDownload);
         const isPdfLike = /^pdf|xps|oxps|djvu$/.test(fileType);
 
-        if(isPdfLike) 
-            this.closeModal();
+        this.closeModal();
 
         if (format === Asc.c_oAscFileType.DJVU && isPdfLike) { 
             api.asc_DownloadOrigin(options);

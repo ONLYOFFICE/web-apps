@@ -345,29 +345,38 @@ define([], function () {
                                 ]
                             })
                         },
-                        // { 
-                        //     caption: me.textDataTable, 
-                        //     value: 'dataTable', 
-                        //     disabled: false,
-                        //     menu: new Common.UI.Menu({
-                        //         cls: 'shifted-right',  
-                        //         menuAlign: 'tl-tr',
-                        //         items: [
-                        //             { 
-                        //                 caption: me.textNone, 
-                        //                 value: 'bShowDataNone'
-                        //             },
-                        //             { 
-                        //                 caption: me.textShowDataTable, 
-                        //                 value: 'bShowDataTable'
-                        //             },
-                        //             { 
-                        //                 caption: me.textShowLegendKeys, 
-                        //                 value: 'bShowLegendKeys' 
-                        //             }
-                        //         ]
-                        //     })
-                        // },
+                        {
+                            caption: me.textDataTable,
+                            value: 'dataTable',
+                            disabled: false,
+                            menu: new Common.UI.Menu({
+                                cls: 'shifted-right',
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    {
+                                        caption: me.textNone,
+                                        value: 'bShowDataNone',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataTable',
+                                        checkable: true
+                                    },
+                                    {
+                                        caption: me.textShowDataTable,
+                                        value: 'bShowDataTable',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataTable',
+                                        checkable: true
+                                    },
+                                    {
+                                        caption: me.textShowLegendKeys,
+                                        value: 'bShowLegendKeys',
+                                        stopPropagation: true,
+                                        toggleGroup: 'dataTable',
+                                        checkable: true
+                                    }
+                                ]
+                            })
+                        },
                         {
                             caption: me.textErrorBars,
                             value: 'errorBars',
@@ -974,8 +983,8 @@ define([], function () {
                         me.menuImageAdvanced.setCaption((value.imgProps.isImg) ? me.imageText : ((value.imgProps.isChart) ? me.chartText : me.shapeText));
                         me.menuImageAdvanced.setIconCls('menu__icon ' + (value.imgProps.isImg ? 'btn-menu-image' : (value.imgProps.isChart ? 'btn-menu-chart' : 'btn-menu-shape')));
                     }
-
-                    me.menuChartEdit.setVisible(!_.isNull(value.imgProps.value.get_ChartProperties()) && !onlyCommonProps);
+                    me.menuImageAdvanced.setVisible(!value.imgProps.isChart || !!me.api.asc_getChartSettings(true));
+                    me.menuChartEdit.setVisible(!_.isNull(value.imgProps.value.get_ChartProperties()) && !onlyCommonProps && !!me.api.asc_getChartSettings(true));
                     me.menuOriginalSize.setVisible(value.imgProps.isOnlyImg || !value.imgProps.isChart && !value.imgProps.isShape);
 
                     var in_control = me.api.asc_IsContentControl(),
@@ -1097,7 +1106,8 @@ define([], function () {
                     me.menuAddHyperlinkPic.setVisible(value.hyperProps===undefined && text!==false);
                     menuHyperlinkPic.setVisible(value.hyperProps!==undefined);
                     me.menuCopyHyperlinkPic.setVisible(!!(value.hyperProps && value.hyperProps.value && value.hyperProps.value.get_Value()));
-                    menuHyperlinkPicSeparator.setVisible(me.menuAddHyperlinkPic.isVisible() || menuHyperlinkPic.isVisible());
+                    menuHyperlinkPicSeparator.setVisible((me.menuAddHyperlinkPic.isVisible() || menuHyperlinkPic.isVisible()) && 
+                        (me.menuChartEdit.isVisible() || me.menuImageAdvanced.isVisible()));
                     me.menuEditHyperlinkPic.hyperProps = value.hyperProps;
                     me.menuCopyHyperlinkPic.hyperProps = value.hyperProps;
                     me.menuRemoveHyperlinkPic.hyperProps = value.hyperProps;

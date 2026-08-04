@@ -2731,7 +2731,6 @@
   "DE.Views.FormsTab.capCreditCard": "信用卡",
   "DE.Views.FormsTab.capDateTime": "日期及時間",
   "DE.Views.FormsTab.capZipCode": "郵遞區號",
-  "DE.Views.FormsTab.helpTextFillStatus": "此表單已準備好進行基於角色的填寫。點擊狀態按鈕以檢查填寫階段。",
   "DE.Views.FormsTab.textAddRole": "添加收件人",
   "DE.Views.FormsTab.textAnyone": "任何人",
   "DE.Views.FormsTab.textClear": "清除欄位",

@@ -132,6 +132,11 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
+            <div id="table-checkbox-split-row"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
             <div class="separator horizontal"></div>
         </td>
     </tr>

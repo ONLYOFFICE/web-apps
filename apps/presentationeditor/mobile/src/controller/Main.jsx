@@ -65,7 +65,8 @@ import '../../../../common/main/lib/util/LanguageInfo.js'
     "storeChartSettings",
     "storeLinkSettings",
     "storeApplicationSettings",
-    "storeToolbarSettings"
+    "storeToolbarSettings",
+    "storeReview"
     )
 class MainController extends Component {
     constructor (props) {
@@ -619,6 +620,8 @@ class MainController extends Component {
         const appOptions = this.props.storeAppOptions;
         const appSettings = this.props.storeApplicationSettings;
 
+        this.props.storeReview.changeDisplayMode(Asc.c_oAscDisplayModeInReview.Edit);
+
         this.api.SetDrawingFreeze(false);
 
         Common.Notifications.trigger('preloader:close');
@@ -627,6 +630,9 @@ class MainController extends Component {
         let value = LocalStorage.getItem("pe-settings-zoom");
         const zf = (value!==null) ? parseInt(value) : (appOptions.customization && appOptions.customization.zoom ? parseInt(appOptions.customization.zoom) : -1);
         (zf === -1) ? this.api.zoomFitToPage() : ((zf === -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
+
+        this.appOptions.forcesave = appOptions.isEdit && !appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
+        this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
 
         value = LocalStorage.getBool("pe-mobile-spellcheck", !(appOptions.customization && appOptions.customization.spellcheck===false));
         appSettings.changeSpellCheck(value);

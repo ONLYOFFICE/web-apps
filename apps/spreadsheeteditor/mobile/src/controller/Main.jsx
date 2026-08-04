@@ -71,7 +71,8 @@ import '../../../../common/main/lib/util/LanguageInfo.js'
     "storeSpreadsheetInfo",
     "storeApplicationSettings",
     "storeToolbarSettings",
-    "storeWorksheets"
+    "storeWorksheets",
+    "storeReview"
     )
 class MainController extends Component {
     constructor(props) {
@@ -765,6 +766,8 @@ class MainController extends Component {
         const appOptions = this.props.storeAppOptions;
         const appSettings = this.props.storeApplicationSettings;
 
+        this.props.storeReview.changeDisplayMode(Asc.c_oAscDisplayModeInReview.Edit);
+
         this._isDocReady = true;
 
         this.api.asc_showWorksheet(this.api.asc_getActiveWorksheetIndex());
@@ -776,6 +779,9 @@ class MainController extends Component {
         let value = (appOptions.isEditMailMerge || appOptions.isEditDiagram) ? 100 : LocalStorage.getItem("sse-settings-zoom");
         var zf = (value !== null) ? parseInt(value)/100 : (appOptions.customization && appOptions.customization.zoom ? parseInt(appOptions.customization.zoom)/100 : 1);
         this.api.asc_setZoom(zf>0 ? zf : 1);
+
+        this.appOptions.forcesave = appOptions.isEdit && !appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
+        this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
 
         this.updateWindowTitle(true);
 

@@ -46,6 +46,18 @@ define([
 ], function () {
     'use strict';
 
+    if (!Common.enumLock)
+        Common.enumLock = {};
+
+    const enumLock = {
+        canRedact: 'can-redact'
+    };
+    for (const key in enumLock) {
+        if (enumLock.hasOwnProperty(key)) {
+            Common.enumLock[key] = enumLock[key];
+        }
+    }
+
     PDFE.Views.RedactTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
             '<section class="panel" data-tab="red" role="tabpanel">' +
@@ -146,7 +158,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-redact-apply',
                     style: 'min-width: 45px;',
-                    lock: [_set.lostConnect, _set.disableOnStart],
+                    lock: [_set.lostConnect, _set.disableOnStart, _set.canRedact],
                     caption: me.capApplyRedactions,
                     dataHint: '1',
                     dataHintDirection: 'bottom',

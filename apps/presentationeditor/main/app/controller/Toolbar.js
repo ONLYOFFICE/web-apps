@@ -903,7 +903,7 @@ define([
                         no_paragraph = false;
                     }
                     if (type == Asc.c_oAscTypeSelectElement.Chart) {
-                        in_chart = true;
+                        in_chart = !!this.api.asc_getChartSettings(true);
                         no_columns = true;
                     }
                     if (type == Asc.c_oAscTypeSelectElement.Shape) {
@@ -2835,6 +2835,7 @@ define([
                 me.toolbar.setVisible('view', visible);
                 !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
             }
+            Array.prototype.push.apply(me.toolbar.slideOnlyControls, viewtab.getView('ViewTab').getButtons('readingView'));
         },
 
         onAppReady: function (config) {
@@ -3028,37 +3029,46 @@ define([
         onChangeViewMode: function (mode) { // master or normal
             var isMaster = mode==='master';
             var isHandout = mode === 'handout';
-            var isNotes = mode === 'notes'
+            var isNotes = mode === 'notes';
+            var isNotesPage = mode === 'notespage'
             this.toolbar.$el.find('.master-slide-mode')[isMaster?'show':'hide']();
             this.toolbar.$el.find('.normal-mode')[!isMaster?'show':'hide']();
-            this.toolbar.lockToolbar(Common.enumLock.slideMasterMode, isMaster || isHandout || isNotes, { array:  this.btnsComment.concat([this.toolbar.btnInsertHyperlink]) });
+            this.toolbar.lockToolbar(Common.enumLock.slideMasterMode, isMaster || isHandout || isNotes || isNotesPage, { array:  this.btnsComment.concat([this.toolbar.btnInsertHyperlink]) });
 
             this._state.viewMode = mode;
             if (isMaster) {
                 Common.NotificationCenter.trigger('tab:visible', 'handoutMaster', false);
                 Common.NotificationCenter.trigger('tab:visible', 'notesMaster', false);
                 Common.NotificationCenter.trigger('tab:visible', 'slideMaster', true);
+                this.isSlideMasterTab = true;
                 this.toolbar.setTab('slideMaster');
             } else if (isHandout) {
                 Common.NotificationCenter.trigger('tab:visible', 'slideMaster', false);
                 Common.NotificationCenter.trigger('tab:visible', 'notesMaster', false);
                 Common.NotificationCenter.trigger('tab:visible', 'handoutMaster', true);
+                this.isHandoutMasterTab = true;
                 this.toolbar.setTab('handoutMaster');
             } else if (isNotes) {
                 Common.NotificationCenter.trigger('tab:visible', 'slideMaster', false);
                 Common.NotificationCenter.trigger('tab:visible', 'handoutMaster', false);
                 Common.NotificationCenter.trigger('tab:visible', 'notesMaster', true);
+                this.isNotesMasterTab = true;
                 this.toolbar.setTab('notesMaster');
             } else {
                 Common.NotificationCenter.trigger('tab:visible', 'slideMaster', false);
                 Common.NotificationCenter.trigger('tab:visible', 'handoutMaster', false);
                 Common.NotificationCenter.trigger('tab:visible', 'notesMaster', false);
-                this.toolbar.setTab('home');
+                if (this.isSlideMasterTab || this.isHandoutMasterTab || this.isNotesMasterTab) {
+                    this.toolbar.setTab('home');
+                }
+                this.isSlideMasterTab = false;
+                this.isHandoutMasterTab = false;
+                this.isNotesMasterTab = false;
                 this.showStaticElements();
             }
 
-            Common.NotificationCenter.trigger('tab:visible', 'transit', !isMaster && !isHandout && !isNotes);
-            Common.NotificationCenter.trigger('tab:visible', 'animate', !isMaster && !isHandout && !isNotes);
+            Common.NotificationCenter.trigger('tab:visible', 'transit', !isMaster && !isHandout && !isNotes && !isNotesPage);
+            Common.NotificationCenter.trigger('tab:visible', 'animate', !isMaster && !isHandout && !isNotes && !isNotesPage);
         },
 
         onCreateMasterTabs: function(mode) {
@@ -3141,17 +3151,17 @@ define([
                 {
                     el: this.toolbar.btnAddSlide ? this.toolbar.btnAddSlide.$el.closest('.group') : null,
                     tabs: ['home', 'design', 'ins'],
-                    viewMode: 'normal'
+                    viewMode: ['normal', 'outline', 'notespage', 'master']
                 },
                 {
                     el: this.toolbar.btnChangeSlide ? this.toolbar.btnChangeSlide.$el.closest('.group') : null,
                     tabs: ['home', 'design'],
-                    viewMode: 'normal'
+                    viewMode: ['normal', 'outline', 'notespage', 'master']
                 },
                 {
                     el: this.toolbar.btnAddSlideMaster ? this.toolbar.btnAddSlideMaster.$el.closest('.group') : null,
                     tabs: ['home', 'design', 'ins'],
-                    viewMode: 'master'
+                    viewMode: ['master']
                 }
             ];
             var countShowingButtons = 0;
@@ -3159,7 +3169,7 @@ define([
             showingStaticElements.forEach(function(item) {
                 if(!item.el) return;
                 
-                if(item.tabs.includes(me._state.activeTab) && (item.viewMode === me._state.viewMode || !item.viewMode)) {
+                if(item.tabs.includes(me._state.activeTab) && (item.viewMode.includes(me._state.viewMode) || !item.viewMode)) {
                     item.el.show();
                     countShowingButtons += 1;
                 }

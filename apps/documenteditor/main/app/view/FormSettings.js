@@ -71,7 +71,8 @@ define([
 
             this._state = {
                 DisabledControls: undefined,
-                LockDelete: undefined
+                LockDelete: undefined,
+                SpellCheck: false
             };
             this.spinners = [];
             this.lockedControls = [];
@@ -114,6 +115,7 @@ define([
             this.DefValueText = el.find('#form-txt-def-value').closest('tr');
             this.DefValueDropDown = el.find('#form-combo-def-value').closest('tr');
             this.TagSettings = el.find('#form-txt-tag').closest('tr');
+            this.SpellCheckSettings = el.find('#form-chb-spellcheck').closest('tr');
 
             !Common.UI.FeaturesManager.isFeatureEnabled('roles', true) && el.find('#form-combo-roles').closest('tr').hide().next('tr').hide();
         },
@@ -296,6 +298,16 @@ define([
             });
             this.spnMaxChars.on('change', this.onMaxCharsChange.bind(this));
             this.spnMaxChars.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+
+            this.chSpellcheck = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-spellcheck'),
+                labelText: this.textSpellcheck,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chSpellcheck.on('change', this.onChSpellcheck.bind(this));
+            this.lockedControls.push(this.chSpellcheck);
 
             this.chComb = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-comb'),
@@ -1037,6 +1049,18 @@ define([
             }
         },
 
+        onChSpellcheck: function(field, newValue, oldValue, eOpts){
+            var checked = (field.getValue()=='checked');
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
+                formPr.put_SpellCheck(checked);
+                props.put_FormPr(formPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
         onChAutofit: function(field, newValue, oldValue, eOpts){
             var checked = (field.getValue()=='checked');
             if (this.api && !this._noApply) {
@@ -1432,6 +1456,12 @@ define([
                         this._state.Key = undefined;
                     }
 
+                    val = formPr.get_SpellCheck();
+                    if (this._state.SpellCheck!=val) {
+                        this.chSpellcheck.setValue(val !== false, true);
+                        this._state.SpellCheck=val;
+                    }
+
                     val = formPr.get_Role();
                     if (this._state.Role!==val) {
                         this.cmbRoles.setValue(val ? val : '');
@@ -1613,6 +1643,7 @@ define([
                     this.sldrPreviewPositionX.setDisabled(disableSliders);
                     this.sldrPreviewPositionY.setDisabled(disableSliders);
                     this.chRequired.setDisabled(this._state.DisabledControls);
+                    this.chSpellcheck.setDisabled(this._state.DisabledControls);
                 }
 
                 var formTextPr = props.get_TextFormPr();
@@ -1749,6 +1780,10 @@ define([
                 this.isSignature = isSignature;
 
                 this._state.internalId = this.internalId;
+                this.chSpellcheck && this.cmbFormat && this.chSpellcheck.$el.closest('tr').toggle(
+                    this._state.FormatType === Asc.TextFormFormatType.None ||
+                    this._state.FormatType === Asc.TextFormFormatType.Letter
+                );
             }
         },
 
@@ -1842,6 +1877,7 @@ define([
             this.btnListAdd.setDisabled(this.txtNewValue.length<1 || this._state.DisabledControls);
             this.btnLockForm.setDisabled(disable);
             this.chRequired.setDisabled(this._state.DisabledControls);
+            this.chSpellcheck.setDisabled(this._state.DisabledControls);
         },
 
         showHideControls: function(type, textProps, specProps, isSimpleInsideComplex, isSignature) {
@@ -1850,7 +1886,10 @@ define([
                 radioboxOnly = false,
                 listOnly = false,
                 imageOnly = false,
-                dateOnly = false;
+                dateOnly = false,
+                comboboxOnly = false;
+            if (type == Asc.c_oAscContentControlSpecificType.ComboBox) {
+            comboboxOnly = true;}
             if (type == Asc.c_oAscContentControlSpecificType.ComboBox || type == Asc.c_oAscContentControlSpecificType.DropDownList) {
                 listOnly = !!specProps;
             } else if (type == Asc.c_oAscContentControlSpecificType.CheckBox) {
@@ -1880,6 +1919,7 @@ define([
             this.DefValueText.toggleClass('hidden', !(type === Asc.c_oAscContentControlSpecificType.ComboBox || textOnly));
             this.DefValueDropDown.toggleClass('hidden', type !== Asc.c_oAscContentControlSpecificType.DropDownList);
             this.TagSettings.toggleClass('hidden', isSignature || isSimpleInsideComplex);
+            this.SpellCheckSettings.toggleClass('hidden', !(comboboxOnly || textOnly));
         },
 
         onSelectItem: function(listView, itemView, record) {

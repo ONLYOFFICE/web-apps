@@ -331,6 +331,7 @@ div {
 			const permissionsReview = (fileInfo.UserCanOnlyComment || fileInfo.SupportsReviewing===false) ? false : (fileInfo.UserCanReview===false ? false : fileInfo.UserCanReview);
 			const permissionsComment = permissionsEdit || !!fileInfo.UserCanOnlyComment;
 			let permissionsFillForm = permissionsEdit || customizationFormSubmit;
+			const permissionsCopy = fileInfo.CopyPasteRestrictions!=="CurrentDocumentOnly" && fileInfo.CopyPasteRestrictions!=="BlockAll" && !fileInfo.DisableCopy;
 			sessionId = userAuth.userSessionId;
 			var config = {
 				"width": "100%",
@@ -361,7 +362,8 @@ div {
                         "edit": permissionsEdit,
                         "review": permissionsReview,
                         "comment": permissionsComment,
-                        "copy": fileInfo.CopyPasteRestrictions!=="CurrentDocumentOnly" && fileInfo.CopyPasteRestrictions!=="BlockAll",
+                        "copy": permissionsCopy,
+                        "download": !fileInfo.DisableExport,
                         "print": !fileInfo.DisablePrint && !fileInfo.HidePrintOption,
                         "chat": queryParams.dchat!=="1",
                         "fillForms": permissionsFillForm

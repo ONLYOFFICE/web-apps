@@ -122,7 +122,6 @@
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "Połączenie z internetem zostało odzyskane, a wersja pliku uległa zmianie.<br>Zanim będziesz mógł kontynuować pracę, musisz pobrać plik albo skopiować jego zawartość, aby mieć pewność, że nic nie zostało utracone, a następnie odświeżyć stronę.",
   "DE.Controllers.ApplicationController.errorUserDrop": "Nie można uzyskać dostępu do tego pliku.",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "Połączenie zostało utracone. Nadal możesz przeglądać dokument,<br>ale nie będziesz mógł pobrać ani wydrukować dokumentu do momentu przywrócenia połączenia i odświeżenia strony.",
-  "DE.Controllers.ApplicationController.helpTextFillStatus": "Ten formularz jest gotowy do wypełnienia na podstawie roli. Kliknij przycisk statusu, aby sprawdzić etap wypełniania.",
   "DE.Controllers.ApplicationController.mniImageFromFile": "Obraz z pliku",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "Obraz z magazynu",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "Obraz z URL",

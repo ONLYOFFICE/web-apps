@@ -241,6 +241,9 @@ define([
             this.lblOpacityStart = $(this.el).find('#annotation-lbl-opacity-start');
             this.lblOpacityEnd = $(this.el).find('#annotation-lbl-opacity-end');
 
+            this.lblGroupHeader = $(this.el).find('#annotation-group-header');
+            this.lblColorLabel = $(this.el).find('#annotation-color-label');
+
             this.numOpacity = new Common.UI.MetricSpinner({
                 el: $('#annotation-spin-opacity'),
                 step: 1,
@@ -339,7 +342,16 @@ define([
                 this._originalProps = props;
 
                 this._noApply = true;
-                
+
+                const AnnotType = props.asc_getType();
+                const isColor = [
+                    AscPDF.ANNOTATIONS_TYPES.Highlight,
+                    AscPDF.ANNOTATIONS_TYPES.Underline,
+                    AscPDF.ANNOTATIONS_TYPES.Strikeout
+                ].includes(AnnotType);
+                this.lblGroupHeader.text(isColor ? this.textColor : this.textBorder);
+                this.lblColorLabel[isColor ? 'hide' : 'show']();
+
                 // Border color
                 value = props.asc_getStroke ? props.asc_getStroke() : null; // null - property is not supported 
                 $formValue = getFormField(this.btnBorderColor);
@@ -415,7 +427,7 @@ define([
                 }
 
                 //Border style
-                const isLink = props.asc_getType() == AscPDF.ANNOTATIONS_TYPES.Link;
+                const isLink = AnnotType == AscPDF.ANNOTATIONS_TYPES.Link;
                 const cmbBorderStyle = isLink ? this.cmbBorderStyleForLink : this.cmbBorderStyle;
                 getFormField(isLink ? this.cmbBorderStyle : this.cmbBorderStyleForLink).hide();
 

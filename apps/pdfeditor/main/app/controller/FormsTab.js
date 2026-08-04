@@ -89,6 +89,7 @@ define([
                 'FormsTab': {
                     'forms:insert': this.onControlsSelect,
                     'forms:clear': this.onClearClick,
+                    'forms:preview': this.onPreviewClick,
                     'forms:manager': this.onManagerClick,
                     'forms:currentrole': this.onCurrentRole
                 },
@@ -185,7 +186,7 @@ define([
                 }
             }
             var arr = [ this.view.btnTextField, this.view.btnComboBox, this.view.btnDropDown, this.view.btnCheckBox,
-                        this.view.btnRadioBox, this.view.btnImageField, this.view.btnEmailField, this.view.btnPhoneField,
+                        this.view.btnRadioBox, this.view.btnImageField, this.view.btnSignatureField, this.view.btnEmailField, this.view.btnPhoneField,
                         this.view.btnCreditCard, this.view.btnZipCode, this.view.btnDateTime];
             Common.Utils.lockControls(Common.enumLock.paragraphLock, paragraph_locked,   {array: arr});
 
@@ -201,6 +202,8 @@ define([
             this.toolbar.toolbar.fireEvent('insertcontrol', this.toolbar.toolbar);
             if (type == 'picture')
                 this.api.AddImageField();
+            else if (type == 'signature')
+                this.api.AddSignatureField();
             else if (type == 'checkbox')
                 this.api.AddCheckboxField();
             else if (type == 'radiobox')
@@ -235,6 +238,11 @@ define([
                 },
                 props : undefined
             })).show();
+        },
+
+        onPreviewClick: function(isPreview) {
+            Common.NotificationCenter.trigger('pdf:mode-apply', isPreview ? 'comment' : 'edit');
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onDownloadUrl: function(url, fileType) {

@@ -408,6 +408,9 @@ class MainController extends Component {
 
                 appOptions.isRestrictedEdit && appOptions.canFillForms && this.api.asc_SetHighlightRequiredFields(true);
 
+                this.appOptions.forcesave = appOptions.isEdit && !appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
+                this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
+
                 this.checkProtectDocumentOnAppReady();
 
                 let value = LocalStorage.getItem("de-settings-zoom");

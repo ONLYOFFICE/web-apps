@@ -320,7 +320,10 @@ define([
 
         function onResize() {
             btnMode && btnMode.menu && btnMode.menu.hide && btnMode.menu.hide();
+            updatePosition();
+        }
 
+        function updatePosition() {
             if (appConfig && appConfig.twoLevelHeader && !appConfig.compactHeader)
                 updateDocNamePosition();
         }
@@ -417,7 +420,6 @@ define([
             if (me.btnFillStatus) {
                 me.btnFillStatus.updateHint(me.tipFillStatus);
                 me.btnFillStatus && me.btnFillStatus.on('click', function (e) {
-                    Common.UI.TooltipManager.closeTip('showFillStatus');
                     Common.Gateway.requestFillingStatus(appConfig.user.roles && appConfig.user.roles.length>0 ? appConfig.user.roles[0] : undefined);
                 });
             }
@@ -1320,7 +1322,7 @@ define([
                     this.imgCrypted.toggleClass('hidden', false);
                     this._showImgCrypted = false;
                 }
-                (width>=0) && onResize();
+                (width>=0) && updatePosition();
             },
 
             getTextWidth: function(text) {

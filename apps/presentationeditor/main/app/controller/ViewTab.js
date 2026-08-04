@@ -64,11 +64,6 @@ define([
                 zoom_percent: undefined,
                 unitsChanged: true,
                 lock_viewProps: false,
-                slideMasterMode: false,
-                handoutMasterMode: false,
-                notesMasterMode: false,
-                outlineViewMode: false,
-                notesPageMode: false
             };
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
@@ -91,8 +86,16 @@ define([
                 this.api.asc_registerCallback('asc_onMacroRecordingStop', _.bind(this.updateMacroState, this, false));
                 this.api.asc_registerCallback('asc_onMacroRecordingPause', _.bind(this.updateMacroState, this, true, true));
                 this.api.asc_registerCallback('asc_onMacroRecordingResume', _.bind(this.updateMacroState, this, true, false));
+                this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPages, this));
             }
             return this;
+        },
+
+        onApiCountPages: function (count) {
+            if (this._state.no_slides !== (count<=0)) {
+                this._state.no_slides = (count<=0);
+                Common.Utils.lockControls(Common.enumLock.disableOnStart,  this._state.no_slides, {array: [this.view.btnReadingView]});
+            }
         },
 
         setConfig: function(config) {
@@ -111,6 +114,7 @@ define([
                     'mode:master': _.bind(this.onChangeViewMode, this, 'master'),
                     'mode:handoutmaster': _.bind(this.onChangeViewMode, this, 'handout'),
                     'mode:notesmaster': _.bind(this.onChangeViewMode, this, 'notes'),
+                    'readingview:start': _.bind(this.onStartReadingView, this),
                     'zoom:selected': _.bind(this.onSelectedZoomValue, this),
                     'zoom:changedbefore': _.bind(this.onZoomChanged, this),
                     'zoom:changedafter': _.bind(this.onZoomChanged, this),
@@ -482,27 +486,7 @@ define([
                 : isNotesPage ? Asc.c_oAscPresentationViewMode.notesPage
                 : Asc.c_oAscPresentationViewMode.normal;
 
-            if (this._state.slideMasterMode !== isMaster) {
-                this._state.slideMasterMode = isMaster;
-                this.view.fireEvent('viewmode:change', [isMaster ? 'master' : 'normal']);
-            }
-            if (this._state.handoutMasterMode !== isHandout) {
-                this._state.handoutMasterMode = isHandout;
-                this.view.fireEvent('viewmode:change', [isHandout ? 'handout' : 'normal']);
-            }
-            if (this._state.notesMasterMode !== isNotes) {
-                this._state.notesMasterMode = isNotes;
-                this.view.fireEvent('viewmode:change', [isNotes ? 'notes' : 'normal']);
-            }
-            if (this._state.outlineViewMode !== isOutline) {
-                this._state.outlineViewMode = isOutline;
-                this.view.fireEvent('viewmode:change', [isOutline ? 'outline' : 'normal']);
-            }
-            if (this._state.notesPageMode !== isNotesPage) {
-                this._state.notesPageMode = isNotesPage;
-                this.view.fireEvent('viewmode:change', [isNotesPage ? 'notespage' : 'normal']);
-            }
-
+            this.view.fireEvent('viewmode:change', [isMaster ? 'master' : isHandout ? 'handout' : isNotes ? 'notes' : isNotesPage ? 'notespage' : isOutline ? 'outline' : 'normal']);
             this.api.asc_changePresentationViewMode(presentationMode);
         },
 
@@ -517,6 +501,10 @@ define([
 
         onChangeViewMode: function (mode) {
             this.changeViewMode(mode);
+        },
+
+        onStartReadingView: function () {
+            Common.NotificationCenter.trigger('preview:start', 0, false, false, false, true);
         },
 
         onPointerType: function (type) {

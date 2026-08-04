@@ -265,7 +265,7 @@ define([
             Common.NotificationCenter.trigger('window:resize');
         },
 
-        onPreviewStart: function(slidenum, presenter, fromApiEvent, isCurrent) {
+        onPreviewStart: function(slidenum, presenter, fromApiEvent, isCurrent, isReadingView) {
             this.previewPanel = this.previewPanel || this.getView('DocumentPreview');
             var me = this,
                 isResized = false,
@@ -302,13 +302,17 @@ define([
                 }, 100);
                 this.previewPanel.show();
                 this.previewPanel.btnDraw && this.previewPanel.btnDraw.setDisabled(this._isDisabledPreview);
+                this.previewPanel.btnDraw && this.previewPanel.btnDraw.setVisible(!isReadingView);
+                this.previewPanel.btnFullScreen && this.previewPanel.btnFullScreen.setVisible(!isReadingView);
+                isReadingView ? this.previewPanel.separatorFullScreen.hide() : this.previewPanel.separatorFullScreen.show();
+                isReadingView ? this.previewPanel.separatorDraw.hide() : this.previewPanel.separatorDraw.show();
                 var _onWindowResize = function() {
                     if (isResized) return;
                     isResized = true;
                     Common.NotificationCenter.off('window:resize', _onWindowResize);
-                    isCurrent ? me.api.StartDemonstrationFromCurrentSlide('presentation-preview', reporterObject) : me.api.StartDemonstrationFromBeginning('presentation-preview', reporterObject);
+                    isCurrent ? me.api.StartDemonstrationFromCurrentSlide('presentation-preview', reporterObject) : me.api.StartDemonstrationFromBeginning('presentation-preview', reporterObject, isReadingView);
                 };
-                if (!me.viewport.mode.isDesktopApp && !Common.Utils.isIE11 && !presenter && !!document.fullscreenEnabled) {
+                if (!me.viewport.mode.isDesktopApp && !Common.Utils.isIE11 && !presenter && !!document.fullscreenEnabled && !isReadingView) {
                     Common.NotificationCenter.on('window:resize', _onWindowResize);
                     !fromApiEvent && Common.Utils.startFullscreenForElement($("#pe-preview").get(0));
                     setTimeout(function(){

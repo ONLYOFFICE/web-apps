@@ -125,7 +125,6 @@
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "네트워크 연결이 복원되었으며 파일 버전이 변경되었습니다.<br>계속 작업하기 전, 데이터 손실을 방지하기 위해 파일을 다운로드하거나 내용을 복사한 다음 이 페이지를 새로고침해야 합니다.",
   "DE.Controllers.ApplicationController.errorUserDrop": "현재 파일에 접근할 수 없습니다.",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "연결이 끊어졌습니다. 문서를 계속해서 볼 수 있지만,<br>연결이 복원되고 페이지가 다시 로드될 때까지 다운로드하거나 인쇄할 수 없습니다.",
-  "DE.Controllers.ApplicationController.helpTextFillStatus": "이 양식은 역할 기반 작성이 가능합니다. 상태 버튼을 클릭하여 작성 단계를 확인하세요.",
   "DE.Controllers.ApplicationController.mniImageFromFile": "파일에서 이미지 삽입",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "저장소에서 이미지 삽입",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "URL에서 이미지 삽입",

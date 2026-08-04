@@ -217,7 +217,7 @@ define([
                     case Common.UI.Keys.ESC:
                         if ( $('.asc-loadmask').length<1 ) {
                             event.preventDefault();
-                            event.stopPropagation();
+                            event.stopImmediatePropagation();
                             if (this.initConfig.closable !== false) {
                                 if (this.initConfig.toolcallback)
                                     this.initConfig.toolcallback.call(this);

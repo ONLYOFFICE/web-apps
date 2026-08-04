@@ -125,7 +125,6 @@
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "Internetforbindelsen er blevet genoprettet og filversionen er blevet ændret.<br>Før du kan fortsætte arbejdet, skal du hente filen eller kopiere indholdet for at sikre, at intet vil blive tabt - og derefter genindlæse denne side.",
   "DE.Controllers.ApplicationController.errorUserDrop": "Der kan ikke opnås adgang til filen lige nu. ",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "Forbindesen er tabt. Du kan stadig se dokumentet, <br> men du vil ikke være i stand til at hente eller udskrive det, før forbindelsen er genetableret. ",
-  "DE.Controllers.ApplicationController.helpTextFillStatus": "Formularen er klar til rollebaseret arkivering. Klik på statusknappen for at kontroller arkiveringen.",
   "DE.Controllers.ApplicationController.mniImageFromFile": "Billede fra fil",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "Billede fra filarkiv",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "Billede fra URL",

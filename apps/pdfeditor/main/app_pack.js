@@ -43,6 +43,8 @@ require([
     'common/main/lib/view/SaveAsDlg',
     'common/main/lib/view/CopyWarningDialog',
     'common/main/lib/view/SelectFileDlg',
+    'common/main/lib/view/PdfSignDialog',
+    'common/main/lib/view/PdfSavedSignatureMenu',
     'common/main/lib/view/SymbolTableDialog',
     'common/main/lib/view/InsertTableDialog',
     'common/main/lib/view/SearchDialog',
@@ -79,9 +81,9 @@ require([
     'pdfeditor/main/app/view/HyperlinkSettingsDialog',
     'pdfeditor/main/app/view/ShapeSettingsAdvanced',
     'pdfeditor/main/app/view/TableSettingsAdvanced',
-    'pdfeditor/main/app/view/FormatSettingsDialog',
     'pdfeditor/main/app/view/ChartSettingsAdvanced',
-    'pdfeditor/main/app/view/RemoveMetaDlg'
+    'pdfeditor/main/app/view/RemoveMetaDlg',
+    'pdfeditor/main/app/view/FormSettingsAdvanced'
 ], function () {
     Common.NotificationCenter.trigger('app-pack:loaded');
 });

@@ -123,7 +123,6 @@
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "De internetverbinding is hersteld en de bestandsversie is gewijzigd. <br>Voordat u verder kunt werken, moet u het bestand downloaden of de inhoud kopiëren om er zeker van te zijn dat er niets verloren gaat, en deze pagina vervolgens opnieuw laden.",
   "DE.Controllers.ApplicationController.errorUserDrop": "Toegang tot het bestand is op dit moment niet mogelijk.",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "Verbinding is verbroken. U kunt het document nog wel bekijken,<br>maar u kunt het pas downloaden of afdrukken als de verbinding is hersteld en de pagina opnieuw is geladen.",
-  "DE.Controllers.ApplicationController.helpTextFillStatus": "Dit formulier is klaar voor rol-gebaseerde invulling. Klik op de statusknop om de invullingsfase te controleren.",
   "DE.Controllers.ApplicationController.mniImageFromFile": "Afbeelding uit bestand",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "Afbeelding uit opslag",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "Afbeelding uit URL",

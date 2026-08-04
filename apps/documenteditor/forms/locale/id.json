@@ -117,7 +117,6 @@
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "Koneksi internet sudah kembali dan versi file sudah diganti.<br>Sebelum Anda bisa melanjutkan kerja, Anda perlu mengunduh file atau salin konten untuk memastikan tidak ada yang hilang, lalu muat ulang halaman ini.",
   "DE.Controllers.ApplicationController.errorUserDrop": "File tidak dapat di akses.",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "Koneksi terputus. Anda tetap bisa melihat dokumen,<br>tapi tidak bisa download atau print sampai koneksi terhubung dan halaman dimuat ulang.",
-  "DE.Controllers.ApplicationController.helpTextFillStatus": "Formulir ini siap untuk pengisian berbasis peran. Klik tombol status untuk memeriksa tahap pengisian.",
   "DE.Controllers.ApplicationController.mniImageFromFile": "Gambar dari file",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "Gambar dari penyimpanan",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "Gambar dari URL",

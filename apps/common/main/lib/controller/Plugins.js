@@ -206,8 +206,8 @@ define([
                 this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.onPluginsInit, this));
                 this.api.asc_registerCallback('asc_onPluginShowButton', _.bind(this.onPluginShowButton, this));
                 this.api.asc_registerCallback('asc_onPluginHideButton', _.bind(this.onPluginHideButton, this));
-                this.api.asc_registerCallback('onPluginWindowHeaderMenu', _.bind(this.onPluginWindowHeaderMenu, this));
-                this.api.asc_registerCallback('onPluginUpdateWindowHeaderMenu', _.bind(this.onPluginWindowHeaderMenu, this, true));
+                this.api.asc_registerCallback('onPluginWindowHeaderMenu', this.onPluginWindowHeaderMenu.bind(this));
+                this.api.asc_registerCallback('onPluginUpdateWindowHeaderMenu', this.onPluginUpdateWindowHeaderMenu.bind(this));
 
                 this.api.asc_registerCallback("asc_onPluginWindowShow", _.bind(this.onApiPluginWindowShow, this));
                 this.api.asc_registerCallback("asc_onPluginWindowClose", _.bind(this.onPluginWindowClose, this));
@@ -873,6 +873,13 @@ define([
             this.pluginDlg && this.pluginDlg.hideButton(id);
         },
 
+        onPluginWindowHeaderMenu: function(data) {
+            this.updateHeaderMenu(data, false);
+        },
+
+        onPluginUpdateWindowHeaderMenu: function(data) {
+            this.updateHeaderMenu(data, true);
+        },
 
         /**
          * @typedef {{
@@ -893,6 +900,7 @@ define([
          *   split?: boolean,
          *   isTitle?: boolean,
          *   disabled?: boolean,
+         *   visible?: boolean,
          *   items?: ButtonMenuItemHeaderControl[]
          * }} ButtonHeaderControl
          */
@@ -908,10 +916,18 @@ define([
          * }} ButtonMenuItemHeaderControl
          */
 
+        /**
+         * @typedef {BaseHeaderControl & {
+         *   type: 'button',
+         *   text: string,
+         *   isTitle?: boolean
+         * }} LabelHeaderControl
+         */
+
         // Add new types here!
         // @typedef { ButtonHeaderControl | ... } HeaderControl
         /**
-         * @typedef { ButtonHeaderControl } HeaderControl
+         * @typedef { ButtonHeaderControl | LabelHeaderControl } HeaderControl
          */
 
 
@@ -923,10 +939,12 @@ define([
          *     items: HeaderControl[]
          *   }>
          * }>} data
-         */
-        onPluginWindowHeaderMenu: function(data, preventRemove) {
+         * @param {boolean} [preventRemove] - if true, prevents removal of existing custom controls
+        */
+        updateHeaderMenu: function(data, preventRemove) {
             if (!data) return;
             const me = this;
+
             data.forEach(function(plugin) {
                 plugin.frames.forEach(function(frame) {
                     if(!plugin.guid || !frame.id) return;
@@ -935,7 +953,10 @@ define([
                         me.api && me.api.onPluginWindowHeaderMenuItemClick && 
                             me.api.onPluginWindowHeaderMenuItemClick(plugin.guid, frame.id, value, pressed);
                     };
-                    me.addHeaderCustomControls(plugin.guid, frame.id, frame.items, controlCallback, preventRemove);
+                    const panel = me.addHeaderCustomControls(plugin.guid, frame.id, frame.items, controlCallback, preventRemove);
+                    if (!!panel && frame.title === false) {
+                        panel.$el.find('.current-plugin-header .title label').hide();
+                    }
                 });
             });
         },
@@ -996,13 +1017,15 @@ define([
                     if (cmp instanceof Common.UI.Button) {
                         /** @type {ButtonHeaderControl} */
                         const options = commonOptions;
-                        let caption = options.text || '';
-                        if (cmp.options.caption !== (caption || ' ')) {
-                            cmp.setCaption(caption || ' ');
-                            cmp.options.caption = caption || ' ';
+
+                        if(options.text !== undefined) {
+                            const caption = options.text || '';
+                            cmp.setCaption(caption);
+                            cmp.options.caption = caption;
                         }
-                        cmp.updateHint(options.hint || '');
-                        (options.disabled!==undefined) && cmp.setDisabled(!!options.disabled);
+                        (options.hint !== undefined) && cmp.updateHint(options.hint || '');
+                        (options.disabled !== undefined) && cmp.setDisabled(!!options.disabled);
+                        (options.visible !== undefined) && cmp.setVisible(options.visible);
                         if (cmp.menu && options.items && options.items.length > 0) {// update menu items
                             if (typeof cmp.menu !== 'object') {
                                 cmp.setMenu(new Common.UI.Menu({items: []}));
@@ -1012,10 +1035,35 @@ define([
                             }
                             fillButtonMenu(options.items, cmp.menu);
                         }
+                    } else if (cmp instanceof Common.UI.Label) {
+                        /** @type {LabelHeaderControl} */
+                        const options = commonOptions;
+                        if ( !!options.text )
+                            cmp.setCaption(commonOptions.text);
                     }
+
                     return;
                 } else {
-                    if(commonOptions.type == 'button') {
+                    if((commonOptions.type == 'button' && commonOptions.isLabel === true) ||
+                            commonOptions.type == 'label')
+                    {
+                        /** @type {LabelHeaderControl} */
+                        let options = _.extend({}, { 
+                            text: '',
+                            isTitle: false
+                        }, commonOptions);    
+
+                        if(options.isTitle) {
+                            (existCustomTitle) && (options.isTitle = false);
+                            existCustomTitle = true;
+                        } 
+
+                        cmp = new Common.UI.Label({
+                            caption: options.text,
+                            align: options.align,
+                            cls: options.isTitle ? 'title' : '',
+                        });
+                    } else if(commonOptions.type == 'button') {
                         /** @type {ButtonHeaderControl} */
                         let options = _.extend({}, { 
                             text: '',
@@ -1061,9 +1109,14 @@ define([
                             });
                         }
                     }
+
                     if(cmp) {
-                        cmp.render($('<div class="btn-slot"></div>'));
-                        cmp.cmpEl.addClass('no-focus');
+                        if (cmp instanceof Common.UI.Label) {
+                            cmp.render($('<span class="label-slot"></span>'));
+                        } else {
+                            cmp.render($('<div class="btn-slot"></div>'));
+                            cmp.cmpEl.addClass('no-focus');
+                        }
                         added.push(cmp);
                     }
                 }
@@ -1076,6 +1129,7 @@ define([
                 (this.viewPlugins.pluginPanels[guid] && this.viewPlugins.pluginPanels[guid].frameId == frameId && this.viewPlugins.pluginPanels[guid]) || 
                 this.viewPlugins.customPluginPanels[frameId] || this.customPluginsDlg[frameId];
             panel && panel.addHeaderCustomControls(added, removed);
+            return panel;
         },
 
         _restoreHeaderCustomControls: function(guid, frameId) {

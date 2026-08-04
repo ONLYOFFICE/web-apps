@@ -58,7 +58,6 @@ define([], function () { 'use strict';
                     '<div style="margin-bottom: 5px">',
                         '<label class="text">' + this.textRemoveInformationDescription + '</label>',
                     '</div>',
-                    '<div class="separator horizontal" style="margin-bottom: 15px"></div>',
                     '<div id="slot-chk-metadata" class="" style="margin-bottom: 10px;"></div>',
                     '<div id="slot-chk-file-attachments" class="" style="margin-bottom: 10px;"></div>',
                     '<div id="slot-chk-bookmarks" class="" style="margin-bottom: 10px;"></div>',

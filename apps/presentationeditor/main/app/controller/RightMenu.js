@@ -224,7 +224,7 @@ define([
             if (!this.rightmenu.minimizedMode || open) {
                 var active;
 
-                if (priorityactive<0) {
+                if (priorityactive<0 && !this.rightmenu.GetActivePluginPane()) {
                     if (this._priorityArr.length>0) {
                         for (i=0; i<this._priorityArr.length; i++) {
                             var type = this._priorityArr[i],

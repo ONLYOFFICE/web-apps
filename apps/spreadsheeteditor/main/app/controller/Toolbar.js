@@ -4759,7 +4759,7 @@ define([
                     var $panel = sparklinetab.createToolbarPanel();
                     if ($panel) {
                         me.toolbar.addTab(tab, $panel);
-                        me.toolbar.setVisible('sparklinetab', true);
+                        me._state.insparkline && me.toolbar.setVisible('sparklinetab', true);
                         Array.prototype.push.apply(me.toolbar.lockControls, sparklinebuttons);
                     }
                     me.toolbar.btnsSparklineTab = sparklinebuttons

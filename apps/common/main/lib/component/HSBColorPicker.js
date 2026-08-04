@@ -108,6 +108,8 @@ define([], function () {
             };
 
             var refreshUI = function(){
+                var fillColor = new Common.Utils.RGBColor('hsb(' + hueVal + ', 100, 100)');
+
                 if (previewColor.length>0  && previewTransparentColor.length>0){
                     if (me.color == 'transparent'){
                         previewTransparentColor.show();
@@ -118,7 +120,6 @@ define([], function () {
                 }
 
                 if (areaSatBrightness.length>0) {
-                    var fillColor = new Common.Utils.RGBColor('hsb(' + hueVal + ', 100, 100)');
                     var background = 'linear-gradient(rgba(255,255,255,0), #000), linear-gradient(-90deg,' + fillColor.toRGB() + ','+ fillColor.toRGBA(0) +'), #fff';
                     areaSatBrightness.css('background', background);
                 }
@@ -127,8 +128,8 @@ define([], function () {
                     previewColorText[0].innerHTML = (me.color == 'transparent') ? me.textNoColor : me.color.toUpperCase();
 
                 if (arrowSatBrightness.length>0 && arrowHue.length>0) {
-                    arrowSatBrightness.css({'left': saturationVal + '%', 'top': 100 - brightnessVal + '%', 'background-color' : me.color});
-                    arrowHue.css('top', parseInt(hueVal * 100 / 360.0) + '%');
+                    arrowSatBrightness.css({'left': saturationVal + '%', 'top': 100 - brightnessVal + '%', 'color' : me.color});
+                    arrowHue.css({'top': parseInt(hueVal * 100 / 360.0) + '%', 'color': fillColor.toHex()});
                 }
             };
 

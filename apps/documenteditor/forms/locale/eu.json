@@ -121,7 +121,6 @@
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "Konexioa berrezarri da eta fitxategiaren bertsioa aldatu da.<br>Lanean jarraitu aurretik, beharrezkoa da fitxategia deskargatzea edo edukia kopiatzea, ezer ez dela galduko ziurtatzeko, eta gero orri hau berriro kargatzea.",
   "DE.Controllers.ApplicationController.errorUserDrop": "Ezin da fitxategia atzitu une honetan.",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "Konexioa galdu da. Dokumentua ikusi dezakezu oraindik,<br>baina ezingo duzu deskargatu edo inprimatu konexioa berrezarri eta orria berriz kargatu arte.",
-  "DE.Controllers.ApplicationController.helpTextFillStatus": "Rolaren arabera betetzeko prest dago formulario hau. Egin klik egoera botoian betetze egoera ikusteko.",
   "DE.Controllers.ApplicationController.mniImageFromFile": "Irudia fitxategitik",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "Irudia biltegitik",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "Irudia URLtik",

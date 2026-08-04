@@ -90,7 +90,7 @@ define([
                         '</div>',
                     '</div>',
                     '<div id="preview-group-draw" class="preview-group">',
-                        '<div class="separator"></div>',
+                        '<div class="separator draw"></div>',
                         '<div id="btn-preview-draw" style="display: inline-block;"></div>',
                     '</div>',
                     '<div class="preview-group" style="">',
@@ -360,6 +360,7 @@ define([
             }
 
             this.separatorFullScreen = el.find('.separator.fullscreen');
+            this.separatorDraw = el.find('.separator.draw');
 
             me.previewControls.on('mouseenter', function(e) {
                 clearTimeout(me.timerMove);
