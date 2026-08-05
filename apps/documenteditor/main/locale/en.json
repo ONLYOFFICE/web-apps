@@ -1374,6 +1374,7 @@
   "Common.Views.SymbolTableDialog.textSymbols": "Symbols",
   "Common.Views.SymbolTableDialog.textTitle": "Symbol",
   "Common.Views.SymbolTableDialog.textTradeMark": "Trademark symbol ",
+  "Common.Views.TextInputDialog.textReadMore": "Read more",
   "Common.Views.UserNameDialog.textDontShow": "Don't ask me again",
   "Common.Views.UserNameDialog.textLabel": "Label:",
   "Common.Views.UserNameDialog.textLabelError": "Label must not be empty.",
