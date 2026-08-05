@@ -757,6 +757,10 @@ define([
         },
 
         getSettings: function () {
+            const format = this._changedProps.asc_getFormat();
+            if(format && format.asc_getType() == AscPDF.FormatType.SPECIAL && format.asc_getFormat() == -1) {
+                this._changedProps.asc_putFormat(undefined);
+            }
             return {FormatType: this.FormatType, actionsProps: this._changedProps};
         },
 
