@@ -139,9 +139,6 @@ define([
             this.btnClear && this.btnClear.on('click', function (b, e) {
                 me.fireEvent('forms:clear');
             });
-            this.btnPreview && this.btnPreview.on('click', function (b, e) {
-                me.fireEvent('forms:preview', [b.pressed]);
-            });
             this.btnPrevForm && this.btnPrevForm.on('click', function (b, e) {
                 me.fireEvent('forms:goto', ['prev']);
             });
@@ -160,6 +157,31 @@ define([
             this.btnManager && this.btnManager.on('click', function (b, e) {
                 me.fireEvent('forms:manager');
             });
+            if (this.btnViewFormRoles) {
+                this.btnViewFormRoles.on('click', function (b, e) {
+                    var item;
+                    if (b.menu) {
+                        item = b.menu.getChecked();
+                        if (item) {
+                            item = item.caption;
+                        } else if (me._state.roles && me._state.roles.length>0) {
+                            item = me._state.roles[0].asc_getSettings().asc_getName();
+                        }
+                    }
+                    me.fireEvent('forms:preview', [b.pressed, item]);
+                });
+                if (this.btnViewFormRoles.menu) {
+                    this.btnViewFormRoles.menu.on('item:click', _.bind(function (menu, item) {
+                        if (!!item.checked) {
+                            me.btnViewFormRoles.toggle(true, true);
+                            me.fireEvent('forms:preview', [true, item.caption]);
+                        }
+                    }, me));
+                    this.btnViewFormRoles.menu.on('show:after',  function (menu) {
+                        me.fillRolesMenu();
+                    });
+                }
+            }
         }
 
         return {
@@ -322,17 +344,25 @@ define([
                 });
                 this.paragraphControls.push(this.btnClear);
 
-                this.btnPreview = new Common.UI.Button({
+                this.btnViewFormRoles = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-big-sheet-view',
                     caption: this.capBtnPreview,
                     enableToggle: true,
-                    lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
+                    lock: [_set.pageDeleted, _set.lostConnect, _set.formsNoRoles, _set.disableOnStart],
+                    split: Common.UI.FeaturesManager.isFeatureEnabled('roles', true),
+                    menu: Common.UI.FeaturesManager.isFeatureEnabled('roles', true) ? new Common.UI.Menu({
+                        cls: 'menu-roles',
+                        maxHeight: 270,
+                        style: 'max-width: 400px;',
+                        items: []
+                    }) : false,
+                    enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
                 });
-                this.paragraphControls.push(this.btnPreview);
+                this.paragraphControls.push(this.btnViewFormRoles);
 
                 this.btnPrevForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
@@ -463,7 +493,7 @@ define([
                         me.btnManager.updateHint(me.tipManager);
                     }
                     me.btnClear.updateHint(me.textClearFields);
-                    me.btnPreview.updateHint(me.tipPreview);
+                    me.btnViewFormRoles.updateHint(me.tipPreview);
                     me.btnPrevForm.updateHint(me.tipPrevForm);
                     me.btnNextForm.updateHint(me.tipNextForm);
 
@@ -489,7 +519,7 @@ define([
                 this.btnDateTime.render($host.find('#slot-btn-form-datetime'));
                 $host.find('.forms-buttons').show();
                 this.btnClear.render($host.find('#slot-btn-form-clear'));
-                this.btnPreview.render($host.find('#slot-btn-form-preview'));
+                this.btnViewFormRoles.render($host.find('#slot-btn-form-preview'));
                 this.btnPrevForm.render($host.find('#slot-btn-form-prev'));
                 this.btnNextForm.render($host.find('#slot-btn-form-next'));
                 this.lblRoles.render($host.find('#slot-lbl-fill-for'));
@@ -497,6 +527,47 @@ define([
                 this.btnManager.render($host.find('#slot-btn-manager'));
 
                 return this.$el;
+            },
+
+            fillRolesMenu: function(roles, lastViewRole) {
+                if (!(this.btnViewFormRoles && this.btnViewFormRoles.menu && this.btnViewFormRoles.menu.isVisible())) {
+                    this._state.roles = roles;
+                    this._state.lastViewRole = lastViewRole;
+                    return;
+                }
+                roles = roles || this._state.roles;
+                lastViewRole = lastViewRole || this._state.lastViewRole;
+                this._state.roles = this._state.lastViewRole = undefined;
+
+                if (!roles) return;
+
+                var checkedIndex = 0,
+                    me = this;
+
+                this.btnViewFormRoles.menu.removeAll();
+
+                roles && roles.forEach(function(item, index) {
+                    var role = item.asc_getSettings(),
+                        color = role.asc_getColor();
+                    if (role.asc_getName()===lastViewRole)
+                        checkedIndex = index;
+                    me.btnViewFormRoles.menu.addItem(new Common.UI.MenuItem({
+                        caption: role.asc_getName() || me.textAnyone,
+                        color: color ? '#' + Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()) : 'transparent',
+                        checkable: true,
+                        toggleGroup: 'formtab-view-role',
+                        template: _.template([
+                            '<a id="<%= id %>"  tabindex="-1" type="menuitem" class="<%= options.cls %>" style="overflow: hidden; text-overflow: ellipsis;">',
+                            '<span class="color" style="background: <%= options.color %>;"></span>',
+                            '<%= Common.Utils.String.htmlEncode(caption) %>',
+                            '</a>'
+                        ].join(''))
+                    }));
+                });
+
+                const len = this.btnViewFormRoles.menu.items.length>0;
+                len && this.btnViewFormRoles.menu.items[checkedIndex].setChecked(true, true);
+                Common.Utils.lockControls(Common.enumLock.formsNoRoles, !len,{array: [this.btnViewFormRoles]});
             },
 
             fillFillForCombo: function(roles, lastRoleInList) {

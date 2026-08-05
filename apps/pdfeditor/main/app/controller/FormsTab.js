@@ -58,6 +58,7 @@ define([
         },
         onLaunch: function () {
             this._state = {
+                lastViewRole: undefined, // last selected role in the preview mode
                 lastRoleInList: undefined, // last role in the roles list,
             };
         },
@@ -119,6 +120,10 @@ define([
                 this.view : Backbone.Controller.prototype.getView.call(this, name);
         },
 
+        getCurrentViewRole: function() {
+            return this._state.lastViewRole;
+        },
+
         onCoAuthoringDisconnect: function() {
             this.SetDisabled(true);
         },
@@ -163,6 +168,7 @@ define([
             }
             this._state.lastRoleInList = (roles && roles.length>0) ? roles[roles.length-1].asc_getSettings().asc_getName() : undefined;
             if (this.view) {
+                this.view.fillRolesMenu(roles, this._state.lastViewRole);
                 this.view.fillFillForCombo(roles, this._state.lastRoleInList);
             }
         },
@@ -240,7 +246,9 @@ define([
             })).show();
         },
 
-        onPreviewClick: function(isPreview) {
+        onPreviewClick: function(isPreview, lastViewRole) {
+            isPreview && lastViewRole && (this._state.lastViewRole = lastViewRole);
+            this.view._state.lastViewRole = lastViewRole;
             Common.NotificationCenter.trigger('pdf:mode-apply', isPreview ? 'comment' : 'edit');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -285,8 +293,9 @@ define([
             (new Promise(function (accept, reject) {
                 accept();
             })).then(function(){
-                me.onRefreshRolesList();
+            
             });
+            this.onRefreshRolesList();
         },
 
         onActiveTab: function(tab) {

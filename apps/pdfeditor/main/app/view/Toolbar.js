@@ -81,6 +81,7 @@ define([
         cantPrint:      'cant-print',
         lostConnect:    'disconnect',
         disableOnStart: 'on-start',
+        formsNoRoles:   'no-roles',
         firstPage: 'first-page',
         lastPage: 'last-page',
         requiredNotFilled: 'required-not-filled',
