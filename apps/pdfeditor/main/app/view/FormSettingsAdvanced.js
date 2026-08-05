@@ -81,7 +81,7 @@ define([
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
 
-            this._state = {DateFormatCustom: '', DateFormat: '', TimeFormat: 0, NegStyle: AscPDF.NegativeStyle.BLACK_MINUS, Mask: '*', RegExp: '.'};
+            this._state = {DateFormatCustom: '', DateFormat: '', TimeFormat: 0, NegStyle: AscPDF.NegativeStyle.BLACK_MINUS, SpecialType: AscPDF.SpecialFormatType.PHONE, Mask: '*', RegExp: '.'};
             this.FormatType = AscPDF.FormatType.NONE;
         },
 
@@ -888,7 +888,6 @@ define([
             this.putFormatPropValue('asc_putSepStyle', this.cmbSeparator.getValue());
             this.putFormatPropValue('asc_putCurrency', this.getSymbolValue());
             this.putFormatPropValue('asc_putCurrencyPrepend', this.cmbLocation.getValue() < 2);
-            this.putFormatPropValue('asc_putMask', this._state.Mask);
             this.putFormatPropValue('asc_putScript', this.textareaFormat.getValue(), 'format');
             this.putFormatPropValue('asc_putScript', this.textareaKeystroke.getValue(), 'keystroke');
             this.putFormatPropValue('asc_putNegStyle', this._state.NegStyle);
@@ -898,6 +897,8 @@ define([
                 this.putFormatPropValue('asc_putFormat', this._state.TimeFormat);
             } else if(this.FormatType===AscPDF.FormatType.SPECIAL) {
                 this.putFormatPropValue('asc_putFormat', this._state.SpecialType);
+                this.putFormatPropValue('asc_putMask', this._state.SpecialType == -1 ? this._state.Mask : undefined);
+                this._maskPanel.toggleClass('hidden', this._state.SpecialType!==-1);
             }
         },
 
@@ -1255,6 +1256,8 @@ define([
             if(this._state.SpecialType===-1) {
                 this.txtMask.setValue(this._state.Mask);
                 this.putFormatPropValue('asc_putMask', this._state.Mask);
+            } else {
+                this.putFormatPropValue('asc_putMask', undefined);
             }
             this.putFormatPropValue('asc_putFormat', this._state.SpecialType);
             this.updateFormatExample();
