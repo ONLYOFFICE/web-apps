@@ -92,8 +92,11 @@
 .dropdown-menu.menu-roles,
 .input-group-nr.menu-roles {
     li > a {
-      display: flex;
-      align-items: center;
+        display: flex;
+        align-items: center;
+        &.checked:not(.no-checkmark):before {
+            position: absolute;
+        }
     }
 
     span.color {
