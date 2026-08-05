@@ -182,7 +182,7 @@
       "dark": "Dark",
       "light": "Light",
       "system": "Same as system",
-      "textTheme": "Theme"
+      "textTheme": "Interface Theme"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
@@ -842,7 +842,7 @@
     "textSettingsGroup": "Settings",
     "textPreferences": "Preferences",
     "textHelpAndFeedback": "Help & Feedback",
-    "textSharing": "Sharing"
+    "textShare": "Share"
   },
   "Toolbar": {
     "btnRestartNow": "Restart now",

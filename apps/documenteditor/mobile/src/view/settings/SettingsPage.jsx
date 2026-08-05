@@ -179,7 +179,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                 </List>
                 <List>
                     {(sharingSettingsUrl && !isForm) &&
-                        <ListItem title={_t.textSharing} link="/sharing-settings/">
+                        <ListItem title={_t.textShare} link="/sharing-settings/">
                             <SvgIcon slot="media" symbolId={IconSharingSettings.id} className={'icon icon-svg'} />
                         </ListItem>
                     }

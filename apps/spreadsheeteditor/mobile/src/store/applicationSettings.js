@@ -124,6 +124,8 @@ export class storeApplicationSettings {
     }
 
     initRegData() {
+        if (this.regData.length) return;
+
         const regDataCodes = this.getRegDataCodes();
 
         regDataCodes.forEach(item => {
