@@ -34,7 +34,7 @@
  */
 
 import React, { Fragment, useContext } from 'react';
-import { Page, Navbar, NavRight, Link, Icon, ListItem, List, Toggle, BlockTitle } from 'framework7-react';
+import { Page, Navbar, NavRight, Link, Icon, ListItem, List, Toggle, BlockTitle, Block } from 'framework7-react';
 import { Device } from "../../../../../common/mobile/utils/device";
 import { observer, inject } from "mobx-react";
 import { useTranslation } from 'react-i18next';
@@ -282,6 +282,11 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                                     settingsContext.onChangeMobileView();
                                 }} />
                             </ListItem>
+                        }
+                        {(appOptions.isMobileViewAvailable  && ((Device.phone && !isViewer) || isEditableForms)) &&
+                            <Block>
+                                <p>{t('Settings.textMobileViewWarning')}</p>
+                            </Block>
                         }
                     </List>
                 </>

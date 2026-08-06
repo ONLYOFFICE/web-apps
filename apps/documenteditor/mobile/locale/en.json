@@ -842,7 +842,8 @@
     "textSettingsGroup": "Settings",
     "textPreferences": "Preferences",
     "textHelpAndFeedback": "Help & Feedback",
-    "textShare": "Share"
+    "textShare": "Share",
+    "textMobileViewWarning": "Part of the content of this document will be hidden in Mobile View."
   },
   "Toolbar": {
     "btnRestartNow": "Restart now",
