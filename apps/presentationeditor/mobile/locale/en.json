@@ -645,7 +645,10 @@
       "textSettingsGroup": "Settings",
       "textAboutGroup": "About",
       "textHelpAndFeedback": "Help & Feedback",
-      "textShare": "Share"
+      "textShare": "Share",
+      "textStyleGroup": "Style",
+      "textShowSettingsGroup": "Show Settings",
+      "textSpellingGroup": "Spelling"
     }
   }
 }

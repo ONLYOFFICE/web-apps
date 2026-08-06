@@ -300,6 +300,7 @@ const PageDocumentSettings = props => {
                 </ListItem>
             </List>
             <List>
+                <BlockTitle>{_t.textStyleGroup}</BlockTitle>
                 <ListItem title={_t.textColorSchemes} link="/color-schemes/" routeProps={{
                     onColorSchemeChange: props.onColorSchemeChange,
                     initPageColorSchemes: props.initPageColorSchemes

@@ -67,15 +67,7 @@ const PageApplicationSettings = props => {
             <Navbar title={_t.textPreferences} backLink={_t.textBack} />
             {_isEdit &&
                 <Fragment>
-                    <BlockTitle>{_t.textUnitOfMeasurement}</BlockTitle>
-                    <List>
-                        <ListItem radio radioIcon="end" title={_t.textCentimeter} name="unit-of-measurement" checked={unitMeasurement === 0}
-                                  onChange={() => changeMeasureSettings(0)}></ListItem>
-                        <ListItem radio radioIcon="end" title={_t.textPoint} name="unit-of-measurement" checked={unitMeasurement === 1}
-                                  onChange={() => changeMeasureSettings(1)}></ListItem>
-                        <ListItem radio radioIcon="end" title={_t.textInch} name="unit-of-measurement" checked={unitMeasurement === 2}
-                                  onChange={() => changeMeasureSettings(2)}></ListItem>
-                    </List>
+                    <BlockTitle>{_t.textSpellingGroup}</BlockTitle>
                     <List>
                         <ListItem title={_t.textSpellcheck}>
                             <Toggle checked={isSpellChecking}
@@ -85,6 +77,15 @@ const PageApplicationSettings = props => {
                                     }}
                             />
                         </ListItem>
+                    </List>
+                    <BlockTitle>{_t.textUnitOfMeasurement}</BlockTitle>
+                    <List>
+                        <ListItem radio radioIcon="end" title={_t.textCentimeter} name="unit-of-measurement" checked={unitMeasurement === 0}
+                                  onChange={() => changeMeasureSettings(0)}></ListItem>
+                        <ListItem radio radioIcon="end" title={_t.textPoint} name="unit-of-measurement" checked={unitMeasurement === 1}
+                                  onChange={() => changeMeasureSettings(1)}></ListItem>
+                        <ListItem radio radioIcon="end" title={_t.textInch} name="unit-of-measurement" checked={unitMeasurement === 2}
+                                  onChange={() => changeMeasureSettings(2)}></ListItem>
                     </List>
                 </Fragment>
             }

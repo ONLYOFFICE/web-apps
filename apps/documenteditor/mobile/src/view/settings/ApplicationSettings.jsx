@@ -71,6 +71,21 @@ const PageApplicationSettings = props => {
     return (
         <Page>
             <Navbar title={_t.textPreferences} backLink={_t.textBack} />
+            {_isEdit &&
+                <>
+                    <BlockTitle>{_t.textSpellingGroup}</BlockTitle>
+                    <List>
+                        <ListItem title={_t.textSpellcheck}>
+                            <Toggle checked={isSpellChecking}
+                                    onToggleChange={() => {
+                                        storeApplicationSettings.changeSpellCheck(!isSpellChecking);
+                                        props.switchSpellCheck(!isSpellChecking);
+                                    }}
+                            />
+                        </ListItem>
+                    </List>
+                </>
+            }
             {_isEdit && !isViewer &&
                 <>
                     <BlockTitle>{_t.textUnitOfMeasurement}</BlockTitle>
@@ -82,6 +97,7 @@ const PageApplicationSettings = props => {
                         <ListItem radio radioIcon="end" title={_t.textInch} name="unit-of-measurement" checked={unitMeasurement === 2}
                                   onChange={() => changeMeasureSettings(2)}></ListItem>
                     </List>
+                    <BlockTitle>{_t.textDisplayGroup}</BlockTitle>
                     <List>
                         <ListItem title={_t.textNoCharacters} disabled={displayMode !== 'markup'}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
                             <Toggle checked={isNonprintingCharacters}
@@ -101,18 +117,6 @@ const PageApplicationSettings = props => {
                         </ListItem>
                     </List>
                 </>
-            }
-            {_isEdit &&
-                <List>
-                    <ListItem title={_t.textSpellcheck}>
-                        <Toggle checked={isSpellChecking}
-                                onToggleChange={() => {
-                                    storeApplicationSettings.changeSpellCheck(!isSpellChecking);
-                                    props.switchSpellCheck(!isSpellChecking);
-                                }}
-                        />
-                    </ListItem>
-                </List>
             }
             <BlockTitle>{_t.textCommentsDisplay}</BlockTitle>
             <List>

@@ -780,7 +780,7 @@
     "textOk": "Ok",
     "textOpenFile": "Enter a password to open the file",
     "textOpenLocation": "Open location",
-    "textOrientation": "Orientation",
+    "textOrientation": "Page Orientation",
     "textOwner": "Owner",
     "textPages": "Pages",
     "textPageSize": "Page Size",
@@ -843,7 +843,10 @@
     "textPreferences": "Preferences",
     "textHelpAndFeedback": "Help & Feedback",
     "textShare": "Share",
-    "textMobileViewWarning": "Part of the content of this document will be hidden in Mobile View."
+    "textMobileViewWarning": "Part of the content of this document will be hidden in Mobile View.",
+    "textStyleGroup": "Style",
+    "textSpellingGroup": "Spelling",
+    "textDisplayGroup": "Display"
   },
   "Toolbar": {
     "btnRestartNow": "Restart now",

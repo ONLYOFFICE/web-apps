@@ -64,12 +64,14 @@ const PagePresentationSettings = props => {
                 <ListItem radio name="slide-orientation" checked={slideOrientation}
                     onChange={() => props.onSlideOrientation()} title={_t.mniSlideLandscape}></ListItem>
             </List>
+            <BlockTitle>{_t.textStyleGroup}</BlockTitle>
             <List mediaList>
                 <ListItem title={_t.textColorSchemes} link="/color-schemes/" routeProps={{
                     onColorSchemeChange: props.onColorSchemeChange,
                     initPageColorSchemes: props.initPageColorSchemes
                 }}></ListItem>
             </List>
+            <BlockTitle>{_t.textShowSettingsGroup}</BlockTitle>
             <List>
                 <ListItem title={_t.textLoopSlideshow}>
                     <Toggle checked={isLoopSlideshow} onToggleChange={() => {props.onToggleLoopSlideshow(!isLoopSlideshow)}}/>

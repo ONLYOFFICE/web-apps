@@ -262,7 +262,7 @@ const PageSpreadsheetSettings = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textSpreadsheetSettings} backLink={_t.textBack} />
+            <Navbar title={_t.textSpreadsheetSetup} backLink={_t.textBack} />
             <BlockTitle>{_t.textOrientation}</BlockTitle>
             <List>
                 <ListItem radio title={_t.textPortrait} name="orientation-checkbox" checked={isPortrait} onClick={() => {
@@ -292,6 +292,7 @@ const PageSpreadsheetSettings = props => {
                     }} />
                 </ListItem>
             </List>
+            <BlockTitle>{_t.textViewGroup}</BlockTitle>
             <List>
                 <ListItem title={_t.textHideHeadings}>
                     <Toggle checked={isHideHeadings} onToggleChange={() => {
@@ -306,6 +307,7 @@ const PageSpreadsheetSettings = props => {
                     }} />
                 </ListItem>
             </List>
+            <BlockTitle>{_t.textStyleGroup}</BlockTitle>
             <List>
                 <ListItem title={_t.textColorSchemes} className={wsProps.FormatCells ? 'disabled' : ''} link="/color-schemes/" routeProps={{
                     onColorSchemeChange: props.onColorSchemeChange,

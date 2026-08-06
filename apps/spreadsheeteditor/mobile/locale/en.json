@@ -838,7 +838,7 @@
       "textOk": "Ok",
       "textOpenFile": "Enter a password to open the file",
       "textOpenLocation": "Open location",
-      "textOrientation": "Orientation",
+      "textOrientation": "Page Orientation",
       "textOwner": "Owner",
       "textPoint": "Point",
       "textPortrait": "Portrait",
@@ -929,7 +929,8 @@
       "textShare": "Share",
       "textTools": "Tools",
       "textViewGroup": "View",
-      "textLanguageAndRegion": "Language & Region"
+      "textLanguageAndRegion": "Language & Region",
+      "textStyleGroup": "Style"
     }
   }
 }
