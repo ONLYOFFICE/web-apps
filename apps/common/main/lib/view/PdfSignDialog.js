@@ -171,6 +171,7 @@ define([], function () { 'use strict';
                 el: $window.find('#pdf-sign-ch-back'),
                 labelText: this.txtRemBack
             });
+            this.chRemBack.setDisabled(true);
             this.chRemBack.on('change', function(field, newValue, oldValue, eOpts){
                 me.props && me.props.put_RemoveBackground(field.getValue()==='checked');
             });
@@ -385,6 +386,7 @@ define([], function () { 'use strict';
                 me.uploadPreviewPnl.toggleClass('hidden', false);
                 me.props.updateView(0);
                 me.btnOk.setDisabled(false);
+                me.chRemBack.setDisabled(false);
             };
             this.api.asc_registerCallback('asc_onSignatureImageLoaded', onApiImgLoaded);
 
@@ -575,6 +577,8 @@ define([], function () { 'use strict';
                     this.uploadEmptyPnl.toggleClass('hidden', false);
                     this.uploadPreviewPnl.toggleClass('hidden', true);
                     this.btnOk.setDisabled(true);
+                    this.chRemBack.setValue('unchecked');
+                    this.chRemBack.setDisabled(true);
                     break;
                 case 1:
                     this.props.clearDraw();
