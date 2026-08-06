@@ -53,12 +53,15 @@ import IconHelp from '@common-icons/icon-help.svg';
 import IconAbout from '@common-icons/icon-about.svg';
 import IconSave from '@common-icons/icon-save.svg';
 import IconAutosave from '@common-icons/icon-autosave.svg';
-import IconTableSettings from '@icons/icon-table-settings.svg';
+import IconAutosaveRtl from '@common-icons/icon-autosave-rtl.svg';
+import IconTableSetup from '@icons/icon-settings-spreadsheet.svg';
+import IconTableSetupRtl from '@icons/icon-settings-spreadsheet-rtl.svg';
 import IconRegionSettings from '@icons/icon-region-settings.svg';
 import IconReturnIos from '@common-ios-icons/icon-return.svg?ios';
 import IconReturnAndroid from '@common-android-icons/icon-return.svg';
 import IconDark from '@common-icons/icon-dark-bg.svg';
-import IconSharingSettings from '@common-icons/icon-sharing-settings.svg';
+import IconSharingSettings from '@common-icons/icon-link.svg';
+import IconSharingSettingsRtl from '@common-icons/icon-link-rtl.svg';
 
 const SettingsPage = inject('storeAppOptions', 'storeSpreadsheetInfo', 'storeToolbarSettings')(observer(props => {
     const { t } = useTranslation();
@@ -77,6 +80,7 @@ const SettingsPage = inject('storeAppOptions', 'storeSpreadsheetInfo', 'storeToo
     const isAutosave = appOptions.isAutosave;
     const sharingSettingsUrl = appOptions.sharingSettingsUrl;
     const isForm = appOptions.isForm;
+    const isRtl = Common.Locale.isCurrentLangRtl;
     const navbar = 
         <Navbar>
             <div className="title" onClick={settingsContext.changeTitleHandler}>
@@ -142,7 +146,7 @@ const SettingsPage = inject('storeAppOptions', 'storeSpreadsheetInfo', 'storeToo
                     {!appOptions.canLiveView &&
                         <List>
                             <ListItem title={_t.textAutoSaveDocument}>
-                                <SvgIcon slot="media" symbolId={IconAutosave.id} className={'icon icon-svg'} />
+                                <SvgIcon slot="media" symbolId={isRtl ? IconAutosaveRtl.id : IconAutosave.id} className={'icon icon-svg'} />
                                 <Toggle checked={isAutosave}
                                     onToggleChange={() => {
                                         appOptions.changeAutosave(!isAutosave);
@@ -159,7 +163,7 @@ const SettingsPage = inject('storeAppOptions', 'storeSpreadsheetInfo', 'storeToo
                 <List>
                     {(true) &&
                         <ListItem title={_t.textShare} link="/sharing-settings/">
-                            <SvgIcon slot="media" symbolId={IconSharingSettings.id} className={'icon icon-svg'} />
+                            <SvgIcon slot="media" symbolId={isRtl ? IconSharingSettingsRtl.id : IconSharingSettings.id} className={'icon icon-svg'} />
                         </ListItem>
                     }
                     {_canDownload &&
@@ -220,7 +224,7 @@ const SettingsPage = inject('storeAppOptions', 'storeSpreadsheetInfo', 'storeToo
                     <List>
                         {_isEdit &&
                             <ListItem link="/spreadsheet-settings/" title={_t.textSpreadsheetSetup}>
-                                <SvgIcon slot="media" symbolId={IconTableSettings.id} className={'icon icon-svg'} />
+                                <SvgIcon slot="media" symbolId={isRtl ? IconTableSetupRtl.id : IconTableSetup.id} className={'icon icon-svg'} />
                             </ListItem>
                         }
                         {_isEdit &&
