@@ -57,8 +57,8 @@ import IconAutosave from '@common-icons/icon-autosave.svg';
 import IconAutosaveRtl from '@common-icons/icon-autosave-rtl.svg';
 import IconReturnIos from '@common-ios-icons/icon-return.svg?ios';
 import IconReturnAndroid from '@common-android-icons/icon-return.svg';
-import IconSharingSettings from '@common-icons/icon-link.svg';
-import IconSharingSettingsRtl from '@common-icons/icon-link-rtl.svg';
+import IconSharingSettings from '@common-icons/icon-share-link.svg';
+import IconSharingSettingsRtl from '@common-icons/icon-share-link-rtl.svg';
 
 const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings', 'storePresentationInfo')(observer(props => {
     const { t } = useTranslation();

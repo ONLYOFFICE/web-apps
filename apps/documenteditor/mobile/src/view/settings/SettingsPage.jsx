@@ -68,8 +68,8 @@ import IconReturnIos from '@common-ios-icons/icon-return.svg?ios';
 import IconReturnAndroid from '@common-android-icons/icon-return.svg';
 import IconDraw from '../../../../../common/mobile/resources/icons/draw.svg' 
 import IconDark from '@common-icons/icon-dark-bg.svg'
-import IconSharingSettings from '@common-icons/icon-link.svg';
-import IconSharingSettingsRtl from '@common-icons/icon-link-rtl.svg';
+import IconSharingSettings from '@common-icons/icon-share-link.svg';
+import IconSharingSettingsRtl from '@common-icons/icon-share-link-rtl.svg';
 
 const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo",  "storeToolbarSettings")(observer(props => {
     const { t } = useTranslation();
